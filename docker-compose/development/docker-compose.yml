@@ -1,0 +1,30 @@
+version: '2'
+services:
+  veau_mysql:
+    container_name: 'veau_mysql'
+    image: 'mysql:5.7'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'veau'
+      MYSQL_DATABASE: 'veau'
+    volumes:
+    - './mysql/cnf:/etc/mysql/conf.d'
+    - './mysql/initdata:/docker-entrypoint-initdb.d'
+    ports:
+    - '3310:3306'
+  veau_redis:
+    container_name: 'veau_redis'
+    image: 'redis:4.0.11-alpine'
+    ports:
+    - '6380:6379'
+  veau:
+    container_name: 'veau'
+    image: 'node:10.12'
+    environment:
+      NODE_ENV: 'development'
+    command: 'tail -f /dev/null'
+    links:
+      - 'veau_mysql'
+    ports:
+      - '4000:4000'
+    volumes:
+      - '../..:/root/app:delegated'
