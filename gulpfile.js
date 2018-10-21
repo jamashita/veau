@@ -16,10 +16,10 @@ const sass = require('gulp-sass');
 const cssComb = require('gulp-csscomb');
 const cleanCSS = require('gulp-clean-css');
 const autoprefixer = require('gulp-autoprefixer');
-//
-// const webpack = require('webpack');
-// const stream = require('webpack-stream');
-// const webpackConfig = require('./webpack.config');
+
+const webpack = require('webpack');
+const stream = require('webpack-stream');
+const webpackConfig = require('./webpack.config');
 
 gulp.task('veau-controller', () => {
   return gulp.src(['src/veau-controller/**/*.ts'])
@@ -29,6 +29,53 @@ gulp.task('veau-controller', () => {
     .pipe(gulp.dest('dist/veau-controller'));
 });
 
+// gulp.task('veau-domain', () => {
+//   return gulp.src(['src/veau-domain/**/*.ts'])
+//     .pipe(plumber())
+//     .pipe(cache('domain'))
+//     .pipe(tsc())
+//     .pipe(gulp.dest('dist/veau-domain'));
+// });
+//
+// gulp.task('veau-factory', () => {
+//   return gulp.src(['src/veau-factory/**/*.ts'])
+//     .pipe(plumber())
+//     .pipe(cache('factory'))
+//     .pipe(tsc())
+//     .pipe(gulp.dest('dist/veau-factory'));
+// });
+
+gulp.task('veau-frontend', () => {
+  return gulp.src(['src/veau-frontend/**/*.ts', 'src/veau-frontend/**/*.tsx'])
+    .pipe(plumber())
+    .pipe(stream(webpackConfig, webpack))
+    .pipe(gulp.dest('dist/veau-server/public/js'));
+});
+
+gulp.task('veau-general', () => {
+  return gulp.src(['src/veau-general/**/*.ts'])
+    .pipe(plumber())
+    .pipe(cache('general'))
+    .pipe(tsc())
+    .pipe(gulp.dest('dist/veau-general'));
+});
+
+gulp.task('veau-infrastructure', () => {
+  return gulp.src(['src/veau-infrastructure/**/*.ts'])
+    .pipe(plumber())
+    .pipe(cache('infrastructure'))
+    .pipe(tsc())
+    .pipe(gulp.dest('dist/veau-infrastructure'));
+});
+
+gulp.task('veau-repository', () => {
+  return gulp.src(['src/veau-repository/**/*.ts'])
+    .pipe(plumber())
+    .pipe(cache('repository'))
+    .pipe(tsc())
+    .pipe(gulp.dest('dist/veau-repository'));
+});
+
 gulp.task('veau-server', () => {
   return gulp.src(['src/veau-server/**/*.ts'])
     .pipe(plumber())
@@ -36,6 +83,22 @@ gulp.task('veau-server', () => {
     .pipe(tsc())
     .pipe(gulp.dest('dist/veau-server'));
 });
+
+// gulp.task('veau-service', () => {
+//   return gulp.src(['src/veau-service/**/*.ts'])
+//     .pipe(plumber())
+//     .pipe(cache('service'))
+//     .pipe(tsc())
+//     .pipe(gulp.dest('dist/veau-service'));
+// });
+//
+// gulp.task('veau-usecase', () => {
+//   return gulp.src(['src/veau-usecase/**/*.ts'])
+//     .pipe(plumber())
+//     .pipe(cache('usecase'))
+//     .pipe(tsc())
+//     .pipe(gulp.dest('dist/veau-usecase'));
+// });
 
 gulp.task('pug', () => {
   return gulp.src(['src/veau-server/views/*.pug'])
@@ -99,7 +162,14 @@ gulp.task('dev', (callback) => {
       'font'
     ],
     'veau-controller',
+    // 'veau-domain',
+    // 'veau-factory',
+    'veau-general',
+    'veau-infrastructure',
+    'veau-repository',
     'veau-server',
+    // 'veau-service',
+    // 'veau-usecase',
     callback
   );
 });
@@ -114,7 +184,14 @@ gulp.task('build', (callback) => {
       'font'
     ],
     'veau-controller',
+    // 'veau-domain',
+    // 'veau-factory',
+    'veau-general',
+    'veau-infrastructure',
+    'veau-repository',
     'veau-server',
+    // 'veau-service',
+    // 'veau-usecase',
     callback
   );
 });
@@ -129,15 +206,15 @@ gulp.task('default', ['nodemon'], () => {
   // watch('src/veau-factory/**/*.ts', {usePolling: true}, () => {
   //   gulp.start('veau-factory');
   // });
-  // watch('src/veau-general/**/*.ts', {usePolling: true}, () => {
-  //   gulp.start('veau-general');
-  // });
-  // watch('src/veau-infrastructure/**/*.ts', {usePolling: true}, () => {
-  //   gulp.start('veau-infrastructure');
-  // });
-  // watch('src/veau-repository/**/*.ts', {usePolling: true}, () => {
-  //   gulp.start('veau-repository');
-  // });
+  watch('src/veau-general/**/*.ts', {usePolling: true}, () => {
+    gulp.start('veau-general');
+  });
+  watch('src/veau-infrastructure/**/*.ts', {usePolling: true}, () => {
+    gulp.start('veau-infrastructure');
+  });
+  watch('src/veau-repository/**/*.ts', {usePolling: true}, () => {
+    gulp.start('veau-repository');
+  });
   watch('src/veau-server/**/*.ts', {usePolling: true}, () => {
     gulp.start('veau-server');
   });

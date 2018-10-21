@@ -1,8 +1,8 @@
 import * as express from 'express';
 import * as assert from 'power-assert';
 import * as log4js from 'log4js';
-import {api} from './api';
-import {frontend} from './frontend';
+// import {api} from './api';
+import {fe} from './fe';
 
 export class RequestError extends Error {
   public status: number;
@@ -16,8 +16,8 @@ export class RequestError extends Error {
 const router = express.Router();
 const logger = log4js.getLogger();
 
-router.use('/api', api);
-router.use('/', frontend);
+// router.use('/api', api);
+router.use('/', fe);
 
 // catch 404 and forward to error handler
 router.use((req: express.Request, res: express.Response, next: express.NextFunction) => {

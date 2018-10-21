@@ -15,6 +15,7 @@
     "lint": "eslint --ext .ts,.tsx --fix src/"
   },
   "dependencies": {
+    "@material-ui/core": "3.2.2",
     "bcrypt": "3.0.2",
     "body-parser": "1.18.3",
     "bourbon-neat": "3.0.0",
