@@ -14,7 +14,7 @@ import {persistor, store} from './store';
 import {history} from './history';
 import {PersistGate} from 'redux-persist/integration/react';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
-import {deepOrange, teal, grey} from '@material-ui/core/colors';
+import {grey, lightGreen, pink} from '@material-ui/core/colors';
 
 addLocaleData([...en, ...fr, ...es, ...ja]);
 
@@ -24,15 +24,15 @@ const muiTheme = createMuiTheme({
   },
   palette: {
     primary: {
-      light: teal [300],
-      main: teal[500],
-      dark: teal[700],
+      light: pink[300],
+      main: pink[500],
+      dark: pink[900],
       contrastText: grey[100]
     },
     secondary: {
-      light: deepOrange[200],
-      main: deepOrange[400],
-      dark: deepOrange[700],
+      light: lightGreen[200],
+      main: lightGreen[400],
+      dark: lightGreen[800],
       contrastText: grey[100]
     }
   }

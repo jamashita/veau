@@ -1,0 +1,77 @@
+@import '../../../node_modules/font-awesome/scss/font-awesome.scss';
+@import '../../../node_modules/bourbon-neat/core/_neat.scss';
+
+$neat-grid: (
+  columns: 18,
+  gutter: 0px
+);
+
+.app {
+  @include grid-container;
+}
+
+.login-form {
+  @include grid-column(10);
+  @include grid-shift(4);
+}
+
+.header {
+  @include grid-column(18);
+  margin-bottom: 0.8rem;
+}
+
+.row {
+  @include grid-column(18);
+}
+
+.previous-button {
+  @include grid-column(9);
+}
+
+.next-button {
+  @include grid-column(9);
+}
+
+.organization-selector {
+  @include grid-column(9);
+}
+
+.account-assign {
+  @include grid-column(9);
+}
+
+.account-assign-select {
+  @include grid-column(9);
+}
+
+.account-create-select {
+  @include grid-column(9);
+}
+
+.finder-input {
+  @include grid-column(10);
+}
+
+.finder-search {
+  @include grid-column(4);
+}
+
+.finder-new {
+  @include grid-column(4);
+}
+
+.chip {
+  margin: 0.5rem !important;
+}
+
+.procedure-overview {
+  @include grid-column(7);
+}
+
+.action-overview {
+  @include grid-column(11);
+}
+
+.action-item {
+  margin: 0.4rem;
+}
