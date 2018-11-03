@@ -4,19 +4,19 @@ import {MapStateToProps, } from 'react-redux';
 import {State} from '../../declarations/State';
 
 type StateProps = {
-  locale: string;
+  language: string;
 };
 export type Props = StateProps;
 
 const mapStateToProps: MapStateToProps<StateProps, {}, State> = (state) => {
   const {
     identity: {
-      locale
+      language
     }
   } = state;
 
   return {
-    locale
+    language
   };
 };
 

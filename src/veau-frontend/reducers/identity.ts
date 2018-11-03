@@ -1,22 +1,22 @@
-import {IdentityJSON} from '../../declarations/State';
+import {Identity} from '../../declarations/State';
 import {ACTION, Action} from '../../declarations/Action';
 
-const initialState: IdentityJSON = {
+const initialState: Identity = {
   id: 0,
   language: '',
-  locale: '',
   name: ''
 };
 
-export const identity = (state: IdentityJSON = initialState, action: Action): IdentityJSON => {
+export const identity = (state: Identity = initialState, action: Action): Identity => {
   switch (action.type) {
-    case ACTION.IDENTITY_LOCALE_MODIFIED: {
+    case ACTION.IDENTITY_LANGUAGE_MODIFIED: {
       return {
-        ...state, locale: action.locale
+        ...state,
+        language: action.language
       };
     }
     case ACTION.IDENTITY_IDENTIFIED: {
-      return action.props;
+      return action.identity;
     }
     default: {
       return state;

@@ -1,5 +1,6 @@
 import {Action as ReduxAction} from 'redux';
-import {IdentityJSON} from './State';
+import {Identity} from './State';
+import {Login} from '../veau-domain/Login';
 
 export enum ACTION {
   LOCATION_CHANGE = '@@router/LOCATION_CHANGE',
@@ -11,10 +12,14 @@ export enum ACTION {
   LOADING_FINISH = 'LOADING_FINISH',
 
   IDENTITY_AUTHENTICATE = 'IDENTITY_AUTHENTICATE',
-  IDENTITY_LOCALE_MODIFIED = 'IDENTITY_LOCALE_MODIFIED',
+  IDENTITY_LANGUAGE_MODIFIED = 'IDENTITY_LANGUAGE_MODIFIED',
   IDENTITY_IDENTIFIED = 'IDENTITY_IDENTIFIED',
 
-  DESTROY_SESSION = 'DESTROY_SESSION'
+  DESTROY_SESSION = 'DESTROY_SESSION',
+
+  ENTRANCE_ACCOUNT_NAME_TYPED = 'ENTRANCE_ACCOUNT_NAME_TYPED',
+  ENTRANCE_PASSWORD_TYPED = 'ENTRANCE_PASSWORD_TYPED',
+  ENTRANCE_LOGIN_INFO_UPDATE = 'ENTRANCE_LOGIN_INFO_UPDATE'
 }
 
 export interface LocationChangeAction extends ReduxAction {
@@ -45,17 +50,30 @@ export interface LoadingFinishAction extends ReduxAction {
 export interface IdentityAuthenticateAction extends ReduxAction {
   type: ACTION.IDENTITY_AUTHENTICATE;
 }
-export interface IdentityLocaleModifiedAction extends ReduxAction {
-  type: ACTION.IDENTITY_LOCALE_MODIFIED;
-  locale: string;
+export interface IdentityLanguageModifiedAction extends ReduxAction {
+  type: ACTION.IDENTITY_LANGUAGE_MODIFIED;
+  language: string;
 }
 export interface IdentityIdentifiedAction extends ReduxAction {
   type: ACTION.IDENTITY_IDENTIFIED;
-  props: IdentityJSON;
+  identity: Identity;
 }
 export interface DestroySessionAction extends ReduxAction {
   type: ACTION.DESTROY_SESSION;
 }
+export interface EntranceAccountNameTypedAction extends ReduxAction {
+  type: ACTION.ENTRANCE_ACCOUNT_NAME_TYPED;
+  name: string;
+}
+export interface EntrancePasswordTypedAction extends ReduxAction {
+  type: ACTION.ENTRANCE_PASSWORD_TYPED;
+  password: string;
+}
+export interface EntranceInfoUpdateAction extends ReduxAction {
+  type: ACTION.ENTRANCE_LOGIN_INFO_UPDATE;
+  login: Login;
+}
+
 
 export type Action =
     LocationChangeAction
@@ -64,7 +82,10 @@ export type Action =
   | LoadingStartAction
   | LoadingFinishAction
   | IdentityAuthenticateAction
-  | IdentityLocaleModifiedAction
+  | IdentityLanguageModifiedAction
   | IdentityIdentifiedAction
   | DestroySessionAction
+  | EntranceAccountNameTypedAction
+  | EntrancePasswordTypedAction
+  | EntranceInfoUpdateAction
   ;

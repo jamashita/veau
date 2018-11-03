@@ -11,14 +11,14 @@ export default class I18NProvider extends React.Component<Props, {}> {
 
   public render(): React.ReactNode {
     const {
-      locale,
+      language,
       children
     } = this.props;
 
-    const messages = LanguageIdentifier.message(locale);
+    const messages = LanguageIdentifier.message(language);
 
     return (
-      <IntlProvider locale={locale} messages={messages} defaultLocale='en'>
+      <IntlProvider locale={language} messages={messages} defaultLocale='en'>
         {children}
       </IntlProvider>
     );

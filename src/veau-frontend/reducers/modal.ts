@@ -1,14 +1,14 @@
-import {ModalJSON} from '../../declarations/State';
+import {Modal} from '../../declarations/State';
 import {ACTION, Action} from '../../declarations/Action';
 
-const initialState: ModalJSON = {
+const initialState: Modal = {
   open: false,
   title: 'GREETING',
   description: 'GREETING',
   values: undefined
 };
 
-export const modal = (state: ModalJSON = initialState, action: Action): ModalJSON => {
+export const modal = (state: Modal = initialState, action: Action): Modal => {
   switch (action.type) {
     case ACTION.MODAL_RAISE: {
       return {

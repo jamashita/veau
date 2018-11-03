@@ -18,6 +18,9 @@ export type message = {
   ORGANIZATION_NAME: string;
   PASSWORD: string;
 
+  VEAU: string;
+  VEAU_DESCRIPTION: string;
+
   EN: string;
   FR: string;
   ES: string;
@@ -43,6 +46,9 @@ const en: message = {
   ACCOUNT_NAME: 'Account',
   ORGANIZATION_NAME: 'Organisation Name',
   PASSWORD: 'Password',
+
+  VEAU: 'Veau',
+  VEAU_DESCRIPTION: 'ヴォとはオスの牛の子供、またはそれを屠殺した結果得られる肉のことです',
 
   EN: 'English',
   FR: 'Français',
@@ -70,6 +76,9 @@ const fr: message = {
   ORGANIZATION_NAME: 'Nom de l\'organisation',
   PASSWORD: 'Mot de passe',
 
+  VEAU: 'Veau',
+  VEAU_DESCRIPTION: 'ヴォとはオスの牛の子供、またはそれを屠殺した結果得られる肉のことです',
+
   EN: 'English',
   FR: 'Français',
   ES: 'Español',
@@ -96,6 +105,9 @@ const es: message = {
   ORGANIZATION_NAME: 'Nombre de la organización',
   PASSWORD: 'Contraseña',
 
+  VEAU: 'Veau',
+  VEAU_DESCRIPTION: 'ヴォとはオスの牛の子供、またはそれを屠殺した結果得られる肉のことです',
+
   EN: 'English',
   FR: 'Français',
   ES: 'Español',
@@ -121,6 +133,9 @@ const ja: message = {
   ACCOUNT_NAME: 'アカウント名',
   ORGANIZATION_NAME: '組織名',
   PASSWORD: 'パスワード',
+
+  VEAU: 'ヴォ',
+  VEAU_DESCRIPTION: 'ヴォとはオスの牛の子供、またはそれを屠殺した結果得られる肉のことです',
 
   EN: 'English',
   FR: 'Français',
