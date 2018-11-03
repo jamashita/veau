@@ -1,7 +1,7 @@
 import {fork, put, select} from 'redux-saga/effects';
 import {State} from '../../declarations/State';
 import {LanguageIdentifier} from '../../veau-general/LanguageIdentifier';
-import {newLanguageSelected} from '../actions/IdentityActions';
+import {newLanguageSelected} from '../actions/IdentityAction';
 
 export class Language {
 

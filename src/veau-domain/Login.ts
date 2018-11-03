@@ -24,14 +24,6 @@ export class Login {
     return this.password;
   }
 
-  public setName(name: string): void {
-    this.name = name;
-  }
-
-  public setPassword(password: string): void {
-    this.password = password;
-  }
-
   public isAcceptable(): boolean {
     if (this.name === '') {
       return false;

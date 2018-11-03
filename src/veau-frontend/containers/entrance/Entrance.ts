@@ -3,7 +3,7 @@ import {State} from '../../../declarations/State';
 import {Entrance} from '../../components/entrance/Entrance';
 import {Dispatch} from 'redux';
 import {Action} from '../../../declarations/Action';
-import {accountNameTyped, login, passwordTyped} from '../../actions/EntranceActions';
+import {accountNameTyped, login, passwordTyped} from '../../actions/EntranceAction';
 import {Login} from '../../../veau-domain/Login';
 
 type StateProps = {

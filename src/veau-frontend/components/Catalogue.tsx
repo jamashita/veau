@@ -6,15 +6,14 @@ import {
 import NotFound from './NotFound';
 import {Endpoints} from '../Endpoints';
 import Entrance from '../containers/entrance/Entrance';
+import {CaptionList} from './caption/list/CaptionList';
 
 type Props = {
 }
-type State = {
-}
 
-export default class Catalogue extends React.Component<Props, State> {
+export default class Catalogue extends React.Component<Props, {}> {
 
-  public shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+  public shouldComponentUpdate(nextProps: Props): boolean {
     return true;
   }
 
@@ -22,6 +21,7 @@ export default class Catalogue extends React.Component<Props, State> {
     return (
       <Switch>
         <Route exact={true} path={Endpoints.ENTRANCE} component={Entrance} />
+        <Route exact={true} path={Endpoints.HOME} component={CaptionList} />
         <Route exact={true} path={Endpoints.NOTFOUND} component={NotFound} />
       </Switch>
     );

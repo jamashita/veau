@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as assert from 'power-assert';
 import * as log4js from 'log4js';
-// import {api} from './api';
+import {api} from './api';
 import {fe} from './fe';
 
 export class RequestError extends Error {
@@ -16,7 +16,7 @@ export class RequestError extends Error {
 const router = express.Router();
 const logger = log4js.getLogger();
 
-// router.use('/api', api);
+router.use('/api', api);
 router.use('/', fe);
 
 // catch 404 and forward to error handler

@@ -5,7 +5,7 @@ import {LanguageIdentifier} from '../../veau-general/LanguageIdentifier';
 
 export default class I18NProvider extends React.Component<Props, {}> {
 
-  public shouldComponentUpdate(nextProps: Props, nextState: {}): boolean {
+  public shouldComponentUpdate(nextProps: Props): boolean {
     return true;
   }
 

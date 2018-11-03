@@ -3,9 +3,12 @@ import Catalogue from './Catalogue';
 import Modal from '../containers/page/Modal';
 import LoadingIndicator from '../containers/page/LoadingIndicator';
 
-export default class MainView extends React.Component<{}, {}> {
+type Props = {
+}
 
-  public shouldComponentUpdate(nextProps: {}, nextState: {}): boolean {
+export default class MainView extends React.Component<Props, {}> {
+
+  public shouldComponentUpdate(nextProps: Props): boolean {
     return true;
   }
 
