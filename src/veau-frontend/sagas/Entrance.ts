@@ -2,8 +2,8 @@ import {call, fork, put, select, take} from 'redux-saga/effects';
 import * as request from 'superagent';
 import {ACTION, EntranceAccountNameTypedAction, EntrancePasswordTypedAction} from '../../declarations/Action';
 import {State} from '../../declarations/State';
+import {Login} from '../../veau-vo/Login';
 import {entranceLoginInfoUpdate} from '../actions/EntranceAction';
-import {LoginFactory} from '../../veau-factory/LoginFactory';
 import {loaded, loading} from '../actions/LoadingAction';
 import {AJAX} from '../../veau-general/AJAX';
 import {identified} from '../actions/IdentityAction';
@@ -69,7 +69,7 @@ export class Entrance {
         }
       } = state;
 
-      const newLogin = LoginFactory.fromName(login, action.name);
+      const newLogin = new Login(action.name, login.getPassword())
       yield put(entranceLoginInfoUpdate(newLogin));
     }
   }
@@ -85,7 +85,7 @@ export class Entrance {
         }
       } = state;
 
-      const newLogin = LoginFactory.fromPassword(login, action.password);
+      const newLogin = new Login(login.getName(), action.password);
       yield put(entranceLoginInfoUpdate(newLogin));
     }
   }

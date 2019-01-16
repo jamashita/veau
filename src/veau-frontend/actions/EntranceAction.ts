@@ -4,7 +4,7 @@ import {
   EntrancePasswordTypedAction,
   IdentityAuthenticateAction
 } from '../../declarations/Action';
-import {Login} from '../../veau-domain/Login';
+import {Login} from '../../veau-vo/Login';
 
 export const accountNameTyped = (name: string): EntranceAccountNameTypedAction => {
   return {

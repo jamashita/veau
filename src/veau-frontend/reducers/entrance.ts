@@ -1,6 +1,6 @@
 import {Entrance} from '../../declarations/State';
 import {ACTION, Action} from '../../declarations/Action';
-import {Login} from '../../veau-domain/Login';
+import {Login} from '../../veau-vo/Login';
 
 const initialState: Entrance = {
   login: Login.default()

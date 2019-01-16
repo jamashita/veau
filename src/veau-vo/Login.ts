@@ -1,13 +1,16 @@
+import {ValueObject} from './ValueObject';
+
 type LoginJSON = {
   name: string;
   password: string;
 }
 
-export class Login {
+export class Login extends ValueObject {
   private name: string;
   private password: string;
 
   public constructor(name: string, password: string) {
+    super();
     this.name = name;
     this.password = password;
   }
@@ -35,6 +38,9 @@ export class Login {
   }
 
   public equals(other: Login): boolean {
+    if (this === other) {
+      return true;
+    }
     if (this.name !== other.getName()) {
       return false;
     }
@@ -54,5 +60,9 @@ export class Login {
       name,
       password
     };
+  }
+
+  public toString(): string {
+    return `name: ${this.name}, password: ${this.password}`;
   }
 }

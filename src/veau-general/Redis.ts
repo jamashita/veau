@@ -1,7 +1,4 @@
 import * as redis from 'redis';
-import * as log4js from 'log4js';
-
-const logger = log4js.getLogger();
 
 class RedisHash {
   private client: redis.RedisClient;
@@ -23,35 +20,9 @@ class RedisHash {
     });
   }
 
-  public setJSON(key: string, json: { [key: string]: string | number }): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      this.client.hmset(key, json, (err: Error | null, response: boolean) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve(response);
-      });
-    });
-  }
-
   public get(key: string, field: string): Promise<string> {
     return new Promise((resolve, reject) => {
       this.client.hget(key, field, (err: Error | null, response: string) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve(response);
-      });
-    });
-  }
-
-  public getJSON(key: string): Promise<{ [key: string]: string }> {
-    return new Promise((resolve, reject) => {
-      this.client.hgetall(key, (err: Error | null, response: { [key: string]: string }) => {
         if (err) {
           reject(err);
           return;
@@ -333,8 +304,8 @@ export class Redis {
     const client = redis.createClient(config);
 
     client.on('error', (err) => {
-      logger.fatal('REDIS ERROR');
-      logger.fatal(err);
+      console.log('REDIS ERROR');
+      console.log(err);
     });
 
     this.hash = new RedisHash(client);

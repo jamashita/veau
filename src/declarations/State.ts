@@ -1,19 +1,19 @@
-import {Login} from '../veau-domain/Login';
+import {Login} from '../veau-vo/Login';
 
 export type Modal = {
   open: boolean;
   title: string;
   description: string;
   values?: {[key: string]: string};
-};
+}
 export type Identity = {
   id: number;
   language: string;
   name: string;
-};
+}
 export type Entrance = {
   login: Login;
-};
+}
 export type Routing = {
   location: {
     pathname: string;
@@ -22,11 +22,11 @@ export type Routing = {
     state: any;
     key: string;
   };
-};
+}
 export type State = {
   modal: Modal;
   loadingCount: number;
   identity: Identity;
   entrance: Entrance;
   routing: Routing;
-};
+}

@@ -1,6 +1,6 @@
 import {Action as ReduxAction} from 'redux';
 import {Identity} from './State';
-import {Login} from '../veau-domain/Login';
+import {Login} from '../veau-vo/Login';
 
 export enum ACTION {
   LOCATION_CHANGE = '@@router/LOCATION_CHANGE',
