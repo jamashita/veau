@@ -11,7 +11,10 @@ import DialogTitle from '@material-ui/core/DialogTitle/DialogTitle';
 import Icon from '@material-ui/core/Icon/Icon';
 import {Props} from '../../containers/page/Modal';
 
-class Modal extends React.Component<Props & InjectedIntlProps, {}> {
+type State = {
+};
+
+class ModalImpl extends React.Component<Props & InjectedIntlProps, State> {
 
   public shouldComponentUpdate(nextProps: Props, nextState: {}): boolean {
     return true;
@@ -60,4 +63,4 @@ class Modal extends React.Component<Props & InjectedIntlProps, {}> {
   }
 }
 
-export default injectIntl(Modal);
+export const Modal = injectIntl(ModalImpl);

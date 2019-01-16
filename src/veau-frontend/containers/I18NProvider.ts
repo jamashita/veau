@@ -1,14 +1,16 @@
 import {connect} from 'react-redux';
-import I18NProvider from '../components/I18NProvider';
-import {MapStateToProps, } from 'react-redux';
+import {I18NProvider as Component} from '../components/I18NProvider';
+import {MapStateToProps} from 'react-redux';
 import {State} from '../../declarations/State';
 
 type StateProps = {
   language: string;
 };
+type OwnProps = {
+};
 export type Props = StateProps;
 
-const mapStateToProps: MapStateToProps<StateProps, {}, State> = (state) => {
+const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state) => {
   const {
     identity: {
       language
@@ -20,4 +22,4 @@ const mapStateToProps: MapStateToProps<StateProps, {}, State> = (state) => {
   };
 };
 
-export default connect(mapStateToProps, null)(I18NProvider);
+export const I18NProvider = connect(mapStateToProps, null)(Component);

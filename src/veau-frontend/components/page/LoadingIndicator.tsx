@@ -9,9 +9,12 @@ import DialogContent from '@material-ui/core/DialogContent/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle/DialogTitle';
 import {Props} from '../../containers/page/LoadingIndicator';
 
+type State = {
+};
+
 const size = 180;
 
-class LoadingIndicator extends React.Component<Props & InjectedIntlProps, {}> {
+class LoadingIndicatorImpl extends React.Component<Props & InjectedIntlProps, State> {
 
   public shouldComponentUpdate(nextProps: Props, nextState: {}): boolean {
     const {
@@ -57,4 +60,4 @@ class LoadingIndicator extends React.Component<Props & InjectedIntlProps, {}> {
   }
 }
 
-export default injectIntl(LoadingIndicator);
+export const LoadingIndicator = injectIntl(LoadingIndicatorImpl);

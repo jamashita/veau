@@ -3,15 +3,17 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
-import NotFound from './NotFound';
 import {Endpoints} from '../Endpoints';
-import Entrance from '../containers/entrance/Entrance';
+import {Entrance} from '../containers/entrance/Entrance';
 import {CaptionList} from './caption/list/CaptionList';
+import {NotFound} from './NotFound';
 
 type Props = {
-}
+};
+type State = {
+};
 
-export default class Catalogue extends React.Component<Props, {}> {
+export class Catalogue extends React.Component<Props, State> {
 
   public shouldComponentUpdate(nextProps: Props): boolean {
     return true;

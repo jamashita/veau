@@ -1,6 +1,9 @@
-import {Entrance} from '../../declarations/State';
 import {ACTION, Action} from '../../declarations/Action';
 import {Login} from '../../veau-vo/Login';
+
+export type Entrance = {
+  login: Login;
+};
 
 const initialState: Entrance = {
   login: Login.default()

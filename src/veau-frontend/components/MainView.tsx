@@ -1,12 +1,14 @@
 import * as React from 'react';
-import Catalogue from './Catalogue';
-import Modal from '../containers/page/Modal';
-import LoadingIndicator from '../containers/page/LoadingIndicator';
+import {Catalogue} from './Catalogue';
+import {Modal} from '../containers/page/Modal';
+import {LoadingIndicator} from '../containers/page/LoadingIndicator';
 
 type Props = {
-}
+};
+type State = {
+};
 
-export default class MainView extends React.Component<Props, {}> {
+export default class MainView extends React.Component<Props, State> {
 
   public shouldComponentUpdate(nextProps: Props): boolean {
     return true;

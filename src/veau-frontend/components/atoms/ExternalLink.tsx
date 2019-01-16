@@ -4,8 +4,10 @@ type Props = {
   href: string;
   style?: object;
 };
+type State = {
+};
 
-export class ExternalLink extends React.Component<Props, {}> {
+export class ExternalLink extends React.Component<Props, State> {
 
   public shouldComponentUpdate(nextProps: Props): boolean {
     return true;

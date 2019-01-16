@@ -7,8 +7,10 @@ type Props = {
   values?: {[key: string]: string};
   style?: object;
 };
+type State =  {
+};
 
-class I18NLabelImpl extends React.Component<Props & InjectedIntlProps, {}> {
+class I18NLabelImpl extends React.Component<Props & InjectedIntlProps, State> {
 
   public shouldComponentUpdate(nextProps: Props): boolean {
     return true;

@@ -11,4 +11,4 @@ router.get('*', (req: express.Request, res: express.Response) => {
   res.render('index');
 });
 
-export const fe = router;
+export const FE = router;

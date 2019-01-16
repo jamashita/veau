@@ -1,14 +1,16 @@
 import {connect} from 'react-redux';
 import {MapStateToProps} from 'react-redux';
 import {State} from '../../../declarations/State';
-import LoadingIndicator from '../../components/page/LoadingIndicator';
+import {LoadingIndicator as Component} from '../../components/page/LoadingIndicator';
 
 type StateProps = {
   loadingCount: number;
 };
 export type Props = StateProps;
+type OwnProps = {
+};
 
-const mapStateToProps: MapStateToProps<StateProps, {}, State> = (state) => {
+const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state) => {
   const {
     loadingCount
   } = state;
@@ -18,4 +20,4 @@ const mapStateToProps: MapStateToProps<StateProps, {}, State> = (state) => {
   };
 };
 
-export default connect(mapStateToProps, null)(LoadingIndicator);
+export const LoadingIndicator = connect(mapStateToProps, null)(Component);

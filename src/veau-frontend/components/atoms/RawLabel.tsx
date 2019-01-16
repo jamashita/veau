@@ -4,8 +4,10 @@ import Typography from '@material-ui/core/Typography/Typography'
 type Props = {
   style?: object;
 };
+type State = {
+};
 
-export class RawLabel extends React.Component<Props, {}> {
+export class RawLabel extends React.Component<Props, State> {
 
   public shouldComponentUpdate(nextProps: Props): boolean {
     return true;

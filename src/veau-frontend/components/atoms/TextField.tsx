@@ -11,8 +11,10 @@ type Props = {
   onKeyUp?: (value: string) => void;
   onEnterUp?: () => void;
 };
+type State = {
+};
 
-export class TextField extends React.Component<Props, {}> {
+export class TextField extends React.Component<Props, State> {
 
   public shouldComponentUpdate(nextProps: Props): boolean {
     return true;

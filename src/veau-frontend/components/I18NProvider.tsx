@@ -3,7 +3,7 @@ import {IntlProvider} from 'react-intl';
 import {Props} from '../containers/I18NProvider';
 import {LanguageIdentifier} from '../../veau-general/LanguageIdentifier';
 
-export default class I18NProvider extends React.Component<Props, {}> {
+export class I18NProvider extends React.Component<Props, {}> {
 
   public shouldComponentUpdate(nextProps: Props): boolean {
     return true;

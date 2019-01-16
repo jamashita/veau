@@ -1,5 +1,10 @@
-import {Identity} from '../../declarations/State';
 import {ACTION, Action} from '../../declarations/Action';
+
+export type Identity = {
+  id: number;
+  language: string;
+  name: string;
+};
 
 const initialState: Identity = {
   id: 0,

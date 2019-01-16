@@ -1,9 +1,11 @@
 import * as React from 'react';
 
 type Props = {
-}
+};
+type State = {
+};
 
-export default class NotFound extends React.Component<Props, {}> {
+export class NotFound extends React.Component<Props, State> {
 
   public shouldComponentUpdate(nextProps: Props): boolean {
     return true;

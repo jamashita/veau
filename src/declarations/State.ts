@@ -1,32 +1,12 @@
-import {Login} from '../veau-vo/Login';
+import {RouterState} from 'connected-react-router';
+import {Entrance} from '../veau-frontend/reducers/entrance';
+import {Identity} from '../veau-frontend/reducers/identity';
+import {Modal} from '../veau-frontend/reducers/modal';
 
-export type Modal = {
-  open: boolean;
-  title: string;
-  description: string;
-  values?: {[key: string]: string};
-}
-export type Identity = {
-  id: number;
-  language: string;
-  name: string;
-}
-export type Entrance = {
-  login: Login;
-}
-export type Routing = {
-  location: {
-    pathname: string;
-    search: string;
-    hash: string;
-    state: any;
-    key: string;
-  };
-}
 export type State = {
   modal: Modal;
   loadingCount: number;
   identity: Identity;
   entrance: Entrance;
-  routing: Routing;
-}
+  router: RouterState;
+};

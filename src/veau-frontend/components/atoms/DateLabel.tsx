@@ -6,8 +6,10 @@ type Props = {
   date: string;
   style?: object;
 };
+type State = {
+};
 
-class DateLabelImpl extends React.Component<Props & InjectedIntlProps, {}> {
+class DateLabelImpl extends React.Component<Props & InjectedIntlProps, State> {
 
   public shouldComponentUpdate(nextProps: Props): boolean {
     return true;

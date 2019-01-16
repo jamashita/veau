@@ -6,7 +6,7 @@ import {
 import {Dispatch} from 'redux';
 import {State} from '../../../declarations/State';
 import {Action} from '../../../declarations/Action';
-import Modal from '../../components/page/Modal';
+import {Modal as Component} from '../../components/page/Modal';
 
 type StateProps = {
   open: boolean;
@@ -17,9 +17,12 @@ type StateProps = {
 type DispatchProps = {
   closeModalClicked: () => void;
 };
+type OwnProps = {
+};
 export type Props = StateProps & DispatchProps;
 
-const mapStateToProps: MapStateToProps<StateProps, {}, State> = (state) => {
+
+const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state) => {
   const {
     modal: {
       open,
@@ -45,4 +48,4 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, {}> = (dispatch: Dis
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Modal);
+export const Modal = connect(mapStateToProps, mapDispatchToProps)(Component);

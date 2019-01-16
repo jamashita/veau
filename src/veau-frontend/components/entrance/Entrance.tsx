@@ -11,7 +11,10 @@ import Button from '@material-ui/core/Button/Button';
 import Icon from '@material-ui/core/Icon/Icon';
 import {pink} from '@material-ui/core/colors';
 
-class EntranceImpl extends React.Component<Props & InjectedIntlProps, {}> {
+type State = {
+};
+
+class EntranceImpl extends React.Component<Props & InjectedIntlProps, State> {
 
   public shouldComponentUpdate(nextProps: Props): boolean {
     const {
@@ -21,6 +24,7 @@ class EntranceImpl extends React.Component<Props & InjectedIntlProps, {}> {
     if (login.equals(nextProps.login)) {
       return false;
     }
+
     return true;
   }
 
