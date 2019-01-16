@@ -7,7 +7,7 @@ import * as es from 'react-intl/locale-data/es';
 import * as ja from 'react-intl/locale-data/ja';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import {Provider} from 'react-redux';
-import {ConnectedRouter} from 'react-router-redux';
+import {ConnectedRouter} from 'connected-react-router';
 import MainView from './components/MainView';
 import I18NProvider from './containers/I18NProvider';
 import {persistor, store} from './store';
