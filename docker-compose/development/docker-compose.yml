@@ -2,7 +2,7 @@ version: '2'
 services:
   veau_mysql:
     container_name: 'veau_mysql'
-    image: 'mysql:5.7'
+    image: 'mysql:8.0'
     environment:
       MYSQL_ROOT_PASSWORD: 'veau'
       MYSQL_DATABASE: 'veau'
