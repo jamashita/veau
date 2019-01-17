@@ -8,7 +8,7 @@ type Props = {
 type State = {
 };
 
-export default class MainView extends React.Component<Props, State> {
+export class MainView extends React.Component<Props, State> {
 
   public shouldComponentUpdate(nextProps: Props): boolean {
     return true;

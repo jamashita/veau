@@ -64,7 +64,7 @@ export class MySQL {
     });
   }
 
-  public async transaction(callback: (transaction: Transaction) => Promise<any>): Promise<void> {
+  public async transaction(callback: (transaction: Transaction) => Promise<void>): Promise<void> {
     const transaction = await this.getTransaction();
 
     try {
