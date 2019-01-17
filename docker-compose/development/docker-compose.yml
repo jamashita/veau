@@ -18,7 +18,7 @@ services:
     - '6380:6379'
   veau:
     container_name: 'veau'
-    image: 'node:10.12'
+    image: 'node:11.6.0'
     environment:
       NODE_ENV: 'development'
     command: 'tail -f /dev/null'
