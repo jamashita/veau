@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 8.0.13)
 # Database: veau
-# Generation Time: 2019-01-17 10:55:23 +0000
+# Generation Time: 2019-01-17 11:06:45 +0000
 # ************************************************************
 
 
@@ -27,7 +27,7 @@ SET NAMES utf8mb4;
 DROP TABLE IF EXISTS `captions`;
 
 CREATE TABLE `captions` (
-  `caption_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `caption_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `language_id` tinyint(3) unsigned NOT NULL,
   `locale_id` smallint(5) unsigned NOT NULL,
   `name` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE `captions` (
   KEY `locale_id` (`locale_id`),
   CONSTRAINT `captions_ibfk_1` FOREIGN KEY (`language_id`) REFERENCES `languages` (`language_id`),
   CONSTRAINT `captions_ibfk_2` FOREIGN KEY (`locale_id`) REFERENCES `locales` (`locale_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 
 
@@ -55,7 +55,7 @@ CREATE TABLE `languages` (
   PRIMARY KEY (`language_id`),
   UNIQUE KEY `english_name` (`english_name`),
   UNIQUE KEY `iso639` (`iso639`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 LOCK TABLES `languages` WRITE;
 /*!40000 ALTER TABLE `languages` DISABLE KEYS */;
@@ -261,7 +261,7 @@ CREATE TABLE `locales` (
   `iso3166` char(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`locale_id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 LOCK TABLES `locales` WRITE;
 /*!40000 ALTER TABLE `locales` DISABLE KEYS */;
@@ -528,19 +528,20 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `stats`;
 
 CREATE TABLE `stats` (
-  `stats_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `caption_id` mediumint(8) unsigned NOT NULL,
+  `stats_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `caption_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `term_id` tinyint(3) unsigned NOT NULL,
   `name` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `unit` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `seq` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY (`stats_id`),
+  UNIQUE KEY `stats_id` (`stats_id`,`caption_id`),
   KEY `caption_id` (`caption_id`),
   KEY `caption_id_2` (`caption_id`,`seq`),
   KEY `term_id` (`term_id`),
   CONSTRAINT `stats_ibfk_1` FOREIGN KEY (`caption_id`) REFERENCES `captions` (`caption_id`),
   CONSTRAINT `stats_ibfk_2` FOREIGN KEY (`term_id`) REFERENCES `terms` (`term_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 
 
@@ -550,12 +551,12 @@ CREATE TABLE `stats` (
 DROP TABLE IF EXISTS `stats_items`;
 
 CREATE TABLE `stats_items` (
-  `stats_id` int(10) unsigned NOT NULL,
+  `stats_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `as_of` date NOT NULL,
   `value` decimal(24,7) unsigned NOT NULL,
   KEY `stats_id` (`stats_id`),
   CONSTRAINT `stats_items_ibfk_1` FOREIGN KEY (`stats_id`) REFERENCES `stats` (`stats_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 
 
@@ -568,7 +569,7 @@ CREATE TABLE `terms` (
   `term_id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `description` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`term_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 LOCK TABLES `terms` WRITE;
 /*!40000 ALTER TABLE `terms` DISABLE KEYS */;
