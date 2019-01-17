@@ -3,7 +3,7 @@ import * as express from 'express';
 const router = express.Router();
 
 router.post('/', (req: express.Request, res: express.Response) => {
-  // fake
+  // TODO fake response
   res.send({
     id: 1,
     language: 'ja',

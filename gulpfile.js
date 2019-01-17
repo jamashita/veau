@@ -145,7 +145,7 @@ gulp.task('font', () => {
 gulp.task('nodemon', (callback) => {
   let started = false;
   return nodemon({
-    script: 'dist/veau-server/index.js',
+    script: 'dist/veau-server/Server.js',
     watch: ['dist/**/*.js'],
     ext: 'js',
     stdout: true,
