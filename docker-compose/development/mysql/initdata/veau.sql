@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 8.0.13)
 # Database: veau
-# Generation Time: 2019-01-17 10:38:06 +0000
+# Generation Time: 2019-01-17 10:55:23 +0000
 # ************************************************************
 
 
@@ -530,13 +530,16 @@ DROP TABLE IF EXISTS `stats`;
 CREATE TABLE `stats` (
   `stats_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `caption_id` mediumint(8) unsigned NOT NULL,
+  `term_id` tinyint(3) unsigned NOT NULL,
   `name` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `unit` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `seq` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY (`stats_id`),
   KEY `caption_id` (`caption_id`),
   KEY `caption_id_2` (`caption_id`,`seq`),
-  CONSTRAINT `stats_ibfk_1` FOREIGN KEY (`caption_id`) REFERENCES `captions` (`caption_id`)
+  KEY `term_id` (`term_id`),
+  CONSTRAINT `stats_ibfk_1` FOREIGN KEY (`caption_id`) REFERENCES `captions` (`caption_id`),
+  CONSTRAINT `stats_ibfk_2` FOREIGN KEY (`term_id`) REFERENCES `terms` (`term_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
@@ -548,12 +551,37 @@ DROP TABLE IF EXISTS `stats_items`;
 
 CREATE TABLE `stats_items` (
   `stats_id` int(10) unsigned NOT NULL,
-  `as_of` datetime NOT NULL,
+  `as_of` date NOT NULL,
   `value` decimal(24,7) unsigned NOT NULL,
   KEY `stats_id` (`stats_id`),
   CONSTRAINT `stats_items_ibfk_1` FOREIGN KEY (`stats_id`) REFERENCES `stats` (`stats_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+
+
+# Dump of table terms
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `terms`;
+
+CREATE TABLE `terms` (
+  `term_id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `description` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  PRIMARY KEY (`term_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+LOCK TABLES `terms` WRITE;
+/*!40000 ALTER TABLE `terms` DISABLE KEYS */;
+
+INSERT INTO `terms` (`term_id`, `description`)
+VALUES
+	(1,X'6461696C79'),
+	(2,X'7765656B6C79'),
+	(3,X'6D6F6E74686C79'),
+	(4,X'616E6E75616C');
+
+/*!40000 ALTER TABLE `terms` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 
