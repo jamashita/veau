@@ -6,9 +6,9 @@ import {LoadingIndicator as Component} from '../../components/page/LoadingIndica
 type StateProps = {
   loadingCount: number;
 };
-export type Props = StateProps;
 type OwnProps = {
 };
+export type Props = StateProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state) => {
   const {

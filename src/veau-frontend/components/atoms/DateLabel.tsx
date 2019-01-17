@@ -4,7 +4,7 @@ import {RawLabel} from './RawLabel';
 
 type Props = {
   date: string;
-  style?: object;
+  style?: {[key: string]: string};
 };
 type State = {
 };
@@ -12,7 +12,19 @@ type State = {
 class DateLabelImpl extends React.Component<Props & InjectedIntlProps, State> {
 
   public shouldComponentUpdate(nextProps: Props): boolean {
-    return true;
+    const {
+      date,
+      style
+    } = this.props;
+
+    if (date !== nextProps.date) {
+      return true;
+    }
+    if (style !== nextProps.style) {
+      return true;
+    }
+
+    return false;
   }
 
   public render(): React.ReactNode {

@@ -8,7 +8,7 @@ type StateProps = {
 };
 type OwnProps = {
 };
-export type Props = StateProps;
+export type Props = StateProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state) => {
   const {

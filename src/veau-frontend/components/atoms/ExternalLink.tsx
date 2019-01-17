@@ -2,7 +2,7 @@ import * as React from 'react';
 
 type Props = {
   href: string;
-  style?: object;
+  style?: {[key: string]: string};
 };
 type State = {
 };
@@ -10,7 +10,19 @@ type State = {
 export class ExternalLink extends React.Component<Props, State> {
 
   public shouldComponentUpdate(nextProps: Props): boolean {
-    return true;
+    const {
+      href,
+      style
+    } = this.props;
+
+    if (href !== nextProps.href) {
+      return true;
+    }
+    if (style !== nextProps.style) {
+      return true;
+    }
+
+    return false;
   }
 
   private text(): React.ReactNode {

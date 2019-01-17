@@ -1,9 +1,9 @@
-import {Identity} from '../../declarations/State';
 import {
   ACTION,
   IdentityIdentifiedAction,
   IdentityLanguageModifiedAction
 } from '../../declarations/Action';
+import {Identity} from '../reducers/identity';
 
 export const identified = (identity: Identity): IdentityIdentifiedAction => {
   return {

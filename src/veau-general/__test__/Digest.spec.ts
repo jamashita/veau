@@ -2,9 +2,7 @@ import 'jest';
 import {Digest} from '../Digest';
 
 describe('Digest', () => {
-  it(`generate(), compare(): Encrypted passwords are different,
-  because the salts are not same,
-  but the authentications are passed`, async () => {
+  it('generate, compare', async () => {
 
     const password = 'The quick brown fox jumps over the lazy dog';
     const digest1 = await Digest.generate(password);

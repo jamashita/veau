@@ -4,7 +4,7 @@ import {createLogger} from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import storage from 'redux-persist/lib/storage';
 import {persistReducer, persistStore} from 'redux-persist';
-import {reducers} from './reducers';
+import {reducers} from './reducers/reducer';
 import {history} from './history';
 import {Root} from './sagas/Root';
 

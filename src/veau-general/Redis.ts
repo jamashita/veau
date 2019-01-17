@@ -362,7 +362,7 @@ export class Redis {
     });
   }
 
-  public expire(key: string, seconds: number): Promise<number> {
+  public expires(key: string, seconds: number): Promise<number> {
     return new Promise((resolve, reject) => {
       this.client.expire(key, seconds, (err: Error | null, response: number) => {
         if (err) {

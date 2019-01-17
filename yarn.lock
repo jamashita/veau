@@ -2066,7 +2066,7 @@ connect-redis@3.4.0:
     debug "^4.0.1"
     redis "^2.8.0"
 
-connected-react-router@^6.2.1:
+connected-react-router@6.2.1:
   version "6.2.1"
   resolved "https://registry.yarnpkg.com/connected-react-router/-/connected-react-router-6.2.1.tgz#c9088d7c26b3267bf0a0168df3105ddfc090dea6"
   integrity sha512-7QFs0wPYvwrzA7NptHx0DgblNA/nVErX0TUjTiOCwXSaqj/1Ng+nEmEczrfdA8gw7kIzFIa08WJGMymdb7bAZA==

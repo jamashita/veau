@@ -1,19 +1,18 @@
 import * as bcrypt from 'bcrypt';
 import * as md5 from 'md5';
 
-// might take 2 ~ 4 seconds for each request
-const rounds = 14;
+const ROUNDS = 14;
 
 export type DigestReponseJSON = {
-  salt: string,
-  hash: string
+  salt: string;
+  hash: string;
 };
 
 export class Digest {
 
   public static generate(plainPassword: string): Promise<DigestReponseJSON> {
     return new Promise((resolve, reject) => {
-      bcrypt.genSalt(rounds, (err: Error, salt: string) => {
+      bcrypt.genSalt(ROUNDS, (err: Error, salt: string) => {
         if (err) {
           reject(err);
           return;

@@ -16,8 +16,28 @@ type State = {
 
 class ModalImpl extends React.Component<Props & InjectedIntlProps, State> {
 
-  public shouldComponentUpdate(nextProps: Props, nextState: {}): boolean {
-    return true;
+  public shouldComponentUpdate(nextProps: Props): boolean {
+    const {
+      open,
+      title,
+      description,
+      values
+    } = this.props;
+
+    if (open !== nextProps.open) {
+      return true;
+    }
+    if (title !== nextProps.title) {
+      return true;
+    }
+    if (description !== nextProps.description) {
+      return true;
+    }
+    if (values !== nextProps.values) {
+      return true;
+    }
+
+    return false;
   }
 
   public render(): React.ReactNode {

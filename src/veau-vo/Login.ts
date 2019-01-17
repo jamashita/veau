@@ -3,20 +3,20 @@ import {ValueObject} from './ValueObject';
 type LoginJSON = {
   name: string;
   password: string;
-}
+};
 
 export class Login extends ValueObject {
   private name: string;
   private password: string;
 
+  public static default(): Login {
+    return new Login('', '');
+  }
+
   public constructor(name: string, password: string) {
     super();
     this.name = name;
     this.password = password;
-  }
-
-  public static default(): Login {
-    return new Login('', '');
   }
 
   public getName(): string {

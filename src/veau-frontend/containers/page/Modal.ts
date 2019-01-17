@@ -19,7 +19,7 @@ type DispatchProps = {
 };
 type OwnProps = {
 };
-export type Props = StateProps & DispatchProps;
+export type Props = StateProps & DispatchProps & OwnProps;
 
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state) => {
@@ -40,7 +40,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state) =>
   };
 };
 
-const mapDispatchToProps: MapDispatchToProps<DispatchProps, {}> = (dispatch: Dispatch<Action>) => {
+const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>) => {
   return {
     closeModalClicked: () => {
       // dispatch(closeModal());

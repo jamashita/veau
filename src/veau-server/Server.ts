@@ -12,7 +12,7 @@ import * as assert from 'power-assert';
 import * as log4js from 'log4js';
 import * as config from 'config';
 import 'source-map-support/register';
-import {Controller} from '../veau-controller';
+import {Controller} from '../veau-controller/Controller';
 // import {AuthenticationService} from '../veau-service/AuthenticationService';
 import {RedisStoreOptions} from 'connect-redis';
 

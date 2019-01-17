@@ -1,5 +1,5 @@
 import {Action as ReduxAction} from 'redux';
-import {Identity} from './State';
+import {Identity} from '../veau-frontend/reducers/identity';
 import {Login} from '../veau-vo/Login';
 
 export enum ACTION {

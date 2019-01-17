@@ -12,24 +12,19 @@ import {Props} from '../../containers/page/LoadingIndicator';
 type State = {
 };
 
-const size = 180;
+const SIZE = 180;
 
 class LoadingIndicatorImpl extends React.Component<Props & InjectedIntlProps, State> {
 
-  public shouldComponentUpdate(nextProps: Props, nextState: {}): boolean {
+  public shouldComponentUpdate(nextProps: Props): boolean {
     const {
       loadingCount
     } = this.props;
 
-    if (loadingCount === nextProps.loadingCount) {
-      return false;
-    }
-    if (loadingCount === 0) {
+    if (loadingCount !== nextProps.loadingCount) {
       return true;
     }
-    if (nextProps.loadingCount === 0) {
-      return true;
-    }
+
     return false;
   }
 
@@ -53,7 +48,7 @@ class LoadingIndicatorImpl extends React.Component<Props & InjectedIntlProps, St
           })}
         </DialogTitle>
         <DialogContent >
-          <CircularProgress size={size} />
+          <CircularProgress size={SIZE} />
         </DialogContent>
       </Dialog>
     );

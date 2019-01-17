@@ -5,7 +5,7 @@ import {RawLabel} from './RawLabel';
 type Props = {
   id: string;
   values?: {[key: string]: string};
-  style?: object;
+  style?: {[key: string]: string};
 };
 type State =  {
 };
@@ -13,7 +13,23 @@ type State =  {
 class I18NLabelImpl extends React.Component<Props & InjectedIntlProps, State> {
 
   public shouldComponentUpdate(nextProps: Props): boolean {
-    return true;
+    const {
+      id,
+      values,
+      style
+    } = this.props;
+
+    if (id !== nextProps.id) {
+      return true;
+    }
+    if (values !== nextProps.values) {
+      return true;
+    }
+    if (style !== nextProps.style) {
+      return true;
+    }
+
+    return false;
   }
 
   public render(): React.ReactNode {
