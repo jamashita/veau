@@ -24,7 +24,7 @@ export class StatsItemRepository implements IStatsItemRepository {
 
     const statsItems: Array<StatsItemRow> = await VeauDB.query(query, [
       {
-        captionID: captionID.get()
+        captionID: captionID.get().get()
       }
     ]);
 
