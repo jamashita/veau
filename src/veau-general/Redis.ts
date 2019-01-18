@@ -266,7 +266,7 @@ class RedisString {
     this.client = client;
   }
 
-  public set(key: string, value: string): Promise<string> {
+  public set(key: string, value: string): Promise<'OK'> {
     return new Promise((resolve, reject) => {
       this.client.set(key, value, (err: Error | null, response: 'OK') => {
         if (err) {
