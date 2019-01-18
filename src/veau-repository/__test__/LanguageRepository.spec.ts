@@ -11,12 +11,18 @@ describe('LanguageRepository', () => {
   it('all: Redis has languages', async () => {
     const stub = sinon.stub();
     VeauRedis.getString().get = stub;
-    stub.returns('[{"name":"аҧсуа бызшәа","englishName":"Abkhazian","iso639":"ab"},{"name":"Afaraf","englishName":"Afar","iso639":"aa"}]');
+    stub.returns('[{"languageID":1,"name":"аҧсуа бызшәа","englishName":"Abkhazian","iso639":"ab"},{"languageID":2,"name":"Afaraf","englishName":"Afar","iso639":"aa"}]');
     const languageRepository: LanguageRepository = LanguageRepository.getInstance();
     const languages: Array<Language> = await languageRepository.all();
 
     expect(languages.length).toEqual(2);
+    expect(languages[0].getLanguageID().get()).toEqual(1);
+    expect(languages[0].getName()).toEqual('аҧсуа бызшәа');
+    expect(languages[0].getEnglishName()).toEqual('Abkhazian');
     expect(languages[0].getISO639().get()).toEqual('ab');
+    expect(languages[1].getLanguageID().get()).toEqual(2);
+    expect(languages[1].getName()).toEqual('Afaraf');
+    expect(languages[1].getEnglishName()).toEqual('Afar');
     expect(languages[1].getISO639().get()).toEqual('aa');
   });
 
@@ -28,11 +34,13 @@ describe('LanguageRepository', () => {
     VeauDB.query = stub2;
     stub2.returns([
       {
+        languageID: 1,
         name: 'аҧсуа бызшәа',
         englishName: 'Abkhazian',
         iso639: 'ab'
       },
       {
+        languageID: 2,
         name: 'Afaraf',
         englishName: 'Afar',
         iso639: 'aa'
@@ -44,7 +52,13 @@ describe('LanguageRepository', () => {
     const languages: Array<Language> = await languageRepository.all();
 
     expect(languages.length).toEqual(2);
+    expect(languages[0].getLanguageID().get()).toEqual(1);
+    expect(languages[0].getName()).toEqual('аҧсуа бызшәа');
+    expect(languages[0].getEnglishName()).toEqual('Abkhazian');
     expect(languages[0].getISO639().get()).toEqual('ab');
+    expect(languages[1].getLanguageID().get()).toEqual(2);
+    expect(languages[1].getName()).toEqual('Afaraf');
+    expect(languages[1].getEnglishName()).toEqual('Afar');
     expect(languages[1].getISO639().get()).toEqual('aa');
     expect(spy.called).toEqual(true);
   });
@@ -52,11 +66,13 @@ describe('LanguageRepository', () => {
   it('findByISO639', async () => {
     const stub = sinon.stub();
     VeauRedis.getString().get = stub;
-    stub.returns('[{"name":"аҧсуа бызшәа","englishName":"Abkhazian","iso639":"ab"},{"name":"Afaraf","englishName":"Afar","iso639":"aa"}]');
+    stub.returns('[{"languageID":1,"name":"аҧсуа бызшәа","englishName":"Abkhazian","iso639":"ab"},{"languageID":2,"name":"Afaraf","englishName":"Afar","iso639":"aa"}]');
     const languageRepository: LanguageRepository = LanguageRepository.getInstance();
     const language: Language = await languageRepository.findByISO639(ISO639.of('aa'));
 
+    expect(language.getLanguageID().get()).toEqual(2);
     expect(language.getName()).toEqual('Afaraf');
+    expect(language.getEnglishName()).toEqual('Afar');
   });
 
   it('findByISO639: throws error', () => {

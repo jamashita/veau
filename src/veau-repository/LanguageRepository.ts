@@ -2,7 +2,8 @@ import {NoSuchElementError} from '../veau-general/Error';
 import {VeauDB} from '../veau-infrastructure/VeauDB';
 import {VeauRedis} from '../veau-infrastructure/VeauRedis';
 import {ISO639} from '../veau-vo/ISO639';
-import {Language, LanguageJSON} from '../veau-vo/Language';
+import {Language, LanguageRow} from '../veau-vo/Language';
+import {LanguageID} from '../veau-vo/LanguageID';
 
 const REDIS_KEY = 'Languages';
 
@@ -20,33 +21,35 @@ export class LanguageRepository implements ILanguageRepository {
     const languagesString: string = await VeauRedis.getString().get(REDIS_KEY);
 
     if (languagesString) {
-      const languageJSONSs: Array<LanguageJSON> = JSON.parse(languagesString);
-      return languageJSONSs.map<Language>((json) => {
-        return this.toLanguage(json);
+      const languageRows: Array<LanguageRow> = JSON.parse(languagesString);
+      return languageRows.map<Language>((row) => {
+        return this.toLanguage(row);
       });
     }
 
     const query = `SELECT
+      R1.language_id AS languageID,
       R1.name,
       R1.english_name AS englishName,
       R1.iso639
-      FROM langauges R1;`;
+      FROM languages R1;`;
 
-    const languageJSONs: Array<LanguageJSON> = await VeauDB.query(query);
-    await VeauRedis.getString().set(REDIS_KEY, JSON.stringify(languageJSONs));
-    return languageJSONs.map<Language>((json) => {
-      return this.toLanguage(json);
+    const languageRows: Array<LanguageRow> = await VeauDB.query(query);
+    await VeauRedis.getString().set(REDIS_KEY, JSON.stringify(languageRows));
+    return languageRows.map<Language>((row) => {
+      return this.toLanguage(row);
     });
   }
 
-  private toLanguage(json: LanguageJSON): Language {
+  private toLanguage(row: LanguageRow): Language {
     const {
+      languageID,
       name,
       englishName,
       iso639
-    } = json;
+    } = row;
 
-    return Language.of(name, englishName, ISO639.of(iso639));
+    return Language.of(LanguageID.of(languageID), name, englishName, ISO639.of(iso639));
   }
 
   public async findByISO639(iso639: ISO639): Promise<Language> {

@@ -9,6 +9,13 @@ export type LanguageJSON = {
   iso639: string;
 };
 
+export type LanguageRow = {
+  languageID: number;
+  name: string;
+  englishName: string;
+  iso639: string;
+};
+
 export class Language extends ValueObject {
   private languageID: LanguageID;
   private name: string;
