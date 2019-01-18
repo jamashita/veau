@@ -1,4 +1,4 @@
-export type message = {
+type Messages = {
   GREETING: string;
 
   YES: string;
@@ -27,7 +27,7 @@ export type message = {
   JA: string;
 };
 
-const en: message = {
+const en: Messages = {
   GREETING: 'Hello',
 
   YES: 'Yes',
@@ -56,7 +56,7 @@ const en: message = {
   JA: '日本語'
 };
 
-const fr: message = {
+const fr: Messages = {
   GREETING: 'Salut',
 
   YES: 'Oui',
@@ -85,7 +85,7 @@ const fr: message = {
   JA: '日本語'
 };
 
-const es: message = {
+const es: Messages = {
   GREETING: 'Hola',
 
   YES: 'Sí',
@@ -114,7 +114,7 @@ const es: message = {
   JA: '日本語'
 };
 
-const ja: message = {
+const ja: Messages = {
   GREETING: 'こんにちは',
 
   YES: 'はい',
@@ -143,11 +143,14 @@ const ja: message = {
   JA: '日本語'
 };
 
-type messageType = {
-  [key: string]: message;
+type I18NMessages = {
+  en: Messages,
+  fr: Messages,
+  es: Messages,
+  ja: Messages
 };
 
-export const Messages: messageType = {
+export const i18nMessages: I18NMessages = {
   en,
   fr,
   es,

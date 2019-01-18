@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {IntlProvider} from 'react-intl';
-import {LanguageIdentifier} from '../../veau-general/LanguageIdentifier';
 import {Props} from '../containers/I18NProvider';
+import {i18nMessages} from '../Messages';
 
 export class I18NProvider extends React.Component<Props, {}> {
 
@@ -15,8 +15,7 @@ export class I18NProvider extends React.Component<Props, {}> {
       children
     } = this.props;
 
-    // TODO illegal invoke of general module
-    // const messages = LanguageIdentifier.message(language);
+    const messages = i18nMessages[language];
 
     return (
       <IntlProvider locale={language} messages={messages} defaultLocale='en'>
