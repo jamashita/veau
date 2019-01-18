@@ -4,9 +4,9 @@ import {Language} from '../Language';
 
 describe('Language', () => {
   it('equals', () => {
-    const language1: Language = new Language('аҧсуа бызшәа', 'Abkhazian', new ISO639('ab'));
-    const language2: Language = new Language('Afaraf', 'Afar', new ISO639('aa'));
-    const language3: Language = new Language('Afaraf', 'Afar', new ISO639('ab'));
+    const language1: Language = Language.of('аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+    const language2: Language = Language.of('Afaraf', 'Afar', ISO639.of('aa'));
+    const language3: Language = Language.of('Afaraf', 'Afar', ISO639.of('ab'));
 
     expect(language1.equals(language1)).toEqual(true);
     expect(language1.equals(language2)).toEqual(false);
@@ -14,7 +14,7 @@ describe('Language', () => {
   });
 
   it('toJSON', () => {
-    const language: Language = new Language('аҧсуа бызшәа', 'Abkhazian', new ISO639('ab'));;
+    const language: Language = Language.of('аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));;
 
     expect(language.toJSON()).toEqual({
       name: 'аҧсуа бызшәа',

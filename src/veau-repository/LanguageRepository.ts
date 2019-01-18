@@ -46,7 +46,7 @@ export class LanguageRepository implements ILanguageRepository {
       iso639
     } = json;
 
-    return new Language(name, englishName, new ISO639(iso639));
+    return Language.of(name, englishName, ISO639.of(iso639));
   }
 
   public async findByISO639(iso639: ISO639): Promise<Language> {

@@ -10,7 +10,11 @@ export class Locale extends ValueObject {
   private name: string;
   private iso3166: ISO3166;
 
-  public constructor(name: string, iso3166: ISO3166) {
+  public static of(name: string, iso3166: ISO3166): Locale {
+    return new Locale(name, iso3166);
+  }
+
+  private constructor(name: string, iso3166: ISO3166) {
     super();
     this.name = name;
     this.iso3166 = iso3166;

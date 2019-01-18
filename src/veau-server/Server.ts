@@ -7,6 +7,7 @@ import * as helmet from 'helmet';
 import * as compression from 'compression';
 import * as expressSession from 'express-session';
 import * as connectRedis from 'connect-redis';
+import {RedisStoreOptions} from 'connect-redis';
 import * as favicon from 'serve-favicon';
 import * as assert from 'power-assert';
 import * as log4js from 'log4js';
@@ -14,7 +15,6 @@ import * as config from 'config';
 import 'source-map-support/register';
 import {Controller} from '../veau-controller/Controller';
 // import {AuthenticationService} from '../veau-service/AuthenticationService';
-import {RedisStoreOptions} from 'connect-redis';
 
 const port: number = config.get<number>('port');
 const mode: string = process.env.NODE_ENV as string;

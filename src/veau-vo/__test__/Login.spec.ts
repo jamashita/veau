@@ -3,28 +3,28 @@ import {Login} from '../Login';
 
 describe('Login', () => {
   it('name is empty, then user is not able to login', () => {
-    const login: Login = new Login('', 'password');
+    const login: Login = Login.of('', 'password');
 
     expect(login.isAcceptable()).toEqual(false);
   });
 
   it('password is empty, then user is not able to login', () => {
-    const login: Login = new Login('name', '');
+    const login: Login = Login.of('name', '');
 
     expect(login.isAcceptable()).toEqual(false);
   });
 
   it('name and password are filled then user is able to attempt login', () => {
-    const login: Login = new Login('name', 'password');
+    const login: Login = Login.of('name', 'password');
 
     expect(login.isAcceptable()).toEqual(true);
   });
 
   it('equals', () => {
-    const login1: Login = new Login('name1', 'password1');
-    const login2: Login = new Login('name1', 'password2');
-    const login3: Login = new Login('name2', 'password1');
-    const login4: Login = new Login('name1', 'password1');
+    const login1: Login = Login.of('name1', 'password1');
+    const login2: Login = Login.of('name1', 'password2');
+    const login3: Login = Login.of('name2', 'password1');
+    const login4: Login = Login.of('name1', 'password1');
 
     expect(login1.equals(login1)).toEqual(true);
     expect(login1.equals(login2)).toEqual(false);

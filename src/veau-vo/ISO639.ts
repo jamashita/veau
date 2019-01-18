@@ -3,7 +3,11 @@ import {ValueObject} from './ValueObject';
 export class ISO639 extends ValueObject {
   private iso639: string;
 
-  public constructor(iso639: string) {
+  public static of(iso639: string): ISO639 {
+    return new ISO639(iso639);
+  }
+
+  private constructor(iso639: string) {
     super();
     this.iso639 = iso639;
   }

@@ -9,11 +9,15 @@ export class Login extends ValueObject {
   private name: string;
   private password: string;
 
+  public static of(name: string, password: string): Login {
+    return new Login(name, password);
+  }
+
   public static default(): Login {
     return new Login('', '');
   }
 
-  public constructor(name: string, password: string) {
+  private constructor(name: string, password: string) {
     super();
     this.name = name;
     this.password = password;

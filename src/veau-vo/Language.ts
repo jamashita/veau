@@ -12,7 +12,11 @@ export class Language extends ValueObject {
   private englishName: string;
   private iso639: ISO639;
 
-  public constructor(name: string, englishName: string, iso639: ISO639) {
+  public static of(name: string, englishName: string, iso639: ISO639): Language {
+    return new Language(name, englishName, iso639);
+  }
+
+  private constructor(name: string, englishName: string, iso639: ISO639) {
     super();
     this.name = name;
     this.englishName = englishName;

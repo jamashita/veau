@@ -4,11 +4,15 @@ import {ValueObject} from './ValueObject';
 export class UUID extends ValueObject {
   private uuid: string;
 
+  public static of(uuid: string): UUID {
+    return new UUID(uuid);
+  }
+
   public static generate(): UUID {
     return new UUID(uuid());
   }
 
-  public constructor(uuid: string) {
+  private constructor(uuid: string) {
     super();
     this.uuid = uuid;
   }
