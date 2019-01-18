@@ -24,7 +24,7 @@ describe('Stats', () => {
 
     expect(stats.toJSON()).toEqual({
       statsID: 'b5f208c3-f171-488f-a8dc-f3798db5f9f4',
-      term: 1,
+      termID: 1,
       name: 'name 1',
       unit: 'unit 1',
       seq: 1,

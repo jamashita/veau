@@ -5,7 +5,7 @@ import {Entity} from './Entity';
 
 export type StatsJSON = {
   statsID: string;
-  term: number;
+  termID: number;
   name: string;
   unit: string;
   seq: number;
@@ -70,7 +70,7 @@ export class Stats extends Entity<StatsID> {
 
     return {
       statsID: statsID.get().get(),
-      term: term.get(),
+      termID: term.get(),
       name,
       unit,
       seq,
