@@ -5,6 +5,12 @@ export type StatsItemJSON = {
   value: number;
 };
 
+export type StatsItemRow = {
+  statsID: string;
+  asOf: string;
+  value: number;
+};
+
 export class StatsItem extends ValueObject {
   private asOf: string;
   private value: number;

@@ -12,6 +12,14 @@ export type StatsJSON = {
   items: Array<StatsItemJSON>;
 };
 
+export type StatsRow = {
+  statsID: string;
+  termID: number;
+  name: string;
+  unit: string;
+  seq: number;
+};
+
 export class Stats extends Entity<StatsID> {
   private statsID: StatsID;
   private term: Term;
