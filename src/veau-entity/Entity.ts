@@ -4,8 +4,6 @@ export abstract class Entity<T extends Identifier> {
 
   public abstract getIdentifier(): T;
 
-  public abstract copy(): Entity<T>;
-
   public abstract toJSON(): any;
 
   public abstract toString(): string;
