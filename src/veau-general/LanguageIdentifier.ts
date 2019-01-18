@@ -1,5 +1,3 @@
-import {message, Messages} from './Messages';
-
 export class LanguageIdentifier {
   private static split(language: string): string {
     const lang = language.split('-')[0];
@@ -23,11 +21,5 @@ export class LanguageIdentifier {
         return LanguageIdentifier.toISO639(lang);
       }
     }
-  }
-
-  public static message(language: string): message {
-    const newLocale = LanguageIdentifier.toISO639(language);
-
-    return Messages[newLocale];
   }
 }

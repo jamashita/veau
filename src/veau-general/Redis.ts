@@ -294,11 +294,11 @@ class RedisString {
 }
 
 export class Redis {
-  hash: RedisHash;
-  set: RedisSet;
-  list: RedisList;
-  string: RedisString;
-  client: redis.RedisClient;
+  private hash: RedisHash;
+  private set: RedisSet;
+  private list: RedisList;
+  private string: RedisString;
+  private client: redis.RedisClient;
 
   public constructor(config: redis.ClientOpts) {
     const client = redis.createClient(config);
@@ -352,11 +352,11 @@ export class Redis {
           reject(err);
           return;
         }
-
         if (response === 0) {
           resolve(false);
           return;
         }
+
         resolve(true);
       });
     });

@@ -3,14 +3,14 @@ import * as md5 from 'md5';
 
 const ROUNDS = 14;
 
-export type DigestReponseJSON = {
+export type DigestResponseJSON = {
   salt: string;
   hash: string;
 };
 
 export class Digest {
 
-  public static generate(plainPassword: string): Promise<DigestReponseJSON> {
+  public static generate(plainPassword: string): Promise<DigestResponseJSON> {
     return new Promise((resolve, reject) => {
       bcrypt.genSalt(ROUNDS, (err: Error, salt: string) => {
         if (err) {

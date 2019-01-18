@@ -1,6 +1,7 @@
 import * as request from 'superagent';
 
 export class AJAX {
+
   public static get(url: string): Promise<request.Response> {
     return new Promise((resolve, reject) => {
       request

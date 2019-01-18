@@ -1,7 +1,5 @@
+import {MysqlError, PoolConnection} from 'mysql';
 import * as mysql from 'mysql';
-import * as log4js from 'log4js';
-
-const logger = log4js.getLogger();
 
 export const TIMEOUT = 'ETIMEDOUT';
 export const CONNECTION_RESET = 'ECONNRESET';
@@ -10,17 +8,17 @@ export const UNABLE_TO_VERIFY_LEAF_SIGNATURE = 'UNABLE_TO_VERIFY_LEAF_SIGNATURE'
 export const EPROTO = 'EPROTO';
 
 export class MySQL {
-  pool: mysql.Pool;
+  private pool: mysql.Pool;
 
   public constructor(config: mysql.PoolConfig) {
     const pool = mysql.createPool(config);
 
     pool.on('connection', (connection: mysql.Connection) => {
-      connection.config.queryFormat = (query, values): string => {
-        // eslint-enable no-param-reassign
+      connection.config.queryFormat = (query: string, values: any): string => {
         if (values === null || values === undefined) {
           return query;
         }
+
         return query.replace(/:(\w+)/g, (txt, key) => {
           if (values instanceof Array) {
             for (const value of values) {
@@ -29,7 +27,7 @@ export class MySQL {
               }
             }
           }
-          else if (values.hasOwnProperty(key)) {
+          if (values.hasOwnProperty(key)) {
             return connection.escape(values[key]);
           }
           return 'NULL';
@@ -42,16 +40,12 @@ export class MySQL {
 
   private getTransaction(): Promise<Transaction> {
     return new Promise((resolve, reject) => {
-      this.pool.getConnection((err, connection) => {
+      this.pool.getConnection((err: MysqlError, connection: PoolConnection) => {
         if (err) {
           reject(err);
           return;
         }
-        if (connection === undefined) {
-          logger.fatal('CONNECTION IS undefined');
-          reject(new Error());
-          return;
-        }
+
         connection.beginTransaction((err) => {
           if (err) {
             reject(err);
@@ -65,7 +59,7 @@ export class MySQL {
   }
 
   public async transaction(callback: (transaction: Transaction) => Promise<void>): Promise<void> {
-    const transaction = await this.getTransaction();
+    const transaction: Transaction = await this.getTransaction();
 
     try {
       await callback(transaction);
