@@ -8,6 +8,12 @@ export type LocaleJSON = {
   iso3166: string;
 };
 
+export type LocaleRow = {
+  localeID: number;
+  name: string;
+  iso3166: string;
+};
+
 export class Locale extends ValueObject {
   private localeID: LocaleID;
   private name: string;

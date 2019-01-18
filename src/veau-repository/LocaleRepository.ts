@@ -2,7 +2,8 @@ import {NoSuchElementError} from '../veau-general/Error';
 import {VeauDB} from '../veau-infrastructure/VeauDB';
 import {VeauRedis} from '../veau-infrastructure/VeauRedis';
 import {ISO3166} from '../veau-vo/ISO3166';
-import {Locale, LocaleJSON} from '../veau-vo/Locale';
+import {Locale, LocaleRow} from '../veau-vo/Locale';
+import {LocaleID} from '../veau-vo/LocaleID';
 
 const REDIS_KEY = 'Locales';
 
@@ -20,31 +21,33 @@ export class LocaleRepository implements ILocaleRepository {
     const localeString: string = await VeauRedis.getString().get(REDIS_KEY);
 
     if (localeString) {
-      const localeJSONs: Array<LocaleJSON> = JSON.parse(localeString);
-      return localeJSONs.map<Locale>((json) => {
-        return this.toLocale(json);
+      const localeRows: Array<LocaleRow> = JSON.parse(localeString);
+      return localeRows.map<Locale>((row) => {
+        return this.toLocale(row);
       });
     }
 
     const query = `SELECT
+      R1.locale_id AS localeID,
       R1.name,
       R1.iso3166
       FROM locales R1;`;
 
-    const localeJSONs: Array<LocaleJSON> = await VeauDB.query(query);
-    await VeauRedis.getString().set(REDIS_KEY, JSON.stringify(localeJSONs));
-    return localeJSONs.map<Locale>((json) => {
-      return this.toLocale(json);
+    const localeRows: Array<LocaleRow> = await VeauDB.query(query);
+    await VeauRedis.getString().set(REDIS_KEY, JSON.stringify(localeRows));
+    return localeRows.map<Locale>((row) => {
+      return this.toLocale(row);
     });
   }
 
-  private toLocale(json: LocaleJSON): Locale {
+  private toLocale(row: LocaleRow): Locale {
     const {
+      localeID,
       name,
       iso3166
-    } = json;
+    } = row;
 
-    return Locale.of(name, ISO3166.of(iso3166));
+    return Locale.of(LocaleID.of(localeID), name, ISO3166.of(iso3166));
   }
 
   public async findByISO3166(iso3166: ISO3166): Promise<Locale> {
