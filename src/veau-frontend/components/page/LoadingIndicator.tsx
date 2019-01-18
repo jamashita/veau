@@ -1,12 +1,9 @@
+import {CircularProgress, Dialog, DialogContent, DialogTitle} from '@material-ui/core';
 import * as React from 'react';
 import {
   injectIntl,
   InjectedIntlProps
 } from 'react-intl';
-import Dialog from '@material-ui/core/Dialog';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import DialogContent from '@material-ui/core/DialogContent/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle/DialogTitle';
 import {Props} from '../../containers/page/LoadingIndicator';
 
 type State = {

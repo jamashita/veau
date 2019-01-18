@@ -1,4 +1,5 @@
 export class LanguageIdentifier {
+
   private static split(language: string): string {
     const lang = language.split('-')[0];
     return lang;

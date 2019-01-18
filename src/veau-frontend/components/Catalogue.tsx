@@ -3,8 +3,8 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
-import {Endpoints} from '../Endpoints';
 import {Entrance} from '../containers/entrance/Entrance';
+import {Endpoints} from '../Endpoints';
 import {CaptionList} from './caption/list/CaptionList';
 import {NotFound} from './NotFound';
 

@@ -1,8 +1,8 @@
 import {
-  ACTION, EntranceAccountNameTypedAction,
+  ACTION,
+  EntranceAccountNameTypedAction,
   EntranceInfoUpdateAction,
-  EntrancePasswordTypedAction,
-  IdentityAuthenticateAction
+  EntrancePasswordTypedAction, IdentityAuthenticateAction
 } from '../../declarations/Action';
 import {Login} from '../../veau-vo/Login';
 

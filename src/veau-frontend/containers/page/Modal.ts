@@ -4,8 +4,8 @@ import {
   MapDispatchToProps,
 } from 'react-redux';
 import {Dispatch} from 'redux';
-import {State} from '../../../declarations/State';
 import {Action} from '../../../declarations/Action';
+import {State} from '../../../declarations/State';
 import {Modal as Component} from '../../components/page/Modal';
 
 type StateProps = {

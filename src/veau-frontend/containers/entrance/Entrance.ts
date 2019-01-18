@@ -1,10 +1,10 @@
 import {connect, MapDispatchToProps, MapStateToProps} from 'react-redux';
-import {State} from '../../../declarations/State';
-import {Entrance as Component} from '../../components/entrance/Entrance';
 import {Dispatch} from 'redux';
 import {Action} from '../../../declarations/Action';
-import {accountNameTyped, login, passwordTyped} from '../../actions/EntranceAction';
+import {State} from '../../../declarations/State';
 import {Login} from '../../../veau-vo/Login';
+import {Entrance as Component} from '../../components/entrance/Entrance';
+import {accountNameTyped, login, passwordTyped} from '../../actions/EntranceAction';
 
 type StateProps = {
   login: Login;

@@ -1,14 +1,9 @@
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon} from '@material-ui/core';
 import * as React from 'react';
 import {
   injectIntl,
   InjectedIntlProps
 } from 'react-intl';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions/DialogActions';
-import Button from '@material-ui/core/Button';
-import DialogTitle from '@material-ui/core/DialogTitle/DialogTitle';
-import Icon from '@material-ui/core/Icon/Icon';
 import {Props} from '../../containers/page/Modal';
 
 type State = {

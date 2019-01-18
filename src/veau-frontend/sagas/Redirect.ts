@@ -1,6 +1,6 @@
 import {fork, put, take} from 'redux-saga/effects';
-import {ACTION} from '../../declarations/Action';
 import {push} from 'connected-react-router';
+import {ACTION} from '../../declarations/Action';
 import {Endpoints} from '../Endpoints';
 
 export class Redirect {

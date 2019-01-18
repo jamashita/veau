@@ -1,5 +1,5 @@
-import {Entrance} from './Entrance';
 import {fork} from 'redux-saga/effects';
+import {Entrance} from './Entrance';
 import {Language} from './Language';
 import {Redirect} from './Redirect';
 

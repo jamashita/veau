@@ -1,7 +1,7 @@
 import {connect} from 'react-redux';
-import {I18NProvider as Component} from '../components/I18NProvider';
 import {MapStateToProps} from 'react-redux';
 import {State} from '../../declarations/State';
+import {I18NProvider as Component} from '../components/I18NProvider';
 
 type StateProps = {
   language: string;

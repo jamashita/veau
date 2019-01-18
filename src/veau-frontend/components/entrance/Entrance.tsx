@@ -1,15 +1,9 @@
+import {Avatar, Button, Card, CardActions, CardContent, CardHeader, Icon} from '@material-ui/core';
+import {pink} from '@material-ui/core/colors';
 import * as React from 'react';
 import {injectIntl, InjectedIntlProps} from 'react-intl';
 import {Props} from '../../containers/entrance/Entrance';
-import Card from '@material-ui/core/Card/Card';
-import CardHeader from '@material-ui/core/CardHeader/CardHeader';
-import Avatar from '@material-ui/core/Avatar/Avatar';
-import CardContent from '@material-ui/core/CardContent/CardContent';
 import {TextField} from '../atoms/TextField';
-import CardActions from '@material-ui/core/CardActions/CardActions';
-import Button from '@material-ui/core/Button/Button';
-import Icon from '@material-ui/core/Icon/Icon';
-import {pink} from '@material-ui/core/colors';
 
 type State = {
 };

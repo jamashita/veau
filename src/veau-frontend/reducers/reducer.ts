@@ -1,10 +1,10 @@
-import { combineReducers } from 'redux';
-import { connectRouter } from 'connected-react-router';
-import {modal} from './modal';
-import {loadingCount} from './loadingCount';
-import {identity} from './identity';
-import {entrance} from './entrance';
+import {combineReducers} from 'redux';
+import {connectRouter} from 'connected-react-router';
 import {history} from '../history';
+import {entrance} from './entrance';
+import {identity} from './identity';
+import {loadingCount} from './loadingCount';
+import {modal} from './modal';
 
 export const reducers = combineReducers({
   modal,

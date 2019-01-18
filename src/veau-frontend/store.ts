@@ -1,11 +1,11 @@
-import {applyMiddleware, createStore} from 'redux';
 import {routerMiddleware} from 'connected-react-router';
+import {applyMiddleware, createStore} from 'redux';
 import {createLogger} from 'redux-logger';
-import createSagaMiddleware from 'redux-saga';
-import storage from 'redux-persist/lib/storage';
 import {persistReducer, persistStore} from 'redux-persist';
-import {reducers} from './reducers/reducer';
+import storage from 'redux-persist/lib/storage';
+import createSagaMiddleware from 'redux-saga';
 import {history} from './history';
+import {reducers} from './reducers/reducer';
 import {Root} from './sagas/Root';
 
 const saga = createSagaMiddleware();

@@ -1,4 +1,3 @@
-import * as http from 'http';
 import * as path from 'path';
 import * as express from 'express';
 import * as cookieParser from 'cookie-parser';
@@ -9,7 +8,6 @@ import * as expressSession from 'express-session';
 import * as connectRedis from 'connect-redis';
 import {RedisStoreOptions} from 'connect-redis';
 import * as favicon from 'serve-favicon';
-import * as assert from 'power-assert';
 import * as log4js from 'log4js';
 import * as config from 'config';
 import 'source-map-support/register';
@@ -18,7 +16,6 @@ import {Controller} from '../veau-controller/Controller';
 
 const port: number = config.get<number>('port');
 const mode: string = process.env.NODE_ENV as string;
-assert(mode !== undefined);
 
 // logger
 log4js.configure({
@@ -94,9 +91,9 @@ app.use(
   })
 );
 
-const server = http.createServer(app);
+
 // AuthenticationService(app);
 app.use('/', Controller);
-server.listen(port, () => {
+app.listen(port, () => {
   logger.info(`Server running on port ${port} in ${mode} mode`);
 });

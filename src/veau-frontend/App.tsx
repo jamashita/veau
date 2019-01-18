@@ -1,3 +1,6 @@
+import {createMuiTheme, MuiThemeProvider} from '@material-ui/core';
+import {grey, lightGreen, pink} from '@material-ui/core/colors';
+import {ConnectedRouter} from 'connected-react-router';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import {addLocaleData} from 'react-intl';
@@ -5,16 +8,12 @@ import * as en from 'react-intl/locale-data/en';
 import * as fr from 'react-intl/locale-data/fr';
 import * as es from 'react-intl/locale-data/es';
 import * as ja from 'react-intl/locale-data/ja';
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import {Provider} from 'react-redux';
-import {ConnectedRouter} from 'connected-react-router';
+import {PersistGate} from 'redux-persist/integration/react';
 import {MainView} from './components/MainView';
 import {I18NProvider} from './containers/I18NProvider';
+import {history} from './history'
 import {persistor, store} from './store';
-import {history} from './history';
-import {PersistGate} from 'redux-persist/integration/react';
-import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
-import {grey, lightGreen, pink} from '@material-ui/core/colors';
 
 addLocaleData([...en, ...fr, ...es, ...ja]);
 

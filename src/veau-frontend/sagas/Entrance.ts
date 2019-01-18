@@ -2,11 +2,11 @@ import {call, fork, put, select, take} from 'redux-saga/effects';
 import * as request from 'superagent';
 import {ACTION, EntranceAccountNameTypedAction, EntrancePasswordTypedAction} from '../../declarations/Action';
 import {State} from '../../declarations/State';
+import {AJAX} from '../../veau-general/AJAX';
 import {Login} from '../../veau-vo/Login';
 import {entranceLoginInfoUpdate} from '../actions/EntranceAction';
-import {loaded, loading} from '../actions/LoadingAction';
-import {AJAX} from '../../veau-general/AJAX';
 import {identified} from '../actions/IdentityAction';
+import {loaded, loading} from '../actions/LoadingAction';
 import {pushToHome} from '../actions/RedirectAction';
 
 export class Entrance {

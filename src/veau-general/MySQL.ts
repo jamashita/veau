@@ -1,11 +1,5 @@
-import {MysqlError, PoolConnection} from 'mysql';
 import * as mysql from 'mysql';
-
-export const TIMEOUT = 'ETIMEDOUT';
-export const CONNECTION_RESET = 'ECONNRESET';
-export const PACKET_TOO_LARGE = 'ER_NET_PACKET_TOO_LARGE';
-export const UNABLE_TO_VERIFY_LEAF_SIGNATURE = 'UNABLE_TO_VERIFY_LEAF_SIGNATURE';
-export const EPROTO = 'EPROTO';
+import {MysqlError, PoolConnection} from 'mysql';
 
 export class MySQL {
   private pool: mysql.Pool;
