@@ -1,6 +1,6 @@
 import {Stats, StatsJSON, StatsRow} from '../veau-entity/Stats';
 import {StatsID} from '../veau-vo/StatsID';
-import {StatsItem, StatsItemRow} from '../veau-vo/StatsItem';
+import {StatsItem} from '../veau-vo/StatsItem';
 import {Term} from '../veau-vo/Term';
 import {UUID} from '../veau-vo/UUID';
 
@@ -40,7 +40,7 @@ export class StatsFactory {
     return this.from(StatsID.of(UUID.of(statsID)), Term.of(termID), name, unit, seq, statsItems);
   }
 
-  public fromRow(row: StatsRow, itemRows: Array<StatsItemRow>): Stats {
+  public fromRow(row: StatsRow, items: Array<StatsItem>): Stats {
     const {
       statsID,
       termID,
@@ -49,15 +49,6 @@ export class StatsFactory {
       seq
     } = row;
 
-    const statsItems: Array<StatsItem> = itemRows.map<StatsItem>((itemRow) => {
-      const {
-        asOf,
-        value
-      } = itemRow;
-
-      return StatsItem.of(asOf, value);
-    });
-
-    return this.from(StatsID.of(UUID.of(statsID)), Term.of(termID), name, unit, seq, statsItems);
+    return this.from(StatsID.of(UUID.of(statsID)), Term.of(termID), name, unit, seq, items);
   }
 }

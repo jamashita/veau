@@ -1,7 +1,7 @@
 import 'jest';
 import {Stats, StatsJSON, StatsRow} from '../../veau-entity/Stats';
 import {StatsID} from '../../veau-vo/StatsID';
-import {StatsItem, StatsItemRow} from '../../veau-vo/StatsItem';
+import {StatsItem} from '../../veau-vo/StatsItem';
 import {Term} from '../../veau-vo/Term';
 import {UUID} from '../../veau-vo/UUID';
 import {StatsFactory} from '../StatsFactory';
@@ -71,36 +71,24 @@ describe('StatsFactory', () => {
       unit: 'unit',
       seq: 1
     };
-    const itemRows: Array<StatsItemRow> = [
-      {
-        statsID: '4d0cf4e5-4f48-4db3-9c04-085374d857d1',
-        asOf: '2000-01-01',
-        value: 10
-      },
-      {
-        statsID: '4d0cf4e5-4f48-4db3-9c04-085374d857d1',
-        asOf: '2000-01-02',
-        value: 100
-      },
-      {
-        statsID: '4d0cf4e5-4f48-4db3-9c04-085374d857d1',
-        asOf: '2000-01-03',
-        value: 1000
-      }
+    const items: Array<StatsItem> = [
+      StatsItem.of('2000-01-01', 10),
+      StatsItem.of('2000-01-02', 100),
+      StatsItem.of('2000-01-03', 1000)
     ];
 
     const statsFactory: StatsFactory = StatsFactory.getInstance();
-    const stats: Stats = statsFactory.fromRow(row, itemRows);
+    const stats: Stats = statsFactory.fromRow(row, items);
 
     expect(stats.getStatsID().get().get()).toEqual(row.statsID);
     expect(stats.getTerm().get()).toEqual(row.termID);
     expect(stats.getName()).toEqual(row.name);
     expect(stats.getUnit()).toEqual(row.unit);
     expect(stats.getSeq()).toEqual(row.seq);
-    expect(stats.getItems().length).toEqual(itemRows.length);
+    expect(stats.getItems().length).toEqual(items.length);
     for(let i = 0; i < stats.getItems().length; i++) {
-      expect(stats.getItems()[i].getAsOf()).toEqual(itemRows[i].asOf);
-      expect(stats.getItems()[i].getValue()).toEqual(itemRows[i].value);
+      expect(stats.getItems()[i].getAsOf()).toEqual(items[i].getAsOf());
+      expect(stats.getItems()[i].getValue()).toEqual(items[i].getValue());
     }
   });
 });

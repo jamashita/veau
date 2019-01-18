@@ -12,6 +12,7 @@ export abstract class Entity<T extends Identifier> {
     if (this.getIdentifier().equals(other.getIdentifier())) {
       return true;
     }
+    
     return false;
   }
 }
