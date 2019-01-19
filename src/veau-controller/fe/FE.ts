@@ -1,6 +1,7 @@
+import {Router} from 'express';
 import * as express from 'express';
 
-const router = express.Router();
+const router: Router = Router();
 
 router.get('/robots.txt', (req: express.Request, res: express.Response) => {
   res.set('Content-Type', 'text/plain');
