@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'veau-web',
+      name: 'veau',
       script: 'dist/veau-server/Server.js',
       output: 'logs/web-output.log',
       error: 'logs/web-error.log',

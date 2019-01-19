@@ -73,5 +73,6 @@ export class LanguageRepository implements ILanguageRepository {
 export interface ILanguageRepository {
 
   all(): Promise<Array<Language>>;
+
   findByISO639(iso639: ISO639): Promise<Language>;
 }

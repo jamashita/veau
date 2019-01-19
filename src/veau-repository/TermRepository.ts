@@ -27,5 +27,6 @@ export class TermRepository implements ITermRepository {
 export interface ITermRepository {
 
   all(): Array<Term>;
+
   findByTermID(termID: number): Term;
 }

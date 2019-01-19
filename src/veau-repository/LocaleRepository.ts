@@ -71,5 +71,6 @@ export class LocaleRepository implements ILocaleRepository {
 export interface ILocaleRepository {
 
   all(): Promise<Array<Locale>>;
+
   findByISO3166(iso3166: ISO3166): Promise<Locale>;
 }
