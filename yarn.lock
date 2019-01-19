@@ -252,10 +252,10 @@
   resolved "https://registry.yarnpkg.com/@types/history/-/history-4.7.2.tgz#0e670ea254d559241b6eeb3894f8754991e73220"
   integrity sha512-ui3WwXmjTaY73fOQ3/m3nnajU/Orhi6cEu5rzX+BrAAJxa3eITXZ5ch9suPqtM03OWhAHhPSyBGCN4UKoxO20Q==
 
-"@types/jest@23.3.12":
-  version "23.3.12"
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-23.3.12.tgz#7e0ced251fa94c3bc2d1023d4b84b2992fa06376"
-  integrity sha512-/kQvbVzdEpOq4tEWT79yAHSM4nH4xMlhJv2GrLVQt4Qmo8yYsPdioBM1QpN/2GX1wkfMnyXvdoftvLUr0LBj7Q==
+"@types/jest@23.3.13":
+  version "23.3.13"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-23.3.13.tgz#c81484b6f4ca007bb09887ed15ecb3286d58f928"
+  integrity sha512-ePl4l+7dLLmCucIwgQHAgjiepY++qcI6nb8eAwGNkB6OxmTe3Z9rQU3rSpomqu42PCCnlThZbOoxsf+qylJsLA==
 
 "@types/jss@^9.5.6":
   version "9.5.7"
@@ -380,10 +380,18 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@16.7.19":
+"@types/react@*":
   version "16.7.19"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.7.19.tgz#f9a527a172c7fd9375c01445cbd04834fa0fcca7"
   integrity sha512-qT5NOZiZJ4z+ZjOSzOKeNxFvea2F+EJqTQVsqsMWM8uGIrDxMT2rmoIG/yu2vLmZFiJzW7c7+oFULr4kLCoJ6w==
+  dependencies:
+    "@types/prop-types" "*"
+    csstype "^2.2.0"
+
+"@types/react@16.7.20":
+  version "16.7.20"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.7.20.tgz#13ae752c012710d0fa800985ca809814b51d3b58"
+  integrity sha512-Qd5RWkwl6SL7R2XzLk/cicjVQm1Mhc6HqXY5Ei4pWd1Vi8Fkbd5O0sA398x8fRSTPAuHdDYD9nrWmJMYTJI0vQ==
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
@@ -448,10 +456,10 @@
     "@types/express-serve-static-core" "*"
     "@types/mime" "*"
 
-"@types/sinon@7.0.3":
-  version "7.0.3"
-  resolved "https://registry.yarnpkg.com/@types/sinon/-/sinon-7.0.3.tgz#f8647e883d873962130f906a6114a4e187755696"
-  integrity sha512-cjmJQLx2B5Hp9SzO7rdSivipo3kBqRqeYkTW17nLST1tn5YLWBjTdnzdmeTJXA1+KrrBLsEuvKQ0fUPGrfazQg==
+"@types/sinon@7.0.4":
+  version "7.0.4"
+  resolved "https://registry.yarnpkg.com/@types/sinon/-/sinon-7.0.4.tgz#bf641dd1c3a7fce5f30d60a008251e831ff36095"
+  integrity sha512-jTDIwFzEFAcEErkbvPeu0XC/6XCImqbLCZdlumwWSCE1eI9R8Y+3Dio3OR/8O1oM39oWZRR/n2AykAlWZPtRgA==
 
 "@types/superagent@3.8.6":
   version "3.8.6"
@@ -9275,10 +9283,10 @@ typescript-estree@5.3.0:
     lodash.unescape "4.0.1"
     semver "5.5.0"
 
-typescript@3.2.2:
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.2.2.tgz#fe8101c46aa123f8353523ebdcf5730c2ae493e5"
-  integrity sha512-VCj5UiSyHBjwfYacmDuc/NOk4QQixbE+Wn7MFJuS0nRuPQbof132Pw4u53dm264O8LPc2MVsc7RJNml5szurkg==
+typescript@3.2.4:
+  version "3.2.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.2.4.tgz#c585cb952912263d915b462726ce244ba510ef3d"
+  integrity sha512-0RNDbSdEokBeEAkgNbxJ+BLwSManFy9TeXz8uW+48j/xhEXv1ePME60olyzw2XzUqUBNAYFeJadIqAgNqIACwg==
 
 ua-parser-js@^0.7.18:
   version "0.7.19"
