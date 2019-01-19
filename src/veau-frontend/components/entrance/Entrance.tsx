@@ -48,9 +48,9 @@ class EntranceImpl extends React.Component<Props & InjectedIntlProps, State> {
             label={intl.formatMessage({
               id: 'ACCOUNT_NAME'
             })}
-            value={login.getName()}
+            value={login.getAccount()}
             type='text'
-            onKeyUp={this.props.accountNameTyped}
+            onKeyUp={this.props.accountTyped}
             onEnterUp={this.props.loginClicked}
           />
           <TextField

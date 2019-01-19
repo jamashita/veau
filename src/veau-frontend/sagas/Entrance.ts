@@ -69,7 +69,7 @@ export class Entrance {
         }
       } = state;
 
-      const newLogin = Login.of(action.name, login.getPassword())
+      const newLogin = Login.of(action.account, login.getPassword())
       yield put(entranceLoginInfoUpdate(newLogin));
     }
   }
@@ -85,7 +85,7 @@ export class Entrance {
         }
       } = state;
 
-      const newLogin = Login.of(login.getName(), action.password);
+      const newLogin = Login.of(login.getAccount(), action.password);
       yield put(entranceLoginInfoUpdate(newLogin));
     }
   }

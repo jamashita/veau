@@ -6,10 +6,10 @@ import {
 } from '../../declarations/Action';
 import {Login} from '../../veau-vo/Login';
 
-export const accountNameTyped = (name: string): EntranceAccountNameTypedAction => {
+export const accountTyped = (account: string): EntranceAccountNameTypedAction => {
   return {
     type: ACTION.ENTRANCE_ACCOUNT_NAME_TYPED,
-    name
+    account
   };
 };
 

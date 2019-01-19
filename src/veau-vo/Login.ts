@@ -1,12 +1,12 @@
 import {ValueObject} from './ValueObject';
 
-type LoginJSON = {
-  name: string;
+export type LoginJSON = {
+  account: string;
   password: string;
 };
 
 export class Login extends ValueObject {
-  private name: string;
+  private account: string;
   private password: string;
 
   public static of(name: string, password: string): Login {
@@ -17,14 +17,14 @@ export class Login extends ValueObject {
     return new Login('', '');
   }
 
-  private constructor(name: string, password: string) {
+  private constructor(account: string, password: string) {
     super();
-    this.name = name;
+    this.account = account;
     this.password = password;
   }
 
-  public getName(): string {
-    return this.name;
+  public getAccount(): string {
+    return this.account;
   }
 
   public getPassword(): string {
@@ -32,12 +32,13 @@ export class Login extends ValueObject {
   }
 
   public isAcceptable(): boolean {
-    if (this.name === '') {
+    if (this.account === '') {
       return false;
     }
     if (this.password === '') {
       return false;
     }
+
     return true;
   }
 
@@ -45,28 +46,29 @@ export class Login extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.name !== other.getName()) {
+    if (this.account !== other.getAccount()) {
       return false;
     }
     if (this.password !== other.getPassword()) {
       return false;
     }
+
     return true;
   }
 
   public toJSON(): LoginJSON {
     const {
-      name,
+      account,
       password
     } = this;
 
     return {
-      name,
+      account,
       password
     };
   }
 
   public toString(): string {
-    return `name: ${this.name}, password: ${this.password}`;
+    return `account: ${this.account}, password: ${this.password}`;
   }
 }

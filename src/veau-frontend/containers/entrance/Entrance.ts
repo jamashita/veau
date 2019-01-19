@@ -4,13 +4,13 @@ import {Action} from '../../../declarations/Action';
 import {State} from '../../../declarations/State';
 import {Login} from '../../../veau-vo/Login';
 import {Entrance as Component} from '../../components/entrance/Entrance';
-import {accountNameTyped, login, passwordTyped} from '../../actions/EntranceAction';
+import {accountTyped, login, passwordTyped} from '../../actions/EntranceAction';
 
 type StateProps = {
   login: Login;
 };
 type DispatchProps = {
-  accountNameTyped: (name: string) => void;
+  accountTyped: (name: string) => void;
   passwordTyped: (password: string) => void;
   loginClicked: () => void;
 };
@@ -32,8 +32,8 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state) =>
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>) => {
   return {
-    accountNameTyped: (name: string) => {
-      dispatch(accountNameTyped(name));
+    accountTyped: (account: string) => {
+      dispatch(accountTyped(account));
     },
     passwordTyped: (password: string) => {
       dispatch(passwordTyped(password));
