@@ -7,7 +7,7 @@ class RedisHash {
     this.client = client;
   }
 
-  public set(key: string, field: string, value: string): Promise<number> {
+  public set(key: string, field: string, value: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.client.hset(key, field, value, (err: Error | null, response: number) => {
         if (err) {
@@ -15,7 +15,12 @@ class RedisHash {
           return;
         }
 
-        resolve(response);
+        if (response === 1) {
+          resolve(true);
+          return;
+        }
+
+        resolve(false);
       });
     });
   }
@@ -33,7 +38,7 @@ class RedisHash {
     });
   }
 
-  public delete(key: string, field: string): Promise<number> {
+  public delete(key: string, field: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.client.hdel(key, field, (err: Error | null, response: number) => {
         if (err) {
@@ -41,7 +46,12 @@ class RedisHash {
           return;
         }
 
-        resolve(response);
+        if (response === 1) {
+          resolve(true);
+          return;
+        }
+
+        resolve(false);
       });
     });
   }
@@ -67,7 +77,7 @@ class RedisHash {
           return;
         }
 
-        if (response > 0) {
+        if (response === 1) {
           resolve(true);
           return;
         }
@@ -85,7 +95,7 @@ class RedisSet {
     this.client = client;
   }
 
-  public add(key: string, value: string): Promise<number> {
+  public add(key: string, value: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.client.sadd(key, value, (err: Error | null, response: number) => {
         if (err) {
@@ -93,7 +103,12 @@ class RedisSet {
           return;
         }
 
-        resolve(response);
+        if (response === 1) {
+          resolve(true);
+          return;
+        }
+
+        resolve(false);
       });
     });
   }
@@ -110,6 +125,7 @@ class RedisSet {
           resolve(true);
           return;
         }
+
         resolve(false);
       });
     });
@@ -123,7 +139,7 @@ class RedisSet {
           return;
         }
 
-        if (response > 0) {
+        if (response === 1) {
           resolve(true);
           return;
         }
@@ -161,7 +177,7 @@ class RedisSet {
 
   public random(key: string): Promise<string | null> {
     return new Promise((resolve, reject) => {
-      this.client.srandmember(key, (err: Error | null, response: string) => {
+      this.client.srandmember(key, (err: Error | null, response: string | null) => {
         if (err) {
           reject(err);
           return;
@@ -174,7 +190,7 @@ class RedisSet {
 
   public pop(key: string): Promise<string | null> {
     return new Promise((resolve, reject) => {
-      this.client.spop(key, (err: Error | null, response: string) => {
+      this.client.spop(key, (err: Error | null, response: string | null) => {
         if (err) {
           reject(err);
           return;
@@ -193,7 +209,7 @@ class RedisList {
     this.client = client;
   }
 
-  public push(key: string, value: string): Promise<number> {
+  public push(key: string, value: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.client.rpush(key, value, (err: Error | null, response: number) => {
         if (err) {
@@ -201,14 +217,19 @@ class RedisList {
           return;
         }
 
-        resolve(response);
+        if (response > 0) {
+          resolve(true);
+          return;
+        }
+
+        resolve(false);
       });
     });
   }
 
-  public pop(key: string): Promise<string> {
+  public pop(key: string): Promise<string | null> {
     return new Promise((resolve, reject) => {
-      this.client.rpop(key, (err: Error | null, response: string) => {
+      this.client.rpop(key, (err: Error | null, response: string | null) => {
         if (err) {
           reject(err);
           return;
@@ -219,9 +240,9 @@ class RedisList {
     });
   }
 
-  public shift(key: string): Promise<string> {
+  public shift(key: string): Promise<string | null> {
     return new Promise((resolve, reject) => {
-      this.client.lpop(key, (err: Error | null, response: string) => {
+      this.client.lpop(key, (err: Error | null, response: string | null) => {
         if (err) {
           reject(err);
           return;
@@ -266,22 +287,27 @@ class RedisString {
     this.client = client;
   }
 
-  public set(key: string, value: string): Promise<'OK'> {
+  public set(key: string, value: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      this.client.set(key, value, (err: Error | null, response: 'OK') => {
+      this.client.set(key, value, (err: Error | null, response: 'OK' | null) => {
         if (err) {
           reject(err);
           return;
         }
 
-        resolve(response);
+        if (response === 'OK') {
+          resolve(true);
+          return;
+        }
+
+        resolve(false);
       });
     });
   }
 
-  public get(key: string): Promise<string> {
+  public get(key: string): Promise<string | null> {
     return new Promise((resolve, reject) => {
-      this.client.get(key, (err: Error | null, response: string) => {
+      this.client.get(key, (err: Error | null, response: string | null) => {
         if (err) {
           reject(err);
           return;
@@ -332,7 +358,7 @@ export class Redis {
     return this.string;
   }
 
-  public delete(key: string): Promise<number> {
+  public delete(key: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.client.del(key, (err: Error | null, response: number) => {
         if (err) {
@@ -340,7 +366,12 @@ export class Redis {
           return;
         }
 
-        resolve(response);
+        if (response > 0) {
+          resolve(true);
+          return;
+        }
+
+        resolve(false);
       });
     });
   }
@@ -352,17 +383,17 @@ export class Redis {
           reject(err);
           return;
         }
-        if (response === 0) {
-          resolve(false);
+        if (response === 1) {
+          resolve(true);
           return;
         }
 
-        resolve(true);
+        resolve(false);
       });
     });
   }
 
-  public expires(key: string, seconds: number): Promise<number> {
+  public expires(key: string, seconds: number): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.client.expire(key, seconds, (err: Error | null, response: number) => {
         if (err) {
@@ -370,7 +401,12 @@ export class Redis {
           return;
         }
 
-        resolve(response);
+        if (response === 1) {
+          resolve(true);
+          return;
+        }
+
+        resolve(false);
       });
     });
   }
