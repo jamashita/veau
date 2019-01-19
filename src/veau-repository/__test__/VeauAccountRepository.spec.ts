@@ -13,8 +13,8 @@ describe('VeauAccountRepository', () => {
       {
         id: 1,
         account: 'account',
-        languageID: 2,
-        localeID: 3,
+        language: 'ab',
+        locale: 'AFG',
         active: 1
       }
     ]);
@@ -25,8 +25,8 @@ describe('VeauAccountRepository', () => {
 
     expect(veauAccount.getVeauAccountID().get()).toEqual(1);
     expect(veauAccount.getAccount()).toEqual('account');
-    expect(veauAccount.getLanguageID().get()).toEqual(2);
-    expect(veauAccount.getLocaleID().get()).toEqual(3);
+    expect(veauAccount.getLanguage().get()).toEqual('ab');
+    expect(veauAccount.getLocale().get()).toEqual('AFG');
     expect(veauAccount.isActive()).toEqual(true);
   });
 });

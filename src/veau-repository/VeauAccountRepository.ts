@@ -24,11 +24,15 @@ export class VeauAccountRepository implements IVeauAccountRepository {
     const query = `SELECT
       R1.veau_account_id AS id,
       R1.account,
-      R1.language_id AS languageID,
-      R1.locale_id AS localeID,
+      R2.iso639 AS language,
+      R3.iso3166 AS locale,
       R1.active,
       R1.hash
       FROM veau_accounts R1
+      INNER JOIN languages R2
+      USING(language_id)
+      INNER JOIN locales R3
+      USING(locale_id)
       WHERE R1.account = :account;`;
 
     const veauAccountRows: Array<VeauAccountRow> = await VeauMySQL.query(query, [

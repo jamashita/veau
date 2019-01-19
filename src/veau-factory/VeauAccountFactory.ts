@@ -1,6 +1,6 @@
 import {VeauAccount, VeauAccountJSON, VeauAccountRow} from '../veau-entity/VeauAccount';
-import {LanguageID} from '../veau-vo/LanguageID';
-import {LocaleID} from '../veau-vo/LocaleID';
+import {ISO3166} from '../veau-vo/ISO3166';
+import {ISO639} from '../veau-vo/ISO639';
 import {VeauAccountID} from '../veau-vo/VeauAccountID';
 
 export class VeauAccountFactory {
@@ -13,31 +13,31 @@ export class VeauAccountFactory {
   private constructor() {
   }
 
-  public from(veauAccountID: VeauAccountID, name: string, languageID: LanguageID, localeID: LocaleID, active: boolean): VeauAccount {
-    return new VeauAccount(veauAccountID, name, languageID, localeID, active);
+  public from(veauAccountID: VeauAccountID, name: string, language: ISO639, locale: ISO3166, active: boolean): VeauAccount {
+    return new VeauAccount(veauAccountID, name, language, locale, active);
   }
 
   public fromJSON(json: VeauAccountJSON): VeauAccount {
     const {
       id,
       account,
-      languageID,
-      localeID,
+      language,
+      locale,
       active
     } = json;
 
-    return this.from(VeauAccountID.of(id), account, LanguageID.of(languageID), LocaleID.of(localeID), active);
+    return this.from(VeauAccountID.of(id), account, ISO639.of(language), ISO3166.of(locale), active);
   }
 
   public fromRow(row: VeauAccountRow): VeauAccount {
     const {
       id,
       account,
-      languageID,
-      localeID,
+      language,
+      locale,
       active
     } = row;
 
-    return this.from(VeauAccountID.of(id), account, LanguageID.of(languageID), LocaleID.of(localeID), Boolean(active));
+    return this.from(VeauAccountID.of(id), account, ISO639.of(language), ISO3166.of(locale), Boolean(active));
   }
 }
