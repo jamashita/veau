@@ -14,10 +14,9 @@ router.get('/', (req: express.Request, res: express.Response) => {
         res.sendStatus(500);
         return;
       }
-    });
 
-    res.sendStatus(200);
-    return;
+      res.sendStatus(200);
+    });
   }
 
   logger.fatal('IT IS PROBABLY A KIND OF BUG');
