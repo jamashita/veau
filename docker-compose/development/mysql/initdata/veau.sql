@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 8.0.13)
 # Database: veau
-# Generation Time: 2019-01-17 11:06:45 +0000
+# Generation Time: 2019-01-19 08:51:58 +0000
 # ************************************************************
 
 
@@ -583,6 +583,28 @@ VALUES
 
 /*!40000 ALTER TABLE `terms` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+# Dump of table veau_accounts
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `veau_accounts`;
+
+CREATE TABLE `veau_accounts` (
+  `veau_account_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `hash` tinytext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `language_id` tinyint(3) unsigned NOT NULL,
+  `locale_id` smallint(5) unsigned NOT NULL,
+  `active` tinyint(3) unsigned NOT NULL,
+  PRIMARY KEY (`veau_account_id`),
+  UNIQUE KEY `name` (`name`),
+  KEY `language_id` (`language_id`),
+  KEY `locale_id` (`locale_id`),
+  CONSTRAINT `veau_accounts_ibfk_1` FOREIGN KEY (`language_id`) REFERENCES `languages` (`language_id`),
+  CONSTRAINT `veau_accounts_ibfk_2` FOREIGN KEY (`locale_id`) REFERENCES `locales` (`locale_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 
 
