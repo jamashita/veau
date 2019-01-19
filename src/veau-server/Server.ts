@@ -1,3 +1,5 @@
+import {Express} from 'express';
+import {Logger} from 'log4js';
 import * as path from 'path';
 import * as express from 'express';
 import * as cookieParser from 'cookie-parser';
@@ -12,7 +14,7 @@ import * as log4js from 'log4js';
 import * as config from 'config';
 import 'source-map-support/register';
 import {Controller} from '../veau-controller/Controller';
-// import {AuthenticationService} from '../veau-service/AuthenticationService';
+import {AuthenticationService} from '../veau-service/AuthenticationService';
 
 const port: number = config.get<number>('port');
 const mode: string = process.env.NODE_ENV as string;
@@ -48,10 +50,11 @@ log4js.configure({
   pm2: true
 });
 
-const logger = log4js.getLogger();
+const logger: Logger = log4js.getLogger();
 process.on('unhandledRejection', logger.fatal);
 
-const app = express();
+const app: Express = express();
+
 app.use(
   bodyParser.urlencoded({
     extended: false
@@ -91,8 +94,7 @@ app.use(
   })
 );
 
-
-// AuthenticationService(app);
+AuthenticationService(app);
 app.use('/', Controller);
 app.listen(port, () => {
   logger.info(`Server running on port ${port} in ${mode} mode`);

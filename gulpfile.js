@@ -33,7 +33,7 @@ gulp.task('veau-entity', () => {
     })
     .pipe(plumber())
     .pipe(tsc())
-    .pipe(gulp.dest('dist/veau-domain'));
+    .pipe(gulp.dest('dist/veau-entity'));
 });
 
 gulp.task('veau-factory', () => {

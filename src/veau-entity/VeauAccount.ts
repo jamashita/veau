@@ -17,6 +17,7 @@ export type VeauAccountRow = {
   languageID: number;
   localeID: number;
   active: number;
+  hash: string;
 };
 
 export class VeauAccount extends Entity<VeauAccountID> {

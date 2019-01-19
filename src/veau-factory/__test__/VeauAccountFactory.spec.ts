@@ -49,7 +49,8 @@ describe('VeauAccountFactory', () => {
       account: 'account',
       languageID: 2,
       localeID: 3,
-      active: 1
+      active: 1,
+      hash: ''
     };
 
     const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
