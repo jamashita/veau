@@ -1,6 +1,6 @@
-import * as React from 'react';
 import {default as Text} from '@material-ui/core/TextField';
 import {ChangeEvent} from 'react';
+import * as React from 'react';
 
 type Props = {
   label: string;

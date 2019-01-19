@@ -1,5 +1,5 @@
-import {fork, put, select, take} from 'redux-saga/effects';
 import {push} from 'connected-react-router';
+import {fork, put, select, take} from 'redux-saga/effects';
 import {ACTION, LocationChangeAction} from '../../declarations/Action';
 import {State} from '../../declarations/State';
 import {Endpoints} from '../Endpoints';
