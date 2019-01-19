@@ -1,5 +1,5 @@
-import {NoSuchElementError} from '../veau-general/Error';
-import {ValueObject} from './ValueObject';
+import { NoSuchElementError } from '../veau-general/Error';
+import { ValueObject } from './ValueObject';
 
 export class Term extends ValueObject {
   private id: number;

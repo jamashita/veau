@@ -1,14 +1,14 @@
-import {Caption, CaptionJSON, CaptionRow} from '../veau-entity/Caption';
-import {Stats} from '../veau-entity/Stats';
-import {CaptionID} from '../veau-vo/CaptionID';
-import {ISO3166} from '../veau-vo/ISO3166';
-import {ISO639} from '../veau-vo/ISO639';
-import {Language} from '../veau-vo/Language';
-import {LanguageID} from '../veau-vo/LanguageID';
-import {Locale} from '../veau-vo/Locale';
-import {LocaleID} from '../veau-vo/LocaleID';
-import {UUID} from '../veau-vo/UUID';
-import {StatsFactory} from './StatsFactory';
+import { Caption, CaptionJSON, CaptionRow } from '../veau-entity/Caption';
+import { Stats } from '../veau-entity/Stats';
+import { CaptionID } from '../veau-vo/CaptionID';
+import { ISO3166 } from '../veau-vo/ISO3166';
+import { ISO639 } from '../veau-vo/ISO639';
+import { Language } from '../veau-vo/Language';
+import { LanguageID } from '../veau-vo/LanguageID';
+import { Locale } from '../veau-vo/Locale';
+import { LocaleID } from '../veau-vo/LocaleID';
+import { UUID } from '../veau-vo/UUID';
+import { StatsFactory } from './StatsFactory';
 
 const statsFactory: StatsFactory = StatsFactory.getInstance();
 

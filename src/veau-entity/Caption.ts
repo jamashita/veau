@@ -1,8 +1,8 @@
-import {CaptionID} from '../veau-vo/CaptionID';
-import {Language, LanguageJSON} from '../veau-vo/Language';
-import {Locale, LocaleJSON} from '../veau-vo/Locale';
-import {Entity} from './Entity';
-import {Stats, StatsJSON} from './Stats';
+import { CaptionID } from '../veau-vo/CaptionID';
+import { Language, LanguageJSON } from '../veau-vo/Language';
+import { Locale, LocaleJSON } from '../veau-vo/Locale';
+import { Entity } from './Entity';
+import { Stats, StatsJSON } from './Stats';
 
 export type CaptionJSON = {
   captionID: string;

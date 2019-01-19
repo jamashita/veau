@@ -1,7 +1,7 @@
-import {StatsID} from '../veau-vo/StatsID';
-import {StatsItem, StatsItemJSON} from '../veau-vo/StatsItem';
-import {Term} from '../veau-vo/Term';
-import {Entity} from './Entity';
+import { StatsID } from '../veau-vo/StatsID';
+import { StatsItem, StatsItemJSON } from '../veau-vo/StatsItem';
+import { Term } from '../veau-vo/Term';
+import { Entity } from './Entity';
 
 export type StatsJSON = {
   statsID: string;
