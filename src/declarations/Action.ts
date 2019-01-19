@@ -1,3 +1,4 @@
+import {RouterState} from 'connected-react-router';
 import {Action as ReduxAction} from 'redux';
 import {Identity} from '../veau-frontend/reducers/identity';
 import {Login} from '../veau-vo/Login';
@@ -26,13 +27,7 @@ export enum ACTION {
 
 export interface LocationChangeAction extends ReduxAction {
   type: ACTION.LOCATION_CHANGE;
-  payload: {
-    pathname: string;
-    search: string;
-    hash: string;
-    state: any;
-    key: string;
-  }
+  payload: RouterState;
 }
 export interface ModalRaiseAction extends ReduxAction {
   type: ACTION.MODAL_RAISE;
