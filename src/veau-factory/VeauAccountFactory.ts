@@ -20,24 +20,24 @@ export class VeauAccountFactory {
   public fromJSON(json: VeauAccountJSON): VeauAccount {
     const {
       id,
-      name,
+      account,
       languageID,
       localeID,
       active
     } = json;
 
-    return this.from(VeauAccountID.of(id), name, LanguageID.of(languageID), LocaleID.of(localeID), active);
+    return this.from(VeauAccountID.of(id), account, LanguageID.of(languageID), LocaleID.of(localeID), active);
   }
 
   public fromRow(row: VeauAccountRow): VeauAccount {
     const {
       id,
-      name,
+      account,
       languageID,
       localeID,
       active
     } = row;
 
-    return this.from(VeauAccountID.of(id), name, LanguageID.of(languageID), LocaleID.of(localeID), Boolean(active));
+    return this.from(VeauAccountID.of(id), account, LanguageID.of(languageID), LocaleID.of(localeID), Boolean(active));
   }
 }

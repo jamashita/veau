@@ -9,8 +9,8 @@ export class Login extends ValueObject {
   private account: string;
   private password: string;
 
-  public static of(name: string, password: string): Login {
-    return new Login(name, password);
+  public static of(account: string, password: string): Login {
+    return new Login(account, password);
   }
 
   public static default(): Login {
@@ -69,6 +69,11 @@ export class Login extends ValueObject {
   }
 
   public toString(): string {
-    return `account: ${this.account}, password: ${this.password}`;
+    const {
+      account,
+      password
+    } = this;
+
+    return `account: ${account}, password: ${password}`;
   }
 }

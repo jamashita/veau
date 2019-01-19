@@ -33,9 +33,9 @@ export class LocaleRepository implements ILocaleRepository {
       R1.iso3166
       FROM locales R1;`;
 
-    const localeRows: Array<LocaleRow> = await VeauMySQL.query(query);
-    await VeauRedis.getString().set(REDIS_KEY, JSON.stringify(localeRows));
-    return localeRows.map<Locale>((row) => {
+    const locales: Array<LocaleRow> = await VeauMySQL.query(query);
+    await VeauRedis.getString().set(REDIS_KEY, JSON.stringify(locales));
+    return locales.map<Locale>((row) => {
       return this.toLocale(row);
     });
   }

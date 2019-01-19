@@ -20,7 +20,7 @@ describe('VeauAccount', () => {
 
     expect(veauAccount.toJSON()).toEqual({
       id: 1,
-      name: 'veau',
+      account: 'veau',
       languageID: 2,
       localeID: 3,
       active: true

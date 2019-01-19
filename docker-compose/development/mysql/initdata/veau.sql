@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 8.0.13)
 # Database: veau
-# Generation Time: 2019-01-19 09:30:52 +0000
+# Generation Time: 2019-01-19 10:29:04 +0000
 # ************************************************************
 
 
@@ -592,13 +592,13 @@ DROP TABLE IF EXISTS `veau_accounts`;
 
 CREATE TABLE `veau_accounts` (
   `veau_account_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `account` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `hash` tinytext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `language_id` tinyint(3) unsigned NOT NULL,
   `locale_id` smallint(5) unsigned NOT NULL,
   `active` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY (`veau_account_id`),
-  UNIQUE KEY `name` (`name`),
+  UNIQUE KEY `account` (`account`),
   KEY `language_id` (`language_id`),
   KEY `locale_id` (`locale_id`),
   CONSTRAINT `veau_accounts_ibfk_1` FOREIGN KEY (`language_id`) REFERENCES `languages` (`language_id`),
@@ -608,7 +608,7 @@ CREATE TABLE `veau_accounts` (
 LOCK TABLES `veau_accounts` WRITE;
 /*!40000 ALTER TABLE `veau_accounts` DISABLE KEYS */;
 
-INSERT INTO `veau_accounts` (`veau_account_id`, `name`, `hash`, `language_id`, `locale_id`, `active`)
+INSERT INTO `veau_accounts` (`veau_account_id`, `account`, `hash`, `language_id`, `locale_id`, `active`)
 VALUES
 	(1,X'76656175',X'24326224313424764E2F46636749306E6A636868304C5867526F582E653051524B72704D38777661542E6532356E7172426236772F64477A76523243',41,1,1);
 

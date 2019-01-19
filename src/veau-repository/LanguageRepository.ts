@@ -34,9 +34,9 @@ export class LanguageRepository implements ILanguageRepository {
       R1.iso639
       FROM languages R1;`;
 
-    const languageRows: Array<LanguageRow> = await VeauMySQL.query(query);
-    await VeauRedis.getString().set(REDIS_KEY, JSON.stringify(languageRows));
-    return languageRows.map<Language>((row) => {
+    const languages: Array<LanguageRow> = await VeauMySQL.query(query);
+    await VeauRedis.getString().set(REDIS_KEY, JSON.stringify(languages));
+    return languages.map<Language>((row) => {
       return this.toLanguage(row);
     });
   }
