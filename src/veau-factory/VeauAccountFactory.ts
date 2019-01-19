@@ -38,6 +38,6 @@ export class VeauAccountFactory {
       active
     } = row;
 
-    return this.from(VeauAccountID.of(id), name, LanguageID.of(languageID), LocaleID.of(localeID), active);
+    return this.from(VeauAccountID.of(id), name, LanguageID.of(languageID), LocaleID.of(localeID), Boolean(active));
   }
 }

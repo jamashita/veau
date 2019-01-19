@@ -49,7 +49,7 @@ describe('VeauAccountFactory', () => {
       name: 'name',
       languageID: 2,
       localeID: 3,
-      active: true
+      active: 1
     };
 
     const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
@@ -59,6 +59,6 @@ describe('VeauAccountFactory', () => {
     expect(veauAccount.getName()).toEqual(row.name);
     expect(veauAccount.getLanguageID().get()).toEqual(row.languageID);
     expect(veauAccount.getLocaleID().get()).toEqual(row.localeID);
-    expect(veauAccount.isActive()).toEqual(row.active);
+    expect(veauAccount.isActive()).toEqual(Boolean(row.active));
   });
 });
