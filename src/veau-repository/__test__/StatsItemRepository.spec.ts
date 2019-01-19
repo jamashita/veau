@@ -10,7 +10,21 @@ describe('StatsItemRepository', () => {
   it('findByCaptionID', async () => {
     const stub = sinon.stub();
     VeauDB.query = stub;
-    stub.returns([
+    stub.withArgs(
+      `SELECT
+      R1.stats_id AS statsID,
+      R1.as_of AS asOf,
+      R1.value
+      FROM stats_items R1
+      INNER JOIN stats R2
+      USING(stats_id)
+      WHERE R2.caption_id = :captionID;`,
+      [
+        {
+          captionID: 'd4703058-a6ff-420b-95b2-4475beba9027'
+        }
+      ]
+    ).returns([
       {
         statsID: '98d1e9b5-6b18-44de-b615-d8016f49977d',
         asOf: '2000-01-01',
