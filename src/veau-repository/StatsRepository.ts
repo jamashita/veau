@@ -1,6 +1,6 @@
 import {Stats, StatsRow} from '../veau-entity/Stats';
 import {StatsFactory} from '../veau-factory/StatsFactory';
-import {VeauDB} from '../veau-infrastructure/VeauDB';
+import {VeauMySQL} from '../veau-infrastructure/VeauMySQL';
 import {CaptionID} from '../veau-vo/CaptionID';
 import {StatsItem} from '../veau-vo/StatsItem';
 import {StatsItemRepository} from './StatsItemRepository';
@@ -28,7 +28,7 @@ export class StatsRepository implements IStatsRepository {
       FROM stats R1
       WHERE R1.caption_id = :captionID;`;
 
-    const stats: Array<StatsRow> = await VeauDB.query(query, [
+    const stats: Array<StatsRow> = await VeauMySQL.query(query, [
       {
         captionID: captionID.get().get()
       }

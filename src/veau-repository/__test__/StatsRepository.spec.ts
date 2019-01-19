@@ -2,7 +2,7 @@ import 'jest';
 import {SinonStub} from 'sinon';
 import * as sinon from 'sinon';
 import {Stats} from '../../veau-entity/Stats';
-import {VeauDB} from '../../veau-infrastructure/VeauDB';
+import {VeauMySQL} from '../../veau-infrastructure/VeauMySQL';
 import {CaptionID} from '../../veau-vo/CaptionID';
 import {UUID} from '../../veau-vo/UUID';
 import {StatsRepository} from '../StatsRepository';
@@ -11,7 +11,7 @@ describe('StatsRepository', () => {
   it('findByCaptionID', async () => {
     const captionID: string = '428a0978-5d01-4da6-96f3-f851cb18e935';
     const stub: SinonStub = sinon.stub();
-    VeauDB.query = stub;
+    VeauMySQL.query = stub;
     stub.withArgs(`SELECT
       R1.stats_id AS statsID,
       R1.term_id AS termID,

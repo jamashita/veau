@@ -2,7 +2,7 @@ import 'jest';
 import {SinonSpy, SinonStub} from 'sinon';
 import * as sinon from 'sinon';
 import {NoSuchElementError} from '../../veau-general/Error';
-import {VeauDB} from '../../veau-infrastructure/VeauDB';
+import {VeauMySQL} from '../../veau-infrastructure/VeauMySQL';
 import {VeauRedis} from '../../veau-infrastructure/VeauRedis';
 import {ISO3166} from '../../veau-vo/ISO3166';
 import {Locale} from '../../veau-vo/Locale';
@@ -30,7 +30,7 @@ describe('LocaleRepository', () => {
     VeauRedis.getString().get = stub1;
     stub1.returns(null);
     const stub2: SinonStub = sinon.stub();
-    VeauDB.query = stub2;
+    VeauMySQL.query = stub2;
     stub2.returns([
       {
         localeID: 1,

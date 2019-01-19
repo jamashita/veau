@@ -1,7 +1,7 @@
 import {Caption, CaptionRow} from '../veau-entity/Caption';
 import {Stats} from '../veau-entity/Stats';
 import {CaptionFactory} from '../veau-factory/CaptionFactory';
-import {VeauDB} from '../veau-infrastructure/VeauDB';
+import {VeauMySQL} from '../veau-infrastructure/VeauMySQL';
 import {CaptionID} from '../veau-vo/CaptionID';
 import {StatsRepository} from './StatsRepository';
 
@@ -37,7 +37,7 @@ export class CaptionRepository implements ICaptionRepository {
       USING(locale_id)
       WHERE R1.caption_id = :captionID;`;
 
-    const rows: Array<CaptionRow> = await VeauDB.query(query, [
+    const rows: Array<CaptionRow> = await VeauMySQL.query(query, [
       {
         captionID: captionID.get().get()
       }

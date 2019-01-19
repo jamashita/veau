@@ -1,5 +1,5 @@
 import {NoSuchElementError} from '../veau-general/Error';
-import {VeauDB} from '../veau-infrastructure/VeauDB';
+import {VeauMySQL} from '../veau-infrastructure/VeauMySQL';
 import {VeauRedis} from '../veau-infrastructure/VeauRedis';
 import {ISO3166} from '../veau-vo/ISO3166';
 import {Locale, LocaleRow} from '../veau-vo/Locale';
@@ -18,7 +18,7 @@ export class LocaleRepository implements ILocaleRepository {
   }
 
   public async all(): Promise<Array<Locale>> {
-    const localeString: string = await VeauRedis.getString().get(REDIS_KEY);
+    const localeString: string | null = await VeauRedis.getString().get(REDIS_KEY);
 
     if (localeString) {
       const localeRows: Array<LocaleRow> = JSON.parse(localeString);
@@ -33,7 +33,7 @@ export class LocaleRepository implements ILocaleRepository {
       R1.iso3166
       FROM locales R1;`;
 
-    const localeRows: Array<LocaleRow> = await VeauDB.query(query);
+    const localeRows: Array<LocaleRow> = await VeauMySQL.query(query);
     await VeauRedis.getString().set(REDIS_KEY, JSON.stringify(localeRows));
     return localeRows.map<Locale>((row) => {
       return this.toLocale(row);

@@ -1,4 +1,4 @@
-import {VeauDB} from '../veau-infrastructure/VeauDB';
+import {VeauMySQL} from '../veau-infrastructure/VeauMySQL';
 import {CaptionID} from '../veau-vo/CaptionID';
 import {StatsItem, StatsItemRow} from '../veau-vo/StatsItem';
 
@@ -22,7 +22,7 @@ export class StatsItemRepository implements IStatsItemRepository {
       USING(stats_id)
       WHERE R2.caption_id = :captionID;`;
 
-    const statsItems: Array<StatsItemRow> = await VeauDB.query(query, [
+    const statsItems: Array<StatsItemRow> = await VeauMySQL.query(query, [
       {
         captionID: captionID.get().get()
       }

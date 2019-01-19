@@ -1,5 +1,5 @@
 import {NoSuchElementError} from '../veau-general/Error';
-import {VeauDB} from '../veau-infrastructure/VeauDB';
+import {VeauMySQL} from '../veau-infrastructure/VeauMySQL';
 import {VeauRedis} from '../veau-infrastructure/VeauRedis';
 import {ISO639} from '../veau-vo/ISO639';
 import {Language, LanguageRow} from '../veau-vo/Language';
@@ -18,7 +18,7 @@ export class LanguageRepository implements ILanguageRepository {
   }
 
   public async all(): Promise<Array<Language>> {
-    const languagesString: string = await VeauRedis.getString().get(REDIS_KEY);
+    const languagesString: string | null = await VeauRedis.getString().get(REDIS_KEY);
 
     if (languagesString) {
       const languageRows: Array<LanguageRow> = JSON.parse(languagesString);
@@ -34,7 +34,7 @@ export class LanguageRepository implements ILanguageRepository {
       R1.iso639
       FROM languages R1;`;
 
-    const languageRows: Array<LanguageRow> = await VeauDB.query(query);
+    const languageRows: Array<LanguageRow> = await VeauMySQL.query(query);
     await VeauRedis.getString().set(REDIS_KEY, JSON.stringify(languageRows));
     return languageRows.map<Language>((row) => {
       return this.toLanguage(row);
