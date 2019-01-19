@@ -34,7 +34,7 @@ passport.use(
       if (err instanceof NoSuchElementError) {
         // time adjustment
         await Digest.compare(password, 'dummy');
-        logger.info(`invalid account: ${account}`);
+        logger.info(`invalid account: ${account} and password: ${password}`);
         done(null, false);
         return;
       }
@@ -56,4 +56,4 @@ passport.deserializeUser<VeauAccount, VeauAccountJSON>((json: VeauAccountJSON, d
 export const AuthenticationService = (app: Express) => {
   app.use(passport.initialize());
   app.use(passport.session());
-}
+};
