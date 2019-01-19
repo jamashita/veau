@@ -1,15 +1,13 @@
 import {ACTION, Action} from '../../declarations/Action';
+import {VeauAccountJSON} from '../../veau-entity/VeauAccount';
 
-export type Identity = {
-  id: number;
-  language: string;
-  name: string;
-};
+export type Identity = VeauAccountJSON;
 
 const initialState: Identity = {
   id: 0,
+  account: '',
   language: '',
-  name: ''
+  locale: ''
 };
 
 export const identity = (state: Identity = initialState, action: Action): Identity => {
