@@ -1,4 +1,4 @@
-type Messages = {
+export type Messages = {
   GREETING: string;
 
   YES: string;
@@ -48,7 +48,7 @@ const en: Messages = {
   PASSWORD: 'Password',
 
   VEAU: 'Veau',
-  VEAU_DESCRIPTION: 'ヴォとはオスの牛の子供、またはそれを屠殺した結果得られる肉のことです',
+  VEAU_DESCRIPTION: 'Veau is the young of domestic cattle.',
 
   EN: 'English',
   FR: 'Français',
@@ -77,7 +77,7 @@ const fr: Messages = {
   PASSWORD: 'Mot de passe',
 
   VEAU: 'Veau',
-  VEAU_DESCRIPTION: 'ヴォとはオスの牛の子供、またはそれを屠殺した結果得られる肉のことです',
+  VEAU_DESCRIPTION: 'Veau est le bétail jeune domestique.',
 
   EN: 'English',
   FR: 'Français',
@@ -106,7 +106,7 @@ const es: Messages = {
   PASSWORD: 'Contraseña',
 
   VEAU: 'Veau',
-  VEAU_DESCRIPTION: 'ヴォとはオスの牛の子供、またはそれを屠殺した結果得られる肉のことです',
+  VEAU_DESCRIPTION: 'Veau es la cría de toro doméstico.',
 
   EN: 'English',
   FR: 'Français',
@@ -135,7 +135,7 @@ const ja: Messages = {
   PASSWORD: 'パスワード',
 
   VEAU: 'ヴォ',
-  VEAU_DESCRIPTION: 'ヴォとはオスの牛の子供、またはそれを屠殺した結果得られる肉のことです',
+  VEAU_DESCRIPTION: 'ヴォとは牛の子供のことです。',
 
   EN: 'English',
   FR: 'Français',
