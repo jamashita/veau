@@ -1,10 +1,10 @@
 import 'jest';
-import {Stats, StatsJSON, StatsRow} from '../../veau-entity/Stats';
-import {StatsID} from '../../veau-vo/StatsID';
-import {StatsItem} from '../../veau-vo/StatsItem';
-import {Term} from '../../veau-vo/Term';
-import {UUID} from '../../veau-vo/UUID';
-import {StatsFactory} from '../StatsFactory';
+import { Stats, StatsJSON, StatsRow } from '../../veau-entity/Stats';
+import { StatsID } from '../../veau-vo/StatsID';
+import { StatsItem } from '../../veau-vo/StatsItem';
+import { Term } from '../../veau-vo/Term';
+import { UUID } from '../../veau-vo/UUID';
+import { StatsFactory } from '../StatsFactory';
 
 describe('StatsFactory', () => {
   it('from', () => {
@@ -86,7 +86,7 @@ describe('StatsFactory', () => {
     expect(stats.getUnit()).toEqual(row.unit);
     expect(stats.getSeq()).toEqual(row.seq);
     expect(stats.getItems().length).toEqual(items.length);
-    for(let i = 0; i < stats.getItems().length; i++) {
+    for (let i = 0; i < stats.getItems().length; i++) {
       expect(stats.getItems()[i].getAsOf()).toEqual(items[i].getAsOf());
       expect(stats.getItems()[i].getValue()).toEqual(items[i].getValue());
     }

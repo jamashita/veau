@@ -1,6 +1,6 @@
 import 'jest';
-import {StatsID} from '../StatsID';
-import {UUID} from '../UUID';
+import { StatsID } from '../StatsID';
+import { UUID } from '../UUID';
 
 describe('StatsID', () => {
   it('equals', () => {

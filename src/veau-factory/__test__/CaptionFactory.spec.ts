@@ -1,18 +1,18 @@
 import 'jest';
-import {Caption, CaptionJSON, CaptionRow} from '../../veau-entity/Caption';
-import {Stats} from '../../veau-entity/Stats';
-import {CaptionID} from '../../veau-vo/CaptionID';
-import {ISO3166} from '../../veau-vo/ISO3166';
-import {ISO639} from '../../veau-vo/ISO639';
-import {Language} from '../../veau-vo/Language';
-import {LanguageID} from '../../veau-vo/LanguageID';
-import {Locale} from '../../veau-vo/Locale';
-import {LocaleID} from '../../veau-vo/LocaleID';
-import {StatsID} from '../../veau-vo/StatsID';
-import {StatsItem} from '../../veau-vo/StatsItem';
-import {Term} from '../../veau-vo/Term';
-import {UUID} from '../../veau-vo/UUID';
-import {CaptionFactory} from '../CaptionFactory';
+import { Caption, CaptionJSON, CaptionRow } from '../../veau-entity/Caption';
+import { Stats } from '../../veau-entity/Stats';
+import { CaptionID } from '../../veau-vo/CaptionID';
+import { ISO3166 } from '../../veau-vo/ISO3166';
+import { ISO639 } from '../../veau-vo/ISO639';
+import { Language } from '../../veau-vo/Language';
+import { LanguageID } from '../../veau-vo/LanguageID';
+import { Locale } from '../../veau-vo/Locale';
+import { LocaleID } from '../../veau-vo/LocaleID';
+import { StatsID } from '../../veau-vo/StatsID';
+import { StatsItem } from '../../veau-vo/StatsItem';
+import { Term } from '../../veau-vo/Term';
+import { UUID } from '../../veau-vo/UUID';
+import { CaptionFactory } from '../CaptionFactory';
 
 describe('CaptionFactory', () => {
   it('from', () => {
@@ -94,12 +94,12 @@ describe('CaptionFactory', () => {
     expect(caption.getLanguage().getLanguageID().get()).toEqual(json.language.languageID);
     expect(caption.getLanguage().getName()).toEqual(json.language.name);
     expect(caption.getLanguage().getEnglishName()).toEqual(json.language.englishName);
-    expect(caption.getLanguage().getISO639().get()).toEqual(json.language.iso639)
+    expect(caption.getLanguage().getISO639().get()).toEqual(json.language.iso639);
     expect(caption.getLocale().getLocaleID().get()).toEqual(json.locale.localeID);
     expect(caption.getLocale().getName()).toEqual(json.locale.name);
     expect(caption.getLocale().getISO3166().get()).toEqual(json.locale.iso3166);
     expect(caption.getName()).toEqual(json.name);
-    expect(caption.getUpdatedAt().getTime()).toEqual(new Date(json.updatedAt).getTime())
+    expect(caption.getUpdatedAt().getTime()).toEqual(new Date(json.updatedAt).getTime());
     expect(caption.getStats().length).toEqual(json.stats.length);
     for (let i = 0; i < caption.getStats().length; i++) {
       expect(caption.getStats()[i].getStatsID().get().get()).toEqual(json.stats[i].statsID);
