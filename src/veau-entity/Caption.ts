@@ -16,7 +16,12 @@ export type CaptionJSON = {
 export type CaptionRow = {
   captionID: string;
   languageID: number;
+  languageName: string;
+  languageEnglishName: string;
+  iso639: string;
   localeID: number;
+  localeName: string;
+  iso3166: string;
   name: string;
   updatedAt: string;
 };
