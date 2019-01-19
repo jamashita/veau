@@ -1,12 +1,12 @@
 import {
   connect,
-  MapStateToProps,
   MapDispatchToProps,
+  MapStateToProps
 } from 'react-redux';
-import {Dispatch} from 'redux';
-import {Action} from '../../../declarations/Action';
-import {State} from '../../../declarations/State';
-import {Modal as Component} from '../../components/page/Modal';
+import { Dispatch } from 'redux';
+import { Action } from '../../../declarations/Action';
+import { State } from '../../../declarations/State';
+import { Modal as Component } from '../../components/page/Modal';
 
 type StateProps = {
   open: boolean;
@@ -15,7 +15,7 @@ type StateProps = {
   values?: {[key: string]: string};
 };
 type DispatchProps = {
-  closeModalClicked: () => void;
+  closeModalClicked(): void;
 };
 type OwnProps = {
 };

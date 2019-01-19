@@ -1,5 +1,5 @@
 import 'jest';
-import {Digest} from '../Digest';
+import { Digest } from '../Digest';
 
 describe('Digest', () => {
   it('generate, compare', async () => {

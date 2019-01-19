@@ -1,4 +1,4 @@
-import {ACTION, LoadingFinishAction, LoadingStartAction} from '../../declarations/Action';
+import { ACTION, LoadingFinishAction, LoadingStartAction } from '../../declarations/Action';
 
 export const loading = (): LoadingStartAction => {
   return {

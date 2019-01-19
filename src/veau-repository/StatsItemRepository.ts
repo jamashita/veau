@@ -1,6 +1,6 @@
-import {VeauMySQL} from '../veau-infrastructure/VeauMySQL';
-import {CaptionID} from '../veau-vo/CaptionID';
-import {StatsItem, StatsItemRow} from '../veau-vo/StatsItem';
+import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
+import { CaptionID } from '../veau-vo/CaptionID';
+import { StatsItem, StatsItemRow } from '../veau-vo/StatsItem';
 
 export class StatsItemRepository implements IStatsItemRepository {
   private static instance: StatsItemRepository = new StatsItemRepository();
@@ -40,7 +40,7 @@ export class StatsItemRepository implements IStatsItemRepository {
       const statsItem: StatsItem = StatsItem.of(asOf, value);
       const items: Array<StatsItem> | undefined = itemMap.get(statsID);
 
-      if(items) {
+      if (items) {
         items.push(statsItem);
         return;
       }

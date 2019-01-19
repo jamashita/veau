@@ -1,6 +1,6 @@
-import {Router} from 'express';
+import { Router } from 'express';
 import * as express from 'express';
-import {Digest, DigestResponseJSON} from '../../veau-general/Digest';
+import { Digest, DigestResponseJSON } from '../../veau-general/Digest';
 
 const router: Router = Router();
 

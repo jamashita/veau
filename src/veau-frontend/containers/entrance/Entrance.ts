@@ -1,18 +1,18 @@
-import {connect, MapDispatchToProps, MapStateToProps} from 'react-redux';
-import {Dispatch} from 'redux';
-import {Action} from '../../../declarations/Action';
-import {State} from '../../../declarations/State';
-import {Login} from '../../../veau-vo/Login';
-import {Entrance as Component} from '../../components/entrance/Entrance';
-import {accountTyped, login, passwordTyped} from '../../actions/EntranceAction';
+import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
+import { Dispatch } from 'redux';
+import { Action } from '../../../declarations/Action';
+import { State } from '../../../declarations/State';
+import { Login } from '../../../veau-vo/Login';
+import { accountTyped, login, passwordTyped } from '../../actions/EntranceAction';
+import { Entrance as Component } from '../../components/entrance/Entrance';
 
 type StateProps = {
   login: Login;
 };
 type DispatchProps = {
-  accountTyped: (name: string) => void;
-  passwordTyped: (password: string) => void;
-  loginClicked: () => void;
+  accountTyped(name: string): void;
+  passwordTyped(password: string): void;
+  loginClicked(): void;
 };
 type OwnProps = {
 };

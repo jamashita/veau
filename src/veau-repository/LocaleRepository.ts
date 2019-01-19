@@ -1,9 +1,9 @@
-import {NoSuchElementError} from '../veau-general/Error';
-import {VeauMySQL} from '../veau-infrastructure/VeauMySQL';
-import {VeauRedis} from '../veau-infrastructure/VeauRedis';
-import {ISO3166} from '../veau-vo/ISO3166';
-import {Locale, LocaleRow} from '../veau-vo/Locale';
-import {LocaleID} from '../veau-vo/LocaleID';
+import { NoSuchElementError } from '../veau-general/Error';
+import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
+import { VeauRedis } from '../veau-infrastructure/VeauRedis';
+import { ISO3166 } from '../veau-vo/ISO3166';
+import { Locale, LocaleRow } from '../veau-vo/Locale';
+import { LocaleID } from '../veau-vo/LocaleID';
 
 const REDIS_KEY = 'Locales';
 

@@ -1,12 +1,12 @@
 import 'jest';
-import {SinonSpy, SinonStub} from 'sinon';
+import { SinonSpy, SinonStub } from 'sinon';
 import * as sinon from 'sinon';
-import {NoSuchElementError} from '../../veau-general/Error';
-import {VeauMySQL} from '../../veau-infrastructure/VeauMySQL';
-import {VeauRedis} from '../../veau-infrastructure/VeauRedis';
-import {ISO3166} from '../../veau-vo/ISO3166';
-import {Locale} from '../../veau-vo/Locale';
-import {LocaleRepository} from '../LocaleRepository';
+import { NoSuchElementError } from '../../veau-general/Error';
+import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
+import { VeauRedis } from '../../veau-infrastructure/VeauRedis';
+import { ISO3166 } from '../../veau-vo/ISO3166';
+import { Locale } from '../../veau-vo/Locale';
+import { LocaleRepository } from '../LocaleRepository';
 
 describe('LocaleRepository', () => {
   it('all: Redis has locales', async () => {

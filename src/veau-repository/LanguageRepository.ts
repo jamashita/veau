@@ -1,9 +1,9 @@
-import {NoSuchElementError} from '../veau-general/Error';
-import {VeauMySQL} from '../veau-infrastructure/VeauMySQL';
-import {VeauRedis} from '../veau-infrastructure/VeauRedis';
-import {ISO639} from '../veau-vo/ISO639';
-import {Language, LanguageRow} from '../veau-vo/Language';
-import {LanguageID} from '../veau-vo/LanguageID';
+import { NoSuchElementError } from '../veau-general/Error';
+import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
+import { VeauRedis } from '../veau-infrastructure/VeauRedis';
+import { ISO639 } from '../veau-vo/ISO639';
+import { Language, LanguageRow } from '../veau-vo/Language';
+import { LanguageID } from '../veau-vo/LanguageID';
 
 const REDIS_KEY = 'Languages';
 

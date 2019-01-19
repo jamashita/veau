@@ -1,5 +1,5 @@
-import {ACTION, IdentityIdentifiedAction, IdentityLanguageModifiedAction} from '../../declarations/Action';
-import {Identity} from '../reducers/identity';
+import { ACTION, IdentityIdentifiedAction, IdentityLanguageModifiedAction } from '../../declarations/Action';
+import { Identity } from '../reducers/identity';
 
 export const identified = (identity: Identity): IdentityIdentifiedAction => {
   return {

@@ -1,9 +1,9 @@
 import 'jest';
-import {SinonStub} from 'sinon';
+import { SinonStub } from 'sinon';
 import * as sinon from 'sinon';
-import {VeauAccount} from '../../veau-entity/VeauAccount';
-import {VeauMySQL} from '../../veau-infrastructure/VeauMySQL';
-import {VeauAccountHash, VeauAccountRepository} from '../VeauAccountRepository';
+import { VeauAccount } from '../../veau-entity/VeauAccount';
+import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
+import { VeauAccountHash, VeauAccountRepository } from '../VeauAccountRepository';
 
 describe('VeauAccountRepository', () => {
   it('findByAccount', async () => {

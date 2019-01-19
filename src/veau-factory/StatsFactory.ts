@@ -1,8 +1,8 @@
-import {Stats, StatsJSON, StatsRow} from '../veau-entity/Stats';
-import {StatsID} from '../veau-vo/StatsID';
-import {StatsItem} from '../veau-vo/StatsItem';
-import {Term} from '../veau-vo/Term';
-import {UUID} from '../veau-vo/UUID';
+import { Stats, StatsJSON, StatsRow } from '../veau-entity/Stats';
+import { StatsID } from '../veau-vo/StatsID';
+import { StatsItem } from '../veau-vo/StatsItem';
+import { Term } from '../veau-vo/Term';
+import { UUID } from '../veau-vo/UUID';
 
 export class StatsFactory {
   private static instance: StatsFactory = new StatsFactory();

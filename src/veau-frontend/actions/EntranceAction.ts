@@ -4,7 +4,7 @@ import {
   EntranceInfoUpdateAction,
   EntrancePasswordTypedAction, IdentityAuthenticateAction
 } from '../../declarations/Action';
-import {Login} from '../../veau-vo/Login';
+import { Login } from '../../veau-vo/Login';
 
 export const accountTyped = (account: string): EntranceAccountNameTypedAction => {
   return {
@@ -29,6 +29,6 @@ export const entranceLoginInfoUpdate = (login: Login): EntranceInfoUpdateAction 
 
 export const login = (): IdentityAuthenticateAction => {
   return {
-    type: ACTION.IDENTITY_AUTHENTICATE,
+    type: ACTION.IDENTITY_AUTHENTICATE
   };
 };

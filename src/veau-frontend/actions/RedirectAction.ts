@@ -1,4 +1,4 @@
-import {ACTION, PushToHomeAction} from '../../declarations/Action';
+import { ACTION, PushToHomeAction } from '../../declarations/Action';
 
 export const pushToHome = (): PushToHomeAction => {
   return {
