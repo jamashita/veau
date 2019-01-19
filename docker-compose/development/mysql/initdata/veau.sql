@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 8.0.13)
 # Database: veau
-# Generation Time: 2019-01-19 08:51:58 +0000
+# Generation Time: 2019-01-19 08:55:24 +0000
 # ************************************************************
 
 
@@ -553,7 +553,7 @@ DROP TABLE IF EXISTS `stats_items`;
 CREATE TABLE `stats_items` (
   `stats_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `as_of` date NOT NULL,
-  `value` decimal(24,7) unsigned NOT NULL,
+  `value` decimal(32,8) unsigned NOT NULL,
   KEY `stats_id` (`stats_id`),
   CONSTRAINT `stats_items_ibfk_1` FOREIGN KEY (`stats_id`) REFERENCES `stats` (`stats_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
@@ -603,7 +603,7 @@ CREATE TABLE `veau_accounts` (
   KEY `locale_id` (`locale_id`),
   CONSTRAINT `veau_accounts_ibfk_1` FOREIGN KEY (`language_id`) REFERENCES `languages` (`language_id`),
   CONSTRAINT `veau_accounts_ibfk_2` FOREIGN KEY (`locale_id`) REFERENCES `locales` (`locale_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 
 
