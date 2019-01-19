@@ -10,7 +10,7 @@ export type DigestResponseJSON = {
 
 export class Digest {
 
-  public static generate(plainPassword: string): Promise<DigestResponseJSON> {
+  public static generate(str: string): Promise<DigestResponseJSON> {
     return new Promise((resolve, reject) => {
       bcrypt.genSalt(ROUNDS, (err: Error, salt: string) => {
         if (err) {
@@ -18,7 +18,7 @@ export class Digest {
           return;
         }
 
-        bcrypt.hash(plainPassword, salt, (err: Error, hash: string) => {
+        bcrypt.hash(str, salt, (err: Error, hash: string) => {
           if (err) {
             reject(err);
             return;
@@ -33,9 +33,9 @@ export class Digest {
     });
   }
 
-  public static compare(plainPassword: string, hash: string): Promise<boolean> {
+  public static compare(str: string, hash: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      bcrypt.compare(plainPassword, hash, (err: Error, res: boolean) => {
+      bcrypt.compare(str, hash, (err: Error, res: boolean) => {
         if (err) {
           reject(err);
           return;
