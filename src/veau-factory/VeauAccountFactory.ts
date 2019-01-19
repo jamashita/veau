@@ -13,33 +13,31 @@ export class VeauAccountFactory {
   private constructor() {
   }
 
-  public from(veauAccountID: VeauAccountID, name: string, hash: string, languageID: LanguageID, localeID: LocaleID, active: boolean): VeauAccount {
-    return new VeauAccount(veauAccountID, name, hash, languageID, localeID, active);
+  public from(veauAccountID: VeauAccountID, name: string, languageID: LanguageID, localeID: LocaleID, active: boolean): VeauAccount {
+    return new VeauAccount(veauAccountID, name, languageID, localeID, active);
   }
 
   public fromJSON(json: VeauAccountJSON): VeauAccount {
     const {
       id,
       name,
-      hash,
       languageID,
       localeID,
       active
     } = json;
 
-    return this.from(VeauAccountID.of(id), name, hash, LanguageID.of(languageID), LocaleID.of(localeID), active);
+    return this.from(VeauAccountID.of(id), name, LanguageID.of(languageID), LocaleID.of(localeID), active);
   }
 
   public fromRow(row: VeauAccountRow): VeauAccount {
     const {
       id,
       name,
-      hash,
       languageID,
       localeID,
       active
     } = row;
 
-    return this.from(VeauAccountID.of(id), name, hash, LanguageID.of(languageID), LocaleID.of(localeID), active);
+    return this.from(VeauAccountID.of(id), name, LanguageID.of(languageID), LocaleID.of(localeID), active);
   }
 }
