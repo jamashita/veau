@@ -1,4 +1,4 @@
-import {Term} from '../veau-vo/Term';
+import { Term } from '../veau-vo/Term';
 
 export class TermRepository implements ITermRepository {
   private static instance: TermRepository = new TermRepository();

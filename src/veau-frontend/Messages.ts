@@ -144,10 +144,10 @@ const ja: Messages = {
 };
 
 type I18NMessages = {
-  en: Messages,
-  fr: Messages,
-  es: Messages,
-  ja: Messages
+  en: Messages;
+  fr: Messages;
+  es: Messages;
+  ja: Messages;
 };
 
 export const i18nMessages: I18NMessages = {

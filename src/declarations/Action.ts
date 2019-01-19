@@ -1,7 +1,7 @@
-import {RouterState} from 'connected-react-router';
-import {Action as ReduxAction} from 'redux';
-import {Identity} from '../veau-frontend/reducers/identity';
-import {Login} from '../veau-vo/Login';
+import { RouterState } from 'connected-react-router';
+import { Action as ReduxAction } from 'redux';
+import { Identity } from '../veau-frontend/reducers/identity';
+import { Login } from '../veau-vo/Login';
 
 export enum ACTION {
   LOCATION_CHANGE = '@@router/LOCATION_CHANGE',
@@ -73,7 +73,6 @@ export interface EntranceInfoUpdateAction extends ReduxAction {
   type: ACTION.ENTRANCE_LOGIN_INFO_UPDATE;
   login: Login;
 }
-
 
 export type Action =
     LocationChangeAction

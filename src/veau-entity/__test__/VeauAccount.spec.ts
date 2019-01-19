@@ -1,8 +1,8 @@
 import 'jest';
-import {ISO3166} from '../../veau-vo/ISO3166';
-import {ISO639} from '../../veau-vo/ISO639';
-import {VeauAccountID} from '../../veau-vo/VeauAccountID';
-import {VeauAccount} from '../VeauAccount';
+import { ISO3166 } from '../../veau-vo/ISO3166';
+import { ISO639 } from '../../veau-vo/ISO639';
+import { VeauAccountID } from '../../veau-vo/VeauAccountID';
+import { VeauAccount } from '../VeauAccount';
 
 describe('VeauAccount', () => {
   it('equals', () => {

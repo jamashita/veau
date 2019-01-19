@@ -1,9 +1,9 @@
 import 'jest';
-import {StatsID} from '../../veau-vo/StatsID';
-import {StatsItem} from '../../veau-vo/StatsItem';
-import {Term} from '../../veau-vo/Term';
-import {UUID} from '../../veau-vo/UUID';
-import {Stats} from '../Stats';
+import { StatsID } from '../../veau-vo/StatsID';
+import { StatsItem } from '../../veau-vo/StatsItem';
+import { Term } from '../../veau-vo/Term';
+import { UUID } from '../../veau-vo/UUID';
+import { Stats } from '../Stats';
 
 describe('Stats', () => {
   it('equals', () => {
@@ -34,6 +34,6 @@ describe('Stats', () => {
           value: 10
         }
       ]
-    })
+    });
   });
 });

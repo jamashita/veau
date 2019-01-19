@@ -1,14 +1,14 @@
-import {VeauAccount, VeauAccountRow} from '../veau-entity/VeauAccount';
-import {VeauAccountFactory} from '../veau-factory/VeauAccountFactory';
-import {NoSuchElementError} from '../veau-general/Error';
-import {VeauMySQL} from '../veau-infrastructure/VeauMySQL';
+import { VeauAccount, VeauAccountRow } from '../veau-entity/VeauAccount';
+import { VeauAccountFactory } from '../veau-factory/VeauAccountFactory';
+import { NoSuchElementError } from '../veau-general/Error';
+import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 
 const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
 
 export type VeauAccountHash = {
   veauAccount: VeauAccount;
   hash: string;
-}
+};
 
 export class VeauAccountRepository implements IVeauAccountRepository {
   private static instance: VeauAccountRepository = new VeauAccountRepository();

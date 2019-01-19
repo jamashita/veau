@@ -1,5 +1,5 @@
 import 'jest';
-import {Login} from '../Login';
+import { Login } from '../Login';
 
 describe('Login', () => {
   it('account is empty, then user is not able to login', () => {

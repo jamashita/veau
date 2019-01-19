@@ -1,6 +1,6 @@
-import {ISO639} from './ISO639';
-import {LanguageID} from './LanguageID';
-import {ValueObject} from './ValueObject';
+import { ISO639 } from './ISO639';
+import { LanguageID } from './LanguageID';
+import { ValueObject } from './ValueObject';
 
 export type LanguageJSON = {
   languageID: number;

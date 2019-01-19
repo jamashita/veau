@@ -1,5 +1,5 @@
 import 'jest';
-import {LocaleID} from '../LocaleID';
+import { LocaleID } from '../LocaleID';
 
 describe('LocaleID', () => {
   it('equals', () => {

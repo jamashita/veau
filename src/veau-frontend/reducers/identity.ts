@@ -1,5 +1,5 @@
-import {ACTION, Action} from '../../declarations/Action';
-import {VeauAccountJSON} from '../../veau-entity/VeauAccount';
+import { ACTION, Action } from '../../declarations/Action';
+import { VeauAccountJSON } from '../../veau-entity/VeauAccount';
 
 export type Identity = VeauAccountJSON;
 

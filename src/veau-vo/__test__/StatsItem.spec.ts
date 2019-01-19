@@ -1,5 +1,5 @@
 import 'jest';
-import {StatsItem} from '../StatsItem';
+import { StatsItem } from '../StatsItem';
 
 describe('StatsItem', () => {
   it('equals', () => {

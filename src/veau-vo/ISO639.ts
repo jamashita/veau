@@ -1,4 +1,4 @@
-import {ValueObject} from './ValueObject';
+import { ValueObject } from './ValueObject';
 
 export class ISO639 extends ValueObject {
   private iso639: string;

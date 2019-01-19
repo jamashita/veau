@@ -1,5 +1,5 @@
 import 'jest';
-import {ISO639} from '../ISO639';
+import { ISO639 } from '../ISO639';
 
 describe('ISO639', () => {
   it('equals', () => {

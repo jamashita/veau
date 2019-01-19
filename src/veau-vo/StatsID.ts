@@ -1,5 +1,5 @@
-import {UUID} from './UUID';
-import {ValueObject} from './ValueObject';
+import { UUID } from './UUID';
+import { ValueObject } from './ValueObject';
 
 export class StatsID extends ValueObject {
   private id: UUID;

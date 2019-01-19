@@ -1,8 +1,8 @@
-import {Router} from 'express';
+import { Router } from 'express';
 import * as express from 'express';
-import {Auth} from './Auth';
-import {Destroy} from './Destroy';
-import {WIP} from './WIP';
+import { Auth } from './Auth';
+import { Destroy } from './Destroy';
+import { WIP } from './WIP';
 
 const router: Router = Router();
 

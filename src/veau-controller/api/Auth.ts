@@ -1,6 +1,6 @@
-import {Router} from 'express';
+import { Router } from 'express';
 import * as express from 'express';
-import {Logger} from 'log4js';
+import { Logger } from 'log4js';
 import * as log4js from 'log4js';
 import * as passport from 'passport';
 

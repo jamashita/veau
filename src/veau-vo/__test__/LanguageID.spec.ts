@@ -1,5 +1,5 @@
 import 'jest';
-import {LanguageID} from '../LanguageID';
+import { LanguageID } from '../LanguageID';
 
 describe('LanguageID', () => {
   it('equals', () => {

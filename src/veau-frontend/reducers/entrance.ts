@@ -1,5 +1,5 @@
-import {ACTION, Action} from '../../declarations/Action';
-import {Login} from '../../veau-vo/Login';
+import { ACTION, Action } from '../../declarations/Action';
+import { Login } from '../../veau-vo/Login';
 
 export type Entrance = {
   login: Login;

@@ -1,5 +1,5 @@
 import 'jest';
-import {UUID} from '../UUID';
+import { UUID } from '../UUID';
 
 describe('UUID', () => {
   it('generate method always generates 36 length string', () => {

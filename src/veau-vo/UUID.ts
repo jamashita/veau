@@ -1,5 +1,5 @@
 import * as uuid from 'uuid/v4';
-import {ValueObject} from './ValueObject';
+import { ValueObject } from './ValueObject';
 
 export class UUID extends ValueObject {
   private uuid: string;

@@ -1,17 +1,17 @@
 import 'jest';
-import {CaptionID} from '../../veau-vo/CaptionID';
-import {ISO3166} from '../../veau-vo/ISO3166';
-import {ISO639} from '../../veau-vo/ISO639';
-import {Language} from '../../veau-vo/Language';
-import {LanguageID} from '../../veau-vo/LanguageID';
-import {Locale} from '../../veau-vo/Locale';
-import {LocaleID} from '../../veau-vo/LocaleID';
-import {StatsID} from '../../veau-vo/StatsID';
-import {StatsItem} from '../../veau-vo/StatsItem';
-import {Term} from '../../veau-vo/Term';
-import {UUID} from '../../veau-vo/UUID';
-import {Caption} from '../Caption';
-import {Stats} from '../Stats';
+import { CaptionID } from '../../veau-vo/CaptionID';
+import { ISO3166 } from '../../veau-vo/ISO3166';
+import { ISO639 } from '../../veau-vo/ISO639';
+import { Language } from '../../veau-vo/Language';
+import { LanguageID } from '../../veau-vo/LanguageID';
+import { Locale } from '../../veau-vo/Locale';
+import { LocaleID } from '../../veau-vo/LocaleID';
+import { StatsID } from '../../veau-vo/StatsID';
+import { StatsItem } from '../../veau-vo/StatsItem';
+import { Term } from '../../veau-vo/Term';
+import { UUID } from '../../veau-vo/UUID';
+import { Caption } from '../Caption';
+import { Stats } from '../Stats';
 
 describe('Caption', () => {
   it('equals', () => {
@@ -110,6 +110,6 @@ describe('Caption', () => {
           ]
         }
       ]
-    })
+    });
   });
 });

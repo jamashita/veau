@@ -1,5 +1,5 @@
 import 'jest';
-import {LanguageIdentifier} from '../LanguageIdentifier';
+import { LanguageIdentifier } from '../LanguageIdentifier';
 
 describe('LanguageIdentifier', () => {
   it('in case of supporting language, returns that language', () => {

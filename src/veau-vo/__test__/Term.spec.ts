@@ -1,5 +1,5 @@
 import 'jest';
-import {Term} from '../Term';
+import { Term } from '../Term';
 
 describe('Term', () => {
   it('equals', () => {

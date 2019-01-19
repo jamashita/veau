@@ -1,9 +1,9 @@
-import {Caption, CaptionRow} from '../veau-entity/Caption';
-import {Stats} from '../veau-entity/Stats';
-import {CaptionFactory} from '../veau-factory/CaptionFactory';
-import {VeauMySQL} from '../veau-infrastructure/VeauMySQL';
-import {CaptionID} from '../veau-vo/CaptionID';
-import {StatsRepository} from './StatsRepository';
+import { Caption, CaptionRow } from '../veau-entity/Caption';
+import { Stats } from '../veau-entity/Stats';
+import { CaptionFactory } from '../veau-factory/CaptionFactory';
+import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
+import { CaptionID } from '../veau-vo/CaptionID';
+import { StatsRepository } from './StatsRepository';
 
 const statsRepository: StatsRepository = StatsRepository.getInstance();
 const captionFactory: CaptionFactory = CaptionFactory.getInstance();

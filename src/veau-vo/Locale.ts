@@ -1,6 +1,6 @@
-import {ISO3166} from './ISO3166';
-import {LocaleID} from './LocaleID';
-import {ValueObject} from './ValueObject';
+import { ISO3166 } from './ISO3166';
+import { LocaleID } from './LocaleID';
+import { ValueObject } from './ValueObject';
 
 export type LocaleJSON = {
   localeID: number;

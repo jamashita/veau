@@ -1,5 +1,5 @@
 import 'jest';
-import {Random} from '../Random';
+import { Random } from '../Random';
 
 describe('Random', () => {
   it('string: length is fixed', () => {

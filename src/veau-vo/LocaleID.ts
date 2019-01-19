@@ -1,4 +1,4 @@
-import {ValueObject} from './ValueObject';
+import { ValueObject } from './ValueObject';
 
 export class LocaleID extends ValueObject {
   private id: number;

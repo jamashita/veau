@@ -2,19 +2,19 @@ import * as bodyParser from 'body-parser';
 import * as compression from 'compression';
 import * as config from 'config';
 import * as connectRedis from 'connect-redis';
-import {RedisStoreOptions} from 'connect-redis';
+import { RedisStoreOptions } from 'connect-redis';
 import * as cookieParser from 'cookie-parser';
-import {Express} from 'express';
+import { Express } from 'express';
 import * as express from 'express';
 import * as expressSession from 'express-session';
 import * as helmet from 'helmet';
-import {Configuration, Logger} from 'log4js';
+import { Configuration, Logger } from 'log4js';
 import * as log4js from 'log4js';
 import * as path from 'path';
 import * as favicon from 'serve-favicon';
 import 'source-map-support/register';
-import {Controller} from '../veau-controller/Controller';
-import {AuthenticationService} from '../veau-service/AuthenticationService';
+import { Controller } from '../veau-controller/Controller';
+import { AuthenticationService } from '../veau-service/AuthenticationService';
 
 log4js.configure(config.get<Configuration>('log4js'));
 

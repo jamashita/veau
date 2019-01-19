@@ -1,5 +1,5 @@
 import 'jest';
-import {VeauAccountID} from '../VeauAccountID';
+import { VeauAccountID } from '../VeauAccountID';
 
 describe('VeauAccountID', () => {
   it('equals', () => {

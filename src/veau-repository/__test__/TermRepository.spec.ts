@@ -1,7 +1,7 @@
 import 'jest';
-import {NoSuchElementError} from '../../veau-general/Error';
-import {Term} from '../../veau-vo/Term';
-import {TermRepository} from '../TermRepository';
+import { NoSuchElementError } from '../../veau-general/Error';
+import { Term } from '../../veau-vo/Term';
+import { TermRepository } from '../TermRepository';
 
 describe('TermRepository', () => {
   it('all', () => {

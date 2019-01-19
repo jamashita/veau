@@ -1,4 +1,4 @@
-import {Identifier} from '../veau-general/Identifier';
+import { Identifier } from '../veau-general/Identifier';
 
 export abstract class Entity<T extends Identifier> {
 
@@ -12,7 +12,7 @@ export abstract class Entity<T extends Identifier> {
     if (this.getIdentifier().equals(other.getIdentifier())) {
       return true;
     }
-    
+
     return false;
   }
 }
