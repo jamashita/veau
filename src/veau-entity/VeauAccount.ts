@@ -8,7 +8,6 @@ export type VeauAccountJSON = {
   account: string;
   language: string;
   locale: string;
-  active: boolean;
 };
 
 export type VeauAccountRow = {
@@ -16,7 +15,6 @@ export type VeauAccountRow = {
   account: string;
   language: string;
   locale: string;
-  active: number;
   hash: string;
 };
 
@@ -25,15 +23,13 @@ export class VeauAccount extends Entity<VeauAccountID> {
   private account: string;
   private language: ISO639;
   private locale: ISO3166;
-  private active: boolean;
 
-  public constructor(veauAccountID: VeauAccountID, account: string, language: ISO639, locale: ISO3166, active: boolean) {
+  public constructor(veauAccountID: VeauAccountID, account: string, language: ISO639, locale: ISO3166) {
     super();
     this.veauAccountID = veauAccountID;
     this.account = account;
     this.language = language;
     this.locale = locale;
-    this.active = active;
   }
 
   public getVeauAccountID(): VeauAccountID {
@@ -52,10 +48,6 @@ export class VeauAccount extends Entity<VeauAccountID> {
     return this.locale;
   }
 
-  public isActive(): boolean {
-    return this.active;
-  }
-
   public getIdentifier(): VeauAccountID {
     return this.veauAccountID;
   }
@@ -66,15 +58,13 @@ export class VeauAccount extends Entity<VeauAccountID> {
       account,
       language,
       locale,
-      active
     } = this;
 
     return {
       id: veauAccountID.get(),
       account,
       language: language.get(),
-      locale: locale.get(),
-      active
+      locale: locale.get()
     };
   }
 
@@ -83,10 +73,9 @@ export class VeauAccount extends Entity<VeauAccountID> {
       veauAccountID,
       account,
       language,
-      locale,
-      active
+      locale
     } = this;
 
-    return `${veauAccountID.toString()} ${account} ${language.get()} ${locale.get()} ${active}`;
+    return `${veauAccountID.toString()} ${account} ${language.get()} ${locale.get()}`;
   }
 }

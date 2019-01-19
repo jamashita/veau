@@ -11,16 +11,14 @@ describe('VeauAccountFactory', () => {
     const account: string = 'account';
     const language: ISO639 = ISO639.of('ab');
     const locale: ISO3166 = ISO3166.of('AFG');
-    const active: boolean = true;
 
     const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
-    const veauAccount: VeauAccount = veauAccountFactory.from(veauAccountID, account, language, locale, active);
+    const veauAccount: VeauAccount = veauAccountFactory.from(veauAccountID, account, language, locale);
 
     expect(veauAccount.getVeauAccountID().equals(veauAccountID)).toEqual(true);
     expect(veauAccount.getAccount()).toEqual(account);
     expect(veauAccount.getLanguage().equals(language)).toEqual(true);
     expect(veauAccount.getLocale().equals(locale)).toEqual(true);
-    expect(veauAccount.isActive()).toEqual(active);
   });
 
   it('fromJSON', () => {
@@ -28,8 +26,7 @@ describe('VeauAccountFactory', () => {
       id: 1,
       account: 'account',
       language: 'ab',
-      locale: 'AFG',
-      active: true
+      locale: 'AFG'
     };
 
     const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
@@ -39,7 +36,6 @@ describe('VeauAccountFactory', () => {
     expect(veauAccount.getAccount()).toEqual(json.account);
     expect(veauAccount.getLanguage().get()).toEqual(json.language);
     expect(veauAccount.getLocale().get()).toEqual(json.locale);
-    expect(veauAccount.isActive()).toEqual(json.active);
   });
 
 
@@ -49,7 +45,6 @@ describe('VeauAccountFactory', () => {
       account: 'account',
       language: 'ab',
       locale: 'AFG',
-      active: 1,
       hash: ''
     };
 
@@ -60,6 +55,5 @@ describe('VeauAccountFactory', () => {
     expect(veauAccount.getAccount()).toEqual(row.account);
     expect(veauAccount.getLanguage().get()).toEqual(row.language);
     expect(veauAccount.getLocale().get()).toEqual(row.locale);
-    expect(veauAccount.isActive()).toEqual(Boolean(row.active));
   });
 });

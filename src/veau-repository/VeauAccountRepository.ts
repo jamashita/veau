@@ -26,14 +26,14 @@ export class VeauAccountRepository implements IVeauAccountRepository {
       R1.account,
       R2.iso639 AS language,
       R3.iso3166 AS locale,
-      R1.active,
       R1.hash
       FROM veau_accounts R1
       INNER JOIN languages R2
       USING(language_id)
       INNER JOIN locales R3
       USING(locale_id)
-      WHERE R1.account = :account;`;
+      WHERE R1.account = :account
+      AND R1.active = true;`;
 
     const veauAccountRows: Array<VeauAccountRow> = await VeauMySQL.query(query, [
       {
@@ -48,7 +48,7 @@ export class VeauAccountRepository implements IVeauAccountRepository {
     return {
       veauAccount: veauAccountFactory.fromRow(veauAccountRows[0]),
       hash: veauAccountRows[0].hash
-    }
+    };
   }
 }
 

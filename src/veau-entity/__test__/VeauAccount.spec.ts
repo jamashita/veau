@@ -6,9 +6,9 @@ import {VeauAccount} from '../VeauAccount';
 
 describe('VeauAccount', () => {
   it('equals', () => {
-    const veauAccount1: VeauAccount = new VeauAccount(VeauAccountID.of(1), 'veau', ISO639.of('ab'), ISO3166.of('AFG'), true);
-    const veauAccount2: VeauAccount = new VeauAccount(VeauAccountID.of(2), 'veau', ISO639.of('ab'), ISO3166.of('AFG'), true);
-    const veauAccount3: VeauAccount = new VeauAccount(VeauAccountID.of(1), 'veau', ISO639.of('aa'), ISO3166.of('ALB'), true);
+    const veauAccount1: VeauAccount = new VeauAccount(VeauAccountID.of(1), 'veau', ISO639.of('ab'), ISO3166.of('AFG'));
+    const veauAccount2: VeauAccount = new VeauAccount(VeauAccountID.of(2), 'veau', ISO639.of('ab'), ISO3166.of('AFG'));
+    const veauAccount3: VeauAccount = new VeauAccount(VeauAccountID.of(1), 'veau', ISO639.of('aa'), ISO3166.of('ALB'));
 
     expect(veauAccount1.equals(veauAccount1)).toEqual(true);
     expect(veauAccount1.equals(veauAccount2)).toEqual(false);
@@ -16,14 +16,13 @@ describe('VeauAccount', () => {
   });
 
   it('toJSON', () => {
-    const veauAccount: VeauAccount = new VeauAccount(VeauAccountID.of(1), 'veau', ISO639.of('ab'), ISO3166.of('AFG'), true);
+    const veauAccount: VeauAccount = new VeauAccount(VeauAccountID.of(1), 'veau', ISO639.of('ab'), ISO3166.of('AFG'));
 
     expect(veauAccount.toJSON()).toEqual({
       id: 1,
       account: 'veau',
       language: 'ab',
-      locale: 'AFG',
-      active: true
+      locale: 'AFG'
     });
   });
 });
