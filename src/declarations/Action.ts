@@ -68,7 +68,7 @@ export interface PushToHomeAction extends ReduxAction {
 }
 export interface EntranceAccountNameTypedAction extends ReduxAction {
   type: ACTION.ENTRANCE_ACCOUNT_NAME_TYPED;
-  name: string;
+  account: string;
 }
 export interface EntrancePasswordTypedAction extends ReduxAction {
   type: ACTION.ENTRANCE_PASSWORD_TYPED;
