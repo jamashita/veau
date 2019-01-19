@@ -1,11 +1,11 @@
 import 'jest';
-import {SinonStub} from 'sinon';
+import { SinonStub } from 'sinon';
 import * as sinon from 'sinon';
-import {VeauMySQL} from '../../veau-infrastructure/VeauMySQL';
-import {CaptionID} from '../../veau-vo/CaptionID';
-import {StatsItem} from '../../veau-vo/StatsItem';
-import {UUID} from '../../veau-vo/UUID';
-import {StatsItemRepository} from '../StatsItemRepository';
+import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
+import { CaptionID } from '../../veau-vo/CaptionID';
+import { StatsItem } from '../../veau-vo/StatsItem';
+import { UUID } from '../../veau-vo/UUID';
+import { StatsItemRepository } from '../StatsItemRepository';
 
 describe('StatsItemRepository', () => {
   it('findByCaptionID', async () => {

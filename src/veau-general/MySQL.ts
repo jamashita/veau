@@ -1,5 +1,5 @@
 import * as mysql from 'mysql';
-import {MysqlError, PoolConnection} from 'mysql';
+import { MysqlError, PoolConnection } from 'mysql';
 
 export class MySQL {
   private pool: mysql.Pool;
