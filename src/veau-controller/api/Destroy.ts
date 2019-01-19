@@ -17,6 +17,7 @@ router.get('/', (req: express.Request, res: express.Response) => {
 
       res.sendStatus(200);
     });
+    return;
   }
 
   logger.fatal('IT IS PROBABLY A KIND OF BUG');
