@@ -9,7 +9,7 @@ type State = {
 
 export class ExternalLink extends React.Component<Props, State> {
 
-  public shouldComponentUpdate(nextProps: Props): boolean {
+  public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
     const {
       href,
       style

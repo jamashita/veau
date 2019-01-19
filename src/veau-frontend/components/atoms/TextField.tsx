@@ -16,7 +16,7 @@ type State = {
 
 export class TextField extends React.Component<Props, State> {
 
-  public shouldComponentUpdate(nextProps: Props): boolean {
+  public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
     const {
       label,
       type,

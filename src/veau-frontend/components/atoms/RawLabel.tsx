@@ -9,7 +9,7 @@ type State = {
 
 export class RawLabel extends React.Component<Props, State> {
 
-  public shouldComponentUpdate(nextProps: Props): boolean {
+  public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
     const {
       style
     } = this.props;

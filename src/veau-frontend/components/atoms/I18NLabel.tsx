@@ -12,7 +12,7 @@ type State =  {
 
 class I18NLabelImpl extends React.Component<Props & InjectedIntlProps, State> {
 
-  public shouldComponentUpdate(nextProps: Props): boolean {
+  public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
     const {
       id,
       values,

@@ -10,7 +10,7 @@ type State = {
 
 export class MainView extends React.Component<Props, State> {
 
-  public shouldComponentUpdate(nextProps: Props): boolean {
+  public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
     return true;
   }
 

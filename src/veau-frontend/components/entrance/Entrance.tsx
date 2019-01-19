@@ -10,7 +10,7 @@ type State = {
 
 class EntranceImpl extends React.Component<Props & InjectedIntlProps, State> {
 
-  public shouldComponentUpdate(nextProps: Props): boolean {
+  public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
     const {
       login
     } = this.props;

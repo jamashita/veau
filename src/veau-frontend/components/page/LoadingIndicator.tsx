@@ -13,7 +13,7 @@ const SIZE = 160;
 
 class LoadingIndicatorImpl extends React.Component<Props & InjectedIntlProps, State> {
 
-  public shouldComponentUpdate(nextProps: Props): boolean {
+  public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
     const {
       loadingCount
     } = this.props;
