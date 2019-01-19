@@ -1,4 +1,4 @@
-import {createMuiTheme, MuiThemeProvider} from '@material-ui/core';
+import {createMuiTheme, MuiThemeProvider, Theme} from '@material-ui/core';
 import {grey, lightGreen, pink} from '@material-ui/core/colors';
 import {ConnectedRouter} from 'connected-react-router';
 import * as React from 'react';
@@ -17,7 +17,7 @@ import {persistor, store} from './store';
 
 addLocaleData([...en, ...fr, ...es, ...ja]);
 
-const muiTheme = createMuiTheme({
+const muiTheme: Theme = createMuiTheme({
   typography: {
     useNextVariants: true
   },
