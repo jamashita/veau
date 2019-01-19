@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 8.0.13)
 # Database: veau
-# Generation Time: 2019-01-19 08:55:24 +0000
+# Generation Time: 2019-01-19 09:10:06 +0000
 # ************************************************************
 
 
@@ -605,6 +605,15 @@ CREATE TABLE `veau_accounts` (
   CONSTRAINT `veau_accounts_ibfk_2` FOREIGN KEY (`locale_id`) REFERENCES `locales` (`locale_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
+LOCK TABLES `veau_accounts` WRITE;
+/*!40000 ALTER TABLE `veau_accounts` DISABLE KEYS */;
+
+INSERT INTO `veau_accounts` (`veau_account_id`, `name`, `hash`, `language_id`, `locale_id`, `active`)
+VALUES
+	(1,X'76616175',X'24326224313424764E2F46636749306E6A636868304C5867526F582E653051524B72704D38777661542E6532356E7172426236772F64477A76523243',41,1,1);
+
+/*!40000 ALTER TABLE `veau_accounts` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 
