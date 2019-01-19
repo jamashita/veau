@@ -1,5 +1,5 @@
 import {Express} from 'express';
-import {Logger} from 'log4js';
+import {Configuration, Logger} from 'log4js';
 import * as path from 'path';
 import * as express from 'express';
 import * as cookieParser from 'cookie-parser';
@@ -16,41 +16,12 @@ import 'source-map-support/register';
 import {Controller} from '../veau-controller/Controller';
 import {AuthenticationService} from '../veau-service/AuthenticationService';
 
+log4js.configure(config.get<Configuration>('log4js'));
+
 const port: number = config.get<number>('port');
 const mode: string = process.env.NODE_ENV as string;
-
-// logger
-log4js.configure({
-  appenders: {
-    file: {
-      type: 'dateFile',
-      filename: 'logs/veau-web',
-      pattern: '-yyyy-MM-dd.log',
-      daysToKeep: 30,
-      layout: {
-        type: 'coloured'
-      }
-    },
-    console: {
-      type: 'console',
-      layout: {
-        type: 'coloured'
-      }
-    }
-  },
-  categories: {
-    default: {
-      appenders: [
-        'file',
-        'console'
-      ],
-      level: 'info'
-    }
-  },
-  pm2: true
-});
-
 const logger: Logger = log4js.getLogger();
+
 process.on('unhandledRejection', logger.fatal);
 
 const app: Express = express();

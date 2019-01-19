@@ -1,1 +1,20 @@
-dummy: []
+log4js:
+  appenders:
+    file:
+      type: 'dateFile'
+      filename: 'logs/veau-web'
+      pattern: '-yyyy-MM-dd.log'
+      daysToKeep: 30
+      layout:
+        type: 'coloured'
+    console:
+      type: 'console'
+      layout:
+        type: 'coloured'
+  categories:
+    default:
+      appenders:
+        - 'file'
+        - 'console'
+      level: 'info'
+  pm2: true
