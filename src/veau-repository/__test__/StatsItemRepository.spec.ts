@@ -1,4 +1,5 @@
 import 'jest';
+import {SinonStub} from 'sinon';
 import * as sinon from 'sinon';
 import {VeauDB} from '../../veau-infrastructure/VeauDB';
 import {CaptionID} from '../../veau-vo/CaptionID';
@@ -8,7 +9,7 @@ import {StatsItemRepository} from '../StatsItemRepository';
 
 describe('StatsItemRepository', () => {
   it('findByCaptionID', async () => {
-    const stub = sinon.stub();
+    const stub: SinonStub = sinon.stub();
     VeauDB.query = stub;
     stub.withArgs(
       `SELECT

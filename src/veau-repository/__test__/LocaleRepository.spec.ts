@@ -1,4 +1,5 @@
 import 'jest';
+import {SinonSpy, SinonStub} from 'sinon';
 import * as sinon from 'sinon';
 import {NoSuchElementError} from '../../veau-general/Error';
 import {VeauDB} from '../../veau-infrastructure/VeauDB';
@@ -9,7 +10,7 @@ import {LocaleRepository} from '../LocaleRepository';
 
 describe('LocaleRepository', () => {
   it('all: Redis has locales', async () => {
-    const stub = sinon.stub();
+    const stub: SinonStub = sinon.stub();
     VeauRedis.getString().get = stub;
     stub.returns('[{"localeID":1,"name":"Afghanistan","iso3166":"AFG"},{"localeID":2,"name":"Albania","iso3166":"ALB"}]');
     const localeRepository: LocaleRepository = LocaleRepository.getInstance();
@@ -25,10 +26,10 @@ describe('LocaleRepository', () => {
   });
 
   it('all: Redis does not have locales', async () => {
-    const stub1 = sinon.stub();
+    const stub1: SinonStub = sinon.stub();
     VeauRedis.getString().get = stub1;
     stub1.returns(null);
-    const stub2 = sinon.stub();
+    const stub2: SinonStub = sinon.stub();
     VeauDB.query = stub2;
     stub2.returns([
       {
@@ -42,7 +43,7 @@ describe('LocaleRepository', () => {
         iso3166: 'ALB'
       }
     ]);
-    const spy = sinon.spy();
+    const spy: SinonSpy = sinon.spy();
     VeauRedis.getString().set = spy;
     const localeRepository: LocaleRepository = LocaleRepository.getInstance();
     const locales: Array<Locale> = await localeRepository.all();
@@ -58,7 +59,7 @@ describe('LocaleRepository', () => {
   });
 
   it('findByISO3166', async () => {
-    const stub = sinon.stub();
+    const stub: SinonStub = sinon.stub();
     VeauRedis.getString().get = stub;
     stub.returns('[{"localeID":1,"name":"Afghanistan","iso3166":"AFG"},{"localeID":2,"name":"Albania","iso3166":"ALB"}]');
     const localeRepository: LocaleRepository = LocaleRepository.getInstance();
@@ -69,7 +70,7 @@ describe('LocaleRepository', () => {
   });
 
   it('findByISO3166: throws error', () => {
-    const stub = sinon.stub();
+    const stub: SinonStub = sinon.stub();
     VeauRedis.getString().get = stub;
     stub.returns('[]');
     const localeRepository: LocaleRepository = LocaleRepository.getInstance();
