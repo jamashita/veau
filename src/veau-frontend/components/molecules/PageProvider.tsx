@@ -35,7 +35,7 @@ export class PageProvider extends React.Component<Props, State> {
           fullWidth={true}
           onClick={this.props.close}
         >
-          <Icon className='fas fa-times' />
+          <Icon className='fa fa-times' />
         </Button>
       </Drawer>
     );
