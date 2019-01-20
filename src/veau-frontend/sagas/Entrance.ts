@@ -10,7 +10,7 @@ import { entranceLoginInfoUpdate } from '../actions/EntranceAction';
 import { identityRenewed } from '../actions/IdentityAction';
 import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
-import { pushToHome } from '../actions/RedirectAction';
+import { pushToStatsList } from '../actions/RedirectAction';
 
 const UNAUTHORIZED: number = 401;
 
@@ -51,7 +51,7 @@ export class Entrance {
         const identiy: Identity = Identity.of(IdentityID.of(json.id), json.account, json.language, json.locale);
 
         yield put(identityRenewed(identiy));
-        yield put(pushToHome());
+        yield put(pushToStatsList());
         yield put(loaded());
       }
       catch (err) {

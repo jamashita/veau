@@ -3,8 +3,8 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
-import { CaptionList } from '../containers/page/CaptionList';
 import { Entrance } from '../containers/page/Entrance';
+import { StatsList } from '../containers/page/StatsList';
 import { Endpoints } from '../Endpoints';
 import { NotFound } from './page/NotFound';
 
@@ -23,7 +23,7 @@ export class Catalogue extends React.Component<Props, State> {
     return (
       <Switch>
         <Route exact={true} path={Endpoints.ENTRANCE} component={Entrance} />
-        <Route exact={true} path={Endpoints.HOME} component={CaptionList} />
+        <Route exact={true} path={Endpoints.STATS_LIST} component={StatsList} />
         <Route exact={true} path={Endpoints.NOTFOUND} component={NotFound} />
       </Switch>
     );

@@ -6,14 +6,14 @@ import { Endpoints } from '../Endpoints';
 export class Redirect {
 
   public static *init(): IterableIterator<any> {
-    yield fork(Redirect.toHome);
+    yield fork(Redirect.toStatsList);
     yield fork(Redirect.toEntrance);
   }
 
-  private static *toHome(): IterableIterator<any> {
+  private static *toStatsList(): IterableIterator<any> {
     while (true) {
-      yield take(ACTION.PUSH_TO_HOME);
-      yield put(push(Endpoints.HOME));
+      yield take(ACTION.PUSH_TO_STATS_LIST);
+      yield put(push(Endpoints.STATS_LIST));
     }
   }
 

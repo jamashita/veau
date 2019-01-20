@@ -7,7 +7,7 @@ import { LanguageIdentifier } from '../../veau-general/LanguageIdentifier';
 import { Identity as IdentityVO, IdentityJSON } from '../../veau-vo/Identity';
 import { IdentityID } from '../../veau-vo/IdentityID';
 import { identityRenewed } from '../actions/IdentityAction';
-import { pushToEntrance, pushToHome } from '../actions/RedirectAction';
+import { pushToEntrance, pushToStatsList } from '../actions/RedirectAction';
 
 export class Identity {
 
@@ -23,7 +23,7 @@ export class Identity {
       const identity: IdentityVO = IdentityVO.of(IdentityID.of(json.id), json.account, json.language, json.locale);
 
       yield put(identityRenewed(identity));
-      yield put(pushToHome());
+      yield put(pushToStatsList());
     }
     catch (err) {
       const newLanguage: string = LanguageIdentifier.toISO639(navigator.language);

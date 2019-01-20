@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 import { Action } from '../../../declarations/Action';
 import { State } from '../../../declarations/State';
 import { openProvider } from '../../actions/PageProviderAction';
-import { CaptionList as Component } from '../../components/page/CaptionList';
+import { StatsList as Component } from '../../components/page/StatsList';
 
 type StateProps = {
 };
@@ -27,4 +27,4 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
   };
 };
 
-export const CaptionList: ConnectedComponentClass<any, any> = connect(mapStateToProps, mapDispatchToProps)(Component);
+export const StatsList: ConnectedComponentClass<any, any> = connect(mapStateToProps, mapDispatchToProps)(Component);

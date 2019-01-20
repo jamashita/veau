@@ -18,7 +18,7 @@ export enum ACTION {
 
   LOGOUT = 'LOGOUT',
 
-  PUSH_TO_HOME = 'PUSH_TO_HOME',
+  PUSH_TO_STATS_LIST = 'PUSH_TO_STATS_LIST',
   PUSH_TO_ENTRANCE = 'PUSH_TO_ENTRANCE',
 
   ENTRANCE_ACCOUNT_NAME_TYPED = 'ENTRANCE_ACCOUNT_NAME_TYPED',
@@ -61,10 +61,10 @@ export interface IdentityInitializeAction extends ReduxAction {
 export interface LogoutAction extends ReduxAction {
   type: ACTION.LOGOUT;
 }
-export interface PushToHomeAction extends ReduxAction {
-  type: ACTION.PUSH_TO_HOME;
+export interface PushToStatsListAction extends ReduxAction {
+  type: ACTION.PUSH_TO_STATS_LIST;
 }
-export interface PushToEntrancAction extends ReduxAction {
+export interface PushToEntranceAction extends ReduxAction {
   type: ACTION.PUSH_TO_ENTRANCE;
 }
 export interface EntranceAccountNameTypedAction extends ReduxAction {
@@ -96,8 +96,8 @@ export type Action =
   | IdentityRenewAction
   | IdentityInitializeAction
   | LogoutAction
-  | PushToHomeAction
-  | PushToEntrancAction
+  | PushToStatsListAction
+  | PushToEntranceAction
   | EntranceAccountNameTypedAction
   | EntrancePasswordTypedAction
   | EntranceInfoUpdateAction

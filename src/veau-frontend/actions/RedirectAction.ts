@@ -1,12 +1,12 @@
-import { ACTION, PushToEntrancAction, PushToHomeAction } from '../../declarations/Action';
+import { ACTION, PushToEntranceAction, PushToStatsListAction } from '../../declarations/Action';
 
-export const pushToHome: () => PushToHomeAction = (): PushToHomeAction => {
+export const pushToStatsList: () => PushToStatsListAction = (): PushToStatsListAction => {
   return {
-    type: ACTION.PUSH_TO_HOME
+    type: ACTION.PUSH_TO_STATS_LIST
   };
 };
 
-export const pushToEntrance: () => PushToEntrancAction = (): PushToEntrancAction => {
+export const pushToEntrance: () => PushToEntranceAction = (): PushToEntranceAction => {
   return {
     type: ACTION.PUSH_TO_ENTRANCE
   };

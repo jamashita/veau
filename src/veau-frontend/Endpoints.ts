@@ -1,6 +1,6 @@
 export const Endpoints: {[key: string]: string} = {
   ENTRANCE: '/',
-  HOME: '/caption/list',
+  STATS_LIST: '/statistics/list',
   LOGOUT: '/logout',
   NOTFOUND: '*'
 };
