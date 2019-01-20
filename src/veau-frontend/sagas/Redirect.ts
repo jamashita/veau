@@ -25,7 +25,7 @@ export class Redirect {
           identity
         } = state;
 
-        if (identity.account !== '') {
+        if (!identity.isDefault()) {
           yield put(push(Endpoints.HOME));
           continue;
         }
@@ -45,7 +45,7 @@ export class Redirect {
           identity
         } = state;
 
-        if (identity.account === '') {
+        if (identity.isDefault()) {
           yield put(push(Endpoints.ENTRANCE));
           continue;
         }

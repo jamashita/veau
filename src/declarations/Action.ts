@@ -13,7 +13,6 @@ export enum ACTION {
   LOADING_FINISH = 'LOADING_FINISH',
 
   IDENTITY_AUTHENTICATE = 'IDENTITY_AUTHENTICATE',
-  IDENTITY_LANGUAGE_MODIFIED = 'IDENTITY_LANGUAGE_MODIFIED',
   IDENTITY_RENEWED = 'IDENTITY_NEW_IDENTITY',
   IDENTITY_INITIALIZE = 'IDENTITY_INITIALIZE',
 
@@ -51,10 +50,6 @@ export interface LoadingFinishAction extends ReduxAction {
 }
 export interface IdentityAuthenticateAction extends ReduxAction {
   type: ACTION.IDENTITY_AUTHENTICATE;
-}
-export interface IdentityLanguageModifiedAction extends ReduxAction {
-  type: ACTION.IDENTITY_LANGUAGE_MODIFIED;
-  language: string;
 }
 export interface IdentityRenewAction extends ReduxAction {
   type: ACTION.IDENTITY_RENEWED;
@@ -98,7 +93,6 @@ export type Action =
   | LoadingStartAction
   | LoadingFinishAction
   | IdentityAuthenticateAction
-  | IdentityLanguageModifiedAction
   | IdentityRenewAction
   | IdentityInitializeAction
   | LogoutAction

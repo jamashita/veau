@@ -15,7 +15,7 @@ export class Identity extends ValueObject {
   private locale: string;
 
   public static default(): Identity {
-    return new Identity(IdentityID.default(), '', '', '');
+    return new Identity(IdentityID.default(), '', 'en', '');
   }
 
   public static of(identityID: IdentityID, account: string, language: string, locale: string): Identity {

@@ -11,10 +11,15 @@ type State = {
 
 class EntranceImpl extends React.Component<Props & InjectedIntlProps, State> {
 
-  public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
+  public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
     const {
-      login
+      login,
+      intl
     } = this.props;
+
+    if (intl.locale !== nextProps.intl.locale) {
+      return true;
+    }
 
     if (login.equals(nextProps.login)) {
       return false;

@@ -16,7 +16,12 @@ import { I18NProvider } from './containers/I18NProvider';
 import { history } from './history';
 import { persistor, store } from './store';
 
-addLocaleData([...en, ...fr, ...es, ...ja]);
+addLocaleData([
+  ...en,
+  ...fr,
+  ...es,
+  ...ja
+]);
 
 const muiTheme: Theme = createMuiTheme({
   typography: {
@@ -43,11 +48,11 @@ ReactDOM.render(
     <MuiThemeProvider theme={muiTheme}>
       <Provider store={store}>
         <PersistGate persistor={persistor}>
-          <I18NProvider>
-            <ConnectedRouter history={history}>
+          <ConnectedRouter history={history}>
+            <I18NProvider>
               <MainView />
-            </ConnectedRouter>
-          </I18NProvider>
+            </I18NProvider>
+          </ConnectedRouter>
         </PersistGate>
       </Provider>
     </MuiThemeProvider>

@@ -14,7 +14,7 @@ const saga: SagaMiddleware<object> = createSagaMiddleware();
 const persistConfig: PersistConfig = {
   key: 'BPVZglB7RzMZSHQL0ZaXcH7n4BYof8Xg',
   storage,
-  whitelist: ['identity']
+  whitelist: []
 };
 
 const persistedReducer: Reducer = persistReducer(persistConfig, reducers);
