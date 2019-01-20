@@ -1,10 +1,10 @@
 import { ValueObject } from './ValueObject';
 
-export class LocaleID extends ValueObject {
+export class RegionID extends ValueObject {
   private id: number;
 
-  public static of(id: number): LocaleID {
-    return new LocaleID(id);
+  public static of(id: number): RegionID {
+    return new RegionID(id);
   }
 
   private constructor(id: number) {
@@ -16,7 +16,7 @@ export class LocaleID extends ValueObject {
     return this.id;
   }
 
-  public equals(other: LocaleID): boolean {
+  public equals(other: RegionID): boolean {
     if (this === other) {
       return true;
     }

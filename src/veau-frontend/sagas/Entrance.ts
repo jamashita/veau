@@ -1,3 +1,4 @@
+import { UNAUTHORIZED } from 'http-status';
 import { call, fork, put, select, take } from 'redux-saga/effects';
 import * as request from 'superagent';
 import { ACTION, EntranceAccountNameTypedAction, EntrancePasswordTypedAction } from '../../declarations/Action';
@@ -11,8 +12,6 @@ import { identityRenewed } from '../actions/IdentityAction';
 import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
 import { pushToStatsList } from '../actions/RedirectAction';
-
-const UNAUTHORIZED: number = 401;
 
 export class Entrance {
 
@@ -48,9 +47,9 @@ export class Entrance {
       try {
         const res: request.Response = yield call(AJAX.post, '/api/auth', login.toJSON());
         const json: IdentityJSON = res.body;
-        const identiy: Identity = Identity.of(IdentityID.of(json.id), json.account, json.language, json.locale);
+        const identity: Identity = Identity.of(IdentityID.of(json.id), json.account, json.language, json.locale);
 
-        yield put(identityRenewed(identiy));
+        yield put(identityRenewed(identity));
         yield put(pushToStatsList());
         yield put(loaded());
       }

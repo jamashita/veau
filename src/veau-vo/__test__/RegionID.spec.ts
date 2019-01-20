@@ -1,0 +1,15 @@
+/* tslint:disable */
+import 'jest';
+import { RegionID } from '../RegionID';
+
+describe('RegionID', () => {
+  it('equals', () => {
+    const regionID1: RegionID = RegionID.of(1);
+    const regionID2: RegionID = RegionID.of(2);
+    const regionID3: RegionID = RegionID.of(1);
+
+    expect(regionID1.equals(regionID1)).toEqual(true);
+    expect(regionID1.equals(regionID2)).toEqual(false);
+    expect(regionID1.equals(regionID3)).toEqual(true);
+  });
+});

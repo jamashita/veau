@@ -20,7 +20,13 @@ export class Identity {
     try {
       const res: request.Response = yield call(AJAX.get, '/api/identity');
       const json: IdentityJSON = res.body;
-      const identity: IdentityVO = IdentityVO.of(IdentityID.of(json.id), json.account, json.language, json.locale);
+      const {
+        id,
+        account,
+        language,
+        locale
+      } = json;
+      const identity: IdentityVO = IdentityVO.of(IdentityID.of(id), account, language, locale);
 
       yield put(identityRenewed(identity));
       yield put(pushToStatsList());
