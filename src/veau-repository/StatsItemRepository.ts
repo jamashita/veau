@@ -1,7 +1,7 @@
 import { StatsItem, StatsItemRow } from '../veau-entity/StatsItem';
 import { StatsItemFactory } from '../veau-factory/StatsFactory';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
-import { CaptionID } from '../veau-vo/CaptionID';
+import { StatsID } from '../veau-vo/CaptionID';
 import { StatsValue } from '../veau-vo/StatsValue';
 import { StatsValueRepository } from './StatsValueRepository';
 
@@ -18,7 +18,7 @@ export class StatsItemRepository implements IStatsItemRepository {
   private constructor() {
   }
 
-  public async findByCaptionID(captionID: CaptionID): Promise<Array<StatsItem>> {
+  public async findByCaptionID(captionID: StatsID): Promise<Array<StatsItem>> {
     const query: string = `SELECT
       R1.stats_id AS statsID,
       R1.term_id AS termID,
@@ -50,5 +50,5 @@ export class StatsItemRepository implements IStatsItemRepository {
 
 export interface IStatsItemRepository {
 
-  findByCaptionID(captionID: CaptionID): Promise<Array<StatsItem>>;
+  findByCaptionID(captionID: StatsID): Promise<Array<StatsItem>>;
 }

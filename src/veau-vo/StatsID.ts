@@ -1,11 +1,11 @@
 import { UUID } from './UUID';
 import { ValueObject } from './ValueObject';
 
-export class CaptionID extends ValueObject {
+export class StatsID extends ValueObject {
   private id: UUID;
 
-  public static of(id: UUID): CaptionID {
-    return new CaptionID(id);
+  public static of(id: UUID): StatsID {
+    return new StatsID(id);
   }
 
   private constructor(id: UUID) {
@@ -17,7 +17,7 @@ export class CaptionID extends ValueObject {
     return this.id;
   }
 
-  public equals(other: CaptionID): boolean {
+  public equals(other: StatsID): boolean {
     if (this === other) {
       return true;
     }

@@ -4,7 +4,7 @@ import { SinonStub } from 'sinon';
 import * as sinon from 'sinon';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
-import { CaptionID } from '../../veau-vo/CaptionID';
+import { StatsID } from '../../veau-vo/CaptionID';
 import { UUID } from '../../veau-vo/UUID';
 import { StatsItemRepository } from '../StatsItemRepository';
 
@@ -87,7 +87,7 @@ describe('StatsItemRepository', () => {
     ]);
 
     const statsItemRepository: StatsItemRepository = StatsItemRepository.getInstance();
-    const statsItems: Array<StatsItem> = await statsItemRepository.findByCaptionID(CaptionID.of(UUID.of(captionID)));
+    const statsItems: Array<StatsItem> = await statsItemRepository.findByCaptionID(StatsID.of(UUID.of(captionID)));
 
     expect(statsItems.length).toEqual(3);
     expect(statsItems[0].getStatsItemID().get().get()).toEqual('c0e18d31-d026-4a84-af4f-d5d26c520600');

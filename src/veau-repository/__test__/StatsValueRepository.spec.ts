@@ -3,7 +3,7 @@ import 'jest';
 import { SinonStub } from 'sinon';
 import * as sinon from 'sinon';
 import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
-import { CaptionID } from '../../veau-vo/CaptionID';
+import { StatsID } from '../../veau-vo/CaptionID';
 import { StatsValue } from '../../veau-vo/StatsValue';
 import { UUID } from '../../veau-vo/UUID';
 import { StatsValueRepository } from '../StatsValueRepository';
@@ -55,7 +55,7 @@ describe('StatsValueRepository', () => {
     ]);
 
     const statsValueRepository: StatsValueRepository = StatsValueRepository.getInstance();
-    const values: Map<string, Array<StatsValue>> = await statsValueRepository.findByCaptionID(CaptionID.of(UUID.of('d4703058-a6ff-420b-95b2-4475beba9027')));
+    const values: Map<string, Array<StatsValue>> = await statsValueRepository.findByCaptionID(StatsID.of(UUID.of('d4703058-a6ff-420b-95b2-4475beba9027')));
 
     const year2001: Array<StatsValue> | undefined = values.get('5318ad74-f15f-4835-9fd7-890be4cce933');
 
