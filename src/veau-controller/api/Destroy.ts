@@ -1,27 +1,26 @@
-import { Router } from 'express';
-import * as express from 'express';
-import { Logger } from 'log4js';
-import * as log4js from 'log4js';
+import { Request, Response, Router } from 'express';
+import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
+import { getLogger, Logger } from 'log4js';
 
 const router: Router = Router();
-const logger: Logger = log4js.getLogger();
+const logger: Logger = getLogger();
 
-router.get('/', (req: express.Request, res: express.Response) => {
+router.get('/', (req: Request, res: Response) => {
   if (req.session) {
     req.session.destroy((err: any) => {
       if (err) {
         logger.error(err.toString());
-        res.sendStatus(500);
+        res.sendStatus(INTERNAL_SERVER_ERROR);
         return;
       }
 
-      res.sendStatus(200);
+      res.sendStatus(OK);
     });
     return;
   }
 
   logger.fatal('IT IS PROBABLY A KIND OF BUG');
-  res.sendStatus(500);
+  res.sendStatus(INTERNAL_SERVER_ERROR);
 });
 
-export const Destroy = router;
+export const Destroy: Router = router;

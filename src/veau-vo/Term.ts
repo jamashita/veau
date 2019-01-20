@@ -4,23 +4,23 @@ import { ValueObject } from './ValueObject';
 export class Term extends ValueObject {
   private id: number;
 
-  public static DAILY = new Term(1);
-  public static WEEKLY = new Term(2);
-  public static MONTHLY = new Term(3);
-  public static ANNUAL = new Term(4);
+  public static DAILY: Term = new Term(1);
+  public static WEEKLY: Term = new Term(2);
+  public static MONTHLY: Term = new Term(3);
+  public static ANNUAL: Term = new Term(4);
 
   public static of(id: number): Term {
     switch (id) {
-      case 1: {
+      case Term.DAILY.get(): {
         return Term.DAILY;
       }
-      case 2: {
+      case Term.WEEKLY.get(): {
         return Term.WEEKLY;
       }
-      case 3: {
+      case Term.MONTHLY.get(): {
         return Term.MONTHLY;
       }
-      case 4: {
+      case Term.ANNUAL.get(): {
         return Term.ANNUAL;
       }
       default: {

@@ -88,7 +88,7 @@ export class Caption extends Entity<CaptionID> {
       locale: locale.toJSON(),
       name,
       updatedAt: updatedAt.toJSON(),
-      stats: stats.map<StatsJSON>((piece) => {
+      stats: stats.map<StatsJSON>((piece: Stats) => {
         return piece.toJSON();
       })
     };

@@ -17,7 +17,7 @@ export class ISO639 extends ValueObject {
   }
 
   public equals(other: ISO639): boolean {
-    if (this == other) {
+    if (this === other) {
       return true;
     }
     if (this.iso639 === other.get()) {

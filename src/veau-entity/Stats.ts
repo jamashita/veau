@@ -82,7 +82,7 @@ export class Stats extends Entity<StatsID> {
       name,
       unit,
       seq,
-      items: items.map<StatsItemJSON>((item) => {
+      items: items.map<StatsItemJSON>((item: StatsItem) => {
         return item.toJSON();
       })
     };

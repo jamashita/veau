@@ -60,6 +60,11 @@ export class StatsItem extends ValueObject {
   }
 
   public toString(): string {
-    return `${this.asOf} : ${this.value}`;
+    const {
+      asOf,
+      value
+    } = this;
+
+    return `${asOf} : ${value}`;
   }
 }

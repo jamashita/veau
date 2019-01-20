@@ -2,30 +2,30 @@ import * as uuid from 'uuid/v4';
 import { ValueObject } from './ValueObject';
 
 export class UUID extends ValueObject {
-  private uuid: string;
+  private id: string;
 
-  public static of(uuid: string): UUID {
-    return new UUID(uuid);
+  public static of(id: string): UUID {
+    return new UUID(id);
   }
 
   public static generate(): UUID {
     return new UUID(uuid());
   }
 
-  private constructor(uuid: string) {
+  private constructor(id: string) {
     super();
-    this.uuid = uuid;
+    this.id = id;
   }
 
   public get(): string {
-    return this.uuid;
+    return this.id;
   }
 
   public equals(other: UUID): boolean {
     if (this === other) {
       return true;
     }
-    if (this.uuid === other.get()) {
+    if (this.id === other.get()) {
       return true;
     }
 
@@ -33,6 +33,6 @@ export class UUID extends ValueObject {
   }
 
   public toString(): string {
-    return this.uuid;
+    return this.id;
   }
 }

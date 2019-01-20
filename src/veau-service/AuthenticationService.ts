@@ -18,8 +18,7 @@ passport.use(
     usernameField: 'account',
     passwordField: 'password',
     session: true
-  },
-    async (account: string, password: string, done: (error: any, account?: any) => void) => {
+  }, async (account: string, password: string, done: (error: any, account?: any) => void): Promise<void> => {
     try {
       const veauAccountHash: VeauAccountHash = await veauAccountRepository.findByAccount(account);
 
@@ -53,7 +52,7 @@ passport.deserializeUser<VeauAccount, VeauAccountJSON>((json: VeauAccountJSON, d
   done(null, veauAccount);
 });
 
-export const AuthenticationService = (app: Express) => {
+export const AuthenticationService: (app: Express) => void = (app: Express): void => {
   app.use(passport.initialize());
   app.use(passport.session());
 };

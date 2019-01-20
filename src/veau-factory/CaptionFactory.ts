@@ -1,5 +1,5 @@
 import { Caption, CaptionJSON, CaptionRow } from '../veau-entity/Caption';
-import { Stats } from '../veau-entity/Stats';
+import { Stats, StatsJSON } from '../veau-entity/Stats';
 import { CaptionID } from '../veau-vo/CaptionID';
 import { ISO3166 } from '../veau-vo/ISO3166';
 import { ISO639 } from '../veau-vo/ISO639';
@@ -42,8 +42,8 @@ export class CaptionFactory {
       Locale.of(LocaleID.of(locale.localeID), locale.name, ISO3166.of(locale.iso3166)),
       name,
       new Date(updatedAt),
-      stats.map<Stats>((stats) => {
-        return statsFactory.fromJSON(stats);
+      stats.map<Stats>((piece: StatsJSON) => {
+        return statsFactory.fromJSON(piece);
       })
     );
   }

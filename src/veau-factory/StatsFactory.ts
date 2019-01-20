@@ -1,6 +1,6 @@
 import { Stats, StatsJSON, StatsRow } from '../veau-entity/Stats';
 import { StatsID } from '../veau-vo/StatsID';
-import { StatsItem } from '../veau-vo/StatsItem';
+import {StatsItem, StatsItemJSON} from '../veau-vo/StatsItem';
 import { Term } from '../veau-vo/Term';
 import { UUID } from '../veau-vo/UUID';
 
@@ -28,7 +28,7 @@ export class StatsFactory {
       items
     } = json;
 
-    const statsItems: Array<StatsItem> = items.map<StatsItem>((item) => {
+    const statsItems: Array<StatsItem> = items.map<StatsItem>((item: StatsItemJSON) => {
       const {
         asOf,
         value
