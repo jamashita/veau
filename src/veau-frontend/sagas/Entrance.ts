@@ -47,7 +47,7 @@ export class Entrance {
       try {
         const res: request.Response = yield call(AJAX.post, '/api/auth', login.toJSON());
         const json: IdentityJSON = res.body;
-        const identity: Identity = Identity.of(IdentityID.of(json.id), json.account, json.language, json.locale);
+        const identity: Identity = Identity.of(IdentityID.of(json.id), json.account, json.language, json.region);
 
         yield put(identityRenewed(identity));
         yield put(pushToStatsList());

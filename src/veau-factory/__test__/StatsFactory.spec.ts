@@ -1,13 +1,14 @@
 /* tslint:disable */
 import 'jest';
+import * as moment from 'moment';
 import { Stats, StatsJSON, StatsRow } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language } from '../../veau-vo/Language';
 import { LanguageID } from '../../veau-vo/LanguageID';
-import { Locale } from '../../veau-vo/Locale';
-import { LocaleID } from '../../veau-vo/LocaleID';
+import { Region } from '../../veau-vo/Region';
+import { RegionID } from '../../veau-vo/RegionID';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
 import { StatsValue } from '../../veau-vo/StatsValue';
@@ -19,20 +20,20 @@ describe('StatsFactory', () => {
   it('from', () => {
     const statsID: StatsID = StatsID.of(UUID.of('af272303-df5d-4d34-8604-398920b7d2bb'));
     const language: Language = Language.of(LanguageID.of(1), 'language1', 'language english name 1', ISO639.of('lang1'));
-    const locale: Locale = Locale.of(LocaleID.of(1), 'locale1', ISO3166.of('locl1'));
+    const region: Region = Region.of(RegionID.of(1), 'region1', ISO3166.of('regn1'));
     const name: string = 'name1';
-    const updatedAt: Date = new Date(2000, 1, 1);
+    const updatedAt: moment.Moment = moment(new Date(2000, 0, 1));
     const item: StatsItem = new StatsItem(StatsItemID.of(UUID.of('a28eceac-0451-4339-b1c5-0c298b3905f6')), Term.ANNUAL, 'stats1', 'unit1', 1, []);
     const items: Array<StatsItem> = [
       item
     ];
 
     const statsFactory: StatsFactory = StatsFactory.getInstance();
-    const stats: Stats = statsFactory.from(statsID, language, locale, name, updatedAt, items);
+    const stats: Stats = statsFactory.from(statsID, language, region, name, updatedAt, items);
 
     expect(stats.getStatsID()).toEqual(statsID);
     expect(stats.getLanguage()).toEqual(language);
-    expect(stats.getLocale()).toEqual(locale);
+    expect(stats.getRegion()).toEqual(region);
     expect(stats.getName()).toEqual(name);
     expect(stats.getUpdatedAt()).toEqual(updatedAt);
     expect(stats.getStats()).toEqual(items);
@@ -47,13 +48,13 @@ describe('StatsFactory', () => {
         englishName: 'english name 1',
         iso639: 'lang1'
       },
-      locale: {
-        localeID: 1,
-        name: 'locale1',
-        iso3166: 'locl1'
+      region: {
+        regionID: 1,
+        name: 'region1',
+        iso3166: 'regn1'
       },
       name: 'caption1',
-      updatedAt: '2000-01-01T00:00:00.000Z',
+      updatedAt: '2000-01-01T00:00:00.000',
       items: [
         {
           statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
@@ -96,11 +97,11 @@ describe('StatsFactory', () => {
     expect(stats.getLanguage().getName()).toEqual(json.language.name);
     expect(stats.getLanguage().getEnglishName()).toEqual(json.language.englishName);
     expect(stats.getLanguage().getISO639().get()).toEqual(json.language.iso639);
-    expect(stats.getLocale().getLocaleID().get()).toEqual(json.locale.localeID);
-    expect(stats.getLocale().getName()).toEqual(json.locale.name);
-    expect(stats.getLocale().getISO3166().get()).toEqual(json.locale.iso3166);
+    expect(stats.getRegion().getRegionID().get()).toEqual(json.region.regionID);
+    expect(stats.getRegion().getName()).toEqual(json.region.name);
+    expect(stats.getRegion().getISO3166().get()).toEqual(json.region.iso3166);
     expect(stats.getName()).toEqual(json.name);
-    expect(stats.getUpdatedAt().getTime()).toEqual(new Date(json.updatedAt).getTime());
+    expect(stats.getUpdatedAt().get('seconds')).toEqual(moment(json.updatedAt).get('seconds'));
     expect(stats.getStats().length).toEqual(json.items.length);
     for (let i = 0; i < stats.getStats().length; i++) {
       expect(stats.getStats()[i].getStatsItemID().get().get()).toEqual(json.items[i].statsItemID);
@@ -123,9 +124,9 @@ describe('StatsFactory', () => {
       languageName: 'language1',
       languageEnglishName: 'englishLanguage1',
       iso639: 'lang1',
-      localeID: 2,
-      localeName: 'locale1',
-      iso3166: 'locl1',
+      regionID: 2,
+      regionName: 'region1',
+      iso3166: 'regn1',
       name: 'name',
       updatedAt: '2000-01-01T00:00:00.000Z'
     };
@@ -137,14 +138,8 @@ describe('StatsFactory', () => {
         'unit1',
         1,
         [
-          StatsValue.of(
-            '2000-01-01',
-            1
-          ),
-          StatsValue.of(
-            '2000-01-02',
-            2
-          )
+          StatsValue.of(moment('2000-01-01'), 1),
+          StatsValue.of(moment('2000-01-02'), 2)
         ]
       ),
       new StatsItem(
@@ -169,13 +164,13 @@ describe('StatsFactory', () => {
         englishName: 'englishLanguage1',
         iso639: 'lang1'
       },
-      locale: {
-        localeID: 2,
-        name: 'locale1',
-        iso3166: 'locl1'
+      region: {
+        regionID: 2,
+        name: 'region1',
+        iso3166: 'regn1'
       },
       name: 'name',
-      updatedAt: '2000-01-01T00:00:00.000Z',
+      updatedAt: '2000-01-01T00:00:00.000',
       items: [
         {
           statsItemID: '610b532b-5711-461a-b44a-7387e8d08596',

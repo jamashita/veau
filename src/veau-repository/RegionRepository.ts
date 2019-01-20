@@ -52,8 +52,8 @@ export class RegionRepository implements IRegionRepository {
 
   public async findByISO3166(iso3166: ISO3166): Promise<Region> {
     const regions: Array<Region> = await this.all();
-    const filtered: Array<Region> = regions.filter((locale: Region) => {
-      if (locale.getISO3166().equals(iso3166)) {
+    const filtered: Array<Region> = regions.filter((region: Region) => {
+      if (region.getISO3166().equals(iso3166)) {
         return true;
       }
 

@@ -15,7 +15,7 @@ describe('VeauAccountRepository', () => {
         id: 1,
         account: 'account',
         language: 'ab',
-        locale: 'AFG'
+        region: 'AFG'
       }
     ]);
 
@@ -26,6 +26,6 @@ describe('VeauAccountRepository', () => {
     expect(veauAccount.getVeauAccountID().get()).toEqual(1);
     expect(veauAccount.getAccount()).toEqual('account');
     expect(veauAccount.getLanguage().get()).toEqual('ab');
-    expect(veauAccount.getLocale().get()).toEqual('AFG');
+    expect(veauAccount.getRegion().get()).toEqual('AFG');
   });
 });

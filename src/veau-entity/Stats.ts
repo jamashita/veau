@@ -1,5 +1,6 @@
+import * as moment from 'moment';
 import { Language, LanguageJSON } from '../veau-vo/Language';
-import { Locale, LocaleJSON } from '../veau-vo/Locale';
+import { Region, RegionJSON } from '../veau-vo/Region';
 import { StatsID } from '../veau-vo/StatsID';
 import { Entity } from './Entity';
 import { StatsItem, StatsItemJSON } from './StatsItem';
@@ -7,7 +8,7 @@ import { StatsItem, StatsItemJSON } from './StatsItem';
 export type StatsJSON = {
   statsID: string;
   language: LanguageJSON;
-  locale: LocaleJSON;
+  region: RegionJSON;
   name: string;
   updatedAt: string;
   items: Array<StatsItemJSON>;
@@ -19,8 +20,8 @@ export type StatsRow = {
   languageName: string;
   languageEnglishName: string;
   iso639: string;
-  localeID: number;
-  localeName: string;
+  regionID: number;
+  regionName: string;
   iso3166: string;
   name: string;
   updatedAt: string;
@@ -29,16 +30,16 @@ export type StatsRow = {
 export class Stats extends Entity<StatsID> {
   private statsID: StatsID;
   private language: Language;
-  private locale: Locale;
+  private region: Region;
   private name: string;
-  private updatedAt: Date;
+  private updatedAt: moment.Moment;
   private items: Array<StatsItem>;
 
-  public constructor(statsID: StatsID, language: Language, locale: Locale, name: string, updatedAt: Date, items: Array<StatsItem>) {
+  public constructor(statsID: StatsID, language: Language, region: Region, name: string, updatedAt: moment.Moment, items: Array<StatsItem>) {
     super();
     this.statsID = statsID;
     this.language = language;
-    this.locale = locale;
+    this.region = region;
     this.name = name;
     this.updatedAt = updatedAt;
     this.items = items;
@@ -52,15 +53,15 @@ export class Stats extends Entity<StatsID> {
     return this.language;
   }
 
-  public getLocale(): Locale {
-    return this.locale;
+  public getRegion(): Region {
+    return this.region;
   }
 
   public getName(): string {
     return this.name;
   }
 
-  public getUpdatedAt(): Date {
+  public getUpdatedAt(): moment.Moment {
     return this.updatedAt;
   }
 
@@ -76,7 +77,7 @@ export class Stats extends Entity<StatsID> {
     const {
       statsID,
       language,
-      locale,
+      region,
       name,
       updatedAt,
       items
@@ -85,9 +86,9 @@ export class Stats extends Entity<StatsID> {
     return {
       statsID: statsID.get().get(),
       language: language.toJSON(),
-      locale: locale.toJSON(),
+      region: region.toJSON(),
       name,
-      updatedAt: updatedAt.toJSON(),
+      updatedAt: updatedAt.utc().format('YYYY-MM-DDTHH:mm:ss.SSS'),
       items: items.map<StatsItemJSON>((item: StatsItem) => {
         return item.toJSON();
       })
@@ -98,11 +99,11 @@ export class Stats extends Entity<StatsID> {
     const {
       statsID,
       language,
-      locale,
+      region,
       name,
       updatedAt
     } = this;
 
-    return `${statsID.toString()} ${language.toString()} ${locale.toString()} ${name} ${updatedAt.toJSON()}`;
+    return `${statsID.toString()} ${language.toString()} ${region.toString()} ${name} ${updatedAt.toJSON()}`;
   }
 }

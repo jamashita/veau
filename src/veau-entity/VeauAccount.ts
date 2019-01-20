@@ -7,14 +7,14 @@ export type VeauAccountJSON = {
   id: number;
   account: string;
   language: string;
-  locale: string;
+  region: string;
 };
 
 export type VeauAccountRow = {
   id: number;
   account: string;
   language: string;
-  locale: string;
+  region: string;
   hash: string;
 };
 
@@ -22,14 +22,14 @@ export class VeauAccount extends Entity<VeauAccountID> {
   private veauAccountID: VeauAccountID;
   private account: string;
   private language: ISO639;
-  private locale: ISO3166;
+  private region: ISO3166;
 
-  public constructor(veauAccountID: VeauAccountID, account: string, language: ISO639, locale: ISO3166) {
+  public constructor(veauAccountID: VeauAccountID, account: string, language: ISO639, region: ISO3166) {
     super();
     this.veauAccountID = veauAccountID;
     this.account = account;
     this.language = language;
-    this.locale = locale;
+    this.region = region;
   }
 
   public getVeauAccountID(): VeauAccountID {
@@ -44,8 +44,8 @@ export class VeauAccount extends Entity<VeauAccountID> {
     return this.language;
   }
 
-  public getLocale(): ISO3166 {
-    return this.locale;
+  public getRegion(): ISO3166 {
+    return this.region;
   }
 
   public getIdentifier(): VeauAccountID {
@@ -57,14 +57,14 @@ export class VeauAccount extends Entity<VeauAccountID> {
       veauAccountID,
       account,
       language,
-      locale
+      region
     } = this;
 
     return {
       id: veauAccountID.get(),
       account,
       language: language.get(),
-      locale: locale.get()
+      region: region.get()
     };
   }
 
@@ -73,9 +73,9 @@ export class VeauAccount extends Entity<VeauAccountID> {
       veauAccountID,
       account,
       language,
-      locale
+      region
     } = this;
 
-    return `${veauAccountID.toString()} ${account} ${language.get()} ${locale.get()}`;
+    return `${veauAccountID.toString()} ${account} ${language.get()} ${region.get()}`;
   }
 }

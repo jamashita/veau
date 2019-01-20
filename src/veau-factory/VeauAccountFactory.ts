@@ -13,8 +13,8 @@ export class VeauAccountFactory {
   private constructor() {
   }
 
-  public from(veauAccountID: VeauAccountID, name: string, language: ISO639, locale: ISO3166): VeauAccount {
-    return new VeauAccount(veauAccountID, name, language, locale);
+  public from(veauAccountID: VeauAccountID, name: string, language: ISO639, region: ISO3166): VeauAccount {
+    return new VeauAccount(veauAccountID, name, language, region);
   }
 
   public fromJSON(json: VeauAccountJSON): VeauAccount {
@@ -22,10 +22,10 @@ export class VeauAccountFactory {
       id,
       account,
       language,
-      locale
+      region
     } = json;
 
-    return this.from(VeauAccountID.of(id), account, ISO639.of(language), ISO3166.of(locale));
+    return this.from(VeauAccountID.of(id), account, ISO639.of(language), ISO3166.of(region));
   }
 
   public fromRow(row: VeauAccountRow): VeauAccount {
@@ -33,9 +33,9 @@ export class VeauAccountFactory {
       id,
       account,
       language,
-      locale
+      region
     } = row;
 
-    return this.from(VeauAccountID.of(id), account, ISO639.of(language), ISO3166.of(locale));
+    return this.from(VeauAccountID.of(id), account, ISO639.of(language), ISO3166.of(region));
   }
 }

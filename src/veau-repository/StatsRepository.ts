@@ -26,16 +26,16 @@ export class StatsRepository implements IStatsRepository {
       R2.name AS languageName,
       R2.english_name AS languageEnglishName,
       R2.iso639,
-      R1.locale_id AS localeID,
-      R3.name AS localeName,
+      R1.region_id AS regionID,
+      R3.name AS regionName,
       R3.iso3166,
       R1.name,
       R1.updated_at AS updatedAt
       FROM stats R1
       INNER JOIN languages R2
       USING(language_id)
-      INNER JOIN locales R3
-      USING(locale_id)
+      INNER JOIN regions R3
+      USING(region_id)
       WHERE R1.stats_id = :statsID;`;
 
     const rows: Array<StatsRow> = await VeauMySQL.query(query, [

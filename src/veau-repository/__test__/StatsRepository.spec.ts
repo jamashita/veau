@@ -22,16 +22,16 @@ describe('StatsRepository', () => {
       R2.name AS languageName,
       R2.english_name AS languageEnglishName,
       R2.iso639,
-      R1.locale_id AS localeID,
-      R3.name AS localeName,
+      R1.region_id AS regionID,
+      R3.name AS regionName,
       R3.iso3166,
       R1.name,
       R1.updated_at AS updatedAt
       FROM stats R1
       INNER JOIN languages R2
       USING(language_id)
-      INNER JOIN locales R3
-      USING(locale_id)
+      INNER JOIN regions R3
+      USING(region_id)
       WHERE R1.stats_id = :statsID;`,
       [
         {
@@ -46,9 +46,9 @@ describe('StatsRepository', () => {
         languageName: 'language1',
         languageEnglishName: 'englishLanguage1',
         iso639: 'lang1',
-        localeID: 2,
-        localeName: 'locale1',
-        iso3166: 'locl1',
+        regionID: 2,
+        regionName: 'region1',
+        iso3166: 'regn1',
         name: 'name',
         updatedAt: '2000-01-01T00:00:00.000Z'
       }
@@ -134,9 +134,9 @@ describe('StatsRepository', () => {
     expect(stats.getLanguage().getName()).toEqual('language1');
     expect(stats.getLanguage().getEnglishName()).toEqual('englishLanguage1');
     expect(stats.getLanguage().getISO639().get()).toEqual('lang1');
-    expect(stats.getLocale().getLocaleID().get()).toEqual(2);
-    expect(stats.getLocale().getName()).toEqual('locale1');
-    expect(stats.getLocale().getISO3166().get()).toEqual('locl1');
+    expect(stats.getRegion().getRegionID().get()).toEqual(2);
+    expect(stats.getRegion().getName()).toEqual('region1');
+    expect(stats.getRegion().getISO3166().get()).toEqual('regn1');
     expect(stats.getName()).toEqual('name');
     expect(stats.getUpdatedAt().toJSON()).toEqual('2000-01-01T00:00:00.000Z');
 

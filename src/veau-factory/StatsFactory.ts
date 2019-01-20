@@ -1,11 +1,12 @@
+import * as moment from 'moment';
 import { Stats, StatsJSON, StatsRow } from '../veau-entity/Stats';
 import { StatsItem, StatsItemJSON } from '../veau-entity/StatsItem';
 import { ISO3166 } from '../veau-vo/ISO3166';
 import { ISO639 } from '../veau-vo/ISO639';
 import { Language } from '../veau-vo/Language';
 import { LanguageID } from '../veau-vo/LanguageID';
-import { Locale } from '../veau-vo/Locale';
-import { LocaleID } from '../veau-vo/LocaleID';
+import { Region } from '../veau-vo/Region';
+import { RegionID } from '../veau-vo/RegionID';
 import { StatsID } from '../veau-vo/StatsID';
 import { UUID } from '../veau-vo/UUID';
 import { StatsItemFactory } from './StatsItemFactory';
@@ -22,15 +23,15 @@ export class StatsFactory {
   private constructor() {
   }
 
-  public from(statsID: StatsID, language: Language, locale: Locale, name: string, updatedAt: Date, items: Array<StatsItem>): Stats {
-    return new Stats(statsID, language, locale, name, updatedAt, items);
+  public from(statsID: StatsID, language: Language, region: Region, name: string, updatedAt: moment.Moment, items: Array<StatsItem>): Stats {
+    return new Stats(statsID, language, region, name, updatedAt, items);
   }
 
   public fromJSON(json: StatsJSON): Stats {
     const {
       statsID,
       language,
-      locale,
+      region,
       name,
       updatedAt,
       items
@@ -39,9 +40,9 @@ export class StatsFactory {
     return this.from(
       StatsID.of(UUID.of(statsID)),
       Language.of(LanguageID.of(language.languageID), language.name, language.englishName, ISO639.of(language.iso639)),
-      Locale.of(LocaleID.of(locale.localeID), locale.name, ISO3166.of(locale.iso3166)),
+      Region.of(RegionID.of(region.regionID), region.name, ISO3166.of(region.iso3166)),
       name,
-      new Date(updatedAt),
+      moment(updatedAt),
       items.map<StatsItem>((item: StatsItemJSON) => {
         return statsItemFactory.fromJSON(item);
       })
@@ -55,16 +56,16 @@ export class StatsFactory {
       languageName,
       languageEnglishName,
       iso639,
-      localeID,
-      localeName,
+      regionID,
+      regionName,
       iso3166,
       name,
       updatedAt
     } = row;
 
     const language: Language = Language.of(LanguageID.of(languageID), languageName, languageEnglishName, ISO639.of(iso639));
-    const locale: Locale = Locale.of(LocaleID.of(localeID), localeName, ISO3166.of(iso3166));
+    const region: Region = Region.of(RegionID.of(regionID), regionName, ISO3166.of(iso3166));
 
-    return this.from(StatsID.of(UUID.of(statsID)), language, locale, name, new Date(updatedAt), stats);
+    return this.from(StatsID.of(UUID.of(statsID)), language, region, name, moment(updatedAt), stats);
   }
 }

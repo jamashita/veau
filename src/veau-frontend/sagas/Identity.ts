@@ -24,9 +24,9 @@ export class Identity {
         id,
         account,
         language,
-        locale
+        region
       } = json;
-      const identity: IdentityVO = IdentityVO.of(IdentityID.of(id), account, language, locale);
+      const identity: IdentityVO = IdentityVO.of(IdentityID.of(id), account, language, region);
 
       yield put(identityRenewed(identity));
       yield put(pushToStatsList());
@@ -39,7 +39,7 @@ export class Identity {
         identity
       } = state;
 
-      const newIdentity: IdentityVO = IdentityVO.of(identity.getIdentityID(), identity.getAccount(), newLanguage, identity.getLocale());
+      const newIdentity: IdentityVO = IdentityVO.of(identity.getIdentityID(), identity.getAccount(), newLanguage, identity.getRegion());
 
       yield put(identityRenewed(newIdentity));
       yield put(pushToEntrance());
@@ -55,7 +55,7 @@ export class Identity {
         identity
       } = state;
 
-      const newIdentity: IdentityVO = IdentityVO.of(IdentityID.default(), '', identity.getLanguage(), identity.getLocale());
+      const newIdentity: IdentityVO = IdentityVO.of(IdentityID.default(), '', identity.getLanguage(), identity.getRegion());
 
       yield put(identityRenewed(newIdentity));
     }

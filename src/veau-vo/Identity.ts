@@ -5,29 +5,29 @@ export type IdentityJSON = {
   id: number;
   account: string;
   language: string;
-  locale: string;
+  region: string;
 };
 
 export class Identity extends ValueObject {
   private identityID: IdentityID;
   private account: string;
   private language: string;
-  private locale: string;
+  private region: string;
 
   public static default(): Identity {
     return new Identity(IdentityID.default(), '', 'en', '');
   }
 
-  public static of(identityID: IdentityID, account: string, language: string, locale: string): Identity {
-    return new Identity(identityID, account, language, locale);
+  public static of(identityID: IdentityID, account: string, language: string, region: string): Identity {
+    return new Identity(identityID, account, language, region);
   }
 
-  private constructor(identityID: IdentityID, account: string, language: string, locale: string) {
+  private constructor(identityID: IdentityID, account: string, language: string, region: string) {
     super();
     this.identityID = identityID;
     this.account = account;
     this.language = language;
-    this.locale = locale;
+    this.region = region;
   }
 
   public getIdentityID(): IdentityID {
@@ -42,8 +42,8 @@ export class Identity extends ValueObject {
     return this.language;
   }
 
-  public getLocale(): string {
-    return this.locale;
+  public getRegion(): string {
+    return this.region;
   }
 
   public isDefault(): boolean {
@@ -67,7 +67,7 @@ export class Identity extends ValueObject {
     if (this.language !== other.getLanguage()) {
       return false;
     }
-    if (this.locale !== other.getLocale()) {
+    if (this.region !== other.getRegion()) {
       return false;
     }
 
@@ -79,14 +79,14 @@ export class Identity extends ValueObject {
       identityID,
       account,
       language,
-      locale
+      region
     } = this;
 
     return {
       id: identityID.get(),
       account,
       language,
-      locale
+      region
     };
   }
 
@@ -95,9 +95,9 @@ export class Identity extends ValueObject {
       identityID,
       account,
       language,
-      locale
+      region
     } = this;
 
-    return `${identityID.toString()} ${account} ${language} ${locale}`;
+    return `${identityID.toString()} ${account} ${language} ${region}`;
   }
 }

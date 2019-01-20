@@ -23,7 +23,7 @@ describe('VeauAccount', () => {
       id: 1,
       account: 'veau',
       language: 'ab',
-      locale: 'AFG'
+      region: 'AFG'
     });
   });
 });
