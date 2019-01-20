@@ -4,6 +4,7 @@ import { SinonStub } from 'sinon';
 import * as sinon from 'sinon';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
+import {NoSuchElementError} from '../../veau-general/NoSuchElementError';
 import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsValue } from '../../veau-vo/StatsValue';
@@ -177,5 +178,14 @@ describe('StatsRepository', () => {
 
     values = items[2].getValues();
     expect(values.length).toEqual(0);
+  });
+
+  it('findByStatsID: throws error', () => {
+    const stub: SinonStub = sinon.stub();
+    VeauMySQL.query = stub;
+    stub.returns([]);
+
+    const statsRepository: StatsRepository = StatsRepository.getInstance();
+    expect(statsRepository.findByStatsID(StatsID.of(UUID.of('a25a8b7f-c810-4dc0-b94e-e97e74329307')))).rejects.toThrow(NoSuchElementError);
   });
 });
