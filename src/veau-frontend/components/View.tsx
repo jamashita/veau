@@ -8,7 +8,7 @@ type Props = {
 type State = {
 };
 
-export class MainView extends React.Component<Props, State> {
+export class View extends React.Component<Props, State> {
 
   public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
     return true;

@@ -11,7 +11,7 @@ import * as ja from 'react-intl/locale-data/ja';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Brightness } from './Brightness';
-import { MainView } from './components/MainView';
+import { View } from './components/View';
 import { I18NProvider } from './containers/I18NProvider';
 import { history } from './history';
 import { persistor, store } from './store';
@@ -50,7 +50,7 @@ ReactDOM.render(
         <PersistGate persistor={persistor}>
           <ConnectedRouter history={history}>
             <I18NProvider>
-              <MainView />
+              <View />
             </I18NProvider>
           </ConnectedRouter>
         </PersistGate>
