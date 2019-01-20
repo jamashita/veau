@@ -48,11 +48,11 @@ ReactDOM.render(
     <MuiThemeProvider theme={muiTheme}>
       <Provider store={store}>
         <PersistGate persistor={persistor}>
-          <ConnectedRouter history={history}>
-            <I18NProvider>
+          <I18NProvider>
+            <ConnectedRouter history={history}>
               <View />
-            </I18NProvider>
-          </ConnectedRouter>
+            </ConnectedRouter>
+          </I18NProvider>
         </PersistGate>
       </Provider>
     </MuiThemeProvider>

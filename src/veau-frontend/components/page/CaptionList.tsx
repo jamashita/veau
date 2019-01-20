@@ -22,7 +22,6 @@ export class CaptionList extends React.Component<Props, State> {
         >
           OPEN
         </Button>
-        Happy Halloween!
       </div>
     );
   }

@@ -6,7 +6,7 @@ import {
 import { CaptionList } from '../containers/page/CaptionList';
 import { Entrance } from '../containers/page/Entrance';
 import { Endpoints } from '../Endpoints';
-import { NotFound } from './NotFound';
+import { NotFound } from './page/NotFound';
 
 type Props = {
 };

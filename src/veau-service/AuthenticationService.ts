@@ -11,6 +11,7 @@ import { VeauAccountHash, VeauAccountRepository } from '../veau-repository/VeauA
 const logger: log4js.Logger = log4js.getLogger();
 const veauAccountRepository: VeauAccountRepository = VeauAccountRepository.getInstance();
 const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
+const DUMMY_HASH: string = 'dm@Cq,|kF?os_4E.4s$uI$!FxBaXRARTY)PSm:v1l>9]kl|g&"9MuJ]#BjKH';
 
 passport.use(
   new LocalStrategy(
@@ -33,12 +34,12 @@ passport.use(
     catch (err) {
       if (err instanceof NoSuchElementError) {
         // time adjustment
-        await Digest.compare(password, 'dummy');
+        await Digest.compare(password, DUMMY_HASH);
         logger.info(`invalid account: ${account} and password: ${password}`);
         done(null, false);
         return;
       }
-      logger.error(err.message);
+      logger.fatal(err.message);
       done(err);
     }
   })

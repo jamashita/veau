@@ -1,5 +1,5 @@
 import { Response, Router } from 'express';
-import {RequestSession} from '../../declarations/RequestSession';
+import { RequestSession } from '../../declarations/RequestSession';
 
 const router: Router = Router();
 
