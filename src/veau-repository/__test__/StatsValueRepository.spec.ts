@@ -3,27 +3,27 @@ import 'jest';
 import { SinonStub } from 'sinon';
 import * as sinon from 'sinon';
 import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
-import { StatsID } from '../../veau-vo/CaptionID';
+import { StatsID } from '../../veau-vo/StatsID';
 import { StatsValue } from '../../veau-vo/StatsValue';
 import { UUID } from '../../veau-vo/UUID';
 import { StatsValueRepository } from '../StatsValueRepository';
 
 describe('StatsValueRepository', () => {
-  it('findByCaptionID', async () => {
+  it('findByStatsID', async () => {
     const stub: SinonStub = sinon.stub();
     VeauMySQL.query = stub;
     stub.withArgs(
       `SELECT
-      R1.stats_id AS statsItemID,
+      R1.stats_item_id AS statsItemID,
       R1.as_of AS asOf,
       R1.value
-      FROM stats_items R1
-      INNER JOIN stats R2
-      USING(stats_id)
-      WHERE R2.caption_id = :captionID;`,
+      FROM stats_values R1
+      INNER JOIN stats_items R2
+      USING(stats_item_id)
+      WHERE R2.stats_id = :statsID;`,
       [
         {
-          captionID: 'd4703058-a6ff-420b-95b2-4475beba9027'
+          statsID: 'd4703058-a6ff-420b-95b2-4475beba9027'
         }
       ]
     ).returns([
@@ -55,7 +55,7 @@ describe('StatsValueRepository', () => {
     ]);
 
     const statsValueRepository: StatsValueRepository = StatsValueRepository.getInstance();
-    const values: Map<string, Array<StatsValue>> = await statsValueRepository.findByCaptionID(StatsID.of(UUID.of('d4703058-a6ff-420b-95b2-4475beba9027')));
+    const values: Map<string, Array<StatsValue>> = await statsValueRepository.findByStatsID(StatsID.of(UUID.of('d4703058-a6ff-420b-95b2-4475beba9027')));
 
     const year2001: Array<StatsValue> | undefined = values.get('5318ad74-f15f-4835-9fd7-890be4cce933');
 

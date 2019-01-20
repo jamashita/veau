@@ -4,25 +4,25 @@ import { SinonStub } from 'sinon';
 import * as sinon from 'sinon';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
-import { StatsID } from '../../veau-vo/CaptionID';
+import { StatsID } from '../../veau-vo/StatsID';
 import { UUID } from '../../veau-vo/UUID';
 import { StatsItemRepository } from '../StatsItemRepository';
 
 describe('StatsItemRepository', () => {
-  it('findByCaptionID', async () => {
-    const captionID: string = '428a0978-5d01-4da6-96f3-f851cb18e935';
+  it('findByStatsID', async () => {
+    const statsID: string = '428a0978-5d01-4da6-96f3-f851cb18e935';
     const stub: SinonStub = sinon.stub();
     VeauMySQL.query = stub;
     stub.withArgs(`SELECT
-      R1.stats_id AS statsItemID,
+      R1.stats_item_id AS statsItemID,
       R1.term_id AS termID,
       R1.name,
       R1.unit,
       R1.seq
-      FROM stats R1
-      WHERE R1.caption_id = :captionID;`, [
+      FROM stats_items R1
+      WHERE R1.stats_id = :statsID;`, [
       {
-        captionID
+        statsID
       }
     ]).returns([
       {
@@ -48,15 +48,15 @@ describe('StatsItemRepository', () => {
       }
     ]);
     stub.withArgs(`SELECT
-      R1.stats_id AS statsItemID,
+      R1.stats_item_id AS statsItemID,
       R1.as_of AS asOf,
       R1.value
-      FROM stats_items R1
-      INNER JOIN stats R2
-      USING(stats_id)
-      WHERE R2.caption_id = :captionID;`, [
+      FROM stats_values R1
+      INNER JOIN stats_items R2
+      USING(stats_item_id)
+      WHERE R2.stats_id = :statsID;`, [
       {
-        captionID
+        statsID
       }
     ]).returns([
       {
@@ -87,7 +87,7 @@ describe('StatsItemRepository', () => {
     ]);
 
     const statsItemRepository: StatsItemRepository = StatsItemRepository.getInstance();
-    const statsItems: Array<StatsItem> = await statsItemRepository.findByCaptionID(StatsID.of(UUID.of(captionID)));
+    const statsItems: Array<StatsItem> = await statsItemRepository.findByStatsID(StatsID.of(UUID.of(statsID)));
 
     expect(statsItems.length).toEqual(3);
     expect(statsItems[0].getStatsItemID().get().get()).toEqual('c0e18d31-d026-4a84-af4f-d5d26c520600');

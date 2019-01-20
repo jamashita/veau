@@ -1,20 +1,20 @@
-import { CaptionID } from '../veau-vo/CaptionID';
 import { Language, LanguageJSON } from '../veau-vo/Language';
 import { Locale, LocaleJSON } from '../veau-vo/Locale';
+import { StatsID } from '../veau-vo/StatsID';
 import { Entity } from './Entity';
-import { Stats, StatsJSON } from './Stats';
+import { StatsItem, StatsItemJSON } from './StatsItem';
 
-export type CaptionJSON = {
-  captionID: string;
+export type StatsJSON = {
+  statsID: string;
   language: LanguageJSON;
   locale: LocaleJSON;
   name: string;
   updatedAt: string;
-  stats: Array<StatsJSON>;
+  items: Array<StatsItemJSON>;
 };
 
-export type CaptionRow = {
-  captionID: string;
+export type StatsRow = {
+  statsID: string;
   languageID: number;
   languageName: string;
   languageEnglishName: string;
@@ -26,26 +26,26 @@ export type CaptionRow = {
   updatedAt: string;
 };
 
-export class Caption extends Entity<CaptionID> {
-  private captionID: CaptionID;
+export class Stats extends Entity<StatsID> {
+  private statsID: StatsID;
   private language: Language;
   private locale: Locale;
   private name: string;
   private updatedAt: Date;
-  private stats: Array<Stats>;
+  private items: Array<StatsItem>;
 
-  public constructor(captionID: CaptionID, language: Language, locale: Locale, name: string, updatedAt: Date, stats: Array<Stats>) {
+  public constructor(statsID: StatsID, language: Language, locale: Locale, name: string, updatedAt: Date, items: Array<StatsItem>) {
     super();
-    this.captionID = captionID;
+    this.statsID = statsID;
     this.language = language;
     this.locale = locale;
     this.name = name;
     this.updatedAt = updatedAt;
-    this.stats = stats;
+    this.items = items;
   }
 
-  public getCaptionID(): CaptionID {
-    return this.captionID;
+  public getStatsID(): StatsID {
+    return this.statsID;
   }
 
   public getLanguage(): Language {
@@ -64,45 +64,45 @@ export class Caption extends Entity<CaptionID> {
     return this.updatedAt;
   }
 
-  public getStats(): Array<Stats> {
-    return this.stats;
+  public getStats(): Array<StatsItem> {
+    return this.items;
   }
 
-  public getIdentifier(): CaptionID {
-    return this.captionID;
+  public getIdentifier(): StatsID {
+    return this.statsID;
   }
 
-  public toJSON(): CaptionJSON {
+  public toJSON(): StatsJSON {
     const {
-      captionID,
+      statsID,
       language,
       locale,
       name,
       updatedAt,
-      stats
+      items
     } = this;
 
     return {
-      captionID: captionID.get().get(),
+      statsID: statsID.get().get(),
       language: language.toJSON(),
       locale: locale.toJSON(),
       name,
       updatedAt: updatedAt.toJSON(),
-      stats: stats.map<StatsJSON>((piece: Stats) => {
-        return piece.toJSON();
+      items: items.map<StatsItemJSON>((item: StatsItem) => {
+        return item.toJSON();
       })
     };
   }
 
   public toString(): string {
     const {
-      captionID,
+      statsID,
       language,
       locale,
       name,
       updatedAt
     } = this;
 
-    return `${captionID.toString()} ${language.toString()} ${locale.toString()} ${name} ${updatedAt.toJSON()}`;
+    return `${statsID.toString()} ${language.toString()} ${locale.toString()} ${name} ${updatedAt.toJSON()}`;
   }
 }

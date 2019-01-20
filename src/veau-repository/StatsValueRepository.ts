@@ -1,5 +1,5 @@
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
-import { StatsID } from '../veau-vo/CaptionID';
+import { StatsID } from '../veau-vo/StatsID';
 import { StatsValue, StatsValueRow } from '../veau-vo/StatsValue';
 
 export class StatsValueRepository implements IStatsValueRepository {
@@ -12,19 +12,19 @@ export class StatsValueRepository implements IStatsValueRepository {
   private constructor() {
   }
 
-  public async findByCaptionID(captionID: StatsID): Promise<Map<string, Array<StatsValue>>> {
+  public async findByStatsID(statsID: StatsID): Promise<Map<string, Array<StatsValue>>> {
     const query: string = `SELECT
-      R1.stats_id AS statsID,
+      R1.stats_item_id AS statsItemID,
       R1.as_of AS asOf,
       R1.value
-      FROM stats_items R1
-      INNER JOIN stats R2
-      USING(stats_id)
-      WHERE R2.caption_id = :captionID;`;
+      FROM stats_values R1
+      INNER JOIN stats_items R2
+      USING(stats_item_id)
+      WHERE R2.stats_id = :statsID;`;
 
     const statsValueRows: Array<StatsValueRow> = await VeauMySQL.query(query, [
       {
-        captionID: captionID.get().get()
+        statsID: statsID.get().get()
       }
     ]);
 
@@ -56,5 +56,5 @@ export class StatsValueRepository implements IStatsValueRepository {
 
 export interface IStatsValueRepository {
 
-  findByCaptionID(captionID: StatsID): Promise<Map<string, Array<StatsValue>>>;
+  findByStatsID(captionID: StatsID): Promise<Map<string, Array<StatsValue>>>;
 }

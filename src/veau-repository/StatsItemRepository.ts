@@ -1,12 +1,12 @@
 import { StatsItem, StatsItemRow } from '../veau-entity/StatsItem';
-import { StatsItemFactory } from '../veau-factory/StatsFactory';
+import { StatsItemFactory } from '../veau-factory/StatsItemFactory';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
-import { StatsID } from '../veau-vo/CaptionID';
+import { StatsID } from '../veau-vo/StatsID';
 import { StatsValue } from '../veau-vo/StatsValue';
 import { StatsValueRepository } from './StatsValueRepository';
 
 const statsValueRepository: StatsValueRepository = StatsValueRepository.getInstance();
-const statsFactory: StatsItemFactory = StatsItemFactory.getInstance();
+const statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
 
 export class StatsItemRepository implements IStatsItemRepository {
   private static instance: StatsItemRepository = new StatsItemRepository();
@@ -18,37 +18,37 @@ export class StatsItemRepository implements IStatsItemRepository {
   private constructor() {
   }
 
-  public async findByCaptionID(captionID: StatsID): Promise<Array<StatsItem>> {
+  public async findByStatsID(statsID: StatsID): Promise<Array<StatsItem>> {
     const query: string = `SELECT
-      R1.stats_id AS statsID,
+      R1.stats_item_id AS statsItemID,
       R1.term_id AS termID,
       R1.name,
       R1.unit,
       R1.seq
-      FROM stats R1
-      WHERE R1.caption_id = :captionID;`;
+      FROM stats_items R1
+      WHERE R1.stats_id = :statsID;`;
 
     const statsItemRows: Array<StatsItemRow> = await VeauMySQL.query(query, [
       {
-        captionID: captionID.get().get()
+        statsID: statsID.get().get()
       }
     ]);
 
-    const valueMap: Map<string, Array<StatsValue>> = await statsValueRepository.findByCaptionID(captionID);
+    const valueMap: Map<string, Array<StatsValue>> = await statsValueRepository.findByStatsID(statsID);
 
     return statsItemRows.map<StatsItem>((statsItemRow: StatsItemRow) => {
       const values: Array<StatsValue> | undefined = valueMap.get(statsItemRow.statsItemID);
 
       if (values) {
-        return statsFactory.fromRow(statsItemRow, values);
+        return statsItemFactory.fromRow(statsItemRow, values);
       }
 
-      return statsFactory.fromRow(statsItemRow, []);
+      return statsItemFactory.fromRow(statsItemRow, []);
     });
   }
 }
 
 export interface IStatsItemRepository {
 
-  findByCaptionID(captionID: StatsID): Promise<Array<StatsItem>>;
+  findByStatsID(captionID: StatsID): Promise<Array<StatsItem>>;
 }

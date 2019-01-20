@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 8.0.13)
 # Database: veau
-# Generation Time: 2019-01-19 10:29:04 +0000
+# Generation Time: 2019-01-20 15:55:11 +0000
 # ************************************************************
 
 
@@ -19,27 +19,6 @@ SET NAMES utf8mb4;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
-
-# Dump of table captions
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `captions`;
-
-CREATE TABLE `captions` (
-  `caption_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `language_id` tinyint(3) unsigned NOT NULL,
-  `locale_id` smallint(5) unsigned NOT NULL,
-  `name` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `updated_at` datetime NOT NULL,
-  PRIMARY KEY (`caption_id`),
-  KEY `caption_id` (`caption_id`),
-  KEY `language_id` (`language_id`),
-  KEY `locale_id` (`locale_id`),
-  CONSTRAINT `captions_ibfk_1` FOREIGN KEY (`language_id`) REFERENCES `languages` (`language_id`),
-  CONSTRAINT `captions_ibfk_2` FOREIGN KEY (`locale_id`) REFERENCES `locales` (`locale_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
-
 
 
 # Dump of table languages
@@ -529,18 +508,15 @@ DROP TABLE IF EXISTS `stats`;
 
 CREATE TABLE `stats` (
   `stats_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `caption_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `term_id` tinyint(3) unsigned NOT NULL,
+  `language_id` tinyint(3) unsigned NOT NULL,
+  `locale_id` smallint(5) unsigned NOT NULL,
   `name` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `unit` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `seq` tinyint(3) unsigned NOT NULL,
+  `updated_at` datetime NOT NULL,
   PRIMARY KEY (`stats_id`),
-  UNIQUE KEY `stats_id` (`stats_id`,`caption_id`),
-  KEY `caption_id` (`caption_id`),
-  KEY `caption_id_2` (`caption_id`,`seq`),
-  KEY `term_id` (`term_id`),
-  CONSTRAINT `stats_ibfk_1` FOREIGN KEY (`caption_id`) REFERENCES `captions` (`caption_id`),
-  CONSTRAINT `stats_ibfk_2` FOREIGN KEY (`term_id`) REFERENCES `terms` (`term_id`)
+  KEY `language_id` (`language_id`),
+  KEY `locale_id` (`locale_id`),
+  CONSTRAINT `captions_ibfk_1` FOREIGN KEY (`language_id`) REFERENCES `languages` (`language_id`),
+  CONSTRAINT `captions_ibfk_2` FOREIGN KEY (`locale_id`) REFERENCES `locales` (`locale_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 
@@ -551,11 +527,32 @@ CREATE TABLE `stats` (
 DROP TABLE IF EXISTS `stats_items`;
 
 CREATE TABLE `stats_items` (
+  `stats_item_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `stats_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `term_id` tinyint(3) unsigned NOT NULL,
+  `name` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `unit` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `seq` tinyint(3) unsigned NOT NULL,
+  PRIMARY KEY (`stats_item_id`),
+  KEY `stats_id` (`stats_id`,`seq`),
+  KEY `term_id` (`term_id`),
+  CONSTRAINT `stats_items_ibfk_1` FOREIGN KEY (`stats_id`) REFERENCES `stats` (`stats_id`),
+  CONSTRAINT `stats_items_ibfk_2` FOREIGN KEY (`term_id`) REFERENCES `terms` (`term_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+
+
+# Dump of table stats_values
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `stats_values`;
+
+CREATE TABLE `stats_values` (
+  `stats_item_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `as_of` date NOT NULL,
   `value` decimal(32,8) unsigned NOT NULL,
-  KEY `stats_id` (`stats_id`),
-  CONSTRAINT `stats_items_ibfk_1` FOREIGN KEY (`stats_id`) REFERENCES `stats` (`stats_id`)
+  KEY `stats_item_id` (`stats_item_id`),
+  CONSTRAINT `stats_values_ibfk_1` FOREIGN KEY (`stats_item_id`) REFERENCES `stats_items` (`stats_item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 
