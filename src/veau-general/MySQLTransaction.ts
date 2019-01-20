@@ -1,6 +1,6 @@
 import * as mysql from 'mysql';
 
-export class Transaction {
+export class MySQLTransaction {
   private connection: mysql.PoolConnection;
 
   public constructor(connection: mysql.PoolConnection) {

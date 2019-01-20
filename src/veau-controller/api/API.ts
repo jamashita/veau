@@ -3,7 +3,7 @@ import { UNAUTHORIZED } from 'http-status';
 import { Auth } from './Auth';
 import { Destroy } from './Destroy';
 import { Identity } from './Identity';
-import {Locale} from './Locale';
+import { Locale } from './Locale';
 import { Stats } from './Stats';
 import { WIP } from './WIP';
 
