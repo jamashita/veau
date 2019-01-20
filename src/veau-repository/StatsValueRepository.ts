@@ -1,3 +1,4 @@
+import * as moment from 'moment';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValue, StatsValueRow } from '../veau-vo/StatsValue';
@@ -37,7 +38,7 @@ export class StatsValueRepository implements IStatsValueRepository {
         value
       } = statsValueRow;
 
-      const statsValue: StatsValue = StatsValue.of(asOf, value);
+      const statsValue: StatsValue = StatsValue.of(moment(asOf), value);
       const statsValues: Array<StatsValue> | undefined = valueMap.get(statsItemID);
 
       if (statsValues) {

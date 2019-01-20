@@ -1,14 +1,15 @@
 /* tslint:disable */
 import 'jest';
+import * as moment from 'moment';
 import { StatsValue } from '../StatsValue';
 
 describe('StatsValue', () => {
   it('equals', () => {
-    const statsValue1: StatsValue = StatsValue.of('2000-01-01', 0);
-    const statsValue2: StatsValue = StatsValue.of('2000-01-02', 0);
-    const statsValue3: StatsValue = StatsValue.of('2000-01-01', 0);
-    const statsValue4: StatsValue = StatsValue.of('2000-01-01', -1);
-    const statsValue5: StatsValue = StatsValue.of('2000-01-01', 1);
+    const statsValue1: StatsValue = StatsValue.of(moment(new Date(2000, 0, 1)), 0);
+    const statsValue2: StatsValue = StatsValue.of(moment(new Date(2000, 0, 2)), 0);
+    const statsValue3: StatsValue = StatsValue.of(moment(new Date(2000, 0, 1)), 0);
+    const statsValue4: StatsValue = StatsValue.of(moment(new Date(2000, 0, 1)), -1);
+    const statsValue5: StatsValue = StatsValue.of(moment(new Date(2000, 0, 1)), 1);
 
     expect(statsValue1.equals(statsValue1)).toEqual(true);
     expect(statsValue1.equals(statsValue2)).toEqual(false);
@@ -18,7 +19,7 @@ describe('StatsValue', () => {
   });
 
   it('toJSON', () => {
-    const statsValue: StatsValue = StatsValue.of('2000-01-01', 1);
+    const statsValue: StatsValue = StatsValue.of(moment(new Date(2000, 0, 1)), 1);
 
     expect(statsValue.toJSON()).toEqual({
       asOf: '2000-01-01',

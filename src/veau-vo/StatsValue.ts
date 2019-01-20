@@ -1,3 +1,4 @@
+import * as moment from 'moment';
 import { ValueObject } from './ValueObject';
 
 export type StatsValueJSON = {
@@ -7,25 +8,25 @@ export type StatsValueJSON = {
 
 export type StatsValueRow = {
   statsItemID: string;
-  asOf: string;
+  asOf: Date;
   value: number;
 };
 
 export class StatsValue extends ValueObject {
-  private asOf: string;
+  private asOf: moment.Moment;
   private value: number;
 
-  public static of(asOf: string, value: number): StatsValue {
+  public static of(asOf: moment.Moment, value: number): StatsValue {
     return new StatsValue(asOf, value);
   }
 
-  private constructor(asOf: string, value: number) {
+  private constructor(asOf: moment.Moment, value: number) {
     super();
     this.asOf = asOf;
     this.value = value;
   }
 
-  public getAsOf(): string {
+  public getAsOf(): moment.Moment {
     return this.asOf;
   }
 
@@ -37,7 +38,7 @@ export class StatsValue extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.asOf !== other.getAsOf()) {
+    if (this.asOf.get('days') !== other.getAsOf().get('days')) {
       return false;
     }
     if (this.value !== other.getValue()) {
@@ -54,7 +55,7 @@ export class StatsValue extends ValueObject {
     } = this;
 
     return {
-      asOf,
+      asOf: asOf.format('YYYY-MM-DD'),
       value
     };
   }
@@ -65,6 +66,6 @@ export class StatsValue extends ValueObject {
       value
     } = this;
 
-    return `${asOf} : ${value}`;
+    return `${asOf.format('YYYY-MM-DD')} : ${value}`;
   }
 }
