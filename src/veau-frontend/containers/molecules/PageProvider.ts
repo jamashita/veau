@@ -8,12 +8,10 @@ import { PageProvider as Component } from '../../components/molecules/PageProvid
 
 type StateProps = {
   isOpen: boolean;
-  language: string;
-  locale: string;
 };
 type DispatchProps = {
   close(): void;
-  logout(language: string, locale: string): void;
+  logout(): void;
 };
 type OwnProps = {
 };
@@ -23,17 +21,11 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
   const {
     pageProvider: {
       isOpen
-    },
-    identity: {
-      language,
-      locale
     }
   } = state;
 
   return {
-    isOpen,
-    language,
-    locale
+    isOpen
   };
 };
 
@@ -42,8 +34,8 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
     close: (): void => {
       dispatch(closeProvider());
     },
-    logout: (language: string, locale: string): void => {
-      dispatch(logout(language, locale));
+    logout: (): void => {
+      dispatch(logout());
     }
   };
 };

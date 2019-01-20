@@ -23,8 +23,6 @@ class PageProviderImpl extends React.Component<Props & InjectedIntlProps, State>
   public render(): React.ReactNode {
     const {
       isOpen,
-      language,
-      locale,
       intl
     } = this.props;
 
@@ -46,9 +44,7 @@ class PageProviderImpl extends React.Component<Props & InjectedIntlProps, State>
         <List>
           <ListItem
             button={true}
-            onClick={() => {
-              this.props.logout(language, locale);
-            }}
+            onClick={this.props.logout}
           >
             <ListItemIcon
             >

@@ -25,7 +25,7 @@ export const identity: (state: Identity, action: Action) => Identity = (state: I
       const {
         language,
         locale
-      } = action;
+      } = state;
 
       return {...initialState, language, locale};
     }

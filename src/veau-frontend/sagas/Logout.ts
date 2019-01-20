@@ -1,5 +1,5 @@
 import {call, fork, put, take} from 'redux-saga/effects';
-import {ACTION, LogoutAction} from '../../declarations/Action';
+import {ACTION} from '../../declarations/Action';
 import {AJAX} from '../../veau-general/AJAX';
 import {initializeItentity} from '../actions/IdentityAction';
 import {pushToEntrance} from '../actions/RedirectAction';
@@ -12,12 +12,12 @@ export class Logout {
 
   private static *logout(): IterableIterator<any> {
     while (true) {
-      const action: LogoutAction = yield take(ACTION.LOGOUT);
+      yield take(ACTION.LOGOUT);
 
       try {
         yield call(AJAX.get, '/api/destroy');
 
-        yield put(initializeItentity(action.language, action.locale));
+        yield put(initializeItentity());
         yield put(pushToEntrance());
       }
       catch (err) {

@@ -20,10 +20,8 @@ export const newLanguageSelected: (language: string) => IdentityLanguageModified
   };
 };
 
-export const initializeItentity: (language: string, locale: string) => IdentityInitializeAction = (language: string, locale: string): IdentityInitializeAction => {
+export const initializeItentity: () => IdentityInitializeAction = (): IdentityInitializeAction => {
   return {
     type: ACTION.IDENTITY_INITIALIZE,
-    language,
-    locale
   };
 };

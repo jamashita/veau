@@ -62,13 +62,9 @@ export interface IdentityIdentifiedAction extends ReduxAction {
 }
 export interface IdentityInitializeAction extends ReduxAction {
   type: ACTION.IDENTITY_INITIALIZE;
-  language: string;
-  locale: string;
 }
 export interface LogoutAction extends ReduxAction {
   type: ACTION.LOGOUT;
-  language: string;
-  locale: string;
 }
 export interface PushToHomeAction extends ReduxAction {
   type: ACTION.PUSH_TO_HOME;
