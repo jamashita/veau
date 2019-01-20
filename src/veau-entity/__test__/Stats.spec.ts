@@ -76,7 +76,7 @@ describe('Stats', () => {
       Language.of(LanguageID.of(1), 'language1', 'englishname1', ISO639.of('lang1')),
       Region.of(RegionID.of(1), 'region1', ISO3166.of('regn1')),
       'name1',
-      moment(new Date(2000, 0, 1)),
+      moment.utc('2000-01-01'),
       [
         statsItem
       ]

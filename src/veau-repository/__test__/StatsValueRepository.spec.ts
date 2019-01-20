@@ -61,9 +61,9 @@ describe('StatsValueRepository', () => {
 
     if (year2001) {
       expect(year2001.length).toEqual(2);
-      expect(year2001[0].getAsOf()).toEqual('2001-01-01');
+      expect(year2001[0].getAsOf().format('YYYY-MM-DD')).toEqual('2001-01-01');
       expect(year2001[0].getValue()).toEqual(11);
-      expect(year2001[1].getAsOf()).toEqual('2001-01-02');
+      expect(year2001[1].getAsOf().format('YYYY-MM-DD')).toEqual('2001-01-02');
       expect(year2001[1].getValue()).toEqual(12);
     }
     else {
@@ -74,11 +74,11 @@ describe('StatsValueRepository', () => {
 
     if (year2000) {
       expect(year2000.length).toEqual(3);
-      expect(year2000[0].getAsOf()).toEqual('2000-01-01');
+      expect(year2000[0].getAsOf().format('YYYY-MM-DD')).toEqual('2000-01-01');
       expect(year2000[0].getValue()).toEqual(1);
-      expect(year2000[1].getAsOf()).toEqual('2000-01-02');
+      expect(year2000[1].getAsOf().format('YYYY-MM-DD')).toEqual('2000-01-02');
       expect(year2000[1].getValue()).toEqual(2);
-      expect(year2000[2].getAsOf()).toEqual('2000-01-03');
+      expect(year2000[2].getAsOf().format('YYYY-MM-DD')).toEqual('2000-01-03');
       expect(year2000[2].getValue()).toEqual(3);
     }
     else {

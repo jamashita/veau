@@ -150,11 +150,11 @@ describe('StatsRepository', () => {
 
     let values: Array<StatsValue> = items[0].getValues();
     expect(values.length).toEqual(3);
-    expect(values[0].getAsOf()).toEqual('2000-01-01');
+    expect(values[0].getAsOf().format('YYYY-MM-DD')).toEqual('2000-01-01');
     expect(values[0].getValue()).toEqual(1);
-    expect(values[1].getAsOf()).toEqual('2000-01-02');
+    expect(values[1].getAsOf().format('YYYY-MM-DD')).toEqual('2000-01-02');
     expect(values[1].getValue()).toEqual(2);
-    expect(values[2].getAsOf()).toEqual('2000-01-03');
+    expect(values[2].getAsOf().format('YYYY-MM-DD')).toEqual('2000-01-03');
     expect(values[2].getValue()).toEqual(3);
 
     expect(items[1].getStatsItemID().get().get()).toEqual('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c');
@@ -165,9 +165,9 @@ describe('StatsRepository', () => {
 
     values = items[1].getValues();
     expect(values.length).toEqual(2);
-    expect(values[0].getAsOf()).toEqual('2001-01-01');
+    expect(values[0].getAsOf().format('YYYY-MM-DD')).toEqual('2001-01-01');
     expect(values[0].getValue()).toEqual(11);
-    expect(values[1].getAsOf()).toEqual('2001-01-02');
+    expect(values[1].getAsOf().format('YYYY-MM-DD')).toEqual('2001-01-02');
     expect(values[1].getValue()).toEqual(12);
 
     expect(items[2].getStatsItemID().get().get()).toEqual('2ac64841-5267-48bc-8952-ba9ad1cb12d7');
