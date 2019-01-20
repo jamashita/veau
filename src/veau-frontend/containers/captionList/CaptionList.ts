@@ -2,37 +2,29 @@ import { connect, ConnectedComponentClass, MapDispatchToProps, MapStateToProps }
 import { Dispatch } from 'redux';
 import { Action } from '../../../declarations/Action';
 import { State } from '../../../declarations/State';
-import { closeProvider } from '../../actions/PageProviderAction';
-import { PageProvider as Component } from '../../components/molecules/PageProvider';
+import { openProvider } from '../../actions/PageProviderAction';
+import { CaptionList as Component } from '../../components/captionList/CaptionList';
 
 type StateProps = {
-  isOpen: boolean;
 };
 type DispatchProps = {
-  close(): void;
+  open(): void;
 };
 type OwnProps = {
 };
 export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State): StateProps => {
-  const {
-    pageProvider: {
-      isOpen
-    }
-  } = state;
-
   return {
-    isOpen
   };
 };
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>): DispatchProps => {
   return {
-    close: (): void => {
-      dispatch(closeProvider());
+    open: (): void => {
+      dispatch(openProvider());
     }
   };
 };
 
-export const PageProvider: ConnectedComponentClass<any, any> = connect(mapStateToProps, mapDispatchToProps)(Component);
+export const CaptionList: ConnectedComponentClass<any, any> = connect(mapStateToProps, mapDispatchToProps)(Component);

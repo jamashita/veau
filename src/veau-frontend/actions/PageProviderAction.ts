@@ -1,4 +1,4 @@
-import {ACTION, CloseProviderAction, OpenProviderAction} from '../../declarations/Action';
+import { ACTION, CloseProviderAction, OpenProviderAction } from '../../declarations/Action';
 
 export const openProvider: () => OpenProviderAction = (): OpenProviderAction => {
   return {
