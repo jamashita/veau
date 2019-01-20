@@ -3,7 +3,7 @@ import {
   IdentityInitializeAction,
   IdentityLanguageModifiedAction, IdentityRenewAction
 } from '../../declarations/Action';
-import {Identity} from '../../veau-vo/Identity';
+import { Identity } from '../../veau-vo/Identity';
 
 export const newLanguageSelected: (language: string) => IdentityLanguageModifiedAction = (language: string): IdentityLanguageModifiedAction => {
   return {
@@ -21,6 +21,6 @@ export const identityRenewed: (identity: Identity) => IdentityRenewAction = (ide
 
 export const initializeItentity: () => IdentityInitializeAction = (): IdentityInitializeAction => {
   return {
-    type: ACTION.IDENTITY_INITIALIZE,
+    type: ACTION.IDENTITY_INITIALIZE
   };
 };

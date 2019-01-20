@@ -1,6 +1,6 @@
 import { RouterState } from 'connected-react-router';
 import { Action as ReduxAction } from 'redux';
-import {Identity} from '../veau-vo/Identity';
+import { Identity } from '../veau-vo/Identity';
 import { Login } from '../veau-vo/Login';
 
 export enum ACTION {

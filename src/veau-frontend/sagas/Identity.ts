@@ -1,9 +1,9 @@
-import {fork, put, select, take} from 'redux-saga/effects';
-import {ACTION, IdentityLanguageModifiedAction} from '../../declarations/Action';
-import {State} from '../../declarations/State';
-import {Identity as IdentityVO} from '../../veau-vo/Identity';
-import {IdentityID} from '../../veau-vo/IdentityID';
-import {identityRenewed} from '../actions/IdentityAction';
+import { fork, put, select, take } from 'redux-saga/effects';
+import { ACTION, IdentityLanguageModifiedAction } from '../../declarations/Action';
+import { State } from '../../declarations/State';
+import { Identity as IdentityVO } from '../../veau-vo/Identity';
+import { IdentityID } from '../../veau-vo/IdentityID';
+import { identityRenewed } from '../actions/IdentityAction';
 
 export class Identity {
 

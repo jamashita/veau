@@ -1,6 +1,6 @@
 import { connect, ConnectedComponentClass, MapStateToProps } from 'react-redux';
 import { State } from '../../declarations/State';
-import {Identity} from '../../veau-vo/Identity';
+import { Identity } from '../../veau-vo/Identity';
 import { I18NProvider as Component } from '../components/I18NProvider';
 
 type StateProps = {

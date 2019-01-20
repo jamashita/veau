@@ -1,5 +1,5 @@
 import { ACTION, Action } from '../../declarations/Action';
-import {Identity} from '../../veau-vo/Identity';
+import { Identity } from '../../veau-vo/Identity';
 
 const initialState: Identity = Identity.default();
 

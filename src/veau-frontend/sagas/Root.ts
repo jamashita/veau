@@ -1,6 +1,6 @@
 import { fork } from 'redux-saga/effects';
 import { Entrance } from './Entrance';
-import {Identity} from './Identity';
+import { Identity } from './Identity';
 import { Language } from './Language';
 import { Logout } from './Logout';
 import { Redirect } from './Redirect';

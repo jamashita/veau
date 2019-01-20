@@ -3,11 +3,11 @@ import * as request from 'superagent';
 import { ACTION, EntranceAccountNameTypedAction, EntrancePasswordTypedAction } from '../../declarations/Action';
 import { State } from '../../declarations/State';
 import { AJAX } from '../../veau-general/AJAX';
-import {Identity, IdentityJSON} from '../../veau-vo/Identity';
-import {IdentityID} from '../../veau-vo/IdentityID';
+import { Identity, IdentityJSON } from '../../veau-vo/Identity';
+import { IdentityID } from '../../veau-vo/IdentityID';
 import { Login } from '../../veau-vo/Login';
 import { entranceLoginInfoUpdate } from '../actions/EntranceAction';
-import {identityRenewed} from '../actions/IdentityAction';
+import { identityRenewed } from '../actions/IdentityAction';
 import { loaded, loading } from '../actions/LoadingAction';
 import { pushToHome } from '../actions/RedirectAction';
 

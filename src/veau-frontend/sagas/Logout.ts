@@ -1,8 +1,8 @@
-import {call, fork, put, take} from 'redux-saga/effects';
-import {ACTION} from '../../declarations/Action';
-import {AJAX} from '../../veau-general/AJAX';
-import {initializeItentity} from '../actions/IdentityAction';
-import {pushToEntrance} from '../actions/RedirectAction';
+import { call, fork, put, take } from 'redux-saga/effects';
+import { ACTION } from '../../declarations/Action';
+import { AJAX } from '../../veau-general/AJAX';
+import { initializeItentity } from '../actions/IdentityAction';
+import { pushToEntrance } from '../actions/RedirectAction';
 
 export class Logout {
 

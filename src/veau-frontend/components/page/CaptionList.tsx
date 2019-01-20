@@ -1,7 +1,7 @@
 import { Button } from '@material-ui/core';
 import * as React from 'react';
-import { Props } from '../../containers/page/CaptionList';
 import { PageProvider } from '../../containers/molecules/PageProvider';
+import { Props } from '../../containers/page/CaptionList';
 
 type State = {
 };
