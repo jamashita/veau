@@ -29,7 +29,7 @@ describe('StatsItem', () => {
       name: 'name 1',
       unit: 'unit 1',
       seq: 1,
-      items: [
+      values: [
         {
           asOf: '2000-01-01',
           value: 10
