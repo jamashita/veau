@@ -1,37 +1,37 @@
 import { ISO3166 } from './ISO3166';
-import { LocaleID } from './LocaleID';
+import { RegionID } from './RegionID';
 import { ValueObject } from './ValueObject';
 
-export type LocaleJSON = {
-  localeID: number;
+export type RegionJSON = {
+  regionID: number;
   name: string;
   iso3166: string;
 };
 
-export type LocaleRow = {
-  localeID: number;
+export type RegionRow = {
+  regionID: number;
   name: string;
   iso3166: string;
 };
 
-export class Locale extends ValueObject {
-  private localeID: LocaleID;
+export class Region extends ValueObject {
+  private regionID: RegionID;
   private name: string;
   private iso3166: ISO3166;
 
-  public static of(localeID: LocaleID, name: string, iso3166: ISO3166): Locale {
-    return new Locale(localeID, name, iso3166);
+  public static of(regionID: RegionID, name: string, iso3166: ISO3166): Region {
+    return new Region(regionID, name, iso3166);
   }
 
-  private constructor(localeID: LocaleID, name: string, iso3166: ISO3166) {
+  private constructor(regionID: RegionID, name: string, iso3166: ISO3166) {
     super();
-    this.localeID = localeID;
+    this.regionID = regionID;
     this.name = name;
     this.iso3166 = iso3166;
   }
 
-  public getLocaleID(): LocaleID {
-    return this.localeID;
+  public getRegionID(): RegionID {
+    return this.regionID;
   }
 
   public getName(): string {
@@ -42,26 +42,26 @@ export class Locale extends ValueObject {
     return this.iso3166;
   }
 
-  public equals(other: Locale): boolean {
+  public equals(other: Region): boolean {
     if (this === other) {
       return true;
     }
-    if (this.localeID.equals(other.getLocaleID())) {
+    if (this.regionID.equals(other.getRegionID())) {
       return true;
     }
 
     return false;
   }
 
-  public toJSON(): LocaleJSON {
+  public toJSON(): RegionJSON {
     const {
-      localeID,
+      regionID,
       name,
       iso3166
     } = this;
 
     return {
-      localeID: localeID.get(),
+      regionID: regionID.get(),
       name,
       iso3166: iso3166.get()
     };
