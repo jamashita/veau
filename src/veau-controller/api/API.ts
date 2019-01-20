@@ -3,6 +3,7 @@ import { UNAUTHORIZED } from 'http-status';
 import { Auth } from './Auth';
 import { Destroy } from './Destroy';
 import { Identity } from './Identity';
+import {Locale} from './Locale';
 import { Stats } from './Stats';
 import { WIP } from './WIP';
 
@@ -22,6 +23,7 @@ router.use((req: express.Request, res: express.Response, next: express.NextFunct
 
 router.use('/identity', Identity);
 router.use('/destroy', Destroy);
+router.use('/locales', Locale);
 router.use('/stats', Stats);
 
 export const API: express.Router = router;

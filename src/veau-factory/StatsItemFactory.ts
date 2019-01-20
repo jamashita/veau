@@ -1,3 +1,4 @@
+import * as moment from 'moment';
 import { StatsItem, StatsItemJSON, StatsItemRow } from '../veau-entity/StatsItem';
 import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsValue, StatsValueJSON } from '../veau-vo/StatsValue';
@@ -34,7 +35,7 @@ export class StatsItemFactory {
         value
       } = statsValue;
 
-      return StatsValue.of(asOf, value);
+      return StatsValue.of(moment.utc(asOf), value);
     });
 
     return this.from(StatsItemID.of(UUID.of(statsItemID)), Term.of(termID), name, unit, seq, statsValues);

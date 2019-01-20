@@ -2,6 +2,7 @@ import * as express from 'express';
 import { INTERNAL_SERVER_ERROR } from 'http-status';
 import * as log4js from 'log4js';
 import * as passport from 'passport';
+
 const router: express.Router = express.Router();
 const logger: log4js.Logger = log4js.getLogger();
 

@@ -1,5 +1,6 @@
 /* tslint:disable */
 import 'jest';
+import * as moment from 'moment';
 import { StatsItem, StatsItemJSON, StatsItemRow } from '../../veau-entity/StatsItem';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
 import { StatsValue } from '../../veau-vo/StatsValue';
@@ -16,7 +17,7 @@ describe('StatsItemFactory', () => {
     const seq: number = 1;
     const asOf: string = '2000-01-01';
     const value: number = 10;
-    const statsValue: StatsValue = StatsValue.of(asOf, value);
+    const statsValue: StatsValue = StatsValue.of(moment(asOf), value);
 
     const statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
     const statsItem: StatsItem = statsItemFactory.from(statsItemID, term, name, unit, seq, [statsValue]);
@@ -59,7 +60,7 @@ describe('StatsItemFactory', () => {
     expect(statsItem.getSeq()).toEqual(json.seq);
     expect(statsItem.getValues().length).toEqual(json.values.length);
     for (let i = 0; i < statsItem.getValues().length; i++) {
-      expect(statsItem.getValues()[i].getAsOf()).toEqual(json.values[i].asOf);
+      expect(statsItem.getValues()[i].getAsOf().get('days')).toEqual(moment.utc(json.values[i].asOf).get('days'));
       expect(statsItem.getValues()[i].getValue()).toEqual(json.values[i].value);
     }
   });
@@ -73,9 +74,9 @@ describe('StatsItemFactory', () => {
       seq: 1
     };
     const statsValues: Array<StatsValue> = [
-      StatsValue.of('2000-01-01', 10),
-      StatsValue.of('2000-01-02', 100),
-      StatsValue.of('2000-01-03', 1000)
+      StatsValue.of(moment('2000-01-01'), 10),
+      StatsValue.of(moment('2000-01-02'), 100),
+      StatsValue.of(moment('2000-01-03'), 1000)
     ];
 
     const statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();

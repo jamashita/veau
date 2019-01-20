@@ -12,6 +12,8 @@ export type StatsValueRow = {
   value: number;
 };
 
+const DATE_FORMAT: string = 'YYYY-MM-DD';
+
 export class StatsValue extends ValueObject {
   private asOf: moment.Moment;
   private value: number;
@@ -55,7 +57,7 @@ export class StatsValue extends ValueObject {
     } = this;
 
     return {
-      asOf: asOf.format('YYYY-MM-DD'),
+      asOf: asOf.format(DATE_FORMAT),
       value
     };
   }
@@ -66,6 +68,6 @@ export class StatsValue extends ValueObject {
       value
     } = this;
 
-    return `${asOf.format('YYYY-MM-DD')} : ${value}`;
+    return `${asOf.format(DATE_FORMAT)} : ${value}`;
   }
 }
