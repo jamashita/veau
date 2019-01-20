@@ -1,22 +1,22 @@
 import { ValueObject } from './ValueObject';
 
-export type StatsItemJSON = {
+export type StatsValueJSON = {
   asOf: string;
   value: number;
 };
 
-export type StatsItemRow = {
-  statsID: string;
+export type StatsValueRow = {
+  statsItemID: string;
   asOf: string;
   value: number;
 };
 
-export class StatsItem extends ValueObject {
+export class StatsValue extends ValueObject {
   private asOf: string;
   private value: number;
 
-  public static of(asOf: string, value: number): StatsItem {
-    return new StatsItem(asOf, value);
+  public static of(asOf: string, value: number): StatsValue {
+    return new StatsValue(asOf, value);
   }
 
   private constructor(asOf: string, value: number) {
@@ -33,7 +33,7 @@ export class StatsItem extends ValueObject {
     return this.value;
   }
 
-  public equals(other: StatsItem): boolean {
+  public equals(other: StatsValue): boolean {
     if (this === other) {
       return true;
     }
@@ -47,7 +47,7 @@ export class StatsItem extends ValueObject {
     return true;
   }
 
-  public toJSON(): StatsItemJSON {
+  public toJSON(): StatsValueJSON {
     const {
       asOf,
       value
