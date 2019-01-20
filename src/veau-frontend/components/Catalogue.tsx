@@ -3,9 +3,9 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
-import { Entrance } from '../containers/entrance/Entrance';
+import { Entrance } from '../containers/page/Entrance';
 import { Endpoints } from '../Endpoints';
-import { CaptionList } from './captionList/CaptionList';
+import { CaptionList } from './page/CaptionList';
 import { NotFound } from './NotFound';
 
 type Props = {

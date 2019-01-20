@@ -4,7 +4,7 @@ import { Action } from '../../../declarations/Action';
 import { State } from '../../../declarations/State';
 import { Login } from '../../../veau-vo/Login';
 import { accountTyped, attemptLogin, passwordTyped } from '../../actions/EntranceAction';
-import { Entrance as Component } from '../../components/entrance/Entrance';
+import { Entrance as Component } from '../../components/page/Entrance';
 
 type StateProps = {
   login: Login;

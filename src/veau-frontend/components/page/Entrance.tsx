@@ -3,7 +3,7 @@ import { pink } from '@material-ui/core/colors';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { Brightness } from '../../Brightness';
-import { Props } from '../../containers/entrance/Entrance';
+import { Props } from '../../containers/page/Entrance';
 import { TextField } from '../atoms/TextField';
 
 type State = {

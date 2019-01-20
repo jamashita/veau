@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 import { Action } from '../../../declarations/Action';
 import { State } from '../../../declarations/State';
 import { openProvider } from '../../actions/PageProviderAction';
-import { CaptionList as Component } from '../../components/captionList/CaptionList';
+import { CaptionList as Component } from '../../components/page/CaptionList';
 
 type StateProps = {
 };
