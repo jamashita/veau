@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { PRECONDITION_FAILED, INTERNAL_SERVER_ERROR, NOT_FOUND } from 'http-status';
+import { INTERNAL_SERVER_ERROR, NOT_FOUND, PRECONDITION_FAILED } from 'http-status';
 import * as log4js from 'log4js';
 import { StatsJSON } from '../../veau-entity/Stats';
 import { NoSuchElementError } from '../../veau-general/NoSuchElementError';
@@ -23,7 +23,7 @@ router.get('/:statsID', async (req: express.Request, res: express.Response) => {
   }
 
   try {
-    const stats: StatsJSON = await statsUsecase.findByStatsID(statsID)
+    const stats: StatsJSON = await statsUsecase.findByStatsID(statsID);
 
     res.send(stats);
   }
