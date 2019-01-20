@@ -1,5 +1,5 @@
-import {IdentityID} from './IdentityID';
-import {ValueObject} from './ValueObject';
+import { IdentityID } from './IdentityID';
+import { ValueObject } from './ValueObject';
 
 export type IdentityJSON = {
   id: number;
@@ -58,11 +58,20 @@ export class Identity extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.getIdentityID().equals(other.getIdentityID())) {
-      return true;
+    if (!this.getIdentityID().equals(other.getIdentityID())) {
+      return false;
+    }
+    if (this.account !== other.getAccount()) {
+      return false;
+    }
+    if (this.language !== other.getLanguage()) {
+      return false;
+    }
+    if (this.locale !== other.getLocale()) {
+      return false;
     }
 
-    return false;
+    return true;
   }
 
   public toJSON(): IdentityJSON {
