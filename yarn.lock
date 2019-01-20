@@ -90,7 +90,7 @@
     prop-types "^15.6.0"
     react-is "^16.6.3"
 
-"@sinonjs/commons@^1.0.2", "@sinonjs/commons@^1.2.0":
+"@sinonjs/commons@^1.0.2", "@sinonjs/commons@^1.3.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@sinonjs/commons/-/commons-1.3.0.tgz#50a2754016b6f30a994ceda6d9a0a8c36adda849"
   integrity sha512-j4ZwhaHmwsCb4DlDOIWnI5YyKDNMoNThsmwEpfHx6a1EpsGZ9qYLxP++LMlmBRjtGptGHFsGItJ768snllFWpA==
@@ -2050,10 +2050,10 @@ connect-redis@3.4.0:
     debug "^4.0.1"
     redis "^2.8.0"
 
-connected-react-router@6.2.1:
-  version "6.2.1"
-  resolved "https://registry.yarnpkg.com/connected-react-router/-/connected-react-router-6.2.1.tgz#c9088d7c26b3267bf0a0168df3105ddfc090dea6"
-  integrity sha512-7QFs0wPYvwrzA7NptHx0DgblNA/nVErX0TUjTiOCwXSaqj/1Ng+nEmEczrfdA8gw7kIzFIa08WJGMymdb7bAZA==
+connected-react-router@6.2.2:
+  version "6.2.2"
+  resolved "https://registry.yarnpkg.com/connected-react-router/-/connected-react-router-6.2.2.tgz#10ed0942ee2032de7cb0fd8479bde526853906ed"
+  integrity sha512-tPI3s7yYtnTt/XLoQFsQqIEQxdQCrsZltEdozjG7LPkOTNglJJ7WqUqnlnh9thC6ebavfaJoTtPa9G2EibuJbg==
   dependencies:
     immutable "^3.8.1"
     seamless-immutable "^7.1.3"
@@ -6279,7 +6279,7 @@ nice-try@^1.0.4:
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
   integrity sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==
 
-nise@^1.4.7:
+nise@^1.4.8:
   version "1.4.8"
   resolved "https://registry.yarnpkg.com/nise/-/nise-1.4.8.tgz#ce91c31e86cf9b2c4cac49d7fcd7f56779bfd6b0"
   integrity sha512-kGASVhuL4tlAV0tvA34yJYZIVihrUt/5bDwpp4tTluigxUr2bBlJeDXmivb6NuEdFkqvdv/Ybb9dm16PSKUhtw==
@@ -8319,17 +8319,17 @@ signal-exit@^3.0.0, signal-exit@^3.0.2:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
   integrity sha1-tf3AjxKH6hF4Yo5BXiUTK3NkbG0=
 
-sinon@7.2.2:
-  version "7.2.2"
-  resolved "https://registry.yarnpkg.com/sinon/-/sinon-7.2.2.tgz#388ecabd42fa93c592bfc71d35a70894d5a0ca07"
-  integrity sha512-WLagdMHiEsrRmee3jr6IIDntOF4kbI6N2pfbi8wkv50qaUQcBglkzkjtoOEbeJ2vf1EsrHhLI+5Ny8//WHdMoA==
+sinon@7.2.3:
+  version "7.2.3"
+  resolved "https://registry.yarnpkg.com/sinon/-/sinon-7.2.3.tgz#f8bfd956df32ddf592f8c102fd46982366412d8e"
+  integrity sha512-i6j7sqcLEqTYqUcMV327waI745VASvYuSuQMCjbAwlpAeuCgKZ3LtrjDxAbu+GjNQR0FEDpywtwGCIh8GicNyg==
   dependencies:
-    "@sinonjs/commons" "^1.2.0"
+    "@sinonjs/commons" "^1.3.0"
     "@sinonjs/formatio" "^3.1.0"
     "@sinonjs/samsam" "^3.0.2"
     diff "^3.5.0"
     lolex "^3.0.0"
-    nise "^1.4.7"
+    nise "^1.4.8"
     supports-color "^5.5.0"
 
 sisteransi@^0.1.1:
