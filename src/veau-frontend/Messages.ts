@@ -46,8 +46,8 @@ const en: Messages = {
 
   LOADING: 'Loading',
 
-  LOGIN: 'Login',
-  LOGOUT: 'Logout',
+  LOGIN: 'Log in',
+  LOGOUT: 'Log out',
 
   ACCOUNT_ID: 'Account ID',
   ACCOUNT_NAME: 'Account',
