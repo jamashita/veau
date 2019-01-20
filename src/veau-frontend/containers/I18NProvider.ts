@@ -9,7 +9,7 @@ type OwnProps = {
 };
 export type Props = StateProps & OwnProps;
 
-const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state) => {
+const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
   const {
     identity: {
       language

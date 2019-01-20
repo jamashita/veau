@@ -19,13 +19,12 @@ const persistConfig: PersistConfig = {
 
 const persistedReducer: Reducer = persistReducer(persistConfig, reducers);
 
-const created: Store = createStore(
+export const store: Store = createStore(
   persistedReducer,
   applyMiddleware(saga, createLogger(), routerMiddleware(history))
 );
 
 saga.run(Root.init);
 
-export const persistor: Persistor = persistStore(created);
-export const store = created;
+export const persistor: Persistor = persistStore(store);
 

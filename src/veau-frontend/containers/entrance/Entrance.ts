@@ -32,13 +32,13 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>) => {
   return {
-    accountTyped: (account: string) => {
+    accountTyped: (account: string): void => {
       dispatch(accountTyped(account));
     },
-    passwordTyped: (password: string) => {
+    passwordTyped: (password: string): void => {
       dispatch(passwordTyped(password));
     },
-    loginClicked: () => {
+    loginClicked: (): void => {
       dispatch(attemptLogin());
     }
   };

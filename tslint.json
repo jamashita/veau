@@ -104,6 +104,7 @@
     "comment-format": [ true, "check-space" ],
     "completed-docs": [ true ],
     "encoding": true,
+    "interface-name": false,
     "import-spacing": true,
     "jsdoc-format": true,
     "newline-before-return": false,

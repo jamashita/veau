@@ -27,7 +27,7 @@ export class LocaleRepository implements ILocaleRepository {
       });
     }
 
-    const query = `SELECT
+    const query: string = `SELECT
       R1.locale_id AS localeID,
       R1.name,
       R1.iso3166
