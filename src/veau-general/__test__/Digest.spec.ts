@@ -1,12 +1,13 @@
+/* tslint:disable */
 import 'jest';
-import { Digest } from '../Digest';
+import {Digest, DigestResponseJSON} from '../Digest';
 
 describe('Digest', () => {
   it('generate, compare', async () => {
 
-    const password = 'The quick brown fox jumps over the lazy dog';
-    const digest1 = await Digest.generate(password);
-    const digest2 = await Digest.generate(password);
+    const password: string = 'The quick brown fox jumps over the lazy dog';
+    const digest1: DigestResponseJSON = await Digest.generate(password);
+    const digest2: DigestResponseJSON = await Digest.generate(password);
 
     expect(digest1.salt).not.toEqual(digest2.salt);
     expect(digest1.hash).not.toEqual(digest2.hash);

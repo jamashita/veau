@@ -1,3 +1,4 @@
+/* tslint:disable */
 import 'jest';
 import { NoSuchElementError } from '../../veau-general/NoSuchElementError';
 import { Term } from '../../veau-vo/Term';

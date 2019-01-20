@@ -1,3 +1,4 @@
+/* tslint:disable */
 import 'jest';
 import { SinonStub } from 'sinon';
 import * as sinon from 'sinon';

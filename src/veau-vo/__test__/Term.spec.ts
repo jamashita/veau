@@ -1,3 +1,4 @@
+/* tslint:disable */
 import 'jest';
 import { Term } from '../Term';
 

@@ -1,3 +1,4 @@
+/* tslint:disable */
 import 'jest';
 import { Caption, CaptionJSON, CaptionRow } from '../../veau-entity/Caption';
 import { Stats } from '../../veau-entity/Stats';

@@ -1,3 +1,4 @@
+/* tslint:disable */
 import 'jest';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsItem } from '../../veau-vo/StatsItem';

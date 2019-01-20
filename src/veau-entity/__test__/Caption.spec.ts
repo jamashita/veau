@@ -1,3 +1,4 @@
+/* tslint:disable */
 import 'jest';
 import { CaptionID } from '../../veau-vo/CaptionID';
 import { ISO3166 } from '../../veau-vo/ISO3166';

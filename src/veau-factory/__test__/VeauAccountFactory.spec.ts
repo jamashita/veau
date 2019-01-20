@@ -1,3 +1,4 @@
+/* tslint:disable */
 import 'jest';
 import { VeauAccount, VeauAccountJSON, VeauAccountRow } from '../../veau-entity/VeauAccount';
 import { ISO3166 } from '../../veau-vo/ISO3166';
