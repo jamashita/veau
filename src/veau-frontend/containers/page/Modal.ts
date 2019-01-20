@@ -1,5 +1,5 @@
 import {
-  connect,
+  connect, ConnectedComponentClass,
   MapDispatchToProps,
   MapStateToProps
 } from 'react-redux';
@@ -47,4 +47,4 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
   };
 };
 
-export const Modal = connect(mapStateToProps, mapDispatchToProps)(Component);
+export const Modal: ConnectedComponentClass<any, any> = connect(mapStateToProps, mapDispatchToProps)(Component);

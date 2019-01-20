@@ -1,11 +1,11 @@
-import { NoSuchElementError } from '../veau-general/Error';
+import { NoSuchElementError } from '../veau-general/NoSuchElementError';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { VeauRedis } from '../veau-infrastructure/VeauRedis';
 import { ISO3166 } from '../veau-vo/ISO3166';
 import { Locale, LocaleRow } from '../veau-vo/Locale';
 import { LocaleID } from '../veau-vo/LocaleID';
 
-const REDIS_KEY = 'Locales';
+const REDIS_KEY: string = 'Locales';
 
 export class LocaleRepository implements ILocaleRepository {
   private static instance: LocaleRepository = new LocaleRepository();
@@ -22,7 +22,7 @@ export class LocaleRepository implements ILocaleRepository {
 
     if (localeString) {
       const localeRows: Array<LocaleRow> = JSON.parse(localeString);
-      return localeRows.map<Locale>((row) => {
+      return localeRows.map<Locale>((row: LocaleRow) => {
         return this.toLocale(row);
       });
     }
@@ -35,7 +35,7 @@ export class LocaleRepository implements ILocaleRepository {
 
     const locales: Array<LocaleRow> = await VeauMySQL.query(query);
     await VeauRedis.getString().set(REDIS_KEY, JSON.stringify(locales));
-    return locales.map<Locale>((row) => {
+    return locales.map<Locale>((row: LocaleRow) => {
       return this.toLocale(row);
     });
   }
@@ -52,7 +52,7 @@ export class LocaleRepository implements ILocaleRepository {
 
   public async findByISO3166(iso3166: ISO3166): Promise<Locale> {
     const locales: Array<Locale> = await this.all();
-    const filtered: Array<Locale> = locales.filter((locale) => {
+    const filtered: Array<Locale> = locales.filter((locale: Locale) => {
       if (locale.getISO3166().equals(iso3166)) {
         return true;
       }

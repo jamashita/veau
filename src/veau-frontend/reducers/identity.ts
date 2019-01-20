@@ -10,7 +10,7 @@ const initialState: Identity = {
   locale: ''
 };
 
-export const identity = (state: Identity = initialState, action: Action): Identity => {
+export const identity: (state: Identity, action: Action) => Identity = (state: Identity = initialState, action: Action): Identity => {
   switch (action.type) {
     case ACTION.IDENTITY_LANGUAGE_MODIFIED: {
       return {

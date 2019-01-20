@@ -19,7 +19,7 @@ export class StatsRepository implements IStatsRepository {
   }
 
   public async findByCaptionID(captionID: CaptionID): Promise<Array<Stats>> {
-    const query = `SELECT
+    const query: string = `SELECT
       R1.stats_id AS statsID,
       R1.term_id AS termID,
       R1.name,
@@ -36,14 +36,14 @@ export class StatsRepository implements IStatsRepository {
 
     const itemMap: Map<string, Array<StatsItem>> = await statsItemRepository.findByCaptionID(captionID);
 
-    return stats.map<Stats>((stats) => {
-      const items: Array<StatsItem> | undefined = itemMap.get(stats.statsID);
+    return stats.map<Stats>((piece: StatsRow) => {
+      const items: Array<StatsItem> | undefined = itemMap.get(piece.statsID);
 
       if (items) {
-        return statsFactory.fromRow(stats, items);
+        return statsFactory.fromRow(piece, items);
       }
 
-      return statsFactory.fromRow(stats, []);
+      return statsFactory.fromRow(piece, []);
     });
   }
 }

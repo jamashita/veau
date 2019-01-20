@@ -1,7 +1,7 @@
 import 'jest';
 import { SinonSpy, SinonStub } from 'sinon';
 import * as sinon from 'sinon';
-import { NoSuchElementError } from '../../veau-general/Error';
+import { NoSuchElementError } from '../../veau-general/NoSuchElementError';
 import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
 import { VeauRedis } from '../../veau-infrastructure/VeauRedis';
 import { ISO639 } from '../../veau-vo/ISO639';

@@ -1,5 +1,5 @@
 import 'jest';
-import { NoSuchElementError } from '../../veau-general/Error';
+import { NoSuchElementError } from '../../veau-general/NoSuchElementError';
 import { Term } from '../../veau-vo/Term';
 import { TermRepository } from '../TermRepository';
 

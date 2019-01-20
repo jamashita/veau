@@ -1,4 +1,4 @@
-import Typography from '@material-ui/core/Typography/Typography'
+import Typography from '@material-ui/core/Typography/Typography';
 import * as React from 'react';
 
 type Props = {

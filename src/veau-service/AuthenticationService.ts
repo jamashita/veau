@@ -1,24 +1,25 @@
 import { Express } from 'express';
-import { Logger } from 'log4js';
 import * as log4js from 'log4js';
 import * as passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { VeauAccount, VeauAccountJSON } from '../veau-entity/VeauAccount';
 import { VeauAccountFactory } from '../veau-factory/VeauAccountFactory';
 import { Digest } from '../veau-general/Digest';
-import { NoSuchElementError } from '../veau-general/Error';
+import { NoSuchElementError } from '../veau-general/NoSuchElementError';
 import { VeauAccountHash, VeauAccountRepository } from '../veau-repository/VeauAccountRepository';
 
-const logger: Logger = log4js.getLogger();
+const logger: log4js.Logger = log4js.getLogger();
 const veauAccountRepository: VeauAccountRepository = VeauAccountRepository.getInstance();
 const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
 
 passport.use(
-  new LocalStrategy({
-    usernameField: 'account',
-    passwordField: 'password',
-    session: true
-  }, async (account: string, password: string, done: (error: any, account?: any) => void): Promise<void> => {
+  new LocalStrategy(
+    {
+      usernameField: 'account',
+      passwordField: 'password',
+      session: true
+    },
+    async (account: string, password: string, done: (error: any, account?: any) => void): Promise<void> => {
     try {
       const veauAccountHash: VeauAccountHash = await veauAccountRepository.findByAccount(account);
 

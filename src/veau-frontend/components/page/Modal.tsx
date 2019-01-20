@@ -1,10 +1,10 @@
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon} from '@material-ui/core';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon } from '@material-ui/core';
 import * as React from 'react';
 import {
-  injectIntl,
-  InjectedIntlProps
+  InjectedIntlProps,
+  injectIntl
 } from 'react-intl';
-import {Props} from '../../containers/page/Modal';
+import { Props } from '../../containers/page/Modal';
 
 type State = {
 };
@@ -51,7 +51,7 @@ class ModalImpl extends React.Component<Props & InjectedIntlProps, State> {
         <DialogTitle>
           {intl.formatMessage(
             {
-              id: title,
+              id: title
             },
             values
           )}

@@ -14,7 +14,7 @@ const initialState: Modal = {
   values: undefined
 };
 
-export const modal = (state: Modal = initialState, action: Action): Modal => {
+export const modal: (state: Modal, action: Action) => Modal = (state: Modal = initialState, action: Action): Modal => {
   switch (action.type) {
     case ACTION.MODAL_RAISE: {
       return {

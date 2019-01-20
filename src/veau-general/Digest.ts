@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcrypt';
 import * as md5 from 'md5';
 
-const ROUNDS = 14;
+const ROUNDS: number = 14;
 
 export type DigestResponseJSON = {
   salt: string;
@@ -11,16 +11,16 @@ export type DigestResponseJSON = {
 export class Digest {
 
   public static generate(str: string): Promise<DigestResponseJSON> {
-    return new Promise((resolve, reject) => {
-      bcrypt.genSalt(ROUNDS, (err: Error, salt: string) => {
-        if (err) {
-          reject(err);
+    return new Promise<DigestResponseJSON>((resolve: (value: DigestResponseJSON) => void, reject: (reason: any) => void): void => {
+      bcrypt.genSalt(ROUNDS, (err1: Error, salt: string) => {
+        if (err1) {
+          reject(err1);
           return;
         }
 
-        bcrypt.hash(str, salt, (err: Error, hash: string) => {
-          if (err) {
-            reject(err);
+        bcrypt.hash(str, salt, (err2: Error, hash: string) => {
+          if (err2) {
+            reject(err2);
             return;
           }
 
@@ -34,7 +34,7 @@ export class Digest {
   }
 
   public static compare(str: string, hash: string): Promise<boolean> {
-    return new Promise((resolve, reject) => {
+    return new Promise<boolean>((resolve: (value: boolean) => void, reject: (reason: any) => void) => {
       bcrypt.compare(str, hash, (err: Error, res: boolean) => {
         if (err) {
           reject(err);

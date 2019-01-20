@@ -1,15 +1,15 @@
-import {default as Text} from '@material-ui/core/TextField';
-import {ChangeEvent} from 'react';
+import { default as Text } from '@material-ui/core/TextField';
+import { ChangeEvent } from 'react';
 import * as React from 'react';
 
 type Props = {
   label: string;
   type: string;
   value: string;
-  defaultValue?: string
+  defaultValue?: string;
   disabled?: boolean;
-  onKeyUp?: (value: string) => void;
-  onEnterUp?: () => void;
+  onKeyUp?(value: string): void;
+  onEnterUp?(): void;
 };
 type State = {
 };

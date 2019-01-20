@@ -1,7 +1,7 @@
 import * as React from 'react';
-import {LoadingIndicator} from '../containers/page/LoadingIndicator';
-import {Modal} from '../containers/page/Modal';
-import {Catalogue} from './Catalogue';
+import { LoadingIndicator } from '../containers/page/LoadingIndicator';
+import { Modal } from '../containers/page/Modal';
+import { Catalogue } from './Catalogue';
 
 type Props = {
 };

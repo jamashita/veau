@@ -1,12 +1,11 @@
 export class LanguageIdentifier {
 
   private static split(language: string): string {
-    const lang = language.split('-')[0];
-    return lang;
+    return language.split('-')[0];
   }
 
   public static toISO639(language: string): string {
-    const smallLocale = language.toLowerCase();
+    const smallLocale: string = language.toLowerCase();
     switch (smallLocale) {
       case 'en':
       case 'fr':
@@ -15,7 +14,7 @@ export class LanguageIdentifier {
         return smallLocale;
       }
       default: {
-        const lang = LanguageIdentifier.split(smallLocale);
+        const lang: string = LanguageIdentifier.split(smallLocale);
         if (lang === smallLocale) {
           return 'en';
         }

@@ -10,7 +10,7 @@
     "start": "pm2 start ecosystem.config.js",
     "stop": "pm2 stop ecosystem.config.js",
     "test": "jest test",
-    "lint": "tslint 'src/**/*.ts' --fix"
+    "lint": "tslint 'src/**/*.ts{,x}' --fix"
   },
   "dependencies": {
     "@handsontable/react": "2.1.0",

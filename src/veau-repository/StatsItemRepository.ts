@@ -13,7 +13,7 @@ export class StatsItemRepository implements IStatsItemRepository {
   }
 
   public async findByCaptionID(captionID: CaptionID): Promise<Map<string, Array<StatsItem>>> {
-    const query = `SELECT
+    const query: string = `SELECT
       R1.stats_id AS statsID,
       R1.as_of AS asOf,
       R1.value
@@ -30,7 +30,7 @@ export class StatsItemRepository implements IStatsItemRepository {
 
     const itemMap: Map<string, Array<StatsItem>> = new Map();
 
-    statsItems.forEach((item) => {
+    statsItems.forEach((item: StatsItemRow) => {
       const {
         statsID,
         asOf,

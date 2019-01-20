@@ -19,7 +19,7 @@ export class CaptionRepository implements ICaptionRepository {
   }
 
   public async findByCaptionID(captionID: CaptionID): Promise<Caption> {
-    const query = `SELECT
+    const query: string = `SELECT
       R1.caption_id AS captionID,
       R1.language_id AS languageID,
       R2.name AS languageName,

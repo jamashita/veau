@@ -1,323 +1,8 @@
 import * as redis from 'redis';
-
-class RedisHash {
-  private client: redis.RedisClient;
-
-  public constructor(client: redis.RedisClient) {
-    this.client = client;
-  }
-
-  public set(key: string, field: string, value: string): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      this.client.hset(key, field, value, (err: Error | null, response: number) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        if (response === 1) {
-          resolve(true);
-          return;
-        }
-
-        resolve(false);
-      });
-    });
-  }
-
-  public get(key: string, field: string): Promise<string> {
-    return new Promise((resolve, reject) => {
-      this.client.hget(key, field, (err: Error | null, response: string) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve(response);
-      });
-    });
-  }
-
-  public delete(key: string, field: string): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      this.client.hdel(key, field, (err: Error | null, response: number) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        if (response === 1) {
-          resolve(true);
-          return;
-        }
-
-        resolve(false);
-      });
-    });
-  }
-
-  public length(key: string): Promise<number> {
-    return new Promise((resolve, reject) => {
-      this.client.hlen(key, (err: Error | null, response: number) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve(response);
-      });
-    });
-  }
-
-  public has(key: string, field: string): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      this.client.hexists(key, field, (err: Error | null, response: number) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        if (response === 1) {
-          resolve(true);
-          return;
-        }
-
-        resolve(false);
-      });
-    });
-  }
-}
-
-class RedisSet {
-  private client: redis.RedisClient;
-
-  public constructor(client: redis.RedisClient) {
-    this.client = client;
-  }
-
-  public add(key: string, value: string): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      this.client.sadd(key, value, (err: Error | null, response: number) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        if (response === 1) {
-          resolve(true);
-          return;
-        }
-
-        resolve(false);
-      });
-    });
-  }
-
-  public remove(key: string, value: string): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      this.client.srem(key, value, (err: Error | null, response: number) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        if (response === 1) {
-          resolve(true);
-          return;
-        }
-
-        resolve(false);
-      });
-    });
-  }
-
-  public has(key: string, value: string): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      this.client.sismember(key, value, (err: Error | null, response: number) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        if (response === 1) {
-          resolve(true);
-          return;
-        }
-
-        resolve(false);
-      });
-    });
-  }
-
-  public length(key: string): Promise<number> {
-    return new Promise((resolve, reject) => {
-      this.client.scard(key, (err: Error | null, response: number) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve(response);
-      });
-    });
-  }
-
-  public dump(key: string): Promise<Array<string>> {
-    return new Promise((resolve, reject) => {
-      this.client.smembers(key, (err: Error | null, response: Array<string>) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve(response);
-      });
-    });
-  }
-
-  public random(key: string): Promise<string | null> {
-    return new Promise((resolve, reject) => {
-      this.client.srandmember(key, (err: Error | null, response: string | null) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve(response);
-      });
-    });
-  }
-
-  public pop(key: string): Promise<string | null> {
-    return new Promise((resolve, reject) => {
-      this.client.spop(key, (err: Error | null, response: string | null) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve(response);
-      });
-    });
-  }
-}
-
-class RedisList {
-  private client: redis.RedisClient;
-
-  public constructor(client: redis.RedisClient) {
-    this.client = client;
-  }
-
-  public push(key: string, value: string): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      this.client.rpush(key, value, (err: Error | null, response: number) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        if (response > 0) {
-          resolve(true);
-          return;
-        }
-
-        resolve(false);
-      });
-    });
-  }
-
-  public pop(key: string): Promise<string | null> {
-    return new Promise((resolve, reject) => {
-      this.client.rpop(key, (err: Error | null, response: string | null) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve(response);
-      });
-    });
-  }
-
-  public shift(key: string): Promise<string | null> {
-    return new Promise((resolve, reject) => {
-      this.client.lpop(key, (err: Error | null, response: string | null) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve(response);
-      });
-    });
-  }
-
-  public length(key: string): Promise<number> {
-    return new Promise((resolve, reject) => {
-      this.client.llen(key, (err: Error | null, response: number) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve(response);
-      });
-    });
-  }
-
-  public dump(key: string): Promise<Array<string>> {
-    return new Promise((resolve, reject) => {
-      this.client.lrange(key, 0, -1, (err: Error | null, response: Array<string>) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve(response);
-      });
-    });
-  }
-}
-
-class RedisString {
-  private client: redis.RedisClient;
-
-  public constructor(client: redis.RedisClient) {
-    this.client = client;
-  }
-
-  public set(key: string, value: string): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      this.client.set(key, value, (err: Error | null, response: 'OK' | null) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        if (response === 'OK') {
-          resolve(true);
-          return;
-        }
-
-        resolve(false);
-      });
-    });
-  }
-
-  public get(key: string): Promise<string | null> {
-    return new Promise((resolve, reject) => {
-      this.client.get(key, (err: Error | null, response: string | null) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve(response);
-      });
-    });
-  }
-}
+import { RedisHash } from './RedisHash';
+import { RedisList } from './RedisList';
+import { RedisSet } from './RedisSet';
+import { RedisString } from './RedisString';
 
 export class Redis {
   private hash: RedisHash;
@@ -327,9 +12,9 @@ export class Redis {
   private client: redis.RedisClient;
 
   public constructor(config: redis.ClientOpts) {
-    const client = redis.createClient(config);
+    const client: redis.RedisClient = redis.createClient(config);
 
-    client.on('error', (err) => {
+    client.on('error', (err: any) => {
       console.log('REDIS ERROR');
       console.log(err);
     });
@@ -359,8 +44,8 @@ export class Redis {
   }
 
   public delete(key: string): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      this.client.del(key, (err: Error | null, response: number) => {
+    return new Promise<boolean>((resolve: (value: boolean) => void, reject: (reason: any) => void): void => {
+      this.client.del(key, (err: Error | null, response: number): void => {
         if (err) {
           reject(err);
           return;
@@ -377,8 +62,8 @@ export class Redis {
   }
 
   public exists(key: string): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      this.client.exists(key, (err: Error | null, response: number) => {
+    return new Promise<boolean>((resolve: (value: boolean) => void, reject: (reason: any) => void): void => {
+      this.client.exists(key, (err: Error | null, response: number): void => {
         if (err) {
           reject(err);
           return;
@@ -394,8 +79,8 @@ export class Redis {
   }
 
   public expires(key: string, seconds: number): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      this.client.expire(key, seconds, (err: Error | null, response: number) => {
+    return new Promise<boolean>((resolve: (value: boolean) => void, reject: (reason: any) => void): void => {
+      this.client.expire(key, seconds, (err: Error | null, response: number): void => {
         if (err) {
           reject(err);
           return;

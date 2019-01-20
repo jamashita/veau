@@ -1,11 +1,11 @@
-import { NoSuchElementError } from '../veau-general/Error';
+import { NoSuchElementError } from '../veau-general/NoSuchElementError';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { VeauRedis } from '../veau-infrastructure/VeauRedis';
 import { ISO639 } from '../veau-vo/ISO639';
 import { Language, LanguageRow } from '../veau-vo/Language';
 import { LanguageID } from '../veau-vo/LanguageID';
 
-const REDIS_KEY = 'Languages';
+const REDIS_KEY: string = 'Languages';
 
 export class LanguageRepository implements ILanguageRepository {
   private static instance: LanguageRepository = new LanguageRepository();
@@ -22,12 +22,12 @@ export class LanguageRepository implements ILanguageRepository {
 
     if (languagesString) {
       const languageRows: Array<LanguageRow> = JSON.parse(languagesString);
-      return languageRows.map<Language>((row) => {
+      return languageRows.map<Language>((row: LanguageRow) => {
         return this.toLanguage(row);
       });
     }
 
-    const query = `SELECT
+    const query: string = `SELECT
       R1.language_id AS languageID,
       R1.name,
       R1.english_name AS englishName,
@@ -36,7 +36,7 @@ export class LanguageRepository implements ILanguageRepository {
 
     const languages: Array<LanguageRow> = await VeauMySQL.query(query);
     await VeauRedis.getString().set(REDIS_KEY, JSON.stringify(languages));
-    return languages.map<Language>((row) => {
+    return languages.map<Language>((row: LanguageRow) => {
       return this.toLanguage(row);
     });
   }
@@ -54,7 +54,7 @@ export class LanguageRepository implements ILanguageRepository {
 
   public async findByISO639(iso639: ISO639): Promise<Language> {
     const languages: Array<Language> = await this.all();
-    const filtered: Array<Language> = languages.filter((language) => {
+    const filtered: Array<Language> = languages.filter((language: Language) => {
       if (language.getISO639().equals(iso639)) {
         return true;
       }

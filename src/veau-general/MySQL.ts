@@ -1,11 +1,11 @@
 import * as mysql from 'mysql';
-import { MysqlError, PoolConnection } from 'mysql';
+import { Transaction } from './MySQLTransaction';
 
 export class MySQL {
   private pool: mysql.Pool;
 
   public constructor(config: mysql.PoolConfig) {
-    const pool = mysql.createPool(config);
+    const pool: mysql.Pool = mysql.createPool(config);
 
     pool.on('connection', (connection: mysql.Connection) => {
       connection.config.queryFormat = (query: string, values: any): string => {
@@ -13,7 +13,7 @@ export class MySQL {
           return query;
         }
 
-        return query.replace(/:(\w+)/g, (txt, key) => {
+        return query.replace(/:(\w+)/g, (txt: string, key: string): string => {
           if (values instanceof Array) {
             for (const value of values) {
               if (value.hasOwnProperty(key)) {
@@ -33,16 +33,16 @@ export class MySQL {
   }
 
   private getTransaction(): Promise<Transaction> {
-    return new Promise((resolve, reject) => {
-      this.pool.getConnection((err: MysqlError, connection: PoolConnection) => {
-        if (err) {
-          reject(err);
+    return new Promise<Transaction>((resolve: (value: Transaction) => void, reject: (reason: any) => void): void => {
+      this.pool.getConnection((err1: mysql.MysqlError | null, connection: mysql.PoolConnection): void => {
+        if (err1) {
+          reject(err1);
           return;
         }
 
-        connection.beginTransaction((err) => {
-          if (err) {
-            reject(err);
+        connection.beginTransaction((err2?: mysql.MysqlError): void => {
+          if (err2) {
+            reject(err2);
             return;
           }
 
@@ -68,8 +68,8 @@ export class MySQL {
   }
 
   public query(sql: string, values?: Array<any>): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.pool.query(sql, values, (err: mysql.MysqlError, result: any) => {
+    return new Promise<any>((resolve: (value: any) => void, reject: (reason: any) => void): void => {
+      this.pool.query(sql, values, (err: mysql.MysqlError | null, result: any): void => {
         if (err) {
           reject(err);
           return;
@@ -78,56 +78,5 @@ export class MySQL {
         resolve(result);
       });
     });
-  }
-}
-
-export class Transaction {
-  private connection: mysql.PoolConnection;
-
-  public constructor(connection: mysql.PoolConnection) {
-    this.connection = connection;
-  }
-
-  public query(sql: string, values?: Array<any>): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.connection.query(sql, values, (err: mysql.MysqlError, result: any) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve(result);
-      });
-    });
-  }
-
-  public commit(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      this.connection.commit((err) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve();
-      });
-    });
-  }
-
-  public rollback(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      this.connection.rollback((err) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve();
-      });
-    });
-  }
-
-  public release(): void {
-    this.connection.release();
   }
 }

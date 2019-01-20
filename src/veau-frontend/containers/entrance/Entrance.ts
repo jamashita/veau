@@ -1,9 +1,9 @@
-import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
+import { connect, ConnectedComponentClass, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Action } from '../../../declarations/Action';
 import { State } from '../../../declarations/State';
 import { Login } from '../../../veau-vo/Login';
-import { accountTyped, login, passwordTyped } from '../../actions/EntranceAction';
+import { accountTyped, attemptLogin, passwordTyped } from '../../actions/EntranceAction';
 import { Entrance as Component } from '../../components/entrance/Entrance';
 
 type StateProps = {
@@ -18,7 +18,7 @@ type OwnProps = {
 };
 export type Props = StateProps & DispatchProps & OwnProps;
 
-const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state) => {
+const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
   const {
     entrance: {
       login
@@ -39,9 +39,9 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
       dispatch(passwordTyped(password));
     },
     loginClicked: () => {
-      dispatch(login());
+      dispatch(attemptLogin());
     }
   };
 };
 
-export const Entrance = connect(mapStateToProps, mapDispatchToProps)(Component);
+export const Entrance: ConnectedComponentClass<any, any> = connect(mapStateToProps, mapDispatchToProps)(Component);

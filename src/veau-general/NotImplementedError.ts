@@ -4,10 +4,3 @@ export class NotImplementedError extends Error {
     super(message);
   }
 }
-
-export class NoSuchElementError extends Error {
-
-  public constructor(message: string) {
-    super(`NO SUCH KEY: ${message}`);
-  }
-}

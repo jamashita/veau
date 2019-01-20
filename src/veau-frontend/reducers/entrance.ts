@@ -9,7 +9,7 @@ const initialState: Entrance = {
   login: Login.default()
 };
 
-export const entrance = (state: Entrance = initialState, action: Action): Entrance => {
+export const entrance: (state: Entrance, action: Action) => Entrance = (state: Entrance = initialState, action: Action): Entrance => {
   switch (action.type) {
     case ACTION.IDENTITY_IDENTIFIED: {
       return initialState;

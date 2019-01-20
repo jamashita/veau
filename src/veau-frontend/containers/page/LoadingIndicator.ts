@@ -1,4 +1,4 @@
-import { connect, MapStateToProps } from 'react-redux';
+import { connect, ConnectedComponentClass, MapStateToProps } from 'react-redux';
 import { State } from '../../../declarations/State';
 import { LoadingIndicator as Component } from '../../components/page/LoadingIndicator';
 
@@ -19,4 +19,4 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state) =>
   };
 };
 
-export const LoadingIndicator = connect(mapStateToProps, null)(Component);
+export const LoadingIndicator: ConnectedComponentClass<any, any> = connect(mapStateToProps, null)(Component);

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import {injectIntl, InjectedIntlProps} from 'react-intl';
-import {RawLabel} from './RawLabel';
+import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { RawLabel } from './RawLabel';
 
 type Props = {
   id: string;

@@ -1,6 +1,6 @@
 import * as Chance from 'chance';
 
-const chance = new Chance();
+const chance: Chance.Chance = new Chance();
 
 export class Random {
 

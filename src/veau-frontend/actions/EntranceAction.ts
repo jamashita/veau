@@ -27,7 +27,7 @@ export const entranceLoginInfoUpdate: (login: Login) => EntranceInfoUpdateAction
   };
 };
 
-export const login: () => IdentityAuthenticateAction = (): IdentityAuthenticateAction => {
+export const attemptLogin: () => IdentityAuthenticateAction = (): IdentityAuthenticateAction => {
   return {
     type: ACTION.IDENTITY_AUTHENTICATE
   };

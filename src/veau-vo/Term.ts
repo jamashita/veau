@@ -1,13 +1,18 @@
-import { NoSuchElementError } from '../veau-general/Error';
+import { NoSuchElementError } from '../veau-general/NoSuchElementError';
 import { ValueObject } from './ValueObject';
+
+const DAILY: number = 1;
+const WEEKLY: number = 2;
+const MONTHLY: number = 3;
+const ANNUAL: number = 4;
 
 export class Term extends ValueObject {
   private id: number;
 
-  public static DAILY: Term = new Term(1);
-  public static WEEKLY: Term = new Term(2);
-  public static MONTHLY: Term = new Term(3);
-  public static ANNUAL: Term = new Term(4);
+  public static DAILY: Term = new Term(DAILY);
+  public static WEEKLY: Term = new Term(WEEKLY);
+  public static MONTHLY: Term = new Term(MONTHLY);
+  public static ANNUAL: Term = new Term(ANNUAL);
 
   public static of(id: number): Term {
     switch (id) {

@@ -1,5 +1,5 @@
-import {Button} from '@material-ui/core';
-import {ButtonProps} from '@material-ui/core/Button';
+import { Button } from '@material-ui/core';
+import { ButtonProps } from '@material-ui/core/Button';
 import * as React from 'react';
 
 type Props = ButtonProps;
