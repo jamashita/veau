@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 8.0.13)
 # Database: veau
-# Generation Time: 2019-01-20 15:55:11 +0000
+# Generation Time: 2019-01-20 18:52:17 +0000
 # ************************************************************
 
 
@@ -229,23 +229,23 @@ VALUES
 UNLOCK TABLES;
 
 
-# Dump of table locales
+# Dump of table regions
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `locales`;
+DROP TABLE IF EXISTS `regions`;
 
-CREATE TABLE `locales` (
-  `locale_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `regions` (
+  `region_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `iso3166` char(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  PRIMARY KEY (`locale_id`),
+  PRIMARY KEY (`region_id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
-LOCK TABLES `locales` WRITE;
-/*!40000 ALTER TABLE `locales` DISABLE KEYS */;
+LOCK TABLES `regions` WRITE;
+/*!40000 ALTER TABLE `regions` DISABLE KEYS */;
 
-INSERT INTO `locales` (`locale_id`, `name`, `iso3166`)
+INSERT INTO `regions` (`region_id`, `name`, `iso3166`)
 VALUES
 	(1,X'41666768616E697374616E',X'414647'),
 	(2,X'416C62616E6961',X'414C42'),
@@ -497,7 +497,7 @@ VALUES
 	(248,X'5A696D6261627765',X'5A5745'),
 	(249,X'C3856C616E642049736C616E6473',X'414C41');
 
-/*!40000 ALTER TABLE `locales` ENABLE KEYS */;
+/*!40000 ALTER TABLE `regions` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
@@ -509,14 +509,14 @@ DROP TABLE IF EXISTS `stats`;
 CREATE TABLE `stats` (
   `stats_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `language_id` tinyint(3) unsigned NOT NULL,
-  `locale_id` smallint(5) unsigned NOT NULL,
+  `region_id` smallint(5) unsigned NOT NULL,
   `name` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`stats_id`),
   KEY `language_id` (`language_id`),
-  KEY `locale_id` (`locale_id`),
+  KEY `region_id` (`region_id`),
   CONSTRAINT `captions_ibfk_1` FOREIGN KEY (`language_id`) REFERENCES `languages` (`language_id`),
-  CONSTRAINT `captions_ibfk_2` FOREIGN KEY (`locale_id`) REFERENCES `locales` (`locale_id`)
+  CONSTRAINT `captions_ibfk_2` FOREIGN KEY (`region_id`) REFERENCES `regions` (`region_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 
@@ -592,20 +592,20 @@ CREATE TABLE `veau_accounts` (
   `account` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `hash` tinytext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `language_id` tinyint(3) unsigned NOT NULL,
-  `locale_id` smallint(5) unsigned NOT NULL,
+  `region_id` smallint(5) unsigned NOT NULL,
   `active` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY (`veau_account_id`),
   UNIQUE KEY `account` (`account`),
   KEY `language_id` (`language_id`),
-  KEY `locale_id` (`locale_id`),
+  KEY `region_id` (`region_id`),
   CONSTRAINT `veau_accounts_ibfk_1` FOREIGN KEY (`language_id`) REFERENCES `languages` (`language_id`),
-  CONSTRAINT `veau_accounts_ibfk_2` FOREIGN KEY (`locale_id`) REFERENCES `locales` (`locale_id`)
+  CONSTRAINT `veau_accounts_ibfk_2` FOREIGN KEY (`region_id`) REFERENCES `regions` (`region_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 LOCK TABLES `veau_accounts` WRITE;
 /*!40000 ALTER TABLE `veau_accounts` DISABLE KEYS */;
 
-INSERT INTO `veau_accounts` (`veau_account_id`, `account`, `hash`, `language_id`, `locale_id`, `active`)
+INSERT INTO `veau_accounts` (`veau_account_id`, `account`, `hash`, `language_id`, `region_id`, `active`)
 VALUES
 	(1,X'76656175',X'24326224313424764E2F46636749306E6A636868304C5867526F582E653051524B72704D38777661542E6532356E7172426236772F64477A76523243',41,1,1);
 
