@@ -17,7 +17,7 @@ export class Redirect {
       const action: LocationChangeAction = yield take(ACTION.LOCATION_CHANGE);
       const path: string = action.payload.location.pathname;
 
-      if (path == '/') {
+      if (path === '/') {
         const state: State = yield select();
 
         const {

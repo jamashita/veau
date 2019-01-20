@@ -2,6 +2,7 @@ import { Avatar, Button, Card, CardActions, CardContent, CardHeader, Icon } from
 import { pink } from '@material-ui/core/colors';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { Brightness } from '../../Brightness';
 import { Props } from '../../containers/entrance/Entrance';
 import { TextField } from '../atoms/TextField';
 
@@ -39,7 +40,7 @@ class EntranceImpl extends React.Component<Props & InjectedIntlProps, State> {
           })}
           avatar={<Avatar
             style={{
-            backgroundColor: pink[500]
+            backgroundColor: pink[Brightness.primaryMain]
             }}
           >V</Avatar>}
         />
@@ -82,4 +83,4 @@ class EntranceImpl extends React.Component<Props & InjectedIntlProps, State> {
   }
 }
 
-export const Entrance = injectIntl(EntranceImpl);
+export const Entrance: React.ComponentClass = injectIntl(EntranceImpl);

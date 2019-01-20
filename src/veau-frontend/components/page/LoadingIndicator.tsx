@@ -9,7 +9,7 @@ import { Props } from '../../containers/page/LoadingIndicator';
 type State = {
 };
 
-const SIZE = 160;
+const SIZE: number = 160;
 
 class LoadingIndicatorImpl extends React.Component<Props & InjectedIntlProps, State> {
 
@@ -52,4 +52,4 @@ class LoadingIndicatorImpl extends React.Component<Props & InjectedIntlProps, St
   }
 }
 
-export const LoadingIndicator = injectIntl(LoadingIndicatorImpl);
+export const LoadingIndicator: React.ComponentClass = injectIntl(LoadingIndicatorImpl);

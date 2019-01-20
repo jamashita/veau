@@ -83,7 +83,7 @@
     "triple-equals": true,
     "use-default-type-parameter": true,
     "use-isnan": true,
-    "cyclomatic-complexity": [ true, 6 ],
+    "cyclomatic-complexity": false,
     "deprecation": true,
     "eofline": true,
     "max-classes-per-file": [ true, 1 ],

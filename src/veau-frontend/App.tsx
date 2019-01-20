@@ -10,6 +10,7 @@ import * as fr from 'react-intl/locale-data/fr';
 import * as ja from 'react-intl/locale-data/ja';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import { Brightness } from './Brightness';
 import { MainView } from './components/MainView';
 import { I18NProvider } from './containers/I18NProvider';
 import { history } from './history';
@@ -23,16 +24,16 @@ const muiTheme: Theme = createMuiTheme({
   },
   palette: {
     primary: {
-      light: pink[300],
-      main: pink[500],
-      dark: pink[900],
-      contrastText: grey[100]
+      light: pink[Brightness.primaryLight],
+      main: pink[Brightness.primaryMain],
+      dark: pink[Brightness.primaryDark],
+      contrastText: grey[Brightness.primaryText]
     },
     secondary: {
-      light: lightGreen[200],
-      main: lightGreen[400],
-      dark: lightGreen[800],
-      contrastText: grey[100]
+      light: lightGreen[Brightness.secondaryLight],
+      main: lightGreen[Brightness.secondaryMain],
+      dark: lightGreen[Brightness.secondaryDark],
+      contrastText: grey[Brightness.secondaryText]
     }
   }
 });

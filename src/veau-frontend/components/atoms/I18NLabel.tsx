@@ -55,4 +55,4 @@ class I18NLabelImpl extends React.Component<Props & InjectedIntlProps, State> {
   }
 }
 
-export const I18NLabel = injectIntl(I18NLabelImpl);
+export const I18NLabel: React.ComponentClass = injectIntl(I18NLabelImpl);

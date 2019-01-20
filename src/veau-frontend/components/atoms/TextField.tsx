@@ -1,5 +1,4 @@
 import { default as Text } from '@material-ui/core/TextField';
-import { ChangeEvent } from 'react';
 import * as React from 'react';
 
 type Props = {
@@ -71,11 +70,11 @@ export class TextField extends React.Component<Props, State> {
         type={type}
         value={value}
         defaultValue={defaultValue}
-        onChange={(event: ChangeEvent<HTMLInputElement>) => {
+        onChange={(e1: React.ChangeEvent<HTMLInputElement>): void => {
           if (onKeyUp) {
-            onKeyUp(event.target.value);
-            event.target.onkeydown = (event: KeyboardEvent) => {
-              if (event.key == 'Enter') {
+            onKeyUp(e1.target.value);
+            e1.target.onkeydown = (e2: KeyboardEvent): void => {
+              if (e2.key === 'Enter') {
                 if (onEnterUp) {
                   onEnterUp();
                 }

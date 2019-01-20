@@ -42,7 +42,7 @@ export class OnceButton extends React.Component<Props, State> {
         disabled={disabled}
         size={size}
         fullWidth={fullWidth}
-        onClick={() => {
+        onClick={(): void => {
           if (!disabled) {
             this.setState({
               disabled: true
