@@ -14,6 +14,10 @@ export class Identity extends Entity<IdentityID> {
   private language: string;
   private locale: string;
 
+  public static default(): Identity {
+    return new Identity(IdentityID.of(0), '', '', '');
+  }
+
   public constructor(identityID: IdentityID, account: string, language: string, locale: string) {
     super();
     this.identityID = identityID;
