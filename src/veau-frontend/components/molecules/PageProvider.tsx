@@ -1,11 +1,12 @@
-import { Button, Drawer, Icon } from '@material-ui/core';
+import { Button, Divider, Drawer, Icon, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import * as React from 'react';
+import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { Props } from '../../containers/molecules/PageProvider';
 
 type State = {
 };
 
-export class PageProvider extends React.Component<Props, State> {
+class PageProviderImpl extends React.Component<Props & InjectedIntlProps, State> {
 
   public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
     const {
@@ -21,13 +22,17 @@ export class PageProvider extends React.Component<Props, State> {
 
   public render(): React.ReactNode {
     const {
-      isOpen
+      isOpen,
+      language,
+      locale,
+      intl
     } = this.props;
 
     return (
       <Drawer
         anchor='left'
         open={isOpen}
+        variant='persistent'
       >
         <Button
           variant='contained'
@@ -37,7 +42,30 @@ export class PageProvider extends React.Component<Props, State> {
         >
           <Icon className='fa fa-times' />
         </Button>
+        <Divider />
+        <List>
+          <ListItem
+            button={true}
+            onClick={() => {
+              this.props.logout(language, locale);
+            }}
+          >
+            <ListItemIcon
+            >
+              <Icon
+                className='fa fa-sign-out'
+              />
+            </ListItemIcon>
+            <ListItemText>
+              {intl.formatMessage({
+                id: 'LOGOUT'
+              })}
+            </ListItemText>
+          </ListItem>
+        </List>
       </Drawer>
     );
   }
 }
+
+export const PageProvider: React.ComponentClass = injectIntl(PageProviderImpl);

@@ -2,14 +2,18 @@ import { connect, ConnectedComponentClass, MapDispatchToProps, MapStateToProps }
 import { Dispatch } from 'redux';
 import { Action } from '../../../declarations/Action';
 import { State } from '../../../declarations/State';
+import { logout } from '../../actions/LogoutAction';
 import { closeProvider } from '../../actions/PageProviderAction';
 import { PageProvider as Component } from '../../components/molecules/PageProvider';
 
 type StateProps = {
   isOpen: boolean;
+  language: string;
+  locale: string;
 };
 type DispatchProps = {
   close(): void;
+  logout(language: string, locale: string): void;
 };
 type OwnProps = {
 };
@@ -19,11 +23,17 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
   const {
     pageProvider: {
       isOpen
+    },
+    identity: {
+      language,
+      locale
     }
   } = state;
 
   return {
-    isOpen
+    isOpen,
+    language,
+    locale
   };
 };
 
@@ -31,6 +41,9 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
   return {
     close: (): void => {
       dispatch(closeProvider());
+    },
+    logout: (language: string, locale: string): void => {
+      dispatch(logout(language, locale));
     }
   };
 };

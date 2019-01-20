@@ -15,8 +15,9 @@ export enum ACTION {
   IDENTITY_AUTHENTICATE = 'IDENTITY_AUTHENTICATE',
   IDENTITY_LANGUAGE_MODIFIED = 'IDENTITY_LANGUAGE_MODIFIED',
   IDENTITY_IDENTIFIED = 'IDENTITY_IDENTIFIED',
+  IDENTITY_INITIALIZE = 'IDENTITY_INITIALIZE',
 
-  DESTROY_SESSION = 'DESTROY_SESSION',
+  LOGOUT = 'LOGOUT',
 
   PUSH_TO_HOME = 'PUSH_TO_HOME',
   PUSH_TO_ENTRANCE = 'PUSH_TO_ENTRANCE',
@@ -59,8 +60,15 @@ export interface IdentityIdentifiedAction extends ReduxAction {
   type: ACTION.IDENTITY_IDENTIFIED;
   identity: Identity;
 }
-export interface DestroySessionAction extends ReduxAction {
-  type: ACTION.DESTROY_SESSION;
+export interface IdentityInitializeAction extends ReduxAction {
+  type: ACTION.IDENTITY_INITIALIZE;
+  language: string;
+  locale: string;
+}
+export interface LogoutAction extends ReduxAction {
+  type: ACTION.LOGOUT;
+  language: string;
+  locale: string;
 }
 export interface PushToHomeAction extends ReduxAction {
   type: ACTION.PUSH_TO_HOME;
@@ -96,7 +104,8 @@ export type Action =
   | IdentityAuthenticateAction
   | IdentityLanguageModifiedAction
   | IdentityIdentifiedAction
-  | DestroySessionAction
+  | IdentityInitializeAction
+  | LogoutAction
   | PushToHomeAction
   | PushToEntrancAction
   | EntranceAccountNameTypedAction

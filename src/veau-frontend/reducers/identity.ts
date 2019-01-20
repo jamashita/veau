@@ -21,6 +21,14 @@ export const identity: (state: Identity, action: Action) => Identity = (state: I
     case ACTION.IDENTITY_IDENTIFIED: {
       return action.identity;
     }
+    case ACTION.IDENTITY_INITIALIZE: {
+      const {
+        language,
+        locale
+      } = action;
+
+      return {...initialState, language, locale};
+    }
     default: {
       return state;
     }
