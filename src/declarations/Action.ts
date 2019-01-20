@@ -1,6 +1,6 @@
 import { RouterState } from 'connected-react-router';
 import { Action as ReduxAction } from 'redux';
-import { Identity } from '../veau-frontend/reducers/identity';
+import {Identity} from '../veau-vo/Identity';
 import { Login } from '../veau-vo/Login';
 
 export enum ACTION {
@@ -14,7 +14,7 @@ export enum ACTION {
 
   IDENTITY_AUTHENTICATE = 'IDENTITY_AUTHENTICATE',
   IDENTITY_LANGUAGE_MODIFIED = 'IDENTITY_LANGUAGE_MODIFIED',
-  IDENTITY_IDENTIFIED = 'IDENTITY_IDENTIFIED',
+  IDENTITY_RENEWED = 'IDENTITY_NEW_IDENTITY',
   IDENTITY_INITIALIZE = 'IDENTITY_INITIALIZE',
 
   LOGOUT = 'LOGOUT',
@@ -56,8 +56,8 @@ export interface IdentityLanguageModifiedAction extends ReduxAction {
   type: ACTION.IDENTITY_LANGUAGE_MODIFIED;
   language: string;
 }
-export interface IdentityIdentifiedAction extends ReduxAction {
-  type: ACTION.IDENTITY_IDENTIFIED;
+export interface IdentityRenewAction extends ReduxAction {
+  type: ACTION.IDENTITY_RENEWED;
   identity: Identity;
 }
 export interface IdentityInitializeAction extends ReduxAction {
@@ -99,7 +99,7 @@ export type Action =
   | LoadingFinishAction
   | IdentityAuthenticateAction
   | IdentityLanguageModifiedAction
-  | IdentityIdentifiedAction
+  | IdentityRenewAction
   | IdentityInitializeAction
   | LogoutAction
   | PushToHomeAction

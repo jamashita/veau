@@ -7,6 +7,10 @@ export class IdentityID extends ValueObject {
     return new IdentityID(id);
   }
 
+  public static default(): IdentityID {
+    return new IdentityID(0);
+  }
+
   private constructor(id: number) {
     super();
     this.id = id;

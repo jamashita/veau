@@ -1,33 +1,12 @@
 import { ACTION, Action } from '../../declarations/Action';
-import { VeauAccountJSON } from '../../veau-entity/VeauAccount';
+import {Identity} from '../../veau-vo/Identity';
 
-export type Identity = VeauAccountJSON;
-
-const initialState: Identity = {
-  id: 0,
-  account: '',
-  language: '',
-  locale: ''
-};
+const initialState: Identity = Identity.default();
 
 export const identity: (state: Identity, action: Action) => Identity = (state: Identity = initialState, action: Action): Identity => {
   switch (action.type) {
-    case ACTION.IDENTITY_LANGUAGE_MODIFIED: {
-      return {
-        ...state,
-        language: action.language
-      };
-    }
-    case ACTION.IDENTITY_IDENTIFIED: {
+    case ACTION.IDENTITY_RENEWED: {
       return action.identity;
-    }
-    case ACTION.IDENTITY_INITIALIZE: {
-      const {
-        language,
-        locale
-      } = state;
-
-      return {...initialState, language, locale};
     }
     default: {
       return state;

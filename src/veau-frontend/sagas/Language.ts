@@ -12,12 +12,10 @@ export class Language {
   private static *initLanguage(): IterableIterator<any> {
     const state: State = yield select();
     const {
-      identity: {
-        language
-      }
+      identity
     } = state;
 
-    if (language === '') {
+    if (identity.isDefault()) {
       const newLanguage: string = LanguageIdentifier.toISO639(navigator.language);
       yield put(newLanguageSelected(newLanguage));
     }

@@ -11,13 +11,17 @@ const initialState: Entrance = {
 
 export const entrance: (state: Entrance, action: Action) => Entrance = (state: Entrance = initialState, action: Action): Entrance => {
   switch (action.type) {
-    case ACTION.IDENTITY_IDENTIFIED: {
+    case ACTION.IDENTITY_RENEWED: {
       return initialState;
     }
     case ACTION.ENTRANCE_LOGIN_INFO_UPDATE: {
+      const {
+        login
+      } = action;
+
       return {
         ...state,
-        login: action.login
+        login
       };
     }
     default: {

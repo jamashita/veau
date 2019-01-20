@@ -3,7 +3,10 @@ import { IntlProvider } from 'react-intl';
 import { Props } from '../containers/I18NProvider';
 import { i18nMessages, Messages } from '../Messages';
 
-export class I18NProvider extends React.Component<Props, {}> {
+type State = {
+};
+
+export class I18NProvider extends React.Component<Props, State> {
 
   public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
     return true;
@@ -11,10 +14,11 @@ export class I18NProvider extends React.Component<Props, {}> {
 
   public render(): React.ReactNode {
     const {
-      language,
+      identity,
       children
     } = this.props;
 
+    const language: string = identity.getLanguage();
     const messages: Messages = i18nMessages[language];
 
     return (

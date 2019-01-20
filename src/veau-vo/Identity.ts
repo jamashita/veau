@@ -1,5 +1,5 @@
-import {IdentityID} from '../veau-vo/IdentityID';
-import {Entity} from './Entity';
+import {IdentityID} from './IdentityID';
+import {ValueObject} from './ValueObject';
 
 export type IdentityJSON = {
   id: number;
@@ -8,17 +8,21 @@ export type IdentityJSON = {
   locale: string;
 };
 
-export class Identity extends Entity<IdentityID> {
+export class Identity extends ValueObject {
   private identityID: IdentityID;
   private account: string;
   private language: string;
   private locale: string;
 
   public static default(): Identity {
-    return new Identity(IdentityID.of(0), '', '', '');
+    return new Identity(IdentityID.default(), '', '', '');
   }
 
-  public constructor(identityID: IdentityID, account: string, language: string, locale: string) {
+  public static of(identityID: IdentityID, account: string, language: string, locale: string): Identity {
+    return new Identity(identityID, account, language, locale);
+  }
+
+  private constructor(identityID: IdentityID, account: string, language: string, locale: string) {
     super();
     this.identityID = identityID;
     this.account = account;
@@ -42,8 +46,23 @@ export class Identity extends Entity<IdentityID> {
     return this.locale;
   }
 
-  public getIdentifier(): IdentityID {
-    return this.identityID;
+  public isDefault(): boolean {
+    if (this.getIdentityID().equals(IdentityID.default())) {
+      return true;
+    }
+
+    return false;
+  }
+
+  public equals(other: Identity): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (this.getIdentityID().equals(other.getIdentityID())) {
+      return true;
+    }
+
+    return false;
   }
 
   public toJSON(): IdentityJSON {
