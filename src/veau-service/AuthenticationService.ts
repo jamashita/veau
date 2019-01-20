@@ -1,13 +1,13 @@
-import {Express} from 'express';
-import {Logger} from 'log4js';
+import { Express } from 'express';
+import { Logger } from 'log4js';
 import * as log4js from 'log4js';
 import * as passport from 'passport';
-import {Strategy as LocalStrategy} from 'passport-local';
-import {VeauAccount, VeauAccountJSON} from '../veau-entity/VeauAccount';
-import {VeauAccountFactory} from '../veau-factory/VeauAccountFactory';
-import {Digest} from '../veau-general/Digest';
-import {NoSuchElementError} from '../veau-general/Error';
-import {VeauAccountHash, VeauAccountRepository} from '../veau-repository/VeauAccountRepository';
+import { Strategy as LocalStrategy } from 'passport-local';
+import { VeauAccount, VeauAccountJSON } from '../veau-entity/VeauAccount';
+import { VeauAccountFactory } from '../veau-factory/VeauAccountFactory';
+import { Digest } from '../veau-general/Digest';
+import { NoSuchElementError } from '../veau-general/Error';
+import { VeauAccountHash, VeauAccountRepository } from '../veau-repository/VeauAccountRepository';
 
 const logger: Logger = log4js.getLogger();
 const veauAccountRepository: VeauAccountRepository = VeauAccountRepository.getInstance();

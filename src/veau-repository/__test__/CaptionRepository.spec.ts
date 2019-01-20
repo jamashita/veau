@@ -1,13 +1,13 @@
 import 'jest';
-import {SinonStub} from 'sinon';
+import { SinonStub } from 'sinon';
 import * as sinon from 'sinon';
-import {Caption} from '../../veau-entity/Caption';
-import {Stats} from '../../veau-entity/Stats';
-import {VeauMySQL} from '../../veau-infrastructure/VeauMySQL';
-import {CaptionID} from '../../veau-vo/CaptionID';
-import {StatsItem} from '../../veau-vo/StatsItem';
-import {UUID} from '../../veau-vo/UUID';
-import {CaptionRepository} from '../CaptionRepository';
+import { Caption } from '../../veau-entity/Caption';
+import { Stats } from '../../veau-entity/Stats';
+import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
+import { CaptionID } from '../../veau-vo/CaptionID';
+import { StatsItem } from '../../veau-vo/StatsItem';
+import { UUID } from '../../veau-vo/UUID';
+import { CaptionRepository } from '../CaptionRepository';
 
 describe('CaptionRepository', () => {
   it('findByCaptionID', async () => {
@@ -31,7 +31,7 @@ describe('CaptionRepository', () => {
       INNER JOIN locales R3
       USING(locale_id)
       WHERE R1.caption_id = :captionID;`,
-    [
+                  [
       {
         captionID
       }
@@ -57,7 +57,7 @@ describe('CaptionRepository', () => {
       R1.unit,
       R1.seq
       FROM stats R1
-      WHERE R1.caption_id = :captionID;`,[
+      WHERE R1.caption_id = :captionID;`, [
       {
         captionID
       }
@@ -67,7 +67,7 @@ describe('CaptionRepository', () => {
         termID: 1,
         name: 'name1',
         unit: 'unit1',
-        seq: 1,
+        seq: 1
       },
       {
         statsID: '5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c',
