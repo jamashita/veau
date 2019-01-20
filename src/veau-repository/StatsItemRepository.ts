@@ -50,5 +50,5 @@ export class StatsItemRepository implements IStatsItemRepository {
 
 export interface IStatsItemRepository {
 
-  findByStatsID(captionID: StatsID): Promise<Array<StatsItem>>;
+  findByStatsID(statsID: StatsID): Promise<Array<StatsItem>>;
 }

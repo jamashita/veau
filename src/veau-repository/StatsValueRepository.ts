@@ -56,5 +56,5 @@ export class StatsValueRepository implements IStatsValueRepository {
 
 export interface IStatsValueRepository {
 
-  findByStatsID(captionID: StatsID): Promise<Map<string, Array<StatsValue>>>;
+  findByStatsID(statsID: StatsID): Promise<Map<string, Array<StatsValue>>>;
 }

@@ -1,6 +1,7 @@
 import { Stats, StatsRow } from '../veau-entity/Stats';
 import { StatsItem } from '../veau-entity/StatsItem';
 import { StatsFactory } from '../veau-factory/StatsFactory';
+import {NoSuchElementError} from '../veau-general/NoSuchElementError';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsItemRepository } from './StatsItemRepository';
@@ -43,6 +44,10 @@ export class StatsRepository implements IStatsRepository {
       }
     ]);
 
+    if (rows.length === 0) {
+      throw new NoSuchElementError(statsID.toString());
+    }
+
     const items: Array<StatsItem> = await statsRepository.findByStatsID(statsID);
 
     return statsFactory.fromRow(rows[0], items);
@@ -51,5 +56,5 @@ export class StatsRepository implements IStatsRepository {
 
 export interface IStatsRepository {
 
-  findByStatsID(captionID: StatsID): Promise<Stats>;
+  findByStatsID(statsID: StatsID): Promise<Stats>;
 }
