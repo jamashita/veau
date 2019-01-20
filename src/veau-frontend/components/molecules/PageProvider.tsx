@@ -44,10 +44,27 @@ class PageProviderImpl extends React.Component<Props & InjectedIntlProps, State>
         <List>
           <ListItem
             button={true}
+            onClick={this.props.toCaptionList}
+          >
+            <ListItemIcon>
+              <Icon
+                className='fa fa-list-alt'
+              />
+            </ListItemIcon>
+            <ListItemText>
+              {intl.formatMessage({
+                id: 'STATS_LIST'
+              })}
+            </ListItemText>
+          </ListItem>
+        </List>
+        <Divider />
+        <List>
+          <ListItem
+            button={true}
             onClick={this.props.logout}
           >
-            <ListItemIcon
-            >
+            <ListItemIcon>
               <Icon
                 className='fa fa-sign-out'
               />

@@ -11,6 +11,7 @@ type StateProps = {
 };
 type DispatchProps = {
   close(): void;
+  toCaptionList(): void;
   logout(): void;
 };
 type OwnProps = {
@@ -33,6 +34,9 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
   return {
     close: (): void => {
       dispatch(closeProvider());
+    },
+    toCaptionList: (): void => {
+      //
     },
     logout: (): void => {
       dispatch(logout());
