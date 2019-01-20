@@ -19,10 +19,14 @@ export enum ACTION {
   DESTROY_SESSION = 'DESTROY_SESSION',
 
   PUSH_TO_HOME = 'PUSH_TO_HOME',
+  PUSH_TO_ENTRANCE = 'PUSH_TO_ENTRANCE',
 
   ENTRANCE_ACCOUNT_NAME_TYPED = 'ENTRANCE_ACCOUNT_NAME_TYPED',
   ENTRANCE_PASSWORD_TYPED = 'ENTRANCE_PASSWORD_TYPED',
-  ENTRANCE_LOGIN_INFO_UPDATE = 'ENTRANCE_LOGIN_INFO_UPDATE'
+  ENTRANCE_LOGIN_INFO_UPDATE = 'ENTRANCE_LOGIN_INFO_UPDATE',
+
+  OPEN_PROVIDER = 'OPEN_PROVIDER',
+  CLOSE_PROVIDER = 'CLOSE_PROVIDER'
 }
 
 export interface LocationChangeAction extends ReduxAction {
@@ -61,6 +65,9 @@ export interface DestroySessionAction extends ReduxAction {
 export interface PushToHomeAction extends ReduxAction {
   type: ACTION.PUSH_TO_HOME;
 }
+export interface PushToEntrancAction extends ReduxAction {
+  type: ACTION.PUSH_TO_ENTRANCE;
+}
 export interface EntranceAccountNameTypedAction extends ReduxAction {
   type: ACTION.ENTRANCE_ACCOUNT_NAME_TYPED;
   account: string;
@@ -72,6 +79,12 @@ export interface EntrancePasswordTypedAction extends ReduxAction {
 export interface EntranceInfoUpdateAction extends ReduxAction {
   type: ACTION.ENTRANCE_LOGIN_INFO_UPDATE;
   login: Login;
+}
+export interface OpenProviderAction extends ReduxAction {
+  type: ACTION.OPEN_PROVIDER;
+}
+export interface CloseProviderAction extends ReduxAction {
+  type: ACTION.CLOSE_PROVIDER;
 }
 
 export type Action =
@@ -85,7 +98,10 @@ export type Action =
   | IdentityIdentifiedAction
   | DestroySessionAction
   | PushToHomeAction
+  | PushToEntrancAction
   | EntranceAccountNameTypedAction
   | EntrancePasswordTypedAction
   | EntranceInfoUpdateAction
+  | OpenProviderAction
+  | CloseProviderAction
   ;

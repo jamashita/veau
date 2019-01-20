@@ -10,6 +10,7 @@ export class Redirect {
     yield fork(Redirect.authenticated);
     yield fork(Redirect.notAuthenticated);
     yield fork(Redirect.toHome);
+    yield fork(Redirect.toEntrance);
   }
 
   private static *authenticated(): IterableIterator<any> {
@@ -56,6 +57,13 @@ export class Redirect {
     while (true) {
       yield take(ACTION.PUSH_TO_HOME);
       yield put(push(Endpoints.HOME));
+    }
+  }
+
+  private static *toEntrance(): IterableIterator<any> {
+    while (true) {
+      yield take(ACTION.PUSH_TO_ENTRANCE);
+      yield put(push(Endpoints.ENTRANCE));
     }
   }
 }
