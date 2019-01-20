@@ -1,10 +1,10 @@
-import { Response, Router } from 'express';
+import * as express from 'express';
 import { RequestSession } from '../../declarations/RequestSession';
 
-const router: Router = Router();
+const router: express.Router = express.Router();
 
-router.get('/', (req: RequestSession, res: Response) => {
-  res.send(req.user);
+router.get('/', (req: RequestSession, res: express.Response) => {
+  res.send(req.user.toJSON());
 });
 
-export const Identity: Router = router;
+export const Identity: express.Router = router;

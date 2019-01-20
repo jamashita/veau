@@ -1,10 +1,10 @@
-import { Router } from 'express';
+import * as express from 'express';
 import { API } from './api/API';
 import { FE } from './fe/FE';
 
-const router: Router = Router();
+const router: express.Router = express.Router();
 
 router.use('/api', API);
 router.use('/', FE);
 
-export const Controller: Router = router;
+export const Controller: express.Router = router;

@@ -1,14 +1,14 @@
-import { Request, Response, Router } from 'express';
+import * as express from 'express';
 
-const router: Router = Router();
+const router: express.Router = express.Router();
 
-router.get('/robots.txt', (req: Request, res: Response) => {
+router.get('/robots.txt', (req: express.Request, res: express.Response) => {
   res.set('Content-Type', 'text/plain');
   res.send('User-Agent: *\nDisallow: /');
 });
 
-router.get('*', (req: Request, res: Response) => {
+router.get('*', (req: express.Request, res: express.Response) => {
   res.render('index');
 });
 
-export const FE: Router = router;
+export const FE: express.Router = router;

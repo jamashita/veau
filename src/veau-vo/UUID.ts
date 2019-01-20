@@ -1,6 +1,8 @@
 import * as uuid from 'uuid/v4';
 import { ValueObject } from './ValueObject';
 
+const UUID_SIZE: number = 36;
+
 export class UUID extends ValueObject {
   private id: string;
 
@@ -10,6 +12,10 @@ export class UUID extends ValueObject {
 
   public static generate(): UUID {
     return new UUID(uuid());
+  }
+
+  public static size(): number {
+    return UUID_SIZE;
   }
 
   private constructor(id: string) {

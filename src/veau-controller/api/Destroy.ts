@@ -1,11 +1,11 @@
-import { Request, Response, Router } from 'express';
+import * as express from 'express';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
-import { getLogger, Logger } from 'log4js';
+import * as log4js from 'log4js';
 
-const router: Router = Router();
-const logger: Logger = getLogger();
+const router: express.Router = express.Router();
+const logger: log4js.Logger = log4js.getLogger();
 
-router.get('/', (req: Request, res: Response) => {
+router.get('/', (req: express.Request, res: express.Response) => {
   if (req.session) {
     req.session.destroy((err: any) => {
       if (err) {
@@ -23,4 +23,4 @@ router.get('/', (req: Request, res: Response) => {
   res.sendStatus(INTERNAL_SERVER_ERROR);
 });
 
-export const Destroy: Router = router;
+export const Destroy: express.Router = router;
