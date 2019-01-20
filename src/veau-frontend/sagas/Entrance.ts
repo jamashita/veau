@@ -9,6 +9,7 @@ import { Login } from '../../veau-vo/Login';
 import { entranceLoginInfoUpdate } from '../actions/EntranceAction';
 import { identityRenewed } from '../actions/IdentityAction';
 import { loaded, loading } from '../actions/LoadingAction';
+import { raiseModal } from '../actions/ModalAction';
 import { pushToHome } from '../actions/RedirectAction';
 
 const UNAUTHORIZED: number = 401;
@@ -43,6 +44,7 @@ export class Entrance {
       }
 
       yield put(loading());
+
       try {
         const res: request.Response = yield call(AJAX.post, '/api/auth', login.toJSON());
         const json: IdentityJSON = res.body;
@@ -54,12 +56,13 @@ export class Entrance {
       }
       catch (err) {
         yield put(loaded());
+
         if (err.status === UNAUTHORIZED) {
-          // TODO authentication failed
+          yield put(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
           continue;
         }
 
-        // TODO connection error
+        yield put(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
       }
     }
   }

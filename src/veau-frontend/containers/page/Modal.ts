@@ -6,6 +6,7 @@ import {
 import { Dispatch } from 'redux';
 import { Action } from '../../../declarations/Action';
 import { State } from '../../../declarations/State';
+import { closeModal } from '../../actions/ModalAction';
 import { Modal as Component } from '../../components/page/Modal';
 
 type StateProps = {
@@ -15,7 +16,7 @@ type StateProps = {
   values?: {[key: string]: string};
 };
 type DispatchProps = {
-  closeModalClicked(): void;
+  closeClicked(): void;
 };
 type OwnProps = {
 };
@@ -41,8 +42,8 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>): DispatchProps => {
   return {
-    closeModalClicked: (): void => {
-      // dispatch(closeModal());
+    closeClicked: (): void => {
+      dispatch(closeModal());
     }
   };
 };

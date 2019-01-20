@@ -21,6 +21,11 @@ export type Messages = {
   VEAU: string;
   VEAU_DESCRIPTION: string;
 
+  AUTHENTICATION_FAILED: string;
+  AUTHENTICATION_FAILED_DESCRIPTION: string;
+  CONNECTION_ERROR: string;
+  CONNECTION_ERROR_DESCRIPTION: string;
+
   EN: string;
   FR: string;
   ES: string;
@@ -49,6 +54,11 @@ const en: Messages = {
 
   VEAU: 'Veau',
   VEAU_DESCRIPTION: 'Veau is the young of domestic cattle.',
+
+  AUTHENTICATION_FAILED: 'Authentication failed',
+  AUTHENTICATION_FAILED_DESCRIPTION: 'Account or Password is incorrect. Please check your them again.',
+  CONNECTION_ERROR: 'Connection error',
+  CONNECTION_ERROR_DESCRIPTION: 'Failed to connect the server. Please get in touch the person in charge.',
 
   EN: 'English',
   FR: 'Français',
@@ -79,6 +89,11 @@ const fr: Messages = {
   VEAU: 'Veau',
   VEAU_DESCRIPTION: 'Veau est le bétail jeune domestique.',
 
+  AUTHENTICATION_FAILED: 'Authentification échouée',
+  AUTHENTICATION_FAILED_DESCRIPTION: 'Compte ou mot de passe est incorrect. Vérifier votre nouveau s\'il vous plaît.',
+  CONNECTION_ERROR: 'Erreur de connexion',
+  CONNECTION_ERROR_DESCRIPTION: 'Impossible de connecter le serveur. Entrer en contact avec la personne en charge s\'il vous plaît.',
+
   EN: 'English',
   FR: 'Français',
   ES: 'Español',
@@ -108,6 +123,11 @@ const es: Messages = {
   VEAU: 'Veau',
   VEAU_DESCRIPTION: 'Veau es la cría de toro doméstico.',
 
+  AUTHENTICATION_FAILED: 'Autenticación fallida',
+  AUTHENTICATION_FAILED_DESCRIPTION: 'La cuenta o contraseña es incorrecta. Revísalos nuevamente por favor.',
+  CONNECTION_ERROR: 'Error de conexión',
+  CONNECTION_ERROR_DESCRIPTION: 'Error al conectar el servidor. Póngase en contacto con la persona a cargo, por favor.',
+
   EN: 'English',
   FR: 'Français',
   ES: 'Español',
@@ -136,6 +156,11 @@ const ja: Messages = {
 
   VEAU: 'ヴォ',
   VEAU_DESCRIPTION: 'ヴォとは牛の子供のことです。',
+
+  AUTHENTICATION_FAILED: '認証に失敗しました',
+  AUTHENTICATION_FAILED_DESCRIPTION: 'アカウントまたはパスワードが正しくありません。もう一度確認してください。',
+  CONNECTION_ERROR: '接続できませんでした',
+  CONNECTION_ERROR_DESCRIPTION: 'サーバーに接続できませんでした。担当者に連絡してください。',
 
   EN: 'English',
   FR: 'Français',
