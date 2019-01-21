@@ -5,7 +5,7 @@ import { history } from '../history';
 import { entrance } from './entrance';
 import { identity } from './identity';
 import { loadingCount } from './loadingCount';
-import { locales } from './locales';
+import { localeRepository } from './localeRepository';
 import { modal } from './modal';
 import { pageProvider } from './pageProvider';
 import { statsOverviews } from './statsOverviews';
@@ -14,7 +14,7 @@ export const reducers: Reducer<State> = combineReducers({
   entrance,
   identity,
   loadingCount,
-  locales,
+  localeRepository,
   modal,
   pageProvider,
   statsOverviews,

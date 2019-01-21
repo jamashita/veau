@@ -2,8 +2,8 @@ import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/c
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { StatsOverview } from '../../../veau-entity/StatsOverview';
-import { ISO3166 } from '../../../veau-vo/ISO3166';
-import { ISO639 } from '../../../veau-vo/ISO639';
+import { Language } from '../../../veau-vo/Language';
+import { Region } from '../../../veau-vo/Region';
 import { Props } from '../../containers/pages/StatsList';
 import { Authenticated } from '../../containers/templates/Authenticated';
 
@@ -19,8 +19,7 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
   public render(): React.ReactNode {
     const {
       statsOverviews,
-      // languages,
-      // regions,
+      localeRepository,
       intl
     } = this.props;
 
@@ -53,22 +52,42 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
           </TableHead>
           <TableBody>
             {statsOverviews.map<React.ReactNode>((statsOverview: StatsOverview) => {
-              const iso639: ISO639 = statsOverview.getISO639();
-              const iso3166: ISO3166 = statsOverview.getISO3166();
-              return (
-                <TableRow
-                  key={statsOverview.getStatsID().get().get()}
-                  hover={true}
-                  onClick={(): void => {
-                    this.props.toEditStats(statsOverview.getStatsID());
-                  }}
-                >
-                  <TableCell>{statsOverview.getName()}</TableCell>
-                  <TableCell>{iso639.get()}</TableCell>
-                  <TableCell>{iso3166.get()}</TableCell>
-                  <TableCell>{statsOverview.getUpdatedAtAsString()}</TableCell>
-                </TableRow>
-              );
+
+              try {
+                const language: Language = localeRepository.findByISO639(statsOverview.getISO639());
+                const region: Region = localeRepository.findByISO3166(statsOverview.getISO3166());
+
+                return (
+                  <TableRow
+                    key={statsOverview.getStatsID().get().get()}
+                    hover={true}
+                    onClick={(): void => {
+                      this.props.toEditStats(statsOverview.getStatsID());
+                    }}
+                  >
+                    <TableCell>{statsOverview.getName()}</TableCell>
+                    <TableCell>{language.getName()}</TableCell>
+                    <TableCell>{region.getName()}</TableCell>
+                    <TableCell>{statsOverview.getUpdatedAtAsString()}</TableCell>
+                  </TableRow>
+                );
+              }
+              catch (err) {
+                return (
+                  <TableRow
+                    key={statsOverview.getStatsID().get().get()}
+                    hover={true}
+                    onClick={(): void => {
+                      this.props.toEditStats(statsOverview.getStatsID());
+                    }}
+                  >
+                    <TableCell>{statsOverview.getName()}</TableCell>
+                    <TableCell>{statsOverview.getISO639().get()}</TableCell>
+                    <TableCell>{statsOverview.getISO3166().get()}</TableCell>
+                    <TableCell>{statsOverview.getUpdatedAtAsString()}</TableCell>
+                  </TableRow>
+                );
+              }
             })}
           </TableBody>
         </Table>
