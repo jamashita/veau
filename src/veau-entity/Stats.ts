@@ -104,7 +104,7 @@ export class Stats extends Entity<StatsID> {
       region: region.toJSON(),
       termID: term.get(),
       name,
-      updatedAt: updatedAt.utc().format('YYYY-MM-DDTHH:mm:ss.SSS'),
+      updatedAt: updatedAt.utc().format('YYYY-MM-DD HH:mm:ss'),
       items: items.map<StatsItemJSON>((item: StatsItem) => {
         return item.toJSON();
       })

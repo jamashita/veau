@@ -28,7 +28,7 @@ describe('StatsOverview', () => {
       iso3166: 'AFG',
       termID: 1,
       name: 'stats overview',
-      updatedAt: '2000-01-01 00:00:00.000'
+      updatedAt: '2000-01-01 00:00:00'
     });
   });
 });

@@ -171,7 +171,7 @@ describe('StatsFactory', () => {
       },
       termID: 3,
       name: 'name',
-      updatedAt: '2000-01-01T00:00:00.000',
+      updatedAt: '2000-01-01 00:00:00',
       items: [
         {
           statsItemID: '610b532b-5711-461a-b44a-7387e8d08596',

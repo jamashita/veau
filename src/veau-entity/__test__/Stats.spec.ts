@@ -99,7 +99,7 @@ describe('Stats', () => {
       },
       termID: 1,
       name: 'name1',
-      updatedAt: '2000-01-01T00:00:00.000',
+      updatedAt: '2000-01-01 00:00:00',
       items: [
         {
           statsItemID: '2e787bad-6727-47d0-af9a-9c8189342a50',
