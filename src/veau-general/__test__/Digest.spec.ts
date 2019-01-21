@@ -1,6 +1,6 @@
 /* tslint:disable */
 import 'jest';
-import {Digest, DigestResponseJSON} from '../Digest';
+import { Digest, DigestResponseJSON } from '../Digest';
 
 describe('Digest', () => {
   it('generate, compare', async () => {
