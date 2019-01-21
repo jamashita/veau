@@ -26,6 +26,10 @@ export class Language extends ValueObject {
     return new Language(languageID, name, englishName, iso639);
   }
 
+  public static default(): Language {
+    return new Language(LanguageID.of(0), '', '', ISO639.defualt());
+  }
+
   private constructor(languageID: LanguageID, name: string, englishName: string, iso639: ISO639) {
     super();
     this.languageID = languageID;

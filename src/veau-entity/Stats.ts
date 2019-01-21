@@ -2,6 +2,7 @@ import * as moment from 'moment';
 import { Language, LanguageJSON } from '../veau-vo/Language';
 import { Region, RegionJSON } from '../veau-vo/Region';
 import { StatsID } from '../veau-vo/StatsID';
+import { UUID } from '../veau-vo/UUID';
 import { Entity } from './Entity';
 import { StatsItem, StatsItemJSON } from './StatsItem';
 
@@ -34,6 +35,10 @@ export class Stats extends Entity<StatsID> {
   private name: string;
   private updatedAt: moment.Moment;
   private items: Array<StatsItem>;
+
+  public static default(): Stats {
+    return new Stats(StatsID.of(UUID.of('')), Language.default(), Region.default(), '', moment.utc(), []);
+  }
 
   public constructor(statsID: StatsID, language: Language, region: Region, name: string, updatedAt: moment.Moment, items: Array<StatsItem>) {
     super();

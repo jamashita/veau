@@ -5,6 +5,7 @@ import { State } from '../../../declarations/State';
 import { StatsOverview } from '../../../veau-entity/StatsOverview';
 import { LocaleRepository } from '../../../veau-repository/LocaleRepository';
 import { StatsID } from '../../../veau-vo/StatsID';
+import { pushToStatsEdit } from '../../actions/RedirectAction';
 import { StatsList as Component } from '../../components/pages/StatsList';
 
 type StateProps = {
@@ -12,7 +13,7 @@ type StateProps = {
   localeRepository: LocaleRepository;
 };
 type DispatchProps = {
-  toEditStats(statsID: StatsID): void;
+  toStatsEdit(statsID: StatsID): void;
 };
 type OwnProps = {
 };
@@ -32,8 +33,8 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>): DispatchProps => {
   return {
-    toEditStats: (statsID: StatsID): void => {
-      console.log(statsID.toString());
+    toStatsEdit: (statsID: StatsID): void => {
+      dispatch(pushToStatsEdit(statsID));
     }
   };
 };

@@ -1,4 +1,5 @@
 import { RouterState } from 'connected-react-router';
+import { Stats } from '../veau-entity/Stats';
 import { StatsOverview } from '../veau-entity/StatsOverview';
 import { Entrance } from '../veau-frontend/reducers/entrance';
 import { LoadingCount } from '../veau-frontend/reducers/loadingCount';
@@ -14,6 +15,7 @@ export type State = {
   localeRepository: LocaleRepository;
   modal: Modal;
   pageProvider: PageProvider;
+  stats: Stats;
   statsOverviews: Array<StatsOverview>;
   router: RouterState;
 };

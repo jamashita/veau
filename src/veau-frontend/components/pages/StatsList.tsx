@@ -62,7 +62,7 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
                     key={statsOverview.getStatsID().get().get()}
                     hover={true}
                     onClick={(): void => {
-                      this.props.toEditStats(statsOverview.getStatsID());
+                      this.props.toStatsEdit(statsOverview.getStatsID());
                     }}
                   >
                     <TableCell>{statsOverview.getName()}</TableCell>
@@ -78,7 +78,7 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
                     key={statsOverview.getStatsID().get().get()}
                     hover={true}
                     onClick={(): void => {
-                      this.props.toEditStats(statsOverview.getStatsID());
+                      this.props.toStatsEdit(statsOverview.getStatsID());
                     }}
                   >
                     <TableCell>{statsOverview.getName()}</TableCell>

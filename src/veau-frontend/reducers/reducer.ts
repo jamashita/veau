@@ -8,6 +8,7 @@ import { loadingCount } from './loadingCount';
 import { localeRepository } from './localeRepository';
 import { modal } from './modal';
 import { pageProvider } from './pageProvider';
+import { stats } from './stats';
 import { statsOverviews } from './statsOverviews';
 
 export const reducers: Reducer<State> = combineReducers({
@@ -17,6 +18,7 @@ export const reducers: Reducer<State> = combineReducers({
   localeRepository,
   modal,
   pageProvider,
+  stats,
   statsOverviews,
   router: connectRouter(history)
 });

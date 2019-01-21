@@ -48,6 +48,14 @@ export class LocaleRepository implements ILocaleRepository {
 
     return regions[0];
   }
+
+  public allLanguages(): Array<Language> {
+    return this.languages;
+  }
+
+  public allRegions(): Array<Region> {
+    return this.regions;
+  }
 }
 
 export interface ILocaleRepository {
@@ -55,4 +63,8 @@ export interface ILocaleRepository {
   findByISO639(iso639: ISO639): Language;
 
   findByISO3166(iso3166: ISO3166): Region;
+
+  allLanguages(): Array<Language>;
+
+  allRegions(): Array<Region>;
 }

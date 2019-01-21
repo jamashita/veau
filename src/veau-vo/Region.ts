@@ -23,6 +23,10 @@ export class Region extends ValueObject {
     return new Region(regionID, name, iso3166);
   }
 
+  public static default(): Region {
+    return new Region(RegionID.of(0), '', ISO3166.default());
+  }
+
   private constructor(regionID: RegionID, name: string, iso3166: ISO3166) {
     super();
     this.regionID = regionID;

@@ -1,10 +1,12 @@
 import { RouterState } from 'connected-react-router';
 import { Action as ReduxAction } from 'redux';
+import { Stats } from '../veau-entity/Stats';
 import { StatsOverview } from '../veau-entity/StatsOverview';
 import { Identity } from '../veau-vo/Identity';
 import { Language } from '../veau-vo/Language';
 import { Login } from '../veau-vo/Login';
 import { Region } from '../veau-vo/Region';
+import { StatsID } from '../veau-vo/StatsID';
 
 export enum ACTION {
   LOCATION_CHANGE = '@@router/LOCATION_CHANGE',
@@ -23,6 +25,7 @@ export enum ACTION {
   LOGOUT = 'LOGOUT',
 
   PUSH_TO_STATS_LIST = 'PUSH_TO_STATS_LIST',
+  PUSH_TO_STATS_EDIT = 'PUSH_TO_STATS_EDIT',
   PUSH_TO_ENTRANCE = 'PUSH_TO_ENTRANCE',
 
   ENTRANCE_ACCOUNT_NAME_TYPED = 'ENTRANCE_ACCOUNT_NAME_TYPED',
@@ -34,7 +37,8 @@ export enum ACTION {
 
   LOCALE_DEFINED = 'LOCALE_DEFINED',
 
-  STATS_OVERVIEW_UPDATE = 'STATS_OVERVIEW_UPDATE'
+  STATS_OVERVIEW_UPDATE = 'STATS_OVERVIEW_UPDATE',
+  STATS_UPDATE = 'STATS_UPDATE'
 }
 
 export interface LocationChangeAction extends ReduxAction {
@@ -75,6 +79,10 @@ export interface LogoutAction extends ReduxAction {
 export interface PushToStatsListAction extends ReduxAction {
   type: ACTION.PUSH_TO_STATS_LIST;
 }
+export interface PushToStatsEditAction extends ReduxAction {
+  type: ACTION.PUSH_TO_STATS_EDIT;
+  statsID: StatsID;
+}
 export interface PushToEntranceAction extends ReduxAction {
   type: ACTION.PUSH_TO_ENTRANCE;
 }
@@ -105,6 +113,10 @@ export interface StatsOverviewUpdateAction extends ReduxAction {
   type: ACTION.STATS_OVERVIEW_UPDATE;
   statsOverviews: Array<StatsOverview>;
 }
+export interface StatsUpdateAction extends ReduxAction {
+  type: ACTION.STATS_UPDATE;
+  stats: Stats;
+}
 
 export type Action =
     LocationChangeAction
@@ -118,6 +130,7 @@ export type Action =
   | IdentityIdentifiedAction
   | LogoutAction
   | PushToStatsListAction
+  | PushToStatsEditAction
   | PushToEntranceAction
   | EntranceAccountNameTypedAction
   | EntrancePasswordTypedAction
@@ -126,4 +139,5 @@ export type Action =
   | CloseProviderAction
   | LocaleDefinedAction
   | StatsOverviewUpdateAction
+  | StatsUpdateAction
   ;
