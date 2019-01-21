@@ -44,7 +44,13 @@ export class StatsList extends React.Component<Props, State> {
               const iso639: ISO639 = statsOverview.getISO639();
               const iso3166: ISO3166 = statsOverview.getISO3166();
               return (
-                <TableRow key={statsOverview.getStatsID().toString()}>
+                <TableRow
+                  key={statsOverview.getStatsID().get().get()}
+                  hover={true}
+                  onClick={(): void => {
+                    this.props.toEditStats(statsOverview.getStatsID());
+                  }}
+                >
                   <TableCell>{statsOverview.getName()}</TableCell>
                   <TableCell>{iso639.get()}</TableCell>
                   <TableCell>{iso3166.get()}</TableCell>
