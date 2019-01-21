@@ -16,15 +16,3 @@ services:
     image: 'redis:4.0.11-alpine'
     ports:
     - '6380:6379'
-  veau:
-    container_name: 'veau'
-    image: 'node:11.6.0'
-    environment:
-      NODE_ENV: 'development'
-    command: 'tail -f /dev/null'
-    links:
-      - 'veau_mysql'
-    ports:
-      - '4000:4000'
-    volumes:
-      - '../..:/root/app:delegated'
