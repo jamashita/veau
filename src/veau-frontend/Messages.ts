@@ -60,7 +60,7 @@ const en: Messages = {
   STATS_LIST: 'Statistics list',
 
   AUTHENTICATION_FAILED: 'Authentication failed',
-  AUTHENTICATION_FAILED_DESCRIPTION: 'Account or Password is incorrect. Please check your them again.',
+  AUTHENTICATION_FAILED_DESCRIPTION: 'Account or Password is incorrect. Please check them again.',
   CONNECTION_ERROR: 'Connection error',
   CONNECTION_ERROR_DESCRIPTION: 'Failed to connect the server. Please get in touch the person in charge.',
 
@@ -96,7 +96,7 @@ const fr: Messages = {
   STATS_LIST: 'Liste de statistiques',
 
   AUTHENTICATION_FAILED: 'Authentification échouée',
-  AUTHENTICATION_FAILED_DESCRIPTION: 'Compte ou mot de passe est incorrect. Vérifier votre nouveau s\'il vous plaît.',
+  AUTHENTICATION_FAILED_DESCRIPTION: 'Compte ou mot de passe est incorrect. Les vérifier à nouveau s\'il vous plaît.',
   CONNECTION_ERROR: 'Erreur de connexion',
   CONNECTION_ERROR_DESCRIPTION: 'Impossible de connecter le serveur. Entrer en contact avec la personne en charge s\'il vous plaît.',
 
