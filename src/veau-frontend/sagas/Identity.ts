@@ -6,6 +6,8 @@ import { AJAX } from '../../veau-general/AJAX';
 import { LanguageIdentifier } from '../../veau-general/LanguageIdentifier';
 import { Identity as IdentityVO, IdentityJSON } from '../../veau-vo/Identity';
 import { IdentityID } from '../../veau-vo/IdentityID';
+import { ISO3166 } from '../../veau-vo/ISO3166';
+import { ISO639 } from '../../veau-vo/ISO639';
 import { identified, identityRenewed } from '../actions/IdentityAction';
 import { pushToEntrance, pushToStatsList } from '../actions/RedirectAction';
 
@@ -26,7 +28,8 @@ export class Identity {
         language,
         region
       } = json;
-      const identity: IdentityVO = IdentityVO.of(IdentityID.of(id), account, language, region);
+
+      const identity: IdentityVO = IdentityVO.of(IdentityID.of(id), account, ISO639.of(language), ISO3166.of(region));
 
       yield put(identityRenewed(identity));
       yield put(pushToStatsList());
@@ -40,7 +43,7 @@ export class Identity {
         identity
       } = state;
 
-      const newIdentity: IdentityVO = IdentityVO.of(identity.getIdentityID(), identity.getAccount(), newLanguage, identity.getRegion());
+      const newIdentity: IdentityVO = IdentityVO.of(identity.getIdentityID(), identity.getAccount(), ISO639.of(newLanguage), identity.getRegion());
 
       yield put(identityRenewed(newIdentity));
       yield put(pushToEntrance());

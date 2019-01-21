@@ -7,6 +7,10 @@ export class ISO639 extends ValueObject {
     return new ISO639(iso639);
   }
 
+  public static defualt(): ISO639 {
+    return new ISO639('en');
+  }
+
   private constructor(iso639: string) {
     super();
     this.iso639 = iso639;

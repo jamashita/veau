@@ -18,7 +18,7 @@ export class I18NProvider extends React.Component<Props, State> {
       children
     } = this.props;
 
-    const language: string = identity.getLanguage();
+    const language: string = identity.getLanguage().get();
     const messages: Messages = i18nMessages[language];
 
     return (

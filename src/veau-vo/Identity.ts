@@ -1,4 +1,6 @@
 import { IdentityID } from './IdentityID';
+import { ISO3166 } from './ISO3166';
+import { ISO639 } from './ISO639';
 import { ValueObject } from './ValueObject';
 
 export type IdentityJSON = {
@@ -11,18 +13,18 @@ export type IdentityJSON = {
 export class Identity extends ValueObject {
   private identityID: IdentityID;
   private account: string;
-  private language: string;
-  private region: string;
+  private language: ISO639;
+  private region: ISO3166;
 
   public static default(): Identity {
-    return new Identity(IdentityID.default(), '', 'en', '');
+    return new Identity(IdentityID.default(), '', ISO639.defualt(), ISO3166.default());
   }
 
-  public static of(identityID: IdentityID, account: string, language: string, region: string): Identity {
+  public static of(identityID: IdentityID, account: string, language: ISO639, region: ISO3166): Identity {
     return new Identity(identityID, account, language, region);
   }
 
-  private constructor(identityID: IdentityID, account: string, language: string, region: string) {
+  private constructor(identityID: IdentityID, account: string, language: ISO639, region: ISO3166) {
     super();
     this.identityID = identityID;
     this.account = account;
@@ -38,11 +40,11 @@ export class Identity extends ValueObject {
     return this.account;
   }
 
-  public getLanguage(): string {
+  public getLanguage(): ISO639 {
     return this.language;
   }
 
-  public getRegion(): string {
+  public getRegion(): ISO3166 {
     return this.region;
   }
 
@@ -64,10 +66,10 @@ export class Identity extends ValueObject {
     if (this.account !== other.getAccount()) {
       return false;
     }
-    if (this.language !== other.getLanguage()) {
+    if (!this.language.equals(other.getLanguage())) {
       return false;
     }
-    if (this.region !== other.getRegion()) {
+    if (!this.region.equals(other.getRegion())) {
       return false;
     }
 
@@ -85,8 +87,8 @@ export class Identity extends ValueObject {
     return {
       id: identityID.get(),
       account,
-      language,
-      region
+      language: language.get(),
+      region: region.get()
     };
   }
 
@@ -98,6 +100,6 @@ export class Identity extends ValueObject {
       region
     } = this;
 
-    return `${identityID.toString()} ${account} ${language} ${region}`;
+    return `${identityID.toString()} ${account} ${language.toString()} ${region.toString()}`;
   }
 }
