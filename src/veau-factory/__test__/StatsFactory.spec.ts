@@ -111,7 +111,7 @@ describe('StatsFactory', () => {
       expect(stats.getStats()[i].getSeq()).toEqual(json.items[i].seq);
       expect(stats.getStats()[i].getValues().length).toEqual(json.items[i].values.length);
       for (let j = 0; j < stats.getStats()[i].getValues().length; j++) {
-        expect(stats.getStats()[i].getValues()[j].getAsOf()).toEqual(json.items[i].values[j].asOf);
+        expect(stats.getStats()[i].getValues()[j].getAsOf().format('YYYY-MM-DD')).toEqual(json.items[i].values[j].asOf);
         expect(stats.getStats()[i].getValues()[j].getValue()).toEqual(json.items[i].values[j].value);
       }
     }
