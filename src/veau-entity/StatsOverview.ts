@@ -61,7 +61,7 @@ export class StatsOverview extends Entity<StatsID> {
   }
 
   public getUpdatedAtAsString(): string {
-    return this.updatedAt.utc().format('YYYY-MM-DDTHH:mm:ss.SSS');
+    return this.updatedAt.utc().format('YYYY-MM-DD HH:mm:ss.SSS');
   }
 
   public toJSON(): StatsOverviewJSON {

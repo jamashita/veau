@@ -26,7 +26,7 @@ describe('StatsOverview', () => {
       iso639: 'ab',
       iso3166: 'AFG',
       name: 'stats overview',
-      updatedAt: '2000-01-01T00:00:00.000'
+      updatedAt: '2000-01-01 00:00:00.000'
     });
   });
 });
