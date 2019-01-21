@@ -10,6 +10,7 @@
     "strictNullChecks": true,
     "allowUnreachableCode": false,
     "noUnusedLocals": true,
+    "allowSyntheticDefaultImports": true,
     "jsx": "react",
     "lib": [
       "dom",
