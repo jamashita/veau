@@ -1,7 +1,9 @@
 import { RouterState } from 'connected-react-router';
 import { Action as ReduxAction } from 'redux';
 import { Identity } from '../veau-vo/Identity';
+import { Language } from '../veau-vo/Language';
 import { Login } from '../veau-vo/Login';
+import { Region } from '../veau-vo/Region';
 
 export enum ACTION {
   LOCATION_CHANGE = '@@router/LOCATION_CHANGE',
@@ -15,6 +17,7 @@ export enum ACTION {
   IDENTITY_AUTHENTICATE = 'IDENTITY_AUTHENTICATE',
   IDENTITY_RENEWED = 'IDENTITY_NEW_IDENTITY',
   IDENTITY_INITIALIZE = 'IDENTITY_INITIALIZE',
+  IDENTITY_IDENTIFIED = 'IDENTITY_IDENTIFIED',
 
   LOGOUT = 'LOGOUT',
 
@@ -26,7 +29,9 @@ export enum ACTION {
   ENTRANCE_LOGIN_INFO_UPDATE = 'ENTRANCE_LOGIN_INFO_UPDATE',
 
   OPEN_PROVIDER = 'OPEN_PROVIDER',
-  CLOSE_PROVIDER = 'CLOSE_PROVIDER'
+  CLOSE_PROVIDER = 'CLOSE_PROVIDER',
+
+  LOCALE_DEFINED = 'LOCALE_DEFINED'
 }
 
 export interface LocationChangeAction extends ReduxAction {
@@ -58,6 +63,9 @@ export interface IdentityRenewAction extends ReduxAction {
 export interface IdentityInitializeAction extends ReduxAction {
   type: ACTION.IDENTITY_INITIALIZE;
 }
+export interface IdentityIdentifiedAction extends ReduxAction {
+  type: ACTION.IDENTITY_IDENTIFIED;
+}
 export interface LogoutAction extends ReduxAction {
   type: ACTION.LOGOUT;
 }
@@ -85,6 +93,11 @@ export interface OpenProviderAction extends ReduxAction {
 export interface CloseProviderAction extends ReduxAction {
   type: ACTION.CLOSE_PROVIDER;
 }
+export interface LocaleDefinedAction extends ReduxAction {
+  type: ACTION.LOCALE_DEFINED;
+  languages: Array<Language>;
+  regions: Array<Region>;
+}
 
 export type Action =
     LocationChangeAction
@@ -95,6 +108,7 @@ export type Action =
   | IdentityAuthenticateAction
   | IdentityRenewAction
   | IdentityInitializeAction
+  | IdentityIdentifiedAction
   | LogoutAction
   | PushToStatsListAction
   | PushToEntranceAction
@@ -103,4 +117,5 @@ export type Action =
   | EntranceInfoUpdateAction
   | OpenProviderAction
   | CloseProviderAction
+  | LocaleDefinedAction
   ;

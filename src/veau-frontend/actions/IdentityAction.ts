@@ -1,5 +1,5 @@
 import {
-  ACTION,
+  ACTION, IdentityIdentifiedAction,
   IdentityInitializeAction,
   IdentityRenewAction
 } from '../../declarations/Action';
@@ -15,5 +15,11 @@ export const identityRenewed: (identity: Identity) => IdentityRenewAction = (ide
 export const initializeIdentity: () => IdentityInitializeAction = (): IdentityInitializeAction => {
   return {
     type: ACTION.IDENTITY_INITIALIZE
+  };
+};
+
+export const identified: () => IdentityIdentifiedAction = (): IdentityIdentifiedAction => {
+  return {
+    type: ACTION.IDENTITY_IDENTIFIED
   };
 };

@@ -8,7 +8,7 @@ import { Identity, IdentityJSON } from '../../veau-vo/Identity';
 import { IdentityID } from '../../veau-vo/IdentityID';
 import { Login } from '../../veau-vo/Login';
 import { entranceLoginInfoUpdate } from '../actions/EntranceAction';
-import { identityRenewed } from '../actions/IdentityAction';
+import { identified, identityRenewed } from '../actions/IdentityAction';
 import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
 import { pushToStatsList } from '../actions/RedirectAction';
@@ -51,6 +51,7 @@ export class Entrance {
 
         yield put(identityRenewed(identity));
         yield put(pushToStatsList());
+        yield put(identified());
         yield put(loaded());
       }
       catch (err) {

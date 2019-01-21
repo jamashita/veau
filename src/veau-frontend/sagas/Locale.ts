@@ -1,0 +1,51 @@
+import { call, fork, put, take } from 'redux-saga/effects';
+import * as request from 'superagent';
+import { ACTION } from '../../declarations/Action';
+import { AJAX } from '../../veau-general/AJAX';
+import { Locales } from '../../veau-usecase/LocaleUsecase';
+import { ISO3166 } from '../../veau-vo/ISO3166';
+import { ISO639 } from '../../veau-vo/ISO639';
+import { Language, LanguageJSON } from '../../veau-vo/Language';
+import { LanguageID } from '../../veau-vo/LanguageID';
+import { Region, RegionJSON } from '../../veau-vo/Region';
+import { RegionID } from '../../veau-vo/RegionID';
+import { defineLocale } from '../actions/LocaleAction';
+
+export class Locale {
+
+  public static *init(): IterableIterator<any> {
+    yield fork(Locale.fetchLocales);
+  }
+
+  private static *fetchLocales(): IterableIterator<any> {
+    while (true) {
+      yield take(ACTION.IDENTITY_IDENTIFIED);
+
+      const res: request.Response = yield call(AJAX.get, '/api/locales');
+      const locales: Locales = res.body;
+
+      const languages: Array<Language> = locales.languages.map<Language>((json: LanguageJSON) => {
+        const {
+          languageID,
+          name,
+          englishName,
+          iso639
+        } = json;
+
+        return Language.of(LanguageID.of(languageID), name, englishName, ISO639.of(iso639));
+      });
+
+      const regions: Array<Region> = locales.regions.map<Region>((json: RegionJSON) => {
+        const {
+          regionID,
+          name,
+          iso3166
+        } = json;
+
+        return Region.of(RegionID.of(regionID), name, ISO3166.of(iso3166));
+      });
+
+      yield put(defineLocale(languages, regions));
+    }
+  }
+}

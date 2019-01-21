@@ -5,6 +5,7 @@ import { history } from '../history';
 import { entrance } from './entrance';
 import { identity } from './identity';
 import { loadingCount } from './loadingCount';
+import { locales } from './locales';
 import { modal } from './modal';
 import { pageProvider } from './pageProvider';
 
@@ -14,5 +15,6 @@ export const reducers: Reducer<State> = combineReducers({
   identity,
   entrance,
   pageProvider,
+  locales,
   router: connectRouter(history)
 });

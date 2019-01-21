@@ -6,7 +6,7 @@ import { AJAX } from '../../veau-general/AJAX';
 import { LanguageIdentifier } from '../../veau-general/LanguageIdentifier';
 import { Identity as IdentityVO, IdentityJSON } from '../../veau-vo/Identity';
 import { IdentityID } from '../../veau-vo/IdentityID';
-import { identityRenewed } from '../actions/IdentityAction';
+import { identified, identityRenewed } from '../actions/IdentityAction';
 import { pushToEntrance, pushToStatsList } from '../actions/RedirectAction';
 
 export class Identity {
@@ -30,6 +30,7 @@ export class Identity {
 
       yield put(identityRenewed(identity));
       yield put(pushToStatsList());
+      yield put(identified());
     }
     catch (err) {
       const newLanguage: string = LanguageIdentifier.toISO639(navigator.language);
