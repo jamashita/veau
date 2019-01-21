@@ -1,11 +1,9 @@
 import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsValue, StatsValueJSON } from '../veau-vo/StatsValue';
-import { Term } from '../veau-vo/Term';
 import { Entity } from './Entity';
 
 export type StatsItemJSON = {
   statsItemID: string;
-  termID: number;
   name: string;
   unit: string;
   seq: number;
@@ -14,7 +12,6 @@ export type StatsItemJSON = {
 
 export type StatsItemRow = {
   statsItemID: string;
-  termID: number;
   name: string;
   unit: string;
   seq: number;
@@ -22,16 +19,14 @@ export type StatsItemRow = {
 
 export class StatsItem extends Entity<StatsItemID> {
   private statsItemID: StatsItemID;
-  private term: Term;
   private name: string;
   private unit: string;
   private seq: number;
   private values: Array<StatsValue>;
 
-  public constructor(statsItemID: StatsItemID, term: Term, name: string, unit: string, seq: number, values: Array<StatsValue>) {
+  public constructor(statsItemID: StatsItemID, name: string, unit: string, seq: number, values: Array<StatsValue>) {
     super();
     this.statsItemID = statsItemID;
-    this.term = term;
     this.name = name;
     this.unit = unit;
     this.seq = seq;
@@ -40,10 +35,6 @@ export class StatsItem extends Entity<StatsItemID> {
 
   public getStatsItemID(): StatsItemID {
     return this.statsItemID;
-  }
-
-  public getTerm(): Term {
-    return this.term;
   }
 
   public getName(): string {
@@ -69,7 +60,6 @@ export class StatsItem extends Entity<StatsItemID> {
   public toJSON(): StatsItemJSON {
     const {
       statsItemID,
-      term,
       name,
       unit,
       seq,
@@ -78,7 +68,6 @@ export class StatsItem extends Entity<StatsItemID> {
 
     return {
       statsItemID: statsItemID.get().get(),
-      termID: term.get(),
       name,
       unit,
       seq,
@@ -91,12 +80,11 @@ export class StatsItem extends Entity<StatsItemID> {
   public toString(): string {
     const {
       statsItemID,
-      term,
       name,
       unit,
       seq
     } = this;
 
-    return `${statsItemID.toString()} ${term.get()} ${name} ${unit} ${seq}`;
+    return `${statsItemID.toString()} ${name} ${unit} ${seq}`;
   }
 }

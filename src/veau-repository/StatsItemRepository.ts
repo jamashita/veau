@@ -21,7 +21,6 @@ export class StatsItemRepository implements IStatsItemRepository {
   public async findByStatsID(statsID: StatsID): Promise<Array<StatsItem>> {
     const query: string = `SELECT
       R1.stats_item_id AS statsItemID,
-      R1.term_id AS termID,
       R1.name,
       R1.unit,
       R1.seq
