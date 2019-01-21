@@ -6,6 +6,8 @@ import { State } from '../../declarations/State';
 import { AJAX } from '../../veau-general/AJAX';
 import { Identity, IdentityJSON } from '../../veau-vo/Identity';
 import { IdentityID } from '../../veau-vo/IdentityID';
+import { ISO3166 } from '../../veau-vo/ISO3166';
+import { ISO639 } from '../../veau-vo/ISO639';
 import { Login } from '../../veau-vo/Login';
 import { entranceLoginInfoUpdate } from '../actions/EntranceAction';
 import { identified, identityRenewed } from '../actions/IdentityAction';
@@ -47,7 +49,14 @@ export class Entrance {
       try {
         const res: request.Response = yield call(AJAX.post, '/api/auth', login.toJSON());
         const json: IdentityJSON = res.body;
-        const identity: Identity = Identity.of(IdentityID.of(json.id), json.account, json.language, json.region);
+        const {
+          id,
+          account,
+          language,
+          region
+        } = json;
+
+        const identity: Identity = Identity.of(IdentityID.of(id), account, ISO639.of(language), ISO3166.of(region));
 
         yield put(identityRenewed(identity));
         yield put(pushToStatsList());
