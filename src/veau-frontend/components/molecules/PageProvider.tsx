@@ -44,7 +44,7 @@ class PageProviderImpl extends React.Component<Props & InjectedIntlProps, State>
         <List>
           <ListItem
             button={true}
-            onClick={this.props.toCaptionList}
+            onClick={this.props.toStatsList}
           >
             <ListItemIcon>
               <Icon

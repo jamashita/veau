@@ -4,7 +4,7 @@ import {
   InjectedIntlProps,
   injectIntl
 } from 'react-intl';
-import { Props } from '../../containers/page/Modal';
+import { Props } from '../../containers/pages/Modal';
 
 type State = {
 };

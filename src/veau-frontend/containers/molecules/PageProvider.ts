@@ -4,6 +4,7 @@ import { Action } from '../../../declarations/Action';
 import { State } from '../../../declarations/State';
 import { logout } from '../../actions/LogoutAction';
 import { closeProvider } from '../../actions/PageProviderAction';
+import { pushToStatsList } from '../../actions/RedirectAction';
 import { PageProvider as Component } from '../../components/molecules/PageProvider';
 
 type StateProps = {
@@ -11,7 +12,7 @@ type StateProps = {
 };
 type DispatchProps = {
   close(): void;
-  toCaptionList(): void;
+  toStatsList(): void;
   logout(): void;
 };
 type OwnProps = {
@@ -35,8 +36,8 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
     close: (): void => {
       dispatch(closeProvider());
     },
-    toCaptionList: (): void => {
-      //
+    toStatsList: (): void => {
+      dispatch(pushToStatsList());
     },
     logout: (): void => {
       dispatch(logout());

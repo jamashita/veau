@@ -4,7 +4,7 @@ import {
   InjectedIntlProps,
   injectIntl
 } from 'react-intl';
-import { Props } from '../../containers/page/LoadingIndicator';
+import { Props } from '../../containers/pages/LoadingIndicator';
 
 type State = {
 };

@@ -3,10 +3,10 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
-import { Entrance } from '../containers/page/Entrance';
-import { StatsList } from '../containers/page/StatsList';
+import { Entrance } from '../containers/pages/Entrance';
+import { StatsList } from '../containers/pages/StatsList';
 import { Endpoints } from '../Endpoints';
-import { NotFound } from './page/NotFound';
+import { NotFound } from './pages/NotFound';
 
 type Props = {
 };

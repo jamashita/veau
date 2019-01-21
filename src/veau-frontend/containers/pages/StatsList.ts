@@ -7,7 +7,7 @@ import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
 import { StatsID } from '../../../veau-vo/StatsID';
 import { openProvider } from '../../actions/PageProviderAction';
-import { StatsList as Component } from '../../components/page/StatsList';
+import { StatsList as Component } from '../../components/pages/StatsList';
 
 type StateProps = {
   statsOverviews: Array<StatsOverview>;
