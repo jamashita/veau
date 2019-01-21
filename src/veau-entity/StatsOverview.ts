@@ -60,13 +60,16 @@ export class StatsOverview extends Entity<StatsID> {
     return this.statsID;
   }
 
+  public getUpdatedAtAsString(): string {
+    return this.updatedAt.utc().format('YYYY-MM-DDTHH:mm:ss.SSS');
+  }
+
   public toJSON(): StatsOverviewJSON {
     const {
       statsID,
       iso639,
       iso3166,
-      name,
-      updatedAt
+      name
     } = this;
 
     return {
@@ -74,7 +77,7 @@ export class StatsOverview extends Entity<StatsID> {
       iso639: iso639.get(),
       iso3166: iso3166.get(),
       name,
-      updatedAt: updatedAt.utc().format('YYYY-MM-DDTHH:mm:ss.SSS')
+      updatedAt: this.getUpdatedAtAsString()
     };
   }
 
