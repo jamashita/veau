@@ -8,11 +8,12 @@ const ANNUAL: number = 4;
 
 export class Term extends ValueObject {
   private id: number;
+  private key: string;
 
-  public static DAILY: Term = new Term(DAILY);
-  public static WEEKLY: Term = new Term(WEEKLY);
-  public static MONTHLY: Term = new Term(MONTHLY);
-  public static ANNUAL: Term = new Term(ANNUAL);
+  public static DAILY: Term = new Term(DAILY, 'DAILY');
+  public static WEEKLY: Term = new Term(WEEKLY, 'WEEKLY');
+  public static MONTHLY: Term = new Term(MONTHLY, 'MONTHLY');
+  public static ANNUAL: Term = new Term(ANNUAL, 'ANNUAL');
 
   public static of(id: number): Term {
     switch (id) {
@@ -34,13 +35,18 @@ export class Term extends ValueObject {
     }
   }
 
-  private constructor(id: number) {
+  private constructor(id: number, key: string) {
     super();
     this.id = id;
+    this.key = key;
   }
 
   public get(): number {
     return this.id;
+  }
+
+  public getKey(): string {
+    return this.key;
   }
 
   public equals(other: Term): boolean {
@@ -55,6 +61,6 @@ export class Term extends ValueObject {
   }
 
   public toString(): string {
-    return this.id.toString();
+    return this.key;
   }
 }

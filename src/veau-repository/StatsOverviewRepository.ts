@@ -20,6 +20,7 @@ export class StatsOverviewRepository implements IStatsOverviewRepository {
       R1.stats_id AS statsID,
       R2.iso639,
       R3.iso3166,
+      R1.term_id AS termID,
       R1.name,
       R1.updated_at AS updatedAt
       FROM stats R1
