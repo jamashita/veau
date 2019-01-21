@@ -21,19 +21,21 @@ describe('StatsFactory', () => {
     const statsID: StatsID = StatsID.of(UUID.of('af272303-df5d-4d34-8604-398920b7d2bb'));
     const language: Language = Language.of(LanguageID.of(1), 'language1', 'language english name 1', ISO639.of('lang1'));
     const region: Region = Region.of(RegionID.of(1), 'region1', ISO3166.of('regn1'));
+    const term: Term = Term.ANNUAL;
     const name: string = 'name1';
     const updatedAt: moment.Moment = moment(new Date(2000, 0, 1));
-    const item: StatsItem = new StatsItem(StatsItemID.of(UUID.of('a28eceac-0451-4339-b1c5-0c298b3905f6')), Term.ANNUAL, 'stats1', 'unit1', 1, []);
+    const item: StatsItem = new StatsItem(StatsItemID.of(UUID.of('a28eceac-0451-4339-b1c5-0c298b3905f6')), 'stats1', 'unit1', 1, []);
     const items: Array<StatsItem> = [
       item
     ];
 
     const statsFactory: StatsFactory = StatsFactory.getInstance();
-    const stats: Stats = statsFactory.from(statsID, language, region, name, updatedAt, items);
+    const stats: Stats = statsFactory.from(statsID, language, region, term, name, updatedAt, items);
 
     expect(stats.getStatsID()).toEqual(statsID);
     expect(stats.getLanguage()).toEqual(language);
     expect(stats.getRegion()).toEqual(region);
+    expect(stats.getTerm()).toEqual(term);
     expect(stats.getName()).toEqual(name);
     expect(stats.getUpdatedAt()).toEqual(updatedAt);
     expect(stats.getStats()).toEqual(items);
@@ -53,12 +55,12 @@ describe('StatsFactory', () => {
         name: 'region1',
         iso3166: 'regn1'
       },
+      termID: 1,
       name: 'caption1',
       updatedAt: '2000-01-01T00:00:00.000',
       items: [
         {
           statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
-          termID: 1,
           name: 'stats1',
           unit: 'unit1',
           seq: 1,
@@ -71,7 +73,6 @@ describe('StatsFactory', () => {
         },
         {
           statsItemID: '',
-          termID: 2,
           name: 'stats2',
           unit: 'unit1',
           seq: 2,
@@ -100,12 +101,12 @@ describe('StatsFactory', () => {
     expect(stats.getRegion().getRegionID().get()).toEqual(json.region.regionID);
     expect(stats.getRegion().getName()).toEqual(json.region.name);
     expect(stats.getRegion().getISO3166().get()).toEqual(json.region.iso3166);
+    expect(stats.getTerm().get()).toEqual(json.termID);
     expect(stats.getName()).toEqual(json.name);
     expect(stats.getUpdatedAt().get('seconds')).toEqual(moment(json.updatedAt).get('seconds'));
     expect(stats.getStats().length).toEqual(json.items.length);
     for (let i = 0; i < stats.getStats().length; i++) {
       expect(stats.getStats()[i].getStatsItemID().get().get()).toEqual(json.items[i].statsItemID);
-      expect(stats.getStats()[i].getTerm().get()).toEqual(json.items[i].termID);
       expect(stats.getStats()[i].getName()).toEqual(json.items[i].name);
       expect(stats.getStats()[i].getUnit()).toEqual(json.items[i].unit);
       expect(stats.getStats()[i].getSeq()).toEqual(json.items[i].seq);
@@ -127,13 +128,13 @@ describe('StatsFactory', () => {
       regionID: 2,
       regionName: 'region1',
       iso3166: 'regn1',
+      termID: 3,
       name: 'name',
       updatedAt: '2000-01-01T00:00:00.000Z'
     };
     const items: Array<StatsItem> = [
       new StatsItem(
         StatsItemID.of(UUID.of('610b532b-5711-461a-b44a-7387e8d08596')),
-        Term.DAILY,
         'stats1',
         'unit1',
         1,
@@ -144,7 +145,6 @@ describe('StatsFactory', () => {
       ),
       new StatsItem(
         StatsItemID.of(UUID.of('530e0e07-654f-4764-a3ac-77ce12a2a5e4')),
-        Term.WEEKLY,
         'stats2',
         'unit2',
         2,
@@ -169,12 +169,12 @@ describe('StatsFactory', () => {
         name: 'region1',
         iso3166: 'regn1'
       },
+      termID: 3,
       name: 'name',
       updatedAt: '2000-01-01T00:00:00.000',
       items: [
         {
           statsItemID: '610b532b-5711-461a-b44a-7387e8d08596',
-          termID: 1,
           name: 'stats1',
           unit: 'unit1',
           seq: 1,
@@ -191,7 +191,6 @@ describe('StatsFactory', () => {
         },
         {
           statsItemID: '530e0e07-654f-4764-a3ac-77ce12a2a5e4',
-          termID: 2,
           name: 'stats2',
           unit: 'unit2',
           seq: 2,

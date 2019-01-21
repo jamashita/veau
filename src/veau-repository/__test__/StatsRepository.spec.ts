@@ -19,6 +19,7 @@ describe('StatsRepository', () => {
     stub.withArgs(`SELECT
       R1.stats_id AS statsID,
       R1.language_id AS languageID,
+      R1.term_id AS termID,
       R2.name AS languageName,
       R2.english_name AS languageEnglishName,
       R2.iso639,
@@ -49,13 +50,13 @@ describe('StatsRepository', () => {
         regionID: 2,
         regionName: 'region1',
         iso3166: 'regn1',
+        termID: 3,
         name: 'name',
         updatedAt: '2000-01-01T00:00:00.000Z'
       }
     ]);
     stub.withArgs(`SELECT
       R1.stats_item_id AS statsItemID,
-      R1.term_id AS termID,
       R1.name,
       R1.unit,
       R1.seq
@@ -67,21 +68,18 @@ describe('StatsRepository', () => {
     ]).returns([
       {
         statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
-        termID: 1,
         name: 'name1',
         unit: 'unit1',
         seq: 1
       },
       {
         statsItemID: '5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c',
-        termID: 2,
         name: 'name2',
         unit: 'unit2',
         seq: 2
       },
       {
         statsItemID: '2ac64841-5267-48bc-8952-ba9ad1cb12d7',
-        termID: 3,
         name: 'name3',
         unit: 'unit3',
         seq: 3
@@ -137,13 +135,13 @@ describe('StatsRepository', () => {
     expect(stats.getRegion().getRegionID().get()).toEqual(2);
     expect(stats.getRegion().getName()).toEqual('region1');
     expect(stats.getRegion().getISO3166().get()).toEqual('regn1');
+    expect(stats.getTerm().get()).toEqual(3);
     expect(stats.getName()).toEqual('name');
     expect(stats.getUpdatedAt().toJSON()).toEqual('2000-01-01T00:00:00.000Z');
 
     const items: Array<StatsItem> = stats.getStats();
     expect(items.length).toEqual(3);
     expect(items[0].getStatsItemID().get().get()).toEqual('c0e18d31-d026-4a84-af4f-d5d26c520600');
-    expect(items[0].getTerm().get()).toEqual(1);
     expect(items[0].getName()).toEqual('name1');
     expect(items[0].getUnit()).toEqual('unit1');
     expect(items[0].getSeq()).toEqual(1);
@@ -158,7 +156,6 @@ describe('StatsRepository', () => {
     expect(values[2].getValue()).toEqual(3);
 
     expect(items[1].getStatsItemID().get().get()).toEqual('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c');
-    expect(items[1].getTerm().get()).toEqual(2);
     expect(items[1].getName()).toEqual('name2');
     expect(items[1].getUnit()).toEqual('unit2');
     expect(items[1].getSeq()).toEqual(2);
@@ -171,7 +168,6 @@ describe('StatsRepository', () => {
     expect(values[1].getValue()).toEqual(12);
 
     expect(items[2].getStatsItemID().get().get()).toEqual('2ac64841-5267-48bc-8952-ba9ad1cb12d7');
-    expect(items[2].getTerm().get()).toEqual(3);
     expect(items[2].getName()).toEqual('name3');
     expect(items[2].getUnit()).toEqual('unit3');
     expect(items[2].getSeq()).toEqual(3);

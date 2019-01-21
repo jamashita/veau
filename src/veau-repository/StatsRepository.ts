@@ -23,6 +23,7 @@ export class StatsRepository implements IStatsRepository {
     const query: string = `SELECT
       R1.stats_id AS statsID,
       R1.language_id AS languageID,
+      R1.term_id AS termID,
       R2.name AS languageName,
       R2.english_name AS languageEnglishName,
       R2.iso639,
