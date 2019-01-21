@@ -7,6 +7,9 @@ export type Messages = {
   CANCEL: string;
   NAME: string;
   LOCALE: string;
+  LANGUAGE: string;
+  REGION: string;
+  UPDATED_AT: string;
 
   LOADING: string;
 
@@ -43,8 +46,12 @@ const en: Messages = {
   CANCEL: 'Cancel',
   NAME: 'Name',
   LOCALE: 'Location/Language',
+  LANGUAGE: 'Language',
+  REGION: 'Region',
+  UPDATED_AT: 'Updated at',
 
-  LOADING: 'Loading',
+
+LOADING: 'Loading',
 
   LOGIN: 'Log in',
   LOGOUT: 'Log out',
@@ -79,6 +86,9 @@ const fr: Messages = {
   CANCEL: 'Annuler',
   NAME: 'Le nom',
   LOCALE: 'Lieu/Langue',
+  LANGUAGE: 'Langue',
+  REGION: 'Région',
+  UPDATED_AT: 'Mis à jour à',
 
   LOADING: 'Chargement',
 
@@ -115,6 +125,9 @@ const es: Messages = {
   CANCEL: 'Cancel',
   NAME: 'Nombre',
   LOCALE: 'Ubicación/Idioma',
+  LANGUAGE: 'Idioma',
+  REGION: 'Región',
+  UPDATED_AT: 'Actualizado en',
 
   LOADING: 'Cargando',
 
@@ -151,6 +164,9 @@ const ja: Messages = {
   CANCEL: 'やめる',
   NAME: '名前',
   LOCALE: '地域/言語',
+  LANGUAGE: '言語',
+  REGION: '地域',
+  UPDATED_AT: '更新日',
 
   LOADING: '読み込み中',
 
