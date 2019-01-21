@@ -1,5 +1,6 @@
 import { RouterState } from 'connected-react-router';
 import { Action as ReduxAction } from 'redux';
+import { StatsOverview } from '../veau-entity/StatsOverview';
 import { Identity } from '../veau-vo/Identity';
 import { Language } from '../veau-vo/Language';
 import { Login } from '../veau-vo/Login';
@@ -31,7 +32,9 @@ export enum ACTION {
   OPEN_PROVIDER = 'OPEN_PROVIDER',
   CLOSE_PROVIDER = 'CLOSE_PROVIDER',
 
-  LOCALE_DEFINED = 'LOCALE_DEFINED'
+  LOCALE_DEFINED = 'LOCALE_DEFINED',
+
+  STATS_OVERVIEW_UPDATE = 'STATS_OVERVIEW_UPDATE'
 }
 
 export interface LocationChangeAction extends ReduxAction {
@@ -98,6 +101,10 @@ export interface LocaleDefinedAction extends ReduxAction {
   languages: Array<Language>;
   regions: Array<Region>;
 }
+export interface StatsOverviewUpdateAction extends ReduxAction {
+  type: ACTION.STATS_OVERVIEW_UPDATE;
+  statsOverviews: Array<StatsOverview>;
+}
 
 export type Action =
     LocationChangeAction
@@ -118,4 +125,5 @@ export type Action =
   | OpenProviderAction
   | CloseProviderAction
   | LocaleDefinedAction
+  | StatsOverviewUpdateAction
   ;
