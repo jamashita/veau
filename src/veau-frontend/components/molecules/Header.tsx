@@ -28,6 +28,8 @@ export class Header extends React.Component<Props, State> {
           />
           <I18NLabel
             id='VEAU'
+            color='inherit'
+            variant='h5'
           />
         </Toolbar>
       </AppBar>

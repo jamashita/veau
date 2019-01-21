@@ -1,11 +1,11 @@
-import { Button, Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { StatsOverview } from '../../../veau-entity/StatsOverview';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
-import { PageProvider } from '../../containers/molecules/PageProvider';
 import { Props } from '../../containers/pages/StatsList';
+import { Authenticated } from '../../containers/templates/Authenticated';
 
 type State = {
 };
@@ -25,13 +25,7 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
     } = this.props;
 
     return (
-      <div>
-        <PageProvider/>
-        <Button
-          onClick={this.props.open}
-        >
-          OPEN
-        </Button>
+      <Authenticated>
         <Table>
           <TableHead>
             <TableRow>
@@ -78,7 +72,7 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
             })}
           </TableBody>
         </Table>
-      </div>
+      </Authenticated>
     );
   }
 }

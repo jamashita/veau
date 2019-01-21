@@ -1,3 +1,4 @@
+import { ThemeStyle } from '@material-ui/core/styles/createTypography';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { RawLabel } from './RawLabel';
@@ -5,6 +6,8 @@ import { RawLabel } from './RawLabel';
 type Props = {
   id: string;
   values?: {[key: string]: string};
+  color?: 'inherit' | 'primary' | 'secondary' | 'default' | 'textPrimary' | 'textSecondary' | 'error';
+  variant?: ThemeStyle;
   style?: {[key: string]: string};
 };
 type State =  {
@@ -40,12 +43,16 @@ class I18NLabelImpl extends React.Component<Props & InjectedIntlProps, State> {
     const {
       id,
       values,
+      color,
+      variant,
       style,
       intl
     } = this.props;
 
     return (
       <RawLabel
+        color={color}
+        variant={variant}
         style={style}
       >
         {intl.formatMessage(

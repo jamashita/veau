@@ -6,7 +6,6 @@ import { StatsOverview } from '../../../veau-entity/StatsOverview';
 import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
 import { StatsID } from '../../../veau-vo/StatsID';
-import { openProvider } from '../../actions/PageProviderAction';
 import { StatsList as Component } from '../../components/pages/StatsList';
 
 type StateProps = {
@@ -15,7 +14,6 @@ type StateProps = {
   regions: Array<Region>;
 };
 type DispatchProps = {
-  open(): void;
   toEditStats(statsID: StatsID): void;
 };
 type OwnProps = {
@@ -40,9 +38,6 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>): DispatchProps => {
   return {
-    open: (): void => {
-      dispatch(openProvider());
-    },
     toEditStats: (statsID: StatsID): void => {
       console.log(statsID.toString());
     }
