@@ -1,3 +1,4 @@
+/* tslint:disable */
 import 'jest';
 import * as moment from 'moment';
 import { ISO3166 } from '../../veau-vo/ISO3166';
