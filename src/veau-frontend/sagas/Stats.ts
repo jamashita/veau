@@ -1,4 +1,4 @@
-import { call, fork, take, put } from 'redux-saga/effects';
+import { call, fork, put, take } from 'redux-saga/effects';
 import * as request from 'superagent';
 import { ACTION, LocationChangeAction } from '../../declarations/Action';
 import { StatsOverview, StatsOverviewJSON } from '../../veau-entity/StatsOverview';
