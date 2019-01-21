@@ -9,7 +9,13 @@ export type Messages = {
   LOCALE: string;
   LANGUAGE: string;
   REGION: string;
+  TERM: string;
   UPDATED_AT: string;
+
+  DAILY: string;
+  WEEKLY: string;
+  MONTHLY: string;
+  ANNUAL: string;
 
   LOADING: string;
 
@@ -48,10 +54,15 @@ const en: Messages = {
   LOCALE: 'Location/Language',
   LANGUAGE: 'Language',
   REGION: 'Region',
+  TERM: 'Term',
   UPDATED_AT: 'Updated at',
 
+  DAILY: 'Daily',
+  WEEKLY: 'Weekly',
+  MONTHLY: 'Monthly',
+  ANNUAL: 'Annual',
 
-LOADING: 'Loading',
+  LOADING: 'Loading',
 
   LOGIN: 'Log in',
   LOGOUT: 'Log out',
@@ -88,7 +99,13 @@ const fr: Messages = {
   LOCALE: 'Lieu/Langue',
   LANGUAGE: 'Langue',
   REGION: 'Région',
+  TERM: 'Terme',
   UPDATED_AT: 'Mis à jour à',
+
+  DAILY: 'Quotidien',
+  WEEKLY: 'Hebdomadaire',
+  MONTHLY: 'Mensuel',
+  ANNUAL: 'Annuelle',
 
   LOADING: 'Chargement',
 
@@ -127,7 +144,13 @@ const es: Messages = {
   LOCALE: 'Ubicación/Idioma',
   LANGUAGE: 'Idioma',
   REGION: 'Región',
+  TERM: 'Término',
   UPDATED_AT: 'Actualizado en',
+
+  DAILY: 'Diario',
+  WEEKLY: 'Semanal',
+  MONTHLY: 'Mensual',
+  ANNUAL: 'Anual',
 
   LOADING: 'Cargando',
 
@@ -166,7 +189,13 @@ const ja: Messages = {
   LOCALE: '地域/言語',
   LANGUAGE: '言語',
   REGION: '地域',
+  TERM: '期間',
   UPDATED_AT: '更新日',
+
+  DAILY: '日次',
+  WEEKLY: '週次',
+  MONTHLY: '月次',
+  ANNUAL: '年次',
 
   LOADING: '読み込み中',
 

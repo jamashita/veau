@@ -45,6 +45,11 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
               </TableCell>
               <TableCell>
                 {intl.formatMessage({
+                  id: 'TERM'
+                })}
+              </TableCell>
+              <TableCell>
+                {intl.formatMessage({
                   id: 'UPDATED_AT'
                 })}
               </TableCell>
@@ -68,6 +73,11 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
                     <TableCell>{statsOverview.getName()}</TableCell>
                     <TableCell>{language.getName()}</TableCell>
                     <TableCell>{region.getName()}</TableCell>
+                    <TableCell>
+                      {intl.formatMessage({
+                        id: statsOverview.getTerm().getKey()
+                      })}
+                    </TableCell>
                     <TableCell>{statsOverview.getUpdatedAtAsString()}</TableCell>
                   </TableRow>
                 );
@@ -84,6 +94,11 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
                     <TableCell>{statsOverview.getName()}</TableCell>
                     <TableCell>{statsOverview.getISO639().get()}</TableCell>
                     <TableCell>{statsOverview.getISO3166().get()}</TableCell>
+                    <TableCell>
+                      {intl.formatMessage({
+                        id: statsOverview.getTerm().getKey()
+                      })}
+                    </TableCell>
                     <TableCell>{statsOverview.getUpdatedAtAsString()}</TableCell>
                   </TableRow>
                 );
