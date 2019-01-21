@@ -78,4 +78,4 @@ class ModalImpl extends React.Component<Props & InjectedIntlProps, State> {
   }
 }
 
-export const Modal: React.ComponentClass = injectIntl(ModalImpl);
+export const Modal: React.ComponentClass<Props, State> = injectIntl(ModalImpl);

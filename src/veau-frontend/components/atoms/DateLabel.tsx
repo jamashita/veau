@@ -51,4 +51,4 @@ class DateLabelImpl extends React.Component<Props & InjectedIntlProps, State> {
   }
 }
 
-export const DateLabel: React.ComponentClass = injectIntl(DateLabelImpl);
+export const DateLabel: React.ComponentClass<Props, State> = injectIntl(DateLabelImpl);

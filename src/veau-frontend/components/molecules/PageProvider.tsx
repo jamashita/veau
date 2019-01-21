@@ -81,4 +81,4 @@ class PageProviderImpl extends React.Component<Props & InjectedIntlProps, State>
   }
 }
 
-export const PageProvider: React.ComponentClass = injectIntl(PageProviderImpl);
+export const PageProvider: React.ComponentClass<Props, State> = injectIntl(PageProviderImpl);

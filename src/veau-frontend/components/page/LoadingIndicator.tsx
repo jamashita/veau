@@ -52,4 +52,4 @@ class LoadingIndicatorImpl extends React.Component<Props & InjectedIntlProps, St
   }
 }
 
-export const LoadingIndicator: React.ComponentClass = injectIntl(LoadingIndicatorImpl);
+export const LoadingIndicator: React.ComponentClass<Props, State> = injectIntl(LoadingIndicatorImpl);

@@ -83,4 +83,4 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
   }
 }
 
-export const StatsList: React.ComponentClass = injectIntl(StatsListImpl);
+export const StatsList: React.ComponentClass<Props, State> = injectIntl(StatsListImpl);

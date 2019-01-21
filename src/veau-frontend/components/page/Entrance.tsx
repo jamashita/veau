@@ -88,4 +88,4 @@ class EntranceImpl extends React.Component<Props & InjectedIntlProps, State> {
   }
 }
 
-export const Entrance: React.ComponentClass = injectIntl(EntranceImpl);
+export const Entrance: React.ComponentClass<Props, State> = injectIntl(EntranceImpl);

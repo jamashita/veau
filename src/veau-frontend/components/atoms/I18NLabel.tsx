@@ -16,7 +16,8 @@ class I18NLabelImpl extends React.Component<Props & InjectedIntlProps, State> {
     const {
       id,
       values,
-      style
+      style,
+      intl
     } = this.props;
 
     if (id !== nextProps.id) {
@@ -26,6 +27,9 @@ class I18NLabelImpl extends React.Component<Props & InjectedIntlProps, State> {
       return true;
     }
     if (style !== nextProps.style) {
+      return true;
+    }
+    if (intl.locale !== nextProps.intl.locale) {
       return true;
     }
 
@@ -55,4 +59,4 @@ class I18NLabelImpl extends React.Component<Props & InjectedIntlProps, State> {
   }
 }
 
-export const I18NLabel: React.ComponentClass = injectIntl(I18NLabelImpl);
+export const I18NLabel: React.ComponentClass<Props, State> = injectIntl(I18NLabelImpl);
