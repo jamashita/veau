@@ -19,7 +19,8 @@ describe('StatsItemRepository', () => {
       R1.unit,
       R1.seq
       FROM stats_items R1
-      WHERE R1.stats_id = :statsID;`, [
+      WHERE R1.stats_id = :statsID
+      ORDER BY R1.seq;`, [
       {
         statsID
       }
