@@ -1,6 +1,7 @@
 import { HotTable } from '@handsontable/react';
 import * as React from 'react';
 import { Props } from '../../containers/pages/StatsEdit';
+import { Authenticated } from '../../containers/templates/Authenticated';
 
 type State = {
 };
@@ -25,7 +26,7 @@ export class StatsEdit extends React.Component<Props, State> {
     console.log(stats);
 
     return (
-      <div>
+      <Authenticated>
         <HotTable
           settings={{
             data,
@@ -33,12 +34,12 @@ export class StatsEdit extends React.Component<Props, State> {
             rowHeaders: false,
             width: 600,
             height: 600,
-            afterChange: (e: any) => {
+            afterChange: (e: any): void => {
               console.log(e);
             }
           }}
         />
-      </div>
+      </Authenticated>
     );
   }
 }

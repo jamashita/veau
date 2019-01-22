@@ -1,23 +1,28 @@
 import { ACTION, Action } from '../../declarations/Action';
 
 export type PageProvider = {
-  isOpen: boolean;
+  open: boolean;
 };
 
 const initialState: PageProvider = {
-  isOpen: false
+  open: false
 };
 
 export const pageProvider: (state: PageProvider, action: Action) => PageProvider = (state: PageProvider = initialState, action: Action): PageProvider => {
   switch (action.type) {
+    case ACTION.LOCATION_CHANGE: {
+      return {
+        open: false
+      };
+    }
     case ACTION.OPEN_PROVIDER: {
       return {
-        isOpen: true
+        open: true
       };
     }
     case ACTION.CLOSE_PROVIDER: {
       return {
-        isOpen: false
+        open: false
       };
     }
     default: {

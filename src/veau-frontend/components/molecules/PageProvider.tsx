@@ -10,10 +10,10 @@ class PageProviderImpl extends React.Component<Props & InjectedIntlProps, State>
 
   public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
     const {
-      isOpen
+      open
     } = this.props;
 
-    if (isOpen !== nextProps.isOpen) {
+    if (open !== nextProps.open) {
       return true;
     }
 
@@ -22,14 +22,14 @@ class PageProviderImpl extends React.Component<Props & InjectedIntlProps, State>
 
   public render(): React.ReactNode {
     const {
-      isOpen,
+      open,
       intl
     } = this.props;
 
     return (
       <Drawer
         anchor='left'
-        open={isOpen}
+        open={open}
         variant='persistent'
       >
         <Button

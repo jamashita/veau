@@ -8,7 +8,7 @@ import { pushToStatsList } from '../../actions/RedirectAction';
 import { PageProvider as Component } from '../../components/molecules/PageProvider';
 
 type StateProps = {
-  isOpen: boolean;
+  open: boolean;
 };
 type DispatchProps = {
   close(): void;
@@ -22,12 +22,12 @@ export type Props = StateProps & DispatchProps & OwnProps;
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State): StateProps => {
   const {
     pageProvider: {
-      isOpen
+      open
     }
   } = state;
 
   return {
-    isOpen
+    open
   };
 };
 
