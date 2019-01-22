@@ -6,7 +6,7 @@ import { StatsOverview, StatsOverviewJSON } from '../../veau-entity/StatsOvervie
 import { StatsFactory } from '../../veau-factory/StatsFactory';
 import { StatsOverviewFactory } from '../../veau-factory/StatsOverviewFactory';
 import { AJAX } from '../../veau-general/AJAX';
-import { updateStats, updateStatsOverviews } from '../actions/StatsOverviewAction';
+import { updateStats, updateStatsOverviews } from '../actions/StatsAction';
 
 const statsOverviewFactory: StatsOverviewFactory = StatsOverviewFactory.getInstance();
 const statsFactory: StatsFactory = StatsFactory.getInstance();

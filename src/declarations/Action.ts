@@ -2,9 +2,9 @@ import { RouterState } from 'connected-react-router';
 import { Action as ReduxAction } from 'redux';
 import { Stats } from '../veau-entity/Stats';
 import { StatsOverview } from '../veau-entity/StatsOverview';
+import { EntranceInformation } from '../veau-vo/EntranceInformation';
 import { Identity } from '../veau-vo/Identity';
 import { Language } from '../veau-vo/Language';
-import { EntranceInformation } from '../veau-vo/EntranceInformation';
 import { Region } from '../veau-vo/Region';
 import { StatsID } from '../veau-vo/StatsID';
 
@@ -28,15 +28,16 @@ export enum ACTION {
   PUSH_TO_STATS_EDIT = 'PUSH_TO_STATS_EDIT',
   PUSH_TO_ENTRANCE = 'PUSH_TO_ENTRANCE',
 
-  ENTRANCE_ACCOUNT_NAME_TYPED = 'ENTRANCE_ACCOUNT_NAME_TYPED',
-  ENTRANCE_PASSWORD_TYPED = 'ENTRANCE_PASSWORD_TYPED',
-  ENTRANCE_LOGIN_INFO_UPDATE = 'ENTRANCE_LOGIN_INFO_UPDATE',
-
   OPEN_PROVIDER = 'OPEN_PROVIDER',
   CLOSE_PROVIDER = 'CLOSE_PROVIDER',
 
   LOCALE_DEFINED = 'LOCALE_DEFINED',
 
+  ENTRANCE_ACCOUNT_NAME_TYPED = 'ENTRANCE_ACCOUNT_NAME_TYPED',
+  ENTRANCE_PASSWORD_TYPED = 'ENTRANCE_PASSWORD_TYPED',
+  ENTRANCE_LOGIN_INFO_UPDATE = 'ENTRANCE_LOGIN_INFO_UPDATE',
+
+  STATS_LIST_NEW_STATS = 'STATS_LIST_NEW_STATS',
   STATS_OVERVIEW_UPDATE = 'STATS_OVERVIEW_UPDATE',
   STATS_UPDATE = 'STATS_UPDATE'
 }
@@ -86,6 +87,17 @@ export interface PushToStatsEditAction extends ReduxAction {
 export interface PushToEntranceAction extends ReduxAction {
   type: ACTION.PUSH_TO_ENTRANCE;
 }
+export interface OpenProviderAction extends ReduxAction {
+  type: ACTION.OPEN_PROVIDER;
+}
+export interface CloseProviderAction extends ReduxAction {
+  type: ACTION.CLOSE_PROVIDER;
+}
+export interface LocaleDefinedAction extends ReduxAction {
+  type: ACTION.LOCALE_DEFINED;
+  languages: Array<Language>;
+  regions: Array<Region>;
+}
 export interface EntranceAccountNameTypedAction extends ReduxAction {
   type: ACTION.ENTRANCE_ACCOUNT_NAME_TYPED;
   account: string;
@@ -98,16 +110,8 @@ export interface EntranceInfoUpdateAction extends ReduxAction {
   type: ACTION.ENTRANCE_LOGIN_INFO_UPDATE;
   entranceInformation: EntranceInformation;
 }
-export interface OpenProviderAction extends ReduxAction {
-  type: ACTION.OPEN_PROVIDER;
-}
-export interface CloseProviderAction extends ReduxAction {
-  type: ACTION.CLOSE_PROVIDER;
-}
-export interface LocaleDefinedAction extends ReduxAction {
-  type: ACTION.LOCALE_DEFINED;
-  languages: Array<Language>;
-  regions: Array<Region>;
+export interface StatsListNewStatsAction extends ReduxAction {
+  type: ACTION.STATS_LIST_NEW_STATS;
 }
 export interface StatsOverviewUpdateAction extends ReduxAction {
   type: ACTION.STATS_OVERVIEW_UPDATE;
@@ -132,12 +136,13 @@ export type Action =
   | PushToStatsListAction
   | PushToStatsEditAction
   | PushToEntranceAction
-  | EntranceAccountNameTypedAction
-  | EntrancePasswordTypedAction
-  | EntranceInfoUpdateAction
   | OpenProviderAction
   | CloseProviderAction
   | LocaleDefinedAction
+  | EntranceAccountNameTypedAction
+  | EntrancePasswordTypedAction
+  | EntranceInfoUpdateAction
+  | StatsListNewStatsAction
   | StatsOverviewUpdateAction
   | StatsUpdateAction
   ;
