@@ -18,6 +18,7 @@ export class Header extends React.Component<Props, State> {
     return (
       <AppBar
         position='static'
+        className='header'
       >
         <Toolbar
           variant='dense'

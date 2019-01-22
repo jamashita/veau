@@ -31,6 +31,7 @@ export type Messages = {
   VEAU_DESCRIPTION: string;
 
   STATS_LIST: string;
+  CREATE_NEW_STATS: string;
 
   AUTHENTICATION_FAILED: string;
   AUTHENTICATION_FAILED_DESCRIPTION: string;
@@ -76,6 +77,7 @@ const en: Messages = {
   VEAU_DESCRIPTION: 'Veau is the young of domestic cattle.',
 
   STATS_LIST: 'Statistics list',
+  CREATE_NEW_STATS: 'Create new statistics',
 
   AUTHENTICATION_FAILED: 'Authentication failed',
   AUTHENTICATION_FAILED_DESCRIPTION: 'Account or Password is incorrect. Please check them again.',
@@ -121,6 +123,7 @@ const fr: Messages = {
   VEAU_DESCRIPTION: 'Veau est le bétail jeune domestique.',
 
   STATS_LIST: 'Liste de statistiques',
+  CREATE_NEW_STATS: 'Créer de nouvelles statistiques',
 
   AUTHENTICATION_FAILED: 'Authentification échouée',
   AUTHENTICATION_FAILED_DESCRIPTION: 'Compte ou mot de passe est incorrect. Les vérifier à nouveau s\'il vous plaît.',
@@ -166,6 +169,7 @@ const es: Messages = {
   VEAU_DESCRIPTION: 'Veau es la cría de toro doméstico.',
 
   STATS_LIST: 'Lista de estadísticas',
+  CREATE_NEW_STATS: 'Crear nuevas estadísticas',
 
   AUTHENTICATION_FAILED: 'Autenticación fallida',
   AUTHENTICATION_FAILED_DESCRIPTION: 'La cuenta o contraseña es incorrecta. Revísalos nuevamente por favor.',
@@ -211,6 +215,7 @@ const ja: Messages = {
   VEAU_DESCRIPTION: 'ヴォとは牛の子供のことです。',
 
   STATS_LIST: '統計の一覧',
+  CREATE_NEW_STATS: '新しい統計を作成する',
 
   AUTHENTICATION_FAILED: '認証に失敗しました',
   AUTHENTICATION_FAILED_DESCRIPTION: 'アカウントまたはパスワードが正しくありません。もう一度確認してください。',

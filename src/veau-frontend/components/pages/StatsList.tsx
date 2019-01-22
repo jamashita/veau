@@ -1,4 +1,4 @@
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
+import { Button, Icon, Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { StatsOverview } from '../../../veau-entity/StatsOverview';
@@ -25,6 +25,16 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
 
     return (
       <Authenticated>
+        <Button
+          variant='contained'
+          color='primary'
+          onClick={this.props.newStatsClicked}
+        >
+          <Icon className='fa fa-plus-circle' />
+          {intl.formatMessage({
+            id: 'CREATE_NEW_STATS'
+          })}
+        </Button>
         <Table>
           <TableHead>
             <TableRow>
