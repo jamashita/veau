@@ -3,12 +3,12 @@ import { StatsOverview } from '../../veau-entity/StatsOverview';
 
 export type StatsList = {
   open: boolean;
-  newStats: StatsOverview;
+  newStatsOverview: StatsOverview;
 };
 
 const initialState: StatsList = {
   open: false,
-  newStats: StatsOverview.default()
+  newStatsOverview: StatsOverview.default()
 };
 
 export const statsList: (state: StatsList, action: Action) => StatsList = (state: StatsList = initialState, action: Action): StatsList => {
@@ -28,7 +28,7 @@ export const statsList: (state: StatsList, action: Action) => StatsList = (state
     case ACTION.STATS_LIST_RENEW_STATS: {
       return {
         ...state,
-        newStats: action.newStatsOverview
+        newStatsOverview: action.newStatsOverview
       };
     }
     default: {

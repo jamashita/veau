@@ -18,6 +18,7 @@ import { Region } from '../../../veau-vo/Region';
 import { Props } from '../../containers/pages/StatsList';
 import { Authenticated } from '../../containers/templates/Authenticated';
 import { I18NLabel } from '../atoms/I18NLabel';
+import { TextField } from '../atoms/TextField';
 
 type State = {
 };
@@ -25,7 +26,33 @@ type State = {
 class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
 
   public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
-    return true;
+    const {
+      statsOverviews,
+      localeRepository,
+      open,
+      newStatsOverview
+    } = this.props;
+
+    const length: number = statsOverviews.length;
+    if (length !== nextProps.statsOverviews.length) {
+      return true;
+    }
+    for (let i: number = 0; i < length; i++) {
+      if (!statsOverviews[i].equals(nextProps.statsOverviews[i])) {
+        return true;
+      }
+    }
+    if (localeRepository !== nextProps.localeRepository) {
+      return true;
+    }
+    if (open !== nextProps.open) {
+      return true;
+    }
+    if (newStatsOverview !== nextProps.newStatsOverview) {
+      return true;
+    }
+
+    return false;
   }
 
   public render(): React.ReactNode {
@@ -33,6 +60,7 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
       statsOverviews,
       localeRepository,
       open,
+      newStatsOverview,
       intl
     } = this.props;
 
@@ -139,7 +167,14 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
             })}
           </DialogTitle>
           <DialogContent>
-            DIALOG HELLO WORLD
+            <TextField
+              label={intl.formatMessage({
+                id: 'STATS_NAME'
+              })}
+              type='text'
+              value={newStatsOverview.getName()}
+              onKeyUp={this.props.nameTyped}
+            />
           </DialogContent>
           <DialogActions>
             <Button

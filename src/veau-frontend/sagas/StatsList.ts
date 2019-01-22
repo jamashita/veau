@@ -7,7 +7,7 @@ import {
 } from '../../declarations/Action';
 import { State } from '../../declarations/State';
 import { StatsOverview } from '../../veau-entity/StatsOverview';
-import { renewStats } from '../actions/StatsListAction';
+import { renewStatsOverview } from '../actions/StatsListAction';
 
 export class StatsList {
 
@@ -25,12 +25,19 @@ export class StatsList {
 
       const {
         statsList: {
-          newStats
+          newStatsOverview
         }
       } = state;
 
-      const newStatsOverview: StatsOverview = new StatsOverview(newStats.getStatsID(), newStats.getISO639(), newStats.getISO3166(), newStats.getTerm(), action.name, newStats.getUpdatedAt());
-      yield put(renewStats(newStatsOverview));
+      const latestStatsOverview: StatsOverview = new StatsOverview(
+        newStatsOverview.getStatsID(),
+        newStatsOverview.getISO639(),
+        newStatsOverview.getISO3166(),
+        newStatsOverview.getTerm(),
+        action.name,
+        newStatsOverview.getUpdatedAt()
+      );
+      yield put(renewStatsOverview(latestStatsOverview));
     }
   }
 
@@ -41,19 +48,19 @@ export class StatsList {
 
       const {
         statsList: {
-          newStats
+          newStatsOverview
         }
       } = state;
 
-      const newStatsOverview: StatsOverview = new StatsOverview(
-        newStats.getStatsID(),
+      const latestStatsOverview: StatsOverview = new StatsOverview(
+        newStatsOverview.getStatsID(),
         action.language.getISO639(),
-        newStats.getISO3166(),
-        newStats.getTerm(),
-        newStats.getName(),
-        newStats.getUpdatedAt()
+        newStatsOverview.getISO3166(),
+        newStatsOverview.getTerm(),
+        newStatsOverview.getName(),
+        newStatsOverview.getUpdatedAt()
       );
-      yield put(renewStats(newStatsOverview));
+      yield put(renewStatsOverview(latestStatsOverview));
     }
   }
 
@@ -64,19 +71,19 @@ export class StatsList {
 
       const {
         statsList: {
-          newStats
+          newStatsOverview
         }
       } = state;
 
-      const newStatsOverview: StatsOverview = new StatsOverview(
-        newStats.getStatsID(),
-        newStats.getISO639(),
+      const latestStatsOverview: StatsOverview = new StatsOverview(
+        newStatsOverview.getStatsID(),
+        newStatsOverview.getISO639(),
         action.region.getISO3166(),
-        newStats.getTerm(),
-        newStats.getName(),
-        newStats.getUpdatedAt()
+        newStatsOverview.getTerm(),
+        newStatsOverview.getName(),
+        newStatsOverview.getUpdatedAt()
       );
-      yield put(renewStats(newStatsOverview));
+      yield put(renewStatsOverview(latestStatsOverview));
     }
   }
 
@@ -87,19 +94,19 @@ export class StatsList {
 
       const {
         statsList: {
-          newStats
+          newStatsOverview
         }
       } = state;
 
-      const newStatsOverview: StatsOverview = new StatsOverview(
-        newStats.getStatsID(),
-        newStats.getISO639(),
-        newStats.getISO3166(),
+      const latestStatsOverview: StatsOverview = new StatsOverview(
+        newStatsOverview.getStatsID(),
+        newStatsOverview.getISO639(),
+        newStatsOverview.getISO3166(),
         action.term,
-        newStats.getName(),
-        newStats.getUpdatedAt()
+        newStatsOverview.getName(),
+        newStatsOverview.getUpdatedAt()
       );
-      yield put(renewStats(newStatsOverview));
+      yield put(renewStatsOverview(latestStatsOverview));
     }
   }
 }

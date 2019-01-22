@@ -35,6 +35,7 @@ export type Messages = {
 
   STATS_LIST: string;
   CREATE_NEW_STATS: string;
+  STATS_NAME: string;
 
   AUTHENTICATION_FAILED: string;
   AUTHENTICATION_FAILED_DESCRIPTION: string;
@@ -84,6 +85,7 @@ const en: Messages = {
 
   STATS_LIST: 'Statistics list',
   CREATE_NEW_STATS: 'Create new statistics',
+  STATS_NAME: 'Statistics name',
 
   AUTHENTICATION_FAILED: 'Authentication failed',
   AUTHENTICATION_FAILED_DESCRIPTION: 'Account or Password is incorrect. Please check them again.',
@@ -133,6 +135,7 @@ const fr: Messages = {
 
   STATS_LIST: 'Liste de statistiques',
   CREATE_NEW_STATS: 'Créer de nouvelles statistiques',
+  STATS_NAME: 'Le nom de statistiques',
 
   AUTHENTICATION_FAILED: 'Authentification échouée',
   AUTHENTICATION_FAILED_DESCRIPTION: 'Compte ou mot de passe est incorrect. Les vérifier à nouveau s\'il vous plaît.',
@@ -182,6 +185,7 @@ const es: Messages = {
 
   STATS_LIST: 'Lista de estadísticas',
   CREATE_NEW_STATS: 'Crear nuevas estadísticas',
+  STATS_NAME: 'El nombre de estadísticas',
 
   AUTHENTICATION_FAILED: 'Autenticación fallida',
   AUTHENTICATION_FAILED_DESCRIPTION: 'La cuenta o contraseña es incorrecta. Revísalos nuevamente por favor.',
@@ -231,6 +235,7 @@ const ja: Messages = {
 
   STATS_LIST: '統計の一覧',
   CREATE_NEW_STATS: '新しい統計を作成する',
+  STATS_NAME: '統計名称',
 
   AUTHENTICATION_FAILED: '認証に失敗しました',
   AUTHENTICATION_FAILED_DESCRIPTION: 'アカウントまたはパスワードが正しくありません。もう一度確認してください。',

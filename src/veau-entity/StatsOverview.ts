@@ -103,10 +103,9 @@ export class StatsOverview extends Entity<StatsID> {
       iso639,
       iso3166,
       term,
-      name,
-      updatedAt
+      name
     } = this;
 
-    return `${statsID.toString()} ${iso639.toString()} ${iso3166.toString()} ${term.toString()} ${name} ${updatedAt.toJSON()}`;
+    return `${statsID.toString()} ${iso639.toString()} ${iso3166.toString()} ${term.toString()} ${name} ${this.getUpdatedAtAsString()}`;
   }
 }

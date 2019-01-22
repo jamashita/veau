@@ -53,7 +53,7 @@ export const newStatsTermSelected: (term: Term) => StatsListTermSelectedAction =
   };
 };
 
-export const renewStats: (newStatsOverview: StatsOverview) => StatsListRenewStatsAction = (newStatsOverview: StatsOverview): StatsListRenewStatsAction => {
+export const renewStatsOverview: (newStatsOverview: StatsOverview) => StatsListRenewStatsAction = (newStatsOverview: StatsOverview): StatsListRenewStatsAction => {
   return {
     type: ACTION.STATS_LIST_RENEW_STATS,
     newStatsOverview
