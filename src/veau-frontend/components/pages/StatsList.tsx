@@ -1,4 +1,15 @@
-import { Button, Icon, Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
+import {
+  Button,
+  Dialog, DialogActions,
+  DialogContent,
+  DialogTitle,
+  Icon,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow
+} from '@material-ui/core';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { StatsOverview } from '../../../veau-entity/StatsOverview';
@@ -6,6 +17,7 @@ import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
 import { Props } from '../../containers/pages/StatsList';
 import { Authenticated } from '../../containers/templates/Authenticated';
+import {I18NLabel} from '../atoms/I18NLabel';
 
 type State = {
 };
@@ -20,6 +32,7 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
     const {
       statsOverviews,
       localeRepository,
+      open,
       intl
     } = this.props;
 
@@ -116,6 +129,30 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
             })}
           </TableBody>
         </Table>
+        <Dialog
+          open={open}
+          onClose={this.props.closeNewStatsModal}
+        >
+          <DialogTitle>
+            {intl.formatMessage({
+              id: 'CREATE_NEW_STATS'
+            })}
+          </DialogTitle>
+          <DialogContent>
+            DIALOG HELLO WORLD
+          </DialogContent>
+          <DialogActions>
+            <Button
+              color='secondary'
+              onClick={this.props.closeNewStatsModal}
+            >
+              <Icon className='fa fa-times' />
+              <I18NLabel
+                id='CLOSE'
+              />
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Authenticated>
     );
   }

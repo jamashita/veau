@@ -5,6 +5,9 @@ export type Messages = {
   NO: string;
   SUBMIT: string;
   CANCEL: string;
+  OPEN: string;
+  CLOSE: string;
+
   NAME: string;
   LOCALE: string;
   LANGUAGE: string;
@@ -51,6 +54,9 @@ const en: Messages = {
   NO: 'No',
   SUBMIT: 'Submit',
   CANCEL: 'Cancel',
+  OPEN: 'Open',
+  CLOSE: 'Close',
+
   NAME: 'Name',
   LOCALE: 'Location/Language',
   LANGUAGE: 'Language',
@@ -97,6 +103,9 @@ const fr: Messages = {
   NO: 'Non',
   SUBMIT: 'Soumettre',
   CANCEL: 'Annuler',
+  OPEN: 'Ouvrir',
+  CLOSE: 'Fermer',
+
   NAME: 'Le nom',
   LOCALE: 'Lieu/Langue',
   LANGUAGE: 'Langue',
@@ -143,6 +152,9 @@ const es: Messages = {
   NO: 'No',
   SUBMIT: 'Submit',
   CANCEL: 'Cancel',
+  OPEN: 'Abrir',
+  CLOSE: 'Cerrar',
+
   NAME: 'Nombre',
   LOCALE: 'Ubicación/Idioma',
   LANGUAGE: 'Idioma',
@@ -189,6 +201,9 @@ const ja: Messages = {
   NO: 'いいえ',
   SUBMIT: '投稿する',
   CANCEL: 'やめる',
+  OPEN: '開く',
+  CLOSE: '閉じる',
+
   NAME: '名前',
   LOCALE: '地域/言語',
   LANGUAGE: '言語',

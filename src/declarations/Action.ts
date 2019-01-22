@@ -38,6 +38,7 @@ export enum ACTION {
   ENTRANCE_LOGIN_INFO_UPDATE = 'ENTRANCE_LOGIN_INFO_UPDATE',
 
   STATS_LIST_NEW_STATS = 'STATS_LIST_NEW_STATS',
+  STATS_LIST_CLOSE_STATS_MODAL = 'STATS_LIST_CLOSE_STATS_MODAL',
   STATS_OVERVIEW_UPDATE = 'STATS_OVERVIEW_UPDATE',
   STATS_UPDATE = 'STATS_UPDATE'
 }
@@ -113,6 +114,9 @@ export interface EntranceInfoUpdateAction extends ReduxAction {
 export interface StatsListNewStatsAction extends ReduxAction {
   type: ACTION.STATS_LIST_NEW_STATS;
 }
+export interface StatsListCloseNewStatsModalAction extends ReduxAction {
+  type: ACTION.STATS_LIST_CLOSE_STATS_MODAL;
+}
 export interface StatsOverviewUpdateAction extends ReduxAction {
   type: ACTION.STATS_OVERVIEW_UPDATE;
   statsOverviews: Array<StatsOverview>;
@@ -143,6 +147,7 @@ export type Action =
   | EntrancePasswordTypedAction
   | EntranceInfoUpdateAction
   | StatsListNewStatsAction
+  | StatsListCloseNewStatsModalAction
   | StatsOverviewUpdateAction
   | StatsUpdateAction
   ;
