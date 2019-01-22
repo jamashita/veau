@@ -12,7 +12,7 @@ export type StatsValueRow = {
   value: number;
 };
 
-const DATE_FORMAT: string = 'YYYY-MM-DD';
+const TERM_FORMAT: string = 'YYYY-MM-DD';
 
 export class StatsValue extends ValueObject {
   private asOf: moment.Moment;
@@ -37,7 +37,7 @@ export class StatsValue extends ValueObject {
   }
 
   public getAsOfAsString(): string {
-    return this.asOf.format('YYYY-MM-DD');
+    return this.asOf.format(TERM_FORMAT);
   }
 
   public equals(other: StatsValue): boolean {
@@ -56,22 +56,20 @@ export class StatsValue extends ValueObject {
 
   public toJSON(): StatsValueJSON {
     const {
-      asOf,
       value
     } = this;
 
     return {
-      asOf: asOf.format(DATE_FORMAT),
+      asOf: this.getAsOfAsString(),
       value
     };
   }
 
   public toString(): string {
     const {
-      asOf,
       value
     } = this;
 
-    return `${asOf.format(DATE_FORMAT)} : ${value}`;
+    return `${this.getAsOfAsString()} : ${value}`;
   }
 }
