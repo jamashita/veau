@@ -66,7 +66,6 @@ class ModalImpl extends React.Component<Props & InjectedIntlProps, State> {
         </DialogContent>
         <DialogActions>
           <Button
-            key='close'
             color='primary'
             onClick={this.props.closeClicked}
           >
