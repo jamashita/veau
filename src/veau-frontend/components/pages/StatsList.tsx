@@ -17,7 +17,7 @@ import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
 import { Props } from '../../containers/pages/StatsList';
 import { Authenticated } from '../../containers/templates/Authenticated';
-import {I18NLabel} from '../atoms/I18NLabel';
+import { I18NLabel } from '../atoms/I18NLabel';
 
 type State = {
 };

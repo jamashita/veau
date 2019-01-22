@@ -1,4 +1,4 @@
-import {ACTION, StatsListCloseNewStatsModalAction, StatsListNewStatsAction} from '../../declarations/Action';
+import { ACTION, StatsListCloseNewStatsModalAction, StatsListNewStatsAction } from '../../declarations/Action';
 
 export const newStats: () => StatsListNewStatsAction = (): StatsListNewStatsAction => {
   return {
