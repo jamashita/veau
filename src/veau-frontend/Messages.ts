@@ -108,7 +108,7 @@ const fr: Messages = {
   OPEN: 'Ouvrir',
   CLOSE: 'Fermer',
 
-  NAME: 'Le nom',
+  NAME: 'Nom',
   LOCALE: 'Lieu/Langue',
   LANGUAGE: 'Langue',
   REGION: 'Région',
