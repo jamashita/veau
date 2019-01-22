@@ -6,10 +6,9 @@ import { Authenticated } from '../../containers/templates/Authenticated';
 type State = {
 };
 
-const data: Array<Array<any>> = [
-  ['', '2000-01-01', '2000-01-02'],
-  ['A', 1, 2],
-  ['B', 3, 4]
+const data: Array<Array<number>> = [
+  [1, 2],
+  [3, 4]
 ];
 
 export class StatsEdit extends React.Component<Props, State> {
@@ -30,12 +29,13 @@ export class StatsEdit extends React.Component<Props, State> {
         <HotTable
           settings={{
             data,
-            colHeaders: false,
-            rowHeaders: false,
-            width: 600,
-            height: 600,
+            colHeaders: [
+              '2000-01-01',
+              '2000-01-02'
+            ],
+            rowHeaders: true,
             afterChange: (e: any): void => {
-              console.log(e);
+              console.log(`here => :${e}`);
             }
           }}
         />
