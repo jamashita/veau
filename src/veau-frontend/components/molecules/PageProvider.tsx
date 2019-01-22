@@ -30,7 +30,8 @@ class PageProviderImpl extends React.Component<Props & InjectedIntlProps, State>
       <Drawer
         anchor='left'
         open={open}
-        variant='persistent'
+        variant='temporary'
+        onClose={this.props.close}
       >
         <Button
           variant='contained'
