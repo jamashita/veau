@@ -6,6 +6,10 @@ import { Authenticated } from '../../containers/templates/Authenticated';
 type State = {
 };
 
+const ROW_INDEX: number = 0;
+const COLUMN_INDEX: number = 1;
+const VALUE_INDEX: number = 3;
+
 export class StatsEdit extends React.Component<Props, State> {
 
   public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
@@ -26,8 +30,24 @@ export class StatsEdit extends React.Component<Props, State> {
             rowHeaders: stats.getRow(),
             manualRowResize: true,
             manualColumnResize: true,
-            afterChange: (e: any): void => {
-              console.log(`here => :${e}`);
+            beforeChange: (changes: Array<Array<any>> | null): boolean => {
+              if (changes) {
+                const length: number = changes.length;
+                for (let i: number = 0; i < length; i++) {
+                  const str: string = changes[i][VALUE_INDEX];
+                  if (str === '') {
+                    return false;
+                  }
+
+                  const value: number = Number(str);
+                  if (isNaN(value)) {
+                    return false;
+                  }
+
+                  this.props.dataFilled(changes[i][ROW_INDEX], changes[i][COLUMN_INDEX], value);
+                }
+              }
+              return true;
             }
           }}
         />

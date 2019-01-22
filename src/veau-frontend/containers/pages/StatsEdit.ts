@@ -9,6 +9,7 @@ type StateProps = {
   stats: Stats;
 };
 type DispatchProps = {
+  dataFilled(row: number, col: number, value: number): void;
 };
 type OwnProps = {
 };
@@ -26,6 +27,9 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>): DispatchProps => {
   return {
+    dataFilled: (row: number, col: number, value: number): void => {
+      console.log(`row ${row}, col ${col}, value ${value}`);
+    }
   };
 };
 
