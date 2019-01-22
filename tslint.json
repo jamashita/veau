@@ -64,7 +64,7 @@
     "no-string-literal": true,
     "no-string-throw": true,
     "no-submodule-imports": false,
-    "no-switch-case-fall-through": true,
+    "no-switch-case-fall-through": false,
     "no-this-assignment": [ true, { "allow-destructuring": true } ],
     "no-unbound-method": true,
     "no-unsafe-any": true,
@@ -133,7 +133,7 @@
     "semicolon": [ true, "always" ],
     "space-before-function-paren": [ true, "asyncArrow" ],
     "space-within-parens": 0,
-    "switch-final-break": [ true, "always" ],
+    "switch-final-break": false,
     "type-literal-delimiter": true,
     "variable-name": false,
     "whitespace": [ true, "check-branch", "check-decl", "check-operator", "check-module", "check-separator", "check-type", "check-typecast", "check-preblock" ]

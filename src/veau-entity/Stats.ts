@@ -2,6 +2,7 @@ import * as moment from 'moment';
 import { Language, LanguageJSON } from '../veau-vo/Language';
 import { Region, RegionJSON } from '../veau-vo/Region';
 import { StatsID } from '../veau-vo/StatsID';
+import { StatsValue } from '../veau-vo/StatsValue';
 import { Term } from '../veau-vo/Term';
 import { UUID } from '../veau-vo/UUID';
 import { Entity } from './Entity';
@@ -30,6 +31,8 @@ export type StatsRow = {
   name: string;
   updatedAt: string;
 };
+
+const TERM_FORMAT: string = 'YYYY-MM-DD';
 
 export class Stats extends Entity<StatsID> {
   private statsID: StatsID;
@@ -85,6 +88,93 @@ export class Stats extends Entity<StatsID> {
 
   public getIdentifier(): StatsID {
     return this.statsID;
+  }
+
+  public getColumnHeader(): Array<string> {
+    const asOfs: Array<moment.Moment> = this.collectAsOf();
+    const length: number = asOfs.length;
+
+    if (length === 0) {
+      return [];
+    }
+
+    const minTerm: moment.Moment = asOfs[0];
+    const maxTerm: moment.Moment = asOfs[length - 1];
+
+    return this.enumerateTerm(minTerm, maxTerm);
+  }
+
+  private collectAsOf(): Array<moment.Moment> {
+    const asOfs: Array<moment.Moment> = [];
+
+    this.items.forEach((statsItem: StatsItem) => {
+      statsItem.getValues().forEach((statsValue: StatsValue) => {
+        asOfs.push(statsValue.getAsOf());
+      });
+    });
+
+    return asOfs.sort((asOf1: moment.Moment, asOf2: moment.Moment) => {
+      if (asOf1.isAfter(asOf2)) {
+        return 1;
+      }
+
+      return -1;
+    });
+  }
+
+  private enumerateTerm(minTerm: moment.Moment, maxTerm: moment.Moment): Array<string> {
+    let term: moment.Moment = minTerm;
+    const terms: Array<string> = [];
+
+    switch (this.term) {
+      case Term.DAILY:
+      default: {
+        while (true) {
+          if (term.isAfter(maxTerm)) {
+            return terms;
+          }
+
+          terms.push(term.format(TERM_FORMAT));
+          term = term.add(1, 'day');
+        }
+      }
+      case Term.WEEKLY: {
+        while (true) {
+          if (term.isAfter(maxTerm)) {
+            return terms;
+          }
+
+          terms.push(term.format(TERM_FORMAT));
+          term = term.add(1, 'week');
+        }
+      }
+      case Term.MONTHLY: {
+        while (true) {
+          if (term.isAfter(maxTerm)) {
+            return terms;
+          }
+
+          terms.push(term.format(TERM_FORMAT));
+          term = term.add(1, 'month');
+        }
+      }
+      case Term.ANNUAL: {
+        while (true) {
+          if (term.isAfter(maxTerm)) {
+            return terms;
+          }
+
+          terms.push(term.format(TERM_FORMAT));
+          term = term.add(1, 'year');
+        }
+      }
+    }
+  }
+
+  public getRowHeader(): Array<string> {
+    return this.items.map<string>((item: StatsItem) => {
+      return item.getName();
+    });
   }
 
   public toJSON(): StatsJSON {

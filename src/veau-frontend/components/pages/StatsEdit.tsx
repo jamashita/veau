@@ -7,8 +7,9 @@ type State = {
 };
 
 const data: Array<Array<number>> = [
-  [1, 2],
-  [3, 4]
+  [1, 2, 3, 4, 5, 6],
+  [3, 4, 5, 6, 7, 8],
+  [6, 7, 8, 9, 10, 11]
 ];
 
 export class StatsEdit extends React.Component<Props, State> {
@@ -22,18 +23,15 @@ export class StatsEdit extends React.Component<Props, State> {
       stats
     } = this.props;
 
-    console.log(stats);
-
     return (
       <Authenticated>
         <HotTable
           settings={{
             data,
-            colHeaders: [
-              '2000-01-01',
-              '2000-01-02'
-            ],
-            rowHeaders: true,
+            colHeaders: stats.getColumnHeader(),
+            rowHeaders: stats.getRowHeader(),
+            manualRowResize: true,
+            manualColumnResize: true,
             afterChange: (e: any): void => {
               console.log(`here => :${e}`);
             }

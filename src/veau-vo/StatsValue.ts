@@ -36,11 +36,15 @@ export class StatsValue extends ValueObject {
     return this.value;
   }
 
+  public getAsOfAsString(): string {
+    return this.asOf.format('YYYY-MM-DD');
+  }
+
   public equals(other: StatsValue): boolean {
     if (this === other) {
       return true;
     }
-    if (this.asOf.get('days') !== other.getAsOf().get('days')) {
+    if (this.getAsOfAsString() !== other.getAsOfAsString()) {
       return false;
     }
     if (this.value !== other.getValue()) {
