@@ -3,6 +3,7 @@ import { ISO3166 } from '../veau-vo/ISO3166';
 import { ISO639 } from '../veau-vo/ISO639';
 import { StatsID } from '../veau-vo/StatsID';
 import { Term } from '../veau-vo/Term';
+import { UUID } from '../veau-vo/UUID';
 import { Entity } from './Entity';
 
 export type StatsOverviewJSON = {
@@ -30,6 +31,10 @@ export class StatsOverview extends Entity<StatsID> {
   private term: Term;
   private name: string;
   private updatedAt: moment.Moment;
+
+  public static default(): StatsOverview {
+    return new StatsOverview(StatsID.of(UUID.generate()), ISO639.defualt(), ISO3166.default(), Term.DAILY, '', moment.utc());
+  }
 
   public constructor(statsID: StatsID, iso639: ISO639, iso3166: ISO3166, term: Term, name: string, updatedAt: moment.Moment) {
     super();

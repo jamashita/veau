@@ -7,6 +7,7 @@ import { Identity } from '../veau-vo/Identity';
 import { Language } from '../veau-vo/Language';
 import { Region } from '../veau-vo/Region';
 import { StatsID } from '../veau-vo/StatsID';
+import { Term } from '../veau-vo/Term';
 
 export enum ACTION {
   LOCATION_CHANGE = '@@router/LOCATION_CHANGE',
@@ -39,6 +40,13 @@ export enum ACTION {
 
   STATS_LIST_NEW_STATS = 'STATS_LIST_NEW_STATS',
   STATS_LIST_CLOSE_STATS_MODAL = 'STATS_LIST_CLOSE_STATS_MODAL',
+  STATS_LIST_NEW_STATS_UPDATE = 'STATS_LIST_NEW_STATS_UPDATE',
+  STATS_LIST_NAME_TYPED = 'STATS_LIST_NAME_TYPED',
+  STATS_LIST_LANGUAGE_SELECTED = 'STATS_LIST_LANGUAGE_SELECTED',
+  STATS_LIST_REGION_SELECTED = 'STATS_LIST_REGION_SELECTED',
+  STATS_LIST_TERM_SELECTED = 'STATS_LIST_TERM_SELECTED',
+  STATS_LIST_RENEW_STATS = 'STATS_LIST_RENEW_STATS',
+
   STATS_OVERVIEW_UPDATE = 'STATS_OVERVIEW_UPDATE',
   STATS_UPDATE = 'STATS_UPDATE'
 }
@@ -117,6 +125,30 @@ export interface StatsListNewStatsAction extends ReduxAction {
 export interface StatsListCloseNewStatsModalAction extends ReduxAction {
   type: ACTION.STATS_LIST_CLOSE_STATS_MODAL;
 }
+export interface StatsListNewStatsUpdateAction extends ReduxAction {
+  type: ACTION.STATS_LIST_NEW_STATS_UPDATE;
+  statsOverview: StatsOverview;
+}
+export interface StatsListNameTypedAction extends ReduxAction {
+  type: ACTION.STATS_LIST_NAME_TYPED;
+  name: string;
+}
+export interface StatsListLanguageSelectedAction extends ReduxAction {
+  type: ACTION.STATS_LIST_LANGUAGE_SELECTED;
+  language: Language;
+}
+export interface StatsListRegionSelectedAction extends ReduxAction {
+  type: ACTION.STATS_LIST_REGION_SELECTED;
+  region: Region;
+}
+export interface StatsListTermSelectedAction extends ReduxAction {
+  type: ACTION.STATS_LIST_TERM_SELECTED;
+  term: Term;
+}
+export interface StatsListRenewStatsAction extends ReduxAction {
+  type: ACTION.STATS_LIST_RENEW_STATS;
+  newStatsOverview: StatsOverview;
+}
 export interface StatsOverviewUpdateAction extends ReduxAction {
   type: ACTION.STATS_OVERVIEW_UPDATE;
   statsOverviews: Array<StatsOverview>;
@@ -148,6 +180,12 @@ export type Action =
   | EntranceInfoUpdateAction
   | StatsListNewStatsAction
   | StatsListCloseNewStatsModalAction
+  | StatsListNewStatsUpdateAction
+  | StatsListNameTypedAction
+  | StatsListLanguageSelectedAction
+  | StatsListRegionSelectedAction
+  | StatsListTermSelectedAction
+  | StatsListRenewStatsAction
   | StatsOverviewUpdateAction
   | StatsUpdateAction
   ;
