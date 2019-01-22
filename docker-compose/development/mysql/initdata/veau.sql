@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 8.0.13)
 # Database: veau
-# Generation Time: 2019-01-21 16:27:53 +0000
+# Generation Time: 2019-01-22 09:39:32 +0000
 # ************************************************************
 
 
@@ -536,7 +536,7 @@ CREATE TABLE `stats_items` (
   `unit` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `seq` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY (`stats_item_id`),
-  KEY `stats_id` (`stats_id`,`seq`),
+  UNIQUE KEY `stats_id` (`stats_id`,`seq`),
   CONSTRAINT `stats_items_ibfk_1` FOREIGN KEY (`stats_id`) REFERENCES `stats` (`stats_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
@@ -551,6 +551,7 @@ CREATE TABLE `stats_values` (
   `stats_item_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `as_of` date NOT NULL,
   `value` decimal(32,8) unsigned NOT NULL,
+  UNIQUE KEY `stats_item_id_2` (`stats_item_id`,`as_of`),
   KEY `stats_item_id` (`stats_item_id`),
   CONSTRAINT `stats_values_ibfk_1` FOREIGN KEY (`stats_item_id`) REFERENCES `stats_items` (`stats_item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;

@@ -1,3 +1,4 @@
+import * as moment from 'moment';
 import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsValue, StatsValueJSON } from '../veau-vo/StatsValue';
 import { Entity } from './Entity';
@@ -55,6 +56,36 @@ export class StatsItem extends Entity<StatsItemID> {
 
   public getIdentifier(): StatsItemID {
     return this.statsItemID;
+  }
+
+  public getAsOfs(): Array<moment.Moment> {
+    return this.values.map<moment.Moment>((statsValue: StatsValue) => {
+      return statsValue.getAsOf();
+    });
+  }
+
+  public getValuesByColumn(column: Array<string>): Array<string> {
+    const valuesByColumn: Array<string> = [];
+
+    column.forEach((term: string) => {
+      let alreadyInput: boolean = false;
+
+      this.values.forEach((statsValue: StatsValue) => {
+        if (alreadyInput) {
+          return;
+        }
+        if (term === statsValue.getAsOfAsString()) {
+          valuesByColumn.push(statsValue.getValue().toString());
+          alreadyInput = true;
+          return;
+        }
+      });
+      if (!alreadyInput) {
+        valuesByColumn.push('');
+      }
+    });
+
+    return valuesByColumn;
   }
 
   public toJSON(): StatsItemJSON {

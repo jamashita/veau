@@ -36,4 +36,32 @@ describe('StatsItem', () => {
       ]
     });
   });
+
+  it('getAsOfs', () => {
+    const asOf1: moment.Moment = moment('2000-01-01');
+    const asOf2: moment.Moment = moment('2000-01-03');
+    const statsItem: StatsItem = new StatsItem(StatsItemID.of(UUID.of('0816ef5e-752d-41ad-b52a-95b1f16e3bbd')), 'name 1', 'unit 1', 1, [
+      StatsValue.of(asOf1, 1),
+      StatsValue.of(asOf2, 3)
+    ]);
+
+    expect(statsItem.getAsOfs()).toEqual([
+      asOf1,
+      asOf2
+    ]);
+  });
+
+  it('getValuesByColumn', () => {
+    const column: Array<string> = ['2000-01-01', '2000-01-02', '2000-01-03'];
+    const statsItem: StatsItem = new StatsItem(StatsItemID.of(UUID.of('aa28c422-67e2-41e2-bbe6-a97c7d63c44f')), 'name 1', 'unit 1', 1, [
+      StatsValue.of(moment('2000-01-01'), 1),
+      StatsValue.of(moment('2000-01-03'), 3)
+    ]);
+
+    expect(statsItem.getValuesByColumn(column)).toEqual([
+      '1',
+      '',
+      '3'
+    ]);
+  });
 });

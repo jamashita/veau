@@ -6,12 +6,6 @@ import { Authenticated } from '../../containers/templates/Authenticated';
 type State = {
 };
 
-const data: Array<Array<number>> = [
-  [1, 2, 3, 4, 5, 6],
-  [3, 4, 5, 6, 7, 8],
-  [6, 7, 8, 9, 10, 11]
-];
-
 export class StatsEdit extends React.Component<Props, State> {
 
   public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
@@ -27,9 +21,9 @@ export class StatsEdit extends React.Component<Props, State> {
       <Authenticated>
         <HotTable
           settings={{
-            data,
-            colHeaders: stats.getColumnHeader(),
-            rowHeaders: stats.getRowHeader(),
+            data: stats.getDataMatrix(),
+            colHeaders: stats.getColumn(),
+            rowHeaders: stats.getRow(),
             manualRowResize: true,
             manualColumnResize: true,
             afterChange: (e: any): void => {

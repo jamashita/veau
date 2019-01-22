@@ -2,7 +2,6 @@ import * as moment from 'moment';
 import { Language, LanguageJSON } from '../veau-vo/Language';
 import { Region, RegionJSON } from '../veau-vo/Region';
 import { StatsID } from '../veau-vo/StatsID';
-import { StatsValue } from '../veau-vo/StatsValue';
 import { Term } from '../veau-vo/Term';
 import { UUID } from '../veau-vo/UUID';
 import { Entity } from './Entity';
@@ -42,6 +41,7 @@ export class Stats extends Entity<StatsID> {
   private name: string;
   private updatedAt: moment.Moment;
   private items: Array<StatsItem>;
+  private column?: Array<string>;
 
   public static default(): Stats {
     return new Stats(StatsID.of(UUID.of('')), Language.default(), Region.default(), Term.DAILY, '', moment.utc(), []);
@@ -90,7 +90,11 @@ export class Stats extends Entity<StatsID> {
     return this.statsID;
   }
 
-  public getColumnHeader(): Array<string> {
+  public getColumn(): Array<string> {
+    if (this.column) {
+      return this.column;
+    }
+
     const asOfs: Array<moment.Moment> = this.collectAsOf();
     const length: number = asOfs.length;
 
@@ -98,82 +102,54 @@ export class Stats extends Entity<StatsID> {
       return [];
     }
 
-    const minTerm: moment.Moment = asOfs[0];
-    const maxTerm: moment.Moment = asOfs[length - 1];
+    const minTerm: moment.Moment = moment.min(asOfs);
+    const maxTerm: moment.Moment = moment.max(asOfs);
+    const column: Array<string> = [];
 
-    return this.enumerateTerm(minTerm, maxTerm);
+    for (let term: moment.Moment = minTerm; !term.isAfter(maxTerm); term = this.nextTerm(term)) {
+      column.push(term.format(TERM_FORMAT));
+    }
+
+    this.column = column;
+    return column;
   }
 
   private collectAsOf(): Array<moment.Moment> {
-    const asOfs: Array<moment.Moment> = [];
-
-    this.items.forEach((statsItem: StatsItem) => {
-      statsItem.getValues().forEach((statsValue: StatsValue) => {
-        asOfs.push(statsValue.getAsOf());
-      });
-    });
-
-    return asOfs.sort((asOf1: moment.Moment, asOf2: moment.Moment) => {
-      if (asOf1.isAfter(asOf2)) {
-        return 1;
-      }
-
-      return -1;
-    });
+    return this.items.map<Array<moment.Moment>>((statsItem: StatsItem) => {
+      return statsItem.getAsOfs();
+    }).flat();
   }
 
-  private enumerateTerm(minTerm: moment.Moment, maxTerm: moment.Moment): Array<string> {
-    let term: moment.Moment = minTerm;
-    const terms: Array<string> = [];
-
+  private nextTerm(term: moment.Moment): moment.Moment {
+    const copy: moment.Moment = moment(term);
     switch (this.term) {
       case Term.DAILY:
       default: {
-        while (true) {
-          if (term.isAfter(maxTerm)) {
-            return terms;
-          }
-
-          terms.push(term.format(TERM_FORMAT));
-          term = term.add(1, 'day');
-        }
+        return copy.add(1, 'days');
       }
       case Term.WEEKLY: {
-        while (true) {
-          if (term.isAfter(maxTerm)) {
-            return terms;
-          }
-
-          terms.push(term.format(TERM_FORMAT));
-          term = term.add(1, 'week');
-        }
+        return copy.add(1, 'weeks');
       }
       case Term.MONTHLY: {
-        while (true) {
-          if (term.isAfter(maxTerm)) {
-            return terms;
-          }
-
-          terms.push(term.format(TERM_FORMAT));
-          term = term.add(1, 'month');
-        }
+        return copy.add(1, 'months');
       }
       case Term.ANNUAL: {
-        while (true) {
-          if (term.isAfter(maxTerm)) {
-            return terms;
-          }
-
-          terms.push(term.format(TERM_FORMAT));
-          term = term.add(1, 'year');
-        }
+        return copy.add(1, 'years');
       }
     }
   }
 
-  public getRowHeader(): Array<string> {
+  public getRow(): Array<string> {
     return this.items.map<string>((item: StatsItem) => {
       return item.getName();
+    });
+  }
+
+  public getDataMatrix(): Array<Array<string>> {
+    const column: Array<string> = this.getColumn();
+
+    return this.items.map<Array<string>>((statsItem: StatsItem, index: number) => {
+      return statsItem.getValuesByColumn(column);
     });
   }
 
