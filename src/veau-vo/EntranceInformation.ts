@@ -1,20 +1,20 @@
 import { ValueObject } from './ValueObject';
 
-export type LoginJSON = {
+export type EntranceInformationJSON = {
   account: string;
   password: string;
 };
 
-export class Login extends ValueObject {
+export class EntranceInformation extends ValueObject {
   private account: string;
   private password: string;
 
-  public static of(account: string, password: string): Login {
-    return new Login(account, password);
+  public static of(account: string, password: string): EntranceInformation {
+    return new EntranceInformation(account, password);
   }
 
-  public static default(): Login {
-    return new Login('', '');
+  public static default(): EntranceInformation {
+    return new EntranceInformation('', '');
   }
 
   private constructor(account: string, password: string) {
@@ -42,7 +42,7 @@ export class Login extends ValueObject {
     return true;
   }
 
-  public equals(other: Login): boolean {
+  public equals(other: EntranceInformation): boolean {
     if (this === other) {
       return true;
     }
@@ -56,7 +56,7 @@ export class Login extends ValueObject {
     return true;
   }
 
-  public toJSON(): LoginJSON {
+  public toJSON(): EntranceInformationJSON {
     const {
       account,
       password

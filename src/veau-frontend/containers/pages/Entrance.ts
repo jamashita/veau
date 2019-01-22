@@ -2,12 +2,12 @@ import { connect, ConnectedComponentClass, MapDispatchToProps, MapStateToProps }
 import { Dispatch } from 'redux';
 import { Action } from '../../../declarations/Action';
 import { State } from '../../../declarations/State';
-import { Login } from '../../../veau-vo/Login';
+import { EntranceInformation } from '../../../veau-vo/EntranceInformation';
 import { accountTyped, attemptLogin, passwordTyped } from '../../actions/EntranceAction';
 import { Entrance as Component } from '../../components/pages/Entrance';
 
 type StateProps = {
-  login: Login;
+  entranceInformation: EntranceInformation;
 };
 type DispatchProps = {
   accountTyped(name: string): void;
@@ -20,13 +20,11 @@ export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State): StateProps => {
   const {
-    entrance: {
-      login
-    }
+    entranceInformation
   } = state;
 
   return {
-    login
+    entranceInformation
   };
 };
 

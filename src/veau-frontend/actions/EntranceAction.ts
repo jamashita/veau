@@ -4,7 +4,7 @@ import {
   EntranceInfoUpdateAction,
   EntrancePasswordTypedAction, IdentityAuthenticateAction
 } from '../../declarations/Action';
-import { Login } from '../../veau-vo/Login';
+import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 
 export const accountTyped: (account: string) => EntranceAccountNameTypedAction = (account: string): EntranceAccountNameTypedAction => {
   return {
@@ -20,10 +20,10 @@ export const passwordTyped: (password: string) => EntrancePasswordTypedAction = 
   };
 };
 
-export const entranceLoginInfoUpdate: (login: Login) => EntranceInfoUpdateAction = (login: Login): EntranceInfoUpdateAction => {
+export const entranceInformationUpdate: (entranceInformation: EntranceInformation) => EntranceInfoUpdateAction = (entranceInformation): EntranceInfoUpdateAction => {
   return {
     type: ACTION.ENTRANCE_LOGIN_INFO_UPDATE,
-    login
+    entranceInformation
   };
 };
 

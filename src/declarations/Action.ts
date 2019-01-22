@@ -4,7 +4,7 @@ import { Stats } from '../veau-entity/Stats';
 import { StatsOverview } from '../veau-entity/StatsOverview';
 import { Identity } from '../veau-vo/Identity';
 import { Language } from '../veau-vo/Language';
-import { Login } from '../veau-vo/Login';
+import { EntranceInformation } from '../veau-vo/EntranceInformation';
 import { Region } from '../veau-vo/Region';
 import { StatsID } from '../veau-vo/StatsID';
 
@@ -96,7 +96,7 @@ export interface EntrancePasswordTypedAction extends ReduxAction {
 }
 export interface EntranceInfoUpdateAction extends ReduxAction {
   type: ACTION.ENTRANCE_LOGIN_INFO_UPDATE;
-  login: Login;
+  entranceInformation: EntranceInformation;
 }
 export interface OpenProviderAction extends ReduxAction {
   type: ACTION.OPEN_PROVIDER;

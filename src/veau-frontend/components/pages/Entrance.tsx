@@ -13,15 +13,14 @@ class EntranceImpl extends React.Component<Props & InjectedIntlProps, State> {
 
   public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
     const {
-      login,
+      entranceInformation,
       intl
     } = this.props;
 
     if (intl.locale !== nextProps.intl.locale) {
       return true;
     }
-
-    if (login.equals(nextProps.login)) {
+    if (entranceInformation.equals(nextProps.entranceInformation)) {
       return false;
     }
 
@@ -30,7 +29,7 @@ class EntranceImpl extends React.Component<Props & InjectedIntlProps, State> {
 
   public render(): React.ReactNode {
     const {
-      login,
+      entranceInformation,
       intl
     } = this.props;
 
@@ -54,7 +53,7 @@ class EntranceImpl extends React.Component<Props & InjectedIntlProps, State> {
             label={intl.formatMessage({
               id: 'ACCOUNT_NAME'
             })}
-            value={login.getAccount()}
+            value={entranceInformation.getAccount()}
             type='text'
             onKeyUp={this.props.accountTyped}
             onEnterUp={this.props.loginClicked}
@@ -63,7 +62,7 @@ class EntranceImpl extends React.Component<Props & InjectedIntlProps, State> {
             label={intl.formatMessage({
               id: 'PASSWORD'
             })}
-            value={login.getPassword()}
+            value={entranceInformation.getPassword()}
             type='password'
             onKeyUp={this.props.passwordTyped}
             onEnterUp={this.props.loginClicked}
@@ -74,7 +73,7 @@ class EntranceImpl extends React.Component<Props & InjectedIntlProps, State> {
             variant='contained'
             color='primary'
             fullWidth={true}
-            disabled={!login.isAcceptable()}
+            disabled={!entranceInformation.isAcceptable()}
             onClick={this.props.loginClicked}
           >
             <Icon className='fa fa-sign-in' />

@@ -4,12 +4,12 @@ import * as request from 'superagent';
 import { ACTION, EntranceAccountNameTypedAction, EntrancePasswordTypedAction } from '../../declarations/Action';
 import { State } from '../../declarations/State';
 import { AJAX } from '../../veau-general/AJAX';
+import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 import { Identity, IdentityJSON } from '../../veau-vo/Identity';
 import { IdentityID } from '../../veau-vo/IdentityID';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
-import { Login } from '../../veau-vo/Login';
-import { entranceLoginInfoUpdate } from '../actions/EntranceAction';
+import { entranceInformationUpdate } from '../actions/EntranceAction';
 import { identified, identityRenewed } from '../actions/IdentityAction';
 import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
@@ -32,22 +32,20 @@ export class Entrance {
         modal: {
           open
         },
-        entrance: {
-          login
-        }
+        entranceInformation
       } = state;
 
       if (open) {
         continue;
       }
-      if (!login.isAcceptable()) {
+      if (!entranceInformation.isAcceptable()) {
         continue;
       }
 
       yield put(loading());
 
       try {
-        const res: request.Response = yield call(AJAX.post, '/api/auth', login.toJSON());
+        const res: request.Response = yield call(AJAX.post, '/api/auth', entranceInformation.toJSON());
         const json: IdentityJSON = res.body;
         const {
           id,
@@ -82,13 +80,11 @@ export class Entrance {
       const state: State = yield select();
 
       const {
-        entrance: {
-          login
-        }
+        entranceInformation
       } = state;
 
-      const newLogin: Login = Login.of(action.account, login.getPassword());
-      yield put(entranceLoginInfoUpdate(newLogin));
+      const newLogin: EntranceInformation = EntranceInformation.of(action.account, entranceInformation.getPassword());
+      yield put(entranceInformationUpdate(newLogin));
     }
   }
 
@@ -98,13 +94,11 @@ export class Entrance {
       const state: State = yield select();
 
       const {
-        entrance: {
-          login
-        }
+        entranceInformation
       } = state;
 
-      const newLogin: Login = Login.of(login.getAccount(), action.password);
-      yield put(entranceLoginInfoUpdate(newLogin));
+      const newLogin: EntranceInformation = EntranceInformation.of(entranceInformation.getAccount(), action.password);
+      yield put(entranceInformationUpdate(newLogin));
     }
   }
 }
