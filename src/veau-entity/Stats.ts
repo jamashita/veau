@@ -79,7 +79,7 @@ export class Stats extends Entity<StatsID> {
   }
 
   public getUpdatedAt(): moment.Moment {
-    return this.updatedAt;
+    return moment(this.updatedAt);
   }
 
   public getStats(): Array<StatsItem> {
@@ -121,20 +121,19 @@ export class Stats extends Entity<StatsID> {
   }
 
   private nextTerm(term: moment.Moment): moment.Moment {
-    const copy: moment.Moment = moment(term);
     switch (this.term) {
       case Term.DAILY:
       default: {
-        return copy.add(1, 'days');
+        return term.add(1, 'days');
       }
       case Term.WEEKLY: {
-        return copy.add(1, 'weeks');
+        return term.add(1, 'weeks');
       }
       case Term.MONTHLY: {
-        return copy.add(1, 'months');
+        return term.add(1, 'months');
       }
       case Term.ANNUAL: {
-        return copy.add(1, 'years');
+        return term.add(1, 'years');
       }
     }
   }

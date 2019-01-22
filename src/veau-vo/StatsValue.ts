@@ -29,7 +29,7 @@ export class StatsValue extends ValueObject {
   }
 
   public getAsOf(): moment.Moment {
-    return this.asOf;
+    return moment(this.asOf);
   }
 
   public getValue(): number {
