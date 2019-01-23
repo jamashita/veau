@@ -9,6 +9,7 @@ import { StatsOverview } from '../../veau-entity/StatsOverview';
 import { AJAX } from '../../veau-general/AJAX';
 import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
+import { pushToStatsEdit } from '../actions/RedirectAction';
 import { closeNewStatsModal, renewStatsOverview } from '../actions/StatsListAction';
 
 export class StatsList {
@@ -134,7 +135,8 @@ export class StatsList {
       try {
         yield call(AJAX.post, '/api/stats/new', newStatsOverview.toJSON());
         yield put(loaded());
-        yield put(raiseModal('SUCCEEDED_TO_SAVE_NEW_STATS', 'SUCCEEDED_TO_SAVE_NEW_STATS_DESCRIPTION'));
+
+        yield put(pushToStatsEdit(newStatsOverview.getStatsID()));
       }
       catch (err) {
         yield put(loaded());

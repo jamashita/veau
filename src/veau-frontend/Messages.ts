@@ -36,8 +36,6 @@ export type Messages = {
   STATS_LIST: string;
   CREATE_NEW_STATS: string;
   STATS_NAME: string;
-  SUCCEEDED_TO_SAVE_NEW_STATS: string;
-  SUCCEEDED_TO_SAVE_NEW_STATS_DESCRIPTION: string;
   FAILED_TO_SAVE_NEW_STATS: string;
   FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: string;
 
@@ -90,8 +88,6 @@ const en: Messages = {
   STATS_LIST: 'Statistics list',
   CREATE_NEW_STATS: 'Create new statistics',
   STATS_NAME: 'Statistics name',
-  SUCCEEDED_TO_SAVE_NEW_STATS: 'Save succeeded.',
-  SUCCEEDED_TO_SAVE_NEW_STATS_DESCRIPTION: 'Succeeded to save the statistics to the server',
   FAILED_TO_SAVE_NEW_STATS: 'Failed to save the statistics.',
   FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: 'Failed to save the statistics to the server, please try again',
 
@@ -144,8 +140,6 @@ const fr: Messages = {
   STATS_LIST: 'Liste de statistiques',
   CREATE_NEW_STATS: 'Créer de nouvelles statistiques',
   STATS_NAME: 'Le nom de statistiques',
-  SUCCEEDED_TO_SAVE_NEW_STATS: 'Save réussi.',
-  SUCCEEDED_TO_SAVE_NEW_STATS_DESCRIPTION: 'Réussi à enregistrer les statistiques sur le serveur',
   FAILED_TO_SAVE_NEW_STATS: 'Échec de la sauvegarde des statistiques.',
   FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: 'Échec de l\'enregistrement des statistiques sur le serveur. Veuillez réessayer.',
 
@@ -198,8 +192,6 @@ const es: Messages = {
   STATS_LIST: 'Lista de estadísticas',
   CREATE_NEW_STATS: 'Crear nuevas estadísticas',
   STATS_NAME: 'El nombre de estadísticas',
-  SUCCEEDED_TO_SAVE_NEW_STATS: 'Guardar éxito.',
-  SUCCEEDED_TO_SAVE_NEW_STATS_DESCRIPTION: 'Se logró guardar las estadísticas en el servidor',
   FAILED_TO_SAVE_NEW_STATS: 'Error al guardar las estadísticas.',
   FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: 'Error al guardar las estadísticas en el servidor. Inténtalo de nuevo',
 
@@ -252,8 +244,6 @@ const ja: Messages = {
   STATS_LIST: '統計の一覧',
   CREATE_NEW_STATS: '新しい統計を作成する',
   STATS_NAME: '統計名称',
-  SUCCEEDED_TO_SAVE_NEW_STATS: '保存は成功しました。',
-  SUCCEEDED_TO_SAVE_NEW_STATS_DESCRIPTION: '統計をサーバーに保存することに成功しました',
   FAILED_TO_SAVE_NEW_STATS: '統計情報の保存に失敗しました。',
   FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: '統計情報をサーバーに保存できませんでした。もう一度やり直してください',
 
