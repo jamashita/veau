@@ -31,7 +31,9 @@ export class RegionRepository implements IRegionRepository {
       R1.region_id AS regionID,
       R1.name,
       R1.iso3166
-      FROM regions R1;`;
+      FROM regions R1
+      FORCE INDEX(iso3166)
+      ORDER BY R1.iso3166`;
 
     const regions: Array<RegionRow> = await VeauMySQL.query(query);
     await VeauRedis.getString().set(REDIS_KEY, JSON.stringify(regions));
@@ -66,6 +68,10 @@ export class RegionRepository implements IRegionRepository {
 
     return filtered[0];
   }
+
+  public deleteCache(): Promise<boolean> {
+    return VeauRedis.delete(REDIS_KEY);
+  }
 }
 
 export interface IRegionRepository {
@@ -73,4 +79,6 @@ export interface IRegionRepository {
   all(): Promise<Array<Region>>;
 
   findByISO3166(iso3166: ISO3166): Promise<Region>;
+
+  deleteCache(): Promise<boolean>;
 }

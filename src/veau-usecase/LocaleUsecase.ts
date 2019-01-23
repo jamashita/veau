@@ -1,3 +1,4 @@
+import { RuntimeError } from '../veau-general/RuntimeError';
 import { ILanguageRepository, LanguageRepository } from '../veau-repository/LanguageRepository';
 import { IRegionRepository, RegionRepository } from '../veau-repository/RegionRepository';
 import { Language, LanguageJSON } from '../veau-vo/Language';
@@ -34,9 +35,25 @@ export class LocaleUsecase implements ILocaleUsecase {
       })
     };
   }
+
+  public async deleteCache(): Promise<void> {
+    const languageDeleted: boolean = await languageRepository.deleteCache();
+
+    if (!languageDeleted) {
+      throw new RuntimeError('FAILED TO DELETE LANGUAGES FROM STORAGE');
+    }
+
+    const regionDeleted: boolean = await regionRepository.deleteCache();
+
+    if (!regionDeleted) {
+      throw new RuntimeError('FAILED TO DELETE REGIONS FROM STORAGE');
+    }
+  }
 }
 
 export interface ILocaleUsecase {
 
   all(): Promise<Locales>;
+
+  deleteCache(): Promise<void>;
 }

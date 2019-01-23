@@ -32,7 +32,9 @@ export class LanguageRepository implements ILanguageRepository {
       R1.name,
       R1.english_name AS englishName,
       R1.iso639
-      FROM languages R1;`;
+      FROM languages R1
+      FORCE INDEX(iso639)
+      ORDER BY R1.iso639;`;
 
     const languages: Array<LanguageRow> = await VeauMySQL.query(query);
     await VeauRedis.getString().set(REDIS_KEY, JSON.stringify(languages));
@@ -68,6 +70,10 @@ export class LanguageRepository implements ILanguageRepository {
 
     return filtered[0];
   }
+
+  public deleteCache(): Promise<boolean> {
+    return VeauRedis.delete(REDIS_KEY);
+  }
 }
 
 export interface ILanguageRepository {
@@ -75,4 +81,6 @@ export interface ILanguageRepository {
   all(): Promise<Array<Language>>;
 
   findByISO639(iso639: ISO639): Promise<Language>;
+
+  deleteCache(): Promise<boolean>;
 }
