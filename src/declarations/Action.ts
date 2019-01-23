@@ -4,6 +4,8 @@ import { Stats } from '../veau-entity/Stats';
 import { StatsOverview } from '../veau-entity/StatsOverview';
 import { EntranceInformation } from '../veau-vo/EntranceInformation';
 import { Identity } from '../veau-vo/Identity';
+import { ISO3166 } from '../veau-vo/ISO3166';
+import { ISO639 } from '../veau-vo/ISO639';
 import { Language } from '../veau-vo/Language';
 import { Region } from '../veau-vo/Region';
 import { StatsID } from '../veau-vo/StatsID';
@@ -42,8 +44,8 @@ export enum ACTION {
   STATS_LIST_CLOSE_STATS_MODAL = 'STATS_LIST_CLOSE_STATS_MODAL',
   STATS_LIST_NEW_STATS_UPDATE = 'STATS_LIST_NEW_STATS_UPDATE',
   STATS_LIST_NAME_TYPED = 'STATS_LIST_NAME_TYPED',
-  STATS_LIST_LANGUAGE_SELECTED = 'STATS_LIST_LANGUAGE_SELECTED',
-  STATS_LIST_REGION_SELECTED = 'STATS_LIST_REGION_SELECTED',
+  STATS_LIST_ISO639_SELECTED = 'STATS_LIST_ISO639_SELECTED',
+  STAts_LIST_ISO3166_SELECTED = 'STAts_LIST_ISO3166_SELECTED',
   STATS_LIST_TERM_SELECTED = 'STATS_LIST_TERM_SELECTED',
   STATS_LIST_RENEW_STATS = 'STATS_LIST_RENEW_STATS',
 
@@ -133,13 +135,13 @@ export interface StatsListNameTypedAction extends ReduxAction {
   type: ACTION.STATS_LIST_NAME_TYPED;
   name: string;
 }
-export interface StatsListLanguageSelectedAction extends ReduxAction {
-  type: ACTION.STATS_LIST_LANGUAGE_SELECTED;
-  language: Language;
+export interface StatsListISO639SelectedAction extends ReduxAction {
+  type: ACTION.STATS_LIST_ISO639_SELECTED;
+  iso639: ISO639;
 }
-export interface StatsListRegionSelectedAction extends ReduxAction {
-  type: ACTION.STATS_LIST_REGION_SELECTED;
-  region: Region;
+export interface StatsListISO3166SelectedAction extends ReduxAction {
+  type: ACTION.STAts_LIST_ISO3166_SELECTED;
+  iso3166: ISO3166;
 }
 export interface StatsListTermSelectedAction extends ReduxAction {
   type: ACTION.STATS_LIST_TERM_SELECTED;
@@ -182,8 +184,8 @@ export type Action =
   | StatsListCloseNewStatsModalAction
   | StatsListNewStatsUpdateAction
   | StatsListNameTypedAction
-  | StatsListLanguageSelectedAction
-  | StatsListRegionSelectedAction
+  | StatsListISO639SelectedAction
+  | StatsListISO3166SelectedAction
   | StatsListTermSelectedAction
   | StatsListRenewStatsAction
   | StatsOverviewUpdateAction

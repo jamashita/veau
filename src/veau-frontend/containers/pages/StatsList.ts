@@ -4,17 +4,16 @@ import { Action } from '../../../declarations/Action';
 import { State } from '../../../declarations/State';
 import { StatsOverview } from '../../../veau-entity/StatsOverview';
 import { LocaleRepository } from '../../../veau-repository/LocaleRepository';
-import { Language } from '../../../veau-vo/Language';
-import { Region } from '../../../veau-vo/Region';
+import { ISO3166 } from '../../../veau-vo/ISO3166';
+import { ISO639 } from '../../../veau-vo/ISO639';
 import { StatsID } from '../../../veau-vo/StatsID';
 import { Term } from '../../../veau-vo/Term';
 import { pushToStatsEdit } from '../../actions/RedirectAction';
 import {
   closeNewStatsModal,
-  newStats,
-  newStatsLanguageSelected,
+  newStats, newStatsISO3166Selected, newStatsISO639Selected,
   newStatsNameTyped,
-  newStatsRegionSelected, newStatsTermSelected
+  newStatsTermSelected
 } from '../../actions/StatsListAction';
 import { StatsList as Component } from '../../components/pages/StatsList';
 
@@ -29,8 +28,8 @@ type DispatchProps = {
   newStatsClicked(): void;
   closeNewStatsModal(): void;
   nameTyped(name: string): void;
-  languageSelected(language: Language): void;
-  regionSelected(region: Region): void;
+  iso639Selected(iso639: ISO639): void;
+  iso3166Selected(iso3166: ISO3166): void;
   termSelected(term: Term): void;
 };
 type OwnProps = {
@@ -69,11 +68,11 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
     nameTyped: (name: string): void => {
       dispatch(newStatsNameTyped(name));
     },
-    languageSelected: (language: Language): void => {
-      dispatch(newStatsLanguageSelected(language));
+    iso639Selected: (iso639: ISO639): void => {
+      dispatch(newStatsISO639Selected(iso639));
     },
-    regionSelected: (region: Region): void => {
-      dispatch(newStatsRegionSelected(region));
+    iso3166Selected: (iso3166: ISO3166): void => {
+      dispatch(newStatsISO3166Selected(iso3166));
     },
     termSelected: (term: Term): void => {
       dispatch(newStatsTermSelected(term));

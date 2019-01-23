@@ -2,8 +2,8 @@ import {
   Button,
   Dialog, DialogActions,
   DialogContent,
-  DialogTitle,
-  Icon,
+  DialogTitle, FormControl,
+  Icon, InputLabel, MenuItem, Select,
   Table,
   TableBody,
   TableCell,
@@ -13,6 +13,8 @@ import {
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { StatsOverview } from '../../../veau-entity/StatsOverview';
+import { ISO3166 } from '../../../veau-vo/ISO3166';
+import { ISO639 } from '../../../veau-vo/ISO639';
 import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
 import { Props } from '../../containers/pages/StatsList';
@@ -48,7 +50,16 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
     if (open !== nextProps.open) {
       return true;
     }
-    if (newStatsOverview !== nextProps.newStatsOverview) {
+    if (newStatsOverview.getName() !== nextProps.newStatsOverview.getName()) {
+      return true;
+    }
+    if (!newStatsOverview.getISO639().equals(nextProps.newStatsOverview.getISO639())) {
+      return true;
+    }
+    if (!newStatsOverview.getISO3166().equals(nextProps.newStatsOverview.getISO3166())) {
+      return true;
+    }
+    if (!newStatsOverview.getTerm().equals(nextProps.newStatsOverview.getTerm())) {
       return true;
     }
 
@@ -175,15 +186,81 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
               value={newStatsOverview.getName()}
               onKeyUp={this.props.nameTyped}
             />
+            <FormControl
+              fullWidth={true}
+            >
+              <InputLabel>
+                {intl.formatMessage({
+                  id: 'LANGUAGE'
+                })}
+              </InputLabel>
+              <Select
+                value={newStatsOverview.getISO639().get()}
+                onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
+                  const iso639: string = event.target.value;
+                  this.props.iso639Selected(ISO639.of(iso639));
+                }}
+              >
+                {localeRepository.allLanguages().map<React.ReactNode>((language: Language) => {
+                  const iso639: string = language.getISO639().get();
+
+                  return (
+                    <MenuItem
+                      key={iso639}
+                      value={iso639}
+                    >
+                      {language.getName()}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+            <FormControl
+              fullWidth={true}
+            >
+              <InputLabel>
+                {intl.formatMessage({
+                  id: 'REGION'
+                })}
+              </InputLabel>
+              <Select
+                value={newStatsOverview.getISO3166().get()}
+                onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
+                  const iso3166: string = event.target.value;
+                  this.props.iso3166Selected(ISO3166.of(iso3166));
+                }}
+              >
+                {localeRepository.allRegions().map<React.ReactNode>((region: Region) => {
+                  const iso3166: string = region.getISO3166().get();
+
+                  return (
+                    <MenuItem
+                      key={iso3166}
+                      value={iso3166}
+                    >
+                      {region.getName()}
+                    </MenuItem>
+                  )
+                })}
+              </Select>
+            </FormControl>
           </DialogContent>
           <DialogActions>
+            <Button
+              color='secondary'
+            >
+              <Icon className='fa fa-check' />
+              <I18NLabel
+                id='SUBMIT'
+              />
+            </Button>
             <Button
               color='secondary'
               onClick={this.props.closeNewStatsModal}
             >
               <Icon className='fa fa-times' />
               <I18NLabel
-                id='CLOSE'
+                id='CANCEL'
               />
             </Button>
           </DialogActions>

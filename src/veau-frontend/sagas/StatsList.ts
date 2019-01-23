@@ -1,9 +1,8 @@
 import { fork, put, select, take } from 'redux-saga/effects';
 import {
-  ACTION,
-  StatsListLanguageSelectedAction,
+  ACTION, StatsListISO3166SelectedAction, StatsListISO639SelectedAction,
   StatsListNameTypedAction,
-  StatsListRegionSelectedAction, StatsListTermSelectedAction
+  StatsListTermSelectedAction
 } from '../../declarations/Action';
 import { State } from '../../declarations/State';
 import { StatsOverview } from '../../veau-entity/StatsOverview';
@@ -13,8 +12,8 @@ export class StatsList {
 
   public static *init(): IterableIterator<any> {
     yield fork(StatsList.nameTyped);
-    yield fork(StatsList.languageSelected);
-    yield fork(StatsList.regionSelected);
+    yield fork(StatsList.iso639Selected);
+    yield fork(StatsList.iso3166Selected);
     yield fork(StatsList.termSelected);
   }
 
@@ -41,9 +40,9 @@ export class StatsList {
     }
   }
 
-  private static *languageSelected(): IterableIterator<any> {
+  private static *iso639Selected(): IterableIterator<any> {
     while (true) {
-      const action: StatsListLanguageSelectedAction = yield take(ACTION.STATS_LIST_LANGUAGE_SELECTED);
+      const action: StatsListISO639SelectedAction = yield take(ACTION.STATS_LIST_ISO639_SELECTED);
       const state: State = yield select();
 
       const {
@@ -54,7 +53,7 @@ export class StatsList {
 
       const latestStatsOverview: StatsOverview = new StatsOverview(
         newStatsOverview.getStatsID(),
-        action.language.getISO639(),
+        action.iso639,
         newStatsOverview.getISO3166(),
         newStatsOverview.getTerm(),
         newStatsOverview.getName(),
@@ -64,9 +63,9 @@ export class StatsList {
     }
   }
 
-  private static *regionSelected(): IterableIterator<any> {
+  private static *iso3166Selected(): IterableIterator<any> {
     while (true) {
-      const action: StatsListRegionSelectedAction = yield take(ACTION.STATS_LIST_REGION_SELECTED);
+      const action: StatsListISO3166SelectedAction = yield take(ACTION.STAts_LIST_ISO3166_SELECTED);
       const state: State = yield select();
 
       const {
@@ -78,7 +77,7 @@ export class StatsList {
       const latestStatsOverview: StatsOverview = new StatsOverview(
         newStatsOverview.getStatsID(),
         newStatsOverview.getISO639(),
-        action.region.getISO3166(),
+        action.iso3166,
         newStatsOverview.getTerm(),
         newStatsOverview.getName(),
         newStatsOverview.getUpdatedAt()

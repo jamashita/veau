@@ -1,16 +1,16 @@
 import {
   ACTION,
   StatsListCloseNewStatsModalAction,
-  StatsListLanguageSelectedAction,
+  StatsListISO3166SelectedAction,
+  StatsListISO639SelectedAction,
   StatsListNameTypedAction,
   StatsListNewStatsAction,
-  StatsListRegionSelectedAction,
   StatsListRenewStatsAction,
   StatsListTermSelectedAction
 } from '../../declarations/Action';
 import { StatsOverview } from '../../veau-entity/StatsOverview';
-import { Language } from '../../veau-vo/Language';
-import { Region } from '../../veau-vo/Region';
+import { ISO3166 } from '../../veau-vo/ISO3166';
+import { ISO639 } from '../../veau-vo/ISO639';
 import { Term } from '../../veau-vo/Term';
 
 export const newStats: () => StatsListNewStatsAction = (): StatsListNewStatsAction => {
@@ -32,17 +32,17 @@ export const newStatsNameTyped: (name: string) => StatsListNameTypedAction = (na
   };
 } ;
 
-export const newStatsLanguageSelected: (language: Language) => StatsListLanguageSelectedAction = (language: Language): StatsListLanguageSelectedAction => {
+export const newStatsISO639Selected: (iso639: ISO639) => StatsListISO639SelectedAction = (iso639: ISO639): StatsListISO639SelectedAction => {
   return {
-    type: ACTION.STATS_LIST_LANGUAGE_SELECTED,
-    language
+    type: ACTION.STATS_LIST_ISO639_SELECTED,
+    iso639
   };
 };
 
-export const newStatsRegionSelected: (region: Region) => StatsListRegionSelectedAction = (region: Region): StatsListRegionSelectedAction => {
+export const newStatsISO3166Selected: (iso3166: ISO3166) => StatsListISO3166SelectedAction = (iso3166: ISO3166): StatsListISO3166SelectedAction => {
   return {
-    type: ACTION.STATS_LIST_REGION_SELECTED,
-    region
+    type: ACTION.STAts_LIST_ISO3166_SELECTED,
+    iso3166
   };
 };
 
