@@ -9,12 +9,11 @@ import * as es from 'react-intl/locale-data/es';
 import * as fr from 'react-intl/locale-data/fr';
 import * as ja from 'react-intl/locale-data/ja';
 import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
 import { Brightness } from './Brightness';
 import { View } from './components/View';
 import { I18NProvider } from './containers/I18NProvider';
 import { history } from './history';
-import { persistor, store } from './store';
+import { store } from './store';
 
 addLocaleData([
   ...en,
@@ -47,13 +46,11 @@ ReactDOM.render(
   (
     <MuiThemeProvider theme={muiTheme}>
       <Provider store={store}>
-        <PersistGate persistor={persistor}>
-          <I18NProvider>
-            <ConnectedRouter history={history}>
-              <View />
-            </ConnectedRouter>
-          </I18NProvider>
-        </PersistGate>
+        <I18NProvider>
+          <ConnectedRouter history={history}>
+            <View />
+          </ConnectedRouter>
+        </I18NProvider>
       </Provider>
     </MuiThemeProvider>
   ),
