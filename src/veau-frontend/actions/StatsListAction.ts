@@ -6,6 +6,7 @@ import {
   StatsListNameTypedAction,
   StatsListNewStatsAction,
   StatsListRenewStatsAction,
+  StatsListResetNewStatsAction,
   StatsListSaveNewStatsAction,
   StatsListTermSelectedAction
 } from '../../declarations/Action';
@@ -64,5 +65,11 @@ export const renewStatsOverview: (newStatsOverview: StatsOverview) => StatsListR
 export const saveNewStats: () => StatsListSaveNewStatsAction = (): StatsListSaveNewStatsAction => {
   return {
     type: ACTION.STATS_LIST_SAVE_NEW_STATS
+  };
+};
+
+export const resetNewStats: () => StatsListResetNewStatsAction = (): StatsListResetNewStatsAction => {
+  return {
+    type: ACTION.STATS_LIST_RESET_NEW_STATS
   };
 };

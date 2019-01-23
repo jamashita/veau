@@ -34,7 +34,10 @@ class EntranceImpl extends React.Component<Props & InjectedIntlProps, State> {
     } = this.props;
 
     return (
-      <Card className='login-form'>
+      <Card
+        className='login-form'
+        raised={true}
+      >
         <CardHeader
           title={intl.formatMessage({
             id: 'VEAU'
@@ -46,7 +49,7 @@ class EntranceImpl extends React.Component<Props & InjectedIntlProps, State> {
             style={{
             backgroundColor: pink[Brightness.primaryMain]
             }}
-          >V</Avatar>}
+          >Veau</Avatar>}
         />
         <CardContent>
           <TextField

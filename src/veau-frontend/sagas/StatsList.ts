@@ -10,7 +10,7 @@ import { AJAX } from '../../veau-general/AJAX';
 import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
 import { pushToStatsEdit } from '../actions/RedirectAction';
-import { closeNewStatsModal, renewStatsOverview } from '../actions/StatsListAction';
+import { closeNewStatsModal, renewStatsOverview, resetNewStats } from '../actions/StatsListAction';
 
 export class StatsList {
 
@@ -137,6 +137,7 @@ export class StatsList {
 
         yield put(loaded());
         yield put(pushToStatsEdit(newStatsOverview.getStatsID()));
+        yield put(resetNewStats());
       }
       catch (err) {
         yield put(loaded());

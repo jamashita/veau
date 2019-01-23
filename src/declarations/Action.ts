@@ -49,6 +49,7 @@ export enum ACTION {
   STATS_LIST_TERM_SELECTED = 'STATS_LIST_TERM_SELECTED',
   STATS_LIST_RENEW_STATS = 'STATS_LIST_RENEW_STATS',
   STATS_LIST_SAVE_NEW_STATS = 'STATS_LIST_SAVE_NEW_STATS',
+  STATS_LIST_RESET_NEW_STATS = 'STATS_LIST_RESET_NEW_STATS',
 
   STATS_OVERVIEW_UPDATE = 'STATS_OVERVIEW_UPDATE',
   STATS_UPDATE = 'STATS_UPDATE'
@@ -155,6 +156,9 @@ export interface StatsListRenewStatsAction extends ReduxAction {
 export interface StatsListSaveNewStatsAction extends ReduxAction {
   type: ACTION.STATS_LIST_SAVE_NEW_STATS;
 }
+export interface StatsListResetNewStatsAction extends ReduxAction {
+  type: ACTION.STATS_LIST_RESET_NEW_STATS;
+}
 export interface StatsOverviewUpdateAction extends ReduxAction {
   type: ACTION.STATS_OVERVIEW_UPDATE;
   statsOverviews: Array<StatsOverview>;
@@ -193,6 +197,7 @@ export type Action =
   | StatsListTermSelectedAction
   | StatsListRenewStatsAction
   | StatsListSaveNewStatsAction
+  | StatsListResetNewStatsAction
   | StatsOverviewUpdateAction
   | StatsUpdateAction
   ;

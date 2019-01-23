@@ -31,6 +31,12 @@ export const statsList: (state: StatsList, action: Action) => StatsList = (state
         newStatsOverview: action.newStatsOverview
       };
     }
+    case ACTION.STATS_LIST_RESET_NEW_STATS: {
+      return {
+        ...state,
+        newStatsOverview: StatsOverview.default()
+      };
+    }
     default: {
       return state;
     }
