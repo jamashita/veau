@@ -31,4 +31,18 @@ describe('StatsOverview', () => {
       updatedAt: '2000-01-01 00:00:00'
     });
   });
+
+  it('isFilled', () => {
+    const statsOverView1: StatsOverview = new StatsOverview(StatsID.of(UUID.of('1a607fff-12c2-4d8d-a55a-75fa23971393')), ISO639.of(''), ISO3166.of('AFG'), Term.DAILY, 'stats overview', moment.utc('2000-01-01'));
+    const statsOverView2: StatsOverview = new StatsOverview(StatsID.of(UUID.of('1a607fff-12c2-4d8d-a55a-75fa23971393')), ISO639.of('ab'), ISO3166.of(''), Term.DAILY, 'stats overview', moment.utc('2000-01-01'));
+    const statsOverView3: StatsOverview = new StatsOverview(StatsID.of(UUID.of('1a607fff-12c2-4d8d-a55a-75fa23971393')), ISO639.of('ab'), ISO3166.of('AFG'), Term.DAILY, '', moment.utc('2000-01-01'));
+    const statsOverView4: StatsOverview = new StatsOverview(StatsID.of(UUID.of('1a607fff-12c2-4d8d-a55a-75fa23971393')), ISO639.of(''), ISO3166.of(''), Term.DAILY, '', moment.utc('2000-01-01'));
+    const statsOverView5: StatsOverview = new StatsOverview(StatsID.of(UUID.of('1a607fff-12c2-4d8d-a55a-75fa23971393')), ISO639.of('ab'), ISO3166.of('AFG'), Term.DAILY, 'stats overview', moment.utc('2000-01-01'));
+
+    expect(statsOverView1.isFilled()).toEqual(false);
+    expect(statsOverView2.isFilled()).toEqual(false);
+    expect(statsOverView3.isFilled()).toEqual(false);
+    expect(statsOverView4.isFilled()).toEqual(false);
+    expect(statsOverView5.isFilled()).toEqual(true);
+  });
 });

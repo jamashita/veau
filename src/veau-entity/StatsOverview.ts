@@ -24,6 +24,8 @@ export type StatsOverviewRow = {
   updatedAt: Date;
 };
 
+const DATE_FORMAT: string = 'YYYY-MM-DD HH:mm:ss';
+
 export class StatsOverview extends Entity<StatsID> {
   private statsID: StatsID;
   private iso639: ISO639;
@@ -75,7 +77,21 @@ export class StatsOverview extends Entity<StatsID> {
   }
 
   public getUpdatedAtAsString(): string {
-    return this.updatedAt.utc().format('YYYY-MM-DD HH:mm:ss');
+    return this.updatedAt.utc().format(DATE_FORMAT);
+  }
+
+  public isFilled(): boolean {
+    if (this.iso639.equals(ISO639.defualt())) {
+      return false;
+    }
+    if (this.iso3166.equals(ISO3166.default())) {
+      return false;
+    }
+    if (this.name === '') {
+      return false;
+    }
+
+    return true;
   }
 
   public toJSON(): StatsOverviewJSON {
