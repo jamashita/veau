@@ -1,8 +1,14 @@
 import { StatsOverview, StatsOverviewRow } from '../veau-entity/StatsOverview';
 import { StatsOverviewFactory } from '../veau-factory/StatsOverviewFactory';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
+import { Language } from '../veau-vo/Language';
+import { Region } from '../veau-vo/Region';
+import { LanguageRepository } from './LanguageRepository';
+import { RegionRepository } from './RegionRepository';
 
 const statsOverviewFactory: StatsOverviewFactory = StatsOverviewFactory.getInstance();
+const languageRepository: LanguageRepository = LanguageRepository.getInstance();
+const regionRepository: RegionRepository = RegionRepository.getInstance();
 const LIMIT: number = 40;
 
 export class StatsOverviewRepository implements IStatsOverviewRepository {
@@ -42,9 +48,35 @@ export class StatsOverviewRepository implements IStatsOverviewRepository {
       return statsOverviewFactory.fromRow(statsOverviewRow);
     });
   }
+
+  public async create(statsOverview: StatsOverview): Promise<void> {
+    const query: string = `INSERT INTO stats VALUES(
+      :statsID,
+      :languageID,
+      :regionID,
+      :termID,
+      :name,
+      NOW()
+      );`;
+
+    const language: Language = await languageRepository.findByISO639(statsOverview.getISO639());
+    const region: Region = await regionRepository.findByISO3166(statsOverview.getISO3166());
+
+    await VeauMySQL.query(query, [
+      {
+        statsID: statsOverview.getStatsID().get().get(),
+        languageID: language.getLanguageID().get(),
+        regionID: region.getRegionID().get(),
+        termID: statsOverview.getTerm().get(),
+        name: statsOverview.getName()
+      }
+    ]);
+  }
 }
 
 export interface IStatsOverviewRepository {
 
   findByPage(page: number): Promise<Array<StatsOverview>>;
+
+  create(statsOverview: StatsOverview): Promise<void>;
 }

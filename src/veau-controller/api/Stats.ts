@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { INTERNAL_SERVER_ERROR, NOT_FOUND, PRECONDITION_FAILED } from 'http-status';
+import { CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, PRECONDITION_FAILED } from 'http-status';
 import * as log4js from 'log4js';
 import { StatsJSON } from '../../veau-entity/Stats';
 import { StatsOverviewJSON } from '../../veau-entity/StatsOverview';
@@ -25,7 +25,7 @@ router.get('/overview/:page(\\d+)', async (req: express.Request, res: express.Re
     res.send(statsOverviews);
   }
   catch (err) {
-    logger.error(err.message);
+    logger.fatal(err.message);
     res.sendStatus(INTERNAL_SERVER_ERROR);
   }
 });
@@ -53,7 +53,20 @@ router.get('/:statsID', async (req: express.Request, res: express.Response) => {
       return;
     }
 
-    logger.error(err.message);
+    logger.fatal(err.message);
+    res.sendStatus(INTERNAL_SERVER_ERROR);
+  }
+});
+
+router.post('/new', async (req: express.Request, res: express.Response) => {
+  const json: StatsOverviewJSON = req.body;
+
+  try {
+    await statsUsecase.saveNewStats(json);
+    res.sendStatus(CREATED);
+  }
+  catch (err) {
+    logger.fatal(err.message);
     res.sendStatus(INTERNAL_SERVER_ERROR);
   }
 });

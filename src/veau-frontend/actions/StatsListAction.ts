@@ -6,6 +6,7 @@ import {
   StatsListNameTypedAction,
   StatsListNewStatsAction,
   StatsListRenewStatsAction,
+  StatsListSaveNewStatsAction,
   StatsListTermSelectedAction
 } from '../../declarations/Action';
 import { StatsOverview } from '../../veau-entity/StatsOverview';
@@ -57,5 +58,11 @@ export const renewStatsOverview: (newStatsOverview: StatsOverview) => StatsListR
   return {
     type: ACTION.STATS_LIST_RENEW_STATS,
     newStatsOverview
+  };
+};
+
+export const saveNewStats: () => StatsListSaveNewStatsAction = (): StatsListSaveNewStatsAction => {
+  return {
+    type: ACTION.STATS_LIST_SAVE_NEW_STATS
   };
 };

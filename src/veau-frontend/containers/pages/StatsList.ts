@@ -13,7 +13,7 @@ import {
   closeNewStatsModal,
   newStats, newStatsISO3166Selected, newStatsISO639Selected,
   newStatsNameTyped,
-  newStatsTermSelected
+  newStatsTermSelected, saveNewStats
 } from '../../actions/StatsListAction';
 import { StatsList as Component } from '../../components/pages/StatsList';
 
@@ -31,6 +31,7 @@ type DispatchProps = {
   iso639Selected(iso639: ISO639): void;
   iso3166Selected(iso3166: ISO3166): void;
   termSelected(term: Term): void;
+  saveNewStats(): void;
 };
 type OwnProps = {
 };
@@ -76,6 +77,9 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
     },
     termSelected: (term: Term): void => {
       dispatch(newStatsTermSelected(term));
+    },
+    saveNewStats: (): void => {
+      dispatch(saveNewStats());
     }
   };
 };

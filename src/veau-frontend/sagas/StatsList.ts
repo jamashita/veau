@@ -1,4 +1,4 @@
-import { fork, put, select, take } from 'redux-saga/effects';
+import { call, fork, put, select, take } from 'redux-saga/effects';
 import {
   ACTION, StatsListISO3166SelectedAction, StatsListISO639SelectedAction,
   StatsListNameTypedAction,
@@ -6,7 +6,10 @@ import {
 } from '../../declarations/Action';
 import { State } from '../../declarations/State';
 import { StatsOverview } from '../../veau-entity/StatsOverview';
-import { renewStatsOverview } from '../actions/StatsListAction';
+import { AJAX } from '../../veau-general/AJAX';
+import { loaded, loading } from '../actions/LoadingAction';
+import { raiseModal } from '../actions/ModalAction';
+import { closeNewStatsModal, renewStatsOverview } from '../actions/StatsListAction';
 
 export class StatsList {
 
@@ -15,6 +18,7 @@ export class StatsList {
     yield fork(StatsList.iso639Selected);
     yield fork(StatsList.iso3166Selected);
     yield fork(StatsList.termSelected);
+    yield fork(StatsList.save);
   }
 
   private static *nameTyped(): IterableIterator<any> {
@@ -106,6 +110,36 @@ export class StatsList {
         newStatsOverview.getUpdatedAt()
       );
       yield put(renewStatsOverview(latestStatsOverview));
+    }
+  }
+
+  private static *save(): IterableIterator<any> {
+    while (true) {
+      yield take(ACTION.STATS_LIST_SAVE_NEW_STATS);
+
+      const state: State = yield select();
+
+      const {
+        statsList: {
+          newStatsOverview
+        }
+      } = state;
+
+      if (!newStatsOverview.isFilled()) {
+        continue;
+      }
+
+      yield put(closeNewStatsModal());
+      yield put(loading());
+      try {
+        yield call(AJAX.post, '/api/stats/new', newStatsOverview.toJSON());
+        yield put(loaded());
+        yield put(raiseModal('SUCCEEDED_TO_SAVE_NEW_STATS', 'SUCCEEDED_TO_SAVE_NEW_STATS_DESCRIPTION'));
+      }
+      catch (err) {
+        yield put(loaded());
+        yield put(raiseModal('FAILED_TO_SAVE_NEW_STATS', 'FAILED_TO_SAVE_NEW_STATS_DESCRIPTION'));
+      }
     }
   }
 }

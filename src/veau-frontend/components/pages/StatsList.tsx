@@ -283,6 +283,8 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
           <DialogActions>
             <Button
               color='secondary'
+              onClick={this.props.saveNewStats}
+              disabled={!newStatsOverview.isFilled()}
             >
               <Icon className='fa fa-check' />
               <I18NLabel
