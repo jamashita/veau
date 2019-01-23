@@ -175,6 +175,8 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
         <Dialog
           open={open}
           onClose={this.props.closeNewStatsModal}
+          fullWidth={true}
+          maxWidth='md'
         >
           <DialogTitle>
             {intl.formatMessage({

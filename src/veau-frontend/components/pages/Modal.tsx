@@ -47,6 +47,8 @@ class ModalImpl extends React.Component<Props & InjectedIntlProps, State> {
     return (
       <Dialog
         open={open}
+        disableBackdropClick={true}
+        disableEscapeKeyDown={true}
       >
         <DialogTitle>
           {intl.formatMessage(

@@ -134,8 +134,8 @@ export class StatsList {
       yield put(loading());
       try {
         yield call(AJAX.post, '/api/stats/new', newStatsOverview.toJSON());
-        yield put(loaded());
 
+        yield put(loaded());
         yield put(pushToStatsEdit(newStatsOverview.getStatsID()));
       }
       catch (err) {
