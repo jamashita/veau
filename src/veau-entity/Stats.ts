@@ -132,6 +132,9 @@ export class Stats extends Entity<StatsID> {
       case Term.MONTHLY: {
         return term.add(1, 'months');
       }
+      case Term.QUARTERLY: {
+        return term.add(1, 'quarters');
+      }
       case Term.ANNUAL: {
         return term.add(1, 'years');
       }
