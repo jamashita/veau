@@ -13,6 +13,7 @@ describe('TermRepository', () => {
       Term.DAILY,
       Term.WEEKLY,
       Term.MONTHLY,
+      Term.QUARTERLY,
       Term.ANNUAL
     ]);
   });
@@ -23,7 +24,8 @@ describe('TermRepository', () => {
     expect(termRepository.findByTermID(1)).toEqual(Term.DAILY);
     expect(termRepository.findByTermID(2)).toEqual(Term.WEEKLY);
     expect(termRepository.findByTermID(3)).toEqual(Term.MONTHLY);
-    expect(termRepository.findByTermID(4)).toEqual(Term.ANNUAL);
+    expect(termRepository.findByTermID(4)).toEqual(Term.QUARTERLY);
+    expect(termRepository.findByTermID(5)).toEqual(Term.ANNUAL);
   });
 
   it('findByTermID: throw Error', () => {
@@ -36,7 +38,7 @@ describe('TermRepository', () => {
       termRepository.findByTermID(0);
     }).toThrow(NoSuchElementError);
     expect(() => {
-      termRepository.findByTermID(5);
+      termRepository.findByTermID(6);
     }).toThrow(NoSuchElementError);
   });
 });

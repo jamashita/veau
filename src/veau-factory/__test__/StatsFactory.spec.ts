@@ -38,7 +38,7 @@ describe('StatsFactory', () => {
     expect(stats.getTerm()).toEqual(term);
     expect(stats.getName()).toEqual(name);
     expect(stats.getUpdatedAt()).toEqual(updatedAt);
-    expect(stats.getStats()).toEqual(items);
+    expect(stats.getItems()).toEqual(items);
   });
 
   it('fromJSON', () => {
@@ -104,16 +104,16 @@ describe('StatsFactory', () => {
     expect(stats.getTerm().get()).toEqual(json.termID);
     expect(stats.getName()).toEqual(json.name);
     expect(stats.getUpdatedAt().get('seconds')).toEqual(moment(json.updatedAt).get('seconds'));
-    expect(stats.getStats().length).toEqual(json.items.length);
-    for (let i = 0; i < stats.getStats().length; i++) {
-      expect(stats.getStats()[i].getStatsItemID().get().get()).toEqual(json.items[i].statsItemID);
-      expect(stats.getStats()[i].getName()).toEqual(json.items[i].name);
-      expect(stats.getStats()[i].getUnit()).toEqual(json.items[i].unit);
-      expect(stats.getStats()[i].getSeq()).toEqual(json.items[i].seq);
-      expect(stats.getStats()[i].getValues().length).toEqual(json.items[i].values.length);
-      for (let j = 0; j < stats.getStats()[i].getValues().length; j++) {
-        expect(stats.getStats()[i].getValues()[j].getAsOf().format('YYYY-MM-DD')).toEqual(json.items[i].values[j].asOf);
-        expect(stats.getStats()[i].getValues()[j].getValue()).toEqual(json.items[i].values[j].value);
+    expect(stats.getItems().length).toEqual(json.items.length);
+    for (let i = 0; i < stats.getItems().length; i++) {
+      expect(stats.getItems()[i].getStatsItemID().get().get()).toEqual(json.items[i].statsItemID);
+      expect(stats.getItems()[i].getName()).toEqual(json.items[i].name);
+      expect(stats.getItems()[i].getUnit()).toEqual(json.items[i].unit);
+      expect(stats.getItems()[i].getSeq()).toEqual(json.items[i].seq);
+      expect(stats.getItems()[i].getValues().length).toEqual(json.items[i].values.length);
+      for (let j = 0; j < stats.getItems()[i].getValues().length; j++) {
+        expect(stats.getItems()[i].getValues()[j].getAsOf().format('YYYY-MM-DD')).toEqual(json.items[i].values[j].asOf);
+        expect(stats.getItems()[i].getValues()[j].getValue()).toEqual(json.items[i].values[j].value);
       }
     }
   });

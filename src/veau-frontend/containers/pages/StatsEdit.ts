@@ -7,6 +7,12 @@ import { LocaleRepository } from '../../../veau-repository/LocaleRepository';
 import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
 import { Term } from '../../../veau-vo/Term';
+import {
+  statsLanguageSelected,
+  statsNameTyped,
+  statsRegionSelected,
+  statsTermSelected
+} from '../../actions/StatsEditAction';
 import { StatsEdit as Component } from '../../components/pages/StatsEdit';
 
 type StateProps = {
@@ -42,16 +48,16 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
       console.log(`row ${row}, col ${col}, value ${value}`);
     },
     nameTyped: (name: string): void => {
-      console.log(name);
+      statsNameTyped(name);
     },
     languageSelected: (language: Language): void => {
-      console.log(language.toString());
+      statsLanguageSelected(language);
     },
     regionSelected: (region: Region): void => {
-      console.log(region.toString());
+      statsRegionSelected(region);
     },
     termSelected: (term: Term): void => {
-      console.log(term.toString());
+      statsTermSelected(term);
     }
   };
 };

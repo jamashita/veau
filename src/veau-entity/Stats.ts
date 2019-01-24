@@ -82,7 +82,7 @@ export class Stats extends Entity<StatsID> {
     return moment(this.updatedAt);
   }
 
-  public getStats(): Array<StatsItem> {
+  public getItems(): Array<StatsItem> {
     return this.items;
   }
 

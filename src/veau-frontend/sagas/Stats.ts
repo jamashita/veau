@@ -10,6 +10,7 @@ import { updateStats, updateStatsOverviews } from '../actions/StatsAction';
 
 const statsOverviewFactory: StatsOverviewFactory = StatsOverviewFactory.getInstance();
 const statsFactory: StatsFactory = StatsFactory.getInstance();
+
 const STATS_EDIT_PREFIX: string = '/statistics/edit/';
 
 export class Stats {

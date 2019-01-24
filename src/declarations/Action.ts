@@ -51,6 +51,11 @@ export enum ACTION {
   STATS_LIST_SAVE_NEW_STATS = 'STATS_LIST_SAVE_NEW_STATS',
   STATS_LIST_RESET_NEW_STATS = 'STATS_LIST_RESET_NEW_STATS',
 
+  STATS_EDIT_NAME_TYPED = 'STATS_EDIT_NAME_TYPED',
+  STATS_EDIT_LANGUAGE_SELECTED = 'STATS_EDIT_LANGUAGE_SELECTED',
+  STATS_EDIT_REGION_SELECTED = 'STATS_EDIT_REGION_SELECTED',
+  STATS_EDIT_TERM_SELECTED = 'STATS_EDIT_TERM_SELECTED',
+
   STATS_OVERVIEW_UPDATE = 'STATS_OVERVIEW_UPDATE',
   STATS_UPDATE = 'STATS_UPDATE'
 }
@@ -159,6 +164,22 @@ export interface StatsListSaveNewStatsAction extends ReduxAction {
 export interface StatsListResetNewStatsAction extends ReduxAction {
   type: ACTION.STATS_LIST_RESET_NEW_STATS;
 }
+export interface StatsEditNameTypedAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_NAME_TYPED;
+  name: string;
+}
+export interface StatsEditLanguageSelectedAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_LANGUAGE_SELECTED;
+  language: Language;
+}
+export interface StatsEditRegionSelectedAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_REGION_SELECTED;
+  region: Region;
+}
+export interface StatsEditTermSelectedActoin extends ReduxAction {
+  type: ACTION.STATS_EDIT_TERM_SELECTED;
+  term: Term;
+}
 export interface StatsOverviewUpdateAction extends ReduxAction {
   type: ACTION.STATS_OVERVIEW_UPDATE;
   statsOverviews: Array<StatsOverview>;
@@ -198,6 +219,10 @@ export type Action =
   | StatsListRenewStatsAction
   | StatsListSaveNewStatsAction
   | StatsListResetNewStatsAction
+  | StatsEditNameTypedAction
+  | StatsEditLanguageSelectedAction
+  | StatsEditRegionSelectedAction
+  | StatsEditTermSelectedActoin
   | StatsOverviewUpdateAction
   | StatsUpdateAction
   ;

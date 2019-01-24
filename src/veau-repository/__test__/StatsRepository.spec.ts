@@ -140,7 +140,7 @@ describe('StatsRepository', () => {
     expect(stats.getName()).toEqual('name');
     expect(stats.getUpdatedAt().toJSON()).toEqual('2000-01-01T00:00:00.000Z');
 
-    const items: Array<StatsItem> = stats.getStats();
+    const items: Array<StatsItem> = stats.getItems();
     expect(items.length).toEqual(3);
     expect(items[0].getStatsItemID().get().get()).toEqual('c0e18d31-d026-4a84-af4f-d5d26c520600');
     expect(items[0].getName()).toEqual('name1');
