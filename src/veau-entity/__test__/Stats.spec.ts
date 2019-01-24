@@ -176,4 +176,18 @@ describe('Stats', () => {
       ['2', '4', '', '', '6']
     ])
   });
+
+  it('isFilled', () => {
+    const stats1: Stats = new Stats(StatsID.of(UUID.of('62e103f0-5299-4794-883f-62b9c91583e4')), Language.default(), Region.default(), Term.DAILY, '', moment.utc('2000-01-01'), []);
+    const stats2: Stats = new Stats(StatsID.of(UUID.of('62e103f0-5299-4794-883f-62b9c91583e4')), Language.of(LanguageID.of(1), 'language1', 'language1', ISO639.of('ab')), Region.default(), Term.DAILY, '', moment.utc('2000-01-01'), []);
+    const stats3: Stats = new Stats(StatsID.of(UUID.of('62e103f0-5299-4794-883f-62b9c91583e4')), Language.default(), Region.of(RegionID.of(1), 'region1', ISO3166.of('AFG')), Term.DAILY, '', moment.utc('2000-01-01'), []);
+    const stats4: Stats = new Stats(StatsID.of(UUID.of('62e103f0-5299-4794-883f-62b9c91583e4')), Language.of(LanguageID.of(1), 'language1', 'language1', ISO639.of('ab')), Region.of(RegionID.of(1), 'region1', ISO3166.of('AFG')), Term.DAILY, '', moment.utc('2000-01-01'), []);
+    const stats5: Stats = new Stats(StatsID.of(UUID.of('62e103f0-5299-4794-883f-62b9c91583e4')), Language.of(LanguageID.of(1), 'language1', 'language1', ISO639.of('ab')), Region.of(RegionID.of(1), 'region1', ISO3166.of('AFG')), Term.DAILY, 'stats1', moment.utc('2000-01-01'), []);
+
+    expect(stats1.isFilled()).toEqual(false);
+    expect(stats2.isFilled()).toEqual(false);
+    expect(stats3.isFilled()).toEqual(false);
+    expect(stats4.isFilled()).toEqual(false);
+    expect(stats5.isFilled()).toEqual(true);
+  });
 });

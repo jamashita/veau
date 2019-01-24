@@ -155,6 +155,26 @@ export class Stats extends Entity<StatsID> {
     });
   }
 
+  public isFilled(): boolean {
+    const {
+      language,
+      region,
+      name
+    } = this;
+
+    if (language.equals(Language.default())) {
+      return false;
+    }
+    if (region.equals(Region.default())) {
+      return false;
+    }
+    if (name === '') {
+      return false;
+    }
+
+    return true;
+  }
+
   public toJSON(): StatsJSON {
     const {
       statsID,
