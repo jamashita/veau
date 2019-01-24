@@ -4,7 +4,8 @@ import { ValueObject } from './ValueObject';
 const DAILY: number = 1;
 const WEEKLY: number = 2;
 const MONTHLY: number = 3;
-const ANNUAL: number = 4;
+const QUARTERLY: number = 4;
+const ANNUAL: number = 5;
 
 export class Term extends ValueObject {
   private id: number;
@@ -13,20 +14,24 @@ export class Term extends ValueObject {
   public static DAILY: Term = new Term(DAILY, 'DAILY');
   public static WEEKLY: Term = new Term(WEEKLY, 'WEEKLY');
   public static MONTHLY: Term = new Term(MONTHLY, 'MONTHLY');
+  public static QUARTERLY: Term = new Term(QUARTERLY, 'QUARTERLY');
   public static ANNUAL: Term = new Term(ANNUAL, 'ANNUAL');
 
   public static of(id: number): Term {
     switch (id) {
-      case Term.DAILY.get(): {
+      case DAILY: {
         return Term.DAILY;
       }
-      case Term.WEEKLY.get(): {
+      case WEEKLY: {
         return Term.WEEKLY;
       }
-      case Term.MONTHLY.get(): {
+      case MONTHLY: {
         return Term.MONTHLY;
       }
-      case Term.ANNUAL.get(): {
+      case QUARTERLY: {
+        return Term.QUARTERLY;
+      }
+      case ANNUAL: {
         return Term.ANNUAL;
       }
       default: {

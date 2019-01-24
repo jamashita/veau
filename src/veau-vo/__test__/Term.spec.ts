@@ -17,6 +17,7 @@ describe('Term', () => {
     expect(Term.of(1)).toEqual(Term.DAILY);
     expect(Term.of(2)).toEqual(Term.WEEKLY);
     expect(Term.of(3)).toEqual(Term.MONTHLY);
-    expect(Term.of(4)).toEqual(Term.ANNUAL);
+    expect(Term.of(4)).toEqual(Term.QUARTERLY);
+    expect(Term.of(5)).toEqual(Term.ANNUAL);
   });
 });

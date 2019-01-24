@@ -18,6 +18,7 @@ export type Messages = {
   DAILY: string;
   WEEKLY: string;
   MONTHLY: string;
+  QUARTERLY: string;
   ANNUAL: string;
 
   LOADING: string;
@@ -70,6 +71,7 @@ const en: Messages = {
   DAILY: 'Daily',
   WEEKLY: 'Weekly',
   MONTHLY: 'Monthly',
+  QUARTERLY: 'Quarterly',
   ANNUAL: 'Annual',
 
   LOADING: 'Loading',
@@ -122,6 +124,7 @@ const fr: Messages = {
   DAILY: 'Quotidien',
   WEEKLY: 'Hebdomadaire',
   MONTHLY: 'Mensuel',
+  QUARTERLY: 'Trimestriel',
   ANNUAL: 'Annuelle',
 
   LOADING: 'Chargement',
@@ -174,6 +177,7 @@ const es: Messages = {
   DAILY: 'Diario',
   WEEKLY: 'Semanal',
   MONTHLY: 'Mensual',
+  QUARTERLY: 'Trimestral',
   ANNUAL: 'Anual',
 
   LOADING: 'Cargando',
@@ -226,6 +230,7 @@ const ja: Messages = {
   DAILY: '日次',
   WEEKLY: '週次',
   MONTHLY: '月次',
+  QUARTERLY: '四半期',
   ANNUAL: '年次',
 
   LOADING: '読み込み中',

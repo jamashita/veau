@@ -15,6 +15,7 @@ export class TermRepository implements ITermRepository {
       Term.DAILY,
       Term.WEEKLY,
       Term.MONTHLY,
+      Term.QUARTERLY,
       Term.ANNUAL
     ];
   }
