@@ -10,9 +10,9 @@ type StateProps = {
   entranceInformation: EntranceInformation;
 };
 type DispatchProps = {
-  accountTyped(name: string): void;
-  passwordTyped(password: string): void;
-  loginClicked(): void;
+  accountTyped: (name: string) => void;
+  passwordTyped: (password: string) => void;
+  loginClicked: () => void;
 };
 type OwnProps = {
 };

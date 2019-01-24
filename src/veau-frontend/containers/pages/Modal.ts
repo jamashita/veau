@@ -16,7 +16,7 @@ type StateProps = {
   values?: {[key: string]: string};
 };
 type DispatchProps = {
-  closeClicked(): void;
+  closeClicked: () => void;
 };
 type OwnProps = {
 };

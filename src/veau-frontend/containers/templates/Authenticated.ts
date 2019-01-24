@@ -8,7 +8,7 @@ import { Authenticated as Component } from '../../components/templates/Authentic
 type StateProps = {
 };
 type DispatchProps = {
-  menuClicked(): void;
+  menuClicked: () => void;
 };
 type OwnProps = {
 };

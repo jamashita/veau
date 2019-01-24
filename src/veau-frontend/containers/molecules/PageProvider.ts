@@ -11,9 +11,9 @@ type StateProps = {
   open: boolean;
 };
 type DispatchProps = {
-  close(): void;
-  toStatsList(): void;
-  logout(): void;
+  close: () => void;
+  toStatsList: () => void;
+  logout: () => void;
 };
 type OwnProps = {
 };

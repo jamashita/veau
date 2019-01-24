@@ -125,7 +125,7 @@
     "one-variable-per-declaration": [ true, "ignore-for-loop" ],
     "ordered-imports": true,
     "prefer-function-over-method": false,
-    "prefer-method-signature": true,
+    "prefer-method-signature": false,
     "prefer-switch": true,
     "prefer-template": [ true, "allow-single-concat" ],
     "quotemark": [ true, "single", "avoid-template", "avoid-escape" ],

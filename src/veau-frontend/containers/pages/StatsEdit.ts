@@ -14,11 +14,11 @@ type StateProps = {
   localeRepository: LocaleRepository;
 };
 type DispatchProps = {
-  dataFilled(row: number, col: number, value: number): void;
-  nameTyped(name: string): void;
-  languageSelected(language: Language): void;
-  regionSelected(region: Region): void;
-  termSelected(term: Term): void;
+  dataFilled: (row: number, col: number, value: number) => void;
+  nameTyped: (name: string) => void;
+  languageSelected: (language: Language) => void;
+  regionSelected: (region: Region) => void;
+  termSelected: (term: Term) => void;
 };
 type OwnProps = {
 };

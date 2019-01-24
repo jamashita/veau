@@ -24,14 +24,14 @@ type StateProps = {
   newStatsOverview: StatsOverview;
 };
 type DispatchProps = {
-  toStatsEdit(statsID: StatsID): void;
-  newStatsClicked(): void;
-  closeNewStatsModal(): void;
-  nameTyped(name: string): void;
-  iso639Selected(iso639: ISO639): void;
-  iso3166Selected(iso3166: ISO3166): void;
-  termSelected(term: Term): void;
-  saveNewStats(): void;
+  toStatsEdit: (statsID: StatsID) => void;
+  newStatsClicked: () => void;
+  closeNewStatsModal: () => void;
+  nameTyped: (name: string) => void;
+  iso639Selected: (iso639: ISO639) => void;
+  iso3166Selected: (iso3166: ISO3166) => void;
+  termSelected: (term: Term) => void;
+  saveNewStats: () => void;
 };
 type OwnProps = {
 };
