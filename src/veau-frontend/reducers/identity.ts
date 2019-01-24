@@ -5,7 +5,7 @@ const initialState: Identity = Identity.default();
 
 export const identity: (state: Identity, action: Action) => Identity = (state: Identity = initialState, action: Action): Identity => {
   switch (action.type) {
-    case ACTION.IDENTITY_RENEWED: {
+    case ACTION.IDENTITY_AUTHENTICATED: {
       return action.identity;
     }
     default: {

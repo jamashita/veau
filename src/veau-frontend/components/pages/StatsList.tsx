@@ -186,7 +186,7 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
           <DialogContent>
             <TextField
               label={intl.formatMessage({
-                id: 'STATS_NAME'
+                id: 'NAME'
               })}
               type='text'
               value={newStatsOverview.getName()}

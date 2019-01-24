@@ -36,9 +36,10 @@ export type Messages = {
 
   STATS_LIST: string;
   CREATE_NEW_STATS: string;
-  STATS_NAME: string;
   FAILED_TO_SAVE_NEW_STATS: string;
   FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: string;
+
+  STATS_INFO: string;
 
   AUTHENTICATION_FAILED: string;
   AUTHENTICATION_FAILED_DESCRIPTION: string;
@@ -89,9 +90,10 @@ const en: Messages = {
 
   STATS_LIST: 'Statistics list',
   CREATE_NEW_STATS: 'Create new statistics',
-  STATS_NAME: 'Statistics name',
   FAILED_TO_SAVE_NEW_STATS: 'Failed to save the statistics.',
   FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: 'Failed to save the statistics to the server, please try again',
+
+  STATS_INFO: 'Statistics information',
 
   AUTHENTICATION_FAILED: 'Authentication failed',
   AUTHENTICATION_FAILED_DESCRIPTION: 'Account or Password is incorrect. Please check them again.',
@@ -142,9 +144,10 @@ const fr: Messages = {
 
   STATS_LIST: 'Liste de statistiques',
   CREATE_NEW_STATS: 'Créer de nouvelles statistiques',
-  STATS_NAME: 'Le nom de statistiques',
   FAILED_TO_SAVE_NEW_STATS: 'Échec de la sauvegarde des statistiques.',
   FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: 'Échec de l\'enregistrement des statistiques sur le serveur. Veuillez réessayer.',
+
+  STATS_INFO: 'Informations statistiques',
 
   AUTHENTICATION_FAILED: 'Authentification échouée',
   AUTHENTICATION_FAILED_DESCRIPTION: 'Compte ou mot de passe est incorrect. Les vérifier à nouveau s\'il vous plaît.',
@@ -195,9 +198,10 @@ const es: Messages = {
 
   STATS_LIST: 'Lista de estadísticas',
   CREATE_NEW_STATS: 'Crear nuevas estadísticas',
-  STATS_NAME: 'El nombre de estadísticas',
   FAILED_TO_SAVE_NEW_STATS: 'Error al guardar las estadísticas.',
   FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: 'Error al guardar las estadísticas en el servidor. Inténtalo de nuevo',
+
+  STATS_INFO: 'Información estadística',
 
   AUTHENTICATION_FAILED: 'Autenticación fallida',
   AUTHENTICATION_FAILED_DESCRIPTION: 'La cuenta o contraseña es incorrecta. Revísalos nuevamente por favor.',
@@ -248,9 +252,10 @@ const ja: Messages = {
 
   STATS_LIST: '統計の一覧',
   CREATE_NEW_STATS: '新しい統計を作成する',
-  STATS_NAME: '統計名称',
   FAILED_TO_SAVE_NEW_STATS: '統計情報の保存に失敗しました。',
   FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: '統計情報をサーバーに保存できませんでした。もう一度やり直してください',
+
+  STATS_INFO: '統計情報',
 
   AUTHENTICATION_FAILED: '認証に失敗しました',
   AUTHENTICATION_FAILED_DESCRIPTION: 'アカウントまたはパスワードが正しくありません。もう一度確認してください。',

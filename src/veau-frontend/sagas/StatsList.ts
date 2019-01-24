@@ -6,11 +6,14 @@ import {
 } from '../../declarations/Action';
 import { State } from '../../declarations/State';
 import { StatsOverview } from '../../veau-entity/StatsOverview';
+import { StatsOverviewFactory } from '../../veau-factory/StatsOverviewFactory';
 import { AJAX } from '../../veau-general/AJAX';
 import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
 import { pushToStatsEdit } from '../actions/RedirectAction';
 import { closeNewStatsModal, renewStatsOverview, resetNewStats } from '../actions/StatsListAction';
+
+const statsOverviewFactory: StatsOverviewFactory = StatsOverviewFactory.getInstance();
 
 export class StatsList {
 
@@ -33,7 +36,7 @@ export class StatsList {
         }
       } = state;
 
-      const latestStatsOverview: StatsOverview = new StatsOverview(
+      const latestStatsOverview: StatsOverview = statsOverviewFactory.from(
         newStatsOverview.getStatsID(),
         newStatsOverview.getISO639(),
         newStatsOverview.getISO3166(),
@@ -56,7 +59,7 @@ export class StatsList {
         }
       } = state;
 
-      const latestStatsOverview: StatsOverview = new StatsOverview(
+      const latestStatsOverview: StatsOverview = statsOverviewFactory.from(
         newStatsOverview.getStatsID(),
         action.iso639,
         newStatsOverview.getISO3166(),
@@ -79,7 +82,7 @@ export class StatsList {
         }
       } = state;
 
-      const latestStatsOverview: StatsOverview = new StatsOverview(
+      const latestStatsOverview: StatsOverview = statsOverviewFactory.from(
         newStatsOverview.getStatsID(),
         newStatsOverview.getISO639(),
         action.iso3166,
@@ -102,7 +105,7 @@ export class StatsList {
         }
       } = state;
 
-      const latestStatsOverview: StatsOverview = new StatsOverview(
+      const latestStatsOverview: StatsOverview = statsOverviewFactory.from(
         newStatsOverview.getStatsID(),
         newStatsOverview.getISO639(),
         newStatsOverview.getISO3166(),

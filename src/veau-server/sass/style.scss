@@ -20,3 +20,11 @@ $neat-grid: (
 .header {
   margin-bottom: 8px;
 }
+
+.stats-items-edit {
+  @include grid-column(13);
+}
+
+.stats-edit {
+  @include grid-column(5);
+}

@@ -1,7 +1,11 @@
 import { UNAUTHORIZED } from 'http-status';
 import { call, fork, put, select, take } from 'redux-saga/effects';
 import * as request from 'superagent';
-import { ACTION, EntranceAccountNameTypedAction, EntrancePasswordTypedAction } from '../../declarations/Action';
+import {
+  ACTION,
+  EntranceAccountNameTypedAction,
+  EntrancePasswordTypedAction
+} from '../../declarations/Action';
 import { State } from '../../declarations/State';
 import { AJAX } from '../../veau-general/AJAX';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
@@ -10,7 +14,7 @@ import { IdentityID } from '../../veau-vo/IdentityID';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { entranceInformationUpdate } from '../actions/EntranceAction';
-import { identified, identityRenewed } from '../actions/IdentityAction';
+import { identified, identityAuthenticated } from '../actions/IdentityAction';
 import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
 import { pushToStatsList } from '../actions/RedirectAction';
@@ -56,7 +60,7 @@ export class Entrance {
 
         const identity: Identity = Identity.of(IdentityID.of(id), account, ISO639.of(language), ISO3166.of(region));
 
-        yield put(identityRenewed(identity));
+        yield put(identityAuthenticated(identity));
         yield put(pushToStatsList());
         yield put(identified());
         yield put(loaded());

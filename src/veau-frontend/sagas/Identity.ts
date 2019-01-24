@@ -8,8 +8,8 @@ import { Identity as IdentityVO, IdentityJSON } from '../../veau-vo/Identity';
 import { IdentityID } from '../../veau-vo/IdentityID';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
-import { identified, identityRenewed } from '../actions/IdentityAction';
-import { pushToEntrance, pushToStatsList } from '../actions/RedirectAction';
+import { identified, identityAuthenticated } from '../actions/IdentityAction';
+import { pushToEntrance } from '../actions/RedirectAction';
 
 export class Identity {
 
@@ -31,8 +31,7 @@ export class Identity {
 
       const identity: IdentityVO = IdentityVO.of(IdentityID.of(id), account, ISO639.of(language), ISO3166.of(region));
 
-      yield put(identityRenewed(identity));
-      yield put(pushToStatsList());
+      yield put(identityAuthenticated(identity));
       yield put(identified());
     }
     catch (err) {
@@ -45,7 +44,7 @@ export class Identity {
 
       const newIdentity: IdentityVO = IdentityVO.of(identity.getIdentityID(), identity.getAccount(), ISO639.of(newLanguage), identity.getRegion());
 
-      yield put(identityRenewed(newIdentity));
+      yield put(identityAuthenticated(newIdentity));
       yield put(pushToEntrance());
     }
   }
@@ -61,7 +60,7 @@ export class Identity {
 
       const newIdentity: IdentityVO = IdentityVO.of(IdentityID.default(), '', identity.getLanguage(), identity.getRegion());
 
-      yield put(identityRenewed(newIdentity));
+      yield put(identityAuthenticated(newIdentity));
     }
   }
 }

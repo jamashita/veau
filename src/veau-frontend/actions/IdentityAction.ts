@@ -1,13 +1,12 @@
 import {
-  ACTION, IdentityIdentifiedAction,
-  IdentityInitializeAction,
-  IdentityRenewAction
+  ACTION, IdentityAuthenticatedAction,
+  IdentityIdentifiedAction, IdentityInitializeAction
 } from '../../declarations/Action';
 import { Identity } from '../../veau-vo/Identity';
 
-export const identityRenewed: (identity: Identity) => IdentityRenewAction = (identity: Identity): IdentityRenewAction => {
+export const identityAuthenticated: (identity: Identity) => IdentityAuthenticatedAction = (identity: Identity): IdentityAuthenticatedAction => {
   return {
-    type: ACTION.IDENTITY_RENEWED,
+    type: ACTION.IDENTITY_AUTHENTICATED,
     identity
   };
 };
