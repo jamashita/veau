@@ -83,6 +83,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
               })}
               type='text'
               value={stats.getName()}
+              onKeyUp={this.props.nameTyped}
             />
             <FormControl
               fullWidth={true}

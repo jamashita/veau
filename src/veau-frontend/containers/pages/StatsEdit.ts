@@ -48,16 +48,16 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
       console.log(`row ${row}, col ${col}, value ${value}`);
     },
     nameTyped: (name: string): void => {
-      statsNameTyped(name);
+      dispatch(statsNameTyped(name));
     },
     languageSelected: (language: Language): void => {
-      statsLanguageSelected(language);
+      dispatch(statsLanguageSelected(language));
     },
     regionSelected: (region: Region): void => {
-      statsRegionSelected(region);
+      dispatch(statsRegionSelected(region));
     },
     termSelected: (term: Term): void => {
-      statsTermSelected(term);
+      dispatch(statsTermSelected(term));
     }
   };
 };
