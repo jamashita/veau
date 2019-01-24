@@ -45,7 +45,7 @@ export class StatsOverview extends Entity<StatsID> {
     this.iso3166 = iso3166;
     this.term = term;
     this.name = name;
-    this.updatedAt = updatedAt;
+    this.updatedAt = moment(updatedAt);
   }
 
   public getStatsID(): StatsID {

@@ -54,7 +54,7 @@ export class Stats extends Entity<StatsID> {
     this.region = region;
     this.term = term;
     this.name = name;
-    this.updatedAt = updatedAt;
+    this.updatedAt = moment(updatedAt);
     this.items = items;
   }
 

@@ -24,7 +24,7 @@ export class StatsValue extends ValueObject {
 
   private constructor(asOf: moment.Moment, value: number) {
     super();
-    this.asOf = asOf;
+    this.asOf = moment(asOf);
     this.value = value;
   }
 
