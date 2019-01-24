@@ -2,20 +2,16 @@ import { HotTable } from '@handsontable/react';
 import { Card, CardContent, CardHeader, FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
-import { TermRepository } from '../../../veau-repository/TermRepository';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
 import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
-import { Term } from '../../../veau-vo/Term';
 import { Props } from '../../containers/pages/StatsEdit';
 import { Authenticated } from '../../containers/templates/Authenticated';
 import { TextField } from '../atoms/TextField';
 
 type State = {
 };
-
-const termRepository: TermRepository = TermRepository.getInstance();
 
 const ROW_INDEX: number = 0;
 const COLUMN_INDEX: number = 1;
@@ -145,37 +141,16 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
                 })}
               </Select>
             </FormControl>
-            <FormControl
-              fullWidth={true}
-            >
-              <InputLabel>
-                {intl.formatMessage({
-                  id: 'TERM'
-                })}
-              </InputLabel>
-              <Select
-                value={stats.getTerm().get()}
-                onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {
-                  const termID: number = Number(event.target.value);
-                  this.props.termSelected(Term.of(termID));
-                }}
-              >
-                {termRepository.all().map<React.ReactNode>((term: Term) => {
-                  const termID: number = term.get();
-
-                  return (
-                    <MenuItem
-                      key={termID}
-                      value={termID}
-                    >
-                      {intl.formatMessage({
-                        id: term.getKey()
-                      })}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </FormControl>
+            <TextField
+              label={intl.formatMessage({
+                id: 'TERM'
+              })}
+              type='text'
+              value={intl.formatMessage({
+                id: stats.getTerm().getKey()
+              })}
+              disabled={true}
+            />
           </CardContent>
         </Card>
       </Authenticated>
