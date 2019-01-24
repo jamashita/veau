@@ -86,7 +86,7 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
           color='primary'
           onClick={this.props.newStatsClicked}
         >
-          <Icon className='fa fa-plus-circle' />
+          <Icon className='fas fa-plus-circle' />
           {intl.formatMessage({
             id: 'CREATE_NEW_STATS'
           })}
@@ -288,7 +288,7 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
               onClick={this.props.saveNewStats}
               disabled={!newStatsOverview.isFilled()}
             >
-              <Icon className='fa fa-check' />
+              <Icon className='fas fa-check' />
               <I18NLabel
                 id='SUBMIT'
               />
@@ -297,7 +297,7 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
               color='secondary'
               onClick={this.props.closeNewStatsModal}
             >
-              <Icon className='fa fa-times' />
+              <Icon className='fas fa-times' />
               <I18NLabel
                 id='CANCEL'
               />

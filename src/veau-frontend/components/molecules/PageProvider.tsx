@@ -39,7 +39,7 @@ class PageProviderImpl extends React.Component<Props & InjectedIntlProps, State>
           fullWidth={true}
           onClick={this.props.close}
         >
-          <Icon className='fa fa-times' />
+          <Icon className='fas fa-times' />
         </Button>
         <Divider />
         <List>
@@ -49,7 +49,7 @@ class PageProviderImpl extends React.Component<Props & InjectedIntlProps, State>
           >
             <ListItemIcon>
               <Icon
-                className='fa fa-list-alt'
+                className='fas fa-list-alt'
               />
             </ListItemIcon>
             <ListItemText>
@@ -67,7 +67,7 @@ class PageProviderImpl extends React.Component<Props & InjectedIntlProps, State>
           >
             <ListItemIcon>
               <Icon
-                className='fa fa-sign-out'
+                className='fas fa-sign-out-alt'
               />
             </ListItemIcon>
             <ListItemText>

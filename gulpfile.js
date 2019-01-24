@@ -138,8 +138,8 @@ gulp.task('favicon', () => {
 });
 
 gulp.task('font', () => {
-  return gulp.src(['node_modules/font-awesome/fonts/*'])
-    .pipe(gulp.dest('dist/veau-server/public/fonts'));
+  return gulp.src(['node_modules/@fortawesome/fontawesome-free/webfonts/*'])
+    .pipe(gulp.dest('dist/veau-server/public/webfonts'));
 });
 
 gulp.task('nodemon', (callback) => {

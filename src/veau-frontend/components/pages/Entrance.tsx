@@ -79,7 +79,7 @@ class EntranceImpl extends React.Component<Props & InjectedIntlProps, State> {
             disabled={!entranceInformation.isAcceptable()}
             onClick={this.props.loginClicked}
           >
-            <Icon className='fa fa-sign-in' />
+            <Icon className='fas fa-sign-in-alt' />
             {intl.formatMessage({
               id: 'LOGIN'
             })}

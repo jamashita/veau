@@ -24,7 +24,7 @@ export class Header extends React.Component<Props, State> {
           variant='dense'
         >
           <Icon
-            className='fa fa-bars'
+            className='fas fa-bars'
             onClick={this.props.menuClicked}
           />
           <I18NLabel

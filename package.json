@@ -27,7 +27,6 @@
     "cookie-parser": "1.4.3",
     "express": "4.16.4",
     "express-session": "1.15.6",
-    "font-awesome": "4.7.0",
     "handsontable": "6.2.2",
     "helmet": "3.15.0",
     "history": "4.7.2",
@@ -56,6 +55,7 @@
     "uuid": "3.3.2"
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "5.6.3",
     "@types/bcrypt": "3.0.0",
     "@types/body-parser": "1.17.0",
     "@types/chance": "1.0.1",
