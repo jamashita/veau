@@ -19,7 +19,6 @@ import { StatsFactory } from '../../veau-factory/StatsFactory';
 import { StatsItemFactory } from '../../veau-factory/StatsItemFactory';
 import { AJAX } from '../../veau-general/AJAX';
 import { resetStatsItem, updateStats, updateStatsItem } from '../actions/StatsAction';
-import { closeItemModal } from '../actions/StatsEditAction';
 
 const statsFactory: StatsFactory = StatsFactory.getInstance();
 const statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
@@ -128,8 +127,7 @@ export class StatsEdit {
       } = action;
 
       stats.setData(row, column, value);
-      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUpdatedAt(), stats.getItems());
-      yield put(updateStats(newStats));
+      yield put(updateStats(stats.copy()));
     }
   }
 
@@ -147,8 +145,7 @@ export class StatsEdit {
       } = action;
 
       stats.deleteData(row, column);
-      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUpdatedAt(), stats.getItems());
-      yield put(updateStats(newStats));
+      yield put(updateStats(stats.copy()));
     }
   }
 
@@ -161,7 +158,7 @@ export class StatsEdit {
         statsItem
       } = state;
 
-      const newStatsItem: StatsItem = statsItemFactory.from(statsItem.getStatsItemID(), action.name, statsItem.getUnit(), statsItem.getSeq(), statsItem.getValues());
+      const newStatsItem: StatsItem = statsItemFactory.from(statsItem.getStatsItemID(), action.name, statsItem.getUnit(), statsItem.getValues());
       yield put(updateStatsItem(newStatsItem));
     }
   }
@@ -175,7 +172,7 @@ export class StatsEdit {
         statsItem
       } = state;
 
-      const newStatsItem: StatsItem = statsItemFactory.from(statsItem.getStatsItemID(), statsItem.getName(), action.unit, statsItem.getSeq(), statsItem.getValues());
+      const newStatsItem: StatsItem = statsItemFactory.from(statsItem.getStatsItemID(), statsItem.getName(), action.unit, statsItem.getValues());
       yield put(updateStatsItem(newStatsItem));
     }
   }
@@ -195,7 +192,6 @@ export class StatsEdit {
         statsItem
       ]);
       yield put(updateStats(newStats));
-      yield put(closeItemModal());
       yield put(resetStatsItem());
     }
   }

@@ -58,8 +58,7 @@ describe('StatsRepository', () => {
     stub.withArgs(`SELECT
       R1.stats_item_id AS statsItemID,
       R1.name,
-      R1.unit,
-      R1.seq
+      R1.unit
       FROM stats_items R1
       WHERE R1.stats_id = :statsID
       ORDER BY R1.seq;`, [
@@ -70,20 +69,17 @@ describe('StatsRepository', () => {
       {
         statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
         name: 'name1',
-        unit: 'unit1',
-        seq: 1
+        unit: 'unit1'
       },
       {
         statsItemID: '5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c',
         name: 'name2',
-        unit: 'unit2',
-        seq: 2
+        unit: 'unit2'
       },
       {
         statsItemID: '2ac64841-5267-48bc-8952-ba9ad1cb12d7',
         name: 'name3',
-        unit: 'unit3',
-        seq: 3
+        unit: 'unit3'
       }
     ]);
     stub.withArgs(`SELECT
@@ -145,7 +141,6 @@ describe('StatsRepository', () => {
     expect(items[0].getStatsItemID().get().get()).toEqual('c0e18d31-d026-4a84-af4f-d5d26c520600');
     expect(items[0].getName()).toEqual('name1');
     expect(items[0].getUnit()).toEqual('unit1');
-    expect(items[0].getSeq()).toEqual(1);
 
     let values: StatsValues = items[0].getValues();
     expect(values.length()).toEqual(3);
@@ -159,7 +154,6 @@ describe('StatsRepository', () => {
     expect(items[1].getStatsItemID().get().get()).toEqual('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c');
     expect(items[1].getName()).toEqual('name2');
     expect(items[1].getUnit()).toEqual('unit2');
-    expect(items[1].getSeq()).toEqual(2);
 
     values = items[1].getValues();
     expect(values.length()).toEqual(2);
@@ -171,7 +165,6 @@ describe('StatsRepository', () => {
     expect(items[2].getStatsItemID().get().get()).toEqual('2ac64841-5267-48bc-8952-ba9ad1cb12d7');
     expect(items[2].getName()).toEqual('name3');
     expect(items[2].getUnit()).toEqual('unit3');
-    expect(items[2].getSeq()).toEqual(3);
 
     values = items[2].getValues();
     expect(values.length()).toEqual(0);

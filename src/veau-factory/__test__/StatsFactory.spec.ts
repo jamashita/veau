@@ -26,7 +26,7 @@ describe('StatsFactory', () => {
     const name: string = 'name1';
     const updatedAt: moment.Moment = moment('2000-01-01');
     const items: Array<StatsItem> = [
-      new StatsItem(StatsItemID.of(UUID.of('a28eceac-0451-4339-b1c5-0c298b3905f6')), 'stats1', 'unit1', 1, StatsValues.of([]))
+      new StatsItem(StatsItemID.of(UUID.of('a28eceac-0451-4339-b1c5-0c298b3905f6')), 'stats1', 'unit1', StatsValues.of([]))
     ];
 
     const statsFactory: StatsFactory = StatsFactory.getInstance();
@@ -63,7 +63,6 @@ describe('StatsFactory', () => {
           statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
           name: 'stats1',
           unit: 'unit1',
-          seq: 1,
           values: [
             {
               asOf: '2001-01-01',
@@ -75,7 +74,6 @@ describe('StatsFactory', () => {
           statsItemID: '',
           name: 'stats2',
           unit: 'unit1',
-          seq: 2,
           values: [
             {
               asOf: '2002-01-01',
@@ -109,7 +107,6 @@ describe('StatsFactory', () => {
       expect(stats.getItems()[i].getStatsItemID().get().get()).toEqual(json.items[i].statsItemID);
       expect(stats.getItems()[i].getName()).toEqual(json.items[i].name);
       expect(stats.getItems()[i].getUnit()).toEqual(json.items[i].unit);
-      expect(stats.getItems()[i].getSeq()).toEqual(json.items[i].seq);
       expect(stats.getItems()[i].getValues().length()).toEqual(json.items[i].values.length);
       for (let j = 0; j < stats.getItems()[i].getValues().length(); j++) {
         expect(stats.getItems()[i].getValues().get()[j].getAsOfAsString()).toEqual(json.items[i].values[j].asOf);
@@ -137,7 +134,6 @@ describe('StatsFactory', () => {
         StatsItemID.of(UUID.of('610b532b-5711-461a-b44a-7387e8d08596')),
         'stats1',
         'unit1',
-        1,
         StatsValues.of([
           StatsValue.of(moment('2000-01-01'), 1),
           StatsValue.of(moment('2000-01-02'), 2)
@@ -147,7 +143,6 @@ describe('StatsFactory', () => {
         StatsItemID.of(UUID.of('530e0e07-654f-4764-a3ac-77ce12a2a5e4')),
         'stats2',
         'unit2',
-        2,
         StatsValues.of([
         ])
       )
@@ -177,7 +172,6 @@ describe('StatsFactory', () => {
           statsItemID: '610b532b-5711-461a-b44a-7387e8d08596',
           name: 'stats1',
           unit: 'unit1',
-          seq: 1,
           values: [
             {
               asOf: '2000-01-01',
@@ -193,7 +187,6 @@ describe('StatsFactory', () => {
           statsItemID: '530e0e07-654f-4764-a3ac-77ce12a2a5e4',
           name: 'stats2',
           unit: 'unit2',
-          seq: 2,
           values: [
           ]
         }
