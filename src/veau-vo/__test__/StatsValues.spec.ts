@@ -41,6 +41,24 @@ describe('StatsValues', () => {
     expect(statsValues.get()[2].getValue()).toEqual(3);
   });
 
+  it('deleteStatsValue', () => {
+    const statsValue1: StatsValue = StatsValue.of(moment('2000-01-01'), 1);
+    const statsValue2: StatsValue = StatsValue.of(moment('2000-01-02'), 2);
+    const statsValue3: StatsValue = StatsValue.of(moment('2000-01-03'), 3);
+
+    const statsValues: StatsValues = StatsValues.of([
+      statsValue1,
+      statsValue2,
+      statsValue3
+    ]);
+
+    statsValues.deleteStatsValue(moment('2000-01-02'));
+
+    expect(statsValues.get().length).toEqual(2);
+    expect(statsValues.get()[0].getValue()).toEqual(1);
+    expect(statsValues.get()[1].getValue()).toEqual(3);
+  });
+
   it('equals', () => {
     const statsValue1: StatsValue = StatsValue.of(moment('2000-01-01'), 1);
     const statsValue2: StatsValue = StatsValue.of(moment('2000-01-02'), 2);

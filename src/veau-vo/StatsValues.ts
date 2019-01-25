@@ -1,3 +1,4 @@
+import * as moment from 'moment';
 import { StatsValue, StatsValueJSON } from './StatsValue';
 
 export class StatsValues {
@@ -53,6 +54,16 @@ export class StatsValues {
     }
 
     this.values = newValues;
+  }
+
+  public deleteStatsValue(asOf: moment.Moment): void {
+    this.values = this.values.filter((value: StatsValue) => {
+      if (asOf.isSame(value.getAsOf())) {
+        return false;
+      }
+
+      return true;
+    });
   }
 
   public equals(other: StatsValues): boolean {
