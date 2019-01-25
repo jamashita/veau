@@ -31,7 +31,7 @@ export type StatsRow = {
   updatedAt: string;
 };
 
-const REVISED_VALUE: number = 8;
+const REVISED_VALUE: number = 12;
 const TERM_FORMAT: string = 'YYYY-MM-DD';
 
 export class Stats extends Entity<StatsID> {
@@ -163,7 +163,7 @@ export class Stats extends Entity<StatsID> {
 
   public getRow(): Array<string> {
     return this.items.map<string>((item: StatsItem) => {
-      return item.getName();
+      return `${item.getName()} (${item.getUnit()})`;
     });
   }
 

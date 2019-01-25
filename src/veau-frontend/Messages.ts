@@ -41,8 +41,6 @@ export type Messages = {
   FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: string;
 
   STATS_INFO: string;
-  ADD_NEXT_VALUE: string;
-  ADD_PREVIOUS_VALUE: string;
   ADD_NEW_ITEM: string;
   CREATE_NEW_ITEM: string;
 
@@ -100,8 +98,6 @@ const en: Messages = {
   FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: 'Failed to save the statistics to the server, please try again',
 
   STATS_INFO: 'Statistics information',
-  ADD_NEXT_VALUE: 'Add next value',
-  ADD_PREVIOUS_VALUE: 'Add previous value',
   ADD_NEW_ITEM: 'Add new item',
   CREATE_NEW_ITEM: 'Create new statistics item',
 
@@ -159,8 +155,6 @@ const fr: Messages = {
   FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: 'Échec de l\'enregistrement des statistiques sur le serveur. Veuillez réessayer.',
 
   STATS_INFO: 'Informations statistiques',
-  ADD_NEXT_VALUE: 'Ajouter la valeur suivante',
-  ADD_PREVIOUS_VALUE: 'Ajouter la valeur précédente',
   ADD_NEW_ITEM: 'Ajouter le nouvel élément',
   CREATE_NEW_ITEM: 'Créer un nouvel élément de statistiques',
 
@@ -218,8 +212,6 @@ const es: Messages = {
   FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: 'Error al guardar las estadísticas en el servidor. Inténtalo de nuevo',
 
   STATS_INFO: 'Información estadística',
-  ADD_NEXT_VALUE: 'Añadir siguiente valor',
-  ADD_PREVIOUS_VALUE: 'Añadir valor anterior',
   ADD_NEW_ITEM: 'Añadir ítem nuevo',
   CREATE_NEW_ITEM: 'Crear nuevo ítem de estadísticas',
 
@@ -277,8 +269,6 @@ const ja: Messages = {
   FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: '統計情報をサーバーに保存できませんでした。もう一度やり直してください',
 
   STATS_INFO: '統計情報',
-  ADD_NEXT_VALUE: '次の値を追加',
-  ADD_PREVIOUS_VALUE: '前の値を追加',
   ADD_NEW_ITEM: '新しい項目を追加',
   CREATE_NEW_ITEM: 'Create new statistics item',
 

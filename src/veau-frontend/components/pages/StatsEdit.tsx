@@ -61,36 +61,38 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
               rowHeaderWidth: stats.getRowHeaderSize(),
               autoColumnSize: true,
               beforeChange: (changes: Array<Array<any>> | null): boolean => {
-                if (changes) {
-                  const length: number = changes.length;
-                  for (let i: number = 0; i < length; i++) {
-                    const str: string = changes[i][VALUE_INDEX];
+                if (!changes) {
+                  return false;
+                }
+                const length: number = changes.length;
+                for (let i: number = 0; i < length; i++) {
+                  const str: string = changes[i][VALUE_INDEX];
 
-                    if (isNaN(Number(str))) {
-                      return false;
-                    }
+                  if (isNaN(Number(str))) {
+                    return false;
                   }
                 }
+
                 return true;
               },
-              afterChange: (changes: Array<Array<any>> | null): boolean => {
-                if (changes) {
-                  const length: number = changes.length;
-                  for (let i: number = 0; i < length; i++) {
-                    const str: string = changes[i][VALUE_INDEX];
-                    const row: number = changes[i][ROW_INDEX];
-                    const column: number = changes[i][COLUMN_INDEX];
-
-                    if (str === '') {
-                      this.props.dataDeleted(row, column);
-                      return true;
-                    }
-
-                    const value: number = Number(str);
-                    this.props.dataFilled(row, column, value);
-                  }
+              afterChange: (changes: Array<Array<any>> | null): void => {
+                if (!changes) {
+                  return;
                 }
-                return true;
+                const length: number = changes.length;
+                for (let i: number = 0; i < length; i++) {
+                  const str: string = changes[i][VALUE_INDEX];
+                  const row: number = changes[i][ROW_INDEX];
+                  const column: number = changes[i][COLUMN_INDEX];
+
+                  if (str === '') {
+                    this.props.dataDeleted(row, column);
+                    continue;
+                  }
+
+                  const value: number = Number(str);
+                  this.props.dataFilled(row, column, value);
+                }
               }
             }}
           />
@@ -182,28 +184,6 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
               })}
               disabled={true}
             />
-            <Button
-              color='primary'
-              fullWidth={true}
-            >
-              <Icon
-                className='fas fa-caret-square-left'
-              />
-              {intl.formatMessage({
-                id: 'ADD_PREVIOUS_VALUE'
-              })}
-            </Button>
-            <Button
-              color='primary'
-              fullWidth={true}
-            >
-              <Icon
-                className='fas fa-caret-square-right'
-              />
-              {intl.formatMessage({
-                id: 'ADD_NEXT_VALUE'
-              })}
-            </Button>
             <Button
               color='primary'
               fullWidth={true}
