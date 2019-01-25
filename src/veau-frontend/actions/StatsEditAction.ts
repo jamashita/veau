@@ -2,7 +2,7 @@ import {
   ACTION,
   StatsEditCloseItemModalAction,
   StatsEditDataFilledAction,
-  StatsEditItemNameTypedAction,
+  StatsEditItemNameTypedAction, StatsEditItemSaveAction,
   StatsEditItemUnitTypedAction,
   StatsEditLanguageSelectedAction,
   StatsEditNameTypedAction,
@@ -74,5 +74,11 @@ export const itemUnitTyped: (unit: string) => StatsEditItemUnitTypedAction = (un
   return {
     type: ACTION.STATS_EDIT_ITEM_UNIT_TYPED,
     unit
+  };
+};
+
+export const saveItem: () => StatsEditItemSaveAction = (): StatsEditItemSaveAction => {
+  return {
+    type: ACTION.STATS_EDIT_ITEM_SAVE
   };
 };

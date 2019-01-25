@@ -61,6 +61,7 @@ export enum ACTION {
   STATS_EDIT_CLOSE_ITEM_MODAL = 'STATS_EDIT_CLOSE_ITEM_MODAL',
   STATS_EDIT_ITEM_NAME_TYPED = 'STATS_EDIT_ITEM_NAME_TYPED',
   STATS_EDIT_ITEM_UNIT_TYPED = 'STATS_EDIT_ITEM_UNIT_TYPED',
+  STATS_EDIT_ITEM_SAVE = 'STATS_EDIT_ITEM_SAVE',
 
   STATS_OVERVIEW_UPDATE = 'STATS_OVERVIEW_UPDATE',
   STATS_OVERVIEW_RESET = 'STATS_OVERVIEW_RESET',
@@ -210,6 +211,9 @@ export interface StatsEditItemUnitTypedAction extends ReduxAction {
   type: ACTION.STATS_EDIT_ITEM_UNIT_TYPED;
   unit: string;
 }
+export interface StatsEditItemSaveAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_ITEM_SAVE;
+}
 export interface StatsOverviewUpdateAction extends ReduxAction {
   type: ACTION.STATS_OVERVIEW_UPDATE;
   statsOverviews: Array<StatsOverview>;
@@ -271,6 +275,7 @@ export type Action =
   | StatsEditCloseItemModalAction
   | StatsEditItemNameTypedAction
   | StatsEditItemUnitTypedAction
+  | StatsEditItemSaveAction
   | StatsOverviewUpdateAction
   | StatsOverviewResetAction
   | StatsUpdateAction

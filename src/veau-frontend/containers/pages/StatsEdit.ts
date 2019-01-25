@@ -10,7 +10,7 @@ import { Region } from '../../../veau-vo/Region';
 import { Term } from '../../../veau-vo/Term';
 import {
   closeItemModal, itemNameTyped, itemUnitTyped,
-  newItem,
+  newItem, saveItem,
   statsDataFilled,
   statsLanguageSelected,
   statsNameTyped,
@@ -89,7 +89,7 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
       dispatch(itemUnitTyped(unit));
     },
     saveNewItem: (): void => {
-      console.log('saved');
+      dispatch(saveItem());
     }
   };
 };

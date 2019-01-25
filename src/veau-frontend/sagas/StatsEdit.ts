@@ -12,7 +12,7 @@ import { StatsItem } from '../../veau-entity/StatsItem';
 import { StatsFactory } from '../../veau-factory/StatsFactory';
 import { StatsItemFactory } from '../../veau-factory/StatsItemFactory';
 import { AJAX } from '../../veau-general/AJAX';
-import { updateStats, updateStatsItem } from '../actions/StatsAction';
+import { resetStatsItem, updateStats, updateStatsItem } from '../actions/StatsAction';
 
 const statsFactory: StatsFactory = StatsFactory.getInstance();
 const statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
@@ -30,6 +30,7 @@ export class StatsEdit {
     yield fork(StatsEdit.dataFilled);
     yield fork(StatsEdit.itemNameTyped);
     yield fork(StatsEdit.itemUnitTyped);
+    yield fork(StatsEdit.saveItem);
   }
 
   private static *findStats(): IterableIterator<any> {
@@ -149,6 +150,25 @@ export class StatsEdit {
 
       const newStatsItem: StatsItem = statsItemFactory.from(statsItem.getStatsItemID(), statsItem.getName(), action.unit, statsItem.getSeq(), statsItem.getValues());
       yield put(updateStatsItem(newStatsItem));
+    }
+  }
+
+  private static *saveItem(): IterableIterator<any> {
+    while (true) {
+      yield take(ACTION.STATS_EDIT_ITEM_SAVE);
+      const state: State = yield select();
+
+      const {
+        stats,
+        statsItem
+      } = state;
+
+      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUpdatedAt(), [
+        ...stats.getItems(),
+        statsItem
+      ]);
+      yield put(updateStats(newStats));
+      yield put(resetStatsItem());
     }
   }
 }
