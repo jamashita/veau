@@ -30,7 +30,25 @@ type State = {
 class StatsInformationImpl extends React.Component<Props & InjectedIntlProps, State> {
 
   public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
-    return true;
+    const {
+      stats,
+      localeRepository
+    } = this.props;
+
+    if (stats.getName() !== nextProps.stats.getName()) {
+      return true;
+    }
+    if (!stats.getLanguage().equals(nextProps.stats.getLanguage())) {
+      return true;
+    }
+    if (!stats.getRegion().equals(nextProps.stats.getRegion())) {
+      return true;
+    }
+    if (localeRepository !== nextProps.localeRepository) {
+      return true;
+    }
+
+    return false;
   }
 
   public render(): React.ReactNode {

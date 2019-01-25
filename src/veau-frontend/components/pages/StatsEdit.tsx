@@ -1,7 +1,7 @@
 import { HotTable } from '@handsontable/react';
 import {
   Button,
-  Icon,
+  Icon
 } from '@material-ui/core';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
@@ -150,15 +150,9 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
               }
             }}
             afterSelection={(row1: number, col1: number, row2: number, col2: number): void => {
-              console.log('selected');
-              if (row1 !== row2) {
-                return;
+              if (row1 === row2) {
+                this.props.rowSelected(row1);
               }
-              if (col1 !== col2) {
-                return;
-              }
-
-              this.props.rowSelected(row1);
             }}
           />
         </div>
