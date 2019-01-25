@@ -230,14 +230,14 @@ describe('Stats', () => {
     expect(stats.getItems()[0].getValues().get()[2].getValue()).toEqual(3);
   });
 
-  it('isEmptyItems: no items', () => {
+  it('hasValues: no items', () => {
     const stats: Stats = new Stats(StatsID.of(UUID.of('14351289-d8ce-48cd-8ef9-ac1b356c9233')), Language.default(), Region.default(), Term.DAILY, 'stats1', moment('2000-01-01'), [
     ]);
 
-    expect(stats.isEmptyItems()).toEqual(true);
+    expect(stats.hasValues()).toEqual(false);
   });
 
-  it('isEmptyItems: no values', () => {
+  it('hasValues: no values', () => {
     const stats1: Stats = new Stats(StatsID.of(UUID.of('14351289-d8ce-48cd-8ef9-ac1b356c9233')), Language.default(), Region.default(), Term.DAILY, 'stats1', moment('2000-01-01'), [
       new StatsItem(StatsItemID.of(UUID.of('bf04b0fa-ed4d-4114-84a3-c963871dfe06')), 'item1', 'unit1', 1, StatsValues.of([
       ]))
@@ -249,17 +249,17 @@ describe('Stats', () => {
       ]))
     ]);
 
-    expect(stats1.isEmptyItems()).toEqual(true);
-    expect(stats2.isEmptyItems()).toEqual(true);
+    expect(stats1.hasValues()).toEqual(false);
+    expect(stats2.hasValues()).toEqual(false);
   });
 
-  it('isEmptyItems: has values', () => {
+  it('hasValues: has values', () => {
     const stats1: Stats = new Stats(StatsID.of(UUID.of('14351289-d8ce-48cd-8ef9-ac1b356c9233')), Language.default(), Region.default(), Term.DAILY, 'stats1', moment('2000-01-01'), [
       new StatsItem(StatsItemID.of(UUID.of('bf04b0fa-ed4d-4114-84a3-c963871dfe06')), 'item1', 'unit1', 1, StatsValues.of([
         StatsValue.of(moment('2000-01-01'), 1)
       ]))
     ]);
 
-    expect(stats1.isEmptyItems()).toEqual(false);
+    expect(stats1.hasValues()).toEqual(true);
   });
 });

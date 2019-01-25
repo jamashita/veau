@@ -195,13 +195,13 @@ export class Stats extends Entity<StatsID> {
     this.items[row].delete(asOf);
   }
 
-  public isEmptyItems(): boolean {
+  public hasValues(): boolean {
     const {
       items
     } = this;
 
     if (items.length === 0) {
-      return true;
+      return false;
     }
 
     const rowLengths: Array<number> = items.map<number>((item: StatsItem) => {
@@ -211,10 +211,10 @@ export class Stats extends Entity<StatsID> {
     const values: number = Math.max(...rowLengths);
 
     if (values === 0) {
-      return true;
+      return false;
     }
 
-    return false;
+    return true;
   }
 
   public isFilled(): boolean {

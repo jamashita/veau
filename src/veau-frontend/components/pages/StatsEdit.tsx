@@ -3,7 +3,7 @@ import {
   Button,
   Card,
   CardContent,
-  CardHeader, Dialog, DialogActions, DialogContent, DialogTitle,
+  CardHeader,
   FormControl,
   Icon,
   InputLabel,
@@ -18,8 +18,8 @@ import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
 import { Props } from '../../containers/pages/StatsEdit';
 import { Authenticated } from '../../containers/templates/Authenticated';
-import { I18NLabel } from '../atoms/I18NLabel';
 import { TextField } from '../atoms/TextField';
+import { StatsItemModal } from '../molecules/StatsItemModal';
 
 type State = {
 };
@@ -40,6 +40,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
       statsItem,
       localeRepository,
       open,
+      // startDate,
       intl
     } = this.props;
 
@@ -198,57 +199,15 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
             </Button>
           </CardContent>
         </Card>
-        <Dialog
+        <StatsItemModal
           open={open}
-          onClose={this.props.closeNewItemModal}
-          fullWidth={true}
-          maxWidth='md'
-        >
-          <DialogTitle>
-            {intl.formatMessage({
-              id: 'CREATE_NEW_ITEM'
-            })}
-          </DialogTitle>
-          <DialogContent>
-            <TextField
-              label={intl.formatMessage({
-                id: 'NAME'
-              })}
-              type='text'
-              value={statsItem.getName()}
-              onKeyUp={this.props.itemNameTyped}
-            />
-            <TextField
-              label={intl.formatMessage({
-                id: 'UNIT'
-              })}
-              type='text'
-              value={statsItem.getUnit()}
-              onKeyUp={this.props.itemUnitTyped}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button
-              color='secondary'
-              onClick={this.props.saveNewItem}
-              disabled={!statsItem.isFilled()}
-            >
-              <Icon className='fas fa-check' />
-              <I18NLabel
-                id='SUBMIT'
-              />
-            </Button>
-            <Button
-              color='secondary'
-              onClick={this.props.closeNewItemModal}
-            >
-              <Icon className='fas fa-times' />
-              <I18NLabel
-                id='CANCEL'
-              />
-            </Button>
-          </DialogActions>
-        </Dialog>
+          statsItem={statsItem}
+          closeNewItemModal={this.props.closeNewItemModal}
+          itemNameTyped={this.props.itemNameTyped}
+          itemUnitTyped={this.props.itemUnitTyped}
+          startDateChanged={this.props.startDateChanged}
+          saveNewItem={this.props.saveNewItem}
+        />
       </Authenticated>
     );
   }
