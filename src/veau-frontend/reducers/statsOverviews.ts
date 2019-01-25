@@ -9,6 +9,10 @@ export const statsOverviews: (stats: Array<StatsOverview>, action: Action) => Ar
     case ACTION.STATS_OVERVIEW_UPDATE: {
       return action.statsOverviews;
     }
+    case ACTION.STATS_OVERVIEW_RESET: {
+      return [
+      ];
+    }
     default: {
       return state;
     }

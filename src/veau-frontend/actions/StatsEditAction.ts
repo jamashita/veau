@@ -2,6 +2,8 @@ import {
   ACTION,
   StatsEditCloseItemModalAction,
   StatsEditDataFilledAction,
+  StatsEditItemNameTypedAction,
+  StatsEditItemUnitTypedAction,
   StatsEditLanguageSelectedAction,
   StatsEditNameTypedAction,
   StatsEditNewItemAction,
@@ -58,5 +60,19 @@ export const newItem: () => StatsEditNewItemAction = (): StatsEditNewItemAction 
 export const closeItemModal: () => StatsEditCloseItemModalAction = (): StatsEditCloseItemModalAction => {
   return {
     type: ACTION.STATS_EDIT_CLOSE_ITEM_MODAL
+  };
+};
+
+export const itemNameTyped: (name: string) => StatsEditItemNameTypedAction = (name: string): StatsEditItemNameTypedAction => {
+  return {
+    type: ACTION.STATS_EDIT_ITEM_NAME_TYPED,
+    name
+  };
+};
+
+export const itemUnitTyped: (unit: string) => StatsEditItemUnitTypedAction = (unit: string): StatsEditItemUnitTypedAction => {
+  return {
+    type: ACTION.STATS_EDIT_ITEM_UNIT_TYPED,
+    unit
   };
 };

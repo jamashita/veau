@@ -8,6 +8,9 @@ export const stats: (state: Stats, action: Action) => Stats = (state: Stats = in
     case ACTION.STATS_UPDATE: {
       return action.stats;
     }
+    case ACTION.STATS_RESET: {
+      return Stats.default();
+    }
     default: {
       return state;
     }

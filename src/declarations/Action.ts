@@ -1,6 +1,7 @@
 import { RouterState } from 'connected-react-router';
 import { Action as ReduxAction } from 'redux';
 import { Stats } from '../veau-entity/Stats';
+import { StatsItem } from '../veau-entity/StatsItem';
 import { StatsOverview } from '../veau-entity/StatsOverview';
 import { EntranceInformation } from '../veau-vo/EntranceInformation';
 import { Identity } from '../veau-vo/Identity';
@@ -58,9 +59,15 @@ export enum ACTION {
   STATS_EDIT_DATA_FILLED = 'STATS_EDIT_DATA_FILLED',
   STATS_EDIT_NEW_ITEM = 'STATS_EDIT_NEW_ITEM',
   STATS_EDIT_CLOSE_ITEM_MODAL = 'STATS_EDIT_CLOSE_ITEM_MODAL',
+  STATS_EDIT_ITEM_NAME_TYPED = 'STATS_EDIT_ITEM_NAME_TYPED',
+  STATS_EDIT_ITEM_UNIT_TYPED = 'STATS_EDIT_ITEM_UNIT_TYPED',
 
   STATS_OVERVIEW_UPDATE = 'STATS_OVERVIEW_UPDATE',
-  STATS_UPDATE = 'STATS_UPDATE'
+  STATS_OVERVIEW_RESET = 'STATS_OVERVIEW_RESET',
+  STATS_UPDATE = 'STATS_UPDATE',
+  STATS_RESET = 'STATS_RESET',
+  STATS_ITEM_UPDATE = 'STATS_ITEM_UPDATE',
+  STATS_ITEM_RESET = 'STATS_ITEM_RESET'
 }
 
 export interface LocationChangeAction extends ReduxAction {
@@ -195,13 +202,34 @@ export interface StatsEditNewItemAction extends ReduxAction {
 export interface StatsEditCloseItemModalAction extends ReduxAction {
   type: ACTION.STATS_EDIT_CLOSE_ITEM_MODAL;
 }
+export interface StatsEditItemNameTypedAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_ITEM_NAME_TYPED;
+  name: string;
+}
+export interface StatsEditItemUnitTypedAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_ITEM_UNIT_TYPED;
+  unit: string;
+}
 export interface StatsOverviewUpdateAction extends ReduxAction {
   type: ACTION.STATS_OVERVIEW_UPDATE;
   statsOverviews: Array<StatsOverview>;
 }
+export interface StatsOverviewResetAction extends ReduxAction {
+  type: ACTION.STATS_OVERVIEW_RESET;
+}
 export interface StatsUpdateAction extends ReduxAction {
   type: ACTION.STATS_UPDATE;
   stats: Stats;
+}
+export interface StatsResetAction extends ReduxAction {
+  type: ACTION.STATS_RESET;
+}
+export interface StatsItemUpdateAction extends ReduxAction {
+  type: ACTION.STATS_ITEM_UPDATE;
+  statsItem: StatsItem;
+}
+export interface StatsItemResetAction extends ReduxAction {
+  type: ACTION.STATS_ITEM_RESET;
 }
 
 export type Action =
@@ -241,6 +269,12 @@ export type Action =
   | StatsEditDataFilledAction
   | StatsEditNewItemAction
   | StatsEditCloseItemModalAction
+  | StatsEditItemNameTypedAction
+  | StatsEditItemUnitTypedAction
   | StatsOverviewUpdateAction
+  | StatsOverviewResetAction
   | StatsUpdateAction
+  | StatsResetAction
+  | StatsItemUpdateAction
+  | StatsItemResetAction
   ;

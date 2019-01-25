@@ -10,6 +10,7 @@ import { modal } from './modal';
 import { pageProvider } from './pageProvider';
 import { stats } from './stats';
 import { statsEdit } from './statsEdit';
+import { statsItem } from './statsItem';
 import { statsList } from './statsList';
 import { statsOverviews } from './statsOverviews';
 
@@ -22,6 +23,7 @@ export const reducers: Reducer<State> = combineReducers({
   pageProvider,
   stats,
   statsEdit,
+  statsItem,
   statsList,
   statsOverviews,
   router: connectRouter(history)

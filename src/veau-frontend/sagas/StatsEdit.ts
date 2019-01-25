@@ -1,16 +1,19 @@
 import { fork, take, select, put } from 'redux-saga/effects';
 import {
-  ACTION, StatsEditDataFilledAction,
+  ACTION, StatsEditDataFilledAction, StatsEditItemNameTypedAction, StatsEditItemUnitTypedAction,
   StatsEditLanguageSelectedAction,
   StatsEditNameTypedAction,
   StatsEditRegionSelectedAction, StatsEditTermSelectedActoin
 } from '../../declarations/Action';
 import { State } from '../../declarations/State';
 import { Stats } from '../../veau-entity/Stats';
+import { StatsItem } from '../../veau-entity/StatsItem';
 import { StatsFactory } from '../../veau-factory/StatsFactory';
-import { updateStats } from '../actions/StatsAction';
+import { StatsItemFactory } from '../../veau-factory/StatsItemFactory';
+import { updateStats, updateStatsItem } from '../actions/StatsAction';
 
 const statsFactory: StatsFactory = StatsFactory.getInstance();
+const statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
 
 export class StatsEdit {
 
@@ -20,6 +23,8 @@ export class StatsEdit {
     yield fork(StatsEdit.regionSelected);
     yield fork(StatsEdit.termSelected);
     yield fork(StatsEdit.dataFilled);
+    yield fork(StatsEdit.itemNameTyped);
+    yield fork(StatsEdit.itemUnitTyped);
   }
 
   private static *nameTyped(): IterableIterator<any> {
@@ -95,6 +100,34 @@ export class StatsEdit {
       stats.setData(row, column, value);
       const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUpdatedAt(), stats.getItems());
       yield put(updateStats(newStats));
+    }
+  }
+
+  private static *itemNameTyped(): IterableIterator<any> {
+    while (true) {
+      const action: StatsEditItemNameTypedAction = yield take(ACTION.STATS_EDIT_ITEM_NAME_TYPED);
+      const state: State = yield select();
+
+      const {
+        statsItem
+      } = state;
+
+      const newStatsItem: StatsItem = statsItemFactory.from(statsItem.getStatsItemID(), action.name, statsItem.getUnit(), statsItem.getSeq(), statsItem.getValues());
+      yield put(updateStatsItem(newStatsItem));
+    }
+  }
+
+  private static *itemUnitTyped(): IterableIterator<any> {
+    while (true) {
+      const action: StatsEditItemUnitTypedAction = yield take(ACTION.STATS_EDIT_ITEM_UNIT_TYPED);
+      const state: State = yield select();
+
+      const {
+        statsItem
+      } = state;
+
+      const newStatsItem: StatsItem = statsItemFactory.from(statsItem.getStatsItemID(), statsItem.getName(), action.unit, statsItem.getSeq(), statsItem.getValues());
+      yield put(updateStatsItem(newStatsItem));
     }
   }
 }

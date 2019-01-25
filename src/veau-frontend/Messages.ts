@@ -14,6 +14,7 @@ export type Messages = {
   REGION: string;
   TERM: string;
   UPDATED_AT: string;
+  UNIT: string;
 
   DAILY: string;
   WEEKLY: string;
@@ -43,6 +44,7 @@ export type Messages = {
   ADD_NEXT_VALUE: string;
   ADD_PREVIOUS_VALUE: string;
   ADD_NEW_ITEM: string;
+  CREATE_NEW_ITEM: string;
 
   AUTHENTICATION_FAILED: string;
   AUTHENTICATION_FAILED_DESCRIPTION: string;
@@ -71,6 +73,7 @@ const en: Messages = {
   REGION: 'Region',
   TERM: 'Term',
   UPDATED_AT: 'Updated at',
+  UNIT: 'Unit',
 
   DAILY: 'Daily',
   WEEKLY: 'Weekly',
@@ -100,6 +103,7 @@ const en: Messages = {
   ADD_NEXT_VALUE: 'Add next value',
   ADD_PREVIOUS_VALUE: 'Add previous value',
   ADD_NEW_ITEM: 'Add new item',
+  CREATE_NEW_ITEM: 'Create new statistics item',
 
   AUTHENTICATION_FAILED: 'Authentication failed',
   AUTHENTICATION_FAILED_DESCRIPTION: 'Account or Password is incorrect. Please check them again.',
@@ -128,6 +132,7 @@ const fr: Messages = {
   REGION: 'Région',
   TERM: 'Terme',
   UPDATED_AT: 'Mis à jour à',
+  UNIT: 'Unité',
 
   DAILY: 'Quotidien',
   WEEKLY: 'Hebdomadaire',
@@ -157,6 +162,7 @@ const fr: Messages = {
   ADD_NEXT_VALUE: 'Ajouter la valeur suivante',
   ADD_PREVIOUS_VALUE: 'Ajouter la valeur précédente',
   ADD_NEW_ITEM: 'Ajouter le nouvel élément',
+  CREATE_NEW_ITEM: 'Créer un nouvel élément de statistiques',
 
   AUTHENTICATION_FAILED: 'Authentification échouée',
   AUTHENTICATION_FAILED_DESCRIPTION: 'Compte ou mot de passe est incorrect. Les vérifier à nouveau s\'il vous plaît.',
@@ -185,6 +191,7 @@ const es: Messages = {
   REGION: 'Región',
   TERM: 'Término',
   UPDATED_AT: 'Actualizado en',
+  UNIT: 'Unidad',
 
   DAILY: 'Diario',
   WEEKLY: 'Semanal',
@@ -214,6 +221,7 @@ const es: Messages = {
   ADD_NEXT_VALUE: 'Añadir siguiente valor',
   ADD_PREVIOUS_VALUE: 'Añadir valor anterior',
   ADD_NEW_ITEM: 'Añadir ítem nuevo',
+  CREATE_NEW_ITEM: 'Crear nuevo ítem de estadísticas',
 
   AUTHENTICATION_FAILED: 'Autenticación fallida',
   AUTHENTICATION_FAILED_DESCRIPTION: 'La cuenta o contraseña es incorrecta. Revísalos nuevamente por favor.',
@@ -242,6 +250,7 @@ const ja: Messages = {
   REGION: '地域',
   TERM: '期間',
   UPDATED_AT: '更新日',
+  UNIT: '単位',
 
   DAILY: '日次',
   WEEKLY: '週次',
@@ -271,6 +280,7 @@ const ja: Messages = {
   ADD_NEXT_VALUE: '次の値を追加',
   ADD_PREVIOUS_VALUE: '前の値を追加',
   ADD_NEW_ITEM: '新しい項目を追加',
+  CREATE_NEW_ITEM: 'Create new statistics item',
 
   AUTHENTICATION_FAILED: '認証に失敗しました',
   AUTHENTICATION_FAILED_DESCRIPTION: 'アカウントまたはパスワードが正しくありません。もう一度確認してください。',

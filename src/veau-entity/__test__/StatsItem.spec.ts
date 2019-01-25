@@ -67,4 +67,16 @@ describe('StatsItem', () => {
       '3'
     ]);
   });
+
+  it('isFilled', () => {
+    const statsItem1: StatsItem = new StatsItem(StatsItemID.of(UUID.of('5ee0c273-c26f-432f-9217-d6a7b481a073')), '', 'unit', 0, StatsValues.of([]));
+    const statsItem2: StatsItem = new StatsItem(StatsItemID.of(UUID.of('5ee0c273-c26f-432f-9217-d6a7b481a073')), 'name', '', 0, StatsValues.of([]));
+    const statsItem3: StatsItem = new StatsItem(StatsItemID.of(UUID.of('5ee0c273-c26f-432f-9217-d6a7b481a073')), '', '', 0, StatsValues.of([]));
+    const statsItem4: StatsItem = new StatsItem(StatsItemID.of(UUID.of('5ee0c273-c26f-432f-9217-d6a7b481a073')), 'name', 'unit', 0, StatsValues.of([]));
+
+    expect(statsItem1.isFilled()).toEqual(false);
+    expect(statsItem2.isFilled()).toEqual(false);
+    expect(statsItem3.isFilled()).toEqual(false);
+    expect(statsItem4.isFilled()).toEqual(true);
+  });
 });

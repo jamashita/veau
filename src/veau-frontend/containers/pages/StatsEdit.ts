@@ -3,12 +3,13 @@ import { Dispatch } from 'redux';
 import { Action } from '../../../declarations/Action';
 import { State } from '../../../declarations/State';
 import { Stats } from '../../../veau-entity/Stats';
+import { StatsItem } from '../../../veau-entity/StatsItem';
 import { LocaleRepository } from '../../../veau-repository/LocaleRepository';
 import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
 import { Term } from '../../../veau-vo/Term';
 import {
-  closeItemModal,
+  closeItemModal, itemNameTyped, itemUnitTyped,
   newItem,
   statsDataFilled,
   statsLanguageSelected,
@@ -21,6 +22,7 @@ import { StatsEdit as Component } from '../../components/pages/StatsEdit';
 type StateProps = {
   stats: Stats;
   localeRepository: LocaleRepository;
+  statsItem: StatsItem;
   open: boolean;
 };
 type DispatchProps = {
@@ -30,7 +32,10 @@ type DispatchProps = {
   regionSelected: (region: Region) => void;
   termSelected: (term: Term) => void;
   newItemButtonClicked: () => void;
-  closeModal: () => void;
+  closeNewItemModal: () => void;
+  itemNameTyped: (name: string) => void;
+  itemUnitTyped: (unit: string) => void;
+  saveNewItem: () => void;
 };
 type OwnProps = {
 };
@@ -40,6 +45,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
   const {
     stats,
     localeRepository,
+    statsItem,
     statsEdit: {
       open
     }
@@ -48,6 +54,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
   return {
     stats,
     localeRepository,
+    statsItem,
     open
   };
 };
@@ -72,8 +79,17 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
     newItemButtonClicked: (): void => {
       dispatch(newItem());
     },
-    closeModal: (): void => {
+    closeNewItemModal: (): void => {
       dispatch(closeItemModal());
+    },
+    itemNameTyped: (name: string): void => {
+      dispatch(itemNameTyped(name));
+    },
+    itemUnitTyped: (unit: string): void => {
+      dispatch(itemUnitTyped(unit));
+    },
+    saveNewItem: (): void => {
+      console.log('saved');
     }
   };
 };

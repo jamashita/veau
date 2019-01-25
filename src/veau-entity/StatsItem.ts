@@ -2,6 +2,7 @@ import * as moment from 'moment';
 import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsValue, StatsValueJSON } from '../veau-vo/StatsValue';
 import { StatsValues } from '../veau-vo/StatsValues';
+import { UUID } from '../veau-vo/UUID';
 import { Entity } from './Entity';
 
 export type StatsItemJSON = {
@@ -25,6 +26,10 @@ export class StatsItem extends Entity<StatsItemID> {
   private unit: string;
   private seq: number;
   private values: StatsValues;
+
+  public static default(): StatsItem {
+    return new StatsItem(StatsItemID.of(UUID.generate()), '', '', 0, StatsValues.of([]));
+  }
 
   public constructor(statsItemID: StatsItemID, name: string, unit: string, seq: number, values: StatsValues) {
     super();
@@ -92,6 +97,22 @@ export class StatsItem extends Entity<StatsItemID> {
   public setValue(asOf: moment.Moment, value: number): void {
     const statsValue: StatsValue = StatsValue.of(asOf, value);
     this.values.setStatsValue(statsValue);
+  }
+
+  public isFilled(): boolean {
+    const {
+      name,
+      unit
+    } = this;
+
+    if (name === '') {
+      return false;
+    }
+    if (unit === '') {
+      return false;
+    }
+
+    return true;
   }
 
   public toJSON(): StatsItemJSON {
