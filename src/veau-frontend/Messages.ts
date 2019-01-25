@@ -15,6 +15,7 @@ export type Messages = {
   TERM: string;
   UPDATED_AT: string;
   UNIT: string;
+  START_DATE: string;
 
   DAILY: string;
   WEEKLY: string;
@@ -72,6 +73,7 @@ const en: Messages = {
   TERM: 'Term',
   UPDATED_AT: 'Updated at',
   UNIT: 'Unit',
+  START_DATE: 'Start date',
 
   DAILY: 'Daily',
   WEEKLY: 'Weekly',
@@ -129,6 +131,7 @@ const fr: Messages = {
   TERM: 'Terme',
   UPDATED_AT: 'Mis à jour à',
   UNIT: 'Unité',
+  START_DATE: 'Date de débuta',
 
   DAILY: 'Quotidien',
   WEEKLY: 'Hebdomadaire',
@@ -186,6 +189,7 @@ const es: Messages = {
   TERM: 'Término',
   UPDATED_AT: 'Actualizado en',
   UNIT: 'Unidad',
+  START_DATE: 'Fecha de inicio',
 
   DAILY: 'Diario',
   WEEKLY: 'Semanal',
@@ -243,6 +247,7 @@ const ja: Messages = {
   TERM: '期間',
   UPDATED_AT: '更新日',
   UNIT: '単位',
+  START_DATE: '開始日',
 
   DAILY: '日次',
   WEEKLY: '週次',

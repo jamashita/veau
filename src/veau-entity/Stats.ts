@@ -195,6 +195,28 @@ export class Stats extends Entity<StatsID> {
     this.items[row].delete(asOf);
   }
 
+  public isEmptyItems(): boolean {
+    const {
+      items
+    } = this;
+
+    if (items.length === 0) {
+      return true;
+    }
+
+    const rowLengths: Array<number> = items.map<number>((item: StatsItem) => {
+      return item.getValues().get().length;
+    });
+
+    const values: number = Math.max(...rowLengths);
+
+    if (values === 0) {
+      return true;
+    }
+
+    return false;
+  }
+
   public isFilled(): boolean {
     const {
       language,
