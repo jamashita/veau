@@ -1,16 +1,18 @@
 import { call, fork, put, select, take } from 'redux-saga/effects';
+import * as request from 'superagent';
 import {
-  ACTION, StatsListISO3166SelectedAction, StatsListISO639SelectedAction,
+  ACTION, LocationChangeAction, StatsListISO3166SelectedAction, StatsListISO639SelectedAction,
   StatsListNameTypedAction,
   StatsListTermSelectedAction
 } from '../../declarations/Action';
 import { State } from '../../declarations/State';
-import { StatsOverview } from '../../veau-entity/StatsOverview';
+import { StatsOverview, StatsOverviewJSON } from '../../veau-entity/StatsOverview';
 import { StatsOverviewFactory } from '../../veau-factory/StatsOverviewFactory';
 import { AJAX } from '../../veau-general/AJAX';
 import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
 import { pushToStatsEdit } from '../actions/RedirectAction';
+import { updateStatsOverviews } from '../actions/StatsAction';
 import { closeNewStatsModal, renewStatsOverview, resetNewStats } from '../actions/StatsListAction';
 
 const statsOverviewFactory: StatsOverviewFactory = StatsOverviewFactory.getInstance();
@@ -18,11 +20,29 @@ const statsOverviewFactory: StatsOverviewFactory = StatsOverviewFactory.getInsta
 export class StatsList {
 
   public static *init(): IterableIterator<any> {
+    yield fork(StatsList.findStatsList);
     yield fork(StatsList.nameTyped);
     yield fork(StatsList.iso639Selected);
     yield fork(StatsList.iso3166Selected);
     yield fork(StatsList.termSelected);
     yield fork(StatsList.save);
+  }
+
+  private static *findStatsList(): IterableIterator<any> {
+    while (true) {
+      const action: LocationChangeAction = yield take(ACTION.LOCATION_CHANGE);
+      const path: string = action.payload.location.pathname;
+
+      if (path === '/statistics/list') {
+        const res: request.Response = yield call(AJAX.get, '/api/stats/overview/1');
+        const statsOverviewJSONs: Array<StatsOverviewJSON> = res.body;
+        const statsOverviews: Array<StatsOverview> = statsOverviewJSONs.map<StatsOverview>((json: StatsOverviewJSON) => {
+          return statsOverviewFactory.fromJSON(json);
+        });
+
+        yield put(updateStatsOverviews(statsOverviews));
+      }
+    }
   }
 
   private static *nameTyped(): IterableIterator<any> {

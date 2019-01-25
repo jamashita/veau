@@ -1,23 +1,28 @@
-import { fork, take, select, put } from 'redux-saga/effects';
+import { call, fork, put, select, take } from 'redux-saga/effects';
+import * as request from 'superagent';
 import {
-  ACTION, StatsEditDataFilledAction, StatsEditItemNameTypedAction, StatsEditItemUnitTypedAction,
+  ACTION, LocationChangeAction, StatsEditDataFilledAction, StatsEditItemNameTypedAction, StatsEditItemUnitTypedAction,
   StatsEditLanguageSelectedAction,
   StatsEditNameTypedAction,
   StatsEditRegionSelectedAction, StatsEditTermSelectedActoin
 } from '../../declarations/Action';
 import { State } from '../../declarations/State';
-import { Stats } from '../../veau-entity/Stats';
+import { Stats, StatsJSON } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { StatsFactory } from '../../veau-factory/StatsFactory';
 import { StatsItemFactory } from '../../veau-factory/StatsItemFactory';
+import { AJAX } from '../../veau-general/AJAX';
 import { updateStats, updateStatsItem } from '../actions/StatsAction';
 
 const statsFactory: StatsFactory = StatsFactory.getInstance();
 const statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
 
+const STATS_EDIT_PREFIX: string = '/statistics/edit/';
+
 export class StatsEdit {
 
   public static *init(): IterableIterator<any> {
+    yield fork(StatsEdit.findStats);
     yield fork(StatsEdit.nameTyped);
     yield fork(StatsEdit.langaugeSelected);
     yield fork(StatsEdit.regionSelected);
@@ -25,6 +30,22 @@ export class StatsEdit {
     yield fork(StatsEdit.dataFilled);
     yield fork(StatsEdit.itemNameTyped);
     yield fork(StatsEdit.itemUnitTyped);
+  }
+
+  private static *findStats(): IterableIterator<any> {
+    while (true) {
+      const action: LocationChangeAction = yield take(ACTION.LOCATION_CHANGE);
+      const path: string = action.payload.location.pathname;
+
+      if (path.startsWith(STATS_EDIT_PREFIX)) {
+        const statsID: string = path.replace(STATS_EDIT_PREFIX, '');
+        const res: request.Response = yield call(AJAX.get, `/api/stats/${statsID}`);
+        const statsJSON: StatsJSON = res.body;
+        const stats: Stats = statsFactory.fromJSON(statsJSON);
+
+        yield put(updateStats(stats));
+      }
+    }
   }
 
   private static *nameTyped(): IterableIterator<any> {
