@@ -5,7 +5,7 @@ const initialState: EntranceInformation = EntranceInformation.default();
 
 export const entranceInformation: (state: EntranceInformation, action: Action) => EntranceInformation = (state: EntranceInformation = initialState, action: Action): EntranceInformation => {
   switch (action.type) {
-    case ACTION.IDENTITY_AUTHENTICATED: {
+    case ACTION.IDENTITY_IDENTIFIED: {
       return EntranceInformation.default();
     }
     case ACTION.ENTRANCE_LOGIN_INFO_UPDATE: {
