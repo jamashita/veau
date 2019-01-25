@@ -9,8 +9,8 @@ import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
 import { Term } from '../../../veau-vo/Term';
 import {
-  closeItemModal, itemNameTyped, itemUnitTyped,
-  newItem, saveItem, statsDataDeleted,
+  itemNameTyped, itemStartDateChanged, itemUnitTyped,
+  saveItem, statsDataDeleted,
   statsDataFilled,
   statsLanguageSelected,
   statsNameTyped,
@@ -23,7 +23,7 @@ type StateProps = {
   stats: Stats;
   localeRepository: LocaleRepository;
   statsItem: StatsItem;
-  open: boolean;
+  startDate: string;
 };
 type DispatchProps = {
   dataFilled: (row: number, column: number, value: number) => void;
@@ -32,10 +32,9 @@ type DispatchProps = {
   languageSelected: (language: Language) => void;
   regionSelected: (region: Region) => void;
   termSelected: (term: Term) => void;
-  newItemButtonClicked: () => void;
-  closeNewItemModal: () => void;
   itemNameTyped: (name: string) => void;
   itemUnitTyped: (unit: string) => void;
+  startDateChanged: (startDate: string) => void;
   saveNewItem: () => void;
 };
 type OwnProps = {
@@ -48,7 +47,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
     localeRepository,
     statsItem,
     statsEdit: {
-      open
+      startDate
     }
   } = state;
 
@@ -56,7 +55,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
     stats,
     localeRepository,
     statsItem,
-    open
+    startDate
   };
 };
 
@@ -80,17 +79,14 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
     termSelected: (term: Term): void => {
       dispatch(statsTermSelected(term));
     },
-    newItemButtonClicked: (): void => {
-      dispatch(newItem());
-    },
-    closeNewItemModal: (): void => {
-      dispatch(closeItemModal());
-    },
     itemNameTyped: (name: string): void => {
       dispatch(itemNameTyped(name));
     },
     itemUnitTyped: (unit: string): void => {
       dispatch(itemUnitTyped(unit));
+    },
+    startDateChanged: (startDate: string): void => {
+      dispatch(itemStartDateChanged(startDate));
     },
     saveNewItem: (): void => {
       dispatch(saveItem());

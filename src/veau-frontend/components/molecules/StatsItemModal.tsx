@@ -1,6 +1,6 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon } from '@material-ui/core';
 import * as React from 'react';
-import { injectIntl, InjectedIntlProps } from 'react-intl';
+import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { StatsItem } from '../../../veau-entity/StatsItem';
 import { I18NLabel } from '../atoms/I18NLabel';
 import { TextField } from '../atoms/TextField';

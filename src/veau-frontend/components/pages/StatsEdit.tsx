@@ -22,6 +22,7 @@ import { TextField } from '../atoms/TextField';
 import { StatsItemModal } from '../molecules/StatsItemModal';
 
 type State = {
+  openNewStatsItemModal: boolean;
 };
 
 const ROW_INDEX: number = 0;
@@ -29,6 +30,13 @@ const COLUMN_INDEX: number = 1;
 const VALUE_INDEX: number = 3;
 
 export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, State> {
+
+  public constructor(props: Props & InjectedIntlProps) {
+    super(props);
+    this.state = {
+      openNewStatsItemModal: false
+    };
+  }
 
   public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
     return true;
@@ -39,10 +47,12 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
       stats,
       statsItem,
       localeRepository,
-      open,
       // startDate,
       intl
     } = this.props;
+    const {
+      openNewStatsItemModal
+    } = this.state;
 
     return (
       <Authenticated>
@@ -188,7 +198,11 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
             <Button
               color='primary'
               fullWidth={true}
-              onClick={this.props.newItemButtonClicked}
+              onClick={(): void => {
+                this.setState({
+                  openNewStatsItemModal: true
+                });
+              }}
             >
               <Icon
                 className='fas fa-plus-square'
@@ -200,13 +214,22 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
           </CardContent>
         </Card>
         <StatsItemModal
-          open={open}
+          open={openNewStatsItemModal}
           statsItem={statsItem}
-          closeNewItemModal={this.props.closeNewItemModal}
+          closeNewItemModal={(): void => {
+            this.setState({
+              openNewStatsItemModal: false
+            });
+          }}
           itemNameTyped={this.props.itemNameTyped}
           itemUnitTyped={this.props.itemUnitTyped}
           startDateChanged={this.props.startDateChanged}
-          saveNewItem={this.props.saveNewItem}
+          saveNewItem={() => {
+            this.setState({
+              openNewStatsItemModal: false
+            });
+            this.props.saveNewItem();
+          }}
         />
       </Authenticated>
     );

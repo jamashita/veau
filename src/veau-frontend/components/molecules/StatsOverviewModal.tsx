@@ -10,7 +10,7 @@ import {
   Select
 } from '@material-ui/core';
 import * as React from 'react';
-import {injectIntl, InjectedIntlProps} from 'react-intl';
+import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { StatsOverview } from '../../../veau-entity/StatsOverview';
 import { TermRepository } from '../../../veau-repository/TermRepository';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
