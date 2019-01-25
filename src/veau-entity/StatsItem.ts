@@ -108,7 +108,7 @@ export class StatsItem extends Entity<StatsItemID> {
       name,
       unit,
       seq,
-      values: values.toSJON()
+      values: values.toJSON()
     };
   }
 

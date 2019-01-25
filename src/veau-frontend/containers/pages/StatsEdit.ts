@@ -8,6 +8,7 @@ import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
 import { Term } from '../../../veau-vo/Term';
 import {
+  statsDataFilled,
   statsLanguageSelected,
   statsNameTyped,
   statsRegionSelected,
@@ -45,7 +46,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>): DispatchProps => {
   return {
     dataFilled: (row: number, column: number, value: number): void => {
-      console.log(`row ${row}, col ${column}, value ${value}`);
+      dispatch(statsDataFilled(row, column, value));
     },
     nameTyped: (name: string): void => {
       dispatch(statsNameTyped(name));

@@ -55,6 +55,7 @@ export enum ACTION {
   STATS_EDIT_LANGUAGE_SELECTED = 'STATS_EDIT_LANGUAGE_SELECTED',
   STATS_EDIT_REGION_SELECTED = 'STATS_EDIT_REGION_SELECTED',
   STATS_EDIT_TERM_SELECTED = 'STATS_EDIT_TERM_SELECTED',
+  STATS_EDIT_DATA_FILLED = 'STATS_EDIT_DATA_FILLED',
 
   STATS_OVERVIEW_UPDATE = 'STATS_OVERVIEW_UPDATE',
   STATS_UPDATE = 'STATS_UPDATE'
@@ -180,6 +181,12 @@ export interface StatsEditTermSelectedActoin extends ReduxAction {
   type: ACTION.STATS_EDIT_TERM_SELECTED;
   term: Term;
 }
+export interface StatsEditDataFilledAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_DATA_FILLED;
+  row: number;
+  column: number;
+  value: number;
+}
 export interface StatsOverviewUpdateAction extends ReduxAction {
   type: ACTION.STATS_OVERVIEW_UPDATE;
   statsOverviews: Array<StatsOverview>;
@@ -223,6 +230,7 @@ export type Action =
   | StatsEditLanguageSelectedAction
   | StatsEditRegionSelectedAction
   | StatsEditTermSelectedActoin
+  | StatsEditDataFilledAction
   | StatsOverviewUpdateAction
   | StatsUpdateAction
   ;

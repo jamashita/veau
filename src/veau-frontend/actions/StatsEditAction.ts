@@ -1,5 +1,6 @@
 import {
   ACTION,
+  StatsEditDataFilledAction,
   StatsEditLanguageSelectedAction,
   StatsEditNameTypedAction,
   StatsEditRegionSelectedAction,
@@ -34,5 +35,14 @@ export const statsTermSelected: (term: Term) => StatsEditTermSelectedActoin = (t
   return {
     type: ACTION.STATS_EDIT_TERM_SELECTED,
     term
+  };
+};
+
+export const statsDataFilled: (row: number, column: number, value: number) => StatsEditDataFilledAction = (row: number, column: number, value: number): StatsEditDataFilledAction => {
+  return {
+    type: ACTION.STATS_EDIT_DATA_FILLED,
+    row,
+    column,
+    value
   };
 };

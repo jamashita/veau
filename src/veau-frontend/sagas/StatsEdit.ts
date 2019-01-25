@@ -1,6 +1,6 @@
 import { fork, take, select, put } from 'redux-saga/effects';
 import {
-  ACTION,
+  ACTION, StatsEditDataFilledAction,
   StatsEditLanguageSelectedAction,
   StatsEditNameTypedAction,
   StatsEditRegionSelectedAction, StatsEditTermSelectedActoin
@@ -19,6 +19,7 @@ export class StatsEdit {
     yield fork(StatsEdit.langaugeSelected);
     yield fork(StatsEdit.regionSelected);
     yield fork(StatsEdit.termSelected);
+    yield fork(StatsEdit.dataFilled);
   }
 
   private static *nameTyped(): IterableIterator<any> {
@@ -73,6 +74,26 @@ export class StatsEdit {
       } = state;
 
       const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), action.term, stats.getName(), stats.getUpdatedAt(), stats.getItems());
+      yield put(updateStats(newStats));
+    }
+  }
+
+  private static *dataFilled(): IterableIterator<any> {
+    while (true) {
+      const action: StatsEditDataFilledAction = yield take(ACTION.STATS_EDIT_DATA_FILLED);
+      const state: State = yield select();
+
+      const {
+        stats
+      } = state;
+      const {
+        row,
+        column,
+        value
+      } = action;
+
+      stats.setData(row, column, value);
+      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUpdatedAt(), stats.getItems());
       yield put(updateStats(newStats));
     }
   }
