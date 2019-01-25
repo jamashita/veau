@@ -42,6 +42,7 @@ export type Messages = {
   STATS_INFO: string;
   ADD_NEXT_VALUE: string;
   ADD_PREVIOUS_VALUE: string;
+  ADD_NEW_ITEM: string;
 
   AUTHENTICATION_FAILED: string;
   AUTHENTICATION_FAILED_DESCRIPTION: string;
@@ -98,6 +99,7 @@ const en: Messages = {
   STATS_INFO: 'Statistics information',
   ADD_NEXT_VALUE: 'Add next value',
   ADD_PREVIOUS_VALUE: 'Add previous value',
+  ADD_NEW_ITEM: 'Add new item',
 
   AUTHENTICATION_FAILED: 'Authentication failed',
   AUTHENTICATION_FAILED_DESCRIPTION: 'Account or Password is incorrect. Please check them again.',
@@ -154,6 +156,7 @@ const fr: Messages = {
   STATS_INFO: 'Informations statistiques',
   ADD_NEXT_VALUE: 'Ajouter la valeur suivante',
   ADD_PREVIOUS_VALUE: 'Ajouter la valeur précédente',
+  ADD_NEW_ITEM: 'Ajouter le nouvel élément',
 
   AUTHENTICATION_FAILED: 'Authentification échouée',
   AUTHENTICATION_FAILED_DESCRIPTION: 'Compte ou mot de passe est incorrect. Les vérifier à nouveau s\'il vous plaît.',
@@ -210,6 +213,7 @@ const es: Messages = {
   STATS_INFO: 'Información estadística',
   ADD_NEXT_VALUE: 'Añadir siguiente valor',
   ADD_PREVIOUS_VALUE: 'Añadir valor anterior',
+  ADD_NEW_ITEM: 'Añadir ítem nuevo',
 
   AUTHENTICATION_FAILED: 'Autenticación fallida',
   AUTHENTICATION_FAILED_DESCRIPTION: 'La cuenta o contraseña es incorrecta. Revísalos nuevamente por favor.',
@@ -266,6 +270,7 @@ const ja: Messages = {
   STATS_INFO: '統計情報',
   ADD_NEXT_VALUE: '次の値を追加',
   ADD_PREVIOUS_VALUE: '前の値を追加',
+  ADD_NEW_ITEM: '新しい項目を追加',
 
   AUTHENTICATION_FAILED: '認証に失敗しました',
   AUTHENTICATION_FAILED_DESCRIPTION: 'アカウントまたはパスワードが正しくありません。もう一度確認してください。',

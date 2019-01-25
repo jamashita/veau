@@ -169,7 +169,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
               fullWidth={true}
             >
               <Icon
-                className='fas fa-chevron-left'
+                className='fas fa-caret-square-left'
               />
               {intl.formatMessage({
                 id: 'ADD_PREVIOUS_VALUE'
@@ -180,10 +180,21 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
               fullWidth={true}
             >
               <Icon
-                className='fas fa-chevron-right'
+                className='fas fa-caret-square-right'
               />
               {intl.formatMessage({
                 id: 'ADD_NEXT_VALUE'
+              })}
+            </Button>
+            <Button
+              color='primary'
+              fullWidth={true}
+            >
+              <Icon
+                className='fas fa-plus-square'
+              />
+              {intl.formatMessage({
+                id: 'ADD_NEW_ITEM'
               })}
             </Button>
           </CardContent>
