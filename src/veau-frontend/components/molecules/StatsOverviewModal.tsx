@@ -41,7 +41,36 @@ const termRepository: TermRepository = TermRepository.getInstance();
 class StatsOverviewModalImpl extends React.Component<Props & InjectedIntlProps, State> {
 
   public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
-    return true;
+    const {
+      open,
+      newStatsOverview,
+      languages,
+      regions
+    } = this.props;
+
+    if (open !== nextProps.open) {
+      return true;
+    }
+    if (newStatsOverview.getName() !== nextProps.newStatsOverview.getName()) {
+      return true;
+    }
+    if (!newStatsOverview.getISO639().equals(nextProps.newStatsOverview.getISO639())) {
+      return true;
+    }
+    if (!newStatsOverview.getISO3166().equals(nextProps.newStatsOverview.getISO3166())) {
+      return true;
+    }
+    if (!newStatsOverview.getTerm().equals(nextProps.newStatsOverview.getTerm())) {
+      return true;
+    }
+    if (languages.length !== nextProps.languages.length) {
+      return true;
+    }
+    if (regions.length !== nextProps.regions.length) {
+      return true;
+    }
+
+    return false;
   }
 
   public render(): React.ReactNode {
