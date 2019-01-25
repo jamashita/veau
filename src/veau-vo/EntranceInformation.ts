@@ -42,6 +42,15 @@ export class EntranceInformation extends ValueObject {
     return true;
   }
 
+  public copy(): EntranceInformation {
+    const {
+      account,
+      password
+    } = this;
+
+    return new EntranceInformation(account, password);
+  }
+
   public equals(other: EntranceInformation): boolean {
     if (this === other) {
       return true;

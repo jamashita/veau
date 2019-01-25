@@ -22,8 +22,7 @@ export class StatsItemRepository implements IStatsItemRepository {
     const query: string = `SELECT
       R1.stats_item_id AS statsItemID,
       R1.name,
-      R1.unit,
-      R1.seq
+      R1.unit
       FROM stats_items R1
       WHERE R1.stats_id = :statsID
       ORDER BY R1.seq;`;

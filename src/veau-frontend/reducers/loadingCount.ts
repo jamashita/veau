@@ -2,7 +2,9 @@ import { ACTION, Action } from '../../declarations/Action';
 
 export type LoadingCount = number;
 
-export const loadingCount: (state: LoadingCount, action: Action) => LoadingCount = (state: LoadingCount = 0, action: Action): LoadingCount => {
+const initialState: LoadingCount = 0;
+
+export const loadingCount: (state: LoadingCount, action: Action) => LoadingCount = (state: LoadingCount = initialState, action: Action): LoadingCount => {
   switch (action.type) {
     case ACTION.LOADING_START: {
       return state + 1;
