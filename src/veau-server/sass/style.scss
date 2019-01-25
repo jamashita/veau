@@ -22,9 +22,9 @@ $neat-grid: (
 }
 
 .stats-items-edit {
-  @include grid-column(13);
+  @include grid-column(14);
 }
 
 .stats-edit {
-  @include grid-column(5);
+  @include grid-column(4);
 }

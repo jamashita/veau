@@ -1,5 +1,15 @@
 import { HotTable } from '@handsontable/react';
-import { Card, CardContent, CardHeader, FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  FormControl,
+  Icon,
+  InputLabel,
+  MenuItem,
+  Select
+} from '@material-ui/core';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
@@ -154,6 +164,28 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
               })}
               disabled={true}
             />
+            <Button
+              color='primary'
+              fullWidth={true}
+            >
+              <Icon
+                className='fas fa-chevron-left'
+              />
+              {intl.formatMessage({
+                id: 'ADD_PREVIOUS_VALUE'
+              })}
+            </Button>
+            <Button
+              color='primary'
+              fullWidth={true}
+            >
+              <Icon
+                className='fas fa-chevron-right'
+              />
+              {intl.formatMessage({
+                id: 'ADD_NEXT_VALUE'
+              })}
+            </Button>
           </CardContent>
         </Card>
       </Authenticated>
