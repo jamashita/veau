@@ -53,11 +53,13 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
           </div>
           <HotTable
             settings={{
-              data: stats.getDataMatrix(),
+              data: stats.getData(),
               colHeaders: stats.getColumn(),
               rowHeaders: stats.getRow(),
               manualRowResize: true,
               manualColumnResize: true,
+              rowHeaderWidth: stats.getRowHeaderSize(),
+              autoColumnSize: true,
               beforeChange: (changes: Array<Array<any>> | null): boolean => {
                 if (changes) {
                   const length: number = changes.length;

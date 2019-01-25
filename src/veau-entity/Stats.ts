@@ -31,6 +31,7 @@ export type StatsRow = {
   updatedAt: string;
 };
 
+const REVISED_VALUE: number = 8;
 const TERM_FORMAT: string = 'YYYY-MM-DD';
 
 export class Stats extends Entity<StatsID> {
@@ -99,8 +100,6 @@ export class Stats extends Entity<StatsID> {
 
     const minTerm: moment.Moment = moment.min(asOfs);
     const maxTerm: moment.Moment = moment.max(asOfs);
-    console.log(`min: ${minTerm}`);
-    console.log(`max: ${maxTerm}`);
     const column: Array<string> = [];
 
     column.push(this.previousTerm(minTerm).format(TERM_FORMAT));
@@ -168,7 +167,15 @@ export class Stats extends Entity<StatsID> {
     });
   }
 
-  public getDataMatrix(): Array<Array<string>> {
+  public getRowHeaderSize(): number {
+    const chars: Array<number> = this.getRow().map<number>((row: string) => {
+      return row.length;
+    });
+
+    return Math.max(...chars) * REVISED_VALUE;
+  }
+
+  public getData(): Array<Array<string>> {
     const column: Array<string> = this.getColumn();
 
     return this.items.map<Array<string>>((statsItem: StatsItem, index: number) => {

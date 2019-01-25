@@ -159,7 +159,7 @@ describe('Stats', () => {
     ]);
   });
 
-  it('getDataMatrix', () => {
+  it('getData', () => {
     const stats: Stats = new Stats(StatsID.of(UUID.of('f330c618-6127-46d1-ba10-a9f6af458b4c')), Language.default(), Region.default(), Term.DAILY, 'stats1', moment('2000-01-01'), [
       new StatsItem(StatsItemID.of(UUID.of('8f7b1783-b09c-4010-aac1-dca1292ee700')), 'stats item 1', 'unit1', 1, StatsValues.of([
         StatsValue.of(moment('2000-01-01'), 1),
@@ -172,7 +172,7 @@ describe('Stats', () => {
       ]))
     ]);
 
-    expect(stats.getDataMatrix()).toEqual([
+    expect(stats.getData()).toEqual([
       ['1', '', '2', '', ''],
       ['2', '4', '', '', '6']
     ])
