@@ -24,12 +24,12 @@ export class StatsValue extends ValueObject {
 
   private constructor(asOf: moment.Moment, value: number) {
     super();
-    this.asOf = moment.utc(asOf);
+    this.asOf = asOf;
     this.value = value;
   }
 
   public getAsOf(): moment.Moment {
-    return moment.utc(this.asOf);
+    return moment(this.asOf);
   }
 
   public getValue(): number {

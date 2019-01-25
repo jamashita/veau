@@ -34,7 +34,7 @@ export class StatsItemFactory {
         value
       } = statsValue;
 
-      return StatsValue.of(moment.utc(asOf), value);
+      return StatsValue.of(moment(asOf), value);
     });
 
     return this.from(StatsItemID.of(UUID.of(statsItemID)), name, unit, seq, StatsValues.of(statsValues));

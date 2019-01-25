@@ -44,7 +44,7 @@ export class Stats extends Entity<StatsID> {
   private column?: Array<string>;
 
   public static default(): Stats {
-    return new Stats(StatsID.of(UUID.of('')), Language.default(), Region.default(), Term.DAILY, '', moment.utc(), []);
+    return new Stats(StatsID.of(UUID.of('')), Language.default(), Region.default(), Term.DAILY, '', moment(), []);
   }
 
   public constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: string, updatedAt: moment.Moment, items: Array<StatsItem>) {
@@ -54,7 +54,7 @@ export class Stats extends Entity<StatsID> {
     this.region = region;
     this.term = term;
     this.name = name;
-    this.updatedAt = moment.utc(updatedAt);
+    this.updatedAt = moment(updatedAt);
     this.items = items;
   }
 
@@ -79,7 +79,7 @@ export class Stats extends Entity<StatsID> {
   }
 
   public getUpdatedAt(): moment.Moment {
-    return moment.utc(this.updatedAt);
+    return moment(this.updatedAt);
   }
 
   public getItems(): Array<StatsItem> {
@@ -124,19 +124,19 @@ export class Stats extends Entity<StatsID> {
     switch (this.term) {
       case Term.DAILY:
       default: {
-        return moment.utc(term.add(1, 'days'));
+        return moment(term.add(1, 'days'));
       }
       case Term.WEEKLY: {
-        return moment.utc(term.add(1, 'weeks'));
+        return moment(term.add(1, 'weeks'));
       }
       case Term.MONTHLY: {
-        return moment.utc(term.add(1, 'months'));
+        return moment(term.add(1, 'months'));
       }
       case Term.QUARTERLY: {
-        return moment.utc(term.add(1, 'quarters'));
+        return moment(term.add(1, 'quarters'));
       }
       case Term.ANNUAL: {
-        return moment.utc(term.add(1, 'years'));
+        return moment(term.add(1, 'years'));
       }
     }
   }
@@ -157,7 +157,7 @@ export class Stats extends Entity<StatsID> {
 
   public setData(row: number, column: number, value: number): void {
     const asOfString: string = this.getColumn()[column];
-    const asOf: moment.Moment = moment.utc(asOfString);
+    const asOf: moment.Moment = moment(asOfString);
     this.items[row].setValue(asOf, value);
   }
 

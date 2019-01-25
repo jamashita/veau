@@ -16,7 +16,7 @@ describe('StatsOverviewFactory', () => {
     const iso3166: ISO3166 = ISO3166.of('AFG');
     const term: Term = Term.DAILY;
     const name: string = 'stats overview';
-    const updatedAt: moment.Moment = moment.utc('2000-01-01');
+    const updatedAt: moment.Moment = moment('2000-01-01');
 
     const statsOverviewFactory: StatsOverviewFactory = StatsOverviewFactory.getInstance();
     const statsOverview: StatsOverview = statsOverviewFactory.from(statsID, iso639, iso3166, term, name, updatedAt);

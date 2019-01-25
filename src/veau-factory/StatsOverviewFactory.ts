@@ -35,7 +35,7 @@ export class StatsOverviewFactory {
 
     const term: Term = termRepository.findByTermID(termID);
 
-    return this.from(StatsID.of(UUID.of(statsID)), ISO639.of(iso639), ISO3166.of(iso3166), term, name, moment.utc(updatedAt));
+    return this.from(StatsID.of(UUID.of(statsID)), ISO639.of(iso639), ISO3166.of(iso3166), term, name, moment(updatedAt));
   }
 
   public fromRow(row: StatsOverviewRow): StatsOverview {
@@ -50,6 +50,6 @@ export class StatsOverviewFactory {
 
     const term: Term = termRepository.findByTermID(termID);
 
-    return this.from(StatsID.of(UUID.of(statsID)), ISO639.of(iso639), ISO3166.of(iso3166), term, name, moment.utc(updatedAt));
+    return this.from(StatsID.of(UUID.of(statsID)), ISO639.of(iso639), ISO3166.of(iso3166), term, name, moment(updatedAt));
   }
 }

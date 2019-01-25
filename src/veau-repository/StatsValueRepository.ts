@@ -39,7 +39,7 @@ export class StatsValueRepository implements IStatsValueRepository {
         value
       } = statsValueRow;
 
-      const statsValue: StatsValue = StatsValue.of(moment.utc(asOf), value);
+      const statsValue: StatsValue = StatsValue.of(moment(asOf), value);
       const statsValues: StatsValues | undefined = valueMap.get(statsItemID);
 
       if (statsValues) {

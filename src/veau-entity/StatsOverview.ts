@@ -35,7 +35,7 @@ export class StatsOverview extends Entity<StatsID> {
   private updatedAt: moment.Moment;
 
   public static default(): StatsOverview {
-    return new StatsOverview(StatsID.of(UUID.generate()), ISO639.defualt(), ISO3166.default(), Term.DAILY, '', moment.utc());
+    return new StatsOverview(StatsID.of(UUID.generate()), ISO639.defualt(), ISO3166.default(), Term.DAILY, '', moment());
   }
 
   public constructor(statsID: StatsID, iso639: ISO639, iso3166: ISO3166, term: Term, name: string, updatedAt: moment.Moment) {
@@ -45,7 +45,7 @@ export class StatsOverview extends Entity<StatsID> {
     this.iso3166 = iso3166;
     this.term = term;
     this.name = name;
-    this.updatedAt = moment.utc(updatedAt);
+    this.updatedAt = moment(updatedAt);
   }
 
   public getStatsID(): StatsID {
@@ -69,7 +69,7 @@ export class StatsOverview extends Entity<StatsID> {
   }
 
   public getUpdatedAt(): moment.Moment {
-    return moment.utc(this.updatedAt);
+    return moment(this.updatedAt);
   }
 
   public getIdentifier(): StatsID {

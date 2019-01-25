@@ -6,9 +6,9 @@ import { StatsValues } from '../StatsValues';
 
 describe('StatsValues', () => {
   it('setStatsValue: update pattern', () => {
-    const statsValue1: StatsValue = StatsValue.of(moment.utc('2000-01-01'), 1);
-    const statsValue2: StatsValue = StatsValue.of(moment.utc('2000-01-02'), 2);
-    const statsValue3: StatsValue = StatsValue.of(moment.utc('2000-01-03'), 3);
+    const statsValue1: StatsValue = StatsValue.of(moment('2000-01-01'), 1);
+    const statsValue2: StatsValue = StatsValue.of(moment('2000-01-02'), 2);
+    const statsValue3: StatsValue = StatsValue.of(moment('2000-01-03'), 3);
 
     const statsValues: StatsValues = StatsValues.of([
       statsValue1,
@@ -16,7 +16,7 @@ describe('StatsValues', () => {
       statsValue3
     ]);
 
-    statsValues.setStatsValue(StatsValue.of(moment.utc('2000-01-02'), 4));
+    statsValues.setStatsValue(StatsValue.of(moment('2000-01-02'), 4));
 
     expect(statsValues.get().length).toEqual(3);
     expect(statsValues.get()[0].getValue()).toEqual(1);
@@ -25,15 +25,15 @@ describe('StatsValues', () => {
   });
 
   it('setStatsValue: insert pattern', () => {
-    const statsValue1: StatsValue = StatsValue.of(moment.utc('2000-01-01'), 1);
-    const statsValue3: StatsValue = StatsValue.of(moment.utc('2000-01-03'), 3);
+    const statsValue1: StatsValue = StatsValue.of(moment('2000-01-01'), 1);
+    const statsValue3: StatsValue = StatsValue.of(moment('2000-01-03'), 3);
 
     const statsValues: StatsValues = StatsValues.of([
       statsValue1,
       statsValue3
     ]);
 
-    statsValues.setStatsValue(StatsValue.of(moment.utc('2000-01-02'), 2));
+    statsValues.setStatsValue(StatsValue.of(moment('2000-01-02'), 2));
 
     expect(statsValues.get().length).toEqual(3);
     expect(statsValues.get()[0].getValue()).toEqual(1);
@@ -42,8 +42,8 @@ describe('StatsValues', () => {
   });
 
   it('equals', () => {
-    const statsValue1: StatsValue = StatsValue.of(moment.utc('2000-01-01'), 1);
-    const statsValue2: StatsValue = StatsValue.of(moment.utc('2000-01-02'), 2);
+    const statsValue1: StatsValue = StatsValue.of(moment('2000-01-01'), 1);
+    const statsValue2: StatsValue = StatsValue.of(moment('2000-01-02'), 2);
 
     const statsValues1: StatsValues = StatsValues.of([
       statsValue1,
