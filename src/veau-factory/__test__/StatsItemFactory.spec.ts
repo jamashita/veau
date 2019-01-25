@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { StatsItem, StatsItemJSON, StatsItemRow } from '../../veau-entity/StatsItem';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
 import { StatsValue } from '../../veau-vo/StatsValue';
+import { StatsValues } from '../../veau-vo/StatsValues';
 import { UUID } from '../../veau-vo/UUID';
 import { StatsItemFactory } from '../StatsItemFactory';
 
@@ -15,15 +16,15 @@ describe('StatsItemFactory', () => {
     const seq: number = 1;
     const asOf: string = '2000-01-01';
     const value: number = 10;
-    const statsValue: StatsValue = StatsValue.of(moment(asOf), value);
+    const statsValue: StatsValue = StatsValue.of(moment.utc(asOf), value);
 
     const statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
-    const statsItem: StatsItem = statsItemFactory.from(statsItemID, name, unit, seq, [statsValue]);
+    const statsItem: StatsItem = statsItemFactory.from(statsItemID, name, unit, seq, StatsValues.of([statsValue]));
 
     expect(statsItem.getStatsItemID().equals(statsItemID)).toEqual(true);
     expect(statsItem.getName()).toEqual(name);
     expect(statsItem.getUnit()).toEqual(unit);
-    expect(statsItem.getValues()).toEqual([
+    expect(statsItem.getValues().get()).toEqual([
       statsValue
     ]);
   });
@@ -53,10 +54,10 @@ describe('StatsItemFactory', () => {
     expect(statsItem.getName()).toEqual(json.name);
     expect(statsItem.getUnit()).toEqual(json.unit);
     expect(statsItem.getSeq()).toEqual(json.seq);
-    expect(statsItem.getValues().length).toEqual(json.values.length);
-    for (let i = 0; i < statsItem.getValues().length; i++) {
-      expect(statsItem.getValues()[i].getAsOf().get('days')).toEqual(moment.utc(json.values[i].asOf).get('days'));
-      expect(statsItem.getValues()[i].getValue()).toEqual(json.values[i].value);
+    expect(statsItem.getValues().length()).toEqual(json.values.length);
+    for (let i = 0; i < statsItem.getValues().length(); i++) {
+      expect(statsItem.getValues().get()[i].getAsOf().get('days')).toEqual(moment.utc(json.values[i].asOf).get('days'));
+      expect(statsItem.getValues().get()[i].getValue()).toEqual(json.values[i].value);
     }
   });
 
@@ -67,11 +68,11 @@ describe('StatsItemFactory', () => {
       unit: 'unit',
       seq: 1
     };
-    const statsValues: Array<StatsValue> = [
-      StatsValue.of(moment('2000-01-01'), 10),
-      StatsValue.of(moment('2000-01-02'), 100),
-      StatsValue.of(moment('2000-01-03'), 1000)
-    ];
+    const statsValues: StatsValues = StatsValues.of([
+      StatsValue.of(moment.utc('2000-01-01'), 10),
+      StatsValue.of(moment.utc('2000-01-02'), 100),
+      StatsValue.of(moment.utc('2000-01-03'), 1000)
+    ]);
 
     const statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
     const statsItem: StatsItem = statsItemFactory.fromRow(row, statsValues);
@@ -81,9 +82,9 @@ describe('StatsItemFactory', () => {
     expect(statsItem.getUnit()).toEqual(row.unit);
     expect(statsItem.getSeq()).toEqual(row.seq);
     expect(statsItem.getValues().length).toEqual(statsValues.length);
-    for (let i = 0; i < statsItem.getValues().length; i++) {
-      expect(statsItem.getValues()[i].getAsOf()).toEqual(statsValues[i].getAsOf());
-      expect(statsItem.getValues()[i].getValue()).toEqual(statsValues[i].getValue());
+    for (let i = 0; i < statsItem.getValues().length(); i++) {
+      expect(statsItem.getValues().get()[i].getAsOf()).toEqual(statsValues.get()[i].getAsOf());
+      expect(statsItem.getValues().get()[i].getValue()).toEqual(statsValues.get()[i].getValue());
     }
   });
 });

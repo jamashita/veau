@@ -7,7 +7,7 @@ import { StatsItem } from '../../veau-entity/StatsItem';
 import {NoSuchElementError} from '../../veau-general/NoSuchElementError';
 import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../../veau-vo/StatsID';
-import { StatsValue } from '../../veau-vo/StatsValue';
+import { StatsValues } from '../../veau-vo/StatsValues';
 import { UUID } from '../../veau-vo/UUID';
 import { StatsRepository } from '../StatsRepository';
 
@@ -147,14 +147,14 @@ describe('StatsRepository', () => {
     expect(items[0].getUnit()).toEqual('unit1');
     expect(items[0].getSeq()).toEqual(1);
 
-    let values: Array<StatsValue> = items[0].getValues();
-    expect(values.length).toEqual(3);
-    expect(values[0].getAsOf().format('YYYY-MM-DD')).toEqual('2000-01-01');
-    expect(values[0].getValue()).toEqual(1);
-    expect(values[1].getAsOf().format('YYYY-MM-DD')).toEqual('2000-01-02');
-    expect(values[1].getValue()).toEqual(2);
-    expect(values[2].getAsOf().format('YYYY-MM-DD')).toEqual('2000-01-03');
-    expect(values[2].getValue()).toEqual(3);
+    let values: StatsValues = items[0].getValues();
+    expect(values.length()).toEqual(3);
+    expect(values.get()[0].getAsOfAsString()).toEqual('2000-01-01');
+    expect(values.get()[0].getValue()).toEqual(1);
+    expect(values.get()[1].getAsOfAsString()).toEqual('2000-01-02');
+    expect(values.get()[1].getValue()).toEqual(2);
+    expect(values.get()[2].getAsOfAsString()).toEqual('2000-01-03');
+    expect(values.get()[2].getValue()).toEqual(3);
 
     expect(items[1].getStatsItemID().get().get()).toEqual('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c');
     expect(items[1].getName()).toEqual('name2');
@@ -162,11 +162,11 @@ describe('StatsRepository', () => {
     expect(items[1].getSeq()).toEqual(2);
 
     values = items[1].getValues();
-    expect(values.length).toEqual(2);
-    expect(values[0].getAsOf().format('YYYY-MM-DD')).toEqual('2001-01-01');
-    expect(values[0].getValue()).toEqual(11);
-    expect(values[1].getAsOf().format('YYYY-MM-DD')).toEqual('2001-01-02');
-    expect(values[1].getValue()).toEqual(12);
+    expect(values.length()).toEqual(2);
+    expect(values.get()[0].getAsOfAsString()).toEqual('2001-01-01');
+    expect(values.get()[0].getValue()).toEqual(11);
+    expect(values.get()[1].getAsOfAsString()).toEqual('2001-01-02');
+    expect(values.get()[1].getValue()).toEqual(12);
 
     expect(items[2].getStatsItemID().get().get()).toEqual('2ac64841-5267-48bc-8952-ba9ad1cb12d7');
     expect(items[2].getName()).toEqual('name3');
@@ -174,7 +174,7 @@ describe('StatsRepository', () => {
     expect(items[2].getSeq()).toEqual(3);
 
     values = items[2].getValues();
-    expect(values.length).toEqual(0);
+    expect(values.length()).toEqual(0);
   });
 
   it('findByStatsID: throws error', () => {

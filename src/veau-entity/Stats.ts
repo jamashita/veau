@@ -54,7 +54,7 @@ export class Stats extends Entity<StatsID> {
     this.region = region;
     this.term = term;
     this.name = name;
-    this.updatedAt = moment(updatedAt);
+    this.updatedAt = moment.utc(updatedAt);
     this.items = items;
   }
 
@@ -79,7 +79,7 @@ export class Stats extends Entity<StatsID> {
   }
 
   public getUpdatedAt(): moment.Moment {
-    return moment(this.updatedAt);
+    return moment.utc(this.updatedAt);
   }
 
   public getItems(): Array<StatsItem> {
@@ -124,19 +124,19 @@ export class Stats extends Entity<StatsID> {
     switch (this.term) {
       case Term.DAILY:
       default: {
-        return moment(term.add(1, 'days'));
+        return moment.utc(term.add(1, 'days'));
       }
       case Term.WEEKLY: {
-        return moment(term.add(1, 'weeks'));
+        return moment.utc(term.add(1, 'weeks'));
       }
       case Term.MONTHLY: {
-        return moment(term.add(1, 'months'));
+        return moment.utc(term.add(1, 'months'));
       }
       case Term.QUARTERLY: {
-        return moment(term.add(1, 'quarters'));
+        return moment.utc(term.add(1, 'quarters'));
       }
       case Term.ANNUAL: {
-        return moment(term.add(1, 'years'));
+        return moment.utc(term.add(1, 'years'));
       }
     }
   }
@@ -153,6 +153,12 @@ export class Stats extends Entity<StatsID> {
     return this.items.map<Array<string>>((statsItem: StatsItem, index: number) => {
       return statsItem.getValuesByColumn(column);
     });
+  }
+
+  public setData(row: number, column: number, value: number): void {
+    const asOfString: string = this.getColumn()[column];
+    const asOf: moment.Moment = moment.utc(asOfString);
+    this.items[row].setValue(asOf, value);
   }
 
   public isFilled(): boolean {

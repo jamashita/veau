@@ -89,6 +89,11 @@ export class StatsItem extends Entity<StatsItemID> {
     return valuesByColumn;
   }
 
+  public setValue(asOf: moment.Moment, value: number): void {
+    const statsValue: StatsValue = StatsValue.of(asOf, value);
+    this.values.setStatsValue(statsValue);
+  }
+
   public toJSON(): StatsItemJSON {
     const {
       statsItemID,

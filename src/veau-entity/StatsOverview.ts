@@ -45,7 +45,7 @@ export class StatsOverview extends Entity<StatsID> {
     this.iso3166 = iso3166;
     this.term = term;
     this.name = name;
-    this.updatedAt = moment(updatedAt);
+    this.updatedAt = moment.utc(updatedAt);
   }
 
   public getStatsID(): StatsID {
@@ -69,7 +69,7 @@ export class StatsOverview extends Entity<StatsID> {
   }
 
   public getUpdatedAt(): moment.Moment {
-    return this.updatedAt;
+    return moment.utc(this.updatedAt);
   }
 
   public getIdentifier(): StatsID {

@@ -20,7 +20,7 @@ type StateProps = {
   localeRepository: LocaleRepository;
 };
 type DispatchProps = {
-  dataFilled: (row: number, col: number, value: number) => void;
+  dataFilled: (row: number, column: number, value: number) => void;
   nameTyped: (name: string) => void;
   languageSelected: (language: Language) => void;
   regionSelected: (region: Region) => void;
@@ -44,8 +44,8 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>): DispatchProps => {
   return {
-    dataFilled: (row: number, col: number, value: number): void => {
-      console.log(`row ${row}, col ${col}, value ${value}`);
+    dataFilled: (row: number, column: number, value: number): void => {
+      console.log(`row ${row}, col ${column}, value ${value}`);
     },
     nameTyped: (name: string): void => {
       dispatch(statsNameTyped(name));

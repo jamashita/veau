@@ -47,7 +47,7 @@ export class StatsFactory {
       Region.of(RegionID.of(region.regionID), region.name, ISO3166.of(region.iso3166)),
       termRepository.findByTermID(termID),
       name,
-      moment(updatedAt),
+      moment.utc(updatedAt),
       items.map<StatsItem>((item: StatsItemJSON) => {
         return statsItemFactory.fromJSON(item);
       })
@@ -73,6 +73,6 @@ export class StatsFactory {
     const region: Region = Region.of(RegionID.of(regionID), regionName, ISO3166.of(iso3166));
     const term: Term = termRepository.findByTermID(termID);
 
-    return this.from(StatsID.of(UUID.of(statsID)), language, region, term, name, moment(updatedAt), stats);
+    return this.from(StatsID.of(UUID.of(statsID)), language, region, term, name, moment.utc(updatedAt), stats);
   }
 }
