@@ -1,3 +1,4 @@
+/* tslint:disable */
 import 'jest';
 import * as moment from 'moment';
 import { StatsValue } from '../StatsValue';
@@ -6,7 +7,7 @@ import { StatsValues } from '../StatsValues';
 describe('StatsValues', () => {
   it('setStatsValue: update pattern', () => {
     const statsValue1: StatsValue = StatsValue.of(moment.utc('2000-01-01'), 1);
-    const statsValue2: StatsValue = StatsValue.of(moment.utc('2000-01-02'), 2)
+    const statsValue2: StatsValue = StatsValue.of(moment.utc('2000-01-02'), 2);
     const statsValue3: StatsValue = StatsValue.of(moment.utc('2000-01-03'), 3);
 
     const statsValues: StatsValues = StatsValues.of([

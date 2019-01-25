@@ -15,6 +15,14 @@ export class StatsValues {
     return this.values;
   }
 
+  public set(statsValue: StatsValue): void {
+    this.values.push(statsValue);
+  }
+
+  public length(): number {
+    return this.values.length;
+  }
+
   public setStatsValue(statsValue: StatsValue): void {
     const newValues: Array<StatsValue> = [];
     let isSet: boolean = false;

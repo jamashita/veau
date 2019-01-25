@@ -2,7 +2,7 @@ import { StatsItem, StatsItemRow } from '../veau-entity/StatsItem';
 import { StatsItemFactory } from '../veau-factory/StatsItemFactory';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../veau-vo/StatsID';
-import { StatsValue } from '../veau-vo/StatsValue';
+import { StatsValues } from '../veau-vo/StatsValues';
 import { StatsValueRepository } from './StatsValueRepository';
 
 const statsValueRepository: StatsValueRepository = StatsValueRepository.getInstance();
@@ -34,16 +34,16 @@ export class StatsItemRepository implements IStatsItemRepository {
       }
     ]);
 
-    const valueMap: Map<string, Array<StatsValue>> = await statsValueRepository.findByStatsID(statsID);
+    const valueMap: Map<string, StatsValues> = await statsValueRepository.findByStatsID(statsID);
 
     return statsItemRows.map<StatsItem>((statsItemRow: StatsItemRow) => {
-      const values: Array<StatsValue> | undefined = valueMap.get(statsItemRow.statsItemID);
+      const values: StatsValues | undefined = valueMap.get(statsItemRow.statsItemID);
 
       if (values) {
         return statsItemFactory.fromRow(statsItemRow, values);
       }
 
-      return statsItemFactory.fromRow(statsItemRow, []);
+      return statsItemFactory.fromRow(statsItemRow, StatsValues.of([]));
     });
   }
 }

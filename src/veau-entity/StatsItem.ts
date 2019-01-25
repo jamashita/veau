@@ -1,6 +1,7 @@
 import * as moment from 'moment';
 import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsValue, StatsValueJSON } from '../veau-vo/StatsValue';
+import { StatsValues } from '../veau-vo/StatsValues';
 import { Entity } from './Entity';
 
 export type StatsItemJSON = {
@@ -23,9 +24,9 @@ export class StatsItem extends Entity<StatsItemID> {
   private name: string;
   private unit: string;
   private seq: number;
-  private values: Array<StatsValue>;
+  private values: StatsValues;
 
-  public constructor(statsItemID: StatsItemID, name: string, unit: string, seq: number, values: Array<StatsValue>) {
+  public constructor(statsItemID: StatsItemID, name: string, unit: string, seq: number, values: StatsValues) {
     super();
     this.statsItemID = statsItemID;
     this.name = name;
@@ -50,7 +51,7 @@ export class StatsItem extends Entity<StatsItemID> {
     return this.seq;
   }
 
-  public getValues(): Array<StatsValue> {
+  public getValues(): StatsValues {
     return this.values;
   }
 
@@ -59,7 +60,7 @@ export class StatsItem extends Entity<StatsItemID> {
   }
 
   public getAsOfs(): Array<moment.Moment> {
-    return this.values.map<moment.Moment>((statsValue: StatsValue) => {
+    return this.values.get().map<moment.Moment>((statsValue: StatsValue) => {
       return statsValue.getAsOf();
     });
   }
@@ -70,7 +71,7 @@ export class StatsItem extends Entity<StatsItemID> {
     column.forEach((term: string) => {
       let alreadyInput: boolean = false;
 
-      this.values.forEach((statsValue: StatsValue) => {
+      this.values.get().forEach((statsValue: StatsValue) => {
         if (alreadyInput) {
           return;
         }
@@ -102,9 +103,7 @@ export class StatsItem extends Entity<StatsItemID> {
       name,
       unit,
       seq,
-      values: values.map<StatsValueJSON>((value: StatsValue) => {
-        return value.toJSON();
-      })
+      values: values.toSJON()
     };
   }
 

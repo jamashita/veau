@@ -2,6 +2,7 @@ import * as moment from 'moment';
 import { StatsItem, StatsItemJSON, StatsItemRow } from '../veau-entity/StatsItem';
 import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsValue, StatsValueJSON } from '../veau-vo/StatsValue';
+import { StatsValues } from '../veau-vo/StatsValues';
 import { UUID } from '../veau-vo/UUID';
 
 export class StatsItemFactory {
@@ -14,8 +15,8 @@ export class StatsItemFactory {
   private constructor() {
   }
 
-  public from(statsItemID: StatsItemID, name: string, unit: string, seq: number, items: Array<StatsValue>): StatsItem {
-    return new StatsItem(statsItemID, name, unit, seq, items);
+  public from(statsItemID: StatsItemID, name: string, unit: string, seq: number, values: StatsValues): StatsItem {
+    return new StatsItem(statsItemID, name, unit, seq, values);
   }
 
   public fromJSON(json: StatsItemJSON): StatsItem {
@@ -36,10 +37,10 @@ export class StatsItemFactory {
       return StatsValue.of(moment.utc(asOf), value);
     });
 
-    return this.from(StatsItemID.of(UUID.of(statsItemID)), name, unit, seq, statsValues);
+    return this.from(StatsItemID.of(UUID.of(statsItemID)), name, unit, seq, StatsValues.of(statsValues));
   }
 
-  public fromRow(row: StatsItemRow, statsValues: Array<StatsValue>): StatsItem {
+  public fromRow(row: StatsItemRow, statsValues: StatsValues): StatsItem {
     const {
       statsItemID,
       name,

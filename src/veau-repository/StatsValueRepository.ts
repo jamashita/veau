@@ -2,6 +2,7 @@ import * as moment from 'moment';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValue, StatsValueRow } from '../veau-vo/StatsValue';
+import { StatsValues } from '../veau-vo/StatsValues';
 
 export class StatsValueRepository implements IStatsValueRepository {
   private static instance: StatsValueRepository = new StatsValueRepository();
@@ -13,7 +14,7 @@ export class StatsValueRepository implements IStatsValueRepository {
   private constructor() {
   }
 
-  public async findByStatsID(statsID: StatsID): Promise<Map<string, Array<StatsValue>>> {
+  public async findByStatsID(statsID: StatsID): Promise<Map<string, StatsValues>> {
     const query: string = `SELECT
       R1.stats_item_id AS statsItemID,
       R1.as_of AS asOf,
@@ -29,7 +30,7 @@ export class StatsValueRepository implements IStatsValueRepository {
       }
     ]);
 
-    const valueMap: Map<string, Array<StatsValue>> = new Map();
+    const valueMap: Map<string, StatsValues> = new Map();
 
     statsValueRows.forEach((statsValueRow: StatsValueRow) => {
       const {
@@ -38,17 +39,17 @@ export class StatsValueRepository implements IStatsValueRepository {
         value
       } = statsValueRow;
 
-      const statsValue: StatsValue = StatsValue.of(moment(asOf), value);
-      const statsValues: Array<StatsValue> | undefined = valueMap.get(statsItemID);
+      const statsValue: StatsValue = StatsValue.of(moment.utc(asOf), value);
+      const statsValues: StatsValues | undefined = valueMap.get(statsItemID);
 
       if (statsValues) {
-        statsValues.push(statsValue);
+        statsValues.set(statsValue);
         return;
       }
 
-      valueMap.set(statsItemID, [
+      valueMap.set(statsItemID, StatsValues.of([
         statsValue
-      ]);
+      ]));
     });
 
     return valueMap;
@@ -57,5 +58,5 @@ export class StatsValueRepository implements IStatsValueRepository {
 
 export interface IStatsValueRepository {
 
-  findByStatsID(statsID: StatsID): Promise<Map<string, Array<StatsValue>>>;
+  findByStatsID(statsID: StatsID): Promise<Map<string, StatsValues>>;
 }
