@@ -41,7 +41,6 @@ export class Stats extends Entity<StatsID> {
   private name: string;
   private updatedAt: moment.Moment;
   private items: Array<StatsItem>;
-  private column?: Array<string>;
 
   public static default(): Stats {
     return new Stats(StatsID.of(UUID.of('')), Language.default(), Region.default(), Term.DAILY, '', moment(), []);
@@ -91,10 +90,6 @@ export class Stats extends Entity<StatsID> {
   }
 
   public getColumn(): Array<string> {
-    if (this.column) {
-      return this.column;
-    }
-
     const asOfs: Array<moment.Moment> = this.collectAsOf();
     const length: number = asOfs.length;
 
@@ -104,13 +99,16 @@ export class Stats extends Entity<StatsID> {
 
     const minTerm: moment.Moment = moment.min(asOfs);
     const maxTerm: moment.Moment = moment.max(asOfs);
+    console.log(`min: ${minTerm}`);
+    console.log(`max: ${maxTerm}`);
     const column: Array<string> = [];
 
+    column.push(this.previousTerm(minTerm).format(TERM_FORMAT));
     for (let term: moment.Moment = minTerm; !term.isAfter(maxTerm); term = this.nextTerm(term)) {
       column.push(term.format(TERM_FORMAT));
     }
+    column.push(this.nextTerm(maxTerm).format(TERM_FORMAT));
 
-    this.column = column;
     return column;
   }
 
@@ -121,22 +119,45 @@ export class Stats extends Entity<StatsID> {
   }
 
   private nextTerm(term: moment.Moment): moment.Moment {
+    const newTerm: moment.Moment = moment(term);
     switch (this.term) {
       case Term.DAILY:
       default: {
-        return moment(term.add(1, 'days'));
+        return newTerm.add(1, 'days');
       }
       case Term.WEEKLY: {
-        return moment(term.add(1, 'weeks'));
+        return newTerm.add(1, 'weeks');
       }
       case Term.MONTHLY: {
-        return moment(term.add(1, 'months'));
+        return newTerm.add(1, 'months');
       }
       case Term.QUARTERLY: {
-        return moment(term.add(1, 'quarters'));
+        return newTerm.add(1, 'quarters');
       }
       case Term.ANNUAL: {
-        return moment(term.add(1, 'years'));
+        return newTerm.add(1, 'years');
+      }
+    }
+  }
+
+  private previousTerm(term: moment.Moment): moment.Moment {
+    const newTerm: moment.Moment = moment(term);
+    switch (this.term) {
+      case Term.DAILY:
+      default: {
+        return newTerm.subtract(1, 'days');
+      }
+      case Term.WEEKLY: {
+        return newTerm.subtract(1, 'weeks');
+      }
+      case Term.MONTHLY: {
+        return newTerm.subtract(1, 'months');
+      }
+      case Term.QUARTERLY: {
+        return newTerm.subtract(1, 'quarters');
+      }
+      case Term.ANNUAL: {
+        return newTerm.subtract(1, 'years');
       }
     }
   }
@@ -159,6 +180,12 @@ export class Stats extends Entity<StatsID> {
     const asOfString: string = this.getColumn()[column];
     const asOf: moment.Moment = moment(asOfString);
     this.items[row].setValue(asOf, value);
+  }
+
+  public deleteData(row: number, column: number): void {
+    const asOfString: string = this.getColumn()[column];
+    const asOf: moment.Moment = moment(asOfString);
+    this.items[row].delete(asOf);
   }
 
   public isFilled(): boolean {

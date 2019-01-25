@@ -1,10 +1,16 @@
 import { call, fork, put, select, take } from 'redux-saga/effects';
 import * as request from 'superagent';
 import {
-  ACTION, LocationChangeAction, StatsEditDataFilledAction, StatsEditItemNameTypedAction, StatsEditItemUnitTypedAction,
+  ACTION,
+  LocationChangeAction,
+  StatsEditDataDeletedAction,
+  StatsEditDataFilledAction,
+  StatsEditItemNameTypedAction,
+  StatsEditItemUnitTypedAction,
   StatsEditLanguageSelectedAction,
   StatsEditNameTypedAction,
-  StatsEditRegionSelectedAction, StatsEditTermSelectedActoin
+  StatsEditRegionSelectedAction,
+  StatsEditTermSelectedActoin
 } from '../../declarations/Action';
 import { State } from '../../declarations/State';
 import { Stats, StatsJSON } from '../../veau-entity/Stats';
@@ -13,6 +19,7 @@ import { StatsFactory } from '../../veau-factory/StatsFactory';
 import { StatsItemFactory } from '../../veau-factory/StatsItemFactory';
 import { AJAX } from '../../veau-general/AJAX';
 import { resetStatsItem, updateStats, updateStatsItem } from '../actions/StatsAction';
+import { closeItemModal } from '../actions/StatsEditAction';
 
 const statsFactory: StatsFactory = StatsFactory.getInstance();
 const statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
@@ -28,6 +35,7 @@ export class StatsEdit {
     yield fork(StatsEdit.regionSelected);
     yield fork(StatsEdit.termSelected);
     yield fork(StatsEdit.dataFilled);
+    yield fork(StatsEdit.dataDeleted);
     yield fork(StatsEdit.itemNameTyped);
     yield fork(StatsEdit.itemUnitTyped);
     yield fork(StatsEdit.saveItem);
@@ -125,6 +133,25 @@ export class StatsEdit {
     }
   }
 
+  private static *dataDeleted(): IterableIterator<any> {
+    while (true) {
+      const action: StatsEditDataDeletedAction = yield take(ACTION.STATS_EDIT_DATA_DELETED);
+      const state: State = yield select();
+
+      const {
+        stats
+      } = state;
+      const {
+        row,
+        column
+      } = action;
+
+      stats.deleteData(row, column);
+      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUpdatedAt(), stats.getItems());
+      yield put(updateStats(newStats));
+    }
+  }
+
   private static *itemNameTyped(): IterableIterator<any> {
     while (true) {
       const action: StatsEditItemNameTypedAction = yield take(ACTION.STATS_EDIT_ITEM_NAME_TYPED);
@@ -168,6 +195,7 @@ export class StatsEdit {
         statsItem
       ]);
       yield put(updateStats(newStats));
+      yield put(closeItemModal());
       yield put(resetStatsItem());
     }
   }

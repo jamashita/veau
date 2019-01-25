@@ -1,8 +1,10 @@
 import {
   ACTION,
   StatsEditCloseItemModalAction,
+  StatsEditDataDeletedAction,
   StatsEditDataFilledAction,
-  StatsEditItemNameTypedAction, StatsEditItemSaveAction,
+  StatsEditItemNameTypedAction,
+  StatsEditItemSaveAction,
   StatsEditItemUnitTypedAction,
   StatsEditLanguageSelectedAction,
   StatsEditNameTypedAction,
@@ -48,6 +50,14 @@ export const statsDataFilled: (row: number, column: number, value: number) => St
     row,
     column,
     value
+  };
+};
+
+export const statsDataDeleted: (row: number, column: number) => StatsEditDataDeletedAction = (row: number, column: number): StatsEditDataDeletedAction => {
+  return {
+    type: ACTION.STATS_EDIT_DATA_DELETED,
+    row,
+    column
   };
 };
 

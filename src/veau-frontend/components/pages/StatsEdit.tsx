@@ -63,16 +63,29 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
                   const length: number = changes.length;
                   for (let i: number = 0; i < length; i++) {
                     const str: string = changes[i][VALUE_INDEX];
-                    if (str === '') {
+
+                    if (isNaN(Number(str))) {
                       return false;
+                    }
+                  }
+                }
+                return true;
+              },
+              afterChange: (changes: Array<Array<any>> | null): boolean => {
+                if (changes) {
+                  const length: number = changes.length;
+                  for (let i: number = 0; i < length; i++) {
+                    const str: string = changes[i][VALUE_INDEX];
+                    const row: number = changes[i][ROW_INDEX];
+                    const column: number = changes[i][COLUMN_INDEX];
+
+                    if (str === '') {
+                      this.props.dataDeleted(row, column);
+                      return true;
                     }
 
                     const value: number = Number(str);
-                    if (isNaN(value)) {
-                      return false;
-                    }
-
-                    this.props.dataFilled(changes[i][ROW_INDEX], changes[i][COLUMN_INDEX], value);
+                    this.props.dataFilled(row, column, value);
                   }
                 }
                 return true;

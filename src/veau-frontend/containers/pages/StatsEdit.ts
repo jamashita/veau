@@ -10,7 +10,7 @@ import { Region } from '../../../veau-vo/Region';
 import { Term } from '../../../veau-vo/Term';
 import {
   closeItemModal, itemNameTyped, itemUnitTyped,
-  newItem, saveItem,
+  newItem, saveItem, statsDataDeleted,
   statsDataFilled,
   statsLanguageSelected,
   statsNameTyped,
@@ -27,6 +27,7 @@ type StateProps = {
 };
 type DispatchProps = {
   dataFilled: (row: number, column: number, value: number) => void;
+  dataDeleted: (row: number, column: number) => void;
   nameTyped: (name: string) => void;
   languageSelected: (language: Language) => void;
   regionSelected: (region: Region) => void;
@@ -63,6 +64,9 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
   return {
     dataFilled: (row: number, column: number, value: number): void => {
       dispatch(statsDataFilled(row, column, value));
+    },
+    dataDeleted: (row: number, column: number): void => {
+      dispatch(statsDataDeleted(row, column));
     },
     nameTyped: (name: string): void => {
       dispatch(statsNameTyped(name));

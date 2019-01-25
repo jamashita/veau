@@ -99,6 +99,10 @@ export class StatsItem extends Entity<StatsItemID> {
     this.values.setStatsValue(statsValue);
   }
 
+  public delete(asOf: moment.Moment): void {
+    this.values.deleteStatsValue(asOf);
+  }
+
   public isFilled(): boolean {
     const {
       name,
