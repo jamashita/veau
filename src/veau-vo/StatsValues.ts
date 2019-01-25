@@ -55,7 +55,26 @@ export class StatsValues {
     this.values = newValues;
   }
 
-  public toSJON(): Array<StatsValueJSON> {
+  public equals(other: StatsValues): boolean {
+    if (this === other) {
+      return true;
+    }
+
+    const length: number = this.values.length;
+
+    if (length !== other.length()) {
+      return false;
+    }
+    for (let i: number = 0; i < length; i++) {
+      if (!this.values[i].equals(other.get()[i])) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  public toJSON(): Array<StatsValueJSON> {
     return this.values.map<StatsValueJSON>((value: StatsValue) => {
       return value.toJSON();
     });
