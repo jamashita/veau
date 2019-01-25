@@ -29,3 +29,7 @@ $neat-grid: (
 .stats-edit {
   @include grid-column(4);
 }
+
+.stats-info {
+  margin-bottom: 8px;
+}

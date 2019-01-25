@@ -237,6 +237,14 @@ export class Stats extends Entity<StatsID> {
     return true;
   }
 
+  public replaceItem(statsItem: StatsItem, index: number): void {
+    this.items = [
+      ...this.items.slice(0, index),
+      statsItem,
+      ...this.items.slice(index + 1)
+    ];
+  }
+
   public copy(): Stats {
     const {
       statsID,

@@ -58,11 +58,15 @@ export enum ACTION {
   STATS_EDIT_TERM_SELECTED = 'STATS_EDIT_TERM_SELECTED',
   STATS_EDIT_DATA_FILLED = 'STATS_EDIT_DATA_FILLED',
   STATS_EDIT_DATA_DELETED = 'STATS_EDIT_DATA_DELETED',
-  STATS_EDIT_NEW_ITEM = 'STATS_EDIT_NEW_ITEM',
-  STATS_EDIT_CLOSE_ITEM_MODAL = 'STATS_EDIT_CLOSE_ITEM_MODAL',
   STATS_EDIT_ITEM_NAME_TYPED = 'STATS_EDIT_ITEM_NAME_TYPED',
   STATS_EDIT_ITEM_UNIT_TYPED = 'STATS_EDIT_ITEM_UNIT_TYPED',
+  STATS_EDIT_START_DATE_CHANGED = 'STATS_EDIT_START_DATE_CHANGED',
   STATS_EDIT_ITEM_SAVE = 'STATS_EDIT_ITEM_SAVE',
+  STATS_EDIT_ROW_SELECTED = 'STATS_EDIT_ROW_SELECTED',
+  STATS_EDIT_ITEM_SELECTING = 'STATS_EDIT_ITEM_SELECTING',
+  STATS_EDIT_SELECTING_ITEM_NAME_TYPED = 'STATS_EDIT_SELECTING_ITEM_NAME_TYPED',
+  STATS_EDIT_SELECTING_ITEM_UNIT_TYPED = 'STATS_EDIT_SELECTING_ITEM_UNIT_TYPED',
+  STATS_EDIT_UPDATE_SELECTING_ITEM = 'STATS_EDIT_UPDATE_SELECTING_ITEM',
 
   STATS_OVERVIEW_UPDATE = 'STATS_OVERVIEW_UPDATE',
   STATS_OVERVIEW_RESET = 'STATS_OVERVIEW_RESET',
@@ -203,12 +207,6 @@ export interface StatsEditDataDeletedAction extends ReduxAction {
   row: number;
   column: number;
 }
-export interface StatsEditNewItemAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_NEW_ITEM;
-}
-export interface StatsEditCloseItemModalAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_CLOSE_ITEM_MODAL;
-}
 export interface StatsEditItemNameTypedAction extends ReduxAction {
   type: ACTION.STATS_EDIT_ITEM_NAME_TYPED;
   name: string;
@@ -217,8 +215,33 @@ export interface StatsEditItemUnitTypedAction extends ReduxAction {
   type: ACTION.STATS_EDIT_ITEM_UNIT_TYPED;
   unit: string;
 }
+export interface StatsEditStartDateChangedAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_START_DATE_CHANGED;
+  startDate: string;
+}
 export interface StatsEditItemSaveAction extends ReduxAction {
   type: ACTION.STATS_EDIT_ITEM_SAVE;
+}
+export interface StatsEditRowSelectedAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_ROW_SELECTED;
+  row: number;
+}
+export interface StatsEditItemSelectingAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_ITEM_SELECTING;
+  statsItem: StatsItem;
+  row: number;
+}
+export interface StatsEditSelectingItemNameTypedAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_SELECTING_ITEM_NAME_TYPED;
+  name: string;
+}
+export interface StatsEditSelectingItemUnitTypedAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_SELECTING_ITEM_UNIT_TYPED;
+  unit: string;
+}
+export interface StatsEditUpdateSelectingItemAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_UPDATE_SELECTING_ITEM;
+  statsItem: StatsItem;
 }
 export interface StatsOverviewUpdateAction extends ReduxAction {
   type: ACTION.STATS_OVERVIEW_UPDATE;
@@ -278,11 +301,15 @@ export type Action =
   | StatsEditTermSelectedActoin
   | StatsEditDataFilledAction
   | StatsEditDataDeletedAction
-  | StatsEditNewItemAction
-  | StatsEditCloseItemModalAction
   | StatsEditItemNameTypedAction
   | StatsEditItemUnitTypedAction
+  | StatsEditStartDateChangedAction
   | StatsEditItemSaveAction
+  | StatsEditRowSelectedAction
+  | StatsEditItemSelectingAction
+  | StatsEditSelectingItemNameTypedAction
+  | StatsEditSelectingItemUnitTypedAction
+  | StatsEditUpdateSelectingItemAction
   | StatsOverviewUpdateAction
   | StatsOverviewResetAction
   | StatsUpdateAction

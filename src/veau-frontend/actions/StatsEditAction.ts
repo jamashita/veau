@@ -1,17 +1,22 @@
 import {
   ACTION,
-  StatsEditCloseItemModalAction,
   StatsEditDataDeletedAction,
   StatsEditDataFilledAction,
   StatsEditItemNameTypedAction,
   StatsEditItemSaveAction,
+  StatsEditItemSelectingAction,
   StatsEditItemUnitTypedAction,
   StatsEditLanguageSelectedAction,
   StatsEditNameTypedAction,
-  StatsEditNewItemAction,
   StatsEditRegionSelectedAction,
-  StatsEditTermSelectedActoin
+  StatsEditRowSelectedAction,
+  StatsEditSelectingItemNameTypedAction,
+  StatsEditSelectingItemUnitTypedAction,
+  StatsEditStartDateChangedAction,
+  StatsEditTermSelectedActoin,
+  StatsEditUpdateSelectingItemAction
 } from '../../declarations/Action';
+import { StatsItem } from '../../veau-entity/StatsItem';
 import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-vo/Region';
 import { Term } from '../../veau-vo/Term';
@@ -61,18 +66,6 @@ export const statsDataDeleted: (row: number, column: number) => StatsEditDataDel
   };
 };
 
-export const newItem: () => StatsEditNewItemAction = (): StatsEditNewItemAction => {
-  return {
-    type: ACTION.STATS_EDIT_NEW_ITEM
-  };
-};
-
-export const closeItemModal: () => StatsEditCloseItemModalAction = (): StatsEditCloseItemModalAction => {
-  return {
-    type: ACTION.STATS_EDIT_CLOSE_ITEM_MODAL
-  };
-};
-
 export const itemNameTyped: (name: string) => StatsEditItemNameTypedAction = (name: string): StatsEditItemNameTypedAction => {
   return {
     type: ACTION.STATS_EDIT_ITEM_NAME_TYPED,
@@ -87,8 +80,51 @@ export const itemUnitTyped: (unit: string) => StatsEditItemUnitTypedAction = (un
   };
 };
 
+export const itemStartDateChanged: (startDate: string) => StatsEditStartDateChangedAction = (startDate: string): StatsEditStartDateChangedAction => {
+  return {
+    type: ACTION.STATS_EDIT_START_DATE_CHANGED,
+    startDate
+  };
+};
+
 export const saveItem: () => StatsEditItemSaveAction = (): StatsEditItemSaveAction => {
   return {
     type: ACTION.STATS_EDIT_ITEM_SAVE
+  };
+};
+
+export const rowSelected: (row: number) => StatsEditRowSelectedAction = (row: number): StatsEditRowSelectedAction => {
+  return {
+    type: ACTION.STATS_EDIT_ROW_SELECTED,
+    row
+  };
+};
+
+export const itemSelecting: (statsItem: StatsItem, row: number) => StatsEditItemSelectingAction = (statsItem: StatsItem, row: number): StatsEditItemSelectingAction => {
+  return {
+    type: ACTION.STATS_EDIT_ITEM_SELECTING,
+    statsItem,
+    row
+  };
+};
+
+export const selectingItemNameTyped: (name: string) => StatsEditSelectingItemNameTypedAction = (name: string): StatsEditSelectingItemNameTypedAction => {
+  return {
+    type: ACTION.STATS_EDIT_SELECTING_ITEM_NAME_TYPED,
+    name
+  };
+};
+
+export const selectingItemUnitTyped: (unit: string) => StatsEditSelectingItemUnitTypedAction = (unit: string): StatsEditSelectingItemUnitTypedAction => {
+  return {
+    type: ACTION.STATS_EDIT_SELECTING_ITEM_UNIT_TYPED,
+    unit
+  };
+};
+
+export const updateSelectingItem: (statsItem: StatsItem) => StatsEditUpdateSelectingItemAction = (statsItem: StatsItem): StatsEditUpdateSelectingItemAction => {
+  return {
+    type: ACTION.STATS_EDIT_UPDATE_SELECTING_ITEM,
+    statsItem
   };
 };

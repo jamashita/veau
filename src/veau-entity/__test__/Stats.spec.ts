@@ -259,4 +259,55 @@ describe('Stats', () => {
 
     expect(stats1.hasValues()).toEqual(true);
   });
+
+  it('replaceItem: first index', () => {
+    const stats: Stats = new Stats(StatsID.of(UUID.of('f330c618-6127-46d1-ba10-a9f6af458b4c')), Language.default(), Region.default(), Term.DAILY, 'stats1', moment('2000-01-01'), [
+      new StatsItem(StatsItemID.of(UUID.of('8f7b1783-b09c-4010-aac1-dca1292ee700')), 'stats item 1', 'unit1', StatsValues.of([])),
+      new StatsItem(StatsItemID.of(UUID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551')), 'stats item 2', 'unit2', StatsValues.of([])),
+      new StatsItem(StatsItemID.of(UUID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498')), 'stats item 3', 'unit3', StatsValues.of([]))
+    ]);
+
+    const statsItem: StatsItem = new StatsItem(StatsItemID.of(UUID.of('06023e5f-7908-4bce-9536-c64dc484756f')), 'new stats item', 'new unit', StatsValues.of([]));
+
+    stats.replaceItem(statsItem, 0);
+
+    expect(stats.getItems().length).toEqual(3);
+    expect(stats.getItems()[0]).toEqual(statsItem);
+    expect(stats.getItems()[1]).not.toEqual(statsItem);
+    expect(stats.getItems()[2]).not.toEqual(statsItem);
+  });
+
+  it('replaceItem: middle index', () => {
+    const stats: Stats = new Stats(StatsID.of(UUID.of('f330c618-6127-46d1-ba10-a9f6af458b4c')), Language.default(), Region.default(), Term.DAILY, 'stats1', moment('2000-01-01'), [
+      new StatsItem(StatsItemID.of(UUID.of('8f7b1783-b09c-4010-aac1-dca1292ee700')), 'stats item 1', 'unit1', StatsValues.of([])),
+      new StatsItem(StatsItemID.of(UUID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551')), 'stats item 2', 'unit2', StatsValues.of([])),
+      new StatsItem(StatsItemID.of(UUID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498')), 'stats item 3', 'unit3', StatsValues.of([]))
+    ]);
+
+    const statsItem: StatsItem = new StatsItem(StatsItemID.of(UUID.of('06023e5f-7908-4bce-9536-c64dc484756f')), 'new stats item', 'new unit', StatsValues.of([]));
+
+    stats.replaceItem(statsItem, 1);
+
+    expect(stats.getItems().length).toEqual(3);
+    expect(stats.getItems()[0]).not.toEqual(statsItem);
+    expect(stats.getItems()[1]).toEqual(statsItem);
+    expect(stats.getItems()[2]).not.toEqual(statsItem);
+  });
+
+  it('replaceItem: last index', () => {
+    const stats: Stats = new Stats(StatsID.of(UUID.of('f330c618-6127-46d1-ba10-a9f6af458b4c')), Language.default(), Region.default(), Term.DAILY, 'stats1', moment('2000-01-01'), [
+      new StatsItem(StatsItemID.of(UUID.of('8f7b1783-b09c-4010-aac1-dca1292ee700')), 'stats item 1', 'unit1', StatsValues.of([])),
+      new StatsItem(StatsItemID.of(UUID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551')), 'stats item 2', 'unit2', StatsValues.of([])),
+      new StatsItem(StatsItemID.of(UUID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498')), 'stats item 3', 'unit3', StatsValues.of([]))
+    ]);
+
+    const statsItem: StatsItem = new StatsItem(StatsItemID.of(UUID.of('06023e5f-7908-4bce-9536-c64dc484756f')), 'new stats item', 'new unit', StatsValues.of([]));
+
+    stats.replaceItem(statsItem, 2);
+
+    expect(stats.getItems().length).toEqual(3);
+    expect(stats.getItems()[0]).not.toEqual(statsItem);
+    expect(stats.getItems()[1]).not.toEqual(statsItem);
+    expect(stats.getItems()[2]).toEqual(statsItem);
+  });
 });

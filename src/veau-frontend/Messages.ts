@@ -42,7 +42,8 @@ export type Messages = {
   FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: string;
 
   STATS_INFO: string;
-  ADD_NEW_ITEM: string;
+  STATS_ITEM_INFO: string;
+  ADD_ITEM: string;
   CREATE_NEW_ITEM: string;
 
   AUTHENTICATION_FAILED: string;
@@ -100,7 +101,8 @@ const en: Messages = {
   FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: 'Failed to save the statistics to the server, please try again',
 
   STATS_INFO: 'Statistics information',
-  ADD_NEW_ITEM: 'Add new item',
+  STATS_ITEM_INFO: 'Item information',
+  ADD_ITEM: 'Add an item',
   CREATE_NEW_ITEM: 'Create new statistics item',
 
   AUTHENTICATION_FAILED: 'Authentication failed',
@@ -158,7 +160,8 @@ const fr: Messages = {
   FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: 'Échec de l\'enregistrement des statistiques sur le serveur. Veuillez réessayer.',
 
   STATS_INFO: 'Informations statistiques',
-  ADD_NEW_ITEM: 'Ajouter le nouvel élément',
+  STATS_ITEM_INFO: 'Informations de l\'élément',
+  ADD_ITEM: 'Ajouter un élément',
   CREATE_NEW_ITEM: 'Créer un nouvel élément de statistiques',
 
   AUTHENTICATION_FAILED: 'Authentification échouée',
@@ -216,7 +219,8 @@ const es: Messages = {
   FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: 'Error al guardar las estadísticas en el servidor. Inténtalo de nuevo',
 
   STATS_INFO: 'Información estadística',
-  ADD_NEW_ITEM: 'Añadir ítem nuevo',
+  STATS_ITEM_INFO: 'Información del item',
+  ADD_ITEM: 'Añadir un ítem',
   CREATE_NEW_ITEM: 'Crear nuevo ítem de estadísticas',
 
   AUTHENTICATION_FAILED: 'Autenticación fallida',
@@ -274,7 +278,8 @@ const ja: Messages = {
   FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: '統計情報をサーバーに保存できませんでした。もう一度やり直してください',
 
   STATS_INFO: '統計情報',
-  ADD_NEW_ITEM: '新しい項目を追加',
+  STATS_ITEM_INFO: '項目情報',
+  ADD_ITEM: '項目を追加',
   CREATE_NEW_ITEM: 'Create new statistics item',
 
   AUTHENTICATION_FAILED: '認証に失敗しました',

@@ -9,8 +9,8 @@ import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
 import { Term } from '../../../veau-vo/Term';
 import {
-  itemNameTyped, itemStartDateChanged, itemUnitTyped,
-  saveItem, statsDataDeleted,
+  itemNameTyped, itemStartDateChanged, itemUnitTyped, rowSelected,
+  saveItem, selectingItemNameTyped, selectingItemUnitTyped, statsDataDeleted,
   statsDataFilled,
   statsLanguageSelected,
   statsNameTyped,
@@ -24,6 +24,7 @@ type StateProps = {
   localeRepository: LocaleRepository;
   statsItem: StatsItem;
   startDate: string;
+  selectingItem?: StatsItem;
 };
 type DispatchProps = {
   dataFilled: (row: number, column: number, value: number) => void;
@@ -36,6 +37,9 @@ type DispatchProps = {
   itemUnitTyped: (unit: string) => void;
   startDateChanged: (startDate: string) => void;
   saveNewItem: () => void;
+  rowSelected: (row: number) => void;
+  selectingItemNameTyped: (name: string) => void;
+  selectingItemUnitTyped: (unit: string) => void;
 };
 type OwnProps = {
 };
@@ -47,7 +51,8 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
     localeRepository,
     statsItem,
     statsEdit: {
-      startDate
+      startDate,
+      selectingItem
     }
   } = state;
 
@@ -55,7 +60,8 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
     stats,
     localeRepository,
     statsItem,
-    startDate
+    startDate,
+    selectingItem
   };
 };
 
@@ -90,6 +96,15 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
     },
     saveNewItem: (): void => {
       dispatch(saveItem());
+    },
+    rowSelected: (row: number): void => {
+      dispatch(rowSelected(row));
+    },
+    selectingItemNameTyped: (name: string): void => {
+      dispatch(selectingItemNameTyped(name));
+    },
+    selectingItemUnitTyped: (unit: string): void => {
+      dispatch(selectingItemUnitTyped(unit));
     }
   };
 };

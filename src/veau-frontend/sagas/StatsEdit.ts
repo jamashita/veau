@@ -10,6 +10,9 @@ import {
   StatsEditLanguageSelectedAction,
   StatsEditNameTypedAction,
   StatsEditRegionSelectedAction,
+  StatsEditRowSelectedAction,
+  StatsEditSelectingItemNameTypedAction,
+  StatsEditSelectingItemUnitTypedAction,
   StatsEditTermSelectedActoin
 } from '../../declarations/Action';
 import { State } from '../../declarations/State';
@@ -19,6 +22,7 @@ import { StatsFactory } from '../../veau-factory/StatsFactory';
 import { StatsItemFactory } from '../../veau-factory/StatsItemFactory';
 import { AJAX } from '../../veau-general/AJAX';
 import { resetStatsItem, updateStats, updateStatsItem } from '../actions/StatsAction';
+import { itemSelecting, updateSelectingItem } from '../actions/StatsEditAction';
 
 const statsFactory: StatsFactory = StatsFactory.getInstance();
 const statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
@@ -38,6 +42,9 @@ export class StatsEdit {
     yield fork(StatsEdit.itemNameTyped);
     yield fork(StatsEdit.itemUnitTyped);
     yield fork(StatsEdit.saveItem);
+    yield fork(StatsEdit.rowSelected);
+    yield fork(StatsEdit.selectingItemNameTyped);
+    yield fork(StatsEdit.selectingItemUnitTyped);
   }
 
   private static *findStats(): IterableIterator<any> {
@@ -193,6 +200,69 @@ export class StatsEdit {
       ]);
       yield put(updateStats(newStats));
       yield put(resetStatsItem());
+    }
+  }
+
+  private static *rowSelected(): IterableIterator<any> {
+    while (true) {
+      const action: StatsEditRowSelectedAction = yield take(ACTION.STATS_EDIT_ROW_SELECTED);
+      const state: State = yield select();
+
+      const {
+        stats
+      } = state;
+      const {
+        row
+      } = action;
+
+      const selecting: StatsItem = stats.getItems()[row];
+      yield put(itemSelecting(selecting, row));
+    }
+  }
+
+  private static *selectingItemNameTyped(): IterableIterator<any> {
+    while (true) {
+      const action: StatsEditSelectingItemNameTypedAction = yield take(ACTION.STATS_EDIT_SELECTING_ITEM_NAME_TYPED);
+      const state: State = yield select();
+
+      const {
+        stats,
+        statsEdit: {
+          selectingItem,
+          selectingRow
+        }
+      } = state;
+
+      if (selectingItem) {
+        const newSelectingItem: StatsItem = statsItemFactory.from(selectingItem.getStatsItemID(), action.name, selectingItem.getUnit(), selectingItem.getValues());
+        stats.replaceItem(newSelectingItem, selectingRow);
+
+        yield put(updateSelectingItem(newSelectingItem));
+        yield put(updateStats(stats.copy()));
+      }
+    }
+  }
+
+  private static *selectingItemUnitTyped(): IterableIterator<any> {
+    while (true) {
+      const action: StatsEditSelectingItemUnitTypedAction = yield take(ACTION.STATS_EDIT_SELECTING_ITEM_UNIT_TYPED);
+      const state: State = yield select();
+
+      const {
+        stats,
+        statsEdit: {
+          selectingItem,
+          selectingRow
+        }
+      } = state;
+
+      if (selectingItem) {
+        const newSelectingItem: StatsItem = statsItemFactory.from(selectingItem.getStatsItemID(), selectingItem.getName(), action.unit, selectingItem.getValues());
+        stats.replaceItem(newSelectingItem, selectingRow);
+
+        yield put(updateSelectingItem(newSelectingItem));
+        yield put(updateStats(stats.copy()));
+      }
     }
   }
 }
