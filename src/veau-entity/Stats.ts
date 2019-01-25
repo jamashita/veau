@@ -124,19 +124,19 @@ export class Stats extends Entity<StatsID> {
     switch (this.term) {
       case Term.DAILY:
       default: {
-        return term.add(1, 'days');
+        return moment(term.add(1, 'days'));
       }
       case Term.WEEKLY: {
-        return term.add(1, 'weeks');
+        return moment(term.add(1, 'weeks'));
       }
       case Term.MONTHLY: {
-        return term.add(1, 'months');
+        return moment(term.add(1, 'months'));
       }
       case Term.QUARTERLY: {
-        return term.add(1, 'quarters');
+        return moment(term.add(1, 'quarters'));
       }
       case Term.ANNUAL: {
-        return term.add(1, 'years');
+        return moment(term.add(1, 'years'));
       }
     }
   }
