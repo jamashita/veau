@@ -94,6 +94,19 @@ export class StatsOverview extends Entity<StatsID> {
     return true;
   }
 
+  public copy(): StatsOverview {
+    const {
+      statsID,
+      iso639,
+      iso3166,
+      term,
+      name,
+      updatedAt
+    } = this;
+
+    return new StatsOverview(statsID.copy(), iso639.copy(), iso3166.copy(), term.copy(), name, moment(updatedAt));
+  }
+
   public toJSON(): StatsOverviewJSON {
     const {
       statsID,

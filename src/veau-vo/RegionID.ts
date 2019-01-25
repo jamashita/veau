@@ -16,6 +16,14 @@ export class RegionID extends ValueObject {
     return this.id;
   }
 
+  public copy(): RegionID {
+    const {
+      id
+    } = this;
+
+    return new RegionID(id);
+  }
+
   public equals(other: RegionID): boolean {
     if (this === other) {
       return true;

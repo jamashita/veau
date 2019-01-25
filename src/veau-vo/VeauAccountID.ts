@@ -16,6 +16,14 @@ export class VeauAccountID extends ValueObject {
     return this.id;
   }
 
+  public copy(): VeauAccountID {
+    const {
+      id
+    } = this;
+
+    return new VeauAccountID(id);
+  }
+
   public equals(other: VeauAccountID): boolean {
     if (this === other) {
       return true;

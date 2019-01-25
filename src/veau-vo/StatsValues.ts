@@ -66,6 +66,16 @@ export class StatsValues {
     });
   }
 
+  public copy(): StatsValues {
+    const values: Array<StatsValue> = [];
+
+    this.values.forEach((value: StatsValue) => {
+      values.push(value.copy());
+    });
+
+    return new StatsValues(values);
+  }
+
   public equals(other: StatsValues): boolean {
     if (this === other) {
       return true;

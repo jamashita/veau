@@ -52,6 +52,17 @@ export class VeauAccount extends Entity<VeauAccountID> {
     return this.veauAccountID;
   }
 
+  public copy(): VeauAccount {
+    const {
+      veauAccountID,
+      account,
+      language,
+      region
+    } = this;
+
+    return new VeauAccount(veauAccountID.copy(), account, language.copy(), region.copy());
+  }
+
   public toJSON(): VeauAccountJSON {
     const {
       veauAccountID,

@@ -54,6 +54,15 @@ export class Term extends ValueObject {
     return this.key;
   }
 
+  public copy(): Term {
+    const {
+      id,
+      key
+    } = this;
+
+    return new Term(id, key);
+  }
+
   public equals(other: Term): boolean {
     if (this === other) {
       return true;

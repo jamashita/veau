@@ -27,6 +27,14 @@ export class UUID extends ValueObject {
     return this.id;
   }
 
+  public copy(): UUID {
+    const {
+      id
+    } = this;
+
+    return new UUID(id);
+  }
+
   public equals(other: UUID): boolean {
     if (this === other) {
       return true;

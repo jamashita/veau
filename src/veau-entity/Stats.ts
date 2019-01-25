@@ -237,6 +237,26 @@ export class Stats extends Entity<StatsID> {
     return true;
   }
 
+  public copy(): Stats {
+    const {
+      statsID,
+      language,
+      region,
+      term,
+      name,
+      updatedAt,
+      items
+    } = this;
+
+    const newItems: Array<StatsItem> = [];
+
+    items.forEach((item: StatsItem) => {
+      newItems.push(item.copy());
+    });
+
+    return new Stats(statsID.copy(), language.copy(), region.copy(), term.copy(), name, moment(updatedAt), newItems);
+  }
+
   public toJSON(): StatsJSON {
     const {
       statsID,

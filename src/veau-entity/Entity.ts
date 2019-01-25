@@ -8,6 +8,8 @@ export abstract class Entity<T extends Identifier> {
 
   public abstract toString(): string;
 
+  public abstract copy(): Entity<T>;
+
   public equals(other: Entity<T>): boolean {
     if (this.getIdentifier().equals(other.getIdentifier())) {
       return true;

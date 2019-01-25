@@ -20,6 +20,14 @@ export class ISO639 extends ValueObject {
     return this.iso639;
   }
 
+  public copy(): ISO639 {
+    const {
+      iso639
+    } = this;
+
+    return new ISO639(iso639);
+  }
+
   public equals(other: ISO639): boolean {
     if (this === other) {
       return true;

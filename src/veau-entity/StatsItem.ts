@@ -119,6 +119,18 @@ export class StatsItem extends Entity<StatsItemID> {
     return true;
   }
 
+  public copy(): StatsItem {
+    const {
+      statsItemID,
+      name,
+      unit,
+      seq,
+      values
+    } = this;
+
+    return new StatsItem(statsItemID.copy(), name, unit, seq, values.copy());
+  }
+
   public toJSON(): StatsItemJSON {
     const {
       statsItemID,

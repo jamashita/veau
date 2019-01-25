@@ -16,6 +16,14 @@ export class LanguageID extends ValueObject {
     return this.id;
   }
 
+  public copy(): LanguageID {
+    const {
+      id
+    } = this;
+
+    return new LanguageID(id);
+  }
+
   public equals(other: LanguageID): boolean {
     if (this === other) {
       return true;
