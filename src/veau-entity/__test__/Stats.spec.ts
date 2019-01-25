@@ -191,4 +191,40 @@ describe('Stats', () => {
     expect(stats4.isFilled()).toEqual(false);
     expect(stats5.isFilled()).toEqual(true);
   });
+
+  it('setData: update pattern', () => {
+    const stats: Stats = new Stats(StatsID.of(UUID.of('14351289-d8ce-48cd-8ef9-ac1b356c9233')), Language.default(), Region.default(), Term.DAILY, 'stats1', moment.utc('2000-01-01'), [
+      new StatsItem(StatsItemID.of(UUID.of('bf04b0fa-ed4d-4114-84a3-c963871dfe06')), 'item1', 'unit1', 1, StatsValues.of([
+        StatsValue.of(moment.utc('2000-01-01'), 1),
+        StatsValue.of(moment.utc('2000-01-02'), 2)
+      ]))
+    ]);
+
+    stats.setData(0, 1, 4);
+
+    expect(stats.getItems()[0].getValues().length()).toEqual(2);
+    expect(stats.getItems()[0].getValues().get()[0].getAsOfAsString()).toEqual('2000-01-01');
+    expect(stats.getItems()[0].getValues().get()[0].getValue()).toEqual(1);
+    expect(stats.getItems()[0].getValues().get()[1].getAsOfAsString()).toEqual('2000-01-02');
+    expect(stats.getItems()[0].getValues().get()[1].getValue()).toEqual(4);
+  });
+
+  it('setData: insert pattern', () => {
+    const stats: Stats = new Stats(StatsID.of(UUID.of('14351289-d8ce-48cd-8ef9-ac1b356c9233')), Language.default(), Region.default(), Term.DAILY, 'stats1', moment.utc('2000-01-01'), [
+      new StatsItem(StatsItemID.of(UUID.of('bf04b0fa-ed4d-4114-84a3-c963871dfe06')), 'item1', 'unit1', 1, StatsValues.of([
+        StatsValue.of(moment.utc('2000-01-01'), 1),
+        StatsValue.of(moment.utc('2000-01-03'), 3)
+      ]))
+    ]);
+
+    stats.setData(0, 1, 2);
+
+    expect(stats.getItems()[0].getValues().length()).toEqual(3);
+    expect(stats.getItems()[0].getValues().get()[0].getAsOfAsString()).toEqual('2000-01-01');
+    expect(stats.getItems()[0].getValues().get()[0].getValue()).toEqual(1);
+    expect(stats.getItems()[0].getValues().get()[1].getAsOfAsString()).toEqual('2000-01-02');
+    expect(stats.getItems()[0].getValues().get()[1].getValue()).toEqual(2);
+    expect(stats.getItems()[0].getValues().get()[2].getAsOfAsString()).toEqual('2000-01-03');
+    expect(stats.getItems()[0].getValues().get()[2].getValue()).toEqual(3);
+  });
 });

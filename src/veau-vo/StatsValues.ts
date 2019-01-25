@@ -42,7 +42,7 @@ export class StatsValues {
     });
 
     if (!isSet) {
-      newValues.push(StatsValue.of(statsValue.getAsOf(), statsValue.getValue()));
+      newValues.push(statsValue);
       newValues.sort((statsValue1: StatsValue, statsValue2: StatsValue): number => {
         if (statsValue1.getAsOf().isBefore(statsValue2.getAsOf())) {
           return -1;
