@@ -16,7 +16,7 @@ describe('StatsOverviewFactory', () => {
     const iso3166: ISO3166 = ISO3166.of('AFG');
     const term: Term = Term.DAILY;
     const name: string = 'stats overview';
-    const updatedAt: moment.Moment = moment('2000-01-01');
+    const updatedAt: moment.Moment = moment.utc('2000-01-01');
 
     const statsOverviewFactory: StatsOverviewFactory = StatsOverviewFactory.getInstance();
     const statsOverview: StatsOverview = statsOverviewFactory.from(statsID, iso639, iso3166, term, name, updatedAt);
@@ -47,7 +47,7 @@ describe('StatsOverviewFactory', () => {
     expect(statsOverview.getISO3166().get()).toEqual(json.iso3166);
     expect(statsOverview.getTerm().get()).toEqual(json.termID);
     expect(statsOverview.getName()).toEqual(json.name);
-    expect(statsOverview.getUpdatedAt().utc().format('YYYY-MM-DDTHH:mm:ss.SSS')).toEqual(json.updatedAt);
+    expect(statsOverview.getUpdatedAt().format('YYYY-MM-DDTHH:mm:ss.SSS')).toEqual(json.updatedAt);
   });
 
   it('fromRow', () => {

@@ -72,14 +72,14 @@ describe('Stats', () => {
   it('toJSON', () => {
     const statsID: StatsID = StatsID.of(UUID.of('bfb0ebff-fc8c-450e-9265-82fa4938ae94'));
     const statsItemID: StatsItemID = StatsItemID.of(UUID.of('2e787bad-6727-47d0-af9a-9c8189342a50'));
-    const statsItem: StatsItem = new StatsItem(statsItemID,'stats1', 'unit1', 1, StatsValues.of([StatsValue.of(moment('2000-01-01'), 10)]));
+    const statsItem: StatsItem = new StatsItem(statsItemID,'stats1', 'unit1', 1, StatsValues.of([StatsValue.of(moment.utc('2000-01-01'), 10)]));
     const stats: Stats = new Stats(
       statsID,
       Language.of(LanguageID.of(1), 'language1', 'englishname1', ISO639.of('lang1')),
       Region.of(RegionID.of(1), 'region1', ISO3166.of('regn1')),
       Term.DAILY,
       'name1',
-      moment('2000-01-01'),
+      moment.utc('2000-01-01'),
       [
         statsItem
       ]

@@ -20,7 +20,7 @@ describe('StatsOverview', () => {
   });
 
   it('toJSON', () => {
-    const statsOverView: StatsOverview = new StatsOverview(StatsID.of(UUID.of('1a607fff-12c2-4d8d-a55a-75fa23971393')), ISO639.of('ab'), ISO3166.of('AFG'), Term.DAILY, 'stats overview', moment('2000-01-01'));
+    const statsOverView: StatsOverview = new StatsOverview(StatsID.of(UUID.of('1a607fff-12c2-4d8d-a55a-75fa23971393')), ISO639.of('ab'), ISO3166.of('AFG'), Term.DAILY, 'stats overview', moment.utc('2000-01-01'));
 
     expect(statsOverView.toJSON()).toEqual({
       statsID: '1a607fff-12c2-4d8d-a55a-75fa23971393',
