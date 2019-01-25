@@ -1,24 +1,13 @@
 import { HotTable } from '@handsontable/react';
 import {
   Button,
-  Card,
-  CardContent,
-  CardHeader,
-  FormControl,
   Icon,
-  InputLabel,
-  MenuItem,
-  Select
 } from '@material-ui/core';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
-import { ISO3166 } from '../../../veau-vo/ISO3166';
-import { ISO639 } from '../../../veau-vo/ISO639';
-import { Language } from '../../../veau-vo/Language';
-import { Region } from '../../../veau-vo/Region';
 import { Props } from '../../containers/pages/StatsEdit';
 import { Authenticated } from '../../containers/templates/Authenticated';
-import { TextField } from '../atoms/TextField';
+import { StatsInformation } from '../molecules/StatsInformation';
 import { StatsItemInformation } from '../molecules/StatsItemInformation';
 import { StatsItemModal } from '../molecules/StatsItemModal';
 
@@ -176,111 +165,29 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
         <div
           className='stats-edit'
         >
-          <Card
-            className='stats-info'
+          <Button
+            color='primary'
+            fullWidth={true}
+            onClick={(): void => {
+              this.setState({
+                openNewStatsItemModal: true
+              });
+            }}
           >
-            <CardHeader
-              title={intl.formatMessage({
-                id: 'STATS_INFO'
-              })}
+            <Icon
+              className='fas fa-plus-square'
             />
-            <CardContent>
-              <TextField
-                label={intl.formatMessage({
-                  id: 'NAME'
-                })}
-                type='text'
-                value={stats.getName()}
-                onKeyUp={this.props.nameTyped}
-              />
-              <FormControl
-                fullWidth={true}
-              >
-                <InputLabel>
-                  {intl.formatMessage({
-                    id: 'LANGUAGE'
-                  })}
-                </InputLabel>
-                <Select
-                  value={stats.getLanguage().getISO639().get()}
-                  onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {
-                    const iso639: string = event.target.value;
-                    const language: Language = localeRepository.findByISO639(ISO639.of(iso639));
-                    this.props.languageSelected(language);
-                  }}
-                >
-                  {localeRepository.allLanguages().map<React.ReactNode>((language: Language) => {
-                    const iso639: string = language.getISO639().get();
-
-                    return (
-                      <MenuItem
-                        key={iso639}
-                        value={iso639}
-                      >
-                        {language.getName()}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
-              <FormControl
-                fullWidth={true}
-              >
-                <InputLabel>
-                  {intl.formatMessage({
-                    id: 'REGION'
-                  })}
-                </InputLabel>
-                <Select
-                  value={stats.getRegion().getISO3166().get()}
-                  onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {
-                    const iso3166: string = event.target.value;
-                    const region: Region = localeRepository.findByISO3166(ISO3166.of(iso3166));
-                    this.props.regionSelected(region);
-                  }}
-                >
-                  {localeRepository.allRegions().map<React.ReactNode>((region: Region) => {
-                    const iso3166: string = region.getISO3166().get();
-
-                    return (
-                      <MenuItem
-                        key={iso3166}
-                        value={iso3166}
-                      >
-                        {region.getName()}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
-              <TextField
-                label={intl.formatMessage({
-                  id: 'TERM'
-                })}
-                type='text'
-                value={intl.formatMessage({
-                  id: stats.getTerm().getKey()
-                })}
-                disabled={true}
-              />
-              <Button
-                color='primary'
-                fullWidth={true}
-                onClick={(): void => {
-                  this.setState({
-                    openNewStatsItemModal: true
-                  });
-                }}
-              >
-                <Icon
-                  className='fas fa-plus-square'
-                />
-                {intl.formatMessage({
-                  id: 'ADD_ITEM'
-                })}
-              </Button>
-            </CardContent>
-          </Card>
+            {intl.formatMessage({
+              id: 'ADD_ITEM'
+            })}
+          </Button>
+          <StatsInformation
+            stats={stats}
+            localeRepository={localeRepository}
+            nameTyped={this.props.nameTyped}
+            languageSelected={this.props.languageSelected}
+            regionSelected={this.props.regionSelected}
+          />
           <StatsItemInformation
             selecting={selectingItem}
             nameTyped={this.props.selectingItemNameTyped}
