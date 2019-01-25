@@ -4,6 +4,7 @@ import { StatsOverview } from '../veau-entity/StatsOverview';
 import { LoadingCount } from '../veau-frontend/reducers/loadingCount';
 import { Modal } from '../veau-frontend/reducers/modal';
 import { PageProvider } from '../veau-frontend/reducers/pageProvider';
+import { StatsEdit } from '../veau-frontend/reducers/statsEdit';
 import { StatsList } from '../veau-frontend/reducers/statsList';
 import { LocaleRepository } from '../veau-repository/LocaleRepository';
 import { EntranceInformation } from '../veau-vo/EntranceInformation';
@@ -17,6 +18,7 @@ export type State = {
   modal: Modal;
   pageProvider: PageProvider;
   stats: Stats;
+  statsEdit: StatsEdit;
   statsList: StatsList;
   statsOverviews: Array<StatsOverview>;
   router: RouterState;

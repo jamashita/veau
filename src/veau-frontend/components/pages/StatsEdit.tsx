@@ -3,7 +3,7 @@ import {
   Button,
   Card,
   CardContent,
-  CardHeader,
+  CardHeader, Dialog,
   FormControl,
   Icon,
   InputLabel,
@@ -37,6 +37,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
     const {
       stats,
       localeRepository,
+      open,
       intl
     } = this.props;
 
@@ -189,6 +190,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
             <Button
               color='primary'
               fullWidth={true}
+              onClick={this.props.newItemButtonClicked}
             >
               <Icon
                 className='fas fa-plus-square'
@@ -199,6 +201,14 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
             </Button>
           </CardContent>
         </Card>
+        <Dialog
+          open={open}
+          onClose={this.props.closeModal}
+          fullWidth={true}
+          maxWidth='md'
+        >
+          HEY
+        </Dialog>
       </Authenticated>
     );
   }

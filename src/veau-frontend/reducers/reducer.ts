@@ -9,6 +9,7 @@ import { localeRepository } from './localeRepository';
 import { modal } from './modal';
 import { pageProvider } from './pageProvider';
 import { stats } from './stats';
+import { statsEdit } from './statsEdit';
 import { statsList } from './statsList';
 import { statsOverviews } from './statsOverviews';
 
@@ -20,6 +21,7 @@ export const reducers: Reducer<State> = combineReducers({
   modal,
   pageProvider,
   stats,
+  statsEdit,
   statsList,
   statsOverviews,
   router: connectRouter(history)

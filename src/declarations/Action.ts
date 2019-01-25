@@ -56,6 +56,8 @@ export enum ACTION {
   STATS_EDIT_REGION_SELECTED = 'STATS_EDIT_REGION_SELECTED',
   STATS_EDIT_TERM_SELECTED = 'STATS_EDIT_TERM_SELECTED',
   STATS_EDIT_DATA_FILLED = 'STATS_EDIT_DATA_FILLED',
+  STATS_EDIT_NEW_ITEM = 'STATS_EDIT_NEW_ITEM',
+  STATS_EDIT_CLOSE_ITEM_MODAL = 'STATS_EDIT_CLOSE_ITEM_MODAL',
 
   STATS_OVERVIEW_UPDATE = 'STATS_OVERVIEW_UPDATE',
   STATS_UPDATE = 'STATS_UPDATE'
@@ -187,6 +189,12 @@ export interface StatsEditDataFilledAction extends ReduxAction {
   column: number;
   value: number;
 }
+export interface StatsEditNewItemAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_NEW_ITEM;
+}
+export interface StatsEditCloseItemModalAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_CLOSE_ITEM_MODAL;
+}
 export interface StatsOverviewUpdateAction extends ReduxAction {
   type: ACTION.STATS_OVERVIEW_UPDATE;
   statsOverviews: Array<StatsOverview>;
@@ -231,6 +239,8 @@ export type Action =
   | StatsEditRegionSelectedAction
   | StatsEditTermSelectedActoin
   | StatsEditDataFilledAction
+  | StatsEditNewItemAction
+  | StatsEditCloseItemModalAction
   | StatsOverviewUpdateAction
   | StatsUpdateAction
   ;

@@ -1,8 +1,10 @@
 import {
   ACTION,
+  StatsEditCloseItemModalAction,
   StatsEditDataFilledAction,
   StatsEditLanguageSelectedAction,
   StatsEditNameTypedAction,
+  StatsEditNewItemAction,
   StatsEditRegionSelectedAction,
   StatsEditTermSelectedActoin
 } from '../../declarations/Action';
@@ -44,5 +46,17 @@ export const statsDataFilled: (row: number, column: number, value: number) => St
     row,
     column,
     value
+  };
+};
+
+export const newItem: () => StatsEditNewItemAction = (): StatsEditNewItemAction => {
+  return {
+    type: ACTION.STATS_EDIT_NEW_ITEM
+  };
+};
+
+export const closeItemModal: () => StatsEditCloseItemModalAction = (): StatsEditCloseItemModalAction => {
+  return {
+    type: ACTION.STATS_EDIT_CLOSE_ITEM_MODAL
   };
 };

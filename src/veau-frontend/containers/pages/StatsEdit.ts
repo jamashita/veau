@@ -8,6 +8,8 @@ import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
 import { Term } from '../../../veau-vo/Term';
 import {
+  closeItemModal,
+  newItem,
   statsDataFilled,
   statsLanguageSelected,
   statsNameTyped,
@@ -19,6 +21,7 @@ import { StatsEdit as Component } from '../../components/pages/StatsEdit';
 type StateProps = {
   stats: Stats;
   localeRepository: LocaleRepository;
+  open: boolean;
 };
 type DispatchProps = {
   dataFilled: (row: number, column: number, value: number) => void;
@@ -26,6 +29,8 @@ type DispatchProps = {
   languageSelected: (language: Language) => void;
   regionSelected: (region: Region) => void;
   termSelected: (term: Term) => void;
+  newItemButtonClicked: () => void;
+  closeModal: () => void;
 };
 type OwnProps = {
 };
@@ -34,12 +39,16 @@ export type Props = StateProps & DispatchProps & OwnProps;
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State): StateProps => {
   const {
     stats,
-    localeRepository
+    localeRepository,
+    statsEdit: {
+      open
+    }
   } = state;
 
   return {
     stats,
-    localeRepository
+    localeRepository,
+    open
   };
 };
 
@@ -59,6 +68,12 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
     },
     termSelected: (term: Term): void => {
       dispatch(statsTermSelected(term));
+    },
+    newItemButtonClicked: (): void => {
+      dispatch(newItem());
+    },
+    closeModal: (): void => {
+      dispatch(closeItemModal());
     }
   };
 };
