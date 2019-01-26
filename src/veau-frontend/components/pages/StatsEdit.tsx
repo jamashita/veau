@@ -52,7 +52,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
     if (!stats.getRegion().equals(nextProps.stats.getRegion())) {
       return true;
     }
-    if (!stats.getTerm().equals(nextProps.stats.getTerm())) {
+    if (stats.getTerm() !== nextProps.stats.getTerm()) {
       return true;
     }
     if (stats.getItems().length !== nextProps.stats.getItems().length) {

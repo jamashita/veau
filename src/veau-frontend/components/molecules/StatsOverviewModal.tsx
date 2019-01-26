@@ -13,7 +13,6 @@ import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { StatsOverview } from '../../../veau-entity/StatsOverview';
 import { Term } from '../../../veau-enum/Term';
-import { TermRepository } from '../../../veau-repository/TermRepository';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
 import { Language } from '../../../veau-vo/Language';
@@ -35,8 +34,6 @@ type Props = {
 };
 type State = {
 };
-
-const termRepository: TermRepository = TermRepository.getInstance();
 
 class StatsOverviewModalImpl extends React.Component<Props & InjectedIntlProps, State> {
 
@@ -60,7 +57,7 @@ class StatsOverviewModalImpl extends React.Component<Props & InjectedIntlProps, 
     if (!newStatsOverview.getISO3166().equals(nextProps.newStatsOverview.getISO3166())) {
       return true;
     }
-    if (!newStatsOverview.getTerm().equals(nextProps.newStatsOverview.getTerm())) {
+    if (newStatsOverview.getTerm() !== nextProps.newStatsOverview.getTerm()) {
       return true;
     }
     if (languages.length !== nextProps.languages.length) {
@@ -176,7 +173,7 @@ class StatsOverviewModalImpl extends React.Component<Props & InjectedIntlProps, 
                 this.props.termSelected(Term.of(termID));
               }}
             >
-              {termRepository.all().map<React.ReactNode>((term: Term) => {
+              {Term.all().map<React.ReactNode>((term: Term) => {
                 const termID: number = term.get();
 
                 return (

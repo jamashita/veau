@@ -24,7 +24,7 @@ describe('StatsOverviewFactory', () => {
     expect(statsOverview.getStatsID().equals(statsID)).toEqual(true);
     expect(statsOverview.getISO639().equals(iso639)).toEqual(true);
     expect(statsOverview.getISO3166().equals(iso3166)).toEqual(true);
-    expect(statsOverview.getTerm().equals(term)).toEqual(true);
+    expect(statsOverview.getTerm()).toEqual(term);
     expect(statsOverview.getName()).toEqual(name);
     expect(statsOverview.getUpdatedAt().get('days')).toEqual(updatedAt.get('days'));
   });

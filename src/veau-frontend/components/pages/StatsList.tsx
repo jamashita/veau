@@ -43,7 +43,7 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
     if (!newStatsOverview.getISO3166().equals(nextProps.newStatsOverview.getISO3166())) {
       return true;
     }
-    if (!newStatsOverview.getTerm().equals(nextProps.newStatsOverview.getTerm())) {
+    if (newStatsOverview.getTerm() !== nextProps.newStatsOverview.getTerm()) {
       return true;
     }
 
