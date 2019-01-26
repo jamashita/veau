@@ -58,6 +58,19 @@ router.get('/:statsID', async (req: express.Request, res: express.Response) => {
   }
 });
 
+router.post('/', async (req: express.Request, res: express.Response) => {
+  const json: StatsJSON = req.body;
+
+  try {
+    await statsUsecase.save(json);
+    res.sendStatus(CREATED);
+  }
+  catch (err) {
+    logger.fatal(err.message);
+    res.sendStatus(INTERNAL_SERVER_ERROR);
+  }
+});
+
 router.post('/new', async (req: express.Request, res: express.Response) => {
   const json: StatsOverviewJSON = req.body;
 
