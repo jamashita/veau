@@ -4,10 +4,10 @@ import { Action } from '../../../declarations/Action';
 import { State } from '../../../declarations/State';
 import { Stats } from '../../../veau-entity/Stats';
 import { StatsItem } from '../../../veau-entity/StatsItem';
+import { Term } from '../../../veau-enum/Term';
 import { LocaleRepository } from '../../../veau-repository/LocaleRepository';
 import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
-import { Term } from '../../../veau-vo/Term';
 import {
   itemNameTyped, itemUnitTyped, rowSelected,
   saveItem, selectingItemNameTyped, selectingItemUnitTyped, startDateDetermined, statsDataDeleted,

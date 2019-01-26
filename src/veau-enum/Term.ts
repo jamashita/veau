@@ -1,5 +1,4 @@
 import { NoSuchElementError } from '../veau-general/NoSuchElementError';
-import { ValueObject } from './ValueObject';
 
 const DAILY: number = 1;
 const WEEKLY: number = 2;
@@ -7,7 +6,7 @@ const MONTHLY: number = 3;
 const QUARTERLY: number = 4;
 const ANNUAL: number = 5;
 
-export class Term extends ValueObject {
+export class Term {
   private id: number;
   private key: string;
 
@@ -41,7 +40,6 @@ export class Term extends ValueObject {
   }
 
   private constructor(id: number, key: string) {
-    super();
     this.id = id;
     this.key = key;
   }
@@ -52,26 +50,6 @@ export class Term extends ValueObject {
 
   public getKey(): string {
     return this.key;
-  }
-
-  public copy(): Term {
-    const {
-      id,
-      key
-    } = this;
-
-    return new Term(id, key);
-  }
-
-  public equals(other: Term): boolean {
-    if (this === other) {
-      return true;
-    }
-    if (this.id === other.get()) {
-      return true;
-    }
-
-    return false;
   }
 
   public toString(): string {

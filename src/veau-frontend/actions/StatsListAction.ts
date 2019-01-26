@@ -11,9 +11,9 @@ import {
   StatsListTermSelectedAction
 } from '../../declarations/Action';
 import { StatsOverview } from '../../veau-entity/StatsOverview';
+import { Term } from '../../veau-enum/Term';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
-import { Term } from '../../veau-vo/Term';
 
 export const newStats: () => StatsListNewStatsAction = (): StatsListNewStatsAction => {
   return {

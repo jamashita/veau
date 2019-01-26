@@ -12,12 +12,12 @@ import {
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { StatsOverview } from '../../../veau-entity/StatsOverview';
+import { Term } from '../../../veau-enum/Term';
 import { TermRepository } from '../../../veau-repository/TermRepository';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
 import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
-import { Term } from '../../../veau-vo/Term';
 import { I18NLabel } from '../atoms/I18NLabel';
 import { TextField } from '../atoms/TextField';
 

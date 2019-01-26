@@ -1,7 +1,7 @@
 /* tslint:disable */
 import 'jest';
 import { NoSuchElementError } from '../../veau-general/NoSuchElementError';
-import { Term } from '../../veau-vo/Term';
+import { Term } from '../../veau-enum/Term';
 import { TermRepository } from '../TermRepository';
 
 describe('TermRepository', () => {

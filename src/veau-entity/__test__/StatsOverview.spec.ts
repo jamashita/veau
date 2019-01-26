@@ -4,7 +4,7 @@ import * as moment from 'moment';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { StatsID } from '../../veau-vo/StatsID';
-import { Term } from '../../veau-vo/Term';
+import { Term } from '../../veau-enum/Term';
 import { UUID } from '../../veau-vo/UUID';
 import { StatsOverview } from '../StatsOverview';
 

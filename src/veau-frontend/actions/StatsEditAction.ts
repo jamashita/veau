@@ -17,9 +17,9 @@ import {
   StatsEditUpdateSelectingItemAction
 } from '../../declarations/Action';
 import { StatsItem } from '../../veau-entity/StatsItem';
+import { Term } from '../../veau-enum/Term';
 import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-vo/Region';
-import { Term } from '../../veau-vo/Term';
 
 export const statsNameTyped: (name: string) => StatsEditNameTypedAction = (name: string): StatsEditNameTypedAction => {
   return {

@@ -13,7 +13,7 @@ import { StatsID } from '../../veau-vo/StatsID';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
 import { StatsValue } from '../../veau-vo/StatsValue';
 import { StatsValues } from '../../veau-vo/StatsValues';
-import { Term } from '../../veau-vo/Term';
+import { Term } from '../../veau-enum/Term';
 import { UUID } from '../../veau-vo/UUID';
 import { StatsFactory } from '../StatsFactory';
 

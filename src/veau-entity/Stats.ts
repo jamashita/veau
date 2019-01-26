@@ -1,9 +1,9 @@
 import * as moment from 'moment';
+import { Term } from '../veau-enum/Term';
 import { UnexpectedError } from '../veau-general/UnexpectedError';
 import { Language, LanguageJSON } from '../veau-vo/Language';
 import { Region, RegionJSON } from '../veau-vo/Region';
 import { StatsID } from '../veau-vo/StatsID';
-import { Term } from '../veau-vo/Term';
 import { UUID } from '../veau-vo/UUID';
 import { Entity } from './Entity';
 import { StatsItem, StatsItemJSON } from './StatsItem';
