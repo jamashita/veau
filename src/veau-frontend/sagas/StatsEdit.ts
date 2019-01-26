@@ -24,7 +24,7 @@ import { AJAX } from '../../veau-general/AJAX';
 import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
 import { resetStatsItem, updateStats, updateStatsItem } from '../actions/StatsAction';
-import { itemSelecting, updateSelectingItem } from '../actions/StatsEditAction';
+import { clearSelectingItem, itemSelecting, updateSelectingItem } from '../actions/StatsEditAction';
 
 const statsFactory: StatsFactory = StatsFactory.getInstance();
 const statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
@@ -36,7 +36,7 @@ export class StatsEdit {
   public static *init(): IterableIterator<any> {
     yield fork(StatsEdit.findStats);
     yield fork(StatsEdit.nameTyped);
-    yield fork(StatsEdit.langaugeSelected);
+    yield fork(StatsEdit.languageSelected);
     yield fork(StatsEdit.regionSelected);
     yield fork(StatsEdit.termSelected);
     yield fork(StatsEdit.dataFilled);
@@ -64,6 +64,7 @@ export class StatsEdit {
         const stats: Stats = statsFactory.fromJSON(statsJSON);
 
         yield put(updateStats(stats));
+        yield put(clearSelectingItem());
       }
     }
   }
@@ -82,7 +83,7 @@ export class StatsEdit {
     }
   }
 
-  private static *langaugeSelected(): IterableIterator<any> {
+  private static *languageSelected(): IterableIterator<any> {
     while (true) {
       const action: StatsEditLanguageSelectedAction = yield take(ACTION.STATS_EDIT_LANGUAGE_SELECTED);
       const state: State = yield select();

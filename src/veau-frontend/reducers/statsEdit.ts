@@ -35,6 +35,12 @@ export const statsEdit: (state: StatsEdit, action: Action) => StatsEdit = (state
         selectingItem: statsItem
       };
     }
+    case ACTION.STATS_EDIT_CLEAR_SELECTING_ITEM: {
+      return {
+        ...state,
+        selectingItem: undefined
+      };
+    }
     default: {
       return state;
     }

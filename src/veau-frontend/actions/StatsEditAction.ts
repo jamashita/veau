@@ -1,5 +1,6 @@
 import {
   ACTION,
+  StatsEditClearSelectingItemAction,
   StatsEditDataDeletedAction,
   StatsEditDataFilledAction,
   StatsEditItemNameTypedAction,
@@ -136,6 +137,12 @@ export const rowMoved: (column: number, target: number) => StatsEditRowMovedActi
     type: ACTION.STATS_EDIT_ROW_MOVED,
     column,
     target
+  };
+};
+
+export const clearSelectingItem: () => StatsEditClearSelectingItemAction = (): StatsEditClearSelectingItemAction => {
+  return {
+    type: ACTION.STATS_EDIT_CLEAR_SELECTING_ITEM
   };
 };
 
