@@ -21,6 +21,7 @@ type State = {
 const ROW_INDEX: number = 0;
 const COLUMN_INDEX: number = 1;
 const VALUE_INDEX: number = 3;
+const SPREADSHEET_HEIGHT: number = 500;
 
 export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, State> {
 
@@ -126,7 +127,11 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
             rowHeaderWidth={stats.getRowHeaderSize()}
             manualRowResize={true}
             manualColumnResize={true}
+            manualRowMove={true}
             autoColumnSize={true}
+            className='htRight'
+            selectionMode='single'
+            height={SPREADSHEET_HEIGHT}
             beforeChange={(changes: Array<Array<any>> | null): boolean => {
               if (!changes) {
                 return false;
@@ -146,25 +151,37 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
               if (!changes) {
                 return;
               }
-              const length: number = changes.length;
-              for (let i: number = 0; i < length; i++) {
-                const str: string = changes[i][VALUE_INDEX];
-                const row: number = changes[i][ROW_INDEX];
-                const column: number = changes[i][COLUMN_INDEX];
+              changes.forEach((change: Array<any>) => {
+                const str: string = change[VALUE_INDEX];
+                const row: number = change[ROW_INDEX];
+                const column: number = change[COLUMN_INDEX];
 
                 if (str === '') {
                   this.props.dataDeleted(row, column);
-                  continue;
+                  return;
                 }
 
                 const value: number = Number(str);
                 this.props.dataFilled(row, column, value);
-              }
+              });
             }}
             afterSelection={(row1: number, col1: number, row2: number, col2: number): void => {
               if (row1 === row2) {
                 this.props.rowSelected(row1);
               }
+            }}
+            beforeRowMove={(columns: Array<number>, target: number): boolean => {
+              columns.forEach((column: number) => {
+                if (column === target) {
+                  return;
+                }
+                if (column < target) {
+                  this.props.rowMoved(column, target - 1);
+                  return;
+                }
+                this.props.rowMoved(column, target);
+              });
+              return true;
             }}
           />
         </div>

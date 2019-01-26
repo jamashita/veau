@@ -9,7 +9,7 @@ import {
   StatsEditItemUnitTypedAction,
   StatsEditLanguageSelectedAction,
   StatsEditNameTypedAction,
-  StatsEditRegionSelectedAction,
+  StatsEditRegionSelectedAction, StatsEditRowMovedAction,
   StatsEditRowSelectedAction,
   StatsEditSelectingItemNameTypedAction,
   StatsEditSelectingItemUnitTypedAction, StatsEditStartDateDeterminedAction,
@@ -48,6 +48,7 @@ export class StatsEdit {
     yield fork(StatsEdit.selectingItemNameTyped);
     yield fork(StatsEdit.selectingItemUnitTyped);
     yield fork(StatsEdit.startDateDetermined);
+    yield fork(StatsEdit.rowMoved);
     yield fork(StatsEdit.save);
   }
 
@@ -282,6 +283,24 @@ export class StatsEdit {
 
       const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUpdatedAt(), stats.getItems(), action.startDate);
       yield put(updateStats(newStats));
+    }
+  }
+
+  private static *rowMoved(): IterableIterator<any> {
+    while (true) {
+      const action: StatsEditRowMovedAction = yield take(ACTION.STATS_EDIT_ROW_MOVED);
+      const state: State = yield select();
+
+      const {
+        stats
+      } = state;
+      const {
+        column,
+        target
+      } = action;
+
+      stats.moveItem(column, target);
+      yield put(updateStats(stats.copy()));
     }
   }
 

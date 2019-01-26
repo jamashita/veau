@@ -281,6 +281,19 @@ export class Stats extends Entity<StatsID> {
     ];
   }
 
+  public moveItem(from: number, to: number): void {
+    const min: number = Math.min(from, to);
+    const max: number = Math.max(from, to);
+
+    this.items = [
+      ...this.items.slice(0, min),
+      this.items[max],
+      ...this.items.slice(min + 1, max),
+      this.items[min],
+      ...this.items.slice(max + 1)
+    ];
+  }
+
   public copy(): Stats {
     const {
       statsID,

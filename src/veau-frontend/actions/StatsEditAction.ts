@@ -9,7 +9,9 @@ import {
   StatsEditLanguageSelectedAction,
   StatsEditNameTypedAction,
   StatsEditRegionSelectedAction,
-  StatsEditRowSelectedAction, StatsEditSaveStatsAction,
+  StatsEditRowMovedAction,
+  StatsEditRowSelectedAction,
+  StatsEditSaveStatsAction,
   StatsEditSelectingItemNameTypedAction,
   StatsEditSelectingItemUnitTypedAction,
   StatsEditStartDateDeterminedAction,
@@ -126,6 +128,14 @@ export const updateSelectingItem: (statsItem: StatsItem) => StatsEditUpdateSelec
   return {
     type: ACTION.STATS_EDIT_UPDATE_SELECTING_ITEM,
     statsItem
+  };
+};
+
+export const rowMoved: (column: number, target: number) => StatsEditRowMovedAction = (column: number, target: number): StatsEditRowMovedAction => {
+  return {
+    type: ACTION.STATS_EDIT_ROW_MOVED,
+    column,
+    target
   };
 };
 
