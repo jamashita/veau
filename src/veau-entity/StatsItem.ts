@@ -111,6 +111,10 @@ export class StatsItem extends Entity<StatsItemID> {
     return true;
   }
 
+  public isValid(): boolean {
+    return this.isFilled();
+  }
+
   public copy(): StatsItem {
     const {
       statsItemID,

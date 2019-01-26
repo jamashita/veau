@@ -191,6 +191,54 @@ describe('Stats', () => {
     expect(stats5.isFilled()).toEqual(true);
   });
 
+  it('isValid: stats is invalid', () => {
+    const stats1: Stats = new Stats(StatsID.of(UUID.of('62e103f0-5299-4794-883f-62b9c91583e4')), Language.default(), Region.default(), Term.DAILY, '', moment('2000-01-01'), []);
+    const stats2: Stats = new Stats(StatsID.of(UUID.of('62e103f0-5299-4794-883f-62b9c91583e4')), Language.of(LanguageID.of(1), 'language1', 'language1', ISO639.of('ab')), Region.default(), Term.DAILY, '', moment('2000-01-01'), []);
+    const stats3: Stats = new Stats(StatsID.of(UUID.of('62e103f0-5299-4794-883f-62b9c91583e4')), Language.default(), Region.of(RegionID.of(1), 'region1', ISO3166.of('AFG')), Term.DAILY, '', moment('2000-01-01'), []);
+    const stats4: Stats = new Stats(StatsID.of(UUID.of('62e103f0-5299-4794-883f-62b9c91583e4')), Language.of(LanguageID.of(1), 'language1', 'language1', ISO639.of('ab')), Region.of(RegionID.of(1), 'region1', ISO3166.of('AFG')), Term.DAILY, '', moment('2000-01-01'), []);
+
+    expect(stats1.isValid()).toEqual(false);
+    expect(stats2.isValid()).toEqual(false);
+    expect(stats3.isValid()).toEqual(false);
+    expect(stats4.isValid()).toEqual(false);
+  });
+
+  it('isValid: stats items are invalid', () => {
+    const stats1: Stats = new Stats(StatsID.of(UUID.of('62e103f0-5299-4794-883f-62b9c91583e4')), Language.of(LanguageID.of(1), 'language1', 'language1', ISO639.of('ab')), Region.of(RegionID.of(1), 'region1', ISO3166.of('AFG')), Term.DAILY, 'stats1', moment('2000-01-01'), [
+      new StatsItem(StatsItemID.of(UUID.of('4905faa8-0b6d-4032-9788-704c2703a5c9')), '', '', StatsValues.of([]))
+    ]);
+    const stats2: Stats = new Stats(StatsID.of(UUID.of('62e103f0-5299-4794-883f-62b9c91583e4')), Language.of(LanguageID.of(1), 'language1', 'language1', ISO639.of('ab')), Region.of(RegionID.of(1), 'region1', ISO3166.of('AFG')), Term.DAILY, 'stats1', moment('2000-01-01'), [
+      new StatsItem(StatsItemID.of(UUID.of('4905faa8-0b6d-4032-9788-704c2703a5c9')), 'name1', '', StatsValues.of([]))
+    ]);
+    const stats3: Stats = new Stats(StatsID.of(UUID.of('62e103f0-5299-4794-883f-62b9c91583e4')), Language.of(LanguageID.of(1), 'language1', 'language1', ISO639.of('ab')), Region.of(RegionID.of(1), 'region1', ISO3166.of('AFG')), Term.DAILY, 'stats1', moment('2000-01-01'), [
+      new StatsItem(StatsItemID.of(UUID.of('4905faa8-0b6d-4032-9788-704c2703a5c9')), '', 'unit1', StatsValues.of([]))
+    ]);
+    const stats4: Stats = new Stats(StatsID.of(UUID.of('62e103f0-5299-4794-883f-62b9c91583e4')), Language.of(LanguageID.of(1), 'language1', 'language1', ISO639.of('ab')), Region.of(RegionID.of(1), 'region1', ISO3166.of('AFG')), Term.DAILY, 'stats1', moment('2000-01-01'), [
+      new StatsItem(StatsItemID.of(UUID.of('4905faa8-0b6d-4032-9788-704c2703a5c9')), 'name1', 'unit1', StatsValues.of([])),
+      new StatsItem(StatsItemID.of(UUID.of('4905faa8-0b6d-4032-9788-704c2703a5c9')), '', '', StatsValues.of([]))
+    ]);
+
+    expect(stats1.isValid()).toEqual(false);
+    expect(stats2.isValid()).toEqual(false);
+    expect(stats3.isValid()).toEqual(false);
+    expect(stats4.isValid()).toEqual(false);
+  });
+
+  it('isValid', () => {
+    const stats1: Stats = new Stats(StatsID.of(UUID.of('62e103f0-5299-4794-883f-62b9c91583e4')), Language.of(LanguageID.of(1), 'language1', 'language1', ISO639.of('ab')), Region.of(RegionID.of(1), 'region1', ISO3166.of('AFG')), Term.DAILY, 'stats1', moment('2000-01-01'), []);
+    const stats2: Stats = new Stats(StatsID.of(UUID.of('62e103f0-5299-4794-883f-62b9c91583e4')), Language.of(LanguageID.of(1), 'language1', 'language1', ISO639.of('ab')), Region.of(RegionID.of(1), 'region1', ISO3166.of('AFG')), Term.DAILY, 'stats1', moment('2000-01-01'), [
+      new StatsItem(StatsItemID.of(UUID.of('4905faa8-0b6d-4032-9788-704c2703a5c9')), 'name', 'unit', StatsValues.of([]))
+    ]);
+    const stats3: Stats = new Stats(StatsID.of(UUID.of('62e103f0-5299-4794-883f-62b9c91583e4')), Language.of(LanguageID.of(1), 'language1', 'language1', ISO639.of('ab')), Region.of(RegionID.of(1), 'region1', ISO3166.of('AFG')), Term.DAILY, 'stats1', moment('2000-01-01'), [
+      new StatsItem(StatsItemID.of(UUID.of('4905faa8-0b6d-4032-9788-704c2703a5c9')), 'name1', 'unit1', StatsValues.of([])),
+      new StatsItem(StatsItemID.of(UUID.of('4905faa8-0b6d-4032-9788-704c2703a5c9')), 'name2', 'unit2', StatsValues.of([]))
+    ]);
+
+    expect(stats1.isValid()).toEqual(true);
+    expect(stats2.isValid()).toEqual(true);
+    expect(stats3.isValid()).toEqual(true);
+  });
+
   it('setData: update pattern', () => {
     const stats: Stats = new Stats(StatsID.of(UUID.of('14351289-d8ce-48cd-8ef9-ac1b356c9233')), Language.default(), Region.default(), Term.DAILY, 'stats1', moment('2000-01-01'), [
       new StatsItem(StatsItemID.of(UUID.of('bf04b0fa-ed4d-4114-84a3-c963871dfe06')), 'item1', 'unit1', StatsValues.of([

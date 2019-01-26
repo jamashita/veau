@@ -253,6 +253,26 @@ export class Stats extends Entity<StatsID> {
     return true;
   }
 
+  public isValid(): boolean {
+    if (!this.isFilled()) {
+      return false;
+    }
+
+    const isValid: boolean = this.items.every((item: StatsItem): boolean => {
+      if (item.isValid()) {
+        return true;
+      }
+
+      return false;
+    });
+
+    if (isValid) {
+      return true;
+    }
+
+    return false;
+  }
+
   public replaceItem(statsItem: StatsItem, index: number): void {
     this.items = [
       ...this.items.slice(0, index),
