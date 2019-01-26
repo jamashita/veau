@@ -109,8 +109,11 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
     } = this.props;
     const {
       openNewStatsItemModal,
-      openStartDateModal
+      openStartDateModal,
+      startDate
     } = this.state;
+
+    console.log(stats.getData());
 
     return (
       <Authenticated>
@@ -122,7 +125,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
           </div>
           <HotTable
             data={stats.getData()}
-            colHeaders={stats.getColumn()}
+            colHeaders={stats.getColumn(startDate)}
             rowHeaders={stats.getRow()}
             rowHeaderWidth={stats.getRowHeaderSize()}
             manualRowResize={true}
@@ -191,7 +194,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
           <Button
             color='primary'
             fullWidth={true}
-            disabled={stats.hasValues()}
+            disabled={stats.hasValues() || startDate !== undefined}
             onClick={(): void => {
               this.setState({
                 openStartDateModal: true
@@ -200,11 +203,10 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
           >
             <Icon
               className='fas fa-hourglass'
-            >
-              {intl.formatMessage({
-                id: 'DETERMINE_START_DATE'
-              })}
-            </Icon>
+            />
+            {intl.formatMessage({
+              id: 'DETERMINE_START_DATE'
+            })}
           </Button>
           <StatsInformation
             stats={stats}
@@ -243,11 +245,11 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
               openStartDateModal: false
             });
           }}
-          determineStartDate={(startDate: string): void => {
+          determineStartDate={(date: string): void => {
             this.setState({
-              openStartDateModal: false
+              openStartDateModal: false,
+              startDate: date
             });
-            this.props.setStartDate(startDate);
           }}
         />
       </Authenticated>

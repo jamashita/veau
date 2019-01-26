@@ -43,13 +43,13 @@ export class Stats extends Entity<StatsID> {
   private name: string;
   private updatedAt: moment.Moment;
   private items: Array<StatsItem>;
-  private startDate?: string;
+  private column?: Array<string>;
 
   public static default(): Stats {
     return new Stats(StatsID.of(UUID.of('')), Language.default(), Region.default(), Term.DAILY, '', moment(), []);
   }
 
-  public constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: string, updatedAt: moment.Moment, items: Array<StatsItem>) {
+  public constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: string, updatedAt: moment.Moment, items: Array<StatsItem>, column?: Array<string>) {
     super();
     this.statsID = statsID;
     this.language = language;
@@ -58,6 +58,7 @@ export class Stats extends Entity<StatsID> {
     this.name = name;
     this.updatedAt = moment(updatedAt);
     this.items = items;
+    this.column = column;
   }
 
   public getStatsID(): StatsID {
@@ -92,11 +93,15 @@ export class Stats extends Entity<StatsID> {
     return this.statsID;
   }
 
-  public getColumn(): Array<string> {
+  public getColumn(startDate?: string): Array<string> {
+    if (this.column) {
+      return this.column;
+    }
+
     const asOfs: Array<moment.Moment> = this.collectAsOf();
 
-    if (this.startDate) {
-      asOfs.push(moment(this.startDate));
+    if (startDate) {
+      asOfs.push(moment(startDate));
     }
 
     if (asOfs.length === 0) {
@@ -113,6 +118,8 @@ export class Stats extends Entity<StatsID> {
     }
     column.push(this.nextTerm(maxTerm).format(TERM_FORMAT));
 
+    console.log(`column: ${column}`);
+    this.column = column;
     return column;
   }
 
@@ -185,10 +192,19 @@ export class Stats extends Entity<StatsID> {
   }
 
   public getData(): Array<Array<string>> {
-    const column: Array<string> = this.getColumn();
+    const {
+      column
+    } = this;
+
+    console.log(`columns: ${column}`);
+    if (column) {
+      return this.items.map<Array<string>>((statsItem: StatsItem, index: number) => {
+        return statsItem.getValuesByColumn(column);
+      });
+    }
 
     return this.items.map<Array<string>>((statsItem: StatsItem, index: number) => {
-      return statsItem.getValuesByColumn(column);
+      return statsItem.getValuesByColumn(this.getColumn());
     });
   }
 
@@ -196,10 +212,6 @@ export class Stats extends Entity<StatsID> {
     const asOfString: string = this.getColumn()[column];
     const asOf: moment.Moment = moment(asOfString);
     this.items[row].setValue(asOf, value);
-  }
-
-  public setStartDate(startDate: string): void {
-    this.startDate = startDate;
   }
 
   public deleteData(row: number, column: number): void {

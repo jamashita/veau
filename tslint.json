@@ -94,7 +94,7 @@
     "object-literal-sort-keys": false,
     "prefer-const": true,
     "trailing-comma": [ true, { "multiline": "never", "singleline": "never" }],
-    "align": [ true, "parameters", "arguments" ],
+    "align": false,
     "array-type": [ true, "generic" ],
     "arrow-parens": true,
     "arrow-return-shorthand": false,

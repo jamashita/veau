@@ -12,7 +12,7 @@ import {
   StatsEditRegionSelectedAction,
   StatsEditRowSelectedAction,
   StatsEditSelectingItemNameTypedAction,
-  StatsEditSelectingItemUnitTypedAction, StatsEditStartDateDeterminedAction,
+  StatsEditSelectingItemUnitTypedAction,
   StatsEditTermSelectedActoin
 } from '../../declarations/Action';
 import { State } from '../../declarations/State';
@@ -45,7 +45,6 @@ export class StatsEdit {
     yield fork(StatsEdit.rowSelected);
     yield fork(StatsEdit.selectingItemNameTyped);
     yield fork(StatsEdit.selectingItemUnitTyped);
-    yield fork(StatsEdit.startDateDetermined);
   }
 
   private static *findStats(): IterableIterator<any> {
@@ -195,10 +194,11 @@ export class StatsEdit {
         statsItem
       } = state;
 
-      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUpdatedAt(), [
-        ...stats.getItems(),
-        statsItem
-      ]);
+      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUpdatedAt(),
+        [
+          ...stats.getItems(),
+          statsItem
+        ], stats.getColumn());
       yield put(updateStats(newStats));
       yield put(resetStatsItem());
     }
@@ -264,22 +264,6 @@ export class StatsEdit {
         yield put(updateSelectingItem(newSelectingItem));
         yield put(updateStats(stats.copy()));
       }
-    }
-  }
-
-  private static *startDateDetermined(): IterableIterator<any> {
-    while (true) {
-      const action: StatsEditStartDateDeterminedAction = yield take(ACTION.STATS_EDIT_START_DATE_DETERMINED);
-      const state: State = yield select();
-
-      const {
-        stats
-      } = state;
-
-      const newStats: Stats = stats.copy();
-      newStats.setStartDate(action.startDate);
-      console.log(newStats.getColumn());
-      yield put(updateStats(newStats));
     }
   }
 }

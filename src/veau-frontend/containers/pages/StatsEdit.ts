@@ -10,7 +10,7 @@ import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
 import {
   itemNameTyped, itemUnitTyped, rowSelected,
-  saveItem, selectingItemNameTyped, selectingItemUnitTyped, startDateDetermined, statsDataDeleted,
+  saveItem, selectingItemNameTyped, selectingItemUnitTyped, statsDataDeleted,
   statsDataFilled,
   statsLanguageSelected,
   statsNameTyped,
@@ -38,7 +38,6 @@ type DispatchProps = {
   rowSelected: (row: number) => void;
   selectingItemNameTyped: (name: string) => void;
   selectingItemUnitTyped: (unit: string) => void;
-  setStartDate: (startDate: string) => void;
 };
 type OwnProps = {
 };
@@ -99,9 +98,6 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
     },
     selectingItemUnitTyped: (unit: string): void => {
       dispatch(selectingItemUnitTyped(unit));
-    },
-    setStartDate: (startDate: string): void => {
-      dispatch(startDateDetermined(startDate));
     }
   };
 };

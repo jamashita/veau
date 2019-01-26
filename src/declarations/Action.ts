@@ -65,7 +65,6 @@ export enum ACTION {
   STATS_EDIT_ITEM_SELECTING = 'STATS_EDIT_ITEM_SELECTING',
   STATS_EDIT_SELECTING_ITEM_NAME_TYPED = 'STATS_EDIT_SELECTING_ITEM_NAME_TYPED',
   STATS_EDIT_SELECTING_ITEM_UNIT_TYPED = 'STATS_EDIT_SELECTING_ITEM_UNIT_TYPED',
-  STATS_EDIT_START_DATE_DETERMINED = 'STATS_EDIT_START_DATE_DETERMINED',
   STATS_EDIT_UPDATE_SELECTING_ITEM = 'STATS_EDIT_UPDATE_SELECTING_ITEM',
 
   STATS_OVERVIEW_UPDATE = 'STATS_OVERVIEW_UPDATE',
@@ -235,10 +234,6 @@ export interface StatsEditSelectingItemUnitTypedAction extends ReduxAction {
   type: ACTION.STATS_EDIT_SELECTING_ITEM_UNIT_TYPED;
   unit: string;
 }
-export interface StatsEditStartDateDeterminedAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_START_DATE_DETERMINED;
-  startDate: string;
-}
 export interface StatsEditUpdateSelectingItemAction extends ReduxAction {
   type: ACTION.STATS_EDIT_UPDATE_SELECTING_ITEM;
   statsItem: StatsItem;
@@ -308,7 +303,6 @@ export type Action =
   | StatsEditItemSelectingAction
   | StatsEditSelectingItemNameTypedAction
   | StatsEditSelectingItemUnitTypedAction
-  | StatsEditStartDateDeterminedAction
   | StatsEditUpdateSelectingItemAction
   | StatsOverviewUpdateAction
   | StatsOverviewResetAction
