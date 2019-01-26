@@ -1,6 +1,6 @@
-export class NoSuchElementError extends Error {
+export class UnexpectedError extends Error {
 
-  public constructor(message: string) {
-    super(`NO SUCH KEY: ${message}`);
+  public constructor() {
+    super('UNEXPECTED ERROR');
   }
 }

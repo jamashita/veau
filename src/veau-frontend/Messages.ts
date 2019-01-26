@@ -44,6 +44,8 @@ export type Messages = {
   STATS_ITEM_INFO: string;
   ADD_ITEM: string;
   CREATE_NEW_ITEM: string;
+  START_DATE: string;
+  DETERMINE_START_DATE: string;
 
   AUTHENTICATION_FAILED: string;
   AUTHENTICATION_FAILED_DESCRIPTION: string;
@@ -102,6 +104,8 @@ const en: Messages = {
   STATS_ITEM_INFO: 'Item information',
   ADD_ITEM: 'Add an item',
   CREATE_NEW_ITEM: 'Create new statistics item',
+  START_DATE: 'Start date',
+  DETERMINE_START_DATE: 'Determine start date',
 
   AUTHENTICATION_FAILED: 'Authentication failed',
   AUTHENTICATION_FAILED_DESCRIPTION: 'Account or Password is incorrect. Please check them again.',
@@ -160,6 +164,8 @@ const fr: Messages = {
   STATS_ITEM_INFO: 'Informations de l\'élément',
   ADD_ITEM: 'Ajouter un élément',
   CREATE_NEW_ITEM: 'Créer un nouvel élément de statistiques',
+  START_DATE: 'Date de début',
+  DETERMINE_START_DATE: 'Déterminer la date de début',
 
   AUTHENTICATION_FAILED: 'Authentification échouée',
   AUTHENTICATION_FAILED_DESCRIPTION: 'Compte ou mot de passe est incorrect. Les vérifier à nouveau s\'il vous plaît.',
@@ -218,6 +224,8 @@ const es: Messages = {
   STATS_ITEM_INFO: 'Información del item',
   ADD_ITEM: 'Añadir un ítem',
   CREATE_NEW_ITEM: 'Crear nuevo ítem de estadísticas',
+  START_DATE: 'Fecha de inicio',
+  DETERMINE_START_DATE: 'Determinar la fecha de inicio',
 
   AUTHENTICATION_FAILED: 'Autenticación fallida',
   AUTHENTICATION_FAILED_DESCRIPTION: 'La cuenta o contraseña es incorrecta. Revísalos nuevamente por favor.',
@@ -275,7 +283,9 @@ const ja: Messages = {
   STATS_INFO: '統計情報',
   STATS_ITEM_INFO: '項目情報',
   ADD_ITEM: '項目を追加',
-  CREATE_NEW_ITEM: 'Create new statistics item',
+  CREATE_NEW_ITEM: '新しい統計項目を作成する',
+  START_DATE: '開始日',
+  DETERMINE_START_DATE: '開始日を決定する',
 
   AUTHENTICATION_FAILED: '認証に失敗しました',
   AUTHENTICATION_FAILED_DESCRIPTION: 'アカウントまたはパスワードが正しくありません。もう一度確認してください。',

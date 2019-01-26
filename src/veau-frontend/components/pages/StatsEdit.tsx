@@ -7,12 +7,15 @@ import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { Props } from '../../containers/pages/StatsEdit';
 import { Authenticated } from '../../containers/templates/Authenticated';
+import { StatsEditStartDateModal } from '../molecules/StatsEditStartDateModal';
 import { StatsInformation } from '../molecules/StatsInformation';
 import { StatsItemInformation } from '../molecules/StatsItemInformation';
 import { StatsItemModal } from '../molecules/StatsItemModal';
 
 type State = {
   openNewStatsItemModal: boolean;
+  openStartDateModal: boolean;
+  startDate?: string;
 };
 
 const ROW_INDEX: number = 0;
@@ -24,7 +27,9 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
   public constructor(props: Props & InjectedIntlProps) {
     super(props);
     this.state = {
-      openNewStatsItemModal: false
+      openNewStatsItemModal: false,
+      openStartDateModal: false,
+      startDate: undefined
     };
   }
 
@@ -36,7 +41,9 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
       selectingItem
     } = this.props;
     const {
-      openNewStatsItemModal
+      openNewStatsItemModal,
+      openStartDateModal,
+      startDate
     } = this.state;
 
     if (!stats.getLanguage().equals(nextProps.stats.getLanguage())) {
@@ -82,6 +89,12 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
     if (openNewStatsItemModal !== nextState.openNewStatsItemModal) {
       return true;
     }
+    if (openStartDateModal !== nextState.openStartDateModal) {
+      return true;
+    }
+    if (startDate !== nextState.startDate) {
+      return true;
+    }
 
     return false;
   }
@@ -95,7 +108,8 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
       intl
     } = this.props;
     const {
-      openNewStatsItemModal
+      openNewStatsItemModal,
+      openStartDateModal
     } = this.state;
 
     return (
@@ -174,6 +188,24 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
               id: 'ADD_ITEM'
             })}
           </Button>
+          <Button
+            color='primary'
+            fullWidth={true}
+            disabled={stats.hasValues()}
+            onClick={(): void => {
+              this.setState({
+                openStartDateModal: true
+              });
+            }}
+          >
+            <Icon
+              className='fas fa-hourglass'
+            >
+              {intl.formatMessage({
+                id: 'DETERMINE_START_DATE'
+              })}
+            </Icon>
+          </Button>
           <StatsInformation
             stats={stats}
             localeRepository={localeRepository}
@@ -190,7 +222,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
         <StatsItemModal
           open={openNewStatsItemModal}
           statsItem={statsItem}
-          closeNewItemModal={(): void => {
+          close={(): void => {
             this.setState({
               openNewStatsItemModal: false
             });
@@ -202,6 +234,20 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
               openNewStatsItemModal: false
             });
             this.props.saveNewItem();
+          }}
+        />
+        <StatsEditStartDateModal
+          open={openStartDateModal}
+          close={(): void => {
+            this.setState({
+              openStartDateModal: false
+            });
+          }}
+          determineStartDate={(startDate: string): void => {
+            this.setState({
+              openStartDateModal: false
+            });
+            this.props.setStartDate(startDate);
           }}
         />
       </Authenticated>

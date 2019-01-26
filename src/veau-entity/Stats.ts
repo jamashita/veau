@@ -1,4 +1,5 @@
 import * as moment from 'moment';
+import { UnexpectedError } from '../veau-general/UnexpectedError';
 import { Language, LanguageJSON } from '../veau-vo/Language';
 import { Region, RegionJSON } from '../veau-vo/Region';
 import { StatsID } from '../veau-vo/StatsID';
@@ -124,8 +125,7 @@ export class Stats extends Entity<StatsID> {
   private nextTerm(term: moment.Moment): moment.Moment {
     const newTerm: moment.Moment = moment(term);
     switch (this.term) {
-      case Term.DAILY:
-      default: {
+      case Term.DAILY: {
         return newTerm.add(1, 'days');
       }
       case Term.WEEKLY: {
@@ -140,14 +140,16 @@ export class Stats extends Entity<StatsID> {
       case Term.ANNUAL: {
         return newTerm.add(1, 'years');
       }
+      default: {
+        throw new UnexpectedError();
+      }
     }
   }
 
   private previousTerm(term: moment.Moment): moment.Moment {
     const newTerm: moment.Moment = moment(term);
     switch (this.term) {
-      case Term.DAILY:
-      default: {
+      case Term.DAILY: {
         return newTerm.subtract(1, 'days');
       }
       case Term.WEEKLY: {
@@ -161,6 +163,9 @@ export class Stats extends Entity<StatsID> {
       }
       case Term.ANNUAL: {
         return newTerm.subtract(1, 'years');
+      }
+      default: {
+        throw new UnexpectedError();
       }
     }
   }
@@ -270,7 +275,7 @@ export class Stats extends Entity<StatsID> {
       newItems.push(item.copy());
     });
 
-    return new Stats(statsID.copy(), language.copy(), region.copy(), term.copy(), name, moment(updatedAt), newItems);
+    return new Stats(statsID.copy(), language.copy(), region.copy(), term, name, moment(updatedAt), newItems);
   }
 
   public toJSON(): StatsJSON {

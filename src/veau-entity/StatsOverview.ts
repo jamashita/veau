@@ -104,7 +104,7 @@ export class StatsOverview extends Entity<StatsID> {
       updatedAt
     } = this;
 
-    return new StatsOverview(statsID.copy(), iso639.copy(), iso3166.copy(), term.copy(), name, moment(updatedAt));
+    return new StatsOverview(statsID.copy(), iso639.copy(), iso3166.copy(), term, name, moment(updatedAt));
   }
 
   public toJSON(): StatsOverviewJSON {

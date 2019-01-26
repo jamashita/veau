@@ -1,48 +1,40 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon } from '@material-ui/core';
+import * as moment from 'moment';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
-import { StatsItem } from '../../../veau-entity/StatsItem';
 import { I18NLabel } from '../atoms/I18NLabel';
 import { TextField } from '../atoms/TextField';
 
 type Props = {
   open: boolean;
-  statsItem: StatsItem;
   close: () => void;
-  itemNameTyped: (name: string) => void;
-  itemUnitTyped: (unit: string) => void;
-  saveNewItem: () => void;
+  determineStartDate: (startDate: string) => void;
 };
 type State = {
+  startDate: string;
 };
 
-class StatsItemModalImpl extends React.Component<Props & InjectedIntlProps, State> {
+class StatsEditStartDateModalImpl extends React.Component<Props & InjectedIntlProps, State> {
+
+  public constructor(props: Props & InjectedIntlProps) {
+    super(props);
+    this.state = {
+      startDate: moment().format('YYYY-MM-DD')
+    };
+  }
 
   public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
-    const {
-      open,
-      statsItem
-    } = this.props;
-
-    if (open !== nextProps.open) {
-      return true;
-    }
-    if (statsItem.getName() !== nextProps.statsItem.getName()) {
-      return true;
-    }
-    if (statsItem.getUnit() !== nextProps.statsItem.getUnit()) {
-      return true;
-    }
-
-    return false;
+    return true;
   }
 
   public render(): React.ReactNode {
     const {
       open,
-      statsItem,
       intl
     } = this.props;
+    const {
+      startDate
+    } = this.state;
 
     return (
       <Dialog
@@ -53,32 +45,29 @@ class StatsItemModalImpl extends React.Component<Props & InjectedIntlProps, Stat
       >
         <DialogTitle>
           {intl.formatMessage({
-            id: 'CREATE_NEW_ITEM'
+            id: 'DETERMINE_START_DATE'
           })}
         </DialogTitle>
         <DialogContent>
           <TextField
             label={intl.formatMessage({
-              id: 'NAME'
+              id: 'START_DATE'
             })}
-            type='text'
-            value={statsItem.getName()}
-            onKeyUp={this.props.itemNameTyped}
-          />
-          <TextField
-            label={intl.formatMessage({
-              id: 'UNIT'
-            })}
-            type='text'
-            value={statsItem.getUnit()}
-            onKeyUp={this.props.itemUnitTyped}
+            type='date'
+            value={startDate}
+            onKeyUp={(date: string): void => {
+              this.setState({
+                startDate: date
+              });
+            }}
           />
         </DialogContent>
         <DialogActions>
           <Button
             color='secondary'
-            onClick={this.props.saveNewItem}
-            disabled={!statsItem.isFilled()}
+            onClick={(): void => {
+              this.props.determineStartDate(startDate);
+            }}
           >
             <Icon className='fas fa-check' />
             <I18NLabel
@@ -100,4 +89,4 @@ class StatsItemModalImpl extends React.Component<Props & InjectedIntlProps, Stat
   }
 }
 
-export const StatsItemModal: React.ComponentClass<Props, State> = injectIntl(StatsItemModalImpl);
+export const StatsEditStartDateModal: React.ComponentClass<Props, State> = injectIntl(StatsEditStartDateModalImpl);
