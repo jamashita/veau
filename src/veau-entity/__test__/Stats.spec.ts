@@ -139,6 +139,30 @@ describe('Stats', () => {
     ]);
   });
 
+  it('setStartDate: later getColumn', () => {
+    const stats: Stats = new Stats(StatsID.of(UUID.of('f330c618-6127-46d1-ba10-a9f6af458b4c')), Language.default(), Region.default(), Term.DAILY, 'stats1', moment('2000-01-01'), [
+      new StatsItem(StatsItemID.of(UUID.of('8f7b1783-b09c-4010-aac1-dca1292ee700')), 'stats item 1', 'unit1', StatsValues.of([
+        StatsValue.of(moment('2000-01-03'), 2)
+      ])),
+      new StatsItem(StatsItemID.of(UUID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551')), 'stats item 2', 'unit2', StatsValues.of([
+        StatsValue.of(moment('2000-01-02'), 4),
+        StatsValue.of(moment('2000-01-05'), 6)
+      ]))
+    ]);
+
+    stats.setStartDate('2000-01-01');
+
+    expect(stats.getColumn()).toEqual([
+      '1999-12-31',
+      '2000-01-01',
+      '2000-01-02',
+      '2000-01-03',
+      '2000-01-04',
+      '2000-01-05',
+      '2000-01-06'
+    ]);
+  });
+
   it('getRow', () => {
     const stats: Stats = new Stats(StatsID.of(UUID.of('f330c618-6127-46d1-ba10-a9f6af458b4c')), Language.default(), Region.default(), Term.DAILY, 'stats1', moment('2000-01-01'), [
       new StatsItem(StatsItemID.of(UUID.of('8f7b1783-b09c-4010-aac1-dca1292ee700')), 'stats item 1', 'unit1', StatsValues.of([

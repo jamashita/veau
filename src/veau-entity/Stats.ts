@@ -42,6 +42,7 @@ export class Stats extends Entity<StatsID> {
   private name: string;
   private updatedAt: moment.Moment;
   private items: Array<StatsItem>;
+  private startDate?: string;
 
   public static default(): Stats {
     return new Stats(StatsID.of(UUID.of('')), Language.default(), Region.default(), Term.DAILY, '', moment(), []);
@@ -92,9 +93,12 @@ export class Stats extends Entity<StatsID> {
 
   public getColumn(): Array<string> {
     const asOfs: Array<moment.Moment> = this.collectAsOf();
-    const length: number = asOfs.length;
 
-    if (length === 0) {
+    if (this.startDate) {
+      asOfs.push(moment(this.startDate));
+    }
+
+    if (asOfs.length === 0) {
       return [];
     }
 
@@ -187,6 +191,10 @@ export class Stats extends Entity<StatsID> {
     const asOfString: string = this.getColumn()[column];
     const asOf: moment.Moment = moment(asOfString);
     this.items[row].setValue(asOf, value);
+  }
+
+  public setStartDate(startDate: string): void {
+    this.startDate = startDate;
   }
 
   public deleteData(row: number, column: number): void {
