@@ -1,12 +1,16 @@
 import { Stats, StatsJSON } from '../veau-entity/Stats';
 import { StatsOverview, StatsOverviewJSON } from '../veau-entity/StatsOverview';
+import { StatsFactory } from '../veau-factory/StatsFactory';
 import { StatsOverviewFactory } from '../veau-factory/StatsOverviewFactory';
+import { MySQLTransaction } from '../veau-general/MySQLTransaction';
+import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { IStatsOverviewRepository, StatsOverviewRepository } from '../veau-repository/StatsOverviewRepository';
 import { IStatsRepository, StatsRepository } from '../veau-repository/StatsRepository';
 import { StatsID } from '../veau-vo/StatsID';
 import { UUID } from '../veau-vo/UUID';
 
 const statsRepository: IStatsRepository = StatsRepository.getInstance();
+const statsFactory: StatsFactory = StatsFactory.getInstance();
 const statsOverviewRepository: IStatsOverviewRepository = StatsOverviewRepository.getInstance();
 const statsOverviewFactory: StatsOverviewFactory = StatsOverviewFactory.getInstance();
 
@@ -34,10 +38,19 @@ export class StatsUsecase implements IStatsUsecase {
     });
   }
 
-  public saveNewStats(json: StatsOverviewJSON): Promise<void> {
+  public saveNewStats(json: StatsOverviewJSON): Promise<any> {
     const statsOverview: StatsOverview = statsOverviewFactory.fromJSON(json);
 
     return statsOverviewRepository.create(statsOverview);
+  }
+
+  public save(json: StatsJSON): Promise<any> {
+    const stats: Stats = statsFactory.fromJSON(json);
+
+    return VeauMySQL.transaction(async (transaction: MySQLTransaction): Promise<any> => {
+      await statsRepository.deleteByStatsID(stats.getStatsID(), transaction);
+      await statsRepository.create(stats, transaction);
+    });
   }
 }
 
@@ -47,5 +60,7 @@ export interface IStatsUsecase {
 
   findByPage(page: number): Promise<Array<StatsOverviewJSON>>;
 
-  saveNewStats(json: StatsOverviewJSON): Promise<void>;
+  saveNewStats(json: StatsOverviewJSON): Promise<any>;
+
+  save(json: StatsJSON): Promise<any>;
 }

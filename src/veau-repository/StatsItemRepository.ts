@@ -1,7 +1,9 @@
 import { StatsItem, StatsItemRow } from '../veau-entity/StatsItem';
 import { StatsItemFactory } from '../veau-factory/StatsItemFactory';
+import { MySQLTransaction } from '../veau-general/MySQLTransaction';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../veau-vo/StatsID';
+import { StatsValue } from '../veau-vo/StatsValue';
 import { StatsValues } from '../veau-vo/StatsValues';
 import { StatsValueRepository } from './StatsValueRepository';
 
@@ -45,9 +47,55 @@ export class StatsItemRepository implements IStatsItemRepository {
       return statsItemFactory.fromRow(statsItemRow, StatsValues.of([]));
     });
   }
+
+  public async create(statsID: StatsID, statsItem: StatsItem, seq: number, transaction: MySQLTransaction): Promise<any> {
+    const query: string = `INSERT INTO stats_items VALUES (
+      :statsItemID,
+      :statsID,
+      :name,
+      :unit,
+      :seq
+      );`;
+
+    await transaction.query(query, [
+      {
+        statsItemID: statsItem.getStatsItemID().get().get(),
+        statsID: statsID.get().get(),
+        name: statsItem.getName(),
+        unit: statsItem.getUnit(),
+        seq
+      }
+    ]);
+
+    const promises: Array<Promise<any>> = statsItem.getValues().get().map<Promise<void>>((statsValue: StatsValue) => {
+      return statsValueRepository.create(statsItem.getStatsItemID(), statsValue, transaction);
+    });
+
+    return Promise.all<any>(promises);
+  }
+
+  public async deleteByStatsID(statsID: StatsID, transaction: MySQLTransaction): Promise<any> {
+    await statsValueRepository.deleteByStatsID(statsID, transaction);
+
+    const query: string = `DELETE R1
+      FROM stats_items R1
+      INNER JOIN stats R2
+      USING(stats_id)
+      WHERE R2.stats_id = :statsID;`;
+
+    return transaction.query(query, [
+      {
+        statsID: statsID.get().get()
+      }
+    ]);
+  }
 }
 
 export interface IStatsItemRepository {
 
   findByStatsID(statsID: StatsID): Promise<Array<StatsItem>>;
+
+  create(statsID: StatsID, statsItem: StatsItem, seq: number, transactin: MySQLTransaction): Promise<any>;
+
+  deleteByStatsID(statsID: StatsID, transaction: MySQLTransaction): Promise<any>;
 }

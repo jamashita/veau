@@ -49,7 +49,7 @@ export class StatsOverviewRepository implements IStatsOverviewRepository {
     });
   }
 
-  public async create(statsOverview: StatsOverview): Promise<void> {
+  public async create(statsOverview: StatsOverview): Promise<any> {
     const query: string = `INSERT INTO stats VALUES(
       :statsID,
       :languageID,
@@ -62,7 +62,7 @@ export class StatsOverviewRepository implements IStatsOverviewRepository {
     const language: Language = await languageRepository.findByISO639(statsOverview.getISO639());
     const region: Region = await regionRepository.findByISO3166(statsOverview.getISO3166());
 
-    await VeauMySQL.query(query, [
+    return VeauMySQL.query(query, [
       {
         statsID: statsOverview.getStatsID().get().get(),
         languageID: language.getLanguageID().get(),
@@ -78,5 +78,5 @@ export interface IStatsOverviewRepository {
 
   findByPage(page: number): Promise<Array<StatsOverview>>;
 
-  create(statsOverview: StatsOverview): Promise<void>;
+  create(statsOverview: StatsOverview): Promise<any>;
 }

@@ -1,6 +1,8 @@
 import * as moment from 'moment';
+import { MySQLTransaction } from '../veau-general/MySQLTransaction';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../veau-vo/StatsID';
+import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsValue, StatsValueRow } from '../veau-vo/StatsValue';
 import { StatsValues } from '../veau-vo/StatsValues';
 
@@ -54,9 +56,45 @@ export class StatsValueRepository implements IStatsValueRepository {
 
     return valueMap;
   }
+
+  public create(statsItemID: StatsItemID, statsValue: StatsValue, transaction: MySQLTransaction): Promise<any> {
+    const query: string = `INSERT INTO stats_values VALUES (
+      :statsItemID,
+      :asOf,
+      :value
+      );`;
+
+    return transaction.query(query, [
+      {
+        statsItemID: statsItemID.get().get(),
+        asOf: statsValue.getAsOfAsString(),
+        value: statsValue.getValue()
+      }
+    ]);
+  }
+
+  public deleteByStatsID(statsID: StatsID, transaction: MySQLTransaction): Promise<any> {
+    const query: string = `DELETE R1
+      FROM stats_values R1
+      INNER JOIN stats_items R2
+      USING(stats_item_id)
+      INNER JOIN stats R3
+      USING(stats_id)
+      WHERE R3.stats_id = :statsID;`;
+
+    return transaction.query(query, [
+      {
+        statsID: statsID.get().get()
+      }
+    ]);
+  }
 }
 
 export interface IStatsValueRepository {
 
   findByStatsID(statsID: StatsID): Promise<Map<string, StatsValues>>;
+
+  create(statsItemID: StatsItemID, statsValue: StatsValue, transaction: MySQLTransaction): Promise<any>;
+
+  deleteByStatsID(statsID: StatsID, transaction: MySQLTransaction): Promise<any>;
 }

@@ -1,12 +1,13 @@
 import { Stats, StatsRow } from '../veau-entity/Stats';
 import { StatsItem } from '../veau-entity/StatsItem';
 import { StatsFactory } from '../veau-factory/StatsFactory';
+import { MySQLTransaction } from '../veau-general/MySQLTransaction';
 import { NoSuchElementError } from '../veau-general/NoSuchElementError';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsItemRepository } from './StatsItemRepository';
 
-const statsRepository: StatsItemRepository = StatsItemRepository.getInstance();
+const statsItemRepository: StatsItemRepository = StatsItemRepository.getInstance();
 const statsFactory: StatsFactory = StatsFactory.getInstance();
 
 export class StatsRepository implements IStatsRepository {
@@ -49,13 +50,58 @@ export class StatsRepository implements IStatsRepository {
       throw new NoSuchElementError(statsID.toString());
     }
 
-    const items: Array<StatsItem> = await statsRepository.findByStatsID(statsID);
+    const items: Array<StatsItem> = await statsItemRepository.findByStatsID(statsID);
 
     return statsFactory.fromRow(rows[0], items);
+  }
+
+  public async create(stats: Stats, transaction: MySQLTransaction): Promise<any> {
+    const query: string = `INSERT INTO stats VALUES (
+      :statsID,
+      :languageID,
+      :regionID,
+      :termID,
+      :name,
+      NOW()
+      );`;
+
+    await transaction.query(query, [
+      {
+        statsID: stats.getStatsID().get().get(),
+        languageID: stats.getLanguage().getLanguageID().get(),
+        regionID: stats.getRegion().getRegionID().get(),
+        termID: stats.getTerm().get(),
+        name: stats.getName()
+      }
+    ]);
+
+    const promises: Array<Promise<any>> = stats.getItems().map<Promise<any>>((statsItem: StatsItem, index: number) => {
+      return statsItemRepository.create(stats.getStatsID(), statsItem, index, transaction);
+    });
+
+    return Promise.all<any>(promises);
+  }
+
+  public async deleteByStatsID(statsID: StatsID, transaction: MySQLTransaction): Promise<any> {
+    await statsItemRepository.deleteByStatsID(statsID, transaction);
+
+    const query: string = `DELETE R1
+      FROM stats R1
+      WHERE R1.stats_id = :statsID;`;
+
+    return transaction.query(query, [
+      {
+        statsID: statsID.get().get()
+      }
+    ]);
   }
 }
 
 export interface IStatsRepository {
 
   findByStatsID(statsID: StatsID): Promise<Stats>;
+
+  create(stats: Stats, transaction: MySQLTransaction): Promise<any>;
+
+  deleteByStatsID(statsID: StatsID, transaction: MySQLTransaction): Promise<any>;
 }
