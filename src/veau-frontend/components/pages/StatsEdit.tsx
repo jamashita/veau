@@ -194,7 +194,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
           <Button
             color='primary'
             fullWidth={true}
-            disabled={stats.hasValues() || startDate !== undefined}
+            disabled={stats.hasValues()}
             onClick={(): void => {
               this.setState({
                 openStartDateModal: true
