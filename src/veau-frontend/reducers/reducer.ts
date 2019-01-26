@@ -7,6 +7,7 @@ import { identity } from './identity';
 import { loadingCount } from './loadingCount';
 import { localeRepository } from './localeRepository';
 import { modal } from './modal';
+import { notification } from './notification';
 import { pageProvider } from './pageProvider';
 import { stats } from './stats';
 import { statsEdit } from './statsEdit';
@@ -20,6 +21,7 @@ export const reducers: Reducer<State> = combineReducers({
   loadingCount,
   localeRepository,
   modal,
+  notification,
   pageProvider,
   stats,
   statsEdit,

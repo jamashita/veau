@@ -4,6 +4,7 @@ import { StatsItem } from '../veau-entity/StatsItem';
 import { StatsOverview } from '../veau-entity/StatsOverview';
 import { LoadingCount } from '../veau-frontend/reducers/loadingCount';
 import { Modal } from '../veau-frontend/reducers/modal';
+import { Notification } from '../veau-frontend/reducers/notification';
 import { PageProvider } from '../veau-frontend/reducers/pageProvider';
 import { StatsEdit } from '../veau-frontend/reducers/statsEdit';
 import { StatsList } from '../veau-frontend/reducers/statsList';
@@ -17,6 +18,7 @@ export type State = {
   loadingCount: LoadingCount;
   localeRepository: LocaleRepository;
   modal: Modal;
+  notification: Notification;
   pageProvider: PageProvider;
   stats: Stats;
   statsEdit: StatsEdit;

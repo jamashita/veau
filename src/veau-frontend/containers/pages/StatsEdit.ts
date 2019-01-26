@@ -9,7 +9,6 @@ import { LocaleRepository } from '../../../veau-repository/LocaleRepository';
 import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
 import {
-  closeSaveSuccessSnackbar,
   itemNameTyped, itemUnitTyped, rowMoved, rowSelected,
   saveItem, saveStats, selectingItemNameTyped, selectingItemUnitTyped, startDateDetermined, statsDataDeleted,
   statsDataFilled,
@@ -25,7 +24,6 @@ type StateProps = {
   localeRepository: LocaleRepository;
   statsItem: StatsItem;
   selectingItem?: StatsItem;
-  openSaveSuccessSnackbar: boolean;
 };
 type DispatchProps = {
   dataFilled: (row: number, column: number, value: number) => void;
@@ -43,7 +41,6 @@ type DispatchProps = {
   startDateDetermined: (startDate: string) => void;
   rowMoved: (column: number, target: number) => void;
   save: () => void;
-  closeSnackbar: () => void;
 };
 type OwnProps = {
 };
@@ -55,8 +52,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
     localeRepository,
     statsItem,
     statsEdit: {
-      selectingItem,
-      openSaveSuccessSnackbar
+      selectingItem
     }
   } = state;
 
@@ -64,8 +60,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
     stats,
     localeRepository,
     statsItem,
-    selectingItem,
-    openSaveSuccessSnackbar
+    selectingItem
   };
 };
 
@@ -115,9 +110,6 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
     },
     save: (): void => {
       dispatch(saveStats());
-    },
-    closeSnackbar: (): void => {
-      dispatch(closeSaveSuccessSnackbar());
     }
   };
 };

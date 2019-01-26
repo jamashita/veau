@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { LoadingIndicator } from '../containers/molecules/LoadingIndicator';
 import { Modal } from '../containers/molecules/Modal';
+import { Notification } from '../containers/molecules/Notification'
 import { Catalogue } from './Catalogue';
 
 type Props = {
@@ -19,6 +20,7 @@ export class View extends React.Component<Props, State> {
       <div>
         <Catalogue />
         <Modal />
+        <Notification />
         <LoadingIndicator />
       </div>
     );

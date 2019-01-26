@@ -3,6 +3,7 @@ import { Action as ReduxAction } from 'redux';
 import { Stats } from '../veau-entity/Stats';
 import { StatsItem } from '../veau-entity/StatsItem';
 import { StatsOverview } from '../veau-entity/StatsOverview';
+import { NotificationKind } from '../veau-enum/NotificationKind';
 import { Term } from '../veau-enum/Term';
 import { EntranceInformation } from '../veau-vo/EntranceInformation';
 import { Identity } from '../veau-vo/Identity';
@@ -17,6 +18,9 @@ export enum ACTION {
 
   MODAL_RAISE = 'MODAL_RAISE',
   MODAL_CLOSE = 'MODAL_CLOSE',
+
+  NOTIFICATION_APPEAR = 'NOTIFICATION_APPEAR',
+  NOTIFICATION_DISAPPEAR = 'NOTIFICATION_DISAPPEAR',
 
   LOADING_START = 'LOADING_START',
   LOADING_FINISH = 'LOADING_FINISH',
@@ -70,8 +74,6 @@ export enum ACTION {
   STATS_EDIT_ROW_MOVED = 'STATS_EDIT_ROW_MOVED',
   STATS_EDIT_CLEAR_SELECTING_ITEM = 'STATS_EDIT_CLEAR_SELECTING_ITEM',
   STATS_EDIT_SAVE_STATS = 'STATS_EDIT_SAVE_STATS',
-  STATS_EDIT_SAVE_SUCCESS = 'STATS_EDIT_SAVE_SUCCESS',
-  STATS_EDIT_CLOSE_SAVE_SNACKBAR = 'STATS_EDIT_CLOSE_SAVE_SNACKBAR',
 
   STATS_OVERVIEW_UPDATE = 'STATS_OVERVIEW_UPDATE',
   STATS_OVERVIEW_RESET = 'STATS_OVERVIEW_RESET',
@@ -93,6 +95,18 @@ export interface ModalRaiseAction extends ReduxAction {
 }
 export interface ModalCloseAction extends ReduxAction {
   type: ACTION.MODAL_CLOSE;
+}
+export interface NotificationAppearAction extends ReduxAction {
+  type: ACTION.NOTIFICATION_APPEAR;
+  kind: NotificationKind;
+  horizontal: 'left' | 'center' | 'right';
+  vertical: 'top' | 'bottom';
+  message: string;
+  values?: {[key: string]: string};
+  duration: number;
+}
+export interface NotificationDisappearAction extends ReduxAction {
+  type: ACTION.NOTIFICATION_DISAPPEAR;
 }
 export interface LoadingStartAction extends ReduxAction {
   type: ACTION.LOADING_START;
@@ -259,12 +273,6 @@ export interface StatsEditClearSelectingItemAction extends ReduxAction {
 export interface StatsEditSaveStatsAction extends ReduxAction {
   type: ACTION.STATS_EDIT_SAVE_STATS;
 }
-export interface StatsEditSaveSuccessAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_SAVE_SUCCESS;
-}
-export interface StatsEditCloseSaveSnackbarAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_CLOSE_SAVE_SNACKBAR;
-}
 export interface StatsOverviewUpdateAction extends ReduxAction {
   type: ACTION.STATS_OVERVIEW_UPDATE;
   statsOverviews: Array<StatsOverview>;
@@ -291,6 +299,8 @@ export type Action =
     LocationChangeAction
   | ModalRaiseAction
   | ModalCloseAction
+  | NotificationAppearAction
+  | NotificationDisappearAction
   | LoadingStartAction
   | LoadingFinishAction
   | IdentityAuthenticateAction
@@ -335,8 +345,6 @@ export type Action =
   | StatsEditRowMovedAction
   | StatsEditClearSelectingItemAction
   | StatsEditSaveStatsAction
-  | StatsEditSaveSuccessAction
-  | StatsEditCloseSaveSnackbarAction
   | StatsOverviewUpdateAction
   | StatsOverviewResetAction
   | StatsUpdateAction

@@ -4,13 +4,11 @@ import { StatsItem } from '../../veau-entity/StatsItem';
 export type StatsEdit = {
   selectingItem?: StatsItem;
   selectingRow: number;
-  openSaveSuccessSnackbar: boolean;
 };
 
 const initialState: StatsEdit = {
   selectingItem: undefined,
-  selectingRow: 0,
-  openSaveSuccessSnackbar: false
+  selectingRow: 0
 };
 
 export const statsEdit: (state: StatsEdit, action: Action) => StatsEdit = (state: StatsEdit = initialState, action: Action): StatsEdit => {
@@ -41,18 +39,6 @@ export const statsEdit: (state: StatsEdit, action: Action) => StatsEdit = (state
       return {
         ...state,
         selectingItem: undefined
-      };
-    }
-    case ACTION.STATS_EDIT_SAVE_SUCCESS: {
-      return {
-        ...state,
-        openSaveSuccessSnackbar: true
-      };
-    }
-    case ACTION.STATS_EDIT_CLOSE_SAVE_SNACKBAR: {
-      return {
-        ...state,
-        openSaveSuccessSnackbar: false
       };
     }
     default: {

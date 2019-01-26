@@ -1,7 +1,7 @@
 import { HotTable } from '@handsontable/react';
 import {
   Button,
-  Icon, Snackbar
+  Icon
 } from '@material-ui/core';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
@@ -22,7 +22,6 @@ const ROW_INDEX: number = 0;
 const COLUMN_INDEX: number = 1;
 const VALUE_INDEX: number = 3;
 const SPREADSHEET_HEIGHT: number = 500;
-const DURATION: number = 3000;
 
 export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, State> {
 
@@ -39,8 +38,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
       stats,
       statsItem,
       localeRepository,
-      selectingItem,
-      openSaveSuccessSnackbar
+      selectingItem
     } = this.props;
     const {
       openNewStatsItemModal,
@@ -88,9 +86,6 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
     if (selectingItem !== nextProps.selectingItem) {
       return true;
     }
-    if (openSaveSuccessSnackbar !== nextProps.openSaveSuccessSnackbar) {
-      return true;
-    }
     if (openNewStatsItemModal !== nextState.openNewStatsItemModal) {
       return true;
     }
@@ -110,7 +105,6 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
       statsItem,
       localeRepository,
       selectingItem,
-      openSaveSuccessSnackbar,
       intl
     } = this.props;
     const {
@@ -283,18 +277,6 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
               openStartDateModal: false
             });
           }}
-        />
-        <Snackbar
-          open={openSaveSuccessSnackbar}
-          autoHideDuration={DURATION}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right'
-          }}
-          message={intl.formatMessage({
-            id: 'SAVE_SUCCESS'
-          })}
-          onClose={this.props.closeSnackbar}
         />
       </Authenticated>
     );

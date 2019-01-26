@@ -18,18 +18,21 @@ import {
 import { State } from '../../declarations/State';
 import { Stats, StatsJSON } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
+import { NotificationKind } from '../../veau-enum/NotificationKind';
 import { StatsFactory } from '../../veau-factory/StatsFactory';
 import { StatsItemFactory } from '../../veau-factory/StatsItemFactory';
 import { AJAX } from '../../veau-general/AJAX';
 import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
+import { appearNotification } from '../actions/NotificationAction';
 import { resetStatsItem, updateStats, updateStatsItem } from '../actions/StatsAction';
-import { clearSelectingItem, itemSelecting, saveSucceeded, updateSelectingItem } from '../actions/StatsEditAction';
+import { clearSelectingItem, itemSelecting, updateSelectingItem } from '../actions/StatsEditAction';
 
 const statsFactory: StatsFactory = StatsFactory.getInstance();
 const statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
 
 const STATS_EDIT_PREFIX: string = '/statistics/edit/';
+const SAVE_SUCCESS_DURATION: number = 3000;
 
 export class StatsEdit {
 
@@ -318,7 +321,7 @@ export class StatsEdit {
       try {
         yield call(AJAX.post, '/api/stats', stats.toJSON());
         yield put(loaded());
-        yield put(saveSucceeded());
+        yield put(appearNotification(NotificationKind.SUCCESS, 'right', 'top', 'SAVE_SUCCESS', SAVE_SUCCESS_DURATION));
       }
       catch (err) {
         yield put(loaded());
