@@ -34,69 +34,70 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
   }
 
   public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>, nextState: Readonly<State>): boolean {
-    const {
-      stats,
-      statsItem,
-      localeRepository,
-      selectingItem
-    } = this.props;
-    const {
-      openNewStatsItemModal,
-      openStartDateModal,
-      startDate
-    } = this.state;
-
-    if (!stats.getLanguage().equals(nextProps.stats.getLanguage())) {
-      return true;
-    }
-    if (!stats.getRegion().equals(nextProps.stats.getRegion())) {
-      return true;
-    }
-    if (stats.getTerm() !== nextProps.stats.getTerm()) {
-      return true;
-    }
-    if (stats.getItems().length !== nextProps.stats.getItems().length) {
-      return true;
-    }
-    if (stats !== nextProps.stats) {
-      return true;
-    }
-    for (let i: number = 0; i < stats.getItems().length; i++) {
-      if (stats.getItems()[i].getValues().length() !== nextProps.stats.getItems()[i].getValues().length()) {
-        return true;
-      }
-      for (let j: number = 0; j < stats.getItems()[i].getValues().length(); j++) {
-        if (!stats.getItems()[i].getValues().get()[j].getAsOf().isSame(nextProps.stats.getItems()[i].getValues().get()[j].getAsOf())) {
-          return true;
-        }
-        if (stats.getItems()[i].getValues().get()[j].getValue() !== nextProps.stats.getItems()[i].getValues().get()[j].getValue()) {
-          return true;
-        }
-      }
-    }
-    if (statsItem.getName() !== nextProps.statsItem.getName()) {
-      return true;
-    }
-    if (statsItem.getUnit() !== nextProps.statsItem.getUnit()) {
-      return true;
-    }
-    if (localeRepository !== nextProps.localeRepository) {
-      return true;
-    }
-    if (selectingItem !== nextProps.selectingItem) {
-      return true;
-    }
-    if (openNewStatsItemModal !== nextState.openNewStatsItemModal) {
-      return true;
-    }
-    if (openStartDateModal !== nextState.openStartDateModal) {
-      return true;
-    }
-    if (startDate !== nextState.startDate) {
-      return true;
-    }
-
-    return false;
+    return true;
+    // const {
+    //   stats,
+    //   statsItem,
+    //   localeRepository,
+    //   selectingItem
+    // } = this.props;
+    // const {
+    //   openNewStatsItemModal,
+    //   openStartDateModal,
+    //   startDate
+    // } = this.state;
+    //
+    // if (!stats.getLanguage().equals(nextProps.stats.getLanguage())) {
+    //   return true;
+    // }
+    // if (!stats.getRegion().equals(nextProps.stats.getRegion())) {
+    //   return true;
+    // }
+    // if (stats.getTerm() !== nextProps.stats.getTerm()) {
+    //   return true;
+    // }
+    // if (stats.getItems().length !== nextProps.stats.getItems().length) {
+    //   return true;
+    // }
+    // if (stats !== nextProps.stats) {
+    //   return true;
+    // }
+    // for (let i: number = 0; i < stats.getItems().length; i++) {
+    //   if (stats.getItems()[i].getValues().length() !== nextProps.stats.getItems()[i].getValues().length()) {
+    //     return true;
+    //   }
+    //   for (let j: number = 0; j < stats.getItems()[i].getValues().length(); j++) {
+    //     if (!stats.getItems()[i].getValues().get()[j].getAsOf().isSame(nextProps.stats.getItems()[i].getValues().get()[j].getAsOf())) {
+    //       return true;
+    //     }
+    //     if (stats.getItems()[i].getValues().get()[j].getValue() !== nextProps.stats.getItems()[i].getValues().get()[j].getValue()) {
+    //       return true;
+    //     }
+    //   }
+    // }
+    // if (statsItem.getName() !== nextProps.statsItem.getName()) {
+    //   return true;
+    // }
+    // if (statsItem.getUnit() !== nextProps.statsItem.getUnit()) {
+    //   return true;
+    // }
+    // if (localeRepository !== nextProps.localeRepository) {
+    //   return true;
+    // }
+    // if (selectingItem !== nextProps.selectingItem) {
+    //   return true;
+    // }
+    // if (openNewStatsItemModal !== nextState.openNewStatsItemModal) {
+    //   return true;
+    // }
+    // if (openStartDateModal !== nextState.openStartDateModal) {
+    //   return true;
+    // }
+    // if (startDate !== nextState.startDate) {
+    //   return true;
+    // }
+    //
+    // return false;
   }
 
   public render(): React.ReactNode {
@@ -113,7 +114,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
       startDate
     } = this.state;
 
-    console.log(stats.getData());
+    console.log(stats.getColumn(startDate));
 
     return (
       <Authenticated>
@@ -194,7 +195,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
           <Button
             color='primary'
             fullWidth={true}
-            disabled={stats.hasValues()}
+            disabled={stats.hasValues() || startDate !== undefined}
             onClick={(): void => {
               this.setState({
                 openStartDateModal: true

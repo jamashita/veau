@@ -94,11 +94,19 @@ export class Stats extends Entity<StatsID> {
   }
 
   public getColumn(startDate?: string): Array<string> {
+    const asOfs: Array<moment.Moment> = this.collectAsOf();
+
+    console.log(asOfs);
+
     if (this.column) {
-      return this.column;
+      if (this.column.length !== 0) {
+        if (this.column.length === asOfs.length) {
+          return this.column;
+        }
+      }
     }
 
-    const asOfs: Array<moment.Moment> = this.collectAsOf();
+    console.log('hre it is ');
 
     if (startDate) {
       asOfs.push(moment(startDate));
@@ -118,7 +126,6 @@ export class Stats extends Entity<StatsID> {
     }
     column.push(this.nextTerm(maxTerm).format(TERM_FORMAT));
 
-    console.log(`column: ${column}`);
     this.column = column;
     return column;
   }
@@ -196,7 +203,6 @@ export class Stats extends Entity<StatsID> {
       column
     } = this;
 
-    console.log(`columns: ${column}`);
     if (column) {
       return this.items.map<Array<string>>((statsItem: StatsItem, index: number) => {
         return statsItem.getValuesByColumn(column);
@@ -209,15 +215,19 @@ export class Stats extends Entity<StatsID> {
   }
 
   public setData(row: number, column: number, value: number): void {
-    const asOfString: string = this.getColumn()[column];
-    const asOf: moment.Moment = moment(asOfString);
-    this.items[row].setValue(asOf, value);
+    if (this.column) {
+      const asOfString: string = this.column[column];
+      const asOf: moment.Moment = moment(asOfString);
+      this.items[row].setValue(asOf, value);
+    }
   }
 
   public deleteData(row: number, column: number): void {
-    const asOfString: string = this.getColumn()[column];
-    const asOf: moment.Moment = moment(asOfString);
-    this.items[row].delete(asOf);
+    if (this.column) {
+      const asOfString: string = this.column[column];
+      const asOf: moment.Moment = moment(asOfString);
+      this.items[row].delete(asOf);
+    }
   }
 
   public hasValues(): boolean {
@@ -278,7 +288,8 @@ export class Stats extends Entity<StatsID> {
       term,
       name,
       updatedAt,
-      items
+      items,
+      column
     } = this;
 
     const newItems: Array<StatsItem> = [];
@@ -287,7 +298,7 @@ export class Stats extends Entity<StatsID> {
       newItems.push(item.copy());
     });
 
-    return new Stats(statsID.copy(), language.copy(), region.copy(), term, name, moment(updatedAt), newItems);
+    return new Stats(statsID.copy(), language.copy(), region.copy(), term, name, moment(updatedAt), newItems, column);
   }
 
   public toJSON(): StatsJSON {
