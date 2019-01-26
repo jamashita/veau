@@ -91,7 +91,6 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
       stats,
       statsItem,
       localeRepository,
-      // startDate,
       selectingItem,
       intl
     } = this.props;

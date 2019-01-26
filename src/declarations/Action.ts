@@ -60,7 +60,6 @@ export enum ACTION {
   STATS_EDIT_DATA_DELETED = 'STATS_EDIT_DATA_DELETED',
   STATS_EDIT_ITEM_NAME_TYPED = 'STATS_EDIT_ITEM_NAME_TYPED',
   STATS_EDIT_ITEM_UNIT_TYPED = 'STATS_EDIT_ITEM_UNIT_TYPED',
-  STATS_EDIT_START_DATE_CHANGED = 'STATS_EDIT_START_DATE_CHANGED',
   STATS_EDIT_ITEM_SAVE = 'STATS_EDIT_ITEM_SAVE',
   STATS_EDIT_ROW_SELECTED = 'STATS_EDIT_ROW_SELECTED',
   STATS_EDIT_ITEM_SELECTING = 'STATS_EDIT_ITEM_SELECTING',
@@ -215,10 +214,6 @@ export interface StatsEditItemUnitTypedAction extends ReduxAction {
   type: ACTION.STATS_EDIT_ITEM_UNIT_TYPED;
   unit: string;
 }
-export interface StatsEditStartDateChangedAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_START_DATE_CHANGED;
-  startDate: string;
-}
 export interface StatsEditItemSaveAction extends ReduxAction {
   type: ACTION.STATS_EDIT_ITEM_SAVE;
 }
@@ -303,7 +298,6 @@ export type Action =
   | StatsEditDataDeletedAction
   | StatsEditItemNameTypedAction
   | StatsEditItemUnitTypedAction
-  | StatsEditStartDateChangedAction
   | StatsEditItemSaveAction
   | StatsEditRowSelectedAction
   | StatsEditItemSelectingAction

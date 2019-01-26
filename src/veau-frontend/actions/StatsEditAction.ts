@@ -12,7 +12,6 @@ import {
   StatsEditRowSelectedAction,
   StatsEditSelectingItemNameTypedAction,
   StatsEditSelectingItemUnitTypedAction,
-  StatsEditStartDateChangedAction,
   StatsEditTermSelectedActoin,
   StatsEditUpdateSelectingItemAction
 } from '../../declarations/Action';
@@ -77,13 +76,6 @@ export const itemUnitTyped: (unit: string) => StatsEditItemUnitTypedAction = (un
   return {
     type: ACTION.STATS_EDIT_ITEM_UNIT_TYPED,
     unit
-  };
-};
-
-export const itemStartDateChanged: (startDate: string) => StatsEditStartDateChangedAction = (startDate: string): StatsEditStartDateChangedAction => {
-  return {
-    type: ACTION.STATS_EDIT_START_DATE_CHANGED,
-    startDate
   };
 };
 

@@ -15,7 +15,6 @@ export type Messages = {
   TERM: string;
   UPDATED_AT: string;
   UNIT: string;
-  START_DATE: string;
 
   DAILY: string;
   WEEKLY: string;
@@ -74,7 +73,6 @@ const en: Messages = {
   TERM: 'Term',
   UPDATED_AT: 'Updated at',
   UNIT: 'Unit',
-  START_DATE: 'Start date',
 
   DAILY: 'Daily',
   WEEKLY: 'Weekly',
@@ -133,7 +131,6 @@ const fr: Messages = {
   TERM: 'Terme',
   UPDATED_AT: 'Mis à jour à',
   UNIT: 'Unité',
-  START_DATE: 'Date de débuta',
 
   DAILY: 'Quotidien',
   WEEKLY: 'Hebdomadaire',
@@ -144,7 +141,7 @@ const fr: Messages = {
   LOADING: 'Chargement',
 
   LOGIN: 'Se connecter',
-  LOGOUT: 'Connectez-out',
+  LOGOUT: 'Connecter-out',
 
   ACCOUNT_ID: 'Identifiant de compte',
   ACCOUNT_NAME: 'Compte',
@@ -180,8 +177,8 @@ const es: Messages = {
 
   YES: 'Sí',
   NO: 'No',
-  SUBMIT: 'Submit',
-  CANCEL: 'Cancel',
+  SUBMIT: 'Enviar',
+  CANCEL: 'Cancelar',
   OPEN: 'Abrir',
   CLOSE: 'Cerrar',
 
@@ -192,7 +189,6 @@ const es: Messages = {
   TERM: 'Término',
   UPDATED_AT: 'Actualizado en',
   UNIT: 'Unidad',
-  START_DATE: 'Fecha de inicio',
 
   DAILY: 'Diario',
   WEEKLY: 'Semanal',
@@ -251,7 +247,6 @@ const ja: Messages = {
   TERM: '期間',
   UPDATED_AT: '更新日',
   UNIT: '単位',
-  START_DATE: '開始日',
 
   DAILY: '日次',
   WEEKLY: '週次',
@@ -265,7 +260,7 @@ const ja: Messages = {
   LOGOUT: 'ログアウト',
 
   ACCOUNT_ID: 'アカウントID',
-  ACCOUNT_NAME: 'アカウント名',
+  ACCOUNT_NAME: 'アカウント',
   ORGANIZATION_NAME: '組織名',
   PASSWORD: 'パスワード',
 
