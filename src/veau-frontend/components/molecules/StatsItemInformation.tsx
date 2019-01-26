@@ -15,15 +15,7 @@ type State = {
 class StatsItemInformationImpl extends React.Component<Props & InjectedIntlProps, State> {
 
   public shouldComponentUpdate(nextProps: Readonly<Props & ReactIntl.InjectedIntlProps>): boolean {
-    const {
-      selecting
-    } = this.props;
-
-    if (selecting !== nextProps.selecting) {
-      return true;
-    }
-
-    return false;
+    return true;
   }
 
   public render(): React.ReactNode {

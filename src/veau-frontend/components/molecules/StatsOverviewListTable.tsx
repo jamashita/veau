@@ -27,7 +27,7 @@ class StatsOverviewListTableImpl extends React.Component<Props & InjectedIntlPro
       return true;
     }
     for (let i: number = 0; i < statsOverviews.length; i++) {
-      if (!statsOverviews[i].equals(nextProps.statsOverviews[i])) {
+      if (statsOverviews[i].getName() !== nextProps.statsOverviews[i].getName()) {
         return true;
       }
     }

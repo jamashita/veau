@@ -19,7 +19,22 @@ type State = {
 class StatsItemModalImpl extends React.Component<Props & InjectedIntlProps, State> {
 
   public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
-    return true;
+    const {
+      open,
+      statsItem
+    } = this.props;
+
+    if (open !== nextProps.open) {
+      return true;
+    }
+    if (statsItem.getName() !== nextProps.statsItem.getName()) {
+      return true;
+    }
+    if (statsItem.getUnit() !== nextProps.statsItem.getUnit()) {
+      return true;
+    }
+
+    return false;
   }
 
   public render(): React.ReactNode {
