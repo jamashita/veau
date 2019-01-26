@@ -7,7 +7,7 @@ import { Dispatch } from 'redux';
 import { Action } from '../../../declarations/Action';
 import { State } from '../../../declarations/State';
 import { closeModal } from '../../actions/ModalAction';
-import { Modal as Component } from '../../components/pages/Modal';
+import { Modal as Component } from '../../components/molecules/Modal';
 
 type StateProps = {
   open: boolean;

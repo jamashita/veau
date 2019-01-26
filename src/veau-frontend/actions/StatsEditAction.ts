@@ -1,6 +1,7 @@
 import {
   ACTION,
   StatsEditClearSelectingItemAction,
+  StatsEditCloseSaveSnackbarAction,
   StatsEditDataDeletedAction,
   StatsEditDataFilledAction,
   StatsEditItemNameTypedAction,
@@ -13,6 +14,7 @@ import {
   StatsEditRowMovedAction,
   StatsEditRowSelectedAction,
   StatsEditSaveStatsAction,
+  StatsEditSaveSuccessAction,
   StatsEditSelectingItemNameTypedAction,
   StatsEditSelectingItemUnitTypedAction,
   StatsEditStartDateDeterminedAction,
@@ -149,5 +151,17 @@ export const clearSelectingItem: () => StatsEditClearSelectingItemAction = (): S
 export const saveStats: () => StatsEditSaveStatsAction = (): StatsEditSaveStatsAction => {
   return {
     type: ACTION.STATS_EDIT_SAVE_STATS
+  };
+};
+
+export const saveSucceeded: () => StatsEditSaveSuccessAction = (): StatsEditSaveSuccessAction => {
+  return {
+    type: ACTION.STATS_EDIT_SAVE_SUCCESS
+  };
+};
+
+export const closeSaveSuccessSnackbar: () => StatsEditCloseSaveSnackbarAction = (): StatsEditCloseSaveSnackbarAction => {
+  return {
+    type: ACTION.STATS_EDIT_CLOSE_SAVE_SNACKBAR
   };
 };

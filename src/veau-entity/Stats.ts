@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import { Term } from '../veau-enum/Term';
-import { UnexpectedError } from '../veau-general/UnexpectedError';
+import { RuntimeError } from '../veau-general/RuntimeError';
 import { Language, LanguageJSON } from '../veau-vo/Language';
 import { Region, RegionJSON } from '../veau-vo/Region';
 import { StatsID } from '../veau-vo/StatsID';
@@ -150,7 +150,7 @@ export class Stats extends Entity<StatsID> {
         return newTerm.add(1, 'years');
       }
       default: {
-        throw new UnexpectedError();
+        throw new RuntimeError(`UNEXPECTED VALUE: ${this.term.get()}`);
       }
     }
   }
@@ -174,7 +174,7 @@ export class Stats extends Entity<StatsID> {
         return newTerm.subtract(1, 'years');
       }
       default: {
-        throw new UnexpectedError();
+        throw new RuntimeError(`UNEXPECTED VALUE: ${this.term.get()}`);
       }
     }
   }

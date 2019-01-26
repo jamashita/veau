@@ -24,7 +24,7 @@ import { AJAX } from '../../veau-general/AJAX';
 import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
 import { resetStatsItem, updateStats, updateStatsItem } from '../actions/StatsAction';
-import { clearSelectingItem, itemSelecting, updateSelectingItem } from '../actions/StatsEditAction';
+import { clearSelectingItem, itemSelecting, saveSucceeded, updateSelectingItem } from '../actions/StatsEditAction';
 
 const statsFactory: StatsFactory = StatsFactory.getInstance();
 const statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
@@ -318,6 +318,7 @@ export class StatsEdit {
       try {
         yield call(AJAX.post, '/api/stats', stats.toJSON());
         yield put(loaded());
+        yield put(saveSucceeded());
       }
       catch (err) {
         yield put(loaded());

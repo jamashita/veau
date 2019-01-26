@@ -70,6 +70,8 @@ export enum ACTION {
   STATS_EDIT_ROW_MOVED = 'STATS_EDIT_ROW_MOVED',
   STATS_EDIT_CLEAR_SELECTING_ITEM = 'STATS_EDIT_CLEAR_SELECTING_ITEM',
   STATS_EDIT_SAVE_STATS = 'STATS_EDIT_SAVE_STATS',
+  STATS_EDIT_SAVE_SUCCESS = 'STATS_EDIT_SAVE_SUCCESS',
+  STATS_EDIT_CLOSE_SAVE_SNACKBAR = 'STATS_EDIT_CLOSE_SAVE_SNACKBAR',
 
   STATS_OVERVIEW_UPDATE = 'STATS_OVERVIEW_UPDATE',
   STATS_OVERVIEW_RESET = 'STATS_OVERVIEW_RESET',
@@ -257,6 +259,12 @@ export interface StatsEditClearSelectingItemAction extends ReduxAction {
 export interface StatsEditSaveStatsAction extends ReduxAction {
   type: ACTION.STATS_EDIT_SAVE_STATS;
 }
+export interface StatsEditSaveSuccessAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_SAVE_SUCCESS;
+}
+export interface StatsEditCloseSaveSnackbarAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_CLOSE_SAVE_SNACKBAR;
+}
 export interface StatsOverviewUpdateAction extends ReduxAction {
   type: ACTION.STATS_OVERVIEW_UPDATE;
   statsOverviews: Array<StatsOverview>;
@@ -327,6 +335,8 @@ export type Action =
   | StatsEditRowMovedAction
   | StatsEditClearSelectingItemAction
   | StatsEditSaveStatsAction
+  | StatsEditSaveSuccessAction
+  | StatsEditCloseSaveSnackbarAction
   | StatsOverviewUpdateAction
   | StatsOverviewResetAction
   | StatsUpdateAction

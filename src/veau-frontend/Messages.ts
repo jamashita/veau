@@ -50,6 +50,8 @@ export type Messages = {
   STATS_SAVE_FAILURE: string;
   STATS_SAVE_FAILURE_DESCRIPTION: string;
 
+  SAVE_SUCCESS: string;
+
   AUTHENTICATION_FAILED: string;
   AUTHENTICATION_FAILED_DESCRIPTION: string;
   CONNECTION_ERROR: string;
@@ -113,7 +115,9 @@ const en: Messages = {
   STATS_SAVE_FAILURE: 'Save failure',
   STATS_SAVE_FAILURE_DESCRIPTION: 'Failed to save stats to the server. Please try again.',
 
-AUTHENTICATION_FAILED: 'Authentication failed',
+  SAVE_SUCCESS: 'Succeeded to save',
+
+  AUTHENTICATION_FAILED: 'Authentication failed',
   AUTHENTICATION_FAILED_DESCRIPTION: 'Account or Password is incorrect. Please check them again.',
   CONNECTION_ERROR: 'Connection error',
   CONNECTION_ERROR_DESCRIPTION: 'Failed to connect the server. Please get in touch the person in charge.',
@@ -175,6 +179,8 @@ const fr: Messages = {
   DETERMINE_START_DATE: 'Déterminer la date de début',
   STATS_SAVE_FAILURE: 'Enregistrer l\'échec',
   STATS_SAVE_FAILURE_DESCRIPTION: 'Échec de l\'enregistrement des statistiques sur le serveur. Veuillez réessayer.',
+
+  SAVE_SUCCESS: 'Réussi à sauver',
 
   AUTHENTICATION_FAILED: 'Authentification échouée',
   AUTHENTICATION_FAILED_DESCRIPTION: 'Compte ou mot de passe est incorrect. Les vérifier à nouveau s\'il vous plaît.',
@@ -239,6 +245,8 @@ const es: Messages = {
   STATS_SAVE_FAILURE: 'Guarde el fracaso',
   STATS_SAVE_FAILURE_DESCRIPTION: 'Error al guardar las estadísticas en el servidor. Inténtalo de nuevo.',
 
+  SAVE_SUCCESS: 'Consiguió salvar',
+
   AUTHENTICATION_FAILED: 'Autenticación fallida',
   AUTHENTICATION_FAILED_DESCRIPTION: 'La cuenta o contraseña es incorrecta. Revísalos nuevamente por favor.',
   CONNECTION_ERROR: 'Error de conexión',
@@ -301,6 +309,8 @@ const ja: Messages = {
   DETERMINE_START_DATE: '開始日を決定する',
   STATS_SAVE_FAILURE: '保存失敗',
   STATS_SAVE_FAILURE_DESCRIPTION: 'サーバーへの統計情報の保存に失敗しました。 もう一度やり直してください。',
+
+  SAVE_SUCCESS: '保存成功',
 
   AUTHENTICATION_FAILED: '認証に失敗しました',
   AUTHENTICATION_FAILED_DESCRIPTION: 'アカウントまたはパスワードが正しくありません。もう一度確認してください。',

@@ -4,7 +4,7 @@ import {
   InjectedIntlProps,
   injectIntl
 } from 'react-intl';
-import { Props } from '../../containers/pages/LoadingIndicator';
+import { Props } from '../../containers/molecules/LoadingIndicator';
 
 type State = {
 };
@@ -45,7 +45,9 @@ class LoadingIndicatorImpl extends React.Component<Props & InjectedIntlProps, St
           })}
         </DialogTitle>
         <DialogContent >
-          <CircularProgress size={SIZE} />
+          <CircularProgress
+            size={SIZE}
+          />
         </DialogContent>
       </Dialog>
     );
