@@ -197,7 +197,6 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
           }}
           itemNameTyped={this.props.itemNameTyped}
           itemUnitTyped={this.props.itemUnitTyped}
-          startDateChanged={this.props.startDateChanged}
           saveNewItem={(): void => {
             this.setState({
               openNewStatsItemModal: false

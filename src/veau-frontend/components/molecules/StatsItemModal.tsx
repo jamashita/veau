@@ -11,7 +11,6 @@ type Props = {
   closeNewItemModal: () => void;
   itemNameTyped: (name: string) => void;
   itemUnitTyped: (unit: string) => void;
-  startDateChanged: (startDate: string) => void;
   saveNewItem: () => void;
 };
 type State = {
