@@ -204,6 +204,19 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
               id: 'DETERMINE_START_DATE'
             })}
           </Button>
+          <Button
+            color='primary'
+            fullWidth={true}
+            disabled={!stats.isValid()}
+            onClick={this.props.save}
+          >
+            <Icon
+              className='fas fa-save'
+            />
+            {intl.formatMessage({
+              id: 'SAVE'
+            })}
+          </Button>
           <StatsInformation
             stats={stats}
             localeRepository={localeRepository}

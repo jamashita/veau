@@ -49,7 +49,7 @@ export class StatsUsecase implements IStatsUsecase {
 
     return VeauMySQL.transaction(async (transaction: MySQLTransaction): Promise<any> => {
       await statsRepository.deleteByStatsID(stats.getStatsID(), transaction);
-      await statsRepository.create(stats, transaction);
+      return statsRepository.create(stats, transaction);
     });
   }
 }

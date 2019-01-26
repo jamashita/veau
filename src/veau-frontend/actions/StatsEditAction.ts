@@ -9,7 +9,7 @@ import {
   StatsEditLanguageSelectedAction,
   StatsEditNameTypedAction,
   StatsEditRegionSelectedAction,
-  StatsEditRowSelectedAction,
+  StatsEditRowSelectedAction, StatsEditSaveStatsAction,
   StatsEditSelectingItemNameTypedAction,
   StatsEditSelectingItemUnitTypedAction,
   StatsEditStartDateDeterminedAction,
@@ -126,5 +126,11 @@ export const updateSelectingItem: (statsItem: StatsItem) => StatsEditUpdateSelec
   return {
     type: ACTION.STATS_EDIT_UPDATE_SELECTING_ITEM,
     statsItem
+  };
+};
+
+export const saveStats: () => StatsEditSaveStatsAction = (): StatsEditSaveStatsAction => {
+  return {
+    type: ACTION.STATS_EDIT_SAVE_STATS
   };
 };

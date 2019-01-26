@@ -21,6 +21,8 @@ import { StatsItem } from '../../veau-entity/StatsItem';
 import { StatsFactory } from '../../veau-factory/StatsFactory';
 import { StatsItemFactory } from '../../veau-factory/StatsItemFactory';
 import { AJAX } from '../../veau-general/AJAX';
+import { loaded, loading } from '../actions/LoadingAction';
+import { raiseModal } from '../actions/ModalAction';
 import { resetStatsItem, updateStats, updateStatsItem } from '../actions/StatsAction';
 import { itemSelecting, updateSelectingItem } from '../actions/StatsEditAction';
 
@@ -46,6 +48,7 @@ export class StatsEdit {
     yield fork(StatsEdit.selectingItemNameTyped);
     yield fork(StatsEdit.selectingItemUnitTyped);
     yield fork(StatsEdit.startDateDetermined);
+    yield fork(StatsEdit.save);
   }
 
   private static *findStats(): IterableIterator<any> {
@@ -279,6 +282,27 @@ export class StatsEdit {
 
       const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUpdatedAt(), stats.getItems(), action.startDate);
       yield put(updateStats(newStats));
+    }
+  }
+
+  private static *save(): IterableIterator<any> {
+    while (true) {
+      yield take(ACTION.STATS_EDIT_SAVE_STATS);
+      const state: State = yield select();
+
+      const {
+        stats
+      } = state;
+
+      yield put(loading());
+      try {
+        yield call(AJAX.post, '/api/stats', stats.toJSON());
+        yield put(loaded());
+      }
+      catch (err) {
+        yield put(loaded());
+        yield put(raiseModal('STATS_SAVE_FAILURE', 'STATS_SAVE_FAILURE_DESCRIPTION'));
+      }
     }
   }
 }
