@@ -115,7 +115,7 @@ describe('Stats', () => {
     });
   });
 
-  it('getColumn', () => {
+  it('getColumns', () => {
     const stats: Stats = new Stats(StatsID.of(UUID.of('f330c618-6127-46d1-ba10-a9f6af458b4c')), Language.default(), Region.default(), Term.DAILY, 'stats1', moment('2000-01-01'), [
       new StatsItem(StatsItemID.of(UUID.of('8f7b1783-b09c-4010-aac1-dca1292ee700')), 'stats item 1', 'unit1', StatsValues.of([
         StatsValue.of(moment('2000-01-01'), 1),
@@ -128,7 +128,7 @@ describe('Stats', () => {
       ]))
     ]);
 
-    expect(stats.getColumn()).toEqual([
+    expect(stats.getColumns()).toEqual([
       '1999-12-31',
       '2000-01-01',
       '2000-01-02',
@@ -139,7 +139,7 @@ describe('Stats', () => {
     ]);
   });
 
-  it('getRow', () => {
+  it('getRows', () => {
     const stats: Stats = new Stats(StatsID.of(UUID.of('f330c618-6127-46d1-ba10-a9f6af458b4c')), Language.default(), Region.default(), Term.DAILY, 'stats1', moment('2000-01-01'), [
       new StatsItem(StatsItemID.of(UUID.of('8f7b1783-b09c-4010-aac1-dca1292ee700')), 'stats item 1', 'unit1', StatsValues.of([
         StatsValue.of(moment('2000-01-01'), 1),
@@ -152,7 +152,7 @@ describe('Stats', () => {
       ]))
     ]);
 
-    expect(stats.getRow()).toEqual([
+    expect(stats.getRows()).toEqual([
       'stats item 1 (unit1)',
       'stats item 2 (unit2)'
     ]);

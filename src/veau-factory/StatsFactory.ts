@@ -24,8 +24,8 @@ export class StatsFactory {
   private constructor() {
   }
 
-  public from(statsID: StatsID, language: Language, region: Region, term: Term, name: string, updatedAt: moment.Moment, items: Array<StatsItem>, column?: Array<string>): Stats {
-    return new Stats(statsID, language, region, term, name, updatedAt, items, column);
+  public from(statsID: StatsID, language: Language, region: Region, term: Term, name: string, updatedAt: moment.Moment, items: Array<StatsItem>, startDate?: string): Stats {
+    return new Stats(statsID, language, region, term, name, updatedAt, items, startDate);
   }
 
   public fromJSON(json: StatsJSON): Stats {

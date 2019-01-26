@@ -43,13 +43,13 @@ export class Stats extends Entity<StatsID> {
   private name: string;
   private updatedAt: moment.Moment;
   private items: Array<StatsItem>;
-  private column?: Array<string>;
+  private startDate?: string;
 
   public static default(): Stats {
     return new Stats(StatsID.of(UUID.of('')), Language.default(), Region.default(), Term.DAILY, '', moment(), []);
   }
 
-  public constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: string, updatedAt: moment.Moment, items: Array<StatsItem>, column?: Array<string>) {
+  public constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: string, updatedAt: moment.Moment, items: Array<StatsItem>, startDate?: string) {
     super();
     this.statsID = statsID;
     this.language = language;
@@ -58,7 +58,7 @@ export class Stats extends Entity<StatsID> {
     this.name = name;
     this.updatedAt = moment(updatedAt);
     this.items = items;
-    this.column = column;
+    this.startDate = startDate;
   }
 
   public getStatsID(): StatsID {
@@ -89,24 +89,20 @@ export class Stats extends Entity<StatsID> {
     return this.items;
   }
 
+  public getStartDate(): string | undefined {
+    return this.startDate;
+  }
+
   public getIdentifier(): StatsID {
     return this.statsID;
   }
 
-  public getColumn(startDate?: string): Array<string> {
+  public getColumns(): Array<string> {
+    const {
+      startDate
+    } = this;
+
     const asOfs: Array<moment.Moment> = this.collectAsOf();
-
-    console.log(asOfs);
-
-    if (this.column) {
-      if (this.column.length !== 0) {
-        if (this.column.length === asOfs.length) {
-          return this.column;
-        }
-      }
-    }
-
-    console.log('hre it is ');
 
     if (startDate) {
       asOfs.push(moment(startDate));
@@ -118,16 +114,15 @@ export class Stats extends Entity<StatsID> {
 
     const minTerm: moment.Moment = moment.min(asOfs);
     const maxTerm: moment.Moment = moment.max(asOfs);
-    const column: Array<string> = [];
+    const columns: Array<string> = [];
 
-    column.push(this.previousTerm(minTerm).format(TERM_FORMAT));
+    columns.push(this.previousTerm(minTerm).format(TERM_FORMAT));
     for (let term: moment.Moment = minTerm; !term.isAfter(maxTerm); term = this.nextTerm(term)) {
-      column.push(term.format(TERM_FORMAT));
+      columns.push(term.format(TERM_FORMAT));
     }
-    column.push(this.nextTerm(maxTerm).format(TERM_FORMAT));
+    columns.push(this.nextTerm(maxTerm).format(TERM_FORMAT));
 
-    this.column = column;
-    return column;
+    return columns;
   }
 
   private collectAsOf(): Array<moment.Moment> {
@@ -184,14 +179,14 @@ export class Stats extends Entity<StatsID> {
     }
   }
 
-  public getRow(): Array<string> {
+  public getRows(): Array<string> {
     return this.items.map<string>((item: StatsItem) => {
       return `${item.getName()} (${item.getUnit()})`;
     });
   }
 
   public getRowHeaderSize(): number {
-    const chars: Array<number> = this.getRow().map<number>((row: string) => {
+    const chars: Array<number> = this.getRows().map<number>((row: string) => {
       return row.length;
     });
 
@@ -199,35 +194,21 @@ export class Stats extends Entity<StatsID> {
   }
 
   public getData(): Array<Array<string>> {
-    const {
-      column
-    } = this;
-
-    if (column) {
-      return this.items.map<Array<string>>((statsItem: StatsItem, index: number) => {
-        return statsItem.getValuesByColumn(column);
-      });
-    }
-
     return this.items.map<Array<string>>((statsItem: StatsItem, index: number) => {
-      return statsItem.getValuesByColumn(this.getColumn());
+      return statsItem.getValuesByColumn(this.getColumns());
     });
   }
 
   public setData(row: number, column: number, value: number): void {
-    if (this.column) {
-      const asOfString: string = this.column[column];
-      const asOf: moment.Moment = moment(asOfString);
-      this.items[row].setValue(asOf, value);
-    }
+    const asOfString: string = this.getColumns()[column];
+    const asOf: moment.Moment = moment(asOfString);
+    this.items[row].setValue(asOf, value);
   }
 
   public deleteData(row: number, column: number): void {
-    if (this.column) {
-      const asOfString: string = this.column[column];
-      const asOf: moment.Moment = moment(asOfString);
-      this.items[row].delete(asOf);
-    }
+    const asOfString: string = this.getColumns()[column];
+    const asOf: moment.Moment = moment(asOfString);
+    this.items[row].delete(asOf);
   }
 
   public hasValues(): boolean {
@@ -289,7 +270,7 @@ export class Stats extends Entity<StatsID> {
       name,
       updatedAt,
       items,
-      column
+      startDate
     } = this;
 
     const newItems: Array<StatsItem> = [];
@@ -298,7 +279,7 @@ export class Stats extends Entity<StatsID> {
       newItems.push(item.copy());
     });
 
-    return new Stats(statsID.copy(), language.copy(), region.copy(), term, name, moment(updatedAt), newItems, column);
+    return new Stats(statsID.copy(), language.copy(), region.copy(), term, name, moment(updatedAt), newItems, startDate);
   }
 
   public toJSON(): StatsJSON {
