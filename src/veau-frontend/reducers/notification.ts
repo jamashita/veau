@@ -7,8 +7,8 @@ export type Notification = {
   horizontal: 'left' | 'center' | 'right';
   vertical: 'top' | 'bottom';
   message: string;
-  values?: {[key: string]: string};
   duration: number;
+  values?: {[key: string]: string};
 };
 
 const initialState: Notification = {
@@ -16,8 +16,8 @@ const initialState: Notification = {
   open: false,
   horizontal: 'center',
   vertical: 'top',
-  message: 'GREETING',
-  duration: 100
+  duration: 3000,
+  message: 'GREETING'
 };
 
 export const notification: (state: Notification, action: Action) => Notification = (state: Notification = initialState, action: Action): Notification => {

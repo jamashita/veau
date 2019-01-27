@@ -103,8 +103,8 @@ export interface NotificationAppearAction extends ReduxAction {
   horizontal: 'left' | 'center' | 'right';
   vertical: 'top' | 'bottom';
   message: string;
-  values?: {[key: string]: string};
   duration: number;
+  values?: {[key: string]: string};
 }
 export interface NotificationDisappearAction extends ReduxAction {
   type: ACTION.NOTIFICATION_DISAPPEAR;

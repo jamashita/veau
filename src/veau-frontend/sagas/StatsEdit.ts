@@ -25,6 +25,7 @@ import { AJAX } from '../../veau-general/AJAX';
 import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
 import { appearNotification } from '../actions/NotificationAction';
+import { pushToStatsList } from '../actions/RedirectAction';
 import { resetStatsItem, updateStats, updateStatsItem } from '../actions/StatsAction';
 import { clearSelectingItem, itemSelecting, updateSelectingItem } from '../actions/StatsEditAction';
 
@@ -32,7 +33,6 @@ const statsFactory: StatsFactory = StatsFactory.getInstance();
 const statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
 
 const STATS_EDIT_PREFIX: string = '/statistics/edit/';
-const SAVE_SUCCESS_DURATION: number = 3000;
 
 export class StatsEdit {
 
@@ -62,12 +62,19 @@ export class StatsEdit {
 
       if (path.startsWith(STATS_EDIT_PREFIX)) {
         const statsID: string = path.replace(STATS_EDIT_PREFIX, '');
-        const res: request.Response = yield call(AJAX.get, `/api/stats/${statsID}`);
-        const statsJSON: StatsJSON = res.body;
-        const stats: Stats = statsFactory.fromJSON(statsJSON);
 
-        yield put(updateStats(stats));
-        yield put(clearSelectingItem());
+        try {
+          const res: request.Response = yield call(AJAX.get, `/api/stats/${statsID}`);
+          const statsJSON: StatsJSON = res.body;
+          const stats: Stats = statsFactory.fromJSON(statsJSON);
+
+          yield put(updateStats(stats));
+          yield put(clearSelectingItem());
+        }
+        catch (err) {
+          yield put(pushToStatsList());
+          yield put(appearNotification(NotificationKind.ERROR, 'center', 'top', 'STATS_NOT_FOUND'));
+        }
       }
     }
   }
@@ -321,7 +328,7 @@ export class StatsEdit {
       try {
         yield call(AJAX.post, '/api/stats', stats.toJSON());
         yield put(loaded());
-        yield put(appearNotification(NotificationKind.SUCCESS, 'right', 'top', 'SAVE_SUCCESS', SAVE_SUCCESS_DURATION));
+        yield put(appearNotification(NotificationKind.SUCCESS, 'center', 'top', 'SAVE_SUCCESS'));
       }
       catch (err) {
         yield put(loaded());

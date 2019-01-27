@@ -7,10 +7,12 @@ import {
 } from '../../declarations/Action';
 import { State } from '../../declarations/State';
 import { StatsOverview, StatsOverviewJSON } from '../../veau-entity/StatsOverview';
+import { NotificationKind } from '../../veau-enum/NotificationKind';
 import { StatsOverviewFactory } from '../../veau-factory/StatsOverviewFactory';
 import { AJAX } from '../../veau-general/AJAX';
 import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
+import { appearNotification } from '../actions/NotificationAction';
 import { pushToStatsEdit } from '../actions/RedirectAction';
 import { updateStatsOverviews } from '../actions/StatsAction';
 import { closeNewStatsModal, renewStatsOverview, resetNewStats } from '../actions/StatsListAction';
@@ -34,13 +36,19 @@ export class StatsList {
       const path: string = action.payload.location.pathname;
 
       if (path === '/statistics/list') {
-        const res: request.Response = yield call(AJAX.get, '/api/stats/overview/1');
-        const statsOverviewJSONs: Array<StatsOverviewJSON> = res.body;
-        const statsOverviews: Array<StatsOverview> = statsOverviewJSONs.map<StatsOverview>((json: StatsOverviewJSON) => {
-          return statsOverviewFactory.fromJSON(json);
-        });
+        try {
+          const res: request.Response = yield call(AJAX.get, '/api/stats/overview/1');
+          const statsOverviewJSONs: Array<StatsOverviewJSON> = res.body;
+          const statsOverviews: Array<StatsOverview> = statsOverviewJSONs.map<StatsOverview>((json: StatsOverviewJSON) => {
+            return statsOverviewFactory.fromJSON(json);
+          });
 
-        yield put(updateStatsOverviews(statsOverviews));
+          yield put(updateStatsOverviews(statsOverviews));
+        }
+        catch (err) {
+          yield put(updateStatsOverviews([]));
+          yield put(appearNotification(NotificationKind.ERROR, 'center', 'top', 'STATS_OVERVIEW_NOT_FOUND'));
+        }
       }
     }
   }

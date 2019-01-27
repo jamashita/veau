@@ -49,6 +49,8 @@ export type Messages = {
   DETERMINE_START_DATE: string;
   STATS_SAVE_FAILURE: string;
   STATS_SAVE_FAILURE_DESCRIPTION: string;
+  STATS_NOT_FOUND: string;
+  STATS_OVERVIEW_NOT_FOUND: string;
 
   SAVE_SUCCESS: string;
 
@@ -114,6 +116,8 @@ const en: Messages = {
   DETERMINE_START_DATE: 'Determine start date',
   STATS_SAVE_FAILURE: 'Save failure',
   STATS_SAVE_FAILURE_DESCRIPTION: 'Failed to save stats to the server. Please try again.',
+  STATS_NOT_FOUND: 'Statistics not found',
+  STATS_OVERVIEW_NOT_FOUND: 'List of statistics could not find',
 
   SAVE_SUCCESS: 'Succeeded to save',
 
@@ -179,6 +183,8 @@ const fr: Messages = {
   DETERMINE_START_DATE: 'Déterminer la date de début',
   STATS_SAVE_FAILURE: 'Enregistrer l\'échec',
   STATS_SAVE_FAILURE_DESCRIPTION: 'Échec de l\'enregistrement des statistiques sur le serveur. Veuillez réessayer.',
+  STATS_NOT_FOUND: 'Statistiques non trouvées',
+  STATS_OVERVIEW_NOT_FOUND: 'Liste des statistiques n\'a pas pu trouver',
 
   SAVE_SUCCESS: 'Réussi à sauver',
 
@@ -244,6 +250,8 @@ const es: Messages = {
   DETERMINE_START_DATE: 'Determinar la fecha de inicio',
   STATS_SAVE_FAILURE: 'Guarde el fracaso',
   STATS_SAVE_FAILURE_DESCRIPTION: 'Error al guardar las estadísticas en el servidor. Inténtalo de nuevo.',
+  STATS_NOT_FOUND: 'Estadísticas no encontradas',
+  STATS_OVERVIEW_NOT_FOUND: 'Lista de estadísticas que no pudo encontrar',
 
   SAVE_SUCCESS: 'Consiguió salvar',
 
@@ -309,6 +317,8 @@ const ja: Messages = {
   DETERMINE_START_DATE: '開始日を決定する',
   STATS_SAVE_FAILURE: '保存失敗',
   STATS_SAVE_FAILURE_DESCRIPTION: 'サーバーへの統計情報の保存に失敗しました。 もう一度やり直してください。',
+  STATS_NOT_FOUND: '統計が見つかりません',
+  STATS_OVERVIEW_NOT_FOUND: '統計の一覧が見つかりませんでした',
 
   SAVE_SUCCESS: '保存成功',
 
