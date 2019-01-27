@@ -74,6 +74,7 @@ export enum ACTION {
   STATS_EDIT_UPDATE_SELECTING_ITEM = 'STATS_EDIT_UPDATE_SELECTING_ITEM',
   STATS_EDIT_ROW_MOVED = 'STATS_EDIT_ROW_MOVED',
   STATS_EDIT_INVALID_VALUE_INPUT = 'STATS_EDIT_INVALID_VALUE_INPUT',
+  STATS_EDIT_REMOVE_SELECTING_ITEM = 'STATS_EDIT_REMOVE_SELECTING_ITEM',
   STATS_EDIT_CLEAR_SELECTING_ITEM = 'STATS_EDIT_CLEAR_SELECTING_ITEM',
   STATS_EDIT_SAVE_STATS = 'STATS_EDIT_SAVE_STATS',
 
@@ -271,6 +272,10 @@ export interface StatsEditRowMovedAction extends ReduxAction {
 export interface StatsEditInvalidValueInputAction extends ReduxAction {
   type: ACTION.STATS_EDIT_INVALID_VALUE_INPUT;
 }
+export interface StatsEditRemoveSelectingItemAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_REMOVE_SELECTING_ITEM;
+  statsItem: StatsItem;
+}
 export interface StatsEditClearSelectingItemAction extends ReduxAction {
   type: ACTION.STATS_EDIT_CLEAR_SELECTING_ITEM;
 }
@@ -348,6 +353,7 @@ export type Action =
   | StatsEditUpdateSelectingItemAction
   | StatsEditRowMovedAction
   | StatsEditInvalidValueInputAction
+  | StatsEditRemoveSelectingItemAction
   | StatsEditClearSelectingItemAction
   | StatsEditSaveStatsAction
   | StatsOverviewUpdateAction

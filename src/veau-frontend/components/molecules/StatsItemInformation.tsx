@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader } from '@material-ui/core';
+import { Button, Card, CardActions, CardContent, CardHeader, Icon } from '@material-ui/core';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { StatsItem } from '../../../veau-entity/StatsItem';
@@ -8,6 +8,7 @@ type Props = {
   selecting?: StatsItem;
   nameTyped: (name: string) => void;
   unitTyped: (unit: string) => void;
+  removeItem: (statsItem: StatsItem) => void;
 };
 type State = {
 };
@@ -56,6 +57,21 @@ class StatsItemInformationImpl extends React.Component<Props & InjectedIntlProps
             value={selecting.getUnit()}
             onKeyUp={this.props.unitTyped}
           />
+          <CardActions>
+            <Button
+              color='primary'
+              onClick={(): void => {
+                this.props.removeItem(selecting);
+              }}
+            >
+              <Icon
+                className='fas fa-trash'
+              />
+              {intl.formatMessage({
+                id: 'REMOVE_ITEM'
+              })}
+            </Button>
+          </CardActions>
         </CardContent>
       </Card>
     );

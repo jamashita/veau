@@ -294,6 +294,16 @@ export class Stats extends Entity<StatsID> {
     ];
   }
 
+  public remove(statsItem: StatsItem): void {
+    this.items = this.items.filter((item: StatsItem) => {
+      if (item.equals(statsItem)) {
+        return false;
+      }
+
+      return true;
+    });
+  }
+
   public copy(): Stats {
     const {
       statsID,

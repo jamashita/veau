@@ -9,7 +9,7 @@ import {
   StatsEditItemUnitTypedAction,
   StatsEditLanguageSelectedAction,
   StatsEditNameTypedAction,
-  StatsEditRegionSelectedAction, StatsEditRowMovedAction,
+  StatsEditRegionSelectedAction, StatsEditRemoveSelectingItemAction, StatsEditRowMovedAction,
   StatsEditRowSelectedAction,
   StatsEditSelectingItemNameTypedAction,
   StatsEditSelectingItemUnitTypedAction, StatsEditStartDateDeterminedAction,
@@ -52,6 +52,7 @@ export class StatsEdit {
     yield fork(StatsEdit.selectingItemUnitTyped);
     yield fork(StatsEdit.startDateDetermined);
     yield fork(StatsEdit.invalidValueInput);
+    yield fork(StatsEdit.removeItem);
     yield fork(StatsEdit.rowMoved);
     yield fork(StatsEdit.save);
   }
@@ -320,6 +321,20 @@ export class StatsEdit {
     while (true) {
       yield take(ACTION.STATS_EDIT_INVALID_VALUE_INPUT);
       yield put(appearNotification(NotificationKind.WARN, 'center', 'top', 'INVALID_INPUT_VALUE'));
+    }
+  }
+
+  private static *removeItem(): IterableIterator<any> {
+   while (true) {
+     const action: StatsEditRemoveSelectingItemAction = yield take(ACTION.STATS_EDIT_REMOVE_SELECTING_ITEM);
+     const state: State = yield select();
+
+     const {
+       stats
+     } = state;
+
+     stats.remove(action.statsItem);
+     yield put(updateStats(stats.copy()));
     }
   }
 

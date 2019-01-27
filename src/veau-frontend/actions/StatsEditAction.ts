@@ -11,6 +11,7 @@ import {
   StatsEditLanguageSelectedAction,
   StatsEditNameTypedAction,
   StatsEditRegionSelectedAction,
+  StatsEditRemoveSelectingItemAction,
   StatsEditRowMovedAction,
   StatsEditRowSelectedAction,
   StatsEditSaveStatsAction,
@@ -144,6 +145,13 @@ export const rowMoved: (column: number, target: number) => StatsEditRowMovedActi
 export const invalidValueInput: () => StatsEditInvalidValueInputAction = (): StatsEditInvalidValueInputAction => {
   return {
     type: ACTION.STATS_EDIT_INVALID_VALUE_INPUT
+  };
+};
+
+export const removeItem: (statsItem: StatsItem) => StatsEditRemoveSelectingItemAction = (statsItem: StatsItem): StatsEditRemoveSelectingItemAction => {
+  return {
+    type: ACTION.STATS_EDIT_REMOVE_SELECTING_ITEM,
+    statsItem
   };
 };
 

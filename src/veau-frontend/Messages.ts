@@ -44,6 +44,7 @@ export type Messages = {
   STATS_INFO: string;
   STATS_ITEM_INFO: string;
   ADD_ITEM: string;
+  REMOVE_ITEM: string;
   CREATE_NEW_ITEM: string;
   START_DATE: string;
   DETERMINE_START_DATE: string;
@@ -112,6 +113,7 @@ const en: Messages = {
   STATS_INFO: 'Statistics information',
   STATS_ITEM_INFO: 'Item information',
   ADD_ITEM: 'Add an item',
+  REMOVE_ITEM: 'Remove',
   CREATE_NEW_ITEM: 'Create new statistics item',
   START_DATE: 'Start date',
   DETERMINE_START_DATE: 'Determine start date',
@@ -180,6 +182,7 @@ const fr: Messages = {
   STATS_INFO: 'Informations statistiques',
   STATS_ITEM_INFO: 'Informations de l\'élément',
   ADD_ITEM: 'Ajouter un élément',
+  REMOVE_ITEM: 'Éliminer',
   CREATE_NEW_ITEM: 'Créer un nouvel élément de statistiques',
   START_DATE: 'Date de début',
   DETERMINE_START_DATE: 'Déterminer la date de début',
@@ -248,6 +251,7 @@ const es: Messages = {
   STATS_INFO: 'Información estadística',
   STATS_ITEM_INFO: 'Información del item',
   ADD_ITEM: 'Añadir un ítem',
+  REMOVE_ITEM: 'Eliminar',
   CREATE_NEW_ITEM: 'Crear nuevo ítem de estadísticas',
   START_DATE: 'Fecha de inicio',
   DETERMINE_START_DATE: 'Determinar la fecha de inicio',
@@ -316,6 +320,7 @@ const ja: Messages = {
   STATS_INFO: '統計情報',
   STATS_ITEM_INFO: '項目情報',
   ADD_ITEM: '項目を追加',
+  REMOVE_ITEM: '削除',
   CREATE_NEW_ITEM: '新しい統計項目を作成する',
   START_DATE: '開始日',
   DETERMINE_START_DATE: '開始日を決定する',

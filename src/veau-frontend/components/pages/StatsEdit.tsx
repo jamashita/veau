@@ -246,6 +246,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
             selecting={selectingItem}
             nameTyped={this.props.selectingItemNameTyped}
             unitTyped={this.props.selectingItemUnitTyped}
+            removeItem={this.props.removeItem}
           />
         </div>
         <StatsItemModal
