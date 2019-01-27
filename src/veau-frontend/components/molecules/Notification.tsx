@@ -28,7 +28,7 @@ class NotificationImpl extends React.Component<Props & InjectedIntlProps, State>
       case NotificationKind.SUCCESS: {
         return (
           <Icon
-            className='fas fa-check-circle notification-icon'
+            className='fas fa-check-circle icon-spacing'
           />
         );
       }
@@ -36,21 +36,21 @@ class NotificationImpl extends React.Component<Props & InjectedIntlProps, State>
       default: {
         return (
           <Icon
-            className='fas fa-info-circle notification-icon'
+            className='fas fa-info-circle icon-spacing'
           />
         );
       }
       case NotificationKind.WARN: {
         return (
           <Icon
-            className='fas fa-exclamation-circle notification-icon'
+            className='fas fa-exclamation-circle icon-spacing'
           />
         );
       }
       case NotificationKind.ERROR: {
         return (
           <Icon
-            className='fas fa-exclamation-triangle notification-icon'
+            className='fas fa-exclamation-triangle icon-spacing'
           />
         );
       }

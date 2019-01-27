@@ -66,7 +66,7 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
           color='primary'
           onClick={this.props.newStatsClicked}
         >
-          <Icon className='fas fa-plus-circle' />
+          <Icon className='fas fa-plus-circle icon-spacing' />
           {intl.formatMessage({
             id: 'CREATE_NEW_STATS'
           })}
