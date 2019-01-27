@@ -1,4 +1,4 @@
-import { Snackbar, SnackbarContent } from '@material-ui/core';
+import { Icon, Snackbar, SnackbarContent } from '@material-ui/core';
 import { amber, blue, green, red } from '@material-ui/core/colors';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
@@ -19,6 +19,43 @@ class NotificationImpl extends React.Component<Props & InjectedIntlProps, State>
     return true;
   }
 
+  private icon(): React.ReactNode {
+    const {
+      kind
+    } = this.props;
+
+    switch (kind) {
+      case NotificationKind.SUCCESS: {
+        return (
+          <Icon
+            className='fas fa-check-circle notification-icon'
+          />
+        );
+      }
+      case NotificationKind.INFO:
+      default: {
+        return (
+          <Icon
+            className='fas fa-info-circle notification-icon'
+          />
+        )
+      }
+      case NotificationKind.WARN: {
+        return (
+          <Icon
+            className='fas fa-exclamation-circle notification-icon'
+          />
+        );
+      }
+      case NotificationKind.ERROR: {
+        return (
+          <Icon
+            className='fas fa-exclamation-triangle notification-icon'
+          />
+        );
+      }
+    }
+  }
   private backgroundColor(): string {
     const {
       kind
@@ -66,11 +103,15 @@ class NotificationImpl extends React.Component<Props & InjectedIntlProps, State>
           style={{
             backgroundColor: this.backgroundColor()
           }}
-          message={intl.formatMessage({
-              id: message
-            },
-            values
-          )}
+          message={<div>
+            {this.icon()}
+            <span>
+              {intl.formatMessage({
+                id: message
+              },
+              values)}
+            </span>
+          </div>}
         />
       </Snackbar>
     );
