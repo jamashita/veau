@@ -63,6 +63,7 @@ class StatsItemInformationImpl extends React.Component<Props & InjectedIntlProps
               onClick={(): void => {
                 this.props.removeItem(selecting);
               }}
+              fullWidth={true}
             >
               <Icon
                 className='fas fa-trash'
