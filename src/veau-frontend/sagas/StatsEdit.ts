@@ -51,6 +51,7 @@ export class StatsEdit {
     yield fork(StatsEdit.selectingItemNameTyped);
     yield fork(StatsEdit.selectingItemUnitTyped);
     yield fork(StatsEdit.startDateDetermined);
+    yield fork(StatsEdit.invalidValueInput);
     yield fork(StatsEdit.rowMoved);
     yield fork(StatsEdit.save);
   }
@@ -312,6 +313,13 @@ export class StatsEdit {
 
       stats.moveItem(column, target);
       yield put(updateStats(stats.copy()));
+    }
+  }
+
+  private static *invalidValueInput(): IterableIterator<any> {
+    while (true) {
+      yield take(ACTION.STATS_EDIT_INVALID_VALUE_INPUT);
+      yield put(appearNotification(NotificationKind.WARN, 'center', 'top', 'INVALID_INPUT_VALUE'));
     }
   }
 

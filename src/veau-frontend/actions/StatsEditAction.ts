@@ -3,6 +3,7 @@ import {
   StatsEditClearSelectingItemAction,
   StatsEditDataDeletedAction,
   StatsEditDataFilledAction,
+  StatsEditInvalidValueInputAction,
   StatsEditItemNameTypedAction,
   StatsEditItemSaveAction,
   StatsEditItemSelectingAction,
@@ -137,6 +138,12 @@ export const rowMoved: (column: number, target: number) => StatsEditRowMovedActi
     type: ACTION.STATS_EDIT_ROW_MOVED,
     column,
     target
+  };
+};
+
+export const invalidValueInput: () => StatsEditInvalidValueInputAction = (): StatsEditInvalidValueInputAction => {
+  return {
+    type: ACTION.STATS_EDIT_INVALID_VALUE_INPUT
   };
 };
 

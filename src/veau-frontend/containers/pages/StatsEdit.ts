@@ -9,6 +9,7 @@ import { LocaleRepository } from '../../../veau-repository/LocaleRepository';
 import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
 import {
+  invalidValueInput,
   itemNameTyped, itemUnitTyped, rowMoved, rowSelected,
   saveItem, saveStats, selectingItemNameTyped, selectingItemUnitTyped, startDateDetermined, statsDataDeleted,
   statsDataFilled,
@@ -40,6 +41,7 @@ type DispatchProps = {
   selectingItemUnitTyped: (unit: string) => void;
   startDateDetermined: (startDate: string) => void;
   rowMoved: (column: number, target: number) => void;
+  invalidValueInput: () => void;
   save: () => void;
 };
 type OwnProps = {
@@ -107,6 +109,9 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
     },
     rowMoved: (column: number, target: number): void => {
       dispatch(rowMoved(column, target));
+    },
+    invalidValueInput: (): void => {
+      dispatch(invalidValueInput());
     },
     save: (): void => {
       dispatch(saveStats());

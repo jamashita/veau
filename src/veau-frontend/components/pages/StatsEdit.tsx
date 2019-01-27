@@ -141,6 +141,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
                 const str: string = changes[i][VALUE_INDEX];
 
                 if (isNaN(Number(str))) {
+                  this.props.invalidValueInput();
                   return false;
                 }
               }
