@@ -9,7 +9,7 @@ export type Notification = {
   message: string;
   values?: {[key: string]: string};
   duration: number;
-}
+};
 
 const initialState: Notification = {
   kind: NotificationKind.INFO,

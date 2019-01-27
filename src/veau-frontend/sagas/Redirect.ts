@@ -1,7 +1,6 @@
 import { push } from 'connected-react-router';
 import { fork, put, take } from 'redux-saga/effects';
 import { ACTION, PushToStatsEditAction } from '../../declarations/Action';
-import { StatsID } from '../../veau-vo/StatsID';
 import { Endpoints } from '../Endpoints';
 
 export class Redirect {
@@ -22,9 +21,7 @@ export class Redirect {
   private static *toStatsEdit(): IterableIterator<any> {
     while (true) {
       const action: PushToStatsEditAction = yield take(ACTION.PUSH_TO_STATS_EDIT);
-      const statsID: StatsID = action.statsID;
-
-      yield put(push(Endpoints.STATS_EDIT.replace(':id', statsID.get().get())));
+      yield put(push(Endpoints.STATS_EDIT.replace(':id', action.statsID.get().get())));
     }
   }
 

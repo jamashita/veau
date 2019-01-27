@@ -156,7 +156,7 @@ export class StatsList {
       yield put(closeNewStatsModal());
       yield put(loading());
       try {
-        yield call(AJAX.post, '/api/stats/new', newStatsOverview.toJSON());
+        yield call(AJAX.post, '/api/stats/overview', newStatsOverview.toJSON());
 
         yield put(loaded());
         yield put(pushToStatsEdit(newStatsOverview.getStatsID()));

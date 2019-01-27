@@ -71,7 +71,7 @@ router.post('/', async (req: express.Request, res: express.Response) => {
   }
 });
 
-router.post('/new', async (req: express.Request, res: express.Response) => {
+router.post('/overview', async (req: express.Request, res: express.Response) => {
   const json: StatsOverviewJSON = req.body;
 
   try {

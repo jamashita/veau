@@ -38,7 +38,7 @@ class NotificationImpl extends React.Component<Props & InjectedIntlProps, State>
           <Icon
             className='fas fa-info-circle notification-icon'
           />
-        )
+        );
       }
       case NotificationKind.WARN: {
         return (
