@@ -312,7 +312,7 @@ export class Stats extends Entity<StatsID> {
       newItems.push(item.copy());
     });
 
-    return new Stats(statsID.copy(), language.copy(), region.copy(), term, name, moment(updatedAt), newItems, startDate);
+    return new Stats(statsID, language, region, term, name, moment(updatedAt), newItems, startDate);
   }
 
   public toJSON(): StatsJSON {

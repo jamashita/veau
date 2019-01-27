@@ -20,14 +20,6 @@ export class IdentityID extends ValueObject {
     return this.id;
   }
 
-  public copy(): IdentityID {
-    const {
-      id
-    } = this;
-
-    return new IdentityID(id);
-  }
-
   public equals(other: IdentityID): boolean {
     if (this === other) {
       return true;

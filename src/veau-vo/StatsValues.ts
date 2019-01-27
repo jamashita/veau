@@ -67,13 +67,9 @@ export class StatsValues {
   }
 
   public copy(): StatsValues {
-    const values: Array<StatsValue> = [];
-
-    this.values.forEach((value: StatsValue) => {
-      values.push(value.copy());
-    });
-
-    return new StatsValues(values);
+    return new StatsValues([
+      ...this.values
+    ]);
   }
 
   public equals(other: StatsValues): boolean {

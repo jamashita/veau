@@ -123,7 +123,7 @@ export class StatsItem extends Entity<StatsItemID> {
       values
     } = this;
 
-    return new StatsItem(statsItemID.copy(), name, unit, values.copy());
+    return new StatsItem(statsItemID, name, unit, values.copy());
   }
 
   public toJSON(): StatsItemJSON {

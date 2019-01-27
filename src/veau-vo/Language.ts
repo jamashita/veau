@@ -54,17 +54,6 @@ export class Language extends ValueObject {
     return this.iso639;
   }
 
-  public copy(): Language {
-    const {
-      languageID,
-      name,
-      englishName,
-      iso639
-    } = this;
-
-    return new Language(languageID.copy(), name, englishName, iso639.copy());
-  }
-
   public equals(other: Language): boolean {
     if (this === other) {
       return true;

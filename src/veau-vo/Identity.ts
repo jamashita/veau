@@ -56,17 +56,6 @@ export class Identity extends ValueObject {
     return false;
   }
 
-  public copy(): Identity {
-    const {
-      identityID,
-      account,
-      language,
-      region
-    } = this;
-
-    return new Identity(identityID.copy(), account, language.copy(), region.copy());
-  }
-
   public equals(other: Identity): boolean {
     if (this === other) {
       return true;

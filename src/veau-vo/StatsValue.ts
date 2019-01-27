@@ -40,15 +40,6 @@ export class StatsValue extends ValueObject {
     return this.asOf.format(TERM_FORMAT);
   }
 
-  public copy(): StatsValue {
-    const {
-      asOf,
-      value
-    } = this;
-
-    return new StatsValue(moment(asOf), value);
-  }
-
   public equals(other: StatsValue): boolean {
     if (this === other) {
       return true;

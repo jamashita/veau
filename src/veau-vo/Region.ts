@@ -46,16 +46,6 @@ export class Region extends ValueObject {
     return this.iso3166;
   }
 
-  public copy(): Region {
-    const {
-      regionID,
-      name,
-      iso3166
-    } = this;
-
-    return new Region(regionID.copy(), name, iso3166.copy());
-  }
-
   public equals(other: Region): boolean {
     if (this === other) {
       return true;

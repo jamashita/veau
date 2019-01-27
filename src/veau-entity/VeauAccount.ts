@@ -60,7 +60,7 @@ export class VeauAccount extends Entity<VeauAccountID> {
       region
     } = this;
 
-    return new VeauAccount(veauAccountID.copy(), account, language.copy(), region.copy());
+    return new VeauAccount(veauAccountID, account, language, region);
   }
 
   public toJSON(): VeauAccountJSON {

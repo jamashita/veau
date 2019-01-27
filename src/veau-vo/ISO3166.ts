@@ -20,14 +20,6 @@ export class ISO3166 extends ValueObject {
     return this.iso3166;
   }
 
-  public copy(): ISO3166 {
-    const {
-      iso3166
-    } = this;
-
-    return new ISO3166(iso3166);
-  }
-
   public equals(other: ISO3166): boolean {
     if (this === other) {
       return true;

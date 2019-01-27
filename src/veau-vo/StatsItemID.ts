@@ -17,14 +17,6 @@ export class StatsItemID extends ValueObject {
     return this.id;
   }
 
-  public copy(): StatsItemID {
-    const {
-      id
-    } = this;
-
-    return new StatsItemID(id.copy());
-  }
-
   public equals(other: StatsItemID): boolean {
     if (this === other) {
       return true;
