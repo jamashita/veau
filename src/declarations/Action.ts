@@ -5,6 +5,7 @@ import { StatsItem } from '../veau-entity/StatsItem';
 import { StatsOverview } from '../veau-entity/StatsOverview';
 import { NotificationKind } from '../veau-enum/NotificationKind';
 import { Term } from '../veau-enum/Term';
+import { LocaleRepository } from '../veau-repository/LocaleRepository';
 import { EntranceInformation } from '../veau-vo/EntranceInformation';
 import { Identity } from '../veau-vo/Identity';
 import { ISO3166 } from '../veau-vo/ISO3166';
@@ -148,8 +149,7 @@ export interface CloseProviderAction extends ReduxAction {
 }
 export interface LocaleDefinedAction extends ReduxAction {
   type: ACTION.LOCALE_DEFINED;
-  languages: Array<Language>;
-  regions: Array<Region>;
+  localeRepository: LocaleRepository;
 }
 export interface EntranceAccountNameTypedAction extends ReduxAction {
   type: ACTION.ENTRANCE_ACCOUNT_NAME_TYPED;

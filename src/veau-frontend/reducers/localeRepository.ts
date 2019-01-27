@@ -11,12 +11,7 @@ const initialState: LocaleRepository = LocaleRepository.getInstance(
 export const localeRepository: (state: LocaleRepository, action: Action) => LocaleRepository = (state: LocaleRepository = initialState, action: Action): LocaleRepository => {
   switch (action.type) {
     case ACTION.LOCALE_DEFINED: {
-      const {
-        languages,
-        regions
-      } = action;
-
-      return LocaleRepository.getInstance(languages, regions);
+      return action.localeRepository;
     }
     default: {
       return state;
