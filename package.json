@@ -7,8 +7,8 @@
     "build": "gulp build",
     "gulp:watch": "gulp",
     "webpack:watch": "webpack-dev-server --hot --config webpack.dev.config.js",
-    "start": "pm2 start ecosystem.config.js",
-    "stop": "pm2 stop ecosystem.config.js",
+    "start": "pm2-runtime start ecosystem.config.js",
+    "stop": "pm2-runtime stop ecosystem.config.js",
     "test": "jest test --detectOpenHandles",
     "lint": "tslint 'src/**/*.ts{,x}' --fix"
   },

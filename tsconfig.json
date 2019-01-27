@@ -25,7 +25,9 @@
     ],
     "strict": true,
     "strictFunctionTypes": false,
-    "types": []
+    "types": [
+      "node"
+    ]
   },
   "include": [
     "src/**/*"
