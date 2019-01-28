@@ -59,11 +59,11 @@ router.get('/:statsID', async (req: express.Request, res: express.Response) => {
   }
 });
 
-router.post('/', async (req: express.Request, res: express.Response) => {
+router.post('/', async (req: RequestSession, res: express.Response) => {
   const json: StatsJSON = req.body;
 
   try {
-    await statsUsecase.save(json);
+    await statsUsecase.save(req.user.getVeauAccountID(), json);
     res.sendStatus(CREATED);
   }
   catch (err) {
@@ -72,11 +72,11 @@ router.post('/', async (req: express.Request, res: express.Response) => {
   }
 });
 
-router.post('/overview', async (req: express.Request, res: express.Response) => {
+router.post('/overview', async (req: RequestSession, res: express.Response) => {
   const json: StatsOverviewJSON = req.body;
 
   try {
-    await statsUsecase.saveNewStats(json);
+    await statsUsecase.saveNewStats(req.user.getVeauAccountID(), json);
     res.sendStatus(CREATED);
   }
   catch (err) {

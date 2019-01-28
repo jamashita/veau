@@ -39,18 +39,18 @@ export class StatsUsecase implements IStatsUsecase {
     });
   }
 
-  public saveNewStats(json: StatsOverviewJSON): Promise<any> {
+  public saveNewStats(veauAccountID: VeauAccountID, json: StatsOverviewJSON): Promise<any> {
     const statsOverview: StatsOverview = statsOverviewFactory.fromJSON(json);
 
-    return statsOverviewRepository.create(statsOverview);
+    return statsOverviewRepository.create(veauAccountID, statsOverview);
   }
 
-  public save(json: StatsJSON): Promise<any> {
+  public save(veauAccountID: VeauAccountID, json: StatsJSON): Promise<any> {
     const stats: Stats = statsFactory.fromJSON(json);
 
     return VeauMySQL.transaction(async (transaction: MySQLTransaction): Promise<any> => {
       await statsRepository.deleteByStatsID(stats.getStatsID(), transaction);
-      return statsRepository.create(stats, transaction);
+      return statsRepository.create(stats, veauAccountID, transaction);
     });
   }
 }
@@ -61,7 +61,7 @@ export interface IStatsUsecase {
 
   findByVeauAccountID(veauAccountID: VeauAccountID, page: number): Promise<Array<StatsOverviewJSON>>;
 
-  saveNewStats(json: StatsOverviewJSON): Promise<any>;
+  saveNewStats(veauAccountID: VeauAccountID, json: StatsOverviewJSON): Promise<any>;
 
-  save(json: StatsJSON): Promise<any>;
+  save(veauAccountID: VeauAccountID, json: StatsJSON): Promise<any>;
 }

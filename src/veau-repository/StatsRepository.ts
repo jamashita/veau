@@ -5,6 +5,7 @@ import { MySQLTransaction } from '../veau-general/MySQLTransaction';
 import { NoSuchElementError } from '../veau-general/NoSuchElementError';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../veau-vo/StatsID';
+import { VeauAccountID } from '../veau-vo/VeauAccountID';
 import { StatsItemRepository } from './StatsItemRepository';
 
 const statsItemRepository: StatsItemRepository = StatsItemRepository.getInstance();
@@ -55,12 +56,13 @@ export class StatsRepository implements IStatsRepository {
     return statsFactory.fromRow(rows[0], items);
   }
 
-  public async create(stats: Stats, transaction: MySQLTransaction): Promise<any> {
+  public async create(stats: Stats, veauAccountID: VeauAccountID, transaction: MySQLTransaction): Promise<any> {
     const query: string = `INSERT INTO stats VALUES (
       :statsID,
       :languageID,
       :regionID,
       :termID,
+      :veauAccountID,
       :name,
       NOW()
       );`;
@@ -71,6 +73,7 @@ export class StatsRepository implements IStatsRepository {
         languageID: stats.getLanguage().getLanguageID().get(),
         regionID: stats.getRegion().getRegionID().get(),
         termID: stats.getTerm().get(),
+        veauAccountID: veauAccountID.get(),
         name: stats.getName()
       }
     ]);
@@ -101,7 +104,7 @@ export interface IStatsRepository {
 
   findByStatsID(statsID: StatsID): Promise<Stats>;
 
-  create(stats: Stats, transaction: MySQLTransaction): Promise<any>;
+  create(stats: Stats, veauAccountID: VeauAccountID, transaction: MySQLTransaction): Promise<any>;
 
   deleteByStatsID(statsID: StatsID, transaction: MySQLTransaction): Promise<any>;
 }

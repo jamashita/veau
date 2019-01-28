@@ -35,7 +35,7 @@ export class StatsOverviewRepository implements IStatsOverviewRepository {
       USING(language_id)
       INNER JOIN regions R3
       USING(region_id)
-      WHERE R1.veau_account_ID = :veauAccountID
+      WHERE R1.veau_account_id = :veauAccountID
       LIMIT :limit
       OFFSET :offset;`;
 
@@ -52,12 +52,13 @@ export class StatsOverviewRepository implements IStatsOverviewRepository {
     });
   }
 
-  public async create(statsOverview: StatsOverview): Promise<any> {
+  public async create(veauAccountID: VeauAccountID, statsOverview: StatsOverview): Promise<any> {
     const query: string = `INSERT INTO stats VALUES(
       :statsID,
       :languageID,
       :regionID,
       :termID,
+      :veauAccountID,
       :name,
       NOW()
       );`;
@@ -71,6 +72,7 @@ export class StatsOverviewRepository implements IStatsOverviewRepository {
         languageID: language.getLanguageID().get(),
         regionID: region.getRegionID().get(),
         termID: statsOverview.getTerm().get(),
+        veauAccountID: veauAccountID.get(),
         name: statsOverview.getName()
       }
     ]);
@@ -81,5 +83,5 @@ export interface IStatsOverviewRepository {
 
   findByVeauAccountID(veauAccountID: VeauAccountID, page: number): Promise<Array<StatsOverview>>;
 
-  create(statsOverview: StatsOverview): Promise<any>;
+  create(veauAccountID: VeauAccountID, statsOverview: StatsOverview): Promise<any>;
 }
