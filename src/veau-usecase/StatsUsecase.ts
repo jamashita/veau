@@ -8,6 +8,7 @@ import { IStatsOverviewRepository, StatsOverviewRepository } from '../veau-repos
 import { IStatsRepository, StatsRepository } from '../veau-repository/StatsRepository';
 import { StatsID } from '../veau-vo/StatsID';
 import { UUID } from '../veau-vo/UUID';
+import { VeauAccountID } from '../veau-vo/VeauAccountID';
 
 const statsRepository: IStatsRepository = StatsRepository.getInstance();
 const statsFactory: StatsFactory = StatsFactory.getInstance();
@@ -30,8 +31,8 @@ export class StatsUsecase implements IStatsUsecase {
     return stats.toJSON();
   }
 
-  public async findByPage(page: number): Promise<Array<StatsOverviewJSON>> {
-    const statsOverviews: Array<StatsOverview> = await statsOverviewRepository.findByPage(page);
+  public async findByVeauAccountID(veauAccountID: VeauAccountID, page: number): Promise<Array<StatsOverviewJSON>> {
+    const statsOverviews: Array<StatsOverview> = await statsOverviewRepository.findByVeauAccountID(veauAccountID, page);
 
     return statsOverviews.map<StatsOverviewJSON>((statsOverview: StatsOverview) => {
       return statsOverview.toJSON();
@@ -58,7 +59,7 @@ export interface IStatsUsecase {
 
   findByStatsID(statsID: string): Promise<StatsJSON>;
 
-  findByPage(page: number): Promise<Array<StatsOverviewJSON>>;
+  findByVeauAccountID(veauAccountID: VeauAccountID, page: number): Promise<Array<StatsOverviewJSON>>;
 
   saveNewStats(json: StatsOverviewJSON): Promise<any>;
 

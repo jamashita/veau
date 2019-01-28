@@ -3,6 +3,7 @@ import { StatsOverviewFactory } from '../veau-factory/StatsOverviewFactory';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { Language } from '../veau-vo/Language';
 import { Region } from '../veau-vo/Region';
+import { VeauAccountID } from '../veau-vo/VeauAccountID';
 import { LanguageRepository } from './LanguageRepository';
 import { RegionRepository } from './RegionRepository';
 
@@ -21,7 +22,7 @@ export class StatsOverviewRepository implements IStatsOverviewRepository {
   private constructor() {
   }
 
-  public async findByPage(page: number): Promise<Array<StatsOverview>> {
+  public async findByVeauAccountID(veauAccountID: VeauAccountID, page: number): Promise<Array<StatsOverview>> {
     const query: string = `SELECT
       R1.stats_id AS statsID,
       R2.iso639,
@@ -34,11 +35,13 @@ export class StatsOverviewRepository implements IStatsOverviewRepository {
       USING(language_id)
       INNER JOIN regions R3
       USING(region_id)
+      WHERE R1.veau_account_ID = :veauAccountID
       LIMIT :limit
       OFFSET :offset;`;
 
     const statsOverviewRows: Array<StatsOverviewRow> = await VeauMySQL.query(query, [
       {
+        veauAccountID: veauAccountID.get(),
         limit: LIMIT,
         offset: (page - 1) * LIMIT
       }
@@ -76,7 +79,7 @@ export class StatsOverviewRepository implements IStatsOverviewRepository {
 
 export interface IStatsOverviewRepository {
 
-  findByPage(page: number): Promise<Array<StatsOverview>>;
+  findByVeauAccountID(veauAccountID: VeauAccountID, page: number): Promise<Array<StatsOverview>>;
 
   create(statsOverview: StatsOverview): Promise<any>;
 }

@@ -4,10 +4,11 @@ import { SinonStub } from 'sinon';
 import * as sinon from 'sinon';
 import { StatsOverview } from '../../veau-entity/StatsOverview';
 import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
+import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { StatsOverviewRepository } from '../StatsOverviewRepository';
 
 describe('StatsOverviewRepository', () => {
-  it('findByPage', async () => {
+  it('findByVeauAccountID', async () => {
     const stub: SinonStub = sinon.stub();
     VeauMySQL.query = stub;
     stub.returns([
@@ -22,7 +23,7 @@ describe('StatsOverviewRepository', () => {
     ]);
 
     const statsOverviewRepository: StatsOverviewRepository = StatsOverviewRepository.getInstance();
-    const statsOverviews: Array<StatsOverview> = await statsOverviewRepository.findByPage(0);
+    const statsOverviews: Array<StatsOverview> = await statsOverviewRepository.findByVeauAccountID(VeauAccountID.of(1), 0);
 
     expect(statsOverviews.length).toEqual(1);
     expect(statsOverviews[0].getStatsID().get().get()).toEqual('1a607fff-12c2-4d8d-a55a-75fa23971393');
