@@ -6,12 +6,15 @@ import { VeauAccount, VeauAccountJSON } from '../veau-entity/VeauAccount';
 import { VeauAccountFactory } from '../veau-factory/VeauAccountFactory';
 import { Digest } from '../veau-general/Digest';
 import { NoSuchElementError } from '../veau-general/NoSuchElementError';
-import { VeauAccountHash, VeauAccountRepository } from '../veau-repository/VeauAccountRepository';
+import { VeauAccountRepository } from '../veau-repository/VeauAccountRepository';
 
 const logger: log4js.Logger = log4js.getLogger();
+
 const veauAccountRepository: VeauAccountRepository = VeauAccountRepository.getInstance();
 const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
-const DUMMY_HASH: string = 'dm@Cq,|kF?os_4E.4s$uI$!FxBaXRARTY)PSm:v1l>9]kl|g&"9MuJ]#BjKH';
+
+const DUMMY_PASSWORD: string = '30DC7JzTgjAd8eXcwytlKCwI6kh1eqdU';
+const DUMMY_HASH: string = '$2b$14$iyzp4FTxFklmPUjQMaNYcOO4Svv6kBEtphNseTlhWQ/SxV0VBKOa.';
 
 passport.use(
   new LocalStrategy(
@@ -22,10 +25,15 @@ passport.use(
     },
     async (account: string, password: string, done: (error: any, account?: any) => void): Promise<void> => {
     try {
-      const veauAccountHash: VeauAccountHash = await veauAccountRepository.findByAccount(account);
+      const {
+        veauAccount,
+        hash
+      } = await veauAccountRepository.findByAccount(account);
 
-      if (await Digest.compare(password, veauAccountHash.hash)) {
-        done(null, veauAccountHash.veauAccount);
+      const correct: boolean = await Digest.compare(password, hash);
+
+      if (correct) {
+        done(null, veauAccount);
         return;
       }
 
@@ -34,11 +42,12 @@ passport.use(
     catch (err) {
       if (err instanceof NoSuchElementError) {
         // time adjustment
-        await Digest.compare(password, DUMMY_HASH);
+        await Digest.compare(DUMMY_PASSWORD, DUMMY_HASH);
         logger.info(`invalid account: ${account} and password: ${password}`);
         done(null, false);
         return;
       }
+
       logger.fatal(err.message);
       done(err);
     }
