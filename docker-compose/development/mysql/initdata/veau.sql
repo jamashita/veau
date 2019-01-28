@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 8.0.13)
 # Database: veau
-# Generation Time: 2019-01-27 19:17:56 +0000
+# Generation Time: 2019-01-28 11:49:30 +0000
 # ************************************************************
 
 
@@ -512,15 +512,19 @@ CREATE TABLE `stats` (
   `language_id` tinyint(3) unsigned NOT NULL,
   `region_id` smallint(5) unsigned NOT NULL,
   `term_id` tinyint(3) unsigned NOT NULL,
+  `veau_account_id` mediumint(8) unsigned NOT NULL,
   `name` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`stats_id`),
   KEY `language_id` (`language_id`),
   KEY `region_id` (`region_id`),
   KEY `term_id` (`term_id`),
+  KEY `veau_account_id` (`veau_account_id`),
+  KEY `veau_account_id_2` (`veau_account_id`,`name`),
   CONSTRAINT `stats_ibfk_1` FOREIGN KEY (`language_id`) REFERENCES `languages` (`language_id`),
   CONSTRAINT `stats_ibfk_2` FOREIGN KEY (`region_id`) REFERENCES `regions` (`region_id`),
-  CONSTRAINT `stats_ibfk_3` FOREIGN KEY (`term_id`) REFERENCES `terms` (`term_id`)
+  CONSTRAINT `stats_ibfk_3` FOREIGN KEY (`term_id`) REFERENCES `terms` (`term_id`),
+  CONSTRAINT `stats_ibfk_4` FOREIGN KEY (`veau_account_id`) REFERENCES `veau_accounts` (`veau_account_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 
