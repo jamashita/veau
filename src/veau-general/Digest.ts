@@ -1,5 +1,4 @@
 import * as bcrypt from 'bcrypt';
-import * as md5 from 'md5';
 
 const ROUNDS: number = 14;
 
@@ -44,9 +43,5 @@ export class Digest {
         resolve(res);
       });
     });
-  }
-
-  public static md5(buffer: string | Buffer): string {
-    return md5(buffer);
   }
 }
