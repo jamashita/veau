@@ -23,7 +23,6 @@ $neat-grid: (
 
 .stats-items-edit {
   @include grid-column(14);
-  overflow-x: scroll;
 }
 
 .stats-edit {

@@ -1,4 +1,3 @@
-import { HotTable } from '@handsontable/react';
 import {
   Button,
   Icon
@@ -7,6 +6,7 @@ import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { Props } from '../../containers/pages/StatsEdit';
 import { Authenticated } from '../../containers/templates/Authenticated';
+import { Spreadsheet } from '../molecules/Spreadsheet';
 import { StatsEditStartDateModal } from '../molecules/StatsEditStartDateModal';
 import { StatsInformation } from '../molecules/StatsInformation';
 import { StatsItemInformation } from '../molecules/StatsItemInformation';
@@ -17,11 +17,6 @@ type State = {
   openStartDateModal: boolean;
   startDate?: string;
 };
-
-const ROW_INDEX: number = 0;
-const COLUMN_INDEX: number = 1;
-const VALUE_INDEX: number = 3;
-const SPREADSHEET_HEIGHT: number = 500;
 
 export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, State> {
 
@@ -61,19 +56,19 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
     if (stats !== nextProps.stats) {
       return true;
     }
-    for (let i: number = 0; i < stats.getItems().length; i++) {
-      if (stats.getItems()[i].getValues().length() !== nextProps.stats.getItems()[i].getValues().length()) {
-        return true;
-      }
-      for (let j: number = 0; j < stats.getItems()[i].getValues().length(); j++) {
-        if (!stats.getItems()[i].getValues().get()[j].getAsOf().isSame(nextProps.stats.getItems()[i].getValues().get()[j].getAsOf())) {
-          return true;
-        }
-        if (stats.getItems()[i].getValues().get()[j].getValue() !== nextProps.stats.getItems()[i].getValues().get()[j].getValue()) {
-          return true;
-        }
-      }
-    }
+    // for (let i: number = 0; i < stats.getItems().length; i++) {
+    //   if (stats.getItems()[i].getValues().length() !== nextProps.stats.getItems()[i].getValues().length()) {
+    //     return true;
+    //   }
+    //   for (let j: number = 0; j < stats.getItems()[i].getValues().length(); j++) {
+    //     if (!stats.getItems()[i].getValues().get()[j].getAsOf().isSame(nextProps.stats.getItems()[i].getValues().get()[j].getAsOf())) {
+    //       return true;
+    //     }
+    //     if (stats.getItems()[i].getValues().get()[j].getValue() !== nextProps.stats.getItems()[i].getValues().get()[j].getValue()) {
+    //       return true;
+    //     }
+    //   }
+    // }
     if (statsItem.getName() !== nextProps.statsItem.getName()) {
       return true;
     }
@@ -120,70 +115,16 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
           <div>
             CHART COMES HERE
           </div>
-          <HotTable
+          <Spreadsheet
             data={stats.getData()}
-            colHeaders={stats.getColumns()}
+            columnHeaders={stats.getColumns()}
             rowHeaders={stats.getRows()}
             rowHeaderWidth={stats.getRowHeaderSize()}
-            manualRowResize={true}
-            manualColumnResize={true}
-            manualRowMove={true}
-            autoColumnSize={true}
-            className='htRight'
-            selectionMode='single'
-            height={SPREADSHEET_HEIGHT}
-            beforeChange={(changes: Array<Array<any>> | null): boolean => {
-              if (!changes) {
-                return false;
-              }
-              const length: number = changes.length;
-              for (let i: number = 0; i < length; i++) {
-                const str: string = changes[i][VALUE_INDEX];
-
-                if (isNaN(Number(str))) {
-                  this.props.invalidValueInput();
-                  return false;
-                }
-              }
-
-              return true;
-            }}
-            afterChange={(changes: Array<Array<any>> | null): void => {
-              if (!changes) {
-                return;
-              }
-              changes.forEach((change: Array<any>) => {
-                const str: string = change[VALUE_INDEX];
-                const row: number = change[ROW_INDEX];
-                const column: number = change[COLUMN_INDEX];
-
-                if (str === '') {
-                  this.props.dataDeleted(row, column);
-                  return;
-                }
-
-                const value: number = Number(str);
-                this.props.dataFilled(row, column, value);
-              });
-            }}
-            afterSelection={(row1: number, col1: number, row2: number, col2: number): void => {
-              if (row1 === row2) {
-                this.props.rowSelected(row1);
-              }
-            }}
-            beforeRowMove={(columns: Array<number>, target: number): boolean => {
-              columns.forEach((column: number) => {
-                if (column === target) {
-                  return;
-                }
-                if (column < target) {
-                  this.props.rowMoved(column, target - 1);
-                  return;
-                }
-                this.props.rowMoved(column, target);
-              });
-              return true;
-            }}
+            invalidValueInput={this.props.invalidValueInput}
+            dataDeleted={this.props.dataDeleted}
+            dataFilled={this.props.dataFilled}
+            rowSelected={this.props.rowSelected}
+            rowMoved={this.props.rowMoved}
           />
         </div>
         <div
