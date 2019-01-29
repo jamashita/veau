@@ -64,12 +64,10 @@ export class Spreadsheet extends React.Component<Props, State> {
       rowHeaderWidth
     } = this.props;
 
-    if (columnHeaders.length === 0) {
-      if (rowHeaders.length === 0) {
-        return (
-          <div />
-        );
-      }
+    if (rowHeaders.length === 0) {
+      return (
+        <div />
+      );
     }
 
     return (

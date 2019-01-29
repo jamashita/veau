@@ -335,6 +335,7 @@ export class StatsEdit {
 
      stats.remove(action.statsItem);
      yield put(updateStats(stats.copy()));
+     yield put(clearSelectingItem());
     }
   }
 
