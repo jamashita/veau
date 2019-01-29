@@ -107,8 +107,8 @@ const en: Messages = {
 
   STATS_LIST: 'Statistics list',
   CREATE_NEW_STATS: 'Create new statistics',
-  FAILED_TO_SAVE_NEW_STATS: 'Failed to save the statistics.',
-  FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: 'Failed to save the statistics to the server, please try again',
+  FAILED_TO_SAVE_NEW_STATS: 'Failed to save the statistics',
+  FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: 'Failed to save the statistics to the server. Please try again.',
 
   STATS_INFO: 'Statistics information',
   STATS_ITEM_INFO: 'Item information',
@@ -119,7 +119,7 @@ const en: Messages = {
   DETERMINE_START_DATE: 'Determine start date',
   INVALID_INPUT_VALUE: 'The input value was not a number',
   STATS_SAVE_FAILURE: 'Save failure',
-  STATS_SAVE_FAILURE_DESCRIPTION: 'Failed to save stats to the server. Please try again.',
+  STATS_SAVE_FAILURE_DESCRIPTION: 'Failed to save statistics to the server. Please try again.',
   STATS_NOT_FOUND: 'Statistics not found',
   STATS_OVERVIEW_NOT_FOUND: 'List of statistics could not find',
 
@@ -176,7 +176,7 @@ const fr: Messages = {
 
   STATS_LIST: 'Liste de statistiques',
   CREATE_NEW_STATS: 'Créer de nouvelles statistiques',
-  FAILED_TO_SAVE_NEW_STATS: 'Échec de la sauvegarde des statistiques.',
+  FAILED_TO_SAVE_NEW_STATS: 'Échec de la sauvegarde des statistiques',
   FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: 'Échec de l\'enregistrement des statistiques sur le serveur. Veuillez réessayer.',
 
   STATS_INFO: 'Informations statistiques',

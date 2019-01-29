@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 8.0.13)
 # Database: veau
-# Generation Time: 2019-01-28 11:49:30 +0000
+# Generation Time: 2019-01-29 02:32:14 +0000
 # ************************************************************
 
 
@@ -555,7 +555,7 @@ DROP TABLE IF EXISTS `stats_values`;
 CREATE TABLE `stats_values` (
   `stats_item_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `as_of` date NOT NULL,
-  `value` decimal(32,8) unsigned NOT NULL,
+  `value` decimal(32,8) NOT NULL,
   UNIQUE KEY `stats_item_id` (`stats_item_id`,`as_of`),
   KEY `stats_item_id_2` (`stats_item_id`),
   CONSTRAINT `stats_values_ibfk_1` FOREIGN KEY (`stats_item_id`) REFERENCES `stats_items` (`stats_item_id`)
