@@ -25,7 +25,6 @@
     "connect-redis": "3.4.0",
     "connected-react-router": "6.2.2",
     "cookie-parser": "1.4.3",
-    "d3": "5.8.0",
     "express": "4.16.4",
     "express-session": "1.15.6",
     "handsontable": "6.2.2",
@@ -52,7 +51,8 @@
     "serve-favicon": "2.5.0",
     "source-map-support": "0.5.10",
     "superagent": "4.1.0",
-    "uuid": "3.3.2"
+    "uuid": "3.3.2",
+    "victory": "31.2.0"
   },
   "devDependencies": {
     "@types/bcrypt": "3.0.0",
@@ -62,7 +62,6 @@
     "@types/config": "0.0.34",
     "@types/connect-redis": "0.0.8",
     "@types/cookie-parser": "1.4.1",
-    "@types/d3": "5.7.0",
     "@types/enzyme": "3.1.16",
     "@types/express": "4.16.1",
     "@types/express-session": "1.15.11",
@@ -87,6 +86,7 @@
     "@types/sinon": "7.0.5",
     "@types/superagent": "3.8.6",
     "@types/uuid": "3.4.4",
+    "@types/victory": "31.0.6",
     "enzyme": "3.8.0",
     "enzyme-adapter-react-16": "1.8.0",
     "gulp": "4.0.0",

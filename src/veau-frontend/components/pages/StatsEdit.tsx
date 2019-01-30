@@ -6,6 +6,7 @@ import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { Props } from '../../containers/pages/StatsEdit';
 import { Authenticated } from '../../containers/templates/Authenticated';
+import { Chart } from '../molecules/Chart';
 import { Spreadsheet } from '../molecules/Spreadsheet';
 import { StatsEditStartDateModal } from '../molecules/StatsEditStartDateModal';
 import { StatsInformation } from '../molecules/StatsInformation';
@@ -112,9 +113,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
         <div
           className='stats-items-edit'
         >
-          <div>
-            CHART COMES HERE
-          </div>
+          <Chart/>
           <Spreadsheet
             data={stats.getData()}
             columnHeaders={stats.getColumns()}
