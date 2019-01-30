@@ -26,4 +26,19 @@ describe('VeauAccount', () => {
       region: 'AFG'
     });
   });
+
+  it('copy', () => {
+    const veauAccountID: VeauAccountID = VeauAccountID.of(1);
+    const account: string = 'veau';
+    const iso639: ISO639 = ISO639.of('ab');
+    const iso3166: ISO3166 = ISO3166.of('AFG');
+    const veauAccount: VeauAccount = new VeauAccount(veauAccountID, account, iso639, iso3166);
+    const copy: VeauAccount = veauAccount.copy();
+
+    expect(veauAccount).not.toBe(copy);
+    expect(copy.getVeauAccountID()).toEqual(veauAccountID);
+    expect(copy.getAccount()).toEqual(account);
+    expect(copy.getLanguage()).toEqual(iso639);
+    expect(copy.getRegion()).toEqual(iso3166);
+  });
 });

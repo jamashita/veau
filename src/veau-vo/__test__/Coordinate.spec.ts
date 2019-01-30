@@ -1,3 +1,4 @@
+/* tslint:disable */
 import 'jest';
 import { Coordinate } from '../Coordinate';
 

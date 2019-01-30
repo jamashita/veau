@@ -78,4 +78,20 @@ describe('StatsItem', () => {
     expect(statsItem3.isFilled()).toEqual(false);
     expect(statsItem4.isFilled()).toEqual(true);
   });
+
+  it('copy', () => {
+    const statsItemID: StatsItemID = StatsItemID.of(UUID.of('5ee0c273-c26f-432f-9217-d6a7b481a073'));
+    const name: string = 'name';
+    const unit: string = 'unit';
+    const statsValues: StatsValues = StatsValues.of([]);
+
+    const statsItem: StatsItem = new StatsItem(statsItemID, name, unit, statsValues);
+    const copy: StatsItem = statsItem.copy();
+
+    expect(statsItem).not.toBe(copy);
+    expect(statsItem.getStatsItemID()).toEqual(statsItemID);
+    expect(statsItem.getName()).toEqual(name);
+    expect(statsItem.getUnit()).toEqual(unit);
+    expect(statsItem.getValues()).toEqual(statsValues);
+  });
 });

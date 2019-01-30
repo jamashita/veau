@@ -429,4 +429,24 @@ describe('Stats', () => {
     expect(stats.getItems()[0]).toEqual(statsItem2);
     expect(stats.getItems()[1]).toEqual(statsItem3);
   });
+
+  it('copy', () => {
+    const statsID: StatsID = StatsID.of(UUID.of('f330c618-6127-46d1-ba10-a9f6af458b4c'));
+    const language: Language = Language.of(LanguageID.of(1), 'language', 'english language', ISO639.of('ab'));
+    const region: Region = Region.of(RegionID.of(2), 'region', ISO3166.of('AFG'));
+    const term: Term = Term.DAILY;
+    const name: string = 'stats';
+    const updatedAt: moment.Moment = moment('2000-01-01');
+
+    const stats: Stats = new Stats(statsID, language, region, term, name, updatedAt, []);
+    const copy: Stats = stats.copy();
+
+    expect(stats).not.toBe(copy);
+    expect(stats.getStatsID()).toEqual(statsID);
+    expect(stats.getLanguage()).toEqual(language);
+    expect(stats.getRegion()).toEqual(region);
+    expect(stats.getTerm()).toEqual(term);
+    expect(stats.getName()).toEqual(name);
+    expect(stats.getUpdatedAt().isSame(updatedAt)).toEqual(true);
+  });
 });

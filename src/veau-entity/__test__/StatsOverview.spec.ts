@@ -45,4 +45,24 @@ describe('StatsOverview', () => {
     expect(statsOverView4.isFilled()).toEqual(false);
     expect(statsOverView5.isFilled()).toEqual(true);
   });
+
+  it('copy', () => {
+    const statsID: StatsID = StatsID.of(UUID.of('1a607fff-12c2-4d8d-a55a-75fa23971393'));
+    const iso639: ISO639 = ISO639.of('ab');
+    const iso3166: ISO3166 = ISO3166.of('AFG');
+    const term: Term = Term.DAILY;
+    const name: string = 'stats overview';
+    const updatedAt: moment.Moment = moment('2000-01-01');
+
+    const statsOverView: StatsOverview = new StatsOverview(statsID, iso639, iso3166, term, name, updatedAt);
+    const copy: StatsOverview = statsOverView.copy();
+
+    expect(statsOverView).not.toBe(copy);
+    expect(statsOverView.getStatsID()).toEqual(statsID);
+    expect(statsOverView.getISO639()).toEqual(iso639);
+    expect(statsOverView.getISO3166()).toEqual(iso3166);
+    expect(statsOverView.getTerm()).toEqual(term);
+    expect(statsOverView.getName()).toEqual(name);
+    expect(statsOverView.getUpdatedAt().isSame(updatedAt)).toEqual(true);
+  });
 });
