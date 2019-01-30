@@ -9,6 +9,7 @@ import { IStatsRepository, StatsRepository } from '../veau-repository/StatsRepos
 import { StatsID } from '../veau-vo/StatsID';
 import { UUID } from '../veau-vo/UUID';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
+import { IStatsUsecase } from './IStatsUsecase';
 
 const statsRepository: IStatsRepository = StatsRepository.getInstance();
 const statsFactory: StatsFactory = StatsFactory.getInstance();
@@ -53,15 +54,4 @@ export class StatsUsecase implements IStatsUsecase {
       return statsRepository.create(stats, veauAccountID, transaction);
     });
   }
-}
-
-export interface IStatsUsecase {
-
-  findByStatsID(statsID: string): Promise<StatsJSON>;
-
-  findByVeauAccountID(veauAccountID: VeauAccountID, page: number): Promise<Array<StatsOverviewJSON>>;
-
-  saveNewStats(veauAccountID: VeauAccountID, json: StatsOverviewJSON): Promise<any>;
-
-  save(veauAccountID: VeauAccountID, json: StatsJSON): Promise<any>;
 }

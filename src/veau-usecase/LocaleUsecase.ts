@@ -3,6 +3,7 @@ import { ILanguageRepository, LanguageRepository } from '../veau-repository/Lang
 import { IRegionRepository, RegionRepository } from '../veau-repository/RegionRepository';
 import { Language, LanguageJSON } from '../veau-vo/Language';
 import { Region, RegionJSON } from '../veau-vo/Region';
+import { ILocaleUsecase } from './ILocaleUsecase';
 
 const languageRepository: ILanguageRepository = LanguageRepository.getInstance();
 const regionRepository: IRegionRepository = RegionRepository.getInstance();
@@ -49,11 +50,4 @@ export class LocaleUsecase implements ILocaleUsecase {
       throw new RuntimeError('FAILED TO DELETE REGIONS FROM STORAGE');
     }
   }
-}
-
-export interface ILocaleUsecase {
-
-  all(): Promise<Locales>;
-
-  deleteCache(): Promise<void>;
 }

@@ -1,7 +1,8 @@
 import * as express from 'express';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import * as log4js from 'log4js';
-import { ILocaleUsecase, Locales, LocaleUsecase } from '../../veau-usecase/LocaleUsecase';
+import { ILocaleUsecase } from '../../veau-usecase/ILocaleUsecase';
+import { Locales, LocaleUsecase } from '../../veau-usecase/LocaleUsecase';
 
 const router: express.Router = express.Router();
 const logger: log4js.Logger = log4js.getLogger();
