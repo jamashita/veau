@@ -3,6 +3,7 @@ import { ISO3166 } from '../veau-vo/ISO3166';
 import { ISO639 } from '../veau-vo/ISO639';
 import { Language } from '../veau-vo/Language';
 import { Region } from '../veau-vo/Region';
+import { ILocaleRepository } from './ILocaleRepository';
 
 export class LocaleRepository implements ILocaleRepository {
   private languages: Array<Language>;
@@ -56,15 +57,4 @@ export class LocaleRepository implements ILocaleRepository {
   public allRegions(): Array<Region> {
     return this.regions;
   }
-}
-
-export interface ILocaleRepository {
-
-  findByISO639(iso639: ISO639): Language;
-
-  findByISO3166(iso3166: ISO3166): Region;
-
-  allLanguages(): Array<Language>;
-
-  allRegions(): Array<Region>;
 }

@@ -4,6 +4,7 @@ import { VeauRedis } from '../veau-infrastructure/VeauRedis';
 import { ISO639 } from '../veau-vo/ISO639';
 import { Language, LanguageRow } from '../veau-vo/Language';
 import { LanguageID } from '../veau-vo/LanguageID';
+import { ILanguageRepository } from './ILanguageRepository';
 
 const REDIS_KEY: string = 'Languages';
 
@@ -74,13 +75,4 @@ export class LanguageRepository implements ILanguageRepository {
   public deleteCache(): Promise<boolean> {
     return VeauRedis.delete(REDIS_KEY);
   }
-}
-
-export interface ILanguageRepository {
-
-  all(): Promise<Array<Language>>;
-
-  findByISO639(iso639: ISO639): Promise<Language>;
-
-  deleteCache(): Promise<boolean>;
 }

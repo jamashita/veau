@@ -4,6 +4,7 @@ import { VeauRedis } from '../veau-infrastructure/VeauRedis';
 import { ISO3166 } from '../veau-vo/ISO3166';
 import { Region, RegionRow } from '../veau-vo/Region';
 import { RegionID } from '../veau-vo/RegionID';
+import { IRegionRepository } from './IRegionRepository';
 
 const REDIS_KEY: string = 'Regions';
 
@@ -72,13 +73,4 @@ export class RegionRepository implements IRegionRepository {
   public deleteCache(): Promise<boolean> {
     return VeauRedis.delete(REDIS_KEY);
   }
-}
-
-export interface IRegionRepository {
-
-  all(): Promise<Array<Region>>;
-
-  findByISO3166(iso3166: ISO3166): Promise<Region>;
-
-  deleteCache(): Promise<boolean>;
 }

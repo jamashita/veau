@@ -4,6 +4,7 @@ import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { Language } from '../veau-vo/Language';
 import { Region } from '../veau-vo/Region';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
+import { IStatsOverviewRepository } from './IStatsOverviewRepository';
 import { LanguageRepository } from './LanguageRepository';
 import { RegionRepository } from './RegionRepository';
 
@@ -77,11 +78,4 @@ export class StatsOverviewRepository implements IStatsOverviewRepository {
       }
     ]);
   }
-}
-
-export interface IStatsOverviewRepository {
-
-  findByVeauAccountID(veauAccountID: VeauAccountID, page: number): Promise<Array<StatsOverview>>;
-
-  create(veauAccountID: VeauAccountID, statsOverview: StatsOverview): Promise<any>;
 }

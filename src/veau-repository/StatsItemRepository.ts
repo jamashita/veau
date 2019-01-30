@@ -5,6 +5,7 @@ import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValue } from '../veau-vo/StatsValue';
 import { StatsValues } from '../veau-vo/StatsValues';
+import { IStatsItemRepository } from './IStatsItemRepository';
 import { StatsValueRepository } from './StatsValueRepository';
 
 const statsValueRepository: StatsValueRepository = StatsValueRepository.getInstance();
@@ -89,13 +90,4 @@ export class StatsItemRepository implements IStatsItemRepository {
       }
     ]);
   }
-}
-
-export interface IStatsItemRepository {
-
-  findByStatsID(statsID: StatsID): Promise<Array<StatsItem>>;
-
-  create(statsID: StatsID, statsItem: StatsItem, seq: number, transactin: MySQLTransaction): Promise<any>;
-
-  deleteByStatsID(statsID: StatsID, transaction: MySQLTransaction): Promise<any>;
 }

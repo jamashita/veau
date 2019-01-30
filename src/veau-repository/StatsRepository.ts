@@ -6,6 +6,7 @@ import { NoSuchElementError } from '../veau-general/NoSuchElementError';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../veau-vo/StatsID';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
+import { IStatsRepository } from './IStatsRepository';
 import { StatsItemRepository } from './StatsItemRepository';
 
 const statsItemRepository: StatsItemRepository = StatsItemRepository.getInstance();
@@ -98,13 +99,4 @@ export class StatsRepository implements IStatsRepository {
       }
     ]);
   }
-}
-
-export interface IStatsRepository {
-
-  findByStatsID(statsID: StatsID): Promise<Stats>;
-
-  create(stats: Stats, veauAccountID: VeauAccountID, transaction: MySQLTransaction): Promise<any>;
-
-  deleteByStatsID(statsID: StatsID, transaction: MySQLTransaction): Promise<any>;
 }

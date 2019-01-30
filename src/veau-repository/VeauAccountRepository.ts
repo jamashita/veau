@@ -2,6 +2,7 @@ import { VeauAccount, VeauAccountRow } from '../veau-entity/VeauAccount';
 import { VeauAccountFactory } from '../veau-factory/VeauAccountFactory';
 import { NoSuchElementError } from '../veau-general/NoSuchElementError';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
+import { IVeauAccountRepository } from './IVeauAccountRepository';
 
 const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
 
@@ -52,9 +53,4 @@ export class VeauAccountRepository implements IVeauAccountRepository {
       hash: veauAccountRow.hash
     };
   }
-}
-
-export interface IVeauAccountRepository {
-
-  findByAccount(account: string): Promise<VeauAccountHash>;
 }

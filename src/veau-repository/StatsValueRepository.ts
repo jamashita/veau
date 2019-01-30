@@ -5,6 +5,7 @@ import { StatsID } from '../veau-vo/StatsID';
 import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsValue, StatsValueRow } from '../veau-vo/StatsValue';
 import { StatsValues } from '../veau-vo/StatsValues';
+import { IStatsValueRepository } from './IStatsValueRepository';
 
 export class StatsValueRepository implements IStatsValueRepository {
   private static instance: StatsValueRepository = new StatsValueRepository();
@@ -88,13 +89,4 @@ export class StatsValueRepository implements IStatsValueRepository {
       }
     ]);
   }
-}
-
-export interface IStatsValueRepository {
-
-  findByStatsID(statsID: StatsID): Promise<Map<string, StatsValues>>;
-
-  create(statsItemID: StatsItemID, statsValue: StatsValue, transaction: MySQLTransaction): Promise<any>;
-
-  deleteByStatsID(statsID: StatsID, transaction: MySQLTransaction): Promise<any>;
 }
