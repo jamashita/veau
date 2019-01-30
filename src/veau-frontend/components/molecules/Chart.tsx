@@ -8,6 +8,8 @@ type Props = {
 type State = {
 };
 
+const CHART_HEIGHT: number = 500;
+const MARGIN: number = 8;
 
 export class Chart extends React.Component<Props, State> {
 
@@ -21,18 +23,32 @@ export class Chart extends React.Component<Props, State> {
       items
     } = this.props;
 
+    if (items.length === 0) {
+      return (
+        <div/>
+      );
+    }
+
     return (
       <ResponsiveContainer
         width='100%'
-        minHeight='500px'
+        minHeight={CHART_HEIGHT}
       >
         <LineChart
+          margin={{
+            top: MARGIN,
+            bottom: MARGIN,
+            left: MARGIN,
+            right: MARGIN
+          }}
           data={data}
         >
           <XAxis
             dataKey='name'
           />
-          <YAxis/>
+          <YAxis
+            domain={['dataMin', 'dataMax']}
+          />
           <CartesianGrid/>
           <Legend/>
           <Tooltip/>

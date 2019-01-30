@@ -81,7 +81,7 @@ export class Spreadsheet extends React.Component<Props, State> {
         manualRowMove={true}
         autoColumnSize={true}
         className='htRight'
-        selectionMode='single'
+        selectionMode='range'
         height={SPREADSHEET_HEIGHT}
         beforeChange={(changes: Array<Array<any>> | null): boolean => {
           if (!changes) {
