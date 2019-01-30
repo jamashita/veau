@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Color } from '../../../veau-vo/Color';
 
 type Props = {
   data: Array<object>;
@@ -23,12 +24,6 @@ export class Chart extends React.Component<Props, State> {
       items
     } = this.props;
 
-    if (items.length === 0) {
-      return (
-        <div/>
-      );
-    }
-
     return (
       <ResponsiveContainer
         width='100%'
@@ -47,18 +42,22 @@ export class Chart extends React.Component<Props, State> {
             dataKey='name'
           />
           <YAxis
-            domain={['dataMin', 'dataMax']}
+            domain={[
+              'dataMin',
+              'dataMax'
+            ]}
           />
           <CartesianGrid/>
           <Legend/>
           <Tooltip/>
-          {items.map<React.ReactNode>((item: string) => {
+          {items.reverse().map<React.ReactNode>((item: string) => {
             return (
               <Line
                 type='monotone'
                 connectNulls={true}
                 key={item}
                 dataKey={item}
+                stroke={Color.random().toRGB()}
               />
             );
           })}

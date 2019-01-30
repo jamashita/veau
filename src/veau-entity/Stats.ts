@@ -246,7 +246,7 @@ export class Stats extends Entity<StatsID> {
   public getItemNames(): Array<string> {
     return this.items.map<string>((statsItem: StatsItem) => {
       return statsItem.getName();
-    })
+    });
   }
 
   public hasValues(): boolean {
