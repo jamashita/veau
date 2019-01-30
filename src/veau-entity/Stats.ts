@@ -1,12 +1,13 @@
 import * as moment from 'moment';
 import { Term } from '../veau-enum/Term';
 import { RuntimeError } from '../veau-general/RuntimeError';
+import { Coordinate } from '../veau-vo/Coordinate';
 import { Language, LanguageJSON } from '../veau-vo/Language';
 import { Region, RegionJSON } from '../veau-vo/Region';
 import { StatsID } from '../veau-vo/StatsID';
 import { UUID } from '../veau-vo/UUID';
 import { Entity } from './Entity';
-import { Coordinate, StatsItem, StatsItemJSON } from './StatsItem';
+import { StatsItem, StatsItemJSON } from './StatsItem';
 
 export type StatsJSON = {
   statsID: string;

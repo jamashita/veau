@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { VictoryChart, VictoryLine } from 'victory';
-import { Coordinate } from '../../../veau-entity/StatsItem';
+import { Coordinate, CoordinateJSON } from '../../../veau-vo/Coordinate';
 
 type Props = {
-  coordinates: Array<Array<Coordinate>>;
+  data: Array<Array<Coordinate>>;
 };
 type State = {
 };
@@ -14,21 +14,21 @@ export class Chart extends React.Component<Props, State> {
 
   public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
     const {
-      coordinates
+      data
     } = this.props;
 
-    if (coordinates.length !== nextProps.coordinates.length) {
+    if (data.length !== nextProps.data.length) {
       return true;
     }
-    for (let i: number = 0; i < coordinates.length; i++) {
-      if (coordinates[i].length !== nextProps.coordinates[i].length) {
+    for (let i: number = 0; i < data.length; i++) {
+      if (data[i].length !== nextProps.data[i].length) {
         return true;
       }
-      for (let j: number = 0; j < coordinates[i].length; j++) {
-        if (coordinates[i][j].x !== nextProps.coordinates[i][j].x) {
+      for (let j: number = 0; j < data[i].length; j++) {
+        if (data[i][j].getX() !== nextProps.data[i][j].getX()) {
           return true;
         }
-        if (coordinates[i][j].y !== nextProps.coordinates[i][j].y) {
+        if (data[i][j].getY() !== nextProps.data[i][j].getY()) {
           return true;
         }
       }
@@ -39,18 +39,22 @@ export class Chart extends React.Component<Props, State> {
 
   public render(): React.ReactNode {
     const {
-      coordinates
+      data
     } = this.props;
+
     return (
       <VictoryChart>
-        {coordinates.map<React.ReactNode>((coordinate: Array<Coordinate>) => {
+        {data.map<React.ReactNode>((coordinates: Array<Coordinate>, index: number) => {
           return (
             <VictoryLine
+              key={index}
               animate={{
                 duration: DURATION
               }}
-              data={coordinate}
-              labels={(datum: Coordinate): number => {
+              data={coordinates.map<CoordinateJSON>((datum: Coordinate) => {
+                return datum.toJSON();
+              })}
+              labels={(datum: CoordinateJSON): number => {
                 return datum.y;
               }}
             />

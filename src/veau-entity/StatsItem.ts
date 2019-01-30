@@ -1,4 +1,5 @@
 import * as moment from 'moment';
+import { Coordinate } from '../veau-vo/Coordinate';
 import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsValue, StatsValueJSON } from '../veau-vo/StatsValue';
 import { StatsValues } from '../veau-vo/StatsValues';
@@ -16,11 +17,6 @@ export type StatsItemRow = {
   statsItemID: string;
   name: string;
   unit: string;
-};
-
-export type Coordinate = {
-  x: string;
-  y: number;
 };
 
 export class StatsItem extends Entity<StatsItemID> {
@@ -102,10 +98,7 @@ export class StatsItem extends Entity<StatsItemID> {
 
   public getCoordinate(): Array<Coordinate> {
     return this.values.get().map<Coordinate>((statsValue: StatsValue) => {
-      return {
-        x: statsValue.getAsOfAsString(),
-        y: statsValue.getValue()
-      };
+      return statsValue.getCoordinate();
     });
   }
 

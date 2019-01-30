@@ -1,4 +1,5 @@
 import * as moment from 'moment';
+import { Coordinate } from './Coordinate';
 import { ValueObject } from './ValueObject';
 
 export type StatsValueJSON = {
@@ -38,6 +39,10 @@ export class StatsValue extends ValueObject {
 
   public getAsOfAsString(): string {
     return this.asOf.format(TERM_FORMAT);
+  }
+
+  public getCoordinate(): Coordinate {
+    return Coordinate.of(this.getAsOfAsString(), this.value);
   }
 
   public equals(other: StatsValue): boolean {
