@@ -1,5 +1,4 @@
 import * as moment from 'moment';
-import { Coordinate } from '../veau-vo/Coordinate';
 import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsValue, StatsValueJSON } from '../veau-vo/StatsValue';
 import { StatsValues } from '../veau-vo/StatsValues';
@@ -94,12 +93,6 @@ export class StatsItem extends Entity<StatsItemID> {
 
   public delete(asOf: moment.Moment): void {
     this.values.deleteStatsValue(asOf);
-  }
-
-  public getCoordinate(): Array<Coordinate> {
-    return this.values.get().map<Coordinate>((statsValue: StatsValue) => {
-      return statsValue.getCoordinate();
-    });
   }
 
   public isFilled(): boolean {

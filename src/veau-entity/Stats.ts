@@ -1,10 +1,10 @@
 import * as moment from 'moment';
 import { Term } from '../veau-enum/Term';
 import { RuntimeError } from '../veau-general/RuntimeError';
-import { Coordinate } from '../veau-vo/Coordinate';
 import { Language, LanguageJSON } from '../veau-vo/Language';
 import { Region, RegionJSON } from '../veau-vo/Region';
 import { StatsID } from '../veau-vo/StatsID';
+import { StatsValue } from '../veau-vo/StatsValue';
 import { UUID } from '../veau-vo/UUID';
 import { Entity } from './Entity';
 import { StatsItem, StatsItemJSON } from './StatsItem';
@@ -45,6 +45,7 @@ export class Stats extends Entity<StatsID> {
   private updatedAt: moment.Moment;
   private items: Array<StatsItem>;
   private startDate?: string;
+  private columns?: Array<string>;
 
   public static default(): Stats {
     return new Stats(StatsID.of(UUID.of('')), Language.default(), Region.default(), Term.DAILY, '', moment(), []);
@@ -100,8 +101,13 @@ export class Stats extends Entity<StatsID> {
 
   public getColumns(): Array<string> {
     const {
-      startDate
+      startDate,
+      columns
     } = this;
+
+    if (columns) {
+      return columns;
+    }
 
     const asOfs: Array<moment.Moment> = this.collectAsOf();
 
@@ -115,15 +121,15 @@ export class Stats extends Entity<StatsID> {
 
     const minTerm: moment.Moment = moment.min(asOfs);
     const maxTerm: moment.Moment = moment.max(asOfs);
-    const columns: Array<string> = [];
+    this.columns = [];
 
-    columns.push(this.previousTerm(minTerm).format(TERM_FORMAT));
+    this.columns.push(this.previousTerm(minTerm).format(TERM_FORMAT));
     for (let term: moment.Moment = minTerm; !term.isAfter(maxTerm); term = this.nextTerm(term)) {
-      columns.push(term.format(TERM_FORMAT));
+      this.columns.push(term.format(TERM_FORMAT));
     }
-    columns.push(this.nextTerm(maxTerm).format(TERM_FORMAT));
+    this.columns.push(this.nextTerm(maxTerm).format(TERM_FORMAT));
 
-    return columns;
+    return this.columns;
   }
 
   private collectAsOf(): Array<moment.Moment> {
@@ -212,10 +218,35 @@ export class Stats extends Entity<StatsID> {
     this.items[row].delete(asOf);
   }
 
-  public getCoordinates(): Array<Array<Coordinate>> {
-    return this.items.map<Array<Coordinate>>((statsItem: StatsItem) => {
-      return statsItem.getCoordinate();
+  public getChart(): Array<object> {
+    const chartItems: Map<string, object> = new Map();
+
+    this.getColumns().forEach((column: string) => {
+      chartItems.set(column, {name: column});
     });
+
+    this.items.forEach((statsItem: StatsItem) => {
+      statsItem.getValues().get().forEach((statsValue: StatsValue) => {
+        const line: object | undefined = chartItems.get(statsValue.getAsOfAsString());
+
+        if (line) {
+          line[statsItem.getName()] = statsValue.getValue();
+        }
+      });
+    });
+
+    const chart: Array<object> = [];
+    chartItems.forEach((value: object, key: string) => {
+      chart.push(value);
+    });
+
+    return chart;
+  }
+
+  public getItemNames(): Array<string> {
+    return this.items.map<string>((statsItem: StatsItem) => {
+      return statsItem.getName();
+    })
   }
 
   public hasValues(): boolean {

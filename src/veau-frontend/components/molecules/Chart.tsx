@@ -1,66 +1,53 @@
 import * as React from 'react';
-import { VictoryChart, VictoryLine } from 'victory';
-import { Coordinate, CoordinateJSON } from '../../../veau-vo/Coordinate';
+import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 type Props = {
-  data: Array<Array<Coordinate>>;
+  data: Array<object>;
+  items: Array<string>;
 };
 type State = {
 };
 
-const DURATION: number = 2000;
 
 export class Chart extends React.Component<Props, State> {
 
   public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
-    const {
-      data
-    } = this.props;
-
-    if (data.length !== nextProps.data.length) {
-      return true;
-    }
-    for (let i: number = 0; i < data.length; i++) {
-      if (data[i].length !== nextProps.data[i].length) {
-        return true;
-      }
-      for (let j: number = 0; j < data[i].length; j++) {
-        if (data[i][j].getX() !== nextProps.data[i][j].getX()) {
-          return true;
-        }
-        if (data[i][j].getY() !== nextProps.data[i][j].getY()) {
-          return true;
-        }
-      }
-     }
-
-    return false;
+    return true;
   }
 
   public render(): React.ReactNode {
     const {
-      data
+      data,
+      items
     } = this.props;
 
     return (
-      <VictoryChart>
-        {data.map<React.ReactNode>((coordinates: Array<Coordinate>, index: number) => {
-          return (
-            <VictoryLine
-              key={index}
-              animate={{
-                duration: DURATION
-              }}
-              data={coordinates.map<CoordinateJSON>((datum: Coordinate) => {
-                return datum.toJSON();
-              })}
-              labels={(datum: CoordinateJSON): number => {
-                return datum.y;
-              }}
-            />
-          );
-        })}
-      </VictoryChart>
+      <ResponsiveContainer
+        width='100%'
+        minHeight='500px'
+      >
+        <LineChart
+          data={data}
+        >
+          <XAxis
+            dataKey='name'
+          />
+          <YAxis/>
+          <CartesianGrid/>
+          <Legend/>
+          <Tooltip/>
+          {items.map<React.ReactNode>((item: string) => {
+            return (
+              <Line
+                type='monotone'
+                connectNulls={true}
+                key={item}
+                dataKey={item}
+              />
+            );
+          })}
+        </LineChart>
+      </ResponsiveContainer>
     );
   }
 }

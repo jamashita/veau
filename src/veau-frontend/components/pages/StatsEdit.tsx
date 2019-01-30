@@ -57,19 +57,6 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
     if (stats !== nextProps.stats) {
       return true;
     }
-    // for (let i: number = 0; i < stats.getItems().length; i++) {
-    //   if (stats.getItems()[i].getValues().length() !== nextProps.stats.getItems()[i].getValues().length()) {
-    //     return true;
-    //   }
-    //   for (let j: number = 0; j < stats.getItems()[i].getValues().length(); j++) {
-    //     if (!stats.getItems()[i].getValues().get()[j].getAsOf().isSame(nextProps.stats.getItems()[i].getValues().get()[j].getAsOf())) {
-    //       return true;
-    //     }
-    //     if (stats.getItems()[i].getValues().get()[j].getValue() !== nextProps.stats.getItems()[i].getValues().get()[j].getValue()) {
-    //       return true;
-    //     }
-    //   }
-    // }
     if (statsItem.getName() !== nextProps.statsItem.getName()) {
       return true;
     }
@@ -114,7 +101,8 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
           className='stats-items-edit'
         >
           <Chart
-            data={stats.getCoordinates()}
+            data={stats.getChart()}
+            items={stats.getItemNames()}
           />
           <Spreadsheet
             data={stats.getData()}
