@@ -18,6 +18,11 @@ export type StatsItemRow = {
   unit: string;
 };
 
+export type Coordinate = {
+  x: string;
+  y: number;
+};
+
 export class StatsItem extends Entity<StatsItemID> {
   private statsItemID: StatsItemID;
   private name: string;
@@ -93,6 +98,15 @@ export class StatsItem extends Entity<StatsItemID> {
 
   public delete(asOf: moment.Moment): void {
     this.values.deleteStatsValue(asOf);
+  }
+
+  public getCoordinate(): Array<Coordinate> {
+    return this.values.get().map<Coordinate>((statsValue: StatsValue) => {
+      return {
+        x: statsValue.getAsOfAsString(),
+        y: statsValue.getValue()
+      };
+    });
   }
 
   public isFilled(): boolean {

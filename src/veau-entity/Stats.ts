@@ -6,7 +6,7 @@ import { Region, RegionJSON } from '../veau-vo/Region';
 import { StatsID } from '../veau-vo/StatsID';
 import { UUID } from '../veau-vo/UUID';
 import { Entity } from './Entity';
-import { StatsItem, StatsItemJSON } from './StatsItem';
+import { Coordinate, StatsItem, StatsItemJSON } from './StatsItem';
 
 export type StatsJSON = {
   statsID: string;
@@ -194,7 +194,7 @@ export class Stats extends Entity<StatsID> {
   }
 
   public getData(): Array<Array<string>> {
-    return this.items.map<Array<string>>((statsItem: StatsItem, index: number) => {
+    return this.items.map<Array<string>>((statsItem: StatsItem) => {
       return statsItem.getValuesByColumn(this.getColumns());
     });
   }
@@ -209,6 +209,12 @@ export class Stats extends Entity<StatsID> {
     const asOfString: string = this.getColumns()[column];
     const asOf: moment.Moment = moment(asOfString);
     this.items[row].delete(asOf);
+  }
+
+  public getCoordinates(): Array<Array<Coordinate>> {
+    return this.items.map<Array<Coordinate>>((statsItem: StatsItem) => {
+      return statsItem.getCoordinate();
+    });
   }
 
   public hasValues(): boolean {

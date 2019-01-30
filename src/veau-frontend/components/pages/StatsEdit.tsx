@@ -113,7 +113,9 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
         <div
           className='stats-items-edit'
         >
-          <Chart/>
+          <Chart
+            coordinates={stats.getCoordinates()}
+          />
           <Spreadsheet
             data={stats.getData()}
             columnHeaders={stats.getColumns()}
