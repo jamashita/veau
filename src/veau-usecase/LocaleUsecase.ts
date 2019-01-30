@@ -1,6 +1,8 @@
 import { RuntimeError } from '../veau-general/RuntimeError';
-import { ILanguageRepository, LanguageRepository } from '../veau-repository/LanguageRepository';
-import { IRegionRepository, RegionRepository } from '../veau-repository/RegionRepository';
+import { ILanguageRepository } from '../veau-repository/ILanguageRepository';
+import { IRegionRepository } from '../veau-repository/IRegionRepository';
+import { LanguageRepository } from '../veau-repository/LanguageRepository';
+import { RegionRepository } from '../veau-repository/RegionRepository';
 import { Language, LanguageJSON } from '../veau-vo/Language';
 import { Region, RegionJSON } from '../veau-vo/Region';
 import { ILocaleUsecase } from './ILocaleUsecase';

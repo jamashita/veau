@@ -16,4 +16,4 @@ router.post('/', passport.authenticate('local'), (req: express.Request, res: exp
   res.sendStatus(INTERNAL_SERVER_ERROR);
 });
 
-export const Auth: express.Router = router;
+export const AuthController: express.Router = router;

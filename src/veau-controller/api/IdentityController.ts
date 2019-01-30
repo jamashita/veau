@@ -7,4 +7,4 @@ router.get('/', (req: RequestSession, res: express.Response) => {
   res.send(req.user.toJSON());
 });
 
-export const Identity: express.Router = router;
+export const IdentityController: express.Router = router;

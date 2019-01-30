@@ -10,4 +10,4 @@ router.get('/encrypt/:str', async (req: express.Request, res: express.Response) 
   res.send(digestResponse.hash);
 });
 
-export const WIP: express.Router = router;
+export const WIPController: express.Router = router;

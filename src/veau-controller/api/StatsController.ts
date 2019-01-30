@@ -86,4 +86,4 @@ router.post('/overview', async (req: RequestSession, res: express.Response) => {
   }
 });
 
-export const Stats: express.Router = router;
+export const StatsController: express.Router = router;

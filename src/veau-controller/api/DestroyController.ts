@@ -18,4 +18,4 @@ router.get('/', (req: RequestSession, res: express.Response) => {
   });
 });
 
-export const Destroy: express.Router = router;
+export const DestroyController: express.Router = router;

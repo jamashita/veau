@@ -26,4 +26,4 @@ router.get('/delete', async (req: express.Request, res: express.Response) => {
   }
 });
 
-export const Locale: express.Router = router;
+export const LocaleController: express.Router = router;
