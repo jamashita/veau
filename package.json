@@ -1,11 +1,11 @@
 {
   "name": "veau",
   "version": "1.0.0",
+  "main": "dist/veau-server/Server.js",
+  "repository": "git@gitlab.com:jamashita/veau.git",
+  "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
-  "author": {
-    "name": "jamashita",
-    "email": "jamashita@arachnid.xyz"
-  },
+  "private": false,
   "scripts": {
     "build": "gulp build",
     "gulp:watch": "gulp",
