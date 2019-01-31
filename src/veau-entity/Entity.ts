@@ -11,6 +11,9 @@ export abstract class Entity<T extends Identifier> {
   public abstract copy(): Entity<T>;
 
   public equals(other: Entity<T>): boolean {
+    if (this === other) {
+      return true;
+    }
     if (this.getIdentifier().equals(other.getIdentifier())) {
       return true;
     }
