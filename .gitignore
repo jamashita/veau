@@ -2,3 +2,4 @@
 **/dist/*
 *.log
 logs/*
+!logs/.gitkeep
