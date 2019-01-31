@@ -2,7 +2,7 @@ log4js:
   appenders:
     file:
       type: 'dateFile'
-      filename: 'logs/veau-web'
+      filename: 'logs/veau'
       pattern: '-yyyy-MM-dd.log'
       daysToKeep: 30
       layout:
