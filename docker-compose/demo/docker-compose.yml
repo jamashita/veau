@@ -25,7 +25,7 @@ services:
     container_name: 'veau'
     image: 'gcr.io/veau-229916/veau:latest'
     environment:
-      NODE_ENV: 'staging'
+      NODE_ENV: 'demo'
     ports:
       - '4000:4000'
     links:
