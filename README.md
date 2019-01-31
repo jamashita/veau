@@ -44,3 +44,7 @@ Password: nihongo
 
 1. The easiest way of inputting the statistics
 2. Easy to input and show the chart immediately
+
+### License
+
+MIT

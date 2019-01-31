@@ -1,8 +1,11 @@
 {
   "name": "veau",
-  "version": "0.0.0",
-  "license": "UNLICENSED",
-  "private": true,
+  "version": "1.0.0",
+  "license": "MIT",
+  "author": {
+    "name": "jamashita",
+    "email": "jamashita@arachnid.xyz"
+  },
   "scripts": {
     "build": "gulp build",
     "gulp:watch": "gulp",
