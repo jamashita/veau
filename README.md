@@ -2,6 +2,8 @@
 
 Veau (pronounced /vo/) is for the users who treat statistics. 
 
+![](images/screenshot1.png)
+
 ## Demo
 [http://veau.jamashita.com/](http://veau.jamashita.com/)
 
