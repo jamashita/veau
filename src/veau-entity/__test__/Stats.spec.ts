@@ -449,4 +449,36 @@ describe('Stats', () => {
     expect(stats.getName()).toEqual(name);
     expect(stats.getUpdatedAt().isSame(updatedAt)).toEqual(true);
   });
+
+  it('getChart', () => {
+    const statsID: StatsID = StatsID.of(UUID.of('f330c618-6127-46d1-ba10-a9f6af458b4c'));
+    const language: Language = Language.of(LanguageID.of(1), 'language', 'english language', ISO639.of('ab'));
+    const region: Region = Region.of(RegionID.of(2), 'region', ISO3166.of('AFG'));
+    const term: Term = Term.DAILY;
+    const name: string = 'stats';
+    const updatedAt: moment.Moment = moment('2000-01-01');
+
+    const stats: Stats = new Stats(statsID, language, region, term, name, updatedAt, [
+      new StatsItem(StatsItemID.of(UUID.of('c4c9d345-251b-4397-9c54-0b38dc735dee')), 'stats1', 'unit1', StatsValues.of([
+        StatsValue.of(moment('2000-01-03'), 3),
+        StatsValue.of(moment('2000-01-01'), 1)
+      ])),
+      new StatsItem(StatsItemID.of(UUID.of('0039e5ba-6192-447c-915d-9bbaddba9822')), 'stats2', 'unit2', StatsValues.of([
+        StatsValue.of(moment('2000-01-02'), 12),
+        StatsValue.of(moment('2000-01-03'), 13),
+        StatsValue.of(moment('2000-01-04'), 14)
+      ])),
+      new StatsItem(StatsItemID.of(UUID.of('e98da317-2130-48a2-a3f4-4c1f7bee0ae0')), 'stats3', 'unit3', StatsValues.of([
+      ]))
+    ]);
+
+    expect(stats.getChart()).toEqual([
+      {name: '1999-12-31'},
+      {name: '2000-01-01', stats1: 1},
+      {name: '2000-01-02', stats2: 12},
+      {name: '2000-01-03', stats1: 3, stats2: 13},
+      {name: '2000-01-04', stats2: 14},
+      {name: '2000-01-05'}
+    ]);
+  });
 });
