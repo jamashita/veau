@@ -4,7 +4,7 @@ import { SinonStub } from 'sinon';
 import * as sinon from 'sinon';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
-import {NoSuchElementError} from '../../veau-general/NoSuchElementError';
+import {NoSuchElementError} from '../../veau-general/Error/NoSuchElementError';
 import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsValues } from '../../veau-vo/StatsValues';

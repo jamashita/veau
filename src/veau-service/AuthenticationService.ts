@@ -5,7 +5,7 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import { VeauAccount, VeauAccountJSON } from '../veau-entity/VeauAccount';
 import { VeauAccountFactory } from '../veau-factory/VeauAccountFactory';
 import { Digest } from '../veau-general/Digest';
-import { NoSuchElementError } from '../veau-general/NoSuchElementError';
+import { NoSuchElementError } from '../veau-general/Error/NoSuchElementError';
 import { VeauAccountRepository } from '../veau-repository/VeauAccountRepository';
 
 const logger: log4js.Logger = log4js.getLogger();

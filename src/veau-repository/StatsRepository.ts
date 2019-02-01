@@ -1,8 +1,8 @@
 import { Stats, StatsRow } from '../veau-entity/Stats';
 import { StatsItem } from '../veau-entity/StatsItem';
 import { StatsFactory } from '../veau-factory/StatsFactory';
-import { MySQLTransaction } from '../veau-general/MySQLTransaction';
-import { NoSuchElementError } from '../veau-general/NoSuchElementError';
+import { NoSuchElementError } from '../veau-general/Error/NoSuchElementError';
+import { MySQLTransaction } from '../veau-general/MySQL/MySQLTransaction';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../veau-vo/StatsID';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';

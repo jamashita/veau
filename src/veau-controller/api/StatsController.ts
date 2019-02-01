@@ -4,7 +4,7 @@ import * as log4js from 'log4js';
 import { RequestSession } from '../../declarations/RequestSession';
 import { StatsJSON } from '../../veau-entity/Stats';
 import { StatsOverviewJSON } from '../../veau-entity/StatsOverview';
-import { NoSuchElementError } from '../../veau-general/NoSuchElementError';
+import { NoSuchElementError } from '../../veau-general/Error/NoSuchElementError';
 import { IStatsUsecase } from '../../veau-usecase/IStatsUsecase';
 import { StatsUsecase } from '../../veau-usecase/StatsUsecase';
 import { UUID } from '../../veau-vo/UUID';

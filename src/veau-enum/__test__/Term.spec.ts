@@ -1,6 +1,6 @@
 /* tslint:disable */
 import 'jest';
-import { NoSuchElementError } from '../../veau-general/NoSuchElementError';
+import { NoSuchElementError } from '../../veau-general/Error/NoSuchElementError';
 import { Term } from '../Term';
 
 describe('Term', () => {

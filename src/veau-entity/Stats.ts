@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import { Term } from '../veau-enum/Term';
-import { RuntimeError } from '../veau-general/RuntimeError';
+import { RuntimeError } from '../veau-general/Error/RuntimeError';
 import { Language, LanguageJSON } from '../veau-vo/Language';
 import { Region, RegionJSON } from '../veau-vo/Region';
 import { StatsID } from '../veau-vo/StatsID';
