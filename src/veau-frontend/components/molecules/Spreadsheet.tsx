@@ -30,11 +30,21 @@ export class Spreadsheet extends React.Component<Props, State> {
       rowHeaderWidth
     } = this.props;
 
-    if (columnHeaders !== nextProps.columnHeaders) {
+    if (columnHeaders.length !== nextProps.columnHeaders.length) {
       return true;
     }
-    if (rowHeaders !== nextProps.rowHeaders) {
+    for (let i: number = 0; i < columnHeaders.length; i++) {
+      if (columnHeaders[i] !== nextProps.columnHeaders[i]) {
+        return true;
+      }
+    }
+    if (rowHeaders.length !== nextProps.rowHeaders.length) {
       return true;
+    }
+    for (let i: number = 0; i < rowHeaders.length; i++) {
+      if (rowHeaders[i] !== nextProps.rowHeaders[i]) {
+        return true;
+      }
     }
     if (rowHeaderWidth !== nextProps.rowHeaderWidth) {
       return true;

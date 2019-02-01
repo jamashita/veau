@@ -101,8 +101,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
           className='stats-items-edit'
         >
           <Chart
-            data={stats.getChart()}
-            items={stats.getItemNames()}
+            stats={stats}
           />
           <Spreadsheet
             data={stats.getData()}

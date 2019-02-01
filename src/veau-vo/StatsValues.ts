@@ -67,9 +67,13 @@ export class StatsValues {
   }
 
   public copy(): StatsValues {
-    return new StatsValues([
-      ...this.values
-    ]);
+    const values: Array<StatsValue> = [];
+
+    this.values.forEach((statsValue: StatsValue) => {
+      values.push(StatsValue.of(statsValue.getAsOf(), statsValue.getValue()));
+    });
+
+    return new StatsValues(values);
   }
 
   public equals(other: StatsValues): boolean {

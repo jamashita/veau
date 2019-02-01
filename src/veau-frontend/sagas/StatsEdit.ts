@@ -151,8 +151,10 @@ export class StatsEdit {
         value
       } = action;
 
-      stats.setData(row, column, value);
-      yield put(updateStats(stats.copy()));
+      const copied: Stats = stats.copy();
+      copied.setData(row, column, value);
+
+      yield put(updateStats(copied));
     }
   }
 
@@ -169,8 +171,10 @@ export class StatsEdit {
         column
       } = action;
 
-      stats.deleteData(row, column);
-      yield put(updateStats(stats.copy()));
+      const copied: Stats = stats.copy();
+      copied.deleteData(row, column);
+
+      yield put(updateStats(copied));
     }
   }
 
@@ -254,10 +258,11 @@ export class StatsEdit {
 
       if (selectingItem) {
         const newSelectingItem: StatsItem = statsItemFactory.from(selectingItem.getStatsItemID(), action.name, selectingItem.getUnit(), selectingItem.getValues());
-        stats.replaceItem(newSelectingItem, selectingRow);
+        const copied: Stats = stats.copy();
+        copied.replaceItem(newSelectingItem, selectingRow);
 
         yield put(updateSelectingItem(newSelectingItem));
-        yield put(updateStats(stats.copy()));
+        yield put(updateStats(copied));
       }
     }
   }
@@ -277,10 +282,11 @@ export class StatsEdit {
 
       if (selectingItem) {
         const newSelectingItem: StatsItem = statsItemFactory.from(selectingItem.getStatsItemID(), selectingItem.getName(), action.unit, selectingItem.getValues());
-        stats.replaceItem(newSelectingItem, selectingRow);
+        const copied: Stats = stats.copy();
+        copied.replaceItem(newSelectingItem, selectingRow);
 
         yield put(updateSelectingItem(newSelectingItem));
-        yield put(updateStats(stats.copy()));
+        yield put(updateStats(copied));
       }
     }
   }
@@ -312,8 +318,10 @@ export class StatsEdit {
         target
       } = action;
 
-      stats.moveItem(column, target);
-      yield put(updateStats(stats.copy()));
+      const copied: Stats = stats.copy();
+      copied.moveItem(column, target);
+
+      yield put(updateStats(copied));
     }
   }
 
@@ -333,8 +341,10 @@ export class StatsEdit {
        stats
      } = state;
 
-     stats.remove(action.statsItem);
-     yield put(updateStats(stats.copy()));
+     const copied: Stats = stats.copy();
+     copied.remove(action.statsItem);
+
+     yield put(updateStats(copied));
      yield put(clearSelectingItem());
     }
   }
