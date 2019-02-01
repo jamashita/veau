@@ -1,18 +1,19 @@
+import { UUID } from './UUID';
 import { ValueObject } from './ValueObject';
 
 export class VeauAccountID extends ValueObject {
-  private id: number;
+  private id: UUID;
 
-  public static of(id: number): VeauAccountID {
+  public static of(id: UUID): VeauAccountID {
     return new VeauAccountID(id);
   }
 
-  private constructor(id: number) {
+  private constructor(id: UUID) {
     super();
     this.id = id;
   }
 
-  public get(): number {
+  public get(): UUID {
     return this.id;
   }
 
@@ -20,7 +21,7 @@ export class VeauAccountID extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.id === other.get()) {
+    if (this.id.equals(other.get())) {
       return true;
     }
 

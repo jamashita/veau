@@ -8,6 +8,7 @@ import { Identity as IdentityVO, IdentityJSON } from '../../veau-vo/Identity';
 import { IdentityID } from '../../veau-vo/IdentityID';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
+import { UUID } from '../../veau-vo/UUID';
 import { identified, identityAuthenticated } from '../actions/IdentityAction';
 import { pushToEntrance } from '../actions/RedirectAction';
 
@@ -29,7 +30,7 @@ export class Identity {
         region
       } = json;
 
-      const identity: IdentityVO = IdentityVO.of(IdentityID.of(id), account, ISO639.of(language), ISO3166.of(region));
+      const identity: IdentityVO = IdentityVO.of(IdentityID.of(UUID.of(id)), account, ISO639.of(language), ISO3166.of(region));
 
       yield put(identityAuthenticated(identity));
       yield put(identified());

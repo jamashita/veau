@@ -4,7 +4,7 @@ import { ISO639 } from './ISO639';
 import { ValueObject } from './ValueObject';
 
 export type IdentityJSON = {
-  id: number;
+  id: string;
   account: string;
   language: string;
   region: string;
@@ -85,7 +85,7 @@ export class Identity extends ValueObject {
     } = this;
 
     return {
-      id: identityID.get(),
+      id: identityID.get().get(),
       account,
       language: language.get(),
       region: region.get()

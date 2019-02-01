@@ -1,22 +1,23 @@
+import { UUID } from './UUID';
 import { ValueObject } from './ValueObject';
 
 export class IdentityID extends ValueObject {
-  private id: number;
+  private id: UUID;
 
-  public static of(id: number): IdentityID {
+  public static of(id: UUID): IdentityID {
     return new IdentityID(id);
   }
 
   public static default(): IdentityID {
-    return new IdentityID(0);
+    return new IdentityID(UUID.of(''));
   }
 
-  private constructor(id: number) {
+  private constructor(id: UUID) {
     super();
     this.id = id;
   }
 
-  public get(): number {
+  public get(): UUID {
     return this.id;
   }
 
@@ -24,7 +25,7 @@ export class IdentityID extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.id === other.get()) {
+    if (this.id.equals(other.get())) {
       return true;
     }
 
