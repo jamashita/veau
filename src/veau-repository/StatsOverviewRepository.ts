@@ -42,7 +42,7 @@ export class StatsOverviewRepository implements IStatsOverviewRepository {
 
     const statsOverviewRows: Array<StatsOverviewRow> = await VeauMySQL.query(query, [
       {
-        veauAccountID: veauAccountID.get(),
+        veauAccountID: veauAccountID.get().get(),
         limit: LIMIT,
         offset: (page - 1) * LIMIT
       }
@@ -73,7 +73,7 @@ export class StatsOverviewRepository implements IStatsOverviewRepository {
         languageID: language.getLanguageID().get(),
         regionID: region.getRegionID().get(),
         termID: statsOverview.getTerm().get(),
-        veauAccountID: veauAccountID.get(),
+        veauAccountID: veauAccountID.get().get(),
         name: statsOverview.getName()
       }
     ]);

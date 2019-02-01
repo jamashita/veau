@@ -74,7 +74,7 @@ export class StatsRepository implements IStatsRepository {
         languageID: stats.getLanguage().getLanguageID().get(),
         regionID: stats.getRegion().getRegionID().get(),
         termID: stats.getTerm().get(),
-        veauAccountID: veauAccountID.get(),
+        veauAccountID: veauAccountID.get().get(),
         name: stats.getName()
       }
     ]);
