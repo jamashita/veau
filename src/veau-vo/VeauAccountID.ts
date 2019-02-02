@@ -8,6 +8,10 @@ export class VeauAccountID extends ValueObject {
     return new VeauAccountID(id);
   }
 
+  public static default(): VeauAccountID {
+    return new VeauAccountID(UUID.of(''));
+  }
+
   private constructor(id: UUID) {
     super();
     this.id = id;

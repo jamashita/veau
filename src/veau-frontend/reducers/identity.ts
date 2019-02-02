@@ -1,9 +1,9 @@
 import { ACTION, Action } from '../../declarations/Action';
-import { Identity } from '../../veau-vo/Identity';
+import { VeauAccount } from '../../veau-entity/VeauAccount';
 
-const initialState: Identity = Identity.default();
+const initialState: VeauAccount = VeauAccount.default();
 
-export const identity: (state: Identity, action: Action) => Identity = (state: Identity = initialState, action: Action): Identity => {
+export const identity: (state: VeauAccount, action: Action) => VeauAccount = (state: VeauAccount = initialState, action: Action): VeauAccount => {
   switch (action.type) {
     case ACTION.IDENTITY_AUTHENTICATED: {
       return action.identity;

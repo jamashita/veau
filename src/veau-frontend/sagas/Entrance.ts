@@ -7,18 +7,17 @@ import {
   EntrancePasswordTypedAction
 } from '../../declarations/Action';
 import { State } from '../../declarations/State';
+import { VeauAccount, VeauAccountJSON } from '../../veau-entity/VeauAccount';
+import { VeauAccountFactory } from '../../veau-factory/VeauAccountFactory';
 import { AJAX } from '../../veau-general/AJAX';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
-import { Identity, IdentityJSON } from '../../veau-vo/Identity';
-import { IdentityID } from '../../veau-vo/IdentityID';
-import { ISO3166 } from '../../veau-vo/ISO3166';
-import { ISO639 } from '../../veau-vo/ISO639';
-import { UUID } from '../../veau-vo/UUID';
 import { entranceInformationUpdate } from '../actions/EntranceAction';
 import { identified, identityAuthenticated } from '../actions/IdentityAction';
 import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
 import { pushToStatsList } from '../actions/RedirectAction';
+
+const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
 
 export class Entrance {
 
@@ -51,17 +50,11 @@ export class Entrance {
 
       try {
         const res: request.Response = yield call(AJAX.post, '/api/auth', entranceInformation.toJSON());
-        const json: IdentityJSON = res.body;
-        const {
-          id,
-          account,
-          language,
-          region
-        } = json;
+        const json: VeauAccountJSON = res.body;
 
-        const identity: Identity = Identity.of(IdentityID.of(UUID.of(id)), account, ISO639.of(language), ISO3166.of(region));
+        const veauAccount: VeauAccount = veauAccountFactory.fromJSON(json);
 
-        yield put(identityAuthenticated(identity));
+        yield put(identityAuthenticated(veauAccount));
         yield put(pushToStatsList());
         yield put(identified());
         yield put(loaded());

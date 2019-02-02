@@ -2,9 +2,9 @@ import {
   ACTION, IdentityAuthenticatedAction,
   IdentityIdentifiedAction, IdentityInitializeAction
 } from '../../declarations/Action';
-import { Identity } from '../../veau-vo/Identity';
+import { VeauAccount } from '../../veau-entity/VeauAccount';
 
-export const identityAuthenticated: (identity: Identity) => IdentityAuthenticatedAction = (identity: Identity): IdentityAuthenticatedAction => {
+export const identityAuthenticated: (identity: VeauAccount) => IdentityAuthenticatedAction = (identity: VeauAccount): IdentityAuthenticatedAction => {
   return {
     type: ACTION.IDENTITY_AUTHENTICATED,
     identity

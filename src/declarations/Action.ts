@@ -3,11 +3,11 @@ import { Action as ReduxAction } from 'redux';
 import { Stats } from '../veau-entity/Stats';
 import { StatsItem } from '../veau-entity/StatsItem';
 import { StatsOverview } from '../veau-entity/StatsOverview';
+import { VeauAccount } from '../veau-entity/VeauAccount';
 import { NotificationKind } from '../veau-enum/NotificationKind';
 import { Term } from '../veau-enum/Term';
 import { LocaleRepository } from '../veau-repository/LocaleRepository';
 import { EntranceInformation } from '../veau-vo/EntranceInformation';
-import { Identity } from '../veau-vo/Identity';
 import { ISO3166 } from '../veau-vo/ISO3166';
 import { ISO639 } from '../veau-vo/ISO639';
 import { Language } from '../veau-vo/Language';
@@ -122,7 +122,7 @@ export interface IdentityAuthenticateAction extends ReduxAction {
 }
 export interface IdentityAuthenticatedAction extends ReduxAction {
   type: ACTION.IDENTITY_AUTHENTICATED;
-  identity: Identity;
+  identity: VeauAccount;
 }
 export interface IdentityInitializeAction extends ReduxAction {
   type: ACTION.IDENTITY_INITIALIZE;

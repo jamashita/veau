@@ -1,10 +1,10 @@
 import { connect, ConnectedComponentClass, MapStateToProps } from 'react-redux';
 import { State } from '../../declarations/State';
-import { Identity } from '../../veau-vo/Identity';
+import { VeauAccount } from '../../veau-entity/VeauAccount';
 import { I18NProvider as Component } from '../components/I18NProvider';
 
 type StateProps = {
-  identity: Identity;
+  identity: VeauAccount;
 };
 type DispatchProps = {
 };

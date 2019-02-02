@@ -24,6 +24,10 @@ export class VeauAccount extends Entity<VeauAccountID> {
   private language: ISO639;
   private region: ISO3166;
 
+  public static default(): VeauAccount {
+    return new VeauAccount(VeauAccountID.default(), '', ISO639.defualt(), ISO3166.default());
+  }
+
   public constructor(veauAccountID: VeauAccountID, account: string, language: ISO639, region: ISO3166) {
     super();
     this.veauAccountID = veauAccountID;
@@ -50,6 +54,14 @@ export class VeauAccount extends Entity<VeauAccountID> {
 
   public getIdentifier(): VeauAccountID {
     return this.veauAccountID;
+  }
+
+  public isDefault(): boolean {
+    if (this.getVeauAccountID().equals(VeauAccountID.default())) {
+      return true;
+    }
+
+    return false;
   }
 
   public copy(): VeauAccount {
