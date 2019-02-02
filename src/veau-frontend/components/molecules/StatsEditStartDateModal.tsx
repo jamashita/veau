@@ -30,7 +30,9 @@ class StatsEditStartDateModalImpl extends React.Component<Props & InjectedIntlPr
   public render(): React.ReactNode {
     const {
       open,
-      intl
+      intl,
+      close,
+      determineStartDate
     } = this.props;
     const {
       startDate
@@ -39,7 +41,7 @@ class StatsEditStartDateModalImpl extends React.Component<Props & InjectedIntlPr
     return (
       <Dialog
         open={open}
-        onClose={this.props.close}
+        onClose={close}
         fullWidth={true}
         maxWidth='md'
       >
@@ -66,7 +68,7 @@ class StatsEditStartDateModalImpl extends React.Component<Props & InjectedIntlPr
           <Button
             color='secondary'
             onClick={(): void => {
-              this.props.determineStartDate(startDate);
+              determineStartDate(startDate);
             }}
           >
             <Icon className='fas fa-check' />
@@ -76,7 +78,7 @@ class StatsEditStartDateModalImpl extends React.Component<Props & InjectedIntlPr
           </Button>
           <Button
             color='secondary'
-            onClick={this.props.close}
+            onClick={close}
           >
             <Icon className='fas fa-times' />
             <I18NLabel

@@ -17,7 +17,8 @@ const initialState: Notification = {
   horizontal: 'center',
   vertical: 'top',
   duration: 3000,
-  message: 'GREETING'
+  message: 'GREETING',
+  values: undefined
 };
 
 export const notification: (state: Notification, action: Action) => Notification = (state: Notification = initialState, action: Action): Notification => {

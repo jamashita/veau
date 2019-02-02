@@ -28,9 +28,7 @@ export type Messages = {
   LOGIN: string;
   LOGOUT: string;
 
-  ACCOUNT_ID: string;
   ACCOUNT_NAME: string;
-  ORGANIZATION_NAME: string;
   PASSWORD: string;
 
   VEAU: string;
@@ -97,9 +95,7 @@ const en: Messages = {
   LOGIN: 'Log in',
   LOGOUT: 'Log out',
 
-  ACCOUNT_ID: 'Account ID',
   ACCOUNT_NAME: 'Account',
-  ORGANIZATION_NAME: 'Organisation Name',
   PASSWORD: 'Password',
 
   VEAU: 'Veau',
@@ -166,9 +162,7 @@ const fr: Messages = {
   LOGIN: 'Se connecter',
   LOGOUT: 'Connecter-out',
 
-  ACCOUNT_ID: 'Identifiant de compte',
   ACCOUNT_NAME: 'Compte',
-  ORGANIZATION_NAME: 'Nom de l\'organisation',
   PASSWORD: 'Mot de passe',
 
   VEAU: 'Veau',
@@ -235,9 +229,7 @@ const es: Messages = {
   LOGIN: 'Iniciar sesión',
   LOGOUT: 'Cerrar sesión',
 
-  ACCOUNT_ID: 'Identidad de la cuenta',
   ACCOUNT_NAME: 'Cuenta',
-  ORGANIZATION_NAME: 'Nombre de la organización',
   PASSWORD: 'Contraseña',
 
   VEAU: 'Veau',
@@ -304,9 +296,7 @@ const ja: Messages = {
   LOGIN: 'ログイン',
   LOGOUT: 'ログアウト',
 
-  ACCOUNT_ID: 'アカウントID',
   ACCOUNT_NAME: 'アカウント',
-  ORGANIZATION_NAME: '組織名',
   PASSWORD: 'パスワード',
 
   VEAU: 'ヴォ',

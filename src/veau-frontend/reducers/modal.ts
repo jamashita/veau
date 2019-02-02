@@ -17,17 +17,24 @@ const initialState: Modal = {
 export const modal: (state: Modal, action: Action) => Modal = (state: Modal = initialState, action: Action): Modal => {
   switch (action.type) {
     case ACTION.MODAL_RAISE: {
+      const {
+        title,
+        description,
+        values
+      } = action;
+
       return {
         ...state,
-        title: action.title,
-        description: action.description,
-        values: action.values,
+        title,
+        description,
+        values,
         open: true
       };
     }
     case ACTION.MODAL_CLOSE: {
       return {
-        ...state, open: false
+        ...state,
+        open: false
       };
     }
     default: {

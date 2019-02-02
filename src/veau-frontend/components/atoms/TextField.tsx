@@ -7,8 +7,8 @@ type Props = {
   value: string;
   defaultValue?: string;
   disabled?: boolean;
-  onKeyUp?(value: string): void;
-  onEnterUp?(): void;
+  onKeyUp?: (value: string) => void;
+  onEnterUp?: () => void;
 };
 type State = {
 };
@@ -21,9 +21,7 @@ export class TextField extends React.Component<Props, State> {
       type,
       value,
       defaultValue,
-      disabled,
-      onKeyUp,
-      onEnterUp
+      disabled
     } = this.props;
 
     if (label !== nextProps.label) {
@@ -39,12 +37,6 @@ export class TextField extends React.Component<Props, State> {
       return true;
     }
     if (disabled !== nextProps.disabled) {
-      return true;
-    }
-    if (onKeyUp !== nextProps.onKeyUp) {
-      return true;
-    }
-    if (onEnterUp !== nextProps.onEnterUp) {
       return true;
     }
 

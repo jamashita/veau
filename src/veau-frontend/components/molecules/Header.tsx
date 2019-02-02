@@ -3,7 +3,7 @@ import * as React from 'react';
 import { I18NLabel } from '../atoms/I18NLabel';
 
 type Props = {
-  menuClicked(): void;
+  menuClicked: () => void;
 };
 type State = {
 };
@@ -15,6 +15,10 @@ export class Header extends React.Component<Props, State> {
   }
 
   public render(): React.ReactNode {
+    const {
+      menuClicked
+    } = this.props;
+
     return (
       <AppBar
         position='static'
@@ -25,7 +29,7 @@ export class Header extends React.Component<Props, State> {
         >
           <Icon
             className='fas fa-bars icon-spacing'
-            onClick={this.props.menuClicked}
+            onClick={menuClicked}
           />
           <I18NLabel
             id='VEAU'

@@ -76,13 +76,19 @@ class StatsOverviewModalImpl extends React.Component<Props & InjectedIntlProps, 
       newStatsOverview,
       languages,
       regions,
-      intl
+      intl,
+      closeNewStatsModal,
+      nameTyped,
+      iso639Selected,
+      iso3166Selected,
+      termSelected,
+      saveNewStats
     } = this.props;
 
     return (
       <Dialog
         open={open}
-        onClose={this.props.closeNewStatsModal}
+        onClose={closeNewStatsModal}
         fullWidth={true}
         maxWidth='md'
       >
@@ -98,7 +104,7 @@ class StatsOverviewModalImpl extends React.Component<Props & InjectedIntlProps, 
             })}
             type='text'
             value={newStatsOverview.getName()}
-            onKeyUp={this.props.nameTyped}
+            onKeyUp={nameTyped}
           />
           <FormControl
             fullWidth={true}
@@ -112,7 +118,7 @@ class StatsOverviewModalImpl extends React.Component<Props & InjectedIntlProps, 
               value={newStatsOverview.getISO639().get()}
               onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {
                 const iso639: string = event.target.value;
-                this.props.iso639Selected(ISO639.of(iso639));
+                iso639Selected(ISO639.of(iso639));
               }}
             >
               {languages.map<React.ReactNode>((language: Language) => {
@@ -141,7 +147,7 @@ class StatsOverviewModalImpl extends React.Component<Props & InjectedIntlProps, 
               value={newStatsOverview.getISO3166().get()}
               onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {
                 const iso3166: string = event.target.value;
-                this.props.iso3166Selected(ISO3166.of(iso3166));
+                iso3166Selected(ISO3166.of(iso3166));
               }}
             >
               {regions.map<React.ReactNode>((region: Region) => {
@@ -170,7 +176,7 @@ class StatsOverviewModalImpl extends React.Component<Props & InjectedIntlProps, 
               value={newStatsOverview.getTerm().get()}
               onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {
                 const termID: number = Number(event.target.value);
-                this.props.termSelected(Term.of(termID));
+                termSelected(Term.of(termID));
               }}
             >
               {Term.all().map<React.ReactNode>((term: Term) => {
@@ -193,7 +199,7 @@ class StatsOverviewModalImpl extends React.Component<Props & InjectedIntlProps, 
         <DialogActions>
           <Button
             color='secondary'
-            onClick={this.props.saveNewStats}
+            onClick={saveNewStats}
             disabled={!newStatsOverview.isFilled()}
           >
             <Icon className='fas fa-check' />
@@ -203,7 +209,7 @@ class StatsOverviewModalImpl extends React.Component<Props & InjectedIntlProps, 
           </Button>
           <Button
             color='secondary'
-            onClick={this.props.closeNewStatsModal}
+            onClick={closeNewStatsModal}
           >
             <Icon className='fas fa-times' />
             <I18NLabel

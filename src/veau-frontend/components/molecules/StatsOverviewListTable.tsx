@@ -42,7 +42,8 @@ class StatsOverviewListTableImpl extends React.Component<Props & InjectedIntlPro
     const {
       statsOverviews,
       localeRepository,
-      intl
+      intl,
+      toStatsEdit
     } = this.props;
 
     return (
@@ -78,7 +79,6 @@ class StatsOverviewListTableImpl extends React.Component<Props & InjectedIntlPro
         </TableHead>
         <TableBody>
           {statsOverviews.map<React.ReactNode>((statsOverview: StatsOverview) => {
-
             try {
               const language: Language = localeRepository.findByISO639(statsOverview.getISO639());
               const region: Region = localeRepository.findByISO3166(statsOverview.getISO3166());
@@ -88,7 +88,7 @@ class StatsOverviewListTableImpl extends React.Component<Props & InjectedIntlPro
                   key={statsOverview.getStatsID().get().get()}
                   hover={true}
                   onClick={(): void => {
-                    this.props.toStatsEdit(statsOverview.getStatsID());
+                    toStatsEdit(statsOverview.getStatsID());
                   }}
                 >
                   <TableCell>{statsOverview.getName()}</TableCell>
@@ -109,7 +109,7 @@ class StatsOverviewListTableImpl extends React.Component<Props & InjectedIntlPro
                   key={statsOverview.getStatsID().get().get()}
                   hover={true}
                   onClick={(): void => {
-                    this.props.toStatsEdit(statsOverview.getStatsID());
+                    toStatsEdit(statsOverview.getStatsID());
                   }}
                 >
                   <TableCell>{statsOverview.getName()}</TableCell>

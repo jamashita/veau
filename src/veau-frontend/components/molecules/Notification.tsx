@@ -16,7 +16,39 @@ const ERROR: number = 900;
 class NotificationImpl extends React.Component<Props & InjectedIntlProps, State> {
 
   public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
-    return true;
+    const {
+      kind,
+      open,
+      horizontal,
+      vertical,
+      message,
+      duration,
+      values
+    } = this.props;
+
+    if (kind !== nextProps.kind) {
+      return true;
+    }
+    if (open !== nextProps.open) {
+      return true;
+    }
+    if (horizontal !== nextProps.horizontal) {
+      return true;
+    }
+    if (vertical !== nextProps.vertical) {
+      return true;
+    }
+    if (message !== nextProps.message) {
+      return true;
+    }
+    if (duration !== nextProps.duration) {
+      return true;
+    }
+    if (values !== nextProps.values) {
+      return true;
+    }
+
+    return false;
   }
 
   private icon(): React.ReactNode {
@@ -84,15 +116,16 @@ class NotificationImpl extends React.Component<Props & InjectedIntlProps, State>
       horizontal,
       vertical,
       message,
-      values,
       duration,
-      intl
+      values,
+      intl,
+      closeClicked
     } = this.props;
 
     return (
       <Snackbar
         open={open}
-        onClose={this.props.onClose}
+        onClose={closeClicked}
         anchorOrigin={{
           horizontal,
           vertical

@@ -41,7 +41,11 @@ class StatsItemModalImpl extends React.Component<Props & InjectedIntlProps, Stat
     const {
       open,
       statsItem,
-      intl
+      intl,
+      close,
+      itemNameTyped,
+      itemUnitTyped,
+      saveNewItem
     } = this.props;
 
     return (
@@ -63,7 +67,7 @@ class StatsItemModalImpl extends React.Component<Props & InjectedIntlProps, Stat
             })}
             type='text'
             value={statsItem.getName()}
-            onKeyUp={this.props.itemNameTyped}
+            onKeyUp={itemNameTyped}
           />
           <TextField
             label={intl.formatMessage({
@@ -71,13 +75,13 @@ class StatsItemModalImpl extends React.Component<Props & InjectedIntlProps, Stat
             })}
             type='text'
             value={statsItem.getUnit()}
-            onKeyUp={this.props.itemUnitTyped}
+            onKeyUp={itemUnitTyped}
           />
         </DialogContent>
         <DialogActions>
           <Button
             color='secondary'
-            onClick={this.props.saveNewItem}
+            onClick={saveNewItem}
             disabled={!statsItem.isFilled()}
           >
             <Icon className='fas fa-check' />
@@ -87,7 +91,7 @@ class StatsItemModalImpl extends React.Component<Props & InjectedIntlProps, Stat
           </Button>
           <Button
             color='secondary'
-            onClick={this.props.close}
+            onClick={close}
           >
             <Icon className='fas fa-times' />
             <I18NLabel

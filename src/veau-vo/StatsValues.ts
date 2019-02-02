@@ -34,7 +34,7 @@ export class StatsValues {
         return;
       }
       if (statsValue.getAsOf().isSame(value.getAsOf())) {
-        newValues.push(StatsValue.of(statsValue.getAsOf(), statsValue.getValue()));
+        newValues.push(statsValue);
         isSet = true;
         return;
       }
@@ -53,6 +53,7 @@ export class StatsValues {
       });
     }
 
+    console.log(newValues);
     this.values = newValues;
   }
 

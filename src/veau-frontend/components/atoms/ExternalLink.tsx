@@ -35,6 +35,7 @@ export class ExternalLink extends React.Component<Props, State> {
     if (children === undefined) {
       return href;
     }
+
     return children;
   }
 

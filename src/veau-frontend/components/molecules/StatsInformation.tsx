@@ -55,7 +55,10 @@ class StatsInformationImpl extends React.Component<Props & InjectedIntlProps, St
     const {
       stats,
       localeRepository,
-      intl
+      intl,
+      nameTyped,
+      languageSelected,
+      regionSelected
     } = this.props;
 
     return (
@@ -74,7 +77,7 @@ class StatsInformationImpl extends React.Component<Props & InjectedIntlProps, St
             })}
             type='text'
             value={stats.getName()}
-            onKeyUp={this.props.nameTyped}
+            onKeyUp={nameTyped}
           />
           <FormControl
             fullWidth={true}
@@ -89,7 +92,7 @@ class StatsInformationImpl extends React.Component<Props & InjectedIntlProps, St
               onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {
                 const iso639: string = event.target.value;
                 const language: Language = localeRepository.findByISO639(ISO639.of(iso639));
-                this.props.languageSelected(language);
+                languageSelected(language);
               }}
             >
               {localeRepository.allLanguages().map<React.ReactNode>((language: Language) => {
@@ -119,7 +122,7 @@ class StatsInformationImpl extends React.Component<Props & InjectedIntlProps, St
               onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {
                 const iso3166: string = event.target.value;
                 const region: Region = localeRepository.findByISO3166(ISO3166.of(iso3166));
-                this.props.regionSelected(region);
+                regionSelected(region);
               }}
             >
               {localeRepository.allRegions().map<React.ReactNode>((region: Region) => {

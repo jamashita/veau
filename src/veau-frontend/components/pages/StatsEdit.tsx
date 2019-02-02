@@ -23,6 +23,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
 
   public constructor(props: Props & InjectedIntlProps) {
     super(props);
+
     this.state = {
       openNewStatsItemModal: false,
       openStartDateModal: false
@@ -88,7 +89,23 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
       statsItem,
       localeRepository,
       selectingItem,
-      intl
+      intl,
+      invalidValueInput,
+      dataDeleted,
+      dataFilled,
+      rowSelected,
+      rowMoved,
+      save,
+      nameTyped,
+      languageSelected,
+      regionSelected,
+      selectingItemNameTyped,
+      selectingItemUnitTyped,
+      removeItem,
+      itemNameTyped,
+      itemUnitTyped,
+      saveNewItem,
+      startDateDetermined
     } = this.props;
     const {
       openNewStatsItemModal,
@@ -108,11 +125,11 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
             columnHeaders={stats.getColumns()}
             rowHeaders={stats.getRows()}
             rowHeaderWidth={stats.getRowHeaderSize()}
-            invalidValueInput={this.props.invalidValueInput}
-            dataDeleted={this.props.dataDeleted}
-            dataFilled={this.props.dataFilled}
-            rowSelected={this.props.rowSelected}
-            rowMoved={this.props.rowMoved}
+            invalidValueInput={invalidValueInput}
+            dataDeleted={dataDeleted}
+            dataFilled={dataFilled}
+            rowSelected={rowSelected}
+            rowMoved={rowMoved}
           />
         </div>
         <div
@@ -155,7 +172,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
             color='primary'
             fullWidth={true}
             disabled={!stats.isValid()}
-            onClick={this.props.save}
+            onClick={save}
           >
             <Icon
               className='fas fa-save'
@@ -167,15 +184,15 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
           <StatsInformation
             stats={stats}
             localeRepository={localeRepository}
-            nameTyped={this.props.nameTyped}
-            languageSelected={this.props.languageSelected}
-            regionSelected={this.props.regionSelected}
+            nameTyped={nameTyped}
+            languageSelected={languageSelected}
+            regionSelected={regionSelected}
           />
           <StatsItemInformation
             selecting={selectingItem}
-            nameTyped={this.props.selectingItemNameTyped}
-            unitTyped={this.props.selectingItemUnitTyped}
-            removeItem={this.props.removeItem}
+            nameTyped={selectingItemNameTyped}
+            unitTyped={selectingItemUnitTyped}
+            removeItem={removeItem}
           />
         </div>
         <StatsItemModal
@@ -186,13 +203,13 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
               openNewStatsItemModal: false
             });
           }}
-          itemNameTyped={this.props.itemNameTyped}
-          itemUnitTyped={this.props.itemUnitTyped}
+          itemNameTyped={itemNameTyped}
+          itemUnitTyped={itemUnitTyped}
           saveNewItem={(): void => {
             this.setState({
               openNewStatsItemModal: false
             });
-            this.props.saveNewItem();
+            saveNewItem();
           }}
         />
         <StatsEditStartDateModal
@@ -203,7 +220,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
             });
           }}
           determineStartDate={(date: string): void => {
-            this.props.startDateDetermined(date);
+            startDateDetermined(date);
             this.setState({
               openStartDateModal: false
             });
