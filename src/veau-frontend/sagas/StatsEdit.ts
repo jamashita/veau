@@ -18,7 +18,6 @@ import {
 import { State } from '../../declarations/State';
 import { Stats, StatsJSON } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
-import { NotificationKind } from '../../veau-enum/NotificationKind';
 import { StatsFactory } from '../../veau-factory/StatsFactory';
 import { StatsItemFactory } from '../../veau-factory/StatsItemFactory';
 import { AJAX } from '../../veau-general/AJAX';
@@ -75,7 +74,7 @@ export class StatsEdit {
         }
         catch (err) {
           yield put(pushToStatsList());
-          yield put(appearNotification(NotificationKind.ERROR, 'center', 'top', 'STATS_NOT_FOUND'));
+          yield put(appearNotification('error', 'center', 'top', 'STATS_NOT_FOUND'));
         }
       }
     }
@@ -328,7 +327,7 @@ export class StatsEdit {
   private static *invalidValueInput(): IterableIterator<any> {
     while (true) {
       yield take(ACTION.STATS_EDIT_INVALID_VALUE_INPUT);
-      yield put(appearNotification(NotificationKind.WARN, 'center', 'top', 'INVALID_INPUT_VALUE'));
+      yield put(appearNotification('warn', 'center', 'top', 'INVALID_INPUT_VALUE'));
     }
   }
 
@@ -362,7 +361,7 @@ export class StatsEdit {
       try {
         yield call(AJAX.post, '/api/stats', stats.toJSON());
         yield put(loaded());
-        yield put(appearNotification(NotificationKind.SUCCESS, 'center', 'top', 'SAVE_SUCCESS'));
+        yield put(appearNotification('success', 'center', 'top', 'SAVE_SUCCESS'));
       }
       catch (err) {
         yield put(loaded());

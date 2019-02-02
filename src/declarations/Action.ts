@@ -4,7 +4,6 @@ import { Stats } from '../veau-entity/Stats';
 import { StatsItem } from '../veau-entity/StatsItem';
 import { StatsOverview } from '../veau-entity/StatsOverview';
 import { VeauAccount } from '../veau-entity/VeauAccount';
-import { NotificationKind } from '../veau-enum/NotificationKind';
 import { Term } from '../veau-enum/Term';
 import { LocaleRepository } from '../veau-repository/LocaleRepository';
 import { EntranceInformation } from '../veau-vo/EntranceInformation';
@@ -101,7 +100,7 @@ export interface ModalCloseAction extends ReduxAction {
 }
 export interface NotificationAppearAction extends ReduxAction {
   type: ACTION.NOTIFICATION_APPEAR;
-  kind: NotificationKind;
+  kind: 'info' | 'success' | 'warn' | 'error';
   horizontal: 'left' | 'center' | 'right';
   vertical: 'top' | 'bottom';
   message: string;

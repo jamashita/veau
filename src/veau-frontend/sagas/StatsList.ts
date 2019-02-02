@@ -7,7 +7,6 @@ import {
 } from '../../declarations/Action';
 import { State } from '../../declarations/State';
 import { StatsOverview, StatsOverviewJSON } from '../../veau-entity/StatsOverview';
-import { NotificationKind } from '../../veau-enum/NotificationKind';
 import { StatsOverviewFactory } from '../../veau-factory/StatsOverviewFactory';
 import { AJAX } from '../../veau-general/AJAX';
 import { loaded, loading } from '../actions/LoadingAction';
@@ -47,7 +46,7 @@ export class StatsList {
         }
         catch (err) {
           yield put(updateStatsOverviews([]));
-          yield put(appearNotification(NotificationKind.ERROR, 'center', 'top', 'STATS_OVERVIEW_NOT_FOUND'));
+          yield put(appearNotification('error', 'center', 'top', 'STATS_OVERVIEW_NOT_FOUND'));
         }
       }
     }

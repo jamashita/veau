@@ -2,12 +2,11 @@ import { connect, ConnectedComponentClass, MapDispatchToProps, MapStateToProps }
 import { Dispatch } from 'redux';
 import { Action } from '../../../declarations/Action';
 import { State } from '../../../declarations/State';
-import { NotificationKind } from '../../../veau-enum/NotificationKind';
 import { disappearNotification } from '../../actions/NotificationAction';
 import { Notification as Component } from '../../components/molecules/Notification';
 
 type StateProps = {
-  kind: NotificationKind;
+  kind: 'info' | 'success' | 'warn' | 'error';
   open: boolean;
   horizontal: 'left' | 'center' | 'right';
   vertical: 'top' | 'bottom';

@@ -2,7 +2,6 @@ import { Icon, Snackbar, SnackbarContent } from '@material-ui/core';
 import { amber, blue, green, red } from '@material-ui/core/colors';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
-import { NotificationKind } from '../../../veau-enum/NotificationKind';
 import { Props } from '../../containers/molecules/Notification';
 
 type State = {
@@ -57,14 +56,14 @@ class NotificationImpl extends React.Component<Props & InjectedIntlProps, State>
     } = this.props;
 
     switch (kind) {
-      case NotificationKind.SUCCESS: {
+      case 'success': {
         return (
           <Icon
             className='fas fa-check-circle icon-spacing'
           />
         );
       }
-      case NotificationKind.INFO:
+      case 'info':
       default: {
         return (
           <Icon
@@ -72,14 +71,14 @@ class NotificationImpl extends React.Component<Props & InjectedIntlProps, State>
           />
         );
       }
-      case NotificationKind.WARN: {
+      case 'warn': {
         return (
           <Icon
             className='fas fa-exclamation-circle icon-spacing'
           />
         );
       }
-      case NotificationKind.ERROR: {
+      case 'error': {
         return (
           <Icon
             className='fas fa-exclamation-triangle icon-spacing'
@@ -94,17 +93,17 @@ class NotificationImpl extends React.Component<Props & InjectedIntlProps, State>
     } = this.props;
 
     switch (kind) {
-      case NotificationKind.SUCCESS: {
+      case 'success': {
         return green[SUCCESS];
       }
       default:
-      case NotificationKind.INFO: {
+      case 'info': {
         return blue[INFO];
       }
-      case NotificationKind.WARN: {
+      case 'warn': {
         return amber[WARN];
       }
-      case NotificationKind.ERROR: {
+      case 'error': {
         return red[ERROR];
       }
     }

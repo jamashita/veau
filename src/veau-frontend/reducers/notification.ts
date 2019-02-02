@@ -1,8 +1,7 @@
 import { ACTION, Action } from '../../declarations/Action';
-import { NotificationKind } from '../../veau-enum/NotificationKind';
 
 export type Notification = {
-  kind: NotificationKind;
+  kind: 'info' | 'success' | 'warn' | 'error';
   open: boolean;
   horizontal: 'left' | 'center' | 'right';
   vertical: 'top' | 'bottom';
@@ -12,7 +11,7 @@ export type Notification = {
 };
 
 const initialState: Notification = {
-  kind: NotificationKind.INFO,
+  kind: 'info',
   open: false,
   horizontal: 'center',
   vertical: 'top',
