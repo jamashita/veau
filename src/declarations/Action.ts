@@ -43,7 +43,7 @@ export enum ACTION {
 
   ENTRANCE_ACCOUNT_NAME_TYPED = 'ENTRANCE_ACCOUNT_NAME_TYPED',
   ENTRANCE_PASSWORD_TYPED = 'ENTRANCE_PASSWORD_TYPED',
-  ENTRANCE_LOGIN_INFO_UPDATE = 'ENTRANCE_LOGIN_INFO_UPDATE',
+  ENTRANCE_INFO_UPDATE = 'ENTRANCE_LOGIN_INFO_UPDATE',
 
   STATS_LIST_NEW_STATS = 'STATS_LIST_NEW_STATS',
   STATS_LIST_CLOSE_STATS_MODAL = 'STATS_LIST_CLOSE_STATS_MODAL',
@@ -161,7 +161,7 @@ export interface EntrancePasswordTypedAction extends ReduxAction {
   password: string;
 }
 export interface EntranceInfoUpdateAction extends ReduxAction {
-  type: ACTION.ENTRANCE_LOGIN_INFO_UPDATE;
+  type: ACTION.ENTRANCE_INFO_UPDATE;
   entranceInformation: EntranceInformation;
 }
 export interface StatsListNewStatsAction extends ReduxAction {

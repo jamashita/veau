@@ -1,4 +1,3 @@
-import { Typography } from '@material-ui/core';
 import * as React from 'react';
 
 type Props = {
@@ -46,16 +45,14 @@ export class ExternalLink extends React.Component<Props, State> {
     } = this.props;
 
     return (
-      <Typography>
-        <a
-          style={style}
-          href={href}
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          {this.text()}
-        </a>
-      </Typography>
+      <a
+        style={style}
+        href={href}
+        target='_blank'
+        rel='noopener noreferrer'
+      >
+        {this.text()}
+      </a>
     );
   }
 }
