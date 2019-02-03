@@ -61,7 +61,7 @@ export class StatsOverviewRepository implements IStatsOverviewRepository {
       :termID,
       :veauAccountID,
       :name,
-      NOW()
+      UTC_TIMESTAMP()
       );`;
 
     const language: Language = await languageRepository.findByISO639(statsOverview.getISO639());

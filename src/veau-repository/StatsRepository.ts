@@ -65,7 +65,7 @@ export class StatsRepository implements IStatsRepository {
       :termID,
       :veauAccountID,
       :name,
-      NOW()
+      UTC_TIMESTAMP()
       );`;
 
     await transaction.query(query, [

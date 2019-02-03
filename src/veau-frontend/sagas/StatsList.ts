@@ -15,6 +15,7 @@ import { appearNotification } from '../actions/NotificationAction';
 import { pushToStatsEdit } from '../actions/RedirectAction';
 import { updateStatsOverviews } from '../actions/StatsAction';
 import { closeNewStatsModal, renewStatsOverview, resetNewStats } from '../actions/StatsListAction';
+import { Endpoints } from '../Endpoints';
 
 const statsOverviewFactory: StatsOverviewFactory = StatsOverviewFactory.getInstance();
 
@@ -34,7 +35,7 @@ export class StatsList {
       const action: LocationChangeAction = yield take(ACTION.LOCATION_CHANGE);
       const path: string = action.payload.location.pathname;
 
-      if (path === '/statistics/list') {
+      if (path === Endpoints.STATS_LIST) {
         try {
           const res: request.Response = yield call(AJAX.get, '/api/stats/overview/1');
           const statsOverviewJSONs: Array<StatsOverviewJSON> = res.body;

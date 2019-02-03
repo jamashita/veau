@@ -9,7 +9,8 @@ import { LanguageIdentifier } from '../../veau-general/LanguageIdentifier';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { identified, identityAuthenticated } from '../actions/IdentityAction';
-import { pushToEntrance } from '../actions/RedirectAction';
+import { pushToEntrance, pushToStatsList } from '../actions/RedirectAction';
+import { Endpoints } from '../Endpoints';
 
 const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
 
@@ -29,6 +30,10 @@ export class Identity {
 
       yield put(identityAuthenticated(veauAccount));
       yield put(identified());
+
+      if (location.pathname === Endpoints.ENTRANCE) {
+        yield put(pushToStatsList());
+      }
     }
     catch (err) {
       const newLanguage: string = LanguageIdentifier.toISO639(navigator.language);
