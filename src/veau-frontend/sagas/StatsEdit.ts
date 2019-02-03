@@ -1,3 +1,4 @@
+import * as moment from 'moment';
 import { call, fork, put, select, take } from 'redux-saga/effects';
 import * as request from 'superagent';
 import {
@@ -298,9 +299,18 @@ export class StatsEdit {
       const {
         stats
       } = state;
+      const {
+        startDate
+      } = action;
 
-      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUpdatedAt(), stats.getItems(), action.startDate);
-      yield put(updateStats(newStats));
+      const date: moment.Moment = moment(startDate);
+      if (date.isValid()) {
+        const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUpdatedAt(), stats.getItems(), startDate);
+        yield put(updateStats(newStats));
+        continue;
+      }
+
+      yield put(appearNotification('error', 'center', 'top', 'INVALID_INPUT_DATE'));
     }
   }
 

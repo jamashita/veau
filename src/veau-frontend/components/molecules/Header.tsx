@@ -1,6 +1,6 @@
-import { AppBar, Icon, Toolbar } from '@material-ui/core';
+import { AppBar, Icon, Toolbar, Typography } from '@material-ui/core';
 import * as React from 'react';
-import { I18NLabel } from '../atoms/I18NLabel';
+import { InjectedIntlProps, injectIntl } from 'react-intl';
 
 type Props = {
   menuClicked: () => void;
@@ -8,14 +8,15 @@ type Props = {
 type State = {
 };
 
-export class Header extends React.Component<Props, State> {
+class HeaderImpl extends React.Component<Props & InjectedIntlProps, State> {
 
-  public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
+  public shouldComponentUpdate(): boolean {
     return true;
   }
 
   public render(): React.ReactNode {
     const {
+      intl,
       menuClicked
     } = this.props;
 
@@ -31,13 +32,18 @@ export class Header extends React.Component<Props, State> {
             className='fas fa-bars icon-spacing'
             onClick={menuClicked}
           />
-          <I18NLabel
-            id='VEAU'
-            color='inherit'
+          <Typography
             variant='h5'
-          />
+            color='inherit'
+          >
+            {intl.formatMessage({
+              id: 'VEAU'
+            })}
+          </Typography>
         </Toolbar>
       </AppBar>
     );
   }
 }
+
+export const Header: React.ComponentClass<Props, State> = injectIntl(HeaderImpl);

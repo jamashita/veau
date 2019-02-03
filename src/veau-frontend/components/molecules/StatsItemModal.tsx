@@ -2,7 +2,6 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon } from 
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { StatsItem } from '../../../veau-entity/StatsItem';
-import { I18NLabel } from '../atoms/I18NLabel';
 import { TextField } from '../atoms/TextField';
 
 type Props = {
@@ -85,18 +84,18 @@ class StatsItemModalImpl extends React.Component<Props & InjectedIntlProps, Stat
             disabled={!statsItem.isFilled()}
           >
             <Icon className='fas fa-check' />
-            <I18NLabel
-              id='SUBMIT'
-            />
+            {intl.formatMessage({
+              id: 'SUBMIT'
+            })}
           </Button>
           <Button
             color='secondary'
             onClick={close}
           >
             <Icon className='fas fa-times' />
-            <I18NLabel
-              id='CANCEL'
-            />
+            {intl.formatMessage({
+              id: 'CANCEL'
+            })}
           </Button>
         </DialogActions>
       </Dialog>

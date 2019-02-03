@@ -47,6 +47,7 @@ export type Messages = {
   START_DATE: string;
   DETERMINE_START_DATE: string;
   INVALID_INPUT_VALUE: string;
+  INVALID_INPUT_DATE: string;
   STATS_SAVE_FAILURE: string;
   STATS_SAVE_FAILURE_DESCRIPTION: string;
   STATS_NOT_FOUND: string;
@@ -114,6 +115,7 @@ const en: Messages = {
   START_DATE: 'Start date',
   DETERMINE_START_DATE: 'Determine start date',
   INVALID_INPUT_VALUE: 'The input value was not a number',
+  INVALID_INPUT_DATE: 'The input date was invalid',
   STATS_SAVE_FAILURE: 'Save failure',
   STATS_SAVE_FAILURE_DESCRIPTION: 'Failed to save statistics to the server. Please try again.',
   STATS_NOT_FOUND: 'Statistics not found',
@@ -181,6 +183,7 @@ const fr: Messages = {
   START_DATE: 'Date de début',
   DETERMINE_START_DATE: 'Déterminer la date de début',
   INVALID_INPUT_VALUE: 'La valeur d\'entrée n\'était pas un nombre',
+  INVALID_INPUT_DATE: 'La date d\'entrée était invalide',
   STATS_SAVE_FAILURE: 'Enregistrer l\'échec',
   STATS_SAVE_FAILURE_DESCRIPTION: 'Échec de l\'enregistrement des statistiques sur le serveur. Veuillez réessayer.',
   STATS_NOT_FOUND: 'Statistiques non trouvées',
@@ -248,6 +251,7 @@ const es: Messages = {
   START_DATE: 'Fecha de inicio',
   DETERMINE_START_DATE: 'Determinar la fecha de inicio',
   INVALID_INPUT_VALUE: 'El valor de entrada no era un número',
+  INVALID_INPUT_DATE: 'La fecha de entrada no fue válida',
   STATS_SAVE_FAILURE: 'Guarde el fracaso',
   STATS_SAVE_FAILURE_DESCRIPTION: 'Error al guardar las estadísticas en el servidor. Inténtalo de nuevo.',
   STATS_NOT_FOUND: 'Estadísticas no encontradas',
@@ -315,6 +319,7 @@ const ja: Messages = {
   START_DATE: '開始日',
   DETERMINE_START_DATE: '開始日を決定する',
   INVALID_INPUT_VALUE: '入力値が数値ではありませんでした',
+  INVALID_INPUT_DATE: '入力日が無効です',
   STATS_SAVE_FAILURE: '保存失敗',
   STATS_SAVE_FAILURE_DESCRIPTION: 'サーバーへの統計情報の保存に失敗しました。 もう一度やり直してください。',
   STATS_NOT_FOUND: '統計が見つかりません',

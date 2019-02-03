@@ -8,7 +8,7 @@ type State = {
 
 export class Authenticated extends React.Component<Props, State> {
 
-  public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
+  public shouldComponentUpdate(): boolean {
     return true;
   }
 

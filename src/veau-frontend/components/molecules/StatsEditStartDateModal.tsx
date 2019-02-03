@@ -2,7 +2,6 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon } from 
 import * as moment from 'moment';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
-import { I18NLabel } from '../atoms/I18NLabel';
 import { TextField } from '../atoms/TextField';
 
 type Props = {
@@ -23,8 +22,22 @@ class StatsEditStartDateModalImpl extends React.Component<Props & InjectedIntlPr
     };
   }
 
-  public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
-    return true;
+  public shouldComponentUpdate(nextProps: Readonly<Props & ReactIntl.InjectedIntlProps>, nextState: Readonly<State>): boolean {
+    const {
+      open
+    } = this.props;
+    const {
+      startDate
+    } = this.state;
+
+    if (open !== nextProps.open) {
+      return true;
+    }
+    if (startDate !== nextState.startDate) {
+      return true;
+    }
+
+    return false;
   }
 
   public render(): React.ReactNode {
@@ -72,18 +85,18 @@ class StatsEditStartDateModalImpl extends React.Component<Props & InjectedIntlPr
             }}
           >
             <Icon className='fas fa-check' />
-            <I18NLabel
-              id='SUBMIT'
-            />
+            {intl.formatMessage({
+              id: 'SUBMIT'
+            })}
           </Button>
           <Button
             color='secondary'
             onClick={close}
           >
             <Icon className='fas fa-times' />
-            <I18NLabel
-              id='CANCEL'
-            />
+            {intl.formatMessage({
+              id: 'CANCEL'
+            })}
           </Button>
         </DialogActions>
       </Dialog>

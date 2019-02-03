@@ -17,7 +17,6 @@ import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
 import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
-import { I18NLabel } from '../atoms/I18NLabel';
 import { TextField } from '../atoms/TextField';
 
 type Props = {
@@ -203,18 +202,18 @@ class StatsOverviewModalImpl extends React.Component<Props & InjectedIntlProps, 
             disabled={!newStatsOverview.isFilled()}
           >
             <Icon className='fas fa-check' />
-            <I18NLabel
-              id='SUBMIT'
-            />
+            {intl.formatMessage({
+              id: 'SUBMIT'
+            })}
           </Button>
           <Button
             color='secondary'
             onClick={closeNewStatsModal}
           >
             <Icon className='fas fa-times' />
-            <I18NLabel
-              id='CANCEL'
-            />
+            {intl.formatMessage({
+              id: 'CANCEL'
+            })}
           </Button>
         </DialogActions>
       </Dialog>
