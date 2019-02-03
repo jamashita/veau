@@ -21,7 +21,7 @@ export type StatsOverviewRow = {
   iso3166: string;
   termID: number;
   name: string;
-  updatedAt: Date;
+  updatedAt: string;
 };
 
 const DATE_FORMAT: string = 'YYYY-MM-DD HH:mm:ss';

@@ -26,7 +26,7 @@ describe('StatsOverviewFactory', () => {
     expect(statsOverview.getISO3166().equals(iso3166)).toEqual(true);
     expect(statsOverview.getTerm()).toEqual(term);
     expect(statsOverview.getName()).toEqual(name);
-    expect(statsOverview.getUpdatedAt().get('days')).toEqual(updatedAt.get('days'));
+    expect(statsOverview.getUpdatedAt().isSame(updatedAt)).toEqual(true);
   });
 
   it('fromJSON', () => {
@@ -57,7 +57,7 @@ describe('StatsOverviewFactory', () => {
       iso3166: 'AFG',
       termID: 3,
       name: 'stats overview',
-      updatedAt: new Date(2000, 1, 1)
+      updatedAt: '2000-01-01'
     };
 
     const statsOverviewFactory: StatsOverviewFactory = StatsOverviewFactory.getInstance();
@@ -68,6 +68,6 @@ describe('StatsOverviewFactory', () => {
     expect(statsOverview.getISO3166().get()).toEqual(row.iso3166);
     expect(statsOverview.getTerm().get()).toEqual(row.termID);
     expect(statsOverview.getName()).toEqual(row.name);
-    expect(statsOverview.getUpdatedAt().toDate().getTime()).toEqual(row.updatedAt.getTime());
+    expect(statsOverview.getUpdatedAt().format('YYYY-MM-DD')).toEqual(row.updatedAt);
   });
 });
