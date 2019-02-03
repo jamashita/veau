@@ -87,6 +87,7 @@ class NotificationImpl extends React.Component<Props & InjectedIntlProps, State>
       }
     }
   }
+
   private backgroundColor(): string {
     const {
       kind
