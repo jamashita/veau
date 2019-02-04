@@ -8,7 +8,7 @@ export const entranceInformation: (state: EntranceInformation, action: Action) =
     case ACTION.IDENTITY_IDENTIFIED: {
       return EntranceInformation.default();
     }
-    case ACTION.ENTRANCE_LOGIN_INFO_UPDATE: {
+    case ACTION.ENTRANCE_INFO_UPDATE: {
       return action.entranceInformation;
     }
     default: {

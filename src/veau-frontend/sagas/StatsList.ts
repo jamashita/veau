@@ -7,7 +7,6 @@ import {
 } from '../../declarations/Action';
 import { State } from '../../declarations/State';
 import { StatsOverview, StatsOverviewJSON } from '../../veau-entity/StatsOverview';
-import { NotificationKind } from '../../veau-enum/NotificationKind';
 import { StatsOverviewFactory } from '../../veau-factory/StatsOverviewFactory';
 import { AJAX } from '../../veau-general/AJAX';
 import { loaded, loading } from '../actions/LoadingAction';
@@ -16,6 +15,7 @@ import { appearNotification } from '../actions/NotificationAction';
 import { pushToStatsEdit } from '../actions/RedirectAction';
 import { updateStatsOverviews } from '../actions/StatsAction';
 import { closeNewStatsModal, renewStatsOverview, resetNewStats } from '../actions/StatsListAction';
+import { Endpoints } from '../Endpoints';
 
 const statsOverviewFactory: StatsOverviewFactory = StatsOverviewFactory.getInstance();
 
@@ -35,7 +35,7 @@ export class StatsList {
       const action: LocationChangeAction = yield take(ACTION.LOCATION_CHANGE);
       const path: string = action.payload.location.pathname;
 
-      if (path === '/statistics/list') {
+      if (path === Endpoints.STATS_LIST) {
         try {
           const res: request.Response = yield call(AJAX.get, '/api/stats/overview/1');
           const statsOverviewJSONs: Array<StatsOverviewJSON> = res.body;
@@ -47,7 +47,7 @@ export class StatsList {
         }
         catch (err) {
           yield put(updateStatsOverviews([]));
-          yield put(appearNotification(NotificationKind.ERROR, 'center', 'top', 'STATS_OVERVIEW_NOT_FOUND'));
+          yield put(appearNotification('error', 'center', 'top', 'STATS_OVERVIEW_NOT_FOUND'));
         }
       }
     }

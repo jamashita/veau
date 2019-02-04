@@ -16,13 +16,24 @@ type State = {
 class StatsItemInformationImpl extends React.Component<Props & InjectedIntlProps, State> {
 
   public shouldComponentUpdate(nextProps: Readonly<Props & ReactIntl.InjectedIntlProps>): boolean {
-    return true;
+    const {
+      selecting
+    } = this.props;
+
+    if (selecting !== nextProps.selecting) {
+      return true;
+    }
+
+    return false;
   }
 
   public render(): React.ReactNode {
     const {
       selecting,
-      intl
+      intl,
+      nameTyped,
+      unitTyped,
+      removeItem
     } = this.props;
 
     if (!selecting) {
@@ -47,7 +58,7 @@ class StatsItemInformationImpl extends React.Component<Props & InjectedIntlProps
             })}
             type='text'
             value={selecting.getName()}
-            onKeyUp={this.props.nameTyped}
+            onKeyUp={nameTyped}
           />
           <TextField
             label={intl.formatMessage({
@@ -55,13 +66,13 @@ class StatsItemInformationImpl extends React.Component<Props & InjectedIntlProps
             })}
             type='text'
             value={selecting.getUnit()}
-            onKeyUp={this.props.unitTyped}
+            onKeyUp={unitTyped}
           />
           <CardActions>
             <Button
               color='primary'
               onClick={(): void => {
-                this.props.removeItem(selecting);
+                removeItem(selecting);
               }}
               fullWidth={true}
             >

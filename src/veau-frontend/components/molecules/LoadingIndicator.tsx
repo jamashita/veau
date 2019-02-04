@@ -1,9 +1,6 @@
 import { CircularProgress, Dialog, DialogContent, DialogTitle } from '@material-ui/core';
 import * as React from 'react';
-import {
-  InjectedIntlProps,
-  injectIntl
-} from 'react-intl';
+import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { Props } from '../../containers/molecules/LoadingIndicator';
 
 type State = {
@@ -44,7 +41,7 @@ class LoadingIndicatorImpl extends React.Component<Props & InjectedIntlProps, St
             id: 'LOADING'
           })}
         </DialogTitle>
-        <DialogContent >
+        <DialogContent>
           <CircularProgress
             size={SIZE}
           />

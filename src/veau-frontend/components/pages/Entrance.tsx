@@ -30,7 +30,10 @@ class EntranceImpl extends React.Component<Props & InjectedIntlProps, State> {
   public render(): React.ReactNode {
     const {
       entranceInformation,
-      intl
+      intl,
+      accountTyped,
+      passwordTyped,
+      loginClicked
     } = this.props;
 
     return (
@@ -49,7 +52,7 @@ class EntranceImpl extends React.Component<Props & InjectedIntlProps, State> {
             style={{
             backgroundColor: pink[Brightness.primaryMain]
             }}
-          >Veau</Avatar>}
+          >V</Avatar>}
         />
         <CardContent>
           <TextField
@@ -58,8 +61,8 @@ class EntranceImpl extends React.Component<Props & InjectedIntlProps, State> {
             })}
             value={entranceInformation.getAccount()}
             type='text'
-            onKeyUp={this.props.accountTyped}
-            onEnterUp={this.props.loginClicked}
+            onKeyUp={accountTyped}
+            onEnterUp={loginClicked}
           />
           <TextField
             label={intl.formatMessage({
@@ -67,8 +70,8 @@ class EntranceImpl extends React.Component<Props & InjectedIntlProps, State> {
             })}
             value={entranceInformation.getPassword()}
             type='password'
-            onKeyUp={this.props.passwordTyped}
-            onEnterUp={this.props.loginClicked}
+            onKeyUp={passwordTyped}
+            onEnterUp={loginClicked}
           />
         </CardContent>
         <CardActions>
@@ -77,9 +80,11 @@ class EntranceImpl extends React.Component<Props & InjectedIntlProps, State> {
             color='primary'
             fullWidth={true}
             disabled={!entranceInformation.isAcceptable()}
-            onClick={this.props.loginClicked}
+            onClick={loginClicked}
           >
-            <Icon className='fas fa-sign-in-alt icon-spacing' />
+            <Icon
+              className='fas fa-sign-in-alt icon-spacing'
+            />
             {intl.formatMessage({
               id: 'LOGIN'
             })}

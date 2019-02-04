@@ -16,7 +16,7 @@
     "lint": "tslint 'src/**/*.ts{,x}' --fix"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "5.7.0",
+    "@fortawesome/fontawesome-free": "5.7.1",
     "@handsontable/react": "2.1.0",
     "@material-ui/core": "3.9.1",
     "bcrypt": "3.0.3",
@@ -50,7 +50,7 @@
     "redis": "2.8.0",
     "redux": "4.0.1",
     "redux-logger": "3.0.6",
-    "redux-saga": "1.0.0",
+    "redux-saga": "1.0.1",
     "request": "2.88.0",
     "serve-favicon": "2.5.0",
     "source-map-support": "0.5.10",
@@ -75,7 +75,7 @@
     "@types/node": "10.12.21",
     "@types/passport": "1.0.0",
     "@types/passport-local": "1.0.33",
-    "@types/react": "16.7.22",
+    "@types/react": "16.8.1",
     "@types/react-dom": "16.0.11",
     "@types/react-intl": "2.3.15",
     "@types/react-redux": "7.0.1",

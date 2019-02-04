@@ -1,6 +1,6 @@
 import { StatsItem, StatsItemRow } from '../veau-entity/StatsItem';
 import { StatsItemFactory } from '../veau-factory/StatsItemFactory';
-import { MySQLTransaction } from '../veau-general/MySQLTransaction';
+import { MySQLTransaction } from '../veau-general/MySQL/MySQLTransaction';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValue } from '../veau-vo/StatsValue';

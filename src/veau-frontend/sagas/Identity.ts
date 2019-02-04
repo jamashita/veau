@@ -2,14 +2,17 @@ import { call, fork, put, select, take } from 'redux-saga/effects';
 import * as request from 'request';
 import { ACTION } from '../../declarations/Action';
 import { State } from '../../declarations/State';
+import { VeauAccount, VeauAccountJSON } from '../../veau-entity/VeauAccount';
+import { VeauAccountFactory } from '../../veau-factory/VeauAccountFactory';
 import { AJAX } from '../../veau-general/AJAX';
 import { LanguageIdentifier } from '../../veau-general/LanguageIdentifier';
-import { Identity as IdentityVO, IdentityJSON } from '../../veau-vo/Identity';
-import { IdentityID } from '../../veau-vo/IdentityID';
-import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
+import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { identified, identityAuthenticated } from '../actions/IdentityAction';
-import { pushToEntrance } from '../actions/RedirectAction';
+import { pushToEntrance, pushToStatsList } from '../actions/RedirectAction';
+import { Endpoints } from '../Endpoints';
+
+const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
 
 export class Identity {
 
@@ -21,18 +24,16 @@ export class Identity {
   private static *initIdentity(): IterableIterator<any> {
     try {
       const res: request.Response = yield call(AJAX.get, '/api/identity');
-      const json: IdentityJSON = res.body;
-      const {
-        id,
-        account,
-        language,
-        region
-      } = json;
+      const json: VeauAccountJSON = res.body;
 
-      const identity: IdentityVO = IdentityVO.of(IdentityID.of(id), account, ISO639.of(language), ISO3166.of(region));
+      const veauAccount: VeauAccount = veauAccountFactory.fromJSON(json);
 
-      yield put(identityAuthenticated(identity));
+      yield put(identityAuthenticated(veauAccount));
       yield put(identified());
+
+      if (location.pathname === Endpoints.ENTRANCE) {
+        yield put(pushToStatsList());
+      }
     }
     catch (err) {
       const newLanguage: string = LanguageIdentifier.toISO639(navigator.language);
@@ -42,9 +43,9 @@ export class Identity {
         identity
       } = state;
 
-      const newIdentity: IdentityVO = IdentityVO.of(identity.getIdentityID(), identity.getAccount(), ISO639.of(newLanguage), identity.getRegion());
+      const veauAccount: VeauAccount = veauAccountFactory.from(identity.getVeauAccountID(), identity.getAccount(), ISO639.of(newLanguage), identity.getRegion());
 
-      yield put(identityAuthenticated(newIdentity));
+      yield put(identityAuthenticated(veauAccount));
       yield put(pushToEntrance());
     }
   }
@@ -58,9 +59,9 @@ export class Identity {
         identity
       } = state;
 
-      const newIdentity: IdentityVO = IdentityVO.of(IdentityID.default(), '', identity.getLanguage(), identity.getRegion());
+      const veauAccount: VeauAccount = veauAccountFactory.from(VeauAccountID.default(), '', identity.getLanguage(), identity.getRegion());
 
-      yield put(identityAuthenticated(newIdentity));
+      yield put(identityAuthenticated(veauAccount));
     }
   }
 }

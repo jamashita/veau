@@ -3,12 +3,13 @@ import 'jest';
 import { VeauAccount, VeauAccountJSON, VeauAccountRow } from '../../veau-entity/VeauAccount';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
+import { UUID } from '../../veau-vo/UUID';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { VeauAccountFactory } from '../VeauAccountFactory';
 
 describe('VeauAccountFactory', () => {
   it('from', () => {
-    const veauAccountID: VeauAccountID = VeauAccountID.of(1);
+    const veauAccountID: VeauAccountID = VeauAccountID.of(UUID.of('998106de-b2e7-4981-9643-22cd30cd74de'));
     const account: string = 'account';
     const language: ISO639 = ISO639.of('ab');
     const region: ISO3166 = ISO3166.of('AFG');
@@ -24,7 +25,7 @@ describe('VeauAccountFactory', () => {
 
   it('fromJSON', () => {
     const json: VeauAccountJSON = {
-      id: 1,
+      id: '998106de-b2e7-4981-9643-22cd30cd74de',
       account: 'account',
       language: 'ab',
       region: 'AFG'
@@ -33,7 +34,7 @@ describe('VeauAccountFactory', () => {
     const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
     const veauAccount: VeauAccount = veauAccountFactory.fromJSON(json);
 
-    expect(veauAccount.getVeauAccountID().get()).toEqual(json.id);
+    expect(veauAccount.getVeauAccountID().get().get()).toEqual(json.id);
     expect(veauAccount.getAccount()).toEqual(json.account);
     expect(veauAccount.getLanguage().get()).toEqual(json.language);
     expect(veauAccount.getRegion().get()).toEqual(json.region);
@@ -42,7 +43,7 @@ describe('VeauAccountFactory', () => {
 
   it('fromRow', () => {
     const row: VeauAccountRow = {
-      id: 1,
+      id: '998106de-b2e7-4981-9643-22cd30cd74de',
       account: 'account',
       language: 'ab',
       region: 'AFG',
@@ -52,7 +53,7 @@ describe('VeauAccountFactory', () => {
     const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
     const veauAccount: VeauAccount = veauAccountFactory.fromRow(row);
 
-    expect(veauAccount.getVeauAccountID().get()).toEqual(row.id);
+    expect(veauAccount.getVeauAccountID().get().get()).toEqual(row.id);
     expect(veauAccount.getAccount()).toEqual(row.account);
     expect(veauAccount.getLanguage().get()).toEqual(row.language);
     expect(veauAccount.getRegion().get()).toEqual(row.region);

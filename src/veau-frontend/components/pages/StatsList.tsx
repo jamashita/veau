@@ -56,7 +56,15 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
       localeRepository,
       open,
       newStatsOverview,
-      intl
+      intl,
+      newStatsClicked,
+      toStatsEdit,
+      closeNewStatsModal,
+      nameTyped,
+      iso639Selected,
+      iso3166Selected,
+      termSelected,
+      saveNewStats
     } = this.props;
 
     return (
@@ -64,7 +72,7 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
         <Button
           variant='contained'
           color='primary'
-          onClick={this.props.newStatsClicked}
+          onClick={newStatsClicked}
         >
           <Icon className='fas fa-plus-circle icon-spacing' />
           {intl.formatMessage({
@@ -74,19 +82,19 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
         <StatsOverviewListTable
           statsOverviews={statsOverviews}
           localeRepository={localeRepository}
-          toStatsEdit={this.props.toStatsEdit}
+          toStatsEdit={toStatsEdit}
         />
         <StatsOverviewModal
           open={open}
           newStatsOverview={newStatsOverview}
           languages={localeRepository.allLanguages()}
           regions={localeRepository.allRegions()}
-          closeNewStatsModal={this.props.closeNewStatsModal}
-          nameTyped={this.props.nameTyped}
-          iso639Selected={this.props.iso639Selected}
-          iso3166Selected={this.props.iso3166Selected}
-          termSelected={this.props.termSelected}
-          saveNewStats={this.props.saveNewStats}
+          closeNewStatsModal={closeNewStatsModal}
+          nameTyped={nameTyped}
+          iso639Selected={iso639Selected}
+          iso3166Selected={iso3166Selected}
+          termSelected={termSelected}
+          saveNewStats={saveNewStats}
         />
       </Authenticated>
     );

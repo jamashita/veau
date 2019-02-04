@@ -2,21 +2,20 @@ import { connect, ConnectedComponentClass, MapDispatchToProps, MapStateToProps }
 import { Dispatch } from 'redux';
 import { Action } from '../../../declarations/Action';
 import { State } from '../../../declarations/State';
-import { NotificationKind } from '../../../veau-enum/NotificationKind';
 import { disappearNotification } from '../../actions/NotificationAction';
 import { Notification as Component } from '../../components/molecules/Notification';
 
 type StateProps = {
-  kind: NotificationKind;
+  kind: 'info' | 'success' | 'warn' | 'error';
   open: boolean;
   horizontal: 'left' | 'center' | 'right';
   vertical: 'top' | 'bottom';
   message: string;
-  values?: {[key: string]: string};
   duration: number;
+  values?: {[key: string]: string};
 };
 type DispatchProps = {
-  onClose: () => void;
+  closeClicked: () => void;
 };
 type OwnProps = {
 };
@@ -30,8 +29,8 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
       horizontal,
       vertical,
       message,
-      values,
-      duration
+      duration,
+      values
     }
   } = state;
 
@@ -41,14 +40,14 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
     horizontal,
     vertical,
     message,
-    values,
-    duration
+    duration,
+    values
   };
 };
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>): DispatchProps => {
   return {
-    onClose: (): void => {
+    closeClicked: (): void => {
       dispatch(disappearNotification());
     }
   };

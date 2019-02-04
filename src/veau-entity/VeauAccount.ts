@@ -4,14 +4,14 @@ import { VeauAccountID } from '../veau-vo/VeauAccountID';
 import { Entity } from './Entity';
 
 export type VeauAccountJSON = {
-  id: number;
+  id: string;
   account: string;
   language: string;
   region: string;
 };
 
 export type VeauAccountRow = {
-  id: number;
+  id: string;
   account: string;
   language: string;
   region: string;
@@ -23,6 +23,10 @@ export class VeauAccount extends Entity<VeauAccountID> {
   private account: string;
   private language: ISO639;
   private region: ISO3166;
+
+  public static default(): VeauAccount {
+    return new VeauAccount(VeauAccountID.default(), '', ISO639.defualt(), ISO3166.default());
+  }
 
   public constructor(veauAccountID: VeauAccountID, account: string, language: ISO639, region: ISO3166) {
     super();
@@ -52,6 +56,14 @@ export class VeauAccount extends Entity<VeauAccountID> {
     return this.veauAccountID;
   }
 
+  public isDefault(): boolean {
+    if (this.getVeauAccountID().equals(VeauAccountID.default())) {
+      return true;
+    }
+
+    return false;
+  }
+
   public copy(): VeauAccount {
     const {
       veauAccountID,
@@ -72,7 +84,7 @@ export class VeauAccount extends Entity<VeauAccountID> {
     } = this;
 
     return {
-      id: veauAccountID.get(),
+      id: veauAccountID.get().get(),
       account,
       language: language.get(),
       region: region.get()

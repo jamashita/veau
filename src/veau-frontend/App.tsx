@@ -17,8 +17,8 @@ import { store } from './store';
 
 addLocaleData([
   ...en,
-  ...fr,
   ...es,
+  ...fr,
   ...ja
 ]);
 

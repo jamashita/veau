@@ -1,6 +1,7 @@
 import { VeauAccount, VeauAccountJSON, VeauAccountRow } from '../veau-entity/VeauAccount';
 import { ISO3166 } from '../veau-vo/ISO3166';
 import { ISO639 } from '../veau-vo/ISO639';
+import { UUID } from '../veau-vo/UUID';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
 
 export class VeauAccountFactory {
@@ -25,7 +26,7 @@ export class VeauAccountFactory {
       region
     } = json;
 
-    return this.from(VeauAccountID.of(id), account, ISO639.of(language), ISO3166.of(region));
+    return this.from(VeauAccountID.of(UUID.of(id)), account, ISO639.of(language), ISO3166.of(region));
   }
 
   public fromRow(row: VeauAccountRow): VeauAccount {
@@ -36,6 +37,6 @@ export class VeauAccountFactory {
       region
     } = row;
 
-    return this.from(VeauAccountID.of(id), account, ISO639.of(language), ISO3166.of(region));
+    return this.from(VeauAccountID.of(UUID.of(id)), account, ISO639.of(language), ISO3166.of(region));
   }
 }

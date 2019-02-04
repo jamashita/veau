@@ -30,7 +30,7 @@ export class StatsOverviewFactory {
       updatedAt
     } = json;
 
-    return this.from(StatsID.of(UUID.of(statsID)), ISO639.of(iso639), ISO3166.of(iso3166), Term.of(termID), name, moment(updatedAt));
+    return this.from(StatsID.of(UUID.of(statsID)), ISO639.of(iso639), ISO3166.of(iso3166), Term.of(termID), name, moment.utc(updatedAt));
   }
 
   public fromRow(row: StatsOverviewRow): StatsOverview {
@@ -42,7 +42,8 @@ export class StatsOverviewFactory {
       name,
       updatedAt
     } = row;
+    console.log(updatedAt);
 
-    return this.from(StatsID.of(UUID.of(statsID)), ISO639.of(iso639), ISO3166.of(iso3166), Term.of(termID), name, moment(updatedAt));
+    return this.from(StatsID.of(UUID.of(statsID)), ISO639.of(iso639), ISO3166.of(iso3166), Term.of(termID), name, moment.utc(updatedAt));
   }
 }

@@ -13,6 +13,7 @@ mysql:
   password: 'veau'
   database: 'veau'
   charset: 'utf8mb4'
+  dateStrings: true
   connectionLimit: 50
   connectTimeout: 60000
   acquireTimeout: 60000

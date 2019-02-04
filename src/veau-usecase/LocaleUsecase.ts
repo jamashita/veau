@@ -1,4 +1,4 @@
-import { RuntimeError } from '../veau-general/RuntimeError';
+import { RuntimeError } from '../veau-general/Error/RuntimeError';
 import { ILanguageRepository } from '../veau-repository/ILanguageRepository';
 import { IRegionRepository } from '../veau-repository/IRegionRepository';
 import { LanguageRepository } from '../veau-repository/LanguageRepository';

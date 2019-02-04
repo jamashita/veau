@@ -1,4 +1,4 @@
-import { NoSuchElementError } from '../veau-general/NoSuchElementError';
+import { NoSuchElementError } from '../veau-general/Error/NoSuchElementError';
 
 const DAILY: number = 1;
 const WEEKLY: number = 2;

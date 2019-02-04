@@ -1,6 +1,6 @@
 import { VeauAccount, VeauAccountRow } from '../veau-entity/VeauAccount';
 import { VeauAccountFactory } from '../veau-factory/VeauAccountFactory';
-import { NoSuchElementError } from '../veau-general/NoSuchElementError';
+import { NoSuchElementError } from '../veau-general/Error/NoSuchElementError';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { IVeauAccountRepository } from './IVeauAccountRepository';
 

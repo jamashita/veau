@@ -2,7 +2,7 @@ import { Stats, StatsJSON } from '../veau-entity/Stats';
 import { StatsOverview, StatsOverviewJSON } from '../veau-entity/StatsOverview';
 import { StatsFactory } from '../veau-factory/StatsFactory';
 import { StatsOverviewFactory } from '../veau-factory/StatsOverviewFactory';
-import { MySQLTransaction } from '../veau-general/MySQLTransaction';
+import { MySQLTransaction } from '../veau-general/MySQL/MySQLTransaction';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { IStatsOverviewRepository } from '../veau-repository/IStatsOverviewRepository';
 import { IStatsRepository } from '../veau-repository/IStatsRepository';

@@ -8,19 +8,20 @@ type State = {
 
 export class Authenticated extends React.Component<Props, State> {
 
-  public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
+  public shouldComponentUpdate(): boolean {
     return true;
   }
 
   public render(): React.ReactNode {
     const {
-      children
+      children,
+      menuClicked
     } = this.props;
 
     return (
       <div>
         <Header
-          menuClicked={this.props.menuClicked}
+          menuClicked={menuClicked}
         />
         <PageProvider />
         {children}

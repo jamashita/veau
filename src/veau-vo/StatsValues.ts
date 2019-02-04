@@ -34,7 +34,7 @@ export class StatsValues {
         return;
       }
       if (statsValue.getAsOf().isSame(value.getAsOf())) {
-        newValues.push(StatsValue.of(statsValue.getAsOf(), statsValue.getValue()));
+        newValues.push(statsValue);
         isSet = true;
         return;
       }
@@ -53,6 +53,7 @@ export class StatsValues {
       });
     }
 
+    console.log(newValues);
     this.values = newValues;
   }
 
@@ -67,9 +68,13 @@ export class StatsValues {
   }
 
   public copy(): StatsValues {
-    return new StatsValues([
-      ...this.values
-    ]);
+    const values: Array<StatsValue> = [];
+
+    this.values.forEach((statsValue: StatsValue) => {
+      values.push(StatsValue.of(statsValue.getAsOf(), statsValue.getValue()));
+    });
+
+    return new StatsValues(values);
   }
 
   public equals(other: StatsValues): boolean {

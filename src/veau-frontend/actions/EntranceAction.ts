@@ -22,7 +22,7 @@ export const passwordTyped: (password: string) => EntrancePasswordTypedAction = 
 
 export const entranceInformationUpdate: (entranceInformation: EntranceInformation) => EntranceInfoUpdateAction = (entranceInformation: EntranceInformation): EntranceInfoUpdateAction => {
   return {
-    type: ACTION.ENTRANCE_LOGIN_INFO_UPDATE,
+    type: ACTION.ENTRANCE_INFO_UPDATE,
     entranceInformation
   };
 };

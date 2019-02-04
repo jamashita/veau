@@ -1,3 +1,4 @@
+import * as moment from 'moment';
 import { call, fork, put, select, take } from 'redux-saga/effects';
 import * as request from 'superagent';
 import {
@@ -18,7 +19,6 @@ import {
 import { State } from '../../declarations/State';
 import { Stats, StatsJSON } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
-import { NotificationKind } from '../../veau-enum/NotificationKind';
 import { StatsFactory } from '../../veau-factory/StatsFactory';
 import { StatsItemFactory } from '../../veau-factory/StatsItemFactory';
 import { AJAX } from '../../veau-general/AJAX';
@@ -75,7 +75,7 @@ export class StatsEdit {
         }
         catch (err) {
           yield put(pushToStatsList());
-          yield put(appearNotification(NotificationKind.ERROR, 'center', 'top', 'STATS_NOT_FOUND'));
+          yield put(appearNotification('error', 'center', 'top', 'STATS_NOT_FOUND'));
         }
       }
     }
@@ -151,8 +151,10 @@ export class StatsEdit {
         value
       } = action;
 
-      stats.setData(row, column, value);
-      yield put(updateStats(stats.copy()));
+      const copied: Stats = stats.copy();
+      copied.setData(row, column, value);
+
+      yield put(updateStats(copied.copy()));
     }
   }
 
@@ -169,8 +171,10 @@ export class StatsEdit {
         column
       } = action;
 
-      stats.deleteData(row, column);
-      yield put(updateStats(stats.copy()));
+      const copied: Stats = stats.copy();
+      copied.deleteData(row, column);
+
+      yield put(updateStats(copied.copy()));
     }
   }
 
@@ -254,10 +258,11 @@ export class StatsEdit {
 
       if (selectingItem) {
         const newSelectingItem: StatsItem = statsItemFactory.from(selectingItem.getStatsItemID(), action.name, selectingItem.getUnit(), selectingItem.getValues());
-        stats.replaceItem(newSelectingItem, selectingRow);
+        const copied: Stats = stats.copy();
+        copied.replaceItem(newSelectingItem, selectingRow);
 
         yield put(updateSelectingItem(newSelectingItem));
-        yield put(updateStats(stats.copy()));
+        yield put(updateStats(copied));
       }
     }
   }
@@ -277,10 +282,11 @@ export class StatsEdit {
 
       if (selectingItem) {
         const newSelectingItem: StatsItem = statsItemFactory.from(selectingItem.getStatsItemID(), selectingItem.getName(), action.unit, selectingItem.getValues());
-        stats.replaceItem(newSelectingItem, selectingRow);
+        const copied: Stats = stats.copy();
+        copied.replaceItem(newSelectingItem, selectingRow);
 
         yield put(updateSelectingItem(newSelectingItem));
-        yield put(updateStats(stats.copy()));
+        yield put(updateStats(copied));
       }
     }
   }
@@ -293,9 +299,18 @@ export class StatsEdit {
       const {
         stats
       } = state;
+      const {
+        startDate
+      } = action;
 
-      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUpdatedAt(), stats.getItems(), action.startDate);
-      yield put(updateStats(newStats));
+      const date: moment.Moment = moment(startDate);
+      if (date.isValid()) {
+        const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUpdatedAt(), stats.getItems(), startDate);
+        yield put(updateStats(newStats));
+        continue;
+      }
+
+      yield put(appearNotification('error', 'center', 'top', 'INVALID_INPUT_DATE'));
     }
   }
 
@@ -312,15 +327,17 @@ export class StatsEdit {
         target
       } = action;
 
-      stats.moveItem(column, target);
-      yield put(updateStats(stats.copy()));
+      const copied: Stats = stats.copy();
+      copied.moveItem(column, target);
+
+      yield put(updateStats(copied));
     }
   }
 
   private static *invalidValueInput(): IterableIterator<any> {
     while (true) {
       yield take(ACTION.STATS_EDIT_INVALID_VALUE_INPUT);
-      yield put(appearNotification(NotificationKind.WARN, 'center', 'top', 'INVALID_INPUT_VALUE'));
+      yield put(appearNotification('warn', 'center', 'top', 'INVALID_INPUT_VALUE'));
     }
   }
 
@@ -333,8 +350,10 @@ export class StatsEdit {
        stats
      } = state;
 
-     stats.remove(action.statsItem);
-     yield put(updateStats(stats.copy()));
+     const copied: Stats = stats.copy();
+     copied.remove(action.statsItem);
+
+     yield put(updateStats(copied));
      yield put(clearSelectingItem());
     }
   }
@@ -352,7 +371,7 @@ export class StatsEdit {
       try {
         yield call(AJAX.post, '/api/stats', stats.toJSON());
         yield put(loaded());
-        yield put(appearNotification(NotificationKind.SUCCESS, 'center', 'top', 'SAVE_SUCCESS'));
+        yield put(appearNotification('success', 'center', 'top', 'SAVE_SUCCESS'));
       }
       catch (err) {
         yield put(loaded());

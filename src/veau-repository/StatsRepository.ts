@@ -1,8 +1,8 @@
 import { Stats, StatsRow } from '../veau-entity/Stats';
 import { StatsItem } from '../veau-entity/StatsItem';
 import { StatsFactory } from '../veau-factory/StatsFactory';
-import { MySQLTransaction } from '../veau-general/MySQLTransaction';
-import { NoSuchElementError } from '../veau-general/NoSuchElementError';
+import { NoSuchElementError } from '../veau-general/Error/NoSuchElementError';
+import { MySQLTransaction } from '../veau-general/MySQL/MySQLTransaction';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../veau-vo/StatsID';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
@@ -65,7 +65,7 @@ export class StatsRepository implements IStatsRepository {
       :termID,
       :veauAccountID,
       :name,
-      NOW()
+      UTC_TIMESTAMP()
       );`;
 
     await transaction.query(query, [
@@ -74,7 +74,7 @@ export class StatsRepository implements IStatsRepository {
         languageID: stats.getLanguage().getLanguageID().get(),
         regionID: stats.getRegion().getRegionID().get(),
         termID: stats.getTerm().get(),
-        veauAccountID: veauAccountID.get(),
+        veauAccountID: veauAccountID.get().get(),
         name: stats.getName()
       }
     ]);

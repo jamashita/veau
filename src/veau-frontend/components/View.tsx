@@ -11,17 +11,17 @@ type State = {
 
 export class View extends React.Component<Props, State> {
 
-  public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
+  public shouldComponentUpdate(): boolean {
     return true;
   }
 
   public render(): React.ReactNode {
     return (
       <div>
-        <Catalogue />
-        <Modal />
-        <Notification />
-        <LoadingIndicator />
+        <Catalogue/>
+        <Modal/>
+        <Notification/>
+        <LoadingIndicator/>
       </div>
     );
   }

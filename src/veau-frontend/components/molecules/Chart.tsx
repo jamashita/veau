@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Stats } from '../../../veau-entity/Stats';
 import { Color } from '../../../veau-vo/Color';
 
 type Props = {
-  data: Array<object>;
-  items: Array<string>;
+  stats: Stats;
 };
 type State = {
 };
@@ -15,13 +15,36 @@ const MARGIN: number = 8;
 export class Chart extends React.Component<Props, State> {
 
   public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
-    return true;
+    const {
+      stats
+    } = this.props;
+
+    if (stats.getItems().length !== nextProps.stats.getItems().length) {
+      return true;
+    }
+    for (let i: number = 0; i < stats.getItems().length; i++) {
+      if (stats.getItems()[i].getName() !== nextProps.stats.getItems()[i].getName()) {
+        return true;
+      }
+      if (stats.getItems()[i].getValues().length() !== nextProps.stats.getItems()[i].getValues().length()) {
+        return true;
+      }
+      for (let j: number = 0; j < stats.getItems()[i].getValues().length(); j++) {
+        if (!stats.getItems()[i].getValues().get()[j].getAsOf().isSame(nextProps.stats.getItems()[i].getValues().get()[j].getAsOf())) {
+          return true;
+        }
+        if (stats.getItems()[i].getValues().get()[j].getValue() !== nextProps.stats.getItems()[i].getValues().get()[j].getValue()) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 
   public render(): React.ReactNode {
     const {
-      data,
-      items
+      stats
     } = this.props;
 
     return (
@@ -36,7 +59,7 @@ export class Chart extends React.Component<Props, State> {
             left: MARGIN,
             right: MARGIN
           }}
-          data={data}
+          data={stats.getChart()}
         >
           <XAxis
             dataKey='name'
@@ -50,7 +73,7 @@ export class Chart extends React.Component<Props, State> {
           <CartesianGrid/>
           <Legend/>
           <Tooltip/>
-          {items.reverse().map<React.ReactNode>((item: string) => {
+          {stats.getItemNames().reverse().map<React.ReactNode>((item: string) => {
             return (
               <Line
                 type='monotone'

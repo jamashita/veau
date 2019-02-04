@@ -3,11 +3,10 @@ import { Action as ReduxAction } from 'redux';
 import { Stats } from '../veau-entity/Stats';
 import { StatsItem } from '../veau-entity/StatsItem';
 import { StatsOverview } from '../veau-entity/StatsOverview';
-import { NotificationKind } from '../veau-enum/NotificationKind';
+import { VeauAccount } from '../veau-entity/VeauAccount';
 import { Term } from '../veau-enum/Term';
 import { LocaleRepository } from '../veau-repository/LocaleRepository';
 import { EntranceInformation } from '../veau-vo/EntranceInformation';
-import { Identity } from '../veau-vo/Identity';
 import { ISO3166 } from '../veau-vo/ISO3166';
 import { ISO639 } from '../veau-vo/ISO639';
 import { Language } from '../veau-vo/Language';
@@ -44,7 +43,7 @@ export enum ACTION {
 
   ENTRANCE_ACCOUNT_NAME_TYPED = 'ENTRANCE_ACCOUNT_NAME_TYPED',
   ENTRANCE_PASSWORD_TYPED = 'ENTRANCE_PASSWORD_TYPED',
-  ENTRANCE_LOGIN_INFO_UPDATE = 'ENTRANCE_LOGIN_INFO_UPDATE',
+  ENTRANCE_INFO_UPDATE = 'ENTRANCE_LOGIN_INFO_UPDATE',
 
   STATS_LIST_NEW_STATS = 'STATS_LIST_NEW_STATS',
   STATS_LIST_CLOSE_STATS_MODAL = 'STATS_LIST_CLOSE_STATS_MODAL',
@@ -101,7 +100,7 @@ export interface ModalCloseAction extends ReduxAction {
 }
 export interface NotificationAppearAction extends ReduxAction {
   type: ACTION.NOTIFICATION_APPEAR;
-  kind: NotificationKind;
+  kind: 'info' | 'success' | 'warn' | 'error';
   horizontal: 'left' | 'center' | 'right';
   vertical: 'top' | 'bottom';
   message: string;
@@ -122,7 +121,7 @@ export interface IdentityAuthenticateAction extends ReduxAction {
 }
 export interface IdentityAuthenticatedAction extends ReduxAction {
   type: ACTION.IDENTITY_AUTHENTICATED;
-  identity: Identity;
+  identity: VeauAccount;
 }
 export interface IdentityInitializeAction extends ReduxAction {
   type: ACTION.IDENTITY_INITIALIZE;
@@ -162,7 +161,7 @@ export interface EntrancePasswordTypedAction extends ReduxAction {
   password: string;
 }
 export interface EntranceInfoUpdateAction extends ReduxAction {
-  type: ACTION.ENTRANCE_LOGIN_INFO_UPDATE;
+  type: ACTION.ENTRANCE_INFO_UPDATE;
   entranceInformation: EntranceInformation;
 }
 export interface StatsListNewStatsAction extends ReduxAction {

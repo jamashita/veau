@@ -23,7 +23,10 @@ class PageProviderImpl extends React.Component<Props & InjectedIntlProps, State>
   public render(): React.ReactNode {
     const {
       open,
-      intl
+      intl,
+      close,
+      toStatsList,
+      logout
     } = this.props;
 
     return (
@@ -31,13 +34,13 @@ class PageProviderImpl extends React.Component<Props & InjectedIntlProps, State>
         anchor='left'
         open={open}
         variant='temporary'
-        onClose={this.props.close}
+        onClose={close}
       >
         <Button
           variant='contained'
           color='primary'
           fullWidth={true}
-          onClick={this.props.close}
+          onClick={close}
         >
           <Icon className='fas fa-times' />
         </Button>
@@ -45,7 +48,7 @@ class PageProviderImpl extends React.Component<Props & InjectedIntlProps, State>
         <List>
           <ListItem
             button={true}
-            onClick={this.props.toStatsList}
+            onClick={toStatsList}
           >
             <ListItemIcon>
               <Icon
@@ -63,7 +66,7 @@ class PageProviderImpl extends React.Component<Props & InjectedIntlProps, State>
         <List>
           <ListItem
             button={true}
-            onClick={this.props.logout}
+            onClick={logout}
           >
             <ListItemIcon>
               <Icon

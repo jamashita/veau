@@ -12,7 +12,7 @@ describe('VeauAccountRepository', () => {
     VeauMySQL.query = stub;
     stub.returns([
       {
-        id: 1,
+        id: '998106de-b2e7-4981-9643-22cd30cd74de',
         account: 'account',
         language: 'ab',
         region: 'AFG'
@@ -23,7 +23,7 @@ describe('VeauAccountRepository', () => {
     const veauAccountHash: VeauAccountHash = await veauAccountRepository.findByAccount('account');
     const veauAccount: VeauAccount = veauAccountHash.veauAccount;
 
-    expect(veauAccount.getVeauAccountID().get()).toEqual(1);
+    expect(veauAccount.getVeauAccountID().get().get()).toEqual('998106de-b2e7-4981-9643-22cd30cd74de');
     expect(veauAccount.getAccount()).toEqual('account');
     expect(veauAccount.getLanguage().get()).toEqual('ab');
     expect(veauAccount.getRegion().get()).toEqual('AFG');

@@ -1,9 +1,6 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon } from '@material-ui/core';
 import * as React from 'react';
-import {
-  InjectedIntlProps,
-  injectIntl
-} from 'react-intl';
+import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { Props } from '../../containers/molecules/Modal';
 
 type State = {
@@ -41,14 +38,15 @@ class ModalImpl extends React.Component<Props & InjectedIntlProps, State> {
       title,
       description,
       values,
-      intl
+      intl,
+      closeClicked
     } = this.props;
 
     return (
       <Dialog
         open={open}
         disableEscapeKeyDown={true}
-        onClose={this.props.closeClicked}
+        onClose={closeClicked}
       >
         <DialogTitle>
           {intl.formatMessage(
@@ -71,7 +69,9 @@ class ModalImpl extends React.Component<Props & InjectedIntlProps, State> {
             color='primary'
             onClick={this.props.closeClicked}
           >
-            <Icon className='fas fa-times' />
+            <Icon
+              className='fas fa-times'
+            />
           </Button>
         </DialogActions>
       </Dialog>

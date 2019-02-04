@@ -30,11 +30,21 @@ export class Spreadsheet extends React.Component<Props, State> {
       rowHeaderWidth
     } = this.props;
 
-    if (columnHeaders !== nextProps.columnHeaders) {
+    if (columnHeaders.length !== nextProps.columnHeaders.length) {
       return true;
     }
-    if (rowHeaders !== nextProps.rowHeaders) {
+    for (let i: number = 0; i < columnHeaders.length; i++) {
+      if (columnHeaders[i] !== nextProps.columnHeaders[i]) {
+        return true;
+      }
+    }
+    if (rowHeaders.length !== nextProps.rowHeaders.length) {
       return true;
+    }
+    for (let i: number = 0; i < rowHeaders.length; i++) {
+      if (rowHeaders[i] !== nextProps.rowHeaders[i]) {
+        return true;
+      }
     }
     if (rowHeaderWidth !== nextProps.rowHeaderWidth) {
       return true;
@@ -61,7 +71,12 @@ export class Spreadsheet extends React.Component<Props, State> {
       data,
       columnHeaders,
       rowHeaders,
-      rowHeaderWidth
+      rowHeaderWidth,
+      invalidValueInput,
+      dataFilled,
+      dataDeleted,
+      rowSelected,
+      rowMoved
     } = this.props;
 
     if (rowHeaders.length === 0) {
@@ -92,7 +107,7 @@ export class Spreadsheet extends React.Component<Props, State> {
             const str: string = changes[i][VALUE_INDEX];
 
             if (isNaN(Number(str))) {
-              this.props.invalidValueInput();
+              invalidValueInput();
               return false;
             }
           }
@@ -109,17 +124,17 @@ export class Spreadsheet extends React.Component<Props, State> {
             const column: number = change[COLUMN_INDEX];
 
             if (str === '') {
-              this.props.dataDeleted(row, column);
+              dataDeleted(row, column);
               return;
             }
 
             const value: number = Number(str);
-            this.props.dataFilled(row, column, value);
+            dataFilled(row, column, value);
           });
         }}
         afterSelection={(row1: number, col1: number, row2: number, col2: number): void => {
           if (row1 === row2) {
-            this.props.rowSelected(row1);
+            rowSelected(row1);
           }
         }}
         beforeRowMove={(columns: Array<number>, target: number): boolean => {
@@ -128,11 +143,11 @@ export class Spreadsheet extends React.Component<Props, State> {
               return;
             }
             if (column < target) {
-              this.props.rowMoved(column, target - 1);
+              rowMoved(column, target - 1);
               return;
             }
 
-            this.props.rowMoved(column, target);
+            rowMoved(column, target);
           });
           return true;
         }}
