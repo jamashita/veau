@@ -53,7 +53,6 @@ export class StatsValues {
       });
     }
 
-    console.log(newValues);
     this.values = newValues;
   }
 
