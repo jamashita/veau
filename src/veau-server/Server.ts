@@ -8,10 +8,11 @@ import * as expressSession from 'express-session';
 import * as helmet from 'helmet';
 import * as log4js from 'log4js';
 import * as path from 'path';
+import * as passport from 'passport';
 import * as favicon from 'serve-favicon';
 import 'source-map-support/register';
 import { Controller } from '../veau-controller/Controller';
-import { AuthenticationService } from '../veau-service/AuthenticationService';
+import '../veau-service/AuthenticationService';
 
 type SessionSetting = {
   secret: string;
@@ -62,9 +63,10 @@ const sessionMiddleware: express.RequestHandler = expressSession({
 });
 
 app.use(sessionMiddleware);
-
-AuthenticationService(app);
+app.use(passport.initialize());
+app.use(passport.session());
 app.use('/', Controller);
+
 app.listen(port, () => {
   logger.info(`Server running on port ${port} in ${mode} mode`);
 });

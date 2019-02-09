@@ -62,8 +62,3 @@ passport.deserializeUser<VeauAccount, VeauAccountJSON>((json: VeauAccountJSON, d
   const veauAccount: VeauAccount = veauAccountFactory.fromJSON(json);
   done(null, veauAccount);
 });
-
-export const AuthenticationService: (app: Express) => void = (app: Express): void => {
-  app.use(passport.initialize());
-  app.use(passport.session());
-};
