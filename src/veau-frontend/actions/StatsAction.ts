@@ -1,3 +1,6 @@
+import { Stats } from '../../veau-entity/Stats';
+import { StatsItem } from '../../veau-entity/StatsItem';
+import { StatsOverview } from '../../veau-entity/StatsOverview';
 import {
   ACTION,
   StatsItemResetAction,
@@ -7,9 +10,6 @@ import {
   StatsResetAction,
   StatsUpdateAction
 } from './Action';
-import { Stats } from '../../veau-entity/Stats';
-import { StatsItem } from '../../veau-entity/StatsItem';
-import { StatsOverview } from '../../veau-entity/StatsOverview';
 
 export const updateStatsOverviews: (statsOverviews: Array<StatsOverview>) => StatsOverviewUpdateAction = (statsOverviews: Array<StatsOverview>): StatsOverviewUpdateAction => {
   return {

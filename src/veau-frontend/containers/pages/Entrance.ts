@@ -1,10 +1,10 @@
 import { connect, ConnectedComponentClass, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
-import { Action } from '../../actions/Action';
-import { State } from '../../State';
 import { EntranceInformation } from '../../../veau-vo/EntranceInformation';
+import { Action } from '../../actions/Action';
 import { accountTyped, attemptLogin, passwordTyped } from '../../actions/EntranceAction';
 import { Entrance as Component } from '../../components/pages/Entrance';
+import { State } from '../../State';
 
 type StateProps = {
   entranceInformation: EntranceInformation;

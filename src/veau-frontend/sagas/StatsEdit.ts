@@ -1,6 +1,11 @@
 import * as moment from 'moment';
 import { call, fork, put, select, take } from 'redux-saga/effects';
 import * as request from 'superagent';
+import { Stats, StatsJSON } from '../../veau-entity/Stats';
+import { StatsItem } from '../../veau-entity/StatsItem';
+import { StatsFactory } from '../../veau-factory/StatsFactory';
+import { StatsItemFactory } from '../../veau-factory/StatsItemFactory';
+import { AJAX } from '../../veau-general/AJAX';
 import {
   ACTION,
   LocationChangeAction,
@@ -16,18 +21,13 @@ import {
   StatsEditSelectingItemUnitTypedAction, StatsEditStartDateDeterminedAction,
   StatsEditTermSelectedActoin
 } from '../actions/Action';
-import { State } from '../State';
-import { Stats, StatsJSON } from '../../veau-entity/Stats';
-import { StatsItem } from '../../veau-entity/StatsItem';
-import { StatsFactory } from '../../veau-factory/StatsFactory';
-import { StatsItemFactory } from '../../veau-factory/StatsItemFactory';
-import { AJAX } from '../../veau-general/AJAX';
 import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
 import { appearNotification } from '../actions/NotificationAction';
 import { pushToStatsList } from '../actions/RedirectAction';
 import { resetStatsItem, updateStats, updateStatsItem } from '../actions/StatsAction';
 import { clearSelectingItem, itemSelecting, updateSelectingItem } from '../actions/StatsEditAction';
+import { State } from '../State';
 
 const statsFactory: StatsFactory = StatsFactory.getInstance();
 const statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();

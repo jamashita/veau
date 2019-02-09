@@ -1,7 +1,7 @@
 import { connectRouter } from 'connected-react-router';
 import { combineReducers, Reducer } from 'redux';
-import { State } from '../State';
 import { history } from '../history';
+import { State } from '../State';
 import { entranceInformation } from './entranceInformation';
 import { identity } from './identity';
 import { loadingCount } from './loadingCount';

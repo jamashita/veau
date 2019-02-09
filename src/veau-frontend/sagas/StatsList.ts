@@ -1,14 +1,13 @@
 import { call, fork, put, select, take } from 'redux-saga/effects';
 import * as request from 'superagent';
+import { StatsOverview, StatsOverviewJSON } from '../../veau-entity/StatsOverview';
+import { StatsOverviewFactory } from '../../veau-factory/StatsOverviewFactory';
+import { AJAX } from '../../veau-general/AJAX';
 import {
   ACTION, LocationChangeAction, StatsListISO3166SelectedAction, StatsListISO639SelectedAction,
   StatsListNameTypedAction,
   StatsListTermSelectedAction
 } from '../actions/Action';
-import { State } from '../State';
-import { StatsOverview, StatsOverviewJSON } from '../../veau-entity/StatsOverview';
-import { StatsOverviewFactory } from '../../veau-factory/StatsOverviewFactory';
-import { AJAX } from '../../veau-general/AJAX';
 import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
 import { appearNotification } from '../actions/NotificationAction';
@@ -16,6 +15,7 @@ import { pushToStatsEdit } from '../actions/RedirectAction';
 import { updateStatsOverviews } from '../actions/StatsAction';
 import { closeNewStatsModal, renewStatsOverview, resetNewStats } from '../actions/StatsListAction';
 import { Endpoints } from '../Endpoints';
+import { State } from '../State';
 
 const statsOverviewFactory: StatsOverviewFactory = StatsOverviewFactory.getInstance();
 

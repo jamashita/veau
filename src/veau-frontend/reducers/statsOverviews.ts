@@ -1,5 +1,5 @@
-import { ACTION, Action } from '../actions/Action';
 import { StatsOverview } from '../../veau-entity/StatsOverview';
+import { ACTION, Action } from '../actions/Action';
 
 const initialState: Array<StatsOverview> = [
 ];

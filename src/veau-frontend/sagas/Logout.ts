@@ -1,6 +1,6 @@
 import { call, fork, put, take } from 'redux-saga/effects';
-import { ACTION } from '../actions/Action';
 import { AJAX } from '../../veau-general/AJAX';
+import { ACTION } from '../actions/Action';
 import { initializeIdentity } from '../actions/IdentityAction';
 import { closeProvider } from '../actions/PageProviderAction';
 import { pushToEntrance } from '../actions/RedirectAction';

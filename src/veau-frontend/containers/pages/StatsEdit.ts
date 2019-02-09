@@ -1,13 +1,12 @@
 import { connect, ConnectedComponentClass, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
-import { Action } from '../../actions/Action';
-import { State } from '../../State';
 import { Stats } from '../../../veau-entity/Stats';
 import { StatsItem } from '../../../veau-entity/StatsItem';
 import { Term } from '../../../veau-enum/Term';
 import { LocaleRepository } from '../../../veau-repository/LocaleRepository';
 import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
+import { Action } from '../../actions/Action';
 import {
   invalidValueInput,
   itemNameTyped, itemUnitTyped, removeItem, rowMoved, rowSelected,
@@ -19,6 +18,7 @@ import {
   statsTermSelected
 } from '../../actions/StatsEditAction';
 import { StatsEdit as Component } from '../../components/pages/StatsEdit';
+import { State } from '../../State';
 
 type StateProps = {
   stats: Stats;

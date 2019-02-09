@@ -1,6 +1,6 @@
 import { connect, ConnectedComponentClass, MapStateToProps } from 'react-redux';
-import { State } from '../../State';
 import { LoadingIndicator as Component } from '../../components/molecules/LoadingIndicator';
+import { State } from '../../State';
 
 type StateProps = {
   loadingCount: number;

@@ -1,10 +1,10 @@
 import * as express from 'express';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, PRECONDITION_FAILED } from 'http-status';
 import * as log4js from 'log4js';
-import { RequestSession } from '../../veau-general/RequestSession';
 import { StatsJSON } from '../../veau-entity/Stats';
 import { StatsOverviewJSON } from '../../veau-entity/StatsOverview';
 import { NoSuchElementError } from '../../veau-general/Error/NoSuchElementError';
+import { RequestSession } from '../../veau-general/RequestSession';
 import { IStatsUsecase } from '../../veau-usecase/IStatsUsecase';
 import { StatsUsecase } from '../../veau-usecase/StatsUsecase';
 import { UUID } from '../../veau-vo/UUID';

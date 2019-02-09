@@ -1,11 +1,11 @@
 import { connect, ConnectedComponentClass, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Action } from '../../actions/Action';
-import { State } from '../../State';
 import { logout } from '../../actions/LogoutAction';
 import { closeProvider } from '../../actions/PageProviderAction';
 import { pushToStatsList } from '../../actions/RedirectAction';
 import { PageProvider as Component } from '../../components/molecules/PageProvider';
+import { State } from '../../State';
 
 type StateProps = {
   open: boolean;

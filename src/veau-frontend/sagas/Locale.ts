@@ -1,6 +1,5 @@
 import { call, fork, put, take } from 'redux-saga/effects';
 import * as request from 'superagent';
-import { ACTION } from '../actions/Action';
 import { AJAX } from '../../veau-general/AJAX';
 import { LocaleRepository } from '../../veau-repository/LocaleRepository';
 import { Locales } from '../../veau-usecase/LocaleUsecase';
@@ -10,6 +9,7 @@ import { Language, LanguageJSON } from '../../veau-vo/Language';
 import { LanguageID } from '../../veau-vo/LanguageID';
 import { Region, RegionJSON } from '../../veau-vo/Region';
 import { RegionID } from '../../veau-vo/RegionID';
+import { ACTION } from '../actions/Action';
 import { defineLocale } from '../actions/LocaleAction';
 
 export class Locale {

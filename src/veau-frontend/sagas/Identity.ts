@@ -1,16 +1,16 @@
 import { call, fork, put, select, take } from 'redux-saga/effects';
 import * as request from 'request';
-import { ACTION } from '../actions/Action';
-import { State } from '../State';
 import { VeauAccount, VeauAccountJSON } from '../../veau-entity/VeauAccount';
 import { VeauAccountFactory } from '../../veau-factory/VeauAccountFactory';
 import { AJAX } from '../../veau-general/AJAX';
 import { LanguageIdentifier } from '../../veau-general/LanguageIdentifier';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
+import { ACTION } from '../actions/Action';
 import { identified, identityAuthenticated } from '../actions/IdentityAction';
 import { pushToEntrance, pushToStatsList } from '../actions/RedirectAction';
 import { Endpoints } from '../Endpoints';
+import { State } from '../State';
 
 const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
 

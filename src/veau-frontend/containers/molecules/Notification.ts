@@ -1,9 +1,9 @@
 import { connect, ConnectedComponentClass, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Action } from '../../actions/Action';
-import { State } from '../../State';
 import { disappearNotification } from '../../actions/NotificationAction';
 import { Notification as Component } from '../../components/molecules/Notification';
+import { State } from '../../State';
 
 type StateProps = {
   kind: 'info' | 'success' | 'warn' | 'error';

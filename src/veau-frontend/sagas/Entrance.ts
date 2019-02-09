@@ -1,21 +1,21 @@
 import { UNAUTHORIZED } from 'http-status';
 import { call, fork, put, select, take } from 'redux-saga/effects';
 import * as request from 'superagent';
+import { VeauAccount, VeauAccountJSON } from '../../veau-entity/VeauAccount';
+import { VeauAccountFactory } from '../../veau-factory/VeauAccountFactory';
+import { AJAX } from '../../veau-general/AJAX';
+import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 import {
   ACTION,
   EntranceAccountNameTypedAction,
   EntrancePasswordTypedAction
 } from '../actions/Action';
-import { State } from '../State';
-import { VeauAccount, VeauAccountJSON } from '../../veau-entity/VeauAccount';
-import { VeauAccountFactory } from '../../veau-factory/VeauAccountFactory';
-import { AJAX } from '../../veau-general/AJAX';
-import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 import { entranceInformationUpdate } from '../actions/EntranceAction';
 import { identified, identityAuthenticated } from '../actions/IdentityAction';
 import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
 import { pushToStatsList } from '../actions/RedirectAction';
+import { State } from '../State';
 
 const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
 

@@ -1,10 +1,10 @@
+import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 import {
   ACTION,
   EntranceAccountNameTypedAction,
   EntranceInfoUpdateAction,
   EntrancePasswordTypedAction, IdentityAuthenticateAction
 } from './Action';
-import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 
 export const accountTyped: (account: string) => EntranceAccountNameTypedAction = (account: string): EntranceAccountNameTypedAction => {
   return {

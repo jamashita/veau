@@ -1,8 +1,8 @@
+import { VeauAccount } from '../../veau-entity/VeauAccount';
 import {
   ACTION, IdentityAuthenticatedAction,
   IdentityIdentifiedAction, IdentityInitializeAction
 } from './Action';
-import { VeauAccount } from '../../veau-entity/VeauAccount';
 
 export const identityAuthenticated: (identity: VeauAccount) => IdentityAuthenticatedAction = (identity: VeauAccount): IdentityAuthenticatedAction => {
   return {

@@ -1,3 +1,4 @@
+/* tslint:disable */
 import 'jest';
 import { Color } from '../../Color';
 import { Colors } from '../Colors';

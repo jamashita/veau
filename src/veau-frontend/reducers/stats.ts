@@ -1,5 +1,5 @@
-import { ACTION, Action } from '../actions/Action';
 import { Stats } from '../../veau-entity/Stats';
+import { ACTION, Action } from '../actions/Action';
 
 const initialState: Stats = Stats.default();
 

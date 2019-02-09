@@ -1,5 +1,5 @@
-import { ACTION, Action } from '../actions/Action';
 import { LocaleRepository } from '../../veau-repository/LocaleRepository';
+import { ACTION, Action } from '../actions/Action';
 
 const initialState: LocaleRepository = LocaleRepository.getInstance(
   [

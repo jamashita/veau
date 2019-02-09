@@ -1,3 +1,7 @@
+import { StatsItem } from '../../veau-entity/StatsItem';
+import { Term } from '../../veau-enum/Term';
+import { Language } from '../../veau-vo/Language';
+import { Region } from '../../veau-vo/Region';
 import {
   ACTION,
   StatsEditClearSelectingItemAction,
@@ -21,10 +25,6 @@ import {
   StatsEditTermSelectedActoin,
   StatsEditUpdateSelectingItemAction
 } from './Action';
-import { StatsItem } from '../../veau-entity/StatsItem';
-import { Term } from '../../veau-enum/Term';
-import { Language } from '../../veau-vo/Language';
-import { Region } from '../../veau-vo/Region';
 
 export const statsNameTyped: (name: string) => StatsEditNameTypedAction = (name: string): StatsEditNameTypedAction => {
   return {

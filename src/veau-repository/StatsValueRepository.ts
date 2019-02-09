@@ -1,10 +1,10 @@
 import * as moment from 'moment';
 import { MySQLTransaction } from '../veau-general/MySQL/MySQLTransaction';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
+import { StatsValues } from '../veau-vo/collection/StatsValues';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsValue, StatsValueRow } from '../veau-vo/StatsValue';
-import { StatsValues } from '../veau-vo/collection/StatsValues';
 import { IStatsValueRepository } from './IStatsValueRepository';
 
 export class StatsValueRepository implements IStatsValueRepository {
