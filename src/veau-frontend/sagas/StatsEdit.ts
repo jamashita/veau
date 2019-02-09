@@ -15,7 +15,7 @@ import {
   StatsEditSelectingItemNameTypedAction,
   StatsEditSelectingItemUnitTypedAction, StatsEditStartDateDeterminedAction,
   StatsEditTermSelectedActoin
-} from '../declarations/Action';
+} from '../actions/Action';
 import { State } from '../declarations/State';
 import { Stats, StatsJSON } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';

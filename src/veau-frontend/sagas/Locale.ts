@@ -1,6 +1,6 @@
 import { call, fork, put, take } from 'redux-saga/effects';
 import * as request from 'superagent';
-import { ACTION } from '../declarations/Action';
+import { ACTION } from '../actions/Action';
 import { AJAX } from '../../veau-general/AJAX';
 import { LocaleRepository } from '../../veau-repository/LocaleRepository';
 import { Locales } from '../../veau-usecase/LocaleUsecase';

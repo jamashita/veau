@@ -20,7 +20,7 @@ import {
   StatsEditStartDateDeterminedAction,
   StatsEditTermSelectedActoin,
   StatsEditUpdateSelectingItemAction
-} from '../declarations/Action';
+} from './Action';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { Term } from '../../veau-enum/Term';
 import { Language } from '../../veau-vo/Language';

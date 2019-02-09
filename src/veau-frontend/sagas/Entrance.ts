@@ -5,7 +5,7 @@ import {
   ACTION,
   EntranceAccountNameTypedAction,
   EntrancePasswordTypedAction
-} from '../declarations/Action';
+} from '../actions/Action';
 import { State } from '../declarations/State';
 import { VeauAccount, VeauAccountJSON } from '../../veau-entity/VeauAccount';
 import { VeauAccountFactory } from '../../veau-factory/VeauAccountFactory';

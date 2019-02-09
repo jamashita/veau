@@ -1,4 +1,4 @@
-import { ACTION, LogoutAction } from '../declarations/Action';
+import { ACTION, LogoutAction } from './Action';
 
 export const logout: () => LogoutAction = (): LogoutAction => {
   return {

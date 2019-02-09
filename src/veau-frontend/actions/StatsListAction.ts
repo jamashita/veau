@@ -9,7 +9,7 @@ import {
   StatsListResetNewStatsAction,
   StatsListSaveNewStatsAction,
   StatsListTermSelectedAction
-} from '../declarations/Action';
+} from './Action';
 import { StatsOverview } from '../../veau-entity/StatsOverview';
 import { Term } from '../../veau-enum/Term';
 import { ISO3166 } from '../../veau-vo/ISO3166';

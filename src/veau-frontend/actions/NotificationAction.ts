@@ -1,4 +1,4 @@
-import { ACTION, NotificationAppearAction, NotificationDisappearAction } from '../declarations/Action';
+import { ACTION, NotificationAppearAction, NotificationDisappearAction } from './Action';
 
 export const appearNotification: (kind: 'info' | 'success' | 'warn' | 'error', horizontal: 'left' | 'center' | 'right', vertical: 'top' | 'bottom', message: string, duration?: number, values?: {[key: string]: string}) => NotificationAppearAction = (kind: 'info' | 'success' | 'warn' | 'error', horizontal: 'left' | 'center' | 'right', vertical: 'top' | 'bottom', message: string, duration: number = 3000, values?: {[key: string]: string}): NotificationAppearAction => {
   return {

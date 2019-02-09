@@ -1,4 +1,4 @@
-import { ACTION, Action } from '../declarations/Action';
+import { ACTION, Action } from '../actions/Action';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 
 const initialState: EntranceInformation = EntranceInformation.default();

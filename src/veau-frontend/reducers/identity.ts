@@ -1,4 +1,4 @@
-import { ACTION, Action } from '../declarations/Action';
+import { ACTION, Action } from '../actions/Action';
 import { VeauAccount } from '../../veau-entity/VeauAccount';
 
 const initialState: VeauAccount = VeauAccount.default();
