@@ -15,7 +15,7 @@ router.get('/', (req: RequestSession, res: express.Response) => {
     }
 
     res.sendStatus(OK);
-  })
+  });
 });
 
 export const DestroyController: express.Router = router;
