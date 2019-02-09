@@ -67,7 +67,7 @@ class ModalImpl extends React.Component<Props & InjectedIntlProps, State> {
         <DialogActions>
           <Button
             color='primary'
-            onClick={this.props.closeClicked}
+            onClick={closeClicked}
           >
             <Icon
               className='fas fa-times'

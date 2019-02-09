@@ -50,7 +50,7 @@ class StatsItemModalImpl extends React.Component<Props & InjectedIntlProps, Stat
     return (
       <Dialog
         open={open}
-        onClose={this.props.close}
+        onClose={close}
         fullWidth={true}
         maxWidth='md'
       >
