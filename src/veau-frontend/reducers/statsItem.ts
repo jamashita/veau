@@ -1,4 +1,4 @@
-import { ACTION, Action } from '../../declarations/Action';
+import { ACTION, Action } from '../declarations/Action';
 import { StatsItem } from '../../veau-entity/StatsItem';
 
 const initialState: StatsItem = StatsItem.default();

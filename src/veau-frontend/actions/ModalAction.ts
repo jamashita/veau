@@ -1,4 +1,4 @@
-import { ACTION, ModalCloseAction, ModalRaiseAction } from '../../declarations/Action';
+import { ACTION, ModalCloseAction, ModalRaiseAction } from '../declarations/Action';
 
 export const raiseModal: (title: string, description: string, values?: {[key: string]: string}) => ModalRaiseAction = (title: string, description: string, values?: {[key: string]: string}): ModalRaiseAction => {
   return {

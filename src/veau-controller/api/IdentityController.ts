@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { RequestSession } from '../../declarations/RequestSession';
+import { RequestSession } from '../../veau-general/RequestSession';
 
 const router: express.Router = express.Router();
 

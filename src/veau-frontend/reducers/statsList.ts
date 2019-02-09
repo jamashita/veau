@@ -1,4 +1,4 @@
-import { ACTION, Action } from '../../declarations/Action';
+import { ACTION, Action } from '../declarations/Action';
 import { StatsOverview } from '../../veau-entity/StatsOverview';
 
 export type StatsList = {

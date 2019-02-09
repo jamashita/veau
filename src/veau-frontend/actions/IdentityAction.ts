@@ -1,7 +1,7 @@
 import {
   ACTION, IdentityAuthenticatedAction,
   IdentityIdentifiedAction, IdentityInitializeAction
-} from '../../declarations/Action';
+} from '../declarations/Action';
 import { VeauAccount } from '../../veau-entity/VeauAccount';
 
 export const identityAuthenticated: (identity: VeauAccount) => IdentityAuthenticatedAction = (identity: VeauAccount): IdentityAuthenticatedAction => {

@@ -1,7 +1,7 @@
 import { call, fork, put, select, take } from 'redux-saga/effects';
 import * as request from 'request';
-import { ACTION } from '../../declarations/Action';
-import { State } from '../../declarations/State';
+import { ACTION } from '../declarations/Action';
+import { State } from '../declarations/State';
 import { VeauAccount, VeauAccountJSON } from '../../veau-entity/VeauAccount';
 import { VeauAccountFactory } from '../../veau-factory/VeauAccountFactory';
 import { AJAX } from '../../veau-general/AJAX';

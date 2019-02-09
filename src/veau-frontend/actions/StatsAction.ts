@@ -6,7 +6,7 @@ import {
   StatsOverviewUpdateAction,
   StatsResetAction,
   StatsUpdateAction
-} from '../../declarations/Action';
+} from '../declarations/Action';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { StatsOverview } from '../../veau-entity/StatsOverview';

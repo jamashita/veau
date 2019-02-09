@@ -1,4 +1,4 @@
-import { ACTION, Action } from '../../declarations/Action';
+import { ACTION, Action } from '../declarations/Action';
 
 export type LoadingCount = number;
 

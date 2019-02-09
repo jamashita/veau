@@ -4,8 +4,8 @@ import {
   ACTION, LocationChangeAction, StatsListISO3166SelectedAction, StatsListISO639SelectedAction,
   StatsListNameTypedAction,
   StatsListTermSelectedAction
-} from '../../declarations/Action';
-import { State } from '../../declarations/State';
+} from '../declarations/Action';
+import { State } from '../declarations/State';
 import { StatsOverview, StatsOverviewJSON } from '../../veau-entity/StatsOverview';
 import { StatsOverviewFactory } from '../../veau-factory/StatsOverviewFactory';
 import { AJAX } from '../../veau-general/AJAX';
