@@ -4,7 +4,7 @@ import { MySQLTransaction } from '../veau-general/MySQL/MySQLTransaction';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValue } from '../veau-vo/StatsValue';
-import { StatsValues } from '../veau-vo/StatsValues';
+import { StatsValues } from '../veau-vo/collection/StatsValues';
 import { IStatsItemRepository } from './IStatsItemRepository';
 import { StatsValueRepository } from './StatsValueRepository';
 

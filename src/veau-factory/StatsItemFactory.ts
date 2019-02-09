@@ -2,7 +2,7 @@ import * as moment from 'moment';
 import { StatsItem, StatsItemJSON, StatsItemRow } from '../veau-entity/StatsItem';
 import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsValue, StatsValueJSON } from '../veau-vo/StatsValue';
-import { StatsValues } from '../veau-vo/StatsValues';
+import { StatsValues } from '../veau-vo/collection/StatsValues';
 import { UUID } from '../veau-vo/UUID';
 
 export class StatsItemFactory {

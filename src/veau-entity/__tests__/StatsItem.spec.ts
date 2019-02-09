@@ -3,7 +3,7 @@ import 'jest';
 import * as moment from 'moment';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
 import { StatsValue } from '../../veau-vo/StatsValue';
-import { StatsValues } from '../../veau-vo/StatsValues';
+import { StatsValues } from '../../veau-vo/collection/StatsValues';
 import { UUID } from '../../veau-vo/UUID';
 import { StatsItem } from '../StatsItem';
 

@@ -4,7 +4,7 @@ import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsValue, StatsValueRow } from '../veau-vo/StatsValue';
-import { StatsValues } from '../veau-vo/StatsValues';
+import { StatsValues } from '../veau-vo/collection/StatsValues';
 import { IStatsValueRepository } from './IStatsValueRepository';
 
 export class StatsValueRepository implements IStatsValueRepository {

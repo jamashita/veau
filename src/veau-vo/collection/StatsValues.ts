@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import { StatsValue, StatsValueJSON } from './StatsValue';
+import { StatsValue, StatsValueJSON } from '../StatsValue';
 
 export class StatsValues {
   private values: Array<StatsValue>;

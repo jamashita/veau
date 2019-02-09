@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsValue, StatsValueJSON } from '../veau-vo/StatsValue';
-import { StatsValues } from '../veau-vo/StatsValues';
+import { StatsValues } from '../veau-vo/collection/StatsValues';
 import { UUID } from '../veau-vo/UUID';
 import { Entity } from './Entity';
 
