@@ -1,4 +1,3 @@
-import { Express } from 'express';
 import * as log4js from 'log4js';
 import * as passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
