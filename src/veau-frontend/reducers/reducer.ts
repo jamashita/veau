@@ -1,6 +1,6 @@
 import { connectRouter } from 'connected-react-router';
 import { combineReducers, Reducer } from 'redux';
-import { State } from '../declarations/State';
+import { State } from '../State';
 import { history } from '../history';
 import { entranceInformation } from './entranceInformation';
 import { identity } from './identity';

@@ -16,7 +16,7 @@ import {
   StatsEditSelectingItemUnitTypedAction, StatsEditStartDateDeterminedAction,
   StatsEditTermSelectedActoin
 } from '../actions/Action';
-import { State } from '../declarations/State';
+import { State } from '../State';
 import { Stats, StatsJSON } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { StatsFactory } from '../../veau-factory/StatsFactory';

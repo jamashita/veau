@@ -5,7 +5,7 @@ import {
   StatsListNameTypedAction,
   StatsListTermSelectedAction
 } from '../actions/Action';
-import { State } from '../declarations/State';
+import { State } from '../State';
 import { StatsOverview, StatsOverviewJSON } from '../../veau-entity/StatsOverview';
 import { StatsOverviewFactory } from '../../veau-factory/StatsOverviewFactory';
 import { AJAX } from '../../veau-general/AJAX';

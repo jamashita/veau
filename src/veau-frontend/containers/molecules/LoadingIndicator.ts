@@ -1,5 +1,5 @@
 import { connect, ConnectedComponentClass, MapStateToProps } from 'react-redux';
-import { State } from '../../declarations/State';
+import { State } from '../../State';
 import { LoadingIndicator as Component } from '../../components/molecules/LoadingIndicator';
 
 type StateProps = {
