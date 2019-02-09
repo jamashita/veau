@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, PRECONDITION_FAILED } from 'http-status';
+import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, PRECONDITION_FAILED } from 'http-status';
 import * as log4js from 'log4js';
 import { RequestSession } from '../../declarations/RequestSession';
 import { StatsJSON } from '../../veau-entity/Stats';
@@ -61,6 +61,45 @@ router.get('/:statsID', async (req: express.Request, res: express.Response) => {
 });
 
 router.post('/', async (req: RequestSession, res: express.Response) => {
+  const {
+    statsID,
+    language,
+    region,
+    termID,
+    name,
+    updatedAt,
+    items
+  } = req.body;
+
+  if (!statsID) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  if (!language) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  if (!region) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  if (!termID) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  if (!name) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  if (!updatedAt) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  if (!items) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+
   const json: StatsJSON = req.body;
 
   try {
@@ -74,6 +113,40 @@ router.post('/', async (req: RequestSession, res: express.Response) => {
 });
 
 router.post('/overview', async (req: RequestSession, res: express.Response) => {
+  const {
+    statsID,
+    iso639,
+    iso3166,
+    termID,
+    name,
+    updatedAt
+  } = req.body;
+
+  if (!statsID) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  if (!iso639) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  if (!iso3166) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  if (!termID) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  if (!name) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  if (!updatedAt) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+
   const json: StatsOverviewJSON = req.body;
 
   try {

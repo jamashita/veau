@@ -12,7 +12,7 @@ router.post('/', passport.authenticate('local'), (req: express.Request, res: exp
     return;
   }
 
-  logger.error('Illegal access');
+  logger.fatal('ILLEGAL ACCESS');
   res.sendStatus(INTERNAL_SERVER_ERROR);
 });
 
