@@ -11,10 +11,10 @@ const router: express.Router = express.Router();
 
 router.use('/auth', AuthController);
 router.use('/wip', WIPController);
-router.use('/destroy', DestroyController);
 router.use(AuthenticationMiddleware);
 router.use('/identity', IdentityController);
 router.use('/locales', LocaleController);
 router.use('/stats', StatsController);
+router.use('/destroy', DestroyController);
 
 export const APIController: express.Router = router;
