@@ -1,89 +1,41 @@
-import * as redis from 'redis';
+import * as IORedis from 'ioredis';
 
 export class RedisHash {
-  private client: redis.RedisClient;
+  private client: IORedis.Redis;
 
-  public constructor(client: redis.RedisClient) {
+  public constructor(client: IORedis.Redis) {
     this.client = client;
   }
 
   public set(key: string, field: string, value: string): Promise<boolean> {
-    return new Promise<boolean>((resolve: (value: boolean) => void, reject: (reason: any) => void): void => {
-      this.client.hset(key, field, value, (err: Error | null, response: number): void => {
-        if (err) {
-          reject(err);
-          return;
-        }
+    return this.client.hset(key, field, value).then((result: 0 | 1) => {
+      if (result === 0) {
+        return false;
+      }
 
-        if (response === 1) {
-          resolve(true);
-          return;
-        }
-
-        resolve(false);
-      });
+      return true;
     });
   }
 
-  public get(key: string, field: string): Promise<string> {
-    return new Promise<string>((resolve: (value: string) => void, reject: (reason: any) => void): void => {
-      this.client.hget(key, field, (err: Error | null, response: string): void => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve(response);
-      });
-    });
+  public get(key: string, field: string): Promise<string | null> {
+    return this.client.hget(key, field);
   }
 
-  public delete(key: string, field: string): Promise<boolean> {
-    return new Promise<boolean>((resolve: (value: boolean) => void, reject: (reason: any) => void): void => {
-      this.client.hdel(key, field, (err: Error | null, response: number): void => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        if (response === 1) {
-          resolve(true);
-          return;
-        }
-
-        resolve(false);
-      });
-    });
+  public delete(key: string, field: string): any {
+    return this.client.hdel(key, field);
   }
 
   public length(key: string): Promise<number> {
-    return new Promise<number>((resolve: (value: number) => void, reject: (reason: any) => void): void => {
-      this.client.hlen(key, (err: Error | null, response: number): void => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve(response);
-      });
-    });
+    return this.client.hlen(key);
   }
 
   public has(key: string, field: string): Promise<boolean> {
-    return new Promise<boolean>((resolve: (value: boolean) => void, reject: (reason: any) => void): void => {
-      this.client.hexists(key, field, (err: Error | null, response: number): void => {
-        if (err) {
-          reject(err);
-          return;
-        }
+    return this.client.hexists(key, field).then((result: 0 | 1) => {
+      if (result === 0) {
+        return false;
+      }
 
-        if (response === 1) {
-          resolve(true);
-          return;
-        }
-
-        resolve(false);
-      });
+      return true;
     });
   }
 }

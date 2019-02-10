@@ -1,4 +1,4 @@
-import * as redis from 'redis';
+import * as IORedis from 'ioredis';
 import { RedisHash } from './RedisHash';
 import { RedisList } from './RedisList';
 import { RedisSet } from './RedisSet';
@@ -9,10 +9,10 @@ export class Redis {
   private set: RedisSet;
   private list: RedisList;
   private string: RedisString;
-  private client: redis.RedisClient;
+  private client: IORedis.Redis;
 
-  public constructor(config: redis.ClientOpts) {
-    const client: redis.RedisClient = redis.createClient(config);
+  public constructor(config: IORedis.RedisOptions) {
+    const client: IORedis.Redis = new IORedis(config);
 
     client.on('error', (err: any) => {
       console.log('REDIS ERROR');
@@ -44,55 +44,32 @@ export class Redis {
   }
 
   public delete(key: string): Promise<boolean> {
-    return new Promise<boolean>((resolve: (value: boolean) => void, reject: (reason: any) => void): void => {
-      this.client.del(key, (err: Error | null, response: number): void => {
-        if (err) {
-          reject(err);
-          return;
-        }
+    return this.client.del(key).then((result: number) => {
+      if (result === 0) {
+        return false;
+      }
 
-        if (response > 0) {
-          resolve(true);
-          return;
-        }
-
-        resolve(false);
-      });
+      return true;
     });
   }
 
   public exists(key: string): Promise<boolean> {
-    return new Promise<boolean>((resolve: (value: boolean) => void, reject: (reason: any) => void): void => {
-      this.client.exists(key, (err: Error | null, response: number): void => {
-        if (err) {
-          reject(err);
-          return;
-        }
-        if (response === 1) {
-          resolve(true);
-          return;
-        }
+    return this.client.exists(key).then((result: number) => {
+      if (result === 0) {
+        return false;
+      }
 
-        resolve(false);
-      });
+      return true;
     });
   }
 
   public expires(key: string, seconds: number): Promise<boolean> {
-    return new Promise<boolean>((resolve: (value: boolean) => void, reject: (reason: any) => void): void => {
-      this.client.expire(key, seconds, (err: Error | null, response: number): void => {
-        if (err) {
-          reject(err);
-          return;
-        }
+    return this.client.expire(key, seconds).then((result: 0 | 1) => {
+      if (result === 0) {
+        return false;
+      }
 
-        if (response === 1) {
-          resolve(true);
-          return;
-        }
-
-        resolve(false);
-      });
+      return true;
     });
   }
 }

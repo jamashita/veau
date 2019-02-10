@@ -1,40 +1,17 @@
-import * as redis from 'redis';
+import * as IORedis from 'ioredis';
 
 export class RedisString {
-  private client: redis.RedisClient;
+  private client: IORedis.Redis;
 
-  public constructor(client: redis.RedisClient) {
+  public constructor(client: IORedis.Redis) {
     this.client = client;
   }
 
-  public set(key: string, value: string): Promise<boolean> {
-    return new Promise<boolean>((resolve: (value: boolean) => void, reject: (reason: any) => void): void => {
-      this.client.set(key, value, (err: Error | null, response: 'OK' | null): void => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        if (response === 'OK') {
-          resolve(true);
-          return;
-        }
-
-        resolve(false);
-      });
-    });
+  public set(key: string, value: string): Promise<string> {
+    return this.client.set(key, value);
   }
 
   public get(key: string): Promise<string | null> {
-    return new Promise<string | null>((resolve: (value: string | null) => void, reject: (reason: any) => void): void => {
-      this.client.get(key, (err: Error | null, response: string | null): void => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve(response);
-      });
-    });
+    return this.client.get(key);
   }
 }
