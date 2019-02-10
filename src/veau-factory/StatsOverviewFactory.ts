@@ -16,8 +16,8 @@ export class StatsOverviewFactory {
   private constructor() {
   }
 
-  public from(statsID: StatsID, iso639: ISO639, iso3166: ISO3166, term: Term, name: string, updatedAt: moment.Moment): StatsOverview {
-    return new StatsOverview(statsID, iso639, iso3166, term, name, updatedAt);
+  public from(statsID: StatsID, iso639: ISO639, iso3166: ISO3166, term: Term, name: string, unit: string, updatedAt: moment.Moment): StatsOverview {
+    return new StatsOverview(statsID, iso639, iso3166, term, name, unit, updatedAt);
   }
 
   public fromJSON(json: StatsOverviewJSON): StatsOverview {
@@ -27,10 +27,11 @@ export class StatsOverviewFactory {
       iso3166,
       termID,
       name,
+      unit,
       updatedAt
     } = json;
 
-    return this.from(StatsID.of(UUID.of(statsID)), ISO639.of(iso639), ISO3166.of(iso3166), Term.of(termID), name, moment.utc(updatedAt));
+    return this.from(StatsID.of(UUID.of(statsID)), ISO639.of(iso639), ISO3166.of(iso3166), Term.of(termID), name, unit, moment.utc(updatedAt));
   }
 
   public fromRow(row: StatsOverviewRow): StatsOverview {
@@ -40,9 +41,10 @@ export class StatsOverviewFactory {
       iso3166,
       termID,
       name,
+      unit,
       updatedAt
     } = row;
 
-    return this.from(StatsID.of(UUID.of(statsID)), ISO639.of(iso639), ISO3166.of(iso3166), Term.of(termID), name, moment.utc(updatedAt));
+    return this.from(StatsID.of(UUID.of(statsID)), ISO639.of(iso639), ISO3166.of(iso3166), Term.of(termID), name, unit, moment.utc(updatedAt));
   }
 }

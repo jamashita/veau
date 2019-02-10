@@ -24,8 +24,7 @@ export class StatsItemRepository implements IStatsItemRepository {
   public async findByStatsID(statsID: StatsID): Promise<Array<StatsItem>> {
     const query: string = `SELECT
       R1.stats_item_id AS statsItemID,
-      R1.name,
-      R1.unit
+      R1.name
       FROM stats_items R1
       WHERE R1.stats_id = :statsID
       ORDER BY R1.seq;`;
@@ -54,7 +53,6 @@ export class StatsItemRepository implements IStatsItemRepository {
       :statsItemID,
       :statsID,
       :name,
-      :unit,
       :seq
       );`;
 
@@ -63,7 +61,6 @@ export class StatsItemRepository implements IStatsItemRepository {
         statsItemID: statsItem.getStatsItemID().get().get(),
         statsID: statsID.get().get(),
         name: statsItem.getName(),
-        unit: statsItem.getUnit(),
         seq
       }
     ]);

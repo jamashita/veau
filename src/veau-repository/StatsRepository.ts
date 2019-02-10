@@ -34,6 +34,7 @@ export class StatsRepository implements IStatsRepository {
       R3.name AS regionName,
       R3.iso3166,
       R1.name,
+      R1.unit,
       R1.updated_at AS updatedAt
       FROM stats R1
       INNER JOIN languages R2
@@ -65,6 +66,7 @@ export class StatsRepository implements IStatsRepository {
       :termID,
       :veauAccountID,
       :name,
+      :unit,
       UTC_TIMESTAMP()
       );`;
 
@@ -75,7 +77,8 @@ export class StatsRepository implements IStatsRepository {
         regionID: stats.getRegion().getRegionID().get(),
         termID: stats.getTerm().get(),
         veauAccountID: veauAccountID.get().get(),
-        name: stats.getName()
+        name: stats.getName(),
+        unit: stats.getUnit()
       }
     ]);
 

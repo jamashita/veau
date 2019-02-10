@@ -16,16 +16,18 @@ describe('StatsOverviewFactory', () => {
     const iso3166: ISO3166 = ISO3166.of('AFG');
     const term: Term = Term.DAILY;
     const name: string = 'stats overview';
+    const unit: string = 'unit';
     const updatedAt: moment.Moment = moment.utc('2000-01-01');
 
     const statsOverviewFactory: StatsOverviewFactory = StatsOverviewFactory.getInstance();
-    const statsOverview: StatsOverview = statsOverviewFactory.from(statsID, iso639, iso3166, term, name, updatedAt);
+    const statsOverview: StatsOverview = statsOverviewFactory.from(statsID, iso639, iso3166, term, name, unit, updatedAt);
 
     expect(statsOverview.getStatsID().equals(statsID)).toEqual(true);
     expect(statsOverview.getISO639().equals(iso639)).toEqual(true);
     expect(statsOverview.getISO3166().equals(iso3166)).toEqual(true);
     expect(statsOverview.getTerm()).toEqual(term);
     expect(statsOverview.getName()).toEqual(name);
+    expect(statsOverview.getUnit()).toEqual(unit);
     expect(statsOverview.getUpdatedAt().isSame(updatedAt)).toEqual(true);
   });
 
@@ -36,6 +38,7 @@ describe('StatsOverviewFactory', () => {
       iso3166: 'AFG',
       termID: 2,
       name: 'stats overview',
+      unit: 'unit',
       updatedAt: '2000-01-01T00:00:00.000'
     };
 
@@ -47,6 +50,7 @@ describe('StatsOverviewFactory', () => {
     expect(statsOverview.getISO3166().get()).toEqual(json.iso3166);
     expect(statsOverview.getTerm().get()).toEqual(json.termID);
     expect(statsOverview.getName()).toEqual(json.name);
+    expect(statsOverview.getUnit()).toEqual(json.unit);
     expect(statsOverview.getUpdatedAt().format('YYYY-MM-DDTHH:mm:ss.SSS')).toEqual(json.updatedAt);
   });
 
@@ -57,6 +61,7 @@ describe('StatsOverviewFactory', () => {
       iso3166: 'AFG',
       termID: 3,
       name: 'stats overview',
+      unit: 'unit',
       updatedAt: '2000-01-01'
     };
 
@@ -68,6 +73,7 @@ describe('StatsOverviewFactory', () => {
     expect(statsOverview.getISO3166().get()).toEqual(row.iso3166);
     expect(statsOverview.getTerm().get()).toEqual(row.termID);
     expect(statsOverview.getName()).toEqual(row.name);
+    expect(statsOverview.getUnit()).toEqual(row.unit);
     expect(statsOverview.getUpdatedAt().format('YYYY-MM-DD')).toEqual(row.updatedAt);
   });
 });

@@ -15,15 +15,14 @@ export class StatsItemFactory {
   private constructor() {
   }
 
-  public from(statsItemID: StatsItemID, name: string, unit: string, values: StatsValues): StatsItem {
-    return new StatsItem(statsItemID, name, unit, values);
+  public from(statsItemID: StatsItemID, name: string, values: StatsValues): StatsItem {
+    return new StatsItem(statsItemID, name, values);
   }
 
   public fromJSON(json: StatsItemJSON): StatsItem {
     const {
       statsItemID,
       name,
-      unit,
       values
     } = json;
 
@@ -36,16 +35,15 @@ export class StatsItemFactory {
       return StatsValue.of(moment(asOf), value);
     });
 
-    return this.from(StatsItemID.of(UUID.of(statsItemID)), name, unit, StatsValues.of(statsValues));
+    return this.from(StatsItemID.of(UUID.of(statsItemID)), name, StatsValues.of(statsValues));
   }
 
   public fromRow(row: StatsItemRow, statsValues: StatsValues): StatsItem {
     const {
       statsItemID,
       name,
-      unit
     } = row;
 
-    return this.from(StatsItemID.of(UUID.of(statsItemID)), name, unit, statsValues);
+    return this.from(StatsItemID.of(UUID.of(statsItemID)), name, statsValues);
   }
 }

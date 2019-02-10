@@ -8,31 +8,27 @@ import { Entity } from './Entity';
 export type StatsItemJSON = {
   statsItemID: string;
   name: string;
-  unit: string;
   values: Array<StatsValueJSON>;
 };
 
 export type StatsItemRow = {
   statsItemID: string;
   name: string;
-  unit: string;
 };
 
 export class StatsItem extends Entity<StatsItemID> {
   private statsItemID: StatsItemID;
   private name: string;
-  private unit: string;
   private values: StatsValues;
 
   public static default(): StatsItem {
-    return new StatsItem(StatsItemID.of(UUID.generate()), '', '', StatsValues.of([]));
+    return new StatsItem(StatsItemID.of(UUID.generate()), '', StatsValues.of([]));
   }
 
-  public constructor(statsItemID: StatsItemID, name: string, unit: string, values: StatsValues) {
+  public constructor(statsItemID: StatsItemID, name: string, values: StatsValues) {
     super();
     this.statsItemID = statsItemID;
     this.name = name;
-    this.unit = unit;
     this.values = values;
   }
 
@@ -42,10 +38,6 @@ export class StatsItem extends Entity<StatsItemID> {
 
   public getName(): string {
     return this.name;
-  }
-
-  public getUnit(): string {
-    return this.unit;
   }
 
   public getValues(): StatsValues {
@@ -97,14 +89,10 @@ export class StatsItem extends Entity<StatsItemID> {
 
   public isFilled(): boolean {
     const {
-      name,
-      unit
+      name
     } = this;
 
     if (name === '') {
-      return false;
-    }
-    if (unit === '') {
       return false;
     }
 
@@ -119,25 +107,22 @@ export class StatsItem extends Entity<StatsItemID> {
     const {
       statsItemID,
       name,
-      unit,
       values
     } = this;
 
-    return new StatsItem(statsItemID, name, unit, values.copy());
+    return new StatsItem(statsItemID, name, values.copy());
   }
 
   public toJSON(): StatsItemJSON {
     const {
       statsItemID,
       name,
-      unit,
       values
     } = this;
 
     return {
       statsItemID: statsItemID.get().get(),
       name,
-      unit,
       values: values.toJSON()
     };
   }
@@ -146,9 +131,8 @@ export class StatsItem extends Entity<StatsItemID> {
     const {
       statsItemID,
       name,
-      unit
     } = this;
 
-    return `${statsItemID.toString()} ${name} ${unit}`;
+    return `${statsItemID.toString()} ${name}`;
   }
 }

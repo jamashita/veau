@@ -12,6 +12,7 @@ export type StatsOverviewJSON = {
   iso3166: string;
   termID: number;
   name: string;
+  unit: string;
   updatedAt: string;
 };
 
@@ -21,6 +22,7 @@ export type StatsOverviewRow = {
   iso3166: string;
   termID: number;
   name: string;
+  unit: string;
   updatedAt: string;
 };
 
@@ -32,19 +34,21 @@ export class StatsOverview extends Entity<StatsID> {
   private iso3166: ISO3166;
   private term: Term;
   private name: string;
+  private unit: string;
   private updatedAt: moment.Moment;
 
   public static default(): StatsOverview {
-    return new StatsOverview(StatsID.of(UUID.generate()), ISO639.defualt(), ISO3166.default(), Term.DAILY, '', moment());
+    return new StatsOverview(StatsID.of(UUID.generate()), ISO639.defualt(), ISO3166.default(), Term.DAILY, '', '', moment());
   }
 
-  public constructor(statsID: StatsID, iso639: ISO639, iso3166: ISO3166, term: Term, name: string, updatedAt: moment.Moment) {
+  public constructor(statsID: StatsID, iso639: ISO639, iso3166: ISO3166, term: Term, name: string, unit: string, updatedAt: moment.Moment) {
     super();
     this.statsID = statsID;
     this.iso639 = iso639;
     this.iso3166 = iso3166;
     this.term = term;
     this.name = name;
+    this.unit = unit;
     this.updatedAt = moment(updatedAt);
   }
 
@@ -68,6 +72,10 @@ export class StatsOverview extends Entity<StatsID> {
     return this.name;
   }
 
+  public getUnit(): string {
+    return this.unit;
+  }
+
   public getUpdatedAt(): moment.Moment {
     return moment(this.updatedAt);
   }
@@ -81,13 +89,23 @@ export class StatsOverview extends Entity<StatsID> {
   }
 
   public isFilled(): boolean {
-    if (this.iso639.equals(ISO639.defualt())) {
+    const {
+      iso639,
+      iso3166,
+      name,
+      unit
+    } = this;
+
+    if (iso639.equals(ISO639.defualt())) {
       return false;
     }
-    if (this.iso3166.equals(ISO3166.default())) {
+    if (iso3166.equals(ISO3166.default())) {
       return false;
     }
-    if (this.name === '') {
+    if (name === '') {
+      return false;
+    }
+    if (unit === '') {
       return false;
     }
 
@@ -101,10 +119,11 @@ export class StatsOverview extends Entity<StatsID> {
       iso3166,
       term,
       name,
+      unit,
       updatedAt
     } = this;
 
-    return new StatsOverview(statsID, iso639, iso3166, term, name, moment(updatedAt));
+    return new StatsOverview(statsID, iso639, iso3166, term, name, unit, moment(updatedAt));
   }
 
   public toJSON(): StatsOverviewJSON {
@@ -113,7 +132,8 @@ export class StatsOverview extends Entity<StatsID> {
       iso639,
       iso3166,
       term,
-      name
+      name,
+      unit
     } = this;
 
     return {
@@ -122,6 +142,7 @@ export class StatsOverview extends Entity<StatsID> {
       iso3166: iso3166.get(),
       termID: term.get(),
       name,
+      unit,
       updatedAt: this.getUpdatedAtAsString()
     };
   }
@@ -132,9 +153,10 @@ export class StatsOverview extends Entity<StatsID> {
       iso639,
       iso3166,
       term,
-      name
+      name,
+      unit
     } = this;
 
-    return `${statsID.toString()} ${iso639.toString()} ${iso3166.toString()} ${term.toString()} ${name} ${this.getUpdatedAtAsString()}`;
+    return `${statsID.toString()} ${iso639.toString()} ${iso3166.toString()} ${term.toString()} ${name} ${unit} ${this.getUpdatedAtAsString()}`;
   }
 }

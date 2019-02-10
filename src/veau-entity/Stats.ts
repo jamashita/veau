@@ -15,6 +15,7 @@ export type StatsJSON = {
   region: RegionJSON;
   termID: number;
   name: string;
+  unit: string;
   updatedAt: string;
   items: Array<StatsItemJSON>;
 };
@@ -30,6 +31,7 @@ export type StatsRow = {
   iso3166: string;
   termID: number;
   name: string;
+  unit: string;
   updatedAt: string;
 };
 
@@ -42,22 +44,24 @@ export class Stats extends Entity<StatsID> {
   private region: Region;
   private term: Term;
   private name: string;
+  private unit: string;
   private updatedAt: moment.Moment;
   private items: Array<StatsItem>;
   private startDate?: string;
   private columns?: Array<string>;
 
   public static default(): Stats {
-    return new Stats(StatsID.of(UUID.of('')), Language.default(), Region.default(), Term.DAILY, '', moment(), []);
+    return new Stats(StatsID.of(UUID.of('')), Language.default(), Region.default(), Term.DAILY, '', '', moment(), []);
   }
 
-  public constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: string, updatedAt: moment.Moment, items: Array<StatsItem>, startDate?: string) {
+  public constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: string, unit: string, updatedAt: moment.Moment, items: Array<StatsItem>, startDate?: string) {
     super();
     this.statsID = statsID;
     this.language = language;
     this.region = region;
     this.term = term;
     this.name = name;
+    this.unit = unit;
     this.updatedAt = moment(updatedAt);
     this.items = items;
     this.startDate = startDate;
@@ -81,6 +85,10 @@ export class Stats extends Entity<StatsID> {
 
   public getName(): string {
     return this.name;
+  }
+
+  public getUnit(): string {
+    return this.unit;
   }
 
   public getUpdatedAt(): moment.Moment {
@@ -188,7 +196,7 @@ export class Stats extends Entity<StatsID> {
 
   public getRows(): Array<string> {
     return this.items.map<string>((item: StatsItem) => {
-      return `${item.getName()} (${item.getUnit()})`;
+      return item.getName();
     });
   }
 
@@ -275,7 +283,8 @@ export class Stats extends Entity<StatsID> {
     const {
       language,
       region,
-      name
+      name,
+      unit,
     } = this;
 
     if (language.equals(Language.default())) {
@@ -287,6 +296,9 @@ export class Stats extends Entity<StatsID> {
     if (name === '') {
       return false;
     }
+    if (unit === '') {
+      return false;
+    }
 
     return true;
   }
@@ -296,19 +308,13 @@ export class Stats extends Entity<StatsID> {
       return false;
     }
 
-    const isValid: boolean = this.items.every((item: StatsItem): boolean => {
+    return this.items.every((item: StatsItem): boolean => {
       if (item.isValid()) {
         return true;
       }
 
       return false;
     });
-
-    if (isValid) {
-      return true;
-    }
-
-    return false;
   }
 
   public replaceItem(statsItem: StatsItem, index: number): void {
@@ -349,6 +355,7 @@ export class Stats extends Entity<StatsID> {
       region,
       term,
       name,
+      unit,
       updatedAt,
       items,
       startDate
@@ -360,7 +367,7 @@ export class Stats extends Entity<StatsID> {
       newItems.push(item.copy());
     });
 
-    return new Stats(statsID, language, region, term, name, moment(updatedAt), newItems, startDate);
+    return new Stats(statsID, language, region, term, name, unit, moment(updatedAt), newItems, startDate);
   }
 
   public toJSON(): StatsJSON {
@@ -370,6 +377,7 @@ export class Stats extends Entity<StatsID> {
       region,
       term,
       name,
+      unit,
       updatedAt,
       items
     } = this;
@@ -380,6 +388,7 @@ export class Stats extends Entity<StatsID> {
       region: region.toJSON(),
       termID: term.get(),
       name,
+      unit,
       updatedAt: updatedAt.utc().format('YYYY-MM-DD HH:mm:ss'),
       items: items.map<StatsItemJSON>((item: StatsItem) => {
         return item.toJSON();
@@ -394,9 +403,10 @@ export class Stats extends Entity<StatsID> {
       region,
       term,
       name,
+      unit,
       updatedAt
     } = this;
 
-    return `${statsID.toString()} ${language.toString()} ${region.toString()} ${term.toString()} ${name} ${updatedAt.toJSON()}`;
+    return `${statsID.toString()} ${language.toString()} ${region.toString()} ${term.toString()} ${name} ${unit} ${updatedAt.toJSON()}`;
   }
 }

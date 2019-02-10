@@ -24,8 +24,8 @@ export class StatsFactory {
   private constructor() {
   }
 
-  public from(statsID: StatsID, language: Language, region: Region, term: Term, name: string, updatedAt: moment.Moment, items: Array<StatsItem>, startDate?: string): Stats {
-    return new Stats(statsID, language, region, term, name, updatedAt, items, startDate);
+  public from(statsID: StatsID, language: Language, region: Region, term: Term, name: string, unit: string, updatedAt: moment.Moment, items: Array<StatsItem>, startDate?: string): Stats {
+    return new Stats(statsID, language, region, term, name, unit, updatedAt, items, startDate);
   }
 
   public fromJSON(json: StatsJSON): Stats {
@@ -35,6 +35,7 @@ export class StatsFactory {
       region,
       termID,
       name,
+      unit,
       updatedAt,
       items
     } = json;
@@ -45,6 +46,7 @@ export class StatsFactory {
       Region.of(RegionID.of(region.regionID), region.name, ISO3166.of(region.iso3166)),
       Term.of(termID),
       name,
+      unit,
       moment.utc(updatedAt),
       items.map<StatsItem>((item: StatsItemJSON) => {
         return statsItemFactory.fromJSON(item);
@@ -64,6 +66,7 @@ export class StatsFactory {
       iso3166,
       termID,
       name,
+      unit,
       updatedAt
     } = row;
 
@@ -71,6 +74,6 @@ export class StatsFactory {
     const region: Region = Region.of(RegionID.of(regionID), regionName, ISO3166.of(iso3166));
     const term: Term = Term.of(termID);
 
-    return this.from(StatsID.of(UUID.of(statsID)), language, region, term, name, moment.utc(updatedAt), stats);
+    return this.from(StatsID.of(UUID.of(statsID)), language, region, term, name, unit, moment.utc(updatedAt), stats);
   }
 }
