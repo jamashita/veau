@@ -1,13 +1,13 @@
 # ************************************************************
 # Sequel Pro SQL dump
-# Version 5427
+# Version 5428
 #
 # https://www.sequelpro.com/
 # https://github.com/sequelpro/sequelpro
 #
 # Host: 127.0.0.1 (MySQL 8.0.13)
 # Database: veau
-# Generation Time: 2019-02-01 17:21:06 +0000
+# Generation Time: 2019-02-10 06:03:41 +0000
 # ************************************************************
 
 
@@ -514,6 +514,7 @@ CREATE TABLE `stats` (
   `term_id` tinyint(3) unsigned NOT NULL,
   `veau_account_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `name` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `unit` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`stats_id`),
   KEY `language_id` (`language_id`),
@@ -538,7 +539,6 @@ CREATE TABLE `stats_items` (
   `stats_item_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `stats_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `name` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `unit` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `seq` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY (`stats_item_id`),
   UNIQUE KEY `stats_id` (`stats_id`,`seq`),
