@@ -11,7 +11,6 @@ import {
   StatsEditItemNameTypedAction,
   StatsEditItemSaveAction,
   StatsEditItemSelectingAction,
-  StatsEditItemUnitTypedAction,
   StatsEditLanguageSelectedAction,
   StatsEditNameTypedAction,
   StatsEditRegionSelectedAction,
@@ -20,9 +19,8 @@ import {
   StatsEditRowSelectedAction,
   StatsEditSaveStatsAction,
   StatsEditSelectingItemNameTypedAction,
-  StatsEditSelectingItemUnitTypedAction,
   StatsEditStartDateDeterminedAction,
-  StatsEditTermSelectedActoin,
+  StatsEditTermSelectedActoin, StatsEditUnitTypedAction,
   StatsEditUpdateSelectingItemAction
 } from './Action';
 
@@ -30,6 +28,13 @@ export const statsNameTyped: (name: string) => StatsEditNameTypedAction = (name:
   return {
     type: ACTION.STATS_EDIT_NAME_TYPED,
     name
+  };
+};
+
+export const statsUnitTyped: (unit: string) => StatsEditUnitTypedAction = (unit: string): StatsEditUnitTypedAction => {
+  return {
+    type: ACTION.STATS_EDIT_UNIT_TYPED,
+    unit
   };
 };
 
@@ -78,13 +83,6 @@ export const itemNameTyped: (name: string) => StatsEditItemNameTypedAction = (na
   };
 };
 
-export const itemUnitTyped: (unit: string) => StatsEditItemUnitTypedAction = (unit: string): StatsEditItemUnitTypedAction => {
-  return {
-    type: ACTION.STATS_EDIT_ITEM_UNIT_TYPED,
-    unit
-  };
-};
-
 export const saveItem: () => StatsEditItemSaveAction = (): StatsEditItemSaveAction => {
   return {
     type: ACTION.STATS_EDIT_ITEM_SAVE
@@ -110,13 +108,6 @@ export const selectingItemNameTyped: (name: string) => StatsEditSelectingItemNam
   return {
     type: ACTION.STATS_EDIT_SELECTING_ITEM_NAME_TYPED,
     name
-  };
-};
-
-export const selectingItemUnitTyped: (unit: string) => StatsEditSelectingItemUnitTypedAction = (unit: string): StatsEditSelectingItemUnitTypedAction => {
-  return {
-    type: ACTION.STATS_EDIT_SELECTING_ITEM_UNIT_TYPED,
-    unit
   };
 };
 

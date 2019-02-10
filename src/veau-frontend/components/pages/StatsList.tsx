@@ -37,6 +37,9 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
     if (newStatsOverview.getName() !== nextProps.newStatsOverview.getName()) {
       return true;
     }
+    if (newStatsOverview.getUnit() !== nextProps.newStatsOverview.getUnit()) {
+      return true;
+    }
     if (!newStatsOverview.getISO639().equals(nextProps.newStatsOverview.getISO639())) {
       return true;
     }
@@ -61,6 +64,7 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
       toStatsEdit,
       closeNewStatsModal,
       nameTyped,
+      unitTyped,
       iso639Selected,
       iso3166Selected,
       termSelected,
@@ -91,6 +95,7 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
           regions={localeRepository.allRegions()}
           closeNewStatsModal={closeNewStatsModal}
           nameTyped={nameTyped}
+          unitTyped={unitTyped}
           iso639Selected={iso639Selected}
           iso3166Selected={iso3166Selected}
           termSelected={termSelected}

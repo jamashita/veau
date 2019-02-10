@@ -61,9 +61,6 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
     if (statsItem.getName() !== nextProps.statsItem.getName()) {
       return true;
     }
-    if (statsItem.getUnit() !== nextProps.statsItem.getUnit()) {
-      return true;
-    }
     if (localeRepository !== nextProps.localeRepository) {
       return true;
     }
@@ -97,13 +94,12 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
       rowMoved,
       save,
       nameTyped,
+      unitTyped,
       languageSelected,
       regionSelected,
       selectingItemNameTyped,
-      selectingItemUnitTyped,
       removeItem,
       itemNameTyped,
-      itemUnitTyped,
       saveNewItem,
       startDateDetermined
     } = this.props;
@@ -185,13 +181,13 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
             stats={stats}
             localeRepository={localeRepository}
             nameTyped={nameTyped}
+            unitTyped={unitTyped}
             languageSelected={languageSelected}
             regionSelected={regionSelected}
           />
           <StatsItemInformation
             selecting={selectingItem}
             nameTyped={selectingItemNameTyped}
-            unitTyped={selectingItemUnitTyped}
             removeItem={removeItem}
           />
         </div>
@@ -204,7 +200,6 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
             });
           }}
           itemNameTyped={itemNameTyped}
-          itemUnitTyped={itemUnitTyped}
           saveNewItem={(): void => {
             this.setState({
               openNewStatsItemModal: false

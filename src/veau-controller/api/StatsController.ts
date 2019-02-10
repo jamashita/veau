@@ -7,7 +7,6 @@ import { NoSuchElementError } from '../../veau-general/Error/NoSuchElementError'
 import { RequestSession } from '../../veau-general/RequestSession';
 import { IStatsUsecase } from '../../veau-usecase/IStatsUsecase';
 import { StatsUsecase } from '../../veau-usecase/StatsUsecase';
-import { UUID } from '../../veau-vo/UUID';
 
 const router: express.Router = express.Router();
 const logger: log4js.Logger = log4js.getLogger();
@@ -32,17 +31,8 @@ router.get('/overview/:page(\\d+)', async (req: RequestSession, res: express.Res
   }
 });
 
-router.get('/:statsID', async (req: express.Request, res: express.Response) => {
+router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: express.Response) => {
   const statsID: string = req.params.statsID;
-
-  if (!statsID) {
-    res.sendStatus(PRECONDITION_FAILED);
-    return;
-  }
-  if (statsID.length !== UUID.size()) {
-    res.sendStatus(PRECONDITION_FAILED);
-    return;
-  }
 
   try {
     const stats: StatsJSON = await statsUsecase.findByStatsID(statsID);
@@ -67,6 +57,7 @@ router.post('/', async (req: RequestSession, res: express.Response) => {
     region,
     termID,
     name,
+    unit,
     updatedAt,
     items
   } = req.body;
@@ -88,6 +79,10 @@ router.post('/', async (req: RequestSession, res: express.Response) => {
     return;
   }
   if (!name) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  if (!unit) {
     res.sendStatus(BAD_REQUEST);
     return;
   }
@@ -119,6 +114,7 @@ router.post('/overview', async (req: RequestSession, res: express.Response) => {
     iso3166,
     termID,
     name,
+    unit,
     updatedAt
   } = req.body;
 
@@ -139,6 +135,10 @@ router.post('/overview', async (req: RequestSession, res: express.Response) => {
     return;
   }
   if (!name) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  if (!unit) {
     res.sendStatus(BAD_REQUEST);
     return;
   }

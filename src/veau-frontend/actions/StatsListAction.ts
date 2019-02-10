@@ -12,7 +12,8 @@ import {
   StatsListRenewStatsAction,
   StatsListResetNewStatsAction,
   StatsListSaveNewStatsAction,
-  StatsListTermSelectedAction
+  StatsListTermSelectedAction,
+  StatsListUnitTypedAction
 } from './Action';
 
 export const newStats: () => StatsListNewStatsAction = (): StatsListNewStatsAction => {
@@ -32,7 +33,14 @@ export const newStatsNameTyped: (name: string) => StatsListNameTypedAction = (na
     type: ACTION.STATS_LIST_NAME_TYPED,
     name
   };
-} ;
+};
+
+export const newStatsUnitTyped: (unit: string) => StatsListUnitTypedAction = (unit: string): StatsListUnitTypedAction => {
+  return {
+    type: ACTION.STATS_LIST_UNIT_TYPED,
+    unit
+  };
+};
 
 export const newStatsISO639Selected: (iso639: ISO639) => StatsListISO639SelectedAction = (iso639: ISO639): StatsListISO639SelectedAction => {
   return {

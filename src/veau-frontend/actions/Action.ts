@@ -49,6 +49,7 @@ export enum ACTION {
   STATS_LIST_CLOSE_STATS_MODAL = 'STATS_LIST_CLOSE_STATS_MODAL',
   STATS_LIST_NEW_STATS_UPDATE = 'STATS_LIST_NEW_STATS_UPDATE',
   STATS_LIST_NAME_TYPED = 'STATS_LIST_NAME_TYPED',
+  STATS_LIST_UNIT_TYPED = 'STATS_LIST_UNIT_TYPED',
   STATS_LIST_ISO639_SELECTED = 'STATS_LIST_ISO639_SELECTED',
   STAts_LIST_ISO3166_SELECTED = 'STAts_LIST_ISO3166_SELECTED',
   STATS_LIST_TERM_SELECTED = 'STATS_LIST_TERM_SELECTED',
@@ -57,6 +58,7 @@ export enum ACTION {
   STATS_LIST_RESET_NEW_STATS = 'STATS_LIST_RESET_NEW_STATS',
 
   STATS_EDIT_NAME_TYPED = 'STATS_EDIT_NAME_TYPED',
+  STATS_EDIT_UNIT_TYPED = 'STATS_EDIT_UNIT_TYPED',
   STATS_EDIT_LANGUAGE_SELECTED = 'STATS_EDIT_LANGUAGE_SELECTED',
   STATS_EDIT_REGION_SELECTED = 'STATS_EDIT_REGION_SELECTED',
   STATS_EDIT_TERM_SELECTED = 'STATS_EDIT_TERM_SELECTED',
@@ -68,7 +70,6 @@ export enum ACTION {
   STATS_EDIT_ROW_SELECTED = 'STATS_EDIT_ROW_SELECTED',
   STATS_EDIT_ITEM_SELECTING = 'STATS_EDIT_ITEM_SELECTING',
   STATS_EDIT_SELECTING_ITEM_NAME_TYPED = 'STATS_EDIT_SELECTING_ITEM_NAME_TYPED',
-  STATS_EDIT_SELECTING_ITEM_UNIT_TYPED = 'STATS_EDIT_SELECTING_ITEM_UNIT_TYPED',
   STATS_EDIT_START_DATE_DETERMINED = 'STATS_EDIT_START_DATE_DETERMINED',
   STATS_EDIT_UPDATE_SELECTING_ITEM = 'STATS_EDIT_UPDATE_SELECTING_ITEM',
   STATS_EDIT_ROW_MOVED = 'STATS_EDIT_ROW_MOVED',
@@ -178,6 +179,10 @@ export interface StatsListNameTypedAction extends ReduxAction {
   type: ACTION.STATS_LIST_NAME_TYPED;
   name: string;
 }
+export interface StatsListUnitTypedAction extends ReduxAction {
+  type: ACTION.STATS_LIST_UNIT_TYPED;
+  unit: string;
+}
 export interface StatsListISO639SelectedAction extends ReduxAction {
   type: ACTION.STATS_LIST_ISO639_SELECTED;
   iso639: ISO639;
@@ -203,6 +208,10 @@ export interface StatsListResetNewStatsAction extends ReduxAction {
 export interface StatsEditNameTypedAction extends ReduxAction {
   type: ACTION.STATS_EDIT_NAME_TYPED;
   name: string;
+}
+export interface StatsEditUnitTypedAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_UNIT_TYPED;
+  unit: string;
 }
 export interface StatsEditLanguageSelectedAction extends ReduxAction {
   type: ACTION.STATS_EDIT_LANGUAGE_SELECTED;
@@ -231,10 +240,6 @@ export interface StatsEditItemNameTypedAction extends ReduxAction {
   type: ACTION.STATS_EDIT_ITEM_NAME_TYPED;
   name: string;
 }
-export interface StatsEditItemUnitTypedAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_ITEM_UNIT_TYPED;
-  unit: string;
-}
 export interface StatsEditItemSaveAction extends ReduxAction {
   type: ACTION.STATS_EDIT_ITEM_SAVE;
 }
@@ -250,10 +255,6 @@ export interface StatsEditItemSelectingAction extends ReduxAction {
 export interface StatsEditSelectingItemNameTypedAction extends ReduxAction {
   type: ACTION.STATS_EDIT_SELECTING_ITEM_NAME_TYPED;
   name: string;
-}
-export interface StatsEditSelectingItemUnitTypedAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_SELECTING_ITEM_UNIT_TYPED;
-  unit: string;
 }
 export interface StatsEditStartDateDeterminedAction extends ReduxAction {
   type: ACTION.STATS_EDIT_START_DATE_DETERMINED;
@@ -329,6 +330,7 @@ export type Action =
   | StatsListCloseNewStatsModalAction
   | StatsListNewStatsUpdateAction
   | StatsListNameTypedAction
+  | StatsListUnitTypedAction
   | StatsListISO639SelectedAction
   | StatsListISO3166SelectedAction
   | StatsListTermSelectedAction
@@ -336,18 +338,17 @@ export type Action =
   | StatsListSaveNewStatsAction
   | StatsListResetNewStatsAction
   | StatsEditNameTypedAction
+  | StatsEditUnitTypedAction
   | StatsEditLanguageSelectedAction
   | StatsEditRegionSelectedAction
   | StatsEditTermSelectedActoin
   | StatsEditDataFilledAction
   | StatsEditDataDeletedAction
   | StatsEditItemNameTypedAction
-  | StatsEditItemUnitTypedAction
   | StatsEditItemSaveAction
   | StatsEditRowSelectedAction
   | StatsEditItemSelectingAction
   | StatsEditSelectingItemNameTypedAction
-  | StatsEditSelectingItemUnitTypedAction
   | StatsEditStartDateDeterminedAction
   | StatsEditUpdateSelectingItemAction
   | StatsEditRowMovedAction

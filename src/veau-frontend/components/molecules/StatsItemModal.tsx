@@ -9,7 +9,6 @@ type Props = {
   statsItem: StatsItem;
   close: () => void;
   itemNameTyped: (name: string) => void;
-  itemUnitTyped: (unit: string) => void;
   saveNewItem: () => void;
 };
 type State = {
@@ -29,9 +28,6 @@ class StatsItemModalImpl extends React.Component<Props & InjectedIntlProps, Stat
     if (statsItem.getName() !== nextProps.statsItem.getName()) {
       return true;
     }
-    if (statsItem.getUnit() !== nextProps.statsItem.getUnit()) {
-      return true;
-    }
 
     return false;
   }
@@ -43,7 +39,6 @@ class StatsItemModalImpl extends React.Component<Props & InjectedIntlProps, Stat
       intl,
       close,
       itemNameTyped,
-      itemUnitTyped,
       saveNewItem
     } = this.props;
 
@@ -67,14 +62,6 @@ class StatsItemModalImpl extends React.Component<Props & InjectedIntlProps, Stat
             type='text'
             value={statsItem.getName()}
             onKeyUp={itemNameTyped}
-          />
-          <TextField
-            label={intl.formatMessage({
-              id: 'UNIT'
-            })}
-            type='text'
-            value={statsItem.getUnit()}
-            onKeyUp={itemUnitTyped}
           />
         </DialogContent>
         <DialogActions>

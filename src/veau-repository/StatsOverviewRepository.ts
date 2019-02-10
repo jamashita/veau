@@ -30,6 +30,7 @@ export class StatsOverviewRepository implements IStatsOverviewRepository {
       R3.iso3166,
       R1.term_id AS termID,
       R1.name,
+      R1.unit,
       R1.updated_at AS updatedAt
       FROM stats R1
       INNER JOIN languages R2
@@ -61,6 +62,7 @@ export class StatsOverviewRepository implements IStatsOverviewRepository {
       :termID,
       :veauAccountID,
       :name,
+      :unit,
       UTC_TIMESTAMP()
       );`;
 
@@ -74,7 +76,8 @@ export class StatsOverviewRepository implements IStatsOverviewRepository {
         regionID: region.getRegionID().get(),
         termID: statsOverview.getTerm().get(),
         veauAccountID: veauAccountID.get().get(),
-        name: statsOverview.getName()
+        name: statsOverview.getName(),
+        unit: statsOverview.getUnit()
       }
     ]);
   }

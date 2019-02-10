@@ -7,7 +7,6 @@ import { TextField } from '../atoms/TextField';
 type Props = {
   selecting?: StatsItem;
   nameTyped: (name: string) => void;
-  unitTyped: (unit: string) => void;
   removeItem: (statsItem: StatsItem) => void;
 };
 type State = {
@@ -32,7 +31,6 @@ class StatsItemInformationImpl extends React.Component<Props & InjectedIntlProps
       selecting,
       intl,
       nameTyped,
-      unitTyped,
       removeItem
     } = this.props;
 
@@ -59,14 +57,6 @@ class StatsItemInformationImpl extends React.Component<Props & InjectedIntlProps
             type='text'
             value={selecting.getName()}
             onKeyUp={nameTyped}
-          />
-          <TextField
-            label={intl.formatMessage({
-              id: 'UNIT'
-            })}
-            type='text'
-            value={selecting.getUnit()}
-            onKeyUp={unitTyped}
           />
           <CardActions>
             <Button

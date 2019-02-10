@@ -12,7 +12,7 @@ import {
   closeNewStatsModal,
   newStats, newStatsISO3166Selected, newStatsISO639Selected,
   newStatsNameTyped,
-  newStatsTermSelected, saveNewStats
+  newStatsTermSelected, newStatsUnitTyped, saveNewStats
 } from '../../actions/StatsListAction';
 import { StatsList as Component } from '../../components/pages/StatsList';
 import { State } from '../../State';
@@ -28,6 +28,7 @@ type DispatchProps = {
   newStatsClicked: () => void;
   closeNewStatsModal: () => void;
   nameTyped: (name: string) => void;
+  unitTyped: (unit: string) => void;
   iso639Selected: (iso639: ISO639) => void;
   iso3166Selected: (iso3166: ISO3166) => void;
   termSelected: (term: Term) => void;
@@ -68,6 +69,9 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
     },
     nameTyped: (name: string): void => {
       dispatch(newStatsNameTyped(name));
+    },
+    unitTyped: (unit: string): void => {
+      dispatch(newStatsUnitTyped(unit));
     },
     iso639Selected: (iso639: ISO639): void => {
       dispatch(newStatsISO639Selected(iso639));

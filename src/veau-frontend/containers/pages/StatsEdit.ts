@@ -9,13 +9,13 @@ import { Region } from '../../../veau-vo/Region';
 import { Action } from '../../actions/Action';
 import {
   invalidValueInput,
-  itemNameTyped, itemUnitTyped, removeItem, rowMoved, rowSelected,
-  saveItem, saveStats, selectingItemNameTyped, selectingItemUnitTyped, startDateDetermined, statsDataDeleted,
+  itemNameTyped, removeItem, rowMoved, rowSelected,
+  saveItem, saveStats, selectingItemNameTyped, startDateDetermined, statsDataDeleted,
   statsDataFilled,
   statsLanguageSelected,
   statsNameTyped,
   statsRegionSelected,
-  statsTermSelected
+  statsTermSelected, statsUnitTyped
 } from '../../actions/StatsEditAction';
 import { StatsEdit as Component } from '../../components/pages/StatsEdit';
 import { State } from '../../State';
@@ -30,15 +30,14 @@ type DispatchProps = {
   dataFilled: (row: number, column: number, value: number) => void;
   dataDeleted: (row: number, column: number) => void;
   nameTyped: (name: string) => void;
+  unitTyped: (unit: string) => void;
   languageSelected: (language: Language) => void;
   regionSelected: (region: Region) => void;
   termSelected: (term: Term) => void;
   itemNameTyped: (name: string) => void;
-  itemUnitTyped: (unit: string) => void;
   saveNewItem: () => void;
   rowSelected: (row: number) => void;
   selectingItemNameTyped: (name: string) => void;
-  selectingItemUnitTyped: (unit: string) => void;
   startDateDetermined: (startDate: string) => void;
   rowMoved: (column: number, target: number) => void;
   invalidValueInput: () => void;
@@ -78,6 +77,9 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
     nameTyped: (name: string): void => {
       dispatch(statsNameTyped(name));
     },
+    unitTyped: (unit: string): void => {
+      dispatch(statsUnitTyped(unit));
+    },
     languageSelected: (language: Language): void => {
       dispatch(statsLanguageSelected(language));
     },
@@ -90,9 +92,6 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
     itemNameTyped: (name: string): void => {
       dispatch(itemNameTyped(name));
     },
-    itemUnitTyped: (unit: string): void => {
-      dispatch(itemUnitTyped(unit));
-    },
     saveNewItem: (): void => {
       dispatch(saveItem());
     },
@@ -101,9 +100,6 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
     },
     selectingItemNameTyped: (name: string): void => {
       dispatch(selectingItemNameTyped(name));
-    },
-    selectingItemUnitTyped: (unit: string): void => {
-      dispatch(selectingItemUnitTyped(unit));
     },
     startDateDetermined: (startDate: string): void => {
       dispatch(startDateDetermined(startDate));

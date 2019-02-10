@@ -26,6 +26,7 @@ type Props = {
   regions: Array<Region>;
   closeNewStatsModal: () => void;
   nameTyped: (name: string) => void;
+  unitTyped: (unit: string) => void;
   iso639Selected: (iso639: ISO639) => void;
   iso3166Selected: (iso3166: ISO3166) => void;
   termSelected: (term: Term) => void;
@@ -48,6 +49,9 @@ class StatsOverviewModalImpl extends React.Component<Props & InjectedIntlProps, 
       return true;
     }
     if (newStatsOverview.getName() !== nextProps.newStatsOverview.getName()) {
+      return true;
+    }
+    if (newStatsOverview.getUnit() !== nextProps.newStatsOverview.getUnit()) {
       return true;
     }
     if (!newStatsOverview.getISO639().equals(nextProps.newStatsOverview.getISO639())) {
@@ -78,6 +82,7 @@ class StatsOverviewModalImpl extends React.Component<Props & InjectedIntlProps, 
       intl,
       closeNewStatsModal,
       nameTyped,
+      unitTyped,
       iso639Selected,
       iso3166Selected,
       termSelected,
@@ -104,6 +109,14 @@ class StatsOverviewModalImpl extends React.Component<Props & InjectedIntlProps, 
             type='text'
             value={newStatsOverview.getName()}
             onKeyUp={nameTyped}
+          />
+          <TextField
+            label={intl.formatMessage({
+              id: 'UNIT'
+            })}
+            type='text'
+            value={newStatsOverview.getUnit()}
+            onKeyUp={unitTyped}
           />
           <FormControl
             fullWidth={true}

@@ -35,7 +35,7 @@ export type StatsRow = {
   updatedAt: string;
 };
 
-const REVISED_VALUE: number = 12;
+const REVISED_VALUE: number = 14;
 const TERM_FORMAT: string = 'YYYY-MM-DD';
 
 export class Stats extends Entity<StatsID> {

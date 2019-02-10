@@ -12,14 +12,13 @@ import {
   StatsEditDataDeletedAction,
   StatsEditDataFilledAction,
   StatsEditItemNameTypedAction,
-  StatsEditItemUnitTypedAction,
   StatsEditLanguageSelectedAction,
   StatsEditNameTypedAction,
   StatsEditRegionSelectedAction, StatsEditRemoveSelectingItemAction, StatsEditRowMovedAction,
   StatsEditRowSelectedAction,
   StatsEditSelectingItemNameTypedAction,
-  StatsEditSelectingItemUnitTypedAction, StatsEditStartDateDeterminedAction,
-  StatsEditTermSelectedActoin
+  StatsEditStartDateDeterminedAction,
+  StatsEditTermSelectedActoin, StatsEditUnitTypedAction
 } from '../actions/Action';
 import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
@@ -39,17 +38,16 @@ export class StatsEdit {
   public static *init(): IterableIterator<any> {
     yield fork(StatsEdit.findStats);
     yield fork(StatsEdit.nameTyped);
+    yield fork(StatsEdit.unitTyped);
     yield fork(StatsEdit.languageSelected);
     yield fork(StatsEdit.regionSelected);
     yield fork(StatsEdit.termSelected);
     yield fork(StatsEdit.dataFilled);
     yield fork(StatsEdit.dataDeleted);
     yield fork(StatsEdit.itemNameTyped);
-    yield fork(StatsEdit.itemUnitTyped);
     yield fork(StatsEdit.saveItem);
     yield fork(StatsEdit.rowSelected);
     yield fork(StatsEdit.selectingItemNameTyped);
-    yield fork(StatsEdit.selectingItemUnitTyped);
     yield fork(StatsEdit.startDateDetermined);
     yield fork(StatsEdit.invalidValueInput);
     yield fork(StatsEdit.removeItem);
@@ -90,7 +88,21 @@ export class StatsEdit {
         stats
       } = state;
 
-      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), action.name, stats.getUpdatedAt(), stats.getItems());
+      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), action.name, stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
+      yield put(updateStats(newStats));
+    }
+  }
+
+  private static *unitTyped(): IterableIterator<any> {
+    while (true) {
+      const action: StatsEditUnitTypedAction = yield take(ACTION.STATS_EDIT_UNIT_TYPED);
+      const state: State = yield select();
+
+      const {
+        stats
+      } = state;
+
+      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), action.unit, stats.getUpdatedAt(), stats.getItems());
       yield put(updateStats(newStats));
     }
   }
@@ -104,7 +116,7 @@ export class StatsEdit {
         stats
       } = state;
 
-      const newStats: Stats = statsFactory.from(stats.getStatsID(), action.language, stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUpdatedAt(), stats.getItems());
+      const newStats: Stats = statsFactory.from(stats.getStatsID(), action.language, stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
       yield put(updateStats(newStats));
     }
   }
@@ -118,7 +130,7 @@ export class StatsEdit {
         stats
       } = state;
 
-      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), action.region, stats.getTerm(), stats.getName(), stats.getUpdatedAt(), stats.getItems());
+      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), action.region, stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
       yield put(updateStats(newStats));
     }
   }
@@ -132,7 +144,7 @@ export class StatsEdit {
         stats
       } = state;
 
-      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), action.term, stats.getName(), stats.getUpdatedAt(), stats.getItems());
+      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), action.term, stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
       yield put(updateStats(newStats));
     }
   }
@@ -187,21 +199,7 @@ export class StatsEdit {
         statsItem
       } = state;
 
-      const newStatsItem: StatsItem = statsItemFactory.from(statsItem.getStatsItemID(), action.name, statsItem.getUnit(), statsItem.getValues());
-      yield put(updateStatsItem(newStatsItem));
-    }
-  }
-
-  private static *itemUnitTyped(): IterableIterator<any> {
-    while (true) {
-      const action: StatsEditItemUnitTypedAction = yield take(ACTION.STATS_EDIT_ITEM_UNIT_TYPED);
-      const state: State = yield select();
-
-      const {
-        statsItem
-      } = state;
-
-      const newStatsItem: StatsItem = statsItemFactory.from(statsItem.getStatsItemID(), statsItem.getName(), action.unit, statsItem.getValues());
+      const newStatsItem: StatsItem = statsItemFactory.from(statsItem.getStatsItemID(), action.name, statsItem.getValues());
       yield put(updateStatsItem(newStatsItem));
     }
   }
@@ -216,7 +214,7 @@ export class StatsEdit {
         statsItem
       } = state;
 
-      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUpdatedAt(),
+      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(),
         [
           ...stats.getItems(),
           statsItem
@@ -257,31 +255,7 @@ export class StatsEdit {
       } = state;
 
       if (selectingItem) {
-        const newSelectingItem: StatsItem = statsItemFactory.from(selectingItem.getStatsItemID(), action.name, selectingItem.getUnit(), selectingItem.getValues());
-        const copied: Stats = stats.copy();
-        copied.replaceItem(newSelectingItem, selectingRow);
-
-        yield put(updateSelectingItem(newSelectingItem));
-        yield put(updateStats(copied));
-      }
-    }
-  }
-
-  private static *selectingItemUnitTyped(): IterableIterator<any> {
-    while (true) {
-      const action: StatsEditSelectingItemUnitTypedAction = yield take(ACTION.STATS_EDIT_SELECTING_ITEM_UNIT_TYPED);
-      const state: State = yield select();
-
-      const {
-        stats,
-        statsEdit: {
-          selectingItem,
-          selectingRow
-        }
-      } = state;
-
-      if (selectingItem) {
-        const newSelectingItem: StatsItem = statsItemFactory.from(selectingItem.getStatsItemID(), selectingItem.getName(), action.unit, selectingItem.getValues());
+        const newSelectingItem: StatsItem = statsItemFactory.from(selectingItem.getStatsItemID(), action.name, selectingItem.getValues());
         const copied: Stats = stats.copy();
         copied.replaceItem(newSelectingItem, selectingRow);
 
@@ -305,7 +279,7 @@ export class StatsEdit {
 
       const date: moment.Moment = moment(startDate);
       if (date.isValid()) {
-        const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUpdatedAt(), stats.getItems(), startDate);
+        const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems(), startDate);
         yield put(updateStats(newStats));
         continue;
       }

@@ -57,6 +57,11 @@ class StatsOverviewListTableImpl extends React.Component<Props & InjectedIntlPro
             </TableCell>
             <TableCell>
               {intl.formatMessage({
+                id: 'UNIT'
+              })}
+            </TableCell>
+            <TableCell>
+              {intl.formatMessage({
                 id: 'LANGUAGE'
               })}
             </TableCell>
@@ -92,6 +97,7 @@ class StatsOverviewListTableImpl extends React.Component<Props & InjectedIntlPro
                   }}
                 >
                   <TableCell>{statsOverview.getName()}</TableCell>
+                  <TableCell>{statsOverview.getUnit()}</TableCell>
                   <TableCell>{language.getName()}</TableCell>
                   <TableCell>{region.getName()}</TableCell>
                   <TableCell>
@@ -113,6 +119,7 @@ class StatsOverviewListTableImpl extends React.Component<Props & InjectedIntlPro
                   }}
                 >
                   <TableCell>{statsOverview.getName()}</TableCell>
+                  <TableCell>{statsOverview.getUnit()}</TableCell>
                   <TableCell>{statsOverview.getISO639().get()}</TableCell>
                   <TableCell>{statsOverview.getISO3166().get()}</TableCell>
                   <TableCell>

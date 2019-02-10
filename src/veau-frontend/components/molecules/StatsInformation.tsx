@@ -21,6 +21,7 @@ type Props = {
   stats: Stats;
   localeRepository: LocaleRepository;
   nameTyped: (name: string) => void;
+  unitTyped: (unit: string) => void;
   languageSelected: (language: Language) => void;
   regionSelected: (region: Region) => void;
 };
@@ -36,6 +37,9 @@ class StatsInformationImpl extends React.Component<Props & InjectedIntlProps, St
     } = this.props;
 
     if (stats.getName() !== nextProps.stats.getName()) {
+      return true;
+    }
+    if (stats.getUnit() !== nextProps.stats.getUnit()) {
       return true;
     }
     if (!stats.getLanguage().equals(nextProps.stats.getLanguage())) {
@@ -57,6 +61,7 @@ class StatsInformationImpl extends React.Component<Props & InjectedIntlProps, St
       localeRepository,
       intl,
       nameTyped,
+      unitTyped,
       languageSelected,
       regionSelected
     } = this.props;
@@ -78,6 +83,14 @@ class StatsInformationImpl extends React.Component<Props & InjectedIntlProps, St
             type='text'
             value={stats.getName()}
             onKeyUp={nameTyped}
+          />
+          <TextField
+            label={intl.formatMessage({
+              id: 'UNIT'
+            })}
+            type='text'
+            value={stats.getUnit()}
+            onKeyUp={unitTyped}
           />
           <FormControl
             fullWidth={true}

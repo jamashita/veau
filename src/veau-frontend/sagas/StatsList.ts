@@ -6,7 +6,7 @@ import { AJAX } from '../../veau-general/AJAX';
 import {
   ACTION, LocationChangeAction, StatsListISO3166SelectedAction, StatsListISO639SelectedAction,
   StatsListNameTypedAction,
-  StatsListTermSelectedAction
+  StatsListTermSelectedAction, StatsListUnitTypedAction
 } from '../actions/Action';
 import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
@@ -24,6 +24,7 @@ export class StatsList {
   public static *init(): IterableIterator<any> {
     yield fork(StatsList.findStatsList);
     yield fork(StatsList.nameTyped);
+    yield fork(StatsList.unitTyped);
     yield fork(StatsList.iso639Selected);
     yield fork(StatsList.iso3166Selected);
     yield fork(StatsList.termSelected);
@@ -70,6 +71,32 @@ export class StatsList {
         newStatsOverview.getISO3166(),
         newStatsOverview.getTerm(),
         action.name,
+        newStatsOverview.getUnit(),
+        newStatsOverview.getUpdatedAt()
+      );
+      yield put(renewStatsOverview(latestStatsOverview));
+    }
+  }
+
+  private static *unitTyped(): IterableIterator<any> {
+    while (true) {
+      const action: StatsListUnitTypedAction = yield take(ACTION.STATS_LIST_UNIT_TYPED);
+      const state: State = yield select();
+
+      const {
+        statsList: {
+          newStatsOverview
+        }
+      } = state;
+      console.log(action.unit);
+
+      const latestStatsOverview: StatsOverview = statsOverviewFactory.from(
+        newStatsOverview.getStatsID(),
+        newStatsOverview.getISO639(),
+        newStatsOverview.getISO3166(),
+        newStatsOverview.getTerm(),
+        newStatsOverview.getName(),
+        action.unit,
         newStatsOverview.getUpdatedAt()
       );
       yield put(renewStatsOverview(latestStatsOverview));
@@ -93,6 +120,7 @@ export class StatsList {
         newStatsOverview.getISO3166(),
         newStatsOverview.getTerm(),
         newStatsOverview.getName(),
+        newStatsOverview.getUnit(),
         newStatsOverview.getUpdatedAt()
       );
       yield put(renewStatsOverview(latestStatsOverview));
@@ -116,6 +144,7 @@ export class StatsList {
         action.iso3166,
         newStatsOverview.getTerm(),
         newStatsOverview.getName(),
+        newStatsOverview.getUnit(),
         newStatsOverview.getUpdatedAt()
       );
       yield put(renewStatsOverview(latestStatsOverview));
@@ -139,6 +168,7 @@ export class StatsList {
         newStatsOverview.getISO3166(),
         action.term,
         newStatsOverview.getName(),
+        newStatsOverview.getUnit(),
         newStatsOverview.getUpdatedAt()
       );
       yield put(renewStatsOverview(latestStatsOverview));
