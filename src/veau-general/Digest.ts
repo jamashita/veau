@@ -9,39 +9,17 @@ export type DigestResponseJSON = {
 
 export class Digest {
 
-  public static generate(str: string): Promise<DigestResponseJSON> {
-    return new Promise<DigestResponseJSON>((resolve: (value: DigestResponseJSON) => void, reject: (reason: any) => void): void => {
-      bcrypt.genSalt(ROUNDS, (err1: Error, salt: string): void => {
-        if (err1) {
-          reject(err1);
-          return;
-        }
+  public static async generate(str: string): Promise<DigestResponseJSON> {
+    const salt: string = await bcrypt.genSalt(ROUNDS);
+    const hash: string = await bcrypt.hash(str, salt);
 
-        bcrypt.hash(str, salt, (err2: Error, hash: string): void => {
-          if (err2) {
-            reject(err2);
-            return;
-          }
-
-          resolve({
-            salt,
-            hash
-          });
-        });
-      });
-    });
+    return {
+      salt,
+      hash
+    };
   }
 
   public static compare(str: string, hash: string): Promise<boolean> {
-    return new Promise<boolean>((resolve: (value: boolean) => void, reject: (reason: any) => void): void => {
-      bcrypt.compare(str, hash, (err: Error, res: boolean): void => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve(res);
-      });
-    });
+    return bcrypt.compare(str, hash);
   }
 }

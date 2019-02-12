@@ -35,9 +35,7 @@ class StatsItemInformationImpl extends React.Component<Props & InjectedIntlProps
     } = this.props;
 
     if (!selecting) {
-      return (
-        <div/>
-      );
+      return null;
     }
 
     return (
