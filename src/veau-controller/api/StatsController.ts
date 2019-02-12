@@ -15,7 +15,7 @@ const statsUsecase: IStatsUsecase = StatsUsecase.getInstance();
 router.get('/overview/:page(\\d+)', async (req: RequestSession, res: express.Response) => {
   const page: number = Number(req.params.page);
 
-  if (isNaN(page)) {
+  if (page <= 0) {
     res.sendStatus(PRECONDITION_FAILED);
     return;
   }
