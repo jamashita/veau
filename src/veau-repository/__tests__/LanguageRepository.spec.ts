@@ -1,7 +1,7 @@
 /* tslint:disable */
 import 'jest';
-import { SinonSpy, SinonStub } from 'sinon';
 import * as sinon from 'sinon';
+import { SinonSpy, SinonStub } from 'sinon';
 import { NoSuchElementError } from '../../veau-general/Error/NoSuchElementError';
 import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
 import { VeauRedis } from '../../veau-infrastructure/VeauRedis';
@@ -13,7 +13,7 @@ describe('LanguageRepository', () => {
   it('all: Redis has languages', async () => {
     const stub: SinonStub = sinon.stub();
     VeauRedis.getString().get = stub;
-    stub.returns('[{"languageID":1,"name":"аҧсуа бызшәа","englishName":"Abkhazian","iso639":"ab"},{"languageID":2,"name":"Afaraf","englishName":"Afar","iso639":"aa"}]');
+    stub.resolves('[{"languageID":1,"name":"аҧсуа бызшәа","englishName":"Abkhazian","iso639":"ab"},{"languageID":2,"name":"Afaraf","englishName":"Afar","iso639":"aa"}]');
     const languageRepository: LanguageRepository = LanguageRepository.getInstance();
     const languages: Array<Language> = await languageRepository.all();
 
@@ -31,10 +31,11 @@ describe('LanguageRepository', () => {
   it('all: Redis does not have languages', async () => {
     const stub1: SinonStub = sinon.stub();
     VeauRedis.getString().get = stub1;
-    stub1.returns(null);
+    // @ts-ignore
+    stub1.resolves(null);
     const stub2: SinonStub = sinon.stub();
     VeauMySQL.query = stub2;
-    stub2.returns([
+    stub2.resolves([
       {
         languageID: 1,
         name: 'аҧсуа бызшәа',
@@ -68,7 +69,7 @@ describe('LanguageRepository', () => {
   it('findByISO639', async () => {
     const stub: SinonStub = sinon.stub();
     VeauRedis.getString().get = stub;
-    stub.returns('[{"languageID":1,"name":"аҧсуа бызшәа","englishName":"Abkhazian","iso639":"ab"},{"languageID":2,"name":"Afaraf","englishName":"Afar","iso639":"aa"}]');
+    stub.resolves('[{"languageID":1,"name":"аҧсуа бызшәа","englishName":"Abkhazian","iso639":"ab"},{"languageID":2,"name":"Afaraf","englishName":"Afar","iso639":"aa"}]');
     const languageRepository: LanguageRepository = LanguageRepository.getInstance();
     const language: Language = await languageRepository.findByISO639(ISO639.of('aa'));
 
@@ -80,7 +81,7 @@ describe('LanguageRepository', () => {
   it('findByISO639: throws error', () => {
     const stub: SinonStub = sinon.stub();
     VeauRedis.getString().get = stub;
-    stub.returns('[]');
+    stub.resolves('[]');
     const languageRepository: LanguageRepository = LanguageRepository.getInstance();
 
     expect(languageRepository.findByISO639(ISO639.of('ac'))).rejects.toThrow(NoSuchElementError);

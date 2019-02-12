@@ -1,10 +1,10 @@
 /* tslint:disable */
 import 'jest';
-import { SinonStub } from 'sinon';
 import * as sinon from 'sinon';
+import { SinonStub } from 'sinon';
 import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
-import { StatsID } from '../../veau-vo/StatsID';
 import { StatsValues } from '../../veau-vo/collection/StatsValues';
+import { StatsID } from '../../veau-vo/StatsID';
 import { UUID } from '../../veau-vo/UUID';
 import { StatsValueRepository } from '../StatsValueRepository';
 
@@ -26,7 +26,7 @@ describe('StatsValueRepository', () => {
           statsID: 'd4703058-a6ff-420b-95b2-4475beba9027'
         }
       ]
-    ).returns([
+    ).resolves([
       {
         statsItemID: '98d1e9b5-6b18-44de-b615-d8016f49977d',
         asOf: '2000-01-01',

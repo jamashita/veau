@@ -22,7 +22,7 @@ describe('StatsItemRepository', () => {
       {
         statsID
       }
-    ]).returns([
+    ]).resolves([
       {
         statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
         name: 'name1'
@@ -47,7 +47,7 @@ describe('StatsItemRepository', () => {
       {
         statsID
       }
-    ]).returns([
+    ]).resolves([
       {
         statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
         asOf: '2000-01-01',

@@ -1,7 +1,7 @@
 /* tslint:disable */
 import 'jest';
-import { SinonSpy, SinonStub } from 'sinon';
 import * as sinon from 'sinon';
+import { SinonSpy, SinonStub } from 'sinon';
 import { NoSuchElementError } from '../../veau-general/Error/NoSuchElementError';
 import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
 import { VeauRedis } from '../../veau-infrastructure/VeauRedis';
@@ -13,7 +13,7 @@ describe('RegionRepository', () => {
   it('all: Redis has regions', async () => {
     const stub: SinonStub = sinon.stub();
     VeauRedis.getString().get = stub;
-    stub.returns('[{"regionID":1,"name":"Afghanistan","iso3166":"AFG"},{"regionID":2,"name":"Albania","iso3166":"ALB"}]');
+    stub.resolves('[{"regionID":1,"name":"Afghanistan","iso3166":"AFG"},{"regionID":2,"name":"Albania","iso3166":"ALB"}]');
     const regionRepository: RegionRepository = RegionRepository.getInstance();
     const regions: Array<Region> = await regionRepository.all();
 
@@ -29,10 +29,11 @@ describe('RegionRepository', () => {
   it('all: Redis does not have regions', async () => {
     const stub1: SinonStub = sinon.stub();
     VeauRedis.getString().get = stub1;
-    stub1.returns(null);
+    // @ts-ignore
+    stub1.resolves(null);
     const stub2: SinonStub = sinon.stub();
     VeauMySQL.query = stub2;
-    stub2.returns([
+    stub2.resolves([
       {
         regionID: 1,
         name: 'Afghanistan',
@@ -62,7 +63,7 @@ describe('RegionRepository', () => {
   it('findByISO3166', async () => {
     const stub: SinonStub = sinon.stub();
     VeauRedis.getString().get = stub;
-    stub.returns('[{"regionID":1,"name":"Afghanistan","iso3166":"AFG"},{"regionID":2,"name":"Albania","iso3166":"ALB"}]');
+    stub.resolves('[{"regionID":1,"name":"Afghanistan","iso3166":"AFG"},{"regionID":2,"name":"Albania","iso3166":"ALB"}]');
     const regionRepository: RegionRepository = RegionRepository.getInstance();
     const region: Region = await regionRepository.findByISO3166(ISO3166.of('ALB'));
 
@@ -73,7 +74,7 @@ describe('RegionRepository', () => {
   it('findByISO3166: throws error', () => {
     const stub: SinonStub = sinon.stub();
     VeauRedis.getString().get = stub;
-    stub.returns('[]');
+    stub.resolves('[]');
     const regionRepository: RegionRepository = RegionRepository.getInstance();
 
     expect(regionRepository.findByISO3166(ISO3166.of('ALB'))).rejects.toThrow(NoSuchElementError);

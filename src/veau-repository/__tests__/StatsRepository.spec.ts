@@ -1,13 +1,13 @@
 /* tslint:disable */
 import 'jest';
-import { SinonStub } from 'sinon';
 import * as sinon from 'sinon';
+import { SinonStub } from 'sinon';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
-import {NoSuchElementError} from '../../veau-general/Error/NoSuchElementError';
+import { NoSuchElementError } from '../../veau-general/Error/NoSuchElementError';
 import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
-import { StatsID } from '../../veau-vo/StatsID';
 import { StatsValues } from '../../veau-vo/collection/StatsValues';
+import { StatsID } from '../../veau-vo/StatsID';
 import { UUID } from '../../veau-vo/UUID';
 import { StatsRepository } from '../StatsRepository';
 
@@ -41,7 +41,7 @@ describe('StatsRepository', () => {
         }
       ]
     )
-    .returns([
+    .resolves([
       {
         statsID,
         languageID: 1,
@@ -66,7 +66,7 @@ describe('StatsRepository', () => {
       {
         statsID
       }
-    ]).returns([
+    ]).resolves([
       {
         statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
         name: 'name1'
@@ -91,7 +91,7 @@ describe('StatsRepository', () => {
       {
         statsID
       }
-    ]).returns([
+    ]).resolves([
       {
         statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
         asOf: '2000-01-01',
@@ -169,7 +169,7 @@ describe('StatsRepository', () => {
   it('findByStatsID: throws error', () => {
     const stub: SinonStub = sinon.stub();
     VeauMySQL.query = stub;
-    stub.returns([]);
+    stub.resolves([]);
 
     const statsRepository: StatsRepository = StatsRepository.getInstance();
     expect(statsRepository.findByStatsID(StatsID.of(UUID.of('a25a8b7f-c810-4dc0-b94e-e97e74329307')))).rejects.toThrow(NoSuchElementError);

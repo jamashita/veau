@@ -1,7 +1,7 @@
 /* tslint:disable */
 import 'jest';
-import { SinonStub } from 'sinon';
 import * as sinon from 'sinon';
+import { SinonStub } from 'sinon';
 import { VeauAccount } from '../../veau-entity/VeauAccount';
 import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
 import { VeauAccountHash, VeauAccountRepository } from '../VeauAccountRepository';
@@ -10,7 +10,7 @@ describe('VeauAccountRepository', () => {
   it('findByAccount', async () => {
     const stub: SinonStub = sinon.stub();
     VeauMySQL.query = stub;
-    stub.returns([
+    stub.resolves([
       {
         id: '998106de-b2e7-4981-9643-22cd30cd74de',
         account: 'account',
