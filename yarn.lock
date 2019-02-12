@@ -417,6 +417,11 @@
   resolved "https://registry.yarnpkg.com/@types/history/-/history-4.7.2.tgz#0e670ea254d559241b6eeb3894f8754991e73220"
   integrity sha512-ui3WwXmjTaY73fOQ3/m3nnajU/Orhi6cEu5rzX+BrAAJxa3eITXZ5ch9suPqtM03OWhAHhPSyBGCN4UKoxO20Q==
 
+"@types/http-status@0.2.30":
+  version "0.2.30"
+  resolved "https://registry.yarnpkg.com/@types/http-status/-/http-status-0.2.30.tgz#b43a1e1673b6ed9b5a28e8647862b51b6473634d"
+  integrity sha512-wcBc5XEOMmhuoWfNhwnpw8+tVAsueUeARxCTcRQ0BCN5V/dyKQBJNWdxmvcZW5IJWoeU47UWQ+ACCg48KKnqyA==
+
 "@types/ioredis@4.0.6":
   version "4.0.6"
   resolved "https://registry.yarnpkg.com/@types/ioredis/-/ioredis-4.0.6.tgz#64ef3aebfc406609b72a02dc62b89e8304f89213"
