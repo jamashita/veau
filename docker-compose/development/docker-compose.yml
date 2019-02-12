@@ -7,12 +7,12 @@ services:
       MYSQL_ROOT_PASSWORD: 'veau'
       MYSQL_DATABASE: 'veau'
     volumes:
-    - './mysql/cnf:/etc/mysql/conf.d'
-    - './mysql/initdata:/docker-entrypoint-initdb.d'
+      - '$PWD/mysql/cnf:/etc/mysql/conf.d'
+      - '$PWD/mysql/initdata:/docker-entrypoint-initdb.d'
     ports:
-    - '3310:3306'
+      - '3310:3306'
   veau_redis:
     container_name: 'veau_redis'
     image: 'redis:4.0.11-alpine'
     ports:
-    - '6380:6379'
+      - '6380:6379'
