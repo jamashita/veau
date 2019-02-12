@@ -19,16 +19,18 @@ type SessionSetting = {
   maxAge: number;
 };
 
-log4js.configure(config.get<log4js.Configuration>('log4js'));
-
 const port: number = config.get<number>('port');
 const mode: string = process.env.NODE_ENV as string;
+
+log4js.configure(config.get<log4js.Configuration>('log4js'));
 const logger: log4js.Logger = log4js.getLogger();
 
 process.on('unhandledRejection', logger.fatal);
 
 const app: express.Express = express();
 
+app.set('views', path.resolve(__dirname, 'views'));
+app.set('view engine', 'pug');
 app.use(bodyParser.urlencoded({
   extended: false
 }));
@@ -36,8 +38,6 @@ app.use(bodyParser.json());
 app.use(cookieParser(config.get<string>('cookieParser')));
 app.use(compression());
 app.use(helmet());
-app.set('views', path.resolve(__dirname, 'views'));
-app.set('view engine', 'pug');
 app.use(express.static(path.resolve(__dirname, 'public')));
 app.use(favicon(path.resolve(__dirname, 'favicon.ico')));
 app.use(log4js.connectLogger(logger, {
