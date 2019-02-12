@@ -1,16 +1,21 @@
 import { routerMiddleware } from 'connected-react-router';
-import { applyMiddleware, createStore, Store } from 'redux';
+import { applyMiddleware, createStore, Middleware, Store } from 'redux';
 import { createLogger } from 'redux-logger';
 import createSagaMiddleware, { SagaMiddleware } from 'redux-saga';
 import { history } from './history';
 import { reducers } from './reducers/reducer';
 import { Root } from './sagas/Root';
 
-const saga: SagaMiddleware<object> = createSagaMiddleware();
+const saga: SagaMiddleware = createSagaMiddleware();
+const logger: Middleware = createLogger({
+  diff: true,
+  collapsed: true
+});
+const router: Middleware = routerMiddleware(history);
 
 export const store: Store = createStore(
   reducers,
-  applyMiddleware(saga, createLogger(), routerMiddleware(history))
+  applyMiddleware(saga, logger, router)
 );
 
 saga.run(Root.init);
