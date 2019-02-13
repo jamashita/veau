@@ -14,7 +14,7 @@ const authentication: AuthenticationMiddleware = AuthenticationMiddleware.getIns
 router.use('/auth', AuthController);
 router.use('/wip', WIPController);
 router.use('/destroy', DestroyController);
-router.use(authentication.middleware);
+router.use(authentication.apply);
 router.use('/identity', IdentityController);
 router.use('/locales', LocaleController);
 router.use('/stats', StatsController);

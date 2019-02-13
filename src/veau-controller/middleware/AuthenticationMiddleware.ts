@@ -12,7 +12,7 @@ export class AuthenticationMiddleware implements IMiddleware {
   private constructor() {
   }
 
-  public middleware(req: express.Request, res: express.Response, next: express.NextFunction): any {
+  public apply(req: express.Request, res: express.Response, next: express.NextFunction): any {
     if (req.user) {
       next();
       return;

@@ -13,7 +13,7 @@ describe('AuthenticationMiddleware', () => {
       req.user = {};
       next();
     });
-    app.use(authenticationMiddleware.middleware);
+    app.use(authenticationMiddleware.apply);
     app.use((req: express.Request, res: express.Response) => {
       res.sendStatus(OK);
     });
@@ -25,7 +25,7 @@ describe('AuthenticationMiddleware', () => {
   it('GET: blocked', async () => {
     const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
     const app: express.Express = express();
-    app.use(authenticationMiddleware.middleware);
+    app.use(authenticationMiddleware.apply);
     app.use((req: express.Request, res: express.Response) => {
       res.sendStatus(OK);
     });
@@ -41,7 +41,7 @@ describe('AuthenticationMiddleware', () => {
       req.user = {};
       next();
     });
-    app.use(authenticationMiddleware.middleware);
+    app.use(authenticationMiddleware.apply);
     app.use((req: express.Request, res: express.Response) => {
       res.sendStatus(OK);
     });
@@ -53,7 +53,7 @@ describe('AuthenticationMiddleware', () => {
   it('POST: blocked', async () => {
     const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
     const app: express.Express = express();
-    app.use(authenticationMiddleware.middleware);
+    app.use(authenticationMiddleware.apply);
     app.use((req: express.Request, res: express.Response) => {
       res.sendStatus(OK);
     });
@@ -69,7 +69,7 @@ describe('AuthenticationMiddleware', () => {
       req.user = {};
       next();
     });
-    app.use(authenticationMiddleware.middleware);
+    app.use(authenticationMiddleware.apply);
     app.use((req: express.Request, res: express.Response) => {
       res.sendStatus(OK);
     });
@@ -81,7 +81,7 @@ describe('AuthenticationMiddleware', () => {
   it('PUT: blocked', async () => {
     const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
     const app: express.Express = express();
-    app.use(authenticationMiddleware.middleware);
+    app.use(authenticationMiddleware.apply);
     app.use((req: express.Request, res: express.Response) => {
       res.sendStatus(OK);
     });
@@ -97,7 +97,7 @@ describe('AuthenticationMiddleware', () => {
       req.user = {};
       next();
     });
-    app.use(authenticationMiddleware.middleware);
+    app.use(authenticationMiddleware.apply);
     app.use((req: express.Request, res: express.Response) => {
       res.sendStatus(OK);
     });
@@ -109,7 +109,7 @@ describe('AuthenticationMiddleware', () => {
   it('DELETE: blocked', async () => {
     const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
     const app: express.Express = express();
-    app.use(authenticationMiddleware.middleware);
+    app.use(authenticationMiddleware.apply);
     app.use((req: express.Request, res: express.Response) => {
       res.sendStatus(OK);
     });
