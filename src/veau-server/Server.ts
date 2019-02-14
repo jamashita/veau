@@ -25,7 +25,9 @@ const mode: string = process.env.NODE_ENV as string;
 log4js.configure(config.get<log4js.Configuration>('log4js'));
 const logger: log4js.Logger = log4js.getLogger();
 
-process.on('unhandledRejection', logger.fatal);
+process.on('unhandledRejection', (reason: any) => {
+  logger.fatal(reason);
+});
 
 const app: express.Express = express();
 
