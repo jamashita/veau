@@ -23,34 +23,35 @@ passport.use(
       session: true
     },
     async (account: string, password: string, done: (error: any, account?: any) => void): Promise<void> => {
-    try {
-      const {
-        veauAccount,
-        hash
-      } = await veauAccountRepository.findByAccount(account);
+      try {
+        const {
+          veauAccount,
+          hash
+        } = await veauAccountRepository.findByAccount(account);
 
-      const correct: boolean = await Digest.compare(password, hash);
+        const correct: boolean = await Digest.compare(password, hash);
 
-      if (correct) {
-        done(null, veauAccount);
-        return;
-      }
+        if (correct) {
+          done(null, veauAccount);
+          return;
+        }
 
-      done(null, false);
-    }
-    catch (err) {
-      if (err instanceof NoSuchElementError) {
-        // time adjustment
-        await Digest.compare(DUMMY_PASSWORD, DUMMY_HASH);
-        logger.info(`invalid account: ${account} and password: ${password}`);
         done(null, false);
-        return;
       }
+      catch (err) {
+        if (err instanceof NoSuchElementError) {
+          // time adjustment
+          await Digest.compare(DUMMY_PASSWORD, DUMMY_HASH);
+          logger.info(`invalid account: ${account} and password: ${password}`);
+          done(null, false);
+          return;
+        }
 
-      logger.fatal(err.message);
-      done(err);
+        logger.fatal(err.message);
+        done(err);
+      }
     }
-  })
+  )
 );
 
 passport.serializeUser<VeauAccount, VeauAccountJSON>((account: VeauAccount, done: (err: any, json: VeauAccountJSON) => void) => {

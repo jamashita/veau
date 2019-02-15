@@ -9,7 +9,7 @@ export class Request {
     };
 
     return new Promise<request.Response>((resolve: (value: request.Response) => void, reject: (reason: any) => void): void => {
-      request.get(options, (err: any, response: request.Response, body: any) => {
+      request.get(options, (err: any, response: request.Response) => {
         if (err) {
           reject(err);
           return;

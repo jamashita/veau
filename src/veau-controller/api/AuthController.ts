@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { INTERNAL_SERVER_ERROR } from 'http-status';
+import { BAD_REQUEST } from 'http-status';
 import * as log4js from 'log4js';
 import * as passport from 'passport';
 
@@ -13,7 +13,7 @@ router.post('/', passport.authenticate('local'), (req: express.Request, res: exp
   }
 
   logger.fatal('ILLEGAL ACCESS');
-  res.sendStatus(INTERNAL_SERVER_ERROR);
+  res.sendStatus(BAD_REQUEST);
 });
 
 export const AuthController: express.Router = router;
