@@ -5,7 +5,7 @@ import { StatsJSON } from '../../veau-entity/Stats';
 import { StatsOverviewJSON } from '../../veau-entity/StatsOverview';
 import { NoSuchElementError } from '../../veau-general/Error/NoSuchElementError';
 import { RequestSession } from '../../veau-general/RequestSession';
-import { IStatsUsecase } from '../../veau-usecase/IStatsUsecase';
+import { IStatsUsecase } from '../../veau-usecase/interface/IStatsUsecase';
 import { StatsUsecase } from '../../veau-usecase/StatsUsecase';
 
 const router: express.Router = express.Router();

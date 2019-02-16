@@ -4,7 +4,7 @@ import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { Language } from '../veau-vo/Language';
 import { Region } from '../veau-vo/Region';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
-import { IStatsOverviewRepository } from './IStatsOverviewRepository';
+import { IStatsOverviewRepository } from './interface/IStatsOverviewRepository';
 import { LanguageRepository } from './LanguageRepository';
 import { RegionRepository } from './RegionRepository';
 

@@ -1,11 +1,11 @@
 import { RuntimeError } from '../veau-general/Error/RuntimeError';
-import { ILanguageRepository } from '../veau-repository/ILanguageRepository';
-import { IRegionRepository } from '../veau-repository/IRegionRepository';
+import { ILanguageRepository } from '../veau-repository/interface/ILanguageRepository';
+import { IRegionRepository } from '../veau-repository/interface/IRegionRepository';
 import { LanguageRepository } from '../veau-repository/LanguageRepository';
 import { RegionRepository } from '../veau-repository/RegionRepository';
 import { Language, LanguageJSON } from '../veau-vo/Language';
 import { Region, RegionJSON } from '../veau-vo/Region';
-import { ILocaleUsecase } from './ILocaleUsecase';
+import { ILocaleUsecase } from './interface/ILocaleUsecase';
 
 const languageRepository: ILanguageRepository = LanguageRepository.getInstance();
 const regionRepository: IRegionRepository = RegionRepository.getInstance();

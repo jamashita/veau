@@ -1,4 +1,4 @@
-import { Locales } from './LocaleUsecase';
+import { Locales } from '../LocaleUsecase';
 
 export interface ILocaleUsecase {
 

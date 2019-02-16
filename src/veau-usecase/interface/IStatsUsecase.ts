@@ -1,6 +1,6 @@
-import { StatsJSON } from '../veau-entity/Stats';
-import { StatsOverviewJSON } from '../veau-entity/StatsOverview';
-import { VeauAccountID } from '../veau-vo/VeauAccountID';
+import { StatsJSON } from '../../veau-entity/Stats';
+import { StatsOverviewJSON } from '../../veau-entity/StatsOverview';
+import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 
 export interface IStatsUsecase {
 

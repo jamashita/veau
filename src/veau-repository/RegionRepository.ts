@@ -4,7 +4,7 @@ import { VeauRedis } from '../veau-infrastructure/VeauRedis';
 import { ISO3166 } from '../veau-vo/ISO3166';
 import { Region, RegionRow } from '../veau-vo/Region';
 import { RegionID } from '../veau-vo/RegionID';
-import { IRegionRepository } from './IRegionRepository';
+import { IRegionRepository } from './interface/IRegionRepository';
 
 const REDIS_KEY: string = 'Regions';
 

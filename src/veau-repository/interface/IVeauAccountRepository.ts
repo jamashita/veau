@@ -1,4 +1,4 @@
-import { VeauAccountHash } from './VeauAccountRepository';
+import { VeauAccountHash } from '../VeauAccountRepository';
 
 export interface IVeauAccountRepository {
 

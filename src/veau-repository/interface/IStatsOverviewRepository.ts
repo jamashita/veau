@@ -1,5 +1,5 @@
-import { StatsOverview } from '../veau-entity/StatsOverview';
-import { VeauAccountID } from '../veau-vo/VeauAccountID';
+import { StatsOverview } from '../../veau-entity/StatsOverview';
+import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 
 export interface IStatsOverviewRepository {
 

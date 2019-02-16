@@ -5,7 +5,7 @@ import { StatsValues } from '../veau-vo/collection/StatsValues';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsValue, StatsValueRow } from '../veau-vo/StatsValue';
-import { IStatsValueRepository } from './IStatsValueRepository';
+import { IStatsValueRepository } from './interface/IStatsValueRepository';
 
 export class StatsValueRepository implements IStatsValueRepository {
   private static instance: StatsValueRepository = new StatsValueRepository();

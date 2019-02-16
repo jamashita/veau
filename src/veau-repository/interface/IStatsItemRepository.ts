@@ -1,6 +1,6 @@
-import { StatsItem } from '../veau-entity/StatsItem';
-import { MySQLTransaction } from '../veau-general/MySQL/MySQLTransaction';
-import { StatsID } from '../veau-vo/StatsID';
+import { StatsItem } from '../../veau-entity/StatsItem';
+import { MySQLTransaction } from '../../veau-general/MySQL/MySQLTransaction';
+import { StatsID } from '../../veau-vo/StatsID';
 
 export interface IStatsItemRepository {
 
