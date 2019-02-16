@@ -23,6 +23,10 @@ export class RedisList {
     return this.client.llen(key);
   }
 
+  public remove(key: string, value: string): Promise<number> {
+    return this.client.lrem(key, 0, value);
+  }
+
   public select(key: string, offset: number, limit: number): Promise<any> {
     const start: number = offset;
     const stop: number = offset + limit;
