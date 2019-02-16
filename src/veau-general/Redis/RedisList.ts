@@ -23,6 +23,13 @@ export class RedisList {
     return this.client.llen(key);
   }
 
+  public select(key: string, offset: number, limit: number): Promise<any> {
+    const start: number = offset;
+    const stop: number = offset + limit;
+
+    return this.client.lrange(key, start, stop);
+  }
+
   public dump(key: string): Promise<any> {
     return this.client.lrange(key, 0, -1);
   }

@@ -7,8 +7,14 @@ export class RedisString {
     this.client = client;
   }
 
-  public set(key: string, value: string): Promise<string> {
-    return this.client.set(key, value);
+  public set(key: string, value: string): Promise<boolean> {
+    return this.client.set(key, value).then((result: string) => {
+      if (result === 'OK') {
+        return true;
+      }
+
+      return false;
+    });
   }
 
   public get(key: string): Promise<string | null> {
