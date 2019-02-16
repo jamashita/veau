@@ -9,12 +9,12 @@ import { WIPController } from './WIPController';
 
 const router: express.Router = express.Router();
 
-const authentication: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
+const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
 
 router.use('/auth', AuthController);
 router.use('/wip', WIPController);
 router.use('/destroy', DestroyController);
-router.use(authentication.apply);
+router.use(authenticationMiddleware.apply());
 router.use('/identity', IdentityController);
 router.use('/locales', LocaleController);
 router.use('/stats', StatsController);

@@ -12,12 +12,14 @@ export class AuthenticationMiddleware implements IMiddleware {
   private constructor() {
   }
 
-  public apply(req: express.Request, res: express.Response, next: express.NextFunction): any {
-    if (req.user) {
-      next();
-      return;
-    }
+  public apply(): express.RequestHandler {
+    return (req: express.Request, res: express.Response, next: express.NextFunction): any => {
+      if (req.user) {
+        next();
+        return;
+      }
 
-    res.sendStatus(UNAUTHORIZED);
+      res.sendStatus(UNAUTHORIZED);
+    };
   }
 }
