@@ -25,23 +25,11 @@ export class ExternalLink extends React.Component<Props, State> {
     return false;
   }
 
-  private text(): React.ReactNode {
-    const {
-      href,
-      children
-    } = this.props;
-
-    if (children === undefined) {
-      return href;
-    }
-
-    return children;
-  }
-
   public render(): React.ReactNode {
     const {
       href,
-      style
+      style,
+      children
     } = this.props;
 
     return (
@@ -51,7 +39,7 @@ export class ExternalLink extends React.Component<Props, State> {
         target='_blank'
         rel='noopener noreferrer'
       >
-        {this.text()}
+        {children}
       </a>
     );
   }
