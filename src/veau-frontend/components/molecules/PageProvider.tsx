@@ -42,9 +42,11 @@ class PageProviderImpl extends React.Component<Props & InjectedIntlProps, State>
           fullWidth={true}
           onClick={close}
         >
-          <Icon className='fas fa-times' />
+          <Icon
+            className='fas fa-times'
+          />
         </Button>
-        <Divider />
+        <Divider/>
         <List>
           <ListItem
             button={true}
@@ -62,7 +64,7 @@ class PageProviderImpl extends React.Component<Props & InjectedIntlProps, State>
             </ListItemText>
           </ListItem>
         </List>
-        <Divider />
+        <Divider/>
         <List>
           <ListItem
             button={true}
