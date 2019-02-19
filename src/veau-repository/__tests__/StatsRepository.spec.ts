@@ -6,7 +6,7 @@ import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { NoSuchElementError } from '../../veau-general/Error/NoSuchElementError';
 import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
-import { StatsValues } from '../../veau-vo/collection/StatsValues';
+import { StatsValues } from '../../veau-vo/collections/StatsValues';
 import { StatsID } from '../../veau-vo/StatsID';
 import { UUID } from '../../veau-vo/UUID';
 import { StatsRepository } from '../StatsRepository';

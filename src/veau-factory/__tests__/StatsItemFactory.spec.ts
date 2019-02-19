@@ -4,7 +4,7 @@ import * as moment from 'moment';
 import { StatsItem, StatsItemJSON, StatsItemRow } from '../../veau-entity/StatsItem';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
 import { StatsValue } from '../../veau-vo/StatsValue';
-import { StatsValues } from '../../veau-vo/collection/StatsValues';
+import { StatsValues } from '../../veau-vo/collections/StatsValues';
 import { UUID } from '../../veau-vo/UUID';
 import { StatsItemFactory } from '../StatsItemFactory';
 

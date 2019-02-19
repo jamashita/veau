@@ -10,7 +10,7 @@ import { Region } from '../../veau-vo/Region';
 import { RegionID } from '../../veau-vo/RegionID';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
 import { StatsValue } from '../../veau-vo/StatsValue';
-import { StatsValues } from '../../veau-vo/collection/StatsValues';
+import { StatsValues } from '../../veau-vo/collections/StatsValues';
 import { Term } from '../../veau-enum/Term';
 import { UUID } from '../../veau-vo/UUID';
 import { Stats } from '../Stats';
