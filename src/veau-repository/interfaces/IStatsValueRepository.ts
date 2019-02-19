@@ -1,4 +1,4 @@
-import { MySQLTransaction } from '../../veau-general/MySQL/MySQLTransaction';
+import { Transaction } from '../../veau-general/MySQL/Transaction';
 import { StatsValues } from '../../veau-vo/collections/StatsValues';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
@@ -8,7 +8,7 @@ export interface IStatsValueRepository {
 
   findByStatsID(statsID: StatsID): Promise<Map<string, StatsValues>>;
 
-  create(statsItemID: StatsItemID, statsValue: StatsValue, transaction: MySQLTransaction): Promise<any>;
+  create(statsItemID: StatsItemID, statsValue: StatsValue, transaction: Transaction): Promise<any>;
 
-  deleteByStatsID(statsID: StatsID, transaction: MySQLTransaction): Promise<any>;
+  deleteByStatsID(statsID: StatsID, transaction: Transaction): Promise<any>;
 }

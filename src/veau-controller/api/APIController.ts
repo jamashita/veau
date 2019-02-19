@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { AuthenticationMiddleware } from '../middleware/AuthenticationMiddleware';
+import { AuthenticationMiddleware } from '../middlewares/AuthenticationMiddleware';
 import { AuthController } from './AuthController';
 import { DestroyController } from './DestroyController';
 import { IdentityController } from './IdentityController';

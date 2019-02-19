@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import { MySQLTransaction } from '../veau-general/MySQL/MySQLTransaction';
+import { Transaction } from '../veau-general/MySQL/Transaction';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsValues } from '../veau-vo/collections/StatsValues';
 import { StatsID } from '../veau-vo/StatsID';
@@ -58,7 +58,7 @@ export class StatsValueRepository implements IStatsValueRepository {
     return valueMap;
   }
 
-  public create(statsItemID: StatsItemID, statsValue: StatsValue, transaction: MySQLTransaction): Promise<any> {
+  public create(statsItemID: StatsItemID, statsValue: StatsValue, transaction: Transaction): Promise<any> {
     const query: string = `INSERT INTO stats_values VALUES (
       :statsItemID,
       :asOf,
@@ -74,7 +74,7 @@ export class StatsValueRepository implements IStatsValueRepository {
     ]);
   }
 
-  public deleteByStatsID(statsID: StatsID, transaction: MySQLTransaction): Promise<any> {
+  public deleteByStatsID(statsID: StatsID, transaction: Transaction): Promise<any> {
     const query: string = `DELETE R1
       FROM stats_values R1
       INNER JOIN stats_items R2

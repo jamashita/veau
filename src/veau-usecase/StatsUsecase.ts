@@ -2,7 +2,7 @@ import { Stats, StatsJSON } from '../veau-entity/Stats';
 import { StatsOverview, StatsOverviewJSON } from '../veau-entity/StatsOverview';
 import { StatsFactory } from '../veau-factory/StatsFactory';
 import { StatsOverviewFactory } from '../veau-factory/StatsOverviewFactory';
-import { MySQLTransaction } from '../veau-general/MySQL/MySQLTransaction';
+import { Transaction } from '../veau-general/MySQL/Transaction';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { IStatsOverviewRepository } from '../veau-repository/interfaces/IStatsOverviewRepository';
 import { IStatsRepository } from '../veau-repository/interfaces/IStatsRepository';
@@ -51,7 +51,7 @@ export class StatsUsecase implements IStatsUsecase {
   public save(veauAccountID: VeauAccountID, json: StatsJSON): Promise<any> {
     const stats: Stats = statsFactory.fromJSON(json);
 
-    return VeauMySQL.transaction(async (transaction: MySQLTransaction): Promise<any> => {
+    return VeauMySQL.transaction(async (transaction: Transaction): Promise<any> => {
       await statsRepository.deleteByStatsID(stats.getStatsID(), transaction);
       return statsRepository.create(stats, veauAccountID, transaction);
     });

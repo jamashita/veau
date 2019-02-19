@@ -2,7 +2,7 @@ import { Stats, StatsRow } from '../veau-entity/Stats';
 import { StatsItem } from '../veau-entity/StatsItem';
 import { StatsFactory } from '../veau-factory/StatsFactory';
 import { NoSuchElementError } from '../veau-general/Error/NoSuchElementError';
-import { MySQLTransaction } from '../veau-general/MySQL/MySQLTransaction';
+import { Transaction } from '../veau-general/MySQL/Transaction';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../veau-vo/StatsID';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
@@ -58,7 +58,7 @@ export class StatsRepository implements IStatsRepository {
     return statsFactory.fromRow(rows[0], items);
   }
 
-  public async create(stats: Stats, veauAccountID: VeauAccountID, transaction: MySQLTransaction): Promise<any> {
+  public async create(stats: Stats, veauAccountID: VeauAccountID, transaction: Transaction): Promise<any> {
     const query: string = `INSERT INTO stats VALUES (
       :statsID,
       :languageID,
@@ -89,7 +89,7 @@ export class StatsRepository implements IStatsRepository {
     return Promise.all<any>(promises);
   }
 
-  public async deleteByStatsID(statsID: StatsID, transaction: MySQLTransaction): Promise<any> {
+  public async deleteByStatsID(statsID: StatsID, transaction: Transaction): Promise<any> {
     await statsItemRepository.deleteByStatsID(statsID, transaction);
 
     const query: string = `DELETE R1
