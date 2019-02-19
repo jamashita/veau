@@ -4,14 +4,14 @@ import { StatsFactory } from '../veau-factory/StatsFactory';
 import { StatsOverviewFactory } from '../veau-factory/StatsOverviewFactory';
 import { MySQLTransaction } from '../veau-general/MySQL/MySQLTransaction';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
-import { IStatsOverviewRepository } from '../veau-repository/interface/IStatsOverviewRepository';
-import { IStatsRepository } from '../veau-repository/interface/IStatsRepository';
+import { IStatsOverviewRepository } from '../veau-repository/interfaces/IStatsOverviewRepository';
+import { IStatsRepository } from '../veau-repository/interfaces/IStatsRepository';
 import { StatsOverviewRepository } from '../veau-repository/StatsOverviewRepository';
 import { StatsRepository } from '../veau-repository/StatsRepository';
 import { StatsID } from '../veau-vo/StatsID';
 import { UUID } from '../veau-vo/UUID';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
-import { IStatsUsecase } from './interface/IStatsUsecase';
+import { IStatsUsecase } from './interfaces/IStatsUsecase';
 
 const statsRepository: IStatsRepository = StatsRepository.getInstance();
 const statsFactory: StatsFactory = StatsFactory.getInstance();

@@ -5,7 +5,7 @@ import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsValues } from '../veau-vo/collection/StatsValues';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValue } from '../veau-vo/StatsValue';
-import { IStatsItemRepository } from './interface/IStatsItemRepository';
+import { IStatsItemRepository } from './interfaces/IStatsItemRepository';
 import { StatsValueRepository } from './StatsValueRepository';
 
 const statsValueRepository: StatsValueRepository = StatsValueRepository.getInstance();

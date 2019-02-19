@@ -4,7 +4,7 @@ import { VeauRedis } from '../veau-infrastructure/VeauRedis';
 import { ISO639 } from '../veau-vo/ISO639';
 import { Language, LanguageRow } from '../veau-vo/Language';
 import { LanguageID } from '../veau-vo/LanguageID';
-import { ILanguageRepository } from './interface/ILanguageRepository';
+import { ILanguageRepository } from './interfaces/ILanguageRepository';
 
 const REDIS_KEY: string = 'Languages';
 

@@ -6,7 +6,7 @@ import { MySQLTransaction } from '../veau-general/MySQL/MySQLTransaction';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../veau-vo/StatsID';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
-import { IStatsRepository } from './interface/IStatsRepository';
+import { IStatsRepository } from './interfaces/IStatsRepository';
 import { StatsItemRepository } from './StatsItemRepository';
 
 const statsItemRepository: StatsItemRepository = StatsItemRepository.getInstance();
