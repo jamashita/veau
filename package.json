@@ -12,7 +12,7 @@
     "webpack:watch": "webpack-dev-server --hot --config webpack.dev.config.js",
     "start": "pm2-runtime start ecosystem.config.js",
     "stop": "pm2-runtime stop ecosystem.config.js",
-    "test": "jest test --detectOpenHandles",
+    "test": "jest test --detectOpenHandles --coverage",
     "lint": "tslint 'src/**/*.ts{,x}' --fix"
   },
   "dependencies": {
