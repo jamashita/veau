@@ -71,7 +71,7 @@
     "@types/helmet": "0.0.42",
     "@types/history": "4.7.2",
     "@types/http-status": "0.2.30",
-    "@types/ioredis": "4.0.7",
+    "@types/ioredis": "4.0.8",
     "@types/jest": "24.0.6",
     "@types/mysql": "2.15.5",
     "@types/node": "11.9.4",
@@ -113,7 +113,7 @@
     "typescript": "3.3.3",
     "webpack": "4.29.5",
     "webpack-cli": "3.2.3",
-    "webpack-dev-server": "3.1.14",
+    "webpack-dev-server": "3.2.0",
     "webpack-stream": "5.2.1"
   },
   "jest": {
