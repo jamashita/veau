@@ -364,10 +364,10 @@
   dependencies:
     "@types/d3-path" "*"
 
-"@types/enzyme@3.1.18":
-  version "3.1.18"
-  resolved "https://registry.yarnpkg.com/@types/enzyme/-/enzyme-3.1.18.tgz#4b984b9a3eb9fd025c4d77e0f53d3301c3c31ef9"
-  integrity sha512-AXxcTvIEBDzcCLpLZxdSHUOvBuyAzxtsi/DGzVdAxqQRqplG9+8xxVErAJYwF+aI48/LtL2BjU6DdD+phc7IfQ==
+"@types/enzyme@3.9.0":
+  version "3.9.0"
+  resolved "https://registry.yarnpkg.com/@types/enzyme/-/enzyme-3.9.0.tgz#a81c91e2dfd2d70e67f013f2c0e5efed6df05489"
+  integrity sha512-o0C7ooyBtj9NKyMzn2BWN53W4J21KPhO+/v+qqQX28Pcz0Z1B3DjL9bq2ZR4TN70PVw8O7gkhuFtC7VN3tausg==
   dependencies:
     "@types/cheerio" "*"
     "@types/react" "*"
@@ -460,10 +460,15 @@
   dependencies:
     "@types/node" "*"
 
-"@types/node@*", "@types/node@11.9.4":
+"@types/node@*":
   version "11.9.4"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-11.9.4.tgz#ceb0048a546db453f6248f2d1d95e937a6f00a14"
   integrity sha512-Zl8dGvAcEmadgs1tmSPcvwzO1YRsz38bVJQvH1RvRqSR9/5n61Q1ktcDL0ht3FXWR+ZpVmXVwN1LuH4Ax23NsA==
+
+"@types/node@11.9.5":
+  version "11.9.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-11.9.5.tgz#011eece9d3f839a806b63973e228f85967b79ed3"
+  integrity sha512-vVjM0SVzgaOUpflq4GYBvCpozes8OgIIS5gVXVka+OfK3hvnkC1i93U8WiY2OtNE4XUWyyy/86Kf6e0IHTQw1Q==
 
 "@types/passport-local@1.0.33":
   version "1.0.33"
@@ -556,10 +561,10 @@
   resolved "https://registry.yarnpkg.com/@types/recharts-scale/-/recharts-scale-1.0.0.tgz#348c9220d6d9062c44a9d585d686644a97f7e25d"
   integrity sha512-HR/PrCcxYb2YHviTqH7CMdL1TUhUZLTUKzfrkMhxm1HTa5mg/QtP8XMiuSPz6dZ6wecazAOu8aYZ5DqkNlgHHQ==
 
-"@types/recharts@1.1.12":
-  version "1.1.12"
-  resolved "https://registry.yarnpkg.com/@types/recharts/-/recharts-1.1.12.tgz#272dad866a062263d10e4ea89504b7432ca6aceb"
-  integrity sha512-O7Ak+GxIJYcZO0YLJw0LaeNOIj5dARRiY4X63rUgpwvYp+3RS0bi4CC5GVTAn9tjNUgJ2VvGwDpVH6tCKLRUqQ==
+"@types/recharts@1.1.13":
+  version "1.1.13"
+  resolved "https://registry.yarnpkg.com/@types/recharts/-/recharts-1.1.13.tgz#77b4b67159d264c491114a9fadfdf6c0c12d78b8"
+  integrity sha512-t5r9gvqJEH30i41+sQmKj+aqknAqLtmmYJfccnqeHi1J4r5bnGtsbfH2TBRurrZpyXSBmBn0XgddpMl5QFHfjA==
   dependencies:
     "@types/d3-shape" "*"
     "@types/react" "*"
