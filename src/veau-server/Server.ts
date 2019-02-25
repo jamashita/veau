@@ -2,7 +2,6 @@ import * as bodyParser from 'body-parser';
 import * as compression from 'compression';
 import * as config from 'config';
 import * as connectRedis from 'connect-redis';
-import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
 import * as expressSession from 'express-session';
 import * as helmet from 'helmet';
@@ -37,7 +36,6 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 app.use(bodyParser.json());
-app.use(cookieParser(config.get<string>('cookieParser')));
 app.use(compression());
 app.use(helmet());
 app.use(express.static(path.resolve(__dirname, 'public')));

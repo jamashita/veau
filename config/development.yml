@@ -1,5 +1,4 @@
 port: 3000
-cookieParser: 'TE1tZls3AWpetraaWtr1LpQUBbq8gLGs'
 session:
   secret: 'Ziuye5J4VmwxacL7dvV98dqUqT7HbfTn'
   maxAge: 28800000
