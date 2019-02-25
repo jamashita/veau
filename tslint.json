@@ -102,7 +102,7 @@
     "callable-types": true,
     "class-name": true,
     "comment-format": [ true, "check-space" ],
-    "completed-docs": [ true ],
+    "completed-docs": [ false ],
     "encoding": true,
     "interface-name": false,
     "import-spacing": true,
