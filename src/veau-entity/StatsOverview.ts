@@ -1,5 +1,6 @@
 import * as moment from 'moment';
 import { Term } from '../veau-enum/Term';
+import { Random } from '../veau-general/Random';
 import { ISO3166 } from '../veau-vo/ISO3166';
 import { ISO639 } from '../veau-vo/ISO639';
 import { StatsID } from '../veau-vo/StatsID';
@@ -38,7 +39,8 @@ export class StatsOverview extends Entity<StatsID> {
   private updatedAt: moment.Moment;
 
   public static default(): StatsOverview {
-    return new StatsOverview(StatsID.of(UUID.generate()), ISO639.defualt(), ISO3166.default(), Term.DAILY, '', '', moment());
+    const uuid: UUID = UUID.of(Random.v4());
+    return new StatsOverview(StatsID.of(uuid), ISO639.defualt(), ISO3166.default(), Term.DAILY, '', '', moment());
   }
 
   public constructor(statsID: StatsID, iso639: ISO639, iso3166: ISO3166, term: Term, name: string, unit: string, updatedAt: moment.Moment) {

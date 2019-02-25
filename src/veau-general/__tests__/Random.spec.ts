@@ -21,4 +21,18 @@ describe('Random', () => {
       expect(min <= value).toEqual(true);
     }
   });
+
+  it('v4: always generates 36 length string', () => {
+    for (let i = 0; i < 1000; i++) {
+      const v4: string = Random.v4();
+      expect(v4.length).toEqual(36);
+    }
+  });
+
+  it('v5: always generates 36 length string', () => {
+    for (let i = 0; i < 1000; i++) {
+      const v5: string = Random.v5();
+      expect(v5.length).toEqual(36);
+    }
+  });
 });

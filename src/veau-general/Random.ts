@@ -16,4 +16,16 @@ export class Random {
       max
     });
   }
+
+  public static v4(): string {
+    return chance.guid({
+      version: 4
+    });
+  }
+
+  public static v5(): string {
+    return chance.guid({
+      version: 5
+    });
+  }
 }
