@@ -426,10 +426,10 @@
   resolved "https://registry.yarnpkg.com/@types/jest-diff/-/jest-diff-20.0.1.tgz#35cc15b9c4f30a18ef21852e255fdb02f6d59b89"
   integrity sha512-yALhelO3i0hqZwhjtcr6dYyaLoCHbAMshwtj6cGxTvHZAKXHsYGdff6E8EPw3xLKY0ELUTQ69Q1rQiJENnccMA==
 
-"@types/jest@24.0.8":
-  version "24.0.8"
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-24.0.8.tgz#98cc1bb1ba8bb46402289c5ef58709de0aec3881"
-  integrity sha512-J9s1185W175UQ0Amyb1AhH4+qzGXNTxEHdeXESKIs/EFHC9aLMZwDPtdH8YkimuKVt+aSb8vO0GC1guO50sbBw==
+"@types/jest@24.0.9":
+  version "24.0.9"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-24.0.9.tgz#74ce9cf337f25e189aa18f76ab3d65e8669b55f2"
+  integrity sha512-k3OOeevcBYLR5pdsOv5g3OP94h3mrJmLPHFEPWgbbVy2tGv0TZ/TlygiC848ogXhK8NL0I5up7YYtwpCp8xCJA==
   dependencies:
     "@types/jest-diff" "*"
 
@@ -2932,13 +2932,12 @@ entities@^1.1.1, entities@~1.1.1:
   resolved "https://registry.yarnpkg.com/entities/-/entities-1.1.2.tgz#bdfa735299664dfafd34529ed4f8522a275fea56"
   integrity sha512-f2LZMYl1Fzu7YSBKg+RoROelpOaNrcGmE9AZubeDfrCEia483oW4MI4VyFd5VNHIgQ/7qm1I0wUHK1eJnn2y2w==
 
-enzyme-adapter-react-16@1.9.1:
-  version "1.9.1"
-  resolved "https://registry.yarnpkg.com/enzyme-adapter-react-16/-/enzyme-adapter-react-16-1.9.1.tgz#6d49a3a31c3a0fccf527610f31b837e0f307128a"
-  integrity sha512-Egzogv1y77DUxdnq/CyHxLHaNxmSSKDDSDNNB/EiAXCZVFXdFibaNy2uUuRQ1n24T2m6KH/1Rw16XDRq+1yVEg==
+enzyme-adapter-react-16@1.10.0:
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/enzyme-adapter-react-16/-/enzyme-adapter-react-16-1.10.0.tgz#12e5b6f4be84f9a2ef374acc2555f829f351fc6e"
+  integrity sha512-0QqwEZcBv1xEEla+a3H7FMci+y4ybLia9cZzsdIrId7qcig4MK0kqqf6iiCILH1lsKS6c6AVqL3wGPhCevv5aQ==
   dependencies:
     enzyme-adapter-utils "^1.10.0"
-    function.prototype.name "^1.1.0"
     object.assign "^4.1.0"
     object.values "^1.1.0"
     prop-types "^15.6.2"
