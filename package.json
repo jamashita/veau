@@ -53,7 +53,7 @@
     "redux-saga": "1.0.2",
     "request": "2.88.0",
     "serve-favicon": "2.5.0",
-    "source-map-support": "0.5.10",
+    "source-map-support": "0.5.11",
     "superagent": "4.1.0"
   },
   "devDependencies": {
