@@ -68,7 +68,6 @@
     "@types/express-session": "1.15.12",
     "@types/helmet": "0.0.43",
     "@types/history": "4.7.2",
-    "@types/http-status": "0.2.30",
     "@types/ioredis": "4.0.10",
     "@types/jest": "24.0.11",
     "@types/mysql": "2.15.5",
