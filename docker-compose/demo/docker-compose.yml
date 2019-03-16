@@ -19,6 +19,8 @@ services:
       - '80:80'
     volumes:
       - '$PWD/nginx:/etc/nginx/conf.d'
+      - '$PWD/nginx/cert/ssl.jamashita.dev.crt:/etc/nginx/conf.d/server.crt'
+      - '$PWD/nginx/cert/ssl/jamashita.dev.key:/etc/nginx/conf.d/server.key'
     links:
       - 'veau'
   veau:

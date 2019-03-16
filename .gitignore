@@ -1,6 +1,7 @@
 **/node_modules/*
 **/dist/*
 **/coverage/*
+**/cert/*
 *.log
 logs/*
 !logs/.gitkeep
