@@ -6,7 +6,7 @@ Veau (pronunciation /vo/) is for the users who treat statistics.
 
 ## Demo
 
-[http://veau.jamashita.dev/](http://veau.jamashita.dev/)
+[https://www.jamashita.dev/](https://www.jamashita.dev/)
 
 ### Account and Password
 
