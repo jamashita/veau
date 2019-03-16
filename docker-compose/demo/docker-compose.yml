@@ -16,11 +16,11 @@ services:
     container_name: 'veau_nginx'
     image: 'nginx:1.15.8-alpine'
     ports:
-      - '80:80'
+      - '443:443'
     volumes:
-      - '$PWD/nginx:/etc/nginx/conf.d'
+      - '$PWD/nginx/veau.conf:/etc/nginx/conf.d/veau.conf'
       - '$PWD/nginx/cert/ssl.jamashita.dev.crt:/etc/nginx/conf.d/server.crt'
-      - '$PWD/nginx/cert/ssl/jamashita.dev.key:/etc/nginx/conf.d/server.key'
+      - '$PWD/nginx/cert/ssl.jamashita.dev.key:/etc/nginx/conf.d/server.key'
     links:
       - 'veau'
   veau:
