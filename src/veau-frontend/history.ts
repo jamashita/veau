@@ -1,4 +1,3 @@
-import { History } from 'history';
-import createBrowserHistory from 'history/createBrowserHistory';
+import { createBrowserHistory, History } from 'history';
 
 export const history: History = createBrowserHistory();
