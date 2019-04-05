@@ -6,7 +6,7 @@ export interface IStatsItemRepository {
 
   findByStatsID(statsID: StatsID): Promise<Array<StatsItem>>;
 
-  create(statsID: StatsID, statsItem: StatsItem, seq: number, transactin: Transaction): Promise<any>;
+  create(statsID: StatsID, statsItem: StatsItem, seq: number, transaction: Transaction): Promise<any>;
 
   deleteByStatsID(statsID: StatsID, transaction: Transaction): Promise<any>;
 }
