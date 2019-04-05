@@ -57,7 +57,7 @@ export class LanguageRepository implements ILanguageRepository {
 
   public async findByISO639(iso639: ISO639): Promise<Language> {
     const languages: Array<Language> = await this.all();
-    const filtered: Array<Language> = languages.filter((language: Language) => {
+    const found: Language | undefined = languages.find((language: Language) => {
       if (language.getISO639().equals(iso639)) {
         return true;
       }
@@ -65,11 +65,11 @@ export class LanguageRepository implements ILanguageRepository {
       return false;
     });
 
-    if (filtered.length === 0) {
+    if (found === undefined) {
       throw new NoSuchElementError(iso639.get());
     }
 
-    return filtered[0];
+    return found;
   }
 
   public deleteCache(): Promise<boolean> {

@@ -55,7 +55,7 @@ export class RegionRepository implements IRegionRepository {
 
   public async findByISO3166(iso3166: ISO3166): Promise<Region> {
     const regions: Array<Region> = await this.all();
-    const filtered: Array<Region> = regions.filter((region: Region) => {
+    const found: Region | undefined = regions.find((region: Region) => {
       if (region.getISO3166().equals(iso3166)) {
         return true;
       }
@@ -63,11 +63,11 @@ export class RegionRepository implements IRegionRepository {
       return false;
     });
 
-    if (filtered.length === 0) {
+    if (found === undefined) {
       throw new NoSuchElementError(iso3166.get());
     }
 
-    return filtered[0];
+    return found;
   }
 
   public deleteCache(): Promise<boolean> {

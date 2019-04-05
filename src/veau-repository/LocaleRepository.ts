@@ -19,7 +19,7 @@ export class LocaleRepository implements ILocaleRepository {
   }
 
   public findByISO639(iso639: ISO639): Language {
-    const languages: Array<Language> = this.languages.filter((language: Language) => {
+    const found: Language | undefined = this.languages.find((language: Language) => {
       if (language.getISO639().equals(iso639)) {
         return true;
       }
@@ -27,15 +27,15 @@ export class LocaleRepository implements ILocaleRepository {
       return false;
     });
 
-    if (languages.length === 0) {
+    if (found === undefined) {
       throw new NoSuchElementError(iso639.toString());
     }
 
-    return languages[0];
+    return found;
   }
 
   public findByISO3166(iso3166: ISO3166): Region {
-    const regions: Array<Region> = this.regions.filter((region: Region) => {
+    const found: Region | undefined = this.regions.find((region: Region) => {
       if (region.getISO3166().equals(iso3166)) {
         return true;
       }
@@ -43,11 +43,11 @@ export class LocaleRepository implements ILocaleRepository {
       return false;
     });
 
-    if (regions.length === 0) {
+    if (found === undefined) {
       throw new NoSuchElementError(iso3166.toString());
     }
 
-    return regions[0];
+    return found;
   }
 
   public allLanguages(): Array<Language> {
