@@ -8,7 +8,7 @@ export class Colors {
   }
 
   public static chartScheme(): Colors {
-    return new Colors([
+    return Colors.of([
       Color.of('#8aa399'),
       Color.of('#7d84b2'),
       Color.of('#8fa6cb'),
