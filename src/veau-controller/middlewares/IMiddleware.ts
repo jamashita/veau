@@ -2,5 +2,5 @@ import * as express from 'express';
 
 export interface IMiddleware {
 
-  apply(): express.RequestHandler | express.ErrorRequestHandler;
+  apply(...args: Array<any>): express.RequestHandler | express.ErrorRequestHandler;
 }

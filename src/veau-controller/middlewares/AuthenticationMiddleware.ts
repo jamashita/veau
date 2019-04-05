@@ -13,7 +13,7 @@ export class AuthenticationMiddleware implements IMiddleware {
   }
 
   public apply(): express.RequestHandler {
-    return (req: express.Request, res: express.Response, next: express.NextFunction): any => {
+    return (req: express.Request, res: express.Response, next: express.NextFunction): void => {
       if (req.user) {
         next();
         return;
