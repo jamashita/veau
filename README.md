@@ -2,11 +2,11 @@
 
 Veau (pronunciation /vo/) is for the users who treat statistics. 
 
-![](images/screenshot1.png)
+![](images/screenshot.png)
 
 ## Demo
 
-[https://www.jamashita.dev/](https://www.jamashita.dev/)
+[https://www.jamashita.dev](https://www.jamashita.dev)
 
 ### Account and Password
 
