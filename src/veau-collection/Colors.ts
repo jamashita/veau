@@ -1,4 +1,4 @@
-import { Color } from '../Color';
+import { Color } from '../veau-vo/Color';
 
 export class Colors {
   private colors: Array<Color>;
