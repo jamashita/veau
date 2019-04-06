@@ -8,7 +8,7 @@ export type StatsValueJSON = {
 
 export type StatsValueRow = {
   statsItemID: string;
-  asOf: Date;
+  asOf: string;
   value: number;
 };
 
