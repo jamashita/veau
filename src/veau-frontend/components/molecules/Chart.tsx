@@ -22,7 +22,7 @@ export class Chart extends React.Component<Props, State> {
     if (stats.getItems().length !== nextProps.stats.getItems().length) {
       return true;
     }
-    for (let i: number = 0; i < stats.getItems().length; i++) {
+    for (let i: number = 0; i < stats.getItems().length(); i++) {
       if (stats.getItems()[i].getName() !== nextProps.stats.getItems()[i].getName()) {
         return true;
       }

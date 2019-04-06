@@ -14,11 +14,14 @@ import {
   StatsEditItemNameTypedAction,
   StatsEditLanguageSelectedAction,
   StatsEditNameTypedAction,
-  StatsEditRegionSelectedAction, StatsEditRemoveSelectingItemAction, StatsEditRowMovedAction,
+  StatsEditRegionSelectedAction,
+  StatsEditRemoveSelectingItemAction,
+  StatsEditRowMovedAction,
   StatsEditRowSelectedAction,
   StatsEditSelectingItemNameTypedAction,
   StatsEditStartDateDeterminedAction,
-  StatsEditTermSelectedActoin, StatsEditUnitTypedAction
+  StatsEditTermSelectedActoin,
+  StatsEditUnitTypedAction
 } from '../actions/Action';
 import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
@@ -214,11 +217,7 @@ export class StatsEdit {
         statsItem
       } = state;
 
-      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(),
-        [
-          ...stats.getItems(),
-          statsItem
-        ], stats.getStartDate());
+      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems().add(statsItem), stats.getStartDate());
       yield put(updateStats(newStats));
       yield put(resetStatsItem());
     }

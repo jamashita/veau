@@ -9,6 +9,13 @@ export class StatsItems {
     this.items = items;
   }
 
+  public add(statsItem: StatsItem): StatsItems {
+    return new StatsItems([
+      ...this.items,
+      statsItem
+    ]);
+  }
+
   public get(index: number): StatsItem {
     const statsItem: StatsItem | undefined = this.items[index];
 
