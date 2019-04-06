@@ -1,4 +1,5 @@
 import * as moment from 'moment';
+import { StatsItems } from '../veau-collection/StatsItems';
 import { Term } from '../veau-enum/Term';
 import { RuntimeError } from '../veau-general/Error/RuntimeError';
 import { Language, LanguageJSON } from '../veau-vo/Language';
@@ -17,7 +18,6 @@ export type StatsJSON = {
   name: string;
   unit: string;
   updatedAt: string;
-  // TODO make StatsItems
   items: Array<StatsItemJSON>;
 };
 
@@ -47,16 +47,15 @@ export class Stats extends Entity<StatsID> {
   private name: string;
   private unit: string;
   private updatedAt: moment.Moment;
-  // TODO StatsItems
-  private items: Array<StatsItem>;
+  private items: StatsItems;
   private startDate?: string;
   private columns?: Array<string>;
 
   public static default(): Stats {
-    return new Stats(StatsID.of(UUID.of('')), Language.default(), Region.default(), Term.DAILY, '', '', moment(), []);
+    return new Stats(StatsID.of(UUID.of('')), Language.default(), Region.default(), Term.DAILY, '', '', moment(), new StatsItems([]));
   }
 
-  public constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: string, unit: string, updatedAt: moment.Moment, items: Array<StatsItem>, startDate?: string) {
+  public constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: string, unit: string, updatedAt: moment.Moment, items: StatsItems, startDate?: string) {
     super();
     this.statsID = statsID;
     this.language = language;
@@ -97,7 +96,7 @@ export class Stats extends Entity<StatsID> {
     return moment(this.updatedAt);
   }
 
-  public getItems(): Array<StatsItem> {
+  public getItems(): StatsItems {
     return this.items;
   }
 
@@ -119,7 +118,7 @@ export class Stats extends Entity<StatsID> {
       return columns;
     }
 
-    const asOfs: Array<moment.Moment> = this.collectAsOf();
+    const asOfs: Array<moment.Moment> = this.getAsOfs();
 
     if (startDate) {
       asOfs.push(moment(startDate));
@@ -142,10 +141,8 @@ export class Stats extends Entity<StatsID> {
     return this.columns;
   }
 
-  private collectAsOf(): Array<moment.Moment> {
-    return this.items.map<Array<moment.Moment>>((statsItem: StatsItem) => {
-      return statsItem.getAsOfs();
-    }).flat();
+  private getAsOfs(): Array<moment.Moment> {
+    return this.items.getAsOfs();
   }
 
   private nextTerm(term: moment.Moment): moment.Moment {
@@ -197,9 +194,7 @@ export class Stats extends Entity<StatsID> {
   }
 
   public getRows(): Array<string> {
-    return this.items.map<string>((item: StatsItem) => {
-      return item.getName();
-    });
+    return this.getItemNames();
   }
 
   public getRowHeaderSize(): number {
@@ -211,21 +206,25 @@ export class Stats extends Entity<StatsID> {
   }
 
   public getData(): Array<Array<string>> {
-    return this.items.map<Array<string>>((statsItem: StatsItem) => {
-      return statsItem.getValuesByColumn(this.getColumns());
+    const data: Array<Array<string>> = [];
+
+    this.items.forEach((statsItem: StatsItem) => {
+      data.push(statsItem.getValuesByColumn(this.getColumns()));
     });
+
+    return data;
   }
 
   public setData(row: number, column: number, value: number): void {
     const asOfString: string = this.getColumns()[column];
     const asOf: moment.Moment = moment(asOfString);
-    this.items[row].setValue(asOf, value);
+    this.items.get(row).setValue(asOf, value);
   }
 
   public deleteData(row: number, column: number): void {
     const asOfString: string = this.getColumns()[column];
     const asOf: moment.Moment = moment(asOfString);
-    this.items[row].delete(asOf);
+    this.items.get(row).delete(asOf);
   }
 
   public getChart(): Array<object> {
@@ -254,31 +253,11 @@ export class Stats extends Entity<StatsID> {
   }
 
   public getItemNames(): Array<string> {
-    return this.items.map<string>((statsItem: StatsItem) => {
-      return statsItem.getName();
-    });
+    return this.items.getNames();
   }
 
   public hasValues(): boolean {
-    const {
-      items
-    } = this;
-
-    if (items.length === 0) {
-      return false;
-    }
-
-    const rowLengths: Array<number> = items.map<number>((item: StatsItem) => {
-      return item.getValues().length();
-    });
-
-    const values: number = Math.max(...rowLengths);
-
-    if (values === 0) {
-      return false;
-    }
-
-    return true;
+    return this.items.haveValues();
   }
 
   public isFilled(): boolean {
@@ -309,45 +288,23 @@ export class Stats extends Entity<StatsID> {
     if (!this.isFilled()) {
       return false;
     }
-
-    return this.items.every((item: StatsItem): boolean => {
-      if (item.isValid()) {
-        return true;
-      }
-
+    if (!this.items.areValid()) {
       return false;
-    });
+    }
+
+    return true;
   }
 
-  public replaceItem(statsItem: StatsItem, index: number): void {
-    this.items = [
-      ...this.items.slice(0, index),
-      statsItem,
-      ...this.items.slice(index + 1)
-    ];
+  public replaceItem(statsItem: StatsItem, to: number): void {
+    this.items = this.items.replace(statsItem, to);
   }
 
   public moveItem(from: number, to: number): void {
-    const min: number = Math.min(from, to);
-    const max: number = Math.max(from, to);
-
-    this.items = [
-      ...this.items.slice(0, min),
-      this.items[max],
-      ...this.items.slice(min + 1, max),
-      this.items[min],
-      ...this.items.slice(max + 1)
-    ];
+    this.items = this.items.move(from, to);
   }
 
-  public remove(statsItem: StatsItem): void {
-    this.items = this.items.filter((item: StatsItem) => {
-      if (item.equals(statsItem)) {
-        return false;
-      }
-
-      return true;
-    });
+  public removeItem(statsItem: StatsItem): void {
+    this.items = this.items.remove(statsItem);
   }
 
   public copy(): Stats {
@@ -363,13 +320,7 @@ export class Stats extends Entity<StatsID> {
       startDate
     } = this;
 
-    const newItems: Array<StatsItem> = [];
-
-    items.forEach((item: StatsItem) => {
-      newItems.push(item.copy());
-    });
-
-    return new Stats(statsID, language, region, term, name, unit, moment(updatedAt), newItems, startDate);
+    return new Stats(statsID, language, region, term, name, unit, moment(updatedAt), items.copy(), startDate);
   }
 
   public toJSON(): StatsJSON {
@@ -392,9 +343,7 @@ export class Stats extends Entity<StatsID> {
       name,
       unit,
       updatedAt: updatedAt.utc().format('YYYY-MM-DD HH:mm:ss'),
-      items: items.map<StatsItemJSON>((item: StatsItem) => {
-        return item.toJSON();
-      })
+      items: items.toJSON()
     };
   }
 

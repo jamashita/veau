@@ -1,3 +1,4 @@
+import * as moment from 'moment';
 import { StatsItem, StatsItemJSON } from '../veau-entity/StatsItem';
 import { NoSuchElementError } from '../veau-general/Error/NoSuchElementError';
 
@@ -18,29 +19,47 @@ export class StatsItems {
     return statsItem;
   }
 
+  public getNames(): Array<string> {
+    return this.items.map<string>((item: StatsItem) => {
+      return item.getName();
+    });
+  }
+
+  public getAsOfs(): Array<moment.Moment> {
+    return this.items.map<Array<moment.Moment>>((item: StatsItem) => {
+      return item.getAsOfs();
+    }).flat();
+  }
+
   public move(from: number, to: number): StatsItems {
+    const {
+      items
+    } = this;
     const min: number = Math.min(from, to);
     const max: number = Math.max(from, to);
 
-    const items: Array<StatsItem> = [
-      ...this.items.slice(0, min),
-      this.items[max],
-      ...this.items.slice(min + 1, max),
-      this.items[min],
-      ...this.items.slice(max + 1)
+    const newItems: Array<StatsItem> = [
+      ...items.slice(0, min),
+      items[max],
+      ...items.slice(min + 1, max),
+      items[min],
+      ...items.slice(max + 1)
     ];
 
-    return new StatsItems(items);
+    return new StatsItems(newItems);
   }
 
   public replace(statsItem: StatsItem, to: number): StatsItems {
-    const items: Array<StatsItem> = [
-      ...this.items.slice(0, to),
+    const {
+      items
+    } = this;
+    const newItems: Array<StatsItem> = [
+      ...items.slice(0, to),
       statsItem,
-      ...this.items.slice(to + 1)
+      ...items.slice(to + 1)
     ];
 
-    return new StatsItems(items);
+    return new StatsItems(newItems);
   }
 
   public remove(statsItem: StatsItem): StatsItems {
@@ -59,15 +78,52 @@ export class StatsItems {
     return this.items.length;
   }
 
-  public forEach(predicate: (statsItem: StatsItem) => void): void {
+  public forEach(predicate: (statsItem: StatsItem, index: number) => void): void {
     this.items.forEach(predicate);
   }
+
+  public areFilled(): boolean {
+    return this.items.every((statsItem: StatsItem) => {
+      if (statsItem.isFilled()) {
+        return true;
+      }
+
+      return false;
+    });
+  }
+
+  public areValid(): boolean {
+    return this.areFilled();
+  }
+
+  public haveValues(): boolean {
+    const {
+      items
+    } = this;
+
+    if (items.length === 0) {
+      return false;
+    }
+
+    const rowLengths: Array<number> = items.map<number>((item: StatsItem) => {
+      return item.getValues().length();
+    });
+
+    const values: number = Math.max(...rowLengths);
+
+    if (values === 0) {
+      return false;
+    }
+
+    return true;
+  }
+
 
   public copy(): StatsItems {
     const items: Array<StatsItem> = [];
 
     this.items.forEach((statsItem: StatsItem) => {
-      items.push(statsItem);
+      items.push(statsItem.copy());
     });
 
     return new StatsItems(items);

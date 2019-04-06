@@ -325,7 +325,7 @@ export class StatsEdit {
      } = state;
 
      const copied: Stats = stats.copy();
-     copied.remove(action.statsItem);
+     copied.removeItem(action.statsItem);
 
      yield put(updateStats(copied));
      yield put(clearSelectingItem());

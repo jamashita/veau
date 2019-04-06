@@ -1,4 +1,5 @@
 import * as moment from 'moment';
+import { StatsItems } from '../veau-collection/StatsItems';
 import { Stats, StatsJSON, StatsRow } from '../veau-entity/Stats';
 import { StatsItem, StatsItemJSON } from '../veau-entity/StatsItem';
 import { Term } from '../veau-enum/Term';
@@ -24,7 +25,7 @@ export class StatsFactory {
   private constructor() {
   }
 
-  public from(statsID: StatsID, language: Language, region: Region, term: Term, name: string, unit: string, updatedAt: moment.Moment, items: Array<StatsItem>, startDate?: string): Stats {
+  public from(statsID: StatsID, language: Language, region: Region, term: Term, name: string, unit: string, updatedAt: moment.Moment, items: StatsItems, startDate?: string): Stats {
     return new Stats(statsID, language, region, term, name, unit, updatedAt, items, startDate);
   }
 
@@ -40,6 +41,10 @@ export class StatsFactory {
       items
     } = json;
 
+    const statsItems: Array<StatsItem> = items.map<StatsItem>((item: StatsItemJSON) => {
+      return statsItemFactory.fromJSON(item);
+    });
+
     return this.from(
       StatsID.of(UUID.of(statsID)),
       Language.of(LanguageID.of(language.languageID), language.name, language.englishName, ISO639.of(language.iso639)),
@@ -48,13 +53,11 @@ export class StatsFactory {
       name,
       unit,
       moment.utc(updatedAt),
-      items.map<StatsItem>((item: StatsItemJSON) => {
-        return statsItemFactory.fromJSON(item);
-      })
+      new StatsItems(statsItems)
     );
   }
 
-  public fromRow(row: StatsRow, stats: Array<StatsItem>): Stats {
+  public fromRow(row: StatsRow, statItems: Array<StatsItem>): Stats {
     const {
       statsID,
       languageID,
@@ -74,6 +77,6 @@ export class StatsFactory {
     const region: Region = Region.of(RegionID.of(regionID), regionName, ISO3166.of(iso3166));
     const term: Term = Term.of(termID);
 
-    return this.from(StatsID.of(UUID.of(statsID)), language, region, term, name, unit, moment.utc(updatedAt), stats);
+    return this.from(StatsID.of(UUID.of(statsID)), language, region, term, name, unit, moment.utc(updatedAt), new StatsItems(statItems));
   }
 }

@@ -2,9 +2,9 @@
 import 'jest';
 import * as sinon from 'sinon';
 import { SinonStub } from 'sinon';
+import { StatsItems } from '../../veau-collection/StatsItems';
 import { StatsValues } from '../../veau-collection/StatsValues';
 import { Stats } from '../../veau-entity/Stats';
-import { StatsItem } from '../../veau-entity/StatsItem';
 import { NoSuchElementError } from '../../veau-general/Error/NoSuchElementError';
 import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../../veau-vo/StatsID';
@@ -135,12 +135,12 @@ describe('StatsRepository', () => {
     expect(stats.getUnit()).toEqual('unit');
     expect(stats.getUpdatedAt().toJSON()).toEqual('2000-01-01T00:00:00.000Z');
 
-    const items: Array<StatsItem> = stats.getItems();
-    expect(items.length).toEqual(3);
-    expect(items[0].getStatsItemID().get().get()).toEqual('c0e18d31-d026-4a84-af4f-d5d26c520600');
-    expect(items[0].getName()).toEqual('name1');
+    const items: StatsItems = stats.getItems();
+    expect(items.length()).toEqual(3);
+    expect(items.get(0).getStatsItemID().get().get()).toEqual('c0e18d31-d026-4a84-af4f-d5d26c520600');
+    expect(items.get(0).getName()).toEqual('name1');
 
-    let values: StatsValues = items[0].getValues();
+    let values: StatsValues = items.get(0).getValues();
     expect(values.length()).toEqual(3);
     expect(values.get(0).getAsOfAsString()).toEqual('2000-01-01');
     expect(values.get(0).getValue()).toEqual(1);
@@ -149,20 +149,20 @@ describe('StatsRepository', () => {
     expect(values.get(2).getAsOfAsString()).toEqual('2000-01-03');
     expect(values.get(2).getValue()).toEqual(3);
 
-    expect(items[1].getStatsItemID().get().get()).toEqual('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c');
-    expect(items[1].getName()).toEqual('name2');
+    expect(items.get(1).getStatsItemID().get().get()).toEqual('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c');
+    expect(items.get(1).getName()).toEqual('name2');
 
-    values = items[1].getValues();
+    values = items.get(1).getValues();
     expect(values.length()).toEqual(2);
     expect(values.get(0).getAsOfAsString()).toEqual('2001-01-01');
     expect(values.get(0).getValue()).toEqual(11);
     expect(values.get(1).getAsOfAsString()).toEqual('2001-01-02');
     expect(values.get(1).getValue()).toEqual(12);
 
-    expect(items[2].getStatsItemID().get().get()).toEqual('2ac64841-5267-48bc-8952-ba9ad1cb12d7');
-    expect(items[2].getName()).toEqual('name3');
+    expect(items.get(2).getStatsItemID().get().get()).toEqual('2ac64841-5267-48bc-8952-ba9ad1cb12d7');
+    expect(items.get(2).getName()).toEqual('name3');
 
-    values = items[2].getValues();
+    values = items.get(2).getValues();
     expect(values.length()).toEqual(0);
   });
 

@@ -82,8 +82,10 @@ export class StatsRepository implements IStatsRepository {
       }
     ]);
 
-    const promises: Array<Promise<any>> = stats.getItems().map<Promise<any>>((statsItem: StatsItem, index: number) => {
-      return statsItemRepository.create(stats.getStatsID(), statsItem, index + 1, transaction);
+    const promises: Array<Promise<any>> = [];
+
+    stats.getItems().forEach((statsItem: StatsItem, index: number) => {
+      promises.push(statsItemRepository.create(stats.getStatsID(), statsItem, index + 1, transaction));
     });
 
     return Promise.all<any>(promises);

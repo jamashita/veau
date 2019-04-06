@@ -74,6 +74,14 @@ describe('StatsItem', () => {
     expect(statsItem2.isFilled()).toEqual(true);
   });
 
+  it('isValid', () => {
+    const statsItem1: StatsItem = new StatsItem(StatsItemID.of(UUID.of('5ee0c273-c26f-432f-9217-d6a7b481a073')), '', new StatsValues([]));
+    const statsItem2: StatsItem = new StatsItem(StatsItemID.of(UUID.of('5ee0c273-c26f-432f-9217-d6a7b481a073')), 'name', new StatsValues([]));
+
+    expect(statsItem1.isValid()).toEqual(false);
+    expect(statsItem2.isValid()).toEqual(true);
+  });
+
   it('copy', () => {
     const statsItemID: StatsItemID = StatsItemID.of(UUID.of('5ee0c273-c26f-432f-9217-d6a7b481a073'));
     const name: string = 'name';

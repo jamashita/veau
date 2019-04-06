@@ -1,6 +1,7 @@
 /* tslint:disable */
 import 'jest';
 import * as moment from 'moment';
+import { StatsItems } from '../../veau-collection/StatsItems';
 import { StatsValues } from '../../veau-collection/StatsValues';
 import { Stats, StatsJSON, StatsRow } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
@@ -26,9 +27,9 @@ describe('StatsFactory', () => {
     const name: string = 'name1';
     const unit: string = 'unit1';
     const updatedAt: moment.Moment = moment('2000-01-01');
-    const items: Array<StatsItem> = [
+    const items: StatsItems = new StatsItems([
       new StatsItem(StatsItemID.of(UUID.of('a28eceac-0451-4339-b1c5-0c298b3905f6')), 'stats1', new StatsValues([]))
-    ];
+    ]);
 
     const statsFactory: StatsFactory = StatsFactory.getInstance();
     const stats: Stats = statsFactory.from(statsID, language, region, term, name, unit, updatedAt, items);
@@ -40,7 +41,7 @@ describe('StatsFactory', () => {
     expect(stats.getName()).toEqual(name);
     expect(stats.getUnit()).toEqual(unit);
     expect(stats.getUpdatedAt()).toEqual(updatedAt);
-    expect(stats.getItems()).toEqual(items);
+    expect(stats.getItems().equals(items)).toEqual(true);
   });
 
   it('fromJSON', () => {
@@ -104,14 +105,14 @@ describe('StatsFactory', () => {
     expect(stats.getName()).toEqual(json.name);
     expect(stats.getUnit()).toEqual(json.unit);
     expect(stats.getUpdatedAt().get('seconds')).toEqual(moment(json.updatedAt).get('seconds'));
-    expect(stats.getItems().length).toEqual(json.items.length);
-    for (let i = 0; i < stats.getItems().length; i++) {
-      expect(stats.getItems()[i].getStatsItemID().get().get()).toEqual(json.items[i].statsItemID);
-      expect(stats.getItems()[i].getName()).toEqual(json.items[i].name);
-      expect(stats.getItems()[i].getValues().length()).toEqual(json.items[i].values.length);
-      for (let j = 0; j < stats.getItems()[i].getValues().length(); j++) {
-        expect(stats.getItems()[i].getValues().get(j).getAsOfAsString()).toEqual(json.items[i].values[j].asOf);
-        expect(stats.getItems()[i].getValues().get(j).getValue()).toEqual(json.items[i].values[j].value);
+    expect(stats.getItems().length()).toEqual(json.items.length);
+    for (let i = 0; i < stats.getItems().length(); i++) {
+      expect(stats.getItems().get(i).getStatsItemID().get().get()).toEqual(json.items[i].statsItemID);
+      expect(stats.getItems().get(i).getName()).toEqual(json.items[i].name);
+      expect(stats.getItems().get(i).getValues().length()).toEqual(json.items[i].values.length);
+      for (let j = 0; j < stats.getItems().get(i).getValues().length(); j++) {
+        expect(stats.getItems().get(i).getValues().get(j).getAsOfAsString()).toEqual(json.items[i].values[j].asOf);
+        expect(stats.getItems().get(i).getValues().get(j).getValue()).toEqual(json.items[i].values[j].value);
       }
     }
   });
