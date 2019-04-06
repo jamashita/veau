@@ -169,7 +169,7 @@ export class StatsEdit {
       const copied: Stats = stats.copy();
       copied.setData(row, column, value);
 
-      yield put(updateStats(copied.copy()));
+      yield put(updateStats(copied));
     }
   }
 
@@ -189,7 +189,7 @@ export class StatsEdit {
       const copied: Stats = stats.copy();
       copied.deleteData(row, column);
 
-      yield put(updateStats(copied.copy()));
+      yield put(updateStats(copied));
     }
   }
 
