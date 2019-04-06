@@ -23,17 +23,17 @@ export class Chart extends React.Component<Props, State> {
       return true;
     }
     for (let i: number = 0; i < stats.getItems().length(); i++) {
-      if (stats.getItems()[i].getName() !== nextProps.stats.getItems()[i].getName()) {
+      if (stats.getItems().get(i).getName() !== nextProps.stats.getItems().get(i).getName()) {
         return true;
       }
-      if (stats.getItems()[i].getValues().length() !== nextProps.stats.getItems()[i].getValues().length()) {
+      if (stats.getItems().get(i).getValues().length() !== nextProps.stats.getItems().get(i).getValues().length()) {
         return true;
       }
-      for (let j: number = 0; j < stats.getItems()[i].getValues().length(); j++) {
-        if (!stats.getItems()[i].getValues().get(j).getAsOf().isSame(nextProps.stats.getItems()[i].getValues().get(j).getAsOf())) {
+      for (let j: number = 0; j < stats.getItems().get(i).getValues().length(); j++) {
+        if (!stats.getItems().get(i).getValues().get(j).getAsOf().isSame(nextProps.stats.getItems().get(i).getValues().get(j).getAsOf())) {
           return true;
         }
-        if (stats.getItems()[i].getValues().get(j).getValue() !== nextProps.stats.getItems()[i].getValues().get(j).getValue()) {
+        if (stats.getItems().get(i).getValues().get(j).getValue() !== nextProps.stats.getItems().get(i).getValues().get(j).getValue()) {
           return true;
         }
       }
