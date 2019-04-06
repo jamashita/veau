@@ -14,7 +14,7 @@ for English user
 
 ```
 Account: english
-Password: englsih
+Password: english
 ```
 
 for Spanish user
