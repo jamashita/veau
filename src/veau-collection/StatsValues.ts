@@ -79,7 +79,7 @@ export class StatsValues {
     const values: Array<StatsValue> = [];
 
     this.values.forEach((statsValue: StatsValue) => {
-      values.push(StatsValue.of(statsValue.getAsOf(), statsValue.getValue()));
+      values.push(statsValue);
     });
 
     return new StatsValues(values);
@@ -108,9 +108,5 @@ export class StatsValues {
     return this.values.map<StatsValueJSON>((value: StatsValue) => {
       return value.toJSON();
     });
-  }
-
-  public toString(): string {
-    return this.values.toString();
   }
 }

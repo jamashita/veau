@@ -9,54 +9,51 @@ describe('StatsValues', () => {
     const statsValue1: StatsValue = StatsValue.of(moment('2000-01-01'), 1);
     const statsValue2: StatsValue = StatsValue.of(moment('2000-01-02'), 2);
     const statsValue3: StatsValue = StatsValue.of(moment('2000-01-03'), 3);
-
-    let statsValues: StatsValues = new StatsValues([
+    const statsValues: StatsValues = new StatsValues([
       statsValue1,
       statsValue2,
       statsValue3
     ]);
 
-    statsValues = statsValues.set(StatsValue.of(moment('2000-01-02'), 4));
+    const set: StatsValues = statsValues.set(StatsValue.of(moment('2000-01-02'), 4));
 
-    expect(statsValues.length()).toEqual(3);
-    expect(statsValues.get(0).getValue()).toEqual(1);
-    expect(statsValues.get(1).getValue()).toEqual(4);
-    expect(statsValues.get(2).getValue()).toEqual(3);
+    expect(set.length()).toEqual(3);
+    expect(set.get(0).getValue()).toEqual(1);
+    expect(set.get(1).getValue()).toEqual(4);
+    expect(set.get(2).getValue()).toEqual(3);
   });
 
   it('set: insert pattern', () => {
     const statsValue1: StatsValue = StatsValue.of(moment('2000-01-01'), 1);
     const statsValue3: StatsValue = StatsValue.of(moment('2000-01-03'), 3);
-
-    let statsValues: StatsValues = new StatsValues([
+    const  statsValues: StatsValues = new StatsValues([
       statsValue1,
       statsValue3
     ]);
 
-    statsValues = statsValues.set(StatsValue.of(moment('2000-01-02'), 2));
+    const set: StatsValues = statsValues.set(StatsValue.of(moment('2000-01-02'), 2));
 
-    expect(statsValues.length()).toEqual(3);
-    expect(statsValues.get(0).getValue()).toEqual(1);
-    expect(statsValues.get(1).getValue()).toEqual(2);
-    expect(statsValues.get(2).getValue()).toEqual(3);
+    expect(set.length()).toEqual(3);
+    expect(set.get(0).getValue()).toEqual(1);
+    expect(set.get(1).getValue()).toEqual(2);
+    expect(set.get(2).getValue()).toEqual(3);
   });
 
   it('delete', () => {
     const statsValue1: StatsValue = StatsValue.of(moment('2000-01-01'), 1);
     const statsValue2: StatsValue = StatsValue.of(moment('2000-01-02'), 2);
     const statsValue3: StatsValue = StatsValue.of(moment('2000-01-03'), 3);
-
-    let statsValues: StatsValues = new StatsValues([
+    const statsValues: StatsValues = new StatsValues([
       statsValue1,
       statsValue2,
       statsValue3
     ]);
 
-    statsValues = statsValues.delete(moment('2000-01-02'));
+    const deleted: StatsValues = statsValues.delete(moment('2000-01-02'));
 
-    expect(statsValues.length()).toEqual(2);
-    expect(statsValues.get(0).getValue()).toEqual(1);
-    expect(statsValues.get(1).getValue()).toEqual(3);
+    expect(deleted.length()).toEqual(2);
+    expect(deleted.get(0).getValue()).toEqual(1);
+    expect(deleted.get(1).getValue()).toEqual(3);
   });
 
   it('equals', () => {
