@@ -1,8 +1,8 @@
+import { StatsValues } from '../veau-collection/StatsValues';
 import { StatsItem, StatsItemRow } from '../veau-entity/StatsItem';
 import { StatsItemFactory } from '../veau-factory/StatsItemFactory';
 import { Transaction } from '../veau-general/MySQL/Transaction';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
-import { StatsValues } from '../veau-vo/collections/StatsValues';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValue } from '../veau-vo/StatsValue';
 import { IStatsItemRepository } from './interfaces/IStatsItemRepository';
@@ -44,7 +44,7 @@ export class StatsItemRepository implements IStatsItemRepository {
         return statsItemFactory.fromRow(statsItemRow, values);
       }
 
-      return statsItemFactory.fromRow(statsItemRow, StatsValues.of([]));
+      return statsItemFactory.fromRow(statsItemRow, new StatsValues([]));
     });
   }
 
@@ -65,8 +65,10 @@ export class StatsItemRepository implements IStatsItemRepository {
       }
     ]);
 
-    const promises: Array<Promise<any>> = statsItem.getValues().get().map<Promise<void>>((statsValue: StatsValue) => {
-      return statsValueRepository.create(statsItem.getStatsItemID(), statsValue, transaction);
+    const promises: Array<Promise<any>> = [];
+
+    statsItem.getValues().forEach((statsValue: StatsValue) => {
+      promises.push(statsValueRepository.create(statsItem.getStatsItemID(), statsValue, transaction));
     });
 
     return Promise.all<any>(promises);

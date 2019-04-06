@@ -1,6 +1,6 @@
 import * as moment from 'moment';
+import { StatsValues } from '../veau-collection/StatsValues';
 import { Random } from '../veau-general/Random';
-import { StatsValues } from '../veau-vo/collections/StatsValues';
 import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsValue, StatsValueJSON } from '../veau-vo/StatsValue';
 import { UUID } from '../veau-vo/UUID';
@@ -24,7 +24,7 @@ export class StatsItem extends Entity<StatsItemID> {
 
   public static default(): StatsItem {
     const uuid: UUID = UUID.of(Random.v4());
-    return new StatsItem(StatsItemID.of(uuid), '', StatsValues.of([]));
+    return new StatsItem(StatsItemID.of(uuid), '', new StatsValues([]));
   }
 
   public constructor(statsItemID: StatsItemID, name: string, values: StatsValues) {
@@ -51,9 +51,13 @@ export class StatsItem extends Entity<StatsItemID> {
   }
 
   public getAsOfs(): Array<moment.Moment> {
-    return this.values.get().map<moment.Moment>((statsValue: StatsValue) => {
-      return statsValue.getAsOf();
+    const asOfs: Array<moment.Moment> = [];
+
+    this.values.forEach((statsValue: StatsValue) => {
+      asOfs.push(statsValue.getAsOf());
     });
+
+    return asOfs;
   }
 
   public getValuesByColumn(column: Array<string>): Array<string> {
@@ -62,7 +66,7 @@ export class StatsItem extends Entity<StatsItemID> {
     column.forEach((term: string) => {
       let alreadyInput: boolean = false;
 
-      this.values.get().forEach((statsValue: StatsValue) => {
+      this.values.forEach((statsValue: StatsValue) => {
         if (alreadyInput) {
           return;
         }
@@ -82,11 +86,11 @@ export class StatsItem extends Entity<StatsItemID> {
 
   public setValue(asOf: moment.Moment, value: number): void {
     const statsValue: StatsValue = StatsValue.of(asOf, value);
-    this.values.setStatsValue(statsValue);
+    this.values = this.values.set(statsValue);
   }
 
   public delete(asOf: moment.Moment): void {
-    this.values.deleteStatsValue(asOf);
+    this.values = this.values.delete(asOf);
   }
 
   public isFilled(): boolean {
@@ -132,7 +136,7 @@ export class StatsItem extends Entity<StatsItemID> {
   public toString(): string {
     const {
       statsItemID,
-      name,
+      name
     } = this;
 
     return `${statsItemID.toString()} ${name}`;

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Colors } from '../../../veau-collection/Colors';
 import { Stats } from '../../../veau-entity/Stats';
-import { Colors } from '../../../veau-vo/collections/Colors';
 
 type Props = {
   stats: Stats;
@@ -30,10 +30,10 @@ export class Chart extends React.Component<Props, State> {
         return true;
       }
       for (let j: number = 0; j < stats.getItems()[i].getValues().length(); j++) {
-        if (!stats.getItems()[i].getValues().get()[j].getAsOf().isSame(nextProps.stats.getItems()[i].getValues().get()[j].getAsOf())) {
+        if (!stats.getItems()[i].getValues().get(j).getAsOf().isSame(nextProps.stats.getItems()[i].getValues().get(j).getAsOf())) {
           return true;
         }
-        if (stats.getItems()[i].getValues().get()[j].getValue() !== nextProps.stats.getItems()[i].getValues().get()[j].getValue()) {
+        if (stats.getItems()[i].getValues().get(j).getValue() !== nextProps.stats.getItems()[i].getValues().get(j).getValue()) {
           return true;
         }
       }
@@ -73,7 +73,7 @@ export class Chart extends React.Component<Props, State> {
           <CartesianGrid/>
           <Legend/>
           <Tooltip/>
-          {stats.getItemNames().reverse().map<React.ReactNode>((item: string, index: number) => {
+          {stats.getItemNames().map<React.ReactNode>((item: string, index: number) => {
             return (
               <Line
                 type='monotone'

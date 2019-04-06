@@ -1,30 +1,25 @@
 import * as moment from 'moment';
+import { NoSuchElementError } from '../veau-general/Error/NoSuchElementError';
 import { StatsValue, StatsValueJSON } from '../veau-vo/StatsValue';
 
 export class StatsValues {
   private values: Array<StatsValue>;
 
-  public static of(values: Array<StatsValue>): StatsValues {
-    return new StatsValues(values);
-  }
-
-  private constructor(values: Array<StatsValue>) {
+  public constructor(values: Array<StatsValue>) {
     this.values = values;
   }
 
-  public get(): Array<StatsValue> {
-    return this.values;
+  public get(index: number): StatsValue {
+    const statsValue: StatsValue | undefined = this.values[index];
+
+    if (statsValue === undefined) {
+      throw new NoSuchElementError(`${index} DOES NOT EXIST`);
+    }
+
+    return statsValue;
   }
 
-  public set(statsValue: StatsValue): void {
-    this.values.push(statsValue);
-  }
-
-  public length(): number {
-    return this.values.length;
-  }
-
-  public setStatsValue(statsValue: StatsValue): void {
+  public set(statsValue: StatsValue): StatsValues {
     const newValues: Array<StatsValue> = [];
     let isSet: boolean = false;
 
@@ -53,17 +48,31 @@ export class StatsValues {
       });
     }
 
-    this.values = newValues;
+    return new StatsValues(newValues);
   }
 
-  public deleteStatsValue(asOf: moment.Moment): void {
-    this.values = this.values.filter((value: StatsValue) => {
+  public add(statsValue: StatsValue): StatsValues {
+    return new StatsValues([...this.values, statsValue]);
+  }
+
+  public delete(asOf: moment.Moment): StatsValues {
+    const newValues: Array<StatsValue> = this.values.filter((value: StatsValue) => {
       if (asOf.isSame(value.getAsOf())) {
         return false;
       }
 
       return true;
     });
+
+    return new StatsValues(newValues);
+  }
+
+  public length(): number {
+    return this.values.length;
+  }
+
+  public forEach(predicate: (statsValue: StatsValue) => void): void {
+    this.values.forEach(predicate);
   }
 
   public copy(): StatsValues {
@@ -87,7 +96,7 @@ export class StatsValues {
       return false;
     }
     for (let i: number = 0; i < length; i++) {
-      if (!this.values[i].equals(other.get()[i])) {
+      if (!this.values[i].equals(other.get(i))) {
         return false;
       }
     }

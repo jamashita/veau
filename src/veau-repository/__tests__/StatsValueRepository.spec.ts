@@ -2,8 +2,8 @@
 import 'jest';
 import * as sinon from 'sinon';
 import { SinonStub } from 'sinon';
+import { StatsValues } from '../../veau-collection/StatsValues';
 import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
-import { StatsValues } from '../../veau-vo/collections/StatsValues';
 import { StatsID } from '../../veau-vo/StatsID';
 import { UUID } from '../../veau-vo/UUID';
 import { StatsValueRepository } from '../StatsValueRepository';
@@ -61,10 +61,10 @@ describe('StatsValueRepository', () => {
 
     if (year2001) {
       expect(year2001.length()).toEqual(2);
-      expect(year2001.get()[0].getAsOfAsString()).toEqual('2001-01-01');
-      expect(year2001.get()[0].getValue()).toEqual(11);
-      expect(year2001.get()[1].getAsOfAsString()).toEqual('2001-01-02');
-      expect(year2001.get()[1].getValue()).toEqual(12);
+      expect(year2001.get(0).getAsOfAsString()).toEqual('2001-01-01');
+      expect(year2001.get(0).getValue()).toEqual(11);
+      expect(year2001.get(1).getAsOfAsString()).toEqual('2001-01-02');
+      expect(year2001.get(1).getValue()).toEqual(12);
     }
     else {
       fail();
@@ -74,12 +74,12 @@ describe('StatsValueRepository', () => {
 
     if (year2000) {
       expect(year2000.length()).toEqual(3);
-      expect(year2000.get()[0].getAsOfAsString()).toEqual('2000-01-01');
-      expect(year2000.get()[0].getValue()).toEqual(1);
-      expect(year2000.get()[1].getAsOfAsString()).toEqual('2000-01-02');
-      expect(year2000.get()[1].getValue()).toEqual(2);
-      expect(year2000.get()[2].getAsOfAsString()).toEqual('2000-01-03');
-      expect(year2000.get()[2].getValue()).toEqual(3);
+      expect(year2000.get(0).getAsOfAsString()).toEqual('2000-01-01');
+      expect(year2000.get(0).getValue()).toEqual(1);
+      expect(year2000.get(1).getAsOfAsString()).toEqual('2000-01-02');
+      expect(year2000.get(1).getValue()).toEqual(2);
+      expect(year2000.get(2).getAsOfAsString()).toEqual('2000-01-03');
+      expect(year2000.get(2).getValue()).toEqual(3);
     }
     else {
       fail();

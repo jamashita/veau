@@ -1,7 +1,7 @@
 import * as moment from 'moment';
+import { StatsValues } from '../veau-collection/StatsValues';
 import { Transaction } from '../veau-general/MySQL/Transaction';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
-import { StatsValues } from '../veau-vo/collections/StatsValues';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsValue, StatsValueRow } from '../veau-vo/StatsValue';
@@ -46,11 +46,11 @@ export class StatsValueRepository implements IStatsValueRepository {
       const statsValues: StatsValues | undefined = valueMap.get(statsItemID);
 
       if (statsValues) {
-        statsValues.set(statsValue);
+        valueMap.set(statsItemID, statsValues.set(statsValue));
         return;
       }
 
-      valueMap.set(statsItemID, StatsValues.of([
+      valueMap.set(statsItemID, new StatsValues([
         statsValue
       ]));
     });

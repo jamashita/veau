@@ -1,8 +1,10 @@
 /* tslint:disable */
 import 'jest';
 import * as moment from 'moment';
+import { StatsValues } from '../../veau-collection/StatsValues';
 import { Stats, StatsJSON, StatsRow } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
+import { Term } from '../../veau-enum/Term';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language } from '../../veau-vo/Language';
@@ -12,8 +14,6 @@ import { RegionID } from '../../veau-vo/RegionID';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
 import { StatsValue } from '../../veau-vo/StatsValue';
-import { StatsValues } from '../../veau-vo/collections/StatsValues';
-import { Term } from '../../veau-enum/Term';
 import { UUID } from '../../veau-vo/UUID';
 import { StatsFactory } from '../StatsFactory';
 
@@ -27,7 +27,7 @@ describe('StatsFactory', () => {
     const unit: string = 'unit1';
     const updatedAt: moment.Moment = moment('2000-01-01');
     const items: Array<StatsItem> = [
-      new StatsItem(StatsItemID.of(UUID.of('a28eceac-0451-4339-b1c5-0c298b3905f6')), 'stats1', StatsValues.of([]))
+      new StatsItem(StatsItemID.of(UUID.of('a28eceac-0451-4339-b1c5-0c298b3905f6')), 'stats1', new StatsValues([]))
     ];
 
     const statsFactory: StatsFactory = StatsFactory.getInstance();
@@ -110,8 +110,8 @@ describe('StatsFactory', () => {
       expect(stats.getItems()[i].getName()).toEqual(json.items[i].name);
       expect(stats.getItems()[i].getValues().length()).toEqual(json.items[i].values.length);
       for (let j = 0; j < stats.getItems()[i].getValues().length(); j++) {
-        expect(stats.getItems()[i].getValues().get()[j].getAsOfAsString()).toEqual(json.items[i].values[j].asOf);
-        expect(stats.getItems()[i].getValues().get()[j].getValue()).toEqual(json.items[i].values[j].value);
+        expect(stats.getItems()[i].getValues().get(j).getAsOfAsString()).toEqual(json.items[i].values[j].asOf);
+        expect(stats.getItems()[i].getValues().get(j).getValue()).toEqual(json.items[i].values[j].value);
       }
     }
   });
@@ -135,7 +135,7 @@ describe('StatsFactory', () => {
       new StatsItem(
         StatsItemID.of(UUID.of('610b532b-5711-461a-b44a-7387e8d08596')),
         'stats item1',
-        StatsValues.of([
+        new StatsValues([
           StatsValue.of(moment('2000-01-01'), 1),
           StatsValue.of(moment('2000-01-02'), 2)
         ])
@@ -143,7 +143,7 @@ describe('StatsFactory', () => {
       new StatsItem(
         StatsItemID.of(UUID.of('530e0e07-654f-4764-a3ac-77ce12a2a5e4')),
         'stats item2',
-        StatsValues.of([
+        new StatsValues([
         ])
       )
     ];

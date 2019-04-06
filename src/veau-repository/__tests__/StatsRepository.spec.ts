@@ -2,11 +2,11 @@
 import 'jest';
 import * as sinon from 'sinon';
 import { SinonStub } from 'sinon';
+import { StatsValues } from '../../veau-collection/StatsValues';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { NoSuchElementError } from '../../veau-general/Error/NoSuchElementError';
 import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
-import { StatsValues } from '../../veau-vo/collections/StatsValues';
 import { StatsID } from '../../veau-vo/StatsID';
 import { UUID } from '../../veau-vo/UUID';
 import { StatsRepository } from '../StatsRepository';
@@ -142,22 +142,22 @@ describe('StatsRepository', () => {
 
     let values: StatsValues = items[0].getValues();
     expect(values.length()).toEqual(3);
-    expect(values.get()[0].getAsOfAsString()).toEqual('2000-01-01');
-    expect(values.get()[0].getValue()).toEqual(1);
-    expect(values.get()[1].getAsOfAsString()).toEqual('2000-01-02');
-    expect(values.get()[1].getValue()).toEqual(2);
-    expect(values.get()[2].getAsOfAsString()).toEqual('2000-01-03');
-    expect(values.get()[2].getValue()).toEqual(3);
+    expect(values.get(0).getAsOfAsString()).toEqual('2000-01-01');
+    expect(values.get(0).getValue()).toEqual(1);
+    expect(values.get(1).getAsOfAsString()).toEqual('2000-01-02');
+    expect(values.get(1).getValue()).toEqual(2);
+    expect(values.get(2).getAsOfAsString()).toEqual('2000-01-03');
+    expect(values.get(2).getValue()).toEqual(3);
 
     expect(items[1].getStatsItemID().get().get()).toEqual('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c');
     expect(items[1].getName()).toEqual('name2');
 
     values = items[1].getValues();
     expect(values.length()).toEqual(2);
-    expect(values.get()[0].getAsOfAsString()).toEqual('2001-01-01');
-    expect(values.get()[0].getValue()).toEqual(11);
-    expect(values.get()[1].getAsOfAsString()).toEqual('2001-01-02');
-    expect(values.get()[1].getValue()).toEqual(12);
+    expect(values.get(0).getAsOfAsString()).toEqual('2001-01-01');
+    expect(values.get(0).getValue()).toEqual(11);
+    expect(values.get(1).getAsOfAsString()).toEqual('2001-01-02');
+    expect(values.get(1).getValue()).toEqual(12);
 
     expect(items[2].getStatsItemID().get().get()).toEqual('2ac64841-5267-48bc-8952-ba9ad1cb12d7');
     expect(items[2].getName()).toEqual('name3');

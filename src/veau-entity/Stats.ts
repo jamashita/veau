@@ -17,6 +17,7 @@ export type StatsJSON = {
   name: string;
   unit: string;
   updatedAt: string;
+  // TODO make StatsItems
   items: Array<StatsItemJSON>;
 };
 
@@ -46,6 +47,7 @@ export class Stats extends Entity<StatsID> {
   private name: string;
   private unit: string;
   private updatedAt: moment.Moment;
+  // TODO StatsItems
   private items: Array<StatsItem>;
   private startDate?: string;
   private columns?: Array<string>;
@@ -234,7 +236,7 @@ export class Stats extends Entity<StatsID> {
     });
 
     this.items.forEach((statsItem: StatsItem) => {
-      statsItem.getValues().get().forEach((statsValue: StatsValue) => {
+      statsItem.getValues().forEach((statsValue: StatsValue) => {
         const line: object | undefined = chartItems.get(statsValue.getAsOfAsString());
 
         if (line) {
@@ -267,7 +269,7 @@ export class Stats extends Entity<StatsID> {
     }
 
     const rowLengths: Array<number> = items.map<number>((item: StatsItem) => {
-      return item.getValues().get().length;
+      return item.getValues().length();
     });
 
     const values: number = Math.max(...rowLengths);
@@ -284,7 +286,7 @@ export class Stats extends Entity<StatsID> {
       language,
       region,
       name,
-      unit,
+      unit
     } = this;
 
     if (language.equals(Language.default())) {
