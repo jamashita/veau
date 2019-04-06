@@ -1,6 +1,6 @@
 import * as moment from 'moment';
+import { StatsValues } from '../veau-collection/StatsValues';
 import { StatsItem, StatsItemJSON, StatsItemRow } from '../veau-entity/StatsItem';
-import { StatsValues } from '../veau-vo/collections/StatsValues';
 import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsValue, StatsValueJSON } from '../veau-vo/StatsValue';
 import { UUID } from '../veau-vo/UUID';
@@ -41,7 +41,7 @@ export class StatsItemFactory {
   public fromRow(row: StatsItemRow, statsValues: StatsValues): StatsItem {
     const {
       statsItemID,
-      name,
+      name
     } = row;
 
     return this.from(StatsItemID.of(UUID.of(statsItemID)), name, statsValues);

@@ -1,9 +1,9 @@
 /* tslint:disable */
 import 'jest';
 import * as moment from 'moment';
+import { StatsValues } from '../../veau-collection/StatsValues';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
 import { StatsValue } from '../../veau-vo/StatsValue';
-import { StatsValues } from '../../veau-vo/collections/StatsValues';
 import { UUID } from '../../veau-vo/UUID';
 import { StatsItem } from '../StatsItem';
 
