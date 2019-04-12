@@ -13,6 +13,6 @@ services:
       - '3310:3306'
   veau_redis:
     container_name: 'veau_redis'
-    image: 'redis:4.0.11-alpine'
+    image: 'redis:5.0.4-alpine'
     ports:
       - '6380:6379'

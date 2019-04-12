@@ -11,10 +11,10 @@ services:
       - '$PWD/mysql/initdata:/docker-entrypoint-initdb.d'
   veau_redis:
     container_name: 'veau_redis'
-    image: 'redis:4.0.11-alpine'
+    image: 'redis:5.0.4-alpine'
   veau_nginx:
     container_name: 'veau_nginx'
-    image: 'nginx:1.15.8-alpine'
+    image: 'nginx:1.15.11-alpine'
     ports:
       - '443:443'
     volumes:
