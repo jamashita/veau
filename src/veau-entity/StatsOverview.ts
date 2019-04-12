@@ -40,7 +40,7 @@ export class StatsOverview extends Entity<StatsID> {
 
   public static default(): StatsOverview {
     const uuid: UUID = UUID.of(Random.v4());
-    return new StatsOverview(StatsID.of(uuid), ISO639.defualt(), ISO3166.default(), Term.DAILY, '', '', moment());
+    return new StatsOverview(StatsID.of(uuid), ISO639.default(), ISO3166.default(), Term.DAILY, '', '', moment());
   }
 
   public constructor(statsID: StatsID, iso639: ISO639, iso3166: ISO3166, term: Term, name: string, unit: string, updatedAt: moment.Moment) {
@@ -98,7 +98,7 @@ export class StatsOverview extends Entity<StatsID> {
       unit
     } = this;
 
-    if (iso639.equals(ISO639.defualt())) {
+    if (iso639.equals(ISO639.default())) {
       return false;
     }
     if (iso3166.equals(ISO3166.default())) {

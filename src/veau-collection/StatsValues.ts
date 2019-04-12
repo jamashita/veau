@@ -71,8 +71,8 @@ export class StatsValues {
     return this.values.length;
   }
 
-  public forEach(predicate: (statsValue: StatsValue) => void): void {
-    this.values.forEach(predicate);
+  public forEach(consumer: (statsValue: StatsValue) => void): void {
+    this.values.forEach(consumer);
   }
 
   public copy(): StatsValues {

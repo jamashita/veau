@@ -7,7 +7,7 @@ export class ISO639 extends ValueObject {
     return new ISO639(iso639);
   }
 
-  public static defualt(): ISO639 {
+  public static default(): ISO639 {
     return new ISO639('');
   }
 

@@ -25,7 +25,7 @@ export class VeauAccount extends Entity<VeauAccountID> {
   private region: ISO3166;
 
   public static default(): VeauAccount {
-    return new VeauAccount(VeauAccountID.default(), '', ISO639.defualt(), ISO3166.default());
+    return new VeauAccount(VeauAccountID.default(), '', ISO639.default(), ISO3166.default());
   }
 
   public constructor(veauAccountID: VeauAccountID, account: string, language: ISO639, region: ISO3166) {

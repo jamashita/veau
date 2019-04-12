@@ -60,6 +60,7 @@ export class StatsItems {
     const {
       items
     } = this;
+
     const newItems: Array<StatsItem> = [
       ...items.slice(0, to),
       statsItem,
@@ -85,8 +86,8 @@ export class StatsItems {
     return this.items.length;
   }
 
-  public forEach(predicate: (statsItem: StatsItem, index: number) => void): void {
-    this.items.forEach(predicate);
+  public forEach(consumer: (statsItem: StatsItem, index: number) => void): void {
+    this.items.forEach(consumer);
   }
 
   public areFilled(): boolean {
