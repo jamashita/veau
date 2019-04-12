@@ -1,15 +1,10 @@
 import { UNAUTHORIZED } from 'http-status';
 import { call, fork, put, select, take } from 'redux-saga/effects';
-import * as request from 'superagent';
 import { VeauAccount, VeauAccountJSON } from '../../veau-entity/VeauAccount';
 import { VeauAccountFactory } from '../../veau-factory/VeauAccountFactory';
-import { AJAX } from '../../veau-general/AJAX';
+import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
-import {
-  ACTION,
-  EntranceAccountNameTypedAction,
-  EntrancePasswordTypedAction
-} from '../actions/Action';
+import { ACTION, EntranceAccountNameTypedAction, EntrancePasswordTypedAction } from '../actions/Action';
 import { entranceInformationUpdate } from '../actions/EntranceAction';
 import { identified, identityAuthenticated } from '../actions/IdentityAction';
 import { loaded, loading } from '../actions/LoadingAction';
@@ -49,10 +44,8 @@ export class Entrance {
       yield put(loading());
 
       try {
-        const res: request.Response = yield call(AJAX.post, '/api/auth', entranceInformation.toJSON());
-        const json: VeauAccountJSON = res.body;
-
-        const veauAccount: VeauAccount = veauAccountFactory.fromJSON(json);
+        const response: AJAXResponse<VeauAccountJSON> = yield call(AJAX.post, '/api/auth', entranceInformation.toJSON());
+        const veauAccount: VeauAccount = veauAccountFactory.fromJSON(response.body);
 
         yield put(identityAuthenticated(veauAccount));
         yield put(pushToStatsList());

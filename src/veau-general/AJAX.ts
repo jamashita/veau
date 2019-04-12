@@ -28,15 +28,23 @@ export class AJAX {
     });
   }
 
-  public static post(url: string, payload: any): Promise<request.Response> {
-    return new Promise<request.Response>((resolve: (value: request.Response) => void, reject: (reason: any) => void): void => {
+  public static post<T>(url: string, payload: any): Promise<AJAXResponse<T>> {
+    return new Promise<AJAXResponse<T>>((resolve: (value: AJAXResponse<T>) => void, reject: (reason: any) => void): void => {
       request.post(url).send(payload).end((err: any, res: request.Response) => {
           if (err) {
             reject(err);
             return;
           }
 
-          resolve(res);
+          const {
+            status,
+            body
+          } = res;
+
+          resolve({
+            status,
+            body
+          });
         });
     });
   }
