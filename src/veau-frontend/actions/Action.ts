@@ -151,7 +151,7 @@ export interface CloseProviderAction extends ReduxAction {
 }
 export interface LocaleDefinedAction extends ReduxAction {
   type: ACTION.LOCALE_DEFINED;
-  localeQuery: LocaleMemoryQuery;
+  localeMemoryQuery: LocaleMemoryQuery;
 }
 export interface EntranceAccountNameTypedAction extends ReduxAction {
   type: ACTION.ENTRANCE_ACCOUNT_NAME_TYPED;

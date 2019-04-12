@@ -7,6 +7,8 @@ import { NoSuchElementError } from '../../veau-general/Error/NoSuchElementError'
 import { RequestSession } from '../../veau-general/RequestSession';
 import { IStatsUsecase } from '../../veau-usecase/interfaces/IStatsUsecase';
 import { StatsUsecase } from '../../veau-usecase/StatsUsecase';
+import { StatsID } from '../../veau-vo/StatsID';
+import { UUID } from '../../veau-vo/UUID';
 
 const router: express.Router = express.Router();
 const logger: log4js.Logger = log4js.getLogger();
@@ -32,10 +34,12 @@ router.get('/overview/:page(\\d+)', async (req: RequestSession, res: express.Res
 });
 
 router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: express.Response) => {
-  const statsID: string = req.params.statsID;
+  const {
+    statsID
+  } = req.params;
 
   try {
-    const stats: StatsJSON = await statsUsecase.findByStatsID(statsID);
+    const stats: StatsJSON = await statsUsecase.findByStatsID(StatsID.of(UUID.of(statsID)));
 
     res.send(stats);
   }

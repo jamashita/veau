@@ -10,11 +10,13 @@ import { IStatsQuery } from '../veau-query/interfaces/IStatsQuery';
 import { StatsMySQLQuery } from '../veau-query/StatsMySQLQuery';
 import { StatsOverviewMySQLQuery } from '../veau-query/StatsOverviewMySQLQuery';
 import { StatsID } from '../veau-vo/StatsID';
-import { UUID } from '../veau-vo/UUID';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
 import { IStatsUsecase } from './interfaces/IStatsUsecase';
 
+const statsQuery: IStatsQuery = StatsMySQLQuery.getInstance();
 const statsFactory: StatsFactory = StatsFactory.getInstance();
+const statsOverviewQuery: StatsOverviewMySQLQuery = StatsOverviewMySQLQuery.getInstance();
+const statsOverviewCommand: StatsOverviewMySQLCommand = StatsOverviewMySQLCommand.getInstance();
 const statsOverviewFactory: StatsOverviewFactory = StatsOverviewFactory.getInstance();
 
 export class StatsUsecase implements IStatsUsecase {
@@ -27,15 +29,13 @@ export class StatsUsecase implements IStatsUsecase {
   private constructor() {
   }
 
-  public async findByStatsID(statsID: string): Promise<StatsJSON> {
-    const statsQuery: IStatsQuery = StatsMySQLQuery.getInstance();
-    const stats: Stats = await statsQuery.findByStatsID(StatsID.of(UUID.of(statsID)));
+  public async findByStatsID(statsID: StatsID): Promise<StatsJSON> {
+    const stats: Stats = await statsQuery.findByStatsID(statsID);
 
     return stats.toJSON();
   }
 
   public async findByVeauAccountID(veauAccountID: VeauAccountID, page: number): Promise<Array<StatsOverviewJSON>> {
-    const statsOverviewQuery: StatsOverviewMySQLQuery = StatsOverviewMySQLQuery.getInstance();
     const statsOverviews: Array<StatsOverview> = await statsOverviewQuery.findByVeauAccountID(veauAccountID, page);
 
     return statsOverviews.map<StatsOverviewJSON>((statsOverview: StatsOverview) => {
@@ -44,7 +44,6 @@ export class StatsUsecase implements IStatsUsecase {
   }
 
   public saveNewStats(veauAccountID: VeauAccountID, json: StatsOverviewJSON): Promise<any> {
-    const statsOverviewCommand: StatsOverviewMySQLCommand = StatsOverviewMySQLCommand.getInstance();
     const statsOverview: StatsOverview = statsOverviewFactory.fromJSON(json);
 
     return statsOverviewCommand.create(veauAccountID, statsOverview);

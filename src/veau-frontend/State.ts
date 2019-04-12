@@ -16,7 +16,7 @@ export type State = {
   entranceInformation: EntranceInformation;
   identity: VeauAccount;
   loadingCount: LoadingCount;
-  localeQuery: LocaleMemoryQuery;
+  localeMemoryQuery: LocaleMemoryQuery;
   modal: Modal;
   notification: Notification;
   pageProvider: PageProvider;

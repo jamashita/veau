@@ -31,7 +31,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
     const {
       stats,
       statsItem,
-      localeQuery,
+      localeMemoryQuery,
       selectingItem
     } = this.props;
     const {
@@ -58,7 +58,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
     if (statsItem.getName() !== nextProps.statsItem.getName()) {
       return true;
     }
-    if (localeQuery !== nextProps.localeQuery) {
+    if (localeMemoryQuery !== nextProps.localeMemoryQuery) {
       return true;
     }
     if (selectingItem !== nextProps.selectingItem) {
@@ -81,7 +81,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
     const {
       stats,
       statsItem,
-      localeQuery,
+      localeMemoryQuery,
       selectingItem,
       intl,
       invalidValueInput,
@@ -176,7 +176,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
           </Button>
           <StatsInformation
             stats={stats}
-            localeQuery={localeQuery}
+            localeMemoryQuery={localeMemoryQuery}
             nameTyped={nameTyped}
             unitTyped={unitTyped}
             languageSelected={languageSelected}

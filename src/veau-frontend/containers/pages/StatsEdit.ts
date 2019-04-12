@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 import { Stats } from '../../../veau-entity/Stats';
 import { StatsItem } from '../../../veau-entity/StatsItem';
 import { Term } from '../../../veau-enum/Term';
-import { LocaleMemoryQuery } from '../../../veau-query/LocaleQuery';
+import { LocaleMemoryQuery } from '../../../veau-query/LocaleMemoryQuery';
 import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
 import { Action } from '../../actions/Action';
@@ -30,7 +30,7 @@ import { State } from '../../State';
 
 type StateProps = {
   stats: Stats;
-  localeQuery: LocaleMemoryQuery;
+  localeMemoryQuery: LocaleMemoryQuery;
   statsItem: StatsItem;
   selectingItem?: StatsItem;
 };
@@ -59,7 +59,7 @@ export type Props = StateProps & DispatchProps & OwnProps;
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State): StateProps => {
   const {
     stats,
-    localeQuery,
+    localeMemoryQuery,
     statsItem,
     statsEdit: {
       selectingItem
@@ -68,7 +68,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
 
   return {
     stats,
-    localeQuery,
+    localeMemoryQuery,
     statsItem,
     selectingItem
   };

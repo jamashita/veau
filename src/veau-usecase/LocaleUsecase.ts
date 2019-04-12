@@ -16,9 +16,9 @@ const REGIONS_REDIS_KEY: string = 'REGIONS';
 
 const languageMySQLQuery: ILanguageQuery = LanguageMySQLQuery.getInstance();
 const languageRedisQuery: ILanguageQuery = LanguageRedisQuery.getInstance(LANGUAGES_REDIS_KEY);
+const languageRedisCommand: ILanguageCommand = LanguageRedisCommand.getInstance();
 const regionMySQLQuery: IRegionQuery = RegionMySQLQuery.getInstance();
 const regionRedisQuery: IRegionQuery = RegionRedisQuery.getInstance(REGIONS_REDIS_KEY);
-const languageRedisCommand: ILanguageCommand = LanguageRedisCommand.getInstance();
 const regionRedisCommand: RegionRedisCommand = RegionRedisCommand.getInstance();
 
 export type Locales = {

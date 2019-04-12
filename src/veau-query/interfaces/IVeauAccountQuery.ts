@@ -1,4 +1,9 @@
-import { VeauAccountHash } from '../VeauAccountQuery';
+import { VeauAccount } from '../../veau-entity/VeauAccount';
+
+export type VeauAccountHash = {
+  veauAccount: VeauAccount;
+  hash: string;
+};
 
 export interface IVeauAccountQuery {
 
