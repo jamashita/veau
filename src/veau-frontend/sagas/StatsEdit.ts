@@ -233,7 +233,7 @@ export class StatsEdit {
         row
       } = action;
 
-      const selecting: StatsItem = stats.getItems()[row];
+      const selecting: StatsItem = stats.getItems().get(row);
       yield put(itemSelecting(selecting, row));
     }
   }

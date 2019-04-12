@@ -25,45 +25,52 @@ export class Spreadsheet extends React.Component<Props, State> {
   public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
     const {
       data,
-      columnHeaders,
-      rowHeaders,
-      rowHeaderWidth
+      // columnHeaders,
+      // rowHeaders,
+      // rowHeaderWidth
     } = this.props;
 
-    if (columnHeaders.length !== nextProps.columnHeaders.length) {
-      return true;
-    }
-    for (let i: number = 0; i < columnHeaders.length; i++) {
-      if (columnHeaders[i] !== nextProps.columnHeaders[i]) {
-        return true;
-      }
-    }
-    if (rowHeaders.length !== nextProps.rowHeaders.length) {
-      return true;
-    }
-    for (let i: number = 0; i < rowHeaders.length; i++) {
-      if (rowHeaders[i] !== nextProps.rowHeaders[i]) {
-        return true;
-      }
-    }
-    if (rowHeaderWidth !== nextProps.rowHeaderWidth) {
-      return true;
-    }
-    if (data.length !== nextProps.data.length) {
-      return true;
-    }
-    for (let i: number = 0; i < data.length; i++) {
-      if (data[i].length !== nextProps.data[i].length) {
-        return true;
-      }
-      for (let j: number = 0; j < data[i].length; j++) {
-        if (data[i][j] !== nextProps.data[i][j]) {
-          return true;
-        }
-      }
-    }
+    console.log('----prev----');
+    console.log(data);
+    console.log('----next----');
+    console.log(nextProps.data);
+    return true;
 
-    return false;
+    // if (columnHeaders.length !== nextProps.columnHeaders.length) {
+    //   return true;
+    // }
+    // for (let i: number = 0; i < columnHeaders.length; i++) {
+    //   if (columnHeaders[i] !== nextProps.columnHeaders[i]) {
+    //     return true;
+    //   }
+    // }
+    // if (rowHeaders.length !== nextProps.rowHeaders.length) {
+    //   return true;
+    // }
+    // for (let i: number = 0; i < rowHeaders.length; i++) {
+    //   if (rowHeaders[i] !== nextProps.rowHeaders[i]) {
+    //     return true;
+    //   }
+    // }
+    // if (rowHeaderWidth !== nextProps.rowHeaderWidth) {
+    //   return true;
+    // }
+    // if (data.length !== nextProps.data.length) {
+    //   return true;
+    // }
+    // for (let i: number = 0; i < data.length; i++) {
+    //   if (data[i].length !== nextProps.data[i].length) {
+    //     return true;
+    //   }
+    //   for (let j: number = 0; j < data[i].length; j++) {
+    //     if (data[i][j] !== nextProps.data[i][j]) {
+    //       console.log('value difference detected!!!');
+    //       return true;
+    //     }
+    //   }
+    // }
+    //
+    // return false;
   }
 
   public render(): React.ReactNode {
@@ -151,6 +158,7 @@ export class Spreadsheet extends React.Component<Props, State> {
           });
           return true;
         }}
+        licenseKey='non-commercial-and-evaluation'
       />
     );
   }

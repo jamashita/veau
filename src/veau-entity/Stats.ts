@@ -141,6 +141,11 @@ export class Stats extends Entity<StatsID> {
     return this.columns;
   }
 
+  private recalculateColumns(): void {
+    this.columns = undefined;
+    this.getColumns();
+  }
+
   private getAsOfs(): Array<moment.Moment> {
     return this.items.getAsOfs();
   }
@@ -219,12 +224,14 @@ export class Stats extends Entity<StatsID> {
     const asOfString: string = this.getColumns()[column];
     const asOf: moment.Moment = moment(asOfString);
     this.items.get(row).setValue(asOf, value);
+    this.recalculateColumns()
   }
 
   public deleteData(row: number, column: number): void {
     const asOfString: string = this.getColumns()[column];
     const asOf: moment.Moment = moment(asOfString);
     this.items.get(row).delete(asOf);
+    this.recalculateColumns();
   }
 
   public getChart(): Array<object> {
