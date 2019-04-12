@@ -1,13 +1,16 @@
 import * as express from 'express';
-import { Digest, DigestResponseJSON } from '../../veau-general/Digest';
+import { Digest } from '../../veau-general/Digest';
 
 const router: express.Router = express.Router();
 
 router.get('/encrypt/:str', async (req: express.Request, res: express.Response) => {
-  const str: string = req.params.str;
-  const digestResponse: DigestResponseJSON = await Digest.generate(str);
+  const {
+    str
+  } = req.params;
 
-  res.send(digestResponse.hash);
+  const hash: string = await Digest.generate(str);
+
+  res.send(hash);
 });
 
 export const WIPController: express.Router = router;

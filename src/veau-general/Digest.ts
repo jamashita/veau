@@ -2,21 +2,13 @@ import * as bcrypt from 'bcrypt';
 
 const ROUNDS: number = 14;
 
-export type DigestResponseJSON = {
-  salt: string;
-  hash: string;
-};
-
 export class Digest {
 
-  public static async generate(str: string): Promise<DigestResponseJSON> {
+  public static async generate(str: string): Promise<string> {
     const salt: string = await bcrypt.genSalt(ROUNDS);
     const hash: string = await bcrypt.hash(str, salt);
 
-    return {
-      salt,
-      hash
-    };
+    return hash;
   }
 
   public static compare(str: string, hash: string): Promise<boolean> {
