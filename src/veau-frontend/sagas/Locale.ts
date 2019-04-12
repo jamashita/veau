@@ -1,6 +1,6 @@
 import { call, fork, put, take } from 'redux-saga/effects';
 import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
-import { LocaleRepository } from '../../veau-repository/LocaleRepository';
+import { LocaleQuery } from '../../veau-query/LocaleQuery';
 import { Locales } from '../../veau-usecase/LocaleUsecase';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
@@ -44,9 +44,9 @@ export class Locale {
         return Region.of(RegionID.of(regionID), name, ISO3166.of(iso3166));
       });
 
-      const localeRepository: LocaleRepository = LocaleRepository.getInstance(languages, regions);
+      const localeQuery: LocaleQuery = LocaleQuery.getInstance(languages, regions);
 
-      yield put(defineLocale(localeRepository));
+      yield put(defineLocale(localeQuery));
     }
   }
 }

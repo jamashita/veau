@@ -2,7 +2,7 @@ import { connect, ConnectedComponentClass, MapDispatchToProps, MapStateToProps }
 import { Dispatch } from 'redux';
 import { StatsOverview } from '../../../veau-entity/StatsOverview';
 import { Term } from '../../../veau-enum/Term';
-import { LocaleRepository } from '../../../veau-repository/LocaleRepository';
+import { LocaleQuery } from '../../../veau-query/LocaleQuery';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
 import { StatsID } from '../../../veau-vo/StatsID';
@@ -10,16 +10,20 @@ import { Action } from '../../actions/Action';
 import { pushToStatsEdit } from '../../actions/RedirectAction';
 import {
   closeNewStatsModal,
-  newStats, newStatsISO3166Selected, newStatsISO639Selected,
+  newStats,
+  newStatsISO3166Selected,
+  newStatsISO639Selected,
   newStatsNameTyped,
-  newStatsTermSelected, newStatsUnitTyped, saveNewStats
+  newStatsTermSelected,
+  newStatsUnitTyped,
+  saveNewStats
 } from '../../actions/StatsListAction';
 import { StatsList as Component } from '../../components/pages/StatsList';
 import { State } from '../../State';
 
 type StateProps = {
   statsOverviews: Array<StatsOverview>;
-  localeRepository: LocaleRepository;
+  localeQuery: LocaleQuery;
   open: boolean;
   newStatsOverview: StatsOverview;
 };
@@ -41,7 +45,7 @@ export type Props = StateProps & DispatchProps & OwnProps;
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State): StateProps => {
   const {
     statsOverviews,
-    localeRepository,
+    localeQuery,
     statsList: {
       open,
       newStatsOverview
@@ -50,7 +54,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
 
   return {
     statsOverviews,
-    localeRepository,
+    localeQuery,
     open,
     newStatsOverview
   };

@@ -1,9 +1,9 @@
-import { LocaleRepository } from '../../veau-repository/LocaleRepository';
+import { LocaleQuery } from '../../veau-query/LocaleQuery';
 import { ACTION, LocaleDefinedAction } from './Action';
 
-export const defineLocale: (localeRepository: LocaleRepository) => LocaleDefinedAction = (localeRepository: LocaleRepository): LocaleDefinedAction => {
+export const defineLocale: (localeQuery: LocaleQuery) => LocaleDefinedAction = (localeQuery: LocaleQuery): LocaleDefinedAction => {
   return {
     type: ACTION.LOCALE_DEFINED,
-    localeRepository
+    localeQuery
   };
 };

@@ -5,11 +5,10 @@ import { VeauAccount, VeauAccountJSON } from '../veau-entity/VeauAccount';
 import { VeauAccountFactory } from '../veau-factory/VeauAccountFactory';
 import { Digest } from '../veau-general/Digest';
 import { NoSuchElementError } from '../veau-general/Error/NoSuchElementError';
-import { VeauAccountRepository } from '../veau-repository/VeauAccountRepository';
+import { VeauAccountQuery } from '../veau-query/VeauAccountQuery';
 
 const logger: log4js.Logger = log4js.getLogger();
 
-const veauAccountRepository: VeauAccountRepository = VeauAccountRepository.getInstance();
 const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
 
 const DUMMY_PASSWORD: string = '30DC7JzTgjAd8eXcwytlKCwI6kh1eqdU';
@@ -24,10 +23,12 @@ passport.use(
     },
     async (account: string, password: string, done: (error: any, account?: any) => void): Promise<void> => {
       try {
+        const veauAccountQuery: VeauAccountQuery = VeauAccountQuery.getInstance();
+
         const {
           veauAccount,
           hash
-        } = await veauAccountRepository.findByAccount(account);
+        } = await veauAccountQuery.findByAccount(account);
 
         const correct: boolean = await Digest.compare(password, hash);
 

@@ -1,14 +1,19 @@
+import { ILanguageCommand } from '../veau-command/interfaces/ILanguageCommand';
+import { LanguageCommand } from '../veau-command/LanguageCommand';
+import { RegionCommand } from '../veau-command/RegionCommand';
 import { RuntimeError } from '../veau-general/Error/RuntimeError';
-import { ILanguageRepository } from '../veau-repository/interfaces/ILanguageRepository';
-import { IRegionRepository } from '../veau-repository/interfaces/IRegionRepository';
-import { LanguageRepository } from '../veau-repository/LanguageRepository';
-import { RegionRepository } from '../veau-repository/RegionRepository';
+import { ILanguageQuery } from '../veau-query/interfaces/ILanguageQuery';
+import { IRegionQuery } from '../veau-query/interfaces/IRegionQuery';
+import { LanguageQuery } from '../veau-query/LanguageQuery';
+import { RegionQuery } from '../veau-query/RegionQuery';
 import { Language, LanguageJSON } from '../veau-vo/Language';
 import { Region, RegionJSON } from '../veau-vo/Region';
 import { ILocaleUsecase } from './interfaces/ILocaleUsecase';
 
-const languageRepository: ILanguageRepository = LanguageRepository.getInstance();
-const regionRepository: IRegionRepository = RegionRepository.getInstance();
+const languageQuery: ILanguageQuery = LanguageQuery.getInstance();
+const regionQuery: IRegionQuery = RegionQuery.getInstance();
+const languageCommand: ILanguageCommand = LanguageCommand.getInstance();
+const regionCommand: RegionCommand = RegionCommand.getInstance();
 
 export type Locales = {
   languages: Array<LanguageJSON>;
@@ -26,8 +31,8 @@ export class LocaleUsecase implements ILocaleUsecase {
   }
 
   public async all(): Promise<Locales> {
-    const languages: Array<Language> = await languageRepository.all();
-    const regions: Array<Region> = await regionRepository.all();
+    const languages: Array<Language> = await languageQuery.allLanguages();
+    const regions: Array<Region> = await regionQuery.allRegions();
 
     return {
       languages: languages.map<LanguageJSON>((language: Language) => {
@@ -40,13 +45,13 @@ export class LocaleUsecase implements ILocaleUsecase {
   }
 
   public async deleteCache(): Promise<void> {
-    const languageDeleted: boolean = await languageRepository.deleteCache();
+    const languageDeleted: boolean = await languageCommand.deleteAll();
 
     if (!languageDeleted) {
       throw new RuntimeError('FAILED TO DELETE LANGUAGES FROM STORAGE');
     }
 
-    const regionDeleted: boolean = await regionRepository.deleteCache();
+    const regionDeleted: boolean = await regionCommand.deleteAll();
 
     if (!regionDeleted) {
       throw new RuntimeError('FAILED TO DELETE REGIONS FROM STORAGE');

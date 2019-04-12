@@ -1,7 +1,4 @@
-import {
-  Button,
-  Icon
-} from '@material-ui/core';
+import { Button, Icon } from '@material-ui/core';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { Props } from '../../containers/pages/StatsEdit';
@@ -34,7 +31,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
     const {
       stats,
       statsItem,
-      localeRepository,
+      localeQuery,
       selectingItem
     } = this.props;
     const {
@@ -61,7 +58,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
     if (statsItem.getName() !== nextProps.statsItem.getName()) {
       return true;
     }
-    if (localeRepository !== nextProps.localeRepository) {
+    if (localeQuery !== nextProps.localeQuery) {
       return true;
     }
     if (selectingItem !== nextProps.selectingItem) {
@@ -84,7 +81,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
     const {
       stats,
       statsItem,
-      localeRepository,
+      localeQuery,
       selectingItem,
       intl,
       invalidValueInput,
@@ -179,7 +176,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
           </Button>
           <StatsInformation
             stats={stats}
-            localeRepository={localeRepository}
+            localeQuery={localeQuery}
             nameTyped={nameTyped}
             unitTyped={unitTyped}
             languageSelected={languageSelected}

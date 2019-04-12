@@ -27,6 +27,15 @@ gulp.task('veau-collection', () => {
     .pipe(gulp.dest('dist/veau-collection'));
 });
 
+gulp.task('veau-command', () => {
+  return gulp.src(['src/veau-command/**/*.ts'], {
+    since : gulp.lastRun('veau-command')
+  })
+    .pipe(plumber())
+    .pipe(tsc())
+    .pipe(gulp.dest('dist/veau-command'));
+});
+
 gulp.task('veau-controller', () => {
   return gulp.src(['src/veau-controller/**/*.ts'], {
       since : gulp.lastRun('veau-controller')
@@ -88,13 +97,13 @@ gulp.task('veau-infrastructure', () => {
     .pipe(gulp.dest('dist/veau-infrastructure'));
 });
 
-gulp.task('veau-repository', () => {
-  return gulp.src(['src/veau-repository/**/*.ts'], {
-      since : gulp.lastRun('veau-repository')
+gulp.task('veau-query', () => {
+  return gulp.src(['src/veau-query/**/*.ts'], {
+      since : gulp.lastRun('veau-query')
     })
     .pipe(plumber())
     .pipe(tsc())
-    .pipe(gulp.dest('dist/veau-repository'));
+    .pipe(gulp.dest('dist/veau-query'));
 });
 
 gulp.task('veau-server', () => {
@@ -196,6 +205,7 @@ gulp.task(
       'font'
     ),
     'veau-collection',
+    'veau-command',
     'veau-controller',
     'veau-entity',
     'veau-enum',
@@ -203,7 +213,7 @@ gulp.task(
     'veau-frontend',
     'veau-general',
     'veau-infrastructure',
-    'veau-repository',
+    'veau-query',
     'veau-server',
     'veau-service',
     'veau-usecase',
@@ -217,13 +227,14 @@ gulp.task(
     'nodemon',
     (callback) => {
       gulp.watch('src/veau-collection/**/*.ts', gulp.series('veau-collection'));
+      gulp.watch('src/veau-command/**/*.ts', gulp.series('veau-command'));
       gulp.watch('src/veau-controller/**/*.ts', gulp.series('veau-controller'));
       gulp.watch('src/veau-entity/**/*.ts', gulp.series('veau-entity'));
       gulp.watch('src/veau-enum/**/*.ts', gulp.series('veau-enum'));
       gulp.watch('src/veau-factory/**/*.ts', gulp.series('veau-factory'));
       gulp.watch('src/veau-general/**/*.ts', gulp.series('veau-general'));
       gulp.watch('src/veau-infrastructure/**/*.ts', gulp.series('veau-infrastructure'));
-      gulp.watch('src/veau-repository/**/*.ts', gulp.series('veau-repository'));
+      gulp.watch('src/veau-query/**/*.ts', gulp.series('veau-query'));
       gulp.watch('src/veau-server/**/*.ts', gulp.series('veau-server'));
       gulp.watch('src/veau-service/**/*.ts', gulp.series('veau-service'));
       gulp.watch('src/veau-usecase/**/*.ts', gulp.series('veau-usecase'));

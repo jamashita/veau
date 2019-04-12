@@ -3,26 +3,34 @@ import { Dispatch } from 'redux';
 import { Stats } from '../../../veau-entity/Stats';
 import { StatsItem } from '../../../veau-entity/StatsItem';
 import { Term } from '../../../veau-enum/Term';
-import { LocaleRepository } from '../../../veau-repository/LocaleRepository';
+import { LocaleQuery } from '../../../veau-query/LocaleQuery';
 import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
 import { Action } from '../../actions/Action';
 import {
   invalidValueInput,
-  itemNameTyped, removeItem, rowMoved, rowSelected,
-  saveItem, saveStats, selectingItemNameTyped, startDateDetermined, statsDataDeleted,
+  itemNameTyped,
+  removeItem,
+  rowMoved,
+  rowSelected,
+  saveItem,
+  saveStats,
+  selectingItemNameTyped,
+  startDateDetermined,
+  statsDataDeleted,
   statsDataFilled,
   statsLanguageSelected,
   statsNameTyped,
   statsRegionSelected,
-  statsTermSelected, statsUnitTyped
+  statsTermSelected,
+  statsUnitTyped
 } from '../../actions/StatsEditAction';
 import { StatsEdit as Component } from '../../components/pages/StatsEdit';
 import { State } from '../../State';
 
 type StateProps = {
   stats: Stats;
-  localeRepository: LocaleRepository;
+  localeQuery: LocaleQuery;
   statsItem: StatsItem;
   selectingItem?: StatsItem;
 };
@@ -51,7 +59,7 @@ export type Props = StateProps & DispatchProps & OwnProps;
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State): StateProps => {
   const {
     stats,
-    localeRepository,
+    localeQuery,
     statsItem,
     statsEdit: {
       selectingItem
@@ -60,7 +68,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
 
   return {
     stats,
-    localeRepository,
+    localeQuery,
     statsItem,
     selectingItem
   };
