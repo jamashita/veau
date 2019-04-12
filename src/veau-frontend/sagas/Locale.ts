@@ -1,6 +1,5 @@
 import { call, fork, put, take } from 'redux-saga/effects';
-import * as request from 'superagent';
-import { AJAX } from '../../veau-general/AJAX';
+import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
 import { LocaleRepository } from '../../veau-repository/LocaleRepository';
 import { Locales } from '../../veau-usecase/LocaleUsecase';
 import { ISO3166 } from '../../veau-vo/ISO3166';
@@ -22,10 +21,9 @@ export class Locale {
     while (true) {
       yield take(ACTION.IDENTITY_IDENTIFIED);
 
-      const res: request.Response = yield call(AJAX.get, '/api/locales');
-      const locales: Locales = res.body;
+      const response: AJAXResponse<Locales> = yield call(AJAX.get, '/api/locales');
 
-      const languages: Array<Language> = locales.languages.map<Language>((json: LanguageJSON) => {
+      const languages: Array<Language> = response.body.languages.map<Language>((json: LanguageJSON) => {
         const {
           languageID,
           name,
@@ -36,7 +34,7 @@ export class Locale {
         return Language.of(LanguageID.of(languageID), name, englishName, ISO639.of(iso639));
       });
 
-      const regions: Array<Region> = locales.regions.map<Region>((json: RegionJSON) => {
+      const regions: Array<Region> = response.body.regions.map<Region>((json: RegionJSON) => {
         const {
           regionID,
           name,

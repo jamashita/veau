@@ -1,16 +1,29 @@
 import * as request from 'superagent';
 
+export type AJAXResponse<T> = {
+  status: number;
+  body: T;
+};
+
 export class AJAX {
 
-  public static get(url: string): Promise<request.Response> {
-    return new Promise<request.Response>((resolve: (value: request.Response) => void, reject: (reason: any) => void): void => {
+  public static get<T>(url: string): Promise<AJAXResponse<T>> {
+    return new Promise<AJAXResponse<T>>((resolve: (value: AJAXResponse<T>) => void, reject: (reason: any) => void): void => {
       request.get(url).end((err: any, res: request.Response) => {
           if (err) {
             reject(err);
             return;
           }
 
-          resolve(res);
+          const {
+            status,
+            body
+          } = res;
+
+          resolve({
+            status,
+            body
+          });
         });
     });
   }

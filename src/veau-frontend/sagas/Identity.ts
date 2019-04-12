@@ -1,8 +1,7 @@
 import { call, fork, put, select, take } from 'redux-saga/effects';
-import * as request from 'request';
 import { VeauAccount, VeauAccountJSON } from '../../veau-entity/VeauAccount';
 import { VeauAccountFactory } from '../../veau-factory/VeauAccountFactory';
-import { AJAX } from '../../veau-general/AJAX';
+import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
 import { LanguageIdentifier } from '../../veau-general/LanguageIdentifier';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
@@ -23,10 +22,8 @@ export class Identity {
 
   private static *initIdentity(): IterableIterator<any> {
     try {
-      const res: request.Response = yield call(AJAX.get, '/api/identity');
-      const json: VeauAccountJSON = res.body;
-
-      const veauAccount: VeauAccount = veauAccountFactory.fromJSON(json);
+      const response: AJAXResponse<VeauAccountJSON> = yield call(AJAX.get, '/api/identity');
+      const veauAccount: VeauAccount = veauAccountFactory.fromJSON(response.body);
 
       yield put(identityAuthenticated(veauAccount));
       yield put(identified());

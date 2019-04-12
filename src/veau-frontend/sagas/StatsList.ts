@@ -1,12 +1,15 @@
 import { call, fork, put, select, take } from 'redux-saga/effects';
-import * as request from 'superagent';
 import { StatsOverview, StatsOverviewJSON } from '../../veau-entity/StatsOverview';
 import { StatsOverviewFactory } from '../../veau-factory/StatsOverviewFactory';
-import { AJAX } from '../../veau-general/AJAX';
+import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
 import {
-  ACTION, LocationChangeAction, StatsListISO3166SelectedAction, StatsListISO639SelectedAction,
+  ACTION,
+  LocationChangeAction,
+  StatsListISO3166SelectedAction,
+  StatsListISO639SelectedAction,
   StatsListNameTypedAction,
-  StatsListTermSelectedAction, StatsListUnitTypedAction
+  StatsListTermSelectedAction,
+  StatsListUnitTypedAction
 } from '../actions/Action';
 import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
@@ -38,9 +41,8 @@ export class StatsList {
 
       if (path === Endpoints.STATS_LIST) {
         try {
-          const res: request.Response = yield call(AJAX.get, '/api/stats/overview/1');
-          const statsOverviewJSONs: Array<StatsOverviewJSON> = res.body;
-          const statsOverviews: Array<StatsOverview> = statsOverviewJSONs.map<StatsOverview>((json: StatsOverviewJSON) => {
+          const response: AJAXResponse<Array<StatsOverviewJSON>> = yield call(AJAX.get, '/api/stats/overview/1');
+          const statsOverviews: Array<StatsOverview> = response.body.map<StatsOverview>((json: StatsOverviewJSON) => {
             return statsOverviewFactory.fromJSON(json);
           });
 
