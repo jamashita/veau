@@ -2,7 +2,7 @@ import { connect, ConnectedComponentClass, MapDispatchToProps, MapStateToProps }
 import { Dispatch } from 'redux';
 import { StatsOverview } from '../../../veau-entity/StatsOverview';
 import { Term } from '../../../veau-enum/Term';
-import { LocaleQuery } from '../../../veau-query/LocaleQuery';
+import { LocaleMemoryQuery } from '../../../veau-query/LocaleQuery';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
 import { StatsID } from '../../../veau-vo/StatsID';
@@ -23,7 +23,7 @@ import { State } from '../../State';
 
 type StateProps = {
   statsOverviews: Array<StatsOverview>;
-  localeQuery: LocaleQuery;
+  localeQuery: LocaleMemoryQuery;
   open: boolean;
   newStatsOverview: StatsOverview;
 };

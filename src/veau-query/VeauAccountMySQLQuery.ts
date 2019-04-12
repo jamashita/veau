@@ -11,10 +11,10 @@ export type VeauAccountHash = {
   hash: string;
 };
 
-export class VeauAccountQuery implements IVeauAccountQuery {
+export class VeauAccountMySQLQuery implements IVeauAccountQuery {
 
-  public static getInstance(): VeauAccountQuery {
-    return new VeauAccountQuery();
+  public static getInstance(): VeauAccountMySQLQuery {
+    return new VeauAccountMySQLQuery();
   }
 
   private constructor() {

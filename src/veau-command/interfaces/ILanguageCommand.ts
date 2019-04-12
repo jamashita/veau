@@ -1,4 +1,4 @@
 export interface ILanguageCommand {
 
-  deleteAll(): Promise<boolean>;
+  deleteAll(): Promise<any>;
 }

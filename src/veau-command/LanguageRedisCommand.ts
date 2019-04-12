@@ -3,16 +3,16 @@ import { ILanguageCommand } from './interfaces/ILanguageCommand';
 
 const REDIS_KEY: string = 'Languages';
 
-export class LanguageCommand implements ILanguageCommand {
+export class LanguageRedisCommand implements ILanguageCommand {
 
-  public static getInstance(): LanguageCommand {
-    return new LanguageCommand();
+  public static getInstance(): LanguageRedisCommand {
+    return new LanguageRedisCommand();
   }
 
   private constructor() {
   }
 
-  public deleteAll(): Promise<boolean> {
+  public deleteAll(): Promise<any> {
     return VeauRedis.delete(REDIS_KEY);
   }
 }

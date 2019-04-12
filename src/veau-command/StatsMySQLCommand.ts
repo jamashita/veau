@@ -4,13 +4,13 @@ import { Transaction } from '../veau-general/MySQL/Transaction';
 import { StatsID } from '../veau-vo/StatsID';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
 import { IStatsCommand } from './interfaces/IStatsCommand';
-import { StatsItemCommand } from './StatsItemCommand';
+import { StatsItemMySQLCommand } from './StatsItemMySQLCommand';
 
-export class StatsCommand implements IStatsCommand {
+export class StatsMySQLCommand implements IStatsCommand {
   private transaction: Transaction;
 
-  public static getInstance(transaction: Transaction): StatsCommand {
-    return new StatsCommand(transaction);
+  public static getInstance(transaction: Transaction): StatsMySQLCommand {
+    return new StatsMySQLCommand(transaction);
   }
 
   private constructor(transaction: Transaction) {
@@ -41,7 +41,7 @@ export class StatsCommand implements IStatsCommand {
       }
     ]);
 
-    const statsItemCommand: StatsItemCommand = StatsItemCommand.getInstance(this.transaction);
+    const statsItemCommand: StatsItemMySQLCommand = StatsItemMySQLCommand.getInstance(this.transaction);
 
     const promises: Array<Promise<any>> = [];
 
@@ -53,7 +53,7 @@ export class StatsCommand implements IStatsCommand {
   }
 
   public async deleteByStatsID(statsID: StatsID): Promise<any> {
-    const statsItemCommand: StatsItemCommand = StatsItemCommand.getInstance(this.transaction);
+    const statsItemCommand: StatsItemMySQLCommand = StatsItemMySQLCommand.getInstance(this.transaction);
 
     await statsItemCommand.deleteByStatsID(statsID);
 

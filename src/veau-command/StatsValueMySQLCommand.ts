@@ -4,11 +4,11 @@ import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsValue } from '../veau-vo/StatsValue';
 import { IStatsValueCommand } from './interfaces/IStatsValueCommand';
 
-export class StatsValueCommand implements IStatsValueCommand {
+export class StatsValueMySQLCommand implements IStatsValueCommand {
   private transaction: Transaction;
 
-  public static getInstance(transaction: Transaction): StatsValueCommand {
-    return new StatsValueCommand(transaction);
+  public static getInstance(transaction: Transaction): StatsValueMySQLCommand {
+    return new StatsValueMySQLCommand(transaction);
   }
 
   private constructor(transaction: Transaction) {

@@ -3,16 +3,16 @@ import { IRegionCommand } from './interfaces/IRegionCommand';
 
 const REDIS_KEY: string = 'Regions';
 
-export class RegionCommand implements IRegionCommand {
+export class RegionRedisCommand implements IRegionCommand {
 
-  public static getInstance(): RegionCommand {
-    return new RegionCommand();
+  public static getInstance(): RegionRedisCommand {
+    return new RegionRedisCommand();
   }
 
   private constructor() {
   }
 
-  public deleteAll(): Promise<boolean> {
+  public deleteAll(): Promise<any> {
     return VeauRedis.delete(REDIS_KEY);
   }
 }

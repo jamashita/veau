@@ -5,7 +5,7 @@ import { StatsItem } from '../../veau-entity/StatsItem';
 import { StatsOverview } from '../../veau-entity/StatsOverview';
 import { VeauAccount } from '../../veau-entity/VeauAccount';
 import { Term } from '../../veau-enum/Term';
-import { LocaleQuery } from '../../veau-query/LocaleQuery';
+import { LocaleMemoryQuery } from '../../veau-query/LocaleMemoryQuery';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
@@ -151,7 +151,7 @@ export interface CloseProviderAction extends ReduxAction {
 }
 export interface LocaleDefinedAction extends ReduxAction {
   type: ACTION.LOCALE_DEFINED;
-  localeQuery: LocaleQuery;
+  localeQuery: LocaleMemoryQuery;
 }
 export interface EntranceAccountNameTypedAction extends ReduxAction {
   type: ACTION.ENTRANCE_ACCOUNT_NAME_TYPED;

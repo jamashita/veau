@@ -7,10 +7,10 @@ import { IStatsOverviewQuery } from './interfaces/IStatsOverviewQuery';
 const statsOverviewFactory: StatsOverviewFactory = StatsOverviewFactory.getInstance();
 const LIMIT: number = 40;
 
-export class StatsOverviewQuery implements IStatsOverviewQuery {
+export class StatsOverviewMySQLQuery implements IStatsOverviewQuery {
 
-  public static getInstance(): StatsOverviewQuery {
-    return new StatsOverviewQuery();
+  public static getInstance(): StatsOverviewMySQLQuery {
+    return new StatsOverviewMySQLQuery();
   }
 
   private constructor() {

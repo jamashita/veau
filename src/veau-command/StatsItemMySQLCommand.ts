@@ -3,13 +3,13 @@ import { Transaction } from '../veau-general/MySQL/Transaction';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValue } from '../veau-vo/StatsValue';
 import { IStatsItemCommand } from './interfaces/IStatsItemCommand';
-import { StatsValueCommand } from './StatsValueCommand';
+import { StatsValueMySQLCommand } from './StatsValueMySQLCommand';
 
-export class StatsItemCommand implements IStatsItemCommand {
+export class StatsItemMySQLCommand implements IStatsItemCommand {
   private transaction: Transaction;
 
-  public static getInstance(transaction: Transaction): StatsItemCommand {
-    return new StatsItemCommand(transaction);
+  public static getInstance(transaction: Transaction): StatsItemMySQLCommand {
+    return new StatsItemMySQLCommand(transaction);
   }
 
   private constructor(transaction: Transaction) {
@@ -33,7 +33,7 @@ export class StatsItemCommand implements IStatsItemCommand {
       }
     ]);
 
-    const statsValueCommand: StatsValueCommand = StatsValueCommand.getInstance(this.transaction);
+    const statsValueCommand: StatsValueMySQLCommand = StatsValueMySQLCommand.getInstance(this.transaction);
 
     const promises: Array<Promise<any>> = [];
 
@@ -45,7 +45,7 @@ export class StatsItemCommand implements IStatsItemCommand {
   }
 
   public async deleteByStatsID(statsID: StatsID): Promise<any> {
-    const statsValueCommand: StatsValueCommand = StatsValueCommand.getInstance(this.transaction);
+    const statsValueCommand: StatsValueMySQLCommand = StatsValueMySQLCommand.getInstance(this.transaction);
 
     await statsValueCommand.deleteByStatsID(statsID);
 

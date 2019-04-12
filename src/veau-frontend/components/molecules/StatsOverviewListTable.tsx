@@ -2,14 +2,14 @@ import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/c
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { StatsOverview } from '../../../veau-entity/StatsOverview';
-import { LocaleQuery } from '../../../veau-query/LocaleQuery';
+import { LocaleMemoryQuery } from '../../../veau-query/LocaleQuery';
 import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
 import { StatsID } from '../../../veau-vo/StatsID';
 
 type Props = {
   statsOverviews: Array<StatsOverview>;
-  localeQuery: LocaleQuery;
+  localeQuery: LocaleMemoryQuery;
   toStatsEdit: (statsID: StatsID) => void;
 };
 type State = {

@@ -5,15 +5,15 @@ import { NoSuchElementError } from '../veau-general/Error/NoSuchElementError';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../veau-vo/StatsID';
 import { IStatsQuery } from './interfaces/IStatsQuery';
-import { StatsItemQuery } from './StatsItemQuery';
+import { StatsItemMySQLQuery } from './StatsItemMySQLQuery';
 
-const statsItemQuery: StatsItemQuery = StatsItemQuery.getInstance();
+const statsItemMySQLQuery: StatsItemMySQLQuery = StatsItemMySQLQuery.getInstance();
 const statsFactory: StatsFactory = StatsFactory.getInstance();
 
-export class StatsQuery implements IStatsQuery {
+export class StatsMySQLQuery implements IStatsQuery {
 
-  public static getInstance(): StatsQuery {
-    return new StatsQuery();
+  public static getInstance(): StatsMySQLQuery {
+    return new StatsMySQLQuery();
   }
 
   private constructor() {
@@ -50,7 +50,7 @@ export class StatsQuery implements IStatsQuery {
       throw new NoSuchElementError(statsID.toString());
     }
 
-    const items: Array<StatsItem> = await statsItemQuery.findByStatsID(statsID);
+    const items: Array<StatsItem> = await statsItemMySQLQuery.findByStatsID(statsID);
 
     return statsFactory.fromRow(rows[0], items);
   }

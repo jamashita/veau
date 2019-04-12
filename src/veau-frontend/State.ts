@@ -3,7 +3,7 @@ import { Stats } from '../veau-entity/Stats';
 import { StatsItem } from '../veau-entity/StatsItem';
 import { StatsOverview } from '../veau-entity/StatsOverview';
 import { VeauAccount } from '../veau-entity/VeauAccount';
-import { LocaleQuery } from '../veau-query/LocaleQuery';
+import { LocaleMemoryQuery } from '../veau-query/LocaleMemoryQuery';
 import { EntranceInformation } from '../veau-vo/EntranceInformation';
 import { LoadingCount } from './reducers/loadingCount';
 import { Modal } from './reducers/modal';
@@ -16,7 +16,7 @@ export type State = {
   entranceInformation: EntranceInformation;
   identity: VeauAccount;
   loadingCount: LoadingCount;
-  localeQuery: LocaleQuery;
+  localeQuery: LocaleMemoryQuery;
   modal: Modal;
   notification: Notification;
   pageProvider: PageProvider;

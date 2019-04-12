@@ -1,32 +1,20 @@
 import { NoSuchElementError } from '../veau-general/Error/NoSuchElementError';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
-import { VeauRedis } from '../veau-infrastructure/VeauRedis';
 import { ISO639 } from '../veau-vo/ISO639';
 import { Language, LanguageRow } from '../veau-vo/Language';
 import { LanguageID } from '../veau-vo/LanguageID';
 import { ILanguageQuery } from './interfaces/ILanguageQuery';
 
-const REDIS_KEY: string = 'Languages';
+export class LanguageMySQLQuery implements ILanguageQuery {
 
-export class LanguageQuery implements ILanguageQuery {
-
-  public static getInstance(): LanguageQuery {
-    return new LanguageQuery();
+  public static getInstance(): LanguageMySQLQuery {
+    return new LanguageMySQLQuery();
   }
 
   private constructor() {
   }
 
   public async allLanguages(): Promise<Array<Language>> {
-    const languagesString: string | null = await VeauRedis.getString().get(REDIS_KEY);
-
-    if (languagesString) {
-      const languageRows: Array<LanguageRow> = JSON.parse(languagesString);
-      return languageRows.map<Language>((row: LanguageRow) => {
-        return this.toLanguage(row);
-      });
-    }
-
     const query: string = `SELECT
       R1.language_id AS languageID,
       R1.name,
@@ -37,9 +25,15 @@ export class LanguageQuery implements ILanguageQuery {
       ORDER BY R1.iso639;`;
 
     const languages: Array<LanguageRow> = await VeauMySQL.query(query);
-    await VeauRedis.getString().set(REDIS_KEY, JSON.stringify(languages));
     return languages.map<Language>((row: LanguageRow) => {
-      return this.toLanguage(row);
+      const {
+        languageID,
+        name,
+        englishName,
+        iso639
+      } = row;
+
+      return Language.of(LanguageID.of(languageID), name, englishName, ISO639.of(iso639));
     });
   }
 
@@ -58,16 +52,5 @@ export class LanguageQuery implements ILanguageQuery {
     }
 
     return found;
-  }
-
-  private toLanguage(row: LanguageRow): Language {
-    const {
-      languageID,
-      name,
-      englishName,
-      iso639
-    } = row;
-
-    return Language.of(LanguageID.of(languageID), name, englishName, ISO639.of(iso639));
   }
 }

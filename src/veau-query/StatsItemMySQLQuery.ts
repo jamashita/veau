@@ -4,15 +4,15 @@ import { StatsItemFactory } from '../veau-factory/StatsItemFactory';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../veau-vo/StatsID';
 import { IStatsItemQuery } from './interfaces/IStatsItemQuery';
-import { StatsValueQuery } from './StatsValueQuery';
+import { StatsValueMySQLQuery } from './StatsValueMySQLQuery';
 
-const statsValueQuery: StatsValueQuery = StatsValueQuery.getInstance();
+const statsValueMySQLQuery: StatsValueMySQLQuery = StatsValueMySQLQuery.getInstance();
 const statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
 
-export class StatsItemQuery implements IStatsItemQuery {
+export class StatsItemMySQLQuery implements IStatsItemQuery {
 
-  public static getInstance(): StatsItemQuery {
-    return new StatsItemQuery();
+  public static getInstance(): StatsItemMySQLQuery {
+    return new StatsItemMySQLQuery();
   }
 
   private constructor() {
@@ -32,7 +32,7 @@ export class StatsItemQuery implements IStatsItemQuery {
       }
     ]);
 
-    const valueMap: Map<string, StatsValues> = await statsValueQuery.findByStatsID(statsID);
+    const valueMap: Map<string, StatsValues> = await statsValueMySQLQuery.findByStatsID(statsID);
 
     return statsItemRows.map<StatsItem>((statsItemRow: StatsItemRow) => {
       const values: StatsValues | undefined = valueMap.get(statsItemRow.statsItemID);

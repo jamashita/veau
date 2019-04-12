@@ -1,19 +1,25 @@
 import { ILanguageCommand } from '../veau-command/interfaces/ILanguageCommand';
-import { LanguageCommand } from '../veau-command/LanguageCommand';
-import { RegionCommand } from '../veau-command/RegionCommand';
-import { RuntimeError } from '../veau-general/Error/RuntimeError';
+import { LanguageRedisCommand } from '../veau-command/LanguageRedisCommand';
+import { RegionRedisCommand } from '../veau-command/RegionRedisCommand';
 import { ILanguageQuery } from '../veau-query/interfaces/ILanguageQuery';
 import { IRegionQuery } from '../veau-query/interfaces/IRegionQuery';
-import { LanguageQuery } from '../veau-query/LanguageQuery';
-import { RegionQuery } from '../veau-query/RegionQuery';
+import { LanguageMySQLQuery } from '../veau-query/LanguageMySQLQuery';
+import { LanguageRedisQuery } from '../veau-query/LanguageRedisQuery';
+import { RegionMySQLQuery } from '../veau-query/RegionMySQLQuery';
+import { RegionRedisQuery } from '../veau-query/RegionRedisQuery';
 import { Language, LanguageJSON } from '../veau-vo/Language';
 import { Region, RegionJSON } from '../veau-vo/Region';
 import { ILocaleUsecase } from './interfaces/ILocaleUsecase';
 
-const languageQuery: ILanguageQuery = LanguageQuery.getInstance();
-const regionQuery: IRegionQuery = RegionQuery.getInstance();
-const languageCommand: ILanguageCommand = LanguageCommand.getInstance();
-const regionCommand: RegionCommand = RegionCommand.getInstance();
+const LANGUAGES_REDIS_KEY: string = 'LANGUAGES';
+const REGIONS_REDIS_KEY: string = 'REGIONS';
+
+const languageMySQLQuery: ILanguageQuery = LanguageMySQLQuery.getInstance();
+const languageRedisQuery: ILanguageQuery = LanguageRedisQuery.getInstance(LANGUAGES_REDIS_KEY);
+const regionMySQLQuery: IRegionQuery = RegionMySQLQuery.getInstance();
+const regionRedisQuery: IRegionQuery = RegionRedisQuery.getInstance(REGIONS_REDIS_KEY);
+const languageRedisCommand: ILanguageCommand = LanguageRedisCommand.getInstance();
+const regionRedisCommand: RegionRedisCommand = RegionRedisCommand.getInstance();
 
 export type Locales = {
   languages: Array<LanguageJSON>;
@@ -31,8 +37,8 @@ export class LocaleUsecase implements ILocaleUsecase {
   }
 
   public async all(): Promise<Locales> {
-    const languages: Array<Language> = await languageQuery.allLanguages();
-    const regions: Array<Region> = await regionQuery.allRegions();
+    const languages: Array<Language> = await this.getLanguages();
+    const regions: Array<Region> = await this.getRegions();
 
     return {
       languages: languages.map<LanguageJSON>((language: Language) => {
@@ -44,17 +50,30 @@ export class LocaleUsecase implements ILocaleUsecase {
     };
   }
 
-  public async deleteCache(): Promise<void> {
-    const languageDeleted: boolean = await languageCommand.deleteAll();
+  private async getLanguages(): Promise<Array<Language>> {
+    const languages: Array<Language> = await languageRedisQuery.allLanguages();
 
-    if (!languageDeleted) {
-      throw new RuntimeError('FAILED TO DELETE LANGUAGES FROM STORAGE');
+    if (languages.length !== 0) {
+      return languages;
     }
 
-    const regionDeleted: boolean = await regionCommand.deleteAll();
+    return languageMySQLQuery.allLanguages();
+  }
 
-    if (!regionDeleted) {
-      throw new RuntimeError('FAILED TO DELETE REGIONS FROM STORAGE');
+  private async getRegions(): Promise<Array<Region>> {
+    const regions: Array<Region> = await regionRedisQuery.allRegions();
+
+    if (regions.length !== 0) {
+      return regions;
     }
+
+    return regionMySQLQuery.allRegions();
+  }
+
+  public async deleteCache(): Promise<any> {
+    return Promise.all<any>([
+      languageRedisCommand.deleteAll(),
+      regionRedisCommand.deleteAll()
+    ]);
   }
 }

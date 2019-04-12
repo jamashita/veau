@@ -1,4 +1,4 @@
 export interface IRegionCommand {
 
-  deleteAll(): Promise<boolean>;
+  deleteAll(): Promise<any>;
 }

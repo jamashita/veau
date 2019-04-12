@@ -6,9 +6,9 @@ import { StatsOverview } from '../../veau-entity/StatsOverview';
 import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
 import { UUID } from '../../veau-vo/UUID';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
-import { StatsOverviewQuery } from '../StatsOverviewQuery';
+import { StatsOverviewMySQLQuery } from '../StatsOverviewMySQLQuery';
 
-describe('StatsOverviewQuery', () => {
+describe('StatsOverviewMySQLQuery', () => {
   it('findByVeauAccountID', async () => {
     const stub: SinonStub = sinon.stub();
     VeauMySQL.query = stub;
@@ -19,11 +19,11 @@ describe('StatsOverviewQuery', () => {
         iso3166: 'AFG',
         termID: 1,
         name: 'stats overview',
-        updatedAt: new Date(2000, 0, 1)
+        updatedAt: '2000-01-01'
       }
     ]);
 
-    const statsOverviewQuery: StatsOverviewQuery = StatsOverviewQuery.getInstance();
+    const statsOverviewQuery: StatsOverviewMySQLQuery = StatsOverviewMySQLQuery.getInstance();
     const statsOverviews: Array<StatsOverview> = await statsOverviewQuery.findByVeauAccountID(VeauAccountID.of(UUID.of('998106de-b2e7-4981-9643-22cd30cd74de')), 0);
 
     expect(statsOverviews.length).toEqual(1);
@@ -32,6 +32,6 @@ describe('StatsOverviewQuery', () => {
     expect(statsOverviews[0].getISO3166().get()).toEqual('AFG');
     expect(statsOverviews[0].getTerm().get()).toEqual(1);
     expect(statsOverviews[0].getName()).toEqual('stats overview');
-    expect(statsOverviews[0].getUpdatedAt().toDate().getTime()).toEqual(new Date(2000, 0, 1).getTime());
+    expect(statsOverviews[0].getUpdatedAtAsString()).toEqual('2000-01-01 00:00:00');
   });
 });

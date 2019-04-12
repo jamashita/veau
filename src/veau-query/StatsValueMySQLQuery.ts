@@ -5,10 +5,10 @@ import { StatsID } from '../veau-vo/StatsID';
 import { StatsValue, StatsValueRow } from '../veau-vo/StatsValue';
 import { IStatsValueQuery } from './interfaces/IStatsValueQuery';
 
-export class StatsValueQuery implements IStatsValueQuery {
+export class StatsValueMySQLQuery implements IStatsValueQuery {
 
-  public static getInstance(): StatsValueQuery {
-    return new StatsValueQuery();
+  public static getInstance(): StatsValueMySQLQuery {
+    return new StatsValueMySQLQuery();
   }
 
   private constructor() {

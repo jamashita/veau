@@ -5,12 +5,12 @@ import { Language } from '../veau-vo/Language';
 import { Region } from '../veau-vo/Region';
 import { ILocaleQuery } from './interfaces/ILocaleQuery';
 
-export class LocaleQuery implements ILocaleQuery {
+export class LocaleMemoryQuery implements ILocaleQuery {
   private languages: Array<Language>;
   private regions: Array<Region>;
 
-  public static getInstance(languages: Array<Language>, regions: Array<Region>): LocaleQuery {
-    return new LocaleQuery(languages, regions);
+  public static getInstance(languages: Array<Language>, regions: Array<Region>): LocaleMemoryQuery {
+    return new LocaleMemoryQuery(languages, regions);
   }
 
   private constructor(languages: Array<Language>, regions: Array<Region>) {

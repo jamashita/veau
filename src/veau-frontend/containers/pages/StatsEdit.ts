@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 import { Stats } from '../../../veau-entity/Stats';
 import { StatsItem } from '../../../veau-entity/StatsItem';
 import { Term } from '../../../veau-enum/Term';
-import { LocaleQuery } from '../../../veau-query/LocaleQuery';
+import { LocaleMemoryQuery } from '../../../veau-query/LocaleQuery';
 import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
 import { Action } from '../../actions/Action';
@@ -30,7 +30,7 @@ import { State } from '../../State';
 
 type StateProps = {
   stats: Stats;
-  localeQuery: LocaleQuery;
+  localeQuery: LocaleMemoryQuery;
   statsItem: StatsItem;
   selectingItem?: StatsItem;
 };

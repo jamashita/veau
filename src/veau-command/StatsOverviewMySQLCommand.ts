@@ -1,19 +1,19 @@
 import { StatsOverview } from '../veau-entity/StatsOverview';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
-import { LanguageQuery } from '../veau-query/LanguageQuery';
-import { RegionQuery } from '../veau-query/RegionQuery';
+import { LanguageMySQLQuery } from '../veau-query/LanguageMySQLQuery';
+import { RegionMySQLQuery } from '../veau-query/RegionMySQLQuery';
 import { Language } from '../veau-vo/Language';
 import { Region } from '../veau-vo/Region';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
 import { IStatsOverviewCommand } from './interfaces/IStatsOverviewCommand';
 
-const languageQuery: LanguageQuery = LanguageQuery.getInstance();
-const regionQuery: RegionQuery = RegionQuery.getInstance();
+const languageQuery: LanguageMySQLQuery = LanguageMySQLQuery.getInstance();
+const regionQuery: RegionMySQLQuery = RegionMySQLQuery.getInstance();
 
-export class StatsOverviewCommand implements IStatsOverviewCommand {
+export class StatsOverviewMySQLCommand implements IStatsOverviewCommand {
 
-  public static getInstance(): StatsOverviewCommand {
-    return new StatsOverviewCommand();
+  public static getInstance(): StatsOverviewMySQLCommand {
+    return new StatsOverviewMySQLCommand();
   }
 
   private constructor() {
