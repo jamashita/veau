@@ -19,8 +19,8 @@ services:
       - '443:443'
     volumes:
       - '$PWD/nginx/veau.conf:/etc/nginx/conf.d/veau.conf'
-      - '$PWD/nginx/cert/ssl.jamashita.dev.crt:/etc/nginx/conf.d/server.crt'
-      - '$PWD/nginx/cert/ssl.jamashita.dev.key:/etc/nginx/conf.d/server.key'
+      - '$PWD/cert/ssl.jamashita.dev.crt:/etc/nginx/conf.d/server.crt'
+      - '$PWD/cert/ssl.jamashita.dev.key:/etc/nginx/conf.d/server.key'
     links:
       - 'veau'
   veau:
