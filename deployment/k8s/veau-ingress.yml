@@ -1,0 +1,17 @@
+apiVersion: 'extensions/v1beta1'
+kind: 'Ingress'
+metadata:
+  name: 'veau-ingress'
+  annotations:
+    kubernetes.io/ingress.allow-http: 'false'
+spec:
+  tls:
+    - secretName: 'veau-cert'
+  rules:
+    - host: 'www.jamashita.dev'
+      http:
+        paths:
+          - path: '/'
+            backend:
+              serviceName: 'veau-service'
+              servicePort: 9000

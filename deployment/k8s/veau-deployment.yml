@@ -1,0 +1,51 @@
+apiVersion: 'apps/v1'
+kind: 'Deployment'
+metadata:
+  name: 'veau-deployment'
+  labels:
+    app: 'veau'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: 'veau'
+  template:
+    metadata:
+      labels:
+        app: 'veau'
+    spec:
+      containers:
+        - name: 'veau'
+          image: 'gcr.io/veau-229916/veau:latest'
+          env:
+            - name: 'NODE_ENV'
+              value: 'k8s'
+          ports:
+            - containerPort: 4000
+        - name: 'veau-mysql'
+          image: 'mysql:8.0'
+          env:
+            - name: 'MYSQL_ROOT_PASSWORD'
+              value: 'veau'
+            - name: 'MYSQL_DATABASE'
+              value: 'veau'
+          volumeMounts:
+            - mountPath: '/etc/mysql/conf.d'
+              name: 'mysql-cnf'
+            - mountPath: '/docker-entrypoint-initdb.d'
+              name: 'mysql-init'
+        - name: 'veau-redis'
+          image: 'redis:4.0.11-alpine'
+      volumes:
+        - name: 'mysql-cnf'
+          configMap:
+            name: 'veau-configmap'
+            items:
+              - key: 'my.cnf'
+                path: 'my.cnf'
+        - name: 'mysql-init'
+          configMap:
+            name: 'veau-configmap'
+            items:
+              - key: 'veau.sql'
+                path: 'veau.sql'

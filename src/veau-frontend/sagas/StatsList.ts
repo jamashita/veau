@@ -90,7 +90,6 @@ export class StatsList {
           newStatsOverview
         }
       } = state;
-      console.log(action.unit);
 
       const latestStatsOverview: StatsOverview = statsOverviewFactory.from(
         newStatsOverview.getStatsID(),
