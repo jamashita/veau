@@ -3,10 +3,10 @@ session:
   secret: 'iASDFnPvDbvG8xZS6njmtpBXZz7BP2jQ'
   maxAge: 28800000
 redis:
-  host: 'localhost'
+  host: 'veau_redis'
   port: 6379
 mysql:
-  host: 'localhost'
+  host: 'veau_mysql'
   port: 3306
   user: 'root'
   password: 'veau'
