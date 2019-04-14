@@ -11,7 +11,7 @@ spec:
     - host: 'www.jamashita.dev'
       http:
         paths:
-          - path: '/'
+          - path: '/.*'
             backend:
               serviceName: 'veau-service'
               servicePort: 9000
