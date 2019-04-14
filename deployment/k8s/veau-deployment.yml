@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: 'veau'
-          image: 'gcr.io/veau-229916/veau:latest'
+          image: 'gcr.io/veau-229916/veau:1.1.3'
           env:
             - name: 'NODE_ENV'
               value: 'k8s'
