@@ -12,6 +12,7 @@ import { UUID } from '../../veau-vo/UUID';
 
 const router: express.Router = express.Router();
 const logger: log4js.Logger = log4js.getLogger();
+
 const statsUsecase: IStatsUsecase = StatsUsecase.getInstance();
 
 router.get('/overview/:page(\\d+)', async (req: RequestSession, res: express.Response) => {
@@ -66,35 +67,35 @@ router.post('/', async (req: RequestSession, res: express.Response) => {
     items
   } = req.body;
 
-  if (!statsID) {
+  if (statsID === undefined) {
     res.sendStatus(BAD_REQUEST);
     return;
   }
-  if (!language) {
+  if (language === undefined) {
     res.sendStatus(BAD_REQUEST);
     return;
   }
-  if (!region) {
+  if (region === undefined) {
     res.sendStatus(BAD_REQUEST);
     return;
   }
-  if (!termID) {
+  if (termID === undefined) {
     res.sendStatus(BAD_REQUEST);
     return;
   }
-  if (!name) {
+  if (name === undefined) {
     res.sendStatus(BAD_REQUEST);
     return;
   }
-  if (!unit) {
+  if (unit === undefined) {
     res.sendStatus(BAD_REQUEST);
     return;
   }
-  if (!updatedAt) {
+  if (updatedAt === undefined) {
     res.sendStatus(BAD_REQUEST);
     return;
   }
-  if (!items) {
+  if (items === undefined) {
     res.sendStatus(BAD_REQUEST);
     return;
   }

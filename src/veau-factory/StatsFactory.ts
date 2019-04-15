@@ -13,10 +13,9 @@ import { StatsID } from '../veau-vo/StatsID';
 import { UUID } from '../veau-vo/UUID';
 import { StatsItemFactory } from './StatsItemFactory';
 
-const statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
-
 export class StatsFactory {
   private static instance: StatsFactory = new StatsFactory();
+  private static statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
 
   public static getInstance(): StatsFactory {
     return StatsFactory.instance;
@@ -42,7 +41,7 @@ export class StatsFactory {
     } = json;
 
     const statsItems: Array<StatsItem> = items.map<StatsItem>((item: StatsItemJSON) => {
-      return statsItemFactory.fromJSON(item);
+      return StatsFactory.statsItemFactory.fromJSON(item);
     });
 
     return this.from(

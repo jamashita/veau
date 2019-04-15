@@ -7,10 +7,9 @@ import { Region } from '../veau-vo/Region';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
 import { IStatsOverviewCommand } from './interfaces/IStatsOverviewCommand';
 
-const languageQuery: LanguageMySQLQuery = LanguageMySQLQuery.getInstance();
-const regionQuery: RegionMySQLQuery = RegionMySQLQuery.getInstance();
-
 export class StatsOverviewMySQLCommand implements IStatsOverviewCommand {
+  private static languageQuery: LanguageMySQLQuery = LanguageMySQLQuery.getInstance();
+  private static regionQuery: RegionMySQLQuery = RegionMySQLQuery.getInstance();
 
   public static getInstance(): StatsOverviewMySQLCommand {
     return new StatsOverviewMySQLCommand();
@@ -31,8 +30,8 @@ export class StatsOverviewMySQLCommand implements IStatsOverviewCommand {
       UTC_TIMESTAMP()
       );`;
 
-    const language: Language = await languageQuery.findByISO639(statsOverview.getISO639());
-    const region: Region = await regionQuery.findByISO3166(statsOverview.getISO3166());
+    const language: Language = await StatsOverviewMySQLCommand.languageQuery.findByISO639(statsOverview.getISO639());
+    const region: Region = await StatsOverviewMySQLCommand.regionQuery.findByISO3166(statsOverview.getISO3166());
 
     return VeauMySQL.query(query, [
       {

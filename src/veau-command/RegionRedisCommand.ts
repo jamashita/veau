@@ -1,9 +1,8 @@
 import { VeauRedis } from '../veau-infrastructure/VeauRedis';
 import { IRegionCommand } from './interfaces/IRegionCommand';
 
-const REDIS_KEY: string = 'Regions';
-
 export class RegionRedisCommand implements IRegionCommand {
+  private static REDIS_KEY: string = 'Regions';
 
   public static getInstance(): RegionRedisCommand {
     return new RegionRedisCommand();
@@ -13,6 +12,6 @@ export class RegionRedisCommand implements IRegionCommand {
   }
 
   public deleteAll(): Promise<any> {
-    return VeauRedis.delete(REDIS_KEY);
+    return VeauRedis.delete(RegionRedisCommand.REDIS_KEY);
   }
 }

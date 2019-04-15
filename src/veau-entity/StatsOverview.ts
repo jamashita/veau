@@ -27,7 +27,6 @@ export type StatsOverviewRow = {
   updatedAt: string;
 };
 
-const DATE_FORMAT: string = 'YYYY-MM-DD HH:mm:ss';
 
 export class StatsOverview extends Entity<StatsID> {
   private statsID: StatsID;
@@ -37,6 +36,8 @@ export class StatsOverview extends Entity<StatsID> {
   private name: string;
   private unit: string;
   private updatedAt: moment.Moment;
+
+  private static DATE_FORMAT: string = 'YYYY-MM-DD HH:mm:ss';
 
   public static default(): StatsOverview {
     const uuid: UUID = UUID.of(Random.v4());
@@ -87,7 +88,7 @@ export class StatsOverview extends Entity<StatsID> {
   }
 
   public getUpdatedAtAsString(): string {
-    return this.updatedAt.utc().format(DATE_FORMAT);
+    return this.updatedAt.utc().format(StatsOverview.DATE_FORMAT);
   }
 
   public isFilled(): boolean {

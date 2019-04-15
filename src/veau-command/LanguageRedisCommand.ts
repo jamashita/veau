@@ -1,9 +1,8 @@
 import { VeauRedis } from '../veau-infrastructure/VeauRedis';
 import { ILanguageCommand } from './interfaces/ILanguageCommand';
 
-const REDIS_KEY: string = 'Languages';
-
 export class LanguageRedisCommand implements ILanguageCommand {
+  private static REDIS_KEY: string = 'Languages';
 
   public static getInstance(): LanguageRedisCommand {
     return new LanguageRedisCommand();
@@ -13,6 +12,6 @@ export class LanguageRedisCommand implements ILanguageCommand {
   }
 
   public deleteAll(): Promise<any> {
-    return VeauRedis.delete(REDIS_KEY);
+    return VeauRedis.delete(LanguageRedisCommand.REDIS_KEY);
   }
 }

@@ -1,36 +1,36 @@
 import { NoSuchElementError } from '../veau-general/Error/NoSuchElementError';
 
-const DAILY: number = 1;
-const WEEKLY: number = 2;
-const MONTHLY: number = 3;
-const QUARTERLY: number = 4;
-const ANNUAL: number = 5;
-
 export class Term {
   private id: number;
   private key: string;
 
-  public static DAILY: Term = new Term(DAILY, 'DAILY');
-  public static WEEKLY: Term = new Term(WEEKLY, 'WEEKLY');
-  public static MONTHLY: Term = new Term(MONTHLY, 'MONTHLY');
-  public static QUARTERLY: Term = new Term(QUARTERLY, 'QUARTERLY');
-  public static ANNUAL: Term = new Term(ANNUAL, 'ANNUAL');
+  private static DAILY_ID: number = 1;
+  private static WEEKLY_ID: number = 2;
+  private static MONTHLY_ID: number = 3;
+  private static QUARTERLY_ID: number = 4;
+  private static ANNUAL_ID: number = 5;
+
+  public static DAILY: Term = new Term(Term.DAILY_ID, 'DAILY');
+  public static WEEKLY: Term = new Term(Term.WEEKLY_ID, 'WEEKLY');
+  public static MONTHLY: Term = new Term(Term.MONTHLY_ID, 'MONTHLY');
+  public static QUARTERLY: Term = new Term(Term.QUARTERLY_ID, 'QUARTERLY');
+  public static ANNUAL: Term = new Term(Term.ANNUAL_ID, 'ANNUAL');
 
   public static of(id: number): Term {
     switch (id) {
-      case DAILY: {
+      case Term.DAILY_ID: {
         return Term.DAILY;
       }
-      case WEEKLY: {
+      case Term.WEEKLY_ID: {
         return Term.WEEKLY;
       }
-      case MONTHLY: {
+      case Term.MONTHLY_ID: {
         return Term.MONTHLY;
       }
-      case QUARTERLY: {
+      case Term.QUARTERLY_ID: {
         return Term.QUARTERLY;
       }
-      case ANNUAL: {
+      case Term.ANNUAL_ID: {
         return Term.ANNUAL;
       }
       default: {

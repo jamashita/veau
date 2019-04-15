@@ -36,9 +36,6 @@ export type StatsRow = {
   updatedAt: string;
 };
 
-const REVISED_VALUE: number = 14;
-const TERM_FORMAT: string = 'YYYY-MM-DD';
-
 export class Stats extends Entity<StatsID> {
   private statsID: StatsID;
   private language: Language;
@@ -50,6 +47,9 @@ export class Stats extends Entity<StatsID> {
   private items: StatsItems;
   private startDate?: string;
   private columns?: Array<string>;
+
+  private static REVISED_VALUE: number = 14;
+  private static TERM_FORMAT: string = 'YYYY-MM-DD';
 
   public static default(): Stats {
     return new Stats(StatsID.of(UUID.of('')), Language.default(), Region.default(), Term.DAILY, '', '', moment(), new StatsItems([]));
@@ -132,11 +132,11 @@ export class Stats extends Entity<StatsID> {
     const maxTerm: moment.Moment = moment.max(asOfs);
     this.columns = [];
 
-    this.columns.push(this.previousTerm(minTerm).format(TERM_FORMAT));
+    this.columns.push(this.previousTerm(minTerm).format(Stats.TERM_FORMAT));
     for (let term: moment.Moment = minTerm; !term.isAfter(maxTerm); term = this.nextTerm(term)) {
-      this.columns.push(term.format(TERM_FORMAT));
+      this.columns.push(term.format(Stats.TERM_FORMAT));
     }
-    this.columns.push(this.nextTerm(maxTerm).format(TERM_FORMAT));
+    this.columns.push(this.nextTerm(maxTerm).format(Stats.TERM_FORMAT));
 
     return this.columns;
   }
@@ -207,7 +207,7 @@ export class Stats extends Entity<StatsID> {
       return row.length;
     });
 
-    return Math.max(...chars) * REVISED_VALUE;
+    return Math.max(...chars) * Stats.REVISED_VALUE;
   }
 
   public getData(): Array<Array<string>> {
@@ -224,7 +224,7 @@ export class Stats extends Entity<StatsID> {
     const asOfString: string = this.getColumns()[column];
     const asOf: moment.Moment = moment(asOfString);
     this.items.get(row).setValue(asOf, value);
-    this.recalculateColumns()
+    this.recalculateColumns();
   }
 
   public deleteData(row: number, column: number): void {
@@ -252,7 +252,7 @@ export class Stats extends Entity<StatsID> {
     });
 
     const chart: Array<object> = [];
-    chartItems.forEach((value: object, key: string) => {
+    chartItems.forEach((value: object) => {
       chart.push(value);
     });
 
