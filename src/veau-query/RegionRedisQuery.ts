@@ -6,18 +6,17 @@ import { RegionID } from '../veau-vo/RegionID';
 import { IRegionQuery } from './interfaces/IRegionQuery';
 
 export class RegionRedisQuery implements IRegionQuery {
-  private key: string;
+  private static REGIONS_REDIS_KEY: string = 'REGIONS';
 
-  public static getInstance(key: string): RegionRedisQuery {
-    return new RegionRedisQuery(key);
+  public static getInstance(): RegionRedisQuery {
+    return new RegionRedisQuery();
   }
 
-  private constructor(key: string) {
-    this.key = key;
+  private constructor() {
   }
 
   public async allRegions(): Promise<Array<Region>> {
-    const regionString: string | null = await VeauRedis.getString().get(this.key);
+    const regionString: string | null = await VeauRedis.getString().get(RegionRedisQuery.REGIONS_REDIS_KEY);
 
     if (regionString) {
       const regionRows: Array<RegionRow> = JSON.parse(regionString);

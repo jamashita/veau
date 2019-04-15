@@ -11,16 +11,6 @@ import { Language, LanguageJSON } from '../veau-vo/Language';
 import { Region, RegionJSON } from '../veau-vo/Region';
 import { ILocaleUsecase } from './interfaces/ILocaleUsecase';
 
-const LANGUAGES_REDIS_KEY: string = 'LANGUAGES';
-const REGIONS_REDIS_KEY: string = 'REGIONS';
-
-const languageMySQLQuery: ILanguageQuery = LanguageMySQLQuery.getInstance();
-const languageRedisQuery: ILanguageQuery = LanguageRedisQuery.getInstance(LANGUAGES_REDIS_KEY);
-const languageRedisCommand: ILanguageCommand = LanguageRedisCommand.getInstance();
-const regionMySQLQuery: IRegionQuery = RegionMySQLQuery.getInstance();
-const regionRedisQuery: IRegionQuery = RegionRedisQuery.getInstance(REGIONS_REDIS_KEY);
-const regionRedisCommand: RegionRedisCommand = RegionRedisCommand.getInstance();
-
 export type Locales = {
   languages: Array<LanguageJSON>;
   regions: Array<RegionJSON>;
@@ -28,6 +18,12 @@ export type Locales = {
 
 export class LocaleUsecase implements ILocaleUsecase {
   private static instance: LocaleUsecase = new LocaleUsecase();
+  private static languageMySQLQuery: ILanguageQuery = LanguageMySQLQuery.getInstance();
+  private static languageRedisQuery: ILanguageQuery = LanguageRedisQuery.getInstance();
+  private static languageRedisCommand: ILanguageCommand = LanguageRedisCommand.getInstance();
+  private static regionMySQLQuery: IRegionQuery = RegionMySQLQuery.getInstance();
+  private static regionRedisQuery: IRegionQuery = RegionRedisQuery.getInstance();
+  private static regionRedisCommand: RegionRedisCommand = RegionRedisCommand.getInstance();
 
   public static getInstance(): LocaleUsecase {
     return LocaleUsecase.instance;
@@ -51,29 +47,29 @@ export class LocaleUsecase implements ILocaleUsecase {
   }
 
   private async getLanguages(): Promise<Array<Language>> {
-    const languages: Array<Language> = await languageRedisQuery.allLanguages();
+    const languages: Array<Language> = await LocaleUsecase.languageRedisQuery.allLanguages();
 
     if (languages.length !== 0) {
       return languages;
     }
 
-    return languageMySQLQuery.allLanguages();
+    return LocaleUsecase.languageMySQLQuery.allLanguages();
   }
 
   private async getRegions(): Promise<Array<Region>> {
-    const regions: Array<Region> = await regionRedisQuery.allRegions();
+    const regions: Array<Region> = await LocaleUsecase.regionRedisQuery.allRegions();
 
     if (regions.length !== 0) {
       return regions;
     }
 
-    return regionMySQLQuery.allRegions();
+    return LocaleUsecase.regionMySQLQuery.allRegions();
   }
 
   public async deleteCache(): Promise<any> {
     return Promise.all<any>([
-      languageRedisCommand.deleteAll(),
-      regionRedisCommand.deleteAll()
+      LocaleUsecase.languageRedisCommand.deleteAll(),
+      LocaleUsecase.regionRedisCommand.deleteAll()
     ]);
   }
 }

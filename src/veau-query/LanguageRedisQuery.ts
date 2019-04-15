@@ -6,18 +6,17 @@ import { LanguageID } from '../veau-vo/LanguageID';
 import { ILanguageQuery } from './interfaces/ILanguageQuery';
 
 export class LanguageRedisQuery implements ILanguageQuery {
-  private key: string;
+  private static LANGUAGES_REDIS_KEY: string = 'LANGUAGES';
 
-  public static getInstance(key: string): LanguageRedisQuery {
-    return new LanguageRedisQuery(key);
+  public static getInstance(): LanguageRedisQuery {
+    return new LanguageRedisQuery();
   }
 
-  private constructor(key: string) {
-    this.key = key;
+  private constructor() {
   }
 
   public async allLanguages(): Promise<Array<Language>> {
-    const languagesString: string | null = await VeauRedis.getString().get(this.key);
+    const languagesString: string | null = await VeauRedis.getString().get(LanguageRedisQuery.LANGUAGES_REDIS_KEY);
 
     if (languagesString) {
       const languageRows: Array<LanguageRow> = JSON.parse(languagesString);
