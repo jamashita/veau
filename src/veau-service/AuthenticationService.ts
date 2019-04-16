@@ -2,9 +2,9 @@ import * as passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { VeauAccount, VeauAccountJSON } from '../veau-entity/VeauAccount';
 import { VeauAccountFactory } from '../veau-factory/VeauAccountFactory';
-import { AuthenticationUsecase } from '../veau-usecase/AuthenticationUsecase';
+import { AuthenticationUseCase } from '../veau-usecase/AuthenticationUseCase';
 
-const authenticationUsecase: AuthenticationUsecase = AuthenticationUsecase.getInstance();
+const authenticationUseCase: AuthenticationUseCase = AuthenticationUseCase.getInstance();
 const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
 
 passport.use(new LocalStrategy(
@@ -13,7 +13,7 @@ passport.use(new LocalStrategy(
     passwordField: 'password',
     session: true
   },
-  authenticationUsecase.review
+  authenticationUseCase.review
 ));
 
 passport.serializeUser<VeauAccount, VeauAccountJSON>((account: VeauAccount, done: (err: any, json: VeauAccountJSON) => void) => {

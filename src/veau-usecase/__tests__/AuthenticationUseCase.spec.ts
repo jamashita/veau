@@ -5,9 +5,9 @@ import { SinonStub } from 'sinon';
 import { Digest } from '../../veau-general/Digest';
 import { NoSuchElementError } from '../../veau-general/Error/NoSuchElementError';
 import { VeauAccountMySQLQuery } from '../../veau-query/VeauAccountMySQLQuery';
-import { AuthenticationUsecase } from '../AuthenticationUsecase';
+import { AuthenticationUseCase } from '../AuthenticationUseCase';
 
-describe('AuthenticationUsecase', () => {
+describe('AuthenticationUseCase', () => {
   it('account not found', (done) => {
     const account: string = 'dummy account';
     const password: string = 'dummy password';
@@ -19,8 +19,8 @@ describe('AuthenticationUsecase', () => {
     Digest.compare = stub2;
     stub2.resolves(true);
 
-    const authenticationUsecase: AuthenticationUsecase = AuthenticationUsecase.getInstance();
-    authenticationUsecase.review(account, password, (err: any, ret: any) => {
+    const authenticationUseCase: AuthenticationUseCase = AuthenticationUseCase.getInstance();
+    authenticationUseCase.review(account, password, (err: any, ret: any) => {
       expect(err).toEqual(null);
       expect(ret).toEqual(false);
       done();
@@ -41,8 +41,8 @@ describe('AuthenticationUsecase', () => {
     Digest.compare = stub2;
     stub2.resolves(false);
 
-    const authenticationUsecase: AuthenticationUsecase = AuthenticationUsecase.getInstance();
-    authenticationUsecase.review(account, password, (err: any, ret: any) => {
+    const authenticationUseCase: AuthenticationUseCase = AuthenticationUseCase.getInstance();
+    authenticationUseCase.review(account, password, (err: any, ret: any) => {
       expect(err).toEqual(null);
       expect(ret).toEqual(false);
       done();
@@ -63,8 +63,8 @@ describe('AuthenticationUsecase', () => {
     Digest.compare = stub2;
     stub2.resolves(true);
 
-    const authenticationUsecase: AuthenticationUsecase = AuthenticationUsecase.getInstance();
-    authenticationUsecase.review(account, password, (err: any, ret: any) => {
+    const authenticationUseCase: AuthenticationUseCase = AuthenticationUseCase.getInstance();
+    authenticationUseCase.review(account, password, (err: any, ret: any) => {
       expect(err).toEqual(null);
       expect(ret).toEqual('dummy veauAccount');
       done();
