@@ -5,14 +5,14 @@ import 'jest';
 import * as sinon from 'sinon';
 import { SinonSpy, SinonStub } from 'sinon';
 import * as supertest from 'supertest';
-import { LocaleUsecase } from '../../../veau-usecase/LocaleUsecase';
+import { LocaleUseCase } from '../../../veau-usecase/LocaleUseCase';
 import { LocaleController } from '../LocaleController';
 
 describe('LocaleController', () => {
   it('GET /', async () => {
     const stub: SinonStub = sinon.stub();
-    const localeUsecase: LocaleUsecase = LocaleUsecase.getInstance();
-    localeUsecase.all = stub;
+    const localeUseCase: LocaleUseCase = LocaleUseCase.getInstance();
+    localeUseCase.all = stub;
     stub.resolves({
       languages: [
         {
@@ -57,8 +57,8 @@ describe('LocaleController', () => {
 
   it('GET /delete', async () => {
     const spy: SinonSpy = sinon.spy();
-    const localeUsecase: LocaleUsecase = LocaleUsecase.getInstance();
-    localeUsecase.deleteCache = spy;
+    const localeUseCase: LocaleUseCase = LocaleUseCase.getInstance();
+    localeUseCase.deleteCache = spy;
     const app: express.Express = express();
     app.use('/', LocaleController);
 
@@ -69,8 +69,8 @@ describe('LocaleController', () => {
 
   it('GET /delete: throws error', async () => {
     const stub: SinonStub = sinon.stub();
-    const localeUsecase: LocaleUsecase = LocaleUsecase.getInstance();
-    localeUsecase.deleteCache = stub;
+    const localeUseCase: LocaleUseCase = LocaleUseCase.getInstance();
+    localeUseCase.deleteCache = stub;
     stub.rejects();
     const app: express.Express = express();
     app.use('/', LocaleController);

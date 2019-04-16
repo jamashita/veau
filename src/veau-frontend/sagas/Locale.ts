@@ -1,7 +1,7 @@
 import { call, fork, put, take } from 'redux-saga/effects';
 import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
 import { LocaleMemoryQuery } from '../../veau-query/LocaleMemoryQuery';
-import { Locales } from '../../veau-usecase/LocaleUsecase';
+import { Locales } from '../../veau-usecase/interfaces/ILocaleUseCase';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language, LanguageJSON } from '../../veau-vo/Language';
