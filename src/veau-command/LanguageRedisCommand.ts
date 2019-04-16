@@ -13,11 +13,11 @@ export class LanguageRedisCommand implements ILanguageCommand {
   }
 
   public insertAll(languages: Array<Language>): Promise<any> {
-    const languageJSON: Array<LanguageJSON> = languages.map<LanguageJSON>((language: Language) => {
+    const languageJSONs: Array<LanguageJSON> = languages.map<LanguageJSON>((language: Language) => {
       return language.toJSON();
     });
 
-    return VeauRedis.getString().set(LanguageRedisCommand.REDIS_KEY, JSON.stringify(languageJSON));
+    return VeauRedis.getString().set(LanguageRedisCommand.REDIS_KEY, JSON.stringify(languageJSONs));
   }
 
   public deleteAll(): Promise<any> {

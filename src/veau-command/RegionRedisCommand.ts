@@ -1,4 +1,5 @@
 import { VeauRedis } from '../veau-infrastructure/VeauRedis';
+import { Region, RegionJSON } from '../veau-vo/Region';
 import { IRegionCommand } from './interfaces/IRegionCommand';
 
 export class RegionRedisCommand implements IRegionCommand {
@@ -9,6 +10,14 @@ export class RegionRedisCommand implements IRegionCommand {
   }
 
   private constructor() {
+  }
+
+  public insertAll(regions: Array<Region>): Promise<any> {
+    const regionJSONs: Array<RegionJSON> = regions.map<RegionJSON>((region: Region) => {
+      return region.toJSON();
+    });
+
+    return VeauRedis.getString().set(RegionRedisCommand.REDIS_KEY, JSON.stringify(regionJSONs));
   }
 
   public deleteAll(): Promise<any> {

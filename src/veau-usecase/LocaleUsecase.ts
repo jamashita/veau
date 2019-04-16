@@ -67,7 +67,10 @@ export class LocaleUsecase implements ILocaleUsecase {
       return regions;
     }
 
-    return LocaleUsecase.regionMySQLQuery.allRegions();
+    const newRegions: Array<Region> = await LocaleUsecase.regionMySQLQuery.allRegions();
+    await LocaleUsecase.regionRedisCommand.insertAll(newRegions);
+
+    return newRegions;
   }
 
   public async deleteCache(): Promise<any> {
