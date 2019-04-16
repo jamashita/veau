@@ -235,7 +235,7 @@ export class Stats extends Entity<StatsID> {
   }
 
   public getChart(): Array<object> {
-    const chartItems: Map<string, object> = new Map();
+    const chartItems: Map<string, object> = new Map<string, object>();
 
     this.getColumns().forEach((column: string) => {
       chartItems.set(column, {name: column});

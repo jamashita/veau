@@ -30,7 +30,7 @@ export class StatsValueMySQLQuery implements IStatsValueQuery {
       }
     ]);
 
-    const valueMap: Map<string, StatsValues> = new Map();
+    const valueMap: Map<string, StatsValues> = new Map<string, StatsValues>();
 
     statsValueRows.forEach((statsValueRow: StatsValueRow) => {
       const {
