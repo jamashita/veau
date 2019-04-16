@@ -1,4 +1,5 @@
 import { ILanguageCommand } from '../veau-command/interfaces/ILanguageCommand';
+import { IRegionCommand } from '../veau-command/interfaces/IRegionCommand';
 import { LanguageRedisCommand } from '../veau-command/LanguageRedisCommand';
 import { RegionRedisCommand } from '../veau-command/RegionRedisCommand';
 import { ILanguageQuery } from '../veau-query/interfaces/ILanguageQuery';
@@ -23,7 +24,7 @@ export class LocaleUsecase implements ILocaleUsecase {
   private static languageRedisCommand: ILanguageCommand = LanguageRedisCommand.getInstance();
   private static regionMySQLQuery: IRegionQuery = RegionMySQLQuery.getInstance();
   private static regionRedisQuery: IRegionQuery = RegionRedisQuery.getInstance();
-  private static regionRedisCommand: RegionRedisCommand = RegionRedisCommand.getInstance();
+  private static regionRedisCommand: IRegionCommand = RegionRedisCommand.getInstance();
 
   public static getInstance(): LocaleUsecase {
     return LocaleUsecase.instance;
@@ -53,7 +54,10 @@ export class LocaleUsecase implements ILocaleUsecase {
       return languages;
     }
 
-    return LocaleUsecase.languageMySQLQuery.allLanguages();
+    const newLanguages: Array<Language> = await LocaleUsecase.languageMySQLQuery.allLanguages();
+    await LocaleUsecase.languageRedisCommand.insertAll(newLanguages);
+
+    return newLanguages;
   }
 
   private async getRegions(): Promise<Array<Region>> {
