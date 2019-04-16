@@ -13,7 +13,7 @@ describe('LanguageRedisQuery', () => {
     const stub: SinonStub = sinon.stub();
     VeauRedis.getString().get = stub;
     stub.resolves('[{"languageID":1,"name":"аҧсуа бызшәа","englishName":"Abkhazian","iso639":"ab"},{"languageID":2,"name":"Afaraf","englishName":"Afar","iso639":"aa"}]');
-    const languageQuery: LanguageRedisQuery = LanguageRedisQuery.getInstance('LANGUAGES');
+    const languageQuery: LanguageRedisQuery = LanguageRedisQuery.getInstance();
     const languages: Array<Language> = await languageQuery.allLanguages();
 
     expect(languages.length).toEqual(2);
@@ -31,7 +31,7 @@ describe('LanguageRedisQuery', () => {
     const stub: SinonStub = sinon.stub();
     VeauRedis.getString().get = stub;
     stub.resolves('[{"languageID":1,"name":"аҧсуа бызшәа","englishName":"Abkhazian","iso639":"ab"},{"languageID":2,"name":"Afaraf","englishName":"Afar","iso639":"aa"}]');
-    const languageQuery: LanguageRedisQuery = LanguageRedisQuery.getInstance('LANGUAGES');
+    const languageQuery: LanguageRedisQuery = LanguageRedisQuery.getInstance();
     const language: Language = await languageQuery.findByISO639(ISO639.of('aa'));
 
     expect(language.getLanguageID().get()).toEqual(2);
@@ -43,7 +43,7 @@ describe('LanguageRedisQuery', () => {
     const stub: SinonStub = sinon.stub();
     VeauRedis.getString().get = stub;
     stub.resolves('[]');
-    const languageQuery: LanguageRedisQuery = LanguageRedisQuery.getInstance('LANGUAGES');
+    const languageQuery: LanguageRedisQuery = LanguageRedisQuery.getInstance();
 
     expect(languageQuery.findByISO639(ISO639.of('ac'))).rejects.toThrow(NoSuchElementError);
   });

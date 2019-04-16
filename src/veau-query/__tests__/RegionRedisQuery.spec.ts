@@ -13,7 +13,7 @@ describe('RegionRedisQuery', () => {
     const stub: SinonStub = sinon.stub();
     VeauRedis.getString().get = stub;
     stub.resolves('[{"regionID":1,"name":"Afghanistan","iso3166":"AFG"},{"regionID":2,"name":"Albania","iso3166":"ALB"}]');
-    const regionQuery: RegionRedisQuery = RegionRedisQuery.getInstance('REGIONS');
+    const regionQuery: RegionRedisQuery = RegionRedisQuery.getInstance();
     const regions: Array<Region> = await regionQuery.allRegions();
 
     expect(regions.length).toEqual(2);
@@ -29,7 +29,7 @@ describe('RegionRedisQuery', () => {
     const stub: SinonStub = sinon.stub();
     VeauRedis.getString().get = stub;
     stub.resolves('[{"regionID":1,"name":"Afghanistan","iso3166":"AFG"},{"regionID":2,"name":"Albania","iso3166":"ALB"}]');
-    const regionQuery: RegionRedisQuery = RegionRedisQuery.getInstance('REGIONS');
+    const regionQuery: RegionRedisQuery = RegionRedisQuery.getInstance();
     const region: Region = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
     expect(region.getRegionID().get()).toEqual(2);
@@ -40,7 +40,7 @@ describe('RegionRedisQuery', () => {
     const stub: SinonStub = sinon.stub();
     VeauRedis.getString().get = stub;
     stub.resolves('[]');
-    const regionQuery: RegionRedisQuery = RegionRedisQuery.getInstance('REGIONS');
+    const regionQuery: RegionRedisQuery = RegionRedisQuery.getInstance();
 
     expect(regionQuery.findByISO3166(ISO3166.of('ALB'))).rejects.toThrow(NoSuchElementError);
   });
