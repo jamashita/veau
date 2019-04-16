@@ -5,15 +5,15 @@ import { StatsJSON } from '../../veau-entity/Stats';
 import { StatsOverviewJSON } from '../../veau-entity/StatsOverview';
 import { NoSuchElementError } from '../../veau-general/Error/NoSuchElementError';
 import { RequestSession } from '../../veau-general/RequestSession';
-import { IStatsUsecase } from '../../veau-usecase/interfaces/IStatsUsecase';
-import { StatsUsecase } from '../../veau-usecase/StatsUsecase';
+import { IStatsUseCase } from '../../veau-usecase/interfaces/IStatsUseCase';
+import { StatsUseCase } from '../../veau-usecase/StatsUseCase';
 import { StatsID } from '../../veau-vo/StatsID';
 import { UUID } from '../../veau-vo/UUID';
 
 const router: express.Router = express.Router();
 const logger: log4js.Logger = log4js.getLogger();
 
-const statsUsecase: IStatsUsecase = StatsUsecase.getInstance();
+const statsUseCase: IStatsUseCase = StatsUseCase.getInstance();
 
 router.get('/overview/:page(\\d+)', async (req: RequestSession, res: express.Response) => {
   const page: number = Number(req.params.page);
@@ -24,7 +24,7 @@ router.get('/overview/:page(\\d+)', async (req: RequestSession, res: express.Res
   }
 
   try {
-    const statsOverviews: Array<StatsOverviewJSON> = await statsUsecase.findByVeauAccountID(req.user.getVeauAccountID(), page);
+    const statsOverviews: Array<StatsOverviewJSON> = await statsUseCase.findByVeauAccountID(req.user.getVeauAccountID(), page);
 
     res.send(statsOverviews);
   }
@@ -40,7 +40,7 @@ router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: expres
   } = req.params;
 
   try {
-    const stats: StatsJSON = await statsUsecase.findByStatsID(StatsID.of(UUID.of(statsID)));
+    const stats: StatsJSON = await statsUseCase.findByStatsID(StatsID.of(UUID.of(statsID)));
 
     res.send(stats);
   }
@@ -103,7 +103,7 @@ router.post('/', async (req: RequestSession, res: express.Response) => {
   const json: StatsJSON = req.body;
 
   try {
-    await statsUsecase.save(req.user.getVeauAccountID(), json);
+    await statsUseCase.save(req.user.getVeauAccountID(), json);
     res.sendStatus(CREATED);
   }
   catch (err) {
@@ -155,7 +155,7 @@ router.post('/overview', async (req: RequestSession, res: express.Response) => {
   const json: StatsOverviewJSON = req.body;
 
   try {
-    await statsUsecase.saveNewStats(req.user.getVeauAccountID(), json);
+    await statsUseCase.saveNewStats(req.user.getVeauAccountID(), json);
     res.sendStatus(CREATED);
   }
   catch (err) {

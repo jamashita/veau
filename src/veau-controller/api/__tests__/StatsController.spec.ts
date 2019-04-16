@@ -8,7 +8,7 @@ import { SinonStub } from 'sinon';
 import * as supertest from 'supertest';
 import { VeauAccount } from '../../../veau-entity/VeauAccount';
 import { NoSuchElementError } from '../../../veau-general/Error/NoSuchElementError';
-import { StatsUsecase } from '../../../veau-usecase/StatsUsecase';
+import { StatsUseCase } from '../../../veau-usecase/StatsUseCase';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
 import { UUID } from '../../../veau-vo/UUID';
@@ -18,8 +18,8 @@ import { StatsController } from '../StatsController';
 describe('StatsController', () => {
   it('GET /overview/:page(\\d+)', async () => {
     const stub: SinonStub = sinon.stub();
-    const statsUsecase: StatsUsecase = StatsUsecase.getInstance();
-    statsUsecase.findByVeauAccountID = stub;
+    const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
+    statsUseCase.findByVeauAccountID = stub;
     stub.resolves([
       {
         statsID: '01c466f3-198a-45a4-9204-348ac57b1b5d',
@@ -63,8 +63,8 @@ describe('StatsController', () => {
 
   it('GET /overview/:page(\\d+): throws error', async () => {
     const stub: SinonStub = sinon.stub();
-    const statsUsecase: StatsUsecase = StatsUsecase.getInstance();
-    statsUsecase.findByVeauAccountID = stub;
+    const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
+    statsUseCase.findByVeauAccountID = stub;
     stub.rejects();
     const app: express.Express = express();
     app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -79,8 +79,8 @@ describe('StatsController', () => {
 
   it('GET /:statsID([0-9a-f\-]{36})', async () => {
     const stub: SinonStub = sinon.stub();
-    const statsUsecase: StatsUsecase = StatsUsecase.getInstance();
-    statsUsecase.findByStatsID = stub;
+    const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
+    statsUseCase.findByStatsID = stub;
     stub.resolves({
       statsID: '059ce0b2-7cba-4ba4-9a5d-a8fa7493f556',
       language: {
@@ -150,8 +150,8 @@ describe('StatsController', () => {
 
   it('GET /:statsID([0-9a-f\-]{36}): not found', async () => {
     const stub: SinonStub = sinon.stub();
-    const statsUsecase: StatsUsecase = StatsUsecase.getInstance();
-    statsUsecase.findByStatsID = stub;
+    const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
+    statsUseCase.findByStatsID = stub;
     stub.rejects(new NoSuchElementError('059ce0b2-7cba-4ba4-9a5d-a8fa7493f556'));
     const app: express.Express = express();
     app.use('/', StatsController);
@@ -163,8 +163,8 @@ describe('StatsController', () => {
 
   it('GET /:statsID([0-9a-f\-]{36}): throws error', async () => {
     const stub: SinonStub = sinon.stub();
-    const statsUsecase: StatsUsecase = StatsUsecase.getInstance();
-    statsUsecase.findByStatsID = stub;
+    const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
+    statsUseCase.findByStatsID = stub;
     stub.rejects();
     const app: express.Express = express();
     app.use('/', StatsController);
@@ -175,8 +175,8 @@ describe('StatsController', () => {
 
   it('POST /', async () => {
     const stub: SinonStub = sinon.stub();
-    const statsUsecase: StatsUsecase = StatsUsecase.getInstance();
-    statsUsecase.save = stub;
+    const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
+    statsUseCase.save = stub;
     stub.resolves();
     const app: express.Express = express();
     app.use(bodyParser.urlencoded({
@@ -224,8 +224,8 @@ describe('StatsController', () => {
 
   it('POST /: throws error', async () => {
     const stub: SinonStub = sinon.stub();
-    const statsUsecase: StatsUsecase = StatsUsecase.getInstance();
-    statsUsecase.save = stub;
+    const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
+    statsUseCase.save = stub;
     stub.rejects();
     const app: express.Express = express();
     app.use(bodyParser.urlencoded({
@@ -273,8 +273,8 @@ describe('StatsController', () => {
 
   it('POST /: lacks statsID', async () => {
     const stub: SinonStub = sinon.stub();
-    const statsUsecase: StatsUsecase = StatsUsecase.getInstance();
-    statsUsecase.save = stub;
+    const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
+    statsUseCase.save = stub;
     stub.rejects();
     const app: express.Express = express();
     app.use(bodyParser.urlencoded({
@@ -317,8 +317,8 @@ describe('StatsController', () => {
 
   it('POST /: lacks language', async () => {
     const stub: SinonStub = sinon.stub();
-    const statsUsecase: StatsUsecase = StatsUsecase.getInstance();
-    statsUsecase.save = stub;
+    const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
+    statsUseCase.save = stub;
     stub.rejects();
     const app: express.Express = express();
     app.use(bodyParser.urlencoded({
@@ -356,8 +356,8 @@ describe('StatsController', () => {
 
   it('POST /: lacks region', async () => {
     const stub: SinonStub = sinon.stub();
-    const statsUsecase: StatsUsecase = StatsUsecase.getInstance();
-    statsUsecase.save = stub;
+    const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
+    statsUseCase.save = stub;
     stub.rejects();
     const app: express.Express = express();
     app.use(bodyParser.urlencoded({
@@ -396,8 +396,8 @@ describe('StatsController', () => {
 
   it('POST /: lacks termID', async () => {
     const stub: SinonStub = sinon.stub();
-    const statsUsecase: StatsUsecase = StatsUsecase.getInstance();
-    statsUsecase.save = stub;
+    const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
+    statsUseCase.save = stub;
     stub.rejects();
     const app: express.Express = express();
     app.use(bodyParser.urlencoded({
@@ -440,8 +440,8 @@ describe('StatsController', () => {
 
   it('POST /: lacks name', async () => {
     const stub: SinonStub = sinon.stub();
-    const statsUsecase: StatsUsecase = StatsUsecase.getInstance();
-    statsUsecase.save = stub;
+    const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
+    statsUseCase.save = stub;
     stub.rejects();
     const app: express.Express = express();
     app.use(bodyParser.urlencoded({
@@ -484,8 +484,8 @@ describe('StatsController', () => {
 
   it('POST /: lacks unit', async () => {
     const stub: SinonStub = sinon.stub();
-    const statsUsecase: StatsUsecase = StatsUsecase.getInstance();
-    statsUsecase.save = stub;
+    const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
+    statsUseCase.save = stub;
     stub.rejects();
     const app: express.Express = express();
     app.use(bodyParser.urlencoded({
@@ -528,8 +528,8 @@ describe('StatsController', () => {
 
   it('POST /: lacks updatedAt', async () => {
     const stub: SinonStub = sinon.stub();
-    const statsUsecase: StatsUsecase = StatsUsecase.getInstance();
-    statsUsecase.save = stub;
+    const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
+    statsUseCase.save = stub;
     stub.rejects();
     const app: express.Express = express();
     app.use(bodyParser.urlencoded({
@@ -572,8 +572,8 @@ describe('StatsController', () => {
 
   it('POST /: lacks items', async () => {
     const stub: SinonStub = sinon.stub();
-    const statsUsecase: StatsUsecase = StatsUsecase.getInstance();
-    statsUsecase.save = stub;
+    const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
+    statsUseCase.save = stub;
     stub.rejects();
     const app: express.Express = express();
     app.use(bodyParser.urlencoded({
@@ -605,8 +605,8 @@ describe('StatsController', () => {
 
   it('POST /overview', async () => {
     const stub: SinonStub = sinon.stub();
-    const statsUsecase: StatsUsecase = StatsUsecase.getInstance();
-    statsUsecase.saveNewStats = stub;
+    const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
+    statsUseCase.saveNewStats = stub;
     stub.resolves();
     const app: express.Express = express();
     app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -633,8 +633,8 @@ describe('StatsController', () => {
 
   it('POST /overview: throws error', async () => {
     const stub: SinonStub = sinon.stub();
-    const statsUsecase: StatsUsecase = StatsUsecase.getInstance();
-    statsUsecase.saveNewStats = stub;
+    const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
+    statsUseCase.saveNewStats = stub;
     stub.rejects();
     const app: express.Express = express();
     app.use(bodyParser.urlencoded({

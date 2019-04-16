@@ -3,7 +3,7 @@ import { StatsOverviewJSON } from '../../veau-entity/StatsOverview';
 import { StatsID } from '../../veau-vo/StatsID';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 
-export interface IStatsUsecase {
+export interface IStatsUseCase {
 
   findByStatsID(statsID: StatsID): Promise<StatsJSON>;
 

@@ -13,31 +13,31 @@ import { StatsMySQLQuery } from '../veau-query/StatsMySQLQuery';
 import { StatsOverviewMySQLQuery } from '../veau-query/StatsOverviewMySQLQuery';
 import { StatsID } from '../veau-vo/StatsID';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
-import { IStatsUsecase } from './interfaces/IStatsUsecase';
+import { IStatsUseCase } from './interfaces/IStatsUseCase';
 
-export class StatsUsecase implements IStatsUsecase {
-  private static instance: StatsUsecase = new StatsUsecase();
+export class StatsUseCase implements IStatsUseCase {
+  private static instance: StatsUseCase = new StatsUseCase();
   private static statsQuery: IStatsQuery = StatsMySQLQuery.getInstance();
   private static statsFactory: StatsFactory = StatsFactory.getInstance();
   private static statsOverviewQuery: IStatsOverviewQuery = StatsOverviewMySQLQuery.getInstance();
   private static statsOverviewCommand: IStatsOverviewCommand = StatsOverviewMySQLCommand.getInstance();
   private static statsOverviewFactory: StatsOverviewFactory = StatsOverviewFactory.getInstance();
 
-  public static getInstance(): StatsUsecase {
-    return StatsUsecase.instance;
+  public static getInstance(): StatsUseCase {
+    return StatsUseCase.instance;
   }
 
   private constructor() {
   }
 
   public async findByStatsID(statsID: StatsID): Promise<StatsJSON> {
-    const stats: Stats = await StatsUsecase.statsQuery.findByStatsID(statsID);
+    const stats: Stats = await StatsUseCase.statsQuery.findByStatsID(statsID);
 
     return stats.toJSON();
   }
 
   public async findByVeauAccountID(veauAccountID: VeauAccountID, page: number): Promise<Array<StatsOverviewJSON>> {
-    const statsOverviews: Array<StatsOverview> = await StatsUsecase.statsOverviewQuery.findByVeauAccountID(veauAccountID, page);
+    const statsOverviews: Array<StatsOverview> = await StatsUseCase.statsOverviewQuery.findByVeauAccountID(veauAccountID, page);
 
     return statsOverviews.map<StatsOverviewJSON>((statsOverview: StatsOverview) => {
       return statsOverview.toJSON();
@@ -45,13 +45,13 @@ export class StatsUsecase implements IStatsUsecase {
   }
 
   public saveNewStats(veauAccountID: VeauAccountID, json: StatsOverviewJSON): Promise<any> {
-    const statsOverview: StatsOverview = StatsUsecase.statsOverviewFactory.fromJSON(json);
+    const statsOverview: StatsOverview = StatsUseCase.statsOverviewFactory.fromJSON(json);
 
-    return StatsUsecase.statsOverviewCommand.create(veauAccountID, statsOverview);
+    return StatsUseCase.statsOverviewCommand.create(veauAccountID, statsOverview);
   }
 
   public save(veauAccountID: VeauAccountID, json: StatsJSON): Promise<any> {
-    const stats: Stats = StatsUsecase.statsFactory.fromJSON(json);
+    const stats: Stats = StatsUseCase.statsFactory.fromJSON(json);
 
     return VeauMySQL.transaction(async (transaction: Transaction): Promise<any> => {
       const statsCommand: StatsMySQLCommand = StatsMySQLCommand.getInstance(transaction);
