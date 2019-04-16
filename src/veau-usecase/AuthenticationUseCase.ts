@@ -20,7 +20,7 @@ export class AuthenticationUseCase implements IAuthenticationUseCase {
   private constructor() {
   }
 
-  public async review(account: string, password: string, done: (error: any, account?: any) => void): Promise<void> {
+  public async review(account: string, password: string, callback: (error: any, account?: any) => void): Promise<void> {
     try {
       const {
         veauAccount,
@@ -30,23 +30,23 @@ export class AuthenticationUseCase implements IAuthenticationUseCase {
       const correct: boolean = await Digest.compare(password, hash);
 
       if (correct) {
-        done(null, veauAccount);
+        callback(null, veauAccount);
         return;
       }
 
-      done(null, false);
+      callback(null, false);
     }
     catch (err) {
       if (err instanceof NoSuchElementError) {
         // time adjustment
         await Digest.compare(AuthenticationUseCase.DUMMY_PASSWORD, AuthenticationUseCase.DUMMY_HASH);
         logger.info(`invalid account: ${account} and password: ${password}`);
-        done(null, false);
+        callback(null, false);
         return;
       }
 
       logger.fatal(err.message);
-      done(err);
+      callback(err);
     }
   }
 }
