@@ -8,10 +8,9 @@ spec:
   tls:
     - secretName: 'veau-cert'
   rules:
-    - host: 'www.jamashita.dev'
-      http:
+    - http:
         paths:
-          - path: '/.*'
+          - path: '/*'
             backend:
               serviceName: 'veau-service'
               servicePort: 9000
