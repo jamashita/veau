@@ -2,7 +2,6 @@ import { connect, ConnectedComponentClass, MapDispatchToProps, MapStateToProps }
 import { Dispatch } from 'redux';
 import { Stats } from '../../../veau-entity/Stats';
 import { StatsItem } from '../../../veau-entity/StatsItem';
-import { Term } from '../../../veau-enum/Term';
 import { LocaleMemoryQuery } from '../../../veau-query/LocaleMemoryQuery';
 import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
@@ -22,7 +21,6 @@ import {
   statsLanguageSelected,
   statsNameTyped,
   statsRegionSelected,
-  statsTermSelected,
   statsUnitTyped
 } from '../../actions/StatsEditAction';
 import { StatsEdit as Component } from '../../components/pages/StatsEdit';
@@ -41,7 +39,6 @@ type DispatchProps = {
   unitTyped: (unit: string) => void;
   languageSelected: (language: Language) => void;
   regionSelected: (region: Region) => void;
-  termSelected: (term: Term) => void;
   itemNameTyped: (name: string) => void;
   saveNewItem: () => void;
   rowSelected: (row: number) => void;
@@ -93,9 +90,6 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
     },
     regionSelected: (region: Region): void => {
       dispatch(statsRegionSelected(region));
-    },
-    termSelected: (term: Term): void => {
-      dispatch(statsTermSelected(term));
     },
     itemNameTyped: (name: string): void => {
       dispatch(itemNameTyped(name));

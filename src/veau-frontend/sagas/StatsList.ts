@@ -1,7 +1,11 @@
 import { call, fork, put, select, take } from 'redux-saga/effects';
+import { Stats } from '../../veau-entity/Stats';
 import { StatsOverview, StatsOverviewJSON } from '../../veau-entity/StatsOverview';
+import { StatsFactory } from '../../veau-factory/StatsFactory';
 import { StatsOverviewFactory } from '../../veau-factory/StatsOverviewFactory';
 import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
+import { Language } from '../../veau-vo/Language';
+import { Region } from '../../veau-vo/Region';
 import {
   ACTION,
   LocationChangeAction,
@@ -16,13 +20,13 @@ import { raiseModal } from '../actions/ModalAction';
 import { appearNotification } from '../actions/NotificationAction';
 import { pushToStatsEdit } from '../actions/RedirectAction';
 import { updateStatsOverviews } from '../actions/StatsAction';
-import { closeNewStatsModal, renewStatsOverview, resetNewStats } from '../actions/StatsListAction';
+import { closeNewStatsModal, resetNewStats, updateNewStats } from '../actions/StatsListAction';
 import { Endpoints } from '../Endpoints';
 import { State } from '../State';
 
-const statsOverviewFactory: StatsOverviewFactory = StatsOverviewFactory.getInstance();
-
 export class StatsList {
+  private static statsOverviewFactory: StatsOverviewFactory = StatsOverviewFactory.getInstance();
+  private static statsFactory: StatsFactory = StatsFactory.getInstance();
 
   public static *init(): IterableIterator<any> {
     yield fork(StatsList.findStatsList);
@@ -43,7 +47,7 @@ export class StatsList {
         try {
           const response: AJAXResponse<Array<StatsOverviewJSON>> = yield call(AJAX.get, '/api/stats/overview/1');
           const statsOverviews: Array<StatsOverview> = response.body.map<StatsOverview>((json: StatsOverviewJSON) => {
-            return statsOverviewFactory.fromJSON(json);
+            return StatsList.statsOverviewFactory.fromJSON(json);
           });
 
           yield put(updateStatsOverviews(statsOverviews));
@@ -63,20 +67,21 @@ export class StatsList {
 
       const {
         statsList: {
-          newStatsOverview
+          stats
         }
       } = state;
 
-      const latestStatsOverview: StatsOverview = statsOverviewFactory.from(
-        newStatsOverview.getStatsID(),
-        newStatsOverview.getISO639(),
-        newStatsOverview.getISO3166(),
-        newStatsOverview.getTerm(),
+      const newStats: Stats = StatsList.statsFactory.from(
+        stats.getStatsID(),
+        stats.getLanguage(),
+        stats.getRegion(),
+        stats.getTerm(),
         action.name,
-        newStatsOverview.getUnit(),
-        newStatsOverview.getUpdatedAt()
+        stats.getUnit(),
+        stats.getUpdatedAt(),
+        stats.getItems()
       );
-      yield put(renewStatsOverview(latestStatsOverview));
+      yield put(updateNewStats(newStats));
     }
   }
 
@@ -87,20 +92,21 @@ export class StatsList {
 
       const {
         statsList: {
-          newStatsOverview
+          stats
         }
       } = state;
 
-      const latestStatsOverview: StatsOverview = statsOverviewFactory.from(
-        newStatsOverview.getStatsID(),
-        newStatsOverview.getISO639(),
-        newStatsOverview.getISO3166(),
-        newStatsOverview.getTerm(),
-        newStatsOverview.getName(),
+      const newStats: Stats = StatsList.statsFactory.from(
+        stats.getStatsID(),
+        stats.getLanguage(),
+        stats.getRegion(),
+        stats.getTerm(),
+        stats.getName(),
         action.unit,
-        newStatsOverview.getUpdatedAt()
+        stats.getUpdatedAt(),
+        stats.getItems()
       );
-      yield put(renewStatsOverview(latestStatsOverview));
+      yield put(updateNewStats(newStats));
     }
   }
 
@@ -111,44 +117,52 @@ export class StatsList {
 
       const {
         statsList: {
-          newStatsOverview
-        }
+          stats
+        },
+        localeMemoryQuery
       } = state;
 
-      const latestStatsOverview: StatsOverview = statsOverviewFactory.from(
-        newStatsOverview.getStatsID(),
-        action.iso639,
-        newStatsOverview.getISO3166(),
-        newStatsOverview.getTerm(),
-        newStatsOverview.getName(),
-        newStatsOverview.getUnit(),
-        newStatsOverview.getUpdatedAt()
+      const language: Language = localeMemoryQuery.findByISO639(action.iso639);
+
+      const newStats: Stats = StatsList.statsFactory.from(
+        stats.getStatsID(),
+        language,
+        stats.getRegion(),
+        stats.getTerm(),
+        stats.getName(),
+        stats.getUnit(),
+        stats.getUpdatedAt(),
+        stats.getItems()
       );
-      yield put(renewStatsOverview(latestStatsOverview));
+      yield put(updateNewStats(newStats));
     }
   }
 
   private static *iso3166Selected(): IterableIterator<any> {
     while (true) {
-      const action: StatsListISO3166SelectedAction = yield take(ACTION.STAts_LIST_ISO3166_SELECTED);
+      const action: StatsListISO3166SelectedAction = yield take(ACTION.STATS_LIST_ISO3166_SELECTED);
       const state: State = yield select();
 
       const {
         statsList: {
-          newStatsOverview
-        }
+          stats
+        },
+        localeMemoryQuery
       } = state;
 
-      const latestStatsOverview: StatsOverview = statsOverviewFactory.from(
-        newStatsOverview.getStatsID(),
-        newStatsOverview.getISO639(),
-        action.iso3166,
-        newStatsOverview.getTerm(),
-        newStatsOverview.getName(),
-        newStatsOverview.getUnit(),
-        newStatsOverview.getUpdatedAt()
+      const region: Region = localeMemoryQuery.findByISO3166(action.iso3166);
+
+      const newStats: Stats = StatsList.statsFactory.from(
+        stats.getStatsID(),
+        stats.getLanguage(),
+        region,
+        stats.getTerm(),
+        stats.getName(),
+        stats.getUnit(),
+        stats.getUpdatedAt(),
+        stats.getItems()
       );
-      yield put(renewStatsOverview(latestStatsOverview));
+      yield put(updateNewStats(newStats));
     }
   }
 
@@ -159,20 +173,21 @@ export class StatsList {
 
       const {
         statsList: {
-          newStatsOverview
+          stats
         }
       } = state;
 
-      const latestStatsOverview: StatsOverview = statsOverviewFactory.from(
-        newStatsOverview.getStatsID(),
-        newStatsOverview.getISO639(),
-        newStatsOverview.getISO3166(),
+      const newStats: Stats = StatsList.statsFactory.from(
+        stats.getStatsID(),
+        stats.getLanguage(),
+        stats.getRegion(),
         action.term,
-        newStatsOverview.getName(),
-        newStatsOverview.getUnit(),
-        newStatsOverview.getUpdatedAt()
+        stats.getName(),
+        stats.getUnit(),
+        stats.getUpdatedAt(),
+        stats.getItems()
       );
-      yield put(renewStatsOverview(latestStatsOverview));
+      yield put(updateNewStats(newStats));
     }
   }
 
@@ -184,21 +199,21 @@ export class StatsList {
 
       const {
         statsList: {
-          newStatsOverview
+          stats
         }
       } = state;
 
-      if (!newStatsOverview.isFilled()) {
+      if (!stats.isFilled()) {
         continue;
       }
 
       yield put(closeNewStatsModal());
       yield put(loading());
       try {
-        yield call(AJAX.post, '/api/stats/overview', newStatsOverview.toJSON());
+        yield call(AJAX.post, '/api/stats/overview', stats.toJSON());
 
         yield put(loaded());
-        yield put(pushToStatsEdit(newStatsOverview.getStatsID()));
+        yield put(pushToStatsEdit(stats.getStatsID()));
         yield put(resetNewStats());
       }
       catch (err) {

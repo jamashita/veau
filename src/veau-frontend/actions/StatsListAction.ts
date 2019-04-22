@@ -1,4 +1,4 @@
-import { StatsOverview } from '../../veau-entity/StatsOverview';
+import { Stats } from '../../veau-entity/Stats';
 import { Term } from '../../veau-enum/Term';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
@@ -8,17 +8,17 @@ import {
   StatsListISO3166SelectedAction,
   StatsListISO639SelectedAction,
   StatsListNameTypedAction,
-  StatsListNewStatsAction,
-  StatsListRenewStatsAction,
+  StatsListOpenNewStatsModalAction,
   StatsListResetNewStatsAction,
   StatsListSaveNewStatsAction,
   StatsListTermSelectedAction,
-  StatsListUnitTypedAction
+  StatsListUnitTypedAction,
+  StatsListUpdateNewStatsAction
 } from './Action';
 
-export const newStats: () => StatsListNewStatsAction = (): StatsListNewStatsAction => {
+export const openNewStatsModal: () => StatsListOpenNewStatsModalAction = (): StatsListOpenNewStatsModalAction => {
   return {
-    type: ACTION.STATS_LIST_NEW_STATS
+    type: ACTION.STATS_LIST_OPEN_STATS_MODAL
   };
 };
 
@@ -51,7 +51,7 @@ export const newStatsISO639Selected: (iso639: ISO639) => StatsListISO639Selected
 
 export const newStatsISO3166Selected: (iso3166: ISO3166) => StatsListISO3166SelectedAction = (iso3166: ISO3166): StatsListISO3166SelectedAction => {
   return {
-    type: ACTION.STAts_LIST_ISO3166_SELECTED,
+    type: ACTION.STATS_LIST_ISO3166_SELECTED,
     iso3166
   };
 };
@@ -63,10 +63,10 @@ export const newStatsTermSelected: (term: Term) => StatsListTermSelectedAction =
   };
 };
 
-export const renewStatsOverview: (newStatsOverview: StatsOverview) => StatsListRenewStatsAction = (newStatsOverview: StatsOverview): StatsListRenewStatsAction => {
+export const updateNewStats: (stats: Stats) => StatsListUpdateNewStatsAction = (stats: Stats): StatsListUpdateNewStatsAction => {
   return {
-    type: ACTION.STATS_LIST_RENEW_STATS,
-    newStatsOverview
+    type: ACTION.STATS_LIST_UPDATE_NEW_STATS,
+    stats
   };
 };
 

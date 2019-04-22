@@ -36,46 +36,43 @@ export enum ACTION {
   PUSH_TO_STATS_EDIT = 'PUSH_TO_STATS_EDIT',
   PUSH_TO_ENTRANCE = 'PUSH_TO_ENTRANCE',
 
-  OPEN_PROVIDER = 'OPEN_PROVIDER',
-  CLOSE_PROVIDER = 'CLOSE_PROVIDER',
+  PROVIDER_OPEN = 'PROVIDER_OPEN',
+  PROVIDER_CLOSE = 'PROVIDER_CLOSE',
 
   LOCALE_DEFINED = 'LOCALE_DEFINED',
 
   ENTRANCE_ACCOUNT_NAME_TYPED = 'ENTRANCE_ACCOUNT_NAME_TYPED',
   ENTRANCE_PASSWORD_TYPED = 'ENTRANCE_PASSWORD_TYPED',
-  ENTRANCE_INFO_UPDATE = 'ENTRANCE_LOGIN_INFO_UPDATE',
+  ENTRANCE_UPDATE = 'ENTRANCE_UPDATE',
 
-  STATS_LIST_NEW_STATS = 'STATS_LIST_NEW_STATS',
+  STATS_LIST_OPEN_STATS_MODAL = 'STATS_LIST_OPEN_STATS_MODAL',
   STATS_LIST_CLOSE_STATS_MODAL = 'STATS_LIST_CLOSE_STATS_MODAL',
-  STATS_LIST_NEW_STATS_UPDATE = 'STATS_LIST_NEW_STATS_UPDATE',
   STATS_LIST_NAME_TYPED = 'STATS_LIST_NAME_TYPED',
   STATS_LIST_UNIT_TYPED = 'STATS_LIST_UNIT_TYPED',
   STATS_LIST_ISO639_SELECTED = 'STATS_LIST_ISO639_SELECTED',
-  STAts_LIST_ISO3166_SELECTED = 'STAts_LIST_ISO3166_SELECTED',
+  STATS_LIST_ISO3166_SELECTED = 'STATS_LIST_ISO3166_SELECTED',
   STATS_LIST_TERM_SELECTED = 'STATS_LIST_TERM_SELECTED',
-  STATS_LIST_RENEW_STATS = 'STATS_LIST_RENEW_STATS',
-  STATS_LIST_SAVE_NEW_STATS = 'STATS_LIST_SAVE_NEW_STATS',
+  STATS_LIST_UPDATE_NEW_STATS = 'STATS_LIST_UPDATE_NEW_STATS',
   STATS_LIST_RESET_NEW_STATS = 'STATS_LIST_RESET_NEW_STATS',
+  STATS_LIST_SAVE_NEW_STATS = 'STATS_LIST_SAVE_NEW_STATS',
 
   STATS_EDIT_NAME_TYPED = 'STATS_EDIT_NAME_TYPED',
   STATS_EDIT_UNIT_TYPED = 'STATS_EDIT_UNIT_TYPED',
   STATS_EDIT_LANGUAGE_SELECTED = 'STATS_EDIT_LANGUAGE_SELECTED',
   STATS_EDIT_REGION_SELECTED = 'STATS_EDIT_REGION_SELECTED',
-  STATS_EDIT_TERM_SELECTED = 'STATS_EDIT_TERM_SELECTED',
-  STATS_EDIT_DATA_FILLED = 'STATS_EDIT_DATA_FILLED',
-  STATS_EDIT_DATA_DELETED = 'STATS_EDIT_DATA_DELETED',
   STATS_EDIT_ITEM_NAME_TYPED = 'STATS_EDIT_ITEM_NAME_TYPED',
-  STATS_EDIT_ITEM_UNIT_TYPED = 'STATS_EDIT_ITEM_UNIT_TYPED',
   STATS_EDIT_ITEM_SAVE = 'STATS_EDIT_ITEM_SAVE',
-  STATS_EDIT_ROW_SELECTED = 'STATS_EDIT_ROW_SELECTED',
-  STATS_EDIT_ITEM_SELECTING = 'STATS_EDIT_ITEM_SELECTING',
+  STATS_EDIT_SELECT_ITEM = 'STATS_EDIT_SELECT_ITEM',
   STATS_EDIT_SELECTING_ITEM_NAME_TYPED = 'STATS_EDIT_SELECTING_ITEM_NAME_TYPED',
-  STATS_EDIT_START_DATE_DETERMINED = 'STATS_EDIT_START_DATE_DETERMINED',
   STATS_EDIT_UPDATE_SELECTING_ITEM = 'STATS_EDIT_UPDATE_SELECTING_ITEM',
-  STATS_EDIT_ROW_MOVED = 'STATS_EDIT_ROW_MOVED',
-  STATS_EDIT_INVALID_VALUE_INPUT = 'STATS_EDIT_INVALID_VALUE_INPUT',
   STATS_EDIT_REMOVE_SELECTING_ITEM = 'STATS_EDIT_REMOVE_SELECTING_ITEM',
   STATS_EDIT_CLEAR_SELECTING_ITEM = 'STATS_EDIT_CLEAR_SELECTING_ITEM',
+  STATS_EDIT_START_DATE_DETERMINED = 'STATS_EDIT_START_DATE_DETERMINED',
+  STATS_EDIT_DATA_FILLED = 'STATS_EDIT_DATA_FILLED',
+  STATS_EDIT_DATA_DELETED = 'STATS_EDIT_DATA_DELETED',
+  STATS_EDIT_ROW_SELECTED = 'STATS_EDIT_ROW_SELECTED',
+  STATS_EDIT_ROW_MOVED = 'STATS_EDIT_ROW_MOVED',
+  STATS_EDIT_INVALID_VALUE_INPUT = 'STATS_EDIT_INVALID_VALUE_INPUT',
   STATS_EDIT_SAVE_STATS = 'STATS_EDIT_SAVE_STATS',
 
   STATS_OVERVIEW_UPDATE = 'STATS_OVERVIEW_UPDATE',
@@ -143,11 +140,11 @@ export interface PushToStatsEditAction extends ReduxAction {
 export interface PushToEntranceAction extends ReduxAction {
   type: ACTION.PUSH_TO_ENTRANCE;
 }
-export interface OpenProviderAction extends ReduxAction {
-  type: ACTION.OPEN_PROVIDER;
+export interface ProviderOpenAction extends ReduxAction {
+  type: ACTION.PROVIDER_OPEN;
 }
-export interface CloseProviderAction extends ReduxAction {
-  type: ACTION.CLOSE_PROVIDER;
+export interface ProviderCloseAction extends ReduxAction {
+  type: ACTION.PROVIDER_CLOSE;
 }
 export interface LocaleDefinedAction extends ReduxAction {
   type: ACTION.LOCALE_DEFINED;
@@ -161,19 +158,15 @@ export interface EntrancePasswordTypedAction extends ReduxAction {
   type: ACTION.ENTRANCE_PASSWORD_TYPED;
   password: string;
 }
-export interface EntranceInfoUpdateAction extends ReduxAction {
-  type: ACTION.ENTRANCE_INFO_UPDATE;
+export interface EntranceUpdateAction extends ReduxAction {
+  type: ACTION.ENTRANCE_UPDATE;
   entranceInformation: EntranceInformation;
 }
-export interface StatsListNewStatsAction extends ReduxAction {
-  type: ACTION.STATS_LIST_NEW_STATS;
+export interface StatsListOpenNewStatsModalAction extends ReduxAction {
+  type: ACTION.STATS_LIST_OPEN_STATS_MODAL;
 }
 export interface StatsListCloseNewStatsModalAction extends ReduxAction {
   type: ACTION.STATS_LIST_CLOSE_STATS_MODAL;
-}
-export interface StatsListNewStatsUpdateAction extends ReduxAction {
-  type: ACTION.STATS_LIST_NEW_STATS_UPDATE;
-  statsOverview: StatsOverview;
 }
 export interface StatsListNameTypedAction extends ReduxAction {
   type: ACTION.STATS_LIST_NAME_TYPED;
@@ -188,22 +181,22 @@ export interface StatsListISO639SelectedAction extends ReduxAction {
   iso639: ISO639;
 }
 export interface StatsListISO3166SelectedAction extends ReduxAction {
-  type: ACTION.STAts_LIST_ISO3166_SELECTED;
+  type: ACTION.STATS_LIST_ISO3166_SELECTED;
   iso3166: ISO3166;
 }
 export interface StatsListTermSelectedAction extends ReduxAction {
   type: ACTION.STATS_LIST_TERM_SELECTED;
   term: Term;
 }
-export interface StatsListRenewStatsAction extends ReduxAction {
-  type: ACTION.STATS_LIST_RENEW_STATS;
-  newStatsOverview: StatsOverview;
-}
-export interface StatsListSaveNewStatsAction extends ReduxAction {
-  type: ACTION.STATS_LIST_SAVE_NEW_STATS;
+export interface StatsListUpdateNewStatsAction extends ReduxAction {
+  type: ACTION.STATS_LIST_UPDATE_NEW_STATS;
+  stats: Stats;
 }
 export interface StatsListResetNewStatsAction extends ReduxAction {
   type: ACTION.STATS_LIST_RESET_NEW_STATS;
+}
+export interface StatsListSaveNewStatsAction extends ReduxAction {
+  type: ACTION.STATS_LIST_SAVE_NEW_STATS;
 }
 export interface StatsEditNameTypedAction extends ReduxAction {
   type: ACTION.STATS_EDIT_NAME_TYPED;
@@ -221,9 +214,36 @@ export interface StatsEditRegionSelectedAction extends ReduxAction {
   type: ACTION.STATS_EDIT_REGION_SELECTED;
   region: Region;
 }
-export interface StatsEditTermSelectedActoin extends ReduxAction {
-  type: ACTION.STATS_EDIT_TERM_SELECTED;
-  term: Term;
+export interface StatsEditItemNameTypedAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_ITEM_NAME_TYPED;
+  name: string;
+}
+export interface StatsEditItemSaveAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_ITEM_SAVE;
+}
+export interface StatsEditSelectItemAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_SELECT_ITEM;
+  statsItem: StatsItem;
+  row: number;
+}
+export interface StatsEditSelectingItemNameTypedAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_SELECTING_ITEM_NAME_TYPED;
+  name: string;
+}
+export interface StatsEditUpdateSelectingItemAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_UPDATE_SELECTING_ITEM;
+  statsItem: StatsItem;
+}
+export interface StatsEditRemoveSelectingItemAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_REMOVE_SELECTING_ITEM;
+  statsItem: StatsItem;
+}
+export interface StatsEditClearSelectingItemAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_CLEAR_SELECTING_ITEM;
+}
+export interface StatsEditStartDateDeterminedAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_START_DATE_DETERMINED;
+  startDate: string;
 }
 export interface StatsEditDataFilledAction extends ReduxAction {
   type: ACTION.STATS_EDIT_DATA_FILLED;
@@ -236,33 +256,9 @@ export interface StatsEditDataDeletedAction extends ReduxAction {
   row: number;
   column: number;
 }
-export interface StatsEditItemNameTypedAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_ITEM_NAME_TYPED;
-  name: string;
-}
-export interface StatsEditItemSaveAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_ITEM_SAVE;
-}
 export interface StatsEditRowSelectedAction extends ReduxAction {
   type: ACTION.STATS_EDIT_ROW_SELECTED;
   row: number;
-}
-export interface StatsEditItemSelectingAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_ITEM_SELECTING;
-  statsItem: StatsItem;
-  row: number;
-}
-export interface StatsEditSelectingItemNameTypedAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_SELECTING_ITEM_NAME_TYPED;
-  name: string;
-}
-export interface StatsEditStartDateDeterminedAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_START_DATE_DETERMINED;
-  startDate: string;
-}
-export interface StatsEditUpdateSelectingItemAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_UPDATE_SELECTING_ITEM;
-  statsItem: StatsItem;
 }
 export interface StatsEditRowMovedAction extends ReduxAction {
   type: ACTION.STATS_EDIT_ROW_MOVED;
@@ -271,13 +267,6 @@ export interface StatsEditRowMovedAction extends ReduxAction {
 }
 export interface StatsEditInvalidValueInputAction extends ReduxAction {
   type: ACTION.STATS_EDIT_INVALID_VALUE_INPUT;
-}
-export interface StatsEditRemoveSelectingItemAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_REMOVE_SELECTING_ITEM;
-  statsItem: StatsItem;
-}
-export interface StatsEditClearSelectingItemAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_CLEAR_SELECTING_ITEM;
 }
 export interface StatsEditSaveStatsAction extends ReduxAction {
   type: ACTION.STATS_EDIT_SAVE_STATS;
@@ -320,41 +309,39 @@ export type Action =
   | PushToStatsListAction
   | PushToStatsEditAction
   | PushToEntranceAction
-  | OpenProviderAction
-  | CloseProviderAction
+  | ProviderOpenAction
+  | ProviderCloseAction
   | LocaleDefinedAction
   | EntranceAccountNameTypedAction
   | EntrancePasswordTypedAction
-  | EntranceInfoUpdateAction
-  | StatsListNewStatsAction
+  | EntranceUpdateAction
+  | StatsListOpenNewStatsModalAction
   | StatsListCloseNewStatsModalAction
-  | StatsListNewStatsUpdateAction
   | StatsListNameTypedAction
   | StatsListUnitTypedAction
   | StatsListISO639SelectedAction
   | StatsListISO3166SelectedAction
   | StatsListTermSelectedAction
-  | StatsListRenewStatsAction
-  | StatsListSaveNewStatsAction
+  | StatsListUpdateNewStatsAction
   | StatsListResetNewStatsAction
+  | StatsListSaveNewStatsAction
   | StatsEditNameTypedAction
   | StatsEditUnitTypedAction
   | StatsEditLanguageSelectedAction
   | StatsEditRegionSelectedAction
-  | StatsEditTermSelectedActoin
-  | StatsEditDataFilledAction
-  | StatsEditDataDeletedAction
   | StatsEditItemNameTypedAction
   | StatsEditItemSaveAction
-  | StatsEditRowSelectedAction
-  | StatsEditItemSelectingAction
+  | StatsEditSelectItemAction
   | StatsEditSelectingItemNameTypedAction
-  | StatsEditStartDateDeterminedAction
   | StatsEditUpdateSelectingItemAction
-  | StatsEditRowMovedAction
-  | StatsEditInvalidValueInputAction
   | StatsEditRemoveSelectingItemAction
   | StatsEditClearSelectingItemAction
+  | StatsEditStartDateDeterminedAction
+  | StatsEditDataFilledAction
+  | StatsEditDataDeletedAction
+  | StatsEditRowSelectedAction
+  | StatsEditRowMovedAction
+  | StatsEditInvalidValueInputAction
   | StatsEditSaveStatsAction
   | StatsOverviewUpdateAction
   | StatsOverviewResetAction

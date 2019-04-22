@@ -5,7 +5,6 @@ import {
   ACTION,
   StatsItemResetAction,
   StatsItemUpdateAction,
-  StatsOverviewResetAction,
   StatsOverviewUpdateAction,
   StatsResetAction,
   StatsUpdateAction
@@ -15,12 +14,6 @@ export const updateStatsOverviews: (statsOverviews: Array<StatsOverview>) => Sta
   return {
     type: ACTION.STATS_OVERVIEW_UPDATE,
     statsOverviews
-  };
-};
-
-export const resetStatsOverviews: () => StatsOverviewResetAction = (): StatsOverviewResetAction => {
-  return {
-    type: ACTION.STATS_OVERVIEW_RESET
   };
 };
 

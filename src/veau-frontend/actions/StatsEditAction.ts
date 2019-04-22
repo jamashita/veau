@@ -1,5 +1,4 @@
 import { StatsItem } from '../../veau-entity/StatsItem';
-import { Term } from '../../veau-enum/Term';
 import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-vo/Region';
 import {
@@ -20,7 +19,6 @@ import {
   StatsEditSelectingItemNameTypedAction,
   StatsEditSelectItemAction,
   StatsEditStartDateDeterminedAction,
-  StatsEditTermSelectedActoin,
   StatsEditUnitTypedAction,
   StatsEditUpdateSelectingItemAction
 } from './Action';
@@ -50,13 +48,6 @@ export const statsRegionSelected: (region: Region) => StatsEditRegionSelectedAct
   return {
     type: ACTION.STATS_EDIT_REGION_SELECTED,
     region
-  };
-};
-
-export const statsTermSelected: (term: Term) => StatsEditTermSelectedActoin = (term: Term): StatsEditTermSelectedActoin => {
-  return {
-    type: ACTION.STATS_EDIT_TERM_SELECTED,
-    term
   };
 };
 

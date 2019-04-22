@@ -16,7 +16,7 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
       statsOverviews,
       localeMemoryQuery,
       open,
-      newStatsOverview
+      stats
     } = this.props;
 
     const length: number = statsOverviews.length;
@@ -34,19 +34,19 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
     if (open !== nextProps.open) {
       return true;
     }
-    if (newStatsOverview.getName() !== nextProps.newStatsOverview.getName()) {
+    if (stats.getName() !== nextProps.stats.getName()) {
       return true;
     }
-    if (newStatsOverview.getUnit() !== nextProps.newStatsOverview.getUnit()) {
+    if (stats.getUnit() !== nextProps.stats.getUnit()) {
       return true;
     }
-    if (!newStatsOverview.getISO639().equals(nextProps.newStatsOverview.getISO639())) {
+    if (!stats.getLanguage().equals(nextProps.stats.getLanguage())) {
       return true;
     }
-    if (!newStatsOverview.getISO3166().equals(nextProps.newStatsOverview.getISO3166())) {
+    if (!stats.getRegion().equals(nextProps.stats.getRegion())) {
       return true;
     }
-    if (newStatsOverview.getTerm() !== nextProps.newStatsOverview.getTerm()) {
+    if (stats.getTerm() !== nextProps.stats.getTerm()) {
       return true;
     }
 
@@ -58,7 +58,7 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
       statsOverviews,
       localeMemoryQuery,
       open,
-      newStatsOverview,
+      stats,
       intl,
       newStatsClicked,
       toStatsEdit,
@@ -90,7 +90,7 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
         />
         <StatsOverviewModal
           open={open}
-          newStatsOverview={newStatsOverview}
+          stats={stats}
           languages={localeMemoryQuery.allLanguages()}
           regions={localeMemoryQuery.allRegions()}
           closeNewStatsModal={closeNewStatsModal}

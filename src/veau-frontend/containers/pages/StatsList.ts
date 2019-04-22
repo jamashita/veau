@@ -1,5 +1,6 @@
 import { connect, ConnectedComponentClass, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
+import { Stats } from '../../../veau-entity/Stats';
 import { StatsOverview } from '../../../veau-entity/StatsOverview';
 import { Term } from '../../../veau-enum/Term';
 import { LocaleMemoryQuery } from '../../../veau-query/LocaleMemoryQuery';
@@ -10,12 +11,12 @@ import { Action } from '../../actions/Action';
 import { pushToStatsEdit } from '../../actions/RedirectAction';
 import {
   closeNewStatsModal,
-  newStats,
   newStatsISO3166Selected,
   newStatsISO639Selected,
   newStatsNameTyped,
   newStatsTermSelected,
   newStatsUnitTyped,
+  openNewStatsModal,
   saveNewStats
 } from '../../actions/StatsListAction';
 import { StatsList as Component } from '../../components/pages/StatsList';
@@ -25,7 +26,7 @@ type StateProps = {
   statsOverviews: Array<StatsOverview>;
   localeMemoryQuery: LocaleMemoryQuery;
   open: boolean;
-  newStatsOverview: StatsOverview;
+  stats: Stats;
 };
 type DispatchProps = {
   toStatsEdit: (statsID: StatsID) => void;
@@ -48,7 +49,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
     localeMemoryQuery,
     statsList: {
       open,
-      newStatsOverview
+      stats
     }
   } = state;
 
@@ -56,7 +57,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
     statsOverviews,
     localeMemoryQuery,
     open,
-    newStatsOverview
+    stats
   };
 };
 
@@ -66,7 +67,7 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
       dispatch(pushToStatsEdit(statsID));
     },
     newStatsClicked: (): void => {
-      dispatch(newStats());
+      dispatch(openNewStatsModal());
     },
     closeNewStatsModal: (): void => {
       dispatch(closeNewStatsModal());

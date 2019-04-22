@@ -19,7 +19,6 @@ import {
   StatsEditRowSelectedAction,
   StatsEditSelectingItemNameTypedAction,
   StatsEditStartDateDeterminedAction,
-  StatsEditTermSelectedActoin,
   StatsEditUnitTypedAction
 } from '../actions/Action';
 import { loaded, loading } from '../actions/LoadingAction';
@@ -43,7 +42,6 @@ export class StatsEdit {
     yield fork(StatsEdit.unitTyped);
     yield fork(StatsEdit.languageSelected);
     yield fork(StatsEdit.regionSelected);
-    yield fork(StatsEdit.termSelected);
     yield fork(StatsEdit.dataFilled);
     yield fork(StatsEdit.dataDeleted);
     yield fork(StatsEdit.itemNameTyped);
@@ -132,20 +130,6 @@ export class StatsEdit {
       } = state;
 
       const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), action.region, stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
-      yield put(updateStats(newStats));
-    }
-  }
-
-  private static *termSelected(): IterableIterator<any> {
-    while (true) {
-      const action: StatsEditTermSelectedActoin = yield take(ACTION.STATS_EDIT_TERM_SELECTED);
-      const state: State = yield select();
-
-      const {
-        stats
-      } = state;
-
-      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), action.term, stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
       yield put(updateStats(newStats));
     }
   }

@@ -25,7 +25,7 @@ export const statsList: (state: StatsList, action: Action) => StatsList = (state
         open: false
       };
     }
-    case ACTION.STATS_LIST_UPDATE_STATS: {
+    case ACTION.STATS_LIST_UPDATE_NEW_STATS: {
       return {
         ...state,
         stats: action.stats

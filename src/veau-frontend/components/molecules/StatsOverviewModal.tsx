@@ -4,14 +4,15 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControl, Icon,
+  FormControl,
+  Icon,
   InputLabel,
   MenuItem,
   Select
 } from '@material-ui/core';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
-import { StatsOverview } from '../../../veau-entity/StatsOverview';
+import { Stats } from '../../../veau-entity/Stats';
 import { Term } from '../../../veau-enum/Term';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
@@ -21,7 +22,7 @@ import { TextField } from '../atoms/TextField';
 
 type Props = {
   open: boolean;
-  newStatsOverview: StatsOverview;
+  stats: Stats;
   languages: Array<Language>;
   regions: Array<Region>;
   closeNewStatsModal: () => void;
@@ -40,7 +41,7 @@ class StatsOverviewModalImpl extends React.Component<Props & InjectedIntlProps, 
   public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
     const {
       open,
-      newStatsOverview,
+      stats,
       languages,
       regions
     } = this.props;
@@ -48,19 +49,19 @@ class StatsOverviewModalImpl extends React.Component<Props & InjectedIntlProps, 
     if (open !== nextProps.open) {
       return true;
     }
-    if (newStatsOverview.getName() !== nextProps.newStatsOverview.getName()) {
+    if (stats.getName() !== nextProps.stats.getName()) {
       return true;
     }
-    if (newStatsOverview.getUnit() !== nextProps.newStatsOverview.getUnit()) {
+    if (stats.getUnit() !== nextProps.stats.getUnit()) {
       return true;
     }
-    if (!newStatsOverview.getISO639().equals(nextProps.newStatsOverview.getISO639())) {
+    if (!stats.getLanguage().equals(nextProps.stats.getLanguage())) {
       return true;
     }
-    if (!newStatsOverview.getISO3166().equals(nextProps.newStatsOverview.getISO3166())) {
+    if (!stats.getRegion().equals(nextProps.stats.getRegion())) {
       return true;
     }
-    if (newStatsOverview.getTerm() !== nextProps.newStatsOverview.getTerm()) {
+    if (stats.getTerm() !== nextProps.stats.getTerm()) {
       return true;
     }
     if (languages.length !== nextProps.languages.length) {
@@ -76,7 +77,7 @@ class StatsOverviewModalImpl extends React.Component<Props & InjectedIntlProps, 
   public render(): React.ReactNode {
     const {
       open,
-      newStatsOverview,
+      stats,
       languages,
       regions,
       intl,
@@ -107,7 +108,7 @@ class StatsOverviewModalImpl extends React.Component<Props & InjectedIntlProps, 
               id: 'NAME'
             })}
             type='text'
-            value={newStatsOverview.getName()}
+            value={stats.getName()}
             onKeyUp={nameTyped}
           />
           <TextField
@@ -115,7 +116,7 @@ class StatsOverviewModalImpl extends React.Component<Props & InjectedIntlProps, 
               id: 'UNIT'
             })}
             type='text'
-            value={newStatsOverview.getUnit()}
+            value={stats.getUnit()}
             onKeyUp={unitTyped}
           />
           <FormControl
@@ -127,7 +128,7 @@ class StatsOverviewModalImpl extends React.Component<Props & InjectedIntlProps, 
               })}
             </InputLabel>
             <Select
-              value={newStatsOverview.getISO639().get()}
+              value={stats.getLanguage().getISO639().get()}
               onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {
                 const iso639: string = event.target.value;
                 iso639Selected(ISO639.of(iso639));
@@ -156,7 +157,7 @@ class StatsOverviewModalImpl extends React.Component<Props & InjectedIntlProps, 
               })}
             </InputLabel>
             <Select
-              value={newStatsOverview.getISO3166().get()}
+              value={stats.getRegion().getISO3166().get()}
               onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {
                 const iso3166: string = event.target.value;
                 iso3166Selected(ISO3166.of(iso3166));
@@ -185,7 +186,7 @@ class StatsOverviewModalImpl extends React.Component<Props & InjectedIntlProps, 
               })}
             </InputLabel>
             <Select
-              value={newStatsOverview.getTerm().get()}
+              value={stats.getTerm().get()}
               onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {
                 const termID: number = Number(event.target.value);
                 termSelected(Term.of(termID));
@@ -212,7 +213,7 @@ class StatsOverviewModalImpl extends React.Component<Props & InjectedIntlProps, 
           <Button
             color='secondary'
             onClick={saveNewStats}
-            disabled={!newStatsOverview.isFilled()}
+            disabled={!stats.isFilled()}
           >
             <Icon className='fas fa-check' />
             {intl.formatMessage({
