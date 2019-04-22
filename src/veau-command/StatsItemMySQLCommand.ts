@@ -1,9 +1,7 @@
 import { StatsItem } from '../veau-entity/StatsItem';
 import { Transaction } from '../veau-general/MySQL/Transaction';
 import { StatsID } from '../veau-vo/StatsID';
-import { StatsValue } from '../veau-vo/StatsValue';
 import { IStatsItemCommand } from './interfaces/IStatsItemCommand';
-import { StatsValueMySQLCommand } from './StatsValueMySQLCommand';
 
 export class StatsItemMySQLCommand implements IStatsItemCommand {
   private transaction: Transaction;
@@ -24,7 +22,7 @@ export class StatsItemMySQLCommand implements IStatsItemCommand {
       :seq
       );`;
 
-    await this.transaction.query(query, [
+    return this.transaction.query(query, [
       {
         statsItemID: statsItem.getStatsItemID().get().get(),
         statsID: statsID.get().get(),
@@ -32,23 +30,9 @@ export class StatsItemMySQLCommand implements IStatsItemCommand {
         seq
       }
     ]);
-
-    const statsValueCommand: StatsValueMySQLCommand = StatsValueMySQLCommand.getInstance(this.transaction);
-
-    const promises: Array<Promise<any>> = [];
-
-    statsItem.getValues().forEach((statsValue: StatsValue) => {
-      promises.push(statsValueCommand.create(statsItem.getStatsItemID(), statsValue));
-    });
-
-    return Promise.all<any>(promises);
   }
 
   public async deleteByStatsID(statsID: StatsID): Promise<any> {
-    const statsValueCommand: StatsValueMySQLCommand = StatsValueMySQLCommand.getInstance(this.transaction);
-
-    await statsValueCommand.deleteByStatsID(statsID);
-
     const query: string = `DELETE R1
       FROM stats_items R1
       INNER JOIN stats R2

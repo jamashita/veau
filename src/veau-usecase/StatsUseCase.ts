@@ -1,7 +1,13 @@
+import { IStatsCommand } from '../veau-command/interfaces/IStatsCommand';
+import { IStatsItemCommand } from '../veau-command/interfaces/IStatsItemCommand';
 import { IStatsOverviewCommand } from '../veau-command/interfaces/IStatsOverviewCommand';
+import { IStatsValueCommand } from '../veau-command/interfaces/IStatsValueCommand';
+import { StatsItemMySQLCommand } from '../veau-command/StatsItemMySQLCommand';
 import { StatsMySQLCommand } from '../veau-command/StatsMySQLCommand';
 import { StatsOverviewMySQLCommand } from '../veau-command/StatsOverviewMySQLCommand';
+import { StatsValueMySQLCommand } from '../veau-command/StatsValueMySQLCommand';
 import { Stats, StatsJSON } from '../veau-entity/Stats';
+import { StatsItem } from '../veau-entity/StatsItem';
 import { StatsOverview, StatsOverviewJSON } from '../veau-entity/StatsOverview';
 import { StatsFactory } from '../veau-factory/StatsFactory';
 import { StatsOverviewFactory } from '../veau-factory/StatsOverviewFactory';
@@ -12,6 +18,7 @@ import { IStatsQuery } from '../veau-query/interfaces/IStatsQuery';
 import { StatsMySQLQuery } from '../veau-query/StatsMySQLQuery';
 import { StatsOverviewMySQLQuery } from '../veau-query/StatsOverviewMySQLQuery';
 import { StatsID } from '../veau-vo/StatsID';
+import { StatsValue } from '../veau-vo/StatsValue';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
 import { IStatsUseCase } from './interfaces/IStatsUseCase';
 
@@ -54,11 +61,31 @@ export class StatsUseCase implements IStatsUseCase {
     const stats: Stats = StatsUseCase.statsFactory.fromJSON(json);
 
     return VeauMySQL.transaction(async (transaction: Transaction): Promise<any> => {
-      const statsCommand: StatsMySQLCommand = StatsMySQLCommand.getInstance(transaction);
+      const statsCommand: IStatsCommand = StatsMySQLCommand.getInstance(transaction);
+      const statsItemCommand: IStatsItemCommand = StatsItemMySQLCommand.getInstance(transaction);
+      const statsValueCommand: IStatsValueCommand = StatsValueMySQLCommand.getInstance(transaction);
 
-      await statsCommand.deleteByStatsID(stats.getStatsID());
+      const statsID: StatsID = stats.getStatsID();
 
-      return statsCommand.create(stats, veauAccountID);
+      await Promise.all<any>([
+        statsValueCommand.deleteByStatsID(statsID),
+        statsItemCommand.deleteByStatsID(statsID),
+        statsCommand.deleteByStatsID(statsID)
+      ]);
+
+      const promises: Array<Promise<any>> = [];
+
+      promises.push(statsCommand.create(stats, veauAccountID));
+
+      stats.getItems().forEach((statsItem: StatsItem, index: number) => {
+        promises.push(statsItemCommand.create(stats.getStatsID(), statsItem, index + 1));
+
+        statsItem.getValues().forEach((statsValue: StatsValue) => {
+          promises.push(statsValueCommand.create(statsItem.getStatsItemID(), statsValue));
+        });
+      });
+
+      return Promise.all<any>(promises);
     });
   }
 }
