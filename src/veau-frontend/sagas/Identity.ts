@@ -1,8 +1,9 @@
 import { call, fork, put, select, take } from 'redux-saga/effects';
-import { VeauAccount, VeauAccountJSON } from '../../veau-entity/VeauAccount';
+import { VeauAccount } from '../../veau-entity/VeauAccount';
 import { VeauAccountFactory } from '../../veau-factory/VeauAccountFactory';
-import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
 import { LanguageIdentifier } from '../../veau-general/LanguageIdentifier';
+import { ISessionQuery } from '../../veau-query/interfaces/ISessionQuery';
+import { SessionAJAXQuery } from '../../veau-query/SessionAJAXQuery';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { ACTION } from '../actions/Action';
@@ -11,9 +12,9 @@ import { pushToEntrance, pushToStatsList } from '../actions/RedirectAction';
 import { Endpoints } from '../Endpoints';
 import { State } from '../State';
 
-const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
-
 export class Identity {
+  private static veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
+  private static sessionQuery: ISessionQuery = SessionAJAXQuery.getInstance();
 
   public static *init(): IterableIterator<any> {
     yield fork(Identity.initIdentity);
@@ -22,8 +23,7 @@ export class Identity {
 
   private static *initIdentity(): IterableIterator<any> {
     try {
-      const response: AJAXResponse<VeauAccountJSON> = yield call(AJAX.get, '/api/identity');
-      const veauAccount: VeauAccount = veauAccountFactory.fromJSON(response.body);
+      const veauAccount: VeauAccount = yield call(Identity.sessionQuery.find);
 
       yield put(identityAuthenticated(veauAccount));
       yield put(identified());
@@ -40,7 +40,7 @@ export class Identity {
         identity
       } = state;
 
-      const veauAccount: VeauAccount = veauAccountFactory.from(identity.getVeauAccountID(), identity.getAccount(), ISO639.of(newLanguage), identity.getRegion());
+      const veauAccount: VeauAccount = Identity.veauAccountFactory.from(identity.getVeauAccountID(), identity.getAccount(), ISO639.of(newLanguage), identity.getRegion());
 
       yield put(identityAuthenticated(veauAccount));
       yield put(pushToEntrance());
@@ -56,7 +56,7 @@ export class Identity {
         identity
       } = state;
 
-      const veauAccount: VeauAccount = veauAccountFactory.from(VeauAccountID.default(), '', identity.getLanguage(), identity.getRegion());
+      const veauAccount: VeauAccount = Identity.veauAccountFactory.from(VeauAccountID.default(), '', identity.getLanguage(), identity.getRegion());
 
       yield put(identityAuthenticated(veauAccount));
     }

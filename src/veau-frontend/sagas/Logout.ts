@@ -1,11 +1,13 @@
 import { call, fork, put, take } from 'redux-saga/effects';
-import { AJAX } from '../../veau-general/AJAX';
+import { ISessionCommand } from '../../veau-command/interfaces/ISessionCommand';
+import { SessionAJAXCommand } from '../../veau-command/SessionAJAXCommand';
 import { ACTION } from '../actions/Action';
 import { initializeIdentity } from '../actions/IdentityAction';
 import { closeProvider } from '../actions/PageProviderAction';
 import { pushToEntrance } from '../actions/RedirectAction';
 
 export class Logout {
+  private static sessionCommand: ISessionCommand = SessionAJAXCommand.getInstance();
 
   public static *init(): IterableIterator<any> {
     yield fork(Logout.logout);
@@ -16,7 +18,7 @@ export class Logout {
       yield take(ACTION.LOGOUT);
 
       try {
-        yield call(AJAX.delete, '/api/destroy');
+        yield call(Logout.sessionCommand.delete);
 
         yield put(initializeIdentity());
         yield put(closeProvider());

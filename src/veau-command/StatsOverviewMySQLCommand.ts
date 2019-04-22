@@ -18,7 +18,7 @@ export class StatsOverviewMySQLCommand implements IStatsOverviewCommand {
   private constructor() {
   }
 
-  public async create(veauAccountID: VeauAccountID, statsOverview: StatsOverview): Promise<any> {
+  public async create(statsOverview: StatsOverview, veauAccountID: VeauAccountID): Promise<any> {
     const query: string = `INSERT INTO stats VALUES(
       :statsID,
       :languageID,

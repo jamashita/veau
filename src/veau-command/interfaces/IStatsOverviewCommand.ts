@@ -3,5 +3,5 @@ import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 
 export interface IStatsOverviewCommand {
 
-  create(veauAccountID: VeauAccountID, statsOverview: StatsOverview): Promise<any>;
+  create(statsOverview: StatsOverview, veauAccountID: VeauAccountID): Promise<any>;
 }
