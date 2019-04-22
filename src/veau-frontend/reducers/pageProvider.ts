@@ -15,12 +15,12 @@ export const pageProvider: (state: PageProvider, action: Action) => PageProvider
         open: false
       };
     }
-    case ACTION.OPEN_PROVIDER: {
+    case ACTION.PROVIDER_OPEN: {
       return {
         open: true
       };
     }
-    case ACTION.CLOSE_PROVIDER: {
+    case ACTION.PROVIDER_CLOSE: {
       return {
         open: false
       };

@@ -1,19 +1,19 @@
-import { StatsOverview } from '../../veau-entity/StatsOverview';
+import { Stats } from '../../veau-entity/Stats';
 import { ACTION, Action } from '../actions/Action';
 
 export type StatsList = {
   open: boolean;
-  newStatsOverview: StatsOverview;
+  stats: Stats;
 };
 
 const initialState: StatsList = {
   open: false,
-  newStatsOverview: StatsOverview.default()
+  stats: Stats.default()
 };
 
 export const statsList: (state: StatsList, action: Action) => StatsList = (state: StatsList = initialState, action: Action): StatsList => {
   switch (action.type) {
-    case ACTION.STATS_LIST_NEW_STATS: {
+    case ACTION.STATS_LIST_OPEN_STATS_MODAL: {
       return {
         ...state,
         open: true
@@ -25,16 +25,16 @@ export const statsList: (state: StatsList, action: Action) => StatsList = (state
         open: false
       };
     }
-    case ACTION.STATS_LIST_RENEW_STATS: {
+    case ACTION.STATS_LIST_UPDATE_STATS: {
       return {
         ...state,
-        newStatsOverview: action.newStatsOverview
+        stats: action.stats
       };
     }
     case ACTION.STATS_LIST_RESET_NEW_STATS: {
       return {
         ...state,
-        newStatsOverview: StatsOverview.default()
+        stats: Stats.default()
       };
     }
     default: {

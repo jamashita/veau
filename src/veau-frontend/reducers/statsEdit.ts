@@ -13,7 +13,7 @@ const initialState: StatsEdit = {
 
 export const statsEdit: (state: StatsEdit, action: Action) => StatsEdit = (state: StatsEdit = initialState, action: Action): StatsEdit => {
   switch (action.type) {
-    case ACTION.STATS_EDIT_ITEM_SELECTING: {
+    case ACTION.STATS_EDIT_SELECT_ITEM: {
       const {
         statsItem,
         row

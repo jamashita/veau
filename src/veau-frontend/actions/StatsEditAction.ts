@@ -10,7 +10,6 @@ import {
   StatsEditInvalidValueInputAction,
   StatsEditItemNameTypedAction,
   StatsEditItemSaveAction,
-  StatsEditItemSelectingAction,
   StatsEditLanguageSelectedAction,
   StatsEditNameTypedAction,
   StatsEditRegionSelectedAction,
@@ -19,8 +18,10 @@ import {
   StatsEditRowSelectedAction,
   StatsEditSaveStatsAction,
   StatsEditSelectingItemNameTypedAction,
+  StatsEditSelectItemAction,
   StatsEditStartDateDeterminedAction,
-  StatsEditTermSelectedActoin, StatsEditUnitTypedAction,
+  StatsEditTermSelectedActoin,
+  StatsEditUnitTypedAction,
   StatsEditUpdateSelectingItemAction
 } from './Action';
 
@@ -96,9 +97,9 @@ export const rowSelected: (row: number) => StatsEditRowSelectedAction = (row: nu
   };
 };
 
-export const itemSelecting: (statsItem: StatsItem, row: number) => StatsEditItemSelectingAction = (statsItem: StatsItem, row: number): StatsEditItemSelectingAction => {
+export const selectItem: (statsItem: StatsItem, row: number) => StatsEditSelectItemAction = (statsItem: StatsItem, row: number): StatsEditSelectItemAction => {
   return {
-    type: ACTION.STATS_EDIT_ITEM_SELECTING,
+    type: ACTION.STATS_EDIT_SELECT_ITEM,
     statsItem,
     row
   };

@@ -2,7 +2,7 @@ import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 import {
   ACTION,
   EntranceAccountNameTypedAction,
-  EntranceInfoUpdateAction,
+  EntranceUpdateAction,
   EntrancePasswordTypedAction, IdentityAuthenticateAction
 } from './Action';
 
@@ -20,9 +20,9 @@ export const passwordTyped: (password: string) => EntrancePasswordTypedAction = 
   };
 };
 
-export const entranceInformationUpdate: (entranceInformation: EntranceInformation) => EntranceInfoUpdateAction = (entranceInformation: EntranceInformation): EntranceInfoUpdateAction => {
+export const updateEntranceInformation: (entranceInformation: EntranceInformation) => EntranceUpdateAction = (entranceInformation: EntranceInformation): EntranceUpdateAction => {
   return {
-    type: ACTION.ENTRANCE_INFO_UPDATE,
+    type: ACTION.ENTRANCE_UPDATE,
     entranceInformation
   };
 };

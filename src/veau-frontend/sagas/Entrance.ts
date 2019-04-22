@@ -5,7 +5,7 @@ import { ISessionQuery } from '../../veau-query/interfaces/ISessionQuery';
 import { SessionAJAXQuery } from '../../veau-query/SessionAJAXQuery';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 import { ACTION, EntranceAccountNameTypedAction, EntrancePasswordTypedAction } from '../actions/Action';
-import { entranceInformationUpdate } from '../actions/EntranceAction';
+import { updateEntranceInformation } from '../actions/EntranceAction';
 import { identified, identityAuthenticated } from '../actions/IdentityAction';
 import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
@@ -73,7 +73,7 @@ export class Entrance {
       } = state;
 
       const newLogin: EntranceInformation = EntranceInformation.of(action.account, entranceInformation.getPassword());
-      yield put(entranceInformationUpdate(newLogin));
+      yield put(updateEntranceInformation(newLogin));
     }
   }
 
@@ -87,7 +87,7 @@ export class Entrance {
       } = state;
 
       const newLogin: EntranceInformation = EntranceInformation.of(entranceInformation.getAccount(), action.password);
-      yield put(entranceInformationUpdate(newLogin));
+      yield put(updateEntranceInformation(newLogin));
     }
   }
 }

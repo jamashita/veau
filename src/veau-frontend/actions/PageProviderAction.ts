@@ -1,13 +1,13 @@
-import { ACTION, CloseProviderAction, OpenProviderAction } from './Action';
+import { ACTION, ProviderCloseAction, ProviderOpenAction } from './Action';
 
-export const openProvider: () => OpenProviderAction = (): OpenProviderAction => {
+export const openProvider: () => ProviderOpenAction = (): ProviderOpenAction => {
   return {
-    type: ACTION.OPEN_PROVIDER
+    type: ACTION.PROVIDER_OPEN
   };
 };
 
-export const closeProvider: () => CloseProviderAction = (): CloseProviderAction => {
+export const closeProvider: () => ProviderCloseAction = (): ProviderCloseAction => {
   return {
-    type: ACTION.CLOSE_PROVIDER
+    type: ACTION.PROVIDER_CLOSE
   };
 };

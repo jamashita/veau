@@ -2,6 +2,7 @@ import * as moment from 'moment';
 import { StatsItems } from '../veau-collection/StatsItems';
 import { Term } from '../veau-enum/Term';
 import { RuntimeError } from '../veau-general/Error/RuntimeError';
+import { Random } from '../veau-general/Random';
 import { Language, LanguageJSON } from '../veau-vo/Language';
 import { Region, RegionJSON } from '../veau-vo/Region';
 import { StatsID } from '../veau-vo/StatsID';
@@ -52,7 +53,9 @@ export class Stats extends Entity<StatsID> {
   private static TERM_FORMAT: string = 'YYYY-MM-DD';
 
   public static default(): Stats {
-    return new Stats(StatsID.of(UUID.of('')), Language.default(), Region.default(), Term.DAILY, '', '', moment(), new StatsItems([]));
+    const uuid: UUID = UUID.of(Random.v4());
+
+    return new Stats(StatsID.of(uuid), Language.default(), Region.default(), Term.DAILY, '', '', moment(), new StatsItems([]));
   }
 
   public constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: string, unit: string, updatedAt: moment.Moment, items: StatsItems, startDate?: string) {

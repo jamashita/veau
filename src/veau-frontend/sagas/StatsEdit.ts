@@ -27,7 +27,7 @@ import { raiseModal } from '../actions/ModalAction';
 import { appearNotification } from '../actions/NotificationAction';
 import { pushToStatsList } from '../actions/RedirectAction';
 import { resetStatsItem, updateStats, updateStatsItem } from '../actions/StatsAction';
-import { clearSelectingItem, itemSelecting, updateSelectingItem } from '../actions/StatsEditAction';
+import { clearSelectingItem, selectItem, updateSelectingItem } from '../actions/StatsEditAction';
 import { State } from '../State';
 
 const statsFactory: StatsFactory = StatsFactory.getInstance();
@@ -234,7 +234,7 @@ export class StatsEdit {
       } = action;
 
       const selecting: StatsItem = stats.getItems().get(row);
-      yield put(itemSelecting(selecting, row));
+      yield put(selectItem(selecting, row));
     }
   }
 
