@@ -16,7 +16,7 @@ export class Logout {
       yield take(ACTION.LOGOUT);
 
       try {
-        yield call(AJAX.get, '/api/destroy');
+        yield call(AJAX.delete, '/api/destroy');
 
         yield put(initializeIdentity());
         yield put(closeProvider());
