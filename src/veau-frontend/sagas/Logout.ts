@@ -1,6 +1,6 @@
 import { call, fork, put, take } from 'redux-saga/effects';
-import { ISessionCommand } from '../../veau-command/interfaces/ISessionCommand';
-import { SessionAJAXCommand } from '../../veau-command/SessionAJAXCommand';
+import { ISessionCommand } from '../commands/interfaces/ISessionCommand';
+import { SessionAJAXCommand } from '../commands/SessionAJAXCommand';
 import { ACTION } from '../actions/Action';
 import { initializeIdentity } from '../actions/IdentityAction';
 import { closeProvider } from '../actions/PageProviderAction';
