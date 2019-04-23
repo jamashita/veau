@@ -84,30 +84,6 @@ export class StatsOverview extends Entity<StatsID> {
     return this.updatedAt.utc().format(StatsOverview.DATE_FORMAT);
   }
 
-  public isFilled(): boolean {
-    const {
-      iso639,
-      iso3166,
-      name,
-      unit
-    } = this;
-
-    if (iso639.equals(ISO639.default())) {
-      return false;
-    }
-    if (iso3166.equals(ISO3166.default())) {
-      return false;
-    }
-    if (name === '') {
-      return false;
-    }
-    if (unit === '') {
-      return false;
-    }
-
-    return true;
-  }
-
   public copy(): StatsOverview {
     const {
       statsID,
