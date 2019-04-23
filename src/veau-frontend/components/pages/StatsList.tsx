@@ -14,7 +14,7 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
   public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
     const {
       statsOverviews,
-      localeMemoryQuery,
+      localeQuery,
       open,
       stats
     } = this.props;
@@ -28,7 +28,7 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
         return true;
       }
     }
-    if (localeMemoryQuery !== nextProps.localeMemoryQuery) {
+    if (localeQuery !== nextProps.localeQuery) {
       return true;
     }
     if (open !== nextProps.open) {
@@ -56,7 +56,7 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
   public render(): React.ReactNode {
     const {
       statsOverviews,
-      localeMemoryQuery,
+      localeQuery,
       open,
       stats,
       intl,
@@ -85,14 +85,14 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
         </Button>
         <StatsOverviewListTable
           statsOverviews={statsOverviews}
-          localeMemoryQuery={localeMemoryQuery}
+          localeQuery={localeQuery}
           toStatsEdit={toStatsEdit}
         />
         <StatsOverviewModal
           open={open}
           stats={stats}
-          languages={localeMemoryQuery.allLanguages()}
-          regions={localeMemoryQuery.allRegions()}
+          languages={localeQuery.allLanguages()}
+          regions={localeQuery.allRegions()}
           closeNewStatsModal={closeNewStatsModal}
           nameTyped={nameTyped}
           unitTyped={unitTyped}

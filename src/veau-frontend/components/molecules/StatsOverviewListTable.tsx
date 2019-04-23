@@ -2,14 +2,14 @@ import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/c
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { StatsOverview } from '../../../veau-entity/StatsOverview';
-import { LocaleMemoryQuery } from '../../../veau-query/LocaleMemoryQuery';
+import { LocaleAJAXQuery } from '../../../veau-query/LocaleAJAXQuery';
 import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
 import { StatsID } from '../../../veau-vo/StatsID';
 
 type Props = {
   statsOverviews: Array<StatsOverview>;
-  localeMemoryQuery: LocaleMemoryQuery;
+  localeQuery: LocaleAJAXQuery;
   toStatsEdit: (statsID: StatsID) => void;
 };
 type State = {
@@ -20,7 +20,7 @@ class StatsOverviewListTableImpl extends React.Component<Props & InjectedIntlPro
   public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
     const {
       statsOverviews,
-      localeMemoryQuery
+      localeQuery
     } = this.props;
 
     if (statsOverviews.length !== nextProps.statsOverviews.length) {
@@ -31,7 +31,7 @@ class StatsOverviewListTableImpl extends React.Component<Props & InjectedIntlPro
         return true;
       }
     }
-    if (localeMemoryQuery !== nextProps.localeMemoryQuery) {
+    if (localeQuery !== nextProps.localeQuery) {
       return true;
     }
 
@@ -41,7 +41,7 @@ class StatsOverviewListTableImpl extends React.Component<Props & InjectedIntlPro
   public render(): React.ReactNode {
     const {
       statsOverviews,
-      localeMemoryQuery,
+      localeQuery,
       intl,
       toStatsEdit
     } = this.props;
@@ -85,8 +85,8 @@ class StatsOverviewListTableImpl extends React.Component<Props & InjectedIntlPro
         <TableBody>
           {statsOverviews.map<React.ReactNode>((statsOverview: StatsOverview) => {
             try {
-              const language: Language = localeMemoryQuery.findByISO639(statsOverview.getISO639());
-              const region: Region = localeMemoryQuery.findByISO3166(statsOverview.getISO3166());
+              const language: Language = localeQuery.findByISO639(statsOverview.getISO639());
+              const region: Region = localeQuery.findByISO3166(statsOverview.getISO3166());
 
               return (
                 <TableRow

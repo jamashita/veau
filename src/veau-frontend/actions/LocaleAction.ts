@@ -1,9 +1,9 @@
-import { LocaleMemoryQuery } from '../../veau-query/LocaleMemoryQuery';
+import { LocaleAJAXQuery } from '../../veau-query/LocaleAJAXQuery';
 import { ACTION, LocaleDefinedAction } from './Action';
 
-export const defineLocale: (localeMemoryQuery: LocaleMemoryQuery) => LocaleDefinedAction = (localeMemoryQuery: LocaleMemoryQuery): LocaleDefinedAction => {
+export const defineLocale: (localeQuery: LocaleAJAXQuery) => LocaleDefinedAction = (localeQuery: LocaleAJAXQuery): LocaleDefinedAction => {
   return {
     type: ACTION.LOCALE_DEFINED,
-    localeMemoryQuery
+    localeQuery
   };
 };

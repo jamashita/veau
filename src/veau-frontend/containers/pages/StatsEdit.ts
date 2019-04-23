@@ -2,7 +2,7 @@ import { connect, ConnectedComponentClass, MapDispatchToProps, MapStateToProps }
 import { Dispatch } from 'redux';
 import { Stats } from '../../../veau-entity/Stats';
 import { StatsItem } from '../../../veau-entity/StatsItem';
-import { LocaleMemoryQuery } from '../../../veau-query/LocaleMemoryQuery';
+import { LocaleAJAXQuery } from '../../../veau-query/LocaleAJAXQuery';
 import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
 import { Action } from '../../actions/Action';
@@ -28,7 +28,7 @@ import { State } from '../../State';
 
 type StateProps = {
   stats: Stats;
-  localeMemoryQuery: LocaleMemoryQuery;
+  localeQuery: LocaleAJAXQuery;
   statsItem: StatsItem;
   selectingItem?: StatsItem;
 };
@@ -56,7 +56,7 @@ export type Props = StateProps & DispatchProps & OwnProps;
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State): StateProps => {
   const {
     stats,
-    localeMemoryQuery,
+    localeQuery,
     statsItem,
     statsEdit: {
       selectingItem
@@ -65,7 +65,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
 
   return {
     stats,
-    localeMemoryQuery,
+    localeQuery,
     statsItem,
     selectingItem
   };

@@ -7,9 +7,9 @@ import { Language } from '../../veau-vo/Language';
 import { LanguageID } from '../../veau-vo/LanguageID';
 import { Region } from '../../veau-vo/Region';
 import { RegionID } from '../../veau-vo/RegionID';
-import { LocaleMemoryQuery } from '../LocaleMemoryQuery';
+import { LocaleAJAXQuery } from '../LocaleAJAXQuery';
 
-describe('LocaleMemoryQuery', () => {
+describe('LocaleAJAXQuery', () => {
   it('findByISO639', () => {
     const iso6391: ISO639 = ISO639.of('ab');
     const iso6392: ISO639 = ISO639.of('aa');
@@ -18,7 +18,7 @@ describe('LocaleMemoryQuery', () => {
     const language2: Language = Language.of(LanguageID.of(2), 'language2', 'language2', iso6392);
     const language3: Language = Language.of(LanguageID.of(3), 'language3', 'language3', iso6393);
 
-    const localeQuery: LocaleMemoryQuery = LocaleMemoryQuery.getInstance(
+    const localeQuery: LocaleAJAXQuery = LocaleAJAXQuery.getInstance(
       [
         language1,
         language2,
@@ -40,7 +40,7 @@ describe('LocaleMemoryQuery', () => {
     const language1: Language = Language.of(LanguageID.of(1), 'language1', 'language1', iso6391);
     const language2: Language = Language.of(LanguageID.of(2), 'language2', 'language2', iso6392);
 
-    const localeQuery: LocaleMemoryQuery = LocaleMemoryQuery.getInstance(
+    const localeQuery: LocaleAJAXQuery = LocaleAJAXQuery.getInstance(
       [
         language1,
         language2
@@ -62,7 +62,7 @@ describe('LocaleMemoryQuery', () => {
     const region2: Region = Region.of(RegionID.of(2), 'region2', iso31662);
     const region3: Region = Region.of(RegionID.of(3), 'region3', iso31663);
 
-    const localeQuery: LocaleMemoryQuery = LocaleMemoryQuery.getInstance(
+    const localeQuery: LocaleAJAXQuery = LocaleAJAXQuery.getInstance(
       [
       ],
       [
@@ -84,7 +84,7 @@ describe('LocaleMemoryQuery', () => {
     const region1: Region = Region.of(RegionID.of(1), 'region1', iso31661);
     const region2: Region = Region.of(RegionID.of(2), 'region2', iso31662);
 
-    const localeQuery: LocaleMemoryQuery = LocaleMemoryQuery.getInstance(
+    const localeQuery: LocaleAJAXQuery = LocaleAJAXQuery.getInstance(
       [
       ],
       [
