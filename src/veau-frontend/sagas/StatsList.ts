@@ -1,9 +1,7 @@
 import { call, fork, put, select, take } from 'redux-saga/effects';
 import { Stats } from '../../veau-entity/Stats';
-import { StatsOverview, StatsOverviewJSON } from '../../veau-entity/StatsOverview';
+import { StatsOverview } from '../../veau-entity/StatsOverview';
 import { StatsFactory } from '../../veau-factory/StatsFactory';
-import { StatsOverviewFactory } from '../../veau-factory/StatsOverviewFactory';
-import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
 import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-vo/Region';
 import {
@@ -24,12 +22,14 @@ import { closeNewStatsModal, resetNewStats, updateNewStats } from '../actions/St
 import { IStatsCommand } from '../commands/interfaces/IStatsCommand';
 import { StatsAJAXCommand } from '../commands/StatsAJAXCommand';
 import { Endpoints } from '../Endpoints';
+import { IStatsOverviewQuery } from '../queries/interfaces/IStatsOverviewQuery';
+import { StatsOverviewAJAXQuery } from '../queries/StatsOverviewAJAXQuery';
 import { State } from '../State';
 
 export class StatsList {
   private static statsCommand: IStatsCommand = StatsAJAXCommand.getInstance();
-  private static statsOverviewFactory: StatsOverviewFactory = StatsOverviewFactory.getInstance();
   private static statsFactory: StatsFactory = StatsFactory.getInstance();
+  private static statsOverviewQuery: IStatsOverviewQuery = StatsOverviewAJAXQuery.getInstance();
 
   public static *init(): IterableIterator<any> {
     yield fork(StatsList.findStatsList);
@@ -48,11 +48,7 @@ export class StatsList {
 
       if (path === Endpoints.STATS_LIST) {
         try {
-          const response: AJAXResponse<Array<StatsOverviewJSON>> = yield call(AJAX.get, '/api/stats/overview/1');
-          const statsOverviews: Array<StatsOverview> = response.body.map<StatsOverview>((json: StatsOverviewJSON) => {
-            return StatsList.statsOverviewFactory.fromJSON(json);
-          });
-
+          const statsOverviews: Array<StatsOverview> = yield call(StatsList.statsOverviewQuery.findByPage, 1);
           yield put(updateStatsOverviews(statsOverviews));
         }
         catch (err) {

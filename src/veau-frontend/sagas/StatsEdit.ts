@@ -1,10 +1,11 @@
 import * as moment from 'moment';
 import { call, fork, put, select, take } from 'redux-saga/effects';
-import { Stats, StatsJSON } from '../../veau-entity/Stats';
+import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { StatsFactory } from '../../veau-factory/StatsFactory';
 import { StatsItemFactory } from '../../veau-factory/StatsItemFactory';
-import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
+import { StatsID } from '../../veau-vo/StatsID';
+import { UUID } from '../../veau-vo/UUID';
 import {
   ACTION,
   LocationChangeAction,
@@ -29,11 +30,14 @@ import { resetStatsItem, updateStats, updateStatsItem } from '../actions/StatsAc
 import { clearSelectingItem, selectItem, updateSelectingItem } from '../actions/StatsEditAction';
 import { IStatsCommand } from '../commands/interfaces/IStatsCommand';
 import { StatsAJAXCommand } from '../commands/StatsAJAXCommand';
+import { IStatsQuery } from '../queries/interfaces/IStatsQuery';
+import { StatsAJAXQuery } from '../queries/StatsAJAXQuery';
 import { State } from '../State';
 
 export class StatsEdit {
-  private static statsFactory: StatsFactory = StatsFactory.getInstance();
   private static statsCommand: IStatsCommand = StatsAJAXCommand.getInstance();
+  private static statsQuery: IStatsQuery = StatsAJAXQuery.getInstance();
+  private static statsFactory: StatsFactory = StatsFactory.getInstance();
   private static statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
   private static STATS_EDIT_PREFIX: string = '/statistics/edit/';
 
@@ -65,8 +69,7 @@ export class StatsEdit {
         const statsID: string = path.replace(StatsEdit.STATS_EDIT_PREFIX, '');
 
         try {
-          const response: AJAXResponse<StatsJSON> = yield call(AJAX.get, `/api/stats/${statsID}`);
-          const stats: Stats = StatsEdit.statsFactory.fromJSON(response.body);
+          const stats: Stats = yield call(StatsEdit.statsQuery.findByStatsID, StatsID.of(UUID.of(statsID)));
 
           yield put(updateStats(stats));
           yield put(clearSelectingItem());
