@@ -21,10 +21,13 @@ import { appearNotification } from '../actions/NotificationAction';
 import { pushToStatsEdit } from '../actions/RedirectAction';
 import { updateStatsOverviews } from '../actions/StatsAction';
 import { closeNewStatsModal, resetNewStats, updateNewStats } from '../actions/StatsListAction';
+import { IStatsCommand } from '../commands/interfaces/IStatsCommand';
+import { StatsAJAXCommand } from '../commands/StatsAJAXCommand';
 import { Endpoints } from '../Endpoints';
 import { State } from '../State';
 
 export class StatsList {
+  private static statsCommand: IStatsCommand = StatsAJAXCommand.getInstance();
   private static statsOverviewFactory: StatsOverviewFactory = StatsOverviewFactory.getInstance();
   private static statsFactory: StatsFactory = StatsFactory.getInstance();
 
@@ -119,10 +122,10 @@ export class StatsList {
         statsList: {
           stats
         },
-        localeMemoryQuery
+        localeQuery
       } = state;
 
-      const language: Language = localeMemoryQuery.findByISO639(action.iso639);
+      const language: Language = localeQuery.findByISO639(action.iso639);
 
       const newStats: Stats = StatsList.statsFactory.from(
         stats.getStatsID(),
@@ -147,10 +150,10 @@ export class StatsList {
         statsList: {
           stats
         },
-        localeMemoryQuery
+        localeQuery
       } = state;
 
-      const region: Region = localeMemoryQuery.findByISO3166(action.iso3166);
+      const region: Region = localeQuery.findByISO3166(action.iso3166);
 
       const newStats: Stats = StatsList.statsFactory.from(
         stats.getStatsID(),
@@ -210,7 +213,7 @@ export class StatsList {
       yield put(closeNewStatsModal());
       yield put(loading());
       try {
-        yield call(AJAX.post, '/api/stats', stats.toJSON());
+        yield call(StatsList.statsCommand.create, stats);
 
         yield put(loaded());
         yield put(pushToStatsEdit(stats.getStatsID()));

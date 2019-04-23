@@ -27,14 +27,15 @@ import { appearNotification } from '../actions/NotificationAction';
 import { pushToStatsList } from '../actions/RedirectAction';
 import { resetStatsItem, updateStats, updateStatsItem } from '../actions/StatsAction';
 import { clearSelectingItem, selectItem, updateSelectingItem } from '../actions/StatsEditAction';
+import { IStatsCommand } from '../commands/interfaces/IStatsCommand';
+import { StatsAJAXCommand } from '../commands/StatsAJAXCommand';
 import { State } from '../State';
 
-const statsFactory: StatsFactory = StatsFactory.getInstance();
-const statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
-
-const STATS_EDIT_PREFIX: string = '/statistics/edit/';
-
 export class StatsEdit {
+  private static statsFactory: StatsFactory = StatsFactory.getInstance();
+  private static statsCommand: IStatsCommand = StatsAJAXCommand.getInstance();
+  private static statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
+  private static STATS_EDIT_PREFIX: string = '/statistics/edit/';
 
   public static *init(): IterableIterator<any> {
     yield fork(StatsEdit.findStats);
@@ -60,12 +61,12 @@ export class StatsEdit {
       const action: LocationChangeAction = yield take(ACTION.LOCATION_CHANGE);
       const path: string = action.payload.location.pathname;
 
-      if (path.startsWith(STATS_EDIT_PREFIX)) {
-        const statsID: string = path.replace(STATS_EDIT_PREFIX, '');
+      if (path.startsWith(StatsEdit.STATS_EDIT_PREFIX)) {
+        const statsID: string = path.replace(StatsEdit.STATS_EDIT_PREFIX, '');
 
         try {
           const response: AJAXResponse<StatsJSON> = yield call(AJAX.get, `/api/stats/${statsID}`);
-          const stats: Stats = statsFactory.fromJSON(response.body);
+          const stats: Stats = StatsEdit.statsFactory.fromJSON(response.body);
 
           yield put(updateStats(stats));
           yield put(clearSelectingItem());
@@ -87,7 +88,7 @@ export class StatsEdit {
         stats
       } = state;
 
-      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), action.name, stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
+      const newStats: Stats = StatsEdit.statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), action.name, stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
       yield put(updateStats(newStats));
     }
   }
@@ -101,7 +102,7 @@ export class StatsEdit {
         stats
       } = state;
 
-      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), action.unit, stats.getUpdatedAt(), stats.getItems());
+      const newStats: Stats = StatsEdit.statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), action.unit, stats.getUpdatedAt(), stats.getItems());
       yield put(updateStats(newStats));
     }
   }
@@ -115,7 +116,7 @@ export class StatsEdit {
         stats
       } = state;
 
-      const newStats: Stats = statsFactory.from(stats.getStatsID(), action.language, stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
+      const newStats: Stats = StatsEdit.statsFactory.from(stats.getStatsID(), action.language, stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
       yield put(updateStats(newStats));
     }
   }
@@ -129,7 +130,7 @@ export class StatsEdit {
         stats
       } = state;
 
-      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), action.region, stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
+      const newStats: Stats = StatsEdit.statsFactory.from(stats.getStatsID(), stats.getLanguage(), action.region, stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
       yield put(updateStats(newStats));
     }
   }
@@ -184,7 +185,7 @@ export class StatsEdit {
         statsItem
       } = state;
 
-      const newStatsItem: StatsItem = statsItemFactory.from(statsItem.getStatsItemID(), action.name, statsItem.getValues());
+      const newStatsItem: StatsItem = StatsEdit.statsItemFactory.from(statsItem.getStatsItemID(), action.name, statsItem.getValues());
       yield put(updateStatsItem(newStatsItem));
     }
   }
@@ -199,7 +200,7 @@ export class StatsEdit {
         statsItem
       } = state;
 
-      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems().add(statsItem), stats.getStartDate());
+      const newStats: Stats = StatsEdit.statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems().add(statsItem), stats.getStartDate());
       yield put(updateStats(newStats));
       yield put(resetStatsItem());
     }
@@ -236,7 +237,7 @@ export class StatsEdit {
       } = state;
 
       if (selectingItem) {
-        const newSelectingItem: StatsItem = statsItemFactory.from(selectingItem.getStatsItemID(), action.name, selectingItem.getValues());
+        const newSelectingItem: StatsItem = StatsEdit.statsItemFactory.from(selectingItem.getStatsItemID(), action.name, selectingItem.getValues());
         const copied: Stats = stats.copy();
         copied.replaceItem(newSelectingItem, selectingRow);
 
@@ -260,7 +261,7 @@ export class StatsEdit {
 
       const date: moment.Moment = moment(startDate);
       if (date.isValid()) {
-        const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems(), startDate);
+        const newStats: Stats = StatsEdit.statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems(), startDate);
         yield put(updateStats(newStats));
         continue;
       }
@@ -324,7 +325,7 @@ export class StatsEdit {
 
       yield put(loading());
       try {
-        yield call(AJAX.post, '/api/stats', stats.toJSON());
+        yield call(StatsEdit.statsCommand.create, stats);
         yield put(loaded());
         yield put(appearNotification('success', 'center', 'top', 'SAVE_SUCCESS'));
       }
