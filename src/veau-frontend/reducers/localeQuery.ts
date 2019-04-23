@@ -1,5 +1,5 @@
-import { LocaleAJAXQuery } from '../../veau-query/LocaleAJAXQuery';
 import { ACTION, Action } from '../actions/Action';
+import { LocaleAJAXQuery } from '../queries/LocaleAJAXQuery';
 
 const initialState: LocaleAJAXQuery = LocaleAJAXQuery.getInstance(
   [

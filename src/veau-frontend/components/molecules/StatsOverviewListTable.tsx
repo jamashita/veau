@@ -2,10 +2,10 @@ import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/c
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { StatsOverview } from '../../../veau-entity/StatsOverview';
-import { LocaleAJAXQuery } from '../../../veau-query/LocaleAJAXQuery';
 import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
 import { StatsID } from '../../../veau-vo/StatsID';
+import { LocaleAJAXQuery } from '../../queries/LocaleAJAXQuery';
 
 type Props = {
   statsOverviews: Array<StatsOverview>;

@@ -1,7 +1,7 @@
-import { VeauAccount, VeauAccountJSON } from '../veau-entity/VeauAccount';
-import { VeauAccountFactory } from '../veau-factory/VeauAccountFactory';
-import { AJAX, AJAXResponse } from '../veau-general/AJAX';
-import { EntranceInformation } from '../veau-vo/EntranceInformation';
+import { VeauAccount, VeauAccountJSON } from '../../veau-entity/VeauAccount';
+import { VeauAccountFactory } from '../../veau-factory/VeauAccountFactory';
+import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
+import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 import { ISessionQuery } from './interfaces/ISessionQuery';
 
 export class SessionAJAXQuery implements ISessionQuery {

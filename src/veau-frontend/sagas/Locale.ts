@@ -1,6 +1,5 @@
 import { call, fork, put, take } from 'redux-saga/effects';
 import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
-import { LocaleAJAXQuery } from '../../veau-query/LocaleAJAXQuery';
 import { Locales } from '../../veau-usecase/interfaces/ILocaleUseCase';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
@@ -10,6 +9,7 @@ import { Region, RegionJSON } from '../../veau-vo/Region';
 import { RegionID } from '../../veau-vo/RegionID';
 import { ACTION } from '../actions/Action';
 import { defineLocale } from '../actions/LocaleAction';
+import { LocaleAJAXQuery } from '../queries/LocaleAJAXQuery';
 
 export class Locale {
 

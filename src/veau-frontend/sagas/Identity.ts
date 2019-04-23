@@ -2,14 +2,14 @@ import { call, fork, put, select, take } from 'redux-saga/effects';
 import { VeauAccount } from '../../veau-entity/VeauAccount';
 import { VeauAccountFactory } from '../../veau-factory/VeauAccountFactory';
 import { LanguageIdentifier } from '../../veau-general/LanguageIdentifier';
-import { ISessionQuery } from '../../veau-query/interfaces/ISessionQuery';
-import { SessionAJAXQuery } from '../../veau-query/SessionAJAXQuery';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { ACTION } from '../actions/Action';
 import { identified, identityAuthenticated } from '../actions/IdentityAction';
 import { pushToEntrance, pushToStatsList } from '../actions/RedirectAction';
 import { Endpoints } from '../Endpoints';
+import { ISessionQuery } from '../queries/interfaces/ISessionQuery';
+import { SessionAJAXQuery } from '../queries/SessionAJAXQuery';
 import { State } from '../State';
 
 export class Identity {

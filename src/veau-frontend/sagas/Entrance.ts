@@ -1,8 +1,6 @@
 import { UNAUTHORIZED } from 'http-status';
 import { call, fork, put, select, take } from 'redux-saga/effects';
 import { VeauAccount } from '../../veau-entity/VeauAccount';
-import { ISessionQuery } from '../../veau-query/interfaces/ISessionQuery';
-import { SessionAJAXQuery } from '../../veau-query/SessionAJAXQuery';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 import { ACTION, EntranceAccountNameTypedAction, EntrancePasswordTypedAction } from '../actions/Action';
 import { updateEntranceInformation } from '../actions/EntranceAction';
@@ -10,6 +8,8 @@ import { identified, identityAuthenticated } from '../actions/IdentityAction';
 import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
 import { pushToStatsList } from '../actions/RedirectAction';
+import { ISessionQuery } from '../queries/interfaces/ISessionQuery';
+import { SessionAJAXQuery } from '../queries/SessionAJAXQuery';
 import { State } from '../State';
 
 export class Entrance {

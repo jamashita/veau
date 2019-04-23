@@ -2,11 +2,11 @@ import { Card, CardContent, CardHeader, FormControl, InputLabel, MenuItem, Selec
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { Stats } from '../../../veau-entity/Stats';
-import { LocaleAJAXQuery } from '../../../veau-query/LocaleAJAXQuery';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
 import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
+import { LocaleAJAXQuery } from '../../queries/LocaleAJAXQuery';
 import { TextField } from '../atoms/TextField';
 
 type Props = {

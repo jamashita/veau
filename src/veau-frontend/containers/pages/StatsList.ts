@@ -3,7 +3,6 @@ import { Dispatch } from 'redux';
 import { Stats } from '../../../veau-entity/Stats';
 import { StatsOverview } from '../../../veau-entity/StatsOverview';
 import { Term } from '../../../veau-enum/Term';
-import { LocaleAJAXQuery } from '../../../veau-query/LocaleAJAXQuery';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
 import { StatsID } from '../../../veau-vo/StatsID';
@@ -20,6 +19,7 @@ import {
   saveNewStats
 } from '../../actions/StatsListAction';
 import { StatsList as Component } from '../../components/pages/StatsList';
+import { LocaleAJAXQuery } from '../../queries/LocaleAJAXQuery';
 import { State } from '../../State';
 
 type StateProps = {

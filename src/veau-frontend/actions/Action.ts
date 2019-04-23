@@ -5,13 +5,13 @@ import { StatsItem } from '../../veau-entity/StatsItem';
 import { StatsOverview } from '../../veau-entity/StatsOverview';
 import { VeauAccount } from '../../veau-entity/VeauAccount';
 import { Term } from '../../veau-enum/Term';
-import { LocaleAJAXQuery } from '../../veau-query/LocaleAJAXQuery';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-vo/Region';
 import { StatsID } from '../../veau-vo/StatsID';
+import { LocaleAJAXQuery } from '../queries/LocaleAJAXQuery';
 
 export enum ACTION {
   LOCATION_CHANGE = '@@router/LOCATION_CHANGE',
