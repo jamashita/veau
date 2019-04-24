@@ -15,9 +15,9 @@ export class StatsOverviewAJAXQuery implements IStatsOverviewQuery {
   }
 
   public async findByPage(page: number): Promise<Array<StatsOverview>> {
-    const json: AJAXResponse<Array<StatsOverviewJSON>> = await AJAX.get(`/api/stats/overview/${page}`);
+    const response: AJAXResponse<Array<StatsOverviewJSON>> = await AJAX.get(`/api/stats/overview/${page}`);
 
-    return json.body.map<StatsOverview>((json: StatsOverviewJSON) => {
+    return response.body.map<StatsOverview>((json: StatsOverviewJSON) => {
       return StatsOverviewAJAXQuery.statsOverviewFactory.fromJSON(json);
     });
   }

@@ -1,25 +1,28 @@
+import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
 import { NoSuchElementError } from '../../veau-general/Error/NoSuchElementError';
+import { Locales } from '../../veau-usecase/interfaces/ILocaleUseCase';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
-import { Language } from '../../veau-vo/Language';
-import { Region } from '../../veau-vo/Region';
+import { Language, LanguageJSON } from '../../veau-vo/Language';
+import { LanguageID } from '../../veau-vo/LanguageID';
+import { Region, RegionJSON } from '../../veau-vo/Region';
+import { RegionID } from '../../veau-vo/RegionID';
 import { ILocaleQuery } from './interfaces/ILocaleQuery';
 
 export class LocaleAJAXQuery implements ILocaleQuery {
-  private languages: Array<Language>;
-  private regions: Array<Region>;
+  private locales: Locales | null;
 
-  public static getInstance(languages: Array<Language>, regions: Array<Region>): LocaleAJAXQuery {
-    return new LocaleAJAXQuery(languages, regions);
+  public static getInstance(): LocaleAJAXQuery {
+    return new LocaleAJAXQuery();
   }
 
-  private constructor(languages: Array<Language>, regions: Array<Region>) {
-    this.languages = languages;
-    this.regions = regions;
+  private constructor() {
+    this.locales = null;
   }
 
-  public findByISO639(iso639: ISO639): Language {
-    const found: Language | undefined = this.languages.find((language: Language) => {
+  public async findByISO639(iso639: ISO639): Promise<Language> {
+    const languages: Array<Language> = await this.allLanguages();
+    const found: Language | undefined = languages.find((language: Language) => {
       if (language.getISO639().equals(iso639)) {
         return true;
       }
@@ -34,8 +37,9 @@ export class LocaleAJAXQuery implements ILocaleQuery {
     return found;
   }
 
-  public findByISO3166(iso3166: ISO3166): Region {
-    const found: Region | undefined = this.regions.find((region: Region) => {
+  public async findByISO3166(iso3166: ISO3166): Promise<Region> {
+    const regions: Array<Region> = await this.allRegions();
+    const found: Region | undefined = regions.find((region: Region) => {
       if (region.getISO3166().equals(iso3166)) {
         return true;
       }
@@ -50,11 +54,47 @@ export class LocaleAJAXQuery implements ILocaleQuery {
     return found;
   }
 
-  public allLanguages(): Array<Language> {
-    return this.languages;
+  private async allLocales(): Promise<Locales> {
+    const {
+      locales
+    } = this;
+
+    if (locales !== null) {
+      return locales;
+    }
+
+    const response: AJAXResponse<Locales> = await AJAX.get('/api/locales');
+    this.locales = response.body;
+
+    return response.body;
   }
 
-  public allRegions(): Array<Region> {
-    return this.regions;
+  private async allLanguages(): Promise<Array<Language>> {
+    const locales: Locales = await this.allLocales();
+
+    return locales.languages.map<Language>((json: LanguageJSON) => {
+      const {
+        languageID,
+        name,
+        englishName,
+        iso639
+      } = json;
+
+      return Language.of(LanguageID.of(languageID), name, englishName, ISO639.of(iso639));
+    });
+  }
+
+  private async allRegions(): Promise<Array<Region>> {
+    const locales: Locales = await this.allLocales();
+
+    return locales.regions.map<Region>((json: RegionJSON) => {
+      const {
+        regionID,
+        name,
+        iso3166
+      } = json;
+
+      return Region.of(RegionID.of(regionID), name, ISO3166.of(iso3166));
+    });
   }
 }

@@ -11,7 +11,7 @@ import { ISO639 } from '../../veau-vo/ISO639';
 import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-vo/Region';
 import { StatsID } from '../../veau-vo/StatsID';
-import { LocaleAJAXQuery } from '../queries/LocaleAJAXQuery';
+import { ILocaleQuery } from '../queries/interfaces/ILocaleQuery';
 
 export enum ACTION {
   LOCATION_CHANGE = '@@router/LOCATION_CHANGE',
@@ -39,6 +39,8 @@ export enum ACTION {
   PROVIDER_OPEN = 'PROVIDER_OPEN',
   PROVIDER_CLOSE = 'PROVIDER_CLOSE',
 
+  LANGUAGES_DEFINED = 'LANGUAGES_DEFINED',
+  REGIONS_DEFINED = 'REGIONS_DEFINED',
   LOCALE_DEFINED = 'LOCALE_DEFINED',
 
   ENTRANCE_ACCOUNT_NAME_TYPED = 'ENTRANCE_ACCOUNT_NAME_TYPED',
@@ -58,8 +60,8 @@ export enum ACTION {
 
   STATS_EDIT_NAME_TYPED = 'STATS_EDIT_NAME_TYPED',
   STATS_EDIT_UNIT_TYPED = 'STATS_EDIT_UNIT_TYPED',
-  STATS_EDIT_LANGUAGE_SELECTED = 'STATS_EDIT_LANGUAGE_SELECTED',
-  STATS_EDIT_REGION_SELECTED = 'STATS_EDIT_REGION_SELECTED',
+  STATS_EDIT_ISO639_SELECTED = 'STATS_EDIT_ISO639_SELECTED',
+  STATS_EDIT_ISO3166_SELECTED = 'STATS_EDIT_ISO3166_SELECTED',
   STATS_EDIT_ITEM_NAME_TYPED = 'STATS_EDIT_ITEM_NAME_TYPED',
   STATS_EDIT_ITEM_SAVE = 'STATS_EDIT_ITEM_SAVE',
   STATS_EDIT_SELECT_ITEM = 'STATS_EDIT_SELECT_ITEM',
@@ -146,9 +148,17 @@ export interface ProviderOpenAction extends ReduxAction {
 export interface ProviderCloseAction extends ReduxAction {
   type: ACTION.PROVIDER_CLOSE;
 }
+export interface LanguageDefinedAction extends ReduxAction {
+  type: ACTION.LANGUAGES_DEFINED;
+  languages: Array<Language>;
+}
+export interface RegionDefinedAction extends ReduxAction {
+  type: ACTION.REGIONS_DEFINED;
+  regions: Array<Region>;
+}
 export interface LocaleDefinedAction extends ReduxAction {
   type: ACTION.LOCALE_DEFINED;
-  localeQuery: LocaleAJAXQuery;
+  localeQuery: ILocaleQuery;
 }
 export interface EntranceAccountNameTypedAction extends ReduxAction {
   type: ACTION.ENTRANCE_ACCOUNT_NAME_TYPED;
@@ -206,13 +216,13 @@ export interface StatsEditUnitTypedAction extends ReduxAction {
   type: ACTION.STATS_EDIT_UNIT_TYPED;
   unit: string;
 }
-export interface StatsEditLanguageSelectedAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_LANGUAGE_SELECTED;
-  language: Language;
+export interface StatsEditISO639SelectedAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_ISO639_SELECTED;
+  iso639: ISO639;
 }
-export interface StatsEditRegionSelectedAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_REGION_SELECTED;
-  region: Region;
+export interface StatsEditISO3166SelectedAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_ISO3166_SELECTED;
+  iso3166: ISO3166;
 }
 export interface StatsEditItemNameTypedAction extends ReduxAction {
   type: ACTION.STATS_EDIT_ITEM_NAME_TYPED;
@@ -311,6 +321,8 @@ export type Action =
   | PushToEntranceAction
   | ProviderOpenAction
   | ProviderCloseAction
+  | LanguageDefinedAction
+  | RegionDefinedAction
   | LocaleDefinedAction
   | EntranceAccountNameTypedAction
   | EntrancePasswordTypedAction
@@ -327,8 +339,8 @@ export type Action =
   | StatsListSaveNewStatsAction
   | StatsEditNameTypedAction
   | StatsEditUnitTypedAction
-  | StatsEditLanguageSelectedAction
-  | StatsEditRegionSelectedAction
+  | StatsEditISO639SelectedAction
+  | StatsEditISO3166SelectedAction
   | StatsEditItemNameTypedAction
   | StatsEditItemSaveAction
   | StatsEditSelectItemAction

@@ -121,7 +121,7 @@ export class StatsList {
         localeQuery
       } = state;
 
-      const language: Language = localeQuery.findByISO639(action.iso639);
+      const language: Language = yield call(localeQuery.findByISO639, action.iso639);
 
       const newStats: Stats = StatsList.statsFactory.from(
         stats.getStatsID(),
@@ -149,7 +149,7 @@ export class StatsList {
         localeQuery
       } = state;
 
-      const region: Region = localeQuery.findByISO3166(action.iso3166);
+      const region: Region = yield call(localeQuery.findByISO3166, action.iso3166);
 
       const newStats: Stats = StatsList.statsFactory.from(
         stats.getStatsID(),

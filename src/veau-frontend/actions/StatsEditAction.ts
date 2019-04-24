@@ -1,17 +1,17 @@
 import { StatsItem } from '../../veau-entity/StatsItem';
-import { Language } from '../../veau-vo/Language';
-import { Region } from '../../veau-vo/Region';
+import { ISO3166 } from '../../veau-vo/ISO3166';
+import { ISO639 } from '../../veau-vo/ISO639';
 import {
   ACTION,
   StatsEditClearSelectingItemAction,
   StatsEditDataDeletedAction,
   StatsEditDataFilledAction,
   StatsEditInvalidValueInputAction,
+  StatsEditISO3166SelectedAction,
+  StatsEditISO639SelectedAction,
   StatsEditItemNameTypedAction,
   StatsEditItemSaveAction,
-  StatsEditLanguageSelectedAction,
   StatsEditNameTypedAction,
-  StatsEditRegionSelectedAction,
   StatsEditRemoveSelectingItemAction,
   StatsEditRowMovedAction,
   StatsEditRowSelectedAction,
@@ -37,17 +37,17 @@ export const statsUnitTyped: (unit: string) => StatsEditUnitTypedAction = (unit:
   };
 };
 
-export const statsLanguageSelected: (language: Language) => StatsEditLanguageSelectedAction = (language: Language): StatsEditLanguageSelectedAction => {
+export const statsISO639Selected: (iso639: ISO639) => StatsEditISO639SelectedAction = (iso639: ISO639): StatsEditISO639SelectedAction => {
   return {
-    type: ACTION.STATS_EDIT_LANGUAGE_SELECTED,
-    language
+    type: ACTION.STATS_EDIT_ISO639_SELECTED,
+    iso639
   };
 };
 
-export const statsRegionSelected: (region: Region) => StatsEditRegionSelectedAction = (region: Region): StatsEditRegionSelectedAction => {
+export const statsISO3166Selected: (iso3166: ISO3166) => StatsEditISO3166SelectedAction = (iso3166: ISO3166): StatsEditISO3166SelectedAction => {
   return {
-    type: ACTION.STATS_EDIT_REGION_SELECTED,
-    region
+    type: ACTION.STATS_EDIT_ISO3166_SELECTED,
+    iso3166
   };
 };
 

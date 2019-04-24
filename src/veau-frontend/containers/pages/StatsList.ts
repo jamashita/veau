@@ -5,6 +5,8 @@ import { StatsOverview } from '../../../veau-entity/StatsOverview';
 import { Term } from '../../../veau-enum/Term';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
+import { Language } from '../../../veau-vo/Language';
+import { Region } from '../../../veau-vo/Region';
 import { StatsID } from '../../../veau-vo/StatsID';
 import { Action } from '../../actions/Action';
 import { pushToStatsEdit } from '../../actions/RedirectAction';
@@ -19,14 +21,14 @@ import {
   saveNewStats
 } from '../../actions/StatsListAction';
 import { StatsList as Component } from '../../components/pages/StatsList';
-import { LocaleAJAXQuery } from '../../queries/LocaleAJAXQuery';
 import { State } from '../../State';
 
 type StateProps = {
   statsOverviews: Array<StatsOverview>;
-  localeQuery: LocaleAJAXQuery;
   open: boolean;
   stats: Stats;
+  languages: Array<Language>;
+  regions: Array<Region>;
 };
 type DispatchProps = {
   toStatsEdit: (statsID: StatsID) => void;
@@ -46,18 +48,22 @@ export type Props = StateProps & DispatchProps & OwnProps;
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State): StateProps => {
   const {
     statsOverviews,
-    localeQuery,
     statsList: {
       open,
       stats
+    },
+    locale: {
+      languages,
+      regions
     }
   } = state;
 
   return {
     statsOverviews,
-    localeQuery,
     open,
-    stats
+    stats,
+    languages,
+    regions
   };
 };
 

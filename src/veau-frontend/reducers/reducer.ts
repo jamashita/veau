@@ -5,7 +5,7 @@ import { State } from '../State';
 import { entranceInformation } from './entranceInformation';
 import { identity } from './identity';
 import { loadingCount } from './loadingCount';
-import { localeQuery } from './localeQuery';
+import { locale } from './locale';
 import { modal } from './modal';
 import { notification } from './notification';
 import { pageProvider } from './pageProvider';
@@ -19,7 +19,7 @@ export const reducers: Reducer<State> = combineReducers({
   entranceInformation,
   identity,
   loadingCount,
-  localeQuery,
+  locale,
   modal,
   notification,
   pageProvider,

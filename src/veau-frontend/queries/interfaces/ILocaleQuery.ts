@@ -5,11 +5,7 @@ import { Region } from '../../../veau-vo/Region';
 
 export interface ILocaleQuery {
 
-  allLanguages(): Array<Language>;
+  findByISO639(iso639: ISO639): Promise<Language>;
 
-  allRegions(): Array<Region>;
-
-  findByISO639(iso639: ISO639): Language;
-
-  findByISO3166(iso3166: ISO3166): Region;
+  findByISO3166(iso3166: ISO3166): Promise<Region>;
 }

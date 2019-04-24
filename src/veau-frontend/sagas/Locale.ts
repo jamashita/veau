@@ -1,17 +1,14 @@
 import { call, fork, put, take } from 'redux-saga/effects';
-import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
-import { Locales } from '../../veau-usecase/interfaces/ILocaleUseCase';
-import { ISO3166 } from '../../veau-vo/ISO3166';
-import { ISO639 } from '../../veau-vo/ISO639';
-import { Language, LanguageJSON } from '../../veau-vo/Language';
-import { LanguageID } from '../../veau-vo/LanguageID';
-import { Region, RegionJSON } from '../../veau-vo/Region';
-import { RegionID } from '../../veau-vo/RegionID';
+import { Language } from '../../veau-vo/Language';
+import { Region } from '../../veau-vo/Region';
 import { ACTION } from '../actions/Action';
-import { defineLocale } from '../actions/LocaleAction';
+import { defineLanguages, defineLocale, defineRegions } from '../actions/LocaleAction';
+import { ILocaleQuery } from '../queries/interfaces/ILocaleQuery';
 import { LocaleAJAXQuery } from '../queries/LocaleAJAXQuery';
+import { LocaleMemoryQuery } from '../queries/LocaleMemoryQuery';
 
 export class Locale {
+  private static localeQuery: ILocaleQuery = LocaleAJAXQuery.getInstance();
 
   public static *init(): IterableIterator<any> {
     yield fork(Locale.fetchLocales);
@@ -21,32 +18,12 @@ export class Locale {
     while (true) {
       yield take(ACTION.IDENTITY_IDENTIFIED);
 
-      const response: AJAXResponse<Locales> = yield call(AJAX.get, '/api/locales');
+      const languages: Array<Language> = yield call(Locale.localeQuery.allLanguages);
+      const regions: Array<Region> = yield call(Locale.localeQuery.allRegions);
 
-      const languages: Array<Language> = response.body.languages.map<Language>((json: LanguageJSON) => {
-        const {
-          languageID,
-          name,
-          englishName,
-          iso639
-        } = json;
-
-        return Language.of(LanguageID.of(languageID), name, englishName, ISO639.of(iso639));
-      });
-
-      const regions: Array<Region> = response.body.regions.map<Region>((json: RegionJSON) => {
-        const {
-          regionID,
-          name,
-          iso3166
-        } = json;
-
-        return Region.of(RegionID.of(regionID), name, ISO3166.of(iso3166));
-      });
-
-      const localeQuery: LocaleAJAXQuery = LocaleAJAXQuery.getInstance(languages, regions);
-
-      yield put(defineLocale(localeQuery));
+      yield put(defineLanguages(languages));
+      yield put(defineRegions(regions));
+      yield put(defineLocale(LocaleMemoryQuery.getInstance(languages, regions)));
     }
   }
 }

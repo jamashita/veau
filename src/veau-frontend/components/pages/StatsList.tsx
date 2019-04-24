@@ -14,9 +14,10 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
   public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
     const {
       statsOverviews,
-      localeQuery,
       open,
-      stats
+      stats,
+      languages,
+      regions
     } = this.props;
 
     const length: number = statsOverviews.length;
@@ -27,9 +28,6 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
       if (!statsOverviews[i].equals(nextProps.statsOverviews[i])) {
         return true;
       }
-    }
-    if (localeQuery !== nextProps.localeQuery) {
-      return true;
     }
     if (open !== nextProps.open) {
       return true;
@@ -49,6 +47,12 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
     if (stats.getTerm() !== nextProps.stats.getTerm()) {
       return true;
     }
+    if (languages.length !== nextProps.languages.length) {
+      return true;
+    }
+    if (regions.length !== nextProps.regions.length) {
+      return true;
+    }
 
     return false;
   }
@@ -56,9 +60,10 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
   public render(): React.ReactNode {
     const {
       statsOverviews,
-      localeQuery,
       open,
       stats,
+      languages,
+      regions,
       intl,
       newStatsClicked,
       toStatsEdit,
@@ -91,8 +96,8 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
         <StatsOverviewModal
           open={open}
           stats={stats}
-          languages={localeQuery.allLanguages()}
-          regions={localeQuery.allRegions()}
+          languages={languages}
+          regions={regions}
           closeNewStatsModal={closeNewStatsModal}
           nameTyped={nameTyped}
           unitTyped={unitTyped}

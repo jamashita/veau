@@ -2,6 +2,8 @@ import { connect, ConnectedComponentClass, MapDispatchToProps, MapStateToProps }
 import { Dispatch } from 'redux';
 import { Stats } from '../../../veau-entity/Stats';
 import { StatsItem } from '../../../veau-entity/StatsItem';
+import { ISO3166 } from '../../../veau-vo/ISO3166';
+import { ISO639 } from '../../../veau-vo/ISO639';
 import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
 import { Action } from '../../actions/Action';
@@ -17,28 +19,28 @@ import {
   startDateDetermined,
   statsDataDeleted,
   statsDataFilled,
-  statsLanguageSelected,
+  statsISO3166Selected,
+  statsISO639Selected,
   statsNameTyped,
-  statsRegionSelected,
   statsUnitTyped
 } from '../../actions/StatsEditAction';
 import { StatsEdit as Component } from '../../components/pages/StatsEdit';
-import { LocaleAJAXQuery } from '../../queries/LocaleAJAXQuery';
 import { State } from '../../State';
 
 type StateProps = {
   stats: Stats;
-  localeQuery: LocaleAJAXQuery;
   statsItem: StatsItem;
   selectingItem?: StatsItem;
+  languages: Array<Language>;
+  regions: Array<Region>;
 };
 type DispatchProps = {
   dataFilled: (row: number, column: number, value: number) => void;
   dataDeleted: (row: number, column: number) => void;
   nameTyped: (name: string) => void;
   unitTyped: (unit: string) => void;
-  languageSelected: (language: Language) => void;
-  regionSelected: (region: Region) => void;
+  iso639Selected: (iso639: ISO639) => void;
+  iso3166Selected: (iso3166: ISO3166) => void;
   itemNameTyped: (name: string) => void;
   saveNewItem: () => void;
   rowSelected: (row: number) => void;
@@ -56,7 +58,6 @@ export type Props = StateProps & DispatchProps & OwnProps;
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State): StateProps => {
   const {
     stats,
-    localeQuery,
     statsItem,
     statsEdit: {
       selectingItem
@@ -65,7 +66,6 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
 
   return {
     stats,
-    localeQuery,
     statsItem,
     selectingItem
   };
@@ -85,11 +85,11 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
     unitTyped: (unit: string): void => {
       dispatch(statsUnitTyped(unit));
     },
-    languageSelected: (language: Language): void => {
-      dispatch(statsLanguageSelected(language));
+    iso639Selected: (iso639: ISO639): void => {
+      dispatch(statsISO639Selected(iso639));
     },
-    regionSelected: (region: Region): void => {
-      dispatch(statsRegionSelected(region));
+    iso3166Selected: (iso3166: ISO3166): void => {
+      dispatch(statsISO3166Selected(iso3166));
     },
     itemNameTyped: (name: string): void => {
       dispatch(itemNameTyped(name));
