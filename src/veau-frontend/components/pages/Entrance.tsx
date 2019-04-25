@@ -1,8 +1,6 @@
-import { Avatar, Button, Card, CardActions, CardContent, CardHeader, Icon } from '@material-ui/core';
-import { pink } from '@material-ui/core/colors';
+import { Button, Card, CardActions, CardContent, CardHeader, Icon } from '@material-ui/core';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
-import { Brightness } from '../../Brightness';
 import { Props } from '../../containers/pages/Entrance';
 import { TextField } from '../atoms/TextField';
 
@@ -48,11 +46,6 @@ class EntranceImpl extends React.Component<Props & InjectedIntlProps, State> {
           subheader={intl.formatMessage({
             id: 'VEAU_DESCRIPTION'
           })}
-          avatar={<Avatar
-            style={{
-            backgroundColor: pink[Brightness.primaryMain]
-            }}
-          >V</Avatar>}
         />
         <CardContent>
           <TextField

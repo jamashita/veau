@@ -1,4 +1,4 @@
-import { Icon, Snackbar, SnackbarContent, Typography } from '@material-ui/core';
+import { Icon, Snackbar, SnackbarContent } from '@material-ui/core';
 import { amber, blue, green, red } from '@material-ui/core/colors';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
@@ -136,18 +136,14 @@ class NotificationImpl extends React.Component<Props & InjectedIntlProps, State>
           style={{
             backgroundColor: this.backgroundColor()
           }}
-          message={<div>
+          message={<span>
             {this.icon()}
-            <Typography
-              variant='h6'
-              color='inherit'
-            >
-              {intl.formatMessage({
+            {intl.formatMessage({
                 id: message
               },
-              values)}
-            </Typography>
-          </div>}
+              values
+            )}
+          </span>}
         />
       </Snackbar>
     );

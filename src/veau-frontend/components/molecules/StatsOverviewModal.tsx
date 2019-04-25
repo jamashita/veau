@@ -215,7 +215,9 @@ class StatsOverviewModalImpl extends React.Component<Props & InjectedIntlProps, 
             onClick={saveNewStats}
             disabled={!stats.isFilled()}
           >
-            <Icon className='fas fa-check' />
+            <Icon
+              className='fas fa-check'
+            />
             {intl.formatMessage({
               id: 'SUBMIT'
             })}
@@ -224,7 +226,9 @@ class StatsOverviewModalImpl extends React.Component<Props & InjectedIntlProps, 
             color='secondary'
             onClick={closeNewStatsModal}
           >
-            <Icon className='fas fa-times' />
+            <Icon
+              className='fas fa-times'
+            />
             {intl.formatMessage({
               id: 'CANCEL'
             })}

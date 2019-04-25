@@ -25,7 +25,22 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
       return true;
     }
     for (let i: number = 0; i < length; i++) {
-      if (!statsOverviews[i].equals(nextProps.statsOverviews[i])) {
+      if (statsOverviews[i].getName() !== nextProps.statsOverviews[i].getName()) {
+        return true;
+      }
+      if (statsOverviews[i].getUnit() !== nextProps.statsOverviews[i].getUnit()) {
+        return true;
+      }
+      if (!statsOverviews[i].getLanguage().equals(nextProps.statsOverviews[i].getLanguage())) {
+        return true;
+      }
+      if (!statsOverviews[i].getRegion().equals(nextProps.statsOverviews[i].getRegion())) {
+        return true;
+      }
+      if (statsOverviews[i].getTerm() !== nextProps.statsOverviews[i].getTerm()) {
+        return true;
+      }
+      if (!statsOverviews[i].getUpdatedAt().isSame(nextProps.statsOverviews[i].getUpdatedAt())) {
         return true;
       }
     }
@@ -83,7 +98,9 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
           color='primary'
           onClick={newStatsClicked}
         >
-          <Icon className='fas fa-plus-circle icon-spacing' />
+          <Icon
+            className='fas fa-plus-circle icon-spacing'
+          />
           {intl.formatMessage({
             id: 'CREATE_NEW_STATS'
           })}

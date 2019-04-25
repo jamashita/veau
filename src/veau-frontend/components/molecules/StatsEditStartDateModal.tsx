@@ -84,7 +84,9 @@ class StatsEditStartDateModalImpl extends React.Component<Props & InjectedIntlPr
               determineStartDate(startDate);
             }}
           >
-            <Icon className='fas fa-check' />
+            <Icon
+              className='fas fa-check'
+            />
             {intl.formatMessage({
               id: 'SUBMIT'
             })}
@@ -93,7 +95,9 @@ class StatsEditStartDateModalImpl extends React.Component<Props & InjectedIntlPr
             color='secondary'
             onClick={close}
           >
-            <Icon className='fas fa-times' />
+            <Icon
+              className='fas fa-times'
+            />
             {intl.formatMessage({
               id: 'CANCEL'
             })}
