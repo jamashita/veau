@@ -1,16 +1,13 @@
 import { IStatsCommand } from '../veau-command/interfaces/IStatsCommand';
 import { IStatsItemCommand } from '../veau-command/interfaces/IStatsItemCommand';
-import { IStatsOverviewCommand } from '../veau-command/interfaces/IStatsOverviewCommand';
 import { IStatsValueCommand } from '../veau-command/interfaces/IStatsValueCommand';
 import { StatsItemMySQLCommand } from '../veau-command/StatsItemMySQLCommand';
 import { StatsMySQLCommand } from '../veau-command/StatsMySQLCommand';
-import { StatsOverviewMySQLCommand } from '../veau-command/StatsOverviewMySQLCommand';
 import { StatsValueMySQLCommand } from '../veau-command/StatsValueMySQLCommand';
 import { Stats, StatsJSON } from '../veau-entity/Stats';
 import { StatsItem } from '../veau-entity/StatsItem';
 import { StatsOverview, StatsOverviewJSON } from '../veau-entity/StatsOverview';
 import { StatsFactory } from '../veau-factory/StatsFactory';
-import { StatsOverviewFactory } from '../veau-factory/StatsOverviewFactory';
 import { Transaction } from '../veau-general/MySQL/Transaction';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { IStatsOverviewQuery } from '../veau-query/interfaces/IStatsOverviewQuery';
@@ -27,8 +24,6 @@ export class StatsUseCase implements IStatsUseCase {
   private static statsQuery: IStatsQuery = StatsMySQLQuery.getInstance();
   private static statsFactory: StatsFactory = StatsFactory.getInstance();
   private static statsOverviewQuery: IStatsOverviewQuery = StatsOverviewMySQLQuery.getInstance();
-  private static statsOverviewCommand: IStatsOverviewCommand = StatsOverviewMySQLCommand.getInstance();
-  private static statsOverviewFactory: StatsOverviewFactory = StatsOverviewFactory.getInstance();
 
   public static getInstance(): StatsUseCase {
     return StatsUseCase.instance;

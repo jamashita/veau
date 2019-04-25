@@ -24,6 +24,7 @@ export class MySQL {
           if (values.hasOwnProperty(key)) {
             return connection.escape(values[key]);
           }
+
           return 'NULL';
         });
       };

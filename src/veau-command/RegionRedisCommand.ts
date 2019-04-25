@@ -4,6 +4,7 @@ import { IRegionCommand } from './interfaces/IRegionCommand';
 
 export class RegionRedisCommand implements IRegionCommand {
   private static REDIS_KEY: string = 'Regions';
+  private static DURATION: number = 10800;
 
   public static getInstance(): RegionRedisCommand {
     return new RegionRedisCommand();
@@ -12,12 +13,14 @@ export class RegionRedisCommand implements IRegionCommand {
   private constructor() {
   }
 
-  public insertAll(regions: Array<Region>): Promise<any> {
+  public async insertAll(regions: Array<Region>): Promise<any> {
     const regionJSONs: Array<RegionJSON> = regions.map<RegionJSON>((region: Region) => {
       return region.toJSON();
     });
 
-    return VeauRedis.getString().set(RegionRedisCommand.REDIS_KEY, JSON.stringify(regionJSONs));
+    await VeauRedis.getString().set(RegionRedisCommand.REDIS_KEY, JSON.stringify(regionJSONs));
+
+    return VeauRedis.expires(RegionRedisCommand.REDIS_KEY, RegionRedisCommand.DURATION);
   }
 
   public deleteAll(): Promise<any> {

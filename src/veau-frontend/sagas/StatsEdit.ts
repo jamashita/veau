@@ -12,9 +12,7 @@ import {
   StatsEditDataDeletedAction,
   StatsEditDataFilledAction,
   StatsEditItemNameTypedAction,
-  StatsEditLanguageSelectedAction,
   StatsEditNameTypedAction,
-  StatsEditRegionSelectedAction,
   StatsEditRemoveSelectingItemAction,
   StatsEditRowMovedAction,
   StatsEditRowSelectedAction,
@@ -45,8 +43,6 @@ export class StatsEdit {
     yield fork(StatsEdit.findStats);
     yield fork(StatsEdit.nameTyped);
     yield fork(StatsEdit.unitTyped);
-    yield fork(StatsEdit.languageSelected);
-    yield fork(StatsEdit.regionSelected);
     yield fork(StatsEdit.dataFilled);
     yield fork(StatsEdit.dataDeleted);
     yield fork(StatsEdit.itemNameTyped);
@@ -106,34 +102,6 @@ export class StatsEdit {
       } = state;
 
       const newStats: Stats = StatsEdit.statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), action.unit, stats.getUpdatedAt(), stats.getItems());
-      yield put(updateStats(newStats));
-    }
-  }
-
-  private static *languageSelected(): IterableIterator<any> {
-    while (true) {
-      const action: StatsEditLanguageSelectedAction = yield take(ACTION.STATS_EDIT_LANGUAGE_SELECTED);
-      const state: State = yield select();
-
-      const {
-        stats
-      } = state;
-
-      const newStats: Stats = StatsEdit.statsFactory.from(stats.getStatsID(), action.language, stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
-      yield put(updateStats(newStats));
-    }
-  }
-
-  private static *regionSelected(): IterableIterator<any> {
-    while (true) {
-      const action: StatsEditRegionSelectedAction = yield take(ACTION.STATS_EDIT_REGION_SELECTED);
-      const state: State = yield select();
-
-      const {
-        stats
-      } = state;
-
-      const newStats: Stats = StatsEdit.statsFactory.from(stats.getStatsID(), stats.getLanguage(), action.region, stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
       yield put(updateStats(newStats));
     }
   }

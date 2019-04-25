@@ -4,6 +4,7 @@ import { ILanguageCommand } from './interfaces/ILanguageCommand';
 
 export class LanguageRedisCommand implements ILanguageCommand {
   private static REDIS_KEY: string = 'Languages';
+  private static DURATION: number = 10800;
 
   public static getInstance(): LanguageRedisCommand {
     return new LanguageRedisCommand();
@@ -12,12 +13,14 @@ export class LanguageRedisCommand implements ILanguageCommand {
   private constructor() {
   }
 
-  public insertAll(languages: Array<Language>): Promise<any> {
+  public async insertAll(languages: Array<Language>): Promise<any> {
     const languageJSONs: Array<LanguageJSON> = languages.map<LanguageJSON>((language: Language) => {
       return language.toJSON();
     });
 
-    return VeauRedis.getString().set(LanguageRedisCommand.REDIS_KEY, JSON.stringify(languageJSONs));
+    await VeauRedis.getString().set(LanguageRedisCommand.REDIS_KEY, JSON.stringify(languageJSONs));
+
+    return VeauRedis.expires(LanguageRedisCommand.REDIS_KEY, LanguageRedisCommand.DURATION);
   }
 
   public deleteAll(): Promise<any> {

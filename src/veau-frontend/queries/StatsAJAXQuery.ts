@@ -18,6 +18,6 @@ export class StatsAJAXQuery implements IStatsQuery {
   public async findByStatsID(statsID: StatsID): Promise<Stats> {
     const json: AJAXResponse<StatsJSON> = await AJAX.get(`/api/stats/${statsID.get().get()}`);
 
-    return StatsAJAXQuery.statsFactory.fromJSON(json);
+    return StatsAJAXQuery.statsFactory.fromJSON(json.body);
   }
 }

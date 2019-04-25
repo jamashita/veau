@@ -10,7 +10,7 @@ import { RegionID } from '../../../veau-vo/RegionID';
 import { LocaleMemoryQuery } from '../LocaleMemoryQuery';
 
 describe('LocaleMemoryQuery', () => {
-  it('findByISO639', () => {
+  it('findByISO639', async () => {
     const iso6391: ISO639 = ISO639.of('ab');
     const iso6392: ISO639 = ISO639.of('aa');
     const iso6393: ISO639 = ISO639.of('af');
@@ -28,7 +28,7 @@ describe('LocaleMemoryQuery', () => {
       ]
     );
 
-    const language: Language = localeQuery.findByISO639(iso6393);
+    const language: Language = await localeQuery.findByISO639(iso6393);
 
     expect(language.equals(language3)).toEqual(true);
   });
@@ -49,12 +49,10 @@ describe('LocaleMemoryQuery', () => {
       ]
     );
 
-    expect(() => {
-      localeQuery.findByISO639(iso6393);
-    }).toThrow(NoSuchElementError);
+    expect(localeQuery.findByISO639(iso6393)).rejects.toThrow(NoSuchElementError);
   });
 
-  it('findByISO3166', () => {
+  it('findByISO3166', async () => {
     const iso31661: ISO3166 = ISO3166.of('AFG');
     const iso31662: ISO3166 = ISO3166.of('ALB');
     const iso31663: ISO3166 = ISO3166.of('DZA');
@@ -72,7 +70,7 @@ describe('LocaleMemoryQuery', () => {
       ]
     );
 
-    const region: Region = localeQuery.findByISO3166(iso31662);
+    const region: Region = await localeQuery.findByISO3166(iso31662);
 
     expect(region.equals(region2)).toEqual(true);
   });
@@ -93,8 +91,6 @@ describe('LocaleMemoryQuery', () => {
       ]
     );
 
-    expect(() => {
-      localeQuery.findByISO3166(iso31663);
-    }).toThrow(NoSuchElementError);
+    expect(localeQuery.findByISO3166(iso31663)).rejects.toThrow(NoSuchElementError);
   });
 });

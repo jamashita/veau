@@ -61,13 +61,19 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
     statsItem,
     statsEdit: {
       selectingItem
+    },
+    locale: {
+      languages,
+      regions
     }
   } = state;
 
   return {
     stats,
     statsItem,
-    selectingItem
+    selectingItem,
+    languages,
+    regions
   };
 };
 

@@ -20,10 +20,10 @@ const initialState: Locale = {
     ],
     [
     ]
-  );
+  )
 };
 
-export const locale: (state: Locale, action: Action) => ILocaleQuery = (state: Locale = initialState, action: Action): Locale => {
+export const locale: (state: Locale, action: Action) => Locale = (state: Locale = initialState, action: Action): Locale => {
   switch (action.type) {
     case ACTION.LANGUAGES_DEFINED: {
       return {

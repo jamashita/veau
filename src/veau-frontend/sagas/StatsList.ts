@@ -118,10 +118,12 @@ export class StatsList {
         statsList: {
           stats
         },
-        localeQuery
+        locale: {
+          query
+        }
       } = state;
 
-      const language: Language = yield call(localeQuery.findByISO639, action.iso639);
+      const language: Language = yield call(query.findByISO639, action.iso639);
 
       const newStats: Stats = StatsList.statsFactory.from(
         stats.getStatsID(),
@@ -146,10 +148,12 @@ export class StatsList {
         statsList: {
           stats
         },
-        localeQuery
+        locale: {
+          query
+        }
       } = state;
 
-      const region: Region = yield call(localeQuery.findByISO3166, action.iso3166);
+      const region: Region = yield call(query.findByISO3166, action.iso3166);
 
       const newStats: Stats = StatsList.statsFactory.from(
         stats.getStatsID(),
