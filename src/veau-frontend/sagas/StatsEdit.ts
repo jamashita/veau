@@ -4,6 +4,9 @@ import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { StatsFactory } from '../../veau-factory/StatsFactory';
 import { StatsItemFactory } from '../../veau-factory/StatsItemFactory';
+import { RuntimeError } from '../../veau-general/Error/RuntimeError';
+import { Language } from '../../veau-vo/Language';
+import { Region } from '../../veau-vo/Region';
 import { StatsID } from '../../veau-vo/StatsID';
 import { UUID } from '../../veau-vo/UUID';
 import {
@@ -11,6 +14,8 @@ import {
   LocationChangeAction,
   StatsEditDataDeletedAction,
   StatsEditDataFilledAction,
+  StatsEditISO3166SelectedAction,
+  StatsEditISO639SelectedAction,
   StatsEditItemNameTypedAction,
   StatsEditNameTypedAction,
   StatsEditRemoveSelectingItemAction,
@@ -43,6 +48,8 @@ export class StatsEdit {
     yield fork(StatsEdit.findStats);
     yield fork(StatsEdit.nameTyped);
     yield fork(StatsEdit.unitTyped);
+    yield fork(StatsEdit.iso639Selected);
+    yield fork(StatsEdit.iso3166Selected);
     yield fork(StatsEdit.dataFilled);
     yield fork(StatsEdit.dataDeleted);
     yield fork(StatsEdit.itemNameTyped);
@@ -102,6 +109,70 @@ export class StatsEdit {
       } = state;
 
       const newStats: Stats = StatsEdit.statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), action.unit, stats.getUpdatedAt(), stats.getItems());
+      yield put(updateStats(newStats));
+    }
+  }
+
+  private static *iso639Selected(): IterableIterator<any> {
+    while (true) {
+      const action: StatsEditISO639SelectedAction = yield take(ACTION.STATS_EDIT_ISO639_SELECTED);
+      const state: State = yield select();
+
+      const {
+        stats,
+        locale: {
+          languages
+        }
+      } = state;
+      const {
+        iso639
+      } = action;
+
+      const found: Language | undefined = languages.find((language: Language) => {
+        if (language.getISO639().equals(iso639)) {
+          return true;
+        }
+
+        return false;
+      });
+
+      if (found === undefined) {
+        throw new RuntimeError(`ISO639 IS NOT INCLUDED IN THE LANGUAGES: ${iso639.get()}`)
+      }
+
+      const newStats: Stats = StatsEdit.statsFactory.from(stats.getStatsID(), found, stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
+      yield put(updateStats(newStats));
+    }
+  }
+
+  private static *iso3166Selected(): IterableIterator<any> {
+    while (true) {
+      const action: StatsEditISO3166SelectedAction = yield take(ACTION.STATS_EDIT_ISO3166_SELECTED);
+      const state: State = yield select();
+
+      const {
+        stats,
+        locale: {
+          regions
+        }
+      } = state;
+      const {
+        iso3166
+      } = action;
+
+      const found: Region | undefined = regions.find((region: Region) => {
+        if (region.getISO3166().equals(iso3166)) {
+          return true;
+        }
+
+        return false;
+      });
+
+      if (found === undefined) {
+        throw new RuntimeError(`ISO3166 IS NOT INCLUDED IN THE LANGUAGES: ${iso3166.get()}`)
+      }
+
+      const newStats: Stats = StatsEdit.statsFactory.from(stats.getStatsID(), stats.getLanguage(), found, stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
       yield put(updateStats(newStats));
     }
   }
