@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import { call, fork, put, select, take } from 'redux-saga/effects';
+import { fork, put, select, take } from 'redux-saga/effects';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { StatsFactory } from '../../veau-factory/StatsFactory';
@@ -65,7 +65,7 @@ export class StatsEdit {
         const statsID: string = path.replace(StatsEdit.STATS_EDIT_PREFIX, '');
 
         try {
-          const stats: Stats = yield call(StatsEdit.statsQuery.findByStatsID, StatsID.of(UUID.of(statsID)));
+          const stats: Stats = yield StatsEdit.statsQuery.findByStatsID(StatsID.of(UUID.of(statsID)));
 
           yield put(updateStats(stats));
           yield put(clearSelectingItem());
@@ -296,7 +296,7 @@ export class StatsEdit {
 
       yield put(loading());
       try {
-        yield call(StatsEdit.statsCommand.create, stats);
+        yield StatsEdit.statsCommand.create(stats);
         yield put(loaded());
         yield put(appearNotification('success', 'center', 'top', 'SAVE_SUCCESS'));
       }

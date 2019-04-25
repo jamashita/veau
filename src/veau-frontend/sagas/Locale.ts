@@ -1,4 +1,4 @@
-import { call, fork, put, take } from 'redux-saga/effects';
+import { fork, put, take } from 'redux-saga/effects';
 import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-vo/Region';
 import { ACTION } from '../actions/Action';
@@ -17,8 +17,8 @@ export class Locale {
     while (true) {
       yield take(ACTION.IDENTITY_IDENTIFIED);
 
-      const languages: Array<Language> = yield call(Locale.localeQuery.allLanguages);
-      const regions: Array<Region> = yield call(Locale.localeQuery.allRegions);
+      const languages: Array<Language> = yield Locale.localeQuery.allLanguages();
+      const regions: Array<Region> = yield Locale.localeQuery.allRegions();
 
       yield put(defineLanguages(languages));
       yield put(defineRegions(regions));

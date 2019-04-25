@@ -12,8 +12,10 @@ import { ILocaleQuery } from './interfaces/ILocaleQuery';
 export class LocaleAJAXQuery implements ILocaleQuery {
   private locales: Locales | null;
 
+  private static instance: LocaleAJAXQuery = new LocaleAJAXQuery();
+
   public static getInstance(): LocaleAJAXQuery {
-    return new LocaleAJAXQuery();
+    return LocaleAJAXQuery.instance;
   }
 
   private constructor() {
@@ -70,6 +72,7 @@ export class LocaleAJAXQuery implements ILocaleQuery {
   }
 
   public async allLanguages(): Promise<Array<Language>> {
+    console.log(this);
     const locales: Locales = await this.allLocales();
 
     return locales.languages.map<Language>((json: LanguageJSON) => {

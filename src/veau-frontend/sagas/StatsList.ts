@@ -1,4 +1,4 @@
-import { call, fork, put, select, take } from 'redux-saga/effects';
+import { fork, put, select, take } from 'redux-saga/effects';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsFactory } from '../../veau-factory/StatsFactory';
 import { RuntimeError } from '../../veau-general/Error/RuntimeError';
@@ -48,7 +48,7 @@ export class StatsList {
 
       if (path === Endpoints.STATS_LIST) {
         try {
-          const statsOverviews: Array<Stats> = yield call(StatsList.statsQuery.findByPage, 1);
+          const statsOverviews: Array<Stats> = yield StatsList.statsQuery.findByPage(1);
           yield put(updateStatsOverviews(statsOverviews));
         }
         catch (err) {
@@ -239,7 +239,7 @@ export class StatsList {
       yield put(closeNewStatsModal());
       yield put(loading());
       try {
-        yield call(StatsList.statsCommand.create, stats);
+        yield StatsList.statsCommand.create(stats);
 
         yield put(loaded());
         yield put(pushToStatsEdit(stats.getStatsID()));

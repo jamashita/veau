@@ -1,4 +1,4 @@
-import { call, fork, put, select, take } from 'redux-saga/effects';
+import { fork, put, select, take } from 'redux-saga/effects';
 import { VeauAccount } from '../../veau-entity/VeauAccount';
 import { VeauAccountFactory } from '../../veau-factory/VeauAccountFactory';
 import { LanguageIdentifier } from '../../veau-general/LanguageIdentifier';
@@ -23,7 +23,7 @@ export class Identity {
 
   private static *initIdentity(): IterableIterator<any> {
     try {
-      const veauAccount: VeauAccount = yield call(Identity.sessionQuery.find);
+      const veauAccount: VeauAccount = yield Identity.sessionQuery.find();
 
       yield put(identityAuthenticated(veauAccount));
       yield put(identified());

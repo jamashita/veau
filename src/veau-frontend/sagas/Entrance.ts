@@ -1,5 +1,5 @@
 import { UNAUTHORIZED } from 'http-status';
-import { call, fork, put, select, take } from 'redux-saga/effects';
+import { fork, put, select, take } from 'redux-saga/effects';
 import { VeauAccount } from '../../veau-entity/VeauAccount';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 import { ACTION, EntranceAccountNameTypedAction, EntrancePasswordTypedAction } from '../actions/Action';
@@ -43,7 +43,7 @@ export class Entrance {
       yield put(loading());
 
       try {
-        const veauAccount: VeauAccount = yield call(Entrance.sessionQuery.findByEntranceInfo, entranceInformation);
+        const veauAccount: VeauAccount = yield Entrance.sessionQuery.findByEntranceInfo(entranceInformation);
 
         yield put(identityAuthenticated(veauAccount));
         yield put(pushToStatsList());

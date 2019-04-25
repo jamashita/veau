@@ -14,7 +14,7 @@ const logger: log4js.Logger = log4js.getLogger();
 
 const statsUseCase: IStatsUseCase = StatsUseCase.getInstance();
 
-router.get('/:page(\\d+)', async (req: RequestSession, res: express.Response) => {
+router.get('/page/:page(\\d+)', async (req: RequestSession, res: express.Response) => {
   const page: number = Number(req.params.page);
 
   if (page <= 0) {
