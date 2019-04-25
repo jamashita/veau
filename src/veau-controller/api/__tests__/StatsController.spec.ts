@@ -16,7 +16,7 @@ import { VeauAccountID } from '../../../veau-vo/VeauAccountID';
 import { StatsController } from '../StatsController';
 
 describe('StatsController', () => {
-  it('GET /:page(\\d+)', async () => {
+  it('GET /page/:page(\\d+)', async () => {
     const stub: SinonStub = sinon.stub();
     const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
     statsUseCase.findByVeauAccountID = stub;
@@ -38,7 +38,7 @@ describe('StatsController', () => {
     });
     app.use('/', StatsController);
 
-    const response: supertest.Response = await supertest(app).get('/1');
+    const response: supertest.Response = await supertest(app).get('/page/1');
     expect(response.status).toEqual(OK);
     expect(response.body).toEqual([
       {
@@ -53,15 +53,15 @@ describe('StatsController', () => {
     ]);
   });
 
-  it('GET /:page(\\d+): page is 0', async () => {
+  it('GET /page/:page(\\d+): page is 0', async () => {
     const app: express.Express = express();
     app.use('/', StatsController);
 
-    const response: supertest.Response = await supertest(app).get('/0');
+    const response: supertest.Response = await supertest(app).get('/page/0');
     expect(response.status).toEqual(PRECONDITION_FAILED);
   });
 
-  it('GET /:page(\\d+): throws error', async () => {
+  it('GET /page/:page(\\d+): throws error', async () => {
     const stub: SinonStub = sinon.stub();
     const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
     statsUseCase.findByVeauAccountID = stub;
@@ -73,7 +73,7 @@ describe('StatsController', () => {
     });
     app.use('/', StatsController);
 
-    const response: supertest.Response = await supertest(app).get('/1');
+    const response: supertest.Response = await supertest(app).get('/page/1');
     expect(response.status).toEqual(INTERNAL_SERVER_ERROR);
   });
 

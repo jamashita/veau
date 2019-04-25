@@ -10,7 +10,6 @@ const ts = require('gulp-typescript');
 const tsc = ts.createProject('./tsconfig.json');
 
 const sass = require('gulp-sass');
-const cssComb = require('gulp-csscomb');
 const cleanCSS = require('gulp-clean-css');
 const autoprefixer = require('gulp-autoprefixer');
 
@@ -154,7 +153,6 @@ gulp.task('sass', () => {
     .pipe(autoprefixer({
       'browsers': ['last 4 versions']
     }))
-    .pipe(cssComb())
     .pipe(cleanCSS())
     .pipe(gulp.dest('dist/veau-server/public/css'));
 });
