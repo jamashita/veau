@@ -10,7 +10,7 @@ describe('DestroyController', () => {
     const app: express.Express = express();
     app.use('/', DestroyController);
 
-    const response: supertest.Response = await supertest(app).get('/');
+    const response: supertest.Response = await supertest(app).delete('/');
     expect(response.status).toEqual(OK);
   });
 });
