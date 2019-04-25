@@ -51,12 +51,6 @@ export class StatsUseCase implements IStatsUseCase {
     });
   }
 
-  public saveNewStats(veauAccountID: VeauAccountID, json: StatsOverviewJSON): Promise<any> {
-    const statsOverview: StatsOverview = StatsUseCase.statsOverviewFactory.fromJSON(json);
-
-    return StatsUseCase.statsOverviewCommand.create(statsOverview, veauAccountID);
-  }
-
   public save(veauAccountID: VeauAccountID, json: StatsJSON): Promise<any> {
     const stats: Stats = StatsUseCase.statsFactory.fromJSON(json);
 

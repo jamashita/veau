@@ -9,7 +9,5 @@ export interface IStatsUseCase {
 
   findByVeauAccountID(veauAccountID: VeauAccountID, page: number): Promise<Array<StatsOverviewJSON>>;
 
-  saveNewStats(veauAccountID: VeauAccountID, json: StatsOverviewJSON): Promise<any>;
-
   save(veauAccountID: VeauAccountID, json: StatsJSON): Promise<any>;
 }
