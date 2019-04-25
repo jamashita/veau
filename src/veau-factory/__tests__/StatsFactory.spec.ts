@@ -101,7 +101,7 @@ describe('StatsFactory', () => {
     expect(stats.getRegion().getRegionID().get()).toEqual(json.region.regionID);
     expect(stats.getRegion().getName()).toEqual(json.region.name);
     expect(stats.getRegion().getISO3166().get()).toEqual(json.region.iso3166);
-    expect(stats.getTerm().get()).toEqual(json.termID);
+    expect(stats.getTerm().getID()).toEqual(json.termID);
     expect(stats.getName()).toEqual(json.name);
     expect(stats.getUnit()).toEqual(json.unit);
     expect(stats.getUpdatedAt().get('seconds')).toEqual(moment(json.updatedAt).get('seconds'));

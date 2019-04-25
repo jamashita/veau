@@ -130,7 +130,7 @@ describe('StatsMySQLQuery', () => {
     expect(stats.getRegion().getRegionID().get()).toEqual(2);
     expect(stats.getRegion().getName()).toEqual('region1');
     expect(stats.getRegion().getISO3166().get()).toEqual('regn1');
-    expect(stats.getTerm().get()).toEqual(3);
+    expect(stats.getTerm().getID()).toEqual(3);
     expect(stats.getName()).toEqual('name');
     expect(stats.getUnit()).toEqual('unit');
     expect(stats.getUpdatedAt().toJSON()).toEqual('2000-01-01T00:00:00.000Z');

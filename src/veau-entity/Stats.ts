@@ -176,7 +176,7 @@ export class Stats extends Entity<StatsID> {
         return newTerm.add(1, 'years');
       }
       default: {
-        throw new RuntimeError(`UNEXPECTED VALUE: ${this.term.get()}`);
+        throw new RuntimeError(`UNEXPECTED VALUE: ${this.term.getID()}`);
       }
     }
   }
@@ -200,7 +200,7 @@ export class Stats extends Entity<StatsID> {
         return newTerm.subtract(1, 'years');
       }
       default: {
-        throw new RuntimeError(`UNEXPECTED VALUE: ${this.term.get()}`);
+        throw new RuntimeError(`UNEXPECTED VALUE: ${this.term.getID()}`);
       }
     }
   }
@@ -353,7 +353,7 @@ export class Stats extends Entity<StatsID> {
       statsID: statsID.get().get(),
       language: language.toJSON(),
       region: region.toJSON(),
-      termID: term.get(),
+      termID: term.getID(),
       name,
       unit,
       updatedAt: updatedAt.utc().format('YYYY-MM-DD HH:mm:ss'),

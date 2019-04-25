@@ -54,7 +54,7 @@ export class Term {
     this.key = key;
   }
 
-  public get(): number {
+  public getID(): number {
     return this.id;
   }
 

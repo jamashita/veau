@@ -186,14 +186,14 @@ class StatsOverviewModalImpl extends React.Component<Props & InjectedIntlProps, 
               })}
             </InputLabel>
             <Select
-              value={stats.getTerm().get()}
+              value={stats.getTerm().getID()}
               onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {
                 const termID: number = Number(event.target.value);
                 termSelected(Term.of(termID));
               }}
             >
               {Term.all().map<React.ReactNode>((term: Term) => {
-                const termID: number = term.get();
+                const termID: number = term.getID();
 
                 return (
                   <MenuItem

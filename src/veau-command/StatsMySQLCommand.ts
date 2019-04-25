@@ -32,7 +32,7 @@ export class StatsMySQLCommand implements IStatsCommand {
         statsID: stats.getStatsID().get().get(),
         languageID: stats.getLanguage().getLanguageID().get(),
         regionID: stats.getRegion().getRegionID().get(),
-        termID: stats.getTerm().get(),
+        termID: stats.getTerm().getID(),
         veauAccountID: veauAccountID.get().get(),
         name: stats.getName(),
         unit: stats.getUnit()
