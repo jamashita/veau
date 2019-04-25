@@ -1,15 +1,11 @@
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
-import { StatsOverview } from '../../../veau-entity/StatsOverview';
-import { Language } from '../../../veau-vo/Language';
-import { Region } from '../../../veau-vo/Region';
+import { Stats } from '../../../veau-entity/Stats';
 import { StatsID } from '../../../veau-vo/StatsID';
 
 type Props = {
-  statsOverviews: Array<StatsOverview>;
-  languages: Array<Language>;
-  regions: Array<Region>;
+  statsOverviews: Array<Stats>;
   toStatsEdit: (statsID: StatsID) => void;
 };
 type State = {
@@ -19,9 +15,7 @@ class StatsOverviewListTableImpl extends React.Component<Props & InjectedIntlPro
 
   public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
     const {
-      statsOverviews,
-      languages,
-      regions,
+      statsOverviews
     } = this.props;
 
     if (statsOverviews.length !== nextProps.statsOverviews.length) {
@@ -32,12 +26,6 @@ class StatsOverviewListTableImpl extends React.Component<Props & InjectedIntlPro
         return true;
       }
     }
-    if (languages.length !== nextProps.languages.length) {
-      return true;
-    }
-    if (regions.length !== nextProps.regions.length) {
-      return true;
-    }
 
     return false;
   }
@@ -45,8 +33,6 @@ class StatsOverviewListTableImpl extends React.Component<Props & InjectedIntlPro
   public render(): React.ReactNode {
     const {
       statsOverviews,
-      languages,
-      regions,
       intl,
       toStatsEdit
     } = this.props;
@@ -88,55 +74,27 @@ class StatsOverviewListTableImpl extends React.Component<Props & InjectedIntlPro
           </TableRow>
         </TableHead>
         <TableBody>
-          {statsOverviews.map<React.ReactNode>((statsOverview: StatsOverview) => {
-            try {
-              // TODO
-              const language: Language = localeQuery.findByISO639(statsOverview.getISO639());
-              const region: Region = localeQuery.findByISO3166(statsOverview.getISO3166());
-
-              return (
-                <TableRow
-                  key={statsOverview.getStatsID().get().get()}
-                  hover={true}
-                  onClick={(): void => {
-                    toStatsEdit(statsOverview.getStatsID());
-                  }}
-                >
-                  <TableCell>{statsOverview.getName()}</TableCell>
-                  <TableCell>{statsOverview.getUnit()}</TableCell>
-                  <TableCell>{language.getName()}</TableCell>
-                  <TableCell>{region.getName()}</TableCell>
-                  <TableCell>
-                    {intl.formatMessage({
-                      id: statsOverview.getTerm().getKey()
-                    })}
-                  </TableCell>
-                  <TableCell>{statsOverview.getUpdatedAtAsString()}</TableCell>
-                </TableRow>
-              );
-            }
-            catch (err) {
-              return (
-                <TableRow
-                  key={statsOverview.getStatsID().get().get()}
-                  hover={true}
-                  onClick={(): void => {
-                    toStatsEdit(statsOverview.getStatsID());
-                  }}
-                >
-                  <TableCell>{statsOverview.getName()}</TableCell>
-                  <TableCell>{statsOverview.getUnit()}</TableCell>
-                  <TableCell>{statsOverview.getISO639().get()}</TableCell>
-                  <TableCell>{statsOverview.getISO3166().get()}</TableCell>
-                  <TableCell>
-                    {intl.formatMessage({
-                      id: statsOverview.getTerm().getKey()
-                    })}
-                  </TableCell>
-                  <TableCell>{statsOverview.getUpdatedAtAsString()}</TableCell>
-                </TableRow>
-              );
-            }
+          {statsOverviews.map<React.ReactNode>((stats: Stats) => {
+            return (
+              <TableRow
+                key={stats.getStatsID().get().get()}
+                hover={true}
+                onClick={(): void => {
+                  toStatsEdit(stats.getStatsID());
+                }}
+              >
+                <TableCell>{stats.getName()}</TableCell>
+                <TableCell>{stats.getUnit()}</TableCell>
+                <TableCell>{stats.getLanguage().getName()}</TableCell>
+                <TableCell>{stats.getRegion().getName()}</TableCell>
+                <TableCell>
+                  {intl.formatMessage({
+                    id: stats.getTerm().getKey()
+                  })}
+                </TableCell>
+                <TableCell>{stats.getUpdatedAtAsString()}</TableCell>
+              </TableRow>
+            );
           })}
         </TableBody>
       </Table>

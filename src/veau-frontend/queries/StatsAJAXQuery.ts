@@ -20,4 +20,12 @@ export class StatsAJAXQuery implements IStatsQuery {
 
     return StatsAJAXQuery.statsFactory.fromJSON(json.body);
   }
+
+  public async findByPage(page: number): Promise<Array<Stats>> {
+    const jsons: AJAXResponse<Array<StatsJSON>> = await AJAX.get(`/api/stats/${page}`);
+
+    return jsons.body.map<Stats>((json: StatsJSON) => {
+      return StatsAJAXQuery.statsFactory.fromJSON(json);
+    });
+  }
 }

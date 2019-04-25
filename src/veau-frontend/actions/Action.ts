@@ -2,7 +2,6 @@ import { RouterState } from 'connected-react-router';
 import { Action as ReduxAction } from 'redux';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
-import { StatsOverview } from '../../veau-entity/StatsOverview';
 import { VeauAccount } from '../../veau-entity/VeauAccount';
 import { Term } from '../../veau-enum/Term';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
@@ -11,7 +10,6 @@ import { ISO639 } from '../../veau-vo/ISO639';
 import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-vo/Region';
 import { StatsID } from '../../veau-vo/StatsID';
-import { ILocaleQuery } from '../queries/interfaces/ILocaleQuery';
 
 export enum ACTION {
   LOCATION_CHANGE = '@@router/LOCATION_CHANGE',
@@ -156,10 +154,6 @@ export interface RegionDefinedAction extends ReduxAction {
   type: ACTION.REGIONS_DEFINED;
   regions: Array<Region>;
 }
-export interface LocaleDefinedAction extends ReduxAction {
-  type: ACTION.LOCALE_DEFINED;
-  localeQuery: ILocaleQuery;
-}
 export interface EntranceAccountNameTypedAction extends ReduxAction {
   type: ACTION.ENTRANCE_ACCOUNT_NAME_TYPED;
   account: string;
@@ -283,7 +277,7 @@ export interface StatsEditSaveStatsAction extends ReduxAction {
 }
 export interface StatsOverviewUpdateAction extends ReduxAction {
   type: ACTION.STATS_OVERVIEW_UPDATE;
-  statsOverviews: Array<StatsOverview>;
+  statsOverviews: Array<Stats>;
 }
 export interface StatsOverviewResetAction extends ReduxAction {
   type: ACTION.STATS_OVERVIEW_RESET;
@@ -323,7 +317,6 @@ export type Action =
   | ProviderCloseAction
   | LanguageDefinedAction
   | RegionDefinedAction
-  | LocaleDefinedAction
   | EntranceAccountNameTypedAction
   | EntrancePasswordTypedAction
   | EntranceUpdateAction

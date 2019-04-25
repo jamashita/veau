@@ -1,7 +1,6 @@
 import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-vo/Region';
-import { ILocaleQuery } from '../queries/interfaces/ILocaleQuery';
-import { ACTION, LanguageDefinedAction, LocaleDefinedAction, RegionDefinedAction } from './Action';
+import { ACTION, LanguageDefinedAction, RegionDefinedAction } from './Action';
 
 export const defineLanguages: (languages: Array<Language>) => LanguageDefinedAction = (languages: Array<Language>): LanguageDefinedAction => {
   return {
@@ -14,12 +13,5 @@ export const defineRegions: (regions: Array<Region>) => RegionDefinedAction = (r
   return {
     type: ACTION.REGIONS_DEFINED,
     regions
-  };
-};
-
-export const defineLocale: (localeQuery: ILocaleQuery) => LocaleDefinedAction = (localeQuery: ILocaleQuery): LocaleDefinedAction => {
-  return {
-    type: ACTION.LOCALE_DEFINED,
-    localeQuery
   };
 };

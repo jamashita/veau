@@ -8,4 +8,8 @@ export interface ILocaleQuery {
   findByISO639(iso639: ISO639): Promise<Language>;
 
   findByISO3166(iso3166: ISO3166): Promise<Region>;
+
+  allLanguages(): Promise<Array<Language>>;
+
+  allRegions(): Promise<Array<Region>>;
 }

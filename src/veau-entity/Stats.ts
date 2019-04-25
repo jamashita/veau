@@ -99,6 +99,10 @@ export class Stats extends Entity<StatsID> {
     return moment(this.updatedAt);
   }
 
+  public getUpdatedAtAsString(): string {
+    return this.updatedAt.format(Stats.TERM_FORMAT);
+  }
+
   public getItems(): StatsItems {
     return this.items;
   }

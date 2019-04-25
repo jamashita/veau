@@ -1,7 +1,7 @@
 import { call, fork, put, select, take } from 'redux-saga/effects';
 import { Stats } from '../../veau-entity/Stats';
-import { StatsOverview } from '../../veau-entity/StatsOverview';
 import { StatsFactory } from '../../veau-factory/StatsFactory';
+import { RuntimeError } from '../../veau-general/Error/RuntimeError';
 import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-vo/Region';
 import {
@@ -22,14 +22,14 @@ import { closeNewStatsModal, resetNewStats, updateNewStats } from '../actions/St
 import { IStatsCommand } from '../commands/interfaces/IStatsCommand';
 import { StatsAJAXCommand } from '../commands/StatsAJAXCommand';
 import { Endpoints } from '../Endpoints';
-import { IStatsOverviewQuery } from '../queries/interfaces/IStatsOverviewQuery';
-import { StatsOverviewAJAXQuery } from '../queries/StatsOverviewAJAXQuery';
+import { IStatsQuery } from '../queries/interfaces/IStatsQuery';
+import { StatsAJAXQuery } from '../queries/StatsAJAXQuery';
 import { State } from '../State';
 
 export class StatsList {
   private static statsCommand: IStatsCommand = StatsAJAXCommand.getInstance();
+  private static statsQuery: IStatsQuery = StatsAJAXQuery.getInstance();
   private static statsFactory: StatsFactory = StatsFactory.getInstance();
-  private static statsOverviewQuery: IStatsOverviewQuery = StatsOverviewAJAXQuery.getInstance();
 
   public static *init(): IterableIterator<any> {
     yield fork(StatsList.findStatsList);
@@ -48,7 +48,7 @@ export class StatsList {
 
       if (path === Endpoints.STATS_LIST) {
         try {
-          const statsOverviews: Array<StatsOverview> = yield call(StatsList.statsOverviewQuery.findByPage, 1);
+          const statsOverviews: Array<Stats> = yield call(StatsList.statsQuery.findByPage, 1);
           yield put(updateStatsOverviews(statsOverviews));
         }
         catch (err) {
@@ -119,15 +119,28 @@ export class StatsList {
           stats
         },
         locale: {
-          query
+          languages
         }
       } = state;
+      const {
+        iso639
+      } = action;
 
-      const language: Language = yield call(query.findByISO639, action.iso639);
+      const found: Language | undefined = languages.find((language: Language) => {
+        if (language.getISO639().equals(iso639)) {
+          return true;
+        }
+
+        return false;
+      });
+
+      if (found === undefined) {
+        throw new RuntimeError(`ISO639 IS NOT INCLUDED IN THE LANGUAGES: ${iso639.get()}`)
+      }
 
       const newStats: Stats = StatsList.statsFactory.from(
         stats.getStatsID(),
-        language,
+        found,
         stats.getRegion(),
         stats.getTerm(),
         stats.getName(),
@@ -149,16 +162,29 @@ export class StatsList {
           stats
         },
         locale: {
-          query
+          regions
         }
       } = state;
+      const {
+        iso3166
+      } = action;
 
-      const region: Region = yield call(query.findByISO3166, action.iso3166);
+      const found: Region | undefined = regions.find((region: Region) => {
+        if (region.getISO3166().equals(iso3166)) {
+          return true;
+        }
+
+        return false;
+      });
+
+      if (found === undefined) {
+        throw new RuntimeError(`ISO3166 IS NOT INCLUDED IN THE REGIONS: ${iso3166.get()}`);
+      }
 
       const newStats: Stats = StatsList.statsFactory.from(
         stats.getStatsID(),
         stats.getLanguage(),
-        region,
+        found,
         stats.getTerm(),
         stats.getName(),
         stats.getUnit(),

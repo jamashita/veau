@@ -2,7 +2,6 @@ import * as express from 'express';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, PRECONDITION_FAILED } from 'http-status';
 import * as log4js from 'log4js';
 import { StatsJSON } from '../../veau-entity/Stats';
-import { StatsOverviewJSON } from '../../veau-entity/StatsOverview';
 import { NoSuchElementError } from '../../veau-general/Error/NoSuchElementError';
 import { RequestSession } from '../../veau-general/RequestSession';
 import { IStatsUseCase } from '../../veau-usecase/interfaces/IStatsUseCase';
@@ -15,7 +14,7 @@ const logger: log4js.Logger = log4js.getLogger();
 
 const statsUseCase: IStatsUseCase = StatsUseCase.getInstance();
 
-router.get('/overview/:page(\\d+)', async (req: RequestSession, res: express.Response) => {
+router.get('/:page(\\d+)', async (req: RequestSession, res: express.Response) => {
   const page: number = Number(req.params.page);
 
   if (page <= 0) {
@@ -24,9 +23,9 @@ router.get('/overview/:page(\\d+)', async (req: RequestSession, res: express.Res
   }
 
   try {
-    const statsOverviews: Array<StatsOverviewJSON> = await statsUseCase.findByVeauAccountID(req.user.getVeauAccountID(), page);
+    const stats: Array<StatsJSON> = await statsUseCase.findByVeauAccountID(req.user.getVeauAccountID(), page);
 
-    res.send(statsOverviews);
+    res.send(stats);
   }
   catch (err) {
     logger.fatal(err.message);

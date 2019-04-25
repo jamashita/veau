@@ -69,7 +69,7 @@ export class LocaleAJAXQuery implements ILocaleQuery {
     return response.body;
   }
 
-  private async allLanguages(): Promise<Array<Language>> {
+  public async allLanguages(): Promise<Array<Language>> {
     const locales: Locales = await this.allLocales();
 
     return locales.languages.map<Language>((json: LanguageJSON) => {
@@ -84,7 +84,7 @@ export class LocaleAJAXQuery implements ILocaleQuery {
     });
   }
 
-  private async allRegions(): Promise<Array<Region>> {
+  public async allRegions(): Promise<Array<Region>> {
     const locales: Locales = await this.allLocales();
 
     return locales.regions.map<Region>((json: RegionJSON) => {

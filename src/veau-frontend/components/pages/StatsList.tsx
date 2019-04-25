@@ -90,7 +90,6 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
         </Button>
         <StatsOverviewListTable
           statsOverviews={statsOverviews}
-          localeQuery={localeQuery}
           toStatsEdit={toStatsEdit}
         />
         <StatsOverviewModal

@@ -1,7 +1,6 @@
 import { connect, ConnectedComponentClass, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Stats } from '../../../veau-entity/Stats';
-import { StatsOverview } from '../../../veau-entity/StatsOverview';
 import { Term } from '../../../veau-enum/Term';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
@@ -24,7 +23,7 @@ import { StatsList as Component } from '../../components/pages/StatsList';
 import { State } from '../../State';
 
 type StateProps = {
-  statsOverviews: Array<StatsOverview>;
+  statsOverviews: Array<Stats>;
   open: boolean;
   stats: Stats;
   languages: Array<Language>;

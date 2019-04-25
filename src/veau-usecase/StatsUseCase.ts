@@ -6,14 +6,11 @@ import { StatsMySQLCommand } from '../veau-command/StatsMySQLCommand';
 import { StatsValueMySQLCommand } from '../veau-command/StatsValueMySQLCommand';
 import { Stats, StatsJSON } from '../veau-entity/Stats';
 import { StatsItem } from '../veau-entity/StatsItem';
-import { StatsOverview, StatsOverviewJSON } from '../veau-entity/StatsOverview';
 import { StatsFactory } from '../veau-factory/StatsFactory';
 import { Transaction } from '../veau-general/MySQL/Transaction';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
-import { IStatsOverviewQuery } from '../veau-query/interfaces/IStatsOverviewQuery';
 import { IStatsQuery } from '../veau-query/interfaces/IStatsQuery';
 import { StatsMySQLQuery } from '../veau-query/StatsMySQLQuery';
-import { StatsOverviewMySQLQuery } from '../veau-query/StatsOverviewMySQLQuery';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValue } from '../veau-vo/StatsValue';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
@@ -23,7 +20,6 @@ export class StatsUseCase implements IStatsUseCase {
   private static instance: StatsUseCase = new StatsUseCase();
   private static statsQuery: IStatsQuery = StatsMySQLQuery.getInstance();
   private static statsFactory: StatsFactory = StatsFactory.getInstance();
-  private static statsOverviewQuery: IStatsOverviewQuery = StatsOverviewMySQLQuery.getInstance();
 
   public static getInstance(): StatsUseCase {
     return StatsUseCase.instance;
@@ -38,12 +34,12 @@ export class StatsUseCase implements IStatsUseCase {
     return stats.toJSON();
   }
 
-  public async findByVeauAccountID(veauAccountID: VeauAccountID, page: number): Promise<Array<StatsOverviewJSON>> {
-    const statsOverviews: Array<StatsOverview> = await StatsUseCase.statsOverviewQuery.findByVeauAccountID(veauAccountID, page);
+  public async findByVeauAccountID(veauAccountID: VeauAccountID, page: number): Promise<Array<StatsJSON>> {
+    const statistics: Array<Stats> = await StatsUseCase.statsQuery.findByVeauAccountID(veauAccountID, page);
 
-    return statsOverviews.map<StatsOverviewJSON>((statsOverview: StatsOverview) => {
-      return statsOverview.toJSON();
-    });
+    return statistics.map<StatsJSON>((stats: Stats) => {
+      return stats.toJSON();
+    })
   }
 
   public save(veauAccountID: VeauAccountID, json: StatsJSON): Promise<any> {
