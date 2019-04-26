@@ -10,9 +10,13 @@ import { RegionMySQLQuery } from '../veau-query/RegionMySQLQuery';
 import { RegionRedisQuery } from '../veau-query/RegionRedisQuery';
 import { Language, LanguageJSON } from '../veau-vo/Language';
 import { Region, RegionJSON } from '../veau-vo/Region';
-import { ILocaleUseCase, Locales } from './interfaces/ILocaleUseCase';
 
-export class LocaleUseCase implements ILocaleUseCase {
+export type Locales = {
+  languages: Array<LanguageJSON>;
+  regions: Array<RegionJSON>;
+};
+
+export class LocaleUseCase {
   private static instance: LocaleUseCase = new LocaleUseCase();
   private static languageMySQLQuery: ILanguageQuery = LanguageMySQLQuery.getInstance();
   private static languageRedisQuery: ILanguageQuery = LanguageRedisQuery.getInstance();

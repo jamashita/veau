@@ -1,13 +1,12 @@
 import * as express from 'express';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import * as log4js from 'log4js';
-import { ILocaleUseCase, Locales } from '../../veau-usecase/interfaces/ILocaleUseCase';
-import { LocaleUseCase } from '../../veau-usecase/LocaleUseCase';
+import { Locales, LocaleUseCase } from '../../veau-usecase/LocaleUseCase';
 
 const router: express.Router = express.Router();
 const logger: log4js.Logger = log4js.getLogger();
 
-const localeUseCase: ILocaleUseCase = LocaleUseCase.getInstance();
+const localeUseCase: LocaleUseCase = LocaleUseCase.getInstance();
 
 router.get('/', async (req: express.Request, res: express.Response) => {
   const locales: Locales = await localeUseCase.all();

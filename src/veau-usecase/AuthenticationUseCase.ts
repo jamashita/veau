@@ -3,13 +3,13 @@ import { Digest } from '../veau-general/Digest';
 import { NoSuchElementError } from '../veau-general/Error/NoSuchElementError';
 import { IVeauAccountQuery } from '../veau-query/interfaces/IVeauAccountQuery';
 import { VeauAccountMySQLQuery } from '../veau-query/VeauAccountMySQLQuery';
-import { IAuthenticationUseCase } from './interfaces/IAuthenticationUseCase';
 
 const logger: log4js.Logger = log4js.getLogger();
 
-export class AuthenticationUseCase implements IAuthenticationUseCase {
+export class AuthenticationUseCase {
   private static instance: AuthenticationUseCase = new AuthenticationUseCase();
   private static veauAccountQuery: IVeauAccountQuery = VeauAccountMySQLQuery.getInstance();
+
   private static DUMMY_PASSWORD: string = '30DC7JzTgjAd8eXcwytlKCwI6kh1eqdU';
   private static DUMMY_HASH: string = '$2b$14$iyzp4FTxFklmPUjQMaNYcOO4Svv6kBEtphNseTlhWQ/SxV0VBKOa.';
 

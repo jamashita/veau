@@ -14,9 +14,8 @@ import { StatsMySQLQuery } from '../veau-query/StatsMySQLQuery';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValue } from '../veau-vo/StatsValue';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
-import { IStatsUseCase } from './interfaces/IStatsUseCase';
 
-export class StatsUseCase implements IStatsUseCase {
+export class StatsUseCase {
   private static instance: StatsUseCase = new StatsUseCase();
   private static statsQuery: IStatsQuery = StatsMySQLQuery.getInstance();
   private static statsFactory: StatsFactory = StatsFactory.getInstance();
