@@ -65,7 +65,7 @@ export class LocaleAJAXQuery implements ILocaleQuery {
       return locales;
     }
 
-    const response: AJAXResponse<Locales> = await AJAX.get('/api/locales');
+    const response: AJAXResponse<Locales> = await AJAX.get<Locales>('/api/locales');
     this.locales = response.body;
 
     return response.body;

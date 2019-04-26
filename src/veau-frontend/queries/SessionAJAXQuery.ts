@@ -16,13 +16,13 @@ export class SessionAJAXQuery implements ISessionQuery {
   }
 
   public async find(): Promise<VeauAccount> {
-    const response: AJAXResponse<VeauAccountJSON> = await AJAX.get('/api/identity');
+    const response: AJAXResponse<VeauAccountJSON> = await AJAX.get<VeauAccountJSON>('/api/identity');
 
     return SessionAJAXQuery.veauAccountFactory.fromJSON(response.body);
   }
 
   public async findByEntranceInfo(entranceInformation: EntranceInformation): Promise<VeauAccount> {
-    const response: AJAXResponse<VeauAccountJSON> = await AJAX.post('/api/auth', entranceInformation.toJSON());
+    const response: AJAXResponse<VeauAccountJSON> = await AJAX.post<VeauAccountJSON>('/api/auth', entranceInformation.toJSON());
 
     return SessionAJAXQuery.veauAccountFactory.fromJSON(response.body);
   }

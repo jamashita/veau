@@ -13,6 +13,6 @@ export class StatsAJAXCommand implements IStatsCommand {
   }
 
   public create(stats: Stats): Promise<any> {
-    return AJAX.post('/api/stats', stats.toJSON());
+    return AJAX.post<any>('/api/stats', stats.toJSON());
   }
 }

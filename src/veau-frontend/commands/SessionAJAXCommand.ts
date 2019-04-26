@@ -12,6 +12,6 @@ export class SessionAJAXCommand implements ISessionCommand {
   }
 
   public delete(): Promise<any> {
-    return AJAX.delete('/api/destroy');
+    return AJAX.delete<any>('/api/destroy');
   }
 }

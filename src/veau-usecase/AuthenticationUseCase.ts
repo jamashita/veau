@@ -1,7 +1,7 @@
 import * as log4js from 'log4js';
 import { Digest } from '../veau-general/Digest';
 import { NoSuchElementError } from '../veau-general/Error/NoSuchElementError';
-import { IVeauAccountQuery } from '../veau-query/interfaces/IVeauAccountQuery';
+import { IVeauAccountQuery, VeauAccountHash } from '../veau-query/interfaces/IVeauAccountQuery';
 import { VeauAccountMySQLQuery } from '../veau-query/VeauAccountMySQLQuery';
 
 const logger: log4js.Logger = log4js.getLogger();
@@ -22,10 +22,12 @@ export class AuthenticationUseCase {
 
   public async review(account: string, password: string, callback: (error: any, account?: any) => void): Promise<void> {
     try {
+      const accountHash: VeauAccountHash =  await AuthenticationUseCase.veauAccountQuery.findByAccount(account);
+
       const {
         veauAccount,
         hash
-      } = await AuthenticationUseCase.veauAccountQuery.findByAccount(account);
+      } = accountHash;
 
       const correct: boolean = await Digest.compare(password, hash);
 

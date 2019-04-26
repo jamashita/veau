@@ -16,13 +16,13 @@ export class StatsAJAXQuery implements IStatsQuery {
   }
 
   public async findByStatsID(statsID: StatsID): Promise<Stats> {
-    const response: AJAXResponse<StatsJSON> = await AJAX.get(`/api/stats/${statsID.get().get()}`);
+    const response: AJAXResponse<StatsJSON> = await AJAX.get<StatsJSON>(`/api/stats/${statsID.get().get()}`);
 
     return StatsAJAXQuery.statsFactory.fromJSON(response.body);
   }
 
   public async findByPage(page: number): Promise<Array<Stats>> {
-    const response: AJAXResponse<Array<StatsJSON>> = await AJAX.get(`/api/stats/page/${page}`);
+    const response: AJAXResponse<Array<StatsJSON>> = await AJAX.get<Array<StatsJSON>>(`/api/stats/page/${page}`);
 
     return response.body.map<Stats>((json: StatsJSON) => {
       return StatsAJAXQuery.statsFactory.fromJSON(json);
