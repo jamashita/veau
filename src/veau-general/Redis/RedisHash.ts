@@ -7,14 +7,14 @@ export class RedisHash {
     this.client = client;
   }
 
-  public set(key: string, field: string, value: string): Promise<boolean> {
-    return this.client.hset(key, field, value).then((result: 0 | 1) => {
-      if (result === 0) {
-        return false;
-      }
+  public async set(key: string, field: string, value: string): Promise<boolean> {
+    const result: 0 | 1 = await this.client.hset(key, field, value);
 
-      return true;
-    });
+    if (result === 0) {
+      return false;
+    }
+
+    return true;
   }
 
   public get(key: string, field: string): Promise<string | null> {
@@ -29,13 +29,13 @@ export class RedisHash {
     return this.client.hlen(key);
   }
 
-  public has(key: string, field: string): Promise<boolean> {
-    return this.client.hexists(key, field).then((result: 0 | 1) => {
-      if (result === 0) {
-        return false;
-      }
+  public async has(key: string, field: string): Promise<boolean> {
+    const result: 0 | 1 = await this.client.hexists(key, field);
 
-      return true;
-    });
+    if (result === 0) {
+      return false;
+    }
+
+    return true;
   }
 }

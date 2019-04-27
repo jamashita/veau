@@ -15,14 +15,14 @@ export class RedisSet {
     return this.client.srem(key, value);
   }
 
-  public has(key: string, value: string): Promise<boolean> {
-    return this.client.sismember(key, value).then((result: 0 | 1) => {
-      if (result === 0) {
-        return false;
-      }
+  public async has(key: string, value: string): Promise<boolean> {
+    const result: 0 | 1 = await this.client.sismember(key, value);
 
-      return true;
-    });
+    if (result === 0) {
+      return false;
+    }
+
+    return true;
   }
 
   public length(key: string): Promise<number> {

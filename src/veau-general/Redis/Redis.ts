@@ -38,34 +38,34 @@ export class Redis {
     return this.string;
   }
 
-  public delete(key: string): Promise<boolean> {
-    return this.client.del(key).then((result: number) => {
-      if (result === 0) {
-        return false;
-      }
+  public async delete(key: string): Promise<boolean> {
+    const result: number = await this.client.del(key);
 
-      return true;
-    });
+    if (result === 0) {
+      return false;
+    }
+
+    return true;
   }
 
-  public exists(key: string): Promise<boolean> {
-    return this.client.exists(key).then((result: number) => {
-      if (result === 0) {
-        return false;
-      }
+  public async exists(key: string): Promise<boolean> {
+    const result: number = await this.client.exists(key);
 
-      return true;
-    });
+    if (result === 0) {
+      return false;
+    }
+
+    return true;
   }
 
-  public expires(key: string, seconds: number): Promise<boolean> {
-    return this.client.expire(key, seconds).then((result: 0 | 1) => {
-      if (result === 0) {
-        return false;
-      }
+  public async expires(key: string, seconds: number): Promise<boolean> {
+    const result: 0 | 1 = await this.client.expire(key, seconds);
 
-      return true;
-    });
+    if (result === 0) {
+      return false;
+    }
+
+    return true;
   }
 
   public subscribe(channel: string): any {
