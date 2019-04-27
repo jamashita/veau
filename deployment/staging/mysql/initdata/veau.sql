@@ -597,7 +597,7 @@ DROP TABLE IF EXISTS `veau_accounts`;
 CREATE TABLE `veau_accounts` (
   `veau_account_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `account` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `hash` tinytext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `hash` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `language_id` tinyint(3) unsigned NOT NULL,
   `region_id` smallint(5) unsigned NOT NULL,
   `active` tinyint(3) unsigned NOT NULL,
