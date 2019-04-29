@@ -2,7 +2,7 @@
 import 'jest';
 import * as sinon from 'sinon';
 import { SinonStub } from 'sinon';
-import { NoSuchElementError } from '../../veau-general/Error/NoSuchElementError';
+import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { VeauRedis } from '../../veau-infrastructure/VeauRedis';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language } from '../../veau-vo/Language';

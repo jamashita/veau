@@ -1,4 +1,4 @@
-import { NoSuchElementError } from '../veau-general/Error/NoSuchElementError';
+import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { VeauRedis } from '../veau-infrastructure/VeauRedis';
 import { ISO3166 } from '../veau-vo/ISO3166';
 import { Region, RegionRow } from '../veau-vo/Region';

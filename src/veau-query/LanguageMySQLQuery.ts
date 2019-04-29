@@ -1,4 +1,4 @@
-import { NoSuchElementError } from '../veau-general/Error/NoSuchElementError';
+import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { ISO639 } from '../veau-vo/ISO639';
 import { Language, LanguageRow } from '../veau-vo/Language';

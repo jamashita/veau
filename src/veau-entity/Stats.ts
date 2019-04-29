@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import { StatsItems } from '../veau-collection/StatsItems';
 import { Term } from '../veau-enum/Term';
-import { RuntimeError } from '../veau-general/Error/RuntimeError';
+import { RuntimeError } from '../veau-error/RuntimeError';
 import { Random } from '../veau-general/Random';
 import { Language, LanguageJSON } from '../veau-vo/Language';
 import { Region, RegionJSON } from '../veau-vo/Region';

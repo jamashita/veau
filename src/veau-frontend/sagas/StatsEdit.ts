@@ -4,7 +4,7 @@ import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { StatsFactory } from '../../veau-factory/StatsFactory';
 import { StatsItemFactory } from '../../veau-factory/StatsItemFactory';
-import { RuntimeError } from '../../veau-general/Error/RuntimeError';
+import { RuntimeError } from '../../veau-error/RuntimeError';
 import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-vo/Region';
 import { StatsID } from '../../veau-vo/StatsID';

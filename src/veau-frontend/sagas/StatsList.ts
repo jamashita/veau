@@ -1,7 +1,7 @@
 import { fork, put, select, take } from 'redux-saga/effects';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsFactory } from '../../veau-factory/StatsFactory';
-import { RuntimeError } from '../../veau-general/Error/RuntimeError';
+import { RuntimeError } from '../../veau-error/RuntimeError';
 import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-vo/Region';
 import {

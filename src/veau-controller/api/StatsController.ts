@@ -2,7 +2,7 @@ import * as express from 'express';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, PRECONDITION_FAILED } from 'http-status';
 import * as log4js from 'log4js';
 import { StatsJSON } from '../../veau-entity/Stats';
-import { NoSuchElementError } from '../../veau-general/Error/NoSuchElementError';
+import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { RequestSession } from '../../veau-general/RequestSession';
 import { StatsUseCase } from '../../veau-usecase/StatsUseCase';
 import { StatsID } from '../../veau-vo/StatsID';

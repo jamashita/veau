@@ -1,4 +1,4 @@
-import { NoSuchElementError } from '../veau-general/Error/NoSuchElementError';
+import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 
 export class Term {
   private id: number;

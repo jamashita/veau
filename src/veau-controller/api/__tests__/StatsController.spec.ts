@@ -7,7 +7,7 @@ import * as sinon from 'sinon';
 import { SinonStub } from 'sinon';
 import * as supertest from 'supertest';
 import { VeauAccount } from '../../../veau-entity/VeauAccount';
-import { NoSuchElementError } from '../../../veau-general/Error/NoSuchElementError';
+import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
 import { StatsUseCase } from '../../../veau-usecase/StatsUseCase';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
