@@ -2,7 +2,7 @@ import * as express from 'express';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, PRECONDITION_FAILED } from 'http-status';
 import * as log4js from 'log4js';
 import { StatsJSON } from '../../veau-entity/Stats';
-import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { NotFoundError } from '../../veau-error/NotFoundError';
 import { RequestSession } from '../../veau-general/RequestSession';
 import { StatsUseCase } from '../../veau-usecase/StatsUseCase';
 import { StatsID } from '../../veau-vo/StatsID';
@@ -43,7 +43,7 @@ router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: expres
     res.send(stats);
   }
   catch (err) {
-    if (err instanceof NoSuchElementError) {
+    if (err instanceof NotFoundError) {
       res.sendStatus(NOT_FOUND);
       return;
     }

@@ -1,6 +1,6 @@
 /* tslint:disable */
 import 'jest';
-import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { RuntimeError } from '../../veau-error/RuntimeError';
 import { Term } from '../Term';
 
 describe('Term', () => {
@@ -15,12 +15,12 @@ describe('Term', () => {
   it('of: throws Error', () => {
     expect(() => {
       Term.of(-1);
-    }).toThrow(NoSuchElementError);
+    }).toThrow(RuntimeError);
     expect(() => {
       Term.of(0);
-    }).toThrow(NoSuchElementError);
+    }).toThrow(RuntimeError);
     expect(() => {
       Term.of(6);
-    }).toThrow(NoSuchElementError);
+    }).toThrow(RuntimeError);
   });
 });

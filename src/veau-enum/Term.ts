@@ -1,4 +1,4 @@
-import { NoSuchElementError } from '../veau-error/NoSuchElementError';
+import { RuntimeError } from '../veau-error/RuntimeError';
 
 export class Term {
   private id: number;
@@ -34,7 +34,7 @@ export class Term {
         return Term.ANNUAL;
       }
       default: {
-        throw new NoSuchElementError(id.toString());
+        throw new RuntimeError(id.toString());
       }
     }
   }

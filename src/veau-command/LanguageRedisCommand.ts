@@ -1,3 +1,4 @@
+import { CacheError } from '../veau-error/CacheError';
 import { VeauRedis } from '../veau-infrastructure/VeauRedis';
 import { Language, LanguageJSON } from '../veau-vo/Language';
 import { ILanguageCommand } from './interfaces/ILanguageCommand';
@@ -23,7 +24,12 @@ export class LanguageRedisCommand implements ILanguageCommand {
     return VeauRedis.expires(LanguageRedisCommand.REDIS_KEY, LanguageRedisCommand.DURATION);
   }
 
-  public deleteAll(): Promise<any> {
-    return VeauRedis.delete(LanguageRedisCommand.REDIS_KEY);
+  public async deleteAll(): Promise<any> {
+    const ok: boolean = await VeauRedis.delete(LanguageRedisCommand.REDIS_KEY);
+    if (ok) {
+      return;
+    }
+
+    throw new CacheError('FAIL TO DELETE CACHE');
   }
 }

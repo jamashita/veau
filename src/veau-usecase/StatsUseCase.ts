@@ -1,3 +1,4 @@
+import * as log4js from 'log4js';
 import { IStatsCommand } from '../veau-command/interfaces/IStatsCommand';
 import { IStatsItemCommand } from '../veau-command/interfaces/IStatsItemCommand';
 import { IStatsValueCommand } from '../veau-command/interfaces/IStatsValueCommand';
@@ -6,6 +7,8 @@ import { StatsMySQLCommand } from '../veau-command/StatsMySQLCommand';
 import { StatsValueMySQLCommand } from '../veau-command/StatsValueMySQLCommand';
 import { Stats, StatsJSON } from '../veau-entity/Stats';
 import { StatsItem } from '../veau-entity/StatsItem';
+import { NoSuchElementError } from '../veau-error/NoSuchElementError';
+import { NotFoundError } from '../veau-error/NotFoundError';
 import { StatsFactory } from '../veau-factory/StatsFactory';
 import { Transaction } from '../veau-general/MySQL/Transaction';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
@@ -14,6 +17,8 @@ import { StatsMySQLQuery } from '../veau-query/StatsMySQLQuery';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValue } from '../veau-vo/StatsValue';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
+
+const logger: log4js.Logger = log4js.getLogger();
 
 export class StatsUseCase {
   private static instance: StatsUseCase = new StatsUseCase();
@@ -28,9 +33,21 @@ export class StatsUseCase {
   }
 
   public async findByStatsID(statsID: StatsID): Promise<StatsJSON> {
-    const stats: Stats = await StatsUseCase.statsQuery.findByStatsID(statsID);
+    try {
+      const stats: Stats = await StatsUseCase.statsQuery.findByStatsID(statsID);
 
-    return stats.toJSON();
+      return stats.toJSON();
+    }
+    catch (err) {
+      if (err instanceof NoSuchElementError) {
+        logger.error(err.message);
+
+        throw new NotFoundError();
+      }
+      logger.fatal(err.toString());
+
+      throw err;
+    }
   }
 
   public async findByVeauAccountID(veauAccountID: VeauAccountID, page: number): Promise<Array<StatsJSON>> {

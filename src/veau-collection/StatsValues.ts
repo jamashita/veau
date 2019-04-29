@@ -13,7 +13,7 @@ export class StatsValues {
     const statsValue: StatsValue | undefined = this.values[index];
 
     if (statsValue === undefined) {
-      throw new NoSuchElementError(`${index} DOES NOT EXIST`);
+      throw new NoSuchElementError(index.toString());
     }
 
     return statsValue;

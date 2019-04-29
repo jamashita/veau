@@ -1,3 +1,4 @@
+import { CacheError } from '../veau-error/CacheError';
 import { VeauRedis } from '../veau-infrastructure/VeauRedis';
 import { Region, RegionJSON } from '../veau-vo/Region';
 import { IRegionCommand } from './interfaces/IRegionCommand';
@@ -23,7 +24,12 @@ export class RegionRedisCommand implements IRegionCommand {
     return VeauRedis.expires(RegionRedisCommand.REDIS_KEY, RegionRedisCommand.DURATION);
   }
 
-  public deleteAll(): Promise<any> {
-    return VeauRedis.delete(RegionRedisCommand.REDIS_KEY);
+  public async deleteAll(): Promise<any> {
+    const ok: boolean = await VeauRedis.delete(RegionRedisCommand.REDIS_KEY);
+    if (ok) {
+      return;
+    }
+
+    throw new CacheError('FAIL TO DELETE CACHE');
   }
 }
