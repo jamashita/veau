@@ -7,7 +7,7 @@ import * as sinon from 'sinon';
 import { SinonStub } from 'sinon';
 import * as supertest from 'supertest';
 import { VeauAccount } from '../../../veau-entity/VeauAccount';
-import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
+import { NotFoundError } from '../../../veau-error/NotFoundError';
 import { StatsUseCase } from '../../../veau-usecase/StatsUseCase';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
@@ -152,7 +152,7 @@ describe('StatsController', () => {
     const stub: SinonStub = sinon.stub();
     const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
     statsUseCase.findByStatsID = stub;
-    stub.rejects(new NoSuchElementError('059ce0b2-7cba-4ba4-9a5d-a8fa7493f556'));
+    stub.rejects(new NotFoundError());
     const app: express.Express = express();
     app.use('/', StatsController);
 
