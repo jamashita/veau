@@ -20,7 +20,7 @@ export class StatsItems {
     const statsItem: StatsItem | undefined = this.items[index];
 
     if (statsItem === undefined) {
-      throw new NoSuchElementError(`${index} DOES NOT EXIST`);
+      throw new NoSuchElementError(index.toString());
     }
 
     return statsItem;

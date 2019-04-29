@@ -1,7 +1,7 @@
 import { fork, put, select, take } from 'redux-saga/effects';
 import { Stats } from '../../veau-entity/Stats';
+import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { StatsFactory } from '../../veau-factory/StatsFactory';
-import { RuntimeError } from '../../veau-error/RuntimeError';
 import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-vo/Region';
 import {
@@ -135,7 +135,7 @@ export class StatsList {
       });
 
       if (found === undefined) {
-        throw new RuntimeError(`ISO639 IS NOT INCLUDED IN THE LANGUAGES: ${iso639.get()}`)
+        throw new NoSuchElementError(iso639.toString());
       }
 
       const newStats: Stats = StatsList.statsFactory.from(
@@ -178,7 +178,7 @@ export class StatsList {
       });
 
       if (found === undefined) {
-        throw new RuntimeError(`ISO3166 IS NOT INCLUDED IN THE REGIONS: ${iso3166.get()}`);
+        throw new NoSuchElementError(iso3166.toString());
       }
 
       const newStats: Stats = StatsList.statsFactory.from(

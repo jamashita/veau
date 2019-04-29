@@ -1,5 +1,5 @@
-import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
 import { Locales } from '../../veau-usecase/LocaleUseCase';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';

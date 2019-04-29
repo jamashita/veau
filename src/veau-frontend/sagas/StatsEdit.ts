@@ -2,9 +2,9 @@ import * as moment from 'moment';
 import { fork, put, select, take } from 'redux-saga/effects';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
+import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { StatsFactory } from '../../veau-factory/StatsFactory';
 import { StatsItemFactory } from '../../veau-factory/StatsItemFactory';
-import { RuntimeError } from '../../veau-error/RuntimeError';
 import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-vo/Region';
 import { StatsID } from '../../veau-vo/StatsID';
@@ -137,7 +137,7 @@ export class StatsEdit {
       });
 
       if (found === undefined) {
-        throw new RuntimeError(`ISO639 IS NOT INCLUDED IN THE LANGUAGES: ${iso639.get()}`)
+        throw new NoSuchElementError(iso639.toString());
       }
 
       const newStats: Stats = StatsEdit.statsFactory.from(stats.getStatsID(), found, stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
@@ -169,7 +169,7 @@ export class StatsEdit {
       });
 
       if (found === undefined) {
-        throw new RuntimeError(`ISO3166 IS NOT INCLUDED IN THE LANGUAGES: ${iso3166.get()}`)
+        throw new NoSuchElementError(iso3166.toString());
       }
 
       const newStats: Stats = StatsEdit.statsFactory.from(stats.getStatsID(), stats.getLanguage(), found, stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());

@@ -48,7 +48,7 @@ export class LanguageMySQLQuery implements ILanguageQuery {
     });
 
     if (found === undefined) {
-      throw new NoSuchElementError(iso639.get());
+      throw new NoSuchElementError(iso639.toString());
     }
 
     return found;

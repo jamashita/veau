@@ -46,7 +46,7 @@ export class LanguageRedisQuery implements ILanguageQuery {
     });
 
     if (found === undefined) {
-      throw new NoSuchElementError(iso639.get());
+      throw new NoSuchElementError(iso639.toString());
     }
 
     return found;

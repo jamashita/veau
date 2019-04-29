@@ -46,7 +46,7 @@ export class RegionMySQLQuery implements IRegionQuery {
     });
 
     if (found === undefined) {
-      throw new NoSuchElementError(iso3166.get());
+      throw new NoSuchElementError(iso3166.toString());
     }
 
     return found;
