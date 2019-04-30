@@ -32,4 +32,7 @@ export class Request {
       });
     });
   }
+
+  private constructor() {
+  }
 }

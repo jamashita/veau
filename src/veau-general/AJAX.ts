@@ -90,4 +90,7 @@ export class AJAX {
         });
     });
   }
+
+  private constructor() {
+  }
 }

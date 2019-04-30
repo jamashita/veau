@@ -27,4 +27,7 @@ export class Random {
       version: 5
     });
   }
+
+  private constructor() {
+  }
 }

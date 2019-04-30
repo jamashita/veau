@@ -12,4 +12,7 @@ export class Digest {
   public static compare(str: string, hash: string): Promise<boolean> {
     return bcrypt.compare(str, hash);
   }
+
+  private constructor() {
+  }
 }

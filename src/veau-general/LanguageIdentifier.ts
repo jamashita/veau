@@ -22,4 +22,7 @@ export class LanguageIdentifier {
       }
     }
   }
+
+  private constructor() {
+  }
 }
