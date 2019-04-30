@@ -6,19 +6,27 @@ import { pushToEntrance } from '../actions/RedirectAction';
 import { ISessionCommand } from '../commands/interfaces/ISessionCommand';
 import { SessionAJAXCommand } from '../commands/SessionAJAXCommand';
 
-export class Logout {
+export class LogoutSaga {
+  private static instance: LogoutSaga = new LogoutSaga();
   private static sessionCommand: ISessionCommand = SessionAJAXCommand.getInstance();
 
-  public static *init(): IterableIterator<any> {
-    yield fork(Logout.logout);
+  public static getInstance(): LogoutSaga {
+    return LogoutSaga.instance;
   }
 
-  private static *logout(): IterableIterator<any> {
+  private constructor() {
+  }
+
+  public *init(): IterableIterator<any> {
+    yield fork(this.logout);
+  }
+
+  private *logout(): IterableIterator<any> {
     while (true) {
       yield take(ACTION.LOGOUT);
 
       try {
-        yield Logout.sessionCommand.delete();
+        yield LogoutSaga.sessionCommand.delete();
 
         yield put(initializeIdentity());
         yield put(closeProvider());

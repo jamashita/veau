@@ -12,18 +12,26 @@ import { ISessionQuery } from '../queries/interfaces/ISessionQuery';
 import { SessionAJAXQuery } from '../queries/SessionAJAXQuery';
 import { State } from '../State';
 
-export class Identity {
+export class IdentitySaga {
+  private static instance: IdentitySaga = new IdentitySaga();
   private static veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
   private static sessionQuery: ISessionQuery = SessionAJAXQuery.getInstance();
 
-  public static *init(): IterableIterator<any> {
-    yield fork(Identity.initIdentity);
-    yield fork(Identity.initialize);
+  public static getInstance(): IdentitySaga {
+    return IdentitySaga.instance;
   }
 
-  private static *initIdentity(): IterableIterator<any> {
+  private constructor() {
+  }
+
+  public *init(): IterableIterator<any> {
+    yield fork(this.initIdentity);
+    yield fork(this.initialize);
+  }
+
+  private *initIdentity(): IterableIterator<any> {
     try {
-      const veauAccount: VeauAccount = yield Identity.sessionQuery.find();
+      const veauAccount: VeauAccount = yield IdentitySaga.sessionQuery.find();
 
       yield put(identityAuthenticated(veauAccount));
       yield put(identified());
@@ -40,14 +48,14 @@ export class Identity {
         identity
       } = state;
 
-      const veauAccount: VeauAccount = Identity.veauAccountFactory.from(identity.getVeauAccountID(), identity.getAccount(), ISO639.of(newLanguage), identity.getRegion());
+      const veauAccount: VeauAccount = IdentitySaga.veauAccountFactory.from(identity.getVeauAccountID(), identity.getAccount(), ISO639.of(newLanguage), identity.getRegion());
 
       yield put(identityAuthenticated(veauAccount));
       yield put(pushToEntrance());
     }
   }
 
-  private static *initialize(): IterableIterator<any> {
+  private *initialize(): IterableIterator<any> {
     while (true) {
       yield take(ACTION.IDENTITY_INITIALIZE);
       const state: State = yield select();
@@ -56,7 +64,7 @@ export class Identity {
         identity
       } = state;
 
-      const veauAccount: VeauAccount = Identity.veauAccountFactory.from(VeauAccountID.default(), '', identity.getLanguage(), identity.getRegion());
+      const veauAccount: VeauAccount = IdentitySaga.veauAccountFactory.from(VeauAccountID.default(), '', identity.getLanguage(), identity.getRegion());
 
       yield put(identityAuthenticated(veauAccount));
     }

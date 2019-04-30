@@ -26,29 +26,37 @@ import { IStatsQuery } from '../queries/interfaces/IStatsQuery';
 import { StatsAJAXQuery } from '../queries/StatsAJAXQuery';
 import { State } from '../State';
 
-export class StatsList {
+export class StatsListSaga {
+  private static instance: StatsListSaga = new StatsListSaga();
   private static statsCommand: IStatsCommand = StatsAJAXCommand.getInstance();
   private static statsQuery: IStatsQuery = StatsAJAXQuery.getInstance();
   private static statsFactory: StatsFactory = StatsFactory.getInstance();
 
-  public static *init(): IterableIterator<any> {
-    yield fork(StatsList.findStatsList);
-    yield fork(StatsList.nameTyped);
-    yield fork(StatsList.unitTyped);
-    yield fork(StatsList.iso639Selected);
-    yield fork(StatsList.iso3166Selected);
-    yield fork(StatsList.termSelected);
-    yield fork(StatsList.save);
+  public static getInstance(): StatsListSaga {
+    return StatsListSaga.instance;
   }
 
-  private static *findStatsList(): IterableIterator<any> {
+  private constructor() {
+  }
+
+  public *init(): IterableIterator<any> {
+    yield fork(this.findStatsList);
+    yield fork(this.nameTyped);
+    yield fork(this.unitTyped);
+    yield fork(this.iso639Selected);
+    yield fork(this.iso3166Selected);
+    yield fork(this.termSelected);
+    yield fork(this.save);
+  }
+
+  private *findStatsList(): IterableIterator<any> {
     while (true) {
       const action: LocationChangeAction = yield take(ACTION.LOCATION_CHANGE);
       const path: string = action.payload.location.pathname;
 
       if (path === Endpoints.STATS_LIST) {
         try {
-          const statsOverviews: Array<Stats> = yield StatsList.statsQuery.findByPage(1);
+          const statsOverviews: Array<Stats> = yield StatsListSaga.statsQuery.findByPage(1);
           yield put(updateStatsOverviews(statsOverviews));
         }
         catch (err) {
@@ -59,7 +67,7 @@ export class StatsList {
     }
   }
 
-  private static *nameTyped(): IterableIterator<any> {
+  private *nameTyped(): IterableIterator<any> {
     while (true) {
       const action: StatsListNameTypedAction = yield take(ACTION.STATS_LIST_NAME_TYPED);
       const state: State = yield select();
@@ -70,7 +78,7 @@ export class StatsList {
         }
       } = state;
 
-      const newStats: Stats = StatsList.statsFactory.from(
+      const newStats: Stats = StatsListSaga.statsFactory.from(
         stats.getStatsID(),
         stats.getLanguage(),
         stats.getRegion(),
@@ -84,7 +92,7 @@ export class StatsList {
     }
   }
 
-  private static *unitTyped(): IterableIterator<any> {
+  private *unitTyped(): IterableIterator<any> {
     while (true) {
       const action: StatsListUnitTypedAction = yield take(ACTION.STATS_LIST_UNIT_TYPED);
       const state: State = yield select();
@@ -95,7 +103,7 @@ export class StatsList {
         }
       } = state;
 
-      const newStats: Stats = StatsList.statsFactory.from(
+      const newStats: Stats = StatsListSaga.statsFactory.from(
         stats.getStatsID(),
         stats.getLanguage(),
         stats.getRegion(),
@@ -109,7 +117,7 @@ export class StatsList {
     }
   }
 
-  private static *iso639Selected(): IterableIterator<any> {
+  private *iso639Selected(): IterableIterator<any> {
     while (true) {
       const action: StatsListISO639SelectedAction = yield take(ACTION.STATS_LIST_ISO639_SELECTED);
       const state: State = yield select();
@@ -138,7 +146,7 @@ export class StatsList {
         throw new NoSuchElementError(iso639.toString());
       }
 
-      const newStats: Stats = StatsList.statsFactory.from(
+      const newStats: Stats = StatsListSaga.statsFactory.from(
         stats.getStatsID(),
         found,
         stats.getRegion(),
@@ -152,7 +160,7 @@ export class StatsList {
     }
   }
 
-  private static *iso3166Selected(): IterableIterator<any> {
+  private *iso3166Selected(): IterableIterator<any> {
     while (true) {
       const action: StatsListISO3166SelectedAction = yield take(ACTION.STATS_LIST_ISO3166_SELECTED);
       const state: State = yield select();
@@ -181,7 +189,7 @@ export class StatsList {
         throw new NoSuchElementError(iso3166.toString());
       }
 
-      const newStats: Stats = StatsList.statsFactory.from(
+      const newStats: Stats = StatsListSaga.statsFactory.from(
         stats.getStatsID(),
         stats.getLanguage(),
         found,
@@ -195,7 +203,7 @@ export class StatsList {
     }
   }
 
-  private static *termSelected(): IterableIterator<any> {
+  private *termSelected(): IterableIterator<any> {
     while (true) {
       const action: StatsListTermSelectedAction = yield take(ACTION.STATS_LIST_TERM_SELECTED);
       const state: State = yield select();
@@ -206,7 +214,7 @@ export class StatsList {
         }
       } = state;
 
-      const newStats: Stats = StatsList.statsFactory.from(
+      const newStats: Stats = StatsListSaga.statsFactory.from(
         stats.getStatsID(),
         stats.getLanguage(),
         stats.getRegion(),
@@ -220,7 +228,7 @@ export class StatsList {
     }
   }
 
-  private static *save(): IterableIterator<any> {
+  private *save(): IterableIterator<any> {
     while (true) {
       yield take(ACTION.STATS_LIST_SAVE_NEW_STATS);
 
@@ -239,7 +247,7 @@ export class StatsList {
       yield put(closeNewStatsModal());
       yield put(loading());
       try {
-        yield StatsList.statsCommand.create(stats);
+        yield StatsListSaga.statsCommand.create(stats);
 
         yield put(loaded());
         yield put(pushToStatsEdit(stats.getStatsID()));

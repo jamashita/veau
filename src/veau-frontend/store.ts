@@ -4,7 +4,7 @@ import { createLogger } from 'redux-logger';
 import createSagaMiddleware, { SagaMiddleware } from 'redux-saga';
 import { history } from './history';
 import { reducers } from './reducers/reducer';
-import { Root } from './sagas/Root';
+import { RootSaga } from './sagas/RootSaga';
 
 const saga: SagaMiddleware = createSagaMiddleware();
 const logger: Middleware = createLogger({
@@ -18,4 +18,6 @@ export const store: Store = createStore(
   applyMiddleware(saga, logger, router)
 );
 
-saga.run(Root.init);
+const rootSaga: RootSaga = RootSaga.getInstance();
+
+saga.run(rootSaga.init);

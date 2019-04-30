@@ -6,19 +6,27 @@ import { defineLanguages, defineRegions } from '../actions/LocaleAction';
 import { ILocaleQuery } from '../queries/interfaces/ILocaleQuery';
 import { LocaleAJAXQuery } from '../queries/LocaleAJAXQuery';
 
-export class Locale {
+export class LocaleSaga {
+  private static instance: LocaleSaga = new LocaleSaga();
   private static localeQuery: ILocaleQuery = LocaleAJAXQuery.getInstance();
 
-  public static *init(): IterableIterator<any> {
-    yield fork(Locale.fetchLocales);
+  public static getInstance(): LocaleSaga {
+    return LocaleSaga.instance;
   }
 
-  private static *fetchLocales(): IterableIterator<any> {
+  private constructor() {
+  }
+
+  public *init(): IterableIterator<any> {
+    yield fork(this.fetchLocales);
+  }
+
+  private *fetchLocales(): IterableIterator<any> {
     while (true) {
       yield take(ACTION.IDENTITY_IDENTIFIED);
 
-      const languages: Array<Language> = yield Locale.localeQuery.allLanguages();
-      const regions: Array<Region> = yield Locale.localeQuery.allRegions();
+      const languages: Array<Language> = yield LocaleSaga.localeQuery.allLanguages();
+      const regions: Array<Region> = yield LocaleSaga.localeQuery.allRegions();
 
       yield put(defineLanguages(languages));
       yield put(defineRegions(regions));

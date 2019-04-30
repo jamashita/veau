@@ -12,16 +12,24 @@ import { ISessionQuery } from '../queries/interfaces/ISessionQuery';
 import { SessionAJAXQuery } from '../queries/SessionAJAXQuery';
 import { State } from '../State';
 
-export class Entrance {
+export class EntranceSaga {
+  private static instance: EntranceSaga = new EntranceSaga();
   private static sessionQuery: ISessionQuery = SessionAJAXQuery.getInstance();
 
-  public static *init(): IterableIterator<any> {
-    yield fork(Entrance.login);
-    yield fork(Entrance.accountNameTyped);
-    yield fork(Entrance.passwordTyped);
+  public static getInstance(): EntranceSaga {
+    return EntranceSaga.instance;
   }
 
-  private static *login(): IterableIterator<any> {
+  private constructor() {
+  }
+
+  public *init(): IterableIterator<any> {
+    yield fork(this.login);
+    yield fork(this.accountNameTyped);
+    yield fork(this.passwordTyped);
+  }
+
+  private *login(): IterableIterator<any> {
     while (true) {
       yield take(ACTION.IDENTITY_AUTHENTICATE);
       const state: State = yield select();
@@ -43,7 +51,7 @@ export class Entrance {
       yield put(loading());
 
       try {
-        const veauAccount: VeauAccount = yield Entrance.sessionQuery.findByEntranceInfo(entranceInformation);
+        const veauAccount: VeauAccount = yield EntranceSaga.sessionQuery.findByEntranceInfo(entranceInformation);
 
         yield put(identityAuthenticated(veauAccount));
         yield put(pushToStatsList());
@@ -63,7 +71,7 @@ export class Entrance {
     }
   }
 
-  private static *accountNameTyped(): IterableIterator<any> {
+  private *accountNameTyped(): IterableIterator<any> {
     while (true) {
       const action: EntranceAccountNameTypedAction = yield take(ACTION.ENTRANCE_ACCOUNT_NAME_TYPED);
       const state: State = yield select();
@@ -77,7 +85,7 @@ export class Entrance {
     }
   }
 
-  private static *passwordTyped(): IterableIterator<any> {
+  private *passwordTyped(): IterableIterator<any> {
     while (true) {
       const action: EntrancePasswordTypedAction = yield take(ACTION.ENTRANCE_PASSWORD_TYPED);
       const state: State = yield select();
