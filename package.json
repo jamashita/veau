@@ -53,7 +53,7 @@
     "request": "2.88.0",
     "serve-favicon": "2.5.0",
     "source-map-support": "0.5.12",
-    "superagent": "5.0.4"
+    "superagent": "5.0.5"
   },
   "devDependencies": {
     "@types/bcrypt": "3.0.0",
@@ -73,7 +73,7 @@
     "@types/node": "11.13.8",
     "@types/passport": "1.0.0",
     "@types/passport-local": "1.0.33",
-    "@types/react": "16.8.14",
+    "@types/react": "16.8.15",
     "@types/react-dom": "16.8.4",
     "@types/react-intl": "2.3.17",
     "@types/react-redux": "7.0.8",
