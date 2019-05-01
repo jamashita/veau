@@ -72,7 +72,6 @@ export class LocaleAJAXQuery implements ILocaleQuery {
   }
 
   public async allLanguages(): Promise<Array<Language>> {
-    console.log(this);
     const locales: Locales = await this.allLocales();
 
     return locales.languages.map<Language>((json: LanguageJSON) => {

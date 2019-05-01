@@ -1,4 +1,6 @@
+import { UNAUTHORIZED } from 'http-status';
 import { VeauAccount, VeauAccountJSON } from '../../veau-entity/VeauAccount';
+import { AuthenticationFailureError } from '../../veau-error/AuthenticationFailureError';
 import { VeauAccountFactory } from '../../veau-factory/VeauAccountFactory';
 import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
@@ -22,8 +24,17 @@ export class SessionAJAXQuery implements ISessionQuery {
   }
 
   public async findByEntranceInfo(entranceInformation: EntranceInformation): Promise<VeauAccount> {
-    const response: AJAXResponse<VeauAccountJSON> = await AJAX.post<VeauAccountJSON>('/api/auth', entranceInformation.toJSON());
+    try {
+      const response: AJAXResponse<VeauAccountJSON> = await AJAX.post<VeauAccountJSON>('/api/auth', entranceInformation.toJSON());
 
-    return SessionAJAXQuery.veauAccountFactory.fromJSON(response.body);
+      return SessionAJAXQuery.veauAccountFactory.fromJSON(response.body);
+    }
+    catch (err) {
+      if (err.status === UNAUTHORIZED) {
+        throw new AuthenticationFailureError();
+      }
+
+      throw err;
+    }
   }
 }

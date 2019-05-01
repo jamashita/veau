@@ -1,6 +1,6 @@
-import { UNAUTHORIZED } from 'http-status';
 import { fork, put, select, take } from 'redux-saga/effects';
 import { VeauAccount } from '../../veau-entity/VeauAccount';
+import { AuthenticationFailureError } from '../../veau-error/AuthenticationFailureError';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 import { ACTION, EntranceAccountNameTypedAction, EntrancePasswordTypedAction } from '../actions/Action';
 import { updateEntranceInformation } from '../actions/EntranceAction';
@@ -53,7 +53,7 @@ export class EntranceSaga {
       catch (err) {
         yield put(loaded());
 
-        if (err.status === UNAUTHORIZED) {
+        if (err instanceof AuthenticationFailureError) {
           yield put(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
           continue;
         }
