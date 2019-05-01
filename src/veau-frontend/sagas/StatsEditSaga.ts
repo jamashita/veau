@@ -38,40 +38,32 @@ import { StatsAJAXQuery } from '../queries/StatsAJAXQuery';
 import { State } from '../State';
 
 export class StatsEditSaga {
-  private static instance: StatsEditSaga = new StatsEditSaga();
   private static statsCommand: IStatsCommand = StatsAJAXCommand.getInstance();
   private static statsQuery: IStatsQuery = StatsAJAXQuery.getInstance();
   private static statsFactory: StatsFactory = StatsFactory.getInstance();
   private static statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
   private static STATS_EDIT_PREFIX: string = '/statistics/edit/';
 
-  public static getInstance(): StatsEditSaga {
-    return StatsEditSaga.instance;
+  public static *init(): IterableIterator<any> {
+    yield fork(StatsEditSaga.findStats);
+    yield fork(StatsEditSaga.nameTyped);
+    yield fork(StatsEditSaga.unitTyped);
+    yield fork(StatsEditSaga.iso639Selected);
+    yield fork(StatsEditSaga.iso3166Selected);
+    yield fork(StatsEditSaga.dataFilled);
+    yield fork(StatsEditSaga.dataDeleted);
+    yield fork(StatsEditSaga.itemNameTyped);
+    yield fork(StatsEditSaga.saveItem);
+    yield fork(StatsEditSaga.rowSelected);
+    yield fork(StatsEditSaga.selectingItemNameTyped);
+    yield fork(StatsEditSaga.startDateDetermined);
+    yield fork(StatsEditSaga.invalidValueInput);
+    yield fork(StatsEditSaga.removeItem);
+    yield fork(StatsEditSaga.rowMoved);
+    yield fork(StatsEditSaga.save);
   }
 
-  private constructor() {
-  }
-
-  public *init(): IterableIterator<any> {
-    yield fork(this.findStats);
-    yield fork(this.nameTyped);
-    yield fork(this.unitTyped);
-    yield fork(this.iso639Selected);
-    yield fork(this.iso3166Selected);
-    yield fork(this.dataFilled);
-    yield fork(this.dataDeleted);
-    yield fork(this.itemNameTyped);
-    yield fork(this.saveItem);
-    yield fork(this.rowSelected);
-    yield fork(this.selectingItemNameTyped);
-    yield fork(this.startDateDetermined);
-    yield fork(this.invalidValueInput);
-    yield fork(this.removeItem);
-    yield fork(this.rowMoved);
-    yield fork(this.save);
-  }
-
-  private *findStats(): IterableIterator<any> {
+  private static *findStats(): IterableIterator<any> {
     while (true) {
       const action: LocationChangeAction = yield take(ACTION.LOCATION_CHANGE);
       const path: string = action.payload.location.pathname;
@@ -93,7 +85,7 @@ export class StatsEditSaga {
     }
   }
 
-  private *nameTyped(): IterableIterator<any> {
+  private static *nameTyped(): IterableIterator<any> {
     while (true) {
       const action: StatsEditNameTypedAction = yield take(ACTION.STATS_EDIT_NAME_TYPED);
       const state: State = yield select();
@@ -107,7 +99,7 @@ export class StatsEditSaga {
     }
   }
 
-  private *unitTyped(): IterableIterator<any> {
+  private static *unitTyped(): IterableIterator<any> {
     while (true) {
       const action: StatsEditUnitTypedAction = yield take(ACTION.STATS_EDIT_UNIT_TYPED);
       const state: State = yield select();
@@ -121,7 +113,7 @@ export class StatsEditSaga {
     }
   }
 
-  private *iso639Selected(): IterableIterator<any> {
+  private static *iso639Selected(): IterableIterator<any> {
     while (true) {
       const action: StatsEditISO639SelectedAction = yield take(ACTION.STATS_EDIT_ISO639_SELECTED);
       const state: State = yield select();
@@ -153,7 +145,7 @@ export class StatsEditSaga {
     }
   }
 
-  private *iso3166Selected(): IterableIterator<any> {
+  private static *iso3166Selected(): IterableIterator<any> {
     while (true) {
       const action: StatsEditISO3166SelectedAction = yield take(ACTION.STATS_EDIT_ISO3166_SELECTED);
       const state: State = yield select();
@@ -185,7 +177,7 @@ export class StatsEditSaga {
     }
   }
 
-  private *dataFilled(): IterableIterator<any> {
+  private static *dataFilled(): IterableIterator<any> {
     while (true) {
       const action: StatsEditDataFilledAction = yield take(ACTION.STATS_EDIT_DATA_FILLED);
       const state: State = yield select();
@@ -206,7 +198,7 @@ export class StatsEditSaga {
     }
   }
 
-  private *dataDeleted(): IterableIterator<any> {
+  private static *dataDeleted(): IterableIterator<any> {
     while (true) {
       const action: StatsEditDataDeletedAction = yield take(ACTION.STATS_EDIT_DATA_DELETED);
       const state: State = yield select();
@@ -226,7 +218,7 @@ export class StatsEditSaga {
     }
   }
 
-  private *itemNameTyped(): IterableIterator<any> {
+  private static *itemNameTyped(): IterableIterator<any> {
     while (true) {
       const action: StatsEditItemNameTypedAction = yield take(ACTION.STATS_EDIT_ITEM_NAME_TYPED);
       const state: State = yield select();
@@ -240,7 +232,7 @@ export class StatsEditSaga {
     }
   }
 
-  private *saveItem(): IterableIterator<any> {
+  private static *saveItem(): IterableIterator<any> {
     while (true) {
       yield take(ACTION.STATS_EDIT_ITEM_SAVE);
       const state: State = yield select();
@@ -256,7 +248,7 @@ export class StatsEditSaga {
     }
   }
 
-  private *rowSelected(): IterableIterator<any> {
+  private static *rowSelected(): IterableIterator<any> {
     while (true) {
       const action: StatsEditRowSelectedAction = yield take(ACTION.STATS_EDIT_ROW_SELECTED);
       const state: State = yield select();
@@ -273,7 +265,7 @@ export class StatsEditSaga {
     }
   }
 
-  private *selectingItemNameTyped(): IterableIterator<any> {
+  private static *selectingItemNameTyped(): IterableIterator<any> {
     while (true) {
       const action: StatsEditSelectingItemNameTypedAction = yield take(ACTION.STATS_EDIT_SELECTING_ITEM_NAME_TYPED);
       const state: State = yield select();
@@ -297,7 +289,7 @@ export class StatsEditSaga {
     }
   }
 
-  private *startDateDetermined(): IterableIterator<any> {
+  private static *startDateDetermined(): IterableIterator<any> {
     while (true) {
       const action: StatsEditStartDateDeterminedAction = yield take(ACTION.STATS_EDIT_START_DATE_DETERMINED);
       const state: State = yield select();
@@ -320,7 +312,7 @@ export class StatsEditSaga {
     }
   }
 
-  private *rowMoved(): IterableIterator<any> {
+  private static *rowMoved(): IterableIterator<any> {
     while (true) {
       const action: StatsEditRowMovedAction = yield take(ACTION.STATS_EDIT_ROW_MOVED);
       const state: State = yield select();
@@ -340,14 +332,14 @@ export class StatsEditSaga {
     }
   }
 
-  private *invalidValueInput(): IterableIterator<any> {
+  private static *invalidValueInput(): IterableIterator<any> {
     while (true) {
       yield take(ACTION.STATS_EDIT_INVALID_VALUE_INPUT);
       yield put(appearNotification('warn', 'center', 'top', 'INVALID_INPUT_VALUE'));
     }
   }
 
-  private *removeItem(): IterableIterator<any> {
+  private static *removeItem(): IterableIterator<any> {
    while (true) {
      const action: StatsEditRemoveSelectingItemAction = yield take(ACTION.STATS_EDIT_REMOVE_SELECTING_ITEM);
      const state: State = yield select();
@@ -364,7 +356,7 @@ export class StatsEditSaga {
     }
   }
 
-  private *save(): IterableIterator<any> {
+  private static *save(): IterableIterator<any> {
     while (true) {
       yield take(ACTION.STATS_EDIT_SAVE_STATS);
       const state: State = yield select();
@@ -384,5 +376,8 @@ export class StatsEditSaga {
         yield put(raiseModal('STATS_SAVE_FAILURE', 'STATS_SAVE_FAILURE_DESCRIPTION'));
       }
     }
+  }
+
+  private constructor() {
   }
 }

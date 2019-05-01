@@ -8,27 +8,14 @@ import { StatsEditSaga } from './StatsEditSaga';
 import { StatsListSaga } from './StatsListSaga';
 
 export class RootSaga {
-  private static instance: RootSaga = new RootSaga();
 
-  public static getInstance(): RootSaga {
-    return RootSaga.instance;
-  }
-
-  public *init(): IterableIterator<any> {
-    const entranceSaga: EntranceSaga = EntranceSaga.getInstance();
-    const identitySaga: IdentitySaga = IdentitySaga.getInstance();
-    const localeSaga: LocaleSaga = LocaleSaga.getInstance();
-    const logoutSaga: LogoutSaga = LogoutSaga.getInstance();
-    const redirectSaga: RedirectSaga = RedirectSaga.getInstance();
-    const statsEditSaga: StatsEditSaga = StatsEditSaga.getInstance();
-    const statsListSaga: StatsListSaga = StatsListSaga.getInstance();
-
-    yield fork(entranceSaga.init);
-    yield fork(identitySaga.init);
-    yield fork(localeSaga.init);
-    yield fork(logoutSaga.init);
-    yield fork(redirectSaga.init);
-    yield fork(statsEditSaga.init);
-    yield fork(statsListSaga.init);
+  public static *init(): IterableIterator<any> {
+    yield fork(EntranceSaga.init);
+    yield fork(IdentitySaga.init);
+    yield fork(LocaleSaga.init);
+    yield fork(LogoutSaga.init);
+    yield fork(RedirectSaga.init);
+    yield fork(StatsEditSaga.init);
+    yield fork(StatsListSaga.init);
   }
 }

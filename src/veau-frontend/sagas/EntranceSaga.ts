@@ -13,23 +13,15 @@ import { SessionAJAXQuery } from '../queries/SessionAJAXQuery';
 import { State } from '../State';
 
 export class EntranceSaga {
-  private static instance: EntranceSaga = new EntranceSaga();
   private static sessionQuery: ISessionQuery = SessionAJAXQuery.getInstance();
 
-  public static getInstance(): EntranceSaga {
-    return EntranceSaga.instance;
+  public static *init(): IterableIterator<any> {
+    yield fork(EntranceSaga.login);
+    yield fork(EntranceSaga.accountNameTyped);
+    yield fork(EntranceSaga.passwordTyped);
   }
 
-  private constructor() {
-  }
-
-  public *init(): IterableIterator<any> {
-    yield fork(this.login);
-    yield fork(this.accountNameTyped);
-    yield fork(this.passwordTyped);
-  }
-
-  private *login(): IterableIterator<any> {
+  private static *login(): IterableIterator<any> {
     while (true) {
       yield take(ACTION.IDENTITY_AUTHENTICATE);
       const state: State = yield select();
@@ -71,7 +63,7 @@ export class EntranceSaga {
     }
   }
 
-  private *accountNameTyped(): IterableIterator<any> {
+  private static *accountNameTyped(): IterableIterator<any> {
     while (true) {
       const action: EntranceAccountNameTypedAction = yield take(ACTION.ENTRANCE_ACCOUNT_NAME_TYPED);
       const state: State = yield select();
@@ -85,7 +77,7 @@ export class EntranceSaga {
     }
   }
 
-  private *passwordTyped(): IterableIterator<any> {
+  private static *passwordTyped(): IterableIterator<any> {
     while (true) {
       const action: EntrancePasswordTypedAction = yield take(ACTION.ENTRANCE_PASSWORD_TYPED);
       const state: State = yield select();
@@ -97,5 +89,8 @@ export class EntranceSaga {
       const newLogin: EntranceInformation = EntranceInformation.of(entranceInformation.getAccount(), action.password);
       yield put(updateEntranceInformation(newLogin));
     }
+  }
+
+  private constructor() {
   }
 }

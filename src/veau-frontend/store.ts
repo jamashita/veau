@@ -18,6 +18,4 @@ export const store: Store = createStore(
   applyMiddleware(saga, logger, router)
 );
 
-const rootSaga: RootSaga = RootSaga.getInstance();
-
-saga.run(rootSaga.init);
+saga.run(RootSaga.init);

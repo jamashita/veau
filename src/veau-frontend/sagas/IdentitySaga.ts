@@ -13,23 +13,15 @@ import { SessionAJAXQuery } from '../queries/SessionAJAXQuery';
 import { State } from '../State';
 
 export class IdentitySaga {
-  private static instance: IdentitySaga = new IdentitySaga();
   private static veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
   private static sessionQuery: ISessionQuery = SessionAJAXQuery.getInstance();
 
-  public static getInstance(): IdentitySaga {
-    return IdentitySaga.instance;
+  public static *init(): IterableIterator<any> {
+    yield fork(IdentitySaga.initIdentity);
+    yield fork(IdentitySaga.initialize);
   }
 
-  private constructor() {
-  }
-
-  public *init(): IterableIterator<any> {
-    yield fork(this.initIdentity);
-    yield fork(this.initialize);
-  }
-
-  private *initIdentity(): IterableIterator<any> {
+  private static *initIdentity(): IterableIterator<any> {
     try {
       const veauAccount: VeauAccount = yield IdentitySaga.sessionQuery.find();
 
@@ -55,7 +47,7 @@ export class IdentitySaga {
     }
   }
 
-  private *initialize(): IterableIterator<any> {
+  private static *initialize(): IterableIterator<any> {
     while (true) {
       yield take(ACTION.IDENTITY_INITIALIZE);
       const state: State = yield select();
@@ -68,5 +60,8 @@ export class IdentitySaga {
 
       yield put(identityAuthenticated(veauAccount));
     }
+  }
+
+  private constructor() {
   }
 }

@@ -7,21 +7,13 @@ import { ILocaleQuery } from '../queries/interfaces/ILocaleQuery';
 import { LocaleAJAXQuery } from '../queries/LocaleAJAXQuery';
 
 export class LocaleSaga {
-  private static instance: LocaleSaga = new LocaleSaga();
   private static localeQuery: ILocaleQuery = LocaleAJAXQuery.getInstance();
 
-  public static getInstance(): LocaleSaga {
-    return LocaleSaga.instance;
+  public static *init(): IterableIterator<any> {
+    yield fork(LocaleSaga.fetchLocales);
   }
 
-  private constructor() {
-  }
-
-  public *init(): IterableIterator<any> {
-    yield fork(this.fetchLocales);
-  }
-
-  private *fetchLocales(): IterableIterator<any> {
+  private static *fetchLocales(): IterableIterator<any> {
     while (true) {
       yield take(ACTION.IDENTITY_IDENTIFIED);
 
@@ -31,5 +23,8 @@ export class LocaleSaga {
       yield put(defineLanguages(languages));
       yield put(defineRegions(regions));
     }
+  }
+
+  private constructor() {
   }
 }
