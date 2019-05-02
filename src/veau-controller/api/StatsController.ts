@@ -1,9 +1,10 @@
 import * as express from 'express';
-import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, PRECONDITION_FAILED } from 'http-status';
+import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND } from 'http-status';
 import * as log4js from 'log4js';
 import { StatsJSON } from '../../veau-entity/Stats';
 import { NotFoundError } from '../../veau-error/NotFoundError';
 import { RequestSession } from '../../veau-general/RequestSession';
+import { Type } from '../../veau-general/Type';
 import { StatsUseCase } from '../../veau-usecase/StatsUseCase';
 import { StatsID } from '../../veau-vo/StatsID';
 import { UUID } from '../../veau-vo/UUID';
@@ -16,8 +17,8 @@ const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
 router.get('/page/:page(\\d+)', async (req: RequestSession, res: express.Response) => {
   const page: number = Number(req.params.page);
 
-  if (page <= 0) {
-    res.sendStatus(PRECONDITION_FAILED);
+  if (page === 0) {
+    res.sendStatus(BAD_REQUEST);
     return;
   }
 
@@ -69,7 +70,43 @@ router.post('/', async (req: RequestSession, res: express.Response) => {
     res.sendStatus(BAD_REQUEST);
     return;
   }
+  if (!Type.isString(statsID)) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
   if (language === undefined) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  if (language.languageID === undefined) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  if (!Type.isInteger(language.languageID)) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  if (language.name === undefined) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  if (!Type.isString(language.name)) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  if (language.englishName === undefined) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  if (!Type.isString(language.englishName)) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  if (language.iso639 === undefined) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  if (!Type.isString(language.iso639)) {
     res.sendStatus(BAD_REQUEST);
     return;
   }
@@ -77,7 +114,35 @@ router.post('/', async (req: RequestSession, res: express.Response) => {
     res.sendStatus(BAD_REQUEST);
     return;
   }
+  if (region.regionID === undefined) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  if (!Type.isInteger(region.regionID)) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  if (region.name === undefined) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  if (!Type.isString(region.name)) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  if (region.iso3166 === undefined) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  if (!Type.isString(region.iso3166)) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
   if (termID === undefined) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  if (!Type.isInteger(termID)) {
     res.sendStatus(BAD_REQUEST);
     return;
   }
@@ -85,7 +150,15 @@ router.post('/', async (req: RequestSession, res: express.Response) => {
     res.sendStatus(BAD_REQUEST);
     return;
   }
+  if (!Type.isString(name)) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
   if (unit === undefined) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  if (!Type.isString(unit)) {
     res.sendStatus(BAD_REQUEST);
     return;
   }
@@ -93,9 +166,63 @@ router.post('/', async (req: RequestSession, res: express.Response) => {
     res.sendStatus(BAD_REQUEST);
     return;
   }
+  if (!Type.isDateString(updatedAt)) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
   if (items === undefined) {
     res.sendStatus(BAD_REQUEST);
     return;
+  }
+  if (!Type.isArray(items)) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+
+  for (const item of items) {
+    if (item.statsItemID === undefined) {
+      res.sendStatus(BAD_REQUEST);
+      return;
+    }
+    if (!Type.isString(item.statsItemID)) {
+      res.sendStatus(BAD_REQUEST);
+      return;
+    }
+    if (item.name === undefined) {
+      res.sendStatus(BAD_REQUEST);
+      return;
+    }
+    if (!Type.isString(item.name)) {
+      res.sendStatus(BAD_REQUEST);
+      return;
+    }
+    if (item.values === undefined) {
+      res.sendStatus(BAD_REQUEST);
+      return;
+    }
+    if (!Type.isArray(item.values)) {
+      res.sendStatus(BAD_REQUEST);
+      return;
+    }
+
+    for (const value of item.values) {
+      if (value.asOf === undefined) {
+        res.sendStatus(BAD_REQUEST);
+        return;
+      }
+      if (!Type.isString(value.asOf)) {
+        res.sendStatus(BAD_REQUEST);
+        return;
+      }
+      if (value.value === undefined) {
+        res.sendStatus(BAD_REQUEST);
+        return;
+      }
+      if (!Type.isNumber(value.value)) {
+        res.sendStatus(BAD_REQUEST);
+        return;
+      }
+    }
   }
 
   const json: StatsJSON = req.body;

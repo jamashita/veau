@@ -80,4 +80,16 @@ describe('Type', () => {
     expect(Type.isArray({})).toEqual(false);
     expect(Type.isArray([])).toEqual(true);
   });
+
+  it('isDateString', () => {
+    expect(Type.isDateString(null)).toEqual(false);
+    expect(Type.isDateString(undefined)).toEqual(false);
+    expect(Type.isDateString('')).toEqual(false);
+    expect(Type.isDateString('abcd')).toEqual(false);
+    expect(Type.isDateString(false)).toEqual(false);
+    expect(Type.isDateString(true)).toEqual(false);
+    expect(Type.isDateString({})).toEqual(false);
+    expect(Type.isDateString([])).toEqual(false);
+    expect(Type.isDateString('2000-01-01 00:00:00')).toEqual(true);
+  });
 });

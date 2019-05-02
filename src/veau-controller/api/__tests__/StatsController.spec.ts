@@ -1,7 +1,7 @@
 /* tslint:disable */
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
-import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, OK, PRECONDITION_FAILED } from 'http-status';
+import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'http-status';
 import 'jest';
 import * as sinon from 'sinon';
 import { SinonStub } from 'sinon';
@@ -58,7 +58,7 @@ describe('StatsController', () => {
     app.use('/', StatsController);
 
     const response: supertest.Response = await supertest(app).get('/page/0');
-    expect(response.status).toEqual(PRECONDITION_FAILED);
+    expect(response.status).toEqual(BAD_REQUEST);
   });
 
   it('GET /page/:page(\\d+): throws error', async () => {

@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import * as moment from 'moment';
 
 export class Type {
 
@@ -27,6 +28,14 @@ export class Type {
 
   public static isArray(value: any): boolean {
     return _.isArray(value);
+  }
+
+  public static isDateString(value: any): boolean {
+    if (!Type.isString(value)) {
+      return false;
+    }
+
+    return moment(value).isValid();
   }
 
   private constructor() {
