@@ -11,11 +11,15 @@ import { LanguageID } from '../veau-vo/LanguageID';
 import { RegionID } from '../veau-vo/RegionID';
 import { StatsID } from '../veau-vo/StatsID';
 import { UUID } from '../veau-vo/UUID';
+import { LanguageFactory } from './LanguageFactory';
+import { RegionFactory } from './RegionFactory';
 import { StatsItemFactory } from './StatsItemFactory';
 
 export class StatsFactory {
   private static instance: StatsFactory = new StatsFactory();
   private static statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
+  private static languageFactory: LanguageFactory = LanguageFactory.getInstance();
+  private static regionFactory: RegionFactory = RegionFactory.getInstance();
 
   public static getInstance(): StatsFactory {
     return StatsFactory.instance;
@@ -46,8 +50,8 @@ export class StatsFactory {
 
     return this.from(
       StatsID.of(UUID.of(statsID)),
-      Language.of(LanguageID.of(language.languageID), language.name, language.englishName, ISO639.of(language.iso639)),
-      Region.of(RegionID.of(region.regionID), region.name, ISO3166.of(region.iso3166)),
+      StatsFactory.languageFactory.fromJSON(language),
+      StatsFactory.regionFactory.fromJSON(region),
       Term.of(termID),
       name,
       unit,
@@ -72,8 +76,8 @@ export class StatsFactory {
       updatedAt
     } = row;
 
-    const language: Language = Language.of(LanguageID.of(languageID), languageName, languageEnglishName, ISO639.of(iso639));
-    const region: Region = Region.of(RegionID.of(regionID), regionName, ISO3166.of(iso3166));
+    const language: Language = StatsFactory.languageFactory.from(LanguageID.of(languageID), languageName, languageEnglishName, ISO639.of(iso639));
+    const region: Region = StatsFactory.regionFactory.from(RegionID.of(regionID), regionName, ISO3166.of(iso3166));
     const term: Term = Term.of(termID);
 
     return this.from(StatsID.of(UUID.of(statsID)), language, region, term, name, unit, moment.utc(updatedAt), new StatsItems(statItems));

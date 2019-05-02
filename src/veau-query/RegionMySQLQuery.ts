@@ -1,11 +1,12 @@
 import { Region, RegionRow } from '../veau-entity/Region';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
+import { RegionFactory } from '../veau-factory/RegionFactory';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { ISO3166 } from '../veau-vo/ISO3166';
-import { RegionID } from '../veau-vo/RegionID';
 import { IRegionQuery } from './interfaces/IRegionQuery';
 
 export class RegionMySQLQuery implements IRegionQuery {
+  private static regionFactory: RegionFactory = RegionFactory.getInstance();
 
   public static getInstance(): RegionMySQLQuery {
     return new RegionMySQLQuery();
@@ -25,13 +26,7 @@ export class RegionMySQLQuery implements IRegionQuery {
 
     const regions: Array<RegionRow> = await VeauMySQL.query(query);
     return regions.map<Region>((row: RegionRow) => {
-      const {
-        regionID,
-        name,
-        iso3166
-      } = row;
-
-      return Region.of(RegionID.of(regionID), name, ISO3166.of(iso3166));
+      return RegionMySQLQuery.regionFactory.fromRow(row);
     });
   }
 

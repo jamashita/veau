@@ -1,11 +1,12 @@
 import { Language, LanguageRow } from '../veau-entity/Language';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
+import { LanguageFactory } from '../veau-factory/LanguageFactory';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { ISO639 } from '../veau-vo/ISO639';
-import { LanguageID } from '../veau-vo/LanguageID';
 import { ILanguageQuery } from './interfaces/ILanguageQuery';
 
 export class LanguageMySQLQuery implements ILanguageQuery {
+  private static languageFactory: LanguageFactory = LanguageFactory.getInstance();
 
   public static getInstance(): LanguageMySQLQuery {
     return new LanguageMySQLQuery();
@@ -26,14 +27,7 @@ export class LanguageMySQLQuery implements ILanguageQuery {
 
     const languages: Array<LanguageRow> = await VeauMySQL.query(query);
     return languages.map<Language>((row: LanguageRow) => {
-      const {
-        languageID,
-        name,
-        englishName,
-        iso639
-      } = row;
-
-      return Language.of(LanguageID.of(languageID), name, englishName, ISO639.of(iso639));
+      return LanguageMySQLQuery.languageFactory.fromRow(row);
     });
   }
 

@@ -21,8 +21,8 @@ import { StatsFactory } from '../StatsFactory';
 describe('StatsFactory', () => {
   it('from', () => {
     const statsID: StatsID = StatsID.of(UUID.of('af272303-df5d-4d34-8604-398920b7d2bb'));
-    const language: Language = Language.of(LanguageID.of(1), 'language1', 'language english name 1', ISO639.of('lang1'));
-    const region: Region = Region.of(RegionID.of(1), 'region1', ISO3166.of('regn1'));
+    const language: Language = new Language(LanguageID.of(1), 'language1', 'language english name 1', ISO639.of('lang1'));
+    const region: Region = new Region(RegionID.of(1), 'region1', ISO3166.of('regn1'));
     const term: Term = Term.ANNUAL;
     const name: string = 'name1';
     const unit: string = 'unit1';

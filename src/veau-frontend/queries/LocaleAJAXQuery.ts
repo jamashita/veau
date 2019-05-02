@@ -1,18 +1,20 @@
 import { Language, LanguageJSON } from '../../veau-entity/Language';
 import { Region, RegionJSON } from '../../veau-entity/Region';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { LanguageFactory } from '../../veau-factory/LanguageFactory';
+import { RegionFactory } from '../../veau-factory/RegionFactory';
 import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
 import { Locales } from '../../veau-usecase/LocaleUseCase';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
-import { LanguageID } from '../../veau-vo/LanguageID';
-import { RegionID } from '../../veau-vo/RegionID';
 import { ILocaleQuery } from './interfaces/ILocaleQuery';
 
 export class LocaleAJAXQuery implements ILocaleQuery {
   private locales: Locales | null;
 
   private static instance: LocaleAJAXQuery = new LocaleAJAXQuery();
+  private static languageFactory: LanguageFactory = LanguageFactory.getInstance();
+  private static regionFactory: RegionFactory = RegionFactory.getInstance();
 
   public static getInstance(): LocaleAJAXQuery {
     return LocaleAJAXQuery.instance;
@@ -75,14 +77,7 @@ export class LocaleAJAXQuery implements ILocaleQuery {
     const locales: Locales = await this.allLocales();
 
     return locales.languages.map<Language>((json: LanguageJSON) => {
-      const {
-        languageID,
-        name,
-        englishName,
-        iso639
-      } = json;
-
-      return Language.of(LanguageID.of(languageID), name, englishName, ISO639.of(iso639));
+      return LocaleAJAXQuery.languageFactory.fromJSON(json);
     });
   }
 
@@ -90,13 +85,7 @@ export class LocaleAJAXQuery implements ILocaleQuery {
     const locales: Locales = await this.allLocales();
 
     return locales.regions.map<Region>((json: RegionJSON) => {
-      const {
-        regionID,
-        name,
-        iso3166
-      } = json;
-
-      return Region.of(RegionID.of(regionID), name, ISO3166.of(iso3166));
+      return LocaleAJAXQuery.regionFactory.fromJSON(json);
     });
   }
 }

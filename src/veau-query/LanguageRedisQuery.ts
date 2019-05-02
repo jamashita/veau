@@ -1,11 +1,12 @@
 import { Language, LanguageRow } from '../veau-entity/Language';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
+import { LanguageFactory } from '../veau-factory/LanguageFactory';
 import { VeauRedis } from '../veau-infrastructure/VeauRedis';
 import { ISO639 } from '../veau-vo/ISO639';
-import { LanguageID } from '../veau-vo/LanguageID';
 import { ILanguageQuery } from './interfaces/ILanguageQuery';
 
 export class LanguageRedisQuery implements ILanguageQuery {
+  private static languageFactory: LanguageFactory = LanguageFactory.getInstance();
   private static LANGUAGES_REDIS_KEY: string = 'LANGUAGES';
 
   public static getInstance(): LanguageRedisQuery {
@@ -21,14 +22,7 @@ export class LanguageRedisQuery implements ILanguageQuery {
     if (languagesString) {
       const languageRows: Array<LanguageRow> = JSON.parse(languagesString);
       return languageRows.map<Language>((row: LanguageRow) => {
-        const {
-          languageID,
-          name,
-          englishName,
-          iso639
-        } = row;
-
-        return Language.of(LanguageID.of(languageID), name, englishName, ISO639.of(iso639));
+        return LanguageRedisQuery.languageFactory.fromRow(row);
       });
     }
 

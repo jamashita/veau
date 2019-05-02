@@ -1,11 +1,12 @@
 import { Region, RegionRow } from '../veau-entity/Region';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
+import { RegionFactory } from '../veau-factory/RegionFactory';
 import { VeauRedis } from '../veau-infrastructure/VeauRedis';
 import { ISO3166 } from '../veau-vo/ISO3166';
-import { RegionID } from '../veau-vo/RegionID';
 import { IRegionQuery } from './interfaces/IRegionQuery';
 
 export class RegionRedisQuery implements IRegionQuery {
+  private static regionFactory: RegionFactory = RegionFactory.getInstance();
   private static REGIONS_REDIS_KEY: string = 'REGIONS';
 
   public static getInstance(): RegionRedisQuery {
@@ -21,13 +22,7 @@ export class RegionRedisQuery implements IRegionQuery {
     if (regionString) {
       const regionRows: Array<RegionRow> = JSON.parse(regionString);
       return regionRows.map<Region>((row: RegionRow) => {
-        const {
-          regionID,
-          name,
-          iso3166
-        } = row;
-
-        return Region.of(RegionID.of(regionID), name, ISO3166.of(iso3166));
+        return RegionRedisQuery.regionFactory.fromRow(row);
       });
     }
 
