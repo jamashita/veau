@@ -16,6 +16,7 @@ import '../veau-service/AuthenticationService';
 type SessionSetting = {
   secret: string;
   maxAge: number;
+  secure: boolean;
 };
 
 const port: number = config.get<number>('port');
@@ -57,7 +58,7 @@ const sessionMiddleware: express.RequestHandler = expressSession({
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    secure: false,
+    secure: sessionSetting.secure,
     maxAge: sessionSetting.maxAge
   }
 });
