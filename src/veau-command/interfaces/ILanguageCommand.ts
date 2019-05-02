@@ -1,4 +1,4 @@
-import { Language } from '../../veau-vo/Language';
+import { Language } from '../../veau-entity/Language';
 
 export interface ILanguageCommand {
 

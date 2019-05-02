@@ -1,6 +1,6 @@
+import { Language, LanguageJSON } from '../veau-entity/Language';
 import { CacheError } from '../veau-error/CacheError';
 import { VeauRedis } from '../veau-infrastructure/VeauRedis';
-import { Language, LanguageJSON } from '../veau-vo/Language';
 import { ILanguageCommand } from './interfaces/ILanguageCommand';
 
 export class LanguageRedisCommand implements ILanguageCommand {

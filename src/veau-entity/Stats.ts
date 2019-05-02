@@ -3,12 +3,12 @@ import { StatsItems } from '../veau-collection/StatsItems';
 import { Term } from '../veau-enum/Term';
 import { RuntimeError } from '../veau-error/RuntimeError';
 import { Random } from '../veau-general/Random';
-import { Language, LanguageJSON } from '../veau-vo/Language';
-import { Region, RegionJSON } from '../veau-vo/Region';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValue } from '../veau-vo/StatsValue';
 import { UUID } from '../veau-vo/UUID';
 import { Entity } from './Entity';
+import { Language, LanguageJSON } from './Language';
+import { Region, RegionJSON } from './Region';
 import { StatsItem, StatsItemJSON } from './StatsItem';
 
 export type StatsJSON = {

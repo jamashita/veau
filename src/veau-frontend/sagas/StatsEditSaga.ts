@@ -1,12 +1,12 @@
 import * as moment from 'moment';
 import { fork, put, select, take } from 'redux-saga/effects';
+import { Language } from '../../veau-entity/Language';
+import { Region } from '../../veau-entity/Region';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { StatsFactory } from '../../veau-factory/StatsFactory';
 import { StatsItemFactory } from '../../veau-factory/StatsItemFactory';
-import { Language } from '../../veau-vo/Language';
-import { Region } from '../../veau-vo/Region';
 import { StatsID } from '../../veau-vo/StatsID';
 import { UUID } from '../../veau-vo/UUID';
 import {

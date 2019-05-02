@@ -1,11 +1,11 @@
 import { Card, CardContent, CardHeader, FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { Language } from '../../../veau-entity/Language';
+import { Region } from '../../../veau-entity/Region';
 import { Stats } from '../../../veau-entity/Stats';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
-import { Language } from '../../../veau-vo/Language';
-import { Region } from '../../../veau-vo/Region';
 import { TextField } from '../atoms/TextField';
 
 type Props = {

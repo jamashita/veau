@@ -1,4 +1,4 @@
-import { Region } from '../../veau-vo/Region';
+import { Region } from '../../veau-entity/Region';
 
 export interface IRegionCommand {
 

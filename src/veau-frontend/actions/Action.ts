@@ -1,5 +1,7 @@
 import { RouterState } from 'connected-react-router';
 import { Action as ReduxAction } from 'redux';
+import { Language } from '../../veau-entity/Language';
+import { Region } from '../../veau-entity/Region';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { VeauAccount } from '../../veau-entity/VeauAccount';
@@ -7,8 +9,6 @@ import { Term } from '../../veau-enum/Term';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
-import { Language } from '../../veau-vo/Language';
-import { Region } from '../../veau-vo/Region';
 import { StatsID } from '../../veau-vo/StatsID';
 
 export enum ACTION {

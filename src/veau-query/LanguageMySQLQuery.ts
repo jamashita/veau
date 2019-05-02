@@ -1,7 +1,7 @@
+import { Language, LanguageRow } from '../veau-entity/Language';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { ISO639 } from '../veau-vo/ISO639';
-import { Language, LanguageRow } from '../veau-vo/Language';
 import { LanguageID } from '../veau-vo/LanguageID';
 import { ILanguageQuery } from './interfaces/ILanguageQuery';
 
