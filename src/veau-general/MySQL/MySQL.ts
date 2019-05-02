@@ -9,7 +9,10 @@ export class MySQL {
 
     pool.on('connection', (connection: mysql.Connection) => {
       connection.config.queryFormat = (query: string, values: any): string => {
-        if (values === null || values === undefined) {
+        if (values === null) {
+          return query;
+        }
+        if (values === undefined) {
           return query;
         }
 
