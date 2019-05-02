@@ -65,6 +65,22 @@ describe('Type', () => {
     expect(Type.isBoolean([])).toEqual(false);
   });
 
+  it('isPlainObject', () => {
+    expect(Type.isPlainObject(null)).toEqual(false);
+    expect(Type.isPlainObject(undefined)).toEqual(false);
+    expect(Type.isPlainObject('')).toEqual(false);
+    expect(Type.isPlainObject('123')).toEqual(false);
+    expect(Type.isPlainObject('abcd')).toEqual(false);
+    expect(Type.isPlainObject(123)).toEqual(false);
+    expect(Type.isPlainObject(0)).toEqual(false);
+    expect(Type.isPlainObject(-12)).toEqual(false);
+    expect(Type.isPlainObject(0.3)).toEqual(false);
+    expect(Type.isPlainObject(false)).toEqual(false);
+    expect(Type.isPlainObject(true)).toEqual(false);
+    expect(Type.isPlainObject({})).toEqual(true);
+    expect(Type.isPlainObject([])).toEqual(false);
+  });
+
   it('isArray', () => {
     expect(Type.isArray(null)).toEqual(false);
     expect(Type.isArray(undefined)).toEqual(false);

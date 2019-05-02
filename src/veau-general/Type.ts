@@ -16,14 +16,11 @@ export class Type {
   }
 
   public static isBoolean(value: any): boolean {
-    if (value === true) {
-      return true;
-    }
-    if (value === false) {
-      return true;
-    }
+    return _.isBoolean(value);
+  }
 
-    return false;
+  public static isPlainObject(value: any): boolean {
+    return _.isPlainObject(value);
   }
 
   public static isArray(value: any): boolean {

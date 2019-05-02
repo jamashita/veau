@@ -66,19 +66,11 @@ router.post('/', async (req: RequestSession, res: express.Response) => {
     items
   } = req.body;
 
-  if (statsID === undefined) {
-    res.sendStatus(BAD_REQUEST);
-    return;
-  }
   if (!Type.isString(statsID)) {
     res.sendStatus(BAD_REQUEST);
     return;
   }
-  if (language === undefined) {
-    res.sendStatus(BAD_REQUEST);
-    return;
-  }
-  if (language.languageID === undefined) {
+  if (!Type.isPlainObject(language)) {
     res.sendStatus(BAD_REQUEST);
     return;
   }
@@ -86,15 +78,7 @@ router.post('/', async (req: RequestSession, res: express.Response) => {
     res.sendStatus(BAD_REQUEST);
     return;
   }
-  if (language.name === undefined) {
-    res.sendStatus(BAD_REQUEST);
-    return;
-  }
   if (!Type.isString(language.name)) {
-    res.sendStatus(BAD_REQUEST);
-    return;
-  }
-  if (language.englishName === undefined) {
     res.sendStatus(BAD_REQUEST);
     return;
   }
@@ -102,19 +86,11 @@ router.post('/', async (req: RequestSession, res: express.Response) => {
     res.sendStatus(BAD_REQUEST);
     return;
   }
-  if (language.iso639 === undefined) {
-    res.sendStatus(BAD_REQUEST);
-    return;
-  }
   if (!Type.isString(language.iso639)) {
     res.sendStatus(BAD_REQUEST);
     return;
   }
-  if (region === undefined) {
-    res.sendStatus(BAD_REQUEST);
-    return;
-  }
-  if (region.regionID === undefined) {
+  if (!Type.isPlainObject(region)) {
     res.sendStatus(BAD_REQUEST);
     return;
   }
@@ -122,15 +98,7 @@ router.post('/', async (req: RequestSession, res: express.Response) => {
     res.sendStatus(BAD_REQUEST);
     return;
   }
-  if (region.name === undefined) {
-    res.sendStatus(BAD_REQUEST);
-    return;
-  }
   if (!Type.isString(region.name)) {
-    res.sendStatus(BAD_REQUEST);
-    return;
-  }
-  if (region.iso3166 === undefined) {
     res.sendStatus(BAD_REQUEST);
     return;
   }
@@ -138,15 +106,7 @@ router.post('/', async (req: RequestSession, res: express.Response) => {
     res.sendStatus(BAD_REQUEST);
     return;
   }
-  if (termID === undefined) {
-    res.sendStatus(BAD_REQUEST);
-    return;
-  }
   if (!Type.isInteger(termID)) {
-    res.sendStatus(BAD_REQUEST);
-    return;
-  }
-  if (name === undefined) {
     res.sendStatus(BAD_REQUEST);
     return;
   }
@@ -154,23 +114,11 @@ router.post('/', async (req: RequestSession, res: express.Response) => {
     res.sendStatus(BAD_REQUEST);
     return;
   }
-  if (unit === undefined) {
-    res.sendStatus(BAD_REQUEST);
-    return;
-  }
   if (!Type.isString(unit)) {
     res.sendStatus(BAD_REQUEST);
     return;
   }
-  if (updatedAt === undefined) {
-    res.sendStatus(BAD_REQUEST);
-    return;
-  }
   if (!Type.isDateString(updatedAt)) {
-    res.sendStatus(BAD_REQUEST);
-    return;
-  }
-  if (items === undefined) {
     res.sendStatus(BAD_REQUEST);
     return;
   }
@@ -180,23 +128,11 @@ router.post('/', async (req: RequestSession, res: express.Response) => {
   }
 
   for (const item of items) {
-    if (item.statsItemID === undefined) {
-      res.sendStatus(BAD_REQUEST);
-      return;
-    }
     if (!Type.isString(item.statsItemID)) {
       res.sendStatus(BAD_REQUEST);
       return;
     }
-    if (item.name === undefined) {
-      res.sendStatus(BAD_REQUEST);
-      return;
-    }
     if (!Type.isString(item.name)) {
-      res.sendStatus(BAD_REQUEST);
-      return;
-    }
-    if (item.values === undefined) {
       res.sendStatus(BAD_REQUEST);
       return;
     }
@@ -206,15 +142,7 @@ router.post('/', async (req: RequestSession, res: express.Response) => {
     }
 
     for (const value of item.values) {
-      if (value.asOf === undefined) {
-        res.sendStatus(BAD_REQUEST);
-        return;
-      }
-      if (!Type.isString(value.asOf)) {
-        res.sendStatus(BAD_REQUEST);
-        return;
-      }
-      if (value.value === undefined) {
+      if (!Type.isDateString(value.asOf)) {
         res.sendStatus(BAD_REQUEST);
         return;
       }
