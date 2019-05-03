@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 8.0.13)
 # Database: veau
-# Generation Time: 2019-05-03 14:24:17 +0000
+# Generation Time: 2019-05-03 14:39:45 +0000
 # ************************************************************
 
 
@@ -597,7 +597,7 @@ DROP TABLE IF EXISTS `veau_accounts`;
 CREATE TABLE `veau_accounts` (
   `veau_account_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `language_id` tinyint(3) unsigned NOT NULL,
-  `region_id` tinyint(3) unsigned NOT NULL,
+  `region_id` smallint(5) unsigned NOT NULL,
   `account` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `hash` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `active` tinyint(3) unsigned NOT NULL,
