@@ -4,9 +4,11 @@ Veau (pronunciation /vo/) is for the users who treat statistics.
 
 ![](images/screenshot.png)
 
+This system supports the users to simplify inputting statistics data and immediately showing the data on the web page.
+
 ## Demo
 
-[https://www.jamashita.dev](https://www.jamashita.dev)
+[https://veau.jamashita.dev](https://veau.jamashita.dev)
 
 ### Account and Password
 
