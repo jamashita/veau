@@ -6,11 +6,12 @@ import { ISO3166 } from '../veau-vo/ISO3166';
 import { IRegionQuery } from './interfaces/IRegionQuery';
 
 export class RegionRedisQuery implements IRegionQuery {
+  private static instance: RegionRedisQuery = new RegionRedisQuery();
   private static regionFactory: RegionFactory = RegionFactory.getInstance();
   private static REGIONS_REDIS_KEY: string = 'REGIONS';
 
   public static getInstance(): RegionRedisQuery {
-    return new RegionRedisQuery();
+    return RegionRedisQuery.instance;
   }
 
   private constructor() {

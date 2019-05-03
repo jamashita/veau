@@ -6,10 +6,11 @@ import { ISO3166 } from '../veau-vo/ISO3166';
 import { IRegionQuery } from './interfaces/IRegionQuery';
 
 export class RegionMySQLQuery implements IRegionQuery {
+  private static instance: RegionMySQLQuery = new RegionMySQLQuery();
   private static regionFactory: RegionFactory = RegionFactory.getInstance();
 
   public static getInstance(): RegionMySQLQuery {
-    return new RegionMySQLQuery();
+    return RegionMySQLQuery.instance;
   }
 
   private constructor() {

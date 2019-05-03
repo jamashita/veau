@@ -6,10 +6,11 @@ import { ISO639 } from '../veau-vo/ISO639';
 import { ILanguageQuery } from './interfaces/ILanguageQuery';
 
 export class LanguageMySQLQuery implements ILanguageQuery {
+  private static instance: LanguageMySQLQuery = new LanguageMySQLQuery();
   private static languageFactory: LanguageFactory = LanguageFactory.getInstance();
 
   public static getInstance(): LanguageMySQLQuery {
-    return new LanguageMySQLQuery();
+    return LanguageMySQLQuery.instance;
   }
 
   private constructor() {

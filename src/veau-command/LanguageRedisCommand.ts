@@ -4,11 +4,12 @@ import { VeauRedis } from '../veau-infrastructure/VeauRedis';
 import { ILanguageCommand } from './interfaces/ILanguageCommand';
 
 export class LanguageRedisCommand implements ILanguageCommand {
+  private static instance: LanguageRedisCommand = new LanguageRedisCommand();
   private static REDIS_KEY: string = 'Languages';
   private static DURATION: number = 10800;
 
   public static getInstance(): LanguageRedisCommand {
-    return new LanguageRedisCommand();
+    return LanguageRedisCommand.instance;
   }
 
   private constructor() {

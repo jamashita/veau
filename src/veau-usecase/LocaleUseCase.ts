@@ -72,7 +72,7 @@ export class LocaleUseCase {
     return newRegions;
   }
 
-  public async deleteCache(): Promise<any> {
+  public deleteCache(): Promise<any> {
     return Promise.all<any>([
       LocaleUseCase.languageRedisCommand.deleteAll(),
       LocaleUseCase.regionRedisCommand.deleteAll()

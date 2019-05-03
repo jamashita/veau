@@ -6,9 +6,10 @@ import { StatsValue, StatsValueRow } from '../veau-vo/StatsValue';
 import { IStatsValueQuery } from './interfaces/IStatsValueQuery';
 
 export class StatsValueMySQLQuery implements IStatsValueQuery {
+  private static instance: StatsValueMySQLQuery = new StatsValueMySQLQuery();
 
   public static getInstance(): StatsValueMySQLQuery {
-    return new StatsValueMySQLQuery();
+    return StatsValueMySQLQuery.instance;
   }
 
   private constructor() {

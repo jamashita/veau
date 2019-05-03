@@ -4,11 +4,12 @@ import { VeauRedis } from '../veau-infrastructure/VeauRedis';
 import { IRegionCommand } from './interfaces/IRegionCommand';
 
 export class RegionRedisCommand implements IRegionCommand {
+  private static instance: RegionRedisCommand = new RegionRedisCommand();
   private static REDIS_KEY: string = 'Regions';
   private static DURATION: number = 10800;
 
   public static getInstance(): RegionRedisCommand {
-    return new RegionRedisCommand();
+    return RegionRedisCommand.instance;
   }
 
   private constructor() {

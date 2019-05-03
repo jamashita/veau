@@ -6,11 +6,12 @@ import { ISO639 } from '../veau-vo/ISO639';
 import { ILanguageQuery } from './interfaces/ILanguageQuery';
 
 export class LanguageRedisQuery implements ILanguageQuery {
+  private static instance: LanguageRedisQuery = new LanguageRedisQuery();
   private static languageFactory: LanguageFactory = LanguageFactory.getInstance();
   private static LANGUAGES_REDIS_KEY: string = 'LANGUAGES';
 
   public static getInstance(): LanguageRedisQuery {
-    return new LanguageRedisQuery();
+    return LanguageRedisQuery.instance;
   }
 
   private constructor() {
