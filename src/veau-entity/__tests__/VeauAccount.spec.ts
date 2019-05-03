@@ -21,7 +21,7 @@ describe('VeauAccount', () => {
     const veauAccount: VeauAccount = new VeauAccount(VeauAccountID.of(UUID.of('998106de-b2e7-4981-9643-22cd30cd74de')), 'veau', ISO639.of('ab'), ISO3166.of('AFG'));
 
     expect(veauAccount.toJSON()).toEqual({
-      id: '998106de-b2e7-4981-9643-22cd30cd74de',
+      veauAccountID: '998106de-b2e7-4981-9643-22cd30cd74de',
       account: 'veau',
       language: 'ab',
       region: 'AFG'

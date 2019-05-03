@@ -25,7 +25,7 @@ describe('VeauAccountFactory', () => {
 
   it('fromJSON', () => {
     const json: VeauAccountJSON = {
-      id: '998106de-b2e7-4981-9643-22cd30cd74de',
+      veauAccountID: '998106de-b2e7-4981-9643-22cd30cd74de',
       account: 'account',
       language: 'ab',
       region: 'AFG'
@@ -34,7 +34,7 @@ describe('VeauAccountFactory', () => {
     const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
     const veauAccount: VeauAccount = veauAccountFactory.fromJSON(json);
 
-    expect(veauAccount.getVeauAccountID().get().get()).toEqual(json.id);
+    expect(veauAccount.getVeauAccountID().get().get()).toEqual(json.veauAccountID);
     expect(veauAccount.getAccount()).toEqual(json.account);
     expect(veauAccount.getLanguage().get()).toEqual(json.language);
     expect(veauAccount.getRegion().get()).toEqual(json.region);
@@ -43,7 +43,7 @@ describe('VeauAccountFactory', () => {
 
   it('fromRow', () => {
     const row: VeauAccountRow = {
-      id: '998106de-b2e7-4981-9643-22cd30cd74de',
+      veauAccountID: '998106de-b2e7-4981-9643-22cd30cd74de',
       account: 'account',
       language: 'ab',
       region: 'AFG',
@@ -53,7 +53,7 @@ describe('VeauAccountFactory', () => {
     const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
     const veauAccount: VeauAccount = veauAccountFactory.fromRow(row);
 
-    expect(veauAccount.getVeauAccountID().get().get()).toEqual(row.id);
+    expect(veauAccount.getVeauAccountID().get().get()).toEqual(row.veauAccountID);
     expect(veauAccount.getAccount()).toEqual(row.account);
     expect(veauAccount.getLanguage().get()).toEqual(row.language);
     expect(veauAccount.getRegion().get()).toEqual(row.region);

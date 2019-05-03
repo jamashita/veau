@@ -20,23 +20,23 @@ export class VeauAccountFactory {
 
   public fromJSON(json: VeauAccountJSON): VeauAccount {
     const {
-      id,
+      veauAccountID,
       account,
       language,
       region
     } = json;
 
-    return this.from(VeauAccountID.of(UUID.of(id)), account, ISO639.of(language), ISO3166.of(region));
+    return this.from(VeauAccountID.of(UUID.of(veauAccountID)), account, ISO639.of(language), ISO3166.of(region));
   }
 
   public fromRow(row: VeauAccountRow): VeauAccount {
     const {
-      id,
+      veauAccountID,
       account,
       language,
       region
     } = row;
 
-    return this.from(VeauAccountID.of(UUID.of(id)), account, ISO639.of(language), ISO3166.of(region));
+    return this.from(VeauAccountID.of(UUID.of(veauAccountID)), account, ISO639.of(language), ISO3166.of(region));
   }
 }

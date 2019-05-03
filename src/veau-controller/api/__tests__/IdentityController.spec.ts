@@ -22,7 +22,7 @@ describe('IdentityController', () => {
     const response: supertest.Response = await supertest(app).get('/');
     expect(response.status).toEqual(OK);
     expect(response.body).toEqual({
-      id: '6ffd502d-e6d9-450c-81c6-05806302ed1b',
+      veauAccountID: '6ffd502d-e6d9-450c-81c6-05806302ed1b',
       account: 'account',
       language: 'ab',
       region: 'AFG'

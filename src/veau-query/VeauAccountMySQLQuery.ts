@@ -17,7 +17,7 @@ export class VeauAccountMySQLQuery implements IVeauAccountQuery {
 
   public async findByAccount(account: string): Promise<VeauAccountHash> {
     const query: string = `SELECT
-      R1.veau_account_id AS id,
+      R1.veau_account_id AS veauAccountID,
       R1.account,
       R2.iso639 AS language,
       R3.iso3166 AS region,

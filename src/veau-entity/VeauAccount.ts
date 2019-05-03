@@ -4,14 +4,14 @@ import { VeauAccountID } from '../veau-vo/VeauAccountID';
 import { Entity } from './Entity';
 
 export type VeauAccountJSON = {
-  id: string;
+  veauAccountID: string;
   account: string;
   language: string;
   region: string;
 };
 
 export type VeauAccountRow = {
-  id: string;
+  veauAccountID: string;
   account: string;
   language: string;
   region: string;
@@ -84,7 +84,7 @@ export class VeauAccount extends Entity<VeauAccountID> {
     } = this;
 
     return {
-      id: veauAccountID.get().get(),
+      veauAccountID: veauAccountID.get().get(),
       account,
       language: language.get(),
       region: region.get()

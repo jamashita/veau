@@ -13,7 +13,7 @@ describe('VeauAccountMySQLQuery', () => {
     VeauMySQL.query = stub;
     stub.resolves([
       {
-        id: '998106de-b2e7-4981-9643-22cd30cd74de',
+        veauAccountID: '998106de-b2e7-4981-9643-22cd30cd74de',
         account: 'account',
         language: 'ab',
         region: 'AFG'
