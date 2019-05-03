@@ -3,7 +3,7 @@ import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND } from 'http-sta
 import * as log4js from 'log4js';
 import { StatsJSON } from '../../veau-entity/Stats';
 import { NotFoundError } from '../../veau-error/NotFoundError';
-import { RequestSession } from '../../veau-general/RequestSession';
+import { RequestSession } from '../RequestSession';
 import { Type } from '../../veau-general/Type';
 import { StatsUseCase } from '../../veau-usecase/StatsUseCase';
 import { StatsID } from '../../veau-vo/StatsID';
