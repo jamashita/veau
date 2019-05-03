@@ -31,8 +31,11 @@ export class Type {
     if (!Type.isString(value)) {
       return false;
     }
+    if (moment(value).isValid()) {
+      return true;
+    }
 
-    return moment(value).isValid();
+    return false;
   }
 
   private constructor() {
