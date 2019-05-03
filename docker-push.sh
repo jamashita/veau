@@ -2,8 +2,6 @@
 
 version=$1
 
-version=$1
-
 if [[ $# -eq 0 ]]; then
   version='latest'
 fi
