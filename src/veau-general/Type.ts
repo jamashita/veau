@@ -4,27 +4,51 @@ import * as moment from 'moment';
 export class Type {
 
   public static isString(value: any): boolean {
-    return _.isString(value);
+    if (_.isString(value)) {
+      return true;
+    }
+
+    return false;
   }
 
   public static isNumber(value: any): boolean {
-    return _.isNumber(value);
+    if (_.isNumber(value)) {
+      return true;
+    }
+
+    return false;
   }
 
   public static isInteger(value: any): boolean {
-    return _.isInteger(value)
+    if (_.isInteger(value)) {
+      return true;
+    }
+
+    return false;
   }
 
   public static isBoolean(value: any): boolean {
-    return _.isBoolean(value);
+    if (_.isBoolean(value)) {
+      return true;
+    }
+
+    return false;
   }
 
   public static isPlainObject(value: any): boolean {
-    return _.isPlainObject(value);
+    if (_.isPlainObject(value)) {
+      return true;
+    }
+
+    return false;
   }
 
   public static isArray(value: any): boolean {
-    return _.isArray(value);
+    if (_.isArray(value)) {
+      return true;
+    }
+
+    return false;
   }
 
   public static isDateString(value: any): boolean {
