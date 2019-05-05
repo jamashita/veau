@@ -65,11 +65,11 @@ When you find some wrong translations, please tell me them and I correct them im
 Thank you for your cooperation.
 
 Este sistema puede contener las traducciones incorrectas porque mi apitud de la traducción insuficiente.  
-Cuando encuentras unas traducciones incorrectas, dimelos y los corrijo inmediatamente.  
+Cuando encuentras unas traducciones incorrectas, por favor dimelos y los corrijo inmediatamente.  
 Gracias por tu cooperación.
 
 Ce système peut contenir les traductions fausses à cause de ma abilité de la traduction insuffisante.  
-Quand tu trouves las traductions fausses, dis-moi-les et je les corrige immediatement.  
+Quand tu trouves las traductions fausses, dis-moi-les et je les corrige immediatement, s'il vous plaît.  
 Merci pour ta coopéation.
 
 私の翻訳能力が十分でないため、このシステムには誤った翻訳が含まれている可能性があります。  
