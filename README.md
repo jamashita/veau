@@ -68,7 +68,7 @@ Este sistema puede contener las traducciones incorrectas porque mi apitud de la 
 Cuando encuentras unas traducciones incorrectas, dimelos y los corrijo inmediatamente.  
 Gracias por tu cooperación.
 
-Ce système peut contenir les traductions fausses à cause de ma abilité de la tranduction insuffisante.  
+Ce système peut contenir les traductions fausses à cause de ma abilité de la traduction insuffisante.  
 Quand tu trouves las traductions fausses, dis-moi-les et je les corrige immediatement.  
 Merci pour ta coopéation.
 
