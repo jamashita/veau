@@ -50,7 +50,7 @@ Password: nihongo
 
 ## Requests
 
-This system is constructing. When you have some requests, just create a new issue.
+This system is constructing. When you have some requests, create a new issue.
 
 Este sistema está construyendo. Cuando tienes unas peticiones, cree un nuevo problema.
 
