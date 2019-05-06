@@ -61,15 +61,15 @@ Veauは構築中です。要望があるときは問題を作成してくださ�
 ## When you find wrong translations
 
 Veau may contain some wrong translations because of my insufficient translation ability.  
-If you find one, please tell me them and I will correct it immediately.  
+If you find one, please tell me and I will correct it immediately.  
 Thank you for your cooperation.
 
 Veau puede contener algunas traducciones incorrectas porque mi apitud de la traducción insuficiente.  
-Si encuentras una, por favor dimelas y la corrijo inmediatamente.  
+Si encuentras una, por favor dime y la corrijo inmediatamente.  
 Gracias por tu cooperación.
 
 Veau peut contenir des erreurs de traduction à cause de ma abilité de la traduction insuffisante.  
-Si tu trouves une, dis-la-moi et je la corrige immediatement, s'il vous plaît.  
+Si tu trouves une, dis-moi et je la corrige immediatement, s'il vous plaît.  
 Merci pour ta coopéation.
 
 私の翻訳能力が十分でないため、Veauには誤った翻訳が含まれている可能性があります。  
