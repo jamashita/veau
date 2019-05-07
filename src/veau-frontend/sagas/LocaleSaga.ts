@@ -1,6 +1,6 @@
 import { fork, put, take } from 'redux-saga/effects';
-import { Language } from '@/veau-entity/Language';
-import { Region } from '@/veau-entity/Region';
+import { Language } from '../../veau-entity/Language';
+import { Region } from '../../veau-entity/Region';
 import { ACTION } from '../actions/Action';
 import { defineLanguages, defineRegions } from '../actions/LocaleAction';
 import { ILocaleQuery } from '../queries/interfaces/ILocaleQuery';

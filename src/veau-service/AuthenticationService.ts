@@ -1,8 +1,8 @@
 import * as passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import { VeauAccount, VeauAccountJSON } from '@/veau-entity/VeauAccount';
-import { VeauAccountFactory } from '@/veau-factory/VeauAccountFactory';
-import { AuthenticationUseCase } from '@/veau-usecase/AuthenticationUseCase';
+import { VeauAccount, VeauAccountJSON } from '../veau-entity/VeauAccount';
+import { VeauAccountFactory } from '../veau-factory/VeauAccountFactory';
+import { AuthenticationUseCase } from '../veau-usecase/AuthenticationUseCase';
 
 const authenticationUseCase: AuthenticationUseCase = AuthenticationUseCase.getInstance();
 const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();

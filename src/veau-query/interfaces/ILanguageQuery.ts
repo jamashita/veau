@@ -1,5 +1,5 @@
-import { Language } from '@/veau-entity/Language';
-import { ISO639 } from '@/veau-vo/ISO639';
+import { Language } from '../../veau-entity/Language';
+import { ISO639 } from '../../veau-vo/ISO639';
 
 export interface ILanguageQuery {
 

@@ -2,13 +2,13 @@
 import 'jest';
 import * as sinon from 'sinon';
 import { SinonStub } from 'sinon';
-import { StatsItems } from '@/veau-collection/StatsItems';
-import { StatsValues } from '@/veau-collection/StatsValues';
-import { Stats } from '@/veau-entity/Stats';
-import { NoSuchElementError } from '@/veau-error/NoSuchElementError';
-import { VeauMySQL } from '@/veau-infrastructure/VeauMySQL';
-import { StatsID } from '@/veau-vo/StatsID';
-import { UUID } from '@/veau-vo/UUID';
+import { StatsItems } from '../../veau-collection/StatsItems';
+import { StatsValues } from '../../veau-collection/StatsValues';
+import { Stats } from '../../veau-entity/Stats';
+import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
+import { StatsID } from '../../veau-vo/StatsID';
+import { UUID } from '../../veau-vo/UUID';
 import { StatsMySQLQuery } from '../StatsMySQLQuery';
 
 describe('StatsMySQLQuery', () => {

@@ -1,5 +1,5 @@
-import { Language } from '@/veau-entity/Language';
-import { Region } from '@/veau-entity/Region';
+import { Language } from '../../veau-entity/Language';
+import { Region } from '../../veau-entity/Region';
 import { ACTION, Action } from '../actions/Action';
 
 export type Locale = {

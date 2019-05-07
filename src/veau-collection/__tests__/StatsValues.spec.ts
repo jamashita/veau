@@ -1,7 +1,7 @@
 /* tslint:disable */
 import 'jest';
 import * as moment from 'moment';
-import { StatsValue } from '@/veau-vo/StatsValue';
+import { StatsValue } from '../../veau-vo/StatsValue';
 import { StatsValues } from '../StatsValues';
 
 describe('StatsValues', () => {

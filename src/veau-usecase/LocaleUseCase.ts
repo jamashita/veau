@@ -1,15 +1,15 @@
-import { ILanguageCommand } from '@/veau-command/interfaces/ILanguageCommand';
-import { IRegionCommand } from '@/veau-command/interfaces/IRegionCommand';
-import { LanguageRedisCommand } from '@/veau-command/LanguageRedisCommand';
-import { RegionRedisCommand } from '@/veau-command/RegionRedisCommand';
-import { Language, LanguageJSON } from '@/veau-entity/Language';
-import { Region, RegionJSON } from '@/veau-entity/Region';
-import { ILanguageQuery } from '@/veau-query/interfaces/ILanguageQuery';
-import { IRegionQuery } from '@/veau-query/interfaces/IRegionQuery';
-import { LanguageMySQLQuery } from '@/veau-query/LanguageMySQLQuery';
-import { LanguageRedisQuery } from '@/veau-query/LanguageRedisQuery';
-import { RegionMySQLQuery } from '@/veau-query/RegionMySQLQuery';
-import { RegionRedisQuery } from '@/veau-query/RegionRedisQuery';
+import { ILanguageCommand } from '../veau-command/interfaces/ILanguageCommand';
+import { IRegionCommand } from '../veau-command/interfaces/IRegionCommand';
+import { LanguageRedisCommand } from '../veau-command/LanguageRedisCommand';
+import { RegionRedisCommand } from '../veau-command/RegionRedisCommand';
+import { Language, LanguageJSON } from '../veau-entity/Language';
+import { Region, RegionJSON } from '../veau-entity/Region';
+import { ILanguageQuery } from '../veau-query/interfaces/ILanguageQuery';
+import { IRegionQuery } from '../veau-query/interfaces/IRegionQuery';
+import { LanguageMySQLQuery } from '../veau-query/LanguageMySQLQuery';
+import { LanguageRedisQuery } from '../veau-query/LanguageRedisQuery';
+import { RegionMySQLQuery } from '../veau-query/RegionMySQLQuery';
+import { RegionRedisQuery } from '../veau-query/RegionRedisQuery';
 
 export type Locales = {
   languages: Array<LanguageJSON>;

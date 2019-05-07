@@ -1,7 +1,7 @@
-import { Stats, StatsJSON } from '@/veau-entity/Stats';
-import { StatsFactory } from '@/veau-factory/StatsFactory';
-import { AJAX, AJAXResponse } from '@/veau-general/AJAX';
-import { StatsID } from '@/veau-vo/StatsID';
+import { Stats, StatsJSON } from '../../veau-entity/Stats';
+import { StatsFactory } from '../../veau-factory/StatsFactory';
+import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
+import { StatsID } from '../../veau-vo/StatsID';
 import { IStatsQuery } from './interfaces/IStatsQuery';
 
 export class StatsAJAXQuery implements IStatsQuery {

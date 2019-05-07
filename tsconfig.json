@@ -28,13 +28,7 @@
     "types": [
       "node",
       "jest"
-    ],
-    "baseUrl": ".",
-    "paths": {
-      "@/*": [
-        "src/*"
-      ]
-    }
+    ]
   },
   "include": [
     "src/**/*"

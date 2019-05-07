@@ -1,8 +1,8 @@
 import * as log4js from 'log4js';
-import { Digest } from '@/veau-general/Digest';
-import { NoSuchElementError } from '@/veau-error/NoSuchElementError';
-import { IVeauAccountQuery, VeauAccountHash } from '@/veau-query/interfaces/IVeauAccountQuery';
-import { VeauAccountMySQLQuery } from '@/veau-query/VeauAccountMySQLQuery';
+import { Digest } from '../veau-general/Digest';
+import { NoSuchElementError } from '../veau-error/NoSuchElementError';
+import { IVeauAccountQuery, VeauAccountHash } from '../veau-query/interfaces/IVeauAccountQuery';
+import { VeauAccountMySQLQuery } from '../veau-query/VeauAccountMySQLQuery';
 
 const logger: log4js.Logger = log4js.getLogger();
 

@@ -1,5 +1,5 @@
 import { connect, ConnectedComponentClass, MapStateToProps } from 'react-redux';
-import { VeauAccount } from '@/veau-entity/VeauAccount';
+import { VeauAccount } from '../../veau-entity/VeauAccount';
 import { I18NProvider as Component } from '../components/I18NProvider';
 import { State } from '../State';
 

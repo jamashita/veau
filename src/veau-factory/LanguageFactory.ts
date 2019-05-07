@@ -1,6 +1,6 @@
-import { Language, LanguageJSON, LanguageRow } from '@/veau-entity/Language';
-import { ISO639 } from '@/veau-vo/ISO639';
-import { LanguageID } from '@/veau-vo/LanguageID';
+import { Language, LanguageJSON, LanguageRow } from '../veau-entity/Language';
+import { ISO639 } from '../veau-vo/ISO639';
+import { LanguageID } from '../veau-vo/LanguageID';
 
 export class LanguageFactory {
   private static instance: LanguageFactory = new LanguageFactory();

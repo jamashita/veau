@@ -1,9 +1,9 @@
 import * as moment from 'moment';
-import { StatsValues } from '@/veau-collection/StatsValues';
-import { Random } from '@/veau-general/Random';
-import { StatsItemID } from '@/veau-vo/StatsItemID';
-import { StatsValue, StatsValueJSON } from '@/veau-vo/StatsValue';
-import { UUID } from '@/veau-vo/UUID';
+import { StatsValues } from '../veau-collection/StatsValues';
+import { Random } from '../veau-general/Random';
+import { StatsItemID } from '../veau-vo/StatsItemID';
+import { StatsValue, StatsValueJSON } from '../veau-vo/StatsValue';
+import { UUID } from '../veau-vo/UUID';
 import { Entity } from './Entity';
 
 export type StatsItemJSON = {

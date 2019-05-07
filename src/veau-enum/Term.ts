@@ -1,4 +1,4 @@
-import { RuntimeError } from '@/veau-error/RuntimeError';
+import { RuntimeError } from '../veau-error/RuntimeError';
 
 export class Term {
   private id: number;

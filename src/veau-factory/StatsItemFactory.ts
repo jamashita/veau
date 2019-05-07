@@ -1,9 +1,9 @@
 import * as moment from 'moment';
-import { StatsValues } from '@/veau-collection/StatsValues';
-import { StatsItem, StatsItemJSON, StatsItemRow } from '@/veau-entity/StatsItem';
-import { StatsItemID } from '@/veau-vo/StatsItemID';
-import { StatsValue, StatsValueJSON } from '@/veau-vo/StatsValue';
-import { UUID } from '@/veau-vo/UUID';
+import { StatsValues } from '../veau-collection/StatsValues';
+import { StatsItem, StatsItemJSON, StatsItemRow } from '../veau-entity/StatsItem';
+import { StatsItemID } from '../veau-vo/StatsItemID';
+import { StatsValue, StatsValueJSON } from '../veau-vo/StatsValue';
+import { UUID } from '../veau-vo/UUID';
 
 export class StatsItemFactory {
   private static instance: StatsItemFactory = new StatsItemFactory();

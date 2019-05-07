@@ -1,6 +1,6 @@
-import { Region, RegionJSON } from '@/veau-entity/Region';
-import { CacheError } from '@/veau-error/CacheError';
-import { VeauRedis } from '@/veau-infrastructure/VeauRedis';
+import { Region, RegionJSON } from '../veau-entity/Region';
+import { CacheError } from '../veau-error/CacheError';
+import { VeauRedis } from '../veau-infrastructure/VeauRedis';
 import { IRegionCommand } from './interfaces/IRegionCommand';
 
 export class RegionRedisCommand implements IRegionCommand {

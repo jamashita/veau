@@ -1,6 +1,6 @@
 import * as moment from 'moment';
-import { NoSuchElementError } from '@/veau-error/NoSuchElementError';
-import { StatsValue, StatsValueJSON } from '@/veau-vo/StatsValue';
+import { NoSuchElementError } from '../veau-error/NoSuchElementError';
+import { StatsValue, StatsValueJSON } from '../veau-vo/StatsValue';
 
 export class StatsValues {
   private values: Array<StatsValue>;

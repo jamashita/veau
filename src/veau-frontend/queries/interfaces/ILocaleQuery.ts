@@ -1,7 +1,7 @@
-import { Language } from '@/veau-entity/Language';
-import { Region } from '@/veau-entity/Region';
-import { ISO3166 } from '@/veau-vo/ISO3166';
-import { ISO639 } from '@/veau-vo/ISO639';
+import { Language } from '../../../veau-entity/Language';
+import { Region } from '../../../veau-entity/Region';
+import { ISO3166 } from '../../../veau-vo/ISO3166';
+import { ISO639 } from '../../../veau-vo/ISO639';
 
 export interface ILocaleQuery {
 

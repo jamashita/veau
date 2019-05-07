@@ -12,12 +12,12 @@ import {
 } from '@material-ui/core';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
-import { Language } from '@/veau-entity/Language';
-import { Region } from '@/veau-entity/Region';
-import { Stats } from '@/veau-entity/Stats';
-import { Term } from '@/veau-enum/Term';
-import { ISO3166 } from '@/veau-vo/ISO3166';
-import { ISO639 } from '@/veau-vo/ISO639';
+import { Language } from '../../../veau-entity/Language';
+import { Region } from '../../../veau-entity/Region';
+import { Stats } from '../../../veau-entity/Stats';
+import { Term } from '../../../veau-enum/Term';
+import { ISO3166 } from '../../../veau-vo/ISO3166';
+import { ISO639 } from '../../../veau-vo/ISO639';
 import { TextField } from '../atoms/TextField';
 
 type Props = {

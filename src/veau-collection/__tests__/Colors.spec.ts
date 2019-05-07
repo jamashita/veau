@@ -1,6 +1,6 @@
 /* tslint:disable */
 import 'jest';
-import { Color } from '@/veau-vo/Color';
+import { Color } from '../../veau-vo/Color';
 import { Colors } from '../Colors';
 
 describe('Colors', () => {

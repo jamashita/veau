@@ -1,8 +1,8 @@
 import * as moment from 'moment';
-import { StatsValues } from '@/veau-collection/StatsValues';
-import { VeauMySQL } from '@/veau-infrastructure/VeauMySQL';
-import { StatsID } from '@/veau-vo/StatsID';
-import { StatsValue, StatsValueRow } from '@/veau-vo/StatsValue';
+import { StatsValues } from '../veau-collection/StatsValues';
+import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
+import { StatsID } from '../veau-vo/StatsID';
+import { StatsValue, StatsValueRow } from '../veau-vo/StatsValue';
 import { IStatsValueQuery } from './interfaces/IStatsValueQuery';
 
 export class StatsValueMySQLQuery implements IStatsValueQuery {

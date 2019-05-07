@@ -1,11 +1,11 @@
 import * as moment from 'moment';
-import { StatsItems } from '@/veau-collection/StatsItems';
-import { Term } from '@/veau-enum/Term';
-import { RuntimeError } from '@/veau-error/RuntimeError';
-import { Random } from '@/veau-general/Random';
-import { StatsID } from '@/veau-vo/StatsID';
-import { StatsValue } from '@/veau-vo/StatsValue';
-import { UUID } from '@/veau-vo/UUID';
+import { StatsItems } from '../veau-collection/StatsItems';
+import { Term } from '../veau-enum/Term';
+import { RuntimeError } from '../veau-error/RuntimeError';
+import { Random } from '../veau-general/Random';
+import { StatsID } from '../veau-vo/StatsID';
+import { StatsValue } from '../veau-vo/StatsValue';
+import { UUID } from '../veau-vo/UUID';
 import { Entity } from './Entity';
 import { Language, LanguageJSON } from './Language';
 import { Region, RegionJSON } from './Region';

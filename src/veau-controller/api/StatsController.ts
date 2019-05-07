@@ -1,13 +1,13 @@
 import * as express from 'express';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND } from 'http-status';
 import * as log4js from 'log4js';
-import { StatsJSON } from '@/veau-entity/Stats';
-import { NotFoundError } from '@/veau-error/NotFoundError';
+import { StatsJSON } from '../../veau-entity/Stats';
+import { NotFoundError } from '../../veau-error/NotFoundError';
 import { RequestSession } from '../RequestSession';
-import { Type } from '@/veau-general/Type';
-import { StatsUseCase } from '@/veau-usecase/StatsUseCase';
-import { StatsID } from '@/veau-vo/StatsID';
-import { UUID } from '@/veau-vo/UUID';
+import { Type } from '../../veau-general/Type';
+import { StatsUseCase } from '../../veau-usecase/StatsUseCase';
+import { StatsID } from '../../veau-vo/StatsID';
+import { UUID } from '../../veau-vo/UUID';
 
 const router: express.Router = express.Router();
 const logger: log4js.Logger = log4js.getLogger();

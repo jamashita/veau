@@ -1,5 +1,5 @@
-import { ISO639 } from '@/veau-vo/ISO639';
-import { LanguageID } from '@/veau-vo/LanguageID';
+import { ISO639 } from '../veau-vo/ISO639';
+import { LanguageID } from '../veau-vo/LanguageID';
 import { Entity } from './Entity';
 
 export type LanguageJSON = {

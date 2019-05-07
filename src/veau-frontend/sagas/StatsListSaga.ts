@@ -1,9 +1,9 @@
 import { fork, put, select, take } from 'redux-saga/effects';
-import { Language } from '@/veau-entity/Language';
-import { Region } from '@/veau-entity/Region';
-import { Stats } from '@/veau-entity/Stats';
-import { NoSuchElementError } from '@/veau-error/NoSuchElementError';
-import { StatsFactory } from '@/veau-factory/StatsFactory';
+import { Language } from '../../veau-entity/Language';
+import { Region } from '../../veau-entity/Region';
+import { Stats } from '../../veau-entity/Stats';
+import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { StatsFactory } from '../../veau-factory/StatsFactory';
 import {
   ACTION,
   LocationChangeAction,
