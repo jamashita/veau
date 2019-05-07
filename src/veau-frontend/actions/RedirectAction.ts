@@ -1,4 +1,4 @@
-import { StatsID } from '../../veau-vo/StatsID';
+import { StatsID } from '@/veau-vo/StatsID';
 import { ACTION, PushToEntranceAction, PushToStatsEditAction, PushToStatsListAction } from './Action';
 
 export const pushToStatsList: () => PushToStatsListAction = (): PushToStatsListAction => {

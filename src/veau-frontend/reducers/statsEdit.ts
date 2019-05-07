@@ -1,4 +1,4 @@
-import { StatsItem } from '../../veau-entity/StatsItem';
+import { StatsItem } from '@/veau-entity/StatsItem';
 import { ACTION, Action } from '../actions/Action';
 
 export type StatsEdit = {

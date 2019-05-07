@@ -1,5 +1,5 @@
-import { Stats } from '../../../veau-entity/Stats';
-import { StatsID } from '../../../veau-vo/StatsID';
+import { Stats } from '@/veau-entity/Stats';
+import { StatsID } from '@/veau-vo/StatsID';
 
 export interface IStatsQuery {
 

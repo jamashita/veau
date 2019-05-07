@@ -1,8 +1,8 @@
-import { Region, RegionRow } from '../veau-entity/Region';
-import { NoSuchElementError } from '../veau-error/NoSuchElementError';
-import { RegionFactory } from '../veau-factory/RegionFactory';
-import { VeauRedis } from '../veau-infrastructure/VeauRedis';
-import { ISO3166 } from '../veau-vo/ISO3166';
+import { Region, RegionRow } from '@/veau-entity/Region';
+import { NoSuchElementError } from '@/veau-error/NoSuchElementError';
+import { RegionFactory } from '@/veau-factory/RegionFactory';
+import { VeauRedis } from '@/veau-infrastructure/VeauRedis';
+import { ISO3166 } from '@/veau-vo/ISO3166';
 import { IRegionQuery } from './interfaces/IRegionQuery';
 
 export class RegionRedisQuery implements IRegionQuery {

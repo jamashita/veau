@@ -2,10 +2,10 @@
 import 'jest';
 import * as sinon from 'sinon';
 import { SinonStub } from 'sinon';
-import { Language } from '../../veau-entity/Language';
-import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { VeauRedis } from '../../veau-infrastructure/VeauRedis';
-import { ISO639 } from '../../veau-vo/ISO639';
+import { Language } from '@/veau-entity/Language';
+import { NoSuchElementError } from '@/veau-error/NoSuchElementError';
+import { VeauRedis } from '@/veau-infrastructure/VeauRedis';
+import { ISO639 } from '@/veau-vo/ISO639';
 import { LanguageRedisQuery } from '../LanguageRedisQuery';
 
 describe('LanguageRedisQuery', () => {

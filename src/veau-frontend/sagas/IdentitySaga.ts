@@ -1,9 +1,9 @@
 import { fork, put, select, take } from 'redux-saga/effects';
-import { VeauAccount } from '../../veau-entity/VeauAccount';
-import { VeauAccountFactory } from '../../veau-factory/VeauAccountFactory';
-import { LanguageIdentifier } from '../../veau-general/LanguageIdentifier';
-import { ISO639 } from '../../veau-vo/ISO639';
-import { VeauAccountID } from '../../veau-vo/VeauAccountID';
+import { VeauAccount } from '@/veau-entity/VeauAccount';
+import { VeauAccountFactory } from '@/veau-factory/VeauAccountFactory';
+import { LanguageIdentifier } from '@/veau-general/LanguageIdentifier';
+import { ISO639 } from '@/veau-vo/ISO639';
+import { VeauAccountID } from '@/veau-vo/VeauAccountID';
 import { ACTION } from '../actions/Action';
 import { identified, identityAuthenticated } from '../actions/IdentityAction';
 import { pushToEntrance, pushToStatsList } from '../actions/RedirectAction';

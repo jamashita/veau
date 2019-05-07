@@ -1,8 +1,8 @@
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
-import { Stats } from '../../../veau-entity/Stats';
-import { StatsID } from '../../../veau-vo/StatsID';
+import { Stats } from '@/veau-entity/Stats';
+import { StatsID } from '@/veau-vo/StatsID';
 
 type Props = {
   statsOverviews: Array<Stats>;

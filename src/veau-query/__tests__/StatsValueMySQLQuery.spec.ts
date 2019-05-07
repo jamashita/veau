@@ -2,10 +2,10 @@
 import 'jest';
 import * as sinon from 'sinon';
 import { SinonStub } from 'sinon';
-import { StatsValues } from '../../veau-collection/StatsValues';
-import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
-import { StatsID } from '../../veau-vo/StatsID';
-import { UUID } from '../../veau-vo/UUID';
+import { StatsValues } from '@/veau-collection/StatsValues';
+import { VeauMySQL } from '@/veau-infrastructure/VeauMySQL';
+import { StatsID } from '@/veau-vo/StatsID';
+import { UUID } from '@/veau-vo/UUID';
 import { StatsValueMySQLQuery } from '../StatsValueMySQLQuery';
 
 describe('StatsValueMySQLQuery', () => {

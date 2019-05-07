@@ -2,9 +2,9 @@
 import 'jest';
 import * as sinon from 'sinon';
 import { SinonStub } from 'sinon';
-import { Digest } from '../../veau-general/Digest';
-import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { VeauAccountMySQLQuery } from '../../veau-query/VeauAccountMySQLQuery';
+import { Digest } from '@/veau-general/Digest';
+import { NoSuchElementError } from '@/veau-error/NoSuchElementError';
+import { VeauAccountMySQLQuery } from '@/veau-query/VeauAccountMySQLQuery';
 import { AuthenticationUseCase } from '../AuthenticationUseCase';
 
 describe('AuthenticationUseCase', () => {

@@ -1,5 +1,5 @@
-import { StatsValues } from '../../veau-collection/StatsValues';
-import { StatsID } from '../../veau-vo/StatsID';
+import { StatsValues } from '@/veau-collection/StatsValues';
+import { StatsID } from '@/veau-vo/StatsID';
 
 export interface IStatsValueQuery {
 

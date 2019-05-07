@@ -1,7 +1,7 @@
 import { Button, Card, CardActions, CardContent, CardHeader, Icon } from '@material-ui/core';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
-import { StatsItem } from '../../../veau-entity/StatsItem';
+import { StatsItem } from '@/veau-entity/StatsItem';
 import { TextField } from '../atoms/TextField';
 
 type Props = {

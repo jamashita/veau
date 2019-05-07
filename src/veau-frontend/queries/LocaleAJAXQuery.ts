@@ -1,12 +1,12 @@
-import { Language, LanguageJSON } from '../../veau-entity/Language';
-import { Region, RegionJSON } from '../../veau-entity/Region';
-import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { LanguageFactory } from '../../veau-factory/LanguageFactory';
-import { RegionFactory } from '../../veau-factory/RegionFactory';
-import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
-import { Locales } from '../../veau-usecase/LocaleUseCase';
-import { ISO3166 } from '../../veau-vo/ISO3166';
-import { ISO639 } from '../../veau-vo/ISO639';
+import { Language, LanguageJSON } from '@/veau-entity/Language';
+import { Region, RegionJSON } from '@/veau-entity/Region';
+import { NoSuchElementError } from '@/veau-error/NoSuchElementError';
+import { LanguageFactory } from '@/veau-factory/LanguageFactory';
+import { RegionFactory } from '@/veau-factory/RegionFactory';
+import { AJAX, AJAXResponse } from '@/veau-general/AJAX';
+import { Locales } from '@/veau-usecase/LocaleUseCase';
+import { ISO3166 } from '@/veau-vo/ISO3166';
+import { ISO639 } from '@/veau-vo/ISO639';
 import { ILocaleQuery } from './interfaces/ILocaleQuery';
 
 export class LocaleAJAXQuery implements ILocaleQuery {

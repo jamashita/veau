@@ -1,5 +1,5 @@
-import { Stats } from '../../veau-entity/Stats';
-import { AJAX } from '../../veau-general/AJAX';
+import { Stats } from '@/veau-entity/Stats';
+import { AJAX } from '@/veau-general/AJAX';
 import { IStatsCommand } from './interfaces/IStatsCommand';
 
 export class StatsAJAXCommand implements IStatsCommand {

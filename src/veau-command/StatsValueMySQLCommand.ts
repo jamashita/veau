@@ -1,7 +1,7 @@
-import { Transaction } from '../veau-general/MySQL/Transaction';
-import { StatsID } from '../veau-vo/StatsID';
-import { StatsItemID } from '../veau-vo/StatsItemID';
-import { StatsValue } from '../veau-vo/StatsValue';
+import { Transaction } from '@/veau-general/MySQL/Transaction';
+import { StatsID } from '@/veau-vo/StatsID';
+import { StatsItemID } from '@/veau-vo/StatsItemID';
+import { StatsValue } from '@/veau-vo/StatsValue';
 import { IStatsValueCommand } from './interfaces/IStatsValueCommand';
 
 export class StatsValueMySQLCommand implements IStatsValueCommand {

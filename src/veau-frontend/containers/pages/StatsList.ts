@@ -1,12 +1,12 @@
 import { connect, ConnectedComponentClass, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
-import { Language } from '../../../veau-entity/Language';
-import { Region } from '../../../veau-entity/Region';
-import { Stats } from '../../../veau-entity/Stats';
-import { Term } from '../../../veau-enum/Term';
-import { ISO3166 } from '../../../veau-vo/ISO3166';
-import { ISO639 } from '../../../veau-vo/ISO639';
-import { StatsID } from '../../../veau-vo/StatsID';
+import { Language } from '@/veau-entity/Language';
+import { Region } from '@/veau-entity/Region';
+import { Stats } from '@/veau-entity/Stats';
+import { Term } from '@/veau-enum/Term';
+import { ISO3166 } from '@/veau-vo/ISO3166';
+import { ISO639 } from '@/veau-vo/ISO639';
+import { StatsID } from '@/veau-vo/StatsID';
 import { Action } from '../../actions/Action';
 import { pushToStatsEdit } from '../../actions/RedirectAction';
 import {

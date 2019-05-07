@@ -2,8 +2,8 @@
 import 'jest';
 import * as sinon from 'sinon';
 import { SinonStub } from 'sinon';
-import { VeauAccount } from '../../veau-entity/VeauAccount';
-import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
+import { VeauAccount } from '@/veau-entity/VeauAccount';
+import { VeauMySQL } from '@/veau-infrastructure/VeauMySQL';
 import { VeauAccountHash } from '../interfaces/IVeauAccountQuery';
 import { VeauAccountMySQLQuery } from '../VeauAccountMySQLQuery';
 

@@ -1,9 +1,9 @@
 import { UNAUTHORIZED } from 'http-status';
-import { VeauAccount, VeauAccountJSON } from '../../veau-entity/VeauAccount';
-import { AuthenticationFailureError } from '../../veau-error/AuthenticationFailureError';
-import { VeauAccountFactory } from '../../veau-factory/VeauAccountFactory';
-import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
-import { EntranceInformation } from '../../veau-vo/EntranceInformation';
+import { VeauAccount, VeauAccountJSON } from '@/veau-entity/VeauAccount';
+import { AuthenticationFailureError } from '@/veau-error/AuthenticationFailureError';
+import { VeauAccountFactory } from '@/veau-factory/VeauAccountFactory';
+import { AJAX, AJAXResponse } from '@/veau-general/AJAX';
+import { EntranceInformation } from '@/veau-vo/EntranceInformation';
 import { ISessionQuery } from './interfaces/ISessionQuery';
 
 export class SessionAJAXQuery implements ISessionQuery {

@@ -1,4 +1,4 @@
-import { Identifier } from '../veau-general/Identifier';
+import { Identifier } from '@/veau-general/Identifier';
 
 export abstract class ValueObject implements Identifier {
 

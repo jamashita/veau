@@ -3,11 +3,11 @@ import * as express from 'express';
 import { OK } from 'http-status';
 import 'jest';
 import * as supertest from 'supertest';
-import { VeauAccount } from '../../../veau-entity/VeauAccount';
-import { ISO3166 } from '../../../veau-vo/ISO3166';
-import { ISO639 } from '../../../veau-vo/ISO639';
-import { UUID } from '../../../veau-vo/UUID';
-import { VeauAccountID } from '../../../veau-vo/VeauAccountID';
+import { VeauAccount } from '@/veau-entity/VeauAccount';
+import { ISO3166 } from '@/veau-vo/ISO3166';
+import { ISO639 } from '@/veau-vo/ISO639';
+import { UUID } from '@/veau-vo/UUID';
+import { VeauAccountID } from '@/veau-vo/VeauAccountID';
 import { IdentityController } from '../IdentityController';
 
 describe('IdentityController', () => {

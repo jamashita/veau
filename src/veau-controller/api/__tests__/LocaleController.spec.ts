@@ -5,7 +5,7 @@ import 'jest';
 import * as sinon from 'sinon';
 import { SinonSpy, SinonStub } from 'sinon';
 import * as supertest from 'supertest';
-import { LocaleUseCase } from '../../../veau-usecase/LocaleUseCase';
+import { LocaleUseCase } from '@/veau-usecase/LocaleUseCase';
 import { LocaleController } from '../LocaleController';
 
 describe('LocaleController', () => {

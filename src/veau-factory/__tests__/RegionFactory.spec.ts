@@ -1,8 +1,8 @@
 /* tslint:disable */
 import 'jest';
-import { Region, RegionJSON, RegionRow } from '../../veau-entity/Region';
-import { ISO3166 } from '../../veau-vo/ISO3166';
-import { RegionID } from '../../veau-vo/RegionID';
+import { Region, RegionJSON, RegionRow } from '@/veau-entity/Region';
+import { ISO3166 } from '@/veau-vo/ISO3166';
+import { RegionID } from '@/veau-vo/RegionID';
 import { RegionFactory } from '../RegionFactory';
 
 describe('RegionFactory', () => {

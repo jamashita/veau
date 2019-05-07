@@ -1,7 +1,7 @@
-import { VeauAccountRow } from '../veau-entity/VeauAccount';
-import { NoSuchElementError } from '../veau-error/NoSuchElementError';
-import { VeauAccountFactory } from '../veau-factory/VeauAccountFactory';
-import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
+import { VeauAccountRow } from '@/veau-entity/VeauAccount';
+import { NoSuchElementError } from '@/veau-error/NoSuchElementError';
+import { VeauAccountFactory } from '@/veau-factory/VeauAccountFactory';
+import { VeauMySQL } from '@/veau-infrastructure/VeauMySQL';
 import { IVeauAccountQuery, VeauAccountHash } from './interfaces/IVeauAccountQuery';
 
 export class VeauAccountMySQLQuery implements IVeauAccountQuery {

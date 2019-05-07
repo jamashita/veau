@@ -1,5 +1,5 @@
-import { Region } from '../../veau-entity/Region';
-import { ISO3166 } from '../../veau-vo/ISO3166';
+import { Region } from '@/veau-entity/Region';
+import { ISO3166 } from '@/veau-vo/ISO3166';
 
 export interface IRegionQuery {
 

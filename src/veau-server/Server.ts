@@ -10,8 +10,8 @@ import * as passport from 'passport';
 import * as path from 'path';
 import * as favicon from 'serve-favicon';
 import 'source-map-support/register';
-import { Controller } from '../veau-controller/Controller';
-import '../veau-service/AuthenticationService';
+import { Controller } from '@/veau-controller/Controller';
+import '@/veau-service/AuthenticationService';
 
 type SessionSetting = {
   secret: string;

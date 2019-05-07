@@ -1,4 +1,4 @@
-import { Stats } from '../../../veau-entity/Stats';
+import { Stats } from '@/veau-entity/Stats';
 
 export interface IStatsCommand {
 

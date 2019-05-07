@@ -1,5 +1,5 @@
-import { Language } from '../../veau-entity/Language';
-import { Region } from '../../veau-entity/Region';
+import { Language } from '@/veau-entity/Language';
+import { Region } from '@/veau-entity/Region';
 import { ACTION, LanguageDefinedAction, RegionDefinedAction } from './Action';
 
 export const defineLanguages: (languages: Array<Language>) => LanguageDefinedAction = (languages: Array<Language>): LanguageDefinedAction => {

@@ -1,4 +1,4 @@
-import { AJAX } from '../../veau-general/AJAX';
+import { AJAX } from '@/veau-general/AJAX';
 import { ISessionCommand } from './interfaces/ISessionCommand';
 
 export class SessionAJAXCommand implements ISessionCommand {

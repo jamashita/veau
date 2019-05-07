@@ -1,6 +1,6 @@
-import { StatsItem } from '../veau-entity/StatsItem';
-import { Transaction } from '../veau-general/MySQL/Transaction';
-import { StatsID } from '../veau-vo/StatsID';
+import { StatsItem } from '@/veau-entity/StatsItem';
+import { Transaction } from '@/veau-general/MySQL/Transaction';
+import { StatsID } from '@/veau-vo/StatsID';
 import { IStatsItemCommand } from './interfaces/IStatsItemCommand';
 
 export class StatsItemMySQLCommand implements IStatsItemCommand {

@@ -1,5 +1,5 @@
-import { Stats } from '../../veau-entity/Stats';
-import { StatsItem } from '../../veau-entity/StatsItem';
+import { Stats } from '@/veau-entity/Stats';
+import { StatsItem } from '@/veau-entity/StatsItem';
 import {
   ACTION,
   StatsItemResetAction,
