@@ -94,4 +94,4 @@ if you haven't installed docker for desktop, install it first.
 
 ## License
 
-MIT
+[MIT](LICENSE)
