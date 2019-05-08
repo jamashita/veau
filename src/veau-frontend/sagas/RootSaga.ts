@@ -18,4 +18,7 @@ export class RootSaga {
     yield fork(StatsEditSaga.init);
     yield fork(StatsListSaga.init);
   }
+
+  private constructor() {
+  }
 }
