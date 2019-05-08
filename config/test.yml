@@ -1,8 +1,4 @@
 port: 3000
-session:
-  secret: '5xPNqhCgHafvkDQzlcY51iCfUPJvVTnD'
-  maxAge: 3600000
-  secure: false
 redis:
   host: 'veau_redis'
   port: 6379

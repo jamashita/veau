@@ -1,8 +1,4 @@
 port: 4000
-session:
-  secret: 'CRfcO1eDCHgY36O2JTaAmzuTmpJOWZFq'
-  maxAge: 28800000
-  secure: false
 redis:
   host: 'localhost'
   port: 6379

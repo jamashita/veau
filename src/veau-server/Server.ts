@@ -13,12 +13,6 @@ import 'source-map-support/register';
 import { Controller } from '../veau-controller/Controller';
 import '../veau-service/AuthenticationService';
 
-type SessionSetting = {
-  secret: string;
-  maxAge: number;
-  secure: boolean;
-};
-
 const port: number = config.get<number>('port');
 const mode: string = process.env.NODE_ENV as string;
 
@@ -47,19 +41,18 @@ app.use(log4js.connectLogger(logger, {
   format: ':method :url :status'
 }));
 
-const sessionSetting: SessionSetting = config.get<SessionSetting>('session');
 const RedisStore: connectRedis.RedisStore = connectRedis(expressSession);
 const sessionStore: expressSession.Store = new RedisStore(config.get<connectRedis.RedisStoreOptions>('redis'));
 const sessionMiddleware: express.RequestHandler = expressSession({
-  secret: sessionSetting.secret,
+  secret: 'Ziuye5J4VmwxacL7dvV98dqUqT7HbfTn',
   store: sessionStore,
   resave: false,
   rolling: true,
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    secure: sessionSetting.secure,
-    maxAge: sessionSetting.maxAge
+    secure: false,
+    maxAge: 28800000
   }
 });
 
