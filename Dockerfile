@@ -10,7 +10,7 @@ COPY package.json package.json
 COPY webpack.config.js webpack.config.js
 COPY yarn.lock yarn.lock
 
-RUN yarn install --production=false
+RUN yarn install --production=false --frozen-lockfile
 RUN yarn build
 
 FROM node:11.14.0
@@ -28,7 +28,7 @@ COPY package.json package.json
 COPY yarn.lock yarn.lock
 
 RUN mkdir logs
-RUN yarn install --production=true
+RUN yarn install --production=true --frozen-lockfile
 RUN yarn global add pm2
 
 EXPOSE 4000
