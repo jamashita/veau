@@ -7,25 +7,15 @@ export class MySQL {
   public constructor(config: mysql.PoolConfig) {
     const pool: mysql.Pool = mysql.createPool(config);
 
-    pool.on('connection', (connection: mysql.Connection) => {
-      connection.config.queryFormat = (query: string, values: any): string => {
-        if (values === null) {
-          return query;
-        }
-        if (values === undefined) {
+    pool.on('connection', (connection: mysql.Connection): void => {
+      connection.config.queryFormat = (query: string, value?: object): string => {
+        if (value === undefined) {
           return query;
         }
 
         return query.replace(/:(\w+)/g, (txt: string, key: string): string => {
-          if (values instanceof Array) {
-            for (const value of values) {
-              if (value.hasOwnProperty(key)) {
-                return connection.escape(value[key]);
-              }
-            }
-          }
-          if (values.hasOwnProperty(key)) {
-            return connection.escape(values[key]);
+          if (value.hasOwnProperty(key)) {
+            return connection.escape(value[key]);
           }
 
           return 'NULL';
@@ -71,9 +61,9 @@ export class MySQL {
     }
   }
 
-  public query(sql: string, values?: Array<any>): Promise<any> {
+  public query(sql: string, value?: object): Promise<any> {
     return new Promise<any>((resolve: (value: any) => void, reject: (reason: any) => void): void => {
-      this.pool.query(sql, values, (err: mysql.MysqlError | null, result: any): void => {
+      this.pool.query(sql, value, (err: mysql.MysqlError | null, result: any): void => {
         if (err) {
           reject(err);
           return;

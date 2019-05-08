@@ -7,9 +7,9 @@ export class Transaction {
     this.connection = connection;
   }
 
-  public query(sql: string, values?: Array<any>): Promise<any> {
+  public query(sql: string, value?: object): Promise<any> {
     return new Promise<any>((resolve: (value: any) => void, reject: (reason: any) => void): void => {
-      this.connection.query(sql, values, (err: mysql.MysqlError | null, result: any): void => {
+      this.connection.query(sql, value, (err: mysql.MysqlError | null, result: any): void => {
         if (err) {
           reject(err);
           return;

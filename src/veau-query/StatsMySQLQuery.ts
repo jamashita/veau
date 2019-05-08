@@ -44,13 +44,12 @@ export class StatsMySQLQuery implements IStatsQuery {
       LIMIT :limit
       OFFSET :offset;`;
 
-    const statsRows: Array<StatsRow> = await VeauMySQL.query(query, [
-      {
+    const statsRows: Array<StatsRow> = await VeauMySQL.query(query, {
         veauAccountID: veauAccountID.get().get(),
         limit: StatsMySQLQuery.LIMIT,
         offset: (page - 1) * StatsMySQLQuery.LIMIT
       }
-    ]);
+    );
 
     return statsRows.map<Stats>((statsRow: StatsRow) => {
       return StatsMySQLQuery.statsFactory.fromRow(statsRow, []);
@@ -78,11 +77,10 @@ export class StatsMySQLQuery implements IStatsQuery {
       USING(region_id)
       WHERE R1.stats_id = :statsID;`;
 
-    const statsRows: Array<StatsRow> = await VeauMySQL.query(query, [
-      {
+    const statsRows: Array<StatsRow> = await VeauMySQL.query(query, {
         statsID: statsID.get().get()
       }
-    ]);
+    );
 
     if (statsRows.length === 0) {
       throw new NoSuchElementError(statsID.toString());

@@ -25,11 +25,10 @@ export class StatsValueMySQLQuery implements IStatsValueQuery {
       USING(stats_item_id)
       WHERE R2.stats_id = :statsID;`;
 
-    const statsValueRows: Array<StatsValueRow> = await VeauMySQL.query(query, [
-      {
+    const statsValueRows: Array<StatsValueRow> = await VeauMySQL.query(query, {
         statsID: statsID.get().get()
       }
-    ]);
+    );
 
     const valueMap: Map<string, StatsValues> = new Map<string, StatsValues>();
 

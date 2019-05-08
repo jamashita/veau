@@ -27,8 +27,7 @@ export class StatsMySQLCommand implements IStatsCommand {
       UTC_TIMESTAMP()
       );`;
 
-    return this.transaction.query(query, [
-      {
+    return this.transaction.query(query, {
         statsID: stats.getStatsID().get().get(),
         languageID: stats.getLanguage().getLanguageID().get(),
         regionID: stats.getRegion().getRegionID().get(),
@@ -37,7 +36,7 @@ export class StatsMySQLCommand implements IStatsCommand {
         name: stats.getName(),
         unit: stats.getUnit()
       }
-    ]);
+    );
   }
 
   public async deleteByStatsID(statsID: StatsID): Promise<any> {
@@ -45,10 +44,9 @@ export class StatsMySQLCommand implements IStatsCommand {
       FROM stats R1
       WHERE R1.stats_id = :statsID;`;
 
-    return this.transaction.query(query, [
-      {
+    return this.transaction.query(query, {
         statsID: statsID.get().get()
       }
-    ]);
+    );
   }
 }

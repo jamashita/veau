@@ -26,11 +26,10 @@ export class StatsItemMySQLQuery implements IStatsItemQuery {
       WHERE R1.stats_id = :statsID
       ORDER BY R1.seq;`;
 
-    const statsItemRows: Array<StatsItemRow> = await VeauMySQL.query(query, [
-      {
+    const statsItemRows: Array<StatsItemRow> = await VeauMySQL.query(query, {
         statsID: statsID.get().get()
       }
-    ]);
+    );
 
     const valueMap: Map<string, StatsValues> = await StatsItemMySQLQuery.statsValueMySQLQuery.findByStatsID(statsID);
 

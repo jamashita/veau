@@ -22,13 +22,12 @@ export class StatsValueMySQLCommand implements IStatsValueCommand {
       :value
       );`;
 
-    return this.transaction.query(query, [
-      {
+    return this.transaction.query(query, {
         statsItemID: statsItemID.get().get(),
         asOf: statsValue.getAsOfAsString(),
         value: statsValue.getValue()
       }
-    ]);
+    );
   }
 
   public deleteByStatsID(statsID: StatsID): Promise<any> {
@@ -40,10 +39,9 @@ export class StatsValueMySQLCommand implements IStatsValueCommand {
       USING(stats_id)
       WHERE R3.stats_id = :statsID;`;
 
-    return this.transaction.query(query, [
-      {
+    return this.transaction.query(query, {
         statsID: statsID.get().get()
       }
-    ]);
+    );
   }
 }
