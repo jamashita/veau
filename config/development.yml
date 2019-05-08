@@ -17,3 +17,23 @@ mysql:
   connectionLimit: 50
   connectTimeout: 60000
   acquireTimeout: 60000
+log4js:
+  appenders:
+    file:
+      type: 'dateFile'
+      filename: 'logs/veau.log'
+      pattern: '-yyyy-MM-dd.log'
+      daysToKeep: 30
+      layout:
+        type: 'coloured'
+    console:
+      type: 'console'
+      layout:
+        type: 'coloured'
+  categories:
+    default:
+      appenders:
+        - 'file'
+        - 'console'
+      level: 'debug'
+  pm2: true
