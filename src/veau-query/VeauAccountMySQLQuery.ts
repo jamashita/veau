@@ -31,9 +31,8 @@ export class VeauAccountMySQLQuery implements IVeauAccountQuery {
       AND R1.active = true;`;
 
     const veauAccountRows: Array<VeauAccountRow> = await VeauMySQL.query(query, {
-        account
-      }
-    );
+      account
+    });
 
     if (veauAccountRows.length === 0) {
       throw new NoSuchElementError(account);

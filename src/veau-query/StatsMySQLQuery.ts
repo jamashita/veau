@@ -1,7 +1,7 @@
 import { Stats, StatsRow } from '../veau-entity/Stats';
 import { StatsItem } from '../veau-entity/StatsItem';
-import { StatsFactory } from '../veau-factory/StatsFactory';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
+import { StatsFactory } from '../veau-factory/StatsFactory';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../veau-vo/StatsID';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
@@ -78,9 +78,8 @@ export class StatsMySQLQuery implements IStatsQuery {
       WHERE R1.stats_id = :statsID;`;
 
     const statsRows: Array<StatsRow> = await VeauMySQL.query(query, {
-        statsID: statsID.get().get()
-      }
-    );
+      statsID: statsID.get().get()
+    });
 
     if (statsRows.length === 0) {
       throw new NoSuchElementError(statsID.toString());
