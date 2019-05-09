@@ -10,5 +10,5 @@ stages:
 test:
   stage: test
   script:
-    - yarn install --production=true --frozen-lockfile
+    - yarn install --frozen-lockfile
     - yarn test
