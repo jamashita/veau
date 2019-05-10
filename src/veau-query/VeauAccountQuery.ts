@@ -1,16 +1,20 @@
-import { VeauAccountRow } from '../veau-entity/VeauAccount';
+import { VeauAccount, VeauAccountRow } from '../veau-entity/VeauAccount';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { VeauAccountFactory } from '../veau-factory/VeauAccountFactory';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
-import { IVeauAccountQuery, VeauAccountHash } from './interfaces/IVeauAccountQuery';
 
 const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
 
-export class VeauAccountMySQLQuery implements IVeauAccountQuery {
-  private static instance: VeauAccountMySQLQuery = new VeauAccountMySQLQuery();
+export type VeauAccountHash = {
+  veauAccount: VeauAccount;
+  hash: string;
+};
 
-  public static getInstance(): VeauAccountMySQLQuery {
-    return VeauAccountMySQLQuery.instance;
+export class VeauAccountQuery {
+  private static instance: VeauAccountQuery = new VeauAccountQuery();
+
+  public static getInstance(): VeauAccountQuery {
+    return VeauAccountQuery.instance;
   }
 
   private constructor() {

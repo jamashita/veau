@@ -6,9 +6,9 @@ import { StatsValues } from '../../veau-collection/StatsValues';
 import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../../veau-vo/StatsID';
 import { UUID } from '../../veau-vo/UUID';
-import { StatsValueMySQLQuery } from '../StatsValueMySQLQuery';
+import { StatsValueQuery } from '../StatsValueQuery';
 
-describe('StatsValueMySQLQuery', () => {
+describe('StatsValueQuery', () => {
   it('findByStatsID', async () => {
     const stub: SinonStub = sinon.stub();
     VeauMySQL.execute = stub;
@@ -40,7 +40,7 @@ describe('StatsValueMySQLQuery', () => {
       }
     ]);
 
-    const statsValueQuery: StatsValueMySQLQuery = StatsValueMySQLQuery.getInstance();
+    const statsValueQuery: StatsValueQuery = StatsValueQuery.getInstance();
     const values: Map<string, StatsValues> = await statsValueQuery.findByStatsID(StatsID.of(UUID.of('d4703058-a6ff-420b-95b2-4475beba9027')));
 
     const year2001: StatsValues | undefined = values.get('5318ad74-f15f-4835-9fd7-890be4cce933');

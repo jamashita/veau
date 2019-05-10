@@ -3,13 +3,12 @@ import { StatsValues } from '../veau-collection/StatsValues';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValue, StatsValueRow } from '../veau-vo/StatsValue';
-import { IStatsValueQuery } from './interfaces/IStatsValueQuery';
 
-export class StatsValueMySQLQuery implements IStatsValueQuery {
-  private static instance: StatsValueMySQLQuery = new StatsValueMySQLQuery();
+export class StatsValueQuery {
+  private static instance: StatsValueQuery = new StatsValueQuery();
 
-  public static getInstance(): StatsValueMySQLQuery {
-    return StatsValueMySQLQuery.instance;
+  public static getInstance(): StatsValueQuery {
+    return StatsValueQuery.instance;
   }
 
   private constructor() {

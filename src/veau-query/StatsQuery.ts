@@ -5,17 +5,16 @@ import { StatsFactory } from '../veau-factory/StatsFactory';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../veau-vo/StatsID';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
-import { IStatsQuery } from './interfaces/IStatsQuery';
-import { StatsItemMySQLQuery } from './StatsItemMySQLQuery';
+import { StatsItemQuery } from './StatsItemQuery';
 
-const statsItemMySQLQuery: StatsItemMySQLQuery = StatsItemMySQLQuery.getInstance();
+const statsItemQuery: StatsItemQuery = StatsItemQuery.getInstance();
 const statsFactory: StatsFactory = StatsFactory.getInstance();
 
-export class StatsMySQLQuery implements IStatsQuery {
-  private static instance: StatsMySQLQuery = new StatsMySQLQuery();
+export class StatsQuery {
+  private static instance: StatsQuery = new StatsQuery();
 
-  public static getInstance(): StatsMySQLQuery {
-    return StatsMySQLQuery.instance;
+  public static getInstance(): StatsQuery {
+    return StatsQuery.instance;
   }
 
   private constructor() {
@@ -85,7 +84,7 @@ export class StatsMySQLQuery implements IStatsQuery {
       throw new NoSuchElementError(statsID.toString());
     }
 
-    const items: Array<StatsItem> = await statsItemMySQLQuery.findByStatsID(statsID);
+    const items: Array<StatsItem> = await statsItemQuery.findByStatsID(statsID);
 
     return statsFactory.fromRow(statsRows[0], items);
   }

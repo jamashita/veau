@@ -6,9 +6,9 @@ import { StatsItem } from '../../veau-entity/StatsItem';
 import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../../veau-vo/StatsID';
 import { UUID } from '../../veau-vo/UUID';
-import { StatsItemMySQLQuery } from '../StatsItemMySQLQuery';
+import { StatsItemQuery } from '../StatsItemQuery';
 
-describe('StatsItemMySQLQuery', () => {
+describe('StatsItemQuery', () => {
   it('findByStatsID', async () => {
     const statsID: string = '428a0978-5d01-4da6-96f3-f851cb18e935';
     const stub: SinonStub = sinon.stub();
@@ -55,7 +55,7 @@ describe('StatsItemMySQLQuery', () => {
       }
     ]);
 
-    const statsItemQuery: StatsItemMySQLQuery = StatsItemMySQLQuery.getInstance();
+    const statsItemQuery: StatsItemQuery = StatsItemQuery.getInstance();
     const statsItems: Array<StatsItem> = await statsItemQuery.findByStatsID(StatsID.of(UUID.of(statsID)));
 
     expect(statsItems.length).toEqual(3);

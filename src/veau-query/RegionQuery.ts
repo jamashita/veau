@@ -2,22 +2,33 @@ import { Region, RegionRow } from '../veau-entity/Region';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { RegionFactory } from '../veau-factory/RegionFactory';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
+import { VeauRedis } from '../veau-infrastructure/VeauRedis';
 import { ISO3166 } from '../veau-vo/ISO3166';
-import { IRegionQuery } from './interfaces/IRegionQuery';
 
 const regionFactory: RegionFactory = RegionFactory.getInstance();
 
-export class RegionMySQLQuery implements IRegionQuery {
-  private static instance: RegionMySQLQuery = new RegionMySQLQuery();
+const REGIONS_REDIS_KEY: string = 'REGIONS';
 
-  public static getInstance(): RegionMySQLQuery {
-    return RegionMySQLQuery.instance;
+export class RegionQuery {
+  private static instance: RegionQuery = new RegionQuery();
+
+  public static getInstance(): RegionQuery {
+    return RegionQuery.instance;
   }
 
   private constructor() {
   }
 
   public async allRegions(): Promise<Array<Region>> {
+    const regionString: string | null = await VeauRedis.getString().get(REGIONS_REDIS_KEY);
+
+    if (regionString !== null) {
+      const regionRows: Array<RegionRow> = JSON.parse(regionString);
+      return regionRows.map<Region>((row: RegionRow) => {
+        return regionFactory.fromRow(row);
+      });
+    }
+
     const query: string = `SELECT
       R1.region_id AS regionID,
       R1.name,

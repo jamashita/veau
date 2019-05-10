@@ -9,9 +9,9 @@ import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../../veau-vo/StatsID';
 import { UUID } from '../../veau-vo/UUID';
-import { StatsMySQLQuery } from '../StatsMySQLQuery';
+import { StatsQuery } from '../StatsQuery';
 
-describe('StatsMySQLQuery', () => {
+describe('StatsQuery', () => {
   it('findByStatsID', async () => {
     const statsID: string = 'a25a8b7f-c810-4dc0-b94e-e97e74329307';
     const stub: SinonStub = sinon.stub();
@@ -74,7 +74,7 @@ describe('StatsMySQLQuery', () => {
       }
     ]);
 
-    const statsQuery: StatsMySQLQuery = StatsMySQLQuery.getInstance();
+    const statsQuery: StatsQuery = StatsQuery.getInstance();
     const stats: Stats = await statsQuery.findByStatsID(StatsID.of(UUID.of('a25a8b7f-c810-4dc0-b94e-e97e74329307')));
 
     expect(stats.getStatsID().get().get()).toEqual('a25a8b7f-c810-4dc0-b94e-e97e74329307');
@@ -126,7 +126,7 @@ describe('StatsMySQLQuery', () => {
     VeauMySQL.execute = stub;
     stub.resolves([]);
 
-    const statsQuery: StatsMySQLQuery = StatsMySQLQuery.getInstance();
+    const statsQuery: StatsQuery = StatsQuery.getInstance();
     expect(statsQuery.findByStatsID(StatsID.of(UUID.of('a25a8b7f-c810-4dc0-b94e-e97e74329307')))).rejects.toThrow(NoSuchElementError);
   });
 });

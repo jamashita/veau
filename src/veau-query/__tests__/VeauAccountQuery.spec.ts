@@ -4,10 +4,9 @@ import * as sinon from 'sinon';
 import { SinonStub } from 'sinon';
 import { VeauAccount } from '../../veau-entity/VeauAccount';
 import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
-import { VeauAccountHash } from '../interfaces/IVeauAccountQuery';
-import { VeauAccountMySQLQuery } from '../VeauAccountMySQLQuery';
+import { VeauAccountHash, VeauAccountQuery } from '../VeauAccountQuery';
 
-describe('VeauAccountMySQLQuery', () => {
+describe('VeauAccountQuery', () => {
   it('findByAccount', async () => {
     const stub: SinonStub = sinon.stub();
     VeauMySQL.execute = stub;
@@ -20,7 +19,7 @@ describe('VeauAccountMySQLQuery', () => {
       }
     ]);
 
-    const veauAccountQuery: VeauAccountMySQLQuery = VeauAccountMySQLQuery.getInstance();
+    const veauAccountQuery: VeauAccountQuery = VeauAccountQuery.getInstance();
     const veauAccountHash: VeauAccountHash = await veauAccountQuery.findByAccount('account');
     const veauAccount: VeauAccount = veauAccountHash.veauAccount;
 

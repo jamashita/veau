@@ -1,19 +1,19 @@
 import { Language, LanguageRow } from '../veau-entity/Language';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { LanguageFactory } from '../veau-factory/LanguageFactory';
+import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { VeauRedis } from '../veau-infrastructure/VeauRedis';
 import { ISO639 } from '../veau-vo/ISO639';
-import { ILanguageQuery } from './interfaces/ILanguageQuery';
 
 const languageFactory: LanguageFactory = LanguageFactory.getInstance();
 
 const LANGUAGES_REDIS_KEY: string = 'LANGUAGES';
 
-export class LanguageRedisQuery implements ILanguageQuery {
-  private static instance: LanguageRedisQuery = new LanguageRedisQuery();
+export class LanguageQuery {
+  private static instance: LanguageQuery = new LanguageQuery();
 
-  public static getInstance(): LanguageRedisQuery {
-    return LanguageRedisQuery.instance;
+  public static getInstance(): LanguageQuery {
+    return LanguageQuery.instance;
   }
 
   private constructor() {
@@ -22,14 +22,26 @@ export class LanguageRedisQuery implements ILanguageQuery {
   public async allLanguages(): Promise<Array<Language>> {
     const languagesString: string | null = await VeauRedis.getString().get(LANGUAGES_REDIS_KEY);
 
-    if (languagesString) {
+    if (languagesString !== null) {
       const languageRows: Array<LanguageRow> = JSON.parse(languagesString);
       return languageRows.map<Language>((row: LanguageRow) => {
         return languageFactory.fromRow(row);
       });
     }
 
-    return [];
+    const query: string = `SELECT
+      R1.language_id AS languageID,
+      R1.name,
+      R1.english_name AS englishName,
+      R1.iso639
+      FROM languages R1
+      FORCE INDEX(iso639)
+      ORDER BY R1.iso639;`;
+
+    const languages: Array<LanguageRow> = await VeauMySQL.execute(query);
+    return languages.map<Language>((row: LanguageRow) => {
+      return languageFactory.fromRow(row);
+    });
   }
 
   public async findByISO639(iso639: ISO639): Promise<Language> {

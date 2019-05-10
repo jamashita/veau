@@ -58,7 +58,7 @@ describe('LocaleController', () => {
   it('GET /delete', async () => {
     const spy: SinonSpy = sinon.spy();
     const localeUseCase: LocaleUseCase = LocaleUseCase.getInstance();
-    localeUseCase.deleteCache = spy;
+    localeUseCase.delete = spy;
     const app: express.Express = express();
     app.use('/', LocaleController);
 
@@ -70,7 +70,7 @@ describe('LocaleController', () => {
   it('GET /delete: throws error', async () => {
     const stub: SinonStub = sinon.stub();
     const localeUseCase: LocaleUseCase = LocaleUseCase.getInstance();
-    localeUseCase.deleteCache = stub;
+    localeUseCase.delete = stub;
     stub.rejects();
     const app: express.Express = express();
     app.use('/', LocaleController);

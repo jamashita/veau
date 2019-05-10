@@ -17,7 +17,7 @@ router.get('/', async (req: express.Request, res: express.Response) => {
 
 router.get('/delete', async (req: express.Request, res: express.Response) => {
   try {
-    await localeUseCase.deleteCache();
+    await localeUseCase.delete();
     res.sendStatus(OK);
   }
   catch (err) {

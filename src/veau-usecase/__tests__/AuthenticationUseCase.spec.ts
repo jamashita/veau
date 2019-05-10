@@ -2,9 +2,9 @@
 import 'jest';
 import * as sinon from 'sinon';
 import { SinonStub } from 'sinon';
-import { Digest } from '../../veau-general/Digest';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { VeauAccountMySQLQuery } from '../../veau-query/VeauAccountMySQLQuery';
+import { Digest } from '../../veau-general/Digest';
+import { VeauAccountQuery } from '../../veau-query/VeauAccountQuery';
 import { AuthenticationUseCase } from '../AuthenticationUseCase';
 
 describe('AuthenticationUseCase', () => {
@@ -13,7 +13,7 @@ describe('AuthenticationUseCase', () => {
     const password: string = 'dummy password';
 
     const stub1: SinonStub = sinon.stub();
-    VeauAccountMySQLQuery.prototype.findByAccount = stub1;
+    VeauAccountQuery.prototype.findByAccount = stub1;
     stub1.rejects(new NoSuchElementError(account));
     const stub2: SinonStub = sinon.stub();
     Digest.compare = stub2;
@@ -32,7 +32,7 @@ describe('AuthenticationUseCase', () => {
     const password: string = 'dummy password';
 
     const stub1: SinonStub = sinon.stub();
-    VeauAccountMySQLQuery.prototype.findByAccount = stub1;
+    VeauAccountQuery.prototype.findByAccount = stub1;
     stub1.resolves({
       veauAccount: null,
       hash: 'dummy hash'
@@ -54,7 +54,7 @@ describe('AuthenticationUseCase', () => {
     const password: string = 'dummy password';
 
     const stub1: SinonStub = sinon.stub();
-    VeauAccountMySQLQuery.prototype.findByAccount = stub1;
+    VeauAccountQuery.prototype.findByAccount = stub1;
     stub1.resolves({
       veauAccount: 'dummy veauAccount',
       hash: 'dummy hash'

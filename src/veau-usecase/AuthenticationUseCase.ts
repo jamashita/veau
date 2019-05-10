@@ -1,12 +1,11 @@
 import * as log4js from 'log4js';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { Digest } from '../veau-general/Digest';
-import { IVeauAccountQuery, VeauAccountHash } from '../veau-query/interfaces/IVeauAccountQuery';
-import { VeauAccountMySQLQuery } from '../veau-query/VeauAccountMySQLQuery';
+import { VeauAccountHash, VeauAccountQuery } from '../veau-query/VeauAccountQuery';
 
 const logger: log4js.Logger = log4js.getLogger();
 
-const veauAccountQuery: IVeauAccountQuery = VeauAccountMySQLQuery.getInstance();
+const veauAccountQuery: VeauAccountQuery = VeauAccountQuery.getInstance();
 
 const DUMMY_PASSWORD: string = '30DC7JzTgjAd8eXcwytlKCwI6kh1eqdU';
 const DUMMY_HASH: string = '$2b$14$iyzp4FTxFklmPUjQMaNYcOO4Svv6kBEtphNseTlhWQ/SxV0VBKOa.';
