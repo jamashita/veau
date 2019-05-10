@@ -46,7 +46,7 @@ export class StatsUseCase {
 
     return statistics.map<StatsJSON>((stats: Stats) => {
       return stats.toJSON();
-    })
+    });
   }
 
   public save(veauAccountID: VeauAccountID, stats: Stats): Promise<any> {

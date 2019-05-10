@@ -1,4 +1,4 @@
 export interface ISessionCommand {
 
-  delete(): Promise<any>
+  delete(): Promise<any>;
 }

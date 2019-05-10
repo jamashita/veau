@@ -1,6 +1,6 @@
 import * as log4js from 'log4js';
-import { Digest } from '../veau-general/Digest';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
+import { Digest } from '../veau-general/Digest';
 import { IVeauAccountQuery, VeauAccountHash } from '../veau-query/interfaces/IVeauAccountQuery';
 import { VeauAccountMySQLQuery } from '../veau-query/VeauAccountMySQLQuery';
 
