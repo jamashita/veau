@@ -2,7 +2,6 @@ import * as log4js from 'log4js';
 import { Stats, StatsJSON } from '../veau-entity/Stats';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { NotFoundError } from '../veau-error/NotFoundError';
-import { StatsFactory } from '../veau-factory/StatsFactory';
 import { Transaction } from '../veau-general/MySQL/Transaction';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { IStatsQuery } from '../veau-query/interfaces/IStatsQuery';
@@ -16,7 +15,6 @@ const logger: log4js.Logger = log4js.getLogger();
 export class StatsUseCase {
   private static instance: StatsUseCase = new StatsUseCase();
   private static statsQuery: IStatsQuery = StatsMySQLQuery.getInstance();
-  private static statsFactory: StatsFactory = StatsFactory.getInstance();
 
   public static getInstance(): StatsUseCase {
     return StatsUseCase.instance;
@@ -51,8 +49,7 @@ export class StatsUseCase {
     })
   }
 
-  public save(veauAccountID: VeauAccountID, json: StatsJSON): Promise<any> {
-    const stats: Stats = StatsUseCase.statsFactory.fromJSON(json);
+  public save(veauAccountID: VeauAccountID, stats: Stats): Promise<any> {
     const statsUpdateTransaction: Transaction = StatsUpdateTransaction.getInstance(veauAccountID, stats);
 
     return VeauMySQL.transact(statsUpdateTransaction);
