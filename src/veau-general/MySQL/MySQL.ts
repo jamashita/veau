@@ -1,9 +1,9 @@
 import * as mysql from 'mysql';
 import { Connection } from './Connection';
-import { Query } from './Query';
-import { Transaction } from './Transaction';
+import { IQuery } from './IQuery';
+import { ITransaction } from './ITransaction';
 
-export class MySQL implements Query {
+export class MySQL implements IQuery {
   private pool: mysql.Pool;
 
   public constructor(config: mysql.PoolConfig) {
@@ -48,7 +48,7 @@ export class MySQL implements Query {
     });
   }
 
-  public async transact(transaction: Transaction): Promise<void> {
+  public async transact(transaction: ITransaction): Promise<void> {
     const connection: Connection = await this.getConnection();
 
     try {

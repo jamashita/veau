@@ -1,7 +1,7 @@
 import * as mysql from 'mysql';
-import { Query } from './Query';
+import { IQuery } from './IQuery';
 
-export class Connection implements Query {
+export class Connection implements IQuery {
   private connection: mysql.PoolConnection;
 
   public constructor(connection: mysql.PoolConnection) {
