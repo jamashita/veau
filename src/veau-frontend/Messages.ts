@@ -240,8 +240,8 @@ const es: Messages = {
 
   STATS_LIST: 'Lista de estadísticas',
   CREATE_NEW_STATS: 'Crear nuevas estadísticas',
-  FAILED_TO_SAVE_NEW_STATS: 'Error al guardar las estadísticas.',
-  FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: 'Error al guardar las estadísticas en el servidor. Inténtalo de nuevo',
+  FAILED_TO_SAVE_NEW_STATS: 'Error al guardar las estadísticas',
+  FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: 'Error al guardar las estadísticas en el servidor. Inténtalo de nuevo.',
 
   STATS_INFO: 'Información estadística',
   STATS_ITEM_INFO: 'Información del item',
@@ -308,8 +308,8 @@ const ja: Messages = {
 
   STATS_LIST: '統計の一覧',
   CREATE_NEW_STATS: '新しい統計を作成する',
-  FAILED_TO_SAVE_NEW_STATS: '統計情報の保存に失敗しました。',
-  FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: '統計情報をサーバーに保存できませんでした。もう一度やり直してください',
+  FAILED_TO_SAVE_NEW_STATS: '統計情報の保存に失敗しました',
+  FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: '統計情報をサーバーに保存できませんでした。もう一度やり直してください。',
 
   STATS_INFO: '統計情報',
   STATS_ITEM_INFO: '項目情報',
