@@ -10,7 +10,7 @@ import { VeauAccountMySQLQuery } from '../VeauAccountMySQLQuery';
 describe('VeauAccountMySQLQuery', () => {
   it('findByAccount', async () => {
     const stub: SinonStub = sinon.stub();
-    VeauMySQL.query = stub;
+    VeauMySQL.execute = stub;
     stub.resolves([
       {
         veauAccountID: '998106de-b2e7-4981-9643-22cd30cd74de',

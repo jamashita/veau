@@ -15,7 +15,7 @@ describe('StatsMySQLQuery', () => {
   it('findByStatsID', async () => {
     const statsID: string = 'a25a8b7f-c810-4dc0-b94e-e97e74329307';
     const stub: SinonStub = sinon.stub();
-    VeauMySQL.query = stub;
+    VeauMySQL.execute = stub;
     stub.withArgs(`SELECT
       R1.stats_id AS statsID,
       R1.language_id AS languageID,
@@ -168,7 +168,7 @@ describe('StatsMySQLQuery', () => {
 
   it('findByStatsID: throws error', () => {
     const stub: SinonStub = sinon.stub();
-    VeauMySQL.query = stub;
+    VeauMySQL.execute = stub;
     stub.resolves([]);
 
     const statsQuery: StatsMySQLQuery = StatsMySQLQuery.getInstance();

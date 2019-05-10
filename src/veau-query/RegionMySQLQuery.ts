@@ -25,7 +25,7 @@ export class RegionMySQLQuery implements IRegionQuery {
       FORCE INDEX(iso3166)
       ORDER BY R1.iso3166`;
 
-    const regions: Array<RegionRow> = await VeauMySQL.query(query);
+    const regions: Array<RegionRow> = await VeauMySQL.execute(query);
     return regions.map<Region>((row: RegionRow) => {
       return RegionMySQLQuery.regionFactory.fromRow(row);
     });

@@ -26,7 +26,7 @@ export class LanguageMySQLQuery implements ILanguageQuery {
       FORCE INDEX(iso639)
       ORDER BY R1.iso639;`;
 
-    const languages: Array<LanguageRow> = await VeauMySQL.query(query);
+    const languages: Array<LanguageRow> = await VeauMySQL.execute(query);
     return languages.map<Language>((row: LanguageRow) => {
       return LanguageMySQLQuery.languageFactory.fromRow(row);
     });

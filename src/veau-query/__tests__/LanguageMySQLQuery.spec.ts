@@ -11,7 +11,7 @@ import { LanguageMySQLQuery } from '../LanguageMySQLQuery';
 describe('LanguageMySQLQuery', () => {
   it('allLanguages', async () => {
     const stub: SinonStub = sinon.stub();
-    VeauMySQL.query = stub;
+    VeauMySQL.execute = stub;
     stub.resolves([
       {
         languageID: 1,
@@ -42,7 +42,7 @@ describe('LanguageMySQLQuery', () => {
 
   it('findByISO639', async () => {
     const stub: SinonStub = sinon.stub();
-    VeauMySQL.query = stub;
+    VeauMySQL.execute = stub;
     stub.resolves([
       {
         languageID: 1,
@@ -67,7 +67,7 @@ describe('LanguageMySQLQuery', () => {
 
   it('findByISO639: throws error', () => {
     const stub: SinonStub = sinon.stub();
-    VeauMySQL.query = stub;
+    VeauMySQL.execute = stub;
     stub.resolves([
       {
         languageID: 1,

@@ -12,7 +12,7 @@ describe('StatsItemMySQLQuery', () => {
   it('findByStatsID', async () => {
     const statsID: string = '428a0978-5d01-4da6-96f3-f851cb18e935';
     const stub: SinonStub = sinon.stub();
-    VeauMySQL.query = stub;
+    VeauMySQL.execute = stub;
     stub.withArgs(`SELECT
       R1.stats_item_id AS statsItemID,
       R1.name

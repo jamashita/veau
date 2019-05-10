@@ -44,7 +44,7 @@ export class StatsMySQLQuery implements IStatsQuery {
       LIMIT :limit
       OFFSET :offset;`;
 
-    const statsRows: Array<StatsRow> = await VeauMySQL.query(query, {
+    const statsRows: Array<StatsRow> = await VeauMySQL.execute(query, {
         veauAccountID: veauAccountID.get().get(),
         limit: StatsMySQLQuery.LIMIT,
         offset: (page - 1) * StatsMySQLQuery.LIMIT
@@ -77,7 +77,7 @@ export class StatsMySQLQuery implements IStatsQuery {
       USING(region_id)
       WHERE R1.stats_id = :statsID;`;
 
-    const statsRows: Array<StatsRow> = await VeauMySQL.query(query, {
+    const statsRows: Array<StatsRow> = await VeauMySQL.execute(query, {
       statsID: statsID.get().get()
     });
 

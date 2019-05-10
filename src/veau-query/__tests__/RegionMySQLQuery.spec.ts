@@ -11,7 +11,7 @@ import { RegionMySQLQuery } from '../RegionMySQLQuery';
 describe('RegionMySQLQuery', () => {
   it('allRegions', async () => {
     const stub: SinonStub = sinon.stub();
-    VeauMySQL.query = stub;
+    VeauMySQL.execute = stub;
     stub.resolves([
       {
         regionID: 1,
@@ -38,7 +38,7 @@ describe('RegionMySQLQuery', () => {
 
   it('findByISO3166', async () => {
     const stub: SinonStub = sinon.stub();
-    VeauMySQL.query = stub;
+    VeauMySQL.execute = stub;
     stub.resolves([
       {
         regionID: 1,
@@ -60,7 +60,7 @@ describe('RegionMySQLQuery', () => {
 
   it('findByISO3166: throws error', () => {
     const stub: SinonStub = sinon.stub();
-    VeauMySQL.query = stub;
+    VeauMySQL.execute = stub;
     stub.resolves([
       {
         regionID: 1,

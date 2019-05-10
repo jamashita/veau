@@ -11,7 +11,7 @@ import { StatsValueMySQLQuery } from '../StatsValueMySQLQuery';
 describe('StatsValueMySQLQuery', () => {
   it('findByStatsID', async () => {
     const stub: SinonStub = sinon.stub();
-    VeauMySQL.query = stub;
+    VeauMySQL.execute = stub;
     stub.withArgs(
       `SELECT
       R1.stats_item_id AS statsItemID,
