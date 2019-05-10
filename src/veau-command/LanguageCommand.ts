@@ -1,16 +1,15 @@
 import { Language, LanguageJSON } from '../veau-entity/Language';
 import { CacheError } from '../veau-error/CacheError';
 import { VeauRedis } from '../veau-infrastructure/VeauRedis';
-import { ILanguageCommand } from './interfaces/ILanguageCommand';
 
 const REDIS_KEY: string = 'Languages';
 const DURATION: number = 3 * 60 * 60;
 
-export class LanguageRedisCommand implements ILanguageCommand {
-  private static instance: LanguageRedisCommand = new LanguageRedisCommand();
+export class LanguageCommand {
+  private static instance: LanguageCommand = new LanguageCommand();
 
-  public static getInstance(): LanguageRedisCommand {
-    return LanguageRedisCommand.instance;
+  public static getInstance(): LanguageCommand {
+    return LanguageCommand.instance;
   }
 
   private constructor() {

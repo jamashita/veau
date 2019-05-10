@@ -1,9 +1,6 @@
-import { IStatsCommand } from '../veau-command/interfaces/IStatsCommand';
-import { IStatsItemCommand } from '../veau-command/interfaces/IStatsItemCommand';
-import { IStatsValueCommand } from '../veau-command/interfaces/IStatsValueCommand';
-import { StatsItemMySQLCommand } from '../veau-command/StatsItemMySQLCommand';
-import { StatsMySQLCommand } from '../veau-command/StatsMySQLCommand';
-import { StatsValueMySQLCommand } from '../veau-command/StatsValueMySQLCommand';
+import { StatsCommand } from '../veau-command/StatsCommand';
+import { StatsItemCommand } from '../veau-command/StatsItemCommand';
+import { StatsValueCommand } from '../veau-command/StatsValueCommand';
 import { Stats } from '../veau-entity/Stats';
 import { StatsItem } from '../veau-entity/StatsItem';
 import { IQuery } from '../veau-general/MySQL/IQuery';
@@ -26,9 +23,9 @@ export class StatsUpdateTransaction implements ITransaction {
   }
 
   public async with(query: IQuery): Promise<any> {
-    const statsCommand: IStatsCommand = StatsMySQLCommand.getInstance(query);
-    const statsItemCommand: IStatsItemCommand = StatsItemMySQLCommand.getInstance(query);
-    const statsValueCommand: IStatsValueCommand = StatsValueMySQLCommand.getInstance(query);
+    const statsCommand: StatsCommand = StatsCommand.getInstance(query);
+    const statsItemCommand: StatsItemCommand = StatsItemCommand.getInstance(query);
+    const statsValueCommand: StatsValueCommand = StatsValueCommand.getInstance(query);
 
     const {
       veauAccountID,

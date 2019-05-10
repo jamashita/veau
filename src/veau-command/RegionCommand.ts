@@ -1,16 +1,15 @@
 import { Region, RegionJSON } from '../veau-entity/Region';
 import { CacheError } from '../veau-error/CacheError';
 import { VeauRedis } from '../veau-infrastructure/VeauRedis';
-import { IRegionCommand } from './interfaces/IRegionCommand';
 
 const REDIS_KEY: string = 'Regions';
 const DURATION: number = 3 * 60 * 60;
 
-export class RegionRedisCommand implements IRegionCommand {
-  private static instance: RegionRedisCommand = new RegionRedisCommand();
+export class RegionCommand {
+  private static instance: RegionCommand = new RegionCommand();
 
-  public static getInstance(): RegionRedisCommand {
-    return RegionRedisCommand.instance;
+  public static getInstance(): RegionCommand {
+    return RegionCommand.instance;
   }
 
   private constructor() {

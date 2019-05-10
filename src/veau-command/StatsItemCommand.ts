@@ -1,13 +1,12 @@
 import { StatsItem } from '../veau-entity/StatsItem';
 import { IQuery } from '../veau-general/MySQL/IQuery';
 import { StatsID } from '../veau-vo/StatsID';
-import { IStatsItemCommand } from './interfaces/IStatsItemCommand';
 
-export class StatsItemMySQLCommand implements IStatsItemCommand {
+export class StatsItemCommand {
   private query: IQuery;
 
-  public static getInstance(query: IQuery): StatsItemMySQLCommand {
-    return new StatsItemMySQLCommand(query);
+  public static getInstance(query: IQuery): StatsItemCommand {
+    return new StatsItemCommand(query);
   }
 
   private constructor(query: IQuery) {
