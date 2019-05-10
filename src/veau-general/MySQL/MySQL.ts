@@ -1,7 +1,9 @@
 import * as mysql from 'mysql';
+import { Deal } from './Deal';
+import { Query } from './Query';
 import { Transaction } from './Transaction';
 
-export class MySQL {
+export class MySQL implements Query {
   private pool: mysql.Pool;
 
   public constructor(config: mysql.PoolConfig) {
@@ -28,7 +30,7 @@ export class MySQL {
 
   private getTransaction(): Promise<Transaction> {
     return new Promise<Transaction>((resolve: (value: Transaction) => void, reject: (reason: any) => void): void => {
-      this.pool.getConnection((err1: mysql.MysqlError | null, connection: mysql.PoolConnection): void => {
+      this.pool.getConnection((err1: mysql.MysqlError, connection: mysql.PoolConnection): void => {
         if (err1) {
           reject(err1);
           return;
@@ -46,11 +48,11 @@ export class MySQL {
     });
   }
 
-  public async transaction(callback: (transaction: Transaction) => Promise<any>): Promise<void> {
+  public async transact(deal: Deal): Promise<void> {
     const transaction: Transaction = await this.getTransaction();
 
     try {
-      await callback(transaction);
+      await deal.with(transaction);
       await transaction.commit();
       transaction.release();
     }
@@ -61,9 +63,9 @@ export class MySQL {
     }
   }
 
-  public query(sql: string, value?: object): Promise<any> {
+  public execute(sql: string, value?: object): Promise<any> {
     return new Promise<any>((resolve: (value: any) => void, reject: (reason: any) => void): void => {
-      this.pool.query(sql, value, (err: mysql.MysqlError | null, result: any): void => {
+      this.pool.query(sql, value, (err: mysql.MysqlError, result: any): void => {
         if (err) {
           reject(err);
           return;

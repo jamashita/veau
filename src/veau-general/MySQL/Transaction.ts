@@ -1,13 +1,14 @@
 import * as mysql from 'mysql';
+import { Query } from './Query';
 
-export class Transaction {
+export class Transaction implements Query {
   private connection: mysql.PoolConnection;
 
   public constructor(connection: mysql.PoolConnection) {
     this.connection = connection;
   }
 
-  public query(sql: string, value?: object): Promise<any> {
+  public execute(sql: string, value?: object): Promise<any> {
     return new Promise<any>((resolve: (value: any) => void, reject: (reason: any) => void): void => {
       this.connection.query(sql, value, (err: mysql.MysqlError | null, result: any): void => {
         if (err) {
