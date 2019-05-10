@@ -1,5 +1,5 @@
 import * as mysql from 'mysql';
-import { Deal } from './Deal';
+import { Connection } from './Connection';
 import { Query } from './Query';
 import { Transaction } from './Transaction';
 
@@ -28,8 +28,8 @@ export class MySQL implements Query {
     this.pool = pool;
   }
 
-  private getTransaction(): Promise<Transaction> {
-    return new Promise<Transaction>((resolve: (value: Transaction) => void, reject: (reason: any) => void): void => {
+  private getConnection(): Promise<Connection> {
+    return new Promise<Connection>((resolve: (value: Connection) => void, reject: (reason: any) => void): void => {
       this.pool.getConnection((err1: mysql.MysqlError, connection: mysql.PoolConnection): void => {
         if (err1) {
           reject(err1);
@@ -42,23 +42,23 @@ export class MySQL implements Query {
             return;
           }
 
-          resolve(new Transaction(connection));
+          resolve(new Connection(connection));
         });
       });
     });
   }
 
-  public async transact(deal: Deal): Promise<void> {
-    const transaction: Transaction = await this.getTransaction();
+  public async transact(transaction: Transaction): Promise<void> {
+    const connection: Connection = await this.getConnection();
 
     try {
-      await deal.with(transaction);
-      await transaction.commit();
-      transaction.release();
+      await transaction.with(connection);
+      await connection.commit();
+      connection.release();
     }
     catch (err) {
-      await transaction.rollback();
-      transaction.release();
+      await connection.rollback();
+      connection.release();
       throw err;
     }
   }
