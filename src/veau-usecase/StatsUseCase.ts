@@ -14,6 +14,8 @@ const logger: log4js.Logger = log4js.getLogger();
 
 const statsQuery: IStatsQuery = StatsMySQLQuery.getInstance();
 
+const LIMIT: number = 40;
+
 export class StatsUseCase {
   private static instance: StatsUseCase = new StatsUseCase();
 
@@ -43,7 +45,10 @@ export class StatsUseCase {
   }
 
   public async findByVeauAccountID(veauAccountID: VeauAccountID, page: number): Promise<Array<StatsJSON>> {
-    const statistics: Array<Stats> = await statsQuery.findByVeauAccountID(veauAccountID, page);
+    const limit: number = LIMIT;
+    const offset: number = (page - 1) * LIMIT;
+
+    const statistics: Array<Stats> = await statsQuery.findByVeauAccountID(veauAccountID, limit, offset);
 
     return statistics.map<StatsJSON>((stats: Stats) => {
       return stats.toJSON();

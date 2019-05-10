@@ -4,7 +4,7 @@ import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 
 export interface IStatsQuery {
 
-  findByVeauAccountID(veauAccountID: VeauAccountID, page: number): Promise<Array<Stats>>;
+  findByVeauAccountID(veauAccountID: VeauAccountID, limit: number, offset: number): Promise<Array<Stats>>;
 
   findByStatsID(statsID: StatsID): Promise<Stats>;
 }

@@ -11,8 +11,6 @@ import { StatsItemMySQLQuery } from './StatsItemMySQLQuery';
 const statsItemMySQLQuery: StatsItemMySQLQuery = StatsItemMySQLQuery.getInstance();
 const statsFactory: StatsFactory = StatsFactory.getInstance();
 
-const LIMIT: number = 40;
-
 export class StatsMySQLQuery implements IStatsQuery {
   private static instance: StatsMySQLQuery = new StatsMySQLQuery();
 
@@ -23,7 +21,7 @@ export class StatsMySQLQuery implements IStatsQuery {
   private constructor() {
   }
 
-  public async findByVeauAccountID(veauAccountID: VeauAccountID, page: number): Promise<Array<Stats>> {
+  public async findByVeauAccountID(veauAccountID: VeauAccountID, limit: number, offset: number): Promise<Array<Stats>> {
     const query: string = `SELECT
       R1.stats_id AS statsID,
       R1.language_id AS languageID,
@@ -48,8 +46,8 @@ export class StatsMySQLQuery implements IStatsQuery {
 
     const statsRows: Array<StatsRow> = await VeauMySQL.execute(query, {
         veauAccountID: veauAccountID.get().get(),
-        limit: LIMIT,
-        offset: (page - 1) * LIMIT
+        limit,
+        offset
       }
     );
 
