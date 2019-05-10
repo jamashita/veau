@@ -2,6 +2,7 @@
 import 'jest';
 import * as sinon from 'sinon';
 import { SinonStub } from 'sinon';
+import { RegionCommand } from '../../veau-command/RegionCommand';
 import { Region } from '../../veau-entity/Region';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
@@ -45,6 +46,11 @@ describe('RegionQuery', () => {
         iso3166: 'ALB'
       }
     ]);
+    const stub3: SinonStub = sinon.stub();
+    const regionCommand: RegionCommand = RegionCommand.getInstance();
+    regionCommand.insertAll = stub3;
+    stub3.resolves();
+
     const regionQuery: RegionQuery = RegionQuery.getInstance();
     const regions: Array<Region> = await regionQuery.allRegions();
 
@@ -87,6 +93,11 @@ describe('RegionQuery', () => {
         iso3166: 'ALB'
       }
     ]);
+    const stub3: SinonStub = sinon.stub();
+    const regionCommand: RegionCommand = RegionCommand.getInstance();
+    regionCommand.insertAll = stub3;
+    stub3.resolves();
+
     const regionQuery: RegionQuery = RegionQuery.getInstance();
     const region: Region = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 

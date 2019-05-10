@@ -1,5 +1,5 @@
 import { RegionCommand } from '../veau-command/RegionCommand';
-import { Region, RegionRow } from '../veau-entity/Region';
+import { Region, RegionJSON, RegionRow } from '../veau-entity/Region';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { RegionFactory } from '../veau-factory/RegionFactory';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
@@ -25,8 +25,8 @@ export class RegionQuery {
     const regionString: string | null = await VeauRedis.getString().get(REGIONS_REDIS_KEY);
 
     if (regionString !== null) {
-      const regionRows: Array<RegionRow> = JSON.parse(regionString);
-      return regionRows.map<Region>((row: RegionRow) => {
+      const regionJSONS: Array<RegionJSON> = JSON.parse(regionString);
+      return regionJSONS.map<Region>((row: RegionRow) => {
         return regionFactory.fromRow(row);
       });
     }

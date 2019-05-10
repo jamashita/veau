@@ -2,6 +2,7 @@
 import 'jest';
 import * as sinon from 'sinon';
 import { SinonStub } from 'sinon';
+import { LanguageCommand } from '../../veau-command/LanguageCommand';
 import { Language } from '../../veau-entity/Language';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
@@ -49,6 +50,11 @@ describe('LanguageQuery', () => {
         iso639: 'aa'
       }
     ]);
+    const stub3: SinonStub = sinon.stub();
+    const languageCommand: LanguageCommand = LanguageCommand.getInstance();
+    languageCommand.insertAll = stub3;
+    stub3.resolves();
+
     const languageQuery: LanguageQuery = LanguageQuery.getInstance();
     const languages: Array<Language> = await languageQuery.allLanguages();
 
@@ -96,6 +102,11 @@ describe('LanguageQuery', () => {
         iso639: 'aa'
       }
     ]);
+    const stub3: SinonStub = sinon.stub();
+    const languageCommand: LanguageCommand = LanguageCommand.getInstance();
+    languageCommand.insertAll = stub3;
+    stub3.resolves();
+
     const languageQuery: LanguageQuery = LanguageQuery.getInstance();
     const language: Language = await languageQuery.findByISO639(ISO639.of('aa'));
 
