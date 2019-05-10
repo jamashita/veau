@@ -1,3 +1,4 @@
+import { LanguageCommand } from '../veau-command/LanguageCommand';
 import { Language, LanguageRow } from '../veau-entity/Language';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { LanguageFactory } from '../veau-factory/LanguageFactory';
@@ -6,6 +7,7 @@ import { VeauRedis } from '../veau-infrastructure/VeauRedis';
 import { ISO639 } from '../veau-vo/ISO639';
 
 const languageFactory: LanguageFactory = LanguageFactory.getInstance();
+const languageCommand: LanguageCommand = LanguageCommand.getInstance();
 
 const LANGUAGES_REDIS_KEY: string = 'LANGUAGES';
 
@@ -38,10 +40,14 @@ export class LanguageQuery {
       FORCE INDEX(iso639)
       ORDER BY R1.iso639;`;
 
-    const languages: Array<LanguageRow> = await VeauMySQL.execute(query);
-    return languages.map<Language>((row: LanguageRow) => {
+    const languageRows: Array<LanguageRow> = await VeauMySQL.execute(query);
+    const languages: Array<Language> = languageRows.map<Language>((row: LanguageRow) => {
       return languageFactory.fromRow(row);
     });
+
+    await languageCommand.insertAll(languages);
+
+    return languages;
   }
 
   public async findByISO639(iso639: ISO639): Promise<Language> {

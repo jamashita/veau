@@ -1,3 +1,4 @@
+import { RegionCommand } from '../veau-command/RegionCommand';
 import { Region, RegionRow } from '../veau-entity/Region';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { RegionFactory } from '../veau-factory/RegionFactory';
@@ -6,6 +7,7 @@ import { VeauRedis } from '../veau-infrastructure/VeauRedis';
 import { ISO3166 } from '../veau-vo/ISO3166';
 
 const regionFactory: RegionFactory = RegionFactory.getInstance();
+const regionCommand: RegionCommand = RegionCommand.getInstance();
 
 const REGIONS_REDIS_KEY: string = 'REGIONS';
 
@@ -37,10 +39,14 @@ export class RegionQuery {
       FORCE INDEX(iso3166)
       ORDER BY R1.iso3166`;
 
-    const regions: Array<RegionRow> = await VeauMySQL.execute(query);
-    return regions.map<Region>((row: RegionRow) => {
+    const regionRows: Array<RegionRow> = await VeauMySQL.execute(query);
+    const regions: Array<Region> = regionRows.map<Region>((row: RegionRow) => {
       return regionFactory.fromRow(row);
     });
+
+    await regionCommand.insertAll(regions);
+
+    return regions;
   }
 
   public async findByISO3166(iso3166: ISO3166): Promise<Region> {
