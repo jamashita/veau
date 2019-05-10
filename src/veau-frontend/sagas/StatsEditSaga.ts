@@ -37,12 +37,14 @@ import { IStatsQuery } from '../queries/interfaces/IStatsQuery';
 import { StatsAJAXQuery } from '../queries/StatsAJAXQuery';
 import { State } from '../State';
 
+const statsCommand: IStatsCommand = StatsAJAXCommand.getInstance();
+const statsQuery: IStatsQuery = StatsAJAXQuery.getInstance();
+const statsFactory: StatsFactory = StatsFactory.getInstance();
+const statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
+
+const STATS_EDIT_PREFIX: string = '/statistics/edit/';
+
 export class StatsEditSaga {
-  private static statsCommand: IStatsCommand = StatsAJAXCommand.getInstance();
-  private static statsQuery: IStatsQuery = StatsAJAXQuery.getInstance();
-  private static statsFactory: StatsFactory = StatsFactory.getInstance();
-  private static statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
-  private static STATS_EDIT_PREFIX: string = '/statistics/edit/';
 
   public static *init(): IterableIterator<any> {
     yield fork(StatsEditSaga.findStats);
@@ -68,11 +70,11 @@ export class StatsEditSaga {
       const action: LocationChangeAction = yield take(ACTION.LOCATION_CHANGE);
       const path: string = action.payload.location.pathname;
 
-      if (path.startsWith(StatsEditSaga.STATS_EDIT_PREFIX)) {
-        const statsID: string = path.replace(StatsEditSaga.STATS_EDIT_PREFIX, '');
+      if (path.startsWith(STATS_EDIT_PREFIX)) {
+        const statsID: string = path.replace(STATS_EDIT_PREFIX, '');
 
         try {
-          const stats: Stats = yield StatsEditSaga.statsQuery.findByStatsID(StatsID.of(UUID.of(statsID)));
+          const stats: Stats = yield statsQuery.findByStatsID(StatsID.of(UUID.of(statsID)));
 
           yield put(updateStats(stats));
           yield put(clearSelectingItem());
@@ -94,7 +96,7 @@ export class StatsEditSaga {
         stats
       } = state;
 
-      const newStats: Stats = StatsEditSaga.statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), action.name, stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
+      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), action.name, stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
       yield put(updateStats(newStats));
     }
   }
@@ -108,7 +110,7 @@ export class StatsEditSaga {
         stats
       } = state;
 
-      const newStats: Stats = StatsEditSaga.statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), action.unit, stats.getUpdatedAt(), stats.getItems());
+      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), action.unit, stats.getUpdatedAt(), stats.getItems());
       yield put(updateStats(newStats));
     }
   }
@@ -140,7 +142,7 @@ export class StatsEditSaga {
         throw new NoSuchElementError(iso639.toString());
       }
 
-      const newStats: Stats = StatsEditSaga.statsFactory.from(stats.getStatsID(), found, stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
+      const newStats: Stats = statsFactory.from(stats.getStatsID(), found, stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
       yield put(updateStats(newStats));
     }
   }
@@ -172,7 +174,7 @@ export class StatsEditSaga {
         throw new NoSuchElementError(iso3166.toString());
       }
 
-      const newStats: Stats = StatsEditSaga.statsFactory.from(stats.getStatsID(), stats.getLanguage(), found, stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
+      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), found, stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
       yield put(updateStats(newStats));
     }
   }
@@ -227,7 +229,7 @@ export class StatsEditSaga {
         statsItem
       } = state;
 
-      const newStatsItem: StatsItem = StatsEditSaga.statsItemFactory.from(statsItem.getStatsItemID(), action.name, statsItem.getValues());
+      const newStatsItem: StatsItem = statsItemFactory.from(statsItem.getStatsItemID(), action.name, statsItem.getValues());
       yield put(updateStatsItem(newStatsItem));
     }
   }
@@ -242,7 +244,7 @@ export class StatsEditSaga {
         statsItem
       } = state;
 
-      const newStats: Stats = StatsEditSaga.statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems().add(statsItem), stats.getStartDate());
+      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems().add(statsItem), stats.getStartDate());
       yield put(updateStats(newStats));
       yield put(resetStatsItem());
     }
@@ -279,7 +281,7 @@ export class StatsEditSaga {
       } = state;
 
       if (selectingItem) {
-        const newSelectingItem: StatsItem = StatsEditSaga.statsItemFactory.from(selectingItem.getStatsItemID(), action.name, selectingItem.getValues());
+        const newSelectingItem: StatsItem = statsItemFactory.from(selectingItem.getStatsItemID(), action.name, selectingItem.getValues());
         const copied: Stats = stats.copy();
         copied.replaceItem(newSelectingItem, selectingRow);
 
@@ -303,7 +305,7 @@ export class StatsEditSaga {
 
       const date: moment.Moment = moment(startDate);
       if (date.isValid()) {
-        const newStats: Stats = StatsEditSaga.statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems(), startDate);
+        const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems(), startDate);
         yield put(updateStats(newStats));
         continue;
       }
@@ -367,7 +369,8 @@ export class StatsEditSaga {
 
       yield put(loading());
       try {
-        yield StatsEditSaga.statsCommand.create(stats);
+        yield statsCommand.create(stats);
+
         yield put(loaded());
         yield put(appearNotification('success', 'center', 'top', 'SAVE_SUCCESS'));
       }

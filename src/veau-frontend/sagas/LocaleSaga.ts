@@ -6,8 +6,9 @@ import { defineLanguages, defineRegions } from '../actions/LocaleAction';
 import { ILocaleQuery } from '../queries/interfaces/ILocaleQuery';
 import { LocaleAJAXQuery } from '../queries/LocaleAJAXQuery';
 
+const localeQuery: ILocaleQuery = LocaleAJAXQuery.getInstance();
+
 export class LocaleSaga {
-  private static localeQuery: ILocaleQuery = LocaleAJAXQuery.getInstance();
 
   public static *init(): IterableIterator<any> {
     yield fork(LocaleSaga.fetchLocales);
@@ -17,8 +18,8 @@ export class LocaleSaga {
     while (true) {
       yield take(ACTION.IDENTITY_IDENTIFIED);
 
-      const languages: Array<Language> = yield LocaleSaga.localeQuery.allLanguages();
-      const regions: Array<Region> = yield LocaleSaga.localeQuery.allRegions();
+      const languages: Array<Language> = yield localeQuery.allLanguages();
+      const regions: Array<Region> = yield localeQuery.allRegions();
 
       yield put(defineLanguages(languages));
       yield put(defineRegions(regions));

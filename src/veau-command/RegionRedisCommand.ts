@@ -3,10 +3,11 @@ import { CacheError } from '../veau-error/CacheError';
 import { VeauRedis } from '../veau-infrastructure/VeauRedis';
 import { IRegionCommand } from './interfaces/IRegionCommand';
 
+const REDIS_KEY: string = 'Regions';
+const DURATION: number = 3 * 60 * 60;
+
 export class RegionRedisCommand implements IRegionCommand {
   private static instance: RegionRedisCommand = new RegionRedisCommand();
-  private static REDIS_KEY: string = 'Regions';
-  private static DURATION: number = 10800;
 
   public static getInstance(): RegionRedisCommand {
     return RegionRedisCommand.instance;
@@ -20,13 +21,14 @@ export class RegionRedisCommand implements IRegionCommand {
       return region.toJSON();
     });
 
-    await VeauRedis.getString().set(RegionRedisCommand.REDIS_KEY, JSON.stringify(regionJSONs));
+    await VeauRedis.getString().set(REDIS_KEY, JSON.stringify(regionJSONs));
 
-    return VeauRedis.expires(RegionRedisCommand.REDIS_KEY, RegionRedisCommand.DURATION);
+    return VeauRedis.expires(REDIS_KEY, DURATION);
   }
 
   public async deleteAll(): Promise<any> {
-    const ok: boolean = await VeauRedis.delete(RegionRedisCommand.REDIS_KEY);
+    const ok: boolean = await VeauRedis.delete(REDIS_KEY);
+
     if (ok) {
       return;
     }

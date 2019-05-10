@@ -8,11 +8,13 @@ import { VeauAccountID } from '../veau-vo/VeauAccountID';
 import { IStatsQuery } from './interfaces/IStatsQuery';
 import { StatsItemMySQLQuery } from './StatsItemMySQLQuery';
 
+const statsItemMySQLQuery: StatsItemMySQLQuery = StatsItemMySQLQuery.getInstance();
+const statsFactory: StatsFactory = StatsFactory.getInstance();
+
+const LIMIT: number = 40;
+
 export class StatsMySQLQuery implements IStatsQuery {
   private static instance: StatsMySQLQuery = new StatsMySQLQuery();
-  private static statsItemMySQLQuery: StatsItemMySQLQuery = StatsItemMySQLQuery.getInstance();
-  private static statsFactory: StatsFactory = StatsFactory.getInstance();
-  private static LIMIT: number = 40;
 
   public static getInstance(): StatsMySQLQuery {
     return StatsMySQLQuery.instance;
@@ -46,13 +48,13 @@ export class StatsMySQLQuery implements IStatsQuery {
 
     const statsRows: Array<StatsRow> = await VeauMySQL.execute(query, {
         veauAccountID: veauAccountID.get().get(),
-        limit: StatsMySQLQuery.LIMIT,
-        offset: (page - 1) * StatsMySQLQuery.LIMIT
+        limit: LIMIT,
+        offset: (page - 1) * LIMIT
       }
     );
 
     return statsRows.map<Stats>((statsRow: StatsRow) => {
-      return StatsMySQLQuery.statsFactory.fromRow(statsRow, []);
+      return statsFactory.fromRow(statsRow, []);
     });
   }
 
@@ -85,8 +87,8 @@ export class StatsMySQLQuery implements IStatsQuery {
       throw new NoSuchElementError(statsID.toString());
     }
 
-    const items: Array<StatsItem> = await StatsMySQLQuery.statsItemMySQLQuery.findByStatsID(statsID);
+    const items: Array<StatsItem> = await statsItemMySQLQuery.findByStatsID(statsID);
 
-    return StatsMySQLQuery.statsFactory.fromRow(statsRows[0], items);
+    return statsFactory.fromRow(statsRows[0], items);
   }
 }

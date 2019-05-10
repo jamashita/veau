@@ -6,12 +6,13 @@ import { VeauAccountMySQLQuery } from '../veau-query/VeauAccountMySQLQuery';
 
 const logger: log4js.Logger = log4js.getLogger();
 
+const veauAccountQuery: IVeauAccountQuery = VeauAccountMySQLQuery.getInstance();
+
+const DUMMY_PASSWORD: string = '30DC7JzTgjAd8eXcwytlKCwI6kh1eqdU';
+const DUMMY_HASH: string = '$2b$14$iyzp4FTxFklmPUjQMaNYcOO4Svv6kBEtphNseTlhWQ/SxV0VBKOa.';
+
 export class AuthenticationUseCase {
   private static instance: AuthenticationUseCase = new AuthenticationUseCase();
-  private static veauAccountQuery: IVeauAccountQuery = VeauAccountMySQLQuery.getInstance();
-
-  private static DUMMY_PASSWORD: string = '30DC7JzTgjAd8eXcwytlKCwI6kh1eqdU';
-  private static DUMMY_HASH: string = '$2b$14$iyzp4FTxFklmPUjQMaNYcOO4Svv6kBEtphNseTlhWQ/SxV0VBKOa.';
 
   public static getInstance(): AuthenticationUseCase {
     return AuthenticationUseCase.instance;
@@ -22,7 +23,7 @@ export class AuthenticationUseCase {
 
   public async review(account: string, password: string, callback: (error: any, account?: any) => void): Promise<void> {
     try {
-      const accountHash: VeauAccountHash =  await AuthenticationUseCase.veauAccountQuery.findByAccount(account);
+      const accountHash: VeauAccountHash =  await veauAccountQuery.findByAccount(account);
 
       const {
         veauAccount,
@@ -41,7 +42,7 @@ export class AuthenticationUseCase {
     catch (err) {
       if (err instanceof NoSuchElementError) {
         // time adjustment
-        await Digest.compare(AuthenticationUseCase.DUMMY_PASSWORD, AuthenticationUseCase.DUMMY_HASH);
+        await Digest.compare(DUMMY_PASSWORD, DUMMY_HASH);
         logger.info(`invalid account: ${account} and password: ${password}`);
         callback(null, false);
         return;

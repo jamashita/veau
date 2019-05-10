@@ -5,9 +5,10 @@ import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { ISO639 } from '../veau-vo/ISO639';
 import { ILanguageQuery } from './interfaces/ILanguageQuery';
 
+const languageFactory: LanguageFactory = LanguageFactory.getInstance();
+
 export class LanguageMySQLQuery implements ILanguageQuery {
   private static instance: LanguageMySQLQuery = new LanguageMySQLQuery();
-  private static languageFactory: LanguageFactory = LanguageFactory.getInstance();
 
   public static getInstance(): LanguageMySQLQuery {
     return LanguageMySQLQuery.instance;
@@ -28,7 +29,7 @@ export class LanguageMySQLQuery implements ILanguageQuery {
 
     const languages: Array<LanguageRow> = await VeauMySQL.execute(query);
     return languages.map<Language>((row: LanguageRow) => {
-      return LanguageMySQLQuery.languageFactory.fromRow(row);
+      return languageFactory.fromRow(row);
     });
   }
 

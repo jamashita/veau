@@ -5,10 +5,12 @@ import { VeauRedis } from '../veau-infrastructure/VeauRedis';
 import { ISO639 } from '../veau-vo/ISO639';
 import { ILanguageQuery } from './interfaces/ILanguageQuery';
 
+const languageFactory: LanguageFactory = LanguageFactory.getInstance();
+
+const LANGUAGES_REDIS_KEY: string = 'LANGUAGES';
+
 export class LanguageRedisQuery implements ILanguageQuery {
   private static instance: LanguageRedisQuery = new LanguageRedisQuery();
-  private static languageFactory: LanguageFactory = LanguageFactory.getInstance();
-  private static LANGUAGES_REDIS_KEY: string = 'LANGUAGES';
 
   public static getInstance(): LanguageRedisQuery {
     return LanguageRedisQuery.instance;
@@ -18,12 +20,12 @@ export class LanguageRedisQuery implements ILanguageQuery {
   }
 
   public async allLanguages(): Promise<Array<Language>> {
-    const languagesString: string | null = await VeauRedis.getString().get(LanguageRedisQuery.LANGUAGES_REDIS_KEY);
+    const languagesString: string | null = await VeauRedis.getString().get(LANGUAGES_REDIS_KEY);
 
     if (languagesString) {
       const languageRows: Array<LanguageRow> = JSON.parse(languagesString);
       return languageRows.map<Language>((row: LanguageRow) => {
-        return LanguageRedisQuery.languageFactory.fromRow(row);
+        return languageFactory.fromRow(row);
       });
     }
 

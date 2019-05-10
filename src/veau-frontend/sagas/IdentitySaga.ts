@@ -12,9 +12,10 @@ import { ISessionQuery } from '../queries/interfaces/ISessionQuery';
 import { SessionAJAXQuery } from '../queries/SessionAJAXQuery';
 import { State } from '../State';
 
+const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
+const sessionQuery: ISessionQuery = SessionAJAXQuery.getInstance();
+
 export class IdentitySaga {
-  private static veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
-  private static sessionQuery: ISessionQuery = SessionAJAXQuery.getInstance();
 
   public static *init(): IterableIterator<any> {
     yield fork(IdentitySaga.initIdentity);
@@ -23,7 +24,7 @@ export class IdentitySaga {
 
   private static *initIdentity(): IterableIterator<any> {
     try {
-      const veauAccount: VeauAccount = yield IdentitySaga.sessionQuery.find();
+      const veauAccount: VeauAccount = yield sessionQuery.find();
 
       yield put(identityAuthenticated(veauAccount));
       yield put(identified());
@@ -40,7 +41,7 @@ export class IdentitySaga {
         identity
       } = state;
 
-      const veauAccount: VeauAccount = IdentitySaga.veauAccountFactory.from(identity.getVeauAccountID(), identity.getAccount(), ISO639.of(newLanguage), identity.getRegion());
+      const veauAccount: VeauAccount = veauAccountFactory.from(identity.getVeauAccountID(), identity.getAccount(), ISO639.of(newLanguage), identity.getRegion());
 
       yield put(identityAuthenticated(veauAccount));
       yield put(pushToEntrance());
@@ -56,7 +57,7 @@ export class IdentitySaga {
         identity
       } = state;
 
-      const veauAccount: VeauAccount = IdentitySaga.veauAccountFactory.from(VeauAccountID.default(), '', identity.getLanguage(), identity.getRegion());
+      const veauAccount: VeauAccount = veauAccountFactory.from(VeauAccountID.default(), '', identity.getLanguage(), identity.getRegion());
 
       yield put(identityAuthenticated(veauAccount));
     }

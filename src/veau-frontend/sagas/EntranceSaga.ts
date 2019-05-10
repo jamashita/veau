@@ -12,8 +12,9 @@ import { ISessionQuery } from '../queries/interfaces/ISessionQuery';
 import { SessionAJAXQuery } from '../queries/SessionAJAXQuery';
 import { State } from '../State';
 
+const sessionQuery: ISessionQuery = SessionAJAXQuery.getInstance();
+
 export class EntranceSaga {
-  private static sessionQuery: ISessionQuery = SessionAJAXQuery.getInstance();
 
   public static *init(): IterableIterator<any> {
     yield fork(EntranceSaga.login);
@@ -43,7 +44,7 @@ export class EntranceSaga {
       yield put(loading());
 
       try {
-        const veauAccount: VeauAccount = yield EntranceSaga.sessionQuery.findByEntranceInfo(entranceInformation);
+        const veauAccount: VeauAccount = yield sessionQuery.findByEntranceInfo(entranceInformation);
 
         yield put(identityAuthenticated(veauAccount));
         yield put(pushToStatsList());

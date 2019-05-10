@@ -4,9 +4,10 @@ import { VeauAccountFactory } from '../veau-factory/VeauAccountFactory';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { IVeauAccountQuery, VeauAccountHash } from './interfaces/IVeauAccountQuery';
 
+const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
+
 export class VeauAccountMySQLQuery implements IVeauAccountQuery {
   private static instance: VeauAccountMySQLQuery = new VeauAccountMySQLQuery();
-  private static veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
 
   public static getInstance(): VeauAccountMySQLQuery {
     return VeauAccountMySQLQuery.instance;
@@ -41,7 +42,7 @@ export class VeauAccountMySQLQuery implements IVeauAccountQuery {
     const veauAccountRow: VeauAccountRow = veauAccountRows[0];
 
     return {
-      veauAccount: VeauAccountMySQLQuery.veauAccountFactory.fromRow(veauAccountRow),
+      veauAccount: veauAccountFactory.fromRow(veauAccountRow),
       hash: veauAccountRow.hash
     };
   }

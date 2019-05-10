@@ -1,16 +1,16 @@
 import { ValueObject } from './ValueObject';
 
+const UUID_SIZE: number = 36;
+
 export class UUID extends ValueObject {
   private id: string;
-
-  private static UUID_SIZE: number = 36;
 
   public static of(id: string): UUID {
     return new UUID(id);
   }
 
   public static size(): number {
-    return UUID.UUID_SIZE;
+    return UUID_SIZE;
   }
 
   private constructor(id: string) {

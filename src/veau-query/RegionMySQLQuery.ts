@@ -5,9 +5,10 @@ import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { ISO3166 } from '../veau-vo/ISO3166';
 import { IRegionQuery } from './interfaces/IRegionQuery';
 
+const regionFactory: RegionFactory = RegionFactory.getInstance();
+
 export class RegionMySQLQuery implements IRegionQuery {
   private static instance: RegionMySQLQuery = new RegionMySQLQuery();
-  private static regionFactory: RegionFactory = RegionFactory.getInstance();
 
   public static getInstance(): RegionMySQLQuery {
     return RegionMySQLQuery.instance;
@@ -27,7 +28,7 @@ export class RegionMySQLQuery implements IRegionQuery {
 
     const regions: Array<RegionRow> = await VeauMySQL.execute(query);
     return regions.map<Region>((row: RegionRow) => {
-      return RegionMySQLQuery.regionFactory.fromRow(row);
+      return regionFactory.fromRow(row);
     });
   }
 

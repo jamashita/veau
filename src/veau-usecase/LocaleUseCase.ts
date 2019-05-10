@@ -16,14 +16,15 @@ export type Locales = {
   regions: Array<RegionJSON>;
 };
 
+const languageMySQLQuery: ILanguageQuery = LanguageMySQLQuery.getInstance();
+const languageRedisQuery: ILanguageQuery = LanguageRedisQuery.getInstance();
+const languageRedisCommand: ILanguageCommand = LanguageRedisCommand.getInstance();
+const regionMySQLQuery: IRegionQuery = RegionMySQLQuery.getInstance();
+const regionRedisQuery: IRegionQuery = RegionRedisQuery.getInstance();
+const regionRedisCommand: IRegionCommand = RegionRedisCommand.getInstance();
+
 export class LocaleUseCase {
   private static instance: LocaleUseCase = new LocaleUseCase();
-  private static languageMySQLQuery: ILanguageQuery = LanguageMySQLQuery.getInstance();
-  private static languageRedisQuery: ILanguageQuery = LanguageRedisQuery.getInstance();
-  private static languageRedisCommand: ILanguageCommand = LanguageRedisCommand.getInstance();
-  private static regionMySQLQuery: IRegionQuery = RegionMySQLQuery.getInstance();
-  private static regionRedisQuery: IRegionQuery = RegionRedisQuery.getInstance();
-  private static regionRedisCommand: IRegionCommand = RegionRedisCommand.getInstance();
 
   public static getInstance(): LocaleUseCase {
     return LocaleUseCase.instance;
@@ -47,35 +48,35 @@ export class LocaleUseCase {
   }
 
   private async getLanguages(): Promise<Array<Language>> {
-    const languages: Array<Language> = await LocaleUseCase.languageRedisQuery.allLanguages();
+    const languages: Array<Language> = await languageRedisQuery.allLanguages();
 
     if (languages.length !== 0) {
       return languages;
     }
 
-    const newLanguages: Array<Language> = await LocaleUseCase.languageMySQLQuery.allLanguages();
-    await LocaleUseCase.languageRedisCommand.insertAll(newLanguages);
+    const newLanguages: Array<Language> = await languageMySQLQuery.allLanguages();
+    await languageRedisCommand.insertAll(newLanguages);
 
     return newLanguages;
   }
 
   private async getRegions(): Promise<Array<Region>> {
-    const regions: Array<Region> = await LocaleUseCase.regionRedisQuery.allRegions();
+    const regions: Array<Region> = await regionRedisQuery.allRegions();
 
     if (regions.length !== 0) {
       return regions;
     }
 
-    const newRegions: Array<Region> = await LocaleUseCase.regionMySQLQuery.allRegions();
-    await LocaleUseCase.regionRedisCommand.insertAll(newRegions);
+    const newRegions: Array<Region> = await regionMySQLQuery.allRegions();
+    await regionRedisCommand.insertAll(newRegions);
 
     return newRegions;
   }
 
   public deleteCache(): Promise<any> {
     return Promise.all<any>([
-      LocaleUseCase.languageRedisCommand.deleteAll(),
-      LocaleUseCase.regionRedisCommand.deleteAll()
+      languageRedisCommand.deleteAll(),
+      regionRedisCommand.deleteAll()
     ]);
   }
 }

@@ -3,7 +3,8 @@ import {
   ACTION,
   EntranceAccountNameTypedAction,
   EntrancePasswordTypedAction,
-  EntranceUpdateAction, IdentityAuthenticateAction
+  EntranceUpdateAction,
+  IdentityAuthenticateAction
 } from './Action';
 
 export const accountTyped: (account: string) => EntranceAccountNameTypedAction = (account: string): EntranceAccountNameTypedAction => {

@@ -5,10 +5,12 @@ import { VeauRedis } from '../veau-infrastructure/VeauRedis';
 import { ISO3166 } from '../veau-vo/ISO3166';
 import { IRegionQuery } from './interfaces/IRegionQuery';
 
+const regionFactory: RegionFactory = RegionFactory.getInstance();
+
+const REGIONS_REDIS_KEY: string = 'REGIONS';
+
 export class RegionRedisQuery implements IRegionQuery {
   private static instance: RegionRedisQuery = new RegionRedisQuery();
-  private static regionFactory: RegionFactory = RegionFactory.getInstance();
-  private static REGIONS_REDIS_KEY: string = 'REGIONS';
 
   public static getInstance(): RegionRedisQuery {
     return RegionRedisQuery.instance;
@@ -18,12 +20,12 @@ export class RegionRedisQuery implements IRegionQuery {
   }
 
   public async allRegions(): Promise<Array<Region>> {
-    const regionString: string | null = await VeauRedis.getString().get(RegionRedisQuery.REGIONS_REDIS_KEY);
+    const regionString: string | null = await VeauRedis.getString().get(REGIONS_REDIS_KEY);
 
     if (regionString) {
       const regionRows: Array<RegionRow> = JSON.parse(regionString);
       return regionRows.map<Region>((row: RegionRow) => {
-        return RegionRedisQuery.regionFactory.fromRow(row);
+        return regionFactory.fromRow(row);
       });
     }
 

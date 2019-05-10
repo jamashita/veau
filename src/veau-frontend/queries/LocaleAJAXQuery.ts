@@ -9,12 +9,13 @@ import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { ILocaleQuery } from './interfaces/ILocaleQuery';
 
+const languageFactory: LanguageFactory = LanguageFactory.getInstance();
+const regionFactory: RegionFactory = RegionFactory.getInstance();
+
 export class LocaleAJAXQuery implements ILocaleQuery {
   private locales: Locales | null;
 
   private static instance: LocaleAJAXQuery = new LocaleAJAXQuery();
-  private static languageFactory: LanguageFactory = LanguageFactory.getInstance();
-  private static regionFactory: RegionFactory = RegionFactory.getInstance();
 
   public static getInstance(): LocaleAJAXQuery {
     return LocaleAJAXQuery.instance;
@@ -77,7 +78,7 @@ export class LocaleAJAXQuery implements ILocaleQuery {
     const locales: Locales = await this.allLocales();
 
     return locales.languages.map<Language>((json: LanguageJSON) => {
-      return LocaleAJAXQuery.languageFactory.fromJSON(json);
+      return languageFactory.fromJSON(json);
     });
   }
 
@@ -85,7 +86,7 @@ export class LocaleAJAXQuery implements ILocaleQuery {
     const locales: Locales = await this.allLocales();
 
     return locales.regions.map<Region>((json: RegionJSON) => {
-      return LocaleAJAXQuery.regionFactory.fromJSON(json);
+      return regionFactory.fromJSON(json);
     });
   }
 }

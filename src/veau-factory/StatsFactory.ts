@@ -15,11 +15,12 @@ import { LanguageFactory } from './LanguageFactory';
 import { RegionFactory } from './RegionFactory';
 import { StatsItemFactory } from './StatsItemFactory';
 
+const statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
+const languageFactory: LanguageFactory = LanguageFactory.getInstance();
+const regionFactory: RegionFactory = RegionFactory.getInstance();
+
 export class StatsFactory {
   private static instance: StatsFactory = new StatsFactory();
-  private static statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
-  private static languageFactory: LanguageFactory = LanguageFactory.getInstance();
-  private static regionFactory: RegionFactory = RegionFactory.getInstance();
 
   public static getInstance(): StatsFactory {
     return StatsFactory.instance;
@@ -45,13 +46,13 @@ export class StatsFactory {
     } = json;
 
     const statsItems: Array<StatsItem> = items.map<StatsItem>((item: StatsItemJSON) => {
-      return StatsFactory.statsItemFactory.fromJSON(item);
+      return statsItemFactory.fromJSON(item);
     });
 
     return this.from(
       StatsID.of(UUID.of(statsID)),
-      StatsFactory.languageFactory.fromJSON(language),
-      StatsFactory.regionFactory.fromJSON(region),
+      languageFactory.fromJSON(language),
+      regionFactory.fromJSON(region),
       Term.of(termID),
       name,
       unit,
@@ -76,8 +77,8 @@ export class StatsFactory {
       updatedAt
     } = row;
 
-    const language: Language = StatsFactory.languageFactory.from(LanguageID.of(languageID), languageName, languageEnglishName, ISO639.of(iso639));
-    const region: Region = StatsFactory.regionFactory.from(RegionID.of(regionID), regionName, ISO3166.of(iso3166));
+    const language: Language = languageFactory.from(LanguageID.of(languageID), languageName, languageEnglishName, ISO639.of(iso639));
+    const region: Region = regionFactory.from(RegionID.of(regionID), regionName, ISO3166.of(iso3166));
     const term: Term = Term.of(termID);
 
     return this.from(StatsID.of(UUID.of(statsID)), language, region, term, name, unit, moment.utc(updatedAt), new StatsItems(statItems));

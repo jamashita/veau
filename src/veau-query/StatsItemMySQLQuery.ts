@@ -6,10 +6,11 @@ import { StatsID } from '../veau-vo/StatsID';
 import { IStatsItemQuery } from './interfaces/IStatsItemQuery';
 import { StatsValueMySQLQuery } from './StatsValueMySQLQuery';
 
+const statsValueMySQLQuery: StatsValueMySQLQuery = StatsValueMySQLQuery.getInstance();
+const statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
+
 export class StatsItemMySQLQuery implements IStatsItemQuery {
   private static instance: StatsItemMySQLQuery = new StatsItemMySQLQuery();
-  private static statsValueMySQLQuery: StatsValueMySQLQuery = StatsValueMySQLQuery.getInstance();
-  private static statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
 
   public static getInstance(): StatsItemMySQLQuery {
     return StatsItemMySQLQuery.instance;
@@ -30,16 +31,16 @@ export class StatsItemMySQLQuery implements IStatsItemQuery {
       statsID: statsID.get().get()
     });
 
-    const valueMap: Map<string, StatsValues> = await StatsItemMySQLQuery.statsValueMySQLQuery.findByStatsID(statsID);
+    const valueMap: Map<string, StatsValues> = await statsValueMySQLQuery.findByStatsID(statsID);
 
     return statsItemRows.map<StatsItem>((statsItemRow: StatsItemRow) => {
       const values: StatsValues | undefined = valueMap.get(statsItemRow.statsItemID);
 
       if (values) {
-        return StatsItemMySQLQuery.statsItemFactory.fromRow(statsItemRow, values);
+        return statsItemFactory.fromRow(statsItemRow, values);
       }
 
-      return StatsItemMySQLQuery.statsItemFactory.fromRow(statsItemRow, new StatsValues([]));
+      return statsItemFactory.fromRow(statsItemRow, new StatsValues([]));
     });
   }
 }

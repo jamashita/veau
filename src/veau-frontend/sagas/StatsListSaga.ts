@@ -26,15 +26,11 @@ import { IStatsQuery } from '../queries/interfaces/IStatsQuery';
 import { StatsAJAXQuery } from '../queries/StatsAJAXQuery';
 import { State } from '../State';
 
-export class StatsListSaga {
-  private static instance: StatsListSaga = new StatsListSaga();
-  private static statsCommand: IStatsCommand = StatsAJAXCommand.getInstance();
-  private static statsQuery: IStatsQuery = StatsAJAXQuery.getInstance();
-  private static statsFactory: StatsFactory = StatsFactory.getInstance();
+const statsCommand: IStatsCommand = StatsAJAXCommand.getInstance();
+const statsQuery: IStatsQuery = StatsAJAXQuery.getInstance();
+const statsFactory: StatsFactory = StatsFactory.getInstance();
 
-  public static getInstance(): StatsListSaga {
-    return StatsListSaga.instance;
-  }
+export class StatsListSaga {
 
   public static *init(): IterableIterator<any> {
     yield fork(StatsListSaga.findStatsList);
@@ -53,7 +49,7 @@ export class StatsListSaga {
 
       if (path === Endpoints.STATS_LIST) {
         try {
-          const statsOverviews: Array<Stats> = yield StatsListSaga.statsQuery.findByPage(1);
+          const statsOverviews: Array<Stats> = yield statsQuery.findByPage(1);
           yield put(updateStatsOverviews(statsOverviews));
         }
         catch (err) {
@@ -75,7 +71,7 @@ export class StatsListSaga {
         }
       } = state;
 
-      const newStats: Stats = StatsListSaga.statsFactory.from(
+      const newStats: Stats = statsFactory.from(
         stats.getStatsID(),
         stats.getLanguage(),
         stats.getRegion(),
@@ -100,7 +96,7 @@ export class StatsListSaga {
         }
       } = state;
 
-      const newStats: Stats = StatsListSaga.statsFactory.from(
+      const newStats: Stats = statsFactory.from(
         stats.getStatsID(),
         stats.getLanguage(),
         stats.getRegion(),
@@ -143,7 +139,7 @@ export class StatsListSaga {
         throw new NoSuchElementError(iso639.toString());
       }
 
-      const newStats: Stats = StatsListSaga.statsFactory.from(
+      const newStats: Stats = statsFactory.from(
         stats.getStatsID(),
         found,
         stats.getRegion(),
@@ -186,7 +182,7 @@ export class StatsListSaga {
         throw new NoSuchElementError(iso3166.toString());
       }
 
-      const newStats: Stats = StatsListSaga.statsFactory.from(
+      const newStats: Stats = statsFactory.from(
         stats.getStatsID(),
         stats.getLanguage(),
         found,
@@ -211,7 +207,7 @@ export class StatsListSaga {
         }
       } = state;
 
-      const newStats: Stats = StatsListSaga.statsFactory.from(
+      const newStats: Stats = statsFactory.from(
         stats.getStatsID(),
         stats.getLanguage(),
         stats.getRegion(),
@@ -244,7 +240,7 @@ export class StatsListSaga {
       yield put(closeNewStatsModal());
       yield put(loading());
       try {
-        yield StatsListSaga.statsCommand.create(stats);
+        yield statsCommand.create(stats);
 
         yield put(loaded());
         yield put(pushToStatsEdit(stats.getStatsID()));
