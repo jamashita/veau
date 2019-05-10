@@ -13,16 +13,7 @@ describe('StatsItemMySQLQuery', () => {
     const statsID: string = '428a0978-5d01-4da6-96f3-f851cb18e935';
     const stub: SinonStub = sinon.stub();
     VeauMySQL.execute = stub;
-    stub.withArgs(`SELECT
-      R1.stats_item_id AS statsItemID,
-      R1.name
-      FROM stats_items R1
-      WHERE R1.stats_id = :statsID
-      ORDER BY R1.seq;`, [
-      {
-        statsID
-      }
-    ]).resolves([
+    stub.onCall(0).resolves([
       {
         statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
         name: 'name1'
@@ -36,18 +27,7 @@ describe('StatsItemMySQLQuery', () => {
         name: 'name3'
       }
     ]);
-    stub.withArgs(`SELECT
-      R1.stats_item_id AS statsItemID,
-      R1.as_of AS asOf,
-      R1.value
-      FROM stats_values R1
-      INNER JOIN stats_items R2
-      USING(stats_item_id)
-      WHERE R2.stats_id = :statsID;`, [
-      {
-        statsID
-      }
-    ]).resolves([
+    stub.onCall(1).resolves([
       {
         statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
         asOf: '2000-01-01',

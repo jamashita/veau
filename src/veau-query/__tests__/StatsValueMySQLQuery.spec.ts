@@ -12,21 +12,7 @@ describe('StatsValueMySQLQuery', () => {
   it('findByStatsID', async () => {
     const stub: SinonStub = sinon.stub();
     VeauMySQL.execute = stub;
-    stub.withArgs(
-      `SELECT
-      R1.stats_item_id AS statsItemID,
-      R1.as_of AS asOf,
-      R1.value
-      FROM stats_values R1
-      INNER JOIN stats_items R2
-      USING(stats_item_id)
-      WHERE R2.stats_id = :statsID;`,
-      [
-        {
-          statsID: 'd4703058-a6ff-420b-95b2-4475beba9027'
-        }
-      ]
-    ).resolves([
+    stub.onCall(0).resolves([
       {
         statsItemID: '98d1e9b5-6b18-44de-b615-d8016f49977d',
         asOf: '2000-01-01',

@@ -16,32 +16,7 @@ describe('StatsMySQLQuery', () => {
     const statsID: string = 'a25a8b7f-c810-4dc0-b94e-e97e74329307';
     const stub: SinonStub = sinon.stub();
     VeauMySQL.execute = stub;
-    stub.withArgs(`SELECT
-      R1.stats_id AS statsID,
-      R1.language_id AS languageID,
-      R1.term_id AS termID,
-      R2.name AS languageName,
-      R2.english_name AS languageEnglishName,
-      R2.iso639,
-      R1.region_id AS regionID,
-      R3.name AS regionName,
-      R3.iso3166,
-      R1.name,
-      R1.unit,
-      R1.updated_at AS updatedAt
-      FROM stats R1
-      INNER JOIN languages R2
-      USING(language_id)
-      INNER JOIN regions R3
-      USING(region_id)
-      WHERE R1.stats_id = :statsID;`,
-      [
-        {
-          statsID
-        }
-      ]
-    )
-      .resolves([
+    stub.onCall(0).resolves([
         {
           statsID,
           languageID: 1,
@@ -57,16 +32,7 @@ describe('StatsMySQLQuery', () => {
           updatedAt: '2000-01-01T00:00:00.000Z'
         }
       ]);
-    stub.withArgs(`SELECT
-      R1.stats_item_id AS statsItemID,
-      R1.name
-      FROM stats_items R1
-      WHERE R1.stats_id = :statsID
-      ORDER BY R1.seq;`, [
-      {
-        statsID
-      }
-    ]).resolves([
+    stub.onCall(1).resolves([
       {
         statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
         name: 'name1'
@@ -80,18 +46,7 @@ describe('StatsMySQLQuery', () => {
         name: 'name3'
       }
     ]);
-    stub.withArgs(`SELECT
-      R1.stats_item_id AS statsItemID,
-      R1.as_of AS asOf,
-      R1.value
-      FROM stats_values R1
-      INNER JOIN stats_items R2
-      USING(stats_item_id)
-      WHERE R2.stats_id = :statsID;`, [
-      {
-        statsID
-      }
-    ]).resolves([
+    stub.onCall(2).resolves([
       {
         statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
         asOf: '2000-01-01',
