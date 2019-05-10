@@ -1,18 +1,18 @@
 import { Stats } from '../veau-entity/Stats';
-import { Transaction } from '../veau-general/MySQL/Transaction';
+import { Query } from '../veau-general/MySQL/Query';
 import { StatsID } from '../veau-vo/StatsID';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
 import { IStatsCommand } from './interfaces/IStatsCommand';
 
 export class StatsMySQLCommand implements IStatsCommand {
-  private transaction: Transaction;
+  private query: Query;
 
-  public static getInstance(transaction: Transaction): StatsMySQLCommand {
-    return new StatsMySQLCommand(transaction);
+  public static getInstance(query: Query): StatsMySQLCommand {
+    return new StatsMySQLCommand(query);
   }
 
-  private constructor(transaction: Transaction) {
-    this.transaction = transaction;
+  private constructor(query: Query) {
+    this.query = query;
   }
 
   public async create(stats: Stats, veauAccountID: VeauAccountID): Promise<any> {
@@ -27,7 +27,7 @@ export class StatsMySQLCommand implements IStatsCommand {
       UTC_TIMESTAMP()
       );`;
 
-    return this.transaction.query(query, {
+    return this.query.execute(query, {
       statsID: stats.getStatsID().get().get(),
       languageID: stats.getLanguage().getLanguageID().get(),
       regionID: stats.getRegion().getRegionID().get(),
@@ -43,7 +43,7 @@ export class StatsMySQLCommand implements IStatsCommand {
       FROM stats R1
       WHERE R1.stats_id = :statsID;`;
 
-    return this.transaction.query(query, {
+    return this.query.execute(query, {
       statsID: statsID.get().get()
     });
   }

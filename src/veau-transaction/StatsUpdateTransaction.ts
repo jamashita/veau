@@ -5,32 +5,56 @@ import { StatsItemMySQLCommand } from '../veau-command/StatsItemMySQLCommand';
 import { StatsMySQLCommand } from '../veau-command/StatsMySQLCommand';
 import { StatsValueMySQLCommand } from '../veau-command/StatsValueMySQLCommand';
 import { Stats } from '../veau-entity/Stats';
-import { Transaction } from '../veau-general/MySQL/Deal';
+import { StatsItem } from '../veau-entity/StatsItem';
 import { Query } from '../veau-general/MySQL/Query';
+import { Transaction } from '../veau-general/MySQL/Transaction';
 import { StatsID } from '../veau-vo/StatsID';
+import { StatsValue } from '../veau-vo/StatsValue';
+import { VeauAccountID } from '../veau-vo/VeauAccountID';
 
-export class StatsDeleteDeal implements Transaction {
+export class StatsUpdateTransaction implements Transaction {
+  private veauAccountID: VeauAccountID;
   private stats: Stats;
 
-  public static getInstance(stats: Stats): StatsDeleteDeal {
-    return new StatsDeleteDeal(stats);
+  public static getInstance(veauAccountID: VeauAccountID, stats: Stats): StatsUpdateTransaction {
+    return new StatsUpdateTransaction(veauAccountID, stats);
   }
 
-  private constructor(stats: Stats) {
+  private constructor(veauAccountID: VeauAccountID, stats: Stats) {
+    this.veauAccountID = veauAccountID;
     this.stats = stats;
   }
 
-  public with(query: Query): Promise<any> {
+  public async with(query: Query): Promise<any> {
     const statsCommand: IStatsCommand = StatsMySQLCommand.getInstance(query);
     const statsItemCommand: IStatsItemCommand = StatsItemMySQLCommand.getInstance(query);
     const statsValueCommand: IStatsValueCommand = StatsValueMySQLCommand.getInstance(query);
 
-    const statsID: StatsID = this.stats.getStatsID();
+    const {
+      veauAccountID,
+      stats
+    } = this;
 
-    return Promise.all<any>([
+    const statsID: StatsID = stats.getStatsID();
+
+    await Promise.all<any>([
       statsValueCommand.deleteByStatsID(statsID),
       statsItemCommand.deleteByStatsID(statsID),
       statsCommand.deleteByStatsID(statsID)
     ]);
+
+    const promises: Array<Promise<any>> = [];
+
+    promises.push(statsCommand.create(stats, veauAccountID));
+
+    this.stats.getItems().forEach((statsItem: StatsItem, index: number) => {
+      promises.push(statsItemCommand.create(statsID, statsItem, index + 1));
+
+      statsItem.getValues().forEach((statsValue: StatsValue) => {
+        promises.push(statsValueCommand.create(statsItem.getStatsItemID(), statsValue));
+      });
+    });
+
+    return Promise.all<any>(promises);
   }
 }

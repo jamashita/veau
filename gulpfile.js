@@ -132,6 +132,15 @@ gulp.task('veau-service', () => {
     .pipe(gulp.dest('dist/veau-service'));
 });
 
+gulp.task('veau-transaction', () => {
+  return gulp.src(['src/veau-transaction/**/*.ts'], {
+    since : gulp.lastRun('veau-transaction')
+  })
+    .pipe(plumber())
+    .pipe(tsc())
+    .pipe(gulp.dest('dist/veau-transaction'));
+});
+
 gulp.task('veau-usecase', () => {
   return gulp.src(['src/veau-usecase/**/*.ts'], {
       since : gulp.lastRun('veau-usecase')
@@ -224,6 +233,7 @@ gulp.task(
     'veau-query',
     'veau-server',
     'veau-service',
+    'veau-transaction',
     'veau-usecase',
     'veau-vo'
   )
@@ -246,6 +256,7 @@ gulp.task(
       gulp.watch('src/veau-query/**/*.ts', gulp.series('veau-query'));
       gulp.watch('src/veau-server/**/*.ts', gulp.series('veau-server'));
       gulp.watch('src/veau-service/**/*.ts', gulp.series('veau-service'));
+      gulp.watch('src/veau-transaction/**/*.ts', gulp.series('veau-transaction'));
       gulp.watch('src/veau-usecase/**/*.ts', gulp.series('veau-usecase'));
       gulp.watch('src/veau-vo/**/*.ts', gulp.series('veau-vo'));
       gulp.watch('src/veau-server/views/*.pug', gulp.series('pug'));

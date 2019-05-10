@@ -1,17 +1,17 @@
 import { StatsItem } from '../veau-entity/StatsItem';
-import { Transaction } from '../veau-general/MySQL/Transaction';
+import { Query } from '../veau-general/MySQL/Query';
 import { StatsID } from '../veau-vo/StatsID';
 import { IStatsItemCommand } from './interfaces/IStatsItemCommand';
 
 export class StatsItemMySQLCommand implements IStatsItemCommand {
-  private transaction: Transaction;
+  private query: Query;
 
-  public static getInstance(transaction: Transaction): StatsItemMySQLCommand {
-    return new StatsItemMySQLCommand(transaction);
+  public static getInstance(query: Query): StatsItemMySQLCommand {
+    return new StatsItemMySQLCommand(query);
   }
 
-  private constructor(transaction: Transaction) {
-    this.transaction = transaction;
+  private constructor(query: Query) {
+    this.query = query;
   }
 
   public async create(statsID: StatsID, statsItem: StatsItem, seq: number): Promise<any> {
@@ -22,7 +22,7 @@ export class StatsItemMySQLCommand implements IStatsItemCommand {
       :seq
       );`;
 
-    return this.transaction.query(query, {
+    return this.query.execute(query, {
       statsItemID: statsItem.getStatsItemID().get().get(),
       statsID: statsID.get().get(),
       name: statsItem.getName(),
@@ -37,7 +37,7 @@ export class StatsItemMySQLCommand implements IStatsItemCommand {
       USING(stats_id)
       WHERE R2.stats_id = :statsID;`;
 
-    return this.transaction.query(query, {
+    return this.query.execute(query, {
       statsID: statsID.get().get()
     });
   }

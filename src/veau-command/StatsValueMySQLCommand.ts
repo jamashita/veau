@@ -1,18 +1,18 @@
-import { Transaction } from '../veau-general/MySQL/Transaction';
+import { Query } from '../veau-general/MySQL/Query';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsValue } from '../veau-vo/StatsValue';
 import { IStatsValueCommand } from './interfaces/IStatsValueCommand';
 
 export class StatsValueMySQLCommand implements IStatsValueCommand {
-  private transaction: Transaction;
+  private query: Query;
 
-  public static getInstance(transaction: Transaction): StatsValueMySQLCommand {
-    return new StatsValueMySQLCommand(transaction);
+  public static getInstance(query: Query): StatsValueMySQLCommand {
+    return new StatsValueMySQLCommand(query);
   }
 
-  private constructor(transaction: Transaction) {
-    this.transaction = transaction;
+  private constructor(query: Query) {
+    this.query = query;
   }
 
   public create(statsItemID: StatsItemID, statsValue: StatsValue): Promise<any> {
@@ -22,7 +22,7 @@ export class StatsValueMySQLCommand implements IStatsValueCommand {
       :value
       );`;
 
-    return this.transaction.query(query, {
+    return this.query.execute(query, {
       statsItemID: statsItemID.get().get(),
       asOf: statsValue.getAsOfAsString(),
       value: statsValue.getValue()
@@ -38,7 +38,7 @@ export class StatsValueMySQLCommand implements IStatsValueCommand {
       USING(stats_id)
       WHERE R3.stats_id = :statsID;`;
 
-    return this.transaction.query(query, {
+    return this.query.execute(query, {
       statsID: statsID.get().get()
     });
   }
