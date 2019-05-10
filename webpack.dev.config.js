@@ -14,7 +14,7 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js']
   },
   mode: 'development',
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
   plugins: [
   ],
   module: {
