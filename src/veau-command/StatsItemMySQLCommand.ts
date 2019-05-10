@@ -1,16 +1,16 @@
 import { StatsItem } from '../veau-entity/StatsItem';
-import { Query } from '../veau-general/MySQL/Query';
+import { IQuery } from '../veau-general/MySQL/IQuery';
 import { StatsID } from '../veau-vo/StatsID';
 import { IStatsItemCommand } from './interfaces/IStatsItemCommand';
 
 export class StatsItemMySQLCommand implements IStatsItemCommand {
-  private query: Query;
+  private query: IQuery;
 
-  public static getInstance(query: Query): StatsItemMySQLCommand {
+  public static getInstance(query: IQuery): StatsItemMySQLCommand {
     return new StatsItemMySQLCommand(query);
   }
 
-  private constructor(query: Query) {
+  private constructor(query: IQuery) {
     this.query = query;
   }
 

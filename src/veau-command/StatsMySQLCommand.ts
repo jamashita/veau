@@ -1,17 +1,17 @@
 import { Stats } from '../veau-entity/Stats';
-import { Query } from '../veau-general/MySQL/Query';
+import { IQuery } from '../veau-general/MySQL/IQuery';
 import { StatsID } from '../veau-vo/StatsID';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
 import { IStatsCommand } from './interfaces/IStatsCommand';
 
 export class StatsMySQLCommand implements IStatsCommand {
-  private query: Query;
+  private query: IQuery;
 
-  public static getInstance(query: Query): StatsMySQLCommand {
+  public static getInstance(query: IQuery): StatsMySQLCommand {
     return new StatsMySQLCommand(query);
   }
 
-  private constructor(query: Query) {
+  private constructor(query: IQuery) {
     this.query = query;
   }
 

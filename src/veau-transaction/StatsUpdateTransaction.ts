@@ -6,13 +6,13 @@ import { StatsMySQLCommand } from '../veau-command/StatsMySQLCommand';
 import { StatsValueMySQLCommand } from '../veau-command/StatsValueMySQLCommand';
 import { Stats } from '../veau-entity/Stats';
 import { StatsItem } from '../veau-entity/StatsItem';
-import { Query } from '../veau-general/MySQL/Query';
-import { Transaction } from '../veau-general/MySQL/Transaction';
+import { IQuery } from '../veau-general/MySQL/IQuery';
+import { ITransaction } from '../veau-general/MySQL/ITransaction';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValue } from '../veau-vo/StatsValue';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
 
-export class StatsUpdateTransaction implements Transaction {
+export class StatsUpdateTransaction implements ITransaction {
   private veauAccountID: VeauAccountID;
   private stats: Stats;
 
@@ -25,7 +25,7 @@ export class StatsUpdateTransaction implements Transaction {
     this.stats = stats;
   }
 
-  public async with(query: Query): Promise<any> {
+  public async with(query: IQuery): Promise<any> {
     const statsCommand: IStatsCommand = StatsMySQLCommand.getInstance(query);
     const statsItemCommand: IStatsItemCommand = StatsItemMySQLCommand.getInstance(query);
     const statsValueCommand: IStatsValueCommand = StatsValueMySQLCommand.getInstance(query);

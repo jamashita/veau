@@ -2,7 +2,7 @@ import * as log4js from 'log4js';
 import { Stats, StatsJSON } from '../veau-entity/Stats';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { NotFoundError } from '../veau-error/NotFoundError';
-import { Transaction } from '../veau-general/MySQL/Transaction';
+import { ITransaction } from '../veau-general/MySQL/ITransaction';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { IStatsQuery } from '../veau-query/interfaces/IStatsQuery';
 import { StatsMySQLQuery } from '../veau-query/StatsMySQLQuery';
@@ -50,7 +50,7 @@ export class StatsUseCase {
   }
 
   public save(veauAccountID: VeauAccountID, stats: Stats): Promise<any> {
-    const statsUpdateTransaction: Transaction = StatsUpdateTransaction.getInstance(veauAccountID, stats);
+    const statsUpdateTransaction: ITransaction = StatsUpdateTransaction.getInstance(veauAccountID, stats);
 
     return VeauMySQL.transact(statsUpdateTransaction);
   }
