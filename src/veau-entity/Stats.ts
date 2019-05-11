@@ -11,6 +11,9 @@ import { Language, LanguageJSON } from './Language';
 import { Region, RegionJSON } from './Region';
 import { StatsItem, StatsItemJSON } from './StatsItem';
 
+const REVISED_VALUE: number = 14;
+const TERM_FORMAT: string = 'YYYY-MM-DD';
+
 export type StatsJSON = {
   statsID: string;
   language: LanguageJSON;
@@ -48,9 +51,6 @@ export class Stats extends Entity<StatsID> {
   private items: StatsItems;
   private startDate?: string;
   private columns?: Array<string>;
-
-  private static REVISED_VALUE: number = 14;
-  private static TERM_FORMAT: string = 'YYYY-MM-DD';
 
   public static default(): Stats {
     const uuid: UUID = UUID.of(Random.v4());
@@ -100,7 +100,7 @@ export class Stats extends Entity<StatsID> {
   }
 
   public getUpdatedAtAsString(): string {
-    return this.updatedAt.format(Stats.TERM_FORMAT);
+    return this.updatedAt.format(TERM_FORMAT);
   }
 
   public getItems(): StatsItems {
@@ -139,11 +139,11 @@ export class Stats extends Entity<StatsID> {
     const maxTerm: moment.Moment = moment.max(asOfs);
     this.columns = [];
 
-    this.columns.push(this.previousTerm(minTerm).format(Stats.TERM_FORMAT));
+    this.columns.push(this.previousTerm(minTerm).format(TERM_FORMAT));
     for (let term: moment.Moment = minTerm; !term.isAfter(maxTerm); term = this.nextTerm(term)) {
-      this.columns.push(term.format(Stats.TERM_FORMAT));
+      this.columns.push(term.format(TERM_FORMAT));
     }
-    this.columns.push(this.nextTerm(maxTerm).format(Stats.TERM_FORMAT));
+    this.columns.push(this.nextTerm(maxTerm).format(TERM_FORMAT));
 
     return this.columns;
   }
@@ -214,7 +214,7 @@ export class Stats extends Entity<StatsID> {
       return row.length;
     });
 
-    return Math.max(...chars) * Stats.REVISED_VALUE;
+    return Math.max(...chars) * REVISED_VALUE;
   }
 
   public getData(): Array<Array<string>> {

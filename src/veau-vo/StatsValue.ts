@@ -1,6 +1,8 @@
 import * as moment from 'moment';
 import { ValueObject } from './ValueObject';
 
+const TERM_FORMAT: string = 'YYYY-MM-DD';
+
 export type StatsValueJSON = {
   asOf: string;
   value: number;
@@ -15,8 +17,6 @@ export type StatsValueRow = {
 export class StatsValue extends ValueObject {
   private asOf: moment.Moment;
   private value: number;
-
-  private static TERM_FORMAT: string = 'YYYY-MM-DD';
 
   public static of(asOf: moment.Moment, value: number): StatsValue {
     return new StatsValue(asOf, value);
@@ -37,7 +37,7 @@ export class StatsValue extends ValueObject {
   }
 
   public getAsOfAsString(): string {
-    return this.asOf.format(StatsValue.TERM_FORMAT);
+    return this.asOf.format(TERM_FORMAT);
   }
 
   public equals(other: StatsValue): boolean {
