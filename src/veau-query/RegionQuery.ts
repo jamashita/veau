@@ -26,8 +26,8 @@ export class RegionQuery {
 
     if (regionString !== null) {
       const regionJSONS: Array<RegionJSON> = JSON.parse(regionString);
-      return regionJSONS.map<Region>((row: RegionRow) => {
-        return regionFactory.fromRow(row);
+      return regionJSONS.map<Region>((json: RegionJSON) => {
+        return regionFactory.fromJSON(json);
       });
     }
 

@@ -26,8 +26,8 @@ export class LanguageQuery {
 
     if (languagesString !== null) {
       const languageJSONS: Array<LanguageJSON> = JSON.parse(languagesString);
-      return languageJSONS.map<Language>((row: LanguageRow) => {
-        return languageFactory.fromRow(row);
+      return languageJSONS.map<Language>((json: LanguageJSON) => {
+        return languageFactory.fromJSON(json);
       });
     }
 
