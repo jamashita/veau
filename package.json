@@ -89,7 +89,7 @@
     "@types/superagent": "4.1.1",
     "@types/supertest": "2.0.7",
     "enzyme": "3.9.0",
-    "enzyme-adapter-react-16": "1.12.1",
+    "enzyme-adapter-react-16": "1.13.0",
     "gulp": "4.0.2",
     "gulp-autoprefixer": "6.1.0",
     "gulp-clean-css": "4.2.0",
