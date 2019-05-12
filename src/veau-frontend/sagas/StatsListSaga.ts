@@ -19,15 +19,13 @@ import { appearNotification } from '../actions/NotificationAction';
 import { pushToStatsEdit } from '../actions/RedirectAction';
 import { updateStatsOverviews } from '../actions/StatsAction';
 import { closeNewStatsModal, resetNewStats, updateNewStats } from '../actions/StatsListAction';
-import { IStatsCommand } from '../commands/interfaces/IStatsCommand';
-import { StatsAJAXCommand } from '../commands/StatsAJAXCommand';
+import { StatsCommand } from '../commands/StatsCommand';
 import { Endpoints } from '../Endpoints';
-import { IStatsQuery } from '../queries/interfaces/IStatsQuery';
-import { StatsAJAXQuery } from '../queries/StatsAJAXQuery';
+import { StatsQuery } from '../queries/StatsQuery';
 import { State } from '../State';
 
-const statsCommand: IStatsCommand = StatsAJAXCommand.getInstance();
-const statsQuery: IStatsQuery = StatsAJAXQuery.getInstance();
+const statsCommand: StatsCommand = StatsCommand.getInstance();
+const statsQuery: StatsQuery = StatsQuery.getInstance();
 const statsFactory: StatsFactory = StatsFactory.getInstance();
 
 export class StatsListSaga {

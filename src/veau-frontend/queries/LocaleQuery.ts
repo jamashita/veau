@@ -7,18 +7,17 @@ import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
 import { Locales } from '../../veau-usecase/LocaleUseCase';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
-import { ILocaleQuery } from './interfaces/ILocaleQuery';
 
 const languageFactory: LanguageFactory = LanguageFactory.getInstance();
 const regionFactory: RegionFactory = RegionFactory.getInstance();
 
-export class LocaleAJAXQuery implements ILocaleQuery {
+export class LocaleQuery {
   private locales: Locales | null;
 
-  private static instance: LocaleAJAXQuery = new LocaleAJAXQuery();
+  private static instance: LocaleQuery = new LocaleQuery();
 
-  public static getInstance(): LocaleAJAXQuery {
-    return LocaleAJAXQuery.instance;
+  public static getInstance(): LocaleQuery {
+    return LocaleQuery.instance;
   }
 
   private constructor() {

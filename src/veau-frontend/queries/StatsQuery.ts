@@ -2,15 +2,14 @@ import { Stats, StatsJSON } from '../../veau-entity/Stats';
 import { StatsFactory } from '../../veau-factory/StatsFactory';
 import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
 import { StatsID } from '../../veau-vo/StatsID';
-import { IStatsQuery } from './interfaces/IStatsQuery';
 
 const statsFactory: StatsFactory = StatsFactory.getInstance();
 
-export class StatsAJAXQuery implements IStatsQuery {
-  private static instance: StatsAJAXQuery = new StatsAJAXQuery();
+export class StatsQuery {
+  private static instance: StatsQuery = new StatsQuery();
 
-  public static getInstance(): StatsAJAXQuery {
-    return StatsAJAXQuery.instance;
+  public static getInstance(): StatsQuery {
+    return StatsQuery.instance;
   }
 
   private constructor() {

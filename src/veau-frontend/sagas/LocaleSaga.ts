@@ -3,10 +3,9 @@ import { Language } from '../../veau-entity/Language';
 import { Region } from '../../veau-entity/Region';
 import { ACTION } from '../actions/Action';
 import { defineLanguages, defineRegions } from '../actions/LocaleAction';
-import { ILocaleQuery } from '../queries/interfaces/ILocaleQuery';
-import { LocaleAJAXQuery } from '../queries/LocaleAJAXQuery';
+import { LocaleQuery } from '../queries/LocaleQuery';
 
-const localeQuery: ILocaleQuery = LocaleAJAXQuery.getInstance();
+const localeQuery: LocaleQuery = LocaleQuery.getInstance();
 
 export class LocaleSaga {
 

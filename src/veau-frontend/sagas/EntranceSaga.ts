@@ -8,11 +8,10 @@ import { identified, identityAuthenticated } from '../actions/IdentityAction';
 import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
 import { pushToStatsList } from '../actions/RedirectAction';
-import { ISessionQuery } from '../queries/interfaces/ISessionQuery';
-import { SessionAJAXQuery } from '../queries/SessionAJAXQuery';
+import { SessionQuery } from '../queries/SessionQuery';
 import { State } from '../State';
 
-const sessionQuery: ISessionQuery = SessionAJAXQuery.getInstance();
+const sessionQuery: SessionQuery = SessionQuery.getInstance();
 
 export class EntranceSaga {
 

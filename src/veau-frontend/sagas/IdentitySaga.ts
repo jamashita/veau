@@ -8,12 +8,11 @@ import { ACTION } from '../actions/Action';
 import { identified, identityAuthenticated } from '../actions/IdentityAction';
 import { pushToEntrance, pushToStatsList } from '../actions/RedirectAction';
 import { Endpoints } from '../Endpoints';
-import { ISessionQuery } from '../queries/interfaces/ISessionQuery';
-import { SessionAJAXQuery } from '../queries/SessionAJAXQuery';
+import { SessionQuery } from '../queries/SessionQuery';
 import { State } from '../State';
 
 const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
-const sessionQuery: ISessionQuery = SessionAJAXQuery.getInstance();
+const sessionQuery: SessionQuery = SessionQuery.getInstance();
 
 export class IdentitySaga {
 

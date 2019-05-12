@@ -3,10 +3,9 @@ import { ACTION } from '../actions/Action';
 import { initializeIdentity } from '../actions/IdentityAction';
 import { closeProvider } from '../actions/PageProviderAction';
 import { pushToEntrance } from '../actions/RedirectAction';
-import { ISessionCommand } from '../commands/interfaces/ISessionCommand';
-import { SessionAJAXCommand } from '../commands/SessionAJAXCommand';
+import { SessionCommand } from '../commands/SessionCommand';
 
-const sessionCommand: ISessionCommand = SessionAJAXCommand.getInstance();
+const sessionCommand: SessionCommand = SessionCommand.getInstance();
 
 export class LogoutSaga {
 

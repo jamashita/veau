@@ -4,16 +4,15 @@ import { AuthenticationFailureError } from '../../veau-error/AuthenticationFailu
 import { VeauAccountFactory } from '../../veau-factory/VeauAccountFactory';
 import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
-import { ISessionQuery } from './interfaces/ISessionQuery';
 
 const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
 
-export class SessionAJAXQuery implements ISessionQuery {
-  private static instance: SessionAJAXQuery = new SessionAJAXQuery();
+export class SessionQuery {
+  private static instance: SessionQuery = new SessionQuery();
 
 
-  public static getInstance(): SessionAJAXQuery {
-    return SessionAJAXQuery.instance;
+  public static getInstance(): SessionQuery {
+    return SessionQuery.instance;
   }
 
   private constructor() {

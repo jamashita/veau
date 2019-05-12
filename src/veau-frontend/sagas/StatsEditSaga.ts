@@ -31,14 +31,12 @@ import { appearNotification } from '../actions/NotificationAction';
 import { pushToStatsList } from '../actions/RedirectAction';
 import { resetStatsItem, updateStats, updateStatsItem } from '../actions/StatsAction';
 import { clearSelectingItem, selectItem, updateSelectingItem } from '../actions/StatsEditAction';
-import { IStatsCommand } from '../commands/interfaces/IStatsCommand';
-import { StatsAJAXCommand } from '../commands/StatsAJAXCommand';
-import { IStatsQuery } from '../queries/interfaces/IStatsQuery';
-import { StatsAJAXQuery } from '../queries/StatsAJAXQuery';
+import { StatsCommand } from '../commands/StatsCommand';
+import { StatsQuery } from '../queries/StatsQuery';
 import { State } from '../State';
 
-const statsCommand: IStatsCommand = StatsAJAXCommand.getInstance();
-const statsQuery: IStatsQuery = StatsAJAXQuery.getInstance();
+const statsCommand: StatsCommand = StatsCommand.getInstance();
+const statsQuery: StatsQuery = StatsQuery.getInstance();
 const statsFactory: StatsFactory = StatsFactory.getInstance();
 const statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
 
