@@ -1,9 +1,5 @@
 image: node:12.2.0
 
-cache:
-  paths:
-    - node_modules/
-
 stages:
   - test
 
