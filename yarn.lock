@@ -4186,14 +4186,14 @@ handlebars@^4.1.2:
   optionalDependencies:
     uglify-js "^3.1.4"
 
-handsontable@7.0.2:
-  version "7.0.2"
-  resolved "https://registry.yarnpkg.com/handsontable/-/handsontable-7.0.2.tgz#f3d37aef6dad56de8cf6ea0cad22730b100b6d2c"
-  integrity sha512-6H5SeKVuIic4OV1Jdsv8q7EPNGyWVgC5XWahLhUHWTrYsrluqy1ZzWLzswqbxKiVvWdWGgt7+ze0nfqVR5bSkw==
+handsontable@7.0.3:
+  version "7.0.3"
+  resolved "https://registry.yarnpkg.com/handsontable/-/handsontable-7.0.3.tgz#2e44c2c76410dece9b7607cdbfd98961edb7832d"
+  integrity sha512-CRwrI6VFcNhTSiTtIrLhdofuOBb9itNmbUsl4ntlu61qnEpyRBqT7Vv5wT+icRtBlq4czlYIWKMz8GGZe3e2ow==
   dependencies:
     "@types/pikaday" "1.6.0"
     core-js "^3.0.0"
-    hot-formula-parser "^3.0.0"
+    hot-formula-parser "^3.0.1"
     moment "2.20.1"
     numbro "2.1.1"
     pikaday "1.5.1"
@@ -4373,7 +4373,7 @@ hosted-git-info@^2.1.4:
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.7.1.tgz#97f236977bd6e125408930ff6de3eec6281ec047"
   integrity sha512-7T/BxH19zbcCTa8XkMlbK5lTo1WtgkFi3GvdWEyNuc4Vex7/9Dqbnpsf4JMydcfj9HCg4zUWFTL3Za6lapg5/w==
 
-hot-formula-parser@^3.0.0:
+hot-formula-parser@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/hot-formula-parser/-/hot-formula-parser-3.0.1.tgz#9ec0d3abd691d9dbe3febec51027ebb7d4f1efd4"
   integrity sha512-QhYPVlVh/GF/hHtBp+MwgDp5kpgrrjeJi3d3/GxTWtqwLBOOM4KlZT/YWcsfZj5JE68MNvFgj3ZzYpkGyvGtwA==
