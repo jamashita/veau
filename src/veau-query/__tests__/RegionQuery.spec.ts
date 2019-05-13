@@ -47,8 +47,7 @@ describe('RegionQuery', () => {
       }
     ]);
     const stub3: SinonStub = sinon.stub();
-    const regionCommand: RegionCommand = RegionCommand.getInstance();
-    regionCommand.insertAll = stub3;
+    RegionCommand.prototype.insertAll = stub3;
     stub3.resolves();
 
     const regionQuery: RegionQuery = RegionQuery.getInstance();
@@ -94,8 +93,7 @@ describe('RegionQuery', () => {
       }
     ]);
     const stub3: SinonStub = sinon.stub();
-    const regionCommand: RegionCommand = RegionCommand.getInstance();
-    regionCommand.insertAll = stub3;
+    RegionCommand.prototype.insertAll = stub3;
     stub3.resolves();
 
     const regionQuery: RegionQuery = RegionQuery.getInstance();
@@ -133,6 +131,10 @@ describe('RegionQuery', () => {
         iso3166: 'ALB'
       }
     ]);
+    const stub3: SinonStub = sinon.stub();
+    RegionCommand.prototype.insertAll = stub3;
+    stub3.resolves();
+
     const regionQuery: RegionQuery = RegionQuery.getInstance();
 
     expect(regionQuery.findByISO3166(ISO3166.of('ALB'))).rejects.toThrow(NoSuchElementError);

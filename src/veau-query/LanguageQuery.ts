@@ -9,7 +9,7 @@ import { ISO639 } from '../veau-vo/ISO639';
 const languageFactory: LanguageFactory = LanguageFactory.getInstance();
 const languageCommand: LanguageCommand = LanguageCommand.getInstance();
 
-const LANGUAGES_REDIS_KEY: string = 'LANGUAGES';
+const REDIS_KEY: string = 'LANGUAGES';
 
 export class LanguageQuery {
   private static instance: LanguageQuery = new LanguageQuery();
@@ -22,11 +22,11 @@ export class LanguageQuery {
   }
 
   public async allLanguages(): Promise<Array<Language>> {
-    const languagesString: string | null = await VeauRedis.getString().get(LANGUAGES_REDIS_KEY);
+    const languagesString: string | null = await VeauRedis.getString().get(REDIS_KEY);
 
     if (languagesString !== null) {
-      const languageJSONS: Array<LanguageJSON> = JSON.parse(languagesString);
-      return languageJSONS.map<Language>((json: LanguageJSON) => {
+      const languageJSONs: Array<LanguageJSON> = JSON.parse(languagesString);
+      return languageJSONs.map<Language>((json: LanguageJSON) => {
         return languageFactory.fromJSON(json);
       });
     }

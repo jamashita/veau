@@ -51,8 +51,7 @@ describe('LanguageQuery', () => {
       }
     ]);
     const stub3: SinonStub = sinon.stub();
-    const languageCommand: LanguageCommand = LanguageCommand.getInstance();
-    languageCommand.insertAll = stub3;
+    LanguageCommand.prototype.insertAll = stub3;
     stub3.resolves();
 
     const languageQuery: LanguageQuery = LanguageQuery.getInstance();
@@ -103,8 +102,7 @@ describe('LanguageQuery', () => {
       }
     ]);
     const stub3: SinonStub = sinon.stub();
-    const languageCommand: LanguageCommand = LanguageCommand.getInstance();
-    languageCommand.insertAll = stub3;
+    LanguageCommand.prototype.insertAll = stub3;
     stub3.resolves();
 
     const languageQuery: LanguageQuery = LanguageQuery.getInstance();
@@ -145,6 +143,10 @@ describe('LanguageQuery', () => {
         iso639: 'aa'
       }
     ]);
+    const stub3: SinonStub = sinon.stub();
+    LanguageCommand.prototype.insertAll = stub3;
+    stub3.resolves();
+
     const languageQuery: LanguageQuery = LanguageQuery.getInstance();
 
     expect(languageQuery.findByISO639(ISO639.of('ac'))).rejects.toThrow(NoSuchElementError);

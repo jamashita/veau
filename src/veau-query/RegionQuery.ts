@@ -9,7 +9,7 @@ import { ISO3166 } from '../veau-vo/ISO3166';
 const regionFactory: RegionFactory = RegionFactory.getInstance();
 const regionCommand: RegionCommand = RegionCommand.getInstance();
 
-const REGIONS_REDIS_KEY: string = 'REGIONS';
+const REDIS_KEY: string = 'REGIONS';
 
 export class RegionQuery {
   private static instance: RegionQuery = new RegionQuery();
@@ -22,11 +22,11 @@ export class RegionQuery {
   }
 
   public async allRegions(): Promise<Array<Region>> {
-    const regionString: string | null = await VeauRedis.getString().get(REGIONS_REDIS_KEY);
+    const regionString: string | null = await VeauRedis.getString().get(REDIS_KEY);
 
     if (regionString !== null) {
-      const regionJSONS: Array<RegionJSON> = JSON.parse(regionString);
-      return regionJSONS.map<Region>((json: RegionJSON) => {
+      const regionJSONs: Array<RegionJSON> = JSON.parse(regionString);
+      return regionJSONs.map<Region>((json: RegionJSON) => {
         return regionFactory.fromJSON(json);
       });
     }
