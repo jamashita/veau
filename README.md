@@ -23,21 +23,21 @@ Veau (発音 /vo/) は統計を取り扱うユーザーのためのものです�
 for English users
 
 ```
-Account: english
+Account: English
 Password: english
 ```
 
 para los usuarios españoles
 
 ```
-Account: español
+Account: Español
 Password: espanol
 ```
 
 pour les utilisateurs français
 
 ```
-Account: français
+Account: Français
 Password: francais
 ```
 
