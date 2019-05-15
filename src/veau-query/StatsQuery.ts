@@ -1,7 +1,9 @@
 import { Stats, StatsRow } from '../veau-entity/Stats';
 import { StatsItem } from '../veau-entity/StatsItem';
+import { StatsOutline, StatsOutlineRow } from '../veau-entity/StatsOutline';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { StatsFactory } from '../veau-factory/StatsFactory';
+import { StatsOutlineFactory } from '../veau-factory/StatsOutlineFactory';
 import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../veau-vo/StatsID';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
@@ -9,6 +11,7 @@ import { StatsItemQuery } from './StatsItemQuery';
 
 const statsItemQuery: StatsItemQuery = StatsItemQuery.getInstance();
 const statsFactory: StatsFactory = StatsFactory.getInstance();
+const statsOutlineFactory: StatsOutlineFactory = StatsOutlineFactory.getInstance();
 
 export class StatsQuery {
   private static instance: StatsQuery = new StatsQuery();
@@ -20,7 +23,7 @@ export class StatsQuery {
   private constructor() {
   }
 
-  public async findByVeauAccountID(veauAccountID: VeauAccountID, limit: number, offset: number): Promise<Array<Stats>> {
+  public async findByVeauAccountID(veauAccountID: VeauAccountID, limit: number, offset: number): Promise<Array<StatsOutline>> {
     const query: string = `SELECT
       R1.stats_id AS statsID,
       R1.language_id AS languageID,
@@ -43,15 +46,15 @@ export class StatsQuery {
       LIMIT :limit
       OFFSET :offset;`;
 
-    const statsRows: Array<StatsRow> = await VeauMySQL.execute(query, {
+    const statsOutlineRows: Array<StatsOutlineRow> = await VeauMySQL.execute(query, {
         veauAccountID: veauAccountID.get().get(),
         limit,
         offset
       }
     );
 
-    return statsRows.map<Stats>((statsRow: StatsRow) => {
-      return statsFactory.fromRow(statsRow, []);
+    return statsOutlineRows.map<StatsOutline>((statsOutlineRow: StatsOutlineRow) => {
+      return statsOutlineFactory.fromRow(statsOutlineRow);
     });
   }
 
