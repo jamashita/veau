@@ -11,7 +11,7 @@ type Props = {
 type State = {
 };
 
-class StatsOverviewListTableImpl extends React.Component<Props & InjectedIntlProps, State> {
+class StatsOutlineListTableImpl extends React.Component<Props & InjectedIntlProps, State> {
 
   public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
     const {
@@ -103,4 +103,4 @@ class StatsOverviewListTableImpl extends React.Component<Props & InjectedIntlPro
   }
 }
 
-export const StatsOverviewListTable: React.ComponentClass<Props, State> = injectIntl(StatsOverviewListTableImpl);
+export const StatsOutlineListTable: React.ComponentClass<Props, State> = injectIntl(StatsOutlineListTableImpl);

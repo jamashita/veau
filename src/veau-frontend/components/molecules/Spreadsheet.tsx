@@ -1,11 +1,9 @@
 import { HotTable } from '@handsontable/react';
 import * as React from 'react';
+import { Stats } from '../../../veau-entity/Stats';
 
 type Props = {
-  data: Array<Array<string>>;
-  columnHeaders: Array<string>;
-  rowHeaders: Array<string>;
-  rowHeaderWidth: number;
+  stats: Stats;
   invalidValueInput: () => void;
   dataDeleted: (row: number, column: number) => void;
   dataFilled: (row: number, column: number, value: number) => void;
@@ -24,40 +22,43 @@ export class Spreadsheet extends React.Component<Props, State> {
 
   public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
     const {
-      data,
-      columnHeaders,
-      rowHeaders,
-      rowHeaderWidth
+      stats
     } = this.props;
 
-    if (columnHeaders.length !== nextProps.columnHeaders.length) {
+    const columnLength: number = stats.getColumns().length;
+    if (columnLength !== nextProps.stats.getColumns().length) {
       return true;
     }
-    for (let i: number = 0; i < columnHeaders.length; i++) {
-      if (columnHeaders[i] !== nextProps.columnHeaders[i]) {
+    for (let i: number = 0; i < columnLength; i++) {
+      if (stats.getColumns()[i] !== nextProps.stats.getColumns()[i]) {
         return true;
       }
     }
-    if (rowHeaders.length !== nextProps.rowHeaders.length) {
+    const rowLength: number = stats.getRows().length;
+    if (rowLength !== nextProps.stats.getRows().length) {
       return true;
     }
-    for (let i: number = 0; i < rowHeaders.length; i++) {
-      if (rowHeaders[i] !== nextProps.rowHeaders[i]) {
+    for (let i: number = 0; i < rowLength; i++) {
+      if (stats.getRows()[i] !== nextProps.stats.getRows()[i]) {
         return true;
       }
     }
-    if (rowHeaderWidth !== nextProps.rowHeaderWidth) {
+    if (stats.getRowHeaderSize() !== nextProps.stats.getRowHeaderSize()) {
       return true;
     }
-    if (data.length !== nextProps.data.length) {
+
+    const data: Array<Array<string>> = stats.getData();
+    const nextData: Array<Array<string>> = nextProps.stats.getData();
+
+    if (data.length !== nextData.length) {
       return true;
     }
     for (let i: number = 0; i < data.length; i++) {
-      if (data[i].length !== nextProps.data[i].length) {
+      if (data[i].length !== nextData[i].length) {
         return true;
       }
       for (let j: number = 0; j < data[i].length; j++) {
-        if (data[i][j] !== nextProps.data[i][j]) {
+        if (data[i][j] !== nextData[i][j]) {
           return true;
         }
       }
@@ -68,16 +69,18 @@ export class Spreadsheet extends React.Component<Props, State> {
 
   public render(): React.ReactNode {
     const {
-      data,
-      columnHeaders,
-      rowHeaders,
-      rowHeaderWidth,
+      stats,
       invalidValueInput,
       dataFilled,
       dataDeleted,
       rowSelected,
       rowMoved
     } = this.props;
+
+    const data: Array<Array<string>> = stats.getData();
+    const columnHeaders: Array<string> = stats.getColumns();
+    const rowHeaders: Array<string> = stats.getRows();
+    const width: number = stats.getRowHeaderSize();
 
     if (rowHeaders.length === 0) {
       return (
@@ -90,7 +93,7 @@ export class Spreadsheet extends React.Component<Props, State> {
         data={data}
         colHeaders={columnHeaders}
         rowHeaders={rowHeaders}
-        rowHeaderWidth={rowHeaderWidth}
+        rowHeaderWidth={width}
         manualRowResize={true}
         manualColumnResize={true}
         manualRowMove={true}

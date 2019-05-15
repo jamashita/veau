@@ -116,10 +116,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
             stats={stats}
           />
           <Spreadsheet
-            data={stats.getData()}
-            columnHeaders={stats.getColumns()}
-            rowHeaders={stats.getRows()}
-            rowHeaderWidth={stats.getRowHeaderSize()}
+            stats={stats}
             invalidValueInput={invalidValueInput}
             dataDeleted={dataDeleted}
             dataFilled={dataFilled}

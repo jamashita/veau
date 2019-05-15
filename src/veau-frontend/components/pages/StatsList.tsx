@@ -3,8 +3,8 @@ import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { Props } from '../../containers/pages/StatsList';
 import { Authenticated } from '../../containers/templates/Authenticated';
-import { StatsOverviewListTable } from '../molecules/StatsOverviewListTable';
-import { StatsOverviewModal } from '../molecules/StatsOverviewModal';
+import { StatsOutlineListTable } from '../molecules/StatsOutlineListTable';
+import { StatsOutlineModal } from '../molecules/StatsOutlineModal';
 
 type State = {
 };
@@ -105,11 +105,11 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
             id: 'CREATE_NEW_STATS'
           })}
         </Button>
-        <StatsOverviewListTable
+        <StatsOutlineListTable
           statsOutlines={statsOutlines}
           toStatsEdit={toStatsEdit}
         />
-        <StatsOverviewModal
+        <StatsOutlineModal
           open={open}
           stats={stats}
           languages={languages}

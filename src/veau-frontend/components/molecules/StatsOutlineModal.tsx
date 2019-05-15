@@ -36,7 +36,7 @@ type Props = {
 type State = {
 };
 
-class StatsOverviewModalImpl extends React.Component<Props & InjectedIntlProps, State> {
+class StatsOutlineModalImpl extends React.Component<Props & InjectedIntlProps, State> {
 
   public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
     const {
@@ -239,4 +239,4 @@ class StatsOverviewModalImpl extends React.Component<Props & InjectedIntlProps, 
   }
 }
 
-export const StatsOverviewModal: React.ComponentClass<Props, State> = injectIntl(StatsOverviewModalImpl);
+export const StatsOutlineModal: React.ComponentClass<Props, State> = injectIntl(StatsOutlineModalImpl);
