@@ -2,6 +2,7 @@ import { fork, put, select, take } from 'redux-saga/effects';
 import { Language } from '../../veau-entity/Language';
 import { Region } from '../../veau-entity/Region';
 import { Stats } from '../../veau-entity/Stats';
+import { StatsOutline } from '../../veau-entity/StatsOutline';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { StatsFactory } from '../../veau-factory/StatsFactory';
 import {
@@ -17,7 +18,7 @@ import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
 import { appearNotification } from '../actions/NotificationAction';
 import { pushToStatsEdit } from '../actions/RedirectAction';
-import { updateStatsOverviews } from '../actions/StatsAction';
+import { resetStatsOutlines, updateStatsOutlines } from '../actions/StatsAction';
 import { closeNewStatsModal, resetNewStats, updateNewStats } from '../actions/StatsListAction';
 import { StatsCommand } from '../commands/StatsCommand';
 import { Endpoints } from '../Endpoints';
@@ -47,11 +48,11 @@ export class StatsListSaga {
 
       if (path === Endpoints.STATS_LIST) {
         try {
-          const statsOverviews: Array<Stats> = yield statsQuery.findByPage(1);
-          yield put(updateStatsOverviews(statsOverviews));
+          const statsOutlines: Array<StatsOutline> = yield statsQuery.findByPage(1);
+          yield put(updateStatsOutlines(statsOutlines));
         }
         catch (err) {
-          yield put(updateStatsOverviews([]));
+          yield put(resetStatsOutlines());
           yield put(appearNotification('error', 'center', 'top', 'STATS_OVERVIEW_NOT_FOUND'));
         }
       }

@@ -4,6 +4,7 @@ import { Language } from '../../veau-entity/Language';
 import { Region } from '../../veau-entity/Region';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
+import { StatsOutline } from '../../veau-entity/StatsOutline';
 import { VeauAccount } from '../../veau-entity/VeauAccount';
 import { Term } from '../../veau-enum/Term';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
@@ -74,8 +75,8 @@ export enum ACTION {
   STATS_EDIT_INVALID_VALUE_INPUT = 'STATS_EDIT_INVALID_VALUE_INPUT',
   STATS_EDIT_SAVE_STATS = 'STATS_EDIT_SAVE_STATS',
 
-  STATS_OVERVIEW_UPDATE = 'STATS_OVERVIEW_UPDATE',
-  STATS_OVERVIEW_RESET = 'STATS_OVERVIEW_RESET',
+  STATS_OUTLINE_UPDATE = 'STATS_OUTLINE_UPDATE',
+  STATS_OUTLINE_RESET = 'STATS_OUTLINE_RESET',
   STATS_UPDATE = 'STATS_UPDATE',
   STATS_RESET = 'STATS_RESET',
   STATS_ITEM_UPDATE = 'STATS_ITEM_UPDATE',
@@ -274,12 +275,12 @@ export interface StatsEditInvalidValueInputAction extends ReduxAction {
 export interface StatsEditSaveStatsAction extends ReduxAction {
   type: ACTION.STATS_EDIT_SAVE_STATS;
 }
-export interface StatsOverviewUpdateAction extends ReduxAction {
-  type: ACTION.STATS_OVERVIEW_UPDATE;
-  statsOverviews: Array<Stats>;
+export interface StatsOutlineUpdateAction extends ReduxAction {
+  type: ACTION.STATS_OUTLINE_UPDATE;
+  statsOutlines: Array<StatsOutline>;
 }
-export interface StatsOverviewResetAction extends ReduxAction {
-  type: ACTION.STATS_OVERVIEW_RESET;
+export interface StatsOutlineResetAction extends ReduxAction {
+  type: ACTION.STATS_OUTLINE_RESET;
 }
 export interface StatsUpdateAction extends ReduxAction {
   type: ACTION.STATS_UPDATE;
@@ -347,8 +348,8 @@ export type Action =
   | StatsEditRowMovedAction
   | StatsEditInvalidValueInputAction
   | StatsEditSaveStatsAction
-  | StatsOverviewUpdateAction
-  | StatsOverviewResetAction
+  | StatsOutlineUpdateAction
+  | StatsOutlineResetAction
   | StatsUpdateAction
   | StatsResetAction
   | StatsItemUpdateAction

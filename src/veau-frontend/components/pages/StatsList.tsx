@@ -13,34 +13,34 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
 
   public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
     const {
-      statsOverviews,
+      statsOutlines,
       open,
       stats,
       languages,
       regions
     } = this.props;
 
-    const length: number = statsOverviews.length;
-    if (length !== nextProps.statsOverviews.length) {
+    const length: number = statsOutlines.length;
+    if (length !== nextProps.statsOutlines.length) {
       return true;
     }
     for (let i: number = 0; i < length; i++) {
-      if (statsOverviews[i].getName() !== nextProps.statsOverviews[i].getName()) {
+      if (statsOutlines[i].getName() !== nextProps.statsOutlines[i].getName()) {
         return true;
       }
-      if (statsOverviews[i].getUnit() !== nextProps.statsOverviews[i].getUnit()) {
+      if (statsOutlines[i].getUnit() !== nextProps.statsOutlines[i].getUnit()) {
         return true;
       }
-      if (!statsOverviews[i].getLanguage().equals(nextProps.statsOverviews[i].getLanguage())) {
+      if (!statsOutlines[i].getLanguage().equals(nextProps.statsOutlines[i].getLanguage())) {
         return true;
       }
-      if (!statsOverviews[i].getRegion().equals(nextProps.statsOverviews[i].getRegion())) {
+      if (!statsOutlines[i].getRegion().equals(nextProps.statsOutlines[i].getRegion())) {
         return true;
       }
-      if (statsOverviews[i].getTerm() !== nextProps.statsOverviews[i].getTerm()) {
+      if (statsOutlines[i].getTerm() !== nextProps.statsOutlines[i].getTerm()) {
         return true;
       }
-      if (!statsOverviews[i].getUpdatedAt().isSame(nextProps.statsOverviews[i].getUpdatedAt())) {
+      if (!statsOutlines[i].getUpdatedAt().isSame(nextProps.statsOutlines[i].getUpdatedAt())) {
         return true;
       }
     }
@@ -74,7 +74,7 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
 
   public render(): React.ReactNode {
     const {
-      statsOverviews,
+      statsOutlines,
       open,
       stats,
       languages,
@@ -106,7 +106,7 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
           })}
         </Button>
         <StatsOverviewListTable
-          statsOverviews={statsOverviews}
+          statsOutlines={statsOutlines}
           toStatsEdit={toStatsEdit}
         />
         <StatsOverviewModal

@@ -1,18 +1,26 @@
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
+import { StatsOutline } from '../../veau-entity/StatsOutline';
 import {
   ACTION,
   StatsItemResetAction,
   StatsItemUpdateAction,
-  StatsOverviewUpdateAction,
+  StatsOutlineResetAction,
+  StatsOutlineUpdateAction,
   StatsResetAction,
   StatsUpdateAction
 } from './Action';
 
-export const updateStatsOverviews: (statsOverviews: Array<Stats>) => StatsOverviewUpdateAction = (statsOverviews: Array<Stats>): StatsOverviewUpdateAction => {
+export const updateStatsOutlines: (statsOutlines: Array<StatsOutline>) => StatsOutlineUpdateAction = (statsOutlines: Array<StatsOutline>): StatsOutlineUpdateAction => {
   return {
-    type: ACTION.STATS_OVERVIEW_UPDATE,
-    statsOverviews
+    type: ACTION.STATS_OUTLINE_UPDATE,
+    statsOutlines
+  };
+};
+
+export const resetStatsOutlines: () => StatsOutlineResetAction = (): StatsOutlineResetAction => {
+  return {
+    type: ACTION.STATS_OUTLINE_RESET
   };
 };
 

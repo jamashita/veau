@@ -13,7 +13,7 @@ import { stats } from './stats';
 import { statsEdit } from './statsEdit';
 import { statsItem } from './statsItem';
 import { statsList } from './statsList';
-import { statsOverviews } from './statsOverviews';
+import { statsOutlines } from './statsOutlines';
 
 export const reducers: Reducer<State> = combineReducers({
   entranceInformation,
@@ -27,6 +27,6 @@ export const reducers: Reducer<State> = combineReducers({
   statsEdit,
   statsItem,
   statsList,
-  statsOverviews,
+  statsOutlines,
   router: connectRouter(history)
 });

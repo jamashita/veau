@@ -1,9 +1,12 @@
-import { Stats, StatsJSON } from '../../veau-entity/Stats';
+import { Stats, StatsJSON, StatsOutline } from '../../veau-entity/Stats';
+import { StatsOutline, StatsOutlineJSON } from '../../veau-entity/StatsOutline';
 import { StatsFactory } from '../../veau-factory/StatsFactory';
+import { StatsOutlineFactory } from '../../veau-factory/StatsOutlineFactory';
 import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
 import { StatsID } from '../../veau-vo/StatsID';
 
 const statsFactory: StatsFactory = StatsFactory.getInstance();
+const statsOutlineFactory: StatsOutlineFactory = StatsOutlineFactory.getInstance();
 
 export class StatsQuery {
   private static instance: StatsQuery = new StatsQuery();
@@ -21,11 +24,11 @@ export class StatsQuery {
     return statsFactory.fromJSON(response.body);
   }
 
-  public async findByPage(page: number): Promise<Array<Stats>> {
-    const response: AJAXResponse<Array<StatsJSON>> = await AJAX.get<Array<StatsJSON>>(`/api/stats/page/${page}`);
+  public async findByPage(page: number): Promise<Array<StatsOutline>> {
+    const response: AJAXResponse<Array<StatsOutlineJSON>> = await AJAX.get<Array<StatsOutlineJSON>>(`/api/stats/page/${page}`);
 
-    return response.body.map<Stats>((json: StatsJSON) => {
-      return statsFactory.fromJSON(json);
+    return response.body.map<StatsOutline>((json: StatsOutlineJSON) => {
+      return statsOutlineFactory.fromJSON(json);
     });
   }
 }

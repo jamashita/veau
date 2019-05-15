@@ -1,6 +1,7 @@
 import { RouterState } from 'connected-react-router';
 import { Stats } from '../veau-entity/Stats';
 import { StatsItem } from '../veau-entity/StatsItem';
+import { StatsOutline } from '../veau-entity/StatsOutline';
 import { VeauAccount } from '../veau-entity/VeauAccount';
 import { EntranceInformation } from '../veau-vo/EntranceInformation';
 import { LoadingCount } from './reducers/loadingCount';
@@ -23,6 +24,6 @@ export type State = {
   statsEdit: StatsEdit;
   statsItem: StatsItem;
   statsList: StatsList;
-  statsOverviews: Array<Stats>;
+  statsOutlines: Array<StatsOutline>;
   router: RouterState;
 };

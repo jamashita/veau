@@ -2,6 +2,7 @@ import * as express from 'express';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND } from 'http-status';
 import * as log4js from 'log4js';
 import { Stats, StatsJSON } from '../../veau-entity/Stats';
+import { StatsOutlineJSON } from '../../veau-entity/StatsOutline';
 import { NotFoundError } from '../../veau-error/NotFoundError';
 import { StatsFactory } from '../../veau-factory/StatsFactory';
 import { Type } from '../../veau-general/Type';
@@ -25,9 +26,9 @@ router.get('/page/:page(\\d+)', async (req: RequestSession, res: express.Respons
   }
 
   try {
-    const stats: Array<StatsJSON> = await statsUseCase.findByVeauAccountID(req.user.getVeauAccountID(), page);
+    const statsOutlineJSONs: Array<StatsOutlineJSON> = await statsUseCase.findByVeauAccountID(req.user.getVeauAccountID(), page);
 
-    res.send(stats);
+    res.send(statsOutlineJSONs);
   }
   catch (err) {
     logger.fatal(err.message);

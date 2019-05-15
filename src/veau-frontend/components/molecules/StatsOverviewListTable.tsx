@@ -1,11 +1,12 @@
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
-import { Stats } from '../../../veau-entity/Stats';
+import { StatsOutline } from '../../../veau-entity/Stats';
+import { StatsOutline } from '../../../veau-entity/StatsOutline';
 import { StatsID } from '../../../veau-vo/StatsID';
 
 type Props = {
-  statsOverviews: Array<Stats>;
+  statsOutlines: Array<StatsOutline>;
   toStatsEdit: (statsID: StatsID) => void;
 };
 type State = {
@@ -15,14 +16,14 @@ class StatsOverviewListTableImpl extends React.Component<Props & InjectedIntlPro
 
   public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
     const {
-      statsOverviews
+      statsOutlines
     } = this.props;
 
-    if (statsOverviews.length !== nextProps.statsOverviews.length) {
+    if (statsOutlines.length !== nextProps.statsOutlines.length) {
       return true;
     }
-    for (let i: number = 0; i < statsOverviews.length; i++) {
-      if (statsOverviews[i].getName() !== nextProps.statsOverviews[i].getName()) {
+    for (let i: number = 0; i < statsOutlines.length; i++) {
+      if (statsOutlines[i].getName() !== nextProps.statsOutlines[i].getName()) {
         return true;
       }
     }
@@ -32,7 +33,7 @@ class StatsOverviewListTableImpl extends React.Component<Props & InjectedIntlPro
 
   public render(): React.ReactNode {
     const {
-      statsOverviews,
+      statsOutlines,
       intl,
       toStatsEdit
     } = this.props;
@@ -74,25 +75,25 @@ class StatsOverviewListTableImpl extends React.Component<Props & InjectedIntlPro
           </TableRow>
         </TableHead>
         <TableBody>
-          {statsOverviews.map<React.ReactNode>((stats: Stats) => {
+          {statsOutlines.map<React.ReactNode>((statsOutline: StatsOutline) => {
             return (
               <TableRow
-                key={stats.getStatsID().get().get()}
+                key={statsOutline.getStatsID().get().get()}
                 hover={true}
                 onClick={(): void => {
-                  toStatsEdit(stats.getStatsID());
+                  toStatsEdit(statsOutline.getStatsID());
                 }}
               >
-                <TableCell>{stats.getName()}</TableCell>
-                <TableCell>{stats.getUnit()}</TableCell>
-                <TableCell>{stats.getLanguage().getName()}</TableCell>
-                <TableCell>{stats.getRegion().getName()}</TableCell>
+                <TableCell>{statsOutline.getName()}</TableCell>
+                <TableCell>{statsOutline.getUnit()}</TableCell>
+                <TableCell>{statsOutline.getLanguage().getName()}</TableCell>
+                <TableCell>{statsOutline.getRegion().getName()}</TableCell>
                 <TableCell>
                   {intl.formatMessage({
-                    id: stats.getTerm().getKey()
+                    id: statsOutline.getTerm().getKey()
                   })}
                 </TableCell>
-                <TableCell>{stats.getUpdatedAtAsString()}</TableCell>
+                <TableCell>{statsOutline.getUpdatedAtAsString()}</TableCell>
               </TableRow>
             );
           })}
