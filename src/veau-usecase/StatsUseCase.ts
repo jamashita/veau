@@ -1,5 +1,6 @@
 import * as log4js from 'log4js';
 import { Stats, StatsJSON } from '../veau-entity/Stats';
+import { StatsOutline, StatsOutlineJSON } from '../veau-entity/StatsOutline';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { NotFoundError } from '../veau-error/NotFoundError';
 import { ITransaction } from '../veau-general/MySQL/ITransaction';
@@ -43,14 +44,14 @@ export class StatsUseCase {
     }
   }
 
-  public async findByVeauAccountID(veauAccountID: VeauAccountID, page: number): Promise<Array<StatsJSON>> {
+  public async findByVeauAccountID(veauAccountID: VeauAccountID, page: number): Promise<Array<StatsOutlineJSON>> {
     const limit: number = LIMIT;
     const offset: number = (page - 1) * LIMIT;
 
-    const statistics: Array<Stats> = await statsQuery.findByVeauAccountID(veauAccountID, limit, offset);
+    const statsOutlines: Array<StatsOutline> = await statsQuery.findByVeauAccountID(veauAccountID, limit, offset);
 
-    return statistics.map<StatsJSON>((stats: Stats) => {
-      return stats.toJSON();
+    return statsOutlines.map<StatsOutlineJSON>((statsOutline: StatsOutline) => {
+      return statsOutline.toJSON();
     });
   }
 

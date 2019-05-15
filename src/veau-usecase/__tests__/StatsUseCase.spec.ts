@@ -9,6 +9,7 @@ import { Language } from '../../veau-entity/Language';
 import { Region } from '../../veau-entity/Region';
 import { Stats, StatsJSON } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
+import { StatsOutline, StatsOutlineJSON } from '../../veau-entity/StatsOutline';
 import { Term } from '../../veau-enum/Term';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { NotFoundError } from '../../veau-error/NotFoundError';
@@ -92,28 +93,23 @@ describe('StatsUseCase', () => {
     const name: string = 'stats';
     const unit: string = 'unit';
     const updatedAt: moment.Moment = moment.utc();
-    const items: StatsItems = new StatsItems([
-      new StatsItem(StatsItemID.of(UUID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b')), 'item1', new StatsValues([])),
-      new StatsItem(StatsItemID.of(UUID.of('7680c494-158b-43ec-9846-d37d513cf4d8')), 'item2', new StatsValues([])),
-    ]);
 
     const stub: SinonStub = sinon.stub();
     StatsQuery.prototype.findByVeauAccountID = stub;
     stub.resolves([
-      new Stats(
+      new StatsOutline(
         statsID,
         language,
         region,
         term,
         name,
         unit,
-        updatedAt,
-        items
+        updatedAt
       )
     ]);
 
     const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-    const jsons: Array<StatsJSON> =  await statsUseCase.findByVeauAccountID(VeauAccountID.of(UUID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2')), 1);
+    const jsons: Array<StatsOutlineJSON> =  await statsUseCase.findByVeauAccountID(VeauAccountID.of(UUID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2')), 1);
 
     expect(jsons.length).toEqual(1);
     expect(jsons[0].statsID).toEqual(statsID.get().get());
@@ -123,7 +119,6 @@ describe('StatsUseCase', () => {
     expect(jsons[0].name).toEqual(name);
     expect(jsons[0].unit).toEqual(unit);
     expect(jsons[0].updatedAt).toEqual(updatedAt.format('YYYY-MM-DD HH:mm:ss'));
-    expect(jsons[0].items.length).toEqual(2);
   });
 
   it('save: normal case', async () => {
