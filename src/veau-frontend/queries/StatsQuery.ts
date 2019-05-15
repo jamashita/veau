@@ -1,4 +1,4 @@
-import { Stats, StatsJSON, StatsOutline } from '../../veau-entity/Stats';
+import { Stats, StatsJSON } from '../../veau-entity/Stats';
 import { StatsOutline, StatsOutlineJSON } from '../../veau-entity/StatsOutline';
 import { StatsFactory } from '../../veau-factory/StatsFactory';
 import { StatsOutlineFactory } from '../../veau-factory/StatsOutlineFactory';

@@ -1,7 +1,6 @@
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
-import { StatsOutline } from '../../../veau-entity/Stats';
 import { StatsOutline } from '../../../veau-entity/StatsOutline';
 import { StatsID } from '../../../veau-vo/StatsID';
 
@@ -19,10 +18,11 @@ class StatsOverviewListTableImpl extends React.Component<Props & InjectedIntlPro
       statsOutlines
     } = this.props;
 
-    if (statsOutlines.length !== nextProps.statsOutlines.length) {
+    const length: number = statsOutlines.length;
+    if (length !== nextProps.statsOutlines.length) {
       return true;
     }
-    for (let i: number = 0; i < statsOutlines.length; i++) {
+    for (let i: number = 0; i < length; i++) {
       if (statsOutlines[i].getName() !== nextProps.statsOutlines[i].getName()) {
         return true;
       }

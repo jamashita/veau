@@ -242,7 +242,17 @@ export class StatsEditSaga {
         statsItem
       } = state;
 
-      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems().add(statsItem), stats.getStartDate());
+      const newStats: Stats = statsFactory.from(
+        stats.getStatsID(),
+        stats.getLanguage(),
+        stats.getRegion(),
+        stats.getTerm(),
+        stats.getName(),
+        stats.getUnit(),
+        stats.getUpdatedAt(),
+        stats.getItems().add(statsItem),
+        stats.getStartDate()
+      );
       yield put(updateStats(newStats));
       yield put(resetStatsItem());
     }
