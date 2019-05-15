@@ -5,7 +5,7 @@ import { Entity } from './Entity';
 import { Language, LanguageJSON } from './Language';
 import { Region, RegionJSON } from './Region';
 
-const TERM_FORMAT: string = 'YYYY-MM-DD';
+const TERM_FORMAT: string = 'YYYY-MM-DD HH:mm:ss';
 
 export type StatsOutlineJSON = {
   statsID: string;
