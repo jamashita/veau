@@ -56,7 +56,7 @@ router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: expres
   }
 });
 
-router.post('/', async (req: RequestSession, res: express.Response) => {
+router.post('/', async (req: express.Request, res: express.Response) => {
   const {
     statsID,
     language,

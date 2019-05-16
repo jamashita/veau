@@ -40,6 +40,10 @@ export type StatsRow = {
   updatedAt: string;
 };
 
+type Chart = {
+  [key: string]: string | number;
+};
+
 export class Stats extends Entity<StatsID> {
   private statsID: StatsID;
   private language: Language;
@@ -242,7 +246,7 @@ export class Stats extends Entity<StatsID> {
   }
 
   public getChart(): Array<object> {
-    const chartItems: Map<string, object> = new Map<string, object>();
+    const chartItems: Map<string, Chart> = new Map<string, Chart>();
 
     this.getColumns().forEach((column: string) => {
       chartItems.set(column, {name: column});
@@ -250,7 +254,7 @@ export class Stats extends Entity<StatsID> {
 
     this.items.forEach((statsItem: StatsItem) => {
       statsItem.getValues().forEach((statsValue: StatsValue) => {
-        const line: object | undefined = chartItems.get(statsValue.getAsOfAsString());
+        const line: Chart | undefined = chartItems.get(statsValue.getAsOfAsString());
 
         if (line) {
           line[statsItem.getName()] = statsValue.getValue();
