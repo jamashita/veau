@@ -17,7 +17,13 @@ const logger: log4js.Logger = log4js.getLogger();
 const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
 const statsFactory: StatsFactory = StatsFactory.getInstance();
 
-router.get('/page/:page(\\d+)', async (req: express.Request, res: express.Response) => {
+router.get('/page/:page(\\d+)', async (req: RequestSession, res: express.Response) => {
+  if (req.user === undefined) {
+    logger.fatal('ILLEGAL ACCESS');
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+
   const page: number = Number(req.params.page);
 
   if (page === 0) {
