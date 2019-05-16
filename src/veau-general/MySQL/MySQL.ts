@@ -3,6 +3,10 @@ import { Connection } from './Connection';
 import { IQuery } from './IQuery';
 import { ITransaction } from './ITransaction';
 
+type Value = {
+  [key: string]: any;
+};
+
 export class MySQL implements IQuery {
   private pool: mysql.Pool;
 
@@ -10,7 +14,7 @@ export class MySQL implements IQuery {
     const pool: mysql.Pool = mysql.createPool(config);
 
     pool.on('connection', (connection: mysql.Connection): void => {
-      connection.config.queryFormat = (query: string, value?: object): string => {
+      connection.config.queryFormat = (query: string, value?: Value): string => {
         if (value === undefined) {
           return query;
         }
@@ -65,7 +69,7 @@ export class MySQL implements IQuery {
 
   public execute(sql: string, value?: object): Promise<any> {
     return new Promise<any>((resolve: (value: any) => void, reject: (reason: any) => void): void => {
-      this.pool.query(sql, value, (err: mysql.MysqlError, result: any): void => {
+      this.pool.query(sql, value, (err: mysql.MysqlError | null, result: any): void => {
         if (err) {
           reject(err);
           return;

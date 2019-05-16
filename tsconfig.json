@@ -1,40 +1,33 @@
 {
   "compilerOptions": {
-    "module": "CommonJS",
+    "module": "esnext",
     "moduleResolution": "node",
-    "target": "es2018",
-    "noImplicitAny": false,
+    "target": "esnext",
+    "strict": true,
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
-    "strictNullChecks": true,
     "allowUnreachableCode": false,
     "noUnusedLocals": true,
     "allowSyntheticDefaultImports": true,
     "jsx": "react",
     "lib": [
       "dom",
-      "es5",
-      "es6",
-      "es7",
-      "es2015",
-      "es2016",
-      "es2017",
-      "es2018",
       "esnext"
     ],
-    "strict": true,
-    "strictFunctionTypes": false,
     "types": [
       "node",
       "jest"
     ]
   },
   "include": [
-    "src/**/*"
+    "**/*.ts"
   ],
   "exclude": [
     "node_modules"
+  ],
+  "files": [
+    "src/veau-controller/RequestSession.d.ts"
   ],
   "compileOnSave": false
 }

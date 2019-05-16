@@ -75,7 +75,7 @@ describe('StatsOutline', () => {
       termID: 1,
       name: 'name1',
       unit: 'unit1',
-      updatedAt: '2000-01-01'
+      updatedAt: '2000-01-01 00:00:00'
     });
   });
 

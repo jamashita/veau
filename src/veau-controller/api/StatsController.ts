@@ -9,7 +9,6 @@ import { Type } from '../../veau-general/Type';
 import { StatsUseCase } from '../../veau-usecase/StatsUseCase';
 import { StatsID } from '../../veau-vo/StatsID';
 import { UUID } from '../../veau-vo/UUID';
-import { RequestSession } from '../RequestSession';
 
 const router: express.Router = express.Router();
 const logger: log4js.Logger = log4js.getLogger();
@@ -17,7 +16,7 @@ const logger: log4js.Logger = log4js.getLogger();
 const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
 const statsFactory: StatsFactory = StatsFactory.getInstance();
 
-router.get('/page/:page(\\d+)', async (req: RequestSession, res: express.Response) => {
+router.get('/page/:page(\\d+)', async (req: express.Request, res: express.Response) => {
   const page: number = Number(req.params.page);
 
   if (page === 0) {
