@@ -26,8 +26,5 @@
   "exclude": [
     "node_modules"
   ],
-  "files": [
-    "src/veau-controller/RequestSession.d.ts"
-  ],
   "compileOnSave": false
 }

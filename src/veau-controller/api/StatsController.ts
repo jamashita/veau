@@ -9,6 +9,7 @@ import { Type } from '../../veau-general/Type';
 import { StatsUseCase } from '../../veau-usecase/StatsUseCase';
 import { StatsID } from '../../veau-vo/StatsID';
 import { UUID } from '../../veau-vo/UUID';
+import { RequestSession } from '../RequestSession';
 
 const router: express.Router = express.Router();
 const logger: log4js.Logger = log4js.getLogger();
@@ -56,7 +57,13 @@ router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: expres
   }
 });
 
-router.post('/', async (req: express.Request, res: express.Response) => {
+router.post('/', async (req: RequestSession, res: express.Response) => {
+  if (req.user === undefined) {
+    logger.fatal('ILLEGAL ACCESS');
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+
   const {
     statsID,
     language,
