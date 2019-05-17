@@ -10,7 +10,7 @@ import * as passport from 'passport';
 import * as path from 'path';
 import * as favicon from 'serve-favicon';
 import 'source-map-support/register';
-import { Controller } from '../veau-controller/Controller';
+import { BaseController } from '../veau-controller/BaseController';
 import '../veau-service/AuthenticationService';
 
 const port: number = config.get<number>('port');
@@ -59,7 +59,7 @@ const sessionMiddleware: express.RequestHandler = expressSession({
 app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
-app.use('/', Controller);
+app.use('/', BaseController);
 
 app.listen(port, () => {
   logger.info(`Server running on port ${port} in ${mode} mode`);

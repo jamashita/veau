@@ -14,6 +14,16 @@ Veau (発音 /vo/) は統計を取り扱うユーザーのためのものです�
 
 ![](images/screenshot.png)
 
+## What is Veau?
+
+Veau is the name for young cattle.
+
+Veau est le nom du jeune bétail.
+
+Veau es el nombre para el ganado joven.
+
+Veauは若い牛の名前です。
+
 ## Demo
 
 [https://veau.jamashita.dev](https://veau.jamashita.dev)

@@ -100,7 +100,7 @@ const en: Messages = {
   PASSWORD: 'Password',
 
   VEAU: 'Veau',
-  VEAU_DESCRIPTION: 'Veau is the young of domestic cattle.',
+  VEAU_DESCRIPTION: 'Veau is the name for young cattle.',
 
   STATS_LIST: 'Statistics list',
   CREATE_NEW_STATS: 'Create new statistics',
@@ -161,14 +161,14 @@ const fr: Messages = {
 
   LOADING: 'Chargement',
 
-  LOGIN: 'Se connecter',
+  LOGIN: 'Connecter',
   LOGOUT: 'Connecter-out',
 
   ACCOUNT_NAME: 'Compte',
   PASSWORD: 'Mot de passe',
 
   VEAU: 'Veau',
-  VEAU_DESCRIPTION: 'Veau est le bétail jeune domestique.',
+  VEAU_DESCRIPTION: 'Veau est le nom du jeune bétail.',
 
   STATS_LIST: 'Liste de statistiques',
   CREATE_NEW_STATS: 'Créer de nouvelles statistiques',
@@ -236,7 +236,7 @@ const es: Messages = {
   PASSWORD: 'Contraseña',
 
   VEAU: 'Veau',
-  VEAU_DESCRIPTION: 'Veau es la cría de toro doméstico.',
+  VEAU_DESCRIPTION: 'Veau es el nombre para el ganado joven.',
 
   STATS_LIST: 'Lista de estadísticas',
   CREATE_NEW_STATS: 'Crear nuevas estadísticas',
@@ -303,8 +303,8 @@ const ja: Messages = {
   ACCOUNT_NAME: 'アカウント',
   PASSWORD: 'パスワード',
 
-  VEAU: 'ヴォ',
-  VEAU_DESCRIPTION: 'ヴォとは牛の子供のことです。',
+  VEAU: 'Veau',
+  VEAU_DESCRIPTION: 'Veauは若い牛の名前です。',
 
   STATS_LIST: '統計の一覧',
   CREATE_NEW_STATS: '新しい統計を作成する',

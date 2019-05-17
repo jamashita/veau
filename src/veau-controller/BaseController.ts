@@ -7,4 +7,4 @@ const router: express.Router = express.Router();
 router.use('/api', APIController);
 router.use('/', FEController);
 
-export const Controller: express.Router = router;
+export const BaseController: express.Router = router;
