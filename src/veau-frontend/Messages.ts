@@ -339,6 +339,7 @@ const ja: Messages = {
 };
 
 type I18NMessages = {
+  [key: string]: Messages;
   en: Messages;
   fr: Messages;
   es: Messages;

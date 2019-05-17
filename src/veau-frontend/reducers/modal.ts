@@ -1,3 +1,4 @@
+import { Reducer } from 'redux';
 import { ACTION, Action } from '../actions/Action';
 
 export type Modal = {
@@ -14,7 +15,7 @@ const initialState: Modal = {
   values: undefined
 };
 
-export const modal: (state: Modal, action: Action) => Modal = (state: Modal = initialState, action: Action): Modal => {
+export const modal: Reducer<Modal, Action> = (state: Modal = initialState, action: Action): Modal => {
   switch (action.type) {
     case ACTION.MODAL_RAISE: {
       const {

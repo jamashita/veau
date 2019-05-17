@@ -1,3 +1,4 @@
+import { Reducer } from 'redux';
 import { ACTION, Action } from '../actions/Action';
 
 export type Notification = {
@@ -20,7 +21,7 @@ const initialState: Notification = {
   values: undefined
 };
 
-export const notification: (state: Notification, action: Action) => Notification = (state: Notification = initialState, action: Action): Notification => {
+export const notification: Reducer<Notification, Action> = (state: Notification = initialState, action: Action): Notification => {
   switch (action.type) {
     case ACTION.NOTIFICATION_APPEAR: {
       const {

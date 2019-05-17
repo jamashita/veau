@@ -7,11 +7,6 @@ import { Props } from '../../containers/molecules/Notification';
 type State = {
 };
 
-const SUCCESS: number = 700;
-const INFO: number = 800;
-const WARN: number = 400;
-const ERROR: number = 900;
-
 class NotificationImpl extends React.Component<Props & InjectedIntlProps, State> {
 
   public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
@@ -95,17 +90,17 @@ class NotificationImpl extends React.Component<Props & InjectedIntlProps, State>
 
     switch (kind) {
       case 'success': {
-        return green[SUCCESS];
+        return green['700'];
       }
       default:
       case 'info': {
-        return blue[INFO];
+        return blue['800'];
       }
       case 'warn': {
-        return amber[WARN];
+        return amber['400'];
       }
       case 'error': {
-        return red[ERROR];
+        return red['900'];
       }
     }
   }

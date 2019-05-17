@@ -1,3 +1,4 @@
+import { Reducer } from 'redux';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { ACTION, Action } from '../actions/Action';
 
@@ -11,7 +12,7 @@ const initialState: StatsEdit = {
   selectingRow: 0
 };
 
-export const statsEdit: (state: StatsEdit, action: Action) => StatsEdit = (state: StatsEdit = initialState, action: Action): StatsEdit => {
+export const statsEdit: Reducer<StatsEdit, Action> = (state: StatsEdit = initialState, action: Action): StatsEdit => {
   switch (action.type) {
     case ACTION.STATS_EDIT_SELECT_ITEM: {
       const {

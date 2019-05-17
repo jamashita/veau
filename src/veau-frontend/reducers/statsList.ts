@@ -1,3 +1,4 @@
+import { Reducer } from 'redux';
 import { Stats } from '../../veau-entity/Stats';
 import { ACTION, Action } from '../actions/Action';
 
@@ -11,7 +12,7 @@ const initialState: StatsList = {
   stats: Stats.default()
 };
 
-export const statsList: (state: StatsList, action: Action) => StatsList = (state: StatsList = initialState, action: Action): StatsList => {
+export const statsList: Reducer<StatsList, Action> = (state: StatsList = initialState, action: Action): StatsList => {
   switch (action.type) {
     case ACTION.STATS_LIST_OPEN_STATS_MODAL: {
       return {

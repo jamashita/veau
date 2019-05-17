@@ -1,9 +1,10 @@
+import { Reducer } from 'redux';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { ACTION, Action } from '../actions/Action';
 
 const initialState: StatsItem = StatsItem.default();
 
-export const statsItem: (state: StatsItem, action: Action) => StatsItem = (state: StatsItem = initialState, action: Action): StatsItem => {
+export const statsItem: Reducer<StatsItem, Action> = (state: StatsItem = initialState, action: Action): StatsItem => {
   switch (action.type) {
     case ACTION.STATS_ITEM_UPDATE: {
       return action.statsItem;

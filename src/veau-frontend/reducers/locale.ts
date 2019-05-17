@@ -1,3 +1,4 @@
+import { Reducer } from 'redux';
 import { Language } from '../../veau-entity/Language';
 import { Region } from '../../veau-entity/Region';
 import { ACTION, Action } from '../actions/Action';
@@ -14,7 +15,7 @@ const initialState: Locale = {
   ]
 };
 
-export const locale: (state: Locale, action: Action) => Locale = (state: Locale = initialState, action: Action): Locale => {
+export const locale: Reducer<Locale, Action> = (state: Locale = initialState, action: Action): Locale => {
   switch (action.type) {
     case ACTION.LANGUAGES_DEFINED: {
       return {

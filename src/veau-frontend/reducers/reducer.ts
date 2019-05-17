@@ -1,5 +1,6 @@
-import { connectRouter } from 'connected-react-router';
+import { connectRouter, RouterState } from 'connected-react-router';
 import { combineReducers, Reducer } from 'redux';
+import { Action } from '../actions/Action';
 import { history } from '../history';
 import { State } from '../State';
 import { entranceInformation } from './entranceInformation';
@@ -15,7 +16,7 @@ import { statsItem } from './statsItem';
 import { statsList } from './statsList';
 import { statsOutlines } from './statsOutlines';
 
-export const reducers: Reducer<State> = combineReducers({
+export const reducers: Reducer<State, Action> = combineReducers<State, Action>({
   entranceInformation,
   identity,
   loadingCount,
@@ -28,5 +29,5 @@ export const reducers: Reducer<State> = combineReducers({
   statsItem,
   statsList,
   statsOutlines,
-  router: connectRouter(history)
+  router: connectRouter(history) as Reducer<RouterState, Action>
 });

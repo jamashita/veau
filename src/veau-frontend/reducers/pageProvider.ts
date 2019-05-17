@@ -1,3 +1,4 @@
+import { Reducer } from 'redux';
 import { ACTION, Action } from '../actions/Action';
 
 export type PageProvider = {
@@ -8,7 +9,7 @@ const initialState: PageProvider = {
   open: false
 };
 
-export const pageProvider: (state: PageProvider, action: Action) => PageProvider = (state: PageProvider = initialState, action: Action): PageProvider => {
+export const pageProvider: Reducer<PageProvider, Action> = (state: PageProvider = initialState, action: Action): PageProvider => {
   switch (action.type) {
     case ACTION.LOCATION_CHANGE: {
       return {
