@@ -4,7 +4,7 @@ import { Digest } from '../Digest';
 
 describe('Digest', () => {
   describe('generate', () => {
-    it('generated hashs are usually different', async () => {
+    it('generated hashes are usually different', async () => {
       const password: string = 'The quick brown fox jumps over the lazy dog';
       const hash1: string = await Digest.generate(password);
       const hash2: string = await Digest.generate(password);
@@ -14,7 +14,7 @@ describe('Digest', () => {
   });
 
   describe('compare', () => {
-    it('even if the hashs are different, compare returns true', async () => {
+    it('even if the hashes are different, compare returns true', async () => {
       const password: string = 'The quick brown fox jumps over the lazy dog';
       const hash1: string = await Digest.generate(password);
       const hash2: string = await Digest.generate(password);
