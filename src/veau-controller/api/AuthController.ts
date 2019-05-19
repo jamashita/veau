@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { BAD_REQUEST } from 'http-status';
+import { BAD_REQUEST, OK } from 'http-status';
 import * as log4js from 'log4js';
 import * as passport from 'passport';
 import { RequestSession } from '../RequestSession';
@@ -9,7 +9,7 @@ const logger: log4js.Logger = log4js.getLogger();
 
 router.post('/', passport.authenticate('local'), (req: RequestSession, res: express.Response) => {
   if (req.user) {
-    res.send(req.user.toJSON());
+    res.status(OK).send(req.user.toJSON());
     return;
   }
 

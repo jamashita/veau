@@ -12,7 +12,7 @@ const localeUseCase: LocaleUseCase = LocaleUseCase.getInstance();
 router.get('/', async (req: express.Request, res: express.Response) => {
   const locales: Locales = await localeUseCase.all();
 
-  res.send(locales);
+  res.status(OK).send(locales);
 });
 
 router.delete('/', async (req: express.Request, res: express.Response) => {

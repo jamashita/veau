@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND } from 'http-status';
+import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'http-status';
 import * as log4js from 'log4js';
 import { Stats, StatsJSON } from '../../veau-entity/Stats';
 import { StatsOutlineJSON } from '../../veau-entity/StatsOutline';
@@ -34,7 +34,7 @@ router.get('/page/:page(\\d+)', async (req: RequestSession, res: express.Respons
   try {
     const statsOutlineJSONs: Array<StatsOutlineJSON> = await statsUseCase.findByVeauAccountID(req.user.getVeauAccountID(), page);
 
-    res.send(statsOutlineJSONs);
+    res.status(OK).send(statsOutlineJSONs);
   }
   catch (err) {
     logger.fatal(err.message);
@@ -50,7 +50,7 @@ router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: expres
   try {
     const stats: StatsJSON = await statsUseCase.findByStatsID(StatsID.of(UUID.of(statsID)));
 
-    res.send(stats);
+    res.status(OK).send(stats);
   }
   catch (err) {
     if (err instanceof NotFoundError) {
