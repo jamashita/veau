@@ -2,7 +2,7 @@ import * as express from 'express';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'http-status';
 import * as log4js from 'log4js';
 import { Stats, StatsJSON } from '../../veau-entity/Stats';
-import { StatsOutlineJSON } from '../../veau-entity/StatsOutline';
+import { StatsOutline, StatsOutlineJSON } from '../../veau-entity/StatsOutline';
 import { NotFoundError } from '../../veau-error/NotFoundError';
 import { StatsFactory } from '../../veau-factory/StatsFactory';
 import { Type } from '../../veau-general/Type';
@@ -32,9 +32,11 @@ router.get('/page/:page(\\d+)', async (req: RequestSession, res: express.Respons
   }
 
   try {
-    const statsOutlineJSONs: Array<StatsOutlineJSON> = await statsUseCase.findByVeauAccountID(req.user.getVeauAccountID(), page);
+    const statsOutlines: Array<StatsOutline> = await statsUseCase.findByVeauAccountID(req.user.getVeauAccountID(), page);
 
-    res.status(OK).send(statsOutlineJSONs);
+    res.status(OK).send(statsOutlines.map<StatsOutlineJSON>((statsOutline: StatsOutline) => {
+      return statsOutline.toJSON();
+    }));
   }
   catch (err) {
     logger.fatal(err.message);
@@ -48,9 +50,9 @@ router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: expres
   } = req.params;
 
   try {
-    const stats: StatsJSON = await statsUseCase.findByStatsID(StatsID.of(UUID.of(statsID)));
+    const stats: Stats = await statsUseCase.findByStatsID(StatsID.of(UUID.of(statsID)));
 
-    res.status(OK).send(stats);
+    res.status(OK).send(stats.toJSON());
   }
   catch (err) {
     if (err instanceof NotFoundError) {

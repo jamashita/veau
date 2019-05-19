@@ -5,7 +5,13 @@ import 'jest';
 import * as sinon from 'sinon';
 import { SinonSpy, SinonStub } from 'sinon';
 import * as supertest from 'supertest';
+import { Language } from '../../../veau-entity/Language';
+import { Region } from '../../../veau-entity/Region';
 import { LocaleUseCase } from '../../../veau-usecase/LocaleUseCase';
+import { ISO3166 } from '../../../veau-vo/ISO3166';
+import { ISO639 } from '../../../veau-vo/ISO639';
+import { LanguageID } from '../../../veau-vo/LanguageID';
+import { RegionID } from '../../../veau-vo/RegionID';
 import { LocaleController } from '../LocaleController';
 
 describe('LocaleController', () => {
@@ -16,19 +22,10 @@ describe('LocaleController', () => {
       localeUseCase.all = stub;
       stub.resolves({
         languages: [
-          {
-            languageID: 1,
-            name: 'language',
-            englishName: 'english name',
-            iso639: 'la'
-          }
+          new Language(LanguageID.of(1), 'language', 'english name', ISO639.of('la'))
         ],
         regions: [
-          {
-            regionID: 1,
-            name: 'region',
-            iso3166: 'RGN'
-          }
+          new Region(RegionID.of(1), 'region', ISO3166.of('RGN'))
         ]
       });
 

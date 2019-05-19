@@ -7,9 +7,9 @@ import { StatsItems } from '../../veau-collection/StatsItems';
 import { StatsValues } from '../../veau-collection/StatsValues';
 import { Language } from '../../veau-entity/Language';
 import { Region } from '../../veau-entity/Region';
-import { Stats, StatsJSON } from '../../veau-entity/Stats';
+import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
-import { StatsOutline, StatsOutlineJSON } from '../../veau-entity/StatsOutline';
+import { StatsOutline } from '../../veau-entity/StatsOutline';
 import { Term } from '../../veau-enum/Term';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { NotFoundError } from '../../veau-error/NotFoundError';
@@ -54,16 +54,16 @@ describe('StatsUseCase', () => {
       ));
 
       const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-      const json: StatsJSON = await statsUseCase.findByStatsID(StatsID.of(UUID.of('9016f5d7-654e-4903-bfc9-a89c40919e94')));
+      const stats: Stats = await statsUseCase.findByStatsID(StatsID.of(UUID.of('9016f5d7-654e-4903-bfc9-a89c40919e94')));
 
-      expect(json.statsID).toEqual(statsID.get().get());
-      expect(json.language.name).toEqual(language.getName());
-      expect(json.region.name).toEqual(region.getName());
-      expect(json.termID).toEqual(term.getID());
-      expect(json.name).toEqual(name);
-      expect(json.unit).toEqual(unit);
-      expect(json.updatedAt).toEqual(updatedAt.format('YYYY-MM-DD HH:mm:ss'));
-      expect(json.items.length).toEqual(items.length());
+      expect(stats.getStatsID()).toEqual(statsID);
+      expect(stats.getLanguage()).toEqual(language);
+      expect(stats.getRegion()).toEqual(region);
+      expect(stats.getTerm()).toEqual(term);
+      expect(stats.getName()).toEqual(name);
+      expect(stats.getUnit()).toEqual(unit);
+      expect(stats.getUpdatedAt()).toEqual(updatedAt);
+      expect(stats.getItems()).toEqual(items);
     });
 
     it('thrown NoSuchElementError', () => {
@@ -112,16 +112,16 @@ describe('StatsUseCase', () => {
       ]);
 
       const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-      const jsons: Array<StatsOutlineJSON> =  await statsUseCase.findByVeauAccountID(VeauAccountID.of(UUID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2')), 1);
+      const statsOutlines: Array<StatsOutline> =  await statsUseCase.findByVeauAccountID(VeauAccountID.of(UUID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2')), 1);
 
-      expect(jsons.length).toEqual(1);
-      expect(jsons[0].statsID).toEqual(statsID.get().get());
-      expect(jsons[0].language.name).toEqual(language.getName());
-      expect(jsons[0].region.name).toEqual(region.getName());
-      expect(jsons[0].termID).toEqual(term.getID());
-      expect(jsons[0].name).toEqual(name);
-      expect(jsons[0].unit).toEqual(unit);
-      expect(jsons[0].updatedAt).toEqual(updatedAt.format('YYYY-MM-DD HH:mm:ss'));
+      expect(statsOutlines.length).toEqual(1);
+      expect(statsOutlines[0].getStatsID()).toEqual(statsID);
+      expect(statsOutlines[0].getLanguage()).toEqual(language);
+      expect(statsOutlines[0].getRegion()).toEqual(region);
+      expect(statsOutlines[0].getTerm()).toEqual(term);
+      expect(statsOutlines[0].getName()).toEqual(name);
+      expect(statsOutlines[0].getUnit()).toEqual(unit);
+      expect(statsOutlines[0].getUpdatedAt()).toEqual(updatedAt);
     });
   });
 

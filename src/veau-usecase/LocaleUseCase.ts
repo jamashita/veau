@@ -1,13 +1,13 @@
 import { LanguageCommand } from '../veau-command/LanguageCommand';
 import { RegionCommand } from '../veau-command/RegionCommand';
-import { Language, LanguageJSON } from '../veau-entity/Language';
-import { Region, RegionJSON } from '../veau-entity/Region';
+import { Language } from '../veau-entity/Language';
+import { Region } from '../veau-entity/Region';
 import { LanguageQuery } from '../veau-query/LanguageQuery';
 import { RegionQuery } from '../veau-query/RegionQuery';
 
 export type Locales = {
-  languages: Array<LanguageJSON>;
-  regions: Array<RegionJSON>;
+  languages: Array<Language>;
+  regions: Array<Region>;
 };
 
 const languageQuery: LanguageQuery = LanguageQuery.getInstance();
@@ -30,12 +30,8 @@ export class LocaleUseCase {
     const regions: Array<Region> = await regionQuery.all();
 
     return {
-      languages: languages.map<LanguageJSON>((language: Language) => {
-        return language.toJSON();
-      }),
-      regions: regions.map<RegionJSON>((region: Region) => {
-        return region.toJSON();
-      })
+      languages,
+      regions
     };
   }
 

@@ -16,7 +16,7 @@ import { Locales, LocaleUseCase } from '../LocaleUseCase';
 
 describe('LocaleUseCase',  () => {
   describe('all', () => {
-    it('languages and regions are returned as JSON', async () => {
+    it('normal case', async () => {
       const stub1: SinonStub = sinon.stub();
       LanguageQuery.prototype.all = stub1;
       stub1.resolves([
@@ -34,21 +34,21 @@ describe('LocaleUseCase',  () => {
       const locales: Locales = await localeUseCase.all();
 
       expect(locales.languages.length).toEqual(2);
-      expect(locales.languages[0].languageID).toEqual(1);
-      expect(locales.languages[0].name).toEqual('аҧсуа бызшәа');
-      expect(locales.languages[0].englishName).toEqual('Abkhazian');
-      expect(locales.languages[0].iso639).toEqual('ab');
-      expect(locales.languages[1].languageID).toEqual(2);
-      expect(locales.languages[1].name).toEqual('Afaraf');
-      expect(locales.languages[1].englishName).toEqual('Afar');
-      expect(locales.languages[1].iso639).toEqual('aa');
+      expect(locales.languages[0].getLanguageID().get()).toEqual(1);
+      expect(locales.languages[0].getName()).toEqual('аҧсуа бызшәа');
+      expect(locales.languages[0].getEnglishName()).toEqual('Abkhazian');
+      expect(locales.languages[0].getISO639().get()).toEqual('ab');
+      expect(locales.languages[1].getLanguageID().get()).toEqual(2);
+      expect(locales.languages[1].getName()).toEqual('Afaraf');
+      expect(locales.languages[1].getEnglishName()).toEqual('Afar');
+      expect(locales.languages[1].getISO639().get()).toEqual('aa');
       expect(locales.regions.length).toEqual(2);
-      expect(locales.regions[0].regionID).toEqual(1);
-      expect(locales.regions[0].name).toEqual('Afghanistan');
-      expect(locales.regions[0].iso3166).toEqual('AFG');
-      expect(locales.regions[1].regionID).toEqual(2);
-      expect(locales.regions[1].name).toEqual('Albania');
-      expect(locales.regions[1].iso3166).toEqual('ALB');
+      expect(locales.regions[0].getRegionID().get()).toEqual(1);
+      expect(locales.regions[0].getName()).toEqual('Afghanistan');
+      expect(locales.regions[0].getISO3166().get()).toEqual('AFG');
+      expect(locales.regions[1].getRegionID().get()).toEqual(2);
+      expect(locales.regions[1].getName()).toEqual('Albania');
+      expect(locales.regions[1].getISO3166().get()).toEqual('ALB');
     });
   });
 

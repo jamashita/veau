@@ -1,6 +1,8 @@
 import * as express from 'express';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import * as log4js from 'log4js';
+import { Language, LanguageJSON } from '../../veau-entity/Language';
+import { Region, RegionJSON } from '../../veau-entity/Region';
 import { CacheError } from '../../veau-error/CacheError';
 import { Locales, LocaleUseCase } from '../../veau-usecase/LocaleUseCase';
 
@@ -12,7 +14,14 @@ const localeUseCase: LocaleUseCase = LocaleUseCase.getInstance();
 router.get('/', async (req: express.Request, res: express.Response) => {
   const locales: Locales = await localeUseCase.all();
 
-  res.status(OK).send(locales);
+  res.status(OK).send({
+    languages: locales.languages.map<LanguageJSON>((language: Language) => {
+      return language.toJSON();
+    }),
+    regions: locales.regions.map<RegionJSON>((region: Region) => {
+      return region.toJSON();
+    })
+  });
 });
 
 router.delete('/', async (req: express.Request, res: express.Response) => {

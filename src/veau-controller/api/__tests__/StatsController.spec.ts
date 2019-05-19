@@ -3,14 +3,28 @@ import * as bodyParser from 'body-parser';
 import * as express from 'express';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'http-status';
 import 'jest';
+import * as moment from 'moment';
 import * as sinon from 'sinon';
 import { SinonStub } from 'sinon';
 import * as supertest from 'supertest';
+import { StatsItems } from '../../../veau-collection/StatsItems';
+import { StatsValues } from '../../../veau-collection/StatsValues';
+import { Language } from '../../../veau-entity/Language';
+import { Region } from '../../../veau-entity/Region';
+import { Stats } from '../../../veau-entity/Stats';
+import { StatsItem } from '../../../veau-entity/StatsItem';
+import { StatsOutline } from '../../../veau-entity/StatsOutline';
 import { VeauAccount } from '../../../veau-entity/VeauAccount';
+import { Term } from '../../../veau-enum/Term';
 import { NotFoundError } from '../../../veau-error/NotFoundError';
 import { StatsUseCase } from '../../../veau-usecase/StatsUseCase';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
+import { LanguageID } from '../../../veau-vo/LanguageID';
+import { RegionID } from '../../../veau-vo/RegionID';
+import { StatsID } from '../../../veau-vo/StatsID';
+import { StatsItemID } from '../../../veau-vo/StatsItemID';
+import { StatsValue } from '../../../veau-vo/StatsValue';
 import { UUID } from '../../../veau-vo/UUID';
 import { VeauAccountID } from '../../../veau-vo/VeauAccountID';
 import { StatsController } from '../StatsController';
@@ -22,15 +36,15 @@ describe('StatsController', () => {
       const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
       statsUseCase.findByVeauAccountID = stub;
       stub.resolves([
-        {
-          statsID: '01c466f3-198a-45a4-9204-348ac57b1b5d',
-          iso639: 'ab',
-          iso3166: 'AFG',
-          termID: 1,
-          name: 'stats',
-          unit: 'unit',
-          updatedAt: '2000-01-01 00:00:00'
-        }
+        new StatsOutline(
+          StatsID.of(UUID.of('01c466f3-198a-45a4-9204-348ac57b1b5d')),
+          new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab')),
+          new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG')),
+          Term.DAILY,
+          'stats',
+          'unit',
+          moment.utc('2000-01-01 00:00:00')
+        )
       ]);
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -44,8 +58,17 @@ describe('StatsController', () => {
       expect(response.body).toEqual([
         {
           statsID: '01c466f3-198a-45a4-9204-348ac57b1b5d',
-          iso639: 'ab',
-          iso3166: 'AFG',
+          language: {
+            languageID: 1,
+            name: 'аҧсуа бызшәа',
+            englishName: 'Abkhazian',
+            iso639: 'ab',
+          },
+          region: {
+            regionID: 1,
+            name: 'Afghanistan',
+            iso3166: 'AFG'
+          },
           termID: 1,
           name: 'stats',
           unit: 'unit',
@@ -96,36 +119,20 @@ describe('StatsController', () => {
       const stub: SinonStub = sinon.stub();
       const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
       statsUseCase.findByStatsID = stub;
-      stub.resolves({
-        statsID: '059ce0b2-7cba-4ba4-9a5d-a8fa7493f556',
-        language: {
-          languageID: 1,
-          name: 'language',
-          englishName: 'english name',
-          iso639: 'la'
-        },
-        region: {
-          regionID: 1,
-          name: 'region',
-          iso3166: 'RGN'
-        },
-        termID: 1,
-        name: 'stats',
-        unit: 'unit',
-        updatedAt: '2000-01-01 00:00:00',
-        items: [
-          {
-            statsItemID: '09c2e4a6-6839-4fbe-858e-bf2c4ee7d5e6',
-            name: 'stats item',
-            values: [
-              {
-                asOf: '2000-01-01',
-                value: 5
-              }
-            ]
-          }
-        ]
-      });
+      stub.resolves(new Stats(
+        StatsID.of(UUID.of('059ce0b2-7cba-4ba4-9a5d-a8fa7493f556')),
+        new Language(LanguageID.of(1), 'language', 'english name', ISO639.of('la')),
+        new Region(RegionID.of(1), 'region', ISO3166.of('RGN')),
+        Term.DAILY,
+        'stats',
+        'unit',
+        moment.utc('2000-01-01 00:00:00'),
+        new StatsItems([
+          new StatsItem(StatsItemID.of(UUID.of('09c2e4a6-6839-4fbe-858e-bf2c4ee7d5e6')), 'stats item', new StatsValues([
+            StatsValue.of(moment.utc('2000-01-01'), 5)
+          ]))
+        ])
+      ));
       const app: express.Express = express();
       app.use('/', StatsController);
 
