@@ -13,7 +13,7 @@ import { StatsOutline, StatsOutlineJSON } from '../../veau-entity/StatsOutline';
 import { Term } from '../../veau-enum/Term';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { NotFoundError } from '../../veau-error/NotFoundError';
-import { veauMySQL } from '../../veau-infrastructure/VeauMySQL';
+import { MySQL } from '../../veau-general/MySQL/MySQL';
 import { StatsQuery } from '../../veau-query/StatsQuery';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
@@ -151,7 +151,7 @@ describe('StatsUseCase', () => {
       );
 
       const spy: SinonSpy = sinon.spy();
-      veauMySQL.transact = spy;
+      MySQL.prototype.transact = spy;
 
       const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
       await statsUseCase.save(VeauAccountID.of(UUID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2')), stats);
