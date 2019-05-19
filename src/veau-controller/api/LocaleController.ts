@@ -15,7 +15,7 @@ router.get('/', async (req: express.Request, res: express.Response) => {
   res.send(locales);
 });
 
-router.get('/delete', async (req: express.Request, res: express.Response) => {
+router.delete('/', async (req: express.Request, res: express.Response) => {
   try {
     await localeUseCase.delete();
     res.sendStatus(OK);

@@ -6,119 +6,127 @@ import * as supertest from 'supertest';
 import { AuthenticationMiddleware } from '../AuthenticationMiddleware';
 
 describe('AuthenticationMiddleware', () => {
-  it('GET: pass', async () => {
-    const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
-    const app: express.Express = express();
-    app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-      // @ts-ignore
-      req.user = {};
-      next();
-    });
-    app.use(authenticationMiddleware.apply());
-    app.use((req: express.Request, res: express.Response) => {
-      res.sendStatus(OK);
+  describe('GET', () => {
+    it('pass', async () => {
+      const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
+      const app: express.Express = express();
+      app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+        // @ts-ignore
+        req.user = {};
+        next();
+      });
+      app.use(authenticationMiddleware.apply());
+      app.use((req: express.Request, res: express.Response) => {
+        res.sendStatus(OK);
+      });
+
+      const response: supertest.Response = await supertest(app).get('/');
+      expect(response.status).toEqual(OK);
     });
 
-    const response: supertest.Response = await supertest(app).get('/');
-    expect(response.status).toEqual(OK);
+    it('blocked', async () => {
+      const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
+      const app: express.Express = express();
+      app.use(authenticationMiddleware.apply());
+      app.use((req: express.Request, res: express.Response) => {
+        res.sendStatus(OK);
+      });
+
+      const response: supertest.Response = await supertest(app).get('/');
+      expect(response.status).toEqual(UNAUTHORIZED);
+    });
   });
 
-  it('GET: blocked', async () => {
-    const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
-    const app: express.Express = express();
-    app.use(authenticationMiddleware.apply());
-    app.use((req: express.Request, res: express.Response) => {
-      res.sendStatus(OK);
+  describe('POST', () => {
+    it('pass', async () => {
+      const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
+      const app: express.Express = express();
+      app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+        // @ts-ignore
+        req.user = {};
+        next();
+      });
+      app.use(authenticationMiddleware.apply());
+      app.use((req: express.Request, res: express.Response) => {
+        res.sendStatus(OK);
+      });
+
+      const response: supertest.Response = await supertest(app).post('/');
+      expect(response.status).toEqual(OK);
     });
 
-    const response: supertest.Response = await supertest(app).get('/');
-    expect(response.status).toEqual(UNAUTHORIZED);
+    it('blocked', async () => {
+      const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
+      const app: express.Express = express();
+      app.use(authenticationMiddleware.apply());
+      app.use((req: express.Request, res: express.Response) => {
+        res.sendStatus(OK);
+      });
+
+      const response: supertest.Response = await supertest(app).post('/');
+      expect(response.status).toEqual(UNAUTHORIZED);
+    });
   });
 
-  it('POST: pass', async () => {
-    const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
-    const app: express.Express = express();
-    app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-      // @ts-ignore
-      req.user = {};
-      next();
-    });
-    app.use(authenticationMiddleware.apply());
-    app.use((req: express.Request, res: express.Response) => {
-      res.sendStatus(OK);
+  describe('PUT', () => {
+    it('pass', async () => {
+      const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
+      const app: express.Express = express();
+      app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+        // @ts-ignore
+        req.user = {};
+        next();
+      });
+      app.use(authenticationMiddleware.apply());
+      app.use((req: express.Request, res: express.Response) => {
+        res.sendStatus(OK);
+      });
+
+      const response: supertest.Response = await supertest(app).put('/');
+      expect(response.status).toEqual(OK);
     });
 
-    const response: supertest.Response = await supertest(app).post('/');
-    expect(response.status).toEqual(OK);
+    it('blocked', async () => {
+      const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
+      const app: express.Express = express();
+      app.use(authenticationMiddleware.apply());
+      app.use((req: express.Request, res: express.Response) => {
+        res.sendStatus(OK);
+      });
+
+      const response: supertest.Response = await supertest(app).put('/');
+      expect(response.status).toEqual(UNAUTHORIZED);
+    });
   });
 
-  it('POST: blocked', async () => {
-    const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
-    const app: express.Express = express();
-    app.use(authenticationMiddleware.apply());
-    app.use((req: express.Request, res: express.Response) => {
-      res.sendStatus(OK);
+  describe('DELETE', () => {
+    it('pass', async () => {
+      const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
+      const app: express.Express = express();
+      app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+        // @ts-ignore
+        req.user = {};
+        next();
+      });
+      app.use(authenticationMiddleware.apply());
+      app.use((req: express.Request, res: express.Response) => {
+        res.sendStatus(OK);
+      });
+
+      const response: supertest.Response = await supertest(app).delete('/');
+      expect(response.status).toEqual(OK);
     });
 
-    const response: supertest.Response = await supertest(app).post('/');
-    expect(response.status).toEqual(UNAUTHORIZED);
-  });
+    it('blocked', async () => {
+      const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
+      const app: express.Express = express();
+      app.use(authenticationMiddleware.apply());
+      app.use((req: express.Request, res: express.Response) => {
+        res.sendStatus(OK);
+      });
 
-  it('PUT: pass', async () => {
-    const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
-    const app: express.Express = express();
-    app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-      // @ts-ignore
-      req.user = {};
-      next();
+      const response: supertest.Response = await supertest(app).delete('/');
+      expect(response.status).toEqual(UNAUTHORIZED);
     });
-    app.use(authenticationMiddleware.apply());
-    app.use((req: express.Request, res: express.Response) => {
-      res.sendStatus(OK);
-    });
-
-    const response: supertest.Response = await supertest(app).put('/');
-    expect(response.status).toEqual(OK);
-  });
-
-  it('PUT: blocked', async () => {
-    const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
-    const app: express.Express = express();
-    app.use(authenticationMiddleware.apply());
-    app.use((req: express.Request, res: express.Response) => {
-      res.sendStatus(OK);
-    });
-
-    const response: supertest.Response = await supertest(app).put('/');
-    expect(response.status).toEqual(UNAUTHORIZED);
-  });
-
-  it('DELETE: pass', async () => {
-    const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
-    const app: express.Express = express();
-    app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-      // @ts-ignore
-      req.user = {};
-      next();
-    });
-    app.use(authenticationMiddleware.apply());
-    app.use((req: express.Request, res: express.Response) => {
-      res.sendStatus(OK);
-    });
-
-    const response: supertest.Response = await supertest(app).delete('/');
-    expect(response.status).toEqual(OK);
-  });
-
-  it('DELETE: blocked', async () => {
-    const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
-    const app: express.Express = express();
-    app.use(authenticationMiddleware.apply());
-    app.use((req: express.Request, res: express.Response) => {
-      res.sendStatus(OK);
-    });
-
-    const response: supertest.Response = await supertest(app).delete('/');
-    expect(response.status).toEqual(UNAUTHORIZED);
   });
 });

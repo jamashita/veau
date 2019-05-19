@@ -16,65 +16,67 @@ import { VeauAccountID } from '../../../veau-vo/VeauAccountID';
 import { StatsController } from '../StatsController';
 
 describe('StatsController', () => {
-  it('GET /page/:page(\\d+)', async () => {
-    const stub: SinonStub = sinon.stub();
-    const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-    statsUseCase.findByVeauAccountID = stub;
-    stub.resolves([
-      {
-        statsID: '01c466f3-198a-45a4-9204-348ac57b1b5d',
-        iso639: 'ab',
-        iso3166: 'AFG',
-        termID: 1,
-        name: 'stats',
-        unit: 'unit',
-        updatedAt: '2000-01-01 00:00:00'
-      }
-    ]);
-    const app: express.Express = express();
-    app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-      req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
-      next();
+  describe('GET /page/:page(\\d+)', () => {
+    it('normal case', async () => {
+      const stub: SinonStub = sinon.stub();
+      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
+      statsUseCase.findByVeauAccountID = stub;
+      stub.resolves([
+        {
+          statsID: '01c466f3-198a-45a4-9204-348ac57b1b5d',
+          iso639: 'ab',
+          iso3166: 'AFG',
+          termID: 1,
+          name: 'stats',
+          unit: 'unit',
+          updatedAt: '2000-01-01 00:00:00'
+        }
+      ]);
+      const app: express.Express = express();
+      app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
+        next();
+      });
+      app.use('/', StatsController);
+
+      const response: supertest.Response = await supertest(app).get('/page/1');
+      expect(response.status).toEqual(OK);
+      expect(response.body).toEqual([
+        {
+          statsID: '01c466f3-198a-45a4-9204-348ac57b1b5d',
+          iso639: 'ab',
+          iso3166: 'AFG',
+          termID: 1,
+          name: 'stats',
+          unit: 'unit',
+          updatedAt: '2000-01-01 00:00:00'
+        }
+      ]);
     });
-    app.use('/', StatsController);
 
-    const response: supertest.Response = await supertest(app).get('/page/1');
-    expect(response.status).toEqual(OK);
-    expect(response.body).toEqual([
-      {
-        statsID: '01c466f3-198a-45a4-9204-348ac57b1b5d',
-        iso639: 'ab',
-        iso3166: 'AFG',
-        termID: 1,
-        name: 'stats',
-        unit: 'unit',
-        updatedAt: '2000-01-01 00:00:00'
-      }
-    ]);
-  });
+    it('page is 0', async () => {
+      const app: express.Express = express();
+      app.use('/', StatsController);
 
-  it('GET /page/:page(\\d+): page is 0', async () => {
-    const app: express.Express = express();
-    app.use('/', StatsController);
-
-    const response: supertest.Response = await supertest(app).get('/page/0');
-    expect(response.status).toEqual(BAD_REQUEST);
-  });
-
-  it('GET /page/:page(\\d+): throws error', async () => {
-    const stub: SinonStub = sinon.stub();
-    const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-    statsUseCase.findByVeauAccountID = stub;
-    stub.rejects();
-    const app: express.Express = express();
-    app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-      req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
-      next();
+      const response: supertest.Response = await supertest(app).get('/page/0');
+      expect(response.status).toEqual(BAD_REQUEST);
     });
-    app.use('/', StatsController);
 
-    const response: supertest.Response = await supertest(app).get('/page/1');
-    expect(response.status).toEqual(INTERNAL_SERVER_ERROR);
+    it('throws error', async () => {
+      const stub: SinonStub = sinon.stub();
+      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
+      statsUseCase.findByVeauAccountID = stub;
+      stub.rejects();
+      const app: express.Express = express();
+      app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
+        next();
+      });
+      app.use('/', StatsController);
+
+      const response: supertest.Response = await supertest(app).get('/page/1');
+      expect(response.status).toEqual(INTERNAL_SERVER_ERROR);
+    });
   });
 
   it('GET /:statsID([0-9a-f\-]{36})', async () => {
