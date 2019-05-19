@@ -104,7 +104,7 @@ describe('StatsOutline', () => {
   });
 
   describe('copy', () => {
-    it('each propertoes is copied', () => {
+    it('every properties are copied', () => {
       const statsID: StatsID = StatsID.of(UUID.of('f330c618-6127-46d1-ba10-a9f6af458b4c'));
       const language: Language = new Language(LanguageID.of(1), 'language', 'english language', ISO639.of('ab'));
       const region: Region = new Region(RegionID.of(2), 'region', ISO3166.of('AFG'));

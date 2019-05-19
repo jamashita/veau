@@ -18,7 +18,7 @@ describe('Language', () => {
   });
 
   describe('copy', () => {
-    it('every property is copied', () => {
+    it('every properties are copied', () => {
       const languageID: LanguageID = LanguageID.of(1);
       const name: string = 'аҧсуа бызшәа';
       const englishName: string = 'Abkhazian';

@@ -18,7 +18,7 @@ describe('Region', () => {
   });
 
   describe('copy', () => {
-    it('every property is copied', () => {
+    it('every properties are copied', () => {
       const regionID: RegionID = RegionID.of(1);
       const name: string = 'Afghanistan';
       const iso3166: ISO3166 = ISO3166.of('AFG');

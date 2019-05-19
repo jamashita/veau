@@ -33,7 +33,7 @@ describe('VeauAccount', () => {
   });
 
   describe('copy', () => {
-    it('each properties are copied', () => {
+    it('every properties are copied', () => {
       const veauAccountID: VeauAccountID = VeauAccountID.of(UUID.of('998106de-b2e7-4981-9643-22cd30cd74de'));
       const account: string = 'veau';
       const iso639: ISO639 = ISO639.of('ab');

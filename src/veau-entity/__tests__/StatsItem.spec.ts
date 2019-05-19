@@ -95,7 +95,7 @@ describe('StatsItem', () => {
   });
 
   describe('copy', () => {
-    it('its properties is copied', () => {
+    it('evert properties are copied', () => {
       const statsItemID: StatsItemID = StatsItemID.of(UUID.of('5ee0c273-c26f-432f-9217-d6a7b481a073'));
       const name: string = 'name';
       const statsValues: StatsValues = new StatsValues([]);
