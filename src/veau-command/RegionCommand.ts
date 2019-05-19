@@ -1,6 +1,6 @@
 import { Region, RegionJSON } from '../veau-entity/Region';
 import { CacheError } from '../veau-error/CacheError';
-import { VeauRedis } from '../veau-infrastructure/VeauRedis';
+import { veauRedis } from '../veau-infrastructure/VeauRedis';
 
 const REDIS_KEY: string = 'Regions';
 const DURATION: number = 3 * 60 * 60;
@@ -20,13 +20,13 @@ export class RegionCommand {
       return region.toJSON();
     });
 
-    await VeauRedis.getString().set(REDIS_KEY, JSON.stringify(regionJSONs));
+    await veauRedis.getString().set(REDIS_KEY, JSON.stringify(regionJSONs));
 
-    return VeauRedis.expires(REDIS_KEY, DURATION);
+    return veauRedis.expires(REDIS_KEY, DURATION);
   }
 
   public async deleteAll(): Promise<any> {
-    const ok: boolean = await VeauRedis.delete(REDIS_KEY);
+    const ok: boolean = await veauRedis.delete(REDIS_KEY);
 
     if (ok) {
       return;

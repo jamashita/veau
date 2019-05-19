@@ -5,8 +5,8 @@ import { SinonStub } from 'sinon';
 import { LanguageCommand } from '../../veau-command/LanguageCommand';
 import { Language } from '../../veau-entity/Language';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
-import { VeauRedis } from '../../veau-infrastructure/VeauRedis';
+import { veauMySQL } from '../../veau-infrastructure/VeauMySQL';
+import { veauRedis } from '../../veau-infrastructure/VeauRedis';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { LanguageQuery } from '../LanguageQuery';
 
@@ -14,7 +14,7 @@ describe('LanguageQuery', () => {
   describe('all', () => {
     it('Redis returns languages', async () => {
       const stub: SinonStub = sinon.stub();
-      VeauRedis.getString().get = stub;
+      veauRedis.getString().get = stub;
       stub.resolves('[{"languageID":1,"name":"аҧсуа бызшәа","englishName":"Abkhazian","iso639":"ab"},{"languageID":2,"name":"Afaraf","englishName":"Afar","iso639":"aa"}]');
 
       const languageQuery: LanguageQuery = LanguageQuery.getInstance();
@@ -33,11 +33,11 @@ describe('LanguageQuery', () => {
 
     it('MySQL returns languages', async () => {
       const stub1: SinonStub = sinon.stub();
-      VeauRedis.getString().get = stub1;
+      veauRedis.getString().get = stub1;
       // @ts-ignore
       stub1.resolves(null);
       const stub2: SinonStub = sinon.stub();
-      VeauMySQL.execute = stub2;
+      veauMySQL.execute = stub2;
       stub2.resolves([
         {
           languageID: 1,
@@ -74,7 +74,7 @@ describe('LanguageQuery', () => {
   describe('findByISO639', () => {
     it('Redis returns a language', async () => {
       const stub: SinonStub = sinon.stub();
-      VeauRedis.getString().get = stub;
+      veauRedis.getString().get = stub;
       stub.resolves('[{"languageID":1,"name":"аҧсуа бызшәа","englishName":"Abkhazian","iso639":"ab"},{"languageID":2,"name":"Afaraf","englishName":"Afar","iso639":"aa"}]');
 
       const languageQuery: LanguageQuery = LanguageQuery.getInstance();
@@ -87,11 +87,11 @@ describe('LanguageQuery', () => {
 
     it('MySQL returns a language', async () => {
       const stub1: SinonStub = sinon.stub();
-      VeauRedis.getString().get = stub1;
+      veauRedis.getString().get = stub1;
       // @ts-ignore
       stub1.resolves(null);
       const stub2: SinonStub = sinon.stub();
-      VeauMySQL.execute = stub2;
+      veauMySQL.execute = stub2;
       stub2.resolves([
         {
           languageID: 1,
@@ -120,7 +120,7 @@ describe('LanguageQuery', () => {
 
     it('Redis throws error', () => {
       const stub: SinonStub = sinon.stub();
-      VeauRedis.getString().get = stub;
+      veauRedis.getString().get = stub;
       stub.resolves('[]');
 
       const languageQuery: LanguageQuery = LanguageQuery.getInstance();
@@ -130,11 +130,11 @@ describe('LanguageQuery', () => {
 
     it('MySQL throws error', () => {
       const stub1: SinonStub = sinon.stub();
-      VeauRedis.getString().get = stub1;
+      veauRedis.getString().get = stub1;
       // @ts-ignore
       stub1.resolves(null);
       const stub2: SinonStub = sinon.stub();
-      VeauMySQL.execute = stub2;
+      veauMySQL.execute = stub2;
       stub2.resolves([
         {
           languageID: 1,

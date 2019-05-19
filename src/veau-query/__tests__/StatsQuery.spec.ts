@@ -7,7 +7,7 @@ import { StatsValues } from '../../veau-collection/StatsValues';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsOutline } from '../../veau-entity/StatsOutline';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
+import { veauMySQL } from '../../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../../veau-vo/StatsID';
 import { UUID } from '../../veau-vo/UUID';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
@@ -18,7 +18,7 @@ describe('StatsQuery', () => {
     it('normal case', async () => {
       const statsID: string = 'a25a8b7f-c810-4dc0-b94e-e97e74329307';
       const stub: SinonStub = sinon.stub();
-      VeauMySQL.execute = stub;
+      veauMySQL.execute = stub;
       stub.onCall(0).resolves([
         {
           statsID,
@@ -126,7 +126,7 @@ describe('StatsQuery', () => {
 
     it('throws error', () => {
       const stub: SinonStub = sinon.stub();
-      VeauMySQL.execute = stub;
+      veauMySQL.execute = stub;
       stub.resolves([]);
 
       const statsQuery: StatsQuery = StatsQuery.getInstance();
@@ -137,7 +137,7 @@ describe('StatsQuery', () => {
   describe('findByVeauAccountID', () => {
     it('normal case', async () => {
       const stub: SinonStub = sinon.stub();
-      VeauMySQL.execute = stub;
+      veauMySQL.execute = stub;
       stub.resolves([
         {
           statsID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',

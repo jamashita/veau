@@ -1,7 +1,7 @@
 import { StatsValues } from '../veau-collection/StatsValues';
 import { StatsItem, StatsItemRow } from '../veau-entity/StatsItem';
 import { StatsItemFactory } from '../veau-factory/StatsItemFactory';
-import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
+import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValueQuery } from './StatsValueQuery';
 
@@ -26,7 +26,7 @@ export class StatsItemQuery {
       WHERE R1.stats_id = :statsID
       ORDER BY R1.seq;`;
 
-    const statsItemRows: Array<StatsItemRow> = await VeauMySQL.execute(query, {
+    const statsItemRows: Array<StatsItemRow> = await veauMySQL.execute(query, {
       statsID: statsID.get().get()
     });
 

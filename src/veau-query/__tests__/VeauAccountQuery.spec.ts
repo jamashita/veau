@@ -3,14 +3,14 @@ import 'jest';
 import * as sinon from 'sinon';
 import { SinonStub } from 'sinon';
 import { VeauAccount } from '../../veau-entity/VeauAccount';
-import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
+import { veauMySQL } from '../../veau-infrastructure/VeauMySQL';
 import { VeauAccountHash, VeauAccountQuery } from '../VeauAccountQuery';
 
 describe('VeauAccountQuery', () => {
   describe('findByAccount', () => {
     it('normal case', async () => {
       const stub: SinonStub = sinon.stub();
-      VeauMySQL.execute = stub;
+      veauMySQL.execute = stub;
       stub.resolves([
         {
           veauAccountID: '998106de-b2e7-4981-9643-22cd30cd74de',

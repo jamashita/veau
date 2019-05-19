@@ -3,7 +3,7 @@ import 'jest';
 import * as sinon from 'sinon';
 import { SinonStub } from 'sinon';
 import { StatsValues } from '../../veau-collection/StatsValues';
-import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
+import { veauMySQL } from '../../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../../veau-vo/StatsID';
 import { UUID } from '../../veau-vo/UUID';
 import { StatsValueQuery } from '../StatsValueQuery';
@@ -12,7 +12,7 @@ describe('StatsValueQuery', () => {
   describe('findByStatsID', () => {
     it('normal case', async () => {
       const stub: SinonStub = sinon.stub();
-      VeauMySQL.execute = stub;
+      veauMySQL.execute = stub;
       stub.onCall(0).resolves([
         {
           statsItemID: '98d1e9b5-6b18-44de-b615-d8016f49977d',

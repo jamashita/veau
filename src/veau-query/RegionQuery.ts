@@ -2,8 +2,8 @@ import { RegionCommand } from '../veau-command/RegionCommand';
 import { Region, RegionJSON, RegionRow } from '../veau-entity/Region';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { RegionFactory } from '../veau-factory/RegionFactory';
-import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
-import { VeauRedis } from '../veau-infrastructure/VeauRedis';
+import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
+import { veauRedis } from '../veau-infrastructure/VeauRedis';
 import { ISO3166 } from '../veau-vo/ISO3166';
 
 const regionFactory: RegionFactory = RegionFactory.getInstance();
@@ -22,7 +22,7 @@ export class RegionQuery {
   }
 
   public async all(): Promise<Array<Region>> {
-    const regionString: string | null = await VeauRedis.getString().get(REDIS_KEY);
+    const regionString: string | null = await veauRedis.getString().get(REDIS_KEY);
 
     if (regionString !== null) {
       const regionJSONs: Array<RegionJSON> = JSON.parse(regionString);
@@ -39,7 +39,7 @@ export class RegionQuery {
       FORCE INDEX(iso3166)
       ORDER BY R1.iso3166`;
 
-    const regionRows: Array<RegionRow> = await VeauMySQL.execute(query);
+    const regionRows: Array<RegionRow> = await veauMySQL.execute(query);
     const regions: Array<Region> = regionRows.map<Region>((row: RegionRow) => {
       return regionFactory.fromRow(row);
     });

@@ -4,7 +4,7 @@ import { StatsOutline, StatsOutlineJSON } from '../veau-entity/StatsOutline';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { NotFoundError } from '../veau-error/NotFoundError';
 import { ITransaction } from '../veau-general/MySQL/ITransaction';
-import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
+import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsQuery } from '../veau-query/StatsQuery';
 import { StatsUpdateTransaction } from '../veau-transaction/StatsUpdateTransaction';
 import { StatsID } from '../veau-vo/StatsID';
@@ -58,6 +58,6 @@ export class StatsUseCase {
   public save(veauAccountID: VeauAccountID, stats: Stats): Promise<any> {
     const statsUpdateTransaction: ITransaction = StatsUpdateTransaction.getInstance(veauAccountID, stats);
 
-    return VeauMySQL.transact(statsUpdateTransaction);
+    return veauMySQL.transact(statsUpdateTransaction);
   }
 }

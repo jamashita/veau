@@ -2,8 +2,8 @@ import { LanguageCommand } from '../veau-command/LanguageCommand';
 import { Language, LanguageJSON, LanguageRow } from '../veau-entity/Language';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { LanguageFactory } from '../veau-factory/LanguageFactory';
-import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
-import { VeauRedis } from '../veau-infrastructure/VeauRedis';
+import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
+import { veauRedis } from '../veau-infrastructure/VeauRedis';
 import { ISO639 } from '../veau-vo/ISO639';
 
 const languageFactory: LanguageFactory = LanguageFactory.getInstance();
@@ -22,7 +22,7 @@ export class LanguageQuery {
   }
 
   public async all(): Promise<Array<Language>> {
-    const languagesString: string | null = await VeauRedis.getString().get(REDIS_KEY);
+    const languagesString: string | null = await veauRedis.getString().get(REDIS_KEY);
 
     if (languagesString !== null) {
       const languageJSONs: Array<LanguageJSON> = JSON.parse(languagesString);
@@ -40,7 +40,7 @@ export class LanguageQuery {
       FORCE INDEX(iso639)
       ORDER BY R1.iso639;`;
 
-    const languageRows: Array<LanguageRow> = await VeauMySQL.execute(query);
+    const languageRows: Array<LanguageRow> = await veauMySQL.execute(query);
     const languages: Array<Language> = languageRows.map<Language>((row: LanguageRow) => {
       return languageFactory.fromRow(row);
     });

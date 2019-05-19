@@ -4,7 +4,7 @@ import { StatsOutline, StatsOutlineRow } from '../veau-entity/StatsOutline';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { StatsFactory } from '../veau-factory/StatsFactory';
 import { StatsOutlineFactory } from '../veau-factory/StatsOutlineFactory';
-import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
+import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../veau-vo/StatsID';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
 import { StatsItemQuery } from './StatsItemQuery';
@@ -46,7 +46,7 @@ export class StatsQuery {
       LIMIT :limit
       OFFSET :offset;`;
 
-    const statsOutlineRows: Array<StatsOutlineRow> = await VeauMySQL.execute(query, {
+    const statsOutlineRows: Array<StatsOutlineRow> = await veauMySQL.execute(query, {
         veauAccountID: veauAccountID.get().get(),
         limit,
         offset
@@ -79,7 +79,7 @@ export class StatsQuery {
       USING(region_id)
       WHERE R1.stats_id = :statsID;`;
 
-    const statsRows: Array<StatsRow> = await VeauMySQL.execute(query, {
+    const statsRows: Array<StatsRow> = await veauMySQL.execute(query, {
       statsID: statsID.get().get()
     });
 

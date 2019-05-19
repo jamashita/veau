@@ -5,8 +5,8 @@ import { SinonStub } from 'sinon';
 import { RegionCommand } from '../../veau-command/RegionCommand';
 import { Region } from '../../veau-entity/Region';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { VeauMySQL } from '../../veau-infrastructure/VeauMySQL';
-import { VeauRedis } from '../../veau-infrastructure/VeauRedis';
+import { veauMySQL } from '../../veau-infrastructure/VeauMySQL';
+import { veauRedis } from '../../veau-infrastructure/VeauRedis';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { RegionQuery } from '../RegionQuery';
 
@@ -14,7 +14,7 @@ describe('RegionQuery', () => {
   describe('all', () => {
     it('Redis returns regions', async () => {
       const stub: SinonStub = sinon.stub();
-      VeauRedis.getString().get = stub;
+      veauRedis.getString().get = stub;
       stub.resolves('[{"regionID":1,"name":"Afghanistan","iso3166":"AFG"},{"regionID":2,"name":"Albania","iso3166":"ALB"}]');
 
       const regionQuery: RegionQuery = RegionQuery.getInstance();
@@ -31,11 +31,11 @@ describe('RegionQuery', () => {
 
     it('MySQL returns regions', async () => {
       const stub1: SinonStub = sinon.stub();
-      VeauRedis.getString().get = stub1;
+      veauRedis.getString().get = stub1;
       // @ts-ignore
       stub1.resolves(null);
       const stub2: SinonStub = sinon.stub();
-      VeauMySQL.execute = stub2;
+      veauMySQL.execute = stub2;
       stub2.resolves([
         {
           regionID: 1,
@@ -68,7 +68,7 @@ describe('RegionQuery', () => {
   describe('findByISO3166', () => {
     it('Redis returns a region', async () => {
       const stub: SinonStub = sinon.stub();
-      VeauRedis.getString().get = stub;
+      veauRedis.getString().get = stub;
       stub.resolves('[{"regionID":1,"name":"Afghanistan","iso3166":"AFG"},{"regionID":2,"name":"Albania","iso3166":"ALB"}]');
 
       const regionQuery: RegionQuery = RegionQuery.getInstance();
@@ -80,11 +80,11 @@ describe('RegionQuery', () => {
 
     it('MySQL returns a region', async () => {
       const stub1: SinonStub = sinon.stub();
-      VeauRedis.getString().get = stub1;
+      veauRedis.getString().get = stub1;
       // @ts-ignore
       stub1.resolves(null);
       const stub2: SinonStub = sinon.stub();
-      VeauMySQL.execute = stub2;
+      veauMySQL.execute = stub2;
       stub2.resolves([
         {
           regionID: 1,
@@ -110,7 +110,7 @@ describe('RegionQuery', () => {
 
     it('Redis throws error', () => {
       const stub: SinonStub = sinon.stub();
-      VeauRedis.getString().get = stub;
+      veauRedis.getString().get = stub;
       stub.resolves('[]');
 
       const regionQuery: RegionQuery = RegionQuery.getInstance();
@@ -120,11 +120,11 @@ describe('RegionQuery', () => {
 
     it('MySQL throws error', () => {
       const stub1: SinonStub = sinon.stub();
-      VeauRedis.getString().get = stub1;
+      veauRedis.getString().get = stub1;
       // @ts-ignore
       stub1.resolves(null);
       const stub2: SinonStub = sinon.stub();
-      VeauMySQL.execute = stub2;
+      veauMySQL.execute = stub2;
       stub2.resolves([
         {
           regionID: 1,

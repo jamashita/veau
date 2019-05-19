@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import { StatsValues } from '../veau-collection/StatsValues';
-import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
+import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValue, StatsValueRow } from '../veau-vo/StatsValue';
 
@@ -24,7 +24,7 @@ export class StatsValueQuery {
       USING(stats_item_id)
       WHERE R2.stats_id = :statsID;`;
 
-    const statsValueRows: Array<StatsValueRow> = await VeauMySQL.execute(query, {
+    const statsValueRows: Array<StatsValueRow> = await veauMySQL.execute(query, {
       statsID: statsID.get().get()
     });
 

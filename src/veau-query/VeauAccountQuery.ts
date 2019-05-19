@@ -1,7 +1,7 @@
 import { VeauAccount, VeauAccountRow } from '../veau-entity/VeauAccount';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { VeauAccountFactory } from '../veau-factory/VeauAccountFactory';
-import { VeauMySQL } from '../veau-infrastructure/VeauMySQL';
+import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
 
 const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
 
@@ -35,7 +35,7 @@ export class VeauAccountQuery {
       WHERE R1.account = :account
       AND R1.active = true;`;
 
-    const veauAccountRows: Array<VeauAccountRow> = await VeauMySQL.execute(query, {
+    const veauAccountRows: Array<VeauAccountRow> = await veauMySQL.execute(query, {
       account
     });
 
