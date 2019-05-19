@@ -26,8 +26,8 @@ export class LocaleUseCase {
   }
 
   public async all(): Promise<Locales> {
-    const languages: Array<Language> = await languageQuery.allLanguages();
-    const regions: Array<Region> = await regionQuery.allRegions();
+    const languages: Array<Language> = await languageQuery.all();
+    const regions: Array<Region> = await regionQuery.all();
 
     return {
       languages: languages.map<LanguageJSON>((language: Language) => {

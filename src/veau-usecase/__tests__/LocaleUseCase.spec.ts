@@ -17,13 +17,13 @@ import { Locales, LocaleUseCase } from '../LocaleUseCase';
 describe('LocaleUseCase',  () => {
   it('all', async () => {
     const stub1: SinonStub = sinon.stub();
-    LanguageQuery.prototype.allLanguages = stub1;
+    LanguageQuery.prototype.all = stub1;
     stub1.resolves([
       new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab')),
       new Language(LanguageID.of(2), 'Afaraf', 'Afar', ISO639.of('aa'))
     ]);
     const stub2: SinonStub = sinon.stub();
-    RegionQuery.prototype.allRegions = stub2;
+    RegionQuery.prototype.all = stub2;
     stub2.resolves([
       new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG')),
       new Region(RegionID.of(2), 'Albania', ISO3166.of('ALB'))

@@ -21,7 +21,7 @@ export class LanguageQuery {
   private constructor() {
   }
 
-  public async allLanguages(): Promise<Array<Language>> {
+  public async all(): Promise<Array<Language>> {
     const languagesString: string | null = await VeauRedis.getString().get(REDIS_KEY);
 
     if (languagesString !== null) {
@@ -51,7 +51,7 @@ export class LanguageQuery {
   }
 
   public async findByISO639(iso639: ISO639): Promise<Language> {
-    const languages: Array<Language> = await this.allLanguages();
+    const languages: Array<Language> = await this.all();
     const found: Language | undefined = languages.find((language: Language) => {
       if (language.getISO639().equals(iso639)) {
         return true;

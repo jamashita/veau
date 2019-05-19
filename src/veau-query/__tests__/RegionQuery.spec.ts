@@ -11,13 +11,13 @@ import { ISO3166 } from '../../veau-vo/ISO3166';
 import { RegionQuery } from '../RegionQuery';
 
 describe('RegionQuery', () => {
-  it('allRegions: Redis', async () => {
+  it('all: Redis', async () => {
     const stub: SinonStub = sinon.stub();
     VeauRedis.getString().get = stub;
     stub.resolves('[{"regionID":1,"name":"Afghanistan","iso3166":"AFG"},{"regionID":2,"name":"Albania","iso3166":"ALB"}]');
 
     const regionQuery: RegionQuery = RegionQuery.getInstance();
-    const regions: Array<Region> = await regionQuery.allRegions();
+    const regions: Array<Region> = await regionQuery.all();
 
     expect(regions.length).toEqual(2);
     expect(regions[0].getRegionID().get()).toEqual(1);
@@ -28,7 +28,7 @@ describe('RegionQuery', () => {
     expect(regions[1].getISO3166().get()).toEqual('ALB');
   });
 
-  it('allRegions: MySQL', async () => {
+  it('all: MySQL', async () => {
     const stub1: SinonStub = sinon.stub();
     VeauRedis.getString().get = stub1;
     // @ts-ignore
@@ -52,7 +52,7 @@ describe('RegionQuery', () => {
     stub3.resolves();
 
     const regionQuery: RegionQuery = RegionQuery.getInstance();
-    const regions: Array<Region> = await regionQuery.allRegions();
+    const regions: Array<Region> = await regionQuery.all();
 
     expect(regions.length).toEqual(2);
     expect(regions[0].getRegionID().get()).toEqual(1);

@@ -11,13 +11,13 @@ import { ISO639 } from '../../veau-vo/ISO639';
 import { LanguageQuery } from '../LanguageQuery';
 
 describe('LanguageQuery', () => {
-  it('allLanguages: Redis', async () => {
+  it('all: Redis', async () => {
     const stub: SinonStub = sinon.stub();
     VeauRedis.getString().get = stub;
     stub.resolves('[{"languageID":1,"name":"аҧсуа бызшәа","englishName":"Abkhazian","iso639":"ab"},{"languageID":2,"name":"Afaraf","englishName":"Afar","iso639":"aa"}]');
 
     const languageQuery: LanguageQuery = LanguageQuery.getInstance();
-    const languages: Array<Language> = await languageQuery.allLanguages();
+    const languages: Array<Language> = await languageQuery.all();
 
     expect(languages.length).toEqual(2);
     expect(languages[0].getLanguageID().get()).toEqual(1);
@@ -30,7 +30,7 @@ describe('LanguageQuery', () => {
     expect(languages[1].getISO639().get()).toEqual('aa');
   });
 
-  it('allLanguages: MySQL', async () => {
+  it('all: MySQL', async () => {
     const stub1: SinonStub = sinon.stub();
     VeauRedis.getString().get = stub1;
     // @ts-ignore
@@ -56,7 +56,7 @@ describe('LanguageQuery', () => {
     stub3.resolves();
 
     const languageQuery: LanguageQuery = LanguageQuery.getInstance();
-    const languages: Array<Language> = await languageQuery.allLanguages();
+    const languages: Array<Language> = await languageQuery.all();
 
     expect(languages.length).toEqual(2);
     expect(languages[0].getLanguageID().get()).toEqual(1);

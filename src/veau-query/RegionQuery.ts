@@ -21,7 +21,7 @@ export class RegionQuery {
   private constructor() {
   }
 
-  public async allRegions(): Promise<Array<Region>> {
+  public async all(): Promise<Array<Region>> {
     const regionString: string | null = await VeauRedis.getString().get(REDIS_KEY);
 
     if (regionString !== null) {
@@ -50,7 +50,7 @@ export class RegionQuery {
   }
 
   public async findByISO3166(iso3166: ISO3166): Promise<Region> {
-    const regions: Array<Region> = await this.allRegions();
+    const regions: Array<Region> = await this.all();
     const found: Region | undefined = regions.find((region: Region) => {
       if (region.getISO3166().equals(iso3166)) {
         return true;
