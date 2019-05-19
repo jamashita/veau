@@ -98,9 +98,14 @@ export class Spreadsheet extends React.Component<Props, State> {
         manualColumnResize={true}
         manualRowMove={true}
         autoColumnSize={true}
+        autoRowSize={true}
         className='htRight'
         selectionMode='range'
         height={SPREADSHEET_HEIGHT}
+        enterMoves={{
+          row: 0,
+          col: 1
+        }}
         beforeChange={(changes: Array<Array<any>> | null): boolean => {
           if (!changes) {
             return false;

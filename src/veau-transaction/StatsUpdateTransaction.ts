@@ -34,24 +34,25 @@ export class StatsUpdateTransaction implements ITransaction {
 
     const statsID: StatsID = stats.getStatsID();
 
-    await Promise.all<any>([
-      statsValueCommand.deleteByStatsID(statsID),
-      statsItemCommand.deleteByStatsID(statsID),
-      statsCommand.deleteByStatsID(statsID)
-    ]);
+    await statsValueCommand.deleteByStatsID(statsID);
+    await statsItemCommand.deleteByStatsID(statsID);
+    await statsCommand.deleteByStatsID(statsID);
 
-    const promises: Array<Promise<any>> = [];
+    const itemPromises: Array<Promise<any>> = [];
+    const valuePromises: Array<Promise<any>> = [];
 
-    promises.push(statsCommand.create(stats, veauAccountID));
+    await statsCommand.create(stats, veauAccountID);
 
     this.stats.getItems().forEach((statsItem: StatsItem, index: number) => {
-      promises.push(statsItemCommand.create(statsID, statsItem, index + 1));
+      itemPromises.push(statsItemCommand.create(statsID, statsItem, index + 1));
 
       statsItem.getValues().forEach((statsValue: StatsValue) => {
-        promises.push(statsValueCommand.create(statsItem.getStatsItemID(), statsValue));
+        valuePromises.push(statsValueCommand.create(statsItem.getStatsItemID(), statsValue));
       });
     });
 
-    return Promise.all<any>(promises);
+    await Promise.all<any>(itemPromises);
+
+    return Promise.all<any>(valuePromises);
   }
 }
