@@ -9,7 +9,6 @@ import * as es from 'react-intl/locale-data/es';
 import * as fr from 'react-intl/locale-data/fr';
 import * as ja from 'react-intl/locale-data/ja';
 import { Provider } from 'react-redux';
-import { Brightness } from './Brightness';
 import { View } from './components/View';
 import { I18NProvider } from './containers/I18NProvider';
 import { history } from './history';
@@ -28,16 +27,16 @@ const muiTheme: Theme = createMuiTheme({
   },
   palette: {
     primary: {
-      light: pink[Brightness.primaryLight],
-      main: pink[Brightness.primaryMain],
-      dark: pink[Brightness.primaryDark],
-      contrastText: grey[Brightness.primaryText]
+      light: pink[100],
+      main: pink[500],
+      dark: pink[900],
+      contrastText: grey[100]
     },
     secondary: {
-      light: lightGreen[Brightness.secondaryLight],
-      main: lightGreen[Brightness.secondaryMain],
-      dark: lightGreen[Brightness.secondaryDark],
-      contrastText: grey[Brightness.secondaryText]
+      light: lightGreen[200],
+      main: lightGreen[400],
+      dark: lightGreen[800],
+      contrastText: grey[100]
     }
   }
 });

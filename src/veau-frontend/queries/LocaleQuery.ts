@@ -4,12 +4,16 @@ import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { LanguageFactory } from '../../veau-factory/LanguageFactory';
 import { RegionFactory } from '../../veau-factory/RegionFactory';
 import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
-import { Locales } from '../../veau-usecase/LocaleUseCase';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
 
 const languageFactory: LanguageFactory = LanguageFactory.getInstance();
 const regionFactory: RegionFactory = RegionFactory.getInstance();
+
+type Locales = {
+  languages: Array<LanguageJSON>;
+  regions: Array<RegionJSON>;
+};
 
 export class LocaleQuery {
   private locales: Locales | null;
