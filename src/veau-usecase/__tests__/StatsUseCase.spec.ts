@@ -37,7 +37,7 @@ describe('StatsUseCase', () => {
       const updatedAt: moment.Moment = moment.utc();
       const items: StatsItems = new StatsItems([
         new StatsItem(StatsItemID.of(UUID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b')), 'item1', new StatsValues([])),
-        new StatsItem(StatsItemID.of(UUID.of('7680c494-158b-43ec-9846-d37d513cf4d8')), 'item2', new StatsValues([])),
+        new StatsItem(StatsItemID.of(UUID.of('7680c494-158b-43ec-9846-d37d513cf4d8')), 'item2', new StatsValues([]))
       ]);
 
       const stub: SinonStub = sinon.stub();
@@ -136,7 +136,7 @@ describe('StatsUseCase', () => {
       const updatedAt: moment.Moment = moment.utc();
       const items: StatsItems = new StatsItems([
         new StatsItem(StatsItemID.of(UUID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b')), 'item1', new StatsValues([])),
-        new StatsItem(StatsItemID.of(UUID.of('7680c494-158b-43ec-9846-d37d513cf4d8')), 'item2', new StatsValues([])),
+        new StatsItem(StatsItemID.of(UUID.of('7680c494-158b-43ec-9846-d37d513cf4d8')), 'item2', new StatsValues([]))
       ]);
 
       const stats: Stats = new Stats(

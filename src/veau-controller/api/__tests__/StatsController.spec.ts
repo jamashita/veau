@@ -62,7 +62,7 @@ describe('StatsController', () => {
             languageID: 1,
             name: 'аҧсуа бызшәа',
             englishName: 'Abkhazian',
-            iso639: 'ab',
+            iso639: 'ab'
           },
           region: {
             regionID: 1,
@@ -1144,7 +1144,7 @@ describe('StatsController', () => {
         items: [
           {
             statsItemID: '09c2e4a6-6839-4fbe-858e-bf2c4ee7d5e6',
-            name: 'stats item',
+            name: 'stats item'
           }
         ]
       });

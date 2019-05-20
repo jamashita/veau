@@ -57,8 +57,8 @@ describe('StatsUpdateTransaction', () => {
         new StatsItem(StatsItemID.of(UUID.of('7680c494-158b-43ec-9846-d37d513cf4d8')), 'item2', new StatsValues([
           StatsValue.of(moment.utc(), 3),
           StatsValue.of(moment.utc(), 4),
-          StatsValue.of(moment.utc(), 5),
-        ])),
+          StatsValue.of(moment.utc(), 5)
+        ]))
       ]);
 
       const stats: Stats = new Stats(

@@ -60,7 +60,7 @@ describe('StatsItemFactory', () => {
     it('normal case', () => {
       const row: StatsItemRow = {
         statsItemID: '4d0cf4e5-4f48-4db3-9c04-085374d857d1',
-        name: 'name',
+        name: 'name'
       };
       const statsValues: StatsValues = new StatsValues([
         StatsValue.of(moment('2000-01-01'), 10),

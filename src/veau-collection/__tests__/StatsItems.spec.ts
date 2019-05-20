@@ -55,7 +55,7 @@ describe('StatsItems', () => {
 
   describe('replace', () => {
     it('first index', () => {
-      const statsItems: StatsItems = new StatsItems( [
+      const statsItems: StatsItems = new StatsItems([
         new StatsItem(StatsItemID.of(UUID.of('8f7b1783-b09c-4010-aac1-dca1292ee700')), 'stats item 1', new StatsValues([])),
         new StatsItem(StatsItemID.of(UUID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551')), 'stats item 2', new StatsValues([])),
         new StatsItem(StatsItemID.of(UUID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498')), 'stats item 3', new StatsValues([]))

@@ -13,7 +13,7 @@
     "start": "pm2-runtime start ecosystem.config.js",
     "stop": "pm2-runtime stop ecosystem.config.js",
     "test": "jest test --detectOpenHandles --coverage",
-    "lint": "tslint 'src/**/*.ts{,x}' --fix"
+    "lint": "eslint 'src/**/*.ts{,x}' --fix"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "5.8.2",
@@ -47,7 +47,7 @@
     "react-intl": "2.9.0",
     "react-redux": "7.0.3",
     "react-router-dom": "5.0.0",
-    "recharts": "1.5.0",
+    "recharts": "1.6.1",
     "redux": "4.0.1",
     "redux-logger": "3.0.6",
     "redux-saga": "1.0.2",
@@ -89,8 +89,11 @@
     "@types/sinon": "7.0.11",
     "@types/superagent": "4.1.1",
     "@types/supertest": "2.0.7",
+    "@typescript-eslint/eslint-plugin": "1.9.0",
+    "@typescript-eslint/parser": "1.9.0",
     "enzyme": "3.9.0",
-    "enzyme-adapter-react-16": "1.13.0",
+    "enzyme-adapter-react-16": "1.13.1",
+    "eslint": "5.16.0",
     "gulp": "4.0.2",
     "gulp-autoprefixer": "6.1.0",
     "gulp-clean-css": "4.2.0",
@@ -108,7 +111,7 @@
     "ts-loader": "6.0.1",
     "tslint": "5.16.0",
     "typescript": "3.4.5",
-    "webpack": "4.31.0",
+    "webpack": "4.32.0",
     "webpack-cli": "3.3.2",
     "webpack-dev-server": "3.4.1",
     "webpack-stream": "5.2.1"
