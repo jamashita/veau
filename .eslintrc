@@ -1,7 +1,4 @@
 {
-  "extends": [
-    "eslint:recommended"
-  ],
   "plugins": [
     "@typescript-eslint"
   ],
@@ -34,7 +31,6 @@
     "no-new-func": "error",
     "no-unused-labels": "error",
     "no-restricted-imports": "error",
-    "no-magic-numbers": "error",
     "no-param-reassign": "error",
     "no-sequences": "error",
     "no-template-curly-in-string": "error",
@@ -46,8 +42,7 @@
     "no-throw-literal": "error",
     "no-fallthrough": "error",
     "no-unsafe-finally": "error",
-    "no-unused-expression": "error",
-    "no-unused-vars": "error",
+    "no-unused-expressions": "error",
     "no-var": "error",
     "no-void": "error",
     "prefer-object-spread": "error",
@@ -64,7 +59,6 @@
     "prefer-const": "error",
     "comma-dangle": "error",
     "arrow-parens": "error",
-    "arrow-body-style": "error",
     "yoda": "error",
     "spaced-comment": [
       "error",
@@ -124,11 +118,15 @@
     "@typescript-eslint/no-triple-slash-reference": "error",
     "@typescript-eslint/no-unnecessary-type-assertion": "error",
     "@typescript-eslint/no-var-requires": "error",
-    "@typescript-eslint/promise-function-async": "error",
     "@typescript-eslint/no-for-in-array": "error",
     "@typescript-eslint/no-misused-new": "error",
     "@typescript-eslint/no-object-literal-type-assertion": "error",
-    "@typescript-eslint/no-this-alias": "error",
+    "@typescript-eslint/no-this-alias": [
+      "error",
+      {
+        "allowDestructuring": true
+      }
+    ],
     "@typescript-eslint/no-use-before-define": "error",
     "@typescript-eslint/restrict-plus-operands": "error",
     "@typescript-eslint/no-require-imports": "error",
@@ -146,7 +144,13 @@
       "error",
       {
         "before": false,
-        "after": true
+        "after": true,
+        "overrides": {
+          "arrow": {
+            "before": true,
+            "after": true
+          }
+        }
       }
     ]
   }
