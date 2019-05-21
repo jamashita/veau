@@ -46,7 +46,9 @@ describe('StatsController', () => {
       ]);
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
+        const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+        const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', language, region);
         next();
       });
       app.use('/', StatsController);
@@ -78,7 +80,9 @@ describe('StatsController', () => {
     it('page is 0', async () => {
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
+        const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+        const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', language, region);
         next();
       });
       app.use('/', StatsController);
@@ -93,7 +97,9 @@ describe('StatsController', () => {
       stub.rejects();
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
+        const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+        const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', language, region);
         next();
       });
       app.use('/', StatsController);
@@ -201,7 +207,9 @@ describe('StatsController', () => {
       }));
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
+        const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+        const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', language, region);
         next();
       });
       app.use('/', StatsController);
@@ -249,7 +257,9 @@ describe('StatsController', () => {
       }));
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
+        const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+        const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', language, region);
         next();
       });
       app.use('/', StatsController);
@@ -297,7 +307,9 @@ describe('StatsController', () => {
       }));
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
+        const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+        const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', language, region);
         next();
       });
       app.use('/', StatsController);
@@ -344,7 +356,9 @@ describe('StatsController', () => {
       }));
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
+        const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+        const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', language, region);
         next();
       });
       app.use('/', StatsController);
@@ -386,7 +400,9 @@ describe('StatsController', () => {
       }));
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
+        const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+        const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', language, region);
         next();
       });
       app.use('/', StatsController);
@@ -433,7 +449,9 @@ describe('StatsController', () => {
       }));
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
+        const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+        const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', language, region);
         next();
       });
       app.use('/', StatsController);
@@ -479,7 +497,9 @@ describe('StatsController', () => {
       }));
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
+        const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+        const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', language, region);
         next();
       });
       app.use('/', StatsController);
@@ -526,7 +546,9 @@ describe('StatsController', () => {
       }));
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
+        const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+        const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', language, region);
         next();
       });
       app.use('/', StatsController);
@@ -573,7 +595,9 @@ describe('StatsController', () => {
       }));
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
+        const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+        const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', language, region);
         next();
       });
       app.use('/', StatsController);
@@ -616,7 +640,9 @@ describe('StatsController', () => {
       }));
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
+        const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+        const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', language, region);
         next();
       });
       app.use('/', StatsController);
@@ -663,7 +689,9 @@ describe('StatsController', () => {
       }));
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
+        const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+        const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', language, region);
         next();
       });
       app.use('/', StatsController);
@@ -710,7 +738,9 @@ describe('StatsController', () => {
       }));
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
+        const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+        const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', language, region);
         next();
       });
       app.use('/', StatsController);
@@ -757,7 +787,9 @@ describe('StatsController', () => {
       }));
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
+        const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+        const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', language, region);
         next();
       });
       app.use('/', StatsController);
@@ -804,7 +836,9 @@ describe('StatsController', () => {
       }));
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
+        const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+        const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', language, region);
         next();
       });
       app.use('/', StatsController);
@@ -851,7 +885,9 @@ describe('StatsController', () => {
       }));
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
+        const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+        const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', language, region);
         next();
       });
       app.use('/', StatsController);
@@ -898,7 +934,9 @@ describe('StatsController', () => {
       }));
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
+        const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+        const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', language, region);
         next();
       });
       app.use('/', StatsController);
@@ -945,7 +983,9 @@ describe('StatsController', () => {
       }));
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
+        const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+        const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', language, region);
         next();
       });
       app.use('/', StatsController);
@@ -981,7 +1021,9 @@ describe('StatsController', () => {
       }));
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
+        const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+        const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', language, region);
         next();
       });
       app.use('/', StatsController);
@@ -1028,7 +1070,9 @@ describe('StatsController', () => {
       }));
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
+        const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+        const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', language, region);
         next();
       });
       app.use('/', StatsController);
@@ -1075,7 +1119,9 @@ describe('StatsController', () => {
       }));
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
+        const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+        const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', language, region);
         next();
       });
       app.use('/', StatsController);
@@ -1117,7 +1163,9 @@ describe('StatsController', () => {
       }));
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
+        const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+        const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', language, region);
         next();
       });
       app.use('/', StatsController);
@@ -1164,7 +1212,9 @@ describe('StatsController', () => {
       }));
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
+        const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+        const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+        req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', language, region);
         next();
       });
       app.use('/', StatsController);

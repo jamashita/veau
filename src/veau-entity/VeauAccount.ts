@@ -1,34 +1,39 @@
-import { ISO3166 } from '../veau-vo/ISO3166';
-import { ISO639 } from '../veau-vo/ISO639';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
 import { Entity } from './Entity';
+import { Language, LanguageJSON } from './Language';
+import { Region, RegionJSON } from './Region';
 
 export type VeauAccountJSON = {
   veauAccountID: string;
   account: string;
-  language: string;
-  region: string;
+  language: LanguageJSON;
+  region: RegionJSON;
 };
 
 export type VeauAccountRow = {
   veauAccountID: string;
   account: string;
-  language: string;
-  region: string;
+  languageID: number;
+  languageName: string;
+  languageEnglishName: string;
+  iso639: string;
+  regionID: number;
+  regionName: string;
+  iso3166: string;
   hash: string;
 };
 
 export class VeauAccount extends Entity<VeauAccountID> {
   private veauAccountID: VeauAccountID;
   private account: string;
-  private language: ISO639;
-  private region: ISO3166;
+  private language: Language;
+  private region: Region;
 
   public static default(): VeauAccount {
-    return new VeauAccount(VeauAccountID.default(), '', ISO639.default(), ISO3166.default());
+    return new VeauAccount(VeauAccountID.default(), '', Language.default(), Region.default());
   }
 
-  public constructor(veauAccountID: VeauAccountID, account: string, language: ISO639, region: ISO3166) {
+  public constructor(veauAccountID: VeauAccountID, account: string, language: Language, region: Region) {
     super();
     this.veauAccountID = veauAccountID;
     this.account = account;
@@ -44,11 +49,11 @@ export class VeauAccount extends Entity<VeauAccountID> {
     return this.account;
   }
 
-  public getLanguage(): ISO639 {
+  public getLanguage(): Language {
     return this.language;
   }
 
-  public getRegion(): ISO3166 {
+  public getRegion(): Region {
     return this.region;
   }
 
@@ -86,8 +91,8 @@ export class VeauAccount extends Entity<VeauAccountID> {
     return {
       veauAccountID: veauAccountID.get().get(),
       account,
-      language: language.get(),
-      region: region.get()
+      language: language.toJSON(),
+      region: region.toJSON()
     };
   }
 
@@ -99,6 +104,6 @@ export class VeauAccount extends Entity<VeauAccountID> {
       region
     } = this;
 
-    return `${veauAccountID.toString()} ${account} ${language.get()} ${region.get()}`;
+    return `${veauAccountID.toString()} ${account} ${language.toString()} ${region.toString()}`;
   }
 }

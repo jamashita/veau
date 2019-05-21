@@ -5,10 +5,12 @@ import { Language, LanguageJSON } from '../../veau-entity/Language';
 import { Region, RegionJSON } from '../../veau-entity/Region';
 import { CacheError } from '../../veau-error/CacheError';
 import { Locales, LocaleUseCase } from '../../veau-usecase/LocaleUseCase';
+import { AuthenticationMiddleware } from '../middlewares/AuthenticationMiddleware';
 
 const router: express.Router = express.Router();
 const logger: log4js.Logger = log4js.getLogger();
 
+const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
 const localeUseCase: LocaleUseCase = LocaleUseCase.getInstance();
 
 router.get('/', async (req: express.Request, res: express.Response) => {
@@ -24,7 +26,7 @@ router.get('/', async (req: express.Request, res: express.Response) => {
   });
 });
 
-router.delete('/', async (req: express.Request, res: express.Response) => {
+router.delete('/', authenticationMiddleware.apply(), async (req: express.Request, res: express.Response) => {
   try {
     await localeUseCase.delete();
     res.sendStatus(OK);

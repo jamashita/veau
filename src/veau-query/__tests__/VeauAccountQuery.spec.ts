@@ -14,8 +14,14 @@ describe('VeauAccountQuery', () => {
         {
           veauAccountID: '998106de-b2e7-4981-9643-22cd30cd74de',
           account: 'account',
-          language: 'ab',
-          region: 'AFG'
+          languageID: 1,
+          languageName: 'аҧсуа бызшәа',
+          languageEnglishName: 'Abkhazian',
+          iso639: 'ab',
+          regionID: 1,
+          regionName: 'Afghanistan',
+          iso3166: 'AFG',
+          hash: 'hash'
         }
       ]);
 
@@ -25,8 +31,14 @@ describe('VeauAccountQuery', () => {
 
       expect(veauAccount.getVeauAccountID().get().get()).toEqual('998106de-b2e7-4981-9643-22cd30cd74de');
       expect(veauAccount.getAccount()).toEqual('account');
-      expect(veauAccount.getLanguage().get()).toEqual('ab');
-      expect(veauAccount.getRegion().get()).toEqual('AFG');
+      expect(veauAccount.getLanguage().getLanguageID().get()).toEqual(1);
+      expect(veauAccount.getLanguage().getName()).toEqual('аҧсуа бызшәа');
+      expect(veauAccount.getLanguage().getEnglishName()).toEqual('Abkhazian');
+      expect(veauAccount.getLanguage().getISO639().get()).toEqual('ab');
+      expect(veauAccount.getRegion().getRegionID().get()).toEqual(1);
+      expect(veauAccount.getRegion().getName()).toEqual('Afghanistan');
+      expect(veauAccount.getRegion().getISO3166().get()).toEqual('AFG');
+      expect(veauAccountHash.hash).toEqual('hash');
     });
   });
 });
