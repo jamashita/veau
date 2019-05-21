@@ -1,4 +1,3 @@
-/* tslint:disable */
 import 'jest';
 import { StatsItemID } from '../StatsItemID';
 import { UUID } from '../UUID';

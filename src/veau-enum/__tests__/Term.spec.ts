@@ -1,4 +1,3 @@
-/* tslint:disable */
 import 'jest';
 import { RuntimeError } from '../../veau-error/RuntimeError';
 import { Term } from '../Term';

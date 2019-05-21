@@ -1,4 +1,3 @@
-/* tslint:disable */
 import 'jest';
 import * as moment from 'moment';
 import { Language } from '../../veau-entity/Language';

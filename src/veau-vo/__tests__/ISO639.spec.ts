@@ -1,4 +1,3 @@
-/* tslint:disable */
 import 'jest';
 import { ISO639 } from '../ISO639';
 

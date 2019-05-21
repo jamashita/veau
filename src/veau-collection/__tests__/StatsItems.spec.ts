@@ -1,4 +1,3 @@
-/* tslint:disable */
 import 'jest';
 import * as moment from 'moment';
 import { StatsItem } from '../../veau-entity/StatsItem';
@@ -14,7 +13,11 @@ describe('StatsItems', () => {
       const statsItem1: StatsItem = new StatsItem(StatsItemID.of(UUID.of('8f7b1783-b09c-4010-aac1-dca1292ee700')), 'stats item 1', new StatsValues([]));
       const statsItem2: StatsItem = new StatsItem(StatsItemID.of(UUID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551')), 'stats item 2', new StatsValues([]));
       const statsItem3: StatsItem = new StatsItem(StatsItemID.of(UUID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498')), 'stats item 3', new StatsValues([]));
-      const statsItems: StatsItems = new StatsItems([statsItem1, statsItem2, statsItem3]);
+      const statsItems: StatsItems = new StatsItems([
+        statsItem1,
+        statsItem2,
+        statsItem3
+      ]);
 
       const moved: StatsItems = statsItems.move(0, 1);
 
@@ -28,7 +31,11 @@ describe('StatsItems', () => {
       const statsItem1: StatsItem = new StatsItem(StatsItemID.of(UUID.of('8f7b1783-b09c-4010-aac1-dca1292ee700')), 'stats item 1', new StatsValues([]));
       const statsItem2: StatsItem = new StatsItem(StatsItemID.of(UUID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551')), 'stats item 2', new StatsValues([]));
       const statsItem3: StatsItem = new StatsItem(StatsItemID.of(UUID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498')), 'stats item 3', new StatsValues([]));
-      const statsItems: StatsItems = new StatsItems([statsItem1, statsItem2, statsItem3]);
+      const statsItems: StatsItems = new StatsItems([
+        statsItem1,
+        statsItem2,
+        statsItem3
+      ]);
 
       const moved: StatsItems = statsItems.move(1, 2);
 
@@ -42,7 +49,11 @@ describe('StatsItems', () => {
       const statsItem1: StatsItem = new StatsItem(StatsItemID.of(UUID.of('8f7b1783-b09c-4010-aac1-dca1292ee700')), 'stats item 1', new StatsValues([]));
       const statsItem2: StatsItem = new StatsItem(StatsItemID.of(UUID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551')), 'stats item 2', new StatsValues([]));
       const statsItem3: StatsItem = new StatsItem(StatsItemID.of(UUID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498')), 'stats item 3', new StatsValues([]));
-      const statsItems: StatsItems = new StatsItems([statsItem1, statsItem2, statsItem3]);
+      const statsItems: StatsItems = new StatsItems([
+        statsItem1,
+        statsItem2,
+        statsItem3
+      ]);
 
       const moved: StatsItems = statsItems.move(2, 0);
 

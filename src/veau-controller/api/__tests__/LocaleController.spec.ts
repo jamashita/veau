@@ -1,4 +1,3 @@
-/* tslint:disable */
 import * as express from 'express';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import 'jest';
@@ -18,8 +17,7 @@ describe('LocaleController', () => {
   describe('GET /', () => {
     it('returns JSON as LocaleUseCase returns', async () => {
       const stub: SinonStub = sinon.stub();
-      const localeUseCase: LocaleUseCase = LocaleUseCase.getInstance();
-      localeUseCase.all = stub;
+      LocaleUseCase.prototype.all = stub;
       stub.resolves({
         languages: [
           new Language(LanguageID.of(1), 'language', 'english name', ISO639.of('la'))
@@ -57,8 +55,7 @@ describe('LocaleController', () => {
   describe('DELETE /', () => {
     it('delete all locales from the cache', async () => {
       const spy: SinonSpy = sinon.spy();
-      const localeUseCase: LocaleUseCase = LocaleUseCase.getInstance();
-      localeUseCase.delete = spy;
+      LocaleUseCase.prototype.delete = spy;
       const app: express.Express = express();
       app.use('/', LocaleController);
 
@@ -69,8 +66,7 @@ describe('LocaleController', () => {
 
     it('throws error', async () => {
       const stub: SinonStub = sinon.stub();
-      const localeUseCase: LocaleUseCase = LocaleUseCase.getInstance();
-      localeUseCase.delete = stub;
+      LocaleUseCase.prototype.delete = stub;
       stub.rejects();
       const app: express.Express = express();
       app.use('/', LocaleController);

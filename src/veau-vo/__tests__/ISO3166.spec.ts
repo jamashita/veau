@@ -1,4 +1,3 @@
-/* tslint:disable */
 import 'jest';
 import { ISO3166 } from '../ISO3166';
 

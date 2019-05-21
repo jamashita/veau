@@ -1,4 +1,3 @@
-/* tslint:disable */
 import * as express from 'express';
 import { OK } from 'http-status';
 import 'jest';

@@ -1,4 +1,3 @@
-/* tslint:disable */
 import 'jest';
 import { Language, LanguageJSON, LanguageRow } from '../../veau-entity/Language';
 import { ISO639 } from '../../veau-vo/ISO639';

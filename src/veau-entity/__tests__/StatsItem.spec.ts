@@ -1,4 +1,3 @@
-/* tslint:disable */
 import 'jest';
 import * as moment from 'moment';
 import { StatsValues } from '../../veau-collection/StatsValues';

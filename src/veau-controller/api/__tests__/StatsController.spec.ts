@@ -1,4 +1,3 @@
-/* tslint:disable */
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'http-status';
@@ -33,8 +32,7 @@ describe('StatsController', () => {
   describe('GET /page/:page(\\d+)', () => {
     it('normal case', async () => {
       const stub: SinonStub = sinon.stub();
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-      statsUseCase.findByVeauAccountID = stub;
+      StatsUseCase.prototype.findByVeauAccountID = stub;
       stub.resolves([
         new StatsOutline(
           StatsID.of(UUID.of('01c466f3-198a-45a4-9204-348ac57b1b5d')),
@@ -91,8 +89,7 @@ describe('StatsController', () => {
 
     it('throws error', async () => {
       const stub: SinonStub = sinon.stub();
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-      statsUseCase.findByVeauAccountID = stub;
+      StatsUseCase.prototype.findByVeauAccountID = stub;
       stub.rejects();
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -117,8 +114,7 @@ describe('StatsController', () => {
   describe('GET /:statsID([0-9a-f\-]{36})', () => {
     it('normal case', async () => {
       const stub: SinonStub = sinon.stub();
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-      statsUseCase.findByStatsID = stub;
+      StatsUseCase.prototype.findByStatsID = stub;
       stub.resolves(new Stats(
         StatsID.of(UUID.of('059ce0b2-7cba-4ba4-9a5d-a8fa7493f556')),
         new Language(LanguageID.of(1), 'language', 'english name', ISO639.of('la')),
@@ -172,8 +168,7 @@ describe('StatsController', () => {
 
     it('not found', async () => {
       const stub: SinonStub = sinon.stub();
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-      statsUseCase.findByStatsID = stub;
+      StatsUseCase.prototype.findByStatsID = stub;
       stub.rejects(new NotFoundError());
       const app: express.Express = express();
       app.use('/', StatsController);
@@ -185,8 +180,7 @@ describe('StatsController', () => {
 
     it('throws error', async () => {
       const stub: SinonStub = sinon.stub();
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-      statsUseCase.findByStatsID = stub;
+      StatsUseCase.prototype.findByStatsID = stub;
       stub.rejects();
       const app: express.Express = express();
       app.use('/', StatsController);
@@ -199,8 +193,7 @@ describe('StatsController', () => {
   describe('POST /', () => {
     it('normal case', async () => {
       const stub: SinonStub = sinon.stub();
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-      statsUseCase.save = stub;
+      StatsUseCase.prototype.save = stub;
       stub.resolves();
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
@@ -248,8 +241,7 @@ describe('StatsController', () => {
 
     it('throws error', async () => {
       const stub: SinonStub = sinon.stub();
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-      statsUseCase.save = stub;
+      StatsUseCase.prototype.save = stub;
       stub.rejects();
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
@@ -297,14 +289,12 @@ describe('StatsController', () => {
 
     it('statsID is missing', async () => {
       const stub: SinonStub = sinon.stub();
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-      statsUseCase.save = stub;
+      StatsUseCase.prototype.save = stub;
       stub.rejects();
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
       }));
-      app.use(bodyParser.json());
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
@@ -346,14 +336,12 @@ describe('StatsController', () => {
 
     it('language is missing', async () => {
       const stub: SinonStub = sinon.stub();
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-      statsUseCase.save = stub;
+      StatsUseCase.prototype.save = stub;
       stub.rejects();
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
       }));
-      app.use(bodyParser.json());
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
@@ -390,14 +378,12 @@ describe('StatsController', () => {
 
     it('language.languageID is missing', async () => {
       const stub: SinonStub = sinon.stub();
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-      statsUseCase.save = stub;
+      StatsUseCase.prototype.save = stub;
       stub.rejects();
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
       }));
-      app.use(bodyParser.json());
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
@@ -439,14 +425,12 @@ describe('StatsController', () => {
 
     it('language.name is missing', async () => {
       const stub: SinonStub = sinon.stub();
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-      statsUseCase.save = stub;
+      StatsUseCase.prototype.save = stub;
       stub.rejects();
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
       }));
-      app.use(bodyParser.json());
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
@@ -487,14 +471,12 @@ describe('StatsController', () => {
     });
     it('language.englishName is missing', async () => {
       const stub: SinonStub = sinon.stub();
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-      statsUseCase.save = stub;
+      StatsUseCase.prototype.save = stub;
       stub.rejects();
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
       }));
-      app.use(bodyParser.json());
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
@@ -536,14 +518,12 @@ describe('StatsController', () => {
 
     it('language.iso639 is missing', async () => {
       const stub: SinonStub = sinon.stub();
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-      statsUseCase.save = stub;
+      StatsUseCase.prototype.save = stub;
       stub.rejects();
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
       }));
-      app.use(bodyParser.json());
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
@@ -585,14 +565,12 @@ describe('StatsController', () => {
 
     it('region is missing', async () => {
       const stub: SinonStub = sinon.stub();
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-      statsUseCase.save = stub;
+      StatsUseCase.prototype.save = stub;
       stub.rejects();
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
       }));
-      app.use(bodyParser.json());
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
@@ -630,14 +608,12 @@ describe('StatsController', () => {
 
     it('region.regionID is missing', async () => {
       const stub: SinonStub = sinon.stub();
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-      statsUseCase.save = stub;
+      StatsUseCase.prototype.save = stub;
       stub.rejects();
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
       }));
-      app.use(bodyParser.json());
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
@@ -679,14 +655,12 @@ describe('StatsController', () => {
 
     it('region.name is missing', async () => {
       const stub: SinonStub = sinon.stub();
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-      statsUseCase.save = stub;
+      StatsUseCase.prototype.save = stub;
       stub.rejects();
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
       }));
-      app.use(bodyParser.json());
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
@@ -728,14 +702,12 @@ describe('StatsController', () => {
 
     it('region.iso3166 is missing', async () => {
       const stub: SinonStub = sinon.stub();
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-      statsUseCase.save = stub;
+      StatsUseCase.prototype.save = stub;
       stub.rejects();
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
       }));
-      app.use(bodyParser.json());
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
@@ -777,14 +749,12 @@ describe('StatsController', () => {
 
     it('termID is missing', async () => {
       const stub: SinonStub = sinon.stub();
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-      statsUseCase.save = stub;
+      StatsUseCase.prototype.save = stub;
       stub.rejects();
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
       }));
-      app.use(bodyParser.json());
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
@@ -826,14 +796,12 @@ describe('StatsController', () => {
 
     it('name is missing', async () => {
       const stub: SinonStub = sinon.stub();
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-      statsUseCase.save = stub;
+      StatsUseCase.prototype.save = stub;
       stub.rejects();
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
       }));
-      app.use(bodyParser.json());
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
@@ -875,14 +843,12 @@ describe('StatsController', () => {
 
     it('unit is missing', async () => {
       const stub: SinonStub = sinon.stub();
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-      statsUseCase.save = stub;
+      StatsUseCase.prototype.save = stub;
       stub.rejects();
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
       }));
-      app.use(bodyParser.json());
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
@@ -924,14 +890,12 @@ describe('StatsController', () => {
 
     it('updatedAt is missing', async () => {
       const stub: SinonStub = sinon.stub();
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-      statsUseCase.save = stub;
+      StatsUseCase.prototype.save = stub;
       stub.rejects();
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
       }));
-      app.use(bodyParser.json());
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
@@ -973,14 +937,12 @@ describe('StatsController', () => {
 
     it('items are missing', async () => {
       const stub: SinonStub = sinon.stub();
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-      statsUseCase.save = stub;
+      StatsUseCase.prototype.save = stub;
       stub.rejects();
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
       }));
-      app.use(bodyParser.json());
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
@@ -1011,14 +973,12 @@ describe('StatsController', () => {
 
     it('item.statsItemID is missing', async () => {
       const stub: SinonStub = sinon.stub();
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-      statsUseCase.save = stub;
+      StatsUseCase.prototype.save = stub;
       stub.rejects();
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
       }));
-      app.use(bodyParser.json());
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
@@ -1060,14 +1020,12 @@ describe('StatsController', () => {
 
     it('item.name is missing', async () => {
       const stub: SinonStub = sinon.stub();
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-      statsUseCase.save = stub;
+      StatsUseCase.prototype.save = stub;
       stub.rejects();
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
       }));
-      app.use(bodyParser.json());
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
@@ -1109,14 +1067,12 @@ describe('StatsController', () => {
 
     it('item.values are missing', async () => {
       const stub: SinonStub = sinon.stub();
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-      statsUseCase.save = stub;
+      StatsUseCase.prototype.save = stub;
       stub.rejects();
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
       }));
-      app.use(bodyParser.json());
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
@@ -1153,14 +1109,12 @@ describe('StatsController', () => {
 
     it('item.value.asOf is missing', async () => {
       const stub: SinonStub = sinon.stub();
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-      statsUseCase.save = stub;
+      StatsUseCase.prototype.save = stub;
       stub.rejects();
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
       }));
-      app.use(bodyParser.json());
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));
@@ -1202,14 +1156,12 @@ describe('StatsController', () => {
 
     it('item.value.value is missing', async () => {
       const stub: SinonStub = sinon.stub();
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
-      statsUseCase.save = stub;
+      StatsUseCase.prototype.save = stub;
       stub.rejects();
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
       }));
-      app.use(bodyParser.json());
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         req.user = new VeauAccount(VeauAccountID.of(UUID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b')), 'account', ISO639.of('ab'), ISO3166.of('AFG'));

@@ -1,4 +1,3 @@
-/* tslint:disable */
 import 'jest';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';

@@ -1,4 +1,3 @@
-/* tslint:disable */
 import 'jest';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { LanguageID } from '../../veau-vo/LanguageID';

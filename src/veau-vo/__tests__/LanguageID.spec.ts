@@ -1,4 +1,3 @@
-/* tslint:disable */
 import 'jest';
 import { LanguageID } from '../LanguageID';
 

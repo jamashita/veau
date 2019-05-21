@@ -1,4 +1,3 @@
-/* tslint:disable */
 import 'jest';
 import { Digest } from '../Digest';
 

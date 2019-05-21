@@ -1,4 +1,3 @@
-/* tslint:disable */
 import 'jest';
 import * as moment from 'moment';
 import { Term } from '../../veau-enum/Term';
