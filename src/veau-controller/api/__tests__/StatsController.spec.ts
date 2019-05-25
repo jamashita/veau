@@ -1153,7 +1153,7 @@ describe('StatsController', () => {
       expect(response.status).toEqual(BAD_REQUEST);
     });
 
-    it('item.value.asOf is missing', async () => {
+    it('item.values.asOf is missing', async () => {
       const stub: SinonStub = sinon.stub();
       StatsUseCase.prototype.save = stub;
       stub.rejects();
@@ -1202,7 +1202,7 @@ describe('StatsController', () => {
       expect(response.status).toEqual(BAD_REQUEST);
     });
 
-    it('item.value.value is missing', async () => {
+    it('item.values.value is missing', async () => {
       const stub: SinonStub = sinon.stub();
       StatsUseCase.prototype.save = stub;
       stub.rejects();
