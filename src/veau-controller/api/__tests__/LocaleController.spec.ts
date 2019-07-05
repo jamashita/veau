@@ -18,7 +18,7 @@ import { LocaleController } from '../LocaleController';
 
 describe('LocaleController', () => {
   describe('GET /', () => {
-    it('returns JSON as LocaleUseCase returns', async () => {
+    it('returns JSON as LocaleInteractor returns', async () => {
       const stub: SinonStub = sinon.stub();
       LocaleInteractor.prototype.all = stub;
       stub.resolves({

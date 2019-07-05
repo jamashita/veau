@@ -24,7 +24,7 @@ import { UUID } from '../../veau-vo/UUID';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { StatsInteractor } from '../StatsInteractor';
 
-describe('StatsUseCase', () => {
+describe('StatsInteractor', () => {
   describe('findByStatsID', () => {
     it('normal case', async () => {
       const statsID: StatsID = StatsID.of(UUID.of('9016f5d7-654e-4903-bfc9-a89c40919e94'));
@@ -52,8 +52,8 @@ describe('StatsUseCase', () => {
         items
       ));
 
-      const statsUseCase: StatsInteractor = StatsInteractor.getInstance();
-      const stats: Stats = await statsUseCase.findByStatsID(StatsID.of(UUID.of('9016f5d7-654e-4903-bfc9-a89c40919e94')));
+      const statsInteractor: StatsInteractor = StatsInteractor.getInstance();
+      const stats: Stats = await statsInteractor.findByStatsID(StatsID.of(UUID.of('9016f5d7-654e-4903-bfc9-a89c40919e94')));
 
       expect(stats.getStatsID()).toEqual(statsID);
       expect(stats.getLanguage()).toEqual(language);
@@ -70,9 +70,9 @@ describe('StatsUseCase', () => {
       StatsQuery.prototype.findByStatsID = stub;
       stub.rejects(new NoSuchElementError(''));
 
-      const statsUseCase: StatsInteractor = StatsInteractor.getInstance();
+      const statsInteractor: StatsInteractor = StatsInteractor.getInstance();
 
-      expect(statsUseCase.findByStatsID(StatsID.of(UUID.of('9016f5d7-654e-4903-bfc9-a89c40919e94')))).rejects.toThrow(NotFoundError);
+      expect(statsInteractor.findByStatsID(StatsID.of(UUID.of('9016f5d7-654e-4903-bfc9-a89c40919e94')))).rejects.toThrow(NotFoundError);
     });
 
     it('thrown Error', () => {
@@ -80,9 +80,9 @@ describe('StatsUseCase', () => {
       StatsQuery.prototype.findByStatsID = stub;
       stub.rejects(new Error());
 
-      const statsUseCase: StatsInteractor = StatsInteractor.getInstance();
+      const statsInteractor: StatsInteractor = StatsInteractor.getInstance();
 
-      expect(statsUseCase.findByStatsID(StatsID.of(UUID.of('9016f5d7-654e-4903-bfc9-a89c40919e94')))).rejects.toThrow(Error);
+      expect(statsInteractor.findByStatsID(StatsID.of(UUID.of('9016f5d7-654e-4903-bfc9-a89c40919e94')))).rejects.toThrow(Error);
     });
   });
 
@@ -110,8 +110,8 @@ describe('StatsUseCase', () => {
         )
       ]);
 
-      const statsUseCase: StatsInteractor = StatsInteractor.getInstance();
-      const statsOutlines: Array<StatsOutline> =  await statsUseCase.findByVeauAccountID(VeauAccountID.of(UUID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2')), 1);
+      const statsInteractor: StatsInteractor = StatsInteractor.getInstance();
+      const statsOutlines: Array<StatsOutline> =  await statsInteractor.findByVeauAccountID(VeauAccountID.of(UUID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2')), 1);
 
       expect(statsOutlines.length).toEqual(1);
       expect(statsOutlines[0].getStatsID()).toEqual(statsID);
@@ -152,8 +152,8 @@ describe('StatsUseCase', () => {
       const spy: SinonSpy = sinon.spy();
       MySQL.prototype.transact = spy;
 
-      const statsUseCase: StatsInteractor = StatsInteractor.getInstance();
-      await statsUseCase.save(VeauAccountID.of(UUID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2')), stats);
+      const statsInteractor: StatsInteractor = StatsInteractor.getInstance();
+      await statsInteractor.save(VeauAccountID.of(UUID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2')), stats);
 
       expect(spy.called).toEqual(true);
     });
