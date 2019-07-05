@@ -1,11 +1,11 @@
 import 'jest';
 import * as moment from 'moment';
-import { StatsItem } from '../../veau-entity/StatsItem';
-import { StatsItemID } from '../../veau-vo/StatsItemID';
-import { StatsValue } from '../../veau-vo/StatsValue';
-import { UUID } from '../../veau-vo/UUID';
+import { StatsValues } from '../../../veau-vo/collection/StatsValues';
+import { StatsItemID } from '../../../veau-vo/StatsItemID';
+import { StatsValue } from '../../../veau-vo/StatsValue';
+import { UUID } from '../../../veau-vo/UUID';
+import { StatsItem } from '../../StatsItem';
 import { StatsItems } from '../StatsItems';
-import { StatsValues } from '../StatsValues';
 
 describe('StatsItems', () => {
   describe('move', () => {

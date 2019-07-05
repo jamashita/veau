@@ -1,7 +1,7 @@
-import { StatsValues } from '../veau-collection/StatsValues';
 import { StatsItem, StatsItemRow } from '../veau-entity/StatsItem';
 import { StatsItemFactory } from '../veau-factory/StatsItemFactory';
 import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
+import { StatsValues } from '../veau-vo/collection/StatsValues';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValueQuery } from './StatsValueQuery';
 

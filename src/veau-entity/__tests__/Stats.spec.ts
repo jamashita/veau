@@ -1,8 +1,7 @@
 import 'jest';
 import * as moment from 'moment';
-import { StatsItems } from '../../veau-collection/StatsItems';
-import { StatsValues } from '../../veau-collection/StatsValues';
 import { Term } from '../../veau-enum/Term';
+import { StatsValues } from '../../veau-vo/collection/StatsValues';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { LanguageID } from '../../veau-vo/LanguageID';
@@ -11,6 +10,7 @@ import { StatsID } from '../../veau-vo/StatsID';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
 import { StatsValue } from '../../veau-vo/StatsValue';
 import { UUID } from '../../veau-vo/UUID';
+import { StatsItems } from '../collection/StatsItems';
 import { Language } from '../Language';
 import { Region } from '../Region';
 import { Stats } from '../Stats';

@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import { StatsItems } from '../veau-collection/StatsItems';
+import { StatsItems } from '../veau-entity/collection/StatsItems';
 import { Language } from '../veau-entity/Language';
 import { Region } from '../veau-entity/Region';
 import { Stats, StatsJSON, StatsRow } from '../veau-entity/Stats';

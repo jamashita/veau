@@ -1,6 +1,6 @@
 import * as moment from 'moment';
-import { StatsValues } from '../veau-collection/StatsValues';
 import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
+import { StatsValues } from '../veau-vo/collection/StatsValues';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValue, StatsValueRow } from '../veau-vo/StatsValue';
 

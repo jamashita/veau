@@ -42,7 +42,7 @@
     "no-irregular-whitespace": [
       "error",
       {
-        "skipStrings": false,
+        "skipStrings": false
       }
     ],
     "no-multiple-empty-lines": "error",

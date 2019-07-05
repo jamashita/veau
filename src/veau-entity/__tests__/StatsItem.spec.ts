@@ -1,6 +1,6 @@
 import 'jest';
 import * as moment from 'moment';
-import { StatsValues } from '../../veau-collection/StatsValues';
+import { StatsValues } from '../../veau-vo/collection/StatsValues';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
 import { StatsValue } from '../../veau-vo/StatsValue';
 import { UUID } from '../../veau-vo/UUID';

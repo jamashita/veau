@@ -1,3 +1,4 @@
+/* eslint-disable */
 'use strict';
 
 const gulp = require('gulp');
@@ -16,15 +17,6 @@ const autoprefixer = require('gulp-autoprefixer');
 const webpack = require('webpack');
 const stream = require('webpack-stream');
 const webpackConfig = require('./webpack.config');
-
-gulp.task('veau-collection', () => {
-  return gulp.src(['src/veau-collection/**/*.ts'], {
-    since : gulp.lastRun('veau-collection')
-  })
-    .pipe(plumber())
-    .pipe(tsc())
-    .pipe(gulp.dest('dist/veau-collection'));
-});
 
 gulp.task('veau-command', () => {
   return gulp.src(['src/veau-command/**/*.ts'], {
@@ -220,7 +212,6 @@ gulp.task(
       'favicon',
       'font'
     ),
-    'veau-collection',
     'veau-command',
     'veau-controller',
     'veau-entity',
@@ -244,7 +235,6 @@ gulp.task(
   gulp.parallel(
     'nodemon',
     (callback) => {
-      gulp.watch('src/veau-collection/**/*.ts', gulp.series('veau-collection'));
       gulp.watch('src/veau-command/**/*.ts', gulp.series('veau-command'));
       gulp.watch('src/veau-controller/**/*.ts', gulp.series('veau-controller'));
       gulp.watch('src/veau-entity/**/*.ts', gulp.series('veau-entity'));
