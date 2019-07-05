@@ -8,7 +8,6 @@ import { ISO639 } from '../veau-vo/ISO639';
 import { LanguageID } from '../veau-vo/LanguageID';
 import { RegionID } from '../veau-vo/RegionID';
 import { StatsID } from '../veau-vo/StatsID';
-import { UUID } from '../veau-vo/UUID';
 import { LanguageFactory } from './LanguageFactory';
 import { RegionFactory } from './RegionFactory';
 
@@ -41,7 +40,7 @@ export class StatsOutlineFactory {
     } = json;
 
     return this.from(
-      StatsID.of(UUID.of(statsID)),
+      StatsID.of(statsID),
       languageFactory.fromJSON(language),
       regionFactory.fromJSON(region),
       Term.of(termID),
@@ -71,7 +70,7 @@ export class StatsOutlineFactory {
     const region: Region = regionFactory.from(RegionID.of(regionID), regionName, ISO3166.of(iso3166));
 
     return this.from(
-      StatsID.of(UUID.of(statsID)),
+      StatsID.of(statsID),
       language,
       region,
       Term.of(termID),

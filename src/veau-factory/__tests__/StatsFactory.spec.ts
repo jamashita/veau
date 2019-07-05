@@ -14,13 +14,12 @@ import { RegionID } from '../../veau-vo/RegionID';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
 import { StatsValue } from '../../veau-vo/StatsValue';
-import { UUID } from '../../veau-vo/UUID';
 import { StatsFactory } from '../StatsFactory';
 
 describe('StatsFactory', () => {
   describe('from', () => {
     it('normal case', () => {
-      const statsID: StatsID = StatsID.of(UUID.of('af272303-df5d-4d34-8604-398920b7d2bb'));
+      const statsID: StatsID = StatsID.of('af272303-df5d-4d34-8604-398920b7d2bb');
       const language: Language = new Language(LanguageID.of(1), 'language1', 'language english name 1', ISO639.of('lang1'));
       const region: Region = new Region(RegionID.of(1), 'region1', ISO3166.of('regn1'));
       const term: Term = Term.ANNUAL;
@@ -28,7 +27,7 @@ describe('StatsFactory', () => {
       const unit: string = 'unit1';
       const updatedAt: moment.Moment = moment('2000-01-01');
       const items: StatsItems = new StatsItems([
-        new StatsItem(StatsItemID.of(UUID.of('a28eceac-0451-4339-b1c5-0c298b3905f6')), 'stats1', new StatsValues([]))
+        new StatsItem(StatsItemID.of('a28eceac-0451-4339-b1c5-0c298b3905f6'), 'stats1', new StatsValues([]))
       ]);
 
       const statsFactory: StatsFactory = StatsFactory.getInstance();
@@ -95,7 +94,7 @@ describe('StatsFactory', () => {
       const statsFactory: StatsFactory = StatsFactory.getInstance();
       const stats: Stats = statsFactory.fromJSON(json);
 
-      expect(stats.getStatsID().get().get()).toEqual(json.statsID);
+      expect(stats.getStatsID().get()).toEqual(json.statsID);
       expect(stats.getLanguage().getLanguageID().get()).toEqual(json.language.languageID);
       expect(stats.getLanguage().getName()).toEqual(json.language.name);
       expect(stats.getLanguage().getEnglishName()).toEqual(json.language.englishName);
@@ -109,7 +108,7 @@ describe('StatsFactory', () => {
       expect(stats.getUpdatedAt().get('seconds')).toEqual(moment(json.updatedAt).get('seconds'));
       expect(stats.getItems().length()).toEqual(json.items.length);
       for (let i = 0; i < stats.getItems().length(); i++) {
-        expect(stats.getItems().get(i).getStatsItemID().get().get()).toEqual(json.items[i].statsItemID);
+        expect(stats.getItems().get(i).getStatsItemID().get()).toEqual(json.items[i].statsItemID);
         expect(stats.getItems().get(i).getName()).toEqual(json.items[i].name);
         expect(stats.getItems().get(i).getValues().length()).toEqual(json.items[i].values.length);
         for (let j = 0; j < stats.getItems().get(i).getValues().length(); j++) {
@@ -138,7 +137,7 @@ describe('StatsFactory', () => {
       };
       const items: Array<StatsItem> = [
         new StatsItem(
-          StatsItemID.of(UUID.of('610b532b-5711-461a-b44a-7387e8d08596')),
+          StatsItemID.of('610b532b-5711-461a-b44a-7387e8d08596'),
           'stats item1',
           new StatsValues([
             StatsValue.of(moment('2000-01-01'), 1),
@@ -146,7 +145,7 @@ describe('StatsFactory', () => {
           ])
         ),
         new StatsItem(
-          StatsItemID.of(UUID.of('530e0e07-654f-4764-a3ac-77ce12a2a5e4')),
+          StatsItemID.of('530e0e07-654f-4764-a3ac-77ce12a2a5e4'),
           'stats item2',
           new StatsValues([
           ])

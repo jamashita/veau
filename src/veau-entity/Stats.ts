@@ -1,10 +1,9 @@
 import * as moment from 'moment';
 import { Term } from '../veau-enum/Term';
 import { RuntimeError } from '../veau-error/RuntimeError';
-import { Random } from '../veau-general/Random';
+import { UUID } from '../veau-general/UUID';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValue } from '../veau-vo/StatsValue';
-import { UUID } from '../veau-vo/UUID';
 import { StatsItems } from './collection/StatsItems';
 import { Entity } from './Entity';
 import { Language, LanguageJSON } from './Language';
@@ -57,9 +56,7 @@ export class Stats extends Entity<StatsID> {
   private columns?: Array<string>;
 
   public static default(): Stats {
-    const uuid: UUID = UUID.of(Random.v4());
-
-    return new Stats(StatsID.of(uuid), Language.default(), Region.default(), Term.DAILY, '', '', moment(), new StatsItems([]));
+    return new Stats(StatsID.of(UUID.v4()), Language.default(), Region.default(), Term.DAILY, '', '', moment(), new StatsItems([]));
   }
 
   public constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: string, unit: string, updatedAt: moment.Moment, items: StatsItems, startDate?: string) {
@@ -354,7 +351,7 @@ export class Stats extends Entity<StatsID> {
     } = this;
 
     return {
-      statsID: statsID.get().get(),
+      statsID: statsID.get(),
       language: language.toJSON(),
       region: region.toJSON(),
       termID: term.getID(),

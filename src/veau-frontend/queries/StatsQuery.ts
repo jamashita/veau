@@ -19,7 +19,7 @@ export class StatsQuery {
   }
 
   public async findByStatsID(statsID: StatsID): Promise<Stats> {
-    const response: AJAXResponse<StatsJSON> = await AJAX.get<StatsJSON>(`/api/stats/${statsID.get().get()}`);
+    const response: AJAXResponse<StatsJSON> = await AJAX.get<StatsJSON>(`/api/stats/${statsID.get()}`);
 
     return statsFactory.fromJSON(response.body);
   }

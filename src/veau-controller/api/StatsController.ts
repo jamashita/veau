@@ -8,7 +8,6 @@ import { StatsFactory } from '../../veau-factory/StatsFactory';
 import { Type } from '../../veau-general/Type';
 import { StatsInteractor } from '../../veau-interactor/StatsInteractor';
 import { StatsID } from '../../veau-vo/StatsID';
-import { UUID } from '../../veau-vo/UUID';
 import { RequestSession } from '../RequestSession';
 
 const router: express.Router = express.Router();
@@ -50,7 +49,7 @@ router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: expres
   } = req.params;
 
   try {
-    const stats: Stats = await statsInteractor.findByStatsID(StatsID.of(UUID.of(statsID)));
+    const stats: Stats = await statsInteractor.findByStatsID(StatsID.of(statsID));
 
     res.status(OK).send(stats.toJSON());
   }

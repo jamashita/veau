@@ -1,23 +1,22 @@
-import { UUID } from './UUID';
 import { ValueObject } from './ValueObject';
 
 export class VeauAccountID extends ValueObject {
-  private id: UUID;
+  private id: string;
 
-  public static of(id: UUID): VeauAccountID {
+  public static of(id: string): VeauAccountID {
     return new VeauAccountID(id);
   }
 
   public static default(): VeauAccountID {
-    return new VeauAccountID(UUID.of(''));
+    return new VeauAccountID('');
   }
 
-  private constructor(id: UUID) {
+  private constructor(id: string) {
     super();
     this.id = id;
   }
 
-  public get(): UUID {
+  public get(): string {
     return this.id;
   }
 
@@ -25,7 +24,7 @@ export class VeauAccountID extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.id.equals(other.get())) {
+    if (this.id === other.get()) {
       return true;
     }
 
@@ -33,6 +32,6 @@ export class VeauAccountID extends ValueObject {
   }
 
   public toString(): string {
-    return this.id.toString();
+    return this.id;
   }
 }

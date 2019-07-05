@@ -4,13 +4,12 @@ import { StatsItem, StatsItemJSON, StatsItemRow } from '../../veau-entity/StatsI
 import { StatsValues } from '../../veau-vo/collection/StatsValues';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
 import { StatsValue } from '../../veau-vo/StatsValue';
-import { UUID } from '../../veau-vo/UUID';
 import { StatsItemFactory } from '../StatsItemFactory';
 
 describe('StatsItemFactory', () => {
   describe('from', () => {
     it('normal case', () => {
-      const statsItemID: StatsItemID = StatsItemID.of(UUID.of('4d0cf4e5-4f48-4db3-9c04-085374d857d1'));
+      const statsItemID: StatsItemID = StatsItemID.of('4d0cf4e5-4f48-4db3-9c04-085374d857d1');
       const name: string = 'name';
       const asOf: string = '2000-01-01';
       const value: number = 10;
@@ -45,7 +44,7 @@ describe('StatsItemFactory', () => {
       const statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
       const statsItem: StatsItem = statsItemFactory.fromJSON(json);
 
-      expect(statsItem.getStatsItemID().get().get()).toEqual(json.statsItemID);
+      expect(statsItem.getStatsItemID().get()).toEqual(json.statsItemID);
       expect(statsItem.getName()).toEqual(json.name);
       expect(statsItem.getValues().length()).toEqual(json.values.length);
       for (let i = 0; i < statsItem.getValues().length(); i++) {
@@ -70,7 +69,7 @@ describe('StatsItemFactory', () => {
       const statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
       const statsItem: StatsItem = statsItemFactory.fromRow(row, statsValues);
 
-      expect(statsItem.getStatsItemID().get().get()).toEqual(row.statsItemID);
+      expect(statsItem.getStatsItemID().get()).toEqual(row.statsItemID);
       expect(statsItem.getName()).toEqual(row.name);
       expect(statsItem.getValues().length).toEqual(statsValues.length);
       for (let i = 0; i < statsItem.getValues().length(); i++) {

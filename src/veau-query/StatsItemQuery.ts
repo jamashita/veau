@@ -27,7 +27,7 @@ export class StatsItemQuery {
       ORDER BY R1.seq;`;
 
     const statsItemRows: Array<StatsItemRow> = await veauMySQL.execute(query, {
-      statsID: statsID.get().get()
+      statsID: statsID.get()
     });
 
     const valueMap: Map<string, StatsValues> = await statsValueQuery.findByStatsID(statsID);

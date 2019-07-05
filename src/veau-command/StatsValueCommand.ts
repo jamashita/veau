@@ -22,7 +22,7 @@ export class StatsValueCommand {
       );`;
 
     return this.query.execute(query, {
-      statsItemID: statsItemID.get().get(),
+      statsItemID: statsItemID.get(),
       asOf: statsValue.getAsOfAsString(),
       value: statsValue.getValue()
     });
@@ -38,7 +38,7 @@ export class StatsValueCommand {
       WHERE R3.stats_id = :statsID;`;
 
     return this.query.execute(query, {
-      statsID: statsID.get().get()
+      statsID: statsID.get()
     });
   }
 }

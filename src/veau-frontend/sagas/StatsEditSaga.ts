@@ -8,7 +8,6 @@ import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { StatsFactory } from '../../veau-factory/StatsFactory';
 import { StatsItemFactory } from '../../veau-factory/StatsItemFactory';
 import { StatsID } from '../../veau-vo/StatsID';
-import { UUID } from '../../veau-vo/UUID';
 import {
   ACTION,
   LocationChangeAction,
@@ -72,7 +71,7 @@ export class StatsEditSaga {
         const statsID: string = path.replace(STATS_EDIT_PREFIX, '');
 
         try {
-          const stats: Stats = yield statsQuery.findByStatsID(StatsID.of(UUID.of(statsID)));
+          const stats: Stats = yield statsQuery.findByStatsID(StatsID.of(statsID));
 
           yield put(updateStats(stats));
           yield put(clearSelectingItem());

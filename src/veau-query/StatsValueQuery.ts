@@ -25,7 +25,7 @@ export class StatsValueQuery {
       WHERE R2.stats_id = :statsID;`;
 
     const statsValueRows: Array<StatsValueRow> = await veauMySQL.execute(query, {
-      statsID: statsID.get().get()
+      statsID: statsID.get()
     });
 
     const valueMap: Map<string, StatsValues> = new Map<string, StatsValues>();

@@ -20,7 +20,6 @@ import { RegionID } from '../../veau-vo/RegionID';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
 import { StatsValue } from '../../veau-vo/StatsValue';
-import { UUID } from '../../veau-vo/UUID';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { StatsUpdateTransaction } from '../StatsUpdateTransaction';
 import { QueryMock } from './QueryMock';
@@ -41,7 +40,7 @@ describe('StatsUpdateTransaction', () => {
       const spy6: SinonSpy = sinon.spy();
       StatsValueCommand.prototype.create = spy6;
 
-      const statsID: StatsID = StatsID.of(UUID.of('9016f5d7-654e-4903-bfc9-a89c40919e94'));
+      const statsID: StatsID = StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94');
       const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
       const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
       const term: Term = Term.MONTHLY;
@@ -49,11 +48,11 @@ describe('StatsUpdateTransaction', () => {
       const unit: string = 'unit';
       const updatedAt: moment.Moment = moment.utc();
       const items: StatsItems = new StatsItems([
-        new StatsItem(StatsItemID.of(UUID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b')), 'item1', new StatsValues([
+        new StatsItem(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b'), 'item1', new StatsValues([
           StatsValue.of(moment.utc(), 1),
           StatsValue.of(moment.utc(), 2)
         ])),
-        new StatsItem(StatsItemID.of(UUID.of('7680c494-158b-43ec-9846-d37d513cf4d8')), 'item2', new StatsValues([
+        new StatsItem(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8'), 'item2', new StatsValues([
           StatsValue.of(moment.utc(), 3),
           StatsValue.of(moment.utc(), 4),
           StatsValue.of(moment.utc(), 5)
@@ -71,7 +70,7 @@ describe('StatsUpdateTransaction', () => {
         items
       );
 
-      const statsUpdateTransaction: StatsUpdateTransaction = StatsUpdateTransaction.getInstance(VeauAccountID.of(UUID.of('601d14d4-fe47-445c-a6aa-6427776ecd85')), stats);
+      const statsUpdateTransaction: StatsUpdateTransaction = StatsUpdateTransaction.getInstance(VeauAccountID.of('601d14d4-fe47-445c-a6aa-6427776ecd85'), stats);
       const query: IQuery = new QueryMock();
       await statsUpdateTransaction.with(query);
 

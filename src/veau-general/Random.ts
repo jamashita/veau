@@ -17,18 +17,6 @@ export class Random {
     });
   }
 
-  public static v4(): string {
-    return chance.guid({
-      version: 4
-    });
-  }
-
-  public static v5(): string {
-    return chance.guid({
-      version: 5
-    });
-  }
-
   private constructor() {
   }
 }

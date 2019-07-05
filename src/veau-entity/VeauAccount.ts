@@ -89,7 +89,7 @@ export class VeauAccount extends Entity<VeauAccountID> {
     } = this;
 
     return {
-      veauAccountID: veauAccountID.get().get(),
+      veauAccountID: veauAccountID.get(),
       account,
       language: language.toJSON(),
       region: region.toJSON()

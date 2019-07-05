@@ -22,8 +22,8 @@ export class StatsItemCommand {
       );`;
 
     return this.query.execute(query, {
-      statsItemID: statsItem.getStatsItemID().get().get(),
-      statsID: statsID.get().get(),
+      statsItemID: statsItem.getStatsItemID().get(),
+      statsID: statsID.get(),
       name: statsItem.getName(),
       seq
     });
@@ -37,7 +37,7 @@ export class StatsItemCommand {
       WHERE R2.stats_id = :statsID;`;
 
     return this.query.execute(query, {
-      statsID: statsID.get().get()
+      statsID: statsID.get()
     });
   }
 }

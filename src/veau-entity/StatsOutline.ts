@@ -138,7 +138,7 @@ export class StatsOutline extends Entity<StatsID> {
     } = this;
 
     return {
-      statsID: statsID.get().get(),
+      statsID: statsID.get(),
       language: language.toJSON(),
       region: region.toJSON(),
       termID: term.getID(),

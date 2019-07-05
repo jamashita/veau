@@ -27,11 +27,11 @@ export class StatsCommand {
       );`;
 
     return this.query.execute(query, {
-      statsID: stats.getStatsID().get().get(),
+      statsID: stats.getStatsID().get(),
       languageID: stats.getLanguage().getLanguageID().get(),
       regionID: stats.getRegion().getRegionID().get(),
       termID: stats.getTerm().getID(),
-      veauAccountID: veauAccountID.get().get(),
+      veauAccountID: veauAccountID.get(),
       name: stats.getName(),
       unit: stats.getUnit()
     });
@@ -43,7 +43,7 @@ export class StatsCommand {
       WHERE R1.stats_id = :statsID;`;
 
     return this.query.execute(query, {
-      statsID: statsID.get().get()
+      statsID: statsID.get()
     });
   }
 }

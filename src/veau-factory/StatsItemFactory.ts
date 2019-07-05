@@ -3,7 +3,6 @@ import { StatsItem, StatsItemJSON, StatsItemRow } from '../veau-entity/StatsItem
 import { StatsValues } from '../veau-vo/collection/StatsValues';
 import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsValue, StatsValueJSON } from '../veau-vo/StatsValue';
-import { UUID } from '../veau-vo/UUID';
 
 export class StatsItemFactory {
   private static instance: StatsItemFactory = new StatsItemFactory();
@@ -35,7 +34,7 @@ export class StatsItemFactory {
       return StatsValue.of(moment(asOf), value);
     });
 
-    return this.from(StatsItemID.of(UUID.of(statsItemID)), name, new StatsValues(statsValues));
+    return this.from(StatsItemID.of(statsItemID), name, new StatsValues(statsValues));
   }
 
   public fromRow(row: StatsItemRow, statsValues: StatsValues): StatsItem {
@@ -44,6 +43,6 @@ export class StatsItemFactory {
       name
     } = row;
 
-    return this.from(StatsItemID.of(UUID.of(statsItemID)), name, statsValues);
+    return this.from(StatsItemID.of(statsItemID), name, statsValues);
   }
 }

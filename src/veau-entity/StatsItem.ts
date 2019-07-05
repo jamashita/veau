@@ -1,9 +1,8 @@
 import * as moment from 'moment';
-import { Random } from '../veau-general/Random';
+import { UUID } from '../veau-general/UUID';
 import { StatsValues } from '../veau-vo/collection/StatsValues';
 import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsValue, StatsValueJSON } from '../veau-vo/StatsValue';
-import { UUID } from '../veau-vo/UUID';
 import { Entity } from './Entity';
 
 export type StatsItemJSON = {
@@ -23,8 +22,7 @@ export class StatsItem extends Entity<StatsItemID> {
   private values: StatsValues;
 
   public static default(): StatsItem {
-    const uuid: UUID = UUID.of(Random.v4());
-    return new StatsItem(StatsItemID.of(uuid), '', new StatsValues([]));
+    return new StatsItem(StatsItemID.of(UUID.v4()), '', new StatsValues([]));
   }
 
   public constructor(statsItemID: StatsItemID, name: string, values: StatsValues) {
@@ -127,7 +125,7 @@ export class StatsItem extends Entity<StatsItemID> {
     } = this;
 
     return {
-      statsItemID: statsItemID.get().get(),
+      statsItemID: statsItemID.get(),
       name,
       values: values.toJSON()
     };

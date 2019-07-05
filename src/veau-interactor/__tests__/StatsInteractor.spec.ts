@@ -20,14 +20,13 @@ import { LanguageID } from '../../veau-vo/LanguageID';
 import { RegionID } from '../../veau-vo/RegionID';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
-import { UUID } from '../../veau-vo/UUID';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { StatsInteractor } from '../StatsInteractor';
 
 describe('StatsInteractor', () => {
   describe('findByStatsID', () => {
     it('normal case', async () => {
-      const statsID: StatsID = StatsID.of(UUID.of('9016f5d7-654e-4903-bfc9-a89c40919e94'));
+      const statsID: StatsID = StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94');
       const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
       const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
       const term: Term = Term.MONTHLY;
@@ -35,8 +34,8 @@ describe('StatsInteractor', () => {
       const unit: string = 'unit';
       const updatedAt: moment.Moment = moment.utc();
       const items: StatsItems = new StatsItems([
-        new StatsItem(StatsItemID.of(UUID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b')), 'item1', new StatsValues([])),
-        new StatsItem(StatsItemID.of(UUID.of('7680c494-158b-43ec-9846-d37d513cf4d8')), 'item2', new StatsValues([]))
+        new StatsItem(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b'), 'item1', new StatsValues([])),
+        new StatsItem(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8'), 'item2', new StatsValues([]))
       ]);
 
       const stub: SinonStub = sinon.stub();
@@ -53,7 +52,7 @@ describe('StatsInteractor', () => {
       ));
 
       const statsInteractor: StatsInteractor = StatsInteractor.getInstance();
-      const stats: Stats = await statsInteractor.findByStatsID(StatsID.of(UUID.of('9016f5d7-654e-4903-bfc9-a89c40919e94')));
+      const stats: Stats = await statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94'));
 
       expect(stats.getStatsID()).toEqual(statsID);
       expect(stats.getLanguage()).toEqual(language);
@@ -72,7 +71,7 @@ describe('StatsInteractor', () => {
 
       const statsInteractor: StatsInteractor = StatsInteractor.getInstance();
 
-      expect(statsInteractor.findByStatsID(StatsID.of(UUID.of('9016f5d7-654e-4903-bfc9-a89c40919e94')))).rejects.toThrow(NotFoundError);
+      expect(statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94'))).rejects.toThrow(NotFoundError);
     });
 
     it('thrown Error', () => {
@@ -82,13 +81,13 @@ describe('StatsInteractor', () => {
 
       const statsInteractor: StatsInteractor = StatsInteractor.getInstance();
 
-      expect(statsInteractor.findByStatsID(StatsID.of(UUID.of('9016f5d7-654e-4903-bfc9-a89c40919e94')))).rejects.toThrow(Error);
+      expect(statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94'))).rejects.toThrow(Error);
     });
   });
 
   describe('findByVeauAccountID', () => {
     it('normal case', async () => {
-      const statsID: StatsID = StatsID.of(UUID.of('9016f5d7-654e-4903-bfc9-a89c40919e94'));
+      const statsID: StatsID = StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94');
       const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
       const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
       const term: Term = Term.MONTHLY;
@@ -111,7 +110,7 @@ describe('StatsInteractor', () => {
       ]);
 
       const statsInteractor: StatsInteractor = StatsInteractor.getInstance();
-      const statsOutlines: Array<StatsOutline> =  await statsInteractor.findByVeauAccountID(VeauAccountID.of(UUID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2')), 1);
+      const statsOutlines: Array<StatsOutline> =  await statsInteractor.findByVeauAccountID(VeauAccountID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2'), 1);
 
       expect(statsOutlines.length).toEqual(1);
       expect(statsOutlines[0].getStatsID()).toEqual(statsID);
@@ -126,7 +125,7 @@ describe('StatsInteractor', () => {
 
   describe('save', () => {
     it('normal case', async () => {
-      const statsID: StatsID = StatsID.of(UUID.of('9016f5d7-654e-4903-bfc9-a89c40919e94'));
+      const statsID: StatsID = StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94');
       const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
       const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
       const term: Term = Term.MONTHLY;
@@ -134,8 +133,8 @@ describe('StatsInteractor', () => {
       const unit: string = 'unit';
       const updatedAt: moment.Moment = moment.utc();
       const items: StatsItems = new StatsItems([
-        new StatsItem(StatsItemID.of(UUID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b')), 'item1', new StatsValues([])),
-        new StatsItem(StatsItemID.of(UUID.of('7680c494-158b-43ec-9846-d37d513cf4d8')), 'item2', new StatsValues([]))
+        new StatsItem(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b'), 'item1', new StatsValues([])),
+        new StatsItem(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8'), 'item2', new StatsValues([]))
       ]);
 
       const stats: Stats = new Stats(
@@ -153,7 +152,7 @@ describe('StatsInteractor', () => {
       MySQL.prototype.transact = spy;
 
       const statsInteractor: StatsInteractor = StatsInteractor.getInstance();
-      await statsInteractor.save(VeauAccountID.of(UUID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2')), stats);
+      await statsInteractor.save(VeauAccountID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2'), stats);
 
       expect(spy.called).toEqual(true);
     });

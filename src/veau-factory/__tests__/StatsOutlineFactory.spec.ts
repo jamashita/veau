@@ -9,13 +9,12 @@ import { ISO639 } from '../../veau-vo/ISO639';
 import { LanguageID } from '../../veau-vo/LanguageID';
 import { RegionID } from '../../veau-vo/RegionID';
 import { StatsID } from '../../veau-vo/StatsID';
-import { UUID } from '../../veau-vo/UUID';
 import { StatsOutlineFactory } from '../StatsOutlineFactory';
 
 describe('StatsOutlineFactory', () => {
   describe('from', () => {
     it('normal case', () => {
-      const statsID: StatsID = StatsID.of(UUID.of('af272303-df5d-4d34-8604-398920b7d2bb'));
+      const statsID: StatsID = StatsID.of('af272303-df5d-4d34-8604-398920b7d2bb');
       const language: Language = new Language(LanguageID.of(1), 'language1', 'language english name 1', ISO639.of('lang1'));
       const region: Region = new Region(RegionID.of(1), 'region1', ISO3166.of('regn1'));
       const term: Term = Term.ANNUAL;
@@ -60,7 +59,7 @@ describe('StatsOutlineFactory', () => {
       const statsOutlineFactory: StatsOutlineFactory = StatsOutlineFactory.getInstance();
       const statsOutline: StatsOutline = statsOutlineFactory.fromJSON(json);
 
-      expect(statsOutline.getStatsID().get().get()).toEqual(json.statsID);
+      expect(statsOutline.getStatsID().get()).toEqual(json.statsID);
       expect(statsOutline.getLanguage().getLanguageID().get()).toEqual(json.language.languageID);
       expect(statsOutline.getLanguage().getName()).toEqual(json.language.name);
       expect(statsOutline.getLanguage().getEnglishName()).toEqual(json.language.englishName);

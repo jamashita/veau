@@ -6,14 +6,13 @@ import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { LanguageID } from '../../veau-vo/LanguageID';
 import { RegionID } from '../../veau-vo/RegionID';
-import { UUID } from '../../veau-vo/UUID';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { VeauAccountFactory } from '../VeauAccountFactory';
 
 describe('VeauAccountFactory', () => {
   describe('from', () => {
     it('normal case', () => {
-      const veauAccountID: VeauAccountID = VeauAccountID.of(UUID.of('998106de-b2e7-4981-9643-22cd30cd74de'));
+      const veauAccountID: VeauAccountID = VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de');
       const account: string = 'account';
       const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
       const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
@@ -49,7 +48,7 @@ describe('VeauAccountFactory', () => {
       const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
       const veauAccount: VeauAccount = veauAccountFactory.fromJSON(json);
 
-      expect(veauAccount.getVeauAccountID().get().get()).toEqual(json.veauAccountID);
+      expect(veauAccount.getVeauAccountID().get()).toEqual(json.veauAccountID);
       expect(veauAccount.getAccount()).toEqual(json.account);
       expect(veauAccount.getLanguage().getLanguageID().get()).toEqual(json.language.languageID);
       expect(veauAccount.getLanguage().getName()).toEqual(json.language.name);
@@ -79,7 +78,7 @@ describe('VeauAccountFactory', () => {
       const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
       const veauAccount: VeauAccount = veauAccountFactory.fromRow(row);
 
-      expect(veauAccount.getVeauAccountID().get().get()).toEqual(row.veauAccountID);
+      expect(veauAccount.getVeauAccountID().get()).toEqual(row.veauAccountID);
       expect(veauAccount.getAccount()).toEqual(row.account);
       expect(veauAccount.getLanguage().getLanguageID().get()).toEqual(row.languageID);
       expect(veauAccount.getLanguage().getName()).toEqual(row.languageName);

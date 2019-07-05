@@ -8,7 +8,6 @@ import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { veauMySQL } from '../../veau-infrastructure/VeauMySQL';
 import { StatsValues } from '../../veau-vo/collection/StatsValues';
 import { StatsID } from '../../veau-vo/StatsID';
-import { UUID } from '../../veau-vo/UUID';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { StatsQuery } from '../StatsQuery';
 
@@ -77,9 +76,9 @@ describe('StatsQuery', () => {
       ]);
 
       const statsQuery: StatsQuery = StatsQuery.getInstance();
-      const stats: Stats = await statsQuery.findByStatsID(StatsID.of(UUID.of('a25a8b7f-c810-4dc0-b94e-e97e74329307')));
+      const stats: Stats = await statsQuery.findByStatsID(StatsID.of('a25a8b7f-c810-4dc0-b94e-e97e74329307'));
 
-      expect(stats.getStatsID().get().get()).toEqual('a25a8b7f-c810-4dc0-b94e-e97e74329307');
+      expect(stats.getStatsID().get()).toEqual('a25a8b7f-c810-4dc0-b94e-e97e74329307');
       expect(stats.getLanguage().getLanguageID().get()).toEqual(1);
       expect(stats.getLanguage().getName()).toEqual('language1');
       expect(stats.getLanguage().getEnglishName()).toEqual('englishLanguage1');
@@ -94,7 +93,7 @@ describe('StatsQuery', () => {
 
       const items: StatsItems = stats.getItems();
       expect(items.length()).toEqual(3);
-      expect(items.get(0).getStatsItemID().get().get()).toEqual('c0e18d31-d026-4a84-af4f-d5d26c520600');
+      expect(items.get(0).getStatsItemID().get()).toEqual('c0e18d31-d026-4a84-af4f-d5d26c520600');
       expect(items.get(0).getName()).toEqual('name1');
 
       let values: StatsValues = items.get(0).getValues();
@@ -106,7 +105,7 @@ describe('StatsQuery', () => {
       expect(values.get(2).getAsOfAsString()).toEqual('2000-01-03');
       expect(values.get(2).getValue()).toEqual(3);
 
-      expect(items.get(1).getStatsItemID().get().get()).toEqual('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c');
+      expect(items.get(1).getStatsItemID().get()).toEqual('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c');
       expect(items.get(1).getName()).toEqual('name2');
 
       values = items.get(1).getValues();
@@ -116,7 +115,7 @@ describe('StatsQuery', () => {
       expect(values.get(1).getAsOfAsString()).toEqual('2001-01-02');
       expect(values.get(1).getValue()).toEqual(12);
 
-      expect(items.get(2).getStatsItemID().get().get()).toEqual('2ac64841-5267-48bc-8952-ba9ad1cb12d7');
+      expect(items.get(2).getStatsItemID().get()).toEqual('2ac64841-5267-48bc-8952-ba9ad1cb12d7');
       expect(items.get(2).getName()).toEqual('name3');
 
       values = items.get(2).getValues();
@@ -129,7 +128,7 @@ describe('StatsQuery', () => {
       stub.resolves([]);
 
       const statsQuery: StatsQuery = StatsQuery.getInstance();
-      expect(statsQuery.findByStatsID(StatsID.of(UUID.of('a25a8b7f-c810-4dc0-b94e-e97e74329307')))).rejects.toThrow(NoSuchElementError);
+      expect(statsQuery.findByStatsID(StatsID.of('a25a8b7f-c810-4dc0-b94e-e97e74329307'))).rejects.toThrow(NoSuchElementError);
     });
   });
 
@@ -169,10 +168,10 @@ describe('StatsQuery', () => {
       ]);
 
       const statsQuery: StatsQuery = StatsQuery.getInstance();
-      const statsOutlines: Array<StatsOutline> = await statsQuery.findByVeauAccountID(VeauAccountID.of(UUID.of('2ac64841-5267-48bc-8952-ba9ad1cb12d7')), 2, 0);
+      const statsOutlines: Array<StatsOutline> = await statsQuery.findByVeauAccountID(VeauAccountID.of('2ac64841-5267-48bc-8952-ba9ad1cb12d7'), 2, 0);
 
       expect(statsOutlines.length).toEqual(2);
-      expect(statsOutlines[0].getStatsID().get().get()).toEqual('c0e18d31-d026-4a84-af4f-d5d26c520600');
+      expect(statsOutlines[0].getStatsID().get()).toEqual('c0e18d31-d026-4a84-af4f-d5d26c520600');
       expect(statsOutlines[0].getLanguage().getLanguageID().get()).toEqual(1);
       expect(statsOutlines[0].getLanguage().getName()).toEqual('lang1');
       expect(statsOutlines[0].getLanguage().getEnglishName()).toEqual('lang1');
@@ -184,7 +183,7 @@ describe('StatsQuery', () => {
       expect(statsOutlines[0].getName()).toEqual('stats1');
       expect(statsOutlines[0].getUnit()).toEqual('unit1');
       expect(statsOutlines[0].getUpdatedAtAsString()).toEqual('2000-01-01 00:00:00');
-      expect(statsOutlines[1].getStatsID().get().get()).toEqual('a25a8b7f-c810-4dc0-b94e-e97e74329307');
+      expect(statsOutlines[1].getStatsID().get()).toEqual('a25a8b7f-c810-4dc0-b94e-e97e74329307');
       expect(statsOutlines[1].getLanguage().getLanguageID().get()).toEqual(2);
       expect(statsOutlines[1].getLanguage().getName()).toEqual('lang2');
       expect(statsOutlines[1].getLanguage().getEnglishName()).toEqual('lang2');

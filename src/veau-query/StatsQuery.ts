@@ -47,7 +47,7 @@ export class StatsQuery {
       OFFSET :offset;`;
 
     const statsOutlineRows: Array<StatsOutlineRow> = await veauMySQL.execute(query, {
-        veauAccountID: veauAccountID.get().get(),
+        veauAccountID: veauAccountID.get(),
         limit,
         offset
       }
@@ -80,7 +80,7 @@ export class StatsQuery {
       WHERE R1.stats_id = :statsID;`;
 
     const statsRows: Array<StatsRow> = await veauMySQL.execute(query, {
-      statsID: statsID.get().get()
+      statsID: statsID.get()
     });
 
     if (statsRows.length === 0) {

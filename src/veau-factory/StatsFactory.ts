@@ -10,7 +10,6 @@ import { ISO639 } from '../veau-vo/ISO639';
 import { LanguageID } from '../veau-vo/LanguageID';
 import { RegionID } from '../veau-vo/RegionID';
 import { StatsID } from '../veau-vo/StatsID';
-import { UUID } from '../veau-vo/UUID';
 import { LanguageFactory } from './LanguageFactory';
 import { RegionFactory } from './RegionFactory';
 import { StatsItemFactory } from './StatsItemFactory';
@@ -50,7 +49,7 @@ export class StatsFactory {
     });
 
     return this.from(
-      StatsID.of(UUID.of(statsID)),
+      StatsID.of(statsID),
       languageFactory.fromJSON(language),
       regionFactory.fromJSON(region),
       Term.of(termID),
@@ -81,6 +80,6 @@ export class StatsFactory {
     const region: Region = regionFactory.from(RegionID.of(regionID), regionName, ISO3166.of(iso3166));
     const term: Term = Term.of(termID);
 
-    return this.from(StatsID.of(UUID.of(statsID)), language, region, term, name, unit, moment.utc(updatedAt), new StatsItems(statItems));
+    return this.from(StatsID.of(statsID), language, region, term, name, unit, moment.utc(updatedAt), new StatsItems(statItems));
   }
 }
