@@ -78,7 +78,7 @@ class StatsOutlineListTableImpl extends React.Component<Props & InjectedIntlProp
           {statsOutlines.map<React.ReactNode>((statsOutline: StatsOutline) => {
             return (
               <TableRow
-                key={statsOutline.getStatsID().get().get()}
+                key={statsOutline.getStatsID().get()}
                 hover={true}
                 onClick={(): void => {
                   toStatsEdit(statsOutline.getStatsID());

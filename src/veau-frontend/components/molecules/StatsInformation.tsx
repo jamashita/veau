@@ -99,9 +99,11 @@ class StatsInformationImpl extends React.Component<Props & InjectedIntlProps, St
             </InputLabel>
             <Select
               value={stats.getLanguage().getISO639().get()}
-              onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {
-                const iso639: string = event.target.value;
-
+              onChange={(event: React.ChangeEvent<{
+                name?: string;
+                value: unknown;
+              }>): void => {
+                const iso639: string = event.target.value as string;
                 iso639Selected(ISO639.of(iso639));
               }}
             >
@@ -129,9 +131,11 @@ class StatsInformationImpl extends React.Component<Props & InjectedIntlProps, St
             </InputLabel>
             <Select
               value={stats.getRegion().getISO3166().get()}
-              onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {
-                const iso3166: string = event.target.value;
-
+              onChange={(event: React.ChangeEvent<{
+                name?: string;
+                value: unknown;
+              }>): void => {
+                const iso3166: string = event.target.value as string;
                 iso3166Selected(ISO3166.of(iso3166));
               }}
             >

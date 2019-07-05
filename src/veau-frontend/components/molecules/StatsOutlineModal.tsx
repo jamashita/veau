@@ -129,8 +129,11 @@ class StatsOutlineModalImpl extends React.Component<Props & InjectedIntlProps, S
             </InputLabel>
             <Select
               value={stats.getLanguage().getISO639().get()}
-              onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {
-                const iso639: string = event.target.value;
+              onChange={(event: React.ChangeEvent<{
+                name?: string;
+                value: unknown;
+              }>): void => {
+                const iso639: string = event.target.value as string;
                 iso639Selected(ISO639.of(iso639));
               }}
             >
@@ -158,8 +161,11 @@ class StatsOutlineModalImpl extends React.Component<Props & InjectedIntlProps, S
             </InputLabel>
             <Select
               value={stats.getRegion().getISO3166().get()}
-              onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {
-                const iso3166: string = event.target.value;
+              onChange={(event: React.ChangeEvent<{
+                name?: string;
+                value: unknown;
+              }>): void => {
+                const iso3166: string = event.target.value as string;
                 iso3166Selected(ISO3166.of(iso3166));
               }}
             >
@@ -187,8 +193,11 @@ class StatsOutlineModalImpl extends React.Component<Props & InjectedIntlProps, S
             </InputLabel>
             <Select
               value={stats.getTerm().getID()}
-              onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {
-                const termID: number = Number(event.target.value);
+              onChange={(event: React.ChangeEvent<{
+                name?: string;
+                value: unknown;
+              }>): void => {
+                const termID: number = Number(event.target.value as string);
                 termSelected(Term.of(termID));
               }}
             >
