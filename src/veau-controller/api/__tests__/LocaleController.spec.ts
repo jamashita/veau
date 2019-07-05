@@ -7,7 +7,7 @@ import * as supertest from 'supertest';
 import { Language } from '../../../veau-entity/Language';
 import { Region } from '../../../veau-entity/Region';
 import { VeauAccount } from '../../../veau-entity/VeauAccount';
-import { LocaleUseCase } from '../../../veau-usecase/LocaleUseCase';
+import { LocaleInteractor } from '../../../veau-interactor/LocaleInteractor';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
 import { LanguageID } from '../../../veau-vo/LanguageID';
@@ -20,7 +20,7 @@ describe('LocaleController', () => {
   describe('GET /', () => {
     it('returns JSON as LocaleUseCase returns', async () => {
       const stub: SinonStub = sinon.stub();
-      LocaleUseCase.prototype.all = stub;
+      LocaleInteractor.prototype.all = stub;
       stub.resolves({
         languages: [
           new Language(LanguageID.of(1), 'language', 'english name', ISO639.of('la'))
@@ -58,7 +58,7 @@ describe('LocaleController', () => {
   describe('DELETE /', () => {
     it('delete all locales from the cache', async () => {
       const spy: SinonSpy = sinon.spy();
-      LocaleUseCase.prototype.delete = spy;
+      LocaleInteractor.prototype.delete = spy;
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
@@ -75,7 +75,7 @@ describe('LocaleController', () => {
 
     it('throws error', async () => {
       const stub: SinonStub = sinon.stub();
-      LocaleUseCase.prototype.delete = stub;
+      LocaleInteractor.prototype.delete = stub;
       stub.rejects();
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {

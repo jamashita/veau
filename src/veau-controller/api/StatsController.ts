@@ -6,7 +6,7 @@ import { StatsOutline, StatsOutlineJSON } from '../../veau-entity/StatsOutline';
 import { NotFoundError } from '../../veau-error/NotFoundError';
 import { StatsFactory } from '../../veau-factory/StatsFactory';
 import { Type } from '../../veau-general/Type';
-import { StatsUseCase } from '../../veau-usecase/StatsUseCase';
+import { StatsInteractor } from '../../veau-interactor/StatsInteractor';
 import { StatsID } from '../../veau-vo/StatsID';
 import { UUID } from '../../veau-vo/UUID';
 import { RequestSession } from '../RequestSession';
@@ -14,7 +14,7 @@ import { RequestSession } from '../RequestSession';
 const router: express.Router = express.Router();
 const logger: log4js.Logger = log4js.getLogger();
 
-const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
+const statsInteractor: StatsInteractor = StatsInteractor.getInstance();
 const statsFactory: StatsFactory = StatsFactory.getInstance();
 
 router.get('/page/:page(\\d+)', async (req: RequestSession, res: express.Response) => {
@@ -32,7 +32,7 @@ router.get('/page/:page(\\d+)', async (req: RequestSession, res: express.Respons
   }
 
   try {
-    const statsOutlines: Array<StatsOutline> = await statsUseCase.findByVeauAccountID(req.user.getVeauAccountID(), page);
+    const statsOutlines: Array<StatsOutline> = await statsInteractor.findByVeauAccountID(req.user.getVeauAccountID(), page);
 
     res.status(OK).send(statsOutlines.map<StatsOutlineJSON>((statsOutline: StatsOutline) => {
       return statsOutline.toJSON();
@@ -50,7 +50,7 @@ router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: expres
   } = req.params;
 
   try {
-    const stats: Stats = await statsUseCase.findByStatsID(StatsID.of(UUID.of(statsID)));
+    const stats: Stats = await statsInteractor.findByStatsID(StatsID.of(UUID.of(statsID)));
 
     res.status(OK).send(stats.toJSON());
   }
@@ -174,7 +174,7 @@ router.post('/', async (req: RequestSession, res: express.Response) => {
   const stats: Stats = statsFactory.fromJSON(json);
 
   try {
-    await statsUseCase.save(req.user.getVeauAccountID(), stats);
+    await statsInteractor.save(req.user.getVeauAccountID(), stats);
     res.sendStatus(CREATED);
   }
   catch (err) {

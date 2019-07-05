@@ -11,7 +11,7 @@ import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { LanguageID } from '../../veau-vo/LanguageID';
 import { RegionID } from '../../veau-vo/RegionID';
-import { Locales, LocaleUseCase } from '../LocaleUseCase';
+import { LocaleInteractor, Locales } from '../LocaleInteractor';
 
 describe('LocaleUseCase',  () => {
   describe('all', () => {
@@ -29,7 +29,7 @@ describe('LocaleUseCase',  () => {
         new Region(RegionID.of(2), 'Albania', ISO3166.of('ALB'))
       ]);
 
-      const localeUseCase: LocaleUseCase = LocaleUseCase.getInstance();
+      const localeUseCase: LocaleInteractor = LocaleInteractor.getInstance();
       const locales: Locales = await localeUseCase.all();
 
       expect(locales.languages.length).toEqual(2);
@@ -58,7 +58,7 @@ describe('LocaleUseCase',  () => {
       const spy2: SinonSpy = sinon.spy();
       RegionCommand.prototype.deleteAll = spy2;
 
-      const localeUseCase: LocaleUseCase = LocaleUseCase.getInstance();
+      const localeUseCase: LocaleInteractor = LocaleInteractor.getInstance();
       await localeUseCase.delete();
 
       expect(spy1.called).toEqual(true);

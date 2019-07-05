@@ -97,6 +97,15 @@ gulp.task('veau-infrastructure', () => {
     .pipe(gulp.dest('dist/veau-infrastructure'));
 });
 
+gulp.task('veau-interactor', () => {
+  return gulp.src(['src/veau-interactor/**/*.ts'], {
+    since : gulp.lastRun('veau-interactor')
+  })
+    .pipe(plumber())
+    .pipe(tsc())
+    .pipe(gulp.dest('dist/veau-interactor'));
+});
+
 gulp.task('veau-query', () => {
   return gulp.src(['src/veau-query/**/*.ts'], {
       since : gulp.lastRun('veau-query')
@@ -131,15 +140,6 @@ gulp.task('veau-transaction', () => {
     .pipe(plumber())
     .pipe(tsc())
     .pipe(gulp.dest('dist/veau-transaction'));
-});
-
-gulp.task('veau-usecase', () => {
-  return gulp.src(['src/veau-usecase/**/*.ts'], {
-      since : gulp.lastRun('veau-usecase')
-    })
-    .pipe(plumber())
-    .pipe(tsc())
-    .pipe(gulp.dest('dist/veau-usecase'));
 });
 
 gulp.task('veau-vo', () => {
@@ -221,11 +221,11 @@ gulp.task(
     'veau-frontend',
     'veau-general',
     'veau-infrastructure',
+    'veau-interactor',
     'veau-query',
     'veau-server',
     'veau-service',
     'veau-transaction',
-    'veau-usecase',
     'veau-vo'
   )
 );
@@ -243,11 +243,11 @@ gulp.task(
       gulp.watch('src/veau-factory/**/*.ts', gulp.series('veau-factory'));
       gulp.watch('src/veau-general/**/*.ts', gulp.series('veau-general'));
       gulp.watch('src/veau-infrastructure/**/*.ts', gulp.series('veau-infrastructure'));
+      gulp.watch('src/veau-interactor/**/*.ts', gulp.series('veau-interactor'));
       gulp.watch('src/veau-query/**/*.ts', gulp.series('veau-query'));
       gulp.watch('src/veau-server/**/*.ts', gulp.series('veau-server'));
       gulp.watch('src/veau-service/**/*.ts', gulp.series('veau-service'));
       gulp.watch('src/veau-transaction/**/*.ts', gulp.series('veau-transaction'));
-      gulp.watch('src/veau-usecase/**/*.ts', gulp.series('veau-usecase'));
       gulp.watch('src/veau-vo/**/*.ts', gulp.series('veau-vo'));
       gulp.watch('src/veau-server/views/*.pug', gulp.series('pug'));
       gulp.watch('src/veau-server/sass/*.scss', gulp.series('sass'));

@@ -16,11 +16,11 @@ const statsQuery: StatsQuery = StatsQuery.getInstance();
 
 const LIMIT: number = 40;
 
-export class StatsUseCase {
-  private static instance: StatsUseCase = new StatsUseCase();
+export class StatsInteractor {
+  private static instance: StatsInteractor = new StatsInteractor();
 
-  public static getInstance(): StatsUseCase {
-    return StatsUseCase.instance;
+  public static getInstance(): StatsInteractor {
+    return StatsInteractor.instance;
   }
 
   private constructor() {
@@ -28,7 +28,9 @@ export class StatsUseCase {
 
   public async findByStatsID(statsID: StatsID): Promise<Stats> {
     try {
-      return statsQuery.findByStatsID(statsID);
+      const stats: Stats = await statsQuery.findByStatsID(statsID);
+
+      return stats;
     }
     catch (err) {
       if (err instanceof NoSuchElementError) {

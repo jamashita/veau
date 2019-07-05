@@ -15,11 +15,11 @@ const languageCommand: LanguageCommand = LanguageCommand.getInstance();
 const regionQuery: RegionQuery = RegionQuery.getInstance();
 const regionCommand: RegionCommand = RegionCommand.getInstance();
 
-export class LocaleUseCase {
-  private static instance: LocaleUseCase = new LocaleUseCase();
+export class LocaleInteractor {
+  private static instance: LocaleInteractor = new LocaleInteractor();
 
-  public static getInstance(): LocaleUseCase {
-    return LocaleUseCase.instance;
+  public static getInstance(): LocaleInteractor {
+    return LocaleInteractor.instance;
   }
 
   private constructor() {

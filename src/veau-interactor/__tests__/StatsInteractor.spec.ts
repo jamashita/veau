@@ -22,7 +22,7 @@ import { StatsID } from '../../veau-vo/StatsID';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
 import { UUID } from '../../veau-vo/UUID';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
-import { StatsUseCase } from '../StatsUseCase';
+import { StatsInteractor } from '../StatsInteractor';
 
 describe('StatsUseCase', () => {
   describe('findByStatsID', () => {
@@ -52,7 +52,7 @@ describe('StatsUseCase', () => {
         items
       ));
 
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
+      const statsUseCase: StatsInteractor = StatsInteractor.getInstance();
       const stats: Stats = await statsUseCase.findByStatsID(StatsID.of(UUID.of('9016f5d7-654e-4903-bfc9-a89c40919e94')));
 
       expect(stats.getStatsID()).toEqual(statsID);
@@ -70,7 +70,7 @@ describe('StatsUseCase', () => {
       StatsQuery.prototype.findByStatsID = stub;
       stub.rejects(new NoSuchElementError(''));
 
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
+      const statsUseCase: StatsInteractor = StatsInteractor.getInstance();
 
       expect(statsUseCase.findByStatsID(StatsID.of(UUID.of('9016f5d7-654e-4903-bfc9-a89c40919e94')))).rejects.toThrow(NotFoundError);
     });
@@ -80,7 +80,7 @@ describe('StatsUseCase', () => {
       StatsQuery.prototype.findByStatsID = stub;
       stub.rejects(new Error());
 
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
+      const statsUseCase: StatsInteractor = StatsInteractor.getInstance();
 
       expect(statsUseCase.findByStatsID(StatsID.of(UUID.of('9016f5d7-654e-4903-bfc9-a89c40919e94')))).rejects.toThrow(Error);
     });
@@ -110,7 +110,7 @@ describe('StatsUseCase', () => {
         )
       ]);
 
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
+      const statsUseCase: StatsInteractor = StatsInteractor.getInstance();
       const statsOutlines: Array<StatsOutline> =  await statsUseCase.findByVeauAccountID(VeauAccountID.of(UUID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2')), 1);
 
       expect(statsOutlines.length).toEqual(1);
@@ -152,7 +152,7 @@ describe('StatsUseCase', () => {
       const spy: SinonSpy = sinon.spy();
       MySQL.prototype.transact = spy;
 
-      const statsUseCase: StatsUseCase = StatsUseCase.getInstance();
+      const statsUseCase: StatsInteractor = StatsInteractor.getInstance();
       await statsUseCase.save(VeauAccountID.of(UUID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2')), stats);
 
       expect(spy.called).toEqual(true);

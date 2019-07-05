@@ -4,7 +4,7 @@ import { SinonStub } from 'sinon';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { Digest } from '../../veau-general/Digest';
 import { VeauAccountQuery } from '../../veau-query/VeauAccountQuery';
-import { AuthenticationUseCase } from '../AuthenticationUseCase';
+import { AuthenticationInteractor } from '../AuthenticationInteractor';
 
 describe('AuthenticationUseCase', () => {
   describe('review', () => {
@@ -19,7 +19,7 @@ describe('AuthenticationUseCase', () => {
       Digest.compare = stub2;
       stub2.resolves(true);
 
-      const authenticationUseCase: AuthenticationUseCase = AuthenticationUseCase.getInstance();
+      const authenticationUseCase: AuthenticationInteractor = AuthenticationInteractor.getInstance();
       authenticationUseCase.review(account, password, (err: any, ret: any) => {
         expect(err).toEqual(null);
         expect(ret).toEqual(false);
@@ -41,7 +41,7 @@ describe('AuthenticationUseCase', () => {
       Digest.compare = stub2;
       stub2.resolves(false);
 
-      const authenticationUseCase: AuthenticationUseCase = AuthenticationUseCase.getInstance();
+      const authenticationUseCase: AuthenticationInteractor = AuthenticationInteractor.getInstance();
       authenticationUseCase.review(account, password, (err: any, ret: any) => {
         expect(err).toEqual(null);
         expect(ret).toEqual(false);
@@ -63,7 +63,7 @@ describe('AuthenticationUseCase', () => {
       Digest.compare = stub2;
       stub2.resolves(true);
 
-      const authenticationUseCase: AuthenticationUseCase = AuthenticationUseCase.getInstance();
+      const authenticationUseCase: AuthenticationInteractor = AuthenticationInteractor.getInstance();
       authenticationUseCase.review(account, password, (err: any, ret: any) => {
         expect(err).toEqual(null);
         expect(ret).toEqual('dummy veauAccount');

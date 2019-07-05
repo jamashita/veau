@@ -10,11 +10,11 @@ const veauAccountQuery: VeauAccountQuery = VeauAccountQuery.getInstance();
 const DUMMY_PASSWORD: string = '30DC7JzTgjAd8eXcwytlKCwI6kh1eqdU';
 const DUMMY_HASH: string = '$2b$14$iyzp4FTxFklmPUjQMaNYcOO4Svv6kBEtphNseTlhWQ/SxV0VBKOa.';
 
-export class AuthenticationUseCase {
-  private static instance: AuthenticationUseCase = new AuthenticationUseCase();
+export class AuthenticationInteractor {
+  private static instance: AuthenticationInteractor = new AuthenticationInteractor();
 
-  public static getInstance(): AuthenticationUseCase {
-    return AuthenticationUseCase.instance;
+  public static getInstance(): AuthenticationInteractor {
+    return AuthenticationInteractor.instance;
   }
 
   private constructor() {
