@@ -26,6 +26,6 @@ spec:
             - containerPort: 4000
           resources:
             requests:
-              cpu: 50m
+              cpu: '50m'
         - name: 'veau-redis'
           image: 'redis:5.0.4-alpine'
