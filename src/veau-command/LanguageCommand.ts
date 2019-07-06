@@ -16,7 +16,7 @@ export class LanguageCommand {
   }
 
   public async insertAll(languages: Array<Language>): Promise<any> {
-    const languageJSONs: Array<LanguageJSON> = languages.map<LanguageJSON>((language: Language) => {
+    const languageJSONs: Array<LanguageJSON> = languages.map<LanguageJSON>((language: Language): LanguageJSON => {
       return language.toJSON();
     });
 

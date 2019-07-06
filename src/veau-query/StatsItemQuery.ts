@@ -32,7 +32,7 @@ export class StatsItemQuery {
 
     const valueMap: Map<string, StatsValues> = await statsValueQuery.findByStatsID(statsID);
 
-    return statsItemRows.map<StatsItem>((statsItemRow: StatsItemRow) => {
+    return statsItemRows.map<StatsItem>((statsItemRow: StatsItemRow): StatsItem => {
       const values: StatsValues | undefined = valueMap.get(statsItemRow.statsItemID);
 
       if (values) {

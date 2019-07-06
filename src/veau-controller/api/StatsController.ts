@@ -16,7 +16,7 @@ const logger: log4js.Logger = log4js.getLogger();
 const statsInteractor: StatsInteractor = StatsInteractor.getInstance();
 const statsFactory: StatsFactory = StatsFactory.getInstance();
 
-router.get('/page/:page(\\d+)', async (req: RequestSession, res: express.Response) => {
+router.get('/page/:page(\\d+)', async (req: RequestSession, res: express.Response): Promise<any> => {
   if (req.user === undefined) {
     logger.fatal('ILLEGAL ACCESS');
     res.sendStatus(BAD_REQUEST);
@@ -33,7 +33,7 @@ router.get('/page/:page(\\d+)', async (req: RequestSession, res: express.Respons
   try {
     const statsOutlines: Array<StatsOutline> = await statsInteractor.findByVeauAccountID(req.user.getVeauAccountID(), page);
 
-    res.status(OK).send(statsOutlines.map<StatsOutlineJSON>((statsOutline: StatsOutline) => {
+    res.status(OK).send(statsOutlines.map<StatsOutlineJSON>((statsOutline: StatsOutline): StatsOutlineJSON => {
       return statsOutline.toJSON();
     }));
   }
@@ -43,7 +43,7 @@ router.get('/page/:page(\\d+)', async (req: RequestSession, res: express.Respons
   }
 });
 
-router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: express.Response) => {
+router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: express.Response): Promise<any> => {
   const {
     statsID
   } = req.params;
@@ -64,7 +64,7 @@ router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: expres
   }
 });
 
-router.post('/', async (req: RequestSession, res: express.Response) => {
+router.post('/', async (req: RequestSession, res: express.Response): Promise<any> => {
   if (req.user === undefined) {
     logger.fatal('ILLEGAL ACCESS');
     res.sendStatus(BAD_REQUEST);

@@ -26,7 +26,7 @@ export class RegionQuery {
 
     if (regionString !== null) {
       const regionJSONs: Array<RegionJSON> = JSON.parse(regionString);
-      return regionJSONs.map<Region>((json: RegionJSON) => {
+      return regionJSONs.map<Region>((json: RegionJSON): Region => {
         return regionFactory.fromJSON(json);
       });
     }
@@ -40,7 +40,7 @@ export class RegionQuery {
       ORDER BY R1.iso3166`;
 
     const regionRows: Array<RegionRow> = await veauMySQL.execute(query);
-    const regions: Array<Region> = regionRows.map<Region>((row: RegionRow) => {
+    const regions: Array<Region> = regionRows.map<Region>((row: RegionRow): Region => {
       return regionFactory.fromRow(row);
     });
 
@@ -51,7 +51,7 @@ export class RegionQuery {
 
   public async findByISO3166(iso3166: ISO3166): Promise<Region> {
     const regions: Array<Region> = await this.all();
-    const found: Region | undefined = regions.find((region: Region) => {
+    const found: Region | undefined = regions.find((region: Region): boolean => {
       if (region.getISO3166().equals(iso3166)) {
         return true;
       }

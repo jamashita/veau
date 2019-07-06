@@ -5,10 +5,10 @@ import * as log4js from 'log4js';
 const router: express.Router = express.Router();
 const logger: log4js.Logger = log4js.getLogger();
 
-router.delete('/', (req: express.Request, res: express.Response) => {
+router.delete('/', (req: express.Request, res: express.Response): any => {
   const session: Express.Session | undefined = req.session;
   if (session) {
-    session.destroy((err: any) => {
+    session.destroy((err: any): void => {
       if (err) {
         logger.error(err.toString());
         res.sendStatus(INTERNAL_SERVER_ERROR);

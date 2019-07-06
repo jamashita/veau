@@ -30,7 +30,7 @@ export class LocaleQuery {
 
   public async findByISO639(iso639: ISO639): Promise<Language> {
     const languages: Array<Language> = await this.allLanguages();
-    const found: Language | undefined = languages.find((language: Language) => {
+    const found: Language | undefined = languages.find((language: Language): boolean => {
       if (language.getISO639().equals(iso639)) {
         return true;
       }
@@ -47,7 +47,7 @@ export class LocaleQuery {
 
   public async findByISO3166(iso3166: ISO3166): Promise<Region> {
     const regions: Array<Region> = await this.allRegions();
-    const found: Region | undefined = regions.find((region: Region) => {
+    const found: Region | undefined = regions.find((region: Region): boolean => {
       if (region.getISO3166().equals(iso3166)) {
         return true;
       }
@@ -80,7 +80,7 @@ export class LocaleQuery {
   public async allLanguages(): Promise<Array<Language>> {
     const locales: Locales = await this.allLocales();
 
-    return locales.languages.map<Language>((json: LanguageJSON) => {
+    return locales.languages.map<Language>((json: LanguageJSON): Language => {
       return languageFactory.fromJSON(json);
     });
   }
@@ -88,7 +88,7 @@ export class LocaleQuery {
   public async allRegions(): Promise<Array<Region>> {
     const locales: Locales = await this.allLocales();
 
-    return locales.regions.map<Region>((json: RegionJSON) => {
+    return locales.regions.map<Region>((json: RegionJSON): Region => {
       return regionFactory.fromJSON(json);
     });
   }

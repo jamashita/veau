@@ -51,7 +51,7 @@ export class StatsItem extends Entity<StatsItemID> {
   public getAsOfs(): Array<moment.Moment> {
     const asOfs: Array<moment.Moment> = [];
 
-    this.values.forEach((statsValue: StatsValue) => {
+    this.values.forEach((statsValue: StatsValue): void => {
       asOfs.push(statsValue.getAsOf());
     });
 
@@ -61,10 +61,10 @@ export class StatsItem extends Entity<StatsItemID> {
   public getValuesByColumn(column: Array<string>): Array<string> {
     const valuesByColumn: Array<string> = [];
 
-    column.forEach((term: string) => {
+    column.forEach((term: string): void => {
       let alreadyInput: boolean = false;
 
-      this.values.forEach((statsValue: StatsValue) => {
+      this.values.forEach((statsValue: StatsValue): void => {
         if (alreadyInput) {
           return;
         }

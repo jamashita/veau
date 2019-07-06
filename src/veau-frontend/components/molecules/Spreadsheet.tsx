@@ -126,7 +126,7 @@ export class Spreadsheet extends React.Component<Props, State> {
           if (!changes) {
             return;
           }
-          changes.forEach((change: Array<any>) => {
+          changes.forEach((change: Array<any>): void => {
             const str: string = change[VALUE_INDEX];
             const row: number = change[ROW_INDEX];
             const column: number = change[COLUMN_INDEX];
@@ -146,7 +146,7 @@ export class Spreadsheet extends React.Component<Props, State> {
           }
         }}
         beforeRowMove={(columns: Array<number>, target: number): boolean => {
-          columns.forEach((column: number) => {
+          columns.forEach((column: number): void => {
             if (column === target) {
               return;
             }

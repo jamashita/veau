@@ -16,7 +16,7 @@ export class RegionCommand {
   }
 
   public async insertAll(regions: Array<Region>): Promise<any> {
-    const regionJSONs: Array<RegionJSON> = regions.map<RegionJSON>((region: Region) => {
+    const regionJSONs: Array<RegionJSON> = regions.map<RegionJSON>((region: Region): RegionJSON => {
       return region.toJSON();
     });
 

@@ -6,7 +6,7 @@ import { RequestSession } from '../RequestSession';
 const router: express.Router = express.Router();
 const logger: log4js.Logger = log4js.getLogger();
 
-router.get('/', (req: RequestSession, res: express.Response) => {
+router.get('/', (req: RequestSession, res: express.Response): any => {
   if (req.user) {
     res.status(OK).send(req.user.toJSON());
     return;

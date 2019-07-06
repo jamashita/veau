@@ -73,7 +73,7 @@ export class Chart extends React.Component<Props, State> {
           <CartesianGrid/>
           <Legend/>
           <Tooltip/>
-          {stats.getItemNames().map<React.ReactNode>((item: string, index: number) => {
+          {stats.getItemNames().map<React.ReactNode>((item: string, index: number): React.ReactNode => {
             return (
               <Line
                 type='monotone'

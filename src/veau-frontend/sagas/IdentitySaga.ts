@@ -58,7 +58,7 @@ export class IdentitySaga {
           identity
         } = state;
 
-        const found: Language | undefined = languages.find((language: Language) => {
+        const found: Language | undefined = languages.find((language: Language): boolean => {
           if (language.getISO639().equals(iso639)) {
             return true;
           }

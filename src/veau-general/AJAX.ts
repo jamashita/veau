@@ -9,7 +9,7 @@ export class AJAX {
 
   public static get<T>(url: string): Promise<AJAXResponse<T>> {
     return new Promise<AJAXResponse<T>>((resolve: (value: AJAXResponse<T>) => void, reject: (reason: any) => void): void => {
-      request.get(url).end((err: any, res: request.Response) => {
+      request.get(url).end((err: any, res: request.Response): void => {
           if (err) {
             reject(err);
             return;
@@ -30,7 +30,7 @@ export class AJAX {
 
   public static post<T>(url: string, payload: any): Promise<AJAXResponse<T>> {
     return new Promise<AJAXResponse<T>>((resolve: (value: AJAXResponse<T>) => void, reject: (reason: any) => void): void => {
-      request.post(url).send(payload).end((err: any, res: request.Response) => {
+      request.post(url).send(payload).end((err: any, res: request.Response): void => {
           if (err) {
             reject(err);
             return;
@@ -51,7 +51,7 @@ export class AJAX {
 
   public static put<T>(url: string, payload: any): Promise<AJAXResponse<T>> {
     return new Promise<AJAXResponse<T>>((resolve: (value: AJAXResponse<T>) => void, reject: (reason: any) => void): void => {
-      request.put(url).send(payload).end((err: any, res: request.Response) => {
+      request.put(url).send(payload).end((err: any, res: request.Response): void => {
           if (err) {
             reject(err);
             return;
@@ -72,7 +72,7 @@ export class AJAX {
 
   public static delete<T>(url: string): Promise<AJAXResponse<T>> {
     return new Promise<AJAXResponse<T>>((resolve: (value: AJAXResponse<T>) => void, reject: (reason: any) => void): void => {
-      request.del(url).end((err: any, res: request.Response) => {
+      request.del(url).end((err: any, res: request.Response): void => {
           if (err) {
             reject(err);
             return;

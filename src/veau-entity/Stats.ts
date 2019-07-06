@@ -211,7 +211,7 @@ export class Stats extends Entity<StatsID> {
   }
 
   public getRowHeaderSize(): number {
-    const chars: Array<number> = this.getRows().map<number>((row: string) => {
+    const chars: Array<number> = this.getRows().map<number>((row: string): number => {
       return row.length;
     });
 
@@ -221,7 +221,7 @@ export class Stats extends Entity<StatsID> {
   public getData(): Array<Array<string>> {
     const data: Array<Array<string>> = [];
 
-    this.items.forEach((statsItem: StatsItem) => {
+    this.items.forEach((statsItem: StatsItem): void => {
       data.push(statsItem.getValuesByColumn(this.getColumns()));
     });
 
@@ -245,12 +245,12 @@ export class Stats extends Entity<StatsID> {
   public getChart(): Array<object> {
     const chartItems: Map<string, Chart> = new Map<string, Chart>();
 
-    this.getColumns().forEach((column: string) => {
+    this.getColumns().forEach((column: string): void => {
       chartItems.set(column, {name: column});
     });
 
-    this.items.forEach((statsItem: StatsItem) => {
-      statsItem.getValues().forEach((statsValue: StatsValue) => {
+    this.items.forEach((statsItem: StatsItem): void => {
+      statsItem.getValues().forEach((statsValue: StatsValue): void => {
         const line: Chart | undefined = chartItems.get(statsValue.getAsOfAsString());
 
         if (line) {
@@ -260,7 +260,7 @@ export class Stats extends Entity<StatsID> {
     });
 
     const chart: Array<object> = [];
-    chartItems.forEach((value: object) => {
+    chartItems.forEach((value: object): void => {
       chart.push(value);
     });
 

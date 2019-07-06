@@ -27,7 +27,7 @@ export class StatsQuery {
   public async findByPage(page: number): Promise<Array<StatsOutline>> {
     const response: AJAXResponse<Array<StatsOutlineJSON>> = await AJAX.get<Array<StatsOutlineJSON>>(`/api/stats/page/${page}`);
 
-    return response.body.map<StatsOutline>((json: StatsOutlineJSON) => {
+    return response.body.map<StatsOutline>((json: StatsOutlineJSON): StatsOutline => {
       return statsOutlineFactory.fromJSON(json);
     });
   }

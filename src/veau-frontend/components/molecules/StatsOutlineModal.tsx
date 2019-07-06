@@ -137,7 +137,7 @@ class StatsOutlineModalImpl extends React.Component<Props & InjectedIntlProps, S
                 iso639Selected(ISO639.of(iso639));
               }}
             >
-              {languages.map<React.ReactNode>((language: Language) => {
+              {languages.map<React.ReactNode>((language: Language): React.ReactNode => {
                 const iso639: string = language.getISO639().get();
 
                 return (
@@ -169,7 +169,7 @@ class StatsOutlineModalImpl extends React.Component<Props & InjectedIntlProps, S
                 iso3166Selected(ISO3166.of(iso3166));
               }}
             >
-              {regions.map<React.ReactNode>((region: Region) => {
+              {regions.map<React.ReactNode>((region: Region): React.ReactNode => {
                 const iso3166: string = region.getISO3166().get();
 
                 return (
@@ -201,7 +201,7 @@ class StatsOutlineModalImpl extends React.Component<Props & InjectedIntlProps, S
                 termSelected(Term.of(termID));
               }}
             >
-              {Term.all().map<React.ReactNode>((term: Term) => {
+              {Term.all().map<React.ReactNode>((term: Term): React.ReactNode => {
                 const termID: number = term.getID();
 
                 return (

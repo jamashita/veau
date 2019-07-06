@@ -126,7 +126,7 @@ export class StatsListSaga {
         iso639
       } = action;
 
-      const found: Language | undefined = languages.find((language: Language) => {
+      const found: Language | undefined = languages.find((language: Language): boolean => {
         if (language.getISO639().equals(iso639)) {
           return true;
         }
@@ -169,7 +169,7 @@ export class StatsListSaga {
         iso3166
       } = action;
 
-      const found: Region | undefined = regions.find((region: Region) => {
+      const found: Region | undefined = regions.find((region: Region): boolean => {
         if (region.getISO3166().equals(iso3166)) {
           return true;
         }

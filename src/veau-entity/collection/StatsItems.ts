@@ -27,13 +27,13 @@ export class StatsItems {
   }
 
   public getNames(): Array<string> {
-    return this.items.map<string>((item: StatsItem) => {
+    return this.items.map<string>((item: StatsItem): string => {
       return item.getName();
     });
   }
 
   public getAsOfs(): Array<moment.Moment> {
-    return this.items.map<Array<moment.Moment>>((item: StatsItem) => {
+    return this.items.map<Array<moment.Moment>>((item: StatsItem): moment.Moment => {
       return item.getAsOfs();
     }).flat();
   }
@@ -71,7 +71,7 @@ export class StatsItems {
   }
 
   public remove(statsItem: StatsItem): StatsItems {
-    const items: Array<StatsItem> = this.items.filter((item: StatsItem) => {
+    const items: Array<StatsItem> = this.items.filter((item: StatsItem): boolean => {
       if (item.equals(statsItem)) {
         return false;
       }
@@ -91,7 +91,7 @@ export class StatsItems {
   }
 
   public areFilled(): boolean {
-    return this.items.every((statsItem: StatsItem) => {
+    return this.items.every((statsItem: StatsItem): boolean => {
       if (statsItem.isFilled()) {
         return true;
       }
@@ -113,7 +113,7 @@ export class StatsItems {
       return false;
     }
 
-    const rowLengths: Array<number> = items.map<number>((item: StatsItem) => {
+    const rowLengths: Array<number> = items.map<number>((item: StatsItem): number => {
       return item.getValues().length();
     });
 
@@ -130,7 +130,7 @@ export class StatsItems {
   public copy(): StatsItems {
     const items: Array<StatsItem> = [];
 
-    this.items.forEach((statsItem: StatsItem) => {
+    this.items.forEach((statsItem: StatsItem): void => {
       items.push(statsItem.copy());
     });
 
@@ -157,7 +157,7 @@ export class StatsItems {
   }
 
   public toJSON(): Array<StatsItemJSON> {
-    return this.items.map<StatsItemJSON>((item: StatsItem) => {
+    return this.items.map<StatsItemJSON>((item: StatsItem): StatsItemJSON => {
       return item.toJSON();
     });
   }

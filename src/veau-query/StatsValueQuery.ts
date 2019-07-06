@@ -30,7 +30,7 @@ export class StatsValueQuery {
 
     const valueMap: Map<string, StatsValues> = new Map<string, StatsValues>();
 
-    statsValueRows.forEach((statsValueRow: StatsValueRow) => {
+    statsValueRows.forEach((statsValueRow: StatsValueRow): void => {
       const {
         statsItemID,
         asOf,

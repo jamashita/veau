@@ -53,7 +53,7 @@ export class StatsQuery {
       }
     );
 
-    return statsOutlineRows.map<StatsOutline>((statsOutlineRow: StatsOutlineRow) => {
+    return statsOutlineRows.map<StatsOutline>((statsOutlineRow: StatsOutlineRow): StatsOutline => {
       return statsOutlineFactory.fromRow(statsOutlineRow);
     });
   }

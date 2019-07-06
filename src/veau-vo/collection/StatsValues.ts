@@ -23,7 +23,7 @@ export class StatsValues {
     const newValues: Array<StatsValue> = [];
     let isSet: boolean = false;
 
-    this.values.forEach((value: StatsValue) => {
+    this.values.forEach((value: StatsValue): void => {
       if (isSet) {
         newValues.push(value);
         return;
@@ -56,7 +56,7 @@ export class StatsValues {
   }
 
   public delete(asOf: moment.Moment): StatsValues {
-    const newValues: Array<StatsValue> = this.values.filter((value: StatsValue) => {
+    const newValues: Array<StatsValue> = this.values.filter((value: StatsValue): boolean => {
       if (asOf.isSame(value.getAsOf())) {
         return false;
       }
@@ -78,7 +78,7 @@ export class StatsValues {
   public copy(): StatsValues {
     const values: Array<StatsValue> = [];
 
-    this.values.forEach((statsValue: StatsValue) => {
+    this.values.forEach((statsValue: StatsValue): void => {
       values.push(statsValue);
     });
 
@@ -105,7 +105,7 @@ export class StatsValues {
   }
 
   public toJSON(): Array<StatsValueJSON> {
-    return this.values.map<StatsValueJSON>((value: StatsValue) => {
+    return this.values.map<StatsValueJSON>((value: StatsValue): StatsValueJSON => {
       return value.toJSON();
     });
   }

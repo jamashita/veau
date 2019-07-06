@@ -75,7 +75,7 @@ class StatsOutlineListTableImpl extends React.Component<Props & InjectedIntlProp
           </TableRow>
         </TableHead>
         <TableBody>
-          {statsOutlines.map<React.ReactNode>((statsOutline: StatsOutline) => {
+          {statsOutlines.map<React.ReactNode>((statsOutline: StatsOutline): React.ReactNode => {
             return (
               <TableRow
                 key={statsOutline.getStatsID().get()}

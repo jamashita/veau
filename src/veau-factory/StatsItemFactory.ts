@@ -25,7 +25,7 @@ export class StatsItemFactory {
       values
     } = json;
 
-    const statsValues: Array<StatsValue> = values.map<StatsValue>((statsValue: StatsValueJSON) => {
+    const statsValues: Array<StatsValue> = values.map<StatsValue>((statsValue: StatsValueJSON): StatsValue => {
       const {
         asOf,
         value

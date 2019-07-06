@@ -44,7 +44,7 @@ export class StatsFactory {
       items
     } = json;
 
-    const statsItems: Array<StatsItem> = items.map<StatsItem>((item: StatsItemJSON) => {
+    const statsItems: Array<StatsItem> = items.map<StatsItem>((item: StatsItemJSON): StatsItem => {
       return statsItemFactory.fromJSON(item);
     });
 

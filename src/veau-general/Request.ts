@@ -14,7 +14,7 @@ export class Request {
     };
 
     return new Promise<Response<T>>((resolve: (value: Response<T>) => void, reject: (reason: any) => void): void => {
-      request.get(options, (err: any, response: request.Response) => {
+      request.get(options, (err: any, response: request.Response): void => {
         if (err) {
           reject(err);
           return;

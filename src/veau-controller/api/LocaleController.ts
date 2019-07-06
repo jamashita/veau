@@ -13,20 +13,20 @@ const logger: log4js.Logger = log4js.getLogger();
 const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
 const localeInteractor: LocaleInteractor = LocaleInteractor.getInstance();
 
-router.get('/', async (req: express.Request, res: express.Response) => {
+router.get('/', async (req: express.Request, res: express.Response): Promise<any> => {
   const locales: Locales = await localeInteractor.all();
 
   res.status(OK).send({
-    languages: locales.languages.map<LanguageJSON>((language: Language) => {
+    languages: locales.languages.map<LanguageJSON>((language: Language): LanguageJSON => {
       return language.toJSON();
     }),
-    regions: locales.regions.map<RegionJSON>((region: Region) => {
+    regions: locales.regions.map<RegionJSON>((region: Region): RegionJSON => {
       return region.toJSON();
     })
   });
 });
 
-router.delete('/', authenticationMiddleware.apply(), async (req: express.Request, res: express.Response) => {
+router.delete('/', authenticationMiddleware.apply(), async (req: express.Request, res: express.Response): Promise<any> => {
   try {
     await localeInteractor.delete();
     res.sendStatus(OK);
