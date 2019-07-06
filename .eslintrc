@@ -30,6 +30,7 @@
     ],
     "new-parens": "error",
     "no-bitwise": "error",
+    "no-case-declarations": "error",
     "no-caller": "error",
     "no-cond-assign": "error",
     "no-console": "error",
