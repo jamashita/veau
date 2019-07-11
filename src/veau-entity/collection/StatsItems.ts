@@ -5,7 +5,11 @@ import { StatsItem, StatsItemJSON } from '../StatsItem';
 export class StatsItems {
   private items: Array<StatsItem>;
 
-  public constructor(items: Array<StatsItem>) {
+  public static of(items: Array<StatsItem>): StatsItems {
+    return new StatsItems(items);
+  }
+
+  private constructor(items: Array<StatsItem>) {
     this.items = items;
   }
 

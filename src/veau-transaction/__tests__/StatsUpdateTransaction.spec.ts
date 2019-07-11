@@ -47,7 +47,7 @@ describe('StatsUpdateTransaction', () => {
       const name: string = 'stats';
       const unit: string = 'unit';
       const updatedAt: moment.Moment = moment.utc();
-      const items: StatsItems = new StatsItems([
+      const items: StatsItems = StatsItems.of([
         new StatsItem(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b'), 'item1', StatsValues.of([
           StatsValue.of(moment.utc(), 1),
           StatsValue.of(moment.utc(), 2)

@@ -56,7 +56,7 @@ export class Stats extends Entity<StatsID> {
   private columns?: Array<string>;
 
   public static default(): Stats {
-    return new Stats(StatsID.of(UUID.v4()), Language.default(), Region.default(), Term.DAILY, '', '', moment(), new StatsItems([]));
+    return new Stats(StatsID.of(UUID.v4()), Language.default(), Region.default(), Term.DAILY, '', '', moment(), StatsItems.of([]));
   }
 
   public constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: string, unit: string, updatedAt: moment.Moment, items: StatsItems, startDate?: string) {

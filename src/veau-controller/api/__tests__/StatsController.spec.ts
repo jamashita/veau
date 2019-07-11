@@ -128,7 +128,7 @@ describe('StatsController', () => {
         'stats',
         'unit',
         moment.utc('2000-01-01 00:00:00'),
-        new StatsItems([
+        StatsItems.of([
           new StatsItem(StatsItemID.of('09c2e4a6-6839-4fbe-858e-bf2c4ee7d5e6'), 'stats item', StatsValues.of([
             StatsValue.of(moment.utc('2000-01-01'), 5)
           ]))

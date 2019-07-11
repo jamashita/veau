@@ -56,7 +56,7 @@ export class StatsFactory {
       name,
       unit,
       moment.utc(updatedAt),
-      new StatsItems(statsItems)
+      StatsItems.of(statsItems)
     );
   }
 
@@ -80,6 +80,6 @@ export class StatsFactory {
     const region: Region = regionFactory.from(RegionID.of(regionID), regionName, ISO3166.of(iso3166));
     const term: Term = Term.of(termID);
 
-    return this.from(StatsID.of(statsID), language, region, term, name, unit, moment.utc(updatedAt), new StatsItems(statItems));
+    return this.from(StatsID.of(statsID), language, region, term, name, unit, moment.utc(updatedAt), StatsItems.of(statItems));
   }
 }

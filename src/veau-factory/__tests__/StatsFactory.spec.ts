@@ -26,7 +26,7 @@ describe('StatsFactory', () => {
       const name: string = 'name1';
       const unit: string = 'unit1';
       const updatedAt: moment.Moment = moment('2000-01-01');
-      const items: StatsItems = new StatsItems([
+      const items: StatsItems = StatsItems.of([
         new StatsItem(StatsItemID.of('a28eceac-0451-4339-b1c5-0c298b3905f6'), 'stats1', StatsValues.of([]))
       ]);
 
