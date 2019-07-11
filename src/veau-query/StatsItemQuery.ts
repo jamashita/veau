@@ -39,7 +39,7 @@ export class StatsItemQuery {
         return statsItemFactory.fromRow(statsItemRow, values);
       }
 
-      return statsItemFactory.fromRow(statsItemRow, new StatsValues([]));
+      return statsItemFactory.fromRow(statsItemRow, StatsValues.of([]));
     });
   }
 }

@@ -45,7 +45,7 @@ export class StatsValueQuery {
         return;
       }
 
-      valueMap.set(statsItemID, new StatsValues([
+      valueMap.set(statsItemID, StatsValues.of([
         statsValue
       ]));
     });

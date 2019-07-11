@@ -34,8 +34,8 @@ describe('StatsInteractor', () => {
       const unit: string = 'unit';
       const updatedAt: moment.Moment = moment.utc();
       const items: StatsItems = new StatsItems([
-        new StatsItem(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b'), 'item1', new StatsValues([])),
-        new StatsItem(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8'), 'item2', new StatsValues([]))
+        new StatsItem(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b'), 'item1', StatsValues.of([])),
+        new StatsItem(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8'), 'item2', StatsValues.of([]))
       ]);
 
       const stub: SinonStub = sinon.stub();
@@ -133,8 +133,8 @@ describe('StatsInteractor', () => {
       const unit: string = 'unit';
       const updatedAt: moment.Moment = moment.utc();
       const items: StatsItems = new StatsItems([
-        new StatsItem(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b'), 'item1', new StatsValues([])),
-        new StatsItem(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8'), 'item2', new StatsValues([]))
+        new StatsItem(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b'), 'item1', StatsValues.of([])),
+        new StatsItem(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8'), 'item2', StatsValues.of([]))
       ]);
 
       const stats: Stats = new Stats(

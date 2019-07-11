@@ -33,7 +33,7 @@ export class StatsItems {
   }
 
   public getAsOfs(): Array<moment.Moment> {
-    return this.items.map<Array<moment.Moment>>((item: StatsItem): moment.Moment => {
+    return this.items.map<Array<moment.Moment>>((item: StatsItem): Array<moment.Moment> => {
       return item.getAsOfs();
     }).flat();
   }
@@ -160,5 +160,11 @@ export class StatsItems {
     return this.items.map<StatsItemJSON>((item: StatsItem): StatsItemJSON => {
       return item.toJSON();
     });
+  }
+
+  public toString(): string {
+    return this.items.map<string>((item: StatsItem): string => {
+      return item.toString();
+    }).join(', ');
   }
 }

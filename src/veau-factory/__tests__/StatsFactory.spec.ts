@@ -27,7 +27,7 @@ describe('StatsFactory', () => {
       const unit: string = 'unit1';
       const updatedAt: moment.Moment = moment('2000-01-01');
       const items: StatsItems = new StatsItems([
-        new StatsItem(StatsItemID.of('a28eceac-0451-4339-b1c5-0c298b3905f6'), 'stats1', new StatsValues([]))
+        new StatsItem(StatsItemID.of('a28eceac-0451-4339-b1c5-0c298b3905f6'), 'stats1', StatsValues.of([]))
       ]);
 
       const statsFactory: StatsFactory = StatsFactory.getInstance();
@@ -139,7 +139,7 @@ describe('StatsFactory', () => {
         new StatsItem(
           StatsItemID.of('610b532b-5711-461a-b44a-7387e8d08596'),
           'stats item1',
-          new StatsValues([
+          StatsValues.of([
             StatsValue.of(moment('2000-01-01'), 1),
             StatsValue.of(moment('2000-01-02'), 2)
           ])
@@ -147,7 +147,7 @@ describe('StatsFactory', () => {
         new StatsItem(
           StatsItemID.of('530e0e07-654f-4764-a3ac-77ce12a2a5e4'),
           'stats item2',
-          new StatsValues([
+          StatsValues.of([
           ])
         )
       ];

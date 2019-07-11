@@ -16,7 +16,7 @@ describe('StatsItemFactory', () => {
       const statsValue: StatsValue = StatsValue.of(moment(asOf), value);
 
       const statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
-      const statsItem: StatsItem = statsItemFactory.from(statsItemID, name, new StatsValues([statsValue]));
+      const statsItem: StatsItem = statsItemFactory.from(statsItemID, name, StatsValues.of([statsValue]));
 
       expect(statsItem.getStatsItemID().equals(statsItemID)).toEqual(true);
       expect(statsItem.getName()).toEqual(name);
@@ -60,7 +60,7 @@ describe('StatsItemFactory', () => {
         statsItemID: '4d0cf4e5-4f48-4db3-9c04-085374d857d1',
         name: 'name'
       };
-      const statsValues: StatsValues = new StatsValues([
+      const statsValues: StatsValues = StatsValues.of([
         StatsValue.of(moment('2000-01-01'), 10),
         StatsValue.of(moment('2000-01-02'), 100),
         StatsValue.of(moment('2000-01-03'), 1000)

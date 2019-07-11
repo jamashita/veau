@@ -5,7 +5,11 @@ import { StatsValue, StatsValueJSON } from '../StatsValue';
 export class StatsValues {
   private values: Array<StatsValue>;
 
-  public constructor(values: Array<StatsValue>) {
+  public static of(values: Array<StatsValue>): StatsValues {
+    return new StatsValues(values);
+  }
+
+  private constructor(values: Array<StatsValue>) {
     this.values = values;
   }
 
@@ -52,7 +56,10 @@ export class StatsValues {
   }
 
   public add(statsValue: StatsValue): StatsValues {
-    return new StatsValues([...this.values, statsValue]);
+    return new StatsValues([
+      ...this.values,
+      statsValue
+    ]);
   }
 
   public delete(asOf: moment.Moment): StatsValues {
@@ -108,5 +115,11 @@ export class StatsValues {
     return this.values.map<StatsValueJSON>((value: StatsValue): StatsValueJSON => {
       return value.toJSON();
     });
+  }
+
+  public toString(): string {
+    return this.values.map<string>((value: StatsValue): string => {
+      return value.toString();
+    }).join(', ');
   }
 }

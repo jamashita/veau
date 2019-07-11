@@ -22,7 +22,7 @@ export class StatsItem extends Entity<StatsItemID> {
   private values: StatsValues;
 
   public static default(): StatsItem {
-    return new StatsItem(StatsItemID.of(UUID.v4()), '', new StatsValues([]));
+    return new StatsItem(StatsItemID.of(UUID.v4()), '', StatsValues.of([]));
   }
 
   public constructor(statsItemID: StatsItemID, name: string, values: StatsValues) {

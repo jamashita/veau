@@ -9,7 +9,7 @@ describe('StatsValues', () => {
       const statsValue1: StatsValue = StatsValue.of(moment('2000-01-01'), 1);
       const statsValue2: StatsValue = StatsValue.of(moment('2000-01-02'), 2);
       const statsValue3: StatsValue = StatsValue.of(moment('2000-01-03'), 3);
-      const statsValues: StatsValues = new StatsValues([
+      const statsValues: StatsValues = StatsValues.of([
         statsValue1,
         statsValue2,
         statsValue3
@@ -26,7 +26,7 @@ describe('StatsValues', () => {
     it('insert pattern', () => {
       const statsValue1: StatsValue = StatsValue.of(moment('2000-01-01'), 1);
       const statsValue3: StatsValue = StatsValue.of(moment('2000-01-03'), 3);
-      const  statsValues: StatsValues = new StatsValues([
+      const  statsValues: StatsValues = StatsValues.of([
         statsValue1,
         statsValue3
       ]);
@@ -45,7 +45,7 @@ describe('StatsValues', () => {
       const statsValue1: StatsValue = StatsValue.of(moment('2000-01-01'), 1);
       const statsValue2: StatsValue = StatsValue.of(moment('2000-01-02'), 2);
       const statsValue3: StatsValue = StatsValue.of(moment('2000-01-03'), 3);
-      const statsValues: StatsValues = new StatsValues([
+      const statsValues: StatsValues = StatsValues.of([
         statsValue1,
         statsValue2,
         statsValue3
@@ -64,18 +64,18 @@ describe('StatsValues', () => {
       const statsValue1: StatsValue = StatsValue.of(moment('2000-01-01'), 1);
       const statsValue2: StatsValue = StatsValue.of(moment('2000-01-02'), 2);
 
-      const statsValues1: StatsValues = new StatsValues([
+      const statsValues1: StatsValues = StatsValues.of([
         statsValue1,
         statsValue2
       ]);
-      const statsValues2: StatsValues = new StatsValues([
+      const statsValues2: StatsValues = StatsValues.of([
         statsValue1
       ]);
-      const statsValues3: StatsValues = new StatsValues([
+      const statsValues3: StatsValues = StatsValues.of([
         statsValue2,
         statsValue1
       ]);
-      const statsValues4: StatsValues = new StatsValues([
+      const statsValues4: StatsValues = StatsValues.of([
         statsValue1,
         statsValue2
       ]);

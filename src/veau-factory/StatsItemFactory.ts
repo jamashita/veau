@@ -34,7 +34,7 @@ export class StatsItemFactory {
       return StatsValue.of(moment(asOf), value);
     });
 
-    return this.from(StatsItemID.of(statsItemID), name, new StatsValues(statsValues));
+    return this.from(StatsItemID.of(statsItemID), name, StatsValues.of(statsValues));
   }
 
   public fromRow(row: StatsItemRow, statsValues: StatsValues): StatsItem {
