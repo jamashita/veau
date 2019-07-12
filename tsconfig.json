@@ -11,6 +11,9 @@
     "noUnusedLocals": true,
     "allowSyntheticDefaultImports": true,
     "jsx": "react",
+    "alwaysStrict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
     "lib": [
       "dom",
       "esnext"
