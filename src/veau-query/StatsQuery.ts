@@ -2,14 +2,12 @@ import { Stats, StatsRow } from '../veau-entity/Stats';
 import { StatsItem } from '../veau-entity/StatsItem';
 import { StatsOutline, StatsOutlineRow } from '../veau-entity/StatsOutline';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
-import { StatsOutlineFactory } from '../veau-factory/StatsOutlineFactory';
 import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../veau-vo/StatsID';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
 import { StatsItemQuery } from './StatsItemQuery';
 
 const statsItemQuery: StatsItemQuery = StatsItemQuery.getInstance();
-const statsOutlineFactory: StatsOutlineFactory = StatsOutlineFactory.getInstance();
 
 export class StatsQuery {
   private static instance: StatsQuery = new StatsQuery();
@@ -52,7 +50,7 @@ export class StatsQuery {
     );
 
     return statsOutlineRows.map<StatsOutline>((statsOutlineRow: StatsOutlineRow): StatsOutline => {
-      return statsOutlineFactory.fromRow(statsOutlineRow);
+      return StatsOutline.fromRow(statsOutlineRow);
     });
   }
 

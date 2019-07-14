@@ -98,7 +98,7 @@ describe('StatsInteractor', () => {
       const stub: SinonStub = sinon.stub();
       StatsQuery.prototype.findByVeauAccountID = stub;
       stub.resolves([
-        Stats.fromOutline(
+        StatsOutline.from(
           statsID,
           language,
           region,

@@ -1,10 +1,7 @@
 import { Stats, StatsJSON } from '../../veau-entity/Stats';
 import { StatsOutline, StatsOutlineJSON } from '../../veau-entity/StatsOutline';
-import { StatsOutlineFactory } from '../../veau-factory/StatsOutlineFactory';
 import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
 import { StatsID } from '../../veau-vo/StatsID';
-
-const statsOutlineFactory: StatsOutlineFactory = StatsOutlineFactory.getInstance();
 
 export class StatsQuery {
   private static instance: StatsQuery = new StatsQuery();
@@ -26,7 +23,7 @@ export class StatsQuery {
     const response: AJAXResponse<Array<StatsOutlineJSON>> = await AJAX.get<Array<StatsOutlineJSON>>(`/api/stats/page/${page}`);
 
     return response.body.map<StatsOutline>((json: StatsOutlineJSON): StatsOutline => {
-      return statsOutlineFactory.fromJSON(json);
+      return StatsOutline.fromJSON(json);
     });
   }
 }
