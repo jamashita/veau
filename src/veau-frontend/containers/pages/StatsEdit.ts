@@ -1,7 +1,7 @@
 import { connect, ConnectedComponentClass, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
-import { Language } from '../../../veau-entity/Language';
-import { Region } from '../../../veau-entity/Region';
+import { Languages } from '../../../veau-entity/collection/Languages';
+import { Regions } from '../../../veau-entity/collection/Regions';
 import { Stats } from '../../../veau-entity/Stats';
 import { StatsItem } from '../../../veau-entity/StatsItem';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
@@ -31,8 +31,8 @@ type StateProps = {
   stats: Stats;
   statsItem: StatsItem;
   selectingItem?: StatsItem;
-  languages: Array<Language>;
-  regions: Array<Region>;
+  languages: Languages;
+  regions: Regions;
 };
 type DispatchProps = {
   dataFilled: (row: number, column: number, value: number) => void;
@@ -62,18 +62,15 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
     statsEdit: {
       selectingItem
     },
-    locale: {
-      languages,
-      regions
-    }
+    locale
   } = state;
 
   return {
     stats,
     statsItem,
     selectingItem,
-    languages,
-    regions
+    languages: locale.getLanguages(),
+    regions: locale.getRegions()
   };
 };
 

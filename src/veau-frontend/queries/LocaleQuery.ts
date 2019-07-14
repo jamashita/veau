@@ -55,7 +55,7 @@ export class LocaleQuery {
     return found;
   }
 
-  private async allLocale(): Promise<Locale> {
+  public async all(): Promise<Locale> {
     const {
       locale
     } = this;
@@ -71,13 +71,13 @@ export class LocaleQuery {
   }
 
   public async allLanguages(): Promise<Languages> {
-    const locale: Locale = await this.allLocale();
+    const locale: Locale = await this.all();
 
     return locale.getLanguages();
   }
 
   public async allRegions(): Promise<Regions> {
-    const locale: Locale = await this.allLocale();
+    const locale: Locale = await this.all();
 
     return locale.getRegions();
   }

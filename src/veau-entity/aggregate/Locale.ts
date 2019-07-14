@@ -25,6 +25,10 @@ export class Locale {
     return Locale.from(Languages.fromJSON(languages), Regions.fromJSON(regions));
   }
 
+  public static default(): Locale {
+    return Locale.from(Languages.from([]), Regions.from([]));
+  }
+
   private constructor(languages: Languages, regions: Regions) {
     this.languages = languages;
     this.regions = regions;

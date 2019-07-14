@@ -12,6 +12,8 @@ import {
 } from '@material-ui/core';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { Languages } from '../../../veau-entity/collection/Languages';
+import { Regions } from '../../../veau-entity/collection/Regions';
 import { Language } from '../../../veau-entity/Language';
 import { Region } from '../../../veau-entity/Region';
 import { Stats } from '../../../veau-entity/Stats';
@@ -23,8 +25,8 @@ import { TextField } from '../atoms/TextField';
 type Props = {
   open: boolean;
   stats: Stats;
-  languages: Array<Language>;
-  regions: Array<Region>;
+  languages: Languages;
+  regions: Regions;
   closeNewStatsModal: () => void;
   nameTyped: (name: string) => void;
   unitTyped: (unit: string) => void;

@@ -1,7 +1,6 @@
 import { RouterState } from 'connected-react-router';
 import { Action as ReduxAction } from 'redux';
-import { Language } from '../../veau-entity/Language';
-import { Region } from '../../veau-entity/Region';
+import { Locale } from '../../veau-entity/aggregate/Locale';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { StatsOutline } from '../../veau-entity/StatsOutline';
@@ -38,8 +37,7 @@ export enum ACTION {
   PROVIDER_OPEN = 'PROVIDER_OPEN',
   PROVIDER_CLOSE = 'PROVIDER_CLOSE',
 
-  LANGUAGES_DEFINED = 'LANGUAGES_DEFINED',
-  REGIONS_DEFINED = 'REGIONS_DEFINED',
+  LOCALE_DEFINED = 'LOCALE_DEFINED',
 
   ENTRANCE_ACCOUNT_NAME_TYPED = 'ENTRANCE_ACCOUNT_NAME_TYPED',
   ENTRANCE_PASSWORD_TYPED = 'ENTRANCE_PASSWORD_TYPED',
@@ -146,13 +144,9 @@ export interface ProviderOpenAction extends ReduxAction {
 export interface ProviderCloseAction extends ReduxAction {
   type: ACTION.PROVIDER_CLOSE;
 }
-export interface LanguageDefinedAction extends ReduxAction {
-  type: ACTION.LANGUAGES_DEFINED;
-  languages: Array<Language>;
-}
-export interface RegionDefinedAction extends ReduxAction {
-  type: ACTION.REGIONS_DEFINED;
-  regions: Array<Region>;
+export interface LocaleDefinedAction extends ReduxAction {
+  type: ACTION.LOCALE_DEFINED;
+  locale: Locale;
 }
 export interface EntranceAccountNameTypedAction extends ReduxAction {
   type: ACTION.ENTRANCE_ACCOUNT_NAME_TYPED;
@@ -315,8 +309,7 @@ export type Action =
   | PushToEntranceAction
   | ProviderOpenAction
   | ProviderCloseAction
-  | LanguageDefinedAction
-  | RegionDefinedAction
+  | LocaleDefinedAction
   | EntranceAccountNameTypedAction
   | EntrancePasswordTypedAction
   | EntranceUpdateAction

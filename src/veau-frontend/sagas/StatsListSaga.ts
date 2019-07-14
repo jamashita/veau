@@ -116,15 +116,13 @@ export class StatsListSaga {
         statsList: {
           stats
         },
-        locale: {
-          languages
-        }
+        locale
       } = state;
       const {
         iso639
       } = action;
 
-      const found: Language | undefined = languages.find((language: Language): boolean => {
+      const found: Language | undefined = locale.getLanguages().find((language: Language): boolean => {
         if (language.getISO639().equals(iso639)) {
           return true;
         }
@@ -159,15 +157,13 @@ export class StatsListSaga {
         statsList: {
           stats
         },
-        locale: {
-          regions
-        }
+        locale
       } = state;
       const {
         iso3166
       } = action;
 
-      const found: Region | undefined = regions.find((region: Region): boolean => {
+      const found: Region | undefined = locale.getRegions().find((region: Region): boolean => {
         if (region.getISO3166().equals(iso3166)) {
           return true;
         }

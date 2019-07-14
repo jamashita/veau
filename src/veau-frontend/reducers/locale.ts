@@ -1,33 +1,13 @@
 import { Reducer } from 'redux';
-import { Language } from '../../veau-entity/Language';
-import { Region } from '../../veau-entity/Region';
+import { Locale } from '../../veau-entity/aggregate/Locale';
 import { ACTION, Action } from '../actions/Action';
 
-export type Locale = {
-  languages: Array<Language>;
-  regions: Array<Region>;
-};
-
-const initialState: Locale = {
-  languages: [
-  ],
-  regions: [
-  ]
-};
+const initialState: Locale = Locale.default();
 
 export const locale: Reducer<Locale, Action> = (state: Locale = initialState, action: Action): Locale => {
   switch (action.type) {
-    case ACTION.LANGUAGES_DEFINED: {
-      return {
-        ...state,
-        languages: action.languages
-      };
-    }
-    case ACTION.REGIONS_DEFINED: {
-      return {
-        ...state,
-        regions: action.regions
-      };
+    case ACTION.LOCALE_DEFINED: {
+      return action.locale;
     }
     default: {
       return state;

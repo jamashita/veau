@@ -1,6 +1,6 @@
 import { fork, put, select, take } from 'redux-saga/effects';
+import { Locale } from '../../veau-entity/aggregate/Locale';
 import { Language } from '../../veau-entity/Language';
-import { Region } from '../../veau-entity/Region';
 import { VeauAccount } from '../../veau-entity/VeauAccount';
 import { LanguageIdentifier } from '../../veau-general/LanguageIdentifier';
 import { ISO639 } from '../../veau-vo/ISO639';
@@ -8,7 +8,7 @@ import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { ACTION } from '../actions/Action';
 import { identified, identityAuthenticated } from '../actions/IdentityAction';
 import { loaded, loading } from '../actions/LoadingAction';
-import { defineLanguages, defineRegions } from '../actions/LocaleAction';
+import { defineLocale } from '../actions/LocaleAction';
 import { raiseModal } from '../actions/ModalAction';
 import { pushToEntrance, pushToStatsList } from '../actions/RedirectAction';
 import { Endpoints } from '../Endpoints';
@@ -30,11 +30,9 @@ export class IdentitySaga {
     try {
       yield put(loading());
 
-      const languages: Array<Language> = yield localeQuery.allLanguages();
-      const regions: Array<Region> = yield localeQuery.allRegions();
+      const locale: Locale = yield localeQuery.all();
 
-      yield put(defineLanguages(languages));
-      yield put(defineRegions(regions));
+      yield put(defineLocale(locale));
       yield put(loaded());
 
       try {
@@ -56,7 +54,7 @@ export class IdentitySaga {
           identity
         } = state;
 
-        const found: Language | undefined = languages.find((language: Language): boolean => {
+        const found: Language | undefined = locale.getLanguages().find((language: Language): boolean => {
           if (language.getISO639().equals(iso639)) {
             return true;
           }
