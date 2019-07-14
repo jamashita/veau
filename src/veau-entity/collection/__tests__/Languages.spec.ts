@@ -2,7 +2,7 @@ import 'jest';
 import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
 import { ISO639 } from '../../../veau-vo/ISO639';
 import { LanguageID } from '../../../veau-vo/LanguageID';
-import { Language, LanguageJSON } from '../../Language';
+import { Language, LanguageJSON, LanguageRow } from '../../Language';
 import { Languages } from '../Languages';
 
 describe('Languages', () => {
@@ -99,6 +99,27 @@ describe('Languages', () => {
       expect(languages.get(0).getName()).toEqual(json[0].name);
       expect(languages.get(0).getEnglishName()).toEqual(json[0].englishName);
       expect(languages.get(0).getISO639().get()).toEqual(json[0].iso639);
+    });
+  });
+
+  describe('fromRow', () => {
+    it('normal case', () => {
+      const rows: Array<LanguageRow> = [
+        {
+          languageID: 1,
+          name: 'language name',
+          englishName: 'english language name',
+          iso639: 'aa'
+        }
+      ];
+
+      const languages: Languages = Languages.fromRow(rows);
+
+      expect(languages.length()).toEqual(1);
+      expect(languages.get(0).getLanguageID().get()).toEqual(rows[0].languageID);
+      expect(languages.get(0).getName()).toEqual(rows[0].name);
+      expect(languages.get(0).getEnglishName()).toEqual(rows[0].englishName);
+      expect(languages.get(0).getISO639().get()).toEqual(rows[0].iso639);
     });
   });
 });

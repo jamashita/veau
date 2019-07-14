@@ -1,5 +1,5 @@
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { Language, LanguageJSON } from '../Language';
+import { Language, LanguageJSON, LanguageRow } from '../Language';
 
 export class Languages {
   private languages: Array<Language>;
@@ -11,6 +11,14 @@ export class Languages {
   public static fromJSON(json: Array<LanguageJSON>): Languages {
     const languages: Array<Language> = json.map<Language>((language: LanguageJSON): Language => {
       return Language.fromJSON(language);
+    });
+
+    return Languages.from(languages);
+  }
+
+  public static fromRow(rows: Array<LanguageRow>): Languages {
+    const languages: Array<Language> = rows.map<Language>((language: LanguageJSON): Language => {
+      return Language.fromRow(language);
     });
 
     return Languages.from(languages);
