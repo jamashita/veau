@@ -11,7 +11,7 @@ const router: express.Router = express.Router();
 const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
 
 router.use('/auth', AuthController);
-router.use('/locales', LocaleController);
+router.use('/locale', LocaleController);
 router.use('/destroy', DestroyController);
 router.use(authenticationMiddleware.apply());
 router.use('/identity', IdentityController);

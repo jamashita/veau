@@ -30,6 +30,14 @@ export class Locale {
     this.regions = regions;
   }
 
+  public getLanguages(): Languages {
+    return this.languages;
+  }
+
+  public getRegions(): Regions {
+    return this.regions;
+  }
+
   public getLanguage(index: number): Language {
     return this.languages.get(index);
   }

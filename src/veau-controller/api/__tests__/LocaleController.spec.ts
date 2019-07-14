@@ -4,6 +4,9 @@ import 'jest';
 import * as sinon from 'sinon';
 import { SinonSpy, SinonStub } from 'sinon';
 import * as supertest from 'supertest';
+import { Locale } from '../../../veau-entity/aggregate/Locale';
+import { Languages } from '../../../veau-entity/collection/Languages';
+import { Regions } from '../../../veau-entity/collection/Regions';
 import { Language } from '../../../veau-entity/Language';
 import { Region } from '../../../veau-entity/Region';
 import { VeauAccount } from '../../../veau-entity/VeauAccount';
@@ -20,14 +23,14 @@ describe('LocaleController', () => {
     it('returns JSON as LocaleInteractor returns', async () => {
       const stub: SinonStub = sinon.stub();
       LocaleInteractor.prototype.all = stub;
-      stub.resolves({
-        languages: [
+      stub.resolves(Locale.from(
+        Languages.from([
           Language.from(LanguageID.of(1), 'language', 'english name', ISO639.of('la'))
-        ],
-        regions: [
+        ]),
+        Regions.from([
           Region.from(RegionID.of(1), 'region', ISO3166.of('RGN'))
-        ]
-      });
+        ])
+      ));
 
       const app: express.Express = express();
       app.use('/', LocaleController);
