@@ -8,6 +8,14 @@ export class Regions {
     return new Regions(regions);
   }
 
+  public static fromJSON(json: Array<RegionJSON>): Regions {
+    const regions: Array<Region> = json.map<Region>((region: RegionJSON): Region => {
+      return Region.fromJSON(region);
+    });
+
+    return Regions.from(regions);
+  }
+
   private constructor(regions: Array<Region>) {
     this.regions = regions;
   }
@@ -35,6 +43,10 @@ export class Regions {
 
   public map<U>(func: (region: Region) => U): Array<U> {
     return this.regions.map<U>(func);
+  }
+
+  public find(predicate: (region: Region) => boolean): Region | undefined {
+    return this.regions.find(predicate);
   }
 
   public equals(other: Regions): boolean {

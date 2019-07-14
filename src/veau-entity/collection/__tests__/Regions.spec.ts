@@ -2,7 +2,7 @@ import 'jest';
 import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { RegionID } from '../../../veau-vo/RegionID';
-import { Region } from '../../Region';
+import { Region, RegionJSON } from '../../Region';
 import { Regions } from '../Regions';
 
 describe('Regions', () => {
@@ -61,6 +61,41 @@ describe('Regions', () => {
       const regions2: Regions = Regions.from([region1, region2]);
 
       expect(regions1.equals(regions2)).toEqual(true);
+    });
+  });
+
+  describe('toJSON', () => {
+    it('normal case', () => {
+      const region1: Region = Region.from(RegionID.of(1), 'region 1', ISO3166.of('abc'));
+
+      const regions: Regions = Regions.from([region1]);
+
+      expect(regions.toJSON()).toEqual([
+        {
+          regionID: 1,
+          name: 'region 1',
+          iso3166: 'abc'
+        }
+      ]);
+    });
+  });
+
+  describe('fromJSON', () => {
+    it('normal case', () => {
+      const json: Array<RegionJSON> = [
+        {
+          regionID: 1,
+          name: 'region 1',
+          iso3166: 'abc'
+        }
+      ];
+
+      const regions: Regions = Regions.fromJSON(json);
+
+      expect(regions.length()).toEqual(1);
+      expect(regions.get(0).getRegionID().get()).toEqual(1);
+      expect(regions.get(0).getName()).toEqual('region 1');
+      expect(regions.get(0).getISO3166().get()).toEqual('abc');
     });
   });
 });

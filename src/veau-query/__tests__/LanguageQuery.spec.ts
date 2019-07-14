@@ -2,6 +2,7 @@ import 'jest';
 import * as sinon from 'sinon';
 import { SinonStub } from 'sinon';
 import { LanguageCommand } from '../../veau-command/LanguageCommand';
+import { Languages } from '../../veau-entity/collection/Languages';
 import { Language } from '../../veau-entity/Language';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { veauMySQL } from '../../veau-infrastructure/VeauMySQL';
@@ -17,17 +18,17 @@ describe('LanguageQuery', () => {
       stub.resolves('[{"languageID":1,"name":"аҧсуа бызшәа","englishName":"Abkhazian","iso639":"ab"},{"languageID":2,"name":"Afaraf","englishName":"Afar","iso639":"aa"}]');
 
       const languageQuery: LanguageQuery = LanguageQuery.getInstance();
-      const languages: Array<Language> = await languageQuery.all();
+      const languages: Languages = await languageQuery.all();
 
-      expect(languages.length).toEqual(2);
-      expect(languages[0].getLanguageID().get()).toEqual(1);
-      expect(languages[0].getName()).toEqual('аҧсуа бызшәа');
-      expect(languages[0].getEnglishName()).toEqual('Abkhazian');
-      expect(languages[0].getISO639().get()).toEqual('ab');
-      expect(languages[1].getLanguageID().get()).toEqual(2);
-      expect(languages[1].getName()).toEqual('Afaraf');
-      expect(languages[1].getEnglishName()).toEqual('Afar');
-      expect(languages[1].getISO639().get()).toEqual('aa');
+      expect(languages.length()).toEqual(2);
+      expect(languages.get(0).getLanguageID().get()).toEqual(1);
+      expect(languages.get(0).getName()).toEqual('аҧсуа бызшәа');
+      expect(languages.get(0).getEnglishName()).toEqual('Abkhazian');
+      expect(languages.get(0).getISO639().get()).toEqual('ab');
+      expect(languages.get(1).getLanguageID().get()).toEqual(2);
+      expect(languages.get(1).getName()).toEqual('Afaraf');
+      expect(languages.get(1).getEnglishName()).toEqual('Afar');
+      expect(languages.get(1).getISO639().get()).toEqual('aa');
     });
 
     it('MySQL returns languages', async () => {
@@ -56,17 +57,17 @@ describe('LanguageQuery', () => {
       stub3.resolves();
 
       const languageQuery: LanguageQuery = LanguageQuery.getInstance();
-      const languages: Array<Language> = await languageQuery.all();
+      const languages: Languages = await languageQuery.all();
 
-      expect(languages.length).toEqual(2);
-      expect(languages[0].getLanguageID().get()).toEqual(1);
-      expect(languages[0].getName()).toEqual('аҧсуа бызшәа');
-      expect(languages[0].getEnglishName()).toEqual('Abkhazian');
-      expect(languages[0].getISO639().get()).toEqual('ab');
-      expect(languages[1].getLanguageID().get()).toEqual(2);
-      expect(languages[1].getName()).toEqual('Afaraf');
-      expect(languages[1].getEnglishName()).toEqual('Afar');
-      expect(languages[1].getISO639().get()).toEqual('aa');
+      expect(languages.length()).toEqual(2);
+      expect(languages.get(0).getLanguageID().get()).toEqual(1);
+      expect(languages.get(0).getName()).toEqual('аҧсуа бызшәа');
+      expect(languages.get(0).getEnglishName()).toEqual('Abkhazian');
+      expect(languages.get(0).getISO639().get()).toEqual('ab');
+      expect(languages.get(1).getLanguageID().get()).toEqual(2);
+      expect(languages.get(1).getName()).toEqual('Afaraf');
+      expect(languages.get(1).getEnglishName()).toEqual('Afar');
+      expect(languages.get(1).getISO639().get()).toEqual('aa');
     });
   });
 
