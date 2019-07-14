@@ -32,7 +32,7 @@ export class VeauAccountFactory {
       region
     } = json;
 
-    return this.from(VeauAccountID.of(veauAccountID), account, languageFactory.fromJSON(language), regionFactory.fromJSON(region));
+    return this.from(VeauAccountID.of(veauAccountID), account, Language.fromJSON(language), regionFactory.fromJSON(region));
   }
 
   public fromRow(row: VeauAccountRow): VeauAccount {

@@ -14,7 +14,7 @@ describe('VeauAccountFactory', () => {
     it('normal case', () => {
       const veauAccountID: VeauAccountID = VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de');
       const account: string = 'account';
-      const language: Language = new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+      const language: Language = Language.from(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
       const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
 
       const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();

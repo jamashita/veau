@@ -19,8 +19,8 @@ describe('LocaleInteractor',  () => {
       const stub1: SinonStub = sinon.stub();
       LanguageQuery.prototype.all = stub1;
       stub1.resolves([
-        new Language(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab')),
-        new Language(LanguageID.of(2), 'Afaraf', 'Afar', ISO639.of('aa'))
+        Language.from(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab')),
+        Language.from(LanguageID.of(2), 'Afaraf', 'Afar', ISO639.of('aa'))
       ]);
       const stub2: SinonStub = sinon.stub();
       RegionQuery.prototype.all = stub2;
