@@ -1,5 +1,5 @@
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { Region, RegionJSON } from '../Region';
+import { Region, RegionJSON, RegionRow } from '../Region';
 
 export class Regions {
   private regions: Array<Region>;
@@ -11,6 +11,14 @@ export class Regions {
   public static fromJSON(json: Array<RegionJSON>): Regions {
     const regions: Array<Region> = json.map<Region>((region: RegionJSON): Region => {
       return Region.fromJSON(region);
+    });
+
+    return Regions.from(regions);
+  }
+
+  public static fromRow(rows: Array<RegionRow>): Regions {
+    const regions: Array<Region> = rows.map<Region>((region: RegionRow): Region => {
+      return Region.fromRow(region);
     });
 
     return Regions.from(regions);

@@ -2,7 +2,7 @@ import 'jest';
 import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { RegionID } from '../../../veau-vo/RegionID';
-import { Region, RegionJSON } from '../../Region';
+import { Region, RegionJSON, RegionRow } from '../../Region';
 import { Regions } from '../Regions';
 
 describe('Regions', () => {
@@ -91,6 +91,25 @@ describe('Regions', () => {
       ];
 
       const regions: Regions = Regions.fromJSON(json);
+
+      expect(regions.length()).toEqual(1);
+      expect(regions.get(0).getRegionID().get()).toEqual(1);
+      expect(regions.get(0).getName()).toEqual('region 1');
+      expect(regions.get(0).getISO3166().get()).toEqual('abc');
+    });
+  });
+
+  describe('fromRow', () => {
+    it('normal case', () => {
+      const rows: Array<RegionRow> = [
+        {
+          regionID: 1,
+          name: 'region 1',
+          iso3166: 'abc'
+        }
+      ];
+
+      const regions: Regions = Regions.fromRow(rows);
 
       expect(regions.length()).toEqual(1);
       expect(regions.get(0).getRegionID().get()).toEqual(1);
