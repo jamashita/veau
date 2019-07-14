@@ -24,6 +24,10 @@ export class Languages {
     return Languages.from(languages);
   }
 
+  public static default(): Languages {
+    return Languages.from([]);
+  }
+
   private constructor(languages: Array<Language>) {
     this.languages = languages;
   }

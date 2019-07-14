@@ -26,7 +26,7 @@ export class Locale {
   }
 
   public static default(): Locale {
-    return Locale.from(Languages.from([]), Regions.from([]));
+    return Locale.from(Languages.default(), Regions.default());
   }
 
   private constructor(languages: Languages, regions: Regions) {

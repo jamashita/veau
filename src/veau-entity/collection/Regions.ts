@@ -24,6 +24,10 @@ export class Regions {
     return Regions.from(regions);
   }
 
+  public static default(): Regions {
+    return Regions.from([]);
+  }
+
   private constructor(regions: Array<Region>) {
     this.regions = regions;
   }
