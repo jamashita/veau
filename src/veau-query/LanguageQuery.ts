@@ -1,12 +1,10 @@
 import { LanguageCommand } from '../veau-command/LanguageCommand';
 import { Language, LanguageJSON, LanguageRow } from '../veau-entity/Language';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
-import { LanguageFactory } from '../veau-factory/LanguageFactory';
 import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { veauRedis } from '../veau-infrastructure/VeauRedis';
 import { ISO639 } from '../veau-vo/ISO639';
 
-const languageFactory: LanguageFactory = LanguageFactory.getInstance();
 const languageCommand: LanguageCommand = LanguageCommand.getInstance();
 
 const REDIS_KEY: string = 'LANGUAGES';
@@ -27,7 +25,7 @@ export class LanguageQuery {
     if (languagesString !== null) {
       const languageJSONs: Array<LanguageJSON> = JSON.parse(languagesString);
       return languageJSONs.map<Language>((json: LanguageJSON): Language => {
-        return languageFactory.fromJSON(json);
+        return Language.fromJSON(json);
       });
     }
 
@@ -42,7 +40,7 @@ export class LanguageQuery {
 
     const languageRows: Array<LanguageRow> = await veauMySQL.execute(query);
     const languages: Array<Language> = languageRows.map<Language>((row: LanguageRow): Language => {
-      return languageFactory.fromRow(row);
+      return Language.fromRow(row);
     });
 
     await languageCommand.insertAll(languages);

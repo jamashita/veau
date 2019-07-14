@@ -1,13 +1,11 @@
 import { Language, LanguageJSON } from '../../veau-entity/Language';
 import { Region, RegionJSON } from '../../veau-entity/Region';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { LanguageFactory } from '../../veau-factory/LanguageFactory';
 import { RegionFactory } from '../../veau-factory/RegionFactory';
 import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
 
-const languageFactory: LanguageFactory = LanguageFactory.getInstance();
 const regionFactory: RegionFactory = RegionFactory.getInstance();
 
 type Locales = {
@@ -81,7 +79,7 @@ export class LocaleQuery {
     const locales: Locales = await this.allLocales();
 
     return locales.languages.map<Language>((json: LanguageJSON): Language => {
-      return languageFactory.fromJSON(json);
+      return Language.fromJSON(json);
     });
   }
 
