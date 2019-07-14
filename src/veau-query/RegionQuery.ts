@@ -1,4 +1,5 @@
 import { RegionCommand } from '../veau-command/RegionCommand';
+import { Regions } from '../veau-entity/collection/Regions';
 import { Region, RegionJSON, RegionRow } from '../veau-entity/Region';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
@@ -19,14 +20,12 @@ export class RegionQuery {
   private constructor() {
   }
 
-  public async all(): Promise<Array<Region>> {
+  public async all(): Promise<Regions> {
     const regionString: string | null = await veauRedis.getString().get(REDIS_KEY);
 
     if (regionString !== null) {
       const regionJSONs: Array<RegionJSON> = JSON.parse(regionString);
-      return regionJSONs.map<Region>((json: RegionJSON): Region => {
-        return Region.fromJSON(json);
-      });
+      return Regions.fromJSON(regionJSONs);
     }
 
     const query: string = `SELECT
@@ -38,9 +37,7 @@ export class RegionQuery {
       ORDER BY R1.iso3166`;
 
     const regionRows: Array<RegionRow> = await veauMySQL.execute(query);
-    const regions: Array<Region> = regionRows.map<Region>((row: RegionRow): Region => {
-      return Region.fromRow(row);
-    });
+    const regions: Regions = Regions.fromRow(regionRows);
 
     await regionCommand.insertAll(regions);
 
@@ -48,7 +45,7 @@ export class RegionQuery {
   }
 
   public async findByISO3166(iso3166: ISO3166): Promise<Region> {
-    const regions: Array<Region> = await this.all();
+    const regions: Regions = await this.all();
     const found: Region | undefined = regions.find((region: Region): boolean => {
       if (region.getISO3166().equals(iso3166)) {
         return true;

@@ -2,6 +2,7 @@ import 'jest';
 import * as sinon from 'sinon';
 import { SinonStub } from 'sinon';
 import { RegionCommand } from '../../veau-command/RegionCommand';
+import { Regions } from '../../veau-entity/collection/Regions';
 import { Region } from '../../veau-entity/Region';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { veauMySQL } from '../../veau-infrastructure/VeauMySQL';
@@ -17,15 +18,15 @@ describe('RegionQuery', () => {
       stub.resolves('[{"regionID":1,"name":"Afghanistan","iso3166":"AFG"},{"regionID":2,"name":"Albania","iso3166":"ALB"}]');
 
       const regionQuery: RegionQuery = RegionQuery.getInstance();
-      const regions: Array<Region> = await regionQuery.all();
+      const regions: Regions = await regionQuery.all();
 
-      expect(regions.length).toEqual(2);
-      expect(regions[0].getRegionID().get()).toEqual(1);
-      expect(regions[0].getName()).toEqual('Afghanistan');
-      expect(regions[0].getISO3166().get()).toEqual('AFG');
-      expect(regions[1].getRegionID().get()).toEqual(2);
-      expect(regions[1].getName()).toEqual('Albania');
-      expect(regions[1].getISO3166().get()).toEqual('ALB');
+      expect(regions.length()).toEqual(2);
+      expect(regions.get(0).getRegionID().get()).toEqual(1);
+      expect(regions.get(0).getName()).toEqual('Afghanistan');
+      expect(regions.get(0).getISO3166().get()).toEqual('AFG');
+      expect(regions.get(1).getRegionID().get()).toEqual(2);
+      expect(regions.get(1).getName()).toEqual('Albania');
+      expect(regions.get(1).getISO3166().get()).toEqual('ALB');
     });
 
     it('MySQL returns regions', async () => {
@@ -52,15 +53,15 @@ describe('RegionQuery', () => {
       stub3.resolves();
 
       const regionQuery: RegionQuery = RegionQuery.getInstance();
-      const regions: Array<Region> = await regionQuery.all();
+      const regions: Regions = await regionQuery.all();
 
-      expect(regions.length).toEqual(2);
-      expect(regions[0].getRegionID().get()).toEqual(1);
-      expect(regions[0].getName()).toEqual('Afghanistan');
-      expect(regions[0].getISO3166().get()).toEqual('AFG');
-      expect(regions[1].getRegionID().get()).toEqual(2);
-      expect(regions[1].getName()).toEqual('Albania');
-      expect(regions[1].getISO3166().get()).toEqual('ALB');
+      expect(regions.length()).toEqual(2);
+      expect(regions.get(0).getRegionID().get()).toEqual(1);
+      expect(regions.get(0).getName()).toEqual('Afghanistan');
+      expect(regions.get(0).getISO3166().get()).toEqual('AFG');
+      expect(regions.get(1).getRegionID().get()).toEqual(2);
+      expect(regions.get(1).getName()).toEqual('Albania');
+      expect(regions.get(1).getISO3166().get()).toEqual('ALB');
     });
   });
 

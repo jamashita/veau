@@ -1,4 +1,4 @@
-import { Region, RegionJSON } from '../veau-entity/Region';
+import { Regions } from '../veau-entity/collection/Regions';
 import { CacheError } from '../veau-error/CacheError';
 import { veauRedis } from '../veau-infrastructure/VeauRedis';
 
@@ -15,12 +15,8 @@ export class RegionCommand {
   private constructor() {
   }
 
-  public async insertAll(regions: Array<Region>): Promise<any> {
-    const regionJSONs: Array<RegionJSON> = regions.map<RegionJSON>((region: Region): RegionJSON => {
-      return region.toJSON();
-    });
-
-    await veauRedis.getString().set(REDIS_KEY, JSON.stringify(regionJSONs));
+  public async insertAll(regions: Regions): Promise<any> {
+    await veauRedis.getString().set(REDIS_KEY, JSON.stringify(regions.toJSON()));
 
     return veauRedis.expires(REDIS_KEY, DURATION);
   }
