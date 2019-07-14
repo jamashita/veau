@@ -19,8 +19,32 @@ export class Region extends Entity<RegionID> {
   private name: string;
   private iso3166: ISO3166;
 
+  public static from(regionID: RegionID, name: string, iso3166: ISO3166): Region {
+    return new Region(regionID, name, iso3166);
+  }
+
+  public static fromJSON(json: RegionJSON): Region {
+    const {
+      regionID,
+      name,
+      iso3166
+    } = json;
+
+    return Region.from(RegionID.of(regionID), name, ISO3166.of(iso3166));
+  }
+
+  public static fromRow(row: RegionRow): Region {
+    const {
+      regionID,
+      name,
+      iso3166
+    } = row;
+
+    return Region.from(RegionID.of(regionID), name, ISO3166.of(iso3166));
+  }
+
   public static default(): Region {
-    return new Region(RegionID.of(0), '', ISO3166.default());
+    return Region.from(RegionID.of(0), '', ISO3166.default());
   }
 
   public constructor(regionID: RegionID, name: string, iso3166: ISO3166) {

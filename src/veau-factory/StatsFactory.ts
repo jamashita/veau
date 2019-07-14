@@ -10,11 +10,9 @@ import { ISO639 } from '../veau-vo/ISO639';
 import { LanguageID } from '../veau-vo/LanguageID';
 import { RegionID } from '../veau-vo/RegionID';
 import { StatsID } from '../veau-vo/StatsID';
-import { RegionFactory } from './RegionFactory';
 import { StatsItemFactory } from './StatsItemFactory';
 
 const statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
-const regionFactory: RegionFactory = RegionFactory.getInstance();
 
 export class StatsFactory {
   private static instance: StatsFactory = new StatsFactory();
@@ -49,7 +47,7 @@ export class StatsFactory {
     return this.from(
       StatsID.of(statsID),
       Language.fromJSON(language),
-      regionFactory.fromJSON(region),
+      Region.fromJSON(region),
       Term.of(termID),
       name,
       unit,
@@ -75,7 +73,7 @@ export class StatsFactory {
     } = row;
 
     const language: Language = Language.from(LanguageID.of(languageID), languageName, languageEnglishName, ISO639.of(iso639));
-    const region: Region = regionFactory.from(RegionID.of(regionID), regionName, ISO3166.of(iso3166));
+    const region: Region = Region.from(RegionID.of(regionID), regionName, ISO3166.of(iso3166));
     const term: Term = Term.of(termID);
 
     return this.from(StatsID.of(statsID), language, region, term, name, unit, moment.utc(updatedAt), StatsItems.of(statItems));

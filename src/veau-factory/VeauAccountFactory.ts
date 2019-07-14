@@ -6,9 +6,6 @@ import { ISO639 } from '../veau-vo/ISO639';
 import { LanguageID } from '../veau-vo/LanguageID';
 import { RegionID } from '../veau-vo/RegionID';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
-import { RegionFactory } from './RegionFactory';
-
-const regionFactory: RegionFactory = RegionFactory.getInstance();
 
 export class VeauAccountFactory {
   private static instance: VeauAccountFactory = new VeauAccountFactory();
@@ -32,7 +29,7 @@ export class VeauAccountFactory {
       region
     } = json;
 
-    return this.from(VeauAccountID.of(veauAccountID), account, Language.fromJSON(language), regionFactory.fromJSON(region));
+    return this.from(VeauAccountID.of(veauAccountID), account, Language.fromJSON(language), Region.fromJSON(region));
   }
 
   public fromRow(row: VeauAccountRow): VeauAccount {
@@ -49,7 +46,7 @@ export class VeauAccountFactory {
     } = row;
 
     const language: Language = Language.from(LanguageID.of(languageID), languageName, languageEnglishName, ISO639.of(iso639));
-    const region: Region = regionFactory.from(RegionID.of(regionID), regionName, ISO3166.of(iso3166));
+    const region: Region = Region.from(RegionID.of(regionID), regionName, ISO3166.of(iso3166));
 
     return this.from(VeauAccountID.of(veauAccountID), account, language, region);
   }

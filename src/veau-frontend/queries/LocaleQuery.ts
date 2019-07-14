@@ -1,12 +1,9 @@
 import { Language, LanguageJSON } from '../../veau-entity/Language';
 import { Region, RegionJSON } from '../../veau-entity/Region';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { RegionFactory } from '../../veau-factory/RegionFactory';
 import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
-
-const regionFactory: RegionFactory = RegionFactory.getInstance();
 
 type Locales = {
   languages: Array<LanguageJSON>;
@@ -87,7 +84,7 @@ export class LocaleQuery {
     const locales: Locales = await this.allLocales();
 
     return locales.regions.map<Region>((json: RegionJSON): Region => {
-      return regionFactory.fromJSON(json);
+      return Region.fromJSON(json);
     });
   }
 }
