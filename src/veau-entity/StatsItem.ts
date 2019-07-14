@@ -21,11 +21,43 @@ export class StatsItem extends Entity<StatsItemID> {
   private name: string;
   private values: StatsValues;
 
-  public static default(): StatsItem {
-    return new StatsItem(StatsItemID.of(UUID.v4()), '', StatsValues.of([]));
+  public static from(statsItemID: StatsItemID, name: string, values: StatsValues): StatsItem {
+    return new StatsItem(statsItemID, name, values);
   }
 
-  public constructor(statsItemID: StatsItemID, name: string, values: StatsValues) {
+  public static fromJSON(json: StatsItemJSON): StatsItem {
+    const {
+      statsItemID,
+      name,
+      values
+    } = json;
+
+    const statsValues: Array<StatsValue> = values.map<StatsValue>((statsValue: StatsValueJSON): StatsValue => {
+      const {
+        asOf,
+        value
+      } = statsValue;
+
+      return StatsValue.of(moment(asOf), value);
+    });
+
+    return StatsItem.from(StatsItemID.of(statsItemID), name, StatsValues.of(statsValues));
+  }
+
+  public static fromRow(row: StatsItemRow, statsValues: StatsValues): StatsItem {
+    const {
+      statsItemID,
+      name
+    } = row;
+
+    return StatsItem.from(StatsItemID.of(statsItemID), name, statsValues);
+  }
+
+  public static default(): StatsItem {
+    return StatsItem.from(StatsItemID.of(UUID.v4()), '', StatsValues.of([]));
+  }
+
+  private constructor(statsItemID: StatsItemID, name: string, values: StatsValues) {
     super();
     this.statsItemID = statsItemID;
     this.name = name;

@@ -1,12 +1,10 @@
 import { StatsItem, StatsItemRow } from '../veau-entity/StatsItem';
-import { StatsItemFactory } from '../veau-factory/StatsItemFactory';
 import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsValues } from '../veau-vo/collection/StatsValues';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValueQuery } from './StatsValueQuery';
 
 const statsValueQuery: StatsValueQuery = StatsValueQuery.getInstance();
-const statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
 
 export class StatsItemQuery {
   private static instance: StatsItemQuery = new StatsItemQuery();
@@ -36,10 +34,10 @@ export class StatsItemQuery {
       const values: StatsValues | undefined = valueMap.get(statsItemRow.statsItemID);
 
       if (values) {
-        return statsItemFactory.fromRow(statsItemRow, values);
+        return StatsItem.fromRow(statsItemRow, values);
       }
 
-      return statsItemFactory.fromRow(statsItemRow, StatsValues.of([]));
+      return StatsItem.fromRow(statsItemRow, StatsValues.of([]));
     });
   }
 }
