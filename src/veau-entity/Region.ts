@@ -47,7 +47,7 @@ export class Region extends Entity<RegionID> {
     return Region.from(RegionID.of(0), '', ISO3166.default());
   }
 
-  public constructor(regionID: RegionID, name: string, iso3166: ISO3166) {
+  private constructor(regionID: RegionID, name: string, iso3166: ISO3166) {
     super();
     this.regionID = regionID;
     this.name = name;

@@ -16,7 +16,7 @@ describe('StatsOutline', () => {
       const statsOutline1: StatsOutline = StatsOutline.from(
         StatsID.of('d5d311b5-c09a-4f82-91e5-b7b55736120e'),
         Language.from(LanguageID.of(1), 'language1', 'LANGUAGE1', ISO639.of('lang1')),
-        new Region(RegionID.of(1), 'region1', ISO3166.of('REGION1')),
+        Region.from(RegionID.of(1), 'region1', ISO3166.of('REGION1')),
         Term.DAILY,
         'name1',
         'unit1',
@@ -25,7 +25,7 @@ describe('StatsOutline', () => {
       const statsOutline2: StatsOutline = StatsOutline.from(
         StatsID.of('f19bca43-511f-4d8c-bd12-af27bf0cd429'),
         Language.from(LanguageID.of(2), 'language2', 'LANGUAGE2', ISO639.of('lang2')),
-        new Region(RegionID.of(2), 'region2', ISO3166.of('REGION2')),
+        Region.from(RegionID.of(2), 'region2', ISO3166.of('REGION2')),
         Term.WEEKLY,
         'name2',
         'unit2',
@@ -34,7 +34,7 @@ describe('StatsOutline', () => {
       const statsOutline3: StatsOutline = StatsOutline.from(
         StatsID.of('d5d311b5-c09a-4f82-91e5-b7b55736120e'),
         Language.from(LanguageID.of(2), 'language2', 'LANGUAGE2', ISO639.of('lang2')),
-        new Region(RegionID.of(2), 'region2', ISO3166.of('REGION2')),
+        Region.from(RegionID.of(2), 'region2', ISO3166.of('REGION2')),
         Term.WEEKLY,
         'name2',
         'unit2',
@@ -53,7 +53,7 @@ describe('StatsOutline', () => {
       const statsOutline: StatsOutline = StatsOutline.from(
         statsID,
         Language.from(LanguageID.of(1), 'language1', 'englishname1', ISO639.of('lang1')),
-        new Region(RegionID.of(1), 'region1', ISO3166.of('regn1')),
+        Region.from(RegionID.of(1), 'region1', ISO3166.of('regn1')),
         Term.DAILY,
         'name1',
         'unit1',
@@ -85,11 +85,11 @@ describe('StatsOutline', () => {
     it('returns true is language, region, name and unit are filled', () => {
       const statsOutline1: StatsOutline = StatsOutline.from(StatsID.of('62e103f0-5299-4794-883f-62b9c91583e4'), Language.default(), Region.default(), Term.DAILY, '', '', moment('2000-01-01'));
       const statsOutline2: StatsOutline = StatsOutline.from(StatsID.of('62e103f0-5299-4794-883f-62b9c91583e4'), Language.from(LanguageID.of(1), 'language1', 'language1', ISO639.of('ab')), Region.default(), Term.DAILY, '', '', moment('2000-01-01'));
-      const statsOutline3: StatsOutline = StatsOutline.from(StatsID.of('62e103f0-5299-4794-883f-62b9c91583e4'), Language.default(), new Region(RegionID.of(1), 'region1', ISO3166.of('AFG')), Term.DAILY, '', '', moment('2000-01-01'));
-      const statsOutline4: StatsOutline = StatsOutline.from(StatsID.of('62e103f0-5299-4794-883f-62b9c91583e4'), Language.from(LanguageID.of(1), 'language1', 'language1', ISO639.of('ab')), new Region(RegionID.of(1), 'region1', ISO3166.of('AFG')), Term.DAILY, '', '', moment('2000-01-01'));
-      const statsOutline5: StatsOutline = StatsOutline.from(StatsID.of('62e103f0-5299-4794-883f-62b9c91583e4'), Language.from(LanguageID.of(1), 'language1', 'language1', ISO639.of('ab')), new Region(RegionID.of(1), 'region1', ISO3166.of('AFG')), Term.DAILY, 'stats1', '', moment('2000-01-01'));
-      const statsOutline6: StatsOutline = StatsOutline.from(StatsID.of('62e103f0-5299-4794-883f-62b9c91583e4'), Language.from(LanguageID.of(1), 'language1', 'language1', ISO639.of('ab')), new Region(RegionID.of(1), 'region1', ISO3166.of('AFG')), Term.DAILY, '', 'unit1', moment('2000-01-01'));
-      const statsOutline7: StatsOutline = StatsOutline.from(StatsID.of('62e103f0-5299-4794-883f-62b9c91583e4'), Language.from(LanguageID.of(1), 'language1', 'language1', ISO639.of('ab')), new Region(RegionID.of(1), 'region1', ISO3166.of('AFG')), Term.DAILY, 'stats1', 'unit1', moment('2000-01-01'));
+      const statsOutline3: StatsOutline = StatsOutline.from(StatsID.of('62e103f0-5299-4794-883f-62b9c91583e4'), Language.default(), Region.from(RegionID.of(1), 'region1', ISO3166.of('AFG')), Term.DAILY, '', '', moment('2000-01-01'));
+      const statsOutline4: StatsOutline = StatsOutline.from(StatsID.of('62e103f0-5299-4794-883f-62b9c91583e4'), Language.from(LanguageID.of(1), 'language1', 'language1', ISO639.of('ab')), Region.from(RegionID.of(1), 'region1', ISO3166.of('AFG')), Term.DAILY, '', '', moment('2000-01-01'));
+      const statsOutline5: StatsOutline = StatsOutline.from(StatsID.of('62e103f0-5299-4794-883f-62b9c91583e4'), Language.from(LanguageID.of(1), 'language1', 'language1', ISO639.of('ab')), Region.from(RegionID.of(1), 'region1', ISO3166.of('AFG')), Term.DAILY, 'stats1', '', moment('2000-01-01'));
+      const statsOutline6: StatsOutline = StatsOutline.from(StatsID.of('62e103f0-5299-4794-883f-62b9c91583e4'), Language.from(LanguageID.of(1), 'language1', 'language1', ISO639.of('ab')), Region.from(RegionID.of(1), 'region1', ISO3166.of('AFG')), Term.DAILY, '', 'unit1', moment('2000-01-01'));
+      const statsOutline7: StatsOutline = StatsOutline.from(StatsID.of('62e103f0-5299-4794-883f-62b9c91583e4'), Language.from(LanguageID.of(1), 'language1', 'language1', ISO639.of('ab')), Region.from(RegionID.of(1), 'region1', ISO3166.of('AFG')), Term.DAILY, 'stats1', 'unit1', moment('2000-01-01'));
 
       expect(statsOutline1.isFilled()).toEqual(false);
       expect(statsOutline2.isFilled()).toEqual(false);
@@ -105,7 +105,7 @@ describe('StatsOutline', () => {
     it('every properties are copied', () => {
       const statsID: StatsID = StatsID.of('f330c618-6127-46d1-ba10-a9f6af458b4c');
       const language: Language = Language.from(LanguageID.of(1), 'language', 'english language', ISO639.of('ab'));
-      const region: Region = new Region(RegionID.of(2), 'region', ISO3166.of('AFG'));
+      const region: Region = Region.from(RegionID.of(2), 'region', ISO3166.of('AFG'));
       const term: Term = Term.DAILY;
       const name: string = 'stats';
       const unit: string = 'unit';
@@ -129,7 +129,7 @@ describe('StatsOutline', () => {
     it('normal case', () => {
       const statsID: StatsID = StatsID.of('af272303-df5d-4d34-8604-398920b7d2bb');
       const language: Language = Language.from(LanguageID.of(1), 'language1', 'language english name 1', ISO639.of('lang1'));
-      const region: Region = new Region(RegionID.of(1), 'region1', ISO3166.of('regn1'));
+      const region: Region = Region.from(RegionID.of(1), 'region1', ISO3166.of('regn1'));
       const term: Term = Term.ANNUAL;
       const name: string = 'name1';
       const unit: string = 'unit1';

@@ -63,15 +63,6 @@ gulp.task('veau-error', () => {
     .pipe(gulp.dest('dist/veau-error'));
 });
 
-gulp.task('veau-factory', () => {
-  return gulp.src(['src/veau-factory/**/*.ts'], {
-      since : gulp.lastRun('veau-factory')
-    })
-    .pipe(plumber())
-    .pipe(tsc())
-    .pipe(gulp.dest('dist/veau-factory'));
-});
-
 gulp.task('veau-frontend', () => {
   return gulp.src(['src/veau-frontend/**/*.ts', 'src/veau-frontend/**/*.tsx'])
     .pipe(plumber())
@@ -217,7 +208,6 @@ gulp.task(
     'veau-entity',
     'veau-enum',
     'veau-error',
-    'veau-factory',
     'veau-frontend',
     'veau-general',
     'veau-infrastructure',
@@ -240,7 +230,6 @@ gulp.task(
       gulp.watch('src/veau-entity/**/*.ts', gulp.series('veau-entity'));
       gulp.watch('src/veau-enum/**/*.ts', gulp.series('veau-enum'));
       gulp.watch('src/veau-error/**/*.ts', gulp.series('veau-error'));
-      gulp.watch('src/veau-factory/**/*.ts', gulp.series('veau-factory'));
       gulp.watch('src/veau-general/**/*.ts', gulp.series('veau-general'));
       gulp.watch('src/veau-infrastructure/**/*.ts', gulp.series('veau-infrastructure'));
       gulp.watch('src/veau-interactor/**/*.ts', gulp.series('veau-interactor'));

@@ -25,8 +25,8 @@ describe('LocaleInteractor',  () => {
       const stub2: SinonStub = sinon.stub();
       RegionQuery.prototype.all = stub2;
       stub2.resolves([
-        new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG')),
-        new Region(RegionID.of(2), 'Albania', ISO3166.of('ALB'))
+        Region.from(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG')),
+        Region.from(RegionID.of(2), 'Albania', ISO3166.of('ALB'))
       ]);
 
       const localelocaleInteractor: LocaleInteractor = LocaleInteractor.getInstance();

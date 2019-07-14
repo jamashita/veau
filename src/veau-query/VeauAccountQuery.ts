@@ -1,9 +1,6 @@
 import { VeauAccount, VeauAccountRow } from '../veau-entity/VeauAccount';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
-import { VeauAccountFactory } from '../veau-factory/VeauAccountFactory';
 import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
-
-const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
 
 export type VeauAccountHash = {
   veauAccount: VeauAccount;
@@ -51,7 +48,7 @@ export class VeauAccountQuery {
     const veauAccountRow: VeauAccountRow = veauAccountRows[0];
 
     return {
-      veauAccount: veauAccountFactory.fromRow(veauAccountRow),
+      veauAccount: VeauAccount.fromRow(veauAccountRow),
       hash: veauAccountRow.hash
     };
   }

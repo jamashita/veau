@@ -1,3 +1,7 @@
+import { ISO3166 } from '../veau-vo/ISO3166';
+import { ISO639 } from '../veau-vo/ISO639';
+import { LanguageID } from '../veau-vo/LanguageID';
+import { RegionID } from '../veau-vo/RegionID';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
 import { Entity } from './Entity';
 import { Language, LanguageJSON } from './Language';
@@ -29,11 +33,45 @@ export class VeauAccount extends Entity<VeauAccountID> {
   private language: Language;
   private region: Region;
 
-  public static default(): VeauAccount {
-    return new VeauAccount(VeauAccountID.default(), '', Language.default(), Region.default());
+  public static from(veauAccountID: VeauAccountID, name: string, language: Language, region: Region): VeauAccount {
+    return new VeauAccount(veauAccountID, name, language, region);
   }
 
-  public constructor(veauAccountID: VeauAccountID, account: string, language: Language, region: Region) {
+  public static fromJSON(json: VeauAccountJSON): VeauAccount {
+    const {
+      veauAccountID,
+      account,
+      language,
+      region
+    } = json;
+
+    return VeauAccount.from(VeauAccountID.of(veauAccountID), account, Language.fromJSON(language), Region.fromJSON(region));
+  }
+
+  public static fromRow(row: VeauAccountRow): VeauAccount {
+    const {
+      veauAccountID,
+      account,
+      languageID,
+      languageName,
+      languageEnglishName,
+      iso639,
+      regionID,
+      regionName,
+      iso3166
+    } = row;
+
+    const language: Language = Language.from(LanguageID.of(languageID), languageName, languageEnglishName, ISO639.of(iso639));
+    const region: Region = Region.from(RegionID.of(regionID), regionName, ISO3166.of(iso3166));
+
+    return VeauAccount.from(VeauAccountID.of(veauAccountID), account, language, region);
+  }
+
+  public static default(): VeauAccount {
+    return VeauAccount.from(VeauAccountID.default(), '', Language.default(), Region.default());
+  }
+
+  private constructor(veauAccountID: VeauAccountID, account: string, language: Language, region: Region) {
     super();
     this.veauAccountID = veauAccountID;
     this.account = account;

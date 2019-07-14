@@ -6,9 +6,9 @@ import { Region, RegionJSON, RegionRow } from '../Region';
 describe('Region', () => {
   describe('equals', () => {
     it('returns true if the ids equal', () => {
-      const region1: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
-      const region2: Region = new Region(RegionID.of(2), 'Albania', ISO3166.of('ALB'));
-      const region3: Region = new Region(RegionID.of(1), 'Albania', ISO3166.of('ALB'));
+      const region1: Region = Region.from(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+      const region2: Region = Region.from(RegionID.of(2), 'Albania', ISO3166.of('ALB'));
+      const region3: Region = Region.from(RegionID.of(1), 'Albania', ISO3166.of('ALB'));
 
       expect(region1.equals(region1)).toEqual(true);
       expect(region1.equals(region2)).toEqual(false);
@@ -22,7 +22,7 @@ describe('Region', () => {
       const name: string = 'Afghanistan';
       const iso3166: ISO3166 = ISO3166.of('AFG');
 
-      const region: Region = new Region(regionID, name, iso3166);
+      const region: Region = Region.from(regionID, name, iso3166);
       const copied: Region = region.copy();
 
       expect(region).not.toBe(copied);
@@ -34,7 +34,7 @@ describe('Region', () => {
 
   describe('toJSON', () => {
     it('normal case', () => {
-      const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+      const region: Region = Region.from(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
 
       expect(region.toJSON()).toEqual({
         regionID: 1,

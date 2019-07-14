@@ -18,8 +18,8 @@ describe('IdentityController', () => {
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.from(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
-        const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
-        req.user = new VeauAccount(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), 'account', language, region);
+        const region: Region = Region.from(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+        req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), 'account', language, region);
         next();
       });
       app.use('/', IdentityController);

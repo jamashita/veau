@@ -2,7 +2,6 @@ import { fork, put, select, take } from 'redux-saga/effects';
 import { Language } from '../../veau-entity/Language';
 import { Region } from '../../veau-entity/Region';
 import { VeauAccount } from '../../veau-entity/VeauAccount';
-import { VeauAccountFactory } from '../../veau-factory/VeauAccountFactory';
 import { LanguageIdentifier } from '../../veau-general/LanguageIdentifier';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
@@ -17,7 +16,6 @@ import { LocaleQuery } from '../queries/LocaleQuery';
 import { SessionQuery } from '../queries/SessionQuery';
 import { State } from '../State';
 
-const veauAccountFactory: VeauAccountFactory = VeauAccountFactory.getInstance();
 const sessionQuery: SessionQuery = SessionQuery.getInstance();
 const localeQuery: LocaleQuery = LocaleQuery.getInstance();
 
@@ -71,7 +69,7 @@ export class IdentitySaga {
           return;
         }
 
-        const veauAccount: VeauAccount = veauAccountFactory.from(identity.getVeauAccountID(), identity.getAccount(), found, identity.getRegion());
+        const veauAccount: VeauAccount = VeauAccount.from(identity.getVeauAccountID(), identity.getAccount(), found, identity.getRegion());
 
         yield put(identityAuthenticated(veauAccount));
         yield put(pushToEntrance());
@@ -92,7 +90,7 @@ export class IdentitySaga {
         identity
       } = state;
 
-      const veauAccount: VeauAccount = veauAccountFactory.from(VeauAccountID.default(), '', identity.getLanguage(), identity.getRegion());
+      const veauAccount: VeauAccount = VeauAccount.from(VeauAccountID.default(), '', identity.getLanguage(), identity.getRegion());
 
       yield put(identityAuthenticated(veauAccount));
     }

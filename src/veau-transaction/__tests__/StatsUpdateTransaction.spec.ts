@@ -42,7 +42,7 @@ describe('StatsUpdateTransaction', () => {
 
       const statsID: StatsID = StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94');
       const language: Language = Language.from(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
-      const region: Region = new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+      const region: Region = Region.from(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
       const term: Term = Term.MONTHLY;
       const name: string = 'stats';
       const unit: string = 'unit';
