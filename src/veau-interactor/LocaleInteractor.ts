@@ -1,14 +1,10 @@
 import { LanguageCommand } from '../veau-command/LanguageCommand';
 import { RegionCommand } from '../veau-command/RegionCommand';
-import { Language } from '../veau-entity/Language';
-import { Region } from '../veau-entity/Region';
+import { Locale } from '../veau-entity/aggregate/Locale';
+import { Languages } from '../veau-entity/collection/Languages';
+import { Regions } from '../veau-entity/collection/Regions';
 import { LanguageQuery } from '../veau-query/LanguageQuery';
 import { RegionQuery } from '../veau-query/RegionQuery';
-
-export type Locales = {
-  languages: Array<Language>;
-  regions: Array<Region>;
-};
 
 const languageQuery: LanguageQuery = LanguageQuery.getInstance();
 const languageCommand: LanguageCommand = LanguageCommand.getInstance();
@@ -25,14 +21,11 @@ export class LocaleInteractor {
   private constructor() {
   }
 
-  public async all(): Promise<Locales> {
-    const languages: Array<Language> = await languageQuery.all();
-    const regions: Array<Region> = await regionQuery.all();
+  public async all(): Promise<Locale> {
+    const languages: Languages = await languageQuery.all();
+    const regions: Regions = await regionQuery.all();
 
-    return {
-      languages,
-      regions
-    };
+    return Locale.from(languages, regions);
   }
 
   public delete(): Promise<any> {

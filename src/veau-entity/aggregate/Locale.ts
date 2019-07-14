@@ -1,7 +1,7 @@
 import { Languages } from '../collection/Languages';
 import { Regions } from '../collection/Regions';
-import { LanguageJSON } from '../Language';
-import { RegionJSON } from '../Region';
+import { Language, LanguageJSON } from '../Language';
+import { Region, RegionJSON } from '../Region';
 
 export type LocaleJSON = {
   languages: Array<LanguageJSON>;
@@ -28,6 +28,14 @@ export class Locale {
   private constructor(languages: Languages, regions: Regions) {
     this.languages = languages;
     this.regions = regions;
+  }
+
+  public getLanguage(index: number): Language {
+    return this.languages.get(index);
+  }
+
+  public getRegion(index: number): Region {
+    return this.regions.get(index);
   }
 
   public toJSON(): LocaleJSON {

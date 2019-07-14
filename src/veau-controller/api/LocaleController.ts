@@ -1,10 +1,9 @@
 import * as express from 'express';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import * as log4js from 'log4js';
-import { Language, LanguageJSON } from '../../veau-entity/Language';
-import { Region, RegionJSON } from '../../veau-entity/Region';
+import { Locale } from '../../veau-entity/aggregate/Locale';
 import { CacheError } from '../../veau-error/CacheError';
-import { LocaleInteractor, Locales } from '../../veau-interactor/LocaleInteractor';
+import { LocaleInteractor } from '../../veau-interactor/LocaleInteractor';
 import { AuthenticationMiddleware } from '../middlewares/AuthenticationMiddleware';
 
 const router: express.Router = express.Router();
@@ -14,16 +13,9 @@ const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddlew
 const localeInteractor: LocaleInteractor = LocaleInteractor.getInstance();
 
 router.get('/', async (req: express.Request, res: express.Response): Promise<any> => {
-  const locales: Locales = await localeInteractor.all();
+  const locale: Locale = await localeInteractor.all();
 
-  res.status(OK).send({
-    languages: locales.languages.map<LanguageJSON>((language: Language): LanguageJSON => {
-      return language.toJSON();
-    }),
-    regions: locales.regions.map<RegionJSON>((region: Region): RegionJSON => {
-      return region.toJSON();
-    })
-  });
+  res.status(OK).send(locale.toJSON());
 });
 
 router.delete('/', authenticationMiddleware.apply(), async (req: express.Request, res: express.Response): Promise<any> => {
