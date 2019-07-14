@@ -5,7 +5,7 @@ import { StatsItem, StatsItemJSON } from '../StatsItem';
 export class StatsItems {
   private items: Array<StatsItem>;
 
-  public static of(items: Array<StatsItem>): StatsItems {
+  public static from(items: Array<StatsItem>): StatsItems {
     return new StatsItems(items);
   }
 

@@ -33,7 +33,7 @@ describe('StatsInteractor', () => {
       const name: string = 'stats';
       const unit: string = 'unit';
       const updatedAt: moment.Moment = moment.utc();
-      const items: StatsItems = StatsItems.of([
+      const items: StatsItems = StatsItems.from([
         StatsItem.from(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b'), 'item1', StatsValues.of([])),
         StatsItem.from(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8'), 'item2', StatsValues.of([]))
       ]);
@@ -132,7 +132,7 @@ describe('StatsInteractor', () => {
       const name: string = 'stats';
       const unit: string = 'unit';
       const updatedAt: moment.Moment = moment.utc();
-      const items: StatsItems = StatsItems.of([
+      const items: StatsItems = StatsItems.from([
         StatsItem.from(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b'), 'item1', StatsValues.of([])),
         StatsItem.from(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8'), 'item2', StatsValues.of([]))
       ]);

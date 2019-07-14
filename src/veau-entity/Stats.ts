@@ -87,7 +87,7 @@ export class Stats extends Entity<StatsID> {
       name,
       unit,
       moment.utc(updatedAt),
-      StatsItems.of(statsItems)
+      StatsItems.from(statsItems)
     );
   }
 
@@ -111,11 +111,11 @@ export class Stats extends Entity<StatsID> {
     const region: Region = Region.from(RegionID.of(regionID), regionName, ISO3166.of(iso3166));
     const term: Term = Term.of(termID);
 
-    return Stats.from(StatsID.of(statsID), language, region, term, name, unit, moment.utc(updatedAt), StatsItems.of(statItems));
+    return Stats.from(StatsID.of(statsID), language, region, term, name, unit, moment.utc(updatedAt), StatsItems.from(statItems));
   }
 
   public static default(): Stats {
-    return Stats.from(StatsID.of(UUID.v4()), Language.default(), Region.default(), Term.DAILY, '', '', moment(), StatsItems.of([]));
+    return Stats.from(StatsID.of(UUID.v4()), Language.default(), Region.default(), Term.DAILY, '', '', moment(), StatsItems.from([]));
   }
 
   private constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: string, unit: string, updatedAt: moment.Moment, items: StatsItems, startDate?: string) {
