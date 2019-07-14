@@ -40,7 +40,7 @@ describe('StatsInteractor', () => {
 
       const stub: SinonStub = sinon.stub();
       StatsQuery.prototype.findByStatsID = stub;
-      stub.resolves(new Stats(
+      stub.resolves(Stats.from(
         statsID,
         language,
         region,
@@ -98,7 +98,7 @@ describe('StatsInteractor', () => {
       const stub: SinonStub = sinon.stub();
       StatsQuery.prototype.findByVeauAccountID = stub;
       stub.resolves([
-        new StatsOutline(
+        Stats.fromOutline(
           statsID,
           language,
           region,
@@ -137,7 +137,7 @@ describe('StatsInteractor', () => {
         StatsItem.from(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8'), 'item2', StatsValues.of([]))
       ]);
 
-      const stats: Stats = new Stats(
+      const stats: Stats = Stats.from(
         statsID,
         language,
         region,

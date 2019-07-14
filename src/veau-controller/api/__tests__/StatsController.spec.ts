@@ -11,7 +11,6 @@ import { Language } from '../../../veau-entity/Language';
 import { Region } from '../../../veau-entity/Region';
 import { Stats } from '../../../veau-entity/Stats';
 import { StatsItem } from '../../../veau-entity/StatsItem';
-import { StatsOutline } from '../../../veau-entity/StatsOutline';
 import { VeauAccount } from '../../../veau-entity/VeauAccount';
 import { Term } from '../../../veau-enum/Term';
 import { NotFoundError } from '../../../veau-error/NotFoundError';
@@ -33,7 +32,7 @@ describe('StatsController', () => {
       const stub: SinonStub = sinon.stub();
       StatsInteractor.prototype.findByVeauAccountID = stub;
       stub.resolves([
-        new StatsOutline(
+        Stats.fromOutline(
           StatsID.of('01c466f3-198a-45a4-9204-348ac57b1b5d'),
           Language.from(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab')),
           new Region(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG')),
@@ -120,7 +119,7 @@ describe('StatsController', () => {
     it('normal case', async () => {
       const stub: SinonStub = sinon.stub();
       StatsInteractor.prototype.findByStatsID = stub;
-      stub.resolves(new Stats(
+      stub.resolves(Stats.from(
         StatsID.of('059ce0b2-7cba-4ba4-9a5d-a8fa7493f556'),
         Language.from(LanguageID.of(1), 'language', 'english name', ISO639.of('la')),
         new Region(RegionID.of(1), 'region', ISO3166.of('RGN')),

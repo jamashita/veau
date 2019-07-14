@@ -2,6 +2,10 @@ import * as moment from 'moment';
 import { Term } from '../veau-enum/Term';
 import { RuntimeError } from '../veau-error/RuntimeError';
 import { UUID } from '../veau-general/UUID';
+import { ISO3166 } from '../veau-vo/ISO3166';
+import { ISO639 } from '../veau-vo/ISO639';
+import { LanguageID } from '../veau-vo/LanguageID';
+import { RegionID } from '../veau-vo/RegionID';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValue } from '../veau-vo/StatsValue';
 import { StatsItems } from './collection/StatsItems';
@@ -55,11 +59,66 @@ export class Stats extends Entity<StatsID> {
   private startDate?: string;
   private columns?: Array<string>;
 
-  public static default(): Stats {
-    return new Stats(StatsID.of(UUID.v4()), Language.default(), Region.default(), Term.DAILY, '', '', moment(), StatsItems.of([]));
+  public static from(statsID: StatsID, language: Language, region: Region, term: Term, name: string, unit: string, updatedAt: moment.Moment, items: StatsItems, startDate?: string): Stats {
+    return new Stats(statsID, language, region, term, name, unit, updatedAt, items, startDate);
   }
 
-  public constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: string, unit: string, updatedAt: moment.Moment, items: StatsItems, startDate?: string) {
+  public static fromJSON(json: StatsJSON): Stats {
+    const {
+      statsID,
+      language,
+      region,
+      termID,
+      name,
+      unit,
+      updatedAt,
+      items
+    } = json;
+
+    const statsItems: Array<StatsItem> = items.map<StatsItem>((item: StatsItemJSON): StatsItem => {
+      return StatsItem.fromJSON(item);
+    });
+
+    return Stats.from(
+      StatsID.of(statsID),
+      Language.fromJSON(language),
+      Region.fromJSON(region),
+      Term.of(termID),
+      name,
+      unit,
+      moment.utc(updatedAt),
+      StatsItems.of(statsItems)
+    );
+  }
+
+  public static fromRow(row: StatsRow, statItems: Array<StatsItem>): Stats {
+    const {
+      statsID,
+      languageID,
+      languageName,
+      languageEnglishName,
+      iso639,
+      regionID,
+      regionName,
+      iso3166,
+      termID,
+      name,
+      unit,
+      updatedAt
+    } = row;
+
+    const language: Language = Language.from(LanguageID.of(languageID), languageName, languageEnglishName, ISO639.of(iso639));
+    const region: Region = Region.from(RegionID.of(regionID), regionName, ISO3166.of(iso3166));
+    const term: Term = Term.of(termID);
+
+    return Stats.from(StatsID.of(statsID), language, region, term, name, unit, moment.utc(updatedAt), StatsItems.of(statItems));
+  }
+
+  public static default(): Stats {
+    return Stats.from(StatsID.of(UUID.v4()), Language.default(), Region.default(), Term.DAILY, '', '', moment(), StatsItems.of([]));
+  }
+
+  private constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: string, unit: string, updatedAt: moment.Moment, items: StatsItems, startDate?: string) {
     super();
     this.statsID = statsID;
     this.language = language;

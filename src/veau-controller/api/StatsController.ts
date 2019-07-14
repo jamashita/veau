@@ -4,7 +4,6 @@ import * as log4js from 'log4js';
 import { Stats, StatsJSON } from '../../veau-entity/Stats';
 import { StatsOutline, StatsOutlineJSON } from '../../veau-entity/StatsOutline';
 import { NotFoundError } from '../../veau-error/NotFoundError';
-import { StatsFactory } from '../../veau-factory/StatsFactory';
 import { Type } from '../../veau-general/Type';
 import { StatsInteractor } from '../../veau-interactor/StatsInteractor';
 import { StatsID } from '../../veau-vo/StatsID';
@@ -14,7 +13,6 @@ const router: express.Router = express.Router();
 const logger: log4js.Logger = log4js.getLogger();
 
 const statsInteractor: StatsInteractor = StatsInteractor.getInstance();
-const statsFactory: StatsFactory = StatsFactory.getInstance();
 
 router.get('/page/:page(\\d+)', async (req: RequestSession, res: express.Response): Promise<any> => {
   if (req.user === undefined) {
@@ -170,7 +168,7 @@ router.post('/', async (req: RequestSession, res: express.Response): Promise<any
   }
 
   const json: StatsJSON = req.body;
-  const stats: Stats = statsFactory.fromJSON(json);
+  const stats: Stats = Stats.fromJSON(json);
 
   try {
     await statsInteractor.save(req.user.getVeauAccountID(), stats);

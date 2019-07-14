@@ -59,7 +59,7 @@ describe('StatsUpdateTransaction', () => {
         ]))
       ]);
 
-      const stats: Stats = new Stats(
+      const stats: Stats = Stats.from(
         statsID,
         language,
         region,

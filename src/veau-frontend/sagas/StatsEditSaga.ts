@@ -5,8 +5,6 @@ import { Region } from '../../veau-entity/Region';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { StatsFactory } from '../../veau-factory/StatsFactory';
-import { StatsItemFactory } from '../../veau-factory/StatsItemFactory';
 import { StatsID } from '../../veau-vo/StatsID';
 import {
   ACTION,
@@ -36,8 +34,6 @@ import { State } from '../State';
 
 const statsCommand: StatsCommand = StatsCommand.getInstance();
 const statsQuery: StatsQuery = StatsQuery.getInstance();
-const statsFactory: StatsFactory = StatsFactory.getInstance();
-const statsItemFactory: StatsItemFactory = StatsItemFactory.getInstance();
 
 const STATS_EDIT_PREFIX: string = '/statistics/edit/';
 
@@ -93,7 +89,7 @@ export class StatsEditSaga {
         stats
       } = state;
 
-      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), action.name, stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
+      const newStats: Stats = Stats.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), action.name, stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
       yield put(updateStats(newStats));
     }
   }
@@ -107,7 +103,7 @@ export class StatsEditSaga {
         stats
       } = state;
 
-      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), action.unit, stats.getUpdatedAt(), stats.getItems());
+      const newStats: Stats = Stats.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), action.unit, stats.getUpdatedAt(), stats.getItems());
       yield put(updateStats(newStats));
     }
   }
@@ -139,7 +135,7 @@ export class StatsEditSaga {
         throw new NoSuchElementError(iso639.toString());
       }
 
-      const newStats: Stats = statsFactory.from(stats.getStatsID(), found, stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
+      const newStats: Stats = Stats.from(stats.getStatsID(), found, stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
       yield put(updateStats(newStats));
     }
   }
@@ -171,7 +167,7 @@ export class StatsEditSaga {
         throw new NoSuchElementError(iso3166.toString());
       }
 
-      const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), found, stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
+      const newStats: Stats = Stats.from(stats.getStatsID(), stats.getLanguage(), found, stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
       yield put(updateStats(newStats));
     }
   }
@@ -226,7 +222,7 @@ export class StatsEditSaga {
         statsItem
       } = state;
 
-      const newStatsItem: StatsItem = statsItemFactory.from(statsItem.getStatsItemID(), action.name, statsItem.getValues());
+      const newStatsItem: StatsItem = StatsItem.from(statsItem.getStatsItemID(), action.name, statsItem.getValues());
       yield put(updateStatsItem(newStatsItem));
     }
   }
@@ -241,7 +237,7 @@ export class StatsEditSaga {
         statsItem
       } = state;
 
-      const newStats: Stats = statsFactory.from(
+      const newStats: Stats = Stats.from(
         stats.getStatsID(),
         stats.getLanguage(),
         stats.getRegion(),
@@ -288,7 +284,7 @@ export class StatsEditSaga {
       } = state;
 
       if (selectingItem) {
-        const newSelectingItem: StatsItem = statsItemFactory.from(selectingItem.getStatsItemID(), action.name, selectingItem.getValues());
+        const newSelectingItem: StatsItem = StatsItem.from(selectingItem.getStatsItemID(), action.name, selectingItem.getValues());
         const copied: Stats = stats.copy();
         copied.replaceItem(newSelectingItem, selectingRow);
 
@@ -312,7 +308,7 @@ export class StatsEditSaga {
 
       const date: moment.Moment = moment(startDate);
       if (date.isValid()) {
-        const newStats: Stats = statsFactory.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems(), startDate);
+        const newStats: Stats = Stats.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems(), startDate);
         yield put(updateStats(newStats));
         continue;
       }

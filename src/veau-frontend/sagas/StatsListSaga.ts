@@ -4,7 +4,6 @@ import { Region } from '../../veau-entity/Region';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsOutline } from '../../veau-entity/StatsOutline';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { StatsFactory } from '../../veau-factory/StatsFactory';
 import {
   ACTION,
   LocationChangeAction,
@@ -27,7 +26,6 @@ import { State } from '../State';
 
 const statsCommand: StatsCommand = StatsCommand.getInstance();
 const statsQuery: StatsQuery = StatsQuery.getInstance();
-const statsFactory: StatsFactory = StatsFactory.getInstance();
 
 export class StatsListSaga {
 
@@ -70,7 +68,7 @@ export class StatsListSaga {
         }
       } = state;
 
-      const newStats: Stats = statsFactory.from(
+      const newStats: Stats = Stats.from(
         stats.getStatsID(),
         stats.getLanguage(),
         stats.getRegion(),
@@ -95,7 +93,7 @@ export class StatsListSaga {
         }
       } = state;
 
-      const newStats: Stats = statsFactory.from(
+      const newStats: Stats = Stats.from(
         stats.getStatsID(),
         stats.getLanguage(),
         stats.getRegion(),
@@ -138,7 +136,7 @@ export class StatsListSaga {
         throw new NoSuchElementError(iso639.toString());
       }
 
-      const newStats: Stats = statsFactory.from(
+      const newStats: Stats = Stats.from(
         stats.getStatsID(),
         found,
         stats.getRegion(),
@@ -181,7 +179,7 @@ export class StatsListSaga {
         throw new NoSuchElementError(iso3166.toString());
       }
 
-      const newStats: Stats = statsFactory.from(
+      const newStats: Stats = Stats.from(
         stats.getStatsID(),
         stats.getLanguage(),
         found,
@@ -206,7 +204,7 @@ export class StatsListSaga {
         }
       } = state;
 
-      const newStats: Stats = statsFactory.from(
+      const newStats: Stats = Stats.from(
         stats.getStatsID(),
         stats.getLanguage(),
         stats.getRegion(),

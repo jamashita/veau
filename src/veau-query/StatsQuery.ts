@@ -2,7 +2,6 @@ import { Stats, StatsRow } from '../veau-entity/Stats';
 import { StatsItem } from '../veau-entity/StatsItem';
 import { StatsOutline, StatsOutlineRow } from '../veau-entity/StatsOutline';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
-import { StatsFactory } from '../veau-factory/StatsFactory';
 import { StatsOutlineFactory } from '../veau-factory/StatsOutlineFactory';
 import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../veau-vo/StatsID';
@@ -10,7 +9,6 @@ import { VeauAccountID } from '../veau-vo/VeauAccountID';
 import { StatsItemQuery } from './StatsItemQuery';
 
 const statsItemQuery: StatsItemQuery = StatsItemQuery.getInstance();
-const statsFactory: StatsFactory = StatsFactory.getInstance();
 const statsOutlineFactory: StatsOutlineFactory = StatsOutlineFactory.getInstance();
 
 export class StatsQuery {
@@ -89,6 +87,6 @@ export class StatsQuery {
 
     const items: Array<StatsItem> = await statsItemQuery.findByStatsID(statsID);
 
-    return statsFactory.fromRow(statsRows[0], items);
+    return Stats.fromRow(statsRows[0], items);
   }
 }
