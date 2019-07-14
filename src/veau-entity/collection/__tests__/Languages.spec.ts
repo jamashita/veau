@@ -2,7 +2,7 @@ import 'jest';
 import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
 import { ISO639 } from '../../../veau-vo/ISO639';
 import { LanguageID } from '../../../veau-vo/LanguageID';
-import { Language } from '../../Language';
+import { Language, LanguageJSON } from '../../Language';
 import { Languages } from '../Languages';
 
 describe('Languages', () => {
@@ -78,6 +78,27 @@ describe('Languages', () => {
           iso639: 'aa'
         }
       ]);
+    });
+  });
+
+  describe('fromJSON', () => {
+    it('normal case', () => {
+      const json: Array<LanguageJSON> = [
+        {
+          languageID: 1,
+          name: 'language name',
+          englishName: 'english language name',
+          iso639: 'aa'
+        }
+      ];
+
+      const languages: Languages = Languages.fromJSON(json);
+
+      expect(languages.length()).toEqual(1);
+      expect(languages.get(0).getLanguageID().get()).toEqual(json[0].languageID);
+      expect(languages.get(0).getName()).toEqual(json[0].name);
+      expect(languages.get(0).getEnglishName()).toEqual(json[0].englishName);
+      expect(languages.get(0).getISO639().get()).toEqual(json[0].iso639);
     });
   });
 });

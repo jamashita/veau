@@ -8,6 +8,14 @@ export class Languages {
     return new Languages(languages);
   }
 
+  public static fromJSON(json: Array<LanguageJSON>): Languages {
+    const languages: Array<Language> = json.map<Language>((language: LanguageJSON): Language => {
+      return Language.fromJSON(language);
+    });
+
+    return Languages.from(languages);
+  }
+
   private constructor(languages: Array<Language>) {
     this.languages = languages;
   }
@@ -35,6 +43,10 @@ export class Languages {
 
   public map<U>(func: (language: Language) => U): Array<U> {
     return this.languages.map<U>(func);
+  }
+
+  public find(predicate: (language: Language) => boolean): Language | undefined {
+    return this.languages.find(predicate);
   }
 
   public equals(other: Languages): boolean {

@@ -1,4 +1,5 @@
 import { LanguageCommand } from '../veau-command/LanguageCommand';
+import { Languages } from '../veau-entity/collection/Languages';
 import { Language, LanguageJSON, LanguageRow } from '../veau-entity/Language';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
@@ -19,14 +20,12 @@ export class LanguageQuery {
   private constructor() {
   }
 
-  public async all(): Promise<Array<Language>> {
+  public async all(): Promise<Languages> {
     const languagesString: string | null = await veauRedis.getString().get(REDIS_KEY);
 
     if (languagesString !== null) {
       const languageJSONs: Array<LanguageJSON> = JSON.parse(languagesString);
-      return languageJSONs.map<Language>((json: LanguageJSON): Language => {
-        return Language.fromJSON(json);
-      });
+      return Languages.fromJSON(languageJSONs);
     }
 
     const query: string = `SELECT
@@ -39,9 +38,7 @@ export class LanguageQuery {
       ORDER BY R1.iso639;`;
 
     const languageRows: Array<LanguageRow> = await veauMySQL.execute(query);
-    const languages: Array<Language> = languageRows.map<Language>((row: LanguageRow): Language => {
-      return Language.fromRow(row);
-    });
+    const languages: Languages = Languages.fromJSON(languageRows);
 
     await languageCommand.insertAll(languages);
 
@@ -49,7 +46,7 @@ export class LanguageQuery {
   }
 
   public async findByISO639(iso639: ISO639): Promise<Language> {
-    const languages: Array<Language> = await this.all();
+    const languages: Languages = await this.all();
     const found: Language | undefined = languages.find((language: Language): boolean => {
       if (language.getISO639().equals(iso639)) {
         return true;

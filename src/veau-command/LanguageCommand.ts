@@ -1,4 +1,4 @@
-import { Language, LanguageJSON } from '../veau-entity/Language';
+import { Languages } from '../veau-entity/collection/Languages';
 import { CacheError } from '../veau-error/CacheError';
 import { veauRedis } from '../veau-infrastructure/VeauRedis';
 
@@ -15,12 +15,8 @@ export class LanguageCommand {
   private constructor() {
   }
 
-  public async insertAll(languages: Array<Language>): Promise<any> {
-    const languageJSONs: Array<LanguageJSON> = languages.map<LanguageJSON>((language: Language): LanguageJSON => {
-      return language.toJSON();
-    });
-
-    await veauRedis.getString().set(REDIS_KEY, JSON.stringify(languageJSONs));
+  public async insertAll(languages: Languages): Promise<any> {
+    await veauRedis.getString().set(REDIS_KEY, JSON.stringify(languages.toJSON()));
 
     return veauRedis.expires(REDIS_KEY, DURATION);
   }
