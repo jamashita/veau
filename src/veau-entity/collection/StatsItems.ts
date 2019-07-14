@@ -9,6 +9,14 @@ export class StatsItems {
     return new StatsItems(items);
   }
 
+  public static fromJSON(json: Array<StatsItemJSON>): StatsItems {
+    const items: Array<StatsItem> = json.map<StatsItem>((item: StatsItemJSON): StatsItem => {
+      return StatsItem.fromJSON(item);
+    });
+
+    return StatsItems.from(items);
+  }
+
   private constructor(items: Array<StatsItem>) {
     this.items = items;
   }

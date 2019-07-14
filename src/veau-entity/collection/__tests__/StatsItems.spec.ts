@@ -3,7 +3,7 @@ import * as moment from 'moment';
 import { StatsValues } from '../../../veau-vo/collection/StatsValues';
 import { StatsItemID } from '../../../veau-vo/StatsItemID';
 import { StatsValue } from '../../../veau-vo/StatsValue';
-import { StatsItem } from '../../StatsItem';
+import { StatsItem, StatsItemJSON } from '../../StatsItem';
 import { StatsItems } from '../StatsItems';
 
 describe('StatsItems', () => {
@@ -253,6 +253,31 @@ describe('StatsItems', () => {
       expect(statsItems1.equals(statsItems2)).toEqual(false);
       expect(statsItems1.equals(statsItems3)).toEqual(false);
       expect(statsItems1.equals(statsItems4)).toEqual(true);
+    });
+  });
+
+  describe('fromJSON', () => {
+    it('normal case', () => {
+      const json: Array<StatsItemJSON> = [
+        {
+          statsItemID: 'item id 1',
+          name: 'stats name 1',
+          values: []
+        },
+        {
+          statsItemID: 'item id 2',
+          name: 'stats name 2',
+          values: []
+        }
+      ];
+
+      const items: StatsItems = StatsItems.fromJSON(json);
+
+      expect(items.length()).toEqual(2);
+      expect(items.get(0).getStatsItemID().get()).toEqual(json[0].statsItemID);
+      expect(items.get(0).getName()).toEqual(json[0].name);
+      expect(items.get(1).getStatsItemID().get()).toEqual(json[1].statsItemID);
+      expect(items.get(1).getName()).toEqual(json[1].name);
     });
   });
 });
