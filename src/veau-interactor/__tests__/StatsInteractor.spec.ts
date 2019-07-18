@@ -96,7 +96,7 @@ describe('StatsInteractor', () => {
       const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
       const term: Term = Term.MONTHLY;
       const name: StatsName = StatsName.of('stats');
-      const unit: string = 'unit';
+      const unit: StatsUnit = StatsUnit.of('unit');
       const updatedAt: moment.Moment = moment.utc();
 
       const stub: SinonStub = sinon.stub();

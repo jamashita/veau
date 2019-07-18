@@ -44,7 +44,7 @@ describe('StatsController', () => {
           Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
           Term.DAILY,
           StatsName.of('stats'),
-          'unit',
+          StatsUnit.of('unit'),
           moment.utc('2000-01-01 00:00:00')
         )
       ]);
