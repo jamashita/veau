@@ -109,7 +109,7 @@ export class StatsOutline extends Entity<StatsID> {
     this.term = term;
     this.name = name;
     this.unit = unit;
-    this.updatedAt = updatedAt;
+    this.updatedAt = moment(updatedAt);
   }
 
   public getStatsID(): StatsID {
