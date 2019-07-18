@@ -13,6 +13,7 @@ import { RegionQuery } from '../../veau-query/RegionQuery';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { LanguageID } from '../../veau-vo/LanguageID';
+import { LanguageName } from '../../veau-vo/LanguageName';
 import { RegionID } from '../../veau-vo/RegionID';
 import { LocaleInteractor } from '../LocaleInteractor';
 
@@ -22,8 +23,8 @@ describe('LocaleInteractor',  () => {
       const stub1: SinonStub = sinon.stub();
       LanguageQuery.prototype.all = stub1;
       stub1.resolves(Languages.from([
-        Language.from(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab')),
-        Language.from(LanguageID.of(2), 'Afaraf', 'Afar', ISO639.of('aa'))
+        Language.from(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
+        Language.from(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
       ]));
       const stub2: SinonStub = sinon.stub();
       RegionQuery.prototype.all = stub2;
@@ -36,12 +37,12 @@ describe('LocaleInteractor',  () => {
       const locale: Locale = await localeInteractor.all();
 
       expect(locale.getLanguage(0).getLanguageID().get()).toEqual(1);
-      expect(locale.getLanguage(0).getName()).toEqual('аҧсуа бызшәа');
-      expect(locale.getLanguage(0).getEnglishName()).toEqual('Abkhazian');
+      expect(locale.getLanguage(0).getName().get()).toEqual('аҧсуа бызшәа');
+      expect(locale.getLanguage(0).getEnglishName().get()).toEqual('Abkhazian');
       expect(locale.getLanguage(0).getISO639().get()).toEqual('ab');
       expect(locale.getLanguage(1).getLanguageID().get()).toEqual(2);
-      expect(locale.getLanguage(1).getName()).toEqual('Afaraf');
-      expect(locale.getLanguage(1).getEnglishName()).toEqual('Afar');
+      expect(locale.getLanguage(1).getName().get()).toEqual('Afaraf');
+      expect(locale.getLanguage(1).getEnglishName().get()).toEqual('Afar');
       expect(locale.getLanguage(1).getISO639().get()).toEqual('aa');
       expect(locale.getRegion(0).getRegionID().get()).toEqual(1);
       expect(locale.getRegion(0).getName()).toEqual('Afghanistan');

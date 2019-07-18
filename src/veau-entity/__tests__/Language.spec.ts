@@ -1,14 +1,15 @@
 import 'jest';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { LanguageID } from '../../veau-vo/LanguageID';
+import { LanguageName } from '../../veau-vo/LanguageName';
 import { Language, LanguageJSON, LanguageRow } from '../Language';
 
 describe('Language', () => {
   describe('equals', () => {
     it('returns true if the ids equal', () => {
-      const language1: Language = Language.from(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
-      const language2: Language = Language.from(LanguageID.of(2), 'Afaraf', 'Afar', ISO639.of('aa'));
-      const language3: Language = Language.from(LanguageID.of(1), 'Afaraf', 'Afar', ISO639.of('aa'));
+      const language1: Language = Language.from(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
+      const language2: Language = Language.from(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'));
+      const language3: Language = Language.from(LanguageID.of(1), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'));
 
       expect(language1.equals(language1)).toEqual(true);
       expect(language1.equals(language2)).toEqual(false);
@@ -19,8 +20,8 @@ describe('Language', () => {
   describe('copy', () => {
     it('every properties are copied', () => {
       const languageID: LanguageID = LanguageID.of(1);
-      const name: string = 'аҧсуа бызшәа';
-      const englishName: string = 'Abkhazian';
+      const name: LanguageName = LanguageName.of('аҧсуа бызшәа');
+      const englishName: LanguageName = LanguageName.of('Abkhazian');
       const iso539: ISO639 = ISO639.of('ab');
 
       const language: Language = Language.from(languageID, name, englishName, iso539);
@@ -36,7 +37,7 @@ describe('Language', () => {
 
   describe('toJSON', () => {
     it('normal case', () => {
-      const language: Language = Language.from(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+      const language: Language = Language.from(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
 
       expect(language.toJSON()).toEqual({
         languageID: 1,
@@ -50,8 +51,8 @@ describe('Language', () => {
   describe('from', () => {
     it('normal case', () => {
       const languageID: LanguageID = LanguageID.of(1);
-      const name: string = 'Afaraf';
-      const englishName: string = 'Afar';
+      const name: LanguageName = LanguageName.of('Afaraf');
+      const englishName: LanguageName = LanguageName.of('Afar');
       const iso639: ISO639 = ISO639.of('aa');
 
       const language: Language = Language.from(languageID, name, englishName, iso639);
@@ -75,8 +76,8 @@ describe('Language', () => {
       const language: Language = Language.fromJSON(json);
 
       expect(language.getLanguageID().get()).toEqual(json.languageID);
-      expect(language.getName()).toEqual(json.name);
-      expect(language.getEnglishName()).toEqual(json.englishName);
+      expect(language.getName().get()).toEqual(json.name);
+      expect(language.getEnglishName().get()).toEqual(json.englishName);
       expect(language.getISO639().get()).toEqual(json.iso639);
     });
   });
@@ -93,8 +94,8 @@ describe('Language', () => {
       const language: Language = Language.fromRow(row);
 
       expect(language.getLanguageID().get()).toEqual(row.languageID);
-      expect(language.getName()).toEqual(row.name);
-      expect(language.getEnglishName()).toEqual(row.englishName);
+      expect(language.getName().get()).toEqual(row.name);
+      expect(language.getEnglishName().get()).toEqual(row.englishName);
       expect(language.getISO639().get()).toEqual(row.iso639);
     });
   });

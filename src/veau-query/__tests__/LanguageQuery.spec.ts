@@ -22,12 +22,12 @@ describe('LanguageQuery', () => {
 
       expect(languages.length()).toEqual(2);
       expect(languages.get(0).getLanguageID().get()).toEqual(1);
-      expect(languages.get(0).getName()).toEqual('аҧсуа бызшәа');
-      expect(languages.get(0).getEnglishName()).toEqual('Abkhazian');
+      expect(languages.get(0).getName().get()).toEqual('аҧсуа бызшәа');
+      expect(languages.get(0).getEnglishName().get()).toEqual('Abkhazian');
       expect(languages.get(0).getISO639().get()).toEqual('ab');
       expect(languages.get(1).getLanguageID().get()).toEqual(2);
-      expect(languages.get(1).getName()).toEqual('Afaraf');
-      expect(languages.get(1).getEnglishName()).toEqual('Afar');
+      expect(languages.get(1).getName().get()).toEqual('Afaraf');
+      expect(languages.get(1).getEnglishName().get()).toEqual('Afar');
       expect(languages.get(1).getISO639().get()).toEqual('aa');
     });
 
@@ -61,12 +61,12 @@ describe('LanguageQuery', () => {
 
       expect(languages.length()).toEqual(2);
       expect(languages.get(0).getLanguageID().get()).toEqual(1);
-      expect(languages.get(0).getName()).toEqual('аҧсуа бызшәа');
-      expect(languages.get(0).getEnglishName()).toEqual('Abkhazian');
+      expect(languages.get(0).getName().get()).toEqual('аҧсуа бызшәа');
+      expect(languages.get(0).getEnglishName().get()).toEqual('Abkhazian');
       expect(languages.get(0).getISO639().get()).toEqual('ab');
       expect(languages.get(1).getLanguageID().get()).toEqual(2);
-      expect(languages.get(1).getName()).toEqual('Afaraf');
-      expect(languages.get(1).getEnglishName()).toEqual('Afar');
+      expect(languages.get(1).getName().get()).toEqual('Afaraf');
+      expect(languages.get(1).getEnglishName().get()).toEqual('Afar');
       expect(languages.get(1).getISO639().get()).toEqual('aa');
     });
   });
@@ -81,8 +81,8 @@ describe('LanguageQuery', () => {
       const language: Language = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(language.getLanguageID().get()).toEqual(2);
-      expect(language.getName()).toEqual('Afaraf');
-      expect(language.getEnglishName()).toEqual('Afar');
+      expect(language.getName().get()).toEqual('Afaraf');
+      expect(language.getEnglishName().get()).toEqual('Afar');
     });
 
     it('MySQL returns a language', async () => {
@@ -114,8 +114,8 @@ describe('LanguageQuery', () => {
       const language: Language = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(language.getLanguageID().get()).toEqual(2);
-      expect(language.getName()).toEqual('Afaraf');
-      expect(language.getEnglishName()).toEqual('Afar');
+      expect(language.getName().get()).toEqual('Afaraf');
+      expect(language.getEnglishName().get()).toEqual('Afar');
     });
 
     it('Redis throws error', () => {

@@ -7,6 +7,10 @@ export class LanguageName extends ValueObject {
     return new LanguageName(name);
   }
 
+  public static default(): LanguageName {
+    return LanguageName.of('');
+  }
+
   private constructor(name: string) {
     super();
     this.name = name;

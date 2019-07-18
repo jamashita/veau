@@ -80,8 +80,8 @@ describe('StatsQuery', () => {
 
       expect(stats.getStatsID().get()).toEqual('a25a8b7f-c810-4dc0-b94e-e97e74329307');
       expect(stats.getLanguage().getLanguageID().get()).toEqual(1);
-      expect(stats.getLanguage().getName()).toEqual('language1');
-      expect(stats.getLanguage().getEnglishName()).toEqual('englishLanguage1');
+      expect(stats.getLanguage().getName().get()).toEqual('language1');
+      expect(stats.getLanguage().getEnglishName().get()).toEqual('englishLanguage1');
       expect(stats.getLanguage().getISO639().get()).toEqual('lang1');
       expect(stats.getRegion().getRegionID().get()).toEqual(2);
       expect(stats.getRegion().getName()).toEqual('region1');
@@ -173,8 +173,8 @@ describe('StatsQuery', () => {
       expect(statsOutlines.length).toEqual(2);
       expect(statsOutlines[0].getStatsID().get()).toEqual('c0e18d31-d026-4a84-af4f-d5d26c520600');
       expect(statsOutlines[0].getLanguage().getLanguageID().get()).toEqual(1);
-      expect(statsOutlines[0].getLanguage().getName()).toEqual('lang1');
-      expect(statsOutlines[0].getLanguage().getEnglishName()).toEqual('lang1');
+      expect(statsOutlines[0].getLanguage().getName().get()).toEqual('lang1');
+      expect(statsOutlines[0].getLanguage().getEnglishName().get()).toEqual('lang1');
       expect(statsOutlines[0].getLanguage().getISO639().get()).toEqual('l1');
       expect(statsOutlines[0].getRegion().getRegionID().get()).toEqual(2);
       expect(statsOutlines[0].getRegion().getName()).toEqual('regn2');
@@ -185,8 +185,8 @@ describe('StatsQuery', () => {
       expect(statsOutlines[0].getUpdatedAtAsString()).toEqual('2000-01-01 00:00:00');
       expect(statsOutlines[1].getStatsID().get()).toEqual('a25a8b7f-c810-4dc0-b94e-e97e74329307');
       expect(statsOutlines[1].getLanguage().getLanguageID().get()).toEqual(2);
-      expect(statsOutlines[1].getLanguage().getName()).toEqual('lang2');
-      expect(statsOutlines[1].getLanguage().getEnglishName()).toEqual('lang2');
+      expect(statsOutlines[1].getLanguage().getName().get()).toEqual('lang2');
+      expect(statsOutlines[1].getLanguage().getEnglishName().get()).toEqual('lang2');
       expect(statsOutlines[1].getLanguage().getISO639().get()).toEqual('l2');
       expect(statsOutlines[1].getRegion().getRegionID().get()).toEqual(3);
       expect(statsOutlines[1].getRegion().getName()).toEqual('regn3');

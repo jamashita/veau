@@ -5,6 +5,7 @@ import { UUID } from '../veau-general/UUID';
 import { ISO3166 } from '../veau-vo/ISO3166';
 import { ISO639 } from '../veau-vo/ISO639';
 import { LanguageID } from '../veau-vo/LanguageID';
+import { LanguageName } from '../veau-vo/LanguageName';
 import { RegionID } from '../veau-vo/RegionID';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValue } from '../veau-vo/StatsValue';
@@ -107,7 +108,7 @@ export class Stats extends Entity<StatsID> {
       updatedAt
     } = row;
 
-    const language: Language = Language.from(LanguageID.of(languageID), languageName, languageEnglishName, ISO639.of(iso639));
+    const language: Language = Language.from(LanguageID.of(languageID), LanguageName.of(languageName), LanguageName.of(languageEnglishName), ISO639.of(iso639));
     const region: Region = Region.from(RegionID.of(regionID), regionName, ISO3166.of(iso3166));
     const term: Term = Term.of(termID);
 

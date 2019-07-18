@@ -32,8 +32,8 @@ describe('VeauAccountQuery', () => {
       expect(veauAccount.getVeauAccountID().get()).toEqual('998106de-b2e7-4981-9643-22cd30cd74de');
       expect(veauAccount.getAccount()).toEqual('account');
       expect(veauAccount.getLanguage().getLanguageID().get()).toEqual(1);
-      expect(veauAccount.getLanguage().getName()).toEqual('аҧсуа бызшәа');
-      expect(veauAccount.getLanguage().getEnglishName()).toEqual('Abkhazian');
+      expect(veauAccount.getLanguage().getName().get()).toEqual('аҧсуа бызшәа');
+      expect(veauAccount.getLanguage().getEnglishName().get()).toEqual('Abkhazian');
       expect(veauAccount.getLanguage().getISO639().get()).toEqual('ab');
       expect(veauAccount.getRegion().getRegionID().get()).toEqual(1);
       expect(veauAccount.getRegion().getName()).toEqual('Afghanistan');

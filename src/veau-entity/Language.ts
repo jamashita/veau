@@ -1,5 +1,6 @@
 import { ISO639 } from '../veau-vo/ISO639';
 import { LanguageID } from '../veau-vo/LanguageID';
+import { LanguageName } from '../veau-vo/LanguageName';
 import { Entity } from './Entity';
 
 export type LanguageJSON = {
@@ -18,11 +19,11 @@ export type LanguageRow = {
 
 export class Language extends Entity<LanguageID> {
   private languageID: LanguageID;
-  private name: string;
-  private englishName: string;
+  private name: LanguageName;
+  private englishName: LanguageName;
   private iso639: ISO639;
 
-  public static from(languageID: LanguageID, name: string, englishName: string, iso639: ISO639): Language {
+  public static from(languageID: LanguageID, name: LanguageName, englishName: LanguageName, iso639: ISO639): Language {
     return new Language(languageID, name, englishName, iso639);
   }
 
@@ -34,7 +35,7 @@ export class Language extends Entity<LanguageID> {
       iso639
     } = json;
 
-    return Language.from(LanguageID.of(languageID), name, englishName, ISO639.of(iso639));
+    return Language.from(LanguageID.of(languageID), LanguageName.of(name), LanguageName.of(englishName), ISO639.of(iso639));
   }
 
   public static fromRow(row: LanguageRow): Language {
@@ -45,14 +46,14 @@ export class Language extends Entity<LanguageID> {
       iso639
     } = row;
 
-    return Language.from(LanguageID.of(languageID), name, englishName, ISO639.of(iso639));
+    return Language.from(LanguageID.of(languageID), LanguageName.of(name), LanguageName.of(englishName), ISO639.of(iso639));
   }
 
   public static default(): Language {
-    return Language.from(LanguageID.of(0), '', '', ISO639.default());
+    return Language.from(LanguageID.default(), LanguageName.default(), LanguageName.default(), ISO639.default());
   }
 
-  private constructor(languageID: LanguageID, name: string, englishName: string, iso639: ISO639) {
+  private constructor(languageID: LanguageID, name: LanguageName, englishName: LanguageName, iso639: ISO639) {
     super();
     this.languageID = languageID;
     this.name = name;
@@ -64,11 +65,11 @@ export class Language extends Entity<LanguageID> {
     return this.languageID;
   }
 
-  public getName(): string {
+  public getName(): LanguageName {
     return this.name;
   }
 
-  public getEnglishName(): string {
+  public getEnglishName(): LanguageName {
     return this.englishName;
   }
 
@@ -101,8 +102,8 @@ export class Language extends Entity<LanguageID> {
 
     return {
       languageID: languageID.get(),
-      name,
-      englishName,
+      name: name.get(),
+      englishName: englishName.get(),
       iso639: iso639.get()
     };
   }
@@ -115,6 +116,6 @@ export class Language extends Entity<LanguageID> {
       iso639
     } = this;
 
-    return `${languageID.toString()} ${name} ${englishName} ${iso639.toString()}`;
+    return `${languageID.toString()} ${name.toString()} ${englishName.toString()} ${iso639.toString()}`;
   }
 }

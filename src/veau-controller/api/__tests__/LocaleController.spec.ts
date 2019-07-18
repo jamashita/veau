@@ -14,6 +14,7 @@ import { LocaleInteractor } from '../../../veau-interactor/LocaleInteractor';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
 import { LanguageID } from '../../../veau-vo/LanguageID';
+import { LanguageName } from '../../../veau-vo/LanguageName';
 import { RegionID } from '../../../veau-vo/RegionID';
 import { VeauAccountID } from '../../../veau-vo/VeauAccountID';
 import { LocaleController } from '../LocaleController';
@@ -25,7 +26,7 @@ describe('LocaleController', () => {
       LocaleInteractor.prototype.all = stub;
       stub.resolves(Locale.from(
         Languages.from([
-          Language.from(LanguageID.of(1), 'language', 'english name', ISO639.of('la'))
+          Language.from(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english name'), ISO639.of('la'))
         ]),
         Regions.from([
           Region.from(RegionID.of(1), 'region', ISO3166.of('RGN'))
@@ -63,7 +64,7 @@ describe('LocaleController', () => {
       LocaleInteractor.prototype.delete = spy;
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        const language: Language = Language.from(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+        const language: Language = Language.from(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
         const region: Region = Region.from(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), 'account', language, region);
         next();
@@ -81,7 +82,7 @@ describe('LocaleController', () => {
       stub.rejects();
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        const language: Language = Language.from(LanguageID.of(1), 'аҧсуа бызшәа', 'Abkhazian', ISO639.of('ab'));
+        const language: Language = Language.from(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
         const region: Region = Region.from(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), 'account', language, region);
         next();

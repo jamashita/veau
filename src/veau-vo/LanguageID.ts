@@ -7,6 +7,10 @@ export class LanguageID extends ValueObject {
     return new LanguageID(id);
   }
 
+  public static default(): LanguageID {
+    return LanguageID.of(0);
+  }
+
   private constructor(id: number) {
     super();
     this.id = id;
