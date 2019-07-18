@@ -1,8 +1,8 @@
 import * as express from 'express';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'http-status';
 import * as log4js from 'log4js';
+import { StatsOutlines } from '../../veau-entity/collection/StatsOutlines';
 import { Stats, StatsJSON } from '../../veau-entity/Stats';
-import { StatsOutline, StatsOutlineJSON } from '../../veau-entity/StatsOutline';
 import { NotFoundError } from '../../veau-error/NotFoundError';
 import { Type } from '../../veau-general/Type';
 import { StatsInteractor } from '../../veau-interactor/StatsInteractor';
@@ -29,11 +29,9 @@ router.get('/page/:page(\\d+)', async (req: RequestSession, res: express.Respons
   }
 
   try {
-    const statsOutlines: Array<StatsOutline> = await statsInteractor.findByVeauAccountID(req.user.getVeauAccountID(), page);
+    const statsOutlines: StatsOutlines = await statsInteractor.findByVeauAccountID(req.user.getVeauAccountID(), page);
 
-    res.status(OK).send(statsOutlines.map<StatsOutlineJSON>((statsOutline: StatsOutline): StatsOutlineJSON => {
-      return statsOutline.toJSON();
-    }));
+    res.status(OK).send(statsOutlines.toJSON());
   }
   catch (err) {
     logger.fatal(err.message);

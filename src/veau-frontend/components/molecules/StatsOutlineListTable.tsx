@@ -1,11 +1,12 @@
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { StatsOutlines } from '../../../veau-entity/collection/StatsOutlines';
 import { StatsOutline } from '../../../veau-entity/StatsOutline';
 import { StatsID } from '../../../veau-vo/StatsID';
 
 type Props = {
-  statsOutlines: Array<StatsOutline>;
+  statsOutlines: StatsOutlines;
   toStatsEdit: (statsID: StatsID) => void;
 };
 type State = {
@@ -18,12 +19,12 @@ class StatsOutlineListTableImpl extends React.Component<Props & InjectedIntlProp
       statsOutlines
     } = this.props;
 
-    const length: number = statsOutlines.length;
-    if (length !== nextProps.statsOutlines.length) {
+    const length: number = statsOutlines.length();
+    if (length !== nextProps.statsOutlines.length()) {
       return true;
     }
     for (let i: number = 0; i < length; i++) {
-      if (statsOutlines[i].getName() !== nextProps.statsOutlines[i].getName()) {
+      if (!statsOutlines.get(i).getName().equals(nextProps.statsOutlines.get(i).getName())) {
         return true;
       }
     }
@@ -84,10 +85,10 @@ class StatsOutlineListTableImpl extends React.Component<Props & InjectedIntlProp
                   toStatsEdit(statsOutline.getStatsID());
                 }}
               >
-                <TableCell>{statsOutline.getName()}</TableCell>
-                <TableCell>{statsOutline.getUnit()}</TableCell>
-                <TableCell>{statsOutline.getLanguage().getName()}</TableCell>
-                <TableCell>{statsOutline.getRegion().getName()}</TableCell>
+                <TableCell>{statsOutline.getName().get()}</TableCell>
+                <TableCell>{statsOutline.getUnit().get()}</TableCell>
+                <TableCell>{statsOutline.getLanguage().getName().get()}</TableCell>
+                <TableCell>{statsOutline.getRegion().getName().get()}</TableCell>
                 <TableCell>
                   {intl.formatMessage({
                     id: statsOutline.getTerm().getKey()

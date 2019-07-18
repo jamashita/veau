@@ -1,8 +1,8 @@
 import { fork, put, select, take } from 'redux-saga/effects';
+import { StatsOutlines } from '../../veau-entity/collection/StatsOutlines';
 import { Language } from '../../veau-entity/Language';
 import { Region } from '../../veau-entity/Region';
 import { Stats } from '../../veau-entity/Stats';
-import { StatsOutline } from '../../veau-entity/StatsOutline';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { StatsName } from '../../veau-vo/StatsName';
 import { StatsUnit } from '../../veau-vo/StatsUnit';
@@ -48,7 +48,7 @@ export class StatsListSaga {
 
       if (path === Endpoints.STATS_LIST) {
         try {
-          const statsOutlines: Array<StatsOutline> = yield statsQuery.findByPage(1);
+          const statsOutlines: StatsOutlines = yield statsQuery.findByPage(1);
           yield put(updateStatsOutlines(statsOutlines));
         }
         catch (err) {

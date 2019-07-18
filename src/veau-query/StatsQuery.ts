@@ -1,6 +1,7 @@
 import { StatsItems } from '../veau-entity/collection/StatsItems';
+import { StatsOutlines } from '../veau-entity/collection/StatsOutlines';
 import { Stats, StatsRow } from '../veau-entity/Stats';
-import { StatsOutline, StatsOutlineRow } from '../veau-entity/StatsOutline';
+import { StatsOutlineRow } from '../veau-entity/StatsOutline';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../veau-vo/StatsID';
@@ -19,7 +20,7 @@ export class StatsQuery {
   private constructor() {
   }
 
-  public async findByVeauAccountID(veauAccountID: VeauAccountID, limit: number, offset: number): Promise<Array<StatsOutline>> {
+  public async findByVeauAccountID(veauAccountID: VeauAccountID, limit: number, offset: number): Promise<StatsOutlines> {
     const query: string = `SELECT
       R1.stats_id AS statsID,
       R1.language_id AS languageID,
@@ -49,9 +50,7 @@ export class StatsQuery {
       }
     );
 
-    return statsOutlineRows.map<StatsOutline>((statsOutlineRow: StatsOutlineRow): StatsOutline => {
-      return StatsOutline.fromRow(statsOutlineRow);
-    });
+    return StatsOutlines.fromRow(statsOutlineRows);
   }
 
   public async findByStatsID(statsID: StatsID): Promise<Stats> {

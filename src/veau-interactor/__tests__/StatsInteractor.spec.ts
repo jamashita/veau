@@ -3,6 +3,7 @@ import * as moment from 'moment';
 import * as sinon from 'sinon';
 import { SinonSpy, SinonStub } from 'sinon';
 import { StatsItems } from '../../veau-entity/collection/StatsItems';
+import { StatsOutlines } from '../../veau-entity/collection/StatsOutlines';
 import { Language } from '../../veau-entity/Language';
 import { Region } from '../../veau-entity/Region';
 import { Stats } from '../../veau-entity/Stats';
@@ -115,16 +116,16 @@ describe('StatsInteractor', () => {
       ]);
 
       const statsInteractor: StatsInteractor = StatsInteractor.getInstance();
-      const statsOutlines: Array<StatsOutline> =  await statsInteractor.findByVeauAccountID(VeauAccountID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2'), 1);
+      const statsOutlines: StatsOutlines =  await statsInteractor.findByVeauAccountID(VeauAccountID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2'), 1);
 
-      expect(statsOutlines.length).toEqual(1);
-      expect(statsOutlines[0].getStatsID()).toEqual(statsID);
-      expect(statsOutlines[0].getLanguage()).toEqual(language);
-      expect(statsOutlines[0].getRegion()).toEqual(region);
-      expect(statsOutlines[0].getTerm()).toEqual(term);
-      expect(statsOutlines[0].getName()).toEqual(name);
-      expect(statsOutlines[0].getUnit()).toEqual(unit);
-      expect(statsOutlines[0].getUpdatedAt()).toEqual(updatedAt);
+      expect(statsOutlines.length()).toEqual(1);
+      expect(statsOutlines.get(0).getStatsID()).toEqual(statsID);
+      expect(statsOutlines.get(0).getLanguage()).toEqual(language);
+      expect(statsOutlines.get(0).getRegion()).toEqual(region);
+      expect(statsOutlines.get(0).getTerm()).toEqual(term);
+      expect(statsOutlines.get(0).getName()).toEqual(name);
+      expect(statsOutlines.get(0).getUnit()).toEqual(unit);
+      expect(statsOutlines.get(0).getUpdatedAt()).toEqual(updatedAt);
     });
   });
 

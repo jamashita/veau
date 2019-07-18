@@ -2,8 +2,8 @@ import { connect, ConnectedComponentClass, MapDispatchToProps, MapStateToProps }
 import { Dispatch } from 'redux';
 import { Languages } from '../../../veau-entity/collection/Languages';
 import { Regions } from '../../../veau-entity/collection/Regions';
+import { StatsOutlines } from '../../../veau-entity/collection/StatsOutlines';
 import { Stats } from '../../../veau-entity/Stats';
-import { StatsOutline } from '../../../veau-entity/StatsOutline';
 import { Term } from '../../../veau-enum/Term';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
@@ -24,7 +24,7 @@ import { StatsList as Component } from '../../components/pages/StatsList';
 import { State } from '../../State';
 
 type StateProps = {
-  statsOutlines: Array<StatsOutline>;
+  statsOutlines: StatsOutlines;
   open: boolean;
   stats: Stats;
   languages: Languages;

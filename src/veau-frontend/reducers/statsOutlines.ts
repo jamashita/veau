@@ -1,18 +1,16 @@
 import { Reducer } from 'redux';
-import { StatsOutline } from '../../veau-entity/StatsOutline';
+import { StatsOutlines } from '../../veau-entity/collection/StatsOutlines';
 import { ACTION, Action } from '../actions/Action';
 
-const initialState: Array<StatsOutline> = [
-];
+const initialState: StatsOutlines = StatsOutlines.from([]);
 
-export const statsOutlines: Reducer<Array<StatsOutline>, Action> = (state: Array<StatsOutline> = initialState, action: Action): Array<StatsOutline> => {
+export const statsOutlines: Reducer<StatsOutlines, Action> = (state: StatsOutlines = initialState, action: Action): StatsOutlines => {
   switch (action.type) {
     case ACTION.STATS_OUTLINE_UPDATE: {
       return action.statsOutlines;
     }
     case ACTION.STATS_OUTLINE_RESET: {
-      return [
-      ];
+      return StatsOutlines.from([]);
     }
     default: {
       return state;

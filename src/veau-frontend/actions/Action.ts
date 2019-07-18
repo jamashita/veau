@@ -1,9 +1,9 @@
 import { RouterState } from 'connected-react-router';
 import { Action as ReduxAction } from 'redux';
 import { Locale } from '../../veau-entity/aggregate/Locale';
+import { StatsOutlines } from '../../veau-entity/collection/StatsOutlines';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
-import { StatsOutline } from '../../veau-entity/StatsOutline';
 import { VeauAccount } from '../../veau-entity/VeauAccount';
 import { Term } from '../../veau-enum/Term';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
@@ -271,7 +271,7 @@ export interface StatsEditSaveStatsAction extends ReduxAction {
 }
 export interface StatsOutlineUpdateAction extends ReduxAction {
   type: ACTION.STATS_OUTLINE_UPDATE;
-  statsOutlines: Array<StatsOutline>;
+  statsOutlines: StatsOutlines;
 }
 export interface StatsOutlineResetAction extends ReduxAction {
   type: ACTION.STATS_OUTLINE_RESET;

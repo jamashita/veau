@@ -1,6 +1,6 @@
 import * as log4js from 'log4js';
+import { StatsOutlines } from '../veau-entity/collection/StatsOutlines';
 import { Stats } from '../veau-entity/Stats';
-import { StatsOutline } from '../veau-entity/StatsOutline';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { NotFoundError } from '../veau-error/NotFoundError';
 import { ITransaction } from '../veau-general/MySQL/ITransaction';
@@ -44,7 +44,7 @@ export class StatsInteractor {
     }
   }
 
-  public findByVeauAccountID(veauAccountID: VeauAccountID, page: number): Promise<Array<StatsOutline>> {
+  public findByVeauAccountID(veauAccountID: VeauAccountID, page: number): Promise<StatsOutlines> {
     const limit: number = LIMIT;
     const offset: number = (page - 1) * LIMIT;
 
