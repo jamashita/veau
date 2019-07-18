@@ -94,7 +94,7 @@ describe('StatsInteractor', () => {
       const language: Language = Language.from(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
       const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
       const term: Term = Term.MONTHLY;
-      const name: string = 'stats';
+      const name: StatsName = StatsName.of('stats');
       const unit: string = 'unit';
       const updatedAt: moment.Moment = moment.utc();
 

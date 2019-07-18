@@ -180,7 +180,7 @@ describe('StatsQuery', () => {
       expect(statsOutlines[0].getRegion().getName().get()).toEqual('regn2');
       expect(statsOutlines[0].getRegion().getISO3166().get()).toEqual('r2');
       expect(statsOutlines[0].getTerm().getID()).toEqual(1);
-      expect(statsOutlines[0].getName()).toEqual('stats1');
+      expect(statsOutlines[0].getName().get()).toEqual('stats1');
       expect(statsOutlines[0].getUnit()).toEqual('unit1');
       expect(statsOutlines[0].getUpdatedAtAsString()).toEqual('2000-01-01 00:00:00');
       expect(statsOutlines[1].getStatsID().get()).toEqual('a25a8b7f-c810-4dc0-b94e-e97e74329307');
@@ -192,7 +192,7 @@ describe('StatsQuery', () => {
       expect(statsOutlines[1].getRegion().getName().get()).toEqual('regn3');
       expect(statsOutlines[1].getRegion().getISO3166().get()).toEqual('r3');
       expect(statsOutlines[1].getTerm().getID()).toEqual(2);
-      expect(statsOutlines[1].getName()).toEqual('stats2');
+      expect(statsOutlines[1].getName().get()).toEqual('stats2');
       expect(statsOutlines[1].getUnit()).toEqual('unit2');
       expect(statsOutlines[1].getUpdatedAtAsString()).toEqual('2001-01-01 00:00:00');
     });

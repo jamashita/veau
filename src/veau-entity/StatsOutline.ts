@@ -7,6 +7,7 @@ import { LanguageName } from '../veau-vo/LanguageName';
 import { RegionID } from '../veau-vo/RegionID';
 import { RegionName } from '../veau-vo/RegionName';
 import { StatsID } from '../veau-vo/StatsID';
+import { StatsName } from '../veau-vo/StatsName';
 import { Entity } from './Entity';
 import { Language, LanguageJSON } from './Language';
 import { Region, RegionJSON } from './Region';
@@ -43,11 +44,11 @@ export class StatsOutline extends Entity<StatsID> {
   private language: Language;
   private region: Region;
   private term: Term;
-  private name: string;
+  private name: StatsName;
   private unit: string;
   private updatedAt: moment.Moment;
 
-  public static from(statsID: StatsID, language: Language, region: Region, term: Term, name: string, unit: string, updatedAt: moment.Moment): StatsOutline {
+  public static from(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: string, updatedAt: moment.Moment): StatsOutline {
     return new StatsOutline(statsID, language, region, term, name, unit, updatedAt);
   }
 
@@ -67,7 +68,7 @@ export class StatsOutline extends Entity<StatsID> {
       Language.fromJSON(language),
       Region.fromJSON(region),
       Term.of(termID),
-      name,
+      StatsName.of(name),
       unit,
       moment.utc(updatedAt)
     );
@@ -97,13 +98,13 @@ export class StatsOutline extends Entity<StatsID> {
       language,
       region,
       Term.of(termID),
-      name,
+      StatsName.of(name),
       unit,
       moment.utc(updatedAt)
     );
   }
 
-  private constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: string, unit: string, updatedAt: moment.Moment) {
+  private constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: string, updatedAt: moment.Moment) {
     super();
     this.statsID = statsID;
     this.language = language;
@@ -130,7 +131,7 @@ export class StatsOutline extends Entity<StatsID> {
     return this.term;
   }
 
-  public getName(): string {
+  public getName(): StatsName {
     return this.name;
   }
 
@@ -164,7 +165,7 @@ export class StatsOutline extends Entity<StatsID> {
     if (region.equals(Region.default())) {
       return false;
     }
-    if (name === '') {
+    if (name.equals(StatsName.default())) {
       return false;
     }
     if (unit === '') {
@@ -203,7 +204,7 @@ export class StatsOutline extends Entity<StatsID> {
       language: language.toJSON(),
       region: region.toJSON(),
       termID: term.getID(),
-      name,
+      name: name.get(),
       unit,
       updatedAt: this.getUpdatedAtAsString()
     };
@@ -219,6 +220,6 @@ export class StatsOutline extends Entity<StatsID> {
       unit
     } = this;
 
-    return `${statsID.toString()} ${language.toString()} ${region.toString()} ${term.toString()} ${name} ${unit} ${this.getUpdatedAtAsString()}`;
+    return `${statsID.toString()} ${language.toString()} ${region.toString()} ${term.toString()} ${name.get()} ${unit} ${this.getUpdatedAtAsString()}`;
   }
 }

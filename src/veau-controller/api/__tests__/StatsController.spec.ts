@@ -42,7 +42,7 @@ describe('StatsController', () => {
           Language.from(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
           Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
           Term.DAILY,
-          'stats',
+          StatsName.of('stats'),
           'unit',
           moment.utc('2000-01-01 00:00:00')
         )
