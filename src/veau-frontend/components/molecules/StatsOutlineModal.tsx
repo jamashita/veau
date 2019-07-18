@@ -118,7 +118,7 @@ class StatsOutlineModalImpl extends React.Component<Props & InjectedIntlProps, S
               id: 'UNIT'
             })}
             type='text'
-            value={stats.getUnit()}
+            value={stats.getUnit().get()}
             onKeyUp={unitTyped}
           />
           <FormControl

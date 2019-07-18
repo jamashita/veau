@@ -7,6 +7,10 @@ export class StatsUnit extends ValueObject {
     return new StatsUnit(unit);
   }
 
+  public static default(): StatsUnit {
+    return StatsUnit.of('');
+  }
+
   private constructor(unit: string) {
     super();
     this.unit = unit;

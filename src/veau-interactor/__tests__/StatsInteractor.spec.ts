@@ -23,6 +23,7 @@ import { RegionName } from '../../veau-vo/RegionName';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
 import { StatsName } from '../../veau-vo/StatsName';
+import { StatsUnit } from '../../veau-vo/StatsUnit';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { StatsInteractor } from '../StatsInteractor';
 
@@ -34,7 +35,7 @@ describe('StatsInteractor', () => {
       const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
       const term: Term = Term.MONTHLY;
       const name: StatsName = StatsName.of('stats');
-      const unit: string = 'unit';
+      const unit: StatsUnit = StatsUnit.of('unit');
       const updatedAt: moment.Moment = moment.utc();
       const items: StatsItems = StatsItems.from([
         StatsItem.from(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b'), 'item1', StatsValues.of([])),
@@ -133,7 +134,7 @@ describe('StatsInteractor', () => {
       const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
       const term: Term = Term.MONTHLY;
       const name: StatsName = StatsName.of('stats');
-      const unit: string = 'unit';
+      const unit: StatsUnit = StatsUnit.of('unit');
       const updatedAt: moment.Moment = moment.utc();
       const items: StatsItems = StatsItems.from([
         StatsItem.from(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b'), 'item1', StatsValues.of([])),

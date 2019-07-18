@@ -88,7 +88,7 @@ describe('StatsQuery', () => {
       expect(stats.getRegion().getISO3166().get()).toEqual('regn1');
       expect(stats.getTerm().getID()).toEqual(3);
       expect(stats.getName().get()).toEqual('name');
-      expect(stats.getUnit()).toEqual('unit');
+      expect(stats.getUnit().get()).toEqual('unit');
       expect(stats.getUpdatedAt().toJSON()).toEqual('2000-01-01T00:00:00.000Z');
 
       const items: StatsItems = stats.getItems();

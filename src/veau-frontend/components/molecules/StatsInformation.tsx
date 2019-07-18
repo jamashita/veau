@@ -88,7 +88,7 @@ class StatsInformationImpl extends React.Component<Props & InjectedIntlProps, St
               id: 'UNIT'
             })}
             type='text'
-            value={stats.getUnit()}
+            value={stats.getUnit().get()}
             onKeyUp={unitTyped}
           />
           <FormControl

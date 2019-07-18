@@ -7,6 +7,7 @@ import { StatsItem } from '../../veau-entity/StatsItem';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsName } from '../../veau-vo/StatsName';
+import { StatsUnit } from '../../veau-vo/StatsUnit';
 import {
   ACTION,
   LocationChangeAction,
@@ -104,7 +105,7 @@ export class StatsEditSaga {
         stats
       } = state;
 
-      const newStats: Stats = Stats.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), action.unit, stats.getUpdatedAt(), stats.getItems());
+      const newStats: Stats = Stats.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), StatsUnit.of(action.unit), stats.getUpdatedAt(), stats.getItems());
       yield put(updateStats(newStats));
     }
   }
