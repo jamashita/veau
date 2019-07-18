@@ -487,7 +487,7 @@ describe('Stats', () => {
         )
       ];
 
-      const stats: Stats = Stats.fromRow(row, items);
+      const stats: Stats = Stats.fromRow(row, StatsItems.from(items));
 
       expect(stats.toJSON()).toEqual({
         statsID: '0ec47089-24d3-4035-a27d-b636bd7a5170',

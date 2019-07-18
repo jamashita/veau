@@ -1,5 +1,5 @@
+import { StatsItems } from '../veau-entity/collection/StatsItems';
 import { Stats, StatsRow } from '../veau-entity/Stats';
-import { StatsItem } from '../veau-entity/StatsItem';
 import { StatsOutline, StatsOutlineRow } from '../veau-entity/StatsOutline';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
@@ -83,7 +83,7 @@ export class StatsQuery {
       throw new NoSuchElementError(statsID.toString());
     }
 
-    const items: Array<StatsItem> = await statsItemQuery.findByStatsID(statsID);
+    const items: StatsItems = await statsItemQuery.findByStatsID(statsID);
 
     return Stats.fromRow(statsRows[0], items);
   }

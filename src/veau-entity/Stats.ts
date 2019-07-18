@@ -77,10 +77,6 @@ export class Stats extends Entity<StatsID> {
       items
     } = json;
 
-    const statsItems: Array<StatsItem> = items.map<StatsItem>((item: StatsItemJSON): StatsItem => {
-      return StatsItem.fromJSON(item);
-    });
-
     return Stats.from(
       StatsID.of(statsID),
       Language.fromJSON(language),
@@ -89,11 +85,11 @@ export class Stats extends Entity<StatsID> {
       name,
       unit,
       moment.utc(updatedAt),
-      StatsItems.from(statsItems)
+      StatsItems.fromJSON(items)
     );
   }
 
-  public static fromRow(row: StatsRow, statItems: Array<StatsItem>): Stats {
+  public static fromRow(row: StatsRow, statItems: StatsItems): Stats {
     const {
       statsID,
       languageID,
@@ -113,7 +109,7 @@ export class Stats extends Entity<StatsID> {
     const region: Region = Region.from(RegionID.of(regionID), RegionName.of(regionName), ISO3166.of(iso3166));
     const term: Term = Term.of(termID);
 
-    return Stats.from(StatsID.of(statsID), language, region, term, name, unit, moment.utc(updatedAt), StatsItems.from(statItems));
+    return Stats.from(StatsID.of(statsID), language, region, term, name, unit, moment.utc(updatedAt), statItems);
   }
 
   public static default(): Stats {

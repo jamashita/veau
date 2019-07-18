@@ -1,3 +1,4 @@
+import { StatsItems } from '../veau-entity/collection/StatsItems';
 import { StatsItem, StatsItemRow } from '../veau-entity/StatsItem';
 import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsValues } from '../veau-vo/collection/StatsValues';
@@ -16,7 +17,7 @@ export class StatsItemQuery {
   private constructor() {
   }
 
-  public async findByStatsID(statsID: StatsID): Promise<Array<StatsItem>> {
+  public async findByStatsID(statsID: StatsID): Promise<StatsItems> {
     const query: string = `SELECT
       R1.stats_item_id AS statsItemID,
       R1.name
@@ -30,7 +31,7 @@ export class StatsItemQuery {
 
     const valueMap: Map<string, StatsValues> = await statsValueQuery.findByStatsID(statsID);
 
-    return statsItemRows.map<StatsItem>((statsItemRow: StatsItemRow): StatsItem => {
+    const items: Array<StatsItem> = statsItemRows.map<StatsItem>((statsItemRow: StatsItemRow): StatsItem => {
       const values: StatsValues | undefined = valueMap.get(statsItemRow.statsItemID);
 
       if (values) {
@@ -39,5 +40,7 @@ export class StatsItemQuery {
 
       return StatsItem.fromRow(statsItemRow, StatsValues.of([]));
     });
+
+    return StatsItems.from(items);
   }
 }
