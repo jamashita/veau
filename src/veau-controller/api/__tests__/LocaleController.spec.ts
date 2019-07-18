@@ -11,6 +11,7 @@ import { Language } from '../../../veau-entity/Language';
 import { Region } from '../../../veau-entity/Region';
 import { VeauAccount } from '../../../veau-entity/VeauAccount';
 import { LocaleInteractor } from '../../../veau-interactor/LocaleInteractor';
+import { AccountName } from '../../../veau-vo/AccountName';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
 import { LanguageID } from '../../../veau-vo/LanguageID';
@@ -67,7 +68,7 @@ describe('LocaleController', () => {
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.from(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
         const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
-        req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), 'account', language, region);
+        req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();
       });
       app.use('/', LocaleController);
@@ -85,7 +86,7 @@ describe('LocaleController', () => {
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.from(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
         const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
-        req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), 'account', language, region);
+        req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();
       });
       app.use('/', LocaleController);

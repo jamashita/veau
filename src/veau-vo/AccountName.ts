@@ -7,6 +7,10 @@ export class AccountName extends ValueObject {
     return new AccountName(name);
   }
 
+  public static default(): AccountName {
+    return AccountName.of('');
+  }
+
   private constructor(name: string) {
     super();
     this.name = name;

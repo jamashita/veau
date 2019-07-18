@@ -30,7 +30,7 @@ describe('VeauAccountQuery', () => {
       const veauAccount: VeauAccount = veauAccountHash.veauAccount;
 
       expect(veauAccount.getVeauAccountID().get()).toEqual('998106de-b2e7-4981-9643-22cd30cd74de');
-      expect(veauAccount.getAccount()).toEqual('account');
+      expect(veauAccount.getAccount().get()).toEqual('account');
       expect(veauAccount.getLanguage().getLanguageID().get()).toEqual(1);
       expect(veauAccount.getLanguage().getName().get()).toEqual('аҧсуа бызшәа');
       expect(veauAccount.getLanguage().getEnglishName().get()).toEqual('Abkhazian');

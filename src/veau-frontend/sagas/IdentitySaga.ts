@@ -3,6 +3,7 @@ import { Locale } from '../../veau-entity/aggregate/Locale';
 import { Language } from '../../veau-entity/Language';
 import { VeauAccount } from '../../veau-entity/VeauAccount';
 import { LanguageIdentifier } from '../../veau-general/LanguageIdentifier';
+import { AccountName } from '../../veau-vo/AccountName';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { ACTION } from '../actions/Action';
@@ -88,7 +89,7 @@ export class IdentitySaga {
         identity
       } = state;
 
-      const veauAccount: VeauAccount = VeauAccount.from(VeauAccountID.default(), '', identity.getLanguage(), identity.getRegion());
+      const veauAccount: VeauAccount = VeauAccount.from(VeauAccountID.default(), AccountName.default(), identity.getLanguage(), identity.getRegion());
 
       yield put(identityAuthenticated(veauAccount));
     }

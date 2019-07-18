@@ -1,3 +1,4 @@
+import { AccountName } from '../veau-vo/AccountName';
 import { ISO3166 } from '../veau-vo/ISO3166';
 import { ISO639 } from '../veau-vo/ISO639';
 import { LanguageID } from '../veau-vo/LanguageID';
@@ -31,11 +32,11 @@ export type VeauAccountRow = {
 
 export class VeauAccount extends Entity<VeauAccountID> {
   private veauAccountID: VeauAccountID;
-  private account: string;
+  private account: AccountName;
   private language: Language;
   private region: Region;
 
-  public static from(veauAccountID: VeauAccountID, name: string, language: Language, region: Region): VeauAccount {
+  public static from(veauAccountID: VeauAccountID, name: AccountName, language: Language, region: Region): VeauAccount {
     return new VeauAccount(veauAccountID, name, language, region);
   }
 
@@ -47,7 +48,7 @@ export class VeauAccount extends Entity<VeauAccountID> {
       region
     } = json;
 
-    return VeauAccount.from(VeauAccountID.of(veauAccountID), account, Language.fromJSON(language), Region.fromJSON(region));
+    return VeauAccount.from(VeauAccountID.of(veauAccountID), AccountName.of(account), Language.fromJSON(language), Region.fromJSON(region));
   }
 
   public static fromRow(row: VeauAccountRow): VeauAccount {
@@ -66,14 +67,14 @@ export class VeauAccount extends Entity<VeauAccountID> {
     const language: Language = Language.from(LanguageID.of(languageID), LanguageName.of(languageName), LanguageName.of(languageEnglishName), ISO639.of(iso639));
     const region: Region = Region.from(RegionID.of(regionID), RegionName.of(regionName), ISO3166.of(iso3166));
 
-    return VeauAccount.from(VeauAccountID.of(veauAccountID), account, language, region);
+    return VeauAccount.from(VeauAccountID.of(veauAccountID), AccountName.of(account), language, region);
   }
 
   public static default(): VeauAccount {
-    return VeauAccount.from(VeauAccountID.default(), '', Language.default(), Region.default());
+    return VeauAccount.from(VeauAccountID.default(), AccountName.default(), Language.default(), Region.default());
   }
 
-  private constructor(veauAccountID: VeauAccountID, account: string, language: Language, region: Region) {
+  private constructor(veauAccountID: VeauAccountID, account: AccountName, language: Language, region: Region) {
     super();
     this.veauAccountID = veauAccountID;
     this.account = account;
@@ -85,7 +86,7 @@ export class VeauAccount extends Entity<VeauAccountID> {
     return this.veauAccountID;
   }
 
-  public getAccount(): string {
+  public getAccount(): AccountName {
     return this.account;
   }
 
@@ -130,7 +131,7 @@ export class VeauAccount extends Entity<VeauAccountID> {
 
     return {
       veauAccountID: veauAccountID.get(),
-      account,
+      account: account.get(),
       language: language.toJSON(),
       region: region.toJSON()
     };
@@ -144,6 +145,6 @@ export class VeauAccount extends Entity<VeauAccountID> {
       region
     } = this;
 
-    return `${veauAccountID.toString()} ${account} ${language.toString()} ${region.toString()}`;
+    return `${veauAccountID.toString()} ${account.toString()} ${language.toString()} ${region.toString()}`;
   }
 }

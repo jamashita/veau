@@ -1,4 +1,5 @@
 import 'jest';
+import { AccountName } from '../../veau-vo/AccountName';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { LanguageID } from '../../veau-vo/LanguageID';
@@ -13,9 +14,9 @@ import { VeauAccount, VeauAccountJSON, VeauAccountRow } from '../VeauAccount';
 describe('VeauAccount', () => {
   describe('equals', () => {
     it('returns true if the ids equal', () => {
-      const veauAccount1: VeauAccount = VeauAccount.from(VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de'), 'veau', Language.from(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')));
-      const veauAccount2: VeauAccount = VeauAccount.from(VeauAccountID.of('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9'), 'veau', Language.from(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')));
-      const veauAccount3: VeauAccount = VeauAccount.from(VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de'), 'veau', Language.from(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa')), Region.from(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB')));
+      const veauAccount1: VeauAccount = VeauAccount.from(VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de'), AccountName.of('veau'), Language.from(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')));
+      const veauAccount2: VeauAccount = VeauAccount.from(VeauAccountID.of('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9'), AccountName.of('veau'), Language.from(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')));
+      const veauAccount3: VeauAccount = VeauAccount.from(VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de'), AccountName.of('veau'), Language.from(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa')), Region.from(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB')));
 
       expect(veauAccount1.equals(veauAccount1)).toEqual(true);
       expect(veauAccount1.equals(veauAccount2)).toEqual(false);
@@ -27,7 +28,7 @@ describe('VeauAccount', () => {
     it('normal case', () => {
       const language: Language = Language.from(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
       const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
-      const veauAccount: VeauAccount = VeauAccount.from(VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de'), 'veau', language, region);
+      const veauAccount: VeauAccount = VeauAccount.from(VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de'), AccountName.of('veau'), language, region);
 
       expect(veauAccount.toJSON()).toEqual({
         veauAccountID: '998106de-b2e7-4981-9643-22cd30cd74de',
@@ -50,7 +51,7 @@ describe('VeauAccount', () => {
   describe('copy', () => {
     it('every properties are copied', () => {
       const veauAccountID: VeauAccountID = VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de');
-      const account: string = 'veau';
+      const account: AccountName = AccountName.of('veau');
       const language: Language = Language.from(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
       const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
       const veauAccount: VeauAccount = VeauAccount.from(veauAccountID, account, language, region);
@@ -67,7 +68,7 @@ describe('VeauAccount', () => {
   describe('from', () => {
     it('normal case', () => {
       const veauAccountID: VeauAccountID = VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de');
-      const account: string = 'account';
+      const account: AccountName = AccountName.of('account');
       const language: Language = Language.from(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
       const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
 
@@ -101,7 +102,7 @@ describe('VeauAccount', () => {
       const veauAccount: VeauAccount = VeauAccount.fromJSON(json);
 
       expect(veauAccount.getVeauAccountID().get()).toEqual(json.veauAccountID);
-      expect(veauAccount.getAccount()).toEqual(json.account);
+      expect(veauAccount.getAccount().get()).toEqual(json.account);
       expect(veauAccount.getLanguage().getLanguageID().get()).toEqual(json.language.languageID);
       expect(veauAccount.getLanguage().getName().get()).toEqual(json.language.name);
       expect(veauAccount.getLanguage().getEnglishName().get()).toEqual(json.language.englishName);
@@ -130,7 +131,7 @@ describe('VeauAccount', () => {
       const veauAccount: VeauAccount = VeauAccount.fromRow(row);
 
       expect(veauAccount.getVeauAccountID().get()).toEqual(row.veauAccountID);
-      expect(veauAccount.getAccount()).toEqual(row.account);
+      expect(veauAccount.getAccount().get()).toEqual(row.account);
       expect(veauAccount.getLanguage().getLanguageID().get()).toEqual(row.languageID);
       expect(veauAccount.getLanguage().getName().get()).toEqual(row.languageName);
       expect(veauAccount.getLanguage().getEnglishName().get()).toEqual(row.languageEnglishName);
