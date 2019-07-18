@@ -7,6 +7,7 @@ import * as sinon from 'sinon';
 import { SinonStub } from 'sinon';
 import * as supertest from 'supertest';
 import { StatsItems } from '../../../veau-entity/collection/StatsItems';
+import { StatsOutlines } from '../../../veau-entity/collection/StatsOutlines';
 import { Language } from '../../../veau-entity/Language';
 import { Region } from '../../../veau-entity/Region';
 import { Stats } from '../../../veau-entity/Stats';
@@ -38,7 +39,7 @@ describe('StatsController', () => {
     it('normal case', async () => {
       const stub: SinonStub = sinon.stub();
       StatsInteractor.prototype.findByVeauAccountID = stub;
-      stub.resolves([
+      stub.resolves(StatsOutlines.from([
         StatsOutline.from(
           StatsID.of('01c466f3-198a-45a4-9204-348ac57b1b5d'),
           Language.from(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
@@ -48,7 +49,7 @@ describe('StatsController', () => {
           StatsUnit.of('unit'),
           moment.utc('2000-01-01 00:00:00')
         )
-      ]);
+      ]));
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.from(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));

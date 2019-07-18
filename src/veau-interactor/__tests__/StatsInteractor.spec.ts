@@ -103,7 +103,7 @@ describe('StatsInteractor', () => {
 
       const stub: SinonStub = sinon.stub();
       StatsQuery.prototype.findByVeauAccountID = stub;
-      stub.resolves([
+      stub.resolves(StatsOutlines.from([
         StatsOutline.from(
           statsID,
           language,
@@ -113,7 +113,7 @@ describe('StatsInteractor', () => {
           unit,
           updatedAt
         )
-      ]);
+      ]));
 
       const statsInteractor: StatsInteractor = StatsInteractor.getInstance();
       const statsOutlines: StatsOutlines =  await statsInteractor.findByVeauAccountID(VeauAccountID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2'), 1);
