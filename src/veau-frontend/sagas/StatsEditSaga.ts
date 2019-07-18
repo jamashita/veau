@@ -6,6 +6,7 @@ import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { StatsID } from '../../veau-vo/StatsID';
+import { StatsItemName } from '../../veau-vo/StatsItemName';
 import { StatsName } from '../../veau-vo/StatsName';
 import { StatsUnit } from '../../veau-vo/StatsUnit';
 import {
@@ -220,7 +221,7 @@ export class StatsEditSaga {
         statsItem
       } = state;
 
-      const newStatsItem: StatsItem = StatsItem.from(statsItem.getStatsItemID(), action.name, statsItem.getValues());
+      const newStatsItem: StatsItem = StatsItem.from(statsItem.getStatsItemID(), StatsItemName.of(action.name), statsItem.getValues());
       yield put(updateStatsItem(newStatsItem));
     }
   }
@@ -282,7 +283,7 @@ export class StatsEditSaga {
       } = state;
 
       if (selectingItem) {
-        const newSelectingItem: StatsItem = StatsItem.from(selectingItem.getStatsItemID(), action.name, selectingItem.getValues());
+        const newSelectingItem: StatsItem = StatsItem.from(selectingItem.getStatsItemID(), StatsItemName.of(action.name), selectingItem.getValues());
         const copied: Stats = stats.copy();
         copied.replaceItem(newSelectingItem, selectingRow);
 

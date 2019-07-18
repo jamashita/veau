@@ -7,6 +7,10 @@ export class StatsItemName extends ValueObject {
     return new StatsItemName(name);
   }
 
+  public static default(): StatsItemName {
+    return StatsItemName.of('');
+  }
+
   private constructor(name: string) {
     super();
     this.name = name;
@@ -14,6 +18,10 @@ export class StatsItemName extends ValueObject {
 
   public get(): string {
     return this.name;
+  }
+
+  public length(): number {
+    return this.name.length;
   }
 
   public equals(other: StatsItemName): boolean {

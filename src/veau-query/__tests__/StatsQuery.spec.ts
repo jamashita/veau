@@ -94,7 +94,7 @@ describe('StatsQuery', () => {
       const items: StatsItems = stats.getItems();
       expect(items.length()).toEqual(3);
       expect(items.get(0).getStatsItemID().get()).toEqual('c0e18d31-d026-4a84-af4f-d5d26c520600');
-      expect(items.get(0).getName()).toEqual('name1');
+      expect(items.get(0).getName().get()).toEqual('name1');
 
       let values: StatsValues = items.get(0).getValues();
       expect(values.length()).toEqual(3);
@@ -106,7 +106,7 @@ describe('StatsQuery', () => {
       expect(values.get(2).getValue()).toEqual(3);
 
       expect(items.get(1).getStatsItemID().get()).toEqual('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c');
-      expect(items.get(1).getName()).toEqual('name2');
+      expect(items.get(1).getName().get()).toEqual('name2');
 
       values = items.get(1).getValues();
       expect(values.length()).toEqual(2);
@@ -116,7 +116,7 @@ describe('StatsQuery', () => {
       expect(values.get(1).getValue()).toEqual(12);
 
       expect(items.get(2).getStatsItemID().get()).toEqual('2ac64841-5267-48bc-8952-ba9ad1cb12d7');
-      expect(items.get(2).getName()).toEqual('name3');
+      expect(items.get(2).getName().get()).toEqual('name3');
 
       values = items.get(2).getValues();
       expect(values.length()).toEqual(0);

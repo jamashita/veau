@@ -60,7 +60,7 @@ class StatsItemModalImpl extends React.Component<Props & InjectedIntlProps, Stat
               id: 'NAME'
             })}
             type='text'
-            value={statsItem.getName()}
+            value={statsItem.getName().get()}
             onKeyUp={itemNameTyped}
           />
         </DialogContent>

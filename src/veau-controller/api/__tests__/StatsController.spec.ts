@@ -26,6 +26,7 @@ import { RegionID } from '../../../veau-vo/RegionID';
 import { RegionName } from '../../../veau-vo/RegionName';
 import { StatsID } from '../../../veau-vo/StatsID';
 import { StatsItemID } from '../../../veau-vo/StatsItemID';
+import { StatsItemName } from '../../../veau-vo/StatsItemName';
 import { StatsName } from '../../../veau-vo/StatsName';
 import { StatsUnit } from '../../../veau-vo/StatsUnit';
 import { StatsValue } from '../../../veau-vo/StatsValue';
@@ -134,7 +135,7 @@ describe('StatsController', () => {
         StatsUnit.of('unit'),
         moment.utc('2000-01-01 00:00:00'),
         StatsItems.from([
-          StatsItem.from(StatsItemID.of('09c2e4a6-6839-4fbe-858e-bf2c4ee7d5e6'), 'stats item', StatsValues.of([
+          StatsItem.from(StatsItemID.of('09c2e4a6-6839-4fbe-858e-bf2c4ee7d5e6'), StatsItemName.of('stats item'), StatsValues.of([
             StatsValue.of(moment.utc('2000-01-01'), 5)
           ]))
         ])

@@ -1,5 +1,6 @@
 import * as moment from 'moment';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { StatsItemName } from '../../veau-vo/StatsItemName';
 import { StatsItem, StatsItemJSON } from '../StatsItem';
 
 export class StatsItems {
@@ -38,8 +39,8 @@ export class StatsItems {
     return statsItem;
   }
 
-  public getNames(): Array<string> {
-    return this.items.map<string>((item: StatsItem): string => {
+  public getNames(): Array<StatsItemName> {
+    return this.items.map<StatsItemName>((item: StatsItem): StatsItemName => {
       return item.getName();
     });
   }

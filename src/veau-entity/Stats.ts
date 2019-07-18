@@ -9,6 +9,7 @@ import { LanguageName } from '../veau-vo/LanguageName';
 import { RegionID } from '../veau-vo/RegionID';
 import { RegionName } from '../veau-vo/RegionName';
 import { StatsID } from '../veau-vo/StatsID';
+import { StatsItemName } from '../veau-vo/StatsItemName';
 import { StatsName } from '../veau-vo/StatsName';
 import { StatsUnit } from '../veau-vo/StatsUnit';
 import { StatsValue } from '../veau-vo/StatsValue';
@@ -265,13 +266,13 @@ export class Stats extends Entity<StatsID> {
     }
   }
 
-  public getRows(): Array<string> {
+  public getRows(): Array<StatsItemName> {
     return this.getItemNames();
   }
 
   public getRowHeaderSize(): number {
-    const chars: Array<number> = this.getRows().map<number>((row: string): number => {
-      return row.length;
+    const chars: Array<number> = this.getRows().map<number>((row: StatsItemName): number => {
+      return row.length();
     });
 
     return Math.max(...chars) * REVISED_VALUE;
@@ -313,7 +314,7 @@ export class Stats extends Entity<StatsID> {
         const line: Chart | undefined = chartItems.get(statsValue.getAsOfAsString());
 
         if (line) {
-          line[statsItem.getName()] = statsValue.getValue();
+          line[statsItem.getName().get()] = statsValue.getValue();
         }
       });
     });
@@ -326,7 +327,7 @@ export class Stats extends Entity<StatsID> {
     return chart;
   }
 
-  public getItemNames(): Array<string> {
+  public getItemNames(): Array<StatsItemName> {
     return this.items.getNames();
   }
 

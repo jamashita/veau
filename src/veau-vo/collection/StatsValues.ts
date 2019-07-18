@@ -9,6 +9,17 @@ export class StatsValues {
     return new StatsValues(values);
   }
 
+  public static ofJSON(statsValues: Array<StatsValueJSON>): StatsValues {
+    return StatsValues.of(statsValues.map<StatsValue>((statsValue: StatsValueJSON): StatsValue => {
+      const {
+        asOf,
+        value
+      } = statsValue;
+
+      return StatsValue.of(moment(asOf), value);
+    }));
+  }
+
   private constructor(values: Array<StatsValue>) {
     this.values = values;
   }

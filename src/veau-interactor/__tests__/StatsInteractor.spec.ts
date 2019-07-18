@@ -22,6 +22,7 @@ import { RegionID } from '../../veau-vo/RegionID';
 import { RegionName } from '../../veau-vo/RegionName';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
+import { StatsItemName } from '../../veau-vo/StatsItemName';
 import { StatsName } from '../../veau-vo/StatsName';
 import { StatsUnit } from '../../veau-vo/StatsUnit';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
@@ -38,8 +39,8 @@ describe('StatsInteractor', () => {
       const unit: StatsUnit = StatsUnit.of('unit');
       const updatedAt: moment.Moment = moment.utc();
       const items: StatsItems = StatsItems.from([
-        StatsItem.from(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b'), 'item1', StatsValues.of([])),
-        StatsItem.from(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8'), 'item2', StatsValues.of([]))
+        StatsItem.from(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b'), StatsItemName.of('item1'), StatsValues.of([])),
+        StatsItem.from(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8'), StatsItemName.of('item2'), StatsValues.of([]))
       ]);
 
       const stub: SinonStub = sinon.stub();
@@ -137,8 +138,8 @@ describe('StatsInteractor', () => {
       const unit: StatsUnit = StatsUnit.of('unit');
       const updatedAt: moment.Moment = moment.utc();
       const items: StatsItems = StatsItems.from([
-        StatsItem.from(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b'), 'item1', StatsValues.of([])),
-        StatsItem.from(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8'), 'item2', StatsValues.of([]))
+        StatsItem.from(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b'), StatsItemName.of('item1'), StatsValues.of([])),
+        StatsItem.from(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8'), StatsItemName.of('item2'), StatsValues.of([]))
       ]);
 
       const stats: Stats = Stats.from(

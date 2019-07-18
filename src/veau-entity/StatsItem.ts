@@ -2,6 +2,7 @@ import * as moment from 'moment';
 import { UUID } from '../veau-general/UUID';
 import { StatsValues } from '../veau-vo/collection/StatsValues';
 import { StatsItemID } from '../veau-vo/StatsItemID';
+import { StatsItemName } from '../veau-vo/StatsItemName';
 import { StatsValue, StatsValueJSON } from '../veau-vo/StatsValue';
 import { Entity } from './Entity';
 
@@ -18,10 +19,10 @@ export type StatsItemRow = {
 
 export class StatsItem extends Entity<StatsItemID> {
   private statsItemID: StatsItemID;
-  private name: string;
+  private name: StatsItemName;
   private values: StatsValues;
 
-  public static from(statsItemID: StatsItemID, name: string, values: StatsValues): StatsItem {
+  public static from(statsItemID: StatsItemID, name: StatsItemName, values: StatsValues): StatsItem {
     return new StatsItem(statsItemID, name, values);
   }
 
@@ -32,16 +33,7 @@ export class StatsItem extends Entity<StatsItemID> {
       values
     } = json;
 
-    const statsValues: Array<StatsValue> = values.map<StatsValue>((statsValue: StatsValueJSON): StatsValue => {
-      const {
-        asOf,
-        value
-      } = statsValue;
-
-      return StatsValue.of(moment(asOf), value);
-    });
-
-    return StatsItem.from(StatsItemID.of(statsItemID), name, StatsValues.of(statsValues));
+    return StatsItem.from(StatsItemID.of(statsItemID), StatsItemName.of(name), StatsValues.ofJSON(values));
   }
 
   public static fromRow(row: StatsItemRow, statsValues: StatsValues): StatsItem {
@@ -50,14 +42,14 @@ export class StatsItem extends Entity<StatsItemID> {
       name
     } = row;
 
-    return StatsItem.from(StatsItemID.of(statsItemID), name, statsValues);
+    return StatsItem.from(StatsItemID.of(statsItemID), StatsItemName.of(name), statsValues);
   }
 
   public static default(): StatsItem {
-    return StatsItem.from(StatsItemID.of(UUID.v4()), '', StatsValues.of([]));
+    return StatsItem.from(StatsItemID.of(UUID.v4()), StatsItemName.default(), StatsValues.of([]));
   }
 
-  private constructor(statsItemID: StatsItemID, name: string, values: StatsValues) {
+  private constructor(statsItemID: StatsItemID, name: StatsItemName, values: StatsValues) {
     super();
     this.statsItemID = statsItemID;
     this.name = name;
@@ -68,7 +60,7 @@ export class StatsItem extends Entity<StatsItemID> {
     return this.statsItemID;
   }
 
-  public getName(): string {
+  public getName(): StatsItemName {
     return this.name;
   }
 
@@ -128,7 +120,7 @@ export class StatsItem extends Entity<StatsItemID> {
       name
     } = this;
 
-    if (name === '') {
+    if (name.equals(StatsItemName.default())) {
       return false;
     }
 
@@ -158,7 +150,7 @@ export class StatsItem extends Entity<StatsItemID> {
 
     return {
       statsItemID: statsItemID.get(),
-      name,
+      name: name.get(),
       values: values.toJSON()
     };
   }
@@ -169,6 +161,6 @@ export class StatsItem extends Entity<StatsItemID> {
       name
     } = this;
 
-    return `${statsItemID.toString()} ${name}`;
+    return `${statsItemID.toString()} ${name.toString()}`;
   }
 }

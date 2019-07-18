@@ -53,7 +53,7 @@ class StatsItemInformationImpl extends React.Component<Props & InjectedIntlProps
               id: 'NAME'
             })}
             type='text'
-            value={selecting.getName()}
+            value={selecting.getName().get()}
             onKeyUp={nameTyped}
           />
           <CardActions>
