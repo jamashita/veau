@@ -266,26 +266,24 @@ export class Stats extends Entity<StatsID> {
     }
   }
 
-  public getRows(): Array<StatsItemName> {
-    return this.getItemNames();
+  public getRows(): Array<string> {
+    return this.items.map<string>((item: StatsItem): string => {
+      return item.getName().get();
+    });
   }
 
   public getRowHeaderSize(): number {
-    const chars: Array<number> = this.getRows().map<number>((row: StatsItemName): number => {
-      return row.length();
+    const chars: Array<number> = this.items.map<number>((item: StatsItem): number => {
+      return item.getName().length();
     });
 
     return Math.max(...chars) * REVISED_VALUE;
   }
 
   public getData(): Array<Array<string>> {
-    const data: Array<Array<string>> = [];
-
-    this.items.forEach((statsItem: StatsItem): void => {
-      data.push(statsItem.getValuesByColumn(this.getColumns()));
+    return this.items.map((item: StatsItem): Array<string> => {
+      return item.getValuesByColumn(this.getColumns());
     });
-
-    return data;
   }
 
   public setData(row: number, column: number, value: number): void {

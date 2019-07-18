@@ -93,6 +93,14 @@ export class StatsValues {
     this.values.forEach(consumer);
   }
 
+  public map<U>(func: (statsValue: StatsValue, index: number) => U): Array<U> {
+    return this.values.map<U>(func);
+  }
+
+  public filter(predicate: (statsValue: StatsValue, index: number) => boolean): StatsValues {
+    return new StatsValues(this.values.filter(predicate));
+  }
+
   public copy(): StatsValues {
     const values: Array<StatsValue> = [];
 

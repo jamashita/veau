@@ -73,13 +73,9 @@ export class StatsItem extends Entity<StatsItemID> {
   }
 
   public getAsOfs(): Array<moment.Moment> {
-    const asOfs: Array<moment.Moment> = [];
-
-    this.values.forEach((statsValue: StatsValue): void => {
-      asOfs.push(statsValue.getAsOf());
+    return this.values.map<moment.Moment>((value: StatsValue): moment.Moment => {
+      return value.getAsOf();
     });
-
-    return asOfs;
   }
 
   public getValuesByColumn(column: Array<string>): Array<string> {
