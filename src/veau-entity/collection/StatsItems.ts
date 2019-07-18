@@ -149,13 +149,9 @@ export class StatsItems {
 
 
   public copy(): StatsItems {
-    const items: Array<StatsItem> = [];
-
-    this.items.forEach((statsItem: StatsItem): void => {
-      items.push(statsItem.copy());
-    });
-
-    return new StatsItems(items);
+    return new StatsItems(this.items.map<StatsItem>((statsItem: StatsItem) => {
+      return statsItem.copy();
+    }));
   }
 
   public equals(other: StatsItems): boolean {
