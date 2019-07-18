@@ -21,6 +21,7 @@ import { RegionID } from '../../veau-vo/RegionID';
 import { RegionName } from '../../veau-vo/RegionName';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
+import { StatsName } from '../../veau-vo/StatsName';
 import { StatsValue } from '../../veau-vo/StatsValue';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { StatsUpdateTransaction } from '../StatsUpdateTransaction';
@@ -46,7 +47,7 @@ describe('StatsUpdateTransaction', () => {
       const language: Language = Language.from(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
       const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
       const term: Term = Term.MONTHLY;
-      const name: string = 'stats';
+      const name: StatsName = StatsName.of('stats');
       const unit: string = 'unit';
       const updatedAt: moment.Moment = moment.utc();
       const items: StatsItems = StatsItems.from([

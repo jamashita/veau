@@ -4,6 +4,7 @@ import { Region } from '../../veau-entity/Region';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsOutline } from '../../veau-entity/StatsOutline';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { StatsName } from '../../veau-vo/StatsName';
 import {
   ACTION,
   LocationChangeAction,
@@ -73,7 +74,7 @@ export class StatsListSaga {
         stats.getLanguage(),
         stats.getRegion(),
         stats.getTerm(),
-        action.name,
+        StatsName.of(action.name),
         stats.getUnit(),
         stats.getUpdatedAt(),
         stats.getItems()

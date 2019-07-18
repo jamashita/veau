@@ -110,7 +110,7 @@ class StatsOutlineModalImpl extends React.Component<Props & InjectedIntlProps, S
               id: 'NAME'
             })}
             type='text'
-            value={stats.getName()}
+            value={stats.getName().get()}
             onKeyUp={nameTyped}
           />
           <TextField

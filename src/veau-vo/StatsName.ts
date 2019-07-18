@@ -7,6 +7,10 @@ export class StatsName extends ValueObject {
     return new StatsName(name);
   }
 
+  public static default(): StatsName {
+    return StatsName.of('');
+  }
+
   private constructor(name: string) {
     super();
     this.name = name;

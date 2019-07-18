@@ -80,7 +80,7 @@ class StatsInformationImpl extends React.Component<Props & InjectedIntlProps, St
               id: 'NAME'
             })}
             type='text'
-            value={stats.getName()}
+            value={stats.getName().get()}
             onKeyUp={nameTyped}
           />
           <TextField

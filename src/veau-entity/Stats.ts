@@ -9,6 +9,7 @@ import { LanguageName } from '../veau-vo/LanguageName';
 import { RegionID } from '../veau-vo/RegionID';
 import { RegionName } from '../veau-vo/RegionName';
 import { StatsID } from '../veau-vo/StatsID';
+import { StatsName } from '../veau-vo/StatsName';
 import { StatsValue } from '../veau-vo/StatsValue';
 import { StatsItems } from './collection/StatsItems';
 import { Entity } from './Entity';
@@ -54,14 +55,14 @@ export class Stats extends Entity<StatsID> {
   private language: Language;
   private region: Region;
   private term: Term;
-  private name: string;
+  private name: StatsName;
   private unit: string;
   private updatedAt: moment.Moment;
   private items: StatsItems;
   private startDate?: string;
   private columns?: Array<string>;
 
-  public static from(statsID: StatsID, language: Language, region: Region, term: Term, name: string, unit: string, updatedAt: moment.Moment, items: StatsItems, startDate?: string): Stats {
+  public static from(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: string, updatedAt: moment.Moment, items: StatsItems, startDate?: string): Stats {
     return new Stats(statsID, language, region, term, name, unit, updatedAt, items, startDate);
   }
 
@@ -82,7 +83,7 @@ export class Stats extends Entity<StatsID> {
       Language.fromJSON(language),
       Region.fromJSON(region),
       Term.of(termID),
-      name,
+      StatsName.of(name),
       unit,
       moment.utc(updatedAt),
       StatsItems.fromJSON(items)
@@ -109,14 +110,14 @@ export class Stats extends Entity<StatsID> {
     const region: Region = Region.from(RegionID.of(regionID), RegionName.of(regionName), ISO3166.of(iso3166));
     const term: Term = Term.of(termID);
 
-    return Stats.from(StatsID.of(statsID), language, region, term, name, unit, moment.utc(updatedAt), statItems);
+    return Stats.from(StatsID.of(statsID), language, region, term, StatsName.of(name), unit, moment.utc(updatedAt), statItems);
   }
 
   public static default(): Stats {
-    return Stats.from(StatsID.of(UUID.v4()), Language.default(), Region.default(), Term.DAILY, '', '', moment(), StatsItems.from([]));
+    return Stats.from(StatsID.of(UUID.v4()), Language.default(), Region.default(), Term.DAILY, StatsName.default(), '', moment(), StatsItems.from([]));
   }
 
-  private constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: string, unit: string, updatedAt: moment.Moment, items: StatsItems, startDate?: string) {
+  private constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: string, updatedAt: moment.Moment, items: StatsItems, startDate?: string) {
     super();
     this.statsID = statsID;
     this.language = language;
@@ -145,7 +146,7 @@ export class Stats extends Entity<StatsID> {
     return this.term;
   }
 
-  public getName(): string {
+  public getName(): StatsName {
     return this.name;
   }
 
@@ -346,7 +347,7 @@ export class Stats extends Entity<StatsID> {
     if (region.equals(Region.default())) {
       return false;
     }
-    if (name === '') {
+    if (name.equals(StatsName.default())) {
       return false;
     }
     if (unit === '') {
@@ -412,7 +413,7 @@ export class Stats extends Entity<StatsID> {
       language: language.toJSON(),
       region: region.toJSON(),
       termID: term.getID(),
-      name,
+      name: name.get(),
       unit,
       updatedAt: updatedAt.utc().format('YYYY-MM-DD HH:mm:ss'),
       items: items.toJSON()
@@ -430,6 +431,6 @@ export class Stats extends Entity<StatsID> {
       updatedAt
     } = this;
 
-    return `${statsID.toString()} ${language.toString()} ${region.toString()} ${term.toString()} ${name} ${unit} ${updatedAt.toJSON()}`;
+    return `${statsID.toString()} ${language.toString()} ${region.toString()} ${term.toString()} ${name.toString()} ${unit} ${updatedAt.toJSON()}`;
   }
 }
