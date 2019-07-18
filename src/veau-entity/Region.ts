@@ -1,5 +1,6 @@
 import { ISO3166 } from '../veau-vo/ISO3166';
 import { RegionID } from '../veau-vo/RegionID';
+import { RegionName } from '../veau-vo/RegionName';
 import { Entity } from './Entity';
 
 export type RegionJSON = {
@@ -16,10 +17,10 @@ export type RegionRow = {
 
 export class Region extends Entity<RegionID> {
   private regionID: RegionID;
-  private name: string;
+  private name: RegionName;
   private iso3166: ISO3166;
 
-  public static from(regionID: RegionID, name: string, iso3166: ISO3166): Region {
+  public static from(regionID: RegionID, name: RegionName, iso3166: ISO3166): Region {
     return new Region(regionID, name, iso3166);
   }
 
@@ -30,7 +31,7 @@ export class Region extends Entity<RegionID> {
       iso3166
     } = json;
 
-    return Region.from(RegionID.of(regionID), name, ISO3166.of(iso3166));
+    return Region.from(RegionID.of(regionID), RegionName.of(name), ISO3166.of(iso3166));
   }
 
   public static fromRow(row: RegionRow): Region {
@@ -40,14 +41,14 @@ export class Region extends Entity<RegionID> {
       iso3166
     } = row;
 
-    return Region.from(RegionID.of(regionID), name, ISO3166.of(iso3166));
+    return Region.from(RegionID.of(regionID), RegionName.of(name), ISO3166.of(iso3166));
   }
 
   public static default(): Region {
-    return Region.from(RegionID.of(0), '', ISO3166.default());
+    return Region.from(RegionID.of(0), RegionName.default(), ISO3166.default());
   }
 
-  private constructor(regionID: RegionID, name: string, iso3166: ISO3166) {
+  private constructor(regionID: RegionID, name: RegionName, iso3166: ISO3166) {
     super();
     this.regionID = regionID;
     this.name = name;
@@ -58,7 +59,7 @@ export class Region extends Entity<RegionID> {
     return this.regionID;
   }
 
-  public getName(): string {
+  public getName(): RegionName {
     return this.name;
   }
 
@@ -89,7 +90,7 @@ export class Region extends Entity<RegionID> {
 
     return {
       regionID: regionID.get(),
-      name,
+      name: name.get(),
       iso3166: iso3166.get()
     };
   }
@@ -101,6 +102,6 @@ export class Region extends Entity<RegionID> {
       iso3166
     } = this;
 
-    return `${regionID.toString()} ${name} ${iso3166.toString()}`;
+    return `${regionID.toString()} ${name.toString()} ${iso3166.toString()}`;
   }
 }

@@ -3,6 +3,7 @@ import { ISO639 } from '../veau-vo/ISO639';
 import { LanguageID } from '../veau-vo/LanguageID';
 import { LanguageName } from '../veau-vo/LanguageName';
 import { RegionID } from '../veau-vo/RegionID';
+import { RegionName } from '../veau-vo/RegionName';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
 import { Entity } from './Entity';
 import { Language, LanguageJSON } from './Language';
@@ -63,7 +64,7 @@ export class VeauAccount extends Entity<VeauAccountID> {
     } = row;
 
     const language: Language = Language.from(LanguageID.of(languageID), LanguageName.of(languageName), LanguageName.of(languageEnglishName), ISO639.of(iso639));
-    const region: Region = Region.from(RegionID.of(regionID), regionName, ISO3166.of(iso3166));
+    const region: Region = Region.from(RegionID.of(regionID), RegionName.of(regionName), ISO3166.of(iso3166));
 
     return VeauAccount.from(VeauAccountID.of(veauAccountID), account, language, region);
   }

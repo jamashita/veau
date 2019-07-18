@@ -84,7 +84,7 @@ describe('StatsQuery', () => {
       expect(stats.getLanguage().getEnglishName().get()).toEqual('englishLanguage1');
       expect(stats.getLanguage().getISO639().get()).toEqual('lang1');
       expect(stats.getRegion().getRegionID().get()).toEqual(2);
-      expect(stats.getRegion().getName()).toEqual('region1');
+      expect(stats.getRegion().getName().get()).toEqual('region1');
       expect(stats.getRegion().getISO3166().get()).toEqual('regn1');
       expect(stats.getTerm().getID()).toEqual(3);
       expect(stats.getName()).toEqual('name');
@@ -177,7 +177,7 @@ describe('StatsQuery', () => {
       expect(statsOutlines[0].getLanguage().getEnglishName().get()).toEqual('lang1');
       expect(statsOutlines[0].getLanguage().getISO639().get()).toEqual('l1');
       expect(statsOutlines[0].getRegion().getRegionID().get()).toEqual(2);
-      expect(statsOutlines[0].getRegion().getName()).toEqual('regn2');
+      expect(statsOutlines[0].getRegion().getName().get()).toEqual('regn2');
       expect(statsOutlines[0].getRegion().getISO3166().get()).toEqual('r2');
       expect(statsOutlines[0].getTerm().getID()).toEqual(1);
       expect(statsOutlines[0].getName()).toEqual('stats1');
@@ -189,7 +189,7 @@ describe('StatsQuery', () => {
       expect(statsOutlines[1].getLanguage().getEnglishName().get()).toEqual('lang2');
       expect(statsOutlines[1].getLanguage().getISO639().get()).toEqual('l2');
       expect(statsOutlines[1].getRegion().getRegionID().get()).toEqual(3);
-      expect(statsOutlines[1].getRegion().getName()).toEqual('regn3');
+      expect(statsOutlines[1].getRegion().getName().get()).toEqual('regn3');
       expect(statsOutlines[1].getRegion().getISO3166().get()).toEqual('r3');
       expect(statsOutlines[1].getTerm().getID()).toEqual(2);
       expect(statsOutlines[1].getName()).toEqual('stats2');

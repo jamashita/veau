@@ -15,6 +15,7 @@ import { ISO639 } from '../../veau-vo/ISO639';
 import { LanguageID } from '../../veau-vo/LanguageID';
 import { LanguageName } from '../../veau-vo/LanguageName';
 import { RegionID } from '../../veau-vo/RegionID';
+import { RegionName } from '../../veau-vo/RegionName';
 import { LocaleInteractor } from '../LocaleInteractor';
 
 describe('LocaleInteractor',  () => {
@@ -29,8 +30,8 @@ describe('LocaleInteractor',  () => {
       const stub2: SinonStub = sinon.stub();
       RegionQuery.prototype.all = stub2;
       stub2.resolves(Regions.from([
-        Region.from(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG')),
-        Region.from(RegionID.of(2), 'Albania', ISO3166.of('ALB'))
+        Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
+        Region.from(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB'))
       ]));
 
       const localeInteractor: LocaleInteractor = LocaleInteractor.getInstance();
@@ -45,10 +46,10 @@ describe('LocaleInteractor',  () => {
       expect(locale.getLanguage(1).getEnglishName().get()).toEqual('Afar');
       expect(locale.getLanguage(1).getISO639().get()).toEqual('aa');
       expect(locale.getRegion(0).getRegionID().get()).toEqual(1);
-      expect(locale.getRegion(0).getName()).toEqual('Afghanistan');
+      expect(locale.getRegion(0).getName().get()).toEqual('Afghanistan');
       expect(locale.getRegion(0).getISO3166().get()).toEqual('AFG');
       expect(locale.getRegion(1).getRegionID().get()).toEqual(2);
-      expect(locale.getRegion(1).getName()).toEqual('Albania');
+      expect(locale.getRegion(1).getName().get()).toEqual('Albania');
       expect(locale.getRegion(1).getISO3166().get()).toEqual('ALB');
     });
   });

@@ -7,6 +7,10 @@ export class RegionName extends  ValueObject {
     return new RegionName(name);
   }
 
+  public static default(): RegionName {
+    return RegionName.of('');
+  }
+
   private constructor(name: string) {
     super();
     this.name = name;

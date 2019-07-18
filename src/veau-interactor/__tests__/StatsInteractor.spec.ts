@@ -19,6 +19,7 @@ import { ISO639 } from '../../veau-vo/ISO639';
 import { LanguageID } from '../../veau-vo/LanguageID';
 import { LanguageName } from '../../veau-vo/LanguageName';
 import { RegionID } from '../../veau-vo/RegionID';
+import { RegionName } from '../../veau-vo/RegionName';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
@@ -29,7 +30,7 @@ describe('StatsInteractor', () => {
     it('normal case', async () => {
       const statsID: StatsID = StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94');
       const language: Language = Language.from(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-      const region: Region = Region.from(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+      const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
       const term: Term = Term.MONTHLY;
       const name: string = 'stats';
       const unit: string = 'unit';
@@ -90,7 +91,7 @@ describe('StatsInteractor', () => {
     it('normal case', async () => {
       const statsID: StatsID = StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94');
       const language: Language = Language.from(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-      const region: Region = Region.from(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+      const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
       const term: Term = Term.MONTHLY;
       const name: string = 'stats';
       const unit: string = 'unit';
@@ -128,7 +129,7 @@ describe('StatsInteractor', () => {
     it('normal case', async () => {
       const statsID: StatsID = StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94');
       const language: Language = Language.from(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-      const region: Region = Region.from(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+      const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
       const term: Term = Term.MONTHLY;
       const name: string = 'stats';
       const unit: string = 'unit';

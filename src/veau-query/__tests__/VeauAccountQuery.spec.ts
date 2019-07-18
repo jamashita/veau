@@ -36,7 +36,7 @@ describe('VeauAccountQuery', () => {
       expect(veauAccount.getLanguage().getEnglishName().get()).toEqual('Abkhazian');
       expect(veauAccount.getLanguage().getISO639().get()).toEqual('ab');
       expect(veauAccount.getRegion().getRegionID().get()).toEqual(1);
-      expect(veauAccount.getRegion().getName()).toEqual('Afghanistan');
+      expect(veauAccount.getRegion().getName().get()).toEqual('Afghanistan');
       expect(veauAccount.getRegion().getISO3166().get()).toEqual('AFG');
       expect(veauAccountHash.hash).toEqual('hash');
     });

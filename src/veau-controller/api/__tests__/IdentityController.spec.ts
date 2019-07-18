@@ -10,6 +10,7 @@ import { ISO639 } from '../../../veau-vo/ISO639';
 import { LanguageID } from '../../../veau-vo/LanguageID';
 import { LanguageName } from '../../../veau-vo/LanguageName';
 import { RegionID } from '../../../veau-vo/RegionID';
+import { RegionName } from '../../../veau-vo/RegionName';
 import { VeauAccountID } from '../../../veau-vo/VeauAccountID';
 import { IdentityController } from '../IdentityController';
 
@@ -19,7 +20,7 @@ describe('IdentityController', () => {
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.from(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.from(RegionID.of(1), 'Afghanistan', ISO3166.of('AFG'));
+        const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), 'account', language, region);
         next();
       });

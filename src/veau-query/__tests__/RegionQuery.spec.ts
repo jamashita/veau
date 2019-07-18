@@ -22,10 +22,10 @@ describe('RegionQuery', () => {
 
       expect(regions.length()).toEqual(2);
       expect(regions.get(0).getRegionID().get()).toEqual(1);
-      expect(regions.get(0).getName()).toEqual('Afghanistan');
+      expect(regions.get(0).getName().get()).toEqual('Afghanistan');
       expect(regions.get(0).getISO3166().get()).toEqual('AFG');
       expect(regions.get(1).getRegionID().get()).toEqual(2);
-      expect(regions.get(1).getName()).toEqual('Albania');
+      expect(regions.get(1).getName().get()).toEqual('Albania');
       expect(regions.get(1).getISO3166().get()).toEqual('ALB');
     });
 
@@ -57,10 +57,10 @@ describe('RegionQuery', () => {
 
       expect(regions.length()).toEqual(2);
       expect(regions.get(0).getRegionID().get()).toEqual(1);
-      expect(regions.get(0).getName()).toEqual('Afghanistan');
+      expect(regions.get(0).getName().get()).toEqual('Afghanistan');
       expect(regions.get(0).getISO3166().get()).toEqual('AFG');
       expect(regions.get(1).getRegionID().get()).toEqual(2);
-      expect(regions.get(1).getName()).toEqual('Albania');
+      expect(regions.get(1).getName().get()).toEqual('Albania');
       expect(regions.get(1).getISO3166().get()).toEqual('ALB');
     });
   });
@@ -75,7 +75,7 @@ describe('RegionQuery', () => {
       const region: Region = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(region.getRegionID().get()).toEqual(2);
-      expect(region.getName()).toEqual('Albania');
+      expect(region.getName().get()).toEqual('Albania');
     });
 
     it('MySQL returns a region', async () => {
@@ -105,7 +105,7 @@ describe('RegionQuery', () => {
       const region: Region = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(region.getRegionID().get()).toEqual(2);
-      expect(region.getName()).toEqual('Albania');
+      expect(region.getName().get()).toEqual('Albania');
     });
 
     it('Redis throws error', () => {
