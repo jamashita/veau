@@ -1,4 +1,4 @@
-import { IQuery } from '../../veau-general/MySQL/IQuery';
+import { IQuery } from './IQuery';
 
 export class QueryMock implements IQuery {
 

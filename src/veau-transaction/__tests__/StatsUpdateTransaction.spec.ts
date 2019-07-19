@@ -12,6 +12,7 @@ import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { Term } from '../../veau-enum/Term';
 import { IQuery } from '../../veau-general/MySQL/IQuery';
+import { QueryMock } from '../../veau-general/MySQL/QueryMock';
 import { StatsValues } from '../../veau-vo/collection/StatsValues';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
@@ -28,7 +29,6 @@ import { StatsValue } from '../../veau-vo/StatsValue';
 import { UpdatedAt } from '../../veau-vo/UpdatedAt';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { StatsUpdateTransaction } from '../StatsUpdateTransaction';
-import { QueryMock } from './QueryMock';
 
 describe('StatsUpdateTransaction', () => {
   describe('with', () => {
