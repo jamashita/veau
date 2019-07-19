@@ -4,7 +4,6 @@ import { Language } from '../../veau-entity/Language';
 import { Region } from '../../veau-entity/Region';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
-import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsItemName } from '../../veau-vo/StatsItemName';
 import { StatsName } from '../../veau-vo/StatsName';
@@ -32,11 +31,13 @@ import { pushToStatsList } from '../actions/RedirectAction';
 import { resetStatsItem, updateStats, updateStatsItem } from '../actions/StatsAction';
 import { clearSelectingItem, selectItem, updateSelectingItem } from '../actions/StatsEditAction';
 import { StatsCommand } from '../commands/StatsCommand';
+import { LocaleQuery } from '../queries/LocaleQuery';
 import { StatsQuery } from '../queries/StatsQuery';
 import { State } from '../State';
 
 const statsCommand: StatsCommand = StatsCommand.getInstance();
 const statsQuery: StatsQuery = StatsQuery.getInstance();
+const localeQuery: LocaleQuery = LocaleQuery.getInstance();
 
 const STATS_EDIT_PREFIX: string = '/statistics/edit/';
 
@@ -117,27 +118,21 @@ export class StatsEditSaga {
       const state: State = yield select();
 
       const {
-        stats,
-        locale
+        stats
       } = state;
       const {
         iso639
       } = action;
 
-      const found: Language | undefined = locale.getLanguages().find((language: Language): boolean => {
-        if (language.getISO639().equals(iso639)) {
-          return true;
-        }
+      try {
+        const language: Language = yield localeQuery.findByISO639(iso639);
 
-        return false;
-      });
-
-      if (found === undefined) {
-        throw new NoSuchElementError(iso639.toString());
+        const newStats: Stats = Stats.from(stats.getStatsID(), language, stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
+        yield put(updateStats(newStats));
       }
-
-      const newStats: Stats = Stats.from(stats.getStatsID(), found, stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
-      yield put(updateStats(newStats));
+      catch (err) {
+        // NOOP
+      }
     }
   }
 
@@ -147,27 +142,21 @@ export class StatsEditSaga {
       const state: State = yield select();
 
       const {
-        stats,
-        locale
+        stats
       } = state;
       const {
         iso3166
       } = action;
 
-      const found: Region | undefined = locale.getRegions().find((region: Region): boolean => {
-        if (region.getISO3166().equals(iso3166)) {
-          return true;
-        }
+      try {
+        const region: Region = yield localeQuery.findByISO3166(iso3166);
 
-        return false;
-      });
-
-      if (found === undefined) {
-        throw new NoSuchElementError(iso3166.toString());
+        const newStats: Stats = Stats.from(stats.getStatsID(), stats.getLanguage(), region, stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
+        yield put(updateStats(newStats));
       }
-
-      const newStats: Stats = Stats.from(stats.getStatsID(), stats.getLanguage(), found, stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
-      yield put(updateStats(newStats));
+      catch (err) {
+        // NOOP
+      }
     }
   }
 

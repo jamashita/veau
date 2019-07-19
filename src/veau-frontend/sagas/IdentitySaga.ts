@@ -46,7 +46,7 @@ export class IdentitySaga {
           yield put(pushToStatsList());
         }
       }
-      catch (err) {
+      catch (err1) {
         const newLanguage: string = LanguageIdentifier.toISO639(navigator.language);
         const iso639: ISO639 = ISO639.of(newLanguage);
         const state: State = yield select();
@@ -55,23 +55,19 @@ export class IdentitySaga {
           identity
         } = state;
 
-        const found: Language | undefined = locale.getLanguages().find((language: Language): boolean => {
-          if (language.getISO639().equals(iso639)) {
-            return true;
-          }
+        try {
+          const language: Language = yield localeQuery.findByISO639(iso639);
 
-          return false;
-        });
+          const veauAccount: VeauAccount = VeauAccount.from(identity.getVeauAccountID(), identity.getAccount(), language, identity.getRegion());
 
-        if (found === undefined) {
+          yield put(identityAuthenticated(veauAccount));
+          yield put(pushToEntrance());
+
+        }
+        catch (err2) {
           yield put(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
           return;
         }
-
-        const veauAccount: VeauAccount = VeauAccount.from(identity.getVeauAccountID(), identity.getAccount(), found, identity.getRegion());
-
-        yield put(identityAuthenticated(veauAccount));
-        yield put(pushToEntrance());
       }
     }
     catch (err) {
