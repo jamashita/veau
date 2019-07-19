@@ -24,7 +24,7 @@ export class StatsItemCommand {
     return this.query.execute(query, {
       statsItemID: statsItem.getStatsItemID().get(),
       statsID: statsID.get(),
-      name: statsItem.getName(),
+      name: statsItem.getName().get(),
       seq
     });
   }
