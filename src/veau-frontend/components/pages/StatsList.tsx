@@ -39,7 +39,7 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
       if (statsOutlines.get(i).getTerm() !== nextProps.statsOutlines.get(i).getTerm()) {
         return true;
       }
-      if (!statsOutlines.get(i).getUpdatedAt().isSame(nextProps.statsOutlines.get(i).getUpdatedAt())) {
+      if (!statsOutlines.get(i).getUpdatedAt().equals(nextProps.statsOutlines.get(i).getUpdatedAt())) {
         return true;
       }
     }

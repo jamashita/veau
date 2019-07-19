@@ -100,7 +100,7 @@ describe('StatsInteractor', () => {
       const term: Term = Term.MONTHLY;
       const name: StatsName = StatsName.of('stats');
       const unit: StatsUnit = StatsUnit.of('unit');
-      const updatedAt: moment.Moment = moment.utc();
+      const updatedAt: UpdatedAt = UpdatedAt.of(moment());
 
       const stub: SinonStub = sinon.stub();
       StatsQuery.prototype.findByVeauAccountID = stub;

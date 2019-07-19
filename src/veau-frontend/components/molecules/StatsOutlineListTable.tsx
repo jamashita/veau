@@ -94,7 +94,7 @@ class StatsOutlineListTableImpl extends React.Component<Props & InjectedIntlProp
                     id: statsOutline.getTerm().getKey()
                   })}
                 </TableCell>
-                <TableCell>{statsOutline.getUpdatedAtAsString()}</TableCell>
+                <TableCell>{statsOutline.getUpdatedAt().getString()}</TableCell>
               </TableRow>
             );
           })}

@@ -1,5 +1,4 @@
 import 'jest';
-import * as moment from 'moment';
 import { Term } from '../../veau-enum/Term';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
@@ -10,6 +9,7 @@ import { RegionName } from '../../veau-vo/RegionName';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsName } from '../../veau-vo/StatsName';
 import { StatsUnit } from '../../veau-vo/StatsUnit';
+import { UpdatedAt } from '../../veau-vo/UpdatedAt';
 import { Language } from '../Language';
 import { Region } from '../Region';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from '../StatsOutline';
@@ -24,7 +24,7 @@ describe('StatsOutline', () => {
         Term.DAILY,
         StatsName.of('name1'),
         StatsUnit.of('unit1'),
-        moment(new Date(2000, 0, 1))
+        UpdatedAt.ofString('2000-01-01')
       );
       const statsOutline2: StatsOutline = StatsOutline.from(
         StatsID.of('f19bca43-511f-4d8c-bd12-af27bf0cd429'),
@@ -33,7 +33,7 @@ describe('StatsOutline', () => {
         Term.WEEKLY,
         StatsName.of('name2'),
         StatsUnit.of('unit2'),
-        moment(new Date(2001, 0, 1))
+        UpdatedAt.ofString('2000-01-01')
       );
       const statsOutline3: StatsOutline = StatsOutline.from(
         StatsID.of('d5d311b5-c09a-4f82-91e5-b7b55736120e'),
@@ -42,7 +42,7 @@ describe('StatsOutline', () => {
         Term.WEEKLY,
         StatsName.of('name2'),
         StatsUnit.of('unit2'),
-        moment(new Date(2001, 0, 1))
+        UpdatedAt.ofString('2000-01-01')
       );
 
       expect(statsOutline1.equals(statsOutline1)).toEqual(true);
@@ -61,7 +61,7 @@ describe('StatsOutline', () => {
         Term.DAILY,
         StatsName.of('name1'),
         StatsUnit.of('unit1'),
-        moment.utc('2000-01-01')
+        UpdatedAt.ofString('2000-01-01')
       );
 
       expect(statsOutline.toJSON()).toEqual({
@@ -87,13 +87,13 @@ describe('StatsOutline', () => {
 
   describe('isFilled', () => {
     it('returns true is language, region, name and unit are filled', () => {
-      const statsOutline1: StatsOutline = StatsOutline.from(StatsID.of('62e103f0-5299-4794-883f-62b9c91583e4'), Language.default(), Region.default(), Term.DAILY, StatsName.default(), StatsUnit.default(), moment('2000-01-01'));
-      const statsOutline2: StatsOutline = StatsOutline.from(StatsID.of('62e103f0-5299-4794-883f-62b9c91583e4'), Language.from(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.default(), Term.DAILY, StatsName.default(), StatsUnit.default(), moment('2000-01-01'));
-      const statsOutline3: StatsOutline = StatsOutline.from(StatsID.of('62e103f0-5299-4794-883f-62b9c91583e4'), Language.default(), Region.from(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.default(), StatsUnit.default(), moment('2000-01-01'));
-      const statsOutline4: StatsOutline = StatsOutline.from(StatsID.of('62e103f0-5299-4794-883f-62b9c91583e4'), Language.from(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.from(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.default(), StatsUnit.default(), moment('2000-01-01'));
-      const statsOutline5: StatsOutline = StatsOutline.from(StatsID.of('62e103f0-5299-4794-883f-62b9c91583e4'), Language.from(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.from(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.of('stats1'), StatsUnit.default(), moment('2000-01-01'));
-      const statsOutline6: StatsOutline = StatsOutline.from(StatsID.of('62e103f0-5299-4794-883f-62b9c91583e4'), Language.from(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.from(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.default(), StatsUnit.of('unit1'), moment('2000-01-01'));
-      const statsOutline7: StatsOutline = StatsOutline.from(StatsID.of('62e103f0-5299-4794-883f-62b9c91583e4'), Language.from(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.from(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), moment('2000-01-01'));
+      const statsOutline1: StatsOutline = StatsOutline.from(StatsID.of('62e103f0-5299-4794-883f-62b9c91583e4'), Language.default(), Region.default(), Term.DAILY, StatsName.default(), StatsUnit.default(), UpdatedAt.ofString('2000-01-01'));
+      const statsOutline2: StatsOutline = StatsOutline.from(StatsID.of('62e103f0-5299-4794-883f-62b9c91583e4'), Language.from(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.default(), Term.DAILY, StatsName.default(), StatsUnit.default(), UpdatedAt.ofString('2000-01-01'));
+      const statsOutline3: StatsOutline = StatsOutline.from(StatsID.of('62e103f0-5299-4794-883f-62b9c91583e4'), Language.default(), Region.from(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.default(), StatsUnit.default(), UpdatedAt.ofString('2000-01-01'));
+      const statsOutline4: StatsOutline = StatsOutline.from(StatsID.of('62e103f0-5299-4794-883f-62b9c91583e4'), Language.from(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.from(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.default(), StatsUnit.default(), UpdatedAt.ofString('2000-01-01'));
+      const statsOutline5: StatsOutline = StatsOutline.from(StatsID.of('62e103f0-5299-4794-883f-62b9c91583e4'), Language.from(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.from(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.of('stats1'), StatsUnit.default(), UpdatedAt.ofString('2000-01-01'));
+      const statsOutline6: StatsOutline = StatsOutline.from(StatsID.of('62e103f0-5299-4794-883f-62b9c91583e4'), Language.from(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.from(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.default(), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01'));
+      const statsOutline7: StatsOutline = StatsOutline.from(StatsID.of('62e103f0-5299-4794-883f-62b9c91583e4'), Language.from(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.from(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01'));
 
       expect(statsOutline1.isFilled()).toEqual(false);
       expect(statsOutline2.isFilled()).toEqual(false);
@@ -113,7 +113,7 @@ describe('StatsOutline', () => {
       const term: Term = Term.DAILY;
       const name: StatsName = StatsName.of('stats');
       const unit: StatsUnit = StatsUnit.of('unit');
-      const updatedAt: moment.Moment = moment('2000-01-01');
+      const updatedAt: UpdatedAt = UpdatedAt.ofString('2000-01-01');
 
       const statsOutline: StatsOutline = StatsOutline.from(statsID, language, region, term, name, unit, updatedAt);
       const copy: StatsOutline = statsOutline.copy();
@@ -125,7 +125,7 @@ describe('StatsOutline', () => {
       expect(statsOutline.getTerm()).toEqual(term);
       expect(statsOutline.getName()).toEqual(name);
       expect(statsOutline.getUnit()).toEqual(unit);
-      expect(statsOutline.getUpdatedAt().isSame(updatedAt)).toEqual(true);
+      expect(statsOutline.getUpdatedAt()).toEqual(updatedAt);
     });
   });
 
@@ -137,7 +137,7 @@ describe('StatsOutline', () => {
       const term: Term = Term.ANNUAL;
       const name: StatsName = StatsName.of('name1');
       const unit: StatsUnit = StatsUnit.of('unit1');
-      const updatedAt: moment.Moment = moment('2000-01-01');
+      const updatedAt: UpdatedAt = UpdatedAt.ofString('2000-01-01');
 
       const statsOutline: StatsOutline = StatsOutline.from(statsID, language, region, term, name, unit, updatedAt);
 
@@ -169,7 +169,7 @@ describe('StatsOutline', () => {
         termID: 1,
         name: 'stats1',
         unit: 'unit1',
-        updatedAt: '2000-01-01T00:00:00.000'
+        updatedAt: '2000-01-01 00:00:00'
       };
 
       const statsOutline: StatsOutline = StatsOutline.fromJSON(json);
@@ -185,7 +185,7 @@ describe('StatsOutline', () => {
       expect(statsOutline.getTerm().getID()).toEqual(json.termID);
       expect(statsOutline.getName().get()).toEqual(json.name);
       expect(statsOutline.getUnit().get()).toEqual(json.unit);
-      expect(statsOutline.getUpdatedAt().get('seconds')).toEqual(moment(json.updatedAt).get('seconds'));
+      expect(statsOutline.getUpdatedAt().getString()).toEqual(json.updatedAt);
     });
   });
 
@@ -203,7 +203,7 @@ describe('StatsOutline', () => {
         termID: 3,
         name: 'name',
         unit: 'unit',
-        updatedAt: '2000-01-01T00:00:00.000Z'
+        updatedAt: '2000-01-01 00:00:00'
       };
 
       const statsOutline: StatsOutline = StatsOutline.fromRow(row);

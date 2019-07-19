@@ -48,7 +48,7 @@ describe('StatsController', () => {
           Term.DAILY,
           StatsName.of('stats'),
           StatsUnit.of('unit'),
-          moment.utc('2000-01-01 00:00:00')
+          UpdatedAt.ofString('2000-01-01 00:00:00')
         )
       ]));
       const app: express.Express = express();

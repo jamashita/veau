@@ -1,4 +1,3 @@
-import * as moment from 'moment';
 import { Term } from '../veau-enum/Term';
 import { ISO3166 } from '../veau-vo/ISO3166';
 import { ISO639 } from '../veau-vo/ISO639';
@@ -9,11 +8,10 @@ import { RegionName } from '../veau-vo/RegionName';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsName } from '../veau-vo/StatsName';
 import { StatsUnit } from '../veau-vo/StatsUnit';
+import { UpdatedAt } from '../veau-vo/UpdatedAt';
 import { Entity } from './Entity';
 import { Language, LanguageJSON } from './Language';
 import { Region, RegionJSON } from './Region';
-
-const TERM_FORMAT: string = 'YYYY-MM-DD HH:mm:ss';
 
 export type StatsOutlineJSON = {
   statsID: string;
@@ -47,9 +45,9 @@ export class StatsOutline extends Entity<StatsID> {
   private term: Term;
   private name: StatsName;
   private unit: StatsUnit;
-  private updatedAt: moment.Moment;
+  private updatedAt: UpdatedAt;
 
-  public static from(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: StatsUnit, updatedAt: moment.Moment): StatsOutline {
+  public static from(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: StatsUnit, updatedAt: UpdatedAt): StatsOutline {
     return new StatsOutline(statsID, language, region, term, name, unit, updatedAt);
   }
 
@@ -71,7 +69,7 @@ export class StatsOutline extends Entity<StatsID> {
       Term.of(termID),
       StatsName.of(name),
       StatsUnit.of(unit),
-      moment.utc(updatedAt)
+      UpdatedAt.ofString(updatedAt)
     );
   }
 
@@ -101,11 +99,11 @@ export class StatsOutline extends Entity<StatsID> {
       Term.of(termID),
       StatsName.of(name),
       StatsUnit.of(unit),
-      moment.utc(updatedAt)
+      UpdatedAt.ofString(updatedAt)
     );
   }
 
-  private constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: StatsUnit, updatedAt: moment.Moment) {
+  private constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: StatsUnit, updatedAt: UpdatedAt) {
     super();
     this.statsID = statsID;
     this.language = language;
@@ -113,7 +111,7 @@ export class StatsOutline extends Entity<StatsID> {
     this.term = term;
     this.name = name;
     this.unit = unit;
-    this.updatedAt = moment(updatedAt);
+    this.updatedAt = updatedAt;
   }
 
   public getStatsID(): StatsID {
@@ -140,12 +138,8 @@ export class StatsOutline extends Entity<StatsID> {
     return this.unit;
   }
 
-  public getUpdatedAt(): moment.Moment {
-    return moment(this.updatedAt);
-  }
-
-  public getUpdatedAtAsString(): string {
-    return this.updatedAt.format(TERM_FORMAT);
+  public getUpdatedAt(): UpdatedAt {
+    return this.updatedAt;
   }
 
   public getIdentifier(): StatsID {
@@ -187,7 +181,7 @@ export class StatsOutline extends Entity<StatsID> {
       updatedAt
     } = this;
 
-    return new StatsOutline(statsID, language, region, term, name, unit, moment(updatedAt));
+    return new StatsOutline(statsID, language, region, term, name, unit, updatedAt);
   }
 
   public toJSON(): StatsOutlineJSON {
@@ -197,7 +191,8 @@ export class StatsOutline extends Entity<StatsID> {
       region,
       term,
       name,
-      unit
+      unit,
+      updatedAt
     } = this;
 
     return {
@@ -207,7 +202,7 @@ export class StatsOutline extends Entity<StatsID> {
       termID: term.getID(),
       name: name.get(),
       unit: unit.get(),
-      updatedAt: this.getUpdatedAtAsString()
+      updatedAt: updatedAt.getString()
     };
   }
 
@@ -218,9 +213,10 @@ export class StatsOutline extends Entity<StatsID> {
       region,
       term,
       name,
-      unit
+      unit,
+      updatedAt
     } = this;
 
-    return `${statsID.toString()} ${language.toString()} ${region.toString()} ${term.toString()} ${name.get()} ${unit.toString()} ${this.getUpdatedAtAsString()}`;
+    return `${statsID.toString()} ${language.toString()} ${region.toString()} ${term.toString()} ${name.get()} ${unit.toString()} ${updatedAt.toString()}`;
   }
 }

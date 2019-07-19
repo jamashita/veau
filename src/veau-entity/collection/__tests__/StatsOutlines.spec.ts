@@ -1,10 +1,10 @@
 import 'jest';
-import * as moment from 'moment';
 import { Term } from '../../../veau-enum/Term';
 import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
 import { StatsID } from '../../../veau-vo/StatsID';
 import { StatsName } from '../../../veau-vo/StatsName';
 import { StatsUnit } from '../../../veau-vo/StatsUnit';
+import { UpdatedAt } from '../../../veau-vo/UpdatedAt';
 import { Language } from '../../Language';
 import { Region } from '../../Region';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from '../../StatsOutline';
@@ -13,9 +13,9 @@ import { StatsOutlines } from '../StatsOutlines';
 describe('StatsOutlines', () => {
   describe('get', () => {
     it('returns StatsOutline of index-th item', () => {
-      const outline1: StatsOutline = StatsOutline.from(StatsID.of('stats id 1'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), moment('2000-01-01'));
-      const outline2: StatsOutline = StatsOutline.from(StatsID.of('stats id 2'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), moment('2000-01-01'));
-      const outline3: StatsOutline = StatsOutline.from(StatsID.of('stats id 3'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), moment('2000-01-01'));
+      const outline1: StatsOutline = StatsOutline.from(StatsID.of('stats id 1'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
+      const outline2: StatsOutline = StatsOutline.from(StatsID.of('stats id 2'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
+      const outline3: StatsOutline = StatsOutline.from(StatsID.of('stats id 3'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
 
       const outlines: StatsOutlines = StatsOutlines.from([
         outline1,
@@ -43,9 +43,9 @@ describe('StatsOutlines', () => {
 
   describe('equals', () => {
     it('returns false if the lengths are different', () => {
-      const outline1: StatsOutline = StatsOutline.from(StatsID.of('stats id 1'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), moment('2000-01-01'));
-      const outline2: StatsOutline = StatsOutline.from(StatsID.of('stats id 2'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), moment('2000-01-01'));
-      const outline3: StatsOutline = StatsOutline.from(StatsID.of('stats id 3'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), moment('2000-01-01'));
+      const outline1: StatsOutline = StatsOutline.from(StatsID.of('stats id 1'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
+      const outline2: StatsOutline = StatsOutline.from(StatsID.of('stats id 2'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
+      const outline3: StatsOutline = StatsOutline.from(StatsID.of('stats id 3'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
 
       const outlines1: StatsOutlines = StatsOutlines.from([outline1, outline2, outline3]);
       const outlines2: StatsOutlines = StatsOutlines.from([outline1, outline2]);
@@ -54,8 +54,8 @@ describe('StatsOutlines', () => {
     });
 
     it('returns false if the sequences are different', () => {
-      const outline1: StatsOutline = StatsOutline.from(StatsID.of('stats id 1'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), moment('2000-01-01'));
-      const outline2: StatsOutline = StatsOutline.from(StatsID.of('stats id 2'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), moment('2000-01-01'));
+      const outline1: StatsOutline = StatsOutline.from(StatsID.of('stats id 1'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
+      const outline2: StatsOutline = StatsOutline.from(StatsID.of('stats id 2'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
 
       const outlines1: StatsOutlines = StatsOutlines.from([outline1, outline2]);
       const outlines2: StatsOutlines = StatsOutlines.from([outline2, outline1]);
@@ -64,8 +64,8 @@ describe('StatsOutlines', () => {
     });
 
     it('returns true if the length and the sequence are the same', () => {
-      const outline1: StatsOutline = StatsOutline.from(StatsID.of('stats id 1'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), moment('2000-01-01'));
-      const outline2: StatsOutline = StatsOutline.from(StatsID.of('stats id 2'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), moment('2000-01-01'));
+      const outline1: StatsOutline = StatsOutline.from(StatsID.of('stats id 1'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
+      const outline2: StatsOutline = StatsOutline.from(StatsID.of('stats id 2'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
 
       const outlines1: StatsOutlines = StatsOutlines.from([outline1, outline2]);
       const outlines2: StatsOutlines = StatsOutlines.from([outline1, outline2]);
@@ -76,8 +76,8 @@ describe('StatsOutlines', () => {
 
   describe('toJSON', () => {
     it('normal case', () => {
-      const outline1: StatsOutline = StatsOutline.from(StatsID.of('stats id 1'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), moment('2000-01-01'));
-      const outline2: StatsOutline = StatsOutline.from(StatsID.of('stats id 2'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), moment('2000-01-01'));
+      const outline1: StatsOutline = StatsOutline.from(StatsID.of('stats id 1'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
+      const outline2: StatsOutline = StatsOutline.from(StatsID.of('stats id 2'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
 
       const outlines: StatsOutlines = StatsOutlines.from([outline1, outline2]);
 
@@ -176,7 +176,7 @@ describe('StatsOutlines', () => {
       expect(outlines.get(i).getTerm().getID()).toEqual(json[i].termID);
       expect(outlines.get(i).getName().get()).toEqual(json[i].name);
       expect(outlines.get(i).getUnit().get()).toEqual(json[i].unit);
-      expect(outlines.get(i).getUpdatedAtAsString()).toEqual(json[i].updatedAt);
+      expect(outlines.get(i).getUpdatedAt().getString()).toEqual(json[i].updatedAt);
     }
   });
 
@@ -226,7 +226,7 @@ describe('StatsOutlines', () => {
       expect(outlines.get(i).getTerm().getID()).toEqual(rows[i].termID);
       expect(outlines.get(i).getName().get()).toEqual(rows[i].name);
       expect(outlines.get(i).getUnit().get()).toEqual(rows[i].unit);
-      expect(outlines.get(i).getUpdatedAtAsString()).toEqual(rows[i].updatedAt);
+      expect(outlines.get(i).getUpdatedAt().getString()).toEqual(rows[i].updatedAt);
     }
   });
 });

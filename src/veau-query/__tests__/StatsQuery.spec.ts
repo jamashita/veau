@@ -182,7 +182,7 @@ describe('StatsQuery', () => {
       expect(statsOutlines.get(0).getTerm().getID()).toEqual(1);
       expect(statsOutlines.get(0).getName().get()).toEqual('stats1');
       expect(statsOutlines.get(0).getUnit().get()).toEqual('unit1');
-      expect(statsOutlines.get(0).getUpdatedAtAsString()).toEqual('2000-01-01 00:00:00');
+      expect(statsOutlines.get(0).getUpdatedAt().getString()).toEqual('2000-01-01 00:00:00');
       expect(statsOutlines.get(1).getStatsID().get()).toEqual('a25a8b7f-c810-4dc0-b94e-e97e74329307');
       expect(statsOutlines.get(1).getLanguage().getLanguageID().get()).toEqual(2);
       expect(statsOutlines.get(1).getLanguage().getName().get()).toEqual('lang2');
@@ -194,7 +194,7 @@ describe('StatsQuery', () => {
       expect(statsOutlines.get(1).getTerm().getID()).toEqual(2);
       expect(statsOutlines.get(1).getName().get()).toEqual('stats2');
       expect(statsOutlines.get(1).getUnit().get()).toEqual('unit2');
-      expect(statsOutlines.get(1).getUpdatedAtAsString()).toEqual('2001-01-01 00:00:00');
+      expect(statsOutlines.get(1).getUpdatedAt().getString()).toEqual('2001-01-01 00:00:00');
     });
   });
 });
