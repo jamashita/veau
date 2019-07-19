@@ -93,7 +93,16 @@ export class StatsEditSaga {
         stats
       } = state;
 
-      const newStats: Stats = Stats.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), StatsName.of(action.name), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
+      const newStats: Stats = Stats.from(
+        stats.getStatsID(),
+        stats.getLanguage(),
+        stats.getRegion(),
+        stats.getTerm(),
+        StatsName.of(action.name),
+        stats.getUnit(),
+        stats.getUpdatedAt(),
+        stats.getItems()
+      );
       yield put(updateStats(newStats));
     }
   }
@@ -107,7 +116,16 @@ export class StatsEditSaga {
         stats
       } = state;
 
-      const newStats: Stats = Stats.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), StatsUnit.of(action.unit), stats.getUpdatedAt(), stats.getItems());
+      const newStats: Stats = Stats.from(
+        stats.getStatsID(),
+        stats.getLanguage(),
+        stats.getRegion(),
+        stats.getTerm(),
+        stats.getName(),
+        StatsUnit.of(action.unit),
+        stats.getUpdatedAt(),
+        stats.getItems()
+      );
       yield put(updateStats(newStats));
     }
   }
@@ -127,7 +145,16 @@ export class StatsEditSaga {
       try {
         const language: Language = yield localeQuery.findByISO639(iso639);
 
-        const newStats: Stats = Stats.from(stats.getStatsID(), language, stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
+        const newStats: Stats = Stats.from(
+          stats.getStatsID(),
+          language,
+          stats.getRegion(),
+          stats.getTerm(),
+          stats.getName(),
+          stats.getUnit(),
+          stats.getUpdatedAt(),
+          stats.getItems()
+        );
         yield put(updateStats(newStats));
       }
       catch (err) {
@@ -151,7 +178,16 @@ export class StatsEditSaga {
       try {
         const region: Region = yield localeQuery.findByISO3166(iso3166);
 
-        const newStats: Stats = Stats.from(stats.getStatsID(), stats.getLanguage(), region, stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems());
+        const newStats: Stats = Stats.from(
+          stats.getStatsID(),
+          stats.getLanguage(),
+          region,
+          stats.getTerm(),
+          stats.getName(),
+          stats.getUnit(),
+          stats.getUpdatedAt(),
+          stats.getItems()
+        );
         yield put(updateStats(newStats));
       }
       catch (err) {
@@ -296,7 +332,17 @@ export class StatsEditSaga {
 
       const date: moment.Moment = moment(startDate);
       if (date.isValid()) {
-        const newStats: Stats = Stats.from(stats.getStatsID(), stats.getLanguage(), stats.getRegion(), stats.getTerm(), stats.getName(), stats.getUnit(), stats.getUpdatedAt(), stats.getItems(), startDate);
+        const newStats: Stats = Stats.from(
+          stats.getStatsID(),
+          stats.getLanguage(),
+          stats.getRegion(),
+          stats.getTerm(),
+          stats.getName(),
+          stats.getUnit(),
+          stats.getUpdatedAt(),
+          stats.getItems(),
+          startDate
+        );
         yield put(updateStats(newStats));
         continue;
       }
