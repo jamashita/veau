@@ -32,8 +32,8 @@ export class StatsCommand {
       regionID: stats.getRegion().getRegionID().get(),
       termID: stats.getTerm().getID(),
       veauAccountID: veauAccountID.get(),
-      name: stats.getName(),
-      unit: stats.getUnit()
+      name: stats.getName().get(),
+      unit: stats.getUnit().get()
     });
   }
 
