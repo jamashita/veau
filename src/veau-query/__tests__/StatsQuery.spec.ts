@@ -89,7 +89,7 @@ describe('StatsQuery', () => {
       expect(stats.getTerm().getID()).toEqual(3);
       expect(stats.getName().get()).toEqual('name');
       expect(stats.getUnit().get()).toEqual('unit');
-      expect(stats.getUpdatedAt().toJSON()).toEqual('2000-01-01T00:00:00.000Z');
+      expect(stats.getUpdatedAt().getString()).toEqual('2000-01-01 00:00:00');
 
       const items: StatsItems = stats.getItems();
       expect(items.length()).toEqual(3);

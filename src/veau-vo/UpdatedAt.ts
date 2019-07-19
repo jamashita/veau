@@ -17,7 +17,7 @@ export class UpdatedAt extends ValueObject {
       throw new RuntimeError('AT IS NOT DATE FORMAT');
     }
 
-    return UpdatedAt.of(moment(at));
+    return UpdatedAt.of(moment.utc(at));
   }
 
   private constructor(at: moment.Moment) {

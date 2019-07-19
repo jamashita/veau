@@ -17,7 +17,7 @@ describe('UpdatedAt', () => {
   });
 
   describe('ofString', () => {
-    it('throws error if the paramter is not date format', () => {
+    it('throws error if the parameter is not date format', () => {
       expect(() => {
         UpdatedAt.ofString('this is not date');
       }).toThrow(RuntimeError);

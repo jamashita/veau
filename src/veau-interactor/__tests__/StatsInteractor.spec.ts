@@ -26,6 +26,7 @@ import { StatsItemID } from '../../veau-vo/StatsItemID';
 import { StatsItemName } from '../../veau-vo/StatsItemName';
 import { StatsName } from '../../veau-vo/StatsName';
 import { StatsUnit } from '../../veau-vo/StatsUnit';
+import { UpdatedAt } from '../../veau-vo/UpdatedAt';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { StatsInteractor } from '../StatsInteractor';
 
@@ -38,7 +39,7 @@ describe('StatsInteractor', () => {
       const term: Term = Term.MONTHLY;
       const name: StatsName = StatsName.of('stats');
       const unit: StatsUnit = StatsUnit.of('unit');
-      const updatedAt: moment.Moment = moment.utc();
+      const updatedAt: UpdatedAt = UpdatedAt.of(moment());
       const items: StatsItems = StatsItems.from([
         StatsItem.from(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b'), StatsItemName.of('item1'), StatsValues.of([])),
         StatsItem.from(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8'), StatsItemName.of('item2'), StatsValues.of([]))
@@ -137,7 +138,7 @@ describe('StatsInteractor', () => {
       const term: Term = Term.MONTHLY;
       const name: StatsName = StatsName.of('stats');
       const unit: StatsUnit = StatsUnit.of('unit');
-      const updatedAt: moment.Moment = moment.utc();
+      const updatedAt: UpdatedAt = UpdatedAt.of(moment());
       const items: StatsItems = StatsItems.from([
         StatsItem.from(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b'), StatsItemName.of('item1'), StatsValues.of([])),
         StatsItem.from(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8'), StatsItemName.of('item2'), StatsValues.of([]))

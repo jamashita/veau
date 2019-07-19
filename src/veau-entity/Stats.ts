@@ -13,6 +13,7 @@ import { StatsItemName } from '../veau-vo/StatsItemName';
 import { StatsName } from '../veau-vo/StatsName';
 import { StatsUnit } from '../veau-vo/StatsUnit';
 import { StatsValue } from '../veau-vo/StatsValue';
+import { UpdatedAt } from '../veau-vo/UpdatedAt';
 import { StatsItems } from './collection/StatsItems';
 import { Entity } from './Entity';
 import { Language, LanguageJSON } from './Language';
@@ -59,12 +60,12 @@ export class Stats extends Entity<StatsID> {
   private term: Term;
   private name: StatsName;
   private unit: StatsUnit;
-  private updatedAt: moment.Moment;
+  private updatedAt: UpdatedAt;
   private items: StatsItems;
   private startDate?: string;
   private columns?: Array<string>;
 
-  public static from(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: StatsUnit, updatedAt: moment.Moment, items: StatsItems, startDate?: string): Stats {
+  public static from(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: StatsUnit, updatedAt: UpdatedAt, items: StatsItems, startDate?: string): Stats {
     return new Stats(statsID, language, region, term, name, unit, updatedAt, items, startDate);
   }
 
@@ -87,7 +88,7 @@ export class Stats extends Entity<StatsID> {
       Term.of(termID),
       StatsName.of(name),
       StatsUnit.of(unit),
-      moment.utc(updatedAt),
+      UpdatedAt.ofString(updatedAt),
       StatsItems.fromJSON(items)
     );
   }
@@ -112,14 +113,32 @@ export class Stats extends Entity<StatsID> {
     const region: Region = Region.from(RegionID.of(regionID), RegionName.of(regionName), ISO3166.of(iso3166));
     const term: Term = Term.of(termID);
 
-    return Stats.from(StatsID.of(statsID), language, region, term, StatsName.of(name), StatsUnit.of(unit), moment.utc(updatedAt), statItems);
+    return Stats.from(
+      StatsID.of(statsID),
+      language,
+      region,
+      term,
+      StatsName.of(name),
+      StatsUnit.of(unit),
+      UpdatedAt.ofString(updatedAt),
+      statItems
+    );
   }
 
   public static default(): Stats {
-    return Stats.from(StatsID.of(UUID.v4()), Language.default(), Region.default(), Term.DAILY, StatsName.default(), StatsUnit.default(), moment(), StatsItems.from([]));
+    return Stats.from(
+      StatsID.of(UUID.v4()),
+      Language.default(),
+      Region.default(),
+      Term.DAILY,
+      StatsName.default(),
+      StatsUnit.default(),
+      UpdatedAt.of(moment.utc()),
+      StatsItems.from([])
+    );
   }
 
-  private constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: StatsUnit, updatedAt: moment.Moment, items: StatsItems, startDate?: string) {
+  private constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: StatsUnit, updatedAt: UpdatedAt, items: StatsItems, startDate?: string) {
     super();
     this.statsID = statsID;
     this.language = language;
@@ -127,7 +146,7 @@ export class Stats extends Entity<StatsID> {
     this.term = term;
     this.name = name;
     this.unit = unit;
-    this.updatedAt = moment(updatedAt);
+    this.updatedAt = updatedAt;
     this.items = items;
     this.startDate = startDate;
   }
@@ -156,12 +175,8 @@ export class Stats extends Entity<StatsID> {
     return this.unit;
   }
 
-  public getUpdatedAt(): moment.Moment {
-    return moment(this.updatedAt);
-  }
-
-  public getUpdatedAtAsString(): string {
-    return this.updatedAt.format(TERM_FORMAT);
+  public getUpdatedAt(): UpdatedAt {
+    return this.updatedAt;
   }
 
   public getItems(): StatsItems {
@@ -393,7 +408,7 @@ export class Stats extends Entity<StatsID> {
       startDate
     } = this;
 
-    return new Stats(statsID, language, region, term, name, unit, moment(updatedAt), items.copy(), startDate);
+    return new Stats(statsID, language, region, term, name, unit, updatedAt, items.copy(), startDate);
   }
 
   public toJSON(): StatsJSON {
@@ -415,7 +430,7 @@ export class Stats extends Entity<StatsID> {
       termID: term.getID(),
       name: name.get(),
       unit: unit.get(),
-      updatedAt: updatedAt.utc().format('YYYY-MM-DD HH:mm:ss'),
+      updatedAt: updatedAt.getString(),
       items: items.toJSON()
     };
   }
@@ -431,6 +446,6 @@ export class Stats extends Entity<StatsID> {
       updatedAt
     } = this;
 
-    return `${statsID.toString()} ${language.toString()} ${region.toString()} ${term.toString()} ${name.toString()} ${unit.toString()} ${updatedAt.toJSON()}`;
+    return `${statsID.toString()} ${language.toString()} ${region.toString()} ${term.toString()} ${name.toString()} ${unit.toString()} ${updatedAt.toString()}`;
   }
 }

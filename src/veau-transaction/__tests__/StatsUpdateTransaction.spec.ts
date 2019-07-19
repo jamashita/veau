@@ -25,6 +25,7 @@ import { StatsItemName } from '../../veau-vo/StatsItemName';
 import { StatsName } from '../../veau-vo/StatsName';
 import { StatsUnit } from '../../veau-vo/StatsUnit';
 import { StatsValue } from '../../veau-vo/StatsValue';
+import { UpdatedAt } from '../../veau-vo/UpdatedAt';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { StatsUpdateTransaction } from '../StatsUpdateTransaction';
 import { QueryMock } from './QueryMock';
@@ -51,7 +52,7 @@ describe('StatsUpdateTransaction', () => {
       const term: Term = Term.MONTHLY;
       const name: StatsName = StatsName.of('stats');
       const unit: StatsUnit = StatsUnit.of('unit');
-      const updatedAt: moment.Moment = moment.utc();
+      const updatedAt: UpdatedAt = UpdatedAt.of(moment());
       const items: StatsItems = StatsItems.from([
         StatsItem.from(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b'), StatsItemName.of('item1'), StatsValues.of([
           StatsValue.of(moment.utc(), 1),
