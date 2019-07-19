@@ -2,7 +2,7 @@ import { Regions } from '../veau-entity/collection/Regions';
 import { CacheError } from '../veau-error/CacheError';
 import { veauRedis } from '../veau-infrastructure/VeauRedis';
 
-const REDIS_KEY: string = 'Regions';
+const REDIS_KEY: string = 'REGIONS';
 const DURATION: number = 3 * 60 * 60;
 
 export class RegionCommand {

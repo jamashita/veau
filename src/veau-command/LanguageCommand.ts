@@ -2,7 +2,7 @@ import { Languages } from '../veau-entity/collection/Languages';
 import { CacheError } from '../veau-error/CacheError';
 import { veauRedis } from '../veau-infrastructure/VeauRedis';
 
-const REDIS_KEY: string = 'Languages';
+const REDIS_KEY: string = 'LANGUAGES';
 const DURATION: number = 3 * 60 * 60;
 
 export class LanguageCommand {

@@ -34,7 +34,7 @@ export class RegionQuery {
       R1.iso3166
       FROM regions R1
       FORCE INDEX(iso3166)
-      ORDER BY R1.iso3166`;
+      ORDER BY R1.iso3166;`;
 
     const regionRows: Array<RegionRow> = await veauMySQL.execute(query);
     const regions: Regions = Regions.fromRow(regionRows);
