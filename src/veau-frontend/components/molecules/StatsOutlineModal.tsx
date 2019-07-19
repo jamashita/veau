@@ -12,8 +12,7 @@ import {
 } from '@material-ui/core';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
-import { Languages } from '../../../veau-entity/collection/Languages';
-import { Regions } from '../../../veau-entity/collection/Regions';
+import { Locale } from '../../../veau-entity/aggregate/Locale';
 import { Language } from '../../../veau-entity/Language';
 import { Region } from '../../../veau-entity/Region';
 import { Stats } from '../../../veau-entity/Stats';
@@ -25,8 +24,7 @@ import { TextField } from '../atoms/TextField';
 type Props = {
   open: boolean;
   stats: Stats;
-  languages: Languages;
-  regions: Regions;
+  locale: Locale;
   closeNewStatsModal: () => void;
   nameTyped: (name: string) => void;
   unitTyped: (unit: string) => void;
@@ -44,17 +42,16 @@ class StatsOutlineModalImpl extends React.Component<Props & InjectedIntlProps, S
     const {
       open,
       stats,
-      languages,
-      regions
+      locale
     } = this.props;
 
     if (open !== nextProps.open) {
       return true;
     }
-    if (stats.getName() !== nextProps.stats.getName()) {
+    if (!stats.getName().equals(nextProps.stats.getName())) {
       return true;
     }
-    if (stats.getUnit() !== nextProps.stats.getUnit()) {
+    if (!stats.getUnit().equals(nextProps.stats.getUnit())) {
       return true;
     }
     if (!stats.getLanguage().equals(nextProps.stats.getLanguage())) {
@@ -66,10 +63,10 @@ class StatsOutlineModalImpl extends React.Component<Props & InjectedIntlProps, S
     if (stats.getTerm() !== nextProps.stats.getTerm()) {
       return true;
     }
-    if (languages.length !== nextProps.languages.length) {
+    if (locale.getLanguages().length() !== nextProps.locale.getLanguages().length()) {
       return true;
     }
-    if (regions.length !== nextProps.regions.length) {
+    if (locale.getRegions().length() !== nextProps.locale.getRegions().length()) {
       return true;
     }
 
@@ -80,8 +77,7 @@ class StatsOutlineModalImpl extends React.Component<Props & InjectedIntlProps, S
     const {
       open,
       stats,
-      languages,
-      regions,
+      locale,
       intl,
       closeNewStatsModal,
       nameTyped,
@@ -139,7 +135,7 @@ class StatsOutlineModalImpl extends React.Component<Props & InjectedIntlProps, S
                 iso639Selected(ISO639.of(iso639));
               }}
             >
-              {languages.map<React.ReactNode>((language: Language): React.ReactNode => {
+              {locale.getLanguages().map<React.ReactNode>((language: Language): React.ReactNode => {
                 const iso639: string = language.getISO639().get();
 
                 return (
@@ -147,7 +143,7 @@ class StatsOutlineModalImpl extends React.Component<Props & InjectedIntlProps, S
                     key={iso639}
                     value={iso639}
                   >
-                    {language.getName()}
+                    {language.getName().get()}
                   </MenuItem>
                 );
               })}
@@ -171,7 +167,7 @@ class StatsOutlineModalImpl extends React.Component<Props & InjectedIntlProps, S
                 iso3166Selected(ISO3166.of(iso3166));
               }}
             >
-              {regions.map<React.ReactNode>((region: Region): React.ReactNode => {
+              {locale.getRegions().map<React.ReactNode>((region: Region): React.ReactNode => {
                 const iso3166: string = region.getISO3166().get();
 
                 return (
@@ -179,7 +175,7 @@ class StatsOutlineModalImpl extends React.Component<Props & InjectedIntlProps, S
                     key={iso3166}
                     value={iso3166}
                   >
-                    {region.getName()}
+                    {region.getName().get()}
                   </MenuItem>
                 );
               })}

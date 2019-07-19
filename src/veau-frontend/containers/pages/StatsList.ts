@@ -1,7 +1,6 @@
 import { connect, ConnectedComponentClass, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
-import { Languages } from '../../../veau-entity/collection/Languages';
-import { Regions } from '../../../veau-entity/collection/Regions';
+import { Locale } from '../../../veau-entity/aggregate/Locale';
 import { StatsOutlines } from '../../../veau-entity/collection/StatsOutlines';
 import { Stats } from '../../../veau-entity/Stats';
 import { Term } from '../../../veau-enum/Term';
@@ -27,8 +26,7 @@ type StateProps = {
   statsOutlines: StatsOutlines;
   open: boolean;
   stats: Stats;
-  languages: Languages;
-  regions: Regions;
+  locale: Locale;
 };
 type DispatchProps = {
   toStatsEdit: (statsID: StatsID) => void;
@@ -59,8 +57,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
     statsOutlines,
     open,
     stats,
-    languages: locale.getLanguages(),
-    regions: locale.getRegions()
+    locale
   };
 };
 

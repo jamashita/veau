@@ -32,8 +32,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
       stats,
       statsItem,
       selectingItem,
-      languages,
-      regions
+      locale
     } = this.props;
     const {
       openNewStatsItemModal,
@@ -59,10 +58,10 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
     if (selectingItem !== nextProps.selectingItem) {
       return true;
     }
-    if (languages.length !== nextProps.languages.length) {
+    if (locale.getLanguages().length() !== nextProps.locale.getLanguages().length()) {
       return true;
     }
-    if (regions.length !== nextProps.regions.length) {
+    if (locale.getRegions().length() !== nextProps.locale.getRegions().length()) {
       return true;
     }
     if (openNewStatsItemModal !== nextState.openNewStatsItemModal) {
@@ -83,8 +82,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
       stats,
       statsItem,
       selectingItem,
-      languages,
-      regions,
+      locale,
       intl,
       invalidValueInput,
       dataDeleted,
@@ -175,8 +173,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
           </Button>
           <StatsInformation
             stats={stats}
-            languages={languages}
-            regions={regions}
+            locale={locale}
             nameTyped={nameTyped}
             unitTyped={unitTyped}
             iso639Selected={iso639Selected}

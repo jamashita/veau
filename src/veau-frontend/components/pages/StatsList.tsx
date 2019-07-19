@@ -16,41 +16,40 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
       statsOutlines,
       open,
       stats,
-      languages,
-      regions
+      locale
     } = this.props;
 
-    const length: number = statsOutlines.length;
-    if (length !== nextProps.statsOutlines.length) {
+    const length: number = statsOutlines.length();
+    if (length !== nextProps.statsOutlines.length()) {
       return true;
     }
     for (let i: number = 0; i < length; i++) {
-      if (statsOutlines[i].getName() !== nextProps.statsOutlines[i].getName()) {
+      if (!statsOutlines.get(i).getName().equals(nextProps.statsOutlines.get(i).getName())) {
         return true;
       }
-      if (statsOutlines[i].getUnit() !== nextProps.statsOutlines[i].getUnit()) {
+      if (!statsOutlines.get(i).getUnit().equals(nextProps.statsOutlines.get(i).getUnit())) {
         return true;
       }
-      if (!statsOutlines[i].getLanguage().equals(nextProps.statsOutlines[i].getLanguage())) {
+      if (!statsOutlines.get(i).getLanguage().equals(nextProps.statsOutlines.get(i).getLanguage())) {
         return true;
       }
-      if (!statsOutlines[i].getRegion().equals(nextProps.statsOutlines[i].getRegion())) {
+      if (!statsOutlines.get(i).getRegion().equals(nextProps.statsOutlines.get(i).getRegion())) {
         return true;
       }
-      if (statsOutlines[i].getTerm() !== nextProps.statsOutlines[i].getTerm()) {
+      if (statsOutlines.get(i).getTerm() !== nextProps.statsOutlines.get(i).getTerm()) {
         return true;
       }
-      if (!statsOutlines[i].getUpdatedAt().isSame(nextProps.statsOutlines[i].getUpdatedAt())) {
+      if (!statsOutlines.get(i).getUpdatedAt().isSame(nextProps.statsOutlines.get(i).getUpdatedAt())) {
         return true;
       }
     }
     if (open !== nextProps.open) {
       return true;
     }
-    if (stats.getName() !== nextProps.stats.getName()) {
+    if (!stats.getName().equals(nextProps.stats.getName())) {
       return true;
     }
-    if (stats.getUnit() !== nextProps.stats.getUnit()) {
+    if (!stats.getUnit().equals(nextProps.stats.getUnit())) {
       return true;
     }
     if (!stats.getLanguage().equals(nextProps.stats.getLanguage())) {
@@ -62,10 +61,10 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
     if (stats.getTerm() !== nextProps.stats.getTerm()) {
       return true;
     }
-    if (languages.length !== nextProps.languages.length) {
+    if (locale.getLanguages().length() !== nextProps.locale.getLanguages().length()) {
       return true;
     }
-    if (regions.length !== nextProps.regions.length) {
+    if (locale.getRegions().length() !== nextProps.locale.getRegions().length()) {
       return true;
     }
 
@@ -77,8 +76,7 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
       statsOutlines,
       open,
       stats,
-      languages,
-      regions,
+      locale,
       intl,
       newStatsClicked,
       toStatsEdit,
@@ -112,8 +110,7 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
         <StatsOutlineModal
           open={open}
           stats={stats}
-          languages={languages}
-          regions={regions}
+          locale={locale}
           closeNewStatsModal={closeNewStatsModal}
           nameTyped={nameTyped}
           unitTyped={unitTyped}

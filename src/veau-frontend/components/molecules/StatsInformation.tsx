@@ -1,8 +1,7 @@
 import { Card, CardContent, CardHeader, FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
-import { Languages } from '../../../veau-entity/collection/Languages';
-import { Regions } from '../../../veau-entity/collection/Regions';
+import { Locale } from '../../../veau-entity/aggregate/Locale';
 import { Language } from '../../../veau-entity/Language';
 import { Region } from '../../../veau-entity/Region';
 import { Stats } from '../../../veau-entity/Stats';
@@ -12,8 +11,7 @@ import { TextField } from '../atoms/TextField';
 
 type Props = {
   stats: Stats;
-  languages: Languages;
-  regions: Regions;
+  locale: Locale;
   nameTyped: (name: string) => void;
   unitTyped: (unit: string) => void;
   iso639Selected: (iso639: ISO639) => void;
@@ -27,8 +25,7 @@ class StatsInformationImpl extends React.Component<Props & InjectedIntlProps, St
   public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
     const {
       stats,
-      languages,
-      regions
+      locale
     } = this.props;
 
     if (stats.getName() !== nextProps.stats.getName()) {
@@ -43,10 +40,10 @@ class StatsInformationImpl extends React.Component<Props & InjectedIntlProps, St
     if (!stats.getRegion().equals(nextProps.stats.getRegion())) {
       return true;
     }
-    if (languages.length !== nextProps.languages.length) {
+    if (locale.getLanguages().length() !== nextProps.locale.getLanguages().length()) {
       return true;
     }
-    if (regions.length !== nextProps.regions.length) {
+    if (locale.getRegions().length() !== nextProps.locale.getRegions().length()) {
       return true;
     }
 
@@ -56,8 +53,7 @@ class StatsInformationImpl extends React.Component<Props & InjectedIntlProps, St
   public render(): React.ReactNode {
     const {
       stats,
-      languages,
-      regions,
+      locale,
       intl,
       nameTyped,
       unitTyped,
@@ -109,7 +105,7 @@ class StatsInformationImpl extends React.Component<Props & InjectedIntlProps, St
                 iso639Selected(ISO639.of(iso639));
               }}
             >
-              {languages.map<React.ReactNode>((language: Language): React.ReactNode => {
+              {locale.getLanguages().map<React.ReactNode>((language: Language): React.ReactNode => {
                 const iso639: string = language.getISO639().get();
 
                 return (
@@ -117,7 +113,7 @@ class StatsInformationImpl extends React.Component<Props & InjectedIntlProps, St
                     key={iso639}
                     value={iso639}
                   >
-                    {language.getName()}
+                    {language.getName().get()}
                   </MenuItem>
                 );
               })}
@@ -141,7 +137,7 @@ class StatsInformationImpl extends React.Component<Props & InjectedIntlProps, St
                 iso3166Selected(ISO3166.of(iso3166));
               }}
             >
-              {regions.map<React.ReactNode>((region: Region): React.ReactNode => {
+              {locale.getRegions().map<React.ReactNode>((region: Region): React.ReactNode => {
                 const iso3166: string = region.getISO3166().get();
 
                 return (
@@ -149,7 +145,7 @@ class StatsInformationImpl extends React.Component<Props & InjectedIntlProps, St
                     key={iso3166}
                     value={iso3166}
                   >
-                    {region.getName()}
+                    {region.getName().get()}
                   </MenuItem>
                 );
               })}
