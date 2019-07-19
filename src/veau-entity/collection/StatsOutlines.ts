@@ -34,13 +34,6 @@ export class StatsOutlines {
     return outline;
   }
 
-  public add(outline: StatsOutline): StatsOutlines {
-    return new StatsOutlines([
-      ...this.outlines,
-      outline
-    ]);
-  }
-
   public length(): number {
     return this.outlines.length;
   }

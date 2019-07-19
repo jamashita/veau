@@ -66,13 +66,6 @@ export class StatsValues {
     return new StatsValues(newValues);
   }
 
-  public add(statsValue: StatsValue): StatsValues {
-    return new StatsValues([
-      ...this.values,
-      statsValue
-    ]);
-  }
-
   public delete(asOf: moment.Moment): StatsValues {
     const newValues: Array<StatsValue> = this.values.filter((value: StatsValue): boolean => {
       if (asOf.isSame(value.getAsOf())) {
@@ -102,13 +95,9 @@ export class StatsValues {
   }
 
   public copy(): StatsValues {
-    const values: Array<StatsValue> = [];
-
-    this.values.forEach((statsValue: StatsValue): void => {
-      values.push(statsValue);
-    });
-
-    return new StatsValues(values);
+    return new StatsValues(this.values.map<StatsValue>((statsValue: StatsValue): StatsValue => {
+      return statsValue;
+    }));
   }
 
   public equals(other: StatsValues): boolean {

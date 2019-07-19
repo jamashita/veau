@@ -32,13 +32,6 @@ export class Regions {
     this.regions = regions;
   }
 
-  public add(region: Region): Regions {
-    return new Regions([
-      ...this.regions,
-      region
-    ]);
-  }
-
   public get(index: number): Region {
     const region: Region | undefined = this.regions[index];
 

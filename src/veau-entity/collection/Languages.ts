@@ -32,13 +32,6 @@ export class Languages {
     this.languages = languages;
   }
 
-  public add(language: Language): Languages {
-    return new Languages([
-      ...this.languages,
-      language
-    ]);
-  }
-
   public get(index: number): Language {
     const language: Language | undefined = this.languages[index];
 
