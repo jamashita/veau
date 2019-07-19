@@ -149,7 +149,7 @@ export class StatsItems {
 
 
   public copy(): StatsItems {
-    return new StatsItems(this.items.map<StatsItem>((statsItem: StatsItem) => {
+    return new StatsItems(this.items.map<StatsItem>((statsItem: StatsItem): StatsItem => {
       return statsItem.copy();
     }));
   }

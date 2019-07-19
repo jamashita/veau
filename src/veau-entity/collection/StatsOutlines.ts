@@ -15,7 +15,7 @@ export class StatsOutlines {
   }
 
   public static fromRow(rows: Array<StatsOutlineRow>): StatsOutlines {
-    return StatsOutlines.from(rows.map<StatsOutline>((outline: StatsOutlineRow) => {
+    return StatsOutlines.from(rows.map<StatsOutline>((outline: StatsOutlineRow): StatsOutline => {
       return StatsOutline.fromRow(outline);
     }));
   }
@@ -51,7 +51,7 @@ export class StatsOutlines {
   }
 
   public copy(): StatsOutlines {
-    return new StatsOutlines(this.outlines.map<StatsOutline>((outline: StatsOutline) => {
+    return new StatsOutlines(this.outlines.map<StatsOutline>((outline: StatsOutline): StatsOutline => {
       return outline.copy();
     }));
   }
