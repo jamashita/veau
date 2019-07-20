@@ -8,13 +8,8 @@ export type AJAXResponse<T> = {
 export class AJAX {
 
   public static get<T>(url: string): Promise<AJAXResponse<T>> {
-    return new Promise<AJAXResponse<T>>((resolve: (value: AJAXResponse<T>) => void, reject: (reason: any) => void): void => {
+    return new Promise<AJAXResponse<T>>((resolve: (value: AJAXResponse<T>) => void): void => {
       request.get(url).end((err: any, res: request.Response): void => {
-          if (err) {
-            reject(err);
-            return;
-          }
-
           const {
             status,
             body
@@ -29,13 +24,8 @@ export class AJAX {
   }
 
   public static post<T>(url: string, payload: any): Promise<AJAXResponse<T>> {
-    return new Promise<AJAXResponse<T>>((resolve: (value: AJAXResponse<T>) => void, reject: (reason: any) => void): void => {
+    return new Promise<AJAXResponse<T>>((resolve: (value: AJAXResponse<T>) => void): void => {
       request.post(url).send(payload).end((err: any, res: request.Response): void => {
-          if (err) {
-            reject(err);
-            return;
-          }
-
           const {
             status,
             body
@@ -50,13 +40,8 @@ export class AJAX {
   }
 
   public static put<T>(url: string, payload: any): Promise<AJAXResponse<T>> {
-    return new Promise<AJAXResponse<T>>((resolve: (value: AJAXResponse<T>) => void, reject: (reason: any) => void): void => {
+    return new Promise<AJAXResponse<T>>((resolve: (value: AJAXResponse<T>) => void): void => {
       request.put(url).send(payload).end((err: any, res: request.Response): void => {
-          if (err) {
-            reject(err);
-            return;
-          }
-
           const {
             status,
             body
@@ -71,13 +56,8 @@ export class AJAX {
   }
 
   public static delete<T>(url: string): Promise<AJAXResponse<T>> {
-    return new Promise<AJAXResponse<T>>((resolve: (value: AJAXResponse<T>) => void, reject: (reason: any) => void): void => {
+    return new Promise<AJAXResponse<T>>((resolve: (value: AJAXResponse<T>) => void): void => {
       request.del(url).end((err: any, res: request.Response): void => {
-          if (err) {
-            reject(err);
-            return;
-          }
-
           const {
             status,
             body

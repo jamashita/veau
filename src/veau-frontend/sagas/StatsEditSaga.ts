@@ -4,6 +4,7 @@ import { Language } from '../../veau-entity/Language';
 import { Region } from '../../veau-entity/Region';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
+import { NotFoundError } from '../../veau-error/NotFoundError';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsItemName } from '../../veau-vo/StatsItemName';
 import { StatsName } from '../../veau-vo/StatsName';
@@ -77,8 +78,13 @@ export class StatsEditSaga {
           yield put(clearSelectingItem());
         }
         catch (err) {
+          if (err instanceof NotFoundError) {
+            yield put(pushToStatsList());
+            yield put(appearNotification('error', 'center', 'top', 'STATS_NOT_FOUND'));
+            continue;
+          }
+
           yield put(pushToStatsList());
-          yield put(appearNotification('error', 'center', 'top', 'STATS_NOT_FOUND'));
         }
       }
     }

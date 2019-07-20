@@ -1,6 +1,9 @@
+import { NOT_FOUND, OK } from 'http-status';
 import { StatsOutlines } from '../../veau-entity/collection/StatsOutlines';
 import { Stats, StatsJSON } from '../../veau-entity/Stats';
 import { StatsOutlineJSON } from '../../veau-entity/StatsOutline';
+import { NotFoundError } from '../../veau-error/NotFoundError';
+import { RuntimeError } from '../../veau-error/RuntimeError';
 import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
 import { StatsID } from '../../veau-vo/StatsID';
 
@@ -16,13 +19,38 @@ export class StatsQuery {
 
   public async findByStatsID(statsID: StatsID): Promise<Stats> {
     const response: AJAXResponse<StatsJSON> = await AJAX.get<StatsJSON>(`/api/stats/${statsID.get()}`);
+    const {
+      status,
+      body
+    } = response;
 
-    return Stats.fromJSON(response.body);
+    switch (status) {
+      case OK: {
+        return Stats.fromJSON(body);
+      }
+      case NOT_FOUND: {
+        throw new NotFoundError();
+      }
+      default: {
+        throw new RuntimeError('UNKNOWN ERROR');
+      }
+    }
   }
 
   public async findByPage(page: number): Promise<StatsOutlines> {
     const response: AJAXResponse<Array<StatsOutlineJSON>> = await AJAX.get<Array<StatsOutlineJSON>>(`/api/stats/page/${page}`);
+    const {
+      status,
+      body
+    } = response;
 
-    return StatsOutlines.fromJSON(response.body);
+    switch (status) {
+      case OK: {
+        return StatsOutlines.fromJSON(body);
+      }
+      default: {
+        throw new RuntimeError('UNKNOWN ERROR');
+      }
+    }
   }
 }

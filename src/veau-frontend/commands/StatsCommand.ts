@@ -1,5 +1,7 @@
+import { CREATED } from 'http-status';
 import { Stats } from '../../veau-entity/Stats';
-import { AJAX } from '../../veau-general/AJAX';
+import { RuntimeError } from '../../veau-error/RuntimeError';
+import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
 
 export class StatsCommand {
   private static instance: StatsCommand = new StatsCommand();
@@ -11,7 +13,16 @@ export class StatsCommand {
   private constructor() {
   }
 
-  public create(stats: Stats): Promise<any> {
-    return AJAX.post<any>('/api/stats', stats.toJSON());
+  public async create(stats: Stats): Promise<any> {
+    const response: AJAXResponse<any> = await AJAX.post<any>('/api/stats', stats.toJSON());
+
+    switch (response.status) {
+      case CREATED: {
+        return;
+      }
+      default: {
+        throw new RuntimeError('UNKNOWN ERROR');
+      }
+    }
   }
 }

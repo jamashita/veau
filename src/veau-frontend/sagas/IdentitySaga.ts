@@ -2,6 +2,8 @@ import { fork, put, select, take } from 'redux-saga/effects';
 import { Locale } from '../../veau-entity/aggregate/Locale';
 import { Language } from '../../veau-entity/Language';
 import { VeauAccount } from '../../veau-entity/VeauAccount';
+import { AJAXError } from '../../veau-error/AJAXError';
+import { UnauthorizedError } from '../../veau-error/UnauthorizedError';
 import { LanguageIdentifier } from '../../veau-general/LanguageIdentifier';
 import { AccountName } from '../../veau-vo/AccountName';
 import { ISO639 } from '../../veau-vo/ISO639';
@@ -36,17 +38,21 @@ export class IdentitySaga {
       yield put(defineLocale(locale));
       yield put(loaded());
 
-      try {
-        const veauAccount: VeauAccount = yield sessionQuery.find();
+      const veauAccount: VeauAccount = yield sessionQuery.find();
 
-        yield put(identityAuthenticated(veauAccount));
-        yield put(identified());
+      yield put(identityAuthenticated(veauAccount));
+      yield put(identified());
 
-        if (location.pathname === Endpoints.ENTRANCE) {
-          yield put(pushToStatsList());
-        }
+      if (location.pathname === Endpoints.ENTRANCE) {
+        yield put(pushToStatsList());
       }
-      catch (err1) {
+    }
+    catch (err1) {
+      if (err1 instanceof AJAXError) {
+        yield put(loaded());
+        yield put(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
+      }
+      if (err1 instanceof UnauthorizedError) {
         const newLanguage: string = LanguageIdentifier.toISO639(navigator.language);
         const iso639: ISO639 = ISO639.of(newLanguage);
         const state: State = yield select();
@@ -69,10 +75,6 @@ export class IdentitySaga {
           return;
         }
       }
-    }
-    catch (err) {
-      yield put(loaded());
-      yield put(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
     }
   }
 

@@ -1,8 +1,10 @@
+import { OK } from 'http-status';
 import { Locale, LocaleJSON } from '../../veau-entity/aggregate/Locale';
 import { Languages } from '../../veau-entity/collection/Languages';
 import { Regions } from '../../veau-entity/collection/Regions';
 import { Language } from '../../veau-entity/Language';
 import { Region } from '../../veau-entity/Region';
+import { AJAXError } from '../../veau-error/AJAXError';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
 import { ISO3166 } from '../../veau-vo/ISO3166';
@@ -65,7 +67,16 @@ export class LocaleQuery {
     }
 
     const response: AJAXResponse<LocaleJSON> = await AJAX.get<LocaleJSON>('/api/locale');
-    this.locale = Locale.fromJSON(response.body);
+    const {
+      status,
+      body
+    } = response;
+
+    if (status !== OK) {
+      throw new AJAXError('GET LOCALE FAILED');
+    }
+
+    this.locale = Locale.fromJSON(body);
 
     return this.locale;
   }

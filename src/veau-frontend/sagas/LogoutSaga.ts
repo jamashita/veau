@@ -17,16 +17,11 @@ export class LogoutSaga {
     while (true) {
       yield take(ACTION.LOGOUT);
 
-      try {
-        yield sessionCommand.delete();
+      yield sessionCommand.delete();
 
-        yield put(initializeIdentity());
-        yield put(closeProvider());
-        yield put(pushToEntrance());
-      }
-      catch (err) {
-        // NOOP
-      }
+      yield put(initializeIdentity());
+      yield put(closeProvider());
+      yield put(pushToEntrance());
     }
   }
 
