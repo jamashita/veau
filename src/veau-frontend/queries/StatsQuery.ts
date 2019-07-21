@@ -2,8 +2,8 @@ import { NOT_FOUND, OK } from 'http-status';
 import { StatsOutlines } from '../../veau-entity/collection/StatsOutlines';
 import { Stats, StatsJSON } from '../../veau-entity/Stats';
 import { StatsOutlineJSON } from '../../veau-entity/StatsOutline';
+import { AJAXError } from '../../veau-error/AJAXError';
 import { NotFoundError } from '../../veau-error/NotFoundError';
-import { RuntimeError } from '../../veau-error/RuntimeError';
 import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
 import { StatsID } from '../../veau-vo/StatsID';
 
@@ -32,7 +32,7 @@ export class StatsQuery {
         throw new NotFoundError();
       }
       default: {
-        throw new RuntimeError('UNKNOWN ERROR');
+        throw new AJAXError('UNKNOWN ERROR');
       }
     }
   }
@@ -49,7 +49,7 @@ export class StatsQuery {
         return StatsOutlines.fromJSON(body);
       }
       default: {
-        throw new RuntimeError('UNKNOWN ERROR');
+        throw new AJAXError('UNKNOWN ERROR');
       }
     }
   }
