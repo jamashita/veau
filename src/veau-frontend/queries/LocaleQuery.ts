@@ -70,12 +70,15 @@ export class LocaleQuery {
       body
     } = response;
 
-    if (status !== OK) {
-      throw new AJAXError('GET LOCALE FAILED');
+    switch (status) {
+      case OK: {
+        this.locale = Locale.fromJSON(body);
+
+        return this.locale;
+      }
+      default: {
+        throw new AJAXError('GET LOCALE FAILED');
+      }
     }
-
-    this.locale = Locale.fromJSON(body);
-
-    return this.locale;
   }
 }
