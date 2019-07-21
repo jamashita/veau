@@ -1,4 +1,4 @@
-import { BAD_REQUEST, OK } from 'http-status';
+import { BAD_REQUEST, CREATED } from 'http-status';
 import 'jest';
 import * as sinon from 'sinon';
 import { SinonStub } from 'sinon';
@@ -7,7 +7,7 @@ import { Language } from '../../../veau-entity/Language';
 import { Region } from '../../../veau-entity/Region';
 import { Stats } from '../../../veau-entity/Stats';
 import { Term } from '../../../veau-enum/Term';
-import { RuntimeError } from '../../../veau-error/RuntimeError';
+import { AJAXError } from '../../../veau-error/AJAXError';
 import { AJAX } from '../../../veau-general/AJAX';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
@@ -27,7 +27,7 @@ describe('StatsCommand', () => {
       const stub: SinonStub = sinon.stub();
       AJAX.post = stub;
       stub.resolves({
-        status: OK,
+        status: CREATED,
         body: {
         }
       });
@@ -44,8 +44,7 @@ describe('StatsCommand', () => {
       );
 
       const statsCommand: StatsCommand = StatsCommand.getInstance();
-      expect(statsCommand.create(stats)).rejects.not.toThrow(RuntimeError);
-
+      expect(statsCommand.create(stats)).resolves.toEqual(undefined);
       expect(stub.withArgs('/api/stats', {
         statsID: 'stats id',
         language: {
@@ -89,7 +88,7 @@ describe('StatsCommand', () => {
       );
 
       const statsCommand: StatsCommand = StatsCommand.getInstance();
-      expect(statsCommand.create(stats)).rejects.toThrow(RuntimeError);
+      expect(statsCommand.create(stats)).rejects.toThrow(AJAXError);
     });
   });
 });

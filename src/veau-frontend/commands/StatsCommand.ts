@@ -1,6 +1,6 @@
 import { CREATED } from 'http-status';
 import { Stats } from '../../veau-entity/Stats';
-import { RuntimeError } from '../../veau-error/RuntimeError';
+import { AJAXError } from '../../veau-error/AJAXError';
 import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
 
 export class StatsCommand {
@@ -21,7 +21,7 @@ export class StatsCommand {
         return;
       }
       default: {
-        throw new RuntimeError('UNKNOWN ERROR');
+        throw new AJAXError('UNKNOWN ERROR');
       }
     }
   }
