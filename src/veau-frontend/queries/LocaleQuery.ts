@@ -1,7 +1,5 @@
 import { OK } from 'http-status';
 import { Locale, LocaleJSON } from '../../veau-entity/aggregate/Locale';
-import { Languages } from '../../veau-entity/collection/Languages';
-import { Regions } from '../../veau-entity/collection/Regions';
 import { Language } from '../../veau-entity/Language';
 import { Region } from '../../veau-entity/Region';
 import { AJAXError } from '../../veau-error/AJAXError';
@@ -24,8 +22,8 @@ export class LocaleQuery {
   }
 
   public async findByISO639(iso639: ISO639): Promise<Language> {
-    const languages: Languages = await this.allLanguages();
-    const found: Language | undefined = languages.find((language: Language): boolean => {
+    const locale: Locale = await this.all();
+    const found: Language | undefined = locale.getLanguages().find((language: Language): boolean => {
       if (language.getISO639().equals(iso639)) {
         return true;
       }
@@ -41,8 +39,8 @@ export class LocaleQuery {
   }
 
   public async findByISO3166(iso3166: ISO3166): Promise<Region> {
-    const regions: Regions = await this.allRegions();
-    const found: Region | undefined = regions.find((region: Region): boolean => {
+    const locasle: Locale = await this.all();
+    const found: Region | undefined = locasle.getRegions().find((region: Region): boolean => {
       if (region.getISO3166().equals(iso3166)) {
         return true;
       }
@@ -79,17 +77,5 @@ export class LocaleQuery {
     this.locale = Locale.fromJSON(body);
 
     return this.locale;
-  }
-
-  public async allLanguages(): Promise<Languages> {
-    const locale: Locale = await this.all();
-
-    return locale.getLanguages();
-  }
-
-  public async allRegions(): Promise<Regions> {
-    const locale: Locale = await this.all();
-
-    return locale.getRegions();
   }
 }
