@@ -1,7 +1,7 @@
 import { OK, UNAUTHORIZED } from 'http-status';
 import { VeauAccount, VeauAccountJSON } from '../../veau-entity/VeauAccount';
+import { AJAXError } from '../../veau-error/AJAXError';
 import { AuthenticationFailureError } from '../../veau-error/AuthenticationFailureError';
-import { RuntimeError } from '../../veau-error/RuntimeError';
 import { UnauthorizedError } from '../../veau-error/UnauthorizedError';
 import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
@@ -48,7 +48,7 @@ export class SessionQuery {
         throw new AuthenticationFailureError();
       }
       default: {
-        throw new RuntimeError('UNKNOWN ERROR');
+        throw new AJAXError('UNKNOWN ERROR');
       }
     }
   }
