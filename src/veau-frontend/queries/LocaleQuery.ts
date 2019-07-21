@@ -39,8 +39,8 @@ export class LocaleQuery {
   }
 
   public async findByISO3166(iso3166: ISO3166): Promise<Region> {
-    const locasle: Locale = await this.all();
-    const found: Region | undefined = locasle.getRegions().find((region: Region): boolean => {
+    const locale: Locale = await this.all();
+    const found: Region | undefined = locale.getRegions().find((region: Region): boolean => {
       if (region.getISO3166().equals(iso3166)) {
         return true;
       }
