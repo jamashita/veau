@@ -131,13 +131,20 @@ export class StatsItem extends Entity<StatsItemID> {
     if (this === other) {
       return true;
     }
-    if (!this.statsItemID.equals(other.getStatsItemID())) {
+
+    const {
+      statsItemID,
+      name,
+      values
+    } = this;
+
+    if (!statsItemID.equals(other.getStatsItemID())) {
       return false;
     }
-    if (!this.name.equals(other.getName())) {
+    if (!name.equals(other.getName())) {
       return false;
     }
-    if (!this.values.equals(other.getValues())) {
+    if (!values.equals(other.getValues())) {
       return false;
     }
 

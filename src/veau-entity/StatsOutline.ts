@@ -174,25 +174,36 @@ export class StatsOutline extends Entity<StatsID> {
     if (this === other) {
       return true;
     }
-    if (!this.statsID.equals(other.statsID)) {
+
+    const {
+      statsID,
+      language,
+      region,
+      term,
+      name,
+      unit,
+      updatedAt
+    } = this;
+
+    if (!statsID.equals(other.statsID)) {
       return false;
     }
-    if (!this.language.equals(other.getLanguage())) {
+    if (!language.equals(other.getLanguage())) {
       return false;
     }
-    if (!this.region.equals(other.getRegion())) {
+    if (!region.equals(other.getRegion())) {
       return false;
     }
-    if (this.term !== other.getTerm()) {
+    if (term !== other.getTerm()) {
       return false;
     }
-    if (!this.name.equals(other.getName())) {
+    if (!name.equals(other.getName())) {
       return false;
     }
-    if (!this.unit.equals(other.getUnit())) {
+    if (!unit.equals(other.getUnit())) {
       return false;
     }
-    if (!this.updatedAt.equals(other.getUpdatedAt())) {
+    if (!updatedAt.equals(other.getUpdatedAt())) {
       return false;
     }
 
