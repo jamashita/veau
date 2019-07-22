@@ -257,6 +257,60 @@ describe('StatsItems', () => {
     });
   });
 
+  describe('isSame', () => {
+    it('returns true if all the properties are the same', () => {
+      const statsItems1: StatsItems = StatsItems.from([
+        StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([])),
+        StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]))
+      ]);
+      const statsItems2: StatsItems = StatsItems.from([
+        StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]))
+      ]);
+      const statsItems3: StatsItems = StatsItems.from([
+        StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]))
+      ]);
+      const statsItems4: StatsItems = StatsItems.from([
+        StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([])),
+        StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]))
+      ]);
+      const statsItems5: StatsItems = StatsItems.from([
+        StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([])),
+        StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]))
+      ]);
+      const statsItems6: StatsItems = StatsItems.from([
+        StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 3'), StatsValues.of([])),
+        StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]))
+      ]);
+      const statsItems7: StatsItems = StatsItems.from([
+        StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([])),
+        StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 4'), StatsValues.of([]))
+      ]);
+      const statsItems8: StatsItems = StatsItems.from([
+        StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([StatsValue.of(moment('2000-01-01'), 1)])),
+        StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]))
+      ]);
+      const statsItems9: StatsItems = StatsItems.from([
+        StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([])),
+        StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([StatsValue.of(moment('2000-01-01'), 1)]))
+      ]);
+      const statsItems10: StatsItems = StatsItems.from([
+        StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([StatsValue.of(moment('2000-01-01'), 1)])),
+        StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([StatsValue.of(moment('2000-01-01'), 1)]))
+      ]);
+
+      expect(statsItems1.isSame(statsItems1)).toEqual(true);
+      expect(statsItems1.isSame(statsItems2)).toEqual(false);
+      expect(statsItems1.isSame(statsItems3)).toEqual(false);
+      expect(statsItems1.isSame(statsItems4)).toEqual(false);
+      expect(statsItems1.isSame(statsItems5)).toEqual(true);
+      expect(statsItems1.isSame(statsItems6)).toEqual(false);
+      expect(statsItems1.isSame(statsItems7)).toEqual(false);
+      expect(statsItems1.isSame(statsItems8)).toEqual(false);
+      expect(statsItems1.isSame(statsItems9)).toEqual(false);
+      expect(statsItems1.isSame(statsItems10)).toEqual(false);
+    });
+  });
+
   describe('fromJSON', () => {
     it('normal case', () => {
       const json: Array<StatsItemJSON> = [

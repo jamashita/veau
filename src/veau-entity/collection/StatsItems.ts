@@ -173,6 +173,25 @@ export class StatsItems {
     return true;
   }
 
+  public isSame(other: StatsItems): boolean {
+    if (this === other) {
+      return true;
+    }
+
+    const length: number = this.items.length;
+
+    if (length !== other.length()) {
+      return false;
+    }
+    for (let i: number = 0; i < length; i++) {
+      if (!this.items[i].isSame(other.get(i))) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   public toJSON(): Array<StatsItemJSON> {
     return this.items.map<StatsItemJSON>((item: StatsItem): StatsItemJSON => {
       return item.toJSON();
