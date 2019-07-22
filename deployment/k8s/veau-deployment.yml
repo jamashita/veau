@@ -14,11 +14,11 @@ spec:
       labels:
         app: 'veau'
       annotations:
-        appVersion: '1.3.11'
+        appVersion: '1.3.12'
     spec:
       containers:
         - name: 'veau'
-          image: 'gcr.io/veau-229916/veau:1.3.11'
+          image: 'gcr.io/veau-229916/veau:1.3.12'
           env:
             - name: 'NODE_ENV'
               value: 'k8s'
