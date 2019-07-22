@@ -19,6 +19,7 @@ import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { LanguageID } from '../../veau-vo/LanguageID';
 import { LanguageName } from '../../veau-vo/LanguageName';
+import { Page } from '../../veau-vo/Page';
 import { RegionID } from '../../veau-vo/RegionID';
 import { RegionName } from '../../veau-vo/RegionName';
 import { StatsID } from '../../veau-vo/StatsID';
@@ -117,7 +118,7 @@ describe('StatsInteractor', () => {
       ]));
 
       const statsInteractor: StatsInteractor = StatsInteractor.getInstance();
-      const statsOutlines: StatsOutlines =  await statsInteractor.findByVeauAccountID(VeauAccountID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2'), 1);
+      const statsOutlines: StatsOutlines =  await statsInteractor.findByVeauAccountID(VeauAccountID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2'), Page.of(1));
 
       expect(statsOutlines.length()).toEqual(1);
       expect(statsOutlines.get(0).getStatsID()).toEqual(statsID);

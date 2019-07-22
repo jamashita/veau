@@ -7,6 +7,8 @@ import { Stats } from '../../veau-entity/Stats';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { veauMySQL } from '../../veau-infrastructure/VeauMySQL';
 import { StatsValues } from '../../veau-vo/collection/StatsValues';
+import { Limit } from '../../veau-vo/Limit';
+import { Offset } from '../../veau-vo/Offset';
 import { StatsID } from '../../veau-vo/StatsID';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { StatsQuery } from '../StatsQuery';
@@ -168,7 +170,7 @@ describe('StatsQuery', () => {
       ]);
 
       const statsQuery: StatsQuery = StatsQuery.getInstance();
-      const statsOutlines: StatsOutlines = await statsQuery.findByVeauAccountID(VeauAccountID.of('2ac64841-5267-48bc-8952-ba9ad1cb12d7'), 2, 0);
+      const statsOutlines: StatsOutlines = await statsQuery.findByVeauAccountID(VeauAccountID.of('2ac64841-5267-48bc-8952-ba9ad1cb12d7'), Limit.of(2), Offset.of(0));
 
       expect(statsOutlines.length()).toEqual(2);
       expect(statsOutlines.get(0).getStatsID().get()).toEqual('c0e18d31-d026-4a84-af4f-d5d26c520600');
