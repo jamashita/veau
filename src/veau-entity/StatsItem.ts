@@ -127,6 +127,23 @@ export class StatsItem extends Entity<StatsItemID> {
     return this.isFilled();
   }
 
+  public isSame(other: StatsItem): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (!this.equals(other)) {
+      return false;
+    }
+    if (!this.name.equals(other.getName())) {
+      return false;
+    }
+    if (!this.values.equals(other.getValues())) {
+      return false;
+    }
+
+    return true;
+  }
+
   public copy(): StatsItem {
     const {
       statsItemID,

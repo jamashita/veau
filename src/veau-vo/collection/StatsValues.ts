@@ -106,10 +106,10 @@ export class StatsValues {
     }
 
     const length: number = this.values.length;
-
     if (length !== other.length()) {
       return false;
     }
+
     for (let i: number = 0; i < length; i++) {
       if (!this.values[i].equals(other.get(i))) {
         return false;

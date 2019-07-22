@@ -44,7 +44,7 @@ export class StatsValue extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.getAsOfAsString() !== other.getAsOfAsString()) {
+    if (!this.asOf.isSame(other.getAsOf())) {
       return false;
     }
     if (this.value !== other.getValue()) {

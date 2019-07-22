@@ -21,6 +21,26 @@ describe('StatsItem', () => {
     });
   });
 
+  describe('isSame', () => {
+    it('returns true if all the properties are the same', () => {
+      const statsItemID1: StatsItemID = StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0');
+      const statsItemID2: StatsItemID = StatsItemID.of('b5f208c3-f171-488f-a8dc-f3798db5f9f4');
+      const statsItem1: StatsItem = StatsItem.from(statsItemID1, StatsItemName.of('name 1'), StatsValues.of([StatsValue.of(moment('2000-01-01'), 10)]));
+      const statsItem2: StatsItem = StatsItem.from(statsItemID2, StatsItemName.of('name 1'), StatsValues.of([StatsValue.of(moment('2000-01-01'), 10)]));
+      const statsItem3: StatsItem = StatsItem.from(statsItemID1, StatsItemName.of('name 3'), StatsValues.of([StatsValue.of(moment('2000-01-01'), 10)]));
+      const statsItem4: StatsItem = StatsItem.from(statsItemID1, StatsItemName.of('name 1'), StatsValues.of([StatsValue.of(moment('2000-01-01'), 10), StatsValue.of(moment('2000-01-02'), 10)]));
+      const statsItem5: StatsItem = StatsItem.from(statsItemID1, StatsItemName.of('name 1'), StatsValues.of([StatsValue.of(moment('2000-01-02'), 10)]));
+      const statsItem6: StatsItem = StatsItem.from(statsItemID1, StatsItemName.of('name 1'), StatsValues.of([StatsValue.of(moment('2000-01-01'), 10)]));
+
+      expect(statsItem1.isSame(statsItem1)).toEqual(true);
+      expect(statsItem1.isSame(statsItem2)).toEqual(false);
+      expect(statsItem1.isSame(statsItem3)).toEqual(false);
+      expect(statsItem1.isSame(statsItem4)).toEqual(false);
+      expect(statsItem1.isSame(statsItem5)).toEqual(false);
+      expect(statsItem1.isSame(statsItem6)).toEqual(true);
+    });
+  });
+
   describe('toJSON', () => {
     it('normal case', () => {
       const statsItemID: StatsItemID = StatsItemID.of('b5f208c3-f171-488f-a8dc-f3798db5f9f4');
