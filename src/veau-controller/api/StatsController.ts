@@ -35,7 +35,7 @@ router.get('/page/:page(\\d+)', async (req: RequestSession, res: express.Respons
     res.status(OK).send(statsOutlines.toJSON());
   }
   catch (err) {
-    logger.fatal(err.message);
+    logger.fatal(err.toString());
     res.sendStatus(INTERNAL_SERVER_ERROR);
   }
 });
@@ -56,7 +56,7 @@ router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: expres
       return;
     }
 
-    logger.fatal(err.message);
+    logger.fatal(err.toString());
     res.sendStatus(INTERNAL_SERVER_ERROR);
   }
 });
@@ -174,7 +174,7 @@ router.post('/', async (req: RequestSession, res: express.Response): Promise<any
     res.sendStatus(CREATED);
   }
   catch (err) {
-    logger.fatal(err.message);
+    logger.fatal(err.toString());
     res.sendStatus(INTERNAL_SERVER_ERROR);
   }
 });

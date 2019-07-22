@@ -13,9 +13,15 @@ const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddlew
 const localeInteractor: LocaleInteractor = LocaleInteractor.getInstance();
 
 router.get('/', async (req: express.Request, res: express.Response): Promise<any> => {
-  const locale: Locale = await localeInteractor.all();
+  try {
+    const locale: Locale = await localeInteractor.all();
 
-  res.status(OK).send(locale.toJSON());
+    res.status(OK).send(locale.toJSON());
+  }
+  catch (err) {
+    logger.fatal(err.toString());
+    res.sendStatus(INTERNAL_SERVER_ERROR);
+  }
 });
 
 router.delete('/', authenticationMiddleware.apply(), async (req: express.Request, res: express.Response): Promise<any> => {
@@ -30,7 +36,7 @@ router.delete('/', authenticationMiddleware.apply(), async (req: express.Request
       return;
     }
 
-    logger.fatal(err.message);
+    logger.fatal(err.toString());
     res.sendStatus(INTERNAL_SERVER_ERROR);
   }
 });
