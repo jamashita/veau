@@ -13,6 +13,7 @@ import { Term } from '../../veau-enum/Term';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { NotFoundError } from '../../veau-error/NotFoundError';
 import { MySQL } from '../../veau-general/MySQL/MySQL';
+import { StatsOutlineQuery } from '../../veau-query/StatsOutlineQuery';
 import { StatsQuery } from '../../veau-query/StatsQuery';
 import { StatsValues } from '../../veau-vo/collection/StatsValues';
 import { ISO3166 } from '../../veau-vo/ISO3166';
@@ -104,7 +105,7 @@ describe('StatsInteractor', () => {
       const updatedAt: UpdatedAt = UpdatedAt.of(moment());
 
       const stub: SinonStub = sinon.stub();
-      StatsQuery.prototype.findByVeauAccountID = stub;
+      StatsOutlineQuery.prototype.findByVeauAccountID = stub;
       stub.resolves(StatsOutlines.from([
         StatsOutline.from(
           statsID,

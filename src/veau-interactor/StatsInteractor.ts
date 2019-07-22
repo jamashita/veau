@@ -5,6 +5,7 @@ import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { NotFoundError } from '../veau-error/NotFoundError';
 import { ITransaction } from '../veau-general/MySQL/ITransaction';
 import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
+import { StatsOutlineQuery } from '../veau-query/StatsOutlineQuery';
 import { StatsQuery } from '../veau-query/StatsQuery';
 import { StatsUpdateTransaction } from '../veau-transaction/StatsUpdateTransaction';
 import { Page } from '../veau-vo/Page';
@@ -14,6 +15,7 @@ import { VeauAccountID } from '../veau-vo/VeauAccountID';
 const logger: log4js.Logger = log4js.getLogger();
 
 const statsQuery: StatsQuery = StatsQuery.getInstance();
+const statsOutlineQuery: StatsOutlineQuery = StatsOutlineQuery.getInstance();
 
 export class StatsInteractor {
   private static instance: StatsInteractor = new StatsInteractor();
@@ -44,7 +46,7 @@ export class StatsInteractor {
   }
 
   public findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Promise<StatsOutlines> {
-    return statsQuery.findByVeauAccountID(veauAccountID, page.getLimit(), page.getOffset());
+    return statsOutlineQuery.findByVeauAccountID(veauAccountID, page.getLimit(), page.getOffset());
   }
 
   public save(veauAccountID: VeauAccountID, stats: Stats): Promise<any> {
