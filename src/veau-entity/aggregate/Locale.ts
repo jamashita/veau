@@ -50,6 +50,20 @@ export class Locale {
     return this.regions.get(index);
   }
 
+  public equals(other: Locale): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (!this.languages.equals(other.getLanguages())) {
+      return false;
+    }
+    if (!this.regions.equals(other.getRegions())) {
+      return false;
+    }
+
+    return true;
+  }
+
   public toJSON(): LocaleJSON {
     const {
       languages,
