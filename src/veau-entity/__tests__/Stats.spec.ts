@@ -280,6 +280,58 @@ describe('Stats', () => {
           )
         ])
       );
+      const stats14: Stats = Stats.from(
+        StatsID.of('d5d311b5-c09a-4f82-91e5-b7b55736120e'),
+        Language.from(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
+        Region.from(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
+        Term.DAILY,
+        StatsName.of('name'),
+        StatsUnit.of('unit'),
+        UpdatedAt.ofString('2000-01-01'),
+        StatsItems.from([
+          StatsItem.from(
+            StatsItemID.of('30dd05bd-480f-4050-b8d4-5eec32ae11ed'),
+            StatsItemName.of('stats'),
+            StatsValues.of([])
+          )
+        ]),
+        '2000-01-01'
+      );
+      const stats15: Stats = Stats.from(
+        StatsID.of('d5d311b5-c09a-4f82-91e5-b7b55736120e'),
+        Language.from(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
+        Region.from(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
+        Term.DAILY,
+        StatsName.of('name'),
+        StatsUnit.of('unit'),
+        UpdatedAt.ofString('2000-01-01'),
+        StatsItems.from([
+          StatsItem.from(
+            StatsItemID.of('30dd05bd-480f-4050-b8d4-5eec32ae11ed'),
+            StatsItemName.of('stats'),
+            StatsValues.of([])
+          )
+        ]),
+        '2000-01-02'
+      );
+      const stats16: Stats = Stats.from(
+        StatsID.of('d5d311b5-c09a-4f82-91e5-b7b55736120e'),
+        Language.from(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
+        Region.from(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
+        Term.DAILY,
+        StatsName.of('name'),
+        StatsUnit.of('unit'),
+        UpdatedAt.ofString('2000-01-01'),
+        StatsItems.from([
+          StatsItem.from(
+            StatsItemID.of('30dd05bd-480f-4050-b8d4-5eec32ae11ed'),
+            StatsItemName.of('stats'),
+            StatsValues.of([])
+          )
+        ]),
+        '2000-01-01'
+      );
+
 
       expect(stats1.isSame(stats1)).toEqual(true);
       expect(stats1.isSame(stats2)).toEqual(false);
@@ -294,6 +346,9 @@ describe('Stats', () => {
       expect(stats1.isSame(stats11)).toEqual(false);
       expect(stats1.isSame(stats12)).toEqual(false);
       expect(stats1.isSame(stats13)).toEqual(true);
+      expect(stats1.isSame(stats14)).toEqual(false);
+      expect(stats14.isSame(stats15)).toEqual(false);
+      expect(stats14.isSame(stats16)).toEqual(true);
     });
   });
 
