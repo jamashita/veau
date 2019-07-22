@@ -128,7 +128,10 @@ export class StatsItem extends Entity<StatsItemID> {
   }
 
   public isSame(other: StatsItem): boolean {
-    if (!this.equals(other)) {
+    if (this === other) {
+      return true;
+    }
+    if (!this.statsItemID.equals(other.getStatsItemID())) {
       return false;
     }
     if (!this.name.equals(other.getName())) {

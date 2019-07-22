@@ -396,7 +396,10 @@ export class Stats extends Entity<StatsID> {
   }
 
   public isSame(other: Stats): boolean {
-    if (!this.equals(other)) {
+    if (this === other) {
+      return true;
+    }
+    if (!this.statsID.equals(other.getStatsID())) {
       return false;
     }
     if (!this.language.equals(other.getLanguage())) {

@@ -170,6 +170,35 @@ export class StatsOutline extends Entity<StatsID> {
     return true;
   }
 
+  public isSame(other: StatsOutline): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (!this.statsID.equals(other.statsID)) {
+      return false;
+    }
+    if (!this.language.equals(other.getLanguage())) {
+      return false;
+    }
+    if (!this.region.equals(other.getRegion())) {
+      return false;
+    }
+    if (this.term !== other.getTerm()) {
+      return false;
+    }
+    if (!this.name.equals(other.getName())) {
+      return false;
+    }
+    if (!this.unit.equals(other.getUnit())) {
+      return false;
+    }
+    if (!this.updatedAt.equals(other.getUpdatedAt())) {
+      return false;
+    }
+
+    return true;
+  }
+
   public copy(): StatsOutline {
     const {
       statsID,

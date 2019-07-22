@@ -179,10 +179,10 @@ export class StatsItems {
     }
 
     const length: number = this.items.length;
-
     if (length !== other.length()) {
       return false;
     }
+
     for (let i: number = 0; i < length; i++) {
       if (!this.items[i].isSame(other.get(i))) {
         return false;

@@ -51,6 +51,92 @@ describe('StatsOutline', () => {
     });
   });
 
+  describe('isSame', () => {
+    it('returns true if all the properties are the same', () => {
+      const statsOutline1: StatsOutline = StatsOutline.from(
+        StatsID.of('d5d311b5-c09a-4f82-91e5-b7b55736120e'),
+        Language.from(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('LANGUAGE1'), ISO639.of('lang1')),
+        Region.from(RegionID.of(1), RegionName.of('region1'), ISO3166.of('REGION1')),
+        Term.DAILY,
+        StatsName.of('name1'),
+        StatsUnit.of('unit1'),
+        UpdatedAt.ofString('2000-01-01')
+      );
+      const statsOutline2: StatsOutline = StatsOutline.from(
+        StatsID.of('d5d311b5-c09a-4f82-91e5-b7b55736120f'),
+        Language.from(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('LANGUAGE1'), ISO639.of('lang1')),
+        Region.from(RegionID.of(1), RegionName.of('region1'), ISO3166.of('REGION1')),
+        Term.DAILY,
+        StatsName.of('name1'),
+        StatsUnit.of('unit1'),
+        UpdatedAt.ofString('2000-01-01')
+      );
+      const statsOutline3: StatsOutline = StatsOutline.from(
+        StatsID.of('d5d311b5-c09a-4f82-91e5-b7b55736120e'),
+        Language.from(LanguageID.of(2), LanguageName.of('language1'), LanguageName.of('LANGUAGE1'), ISO639.of('lang1')),
+        Region.from(RegionID.of(1), RegionName.of('region1'), ISO3166.of('REGION1')),
+        Term.DAILY,
+        StatsName.of('name1'),
+        StatsUnit.of('unit1'),
+        UpdatedAt.ofString('2000-01-01')
+      );
+      const statsOutline4: StatsOutline = StatsOutline.from(
+        StatsID.of('d5d311b5-c09a-4f82-91e5-b7b55736120e'),
+        Language.from(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('LANGUAGE1'), ISO639.of('lang1')),
+        Region.from(RegionID.of(2), RegionName.of('region1'), ISO3166.of('REGION1')),
+        Term.DAILY,
+        StatsName.of('name1'),
+        StatsUnit.of('unit1'),
+        UpdatedAt.ofString('2000-01-01')
+      );
+      const statsOutline5: StatsOutline = StatsOutline.from(
+        StatsID.of('d5d311b5-c09a-4f82-91e5-b7b55736120e'),
+        Language.from(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('LANGUAGE1'), ISO639.of('lang1')),
+        Region.from(RegionID.of(1), RegionName.of('region1'), ISO3166.of('REGION1')),
+        Term.WEEKLY,
+        StatsName.of('name1'),
+        StatsUnit.of('unit1'),
+        UpdatedAt.ofString('2000-01-01')
+      );
+      const statsOutline6: StatsOutline = StatsOutline.from(
+        StatsID.of('d5d311b5-c09a-4f82-91e5-b7b55736120e'),
+        Language.from(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('LANGUAGE1'), ISO639.of('lang1')),
+        Region.from(RegionID.of(1), RegionName.of('region1'), ISO3166.of('REGION1')),
+        Term.DAILY,
+        StatsName.of('name2'),
+        StatsUnit.of('unit1'),
+        UpdatedAt.ofString('2000-01-01')
+      );
+      const statsOutline7: StatsOutline = StatsOutline.from(
+        StatsID.of('d5d311b5-c09a-4f82-91e5-b7b55736120e'),
+        Language.from(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('LANGUAGE1'), ISO639.of('lang1')),
+        Region.from(RegionID.of(1), RegionName.of('region1'), ISO3166.of('REGION1')),
+        Term.DAILY,
+        StatsName.of('name1'),
+        StatsUnit.of('unit2'),
+        UpdatedAt.ofString('2000-01-01')
+      );
+      const statsOutline8: StatsOutline = StatsOutline.from(
+        StatsID.of('d5d311b5-c09a-4f82-91e5-b7b55736120e'),
+        Language.from(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('LANGUAGE1'), ISO639.of('lang1')),
+        Region.from(RegionID.of(1), RegionName.of('region1'), ISO3166.of('REGION1')),
+        Term.DAILY,
+        StatsName.of('name1'),
+        StatsUnit.of('unit1'),
+        UpdatedAt.ofString('2000-01-02')
+      );
+
+      expect(statsOutline1.isSame(statsOutline1)).toEqual(true);
+      expect(statsOutline1.isSame(statsOutline2)).toEqual(false);
+      expect(statsOutline1.isSame(statsOutline3)).toEqual(false);
+      expect(statsOutline1.isSame(statsOutline4)).toEqual(false);
+      expect(statsOutline1.isSame(statsOutline5)).toEqual(false);
+      expect(statsOutline1.isSame(statsOutline6)).toEqual(false);
+      expect(statsOutline1.isSame(statsOutline7)).toEqual(false);
+      expect(statsOutline1.isSame(statsOutline8)).toEqual(false);
+    });
+  });
+
   describe('toJSON', () => {
     it('normal case', () => {
       const statsID: StatsID = StatsID.of('bfb0ebff-fc8c-450e-9265-82fa4938ae94');
