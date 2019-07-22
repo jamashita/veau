@@ -257,7 +257,7 @@ describe('StatsItems', () => {
     });
   });
 
-  describe('isSame', () => {
+  describe('areSame', () => {
     it('returns true if all the properties are the same', () => {
       const statsItems1: StatsItems = StatsItems.from([
         StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([])),
@@ -298,16 +298,16 @@ describe('StatsItems', () => {
         StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([StatsValue.of(moment('2000-01-01'), 1)]))
       ]);
 
-      expect(statsItems1.isSame(statsItems1)).toEqual(true);
-      expect(statsItems1.isSame(statsItems2)).toEqual(false);
-      expect(statsItems1.isSame(statsItems3)).toEqual(false);
-      expect(statsItems1.isSame(statsItems4)).toEqual(false);
-      expect(statsItems1.isSame(statsItems5)).toEqual(true);
-      expect(statsItems1.isSame(statsItems6)).toEqual(false);
-      expect(statsItems1.isSame(statsItems7)).toEqual(false);
-      expect(statsItems1.isSame(statsItems8)).toEqual(false);
-      expect(statsItems1.isSame(statsItems9)).toEqual(false);
-      expect(statsItems1.isSame(statsItems10)).toEqual(false);
+      expect(statsItems1.areSame(statsItems1)).toEqual(true);
+      expect(statsItems1.areSame(statsItems2)).toEqual(false);
+      expect(statsItems1.areSame(statsItems3)).toEqual(false);
+      expect(statsItems1.areSame(statsItems4)).toEqual(false);
+      expect(statsItems1.areSame(statsItems5)).toEqual(true);
+      expect(statsItems1.areSame(statsItems6)).toEqual(false);
+      expect(statsItems1.areSame(statsItems7)).toEqual(false);
+      expect(statsItems1.areSame(statsItems8)).toEqual(false);
+      expect(statsItems1.areSame(statsItems9)).toEqual(false);
+      expect(statsItems1.areSame(statsItems10)).toEqual(false);
     });
   });
 

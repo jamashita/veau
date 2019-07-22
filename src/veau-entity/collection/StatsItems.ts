@@ -173,7 +173,7 @@ export class StatsItems {
     return true;
   }
 
-  public isSame(other: StatsItems): boolean {
+  public areSame(other: StatsItems): boolean {
     if (this === other) {
       return true;
     }

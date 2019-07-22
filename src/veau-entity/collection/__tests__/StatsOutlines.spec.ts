@@ -74,7 +74,7 @@ describe('StatsOutlines', () => {
     });
   });
 
-  describe('isSame', () => {
+  describe('areSame', () => {
     it('returns true if all the properties are the same', () => {
       const outlines1: StatsOutlines = StatsOutlines.from([
         StatsOutline.from(StatsID.of('stats id 1'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01')),
@@ -95,11 +95,11 @@ describe('StatsOutlines', () => {
         StatsOutline.from(StatsID.of('stats id 2'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'))
       ]);
 
-      expect(outlines1.isSame(outlines1)).toEqual(true);
-      expect(outlines1.isSame(outlines2)).toEqual(false);
-      expect(outlines1.isSame(outlines3)).toEqual(false);
-      expect(outlines1.isSame(outlines4)).toEqual(false);
-      expect(outlines1.isSame(outlines5)).toEqual(true);
+      expect(outlines1.areSame(outlines1)).toEqual(true);
+      expect(outlines1.areSame(outlines2)).toEqual(false);
+      expect(outlines1.areSame(outlines3)).toEqual(false);
+      expect(outlines1.areSame(outlines4)).toEqual(false);
+      expect(outlines1.areSame(outlines5)).toEqual(true);
     });
   });
 

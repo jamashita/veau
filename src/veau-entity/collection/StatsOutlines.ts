@@ -75,7 +75,7 @@ export class StatsOutlines {
     return true;
   }
 
-  public isSame(other: StatsOutlines): boolean {
+  public areSame(other: StatsOutlines): boolean {
     if (this === other) {
       return true;
     }
