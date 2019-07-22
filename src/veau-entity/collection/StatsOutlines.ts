@@ -65,8 +65,28 @@ export class StatsOutlines {
     if (length !== other.length()) {
       return false;
     }
+
     for (let i = 0; i < length; i++) {
       if (!this.outlines[i].equals(other.get(i))) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  public isSame(other: StatsOutlines): boolean {
+    if (this === other) {
+      return true;
+    }
+
+    const length: number = this.outlines.length;
+    if (length !== other.length()) {
+      return false;
+    }
+
+    for (let i = 0; i < length; i++) {
+      if (!this.outlines[i].isSame(other.get(i))) {
         return false;
       }
     }

@@ -74,6 +74,35 @@ describe('StatsOutlines', () => {
     });
   });
 
+  describe('isSame', () => {
+    it('returns true if all the properties are the same', () => {
+      const outlines1: StatsOutlines = StatsOutlines.from([
+        StatsOutline.from(StatsID.of('stats id 1'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01')),
+        StatsOutline.from(StatsID.of('stats id 2'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'))
+      ]);
+      const outlines2: StatsOutlines = StatsOutlines.from([
+        StatsOutline.from(StatsID.of('stats id 1'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'))
+      ]);
+      const outlines3: StatsOutlines = StatsOutlines.from([
+        StatsOutline.from(StatsID.of('stats id 2'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'))
+      ]);
+      const outlines4: StatsOutlines = StatsOutlines.from([
+        StatsOutline.from(StatsID.of('stats id 2'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01')),
+        StatsOutline.from(StatsID.of('stats id 1'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'))
+      ]);
+      const outlines5: StatsOutlines = StatsOutlines.from([
+        StatsOutline.from(StatsID.of('stats id 1'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01')),
+        StatsOutline.from(StatsID.of('stats id 2'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'))
+      ]);
+
+      expect(outlines1.isSame(outlines1)).toEqual(true);
+      expect(outlines1.isSame(outlines2)).toEqual(false);
+      expect(outlines1.isSame(outlines3)).toEqual(false);
+      expect(outlines1.isSame(outlines4)).toEqual(false);
+      expect(outlines1.isSame(outlines5)).toEqual(true);
+    });
+  });
+
   describe('toJSON', () => {
     it('normal case', () => {
       const outline1: StatsOutline = StatsOutline.from(StatsID.of('stats id 1'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
