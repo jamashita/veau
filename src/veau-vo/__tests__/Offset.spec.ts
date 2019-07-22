@@ -16,10 +16,10 @@ describe('Offset', () => {
   });
 
   describe('of', () => {
-    it('throws error when the argument is less than 1', () => {
+    it('throws error when the argument is less than 0', () => {
       expect(() => {
         Offset.of(0);
-      }).toThrow(RuntimeError);
+      }).not.toThrow(RuntimeError);
       expect(() => {
         Offset.of(-1);
       }).toThrow(RuntimeError);

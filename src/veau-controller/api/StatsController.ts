@@ -6,6 +6,7 @@ import { Stats, StatsJSON } from '../../veau-entity/Stats';
 import { NotFoundError } from '../../veau-error/NotFoundError';
 import { Type } from '../../veau-general/Type';
 import { StatsInteractor } from '../../veau-interactor/StatsInteractor';
+import { Page } from '../../veau-vo/Page';
 import { StatsID } from '../../veau-vo/StatsID';
 import { RequestSession } from '../RequestSession';
 
@@ -29,7 +30,7 @@ router.get('/page/:page(\\d+)', async (req: RequestSession, res: express.Respons
   }
 
   try {
-    const statsOutlines: StatsOutlines = await statsInteractor.findByVeauAccountID(req.user.getVeauAccountID(), page);
+    const statsOutlines: StatsOutlines = await statsInteractor.findByVeauAccountID(req.user.getVeauAccountID(), Page.of(page));
 
     res.status(OK).send(statsOutlines.toJSON());
   }

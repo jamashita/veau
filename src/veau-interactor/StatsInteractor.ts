@@ -7,14 +7,13 @@ import { ITransaction } from '../veau-general/MySQL/ITransaction';
 import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsQuery } from '../veau-query/StatsQuery';
 import { StatsUpdateTransaction } from '../veau-transaction/StatsUpdateTransaction';
+import { Page } from '../veau-vo/Page';
 import { StatsID } from '../veau-vo/StatsID';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
 
 const logger: log4js.Logger = log4js.getLogger();
 
 const statsQuery: StatsQuery = StatsQuery.getInstance();
-
-const LIMIT: number = 40;
 
 export class StatsInteractor {
   private static instance: StatsInteractor = new StatsInteractor();
@@ -44,11 +43,8 @@ export class StatsInteractor {
     }
   }
 
-  public findByVeauAccountID(veauAccountID: VeauAccountID, page: number): Promise<StatsOutlines> {
-    const limit: number = LIMIT;
-    const offset: number = (page - 1) * LIMIT;
-
-    return statsQuery.findByVeauAccountID(veauAccountID, limit, offset);
+  public findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Promise<StatsOutlines> {
+    return statsQuery.findByVeauAccountID(veauAccountID, page.getLimit(), page.getOffset());
   }
 
   public save(veauAccountID: VeauAccountID, stats: Stats): Promise<any> {

@@ -1,5 +1,9 @@
 import { RuntimeError } from '../veau-error/RuntimeError';
+import { Limit } from './Limit';
+import { Offset } from './Offset';
 import { ValueObject } from './ValueObject';
+
+const LIMIT: number = 40;
 
 export class Page extends ValueObject {
   private page: number;
@@ -19,6 +23,15 @@ export class Page extends ValueObject {
 
   public get(): number {
     return this.page;
+  }
+
+  public getLimit(): Limit {
+    return Limit.of(LIMIT);
+  }
+
+  public getOffset(): Offset {
+    const offset: number = (this.page - 1) * LIMIT;
+    return Offset.of(offset);
   }
 
   public equals(other: Page): boolean {

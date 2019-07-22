@@ -5,7 +5,7 @@ export class Offset extends ValueObject {
   private offset: number;
 
   public static of(offset: number): Offset {
-    if (offset <= 0) {
+    if (offset < 0) {
       throw new RuntimeError(`ILLEGAL OFFSET SPECIFIED ${offset}`);
     }
 
