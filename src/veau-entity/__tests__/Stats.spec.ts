@@ -75,6 +75,228 @@ describe('Stats', () => {
     });
   });
 
+  describe('isSame', () => {
+    it('returns true if all the properties are the same', () => {
+      const stats1: Stats = Stats.from(
+        StatsID.of('d5d311b5-c09a-4f82-91e5-b7b55736120e'),
+        Language.from(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
+        Region.from(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
+        Term.DAILY,
+        StatsName.of('name'),
+        StatsUnit.of('unit'),
+        UpdatedAt.ofString('2000-01-01'),
+        StatsItems.from([
+          StatsItem.from(
+            StatsItemID.of('30dd05bd-480f-4050-b8d4-5eec32ae11ed'),
+            StatsItemName.of('stats'),
+            StatsValues.of([])
+          )
+        ])
+      );
+      const stats2: Stats = Stats.from(
+        StatsID.of('f19bca43-511f-4d8c-bd12-af27bf0cd429'),
+        Language.from(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
+        Region.from(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
+        Term.DAILY,
+        StatsName.of('name'),
+        StatsUnit.of('unit'),
+        UpdatedAt.ofString('2000-01-01'),
+        StatsItems.from([
+          StatsItem.from(
+            StatsItemID.of('30dd05bd-480f-4050-b8d4-5eec32ae11ed'),
+            StatsItemName.of('stats'),
+            StatsValues.of([])
+          )
+        ])
+      );
+      const stats3: Stats = Stats.from(
+        StatsID.of('d5d311b5-c09a-4f82-91e5-b7b55736120e'),
+        Language.from(LanguageID.of(2), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
+        Region.from(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
+        Term.DAILY,
+        StatsName.of('name'),
+        StatsUnit.of('unit'),
+        UpdatedAt.ofString('2000-01-01'),
+        StatsItems.from([
+          StatsItem.from(
+            StatsItemID.of('30dd05bd-480f-4050-b8d4-5eec32ae11ed'),
+            StatsItemName.of('stats'),
+            StatsValues.of([])
+          )
+        ])
+      );
+      const stats4: Stats = Stats.from(
+        StatsID.of('d5d311b5-c09a-4f82-91e5-b7b55736120e'),
+        Language.from(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
+        Region.from(RegionID.of(2), RegionName.of('region'), ISO3166.of('REGION')),
+        Term.DAILY,
+        StatsName.of('name'),
+        StatsUnit.of('unit'),
+        UpdatedAt.ofString('2000-01-01'),
+        StatsItems.from([
+          StatsItem.from(
+            StatsItemID.of('30dd05bd-480f-4050-b8d4-5eec32ae11ed'),
+            StatsItemName.of('stats'),
+            StatsValues.of([])
+          )
+        ])
+      );
+      const stats5: Stats = Stats.from(
+        StatsID.of('d5d311b5-c09a-4f82-91e5-b7b55736120e'),
+        Language.from(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
+        Region.from(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
+        Term.WEEKLY,
+        StatsName.of('name'),
+        StatsUnit.of('unit'),
+        UpdatedAt.ofString('2000-01-01'),
+        StatsItems.from([
+          StatsItem.from(
+            StatsItemID.of('30dd05bd-480f-4050-b8d4-5eec32ae11ed'),
+            StatsItemName.of('stats'),
+            StatsValues.of([])
+          )
+        ])
+      );
+      const stats6: Stats = Stats.from(
+        StatsID.of('d5d311b5-c09a-4f82-91e5-b7b55736120e'),
+        Language.from(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
+        Region.from(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
+        Term.DAILY,
+        StatsName.of('namae'),
+        StatsUnit.of('unit'),
+        UpdatedAt.ofString('2000-01-01'),
+        StatsItems.from([
+          StatsItem.from(
+            StatsItemID.of('30dd05bd-480f-4050-b8d4-5eec32ae11ed'),
+            StatsItemName.of('stats'),
+            StatsValues.of([])
+          )
+        ])
+      );
+      const stats7: Stats = Stats.from(
+        StatsID.of('d5d311b5-c09a-4f82-91e5-b7b55736120e'),
+        Language.from(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
+        Region.from(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
+        Term.DAILY,
+        StatsName.of('name'),
+        StatsUnit.of('unito'),
+        UpdatedAt.ofString('2000-01-01'),
+        StatsItems.from([
+          StatsItem.from(
+            StatsItemID.of('30dd05bd-480f-4050-b8d4-5eec32ae11ed'),
+            StatsItemName.of('stats'),
+            StatsValues.of([])
+          )
+        ])
+      );
+      const stats8: Stats = Stats.from(
+        StatsID.of('d5d311b5-c09a-4f82-91e5-b7b55736120e'),
+        Language.from(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
+        Region.from(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
+        Term.DAILY,
+        StatsName.of('name'),
+        StatsUnit.of('unit'),
+        UpdatedAt.ofString('2000-01-02'),
+        StatsItems.from([
+          StatsItem.from(
+            StatsItemID.of('30dd05bd-480f-4050-b8d4-5eec32ae11ed'),
+            StatsItemName.of('stats'),
+            StatsValues.of([])
+          )
+        ])
+      );
+      const stats9: Stats = Stats.from(
+        StatsID.of('d5d311b5-c09a-4f82-91e5-b7b55736120e'),
+        Language.from(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
+        Region.from(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
+        Term.DAILY,
+        StatsName.of('name'),
+        StatsUnit.of('unit'),
+        UpdatedAt.ofString('2000-01-01'),
+        StatsItems.from([
+        ])
+      );
+      const stats10: Stats = Stats.from(
+        StatsID.of('d5d311b5-c09a-4f82-91e5-b7b55736120e'),
+        Language.from(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
+        Region.from(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
+        Term.DAILY,
+        StatsName.of('name'),
+        StatsUnit.of('unit'),
+        UpdatedAt.ofString('2000-01-01'),
+        StatsItems.from([
+          StatsItem.from(
+            StatsItemID.of('30dd05bd-480f-4050-b8d4-5eec32ae11ee'),
+            StatsItemName.of('stats'),
+            StatsValues.of([])
+          )
+        ])
+      );
+      const stats11: Stats = Stats.from(
+        StatsID.of('d5d311b5-c09a-4f82-91e5-b7b55736120e'),
+        Language.from(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
+        Region.from(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
+        Term.DAILY,
+        StatsName.of('name'),
+        StatsUnit.of('unit'),
+        UpdatedAt.ofString('2000-01-01'),
+        StatsItems.from([
+          StatsItem.from(
+            StatsItemID.of('30dd05bd-480f-4050-b8d4-5eec32ae11ed'),
+            StatsItemName.of('statsu'),
+            StatsValues.of([])
+          )
+        ])
+      );
+      const stats12: Stats = Stats.from(
+        StatsID.of('d5d311b5-c09a-4f82-91e5-b7b55736120e'),
+        Language.from(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
+        Region.from(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
+        Term.DAILY,
+        StatsName.of('name'),
+        StatsUnit.of('unit'),
+        UpdatedAt.ofString('2000-01-01'),
+        StatsItems.from([
+          StatsItem.from(
+            StatsItemID.of('30dd05bd-480f-4050-b8d4-5eec32ae11ed'),
+            StatsItemName.of('stats'),
+            StatsValues.of([StatsValue.of(moment('2000-01-03'), 2)])
+          )
+        ])
+      );
+      const stats13: Stats = Stats.from(
+        StatsID.of('d5d311b5-c09a-4f82-91e5-b7b55736120e'),
+        Language.from(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
+        Region.from(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
+        Term.DAILY,
+        StatsName.of('name'),
+        StatsUnit.of('unit'),
+        UpdatedAt.ofString('2000-01-01'),
+        StatsItems.from([
+          StatsItem.from(
+            StatsItemID.of('30dd05bd-480f-4050-b8d4-5eec32ae11ed'),
+            StatsItemName.of('stats'),
+            StatsValues.of([])
+          )
+        ])
+      );
+
+      expect(stats1.isSame(stats1)).toEqual(true);
+      expect(stats1.isSame(stats2)).toEqual(false);
+      expect(stats1.isSame(stats3)).toEqual(false);
+      expect(stats1.isSame(stats4)).toEqual(false);
+      expect(stats1.isSame(stats5)).toEqual(false);
+      expect(stats1.isSame(stats6)).toEqual(false);
+      expect(stats1.isSame(stats7)).toEqual(false);
+      expect(stats1.isSame(stats8)).toEqual(false);
+      expect(stats1.isSame(stats9)).toEqual(false);
+      expect(stats1.isSame(stats10)).toEqual(false);
+      expect(stats1.isSame(stats11)).toEqual(false);
+      expect(stats1.isSame(stats12)).toEqual(false);
+      expect(stats1.isSame(stats13)).toEqual(true);
+    });
+  });
+
   describe('toJSON', () => {
     it('normal case', () => {
       const statsID: StatsID = StatsID.of('bfb0ebff-fc8c-450e-9265-82fa4938ae94');

@@ -395,6 +395,35 @@ export class Stats extends Entity<StatsID> {
     this.items = this.items.remove(statsItem);
   }
 
+  public isSame(other: Stats): boolean {
+    if (!this.equals(other)) {
+      return false;
+    }
+    if (!this.language.equals(other.getLanguage())) {
+      return false;
+    }
+    if (!this.region.equals(other.getRegion())) {
+      return false;
+    }
+    if (this.term !== other.getTerm()) {
+      return false;
+    }
+    if (!this.name.equals(other.getName())) {
+      return false;
+    }
+    if (!this.unit.equals(other.getUnit())) {
+      return false;
+    }
+    if (!this.updatedAt.equals(other.getUpdatedAt())) {
+      return false;
+    }
+    if (!this.items.isSame(other.getItems())) {
+      return false;
+    }
+
+    return true;
+  }
+
   public copy(): Stats {
     const {
       statsID,
