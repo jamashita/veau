@@ -40,28 +40,13 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
       startDate
     } = this.state;
 
-    if (!stats.getLanguage().equals(nextProps.stats.getLanguage())) {
+    if (!stats.isSame(nextProps.stats)) {
       return true;
     }
-    if (!stats.getRegion().equals(nextProps.stats.getRegion())) {
+    if (!statsItem.isSame(nextProps.statsItem)) {
       return true;
     }
-    if (stats.getItems().length() !== nextProps.stats.getItems().length()) {
-      return true;
-    }
-    if (stats !== nextProps.stats) {
-      return true;
-    }
-    if (statsItem.getName() !== nextProps.statsItem.getName()) {
-      return true;
-    }
-    if (selectingItem !== nextProps.selectingItem) {
-      return true;
-    }
-    if (locale.getLanguages().length() !== nextProps.locale.getLanguages().length()) {
-      return true;
-    }
-    if (locale.getRegions().length() !== nextProps.locale.getRegions().length()) {
+    if (!locale.equals(nextProps.locale)) {
       return true;
     }
     if (openNewStatsItemModal !== nextState.openNewStatsItemModal) {
@@ -71,6 +56,20 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
       return true;
     }
     if (startDate !== nextState.startDate) {
+      return true;
+    }
+    if (selectingItem) {
+      if (nextProps.selectingItem) {
+        if (selectingItem.isSame(nextProps.selectingItem)) {
+          return false;
+        }
+
+        return true;
+      }
+
+      return true;
+    }
+    if (nextProps.selectingItem) {
       return true;
     }
 

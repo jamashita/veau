@@ -19,7 +19,18 @@ class StatsItemInformationImpl extends React.Component<Props & InjectedIntlProps
       selecting
     } = this.props;
 
-    if (selecting !== nextProps.selecting) {
+    if (selecting) {
+      if (nextProps.selecting) {
+        if (selecting.isSame(nextProps.selecting)) {
+          return false;
+        }
+
+        return true;
+      }
+
+      return true;
+    }
+    if (nextProps.selecting) {
       return true;
     }
 

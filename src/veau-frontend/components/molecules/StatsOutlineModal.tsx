@@ -48,25 +48,10 @@ class StatsOutlineModalImpl extends React.Component<Props & InjectedIntlProps, S
     if (open !== nextProps.open) {
       return true;
     }
-    if (!stats.getName().equals(nextProps.stats.getName())) {
+    if (!stats.isSame(nextProps.stats)) {
       return true;
     }
-    if (!stats.getUnit().equals(nextProps.stats.getUnit())) {
-      return true;
-    }
-    if (!stats.getLanguage().equals(nextProps.stats.getLanguage())) {
-      return true;
-    }
-    if (!stats.getRegion().equals(nextProps.stats.getRegion())) {
-      return true;
-    }
-    if (stats.getTerm() !== nextProps.stats.getTerm()) {
-      return true;
-    }
-    if (locale.getLanguages().length() !== nextProps.locale.getLanguages().length()) {
-      return true;
-    }
-    if (locale.getRegions().length() !== nextProps.locale.getRegions().length()) {
+    if (!locale.equals(nextProps.locale)) {
       return true;
     }
 

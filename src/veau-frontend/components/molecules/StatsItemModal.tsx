@@ -25,7 +25,7 @@ class StatsItemModalImpl extends React.Component<Props & InjectedIntlProps, Stat
     if (open !== nextProps.open) {
       return true;
     }
-    if (statsItem.getName() !== nextProps.statsItem.getName()) {
+    if (!statsItem.isSame(nextProps.statsItem)) {
       return true;
     }
 

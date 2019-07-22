@@ -20,27 +20,11 @@ export class Chart extends React.Component<Props, State> {
       stats
     } = this.props;
 
-    if (stats.getItems().length() !== nextProps.stats.getItems().length()) {
-      return true;
-    }
-    for (let i: number = 0; i < stats.getItems().length(); i++) {
-      if (stats.getItems().get(i).getName() !== nextProps.stats.getItems().get(i).getName()) {
-        return true;
-      }
-      if (stats.getItems().get(i).getValues().length() !== nextProps.stats.getItems().get(i).getValues().length()) {
-        return true;
-      }
-      for (let j: number = 0; j < stats.getItems().get(i).getValues().length(); j++) {
-        if (!stats.getItems().get(i).getValues().get(j).getAsOf().isSame(nextProps.stats.getItems().get(i).getValues().get(j).getAsOf())) {
-          return true;
-        }
-        if (stats.getItems().get(i).getValues().get(j).getValue() !== nextProps.stats.getItems().get(i).getValues().get(j).getValue()) {
-          return true;
-        }
-      }
+    if (stats.isSame(nextProps.stats)) {
+      return false;
     }
 
-    return false;
+    return true;
   }
 
   public render(): React.ReactNode {

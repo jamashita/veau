@@ -19,52 +19,16 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
       locale
     } = this.props;
 
-    const length: number = statsOutlines.length();
-    if (length !== nextProps.statsOutlines.length()) {
+    if (!statsOutlines.areSame(nextProps.statsOutlines)) {
       return true;
-    }
-    for (let i: number = 0; i < length; i++) {
-      if (!statsOutlines.get(i).getName().equals(nextProps.statsOutlines.get(i).getName())) {
-        return true;
-      }
-      if (!statsOutlines.get(i).getUnit().equals(nextProps.statsOutlines.get(i).getUnit())) {
-        return true;
-      }
-      if (!statsOutlines.get(i).getLanguage().equals(nextProps.statsOutlines.get(i).getLanguage())) {
-        return true;
-      }
-      if (!statsOutlines.get(i).getRegion().equals(nextProps.statsOutlines.get(i).getRegion())) {
-        return true;
-      }
-      if (statsOutlines.get(i).getTerm() !== nextProps.statsOutlines.get(i).getTerm()) {
-        return true;
-      }
-      if (!statsOutlines.get(i).getUpdatedAt().equals(nextProps.statsOutlines.get(i).getUpdatedAt())) {
-        return true;
-      }
     }
     if (open !== nextProps.open) {
       return true;
     }
-    if (!stats.getName().equals(nextProps.stats.getName())) {
+    if (!stats.isSame(nextProps.stats)) {
       return true;
     }
-    if (!stats.getUnit().equals(nextProps.stats.getUnit())) {
-      return true;
-    }
-    if (!stats.getLanguage().equals(nextProps.stats.getLanguage())) {
-      return true;
-    }
-    if (!stats.getRegion().equals(nextProps.stats.getRegion())) {
-      return true;
-    }
-    if (stats.getTerm() !== nextProps.stats.getTerm()) {
-      return true;
-    }
-    if (locale.getLanguages().length() !== nextProps.locale.getLanguages().length()) {
-      return true;
-    }
-    if (locale.getRegions().length() !== nextProps.locale.getRegions().length()) {
+    if (!locale.equals(nextProps.locale)) {
       return true;
     }
 

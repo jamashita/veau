@@ -19,17 +19,11 @@ class StatsOutlineListTableImpl extends React.Component<Props & InjectedIntlProp
       statsOutlines
     } = this.props;
 
-    const length: number = statsOutlines.length();
-    if (length !== nextProps.statsOutlines.length()) {
-      return true;
-    }
-    for (let i: number = 0; i < length; i++) {
-      if (!statsOutlines.get(i).getName().equals(nextProps.statsOutlines.get(i).getName())) {
-        return true;
-      }
+    if (statsOutlines.areSame(nextProps.statsOutlines)) {
+      return false;
     }
 
-    return false;
+    return true;
   }
 
   public render(): React.ReactNode {
