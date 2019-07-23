@@ -60,7 +60,7 @@ describe('StatsItem', () => {
   });
 
   describe('getAdOfs', () => {
-    it('extract only their asOfs', () => {
+    it('extracts only their asOfs', () => {
       const asOf1: moment.Moment = moment('2000-01-01');
       const asOf2: moment.Moment = moment('2000-01-03');
       const statsItem: StatsItem = StatsItem.from(StatsItemID.of('0816ef5e-752d-41ad-b52a-95b1f16e3bbd'), StatsItemName.of('name 1'), StatsValues.of(
