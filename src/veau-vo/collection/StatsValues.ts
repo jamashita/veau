@@ -90,6 +90,12 @@ export class StatsValues {
     return this.values.map<U>(func);
   }
 
+  public getValues(): Array<number> {
+    return this.values.map<number>((value: StatsValue): number => {
+      return value.getValue();
+    });
+  }
+
   public getAsOfs(): Array<moment.Moment> {
     return this.values.map<moment.Moment>((value: StatsValue): moment.Moment => {
       return value.getAsOf();

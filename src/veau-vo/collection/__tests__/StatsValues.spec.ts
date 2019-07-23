@@ -59,6 +59,22 @@ describe('StatsValues', () => {
     });
   });
 
+  describe('getValues', () => {
+    it('extracts only their values', () => {
+      const value1: number = 1;
+      const value2: number = 3;
+      const statsValues: StatsValues = StatsValues.of([
+        StatsValue.of(moment('2000-01-01'), value1),
+        StatsValue.of(moment('2000-01-03'), value2)
+      ]);
+
+      expect(statsValues.getValues()).toEqual([
+        value1,
+        value2
+      ]);
+    });
+  });
+
   describe('getAdOfs', () => {
     it('extracts only their asOfs', () => {
       const asOf1: moment.Moment = moment('2000-01-01');
