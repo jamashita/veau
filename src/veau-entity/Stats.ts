@@ -288,11 +288,7 @@ export class Stats extends Entity<StatsID> {
   }
 
   public getRowHeaderSize(): number {
-    const chars: Array<number> = this.items.map<number>((item: StatsItem): number => {
-      return item.getName().length();
-    });
-
-    return Math.max(...chars) * REVISED_VALUE;
+    return this.items.maxNameLength() * REVISED_VALUE;
   }
 
   public getData(): Array<Array<string>> {
