@@ -59,6 +59,22 @@ describe('StatsValues', () => {
     });
   });
 
+  describe('getAdOfs', () => {
+    it('extracts only their asOfs', () => {
+      const asOf1: moment.Moment = moment('2000-01-01');
+      const asOf2: moment.Moment = moment('2000-01-03');
+      const statsValues: StatsValues = StatsValues.of([
+        StatsValue.of(asOf1, 1),
+        StatsValue.of(asOf2, 3)
+      ]);
+
+      expect(statsValues.getAsOfs()).toEqual([
+        asOf1,
+        asOf2
+      ]);
+    });
+  });
+
   describe('equals', () => {
     it('returns true if the elements and their order are the same', () => {
       const statsValue1: StatsValue = StatsValue.of(moment('2000-01-01'), 1);

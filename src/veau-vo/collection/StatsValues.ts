@@ -90,8 +90,10 @@ export class StatsValues {
     return this.values.map<U>(func);
   }
 
-  public filter(predicate: (statsValue: StatsValue, index: number) => boolean): StatsValues {
-    return new StatsValues(this.values.filter(predicate));
+  public getAsOfs(): Array<moment.Moment> {
+    return this.values.map<moment.Moment>((value: StatsValue): moment.Moment => {
+      return value.getAsOf();
+    });
   }
 
   public copy(): StatsValues {
