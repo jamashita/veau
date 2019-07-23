@@ -76,7 +76,7 @@ describe('StatsUpdateTransaction', () => {
         items
       );
 
-      const statsUpdateTransaction: StatsUpdateTransaction = StatsUpdateTransaction.getInstance(VeauAccountID.of('601d14d4-fe47-445c-a6aa-6427776ecd85'), stats);
+      const statsUpdateTransaction: StatsUpdateTransaction = StatsUpdateTransaction.getInstance(stats, VeauAccountID.of('601d14d4-fe47-445c-a6aa-6427776ecd85'));
       const query: IQuery = new QueryMock();
       await statsUpdateTransaction.with(query);
 

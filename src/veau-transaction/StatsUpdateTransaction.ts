@@ -10,16 +10,16 @@ import { StatsValue } from '../veau-vo/StatsValue';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
 
 export class StatsUpdateTransaction implements ITransaction {
-  private veauAccountID: VeauAccountID;
   private stats: Stats;
+  private veauAccountID: VeauAccountID;
 
-  public static getInstance(veauAccountID: VeauAccountID, stats: Stats): StatsUpdateTransaction {
-    return new StatsUpdateTransaction(veauAccountID, stats);
+  public static getInstance(stats: Stats, veauAccountID: VeauAccountID): StatsUpdateTransaction {
+    return new StatsUpdateTransaction(stats, veauAccountID);
   }
 
-  private constructor(veauAccountID: VeauAccountID, stats: Stats) {
-    this.veauAccountID = veauAccountID;
+  private constructor(stats: Stats, veauAccountID: VeauAccountID) {
     this.stats = stats;
+    this.veauAccountID = veauAccountID;
   }
 
   public async with(query: IQuery): Promise<any> {
@@ -28,8 +28,8 @@ export class StatsUpdateTransaction implements ITransaction {
     const statsValueCommand: StatsValueCommand = StatsValueCommand.getInstance(query);
 
     const {
-      veauAccountID,
-      stats
+      stats,
+      veauAccountID
     } = this;
 
     const statsID: StatsID = stats.getStatsID();

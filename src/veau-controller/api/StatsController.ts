@@ -170,7 +170,7 @@ router.post('/', async (req: RequestSession, res: express.Response): Promise<any
   const stats: Stats = Stats.fromJSON(json);
 
   try {
-    await statsInteractor.save(req.user.getVeauAccountID(), stats);
+    await statsInteractor.save(stats, req.user.getVeauAccountID());
     res.sendStatus(CREATED);
   }
   catch (err) {

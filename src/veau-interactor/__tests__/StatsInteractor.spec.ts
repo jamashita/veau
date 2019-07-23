@@ -161,7 +161,7 @@ describe('StatsInteractor', () => {
       MySQL.prototype.transact = spy;
 
       const statsInteractor: StatsInteractor = StatsInteractor.getInstance();
-      await statsInteractor.save(VeauAccountID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2'), stats);
+      await statsInteractor.save(stats, VeauAccountID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2'));
 
       expect(spy.called).toEqual(true);
     });
