@@ -22,9 +22,6 @@ addLocaleData([
 ]);
 
 const muiTheme: Theme = createMuiTheme({
-  typography: {
-    useNextVariants: true
-  },
   palette: {
     primary: {
       light: pink[100],
