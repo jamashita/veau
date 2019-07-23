@@ -72,7 +72,6 @@ export class IdentitySaga {
         }
         catch (err2) {
           yield put(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
-          return;
         }
       }
     }
