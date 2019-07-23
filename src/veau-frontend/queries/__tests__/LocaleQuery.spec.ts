@@ -12,12 +12,11 @@ import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
 import { LocaleQuery } from '../LocaleQuery';
 
-const stub: SinonStub = sinon.stub();
-AJAX.get = stub;
-
 describe('LocaleQuery', () => {
   describe('all', () => {
     it('normal case', async () => {
+      const stub: SinonStub = sinon.stub();
+      AJAX.get = stub;
       stub.resolves({
         status: OK,
         body: {
@@ -55,6 +54,8 @@ describe('LocaleQuery', () => {
     });
 
     it('does\'t return OK', () => {
+      const stub: SinonStub = sinon.stub();
+      AJAX.get = stub;
       stub.resolves({
         status: INTERNAL_SERVER_ERROR,
         body: {
@@ -67,6 +68,8 @@ describe('LocaleQuery', () => {
     });
 
     it('already has locale in memory', async () => {
+      const stub: SinonStub = sinon.stub();
+      AJAX.get = stub;
       stub.resolves({
         status: OK,
         body: {
@@ -82,12 +85,13 @@ describe('LocaleQuery', () => {
       const locale2: Locale = await localeQuery.all();
 
       expect(locale1).toEqual(locale2);
-      expect(stub.callCount).toEqual(1);
     });
   });
 
   describe('findByISO639', () => {
     it('normal case', async () => {
+      const stub: SinonStub = sinon.stub();
+      AJAX.get = stub;
       stub.resolves({
         status: OK,
         body: {
@@ -119,6 +123,8 @@ describe('LocaleQuery', () => {
     });
 
     it('could\'t find the language', () => {
+      const stub: SinonStub = sinon.stub();
+      AJAX.get = stub;
       stub.resolves({
         status: OK,
         body: {
@@ -148,6 +154,8 @@ describe('LocaleQuery', () => {
 
   describe('findByISO3166', () => {
     it('normal case', async () => {
+      const stub: SinonStub = sinon.stub();
+      AJAX.get = stub;
       stub.resolves({
         status: OK,
         body: {
@@ -178,6 +186,8 @@ describe('LocaleQuery', () => {
     });
 
     it('could\'t find the region', () => {
+      const stub: SinonStub = sinon.stub();
+      AJAX.get = stub;
       stub.resolves({
         status: OK,
         body: {
