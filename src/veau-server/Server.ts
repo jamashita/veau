@@ -35,7 +35,14 @@ app.use(express.static(path.resolve(__dirname, 'public')));
 app.use(favicon(path.resolve(__dirname, 'favicon.ico')));
 app.use(log4js.connectLogger(logger, {
   level: 'info',
-  nolog: ['\\.css', '\\.js', '\\.jpeg', '\\.png', '\\.ttf', '\\.ico'],
+  nolog: [
+    '\\.css',
+    '\\.js',
+    '\\.jpeg',
+    '\\.png',
+    '\\.ttf',
+    '\\.ico'
+  ],
   format: ':method :url :status'
 }));
 

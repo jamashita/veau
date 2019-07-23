@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 module.exports = {
   apps: [
     {
@@ -6,7 +8,7 @@ module.exports = {
       output: 'logs/output.log',
       error: 'logs/error.log',
       exec_mode: 'cluster',
-      instances: 'max',
+      instances: 'max'
     }
   ]
 };

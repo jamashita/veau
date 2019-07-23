@@ -12,7 +12,11 @@ module.exports = {
     publicPath: '/js/'
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js']
+    extensions: [
+      '.ts',
+      '.tsx',
+      '.js'
+    ]
   },
   mode: 'development',
   devtool: 'inline-source-map',
