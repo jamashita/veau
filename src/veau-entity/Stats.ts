@@ -305,13 +305,16 @@ export class Stats extends Entity<StatsID> {
   public setData(row: number, column: number, value: number): void {
     const asOfString: string = this.getColumns()[column];
     const asOf: moment.Moment = moment(asOfString);
-    this.items.get(row).setValue(asOf, value);
+    const statsValue: StatsValue = StatsValue.of(asOf, value);
+
+    this.items.get(row).setValue(statsValue);
     this.recalculateColumns();
   }
 
   public deleteData(row: number, column: number): void {
     const asOfString: string = this.getColumns()[column];
     const asOf: moment.Moment = moment(asOfString);
+
     this.items.get(row).delete(asOf);
     this.recalculateColumns();
   }

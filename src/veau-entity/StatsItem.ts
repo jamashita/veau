@@ -100,8 +100,7 @@ export class StatsItem extends Entity<StatsItemID> {
     return valuesByColumn;
   }
 
-  public setValue(asOf: moment.Moment, value: number): void {
-    const statsValue: StatsValue = StatsValue.of(asOf, value);
+  public setValue(statsValue: StatsValue): void {
     this.values = this.values.set(statsValue);
   }
 
@@ -110,11 +109,7 @@ export class StatsItem extends Entity<StatsItemID> {
   }
 
   public isFilled(): boolean {
-    const {
-      name
-    } = this;
-
-    if (name.equals(StatsItemName.default())) {
+    if (this.name.equals(StatsItemName.default())) {
       return false;
     }
 
@@ -176,9 +171,10 @@ export class StatsItem extends Entity<StatsItemID> {
   public toString(): string {
     const {
       statsItemID,
-      name
+      name,
+      values
     } = this;
 
-    return `${statsItemID.toString()} ${name.toString()}`;
+    return `${statsItemID.toString()} ${name.toString()} ${values.toString()}`;
   }
 }
