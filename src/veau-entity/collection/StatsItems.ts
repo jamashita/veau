@@ -160,7 +160,6 @@ export class StatsItems {
     }
 
     const length: number = this.items.length;
-
     if (length !== other.length()) {
       return false;
     }
