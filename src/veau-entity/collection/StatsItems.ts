@@ -134,13 +134,7 @@ export class StatsItems {
       return false;
     }
 
-    const rowLengths: Array<number> = items.map<number>((item: StatsItem): number => {
-      return item.getValues().length();
-    });
-
-    const values: number = Math.max(...rowLengths);
-
-    if (values === 0) {
+    if (this.maxNameLength() === 0) {
       return false;
     }
 
