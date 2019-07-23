@@ -111,10 +111,6 @@ export class StatsItems {
     this.items.forEach(consumer);
   }
 
-  public map<U>(func: (statsItem: StatsItem, index: number) => U): Array<U> {
-    return this.items.map<U>(func);
-  }
-
   public areFilled(): boolean {
     return this.items.every((statsItem: StatsItem): boolean => {
       if (statsItem.isFilled()) {

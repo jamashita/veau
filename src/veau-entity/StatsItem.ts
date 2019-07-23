@@ -76,17 +76,17 @@ export class StatsItem extends Entity<StatsItemID> {
     return this.values.getAsOfs();
   }
 
-  public getValuesByColumn(column: Array<string>): Array<string> {
+  public getValuesByColumn(columns: Array<string>): Array<string> {
     const valuesByColumn: Array<string> = [];
 
-    column.forEach((term: string): void => {
+    columns.forEach((column: string): void => {
       let alreadyInput: boolean = false;
 
       this.values.forEach((statsValue: StatsValue): void => {
         if (alreadyInput) {
           return;
         }
-        if (term === statsValue.getAsOfAsString()) {
+        if (column === statsValue.getAsOfAsString()) {
           valuesByColumn.push(statsValue.getValue().toString());
           alreadyInput = true;
           return;

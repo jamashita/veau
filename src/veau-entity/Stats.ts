@@ -282,8 +282,8 @@ export class Stats extends Entity<StatsID> {
   }
 
   public getRows(): Array<string> {
-    return this.items.map<string>((item: StatsItem): string => {
-      return item.getName().get();
+    return this.items.getNames().map<string>((name: StatsItemName): string => {
+      return name.get();
     });
   }
 
@@ -292,9 +292,14 @@ export class Stats extends Entity<StatsID> {
   }
 
   public getData(): Array<Array<string>> {
-    return this.items.map((item: StatsItem): Array<string> => {
-      return item.getValuesByColumn(this.getColumns());
+    const data: Array<Array<string>> = [];
+    const columns: Array<string> = this.getColumns();
+
+    this.items.forEach((item: StatsItem): void => {
+      data.push(item.getValuesByColumn(columns));
     });
+
+    return data;
   }
 
   public setData(row: number, column: number, value: number): void {
