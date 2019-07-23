@@ -38,16 +38,8 @@ export class StatsOutlines {
     return this.outlines.length;
   }
 
-  public forEach(consumer: (outline: StatsOutline, index: number) => void): void {
-    this.outlines.forEach(consumer);
-  }
-
   public map<U>(func: (outline: StatsOutline, index: number) => U): Array<U> {
     return this.outlines.map<U>(func);
-  }
-
-  public filter(predicate: (outline: StatsOutline, index: number) => boolean): StatsOutlines {
-    return new StatsOutlines(this.outlines.filter(predicate));
   }
 
   public copy(): StatsOutlines {
