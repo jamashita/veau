@@ -51,6 +51,14 @@ export class StatsItems {
     }).flat();
   }
 
+  public maxNameLength(): number {
+    const lengths: Array<number> = this.items.map<number>((item: StatsItem): number => {
+      return item.getName().length();
+    });
+
+    return Math.max(...lengths);
+  }
+
   public move(from: number, to: number): StatsItems {
     const {
       items
@@ -105,10 +113,6 @@ export class StatsItems {
 
   public map<U>(func: (statsItem: StatsItem, index: number) => U): Array<U> {
     return this.items.map<U>(func);
-  }
-
-  public filter(predicate: (statsItem: StatsItem, index: number) => boolean): StatsItems {
-    return new StatsItems(this.items.filter(predicate));
   }
 
   public areFilled(): boolean {

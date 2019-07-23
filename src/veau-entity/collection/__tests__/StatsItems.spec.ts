@@ -136,6 +136,21 @@ describe('StatsItems', () => {
     });
   });
 
+  describe('maxNameLength', () => {
+    it('normal case', () => {
+      const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
+      const statsItem2: StatsItem = StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 11'), StatsValues.of([]));
+      const statsItem3: StatsItem = StatsItem.from(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 111'), StatsValues.of([]));
+      const statsItems: StatsItems = StatsItems.from([
+        statsItem1,
+        statsItem2,
+        statsItem3
+      ]);
+
+      expect(statsItems.maxNameLength()).toEqual('stats item 111'.length);
+    });
+  });
+
   describe('areFilled', () => {
     it('returns true if the all items are filled', () => {
       const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
