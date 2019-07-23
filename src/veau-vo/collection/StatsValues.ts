@@ -86,10 +86,6 @@ export class StatsValues {
     this.values.forEach(consumer);
   }
 
-  public map<U>(func: (statsValue: StatsValue, index: number) => U): Array<U> {
-    return this.values.map<U>(func);
-  }
-
   public getValues(): Array<number> {
     return this.values.map<number>((value: StatsValue): number => {
       return value.getValue();
