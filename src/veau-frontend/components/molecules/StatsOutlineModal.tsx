@@ -16,6 +16,7 @@ import { Locale } from '../../../veau-entity/aggregate/Locale';
 import { Language } from '../../../veau-entity/Language';
 import { Region } from '../../../veau-entity/Region';
 import { Stats } from '../../../veau-entity/Stats';
+import { Terms } from '../../../veau-enum/collection/Terms';
 import { Term } from '../../../veau-enum/Term';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
@@ -184,7 +185,7 @@ class StatsOutlineModalImpl extends React.Component<Props & InjectedIntlProps, S
                 termSelected(Term.of(termID));
               }}
             >
-              {Term.all().map<React.ReactNode>((term: Term): React.ReactNode => {
+              {Terms.all().map<React.ReactNode>((term: Term): React.ReactNode => {
                 const termID: number = term.getID();
 
                 return (

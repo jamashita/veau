@@ -39,16 +39,6 @@ export class Term {
     }
   }
 
-  public static all(): Array<Term> {
-    return [
-      Term.DAILY,
-      Term.WEEKLY,
-      Term.MONTHLY,
-      Term.QUARTERLY,
-      Term.ANNUAL
-    ];
-  }
-
   private constructor(id: number, key: string) {
     this.id = id;
     this.key = key;
