@@ -33,7 +33,7 @@ describe('StatsCommand', () => {
       });
 
       const stats: Stats = Stats.from(
-        StatsID.of('stats id'),
+        StatsID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87'),
         Language.from(LanguageID.of(3), LanguageName.of('language name 1'), LanguageName.of('language name 2'), ISO639.of('aa')),
         Region.from(RegionID.of(4), RegionName.of('region name 5'), ISO3166.of('bb')),
         Term.DAILY,
@@ -46,7 +46,7 @@ describe('StatsCommand', () => {
       const statsCommand: StatsCommand = StatsCommand.getInstance();
       expect(statsCommand.create(stats)).resolves.toEqual(undefined);
       expect(stub.withArgs('/api/stats', {
-        statsID: 'stats id',
+        statsID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
         language: {
           languageID: 3,
           name: 'language name 1',
@@ -77,7 +77,7 @@ describe('StatsCommand', () => {
       });
 
       const stats: Stats = Stats.from(
-        StatsID.of('stats id'),
+        StatsID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87'),
         Language.from(LanguageID.of(3), LanguageName.of('language name 1'), LanguageName.of('language name 2'), ISO639.of('aa')),
         Region.from(RegionID.of(4), RegionName.of('region name 5'), ISO3166.of('bb')),
         Term.DAILY,

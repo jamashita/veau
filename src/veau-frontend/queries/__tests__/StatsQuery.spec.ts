@@ -18,7 +18,7 @@ describe('StatsQuery', () => {
       stub.resolves({
         status: OK,
         body: {
-          statsID: 'abcde',
+          statsID: 'f6fb9662-cbe8-4a91-8aa4-47a92f05b007',
           language: {
             languageID: 1,
             name: 'language',
@@ -39,12 +39,12 @@ describe('StatsQuery', () => {
         }
       });
 
-      const statsID: StatsID = StatsID.of('abcde');
+      const statsID: StatsID = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
       const statsQuery: StatsQuery = StatsQuery.getInstance();
       const stats: Stats = await statsQuery.findByStatsID(statsID);
 
-      expect(stub.withArgs('/api/stats/abcde').called).toEqual(true);
-      expect(stats.getStatsID().get()).toEqual('abcde');
+      expect(stub.withArgs('/api/stats/f6fb9662-cbe8-4a91-8aa4-47a92f05b007').called).toEqual(true);
+      expect(stats.getStatsID().get()).toEqual('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
       expect(stats.getLanguage().getLanguageID().get()).toEqual(1);
       expect(stats.getRegion().getRegionID().get()).toEqual(2);
       expect(stats.getTerm().getID()).toEqual(3);
@@ -60,7 +60,7 @@ describe('StatsQuery', () => {
         }
       });
 
-      const statsID: StatsID = StatsID.of('abcde');
+      const statsID: StatsID = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
       const statsQuery: StatsQuery = StatsQuery.getInstance();
 
       expect(statsQuery.findByStatsID(statsID)).rejects.toThrow(NotFoundError);
@@ -75,7 +75,7 @@ describe('StatsQuery', () => {
         }
       });
 
-      const statsID: StatsID = StatsID.of('abcde');
+      const statsID: StatsID = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
       const statsQuery: StatsQuery = StatsQuery.getInstance();
 
       expect(statsQuery.findByStatsID(statsID)).rejects.toThrow(AJAXError);
@@ -90,7 +90,7 @@ describe('StatsQuery', () => {
         status: OK,
         body: [
           {
-            statsID: 'abcde',
+            statsID: 'f6fb9662-cbe8-4a91-8aa4-47a92f05b007',
             language: {
               languageID: 1,
               name: 'language',
@@ -115,7 +115,7 @@ describe('StatsQuery', () => {
 
       expect(stub.withArgs('/api/stats/page/3').called).toEqual(true);
       expect(outlines.length()).toEqual(1);
-      expect(outlines.get(0).getStatsID().get()).toEqual('abcde');
+      expect(outlines.get(0).getStatsID().get()).toEqual('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
       expect(outlines.get(0).getLanguage().getLanguageID().get()).toEqual(1);
       expect(outlines.get(0).getRegion().getRegionID().get()).toEqual(2);
       expect(outlines.get(0).getTerm().getID()).toEqual(3);

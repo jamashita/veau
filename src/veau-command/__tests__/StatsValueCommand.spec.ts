@@ -16,7 +16,7 @@ describe('StatsValueCommand', () => {
       QueryMock.prototype.execute = stub;
 
       const query: IQuery = new QueryMock();
-      const statsItemID: StatsItemID = StatsItemID.of('stats item id');
+      const statsItemID: StatsItemID = StatsItemID.of('6c3f54e0-bfe5-4b4b-9227-2175604ab739');
       const statsValue: StatsValue = StatsValue.of(moment('2000-01-01'), 1);
 
       const statsValueCommand: StatsValueCommand = StatsValueCommand.getInstance(query);
@@ -28,7 +28,7 @@ describe('StatsValueCommand', () => {
       :asOf,
       :value
       );`, {
-        statsItemID: 'stats item id',
+        statsItemID: '6c3f54e0-bfe5-4b4b-9227-2175604ab739',
         asOf: '2000-01-01',
         value: 1
       }).called).toEqual(true);
@@ -41,7 +41,7 @@ describe('StatsValueCommand', () => {
       QueryMock.prototype.execute = stub;
 
       const query: IQuery = new QueryMock();
-      const statsID: StatsID = StatsID.of('stats id');
+      const statsID: StatsID = StatsID.of('59915b56-b930-426c-a146-3b1dde8054cd');
 
       const statsValueCommand: StatsValueCommand = StatsValueCommand.getInstance(query);
 
@@ -54,7 +54,7 @@ describe('StatsValueCommand', () => {
       INNER JOIN stats R3
       USING(stats_id)
       WHERE R3.stats_id = :statsID;`, {
-        statsID: 'stats id'
+        statsID: '59915b56-b930-426c-a146-3b1dde8054cd'
       }).called).toEqual(true);
     });
   });

@@ -330,12 +330,12 @@ describe('StatsItems', () => {
     it('normal case', () => {
       const json: Array<StatsItemJSON> = [
         {
-          statsItemID: 'item id 1',
+          statsItemID: 'b1524ae3-8e91-4938-9997-579ef7b84602',
           name: 'stats name 1',
           values: []
         },
         {
-          statsItemID: 'item id 2',
+          statsItemID: '1f0719d6-6512-43b3-93f9-2a92bcb51e32',
           name: 'stats name 2',
           values: []
         }

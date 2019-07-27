@@ -1,10 +1,16 @@
+import { RuntimeError } from '../veau-error/RuntimeError';
+import { UUID } from '../veau-general/UUID';
 import { ValueObject } from './ValueObject';
 
 export class StatsID extends ValueObject {
   private id: string;
 
   public static of(id: string): StatsID {
-    return new StatsID(id);
+    if (id.length === UUID.size()) {
+      return new StatsID(id);
+    }
+
+    throw new RuntimeError(`StatsID requires ${UUID.size()} LENGTH`);
   }
 
   private constructor(id: string) {

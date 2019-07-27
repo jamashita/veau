@@ -692,7 +692,7 @@ describe('Stats', () => {
             ]
           },
           {
-            statsItemID: '',
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
             name: 'stats item2',
             values: [
               {

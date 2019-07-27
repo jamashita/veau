@@ -29,7 +29,7 @@ describe('StatsCommand', () => {
 
       const query: IQuery = new QueryMock();
       const stats: Stats = Stats.from(
-        StatsID.of('stats id'),
+        StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007'),
         Language.from(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('language 2'), ISO639.of('aa')),
         Region.from(RegionID.of(2), RegionName.of('region 3'), ISO3166.of('abc')),
         Term.DAILY,
@@ -38,7 +38,7 @@ describe('StatsCommand', () => {
         UpdatedAt.ofString('2000-01-01'),
         StatsItems.from([])
       );
-      const accountID: VeauAccountID = VeauAccountID.of('account');
+      const accountID: VeauAccountID = VeauAccountID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87');
 
       const statsCommand: StatsCommand = StatsCommand.getInstance(query);
 
@@ -54,11 +54,11 @@ describe('StatsCommand', () => {
       :unit,
       UTC_TIMESTAMP()
       );`, {
-        statsID: 'stats id',
+        statsID: 'f6fb9662-cbe8-4a91-8aa4-47a92f05b007',
         languageID: 1,
         regionID: 2,
         termID: 1,
-        veauAccountID: 'account',
+        veauAccountID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
         name: 'stats name',
         unit: 'stats unit'
       }).called).toEqual(true);
@@ -71,7 +71,7 @@ describe('StatsCommand', () => {
       QueryMock.prototype.execute = stub;
 
       const query: IQuery = new QueryMock();
-      const statsID: StatsID = StatsID.of('stats id');
+      const statsID: StatsID = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
 
       const statsCommand: StatsCommand = StatsCommand.getInstance(query);
 
@@ -80,7 +80,7 @@ describe('StatsCommand', () => {
       expect(stub.withArgs(`DELETE R1
       FROM stats R1
       WHERE R1.stats_id = :statsID;`, {
-        statsID: 'stats id'
+        statsID: 'f6fb9662-cbe8-4a91-8aa4-47a92f05b007'
       }).called).toEqual(true);
     });
   });

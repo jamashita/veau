@@ -17,9 +17,9 @@ describe('StatsItemCommand', () => {
       QueryMock.prototype.execute = stub;
 
       const query: IQuery = new QueryMock();
-      const statsID: StatsID = StatsID.of('stats id');
+      const statsID: StatsID = StatsID.of('59915b56-b930-426c-a146-3b1dde8054cd');
       const statsItem: StatsItem = StatsItem.from(
-        StatsItemID.of('stats item id'),
+        StatsItemID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007'),
         StatsItemName.of('stats item name'),
         StatsValues.of([])
       );
@@ -34,8 +34,8 @@ describe('StatsItemCommand', () => {
       :name,
       :seq
       );`, {
-        statsItemID: 'stats item id',
-        statsID: 'stats id',
+        statsItemID: 'f6fb9662-cbe8-4a91-8aa4-47a92f05b007',
+        statsID: '59915b56-b930-426c-a146-3b1dde8054cd',
         name: 'stats item name',
         seq: 1
       }).called).toEqual(true);
@@ -48,7 +48,7 @@ describe('StatsItemCommand', () => {
       QueryMock.prototype.execute = stub;
 
       const query: IQuery = new QueryMock();
-      const statsID: StatsID = StatsID.of('stats id');
+      const statsID: StatsID = StatsID.of('59915b56-b930-426c-a146-3b1dde8054cd');
 
       const statsItemCommand: StatsItemCommand = StatsItemCommand.getInstance(query);
 
@@ -59,7 +59,7 @@ describe('StatsItemCommand', () => {
       INNER JOIN stats R2
       USING(stats_id)
       WHERE R2.stats_id = :statsID;`, {
-        statsID: 'stats id'
+        statsID: '59915b56-b930-426c-a146-3b1dde8054cd'
       }).called).toEqual(true);
     });
   });

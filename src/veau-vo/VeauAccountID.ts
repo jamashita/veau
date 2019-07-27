@@ -1,10 +1,16 @@
+import { RuntimeError } from '../veau-error/RuntimeError';
+import { UUID } from '../veau-general/UUID';
 import { ValueObject } from './ValueObject';
 
 export class VeauAccountID extends ValueObject {
   private id: string;
 
   public static of(id: string): VeauAccountID {
-    return new VeauAccountID(id);
+    if (id.length === UUID.size()) {
+      return new VeauAccountID(id);
+    }
+
+    throw new RuntimeError(`VeauAccountID requires ${UUID.size()} LENGTH`);
   }
 
   public static default(): VeauAccountID {

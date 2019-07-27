@@ -4,6 +4,10 @@ const chance: Chance.Chance = new Chance();
 
 export class UUID {
 
+  public static size(): number {
+    return 36;
+  }
+
   public static v4(): string {
     return chance.guid({
       version: 4

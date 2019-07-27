@@ -18,7 +18,7 @@ describe('SessionQuery', () => {
       stub.resolves({
         status: OK,
         body: {
-          veauAccountID: 'account id',
+          veauAccountID: 'f6fb9662-cbe8-4a91-8aa4-47a92f05b007',
           account: 'account',
           language: {
             languageID: 1,
@@ -38,7 +38,7 @@ describe('SessionQuery', () => {
       const veauAccount: VeauAccount = await sessionQuery.find();
 
       expect(stub.withArgs('/api/identity').called).toEqual(true);
-      expect(veauAccount.getVeauAccountID().get()).toEqual('account id');
+      expect(veauAccount.getVeauAccountID().get()).toEqual('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
       expect(veauAccount.getAccount().get()).toEqual('account');
       expect(veauAccount.getLanguage().getLanguageID().get()).toEqual(1);
       expect(veauAccount.getRegion().getRegionID().get()).toEqual(2);
@@ -66,7 +66,7 @@ describe('SessionQuery', () => {
       stub.resolves({
         status: OK,
         body: {
-          veauAccountID: 'account id',
+          veauAccountID: 'f6fb9662-cbe8-4a91-8aa4-47a92f05b007',
           account: 'account',
           language: {
             languageID: 1,
@@ -90,7 +90,7 @@ describe('SessionQuery', () => {
         account: 'account',
         password: 'password'
       }).called).toEqual(true);
-      expect(veauAccount.getVeauAccountID().get()).toEqual('account id');
+      expect(veauAccount.getVeauAccountID().get()).toEqual('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
       expect(veauAccount.getAccount().get()).toEqual('account');
       expect(veauAccount.getLanguage().getLanguageID().get()).toEqual(1);
       expect(veauAccount.getRegion().getRegionID().get()).toEqual(2);
