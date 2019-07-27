@@ -19,6 +19,5 @@ passport.serializeUser<VeauAccount, VeauAccountJSON>((account: VeauAccount, done
 });
 
 passport.deserializeUser<VeauAccount, VeauAccountJSON>((json: VeauAccountJSON, done: (err: any, account: VeauAccount) => void): void => {
-  const veauAccount: VeauAccount = VeauAccount.fromJSON(json);
-  done(null, veauAccount);
+  done(null, VeauAccount.fromJSON(json));
 });

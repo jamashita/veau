@@ -57,7 +57,7 @@ const sessionMiddleware: express.RequestHandler = expressSession({
   cookie: {
     httpOnly: true,
     secure: false,
-    maxAge: 28800000
+    maxAge: 1000 * 60 * 60 * 8
   }
 });
 
