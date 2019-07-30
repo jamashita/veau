@@ -87,6 +87,7 @@ describe('Type', () => {
       expect(Type.isPlainObject(true)).toEqual(false);
       expect(Type.isPlainObject({})).toEqual(true);
       expect(Type.isPlainObject([])).toEqual(false);
+      expect(Type.isPlainObject(new Error())).toEqual(false);
     });
   });
 
