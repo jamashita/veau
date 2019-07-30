@@ -1,10 +1,10 @@
-import * as _ from 'lodash';
+import * as check from 'check-types';
 import * as moment from 'moment';
 
 export class Type {
 
   public static isString(value: any): boolean {
-    if (_.isString(value)) {
+    if (check.string(value)) {
       return true;
     }
 
@@ -12,7 +12,7 @@ export class Type {
   }
 
   public static isNumber(value: any): boolean {
-    if (_.isNumber(value)) {
+    if (check.number(value)) {
       return true;
     }
 
@@ -20,7 +20,7 @@ export class Type {
   }
 
   public static isInteger(value: any): boolean {
-    if (_.isInteger(value)) {
+    if (check.integer(value)) {
       return true;
     }
 
@@ -28,7 +28,7 @@ export class Type {
   }
 
   public static isBoolean(value: any): boolean {
-    if (_.isBoolean(value)) {
+    if (check.boolean(value)) {
       return true;
     }
 
@@ -36,7 +36,7 @@ export class Type {
   }
 
   public static isPlainObject(value: any): boolean {
-    if (_.isPlainObject(value)) {
+    if (check.object(value)) {
       return true;
     }
 
@@ -44,7 +44,7 @@ export class Type {
   }
 
   public static isArray(value: any): boolean {
-    if (_.isArray(value)) {
+    if (check.array(value)) {
       return true;
     }
 
