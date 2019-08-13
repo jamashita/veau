@@ -1,7 +1,7 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon } from '@material-ui/core';
 import * as moment from 'moment';
 import * as React from 'react';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { TextField } from '../atoms/TextField';
 
 type Props = {
@@ -13,16 +13,16 @@ type State = {
   startDate: string;
 };
 
-class StatsEditStartDateModalImpl extends React.Component<Props & InjectedIntlProps, State> {
+class StatsEditStartDateModalImpl extends React.Component<Props & WrappedComponentProps, State> {
 
-  public constructor(props: Props & InjectedIntlProps) {
+  public constructor(props: Props & WrappedComponentProps) {
     super(props);
     this.state = {
       startDate: moment().format('YYYY-MM-DD')
     };
   }
 
-  public shouldComponentUpdate(nextProps: Readonly<Props & ReactIntl.InjectedIntlProps>, nextState: Readonly<State>): boolean {
+  public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>, nextState: Readonly<State>): boolean {
     const {
       open
     } = this.props;
@@ -108,4 +108,4 @@ class StatsEditStartDateModalImpl extends React.Component<Props & InjectedIntlPr
   }
 }
 
-export const StatsEditStartDateModal: React.ComponentClass<Props, State> = injectIntl(StatsEditStartDateModalImpl);
+export const StatsEditStartDateModal: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(StatsEditStartDateModalImpl);

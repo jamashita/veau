@@ -11,7 +11,7 @@ import {
   Select
 } from '@material-ui/core';
 import * as React from 'react';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Locale } from '../../../veau-entity/aggregate/Locale';
 import { Language } from '../../../veau-entity/Language';
 import { Region } from '../../../veau-entity/Region';
@@ -37,9 +37,9 @@ type Props = {
 type State = {
 };
 
-class StatsOutlineModalImpl extends React.Component<Props & InjectedIntlProps, State> {
+class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProps, State> {
 
-  public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
+  public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
     const {
       open,
       stats,
@@ -232,4 +232,4 @@ class StatsOutlineModalImpl extends React.Component<Props & InjectedIntlProps, S
   }
 }
 
-export const StatsOutlineModal: React.ComponentClass<Props, State> = injectIntl(StatsOutlineModalImpl);
+export const StatsOutlineModal: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(StatsOutlineModalImpl);

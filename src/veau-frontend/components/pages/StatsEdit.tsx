@@ -1,6 +1,6 @@
 import { Button, Icon } from '@material-ui/core';
 import * as React from 'react';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Props } from '../../containers/pages/StatsEdit';
 import { Authenticated } from '../../containers/templates/Authenticated';
 import { Chart } from '../molecules/Chart';
@@ -16,9 +16,9 @@ type State = {
   startDate?: string;
 };
 
-export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, State> {
+export class StatsEditImpl extends React.Component<Props & WrappedComponentProps, State> {
 
-  public constructor(props: Props & InjectedIntlProps) {
+  public constructor(props: Props & WrappedComponentProps) {
     super(props);
 
     this.state = {
@@ -27,7 +27,7 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
     };
   }
 
-  public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>, nextState: Readonly<State>): boolean {
+  public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>, nextState: Readonly<State>): boolean {
     const {
       stats,
       statsItem,
@@ -219,4 +219,4 @@ export class StatsEditImpl extends React.Component<Props & InjectedIntlProps, St
   }
 }
 
-export const StatsEdit: React.ComponentClass<Props, State> = injectIntl(StatsEditImpl);
+export const StatsEdit: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(StatsEditImpl);

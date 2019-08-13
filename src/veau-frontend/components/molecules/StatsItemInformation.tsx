@@ -1,6 +1,6 @@
 import { Button, Card, CardActions, CardContent, CardHeader, Icon } from '@material-ui/core';
 import * as React from 'react';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { StatsItem } from '../../../veau-entity/StatsItem';
 import { TextField } from '../atoms/TextField';
 
@@ -12,9 +12,9 @@ type Props = {
 type State = {
 };
 
-class StatsItemInformationImpl extends React.Component<Props & InjectedIntlProps, State> {
+class StatsItemInformationImpl extends React.Component<Props & WrappedComponentProps, State> {
 
-  public shouldComponentUpdate(nextProps: Readonly<Props & ReactIntl.InjectedIntlProps>): boolean {
+  public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
     const {
       selecting
     } = this.props;
@@ -89,4 +89,4 @@ class StatsItemInformationImpl extends React.Component<Props & InjectedIntlProps
   }
 }
 
-export const StatsItemInformation: React.ComponentClass<Props, State> = injectIntl(StatsItemInformationImpl);
+export const StatsItemInformation: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(StatsItemInformationImpl);

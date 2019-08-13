@@ -1,6 +1,6 @@
 import { CircularProgress, Dialog, DialogContent, DialogTitle } from '@material-ui/core';
 import * as React from 'react';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Props } from '../../containers/molecules/LoadingIndicator';
 
 type State = {
@@ -8,9 +8,9 @@ type State = {
 
 const SIZE: number = 100;
 
-class LoadingIndicatorImpl extends React.Component<Props & InjectedIntlProps, State> {
+class LoadingIndicatorImpl extends React.Component<Props & WrappedComponentProps, State> {
 
-  public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
+  public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
     const {
       loadingCount
     } = this.props;
@@ -51,4 +51,4 @@ class LoadingIndicatorImpl extends React.Component<Props & InjectedIntlProps, St
   }
 }
 
-export const LoadingIndicator: React.ComponentClass<Props, State> = injectIntl(LoadingIndicatorImpl);
+export const LoadingIndicator: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(LoadingIndicatorImpl);

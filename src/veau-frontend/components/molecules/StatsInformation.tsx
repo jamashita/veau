@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 import * as React from 'react';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Locale } from '../../../veau-entity/aggregate/Locale';
 import { Language } from '../../../veau-entity/Language';
 import { Region } from '../../../veau-entity/Region';
@@ -20,9 +20,9 @@ type Props = {
 type State = {
 };
 
-class StatsInformationImpl extends React.Component<Props & InjectedIntlProps, State> {
+class StatsInformationImpl extends React.Component<Props & WrappedComponentProps, State> {
 
-  public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
+  public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
     const {
       stats,
       locale
@@ -155,4 +155,4 @@ class StatsInformationImpl extends React.Component<Props & InjectedIntlProps, St
   }
 }
 
-export const StatsInformation: React.ComponentClass<Props, State> = injectIntl(StatsInformationImpl);
+export const StatsInformation: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(StatsInformationImpl);

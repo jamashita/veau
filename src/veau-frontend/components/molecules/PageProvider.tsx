@@ -1,14 +1,14 @@
 import { Button, Divider, Drawer, Icon, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import * as React from 'react';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Props } from '../../containers/molecules/PageProvider';
 
 type State = {
 };
 
-class PageProviderImpl extends React.Component<Props & InjectedIntlProps, State> {
+class PageProviderImpl extends React.Component<Props & WrappedComponentProps, State> {
 
-  public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
+  public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
     const {
       open
     } = this.props;
@@ -87,4 +87,4 @@ class PageProviderImpl extends React.Component<Props & InjectedIntlProps, State>
   }
 }
 
-export const PageProvider: React.ComponentClass<Props, State> = injectIntl(PageProviderImpl);
+export const PageProvider: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(PageProviderImpl);

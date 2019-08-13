@@ -1,14 +1,14 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon } from '@material-ui/core';
 import * as React from 'react';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Props } from '../../containers/molecules/Modal';
 
 type State = {
 };
 
-class ModalImpl extends React.Component<Props & InjectedIntlProps, State> {
+class ModalImpl extends React.Component<Props & WrappedComponentProps, State> {
 
-  public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
+  public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
     const {
       open,
       title,
@@ -79,4 +79,4 @@ class ModalImpl extends React.Component<Props & InjectedIntlProps, State> {
   }
 }
 
-export const Modal: React.ComponentClass<Props, State> = injectIntl(ModalImpl);
+export const Modal: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(ModalImpl);

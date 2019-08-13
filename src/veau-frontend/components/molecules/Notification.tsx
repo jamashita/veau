@@ -1,15 +1,15 @@
 import { Icon, Snackbar, SnackbarContent } from '@material-ui/core';
 import { amber, blue, green, red } from '@material-ui/core/colors';
 import * as React from 'react';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Props } from '../../containers/molecules/Notification';
 
 type State = {
 };
 
-class NotificationImpl extends React.Component<Props & InjectedIntlProps, State> {
+class NotificationImpl extends React.Component<Props & WrappedComponentProps, State> {
 
-  public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
+  public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
     const {
       kind,
       open,
@@ -145,4 +145,4 @@ class NotificationImpl extends React.Component<Props & InjectedIntlProps, State>
   }
 }
 
-export const Notification: React.ComponentClass<Props, State> = injectIntl(NotificationImpl);
+export const Notification: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(NotificationImpl);

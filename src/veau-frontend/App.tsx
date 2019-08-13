@@ -3,23 +3,11 @@ import { grey, lightGreen, pink } from '@material-ui/core/colors';
 import { ConnectedRouter } from 'connected-react-router';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { addLocaleData } from 'react-intl';
-import * as en from 'react-intl/locale-data/en';
-import * as es from 'react-intl/locale-data/es';
-import * as fr from 'react-intl/locale-data/fr';
-import * as ja from 'react-intl/locale-data/ja';
 import { Provider } from 'react-redux';
 import { View } from './components/View';
 import { I18NProvider } from './containers/I18NProvider';
 import { history } from './history';
 import { store } from './store';
-
-addLocaleData([
-  ...en,
-  ...es,
-  ...fr,
-  ...ja
-]);
 
 const muiTheme: Theme = createMuiTheme({
   palette: {

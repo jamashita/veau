@@ -1,6 +1,6 @@
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
 import * as React from 'react';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { StatsOutlines } from '../../../veau-entity/collection/StatsOutlines';
 import { StatsOutline } from '../../../veau-entity/StatsOutline';
 import { StatsID } from '../../../veau-vo/StatsID';
@@ -12,9 +12,9 @@ type Props = {
 type State = {
 };
 
-class StatsOutlineListTableImpl extends React.Component<Props & InjectedIntlProps, State> {
+class StatsOutlineListTableImpl extends React.Component<Props & WrappedComponentProps, State> {
 
-  public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
+  public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
     const {
       statsOutlines
     } = this.props;
@@ -98,4 +98,4 @@ class StatsOutlineListTableImpl extends React.Component<Props & InjectedIntlProp
   }
 }
 
-export const StatsOutlineListTable: React.ComponentClass<Props, State> = injectIntl(StatsOutlineListTableImpl);
+export const StatsOutlineListTable: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(StatsOutlineListTableImpl);

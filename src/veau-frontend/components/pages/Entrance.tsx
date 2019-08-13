@@ -1,15 +1,15 @@
 import { Button, Card, CardActions, CardContent, CardHeader, Icon } from '@material-ui/core';
 import * as React from 'react';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Props } from '../../containers/pages/Entrance';
 import { TextField } from '../atoms/TextField';
 
 type State = {
 };
 
-class EntranceImpl extends React.Component<Props & InjectedIntlProps, State> {
+class EntranceImpl extends React.Component<Props & WrappedComponentProps, State> {
 
-  public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
+  public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
     const {
       entranceInformation,
       intl
@@ -88,4 +88,4 @@ class EntranceImpl extends React.Component<Props & InjectedIntlProps, State> {
   }
 }
 
-export const Entrance: React.ComponentClass<Props, State> = injectIntl(EntranceImpl);
+export const Entrance: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(EntranceImpl);

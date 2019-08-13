@@ -1,6 +1,6 @@
 import { Button, Icon } from '@material-ui/core';
 import * as React from 'react';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Props } from '../../containers/pages/StatsList';
 import { Authenticated } from '../../containers/templates/Authenticated';
 import { StatsOutlineListTable } from '../molecules/StatsOutlineListTable';
@@ -9,9 +9,9 @@ import { StatsOutlineModal } from '../molecules/StatsOutlineModal';
 type State = {
 };
 
-class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
+class StatsListImpl extends React.Component<Props & WrappedComponentProps, State> {
 
-  public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
+  public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
     const {
       statsOutlines,
       open,
@@ -88,4 +88,4 @@ class StatsListImpl extends React.Component<Props & InjectedIntlProps, State> {
   }
 }
 
-export const StatsList: React.ComponentClass<Props, State> = injectIntl(StatsListImpl);
+export const StatsList: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(StatsListImpl);

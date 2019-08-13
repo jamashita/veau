@@ -1,6 +1,6 @@
 import { AppBar, Icon, Toolbar, Typography } from '@material-ui/core';
 import * as React from 'react';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
 type Props = {
   menuClicked: () => void;
@@ -8,7 +8,7 @@ type Props = {
 type State = {
 };
 
-class HeaderImpl extends React.Component<Props & InjectedIntlProps, State> {
+class HeaderImpl extends React.Component<Props & WrappedComponentProps, State> {
 
   public shouldComponentUpdate(): boolean {
     return true;
@@ -46,4 +46,4 @@ class HeaderImpl extends React.Component<Props & InjectedIntlProps, State> {
   }
 }
 
-export const Header: React.ComponentClass<Props, State> = injectIntl(HeaderImpl);
+export const Header: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(HeaderImpl);

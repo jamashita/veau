@@ -1,6 +1,6 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon } from '@material-ui/core';
 import * as React from 'react';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { StatsItem } from '../../../veau-entity/StatsItem';
 import { TextField } from '../atoms/TextField';
 
@@ -14,9 +14,9 @@ type Props = {
 type State = {
 };
 
-class StatsItemModalImpl extends React.Component<Props & InjectedIntlProps, State> {
+class StatsItemModalImpl extends React.Component<Props & WrappedComponentProps, State> {
 
-  public shouldComponentUpdate(nextProps: Readonly<Props & InjectedIntlProps>): boolean {
+  public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
     const {
       open,
       statsItem
@@ -90,4 +90,4 @@ class StatsItemModalImpl extends React.Component<Props & InjectedIntlProps, Stat
   }
 }
 
-export const StatsItemModal: React.ComponentClass<Props, State> = injectIntl(StatsItemModalImpl);
+export const StatsItemModal: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(StatsItemModalImpl);
