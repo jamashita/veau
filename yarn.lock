@@ -862,13 +862,6 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-intl@3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@types/react-intl/-/react-intl-3.0.0.tgz#a2cce0024b6cfe403be28ccf67f49d720fa810ec"
-  integrity sha512-k8F3d05XQGEqSWIfK97bBjZe4z9RruXU9Wa7OZ2iUC5pdeIpzuQDZe/9C2J3Xir5//ZtAkhcv08Wfx3n5TBTQg==
-  dependencies:
-    react-intl "*"
-
 "@types/react-redux@7.1.1":
   version "7.1.1"
   resolved "https://registry.yarnpkg.com/@types/react-redux/-/react-redux-7.1.1.tgz#eb01e89cf71cad77df9f442b819d5db692b997cb"
@@ -8154,7 +8147,7 @@ react-dom@16.9.0:
     prop-types "^15.6.2"
     scheduler "^0.15.0"
 
-react-intl@*, react-intl@3.1.7:
+react-intl@3.1.7:
   version "3.1.7"
   resolved "https://registry.yarnpkg.com/react-intl/-/react-intl-3.1.7.tgz#332ab7861882a1c68482a4128ae1083d4621f107"
   integrity sha512-bsEQETQ9Ihk0a+z0WDdZhFRlP5MhbIfZJFG1D8IeYu7u7Y0tRYjLt2VDHEUBGsi7OIbTOPl2VTMXtRsb6BHP/Q==
