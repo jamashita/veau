@@ -1,4 +1,4 @@
-image: node:12.6.0
+image: node:12.8.0
 
 stages:
   - test
