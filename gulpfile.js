@@ -20,8 +20,8 @@ const webpackConfig = require('./webpack.config');
 
 gulp.task('veau-command', () => {
   return gulp.src(['src/veau-command/**/*.ts'], {
-    since : gulp.lastRun('veau-command')
-  })
+      since : gulp.lastRun('veau-command')
+    })
     .pipe(plumber())
     .pipe(tsc())
     .pipe(gulp.dest('dist/veau-command'));
@@ -47,8 +47,8 @@ gulp.task('veau-entity', () => {
 
 gulp.task('veau-enum', () => {
   return gulp.src(['src/veau-enum/**/*.ts'], {
-    since : gulp.lastRun('veau-enum')
-  })
+      since : gulp.lastRun('veau-enum')
+    })
     .pipe(plumber())
     .pipe(tsc())
     .pipe(gulp.dest('dist/veau-enum'));
@@ -56,8 +56,8 @@ gulp.task('veau-enum', () => {
 
 gulp.task('veau-error', () => {
   return gulp.src(['src/veau-error/**/*.ts'], {
-    since : gulp.lastRun('veau-error')
-  })
+      since : gulp.lastRun('veau-error')
+    })
     .pipe(plumber())
     .pipe(tsc())
     .pipe(gulp.dest('dist/veau-error'));
@@ -90,8 +90,8 @@ gulp.task('veau-infrastructure', () => {
 
 gulp.task('veau-interactor', () => {
   return gulp.src(['src/veau-interactor/**/*.ts'], {
-    since : gulp.lastRun('veau-interactor')
-  })
+      since : gulp.lastRun('veau-interactor')
+    })
     .pipe(plumber())
     .pipe(tsc())
     .pipe(gulp.dest('dist/veau-interactor'));
@@ -126,8 +126,8 @@ gulp.task('veau-service', () => {
 
 gulp.task('veau-transaction', () => {
   return gulp.src(['src/veau-transaction/**/*.ts'], {
-    since : gulp.lastRun('veau-transaction')
-  })
+      since : gulp.lastRun('veau-transaction')
+    })
     .pipe(plumber())
     .pipe(tsc())
     .pipe(gulp.dest('dist/veau-transaction'));
