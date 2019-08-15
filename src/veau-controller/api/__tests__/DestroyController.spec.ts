@@ -1,4 +1,4 @@
-import * as express from 'express';
+import express from 'express';
 import { OK } from 'http-status';
 import 'jest';
 import * as supertest from 'supertest';

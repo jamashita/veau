@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import moment from 'moment';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { StatsItemName } from '../../veau-vo/StatsItemName';
 import { StatsItem, StatsItemJSON } from '../StatsItem';

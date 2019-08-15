@@ -1,5 +1,5 @@
 import 'jest';
-import * as moment from 'moment';
+import moment from 'moment';
 import { StatsValues } from '../../../veau-vo/collection/StatsValues';
 import { StatsItemID } from '../../../veau-vo/StatsItemID';
 import { StatsItemName } from '../../../veau-vo/StatsItemName';

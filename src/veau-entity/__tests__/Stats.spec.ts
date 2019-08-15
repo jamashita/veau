@@ -1,5 +1,5 @@
 import 'jest';
-import * as moment from 'moment';
+import moment from 'moment';
 import { Term } from '../../veau-enum/Term';
 import { StatsValues } from '../../veau-vo/collection/StatsValues';
 import { ISO3166 } from '../../veau-vo/ISO3166';

@@ -1,4 +1,4 @@
-import * as express from 'express';
+import express from 'express';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import 'jest';
 import * as sinon from 'sinon';

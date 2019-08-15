@@ -1,4 +1,4 @@
-import * as express from 'express';
+import express from 'express';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'http-status';
 import * as log4js from 'log4js';
 import { StatsOutlines } from '../../veau-entity/collection/StatsOutlines';

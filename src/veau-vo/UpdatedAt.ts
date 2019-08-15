@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import moment from 'moment';
 import { RuntimeError } from '../veau-error/RuntimeError';
 import { Type } from '../veau-general/Type';
 import { ValueObject } from './ValueObject';

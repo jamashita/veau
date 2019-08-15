@@ -2,7 +2,7 @@ import * as bodyParser from 'body-parser';
 import * as compression from 'compression';
 import * as config from 'config';
 import * as connectRedis from 'connect-redis';
-import * as express from 'express';
+import express from 'express';
 import * as expressSession from 'express-session';
 import * as helmet from 'helmet';
 import * as log4js from 'log4js';

@@ -1,4 +1,4 @@
-import * as express from 'express';
+import express from 'express';
 import { AuthenticationMiddleware } from '../middlewares/AuthenticationMiddleware';
 import { AuthController } from './AuthController';
 import { DestroyController } from './DestroyController';

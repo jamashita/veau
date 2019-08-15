@@ -1,5 +1,5 @@
 import 'jest';
-import * as moment from 'moment';
+import moment from 'moment';
 import * as sinon from 'sinon';
 import { SinonSpy } from 'sinon';
 import { StatsCommand } from '../../veau-command/StatsCommand';

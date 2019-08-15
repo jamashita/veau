@@ -1,4 +1,4 @@
-import * as express from 'express';
+import express from 'express';
 import { BAD_REQUEST, OK } from 'http-status';
 import * as log4js from 'log4js';
 import { RequestSession } from '../RequestSession';

@@ -1,5 +1,5 @@
 import 'jest';
-import * as moment from 'moment';
+import moment from 'moment';
 import { StatsValue } from '../../StatsValue';
 import { StatsValues } from '../StatsValues';
 

@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import moment from 'moment';
 import { UUID } from '../veau-general/UUID';
 import { StatsValues } from '../veau-vo/collection/StatsValues';
 import { StatsItemID } from '../veau-vo/StatsItemID';

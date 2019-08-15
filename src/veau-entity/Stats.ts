@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import moment from 'moment';
 import { Term } from '../veau-enum/Term';
 import { RuntimeError } from '../veau-error/RuntimeError';
 import { UUID } from '../veau-general/UUID';

@@ -1,8 +1,8 @@
 import * as bodyParser from 'body-parser';
-import * as express from 'express';
+import express from 'express';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'http-status';
 import 'jest';
-import * as moment from 'moment';
+import moment from 'moment';
 import * as sinon from 'sinon';
 import { SinonStub } from 'sinon';
 import * as supertest from 'supertest';

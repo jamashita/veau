@@ -1,5 +1,5 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon } from '@material-ui/core';
-import * as moment from 'moment';
+import moment from 'moment';
 import * as React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { TextField } from '../atoms/TextField';

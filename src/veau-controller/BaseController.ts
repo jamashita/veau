@@ -1,4 +1,4 @@
-import * as express from 'express';
+import express from 'express';
 import { APIController } from './api/APIController';
 import { FEController } from './fe/FEController';
 

@@ -1,5 +1,5 @@
 import 'jest';
-import * as moment from 'moment';
+import moment from 'moment';
 import * as sinon from 'sinon';
 import { SinonStub } from 'sinon';
 import { IQuery } from '../../veau-general/MySQL/IQuery';

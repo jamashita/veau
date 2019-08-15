@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import moment from 'moment';
 import { fork, put, select, take } from 'redux-saga/effects';
 import { Language } from '../../veau-entity/Language';
 import { Region } from '../../veau-entity/Region';
