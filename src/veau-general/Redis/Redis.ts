@@ -1,4 +1,4 @@
-import * as IORedis from 'ioredis';
+import IORedis from 'ioredis';
 import { RedisHash } from './RedisHash';
 import { RedisList } from './RedisList';
 import { RedisSet } from './RedisSet';
