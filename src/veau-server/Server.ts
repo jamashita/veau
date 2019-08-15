@@ -1,14 +1,14 @@
 import * as bodyParser from 'body-parser';
-import * as compression from 'compression';
+import compression from 'compression';
 import * as config from 'config';
-import * as connectRedis from 'connect-redis';
+import connectRedis from 'connect-redis';
 import express from 'express';
-import * as expressSession from 'express-session';
-import * as helmet from 'helmet';
+import expressSession from 'express-session';
+import helmet from 'helmet';
 import * as log4js from 'log4js';
 import * as passport from 'passport';
 import * as path from 'path';
-import * as favicon from 'serve-favicon';
+import favicon from 'serve-favicon';
 import 'source-map-support/register';
 import { BaseController } from '../veau-controller/BaseController';
 import '../veau-service/AuthenticationService';
@@ -19,7 +19,15 @@ const mode: string = process.env.NODE_ENV as string;
 log4js.configure(config.get<log4js.Configuration>('log4js'));
 const logger: log4js.Logger = log4js.getLogger();
 
-process.on('unhandledRejection', logger.fatal);
+process.on('uncaughtException', (error: Error): void => {
+  logger.fatal('UNCAUGHT EXCEPTION');
+  logger.fatal(error.message);
+});
+
+process.on('unhandledRejection', (reason: any): void => {
+  logger.fatal('UNHANDLED REJECTION');
+  logger.fatal(reason);
+});
 
 const app: express.Express = express();
 
