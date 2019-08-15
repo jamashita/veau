@@ -1,27 +1,24 @@
 {
   "compilerOptions": {
-    "module": "CommonJS",
-    "moduleResolution": "node",
+    /* Basic Options */
     "target": "esnext",
-    "strict": true,
-    "removeComments": true,
-    "preserveConstEnums": true,
-    "sourceMap": true,
-    "allowUnreachableCode": false,
-    "noUnusedLocals": true,
-    "allowSyntheticDefaultImports": true,
-    "jsx": "react",
-    "alwaysStrict": true,
-    "strictNullChecks": true,
-    "noImplicitAny": true,
+    "module": "commonjs",
     "lib": [
       "dom",
       "esnext"
     ],
+    "jsx": "react",
+
+    /* Strict Type-Checking Options */
+    "strict": true,
+
+    /* Module Resolution Options */
+    "moduleResolution": "node",
     "types": [
       "node",
       "jest"
-    ]
+    ],
+    "esModuleInterop": true
   },
   "include": [
     "**/*.ts"
