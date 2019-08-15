@@ -14,9 +14,6 @@
 
     /* Module Resolution Options */
     "moduleResolution": "node",
-    "typeRoots": [
-      "./typings"
-    ],
     "types": [
       "node",
       "jest"
