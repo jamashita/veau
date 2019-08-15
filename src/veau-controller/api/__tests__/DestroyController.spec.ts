@@ -1,7 +1,7 @@
 import express from 'express';
 import { OK } from 'http-status';
 import 'jest';
-import * as supertest from 'supertest';
+import supertest from 'supertest';
 import { DestroyController } from '../DestroyController';
 
 describe('DestroyController', () => {

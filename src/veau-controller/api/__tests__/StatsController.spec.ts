@@ -5,7 +5,7 @@ import 'jest';
 import moment from 'moment';
 import * as sinon from 'sinon';
 import { SinonStub } from 'sinon';
-import * as supertest from 'supertest';
+import supertest from 'supertest';
 import { StatsItems } from '../../../veau-entity/collection/StatsItems';
 import { StatsOutlines } from '../../../veau-entity/collection/StatsOutlines';
 import { Language } from '../../../veau-entity/Language';

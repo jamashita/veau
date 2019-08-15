@@ -1,7 +1,7 @@
 import express from 'express';
 import { OK } from 'http-status';
 import 'jest';
-import * as supertest from 'supertest';
+import supertest from 'supertest';
 import { Language } from '../../../veau-entity/Language';
 import { Region } from '../../../veau-entity/Region';
 import { VeauAccount } from '../../../veau-entity/VeauAccount';

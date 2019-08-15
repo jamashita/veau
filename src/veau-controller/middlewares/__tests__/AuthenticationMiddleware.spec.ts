@@ -1,7 +1,7 @@
 import express from 'express';
 import { OK, UNAUTHORIZED } from 'http-status';
 import 'jest';
-import * as supertest from 'supertest';
+import supertest from 'supertest';
 import { AuthenticationMiddleware } from '../AuthenticationMiddleware';
 
 describe('AuthenticationMiddleware', () => {

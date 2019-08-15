@@ -3,7 +3,7 @@ import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import 'jest';
 import * as sinon from 'sinon';
 import { SinonSpy, SinonStub } from 'sinon';
-import * as supertest from 'supertest';
+import supertest from 'supertest';
 import { Locale } from '../../../veau-entity/aggregate/Locale';
 import { Languages } from '../../../veau-entity/collection/Languages';
 import { Regions } from '../../../veau-entity/collection/Regions';
