@@ -1,4 +1,4 @@
-import { VeauAccount } from '../src/veau-entity/VeauAccount';
+import { VeauAccount } from '../veau-entity/VeauAccount';
 
 declare global {
   namespace Express {

@@ -13,7 +13,7 @@ export class AuthenticationMiddleware {
 
   public apply(): express.RequestHandler {
     return (req: express.Request, res: express.Response, next: express.NextFunction): void => {
-      if (req.user) {
+      if (req.user !== undefined) {
         next();
         return;
       }

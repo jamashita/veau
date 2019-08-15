@@ -1,8 +1,7 @@
 import express from 'express';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import 'jest';
-import * as sinon from 'sinon';
-import { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonSpy, SinonStub } from 'sinon';
 import supertest from 'supertest';
 import { Locale } from '../../../veau-entity/aggregate/Locale';
 import { Languages } from '../../../veau-entity/collection/Languages';

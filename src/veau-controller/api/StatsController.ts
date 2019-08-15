@@ -1,6 +1,6 @@
 import express from 'express';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'http-status';
-import * as log4js from 'log4js';
+import log4js from 'log4js';
 import { StatsOutlines } from '../../veau-entity/collection/StatsOutlines';
 import { Stats, StatsJSON } from '../../veau-entity/Stats';
 import { NotFoundError } from '../../veau-error/NotFoundError';
@@ -8,21 +8,15 @@ import { Type } from '../../veau-general/Type';
 import { StatsInteractor } from '../../veau-interactor/StatsInteractor';
 import { Page } from '../../veau-vo/Page';
 import { StatsID } from '../../veau-vo/StatsID';
-import { AuthenticatedMiddleware } from '../middlewares/AuthenticatedMiddleware';
+import { AuthenticationMiddleware } from '../middlewares/AuthenticationMiddleware';
 
 const router: express.Router = express.Router();
 const logger: log4js.Logger = log4js.getLogger();
 
-const authenticatedMiddleware: AuthenticatedMiddleware = AuthenticatedMiddleware.getInstance();
+const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
 const statsInteractor: StatsInteractor = StatsInteractor.getInstance();
 
-router.get('/page/:page(\\d+)', authenticatedMiddleware.apply(), async (req: express.Request, res: express.Response): Promise<any> => {
-  if (req.isUnauthenticated()) {
-    logger.fatal('ILLEGAL ACCESS');
-    res.sendStatus(BAD_REQUEST);
-    return;
-  }
-
+router.get('/page/:page(\\d+)', authenticationMiddleware.apply(), async (req: express.Request, res: express.Response): Promise<any> => {
   const page: number = Number(req.params.page);
 
   if (page === 0) {
@@ -62,13 +56,7 @@ router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: expres
   }
 });
 
-router.post('/', authenticatedMiddleware.apply(), async (req: express.Request, res: express.Response): Promise<any> => {
-  if (req.isUnauthenticated()) {
-    logger.fatal('ILLEGAL ACCESS');
-    res.sendStatus(BAD_REQUEST);
-    return;
-  }
-
+router.post('/', authenticationMiddleware.apply(), async (req: express.Request, res: express.Response): Promise<any> => {
   const {
     statsID,
     language,

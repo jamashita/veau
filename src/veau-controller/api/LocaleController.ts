@@ -1,6 +1,6 @@
 import express from 'express';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
-import * as log4js from 'log4js';
+import log4js from 'log4js';
 import { Locale } from '../../veau-entity/aggregate/Locale';
 import { CacheError } from '../../veau-error/CacheError';
 import { LocaleInteractor } from '../../veau-interactor/LocaleInteractor';

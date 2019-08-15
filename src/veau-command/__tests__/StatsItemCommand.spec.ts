@@ -1,6 +1,5 @@
 import 'jest';
-import * as sinon from 'sinon';
-import { SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { IQuery } from '../../veau-general/MySQL/IQuery';
 import { QueryMock } from '../../veau-general/MySQL/QueryMock';

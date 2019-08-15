@@ -1,7 +1,6 @@
 import 'jest';
 import moment from 'moment';
-import * as sinon from 'sinon';
-import { SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 import { IQuery } from '../../veau-general/MySQL/IQuery';
 import { QueryMock } from '../../veau-general/MySQL/QueryMock';
 import { StatsID } from '../../veau-vo/StatsID';
