@@ -1,4 +1,4 @@
-import * as Chance from 'chance';
+import Chance from 'chance';
 
 const chance: Chance.Chance = new Chance();
 
