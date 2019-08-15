@@ -8,15 +8,16 @@ import { Type } from '../../veau-general/Type';
 import { StatsInteractor } from '../../veau-interactor/StatsInteractor';
 import { Page } from '../../veau-vo/Page';
 import { StatsID } from '../../veau-vo/StatsID';
-import { RequestSession } from '../RequestSession';
+import { AuthenticatedMiddleware } from '../middlewares/AuthenticatedMiddleware';
 
 const router: express.Router = express.Router();
 const logger: log4js.Logger = log4js.getLogger();
 
+const authenticatedMiddleware: AuthenticatedMiddleware = AuthenticatedMiddleware.getInstance();
 const statsInteractor: StatsInteractor = StatsInteractor.getInstance();
 
-router.get('/page/:page(\\d+)', async (req: RequestSession, res: express.Response): Promise<any> => {
-  if (req.user === undefined) {
+router.get('/page/:page(\\d+)', authenticatedMiddleware.apply(), async (req: express.Request, res: express.Response): Promise<any> => {
+  if (req.isUnauthenticated()) {
     logger.fatal('ILLEGAL ACCESS');
     res.sendStatus(BAD_REQUEST);
     return;
@@ -61,8 +62,8 @@ router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: expres
   }
 });
 
-router.post('/', async (req: RequestSession, res: express.Response): Promise<any> => {
-  if (req.user === undefined) {
+router.post('/', authenticatedMiddleware.apply(), async (req: express.Request, res: express.Response): Promise<any> => {
+  if (req.isUnauthenticated()) {
     logger.fatal('ILLEGAL ACCESS');
     res.sendStatus(BAD_REQUEST);
     return;

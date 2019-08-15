@@ -1,8 +1,7 @@
 import express from 'express';
 import { UNAUTHORIZED } from 'http-status';
-import { IMiddleware } from './IMiddleware';
 
-export class AuthenticationMiddleware implements IMiddleware {
+export class AuthenticationMiddleware {
   private static instance: AuthenticationMiddleware = new AuthenticationMiddleware();
 
   public static getInstance(): AuthenticationMiddleware {
