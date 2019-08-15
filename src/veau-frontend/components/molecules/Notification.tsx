@@ -134,10 +134,8 @@ class NotificationImpl extends React.Component<Props & WrappedComponentProps, St
           message={<span>
             {this.icon()}
             {intl.formatMessage({
-                id: message
-              },
-              values
-            )}
+              id: message
+            }, values)}
           </span>}
         />
       </Snackbar>

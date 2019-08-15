@@ -385,19 +385,19 @@ export class StatsEditSaga {
   }
 
   private static *removeItem(): IterableIterator<any> {
-   while (true) {
-     const action: StatsEditRemoveSelectingItemAction = yield take(ACTION.STATS_EDIT_REMOVE_SELECTING_ITEM);
-     const state: State = yield select();
+    while (true) {
+      const action: StatsEditRemoveSelectingItemAction = yield take(ACTION.STATS_EDIT_REMOVE_SELECTING_ITEM);
+      const state: State = yield select();
 
-     const {
-       stats
-     } = state;
+      const {
+        stats
+      } = state;
 
-     const copied: Stats = stats.copy();
-     copied.removeItem(action.statsItem);
+      const copied: Stats = stats.copy();
+      copied.removeItem(action.statsItem);
 
-     yield put(updateStats(copied));
-     yield put(clearSelectingItem());
+      yield put(updateStats(copied));
+      yield put(clearSelectingItem());
     }
   }
 

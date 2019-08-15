@@ -39,11 +39,10 @@ export class StatsOutlineQuery {
       OFFSET :offset;`;
 
     const statsOutlineRows: Array<StatsOutlineRow> = await veauMySQL.execute(query, {
-        veauAccountID: veauAccountID.get(),
-        limit: limit.get(),
-        offset: offset.get()
-      }
-    );
+      veauAccountID: veauAccountID.get(),
+      limit: limit.get(),
+      offset: offset.get()
+    });
 
     return StatsOutlines.fromRow(statsOutlineRows);
   }
