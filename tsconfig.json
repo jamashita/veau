@@ -14,10 +14,10 @@
 
     /* Module Resolution Options */
     "moduleResolution": "node",
-    "baseUrl": "./",
+    "baseUrl": "/",
     "typeRoots": [
-      "node_modules/@types",
-      "src/typings"
+      "src/@types",
+      "node_modules/@types"
     ],
     "types": [
       "node",
@@ -26,10 +26,12 @@
     "esModuleInterop": true
   },
   "include": [
-    "**/*.ts"
+    "src/**/*.ts",
+    "src/**/*.d.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "src/**/*.spec.ts"
   ],
   "compileOnSave": false
 }
