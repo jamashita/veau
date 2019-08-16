@@ -106,7 +106,7 @@ export class Spreadsheet extends React.Component<Props, State> {
             dataFilled(row, column, value);
           });
         }}
-        afterSelection={(row1: number, col1: number, row2: number, col2: number): void => {
+        afterSelection={(row1: number, col1: number, row2: number): void => {
           if (row1 === row2) {
             rowSelected(row1);
           }
