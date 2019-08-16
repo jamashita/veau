@@ -45,7 +45,7 @@ export class Terms {
     if (length !== other.length()) {
       return false;
     }
-    for (let i = 0; i < length; i++) {
+    for (let i: number = 0; i < length; i++) {
       if (this.terms[i] !== other.get(i)) {
         return false;
       }

@@ -1,5 +1,6 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon } from '@material-ui/core';
 import * as React from 'react';
+import { PropsWithChildren } from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Props } from '../../containers/molecules/Modal';
 
@@ -14,7 +15,7 @@ class ModalImpl extends React.Component<Props & WrappedComponentProps, State> {
       title,
       description,
       values
-    } = this.props;
+    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
 
     if (open !== nextProps.open) {
       return true;
@@ -40,7 +41,7 @@ class ModalImpl extends React.Component<Props & WrappedComponentProps, State> {
       values,
       intl,
       closeClicked
-    } = this.props;
+    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
 
     return (
       <Dialog

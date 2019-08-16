@@ -60,7 +60,7 @@ export class StatsOutline extends Entity<StatsID> {
       name,
       unit,
       updatedAt
-    } = json;
+    }: StatsOutlineJSON = json;
 
     return StatsOutline.from(
       StatsID.of(statsID),
@@ -87,7 +87,7 @@ export class StatsOutline extends Entity<StatsID> {
       name,
       unit,
       updatedAt
-    } = row;
+    }: StatsOutlineRow = row;
 
     const language: Language = Language.from(LanguageID.of(languageID), LanguageName.of(languageName), LanguageName.of(languageEnglishName), ISO639.of(iso639));
     const region: Region = Region.from(RegionID.of(regionID), RegionName.of(regionName), ISO3166.of(iso3166));
@@ -152,7 +152,7 @@ export class StatsOutline extends Entity<StatsID> {
       region,
       name,
       unit
-    } = this;
+    }: this = this;
 
     if (language.equals(Language.default())) {
       return false;
@@ -183,7 +183,7 @@ export class StatsOutline extends Entity<StatsID> {
       name,
       unit,
       updatedAt
-    } = this;
+    }: this = this;
 
     if (!statsID.equals(other.statsID)) {
       return false;
@@ -219,7 +219,7 @@ export class StatsOutline extends Entity<StatsID> {
       name,
       unit,
       updatedAt
-    } = this;
+    }: this = this;
 
     return new StatsOutline(statsID, language, region, term, name, unit, updatedAt);
   }
@@ -233,7 +233,7 @@ export class StatsOutline extends Entity<StatsID> {
       name,
       unit,
       updatedAt
-    } = this;
+    }: this = this;
 
     return {
       statsID: statsID.get(),
@@ -255,7 +255,7 @@ export class StatsOutline extends Entity<StatsID> {
       name,
       unit,
       updatedAt
-    } = this;
+    }: this = this;
 
     return `${statsID.toString()} ${language.toString()} ${region.toString()} ${term.toString()} ${name.get()} ${unit.toString()} ${updatedAt.toString()}`;
   }

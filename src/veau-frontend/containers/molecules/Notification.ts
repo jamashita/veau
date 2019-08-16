@@ -32,7 +32,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
       duration,
       values
     }
-  } = state;
+  }: State = state;
 
   return {
     kind,

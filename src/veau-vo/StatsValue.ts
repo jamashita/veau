@@ -57,7 +57,7 @@ export class StatsValue extends ValueObject {
   public toJSON(): StatsValueJSON {
     const {
       value
-    } = this;
+    }: this = this;
 
     return {
       asOf: this.getAsOfAsString(),
@@ -68,7 +68,7 @@ export class StatsValue extends ValueObject {
   public toString(): string {
     const {
       value
-    } = this;
+    }: this = this;
 
     return `${this.getAsOfAsString()} : ${value}`;
   }

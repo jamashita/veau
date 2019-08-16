@@ -21,7 +21,7 @@ export class SessionQuery {
     const {
       status,
       body
-    } = response;
+    }: AJAXResponse<VeauAccountJSON> = response;
 
     switch (status) {
       case OK: {
@@ -38,7 +38,7 @@ export class SessionQuery {
     const {
       status,
       body
-    } = response;
+    }: AJAXResponse<VeauAccountJSON> = response;
 
     switch (status) {
       case OK: {

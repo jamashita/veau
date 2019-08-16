@@ -35,12 +35,14 @@ export class MySQL implements IQuery {
   private getConnection(): Promise<Connection> {
     return new Promise<Connection>((resolve: (value: Connection) => void, reject: (reason: any) => void): void => {
       this.pool.getConnection((err1: mysql.MysqlError, connection: mysql.PoolConnection): void => {
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (err1) {
           reject(err1);
           return;
         }
 
-        connection.beginTransaction((err2?: mysql.MysqlError): void => {
+        connection.beginTransaction((err2: mysql.MysqlError): void => {
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           if (err2) {
             reject(err2);
             return;
@@ -70,7 +72,7 @@ export class MySQL implements IQuery {
   public execute(sql: string, value?: object): Promise<any> {
     return new Promise<any>((resolve: (value: any) => void, reject: (reason: any) => void): void => {
       this.pool.query(sql, value, (err: mysql.MysqlError | null, result: any): void => {
-        if (err) {
+        if (err !== null) {
           reject(err);
           return;
         }

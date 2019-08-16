@@ -20,7 +20,7 @@ export class Locale {
     const {
       languages,
       regions
-    } = locale;
+    }: LocaleJSON = locale;
 
     return Locale.from(Languages.fromJSON(languages), Regions.fromJSON(regions));
   }
@@ -68,7 +68,7 @@ export class Locale {
     const {
       languages,
       regions
-    } = this;
+    }: this = this;
 
     return {
       languages: languages.toJSON(),
@@ -80,7 +80,7 @@ export class Locale {
     const {
       languages,
       regions
-    } = this;
+    }: this = this;
 
     return `${languages.toString()} ${regions.toString()}`;
   }

@@ -97,7 +97,7 @@ export class StatsEditSaga {
 
       const {
         stats
-      } = state;
+      }: State = state;
 
       const newStats: Stats = Stats.from(
         stats.getStatsID(),
@@ -120,7 +120,7 @@ export class StatsEditSaga {
 
       const {
         stats
-      } = state;
+      }: State = state;
 
       const newStats: Stats = Stats.from(
         stats.getStatsID(),
@@ -143,13 +143,10 @@ export class StatsEditSaga {
 
       const {
         stats
-      } = state;
-      const {
-        iso639
-      } = action;
+      }: State = state;
 
       try {
-        const language: Language = yield localeQuery.findByISO639(iso639);
+        const language: Language = yield localeQuery.findByISO639(action.iso639);
 
         const newStats: Stats = Stats.from(
           stats.getStatsID(),
@@ -176,13 +173,10 @@ export class StatsEditSaga {
 
       const {
         stats
-      } = state;
-      const {
-        iso3166
-      } = action;
+      }: State = state;
 
       try {
-        const region: Region = yield localeQuery.findByISO3166(iso3166);
+        const region: Region = yield localeQuery.findByISO3166(action.iso3166);
 
         const newStats: Stats = Stats.from(
           stats.getStatsID(),
@@ -209,12 +203,12 @@ export class StatsEditSaga {
 
       const {
         stats
-      } = state;
+      }: State = state;
       const {
         row,
         column,
         value
-      } = action;
+      }: StatsEditDataFilledAction = action;
 
       const copied: Stats = stats.copy();
       copied.setData(row, column, value);
@@ -230,11 +224,11 @@ export class StatsEditSaga {
 
       const {
         stats
-      } = state;
+      }: State = state;
       const {
         row,
         column
-      } = action;
+      }: StatsEditDataDeletedAction = action;
 
       const copied: Stats = stats.copy();
       copied.deleteData(row, column);
@@ -250,7 +244,7 @@ export class StatsEditSaga {
 
       const {
         statsItem
-      } = state;
+      }: State = state;
 
       const newStatsItem: StatsItem = StatsItem.from(statsItem.getStatsItemID(), StatsItemName.of(action.name), statsItem.getValues());
       yield put(updateStatsItem(newStatsItem));
@@ -265,7 +259,7 @@ export class StatsEditSaga {
       const {
         stats,
         statsItem
-      } = state;
+      }: State = state;
 
       const newStats: Stats = Stats.from(
         stats.getStatsID(),
@@ -290,10 +284,10 @@ export class StatsEditSaga {
 
       const {
         stats
-      } = state;
+      }: State = state;
       const {
         row
-      } = action;
+      }: StatsEditRowSelectedAction = action;
 
       const selecting: StatsItem = stats.getItems().get(row);
       yield put(selectItem(selecting, row));
@@ -311,9 +305,9 @@ export class StatsEditSaga {
           selectingItem,
           selectingRow
         }
-      } = state;
+      }: State = state;
 
-      if (selectingItem) {
+      if (selectingItem !== undefined) {
         const newSelectingItem: StatsItem = StatsItem.from(selectingItem.getStatsItemID(), StatsItemName.of(action.name), selectingItem.getValues());
         const copied: Stats = stats.copy();
         copied.replaceItem(newSelectingItem, selectingRow);
@@ -331,10 +325,10 @@ export class StatsEditSaga {
 
       const {
         stats
-      } = state;
+      }: State = state;
       const {
         startDate
-      } = action;
+      }: StatsEditStartDateDeterminedAction = action;
 
       const date: moment.Moment = moment(startDate);
       if (date.isValid()) {
@@ -364,11 +358,11 @@ export class StatsEditSaga {
 
       const {
         stats
-      } = state;
+      }: State = state;
       const {
         column,
         target
-      } = action;
+      }: StatsEditRowMovedAction = action;
 
       const copied: Stats = stats.copy();
       copied.moveItem(column, target);
@@ -391,7 +385,7 @@ export class StatsEditSaga {
 
       const {
         stats
-      } = state;
+      }: State = state;
 
       const copied: Stats = stats.copy();
       copied.removeItem(action.statsItem);
@@ -408,7 +402,7 @@ export class StatsEditSaga {
 
       const {
         stats
-      } = state;
+      }: State = state;
 
       yield put(loading());
       try {

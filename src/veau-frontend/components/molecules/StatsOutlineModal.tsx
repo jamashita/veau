@@ -11,6 +11,7 @@ import {
   Select
 } from '@material-ui/core';
 import * as React from 'react';
+import { PropsWithChildren } from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Locale } from '../../../veau-entity/aggregate/Locale';
 import { Language } from '../../../veau-entity/Language';
@@ -44,7 +45,7 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
       open,
       stats,
       locale
-    } = this.props;
+    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
 
     if (open !== nextProps.open) {
       return true;
@@ -72,7 +73,7 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
       iso3166Selected,
       termSelected,
       saveNewStats
-    } = this.props;
+    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
 
     return (
       <Dialog

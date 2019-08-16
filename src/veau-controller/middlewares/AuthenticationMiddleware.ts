@@ -14,6 +14,7 @@ export class AuthenticationMiddleware {
   public apply(): express.RequestHandler {
     return (req: express.Request, res: express.Response, next: express.NextFunction): void => {
       if (req.user !== undefined) {
+        req.account = req.user;
         next();
         return;
       }

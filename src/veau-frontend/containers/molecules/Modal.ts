@@ -1,8 +1,4 @@
-import {
-  connect, ConnectedComponentClass,
-  MapDispatchToProps,
-  MapStateToProps
-} from 'react-redux';
+import { connect, ConnectedComponentClass, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Action } from '../../actions/Action';
 import { closeModal } from '../../actions/ModalAction';
@@ -30,7 +26,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
       description,
       values
     }
-  } = state;
+  }: State = state;
 
   return {
     open,

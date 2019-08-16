@@ -58,7 +58,7 @@ export class StatsOutlines {
       return false;
     }
 
-    for (let i = 0; i < length; i++) {
+    for (let i: number = 0; i < length; i++) {
       if (!this.outlines[i].equals(other.get(i))) {
         return false;
       }
@@ -77,7 +77,7 @@ export class StatsOutlines {
       return false;
     }
 
-    for (let i = 0; i < length; i++) {
+    for (let i: number = 0; i < length; i++) {
       if (!this.outlines[i].isSame(other.get(i))) {
         return false;
       }

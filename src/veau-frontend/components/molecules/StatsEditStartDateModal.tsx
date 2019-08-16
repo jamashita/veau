@@ -1,6 +1,7 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon } from '@material-ui/core';
 import moment from 'moment';
 import * as React from 'react';
+import { PropsWithChildren } from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { TextField } from '../atoms/TextField';
 
@@ -25,10 +26,10 @@ class StatsEditStartDateModalImpl extends React.Component<Props & WrappedCompone
   public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>, nextState: Readonly<State>): boolean {
     const {
       open
-    } = this.props;
+    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
     const {
       startDate
-    } = this.state;
+    }: State = this.state;
 
     if (open !== nextProps.open) {
       return true;
@@ -46,10 +47,10 @@ class StatsEditStartDateModalImpl extends React.Component<Props & WrappedCompone
       intl,
       close,
       determineStartDate
-    } = this.props;
+    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
     const {
       startDate
-    } = this.state;
+    }: State = this.state;
 
     return (
       <Dialog

@@ -1,5 +1,6 @@
 import { Icon, Snackbar, SnackbarContent } from '@material-ui/core';
 import { amber, blue, green, red } from '@material-ui/core/colors';
+import { PropsWithChildren } from 'react';
 import * as React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Props } from '../../containers/molecules/Notification';
@@ -18,7 +19,7 @@ class NotificationImpl extends React.Component<Props & WrappedComponentProps, St
       message,
       duration,
       values
-    } = this.props;
+    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
 
     if (kind !== nextProps.kind) {
       return true;
@@ -48,7 +49,7 @@ class NotificationImpl extends React.Component<Props & WrappedComponentProps, St
   private icon(): React.ReactNode {
     const {
       kind
-    } = this.props;
+    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
 
     switch (kind) {
       case 'success': {
@@ -86,7 +87,7 @@ class NotificationImpl extends React.Component<Props & WrappedComponentProps, St
   private backgroundColor(): string {
     const {
       kind
-    } = this.props;
+    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
 
     switch (kind) {
       case 'success': {
@@ -115,7 +116,7 @@ class NotificationImpl extends React.Component<Props & WrappedComponentProps, St
       values,
       intl,
       closeClicked
-    } = this.props;
+    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
 
     return (
       <Snackbar

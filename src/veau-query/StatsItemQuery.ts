@@ -34,7 +34,7 @@ export class StatsItemQuery {
     const items: Array<StatsItem> = statsItemRows.map<StatsItem>((statsItemRow: StatsItemRow): StatsItem => {
       const values: StatsValues | undefined = valueMap.get(statsItemRow.statsItemID);
 
-      if (values) {
+      if (values !== undefined) {
         return StatsItem.fromRow(statsItemRow, values);
       }
 

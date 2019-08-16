@@ -31,7 +31,7 @@ export class StatsItem extends Entity<StatsItemID> {
       statsItemID,
       name,
       values
-    } = json;
+    }: StatsItemJSON = json;
 
     return StatsItem.from(StatsItemID.of(statsItemID), StatsItemName.of(name), StatsValues.ofJSON(values));
   }
@@ -40,7 +40,7 @@ export class StatsItem extends Entity<StatsItemID> {
     const {
       statsItemID,
       name
-    } = row;
+    }: StatsItemRow = row;
 
     return StatsItem.from(StatsItemID.of(statsItemID), StatsItemName.of(name), statsValues);
   }
@@ -129,7 +129,7 @@ export class StatsItem extends Entity<StatsItemID> {
       statsItemID,
       name,
       values
-    } = this;
+    }: this = this;
 
     if (!statsItemID.equals(other.getStatsItemID())) {
       return false;
@@ -149,7 +149,7 @@ export class StatsItem extends Entity<StatsItemID> {
       statsItemID,
       name,
       values
-    } = this;
+    }: this = this;
 
     return new StatsItem(statsItemID, name, values.copy());
   }
@@ -159,7 +159,7 @@ export class StatsItem extends Entity<StatsItemID> {
       statsItemID,
       name,
       values
-    } = this;
+    }: this = this;
 
     return {
       statsItemID: statsItemID.get(),
@@ -173,7 +173,7 @@ export class StatsItem extends Entity<StatsItemID> {
       statsItemID,
       name,
       values
-    } = this;
+    }: this = this;
 
     return `${statsItemID.toString()} ${name.toString()} ${values.toString()}`;
   }

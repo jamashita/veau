@@ -63,7 +63,7 @@ export class Regions {
     if (length !== other.length()) {
       return false;
     }
-    for (let i = 0; i < length; i++) {
+    for (let i: number = 0; i < length; i++) {
       if (!this.get(i).equals(other.get(i))) {
         return false;
       }

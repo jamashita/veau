@@ -14,7 +14,7 @@ export class StatsValues {
       const {
         asOf,
         value
-      } = statsValue;
+      }: StatsValueJSON = statsValue;
 
       return StatsValue.of(moment(asOf), value);
     }));

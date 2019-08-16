@@ -15,6 +15,7 @@ export class Request {
 
     return new Promise<Response<T>>((resolve: (value: Response<T>) => void, reject: (reason: any) => void): void => {
       request.get(options, (err: any, response: request.Response): void => {
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (err) {
           reject(err);
           return;

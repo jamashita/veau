@@ -79,7 +79,7 @@ export class Stats extends Entity<StatsID> {
       unit,
       updatedAt,
       items
-    } = json;
+    }: StatsJSON = json;
 
     return Stats.from(
       StatsID.of(statsID),
@@ -107,7 +107,7 @@ export class Stats extends Entity<StatsID> {
       name,
       unit,
       updatedAt
-    } = row;
+    }: StatsRow = row;
 
     const language: Language = Language.from(LanguageID.of(languageID), LanguageName.of(languageName), LanguageName.of(languageEnglishName), ISO639.of(iso639));
     const region: Region = Region.from(RegionID.of(regionID), RegionName.of(regionName), ISO3166.of(iso3166));
@@ -195,15 +195,15 @@ export class Stats extends Entity<StatsID> {
     const {
       startDate,
       columns
-    } = this;
+    }: this = this;
 
-    if (columns) {
+    if (columns !== undefined) {
       return columns;
     }
 
     const asOfs: Array<moment.Moment> = this.getAsOfs();
 
-    if (startDate) {
+    if (startDate !== undefined) {
       asOfs.push(moment(startDate));
     }
 
@@ -358,7 +358,7 @@ export class Stats extends Entity<StatsID> {
       region,
       name,
       unit
-    } = this;
+    }: this = this;
 
     if (language.equals(Language.default())) {
       return false;
@@ -414,7 +414,7 @@ export class Stats extends Entity<StatsID> {
       updatedAt,
       items,
       startDate
-    } = this;
+    }: this = this;
 
     if (!statsID.equals(other.getStatsID())) {
       return false;
@@ -458,7 +458,7 @@ export class Stats extends Entity<StatsID> {
       updatedAt,
       items,
       startDate
-    } = this;
+    }: this = this;
 
     return new Stats(statsID, language, region, term, name, unit, updatedAt, items.copy(), startDate);
   }
@@ -473,7 +473,7 @@ export class Stats extends Entity<StatsID> {
       unit,
       updatedAt,
       items
-    } = this;
+    }: this = this;
 
     return {
       statsID: statsID.get(),
@@ -496,7 +496,7 @@ export class Stats extends Entity<StatsID> {
       name,
       unit,
       updatedAt
-    } = this;
+    }: this = this;
 
     return `${statsID.toString()} ${language.toString()} ${region.toString()} ${term.toString()} ${name.toString()} ${unit.toString()} ${updatedAt.toString()}`;
   }

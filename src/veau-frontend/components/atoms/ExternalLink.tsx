@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { PropsWithChildren } from 'react';
 
 type Props = {
   href: string;
@@ -13,7 +14,7 @@ export class ExternalLink extends React.Component<Props, State> {
     const {
       href,
       style
-    } = this.props;
+    }: PropsWithChildren<Props> = this.props;
 
     if (href !== nextProps.href) {
       return true;
@@ -30,7 +31,7 @@ export class ExternalLink extends React.Component<Props, State> {
       href,
       style,
       children
-    } = this.props;
+    }: PropsWithChildren<Props> = this.props;
 
     return (
       <a

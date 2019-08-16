@@ -1,5 +1,6 @@
 import { Button, Divider, Drawer, Icon, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import * as React from 'react';
+import { PropsWithChildren } from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Props } from '../../containers/molecules/PageProvider';
 
@@ -11,7 +12,7 @@ class PageProviderImpl extends React.Component<Props & WrappedComponentProps, St
   public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
     const {
       open
-    } = this.props;
+    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
 
     if (open !== nextProps.open) {
       return true;
@@ -27,7 +28,7 @@ class PageProviderImpl extends React.Component<Props & WrappedComponentProps, St
       close,
       toStatsList,
       logout
-    } = this.props;
+    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
 
     return (
       <Drawer

@@ -15,7 +15,7 @@ export type Props = StateProps & DispatchProps & OwnProps;
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State): StateProps => {
   const {
     identity
-  } = state;
+  }: State = state;
 
   return {
     identity

@@ -8,7 +8,9 @@ const router: express.Router = express.Router();
 const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
 
 router.post('/', passport.authenticate('local'), authenticationMiddleware.apply(), (req: express.Request, res: express.Response): any => {
-  res.status(OK).send(req.user.toJSON());
+  req.account.isDefault();
+  req.account.copy();
+  res.status(OK).send(req.account.toJSON());
 });
 
 export const AuthController: express.Router = router;

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { PropsWithChildren } from 'react';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Stats } from '../../../veau-entity/Stats';
 import { Colors } from '../../../veau-vo/collection/Colors';
@@ -18,7 +19,7 @@ export class Chart extends React.Component<Props, State> {
   public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
     const {
       stats
-    } = this.props;
+    }: PropsWithChildren<Props> = this.props;
 
     if (stats.isSame(nextProps.stats)) {
       return false;
@@ -30,7 +31,7 @@ export class Chart extends React.Component<Props, State> {
   public render(): React.ReactNode {
     const {
       stats
-    } = this.props;
+    }: PropsWithChildren<Props> = this.props;
 
     return (
       <ResponsiveContainer

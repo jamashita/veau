@@ -22,7 +22,7 @@ export class StatsQuery {
     const {
       status,
       body
-    } = response;
+    }: AJAXResponse<StatsJSON> = response;
 
     switch (status) {
       case OK: {
@@ -42,7 +42,7 @@ export class StatsQuery {
     const {
       status,
       body
-    } = response;
+    }: AJAXResponse<Array<StatsOutlineJSON>> = response;
 
     switch (status) {
       case OK: {

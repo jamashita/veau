@@ -30,7 +30,7 @@ export class StatsUpdateTransaction implements ITransaction {
     const {
       stats,
       veauAccountID
-    } = this;
+    }: this = this;
 
     const statsID: StatsID = stats.getStatsID();
 

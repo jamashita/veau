@@ -27,7 +27,7 @@ export class AuthenticationInteractor {
       const {
         veauAccount,
         hash
-      } = accountHash;
+      }: VeauAccountHash = accountHash;
 
       const correct: boolean = await Digest.compare(password, hash);
 

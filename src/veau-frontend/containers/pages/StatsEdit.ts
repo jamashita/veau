@@ -61,7 +61,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
       selectingItem
     },
     locale
-  } = state;
+  }: State = state;
 
   return {
     stats,

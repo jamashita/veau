@@ -1,4 +1,5 @@
 import { AppBar, Icon, Toolbar, Typography } from '@material-ui/core';
+import { PropsWithChildren } from 'react';
 import * as React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
@@ -18,7 +19,7 @@ class HeaderImpl extends React.Component<Props & WrappedComponentProps, State> {
     const {
       intl,
       menuClicked
-    } = this.props;
+    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
 
     return (
       <AppBar

@@ -69,7 +69,7 @@ export class StatsListSaga {
         statsList: {
           stats
         }
-      } = state;
+      }: State = state;
 
       const newStats: Stats = Stats.from(
         stats.getStatsID(),
@@ -94,7 +94,7 @@ export class StatsListSaga {
         statsList: {
           stats
         }
-      } = state;
+      }: State = state;
 
       const newStats: Stats = Stats.from(
         stats.getStatsID(),
@@ -119,13 +119,10 @@ export class StatsListSaga {
         statsList: {
           stats
         }
-      } = state;
-      const {
-        iso639
-      } = action;
+      }: State = state;
 
       try {
-        const language: Language = yield localeQuery.findByISO639(iso639);
+        const language: Language = yield localeQuery.findByISO639(action.iso639);
 
         const newStats: Stats = Stats.from(
           stats.getStatsID(),
@@ -154,13 +151,10 @@ export class StatsListSaga {
         statsList: {
           stats
         }
-      } = state;
-      const {
-        iso3166
-      } = action;
+      }: State = state;
 
       try {
-        const region: Region = yield localeQuery.findByISO3166(iso3166);
+        const region: Region = yield localeQuery.findByISO3166(action.iso3166);
 
         const newStats: Stats = Stats.from(
           stats.getStatsID(),
@@ -189,7 +183,7 @@ export class StatsListSaga {
         statsList: {
           stats
         }
-      } = state;
+      }: State = state;
 
       const newStats: Stats = Stats.from(
         stats.getStatsID(),
@@ -215,7 +209,7 @@ export class StatsListSaga {
         statsList: {
           stats
         }
-      } = state;
+      }: State = state;
 
       if (!stats.isFilled()) {
         continue;

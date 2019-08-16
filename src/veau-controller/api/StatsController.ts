@@ -38,7 +38,7 @@ router.get('/page/:page(\\d+)', authenticationMiddleware.apply(), async (req: ex
 router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: express.Response): Promise<any> => {
   const {
     statsID
-  } = req.params;
+  }: any = req.params;
 
   try {
     const stats: Stats = await statsInteractor.findByStatsID(StatsID.of(statsID));
@@ -66,7 +66,7 @@ router.post('/', authenticationMiddleware.apply(), async (req: express.Request, 
     unit,
     updatedAt,
     items
-  } = req.body;
+  }: any = req.body;
 
   if (!Type.isString(statsID)) {
     res.sendStatus(BAD_REQUEST);

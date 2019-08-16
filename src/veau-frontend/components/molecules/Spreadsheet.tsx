@@ -1,5 +1,7 @@
 import { HotTable } from '@handsontable/react';
 import * as React from 'react';
+import { PropsWithChildren } from 'react';
+import { WrappedComponentProps } from 'react-intl';
 import { Stats } from '../../../veau-entity/Stats';
 
 type Props = {
@@ -23,7 +25,7 @@ export class Spreadsheet extends React.Component<Props, State> {
   public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
     const {
       stats
-    } = this.props;
+    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
 
     if (stats.isSame(nextProps.stats)) {
       return false;
@@ -40,7 +42,7 @@ export class Spreadsheet extends React.Component<Props, State> {
       dataDeleted,
       rowSelected,
       rowMoved
-    } = this.props;
+    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
 
     const data: Array<Array<string>> = stats.getData();
     const columnHeaders: Array<string> = stats.getColumns();

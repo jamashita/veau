@@ -1,5 +1,6 @@
 import { default as Text } from '@material-ui/core/TextField';
 import * as React from 'react';
+import { PropsWithChildren } from 'react';
 
 type Props = {
   label: string;
@@ -22,7 +23,7 @@ export class TextField extends React.Component<Props, State> {
       value,
       defaultValue,
       disabled
-    } = this.props;
+    }: PropsWithChildren<Props> = this.props;
 
     if (label !== nextProps.label) {
       return true;
@@ -52,7 +53,7 @@ export class TextField extends React.Component<Props, State> {
       defaultValue,
       onKeyUp,
       onEnterUp
-    } = this.props;
+    }: PropsWithChildren<Props> = this.props;
 
     return (
       <Text
@@ -63,11 +64,11 @@ export class TextField extends React.Component<Props, State> {
         value={value}
         defaultValue={defaultValue}
         onChange={(e1: React.ChangeEvent<HTMLInputElement>): void => {
-          if (onKeyUp) {
+          if (onKeyUp !== undefined) {
             onKeyUp(e1.target.value);
             e1.target.onkeydown = (e2: KeyboardEvent): void => {
               if (e2.key === 'Enter') {
-                if (onEnterUp) {
+                if (onEnterUp !== undefined) {
                   onEnterUp();
                 }
               }

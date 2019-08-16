@@ -1,5 +1,6 @@
 import { Button, Card, CardActions, CardContent, CardHeader, Icon } from '@material-ui/core';
 import * as React from 'react';
+import { PropsWithChildren } from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { StatsItem } from '../../../veau-entity/StatsItem';
 import { TextField } from '../atoms/TextField';
@@ -17,10 +18,10 @@ class StatsItemInformationImpl extends React.Component<Props & WrappedComponentP
   public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
     const {
       selecting
-    } = this.props;
+    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
 
-    if (selecting) {
-      if (nextProps.selecting) {
+    if (selecting !== undefined) {
+      if (nextProps.selecting !== undefined) {
         if (selecting.isSame(nextProps.selecting)) {
           return false;
         }
@@ -30,7 +31,7 @@ class StatsItemInformationImpl extends React.Component<Props & WrappedComponentP
 
       return true;
     }
-    if (nextProps.selecting) {
+    if (nextProps.selecting !== undefined) {
       return true;
     }
 
@@ -43,9 +44,9 @@ class StatsItemInformationImpl extends React.Component<Props & WrappedComponentP
       intl,
       nameTyped,
       removeItem
-    } = this.props;
+    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
 
-    if (!selecting) {
+    if (selecting === undefined) {
       return null;
     }
 

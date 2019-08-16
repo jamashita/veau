@@ -1,5 +1,6 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon } from '@material-ui/core';
 import * as React from 'react';
+import { PropsWithChildren } from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { StatsItem } from '../../../veau-entity/StatsItem';
 import { TextField } from '../atoms/TextField';
@@ -20,7 +21,7 @@ class StatsItemModalImpl extends React.Component<Props & WrappedComponentProps, 
     const {
       open,
       statsItem
-    } = this.props;
+    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
 
     if (open !== nextProps.open) {
       return true;
@@ -40,7 +41,7 @@ class StatsItemModalImpl extends React.Component<Props & WrappedComponentProps, 
       close,
       itemNameTyped,
       saveNewItem
-    } = this.props;
+    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
 
     return (
       <Dialog

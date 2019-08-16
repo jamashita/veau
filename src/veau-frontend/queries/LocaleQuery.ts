@@ -58,7 +58,7 @@ export class LocaleQuery {
   public async all(): Promise<Locale> {
     const {
       locale
-    } = this;
+    }: this = this;
 
     if (locale !== null) {
       return locale;
@@ -68,7 +68,7 @@ export class LocaleQuery {
     const {
       status,
       body
-    } = response;
+    }: AJAXResponse<LocaleJSON> = response;
 
     switch (status) {
       case OK: {

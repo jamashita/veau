@@ -35,13 +35,16 @@ export class StatsValueQuery {
         statsItemID,
         asOf,
         value
-      } = statsValueRow;
+      }: StatsValueRow = statsValueRow;
 
       const statsValue: StatsValue = StatsValue.of(moment(asOf), value);
       const statsValues: StatsValues | undefined = valueMap.get(statsItemID);
 
-      if (statsValues) {
-        valueMap.set(statsItemID, statsValues.set(statsValue));
+      if (statsValues !== undefined) {
+        // TODO i think this logic is enough for that
+        statsValues.set(statsValue);
+        // TODO the original code was this :)
+        // valueMap.set(statsItemID, statsValues.set(statsValue));
         return;
       }
 

@@ -1,5 +1,6 @@
 import { CircularProgress, Dialog, DialogContent, DialogTitle } from '@material-ui/core';
 import * as React from 'react';
+import { PropsWithChildren } from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Props } from '../../containers/molecules/LoadingIndicator';
 
@@ -13,7 +14,7 @@ class LoadingIndicatorImpl extends React.Component<Props & WrappedComponentProps
   public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
     const {
       loadingCount
-    } = this.props;
+    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
 
     if (loadingCount !== nextProps.loadingCount) {
       return true;
@@ -26,7 +27,7 @@ class LoadingIndicatorImpl extends React.Component<Props & WrappedComponentProps
     const {
       loadingCount,
       intl
-    } = this.props;
+    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
 
     return (
       <Dialog

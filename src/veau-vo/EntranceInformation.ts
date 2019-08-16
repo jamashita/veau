@@ -60,7 +60,7 @@ export class EntranceInformation extends ValueObject {
     const {
       account,
       password
-    } = this;
+    }: this = this;
 
     return {
       account,
@@ -72,8 +72,8 @@ export class EntranceInformation extends ValueObject {
     const {
       account,
       password
-    } = this;
+    }: this = this;
 
-    return `account: ${account}, password: ${password}`;
+    return `${account} ${password}`;
   }
 }

@@ -31,7 +31,7 @@ export class EntranceSaga {
           open
         },
         entranceInformation
-      } = state;
+      }: State = state;
 
       if (open) {
         continue;
@@ -70,7 +70,7 @@ export class EntranceSaga {
 
       const {
         entranceInformation
-      } = state;
+      }: State = state;
 
       const newLogin: EntranceInformation = EntranceInformation.of(action.account, entranceInformation.getPassword());
       yield put(updateEntranceInformation(newLogin));
@@ -84,7 +84,7 @@ export class EntranceSaga {
 
       const {
         entranceInformation
-      } = state;
+      }: State = state;
 
       const newLogin: EntranceInformation = EntranceInformation.of(entranceInformation.getAccount(), action.password);
       yield put(updateEntranceInformation(newLogin));
