@@ -196,7 +196,14 @@
       }
     ],
     "@typescript-eslint/no-array-constructor": "error",
-    "@typescript-eslint/no-empty-function": "error",
+    "@typescript-eslint/no-empty-function": [
+      "error",
+      {
+        "allow": [
+          "constructors"
+        ]
+      },
+    ],
     "@typescript-eslint/no-empty-interface": [
       "error",
       {
@@ -291,12 +298,7 @@
         "variableDeclaration": true
       }
     ],
-    "@typescript-eslint/unbound-method": [
-      "error",
-      {
-        "ignoreStatic": true
-      }
-    ],
+    "@typescript-eslint/unbound-method": "off",
     "@typescript-eslint/unified-signatures": "error"
   }
 }
