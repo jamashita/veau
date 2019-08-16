@@ -1,5 +1,6 @@
 import { Button, Card, CardActions, CardContent, CardHeader, Icon } from '@material-ui/core';
 import * as React from 'react';
+import { PropsWithChildren } from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Props } from '../../containers/pages/Entrance';
 import { TextField } from '../atoms/TextField';
@@ -13,7 +14,7 @@ class EntranceImpl extends React.Component<Props & WrappedComponentProps, State>
     const {
       entranceInformation,
       intl
-    } = this.props;
+    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
 
     if (intl.locale !== nextProps.intl.locale) {
       return true;
@@ -32,7 +33,7 @@ class EntranceImpl extends React.Component<Props & WrappedComponentProps, State>
       accountTyped,
       passwordTyped,
       loginClicked
-    } = this.props;
+    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
 
     return (
       <Card

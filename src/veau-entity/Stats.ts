@@ -330,7 +330,7 @@ export class Stats extends Entity<StatsID> {
       statsItem.getValues().forEach((statsValue: StatsValue): void => {
         const line: Chart | undefined = chartItems.get(statsValue.getAsOfAsString());
 
-        if (line) {
+        if (line !== undefined) {
           line[statsItem.getName().get()] = statsValue.getValue();
         }
       });

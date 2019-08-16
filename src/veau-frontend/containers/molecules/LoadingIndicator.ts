@@ -14,7 +14,7 @@ export type Props = StateProps & DispatchProps & OwnProps;
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State): StateProps => {
   const {
     loadingCount
-  } = state;
+  }: State = state;
 
   return {
     loadingCount

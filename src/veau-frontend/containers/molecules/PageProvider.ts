@@ -24,7 +24,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
     pageProvider: {
       open
     }
-  } = state;
+  }: State = state;
 
   return {
     open

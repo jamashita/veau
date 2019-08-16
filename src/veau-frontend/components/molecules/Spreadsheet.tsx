@@ -1,7 +1,6 @@
 import { HotTable } from '@handsontable/react';
 import * as React from 'react';
 import { PropsWithChildren } from 'react';
-import { WrappedComponentProps } from 'react-intl';
 import { Stats } from '../../../veau-entity/Stats';
 
 type Props = {
@@ -25,7 +24,7 @@ export class Spreadsheet extends React.Component<Props, State> {
   public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
     const {
       stats
-    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
+    }: PropsWithChildren<Props> = this.props;
 
     if (stats.isSame(nextProps.stats)) {
       return false;
@@ -42,7 +41,7 @@ export class Spreadsheet extends React.Component<Props, State> {
       dataDeleted,
       rowSelected,
       rowMoved
-    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
+    }: PropsWithChildren<Props> = this.props;
 
     const data: Array<Array<string>> = stats.getData();
     const columnHeaders: Array<string> = stats.getColumns();
@@ -74,7 +73,7 @@ export class Spreadsheet extends React.Component<Props, State> {
           col: 1
         }}
         beforeChange={(changes: Array<Array<any>> | null): boolean => {
-          if (!changes) {
+          if (changes === null) {
             return false;
           }
           const length: number = changes.length;
@@ -90,7 +89,7 @@ export class Spreadsheet extends React.Component<Props, State> {
           return true;
         }}
         afterChange={(changes: Array<Array<any>> | null): void => {
-          if (!changes) {
+          if (changes === null) {
             return;
           }
           changes.forEach((change: Array<any>): void => {

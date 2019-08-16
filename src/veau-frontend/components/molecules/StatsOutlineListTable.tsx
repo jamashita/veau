@@ -1,5 +1,6 @@
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
 import * as React from 'react';
+import { PropsWithChildren } from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { StatsOutlines } from '../../../veau-entity/collection/StatsOutlines';
 import { StatsOutline } from '../../../veau-entity/StatsOutline';
@@ -17,7 +18,7 @@ class StatsOutlineListTableImpl extends React.Component<Props & WrappedComponent
   public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
     const {
       statsOutlines
-    } = this.props;
+    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
 
     if (statsOutlines.areSame(nextProps.statsOutlines)) {
       return false;
@@ -31,7 +32,7 @@ class StatsOutlineListTableImpl extends React.Component<Props & WrappedComponent
       statsOutlines,
       intl,
       toStatsEdit
-    } = this.props;
+    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
 
     return (
       <Table>

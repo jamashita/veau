@@ -24,7 +24,7 @@ export class Request {
         const {
           statusCode,
           body
-        } = response;
+        }: request.Response = response;
 
         resolve({
           status: statusCode,

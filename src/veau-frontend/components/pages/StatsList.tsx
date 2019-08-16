@@ -1,5 +1,6 @@
 import { Button, Icon } from '@material-ui/core';
 import * as React from 'react';
+import { PropsWithChildren } from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Props } from '../../containers/pages/StatsList';
 import { Authenticated } from '../../containers/templates/Authenticated';
@@ -17,7 +18,7 @@ class StatsListImpl extends React.Component<Props & WrappedComponentProps, State
       open,
       stats,
       locale
-    } = this.props;
+    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
 
     if (!statsOutlines.areSame(nextProps.statsOutlines)) {
       return true;
@@ -51,7 +52,7 @@ class StatsListImpl extends React.Component<Props & WrappedComponentProps, State
       iso3166Selected,
       termSelected,
       saveNewStats
-    } = this.props;
+    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
 
     return (
       <Authenticated>
