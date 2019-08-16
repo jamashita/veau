@@ -1,7 +1,4 @@
 {
-  "plugins": [
-    "@typescript-eslint"
-  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "sourceType": "module",
@@ -11,17 +8,21 @@
     },
     "project": "./tsconfig.json"
   },
-  "env": {
-    "browser": true,
-    "es6": true,
-    "node": true
-  },
+  "plugins": [
+    "@typescript-eslint"
+  ],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking"
   ],
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "root": true,
   "rules": {
     "arrow-parens": "error",
     "camelcase": "off",
@@ -124,7 +125,8 @@
     "@typescript-eslint/array-type": [
       "error",
       {
-        "default": "generic"
+        "default": "generic",
+        "readonly": "generic"
       }
     ],
     "@typescript-eslint/await-thenable": "error",
