@@ -14,7 +14,7 @@
 
     /* Module Resolution Options */
     "moduleResolution": "node",
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "typeRoots": [
       "node_modules/@types",
       "src/@types"
@@ -27,6 +27,7 @@
   },
   "include": [
     "src/**/*.ts",
+    "src/**/*.tsx",
     "src/**/*.d.ts"
   ],
   "exclude": [
