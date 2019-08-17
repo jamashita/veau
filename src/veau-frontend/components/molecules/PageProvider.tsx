@@ -47,7 +47,7 @@ class PageProviderImpl extends React.Component<Props & WrappedComponentProps, St
             className='fas fa-times'
           />
         </Button>
-        <Divider/>
+        <Divider />
         <List>
           <ListItem
             button={true}
@@ -65,7 +65,7 @@ class PageProviderImpl extends React.Component<Props & WrappedComponentProps, St
             </ListItemText>
           </ListItem>
         </List>
-        <Divider/>
+        <Divider />
         <List>
           <ListItem
             button={true}

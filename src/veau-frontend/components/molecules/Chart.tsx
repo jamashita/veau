@@ -56,9 +56,9 @@ export class Chart extends React.Component<Props, State> {
               'dataMax'
             ]}
           />
-          <CartesianGrid/>
-          <Legend/>
-          <Tooltip/>
+          <CartesianGrid />
+          <Legend />
+          <Tooltip />
           {stats.getItemNames().map<React.ReactNode>((item: StatsItemName, index: number): React.ReactNode => {
             return (
               <Line

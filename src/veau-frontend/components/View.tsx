@@ -18,10 +18,10 @@ export class View extends React.Component<Props, State> {
   public render(): React.ReactNode {
     return (
       <div>
-        <Catalogue/>
-        <Modal/>
-        <Notification/>
-        <LoadingIndicator/>
+        <Catalogue />
+        <Modal />
+        <Notification />
+        <LoadingIndicator />
       </div>
     );
   }

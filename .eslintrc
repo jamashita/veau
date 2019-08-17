@@ -395,12 +395,12 @@
     "react/jsx-curly-spacing": [
       "error",
       {
-        "when": "always"
+        "when": "never"
       }
     ],
     "react/jsx-equals-spacing": [
       "error",
-      "always"
+      "never"
     ],
     "react/jsx-filename-extension": "off",
     "react/jsx-first-prop-new-line": [
@@ -440,7 +440,12 @@
       }
     ],
     "react/jsx-no-undef": "error",
-    "react/jsx-one-expression-per-line": "error",
+    "react/jsx-one-expression-per-line": [
+      "error",
+      {
+        "allow": "single-child"
+      }
+    ],
     "react/jsx-curly-brace-presence": [
       "error",
       {
@@ -463,7 +468,7 @@
         "closingSlash": "never",
         "beforeSelfClosing": "always",
         "afterOpening": "never",
-        "beforeClosing": "always"
+        "beforeClosing": "never"
       }
     ],
     "react/jsx-uses-react": "error",
@@ -475,6 +480,8 @@
         "assignment": "parens-new-line",
         "return": "parens-new-line",
         "arrow": "parens-new-line",
+        "condition": "parens-new-line",
+        "logical": "parens-new-line",
         "prop": "parens-new-line"
       }
     ]

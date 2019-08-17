@@ -132,12 +132,14 @@ class NotificationImpl extends React.Component<Props & WrappedComponentProps, St
           style={{
             backgroundColor: this.backgroundColor()
           }}
-          message={<span>
-            {this.icon()}
-            {intl.formatMessage({
-              id: message
-            }, values)}
-          </span>}
+          message={(
+            <span>
+              {this.icon()}
+              {intl.formatMessage({
+                id: message
+              }, values)}
+            </span>
+          )}
         />
       </Snackbar>
     );
