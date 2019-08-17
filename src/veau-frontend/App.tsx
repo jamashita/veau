@@ -26,17 +26,16 @@ const muiTheme: Theme = createMuiTheme({
   }
 });
 
-ReactDOM.render(
-  (
-    <MuiThemeProvider theme={muiTheme}>
-      <Provider store={store}>
-        <I18NProvider>
-          <ConnectedRouter history={history}>
-            <View />
-          </ConnectedRouter>
-        </I18NProvider>
-      </Provider>
-    </MuiThemeProvider>
-  ),
-  document.getElementById('app')
+const app: React.ReactElement = (
+  <MuiThemeProvider theme={muiTheme}>
+    <Provider store={store}>
+      <I18NProvider>
+        <ConnectedRouter history={history}>
+          <View />
+        </ConnectedRouter>
+      </I18NProvider>
+    </Provider>
+  </MuiThemeProvider>
 );
+
+ReactDOM.render(app, document.getElementById('app'));
