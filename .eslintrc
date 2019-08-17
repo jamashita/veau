@@ -25,6 +25,11 @@
     "node": true
   },
   "root": true,
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "rules": {
     "arrow-parens": "error",
     "camelcase": "off",
@@ -204,7 +209,7 @@
         "allow": [
           "constructors"
         ]
-      },
+      }
     ],
     "@typescript-eslint/no-empty-interface": [
       "error",
