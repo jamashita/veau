@@ -23,7 +23,7 @@
     "body-parser": "1.19.0",
     "bourbon-neat": "4.0.0",
     "chance": "1.0.18",
-    "check-types": "9.0.1",
+    "check-types": "10.0.0",
     "compression": "1.7.4",
     "config": "3.2.2",
     "connect-redis": "3.4.2",
@@ -112,7 +112,7 @@
     "ts-loader": "6.0.4",
     "typescript": "3.5.3",
     "webpack": "4.39.2",
-    "webpack-cli": "3.3.6",
+    "webpack-cli": "3.3.7",
     "webpack-dev-server": "3.8.0",
     "webpack-stream": "5.2.1"
   },
