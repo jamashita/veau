@@ -152,7 +152,9 @@ gulp.task('sass', () => {
     .pipe(plumber())
     .pipe(sass())
     .pipe(autoprefixer({
-      'browsers': ['last 4 versions']
+      'overrideBrowserslist': [
+        'last 2 major versions'
+      ]
     }))
     .pipe(cleanCSS())
     .pipe(gulp.dest('dist/veau-server/public/css'));
