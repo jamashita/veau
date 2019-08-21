@@ -25,7 +25,7 @@ router.get('/page/:page(\\d+)', authenticationMiddleware.apply(), async (req: ex
   }
 
   try {
-    const statsOutlines: StatsOutlines = await statsInteractor.findByVeauAccountID(req.user.getVeauAccountID(), Page.of(page));
+    const statsOutlines: StatsOutlines = await statsInteractor.findByVeauAccountID(req.account.getVeauAccountID(), Page.of(page));
 
     res.status(OK).send(statsOutlines.toJSON());
   }

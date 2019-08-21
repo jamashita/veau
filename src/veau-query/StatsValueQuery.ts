@@ -41,10 +41,7 @@ export class StatsValueQuery {
       const statsValues: StatsValues | undefined = valueMap.get(statsItemID);
 
       if (statsValues !== undefined) {
-        // TODO i think this logic is enough for that
-        statsValues.set(statsValue);
-        // TODO the original code was this :)
-        // valueMap.set(statsItemID, statsValues.set(statsValue));
+        valueMap.set(statsItemID, statsValues.set(statsValue));
         return;
       }
 

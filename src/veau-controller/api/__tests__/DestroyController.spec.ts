@@ -8,6 +8,12 @@ describe('DestroyController', () => {
   describe('DELETE /', () => {
     it('no session returns OK', async () => {
       const app: express.Express = express();
+      app.use((req: express.Request, res: express.Response, next: express.NextFunction): any => {
+        // @ts-ignore
+        req.logout = (): void => {
+        };
+        next();
+      });
       app.use('/', DestroyController);
 
       const response: supertest.Response = await supertest(app).delete('/');
