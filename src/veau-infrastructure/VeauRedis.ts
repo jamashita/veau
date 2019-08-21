@@ -1,4 +1,4 @@
-import * as config from 'config';
+import config from 'config';
 import * as IORedis from 'ioredis';
 import { Redis } from '../veau-general/Redis/Redis';
 

@@ -1,4 +1,4 @@
-import * as config from 'config';
+import config from 'config';
 import * as mysql from 'mysql';
 import { MySQL } from '../veau-general/MySQL/MySQL';
 

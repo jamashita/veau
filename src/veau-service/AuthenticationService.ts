@@ -1,4 +1,4 @@
-import * as passport from 'passport';
+import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { VeauAccount, VeauAccountJSON } from '../veau-entity/VeauAccount';
 import { AuthenticationInteractor } from '../veau-interactor/AuthenticationInteractor';

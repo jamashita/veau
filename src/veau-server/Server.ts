@@ -1,12 +1,12 @@
 import * as bodyParser from 'body-parser';
 import compression from 'compression';
-import * as config from 'config';
+import config from 'config';
 import connectRedis from 'connect-redis';
 import express from 'express';
 import expressSession from 'express-session';
 import helmet from 'helmet';
 import * as log4js from 'log4js';
-import * as passport from 'passport';
+import passport from 'passport';
 import * as path from 'path';
 import favicon from 'serve-favicon';
 import 'source-map-support/register';
