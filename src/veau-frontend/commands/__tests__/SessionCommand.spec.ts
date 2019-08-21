@@ -1,6 +1,5 @@
 import 'jest';
-import * as sinon from 'sinon';
-import { SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 import { AJAX } from '../../../veau-general/AJAX';
 import { SessionCommand } from '../SessionCommand';
 

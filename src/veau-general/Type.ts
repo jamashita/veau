@@ -1,4 +1,4 @@
-import * as check from 'check-types';
+import check from 'check-types';
 import moment from 'moment';
 
 export class Type {

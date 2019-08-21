@@ -1,7 +1,6 @@
 import { INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'http-status';
 import 'jest';
-import * as sinon from 'sinon';
-import { SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 import { StatsOutlines } from '../../../veau-entity/collection/StatsOutlines';
 import { Stats } from '../../../veau-entity/Stats';
 import { AJAXError } from '../../../veau-error/AJAXError';

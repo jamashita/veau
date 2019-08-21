@@ -1,7 +1,6 @@
 import { BAD_REQUEST, CREATED } from 'http-status';
 import 'jest';
-import * as sinon from 'sinon';
-import { SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 import { StatsItems } from '../../../veau-entity/collection/StatsItems';
 import { Language } from '../../../veau-entity/Language';
 import { Region } from '../../../veau-entity/Region';

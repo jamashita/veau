@@ -1,4 +1,4 @@
-import * as log4js from 'log4js';
+import log4js from 'log4js';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { Digest } from '../veau-general/Digest';
 import { VeauAccountHash, VeauAccountQuery } from '../veau-query/VeauAccountQuery';

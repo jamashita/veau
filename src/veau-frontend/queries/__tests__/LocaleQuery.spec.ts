@@ -1,6 +1,6 @@
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import 'jest';
-import * as sinon from 'sinon';
+import sinon from 'sinon';
 import { SinonStub } from 'sinon';
 import { Locale } from '../../../veau-entity/aggregate/Locale';
 import { Language } from '../../../veau-entity/Language';

@@ -1,6 +1,5 @@
 import 'jest';
-import * as sinon from 'sinon';
-import { SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 import { StatsOutlines } from '../../veau-entity/collection/StatsOutlines';
 import { veauMySQL } from '../../veau-infrastructure/VeauMySQL';
 import { Limit } from '../../veau-vo/Limit';

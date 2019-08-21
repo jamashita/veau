@@ -1,6 +1,5 @@
 import 'jest';
-import * as sinon from 'sinon';
-import { SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 import { RegionCommand } from '../../veau-command/RegionCommand';
 import { Regions } from '../../veau-entity/collection/Regions';
 import { Region } from '../../veau-entity/Region';

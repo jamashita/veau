@@ -1,6 +1,5 @@
 import 'jest';
-import * as sinon from 'sinon';
-import { SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 import { LanguageCommand } from '../../veau-command/LanguageCommand';
 import { Languages } from '../../veau-entity/collection/Languages';
 import { Language } from '../../veau-entity/Language';

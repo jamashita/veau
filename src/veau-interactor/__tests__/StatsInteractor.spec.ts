@@ -1,7 +1,6 @@
 import 'jest';
 import moment from 'moment';
-import * as sinon from 'sinon';
-import { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { StatsItems } from '../../veau-entity/collection/StatsItems';
 import { StatsOutlines } from '../../veau-entity/collection/StatsOutlines';
 import { Language } from '../../veau-entity/Language';

@@ -1,7 +1,6 @@
 import 'jest';
 import moment from 'moment';
-import * as sinon from 'sinon';
-import { SinonSpy } from 'sinon';
+import sinon, { SinonSpy } from 'sinon';
 import { StatsCommand } from '../../veau-command/StatsCommand';
 import { StatsItemCommand } from '../../veau-command/StatsItemCommand';
 import { StatsValueCommand } from '../../veau-command/StatsValueCommand';

@@ -1,13 +1,13 @@
-import * as bodyParser from 'body-parser';
+import bodyParser from 'body-parser';
 import compression from 'compression';
 import config from 'config';
 import connectRedis from 'connect-redis';
 import express from 'express';
 import expressSession from 'express-session';
 import helmet from 'helmet';
-import * as log4js from 'log4js';
+import log4js from 'log4js';
 import passport from 'passport';
-import * as path from 'path';
+import path from 'path';
 import favicon from 'serve-favicon';
 import 'source-map-support/register';
 import { BaseController } from '../veau-controller/BaseController';

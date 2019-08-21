@@ -1,4 +1,4 @@
-import * as log4js from 'log4js';
+import log4js from 'log4js';
 import { StatsOutlines } from '../veau-entity/collection/StatsOutlines';
 import { Stats } from '../veau-entity/Stats';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';

@@ -1,4 +1,4 @@
-import * as request from 'superagent';
+import request from 'superagent';
 
 export type AJAXResponse<T> = {
   status: number;
