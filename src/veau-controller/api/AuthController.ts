@@ -8,8 +8,6 @@ const router: express.Router = express.Router();
 const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
 
 router.post('/', passport.authenticate('local'), authenticationMiddleware.apply(), (req: express.Request, res: express.Response): any => {
-  req.account.isDefault();
-  req.account.copy();
   res.status(OK).send(req.account.toJSON());
 });
 

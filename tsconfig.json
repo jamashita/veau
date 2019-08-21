@@ -16,8 +16,8 @@
     "moduleResolution": "node",
     "baseUrl": "./src",
     "typeRoots": [
-      "node_modules/@types",
-      "src/@types"
+      "src/@types",
+      "node_modules/@types"
     ],
     "types": [
       "node",
@@ -33,6 +33,9 @@
     "dist",
     "node_modules",
     "src/**/*.spec.ts"
+  ],
+  "files": [
+    "src/@types/VeauAccount.d.ts"
   ],
   "compileOnSave": false
 }
