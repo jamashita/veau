@@ -159,7 +159,7 @@ router.post('/', authenticationMiddleware.apply(), async (req: express.Request, 
   const stats: Stats = Stats.fromJSON(json);
 
   try {
-    await statsInteractor.save(stats, req.user.getVeauAccountID());
+    await statsInteractor.save(stats, req.account.getVeauAccountID());
     res.sendStatus(CREATED);
   }
   catch (err) {
