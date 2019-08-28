@@ -36,12 +36,8 @@ router.get('/page/:page(\\d+)', authenticationMiddleware.apply(), async (req: ex
 });
 
 router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: express.Response): Promise<any> => {
-  const {
-    statsID
-  }: any = req.params;
-
   try {
-    const stats: Stats = await statsInteractor.findByStatsID(StatsID.of(statsID));
+    const stats: Stats = await statsInteractor.findByStatsID(StatsID.of(req.params.statsID));
 
     res.status(OK).send(stats.toJSON());
   }
