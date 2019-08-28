@@ -3,7 +3,7 @@ import moment from 'moment';
 
 export class Type {
 
-  public static isString(value: any): boolean {
+  public static isString(value: any): value is string {
     if (check.string(value)) {
       return true;
     }
@@ -11,7 +11,7 @@ export class Type {
     return false;
   }
 
-  public static isNumber(value: any): boolean {
+  public static isNumber(value: any): value is number {
     if (check.number(value)) {
       return true;
     }
@@ -19,7 +19,7 @@ export class Type {
     return false;
   }
 
-  public static isInteger(value: any): boolean {
+  public static isInteger(value: any): value is number {
     if (check.integer(value)) {
       return true;
     }
@@ -35,7 +35,7 @@ export class Type {
     return false;
   }
 
-  public static isPlainObject(value: any): boolean {
+  public static isPlainObject(value: any): value is object {
     if (check.object(value)) {
       return true;
     }
@@ -43,7 +43,7 @@ export class Type {
     return false;
   }
 
-  public static isArray(value: any): boolean {
+  public static isArray(value: any): value is Array {
     if (check.array(value)) {
       return true;
     }
@@ -51,7 +51,7 @@ export class Type {
     return false;
   }
 
-  public static isDateString(value: any): boolean {
+  public static isDateString(value: any): value is string {
     if (!Type.isString(value)) {
       return false;
     }
