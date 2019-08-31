@@ -4,7 +4,7 @@ import log4js from 'log4js';
 import { StatsOutlines } from '../../veau-entity/collection/StatsOutlines';
 import { Stats, StatsJSON } from '../../veau-entity/Stats';
 import { NotFoundError } from '../../veau-error/NotFoundError';
-import { Type } from '../../veau-general/Type';
+import { Type } from '../../veau-general/Type/Type';
 import { StatsInteractor } from '../../veau-interactor/StatsInteractor';
 import { Page } from '../../veau-vo/Page';
 import { StatsID } from '../../veau-vo/StatsID';
