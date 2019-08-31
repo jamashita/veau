@@ -1,11 +1,6 @@
 import check from 'check-types';
 import moment from 'moment';
-
-type Primitive = null | undefined | number | string | boolean;
-
-type PlainObject = {
-  [name: string]: Primitive | PlainObject | Array<Primitive | PlainObject>;
-};
+import { PlainObject } from './PlainObject';
 
 export class Type {
 
