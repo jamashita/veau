@@ -14,7 +14,7 @@
 
     /* Module Resolution Options */
     "moduleResolution": "node",
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "typeRoots": [
       "src/@types",
       "node_modules/@types"
