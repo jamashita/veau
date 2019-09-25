@@ -1,7 +1,11 @@
 /* eslint-disable */
 const path = require('path');
 const webpack = require('webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
+/**
+ * @type import('webpack').Configuration
+ */
 module.exports = {
   entry: {
     app: [
@@ -41,6 +45,14 @@ module.exports = {
           }
         ]
       }
+    ]
+  },
+  optimization : {
+    minimizer : [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true
+      })
     ]
   }
 };
