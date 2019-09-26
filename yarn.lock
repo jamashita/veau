@@ -872,10 +872,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.0.0.tgz#d11813b9c0ff8aaca29f04cbc12817f4c7d656e5"
   integrity sha512-Jrb/x3HT4PTJp6a4avhmJCDEVrPdqLfl3e8GGMbpkGGdwAV5UGlIs4vVEfsHHfylZVOKZWpOqmqFH8CbfOZ6kg==
 
-"@types/node@12.7.7":
-  version "12.7.7"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.7.7.tgz#f9bd8c00fa9e1a8129af910fc829f6139c397d6c"
-  integrity sha512-4jUncNe2tj1nmrO/34PsRpZqYVnRV1svbU78cKhuQKkMntKB/AmdLyGgswcZKjFHEHGpiY8pVD8CuVI55nP54w==
+"@types/node@12.7.8":
+  version "12.7.8"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.7.8.tgz#cb1bf6800238898bc2ff6ffa5702c3cadd350708"
+  integrity sha512-FMdVn84tJJdV+xe+53sYiZS4R5yn1mAIxfj+DVoNiQjTYz1+OYmjwEZr1ev9nU0axXwda0QDbYl06QHanRVH3A==
 
 "@types/passport-local@1.0.33":
   version "1.0.33"
@@ -8352,10 +8352,10 @@ react-dom@16.9.0:
     prop-types "^15.6.2"
     scheduler "^0.15.0"
 
-react-intl@3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/react-intl/-/react-intl-3.3.0.tgz#df7631fbdca1aa4003c739399152b542358349c7"
-  integrity sha512-UJVlU57SBaKtut/jdMQ72bFXhnsCs9n4PtnHSPUCHTbce/Ekir5MYnaGFy0kJzCbc7MI2KqpAoTu4uTAfjzkLA==
+react-intl@3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/react-intl/-/react-intl-3.3.1.tgz#b2f13b3340e1cc785f9899dce5dd5a3bd2aae00a"
+  integrity sha512-58W/IK645G9wiNhQjHg32y2S/qQj2ZjqRczxlO/F/snPbyg6XjVsnUCUgcpPndsvQhVICshIJxUIC5XuVeZOzw==
   dependencies:
     "@formatjs/intl-relativetimeformat" "^4.0.1"
     "@formatjs/intl-unified-numberformat" "^0.5.2"
