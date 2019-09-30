@@ -167,7 +167,7 @@ describe('StatsItem', () => {
       expect(statsItem.getStatsItemID().get()).toEqual(json.statsItemID);
       expect(statsItem.getName().get()).toEqual(json.name);
       expect(statsItem.getValues().length()).toEqual(json.values.length);
-      for (let i = 0; i < statsItem.getValues().length(); i++) {
+      for (let i: number = 0; i < statsItem.getValues().length(); i++) {
         expect(statsItem.getValues().get(i).getAsOf().get('days')).toEqual(moment(json.values[i].asOf).get('days'));
         expect(statsItem.getValues().get(i).getValue()).toEqual(json.values[i].value);
       }
@@ -191,7 +191,7 @@ describe('StatsItem', () => {
       expect(statsItem.getStatsItemID().get()).toEqual(row.statsItemID);
       expect(statsItem.getName().get()).toEqual(row.name);
       expect(statsItem.getValues().length).toEqual(statsValues.length);
-      for (let i = 0; i < statsItem.getValues().length(); i++) {
+      for (let i: number = 0; i < statsItem.getValues().length(); i++) {
         expect(statsItem.getValues().get(i).getAsOf()).toEqual(statsValues.get(i).getAsOf());
         expect(statsItem.getValues().get(i).getValue()).toEqual(statsValues.get(i).getValue());
       }

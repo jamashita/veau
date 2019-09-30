@@ -19,7 +19,7 @@ describe('Page', () => {
 
   describe('getLimit', () => {
     it('always generates the same amount of limit', () => {
-      for (let i = 1; i <= 10; i++) {
+      for (let i: number = 1; i <= 10; i++) {
         const page: Page = Page.of(i);
         const limit: Limit = page.getLimit();
 
