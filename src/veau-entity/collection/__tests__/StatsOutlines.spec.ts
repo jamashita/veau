@@ -193,7 +193,7 @@ describe('StatsOutlines', () => {
 
     const outlines: StatsOutlines = StatsOutlines.fromJSON(json);
 
-    for (let i = 0; i < 2; i++) {
+    for (let i: number = 0; i < 2; i++) {
       expect(outlines.get(i).getStatsID().get()).toEqual(json[i].statsID);
       expect(outlines.get(i).getLanguage().getLanguageID().get()).toEqual(json[i].language.languageID);
       expect(outlines.get(i).getLanguage().getName().get()).toEqual(json[i].language.name);
@@ -243,7 +243,7 @@ describe('StatsOutlines', () => {
 
     const outlines: StatsOutlines = StatsOutlines.fromRow(rows);
 
-    for (let i = 0; i < 2; i++) {
+    for (let i: number = 0; i < 2; i++) {
       expect(outlines.get(i).getStatsID().get()).toEqual(rows[i].statsID);
       expect(outlines.get(i).getLanguage().getLanguageID().get()).toEqual(rows[i].languageID);
       expect(outlines.get(i).getLanguage().getName().get()).toEqual(rows[i].languageName);

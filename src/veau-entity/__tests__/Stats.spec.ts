@@ -723,11 +723,11 @@ describe('Stats', () => {
       expect(stats.getUnit().get()).toEqual(json.unit);
       expect(stats.getUpdatedAt().getString()).toEqual(json.updatedAt);
       expect(stats.getItems().length()).toEqual(json.items.length);
-      for (let i = 0; i < stats.getItems().length(); i++) {
+      for (let i: number = 0; i < stats.getItems().length(); i++) {
         expect(stats.getItems().get(i).getStatsItemID().get()).toEqual(json.items[i].statsItemID);
         expect(stats.getItems().get(i).getName().get()).toEqual(json.items[i].name);
         expect(stats.getItems().get(i).getValues().length()).toEqual(json.items[i].values.length);
-        for (let j = 0; j < stats.getItems().get(i).getValues().length(); j++) {
+        for (let j: number = 0; j < stats.getItems().get(i).getValues().length(); j++) {
           expect(stats.getItems().get(i).getValues().get(j).getAsOfAsString()).toEqual(json.items[i].values[j].asOf);
           expect(stats.getItems().get(i).getValues().get(j).getValue()).toEqual(json.items[i].values[j].value);
         }
