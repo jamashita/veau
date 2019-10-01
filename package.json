@@ -46,7 +46,7 @@
     "react-dom": "16.10.1",
     "react-intl": "3.3.2",
     "react-redux": "7.1.1",
-    "react-router-dom": "5.1.1",
+    "react-router-dom": "5.1.2",
     "recharts": "1.7.1",
     "redux": "4.0.4",
     "redux-logger": "3.0.6",
