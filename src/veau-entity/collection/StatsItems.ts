@@ -1,9 +1,10 @@
 import moment from 'moment';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { JSONable } from '../../veau-general/JSONable';
 import { StatsItemName } from '../../veau-vo/StatsItemName';
 import { StatsItem, StatsItemJSON } from '../StatsItem';
 
-export class StatsItems {
+export class StatsItems implements JSONable {
   private items: Array<StatsItem>;
 
   public static from(items: Array<StatsItem>): StatsItems {

@@ -1,3 +1,4 @@
+import { JSONable } from '../../veau-general/JSONable';
 import { Languages } from '../collection/Languages';
 import { Regions } from '../collection/Regions';
 import { Language, LanguageJSON } from '../Language';
@@ -8,7 +9,7 @@ export type LocaleJSON = {
   regions: Array<RegionJSON>;
 };
 
-export class Locale {
+export class Locale implements JSONable {
   private languages: Languages;
   private regions: Regions;
 

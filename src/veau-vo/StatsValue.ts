@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { JSONable } from '../veau-general/JSONable';
 import { ValueObject } from './ValueObject';
 
 const TERM_FORMAT: string = 'YYYY-MM-DD';
@@ -14,7 +15,7 @@ export type StatsValueRow = {
   value: number;
 };
 
-export class StatsValue extends ValueObject {
+export class StatsValue extends ValueObject implements JSONable {
   private asOf: moment.Moment;
   private value: number;
 

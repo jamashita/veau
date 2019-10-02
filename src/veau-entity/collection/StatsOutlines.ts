@@ -1,7 +1,8 @@
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { JSONable } from '../../veau-general/JSONable';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from '../StatsOutline';
 
-export class StatsOutlines {
+export class StatsOutlines implements JSONable {
   private outlines: Array<StatsOutline>;
 
   public static from(outlines: Array<StatsOutline>): StatsOutlines {

@@ -1,7 +1,8 @@
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { JSONable } from '../../veau-general/JSONable';
 import { Language, LanguageJSON, LanguageRow } from '../Language';
 
-export class Languages {
+export class Languages implements JSONable {
   private languages: Array<Language>;
 
   public static from(languages: Array<Language>): Languages {

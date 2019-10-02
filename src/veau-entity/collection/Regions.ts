@@ -1,7 +1,8 @@
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { JSONable } from '../../veau-general/JSONable';
 import { Region, RegionJSON, RegionRow } from '../Region';
 
-export class Regions {
+export class Regions implements JSONable {
   private regions: Array<Region>;
 
   public static from(regions: Array<Region>): Regions {

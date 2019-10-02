@@ -1,10 +1,12 @@
 import { Identifier } from '../veau-general/Identifier';
+import { JSONable } from '../veau-general/JSONable';
+import { JSON } from '../veau-general/Type/JSON';
 
-export abstract class Entity<T extends Identifier> {
+export abstract class Entity<T extends Identifier> implements JSONable {
 
   public abstract getIdentifier(): T;
 
-  public abstract toJSON(): any;
+  public abstract toJSON(): JSON;
 
   public abstract toString(): string;
 

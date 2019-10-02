@@ -1,3 +1,4 @@
+import { JSONable } from '../veau-general/JSONable';
 import { ValueObject } from './ValueObject';
 
 export type EntranceInformationJSON = {
@@ -5,7 +6,7 @@ export type EntranceInformationJSON = {
   password: string;
 };
 
-export class EntranceInformation extends ValueObject {
+export class EntranceInformation extends ValueObject implements JSONable {
   private account: string;
   private password: string;
 
