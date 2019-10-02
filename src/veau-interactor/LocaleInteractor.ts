@@ -3,7 +3,6 @@ import { RegionCommand } from '../veau-command/RegionCommand';
 import { Locale } from '../veau-entity/aggregate/Locale';
 import { Languages } from '../veau-entity/collection/Languages';
 import { Regions } from '../veau-entity/collection/Regions';
-import { JSONable } from '../veau-general/JSONable';
 import { LanguageQuery } from '../veau-query/LanguageQuery';
 import { RegionQuery } from '../veau-query/RegionQuery';
 
@@ -22,7 +21,7 @@ export class LocaleInteractor {
   private constructor() {
   }
 
-  public async all(): Promise<JSONable> {
+  public async all(): Promise<Locale> {
     const languages: Languages = await languageQuery.all();
     const regions: Regions = await regionQuery.all();
 
