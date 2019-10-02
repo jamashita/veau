@@ -1,8 +1,8 @@
 import express from 'express';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import log4js from 'log4js';
-import { Locale } from '../../veau-entity/aggregate/Locale';
 import { CacheError } from '../../veau-error/CacheError';
+import { JSONable } from '../../veau-general/JSONable';
 import { LocaleInteractor } from '../../veau-interactor/LocaleInteractor';
 import { AuthenticationMiddleware } from '../middlewares/AuthenticationMiddleware';
 
@@ -14,7 +14,7 @@ const localeInteractor: LocaleInteractor = LocaleInteractor.getInstance();
 
 router.get('/', async (req: express.Request, res: express.Response): Promise<any> => {
   try {
-    const locale: Locale = await localeInteractor.all();
+    const locale: JSONable = await localeInteractor.all();
 
     res.status(OK).send(locale.toJSON());
   }
@@ -27,6 +27,7 @@ router.get('/', async (req: express.Request, res: express.Response): Promise<any
 router.delete('/', authenticationMiddleware.apply(), async (req: express.Request, res: express.Response): Promise<any> => {
   try {
     await localeInteractor.delete();
+
     res.sendStatus(OK);
   }
   catch (err) {

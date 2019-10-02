@@ -1,8 +1,8 @@
 import log4js from 'log4js';
-import { StatsOutlines } from '../veau-entity/collection/StatsOutlines';
 import { Stats } from '../veau-entity/Stats';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { NotFoundError } from '../veau-error/NotFoundError';
+import { JSONable } from '../veau-general/JSONable';
 import { ITransaction } from '../veau-general/MySQL/ITransaction';
 import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsOutlineQuery } from '../veau-query/StatsOutlineQuery';
@@ -27,7 +27,7 @@ export class StatsInteractor {
   private constructor() {
   }
 
-  public async findByStatsID(statsID: StatsID): Promise<Stats> {
+  public async findByStatsID(statsID: StatsID): Promise<JSONable> {
     try {
       const stats: Stats = await statsQuery.findByStatsID(statsID);
 
@@ -45,7 +45,7 @@ export class StatsInteractor {
     }
   }
 
-  public findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Promise<StatsOutlines> {
+  public findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Promise<JSONable> {
     return statsOutlineQuery.findByVeauAccountID(veauAccountID, page.getLimit(), page.getOffset());
   }
 

@@ -1,9 +1,9 @@
 import express from 'express';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'http-status';
 import log4js from 'log4js';
-import { StatsOutlines } from '../../veau-entity/collection/StatsOutlines';
 import { Stats, StatsJSON } from '../../veau-entity/Stats';
 import { NotFoundError } from '../../veau-error/NotFoundError';
+import { JSONable } from '../../veau-general/JSONable';
 import { Type } from '../../veau-general/Type/Type';
 import { StatsInteractor } from '../../veau-interactor/StatsInteractor';
 import { Page } from '../../veau-vo/Page';
@@ -25,7 +25,7 @@ router.get('/page/:page(\\d+)', authenticationMiddleware.apply(), async (req: ex
   }
 
   try {
-    const statsOutlines: StatsOutlines = await statsInteractor.findByVeauAccountID(req.account.getVeauAccountID(), Page.of(page));
+    const statsOutlines: JSONable = await statsInteractor.findByVeauAccountID(req.account.getVeauAccountID(), Page.of(page));
 
     res.status(OK).send(statsOutlines.toJSON());
   }
@@ -37,7 +37,7 @@ router.get('/page/:page(\\d+)', authenticationMiddleware.apply(), async (req: ex
 
 router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: express.Response): Promise<any> => {
   try {
-    const stats: Stats = await statsInteractor.findByStatsID(StatsID.of(req.params.statsID));
+    const stats: JSONable = await statsInteractor.findByStatsID(StatsID.of(req.params.statsID));
 
     res.status(OK).send(stats.toJSON());
   }
@@ -156,6 +156,7 @@ router.post('/', authenticationMiddleware.apply(), async (req: express.Request, 
 
   try {
     await statsInteractor.save(stats, req.account.getVeauAccountID());
+
     res.sendStatus(CREATED);
   }
   catch (err) {
