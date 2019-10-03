@@ -1,4 +1,3 @@
-import bodyParser from 'body-parser';
 import compression from 'compression';
 import config from 'config';
 import connectRedis from 'connect-redis';
@@ -33,10 +32,10 @@ const app: express.Express = express();
 
 app.set('views', path.resolve(__dirname, 'views'));
 app.set('view engine', 'pug');
-app.use(bodyParser.urlencoded({
+app.use(express.urlencoded({
   extended: false
 }));
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(compression());
 app.use(helmet());
 app.use(express.static(path.resolve(__dirname, 'public')));
