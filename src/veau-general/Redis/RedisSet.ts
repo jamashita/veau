@@ -1,4 +1,4 @@
-import * as IORedis from 'ioredis';
+import IORedis from 'ioredis';
 
 export class RedisSet {
   private client: IORedis.Redis;

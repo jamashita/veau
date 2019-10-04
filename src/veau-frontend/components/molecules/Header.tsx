@@ -1,6 +1,5 @@
 import { AppBar, Icon, Toolbar, Typography } from '@material-ui/core';
-import { PropsWithChildren } from 'react';
-import * as React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
 type Props = {

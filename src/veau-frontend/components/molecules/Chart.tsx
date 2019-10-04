@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { PropsWithChildren } from 'react';
+import React, { PropsWithChildren } from 'react';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Stats } from '../../../veau-entity/Stats';
 import { Colors } from '../../../veau-vo/collection/Colors';

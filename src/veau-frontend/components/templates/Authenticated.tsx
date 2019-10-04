@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { PropsWithChildren } from 'react';
+import React, { PropsWithChildren } from 'react';
 import { PageProvider } from '../../containers/molecules/PageProvider';
 import { Props } from '../../containers/templates/Authenticated';
 import { Header } from '../molecules/Header';

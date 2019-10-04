@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { LoadingIndicator } from '../containers/molecules/LoadingIndicator';
 import { Modal } from '../containers/molecules/Modal';
 import { Notification } from '../containers/molecules/Notification';

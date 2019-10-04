@@ -1,4 +1,4 @@
-import * as mysql from 'mysql';
+import mysql from 'mysql';
 import { Connection } from './Connection';
 import { IQuery } from './IQuery';
 import { ITransaction } from './ITransaction';

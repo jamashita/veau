@@ -1,8 +1,8 @@
 import { createMuiTheme, MuiThemeProvider, Theme } from '@material-ui/core';
 import { grey, lightGreen, pink } from '@material-ui/core/colors';
 import { ConnectedRouter } from 'connected-react-router';
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { View } from './components/View';
 import { I18NProvider } from './containers/I18NProvider';

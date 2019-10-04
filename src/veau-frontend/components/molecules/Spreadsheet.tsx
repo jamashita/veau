@@ -1,6 +1,5 @@
 import { HotTable } from '@handsontable/react';
-import * as React from 'react';
-import { PropsWithChildren } from 'react';
+import React, { PropsWithChildren } from 'react';
 import { Stats } from '../../../veau-entity/Stats';
 
 type Props = {

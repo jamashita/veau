@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { PropsWithChildren } from 'react';
+import React, { PropsWithChildren } from 'react';
 
 type Props = {
   href: string;

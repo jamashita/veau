@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { PropsWithChildren } from 'react';
+import React, { PropsWithChildren } from 'react';
 import { IntlProvider } from 'react-intl';
 import { Props } from '../containers/I18NProvider';
 import { i18nMessages, Messages } from '../Messages';

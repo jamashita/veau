@@ -1,4 +1,4 @@
-import * as mysql from 'mysql';
+import mysql from 'mysql';
 import { IQuery } from './IQuery';
 
 export class Connection implements IQuery {

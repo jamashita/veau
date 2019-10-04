@@ -1,6 +1,5 @@
 import { Button, Card, CardActions, CardContent, CardHeader, Icon } from '@material-ui/core';
-import * as React from 'react';
-import { PropsWithChildren } from 'react';
+import React, { PropsWithChildren } from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { StatsItem } from '../../../veau-entity/StatsItem';
 import { TextField } from '../atoms/TextField';
