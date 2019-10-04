@@ -1,4 +1,4 @@
-import { connect, ConnectedComponentClass, MapDispatchToProps, MapStateToProps } from 'react-redux';
+import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Locale } from '../../../veau-entity/aggregate/Locale';
 import { Stats } from '../../../veau-entity/Stats';
@@ -121,4 +121,4 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
   };
 };
 
-export const StatsEdit: ConnectedComponentClass<any, any> = connect(mapStateToProps, mapDispatchToProps)(Component);
+export const StatsEdit: ConnectedComponent<typeof Component, Pick<StateProps, never>> = connect<StateProps, DispatchProps, OwnProps, State>(mapStateToProps, mapDispatchToProps)(Component);

@@ -1,4 +1,4 @@
-import { connect, ConnectedComponentClass, MapStateToProps } from 'react-redux';
+import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { VeauAccount } from '../../veau-entity/VeauAccount';
 import { I18NProvider as Component } from '../components/I18NProvider';
 import { State } from '../State';
@@ -22,4 +22,9 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
   };
 };
 
-export const I18NProvider: ConnectedComponentClass<any, any> = connect(mapStateToProps, null)(Component);
+const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (): DispatchProps => {
+  return {
+  };
+};
+
+export const I18NProvider: ConnectedComponent<typeof Component, Pick<StateProps, never>> = connect<StateProps, DispatchProps, OwnProps, State>(mapStateToProps, mapDispatchToProps)(Component);

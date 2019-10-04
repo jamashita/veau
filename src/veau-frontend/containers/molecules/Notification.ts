@@ -1,4 +1,4 @@
-import { connect, ConnectedComponentClass, MapDispatchToProps, MapStateToProps } from 'react-redux';
+import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Action } from '../../actions/Action';
 import { disappearNotification } from '../../actions/NotificationAction';
@@ -53,4 +53,4 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
   };
 };
 
-export const Notification: ConnectedComponentClass<any, any> = connect(mapStateToProps, mapDispatchToProps)(Component);
+export const Notification: ConnectedComponent<typeof Component, Pick<StateProps, never>> = connect<StateProps, DispatchProps, OwnProps, State>(mapStateToProps, mapDispatchToProps)(Component);

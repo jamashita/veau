@@ -1,4 +1,4 @@
-import { connect, ConnectedComponentClass, MapStateToProps } from 'react-redux';
+import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { LoadingIndicator as Component } from '../../components/molecules/LoadingIndicator';
 import { State } from '../../State';
 
@@ -21,4 +21,9 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
   };
 };
 
-export const LoadingIndicator: ConnectedComponentClass<any, any> = connect(mapStateToProps, null)(Component);
+const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (): DispatchProps => {
+  return {
+  };
+};
+
+export const LoadingIndicator: ConnectedComponent<typeof Component, Pick<StateProps, never>> = connect<StateProps, DispatchProps, OwnProps, State>(mapStateToProps, mapDispatchToProps)(Component);
