@@ -1,4 +1,6 @@
 import request from 'request';
+import { Reject } from './Type/Reject';
+import { Resolve } from './Type/Resolve';
 
 type Response<T> = {
   status: number;
@@ -13,7 +15,7 @@ export class Request {
       encoding
     };
 
-    return new Promise<Response<T>>((resolve: (value: Response<T>) => void, reject: (reason: any) => void): void => {
+    return new Promise<Response<T>>((resolve: Resolve<Response<T>>, reject: Reject<any>): void => {
       request.get(options, (err: any, response: request.Response): void => {
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (err) {

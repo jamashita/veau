@@ -1,4 +1,6 @@
 import mysql from 'mysql';
+import { Reject } from '../Type/Reject';
+import { Resolve } from '../Type/Resolve';
 import { Connection } from './Connection';
 import { IQuery } from './IQuery';
 import { ITransaction } from './ITransaction';
@@ -33,7 +35,7 @@ export class MySQL implements IQuery {
   }
 
   private getConnection(): Promise<Connection> {
-    return new Promise<Connection>((resolve: (value: Connection) => void, reject: (reason: any) => void): void => {
+    return new Promise<Connection>((resolve: Resolve<Connection>, reject: Reject<any>): void => {
       this.pool.getConnection((err1: mysql.MysqlError, connection: mysql.PoolConnection): void => {
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (err1) {
@@ -70,7 +72,7 @@ export class MySQL implements IQuery {
   }
 
   public execute(sql: string, value?: object): Promise<any> {
-    return new Promise<any>((resolve: (value: any) => void, reject: (reason: any) => void): void => {
+    return new Promise<any>((resolve: Resolve<any>, reject: Reject<any>): void => {
       this.pool.query(sql, value, (err: mysql.MysqlError | null, result: any): void => {
         if (err !== null) {
           reject(err);
