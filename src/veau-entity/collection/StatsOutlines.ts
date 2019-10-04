@@ -1,5 +1,6 @@
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { JSONable } from '../../veau-general/JSONable';
+import { Function } from '../../veau-general/Type/Function';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from '../StatsOutline';
 
 export class StatsOutlines implements JSONable {
@@ -39,7 +40,7 @@ export class StatsOutlines implements JSONable {
     return this.outlines.length;
   }
 
-  public map<U>(func: (outline: StatsOutline, index: number) => U): Array<U> {
+  public map<U>(func: Function<StatsOutline, U>): Array<U> {
     return this.outlines.map<U>(func);
   }
 

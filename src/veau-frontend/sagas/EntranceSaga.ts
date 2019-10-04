@@ -1,3 +1,4 @@
+import { SagaIterator } from '@redux-saga/types';
 import { fork, put, select, take } from 'redux-saga/effects';
 import { VeauAccount } from '../../veau-entity/VeauAccount';
 import { AuthenticationFailureError } from '../../veau-error/AuthenticationFailureError';
@@ -21,7 +22,7 @@ export class EntranceSaga {
     yield fork(EntranceSaga.passwordTyped);
   }
 
-  private static *login(): IterableIterator<any> {
+  private static *login(): SagaIterator<any> {
     while (true) {
       yield take(ACTION.IDENTITY_AUTHENTICATE);
       const state: State = yield select();
@@ -63,7 +64,7 @@ export class EntranceSaga {
     }
   }
 
-  private static *accountNameTyped(): IterableIterator<any> {
+  private static *accountNameTyped(): SagaIterator<any> {
     while (true) {
       const action: EntranceAccountNameTypedAction = yield take(ACTION.ENTRANCE_ACCOUNT_NAME_TYPED);
       const state: State = yield select();
@@ -77,7 +78,7 @@ export class EntranceSaga {
     }
   }
 
-  private static *passwordTyped(): IterableIterator<any> {
+  private static *passwordTyped(): SagaIterator<any> {
     while (true) {
       const action: EntrancePasswordTypedAction = yield take(ACTION.ENTRANCE_PASSWORD_TYPED);
       const state: State = yield select();

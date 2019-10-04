@@ -1,3 +1,4 @@
+import { SagaIterator } from 'redux-saga';
 import { fork, put, select, take } from 'redux-saga/effects';
 import { Locale } from '../../veau-entity/aggregate/Locale';
 import { Language } from '../../veau-entity/Language';
@@ -29,7 +30,7 @@ export class IdentitySaga {
     yield fork(IdentitySaga.initialize);
   }
 
-  private static *initIdentity(): IterableIterator<any> {
+  private static *initIdentity(): SagaIterator<any> {
     try {
       yield put(loading());
 
@@ -68,7 +69,6 @@ export class IdentitySaga {
 
           yield put(identityAuthenticated(veauAccount));
           yield put(pushToEntrance());
-
         }
         catch (err2) {
           yield put(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
@@ -77,7 +77,7 @@ export class IdentitySaga {
     }
   }
 
-  private static *initialize(): IterableIterator<any> {
+  private static *initialize(): SagaIterator<State | any> {
     while (true) {
       yield take(ACTION.IDENTITY_INITIALIZE);
       const state: State = yield select();

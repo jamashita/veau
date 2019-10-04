@@ -1,1 +1,1 @@
-export type Funciton<I, O> = (value: I) => O;
+export type Function<I, O> = (value: I, index: number) => O;

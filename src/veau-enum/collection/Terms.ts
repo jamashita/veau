@@ -1,4 +1,5 @@
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { Function } from '../../veau-general/Type/Function';
 import { Term } from '../Term';
 
 export class Terms {
@@ -32,7 +33,7 @@ export class Terms {
     return this.terms.length;
   }
 
-  public map<U>(func: (term: Term) => U): Array<U> {
+  public map<U>(func: Function<Term, U>): Array<U> {
     return this.terms.map<U>(func);
   }
 
