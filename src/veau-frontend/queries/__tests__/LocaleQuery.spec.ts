@@ -1,7 +1,6 @@
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import 'jest';
-import sinon from 'sinon';
-import { SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 import { Locale } from '../../../veau-entity/aggregate/Locale';
 import { Language } from '../../../veau-entity/Language';
 import { Region } from '../../../veau-entity/Region';
@@ -14,6 +13,20 @@ import { LocaleQuery } from '../LocaleQuery';
 
 describe('LocaleQuery', () => {
   describe('all', () => {
+    it('doesn\'t return OK', async () => {
+      const stub: SinonStub = sinon.stub();
+      AJAX.get = stub;
+      stub.resolves({
+        status: INTERNAL_SERVER_ERROR,
+        body: {
+        }
+      });
+
+      const localeQuery: LocaleQuery = LocaleQuery.getInstance();
+
+      await expect(localeQuery.all()).rejects.toThrow(AJAXError);
+    });
+
     it('normal case', async () => {
       const stub: SinonStub = sinon.stub();
       AJAX.get = stub;
@@ -53,20 +66,6 @@ describe('LocaleQuery', () => {
       expect(locale.getRegions().get(0).getISO3166().get()).toEqual('bb');
     });
 
-    it('does\'t return OK', () => {
-      const stub: SinonStub = sinon.stub();
-      AJAX.get = stub;
-      stub.resolves({
-        status: INTERNAL_SERVER_ERROR,
-        body: {
-        }
-      });
-
-      const localeQuery: LocaleQuery = LocaleQuery.getInstance();
-
-      expect(localeQuery.all()).rejects.toThrow(AJAXError);
-    });
-
     it('already has locale in memory', async () => {
       const stub: SinonStub = sinon.stub();
       AJAX.get = stub;
@@ -84,7 +83,7 @@ describe('LocaleQuery', () => {
       const locale1: Locale = await localeQuery.all();
       const locale2: Locale = await localeQuery.all();
 
-      expect(locale1).toEqual(locale2);
+      expect(locale1).toBe(locale2);
     });
   });
 
@@ -122,7 +121,7 @@ describe('LocaleQuery', () => {
       expect(language.getISO639().get()).toEqual('aa');
     });
 
-    it('could\'t find the language', () => {
+    it('could\'t find the language', async () => {
       const stub: SinonStub = sinon.stub();
       AJAX.get = stub;
       stub.resolves({
@@ -148,7 +147,7 @@ describe('LocaleQuery', () => {
 
       const localeQuery: LocaleQuery = LocaleQuery.getInstance();
 
-      expect(localeQuery.findByISO639(ISO639.of('ab'))).rejects.toThrow(NoSuchElementError);
+      await expect(localeQuery.findByISO639(ISO639.of('ab'))).rejects.toThrow(NoSuchElementError);
     });
   });
 
@@ -185,7 +184,7 @@ describe('LocaleQuery', () => {
       expect(region.getISO3166().get()).toEqual('bb');
     });
 
-    it('could\'t find the region', () => {
+    it('could\'t find the region', async () => {
       const stub: SinonStub = sinon.stub();
       AJAX.get = stub;
       stub.resolves({
@@ -211,7 +210,7 @@ describe('LocaleQuery', () => {
 
       const localeQuery: LocaleQuery = LocaleQuery.getInstance();
 
-      expect(localeQuery.findByISO3166(ISO3166.of('ba'))).rejects.toThrow(NoSuchElementError);
+      await expect(localeQuery.findByISO3166(ISO3166.of('ba'))).rejects.toThrow(NoSuchElementError);
     });
   });
 });

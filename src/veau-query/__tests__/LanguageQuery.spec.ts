@@ -117,17 +117,17 @@ describe('LanguageQuery', () => {
       expect(language.getEnglishName().get()).toEqual('Afar');
     });
 
-    it('Redis throws error', () => {
+    it('Redis throws error', async () => {
       const stub: SinonStub = sinon.stub();
       veauRedis.getString().get = stub;
       stub.resolves('[]');
 
       const languageQuery: LanguageQuery = LanguageQuery.getInstance();
 
-      expect(languageQuery.findByISO639(ISO639.of('ac'))).rejects.toThrow(NoSuchElementError);
+      await expect(languageQuery.findByISO639(ISO639.of('ac'))).rejects.toThrow(NoSuchElementError);
     });
 
-    it('MySQL throws error', () => {
+    it('MySQL throws error', async () => {
       const stub1: SinonStub = sinon.stub();
       veauRedis.getString().get = stub1;
       // @ts-ignore
@@ -154,7 +154,7 @@ describe('LanguageQuery', () => {
 
       const languageQuery: LanguageQuery = LanguageQuery.getInstance();
 
-      expect(languageQuery.findByISO639(ISO639.of('ac'))).rejects.toThrow(NoSuchElementError);
+      await expect(languageQuery.findByISO639(ISO639.of('ac'))).rejects.toThrow(NoSuchElementError);
     });
   });
 });

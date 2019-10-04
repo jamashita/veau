@@ -44,14 +44,14 @@ describe('RegionCommand', () => {
       expect(stub.withArgs('REGIONS').called).toEqual(true);
     });
 
-    it('throws error', () => {
+    it('throws error', async () => {
       const stub: SinonStub = sinon.stub();
       Redis.prototype.delete = stub;
       stub.resolves(false);
 
       const regionCommand: RegionCommand = RegionCommand.getInstance();
 
-      expect(regionCommand.deleteAll()).rejects.toThrow(CacheError);
+      await expect(regionCommand.deleteAll()).rejects.toThrow(CacheError);
     });
   });
 });

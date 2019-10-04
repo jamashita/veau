@@ -72,24 +72,24 @@ describe('StatsInteractor', () => {
       expect(stats.getItems()).toEqual(items);
     });
 
-    it('thrown NoSuchElementError', () => {
+    it('thrown NoSuchElementError', async () => {
       const stub: SinonStub = sinon.stub();
       StatsQuery.prototype.findByStatsID = stub;
       stub.rejects(new NoSuchElementError(''));
 
       const statsInteractor: StatsInteractor = StatsInteractor.getInstance();
 
-      expect(statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94'))).rejects.toThrow(NotFoundError);
+      await expect(statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94'))).rejects.toThrow(NotFoundError);
     });
 
-    it('thrown Error', () => {
+    it('thrown Error', async () => {
       const stub: SinonStub = sinon.stub();
       StatsQuery.prototype.findByStatsID = stub;
       stub.rejects(new Error());
 
       const statsInteractor: StatsInteractor = StatsInteractor.getInstance();
 
-      expect(statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94'))).rejects.toThrow(Error);
+      await expect(statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94'))).rejects.toThrow(Error);
     });
   });
 

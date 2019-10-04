@@ -43,7 +43,7 @@ describe('SessionQuery', () => {
       expect(veauAccount.getRegion().getRegionID().get()).toEqual(2);
     });
 
-    it('doesn\'t return OK', () => {
+    it('doesn\'t return OK', async () => {
       const stub: SinonStub = sinon.stub();
       AJAX.get = stub;
       stub.resolves({
@@ -54,7 +54,7 @@ describe('SessionQuery', () => {
 
       const sessionQuery: SessionQuery = SessionQuery.getInstance();
 
-      expect(sessionQuery.find()).rejects.toThrow(UnauthorizedError);
+      await expect(sessionQuery.find()).rejects.toThrow(UnauthorizedError);
     });
   });
 
@@ -95,7 +95,7 @@ describe('SessionQuery', () => {
       expect(veauAccount.getRegion().getRegionID().get()).toEqual(2);
     });
 
-    it('returns UNAUTHORIZED', () => {
+    it('returns UNAUTHORIZED', async () => {
       const stub: SinonStub = sinon.stub();
       AJAX.post = stub;
       stub.resolves({
@@ -107,10 +107,10 @@ describe('SessionQuery', () => {
       const info: EntranceInformation = EntranceInformation.of('account', 'password');
       const sessionQuery: SessionQuery = SessionQuery.getInstance();
 
-      expect(sessionQuery.findByEntranceInfo(info)).rejects.toThrow(AuthenticationFailureError);
+      await expect(sessionQuery.findByEntranceInfo(info)).rejects.toThrow(AuthenticationFailureError);
     });
 
-    it('doesn\'t return OK', () => {
+    it('doesn\'t return OK', async () => {
       const stub: SinonStub = sinon.stub();
       AJAX.post = stub;
       stub.resolves({
@@ -122,7 +122,7 @@ describe('SessionQuery', () => {
       const info: EntranceInformation = EntranceInformation.of('account', 'password');
       const sessionQuery: SessionQuery = SessionQuery.getInstance();
 
-      expect(sessionQuery.findByEntranceInfo(info)).rejects.toThrow(AJAXError);
+      await expect(sessionQuery.findByEntranceInfo(info)).rejects.toThrow(AJAXError);
     });
   });
 });

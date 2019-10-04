@@ -119,13 +119,13 @@ describe('StatsQuery', () => {
       expect(values.length()).toEqual(0);
     });
 
-    it('throws error', () => {
+    it('throws error', async () => {
       const stub: SinonStub = sinon.stub();
       veauMySQL.execute = stub;
       stub.resolves([]);
 
       const statsQuery: StatsQuery = StatsQuery.getInstance();
-      expect(statsQuery.findByStatsID(StatsID.of('a25a8b7f-c810-4dc0-b94e-e97e74329307'))).rejects.toThrow(NoSuchElementError);
+      await expect(statsQuery.findByStatsID(StatsID.of('a25a8b7f-c810-4dc0-b94e-e97e74329307'))).rejects.toThrow(NoSuchElementError);
     });
   });
 });

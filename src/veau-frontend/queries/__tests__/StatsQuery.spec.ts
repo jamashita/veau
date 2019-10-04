@@ -50,7 +50,7 @@ describe('StatsQuery', () => {
       expect(stats.getItems().length()).toEqual(0);
     });
 
-    it('returns NOT_FOUND', () => {
+    it('returns NOT_FOUND', async () => {
       const stub: SinonStub = sinon.stub();
       AJAX.get = stub;
       stub.resolves({
@@ -62,10 +62,10 @@ describe('StatsQuery', () => {
       const statsID: StatsID = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
       const statsQuery: StatsQuery = StatsQuery.getInstance();
 
-      expect(statsQuery.findByStatsID(statsID)).rejects.toThrow(NotFoundError);
+      await expect(statsQuery.findByStatsID(statsID)).rejects.toThrow(NotFoundError);
     });
 
-    it('doesn\'t return OK', () => {
+    it('doesn\'t return OK', async () => {
       const stub: SinonStub = sinon.stub();
       AJAX.get = stub;
       stub.resolves({
@@ -77,7 +77,7 @@ describe('StatsQuery', () => {
       const statsID: StatsID = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
       const statsQuery: StatsQuery = StatsQuery.getInstance();
 
-      expect(statsQuery.findByStatsID(statsID)).rejects.toThrow(AJAXError);
+      await expect(statsQuery.findByStatsID(statsID)).rejects.toThrow(AJAXError);
     });
   });
 
@@ -120,7 +120,7 @@ describe('StatsQuery', () => {
       expect(outlines.get(0).getTerm().getID()).toEqual(3);
     });
 
-    it('doesn\'t return OK', () => {
+    it('doesn\'t return OK', async () => {
       const stub: SinonStub = sinon.stub();
       AJAX.get = stub;
       stub.resolves({
@@ -131,7 +131,7 @@ describe('StatsQuery', () => {
 
       const statsQuery: StatsQuery = StatsQuery.getInstance();
 
-      expect(statsQuery.findByPage(3)).rejects.toThrow(AJAXError);
+      await expect(statsQuery.findByPage(3)).rejects.toThrow(AJAXError);
     });
   });
 });

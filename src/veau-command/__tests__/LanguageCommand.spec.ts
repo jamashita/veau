@@ -45,14 +45,14 @@ describe('LanguageCommand', () => {
       expect(stub.withArgs('LANGUAGES').called).toEqual(true);
     });
 
-    it('throws error', () => {
+    it('throws error', async () => {
       const stub: SinonStub = sinon.stub();
       Redis.prototype.delete = stub;
       stub.resolves(false);
 
       const languageCommand: LanguageCommand = LanguageCommand.getInstance();
 
-      expect(languageCommand.deleteAll()).rejects.toThrow(CacheError);
+      await expect(languageCommand.deleteAll()).rejects.toThrow(CacheError);
     });
   });
 });

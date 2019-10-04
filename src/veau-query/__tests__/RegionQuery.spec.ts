@@ -107,17 +107,17 @@ describe('RegionQuery', () => {
       expect(region.getName().get()).toEqual('Albania');
     });
 
-    it('Redis throws error', () => {
+    it('Redis throws error', async () => {
       const stub: SinonStub = sinon.stub();
       veauRedis.getString().get = stub;
       stub.resolves('[]');
 
       const regionQuery: RegionQuery = RegionQuery.getInstance();
 
-      expect(regionQuery.findByISO3166(ISO3166.of('ALB'))).rejects.toThrow(NoSuchElementError);
+      await expect(regionQuery.findByISO3166(ISO3166.of('ALB'))).rejects.toThrow(NoSuchElementError);
     });
 
-    it('MySQL throws error', () => {
+    it('MySQL throws error', async () => {
       const stub1: SinonStub = sinon.stub();
       veauRedis.getString().get = stub1;
       // @ts-ignore
@@ -142,7 +142,7 @@ describe('RegionQuery', () => {
 
       const regionQuery: RegionQuery = RegionQuery.getInstance();
 
-      expect(regionQuery.findByISO3166(ISO3166.of('ABA'))).rejects.toThrow(NoSuchElementError);
+      await expect(regionQuery.findByISO3166(ISO3166.of('ABA'))).rejects.toThrow(NoSuchElementError);
     });
   });
 });

@@ -66,7 +66,7 @@ describe('StatsCommand', () => {
       }).called).toEqual(true);
     });
 
-    it('throws error', () => {
+    it('throws error', async () => {
       const stub: SinonStub = sinon.stub();
       AJAX.post = stub;
       stub.resolves({
@@ -87,7 +87,7 @@ describe('StatsCommand', () => {
       );
 
       const statsCommand: StatsCommand = StatsCommand.getInstance();
-      expect(statsCommand.create(stats)).rejects.toThrow(AJAXError);
+      await expect(statsCommand.create(stats)).rejects.toThrow(AJAXError);
     });
   });
 });
