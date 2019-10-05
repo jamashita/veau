@@ -32,7 +32,7 @@ const localeQuery: LocaleQuery = LocaleQuery.getInstance();
 
 export class StatsListSaga {
 
-  public static *init(): IterableIterator<any> {
+  public static *init(): IterableIterator<unknown> {
     yield fork(StatsListSaga.findStatsList);
     yield fork(StatsListSaga.nameTyped);
     yield fork(StatsListSaga.unitTyped);
@@ -42,7 +42,7 @@ export class StatsListSaga {
     yield fork(StatsListSaga.save);
   }
 
-  private static *findStatsList(): IterableIterator<any> {
+  private static *findStatsList(): IterableIterator<unknown> {
     while (true) {
       const action: LocationChangeAction = yield take(ACTION.LOCATION_CHANGE);
       const path: string = action.payload.location.pathname;
@@ -60,7 +60,7 @@ export class StatsListSaga {
     }
   }
 
-  private static *nameTyped(): IterableIterator<any> {
+  private static *nameTyped(): IterableIterator<unknown> {
     while (true) {
       const action: StatsListNameTypedAction = yield take(ACTION.STATS_LIST_NAME_TYPED);
       const state: State = yield select();
@@ -85,7 +85,7 @@ export class StatsListSaga {
     }
   }
 
-  private static *unitTyped(): IterableIterator<any> {
+  private static *unitTyped(): IterableIterator<unknown> {
     while (true) {
       const action: StatsListUnitTypedAction = yield take(ACTION.STATS_LIST_UNIT_TYPED);
       const state: State = yield select();
@@ -110,7 +110,7 @@ export class StatsListSaga {
     }
   }
 
-  private static *iso639Selected(): IterableIterator<any> {
+  private static *iso639Selected(): IterableIterator<unknown> {
     while (true) {
       const action: StatsListISO639SelectedAction = yield take(ACTION.STATS_LIST_ISO639_SELECTED);
       const state: State = yield select();
@@ -142,7 +142,7 @@ export class StatsListSaga {
     }
   }
 
-  private static *iso3166Selected(): IterableIterator<any> {
+  private static *iso3166Selected(): IterableIterator<unknown> {
     while (true) {
       const action: StatsListISO3166SelectedAction = yield take(ACTION.STATS_LIST_ISO3166_SELECTED);
       const state: State = yield select();
@@ -174,7 +174,7 @@ export class StatsListSaga {
     }
   }
 
-  private static *termSelected(): IterableIterator<any> {
+  private static *termSelected(): IterableIterator<unknown> {
     while (true) {
       const action: StatsListTermSelectedAction = yield take(ACTION.STATS_LIST_TERM_SELECTED);
       const state: State = yield select();
@@ -199,7 +199,7 @@ export class StatsListSaga {
     }
   }
 
-  private static *save(): IterableIterator<any> {
+  private static *save(): IterableIterator<unknown> {
     while (true) {
       yield take(ACTION.STATS_LIST_SAVE_NEW_STATS);
 

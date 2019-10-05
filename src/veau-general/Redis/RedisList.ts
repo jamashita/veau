@@ -7,7 +7,7 @@ export class RedisList {
     this.client = client;
   }
 
-  public push(key: string, value: string): any {
+  public push(key: string, value: string): unknown {
     return this.client.rpush(key, value);
   }
 
@@ -27,14 +27,14 @@ export class RedisList {
     return this.client.lrem(key, 0, value);
   }
 
-  public select(key: string, offset: number, limit: number): Promise<any> {
+  public select(key: string, offset: number, limit: number): Promise<unknown> {
     const start: number = offset;
     const stop: number = offset + limit;
 
     return this.client.lrange(key, start, stop);
   }
 
-  public dump(key: string): Promise<any> {
+  public dump(key: string): Promise<unknown> {
     return this.client.lrange(key, 0, -1);
   }
 }

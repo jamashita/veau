@@ -12,7 +12,7 @@ const logger: log4js.Logger = log4js.getLogger();
 const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
 const localeInteractor: LocaleInteractor = LocaleInteractor.getInstance();
 
-router.get('/', async (req: express.Request, res: express.Response): Promise<any> => {
+router.get('/', async (req: express.Request, res: express.Response): Promise<void> => {
   try {
     const locale: JSONable = await localeInteractor.all();
 
@@ -24,7 +24,7 @@ router.get('/', async (req: express.Request, res: express.Response): Promise<any
   }
 });
 
-router.delete('/', authenticationMiddleware.apply(), async (req: express.Request, res: express.Response): Promise<any> => {
+router.delete('/', authenticationMiddleware.apply(), async (req: express.Request, res: express.Response): Promise<void> => {
   try {
     await localeInteractor.delete();
 

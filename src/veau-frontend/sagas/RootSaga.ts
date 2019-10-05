@@ -8,7 +8,7 @@ import { StatsListSaga } from './StatsListSaga';
 
 export class RootSaga {
 
-  public static *init(): IterableIterator<any> {
+  public static *init(): IterableIterator<unknown> {
     yield fork(EntranceSaga.init);
     yield fork(IdentitySaga.init);
     yield fork(LogoutSaga.init);

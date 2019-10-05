@@ -15,13 +15,13 @@ export class RegionCommand {
   private constructor() {
   }
 
-  public async insertAll(regions: Regions): Promise<any> {
+  public async insertAll(regions: Regions): Promise<unknown> {
     await veauRedis.getString().set(REDIS_KEY, JSON.stringify(regions.toJSON()));
 
     return veauRedis.expires(REDIS_KEY, DURATION);
   }
 
-  public async deleteAll(): Promise<any> {
+  public async deleteAll(): Promise<void> {
     const ok: boolean = await veauRedis.delete(REDIS_KEY);
 
     if (ok) {

@@ -68,11 +68,11 @@ export class Redis {
     return true;
   }
 
-  public subscribe(channel: string): any {
+  public subscribe(channel: string): unknown {
     return this.client.subscribe(channel);
   }
 
-  public unsubscribe(channel: string): any {
+  public unsubscribe(channel: string): unknown {
     return this.client.unsubscribe(channel);
   }
 

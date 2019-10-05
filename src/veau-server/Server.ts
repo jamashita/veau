@@ -23,7 +23,7 @@ process.on('uncaughtException', (error: Error): void => {
   logger.fatal(error.message);
 });
 
-process.on('unhandledRejection', (reason: any): void => {
+process.on('unhandledRejection', (reason: unknown): void => {
   logger.fatal('UNHANDLED REJECTION');
   logger.fatal(reason);
 });

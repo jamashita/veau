@@ -14,7 +14,7 @@ export class StatsCommand {
     this.query = query;
   }
 
-  public create(stats: Stats, veauAccountID: VeauAccountID): Promise<any> {
+  public create(stats: Stats, veauAccountID: VeauAccountID): Promise<unknown> {
     const query: string = `INSERT INTO stats VALUES (
       :statsID,
       :languageID,
@@ -37,7 +37,7 @@ export class StatsCommand {
     });
   }
 
-  public deleteByStatsID(statsID: StatsID): Promise<any> {
+  public deleteByStatsID(statsID: StatsID): Promise<unknown> {
     const query: string = `DELETE R1
       FROM stats R1
       WHERE R1.stats_id = :statsID;`;

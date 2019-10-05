@@ -72,6 +72,28 @@ describe('Type', () => {
     });
   });
 
+  describe('isPrimitive', () => {
+    it('returns true if the value is null, undefined, boolean, number, string', () => {
+      expect(Type.isPrimitive(null)).toEqual(true);
+      expect(Type.isPrimitive(undefined)).toEqual(true);
+      expect(Type.isPrimitive(false)).toEqual(true);
+      expect(Type.isPrimitive(true)).toEqual(true);
+      expect(Type.isPrimitive(-1)).toEqual(true);
+      expect(Type.isPrimitive(0)).toEqual(true);
+      expect(Type.isPrimitive(1)).toEqual(true);
+      expect(Type.isPrimitive('')).toEqual(true);
+      expect(Type.isPrimitive('a')).toEqual(true);
+      expect(Type.isPrimitive('0')).toEqual(true);
+      expect(Type.isPrimitive('1')).toEqual(true);
+      expect(Type.isPrimitive([])).toEqual(false);
+      expect(Type.isPrimitive([null])).toEqual(false);
+      expect(Type.isPrimitive([undefined])).toEqual(false);
+      expect(Type.isPrimitive({})).toEqual(false);
+      expect(Type.isPrimitive({key: null})).toEqual(false);
+      expect(Type.isPrimitive({key: undefined})).toEqual(false);
+    });
+  });
+
   describe('isPlainObject', () => {
     it('returns false if array is given', () => {
       expect(Type.isPlainObject(null)).toEqual(false);

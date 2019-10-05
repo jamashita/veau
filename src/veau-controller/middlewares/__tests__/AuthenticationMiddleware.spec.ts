@@ -9,12 +9,12 @@ describe('AuthenticationMiddleware', () => {
     it('pass', async () => {
       const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
       const app: express.Express = express();
-      app.use((req: express.Request, res: express.Response, next: express.NextFunction): any => {
+      app.use((req: express.Request, res: express.Response, next: express.NextFunction): void => {
         req.user = {};
         next();
       });
       app.use(authenticationMiddleware.apply());
-      app.use((req: express.Request, res: express.Response): any => {
+      app.use((req: express.Request, res: express.Response): void => {
         res.sendStatus(OK);
       });
 
@@ -26,7 +26,7 @@ describe('AuthenticationMiddleware', () => {
       const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
       const app: express.Express = express();
       app.use(authenticationMiddleware.apply());
-      app.use((req: express.Request, res: express.Response): any => {
+      app.use((req: express.Request, res: express.Response): void => {
         res.sendStatus(OK);
       });
 
@@ -39,12 +39,12 @@ describe('AuthenticationMiddleware', () => {
     it('pass', async () => {
       const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
       const app: express.Express = express();
-      app.use((req: express.Request, res: express.Response, next: express.NextFunction): any => {
+      app.use((req: express.Request, res: express.Response, next: express.NextFunction): void => {
         req.user = {};
         next();
       });
       app.use(authenticationMiddleware.apply());
-      app.use((req: express.Request, res: express.Response): any => {
+      app.use((req: express.Request, res: express.Response): void => {
         res.sendStatus(OK);
       });
 
@@ -56,7 +56,7 @@ describe('AuthenticationMiddleware', () => {
       const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
       const app: express.Express = express();
       app.use(authenticationMiddleware.apply());
-      app.use((req: express.Request, res: express.Response): any => {
+      app.use((req: express.Request, res: express.Response): void => {
         res.sendStatus(OK);
       });
 
@@ -69,12 +69,12 @@ describe('AuthenticationMiddleware', () => {
     it('pass', async () => {
       const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
       const app: express.Express = express();
-      app.use((req: express.Request, res: express.Response, next: express.NextFunction): any => {
+      app.use((req: express.Request, res: express.Response, next: express.NextFunction): void => {
         req.user = {};
         next();
       });
       app.use(authenticationMiddleware.apply());
-      app.use((req: express.Request, res: express.Response): any => {
+      app.use((req: express.Request, res: express.Response): void => {
         res.sendStatus(OK);
       });
 
@@ -86,7 +86,7 @@ describe('AuthenticationMiddleware', () => {
       const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
       const app: express.Express = express();
       app.use(authenticationMiddleware.apply());
-      app.use((req: express.Request, res: express.Response): any => {
+      app.use((req: express.Request, res: express.Response): void => {
         res.sendStatus(OK);
       });
 
@@ -99,12 +99,12 @@ describe('AuthenticationMiddleware', () => {
     it('pass', async () => {
       const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
       const app: express.Express = express();
-      app.use((req: express.Request, res: express.Response, next: express.NextFunction): any => {
+      app.use((req: express.Request, res: express.Response, next: express.NextFunction): void => {
         req.user = {};
         next();
       });
       app.use(authenticationMiddleware.apply());
-      app.use((req: express.Request, res: express.Response): any => {
+      app.use((req: express.Request, res: express.Response): void => {
         res.sendStatus(OK);
       });
 
@@ -116,7 +116,7 @@ describe('AuthenticationMiddleware', () => {
       const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
       const app: express.Express = express();
       app.use(authenticationMiddleware.apply());
-      app.use((req: express.Request, res: express.Response): any => {
+      app.use((req: express.Request, res: express.Response): void => {
         res.sendStatus(OK);
       });
 

@@ -22,7 +22,7 @@ export class StatsUpdateTransaction implements ITransaction {
     this.veauAccountID = veauAccountID;
   }
 
-  public async with(query: IQuery): Promise<any> {
+  public async with(query: IQuery): Promise<unknown> {
     const statsCommand: StatsCommand = StatsCommand.getInstance(query);
     const statsItemCommand: StatsItemCommand = StatsItemCommand.getInstance(query);
     const statsValueCommand: StatsValueCommand = StatsValueCommand.getInstance(query);
@@ -38,8 +38,8 @@ export class StatsUpdateTransaction implements ITransaction {
     await statsItemCommand.deleteByStatsID(statsID);
     await statsCommand.deleteByStatsID(statsID);
 
-    const itemPromises: Array<Promise<any>> = [];
-    const valuePromises: Array<Promise<any>> = [];
+    const itemPromises: Array<Promise<unknown>> = [];
+    const valuePromises: Array<Promise<unknown>> = [];
 
     await statsCommand.create(stats, veauAccountID);
 
@@ -51,8 +51,8 @@ export class StatsUpdateTransaction implements ITransaction {
       });
     });
 
-    await Promise.all<any>(itemPromises);
+    await Promise.all<unknown>(itemPromises);
 
-    return Promise.all<any>(valuePromises);
+    return Promise.all<unknown>(valuePromises);
   }
 }

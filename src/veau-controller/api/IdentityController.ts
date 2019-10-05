@@ -6,7 +6,7 @@ const router: express.Router = express.Router();
 
 const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
 
-router.get('/', authenticationMiddleware.apply(), (req: express.Request, res: express.Response): any => {
+router.get('/', authenticationMiddleware.apply(), (req: express.Request, res: express.Response): void => {
   res.status(OK).send(req.account.toJSON());
 });
 

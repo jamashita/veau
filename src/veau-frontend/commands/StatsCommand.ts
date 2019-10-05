@@ -13,8 +13,8 @@ export class StatsCommand {
   private constructor() {
   }
 
-  public async create(stats: Stats): Promise<any> {
-    const response: AJAXResponse<any> = await AJAX.post<any>('/api/stats', stats.toJSON());
+  public async create(stats: Stats): Promise<void> {
+    const response: AJAXResponse<unknown> = await AJAX.post<unknown>('/api/stats', stats.toJSON());
 
     switch (response.status) {
       case CREATED: {

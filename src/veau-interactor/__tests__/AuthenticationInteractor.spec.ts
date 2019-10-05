@@ -19,7 +19,7 @@ describe('AuthenticationInteractor', () => {
       stub2.resolves(true);
 
       const authenticationInteractor: AuthenticationInteractor = AuthenticationInteractor.getInstance();
-      authenticationInteractor.review(account, password, (err: any, ret: any) => {
+      authenticationInteractor.review(account, password, (err: unknown, ret: unknown) => {
         expect(err).toEqual(null);
         expect(ret).toEqual(false);
         done();
@@ -41,7 +41,7 @@ describe('AuthenticationInteractor', () => {
       stub2.resolves(false);
 
       const authenticationInteractor: AuthenticationInteractor = AuthenticationInteractor.getInstance();
-      authenticationInteractor.review(account, password, (err: any, ret: any) => {
+      authenticationInteractor.review(account, password, (err: unknown, ret: unknown) => {
         expect(err).toEqual(null);
         expect(ret).toEqual(false);
         done();
@@ -63,7 +63,7 @@ describe('AuthenticationInteractor', () => {
       stub2.resolves(true);
 
       const authenticationInteractor: AuthenticationInteractor = AuthenticationInteractor.getInstance();
-      authenticationInteractor.review(account, password, (err: any, ret: any) => {
+      authenticationInteractor.review(account, password, (err: unknown, ret: unknown) => {
         expect(err).toEqual(null);
         expect(ret).toEqual('dummy veauAccount');
         done();

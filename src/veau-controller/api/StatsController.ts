@@ -4,6 +4,7 @@ import log4js from 'log4js';
 import { Stats, StatsJSON } from '../../veau-entity/Stats';
 import { NotFoundError } from '../../veau-error/NotFoundError';
 import { JSONable } from '../../veau-general/JSONable';
+import { PlainObject } from '../../veau-general/Type/PlainObject';
 import { Type } from '../../veau-general/Type/Type';
 import { StatsInteractor } from '../../veau-interactor/StatsInteractor';
 import { Page } from '../../veau-vo/Page';
@@ -16,7 +17,7 @@ const logger: log4js.Logger = log4js.getLogger();
 const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
 const statsInteractor: StatsInteractor = StatsInteractor.getInstance();
 
-router.get('/page/:page(\\d+)', authenticationMiddleware.apply(), async (req: express.Request, res: express.Response): Promise<any> => {
+router.get('/page/:page(\\d+)', authenticationMiddleware.apply(), async (req: express.Request, res: express.Response): Promise<void> => {
   const page: number = Number(req.params.page);
 
   if (page === 0) {
@@ -35,7 +36,7 @@ router.get('/page/:page(\\d+)', authenticationMiddleware.apply(), async (req: ex
   }
 });
 
-router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: express.Response): Promise<any> => {
+router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: express.Response): Promise<void> => {
   try {
     const stats: JSONable = await statsInteractor.findByStatsID(StatsID.of(req.params.statsID));
 
@@ -52,7 +53,7 @@ router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: expres
   }
 });
 
-router.post('/', authenticationMiddleware.apply(), async (req: express.Request, res: express.Response): Promise<any> => {
+router.post('/', authenticationMiddleware.apply(), async (req: express.Request, res: express.Response): Promise<void> => {
   const {
     statsID,
     language,
@@ -62,7 +63,7 @@ router.post('/', authenticationMiddleware.apply(), async (req: express.Request, 
     unit,
     updatedAt,
     items
-  }: any = req.body;
+  }: PlainObject = req.body;
 
   if (!Type.isString(statsID)) {
     res.sendStatus(BAD_REQUEST);

@@ -14,7 +14,7 @@ export class StatsValueCommand {
     this.query = query;
   }
 
-  public create(statsItemID: StatsItemID, statsValue: StatsValue): Promise<any> {
+  public create(statsItemID: StatsItemID, statsValue: StatsValue): Promise<unknown> {
     const query: string = `INSERT INTO stats_values VALUES (
       :statsItemID,
       :asOf,
@@ -28,7 +28,7 @@ export class StatsValueCommand {
     });
   }
 
-  public deleteByStatsID(statsID: StatsID): Promise<any> {
+  public deleteByStatsID(statsID: StatsID): Promise<unknown> {
     const query: string = `DELETE R1
       FROM stats_values R1
       INNER JOIN stats_items R2

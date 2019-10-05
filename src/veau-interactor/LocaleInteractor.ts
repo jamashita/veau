@@ -28,8 +28,8 @@ export class LocaleInteractor {
     return Locale.from(languages, regions);
   }
 
-  public delete(): Promise<any> {
-    return Promise.all<any>([
+  public delete(): Promise<unknown> {
+    return Promise.all<unknown>([
       languageCommand.deleteAll(),
       regionCommand.deleteAll()
     ]);

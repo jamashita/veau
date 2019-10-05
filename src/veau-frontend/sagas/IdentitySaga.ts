@@ -25,12 +25,12 @@ const localeQuery: LocaleQuery = LocaleQuery.getInstance();
 
 export class IdentitySaga {
 
-  public static *init(): IterableIterator<any> {
+  public static *init(): IterableIterator<unknown> {
     yield fork(IdentitySaga.initIdentity);
     yield fork(IdentitySaga.initialize);
   }
 
-  private static *initIdentity(): SagaIterator<any> {
+  private static *initIdentity(): SagaIterator<unknown> {
     try {
       yield put(loading());
 
@@ -77,7 +77,7 @@ export class IdentitySaga {
     }
   }
 
-  private static *initialize(): SagaIterator<State | any> {
+  private static *initialize(): SagaIterator<unknown> {
     while (true) {
       yield take(ACTION.IDENTITY_INITIALIZE);
       const state: State = yield select();

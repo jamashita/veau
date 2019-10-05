@@ -1,4 +1,4 @@
 export interface IQuery {
 
-  execute(sql: string, value?: object): Promise<any>;
+  execute(sql: string, value?: object): Promise<unknown>;
 }

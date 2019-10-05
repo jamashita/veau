@@ -14,10 +14,10 @@ passport.use(new LocalStrategy(
   authenticationInteractor.review
 ));
 
-passport.serializeUser<VeauAccount, VeauAccountJSON>((account: VeauAccount, done: (err: any, json: VeauAccountJSON) => void): void => {
+passport.serializeUser<VeauAccount, VeauAccountJSON>((account: VeauAccount, done: (err: unknown, json: VeauAccountJSON) => void): void => {
   done(null, account.toJSON());
 });
 
-passport.deserializeUser<VeauAccount, VeauAccountJSON>((json: VeauAccountJSON, done: (err: any, account: VeauAccount) => void): void => {
+passport.deserializeUser<VeauAccount, VeauAccountJSON>((json: VeauAccountJSON, done: (err: unknown, account: VeauAccount) => void): void => {
   done(null, VeauAccount.fromJSON(json));
 });

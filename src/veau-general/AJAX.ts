@@ -10,7 +10,7 @@ export class AJAX {
 
   public static get<T>(url: string): Promise<AJAXResponse<T>> {
     return new Promise<AJAXResponse<T>>((resolve: Resolve<AJAXResponse<T>>): void => {
-      request.get(url).end((err: any, res: request.Response): void => {
+      request.get(url).end((err: unknown, res: request.Response): void => {
         const {
           status,
           body
@@ -24,9 +24,9 @@ export class AJAX {
     });
   }
 
-  public static post<T>(url: string, payload: any): Promise<AJAXResponse<T>> {
+  public static post<T>(url: string, payload: string | object | undefined): Promise<AJAXResponse<T>> {
     return new Promise<AJAXResponse<T>>((resolve: Resolve<AJAXResponse<T>>): void => {
-      request.post(url).send(payload).end((err: any, res: request.Response): void => {
+      request.post(url).send(payload).end((err: unknown, res: request.Response): void => {
         const {
           status,
           body
@@ -40,9 +40,9 @@ export class AJAX {
     });
   }
 
-  public static put<T>(url: string, payload: any): Promise<AJAXResponse<T>> {
+  public static put<T>(url: string, payload: string | object | undefined): Promise<AJAXResponse<T>> {
     return new Promise<AJAXResponse<T>>((resolve: Resolve<AJAXResponse<T>>): void => {
-      request.put(url).send(payload).end((err: any, res: request.Response): void => {
+      request.put(url).send(payload).end((err: unknown, res: request.Response): void => {
         const {
           status,
           body
@@ -58,7 +58,7 @@ export class AJAX {
 
   public static delete<T>(url: string): Promise<AJAXResponse<T>> {
     return new Promise<AJAXResponse<T>>((resolve: Resolve<AJAXResponse<T>>): void => {
-      request.del(url).end((err: any, res: request.Response): void => {
+      request.del(url).end((err: unknown, res: request.Response): void => {
         const {
           status,
           body

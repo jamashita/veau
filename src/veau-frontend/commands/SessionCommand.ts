@@ -10,7 +10,7 @@ export class SessionCommand {
   private constructor() {
   }
 
-  public delete(): Promise<any> {
-    return AJAX.delete<any>('/api/destroy');
+  public delete(): Promise<unknown> {
+    return AJAX.delete<unknown>('/api/destroy');
   }
 }

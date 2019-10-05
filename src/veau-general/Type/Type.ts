@@ -1,6 +1,7 @@
 import check from 'check-types';
 import moment from 'moment';
 import { PlainObject } from './PlainObject';
+import { Primitive } from './Primitive';
 
 export class Type {
 
@@ -36,6 +37,14 @@ export class Type {
     return false;
   }
 
+  public static isPrimitive(value: unknown): value is Primitive {
+    if (check.primitive(value)) {
+      return true;
+    }
+
+    return false;
+  }
+
   public static isPlainObject(value: unknown): value is PlainObject {
     if (check.object(value)) {
       return true;
@@ -44,7 +53,7 @@ export class Type {
     return false;
   }
 
-  public static isArray(value: unknown): value is Array<any> {
+  public static isArray(value: unknown): value is Array<unknown> {
     if (check.array(value)) {
       return true;
     }

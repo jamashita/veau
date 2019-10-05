@@ -20,7 +20,7 @@ export class AuthenticationInteractor {
   private constructor() {
   }
 
-  public async review(account: string, password: string, callback: (error: any, account?: any) => void): Promise<void> {
+  public async review(account: string, password: string, callback: (error: unknown, account?: unknown) => void): Promise<void> {
     try {
       const accountHash: VeauAccountHash =  await veauAccountQuery.findByAccount(account);
 

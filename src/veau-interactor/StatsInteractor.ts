@@ -49,7 +49,7 @@ export class StatsInteractor {
     return statsOutlineQuery.findByVeauAccountID(veauAccountID, page.getLimit(), page.getOffset());
   }
 
-  public save(stats: Stats, veauAccountID: VeauAccountID): Promise<any> {
+  public save(stats: Stats, veauAccountID: VeauAccountID): Promise<unknown> {
     const statsUpdateTransaction: ITransaction = StatsUpdateTransaction.getInstance(stats, veauAccountID);
 
     return veauMySQL.transact(statsUpdateTransaction);

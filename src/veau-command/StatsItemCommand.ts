@@ -13,7 +13,7 @@ export class StatsItemCommand {
     this.query = query;
   }
 
-  public create(statsID: StatsID, statsItem: StatsItem, seq: number): Promise<any> {
+  public create(statsID: StatsID, statsItem: StatsItem, seq: number): Promise<unknown> {
     const query: string = `INSERT INTO stats_items VALUES (
       :statsItemID,
       :statsID,
@@ -29,7 +29,7 @@ export class StatsItemCommand {
     });
   }
 
-  public deleteByStatsID(statsID: StatsID): Promise<any> {
+  public deleteByStatsID(statsID: StatsID): Promise<unknown> {
     const query: string = `DELETE R1
       FROM stats_items R1
       INNER JOIN stats R2

@@ -21,7 +21,7 @@ export class RedisHash {
     return this.client.hget(key, field);
   }
 
-  public delete(key: string, field: string): any {
+  public delete(key: string, field: string): unknown {
     return this.client.hdel(key, field);
   }
 

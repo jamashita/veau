@@ -71,7 +71,7 @@ export class Spreadsheet extends React.Component<Props, State> {
           row: 0,
           col: 1
         }}
-        beforeChange={(changes: Array<Array<any>> | null): boolean => {
+        beforeChange={(changes: Array<Array<number | string | unknown>> | null): boolean => {
           if (changes === null) {
             return false;
           }
@@ -87,11 +87,11 @@ export class Spreadsheet extends React.Component<Props, State> {
 
           return true;
         }}
-        afterChange={(changes: Array<Array<any>> | null): void => {
+        afterChange={(changes: Array<Array<number | string | unknown>> | null): void => {
           if (changes === null) {
             return;
           }
-          changes.forEach((change: Array<any>): void => {
+          changes.forEach((change: Array<number | string | unknown>): void => {
             const str: string = change[VALUE_INDEX];
             const row: number = change[ROW_INDEX];
             const column: number = change[COLUMN_INDEX];

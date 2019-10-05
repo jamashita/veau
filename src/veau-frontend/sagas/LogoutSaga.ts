@@ -9,11 +9,11 @@ const sessionCommand: SessionCommand = SessionCommand.getInstance();
 
 export class LogoutSaga {
 
-  public static *init(): IterableIterator<any> {
+  public static *init(): IterableIterator<unknown> {
     yield fork(LogoutSaga.logout);
   }
 
-  private static *logout(): IterableIterator<any> {
+  private static *logout(): IterableIterator<unknown> {
     while (true) {
       yield take(ACTION.LOGOUT);
 

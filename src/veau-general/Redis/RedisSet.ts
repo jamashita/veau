@@ -7,11 +7,11 @@ export class RedisSet {
     this.client = client;
   }
 
-  public add(key: string, value: string): any {
+  public add(key: string, value: string): unknown {
     return this.client.sadd(key, value);
   }
 
-  public remove(key: string, value: string): any {
+  public remove(key: string, value: string): unknown {
     return this.client.srem(key, value);
   }
 
@@ -29,15 +29,15 @@ export class RedisSet {
     return this.client.scard(key);
   }
 
-  public dump(key: string): Promise<any> {
+  public dump(key: string): Promise<unknown> {
     return this.client.smembers(key);
   }
 
-  public random(key: string): Promise<any> {
+  public random(key: string): Promise<unknown> {
     return this.client.srandmember(key);
   }
 
-  public pop(key: string): Promise<any> {
+  public pop(key: string): Promise<unknown> {
     return this.client.spop(key);
   }
 }

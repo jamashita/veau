@@ -5,27 +5,27 @@ import { Endpoints } from '../Endpoints';
 
 export class RedirectSaga {
 
-  public static *init(): IterableIterator<any> {
+  public static *init(): IterableIterator<unknown> {
     yield fork(RedirectSaga.toStatsList);
     yield fork(RedirectSaga.toStatsEdit);
     yield fork(RedirectSaga.toEntrance);
   }
 
-  private static *toStatsList(): IterableIterator<any> {
+  private static *toStatsList(): IterableIterator<unknown> {
     while (true) {
       yield take(ACTION.PUSH_TO_STATS_LIST);
       yield put(push(Endpoints.STATS_LIST));
     }
   }
 
-  private static *toStatsEdit(): IterableIterator<any> {
+  private static *toStatsEdit(): IterableIterator<unknown> {
     while (true) {
       const action: PushToStatsEditAction = yield take(ACTION.PUSH_TO_STATS_EDIT);
       yield put(push(Endpoints.STATS_EDIT.replace(':id', action.statsID.get())));
     }
   }
 
-  private static *toEntrance(): IterableIterator<any> {
+  private static *toEntrance(): IterableIterator<unknown> {
     while (true) {
       yield take(ACTION.PUSH_TO_ENTRANCE);
       yield put(push(Endpoints.ENTRANCE));
