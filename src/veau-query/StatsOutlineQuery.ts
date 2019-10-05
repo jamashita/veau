@@ -38,7 +38,7 @@ export class StatsOutlineQuery {
       LIMIT :limit
       OFFSET :offset;`;
 
-    const statsOutlineRows: Array<StatsOutlineRow> = await veauMySQL.execute(query, {
+    const statsOutlineRows: Array<StatsOutlineRow> = await veauMySQL.execute<Array<StatsOutlineRow>>(query, {
       veauAccountID: veauAccountID.get(),
       limit: limit.get(),
       offset: offset.get()

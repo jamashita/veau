@@ -37,7 +37,7 @@ export class VeauAccountQuery {
       WHERE R1.account = :account
       AND R1.active = true;`;
 
-    const veauAccountRows: Array<VeauAccountRow> = await veauMySQL.execute(query, {
+    const veauAccountRows: Array<VeauAccountRow> = await veauMySQL.execute<Array<VeauAccountRow>>(query, {
       account
     });
 

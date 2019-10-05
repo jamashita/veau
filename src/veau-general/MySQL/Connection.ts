@@ -10,9 +10,9 @@ export class Connection implements IQuery {
     this.connection = connection;
   }
 
-  public execute(sql: string, value?: object): Promise<unknown> {
-    return new Promise<unknown>((resolve: Resolve<unknown>, reject: Reject<unknown>): void => {
-      this.connection.query(sql, value, (err: mysql.MysqlError | null, result: unknown): void => {
+  public execute<T>(sql: string, value?: object): Promise<T> {
+    return new Promise<T>((resolve: Resolve<T>, reject: Reject<unknown>): void => {
+      this.connection.query(sql, value, (err: mysql.MysqlError | null, result: T): void => {
         if (err !== null) {
           reject(err);
           return;

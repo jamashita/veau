@@ -25,7 +25,7 @@ export class StatsItemQuery {
       WHERE R1.stats_id = :statsID
       ORDER BY R1.seq;`;
 
-    const statsItemRows: Array<StatsItemRow> = await veauMySQL.execute(query, {
+    const statsItemRows: Array<StatsItemRow> = await veauMySQL.execute<Array<StatsItemRow>>(query, {
       statsID: statsID.get()
     });
 

@@ -37,7 +37,7 @@ export class LanguageQuery {
       FORCE INDEX(iso639)
       ORDER BY R1.iso639;`;
 
-    const languageRows: Array<LanguageRow> = await veauMySQL.execute(query);
+    const languageRows: Array<LanguageRow> = await veauMySQL.execute<Array<LanguageRow>>(query);
     const languages: Languages = Languages.fromRow(languageRows);
 
     await languageCommand.insertAll(languages);

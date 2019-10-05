@@ -38,7 +38,7 @@ export class StatsQuery {
       USING(region_id)
       WHERE R1.stats_id = :statsID;`;
 
-    const statsRows: Array<StatsRow> = await veauMySQL.execute(query, {
+    const statsRows: Array<StatsRow> = await veauMySQL.execute<Array<StatsRow>>(query, {
       statsID: statsID.get()
     });
 
