@@ -127,6 +127,10 @@ router.post('/', authenticationMiddleware.apply(), async (req: express.Request, 
   }
 
   for (const item of items) {
+    if (!Type.isPlainObject(item)) {
+      res.sendStatus(BAD_REQUEST);
+      return;
+    }
     if (!Type.isString(item.statsItemID)) {
       res.sendStatus(BAD_REQUEST);
       return;
@@ -141,6 +145,10 @@ router.post('/', authenticationMiddleware.apply(), async (req: express.Request, 
     }
 
     for (const value of item.values) {
+      if (!Type.isPlainObject(value)) {
+        res.sendStatus(BAD_REQUEST);
+        return;
+      }
       if (!Type.isDateString(value.asOf)) {
         res.sendStatus(BAD_REQUEST);
         return;

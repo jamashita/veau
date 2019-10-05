@@ -48,9 +48,15 @@ export class StatsItems implements JSONable {
   }
 
   public getAsOfs(): Array<moment.Moment> {
-    return this.items.map<Array<moment.Moment>>((item: StatsItem): Array<moment.Moment> => {
-      return item.getAsOfs();
-    }).flat();
+    const asOfs: Array<moment.Moment> = [];
+
+    this.items.forEach((item: StatsItem): void => {
+      item.getAsOfs().forEach((asOf: moment.Moment): void => {
+        asOfs.push(asOf);
+      });
+    });
+
+    return asOfs;
   }
 
   public maxNameLength(): number {
