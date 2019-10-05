@@ -1,6 +1,6 @@
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { JSONable } from '../../veau-general/JSONable';
-import { Function } from '../../veau-general/Type/Function';
+import { Mapper } from '../../veau-general/Type/Mapper';
 import { Predicate } from '../../veau-general/Type/Predicate';
 import { Language, LanguageJSON, LanguageRow } from '../Language';
 
@@ -49,8 +49,8 @@ export class Languages implements JSONable {
     return this.languages.length;
   }
 
-  public map<U>(func: Function<Language, U>): Array<U> {
-    return this.languages.map<U>(func);
+  public map<U>(mapper: Mapper<Language, U>): Array<U> {
+    return this.languages.map<U>(mapper);
   }
 
   public find(predicate: Predicate<Language>): Language | undefined {

@@ -1,5 +1,5 @@
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { Function } from '../../veau-general/Type/Function';
+import { Mapper } from '../../veau-general/Type/Mapper';
 import { Term } from '../Term';
 
 export class Terms {
@@ -33,8 +33,8 @@ export class Terms {
     return this.terms.length;
   }
 
-  public map<U>(func: Function<Term, U>): Array<U> {
-    return this.terms.map<U>(func);
+  public map<U>(mapper: Mapper<Term, U>): Array<U> {
+    return this.terms.map<U>(mapper);
   }
 
   public equals(other: Terms): boolean {

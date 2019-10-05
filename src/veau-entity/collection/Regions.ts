@@ -1,6 +1,6 @@
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { JSONable } from '../../veau-general/JSONable';
-import { Function } from '../../veau-general/Type/Function';
+import { Mapper } from '../../veau-general/Type/Mapper';
 import { Predicate } from '../../veau-general/Type/Predicate';
 import { Region, RegionJSON, RegionRow } from '../Region';
 
@@ -49,8 +49,8 @@ export class Regions implements JSONable {
     return this.regions.length;
   }
 
-  public map<U>(func: Function<Region, U>): Array<U> {
-    return this.regions.map<U>(func);
+  public map<U>(mapper: Mapper<Region, U>): Array<U> {
+    return this.regions.map<U>(mapper);
   }
 
   public find(predicate: Predicate<Region>): Region | undefined {

@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { JSONable } from '../../veau-general/JSONable';
-import { Consumer } from '../../veau-general/Type/Consumer';
+import { Enumerator } from '../../veau-general/Type/Enumerator';
 import { StatsValue, StatsValueJSON } from '../StatsValue';
 
 export class StatsValues implements JSONable {
@@ -84,8 +84,8 @@ export class StatsValues implements JSONable {
     return this.values.length;
   }
 
-  public forEach(consumer: Consumer<StatsValue>): void {
-    this.values.forEach(consumer);
+  public forEach(enumerator: Enumerator<StatsValue>): void {
+    this.values.forEach(enumerator);
   }
 
   public getValues(): Array<number> {
