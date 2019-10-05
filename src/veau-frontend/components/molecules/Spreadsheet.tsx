@@ -1,4 +1,5 @@
 import { HotTable } from '@handsontable/react';
+import { CellChange } from 'handsontable';
 import React, { PropsWithChildren } from 'react';
 import { Stats } from '../../../veau-entity/Stats';
 
@@ -71,7 +72,7 @@ export class Spreadsheet extends React.Component<Props, State> {
           row: 0,
           col: 1
         }}
-        beforeChange={(changes: Array<Array<number | string | unknown>> | null): boolean => {
+        beforeChange={(changes: Array<Array<CellChange>> | null): boolean => {
           if (changes === null) {
             return false;
           }
@@ -87,11 +88,11 @@ export class Spreadsheet extends React.Component<Props, State> {
 
           return true;
         }}
-        afterChange={(changes: Array<Array<number | string | unknown>> | null): void => {
+        afterChange={(changes: Array<Array<CellChange>> | null): void => {
           if (changes === null) {
             return;
           }
-          changes.forEach((change: Array<number | string | unknown>): void => {
+          changes.forEach((change: Array<CellChange>): void => {
             const str: string = change[VALUE_INDEX];
             const row: number = change[ROW_INDEX];
             const column: number = change[COLUMN_INDEX];
