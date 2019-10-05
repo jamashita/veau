@@ -6547,16 +6547,16 @@ lodash@^4.17.14:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.14.tgz#9ce487ae66c96254fe20b599f21b6816028078ba"
   integrity sha512-mmKYbW3GLuJeX+iGP+Y7Gp1AiGHGbXHCOh/jZmrawMmsE7MS4znI3RL2FsjbqOyMayHInjOeykW7PEajUk1/xw==
 
-log4js@5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/log4js/-/log4js-5.1.0.tgz#3fa5372055a4c2611ab92d80496bffc100841508"
-  integrity sha512-QtXrBGZiIwfwBrH9zF2uQarvBuJ5+Icqx9fW+nQL4pnmPITJw8n6kh3bck5IkcTDBQatDeKqUMXXX41fp0TIqw==
+log4js@5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/log4js/-/log4js-5.2.0.tgz#e59a72bccfec38bb8b858b8ea0dc20afbade2121"
+  integrity sha512-WrKU7iRszr4gqxFstD2cCMewE22vpwXe3ieXzMdX+47ftWJDnfmFllb3Bm/B7NdK/Fk42/u5XM6Evr/U00PLjw==
   dependencies:
     date-format "^2.1.0"
     debug "^4.1.1"
     flatted "^2.0.1"
     rfdc "^1.1.4"
-    streamroller "^2.1.0"
+    streamroller "^2.2.0"
 
 loglevel@^1.6.4:
   version "1.6.4"
@@ -9596,10 +9596,10 @@ stream-shift@^1.0.0:
   resolved "https://registry.yarnpkg.com/stream-shift/-/stream-shift-1.0.0.tgz#d5c752825e5367e786f78e18e445ea223a155952"
   integrity sha1-1cdSgl5TZ+eG944Y5EXqIjoVWVI=
 
-streamroller@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/streamroller/-/streamroller-2.1.0.tgz#702de4dbba428c82ed3ffc87a75a21a61027e461"
-  integrity sha512-Ps7CuQL0RRG0YAigxNehrGfHrLu+jKSSnhiZBwF8uWi62WmtHDQV1OG5gVgV5SAzitcz1GrM3QVgnRO0mXV2hg==
+streamroller@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/streamroller/-/streamroller-2.2.0.tgz#0bf7d55e44ef51787ee9b40420e6a3575d4d2477"
+  integrity sha512-0CTjQK2fHo/qAUMoCd/J5BvxqoPyAQFaMorv2Z4cxjLYPYRn0Q9PG8Z7LHvyK2mDHSpeS9R7AvMr0vSI/Mq0HA==
   dependencies:
     date-format "^2.1.0"
     debug "^4.1.1"
