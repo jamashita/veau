@@ -14,7 +14,7 @@
     "stop": "pm2-runtime stop ecosystem.config.js",
     "test": "jest test --detectOpenHandles --coverage",
     "lint": "eslint 'src/**/*.ts{,x}' --fix",
-    "dev": "ts-node src/veau-server/Server.ts"
+    "dev": "ts-node"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "5.11.2",
