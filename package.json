@@ -13,7 +13,8 @@
     "start": "pm2-runtime start ecosystem.config.js",
     "stop": "pm2-runtime stop ecosystem.config.js",
     "test": "jest test --detectOpenHandles --coverage",
-    "lint": "eslint 'src/**/*.ts{,x}' --fix"
+    "lint": "eslint 'src/**/*.ts{,x}' --fix",
+    "dev": "ts-node src/veau-server/Server.ts"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "5.11.2",
@@ -87,9 +88,9 @@
     "@types/superagent": "4.1.3",
     "@types/supertest": "2.0.8",
     "@types/webpack": "4.39.2",
-    "@typescript-eslint/eslint-plugin": "2.3.2",
-    "@typescript-eslint/parser": "2.3.2",
-    "@typescript-eslint/typescript-estree": "2.3.2",
+    "@typescript-eslint/eslint-plugin": "2.3.3",
+    "@typescript-eslint/parser": "2.3.3",
+    "@typescript-eslint/typescript-estree": "2.3.3",
     "enzyme": "3.10.0",
     "enzyme-adapter-react-16": "1.14.0",
     "eslint": "6.5.1",
