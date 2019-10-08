@@ -170,9 +170,10 @@ gulp.task('font', () => {
 gulp.task('nodemon', (callback) => {
   let started = false;
   return nodemon({
-    script: 'dist/veau-server/Server.js',
-    watch: ['dist/**/*.js'],
-    ext: 'js',
+    script: 'src/veau-server/Server.ts',
+    watch: ['src/**/*.ts'],
+    ext: 'ts',
+    exec: 'yarn dev',
     stdout: true,
     delay: 500,
     env: {

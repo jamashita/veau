@@ -13,7 +13,8 @@
     "start": "pm2-runtime start ecosystem.config.js",
     "stop": "pm2-runtime stop ecosystem.config.js",
     "test": "jest test --detectOpenHandles --coverage",
-    "lint": "eslint 'src/**/*.ts{,x}' --fix"
+    "lint": "eslint 'src/**/*.ts{,x}' --fix",
+    "dev": "ts-node src/veau-server/Server.ts"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "5.11.2",
@@ -109,6 +110,7 @@
     "supertest": "4.0.2",
     "ts-jest": "24.1.0",
     "ts-loader": "6.2.0",
+    "ts-node": "8.4.1",
     "typescript": "3.6.3",
     "uglifyjs-webpack-plugin": "2.2.0",
     "webpack": "4.41.0",
