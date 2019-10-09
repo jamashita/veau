@@ -173,7 +173,7 @@ gulp.task('nodemon', (callback) => {
     script: 'src/veau-server/Server.ts',
     watch: ['src/**/*.ts'],
     ext: 'ts',
-    exec: 'yarn dev',
+    exec: 'ts-node',
     stdout: true,
     delay: 500,
     env: {

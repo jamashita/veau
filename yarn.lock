@@ -864,10 +864,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.0.0.tgz#d11813b9c0ff8aaca29f04cbc12817f4c7d656e5"
   integrity sha512-Jrb/x3HT4PTJp6a4avhmJCDEVrPdqLfl3e8GGMbpkGGdwAV5UGlIs4vVEfsHHfylZVOKZWpOqmqFH8CbfOZ6kg==
 
-"@types/node@12.7.11":
-  version "12.7.11"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.7.11.tgz#be879b52031cfb5d295b047f5462d8ef1a716446"
-  integrity sha512-Otxmr2rrZLKRYIybtdG/sgeO+tHY20GxeDjcGmUnmmlCWyEnv2a2x1ZXBo3BTec4OiTXMQCiazB8NMBf0iRlFw==
+"@types/node@12.7.12":
+  version "12.7.12"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.7.12.tgz#7c6c571cc2f3f3ac4a59a5f2bd48f5bdbc8653cc"
+  integrity sha512-KPYGmfD0/b1eXurQ59fXD1GBzhSQfz6/lKBxkaHX9dKTzjXbK68Zt7yGUxUsCS1jeTy/8aL+d9JEr+S54mpkWQ==
 
 "@types/passport-local@1.0.33":
   version "1.0.33"
@@ -979,10 +979,10 @@
   resolved "https://registry.yarnpkg.com/@types/recharts-scale/-/recharts-scale-1.0.0.tgz#348c9220d6d9062c44a9d585d686644a97f7e25d"
   integrity sha512-HR/PrCcxYb2YHviTqH7CMdL1TUhUZLTUKzfrkMhxm1HTa5mg/QtP8XMiuSPz6dZ6wecazAOu8aYZ5DqkNlgHHQ==
 
-"@types/recharts@1.1.21":
-  version "1.1.21"
-  resolved "https://registry.yarnpkg.com/@types/recharts/-/recharts-1.1.21.tgz#3095036f0c46b3e35065675223b303184d9a980a"
-  integrity sha512-QLs9hT+ozhtR7PrS+Tm7PvaXDcYYAlv7Rz0xNxC8aJnJS+vyhDB9taR1kOTltgiXLh1YEwrenDIznf/Kka3uiA==
+"@types/recharts@1.1.22":
+  version "1.1.22"
+  resolved "https://registry.yarnpkg.com/@types/recharts/-/recharts-1.1.22.tgz#c6982f46391e7769884ae65de535b29df0b8a79e"
+  integrity sha512-li+x9GN3HCwuOK5fXOPFnmjAtPl6N0GsRXZJ6TBStjGrO7pht5c4rRv//pGF7ZUaO2Wr1e+BFv2GsgwBEujA0Q==
   dependencies:
     "@types/d3-shape" "*"
     "@types/react" "*"
@@ -6557,16 +6557,16 @@ lodash@^4.17.14:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.14.tgz#9ce487ae66c96254fe20b599f21b6816028078ba"
   integrity sha512-mmKYbW3GLuJeX+iGP+Y7Gp1AiGHGbXHCOh/jZmrawMmsE7MS4znI3RL2FsjbqOyMayHInjOeykW7PEajUk1/xw==
 
-log4js@5.2.0:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/log4js/-/log4js-5.2.0.tgz#e59a72bccfec38bb8b858b8ea0dc20afbade2121"
-  integrity sha512-WrKU7iRszr4gqxFstD2cCMewE22vpwXe3ieXzMdX+47ftWJDnfmFllb3Bm/B7NdK/Fk42/u5XM6Evr/U00PLjw==
+log4js@5.2.1:
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/log4js/-/log4js-5.2.1.tgz#6f1fb8678f47dc3cc8f865ba978727cecc2dc1de"
+  integrity sha512-ON64KPqPO6njBKKJereIUJw7UdGXq8VZ+LOrokbENxQPENDeq0kUif1kMlTcsYdclRPK/9BB6w+82TTS51ICaA==
   dependencies:
     date-format "^2.1.0"
     debug "^4.1.1"
     flatted "^2.0.1"
     rfdc "^1.1.4"
-    streamroller "^2.2.0"
+    streamroller "^2.2.1"
 
 loglevel@^1.6.4:
   version "1.6.4"
@@ -9606,10 +9606,10 @@ stream-shift@^1.0.0:
   resolved "https://registry.yarnpkg.com/stream-shift/-/stream-shift-1.0.0.tgz#d5c752825e5367e786f78e18e445ea223a155952"
   integrity sha1-1cdSgl5TZ+eG944Y5EXqIjoVWVI=
 
-streamroller@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/streamroller/-/streamroller-2.2.0.tgz#0bf7d55e44ef51787ee9b40420e6a3575d4d2477"
-  integrity sha512-0CTjQK2fHo/qAUMoCd/J5BvxqoPyAQFaMorv2Z4cxjLYPYRn0Q9PG8Z7LHvyK2mDHSpeS9R7AvMr0vSI/Mq0HA==
+streamroller@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/streamroller/-/streamroller-2.2.1.tgz#c10e03e1c9601a3a1462ae00842ee5e443d79805"
+  integrity sha512-LkKpmGNQwHWGqvG4h6v/IEz3s+EoR/0PSX8q5Mv4yXlFWxxp3I6zGv/maCSzyFzbfWmm5HQdoZvrrPyHjxzg1Q==
   dependencies:
     date-format "^2.1.0"
     debug "^4.1.1"
