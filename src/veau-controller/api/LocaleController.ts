@@ -24,7 +24,7 @@ router.get('/', async (req: express.Request, res: express.Response): Promise<voi
   }
 });
 
-router.delete('/', authenticationMiddleware.apply(), async (req: express.Request, res: express.Response): Promise<void> => {
+router.delete('/', authenticationMiddleware.requires(), async (req: express.Request, res: express.Response): Promise<void> => {
   try {
     await localeInteractor.delete();
 

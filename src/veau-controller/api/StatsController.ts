@@ -17,7 +17,7 @@ const logger: log4js.Logger = log4js.getLogger();
 const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
 const statsInteractor: StatsInteractor = StatsInteractor.getInstance();
 
-router.get('/page/:page(\\d+)', authenticationMiddleware.apply(), async (req: express.Request, res: express.Response): Promise<void> => {
+router.get('/page/:page(\\d+)', authenticationMiddleware.requires(), async (req: express.Request, res: express.Response): Promise<void> => {
   const page: number = Number(req.params.page);
 
   if (page === 0) {
@@ -26,7 +26,7 @@ router.get('/page/:page(\\d+)', authenticationMiddleware.apply(), async (req: ex
   }
 
   try {
-    const statsOutlines: JSONable = await statsInteractor.findByVeauAccountID(req.account.getVeauAccountID(), Page.of(page));
+    const statsOutlines: JSONable = await statsInteractor.findByVeauAccountID(res.locals.account.getVeauAccountID(), Page.of(page));
 
     res.status(OK).send(statsOutlines.toJSON());
   }
@@ -53,7 +53,7 @@ router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: expres
   }
 });
 
-router.post('/', authenticationMiddleware.apply(), async (req: express.Request, res: express.Response): Promise<void> => {
+router.post('/', authenticationMiddleware.requires(), async (req: express.Request, res: express.Response): Promise<void> => {
   const {
     statsID,
     language,
@@ -164,7 +164,7 @@ router.post('/', authenticationMiddleware.apply(), async (req: express.Request, 
   const stats: Stats = Stats.fromJSON(json);
 
   try {
-    await statsInteractor.save(stats, req.account.getVeauAccountID());
+    await statsInteractor.save(stats, res.locals.account.getVeauAccountID());
 
     res.sendStatus(CREATED);
   }

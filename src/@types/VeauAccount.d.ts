@@ -1,9 +1,9 @@
 import { VeauAccount } from '../veau-entity/VeauAccount';
 
-declare global {
-  namespace Express {
-    interface Request {
+declare module 'express' {
+  export interface Response {
+    locals: {
       account: VeauAccount;
-    }
+    };
   }
 }
