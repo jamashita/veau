@@ -46,7 +46,7 @@ export class VeauAccount extends Entity<VeauAccountID> {
       account,
       language,
       region
-    }: VeauAccountJSON = json;
+    } = json;
 
     return VeauAccount.from(VeauAccountID.of(veauAccountID), AccountName.of(account), Language.fromJSON(language), Region.fromJSON(region));
   }
@@ -62,7 +62,7 @@ export class VeauAccount extends Entity<VeauAccountID> {
       regionID,
       regionName,
       iso3166
-    }: VeauAccountRow = row;
+    } = row;
 
     const language: Language = Language.from(LanguageID.of(languageID), LanguageName.of(languageName), LanguageName.of(languageEnglishName), ISO639.of(iso639));
     const region: Region = Region.from(RegionID.of(regionID), RegionName.of(regionName), ISO3166.of(iso3166));
@@ -116,7 +116,7 @@ export class VeauAccount extends Entity<VeauAccountID> {
       account,
       language,
       region
-    }: this = this;
+    } = this;
 
     return new VeauAccount(veauAccountID, account, language, region);
   }
@@ -127,7 +127,7 @@ export class VeauAccount extends Entity<VeauAccountID> {
       account,
       language,
       region
-    }: this = this;
+    } = this;
 
     return {
       veauAccountID: veauAccountID.get(),
@@ -143,7 +143,7 @@ export class VeauAccount extends Entity<VeauAccountID> {
       account,
       language,
       region
-    }: this = this;
+    } = this;
 
     return `${veauAccountID.toString()} ${account.toString()} ${language.toString()} ${region.toString()}`;
   }

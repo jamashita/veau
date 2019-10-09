@@ -18,7 +18,7 @@ export class Chart extends React.Component<Props, State> {
   public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
     const {
       stats
-    }: PropsWithChildren<Props> = this.props;
+    } = this.props;
 
     if (stats.isSame(nextProps.stats)) {
       return false;
@@ -30,7 +30,7 @@ export class Chart extends React.Component<Props, State> {
   public render(): React.ReactNode {
     const {
       stats
-    }: PropsWithChildren<Props> = this.props;
+    } = this.props;
 
     return (
       <ResponsiveContainer

@@ -21,7 +21,7 @@ export class Locale implements JSONable {
     const {
       languages,
       regions
-    }: LocaleJSON = locale;
+    } = locale;
 
     return Locale.from(Languages.fromJSON(languages), Regions.fromJSON(regions));
   }
@@ -69,7 +69,7 @@ export class Locale implements JSONable {
     const {
       languages,
       regions
-    }: this = this;
+    } = this;
 
     return {
       languages: languages.toJSON(),
@@ -81,7 +81,7 @@ export class Locale implements JSONable {
     const {
       languages,
       regions
-    }: this = this;
+    } = this;
 
     return `${languages.toString()} ${regions.toString()}`;
   }

@@ -1,5 +1,5 @@
 import { Button, Icon } from '@material-ui/core';
-import React, { PropsWithChildren } from 'react';
+import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Props } from '../../containers/pages/StatsEdit';
 import { Authenticated } from '../../containers/templates/Authenticated';
@@ -33,12 +33,12 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
       statsItem,
       selectingItem,
       locale
-    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
+    } = this.props;
     const {
       openNewStatsItemModal,
       openStartDateModal,
       startDate
-    }: State = this.state;
+    } = this.state;
 
     if (!stats.isSame(nextProps.stats)) {
       return true;
@@ -98,11 +98,11 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
       itemNameTyped,
       saveNewItem,
       startDateDetermined
-    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
+    } = this.props;
     const {
       openNewStatsItemModal,
       openStartDateModal
-    }: State = this.state;
+    } = this.state;
 
     return (
       <Authenticated>

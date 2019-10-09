@@ -22,7 +22,7 @@ export class TextField extends React.Component<Props, State> {
       value,
       defaultValue,
       disabled
-    }: PropsWithChildren<Props> = this.props;
+    } = this.props;
 
     if (label !== nextProps.label) {
       return true;
@@ -52,7 +52,7 @@ export class TextField extends React.Component<Props, State> {
       defaultValue,
       onKeyUp,
       onEnterUp
-    }: PropsWithChildren<Props> = this.props;
+    } = this.props;
 
     return (
       <Text

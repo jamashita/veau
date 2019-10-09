@@ -13,7 +13,7 @@ class EntranceImpl extends React.Component<Props & WrappedComponentProps, State>
     const {
       entranceInformation,
       intl
-    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
+    } = this.props;
 
     if (intl.locale !== nextProps.intl.locale) {
       return true;
@@ -32,7 +32,7 @@ class EntranceImpl extends React.Component<Props & WrappedComponentProps, State>
       accountTyped,
       passwordTyped,
       loginClicked
-    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
+    } = this.props;
 
     return (
       <Card

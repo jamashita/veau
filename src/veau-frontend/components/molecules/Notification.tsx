@@ -18,7 +18,7 @@ class NotificationImpl extends React.Component<Props & WrappedComponentProps, St
       message,
       duration,
       values
-    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
+    } = this.props;
 
     if (kind !== nextProps.kind) {
       return true;
@@ -48,7 +48,7 @@ class NotificationImpl extends React.Component<Props & WrappedComponentProps, St
   private icon(): React.ReactNode {
     const {
       kind
-    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
+    } = this.props;
 
     switch (kind) {
       case 'success': {
@@ -86,7 +86,7 @@ class NotificationImpl extends React.Component<Props & WrappedComponentProps, St
   private backgroundColor(): string {
     const {
       kind
-    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
+    } = this.props;
 
     switch (kind) {
       case 'success': {
@@ -115,7 +115,7 @@ class NotificationImpl extends React.Component<Props & WrappedComponentProps, St
       values,
       intl,
       closeClicked
-    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
+    } = this.props;
 
     return (
       <Snackbar

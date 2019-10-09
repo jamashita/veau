@@ -70,7 +70,7 @@ export class StatsItems implements JSONable {
   public move(from: number, to: number): StatsItems {
     const {
       items
-    }: this = this;
+    } = this;
 
     const min: number = Math.min(from, to);
     const max: number = Math.max(from, to);
@@ -89,7 +89,7 @@ export class StatsItems implements JSONable {
   public replace(statsItem: StatsItem, to: number): StatsItems {
     const {
       items
-    }: this = this;
+    } = this;
 
     const newItems: Array<StatsItem> = [
       ...items.slice(0, to),
@@ -137,7 +137,7 @@ export class StatsItems implements JSONable {
   public haveValues(): boolean {
     const {
       items
-    }: this = this;
+    } = this;
 
     if (items.length === 0) {
       return false;

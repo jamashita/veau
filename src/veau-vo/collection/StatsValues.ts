@@ -16,7 +16,7 @@ export class StatsValues implements JSONable {
       const {
         asOf,
         value
-      }: StatsValueJSON = statsValue;
+      } = statsValue;
 
       return StatsValue.of(moment(asOf), value);
     }));

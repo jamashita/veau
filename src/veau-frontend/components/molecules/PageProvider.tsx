@@ -11,7 +11,7 @@ class PageProviderImpl extends React.Component<Props & WrappedComponentProps, St
   public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
     const {
       open
-    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
+    } = this.props;
 
     if (open !== nextProps.open) {
       return true;
@@ -27,7 +27,7 @@ class PageProviderImpl extends React.Component<Props & WrappedComponentProps, St
       close,
       toStatsList,
       logout
-    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
+    } = this.props;
 
     return (
       <Drawer

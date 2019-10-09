@@ -14,7 +14,7 @@ export class AJAX {
         const {
           status,
           body
-        }: request.Response = res;
+        } = res;
 
         resolve({
           status,
@@ -30,7 +30,7 @@ export class AJAX {
         const {
           status,
           body
-        }: request.Response = res;
+        } = res;
 
         resolve({
           status,
@@ -46,7 +46,7 @@ export class AJAX {
         const {
           status,
           body
-        }: request.Response = res;
+        } = res;
 
         resolve({
           status,
@@ -62,7 +62,7 @@ export class AJAX {
         const {
           status,
           body
-        }: request.Response = res;
+        } = res;
 
         resolve({
           status,

@@ -60,7 +60,7 @@ export class IdentitySaga {
 
         const {
           identity
-        }: State = state;
+        } = state;
 
         try {
           const language: Language = yield localeQuery.findByISO639(iso639);
@@ -84,7 +84,7 @@ export class IdentitySaga {
 
       const {
         identity
-      }: State = state;
+      } = state;
 
       const veauAccount: VeauAccount = VeauAccount.from(VeauAccountID.default(), AccountName.default(), identity.getLanguage(), identity.getRegion());
 

@@ -51,7 +51,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
       stats
     },
     locale
-  }: State = state;
+  } = state;
 
   return {
     statsOutlines,

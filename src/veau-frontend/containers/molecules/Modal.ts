@@ -26,7 +26,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
       description,
       values
     }
-  }: State = state;
+  } = state;
 
   return {
     open,

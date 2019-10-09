@@ -13,7 +13,7 @@ class LoadingIndicatorImpl extends React.Component<Props & WrappedComponentProps
   public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
     const {
       loadingCount
-    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
+    } = this.props;
 
     if (loadingCount !== nextProps.loadingCount) {
       return true;
@@ -26,7 +26,7 @@ class LoadingIndicatorImpl extends React.Component<Props & WrappedComponentProps
     const {
       loadingCount,
       intl
-    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
+    } = this.props;
 
     return (
       <Dialog

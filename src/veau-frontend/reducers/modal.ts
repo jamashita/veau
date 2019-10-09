@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { ACTION, Action, ModalRaiseAction } from '../actions/Action';
+import { ACTION, Action } from '../actions/Action';
 
 export type Modal = {
   open: boolean;
@@ -22,7 +22,7 @@ export const modal: Reducer<Modal, Action> = (state: Modal = initialState, actio
         title,
         description,
         values
-      }: ModalRaiseAction = action;
+      } = action;
 
       return {
         ...state,

@@ -18,7 +18,7 @@ class HeaderImpl extends React.Component<Props & WrappedComponentProps, State> {
     const {
       intl,
       menuClicked
-    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
+    } = this.props;
 
     return (
       <AppBar

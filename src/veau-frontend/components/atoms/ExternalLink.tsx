@@ -13,7 +13,7 @@ export class ExternalLink extends React.Component<Props, State> {
     const {
       href,
       style
-    }: PropsWithChildren<Props> = this.props;
+    PropsWithChildren<Props> = this.props;
 
     if (href !== nextProps.href) {
       return true;
@@ -30,7 +30,7 @@ export class ExternalLink extends React.Component<Props, State> {
       href,
       style,
       children
-    }: PropsWithChildren<Props> = this.props;
+    } = this.props;
 
     return (
       <a

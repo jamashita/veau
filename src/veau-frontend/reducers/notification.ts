@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { ACTION, Action, NotificationAppearAction } from '../actions/Action';
+import { ACTION, Action } from '../actions/Action';
 
 export type Notification = {
   kind: 'info' | 'success' | 'warn' | 'error';
@@ -31,7 +31,7 @@ export const notification: Reducer<Notification, Action> = (state: Notification 
         message,
         duration,
         values
-      }: NotificationAppearAction = action;
+      } = action;
 
       return {
         ...state,

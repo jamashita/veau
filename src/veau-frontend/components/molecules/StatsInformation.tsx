@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
-import React, { PropsWithChildren } from 'react';
+import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Locale } from '../../../veau-entity/aggregate/Locale';
 import { Language } from '../../../veau-entity/Language';
@@ -26,7 +26,7 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
     const {
       stats,
       locale
-    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
+    } = this.props;
 
     if (!stats.isSame(nextProps.stats)) {
       return true;
@@ -47,7 +47,7 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
       unitTyped,
       iso639Selected,
       iso3166Selected
-    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
+    } = this.props;
 
     return (
       <Card

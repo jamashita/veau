@@ -33,7 +33,7 @@ export class Language extends Entity<LanguageID> {
       name,
       englishName,
       iso639
-    }: LanguageJSON = json;
+    } = json;
 
     return Language.from(LanguageID.of(languageID), LanguageName.of(name), LanguageName.of(englishName), ISO639.of(iso639));
   }
@@ -44,7 +44,7 @@ export class Language extends Entity<LanguageID> {
       name,
       englishName,
       iso639
-    }: LanguageRow = row;
+    } = row;
 
     return Language.from(LanguageID.of(languageID), LanguageName.of(name), LanguageName.of(englishName), ISO639.of(iso639));
   }
@@ -87,7 +87,7 @@ export class Language extends Entity<LanguageID> {
       name,
       englishName,
       iso639
-    }: this = this;
+    } = this;
 
     return new Language(languageID, name, englishName, iso639);
   }
@@ -98,7 +98,7 @@ export class Language extends Entity<LanguageID> {
       name,
       englishName,
       iso639
-    }: this = this;
+    } = this;
 
     return {
       languageID: languageID.get(),
@@ -114,7 +114,7 @@ export class Language extends Entity<LanguageID> {
       name,
       englishName,
       iso639
-    }: this = this;
+    } = this;
 
     return `${languageID.toString()} ${name.toString()} ${englishName.toString()} ${iso639.toString()}`;
   }

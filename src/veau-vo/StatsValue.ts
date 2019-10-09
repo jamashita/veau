@@ -58,7 +58,7 @@ export class StatsValue extends ValueObject implements JSONable {
   public toJSON(): StatsValueJSON {
     const {
       value
-    }: this = this;
+    } = this;
 
     return {
       asOf: this.getAsOfAsString(),
@@ -69,7 +69,7 @@ export class StatsValue extends ValueObject implements JSONable {
   public toString(): string {
     const {
       value
-    }: this = this;
+    } = this;
 
     return `${this.getAsOfAsString()} : ${value}`;
   }

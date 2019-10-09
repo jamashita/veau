@@ -29,7 +29,7 @@ export class Region extends Entity<RegionID> {
       regionID,
       name,
       iso3166
-    }: RegionJSON = json;
+    } = json;
 
     return Region.from(RegionID.of(regionID), RegionName.of(name), ISO3166.of(iso3166));
   }
@@ -39,7 +39,7 @@ export class Region extends Entity<RegionID> {
       regionID,
       name,
       iso3166
-    }: RegionRow = row;
+    } = row;
 
     return Region.from(RegionID.of(regionID), RegionName.of(name), ISO3166.of(iso3166));
   }
@@ -76,7 +76,7 @@ export class Region extends Entity<RegionID> {
       regionID,
       name,
       iso3166
-    }: this = this;
+    } = this;
 
     return new Region(regionID, name, iso3166);
   }
@@ -86,7 +86,7 @@ export class Region extends Entity<RegionID> {
       regionID,
       name,
       iso3166
-    }: this = this;
+    } = this;
 
     return {
       regionID: regionID.get(),
@@ -100,7 +100,7 @@ export class Region extends Entity<RegionID> {
       regionID,
       name,
       iso3166
-    }: this = this;
+    } = this;
 
     return `${regionID.toString()} ${name.toString()} ${iso3166.toString()}`;
   }

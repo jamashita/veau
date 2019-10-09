@@ -35,7 +35,7 @@ export class StatsValueQuery {
         statsItemID,
         asOf,
         value
-      }: StatsValueRow = statsValueRow;
+      } = statsValueRow;
 
       const statsValue: StatsValue = StatsValue.of(moment(asOf), value);
       const statsValues: StatsValues | undefined = valueMap.get(statsItemID);

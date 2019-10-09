@@ -17,7 +17,7 @@ class StatsListImpl extends React.Component<Props & WrappedComponentProps, State
       open,
       stats,
       locale
-    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
+    } = this.props;
 
     if (!statsOutlines.areSame(nextProps.statsOutlines)) {
       return true;
@@ -51,7 +51,7 @@ class StatsListImpl extends React.Component<Props & WrappedComponentProps, State
       iso3166Selected,
       termSelected,
       saveNewStats
-    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
+    } = this.props;
 
     return (
       <Authenticated>

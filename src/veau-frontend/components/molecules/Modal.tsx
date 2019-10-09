@@ -14,7 +14,7 @@ class ModalImpl extends React.Component<Props & WrappedComponentProps, State> {
       title,
       description,
       values
-    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
+    } = this.props;
 
     if (open !== nextProps.open) {
       return true;
@@ -40,7 +40,7 @@ class ModalImpl extends React.Component<Props & WrappedComponentProps, State> {
       values,
       intl,
       closeClicked
-    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
+    } = this.props;
 
     return (
       <Dialog

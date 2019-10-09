@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import React from 'react';
 import { PageProvider } from '../../containers/molecules/PageProvider';
 import { Props } from '../../containers/templates/Authenticated';
 import { Header } from '../molecules/Header';
@@ -16,7 +16,7 @@ export class Authenticated extends React.Component<Props, State> {
     const {
       children,
       menuClicked
-    }: PropsWithChildren<Props> = this.props;
+    } = this.props;
 
     return (
       <div>

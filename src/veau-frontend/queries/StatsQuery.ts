@@ -22,7 +22,7 @@ export class StatsQuery {
     const {
       status,
       body
-    }: AJAXResponse<StatsJSON> = response;
+    } = response;
 
     switch (status) {
       case OK: {

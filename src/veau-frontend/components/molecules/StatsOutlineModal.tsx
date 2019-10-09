@@ -44,7 +44,7 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
       open,
       stats,
       locale
-    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
+    } = this.props;
 
     if (open !== nextProps.open) {
       return true;
@@ -72,7 +72,7 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
       iso3166Selected,
       termSelected,
       saveNewStats
-    }: PropsWithChildren<Props & WrappedComponentProps> = this.props;
+    } = this.props;
 
     return (
       <Dialog
