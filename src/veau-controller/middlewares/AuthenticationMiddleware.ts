@@ -11,11 +11,10 @@ export class AuthenticationMiddleware {
   private constructor() {
   }
 
-  public apply(): express.RequestHandler {
+  public requires(): express.RequestHandler {
     return (req: express.Request, res: express.Response, next: express.NextFunction): void => {
       if (req.user !== undefined) {
-        // @ts-ignore
-        req.account = req.user;
+        res.locals.account = req.user;
         next();
         return;
       }

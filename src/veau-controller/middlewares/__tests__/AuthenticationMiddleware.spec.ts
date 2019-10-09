@@ -5,8 +5,8 @@ import supertest from 'supertest';
 import { AuthenticationMiddleware } from '../AuthenticationMiddleware';
 
 describe('AuthenticationMiddleware', () => {
-  describe('GET', () => {
-    it('pass', async () => {
+  describe('requires', () => {
+    it('GET: pass', async () => {
       const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction): void => {
@@ -14,7 +14,7 @@ describe('AuthenticationMiddleware', () => {
         req.user = {};
         next();
       });
-      app.use(authenticationMiddleware.apply());
+      app.use(authenticationMiddleware.requires());
       app.use((req: express.Request, res: express.Response): void => {
         res.sendStatus(OK);
       });
@@ -23,10 +23,10 @@ describe('AuthenticationMiddleware', () => {
       expect(response.status).toEqual(OK);
     });
 
-    it('blocked', async () => {
+    it('GET: blocked', async () => {
       const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
       const app: express.Express = express();
-      app.use(authenticationMiddleware.apply());
+      app.use(authenticationMiddleware.requires());
       app.use((req: express.Request, res: express.Response): void => {
         res.sendStatus(OK);
       });
@@ -34,10 +34,8 @@ describe('AuthenticationMiddleware', () => {
       const response: supertest.Response = await supertest(app).get('/');
       expect(response.status).toEqual(UNAUTHORIZED);
     });
-  });
 
-  describe('POST', () => {
-    it('pass', async () => {
+    it('POST: pass', async () => {
       const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction): void => {
@@ -45,7 +43,7 @@ describe('AuthenticationMiddleware', () => {
         req.user = {};
         next();
       });
-      app.use(authenticationMiddleware.apply());
+      app.use(authenticationMiddleware.requires());
       app.use((req: express.Request, res: express.Response): void => {
         res.sendStatus(OK);
       });
@@ -54,10 +52,10 @@ describe('AuthenticationMiddleware', () => {
       expect(response.status).toEqual(OK);
     });
 
-    it('blocked', async () => {
+    it('POST: blocked', async () => {
       const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
       const app: express.Express = express();
-      app.use(authenticationMiddleware.apply());
+      app.use(authenticationMiddleware.requires());
       app.use((req: express.Request, res: express.Response): void => {
         res.sendStatus(OK);
       });
@@ -65,10 +63,8 @@ describe('AuthenticationMiddleware', () => {
       const response: supertest.Response = await supertest(app).post('/');
       expect(response.status).toEqual(UNAUTHORIZED);
     });
-  });
 
-  describe('PUT', () => {
-    it('pass', async () => {
+    it('PUT: pass', async () => {
       const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction): void => {
@@ -76,7 +72,7 @@ describe('AuthenticationMiddleware', () => {
         req.user = {};
         next();
       });
-      app.use(authenticationMiddleware.apply());
+      app.use(authenticationMiddleware.requires());
       app.use((req: express.Request, res: express.Response): void => {
         res.sendStatus(OK);
       });
@@ -85,10 +81,10 @@ describe('AuthenticationMiddleware', () => {
       expect(response.status).toEqual(OK);
     });
 
-    it('blocked', async () => {
+    it('PUT: blocked', async () => {
       const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
       const app: express.Express = express();
-      app.use(authenticationMiddleware.apply());
+      app.use(authenticationMiddleware.requires());
       app.use((req: express.Request, res: express.Response): void => {
         res.sendStatus(OK);
       });
@@ -96,10 +92,8 @@ describe('AuthenticationMiddleware', () => {
       const response: supertest.Response = await supertest(app).put('/');
       expect(response.status).toEqual(UNAUTHORIZED);
     });
-  });
 
-  describe('DELETE', () => {
-    it('pass', async () => {
+    it('DELETE: pass', async () => {
       const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction): void => {
@@ -107,7 +101,7 @@ describe('AuthenticationMiddleware', () => {
         req.user = {};
         next();
       });
-      app.use(authenticationMiddleware.apply());
+      app.use(authenticationMiddleware.requires());
       app.use((req: express.Request, res: express.Response): void => {
         res.sendStatus(OK);
       });
@@ -116,10 +110,10 @@ describe('AuthenticationMiddleware', () => {
       expect(response.status).toEqual(OK);
     });
 
-    it('blocked', async () => {
+    it('DELETE: blocked', async () => {
       const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
       const app: express.Express = express();
-      app.use(authenticationMiddleware.apply());
+      app.use(authenticationMiddleware.requires());
       app.use((req: express.Request, res: express.Response): void => {
         res.sendStatus(OK);
       });
