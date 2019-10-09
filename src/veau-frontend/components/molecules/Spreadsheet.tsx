@@ -1,6 +1,5 @@
 import { HotTable } from '@handsontable/react';
-import { CellChange } from 'handsontable';
-import React, { PropsWithChildren } from 'react';
+import React from 'react';
 import { Stats } from '../../../veau-entity/Stats';
 
 type Props = {
@@ -24,7 +23,7 @@ export class Spreadsheet extends React.Component<Props, State> {
   public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
     const {
       stats
-    }: PropsWithChildren<Props> = this.props;
+    } = this.props;
 
     if (stats.isSame(nextProps.stats)) {
       return false;
@@ -41,7 +40,7 @@ export class Spreadsheet extends React.Component<Props, State> {
       dataDeleted,
       rowSelected,
       rowMoved
-    }: PropsWithChildren<Props> = this.props;
+    } = this.props;
 
     const data: Array<Array<string>> = stats.getData();
     const columnHeaders: Array<string> = stats.getColumns();
@@ -72,13 +71,13 @@ export class Spreadsheet extends React.Component<Props, State> {
           row: 0,
           col: 1
         }}
-        beforeChange={(changes: Array<Array<CellChange>> | null): boolean => {
+        beforeChange={(changes: Array<[number, string | number, unknown, unknown]> | null): boolean => {
           if (changes === null) {
             return false;
           }
           const length: number = changes.length;
           for (let i: number = 0; i < length; i++) {
-            const str: string = changes[i][VALUE_INDEX];
+            const str: string = changes[i][VALUE_INDEX] as string;
 
             if (isNaN(Number(str))) {
               invalidValueInput();
@@ -88,14 +87,14 @@ export class Spreadsheet extends React.Component<Props, State> {
 
           return true;
         }}
-        afterChange={(changes: Array<Array<CellChange>> | null): void => {
+        afterChange={(changes: Array<[number, string | number, unknown, unknown]> | null): void => {
           if (changes === null) {
             return;
           }
-          changes.forEach((change: Array<CellChange>): void => {
-            const str: string = change[VALUE_INDEX];
-            const row: number = change[ROW_INDEX];
-            const column: number = change[COLUMN_INDEX];
+          changes.forEach((change: [number, string | number, unknown, unknown]): void => {
+            const row: number = change[ROW_INDEX] as number;
+            const column: number = change[COLUMN_INDEX] as number;
+            const str: string = change[VALUE_INDEX] as string;
 
             if (str === '') {
               dataDeleted(row, column);
