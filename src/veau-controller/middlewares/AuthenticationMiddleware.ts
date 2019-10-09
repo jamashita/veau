@@ -1,5 +1,6 @@
 import express from 'express';
 import { UNAUTHORIZED } from 'http-status';
+import { VeauAccount } from '../../veau-entity/VeauAccount';
 
 export class AuthenticationMiddleware {
   private static instance: AuthenticationMiddleware = new AuthenticationMiddleware();
@@ -14,7 +15,7 @@ export class AuthenticationMiddleware {
   public requires(): express.RequestHandler {
     return (req: express.Request, res: express.Response, next: express.NextFunction): void => {
       if (req.user !== undefined) {
-        res.locals.account = req.user;
+        res.locals.account = req.user as VeauAccount;
         next();
         return;
       }
