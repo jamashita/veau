@@ -2406,10 +2406,10 @@ chalk@^1.1.1, chalk@^1.1.3:
     strip-ansi "^3.0.0"
     supports-color "^2.0.0"
 
-chance@1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/chance/-/chance-1.1.2.tgz#6885356e41b2c1bf9ed95a25f7bdc63edc503b5c"
-  integrity sha512-jv4hd/ZKNCDld3KIxWw/tKNd8A7Riw0oZ8yIVQtL0c9kKEOuWl8RaQpHIEVJjWdb9KuAvNBtMU6r6pU5k3GkXw==
+chance@1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/chance/-/chance-1.1.3.tgz#414f08634ee479c7a316b569050ea20751b82dd3"
+  integrity sha512-XeJsdoVAzDb1WRPRuMBesRSiWpW1uNTo5Fd7mYxPJsAfgX71+jfuCOHOdbyBz2uAUZ8TwKcXgWk3DMedFfJkbg==
 
 character-parser@^2.1.1:
   version "2.2.0"
@@ -5066,10 +5066,10 @@ http-signature@~1.2.0:
     jsprim "^1.2.2"
     sshpk "^1.7.0"
 
-http-status@1.3.2:
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/http-status/-/http-status-1.3.2.tgz#a4fb27db5e32948fecd2fb110b9b3afef4a07bf7"
-  integrity sha512-vR1YTaDyi2BukI0UiH01xy92oiZi4in7r0dmSPnrZg72Vu1SzyOLalwWP5NUk1rNiB2L+XVK2lcSVOqaertX8A==
+http-status@1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/http-status/-/http-status-1.4.0.tgz#1d8cc202258705c90e900cfba99f21160e7a2f4b"
+  integrity sha512-3w5/ENDYWShP1TmpDYwuX7QPKV8/xE7fdvr/XtGy8njDSjKljCjhHel7HJD7sR/FHEeVpAssDfsU5ntoyhquqw==
 
 https-browserify@^1.0.0:
   version "1.0.0"
