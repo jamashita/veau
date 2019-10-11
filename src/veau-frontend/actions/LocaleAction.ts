@@ -1,4 +1,4 @@
-import { Locale } from '../../veau-entity/aggregate/Locale';
+import { Locale } from '../../veau-vo/aggregate/Locale';
 import { ACTION, LocaleDefinedAction } from './Action';
 
 export const defineLocale: (locale: Locale) => LocaleDefinedAction = (locale: Locale): LocaleDefinedAction => {

@@ -1,5 +1,5 @@
 import { OK } from 'http-status';
-import { Locale, LocaleJSON } from '../../veau-entity/aggregate/Locale';
+import { Locale, LocaleJSON } from '../../veau-vo/aggregate/Locale';
 import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-vo/Region';
 import { AJAXError } from '../../veau-error/AJAXError';

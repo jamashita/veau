@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-import { Locale } from '../../../veau-entity/aggregate/Locale';
+import { Locale } from '../../../veau-vo/aggregate/Locale';
 import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
 import { Stats } from '../../../veau-entity/Stats';

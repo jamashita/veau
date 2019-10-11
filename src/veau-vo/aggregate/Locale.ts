@@ -1,15 +1,16 @@
 import { JSONable } from '../../veau-general/JSONable';
-import { Languages } from '../../veau-vo/collection/Languages';
-import { Regions } from '../../veau-vo/collection/Regions';
-import { Language, LanguageJSON } from '../../veau-vo/Language';
-import { Region, RegionJSON } from '../../veau-vo/Region';
+import { Serializable } from '../../veau-general/Serializable';
+import { Languages } from '../collection/Languages';
+import { Regions } from '../collection/Regions';
+import { Language, LanguageJSON } from '../Language';
+import { Region, RegionJSON } from '../Region';
 
 export type LocaleJSON = {
   languages: Array<LanguageJSON>;
   regions: Array<RegionJSON>;
 };
 
-export class Locale implements JSONable {
+export class Locale implements JSONable, Serializable {
   private languages: Languages;
   private regions: Regions;
 

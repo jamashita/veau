@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { Locale } from '../../veau-entity/aggregate/Locale';
+import { Locale } from '../../veau-vo/aggregate/Locale';
 import { ACTION, Action } from '../actions/Action';
 
 const initialState: Locale = Locale.default();

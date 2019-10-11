@@ -1,10 +1,11 @@
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { JSONable } from '../../veau-general/JSONable';
+import { Serializable } from '../../veau-general/Serializable';
 import { Mapper } from '../../veau-general/Type/Mapper';
 import { Predicate } from '../../veau-general/Type/Predicate';
 import { Region, RegionJSON, RegionRow } from '../Region';
 
-export class Regions implements JSONable {
+export class Regions implements JSONable, Serializable {
   private regions: Array<Region>;
 
   public static from(regions: Array<Region>): Regions {

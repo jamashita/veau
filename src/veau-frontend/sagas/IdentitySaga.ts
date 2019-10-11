@@ -1,6 +1,6 @@
 import { SagaIterator } from 'redux-saga';
 import { fork, put, select, take } from 'redux-saga/effects';
-import { Locale } from '../../veau-entity/aggregate/Locale';
+import { Locale } from '../../veau-vo/aggregate/Locale';
 import { Language } from '../../veau-vo/Language';
 import { VeauAccount } from '../../veau-vo/VeauAccount';
 import { AJAXError } from '../../veau-error/AJAXError';

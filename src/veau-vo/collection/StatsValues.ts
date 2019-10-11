@@ -1,10 +1,11 @@
 import moment from 'moment';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { JSONable } from '../../veau-general/JSONable';
+import { Serializable } from '../../veau-general/Serializable';
 import { Enumerator } from '../../veau-general/Type/Enumerator';
 import { StatsValue, StatsValueJSON } from '../StatsValue';
 
-export class StatsValues implements JSONable {
+export class StatsValues implements JSONable, Serializable {
   private values: Array<StatsValue>;
 
   public static of(values: Array<StatsValue>): StatsValues {

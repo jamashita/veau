@@ -1,7 +1,7 @@
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import 'jest';
 import sinon, { SinonStub } from 'sinon';
-import { Locale } from '../../../veau-entity/aggregate/Locale';
+import { Locale } from '../../../veau-vo/aggregate/Locale';
 import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
 import { AJAXError } from '../../../veau-error/AJAXError';

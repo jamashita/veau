@@ -1,14 +1,14 @@
 import 'jest';
-import { ISO3166 } from '../../../veau-vo/ISO3166';
-import { ISO639 } from '../../../veau-vo/ISO639';
-import { LanguageID } from '../../../veau-vo/LanguageID';
-import { LanguageName } from '../../../veau-vo/LanguageName';
-import { RegionID } from '../../../veau-vo/RegionID';
-import { RegionName } from '../../../veau-vo/RegionName';
-import { Languages } from '../../../veau-vo/collection/Languages';
-import { Regions } from '../../../veau-vo/collection/Regions';
-import { Language, LanguageJSON } from '../../../veau-vo/Language';
-import { Region, RegionJSON } from '../../../veau-vo/Region';
+import { ISO3166 } from '../../ISO3166';
+import { ISO639 } from '../../ISO639';
+import { LanguageID } from '../../LanguageID';
+import { LanguageName } from '../../LanguageName';
+import { RegionID } from '../../RegionID';
+import { RegionName } from '../../RegionName';
+import { Languages } from '../../collection/Languages';
+import { Regions } from '../../collection/Regions';
+import { Language, LanguageJSON } from '../../Language';
+import { Region, RegionJSON } from '../../Region';
 import { Locale } from '../Locale';
 
 describe('Locale', () => {

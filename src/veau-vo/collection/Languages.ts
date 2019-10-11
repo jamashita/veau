@@ -1,10 +1,11 @@
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { JSONable } from '../../veau-general/JSONable';
+import { Serializable } from '../../veau-general/Serializable';
 import { Mapper } from '../../veau-general/Type/Mapper';
 import { Predicate } from '../../veau-general/Type/Predicate';
 import { Language, LanguageJSON, LanguageRow } from '../Language';
 
-export class Languages implements JSONable {
+export class Languages implements JSONable, Serializable {
   private languages: Array<Language>;
 
   public static of(languages: Array<Language>): Languages {
