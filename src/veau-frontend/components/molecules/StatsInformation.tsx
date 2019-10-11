@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, FormControl, InputLabel, MenuItem, Selec
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Locale } from '../../../veau-entity/aggregate/Locale';
-import { Language } from '../../../veau-entity/Language';
+import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-entity/Region';
 import { Stats } from '../../../veau-entity/Stats';
 import { ISO3166 } from '../../../veau-vo/ISO3166';

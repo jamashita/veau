@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { fork, put, select, take } from 'redux-saga/effects';
-import { Language } from '../../veau-entity/Language';
+import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-entity/Region';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
@@ -35,6 +35,7 @@ import { StatsCommand } from '../commands/StatsCommand';
 import { LocaleQuery } from '../queries/LocaleQuery';
 import { StatsQuery } from '../queries/StatsQuery';
 import { State } from '../State';
+import { SagaIterator } from 'redux-saga';
 
 const statsCommand: StatsCommand = StatsCommand.getInstance();
 const statsQuery: StatsQuery = StatsQuery.getInstance();
@@ -63,7 +64,7 @@ export class StatsEditSaga {
     yield fork(StatsEditSaga.save);
   }
 
-  private static *findStats(): IterableIterator<unknown> {
+  private static *findStats(): SagaIterator<unknown> {
     while (true) {
       const action: LocationChangeAction = yield take(ACTION.LOCATION_CHANGE);
       const path: string = action.payload.location.pathname;

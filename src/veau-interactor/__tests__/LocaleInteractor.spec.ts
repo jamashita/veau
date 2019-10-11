@@ -3,9 +3,9 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { LanguageCommand } from '../../veau-command/LanguageCommand';
 import { RegionCommand } from '../../veau-command/RegionCommand';
 import { Locale } from '../../veau-entity/aggregate/Locale';
-import { Languages } from '../../veau-entity/collection/Languages';
+import { Languages } from '../../veau-vo/collection/Languages';
 import { Regions } from '../../veau-entity/collection/Regions';
-import { Language } from '../../veau-entity/Language';
+import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-entity/Region';
 import { LanguageQuery } from '../../veau-query/LanguageQuery';
 import { RegionQuery } from '../../veau-query/RegionQuery';
@@ -23,8 +23,8 @@ describe('LocaleInteractor',  () => {
       const stub1: SinonStub = sinon.stub();
       LanguageQuery.prototype.all = stub1;
       stub1.resolves(Languages.from([
-        Language.from(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
-        Language.from(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
+        Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
+        Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
       ]));
       const stub2: SinonStub = sinon.stub();
       RegionQuery.prototype.all = stub2;

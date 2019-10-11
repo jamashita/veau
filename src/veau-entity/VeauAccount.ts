@@ -7,7 +7,7 @@ import { RegionID } from '../veau-vo/RegionID';
 import { RegionName } from '../veau-vo/RegionName';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
 import { Entity } from './Entity';
-import { Language, LanguageJSON } from './Language';
+import { Language, LanguageJSON } from '../veau-vo/Language';
 import { Region, RegionJSON } from './Region';
 
 export type VeauAccountJSON = {
@@ -48,7 +48,7 @@ export class VeauAccount extends Entity<VeauAccountID> {
       region
     } = json;
 
-    return VeauAccount.from(VeauAccountID.of(veauAccountID), AccountName.of(account), Language.fromJSON(language), Region.fromJSON(region));
+    return VeauAccount.from(VeauAccountID.of(veauAccountID), AccountName.of(account), Language.ofJSON(language), Region.fromJSON(region));
   }
 
   public static fromRow(row: VeauAccountRow): VeauAccount {
@@ -64,7 +64,7 @@ export class VeauAccount extends Entity<VeauAccountID> {
       iso3166
     } = row;
 
-    const language: Language = Language.from(LanguageID.of(languageID), LanguageName.of(languageName), LanguageName.of(languageEnglishName), ISO639.of(iso639));
+    const language: Language = Language.of(LanguageID.of(languageID), LanguageName.of(languageName), LanguageName.of(languageEnglishName), ISO639.of(iso639));
     const region: Region = Region.from(RegionID.of(regionID), RegionName.of(regionName), ISO3166.of(iso3166));
 
     return VeauAccount.from(VeauAccountID.of(veauAccountID), AccountName.of(account), language, region);

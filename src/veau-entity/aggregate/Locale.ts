@@ -1,7 +1,7 @@
 import { JSONable } from '../../veau-general/JSONable';
-import { Languages } from '../collection/Languages';
+import { Languages } from '../../veau-vo/collection/Languages';
 import { Regions } from '../collection/Regions';
-import { Language, LanguageJSON } from '../Language';
+import { Language, LanguageJSON } from '../../veau-vo/Language';
 import { Region, RegionJSON } from '../Region';
 
 export type LocaleJSON = {

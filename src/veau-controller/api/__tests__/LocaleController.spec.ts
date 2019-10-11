@@ -4,15 +4,15 @@ import 'jest';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import supertest from 'supertest';
 import { Locale } from '../../../veau-entity/aggregate/Locale';
-import { Languages } from '../../../veau-entity/collection/Languages';
 import { Regions } from '../../../veau-entity/collection/Regions';
-import { Language } from '../../../veau-entity/Language';
 import { Region } from '../../../veau-entity/Region';
 import { VeauAccount } from '../../../veau-entity/VeauAccount';
 import { LocaleInteractor } from '../../../veau-interactor/LocaleInteractor';
 import { AccountName } from '../../../veau-vo/AccountName';
+import { Languages } from '../../../veau-vo/collection/Languages';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
+import { Language } from '../../../veau-vo/Language';
 import { LanguageID } from '../../../veau-vo/LanguageID';
 import { LanguageName } from '../../../veau-vo/LanguageName';
 import { RegionID } from '../../../veau-vo/RegionID';
@@ -27,7 +27,7 @@ describe('LocaleController', () => {
       LocaleInteractor.prototype.all = stub;
       stub.resolves(Locale.from(
         Languages.from([
-          Language.from(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english name'), ISO639.of('la'))
+          Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english name'), ISO639.of('la'))
         ]),
         Regions.from([
           Region.from(RegionID.of(1), RegionName.of('region'), ISO3166.of('RGN'))
@@ -65,7 +65,7 @@ describe('LocaleController', () => {
       LocaleInteractor.prototype.delete = spy;
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        const language: Language = Language.from(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
+        const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
         const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
@@ -84,7 +84,7 @@ describe('LocaleController', () => {
       stub.rejects();
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        const language: Language = Language.from(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
+        const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
         const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);

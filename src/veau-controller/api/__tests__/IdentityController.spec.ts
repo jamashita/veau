@@ -2,7 +2,7 @@ import express from 'express';
 import { OK } from 'http-status';
 import 'jest';
 import supertest from 'supertest';
-import { Language } from '../../../veau-entity/Language';
+import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-entity/Region';
 import { VeauAccount } from '../../../veau-entity/VeauAccount';
 import { AccountName } from '../../../veau-vo/AccountName';
@@ -20,7 +20,7 @@ describe('IdentityController', () => {
     it('returns VeauAccount as JSON', async () => {
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        const language: Language = Language.from(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
+        const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
         const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);

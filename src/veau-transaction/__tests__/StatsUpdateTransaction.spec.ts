@@ -5,7 +5,7 @@ import { StatsCommand } from '../../veau-command/StatsCommand';
 import { StatsItemCommand } from '../../veau-command/StatsItemCommand';
 import { StatsValueCommand } from '../../veau-command/StatsValueCommand';
 import { StatsItems } from '../../veau-entity/collection/StatsItems';
-import { Language } from '../../veau-entity/Language';
+import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-entity/Region';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
@@ -46,7 +46,7 @@ describe('StatsUpdateTransaction', () => {
       StatsValueCommand.prototype.create = spy6;
 
       const statsID: StatsID = StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94');
-      const language: Language = Language.from(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
+      const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
       const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
       const term: Term = Term.MONTHLY;
       const name: StatsName = StatsName.of('stats');

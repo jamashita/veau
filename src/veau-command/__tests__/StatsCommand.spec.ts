@@ -1,7 +1,7 @@
 import 'jest';
 import sinon, { SinonStub } from 'sinon';
 import { StatsItems } from '../../veau-entity/collection/StatsItems';
-import { Language } from '../../veau-entity/Language';
+import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-entity/Region';
 import { Stats } from '../../veau-entity/Stats';
 import { Term } from '../../veau-enum/Term';
@@ -29,7 +29,7 @@ describe('StatsCommand', () => {
       const query: IQuery = new QueryMock();
       const stats: Stats = Stats.from(
         StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007'),
-        Language.from(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('language 2'), ISO639.of('aa')),
+        Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('language 2'), ISO639.of('aa')),
         Region.from(RegionID.of(2), RegionName.of('region 3'), ISO3166.of('abc')),
         Term.DAILY,
         StatsName.of('stats name'),

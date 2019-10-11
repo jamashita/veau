@@ -16,7 +16,7 @@ import { StatsValue } from '../veau-vo/StatsValue';
 import { UpdatedAt } from '../veau-vo/UpdatedAt';
 import { StatsItems } from './collection/StatsItems';
 import { Entity } from './Entity';
-import { Language, LanguageJSON } from './Language';
+import { Language, LanguageJSON } from '../veau-vo/Language';
 import { Region, RegionJSON } from './Region';
 import { StatsItem, StatsItemJSON } from './StatsItem';
 
@@ -83,7 +83,7 @@ export class Stats extends Entity<StatsID> {
 
     return Stats.from(
       StatsID.of(statsID),
-      Language.fromJSON(language),
+      Language.ofJSON(language),
       Region.fromJSON(region),
       Term.of(termID),
       StatsName.of(name),
@@ -109,7 +109,7 @@ export class Stats extends Entity<StatsID> {
       updatedAt
     } = row;
 
-    const language: Language = Language.from(LanguageID.of(languageID), LanguageName.of(languageName), LanguageName.of(languageEnglishName), ISO639.of(iso639));
+    const language: Language = Language.of(LanguageID.of(languageID), LanguageName.of(languageName), LanguageName.of(languageEnglishName), ISO639.of(iso639));
     const region: Region = Region.from(RegionID.of(regionID), RegionName.of(regionName), ISO3166.of(iso3166));
     const term: Term = Term.of(termID);
 

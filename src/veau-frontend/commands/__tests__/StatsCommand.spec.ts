@@ -2,7 +2,7 @@ import { BAD_REQUEST, CREATED } from 'http-status';
 import 'jest';
 import sinon, { SinonStub } from 'sinon';
 import { StatsItems } from '../../../veau-entity/collection/StatsItems';
-import { Language } from '../../../veau-entity/Language';
+import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-entity/Region';
 import { Stats } from '../../../veau-entity/Stats';
 import { Term } from '../../../veau-enum/Term';
@@ -33,7 +33,7 @@ describe('StatsCommand', () => {
 
       const stats: Stats = Stats.from(
         StatsID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87'),
-        Language.from(LanguageID.of(3), LanguageName.of('language name 1'), LanguageName.of('language name 2'), ISO639.of('aa')),
+        Language.of(LanguageID.of(3), LanguageName.of('language name 1'), LanguageName.of('language name 2'), ISO639.of('aa')),
         Region.from(RegionID.of(4), RegionName.of('region name 5'), ISO3166.of('bb')),
         Term.DAILY,
         StatsName.of('stats name'),
@@ -77,7 +77,7 @@ describe('StatsCommand', () => {
 
       const stats: Stats = Stats.from(
         StatsID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87'),
-        Language.from(LanguageID.of(3), LanguageName.of('language name 1'), LanguageName.of('language name 2'), ISO639.of('aa')),
+        Language.of(LanguageID.of(3), LanguageName.of('language name 1'), LanguageName.of('language name 2'), ISO639.of('aa')),
         Region.from(RegionID.of(4), RegionName.of('region name 5'), ISO3166.of('bb')),
         Term.DAILY,
         StatsName.of('stats name'),

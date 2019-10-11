@@ -1,6 +1,6 @@
 import { OK } from 'http-status';
 import { Locale, LocaleJSON } from '../../veau-entity/aggregate/Locale';
-import { Language } from '../../veau-entity/Language';
+import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-entity/Region';
 import { AJAXError } from '../../veau-error/AJAXError';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';

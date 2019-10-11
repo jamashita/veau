@@ -1,8 +1,8 @@
 import 'jest';
 import sinon from 'sinon';
 import { SinonStub } from 'sinon';
-import { Languages } from '../../veau-entity/collection/Languages';
-import { Language } from '../../veau-entity/Language';
+import { Languages } from '../../veau-vo/collection/Languages';
+import { Language } from '../../veau-vo/Language';
 import { CacheError } from '../../veau-error/CacheError';
 import { Redis } from '../../veau-general/Redis/Redis';
 import { RedisString } from '../../veau-general/Redis/RedisString';
@@ -22,7 +22,7 @@ describe('LanguageCommand', () => {
       stub2.resolves();
 
       const languages: Languages = Languages.from([
-        Language.from(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english 1'), ISO639.of('aa'))
+        Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english 1'), ISO639.of('aa'))
       ]);
 
       const languageCommand: LanguageCommand = LanguageCommand.getInstance();

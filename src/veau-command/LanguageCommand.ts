@@ -1,4 +1,4 @@
-import { Languages } from '../veau-entity/collection/Languages';
+import { Languages } from '../veau-vo/collection/Languages';
 import { CacheError } from '../veau-error/CacheError';
 import { veauRedis } from '../veau-infrastructure/VeauRedis';
 

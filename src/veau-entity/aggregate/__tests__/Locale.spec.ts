@@ -5,9 +5,9 @@ import { LanguageID } from '../../../veau-vo/LanguageID';
 import { LanguageName } from '../../../veau-vo/LanguageName';
 import { RegionID } from '../../../veau-vo/RegionID';
 import { RegionName } from '../../../veau-vo/RegionName';
-import { Languages } from '../../collection/Languages';
+import { Languages } from '../../../veau-vo/collection/Languages';
 import { Regions } from '../../collection/Regions';
-import { Language, LanguageJSON } from '../../Language';
+import { Language, LanguageJSON } from '../../../veau-vo/Language';
 import { Region, RegionJSON } from '../../Region';
 import { Locale } from '../Locale';
 
@@ -15,8 +15,8 @@ describe('Locale', () => {
   describe('equals', () => {
     it('returns true if languages and regions are the same', () => {
       const languages1: Languages = Languages.from([
-        Language.from(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa')),
-        Language.from(LanguageID.of(2), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
+        Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa')),
+        Language.of(LanguageID.of(2), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
       ]);
       const regions1: Regions = Regions.from([
         Region.from(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb')),
@@ -25,7 +25,7 @@ describe('Locale', () => {
       const locale1: Locale = Locale.from(languages1, regions1);
 
       const languages2: Languages = Languages.from([
-        Language.from(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
+        Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
       ]);
       const regions2: Regions = Regions.from([
         Region.from(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb')),
@@ -34,8 +34,8 @@ describe('Locale', () => {
       const locale2: Locale = Locale.from(languages2, regions2);
 
       const languages3: Languages = Languages.from([
-        Language.from(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa')),
-        Language.from(LanguageID.of(2), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
+        Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa')),
+        Language.of(LanguageID.of(2), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
       ]);
       const regions3: Regions = Regions.from([
         Region.from(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb'))
@@ -43,7 +43,7 @@ describe('Locale', () => {
       const locale3: Locale = Locale.from(languages3, regions3);
 
       const languages4: Languages = Languages.from([
-        Language.from(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
+        Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
       ]);
       const regions4: Regions = Regions.from([
         Region.from(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb'))
@@ -51,8 +51,8 @@ describe('Locale', () => {
       const locale4: Locale = Locale.from(languages4, regions4);
 
       const languages5: Languages = Languages.from([
-        Language.from(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa')),
-        Language.from(LanguageID.of(2), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
+        Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa')),
+        Language.of(LanguageID.of(2), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
       ]);
       const regions5: Regions = Regions.from([
         Region.from(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb')),

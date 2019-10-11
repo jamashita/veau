@@ -13,7 +13,7 @@ export class Languages implements JSONable {
 
   public static fromJSON(json: Array<LanguageJSON>): Languages {
     const languages: Array<Language> = json.map<Language>((language: LanguageJSON): Language => {
-      return Language.fromJSON(language);
+      return Language.ofJSON(language);
     });
 
     return Languages.from(languages);
@@ -21,7 +21,7 @@ export class Languages implements JSONable {
 
   public static fromRow(rows: Array<LanguageRow>): Languages {
     const languages: Array<Language> = rows.map<Language>((language: LanguageJSON): Language => {
-      return Language.fromRow(language);
+      return Language.ofRow(language);
     });
 
     return Languages.from(languages);

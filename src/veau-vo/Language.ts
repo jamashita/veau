@@ -1,7 +1,8 @@
-import { ISO639 } from '../veau-vo/ISO639';
-import { LanguageID } from '../veau-vo/LanguageID';
-import { LanguageName } from '../veau-vo/LanguageName';
-import { Entity } from './Entity';
+import { JSONable } from '../veau-general/JSONable';
+import { ISO639 } from './ISO639';
+import { LanguageID } from './LanguageID';
+import { LanguageName } from './LanguageName';
+import { ValueObject } from './ValueObject';
 
 export type LanguageJSON = {
   languageID: number;
@@ -17,17 +18,17 @@ export type LanguageRow = {
   iso639: string;
 };
 
-export class Language extends Entity<LanguageID> {
+export class Language extends ValueObject implements JSONable {
   private languageID: LanguageID;
   private name: LanguageName;
   private englishName: LanguageName;
   private iso639: ISO639;
 
-  public static from(languageID: LanguageID, name: LanguageName, englishName: LanguageName, iso639: ISO639): Language {
+  public static of(languageID: LanguageID, name: LanguageName, englishName: LanguageName, iso639: ISO639): Language {
     return new Language(languageID, name, englishName, iso639);
   }
 
-  public static fromJSON(json: LanguageJSON): Language {
+  public static ofJSON(json: LanguageJSON): Language {
     const {
       languageID,
       name,
@@ -35,10 +36,10 @@ export class Language extends Entity<LanguageID> {
       iso639
     } = json;
 
-    return Language.from(LanguageID.of(languageID), LanguageName.of(name), LanguageName.of(englishName), ISO639.of(iso639));
+    return Language.of(LanguageID.of(languageID), LanguageName.of(name), LanguageName.of(englishName), ISO639.of(iso639));
   }
 
-  public static fromRow(row: LanguageRow): Language {
+  public static ofRow(row: LanguageRow): Language {
     const {
       languageID,
       name,
@@ -46,11 +47,11 @@ export class Language extends Entity<LanguageID> {
       iso639
     } = row;
 
-    return Language.from(LanguageID.of(languageID), LanguageName.of(name), LanguageName.of(englishName), ISO639.of(iso639));
+    return Language.of(LanguageID.of(languageID), LanguageName.of(name), LanguageName.of(englishName), ISO639.of(iso639));
   }
 
   public static default(): Language {
-    return Language.from(LanguageID.default(), LanguageName.default(), LanguageName.default(), ISO639.default());
+    return Language.of(LanguageID.default(), LanguageName.default(), LanguageName.default(), ISO639.default());
   }
 
   private constructor(languageID: LanguageID, name: LanguageName, englishName: LanguageName, iso639: ISO639) {
@@ -77,11 +78,11 @@ export class Language extends Entity<LanguageID> {
     return this.iso639;
   }
 
-  public getIdentifier(): LanguageID {
-    return this.languageID;
-  }
+  public equals(other: Language): boolean {
+    if (this === other) {
+      return true;
+    }
 
-  public copy(): Language {
     const {
       languageID,
       name,
@@ -89,7 +90,20 @@ export class Language extends Entity<LanguageID> {
       iso639
     } = this;
 
-    return new Language(languageID, name, englishName, iso639);
+    if (!languageID.equals(other.getLanguageID())) {
+      return false;
+    }
+    if (!name.equals(other.getName())) {
+      return false;
+    }
+    if (!englishName.equals(other.getEnglishName())) {
+      return false;
+    }
+    if (!iso639.equals(other.getISO639())) {
+      return false;
+    }
+
+    return true;
   }
 
   public toJSON(): LanguageJSON {
