@@ -1,6 +1,6 @@
 import express from 'express';
 import { UNAUTHORIZED } from 'http-status';
-import { VeauAccount } from '../../veau-entity/VeauAccount';
+import { VeauAccount } from '../../veau-vo/VeauAccount';
 
 export class AuthenticationMiddleware {
   private static instance: AuthenticationMiddleware = new AuthenticationMiddleware();

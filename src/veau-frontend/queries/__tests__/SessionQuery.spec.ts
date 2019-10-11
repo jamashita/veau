@@ -1,7 +1,7 @@
 import { INTERNAL_SERVER_ERROR, OK, UNAUTHORIZED } from 'http-status';
 import 'jest';
 import sinon, { SinonStub } from 'sinon';
-import { VeauAccount } from '../../../veau-entity/VeauAccount';
+import { VeauAccount } from '../../../veau-vo/VeauAccount';
 import { AJAXError } from '../../../veau-error/AJAXError';
 import { AuthenticationFailureError } from '../../../veau-error/AuthenticationFailureError';
 import { UnauthorizedError } from '../../../veau-error/UnauthorizedError';

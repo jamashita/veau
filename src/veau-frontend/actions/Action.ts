@@ -4,7 +4,7 @@ import { Locale } from '../../veau-entity/aggregate/Locale';
 import { StatsOutlines } from '../../veau-entity/collection/StatsOutlines';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
-import { VeauAccount } from '../../veau-entity/VeauAccount';
+import { VeauAccount } from '../../veau-vo/VeauAccount';
 import { Term } from '../../veau-enum/Term';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 import { ISO3166 } from '../../veau-vo/ISO3166';

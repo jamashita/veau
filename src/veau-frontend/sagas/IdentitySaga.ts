@@ -2,7 +2,7 @@ import { SagaIterator } from 'redux-saga';
 import { fork, put, select, take } from 'redux-saga/effects';
 import { Locale } from '../../veau-entity/aggregate/Locale';
 import { Language } from '../../veau-vo/Language';
-import { VeauAccount } from '../../veau-entity/VeauAccount';
+import { VeauAccount } from '../../veau-vo/VeauAccount';
 import { AJAXError } from '../../veau-error/AJAXError';
 import { UnauthorizedError } from '../../veau-error/UnauthorizedError';
 import { LanguageIdentifier } from '../../veau-general/LanguageIdentifier';
@@ -65,7 +65,7 @@ export class IdentitySaga {
         try {
           const language: Language = yield localeQuery.findByISO639(iso639);
 
-          const veauAccount: VeauAccount = VeauAccount.from(identity.getVeauAccountID(), identity.getAccount(), language, identity.getRegion());
+          const veauAccount: VeauAccount = VeauAccount.of(identity.getVeauAccountID(), identity.getAccount(), language, identity.getRegion());
 
           yield put(identityAuthenticated(veauAccount));
           yield put(pushToEntrance());
@@ -86,7 +86,7 @@ export class IdentitySaga {
         identity
       } = state;
 
-      const veauAccount: VeauAccount = VeauAccount.from(VeauAccountID.default(), AccountName.default(), identity.getLanguage(), identity.getRegion());
+      const veauAccount: VeauAccount = VeauAccount.of(VeauAccountID.default(), AccountName.default(), identity.getLanguage(), identity.getRegion());
 
       yield put(identityAuthenticated(veauAccount));
     }

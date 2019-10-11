@@ -1,5 +1,5 @@
 import { OK, UNAUTHORIZED } from 'http-status';
-import { VeauAccount, VeauAccountJSON } from '../../veau-entity/VeauAccount';
+import { VeauAccount, VeauAccountJSON } from '../../veau-vo/VeauAccount';
 import { AJAXError } from '../../veau-error/AJAXError';
 import { AuthenticationFailureError } from '../../veau-error/AuthenticationFailureError';
 import { UnauthorizedError } from '../../veau-error/UnauthorizedError';
@@ -25,7 +25,7 @@ export class SessionQuery {
 
     switch (status) {
       case OK: {
-        return VeauAccount.fromJSON(body);
+        return VeauAccount.ofJSON(body);
       }
       default: {
         throw new UnauthorizedError();
@@ -42,7 +42,7 @@ export class SessionQuery {
 
     switch (status) {
       case OK: {
-        return VeauAccount.fromJSON(body);
+        return VeauAccount.ofJSON(body);
       }
       case UNAUTHORIZED: {
         throw new AuthenticationFailureError();

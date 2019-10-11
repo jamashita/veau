@@ -1,26 +1,32 @@
 import 'jest';
-import { AccountName } from '../../veau-vo/AccountName';
-import { ISO3166 } from '../../veau-vo/ISO3166';
-import { ISO639 } from '../../veau-vo/ISO639';
-import { LanguageID } from '../../veau-vo/LanguageID';
-import { LanguageName } from '../../veau-vo/LanguageName';
-import { RegionID } from '../../veau-vo/RegionID';
-import { RegionName } from '../../veau-vo/RegionName';
-import { VeauAccountID } from '../../veau-vo/VeauAccountID';
-import { Language } from '../../veau-vo/Language';
-import { Region } from '../../veau-vo/Region';
+import { AccountName } from '../AccountName';
+import { ISO3166 } from '../ISO3166';
+import { ISO639 } from '../ISO639';
+import { Language } from '../Language';
+import { LanguageID } from '../LanguageID';
+import { LanguageName } from '../LanguageName';
+import { Region } from '../Region';
+import { RegionID } from '../RegionID';
+import { RegionName } from '../RegionName';
 import { VeauAccount, VeauAccountJSON, VeauAccountRow } from '../VeauAccount';
+import { VeauAccountID } from '../VeauAccountID';
 
 describe('VeauAccount', () => {
   describe('equals', () => {
-    it('returns true if the ids equal', () => {
-      const veauAccount1: VeauAccount = VeauAccount.from(VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de'), AccountName.of('veau'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')));
-      const veauAccount2: VeauAccount = VeauAccount.from(VeauAccountID.of('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9'), AccountName.of('veau'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')));
-      const veauAccount3: VeauAccount = VeauAccount.from(VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de'), AccountName.of('veau'), Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa')), Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB')));
+    it('returns true if the all properties are the same', () => {
+      const veauAccount1: VeauAccount = VeauAccount.of(VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de'), AccountName.of('veau'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')));
+      const veauAccount2: VeauAccount = VeauAccount.of(VeauAccountID.of('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9'), AccountName.of('veau'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')));
+      const veauAccount3: VeauAccount = VeauAccount.of(VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de'), AccountName.of('rectangle'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')));
+      const veauAccount4: VeauAccount = VeauAccount.of(VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de'), AccountName.of('veau'), Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')));
+      const veauAccount5: VeauAccount = VeauAccount.of(VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de'), AccountName.of('veau'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB')));
+      const veauAccount6: VeauAccount = VeauAccount.of(VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de'), AccountName.of('veau'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')));
 
       expect(veauAccount1.equals(veauAccount1)).toEqual(true);
       expect(veauAccount1.equals(veauAccount2)).toEqual(false);
-      expect(veauAccount1.equals(veauAccount3)).toEqual(true);
+      expect(veauAccount1.equals(veauAccount3)).toEqual(false);
+      expect(veauAccount1.equals(veauAccount4)).toEqual(false);
+      expect(veauAccount1.equals(veauAccount5)).toEqual(false);
+      expect(veauAccount1.equals(veauAccount6)).toEqual(true);
     });
   });
 
@@ -28,7 +34,7 @@ describe('VeauAccount', () => {
     it('normal case', () => {
       const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
       const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
-      const veauAccount: VeauAccount = VeauAccount.from(VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de'), AccountName.of('veau'), language, region);
+      const veauAccount: VeauAccount = VeauAccount.of(VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de'), AccountName.of('veau'), language, region);
 
       expect(veauAccount.toJSON()).toEqual({
         veauAccountID: '998106de-b2e7-4981-9643-22cd30cd74de',
@@ -48,23 +54,6 @@ describe('VeauAccount', () => {
     });
   });
 
-  describe('copy', () => {
-    it('every properties are copied', () => {
-      const veauAccountID: VeauAccountID = VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de');
-      const account: AccountName = AccountName.of('veau');
-      const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-      const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
-      const veauAccount: VeauAccount = VeauAccount.from(veauAccountID, account, language, region);
-      const copy: VeauAccount = veauAccount.copy();
-
-      expect(veauAccount).not.toBe(copy);
-      expect(copy.getVeauAccountID()).toEqual(veauAccountID);
-      expect(copy.getAccount()).toEqual(account);
-      expect(copy.getLanguage()).toEqual(language);
-      expect(copy.getRegion()).toEqual(region);
-    });
-  });
-
   describe('from', () => {
     it('normal case', () => {
       const veauAccountID: VeauAccountID = VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de');
@@ -72,7 +61,7 @@ describe('VeauAccount', () => {
       const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
       const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
 
-      const veauAccount: VeauAccount = VeauAccount.from(veauAccountID, account, language, region);
+      const veauAccount: VeauAccount = VeauAccount.of(veauAccountID, account, language, region);
 
       expect(veauAccount.getVeauAccountID().equals(veauAccountID)).toEqual(true);
       expect(veauAccount.getAccount()).toEqual(account);
@@ -81,7 +70,7 @@ describe('VeauAccount', () => {
     });
   });
 
-  describe('fromJSON', () => {
+  describe('ofJSON', () => {
     it('normal case', () => {
       const json: VeauAccountJSON = {
         veauAccountID: '998106de-b2e7-4981-9643-22cd30cd74de',
@@ -99,7 +88,7 @@ describe('VeauAccount', () => {
         }
       };
 
-      const veauAccount: VeauAccount = VeauAccount.fromJSON(json);
+      const veauAccount: VeauAccount = VeauAccount.ofJSON(json);
 
       expect(veauAccount.getVeauAccountID().get()).toEqual(json.veauAccountID);
       expect(veauAccount.getAccount().get()).toEqual(json.account);
@@ -113,7 +102,7 @@ describe('VeauAccount', () => {
     });
   });
 
-  describe('fromRow', () => {
+  describe('ofRow', () => {
     it('normal case', () => {
       const row: VeauAccountRow = {
         veauAccountID: '998106de-b2e7-4981-9643-22cd30cd74de',
@@ -128,7 +117,7 @@ describe('VeauAccount', () => {
         hash: ''
       };
 
-      const veauAccount: VeauAccount = VeauAccount.fromRow(row);
+      const veauAccount: VeauAccount = VeauAccount.ofRow(row);
 
       expect(veauAccount.getVeauAccountID().get()).toEqual(row.veauAccountID);
       expect(veauAccount.getAccount().get()).toEqual(row.account);

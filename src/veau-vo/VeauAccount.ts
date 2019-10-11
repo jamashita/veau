@@ -1,14 +1,16 @@
-import { AccountName } from '../veau-vo/AccountName';
-import { ISO3166 } from '../veau-vo/ISO3166';
-import { ISO639 } from '../veau-vo/ISO639';
-import { LanguageID } from '../veau-vo/LanguageID';
-import { LanguageName } from '../veau-vo/LanguageName';
-import { RegionID } from '../veau-vo/RegionID';
-import { RegionName } from '../veau-vo/RegionName';
-import { VeauAccountID } from '../veau-vo/VeauAccountID';
-import { Entity } from './Entity';
-import { Language, LanguageJSON } from '../veau-vo/Language';
-import { Region, RegionJSON } from '../veau-vo/Region';
+import { JSONable } from '../veau-general/JSONable';
+import { Serializable } from '../veau-general/Serializable';
+import { AccountName } from './AccountName';
+import { ISO3166 } from './ISO3166';
+import { ISO639 } from './ISO639';
+import { Language, LanguageJSON } from './Language';
+import { LanguageID } from './LanguageID';
+import { LanguageName } from './LanguageName';
+import { Region, RegionJSON } from './Region';
+import { RegionID } from './RegionID';
+import { RegionName } from './RegionName';
+import { ValueObject } from './ValueObject';
+import { VeauAccountID } from './VeauAccountID';
 
 export type VeauAccountJSON = {
   veauAccountID: string;
@@ -30,17 +32,17 @@ export type VeauAccountRow = {
   hash: string;
 };
 
-export class VeauAccount extends Entity<VeauAccountID> {
+export class VeauAccount extends ValueObject implements JSONable, Serializable {
   private veauAccountID: VeauAccountID;
   private account: AccountName;
   private language: Language;
   private region: Region;
 
-  public static from(veauAccountID: VeauAccountID, name: AccountName, language: Language, region: Region): VeauAccount {
+  public static of(veauAccountID: VeauAccountID, name: AccountName, language: Language, region: Region): VeauAccount {
     return new VeauAccount(veauAccountID, name, language, region);
   }
 
-  public static fromJSON(json: VeauAccountJSON): VeauAccount {
+  public static ofJSON(json: VeauAccountJSON): VeauAccount {
     const {
       veauAccountID,
       account,
@@ -48,10 +50,10 @@ export class VeauAccount extends Entity<VeauAccountID> {
       region
     } = json;
 
-    return VeauAccount.from(VeauAccountID.of(veauAccountID), AccountName.of(account), Language.ofJSON(language), Region.ofJSON(region));
+    return VeauAccount.of(VeauAccountID.of(veauAccountID), AccountName.of(account), Language.ofJSON(language), Region.ofJSON(region));
   }
 
-  public static fromRow(row: VeauAccountRow): VeauAccount {
+  public static ofRow(row: VeauAccountRow): VeauAccount {
     const {
       veauAccountID,
       account,
@@ -67,11 +69,11 @@ export class VeauAccount extends Entity<VeauAccountID> {
     const language: Language = Language.of(LanguageID.of(languageID), LanguageName.of(languageName), LanguageName.of(languageEnglishName), ISO639.of(iso639));
     const region: Region = Region.of(RegionID.of(regionID), RegionName.of(regionName), ISO3166.of(iso3166));
 
-    return VeauAccount.from(VeauAccountID.of(veauAccountID), AccountName.of(account), language, region);
+    return VeauAccount.of(VeauAccountID.of(veauAccountID), AccountName.of(account), language, region);
   }
 
   public static default(): VeauAccount {
-    return VeauAccount.from(VeauAccountID.default(), AccountName.default(), Language.default(), Region.default());
+    return VeauAccount.of(VeauAccountID.default(), AccountName.default(), Language.default(), Region.default());
   }
 
   private constructor(veauAccountID: VeauAccountID, account: AccountName, language: Language, region: Region) {
@@ -110,7 +112,11 @@ export class VeauAccount extends Entity<VeauAccountID> {
     return false;
   }
 
-  public copy(): VeauAccount {
+  public equals(other: VeauAccount): boolean {
+    if (this === other) {
+      return true;
+    }
+
     const {
       veauAccountID,
       account,
@@ -118,7 +124,20 @@ export class VeauAccount extends Entity<VeauAccountID> {
       region
     } = this;
 
-    return new VeauAccount(veauAccountID, account, language, region);
+    if (!veauAccountID.equals(other.getVeauAccountID())) {
+      return false;
+    }
+    if (!account.equals(other.getAccount())) {
+      return false;
+    }
+    if (!language.equals(other.getLanguage())) {
+      return false;
+    }
+    if (!region.equals(other.getRegion())) {
+      return false;
+    }
+
+    return true;
   }
 
   public toJSON(): VeauAccountJSON {

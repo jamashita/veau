@@ -1,6 +1,6 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import { VeauAccount, VeauAccountJSON } from '../veau-entity/VeauAccount';
+import { VeauAccount, VeauAccountJSON } from '../veau-vo/VeauAccount';
 import { AuthenticationInteractor } from '../veau-interactor/AuthenticationInteractor';
 
 const authenticationInteractor: AuthenticationInteractor = AuthenticationInteractor.getInstance();
@@ -19,5 +19,5 @@ passport.serializeUser<VeauAccount, VeauAccountJSON>((account: VeauAccount, done
 });
 
 passport.deserializeUser<VeauAccount, VeauAccountJSON>((json: VeauAccountJSON, done: (err: unknown, account: VeauAccount) => void): void => {
-  done(null, VeauAccount.fromJSON(json));
+  done(null, VeauAccount.ofJSON(json));
 });

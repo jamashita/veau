@@ -1,6 +1,6 @@
 import { SagaIterator } from '@redux-saga/types';
 import { fork, put, select, take } from 'redux-saga/effects';
-import { VeauAccount } from '../../veau-entity/VeauAccount';
+import { VeauAccount } from '../../veau-vo/VeauAccount';
 import { AuthenticationFailureError } from '../../veau-error/AuthenticationFailureError';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 import { ACTION, EntranceAccountNameTypedAction, EntrancePasswordTypedAction } from '../actions/Action';

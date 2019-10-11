@@ -1,4 +1,4 @@
-import { VeauAccount } from '../veau-entity/VeauAccount';
+import { VeauAccount } from '../veau-vo/VeauAccount';
 
 declare module 'express' {
   export interface Response {
