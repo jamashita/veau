@@ -100,18 +100,6 @@ export class VeauAccount extends ValueObject implements JSONable, Serializable {
     return this.region;
   }
 
-  public getIdentifier(): VeauAccountID {
-    return this.veauAccountID;
-  }
-
-  public isDefault(): boolean {
-    if (this.getVeauAccountID().equals(VeauAccountID.default())) {
-      return true;
-    }
-
-    return false;
-  }
-
   public equals(other: VeauAccount): boolean {
     if (this === other) {
       return true;
