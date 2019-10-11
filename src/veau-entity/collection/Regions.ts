@@ -2,7 +2,7 @@ import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { JSONable } from '../../veau-general/JSONable';
 import { Mapper } from '../../veau-general/Type/Mapper';
 import { Predicate } from '../../veau-general/Type/Predicate';
-import { Region, RegionJSON, RegionRow } from '../Region';
+import { Region, RegionJSON, RegionRow } from '../../veau-vo/Region';
 
 export class Regions implements JSONable {
   private regions: Array<Region>;
@@ -13,7 +13,7 @@ export class Regions implements JSONable {
 
   public static fromJSON(json: Array<RegionJSON>): Regions {
     const regions: Array<Region> = json.map<Region>((region: RegionJSON): Region => {
-      return Region.fromJSON(region);
+      return Region.ofJSON(region);
     });
 
     return Regions.from(regions);
@@ -21,7 +21,7 @@ export class Regions implements JSONable {
 
   public static fromRow(rows: Array<RegionRow>): Regions {
     const regions: Array<Region> = rows.map<Region>((region: RegionRow): Region => {
-      return Region.fromRow(region);
+      return Region.ofRow(region);
     });
 
     return Regions.from(regions);

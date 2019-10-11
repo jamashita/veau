@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { fork, put, select, take } from 'redux-saga/effects';
 import { Language } from '../../veau-vo/Language';
-import { Region } from '../../veau-entity/Region';
+import { Region } from '../../veau-vo/Region';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { NotFoundError } from '../../veau-error/NotFoundError';

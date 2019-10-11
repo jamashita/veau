@@ -14,7 +14,7 @@ import React, { PropsWithChildren } from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Locale } from '../../../veau-entity/aggregate/Locale';
 import { Language } from '../../../veau-vo/Language';
-import { Region } from '../../../veau-entity/Region';
+import { Region } from '../../../veau-vo/Region';
 import { Stats } from '../../../veau-entity/Stats';
 import { Terms } from '../../../veau-enum/collection/Terms';
 import { Term } from '../../../veau-enum/Term';

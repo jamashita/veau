@@ -1,7 +1,7 @@
 import { OK } from 'http-status';
 import { Locale, LocaleJSON } from '../../veau-entity/aggregate/Locale';
 import { Language } from '../../veau-vo/Language';
-import { Region } from '../../veau-entity/Region';
+import { Region } from '../../veau-vo/Region';
 import { AJAXError } from '../../veau-error/AJAXError';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { AJAX, AJAXResponse } from '../../veau-general/AJAX';

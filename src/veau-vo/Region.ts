@@ -1,7 +1,8 @@
-import { ISO3166 } from '../veau-vo/ISO3166';
-import { RegionID } from '../veau-vo/RegionID';
-import { RegionName } from '../veau-vo/RegionName';
-import { Entity } from './Entity';
+import { JSONable } from '../veau-general/JSONable';
+import { ISO3166 } from './ISO3166';
+import { RegionID } from './RegionID';
+import { RegionName } from './RegionName';
+import { ValueObject } from './ValueObject';
 
 export type RegionJSON = {
   regionID: number;
@@ -15,37 +16,37 @@ export type RegionRow = {
   iso3166: string;
 };
 
-export class Region extends Entity<RegionID> {
+export class Region extends ValueObject implements JSONable {
   private regionID: RegionID;
   private name: RegionName;
   private iso3166: ISO3166;
 
-  public static from(regionID: RegionID, name: RegionName, iso3166: ISO3166): Region {
+  public static of(regionID: RegionID, name: RegionName, iso3166: ISO3166): Region {
     return new Region(regionID, name, iso3166);
   }
 
-  public static fromJSON(json: RegionJSON): Region {
+  public static ofJSON(json: RegionJSON): Region {
     const {
       regionID,
       name,
       iso3166
     } = json;
 
-    return Region.from(RegionID.of(regionID), RegionName.of(name), ISO3166.of(iso3166));
+    return Region.of(RegionID.of(regionID), RegionName.of(name), ISO3166.of(iso3166));
   }
 
-  public static fromRow(row: RegionRow): Region {
+  public static ofRow(row: RegionRow): Region {
     const {
       regionID,
       name,
       iso3166
     } = row;
 
-    return Region.from(RegionID.of(regionID), RegionName.of(name), ISO3166.of(iso3166));
+    return Region.of(RegionID.of(regionID), RegionName.of(name), ISO3166.of(iso3166));
   }
 
   public static default(): Region {
-    return Region.from(RegionID.of(0), RegionName.default(), ISO3166.default());
+    return Region.of(RegionID.of(0), RegionName.default(), ISO3166.default());
   }
 
   private constructor(regionID: RegionID, name: RegionName, iso3166: ISO3166) {
@@ -67,18 +68,28 @@ export class Region extends Entity<RegionID> {
     return this.iso3166;
   }
 
-  public getIdentifier(): RegionID {
-    return this.regionID;
-  }
+  public equals(other: Region): boolean {
+    if (this === other) {
+      return true;
+    }
 
-  public copy(): Region {
     const {
       regionID,
       name,
       iso3166
     } = this;
 
-    return new Region(regionID, name, iso3166);
+    if (!regionID.equals(other.getRegionID())) {
+      return false;
+    }
+    if (!name.equals(other.getName())) {
+      return false;
+    }
+    if (!iso3166.equals(other.getISO3166())) {
+      return false;
+    }
+
+    return true;
   }
 
   public toJSON(): RegionJSON {

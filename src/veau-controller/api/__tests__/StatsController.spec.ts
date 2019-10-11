@@ -8,7 +8,7 @@ import supertest from 'supertest';
 import { StatsItems } from '../../../veau-entity/collection/StatsItems';
 import { StatsOutlines } from '../../../veau-entity/collection/StatsOutlines';
 import { Language } from '../../../veau-vo/Language';
-import { Region } from '../../../veau-entity/Region';
+import { Region } from '../../../veau-vo/Region';
 import { Stats } from '../../../veau-entity/Stats';
 import { StatsItem } from '../../../veau-entity/StatsItem';
 import { StatsOutline } from '../../../veau-entity/StatsOutline';
@@ -43,7 +43,7 @@ describe('StatsController', () => {
         StatsOutline.from(
           StatsID.of('01c466f3-198a-45a4-9204-348ac57b1b5d'),
           Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
-          Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
+          Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
           Term.DAILY,
           StatsName.of('stats'),
           StatsUnit.of('unit'),
@@ -53,7 +53,7 @@ describe('StatsController', () => {
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
+        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();
@@ -88,7 +88,7 @@ describe('StatsController', () => {
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
+        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();
@@ -106,7 +106,7 @@ describe('StatsController', () => {
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
+        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();
@@ -125,7 +125,7 @@ describe('StatsController', () => {
       stub.resolves(Stats.from(
         StatsID.of('059ce0b2-7cba-4ba4-9a5d-a8fa7493f556'),
         Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english name'), ISO639.of('la')),
-        Region.from(RegionID.of(1), RegionName.of('region'), ISO3166.of('RGN')),
+        Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('RGN')),
         Term.DAILY,
         StatsName.of('stats'),
         StatsUnit.of('unit'),
@@ -209,7 +209,7 @@ describe('StatsController', () => {
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
+        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();
@@ -260,7 +260,7 @@ describe('StatsController', () => {
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
+        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();
@@ -311,7 +311,7 @@ describe('StatsController', () => {
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
+        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();
@@ -361,7 +361,7 @@ describe('StatsController', () => {
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
+        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();
@@ -406,7 +406,7 @@ describe('StatsController', () => {
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
+        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();
@@ -456,7 +456,7 @@ describe('StatsController', () => {
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
+        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();
@@ -505,7 +505,7 @@ describe('StatsController', () => {
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
+        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();
@@ -555,7 +555,7 @@ describe('StatsController', () => {
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
+        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();
@@ -605,7 +605,7 @@ describe('StatsController', () => {
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
+        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();
@@ -651,7 +651,7 @@ describe('StatsController', () => {
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
+        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();
@@ -701,7 +701,7 @@ describe('StatsController', () => {
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
+        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();
@@ -751,7 +751,7 @@ describe('StatsController', () => {
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
+        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();
@@ -801,7 +801,7 @@ describe('StatsController', () => {
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
+        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();
@@ -851,7 +851,7 @@ describe('StatsController', () => {
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
+        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();
@@ -901,7 +901,7 @@ describe('StatsController', () => {
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
+        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();
@@ -951,7 +951,7 @@ describe('StatsController', () => {
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
+        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();
@@ -1001,7 +1001,7 @@ describe('StatsController', () => {
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
+        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();
@@ -1040,7 +1040,7 @@ describe('StatsController', () => {
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
+        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();
@@ -1090,7 +1090,7 @@ describe('StatsController', () => {
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
+        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();
@@ -1140,7 +1140,7 @@ describe('StatsController', () => {
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
+        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();
@@ -1185,7 +1185,7 @@ describe('StatsController', () => {
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
+        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();
@@ -1235,7 +1235,7 @@ describe('StatsController', () => {
       app.use(bodyParser.json());
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
+        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();

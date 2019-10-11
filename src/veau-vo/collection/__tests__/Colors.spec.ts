@@ -4,7 +4,7 @@ import { Colors } from '../Colors';
 
 describe('Colors', () => {
   describe('get', () => {
-    it('when index is over the length of Colors, loops and returns the element from first', () => {
+    it('when index is over the length of Colors, loops and returns the element of first', () => {
       const colors: Colors = Colors.of([
         Color.of('#ffffff'),
         Color.of('#000000')

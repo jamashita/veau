@@ -82,7 +82,7 @@ describe('Languages', () => {
     });
   });
 
-  describe('fromJSON', () => {
+  describe('ofJSON', () => {
     it('normal case', () => {
       const json: Array<LanguageJSON> = [
         {
@@ -103,7 +103,7 @@ describe('Languages', () => {
     });
   });
 
-  describe('fromRow', () => {
+  describe('ofRow', () => {
     it('normal case', () => {
       const rows: Array<LanguageRow> = [
         {

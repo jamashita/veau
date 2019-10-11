@@ -6,7 +6,7 @@ import { StatsName } from '../../../veau-vo/StatsName';
 import { StatsUnit } from '../../../veau-vo/StatsUnit';
 import { UpdatedAt } from '../../../veau-vo/UpdatedAt';
 import { Language } from '../../../veau-vo/Language';
-import { Region } from '../../Region';
+import { Region } from '../../../veau-vo/Region';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from '../../StatsOutline';
 import { StatsOutlines } from '../StatsOutlines';
 

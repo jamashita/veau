@@ -5,7 +5,7 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 import supertest from 'supertest';
 import { Locale } from '../../../veau-entity/aggregate/Locale';
 import { Regions } from '../../../veau-entity/collection/Regions';
-import { Region } from '../../../veau-entity/Region';
+import { Region } from '../../../veau-vo/Region';
 import { VeauAccount } from '../../../veau-entity/VeauAccount';
 import { LocaleInteractor } from '../../../veau-interactor/LocaleInteractor';
 import { AccountName } from '../../../veau-vo/AccountName';
@@ -30,7 +30,7 @@ describe('LocaleController', () => {
           Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english name'), ISO639.of('la'))
         ]),
         Regions.from([
-          Region.from(RegionID.of(1), RegionName.of('region'), ISO3166.of('RGN'))
+          Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('RGN'))
         ])
       ));
 
@@ -66,7 +66,7 @@ describe('LocaleController', () => {
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
+        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();
@@ -85,7 +85,7 @@ describe('LocaleController', () => {
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
+        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();

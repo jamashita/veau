@@ -3,7 +3,7 @@ import { OK } from 'http-status';
 import 'jest';
 import supertest from 'supertest';
 import { Language } from '../../../veau-vo/Language';
-import { Region } from '../../../veau-entity/Region';
+import { Region } from '../../../veau-vo/Region';
 import { VeauAccount } from '../../../veau-entity/VeauAccount';
 import { AccountName } from '../../../veau-vo/AccountName';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
@@ -21,7 +21,7 @@ describe('IdentityController', () => {
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
+        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
         req.user = VeauAccount.from(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
         next();

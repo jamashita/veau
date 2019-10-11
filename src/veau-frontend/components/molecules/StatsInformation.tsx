@@ -3,7 +3,7 @@ import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Locale } from '../../../veau-entity/aggregate/Locale';
 import { Language } from '../../../veau-vo/Language';
-import { Region } from '../../../veau-entity/Region';
+import { Region } from '../../../veau-vo/Region';
 import { Stats } from '../../../veau-entity/Stats';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';

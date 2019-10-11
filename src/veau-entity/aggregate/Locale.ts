@@ -2,7 +2,7 @@ import { JSONable } from '../../veau-general/JSONable';
 import { Languages } from '../../veau-vo/collection/Languages';
 import { Regions } from '../collection/Regions';
 import { Language, LanguageJSON } from '../../veau-vo/Language';
-import { Region, RegionJSON } from '../Region';
+import { Region, RegionJSON } from '../../veau-vo/Region';
 
 export type LocaleJSON = {
   languages: Array<LanguageJSON>;

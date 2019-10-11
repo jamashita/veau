@@ -6,7 +6,7 @@ import { Locale } from '../../veau-entity/aggregate/Locale';
 import { Languages } from '../../veau-vo/collection/Languages';
 import { Regions } from '../../veau-entity/collection/Regions';
 import { Language } from '../../veau-vo/Language';
-import { Region } from '../../veau-entity/Region';
+import { Region } from '../../veau-vo/Region';
 import { LanguageQuery } from '../../veau-query/LanguageQuery';
 import { RegionQuery } from '../../veau-query/RegionQuery';
 import { ISO3166 } from '../../veau-vo/ISO3166';
@@ -29,8 +29,8 @@ describe('LocaleInteractor',  () => {
       const stub2: SinonStub = sinon.stub();
       RegionQuery.prototype.all = stub2;
       stub2.resolves(Regions.from([
-        Region.from(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
-        Region.from(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB'))
+        Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
+        Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB'))
       ]));
 
       const localeInteractor: LocaleInteractor = LocaleInteractor.getInstance();

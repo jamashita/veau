@@ -3,7 +3,7 @@ import 'jest';
 import sinon, { SinonStub } from 'sinon';
 import { Locale } from '../../../veau-entity/aggregate/Locale';
 import { Language } from '../../../veau-vo/Language';
-import { Region } from '../../../veau-entity/Region';
+import { Region } from '../../../veau-vo/Region';
 import { AJAXError } from '../../../veau-error/AJAXError';
 import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
 import { AJAX } from '../../../veau-general/AJAX';

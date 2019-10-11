@@ -1,7 +1,7 @@
 import 'jest';
 import sinon, { SinonStub } from 'sinon';
 import { Regions } from '../../veau-entity/collection/Regions';
-import { Region } from '../../veau-entity/Region';
+import { Region } from '../../veau-vo/Region';
 import { CacheError } from '../../veau-error/CacheError';
 import { Redis } from '../../veau-general/Redis/Redis';
 import { RedisString } from '../../veau-general/Redis/RedisString';
@@ -21,7 +21,7 @@ describe('RegionCommand', () => {
       stub2.resolves();
 
       const regions: Regions = Regions.from([
-        Region.from(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abc'))
+        Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abc'))
       ]);
 
       const regionCommand: RegionCommand = RegionCommand.getInstance();

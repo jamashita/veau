@@ -8,7 +8,7 @@ import { RegionName } from '../../../veau-vo/RegionName';
 import { Languages } from '../../../veau-vo/collection/Languages';
 import { Regions } from '../../collection/Regions';
 import { Language, LanguageJSON } from '../../../veau-vo/Language';
-import { Region, RegionJSON } from '../../Region';
+import { Region, RegionJSON } from '../../../veau-vo/Region';
 import { Locale } from '../Locale';
 
 describe('Locale', () => {
@@ -19,8 +19,8 @@ describe('Locale', () => {
         Language.of(LanguageID.of(2), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
       ]);
       const regions1: Regions = Regions.from([
-        Region.from(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb')),
-        Region.from(RegionID.of(2), RegionName.of('region'), ISO3166.of('bb'))
+        Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb')),
+        Region.of(RegionID.of(2), RegionName.of('region'), ISO3166.of('bb'))
       ]);
       const locale1: Locale = Locale.from(languages1, regions1);
 
@@ -28,8 +28,8 @@ describe('Locale', () => {
         Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
       ]);
       const regions2: Regions = Regions.from([
-        Region.from(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb')),
-        Region.from(RegionID.of(2), RegionName.of('region'), ISO3166.of('bb'))
+        Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb')),
+        Region.of(RegionID.of(2), RegionName.of('region'), ISO3166.of('bb'))
       ]);
       const locale2: Locale = Locale.from(languages2, regions2);
 
@@ -38,7 +38,7 @@ describe('Locale', () => {
         Language.of(LanguageID.of(2), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
       ]);
       const regions3: Regions = Regions.from([
-        Region.from(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb'))
+        Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb'))
       ]);
       const locale3: Locale = Locale.from(languages3, regions3);
 
@@ -46,7 +46,7 @@ describe('Locale', () => {
         Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
       ]);
       const regions4: Regions = Regions.from([
-        Region.from(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb'))
+        Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb'))
       ]);
       const locale4: Locale = Locale.from(languages4, regions4);
 
@@ -55,8 +55,8 @@ describe('Locale', () => {
         Language.of(LanguageID.of(2), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
       ]);
       const regions5: Regions = Regions.from([
-        Region.from(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb')),
-        Region.from(RegionID.of(2), RegionName.of('region'), ISO3166.of('bb'))
+        Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb')),
+        Region.of(RegionID.of(2), RegionName.of('region'), ISO3166.of('bb'))
       ]);
       const locale5: Locale = Locale.from(languages5, regions5);
 
