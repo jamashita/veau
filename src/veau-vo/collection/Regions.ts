@@ -2,7 +2,7 @@ import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { JSONable } from '../../veau-general/JSONable';
 import { Mapper } from '../../veau-general/Type/Mapper';
 import { Predicate } from '../../veau-general/Type/Predicate';
-import { Region, RegionJSON, RegionRow } from '../../veau-vo/Region';
+import { Region, RegionJSON, RegionRow } from '../Region';
 
 export class Regions implements JSONable {
   private regions: Array<Region>;

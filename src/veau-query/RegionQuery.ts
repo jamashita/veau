@@ -1,5 +1,5 @@
 import { RegionCommand } from '../veau-command/RegionCommand';
-import { Regions } from '../veau-entity/collection/Regions';
+import { Regions } from '../veau-vo/collection/Regions';
 import { Region, RegionJSON, RegionRow } from '../veau-vo/Region';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { veauMySQL } from '../veau-infrastructure/VeauMySQL';

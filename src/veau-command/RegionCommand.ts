@@ -1,4 +1,4 @@
-import { Regions } from '../veau-entity/collection/Regions';
+import { Regions } from '../veau-vo/collection/Regions';
 import { CacheError } from '../veau-error/CacheError';
 import { veauRedis } from '../veau-infrastructure/VeauRedis';
 

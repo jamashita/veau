@@ -1,6 +1,6 @@
 import { JSONable } from '../../veau-general/JSONable';
 import { Languages } from '../../veau-vo/collection/Languages';
-import { Regions } from '../collection/Regions';
+import { Regions } from '../../veau-vo/collection/Regions';
 import { Language, LanguageJSON } from '../../veau-vo/Language';
 import { Region, RegionJSON } from '../../veau-vo/Region';
 

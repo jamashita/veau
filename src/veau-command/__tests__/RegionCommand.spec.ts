@@ -1,6 +1,6 @@
 import 'jest';
 import sinon, { SinonStub } from 'sinon';
-import { Regions } from '../../veau-entity/collection/Regions';
+import { Regions } from '../../veau-vo/collection/Regions';
 import { Region } from '../../veau-vo/Region';
 import { CacheError } from '../../veau-error/CacheError';
 import { Redis } from '../../veau-general/Redis/Redis';

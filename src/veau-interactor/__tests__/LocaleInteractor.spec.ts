@@ -4,7 +4,7 @@ import { LanguageCommand } from '../../veau-command/LanguageCommand';
 import { RegionCommand } from '../../veau-command/RegionCommand';
 import { Locale } from '../../veau-entity/aggregate/Locale';
 import { Languages } from '../../veau-vo/collection/Languages';
-import { Regions } from '../../veau-entity/collection/Regions';
+import { Regions } from '../../veau-vo/collection/Regions';
 import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-vo/Region';
 import { LanguageQuery } from '../../veau-query/LanguageQuery';

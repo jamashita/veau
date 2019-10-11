@@ -6,7 +6,7 @@ import { LanguageName } from '../../../veau-vo/LanguageName';
 import { RegionID } from '../../../veau-vo/RegionID';
 import { RegionName } from '../../../veau-vo/RegionName';
 import { Languages } from '../../../veau-vo/collection/Languages';
-import { Regions } from '../../collection/Regions';
+import { Regions } from '../../../veau-vo/collection/Regions';
 import { Language, LanguageJSON } from '../../../veau-vo/Language';
 import { Region, RegionJSON } from '../../../veau-vo/Region';
 import { Locale } from '../Locale';

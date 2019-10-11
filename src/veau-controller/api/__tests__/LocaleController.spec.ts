@@ -4,7 +4,7 @@ import 'jest';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import supertest from 'supertest';
 import { Locale } from '../../../veau-entity/aggregate/Locale';
-import { Regions } from '../../../veau-entity/collection/Regions';
+import { Regions } from '../../../veau-vo/collection/Regions';
 import { Region } from '../../../veau-vo/Region';
 import { VeauAccount } from '../../../veau-entity/VeauAccount';
 import { LocaleInteractor } from '../../../veau-interactor/LocaleInteractor';
