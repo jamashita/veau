@@ -26,7 +26,7 @@ describe('LocaleController', () => {
       const stub: SinonStub = sinon.stub();
       LocaleInteractor.prototype.all = stub;
       stub.resolves(Locale.from(
-        Languages.from([
+        Languages.of([
           Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english name'), ISO639.of('la'))
         ]),
         Regions.from([
@@ -60,7 +60,7 @@ describe('LocaleController', () => {
   });
 
   describe('DELETE /', () => {
-    it('delete all locales from the cache', async () => {
+    it('delete all locales of the cache', async () => {
       const spy: SinonSpy = sinon.spy();
       LocaleInteractor.prototype.delete = spy;
       const app: express.Express = express();

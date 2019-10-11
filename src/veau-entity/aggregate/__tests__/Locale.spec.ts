@@ -14,7 +14,7 @@ import { Locale } from '../Locale';
 describe('Locale', () => {
   describe('equals', () => {
     it('returns true if languages and regions are the same', () => {
-      const languages1: Languages = Languages.from([
+      const languages1: Languages = Languages.of([
         Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa')),
         Language.of(LanguageID.of(2), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
       ]);
@@ -24,7 +24,7 @@ describe('Locale', () => {
       ]);
       const locale1: Locale = Locale.from(languages1, regions1);
 
-      const languages2: Languages = Languages.from([
+      const languages2: Languages = Languages.of([
         Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
       ]);
       const regions2: Regions = Regions.from([
@@ -33,7 +33,7 @@ describe('Locale', () => {
       ]);
       const locale2: Locale = Locale.from(languages2, regions2);
 
-      const languages3: Languages = Languages.from([
+      const languages3: Languages = Languages.of([
         Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa')),
         Language.of(LanguageID.of(2), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
       ]);
@@ -42,7 +42,7 @@ describe('Locale', () => {
       ]);
       const locale3: Locale = Locale.from(languages3, regions3);
 
-      const languages4: Languages = Languages.from([
+      const languages4: Languages = Languages.of([
         Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
       ]);
       const regions4: Regions = Regions.from([
@@ -50,7 +50,7 @@ describe('Locale', () => {
       ]);
       const locale4: Locale = Locale.from(languages4, regions4);
 
-      const languages5: Languages = Languages.from([
+      const languages5: Languages = Languages.of([
         Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa')),
         Language.of(LanguageID.of(2), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
       ]);

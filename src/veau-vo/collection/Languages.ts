@@ -7,28 +7,28 @@ import { Language, LanguageJSON, LanguageRow } from '../Language';
 export class Languages implements JSONable {
   private languages: Array<Language>;
 
-  public static from(languages: Array<Language>): Languages {
+  public static of(languages: Array<Language>): Languages {
     return new Languages(languages);
   }
 
-  public static fromJSON(json: Array<LanguageJSON>): Languages {
+  public static ofJSON(json: Array<LanguageJSON>): Languages {
     const languages: Array<Language> = json.map<Language>((language: LanguageJSON): Language => {
       return Language.ofJSON(language);
     });
 
-    return Languages.from(languages);
+    return Languages.of(languages);
   }
 
-  public static fromRow(rows: Array<LanguageRow>): Languages {
+  public static ofRow(rows: Array<LanguageRow>): Languages {
     const languages: Array<Language> = rows.map<Language>((language: LanguageJSON): Language => {
       return Language.ofRow(language);
     });
 
-    return Languages.from(languages);
+    return Languages.of(languages);
   }
 
   public static default(): Languages {
-    return Languages.from([]);
+    return Languages.of([]);
   }
 
   private constructor(languages: Array<Language>) {

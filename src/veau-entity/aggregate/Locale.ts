@@ -23,7 +23,7 @@ export class Locale implements JSONable {
       regions
     } = locale;
 
-    return Locale.from(Languages.fromJSON(languages), Regions.fromJSON(regions));
+    return Locale.from(Languages.ofJSON(languages), Regions.fromJSON(regions));
   }
 
   public static default(): Locale {

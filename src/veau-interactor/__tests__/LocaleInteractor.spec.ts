@@ -22,7 +22,7 @@ describe('LocaleInteractor',  () => {
     it('normal case', async () => {
       const stub1: SinonStub = sinon.stub();
       LanguageQuery.prototype.all = stub1;
-      stub1.resolves(Languages.from([
+      stub1.resolves(Languages.of([
         Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
         Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
       ]));

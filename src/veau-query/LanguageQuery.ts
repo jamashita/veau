@@ -25,7 +25,7 @@ export class LanguageQuery {
 
     if (languagesString !== null) {
       const languageJSONs: Array<LanguageJSON> = JSON.parse(languagesString);
-      return Languages.fromJSON(languageJSONs);
+      return Languages.ofJSON(languageJSONs);
     }
 
     const query: string = `SELECT
@@ -38,7 +38,7 @@ export class LanguageQuery {
       ORDER BY R1.iso639;`;
 
     const languageRows: Array<LanguageRow> = await veauMySQL.execute<Array<LanguageRow>>(query);
-    const languages: Languages = Languages.fromRow(languageRows);
+    const languages: Languages = Languages.ofRow(languageRows);
 
     await languageCommand.insertAll(languages);
 

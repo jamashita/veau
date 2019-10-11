@@ -21,7 +21,7 @@ describe('LanguageCommand', () => {
       Redis.prototype.expires = stub2;
       stub2.resolves();
 
-      const languages: Languages = Languages.from([
+      const languages: Languages = Languages.of([
         Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english 1'), ISO639.of('aa'))
       ]);
 
