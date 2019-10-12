@@ -60,7 +60,7 @@ describe('LocaleQuery', () => {
       expect(locale.getLanguages().get(0).getName().get()).toEqual('language');
       expect(locale.getLanguages().get(0).getEnglishName().get()).toEqual('english language');
       expect(locale.getLanguages().get(0).getISO639().get()).toEqual('aa');
-      expect(locale.getRegions().length()).toEqual(1);
+      expect(locale.getRegions().size()).toEqual(1);
       expect(locale.getRegions().get(0).getRegionID().get()).toEqual(2);
       expect(locale.getRegions().get(0).getName().get()).toEqual('region');
       expect(locale.getRegions().get(0).getISO3166().get()).toEqual('bb');

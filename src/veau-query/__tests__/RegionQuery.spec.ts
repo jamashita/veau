@@ -19,7 +19,7 @@ describe('RegionQuery', () => {
       const regionQuery: RegionQuery = RegionQuery.getInstance();
       const regions: Regions = await regionQuery.all();
 
-      expect(regions.length()).toEqual(2);
+      expect(regions.size()).toEqual(2);
       expect(regions.get(0).getRegionID().get()).toEqual(1);
       expect(regions.get(0).getName().get()).toEqual('Afghanistan');
       expect(regions.get(0).getISO3166().get()).toEqual('AFG');
@@ -54,7 +54,7 @@ describe('RegionQuery', () => {
       const regionQuery: RegionQuery = RegionQuery.getInstance();
       const regions: Regions = await regionQuery.all();
 
-      expect(regions.length()).toEqual(2);
+      expect(regions.size()).toEqual(2);
       expect(regions.get(0).getRegionID().get()).toEqual(1);
       expect(regions.get(0).getName().get()).toEqual('Afghanistan');
       expect(regions.get(0).getISO3166().get()).toEqual('AFG');

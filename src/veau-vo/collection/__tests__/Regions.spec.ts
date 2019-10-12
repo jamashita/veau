@@ -15,7 +15,7 @@ describe('Regions', () => {
 
       const regions: Regions = Regions.from([region1, region2, region3]);
 
-      expect(regions.length()).toEqual(3);
+      expect(regions.size()).toEqual(3);
       expect(regions.get(0)).toEqual(region1);
       expect(regions.get(1)).toEqual(region2);
       expect(regions.get(2)).toEqual(region3);
@@ -32,6 +32,36 @@ describe('Regions', () => {
       }).toThrow(NoSuchElementError);
     });
   });
+
+  describe('contains', () => {
+    it('return true if the element exists in the Colors', () => {
+      const region1: Region = Region.of(RegionID.of(1), RegionName.of('region 1'), ISO3166.of('abc'));
+      const region2: Region = Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abd'));
+      const region3: Region = Region.of(RegionID.of(1), RegionName.of('region 1'), ISO3166.of('abc'));
+      const region4: Region = Region.of(RegionID.of(3), RegionName.of('region 3'), ISO3166.of('abe'));
+
+      const regions: Regions = Regions.from([region1, region2]);
+
+      expect(regions.contains(region1)).toEqual(true);
+      expect(regions.contains(region2)).toEqual(true);
+      expect(regions.contains(region3)).toEqual(true);
+      expect(regions.contains(region4)).toEqual(false);
+    });
+  });
+
+  describe('isEmpty', () => {
+    it('return true if the elements are 0', () => {
+      const region1: Region = Region.of(RegionID.of(1), RegionName.of('region 1'), ISO3166.of('abc'));
+      const region2: Region = Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abd'));
+
+      const regions1: Regions = Regions.from([]);
+      const regions2: Regions = Regions.from([region1, region2]);
+
+      expect(regions1.isEmpty()).toEqual(true);
+      expect(regions2.isEmpty()).toEqual(false);
+    });
+  });
+
 
   describe('equals', () => {
     it('returns false if the length is different', () => {
@@ -93,7 +123,7 @@ describe('Regions', () => {
 
       const regions: Regions = Regions.fromJSON(json);
 
-      expect(regions.length()).toEqual(1);
+      expect(regions.size()).toEqual(1);
       expect(regions.get(0).getRegionID().get()).toEqual(1);
       expect(regions.get(0).getName().get()).toEqual('region 1');
       expect(regions.get(0).getISO3166().get()).toEqual('abc');
@@ -112,7 +142,7 @@ describe('Regions', () => {
 
       const regions: Regions = Regions.fromRow(rows);
 
-      expect(regions.length()).toEqual(1);
+      expect(regions.size()).toEqual(1);
       expect(regions.get(0).getRegionID().get()).toEqual(1);
       expect(regions.get(0).getName().get()).toEqual('region 1');
       expect(regions.get(0).getISO3166().get()).toEqual('abc');

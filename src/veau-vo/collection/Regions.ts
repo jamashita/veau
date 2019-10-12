@@ -1,11 +1,12 @@
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { Collection } from '../../veau-general/Collection';
 import { JSONable } from '../../veau-general/JSONable';
-import { Serializable } from '../../veau-general/Serializable';
+import { Enumerator } from '../../veau-general/Type/Enumerator';
 import { Mapper } from '../../veau-general/Type/Mapper';
 import { Predicate } from '../../veau-general/Type/Predicate';
 import { Region, RegionJSON, RegionRow } from '../Region';
 
-export class Regions implements JSONable, Serializable {
+export class Regions implements Collection<number, Region>, JSONable {
   private regions: Array<Region>;
 
   public static from(regions: Array<Region>): Regions {
@@ -46,8 +47,28 @@ export class Regions implements JSONable, Serializable {
     return region;
   }
 
-  public length(): number {
+  public contains(value: Region): boolean {
+    const found: Region | undefined = this.regions.find((region: Region): boolean => {
+      if (value.equals(region)) {
+        return true;
+      }
+
+      return false;
+    });
+
+    if (found === undefined) {
+      return false;
+    }
+
+    return true;
+  }
+
+  public size(): number {
     return this.regions.length;
+  }
+
+  public forEach(enumerator: Enumerator<Region>): void {
+    this.regions.forEach(enumerator);
   }
 
   public map<U>(mapper: Mapper<Region, U>): Array<U> {
@@ -58,13 +79,21 @@ export class Regions implements JSONable, Serializable {
     return this.regions.find(predicate);
   }
 
+  public isEmpty(): boolean {
+    if (this.regions.length === 0) {
+      return true;
+    }
+
+    return false;
+  }
+
   public equals(other: Regions): boolean {
     if (this === other) {
       return true;
     }
 
-    const length: number = this.length();
-    if (length !== other.length()) {
+    const length: number = this.size();
+    if (length !== other.size()) {
       return false;
     }
     for (let i: number = 0; i < length; i++) {
