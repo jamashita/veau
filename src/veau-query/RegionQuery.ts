@@ -25,7 +25,7 @@ export class RegionQuery {
 
     if (regionString !== null) {
       const regionJSONs: Array<RegionJSON> = JSON.parse(regionString);
-      return Regions.fromJSON(regionJSONs);
+      return Regions.ofJSON(regionJSONs);
     }
 
     const query: string = `SELECT
@@ -37,7 +37,7 @@ export class RegionQuery {
       ORDER BY R1.iso3166;`;
 
     const regionRows: Array<RegionRow> = await veauMySQL.execute<Array<RegionRow>>(query);
-    const regions: Regions = Regions.fromRow(regionRows);
+    const regions: Regions = Regions.ofRow(regionRows);
 
     await regionCommand.insertAll(regions);
 

@@ -29,7 +29,7 @@ describe('LocaleController', () => {
         Languages.of([
           Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english name'), ISO639.of('la'))
         ]),
-        Regions.from([
+        Regions.of([
           Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('RGN'))
         ])
       ));

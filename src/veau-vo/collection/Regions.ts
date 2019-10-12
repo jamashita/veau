@@ -9,28 +9,28 @@ import { Region, RegionJSON, RegionRow } from '../Region';
 export class Regions implements Collection<number, Region>, JSONable {
   private regions: Array<Region>;
 
-  public static from(regions: Array<Region>): Regions {
+  public static of(regions: Array<Region>): Regions {
     return new Regions(regions);
   }
 
-  public static fromJSON(json: Array<RegionJSON>): Regions {
+  public static ofJSON(json: Array<RegionJSON>): Regions {
     const regions: Array<Region> = json.map<Region>((region: RegionJSON): Region => {
       return Region.ofJSON(region);
     });
 
-    return Regions.from(regions);
+    return Regions.of(regions);
   }
 
-  public static fromRow(rows: Array<RegionRow>): Regions {
+  public static ofRow(rows: Array<RegionRow>): Regions {
     const regions: Array<Region> = rows.map<Region>((region: RegionRow): Region => {
       return Region.ofRow(region);
     });
 
-    return Regions.from(regions);
+    return Regions.of(regions);
   }
 
   public static default(): Regions {
-    return Regions.from([]);
+    return Regions.of([]);
   }
 
   private constructor(regions: Array<Region>) {

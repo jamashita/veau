@@ -20,7 +20,7 @@ describe('RegionCommand', () => {
       Redis.prototype.expires = stub2;
       stub2.resolves();
 
-      const regions: Regions = Regions.from([
+      const regions: Regions = Regions.of([
         Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abc'))
       ]);
 

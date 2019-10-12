@@ -24,7 +24,7 @@ export class Locale implements JSONable, Serializable {
       regions
     } = locale;
 
-    return Locale.from(Languages.ofJSON(languages), Regions.fromJSON(regions));
+    return Locale.from(Languages.ofJSON(languages), Regions.ofJSON(regions));
   }
 
   public static default(): Locale {
