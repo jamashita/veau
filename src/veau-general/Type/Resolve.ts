@@ -1,1 +1,3 @@
-export type Resolve<T> = (value: T) => void;
+import { Consumer } from './Consumer';
+
+export type Resolve<T> = Consumer<T>;
