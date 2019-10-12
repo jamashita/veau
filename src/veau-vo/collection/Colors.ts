@@ -1,6 +1,8 @@
+import { Collection } from '../../veau-general/Collection';
+import { Enumerator } from '../../veau-general/Type/Enumerator';
 import { Color } from '../Color';
 
-export class Colors {
+export class Colors implements Collection<number, Color> {
   private colors: Array<Color>;
 
   public static of(colors: Array<Color>): Colors {
@@ -40,5 +42,62 @@ export class Colors {
     const length: number = this.colors.length;
 
     return this.colors[index % length];
+  }
+
+  public contains(value: Color): boolean {
+    const found: Color | undefined = this.colors.find((color: Color): boolean => {
+      if (value.equals(color)) {
+        return true;
+      }
+
+      return false;
+    });
+
+    if (found === undefined) {
+      return false;
+    }
+
+    return true;
+  }
+
+  public size(): number {
+    return this.colors.length;
+  }
+
+  public forEach(enumerator: Enumerator<Color>): void {
+    this.colors.forEach(enumerator);
+  }
+
+  public isEmpty(): boolean {
+    if (this.colors.length === 0) {
+      return true;
+    }
+
+    return false;
+  }
+
+  public equals(other: Colors): boolean {
+    if (this === other) {
+      return true;
+    }
+
+    const length: number = this.colors.length;
+    if (length !== other.size()) {
+      return false;
+    }
+
+    for (let i: number = 0; i < length; i++) {
+      if (!this.colors[i].equals(other.get(i))) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  public toString(): string {
+    throw this.colors.map<string>((color: Color): string => {
+      return color.toString();
+    }).join(', ');
   }
 }
