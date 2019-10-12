@@ -722,8 +722,8 @@ describe('Stats', () => {
       expect(stats.getName().get()).toEqual(json.name);
       expect(stats.getUnit().get()).toEqual(json.unit);
       expect(stats.getUpdatedAt().getString()).toEqual(json.updatedAt);
-      expect(stats.getItems().length()).toEqual(json.items.length);
-      for (let i: number = 0; i < stats.getItems().length(); i++) {
+      expect(stats.getItems().size()).toEqual(json.items.length);
+      for (let i: number = 0; i < stats.getItems().size(); i++) {
         expect(stats.getItems().get(i).getStatsItemID().get()).toEqual(json.items[i].statsItemID);
         expect(stats.getItems().get(i).getName().get()).toEqual(json.items[i].name);
         expect(stats.getItems().get(i).getValues().size()).toEqual(json.items[i].values.length);

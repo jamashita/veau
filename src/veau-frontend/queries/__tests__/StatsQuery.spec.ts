@@ -47,7 +47,7 @@ describe('StatsQuery', () => {
       expect(stats.getLanguage().getLanguageID().get()).toEqual(1);
       expect(stats.getRegion().getRegionID().get()).toEqual(2);
       expect(stats.getTerm().getID()).toEqual(3);
-      expect(stats.getItems().length()).toEqual(0);
+      expect(stats.getItems().size()).toEqual(0);
     });
 
     it('returns NOT_FOUND', async () => {
