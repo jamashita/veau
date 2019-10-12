@@ -1,5 +1,5 @@
-import { StatsItems } from '../veau-entity/collection/StatsItems';
 import { StatsItem, StatsItemRow } from '../veau-entity/StatsItem';
+import { StatsItems } from '../veau-entity/StatsItems';
 import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsValues } from '../veau-vo/collection/StatsValues';
 import { StatsID } from '../veau-vo/StatsID';

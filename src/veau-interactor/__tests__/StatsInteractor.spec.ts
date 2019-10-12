@@ -1,9 +1,9 @@
 import 'jest';
 import moment from 'moment';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { StatsItems } from '../../veau-entity/collection/StatsItems';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
+import { StatsItems } from '../../veau-entity/StatsItems';
 import { Term } from '../../veau-enum/Term';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { NotFoundError } from '../../veau-error/NotFoundError';

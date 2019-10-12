@@ -16,9 +16,9 @@ import { StatsName } from '../veau-vo/StatsName';
 import { StatsUnit } from '../veau-vo/StatsUnit';
 import { StatsValue } from '../veau-vo/StatsValue';
 import { UpdatedAt } from '../veau-vo/UpdatedAt';
-import { StatsItems } from './collection/StatsItems';
 import { Entity } from './Entity';
 import { StatsItem, StatsItemJSON } from './StatsItem';
+import { StatsItems } from './StatsItems';
 
 const REVISED_VALUE: number = 14;
 const TERM_FORMAT: string = 'YYYY-MM-DD';

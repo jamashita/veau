@@ -17,9 +17,9 @@ import { StatsName } from '../../veau-vo/StatsName';
 import { StatsUnit } from '../../veau-vo/StatsUnit';
 import { StatsValue } from '../../veau-vo/StatsValue';
 import { UpdatedAt } from '../../veau-vo/UpdatedAt';
-import { StatsItems } from '../collection/StatsItems';
 import { Stats, StatsJSON, StatsRow } from '../Stats';
 import { StatsItem } from '../StatsItem';
+import { StatsItems } from '../StatsItems';
 
 describe('Stats', () => {
   describe('equals', () => {
