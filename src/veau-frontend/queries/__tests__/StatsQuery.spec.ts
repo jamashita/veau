@@ -5,8 +5,8 @@ import { Stats } from '../../../veau-entity/Stats';
 import { AJAXError } from '../../../veau-error/AJAXError';
 import { NotFoundError } from '../../../veau-error/NotFoundError';
 import { AJAX } from '../../../veau-general/AJAX';
-import { StatsOutlines } from '../../../veau-vo/collection/StatsOutlines';
 import { StatsID } from '../../../veau-vo/StatsID';
+import { StatsOutlines } from '../../../veau-vo/StatsOutlines';
 import { StatsQuery } from '../StatsQuery';
 
 describe('StatsQuery', () => {

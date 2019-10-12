@@ -7,9 +7,9 @@ import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsOutlineQuery } from '../veau-query/StatsOutlineQuery';
 import { StatsQuery } from '../veau-query/StatsQuery';
 import { StatsUpdateTransaction } from '../veau-transaction/StatsUpdateTransaction';
-import { StatsOutlines } from '../veau-vo/collection/StatsOutlines';
 import { Page } from '../veau-vo/Page';
 import { StatsID } from '../veau-vo/StatsID';
+import { StatsOutlines } from '../veau-vo/StatsOutlines';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
 
 const logger: log4js.Logger = log4js.getLogger();

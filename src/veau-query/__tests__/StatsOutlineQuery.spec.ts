@@ -1,9 +1,9 @@
 import 'jest';
 import sinon, { SinonStub } from 'sinon';
 import { veauMySQL } from '../../veau-infrastructure/VeauMySQL';
-import { StatsOutlines } from '../../veau-vo/collection/StatsOutlines';
 import { Limit } from '../../veau-vo/Limit';
 import { Offset } from '../../veau-vo/Offset';
+import { StatsOutlines } from '../../veau-vo/StatsOutlines';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { StatsOutlineQuery } from '../StatsOutlineQuery';
 

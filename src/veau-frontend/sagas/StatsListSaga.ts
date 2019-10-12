@@ -1,9 +1,9 @@
 import { fork, put, select, take } from 'redux-saga/effects';
 import { Stats } from '../../veau-entity/Stats';
-import { StatsOutlines } from '../../veau-vo/collection/StatsOutlines';
 import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-vo/Region';
 import { StatsName } from '../../veau-vo/StatsName';
+import { StatsOutlines } from '../../veau-vo/StatsOutlines';
 import { StatsUnit } from '../../veau-vo/StatsUnit';
 import {
   ACTION,

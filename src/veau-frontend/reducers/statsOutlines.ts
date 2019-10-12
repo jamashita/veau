@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { StatsOutlines } from '../../veau-vo/collection/StatsOutlines';
+import { StatsOutlines } from '../../veau-vo/StatsOutlines';
 import { ACTION, Action } from '../actions/Action';
 
 const initialState: StatsOutlines = StatsOutlines.of([]);
