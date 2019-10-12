@@ -19,7 +19,7 @@ describe('LanguageQuery', () => {
       const languageQuery: LanguageQuery = LanguageQuery.getInstance();
       const languages: Languages = await languageQuery.all();
 
-      expect(languages.length()).toEqual(2);
+      expect(languages.size()).toEqual(2);
       expect(languages.get(0).getLanguageID().get()).toEqual(1);
       expect(languages.get(0).getName().get()).toEqual('аҧсуа бызшәа');
       expect(languages.get(0).getEnglishName().get()).toEqual('Abkhazian');
@@ -58,7 +58,7 @@ describe('LanguageQuery', () => {
       const languageQuery: LanguageQuery = LanguageQuery.getInstance();
       const languages: Languages = await languageQuery.all();
 
-      expect(languages.length()).toEqual(2);
+      expect(languages.size()).toEqual(2);
       expect(languages.get(0).getLanguageID().get()).toEqual(1);
       expect(languages.get(0).getName().get()).toEqual('аҧсуа бызшәа');
       expect(languages.get(0).getEnglishName().get()).toEqual('Abkhazian');

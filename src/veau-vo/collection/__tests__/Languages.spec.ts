@@ -15,7 +15,7 @@ describe('Languages', () => {
 
       const languages: Languages = Languages.of([language1, language2, language3]);
 
-      expect(languages.length()).toEqual(3);
+      expect(languages.size()).toEqual(3);
       expect(languages.get(0)).toEqual(language1);
       expect(languages.get(1)).toEqual(language2);
       expect(languages.get(2)).toEqual(language3);
@@ -30,6 +30,35 @@ describe('Languages', () => {
       expect(() => {
         languages.get(0);
       }).toThrow(NoSuchElementError);
+    });
+  });
+
+  describe('contains', () => {
+    it('return true if the element exists in the Colors', () => {
+      const language1: Language = Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english language 1'), ISO639.of('aa'));
+      const language2: Language = Language.of(LanguageID.of(2), LanguageName.of('language 2'), LanguageName.of('english language 2'), ISO639.of('ab'));
+      const language3: Language = Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english language 1'), ISO639.of('aa'));
+      const language4: Language = Language.of(LanguageID.of(3), LanguageName.of('language 3'), LanguageName.of('english language 3'), ISO639.of('ac'));
+
+      const languages: Languages = Languages.of([language1, language2]);
+
+      expect(languages.contains(language1)).toEqual(true);
+      expect(languages.contains(language2)).toEqual(true);
+      expect(languages.contains(language3)).toEqual(true);
+      expect(languages.contains(language4)).toEqual(false);
+    });
+  });
+
+  describe('isEmpty', () => {
+    it('return true if the elements are 0', () => {
+      const language1: Language = Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english language 1'), ISO639.of('aa'));
+      const language2: Language = Language.of(LanguageID.of(2), LanguageName.of('language 2'), LanguageName.of('english language 2'), ISO639.of('ab'));
+
+      const languages1: Languages = Languages.of([]);
+      const languages2: Languages = Languages.of([language1, language2]);
+
+      expect(languages1.isEmpty()).toEqual(true);
+      expect(languages2.isEmpty()).toEqual(false);
     });
   });
 
@@ -95,7 +124,7 @@ describe('Languages', () => {
 
       const languages: Languages = Languages.ofJSON(json);
 
-      expect(languages.length()).toEqual(1);
+      expect(languages.size()).toEqual(1);
       expect(languages.get(0).getLanguageID().get()).toEqual(json[0].languageID);
       expect(languages.get(0).getName().get()).toEqual(json[0].name);
       expect(languages.get(0).getEnglishName().get()).toEqual(json[0].englishName);
@@ -116,7 +145,7 @@ describe('Languages', () => {
 
       const languages: Languages = Languages.ofRow(rows);
 
-      expect(languages.length()).toEqual(1);
+      expect(languages.size()).toEqual(1);
       expect(languages.get(0).getLanguageID().get()).toEqual(rows[0].languageID);
       expect(languages.get(0).getName().get()).toEqual(rows[0].name);
       expect(languages.get(0).getEnglishName().get()).toEqual(rows[0].englishName);

@@ -55,7 +55,7 @@ describe('LocaleQuery', () => {
       const locale: Locale = await localeQuery.all();
 
       expect(stub.withArgs('/api/locale').called).toEqual(true);
-      expect(locale.getLanguages().length()).toEqual(1);
+      expect(locale.getLanguages().size()).toEqual(1);
       expect(locale.getLanguages().get(0).getLanguageID().get()).toEqual(1);
       expect(locale.getLanguages().get(0).getName().get()).toEqual('language');
       expect(locale.getLanguages().get(0).getEnglishName().get()).toEqual('english language');

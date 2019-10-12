@@ -1,11 +1,12 @@
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { Collection } from '../../veau-general/Collection';
 import { JSONable } from '../../veau-general/JSONable';
-import { Serializable } from '../../veau-general/Serializable';
+import { Enumerator } from '../../veau-general/Type/Enumerator';
 import { Mapper } from '../../veau-general/Type/Mapper';
 import { Predicate } from '../../veau-general/Type/Predicate';
 import { Language, LanguageJSON, LanguageRow } from '../Language';
 
-export class Languages implements JSONable, Serializable {
+export class Languages implements Collection<number, Language>, JSONable {
   private languages: Array<Language>;
 
   public static of(languages: Array<Language>): Languages {
@@ -46,8 +47,28 @@ export class Languages implements JSONable, Serializable {
     return language;
   }
 
-  public length(): number {
+  public contains(value: Language): boolean {
+    const found: Language | undefined = this.languages.find((language: Language): boolean => {
+      if (value.equals(language)) {
+        return true;
+      }
+
+      return false;
+    });
+
+    if (found === undefined) {
+      return false;
+    }
+
+    return true;
+  }
+
+  public size(): number {
     return this.languages.length;
+  }
+
+  public forEach(enumerator: Enumerator<Language>): void {
+    this.languages.forEach(enumerator);
   }
 
   public map<U>(mapper: Mapper<Language, U>): Array<U> {
@@ -58,13 +79,21 @@ export class Languages implements JSONable, Serializable {
     return this.languages.find(predicate);
   }
 
+  public isEmpty(): boolean {
+    if (this.languages.length === 0) {
+      return true;
+    }
+
+    return false;
+  }
+
   public equals(other: Languages): boolean {
     if (this === other) {
       return true;
     }
 
-    const length: number = this.length();
-    if (length !== other.length()) {
+    const length: number = this.size();
+    if (length !== other.size()) {
       return false;
     }
     for (let i: number = 0; i < length; i++) {
