@@ -1,7 +1,7 @@
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { JSONable } from '../../veau-general/JSONable';
 import { Mapper } from '../../veau-general/Type/Mapper';
-import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from '../StatsOutline';
+import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from '../../veau-vo/StatsOutline';
 
 export class StatsOutlines implements JSONable {
   private outlines: Array<StatsOutline>;
@@ -12,13 +12,13 @@ export class StatsOutlines implements JSONable {
 
   public static fromJSON(json: Array<StatsOutlineJSON>): StatsOutlines {
     return StatsOutlines.from(json.map<StatsOutline>((outline: StatsOutlineJSON): StatsOutline => {
-      return StatsOutline.fromJSON(outline);
+      return StatsOutline.ofJSON(outline);
     }));
   }
 
   public static fromRow(rows: Array<StatsOutlineRow>): StatsOutlines {
     return StatsOutlines.from(rows.map<StatsOutline>((outline: StatsOutlineRow): StatsOutline => {
-      return StatsOutline.fromRow(outline);
+      return StatsOutline.ofRow(outline);
     }));
   }
 
@@ -80,7 +80,7 @@ export class StatsOutlines implements JSONable {
     }
 
     for (let i: number = 0; i < length; i++) {
-      if (!this.outlines[i].isSame(other.get(i))) {
+      if (!this.outlines[i].equals(other.get(i))) {
         return false;
       }
     }

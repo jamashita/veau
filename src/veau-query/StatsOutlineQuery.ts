@@ -1,5 +1,5 @@
 import { StatsOutlines } from '../veau-entity/collection/StatsOutlines';
-import { StatsOutlineRow } from '../veau-entity/StatsOutline';
+import { StatsOutlineRow } from '../veau-vo/StatsOutline';
 import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { Limit } from '../veau-vo/Limit';
 import { Offset } from '../veau-vo/Offset';

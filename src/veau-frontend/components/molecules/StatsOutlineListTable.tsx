@@ -2,7 +2,7 @@ import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/c
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { StatsOutlines } from '../../../veau-entity/collection/StatsOutlines';
-import { StatsOutline } from '../../../veau-entity/StatsOutline';
+import { StatsOutline } from '../../../veau-vo/StatsOutline';
 import { StatsID } from '../../../veau-vo/StatsID';
 
 type Props = {

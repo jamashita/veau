@@ -7,7 +7,7 @@ import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-vo/Region';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
-import { StatsOutline } from '../../veau-entity/StatsOutline';
+import { StatsOutline } from '../../veau-vo/StatsOutline';
 import { Term } from '../../veau-enum/Term';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { NotFoundError } from '../../veau-error/NotFoundError';
@@ -106,7 +106,7 @@ describe('StatsInteractor', () => {
       const stub: SinonStub = sinon.stub();
       StatsOutlineQuery.prototype.findByVeauAccountID = stub;
       stub.resolves(StatsOutlines.from([
-        StatsOutline.from(
+        StatsOutline.of(
           statsID,
           language,
           region,

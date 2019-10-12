@@ -1,7 +1,7 @@
 import { NOT_FOUND, OK } from 'http-status';
 import { StatsOutlines } from '../../veau-entity/collection/StatsOutlines';
 import { Stats, StatsJSON } from '../../veau-entity/Stats';
-import { StatsOutlineJSON } from '../../veau-entity/StatsOutline';
+import { StatsOutlineJSON } from '../../veau-vo/StatsOutline';
 import { AJAXError } from '../../veau-error/AJAXError';
 import { NotFoundError } from '../../veau-error/NotFoundError';
 import { AJAX, AJAXResponse } from '../../veau-general/AJAX';

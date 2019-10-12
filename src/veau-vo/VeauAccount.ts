@@ -1,5 +1,4 @@
 import { JSONable } from '../veau-general/JSONable';
-import { Serializable } from '../veau-general/Serializable';
 import { AccountName } from './AccountName';
 import { ISO3166 } from './ISO3166';
 import { ISO639 } from './ISO639';
@@ -32,7 +31,7 @@ export type VeauAccountRow = {
   hash: string;
 };
 
-export class VeauAccount extends ValueObject implements JSONable, Serializable {
+export class VeauAccount extends ValueObject implements JSONable {
   private veauAccountID: VeauAccountID;
   private account: AccountName;
   private language: Language;

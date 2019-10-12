@@ -11,7 +11,7 @@ import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
 import { Stats } from '../../../veau-entity/Stats';
 import { StatsItem } from '../../../veau-entity/StatsItem';
-import { StatsOutline } from '../../../veau-entity/StatsOutline';
+import { StatsOutline } from '../../../veau-vo/StatsOutline';
 import { VeauAccount } from '../../../veau-vo/VeauAccount';
 import { Term } from '../../../veau-enum/Term';
 import { NotFoundError } from '../../../veau-error/NotFoundError';
@@ -40,7 +40,7 @@ describe('StatsController', () => {
       const stub: SinonStub = sinon.stub();
       StatsInteractor.prototype.findByVeauAccountID = stub;
       stub.resolves(StatsOutlines.from([
-        StatsOutline.from(
+        StatsOutline.of(
           StatsID.of('01c466f3-198a-45a4-9204-348ac57b1b5d'),
           Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
           Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),

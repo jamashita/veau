@@ -1,17 +1,18 @@
 import { Term } from '../veau-enum/Term';
-import { ISO3166 } from '../veau-vo/ISO3166';
-import { ISO639 } from '../veau-vo/ISO639';
-import { LanguageID } from '../veau-vo/LanguageID';
-import { LanguageName } from '../veau-vo/LanguageName';
-import { RegionID } from '../veau-vo/RegionID';
-import { RegionName } from '../veau-vo/RegionName';
-import { StatsID } from '../veau-vo/StatsID';
-import { StatsName } from '../veau-vo/StatsName';
-import { StatsUnit } from '../veau-vo/StatsUnit';
-import { UpdatedAt } from '../veau-vo/UpdatedAt';
-import { Entity } from './Entity';
-import { Language, LanguageJSON } from '../veau-vo/Language';
-import { Region, RegionJSON } from '../veau-vo/Region';
+import { JSONable } from '../veau-general/JSONable';
+import { ISO3166 } from './ISO3166';
+import { ISO639 } from './ISO639';
+import { Language, LanguageJSON } from './Language';
+import { LanguageID } from './LanguageID';
+import { LanguageName } from './LanguageName';
+import { Region, RegionJSON } from './Region';
+import { RegionID } from './RegionID';
+import { RegionName } from './RegionName';
+import { StatsID } from './StatsID';
+import { StatsName } from './StatsName';
+import { StatsUnit } from './StatsUnit';
+import { UpdatedAt } from './UpdatedAt';
+import { ValueObject } from './ValueObject';
 
 export type StatsOutlineJSON = {
   statsID: string;
@@ -38,7 +39,7 @@ export type StatsOutlineRow = {
   updatedAt: string;
 };
 
-export class StatsOutline extends Entity<StatsID> {
+export class StatsOutline extends ValueObject implements JSONable {
   private statsID: StatsID;
   private language: Language;
   private region: Region;
@@ -47,11 +48,11 @@ export class StatsOutline extends Entity<StatsID> {
   private unit: StatsUnit;
   private updatedAt: UpdatedAt;
 
-  public static from(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: StatsUnit, updatedAt: UpdatedAt): StatsOutline {
+  public static of(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: StatsUnit, updatedAt: UpdatedAt): StatsOutline {
     return new StatsOutline(statsID, language, region, term, name, unit, updatedAt);
   }
 
-  public static fromJSON(json: StatsOutlineJSON): StatsOutline {
+  public static ofJSON(json: StatsOutlineJSON): StatsOutline {
     const {
       statsID,
       language,
@@ -62,7 +63,7 @@ export class StatsOutline extends Entity<StatsID> {
       updatedAt
     } = json;
 
-    return StatsOutline.from(
+    return StatsOutline.of(
       StatsID.of(statsID),
       Language.ofJSON(language),
       Region.ofJSON(region),
@@ -73,7 +74,7 @@ export class StatsOutline extends Entity<StatsID> {
     );
   }
 
-  public static fromRow(row: StatsOutlineRow): StatsOutline {
+  public static ofRow(row: StatsOutlineRow): StatsOutline {
     const {
       statsID,
       languageID,
@@ -92,7 +93,7 @@ export class StatsOutline extends Entity<StatsID> {
     const language: Language = Language.of(LanguageID.of(languageID), LanguageName.of(languageName), LanguageName.of(languageEnglishName), ISO639.of(iso639));
     const region: Region = Region.of(RegionID.of(regionID), RegionName.of(regionName), ISO3166.of(iso3166));
 
-    return StatsOutline.from(
+    return StatsOutline.of(
       StatsID.of(statsID),
       language,
       region,
@@ -142,10 +143,6 @@ export class StatsOutline extends Entity<StatsID> {
     return this.updatedAt;
   }
 
-  public getIdentifier(): StatsID {
-    return this.statsID;
-  }
-
   public isFilled(): boolean {
     const {
       language,
@@ -170,7 +167,7 @@ export class StatsOutline extends Entity<StatsID> {
     return true;
   }
 
-  public isSame(other: StatsOutline): boolean {
+  public equals(other: StatsOutline): boolean {
     if (this === other) {
       return true;
     }

@@ -130,7 +130,7 @@ describe('Regions', () => {
     });
   });
 
-  describe('fromRow', () => {
+  describe('ofRow', () => {
     it('normal case', () => {
       const rows: Array<RegionRow> = [
         {
