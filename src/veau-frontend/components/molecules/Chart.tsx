@@ -1,7 +1,7 @@
 import React from 'react';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Stats } from '../../../veau-entity/Stats';
-import { Colors } from '../../../veau-vo/collection/Colors';
+import { Colors } from '../../../veau-vo/Colors';
 import { StatsItemName } from '../../../veau-vo/StatsItemName';
 
 type Props = {

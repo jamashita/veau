@@ -1,6 +1,6 @@
-import { Collection } from '../../veau-general/Collection';
-import { Enumerator } from '../../veau-general/Type/Enumerator';
-import { Color } from '../Color';
+import { Collection } from '../veau-general/Collection';
+import { Enumerator } from '../veau-general/Type/Enumerator';
+import { Color } from './Color';
 
 export class Colors implements Collection<number, Color> {
   private colors: Array<Color>;
