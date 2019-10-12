@@ -1,12 +1,12 @@
 import { INTERNAL_SERVER_ERROR, OK, UNAUTHORIZED } from 'http-status';
 import 'jest';
 import sinon, { SinonStub } from 'sinon';
-import { VeauAccount } from '../../../veau-vo/VeauAccount';
 import { AJAXError } from '../../../veau-error/AJAXError';
 import { AuthenticationFailureError } from '../../../veau-error/AuthenticationFailureError';
 import { UnauthorizedError } from '../../../veau-error/UnauthorizedError';
 import { AJAX } from '../../../veau-general/AJAX';
 import { EntranceInformation } from '../../../veau-vo/EntranceInformation';
+import { VeauAccount } from '../../../veau-vo/VeauAccount';
 import { SessionQuery } from '../SessionQuery';
 
 describe('SessionQuery', () => {

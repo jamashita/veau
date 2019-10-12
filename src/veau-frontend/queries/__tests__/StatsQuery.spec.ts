@@ -1,11 +1,11 @@
 import { INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'http-status';
 import 'jest';
 import sinon, { SinonStub } from 'sinon';
-import { StatsOutlines } from '../../../veau-vo/collection/StatsOutlines';
 import { Stats } from '../../../veau-entity/Stats';
 import { AJAXError } from '../../../veau-error/AJAXError';
 import { NotFoundError } from '../../../veau-error/NotFoundError';
 import { AJAX } from '../../../veau-general/AJAX';
+import { StatsOutlines } from '../../../veau-vo/collection/StatsOutlines';
 import { StatsID } from '../../../veau-vo/StatsID';
 import { StatsQuery } from '../StatsQuery';
 

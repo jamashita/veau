@@ -1,10 +1,11 @@
 import moment from 'moment';
+import { SagaIterator } from 'redux-saga';
 import { fork, put, select, take } from 'redux-saga/effects';
-import { Language } from '../../veau-vo/Language';
-import { Region } from '../../veau-vo/Region';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { NotFoundError } from '../../veau-error/NotFoundError';
+import { Language } from '../../veau-vo/Language';
+import { Region } from '../../veau-vo/Region';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsItemName } from '../../veau-vo/StatsItemName';
 import { StatsName } from '../../veau-vo/StatsName';
@@ -35,7 +36,6 @@ import { StatsCommand } from '../commands/StatsCommand';
 import { LocaleQuery } from '../queries/LocaleQuery';
 import { StatsQuery } from '../queries/StatsQuery';
 import { State } from '../State';
-import { SagaIterator } from 'redux-saga';
 
 const statsCommand: StatsCommand = StatsCommand.getInstance();
 const statsQuery: StatsQuery = StatsQuery.getInstance();

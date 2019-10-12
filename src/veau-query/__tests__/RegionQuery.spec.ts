@@ -1,12 +1,12 @@
 import 'jest';
 import sinon, { SinonStub } from 'sinon';
 import { RegionCommand } from '../../veau-command/RegionCommand';
-import { Regions } from '../../veau-vo/collection/Regions';
-import { Region } from '../../veau-vo/Region';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { veauMySQL } from '../../veau-infrastructure/VeauMySQL';
 import { veauRedis } from '../../veau-infrastructure/VeauRedis';
+import { Regions } from '../../veau-vo/collection/Regions';
 import { ISO3166 } from '../../veau-vo/ISO3166';
+import { Region } from '../../veau-vo/Region';
 import { RegionQuery } from '../RegionQuery';
 
 describe('RegionQuery', () => {

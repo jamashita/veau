@@ -1,8 +1,8 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
-import { Locale } from '../../../veau-vo/aggregate/Locale';
 import { Stats } from '../../../veau-entity/Stats';
 import { StatsItem } from '../../../veau-entity/StatsItem';
+import { Locale } from '../../../veau-vo/aggregate/Locale';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
 import { Action } from '../../actions/Action';

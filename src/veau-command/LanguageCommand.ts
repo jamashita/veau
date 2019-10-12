@@ -1,6 +1,6 @@
-import { Languages } from '../veau-vo/collection/Languages';
 import { CacheError } from '../veau-error/CacheError';
 import { veauRedis } from '../veau-infrastructure/VeauRedis';
+import { Languages } from '../veau-vo/collection/Languages';
 
 const REDIS_KEY: string = 'LANGUAGES';
 const DURATION: number = 3 * 60 * 60;

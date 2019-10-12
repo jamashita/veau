@@ -1,13 +1,13 @@
 import { SagaIterator } from 'redux-saga';
 import { fork, put, select, take } from 'redux-saga/effects';
-import { Locale } from '../../veau-vo/aggregate/Locale';
-import { Language } from '../../veau-vo/Language';
-import { VeauAccount } from '../../veau-vo/VeauAccount';
 import { AJAXError } from '../../veau-error/AJAXError';
 import { UnauthorizedError } from '../../veau-error/UnauthorizedError';
 import { LanguageIdentifier } from '../../veau-general/LanguageIdentifier';
 import { AccountName } from '../../veau-vo/AccountName';
+import { Locale } from '../../veau-vo/aggregate/Locale';
 import { ISO639 } from '../../veau-vo/ISO639';
+import { Language } from '../../veau-vo/Language';
+import { VeauAccount } from '../../veau-vo/VeauAccount';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { ACTION } from '../actions/Action';
 import { identified, identityAuthenticated } from '../actions/IdentityAction';

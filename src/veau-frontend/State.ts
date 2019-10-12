@@ -1,10 +1,10 @@
 import { RouterState } from 'connected-react-router';
-import { Locale } from '../veau-vo/aggregate/Locale';
-import { StatsOutlines } from '../veau-vo/collection/StatsOutlines';
 import { Stats } from '../veau-entity/Stats';
 import { StatsItem } from '../veau-entity/StatsItem';
-import { VeauAccount } from '../veau-vo/VeauAccount';
+import { Locale } from '../veau-vo/aggregate/Locale';
+import { StatsOutlines } from '../veau-vo/collection/StatsOutlines';
 import { EntranceInformation } from '../veau-vo/EntranceInformation';
+import { VeauAccount } from '../veau-vo/VeauAccount';
 import { LoadingCount } from './reducers/loadingCount';
 import { Modal } from './reducers/modal';
 import { Notification } from './reducers/notification';

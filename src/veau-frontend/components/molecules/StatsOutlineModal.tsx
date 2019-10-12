@@ -10,16 +10,16 @@ import {
   MenuItem,
   Select
 } from '@material-ui/core';
-import React, { PropsWithChildren } from 'react';
+import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-import { Locale } from '../../../veau-vo/aggregate/Locale';
-import { Language } from '../../../veau-vo/Language';
-import { Region } from '../../../veau-vo/Region';
 import { Stats } from '../../../veau-entity/Stats';
 import { Terms } from '../../../veau-enum/collection/Terms';
 import { Term } from '../../../veau-enum/Term';
+import { Locale } from '../../../veau-vo/aggregate/Locale';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
+import { Language } from '../../../veau-vo/Language';
+import { Region } from '../../../veau-vo/Region';
 import { TextField } from '../atoms/TextField';
 
 type Props = {

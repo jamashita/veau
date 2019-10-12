@@ -1,12 +1,12 @@
 import 'jest';
 import sinon, { SinonStub } from 'sinon';
 import { LanguageCommand } from '../../veau-command/LanguageCommand';
-import { Languages } from '../../veau-vo/collection/Languages';
-import { Language } from '../../veau-vo/Language';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { veauMySQL } from '../../veau-infrastructure/VeauMySQL';
 import { veauRedis } from '../../veau-infrastructure/VeauRedis';
+import { Languages } from '../../veau-vo/collection/Languages';
 import { ISO639 } from '../../veau-vo/ISO639';
+import { Language } from '../../veau-vo/Language';
 import { LanguageQuery } from '../LanguageQuery';
 
 describe('LanguageQuery', () => {

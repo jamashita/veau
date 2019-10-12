@@ -1,5 +1,4 @@
 import log4js from 'log4js';
-import { StatsOutlines } from '../veau-vo/collection/StatsOutlines';
 import { Stats } from '../veau-entity/Stats';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { NotFoundError } from '../veau-error/NotFoundError';
@@ -8,6 +7,7 @@ import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { StatsOutlineQuery } from '../veau-query/StatsOutlineQuery';
 import { StatsQuery } from '../veau-query/StatsQuery';
 import { StatsUpdateTransaction } from '../veau-transaction/StatsUpdateTransaction';
+import { StatsOutlines } from '../veau-vo/collection/StatsOutlines';
 import { Page } from '../veau-vo/Page';
 import { StatsID } from '../veau-vo/StatsID';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';

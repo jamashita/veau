@@ -1,8 +1,8 @@
 import { SagaIterator } from '@redux-saga/types';
 import { fork, put, select, take } from 'redux-saga/effects';
-import { VeauAccount } from '../../veau-vo/VeauAccount';
 import { AuthenticationFailureError } from '../../veau-error/AuthenticationFailureError';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
+import { VeauAccount } from '../../veau-vo/VeauAccount';
 import { ACTION, EntranceAccountNameTypedAction, EntrancePasswordTypedAction } from '../actions/Action';
 import { updateEntranceInformation } from '../actions/EntranceAction';
 import { identified, identityAuthenticated } from '../actions/IdentityAction';

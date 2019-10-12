@@ -1,5 +1,5 @@
 import { CircularProgress, Dialog, DialogContent, DialogTitle } from '@material-ui/core';
-import React, { PropsWithChildren } from 'react';
+import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Props } from '../../containers/molecules/LoadingIndicator';
 

@@ -1,6 +1,6 @@
-import { VeauAccount, VeauAccountRow } from '../veau-vo/VeauAccount';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
+import { VeauAccount, VeauAccountRow } from '../veau-vo/VeauAccount';
 
 export type VeauAccountHash = {
   veauAccount: VeauAccount;

@@ -1,5 +1,5 @@
 import { default as Text } from '@material-ui/core/TextField';
-import React, { PropsWithChildren } from 'react';
+import React from 'react';
 
 type Props = {
   label: string;

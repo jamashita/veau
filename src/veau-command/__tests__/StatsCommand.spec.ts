@@ -1,16 +1,16 @@
 import 'jest';
 import sinon, { SinonStub } from 'sinon';
 import { StatsItems } from '../../veau-entity/collection/StatsItems';
-import { Language } from '../../veau-vo/Language';
-import { Region } from '../../veau-vo/Region';
 import { Stats } from '../../veau-entity/Stats';
 import { Term } from '../../veau-enum/Term';
 import { IQuery } from '../../veau-general/MySQL/IQuery';
 import { QueryMock } from '../../veau-general/MySQL/QueryMock';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
+import { Language } from '../../veau-vo/Language';
 import { LanguageID } from '../../veau-vo/LanguageID';
 import { LanguageName } from '../../veau-vo/LanguageName';
+import { Region } from '../../veau-vo/Region';
 import { RegionID } from '../../veau-vo/RegionID';
 import { RegionName } from '../../veau-vo/RegionName';
 import { StatsID } from '../../veau-vo/StatsID';

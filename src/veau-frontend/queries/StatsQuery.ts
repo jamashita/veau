@@ -1,11 +1,11 @@
 import { NOT_FOUND, OK } from 'http-status';
-import { StatsOutlines } from '../../veau-vo/collection/StatsOutlines';
 import { Stats, StatsJSON } from '../../veau-entity/Stats';
-import { StatsOutlineJSON } from '../../veau-vo/StatsOutline';
 import { AJAXError } from '../../veau-error/AJAXError';
 import { NotFoundError } from '../../veau-error/NotFoundError';
 import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
+import { StatsOutlines } from '../../veau-vo/collection/StatsOutlines';
 import { StatsID } from '../../veau-vo/StatsID';
+import { StatsOutlineJSON } from '../../veau-vo/StatsOutline';
 
 export class StatsQuery {
   private static instance: StatsQuery = new StatsQuery();

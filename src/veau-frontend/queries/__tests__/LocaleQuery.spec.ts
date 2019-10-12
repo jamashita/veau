@@ -1,14 +1,14 @@
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import 'jest';
 import sinon, { SinonStub } from 'sinon';
-import { Locale } from '../../../veau-vo/aggregate/Locale';
-import { Language } from '../../../veau-vo/Language';
-import { Region } from '../../../veau-vo/Region';
 import { AJAXError } from '../../../veau-error/AJAXError';
 import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
 import { AJAX } from '../../../veau-general/AJAX';
+import { Locale } from '../../../veau-vo/aggregate/Locale';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
+import { Language } from '../../../veau-vo/Language';
+import { Region } from '../../../veau-vo/Region';
 import { LocaleQuery } from '../LocaleQuery';
 
 describe('LocaleQuery', () => {

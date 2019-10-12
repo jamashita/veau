@@ -1,8 +1,8 @@
-import { StatsOutlines } from '../veau-vo/collection/StatsOutlines';
-import { StatsOutlineRow } from '../veau-vo/StatsOutline';
 import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
+import { StatsOutlines } from '../veau-vo/collection/StatsOutlines';
 import { Limit } from '../veau-vo/Limit';
 import { Offset } from '../veau-vo/Offset';
+import { StatsOutlineRow } from '../veau-vo/StatsOutline';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
 
 export class StatsOutlineQuery {

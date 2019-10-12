@@ -1,6 +1,6 @@
 import { Icon, Snackbar, SnackbarContent } from '@material-ui/core';
 import { amber, blue, green, red } from '@material-ui/core/colors';
-import React, { PropsWithChildren } from 'react';
+import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Props } from '../../containers/molecules/Notification';
 

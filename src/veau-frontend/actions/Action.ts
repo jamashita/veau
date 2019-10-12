@@ -1,15 +1,15 @@
 import { RouterState } from 'connected-react-router';
 import { Action as ReduxAction } from 'redux';
-import { Locale } from '../../veau-vo/aggregate/Locale';
-import { StatsOutlines } from '../../veau-vo/collection/StatsOutlines';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
-import { VeauAccount } from '../../veau-vo/VeauAccount';
 import { Term } from '../../veau-enum/Term';
+import { Locale } from '../../veau-vo/aggregate/Locale';
+import { StatsOutlines } from '../../veau-vo/collection/StatsOutlines';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { StatsID } from '../../veau-vo/StatsID';
+import { VeauAccount } from '../../veau-vo/VeauAccount';
 
 export enum ACTION {
   LOCATION_CHANGE = '@@router/LOCATION_CHANGE',

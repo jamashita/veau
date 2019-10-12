@@ -1,6 +1,6 @@
-import { StatsOutlines } from '../../veau-vo/collection/StatsOutlines';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
+import { StatsOutlines } from '../../veau-vo/collection/StatsOutlines';
 import {
   ACTION,
   StatsItemResetAction,

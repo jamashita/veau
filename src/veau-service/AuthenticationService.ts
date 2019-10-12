@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import { VeauAccount, VeauAccountJSON } from '../veau-vo/VeauAccount';
 import { AuthenticationInteractor } from '../veau-interactor/AuthenticationInteractor';
+import { VeauAccount, VeauAccountJSON } from '../veau-vo/VeauAccount';
 
 const authenticationInteractor: AuthenticationInteractor = AuthenticationInteractor.getInstance();
 

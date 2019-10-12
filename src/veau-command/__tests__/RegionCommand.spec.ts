@@ -1,11 +1,11 @@
 import 'jest';
 import sinon, { SinonStub } from 'sinon';
-import { Regions } from '../../veau-vo/collection/Regions';
-import { Region } from '../../veau-vo/Region';
 import { CacheError } from '../../veau-error/CacheError';
 import { Redis } from '../../veau-general/Redis/Redis';
 import { RedisString } from '../../veau-general/Redis/RedisString';
+import { Regions } from '../../veau-vo/collection/Regions';
 import { ISO3166 } from '../../veau-vo/ISO3166';
+import { Region } from '../../veau-vo/Region';
 import { RegionID } from '../../veau-vo/RegionID';
 import { RegionName } from '../../veau-vo/RegionName';
 import { RegionCommand } from '../RegionCommand';

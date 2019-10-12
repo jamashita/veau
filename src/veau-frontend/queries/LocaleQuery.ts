@@ -1,12 +1,12 @@
 import { OK } from 'http-status';
-import { Locale, LocaleJSON } from '../../veau-vo/aggregate/Locale';
-import { Language } from '../../veau-vo/Language';
-import { Region } from '../../veau-vo/Region';
 import { AJAXError } from '../../veau-error/AJAXError';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
+import { Locale, LocaleJSON } from '../../veau-vo/aggregate/Locale';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
+import { Language } from '../../veau-vo/Language';
+import { Region } from '../../veau-vo/Region';
 
 export class LocaleQuery {
   private locale: Locale | null;

@@ -1,10 +1,10 @@
 import { OK, UNAUTHORIZED } from 'http-status';
-import { VeauAccount, VeauAccountJSON } from '../../veau-vo/VeauAccount';
 import { AJAXError } from '../../veau-error/AJAXError';
 import { AuthenticationFailureError } from '../../veau-error/AuthenticationFailureError';
 import { UnauthorizedError } from '../../veau-error/UnauthorizedError';
 import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
+import { VeauAccount, VeauAccountJSON } from '../../veau-vo/VeauAccount';
 
 export class SessionQuery {
   private static instance: SessionQuery = new SessionQuery();
