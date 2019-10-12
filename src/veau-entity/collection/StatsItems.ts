@@ -144,7 +144,7 @@ export class StatsItems implements JSONable {
     }
 
     const rowLengths: Array<number> = items.map<number>((item: StatsItem): number => {
-      return item.getValues().length();
+      return item.getValues().size();
     });
 
     const values: number = Math.max(...rowLengths);

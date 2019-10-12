@@ -94,7 +94,7 @@ describe('StatsQuery', () => {
       expect(items.get(0).getName().get()).toEqual('name1');
 
       let values: StatsValues = items.get(0).getValues();
-      expect(values.length()).toEqual(3);
+      expect(values.size()).toEqual(3);
       expect(values.get(0).getAsOfAsString()).toEqual('2000-01-01');
       expect(values.get(0).getValue()).toEqual(1);
       expect(values.get(1).getAsOfAsString()).toEqual('2000-01-02');
@@ -106,7 +106,7 @@ describe('StatsQuery', () => {
       expect(items.get(1).getName().get()).toEqual('name2');
 
       values = items.get(1).getValues();
-      expect(values.length()).toEqual(2);
+      expect(values.size()).toEqual(2);
       expect(values.get(0).getAsOfAsString()).toEqual('2001-01-01');
       expect(values.get(0).getValue()).toEqual(11);
       expect(values.get(1).getAsOfAsString()).toEqual('2001-01-02');
@@ -116,7 +116,7 @@ describe('StatsQuery', () => {
       expect(items.get(2).getName().get()).toEqual('name3');
 
       values = items.get(2).getValues();
-      expect(values.length()).toEqual(0);
+      expect(values.size()).toEqual(0);
     });
 
     it('throws error', async () => {

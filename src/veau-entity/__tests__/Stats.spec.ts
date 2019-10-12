@@ -549,7 +549,7 @@ describe('Stats', () => {
 
       stats.setData(0, 2, 4);
 
-      expect(stats.getItems().get(0).getValues().length()).toEqual(2);
+      expect(stats.getItems().get(0).getValues().size()).toEqual(2);
       expect(stats.getItems().get(0).getValues().get(0).getAsOfAsString()).toEqual('2000-01-01');
       expect(stats.getItems().get(0).getValues().get(0).getValue()).toEqual(1);
       expect(stats.getItems().get(0).getValues().get(1).getAsOfAsString()).toEqual('2000-01-02');
@@ -566,7 +566,7 @@ describe('Stats', () => {
 
       stats.setData(0, 2, 2);
 
-      expect(stats.getItems().get(0).getValues().length()).toEqual(3);
+      expect(stats.getItems().get(0).getValues().size()).toEqual(3);
       expect(stats.getItems().get(0).getValues().get(0).getAsOfAsString()).toEqual('2000-01-01');
       expect(stats.getItems().get(0).getValues().get(0).getValue()).toEqual(1);
       expect(stats.getItems().get(0).getValues().get(1).getAsOfAsString()).toEqual('2000-01-02');
@@ -726,8 +726,8 @@ describe('Stats', () => {
       for (let i: number = 0; i < stats.getItems().length(); i++) {
         expect(stats.getItems().get(i).getStatsItemID().get()).toEqual(json.items[i].statsItemID);
         expect(stats.getItems().get(i).getName().get()).toEqual(json.items[i].name);
-        expect(stats.getItems().get(i).getValues().length()).toEqual(json.items[i].values.length);
-        for (let j: number = 0; j < stats.getItems().get(i).getValues().length(); j++) {
+        expect(stats.getItems().get(i).getValues().size()).toEqual(json.items[i].values.length);
+        for (let j: number = 0; j < stats.getItems().get(i).getValues().size(); j++) {
           expect(stats.getItems().get(i).getValues().get(j).getAsOfAsString()).toEqual(json.items[i].values[j].asOf);
           expect(stats.getItems().get(i).getValues().get(j).getValue()).toEqual(json.items[i].values[j].value);
         }

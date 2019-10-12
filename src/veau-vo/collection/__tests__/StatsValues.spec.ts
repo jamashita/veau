@@ -17,7 +17,7 @@ describe('StatsValues', () => {
 
       const set: StatsValues = statsValues.set(StatsValue.of(moment('2000-01-02'), 4));
 
-      expect(set.length()).toEqual(3);
+      expect(set.size()).toEqual(3);
       expect(set.get(0).getValue()).toEqual(1);
       expect(set.get(1).getValue()).toEqual(4);
       expect(set.get(2).getValue()).toEqual(3);
@@ -33,7 +33,7 @@ describe('StatsValues', () => {
 
       const set: StatsValues = statsValues.set(StatsValue.of(moment('2000-01-02'), 2));
 
-      expect(set.length()).toEqual(3);
+      expect(set.size()).toEqual(3);
       expect(set.get(0).getValue()).toEqual(1);
       expect(set.get(1).getValue()).toEqual(2);
       expect(set.get(2).getValue()).toEqual(3);
@@ -53,7 +53,7 @@ describe('StatsValues', () => {
 
       const deleted: StatsValues = statsValues.delete(moment('2000-01-02'));
 
-      expect(deleted.length()).toEqual(2);
+      expect(deleted.size()).toEqual(2);
       expect(deleted.get(0).getValue()).toEqual(1);
       expect(deleted.get(1).getValue()).toEqual(3);
     });
@@ -88,6 +88,40 @@ describe('StatsValues', () => {
         asOf1,
         asOf2
       ]);
+    });
+  });
+
+  describe('contains', () => {
+    it('return true if the element exists in the Colors', () => {
+      const statsValue1: StatsValue = StatsValue.of(moment('2000-01-01'), 1);
+      const statsValue2: StatsValue = StatsValue.of(moment('2000-01-02'), 2);
+      const statsValue3: StatsValue = StatsValue.of(moment('2000-01-03'), 3);
+      const statsValue4: StatsValue = StatsValue.of(moment('2000-01-01'), 1);
+      const statsValues: StatsValues = StatsValues.of([
+        statsValue1,
+        statsValue2
+      ]);
+
+      expect(statsValues.contains(statsValue1)).toEqual(true);
+      expect(statsValues.contains(statsValue2)).toEqual(true);
+      expect(statsValues.contains(statsValue3)).toEqual(false);
+      expect(statsValues.contains(statsValue4)).toEqual(true);
+    });
+  });
+
+  describe('isEmpty', () => {
+    it('return true if the elements are 0', () => {
+      const statsValue1: StatsValue = StatsValue.of(moment('2000-01-01'), 1);
+      const statsValue2: StatsValue = StatsValue.of(moment('2000-01-02'), 2);
+      const statsValues1: StatsValues = StatsValues.of([
+      ]);
+      const statsValues2: StatsValues = StatsValues.of([
+        statsValue1,
+        statsValue2
+      ]);
+
+      expect(statsValues1.isEmpty()).toEqual(true);
+      expect(statsValues2.isEmpty()).toEqual(false);
     });
   });
 

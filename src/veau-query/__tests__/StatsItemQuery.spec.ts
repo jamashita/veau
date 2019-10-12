@@ -59,7 +59,7 @@ describe('StatsItemQuery', () => {
       expect(statsItems.length()).toEqual(3);
       expect(statsItems.get(0).getStatsItemID().get()).toEqual('c0e18d31-d026-4a84-af4f-d5d26c520600');
       expect(statsItems.get(0).getName().get()).toEqual('name1');
-      expect(statsItems.get(0).getValues().length()).toEqual(3);
+      expect(statsItems.get(0).getValues().size()).toEqual(3);
       expect(statsItems.get(0).getValues().get(0).getAsOfAsString()).toEqual('2000-01-01');
       expect(statsItems.get(0).getValues().get(0).getValue()).toEqual(1);
       expect(statsItems.get(0).getValues().get(1).getAsOf().format('YYYY-MM-DD')).toEqual('2000-01-02');
@@ -68,14 +68,14 @@ describe('StatsItemQuery', () => {
       expect(statsItems.get(0).getValues().get(2).getValue()).toEqual(3);
       expect(statsItems.get(1).getStatsItemID().get()).toEqual('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c');
       expect(statsItems.get(1).getName().get()).toEqual('name2');
-      expect(statsItems.get(1).getValues().length()).toEqual(2);
+      expect(statsItems.get(1).getValues().size()).toEqual(2);
       expect(statsItems.get(1).getValues().get(0).getAsOfAsString()).toEqual('2001-01-01');
       expect(statsItems.get(1).getValues().get(0).getValue()).toEqual(11);
       expect(statsItems.get(1).getValues().get(1).getAsOf().format('YYYY-MM-DD')).toEqual('2001-01-02');
       expect(statsItems.get(1).getValues().get(1).getValue()).toEqual(12);
       expect(statsItems.get(2).getStatsItemID().get()).toEqual('2ac64841-5267-48bc-8952-ba9ad1cb12d7');
       expect(statsItems.get(2).getName().get()).toEqual('name3');
-      expect(statsItems.get(2).getValues().length()).toEqual(0);
+      expect(statsItems.get(2).getValues().size()).toEqual(0);
     });
   });
 });

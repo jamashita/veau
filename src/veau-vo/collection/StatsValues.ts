@@ -1,11 +1,11 @@
 import moment from 'moment';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { Collection } from '../../veau-general/Collection';
 import { JSONable } from '../../veau-general/JSONable';
-import { Serializable } from '../../veau-general/Serializable';
 import { Enumerator } from '../../veau-general/Type/Enumerator';
 import { StatsValue, StatsValueJSON } from '../StatsValue';
 
-export class StatsValues implements JSONable, Serializable {
+export class StatsValues implements Collection<number, StatsValue>, JSONable {
   private values: Array<StatsValue>;
 
   public static of(values: Array<StatsValue>): StatsValues {
@@ -81,7 +81,23 @@ export class StatsValues implements JSONable, Serializable {
     return new StatsValues(newValues);
   }
 
-  public length(): number {
+  public contains(value: StatsValue): boolean {
+    const found: StatsValue | undefined = this.values.find((statsValue: StatsValue): boolean => {
+      if (value.equals(statsValue)) {
+        return true;
+      }
+
+      return false;
+    });
+
+    if (found === undefined) {
+      return false;
+    }
+
+    return true;
+  }
+
+  public size(): number {
     return this.values.length;
   }
 
@@ -101,6 +117,14 @@ export class StatsValues implements JSONable, Serializable {
     });
   }
 
+  public isEmpty(): boolean {
+    if (this.values.length === 0) {
+      return true;
+    }
+
+    return false;
+  }
+
   public copy(): StatsValues {
     return new StatsValues(this.values.map<StatsValue>((statsValue: StatsValue): StatsValue => {
       return statsValue;
@@ -113,7 +137,7 @@ export class StatsValues implements JSONable, Serializable {
     }
 
     const length: number = this.values.length;
-    if (length !== other.length()) {
+    if (length !== other.size()) {
       return false;
     }
 

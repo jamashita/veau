@@ -43,7 +43,7 @@ describe('StatsValueQuery', () => {
 
       const year2001: StatsValues | undefined = values.get('5318ad74-f15f-4835-9fd7-890be4cce933');
 
-      expect(year2001!.length()).toEqual(2);
+      expect(year2001!.size()).toEqual(2);
       expect(year2001!.get(0).getAsOfAsString()).toEqual('2001-01-01');
       expect(year2001!.get(0).getValue()).toEqual(11);
       expect(year2001!.get(1).getAsOfAsString()).toEqual('2001-01-02');
@@ -51,7 +51,7 @@ describe('StatsValueQuery', () => {
 
       const year2000: StatsValues | undefined = values.get('98d1e9b5-6b18-44de-b615-d8016f49977d');
 
-      expect(year2000!.length()).toEqual(3);
+      expect(year2000!.size()).toEqual(3);
       expect(year2000!.get(0).getAsOfAsString()).toEqual('2000-01-01');
       expect(year2000!.get(0).getValue()).toEqual(1);
       expect(year2000!.get(1).getAsOfAsString()).toEqual('2000-01-02');
