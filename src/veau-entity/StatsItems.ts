@@ -133,7 +133,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable {
     return this.items.length;
   }
 
-  public forEach(enumerator: Enumerator<StatsItem>): void {
+  public forEach(enumerator: Enumerator<number, StatsItem>): void {
     this.items.forEach(enumerator);
   }
 

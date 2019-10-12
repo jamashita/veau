@@ -9,7 +9,7 @@ export interface Collection<K, V> extends Serializable {
 
   size(): number;
 
-  forEach(enumerator: Enumerator<V>): void;
+  forEach(enumerator: Enumerator<K, V>): void;
 
   isEmpty(): boolean;
 

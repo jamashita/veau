@@ -101,7 +101,7 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable {
     return this.values.length;
   }
 
-  public forEach(enumerator: Enumerator<StatsValue>): void {
+  public forEach(enumerator: Enumerator<number, StatsValue>): void {
     this.values.forEach(enumerator);
   }
 

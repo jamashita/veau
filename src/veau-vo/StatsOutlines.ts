@@ -58,7 +58,7 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
     return this.outlines.length;
   }
 
-  public forEach(enumerator: Enumerator<StatsOutline>): void {
+  public forEach(enumerator: Enumerator<number, StatsOutline>): void {
     this.outlines.forEach(enumerator);
   }
 
