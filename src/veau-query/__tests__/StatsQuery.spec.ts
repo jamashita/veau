@@ -4,8 +4,8 @@ import { Stats } from '../../veau-entity/Stats';
 import { StatsItems } from '../../veau-entity/StatsItems';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { veauMySQL } from '../../veau-infrastructure/VeauMySQL';
-import { StatsValues } from '../../veau-vo/collection/StatsValues';
 import { StatsID } from '../../veau-vo/StatsID';
+import { StatsValues } from '../../veau-vo/StatsValues';
 import { StatsQuery } from '../StatsQuery';
 
 describe('StatsQuery', () => {

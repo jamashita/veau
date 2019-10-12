@@ -1,7 +1,7 @@
 import 'jest';
 import sinon, { SinonStub } from 'sinon';
 import { veauMySQL } from '../../veau-infrastructure/VeauMySQL';
-import { StatsValues } from '../../veau-vo/collection/StatsValues';
+import { StatsValues } from '../../veau-vo/StatsValues';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsValueQuery } from '../StatsValueQuery';
 

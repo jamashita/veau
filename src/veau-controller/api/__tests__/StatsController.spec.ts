@@ -13,7 +13,7 @@ import { NotFoundError } from '../../../veau-error/NotFoundError';
 import { StatsInteractor } from '../../../veau-interactor/StatsInteractor';
 import { AccountName } from '../../../veau-vo/AccountName';
 import { StatsOutlines } from '../../../veau-vo/collection/StatsOutlines';
-import { StatsValues } from '../../../veau-vo/collection/StatsValues';
+import { StatsValues } from '../../../veau-vo/StatsValues';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
 import { Language } from '../../../veau-vo/Language';

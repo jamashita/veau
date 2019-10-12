@@ -1,9 +1,9 @@
 import moment from 'moment';
-import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { Collection } from '../../veau-general/Collection';
-import { JSONable } from '../../veau-general/JSONable';
-import { Enumerator } from '../../veau-general/Type/Enumerator';
-import { StatsValue, StatsValueJSON } from '../StatsValue';
+import { NoSuchElementError } from '../veau-error/NoSuchElementError';
+import { Collection } from '../veau-general/Collection';
+import { JSONable } from '../veau-general/JSONable';
+import { Enumerator } from '../veau-general/Type/Enumerator';
+import { StatsValue, StatsValueJSON } from './StatsValue';
 
 export class StatsValues implements Collection<number, StatsValue>, JSONable {
   private values: Array<StatsValue>;

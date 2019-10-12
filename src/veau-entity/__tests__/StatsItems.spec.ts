@@ -1,9 +1,9 @@
 import 'jest';
 import moment from 'moment';
-import { StatsValues } from '../../veau-vo/collection/StatsValues';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
 import { StatsItemName } from '../../veau-vo/StatsItemName';
 import { StatsValue } from '../../veau-vo/StatsValue';
+import { StatsValues } from '../../veau-vo/StatsValues';
 import { StatsItem, StatsItemJSON } from '../StatsItem';
 import { StatsItems } from '../StatsItems';
 
