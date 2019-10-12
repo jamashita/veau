@@ -1,9 +1,9 @@
 import 'jest';
-import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
-import { ISO639 } from '../../ISO639';
-import { Language, LanguageJSON, LanguageRow } from '../../Language';
-import { LanguageID } from '../../LanguageID';
-import { LanguageName } from '../../LanguageName';
+import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { ISO639 } from '../ISO639';
+import { Language, LanguageJSON, LanguageRow } from '../Language';
+import { LanguageID } from '../LanguageID';
+import { LanguageName } from '../LanguageName';
 import { Languages } from '../Languages';
 
 describe('Languages', () => {

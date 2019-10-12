@@ -2,9 +2,9 @@ import { LanguageCommand } from '../veau-command/LanguageCommand';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { veauRedis } from '../veau-infrastructure/VeauRedis';
-import { Languages } from '../veau-vo/collection/Languages';
 import { ISO639 } from '../veau-vo/ISO639';
 import { Language, LanguageJSON, LanguageRow } from '../veau-vo/Language';
+import { Languages } from '../veau-vo/Languages';
 
 const languageCommand: LanguageCommand = LanguageCommand.getInstance();
 
