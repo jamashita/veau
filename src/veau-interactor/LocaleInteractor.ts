@@ -25,7 +25,7 @@ export class LocaleInteractor {
     const languages: Languages = await languageQuery.all();
     const regions: Regions = await regionQuery.all();
 
-    return Locale.from(languages, regions);
+    return Locale.of(languages, regions);
   }
 
   public delete(): Promise<unknown> {

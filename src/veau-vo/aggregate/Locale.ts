@@ -14,21 +14,21 @@ export class Locale implements JSONable, Serializable {
   private languages: Languages;
   private regions: Regions;
 
-  public static from(languages: Languages, regions: Regions): Locale {
+  public static of(languages: Languages, regions: Regions): Locale {
     return new Locale(languages, regions);
   }
 
-  public static fromJSON(locale: LocaleJSON): Locale {
+  public static ofJSON(locale: LocaleJSON): Locale {
     const {
       languages,
       regions
     } = locale;
 
-    return Locale.from(Languages.ofJSON(languages), Regions.ofJSON(regions));
+    return Locale.of(Languages.ofJSON(languages), Regions.ofJSON(regions));
   }
 
   public static default(): Locale {
-    return Locale.from(Languages.default(), Regions.default());
+    return Locale.of(Languages.default(), Regions.default());
   }
 
   private constructor(languages: Languages, regions: Regions) {

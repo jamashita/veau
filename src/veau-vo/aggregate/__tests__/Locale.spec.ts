@@ -22,7 +22,7 @@ describe('Locale', () => {
         Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb')),
         Region.of(RegionID.of(2), RegionName.of('region'), ISO3166.of('bb'))
       ]);
-      const locale1: Locale = Locale.from(languages1, regions1);
+      const locale1: Locale = Locale.of(languages1, regions1);
 
       const languages2: Languages = Languages.of([
         Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
@@ -31,7 +31,7 @@ describe('Locale', () => {
         Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb')),
         Region.of(RegionID.of(2), RegionName.of('region'), ISO3166.of('bb'))
       ]);
-      const locale2: Locale = Locale.from(languages2, regions2);
+      const locale2: Locale = Locale.of(languages2, regions2);
 
       const languages3: Languages = Languages.of([
         Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa')),
@@ -40,7 +40,7 @@ describe('Locale', () => {
       const regions3: Regions = Regions.of([
         Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb'))
       ]);
-      const locale3: Locale = Locale.from(languages3, regions3);
+      const locale3: Locale = Locale.of(languages3, regions3);
 
       const languages4: Languages = Languages.of([
         Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
@@ -48,7 +48,7 @@ describe('Locale', () => {
       const regions4: Regions = Regions.of([
         Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb'))
       ]);
-      const locale4: Locale = Locale.from(languages4, regions4);
+      const locale4: Locale = Locale.of(languages4, regions4);
 
       const languages5: Languages = Languages.of([
         Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa')),
@@ -58,7 +58,7 @@ describe('Locale', () => {
         Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb')),
         Region.of(RegionID.of(2), RegionName.of('region'), ISO3166.of('bb'))
       ]);
-      const locale5: Locale = Locale.from(languages5, regions5);
+      const locale5: Locale = Locale.of(languages5, regions5);
 
       expect(locale1.equals(locale1)).toEqual(true);
       expect(locale1.equals(locale2)).toEqual(false);
@@ -86,7 +86,7 @@ describe('Locale', () => {
         }
       ];
 
-      const locale: Locale = Locale.fromJSON({
+      const locale: Locale = Locale.ofJSON({
         languages,
         regions
       });

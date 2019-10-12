@@ -111,7 +111,7 @@ describe('Regions', () => {
     });
   });
 
-  describe('fromJSON', () => {
+  describe('ofJSON', () => {
     it('normal case', () => {
       const json: Array<RegionJSON> = [
         {

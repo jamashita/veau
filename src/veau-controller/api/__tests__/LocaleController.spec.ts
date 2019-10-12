@@ -25,7 +25,7 @@ describe('LocaleController', () => {
     it('returns JSON as LocaleInteractor returns', async () => {
       const stub: SinonStub = sinon.stub();
       LocaleInteractor.prototype.all = stub;
-      stub.resolves(Locale.from(
+      stub.resolves(Locale.of(
         Languages.of([
           Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english name'), ISO639.of('la'))
         ]),

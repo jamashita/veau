@@ -72,7 +72,7 @@ export class LocaleQuery {
 
     switch (status) {
       case OK: {
-        this.locale = Locale.fromJSON(body);
+        this.locale = Locale.ofJSON(body);
 
         return this.locale;
       }
