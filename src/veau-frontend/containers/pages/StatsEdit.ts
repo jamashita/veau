@@ -2,9 +2,9 @@ import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from
 import { Dispatch } from 'redux';
 import { Stats } from '../../../veau-entity/Stats';
 import { StatsItem } from '../../../veau-entity/StatsItem';
-import { Locale } from '../../../veau-vo/aggregate/Locale';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
+import { Locale } from '../../../veau-vo/Locale';
 import { Action } from '../../actions/Action';
 import {
   invalidValueInput,
