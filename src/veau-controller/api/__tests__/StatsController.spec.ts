@@ -6,7 +6,7 @@ import moment from 'moment';
 import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';
 import { StatsItems } from '../../../veau-entity/collection/StatsItems';
-import { StatsOutlines } from '../../../veau-entity/collection/StatsOutlines';
+import { StatsOutlines } from '../../../veau-vo/collection/StatsOutlines';
 import { Language } from '../../../veau-vo/Language';
 import { Region } from '../../../veau-vo/Region';
 import { Stats } from '../../../veau-entity/Stats';
@@ -39,7 +39,7 @@ describe('StatsController', () => {
     it('normal case', async () => {
       const stub: SinonStub = sinon.stub();
       StatsInteractor.prototype.findByVeauAccountID = stub;
-      stub.resolves(StatsOutlines.from([
+      stub.resolves(StatsOutlines.of([
         StatsOutline.of(
           StatsID.of('01c466f3-198a-45a4-9204-348ac57b1b5d'),
           Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),

@@ -1,5 +1,5 @@
 import { fork, put, select, take } from 'redux-saga/effects';
-import { StatsOutlines } from '../../veau-entity/collection/StatsOutlines';
+import { StatsOutlines } from '../../veau-vo/collection/StatsOutlines';
 import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-vo/Region';
 import { Stats } from '../../veau-entity/Stats';

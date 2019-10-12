@@ -1,9 +1,9 @@
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-import { StatsOutlines } from '../../../veau-entity/collection/StatsOutlines';
-import { StatsOutline } from '../../../veau-vo/StatsOutline';
+import { StatsOutlines } from '../../../veau-vo/collection/StatsOutlines';
 import { StatsID } from '../../../veau-vo/StatsID';
+import { StatsOutline } from '../../../veau-vo/StatsOutline';
 
 type Props = {
   statsOutlines: StatsOutlines;
@@ -19,7 +19,7 @@ class StatsOutlineListTableImpl extends React.Component<Props & WrappedComponent
       statsOutlines
     } = this.props;
 
-    if (statsOutlines.areSame(nextProps.statsOutlines)) {
+    if (statsOutlines.equals(nextProps.statsOutlines)) {
       return false;
     }
 

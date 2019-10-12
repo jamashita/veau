@@ -1,7 +1,7 @@
 import { INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'http-status';
 import 'jest';
 import sinon, { SinonStub } from 'sinon';
-import { StatsOutlines } from '../../../veau-entity/collection/StatsOutlines';
+import { StatsOutlines } from '../../../veau-vo/collection/StatsOutlines';
 import { Stats } from '../../../veau-entity/Stats';
 import { AJAXError } from '../../../veau-error/AJAXError';
 import { NotFoundError } from '../../../veau-error/NotFoundError';
@@ -113,7 +113,7 @@ describe('StatsQuery', () => {
       const outlines: StatsOutlines = await statsQuery.findByPage(3);
 
       expect(stub.withArgs('/api/stats/page/3').called).toEqual(true);
-      expect(outlines.length()).toEqual(1);
+      expect(outlines.size()).toEqual(1);
       expect(outlines.get(0).getStatsID().get()).toEqual('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
       expect(outlines.get(0).getLanguage().getLanguageID().get()).toEqual(1);
       expect(outlines.get(0).getRegion().getRegionID().get()).toEqual(2);

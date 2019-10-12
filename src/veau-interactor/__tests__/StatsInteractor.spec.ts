@@ -2,7 +2,7 @@ import 'jest';
 import moment from 'moment';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { StatsItems } from '../../veau-entity/collection/StatsItems';
-import { StatsOutlines } from '../../veau-entity/collection/StatsOutlines';
+import { StatsOutlines } from '../../veau-vo/collection/StatsOutlines';
 import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-vo/Region';
 import { Stats } from '../../veau-entity/Stats';
@@ -105,7 +105,7 @@ describe('StatsInteractor', () => {
 
       const stub: SinonStub = sinon.stub();
       StatsOutlineQuery.prototype.findByVeauAccountID = stub;
-      stub.resolves(StatsOutlines.from([
+      stub.resolves(StatsOutlines.of([
         StatsOutline.of(
           statsID,
           language,
@@ -120,7 +120,7 @@ describe('StatsInteractor', () => {
       const statsInteractor: StatsInteractor = StatsInteractor.getInstance();
       const statsOutlines: StatsOutlines =  await statsInteractor.findByVeauAccountID(VeauAccountID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2'), Page.of(1));
 
-      expect(statsOutlines.length()).toEqual(1);
+      expect(statsOutlines.size()).toEqual(1);
       expect(statsOutlines.get(0).getStatsID()).toEqual(statsID);
       expect(statsOutlines.get(0).getLanguage()).toEqual(language);
       expect(statsOutlines.get(0).getRegion()).toEqual(region);

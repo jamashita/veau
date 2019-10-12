@@ -1,4 +1,4 @@
-import { StatsOutlines } from '../veau-entity/collection/StatsOutlines';
+import { StatsOutlines } from '../veau-vo/collection/StatsOutlines';
 import { StatsOutlineRow } from '../veau-vo/StatsOutline';
 import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
 import { Limit } from '../veau-vo/Limit';
@@ -44,6 +44,6 @@ export class StatsOutlineQuery {
       offset: offset.get()
     });
 
-    return StatsOutlines.fromRow(statsOutlineRows);
+    return StatsOutlines.ofRow(statsOutlineRows);
   }
 }

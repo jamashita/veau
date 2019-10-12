@@ -1,4 +1,4 @@
-import { StatsOutlines } from '../../veau-entity/collection/StatsOutlines';
+import { StatsOutlines } from '../../veau-vo/collection/StatsOutlines';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import {

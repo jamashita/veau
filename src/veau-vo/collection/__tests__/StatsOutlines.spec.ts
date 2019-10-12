@@ -1,13 +1,13 @@
 import 'jest';
 import { Term } from '../../../veau-enum/Term';
 import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
-import { StatsID } from '../../../veau-vo/StatsID';
-import { StatsName } from '../../../veau-vo/StatsName';
-import { StatsUnit } from '../../../veau-vo/StatsUnit';
-import { UpdatedAt } from '../../../veau-vo/UpdatedAt';
-import { Language } from '../../../veau-vo/Language';
-import { Region } from '../../../veau-vo/Region';
-import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from '../../../veau-vo/StatsOutline';
+import { Language } from '../../Language';
+import { Region } from '../../Region';
+import { StatsID } from '../../StatsID';
+import { StatsName } from '../../StatsName';
+import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from '../../StatsOutline';
+import { StatsUnit } from '../../StatsUnit';
+import { UpdatedAt } from '../../UpdatedAt';
 import { StatsOutlines } from '../StatsOutlines';
 
 describe('StatsOutlines', () => {
@@ -17,20 +17,20 @@ describe('StatsOutlines', () => {
       const outline2: StatsOutline = StatsOutline.of(StatsID.of('15620e91-f63a-4aaa-94b7-2844978fa129'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
       const outline3: StatsOutline = StatsOutline.of(StatsID.of('b1524ae3-8e91-4938-9997-579ef7b84602'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
 
-      const outlines: StatsOutlines = StatsOutlines.from([
+      const outlines: StatsOutlines = StatsOutlines.of([
         outline1,
         outline2,
         outline3
       ]);
 
-      expect(outlines.length()).toEqual(3);
+      expect(outlines.size()).toEqual(3);
       expect(outlines.get(0)).toEqual(outline1);
       expect(outlines.get(1)).toEqual(outline2);
       expect(outlines.get(2)).toEqual(outline3);
     });
 
     it('throws error if the index is out of range', () => {
-      const outlines: StatsOutlines = StatsOutlines.from([]);
+      const outlines: StatsOutlines = StatsOutlines.of([]);
 
       expect(() => {
         outlines.get(-1);
@@ -41,14 +41,50 @@ describe('StatsOutlines', () => {
     });
   });
 
+  describe('contains', () => {
+    it('return true if the element exists in the Colors', () => {
+      const outline1: StatsOutline = StatsOutline.of(StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
+      const outline2: StatsOutline = StatsOutline.of(StatsID.of('15620e91-f63a-4aaa-94b7-2844978fa129'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
+      const outline3: StatsOutline = StatsOutline.of(StatsID.of('b1524ae3-8e91-4938-9997-579ef7b84602'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
+      const outline4: StatsOutline = StatsOutline.of(StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
+
+      const outlines: StatsOutlines = StatsOutlines.of([
+        outline1,
+        outline2
+      ]);
+
+      expect(outlines.contains(outline1)).toEqual(true);
+      expect(outlines.contains(outline2)).toEqual(true);
+      expect(outlines.contains(outline3)).toEqual(false);
+      expect(outlines.contains(outline4)).toEqual(true);
+    });
+  });
+
+  describe('isEmpty', () => {
+    it('return true if the elements are 0', () => {
+      const outline1: StatsOutline = StatsOutline.of(StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
+      const outline2: StatsOutline = StatsOutline.of(StatsID.of('15620e91-f63a-4aaa-94b7-2844978fa129'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
+
+      const outlines1: StatsOutlines = StatsOutlines.of([
+      ]);
+      const outlines2: StatsOutlines = StatsOutlines.of([
+        outline1,
+        outline2
+      ]);
+
+      expect(outlines1.isEmpty()).toEqual(true);
+      expect(outlines2.isEmpty()).toEqual(false);
+    });
+  });
+
   describe('equals', () => {
     it('returns false if the lengths are different', () => {
       const outline1: StatsOutline = StatsOutline.of(StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
       const outline2: StatsOutline = StatsOutline.of(StatsID.of('15620e91-f63a-4aaa-94b7-2844978fa129'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
       const outline3: StatsOutline = StatsOutline.of(StatsID.of('b1524ae3-8e91-4938-9997-579ef7b84602'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
 
-      const outlines1: StatsOutlines = StatsOutlines.from([outline1, outline2, outline3]);
-      const outlines2: StatsOutlines = StatsOutlines.from([outline1, outline2]);
+      const outlines1: StatsOutlines = StatsOutlines.of([outline1, outline2, outline3]);
+      const outlines2: StatsOutlines = StatsOutlines.of([outline1, outline2]);
 
       expect(outlines1.equals(outlines2)).toEqual(false);
     });
@@ -57,49 +93,20 @@ describe('StatsOutlines', () => {
       const outline1: StatsOutline = StatsOutline.of(StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
       const outline2: StatsOutline = StatsOutline.of(StatsID.of('15620e91-f63a-4aaa-94b7-2844978fa129'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
 
-      const outlines1: StatsOutlines = StatsOutlines.from([outline1, outline2]);
-      const outlines2: StatsOutlines = StatsOutlines.from([outline2, outline1]);
+      const outlines1: StatsOutlines = StatsOutlines.of([outline1, outline2]);
+      const outlines2: StatsOutlines = StatsOutlines.of([outline2, outline1]);
 
       expect(outlines1.equals(outlines2)).toEqual(false);
     });
 
-    it('returns true if the length and the sequence are the same', () => {
+    it('returns true if the size and the sequence are the same', () => {
       const outline1: StatsOutline = StatsOutline.of(StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
       const outline2: StatsOutline = StatsOutline.of(StatsID.of('15620e91-f63a-4aaa-94b7-2844978fa129'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
 
-      const outlines1: StatsOutlines = StatsOutlines.from([outline1, outline2]);
-      const outlines2: StatsOutlines = StatsOutlines.from([outline1, outline2]);
+      const outlines1: StatsOutlines = StatsOutlines.of([outline1, outline2]);
+      const outlines2: StatsOutlines = StatsOutlines.of([outline1, outline2]);
 
       expect(outlines1.equals(outlines2)).toEqual(true);
-    });
-  });
-
-  describe('areSame', () => {
-    it('returns true if all the properties are the same', () => {
-      const outlines1: StatsOutlines = StatsOutlines.from([
-        StatsOutline.of(StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01')),
-        StatsOutline.of(StatsID.of('15620e91-f63a-4aaa-94b7-2844978fa129'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'))
-      ]);
-      const outlines2: StatsOutlines = StatsOutlines.from([
-        StatsOutline.of(StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'))
-      ]);
-      const outlines3: StatsOutlines = StatsOutlines.from([
-        StatsOutline.of(StatsID.of('15620e91-f63a-4aaa-94b7-2844978fa129'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'))
-      ]);
-      const outlines4: StatsOutlines = StatsOutlines.from([
-        StatsOutline.of(StatsID.of('15620e91-f63a-4aaa-94b7-2844978fa129'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01')),
-        StatsOutline.of(StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'))
-      ]);
-      const outlines5: StatsOutlines = StatsOutlines.from([
-        StatsOutline.of(StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01')),
-        StatsOutline.of(StatsID.of('15620e91-f63a-4aaa-94b7-2844978fa129'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'))
-      ]);
-
-      expect(outlines1.areSame(outlines1)).toEqual(true);
-      expect(outlines1.areSame(outlines2)).toEqual(false);
-      expect(outlines1.areSame(outlines3)).toEqual(false);
-      expect(outlines1.areSame(outlines4)).toEqual(false);
-      expect(outlines1.areSame(outlines5)).toEqual(true);
     });
   });
 
@@ -108,7 +115,7 @@ describe('StatsOutlines', () => {
       const outline1: StatsOutline = StatsOutline.of(StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
       const outline2: StatsOutline = StatsOutline.of(StatsID.of('15620e91-f63a-4aaa-94b7-2844978fa129'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
 
-      const outlines: StatsOutlines = StatsOutlines.from([outline1, outline2]);
+      const outlines: StatsOutlines = StatsOutlines.of([outline1, outline2]);
 
       expect(outlines.toJSON()).toEqual([
         {
@@ -151,7 +158,7 @@ describe('StatsOutlines', () => {
     });
   });
 
-  describe('fromJSON', () => {
+  describe('toJSON', () => {
     const json: Array<StatsOutlineJSON> = [
       {
         statsID: 'f6fb9662-cbe8-4a91-8aa4-47a92f05b007',
@@ -191,7 +198,7 @@ describe('StatsOutlines', () => {
       }
     ];
 
-    const outlines: StatsOutlines = StatsOutlines.fromJSON(json);
+    const outlines: StatsOutlines = StatsOutlines.ofJSON(json);
 
     for (let i: number = 0; i < 2; i++) {
       expect(outlines.get(i).getStatsID().get()).toEqual(json[i].statsID);
@@ -209,7 +216,7 @@ describe('StatsOutlines', () => {
     }
   });
 
-  describe('fromRow', () => {
+  describe('toRow', () => {
     const rows: Array<StatsOutlineRow> = [
       {
         statsID: 'f6fb9662-cbe8-4a91-8aa4-47a92f05b007',
@@ -241,7 +248,7 @@ describe('StatsOutlines', () => {
       }
     ];
 
-    const outlines: StatsOutlines = StatsOutlines.fromRow(rows);
+    const outlines: StatsOutlines = StatsOutlines.ofRow(rows);
 
     for (let i: number = 0; i < 2; i++) {
       expect(outlines.get(i).getStatsID().get()).toEqual(rows[i].statsID);

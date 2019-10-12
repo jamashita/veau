@@ -1,6 +1,6 @@
 import { RouterState } from 'connected-react-router';
 import { Locale } from '../veau-vo/aggregate/Locale';
-import { StatsOutlines } from '../veau-entity/collection/StatsOutlines';
+import { StatsOutlines } from '../veau-vo/collection/StatsOutlines';
 import { Stats } from '../veau-entity/Stats';
 import { StatsItem } from '../veau-entity/StatsItem';
 import { VeauAccount } from '../veau-vo/VeauAccount';

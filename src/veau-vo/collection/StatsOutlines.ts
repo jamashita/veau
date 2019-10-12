@@ -1,23 +1,25 @@
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { Collection } from '../../veau-general/Collection';
 import { JSONable } from '../../veau-general/JSONable';
+import { Enumerator } from '../../veau-general/Type/Enumerator';
 import { Mapper } from '../../veau-general/Type/Mapper';
-import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from '../../veau-vo/StatsOutline';
+import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from '../StatsOutline';
 
-export class StatsOutlines implements JSONable {
+export class StatsOutlines implements Collection<number, StatsOutline>, JSONable {
   private outlines: Array<StatsOutline>;
 
-  public static from(outlines: Array<StatsOutline>): StatsOutlines {
+  public static of(outlines: Array<StatsOutline>): StatsOutlines {
     return new StatsOutlines(outlines);
   }
 
-  public static fromJSON(json: Array<StatsOutlineJSON>): StatsOutlines {
-    return StatsOutlines.from(json.map<StatsOutline>((outline: StatsOutlineJSON): StatsOutline => {
+  public static ofJSON(json: Array<StatsOutlineJSON>): StatsOutlines {
+    return StatsOutlines.of(json.map<StatsOutline>((outline: StatsOutlineJSON): StatsOutline => {
       return StatsOutline.ofJSON(outline);
     }));
   }
 
-  public static fromRow(rows: Array<StatsOutlineRow>): StatsOutlines {
-    return StatsOutlines.from(rows.map<StatsOutline>((outline: StatsOutlineRow): StatsOutline => {
+  public static ofRow(rows: Array<StatsOutlineRow>): StatsOutlines {
+    return StatsOutlines.of(rows.map<StatsOutline>((outline: StatsOutlineRow): StatsOutline => {
       return StatsOutline.ofRow(outline);
     }));
   }
@@ -36,8 +38,28 @@ export class StatsOutlines implements JSONable {
     return outline;
   }
 
-  public length(): number {
+  public contains(value: StatsOutline): boolean {
+    const found: StatsOutline | undefined = this.outlines.find((outline: StatsOutline): boolean => {
+      if (value.equals(outline)) {
+        return true;
+      }
+
+      return false;
+    });
+
+    if (found === undefined) {
+      return false;
+    }
+
+    return true;
+  }
+
+  public size(): number {
     return this.outlines.length;
+  }
+
+  public forEach(enumerator: Enumerator<StatsOutline>): void {
+    this.outlines.forEach(enumerator);
   }
 
   public map<U>(mapper: Mapper<StatsOutline, U>): Array<U> {
@@ -50,32 +72,21 @@ export class StatsOutlines implements JSONable {
     }));
   }
 
+  public isEmpty(): boolean {
+    if (this.outlines.length === 0) {
+      return true;
+    }
+
+    return false;
+  }
+
   public equals(other: StatsOutlines): boolean {
     if (this === other) {
       return true;
     }
 
     const length: number = this.outlines.length;
-    if (length !== other.length()) {
-      return false;
-    }
-
-    for (let i: number = 0; i < length; i++) {
-      if (!this.outlines[i].equals(other.get(i))) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  public areSame(other: StatsOutlines): boolean {
-    if (this === other) {
-      return true;
-    }
-
-    const length: number = this.outlines.length;
-    if (length !== other.length()) {
+    if (length !== other.size()) {
       return false;
     }
 

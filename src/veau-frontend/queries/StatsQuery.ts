@@ -1,5 +1,5 @@
 import { NOT_FOUND, OK } from 'http-status';
-import { StatsOutlines } from '../../veau-entity/collection/StatsOutlines';
+import { StatsOutlines } from '../../veau-vo/collection/StatsOutlines';
 import { Stats, StatsJSON } from '../../veau-entity/Stats';
 import { StatsOutlineJSON } from '../../veau-vo/StatsOutline';
 import { AJAXError } from '../../veau-error/AJAXError';
@@ -46,7 +46,7 @@ export class StatsQuery {
 
     switch (status) {
       case OK: {
-        return StatsOutlines.fromJSON(body);
+        return StatsOutlines.ofJSON(body);
       }
       default: {
         throw new AJAXError('UNKNOWN ERROR');

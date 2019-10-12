@@ -62,7 +62,6 @@ describe('Regions', () => {
     });
   });
 
-
   describe('equals', () => {
     it('returns false if the length is different', () => {
       const region1: Region = Region.of(RegionID.of(1), RegionName.of('region 1'), ISO3166.of('abc'));

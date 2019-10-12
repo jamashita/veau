@@ -1,6 +1,6 @@
 import 'jest';
 import sinon, { SinonStub } from 'sinon';
-import { StatsOutlines } from '../../veau-entity/collection/StatsOutlines';
+import { StatsOutlines } from '../../veau-vo/collection/StatsOutlines';
 import { veauMySQL } from '../../veau-infrastructure/VeauMySQL';
 import { Limit } from '../../veau-vo/Limit';
 import { Offset } from '../../veau-vo/Offset';
@@ -46,7 +46,7 @@ describe('StatsOutlineQuery', () => {
       const statsOutlineQuery: StatsOutlineQuery = StatsOutlineQuery.getInstance();
       const statsOutlines: StatsOutlines = await statsOutlineQuery.findByVeauAccountID(VeauAccountID.of('2ac64841-5267-48bc-8952-ba9ad1cb12d7'), Limit.of(2), Offset.of(0));
 
-      expect(statsOutlines.length()).toEqual(2);
+      expect(statsOutlines.size()).toEqual(2);
       expect(statsOutlines.get(0).getStatsID().get()).toEqual('c0e18d31-d026-4a84-af4f-d5d26c520600');
       expect(statsOutlines.get(0).getLanguage().getLanguageID().get()).toEqual(1);
       expect(statsOutlines.get(0).getLanguage().getName().get()).toEqual('lang1');
