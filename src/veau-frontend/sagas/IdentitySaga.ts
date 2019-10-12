@@ -2,7 +2,7 @@ import { SagaIterator } from 'redux-saga';
 import { fork, put, select, take } from 'redux-saga/effects';
 import { AJAXError } from '../../veau-error/AJAXError';
 import { UnauthorizedError } from '../../veau-error/UnauthorizedError';
-import { LanguageIdentifier } from '../../veau-general/LanguageIdentifier';
+import { LanguageIdentifier } from '../../veau-service/LanguageIdentifier';
 import { AccountName } from '../../veau-vo/AccountName';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language } from '../../veau-vo/Language';
