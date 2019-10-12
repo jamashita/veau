@@ -5,7 +5,6 @@ import { RegionCommand } from '../../veau-command/RegionCommand';
 import { LanguageQuery } from '../../veau-query/LanguageQuery';
 import { RegionQuery } from '../../veau-query/RegionQuery';
 import { Locale } from '../../veau-vo/aggregate/Locale';
-import { Regions } from '../../veau-vo/collection/Regions';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language } from '../../veau-vo/Language';
@@ -15,6 +14,7 @@ import { Languages } from '../../veau-vo/Languages';
 import { Region } from '../../veau-vo/Region';
 import { RegionID } from '../../veau-vo/RegionID';
 import { RegionName } from '../../veau-vo/RegionName';
+import { Regions } from '../../veau-vo/Regions';
 import { LocaleInteractor } from '../LocaleInteractor';
 
 describe('LocaleInteractor',  () => {

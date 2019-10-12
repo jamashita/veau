@@ -3,8 +3,8 @@ import { RegionCommand } from '../veau-command/RegionCommand';
 import { LanguageQuery } from '../veau-query/LanguageQuery';
 import { RegionQuery } from '../veau-query/RegionQuery';
 import { Locale } from '../veau-vo/aggregate/Locale';
-import { Regions } from '../veau-vo/collection/Regions';
 import { Languages } from '../veau-vo/Languages';
+import { Regions } from '../veau-vo/Regions';
 
 const languageQuery: LanguageQuery = LanguageQuery.getInstance();
 const languageCommand: LanguageCommand = LanguageCommand.getInstance();

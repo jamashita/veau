@@ -1,9 +1,9 @@
 import 'jest';
-import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
-import { ISO3166 } from '../../ISO3166';
-import { Region, RegionJSON, RegionRow } from '../../Region';
-import { RegionID } from '../../RegionID';
-import { RegionName } from '../../RegionName';
+import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { ISO3166 } from '../ISO3166';
+import { Region, RegionJSON, RegionRow } from '../Region';
+import { RegionID } from '../RegionID';
+import { RegionName } from '../RegionName';
 import { Regions } from '../Regions';
 
 describe('Regions', () => {
