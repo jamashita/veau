@@ -11,7 +11,7 @@ describe('Region', () => {
       const region2: Region = Region.of(RegionID.of(2), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
       const region3: Region = Region.of(RegionID.of(1), RegionName.of('Albania'), ISO3166.of('AFG'));
       const region4: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFB'));
-      const region5: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('ALB'));
+      const region5: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
 
       expect(region1.equals(region1)).toEqual(true);
       expect(region1.equals(region2)).toEqual(false);
