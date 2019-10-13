@@ -1,4 +1,4 @@
-import { RuntimeError } from './RuntimeError';
+import { RuntimeError } from '../veau-general/RuntimeError';
 
 export class AuthenticationFailureError extends RuntimeError {
 
