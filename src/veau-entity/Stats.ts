@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { Term } from '../veau-enum/Term';
-import { RuntimeError } from '../veau-error/RuntimeError';
+import { RuntimeError } from '../veau-general/RuntimeError';
 import { UUID } from '../veau-general/UUID';
 import { ISO3166 } from '../veau-vo/ISO3166';
 import { ISO639 } from '../veau-vo/ISO639';

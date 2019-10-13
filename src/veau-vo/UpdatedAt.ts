@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { RuntimeError } from '../veau-error/RuntimeError';
+import { RuntimeError } from '../veau-general/RuntimeError';
 import { Type } from '../veau-general/Type/Type';
 import { ValueObject } from './ValueObject';
 

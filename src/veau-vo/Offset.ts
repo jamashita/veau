@@ -1,4 +1,4 @@
-import { RuntimeError } from '../veau-error/RuntimeError';
+import { RuntimeError } from '../veau-general/RuntimeError';
 import { ValueObject } from './ValueObject';
 
 export class Offset extends ValueObject {

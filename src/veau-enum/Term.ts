@@ -1,4 +1,4 @@
-import { RuntimeError } from '../veau-error/RuntimeError';
+import { RuntimeError } from '../veau-general/RuntimeError';
 
 const DAILY_ID: number = 1;
 const WEEKLY_ID: number = 2;

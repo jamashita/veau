@@ -1,6 +1,6 @@
 import 'jest';
 import moment from 'moment';
-import { RuntimeError } from '../../veau-error/RuntimeError';
+import { RuntimeError } from '../../veau-general/RuntimeError';
 import { UpdatedAt } from '../UpdatedAt';
 
 describe('UpdatedAt', () => {

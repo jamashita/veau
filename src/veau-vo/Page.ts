@@ -1,4 +1,4 @@
-import { RuntimeError } from '../veau-error/RuntimeError';
+import { RuntimeError } from '../veau-general/RuntimeError';
 import { Limit } from './Limit';
 import { Offset } from './Offset';
 import { ValueObject } from './ValueObject';

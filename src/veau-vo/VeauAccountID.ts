@@ -1,4 +1,4 @@
-import { RuntimeError } from '../veau-error/RuntimeError';
+import { RuntimeError } from '../veau-general/RuntimeError';
 import { UUID } from '../veau-general/UUID';
 import { ValueObject } from './ValueObject';
 

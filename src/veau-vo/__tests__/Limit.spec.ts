@@ -1,5 +1,5 @@
 import 'jest';
-import { RuntimeError } from '../../veau-error/RuntimeError';
+import { RuntimeError } from '../../veau-general/RuntimeError';
 import { Limit } from '../Limit';
 
 describe('Limit', () => {
