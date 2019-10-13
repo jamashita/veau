@@ -1,9 +1,9 @@
-import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { Collection } from '../../veau-general/Collection';
-import { JSONable } from '../../veau-general/JSONable';
-import { Enumerator } from '../../veau-general/Type/Enumerator';
-import { Mapper } from '../../veau-general/Type/Mapper';
-import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from '../StatsOutline';
+import { NoSuchElementError } from '../veau-error/NoSuchElementError';
+import { Collection } from '../veau-general/Collection';
+import { JSONable } from '../veau-general/JSONable';
+import { Enumerator } from '../veau-general/Type/Enumerator';
+import { Mapper } from '../veau-general/Type/Mapper';
+import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from './StatsOutline';
 
 export class StatsOutlines implements Collection<number, StatsOutline>, JSONable {
   private outlines: Array<StatsOutline>;
@@ -58,7 +58,7 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
     return this.outlines.length;
   }
 
-  public forEach(enumerator: Enumerator<StatsOutline>): void {
+  public forEach(enumerator: Enumerator<number, StatsOutline>): void {
     this.outlines.forEach(enumerator);
   }
 

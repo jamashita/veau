@@ -3,10 +3,10 @@ import sinon, { SinonStub } from 'sinon';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { IQuery } from '../../veau-general/MySQL/IQuery';
 import { QueryMock } from '../../veau-general/MySQL/QueryMock';
-import { StatsValues } from '../../veau-vo/collection/StatsValues';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
 import { StatsItemName } from '../../veau-vo/StatsItemName';
+import { StatsValues } from '../../veau-vo/StatsValues';
 import { StatsItemCommand } from '../StatsItemCommand';
 
 describe('StatsItemCommand', () => {

@@ -2,9 +2,9 @@ import { LanguageCommand } from '../veau-command/LanguageCommand';
 import { RegionCommand } from '../veau-command/RegionCommand';
 import { LanguageQuery } from '../veau-query/LanguageQuery';
 import { RegionQuery } from '../veau-query/RegionQuery';
-import { Locale } from '../veau-vo/aggregate/Locale';
-import { Languages } from '../veau-vo/collection/Languages';
-import { Regions } from '../veau-vo/collection/Regions';
+import { Languages } from '../veau-vo/Languages';
+import { Locale } from '../veau-vo/Locale';
+import { Regions } from '../veau-vo/Regions';
 
 const languageQuery: LanguageQuery = LanguageQuery.getInstance();
 const languageCommand: LanguageCommand = LanguageCommand.getInstance();

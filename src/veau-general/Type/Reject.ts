@@ -1,1 +1,3 @@
-export type Reject<T> = (reason: T) => void;
+import { Consumer } from './Consumer';
+
+export type Reject<T> = Consumer<T>;

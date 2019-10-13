@@ -1,5 +1,5 @@
 import 'jest';
-import { Color } from '../../Color';
+import { Color } from '../Color';
 import { Colors } from '../Colors';
 
 describe('Colors', () => {

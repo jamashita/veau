@@ -1,7 +1,6 @@
 import 'jest';
 import moment from 'moment';
 import { Term } from '../../veau-enum/Term';
-import { StatsValues } from '../../veau-vo/collection/StatsValues';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language } from '../../veau-vo/Language';
@@ -16,10 +15,11 @@ import { StatsItemName } from '../../veau-vo/StatsItemName';
 import { StatsName } from '../../veau-vo/StatsName';
 import { StatsUnit } from '../../veau-vo/StatsUnit';
 import { StatsValue } from '../../veau-vo/StatsValue';
+import { StatsValues } from '../../veau-vo/StatsValues';
 import { UpdatedAt } from '../../veau-vo/UpdatedAt';
-import { StatsItems } from '../collection/StatsItems';
 import { Stats, StatsJSON, StatsRow } from '../Stats';
 import { StatsItem } from '../StatsItem';
+import { StatsItems } from '../StatsItems';
 
 describe('Stats', () => {
   describe('equals', () => {
@@ -722,8 +722,8 @@ describe('Stats', () => {
       expect(stats.getName().get()).toEqual(json.name);
       expect(stats.getUnit().get()).toEqual(json.unit);
       expect(stats.getUpdatedAt().getString()).toEqual(json.updatedAt);
-      expect(stats.getItems().length()).toEqual(json.items.length);
-      for (let i: number = 0; i < stats.getItems().length(); i++) {
+      expect(stats.getItems().size()).toEqual(json.items.length);
+      for (let i: number = 0; i < stats.getItems().size(); i++) {
         expect(stats.getItems().get(i).getStatsItemID().get()).toEqual(json.items[i].statsItemID);
         expect(stats.getItems().get(i).getName().get()).toEqual(json.items[i].name);
         expect(stats.getItems().get(i).getValues().size()).toEqual(json.items[i].values.length);

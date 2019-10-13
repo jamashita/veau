@@ -1,10 +1,10 @@
-import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { Collection } from '../../veau-general/Collection';
-import { JSONable } from '../../veau-general/JSONable';
-import { Enumerator } from '../../veau-general/Type/Enumerator';
-import { Mapper } from '../../veau-general/Type/Mapper';
-import { Predicate } from '../../veau-general/Type/Predicate';
-import { Language, LanguageJSON, LanguageRow } from '../Language';
+import { NoSuchElementError } from '../veau-error/NoSuchElementError';
+import { Collection } from '../veau-general/Collection';
+import { JSONable } from '../veau-general/JSONable';
+import { Enumerator } from '../veau-general/Type/Enumerator';
+import { Mapper } from '../veau-general/Type/Mapper';
+import { Predicate } from '../veau-general/Type/Predicate';
+import { Language, LanguageJSON, LanguageRow } from './Language';
 
 export class Languages implements Collection<number, Language>, JSONable {
   private languages: Array<Language>;
@@ -67,7 +67,7 @@ export class Languages implements Collection<number, Language>, JSONable {
     return this.languages.length;
   }
 
-  public forEach(enumerator: Enumerator<Language>): void {
+  public forEach(enumerator: Enumerator<number, Language>): void {
     this.languages.forEach(enumerator);
   }
 

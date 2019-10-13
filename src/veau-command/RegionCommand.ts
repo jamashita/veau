@@ -1,6 +1,6 @@
 import { CacheError } from '../veau-error/CacheError';
 import { veauRedis } from '../veau-infrastructure/VeauRedis';
-import { Regions } from '../veau-vo/collection/Regions';
+import { Regions } from '../veau-vo/Regions';
 
 const REDIS_KEY: string = 'REGIONS';
 const DURATION: number = 3 * 60 * 60;

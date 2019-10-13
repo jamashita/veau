@@ -1,10 +1,10 @@
 import 'jest';
 import moment from 'moment';
-import { StatsValues } from '../../../veau-vo/collection/StatsValues';
-import { StatsItemID } from '../../../veau-vo/StatsItemID';
-import { StatsItemName } from '../../../veau-vo/StatsItemName';
-import { StatsValue } from '../../../veau-vo/StatsValue';
-import { StatsItem, StatsItemJSON } from '../../StatsItem';
+import { StatsItemID } from '../../veau-vo/StatsItemID';
+import { StatsItemName } from '../../veau-vo/StatsItemName';
+import { StatsValue } from '../../veau-vo/StatsValue';
+import { StatsValues } from '../../veau-vo/StatsValues';
+import { StatsItem, StatsItemJSON } from '../StatsItem';
 import { StatsItems } from '../StatsItems';
 
 describe('StatsItems', () => {
@@ -21,7 +21,7 @@ describe('StatsItems', () => {
 
       const moved: StatsItems = statsItems.move(0, 1);
 
-      expect(moved.length()).toEqual(3);
+      expect(moved.size()).toEqual(3);
       expect(moved.get(0)).toEqual(statsItem2);
       expect(moved.get(1)).toEqual(statsItem1);
       expect(moved.get(2)).toEqual(statsItem3);
@@ -39,7 +39,7 @@ describe('StatsItems', () => {
 
       const moved: StatsItems = statsItems.move(1, 2);
 
-      expect(moved.length()).toEqual(3);
+      expect(moved.size()).toEqual(3);
       expect(moved.get(0)).toEqual(statsItem1);
       expect(moved.get(1)).toEqual(statsItem3);
       expect(moved.get(2)).toEqual(statsItem2);
@@ -57,7 +57,7 @@ describe('StatsItems', () => {
 
       const moved: StatsItems = statsItems.move(2, 0);
 
-      expect(moved.length()).toEqual(3);
+      expect(moved.size()).toEqual(3);
       expect(moved.get(0)).toEqual(statsItem3);
       expect(moved.get(1)).toEqual(statsItem2);
       expect(moved.get(2)).toEqual(statsItem1);
@@ -76,7 +76,7 @@ describe('StatsItems', () => {
 
       const replaced: StatsItems = statsItems.replace(statsItem, 0);
 
-      expect(replaced.length()).toEqual(3);
+      expect(replaced.size()).toEqual(3);
       expect(replaced.get(0)).toEqual(statsItem);
       expect(replaced.get(1)).not.toEqual(statsItem);
       expect(replaced.get(2)).not.toEqual(statsItem);
@@ -93,7 +93,7 @@ describe('StatsItems', () => {
 
       const replaced: StatsItems = statsItems.replace(statsItem, 1);
 
-      expect(replaced.length()).toEqual(3);
+      expect(replaced.size()).toEqual(3);
       expect(replaced.get(0)).not.toEqual(statsItem);
       expect(replaced.get(1)).toEqual(statsItem);
       expect(replaced.get(2)).not.toEqual(statsItem);
@@ -110,7 +110,7 @@ describe('StatsItems', () => {
 
       const replaced: StatsItems = statsItems.replace(statsItem, 2);
 
-      expect(replaced.length()).toEqual(3);
+      expect(replaced.size()).toEqual(3);
       expect(replaced.get(0)).not.toEqual(statsItem);
       expect(replaced.get(1)).not.toEqual(statsItem);
       expect(replaced.get(2)).toEqual(statsItem);
@@ -130,7 +130,7 @@ describe('StatsItems', () => {
 
       const removed: StatsItems = statsItems.remove(statsItem1);
 
-      expect(removed.length()).toEqual(2);
+      expect(removed.size()).toEqual(2);
       expect(removed.get(0)).toEqual(statsItem2);
       expect(removed.get(1)).toEqual(statsItem3);
     });
@@ -224,6 +224,24 @@ describe('StatsItems', () => {
     });
   });
 
+  describe('contains', () => {
+    it('return true if the element exists in the Colors', () => {
+      const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
+      const statsItem2: StatsItem = StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]));
+      const statsItem3: StatsItem = StatsItem.from(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 3'), StatsValues.of([]));
+      const statsItem4: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
+      const statsItems: StatsItems = StatsItems.from([
+        statsItem1,
+        statsItem2
+      ]);
+
+      expect(statsItems.contains(statsItem1)).toEqual(true);
+      expect(statsItems.contains(statsItem2)).toEqual(true);
+      expect(statsItems.contains(statsItem3)).toEqual(false);
+      expect(statsItems.contains(statsItem4)).toEqual(true);
+    });
+  });
+
   describe('copy', () => {
     it('deeply copied', () => {
       const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
@@ -241,6 +259,23 @@ describe('StatsItems', () => {
       expect(copied.get(0)).toEqual(statsItem1);
       expect(copied.get(1)).toEqual(statsItem2);
       expect(copied.get(2)).toEqual(statsItem3);
+    });
+  });
+
+  describe('isEmpty', () => {
+    it('return true if the elements are 0', () => {
+      const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
+      const statsItem2: StatsItem = StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]));
+
+      const statsItems1: StatsItems = StatsItems.from([
+        statsItem1,
+        statsItem2
+      ]);
+      const statsItems2: StatsItems = StatsItems.from([
+      ]);
+
+      expect(statsItems1.isEmpty()).toEqual(false);
+      expect(statsItems2.isEmpty()).toEqual(true);
     });
   });
 
@@ -343,7 +378,7 @@ describe('StatsItems', () => {
 
       const items: StatsItems = StatsItems.fromJSON(json);
 
-      expect(items.length()).toEqual(2);
+      expect(items.size()).toEqual(2);
       expect(items.get(0).getStatsItemID().get()).toEqual(json[0].statsItemID);
       expect(items.get(0).getName().get()).toEqual(json[0].name);
       expect(items.get(1).getStatsItemID().get()).toEqual(json[1].statsItemID);

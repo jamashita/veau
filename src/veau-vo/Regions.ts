@@ -1,10 +1,10 @@
-import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { Collection } from '../../veau-general/Collection';
-import { JSONable } from '../../veau-general/JSONable';
-import { Enumerator } from '../../veau-general/Type/Enumerator';
-import { Mapper } from '../../veau-general/Type/Mapper';
-import { Predicate } from '../../veau-general/Type/Predicate';
-import { Region, RegionJSON, RegionRow } from '../Region';
+import { NoSuchElementError } from '../veau-error/NoSuchElementError';
+import { Collection } from '../veau-general/Collection';
+import { JSONable } from '../veau-general/JSONable';
+import { Enumerator } from '../veau-general/Type/Enumerator';
+import { Mapper } from '../veau-general/Type/Mapper';
+import { Predicate } from '../veau-general/Type/Predicate';
+import { Region, RegionJSON, RegionRow } from './Region';
 
 export class Regions implements Collection<number, Region>, JSONable {
   private regions: Array<Region>;
@@ -67,7 +67,7 @@ export class Regions implements Collection<number, Region>, JSONable {
     return this.regions.length;
   }
 
-  public forEach(enumerator: Enumerator<Region>): void {
+  public forEach(enumerator: Enumerator<number, Region>): void {
     this.regions.forEach(enumerator);
   }
 

@@ -1,6 +1,6 @@
 import 'jest';
 import sinon, { SinonStub } from 'sinon';
-import { StatsItems } from '../../veau-entity/collection/StatsItems';
+import { StatsItems } from '../../veau-entity/StatsItems';
 import { veauMySQL } from '../../veau-infrastructure/VeauMySQL';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsItemQuery } from '../StatsItemQuery';
@@ -56,7 +56,7 @@ describe('StatsItemQuery', () => {
       const statsItemQuery: StatsItemQuery = StatsItemQuery.getInstance();
       const statsItems: StatsItems = await statsItemQuery.findByStatsID(StatsID.of(statsID));
 
-      expect(statsItems.length()).toEqual(3);
+      expect(statsItems.size()).toEqual(3);
       expect(statsItems.get(0).getStatsItemID().get()).toEqual('c0e18d31-d026-4a84-af4f-d5d26c520600');
       expect(statsItems.get(0).getName().get()).toEqual('name1');
       expect(statsItems.get(0).getValues().size()).toEqual(3);

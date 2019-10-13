@@ -1,11 +1,12 @@
 import moment from 'moment';
-import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { JSONable } from '../../veau-general/JSONable';
-import { Enumerator } from '../../veau-general/Type/Enumerator';
-import { StatsItemName } from '../../veau-vo/StatsItemName';
-import { StatsItem, StatsItemJSON } from '../StatsItem';
+import { NoSuchElementError } from '../veau-error/NoSuchElementError';
+import { Collection } from '../veau-general/Collection';
+import { JSONable } from '../veau-general/JSONable';
+import { Enumerator } from '../veau-general/Type/Enumerator';
+import { StatsItemName } from '../veau-vo/StatsItemName';
+import { StatsItem, StatsItemJSON } from './StatsItem';
 
-export class StatsItems implements JSONable {
+export class StatsItems implements Collection<number, StatsItem>, JSONable {
   private items: Array<StatsItem>;
 
   public static from(items: Array<StatsItem>): StatsItems {
@@ -112,11 +113,27 @@ export class StatsItems implements JSONable {
     return new StatsItems(items);
   }
 
-  public length(): number {
+  public contains(value: StatsItem): boolean {
+    const found: StatsItem | undefined = this.items.find((item: StatsItem): boolean => {
+      if (value.equals(item)) {
+        return true;
+      }
+
+      return false;
+    });
+
+    if (found === undefined) {
+      return false;
+    }
+
+    return true;
+  }
+
+  public size(): number {
     return this.items.length;
   }
 
-  public forEach(enumerator: Enumerator<StatsItem>): void {
+  public forEach(enumerator: Enumerator<number, StatsItem>): void {
     this.items.forEach(enumerator);
   }
 
@@ -156,11 +173,18 @@ export class StatsItems implements JSONable {
     return true;
   }
 
-
   public copy(): StatsItems {
     return new StatsItems(this.items.map<StatsItem>((statsItem: StatsItem): StatsItem => {
       return statsItem.copy();
     }));
+  }
+
+  public isEmpty(): boolean {
+    if (this.items.length === 0) {
+      return true;
+    }
+
+    return false;
   }
 
   public equals(other: StatsItems): boolean {
@@ -169,7 +193,7 @@ export class StatsItems implements JSONable {
     }
 
     const length: number = this.items.length;
-    if (length !== other.length()) {
+    if (length !== other.size()) {
       return false;
     }
     for (let i: number = 0; i < length; i++) {
@@ -187,7 +211,7 @@ export class StatsItems implements JSONable {
     }
 
     const length: number = this.items.length;
-    if (length !== other.length()) {
+    if (length !== other.size()) {
       return false;
     }
 

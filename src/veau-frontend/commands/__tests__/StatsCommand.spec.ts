@@ -1,8 +1,8 @@
 import { BAD_REQUEST, CREATED } from 'http-status';
 import 'jest';
 import sinon, { SinonStub } from 'sinon';
-import { StatsItems } from '../../../veau-entity/collection/StatsItems';
 import { Stats } from '../../../veau-entity/Stats';
+import { StatsItems } from '../../../veau-entity/StatsItems';
 import { Term } from '../../../veau-enum/Term';
 import { AJAXError } from '../../../veau-error/AJAXError';
 import { AJAX } from '../../../veau-general/AJAX';

@@ -4,9 +4,9 @@ import { RegionCommand } from '../../veau-command/RegionCommand';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { veauMySQL } from '../../veau-infrastructure/VeauMySQL';
 import { veauRedis } from '../../veau-infrastructure/VeauRedis';
-import { Regions } from '../../veau-vo/collection/Regions';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { Region } from '../../veau-vo/Region';
+import { Regions } from '../../veau-vo/Regions';
 import { RegionQuery } from '../RegionQuery';
 
 describe('RegionQuery', () => {

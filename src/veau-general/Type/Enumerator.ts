@@ -1,1 +1,1 @@
-export type Enumerator<T> = (value: T, index: number) => void;
+export type Enumerator<K, V> = (value: V, key: K) => void;

@@ -1,14 +1,14 @@
 import 'jest';
-import { Term } from '../../../veau-enum/Term';
-import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
-import { Language } from '../../Language';
-import { Region } from '../../Region';
-import { StatsID } from '../../StatsID';
-import { StatsName } from '../../StatsName';
-import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from '../../StatsOutline';
-import { StatsUnit } from '../../StatsUnit';
-import { UpdatedAt } from '../../UpdatedAt';
+import { Term } from '../../veau-enum/Term';
+import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { Language } from '../Language';
+import { Region } from '../Region';
+import { StatsID } from '../StatsID';
+import { StatsName } from '../StatsName';
+import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from '../StatsOutline';
 import { StatsOutlines } from '../StatsOutlines';
+import { StatsUnit } from '../StatsUnit';
+import { UpdatedAt } from '../UpdatedAt';
 
 describe('StatsOutlines', () => {
   describe('get', () => {

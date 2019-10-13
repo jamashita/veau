@@ -1,15 +1,15 @@
 import 'jest';
-import { Languages } from '../../collection/Languages';
-import { Regions } from '../../collection/Regions';
-import { ISO3166 } from '../../ISO3166';
-import { ISO639 } from '../../ISO639';
-import { Language, LanguageJSON } from '../../Language';
-import { LanguageID } from '../../LanguageID';
-import { LanguageName } from '../../LanguageName';
-import { Region, RegionJSON } from '../../Region';
-import { RegionID } from '../../RegionID';
-import { RegionName } from '../../RegionName';
+import { ISO3166 } from '../ISO3166';
+import { ISO639 } from '../ISO639';
+import { Language, LanguageJSON } from '../Language';
+import { LanguageID } from '../LanguageID';
+import { LanguageName } from '../LanguageName';
+import { Languages } from '../Languages';
 import { Locale } from '../Locale';
+import { Region, RegionJSON } from '../Region';
+import { RegionID } from '../RegionID';
+import { RegionName } from '../RegionName';
+import { Regions } from '../Regions';
 
 describe('Locale', () => {
   describe('equals', () => {

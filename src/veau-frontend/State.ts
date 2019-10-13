@@ -1,9 +1,9 @@
 import { RouterState } from 'connected-react-router';
 import { Stats } from '../veau-entity/Stats';
 import { StatsItem } from '../veau-entity/StatsItem';
-import { Locale } from '../veau-vo/aggregate/Locale';
-import { StatsOutlines } from '../veau-vo/collection/StatsOutlines';
 import { EntranceInformation } from '../veau-vo/EntranceInformation';
+import { Locale } from '../veau-vo/Locale';
+import { StatsOutlines } from '../veau-vo/StatsOutlines';
 import { VeauAccount } from '../veau-vo/VeauAccount';
 import { LoadingCount } from './reducers/loadingCount';
 import { Modal } from './reducers/modal';

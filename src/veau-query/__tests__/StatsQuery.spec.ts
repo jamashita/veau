@@ -1,11 +1,11 @@
 import 'jest';
 import sinon, { SinonStub } from 'sinon';
-import { StatsItems } from '../../veau-entity/collection/StatsItems';
 import { Stats } from '../../veau-entity/Stats';
+import { StatsItems } from '../../veau-entity/StatsItems';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { veauMySQL } from '../../veau-infrastructure/VeauMySQL';
-import { StatsValues } from '../../veau-vo/collection/StatsValues';
 import { StatsID } from '../../veau-vo/StatsID';
+import { StatsValues } from '../../veau-vo/StatsValues';
 import { StatsQuery } from '../StatsQuery';
 
 describe('StatsQuery', () => {
@@ -89,7 +89,7 @@ describe('StatsQuery', () => {
       expect(stats.getUpdatedAt().getString()).toEqual('2000-01-01 00:00:00');
 
       const items: StatsItems = stats.getItems();
-      expect(items.length()).toEqual(3);
+      expect(items.size()).toEqual(3);
       expect(items.get(0).getStatsItemID().get()).toEqual('c0e18d31-d026-4a84-af4f-d5d26c520600');
       expect(items.get(0).getName().get()).toEqual('name1');
 
