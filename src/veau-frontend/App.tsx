@@ -4,6 +4,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { Supplier } from '../veau-general/Type/Supplier';
 import { View } from './components/View';
 import { I18NProvider } from './containers/I18NProvider';
 import { history } from './history';
@@ -26,16 +27,18 @@ const muiTheme: Theme = createMuiTheme({
   }
 });
 
-const app: React.ReactElement = (
-  <MuiThemeProvider theme={muiTheme}>
-    <Provider store={store}>
-      <I18NProvider>
-        <ConnectedRouter history={history}>
-          <View />
-        </ConnectedRouter>
-      </I18NProvider>
-    </Provider>
-  </MuiThemeProvider>
-);
+const app: Supplier<React.ReactElement> = (): React.ReactElement => {
+  return (
+    <MuiThemeProvider theme={muiTheme}>
+      <Provider store={store}>
+        <I18NProvider>
+          <ConnectedRouter history={history}>
+            <View />
+          </ConnectedRouter>
+        </I18NProvider>
+      </Provider>
+    </MuiThemeProvider>
+  );
+};
 
-ReactDOM.render(app, document.getElementById('app'));
+ReactDOM.render(app(), document.getElementById('app'));
