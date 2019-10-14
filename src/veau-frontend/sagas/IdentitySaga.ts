@@ -2,7 +2,7 @@ import { SagaIterator } from 'redux-saga';
 import { fork, put, select, take } from 'redux-saga/effects';
 import { AJAXError } from '../../veau-error/AJAXError';
 import { UnauthorizedError } from '../../veau-error/UnauthorizedError';
-import { LanguageIdentifier } from '../../veau-service/LanguageIdentifier';
+import { LanguageIdentificationService } from '../../veau-service/LanguageIdentificationService';
 import { AccountName } from '../../veau-vo/AccountName';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language } from '../../veau-vo/Language';
@@ -54,7 +54,7 @@ export class IdentitySaga {
         yield put(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
       }
       if (err1 instanceof UnauthorizedError) {
-        const newLanguage: string = LanguageIdentifier.toISO639(navigator.language);
+        const newLanguage: string = LanguageIdentificationService.toISO639(navigator.language);
         const iso639: ISO639 = ISO639.of(newLanguage);
         const state: State = yield select();
 

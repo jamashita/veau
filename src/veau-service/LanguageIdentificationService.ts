@@ -1,4 +1,4 @@
-export class LanguageIdentifier {
+export class LanguageIdentificationService {
 
   private static split(language: string): string {
     return language.split('-')[0];
@@ -14,11 +14,11 @@ export class LanguageIdentifier {
         return smallLocale;
       }
       default: {
-        const lang: string = LanguageIdentifier.split(smallLocale);
+        const lang: string = LanguageIdentificationService.split(smallLocale);
         if (lang === smallLocale) {
           return 'en';
         }
-        return LanguageIdentifier.toISO639(lang);
+        return LanguageIdentificationService.toISO639(lang);
       }
     }
   }
