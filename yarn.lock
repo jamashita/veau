@@ -8694,10 +8694,10 @@ recharts-scale@^0.4.2:
   dependencies:
     decimal.js-light "^2.4.1"
 
-recharts@1.7.1:
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/recharts/-/recharts-1.7.1.tgz#bed7c9427fa0049090447070af185557f5569b06"
-  integrity sha512-i4vK/ZSICr+dXGmaijuNybc+xhctiX0464xnqauY+OvE6WvU5v+0GYciQvD/HJSObkKG4wY8aRtiuUL9YtXnHQ==
+recharts@1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/recharts/-/recharts-1.8.0.tgz#1ce6e2a252f27461db4b026b44f5f95ecdb9d84e"
+  integrity sha512-/jyTmG5XXRTUGNXK6e8yr0HcouCJ4G86Oj0XC7i6CVzzY/rgTVUFM3w/+fxCVHFixbOnjuebTueQ5ZcwqMxbNQ==
   dependencies:
     classnames "^2.2.5"
     core-js "^2.5.1"
@@ -10871,10 +10871,10 @@ webpack-stream@5.2.1:
     vinyl "^2.1.0"
     webpack "^4.26.1"
 
-webpack@4.41.1:
-  version "4.41.1"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.41.1.tgz#5388dd3047d680d5d382a84249fd4750e87372fd"
-  integrity sha512-ak7u4tUu/U63sCVxA571IuPZO/Q0pZ9cEXKg+R/woxkDzVovq57uB6L2Hlg/pC8LCU+TWpvtcYwsstivQwMJmw==
+webpack@4.41.2:
+  version "4.41.2"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.41.2.tgz#c34ec76daa3a8468c9b61a50336d8e3303dce74e"
+  integrity sha512-Zhw69edTGfbz9/8JJoyRQ/pq8FYUoY0diOXqW0T6yhgdhCv6wr0hra5DwwWexNRns2Z2+gsnrNcbe9hbGBgk/A==
   dependencies:
     "@webassemblyjs/ast" "1.8.5"
     "@webassemblyjs/helper-module-context" "1.8.5"

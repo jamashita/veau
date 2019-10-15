@@ -46,7 +46,7 @@
     "react-intl": "3.3.2",
     "react-redux": "7.1.1",
     "react-router-dom": "5.1.2",
-    "recharts": "1.7.1",
+    "recharts": "1.8.0",
     "redux": "4.0.4",
     "redux-logger": "3.0.6",
     "redux-saga": "1.1.1",
@@ -112,7 +112,7 @@
     "ts-node": "8.4.1",
     "typescript": "3.6.4",
     "uglifyjs-webpack-plugin": "2.2.0",
-    "webpack": "4.41.1",
+    "webpack": "4.41.2",
     "webpack-cli": "3.3.9",
     "webpack-dev-server": "3.8.2",
     "webpack-stream": "5.2.1"
