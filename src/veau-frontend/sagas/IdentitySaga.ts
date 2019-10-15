@@ -1,5 +1,5 @@
-import { SagaIterator } from 'redux-saga';
-import { fork, put, select, take } from 'redux-saga/effects';
+import { SagaIterator } from '@redux-saga/types';
+import { all, call, fork, put, select, take } from 'redux-saga/effects';
 import { AJAXError } from '../../veau-error/AJAXError';
 import { UnauthorizedError } from '../../veau-error/UnauthorizedError';
 import { LanguageIdentificationService } from '../../veau-service/LanguageIdentificationService';
@@ -30,19 +30,27 @@ export class IdentitySaga {
     yield fork(IdentitySaga.initialize);
   }
 
-  private static *initIdentity(): SagaIterator<unknown> {
+  private static *initIdentity(): SagaIterator<void> {
     try {
       yield put(loading());
 
-      const locale: Locale = yield localeQuery.all();
+      const locale: Locale = yield call((): Promise<Locale> => {
+        return localeQuery.all();
+      });
 
-      yield put(defineLocale(locale));
-      yield put(loaded());
+      yield all([
+        put(defineLocale(locale)),
+        put(loaded())
+      ]);
 
-      const veauAccount: VeauAccount = yield sessionQuery.find();
+      const veauAccount: VeauAccount = yield call((): Promise<VeauAccount> => {
+        return sessionQuery.find();
+      });
 
-      yield put(identityAuthenticated(veauAccount));
-      yield put(identified());
+      yield all([
+        put(identityAuthenticated(veauAccount)),
+        put(identified())
+      ]);
 
       if (location.pathname === Endpoints.ENTRANCE) {
         yield put(pushToStatsList());
@@ -50,8 +58,10 @@ export class IdentitySaga {
     }
     catch (err1) {
       if (err1 instanceof AJAXError) {
-        yield put(loaded());
-        yield put(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
+        yield all([
+          put(loaded()),
+          put(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'))
+        ]);
       }
       if (err1 instanceof UnauthorizedError) {
         const newLanguage: string = LanguageIdentificationService.toISO639(navigator.language);
@@ -63,12 +73,16 @@ export class IdentitySaga {
         } = state;
 
         try {
-          const language: Language = yield localeQuery.findByISO639(iso639);
+          const language: Language = yield call((): Promise<Language> => {
+            return localeQuery.findByISO639(iso639);
+          });
 
           const veauAccount: VeauAccount = VeauAccount.of(identity.getVeauAccountID(), identity.getAccount(), language, identity.getRegion());
 
-          yield put(identityAuthenticated(veauAccount));
-          yield put(pushToEntrance());
+          yield all([
+            put(identityAuthenticated(veauAccount)),
+            put(pushToEntrance())
+          ]);
         }
         catch (err2) {
           yield put(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));

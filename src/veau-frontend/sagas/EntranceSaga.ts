@@ -1,5 +1,5 @@
 import { SagaIterator } from '@redux-saga/types';
-import { fork, put, select, take } from 'redux-saga/effects';
+import { all, call, fork, put, select, take } from 'redux-saga/effects';
 import { AuthenticationFailureError } from '../../veau-error/AuthenticationFailureError';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 import { VeauAccount } from '../../veau-vo/VeauAccount';
@@ -44,12 +44,16 @@ export class EntranceSaga {
       yield put(loading());
 
       try {
-        const veauAccount: VeauAccount = yield sessionQuery.findByEntranceInfo(entranceInformation);
+        const veauAccount: VeauAccount = yield call((): Promise<VeauAccount> => {
+          return sessionQuery.findByEntranceInfo(entranceInformation);
+        });
 
-        yield put(identityAuthenticated(veauAccount));
-        yield put(pushToStatsList());
-        yield put(identified());
-        yield put(loaded());
+        yield all([
+          put(identityAuthenticated(veauAccount)),
+          put(pushToStatsList()),
+          put(identified()),
+          put(loaded())
+        ]);
       }
       catch (err) {
         yield put(loaded());

@@ -1,4 +1,5 @@
-import { fork, put, take } from 'redux-saga/effects';
+import { SagaIterator } from '@redux-saga/types';
+import { all, call, fork, put, take } from 'redux-saga/effects';
 import { ACTION } from '../actions/Action';
 import { initializeIdentity } from '../actions/IdentityAction';
 import { closeProvider } from '../actions/PageProviderAction';
@@ -13,15 +14,19 @@ export class LogoutSaga {
     yield fork(LogoutSaga.logout);
   }
 
-  private static *logout(): IterableIterator<unknown> {
+  private static *logout(): SagaIterator<unknown> {
     while (true) {
       yield take(ACTION.LOGOUT);
 
-      yield sessionCommand.delete();
+      yield call((): Promise<unknown> => {
+        return sessionCommand.delete();
+      });
 
-      yield put(initializeIdentity());
-      yield put(closeProvider());
-      yield put(pushToEntrance());
+      yield all([
+        put(initializeIdentity()),
+        put(closeProvider()),
+        put(pushToEntrance())
+      ]);
     }
   }
 
