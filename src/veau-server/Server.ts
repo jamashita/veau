@@ -7,6 +7,7 @@ import helmet from 'helmet';
 import log4js from 'log4js';
 import passport from 'passport';
 import path from 'path';
+import { ClientOpts, createClient, RedisClient } from 'redis';
 import favicon from 'serve-favicon';
 import 'source-map-support/register';
 import { BaseController } from '../veau-controller/BaseController';
@@ -53,8 +54,13 @@ app.use(log4js.connectLogger(logger, {
   format: ':method :url :status'
 }));
 
+const client: RedisClient = createClient(config.get<ClientOpts>('redis'));
 const RedisStore: connectRedis.RedisStore = connectRedis(expressSession);
-const sessionStore: expressSession.Store = new RedisStore(config.get<connectRedis.RedisStoreOptions>('redis'));
+const sessionStore: expressSession.Store = new RedisStore({
+  // @ts-ignore
+  client,
+  prefix: 'veau::'
+});
 const sessionMiddleware: express.RequestHandler = expressSession({
   secret: 'Ziuye5J4VmwxacL7dvV98dqUqT7HbfTn',
   store: sessionStore,
