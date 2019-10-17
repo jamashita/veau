@@ -966,10 +966,10 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
-"@types/react@16.9.7":
-  version "16.9.7"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.7.tgz#3b50cb38285a79fd325cf185e0d623e3e0dd2893"
-  integrity sha512-cF/zwVSOa/NQ5ZSLwUmAdeARgJkmu94shnqDO0dUOsp5roeS8SXtYv06uKeQMYgMjnP6dXH5CecxL+GibvqEFg==
+"@types/react@16.9.9":
+  version "16.9.9"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.9.tgz#a62c6f40f04bc7681be5e20975503a64fe783c3a"
+  integrity sha512-L+AudFJkDukk+ukInYvpoAPyJK5q1GanFOINOJnM0w6tUgITuWvJ4jyoBPFL7z4/L8hGLd+K/6xR5uUjXu0vVg==
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
@@ -979,10 +979,10 @@
   resolved "https://registry.yarnpkg.com/@types/recharts-scale/-/recharts-scale-1.0.0.tgz#348c9220d6d9062c44a9d585d686644a97f7e25d"
   integrity sha512-HR/PrCcxYb2YHviTqH7CMdL1TUhUZLTUKzfrkMhxm1HTa5mg/QtP8XMiuSPz6dZ6wecazAOu8aYZ5DqkNlgHHQ==
 
-"@types/recharts@1.1.22":
-  version "1.1.22"
-  resolved "https://registry.yarnpkg.com/@types/recharts/-/recharts-1.1.22.tgz#c6982f46391e7769884ae65de535b29df0b8a79e"
-  integrity sha512-li+x9GN3HCwuOK5fXOPFnmjAtPl6N0GsRXZJ6TBStjGrO7pht5c4rRv//pGF7ZUaO2Wr1e+BFv2GsgwBEujA0Q==
+"@types/recharts@1.7.0":
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/@types/recharts/-/recharts-1.7.0.tgz#f4d55949a5fd5efe8618f11fda9069c553b6e7e7"
+  integrity sha512-PQIsas4cXWLzhzVjDy76qHiAUpVhTsnUBeibQ400dEAWWsFBSYzFloAbjriqteH5zRijHpJXfEo/q9j95fPRsQ==
   dependencies:
     "@types/d3-shape" "*"
     "@types/react" "*"
@@ -2444,10 +2444,10 @@ chardet@^0.7.0:
   resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.7.0.tgz#90094849f0937f2eedc2425d0d28a9e5f0cbad9e"
   integrity sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==
 
-check-types@10.1.0:
-  version "10.1.0"
-  resolved "https://registry.yarnpkg.com/check-types/-/check-types-10.1.0.tgz#61e43413f14932720ed2c54c54664f92b9b91663"
-  integrity sha512-whqCEOB2pC6ixIAkhp8E735vg1Mc4hOu0hJlXXlb+hWLYac2AdSiBjietwF8JZ9jLHhkthXmWEiiXnPLD6KWcA==
+check-types@10.1.1:
+  version "10.1.1"
+  resolved "https://registry.yarnpkg.com/check-types/-/check-types-10.1.1.tgz#4feac31c1e3bb97d36d2545816e97410ddbad1f9"
+  integrity sha512-sb68jHQLAzR0kFgfG4swq1XLzp2bIADwBpYjBbKaSvA+O9wJ1BgMKXIPMJvJPzCNuLaTzRYChDDK0OiyePOliQ==
 
 cheerio@^1.0.0-rc.2:
   version "1.0.0-rc.3"
