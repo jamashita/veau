@@ -2444,10 +2444,10 @@ chardet@^0.7.0:
   resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.7.0.tgz#90094849f0937f2eedc2425d0d28a9e5f0cbad9e"
   integrity sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==
 
-check-types@10.1.1:
-  version "10.1.1"
-  resolved "https://registry.yarnpkg.com/check-types/-/check-types-10.1.1.tgz#4feac31c1e3bb97d36d2545816e97410ddbad1f9"
-  integrity sha512-sb68jHQLAzR0kFgfG4swq1XLzp2bIADwBpYjBbKaSvA+O9wJ1BgMKXIPMJvJPzCNuLaTzRYChDDK0OiyePOliQ==
+check-types@10.1.2:
+  version "10.1.2"
+  resolved "https://registry.yarnpkg.com/check-types/-/check-types-10.1.2.tgz#82ccb4e97404c825ba87104357f194da971e5885"
+  integrity sha512-MQWs/Xz4YzFuXUKZ8IirnoUvoVdTXs7vPpIKtaQ+xtKwYGPZOC4u0BEILf/nUVsTVy2vaxOf7tQa/vhL2IBouw==
 
 cheerio@^1.0.0-rc.2:
   version "1.0.0-rc.3"
