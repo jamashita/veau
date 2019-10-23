@@ -27,6 +27,27 @@ describe('Terms', () => {
     });
   });
 
+  describe('contains', () => {
+    it('returns true if the element exists in the Terms', () => {
+      const terms: Terms = Terms.all();
+      const fakeTerm: Term = {} as Term;
+      expect(terms.contains(Term.ANNUAL)).toEqual(true);
+      expect(terms.contains(Term.QUARTERLY)).toEqual(true);
+      expect(terms.contains(Term.MONTHLY)).toEqual(true);
+      expect(terms.contains(Term.WEEKLY)).toEqual(true);
+      expect(terms.contains(Term.DAILY)).toEqual(true);
+      expect(terms.contains(fakeTerm)).toEqual(false);
+    });
+  });
+
+  describe('isEmpty', () => {
+    it('returns true if the elements are 0', () => {
+      const terms: Terms = Terms.all();
+
+      expect(terms.isEmpty()).toEqual(false);
+    });
+  });
+
   describe('equals', () => {
     it('returns true because the instances are quite same', () => {
       const terms1: Terms = Terms.all();
