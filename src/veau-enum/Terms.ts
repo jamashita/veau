@@ -1,8 +1,8 @@
-import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { Collection } from '../../veau-general/Collection';
-import { Enumerator } from '../../veau-general/Type/Enumerator';
-import { Mapper } from '../../veau-general/Type/Mapper';
-import { Term } from '../Term';
+import { NoSuchElementError } from '../veau-error/NoSuchElementError';
+import { Collection } from '../veau-general/Collection';
+import { Enumerator } from '../veau-general/Type/Enumerator';
+import { Mapper } from '../veau-general/Type/Mapper';
+import { Term } from './Term';
 
 export class Terms implements Collection<number, Term> {
   private terms: Array<Term>;

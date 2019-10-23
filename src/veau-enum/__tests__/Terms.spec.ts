@@ -1,6 +1,6 @@
 import 'jest';
-import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
-import { Term } from '../../Term';
+import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { Term } from '../Term';
 import { Terms } from '../Terms';
 
 describe('Terms', () => {
