@@ -92,7 +92,7 @@ describe('StatsValues', () => {
   });
 
   describe('contains', () => {
-    it('return true if the element exists in the Colors', () => {
+    it('returns true if the element exists in the Colors', () => {
       const statsValue1: StatsValue = StatsValue.of(moment('2000-01-01'), 1);
       const statsValue2: StatsValue = StatsValue.of(moment('2000-01-02'), 2);
       const statsValue3: StatsValue = StatsValue.of(moment('2000-01-03'), 3);
@@ -110,7 +110,7 @@ describe('StatsValues', () => {
   });
 
   describe('isEmpty', () => {
-    it('return true if the elements are 0', () => {
+    it('returns true if the elements are 0', () => {
       const statsValue1: StatsValue = StatsValue.of(moment('2000-01-01'), 1);
       const statsValue2: StatsValue = StatsValue.of(moment('2000-01-02'), 2);
       const statsValues1: StatsValues = StatsValues.of([

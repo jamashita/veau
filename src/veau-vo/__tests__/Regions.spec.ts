@@ -34,7 +34,7 @@ describe('Regions', () => {
   });
 
   describe('contains', () => {
-    it('return true if the element exists in the Colors', () => {
+    it('returns true if the element exists in the Colors', () => {
       const region1: Region = Region.of(RegionID.of(1), RegionName.of('region 1'), ISO3166.of('abc'));
       const region2: Region = Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abd'));
       const region3: Region = Region.of(RegionID.of(1), RegionName.of('region 1'), ISO3166.of('abc'));
@@ -50,7 +50,7 @@ describe('Regions', () => {
   });
 
   describe('isEmpty', () => {
-    it('return true if the elements are 0', () => {
+    it('returns true if the elements are 0', () => {
       const region1: Region = Region.of(RegionID.of(1), RegionName.of('region 1'), ISO3166.of('abc'));
       const region2: Region = Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abd'));
 

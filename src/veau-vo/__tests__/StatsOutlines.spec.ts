@@ -42,7 +42,7 @@ describe('StatsOutlines', () => {
   });
 
   describe('contains', () => {
-    it('return true if the element exists in the Colors', () => {
+    it('returns true if the element exists in the Colors', () => {
       const outline1: StatsOutline = StatsOutline.of(StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
       const outline2: StatsOutline = StatsOutline.of(StatsID.of('15620e91-f63a-4aaa-94b7-2844978fa129'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
       const outline3: StatsOutline = StatsOutline.of(StatsID.of('b1524ae3-8e91-4938-9997-579ef7b84602'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
@@ -61,7 +61,7 @@ describe('StatsOutlines', () => {
   });
 
   describe('isEmpty', () => {
-    it('return true if the elements are 0', () => {
+    it('returns true if the elements are 0', () => {
       const outline1: StatsOutline = StatsOutline.of(StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
       const outline2: StatsOutline = StatsOutline.of(StatsID.of('15620e91-f63a-4aaa-94b7-2844978fa129'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
 

@@ -55,7 +55,7 @@ describe('Type', () => {
   });
 
   describe('isBoolean', () => {
-    it('return true when true and false are given', () => {
+    it('returns true when true and false are given', () => {
       expect(Type.isBoolean(null)).toEqual(false);
       expect(Type.isBoolean(undefined)).toEqual(false);
       expect(Type.isBoolean('')).toEqual(false);

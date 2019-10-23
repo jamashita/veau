@@ -225,7 +225,7 @@ describe('StatsItems', () => {
   });
 
   describe('contains', () => {
-    it('return true if the element exists in the Colors', () => {
+    it('returns true if the element exists in the Colors', () => {
       const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
       const statsItem2: StatsItem = StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]));
       const statsItem3: StatsItem = StatsItem.from(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 3'), StatsValues.of([]));
@@ -263,7 +263,7 @@ describe('StatsItems', () => {
   });
 
   describe('isEmpty', () => {
-    it('return true if the elements are 0', () => {
+    it('returns true if the elements are 0', () => {
       const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
       const statsItem2: StatsItem = StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]));
 

@@ -17,7 +17,7 @@ describe('Colors', () => {
   });
 
   describe('contains', () => {
-    it('return true if the element exists in the Colors', () => {
+    it('returns true if the element exists in the Colors', () => {
       const color1: Color = Color.of('#ffffff');
       const color2: Color = Color.of('#000000');
       const color3: Color = Color.of('#ffffff');
@@ -36,7 +36,7 @@ describe('Colors', () => {
   });
 
   describe('isEmpty', () => {
-    it('return true if the elements are 0', () => {
+    it('returns true if the elements are 0', () => {
       const colors1: Colors = Colors.of([
       ]);
       const colors2: Colors = Colors.of([
