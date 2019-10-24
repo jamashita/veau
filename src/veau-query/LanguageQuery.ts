@@ -1,27 +1,33 @@
+import { inject, injectable } from 'inversify';
 import { LanguageCommand } from '../veau-command/LanguageCommand';
+import { TYPE } from '../veau-container/Types';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
-import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
-import { veauRedis } from '../veau-infrastructure/VeauRedis';
+import { MySQL } from '../veau-general/MySQL/MySQL';
+import { Redis } from '../veau-general/Redis/Redis';
 import { ISO639 } from '../veau-vo/ISO639';
 import { Language, LanguageJSON, LanguageRow } from '../veau-vo/Language';
 import { Languages } from '../veau-vo/Languages';
 
-const languageCommand: LanguageCommand = LanguageCommand.getInstance();
-
 const REDIS_KEY: string = 'LANGUAGES';
 
+@injectable()
 export class LanguageQuery {
-  private static instance: LanguageQuery = new LanguageQuery();
+  private mysql: MySQL;
+  private redis: Redis;
+  private languageCommand: LanguageCommand;
 
-  public static getInstance(): LanguageQuery {
-    return LanguageQuery.instance;
-  }
-
-  private constructor() {
+  public constructor(
+    @inject(TYPE.MySQL) mysql: MySQL,
+    @inject(TYPE.Redis) redis: Redis,
+    @inject(TYPE.LanguageCommand) languageCommand: LanguageCommand
+  ) {
+    this.mysql = mysql;
+    this.redis = redis;
+    this.languageCommand = languageCommand;
   }
 
   public async all(): Promise<Languages> {
-    const languagesString: string | null = await veauRedis.getString().get(REDIS_KEY);
+    const languagesString: string | null = await this.redis.getString().get(REDIS_KEY);
 
     if (languagesString !== null) {
       const languageJSONs: Array<LanguageJSON> = JSON.parse(languagesString);
@@ -37,10 +43,10 @@ export class LanguageQuery {
       FORCE INDEX(iso639)
       ORDER BY R1.iso639;`;
 
-    const languageRows: Array<LanguageRow> = await veauMySQL.execute<Array<LanguageRow>>(query);
+    const languageRows: Array<LanguageRow> = await this.mysql.execute<Array<LanguageRow>>(query);
     const languages: Languages = Languages.ofRow(languageRows);
 
-    await languageCommand.insertAll(languages);
+    await this.languageCommand.insertAll(languages);
 
     return languages;
   }

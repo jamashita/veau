@@ -1,5 +1,7 @@
+import { inject, injectable } from 'inversify';
+import { TYPE } from '../veau-container/Types';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
-import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
+import { MySQL } from '../veau-general/MySQL/MySQL';
 import { VeauAccount, VeauAccountRow } from '../veau-vo/VeauAccount';
 
 export type VeauAccountHash = {
@@ -7,14 +9,14 @@ export type VeauAccountHash = {
   hash: string;
 };
 
+@injectable()
 export class VeauAccountQuery {
-  private static instance: VeauAccountQuery = new VeauAccountQuery();
+  private mysql: MySQL;
 
-  public static getInstance(): VeauAccountQuery {
-    return VeauAccountQuery.instance;
-  }
-
-  private constructor() {
+  public constructor(
+    @inject(TYPE.MySQL) mysql: MySQL
+  ) {
+    this.mysql = mysql;
   }
 
   public async findByAccount(account: string): Promise<VeauAccountHash> {
@@ -37,7 +39,7 @@ export class VeauAccountQuery {
       WHERE R1.account = :account
       AND R1.active = true;`;
 
-    const veauAccountRows: Array<VeauAccountRow> = await veauMySQL.execute<Array<VeauAccountRow>>(query, {
+    const veauAccountRows: Array<VeauAccountRow> = await this.mysql.execute<Array<VeauAccountRow>>(query, {
       account
     });
 

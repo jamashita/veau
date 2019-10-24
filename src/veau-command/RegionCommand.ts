@@ -1,28 +1,30 @@
+import { inject, injectable } from 'inversify';
+import { TYPE } from '../veau-container/Types';
 import { CacheError } from '../veau-error/CacheError';
-import { veauRedis } from '../veau-infrastructure/VeauRedis';
+import { Redis } from '../veau-general/Redis/Redis';
 import { Regions } from '../veau-vo/Regions';
 
 const REDIS_KEY: string = 'REGIONS';
 const DURATION: number = 3 * 60 * 60;
 
+@injectable()
 export class RegionCommand {
-  private static instance: RegionCommand = new RegionCommand();
+  private redis: Redis;
 
-  public static getInstance(): RegionCommand {
-    return RegionCommand.instance;
-  }
-
-  private constructor() {
+  public constructor(
+    @inject(TYPE.Redis) redis: Redis
+  ) {
+    this.redis = redis;
   }
 
   public async insertAll(regions: Regions): Promise<unknown> {
-    await veauRedis.getString().set(REDIS_KEY, JSON.stringify(regions.toJSON()));
+    await this.redis.getString().set(REDIS_KEY, JSON.stringify(regions.toJSON()));
 
-    return veauRedis.expires(REDIS_KEY, DURATION);
+    return this.redis.expires(REDIS_KEY, DURATION);
   }
 
   public async deleteAll(): Promise<void> {
-    const ok: boolean = await veauRedis.delete(REDIS_KEY);
+    const ok: boolean = await this.redis.delete(REDIS_KEY);
 
     if (ok) {
       return;

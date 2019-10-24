@@ -8,6 +8,7 @@ import log4js from 'log4js';
 import passport from 'passport';
 import path from 'path';
 import { ClientOpts, createClient, RedisClient } from 'redis';
+import 'reflect-metadata';
 import favicon from 'serve-favicon';
 import 'source-map-support/register';
 import { BaseController } from '../veau-controller/BaseController';

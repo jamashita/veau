@@ -1,20 +1,23 @@
+import { inject, injectable } from 'inversify';
+import { TYPE } from '../veau-container/Types';
 import { Stats, StatsRow } from '../veau-entity/Stats';
 import { StatsItems } from '../veau-entity/StatsItems';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
-import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
+import { MySQL } from '../veau-general/MySQL/MySQL';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsItemQuery } from './StatsItemQuery';
 
-const statsItemQuery: StatsItemQuery = StatsItemQuery.getInstance();
-
+@injectable()
 export class StatsQuery {
-  private static instance: StatsQuery = new StatsQuery();
+  private mysql: MySQL;
+  private statsItemQuery: StatsItemQuery;
 
-  public static getInstance(): StatsQuery {
-    return StatsQuery.instance;
-  }
-
-  private constructor() {
+  public constructor(
+    @inject(TYPE.MySQL) mysql: MySQL,
+    @inject(TYPE.StatsItemQuery) statsItemQuery: StatsItemQuery
+  ) {
+    this.mysql = mysql;
+    this.statsItemQuery = statsItemQuery;
   }
 
   public async findByStatsID(statsID: StatsID): Promise<Stats> {
@@ -38,7 +41,7 @@ export class StatsQuery {
       USING(region_id)
       WHERE R1.stats_id = :statsID;`;
 
-    const statsRows: Array<StatsRow> = await veauMySQL.execute<Array<StatsRow>>(query, {
+    const statsRows: Array<StatsRow> = await this.mysql.execute<Array<StatsRow>>(query, {
       statsID: statsID.get()
     });
 
@@ -46,7 +49,7 @@ export class StatsQuery {
       throw new NoSuchElementError(statsID.toString());
     }
 
-    const items: StatsItems = await statsItemQuery.findByStatsID(statsID);
+    const items: StatsItems = await this.statsItemQuery.findByStatsID(statsID);
 
     return Stats.fromRow(statsRows[0], items);
   }

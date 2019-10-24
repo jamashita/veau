@@ -1,27 +1,33 @@
+import { inject, injectable } from 'inversify';
 import { RegionCommand } from '../veau-command/RegionCommand';
+import { TYPE } from '../veau-container/Types';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
-import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
-import { veauRedis } from '../veau-infrastructure/VeauRedis';
+import { MySQL } from '../veau-general/MySQL/MySQL';
+import { Redis } from '../veau-general/Redis/Redis';
 import { ISO3166 } from '../veau-vo/ISO3166';
 import { Region, RegionJSON, RegionRow } from '../veau-vo/Region';
 import { Regions } from '../veau-vo/Regions';
 
-const regionCommand: RegionCommand = RegionCommand.getInstance();
-
 const REDIS_KEY: string = 'REGIONS';
 
+@injectable()
 export class RegionQuery {
-  private static instance: RegionQuery = new RegionQuery();
+  private mysql: MySQL;
+  private redis: Redis;
+  private regionCommand: RegionCommand;
 
-  public static getInstance(): RegionQuery {
-    return RegionQuery.instance;
-  }
-
-  private constructor() {
+  public constructor(
+    @inject(TYPE.MySQL) mysql: MySQL,
+    @inject(TYPE.Redis) redis: Redis,
+    @inject(TYPE.RegionCommand) regionCommand: RegionCommand
+  ) {
+    this.mysql = mysql;
+    this.redis = redis;
+    this.regionCommand = regionCommand;
   }
 
   public async all(): Promise<Regions> {
-    const regionString: string | null = await veauRedis.getString().get(REDIS_KEY);
+    const regionString: string | null = await this.redis.getString().get(REDIS_KEY);
 
     if (regionString !== null) {
       const regionJSONs: Array<RegionJSON> = JSON.parse(regionString);
@@ -36,10 +42,10 @@ export class RegionQuery {
       FORCE INDEX(iso3166)
       ORDER BY R1.iso3166;`;
 
-    const regionRows: Array<RegionRow> = await veauMySQL.execute<Array<RegionRow>>(query);
+    const regionRows: Array<RegionRow> = await this.mysql.execute<Array<RegionRow>>(query);
     const regions: Regions = Regions.ofRow(regionRows);
 
-    await regionCommand.insertAll(regions);
+    await this.regionCommand.insertAll(regions);
 
     return regions;
   }

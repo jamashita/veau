@@ -1,3 +1,4 @@
+import { injectable } from 'inversify';
 import log4js from 'log4js';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { Digest } from '../veau-general/Digest';
@@ -10,15 +11,8 @@ const veauAccountQuery: VeauAccountQuery = VeauAccountQuery.getInstance();
 const DUMMY_PASSWORD: string = '30DC7JzTgjAd8eXcwytlKCwI6kh1eqdU';
 const DUMMY_HASH: string = '$2b$14$iyzp4FTxFklmPUjQMaNYcOO4Svv6kBEtphNseTlhWQ/SxV0VBKOa.';
 
+@injectable()
 export class AuthenticationInteractor {
-  private static instance: AuthenticationInteractor = new AuthenticationInteractor();
-
-  public static getInstance(): AuthenticationInteractor {
-    return AuthenticationInteractor.instance;
-  }
-
-  private constructor() {
-  }
 
   public async review(account: string, password: string, callback: (error: unknown, account?: unknown) => void): Promise<void> {
     try {

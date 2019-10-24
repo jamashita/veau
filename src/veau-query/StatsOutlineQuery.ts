@@ -1,18 +1,20 @@
-import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
+import { inject, injectable } from 'inversify';
+import { TYPE } from '../veau-container/Types';
+import { MySQL } from '../veau-general/MySQL/MySQL';
 import { Limit } from '../veau-vo/Limit';
 import { Offset } from '../veau-vo/Offset';
 import { StatsOutlineRow } from '../veau-vo/StatsOutline';
 import { StatsOutlines } from '../veau-vo/StatsOutlines';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
 
+@injectable()
 export class StatsOutlineQuery {
-  private static instance: StatsOutlineQuery = new StatsOutlineQuery();
+  private mysql: MySQL;
 
-  public static getInstance(): StatsOutlineQuery {
-    return StatsOutlineQuery.instance;
-  }
-
-  private constructor() {
+  public constructor(
+    @inject(TYPE.MySQL)  mysql: MySQL
+  ) {
+    this.mysql = mysql;
   }
 
   public async findByVeauAccountID(veauAccountID: VeauAccountID, limit: Limit, offset: Offset): Promise<StatsOutlines> {
@@ -38,7 +40,7 @@ export class StatsOutlineQuery {
       LIMIT :limit
       OFFSET :offset;`;
 
-    const statsOutlineRows: Array<StatsOutlineRow> = await veauMySQL.execute<Array<StatsOutlineRow>>(query, {
+    const statsOutlineRows: Array<StatsOutlineRow> = await this.mysql.execute<Array<StatsOutlineRow>>(query, {
       veauAccountID: veauAccountID.get(),
       limit: limit.get(),
       offset: offset.get()

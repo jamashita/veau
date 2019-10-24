@@ -1,28 +1,30 @@
+import { inject, injectable } from 'inversify';
+import { TYPE } from '../veau-container/Types';
 import { CacheError } from '../veau-error/CacheError';
-import { veauRedis } from '../veau-infrastructure/VeauRedis';
+import { Redis } from '../veau-general/Redis/Redis';
 import { Languages } from '../veau-vo/Languages';
 
 const REDIS_KEY: string = 'LANGUAGES';
 const DURATION: number = 3 * 60 * 60;
 
+@injectable()
 export class LanguageCommand {
-  private static instance: LanguageCommand = new LanguageCommand();
+  private redis: Redis;
 
-  public static getInstance(): LanguageCommand {
-    return LanguageCommand.instance;
-  }
-
-  private constructor() {
+  public constructor(
+    @inject(TYPE.Redis) redis: Redis
+  ) {
+    this.redis = redis;
   }
 
   public async insertAll(languages: Languages): Promise<unknown> {
-    await veauRedis.getString().set(REDIS_KEY, JSON.stringify(languages.toJSON()));
+    await this.redis.getString().set(REDIS_KEY, JSON.stringify(languages.toJSON()));
 
-    return veauRedis.expires(REDIS_KEY, DURATION);
+    return this.redis.expires(REDIS_KEY, DURATION);
   }
 
   public async deleteAll(): Promise<void> {
-    const ok: boolean = await veauRedis.delete(REDIS_KEY);
+    const ok: boolean = await this.redis.delete(REDIS_KEY);
 
     if (ok) {
       return;

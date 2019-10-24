@@ -13,19 +13,15 @@ export class StatsUpdateTransaction implements ITransaction {
   private stats: Stats;
   private veauAccountID: VeauAccountID;
 
-  public static getInstance(stats: Stats, veauAccountID: VeauAccountID): StatsUpdateTransaction {
-    return new StatsUpdateTransaction(stats, veauAccountID);
-  }
-
-  private constructor(stats: Stats, veauAccountID: VeauAccountID) {
+  public constructor(stats: Stats, veauAccountID: VeauAccountID) {
     this.stats = stats;
     this.veauAccountID = veauAccountID;
   }
 
   public async with(query: IQuery): Promise<unknown> {
-    const statsCommand: StatsCommand = StatsCommand.getInstance(query);
-    const statsItemCommand: StatsItemCommand = StatsItemCommand.getInstance(query);
-    const statsValueCommand: StatsValueCommand = StatsValueCommand.getInstance(query);
+    const statsCommand: StatsCommand = new StatsCommand(query);
+    const statsItemCommand: StatsItemCommand = new StatsItemCommand(query);
+    const statsValueCommand: StatsValueCommand = new StatsValueCommand(query);
 
     const {
       stats,

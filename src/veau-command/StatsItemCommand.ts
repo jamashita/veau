@@ -5,11 +5,7 @@ import { StatsID } from '../veau-vo/StatsID';
 export class StatsItemCommand {
   private query: IQuery;
 
-  public static getInstance(query: IQuery): StatsItemCommand {
-    return new StatsItemCommand(query);
-  }
-
-  private constructor(query: IQuery) {
+  public constructor(query: IQuery) {
     this.query = query;
   }
 

@@ -1,20 +1,23 @@
+import { inject, injectable } from 'inversify';
+import { TYPE } from '../veau-container/Types';
 import { StatsItem, StatsItemRow } from '../veau-entity/StatsItem';
 import { StatsItems } from '../veau-entity/StatsItems';
-import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
+import { MySQL } from '../veau-general/MySQL/MySQL';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValues } from '../veau-vo/StatsValues';
 import { StatsValueQuery } from './StatsValueQuery';
 
-const statsValueQuery: StatsValueQuery = StatsValueQuery.getInstance();
-
+@injectable()
 export class StatsItemQuery {
-  private static instance: StatsItemQuery = new StatsItemQuery();
+  private mysql: MySQL;
+  private statsValueQuery: StatsValueQuery;
 
-  public static getInstance(): StatsItemQuery {
-    return StatsItemQuery.instance;
-  }
-
-  private constructor() {
+  public constructor(
+    @inject(TYPE.MySQL) mysql: MySQL,
+    @inject(TYPE.StatsValueQuery) statsValueQuery: StatsValueQuery
+  ) {
+    this.mysql = mysql;
+    this.statsValueQuery = statsValueQuery;
   }
 
   public async findByStatsID(statsID: StatsID): Promise<StatsItems> {
@@ -25,11 +28,12 @@ export class StatsItemQuery {
       WHERE R1.stats_id = :statsID
       ORDER BY R1.seq;`;
 
-    const statsItemRows: Array<StatsItemRow> = await veauMySQL.execute<Array<StatsItemRow>>(query, {
+    const statsItemRows: Array<StatsItemRow> = await this.mysql.execute<Array<StatsItemRow>>(query, {
       statsID: statsID.get()
     });
 
-    const valueMap: Map<string, StatsValues> = await statsValueQuery.findByStatsID(statsID);
+    // TODO to StatsValues
+    const valueMap: Map<string, StatsValues> = await this.statsValueQuery.findByStatsID(statsID);
 
     const items: Array<StatsItem> = statsItemRows.map<StatsItem>((statsItemRow: StatsItemRow): StatsItem => {
       const values: StatsValues | undefined = valueMap.get(statsItemRow.statsItemID);

@@ -1,17 +1,19 @@
+import { inject, injectable } from 'inversify';
 import moment from 'moment';
-import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
+import { TYPE } from '../veau-container/Types';
+import { MySQL } from '../veau-general/MySQL/MySQL';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValue, StatsValueRow } from '../veau-vo/StatsValue';
 import { StatsValues } from '../veau-vo/StatsValues';
 
+@injectable()
 export class StatsValueQuery {
-  private static instance: StatsValueQuery = new StatsValueQuery();
+  private mysql: MySQL;
 
-  public static getInstance(): StatsValueQuery {
-    return StatsValueQuery.instance;
-  }
-
-  private constructor() {
+  public constructor(
+    @inject(TYPE.MySQL) mysql: MySQL
+  ) {
+    this.mysql = mysql;
   }
 
   public async findByStatsID(statsID: StatsID): Promise<Map<string, StatsValues>> {
@@ -24,7 +26,7 @@ export class StatsValueQuery {
       USING(stats_item_id)
       WHERE R2.stats_id = :statsID;`;
 
-    const statsValueRows: Array<StatsValueRow> = await veauMySQL.execute<Array<StatsValueRow>>(query, {
+    const statsValueRows: Array<StatsValueRow> = await this.mysql.execute<Array<StatsValueRow>>(query, {
       statsID: statsID.get()
     });
 
