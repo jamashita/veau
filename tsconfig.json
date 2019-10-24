@@ -24,7 +24,11 @@
       "node",
       "jest"
     ],
-    "esModuleInterop": true
+    "esModuleInterop": true,
+
+    /* Experimental Options */
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
   "include": [
     "src/**/*.ts",
