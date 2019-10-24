@@ -1,5 +1,8 @@
 import 'jest';
+import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { container } from '../../veau-container/Container';
+import { TYPE } from '../../veau-container/Types';
 import { CacheError } from '../../veau-error/CacheError';
 import { Redis } from '../../veau-general/Redis/Redis';
 import { RedisString } from '../../veau-general/Redis/RedisString';
@@ -11,6 +14,15 @@ import { Regions } from '../../veau-vo/Regions';
 import { RegionCommand } from '../RegionCommand';
 
 describe('RegionCommand', () => {
+  describe('container', () => {
+    it('must be a singleton', () => {
+      const regionCommand1: RegionCommand = container.get<RegionCommand>(TYPE.RegionCommand);
+      const regionCommand2: RegionCommand = container.get<RegionCommand>(TYPE.RegionCommand);
+
+      expect(regionCommand1).toBe(regionCommand2);
+    });
+  });
+
   describe('insertAll', () => {
     it('normal case', async () => {
       const stub1: SinonStub = sinon.stub();
@@ -24,7 +36,7 @@ describe('RegionCommand', () => {
         Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abc'))
       ]);
 
-      const regionCommand: RegionCommand = RegionCommand.getInstance();
+      const regionCommand: RegionCommand = container.get<RegionCommand>(TYPE.RegionCommand);
       await regionCommand.insertAll(regions);
 
       expect(stub1.withArgs('REGIONS', '[{"regionID":2,"name":"region 2","iso3166":"abc"}]').called).toEqual(true);
@@ -33,14 +45,19 @@ describe('RegionCommand', () => {
   });
 
   describe('deleteAll', () => {
-    it('normal case', () => {
+    it('normal case', async () => {
       const stub: SinonStub = sinon.stub();
       Redis.prototype.delete = stub;
       stub.resolves(true);
 
-      const regionCommand: RegionCommand = RegionCommand.getInstance();
+      const regionCommand: RegionCommand = container.get<RegionCommand>(TYPE.RegionCommand);
 
-      expect(regionCommand.deleteAll()).rejects.not.toThrow(CacheError);
+      try {
+        await regionCommand.deleteAll();
+      }
+      catch (err) {
+        fail(err);
+      }
       expect(stub.withArgs('REGIONS').called).toEqual(true);
     });
 
@@ -49,7 +66,7 @@ describe('RegionCommand', () => {
       Redis.prototype.delete = stub;
       stub.resolves(false);
 
-      const regionCommand: RegionCommand = RegionCommand.getInstance();
+      const regionCommand: RegionCommand = container.get<RegionCommand>(TYPE.RegionCommand);
 
       await expect(regionCommand.deleteAll()).rejects.toThrow(CacheError);
     });

@@ -1,5 +1,8 @@
 import 'jest';
+import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { container } from '../../veau-container/Container';
+import { TYPE } from '../../veau-container/Types';
 import { CacheError } from '../../veau-error/CacheError';
 import { Redis } from '../../veau-general/Redis/Redis';
 import { RedisString } from '../../veau-general/Redis/RedisString';
@@ -11,6 +14,15 @@ import { Languages } from '../../veau-vo/Languages';
 import { LanguageCommand } from '../LanguageCommand';
 
 describe('LanguageCommand', () => {
+  describe('container', () => {
+    it('must be a singleton', () => {
+      const languageCommand1: LanguageCommand = container.get<LanguageCommand>(TYPE.LanguageCommand);
+      const languageCommand2: LanguageCommand = container.get<LanguageCommand>(TYPE.LanguageCommand);
+
+      expect(languageCommand1).toBe(languageCommand2);
+    });
+  });
+
   describe('insertAll', () => {
     it('normal case', async () => {
       const stub1: SinonStub = sinon.stub();
@@ -24,7 +36,7 @@ describe('LanguageCommand', () => {
         Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english 1'), ISO639.of('aa'))
       ]);
 
-      const languageCommand: LanguageCommand = LanguageCommand.getInstance();
+      const languageCommand: LanguageCommand = container.get<LanguageCommand>(TYPE.LanguageCommand);
       await languageCommand.insertAll(languages);
 
       expect(stub1.withArgs('LANGUAGES', '[{"languageID":1,"name":"language 1","englishName":"english 1","iso639":"aa"}]').called).toEqual(true);
@@ -33,14 +45,19 @@ describe('LanguageCommand', () => {
   });
 
   describe('deleteAll', () => {
-    it('normal case', () => {
+    it('normal case', async () => {
       const stub: SinonStub = sinon.stub();
       Redis.prototype.delete = stub;
       stub.resolves(true);
 
-      const languageCommand: LanguageCommand = LanguageCommand.getInstance();
+      const languageCommand: LanguageCommand = container.get<LanguageCommand>(TYPE.LanguageCommand);
 
-      expect(languageCommand.deleteAll()).rejects.not.toThrow(CacheError);
+      try {
+        await languageCommand.deleteAll();
+      }
+      catch (err) {
+        fail(err);
+      }
       expect(stub.withArgs('LANGUAGES').called).toEqual(true);
     });
 
@@ -49,7 +66,7 @@ describe('LanguageCommand', () => {
       Redis.prototype.delete = stub;
       stub.resolves(false);
 
-      const languageCommand: LanguageCommand = LanguageCommand.getInstance();
+      const languageCommand: LanguageCommand = container.get<LanguageCommand>(TYPE.LanguageCommand);
 
       await expect(languageCommand.deleteAll()).rejects.toThrow(CacheError);
     });
