@@ -1,19 +1,31 @@
 import 'jest';
+import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { container } from '../../veau-container/Container';
+import { TYPE } from '../../veau-container/Types';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItems } from '../../veau-entity/StatsItems';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { veauMySQL } from '../../veau-infrastructure/VeauMySQL';
+import { MySQL } from '../../veau-general/MySQL/MySQL';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsValues } from '../../veau-vo/StatsValues';
 import { StatsQuery } from '../StatsQuery';
 
 describe('StatsQuery', () => {
+  describe('container', () => {
+    it('must be a singleton', () => {
+      const statsQuery1: StatsQuery = container.get<StatsQuery>(TYPE.StatsQuery);
+      const statsQuery2: StatsQuery = container.get<StatsQuery>(TYPE.StatsQuery);
+
+      expect(statsQuery1).toBe(statsQuery2);
+    });
+  });
+
   describe('findByStatsID', () => {
     it('normal case', async () => {
       const statsID: string = 'a25a8b7f-c810-4dc0-b94e-e97e74329307';
       const stub: SinonStub = sinon.stub();
-      veauMySQL.execute = stub;
+      MySQL.prototype.execute = stub;
       stub.onCall(0).resolves([
         {
           statsID,
@@ -72,7 +84,7 @@ describe('StatsQuery', () => {
         }
       ]);
 
-      const statsQuery: StatsQuery = StatsQuery.getInstance();
+      const statsQuery: StatsQuery = container.get<StatsQuery>(TYPE.StatsQuery);
       const stats: Stats = await statsQuery.findByStatsID(StatsID.of('a25a8b7f-c810-4dc0-b94e-e97e74329307'));
 
       expect(stats.getStatsID().get()).toEqual('a25a8b7f-c810-4dc0-b94e-e97e74329307');
@@ -121,10 +133,10 @@ describe('StatsQuery', () => {
 
     it('throws error', async () => {
       const stub: SinonStub = sinon.stub();
-      veauMySQL.execute = stub;
+      MySQL.prototype.execute = stub;
       stub.resolves([]);
 
-      const statsQuery: StatsQuery = StatsQuery.getInstance();
+      const statsQuery: StatsQuery = container.get<StatsQuery>(TYPE.StatsQuery);
       await expect(statsQuery.findByStatsID(StatsID.of('a25a8b7f-c810-4dc0-b94e-e97e74329307'))).rejects.toThrow(NoSuchElementError);
     });
   });

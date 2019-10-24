@@ -55,7 +55,6 @@ export class StatsInteractor {
   }
 
   public save(stats: Stats, veauAccountID: VeauAccountID): Promise<unknown> {
-    // TODO
     const statsUpdateTransaction: ITransaction = new StatsUpdateTransaction(stats, veauAccountID);
 
     return this.mysql.transact(statsUpdateTransaction);

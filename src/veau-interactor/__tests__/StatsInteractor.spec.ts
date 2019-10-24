@@ -1,6 +1,9 @@
 import 'jest';
 import moment from 'moment';
+import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+import { container } from '../../veau-container/Container';
+import { TYPE } from '../../veau-container/Types';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { StatsItems } from '../../veau-entity/StatsItems';
@@ -32,6 +35,15 @@ import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { StatsInteractor } from '../StatsInteractor';
 
 describe('StatsInteractor', () => {
+  describe('container', () => {
+    it('must be a singleton', () => {
+      const statsInteractor1: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
+      const statsInteractor2: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
+
+      expect(statsInteractor1).toBe(statsInteractor2)
+    });
+  });
+
   describe('findByStatsID', () => {
     it('normal case', async () => {
       const statsID: StatsID = StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94');
@@ -59,7 +71,7 @@ describe('StatsInteractor', () => {
         items
       ));
 
-      const statsInteractor: StatsInteractor = StatsInteractor.getInstance();
+      const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
       const stats: Stats = await statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94'));
 
       expect(stats.getStatsID()).toEqual(statsID);
@@ -77,7 +89,7 @@ describe('StatsInteractor', () => {
       StatsQuery.prototype.findByStatsID = stub;
       stub.rejects(new NoSuchElementError(''));
 
-      const statsInteractor: StatsInteractor = StatsInteractor.getInstance();
+      const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
 
       await expect(statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94'))).rejects.toThrow(NotFoundError);
     });
@@ -87,7 +99,7 @@ describe('StatsInteractor', () => {
       StatsQuery.prototype.findByStatsID = stub;
       stub.rejects(new Error());
 
-      const statsInteractor: StatsInteractor = StatsInteractor.getInstance();
+      const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
 
       await expect(statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94'))).rejects.toThrow(Error);
     });
@@ -117,7 +129,7 @@ describe('StatsInteractor', () => {
         )
       ]));
 
-      const statsInteractor: StatsInteractor = StatsInteractor.getInstance();
+      const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
       const statsOutlines: StatsOutlines =  await statsInteractor.findByVeauAccountID(VeauAccountID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2'), Page.of(1));
 
       expect(statsOutlines.size()).toEqual(1);
@@ -159,7 +171,7 @@ describe('StatsInteractor', () => {
       const spy: SinonSpy = sinon.spy();
       MySQL.prototype.transact = spy;
 
-      const statsInteractor: StatsInteractor = StatsInteractor.getInstance();
+      const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
       await statsInteractor.save(stats, VeauAccountID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2'));
 
       expect(spy.called).toEqual(true);

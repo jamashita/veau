@@ -1,6 +1,9 @@
 import 'jest';
+import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
-import { veauMySQL } from '../../veau-infrastructure/VeauMySQL';
+import { container } from '../../veau-container/Container';
+import { TYPE } from '../../veau-container/Types';
+import { MySQL } from '../../veau-general/MySQL/MySQL';
 import { Limit } from '../../veau-vo/Limit';
 import { Offset } from '../../veau-vo/Offset';
 import { StatsOutlines } from '../../veau-vo/StatsOutlines';
@@ -8,10 +11,19 @@ import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { StatsOutlineQuery } from '../StatsOutlineQuery';
 
 describe('StatsOutlineQuery', () => {
+  describe('container', () => {
+    it('must be a singleton', () => {
+      const statsOutlineQuery1: StatsOutlineQuery = container.get<StatsOutlineQuery>(TYPE.StatsOutlineQuery);
+      const statsOutlineQuery2: StatsOutlineQuery = container.get<StatsOutlineQuery>(TYPE.StatsOutlineQuery);
+
+      expect(statsOutlineQuery1).toBe(statsOutlineQuery2);
+    });
+  });
+
   describe('findByVeauAccountID', () => {
     it('normal case', async () => {
       const stub: SinonStub = sinon.stub();
-      veauMySQL.execute = stub;
+      MySQL.prototype.execute = stub;
       stub.resolves([
         {
           statsID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
@@ -43,7 +55,7 @@ describe('StatsOutlineQuery', () => {
         }
       ]);
 
-      const statsOutlineQuery: StatsOutlineQuery = StatsOutlineQuery.getInstance();
+      const statsOutlineQuery: StatsOutlineQuery = container.get<StatsOutlineQuery>(TYPE.StatsOutlineQuery);
       const statsOutlines: StatsOutlines = await statsOutlineQuery.findByVeauAccountID(VeauAccountID.of('2ac64841-5267-48bc-8952-ba9ad1cb12d7'), Limit.of(2), Offset.of(0));
 
       expect(statsOutlines.size()).toEqual(2);

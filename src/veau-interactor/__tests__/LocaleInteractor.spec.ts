@@ -1,7 +1,10 @@
 import 'jest';
+import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { LanguageCommand } from '../../veau-command/LanguageCommand';
 import { RegionCommand } from '../../veau-command/RegionCommand';
+import { container } from '../../veau-container/Container';
+import { TYPE } from '../../veau-container/Types';
 import { LanguageQuery } from '../../veau-query/LanguageQuery';
 import { RegionQuery } from '../../veau-query/RegionQuery';
 import { ISO3166 } from '../../veau-vo/ISO3166';
@@ -18,6 +21,15 @@ import { Regions } from '../../veau-vo/Regions';
 import { LocaleInteractor } from '../LocaleInteractor';
 
 describe('LocaleInteractor',  () => {
+  describe('container', () => {
+    it('must be a singleton', () => {
+      const localeInteractor1: LocaleInteractor = container.get<LocaleInteractor>(TYPE.LocaleInteractor);
+      const localeInteractor2: LocaleInteractor = container.get<LocaleInteractor>(TYPE.LocaleInteractor);
+
+      expect(localeInteractor1).toBe(localeInteractor2);
+    });
+  });
+
   describe('all', () => {
     it('normal case', async () => {
       const stub1: SinonStub = sinon.stub();
@@ -33,7 +45,7 @@ describe('LocaleInteractor',  () => {
         Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB'))
       ]));
 
-      const localeInteractor: LocaleInteractor = LocaleInteractor.getInstance();
+      const localeInteractor: LocaleInteractor = container.get<LocaleInteractor>(TYPE.LocaleInteractor);
       const locale: Locale = await localeInteractor.all();
 
       expect(locale.getLanguage(0).getLanguageID().get()).toEqual(1);
@@ -60,7 +72,7 @@ describe('LocaleInteractor',  () => {
       const spy2: SinonSpy = sinon.spy();
       RegionCommand.prototype.deleteAll = spy2;
 
-      const localeInteractor: LocaleInteractor = LocaleInteractor.getInstance();
+      const localeInteractor: LocaleInteractor = container.get<LocaleInteractor>(TYPE.LocaleInteractor);
       await localeInteractor.delete();
 
       expect(spy1.called).toEqual(true);

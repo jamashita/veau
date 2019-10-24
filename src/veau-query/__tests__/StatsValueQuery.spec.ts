@@ -1,15 +1,27 @@
 import 'jest';
+import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
-import { veauMySQL } from '../../veau-infrastructure/VeauMySQL';
+import { container } from '../../veau-container/Container';
+import { TYPE } from '../../veau-container/Types';
+import { MySQL } from '../../veau-general/MySQL/MySQL';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsValues } from '../../veau-vo/StatsValues';
 import { StatsValueQuery } from '../StatsValueQuery';
 
 describe('StatsValueQuery', () => {
+  describe('container', () => {
+    it('must be a singleton', () => {
+      const statsValueQuery1: StatsValueQuery = container.get<StatsValueQuery>(TYPE.StatsValueQuery);
+      const statsValueQuery2: StatsValueQuery = container.get<StatsValueQuery>(TYPE.StatsValueQuery);
+
+      expect(statsValueQuery1).toBe(statsValueQuery2);
+    });
+  });
+
   describe('findByStatsID', () => {
     it('normal case', async () => {
       const stub: SinonStub = sinon.stub();
-      veauMySQL.execute = stub;
+      MySQL.prototype.execute = stub;
       stub.onCall(0).resolves([
         {
           statsItemID: '98d1e9b5-6b18-44de-b615-d8016f49977d',
@@ -38,7 +50,7 @@ describe('StatsValueQuery', () => {
         }
       ]);
 
-      const statsValueQuery: StatsValueQuery = StatsValueQuery.getInstance();
+      const statsValueQuery: StatsValueQuery = container.get<StatsValueQuery>(TYPE.StatsValueQuery);
       const values: Map<string, StatsValues> = await statsValueQuery.findByStatsID(StatsID.of('d4703058-a6ff-420b-95b2-4475beba9027'));
 
       const year2001: StatsValues | undefined = values.get('5318ad74-f15f-4835-9fd7-890be4cce933');

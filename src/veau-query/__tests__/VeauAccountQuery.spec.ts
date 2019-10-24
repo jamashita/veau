@@ -1,14 +1,26 @@
 import 'jest';
+import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
-import { veauMySQL } from '../../veau-infrastructure/VeauMySQL';
+import { container } from '../../veau-container/Container';
+import { TYPE } from '../../veau-container/Types';
+import { MySQL } from '../../veau-general/MySQL/MySQL';
 import { VeauAccount } from '../../veau-vo/VeauAccount';
 import { VeauAccountHash, VeauAccountQuery } from '../VeauAccountQuery';
 
 describe('VeauAccountQuery', () => {
+  describe('container', () => {
+    it('must be a singleton', () => {
+      const veauAccountQuery1: VeauAccountQuery = container.get<VeauAccountQuery>(TYPE.VeauAccountQuery);
+      const veauAccountQuery2: VeauAccountQuery = container.get<VeauAccountQuery>(TYPE.VeauAccountQuery);
+
+      expect(veauAccountQuery1).toBe(veauAccountQuery2);
+    });
+  });
+
   describe('findByAccount', () => {
     it('normal case', async () => {
       const stub: SinonStub = sinon.stub();
-      veauMySQL.execute = stub;
+      MySQL.prototype.execute = stub;
       stub.resolves([
         {
           veauAccountID: '998106de-b2e7-4981-9643-22cd30cd74de',
@@ -24,7 +36,7 @@ describe('VeauAccountQuery', () => {
         }
       ]);
 
-      const veauAccountQuery: VeauAccountQuery = VeauAccountQuery.getInstance();
+      const veauAccountQuery: VeauAccountQuery = container.get<VeauAccountQuery>(TYPE.VeauAccountQuery);
       const veauAccountHash: VeauAccountHash = await veauAccountQuery.findByAccount('account');
       const veauAccount: VeauAccount = veauAccountHash.veauAccount;
 

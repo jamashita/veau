@@ -1,9 +1,11 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
+import { container } from '../veau-container/Container';
+import { TYPE } from '../veau-container/Types';
 import { AuthenticationInteractor } from '../veau-interactor/AuthenticationInteractor';
 import { VeauAccount, VeauAccountJSON } from '../veau-vo/VeauAccount';
 
-const authenticationInteractor: AuthenticationInteractor = AuthenticationInteractor.getInstance();
+const authenticationInteractor: AuthenticationInteractor = container.get<AuthenticationInteractor>(TYPE.AuthenticationInteractor);
 
 passport.use(new LocalStrategy(
   {

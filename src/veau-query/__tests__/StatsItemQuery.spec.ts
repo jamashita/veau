@@ -1,16 +1,28 @@
 import 'jest';
+import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
+import { container } from '../../veau-container/Container';
+import { TYPE } from '../../veau-container/Types';
 import { StatsItems } from '../../veau-entity/StatsItems';
-import { veauMySQL } from '../../veau-infrastructure/VeauMySQL';
+import { MySQL } from '../../veau-general/MySQL/MySQL';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsItemQuery } from '../StatsItemQuery';
 
 describe('StatsItemQuery', () => {
+  describe('container', () => {
+    it('must be a singleton', () => {
+      const statsItemQuery1: StatsItemQuery = container.get<StatsItemQuery>(TYPE.StatsItemQuery);
+      const statsItemQuery2: StatsItemQuery = container.get<StatsItemQuery>(TYPE.StatsItemQuery);
+
+      expect(statsItemQuery1).toBe(statsItemQuery2);
+    });
+  });
+
   describe('normal case', () => {
     it('findByStatsID', async () => {
       const statsID: string = '428a0978-5d01-4da6-96f3-f851cb18e935';
       const stub: SinonStub = sinon.stub();
-      veauMySQL.execute = stub;
+      MySQL.prototype.execute = stub;
       stub.onCall(0).resolves([
         {
           statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
@@ -53,7 +65,7 @@ describe('StatsItemQuery', () => {
         }
       ]);
 
-      const statsItemQuery: StatsItemQuery = StatsItemQuery.getInstance();
+      const statsItemQuery: StatsItemQuery = container.get<StatsItemQuery>(TYPE.StatsItemQuery);
       const statsItems: StatsItems = await statsItemQuery.findByStatsID(StatsID.of(statsID));
 
       expect(statsItems.size()).toEqual(3);
