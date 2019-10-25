@@ -13,7 +13,7 @@ passport.use(new LocalStrategy(
     passwordField: 'password',
     session: true
   },
-  authenticationInteractor.review
+  authenticationInteractor.review()
 ));
 
 passport.serializeUser<VeauAccount, VeauAccountJSON>((account: VeauAccount, done: (err: unknown, json: VeauAccountJSON) => void): void => {

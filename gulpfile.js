@@ -180,7 +180,7 @@ gulp.task('nodemon', (callback) => {
   let started = false;
   return nodemon({
     script: 'dist/veau-server/Server.js',
-    watch: ['src/**/*.ts'],
+    watch: ['dist/**/*.js'],
     ext: 'js',
     exec: 'node',
     stdout: true,

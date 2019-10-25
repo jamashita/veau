@@ -1,5 +1,6 @@
 import { inject, injectable } from 'inversify';
 import log4js from 'log4js';
+import { VerifyFunction } from 'passport-local';
 import { TYPE } from '../veau-container/Types';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { Digest } from '../veau-general/Digest';
@@ -12,7 +13,7 @@ const DUMMY_HASH: string = '$2b$14$iyzp4FTxFklmPUjQMaNYcOO4Svv6kBEtphNseTlhWQ/Sx
 
 @injectable()
 export class AuthenticationInteractor {
-  private veauAccountQuery: VeauAccountQuery;
+  public veauAccountQuery: VeauAccountQuery;
 
   public constructor(
     @inject(TYPE.VeauAccountQuery) veauAccountQuery: VeauAccountQuery
@@ -20,35 +21,37 @@ export class AuthenticationInteractor {
     this.veauAccountQuery = veauAccountQuery;
   }
 
-  public async review(account: string, password: string, callback: (error: unknown, account?: unknown) => void): Promise<void> {
-    try {
-      const accountHash: VeauAccountHash =  await this.veauAccountQuery.findByAccount(account);
+  public review(): VerifyFunction {
 
-      const {
-        veauAccount,
-        hash
-      } = accountHash;
+    return async (account: string, password: string, callback: (error: unknown, account?: unknown) => void): Promise<void> => {
+      try {
+        const accountHash: VeauAccountHash = await this.veauAccountQuery.findByAccount(account);
 
-      const correct: boolean = await Digest.compare(password, hash);
+        const {
+          veauAccount,
+          hash
+        } = accountHash;
 
-      if (correct) {
-        callback(null, veauAccount);
-        return;
-      }
+        const correct: boolean = await Digest.compare(password, hash);
 
-      callback(null, false);
-    }
-    catch (err) {
-      if (err instanceof NoSuchElementError) {
-        // time adjustment
-        await Digest.compare(DUMMY_PASSWORD, DUMMY_HASH);
-        logger.info(`invalid account: ${account} and password: ${password}`);
+        if (correct) {
+          callback(null, veauAccount);
+          return;
+        }
+
         callback(null, false);
-        return;
-      }
+      } catch (err) {
+        if (err instanceof NoSuchElementError) {
+          // time adjustment
+          await Digest.compare(DUMMY_PASSWORD, DUMMY_HASH);
+          logger.info(`invalid account: ${account} and password: ${password}`);
+          callback(null, false);
+          return;
+        }
 
-      logger.fatal(err.message);
-      callback(err);
-    }
+        logger.fatal(err.message);
+        callback(err);
+      }
+    };
   }
 }
