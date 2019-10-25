@@ -30,6 +30,7 @@ export class StatsValueQuery {
       statsID: statsID.get()
     });
 
+    // TODO to StatsValues this logic should be in the first class collection.
     const valueMap: Map<string, StatsValues> = new Map<string, StatsValues>();
 
     statsValueRows.forEach((statsValueRow: StatsValueRow): void => {

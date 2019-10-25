@@ -2,6 +2,7 @@ import { inject, injectable } from 'inversify';
 import { LanguageCommand } from '../veau-command/LanguageCommand';
 import { TYPE } from '../veau-container/Types';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
+import { JSONA } from '../veau-general/JSONA';
 import { MySQL } from '../veau-general/MySQL/MySQL';
 import { Redis } from '../veau-general/Redis/Redis';
 import { ISO639 } from '../veau-vo/ISO639';
@@ -30,7 +31,7 @@ export class LanguageQuery {
     const languagesString: string | null = await this.redis.getString().get(REDIS_KEY);
 
     if (languagesString !== null) {
-      const languageJSONs: Array<LanguageJSON> = JSON.parse(languagesString);
+      const languageJSONs: Array<LanguageJSON> = await JSONA.parse<Array<LanguageJSON>>(languagesString);
       return Languages.ofJSON(languageJSONs);
     }
 

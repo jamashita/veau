@@ -1,6 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { TYPE } from '../veau-container/Types';
 import { CacheError } from '../veau-error/CacheError';
+import { JSONA } from '../veau-general/JSONA';
 import { Redis } from '../veau-general/Redis/Redis';
 import { Regions } from '../veau-vo/Regions';
 
@@ -18,7 +19,8 @@ export class RegionCommand {
   }
 
   public async insertAll(regions: Regions): Promise<unknown> {
-    await this.redis.getString().set(REDIS_KEY, JSON.stringify(regions.toJSON()));
+    const str: string = await JSONA.stringify(regions.toJSON());
+    await this.redis.getString().set(REDIS_KEY, str);
 
     return this.redis.expires(REDIS_KEY, DURATION);
   }

@@ -2,6 +2,7 @@ import { inject, injectable } from 'inversify';
 import { RegionCommand } from '../veau-command/RegionCommand';
 import { TYPE } from '../veau-container/Types';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
+import { JSONA } from '../veau-general/JSONA';
 import { MySQL } from '../veau-general/MySQL/MySQL';
 import { Redis } from '../veau-general/Redis/Redis';
 import { ISO3166 } from '../veau-vo/ISO3166';
@@ -30,7 +31,7 @@ export class RegionQuery {
     const regionString: string | null = await this.redis.getString().get(REDIS_KEY);
 
     if (regionString !== null) {
-      const regionJSONs: Array<RegionJSON> = JSON.parse(regionString);
+      const regionJSONs: Array<RegionJSON> = await JSONA.parse<Array<RegionJSON>>(regionString);
       return Regions.ofJSON(regionJSONs);
     }
 

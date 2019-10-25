@@ -1,6 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { TYPE } from '../veau-container/Types';
 import { CacheError } from '../veau-error/CacheError';
+import { JSONA } from '../veau-general/JSONA';
 import { Redis } from '../veau-general/Redis/Redis';
 import { Languages } from '../veau-vo/Languages';
 
@@ -18,7 +19,8 @@ export class LanguageCommand {
   }
 
   public async insertAll(languages: Languages): Promise<unknown> {
-    await this.redis.getString().set(REDIS_KEY, JSON.stringify(languages.toJSON()));
+    const str: string = await JSONA.stringify(languages.toJSON());
+    await this.redis.getString().set(REDIS_KEY, str);
 
     return this.redis.expires(REDIS_KEY, DURATION);
   }

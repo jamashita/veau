@@ -32,7 +32,7 @@ export class StatsItemQuery {
       statsID: statsID.get()
     });
 
-    // TODO to StatsValues
+    // TODO to StatsValues this logic should be in the first class collection.
     const valueMap: Map<string, StatsValues> = await this.statsValueQuery.findByStatsID(statsID);
 
     const items: Array<StatsItem> = statsItemRows.map<StatsItem>((statsItemRow: StatsItemRow): StatsItem => {
