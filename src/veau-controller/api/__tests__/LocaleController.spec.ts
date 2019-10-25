@@ -4,6 +4,7 @@ import 'jest';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import supertest from 'supertest';
+import { CacheError } from '../../../veau-error/CacheError';
 import { LocaleInteractor } from '../../../veau-interactor/LocaleInteractor';
 import { AccountName } from '../../../veau-vo/AccountName';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
@@ -82,7 +83,7 @@ describe('LocaleController', () => {
     it('throws error', async () => {
       const stub: SinonStub = sinon.stub();
       LocaleInteractor.prototype.delete = stub;
-      stub.rejects();
+      stub.rejects(new CacheError('error'));
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
