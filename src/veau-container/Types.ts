@@ -1,4 +1,4 @@
-export type DITyoe = {
+export type DIType = {
   MySQL: symbol;
   Redis: symbol;
   AuthenticationMiddleware: symbol;
@@ -16,7 +16,7 @@ export type DITyoe = {
   RegionCommand: symbol;
 };
 
-export const TYPE: DITyoe = {
+export const TYPE: DIType = {
   MySQL: Symbol('MySQL'),
   Redis: Symbol('Redis'),
   AuthenticationMiddleware: Symbol('AuthenticationMiddleware'),
