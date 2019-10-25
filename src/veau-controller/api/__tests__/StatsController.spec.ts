@@ -3,6 +3,7 @@ import express from 'express';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'http-status';
 import 'jest';
 import moment from 'moment';
+import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';
 import { Stats } from '../../../veau-entity/Stats';

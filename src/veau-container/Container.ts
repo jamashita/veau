@@ -1,6 +1,7 @@
 import { Container } from 'inversify';
 import { LanguageCommand } from '../veau-command/LanguageCommand';
 import { RegionCommand } from '../veau-command/RegionCommand';
+import { AuthenticationMiddleware } from '../veau-controller/middlewares/AuthenticationMiddleware';
 import { MySQL } from '../veau-general/MySQL/MySQL';
 import { Redis } from '../veau-general/Redis/Redis';
 import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
@@ -21,6 +22,7 @@ export const container: Container = new Container();
 
 container.bind<MySQL>(TYPE.MySQL).toConstantValue(veauMySQL);
 container.bind<Redis>(TYPE.Redis).toConstantValue(veauRedis);
+container.bind<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware).to(AuthenticationMiddleware).inSingletonScope();
 container.bind<AuthenticationInteractor>(TYPE.AuthenticationInteractor).to(AuthenticationInteractor).inSingletonScope();
 container.bind<LocaleInteractor>(TYPE.LocaleInteractor).to(LocaleInteractor).inSingletonScope();
 container.bind<StatsInteractor>(TYPE.StatsInteractor).to(StatsInteractor).inSingletonScope();

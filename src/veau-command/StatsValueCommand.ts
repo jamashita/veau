@@ -6,7 +6,11 @@ import { StatsValue } from '../veau-vo/StatsValue';
 export class StatsValueCommand {
   private query: IQuery;
 
-  public constructor(query: IQuery) {
+  public static of(query: IQuery): StatsValueCommand {
+    return new StatsValueCommand(query);
+  }
+
+  private constructor(query: IQuery) {
     this.query = query;
   }
 

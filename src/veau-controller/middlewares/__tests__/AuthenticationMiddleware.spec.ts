@@ -1,13 +1,25 @@
 import express from 'express';
 import { OK, UNAUTHORIZED } from 'http-status';
 import 'jest';
+import 'reflect-metadata';
 import supertest from 'supertest';
+import { container } from '../../../veau-container/Container';
+import { TYPE } from '../../../veau-container/Types';
 import { AuthenticationMiddleware } from '../AuthenticationMiddleware';
 
 describe('AuthenticationMiddleware', () => {
+  describe('container', () => {
+    it('must be a singleton', () => {
+      const authenticationMiddleware1: AuthenticationMiddleware = container.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
+      const authenticationMiddleware2: AuthenticationMiddleware = container.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
+
+      expect(authenticationMiddleware1).toBe(authenticationMiddleware2);
+    });
+  });
+
   describe('requires', () => {
     it('GET: pass', async () => {
-      const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
+      const authenticationMiddleware: AuthenticationMiddleware = container.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction): void => {
         // @ts-ignore
@@ -24,7 +36,7 @@ describe('AuthenticationMiddleware', () => {
     });
 
     it('GET: blocked', async () => {
-      const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
+      const authenticationMiddleware: AuthenticationMiddleware = container.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
       const app: express.Express = express();
       app.use(authenticationMiddleware.requires());
       app.use((req: express.Request, res: express.Response): void => {
@@ -36,7 +48,7 @@ describe('AuthenticationMiddleware', () => {
     });
 
     it('POST: pass', async () => {
-      const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
+      const authenticationMiddleware: AuthenticationMiddleware = container.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction): void => {
         // @ts-ignore
@@ -53,7 +65,7 @@ describe('AuthenticationMiddleware', () => {
     });
 
     it('POST: blocked', async () => {
-      const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
+      const authenticationMiddleware: AuthenticationMiddleware = container.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
       const app: express.Express = express();
       app.use(authenticationMiddleware.requires());
       app.use((req: express.Request, res: express.Response): void => {
@@ -65,7 +77,7 @@ describe('AuthenticationMiddleware', () => {
     });
 
     it('PUT: pass', async () => {
-      const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
+      const authenticationMiddleware: AuthenticationMiddleware = container.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction): void => {
         // @ts-ignore
@@ -82,7 +94,7 @@ describe('AuthenticationMiddleware', () => {
     });
 
     it('PUT: blocked', async () => {
-      const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
+      const authenticationMiddleware: AuthenticationMiddleware = container.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
       const app: express.Express = express();
       app.use(authenticationMiddleware.requires());
       app.use((req: express.Request, res: express.Response): void => {
@@ -94,7 +106,7 @@ describe('AuthenticationMiddleware', () => {
     });
 
     it('DELETE: pass', async () => {
-      const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
+      const authenticationMiddleware: AuthenticationMiddleware = container.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction): void => {
         // @ts-ignore
@@ -111,7 +123,7 @@ describe('AuthenticationMiddleware', () => {
     });
 
     it('DELETE: blocked', async () => {
-      const authenticationMiddleware: AuthenticationMiddleware = AuthenticationMiddleware.getInstance();
+      const authenticationMiddleware: AuthenticationMiddleware = container.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
       const app: express.Express = express();
       app.use(authenticationMiddleware.requires());
       app.use((req: express.Request, res: express.Response): void => {

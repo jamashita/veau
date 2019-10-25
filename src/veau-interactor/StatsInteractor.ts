@@ -55,7 +55,7 @@ export class StatsInteractor {
   }
 
   public save(stats: Stats, veauAccountID: VeauAccountID): Promise<unknown> {
-    const statsUpdateTransaction: ITransaction = new StatsUpdateTransaction(stats, veauAccountID);
+    const statsUpdateTransaction: ITransaction = StatsUpdateTransaction.of(stats, veauAccountID);
 
     return this.mysql.transact(statsUpdateTransaction);
   }

@@ -1,26 +1,21 @@
 import express from 'express';
 import { UNAUTHORIZED } from 'http-status';
+import { injectable } from 'inversify';
 import { VeauAccount } from '../../veau-vo/VeauAccount';
 
+@injectable()
 export class AuthenticationMiddleware {
-  private static instance: AuthenticationMiddleware = new AuthenticationMiddleware();
-
-  public static getInstance(): AuthenticationMiddleware {
-    return AuthenticationMiddleware.instance;
-  }
-
-  private constructor() {
-  }
 
   public requires(): express.RequestHandler {
+
     return (req: express.Request, res: express.Response, next: express.NextFunction): void => {
-      if (req.user !== undefined) {
-        res.locals.account = req.user as VeauAccount;
-        next();
+      if (req.user === undefined) {
+        res.sendStatus(UNAUTHORIZED);
         return;
       }
 
-      res.sendStatus(UNAUTHORIZED);
+      res.locals.account = req.user as VeauAccount;
+      next();
     };
   }
 }

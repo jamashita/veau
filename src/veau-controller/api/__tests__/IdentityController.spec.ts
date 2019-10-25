@@ -1,6 +1,7 @@
 import express from 'express';
 import { OK } from 'http-status';
 import 'jest';
+import 'reflect-metadata';
 import supertest from 'supertest';
 import { AccountName } from '../../../veau-vo/AccountName';
 import { ISO3166 } from '../../../veau-vo/ISO3166';

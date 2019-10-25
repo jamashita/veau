@@ -6,7 +6,11 @@ import { VeauAccountID } from '../veau-vo/VeauAccountID';
 export class StatsCommand {
   private query: IQuery;
 
-  public constructor(query: IQuery) {
+  public static of(query: IQuery): StatsCommand {
+    return new StatsCommand(query);
+  }
+
+  private constructor(query: IQuery) {
     this.query = query;
   }
 

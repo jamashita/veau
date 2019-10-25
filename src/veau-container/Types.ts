@@ -1,6 +1,9 @@
+import { AuthenticationMiddleware } from '../veau-controller/middlewares/AuthenticationMiddleware';
+
 export type DITyoe = {
   MySQL: symbol;
   Redis: symbol;
+  AuthenticationMiddleware: symbol;
   AuthenticationInteractor: symbol;
   LocaleInteractor: symbol;
   StatsInteractor: symbol;
@@ -18,6 +21,7 @@ export type DITyoe = {
 export const TYPE: DITyoe = {
   MySQL: Symbol('MySQL'),
   Redis: Symbol('Redis'),
+  AuthenticationMiddleware: Symbol('AuthenticationMiddleware'),
   AuthenticationInteractor: Symbol('AuthenticationInteractor'),
   LocaleInteractor: Symbol('LocaleInteractor'),
   StatsInteractor: Symbol('StatsInteractor'),

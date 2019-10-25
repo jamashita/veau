@@ -1,6 +1,7 @@
 import express from 'express';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import 'jest';
+import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import supertest from 'supertest';
 import { LocaleInteractor } from '../../../veau-interactor/LocaleInteractor';
