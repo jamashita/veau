@@ -24,6 +24,15 @@ gulp.task('veau-command', () => {
     .pipe(gulp.dest('dist/veau-command'));
 });
 
+gulp.task('veau-container', () => {
+  return gulp.src(['src/veau-container/**/*.ts'], {
+    since : gulp.lastRun('veau-container')
+  })
+    .pipe(plumber())
+    .pipe(tsc())
+    .pipe(gulp.dest('dist/veau-container'));
+});
+
 gulp.task('veau-controller', () => {
   return gulp.src(['src/veau-controller/**/*.ts'], {
       since : gulp.lastRun('veau-controller')
@@ -204,6 +213,7 @@ gulp.task(
       'font'
     ),
     'veau-command',
+    'veau-container',
     'veau-controller',
     'veau-entity',
     'veau-enum',
@@ -226,6 +236,7 @@ gulp.task(
     'nodemon',
     (callback) => {
       gulp.watch('src/veau-command/**/*.ts', gulp.series('veau-command'));
+      gulp.watch('src/veau-container/**/*.ts', gulp.series('veau-container'));
       gulp.watch('src/veau-controller/**/*.ts', gulp.series('veau-controller'));
       gulp.watch('src/veau-entity/**/*.ts', gulp.series('veau-entity'));
       gulp.watch('src/veau-enum/**/*.ts', gulp.series('veau-enum'));
