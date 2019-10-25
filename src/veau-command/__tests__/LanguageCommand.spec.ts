@@ -19,6 +19,7 @@ describe('LanguageCommand', () => {
       const languageCommand1: LanguageCommand = container.get<LanguageCommand>(TYPE.LanguageCommand);
       const languageCommand2: LanguageCommand = container.get<LanguageCommand>(TYPE.LanguageCommand);
 
+      expect(languageCommand1 instanceof LanguageCommand).toEqual(true);
       expect(languageCommand1).toBe(languageCommand2);
     });
   });

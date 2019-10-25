@@ -18,6 +18,7 @@ describe('RegionQuery', () => {
       const regionQuery1: RegionQuery = container.get<RegionQuery>(TYPE.RegionQuery);
       const regionQuery2: RegionQuery = container.get<RegionQuery>(TYPE.RegionQuery);
 
+      expect(regionQuery1 instanceof RegionQuery).toEqual(true);
       expect(regionQuery1).toBe(regionQuery2);
     });
   });

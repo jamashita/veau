@@ -1,5 +1,3 @@
-import { AuthenticationMiddleware } from '../veau-controller/middlewares/AuthenticationMiddleware';
-
 export type DITyoe = {
   MySQL: symbol;
   Redis: symbol;

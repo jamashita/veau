@@ -26,6 +26,7 @@ describe('LocaleInteractor',  () => {
       const localeInteractor1: LocaleInteractor = container.get<LocaleInteractor>(TYPE.LocaleInteractor);
       const localeInteractor2: LocaleInteractor = container.get<LocaleInteractor>(TYPE.LocaleInteractor);
 
+      expect(localeInteractor1 instanceof LocaleInteractor).toEqual(true);
       expect(localeInteractor1).toBe(localeInteractor2);
     });
   });

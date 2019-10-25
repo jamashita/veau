@@ -18,6 +18,7 @@ describe('LanguageQuery', () => {
       const languageQuery1: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageQuery);
       const languageQuery2: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageQuery);
 
+      expect(languageQuery1 instanceof LanguageQuery).toEqual(true);
       expect(languageQuery1).toBe(languageQuery2);
     });
   });

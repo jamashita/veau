@@ -13,6 +13,7 @@ describe('VeauAccountQuery', () => {
       const veauAccountQuery1: VeauAccountQuery = container.get<VeauAccountQuery>(TYPE.VeauAccountQuery);
       const veauAccountQuery2: VeauAccountQuery = container.get<VeauAccountQuery>(TYPE.VeauAccountQuery);
 
+      expect(veauAccountQuery1 instanceof VeauAccountQuery).toEqual(true);
       expect(veauAccountQuery1).toBe(veauAccountQuery2);
     });
   });

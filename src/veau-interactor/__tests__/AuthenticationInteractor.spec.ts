@@ -14,6 +14,7 @@ describe('AuthenticationInteractor', () => {
       const authenticationInteractor1: AuthenticationInteractor = container.get<AuthenticationInteractor>(TYPE.AuthenticationInteractor);
       const authenticationInteractor2: AuthenticationInteractor = container.get<AuthenticationInteractor>(TYPE.AuthenticationInteractor);
 
+      expect(authenticationInteractor1 instanceof AuthenticationInteractor).toEqual(true);
       expect(authenticationInteractor1).toBe(authenticationInteractor2);
     });
   });

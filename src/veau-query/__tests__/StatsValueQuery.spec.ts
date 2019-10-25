@@ -14,6 +14,7 @@ describe('StatsValueQuery', () => {
       const statsValueQuery1: StatsValueQuery = container.get<StatsValueQuery>(TYPE.StatsValueQuery);
       const statsValueQuery2: StatsValueQuery = container.get<StatsValueQuery>(TYPE.StatsValueQuery);
 
+      expect(statsValueQuery1 instanceof StatsValueQuery).toEqual(true);
       expect(statsValueQuery1).toBe(statsValueQuery2);
     });
   });

@@ -19,6 +19,7 @@ describe('RegionCommand', () => {
       const regionCommand1: RegionCommand = container.get<RegionCommand>(TYPE.RegionCommand);
       const regionCommand2: RegionCommand = container.get<RegionCommand>(TYPE.RegionCommand);
 
+      expect(regionCommand1 instanceof RegionCommand).toEqual(true);
       expect(regionCommand1).toBe(regionCommand2);
     });
   });
