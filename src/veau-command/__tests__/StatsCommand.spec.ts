@@ -39,7 +39,7 @@ describe('StatsCommand', () => {
       );
       const accountID: VeauAccountID = VeauAccountID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87');
 
-      const statsCommand: StatsCommand = StatsCommand.getInstance(query);
+      const statsCommand: StatsCommand = StatsCommand.of(query);
 
       await statsCommand.create(stats, accountID);
 
@@ -72,7 +72,7 @@ describe('StatsCommand', () => {
       const query: IQuery = new QueryMock();
       const statsID: StatsID = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
 
-      const statsCommand: StatsCommand = StatsCommand.getInstance(query);
+      const statsCommand: StatsCommand = StatsCommand.of(query);
 
       await statsCommand.deleteByStatsID(statsID);
 

@@ -18,7 +18,7 @@ describe('StatsValueCommand', () => {
       const statsItemID: StatsItemID = StatsItemID.of('6c3f54e0-bfe5-4b4b-9227-2175604ab739');
       const statsValue: StatsValue = StatsValue.of(moment('2000-01-01'), 1);
 
-      const statsValueCommand: StatsValueCommand = StatsValueCommand.getInstance(query);
+      const statsValueCommand: StatsValueCommand = StatsValueCommand.of(query);
 
       await statsValueCommand.create(statsItemID, statsValue);
 
@@ -42,7 +42,7 @@ describe('StatsValueCommand', () => {
       const query: IQuery = new QueryMock();
       const statsID: StatsID = StatsID.of('59915b56-b930-426c-a146-3b1dde8054cd');
 
-      const statsValueCommand: StatsValueCommand = StatsValueCommand.getInstance(query);
+      const statsValueCommand: StatsValueCommand = StatsValueCommand.of(query);
 
       await statsValueCommand.deleteByStatsID(statsID);
 

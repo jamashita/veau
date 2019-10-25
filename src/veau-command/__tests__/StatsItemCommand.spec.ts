@@ -23,7 +23,7 @@ describe('StatsItemCommand', () => {
         StatsValues.of([])
       );
 
-      const statsItemCommand: StatsItemCommand = StatsItemCommand.getInstance(query);
+      const statsItemCommand: StatsItemCommand = StatsItemCommand.of(query);
 
       await statsItemCommand.create(statsID, statsItem, 1);
 
@@ -49,7 +49,7 @@ describe('StatsItemCommand', () => {
       const query: IQuery = new QueryMock();
       const statsID: StatsID = StatsID.of('59915b56-b930-426c-a146-3b1dde8054cd');
 
-      const statsItemCommand: StatsItemCommand = StatsItemCommand.getInstance(query);
+      const statsItemCommand: StatsItemCommand = StatsItemCommand.of(query);
 
       await statsItemCommand.deleteByStatsID(statsID);
 
