@@ -1,9 +1,11 @@
-import moment from 'moment';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { Collection } from '../veau-general/Collection';
 import { JSONable } from '../veau-general/JSONable';
 import { Enumerator } from '../veau-general/Type/Enumerator';
-import { StatsValue, StatsValueJSON } from './StatsValue';
+import { AsOf } from './AsOf';
+import { NumericalValue } from './NumericalValue';
+import { StatsItemID } from './StatsItemID';
+import { StatsValue, StatsValueJSON, StatsValueRow } from './StatsValue';
 
 export class StatsValues implements Collection<number, StatsValue>, JSONable {
   private values: Array<StatsValue>;
@@ -12,14 +14,15 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable {
     return new StatsValues(values);
   }
 
-  public static ofJSON(statsValues: Array<StatsValueJSON>): StatsValues {
+  public static ofJSON(statsItemID: StatsItemID, statsValues: Array<StatsValueJSON>): StatsValues {
     return StatsValues.of(statsValues.map<StatsValue>((statsValue: StatsValueJSON): StatsValue => {
-      const {
-        asOf,
-        value
-      } = statsValue;
+      return StatsValue.ofJSON(statsItemID, statsValue);
+    }));
+  }
 
-      return StatsValue.of(moment(asOf), value);
+  public static ofRow(statsValues: Array<StatsValueRow>): StatsValues {
+    return StatsValues.of(statsValues.map<StatsValue>((statsValue: StatsValueRow): StatsValue => {
+      return StatsValue.ofRow(statsValue);
     }));
   }
 
@@ -46,7 +49,7 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable {
         newValues.push(value);
         return;
       }
-      if (statsValue.getAsOf().isSame(value.getAsOf())) {
+      if (statsValue.getAsOf().equals(value.getAsOf())) {
         newValues.push(statsValue);
         isSet = true;
         return;
@@ -69,9 +72,9 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable {
     return new StatsValues(newValues);
   }
 
-  public delete(asOf: moment.Moment): StatsValues {
+  public delete(asOf: AsOf): StatsValues {
     const newValues: Array<StatsValue> = this.values.filter((value: StatsValue): boolean => {
-      if (asOf.isSame(value.getAsOf())) {
+      if (asOf.equals(value.getAsOf())) {
         return false;
       }
 
@@ -105,14 +108,14 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable {
     this.values.forEach(enumerator);
   }
 
-  public getValues(): Array<number> {
-    return this.values.map<number>((value: StatsValue): number => {
+  public getValues(): Array<NumericalValue> {
+    return this.values.map<NumericalValue>((value: StatsValue): NumericalValue => {
       return value.getValue();
     });
   }
 
-  public getAsOfs(): Array<moment.Moment> {
-    return this.values.map<moment.Moment>((value: StatsValue): moment.Moment => {
+  public getAsOfs(): Array<AsOf> {
+    return this.values.map<AsOf>((value: StatsValue): AsOf => {
       return value.getAsOf();
     });
   }

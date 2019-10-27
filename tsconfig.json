@@ -36,8 +36,7 @@
   ],
   "exclude": [
     "dist",
-    "node_modules",
-    "src/**/*.spec.ts"
+    "node_modules"
   ],
   "files": [
     "src/@types/VeauAccount.d.ts"
