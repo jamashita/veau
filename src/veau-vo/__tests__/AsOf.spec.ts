@@ -23,6 +23,17 @@ describe('AsOf', () => {
     });
   });
 
+  describe('isBefore', () => {
+    it('returns true if the value is before than the other', () => {
+      const asOf1: AsOf = AsOf.ofString('2000-01-02 00:00:00');
+      const asOf2: AsOf = AsOf.ofString('2000-01-03 00:00:00');
+      const asOf3: AsOf = AsOf.ofString('2000-01-04 00:00:00');
+
+      expect(asOf2.isBefore(asOf1)).toEqual(false);
+      expect(asOf2.isBefore(asOf3)).toEqual(true);
+    });
+  });
+
   describe('ofString', () => {
     it('normal case', () => {
       expect(() => {

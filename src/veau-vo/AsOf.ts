@@ -33,6 +33,14 @@ export class AsOf extends ValueObject {
     return this.asOf.format(TERM_FORMAT);
   }
 
+  public isBefore(other: AsOf): boolean {
+    if (this.asOf.isBefore(other.get())) {
+      return true;
+    }
+
+    return false;
+  }
+
   public equals(other: AsOf): boolean {
     if (this === other) {
       return true;
