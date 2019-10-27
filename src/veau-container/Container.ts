@@ -20,9 +20,11 @@ import { TYPE } from './Types';
 
 export const container: Container = new Container();
 
+container.bind<LanguageCommand>(TYPE.LanguageCommand).to(LanguageCommand).inSingletonScope();
+container.bind<RegionCommand>(TYPE.RegionCommand).to(RegionCommand).inSingletonScope();
+container.bind<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware).to(AuthenticationMiddleware).inSingletonScope();
 container.bind<MySQL>(TYPE.MySQL).toConstantValue(veauMySQL);
 container.bind<Redis>(TYPE.Redis).toConstantValue(veauRedis);
-container.bind<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware).to(AuthenticationMiddleware).inSingletonScope();
 container.bind<AuthenticationInteractor>(TYPE.AuthenticationInteractor).to(AuthenticationInteractor).inSingletonScope();
 container.bind<LocaleInteractor>(TYPE.LocaleInteractor).to(LocaleInteractor).inSingletonScope();
 container.bind<StatsInteractor>(TYPE.StatsInteractor).to(StatsInteractor).inSingletonScope();
@@ -33,5 +35,3 @@ container.bind<StatsOutlineQuery>(TYPE.StatsOutlineQuery).to(StatsOutlineQuery).
 container.bind<StatsQuery>(TYPE.StatsQuery).to(StatsQuery).inSingletonScope();
 container.bind<StatsValueQuery>(TYPE.StatsValueQuery).to(StatsValueQuery).inSingletonScope();
 container.bind<VeauAccountQuery>(TYPE.VeauAccountQuery).to(VeauAccountQuery).inSingletonScope();
-container.bind<LanguageCommand>(TYPE.LanguageCommand).to(LanguageCommand).inSingletonScope();
-container.bind<RegionCommand>(TYPE.RegionCommand).to(RegionCommand).inSingletonScope();
