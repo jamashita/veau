@@ -1,7 +1,9 @@
 export type DIType = {
+  LanguageCommand: symbol;
+  RegionCommand: symbol;
+  AuthenticationMiddleware: symbol;
   MySQL: symbol;
   Redis: symbol;
-  AuthenticationMiddleware: symbol;
   AuthenticationInteractor: symbol;
   LocaleInteractor: symbol;
   StatsInteractor: symbol;
@@ -12,14 +14,14 @@ export type DIType = {
   StatsQuery: symbol;
   StatsValueQuery: symbol;
   VeauAccountQuery: symbol;
-  LanguageCommand: symbol;
-  RegionCommand: symbol;
 };
 
 export const TYPE: DIType = {
+  LanguageCommand: Symbol('LanguageCommand'),
+  RegionCommand: Symbol('RegionCommand'),
+  AuthenticationMiddleware: Symbol('AuthenticationMiddleware'),
   MySQL: Symbol('MySQL'),
   Redis: Symbol('Redis'),
-  AuthenticationMiddleware: Symbol('AuthenticationMiddleware'),
   AuthenticationInteractor: Symbol('AuthenticationInteractor'),
   LocaleInteractor: Symbol('LocaleInteractor'),
   StatsInteractor: Symbol('StatsInteractor'),
@@ -29,7 +31,5 @@ export const TYPE: DIType = {
   StatsOutlineQuery: Symbol('StatsOutlineQuery'),
   StatsQuery: Symbol('StatsQuery'),
   StatsValueQuery: Symbol('StatsValueQuery'),
-  VeauAccountQuery: Symbol('VeauAccountQuery'),
-  LanguageCommand: Symbol('LanguageCommand'),
-  RegionCommand: Symbol('RegionCommand')
+  VeauAccountQuery: Symbol('VeauAccountQuery')
 };
