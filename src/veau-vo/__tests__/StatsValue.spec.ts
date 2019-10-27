@@ -23,6 +23,17 @@ describe('StatsValue', () => {
     });
   });
 
+  describe('isBefore', () => {
+    it('returns true if the asOf is before than the other StatsValue', () => {
+      const statsValue1: StatsValue = StatsValue.of(StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0'), AsOf.ofString('2000-01-01'), NumericalValue.of(0));
+      const statsValue2: StatsValue = StatsValue.of(StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0'), AsOf.ofString('2000-01-02'), NumericalValue.of(0));
+      const statsValue3: StatsValue = StatsValue.of(StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0'), AsOf.ofString('2000-01-03'), NumericalValue.of(0));
+
+      expect(statsValue2.isBefore(statsValue1)).toEqual(false);
+      expect(statsValue2.isBefore(statsValue3)).toEqual(true);
+    });
+  });
+
   describe('toJSON', () => {
     it('normal case', () => {
       const statsValue: StatsValue = StatsValue.of(StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0'), AsOf.ofString('2000-01-01'), NumericalValue.of(1));
