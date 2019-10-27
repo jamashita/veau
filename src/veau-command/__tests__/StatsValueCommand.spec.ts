@@ -1,8 +1,9 @@
 import 'jest';
-import moment from 'moment';
 import sinon, { SinonStub } from 'sinon';
 import { IQuery } from '../../veau-general/MySQL/IQuery';
 import { QueryMock } from '../../veau-general/MySQL/QueryMock';
+import { AsOf } from '../../veau-vo/AsOf';
+import { NumericalValue } from '../../veau-vo/NumericalValue';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
 import { StatsValue } from '../../veau-vo/StatsValue';
@@ -16,11 +17,11 @@ describe('StatsValueCommand', () => {
 
       const query: IQuery = new QueryMock();
       const statsItemID: StatsItemID = StatsItemID.of('6c3f54e0-bfe5-4b4b-9227-2175604ab739');
-      const statsValue: StatsValue = StatsValue.of(moment('2000-01-01'), 1);
+      const statsValue: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01'), NumericalValue.of(1));
 
       const statsValueCommand: StatsValueCommand = StatsValueCommand.of(query);
 
-      await statsValueCommand.create(statsItemID, statsValue);
+      await statsValueCommand.create(statsValue);
 
       expect(stub.withArgs(`INSERT INTO stats_values VALUES (
       :statsItemID,

@@ -1,6 +1,5 @@
 import { IQuery } from '../veau-general/MySQL/IQuery';
 import { StatsID } from '../veau-vo/StatsID';
-import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsValue } from '../veau-vo/StatsValue';
 
 export class StatsValueCommand {
@@ -14,7 +13,7 @@ export class StatsValueCommand {
     this.query = query;
   }
 
-  public create(statsItemID: StatsItemID, statsValue: StatsValue): Promise<unknown> {
+  public create(statsValue: StatsValue): Promise<unknown> {
     const query: string = `INSERT INTO stats_values VALUES (
       :statsItemID,
       :asOf,
@@ -22,9 +21,9 @@ export class StatsValueCommand {
       );`;
 
     return this.query.execute(query, {
-      statsItemID: statsItemID.get(),
+      statsItemID: statsValue.getStatsItemID().get(),
       asOf: statsValue.getAsOfAsString(),
-      value: statsValue.getValue()
+      value: statsValue.getValue().get()
     });
   }
 
