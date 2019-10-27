@@ -26,7 +26,7 @@ export class UpdatedAt extends ValueObject {
   }
 
   public get(): moment.Moment {
-    return this.at;
+    return moment(this.at);
   }
 
   public getString(): string {

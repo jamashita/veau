@@ -1,8 +1,8 @@
-import moment from 'moment';
 import { JSONable } from '../veau-general/JSONable';
+import { AsOf } from './AsOf';
+import { NumericalValue } from './NumericalValue';
+import { StatsItemID } from './StatsItemID';
 import { ValueObject } from './ValueObject';
-
-const TERM_FORMAT: string = 'YYYY-MM-DD';
 
 export type StatsValueJSON = {
   asOf: string;
@@ -16,39 +16,74 @@ export type StatsValueRow = {
 };
 
 export class StatsValue extends ValueObject implements JSONable {
-  private asOf: moment.Moment;
-  private value: number;
+  private statsItemID: StatsItemID;
+  private asOf: AsOf;
+  private value: NumericalValue;
 
-  public static of(asOf: moment.Moment, value: number): StatsValue {
-    return new StatsValue(asOf, value);
+  public static of(statsItemID: StatsItemID, asOf: AsOf, value: NumericalValue): StatsValue {
+    return new StatsValue(statsItemID, asOf, value);
   }
 
-  private constructor(asOf: moment.Moment, value: number) {
+  public static ofJSON(statsItemID: StatsItemID, json: StatsValueJSON): StatsValue {
+    const {
+      asOf,
+      value
+    } = json;
+
+    return StatsValue.of(statsItemID, AsOf.ofString(asOf), NumericalValue.of(value));
+  }
+
+  public static ofRow(row: StatsValueRow): StatsValue {
+    const {
+      statsItemID,
+      asOf,
+      value
+    } = row;
+
+    return StatsValue.of(StatsItemID.of(statsItemID), AsOf.ofString(asOf), NumericalValue.of(value));
+  }
+
+  private constructor(statsItemID: StatsItemID, asOf: AsOf, value: NumericalValue) {
     super();
-    this.asOf = moment(asOf);
+    this.statsItemID = statsItemID;
+    this.asOf = asOf;
     this.value = value;
   }
 
-  public getAsOf(): moment.Moment {
-    return moment(this.asOf);
+  public getStatsItemID(): StatsItemID {
+    return this.statsItemID;
   }
 
-  public getValue(): number {
+  public getAsOf(): AsOf {
+    return this.asOf;
+  }
+
+  public getValue(): NumericalValue {
     return this.value;
   }
 
   public getAsOfAsString(): string {
-    return this.asOf.format(TERM_FORMAT);
+    return this.asOf.getString();
   }
 
   public equals(other: StatsValue): boolean {
     if (this === other) {
       return true;
     }
-    if (!this.asOf.isSame(other.getAsOf())) {
+
+    const {
+      statsItemID,
+      asOf,
+      value
+    } = this;
+
+    if (!statsItemID.equals(other.getStatsItemID())) {
       return false;
     }
-    if (this.value !== other.getValue()) {
+    if (!asOf.equals(other.getAsOf())) {
+      return false;
+    }
+    if (!value.equals(other.getValue())) {
       return false;
     }
 
@@ -57,20 +92,23 @@ export class StatsValue extends ValueObject implements JSONable {
 
   public toJSON(): StatsValueJSON {
     const {
+      asOf,
       value
     } = this;
 
     return {
-      asOf: this.getAsOfAsString(),
-      value
+      asOf: asOf.getString(),
+      value: value.get()
     };
   }
 
   public toString(): string {
     const {
+      statsItemID,
+      asOf,
       value
     } = this;
 
-    return `${this.getAsOfAsString()} : ${value}`;
+    return `${statsItemID.toString()} ${asOf.toString()} ${value.toString()}`;
   }
 }
