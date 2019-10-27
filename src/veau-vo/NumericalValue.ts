@@ -1,0 +1,33 @@
+import { ValueObject } from './ValueObject';
+
+export class NumericalValue extends ValueObject {
+  private value: number;
+
+  public static of(value: number): NumericalValue {
+    return new NumericalValue(value);
+  }
+
+  private constructor(value: number) {
+    super();
+    this.value = value;
+  }
+
+  public get(): number {
+    return this.value;
+  }
+
+  public equals(other: NumericalValue): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (this.value === other.get()) {
+      return true;
+    }
+
+    return false;
+  }
+
+  public toString(): string {
+    return this.value.toString();
+  }
+}
