@@ -1,6 +1,8 @@
 import { UUID } from '../veau-general/UUID';
 import { AsOf } from '../veau-vo/AsOf';
 import { AsOfs } from '../veau-vo/AsOfs';
+import { NoValue } from '../veau-vo/NoValue';
+import { NumericalValues } from '../veau-vo/NumericalValues';
 import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsItemName } from '../veau-vo/StatsItemName';
 import { StatsValue, StatsValueJSON } from '../veau-vo/StatsValue';
@@ -79,8 +81,8 @@ export class StatsItem extends Entity<StatsItemID> {
     return this.values.getAsOfs();
   }
 
-  public getValuesByColumn(columns: AsOfs): Array<string> {
-    const valuesByColumn: Array<string> = [];
+  public getValuesByColumn(columns: AsOfs): NumericalValues {
+    let valuesByColumn: NumericalValues = NumericalValues.empty();
 
     columns.forEach((column: AsOf): void => {
       let alreadyInput: boolean = false;
@@ -90,13 +92,13 @@ export class StatsItem extends Entity<StatsItemID> {
           return;
         }
         if (column.equals(statsValue.getAsOf())) {
-          valuesByColumn.push(statsValue.getValue().toString());
+          valuesByColumn = valuesByColumn.add(statsValue.getValue());
           alreadyInput = true;
           return;
         }
       });
       if (!alreadyInput) {
-        valuesByColumn.push('');
+        valuesByColumn = valuesByColumn.add(NoValue.of());
       }
     });
 

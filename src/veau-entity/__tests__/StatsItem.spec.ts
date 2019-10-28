@@ -1,6 +1,8 @@
 import 'jest';
 import { AsOf } from '../../veau-vo/AsOf';
+import { AsOfs } from '../../veau-vo/AsOfs';
 import { NumericalValue } from '../../veau-vo/NumericalValue';
+import { NumericalValues } from '../../veau-vo/NumericalValues';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
 import { StatsItemName } from '../../veau-vo/StatsItemName';
 import { StatsValue } from '../../veau-vo/StatsValue';
@@ -81,17 +83,22 @@ describe('StatsItem', () => {
   describe('getValuesByColumn', () => {
     it('returns empty string when the date is empty ', () => {
       const statsItemID: StatsItemID = StatsItemID.of('aa28c422-67e2-41e2-bbe6-a97c7d63c44f');
-      const column: Array<string> = ['2000-01-01', '2000-01-02', '2000-01-03'];
+      const column: AsOfs = AsOfs.of([
+        AsOf.ofString('2000-01-01'),
+        AsOf.ofString('2000-01-02'),
+        AsOf.ofString('2000-01-03')
+      ]);
       const statsItem: StatsItem = StatsItem.from(statsItemID, StatsItemName.of('name 1'), StatsValues.of([
         StatsValue.of(statsItemID, AsOf.ofString('2000-01-01'), NumericalValue.of(1)),
         StatsValue.of(statsItemID, AsOf.ofString('2000-01-03'), NumericalValue.of(3))
       ]));
 
-      expect(statsItem.getValuesByColumn(column)).toEqual([
-        '1',
-        '',
-        '3'
-      ]);
+      const values: NumericalValues = statsItem.getValuesByColumn(column);
+
+      expect(values.size()).toEqual(3);
+      expect(values.get(0).getString()).toEqual('1');
+      expect(values.get(1).getString()).toEqual('');
+      expect(values.get(2).getString()).toEqual('3');
     });
   });
 

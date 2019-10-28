@@ -16,6 +16,10 @@ export class NumericalValue extends ValueObject {
     return this.value;
   }
 
+  public getString(): string {
+    return this.value.toString();
+  }
+
   public equals(other: NumericalValue): boolean {
     if (this === other) {
       return true;
