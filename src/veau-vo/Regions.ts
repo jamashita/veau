@@ -92,7 +92,7 @@ export class Regions implements Collection<number, Region>, JSONable {
       return true;
     }
 
-    const length: number = this.size();
+    const length: number = this.regions.length;
     if (length !== other.size()) {
       return false;
     }

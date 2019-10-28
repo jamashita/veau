@@ -92,7 +92,7 @@ export class Languages implements Collection<number, Language>, JSONable {
       return true;
     }
 
-    const length: number = this.size();
+    const length: number = this.languages.length;
     if (length !== other.size()) {
       return false;
     }
