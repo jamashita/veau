@@ -43,7 +43,7 @@ describe('Page', () => {
   });
 
   describe('of', () => {
-    it('throws error when the argument is less than 1', () => {
+    it('throws RuntimeError when the argument is less than 1', () => {
       expect(() => {
         Page.of(0);
       }).toThrow(RuntimeError);

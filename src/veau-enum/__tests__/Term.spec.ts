@@ -12,7 +12,7 @@ describe('Term', () => {
       expect(Term.of(5)).toEqual(Term.ANNUAL);
     });
 
-    it('throws Error', () => {
+    it('throws RuntimeError', () => {
       expect(() => {
         Term.of(-1);
       }).toThrow(RuntimeError);

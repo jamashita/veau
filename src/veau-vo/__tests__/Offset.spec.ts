@@ -16,7 +16,7 @@ describe('Offset', () => {
   });
 
   describe('of', () => {
-    it('throws error when the argument is less than 0', () => {
+    it('throws RuntimeError when the argument is less than 0', () => {
       expect(() => {
         Offset.of(0);
       }).not.toThrow(RuntimeError);

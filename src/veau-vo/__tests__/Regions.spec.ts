@@ -21,7 +21,7 @@ describe('Regions', () => {
       expect(regions.get(2)).toEqual(region3);
     });
 
-    it('throws error when the index is out of range', () => {
+    it('throws NoSuchElementError when the index is out of range', () => {
       const regions: Regions = Regions.of([]);
 
       expect(() => {

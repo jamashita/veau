@@ -62,7 +62,7 @@ describe('RegionCommand', () => {
       expect(stub.withArgs('REGIONS').called).toEqual(true);
     });
 
-    it('throws error', async () => {
+    it('throws CacheError', async () => {
       const stub: SinonStub = sinon.stub();
       Redis.prototype.delete = stub;
       stub.resolves(false);

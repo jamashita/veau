@@ -16,7 +16,7 @@ describe('Limit', () => {
   });
 
   describe('of', () => {
-    it('throws error when the argument is less than 1', () => {
+    it('throws RuntimeError when the argument is less than 1', () => {
       expect(() => {
         Limit.of(1);
       }).not.toThrow(RuntimeError);

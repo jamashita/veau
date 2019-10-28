@@ -15,7 +15,7 @@ describe('Terms', () => {
       expect(terms.get(4)).toEqual(Term.ANNUAL);
     });
 
-    it('throws error when the index is out of range', () => {
+    it('throws NoSuchElementError when the index is out of range', () => {
       const terms: Terms = Terms.all();
 
       expect(() => {

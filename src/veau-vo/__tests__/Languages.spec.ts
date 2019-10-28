@@ -21,7 +21,7 @@ describe('Languages', () => {
       expect(languages.get(2)).toEqual(language3);
     });
 
-    it('throws error when the index is out of range', () => {
+    it('throws NoSuchElementError when the index is out of range', () => {
       const languages: Languages = Languages.of([]);
 
       expect(() => {
