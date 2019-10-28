@@ -1,9 +1,8 @@
 import { inject, injectable } from 'inversify';
-import moment from 'moment';
 import { TYPE } from '../veau-container/Types';
 import { MySQL } from '../veau-general/MySQL/MySQL';
 import { StatsID } from '../veau-vo/StatsID';
-import { StatsValue, StatsValueRow } from '../veau-vo/StatsValue';
+import { StatsValueRow } from '../veau-vo/StatsValue';
 import { StatsValues } from '../veau-vo/StatsValues';
 
 @injectable()
@@ -16,7 +15,7 @@ export class StatsValueQuery {
     this.mysql = mysql;
   }
 
-  public async findByStatsID(statsID: StatsID): Promise<Map<string, StatsValues>> {
+  public async findByStatsID(statsID: StatsID): Promise<StatsValues> {
     const query: string = `SELECT
       R1.stats_item_id AS statsItemID,
       R1.as_of AS asOf,
@@ -30,29 +29,6 @@ export class StatsValueQuery {
       statsID: statsID.get()
     });
 
-    // TODO to StatsValues this logic should be in the first class collection.
-    const valueMap: Map<string, StatsValues> = new Map<string, StatsValues>();
-
-    statsValueRows.forEach((statsValueRow: StatsValueRow): void => {
-      const {
-        statsItemID,
-        asOf,
-        value
-      } = statsValueRow;
-
-      const statsValue: StatsValue = StatsValue.of(moment(asOf), value);
-      const statsValues: StatsValues | undefined = valueMap.get(statsItemID);
-
-      if (statsValues !== undefined) {
-        valueMap.set(statsItemID, statsValues.set(statsValue));
-        return;
-      }
-
-      valueMap.set(statsItemID, StatsValues.of([
-        statsValue
-      ]));
-    });
-
-    return valueMap;
+    return StatsValues.ofRow(statsValueRows);
   }
 }

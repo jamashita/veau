@@ -10,11 +10,13 @@ import { StatsItems } from '../../veau-entity/StatsItems';
 import { Term } from '../../veau-enum/Term';
 import { IQuery } from '../../veau-general/MySQL/IQuery';
 import { QueryMock } from '../../veau-general/MySQL/QueryMock';
+import { AsOf } from '../../veau-vo/AsOf';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language } from '../../veau-vo/Language';
 import { LanguageID } from '../../veau-vo/LanguageID';
 import { LanguageName } from '../../veau-vo/LanguageName';
+import { NumericalValue } from '../../veau-vo/NumericalValue';
 import { Region } from '../../veau-vo/Region';
 import { RegionID } from '../../veau-vo/RegionID';
 import { RegionName } from '../../veau-vo/RegionName';
@@ -54,13 +56,13 @@ describe('StatsUpdateTransaction', () => {
       const updatedAt: UpdatedAt = UpdatedAt.of(moment());
       const items: StatsItems = StatsItems.from([
         StatsItem.from(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b'), StatsItemName.of('item1'), StatsValues.of([
-          StatsValue.of(moment.utc(), 1),
-          StatsValue.of(moment.utc(), 2)
+          StatsValue.of(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b'), AsOf.ofString('2000-01-01'), NumericalValue.of(1)),
+          StatsValue.of(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b'), AsOf.ofString('2000-01-01'), NumericalValue.of(2))
         ])),
         StatsItem.from(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8'), StatsItemName.of('item2'), StatsValues.of([
-          StatsValue.of(moment.utc(), 3),
-          StatsValue.of(moment.utc(), 4),
-          StatsValue.of(moment.utc(), 5)
+          StatsValue.of(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8'), AsOf.ofString('2000-01-01'), NumericalValue.of(3)),
+          StatsValue.of(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8'), AsOf.ofString('2000-01-01'), NumericalValue.of(4)),
+          StatsValue.of(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8'), AsOf.ofString('2000-01-01'), NumericalValue.of(5))
         ]))
       ]);
 
