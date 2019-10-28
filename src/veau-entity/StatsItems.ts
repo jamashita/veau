@@ -1,8 +1,8 @@
-import moment from 'moment';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { Collection } from '../veau-general/Collection';
 import { JSONable } from '../veau-general/JSONable';
 import { Enumerator } from '../veau-general/Type/Enumerator';
+import { AsOf } from '../veau-vo/AsOf';
 import { StatsItemName } from '../veau-vo/StatsItemName';
 import { StatsItem, StatsItemJSON } from './StatsItem';
 
@@ -48,11 +48,11 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable {
     });
   }
 
-  public getAsOfs(): Array<moment.Moment> {
-    const asOfs: Array<moment.Moment> = [];
+  public getAsOfs(): Array<AsOf> {
+    const asOfs: Array<AsOf> = [];
 
     this.items.forEach((item: StatsItem): void => {
-      item.getAsOfs().forEach((asOf: moment.Moment): void => {
+      item.getAsOfs().forEach((asOf: AsOf): void => {
         asOfs.push(asOf);
       });
     });

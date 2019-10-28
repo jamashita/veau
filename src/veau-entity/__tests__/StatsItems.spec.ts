@@ -1,5 +1,6 @@
 import 'jest';
-import moment from 'moment';
+import { AsOf } from '../../veau-vo/AsOf';
+import { NumericalValue } from '../../veau-vo/NumericalValue';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
 import { StatsItemName } from '../../veau-vo/StatsItemName';
 import { StatsValue } from '../../veau-vo/StatsValue';
@@ -214,9 +215,10 @@ describe('StatsItems', () => {
     });
 
     it('have values', () => {
+      const statsItemID: StatsItemID = StatsItemID.of('bf04b0fa-ed4d-4114-84a3-c963871dfe06');
       const statsItems: StatsItems = StatsItems.from([
-        StatsItem.from(StatsItemID.of('bf04b0fa-ed4d-4114-84a3-c963871dfe06'), StatsItemName.of('item1'), StatsValues.of([
-          StatsValue.of(moment('2000-01-01'), 1)
+        StatsItem.from(statsItemID, StatsItemName.of('item1'), StatsValues.of([
+          StatsValue.of(statsItemID, AsOf.ofString('2000-01-01'), NumericalValue.of(1))
         ]))
       ]);
 
@@ -336,16 +338,16 @@ describe('StatsItems', () => {
         StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 4'), StatsValues.of([]))
       ]);
       const statsItems8: StatsItems = StatsItems.from([
-        StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([StatsValue.of(moment('2000-01-01'), 1)])),
+        StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([StatsValue.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), AsOf.ofString('2000-01-01'), NumericalValue.of(1))])),
         StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]))
       ]);
       const statsItems9: StatsItems = StatsItems.from([
         StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([])),
-        StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([StatsValue.of(moment('2000-01-01'), 1)]))
+        StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([StatsValue.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), AsOf.ofString('2000-01-01'), NumericalValue.of(1))]))
       ]);
       const statsItems10: StatsItems = StatsItems.from([
-        StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([StatsValue.of(moment('2000-01-01'), 1)])),
-        StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([StatsValue.of(moment('2000-01-01'), 1)]))
+        StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([StatsValue.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), AsOf.ofString('2000-01-01'), NumericalValue.of(1))])),
+        StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([StatsValue.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), AsOf.ofString('2000-01-01'), NumericalValue.of(1))]))
       ]);
 
       expect(statsItems1.areSame(statsItems1)).toEqual(true);
