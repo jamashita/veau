@@ -2,6 +2,7 @@ import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { Collection } from '../veau-general/Collection';
 import { JSONable } from '../veau-general/JSONable';
 import { Enumerator } from '../veau-general/Type/Enumerator';
+import { Mapper } from '../veau-general/Type/Mapper';
 import { AsOf } from '../veau-vo/AsOf';
 import { AsOfs } from '../veau-vo/AsOfs';
 import { StatsItemName } from '../veau-vo/StatsItemName';
@@ -136,6 +137,10 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable {
 
   public forEach(enumerator: Enumerator<number, StatsItem>): void {
     this.items.forEach(enumerator);
+  }
+
+  public map<U>(mapper: Mapper<StatsItem, U>): Array<U> {
+    return this.items.map<U>(mapper);
   }
 
   public areFilled(): boolean {

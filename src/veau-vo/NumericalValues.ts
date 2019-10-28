@@ -39,6 +39,12 @@ export class NumericalValues implements Collection<number, NumericalValue> {
     return value;
   }
 
+  public getString(): Array<string> {
+    return this.values.map<string>((value: NumericalValue): string => {
+      return value.getString();
+    });
+  }
+
   public contains(value: NumericalValue): boolean {
     const found: NumericalValue | undefined = this.values.find((val: NumericalValue): boolean => {
       if (value.equals(val)) {

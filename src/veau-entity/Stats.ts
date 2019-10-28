@@ -8,6 +8,7 @@ import { ISO639 } from '../veau-vo/ISO639';
 import { Language, LanguageJSON } from '../veau-vo/Language';
 import { LanguageID } from '../veau-vo/LanguageID';
 import { LanguageName } from '../veau-vo/LanguageName';
+import { NumericalValue } from '../veau-vo/NumericalValue';
 import { Region, RegionJSON } from '../veau-vo/Region';
 import { RegionID } from '../veau-vo/RegionID';
 import { RegionName } from '../veau-vo/RegionName';
@@ -244,28 +245,26 @@ export class Stats extends Entity<StatsID> {
   }
 
   public getData(): Array<Array<string>> {
-    const data: Array<Array<string>> = [];
     const columns: AsOfs = this.getColumns();
 
-    this.items.forEach((item: StatsItem): void => {
-      data.push(item.getValuesByColumn(columns));
+    return this.items.map<Array<string>>((item: StatsItem): Array<string> => {
+      return item.getValuesByColumn(columns).getString();
     });
-
-    return data;
   }
 
-  public setData(row: number, column: number, value: number): void {
-    const asOfString: string = this.getColumns()[column];
-    const asOf: moment.Moment = moment(asOfString);
-    const statsValue: StatsValue = StatsValue.of(asOf, value);
+  // TODO SHOULD BE COORDINATE
+  public setData(row: number, column: number, value: NumericalValue): void {
+    const item: StatsItem = this.items.get(row);
+    const asOf: AsOf = this.getColumns().get(column);
+    const statsValue: StatsValue = StatsValue.of(item.getStatsItemID(), asOf, value);
 
-    this.items.get(row).setValue(statsValue);
+    item.setValue(statsValue);
     this.recalculateColumns();
   }
 
+  // TODO SHOULD BE COORDINATE
   public deleteData(row: number, column: number): void {
-    const asOfString: string = this.getColumns()[column];
-    const asOf: moment.Moment = moment(asOfString);
+    const asOf: AsOf = this.getColumns().get(column);
 
     this.items.get(row).delete(asOf);
     this.recalculateColumns();
@@ -274,8 +273,9 @@ export class Stats extends Entity<StatsID> {
   public getChart(): Array<object> {
     const chartItems: Map<string, Chart> = new Map<string, Chart>();
 
-    this.getColumns().forEach((column: string): void => {
-      chartItems.set(column, {name: column});
+    this.getColumns().forEach((column: AsOf): void => {
+      const asOfString: string = column.getString();
+      chartItems.set(asOfString, {name: asOfString});
     });
 
     this.items.forEach((statsItem: StatsItem): void => {
@@ -283,7 +283,7 @@ export class Stats extends Entity<StatsID> {
         const line: Chart | undefined = chartItems.get(statsValue.getAsOfAsString());
 
         if (line !== undefined) {
-          line[statsItem.getName().get()] = statsValue.getValue();
+          line[statsItem.getName().get()] = statsValue.getValue().get();
         }
       });
     });
