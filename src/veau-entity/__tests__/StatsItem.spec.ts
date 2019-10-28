@@ -1,5 +1,6 @@
 import 'jest';
-import moment from 'moment';
+import { AsOf } from '../../veau-vo/AsOf';
+import { NumericalValue } from '../../veau-vo/NumericalValue';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
 import { StatsItemName } from '../../veau-vo/StatsItemName';
 import { StatsValue } from '../../veau-vo/StatsValue';
@@ -13,7 +14,7 @@ describe('StatsItem', () => {
       const statsItemID2: StatsItemID = StatsItemID.of('b5f208c3-f171-488f-a8dc-f3798db5f9f4');
       const statsItem1: StatsItem = StatsItem.from(statsItemID1, StatsItemName.of('name 1'), StatsValues.of([]));
       const statsItem2: StatsItem = StatsItem.from(statsItemID2, StatsItemName.of('name 1'), StatsValues.of([]));
-      const statsItem3: StatsItem = StatsItem.from(statsItemID1, StatsItemName.of('name 3'), StatsValues.of([StatsValue.of(moment('2000-01-01'), 10)]));
+      const statsItem3: StatsItem = StatsItem.from(statsItemID1, StatsItemName.of('name 3'), StatsValues.of([StatsValue.of(statsItemID1, AsOf.ofString('2000-01-01'), NumericalValue.of(10))]));
 
       expect(statsItem1.equals(statsItem1)).toEqual(true);
       expect(statsItem1.equals(statsItem2)).toEqual(false);
@@ -25,12 +26,12 @@ describe('StatsItem', () => {
     it('returns true if all the properties are the same', () => {
       const statsItemID1: StatsItemID = StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0');
       const statsItemID2: StatsItemID = StatsItemID.of('b5f208c3-f171-488f-a8dc-f3798db5f9f4');
-      const statsItem1: StatsItem = StatsItem.from(statsItemID1, StatsItemName.of('name 1'), StatsValues.of([StatsValue.of(moment('2000-01-01'), 10)]));
-      const statsItem2: StatsItem = StatsItem.from(statsItemID2, StatsItemName.of('name 1'), StatsValues.of([StatsValue.of(moment('2000-01-01'), 10)]));
-      const statsItem3: StatsItem = StatsItem.from(statsItemID1, StatsItemName.of('name 3'), StatsValues.of([StatsValue.of(moment('2000-01-01'), 10)]));
-      const statsItem4: StatsItem = StatsItem.from(statsItemID1, StatsItemName.of('name 1'), StatsValues.of([StatsValue.of(moment('2000-01-01'), 10), StatsValue.of(moment('2000-01-02'), 10)]));
-      const statsItem5: StatsItem = StatsItem.from(statsItemID1, StatsItemName.of('name 1'), StatsValues.of([StatsValue.of(moment('2000-01-02'), 10)]));
-      const statsItem6: StatsItem = StatsItem.from(statsItemID1, StatsItemName.of('name 1'), StatsValues.of([StatsValue.of(moment('2000-01-01'), 10)]));
+      const statsItem1: StatsItem = StatsItem.from(statsItemID1, StatsItemName.of('name 1'), StatsValues.of([StatsValue.of(statsItemID1, AsOf.ofString('2000-01-01'), NumericalValue.of(10))]));
+      const statsItem2: StatsItem = StatsItem.from(statsItemID2, StatsItemName.of('name 1'), StatsValues.of([StatsValue.of(statsItemID2, AsOf.ofString('2000-01-01'), NumericalValue.of(10))]));
+      const statsItem3: StatsItem = StatsItem.from(statsItemID1, StatsItemName.of('name 3'), StatsValues.of([StatsValue.of(statsItemID1, AsOf.ofString('2000-01-01'), NumericalValue.of(10))]));
+      const statsItem4: StatsItem = StatsItem.from(statsItemID1, StatsItemName.of('name 1'), StatsValues.of([StatsValue.of(statsItemID1, AsOf.ofString('2000-01-01'), NumericalValue.of(10)), StatsValue.of(statsItemID1, AsOf.ofString('2000-01-02'), NumericalValue.of(10))]));
+      const statsItem5: StatsItem = StatsItem.from(statsItemID1, StatsItemName.of('name 1'), StatsValues.of([StatsValue.of(statsItemID1, AsOf.ofString('2000-01-02'), NumericalValue.of(10))]));
+      const statsItem6: StatsItem = StatsItem.from(statsItemID1, StatsItemName.of('name 1'), StatsValues.of([StatsValue.of(statsItemID1, AsOf.ofString('2000-01-01'), NumericalValue.of(10))]));
 
       expect(statsItem1.isSame(statsItem1)).toEqual(true);
       expect(statsItem1.isSame(statsItem2)).toEqual(false);
@@ -44,7 +45,7 @@ describe('StatsItem', () => {
   describe('toJSON', () => {
     it('normal case', () => {
       const statsItemID: StatsItemID = StatsItemID.of('b5f208c3-f171-488f-a8dc-f3798db5f9f4');
-      const statsItem: StatsItem = StatsItem.from(statsItemID, StatsItemName.of('name 1'), StatsValues.of([StatsValue.of(moment('2000-01-01'), 10)]));
+      const statsItem: StatsItem = StatsItem.from(statsItemID, StatsItemName.of('name 1'), StatsValues.of([StatsValue.of(statsItemID, AsOf.ofString('2000-01-01'), NumericalValue.of(10))]));
 
       expect(statsItem.toJSON()).toEqual({
         statsItemID: 'b5f208c3-f171-488f-a8dc-f3798db5f9f4',
@@ -61,12 +62,13 @@ describe('StatsItem', () => {
 
   describe('getAdOfs', () => {
     it('extracts only their asOfs', () => {
-      const asOf1: moment.Moment = moment('2000-01-01');
-      const asOf2: moment.Moment = moment('2000-01-03');
-      const statsItem: StatsItem = StatsItem.from(StatsItemID.of('0816ef5e-752d-41ad-b52a-95b1f16e3bbd'), StatsItemName.of('name 1'), StatsValues.of(
+      const statsItemID: StatsItemID = StatsItemID.of('0816ef5e-752d-41ad-b52a-95b1f16e3bbd');
+      const asOf1: AsOf = AsOf.ofString('2000-01-01');
+      const asOf2: AsOf = AsOf.ofString('2000-01-03');
+      const statsItem: StatsItem = StatsItem.from(statsItemID, StatsItemName.of('name 1'), StatsValues.of(
         [
-          StatsValue.of(asOf1, 1),
-          StatsValue.of(asOf2, 3)
+          StatsValue.of(statsItemID, asOf1, NumericalValue.of(1)),
+          StatsValue.of(statsItemID, asOf2, NumericalValue.of(3))
         ]
       ));
 
@@ -79,10 +81,11 @@ describe('StatsItem', () => {
 
   describe('getValuesByColumn', () => {
     it('returns empty string when the date is empty ', () => {
+      const statsItemID: StatsItemID = StatsItemID.of('aa28c422-67e2-41e2-bbe6-a97c7d63c44f');
       const column: Array<string> = ['2000-01-01', '2000-01-02', '2000-01-03'];
-      const statsItem: StatsItem = StatsItem.from(StatsItemID.of('aa28c422-67e2-41e2-bbe6-a97c7d63c44f'), StatsItemName.of('name 1'), StatsValues.of([
-        StatsValue.of(moment('2000-01-01'), 1),
-        StatsValue.of(moment('2000-01-03'), 3)
+      const statsItem: StatsItem = StatsItem.from(statsItemID, StatsItemName.of('name 1'), StatsValues.of([
+        StatsValue.of(statsItemID, AsOf.ofString('2000-01-01'), NumericalValue.of(1)),
+        StatsValue.of(statsItemID, AsOf.ofString('2000-01-03'), NumericalValue.of(3))
       ]));
 
       expect(statsItem.getValuesByColumn(column)).toEqual([
@@ -133,9 +136,9 @@ describe('StatsItem', () => {
     it('normal case', () => {
       const statsItemID: StatsItemID = StatsItemID.of('4d0cf4e5-4f48-4db3-9c04-085374d857d1');
       const name: StatsItemName = StatsItemName.of('name');
-      const asOf: string = '2000-01-01';
-      const value: number = 10;
-      const statsValue: StatsValue = StatsValue.of(moment(asOf), value);
+      const asOf: AsOf = AsOf.ofString('2000-01-01');
+      const value: NumericalValue = NumericalValue.of(10);
+      const statsValue: StatsValue = StatsValue.of(statsItemID, asOf, value);
 
       const statsItem: StatsItem = StatsItem.from(statsItemID, name, StatsValues.of([statsValue]));
 
@@ -168,8 +171,8 @@ describe('StatsItem', () => {
       expect(statsItem.getName().get()).toEqual(json.name);
       expect(statsItem.getValues().size()).toEqual(json.values.length);
       for (let i: number = 0; i < statsItem.getValues().size(); i++) {
-        expect(statsItem.getValues().get(i).getAsOf().get('days')).toEqual(moment(json.values[i].asOf).get('days'));
-        expect(statsItem.getValues().get(i).getValue()).toEqual(json.values[i].value);
+        expect(statsItem.getValues().get(i).getAsOf().getString()).toEqual(AsOf.ofString(json.values[i].asOf).getString());
+        expect(statsItem.getValues().get(i).getValue().get()).toEqual(json.values[i].value);
       }
     });
   });
@@ -181,9 +184,9 @@ describe('StatsItem', () => {
         name: 'name'
       };
       const statsValues: StatsValues = StatsValues.of([
-        StatsValue.of(moment('2000-01-01'), 10),
-        StatsValue.of(moment('2000-01-02'), 100),
-        StatsValue.of(moment('2000-01-03'), 1000)
+        StatsValue.of(StatsItemID.of('4d0cf4e5-4f48-4db3-9c04-085374d857d1'), AsOf.ofString('2000-01-01'), NumericalValue.of(10)),
+        StatsValue.of(StatsItemID.of('4d0cf4e5-4f48-4db3-9c04-085374d857d1'), AsOf.ofString('2000-01-02'), NumericalValue.of(100)),
+        StatsValue.of(StatsItemID.of('4d0cf4e5-4f48-4db3-9c04-085374d857d1'), AsOf.ofString('2000-01-03'), NumericalValue.of(1000))
       ]);
 
       const statsItem: StatsItem = StatsItem.fromRow(row, statsValues);

@@ -1,5 +1,5 @@
-import moment from 'moment';
 import { UUID } from '../veau-general/UUID';
+import { AsOf } from '../veau-vo/AsOf';
 import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsItemName } from '../veau-vo/StatsItemName';
 import { StatsValue, StatsValueJSON } from '../veau-vo/StatsValue';
@@ -33,7 +33,9 @@ export class StatsItem extends Entity<StatsItemID> {
       values
     } = json;
 
-    return StatsItem.from(StatsItemID.of(statsItemID), StatsItemName.of(name), StatsValues.ofJSON(values));
+    const itemID: StatsItemID = StatsItemID.of(statsItemID);
+
+    return StatsItem.from(itemID, StatsItemName.of(name), StatsValues.ofJSON(itemID, values));
   }
 
   public static fromRow(row: StatsItemRow, statsValues: StatsValues): StatsItem {
@@ -72,7 +74,7 @@ export class StatsItem extends Entity<StatsItemID> {
     return this.statsItemID;
   }
 
-  public getAsOfs(): Array<moment.Moment> {
+  public getAsOfs(): Array<AsOf> {
     return this.values.getAsOfs();
   }
 
@@ -104,7 +106,7 @@ export class StatsItem extends Entity<StatsItemID> {
     this.values = this.values.set(statsValue);
   }
 
-  public delete(asOf: moment.Moment): void {
+  public delete(asOf: AsOf): void {
     this.values = this.values.delete(asOf);
   }
 
