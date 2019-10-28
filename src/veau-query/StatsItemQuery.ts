@@ -4,6 +4,7 @@ import { StatsItem, StatsItemRow } from '../veau-entity/StatsItem';
 import { StatsItems } from '../veau-entity/StatsItems';
 import { MySQL } from '../veau-general/MySQL/MySQL';
 import { StatsID } from '../veau-vo/StatsID';
+import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsValues } from '../veau-vo/StatsValues';
 import { StatsValueQuery } from './StatsValueQuery';
 
@@ -32,17 +33,12 @@ export class StatsItemQuery {
       statsID: statsID.get()
     });
 
-    // TODO to StatsValues this logic should be in the first class collection.
-    const valueMap: Map<string, StatsValues> = await this.statsValueQuery.findByStatsID(statsID);
+    const statsValues: StatsValues = await this.statsValueQuery.findByStatsID(statsID);
 
     const items: Array<StatsItem> = statsItemRows.map<StatsItem>((statsItemRow: StatsItemRow): StatsItem => {
-      const values: StatsValues | undefined = valueMap.get(statsItemRow.statsItemID);
+      const values: StatsValues = statsValues.filter(StatsItemID.of(statsItemRow.statsItemID));
 
-      if (values !== undefined) {
-        return StatsItem.fromRow(statsItemRow, values);
-      }
-
-      return StatsItem.fromRow(statsItemRow, StatsValues.of([]));
+      return StatsItem.fromRow(statsItemRow, values);
     });
 
     return StatsItems.from(items);
