@@ -108,6 +108,18 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable {
     this.values.forEach(enumerator);
   }
 
+  public filter(statsItemID: StatsItemID): StatsValues {
+    const values: Array<StatsValue> = this.values.filter((value: StatsValue): boolean => {
+      if(statsItemID.equals(value.getStatsItemID())) {
+        return true;
+      }
+
+      return false;
+    });
+
+    return StatsValues.of(values);
+  }
+
   public getValues(): Array<NumericalValue> {
     return this.values.map<NumericalValue>((value: StatsValue): NumericalValue => {
       return value.getValue();

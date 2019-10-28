@@ -134,6 +134,33 @@ describe('StatsValues', () => {
     });
   });
 
+  describe('filter', () => {
+    it('only returns a certain StatsItemID\'s StatsValue', () => {
+      const statsItemID1: StatsItemID = StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0');
+      const statsItemID2: StatsItemID = StatsItemID.of('b5f208c3-f171-488f-a8dc-f3798db5f9f4');
+      const statsValue1: StatsValue = StatsValue.of(statsItemID1, AsOf.ofString('2000-01-01'), NumericalValue.of(1));
+      const statsValue2: StatsValue = StatsValue.of(statsItemID2, AsOf.ofString('2000-01-02'), NumericalValue.of(2));
+      const statsValue3: StatsValue = StatsValue.of(statsItemID2, AsOf.ofString('2000-01-03'), NumericalValue.of(3));
+      const statsValue4: StatsValue = StatsValue.of(statsItemID1, AsOf.ofString('2000-01-04'), NumericalValue.of(1));
+      const statsValues: StatsValues = StatsValues.of([
+        statsValue1,
+        statsValue2,
+        statsValue3,
+        statsValue4
+      ]);
+
+      const filtered1: StatsValues = statsValues.filter(statsItemID1);
+      const filtered2: StatsValues = statsValues.filter(statsItemID2);
+
+      expect(filtered1.size()).toEqual(2);
+      expect(filtered1.get(0).getAsOfAsString()).toEqual('2000-01-01');
+      expect(filtered1.get(1).getAsOfAsString()).toEqual('2000-01-04');
+      expect(filtered2.size()).toEqual(2);
+      expect(filtered2.get(0).getAsOfAsString()).toEqual('2000-01-02');
+      expect(filtered2.get(1).getAsOfAsString()).toEqual('2000-01-03');
+    });
+  });
+
   describe('equals', () => {
     it('returns true if the elements and their order are the same', () => {
       const statsItemID: StatsItemID = StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0');
