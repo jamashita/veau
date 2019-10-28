@@ -7,7 +7,7 @@ export class NumericalValue extends ValueObject {
     return new NumericalValue(value);
   }
 
-  private constructor(value: number) {
+  protected constructor(value: number) {
     super();
     this.value = value;
   }
