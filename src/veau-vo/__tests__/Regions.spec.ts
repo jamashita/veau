@@ -70,6 +70,7 @@ describe('Regions', () => {
       const regions1: Regions = Regions.of([region1, region2]);
       const regions2: Regions = Regions.of([region1]);
 
+      expect(regions1.equals(regions1)).toEqual(true);
       expect(regions1.equals(regions2)).toEqual(false);
     });
 
@@ -80,6 +81,7 @@ describe('Regions', () => {
       const regions1: Regions = Regions.of([region1, region2]);
       const regions2: Regions = Regions.of([region2, region1]);
 
+      expect(regions1.equals(regions1)).toEqual(true);
       expect(regions1.equals(regions2)).toEqual(false);
     });
 
@@ -90,6 +92,7 @@ describe('Regions', () => {
       const regions1: Regions = Regions.of([region1, region2]);
       const regions2: Regions = Regions.of([region1, region2]);
 
+      expect(regions1.equals(regions1)).toEqual(true);
       expect(regions1.equals(regions2)).toEqual(true);
     });
   });

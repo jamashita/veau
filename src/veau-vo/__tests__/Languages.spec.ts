@@ -70,6 +70,7 @@ describe('Languages', () => {
       const languages1: Languages = Languages.of([language1, language2]);
       const languages2: Languages = Languages.of([language1]);
 
+      expect(languages1.equals(languages1)).toEqual(false);
       expect(languages1.equals(languages2)).toEqual(false);
     });
 
@@ -80,6 +81,7 @@ describe('Languages', () => {
       const languages1: Languages = Languages.of([language1, language2]);
       const languages2: Languages = Languages.of([language2, language1]);
 
+      expect(languages1.equals(languages1)).toEqual(false);
       expect(languages1.equals(languages2)).toEqual(false);
     });
 
@@ -90,6 +92,7 @@ describe('Languages', () => {
       const languages1: Languages = Languages.of([language1, language2]);
       const languages2: Languages = Languages.of([language1, language2]);
 
+      expect(languages1.equals(languages1)).toEqual(true);
       expect(languages1.equals(languages2)).toEqual(true);
     });
   });

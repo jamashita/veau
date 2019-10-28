@@ -162,7 +162,7 @@ describe('StatsValues', () => {
   });
 
   describe('equals', () => {
-    it('returns true if the elements and their order are the same', () => {
+    it('returns false if the length is differnet', () => {
       const statsItemID: StatsItemID = StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0');
       const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01'), NumericalValue.of(1));
       const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-02'), NumericalValue.of(2));
@@ -174,19 +174,45 @@ describe('StatsValues', () => {
       const statsValues2: StatsValues = StatsValues.of([
         statsValue1
       ]);
-      const statsValues3: StatsValues = StatsValues.of([
+
+      expect(statsValues1.equals(statsValues1)).toEqual(true);
+      expect(statsValues1.equals(statsValues2)).toEqual(false);
+    });
+
+    it('returns false if the sequence is different', () => {
+      const statsItemID: StatsItemID = StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0');
+      const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01'), NumericalValue.of(1));
+      const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-02'), NumericalValue.of(2));
+
+      const statsValues1: StatsValues = StatsValues.of([
+        statsValue1,
+        statsValue2
+      ]);
+      const statsValues2: StatsValues = StatsValues.of([
         statsValue2,
         statsValue1
       ]);
-      const statsValues4: StatsValues = StatsValues.of([
+
+      expect(statsValues1.equals(statsValues1)).toEqual(true);
+      expect(statsValues1.equals(statsValues2)).toEqual(false);
+    });
+
+    it('returns true if the elements and their order are the same', () => {
+      const statsItemID: StatsItemID = StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0');
+      const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01'), NumericalValue.of(1));
+      const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-02'), NumericalValue.of(2));
+
+      const statsValues1: StatsValues = StatsValues.of([
+        statsValue1,
+        statsValue2
+      ]);
+      const statsValues2: StatsValues = StatsValues.of([
         statsValue1,
         statsValue2
       ]);
 
       expect(statsValues1.equals(statsValues1)).toEqual(true);
-      expect(statsValues1.equals(statsValues2)).toEqual(false);
-      expect(statsValues1.equals(statsValues3)).toEqual(false);
-      expect(statsValues1.equals(statsValues4)).toEqual(true);
+      expect(statsValues1.equals(statsValues2)).toEqual(true);
     });
   });
 });

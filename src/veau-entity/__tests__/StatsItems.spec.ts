@@ -282,7 +282,7 @@ describe('StatsItems', () => {
   });
 
   describe('equals', () => {
-    it('returns true if the elements and their order are same', () => {
+    it('returns false if the length is differnet', () => {
       const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
       const statsItem2: StatsItem = StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]));
 
@@ -293,19 +293,43 @@ describe('StatsItems', () => {
       const statsItems2: StatsItems = StatsItems.from([
         statsItem2
       ]);
-      const statsItems3: StatsItems = StatsItems.from([
+
+      expect(statsItems1.equals(statsItems1)).toEqual(true);
+      expect(statsItems1.equals(statsItems2)).toEqual(false);
+    });
+
+    it('returns false if the sequence is different', () => {
+      const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
+      const statsItem2: StatsItem = StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]));
+
+      const statsItems1: StatsItems = StatsItems.from([
+        statsItem1,
+        statsItem2
+      ]);
+      const statsItems2: StatsItems = StatsItems.from([
         statsItem2,
         statsItem1
       ]);
-      const statsItems4: StatsItems = StatsItems.from([
+
+      expect(statsItems1.equals(statsItems1)).toEqual(true);
+      expect(statsItems1.equals(statsItems2)).toEqual(false);
+    });
+
+    it('returns true if the elements and their order are same', () => {
+      const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
+      const statsItem2: StatsItem = StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]));
+
+      const statsItems1: StatsItems = StatsItems.from([
+        statsItem1,
+        statsItem2
+      ]);
+      const statsItems2: StatsItems = StatsItems.from([
         statsItem1,
         statsItem2
       ]);
 
       expect(statsItems1.equals(statsItems1)).toEqual(true);
-      expect(statsItems1.equals(statsItems2)).toEqual(false);
-      expect(statsItems1.equals(statsItems3)).toEqual(false);
-      expect(statsItems1.equals(statsItems4)).toEqual(true);
+      expect(statsItems1.equals(statsItems2)).toEqual(true);
     });
   });
 
