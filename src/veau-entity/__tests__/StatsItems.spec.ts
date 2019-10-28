@@ -1,5 +1,6 @@
 import 'jest';
 import { AsOf } from '../../veau-vo/AsOf';
+import { AsOfs } from '../../veau-vo/AsOfs';
 import { NumericalValue } from '../../veau-vo/NumericalValue';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
 import { StatsItemName } from '../../veau-vo/StatsItemName';
@@ -149,6 +150,41 @@ describe('StatsItems', () => {
       ]);
 
       expect(statsItems.maxNameLength()).toEqual('stats item 111'.length);
+    });
+  });
+
+  describe('getAsOfs', () => {
+    it('collects all AsOfs even if the date is same', () => {
+      const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([
+        StatsValue.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), AsOf.ofString('2000-01-01'), NumericalValue.of(1)),
+        StatsValue.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), AsOf.ofString('2000-01-02'), NumericalValue.of(1)),
+        StatsValue.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), AsOf.ofString('2000-01-03'), NumericalValue.of(1))
+      ]));
+      const statsItem2: StatsItem = StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 11'), StatsValues.of([
+        StatsValue.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), AsOf.ofString('2000-01-02'), NumericalValue.of(1)),
+        StatsValue.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), AsOf.ofString('2000-01-03'), NumericalValue.of(1)),
+        StatsValue.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), AsOf.ofString('2000-01-04'), NumericalValue.of(1))
+      ]));
+      const statsItem3: StatsItem = StatsItem.from(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 111'), StatsValues.of([
+        StatsValue.of(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), AsOf.ofString('2000-01-04'), NumericalValue.of(1)),
+        StatsValue.of(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), AsOf.ofString('2000-01-05'), NumericalValue.of(1))
+      ]));
+      const statsItems: StatsItems = StatsItems.from([
+        statsItem1,
+        statsItem2,
+        statsItem3
+      ]);
+
+      const asOfs: AsOfs = statsItems.getAsOfs();
+      expect(asOfs.size()).toEqual(8);
+      expect(asOfs.get(0).getString()).toEqual('2000-01-01');
+      expect(asOfs.get(1).getString()).toEqual('2000-01-02');
+      expect(asOfs.get(2).getString()).toEqual('2000-01-03');
+      expect(asOfs.get(3).getString()).toEqual('2000-01-02');
+      expect(asOfs.get(4).getString()).toEqual('2000-01-03');
+      expect(asOfs.get(5).getString()).toEqual('2000-01-04');
+      expect(asOfs.get(6).getString()).toEqual('2000-01-04');
+      expect(asOfs.get(7).getString()).toEqual('2000-01-05');
     });
   });
 

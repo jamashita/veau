@@ -1,5 +1,6 @@
 import { UUID } from '../veau-general/UUID';
 import { AsOf } from '../veau-vo/AsOf';
+import { AsOfs } from '../veau-vo/AsOfs';
 import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsItemName } from '../veau-vo/StatsItemName';
 import { StatsValue, StatsValueJSON } from '../veau-vo/StatsValue';
@@ -74,21 +75,21 @@ export class StatsItem extends Entity<StatsItemID> {
     return this.statsItemID;
   }
 
-  public getAsOfs(): Array<AsOf> {
+  public getAsOfs(): AsOfs {
     return this.values.getAsOfs();
   }
 
-  public getValuesByColumn(columns: Array<string>): Array<string> {
+  public getValuesByColumn(columns: AsOfs): Array<string> {
     const valuesByColumn: Array<string> = [];
 
-    columns.forEach((column: string): void => {
+    columns.forEach((column: AsOf): void => {
       let alreadyInput: boolean = false;
 
       this.values.forEach((statsValue: StatsValue): void => {
         if (alreadyInput) {
           return;
         }
-        if (column === statsValue.getAsOfAsString()) {
+        if (column.equals(statsValue.getAsOf())) {
           valuesByColumn.push(statsValue.getValue().toString());
           alreadyInput = true;
           return;

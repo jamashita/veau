@@ -3,6 +3,7 @@ import { Collection } from '../veau-general/Collection';
 import { JSONable } from '../veau-general/JSONable';
 import { Enumerator } from '../veau-general/Type/Enumerator';
 import { AsOf } from './AsOf';
+import { AsOfs } from './AsOfs';
 import { NumericalValue } from './NumericalValue';
 import { StatsItemID } from './StatsItemID';
 import { StatsValue, StatsValueJSON, StatsValueRow } from './StatsValue';
@@ -126,10 +127,12 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable {
     });
   }
 
-  public getAsOfs(): Array<AsOf> {
-    return this.values.map<AsOf>((value: StatsValue): AsOf => {
+  public getAsOfs(): AsOfs {
+    const asOfs: Array<AsOf> = this.values.map<AsOf>((value: StatsValue): AsOf => {
       return value.getAsOf();
     });
+
+    return AsOfs.of(asOfs);
   }
 
   public isEmpty(): boolean {

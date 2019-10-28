@@ -1,5 +1,7 @@
+import moment from 'moment';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { Collection } from '../veau-general/Collection';
+import { RuntimeError } from '../veau-general/RuntimeError';
 import { Enumerator } from '../veau-general/Type/Enumerator';
 import { AsOf } from './AsOf';
 
@@ -10,8 +12,22 @@ export class AsOfs implements Collection<number, AsOf> {
     return new AsOfs(asOfs);
   }
 
+  public static empty(): AsOfs {
+    return AsOfs.of([
+    ]);
+  }
+
   private constructor(asOfs: Array<AsOf>) {
     this.asOfs = asOfs;
+  }
+
+  public add(value: AsOf): AsOfs {
+    const asOfs: Array<AsOf> = [
+      ...this.asOfs,
+      value
+    ];
+
+    return AsOfs.of(asOfs);
   }
 
   public get(index: number): AsOf {
@@ -38,6 +54,30 @@ export class AsOfs implements Collection<number, AsOf> {
     }
 
     return true;
+  }
+
+  public min(): AsOf {
+    if (this.isEmpty()) {
+      throw new RuntimeError('THIS IS 0 LENGTH COLLECTION');
+    }
+
+    const asOfs: Array<moment.Moment> = this.asOfs.map<moment.Moment>((asOf: AsOf): moment.Moment => {
+      return asOf.get();
+    });
+
+    return AsOf.of(moment.min(asOfs));
+  }
+
+  public max(): AsOf {
+    if (this.isEmpty()) {
+      throw new RuntimeError('THIS IS 0 LENGTH COLLECTION');
+    }
+
+    const asOfs: Array<moment.Moment> = this.asOfs.map<moment.Moment>((asOf: AsOf): moment.Moment => {
+      return asOf.get();
+    });
+
+    return AsOf.of(moment.max(asOfs));
   }
 
   public size(): number {

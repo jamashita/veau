@@ -1,9 +1,30 @@
 import 'jest';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { RuntimeError } from '../../veau-general/RuntimeError';
 import { AsOf } from '../AsOf';
 import { AsOfs } from '../AsOfs';
 
 describe('AsOfs', () => {
+  describe('add', () => {
+    it('does not affect the original one', () => {
+      const asOf1: AsOf = AsOf.ofString('2000-01-01');
+      const asOf2: AsOf = AsOf.ofString('2000-01-02');
+      const asOf3: AsOf = AsOf.ofString('2000-01-03');
+
+      const asOfs1: AsOfs = AsOfs.of([asOf1, asOf2]);
+      const asOfs2: AsOfs = asOfs1.add(asOf3);
+
+      expect(asOfs1.size()).toEqual(2);
+      expect(asOfs1.get(0)).toEqual(asOf1);
+      expect(asOfs1.get(1)).toEqual(asOf2);
+
+      expect(asOfs2.size()).toEqual(3);
+      expect(asOfs2.get(0)).toEqual(asOf1);
+      expect(asOfs2.get(1)).toEqual(asOf2);
+      expect(asOfs2.get(2)).toEqual(asOf3);
+    });
+  });
+
   describe('get', () => {
     it('returns AsOf instance at the correct index', ()  => {
       const asOf1: AsOf = AsOf.ofString('2000-01-01');
@@ -43,6 +64,44 @@ describe('AsOfs', () => {
       expect(asOfs.contains(asOf2)).toEqual(true);
       expect(asOfs.contains(asOf3)).toEqual(false);
       expect(asOfs.contains(asOf4)).toEqual(true);
+    });
+  });
+
+  describe('min', () => {
+    it('returns minimal asOf', () => {
+      const asOf1: AsOf = AsOf.ofString('2000-01-03');
+      const asOf2: AsOf = AsOf.ofString('2000-01-01');
+      const asOf3: AsOf = AsOf.ofString('2000-01-02');
+      const asOf4: AsOf = AsOf.ofString('2000-01-01');
+
+      const asOfs: AsOfs = AsOfs.of([asOf1, asOf2, asOf3, asOf4]);
+
+      expect(asOfs.min().getString()).toEqual('2000-01-01');
+    });
+
+    it('throws RuntimeError when AsOfs are empty', () =>{
+      expect(() => {
+        AsOfs.empty().min();
+      }).toThrow(RuntimeError);
+    });
+  });
+
+  describe('max', () => {
+    it('returns minimal asOf', () => {
+      const asOf1: AsOf = AsOf.ofString('2000-01-03');
+      const asOf2: AsOf = AsOf.ofString('2000-01-01');
+      const asOf3: AsOf = AsOf.ofString('2000-01-02');
+      const asOf4: AsOf = AsOf.ofString('2000-01-03');
+
+      const asOfs: AsOfs = AsOfs.of([asOf1, asOf2, asOf3, asOf4]);
+
+      expect(asOfs.max().getString()).toEqual('2000-01-03');
+    });
+
+    it('throws RuntimeError when AsOfs are empty', () =>{
+      expect(() => {
+        AsOfs.empty().max();
+      }).toThrow(RuntimeError);
     });
   });
 
@@ -91,6 +150,14 @@ describe('AsOfs', () => {
 
       expect(asOfs1.equals(asOfs1)).toEqual(true);
       expect(asOfs1.equals(asOfs2)).toEqual(true);
+    });
+  });
+
+  describe('empty', () => {
+    it('always empty, the length is 0', () => {
+      const asOfs: AsOfs = AsOfs.empty();
+
+      expect(asOfs.isEmpty()).toEqual(true);
     });
   });
 });

@@ -3,6 +3,7 @@ import { Collection } from '../veau-general/Collection';
 import { JSONable } from '../veau-general/JSONable';
 import { Enumerator } from '../veau-general/Type/Enumerator';
 import { AsOf } from '../veau-vo/AsOf';
+import { AsOfs } from '../veau-vo/AsOfs';
 import { StatsItemName } from '../veau-vo/StatsItemName';
 import { StatsItem, StatsItemJSON } from './StatsItem';
 
@@ -48,7 +49,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable {
     });
   }
 
-  public getAsOfs(): Array<AsOf> {
+  public getAsOfs(): AsOfs {
     const asOfs: Array<AsOf> = [];
 
     this.items.forEach((item: StatsItem): void => {
@@ -57,7 +58,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable {
       });
     });
 
-    return asOfs;
+    return AsOfs.of(asOfs);
   }
 
   public maxNameLength(): number {

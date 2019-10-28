@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { Term } from '../veau-enum/Term';
 import { RuntimeError } from '../veau-general/RuntimeError';
 import { Type } from '../veau-general/Type/Type';
 import { ValueObject } from './ValueObject';
@@ -17,7 +18,7 @@ export class AsOf extends ValueObject {
       return AsOf.of(moment(asOf));
     }
 
-    throw new RuntimeError(`asOf is not suitable for date time`);
+    throw new RuntimeError('asOf is not suitable for date time');
   }
 
   private constructor(asOf: moment.Moment) {
@@ -39,6 +40,64 @@ export class AsOf extends ValueObject {
     }
 
     return false;
+  }
+
+  public isAfter(other: AsOf): boolean {
+    if (this.asOf.isAfter(other.get())) {
+      return true;
+    }
+
+    return false;
+  }
+
+  public previous(term: Term): AsOf {
+    const asOf: moment.Moment = moment(this.asOf);
+
+    switch (term) {
+      case Term.DAILY: {
+        return AsOf.of(asOf.subtract(1, 'days'));
+      }
+      case Term.WEEKLY: {
+        return AsOf.of(asOf.subtract(1, 'weeks'));
+      }
+      case Term.MONTHLY: {
+        return AsOf.of(asOf.subtract(1, 'months'));
+      }
+      case Term.QUARTERLY: {
+        return AsOf.of(asOf.subtract(1, 'quarters'));
+      }
+      case Term.ANNUAL: {
+        return AsOf.of(asOf.subtract(1, 'years'));
+      }
+      default: {
+        throw new RuntimeError(`UNEXPECTED VALUE: ${term.getID()}`);
+      }
+    }
+  }
+
+  public next(term: Term): AsOf {
+    const asOf: moment.Moment = moment(this.asOf);
+
+    switch (term) {
+      case Term.DAILY: {
+        return AsOf.of(asOf.add(1, 'days'));
+      }
+      case Term.WEEKLY: {
+        return AsOf.of(asOf.add(1, 'weeks'));
+      }
+      case Term.MONTHLY: {
+        return AsOf.of(asOf.add(1, 'months'));
+      }
+      case Term.QUARTERLY: {
+        return AsOf.of(asOf.add(1, 'quarters'));
+      }
+      case Term.ANNUAL: {
+        return AsOf.of(asOf.add(1, 'years'));
+      }
+      default: {
+        throw new RuntimeError(`UNEXPECTED VALUE: ${term.getID()}`);
+      }
+    }
   }
 
   public equals(other: AsOf): boolean {

@@ -1,7 +1,8 @@
 import moment from 'moment';
 import { Term } from '../veau-enum/Term';
-import { RuntimeError } from '../veau-general/RuntimeError';
 import { UUID } from '../veau-general/UUID';
+import { AsOf } from '../veau-vo/AsOf';
+import { AsOfs } from '../veau-vo/AsOfs';
 import { ISO3166 } from '../veau-vo/ISO3166';
 import { ISO639 } from '../veau-vo/ISO639';
 import { Language, LanguageJSON } from '../veau-vo/Language';
@@ -21,7 +22,6 @@ import { StatsItem, StatsItemJSON } from './StatsItem';
 import { StatsItems } from './StatsItems';
 
 const REVISED_VALUE: number = 14;
-const TERM_FORMAT: string = 'YYYY-MM-DD';
 
 export type StatsJSON = {
   statsID: string;
@@ -62,10 +62,10 @@ export class Stats extends Entity<StatsID> {
   private unit: StatsUnit;
   private updatedAt: UpdatedAt;
   private items: StatsItems;
-  private startDate?: string;
-  private columns?: Array<string>;
+  private startDate?: AsOf;
+  private columns?: AsOfs;
 
-  public static from(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: StatsUnit, updatedAt: UpdatedAt, items: StatsItems, startDate?: string): Stats {
+  public static from(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: StatsUnit, updatedAt: UpdatedAt, items: StatsItems, startDate?: AsOf): Stats {
     return new Stats(statsID, language, region, term, name, unit, updatedAt, items, startDate);
   }
 
@@ -138,7 +138,7 @@ export class Stats extends Entity<StatsID> {
     );
   }
 
-  private constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: StatsUnit, updatedAt: UpdatedAt, items: StatsItems, startDate?: string) {
+  private constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: StatsUnit, updatedAt: UpdatedAt, items: StatsItems, startDate?: AsOf) {
     super();
     this.statsID = statsID;
     this.language = language;
@@ -183,7 +183,7 @@ export class Stats extends Entity<StatsID> {
     return this.items;
   }
 
-  public getStartDate(): string | undefined {
+  public getStartDate(): AsOf | undefined {
     return this.startDate;
   }
 
@@ -191,7 +191,7 @@ export class Stats extends Entity<StatsID> {
     return this.statsID;
   }
 
-  public getColumns(): Array<string> {
+  public getColumns(): AsOfs {
     const {
       startDate,
       columns
@@ -201,25 +201,25 @@ export class Stats extends Entity<StatsID> {
       return columns;
     }
 
-    const asOfs: Array<moment.Moment> = this.getAsOfs();
+    let asOfs: AsOfs = this.getAsOfs();
 
     if (startDate !== undefined) {
-      asOfs.push(moment(startDate));
+      asOfs = asOfs.add(startDate);
     }
 
-    if (asOfs.length === 0) {
-      return [];
+    if (asOfs.isEmpty()) {
+      return asOfs;
     }
 
-    const minTerm: moment.Moment = moment.min(asOfs);
-    const maxTerm: moment.Moment = moment.max(asOfs);
-    this.columns = [];
+    const minTerm: AsOf = asOfs.min();
+    const maxTerm: AsOf = asOfs.max();
+    this.columns = AsOfs.empty();
 
-    this.columns.push(this.previousTerm(minTerm).format(TERM_FORMAT));
-    for (let term: moment.Moment = minTerm; !term.isAfter(maxTerm); term = this.nextTerm(term)) {
-      this.columns.push(term.format(TERM_FORMAT));
+    this.columns = this.columns.add(minTerm.previous(this.term));
+    for (let asOf: AsOf = minTerm; !asOf.isAfter(maxTerm); asOf = asOf.next(this.term)) {
+      this.columns = this.columns.add(asOf);
     }
-    this.columns.push(this.nextTerm(maxTerm).format(TERM_FORMAT));
+    this.columns = this.columns.add(maxTerm.next(this.term));
 
     return this.columns;
   }
@@ -229,56 +229,8 @@ export class Stats extends Entity<StatsID> {
     this.getColumns();
   }
 
-  private getAsOfs(): Array<moment.Moment> {
+  private getAsOfs(): AsOfs {
     return this.items.getAsOfs();
-  }
-
-  private nextTerm(term: moment.Moment): moment.Moment {
-    const newTerm: moment.Moment = moment(term);
-    switch (this.term) {
-      case Term.DAILY: {
-        return newTerm.add(1, 'days');
-      }
-      case Term.WEEKLY: {
-        return newTerm.add(1, 'weeks');
-      }
-      case Term.MONTHLY: {
-        return newTerm.add(1, 'months');
-      }
-      case Term.QUARTERLY: {
-        return newTerm.add(1, 'quarters');
-      }
-      case Term.ANNUAL: {
-        return newTerm.add(1, 'years');
-      }
-      default: {
-        throw new RuntimeError(`UNEXPECTED VALUE: ${this.term.getID()}`);
-      }
-    }
-  }
-
-  private previousTerm(term: moment.Moment): moment.Moment {
-    const newTerm: moment.Moment = moment(term);
-    switch (this.term) {
-      case Term.DAILY: {
-        return newTerm.subtract(1, 'days');
-      }
-      case Term.WEEKLY: {
-        return newTerm.subtract(1, 'weeks');
-      }
-      case Term.MONTHLY: {
-        return newTerm.subtract(1, 'months');
-      }
-      case Term.QUARTERLY: {
-        return newTerm.subtract(1, 'quarters');
-      }
-      case Term.ANNUAL: {
-        return newTerm.subtract(1, 'years');
-      }
-      default: {
-        throw new RuntimeError(`UNEXPECTED VALUE: ${this.term.getID()}`);
-      }
-    }
   }
 
   public getRows(): Array<string> {
@@ -293,7 +245,7 @@ export class Stats extends Entity<StatsID> {
 
   public getData(): Array<Array<string>> {
     const data: Array<Array<string>> = [];
-    const columns: Array<string> = this.getColumns();
+    const columns: AsOfs = this.getColumns();
 
     this.items.forEach((item: StatsItem): void => {
       data.push(item.getValuesByColumn(columns));

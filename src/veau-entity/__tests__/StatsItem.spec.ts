@@ -72,10 +72,9 @@ describe('StatsItem', () => {
         ]
       ));
 
-      expect(statsItem.getAsOfs()).toEqual([
-        asOf1,
-        asOf2
-      ]);
+      expect(statsItem.getAsOfs().size()).toEqual(2);
+      expect(statsItem.getAsOfs().get(0)).toEqual(asOf1);
+      expect(statsItem.getAsOfs().get(1)).toEqual(asOf2);
     });
   });
 

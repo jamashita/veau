@@ -91,10 +91,9 @@ describe('StatsValues', () => {
         StatsValue.of(statsItemID, asOf2, NumericalValue.of(3))
       ]);
 
-      expect(statsValues.getAsOfs()).toEqual([
-        asOf1,
-        asOf2
-      ]);
+      expect(statsValues.getAsOfs().size()).toEqual(2);
+      expect(statsValues.getAsOfs().get(0)).toEqual(asOf1);
+      expect(statsValues.getAsOfs().get(1)).toEqual(asOf2);
     });
   });
 
