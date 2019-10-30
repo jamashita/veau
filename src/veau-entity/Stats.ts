@@ -398,7 +398,8 @@ export class Stats extends Entity<StatsID> {
       name,
       unit,
       updatedAt,
-      items
+      items,
+      startDate
     } = this;
 
     if (!statsID.equals(other.getStatsID())) {
@@ -425,8 +426,18 @@ export class Stats extends Entity<StatsID> {
     if (!items.areSame(other.getItems())) {
       return false;
     }
+    if (startDate.isPresent() && other.getStartDate().isPresent()) {
+      if (startDate.get().equals(other.getStartDate().get())) {
+        return true;
+      }
 
-    return true;
+      return false;
+    }
+    if (!startDate.isPresent() && !other.getStartDate().isPresent()) {
+      return true;
+    }
+
+    return false;
   }
 
   public copy(): Stats {

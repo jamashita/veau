@@ -355,6 +355,23 @@ describe('Stats', () => {
         ]),
         present<AsOf>(AsOf.ofString('2000-01-01'))
       );
+      const stats17: Stats = Stats.from(
+        StatsID.of('d5d311b5-c09a-4f82-91e5-b7b55736120e'),
+        Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
+        Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
+        Term.DAILY,
+        StatsName.of('name'),
+        StatsUnit.of('unit'),
+        UpdatedAt.ofString('2000-01-01'),
+        StatsItems.from([
+          StatsItem.from(
+            StatsItemID.of('30dd05bd-480f-4050-b8d4-5eec32ae11ed'),
+            StatsItemName.of('stats'),
+            StatsValues.of([])
+          )
+        ]),
+        empty<AsOf>()
+      );
 
 
       expect(stats1.isSame(stats1)).toEqual(true);
@@ -370,9 +387,14 @@ describe('Stats', () => {
       expect(stats1.isSame(stats11)).toEqual(false);
       expect(stats1.isSame(stats12)).toEqual(false);
       expect(stats1.isSame(stats13)).toEqual(true);
-      expect(stats1.isSame(stats14)).toEqual(true);
-      expect(stats1.isSame(stats15)).toEqual(true);
-      expect(stats1.isSame(stats16)).toEqual(true);
+      expect(stats1.isSame(stats14)).toEqual(false);
+      expect(stats1.isSame(stats15)).toEqual(false);
+      expect(stats1.isSame(stats16)).toEqual(false);
+      expect(stats1.isSame(stats17)).toEqual(true);
+      expect(stats14.isSame(stats14)).toEqual(true);
+      expect(stats14.isSame(stats15)).toEqual(false);
+      expect(stats14.isSame(stats16)).toEqual(true);
+      expect(stats14.isSame(stats17)).toEqual(false);
     });
   });
 
