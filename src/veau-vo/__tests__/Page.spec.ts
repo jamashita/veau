@@ -51,5 +51,14 @@ describe('Page', () => {
         Page.of(-1);
       }).toThrow(RuntimeError);
     });
+
+    it('throw RuntimeError when the argument is not integer', () => {
+      expect(() => {
+        Page.of(0.1);
+      }).toThrow(RuntimeError);
+      expect(() => {
+        Page.of(1.5);
+      }).toThrow(RuntimeError);
+    });
   });
 });

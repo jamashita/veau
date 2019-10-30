@@ -1,4 +1,5 @@
 import { RuntimeError } from '../veau-general/RuntimeError';
+import { Type } from '../veau-general/Type/Type';
 import { Limit } from './Limit';
 import { Offset } from './Offset';
 import { ValueObject } from './ValueObject';
@@ -12,8 +13,11 @@ export class Page extends ValueObject {
     if (page <= 0) {
       throw new RuntimeError(`ILLEGAL PAGE SPECIFIED ${page}`);
     }
+    if (Type.isInteger(page)) {
+      return new Page(page);
+    }
 
-    return new Page(page);
+    throw new RuntimeError(`ILLEGAL PAGE SPECIFIED ${page}`);
   }
 
   private constructor(page: number) {

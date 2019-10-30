@@ -24,5 +24,14 @@ describe('Offset', () => {
         Offset.of(-1);
       }).toThrow(RuntimeError);
     });
+
+    it('throws RuntimeError when the argument is not integer', () => {
+      expect(() => {
+        Offset.of(0.1);
+      }).toThrow(RuntimeError);
+      expect(() => {
+        Offset.of(1.5);
+      }).toThrow(RuntimeError);
+    });
   });
 });

@@ -1,4 +1,5 @@
 import { RuntimeError } from '../veau-general/RuntimeError';
+import { Type } from '../veau-general/Type/Type';
 import { ValueObject } from './ValueObject';
 
 export class Offset extends ValueObject {
@@ -8,8 +9,11 @@ export class Offset extends ValueObject {
     if (offset < 0) {
       throw new RuntimeError(`ILLEGAL OFFSET SPECIFIED ${offset}`);
     }
+    if (Type.isInteger(offset)) {
+      return new Offset(offset);
+    }
 
-    return new Offset(offset);
+    throw new RuntimeError(`ILLEGAL OFFSET SPECIFIED ${offset}`);
   }
 
   private constructor(offset: number) {
