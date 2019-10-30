@@ -153,6 +153,22 @@ describe('AsOfs', () => {
     });
   });
 
+  describe('toJSON', () => {
+    it('normal case', () => {
+      const asOfs: AsOfs = AsOfs.of([
+        AsOf.ofString('2000-01-01'),
+        AsOf.ofString('2000-01-02'),
+        AsOf.ofString('2000-01-03')
+      ]);
+
+      expect(asOfs.toJSON()).toEqual([
+        '2000-01-01',
+        '2000-01-02',
+        '2000-01-03'
+      ]);
+    });
+  });
+
   describe('empty', () => {
     it('always empty, the length is 0', () => {
       const asOfs: AsOfs = AsOfs.empty();

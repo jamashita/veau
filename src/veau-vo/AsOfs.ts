@@ -1,11 +1,14 @@
 import moment from 'moment';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { Collection } from '../veau-general/Collection';
+import { JSONable } from '../veau-general/JSONable';
 import { RuntimeError } from '../veau-general/RuntimeError';
 import { Enumerator } from '../veau-general/Type/Enumerator';
 import { AsOf } from './AsOf';
 
-export class AsOfs implements Collection<number, AsOf> {
+export type AsOfJSON = Array<string>;
+
+export class AsOfs implements Collection<number, AsOf>, JSONable {
   private asOfs: Array<AsOf>;
 
   public static of(asOfs: Array<AsOf>): AsOfs {
@@ -112,6 +115,12 @@ export class AsOfs implements Collection<number, AsOf> {
     }
 
     return true;
+  }
+
+  public toJSON(): AsOfJSON {
+    return this.asOfs.map<string>((asOf: AsOf): string => {
+      return asOf.getString();
+    });
   }
 
   public toString(): string {
