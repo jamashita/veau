@@ -29,6 +29,7 @@ COPY yarn.lock yarn.lock
 
 RUN mkdir logs
 RUN yarn install --production=true --frozen-lockfile
+RUN yarn cache clean
 RUN yarn global add pm2
 
 EXPOSE 4000
