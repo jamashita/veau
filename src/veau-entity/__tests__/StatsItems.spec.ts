@@ -154,6 +154,13 @@ describe('StatsItems', () => {
 
       expect(statsItems.maxNameLength()).toEqual('stats item 111'.length);
     });
+
+    it('should give 0 when items are 0', () => {
+      const statsItems: StatsItems = StatsItems.from([
+      ]);
+
+      expect(statsItems.maxNameLength()).toEqual(0);
+    });
   });
 
   describe('getAsOfs', () => {

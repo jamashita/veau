@@ -66,6 +66,10 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable {
   }
 
   public maxNameLength(): number {
+    if (this.isEmpty()) {
+      return 0;
+    }
+
     const lengths: Array<number> = this.items.map<number>((item: StatsItem): number => {
       return item.getName().length();
     });
