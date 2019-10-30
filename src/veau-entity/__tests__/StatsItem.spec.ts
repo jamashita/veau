@@ -199,7 +199,7 @@ describe('StatsItem', () => {
 
       expect(statsItem.getStatsItemID().get()).toEqual(row.statsItemID);
       expect(statsItem.getName().get()).toEqual(row.name);
-      expect(statsItem.getValues().size).toEqual(statsValues.size);
+      expect(statsItem.getValues().size()).toEqual(statsValues.size());
       for (let i: number = 0; i < statsItem.getValues().size(); i++) {
         expect(statsItem.getValues().get(i).getAsOf()).toEqual(statsValues.get(i).getAsOf());
         expect(statsItem.getValues().get(i).getValue()).toEqual(statsValues.get(i).getValue());

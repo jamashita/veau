@@ -4,6 +4,7 @@ import { Stats } from '../../../veau-entity/Stats';
 import { AsOfs } from '../../../veau-vo/AsOfs';
 import { Column } from '../../../veau-vo/Column';
 import { Coordinate } from '../../../veau-vo/Coordinate';
+import { HeaderSize } from '../../../veau-vo/HeaderSize';
 import { NumericalValue } from '../../../veau-vo/NumericalValue';
 import { Row } from '../../../veau-vo/Row';
 import { StatsItemNames } from '../../../veau-vo/StatsItemNames';
@@ -48,7 +49,7 @@ export class Spreadsheet extends React.Component<Props, State> {
     const data: Array<Array<string>> = stats.getData();
     const columnHeaders: AsOfs = stats.getColumns();
     const rowHeaders: StatsItemNames = stats.getRowHeaders();
-    const width: number = stats.getRowHeaderSize();
+    const size: HeaderSize = stats.getRowHeaderSize();
 
     if (rowHeaders.isEmpty()) {
       return (
@@ -61,7 +62,7 @@ export class Spreadsheet extends React.Component<Props, State> {
         data={data}
         colHeaders={columnHeaders.toJSON()}
         rowHeaders={rowHeaders.toJSON()}
-        rowHeaderWidth={width}
+        rowHeaderWidth={size.get()}
         manualRowResize={true}
         manualColumnResize={true}
         manualRowMove={true}

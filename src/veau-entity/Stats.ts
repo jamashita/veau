@@ -8,6 +8,7 @@ import { AsOf } from '../veau-vo/AsOf';
 import { AsOfs } from '../veau-vo/AsOfs';
 import { Column } from '../veau-vo/Column';
 import { Coordinate } from '../veau-vo/Coordinate';
+import { HeaderSize } from '../veau-vo/HeaderSize';
 import { ISO3166 } from '../veau-vo/ISO3166';
 import { ISO639 } from '../veau-vo/ISO639';
 import { Language, LanguageJSON } from '../veau-vo/Language';
@@ -254,8 +255,8 @@ export class Stats extends Entity<StatsID> {
     return this.items.getNames();
   }
 
-  public getRowHeaderSize(): number {
-    return this.items.maxNameLength() * REVISED_VALUE;
+  public getRowHeaderSize(): HeaderSize {
+    return HeaderSize.of(this.items.maxNameLength() * REVISED_VALUE);
   }
 
   public getData(): Array<Array<string>> {
