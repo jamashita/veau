@@ -3,7 +3,6 @@ import { Collection } from '../veau-general/Collection';
 import { Enumerator } from '../veau-general/Type/Enumerator';
 import { NumericalValue } from './NumericalValue';
 
-// TODO test not yet :((
 export class NumericalValues implements Collection<number, NumericalValue> {
   private values: Array<NumericalValue>;
 
