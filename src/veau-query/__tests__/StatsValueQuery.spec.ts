@@ -67,11 +67,11 @@ describe('StatsValueQuery', () => {
 
       expect(year2000.size()).toEqual(3);
       expect(year2000.get(0).getAsOfAsString()).toEqual('2000-01-01');
-      expect(year2000.get(0).getValue()).toEqual(1);
+      expect(year2000.get(0).getValue().get()).toEqual(1);
       expect(year2000.get(1).getAsOfAsString()).toEqual('2000-01-02');
-      expect(year2000.get(1).getValue()).toEqual(2);
+      expect(year2000.get(1).getValue().get()).toEqual(2);
       expect(year2000.get(2).getAsOfAsString()).toEqual('2000-01-03');
-      expect(year2000.get(2).getValue()).toEqual(3);
+      expect(year2000.get(2).getValue().get()).toEqual(3);
     });
   });
 });
