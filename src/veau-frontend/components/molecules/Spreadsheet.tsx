@@ -59,8 +59,8 @@ export class Spreadsheet extends React.Component<Props, State> {
     return (
       <HotTable
         data={data}
-        colHeaders={columnHeaders}
-        rowHeaders={rowHeaders}
+        colHeaders={columnHeaders.toJSON()}
+        rowHeaders={rowHeaders.toJSON()}
         rowHeaderWidth={width}
         manualRowResize={true}
         manualColumnResize={true}

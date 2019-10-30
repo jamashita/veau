@@ -1,10 +1,13 @@
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { Collection } from '../veau-general/Collection';
+import { JSONable } from '../veau-general/JSONable';
 import { Enumerator } from '../veau-general/Type/Enumerator';
 import { Mapper } from '../veau-general/Type/Mapper';
 import { StatsItemName } from './StatsItemName';
 
-export class StatsItemNames implements Collection<number, StatsItemName> {
+export type StatsItemNamesJSON = Array<string>;
+
+export class StatsItemNames implements Collection<number, StatsItemName>, JSONable {
   private names: Array<StatsItemName>;
 
   public static of(names: Array<StatsItemName>): StatsItemNames {
@@ -78,6 +81,12 @@ export class StatsItemNames implements Collection<number, StatsItemName> {
     }
 
     return true;
+  }
+
+  public toJSON(): StatsItemNamesJSON {
+    return this.names.map<string>((name: StatsItemName): string => {
+      return name.get();
+    });
   }
 
   public toString(): string {
