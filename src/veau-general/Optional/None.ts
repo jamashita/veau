@@ -1,3 +1,6 @@
+import { Consumer } from '../Type/Consumer';
+import { Function } from '../Type/Function';
+import { Predicate } from '../Type/Predicate';
 import { empty } from './Empty';
 import { Optional } from './Optional';
 import { OptionalError } from './OptionalError';
@@ -21,17 +24,17 @@ export class None<T> implements Optional<T> {
 
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public ifPresent(consumer: (value: T) => void): void {
+  public ifPresent(consumer: Consumer<T>): void {
     // NOOP
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public map<U>(func: (value: T) => U): Optional<U> {
+  public map<U>(func: Function<T, U>): Optional<U> {
     return empty<U>();
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public filter(predicate: (value: T) => boolean): Optional<T> {
+  public filter(predicate: Predicate<T>): Optional<T> {
     return this;
   }
 

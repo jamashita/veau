@@ -1,3 +1,6 @@
+import { Consumer } from '../Type/Consumer';
+import { Function } from '../Type/Function';
+import { Predicate } from '../Type/Predicate';
 import { empty } from './Empty';
 import { maybe } from './Maybe';
 import { Optional } from './Optional';
@@ -21,17 +24,17 @@ export class Some<T> implements Optional<T> {
     return true;
   }
 
-  public ifPresent(consumer: (value: T) => void): void {
+  public ifPresent(consumer: Consumer<T>): void {
     consumer(this.value);
   }
 
-  public map<U>(func: (value: T) => U): Optional<U> {
+  public map<U>(func: Function<T, U>): Optional<U> {
     const result: U = func(this.value);
 
     return maybe<U>(result);
   }
 
-  public filter(predicate: (value: T) => boolean): Optional<T> {
+  public filter(predicate: Predicate<T>): Optional<T> {
     if (predicate(this.value)) {
       return this;
     }

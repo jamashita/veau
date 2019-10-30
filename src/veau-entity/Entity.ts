@@ -1,9 +1,10 @@
+import { Equalable } from '../veau-general/Equalable';
 import { Identifier } from '../veau-general/Identifier';
 import { JSONable } from '../veau-general/JSONable';
 import { Serializable } from '../veau-general/Serializable';
 import { JSON } from '../veau-general/Type/JSON';
 
-export abstract class Entity<T extends Identifier> implements JSONable, Serializable {
+export abstract class Entity<T extends Identifier> implements JSONable, Serializable, Equalable {
 
   public abstract getIdentifier(): T;
 

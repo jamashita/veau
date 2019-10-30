@@ -146,7 +146,7 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
           <Button
             color='primary'
             fullWidth={true}
-            disabled={stats.hasValues() || stats.getStartDate() !== undefined}
+            disabled={stats.isDetermined()}
             onClick={(): void => {
               this.setState({
                 openStartDateModal: true

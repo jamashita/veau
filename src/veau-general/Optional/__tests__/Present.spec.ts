@@ -5,7 +5,7 @@ import { Some } from '../Some';
 
 describe('Present', () => {
   describe('present', () => {
-    it('throws Error when null and undefined are given', () => {
+    it('throws OptionalError when null and undefined are given', () => {
       expect(() => {
         present<number>(null);
       }).toThrow(OptionalError);
