@@ -242,6 +242,10 @@ export class Stats extends Entity<StatsID> {
     return asOfs;
   }
 
+  public getColumn(column: Column): AsOf {
+    return this.getColumns().get(column.get());
+  }
+
   private recalculateColumns(): void {
     this.columns = empty<AsOfs>();
     this.getColumns();
@@ -283,9 +287,9 @@ export class Stats extends Entity<StatsID> {
   }
 
   public deleteData(coordinate: Coordinate): void {
-    const asOf: AsOf = this.getColumns().get(coordinate.getColumn().get());
+    const asOf: AsOf = this.getColumn(coordinate.getColumn());
 
-    this.items.get(coordinate.getRow().get()).delete(asOf);
+    this.getRow(coordinate.getRow()).delete(asOf);
     this.recalculateColumns();
   }
 
@@ -321,6 +325,17 @@ export class Stats extends Entity<StatsID> {
 
   public hasValues(): boolean {
     return this.items.haveValues();
+  }
+
+  public isDetermined(): boolean {
+    if (this.hasValues()) {
+      return true;
+    }
+    if (this.startDate.isPresent()) {
+      return true;
+    }
+
+    return false;
   }
 
   public isFilled(): boolean {

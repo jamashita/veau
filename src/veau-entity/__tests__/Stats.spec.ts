@@ -454,6 +454,30 @@ describe('Stats', () => {
     });
   });
 
+  describe('getColumn', () => {
+    it('properly bring the very correct AsOf', () => {
+      const stats: Stats = Stats.from(StatsID.of('f330c618-6127-46d1-ba10-a9f6af458b4c'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01'), StatsItems.from([
+        StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([
+          StatsValue.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), AsOf.ofString('2000-01-01'), NumericalValue.of(1)),
+          StatsValue.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), AsOf.ofString('2000-01-03'), NumericalValue.of(2))
+        ])),
+        StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([
+          StatsValue.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), AsOf.ofString('2000-01-01'), NumericalValue.of(2)),
+          StatsValue.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), AsOf.ofString('2000-01-02'), NumericalValue.of(4)),
+          StatsValue.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), AsOf.ofString('2000-01-05'), NumericalValue.of(6))
+        ]))
+      ]), empty<AsOf>());
+
+      expect(stats.getColumn(Column.of(0)).getString()).toEqual('1999-12-31');
+      expect(stats.getColumn(Column.of(1)).getString()).toEqual('2000-01-01');
+      expect(stats.getColumn(Column.of(2)).getString()).toEqual('2000-01-02');
+      expect(stats.getColumn(Column.of(3)).getString()).toEqual('2000-01-03');
+      expect(stats.getColumn(Column.of(4)).getString()).toEqual('2000-01-04');
+      expect(stats.getColumn(Column.of(5)).getString()).toEqual('2000-01-05');
+      expect(stats.getColumn(Column.of(6)).getString()).toEqual('2000-01-06');
+    });
+  });
+
   describe('getRow', () => {
     const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([
       StatsValue.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), AsOf.ofString('2000-01-01'), NumericalValue.of(1)),
@@ -646,6 +670,44 @@ describe('Stats', () => {
     });
   });
 
+  describe('deleteData', () => {
+    it('correctly deletes the specified StatsValue', () => {
+      const statsID: StatsID = StatsID.of('f330c618-6127-46d1-ba10-a9f6af458b4c');
+      const language: Language = Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('ab'));
+      const region: Region = Region.of(RegionID.of(2), RegionName.of('region'), ISO3166.of('AFG'));
+      const term: Term = Term.DAILY;
+      const name: StatsName = StatsName.of('stats');
+      const unit: StatsUnit = StatsUnit.of('unit');
+      const updatedAt: UpdatedAt = UpdatedAt.ofString('2000-01-01');
+
+      const stats: Stats = Stats.from(statsID, language, region, term, name, unit, updatedAt, StatsItems.from([
+        StatsItem.from(StatsItemID.of('c4c9d345-251b-4397-9c54-0b38dc735dee'), StatsItemName.of('stats1'), StatsValues.of([
+          StatsValue.of(StatsItemID.of('c4c9d345-251b-4397-9c54-0b38dc735dee'), AsOf.ofString('2000-01-03'), NumericalValue.of(3)),
+          StatsValue.of(StatsItemID.of('c4c9d345-251b-4397-9c54-0b38dc735dee'), AsOf.ofString('2000-01-01'), NumericalValue.of(1))
+        ])),
+        StatsItem.from(StatsItemID.of('0039e5ba-6192-447c-915d-9bbaddba9822'), StatsItemName.of('stats2'), StatsValues.of([
+          StatsValue.of(StatsItemID.of('0039e5ba-6192-447c-915d-9bbaddba9822'), AsOf.ofString('2000-01-02'), NumericalValue.of(12)),
+          StatsValue.of(StatsItemID.of('0039e5ba-6192-447c-915d-9bbaddba9822'), AsOf.ofString('2000-01-03'), NumericalValue.of(13)),
+          StatsValue.of(StatsItemID.of('0039e5ba-6192-447c-915d-9bbaddba9822'), AsOf.ofString('2000-01-04'), NumericalValue.of(14))
+        ])),
+        StatsItem.from(StatsItemID.of('e98da317-2130-48a2-a3f4-4c1f7bee0ae0'), StatsItemName.of('stats3'), StatsValues.of([
+        ]))
+      ]), empty<AsOf>());
+
+      stats.deleteData(Coordinate.of(Row.of(0), Column.of(1)));
+
+      const items: StatsItems = stats.getItems();
+      expect(items.size()).toEqual(3);
+      expect(items.get(0).getValues().size()).toEqual(1);
+      expect(items.get(0).getValues().get(0).getAsOf().getString()).toEqual('2000-01-03');
+      expect(items.get(1).getValues().size()).toEqual(3);
+      expect(items.get(1).getValues().get(0).getAsOf().getString()).toEqual('2000-01-02');
+      expect(items.get(1).getValues().get(1).getAsOf().getString()).toEqual('2000-01-03');
+      expect(items.get(1).getValues().get(2).getAsOf().getString()).toEqual('2000-01-04');
+      expect(items.get(2).getValues().size()).toEqual(0);
+    });
+  });
+
   describe('copy', () => {
     it('every properties are copied', () => {
       const statsID: StatsID = StatsID.of('f330c618-6127-46d1-ba10-a9f6af458b4c');
@@ -702,6 +764,57 @@ describe('Stats', () => {
         {name: '2000-01-04', stats2: 14},
         {name: '2000-01-05'}
       ]);
+    });
+  });
+
+  describe('isDetermined', () => {
+    it('has values , that means it already has some AsOfs', () => {
+      const statsID: StatsID = StatsID.of('af272303-df5d-4d34-8604-398920b7d2bb');
+      const language: Language = Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language english name 1'), ISO639.of('lang1'));
+      const region: Region = Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('regn1'));
+      const term: Term = Term.ANNUAL;
+      const name: StatsName = StatsName.of('name1');
+      const unit: StatsUnit = StatsUnit.of('unit1');
+      const updatedAt: UpdatedAt = UpdatedAt.ofString('2000-01-01');
+      const items: StatsItems = StatsItems.from([
+        StatsItem.from(StatsItemID.of('a28eceac-0451-4339-b1c5-0c298b3905f6'), StatsItemName.of('stats1'), StatsValues.of([]))
+      ]);
+
+      const stats: Stats = Stats.from(statsID, language, region, term, name, unit, updatedAt, items, empty<AsOf>());
+
+      expect(stats.isDetermined()).toEqual(true);
+    });
+
+    it('even if it doesn\'t have values , if startDate is set, returns true', () => {
+      const statsID: StatsID = StatsID.of('af272303-df5d-4d34-8604-398920b7d2bb');
+      const language: Language = Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language english name 1'), ISO639.of('lang1'));
+      const region: Region = Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('regn1'));
+      const term: Term = Term.ANNUAL;
+      const name: StatsName = StatsName.of('name1');
+      const unit: StatsUnit = StatsUnit.of('unit1');
+      const updatedAt: UpdatedAt = UpdatedAt.ofString('2000-01-01');
+      const items: StatsItems = StatsItems.from([
+      ]);
+
+      const stats: Stats = Stats.from(statsID, language, region, term, name, unit, updatedAt, items, present<AsOf>(AsOf.ofString('2000-01-01')));
+
+      expect(stats.isDetermined()).toEqual(true);
+    });
+
+    it('returns false if stats doesn\'t have values nor startDate', () => {
+      const statsID: StatsID = StatsID.of('af272303-df5d-4d34-8604-398920b7d2bb');
+      const language: Language = Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language english name 1'), ISO639.of('lang1'));
+      const region: Region = Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('regn1'));
+      const term: Term = Term.ANNUAL;
+      const name: StatsName = StatsName.of('name1');
+      const unit: StatsUnit = StatsUnit.of('unit1');
+      const updatedAt: UpdatedAt = UpdatedAt.ofString('2000-01-01');
+      const items: StatsItems = StatsItems.from([
+      ]);
+
+      const stats: Stats = Stats.from(statsID, language, region, term, name, unit, updatedAt, items, empty<AsOf>());
+
+      expect(stats.isDetermined()).toEqual(false);
     });
   });
 
