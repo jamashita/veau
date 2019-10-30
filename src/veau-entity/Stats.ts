@@ -6,6 +6,7 @@ import { present } from '../veau-general/Optional/Present';
 import { UUID } from '../veau-general/UUID';
 import { AsOf } from '../veau-vo/AsOf';
 import { AsOfs } from '../veau-vo/AsOfs';
+import { Coordinate } from '../veau-vo/Coordinate';
 import { ISO3166 } from '../veau-vo/ISO3166';
 import { ISO639 } from '../veau-vo/ISO639';
 import { Language, LanguageJSON } from '../veau-vo/Language';
@@ -16,7 +17,7 @@ import { Region, RegionJSON } from '../veau-vo/Region';
 import { RegionID } from '../veau-vo/RegionID';
 import { RegionName } from '../veau-vo/RegionName';
 import { StatsID } from '../veau-vo/StatsID';
-import { StatsItemName } from '../veau-vo/StatsItemName';
+import { StatsItemNames } from '../veau-vo/StatsItemNames';
 import { StatsName } from '../veau-vo/StatsName';
 import { StatsUnit } from '../veau-vo/StatsUnit';
 import { StatsValue } from '../veau-vo/StatsValue';
@@ -243,10 +244,8 @@ export class Stats extends Entity<StatsID> {
     return this.items.getAsOfs();
   }
 
-  public getRows(): Array<string> {
-    return this.items.getNames().map<string>((name: StatsItemName): string => {
-      return name.get();
-    });
+  public getRows(): StatsItemNames {
+    return this.items.getNames();
   }
 
   public getRowHeaderSize(): number {
@@ -261,21 +260,19 @@ export class Stats extends Entity<StatsID> {
     });
   }
 
-  // TODO SHOULD BE COORDINATE
-  public setData(row: number, column: number, value: NumericalValue): void {
-    const item: StatsItem = this.items.get(row);
-    const asOf: AsOf = this.getColumns().get(column);
+  public setData(coordinate: Coordinate, value: NumericalValue): void {
+    const item: StatsItem = this.items.get(coordinate.getRow().get());
+    const asOf: AsOf = this.getColumns().get(coordinate.getColumn().get());
     const statsValue: StatsValue = StatsValue.of(item.getStatsItemID(), asOf, value);
 
     item.setValue(statsValue);
     this.recalculateColumns();
   }
 
-  // TODO SHOULD BE COORDINATE
-  public deleteData(row: number, column: number): void {
-    const asOf: AsOf = this.getColumns().get(column);
+  public deleteData(coordinate: Coordinate): void {
+    const asOf: AsOf = this.getColumns().get(coordinate.getColumn().get());
 
-    this.items.get(row).delete(asOf);
+    this.items.get(coordinate.getRow().get()).delete(asOf);
     this.recalculateColumns();
   }
 
@@ -305,7 +302,7 @@ export class Stats extends Entity<StatsID> {
     return chart;
   }
 
-  public getItemNames(): Array<StatsItemName> {
+  public getItemNames(): StatsItemNames {
     return this.items.getNames();
   }
 
@@ -373,8 +370,7 @@ export class Stats extends Entity<StatsID> {
       name,
       unit,
       updatedAt,
-      items,
-      startDate
+      items
     } = this;
 
     if (!statsID.equals(other.getStatsID())) {

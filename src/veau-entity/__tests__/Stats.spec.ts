@@ -4,6 +4,8 @@ import { empty } from '../../veau-general/Optional/Empty';
 import { present } from '../../veau-general/Optional/Present';
 import { AsOf } from '../../veau-vo/AsOf';
 import { AsOfs } from '../../veau-vo/AsOfs';
+import { Column } from '../../veau-vo/Column';
+import { Coordinate } from '../../veau-vo/Coordinate';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language } from '../../veau-vo/Language';
@@ -13,9 +15,11 @@ import { NumericalValue } from '../../veau-vo/NumericalValue';
 import { Region } from '../../veau-vo/Region';
 import { RegionID } from '../../veau-vo/RegionID';
 import { RegionName } from '../../veau-vo/RegionName';
+import { Row } from '../../veau-vo/Row';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
 import { StatsItemName } from '../../veau-vo/StatsItemName';
+import { StatsItemNames } from '../../veau-vo/StatsItemNames';
 import { StatsName } from '../../veau-vo/StatsName';
 import { StatsUnit } from '../../veau-vo/StatsUnit';
 import { StatsValue } from '../../veau-vo/StatsValue';
@@ -464,10 +468,10 @@ describe('Stats', () => {
         ]))
       ]), empty<AsOf>());
 
-      expect(stats.getRows()).toEqual([
-        'stats item 1',
-        'stats item 2'
-      ]);
+      const rows: StatsItemNames = stats.getRows();
+      expect(rows.size()).toEqual(2);
+      expect(rows.get(0).get()).toEqual('stats item 1');
+      expect(rows.get(1).get()).toEqual('stats item 2');
     });
   });
 
@@ -568,7 +572,7 @@ describe('Stats', () => {
         ]))
       ]), empty<AsOf>());
 
-      stats.setData(0, 2, NumericalValue.of(4));
+      stats.setData(Coordinate.of(Row.of(0), Column.of(2)), NumericalValue.of(4));
 
       expect(stats.getItems().get(0).getValues().size()).toEqual(2);
       expect(stats.getItems().get(0).getValues().get(0).getAsOfAsString()).toEqual('2000-01-01');
@@ -585,7 +589,7 @@ describe('Stats', () => {
         ]))
       ]), empty<AsOf>());
 
-      stats.setData(0, 2, NumericalValue.of(2));
+      stats.setData(Coordinate.of(Row.of(0), Column.of(2)), NumericalValue.of(2));
 
       expect(stats.getItems().get(0).getValues().size()).toEqual(3);
       expect(stats.getItems().get(0).getValues().get(0).getAsOfAsString()).toEqual('2000-01-01');
