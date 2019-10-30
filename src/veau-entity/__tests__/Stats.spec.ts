@@ -777,7 +777,9 @@ describe('Stats', () => {
       const unit: StatsUnit = StatsUnit.of('unit1');
       const updatedAt: UpdatedAt = UpdatedAt.ofString('2000-01-01');
       const items: StatsItems = StatsItems.from([
-        StatsItem.from(StatsItemID.of('a28eceac-0451-4339-b1c5-0c298b3905f6'), StatsItemName.of('stats1'), StatsValues.of([]))
+        StatsItem.from(StatsItemID.of('c4c9d345-251b-4397-9c54-0b38dc735dee'), StatsItemName.of('stats1'), StatsValues.of([
+          StatsValue.of(StatsItemID.of('c4c9d345-251b-4397-9c54-0b38dc735dee'), AsOf.ofString('2000-01-01'), NumericalValue.of(1))
+        ])),
       ]);
 
       const stats: Stats = Stats.from(statsID, language, region, term, name, unit, updatedAt, items, empty<AsOf>());
