@@ -6,6 +6,7 @@ import { Mapper } from '../veau-general/Type/Mapper';
 import { AsOf } from '../veau-vo/AsOf';
 import { AsOfs } from '../veau-vo/AsOfs';
 import { StatsItemName } from '../veau-vo/StatsItemName';
+import { StatsItemNames } from '../veau-vo/StatsItemNames';
 import { StatsItem, StatsItemJSON } from './StatsItem';
 
 export class StatsItems implements Collection<number, StatsItem>, JSONable {
@@ -44,10 +45,10 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable {
     return statsItem;
   }
 
-  public getNames(): Array<StatsItemName> {
-    return this.items.map<StatsItemName>((item: StatsItem): StatsItemName => {
+  public getNames(): StatsItemNames {
+    return StatsItemNames.of(this.items.map<StatsItemName>((item: StatsItem): StatsItemName => {
       return item.getName();
-    });
+    }));
   }
 
   public getAsOfs(): AsOfs {
