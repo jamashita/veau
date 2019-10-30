@@ -86,6 +86,7 @@ describe('StatsOutlines', () => {
       const outlines1: StatsOutlines = StatsOutlines.of([outline1, outline2, outline3]);
       const outlines2: StatsOutlines = StatsOutlines.of([outline1, outline2]);
 
+      expect(outlines1.equals(outlines1)).toEqual(true);
       expect(outlines1.equals(outlines2)).toEqual(false);
     });
 
@@ -96,6 +97,7 @@ describe('StatsOutlines', () => {
       const outlines1: StatsOutlines = StatsOutlines.of([outline1, outline2]);
       const outlines2: StatsOutlines = StatsOutlines.of([outline2, outline1]);
 
+      expect(outlines1.equals(outlines1)).toEqual(true);
       expect(outlines1.equals(outlines2)).toEqual(false);
     });
 
@@ -106,6 +108,7 @@ describe('StatsOutlines', () => {
       const outlines1: StatsOutlines = StatsOutlines.of([outline1, outline2]);
       const outlines2: StatsOutlines = StatsOutlines.of([outline1, outline2]);
 
+      expect(outlines1.equals(outlines1)).toEqual(true);
       expect(outlines1.equals(outlines2)).toEqual(true);
     });
   });
