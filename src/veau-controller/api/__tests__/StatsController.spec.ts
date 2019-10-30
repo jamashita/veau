@@ -2,7 +2,6 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'http-status';
 import 'jest';
-import moment from 'moment';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';
@@ -11,13 +10,16 @@ import { StatsItem } from '../../../veau-entity/StatsItem';
 import { StatsItems } from '../../../veau-entity/StatsItems';
 import { Term } from '../../../veau-enum/Term';
 import { NotFoundError } from '../../../veau-error/NotFoundError';
+import { empty } from '../../../veau-general/Optional/Empty';
 import { StatsInteractor } from '../../../veau-interactor/StatsInteractor';
 import { AccountName } from '../../../veau-vo/AccountName';
+import { AsOf } from '../../../veau-vo/AsOf';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
 import { Language } from '../../../veau-vo/Language';
 import { LanguageID } from '../../../veau-vo/LanguageID';
 import { LanguageName } from '../../../veau-vo/LanguageName';
+import { NumericalValue } from '../../../veau-vo/NumericalValue';
 import { Region } from '../../../veau-vo/Region';
 import { RegionID } from '../../../veau-vo/RegionID';
 import { RegionName } from '../../../veau-vo/RegionName';
@@ -133,9 +135,10 @@ describe('StatsController', () => {
         UpdatedAt.ofString('2000-01-01 00:00:00'),
         StatsItems.from([
           StatsItem.from(StatsItemID.of('09c2e4a6-6839-4fbe-858e-bf2c4ee7d5e6'), StatsItemName.of('stats item'), StatsValues.of([
-            StatsValue.of(moment.utc('2000-01-01'), 5)
+            StatsValue.of(StatsItemID.of('09c2e4a6-6839-4fbe-858e-bf2c4ee7d5e6'), AsOf.ofString('2000-01-01'), NumericalValue.of(5))
           ]))
-        ])
+        ]),
+        empty<AsOf>()
       ));
       const app: express.Express = express();
       app.use('/', StatsController);

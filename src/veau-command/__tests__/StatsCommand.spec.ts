@@ -5,6 +5,8 @@ import { StatsItems } from '../../veau-entity/StatsItems';
 import { Term } from '../../veau-enum/Term';
 import { IQuery } from '../../veau-general/MySQL/IQuery';
 import { QueryMock } from '../../veau-general/MySQL/QueryMock';
+import { empty } from '../../veau-general/Optional/Empty';
+import { AsOf } from '../../veau-vo/AsOf';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language } from '../../veau-vo/Language';
@@ -35,7 +37,8 @@ describe('StatsCommand', () => {
         StatsName.of('stats name'),
         StatsUnit.of('stats unit'),
         UpdatedAt.ofString('2000-01-01'),
-        StatsItems.from([])
+        StatsItems.from([]),
+        empty<AsOf>()
       );
       const accountID: VeauAccountID = VeauAccountID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87');
 

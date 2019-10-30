@@ -11,8 +11,10 @@ import { Term } from '../../veau-enum/Term';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { NotFoundError } from '../../veau-error/NotFoundError';
 import { MySQL } from '../../veau-general/MySQL/MySQL';
+import { empty } from '../../veau-general/Optional/Empty';
 import { StatsOutlineQuery } from '../../veau-query/StatsOutlineQuery';
 import { StatsQuery } from '../../veau-query/StatsQuery';
+import { AsOf } from '../../veau-vo/AsOf';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language } from '../../veau-vo/Language';
@@ -69,7 +71,8 @@ describe('StatsInteractor', () => {
         name,
         unit,
         updatedAt,
-        items
+        items,
+        empty<AsOf>()
       ));
 
       const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
@@ -166,7 +169,8 @@ describe('StatsInteractor', () => {
         name,
         unit,
         updatedAt,
-        items
+        items,
+        empty<AsOf>()
       );
 
       const spy: SinonSpy = sinon.spy();
