@@ -256,7 +256,13 @@ export class Stats extends Entity<StatsID> {
   }
 
   public getRowHeaderSize(): HeaderSize {
-    return HeaderSize.of(this.items.maxNameLength() * REVISED_VALUE);
+    const length: number = this.items.maxNameLength();
+
+    if (length === 0) {
+      return HeaderSize.of(1 * REVISED_VALUE);
+    }
+
+    return HeaderSize.of(length * REVISED_VALUE);
   }
 
   public getData(): Array<Array<string>> {

@@ -59,9 +59,9 @@ describe('StatsValueQuery', () => {
 
       expect(year2001.size()).toEqual(2);
       expect(year2001.get(0).getAsOfAsString()).toEqual('2001-01-01');
-      expect(year2001.get(0).getValue()).toEqual(11);
+      expect(year2001.get(0).getValue().get()).toEqual(11);
       expect(year2001.get(1).getAsOfAsString()).toEqual('2001-01-02');
-      expect(year2001.get(1).getValue()).toEqual(12);
+      expect(year2001.get(1).getValue().get()).toEqual(12);
 
       const year2000: StatsValues = values.filter(StatsItemID.of('98d1e9b5-6b18-44de-b615-d8016f49977d'));
 
