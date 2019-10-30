@@ -20,6 +20,8 @@ import { ISO639 } from '../../../veau-vo/ISO639';
 import { Language } from '../../../veau-vo/Language';
 import { Locale } from '../../../veau-vo/Locale';
 import { Region } from '../../../veau-vo/Region';
+import { StatsName } from '../../../veau-vo/StatsName';
+import { StatsUnit } from '../../../veau-vo/StatsUnit';
 import { TextField } from '../atoms/TextField';
 
 type Props = {
@@ -27,8 +29,8 @@ type Props = {
   stats: Stats;
   locale: Locale;
   closeNewStatsModal: () => void;
-  nameTyped: (name: string) => void;
-  unitTyped: (unit: string) => void;
+  nameTyped: (name: StatsName) => void;
+  unitTyped: (unit: StatsUnit) => void;
   iso639Selected: (iso639: ISO639) => void;
   iso3166Selected: (iso3166: ISO3166) => void;
   termSelected: (term: Term) => void;
@@ -93,7 +95,9 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
             })}
             type='text'
             value={stats.getName().get()}
-            onKeyUp={nameTyped}
+            onKeyUp={(value: string): void => {
+              nameTyped(StatsName.of(value));
+            }}
           />
           <TextField
             label={intl.formatMessage({
@@ -101,7 +105,9 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
             })}
             type='text'
             value={stats.getUnit().get()}
-            onKeyUp={unitTyped}
+            onKeyUp={(value: string): void => {
+              unitTyped(StatsUnit.of(value));
+            }}
           />
           <FormControl
             fullWidth={true}

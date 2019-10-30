@@ -1,15 +1,16 @@
 import { Reducer } from 'redux';
 import { StatsItem } from '../../veau-entity/StatsItem';
+import { Row } from '../../veau-vo/Row';
 import { ACTION, Action } from '../actions/Action';
 
 export type StatsEdit = {
   selectingItem?: StatsItem;
-  selectingRow: number;
+  selectingRow: Row;
 };
 
 const initialState: StatsEdit = {
   selectingItem: undefined,
-  selectingRow: 0
+  selectingRow: Row.default()
 };
 
 export const statsEdit: Reducer<StatsEdit, Action> = (state: StatsEdit = initialState, action: Action): StatsEdit => {

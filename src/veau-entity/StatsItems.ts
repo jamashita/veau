@@ -5,6 +5,8 @@ import { Enumerator } from '../veau-general/Type/Enumerator';
 import { Mapper } from '../veau-general/Type/Mapper';
 import { AsOf } from '../veau-vo/AsOf';
 import { AsOfs } from '../veau-vo/AsOfs';
+import { Column } from '../veau-vo/Column';
+import { Row } from '../veau-vo/Row';
 import { StatsItemName } from '../veau-vo/StatsItemName';
 import { StatsItemNames } from '../veau-vo/StatsItemNames';
 import { StatsItem, StatsItemJSON } from './StatsItem';
@@ -71,13 +73,15 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable {
     return Math.max(...lengths);
   }
 
-  public move(from: number, to: number): StatsItems {
+  public move(from: Column, to: Column): StatsItems {
     const {
       items
     } = this;
 
-    const min: number = Math.min(from, to);
-    const max: number = Math.max(from, to);
+    const fromValue: number = from.get();
+    const toValue: number = to.get();
+    const min: number = Math.min(fromValue, toValue);
+    const max: number = Math.max(fromValue, toValue);
 
     const newItems: Array<StatsItem> = [
       ...items.slice(0, min),
@@ -90,15 +94,17 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable {
     return new StatsItems(newItems);
   }
 
-  public replace(statsItem: StatsItem, to: number): StatsItems {
+  public replace(statsItem: StatsItem, to: Row): StatsItems {
     const {
       items
     } = this;
 
+    const toValue: number = to.get();
+
     const newItems: Array<StatsItem> = [
-      ...items.slice(0, to),
+      ...items.slice(0, toValue),
       statsItem,
-      ...items.slice(to + 1)
+      ...items.slice(toValue + 1)
     ];
 
     return new StatsItems(newItems);

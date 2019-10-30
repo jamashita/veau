@@ -15,6 +15,11 @@ export class Row extends ValueObject {
 
     throw new RuntimeError(`ILLEGAL ROW SPECIFIED ${row}`);
   }
+
+  public static default(): Row {
+    return Row.of(0);
+  }
+
   private constructor(row: number) {
     super();
     this.row = row;

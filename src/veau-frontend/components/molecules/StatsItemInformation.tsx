@@ -2,11 +2,12 @@ import { Button, Card, CardActions, CardContent, CardHeader, Icon } from '@mater
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { StatsItem } from '../../../veau-entity/StatsItem';
+import { StatsItemName } from '../../../veau-vo/StatsItemName';
 import { TextField } from '../atoms/TextField';
 
 type Props = {
   selecting?: StatsItem;
-  nameTyped: (name: string) => void;
+  nameTyped: (name: StatsItemName) => void;
   removeItem: (statsItem: StatsItem) => void;
 };
 type State = {
@@ -65,7 +66,9 @@ class StatsItemInformationImpl extends React.Component<Props & WrappedComponentP
             })}
             type='text'
             value={selecting.getName().get()}
-            onKeyUp={nameTyped}
+            onKeyUp={(value: string): void => {
+              nameTyped(StatsItemName.of(value));
+            }}
           />
           <CardActions>
             <Button

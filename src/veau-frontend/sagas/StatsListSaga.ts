@@ -1,11 +1,11 @@
 import { SagaIterator } from '@redux-saga/types';
 import { all, call, fork, put, select, take } from 'redux-saga/effects';
 import { Stats } from '../../veau-entity/Stats';
+import { empty } from '../../veau-general/Optional/Empty';
+import { AsOf } from '../../veau-vo/AsOf';
 import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-vo/Region';
-import { StatsName } from '../../veau-vo/StatsName';
 import { StatsOutlines } from '../../veau-vo/StatsOutlines';
-import { StatsUnit } from '../../veau-vo/StatsUnit';
 import {
   ACTION,
   LocationChangeAction,
@@ -75,16 +75,20 @@ export class StatsListSaga {
           stats
         }
       } = state;
+      const {
+        name
+      } = action;
 
       const newStats: Stats = Stats.from(
         stats.getStatsID(),
         stats.getLanguage(),
         stats.getRegion(),
         stats.getTerm(),
-        StatsName.of(action.name),
+        name,
         stats.getUnit(),
         stats.getUpdatedAt(),
-        stats.getItems()
+        stats.getItems(),
+        empty<AsOf>()
       );
 
       yield put(updateNewStats(newStats));
@@ -101,6 +105,9 @@ export class StatsListSaga {
           stats
         }
       } = state;
+      const {
+        unit
+      } = action;
 
       const newStats: Stats = Stats.from(
         stats.getStatsID(),
@@ -108,9 +115,10 @@ export class StatsListSaga {
         stats.getRegion(),
         stats.getTerm(),
         stats.getName(),
-        StatsUnit.of(action.unit),
+        unit,
         stats.getUpdatedAt(),
-        stats.getItems()
+        stats.getItems(),
+        empty<AsOf>()
       );
 
       yield put(updateNewStats(newStats));
@@ -141,7 +149,8 @@ export class StatsListSaga {
           stats.getName(),
           stats.getUnit(),
           stats.getUpdatedAt(),
-          stats.getItems()
+          stats.getItems(),
+          empty<AsOf>()
         );
 
         yield put(updateNewStats(newStats));
@@ -176,7 +185,8 @@ export class StatsListSaga {
           stats.getName(),
           stats.getUnit(),
           stats.getUpdatedAt(),
-          stats.getItems()
+          stats.getItems(),
+          empty<AsOf>()
         );
 
         yield put(updateNewStats(newStats));
@@ -206,7 +216,8 @@ export class StatsListSaga {
         stats.getName(),
         stats.getUnit(),
         stats.getUpdatedAt(),
-        stats.getItems()
+        stats.getItems(),
+        empty<AsOf>()
       );
 
       yield put(updateNewStats(newStats));

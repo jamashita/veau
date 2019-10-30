@@ -1,6 +1,8 @@
 import { Button, Icon } from '@material-ui/core';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
+import { RuntimeError } from '../../../veau-general/RuntimeError';
+import { AsOf } from '../../../veau-vo/AsOf';
 import { Props } from '../../containers/pages/StatsEdit';
 import { Authenticated } from '../../containers/templates/Authenticated';
 import { Chart } from '../molecules/Chart';
@@ -97,7 +99,8 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
       removeItem,
       itemNameTyped,
       saveNewItem,
-      startDateDetermined
+      startDateDetermined,
+      invalidDateInput
     } = this.props;
     const {
       openNewStatsItemModal,
@@ -208,7 +211,14 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
             });
           }}
           determineStartDate={(date: string): void => {
-            startDateDetermined(date);
+            try {
+              startDateDetermined(AsOf.ofString(date));
+            }
+            catch (err) {
+              if (err instanceof RuntimeError) {
+                invalidDateInput();
+              }
+            }
             this.setState({
               openStartDateModal: false
             });

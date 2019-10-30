@@ -34,4 +34,12 @@ describe('Row', () => {
       }).toThrow(RuntimeError);
     });
   });
+
+  describe('default', () => {
+    it('always gives 0 value', () => {
+      for (let i: number = 0; i < 100; i++) {
+        expect(Row.default().get()).toEqual(0);
+      }
+    });
+  });
 });

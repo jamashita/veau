@@ -2,6 +2,8 @@ import { Stats } from '../../veau-entity/Stats';
 import { Term } from '../../veau-enum/Term';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
+import { StatsName } from '../../veau-vo/StatsName';
+import { StatsUnit } from '../../veau-vo/StatsUnit';
 import {
   ACTION,
   StatsListCloseNewStatsModalAction,
@@ -28,14 +30,14 @@ export const closeNewStatsModal: () => StatsListCloseNewStatsModalAction = (): S
   };
 };
 
-export const newStatsNameTyped: (name: string) => StatsListNameTypedAction = (name: string): StatsListNameTypedAction => {
+export const newStatsNameTyped: (name: StatsName) => StatsListNameTypedAction = (name: StatsName): StatsListNameTypedAction => {
   return {
     type: ACTION.STATS_LIST_NAME_TYPED,
     name
   };
 };
 
-export const newStatsUnitTyped: (unit: string) => StatsListUnitTypedAction = (unit: string): StatsListUnitTypedAction => {
+export const newStatsUnitTyped: (unit: StatsUnit) => StatsListUnitTypedAction = (unit: StatsUnit): StatsListUnitTypedAction => {
   return {
     type: ACTION.STATS_LIST_UNIT_TYPED,
     unit

@@ -1,15 +1,14 @@
-import moment from 'moment';
 import { SagaIterator } from 'redux-saga';
 import { all, call, fork, put, select, take } from 'redux-saga/effects';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { NotFoundError } from '../../veau-error/NotFoundError';
+import { empty } from '../../veau-general/Optional/Empty';
+import { present } from '../../veau-general/Optional/Present';
+import { AsOf } from '../../veau-vo/AsOf';
 import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-vo/Region';
 import { StatsID } from '../../veau-vo/StatsID';
-import { StatsItemName } from '../../veau-vo/StatsItemName';
-import { StatsName } from '../../veau-vo/StatsName';
-import { StatsUnit } from '../../veau-vo/StatsUnit';
 import {
   ACTION,
   LocationChangeAction,
@@ -58,6 +57,7 @@ export class StatsEditSaga {
     yield fork(StatsEditSaga.rowSelected);
     yield fork(StatsEditSaga.selectingItemNameTyped);
     yield fork(StatsEditSaga.startDateDetermined);
+    yield fork(StatsEditSaga.invalidDateInput);
     yield fork(StatsEditSaga.invalidValueInput);
     yield fork(StatsEditSaga.removeItem);
     yield fork(StatsEditSaga.rowMoved);
@@ -111,10 +111,11 @@ export class StatsEditSaga {
         stats.getLanguage(),
         stats.getRegion(),
         stats.getTerm(),
-        StatsName.of(action.name),
+        action.name,
         stats.getUnit(),
         stats.getUpdatedAt(),
-        stats.getItems()
+        stats.getItems(),
+        empty<AsOf>()
       );
 
       yield put(updateStats(newStats));
@@ -136,9 +137,10 @@ export class StatsEditSaga {
         stats.getRegion(),
         stats.getTerm(),
         stats.getName(),
-        StatsUnit.of(action.unit),
+        action.unit,
         stats.getUpdatedAt(),
-        stats.getItems()
+        stats.getItems(),
+        empty<AsOf>()
       );
 
       yield put(updateStats(newStats));
@@ -167,7 +169,8 @@ export class StatsEditSaga {
           stats.getName(),
           stats.getUnit(),
           stats.getUpdatedAt(),
-          stats.getItems()
+          stats.getItems(),
+          empty<AsOf>()
         );
 
         yield put(updateStats(newStats));
@@ -200,7 +203,8 @@ export class StatsEditSaga {
           stats.getName(),
           stats.getUnit(),
           stats.getUpdatedAt(),
-          stats.getItems()
+          stats.getItems(),
+          empty<AsOf>()
         );
 
         yield put(updateStats(newStats));
@@ -220,13 +224,12 @@ export class StatsEditSaga {
         stats
       } = state;
       const {
-        row,
-        column,
+        coordinate,
         value
       } = action;
 
       const copied: Stats = stats.copy();
-      copied.setData(row, column, value);
+      copied.setData(coordinate, value);
 
       yield put(updateStats(copied));
     }
@@ -241,12 +244,11 @@ export class StatsEditSaga {
         stats
       } = state;
       const {
-        row,
-        column
+        coordinate
       } = action;
 
       const copied: Stats = stats.copy();
-      copied.deleteData(row, column);
+      copied.deleteData(coordinate);
 
       yield put(updateStats(copied));
     }
@@ -260,8 +262,11 @@ export class StatsEditSaga {
       const {
         statsItem
       } = state;
+      const {
+        name
+      } = action;
 
-      const newStatsItem: StatsItem = StatsItem.from(statsItem.getStatsItemID(), StatsItemName.of(action.name), statsItem.getValues());
+      const newStatsItem: StatsItem = StatsItem.from(statsItem.getStatsItemID(), name, statsItem.getValues());
 
       yield put(updateStatsItem(newStatsItem));
     }
@@ -308,7 +313,7 @@ export class StatsEditSaga {
         row
       } = action;
 
-      const selecting: StatsItem = stats.getItems().get(row);
+      const selecting: StatsItem = stats.getRow(row);
 
       yield put(selectItem(selecting, row));
     }
@@ -326,9 +331,12 @@ export class StatsEditSaga {
           selectingRow
         }
       } = state;
+      const {
+        name
+      } = action;
 
       if (selectingItem !== undefined) {
-        const newSelectingItem: StatsItem = StatsItem.from(selectingItem.getStatsItemID(), StatsItemName.of(action.name), selectingItem.getValues());
+        const newSelectingItem: StatsItem = StatsItem.from(selectingItem.getStatsItemID(), name, selectingItem.getValues());
         const copied: Stats = stats.copy();
         copied.replaceItem(newSelectingItem, selectingRow);
 
@@ -352,23 +360,25 @@ export class StatsEditSaga {
         startDate
       } = action;
 
-      const date: moment.Moment = moment(startDate);
-      if (date.isValid()) {
-        const newStats: Stats = Stats.from(
-          stats.getStatsID(),
-          stats.getLanguage(),
-          stats.getRegion(),
-          stats.getTerm(),
-          stats.getName(),
-          stats.getUnit(),
-          stats.getUpdatedAt(),
-          stats.getItems(),
-          startDate
-        );
+      const newStats: Stats = Stats.from(
+        stats.getStatsID(),
+        stats.getLanguage(),
+        stats.getRegion(),
+        stats.getTerm(),
+        stats.getName(),
+        stats.getUnit(),
+        stats.getUpdatedAt(),
+        stats.getItems(),
+        present<AsOf>(startDate)
+      );
 
-        yield put(updateStats(newStats));
-        continue;
-      }
+      yield put(updateStats(newStats));
+    }
+  }
+
+  private static *invalidDateInput(): SagaIterator<unknown> {
+    while (true) {
+      yield take(ACTION.STATS_EDIT_INVALID_DATE_INPUT);
 
       yield put(appearNotification('error', 'center', 'top', 'INVALID_INPUT_DATE'));
     }

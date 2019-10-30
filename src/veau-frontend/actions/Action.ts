@@ -3,12 +3,20 @@ import { Action as ReduxAction } from 'redux';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { Term } from '../../veau-enum/Term';
+import { AsOf } from '../../veau-vo/AsOf';
+import { Column } from '../../veau-vo/Column';
+import { Coordinate } from '../../veau-vo/Coordinate';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Locale } from '../../veau-vo/Locale';
+import { NumericalValue } from '../../veau-vo/NumericalValue';
+import { Row } from '../../veau-vo/Row';
 import { StatsID } from '../../veau-vo/StatsID';
+import { StatsItemName } from '../../veau-vo/StatsItemName';
+import { StatsName } from '../../veau-vo/StatsName';
 import { StatsOutlines } from '../../veau-vo/StatsOutlines';
+import { StatsUnit } from '../../veau-vo/StatsUnit';
 import { VeauAccount } from '../../veau-vo/VeauAccount';
 
 export enum ACTION {
@@ -66,6 +74,7 @@ export enum ACTION {
   STATS_EDIT_REMOVE_SELECTING_ITEM = '@@veau/STATS_EDIT_REMOVE_SELECTING_ITEM',
   STATS_EDIT_CLEAR_SELECTING_ITEM = '@@veau/STATS_EDIT_CLEAR_SELECTING_ITEM',
   STATS_EDIT_START_DATE_DETERMINED = '@@veau/STATS_EDIT_START_DATE_DETERMINED',
+  STATS_EDIT_INVALID_DATE_INPUT = '@@veau/STATS_EDIT_INVALID_DATE_INPUT',
   STATS_EDIT_DATA_FILLED = '@@veau/STATS_EDIT_DATA_FILLED',
   STATS_EDIT_DATA_DELETED = '@@veau/STATS_EDIT_DATA_DELETED',
   STATS_EDIT_ROW_SELECTED = '@@veau/STATS_EDIT_ROW_SELECTED',
@@ -168,11 +177,11 @@ export interface StatsListCloseNewStatsModalAction extends ReduxAction {
 }
 export interface StatsListNameTypedAction extends ReduxAction {
   type: ACTION.STATS_LIST_NAME_TYPED;
-  name: string;
+  name: StatsName;
 }
 export interface StatsListUnitTypedAction extends ReduxAction {
   type: ACTION.STATS_LIST_UNIT_TYPED;
-  unit: string;
+  unit: StatsUnit;
 }
 export interface StatsListISO639SelectedAction extends ReduxAction {
   type: ACTION.STATS_LIST_ISO639_SELECTED;
@@ -198,11 +207,11 @@ export interface StatsListSaveNewStatsAction extends ReduxAction {
 }
 export interface StatsEditNameTypedAction extends ReduxAction {
   type: ACTION.STATS_EDIT_NAME_TYPED;
-  name: string;
+  name: StatsName;
 }
 export interface StatsEditUnitTypedAction extends ReduxAction {
   type: ACTION.STATS_EDIT_UNIT_TYPED;
-  unit: string;
+  unit: StatsUnit;
 }
 export interface StatsEditISO639SelectedAction extends ReduxAction {
   type: ACTION.STATS_EDIT_ISO639_SELECTED;
@@ -214,7 +223,7 @@ export interface StatsEditISO3166SelectedAction extends ReduxAction {
 }
 export interface StatsEditItemNameTypedAction extends ReduxAction {
   type: ACTION.STATS_EDIT_ITEM_NAME_TYPED;
-  name: string;
+  name: StatsItemName;
 }
 export interface StatsEditItemSaveAction extends ReduxAction {
   type: ACTION.STATS_EDIT_ITEM_SAVE;
@@ -222,11 +231,11 @@ export interface StatsEditItemSaveAction extends ReduxAction {
 export interface StatsEditSelectItemAction extends ReduxAction {
   type: ACTION.STATS_EDIT_SELECT_ITEM;
   statsItem: StatsItem;
-  row: number;
+  row: Row;
 }
 export interface StatsEditSelectingItemNameTypedAction extends ReduxAction {
   type: ACTION.STATS_EDIT_SELECTING_ITEM_NAME_TYPED;
-  name: string;
+  name: StatsItemName;
 }
 export interface StatsEditUpdateSelectingItemAction extends ReduxAction {
   type: ACTION.STATS_EDIT_UPDATE_SELECTING_ITEM;
@@ -241,27 +250,28 @@ export interface StatsEditClearSelectingItemAction extends ReduxAction {
 }
 export interface StatsEditStartDateDeterminedAction extends ReduxAction {
   type: ACTION.STATS_EDIT_START_DATE_DETERMINED;
-  startDate: string;
+  startDate: AsOf;
+}
+export interface StatsEditInvalidDateInputAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_INVALID_DATE_INPUT;
 }
 export interface StatsEditDataFilledAction extends ReduxAction {
   type: ACTION.STATS_EDIT_DATA_FILLED;
-  row: number;
-  column: number;
-  value: number;
+  coordinate: Coordinate;
+  value: NumericalValue;
 }
 export interface StatsEditDataDeletedAction extends ReduxAction {
   type: ACTION.STATS_EDIT_DATA_DELETED;
-  row: number;
-  column: number;
+  coordinate: Coordinate;
 }
 export interface StatsEditRowSelectedAction extends ReduxAction {
   type: ACTION.STATS_EDIT_ROW_SELECTED;
-  row: number;
+  row: Row;
 }
 export interface StatsEditRowMovedAction extends ReduxAction {
   type: ACTION.STATS_EDIT_ROW_MOVED;
-  column: number;
-  target: number;
+  column: Column;
+  target: Column;
 }
 export interface StatsEditInvalidValueInputAction extends ReduxAction {
   type: ACTION.STATS_EDIT_INVALID_VALUE_INPUT;
@@ -335,6 +345,7 @@ export type Action =
       StatsEditRemoveSelectingItemAction |
       StatsEditClearSelectingItemAction |
       StatsEditStartDateDeterminedAction |
+      StatsEditInvalidDateInputAction |
       StatsEditDataFilledAction |
       StatsEditDataDeletedAction |
       StatsEditRowSelectedAction |

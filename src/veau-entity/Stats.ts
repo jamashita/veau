@@ -6,6 +6,7 @@ import { present } from '../veau-general/Optional/Present';
 import { UUID } from '../veau-general/UUID';
 import { AsOf } from '../veau-vo/AsOf';
 import { AsOfs } from '../veau-vo/AsOfs';
+import { Column } from '../veau-vo/Column';
 import { Coordinate } from '../veau-vo/Coordinate';
 import { ISO3166 } from '../veau-vo/ISO3166';
 import { ISO639 } from '../veau-vo/ISO639';
@@ -16,6 +17,7 @@ import { NumericalValue } from '../veau-vo/NumericalValue';
 import { Region, RegionJSON } from '../veau-vo/Region';
 import { RegionID } from '../veau-vo/RegionID';
 import { RegionName } from '../veau-vo/RegionName';
+import { Row } from '../veau-vo/Row';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsItemNames } from '../veau-vo/StatsItemNames';
 import { StatsName } from '../veau-vo/StatsName';
@@ -200,6 +202,10 @@ export class Stats extends Entity<StatsID> {
     return this.statsID;
   }
 
+  public getRow(row: Row): StatsItem {
+    return this.items.get(row.get());
+  }
+
   public getColumns(): AsOfs {
     const {
       startDate,
@@ -244,7 +250,7 @@ export class Stats extends Entity<StatsID> {
     return this.items.getAsOfs();
   }
 
-  public getRows(): StatsItemNames {
+  public getRowHeaders(): StatsItemNames {
     return this.items.getNames();
   }
 
@@ -345,11 +351,11 @@ export class Stats extends Entity<StatsID> {
     return true;
   }
 
-  public replaceItem(statsItem: StatsItem, to: number): void {
+  public replaceItem(statsItem: StatsItem, to: Row): void {
     this.items = this.items.replace(statsItem, to);
   }
 
-  public moveItem(from: number, to: number): void {
+  public moveItem(from: Column, to: Column): void {
     this.items = this.items.move(from, to);
   }
 

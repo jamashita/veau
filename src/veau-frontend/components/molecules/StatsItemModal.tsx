@@ -2,13 +2,14 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon } from 
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { StatsItem } from '../../../veau-entity/StatsItem';
+import { StatsItemName } from '../../../veau-vo/StatsItemName';
 import { TextField } from '../atoms/TextField';
 
 type Props = {
   open: boolean;
   statsItem: StatsItem;
   close: () => void;
-  itemNameTyped: (name: string) => void;
+  itemNameTyped: (name: StatsItemName) => void;
   saveNewItem: () => void;
 };
 type State = {
@@ -61,7 +62,9 @@ class StatsItemModalImpl extends React.Component<Props & WrappedComponentProps, 
             })}
             type='text'
             value={statsItem.getName().get()}
-            onKeyUp={itemNameTyped}
+            onKeyUp={(value: string): void => {
+              itemNameTyped(StatsItemName.of(value));
+            }}
           />
         </DialogContent>
         <DialogActions>

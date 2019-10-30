@@ -1,21 +1,24 @@
 import { HotTable } from '@handsontable/react';
 import React from 'react';
 import { Stats } from '../../../veau-entity/Stats';
+import { AsOfs } from '../../../veau-vo/AsOfs';
+import { Column } from '../../../veau-vo/Column';
+import { Coordinate } from '../../../veau-vo/Coordinate';
+import { NumericalValue } from '../../../veau-vo/NumericalValue';
+import { Row } from '../../../veau-vo/Row';
+import { StatsItemNames } from '../../../veau-vo/StatsItemNames';
 
 type Props = {
   stats: Stats;
   invalidValueInput: () => void;
-  dataDeleted: (row: number, column: number) => void;
-  dataFilled: (row: number, column: number, value: number) => void;
-  rowSelected: (row: number) => void;
-  rowMoved: (from: number, to: number) => void;
+  dataDeleted: (coordinate: Coordinate) => void;
+  dataFilled: (coordinate: Coordinate, value: NumericalValue) => void;
+  rowSelected: (row: Row) => void;
+  rowMoved: (from: Column, to: Column) => void;
 };
 type State = {
 };
 
-const ROW_INDEX: number = 0;
-const COLUMN_INDEX: number = 1;
-const VALUE_INDEX: number = 3;
 const SPREADSHEET_HEIGHT: number = 500;
 
 export class Spreadsheet extends React.Component<Props, State> {
@@ -43,11 +46,11 @@ export class Spreadsheet extends React.Component<Props, State> {
     } = this.props;
 
     const data: Array<Array<string>> = stats.getData();
-    const columnHeaders: Array<string> = stats.getColumns();
-    const rowHeaders: Array<string> = stats.getRows();
+    const columnHeaders: AsOfs = stats.getColumns();
+    const rowHeaders: StatsItemNames = stats.getRowHeaders();
     const width: number = stats.getRowHeaderSize();
 
-    if (rowHeaders.length === 0) {
+    if (rowHeaders.isEmpty()) {
       return (
         <div />
       );
@@ -77,7 +80,7 @@ export class Spreadsheet extends React.Component<Props, State> {
           }
           const length: number = changes.length;
           for (let i: number = 0; i < length; i++) {
-            const str: string = changes[i][VALUE_INDEX] as string;
+            const str: string = String(changes[i][3]);
 
             if (isNaN(Number(str))) {
               invalidValueInput();
@@ -92,35 +95,37 @@ export class Spreadsheet extends React.Component<Props, State> {
             return;
           }
           changes.forEach((change: [number, string | number, unknown, unknown]): void => {
-            const row: number = change[ROW_INDEX] as number;
-            const column: number = change[COLUMN_INDEX] as number;
-            const str: string = change[VALUE_INDEX] as string;
+            const row: Row = Row.of(change[0]);
+            const column: Column = Column.of(Number(change[1]));
+            const coordinate: Coordinate = Coordinate.of(row, column);
+            const str: string = String(change[3]);
 
             if (str === '') {
-              dataDeleted(row, column);
+              dataDeleted(coordinate);
               return;
             }
 
-            const value: number = Number(str);
-            dataFilled(row, column, value);
+            const value: NumericalValue = NumericalValue.of(Number(str));
+            dataFilled(coordinate, value);
           });
         }}
         afterSelection={(row1: number, col1: number, row2: number): void => {
           if (row1 === row2) {
-            rowSelected(row1);
+            rowSelected(Row.of(row1));
           }
         }}
         beforeRowMove={(columns: Array<number>, target: number): boolean => {
           columns.forEach((column: number): void => {
+
             if (column === target) {
               return;
             }
             if (column < target) {
-              rowMoved(column, target - 1);
+              rowMoved(Column.of(column), Column.of(target - 1));
               return;
             }
 
-            rowMoved(column, target);
+            rowMoved(Column.of(column), Column.of(target));
           });
           return true;
         }}

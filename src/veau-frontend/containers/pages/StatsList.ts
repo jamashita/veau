@@ -6,7 +6,9 @@ import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
 import { Locale } from '../../../veau-vo/Locale';
 import { StatsID } from '../../../veau-vo/StatsID';
+import { StatsName } from '../../../veau-vo/StatsName';
 import { StatsOutlines } from '../../../veau-vo/StatsOutlines';
+import { StatsUnit } from '../../../veau-vo/StatsUnit';
 import { Action } from '../../actions/Action';
 import { pushToStatsEdit } from '../../actions/RedirectAction';
 import {
@@ -32,8 +34,8 @@ type DispatchProps = {
   toStatsEdit: (statsID: StatsID) => void;
   newStatsClicked: () => void;
   closeNewStatsModal: () => void;
-  nameTyped: (name: string) => void;
-  unitTyped: (unit: string) => void;
+  nameTyped: (name: StatsName) => void;
+  unitTyped: (unit: StatsUnit) => void;
   iso639Selected: (iso639: ISO639) => void;
   iso3166Selected: (iso3166: ISO3166) => void;
   termSelected: (term: Term) => void;
@@ -72,10 +74,10 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
     closeNewStatsModal: (): void => {
       dispatch(closeNewStatsModal());
     },
-    nameTyped: (name: string): void => {
+    nameTyped: (name: StatsName): void => {
       dispatch(newStatsNameTyped(name));
     },
-    unitTyped: (unit: string): void => {
+    unitTyped: (unit: StatsUnit): void => {
       dispatch(newStatsUnitTyped(unit));
     },
     iso639Selected: (iso639: ISO639): void => {

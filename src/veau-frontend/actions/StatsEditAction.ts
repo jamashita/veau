@@ -1,11 +1,20 @@
 import { StatsItem } from '../../veau-entity/StatsItem';
+import { AsOf } from '../../veau-vo/AsOf';
+import { Column } from '../../veau-vo/Column';
+import { Coordinate } from '../../veau-vo/Coordinate';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
+import { NumericalValue } from '../../veau-vo/NumericalValue';
+import { Row } from '../../veau-vo/Row';
+import { StatsItemName } from '../../veau-vo/StatsItemName';
+import { StatsName } from '../../veau-vo/StatsName';
+import { StatsUnit } from '../../veau-vo/StatsUnit';
 import {
   ACTION,
   StatsEditClearSelectingItemAction,
   StatsEditDataDeletedAction,
   StatsEditDataFilledAction,
+  StatsEditInvalidDateInputAction,
   StatsEditInvalidValueInputAction,
   StatsEditISO3166SelectedAction,
   StatsEditISO639SelectedAction,
@@ -23,14 +32,14 @@ import {
   StatsEditUpdateSelectingItemAction
 } from './Action';
 
-export const statsNameTyped: (name: string) => StatsEditNameTypedAction = (name: string): StatsEditNameTypedAction => {
+export const statsNameTyped: (name: StatsName) => StatsEditNameTypedAction = (name: StatsName): StatsEditNameTypedAction => {
   return {
     type: ACTION.STATS_EDIT_NAME_TYPED,
     name
   };
 };
 
-export const statsUnitTyped: (unit: string) => StatsEditUnitTypedAction = (unit: string): StatsEditUnitTypedAction => {
+export const statsUnitTyped: (unit: StatsUnit) => StatsEditUnitTypedAction = (unit: StatsUnit): StatsEditUnitTypedAction => {
   return {
     type: ACTION.STATS_EDIT_UNIT_TYPED,
     unit
@@ -51,24 +60,22 @@ export const statsISO3166Selected: (iso3166: ISO3166) => StatsEditISO3166Selecte
   };
 };
 
-export const statsDataFilled: (row: number, column: number, value: number) => StatsEditDataFilledAction = (row: number, column: number, value: number): StatsEditDataFilledAction => {
+export const statsDataFilled: (coordinate: Coordinate, value: NumericalValue) => StatsEditDataFilledAction = (coordinate: Coordinate, value: NumericalValue): StatsEditDataFilledAction => {
   return {
     type: ACTION.STATS_EDIT_DATA_FILLED,
-    row,
-    column,
+    coordinate,
     value
   };
 };
 
-export const statsDataDeleted: (row: number, column: number) => StatsEditDataDeletedAction = (row: number, column: number): StatsEditDataDeletedAction => {
+export const statsDataDeleted: (coordinate: Coordinate) => StatsEditDataDeletedAction = (coordinate: Coordinate): StatsEditDataDeletedAction => {
   return {
     type: ACTION.STATS_EDIT_DATA_DELETED,
-    row,
-    column
+    coordinate
   };
 };
 
-export const itemNameTyped: (name: string) => StatsEditItemNameTypedAction = (name: string): StatsEditItemNameTypedAction => {
+export const itemNameTyped: (name: StatsItemName) => StatsEditItemNameTypedAction = (name: StatsItemName): StatsEditItemNameTypedAction => {
   return {
     type: ACTION.STATS_EDIT_ITEM_NAME_TYPED,
     name
@@ -81,14 +88,14 @@ export const saveItem: () => StatsEditItemSaveAction = (): StatsEditItemSaveActi
   };
 };
 
-export const rowSelected: (row: number) => StatsEditRowSelectedAction = (row: number): StatsEditRowSelectedAction => {
+export const rowSelected: (row: Row) => StatsEditRowSelectedAction = (row: Row): StatsEditRowSelectedAction => {
   return {
     type: ACTION.STATS_EDIT_ROW_SELECTED,
     row
   };
 };
 
-export const selectItem: (statsItem: StatsItem, row: number) => StatsEditSelectItemAction = (statsItem: StatsItem, row: number): StatsEditSelectItemAction => {
+export const selectItem: (statsItem: StatsItem, row: Row) => StatsEditSelectItemAction = (statsItem: StatsItem, row: Row): StatsEditSelectItemAction => {
   return {
     type: ACTION.STATS_EDIT_SELECT_ITEM,
     statsItem,
@@ -96,17 +103,23 @@ export const selectItem: (statsItem: StatsItem, row: number) => StatsEditSelectI
   };
 };
 
-export const selectingItemNameTyped: (name: string) => StatsEditSelectingItemNameTypedAction = (name: string): StatsEditSelectingItemNameTypedAction => {
+export const selectingItemNameTyped: (name: StatsItemName) => StatsEditSelectingItemNameTypedAction = (name: StatsItemName): StatsEditSelectingItemNameTypedAction => {
   return {
     type: ACTION.STATS_EDIT_SELECTING_ITEM_NAME_TYPED,
     name
   };
 };
 
-export const startDateDetermined: (startDate: string) => StatsEditStartDateDeterminedAction = (startDate: string): StatsEditStartDateDeterminedAction => {
+export const startDateDetermined: (startDate: AsOf) => StatsEditStartDateDeterminedAction = (startDate: AsOf): StatsEditStartDateDeterminedAction => {
   return {
     type: ACTION.STATS_EDIT_START_DATE_DETERMINED,
     startDate
+  };
+};
+
+export const invalidDateInput: () => StatsEditInvalidDateInputAction = (): StatsEditInvalidDateInputAction => {
+  return {
+    type: ACTION.STATS_EDIT_INVALID_DATE_INPUT
   };
 };
 
@@ -117,7 +130,7 @@ export const updateSelectingItem: (statsItem: StatsItem) => StatsEditUpdateSelec
   };
 };
 
-export const rowMoved: (column: number, target: number) => StatsEditRowMovedAction = (column: number, target: number): StatsEditRowMovedAction => {
+export const rowMoved: (column: Column, target: Column) => StatsEditRowMovedAction = (column: Column, target: Column): StatsEditRowMovedAction => {
   return {
     type: ACTION.STATS_EDIT_ROW_MOVED,
     column,

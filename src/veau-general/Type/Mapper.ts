@@ -1,3 +1,1 @@
-import { Function } from './Function';
-
-export type Mapper<I, O> = Function<I, O>;
+export type Mapper<I, O> = (value: I, index: number) => O;

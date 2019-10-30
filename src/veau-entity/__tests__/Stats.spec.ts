@@ -454,7 +454,27 @@ describe('Stats', () => {
     });
   });
 
-  describe('getRows', () => {
+  describe('getRow', () => {
+    const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([
+      StatsValue.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), AsOf.ofString('2000-01-01'), NumericalValue.of(1)),
+      StatsValue.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), AsOf.ofString('2000-01-03'), NumericalValue.of(2))
+    ]));
+    const statsItem2: StatsItem = StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([
+      StatsValue.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), AsOf.ofString('2000-01-01'), NumericalValue.of(2)),
+      StatsValue.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), AsOf.ofString('2000-01-02'), NumericalValue.of(4)),
+      StatsValue.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), AsOf.ofString('2000-01-05'), NumericalValue.of(6))
+    ]));
+
+    const stats: Stats = Stats.from(StatsID.of('f330c618-6127-46d1-ba10-a9f6af458b4c'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01'), StatsItems.from([
+      statsItem1,
+      statsItem2
+    ]), empty<AsOf>());
+
+    expect(stats.getRow(Row.of(0))).toEqual(statsItem1);
+    expect(stats.getRow(Row.of(1))).toEqual(statsItem2);
+  });
+
+  describe('getRowHeaders', () => {
     it('the statsItem names are taken', () => {
       const stats: Stats = Stats.from(StatsID.of('f330c618-6127-46d1-ba10-a9f6af458b4c'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01'), StatsItems.from([
         StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([
@@ -468,10 +488,10 @@ describe('Stats', () => {
         ]))
       ]), empty<AsOf>());
 
-      const rows: StatsItemNames = stats.getRows();
-      expect(rows.size()).toEqual(2);
-      expect(rows.get(0).get()).toEqual('stats item 1');
-      expect(rows.get(1).get()).toEqual('stats item 2');
+      const rowHeaders: StatsItemNames = stats.getRowHeaders();
+      expect(rowHeaders.size()).toEqual(2);
+      expect(rowHeaders.get(0).get()).toEqual('stats item 1');
+      expect(rowHeaders.get(1).get()).toEqual('stats item 2');
     });
   });
 

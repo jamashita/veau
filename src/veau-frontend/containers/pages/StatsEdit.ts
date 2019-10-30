@@ -2,11 +2,20 @@ import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from
 import { Dispatch } from 'redux';
 import { Stats } from '../../../veau-entity/Stats';
 import { StatsItem } from '../../../veau-entity/StatsItem';
+import { AsOf } from '../../../veau-vo/AsOf';
+import { Column } from '../../../veau-vo/Column';
+import { Coordinate } from '../../../veau-vo/Coordinate';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
 import { Locale } from '../../../veau-vo/Locale';
+import { NumericalValue } from '../../../veau-vo/NumericalValue';
+import { Row } from '../../../veau-vo/Row';
+import { StatsItemName } from '../../../veau-vo/StatsItemName';
+import { StatsName } from '../../../veau-vo/StatsName';
+import { StatsUnit } from '../../../veau-vo/StatsUnit';
 import { Action } from '../../actions/Action';
 import {
+  invalidDateInput,
   invalidValueInput,
   itemNameTyped,
   removeItem,
@@ -33,18 +42,19 @@ type StateProps = {
   locale: Locale;
 };
 type DispatchProps = {
-  dataFilled: (row: number, column: number, value: number) => void;
-  dataDeleted: (row: number, column: number) => void;
-  nameTyped: (name: string) => void;
-  unitTyped: (unit: string) => void;
+  dataFilled: (coordinate: Coordinate, value: NumericalValue) => void;
+  dataDeleted: (coordinate: Coordinate) => void;
+  nameTyped: (name: StatsName) => void;
+  unitTyped: (unit: StatsUnit) => void;
   iso639Selected: (iso639: ISO639) => void;
   iso3166Selected: (iso3166: ISO3166) => void;
-  itemNameTyped: (name: string) => void;
+  itemNameTyped: (name: StatsItemName) => void;
   saveNewItem: () => void;
-  rowSelected: (row: number) => void;
-  selectingItemNameTyped: (name: string) => void;
-  startDateDetermined: (startDate: string) => void;
-  rowMoved: (column: number, target: number) => void;
+  rowSelected: (row: Row) => void;
+  selectingItemNameTyped: (name: StatsItemName) => void;
+  startDateDetermined: (startDate: AsOf) => void;
+  invalidDateInput: () => void;
+  rowMoved: (column: Column, target: Column) => void;
   invalidValueInput: () => void;
   removeItem: (statsItem: StatsItem) => void;
   save: () => void;
@@ -73,16 +83,16 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>): DispatchProps => {
   return {
-    dataFilled: (row: number, column: number, value: number): void => {
-      dispatch(statsDataFilled(row, column, value));
+    dataFilled: (coordinate: Coordinate, value: NumericalValue): void => {
+      dispatch(statsDataFilled(coordinate, value));
     },
-    dataDeleted: (row: number, column: number): void => {
-      dispatch(statsDataDeleted(row, column));
+    dataDeleted: (coordinate: Coordinate): void => {
+      dispatch(statsDataDeleted(coordinate));
     },
-    nameTyped: (name: string): void => {
+    nameTyped: (name: StatsName): void => {
       dispatch(statsNameTyped(name));
     },
-    unitTyped: (unit: string): void => {
+    unitTyped: (unit: StatsUnit): void => {
       dispatch(statsUnitTyped(unit));
     },
     iso639Selected: (iso639: ISO639): void => {
@@ -91,22 +101,25 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
     iso3166Selected: (iso3166: ISO3166): void => {
       dispatch(statsISO3166Selected(iso3166));
     },
-    itemNameTyped: (name: string): void => {
+    itemNameTyped: (name: StatsItemName): void => {
       dispatch(itemNameTyped(name));
     },
     saveNewItem: (): void => {
       dispatch(saveItem());
     },
-    rowSelected: (row: number): void => {
+    rowSelected: (row: Row): void => {
       dispatch(rowSelected(row));
     },
-    selectingItemNameTyped: (name: string): void => {
+    selectingItemNameTyped: (name: StatsItemName): void => {
       dispatch(selectingItemNameTyped(name));
     },
-    startDateDetermined: (startDate: string): void => {
+    startDateDetermined: (startDate: AsOf): void => {
       dispatch(startDateDetermined(startDate));
     },
-    rowMoved: (column: number, target: number): void => {
+    invalidDateInput: (): void => {
+      dispatch(invalidDateInput());
+    },
+    rowMoved: (column: Column, target: Column): void => {
       dispatch(rowMoved(column, target));
     },
     invalidValueInput: (): void => {

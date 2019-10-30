@@ -1,6 +1,7 @@
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { Collection } from '../veau-general/Collection';
 import { Enumerator } from '../veau-general/Type/Enumerator';
+import { Mapper } from '../veau-general/Type/Mapper';
 import { StatsItemName } from './StatsItemName';
 
 export class StatsItemNames implements Collection<number, StatsItemName> {
@@ -46,6 +47,10 @@ export class StatsItemNames implements Collection<number, StatsItemName> {
 
   public forEach(enumerator: Enumerator<number, StatsItemName>): void {
     this.names.forEach(enumerator);
+  }
+
+  public map<U>(mapper: Mapper<StatsItemName, U>): Array<U> {
+    return this.names.map<U>(mapper);
   }
 
   public isEmpty(): boolean {

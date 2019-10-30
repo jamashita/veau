@@ -1,7 +1,9 @@
 import 'jest';
 import { AsOf } from '../../veau-vo/AsOf';
 import { AsOfs } from '../../veau-vo/AsOfs';
+import { Column } from '../../veau-vo/Column';
 import { NumericalValue } from '../../veau-vo/NumericalValue';
+import { Row } from '../../veau-vo/Row';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
 import { StatsItemName } from '../../veau-vo/StatsItemName';
 import { StatsItemNames } from '../../veau-vo/StatsItemNames';
@@ -22,7 +24,7 @@ describe('StatsItems', () => {
         statsItem3
       ]);
 
-      const moved: StatsItems = statsItems.move(0, 1);
+      const moved: StatsItems = statsItems.move(Column.of(0), Column.of(1));
 
       expect(moved.size()).toEqual(3);
       expect(moved.get(0)).toEqual(statsItem2);
@@ -40,7 +42,7 @@ describe('StatsItems', () => {
         statsItem3
       ]);
 
-      const moved: StatsItems = statsItems.move(1, 2);
+      const moved: StatsItems = statsItems.move(Column.of(1), Column.of(2));
 
       expect(moved.size()).toEqual(3);
       expect(moved.get(0)).toEqual(statsItem1);
@@ -58,7 +60,7 @@ describe('StatsItems', () => {
         statsItem3
       ]);
 
-      const moved: StatsItems = statsItems.move(2, 0);
+      const moved: StatsItems = statsItems.move(Column.of(2), Column.of(0));
 
       expect(moved.size()).toEqual(3);
       expect(moved.get(0)).toEqual(statsItem3);
@@ -77,7 +79,7 @@ describe('StatsItems', () => {
 
       const statsItem: StatsItem = StatsItem.from(StatsItemID.of('06023e5f-7908-4bce-9536-c64dc484756f'), StatsItemName.of('new stats item'), StatsValues.of([]));
 
-      const replaced: StatsItems = statsItems.replace(statsItem, 0);
+      const replaced: StatsItems = statsItems.replace(statsItem, Row.of(0));
 
       expect(replaced.size()).toEqual(3);
       expect(replaced.get(0)).toEqual(statsItem);
@@ -94,7 +96,7 @@ describe('StatsItems', () => {
 
       const statsItem: StatsItem = StatsItem.from(StatsItemID.of('06023e5f-7908-4bce-9536-c64dc484756f'), StatsItemName.of('new stats item'), StatsValues.of([]));
 
-      const replaced: StatsItems = statsItems.replace(statsItem, 1);
+      const replaced: StatsItems = statsItems.replace(statsItem, Row.of(1));
 
       expect(replaced.size()).toEqual(3);
       expect(replaced.get(0)).not.toEqual(statsItem);
@@ -111,7 +113,7 @@ describe('StatsItems', () => {
 
       const statsItem: StatsItem = StatsItem.from(StatsItemID.of('06023e5f-7908-4bce-9536-c64dc484756f'), StatsItemName.of('new stats item'), StatsValues.of([]));
 
-      const replaced: StatsItems = statsItems.replace(statsItem, 2);
+      const replaced: StatsItems = statsItems.replace(statsItem, Row.of(2));
 
       expect(replaced.size()).toEqual(3);
       expect(replaced.get(0)).not.toEqual(statsItem);
