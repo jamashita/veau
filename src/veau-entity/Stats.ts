@@ -1,5 +1,8 @@
 import moment from 'moment';
 import { Term } from '../veau-enum/Term';
+import { empty } from '../veau-general/Optional/Empty';
+import { Optional } from '../veau-general/Optional/Optional';
+import { present } from '../veau-general/Optional/Present';
 import { UUID } from '../veau-general/UUID';
 import { AsOf } from '../veau-vo/AsOf';
 import { AsOfs } from '../veau-vo/AsOfs';
@@ -63,10 +66,10 @@ export class Stats extends Entity<StatsID> {
   private unit: StatsUnit;
   private updatedAt: UpdatedAt;
   private items: StatsItems;
-  private startDate?: AsOf;
-  private columns?: AsOfs;
+  private startDate: Optional<AsOf>;
+  private columns: Optional<AsOfs>;
 
-  public static from(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: StatsUnit, updatedAt: UpdatedAt, items: StatsItems, startDate?: AsOf): Stats {
+  public static from(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: StatsUnit, updatedAt: UpdatedAt, items: StatsItems, startDate: Optional<AsOf>): Stats {
     return new Stats(statsID, language, region, term, name, unit, updatedAt, items, startDate);
   }
 
@@ -90,7 +93,8 @@ export class Stats extends Entity<StatsID> {
       StatsName.of(name),
       StatsUnit.of(unit),
       UpdatedAt.ofString(updatedAt),
-      StatsItems.fromJSON(items)
+      StatsItems.fromJSON(items),
+      empty<AsOf>()
     );
   }
 
@@ -122,7 +126,8 @@ export class Stats extends Entity<StatsID> {
       StatsName.of(name),
       StatsUnit.of(unit),
       UpdatedAt.ofString(updatedAt),
-      statItems
+      statItems,
+      empty<AsOf>()
     );
   }
 
@@ -135,11 +140,12 @@ export class Stats extends Entity<StatsID> {
       StatsName.default(),
       StatsUnit.default(),
       UpdatedAt.of(moment.utc()),
-      StatsItems.from([])
+      StatsItems.from([]),
+      empty<AsOf>()
     );
   }
 
-  private constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: StatsUnit, updatedAt: UpdatedAt, items: StatsItems, startDate?: AsOf) {
+  private constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: StatsUnit, updatedAt: UpdatedAt, items: StatsItems, startDate: Optional<AsOf>) {
     super();
     this.statsID = statsID;
     this.language = language;
@@ -150,6 +156,7 @@ export class Stats extends Entity<StatsID> {
     this.updatedAt = updatedAt;
     this.items = items;
     this.startDate = startDate;
+    this.columns = empty<AsOfs>();
   }
 
   public getStatsID(): StatsID {
@@ -184,7 +191,7 @@ export class Stats extends Entity<StatsID> {
     return this.items;
   }
 
-  public getStartDate(): AsOf | undefined {
+  public getStartDate(): Optional<AsOf> {
     return this.startDate;
   }
 
@@ -198,14 +205,14 @@ export class Stats extends Entity<StatsID> {
       columns
     } = this;
 
-    if (columns !== undefined) {
-      return columns;
+    if (columns.isPresent()) {
+      return columns.get();
     }
 
     let asOfs: AsOfs = this.getAsOfs();
 
-    if (startDate !== undefined) {
-      asOfs = asOfs.add(startDate);
+    if (startDate.isPresent()) {
+      asOfs = asOfs.add(startDate.get());
     }
 
     if (asOfs.isEmpty()) {
@@ -214,19 +221,21 @@ export class Stats extends Entity<StatsID> {
 
     const minTerm: AsOf = asOfs.min();
     const maxTerm: AsOf = asOfs.max();
-    this.columns = AsOfs.empty();
+    asOfs = AsOfs.empty();
 
-    this.columns = this.columns.add(minTerm.previous(this.term));
+    asOfs = asOfs.add(minTerm.previous(this.term));
     for (let asOf: AsOf = minTerm; !asOf.isAfter(maxTerm); asOf = asOf.next(this.term)) {
-      this.columns = this.columns.add(asOf);
+      asOfs = asOfs.add(asOf);
     }
-    this.columns = this.columns.add(maxTerm.next(this.term));
+    asOfs = asOfs.add(maxTerm.next(this.term));
 
-    return this.columns;
+    this.columns = present<AsOfs>(asOfs);
+
+    return asOfs;
   }
 
   private recalculateColumns(): void {
-    this.columns = undefined;
+    this.columns = empty<AsOfs>();
     this.getColumns();
   }
 
@@ -390,9 +399,6 @@ export class Stats extends Entity<StatsID> {
       return false;
     }
     if (!items.areSame(other.getItems())) {
-      return false;
-    }
-    if (startDate !== other.getStartDate()) {
       return false;
     }
 
