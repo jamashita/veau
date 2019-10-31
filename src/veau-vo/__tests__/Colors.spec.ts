@@ -100,4 +100,11 @@ describe('Colors', () => {
       expect(colors1.equals(colors2)).toEqual(true);
     });
   });
+
+  describe('chartScheme', () => {
+    it('generates 20 colors', () => {
+      const colors: Colors = Colors.chartScheme();
+      expect(colors.size()).toEqual(20);
+    });
+  });
 });

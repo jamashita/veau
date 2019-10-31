@@ -144,9 +144,9 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable {
   }
 
   public copy(): StatsValues {
-    return new StatsValues(this.values.map<StatsValue>((statsValue: StatsValue): StatsValue => {
-      return statsValue;
-    }));
+    return StatsValues.of([
+      ...this.values
+    ]);
   }
 
   public equals(other: StatsValues): boolean {

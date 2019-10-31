@@ -1,4 +1,5 @@
 import 'jest';
+import { UUID } from '../../veau-general/UUID';
 import { AccountName } from '../AccountName';
 import { ISO3166 } from '../ISO3166';
 import { ISO639 } from '../ISO639';
@@ -54,7 +55,7 @@ describe('VeauAccount', () => {
     });
   });
 
-  describe('from', () => {
+  describe('of', () => {
     it('normal case', () => {
       const veauAccountID: VeauAccountID = VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de');
       const account: AccountName = AccountName.of('account');
@@ -128,6 +129,16 @@ describe('VeauAccount', () => {
       expect(veauAccount.getRegion().getRegionID().get()).toEqual(row.regionID);
       expect(veauAccount.getRegion().getName().get()).toEqual(row.regionName);
       expect(veauAccount.getRegion().getISO3166().get()).toEqual(row.iso3166);
+    });
+  });
+
+  describe('default', () => {
+    it('has randomly generated id and empty name, language, and region', () => {
+      const account: VeauAccount = VeauAccount.default();
+      expect(account.getVeauAccountID().get().length).toEqual(UUID.size());
+      expect(account.getAccount().get()).toEqual('');
+      expect(account.getRegion().getRegionID().get()).toEqual(0);
+      expect(account.getLanguage().getLanguageID().get()).toEqual(0);
     });
   });
 });

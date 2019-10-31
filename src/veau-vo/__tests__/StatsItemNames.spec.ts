@@ -131,4 +131,21 @@ describe('StatsItemNames', () => {
       expect(names1.equals(names2)).toEqual(true);
     });
   });
+
+  describe('toJSON', () => {
+    it('normal case', () => {
+      const name1: StatsItemName = StatsItemName.of('item 1');
+      const name2: StatsItemName = StatsItemName.of('item 2');
+
+      const names: StatsItemNames = StatsItemNames.of([
+        name1,
+        name2
+      ]);
+
+      expect(names.toJSON()).toEqual([
+        'item 1',
+        'item 2'
+      ]);
+    });
+  });
 });

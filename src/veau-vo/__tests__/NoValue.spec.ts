@@ -1,4 +1,5 @@
 import 'jest';
+import { RuntimeError } from '../../veau-general/RuntimeError';
 import { NoValue } from '../NoValue';
 import { NumericalValue } from '../NumericalValue';
 
@@ -14,6 +15,14 @@ describe('NoValue', () => {
       expect(value1.equals(value2)).toEqual(false);
       expect(value1.equals(value3)).toEqual(false);
       expect(value1.equals(value4)).toEqual(true);
+    });
+  });
+
+  describe('get', () => {
+    it('definitely throws RuntimeError', () => {
+      expect(() => {
+        NoValue.of().get();
+      }).toThrow(RuntimeError);
     });
   });
 });

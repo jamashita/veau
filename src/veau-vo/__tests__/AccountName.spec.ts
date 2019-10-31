@@ -13,4 +13,10 @@ describe('AccountName', () => {
       expect(name1.equals(name3)).toEqual(true);
     });
   });
+
+  describe('default', () => {
+    it('must be an empty name', () => {
+      expect(AccountName.default().get()).toEqual('');
+    });
+  });
 });

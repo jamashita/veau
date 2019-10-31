@@ -113,6 +113,28 @@ describe('StatsOutlines', () => {
     });
   });
 
+  describe('copy', () => {
+    it('deeply copies the instance and its own elements', () => {
+      const outline1: StatsOutline = StatsOutline.of(StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
+      const outline2: StatsOutline = StatsOutline.of(StatsID.of('15620e91-f63a-4aaa-94b7-2844978fa129'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
+      const outline3: StatsOutline = StatsOutline.of(StatsID.of('b1524ae3-8e91-4938-9997-579ef7b84602'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
+
+      const outlines: StatsOutlines = StatsOutlines.of([
+        outline1,
+        outline2,
+        outline3
+      ]);
+      const copied: StatsOutlines = outlines.copy();
+
+      expect(outlines).not.toBe(copied);
+      expect(outlines.equals(copied)).toEqual(true);
+      expect(outlines.size()).toEqual(copied.size());
+      for (let i: number = 0; i < outlines.size(); i++) {
+        expect(outlines.get(i).equals(copied.get(i))).toEqual(true);
+      }
+    });
+  });
+
   describe('toJSON', () => {
     it('normal case', () => {
       const outline1: StatsOutline = StatsOutline.of(StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01'));
@@ -161,111 +183,115 @@ describe('StatsOutlines', () => {
     });
   });
 
-  describe('toJSON', () => {
-    const json: Array<StatsOutlineJSON> = [
-      {
-        statsID: 'f6fb9662-cbe8-4a91-8aa4-47a92f05b007',
-        language: {
-          languageID: 1,
-          name: 'language',
-          englishName: 'english name',
-          iso639: 'aa'
+  describe('ofJSON', () => {
+    it('normal case', () => {
+      const json: Array<StatsOutlineJSON> = [
+        {
+          statsID: 'f6fb9662-cbe8-4a91-8aa4-47a92f05b007',
+          language: {
+            languageID: 1,
+            name: 'language',
+            englishName: 'english name',
+            iso639: 'aa'
+          },
+          region: {
+            regionID: 1,
+            name: 'region',
+            iso3166: 'bb'
+          },
+          termID: 1,
+          name: 'stats name',
+          unit: 'stats unit',
+          updatedAt: '2000-01-01 00:00:00'
         },
-        region: {
-          regionID: 1,
-          name: 'region',
-          iso3166: 'bb'
-        },
-        termID: 1,
-        name: 'stats name',
-        unit: 'stats unit',
-        updatedAt: '2000-01-01 00:00:00'
-      },
-      {
-        statsID: '15620e91-f63a-4aaa-94b7-2844978fa129',
-        language: {
-          languageID: 1,
-          name: 'language',
-          englishName: 'english name',
-          iso639: 'aa'
-        },
-        region: {
-          regionID: 1,
-          name: 'region',
-          iso3166: 'bb'
-        },
-        termID: 1,
-        name: 'stats name',
-        unit: 'stats unit',
-        updatedAt: '2000-01-01 00:00:00'
+        {
+          statsID: '15620e91-f63a-4aaa-94b7-2844978fa129',
+          language: {
+            languageID: 1,
+            name: 'language',
+            englishName: 'english name',
+            iso639: 'aa'
+          },
+          region: {
+            regionID: 1,
+            name: 'region',
+            iso3166: 'bb'
+          },
+          termID: 1,
+          name: 'stats name',
+          unit: 'stats unit',
+          updatedAt: '2000-01-01 00:00:00'
+        }
+      ];
+
+      const outlines: StatsOutlines = StatsOutlines.ofJSON(json);
+
+      for (let i: number = 0; i < 2; i++) {
+        expect(outlines.get(i).getStatsID().get()).toEqual(json[i].statsID);
+        expect(outlines.get(i).getLanguage().getLanguageID().get()).toEqual(json[i].language.languageID);
+        expect(outlines.get(i).getLanguage().getName().get()).toEqual(json[i].language.name);
+        expect(outlines.get(i).getLanguage().getEnglishName().get()).toEqual(json[i].language.englishName);
+        expect(outlines.get(i).getLanguage().getISO639().get()).toEqual(json[i].language.iso639);
+        expect(outlines.get(i).getRegion().getRegionID().get()).toEqual(json[i].region.regionID);
+        expect(outlines.get(i).getRegion().getName().get()).toEqual(json[i].region.name);
+        expect(outlines.get(i).getRegion().getISO3166().get()).toEqual(json[i].region.iso3166);
+        expect(outlines.get(i).getTerm().getID()).toEqual(json[i].termID);
+        expect(outlines.get(i).getName().get()).toEqual(json[i].name);
+        expect(outlines.get(i).getUnit().get()).toEqual(json[i].unit);
+        expect(outlines.get(i).getUpdatedAt().getString()).toEqual(json[i].updatedAt);
       }
-    ];
-
-    const outlines: StatsOutlines = StatsOutlines.ofJSON(json);
-
-    for (let i: number = 0; i < 2; i++) {
-      expect(outlines.get(i).getStatsID().get()).toEqual(json[i].statsID);
-      expect(outlines.get(i).getLanguage().getLanguageID().get()).toEqual(json[i].language.languageID);
-      expect(outlines.get(i).getLanguage().getName().get()).toEqual(json[i].language.name);
-      expect(outlines.get(i).getLanguage().getEnglishName().get()).toEqual(json[i].language.englishName);
-      expect(outlines.get(i).getLanguage().getISO639().get()).toEqual(json[i].language.iso639);
-      expect(outlines.get(i).getRegion().getRegionID().get()).toEqual(json[i].region.regionID);
-      expect(outlines.get(i).getRegion().getName().get()).toEqual(json[i].region.name);
-      expect(outlines.get(i).getRegion().getISO3166().get()).toEqual(json[i].region.iso3166);
-      expect(outlines.get(i).getTerm().getID()).toEqual(json[i].termID);
-      expect(outlines.get(i).getName().get()).toEqual(json[i].name);
-      expect(outlines.get(i).getUnit().get()).toEqual(json[i].unit);
-      expect(outlines.get(i).getUpdatedAt().getString()).toEqual(json[i].updatedAt);
-    }
+    });
   });
 
-  describe('toRow', () => {
-    const rows: Array<StatsOutlineRow> = [
-      {
-        statsID: 'f6fb9662-cbe8-4a91-8aa4-47a92f05b007',
-        languageID: 1,
-        languageName: 'language',
-        languageEnglishName: 'english name',
-        iso639: 'aa',
-        regionID: 1,
-        regionName: 'region',
-        iso3166: 'bb',
-        termID: 1,
-        name: 'stats name',
-        unit: 'stats unit',
-        updatedAt: '2000-01-01 00:00:00'
-      },
-      {
-        statsID: '15620e91-f63a-4aaa-94b7-2844978fa129',
-        languageID: 1,
-        languageName: 'language',
-        languageEnglishName: 'english name',
-        iso639: 'aa',
-        regionID: 1,
-        regionName: 'region',
-        iso3166: 'bb',
-        termID: 1,
-        name: 'stats name',
-        unit: 'stats unit',
-        updatedAt: '2000-01-01 00:00:00'
+  describe('ofRow', () => {
+    it('normal case', () => {
+      const rows: Array<StatsOutlineRow> = [
+        {
+          statsID: 'f6fb9662-cbe8-4a91-8aa4-47a92f05b007',
+          languageID: 1,
+          languageName: 'language',
+          languageEnglishName: 'english name',
+          iso639: 'aa',
+          regionID: 1,
+          regionName: 'region',
+          iso3166: 'bb',
+          termID: 1,
+          name: 'stats name',
+          unit: 'stats unit',
+          updatedAt: '2000-01-01 00:00:00'
+        },
+        {
+          statsID: '15620e91-f63a-4aaa-94b7-2844978fa129',
+          languageID: 1,
+          languageName: 'language',
+          languageEnglishName: 'english name',
+          iso639: 'aa',
+          regionID: 1,
+          regionName: 'region',
+          iso3166: 'bb',
+          termID: 1,
+          name: 'stats name',
+          unit: 'stats unit',
+          updatedAt: '2000-01-01 00:00:00'
+        }
+      ];
+
+      const outlines: StatsOutlines = StatsOutlines.ofRow(rows);
+
+      for (let i: number = 0; i < 2; i++) {
+        expect(outlines.get(i).getStatsID().get()).toEqual(rows[i].statsID);
+        expect(outlines.get(i).getLanguage().getLanguageID().get()).toEqual(rows[i].languageID);
+        expect(outlines.get(i).getLanguage().getName().get()).toEqual(rows[i].languageName);
+        expect(outlines.get(i).getLanguage().getEnglishName().get()).toEqual(rows[i].languageEnglishName);
+        expect(outlines.get(i).getLanguage().getISO639().get()).toEqual(rows[i].iso639);
+        expect(outlines.get(i).getRegion().getRegionID().get()).toEqual(rows[i].regionID);
+        expect(outlines.get(i).getRegion().getName().get()).toEqual(rows[i].regionName);
+        expect(outlines.get(i).getRegion().getISO3166().get()).toEqual(rows[i].iso3166);
+        expect(outlines.get(i).getTerm().getID()).toEqual(rows[i].termID);
+        expect(outlines.get(i).getName().get()).toEqual(rows[i].name);
+        expect(outlines.get(i).getUnit().get()).toEqual(rows[i].unit);
+        expect(outlines.get(i).getUpdatedAt().getString()).toEqual(rows[i].updatedAt);
       }
-    ];
-
-    const outlines: StatsOutlines = StatsOutlines.ofRow(rows);
-
-    for (let i: number = 0; i < 2; i++) {
-      expect(outlines.get(i).getStatsID().get()).toEqual(rows[i].statsID);
-      expect(outlines.get(i).getLanguage().getLanguageID().get()).toEqual(rows[i].languageID);
-      expect(outlines.get(i).getLanguage().getName().get()).toEqual(rows[i].languageName);
-      expect(outlines.get(i).getLanguage().getEnglishName().get()).toEqual(rows[i].languageEnglishName);
-      expect(outlines.get(i).getLanguage().getISO639().get()).toEqual(rows[i].iso639);
-      expect(outlines.get(i).getRegion().getRegionID().get()).toEqual(rows[i].regionID);
-      expect(outlines.get(i).getRegion().getName().get()).toEqual(rows[i].regionName);
-      expect(outlines.get(i).getRegion().getISO3166().get()).toEqual(rows[i].iso3166);
-      expect(outlines.get(i).getTerm().getID()).toEqual(rows[i].termID);
-      expect(outlines.get(i).getName().get()).toEqual(rows[i].name);
-      expect(outlines.get(i).getUnit().get()).toEqual(rows[i].unit);
-      expect(outlines.get(i).getUpdatedAt().getString()).toEqual(rows[i].updatedAt);
-    }
+    });
   });
 });

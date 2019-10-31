@@ -110,4 +110,12 @@ describe('Locale', () => {
       });
     });
   });
+
+  describe('default', () => {
+    it('generates 0-length Regions , and Languages', () => {
+      const locale: Locale = Locale.default();
+      expect(locale.getRegions().size()).toEqual(0);
+      expect(locale.getLanguages().size()).toEqual(0);
+    });
+  });
 });

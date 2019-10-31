@@ -1,4 +1,5 @@
 import 'jest';
+import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { AsOf } from '../AsOf';
 import { NumericalValue } from '../NumericalValue';
 import { StatsItemID } from '../StatsItemID';
@@ -6,6 +7,36 @@ import { StatsValue } from '../StatsValue';
 import { StatsValues } from '../StatsValues';
 
 describe('StatsValues', () => {
+  describe('get', () => {
+    it('returns StatsValue of index-th item', () => {
+      const statsItemID: StatsItemID = StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0');
+      const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01'), NumericalValue.of(1));
+      const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-02'), NumericalValue.of(2));
+      const statsValue3: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-03'), NumericalValue.of(3));
+      const statsValues: StatsValues = StatsValues.of([
+        statsValue1,
+        statsValue2,
+        statsValue3
+      ]);
+
+      expect(statsValues.size()).toEqual(3);
+      expect(statsValues.get(0)).toEqual(statsValue1);
+      expect(statsValues.get(1)).toEqual(statsValue2);
+      expect(statsValues.get(2)).toEqual(statsValue3);
+    });
+
+    it('throws NoSuchElementError if the index is out of range', () => {
+      const values: StatsValues = StatsValues.of([]);
+
+      expect(() => {
+        values.get(-1);
+      }).toThrow(NoSuchElementError);
+      expect(() => {
+        values.get(0);
+      }).toThrow(NoSuchElementError);
+    });
+  });
+
   describe('set', () => {
     it('update pattern', () => {
       const statsItemID: StatsItemID = StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0');
@@ -157,6 +188,30 @@ describe('StatsValues', () => {
       expect(filtered2.size()).toEqual(2);
       expect(filtered2.get(0).getAsOfAsString()).toEqual('2000-01-02');
       expect(filtered2.get(1).getAsOfAsString()).toEqual('2000-01-03');
+    });
+  });
+
+  describe('copy', () => {
+    it('just create a new array but the objects are the same', () => {
+      const statsItemID1: StatsItemID = StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0');
+      const statsItemID2: StatsItemID = StatsItemID.of('b5f208c3-f171-488f-a8dc-f3798db5f9f4');
+      const statsValue1: StatsValue = StatsValue.of(statsItemID1, AsOf.ofString('2000-01-01'), NumericalValue.of(1));
+      const statsValue2: StatsValue = StatsValue.of(statsItemID2, AsOf.ofString('2000-01-02'), NumericalValue.of(2));
+      const statsValue3: StatsValue = StatsValue.of(statsItemID2, AsOf.ofString('2000-01-03'), NumericalValue.of(3));
+      const statsValue4: StatsValue = StatsValue.of(statsItemID1, AsOf.ofString('2000-01-04'), NumericalValue.of(1));
+      const statsValues: StatsValues = StatsValues.of([
+        statsValue1,
+        statsValue2,
+        statsValue3,
+        statsValue4
+      ]);
+      const copied: StatsValues = statsValues.copy();
+
+      expect(statsValues).not.toBe(copied);
+      expect(statsValues.size()).toEqual(copied.size());
+      for (let i: number = 0; i < statsValues.size(); i++) {
+        expect(statsValues.get(i)).toBe(copied.get(i));
+      }
     });
   });
 

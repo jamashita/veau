@@ -155,4 +155,10 @@ describe('Languages', () => {
       expect(languages.get(0).getISO639().get()).toEqual(rows[0].iso639);
     });
   });
+
+  describe('default', () => {
+    it('generates 0-length Languages', () => {
+      expect(Languages.default().size()).toEqual(0);
+    });
+  });
 });

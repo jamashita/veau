@@ -150,4 +150,10 @@ describe('Regions', () => {
       expect(regions.get(0).getISO3166().get()).toEqual('abc');
     });
   });
+
+  describe('default', () => {
+    it('generates 0-length Regions', () => {
+      expect(Regions.default().size()).toEqual(0);
+    });
+  });
 });

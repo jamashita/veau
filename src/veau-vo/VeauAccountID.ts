@@ -14,7 +14,7 @@ export class VeauAccountID extends ValueObject {
   }
 
   public static default(): VeauAccountID {
-    return new VeauAccountID('');
+    return new VeauAccountID(UUID.v4());
   }
 
   private constructor(id: string) {
