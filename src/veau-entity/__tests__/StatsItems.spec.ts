@@ -1,4 +1,5 @@
 import 'jest';
+import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { AsOf } from '../../veau-vo/AsOf';
 import { AsOfs } from '../../veau-vo/AsOfs';
 import { Column } from '../../veau-vo/Column';
@@ -13,6 +14,53 @@ import { StatsItem, StatsItemJSON } from '../StatsItem';
 import { StatsItems } from '../StatsItems';
 
 describe('StatsItems', () => {
+  describe('add', () => {
+    it('does not affect the original one', () => {
+      const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
+      const statsItem2: StatsItem = StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]));
+      const statsItem3: StatsItem = StatsItem.from(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 3'), StatsValues.of([]));
+      const statsItems1: StatsItems = StatsItems.from([
+        statsItem1,
+        statsItem2
+      ]);
+      const statsItems2: StatsItems = statsItems1.add(statsItem3);
+
+      expect(statsItems1.size()).toEqual(2);
+      expect(statsItems1.get(0)).toEqual(statsItem1);
+      expect(statsItems1.get(1)).toEqual(statsItem2);
+
+      expect(statsItems2.size()).toEqual(3);
+      expect(statsItems2.get(0)).toEqual(statsItem1);
+      expect(statsItems2.get(1)).toEqual(statsItem2);
+      expect(statsItems2.get(2)).toEqual(statsItem3);
+    });
+  });
+
+  describe('get', () => {
+    const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
+    const statsItem2: StatsItem = StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]));
+    const items: StatsItems = StatsItems.from([
+      statsItem1,
+      statsItem2
+    ]);
+
+    expect(items.size()).toEqual(2);
+    expect(items.get(0)).toEqual(statsItem1);
+    expect(items.get(1)).toEqual(statsItem2);
+  });
+
+  it('throws NoSuchElementError when the index is out of range', () => {
+    const items: StatsItems = StatsItems.of([]);
+
+    expect(() => {
+      items.get(-1);
+    }).toThrow(NoSuchElementError);
+    expect(() => {
+      items.get(0);
+    }).toThrow(NoSuchElementError);
+  });
+  });
+
   describe('move', () => {
     it('first index', () => {
       const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
