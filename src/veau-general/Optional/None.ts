@@ -22,7 +22,6 @@ export class None<T> implements Optional<T> {
     return false;
   }
 
-
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public ifPresent(consumer: Consumer<T>): void {
     // NOOP
