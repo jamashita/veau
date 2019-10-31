@@ -58,18 +58,6 @@ describe('VeauAccountQuery', () => {
       const stub: SinonStub = sinon.stub();
       MySQL.prototype.execute = stub;
       stub.resolves([
-        {
-          veauAccountID: '998106de-b2e7-4981-9643-22cd30cd74de',
-          account: 'account',
-          languageID: 1,
-          languageName: 'аҧсуа бызшәа',
-          languageEnglishName: 'Abkhazian',
-          iso639: 'ab',
-          regionID: 1,
-          regionName: 'Afghanistan',
-          iso3166: 'AFG',
-          hash: 'hash'
-        }
       ]);
 
       const veauAccountQuery: VeauAccountQuery = container.get<VeauAccountQuery>(TYPE.VeauAccountQuery);

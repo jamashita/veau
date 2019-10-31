@@ -211,7 +211,7 @@ describe('StatsItem', () => {
   describe('default', () => {
     it('id will be generated, data are empty', () => {
       const item: StatsItem = StatsItem.default();
-      expect(item.getStatsItemID().get().length).toEqual(UUID.v4());
+      expect(item.getStatsItemID().get().length).toEqual(UUID.size());
       expect(item.getName().get()).toEqual('');
       expect(item.getValues().isEmpty()).toEqual(true);
     });
