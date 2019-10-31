@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { container } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
+import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { MySQL } from '../../veau-general/MySQL/MySQL';
 import { VeauAccount } from '../../veau-vo/VeauAccount';
 import { VeauAccountHash, VeauAccountQuery } from '../VeauAccountQuery';
@@ -51,6 +52,28 @@ describe('VeauAccountQuery', () => {
       expect(veauAccount.getRegion().getName().get()).toEqual('Afghanistan');
       expect(veauAccount.getRegion().getISO3166().get()).toEqual('AFG');
       expect(veauAccountHash.hash).toEqual('hash');
+    });
+
+    it('will throw NoSuchElementError because MySQL.query returns 0 results', async () => {
+      const stub: SinonStub = sinon.stub();
+      MySQL.prototype.execute = stub;
+      stub.resolves([
+        {
+          veauAccountID: '998106de-b2e7-4981-9643-22cd30cd74de',
+          account: 'account',
+          languageID: 1,
+          languageName: 'аҧсуа бызшәа',
+          languageEnglishName: 'Abkhazian',
+          iso639: 'ab',
+          regionID: 1,
+          regionName: 'Afghanistan',
+          iso3166: 'AFG',
+          hash: 'hash'
+        }
+      ]);
+
+      const veauAccountQuery: VeauAccountQuery = container.get<VeauAccountQuery>(TYPE.VeauAccountQuery);
+      await expect(veauAccountQuery.findByAccount('account')).rejects.toThrow(NoSuchElementError);
     });
   });
 });

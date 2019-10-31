@@ -72,7 +72,7 @@ export class VeauAccount extends ValueObject implements JSONable {
   }
 
   public static default(): VeauAccount {
-    return VeauAccount.of(VeauAccountID.default(), AccountName.default(), Language.default(), Region.default());
+    return VeauAccount.of(VeauAccountID.generate(), AccountName.default(), Language.default(), Region.default());
   }
 
   private constructor(veauAccountID: VeauAccountID, account: AccountName, language: Language, region: Region) {

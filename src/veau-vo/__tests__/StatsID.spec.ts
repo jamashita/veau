@@ -1,5 +1,6 @@
 import 'jest';
 import { RuntimeError } from '../../veau-general/RuntimeError';
+import { UUID } from '../../veau-general/UUID';
 import { StatsID } from '../StatsID';
 
 describe('StatsID', () => {
@@ -29,6 +30,14 @@ describe('StatsID', () => {
       expect(() => {
         StatsID.of('trois');
       }).toThrow(RuntimeError);
+    });
+  });
+
+  describe('generate', () => {
+    it('always gives UUID length string', () => {
+      for (let i: number = 0; i < 100; i++) {
+        expect(StatsID.generate().get().length).toEqual(UUID.size());
+      }
     });
   });
 });

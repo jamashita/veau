@@ -26,6 +26,10 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable {
     return StatsItems.from(items);
   }
 
+  public static empty(): StatsItems {
+    return StatsItems.from([]);
+  }
+
   private constructor(items: Array<StatsItem>) {
     this.items = items;
   }

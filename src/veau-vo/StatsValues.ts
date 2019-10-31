@@ -27,6 +27,10 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable {
     }));
   }
 
+  public static empty(): StatsValues {
+    return StatsValues.of([]);
+  }
+
   private constructor(values: Array<StatsValue>) {
     this.values = values;
   }

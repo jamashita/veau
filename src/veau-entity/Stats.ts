@@ -1,10 +1,8 @@
-import moment from 'moment';
 import { Term } from '../veau-enum/Term';
 import { Entity } from '../veau-general/Entity';
 import { empty } from '../veau-general/Optional/Empty';
 import { Optional } from '../veau-general/Optional/Optional';
 import { present } from '../veau-general/Optional/Present';
-import { UUID } from '../veau-general/UUID';
 import { AsOf } from '../veau-vo/AsOf';
 import { AsOfs } from '../veau-vo/AsOfs';
 import { Column } from '../veau-vo/Column';
@@ -137,14 +135,14 @@ export class Stats extends Entity<StatsID> {
 
   public static default(): Stats {
     return Stats.from(
-      StatsID.of(UUID.v4()),
+      StatsID.generate(),
       Language.default(),
       Region.default(),
       Term.DAILY,
       StatsName.default(),
       StatsUnit.default(),
-      UpdatedAt.of(moment.utc()),
-      StatsItems.from([]),
+      UpdatedAt.now(),
+      StatsItems.empty(),
       empty<AsOf>()
     );
   }
@@ -224,7 +222,7 @@ export class Stats extends Entity<StatsID> {
     }
 
     if (asOfs.isEmpty()) {
-      return asOfs;
+      return AsOfs.empty();
     }
 
     const minTerm: AsOf = asOfs.min();

@@ -1,5 +1,6 @@
 import 'jest';
 import moment from 'moment';
+import sinon, { SinonStub } from 'sinon';
 import { RuntimeError } from '../../veau-general/RuntimeError';
 import { UpdatedAt } from '../UpdatedAt';
 
@@ -27,6 +28,16 @@ describe('UpdatedAt', () => {
       expect(() => {
         UpdatedAt.ofString('2000-01-01');
       }).not.toThrow(RuntimeError);
+    });
+  });
+
+  describe('now', () => {
+    it('returns current utc time', () => {
+      const stub: SinonStub = sinon.stub();
+      moment.utc = stub;
+      stub.returns(moment('2000-01-01 00:00:00'));
+
+      expect(UpdatedAt.now().getString()).toEqual('2000-01-01 00:00:00');
     });
   });
 });

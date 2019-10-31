@@ -151,9 +151,9 @@ describe('Regions', () => {
     });
   });
 
-  describe('default', () => {
+  describe('empty', () => {
     it('generates 0-length Regions', () => {
-      expect(Regions.default().size()).toEqual(0);
+      expect(Regions.empty().size()).toEqual(0);
     });
   });
 });

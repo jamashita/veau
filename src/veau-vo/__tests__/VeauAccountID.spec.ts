@@ -30,10 +30,10 @@ describe('VeauAccountID', () => {
     });
   });
 
-  describe('default', () => {
+  describe('generate', () => {
     it('always gives UUID length string', () => {
       for (let i: number = 0; i < 100; i++) {
-        expect(VeauAccountID.default().get().length).toEqual(UUID.size());
+        expect(VeauAccountID.generate().get().length).toEqual(UUID.size());
       }
     });
   });

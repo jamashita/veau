@@ -29,7 +29,7 @@ export class Regions implements Collection<number, Region>, JSONable {
     return Regions.of(regions);
   }
 
-  public static default(): Regions {
+  public static empty(): Regions {
     return Regions.of([]);
   }
 

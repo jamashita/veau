@@ -1,5 +1,4 @@
 import { Entity } from '../veau-general/Entity';
-import { UUID } from '../veau-general/UUID';
 import { AsOf } from '../veau-vo/AsOf';
 import { AsOfs } from '../veau-vo/AsOfs';
 import { NoValue } from '../veau-vo/NoValue';
@@ -51,7 +50,7 @@ export class StatsItem extends Entity<StatsItemID> {
   }
 
   public static default(): StatsItem {
-    return StatsItem.from(StatsItemID.of(UUID.v4()), StatsItemName.default(), StatsValues.of([]));
+    return StatsItem.from(StatsItemID.generate(), StatsItemName.default(), StatsValues.empty());
   }
 
   private constructor(statsItemID: StatsItemID, name: StatsItemName, values: StatsValues) {

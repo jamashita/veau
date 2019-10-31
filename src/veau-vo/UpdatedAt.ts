@@ -20,6 +20,10 @@ export class UpdatedAt extends ValueObject {
     return UpdatedAt.of(moment.utc(at));
   }
 
+  public static now(): UpdatedAt {
+    return UpdatedAt.of(moment.utc());
+  }
+
   private constructor(at: moment.Moment) {
     super();
     this.at = at;

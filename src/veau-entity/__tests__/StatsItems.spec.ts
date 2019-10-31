@@ -476,4 +476,10 @@ describe('StatsItems', () => {
       expect(items.get(1).getName().get()).toEqual(json[1].name);
     });
   });
+
+  describe('empty', () => {
+    it('gives 0-length StatsItems', () => {
+      expect(StatsItems.empty().isEmpty()).toEqual(true);
+    });
+  });
 });

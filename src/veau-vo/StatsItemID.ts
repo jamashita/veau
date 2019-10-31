@@ -13,6 +13,10 @@ export class StatsItemID extends ValueObject {
     throw new RuntimeError(`StatsItemID requires ${UUID.size()} LENGTH`);
   }
 
+  public static generate(): StatsItemID {
+    return StatsItemID.of(UUID.v4());
+  }
+
   private constructor(id: string) {
     super();
     this.id = id;

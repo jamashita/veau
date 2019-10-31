@@ -13,7 +13,7 @@ export class VeauAccountID extends ValueObject {
     throw new RuntimeError(`VeauAccountID requires ${UUID.size()} LENGTH`);
   }
 
-  public static default(): VeauAccountID {
+  public static generate(): VeauAccountID {
     return new VeauAccountID(UUID.v4());
   }
 

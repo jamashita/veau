@@ -2,6 +2,7 @@ import 'jest';
 import { Term } from '../../veau-enum/Term';
 import { empty } from '../../veau-general/Optional/Empty';
 import { present } from '../../veau-general/Optional/Present';
+import { UUID } from '../../veau-general/UUID';
 import { AsOf } from '../../veau-vo/AsOf';
 import { AsOfs } from '../../veau-vo/AsOfs';
 import { Column } from '../../veau-vo/Column';
@@ -473,6 +474,41 @@ describe('Stats', () => {
       expect(columns.get(4).getString()).toEqual('2000-01-04');
       expect(columns.get(5).getString()).toEqual('2000-01-05');
       expect(columns.get(6).getString()).toEqual('2000-01-06');
+    });
+
+    it('startDate is present', () => {
+      const stats: Stats = Stats.from(StatsID.of('f330c618-6127-46d1-ba10-a9f6af458b4c'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01'), StatsItems.from([
+        StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([
+          StatsValue.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), AsOf.ofString('2000-01-01'), NumericalValue.of(1)),
+          StatsValue.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), AsOf.ofString('2000-01-03'), NumericalValue.of(2))
+        ])),
+        StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([
+          StatsValue.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), AsOf.ofString('2000-01-01'), NumericalValue.of(2)),
+          StatsValue.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), AsOf.ofString('2000-01-02'), NumericalValue.of(4)),
+          StatsValue.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), AsOf.ofString('2000-01-05'), NumericalValue.of(6))
+        ]))
+      ]), present<AsOf>(AsOf.ofString('2000-01-08')));
+
+      const columns: AsOfs = stats.getColumns();
+      expect(columns.size()).toEqual(10);
+      expect(columns.get(0).getString()).toEqual('1999-12-31');
+      expect(columns.get(1).getString()).toEqual('2000-01-01');
+      expect(columns.get(2).getString()).toEqual('2000-01-02');
+      expect(columns.get(3).getString()).toEqual('2000-01-03');
+      expect(columns.get(4).getString()).toEqual('2000-01-04');
+      expect(columns.get(5).getString()).toEqual('2000-01-05');
+      expect(columns.get(6).getString()).toEqual('2000-01-06');
+      expect(columns.get(7).getString()).toEqual('2000-01-07');
+      expect(columns.get(8).getString()).toEqual('2000-01-08');
+      expect(columns.get(9).getString()).toEqual('2000-01-09');
+    });
+
+    it('no AsOfs', () => {
+      const stats: Stats = Stats.from(StatsID.of('f330c618-6127-46d1-ba10-a9f6af458b4c'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01'), StatsItems.from([
+      ]), empty<AsOf>());
+
+      const columns: AsOfs = stats.getColumns();
+      expect(columns.isEmpty()).toEqual(true);
     });
   });
 
@@ -1017,6 +1053,21 @@ describe('Stats', () => {
           }
         ]
       });
+    });
+  });
+
+  describe('default', () => {
+    it('id will be generated, data are empty', () => {
+      const stats: Stats = Stats.default();
+
+      expect(stats.getStatsID().get().length).toEqual(UUID.size());
+      expect(stats.getLanguage().getLanguageID().get()).toEqual(0);
+      expect(stats.getRegion().getRegionID().get()).toEqual(0);
+      expect(stats.getTerm()).toEqual(Term.DAILY);
+      expect(stats.getName().get()).toEqual('');
+      expect(stats.getUnit().get()).toEqual('');
+      expect(stats.getItems().isEmpty()).toEqual(true);
+      expect(stats.getStartDate().isPresent()).toEqual(false);
     });
   });
 });

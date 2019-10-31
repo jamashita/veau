@@ -1,4 +1,5 @@
 import 'jest';
+import { UUID } from '../../veau-general/UUID';
 import { AsOf } from '../../veau-vo/AsOf';
 import { AsOfs } from '../../veau-vo/AsOfs';
 import { NumericalValue } from '../../veau-vo/NumericalValue';
@@ -204,6 +205,15 @@ describe('StatsItem', () => {
         expect(statsItem.getValues().get(i).getAsOf()).toEqual(statsValues.get(i).getAsOf());
         expect(statsItem.getValues().get(i).getValue()).toEqual(statsValues.get(i).getValue());
       }
+    });
+  });
+
+  describe('default', () => {
+    it('id will be generated, data are empty', () => {
+      const item: StatsItem = StatsItem.default();
+      expect(item.getStatsItemID().get().length).toEqual(UUID.v4());
+      expect(item.getName().get()).toEqual('');
+      expect(item.getValues().isEmpty()).toEqual(true);
     });
   });
 });

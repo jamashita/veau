@@ -156,9 +156,9 @@ describe('Languages', () => {
     });
   });
 
-  describe('default', () => {
+  describe('empty', () => {
     it('generates 0-length Languages', () => {
-      expect(Languages.default().size()).toEqual(0);
+      expect(Languages.empty().size()).toEqual(0);
     });
   });
 });

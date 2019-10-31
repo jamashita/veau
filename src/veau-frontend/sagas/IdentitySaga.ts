@@ -100,7 +100,7 @@ export class IdentitySaga {
         identity
       } = state;
 
-      const veauAccount: VeauAccount = VeauAccount.of(VeauAccountID.default(), AccountName.default(), identity.getLanguage(), identity.getRegion());
+      const veauAccount: VeauAccount = VeauAccount.of(VeauAccountID.generate(), AccountName.default(), identity.getLanguage(), identity.getRegion());
 
       yield put(identityAuthenticated(veauAccount));
     }

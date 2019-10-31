@@ -269,4 +269,10 @@ describe('StatsValues', () => {
       expect(statsValues1.equals(statsValues2)).toEqual(true);
     });
   });
+
+  describe('empty', () => {
+    it('must be 0 length StatsValues', () => {
+      expect(StatsValues.empty().isEmpty()).toEqual(true);
+    });
+  });
 });
