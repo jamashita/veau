@@ -1,6 +1,6 @@
+import { ValueObject } from '../veau-general/ValueObject';
 import { Column } from './Column';
 import { Row } from './Row';
-import { ValueObject } from './ValueObject';
 
 export class Coordinate extends ValueObject {
   private row: Row;

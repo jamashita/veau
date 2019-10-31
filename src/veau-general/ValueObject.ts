@@ -1,5 +1,5 @@
-import { Identifier } from '../veau-general/Identifier';
-import { Serializable } from '../veau-general/Serializable';
+import { Identifier } from './Identifier';
+import { Serializable } from './Serializable';
 
 export abstract class ValueObject implements Identifier, Serializable {
 

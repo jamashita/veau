@@ -1,8 +1,8 @@
 import { RuntimeError } from '../veau-general/RuntimeError';
 import { Type } from '../veau-general/Type/Type';
+import { ValueObject } from '../veau-general/ValueObject';
 import { Limit } from './Limit';
 import { Offset } from './Offset';
-import { ValueObject } from './ValueObject';
 
 const LIMIT: number = 40;
 

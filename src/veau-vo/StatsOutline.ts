@@ -1,5 +1,6 @@
 import { Term } from '../veau-enum/Term';
 import { JSONable } from '../veau-general/JSONable';
+import { ValueObject } from '../veau-general/ValueObject';
 import { ISO3166 } from './ISO3166';
 import { ISO639 } from './ISO639';
 import { Language, LanguageJSON } from './Language';
@@ -12,7 +13,6 @@ import { StatsID } from './StatsID';
 import { StatsName } from './StatsName';
 import { StatsUnit } from './StatsUnit';
 import { UpdatedAt } from './UpdatedAt';
-import { ValueObject } from './ValueObject';
 
 export type StatsOutlineJSON = {
   statsID: string;

@@ -1,5 +1,5 @@
 import { JSONable } from '../veau-general/JSONable';
-import { ValueObject } from './ValueObject';
+import { ValueObject } from '../veau-general/ValueObject';
 
 export type EntranceInformationJSON = {
   account: string;

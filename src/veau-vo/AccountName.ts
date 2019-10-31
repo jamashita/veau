@@ -1,4 +1,4 @@
-import { ValueObject } from './ValueObject';
+import { ValueObject } from '../veau-general/ValueObject';
 
 export class AccountName extends ValueObject {
   private name: string;

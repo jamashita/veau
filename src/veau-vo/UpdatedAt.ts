@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { RuntimeError } from '../veau-general/RuntimeError';
 import { Type } from '../veau-general/Type/Type';
-import { ValueObject } from './ValueObject';
+import { ValueObject } from '../veau-general/ValueObject';
 
 const TERM_FORMAT: string = 'YYYY-MM-DD HH:mm:ss';
 

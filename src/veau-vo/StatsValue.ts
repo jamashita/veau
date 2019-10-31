@@ -1,8 +1,8 @@
 import { JSONable } from '../veau-general/JSONable';
+import { ValueObject } from '../veau-general/ValueObject';
 import { AsOf } from './AsOf';
 import { NumericalValue } from './NumericalValue';
 import { StatsItemID } from './StatsItemID';
-import { ValueObject } from './ValueObject';
 
 export type StatsValueJSON = {
   asOf: string;

@@ -1,4 +1,5 @@
 import { JSONable } from '../veau-general/JSONable';
+import { ValueObject } from '../veau-general/ValueObject';
 import { AccountName } from './AccountName';
 import { ISO3166 } from './ISO3166';
 import { ISO639 } from './ISO639';
@@ -8,7 +9,6 @@ import { LanguageName } from './LanguageName';
 import { Region, RegionJSON } from './Region';
 import { RegionID } from './RegionID';
 import { RegionName } from './RegionName';
-import { ValueObject } from './ValueObject';
 import { VeauAccountID } from './VeauAccountID';
 
 export type VeauAccountJSON = {

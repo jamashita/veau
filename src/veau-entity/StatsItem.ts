@@ -1,3 +1,4 @@
+import { Entity } from '../veau-general/Entity';
 import { UUID } from '../veau-general/UUID';
 import { AsOf } from '../veau-vo/AsOf';
 import { AsOfs } from '../veau-vo/AsOfs';
@@ -7,7 +8,6 @@ import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsItemName } from '../veau-vo/StatsItemName';
 import { StatsValue, StatsValueJSON } from '../veau-vo/StatsValue';
 import { StatsValues } from '../veau-vo/StatsValues';
-import { Entity } from './Entity';
 
 export type StatsItemJSON = {
   statsItemID: string;

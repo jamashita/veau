@@ -1,8 +1,8 @@
 import { JSONable } from '../veau-general/JSONable';
+import { ValueObject } from '../veau-general/ValueObject';
 import { ISO639 } from './ISO639';
 import { LanguageID } from './LanguageID';
 import { LanguageName } from './LanguageName';
-import { ValueObject } from './ValueObject';
 
 export type LanguageJSON = {
   languageID: number;

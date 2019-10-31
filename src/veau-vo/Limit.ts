@@ -1,5 +1,5 @@
 import { RuntimeError } from '../veau-general/RuntimeError';
-import { ValueObject } from './ValueObject';
+import { ValueObject } from '../veau-general/ValueObject';
 
 export class Limit extends ValueObject {
   private limit: number;

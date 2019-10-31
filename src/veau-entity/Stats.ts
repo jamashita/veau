@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { Term } from '../veau-enum/Term';
+import { Entity } from '../veau-general/Entity';
 import { empty } from '../veau-general/Optional/Empty';
 import { Optional } from '../veau-general/Optional/Optional';
 import { present } from '../veau-general/Optional/Present';
@@ -25,7 +26,6 @@ import { StatsName } from '../veau-vo/StatsName';
 import { StatsUnit } from '../veau-vo/StatsUnit';
 import { StatsValue } from '../veau-vo/StatsValue';
 import { UpdatedAt } from '../veau-vo/UpdatedAt';
-import { Entity } from './Entity';
 import { StatsItem, StatsItemJSON } from './StatsItem';
 import { StatsItems } from './StatsItems';
 

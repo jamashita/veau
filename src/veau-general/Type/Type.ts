@@ -29,7 +29,7 @@ export class Type {
     return false;
   }
 
-  public static isBoolean(value: unknown): boolean {
+  public static isBoolean(value: unknown): value is boolean {
     if (check.boolean(value)) {
       return true;
     }

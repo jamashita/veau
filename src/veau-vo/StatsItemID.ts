@@ -1,6 +1,6 @@
 import { RuntimeError } from '../veau-general/RuntimeError';
 import { UUID } from '../veau-general/UUID';
-import { ValueObject } from './ValueObject';
+import { ValueObject } from '../veau-general/ValueObject';
 
 export class StatsItemID extends ValueObject {
   private id: string;

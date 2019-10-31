@@ -1,8 +1,8 @@
 import { JSONable } from '../veau-general/JSONable';
+import { ValueObject } from '../veau-general/ValueObject';
 import { ISO3166 } from './ISO3166';
 import { RegionID } from './RegionID';
 import { RegionName } from './RegionName';
-import { ValueObject } from './ValueObject';
 
 export type RegionJSON = {
   regionID: number;

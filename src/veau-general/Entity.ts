@@ -1,8 +1,8 @@
-import { Equalable } from '../veau-general/Equalable';
-import { Identifier } from '../veau-general/Identifier';
-import { JSONable } from '../veau-general/JSONable';
-import { Serializable } from '../veau-general/Serializable';
-import { JSON } from '../veau-general/Type/JSON';
+import { Equalable } from './Equalable';
+import { Identifier } from './Identifier';
+import { JSONable } from './JSONable';
+import { Serializable } from './Serializable';
+import { JSON } from './Type/JSON';
 
 export abstract class Entity<T extends Identifier> implements JSONable, Serializable, Equalable {
 
