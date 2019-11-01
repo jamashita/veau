@@ -1,5 +1,7 @@
 import { JSONable } from '../veau-general/JSONable';
 import { ValueObject } from '../veau-general/ValueObject';
+import { AccountName } from './AccountName';
+import { Password } from './Password';
 
 export type EntranceInformationJSON = {
   account: string;
@@ -7,36 +9,36 @@ export type EntranceInformationJSON = {
 };
 
 export class EntranceInformation extends ValueObject implements JSONable {
-  private account: string;
-  private password: string;
+  private account: AccountName;
+  private password: Password;
 
-  public static of(account: string, password: string): EntranceInformation {
+  public static of(account: AccountName, password: Password): EntranceInformation {
     return new EntranceInformation(account, password);
   }
 
   public static default(): EntranceInformation {
-    return new EntranceInformation('', '');
+    return new EntranceInformation(AccountName.default(), Password.default());
   }
 
-  private constructor(account: string, password: string) {
+  private constructor(account: AccountName, password: Password) {
     super();
     this.account = account;
     this.password = password;
   }
 
-  public getAccount(): string {
+  public getAccount(): AccountName {
     return this.account;
   }
 
-  public getPassword(): string {
+  public getPassword(): Password {
     return this.password;
   }
 
   public isAcceptable(): boolean {
-    if (this.account === '') {
+    if (this.account.isDefault()) {
       return false;
     }
-    if (this.password === '') {
+    if (this.password.isDefault()) {
       return false;
     }
 
@@ -47,10 +49,16 @@ export class EntranceInformation extends ValueObject implements JSONable {
     if (this === other) {
       return true;
     }
-    if (this.account !== other.getAccount()) {
+
+    const {
+      account,
+      password
+    } = this;
+
+    if (!account.equals(other.getAccount())) {
       return false;
     }
-    if (this.password !== other.getPassword()) {
+    if (!password.equals(other.getPassword())) {
       return false;
     }
 
@@ -64,8 +72,8 @@ export class EntranceInformation extends ValueObject implements JSONable {
     } = this;
 
     return {
-      account,
-      password
+      account: account.get(),
+      password: password.get()
     };
   }
 
@@ -75,6 +83,6 @@ export class EntranceInformation extends ValueObject implements JSONable {
       password
     } = this;
 
-    return `${account} ${password}`;
+    return `${account.toString()} ${password.toString()}`;
   }
 }
