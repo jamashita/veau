@@ -25,6 +25,10 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
     }));
   }
 
+  public static empty(): StatsOutlines {
+    return StatsOutlines.of([]);
+  }
+
   private constructor(outlines: Array<StatsOutline>) {
     this.outlines = outlines;
   }

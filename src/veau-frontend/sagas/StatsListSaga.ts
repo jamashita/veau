@@ -4,6 +4,7 @@ import { Stats } from '../../veau-entity/Stats';
 import { empty } from '../../veau-general/Optional/Empty';
 import { AsOf } from '../../veau-vo/AsOf';
 import { Language } from '../../veau-vo/Language';
+import { Page } from '../../veau-vo/Page';
 import { Region } from '../../veau-vo/Region';
 import { StatsOutlines } from '../../veau-vo/StatsOutlines';
 import {
@@ -51,7 +52,7 @@ export class StatsListSaga {
       if (path === Endpoints.STATS_LIST) {
         try {
           const statsOutlines: StatsOutlines = yield call((): Promise<StatsOutlines> => {
-            return statsQuery.findByPage(1);
+            return statsQuery.findByPage(Page.of(1));
           });
           yield put(updateStatsOutlines(statsOutlines));
         }

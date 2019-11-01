@@ -5,6 +5,7 @@ import { Stats } from '../../../veau-entity/Stats';
 import { AJAXError } from '../../../veau-error/AJAXError';
 import { NotFoundError } from '../../../veau-error/NotFoundError';
 import { AJAX } from '../../../veau-general/AJAX';
+import { Page } from '../../../veau-vo/Page';
 import { StatsID } from '../../../veau-vo/StatsID';
 import { StatsOutlines } from '../../../veau-vo/StatsOutlines';
 import { StatsQuery } from '../StatsQuery';
@@ -110,7 +111,7 @@ describe('StatsQuery', () => {
       });
 
       const statsQuery: StatsQuery = StatsQuery.getInstance();
-      const outlines: StatsOutlines = await statsQuery.findByPage(3);
+      const outlines: StatsOutlines = await statsQuery.findByPage(Page.of(3));
 
       expect(stub.withArgs('/api/stats/page/3').called).toEqual(true);
       expect(outlines.size()).toEqual(1);
@@ -131,7 +132,7 @@ describe('StatsQuery', () => {
 
       const statsQuery: StatsQuery = StatsQuery.getInstance();
 
-      await expect(statsQuery.findByPage(3)).rejects.toThrow(AJAXError);
+      await expect(statsQuery.findByPage(Page.of(3))).rejects.toThrow(AJAXError);
     });
   });
 });

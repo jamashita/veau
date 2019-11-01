@@ -3,6 +3,7 @@ import { Stats, StatsJSON } from '../../veau-entity/Stats';
 import { AJAXError } from '../../veau-error/AJAXError';
 import { NotFoundError } from '../../veau-error/NotFoundError';
 import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
+import { Page } from '../../veau-vo/Page';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsOutlineJSON } from '../../veau-vo/StatsOutline';
 import { StatsOutlines } from '../../veau-vo/StatsOutlines';
@@ -37,7 +38,7 @@ export class StatsQuery {
     }
   }
 
-  public async findByPage(page: number): Promise<StatsOutlines> {
+  public async findByPage(page: Page): Promise<StatsOutlines> {
     const response: AJAXResponse<Array<StatsOutlineJSON>> = await AJAX.get<Array<StatsOutlineJSON>>(`/api/stats/page/${page}`);
     const {
       status,

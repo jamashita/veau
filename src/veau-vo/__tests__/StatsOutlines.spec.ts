@@ -294,4 +294,10 @@ describe('StatsOutlines', () => {
       }
     });
   });
+
+  describe('empty', () => {
+    it('must be 0 length StatsOutlines', () => {
+      expect(StatsOutlines.empty().isEmpty()).toEqual(true);
+    });
+  });
 });
