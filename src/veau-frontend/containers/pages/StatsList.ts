@@ -1,7 +1,6 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Stats } from '../../../veau-entity/Stats';
-import { Term } from '../../../veau-enum/Term';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
 import { Locale } from '../../../veau-vo/Locale';
@@ -9,6 +8,7 @@ import { StatsID } from '../../../veau-vo/StatsID';
 import { StatsName } from '../../../veau-vo/StatsName';
 import { StatsOutlines } from '../../../veau-vo/StatsOutlines';
 import { StatsUnit } from '../../../veau-vo/StatsUnit';
+import { Term } from '../../../veau-vo/Term';
 import { Action } from '../../actions/Action';
 import { pushToStatsEdit } from '../../actions/RedirectAction';
 import {

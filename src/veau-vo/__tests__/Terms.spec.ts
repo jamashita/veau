@@ -41,7 +41,7 @@ describe('Terms', () => {
   });
 
   describe('isEmpty', () => {
-    it('returns true if the elements are 0', () => {
+    it('always returns false because only 1 terms instance has some elements', () => {
       const terms: Terms = Terms.all();
 
       expect(terms.isEmpty()).toEqual(false);

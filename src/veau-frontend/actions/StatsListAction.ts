@@ -1,9 +1,9 @@
 import { Stats } from '../../veau-entity/Stats';
-import { Term } from '../../veau-enum/Term';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { StatsName } from '../../veau-vo/StatsName';
 import { StatsUnit } from '../../veau-vo/StatsUnit';
+import { Term } from '../../veau-vo/Term';
 import {
   ACTION,
   StatsListCloseNewStatsModalAction,

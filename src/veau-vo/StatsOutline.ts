@@ -1,4 +1,3 @@
-import { Term } from '../veau-enum/Term';
 import { Cloneable } from '../veau-general/Cloneable';
 import { JSONable } from '../veau-general/JSONable';
 import { ValueObject } from '../veau-general/ValueObject';
@@ -13,6 +12,7 @@ import { RegionName } from './RegionName';
 import { StatsID } from './StatsID';
 import { StatsName } from './StatsName';
 import { StatsUnit } from './StatsUnit';
+import { Term } from './Term';
 import { UpdatedAt } from './UpdatedAt';
 
 export type StatsOutlineJSON = {

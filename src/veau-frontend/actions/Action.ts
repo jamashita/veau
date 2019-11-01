@@ -2,7 +2,6 @@ import { RouterState } from 'connected-react-router';
 import { Action as ReduxAction } from 'redux';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
-import { Term } from '../../veau-enum/Term';
 import { AsOf } from '../../veau-vo/AsOf';
 import { Column } from '../../veau-vo/Column';
 import { Coordinate } from '../../veau-vo/Coordinate';
@@ -17,6 +16,7 @@ import { StatsItemName } from '../../veau-vo/StatsItemName';
 import { StatsName } from '../../veau-vo/StatsName';
 import { StatsOutlines } from '../../veau-vo/StatsOutlines';
 import { StatsUnit } from '../../veau-vo/StatsUnit';
+import { Term } from '../../veau-vo/Term';
 import { VeauAccount } from '../../veau-vo/VeauAccount';
 
 export enum ACTION {

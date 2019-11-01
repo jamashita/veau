@@ -68,17 +68,7 @@ export class Terms implements Collection<number, Term> {
       return true;
     }
 
-    const length: number = this.terms.length;
-    if (length !== other.size()) {
-      return false;
-    }
-    for (let i: number = 0; i < length; i++) {
-      if (this.terms[i] !== other.get(i)) {
-        return false;
-      }
-    }
-
-    return true;
+    return false;
   }
 
   public toString(): string {

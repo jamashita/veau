@@ -1,5 +1,4 @@
 import 'jest';
-import { Term } from '../../veau-enum/Term';
 import { empty } from '../../veau-general/Optional/Empty';
 import { present } from '../../veau-general/Optional/Present';
 import { UUID } from '../../veau-general/UUID';
@@ -25,6 +24,7 @@ import { StatsName } from '../../veau-vo/StatsName';
 import { StatsUnit } from '../../veau-vo/StatsUnit';
 import { StatsValue } from '../../veau-vo/StatsValue';
 import { StatsValues } from '../../veau-vo/StatsValues';
+import { Term } from '../../veau-vo/Term';
 import { UpdatedAt } from '../../veau-vo/UpdatedAt';
 import { Stats, StatsJSON, StatsRow } from '../Stats';
 import { StatsItem } from '../StatsItem';

@@ -13,8 +13,6 @@ import {
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Stats } from '../../../veau-entity/Stats';
-import { Term } from '../../../veau-enum/Term';
-import { Terms } from '../../../veau-enum/Terms';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
 import { Language } from '../../../veau-vo/Language';
@@ -22,6 +20,8 @@ import { Locale } from '../../../veau-vo/Locale';
 import { Region } from '../../../veau-vo/Region';
 import { StatsName } from '../../../veau-vo/StatsName';
 import { StatsUnit } from '../../../veau-vo/StatsUnit';
+import { Term } from '../../../veau-vo/Term';
+import { Terms } from '../../../veau-vo/Terms';
 import { TextField } from '../atoms/TextField';
 
 type Props = {

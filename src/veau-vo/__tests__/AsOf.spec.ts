@@ -1,7 +1,7 @@
 import 'jest';
-import { Term } from '../../veau-enum/Term';
 import { RuntimeError } from '../../veau-general/RuntimeError';
 import { AsOf } from '../AsOf';
+import { Term } from '../Term';
 
 describe('AsOf', () => {
   describe('equals', () => {

@@ -1,8 +1,8 @@
 import moment from 'moment';
-import { Term } from '../veau-enum/Term';
 import { RuntimeError } from '../veau-general/RuntimeError';
 import { Type } from '../veau-general/Type/Type';
 import { ValueObject } from '../veau-general/ValueObject';
+import { Term } from './Term';
 
 const TERM_FORMAT: string = 'YYYY-MM-DD';
 

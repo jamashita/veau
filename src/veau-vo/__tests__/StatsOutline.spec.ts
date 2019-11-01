@@ -1,5 +1,4 @@
 import 'jest';
-import { Term } from '../../veau-enum/Term';
 import { ISO3166 } from '../ISO3166';
 import { ISO639 } from '../ISO639';
 import { Language } from '../Language';
@@ -12,6 +11,7 @@ import { StatsID } from '../StatsID';
 import { StatsName } from '../StatsName';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from '../StatsOutline';
 import { StatsUnit } from '../StatsUnit';
+import { Term } from '../Term';
 import { UpdatedAt } from '../UpdatedAt';
 
 describe('StatsOutline', () => {

@@ -3,7 +3,6 @@ import 'jest';
 import sinon, { SinonStub } from 'sinon';
 import { Stats } from '../../../veau-entity/Stats';
 import { StatsItems } from '../../../veau-entity/StatsItems';
-import { Term } from '../../../veau-enum/Term';
 import { AJAXError } from '../../../veau-error/AJAXError';
 import { AJAX } from '../../../veau-general/AJAX';
 import { empty } from '../../../veau-general/Optional/Empty';
@@ -19,6 +18,7 @@ import { RegionName } from '../../../veau-vo/RegionName';
 import { StatsID } from '../../../veau-vo/StatsID';
 import { StatsName } from '../../../veau-vo/StatsName';
 import { StatsUnit } from '../../../veau-vo/StatsUnit';
+import { Term } from '../../../veau-vo/Term';
 import { UpdatedAt } from '../../../veau-vo/UpdatedAt';
 import { StatsCommand } from '../StatsCommand';
 

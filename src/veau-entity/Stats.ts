@@ -1,4 +1,3 @@
-import { Term } from '../veau-enum/Term';
 import { Entity } from '../veau-general/Entity';
 import { empty } from '../veau-general/Optional/Empty';
 import { Optional } from '../veau-general/Optional/Optional';
@@ -23,6 +22,7 @@ import { StatsItemNames } from '../veau-vo/StatsItemNames';
 import { StatsName } from '../veau-vo/StatsName';
 import { StatsUnit } from '../veau-vo/StatsUnit';
 import { StatsValue } from '../veau-vo/StatsValue';
+import { Term } from '../veau-vo/Term';
 import { UpdatedAt } from '../veau-vo/UpdatedAt';
 import { StatsItem, StatsItemJSON } from './StatsItem';
 import { StatsItems } from './StatsItems';
