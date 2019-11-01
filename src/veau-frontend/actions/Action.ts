@@ -2,6 +2,7 @@ import { RouterState } from 'connected-react-router';
 import { Action as ReduxAction } from 'redux';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
+import { AccountName } from '../../veau-vo/AccountName';
 import { AsOf } from '../../veau-vo/AsOf';
 import { Column } from '../../veau-vo/Column';
 import { Coordinate } from '../../veau-vo/Coordinate';
@@ -10,6 +11,7 @@ import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Locale } from '../../veau-vo/Locale';
 import { NumericalValue } from '../../veau-vo/NumericalValue';
+import { Password } from '../../veau-vo/Password';
 import { Row } from '../../veau-vo/Row';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsItemName } from '../../veau-vo/StatsItemName';
@@ -159,11 +161,11 @@ export interface LocaleDefinedAction extends ReduxAction {
 }
 export interface EntranceAccountNameTypedAction extends ReduxAction {
   type: ACTION.ENTRANCE_ACCOUNT_NAME_TYPED;
-  account: string;
+  account: AccountName;
 }
 export interface EntrancePasswordTypedAction extends ReduxAction {
   type: ACTION.ENTRANCE_PASSWORD_TYPED;
-  password: string;
+  password: Password;
 }
 export interface EntranceUpdateAction extends ReduxAction {
   type: ACTION.ENTRANCE_UPDATE;

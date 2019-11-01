@@ -1,6 +1,8 @@
 import { Button, Card, CardActions, CardContent, CardHeader, Icon } from '@material-ui/core';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
+import { AccountName } from '../../../veau-vo/AccountName';
+import { Password } from '../../../veau-vo/Password';
 import { Props } from '../../containers/pages/Entrance';
 import { TextField } from '../atoms/TextField';
 
@@ -52,18 +54,22 @@ class EntranceImpl extends React.Component<Props & WrappedComponentProps, State>
             label={intl.formatMessage({
               id: 'ACCOUNT_NAME'
             })}
-            value={entranceInformation.getAccount()}
+            value={entranceInformation.getAccount().get()}
             type='text'
-            onKeyUp={accountTyped}
+            onKeyUp={(value: string): void => {
+              accountTyped(AccountName.of(value));
+            }}
             onEnterUp={loginClicked}
           />
           <TextField
             label={intl.formatMessage({
               id: 'PASSWORD'
             })}
-            value={entranceInformation.getPassword()}
+            value={entranceInformation.getPassword().get()}
             type='password'
-            onKeyUp={passwordTyped}
+            onKeyUp={(value: string): void => {
+              passwordTyped(Password.of(value));
+            }}
             onEnterUp={loginClicked}
           />
         </CardContent>

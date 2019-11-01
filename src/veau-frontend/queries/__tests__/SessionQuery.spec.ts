@@ -5,7 +5,9 @@ import { AJAXError } from '../../../veau-error/AJAXError';
 import { AuthenticationFailureError } from '../../../veau-error/AuthenticationFailureError';
 import { UnauthorizedError } from '../../../veau-error/UnauthorizedError';
 import { AJAX } from '../../../veau-general/AJAX';
+import { AccountName } from '../../../veau-vo/AccountName';
 import { EntranceInformation } from '../../../veau-vo/EntranceInformation';
+import { Password } from '../../../veau-vo/Password';
 import { VeauAccount } from '../../../veau-vo/VeauAccount';
 import { SessionQuery } from '../SessionQuery';
 
@@ -81,7 +83,7 @@ describe('SessionQuery', () => {
         }
       });
 
-      const info: EntranceInformation = EntranceInformation.of('account', 'password');
+      const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
       const sessionQuery: SessionQuery = SessionQuery.getInstance();
       const veauAccount: VeauAccount = await sessionQuery.findByEntranceInfo(info);
 
@@ -104,7 +106,7 @@ describe('SessionQuery', () => {
         }
       });
 
-      const info: EntranceInformation = EntranceInformation.of('account', 'password');
+      const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
       const sessionQuery: SessionQuery = SessionQuery.getInstance();
 
       await expect(sessionQuery.findByEntranceInfo(info)).rejects.toThrow(AuthenticationFailureError);
@@ -119,7 +121,7 @@ describe('SessionQuery', () => {
         }
       });
 
-      const info: EntranceInformation = EntranceInformation.of('account', 'password');
+      const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
       const sessionQuery: SessionQuery = SessionQuery.getInstance();
 
       await expect(sessionQuery.findByEntranceInfo(info)).rejects.toThrow(AJAXError);
