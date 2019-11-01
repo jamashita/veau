@@ -1,4 +1,5 @@
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
+import { Cloneable } from '../veau-general/Cloneable';
 import { Collection } from '../veau-general/Collection';
 import { JSONable } from '../veau-general/JSONable';
 import { Enumerator } from '../veau-general/Type/Enumerator';
@@ -11,7 +12,7 @@ import { StatsItemName } from '../veau-vo/StatsItemName';
 import { StatsItemNames } from '../veau-vo/StatsItemNames';
 import { StatsItem, StatsItemJSON } from './StatsItem';
 
-export class StatsItems implements Collection<number, StatsItem>, JSONable {
+export class StatsItems implements Collection<number, StatsItem>, JSONable, Cloneable {
   private items: Array<StatsItem>;
 
   public static from(items: Array<StatsItem>): StatsItems {

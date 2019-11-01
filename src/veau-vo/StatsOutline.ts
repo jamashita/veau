@@ -1,4 +1,5 @@
 import { Term } from '../veau-enum/Term';
+import { Cloneable } from '../veau-general/Cloneable';
 import { JSONable } from '../veau-general/JSONable';
 import { ValueObject } from '../veau-general/ValueObject';
 import { ISO3166 } from './ISO3166';
@@ -39,7 +40,7 @@ export type StatsOutlineRow = {
   updatedAt: string;
 };
 
-export class StatsOutline extends ValueObject implements JSONable {
+export class StatsOutline extends ValueObject implements JSONable, Cloneable {
   private statsID: StatsID;
   private language: Language;
   private region: Region;

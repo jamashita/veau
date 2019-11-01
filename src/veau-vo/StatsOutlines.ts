@@ -1,11 +1,12 @@
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
+import { Cloneable } from '../veau-general/Cloneable';
 import { Collection } from '../veau-general/Collection';
 import { JSONable } from '../veau-general/JSONable';
 import { Enumerator } from '../veau-general/Type/Enumerator';
 import { Mapper } from '../veau-general/Type/Mapper';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from './StatsOutline';
 
-export class StatsOutlines implements Collection<number, StatsOutline>, JSONable {
+export class StatsOutlines implements Collection<number, StatsOutline>, JSONable, Cloneable {
   private outlines: Array<StatsOutline>;
 
   public static of(outlines: Array<StatsOutline>): StatsOutlines {
