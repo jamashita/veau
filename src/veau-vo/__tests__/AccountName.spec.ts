@@ -14,6 +14,18 @@ describe('AccountName', () => {
     });
   });
 
+  describe('isDefault', () => {
+    it('returns true if the name is empty string', () => {
+      const name1: AccountName = AccountName.default();
+      const name2: AccountName = AccountName.of('');
+      const name3: AccountName = AccountName.of('p');
+
+      expect(name1.isDefault()).toEqual(true);
+      expect(name2.isDefault()).toEqual(true);
+      expect(name3.isDefault()).toEqual(false);
+    });
+  });
+
   describe('default', () => {
     it('must be an empty name', () => {
       expect(AccountName.default().get()).toEqual('');
