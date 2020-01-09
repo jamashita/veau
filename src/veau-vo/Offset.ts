@@ -7,13 +7,13 @@ export class Offset extends ValueObject {
 
   public static of(offset: number): Offset {
     if (offset < 0) {
-      throw new RuntimeError(`ILLEGAL OFFSET SPECIFIED ${offset}`);
+      throw new RuntimeError(`ILLEGAL OFFSET SPECIFIED ${offset.toString()}`);
     }
     if (Type.isInteger(offset)) {
       return new Offset(offset);
     }
 
-    throw new RuntimeError(`ILLEGAL OFFSET SPECIFIED ${offset}`);
+    throw new RuntimeError('ILLEGAL OFFSET SPECIFIED');
   }
 
   private constructor(offset: number) {

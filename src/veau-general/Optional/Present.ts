@@ -2,7 +2,7 @@ import { Optional } from './Optional';
 import { OptionalError } from './OptionalError';
 import { Some } from './Some';
 
-export const present: <T>(value: any) => Optional<T> = <T>(value: any): Optional<T> => {
+export const present: <T>(value: unknown) => Optional<T> = <T>(value: unknown): Optional<T> => {
   if (value === null) {
     throw new OptionalError('VALUE IS NULL');
   }
@@ -10,5 +10,5 @@ export const present: <T>(value: any) => Optional<T> = <T>(value: any): Optional
     throw new OptionalError('VALUE IS UNDEFINED');
   }
 
-  return Some.of<T>(value);
+  return Some.of<T>(value as T);
 };

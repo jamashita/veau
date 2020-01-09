@@ -26,7 +26,7 @@ export class Connection implements IQuery {
   public commit(): Promise<unknown> {
     return new Promise<unknown>((resolve: Resolve<void>, reject: Reject<unknown>): void => {
       this.connection.commit((err: mysql.MysqlError): void => {
-        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unnecessary-condition
         if (err) {
           reject(err);
           return;
@@ -40,7 +40,7 @@ export class Connection implements IQuery {
   public rollback(): Promise<unknown> {
     return new Promise<unknown>((resolve: Resolve<void>, reject: Reject<unknown>): void => {
       this.connection.rollback((err: mysql.MysqlError): void => {
-        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unnecessary-condition
         if (err) {
           reject(err);
           return;

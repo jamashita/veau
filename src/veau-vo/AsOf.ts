@@ -70,7 +70,7 @@ export class AsOf extends ValueObject {
         return AsOf.of(asOf.subtract(1, 'years'));
       }
       default: {
-        throw new RuntimeError(`UNEXPECTED VALUE: ${term.getID()}`);
+        throw new RuntimeError(`UNEXPECTED VALUE: ${term.getID().toString()}`);
       }
     }
   }
@@ -95,7 +95,7 @@ export class AsOf extends ValueObject {
         return AsOf.of(asOf.add(1, 'years'));
       }
       default: {
-        throw new RuntimeError(`UNEXPECTED VALUE: ${term.getID()}`);
+        throw new RuntimeError(`UNEXPECTED VALUE: ${term.getID().toString()}`);
       }
     }
   }

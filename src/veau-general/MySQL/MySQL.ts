@@ -37,14 +37,14 @@ export class MySQL implements IQuery {
   private getConnection(): Promise<Connection> {
     return new Promise<Connection>((resolve: Resolve<Connection>, reject: Reject<unknown>): void => {
       this.pool.getConnection((err1: mysql.MysqlError, connection: mysql.PoolConnection): void => {
-        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unnecessary-condition
         if (err1) {
           reject(err1);
           return;
         }
 
         connection.beginTransaction((err2: mysql.MysqlError): void => {
-          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unnecessary-condition
           if (err2) {
             reject(err2);
             return;

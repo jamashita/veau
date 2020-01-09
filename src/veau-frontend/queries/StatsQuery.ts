@@ -39,7 +39,7 @@ export class StatsQuery {
   }
 
   public async findByPage(page: Page): Promise<StatsOutlines> {
-    const response: AJAXResponse<Array<StatsOutlineJSON>> = await AJAX.get<Array<StatsOutlineJSON>>(`/api/stats/page/${page}`);
+    const response: AJAXResponse<Array<StatsOutlineJSON>> = await AJAX.get<Array<StatsOutlineJSON>>(`/api/stats/page/${page.get().toString()}`);
     const {
       status,
       body

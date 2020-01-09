@@ -7,13 +7,13 @@ export class Row extends ValueObject {
 
   public static of(row: number): Row {
     if (row < 0) {
-      throw new RuntimeError(`ILLEGAL ROW SPECIFIED ${row}`);
+      throw new RuntimeError(`ILLEGAL ROW SPECIFIED ${row.toString()}`);
     }
     if (Type.isInteger(row)) {
       return new Row(row);
     }
 
-    throw new RuntimeError(`ILLEGAL ROW SPECIFIED ${row}`);
+    throw new RuntimeError('ILLEGAL ROW SPECIFIED');
   }
 
   public static default(): Row {

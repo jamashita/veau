@@ -339,11 +339,11 @@ const ja: Messages = {
 };
 
 type I18NMessages = {
+  [key: string]: Messages;
   en: Messages;
   fr: Messages;
   es: Messages;
   ja: Messages;
-  [key: string]: Messages;
 };
 
 export const i18nMessages: I18NMessages = {

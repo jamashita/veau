@@ -11,13 +11,13 @@ export class Page extends ValueObject {
 
   public static of(page: number): Page {
     if (page <= 0) {
-      throw new RuntimeError(`ILLEGAL PAGE SPECIFIED ${page}`);
+      throw new RuntimeError(`ILLEGAL PAGE SPECIFIED ${page.toString()}`);
     }
     if (Type.isInteger(page)) {
       return new Page(page);
     }
 
-    throw new RuntimeError(`ILLEGAL PAGE SPECIFIED ${page}`);
+    throw new RuntimeError('ILLEGAL PAGE SPECIFIED');
   }
 
   private constructor(page: number) {

@@ -7,13 +7,13 @@ export class HeaderSize extends ValueObject {
 
   public static of(size: number): HeaderSize {
     if (size < 0) {
-      throw new RuntimeError(`ILLEGAL SIZE SPECIFIED ${size}`);
+      throw new RuntimeError(`ILLEGAL SIZE SPECIFIED ${size.toString()}`);
     }
     if (Type.isInteger(size)) {
       return new HeaderSize(size);
     }
 
-    throw new RuntimeError(`ILLEGAL SIZE SPECIFIED ${size}`);
+    throw new RuntimeError('ILLEGAL SIZE SPECIFIED');
   }
   private constructor(size: number) {
     super();

@@ -96,7 +96,7 @@ export class Colors implements Collection<number, Color> {
   }
 
   public toString(): string {
-    throw this.colors.map<string>((color: Color): string => {
+    return this.colors.map<string>((color: Color): string => {
       return color.toString();
     }).join(', ');
   }

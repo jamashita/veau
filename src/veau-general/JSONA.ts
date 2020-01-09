@@ -4,7 +4,7 @@ import { Resolve } from './Type/Resolve';
 export class JSONA {
 
   public static parse<T>(text: string): Promise<T> {
-    return new Promise<T>((resolve: Resolve<T>, reject: Reject<any>): void => {
+    return new Promise<T>((resolve: Resolve<T>, reject: Reject<unknown>): void => {
       setTimeout((): void => {
         try {
           resolve(JSON.parse(text));
@@ -17,7 +17,7 @@ export class JSONA {
   }
 
   public static stringify(value: object): Promise<string> {
-    return new Promise<string>((resolve: Resolve<string>, reject: Reject<any>): void => {
+    return new Promise<string>((resolve: Resolve<string>, reject: Reject<unknown>): void => {
       setTimeout((): void => {
         try {
           resolve(JSON.stringify(value));

@@ -81,5 +81,5 @@ app.use(passport.session());
 app.use('/', BaseController);
 
 app.listen(port, (): void => {
-  logger.info(`Server running on port ${port} in ${mode} mode`);
+  logger.info(`Server running on port ${port.toString()} in ${mode} mode`);
 });

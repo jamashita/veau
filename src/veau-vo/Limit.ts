@@ -6,7 +6,7 @@ export class Limit extends ValueObject {
 
   public static of(limit: number): Limit {
     if (limit <= 0) {
-      throw new RuntimeError(`ILLEGAL LIMIT SPECIFIED ${limit}`);
+      throw new RuntimeError(`ILLEGAL LIMIT SPECIFIED ${limit.toString()}`);
     }
 
     return new Limit(limit);

@@ -7,13 +7,13 @@ export class Column extends ValueObject {
 
   public static of(column: number): Column {
     if (column < 0) {
-      throw new RuntimeError(`ILLEGAL COLUMN SPECIFIED ${column}`);
+      throw new RuntimeError(`ILLEGAL COLUMN SPECIFIED ${column.toString()}`);
     }
     if (Type.isInteger(column)) {
       return new Column(column);
     }
 
-    throw new RuntimeError(`ILLEGAL COLUMN SPECIFIED ${column}`);
+    throw new RuntimeError('ILLEGAL COLUMN SPECIFIED');
   }
   private constructor(column: number) {
     super();

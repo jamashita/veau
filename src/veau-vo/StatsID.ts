@@ -10,7 +10,7 @@ export class StatsID extends ValueObject {
       return new StatsID(id);
     }
 
-    throw new RuntimeError(`StatsID requires ${UUID.size()} LENGTH`);
+    throw new RuntimeError(`StatsID requires ${UUID.size().toString()} LENGTH`);
   }
 
   public static generate(): StatsID {

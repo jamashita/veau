@@ -16,7 +16,7 @@ export class AuthenticationInteractor {
   public veauAccountQuery: VeauAccountQuery;
 
   public constructor(
-    @inject(TYPE.VeauAccountQuery) veauAccountQuery: VeauAccountQuery
+  @inject(TYPE.VeauAccountQuery) veauAccountQuery: VeauAccountQuery
   ) {
     this.veauAccountQuery = veauAccountQuery;
   }
@@ -40,7 +40,8 @@ export class AuthenticationInteractor {
         }
 
         callback(null, false);
-      } catch (err) {
+      }
+      catch (err) {
         if (err instanceof NoSuchElementError) {
           // time adjustment
           await Digest.compare(DUMMY_PASSWORD, DUMMY_HASH);

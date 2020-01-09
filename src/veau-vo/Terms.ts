@@ -64,7 +64,11 @@ export class Terms implements Collection<number, Term> {
   }
 
   public equals(other: Terms): boolean {
-    return true;
+    if (this === other) {
+      return true;
+    }
+
+    return false;
   }
 
   public toString(): string {
