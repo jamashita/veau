@@ -64,11 +64,17 @@ export class Terms implements Collection<number, Term> {
   }
 
   public equals(other: Terms): boolean {
-    if (this === other) {
-      return true;
+    const length: number = this.terms.length;
+    if (length !== other.size()) {
+      return false;
+    }
+    for (let i: number = 0; i < length; i++) {
+      if (this.terms[i] !== other.get(i)) {
+        return false;
+      }
     }
 
-    return false;
+    return true;
   }
 
   public toString(): string {
