@@ -13,9 +13,7 @@ export type VeauAccountHash = {
 export class VeauAccountQuery {
   private mysql: MySQL;
 
-  public constructor(
-    @inject(TYPE.MySQL) mysql: MySQL
-  ) {
+  public constructor(@inject(TYPE.MySQL) mysql: MySQL) {
     this.mysql = mysql;
   }
 

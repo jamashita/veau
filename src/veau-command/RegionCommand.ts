@@ -12,9 +12,7 @@ const DURATION: number = 3 * 60 * 60;
 export class RegionCommand {
   private redis: Redis;
 
-  public constructor(
-    @inject(TYPE.Redis) redis: Redis
-  ) {
+  public constructor(@inject(TYPE.Redis) redis: Redis) {
     this.redis = redis;
   }
 

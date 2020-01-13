@@ -22,8 +22,7 @@ export class StatsInteractor {
   private statsQuery: StatsQuery;
   private statsOutlineQuery: StatsOutlineQuery;
 
-  public constructor(
-    @inject(TYPE.MySQL) mysql: MySQL,
+  public constructor(@inject(TYPE.MySQL) mysql: MySQL,
     @inject(TYPE.StatsQuery) statsQuery: StatsQuery,
     @inject(TYPE.StatsOutlineQuery) statsOutlineQuery: StatsOutlineQuery
   ) {

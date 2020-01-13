@@ -9,9 +9,7 @@ import { StatsValues } from '../veau-vo/StatsValues';
 export class StatsValueQuery {
   private mysql: MySQL;
 
-  public constructor(
-    @inject(TYPE.MySQL) mysql: MySQL
-  ) {
+  public constructor(@inject(TYPE.MySQL) mysql: MySQL) {
     this.mysql = mysql;
   }
 

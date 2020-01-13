@@ -17,8 +17,7 @@ export class LanguageQuery {
   private redis: Redis;
   private languageCommand: LanguageCommand;
 
-  public constructor(
-    @inject(TYPE.MySQL) mysql: MySQL,
+  public constructor(@inject(TYPE.MySQL) mysql: MySQL,
     @inject(TYPE.Redis) redis: Redis,
     @inject(TYPE.LanguageCommand) languageCommand: LanguageCommand
   ) {

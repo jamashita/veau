@@ -13,8 +13,7 @@ export class StatsItemQuery {
   private mysql: MySQL;
   private statsValueQuery: StatsValueQuery;
 
-  public constructor(
-    @inject(TYPE.MySQL) mysql: MySQL,
+  public constructor(@inject(TYPE.MySQL) mysql: MySQL,
     @inject(TYPE.StatsValueQuery) statsValueQuery: StatsValueQuery
   ) {
     this.mysql = mysql;

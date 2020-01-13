@@ -15,8 +15,7 @@ export class LocaleInteractor {
   private languageCommand: LanguageCommand;
   private regionCommand: RegionCommand;
 
-  public constructor(
-    @inject(TYPE.LanguageQuery) languageQuery: LanguageQuery,
+  public constructor(@inject(TYPE.LanguageQuery) languageQuery: LanguageQuery,
     @inject(TYPE.RegionQuery) regionQuery: RegionQuery,
     @inject(TYPE.LanguageCommand) languageCommand: LanguageCommand,
     @inject(TYPE.RegionCommand) regionCommand: RegionCommand

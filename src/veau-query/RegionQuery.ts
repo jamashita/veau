@@ -17,8 +17,7 @@ export class RegionQuery {
   private redis: Redis;
   private regionCommand: RegionCommand;
 
-  public constructor(
-    @inject(TYPE.MySQL) mysql: MySQL,
+  public constructor(@inject(TYPE.MySQL) mysql: MySQL,
     @inject(TYPE.Redis) redis: Redis,
     @inject(TYPE.RegionCommand) regionCommand: RegionCommand
   ) {

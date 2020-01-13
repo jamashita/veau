@@ -12,8 +12,7 @@ export class StatsQuery {
   private mysql: MySQL;
   private statsItemQuery: StatsItemQuery;
 
-  public constructor(
-    @inject(TYPE.MySQL) mysql: MySQL,
+  public constructor(@inject(TYPE.MySQL) mysql: MySQL,
     @inject(TYPE.StatsItemQuery) statsItemQuery: StatsItemQuery
   ) {
     this.mysql = mysql;
