@@ -7,18 +7,23 @@ import helmet from 'helmet';
 import log4js from 'log4js';
 import passport from 'passport';
 import path from 'path';
-import { ClientOpts, createClient, RedisClient } from 'redis';
 import 'reflect-metadata';
 import favicon from 'serve-favicon';
 import 'source-map-support/register';
 import { BaseController } from '../veau-controller/BaseController';
+import { veauRedis } from '../veau-infrastructure/VeauRedis';
 import '../veau-service/AuthenticationService';
 
 const port: number = config.get<number>('port');
-const mode: string = process.env.NODE_ENV as string;
+const mode: string | undefined = process.env.NODE_ENV;
 
 log4js.configure(config.get<log4js.Configuration>('log4js'));
 const logger: log4js.Logger = log4js.getLogger();
+
+if (mode === undefined) {
+  logger.fatal('mode IS NOT SET');
+  process.exit(1);
+}
 
 process.on('uncaughtException', (error: Error): void => {
   logger.fatal('UNCAUGHT EXCEPTION');
@@ -55,11 +60,10 @@ app.use(log4js.connectLogger(logger, {
   format: ':method :url :status'
 }));
 
-const client: RedisClient = createClient(config.get<ClientOpts>('redis'));
 const RedisStore: connectRedis.RedisStore = connectRedis(expressSession);
 const sessionStore: expressSession.Store = new RedisStore({
   // @ts-ignore
-  client,
+  client: veauRedis.getClient(),
   prefix: 'veau::'
 });
 const sessionMiddleware: express.RequestHandler = expressSession({

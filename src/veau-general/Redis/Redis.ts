@@ -22,6 +22,10 @@ export class Redis {
     this.client = client;
   }
 
+  public getClient(): IORedis.Redis {
+    return this.client;
+  }
+
   public getHash(): RedisHash {
     return this.hash;
   }
