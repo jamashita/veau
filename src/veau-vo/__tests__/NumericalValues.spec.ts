@@ -118,6 +118,19 @@ describe('NumericalValues', () => {
     });
   });
 
+  describe('row', () => {
+    it('returns as a string Array', () => {
+      const num1: number = 1;
+      const num2: number = 2;
+      const value1: NumericalValue = NumericalValue.of(num1);
+      const value2: NumericalValue = NumericalValue.of(num2);
+
+      const values: NumericalValues = NumericalValues.of([value1, value2]);
+
+      expect(values.row()).toEqual([num1.toString(), num2.toString()]);
+    });
+  });
+
   describe('toString', () => {
     it('returns the original string', () => {
       const num1: number = 1;

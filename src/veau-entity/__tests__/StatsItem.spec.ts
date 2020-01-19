@@ -97,9 +97,9 @@ describe('StatsItem', () => {
       const values: NumericalValues = statsItem.getValuesByColumn(column);
 
       expect(values.size()).toEqual(3);
-      expect(values.get(0).getString()).toEqual('1');
-      expect(values.get(1).getString()).toEqual('');
-      expect(values.get(2).getString()).toEqual('3');
+      expect(values.get(0).toString()).toEqual('1');
+      expect(values.get(1).toString()).toEqual('');
+      expect(values.get(2).toString()).toEqual('3');
     });
   });
 

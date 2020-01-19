@@ -38,9 +38,9 @@ export class NumericalValues implements Collection<number, NumericalValue> {
     return value;
   }
 
-  public getString(): Array<string> {
+  public row(): Array<string> {
     return this.values.map<string>((value: NumericalValue): string => {
-      return value.getString();
+      return value.toString();
     });
   }
 
@@ -95,8 +95,6 @@ export class NumericalValues implements Collection<number, NumericalValue> {
   }
 
   public toString(): string {
-    return this.values.map<string>((value: NumericalValue): string => {
-      return value.toString();
-    }).join(', ');
+    return this.row().join(', ');
   }
 }

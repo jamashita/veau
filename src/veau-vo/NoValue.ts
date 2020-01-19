@@ -15,10 +15,6 @@ export class NoValue extends NumericalValue {
     throw new RuntimeError('ILLEGAL OPERATION');
   }
 
-  public getString(): string {
-    return '';
-  }
-
   public equals(other: NumericalValue): boolean {
     if (this === other) {
       return true;
@@ -31,6 +27,6 @@ export class NoValue extends NumericalValue {
   }
 
   public toString(): string {
-    return 'NO VALUE';
+    return '';
   }
 }

@@ -27,10 +27,10 @@ describe('NoValue', () => {
   });
 
   describe('toString', () => {
-    it('returns NO VALUE', () => {
+    it('returns empty string', () => {
       const value: NoValue = NoValue.of();
 
-      expect(value.toString()).toEqual('NO VALUE');
+      expect(value.toString()).toEqual('');
     });
   });
 });

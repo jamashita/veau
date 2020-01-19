@@ -271,7 +271,7 @@ export class Stats extends Entity<StatsID> {
     const columns: AsOfs = this.getColumns();
 
     return this.items.map<Array<string>>((item: StatsItem): Array<string> => {
-      return item.getValuesByColumn(columns).getString();
+      return item.getValuesByColumn(columns).row();
     });
   }
 
