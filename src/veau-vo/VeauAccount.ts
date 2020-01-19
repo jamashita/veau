@@ -1,14 +1,8 @@
 import { JSONable } from '../veau-general/JSONable';
 import { ValueObject } from '../veau-general/ValueObject';
 import { AccountName } from './AccountName';
-import { ISO3166 } from './ISO3166';
-import { ISO639 } from './ISO639';
 import { Language, LanguageJSON } from './Language';
-import { LanguageID } from './LanguageID';
-import { LanguageName } from './LanguageName';
 import { Region, RegionJSON } from './Region';
-import { RegionID } from './RegionID';
-import { RegionName } from './RegionName';
 import { VeauAccountID } from './VeauAccountID';
 
 export type VeauAccountJSON = {
@@ -16,19 +10,6 @@ export type VeauAccountJSON = {
   account: string;
   language: LanguageJSON;
   region: RegionJSON;
-};
-
-export type VeauAccountRow = {
-  veauAccountID: string;
-  account: string;
-  languageID: number;
-  languageName: string;
-  languageEnglishName: string;
-  iso639: string;
-  regionID: number;
-  regionName: string;
-  iso3166: string;
-  hash: string;
 };
 
 export class VeauAccount extends ValueObject implements JSONable {
@@ -50,25 +31,6 @@ export class VeauAccount extends ValueObject implements JSONable {
     } = json;
 
     return VeauAccount.of(VeauAccountID.of(veauAccountID), AccountName.of(account), Language.ofJSON(language), Region.ofJSON(region));
-  }
-
-  public static ofRow(row: VeauAccountRow): VeauAccount {
-    const {
-      veauAccountID,
-      account,
-      languageID,
-      languageName,
-      languageEnglishName,
-      iso639,
-      regionID,
-      regionName,
-      iso3166
-    } = row;
-
-    const language: Language = Language.of(LanguageID.of(languageID), LanguageName.of(languageName), LanguageName.of(languageEnglishName), ISO639.of(iso639));
-    const region: Region = Region.of(RegionID.of(regionID), RegionName.of(regionName), ISO3166.of(iso3166));
-
-    return VeauAccount.of(VeauAccountID.of(veauAccountID), AccountName.of(account), language, region);
   }
 
   public static default(): VeauAccount {
