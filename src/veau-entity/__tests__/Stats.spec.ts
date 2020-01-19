@@ -451,6 +451,38 @@ describe('Stats', () => {
     });
   });
 
+  describe('toString', () => {
+    it('normal case', () => {
+      const id1: string = 'bfb0ebff-fc8c-450e-9265-82fa4938ae94';
+      const id2: string = '2e787bad-6727-47d0-af9a-9c8189342a50';
+      const name1: string = 'stats1';
+      const name2: string = 'name1';
+      const at1: string = '2000-01-02 03:04:05';
+      const at2: string = '2000-01-01 00:00:00';
+      const value1: number = 10;
+      const term: Term = Term.DAILY;
+      const unit: string = 'unit1';
+      const statsID: StatsID = StatsID.of(id1);
+      const statsItemID: StatsItemID = StatsItemID.of(id2);
+      const statsItem: StatsItem = StatsItem.of(statsItemID, StatsItemName.of(name1), StatsValues.of([StatsValue.of(statsItemID, AsOf.ofString(at1), NumericalValue.of(value1))]));
+      const stats: Stats = Stats.of(
+        statsID,
+        Language.default(),
+        Region.default(),
+        term,
+        StatsName.of(name2),
+        StatsUnit.of(unit),
+        UpdatedAt.ofString(at2),
+        StatsItems.of([
+          statsItem
+        ]),
+        empty<AsOf>()
+      );
+
+      expect(stats.toString()).toEqual(`${id1} ${Language.default().toString()} ${Region.default().toString()} ${term.toString()} ${name2} ${unit} ${at2}`);
+    });
+  });
+
   describe('getColumns', () => {
     it('asOfs are taken and their duplicated values are eliminated', () => {
       const stats: Stats = Stats.of(StatsID.of('f330c618-6127-46d1-ba10-a9f6af458b4c'), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01'), StatsItems.of([

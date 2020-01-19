@@ -139,6 +139,20 @@ describe('StatsItem', () => {
     });
   });
 
+  describe('toString', () => {
+    it('normal case', () => {
+      const id: string = '5ee0c273-c26f-432f-9217-d6a7b481a073'
+      const name: string = 'name';
+      const statsItemID: StatsItemID = StatsItemID.of(id);
+      const statsItemName: StatsItemName = StatsItemName.of(name);
+      const statsValues: StatsValues = StatsValues.empty();
+
+      const statsItem: StatsItem = StatsItem.of(statsItemID, statsItemName, statsValues);
+
+      expect(statsItem.toString()).toEqual(`${id} ${name} `);
+    });
+  });
+
   describe('of', () => {
     it('normal case', () => {
       const statsItemID: StatsItemID = StatsItemID.of('4d0cf4e5-4f48-4db3-9c04-085374d857d1');

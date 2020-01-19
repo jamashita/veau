@@ -502,6 +502,45 @@ describe('StatsItems', () => {
     });
   });
 
+  describe('toJSON', () => {
+    it('normal case', () => {
+      const statsItems: StatsItems = StatsItems.of([
+        StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.empty()),
+        StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.empty())
+      ]);
+
+      expect(statsItems.toJSON()).toEqual([
+        {
+          statsItemID: '8f7b1783-b09c-4010-aac1-dca1292ee700',
+          name: 'stats item 1',
+          values: [
+          ]
+        },
+        {
+          statsItemID: '9e6b3c69-580c-4c19-9f3f-9bd82f582551',
+          name: 'stats item 2',
+          values: [
+          ]
+        }
+      ]);
+    });
+  });
+
+  describe('toString', () => {
+    it('normal case', () => {
+      const id1: string = '8f7b1783-b09c-4010-aac1-dca1292ee700';
+      const id2: string = '9e6b3c69-580c-4c19-9f3f-9bd82f582551';
+      const name1: string = 'stats item 1';
+      const name2: string = 'stats item 2';
+      const statsItems: StatsItems = StatsItems.of([
+        StatsItem.of(StatsItemID.of(id1), StatsItemName.of(name1), StatsValues.empty()),
+        StatsItem.of(StatsItemID.of(id2), StatsItemName.of(name2), StatsValues.empty())
+      ]);
+
+      expect(statsItems.toString()).toEqual(`${id1} ${name1} , ${id2} ${name2} `);
+    });
+  });
+
   describe('ofJSON', () => {
     it('normal case', () => {
       const json: Array<StatsItemJSON> = [
