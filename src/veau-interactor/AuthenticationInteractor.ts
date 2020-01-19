@@ -4,7 +4,9 @@ import { VerifyFunction } from 'passport-local';
 import { TYPE } from '../veau-container/Types';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { Digest } from '../veau-general/Digest';
-import { VeauAccountHash, VeauAccountQuery } from '../veau-query/VeauAccountQuery';
+import { AccountQuery } from '../veau-query/AccountQuery';
+import { Account } from '../veau-vo/Account';
+import { AccountName } from '../veau-vo/AccountName';
 
 const logger: log4js.Logger = log4js.getLogger();
 
@@ -13,29 +15,24 @@ const DUMMY_HASH: string = '$2b$14$iyzp4FTxFklmPUjQMaNYcOO4Svv6kBEtphNseTlhWQ/Sx
 
 @injectable()
 export class AuthenticationInteractor {
-  public veauAccountQuery: VeauAccountQuery;
+  public accountQuery: AccountQuery;
 
   public constructor(
-  @inject(TYPE.VeauAccountQuery) veauAccountQuery: VeauAccountQuery
+  @inject(TYPE.AccountQuery) accountQuery: AccountQuery
   ) {
-    this.veauAccountQuery = veauAccountQuery;
+    this.accountQuery = accountQuery;
   }
 
   public review(): VerifyFunction {
 
-    return async (account: string, password: string, callback: (error: unknown, account?: unknown) => void): Promise<void> => {
+    return async (name: string, password: string, callback: (error: unknown, account?: unknown) => void): Promise<void> => {
       try {
-        const accountHash: VeauAccountHash = await this.veauAccountQuery.findByAccount(account);
+        const account: Account = await this.accountQuery.findByAccount(AccountName.of(name));
 
-        const {
-          veauAccount,
-          hash
-        } = accountHash;
-
-        const correct: boolean = await Digest.compare(password, hash);
+        const correct: boolean = await Digest.compare(password, account.getHash().get());
 
         if (correct) {
-          callback(null, veauAccount);
+          callback(null, account.toVeauAccount());
           return;
         }
 
@@ -45,7 +42,7 @@ export class AuthenticationInteractor {
         if (err instanceof NoSuchElementError) {
           // time adjustment
           await Digest.compare(DUMMY_PASSWORD, DUMMY_HASH);
-          logger.info(`invalid account: ${account} and password: ${password}`);
+          logger.info(`invalid account: ${name} and password: ${password}`);
           callback(null, false);
           return;
         }
