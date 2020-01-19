@@ -109,4 +109,28 @@ describe('Some', () => {
       expect(optional2.get()).toEqual(2);
     });
   });
+
+  describe('toString', () => {
+    it('normal case', () => {
+      const some1: Some<number> = Some.of<number>(1);
+      const some2: Some<number> = Some.of<number>(0);
+      const some3: Some<number> = Some.of<number>(-1);
+      const some4: Some<string> = Some.of<string>('');
+      const some5: Some<string> = Some.of<string>('1');
+      const some6: Some<boolean> = Some.of<boolean>(true);
+      const some7: Some<boolean> = Some.of<boolean>(false);
+      const some8: Some<object> = Some.of<object>({});
+      const some9: Some<object> = Some.of<object>([]);
+
+      expect(some1.toString()).toEqual('Optional<1>');
+      expect(some2.toString()).toEqual('Optional<0>');
+      expect(some3.toString()).toEqual('Optional<-1>');
+      expect(some4.toString()).toEqual('Optional<>');
+      expect(some5.toString()).toEqual('Optional<1>');
+      expect(some6.toString()).toEqual('Optional<true>');
+      expect(some7.toString()).toEqual('Optional<false>');
+      expect(some8.toString()).toEqual('Optional<[object Object]>');
+      expect(some9.toString()).toEqual('Optional<>');
+    });
+  });
 });

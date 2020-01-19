@@ -38,6 +38,6 @@ export class None<T> implements Optional<T> {
   }
 
   public toString(): string {
-    return 'Optional<NULL>';
+    return 'Optional<NONE>';
   }
 }

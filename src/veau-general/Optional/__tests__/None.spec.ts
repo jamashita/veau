@@ -65,4 +65,12 @@ describe('None', () => {
       expect(optional instanceof None).toEqual(true);
     });
   });
+
+  describe('toString', () => {
+    it('normal case', () => {
+      const none: None<string> = None.of<string>();
+
+      expect(none.toString()).toEqual('Optional<NONE>');
+    });
+  });
 });
