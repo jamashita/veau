@@ -258,7 +258,7 @@ describe('StatsOutlines', () => {
         expect(outlines.get(i).getTerm().getID()).toEqual(json[i].termID);
         expect(outlines.get(i).getName().get()).toEqual(json[i].name);
         expect(outlines.get(i).getUnit().get()).toEqual(json[i].unit);
-        expect(outlines.get(i).getUpdatedAt().getString()).toEqual(json[i].updatedAt);
+        expect(outlines.get(i).getUpdatedAt().toString()).toEqual(json[i].updatedAt);
       }
     });
   });
@@ -310,7 +310,7 @@ describe('StatsOutlines', () => {
         expect(outlines.get(i).getTerm().getID()).toEqual(rows[i].termID);
         expect(outlines.get(i).getName().get()).toEqual(rows[i].name);
         expect(outlines.get(i).getUnit().get()).toEqual(rows[i].unit);
-        expect(outlines.get(i).getUpdatedAt().getString()).toEqual(rows[i].updatedAt);
+        expect(outlines.get(i).getUpdatedAt().toString()).toEqual(rows[i].updatedAt);
       }
     });
   });

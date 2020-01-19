@@ -273,7 +273,7 @@ describe('StatsOutline', () => {
       expect(statsOutline.getTerm().getID()).toEqual(json.termID);
       expect(statsOutline.getName().get()).toEqual(json.name);
       expect(statsOutline.getUnit().get()).toEqual(json.unit);
-      expect(statsOutline.getUpdatedAt().getString()).toEqual(json.updatedAt);
+      expect(statsOutline.getUpdatedAt().toString()).toEqual(json.updatedAt);
     });
   });
 

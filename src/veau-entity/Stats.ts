@@ -473,7 +473,7 @@ export class Stats extends Entity<StatsID> {
       termID: term.getID(),
       name: name.get(),
       unit: unit.get(),
-      updatedAt: updatedAt.getString(),
+      updatedAt: updatedAt.toString(),
       items: items.toJSON()
     };
   }

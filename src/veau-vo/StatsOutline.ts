@@ -240,7 +240,7 @@ export class StatsOutline extends ValueObject implements JSONable, Cloneable {
       termID: term.getID(),
       name: name.get(),
       unit: unit.get(),
-      updatedAt: updatedAt.getString()
+      updatedAt: updatedAt.toString()
     };
   }
 

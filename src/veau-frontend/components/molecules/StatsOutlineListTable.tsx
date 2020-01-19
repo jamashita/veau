@@ -88,7 +88,7 @@ class StatsOutlineListTableImpl extends React.Component<Props & WrappedComponent
                     id: statsOutline.getTerm().getKey()
                   })}
                 </TableCell>
-                <TableCell>{statsOutline.getUpdatedAt().getString()}</TableCell>
+                <TableCell>{statsOutline.getUpdatedAt().toString()}</TableCell>
               </TableRow>
             );
           })}
