@@ -55,6 +55,18 @@ describe('VeauAccount', () => {
     });
   });
 
+  describe('toString', () => {
+    it('returns the original string', () => {
+      const id: string = '998106de-b2e7-4981-9643-22cd30cd74de';
+      const name: string = 'veau';
+      const language: Language = Language.default();
+      const region: Region = Region.default();
+      const veauAccount: VeauAccount = VeauAccount.of(VeauAccountID.of(id), AccountName.of(name), language, region);
+
+      expect(veauAccount.toString()).toEqual(`${id} ${name} ${language.toString()} ${region.toString()}`);
+    });
+  });
+
   describe('of', () => {
     it('normal case', () => {
       const veauAccountID: VeauAccountID = VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de');

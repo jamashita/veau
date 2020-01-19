@@ -13,4 +13,13 @@ describe('RegionID', () => {
       expect(regionID1.equals(regionID3)).toEqual(true);
     });
   });
+
+  describe('toString', () => {
+    it('returns the original string', () => {
+      const id: number = 1;
+      const regionID: RegionID = RegionID.of(id);
+
+      expect(regionID.toString()).toEqual(id.toString());
+    });
+  });
 });

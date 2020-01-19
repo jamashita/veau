@@ -15,6 +15,15 @@ describe('Row', () => {
     });
   });
 
+  describe('toString', () => {
+    it('normal case', () => {
+      const num: number = 2;
+      const row: Row = Row.of(num);
+
+      expect(row.toString()).toEqual(num.toString());
+    });
+  });
+
   describe('of', () => {
     it('throws RuntimeError when the argument is less than 0', () => {
       expect(() => {

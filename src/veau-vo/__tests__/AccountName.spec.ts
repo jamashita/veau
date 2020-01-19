@@ -26,6 +26,15 @@ describe('AccountName', () => {
     });
   });
 
+  describe('toString', () => {
+    it('returns the original string', () => {
+      const name: string = 'hash';
+      const accountName: AccountName = AccountName.of(name);
+
+      expect(accountName.toString()).toEqual(name);
+    });
+  });
+
   describe('default', () => {
     it('must be an empty name', () => {
       expect(AccountName.default().get()).toEqual('');

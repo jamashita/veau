@@ -15,6 +15,15 @@ describe('Limit', () => {
     });
   });
 
+  describe('toString', () => {
+    it('normal case', () => {
+      const num: number = 1;
+      const limit: Limit = Limit.of(num);
+
+      expect(limit.toString()).toEqual(num.toString());
+    });
+  });
+
   describe('of', () => {
     it('throws RuntimeError when the argument is less than 1', () => {
       expect(() => {

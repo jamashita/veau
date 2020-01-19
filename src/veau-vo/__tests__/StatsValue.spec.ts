@@ -45,6 +45,17 @@ describe('StatsValue', () => {
     });
   });
 
+  describe('toString', () => {
+    it('normal case', () => {
+      const id: string = 'f186dad1-6170-4fdc-9020-d73d9bf86fb0';
+      const asOf: string = '2000-01-01';
+      const value: number = 1;
+      const statsValue: StatsValue = StatsValue.of(StatsItemID.of(id), AsOf.ofString(asOf), NumericalValue.of(value));
+
+      expect(statsValue.toString()).toEqual(`${id} ${asOf} ${value}`);
+    });
+  });
+
   describe('ofJSON', () => {
     it('normal case', () => {
       const json: StatsValueJSON = {

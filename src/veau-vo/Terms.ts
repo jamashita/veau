@@ -80,6 +80,6 @@ export class Terms implements Collection<number, Term> {
   public toString(): string {
     return this.terms.map<string>((term: Term): string => {
       return term.toString();
-    }).join(' ');
+    }).join(', ');
   }
 }

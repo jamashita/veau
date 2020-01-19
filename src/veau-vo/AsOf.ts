@@ -30,10 +30,6 @@ export class AsOf extends ValueObject {
     return moment(this.asOf);
   }
 
-  public getString(): string {
-    return this.asOf.format(TERM_FORMAT);
-  }
-
   public isBefore(other: AsOf): boolean {
     if (this.asOf.isBefore(other.get())) {
       return true;
@@ -112,6 +108,6 @@ export class AsOf extends ValueObject {
   }
 
   public toString(): string {
-    return this.getString();
+    return this.asOf.format(TERM_FORMAT);
   }
 }

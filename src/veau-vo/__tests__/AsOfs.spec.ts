@@ -76,7 +76,7 @@ describe('AsOfs', () => {
 
       const asOfs: AsOfs = AsOfs.of([asOf1, asOf2, asOf3, asOf4]);
 
-      expect(asOfs.min().getString()).toEqual('2000-01-01');
+      expect(asOfs.min().toString()).toEqual('2000-01-01');
     });
 
     it('throws RuntimeError when AsOfs are empty', () =>{
@@ -95,7 +95,7 @@ describe('AsOfs', () => {
 
       const asOfs: AsOfs = AsOfs.of([asOf1, asOf2, asOf3, asOf4]);
 
-      expect(asOfs.max().getString()).toEqual('2000-01-03');
+      expect(asOfs.max().toString()).toEqual('2000-01-03');
     });
 
     it('throws RuntimeError when AsOfs are empty', () =>{
@@ -166,6 +166,18 @@ describe('AsOfs', () => {
         '2000-01-02',
         '2000-01-03'
       ]);
+    });
+  });
+
+  describe('toString', () => {
+    it('normal case', () => {
+      const asOfs: AsOfs = AsOfs.of([
+        AsOf.ofString('2000-01-01'),
+        AsOf.ofString('2000-01-02'),
+        AsOf.ofString('2000-01-03')
+      ]);
+
+      expect(asOfs.toString()).toEqual('2000-01-01, 2000-01-02, 2000-01-03');
     });
   });
 

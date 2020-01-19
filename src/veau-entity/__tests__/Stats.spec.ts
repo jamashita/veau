@@ -467,13 +467,13 @@ describe('Stats', () => {
 
       const columns: AsOfs = stats.getColumns();
       expect(columns.size()).toEqual(7);
-      expect(columns.get(0).getString()).toEqual('1999-12-31');
-      expect(columns.get(1).getString()).toEqual('2000-01-01');
-      expect(columns.get(2).getString()).toEqual('2000-01-02');
-      expect(columns.get(3).getString()).toEqual('2000-01-03');
-      expect(columns.get(4).getString()).toEqual('2000-01-04');
-      expect(columns.get(5).getString()).toEqual('2000-01-05');
-      expect(columns.get(6).getString()).toEqual('2000-01-06');
+      expect(columns.get(0).toString()).toEqual('1999-12-31');
+      expect(columns.get(1).toString()).toEqual('2000-01-01');
+      expect(columns.get(2).toString()).toEqual('2000-01-02');
+      expect(columns.get(3).toString()).toEqual('2000-01-03');
+      expect(columns.get(4).toString()).toEqual('2000-01-04');
+      expect(columns.get(5).toString()).toEqual('2000-01-05');
+      expect(columns.get(6).toString()).toEqual('2000-01-06');
     });
 
     it('startDate is present', () => {
@@ -491,16 +491,16 @@ describe('Stats', () => {
 
       const columns: AsOfs = stats.getColumns();
       expect(columns.size()).toEqual(10);
-      expect(columns.get(0).getString()).toEqual('1999-12-31');
-      expect(columns.get(1).getString()).toEqual('2000-01-01');
-      expect(columns.get(2).getString()).toEqual('2000-01-02');
-      expect(columns.get(3).getString()).toEqual('2000-01-03');
-      expect(columns.get(4).getString()).toEqual('2000-01-04');
-      expect(columns.get(5).getString()).toEqual('2000-01-05');
-      expect(columns.get(6).getString()).toEqual('2000-01-06');
-      expect(columns.get(7).getString()).toEqual('2000-01-07');
-      expect(columns.get(8).getString()).toEqual('2000-01-08');
-      expect(columns.get(9).getString()).toEqual('2000-01-09');
+      expect(columns.get(0).toString()).toEqual('1999-12-31');
+      expect(columns.get(1).toString()).toEqual('2000-01-01');
+      expect(columns.get(2).toString()).toEqual('2000-01-02');
+      expect(columns.get(3).toString()).toEqual('2000-01-03');
+      expect(columns.get(4).toString()).toEqual('2000-01-04');
+      expect(columns.get(5).toString()).toEqual('2000-01-05');
+      expect(columns.get(6).toString()).toEqual('2000-01-06');
+      expect(columns.get(7).toString()).toEqual('2000-01-07');
+      expect(columns.get(8).toString()).toEqual('2000-01-08');
+      expect(columns.get(9).toString()).toEqual('2000-01-09');
     });
 
     it('no AsOfs', () => {
@@ -526,13 +526,13 @@ describe('Stats', () => {
         ]))
       ]), empty<AsOf>());
 
-      expect(stats.getColumn(Column.of(0)).getString()).toEqual('1999-12-31');
-      expect(stats.getColumn(Column.of(1)).getString()).toEqual('2000-01-01');
-      expect(stats.getColumn(Column.of(2)).getString()).toEqual('2000-01-02');
-      expect(stats.getColumn(Column.of(3)).getString()).toEqual('2000-01-03');
-      expect(stats.getColumn(Column.of(4)).getString()).toEqual('2000-01-04');
-      expect(stats.getColumn(Column.of(5)).getString()).toEqual('2000-01-05');
-      expect(stats.getColumn(Column.of(6)).getString()).toEqual('2000-01-06');
+      expect(stats.getColumn(Column.of(0)).toString()).toEqual('1999-12-31');
+      expect(stats.getColumn(Column.of(1)).toString()).toEqual('2000-01-01');
+      expect(stats.getColumn(Column.of(2)).toString()).toEqual('2000-01-02');
+      expect(stats.getColumn(Column.of(3)).toString()).toEqual('2000-01-03');
+      expect(stats.getColumn(Column.of(4)).toString()).toEqual('2000-01-04');
+      expect(stats.getColumn(Column.of(5)).toString()).toEqual('2000-01-05');
+      expect(stats.getColumn(Column.of(6)).toString()).toEqual('2000-01-06');
     });
   });
 
@@ -757,11 +757,11 @@ describe('Stats', () => {
       const items: StatsItems = stats.getItems();
       expect(items.size()).toEqual(3);
       expect(items.get(0).getValues().size()).toEqual(1);
-      expect(items.get(0).getValues().get(0).getAsOf().getString()).toEqual('2000-01-03');
+      expect(items.get(0).getValues().get(0).getAsOf().toString()).toEqual('2000-01-03');
       expect(items.get(1).getValues().size()).toEqual(3);
-      expect(items.get(1).getValues().get(0).getAsOf().getString()).toEqual('2000-01-02');
-      expect(items.get(1).getValues().get(1).getAsOf().getString()).toEqual('2000-01-03');
-      expect(items.get(1).getValues().get(2).getAsOf().getString()).toEqual('2000-01-04');
+      expect(items.get(1).getValues().get(0).getAsOf().toString()).toEqual('2000-01-02');
+      expect(items.get(1).getValues().get(1).getAsOf().toString()).toEqual('2000-01-03');
+      expect(items.get(1).getValues().get(2).getAsOf().toString()).toEqual('2000-01-04');
       expect(items.get(2).getValues().size()).toEqual(0);
     });
   });
@@ -964,7 +964,7 @@ describe('Stats', () => {
       expect(stats.getTerm().getID()).toEqual(json.termID);
       expect(stats.getName().get()).toEqual(json.name);
       expect(stats.getUnit().get()).toEqual(json.unit);
-      expect(stats.getUpdatedAt().getString()).toEqual(json.updatedAt);
+      expect(stats.getUpdatedAt().toString()).toEqual(json.updatedAt);
       expect(stats.getItems().size()).toEqual(json.items.length);
       for (let i: number = 0; i < stats.getItems().size(); i++) {
         expect(stats.getItems().get(i).getStatsItemID().get()).toEqual(json.items[i].statsItemID);

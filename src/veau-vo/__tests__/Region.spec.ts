@@ -33,6 +33,18 @@ describe('Region', () => {
     });
   });
 
+  describe('toString', () => {
+    it('returns the original string', () => {
+      const id: number = 3;
+      const name: string = 'region 1';
+      const iso3166: string = 'abc';
+
+      const region: Region = Region.of(RegionID.of(id), RegionName.of(name), ISO3166.of(iso3166));
+
+      expect(region.toString()).toEqual(`${id} ${name} ${iso3166}`);
+    });
+  });
+
   describe('of', () => {
     it('normal case', () => {
       const regionID: RegionID = RegionID.of(3);

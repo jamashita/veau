@@ -15,6 +15,15 @@ describe('HeaderSize', () => {
     });
   });
 
+  describe('toString', () => {
+    it('normal case', () => {
+      const size: number = 10;
+      const headerSize: HeaderSize = HeaderSize.of(size);
+
+      expect(headerSize.toString()).toEqual(size.toString());
+    });
+  });
+
   describe('of', () => {
     it('throws RuntimeError when the argument is less than 0', () => {
       expect(() => {

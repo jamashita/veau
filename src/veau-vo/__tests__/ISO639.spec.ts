@@ -13,4 +13,13 @@ describe('ISO639', () => {
       expect(iso6391.equals(iso6393)).toEqual(true);
     });
   });
+
+  describe('toString', () => {
+    it('returns the original string', () => {
+      const code: string = 'ab';
+      const iso639: ISO639 = ISO639.of(code);
+
+      expect(iso639.toString()).toEqual(code);
+    });
+  });
 });

@@ -13,4 +13,13 @@ describe('StatsItemName', () => {
       expect(name1.equals(name3)).toEqual(true);
     });
   });
+
+  describe('toString', () => {
+    it('returns the original string', () => {
+      const name: string = 'stats item name 1';
+      const statsItemName: StatsItemName = StatsItemName.of(name);
+
+      expect(statsItemName.toString()).toEqual(name);
+    });
+  });
 });

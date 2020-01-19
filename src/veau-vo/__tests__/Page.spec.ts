@@ -42,6 +42,15 @@ describe('Page', () => {
     });
   });
 
+  describe('toString', () => {
+    it('normal case', () => {
+      const num: number = 2;
+      const page: Page = Page.of(num);
+
+      expect(page.toString()).toEqual(num.toString());
+    });
+  });
+
   describe('of', () => {
     it('throws RuntimeError when the argument is less than 1', () => {
       expect(() => {

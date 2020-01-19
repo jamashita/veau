@@ -117,4 +117,17 @@ describe('NumericalValues', () => {
       expect(values1.equals(values2)).toEqual(true);
     });
   });
+
+  describe('toString', () => {
+    it('returns the original string', () => {
+      const num1: number = 1;
+      const num2: number = 2;
+      const value1: NumericalValue = NumericalValue.of(num1);
+      const value2: NumericalValue = NumericalValue.of(num2);
+
+      const values: NumericalValues = NumericalValues.of([value1, value2]);
+
+      expect(values.toString()).toEqual(`${num1}, ${num2}`);
+    });
+  });
 });

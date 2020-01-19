@@ -145,6 +145,34 @@ describe('StatsOutline', () => {
     });
   });
 
+  describe('toString', () => {
+    it('normal case', () => {
+      const id1: string = 'bfb0ebff-fc8c-450e-9265-82fa4938ae94';
+      const id2: number = 1;
+      const id3: number = 3;
+      const name1: string = 'language1';
+      const name2: string = 'englishname1';
+      const name3: string = 'region1';
+      const name4: string = 'name1';
+      const iso639: string = 'lang1';
+      const iso3166: string = 'regn1';
+      const term: Term = Term.DAILY;
+      const unit: string = 'unit1';
+      const at: UpdatedAt = UpdatedAt.ofString('2000-01-01');
+      const statsOutline: StatsOutline = StatsOutline.of(
+        StatsID.of(id1),
+        Language.of(LanguageID.of(id2), LanguageName.of(name1), LanguageName.of(name2), ISO639.of(iso639)),
+        Region.of(RegionID.of(id3), RegionName.of(name3), ISO3166.of(iso3166)),
+        term,
+        StatsName.of(name4),
+        StatsUnit.of(unit),
+        at
+      );
+
+      expect(statsOutline.toString()).toEqual(`${id1} ${id2} ${name1} ${name2} ${iso639} ${id3} ${name3} ${iso3166} ${term.toString()} ${name4} ${unit} ${at.toString()}`);
+    });
+  });
+
   describe('isFilled', () => {
     it('returns true is language, region, name and unit are filled', () => {
       const statsOutline1: StatsOutline = StatsOutline.of(StatsID.of('62e103f0-5299-4794-883f-62b9c91583e4'), Language.default(), Region.default(), Term.DAILY, StatsName.default(), StatsUnit.default(), UpdatedAt.ofString('2000-01-01'));

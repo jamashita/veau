@@ -113,6 +113,22 @@ describe('Regions', () => {
     });
   });
 
+  describe('toString', () => {
+    it('normal case', () => {
+      const id1: number = 3;
+      const id2: number = 4;
+      const name1: string = 'region 1';
+      const name2: string = 'region 2';
+      const iso31661: string = 'abc';
+      const iso31662: string = 'abd';
+      const region1: Region = Region.of(RegionID.of(id1), RegionName.of(name1), ISO3166.of(iso31661));
+      const region2: Region = Region.of(RegionID.of(id2), RegionName.of(name2), ISO3166.of(iso31662));
+      const regions: Regions = Regions.of([region1, region2]);
+
+      expect(regions.toString()).toEqual(`${id1} ${name1} ${iso31661}, ${id2} ${name2} ${iso31662}`);
+    });
+  });
+
   describe('ofJSON', () => {
     it('normal case', () => {
       const json: Array<RegionJSON> = [

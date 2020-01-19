@@ -33,10 +33,6 @@ export class UpdatedAt extends ValueObject {
     return moment(this.at);
   }
 
-  public getString(): string {
-    return this.at.format(TERM_FORMAT);
-  }
-
   public equals(other: UpdatedAt): boolean {
     if (this === other) {
       return true;
@@ -49,6 +45,6 @@ export class UpdatedAt extends ValueObject {
   }
 
   public toString(): string {
-    return this.getString();
+    return this.at.format(TERM_FORMAT);
   }
 }

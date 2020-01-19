@@ -36,6 +36,18 @@ describe('Language', () => {
     });
   });
 
+  describe('toString', () => {
+    it('returns the original string', () => {
+      const id: number = 1;
+      const name1: string = 'аҧсуа бызшәа';
+      const name2: string = 'Abkhazian';
+      const iso639: string = 'ab';
+      const language: Language = Language.of(LanguageID.of(id), LanguageName.of(name1), LanguageName.of(name2), ISO639.of(iso639));
+
+      expect(language.toString()).toEqual(`${id} ${name1} ${name2} ${iso639}`);
+    });
+  });
+
   describe('of', () => {
     it('normal case', () => {
       const languageID: LanguageID = LanguageID.of(1);

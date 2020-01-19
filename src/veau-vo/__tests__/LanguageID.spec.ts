@@ -13,4 +13,13 @@ describe('LanguageID', () => {
       expect(languageID1.equals(languageID3)).toEqual(true);
     });
   });
+
+  describe('toString', () => {
+    it('normal case', () => {
+      const id: number = 2;
+      const languageID: LanguageID = LanguageID.of(id);
+
+      expect(languageID.toString()).toEqual(id.toString());
+    });
+  });
 });

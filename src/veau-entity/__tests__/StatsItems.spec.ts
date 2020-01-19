@@ -237,14 +237,14 @@ describe('StatsItems', () => {
 
       const asOfs: AsOfs = statsItems.getAsOfs();
       expect(asOfs.size()).toEqual(8);
-      expect(asOfs.get(0).getString()).toEqual('2000-01-01');
-      expect(asOfs.get(1).getString()).toEqual('2000-01-02');
-      expect(asOfs.get(2).getString()).toEqual('2000-01-03');
-      expect(asOfs.get(3).getString()).toEqual('2000-01-02');
-      expect(asOfs.get(4).getString()).toEqual('2000-01-03');
-      expect(asOfs.get(5).getString()).toEqual('2000-01-04');
-      expect(asOfs.get(6).getString()).toEqual('2000-01-04');
-      expect(asOfs.get(7).getString()).toEqual('2000-01-05');
+      expect(asOfs.get(0).toString()).toEqual('2000-01-01');
+      expect(asOfs.get(1).toString()).toEqual('2000-01-02');
+      expect(asOfs.get(2).toString()).toEqual('2000-01-03');
+      expect(asOfs.get(3).toString()).toEqual('2000-01-02');
+      expect(asOfs.get(4).toString()).toEqual('2000-01-03');
+      expect(asOfs.get(5).toString()).toEqual('2000-01-04');
+      expect(asOfs.get(6).toString()).toEqual('2000-01-04');
+      expect(asOfs.get(7).toString()).toEqual('2000-01-05');
     });
   });
 

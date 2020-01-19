@@ -13,4 +13,13 @@ describe('RegionName', () => {
       expect(name1.equals(name3)).toEqual(true);
     });
   });
+
+  describe('toString', () => {
+    it('returns the original string', () => {
+      const name: string = 'region name';
+      const regionName: RegionName = RegionName.of(name);
+
+      expect(regionName.toString()).toEqual(name);
+    });
+  });
 });

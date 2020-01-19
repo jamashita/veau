@@ -16,6 +16,15 @@ describe('VeauAccountID', () => {
     });
   });
 
+  describe('toString', () => {
+    it('returns the original string', () => {
+      const id: string = '998106de-b2e7-4981-9643-22cd30cd74de';
+      const veauAccountID: VeauAccountID = VeauAccountID.of(id);
+
+      expect(veauAccountID.toString()).toEqual(id);
+    });
+  });
+
   describe('of', () => {
     it('normal case', () => {
       expect(() => {

@@ -13,4 +13,13 @@ describe('Color', () => {
       expect(color1.equals(color3)).toEqual(true);
     });
   });
+
+  describe('toString', () => {
+    it('returns the original string', () => {
+      const rgb: string = '#ffffff';
+      const color: Color = Color.of(rgb);
+
+      expect(color.toString()).toEqual(rgb);
+    });
+  });
 });

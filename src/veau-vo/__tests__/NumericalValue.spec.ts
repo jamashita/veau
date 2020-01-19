@@ -13,4 +13,13 @@ describe('NumericalValue', () => {
       expect(value1.equals(value3)).toEqual(true);
     });
   });
+
+  describe('toString', () => {
+    it('normal case', () => {
+      const num: number = 4;
+      const value: NumericalValue = NumericalValue.of(num);
+
+      expect(value.toString()).toEqual(num.toString());
+    });
+  });
 });

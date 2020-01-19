@@ -18,8 +18,17 @@ describe('StatsID', () => {
     });
   });
 
+  describe('toString', () => {
+    it('returns the original string', () => {
+      const uuid: string = 'db9c9de2-1fc6-4072-8348-b8894239b2b0';
+      const statsID: StatsID = StatsID.of(uuid);
+
+      expect(statsID.toString()).toEqual(uuid);
+    });
+  });
+
   describe('of', () => {
-    it('noraml case', () => {
+    it('normal case', () => {
       expect(() => {
         const uuid1: string = 'db9c9de2-1fc6-4072-8348-b8894239b2b0';
         StatsID.of(uuid1);

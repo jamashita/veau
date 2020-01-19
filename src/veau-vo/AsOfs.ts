@@ -119,13 +119,13 @@ export class AsOfs implements Collection<number, AsOf>, JSONable {
 
   public toJSON(): AsOfJSON {
     return this.asOfs.map<string>((asOf: AsOf): string => {
-      return asOf.getString();
+      return asOf.toString();
     });
   }
 
   public toString(): string {
     return this.asOfs.map<string>((asOf: AsOf): string => {
       return asOf.toString();
-    }).join(' ');
+    }).join(', ');
   }
 }

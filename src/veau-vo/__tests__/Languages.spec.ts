@@ -114,6 +114,25 @@ describe('Languages', () => {
     });
   });
 
+  describe('toString', () => {
+    it('normal case', () => {
+      const id1: number = 1;
+      const id2: number = 2;
+      const name1: string = 'language 1';
+      const name2: string = 'language 2';
+      const englishName1: string = 'english language 1';
+      const englishName2: string = 'english language 2';
+      const iso6391: string = 'aa';
+      const iso6392: string = 'ab';
+      const language1: Language = Language.of(LanguageID.of(id1), LanguageName.of(name1), LanguageName.of(englishName1), ISO639.of(iso6391));
+      const language2: Language = Language.of(LanguageID.of(id2), LanguageName.of(name2), LanguageName.of(englishName2), ISO639.of(iso6392));
+
+      const languages: Languages = Languages.of([language1, language2]);
+
+      expect(languages.toString()).toEqual(`${id1} ${name1} ${englishName1} ${iso6391}, ${id2} ${name2} ${englishName2} ${iso6392}`);
+    });
+  });
+
   describe('ofJSON', () => {
     it('normal case', () => {
       const json: Array<LanguageJSON> = [

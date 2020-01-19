@@ -25,4 +25,12 @@ describe('NoValue', () => {
       }).toThrow(RuntimeError);
     });
   });
+
+  describe('toString', () => {
+    it('returns NO VALUE', () => {
+      const value: NoValue = NoValue.of();
+
+      expect(value.toString()).toEqual('NO VALUE');
+    });
+  });
 });

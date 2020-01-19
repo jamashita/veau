@@ -148,4 +148,20 @@ describe('StatsItemNames', () => {
       ]);
     });
   });
+
+  describe('toString', () => {
+    it('normal case', () => {
+      const name1: string = 'item 1';
+      const name2: string = 'item 2';
+      const statsItemName1: StatsItemName = StatsItemName.of(name1);
+      const statsItemName2: StatsItemName = StatsItemName.of(name2);
+
+      const statsItemNames: StatsItemNames = StatsItemNames.of([
+        statsItemName1,
+        statsItemName2
+      ]);
+
+      expect(statsItemNames.toString()).toEqual(`${name1}, ${name2}`);
+    });
+  });
 });

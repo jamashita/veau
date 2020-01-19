@@ -63,7 +63,7 @@ export class StatsValue extends ValueObject implements JSONable {
   }
 
   public getAsOfAsString(): string {
-    return this.asOf.getString();
+    return this.asOf.toString();
   }
 
   public isBefore(other: StatsValue): boolean {
@@ -105,7 +105,7 @@ export class StatsValue extends ValueObject implements JSONable {
     } = this;
 
     return {
-      asOf: asOf.getString(),
+      asOf: asOf.toString(),
       value: value.get()
     };
   }

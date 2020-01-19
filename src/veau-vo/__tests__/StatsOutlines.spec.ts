@@ -183,6 +183,26 @@ describe('StatsOutlines', () => {
     });
   });
 
+  describe('toString', () => {
+    it('normal case', () => {
+      const id1: string = 'f6fb9662-cbe8-4a91-8aa4-47a92f05b007';
+      const id2: string = '15620e91-f63a-4aaa-94b7-2844978fa129';
+      const term: Term = Term.DAILY;
+      const name1: string = 'stats name 1';
+      const name2: string = 'stats name 2';
+      const unit1: string = 'stats unit 1';
+      const unit2: string = 'stats unit 2';
+      const at: UpdatedAt = UpdatedAt.ofString('2000-01-01');
+
+      const outline1: StatsOutline = StatsOutline.of(StatsID.of(id1), Language.default(), Region.default(), term, StatsName.of(name1), StatsUnit.of(unit1), at);
+      const outline2: StatsOutline = StatsOutline.of(StatsID.of(id2), Language.default(), Region.default(), term, StatsName.of(name2), StatsUnit.of(unit2), at);
+
+      const outlines: StatsOutlines = StatsOutlines.of([outline1, outline2]);
+
+      expect(outlines.toString()).toEqual(`${id1} 0    0   ${term.toString()} ${name1} ${unit1} ${at.toString()}, ${id2} 0    0   ${term.toString()} ${name2} ${unit2} ${at.toString()}`);
+    });
+  });
+
   describe('ofJSON', () => {
     it('normal case', () => {
       const json: Array<StatsOutlineJSON> = [

@@ -101,6 +101,16 @@ describe('Colors', () => {
     });
   });
 
+  describe('toString', () => {
+    it('normal case', () => {
+      const rgb1: string = '#ffffff';
+      const rgb2: string = '#000000';
+      const colors: Colors = Colors.of([Color.of(rgb1), Color.of(rgb2)]);
+
+      expect(colors.toString()).toEqual(`${rgb1}, ${rgb2}`);
+    });
+  });
+
   describe('chartScheme', () => {
     it('generates 20 colors', () => {
       const colors: Colors = Colors.chartScheme();

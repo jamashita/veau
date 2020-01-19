@@ -1,4 +1,5 @@
 import { RuntimeError } from '../veau-general/RuntimeError';
+import { ValueObject } from '../veau-general/ValueObject';
 
 const DAILY_ID: number = 1;
 const WEEKLY_ID: number = 2;
@@ -6,7 +7,7 @@ const MONTHLY_ID: number = 3;
 const QUARTERLY_ID: number = 4;
 const ANNUAL_ID: number = 5;
 
-export class Term {
+export class Term extends ValueObject {
   private id: number;
   private key: string;
 
@@ -40,6 +41,7 @@ export class Term {
   }
 
   private constructor(id: number, key: string) {
+    super();
     this.id = id;
     this.key = key;
   }
@@ -50,6 +52,14 @@ export class Term {
 
   public getKey(): string {
     return this.key;
+  }
+
+  public equals(other: Term): boolean {
+    if (this === other) {
+      return true;
+    }
+
+    return false;
   }
 
   public toString(): string {

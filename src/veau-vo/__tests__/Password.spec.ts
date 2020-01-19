@@ -26,6 +26,15 @@ describe('Password', () => {
     });
   });
 
+  describe('toString', () => {
+    it('returns the original string', () => {
+      const word: string = 'aiutare';
+      const password: Password = Password.of(word);
+
+      expect(password.toString()).toEqual(word);
+    });
+  });
+
   describe('default', () => {
     it('must be an blank password', () => {
       expect(Password.default().get()).toEqual('');

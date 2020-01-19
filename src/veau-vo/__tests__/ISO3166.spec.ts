@@ -13,4 +13,13 @@ describe('ISO3166', () => {
       expect(iso31661.equals(iso31663)).toEqual(true);
     });
   });
+
+  describe('toString', () => {
+    it('returns the original string', () => {
+      const code: string = 'AFG';
+      const iso3166: ISO3166 = ISO3166.of(code);
+
+      expect(iso3166.toString()).toEqual(code);
+    });
+  });
 });

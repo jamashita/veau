@@ -178,7 +178,7 @@ describe('StatsItem', () => {
       expect(statsItem.getName().get()).toEqual(json.name);
       expect(statsItem.getValues().size()).toEqual(json.values.length);
       for (let i: number = 0; i < statsItem.getValues().size(); i++) {
-        expect(statsItem.getValues().get(i).getAsOf().getString()).toEqual(AsOf.ofString(json.values[i].asOf).getString());
+        expect(statsItem.getValues().get(i).getAsOf().toString()).toEqual(AsOf.ofString(json.values[i].asOf).toString());
         expect(statsItem.getValues().get(i).getValue().get()).toEqual(json.values[i].value);
       }
     });

@@ -56,4 +56,12 @@ describe('Terms', () => {
       expect(terms1.equals(terms2)).toEqual(true);
     });
   });
+
+  describe('toString', () => {
+    it('normal case', () => {
+      const terms: Terms = Terms.all();
+
+      expect(terms.toString()).toEqual(`${Term.DAILY.toString()}, ${Term.WEEKLY.toString()}, ${Term.MONTHLY.toString()}, ${Term.QUARTERLY.toString()}, ${Term.ANNUAL.toString()}`);
+    });
+  });
 });

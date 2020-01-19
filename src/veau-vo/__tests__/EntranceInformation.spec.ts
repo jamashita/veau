@@ -38,6 +38,16 @@ describe('EntranceInformation', () => {
     });
   });
 
+  describe('toString', () => {
+    it('normal case', () => {
+      const account: string = 'account';
+      const password: string = 'password';
+      const entranceInformation: EntranceInformation = EntranceInformation.of(AccountName.of(account), Password.of(password));
+
+      expect(entranceInformation.toString()).toEqual(`${account} ${password}`);
+    });
+  });
+
   describe('default', () => {
     it('s account and password must be blank', () => {
       const entranceInformation: EntranceInformation = EntranceInformation.default();

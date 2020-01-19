@@ -295,7 +295,7 @@ export class Stats extends Entity<StatsID> {
     const chartItems: Map<string, Chart> = new Map<string, Chart>();
 
     this.getColumns().forEach((column: AsOf): void => {
-      const asOfString: string = column.getString();
+      const asOfString: string = column.toString();
       chartItems.set(asOfString, {name: asOfString});
     });
 

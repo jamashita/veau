@@ -270,6 +270,26 @@ describe('StatsValues', () => {
     });
   });
 
+  describe('toString', () => {
+    it('normal case', () => {
+      const id: string = 'f186dad1-6170-4fdc-9020-d73d9bf86fb0';
+      const asOf1: string = '2000-01-01';
+      const asOf2: string = '2000-01-02';
+      const value1: number = 1;
+      const value2: number = 2;
+      const statsItemID: StatsItemID = StatsItemID.of(id);
+      const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString(asOf1), NumericalValue.of(value1));
+      const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString(asOf2), NumericalValue.of(value2));
+
+      const statsValues: StatsValues = StatsValues.of([
+        statsValue1,
+        statsValue2
+      ]);
+
+      expect(statsValues.toString()).toEqual(`${id} ${asOf1} ${value1}, ${id} ${asOf2} ${value2}`);
+    });
+  });
+
   describe('empty', () => {
     it('must be 0 length StatsValues', () => {
       expect(StatsValues.empty().isEmpty()).toEqual(true);

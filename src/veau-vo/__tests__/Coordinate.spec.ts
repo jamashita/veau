@@ -19,4 +19,14 @@ describe('Coordinate', () => {
       expect(coordinate1.equals(coordinate5)).toEqual(true);
     });
   });
+
+  describe('toString', () => {
+    it('returns the original string', () => {
+      const row: number = 1;
+      const column: number = 2;
+      const coordinate: Coordinate = Coordinate.of(Row.of(row), Column.of(column));
+
+      expect(coordinate.toString()).toEqual(`${row} ${column}`);
+    });
+  });
 });

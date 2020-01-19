@@ -16,14 +16,6 @@ describe('AsOf', () => {
     });
   });
 
-  describe('getString', () => {
-    it('normal case', () => {
-      const asOf: AsOf = AsOf.ofString('2000-01-01');
-
-      expect(asOf.getString()).toEqual('2000-01-01');
-    });
-  });
-
   describe('isBefore', () => {
     it('returns true if the value is before than the other', () => {
       const asOf1: AsOf = AsOf.ofString('2000-01-02 00:00:00');
@@ -53,40 +45,40 @@ describe('AsOf', () => {
       const asOf: AsOf = AsOf.ofString('2000-01-01');
       const newAsOf: AsOf = asOf.previous(Term.DAILY);
 
-      expect(asOf.getString()).toEqual('2000-01-01');
-      expect(newAsOf.getString()).toEqual('1999-12-31');
+      expect(asOf.toString()).toEqual('2000-01-01');
+      expect(newAsOf.toString()).toEqual('1999-12-31');
     });
 
     it('Term.WEEKLY', () => {
       const asOf: AsOf = AsOf.ofString('2000-01-01');
       const newAsOf: AsOf = asOf.previous(Term.WEEKLY);
 
-      expect(asOf.getString()).toEqual('2000-01-01');
-      expect(newAsOf.getString()).toEqual('1999-12-25');
+      expect(asOf.toString()).toEqual('2000-01-01');
+      expect(newAsOf.toString()).toEqual('1999-12-25');
     });
 
     it('Term.MONTHLY', () => {
       const asOf: AsOf = AsOf.ofString('2000-01-01');
       const newAsOf: AsOf = asOf.previous(Term.MONTHLY);
 
-      expect(asOf.getString()).toEqual('2000-01-01');
-      expect(newAsOf.getString()).toEqual('1999-12-01');
+      expect(asOf.toString()).toEqual('2000-01-01');
+      expect(newAsOf.toString()).toEqual('1999-12-01');
     });
 
     it('Term.QUARTERLY', () => {
       const asOf: AsOf = AsOf.ofString('2000-01-01');
       const newAsOf: AsOf = asOf.previous(Term.QUARTERLY);
 
-      expect(asOf.getString()).toEqual('2000-01-01');
-      expect(newAsOf.getString()).toEqual('1999-10-01');
+      expect(asOf.toString()).toEqual('2000-01-01');
+      expect(newAsOf.toString()).toEqual('1999-10-01');
     });
 
     it('Term.ANNUAL', () => {
       const asOf: AsOf = AsOf.ofString('2000-01-01');
       const newAsOf: AsOf = asOf.previous(Term.ANNUAL);
 
-      expect(asOf.getString()).toEqual('2000-01-01');
-      expect(newAsOf.getString()).toEqual('1999-01-01');
+      expect(asOf.toString()).toEqual('2000-01-01');
+      expect(newAsOf.toString()).toEqual('1999-01-01');
     });
   });
 
@@ -95,40 +87,48 @@ describe('AsOf', () => {
       const asOf: AsOf = AsOf.ofString('2000-01-01');
       const newAsOf: AsOf = asOf.next(Term.DAILY);
 
-      expect(asOf.getString()).toEqual('2000-01-01');
-      expect(newAsOf.getString()).toEqual('2000-01-02');
+      expect(asOf.toString()).toEqual('2000-01-01');
+      expect(newAsOf.toString()).toEqual('2000-01-02');
     });
 
     it('Term.WEEKLY', () => {
       const asOf: AsOf = AsOf.ofString('2000-01-01');
       const newAsOf: AsOf = asOf.next(Term.WEEKLY);
 
-      expect(asOf.getString()).toEqual('2000-01-01');
-      expect(newAsOf.getString()).toEqual('2000-01-08');
+      expect(asOf.toString()).toEqual('2000-01-01');
+      expect(newAsOf.toString()).toEqual('2000-01-08');
     });
 
     it('Term.MONTHLY', () => {
       const asOf: AsOf = AsOf.ofString('2000-01-01');
       const newAsOf: AsOf = asOf.next(Term.MONTHLY);
 
-      expect(asOf.getString()).toEqual('2000-01-01');
-      expect(newAsOf.getString()).toEqual('2000-02-01');
+      expect(asOf.toString()).toEqual('2000-01-01');
+      expect(newAsOf.toString()).toEqual('2000-02-01');
     });
 
     it('Term.QUARTERLY', () => {
       const asOf: AsOf = AsOf.ofString('2000-01-01');
       const newAsOf: AsOf = asOf.next(Term.QUARTERLY);
 
-      expect(asOf.getString()).toEqual('2000-01-01');
-      expect(newAsOf.getString()).toEqual('2000-04-01');
+      expect(asOf.toString()).toEqual('2000-01-01');
+      expect(newAsOf.toString()).toEqual('2000-04-01');
     });
 
     it('Term.ANNUAL', () => {
       const asOf: AsOf = AsOf.ofString('2000-01-01');
       const newAsOf: AsOf = asOf.next(Term.ANNUAL);
 
-      expect(asOf.getString()).toEqual('2000-01-01');
-      expect(newAsOf.getString()).toEqual('2001-01-01');
+      expect(asOf.toString()).toEqual('2000-01-01');
+      expect(newAsOf.toString()).toEqual('2001-01-01');
+    });
+  });
+
+  describe('toString', () => {
+    it('normal case', () => {
+      const asOf: AsOf = AsOf.ofString('2000-01-01');
+
+      expect(asOf.toString()).toEqual('2000-01-01');
     });
   });
 

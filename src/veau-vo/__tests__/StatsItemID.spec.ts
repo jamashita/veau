@@ -18,8 +18,17 @@ describe('StatsItemID', () => {
     });
   });
 
+  describe('toString', () => {
+    it('returns the original string', () => {
+      const uuid: string = 'b5203963-d996-40a7-9adb-f05ea9524af0';
+      const statsItemID: StatsItemID = StatsItemID.of(uuid);
+
+      expect(statsItemID.toString()).toEqual(uuid);
+    });
+  });
+
   describe('of', () => {
-    it('noraml case', () => {
+    it('normal case', () => {
       expect(() => {
         const uuid1: string = 'b5203963-d996-40a7-9adb-f05ea9524af0';
         StatsItemID.of(uuid1);

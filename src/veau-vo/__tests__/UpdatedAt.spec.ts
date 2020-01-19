@@ -17,6 +17,15 @@ describe('UpdatedAt', () => {
     });
   });
 
+  describe('toString', () => {
+    it('normal case', () => {
+      const at: string = '2000-01-01 00:01:02';
+      const updatedAt: UpdatedAt = UpdatedAt.ofString(at);
+
+      expect(updatedAt.toString()).toEqual(at);
+    });
+  });
+
   describe('ofString', () => {
     it('throws RuntimeError if the parameter is not date format', () => {
       expect(() => {
@@ -37,7 +46,7 @@ describe('UpdatedAt', () => {
       moment.utc = stub;
       stub.returns(moment('2000-01-01 00:00:00'));
 
-      expect(UpdatedAt.now().getString()).toEqual('2000-01-01 00:00:00');
+      expect(UpdatedAt.now().toString()).toEqual('2000-01-01 00:00:00');
     });
   });
 });

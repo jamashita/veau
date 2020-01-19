@@ -111,6 +111,35 @@ describe('Locale', () => {
     });
   });
 
+  describe('toString', () => {
+    it('normal case', () => {
+      const id1: number = 1;
+      const id2: number = 2;
+      const id3: number = 3;
+      const id4: number = 4;
+      const name1: string = 'language 1';
+      const name2: string = 'language 2';
+      const name3: string = 'region 3';
+      const name4: string = 'region 4';
+      const englishName1: string = 'english language 1';
+      const englishName2: string = 'english language 2';
+      const iso6391: string = 'aa';
+      const iso6392: string = 'ab';
+      const iso31661: string = 'abc';
+      const iso31662: string = 'abd';
+      const language1: Language = Language.of(LanguageID.of(id1), LanguageName.of(name1), LanguageName.of(englishName1), ISO639.of(iso6391));
+      const language2: Language = Language.of(LanguageID.of(id2), LanguageName.of(name2), LanguageName.of(englishName2), ISO639.of(iso6392));
+      const region1: Region = Region.of(RegionID.of(id3), RegionName.of(name3), ISO3166.of(iso31661));
+      const region2: Region = Region.of(RegionID.of(id4), RegionName.of(name4), ISO3166.of(iso31662));
+      const languages: Languages = Languages.of([language1, language2]);
+      const regions: Regions = Regions.of([region1, region2]);
+
+      const locale: Locale = Locale.of(languages, regions);
+
+      expect(locale.toString()).toEqual(`${id1} ${name1} ${englishName1} ${iso6391}, ${id2} ${name2} ${englishName2} ${iso6392} ${id3} ${name3} ${iso31661}, ${id4} ${name4} ${iso31662}`);
+    });
+  });
+
   describe('default', () => {
     it('generates 0-length Regions , and Languages', () => {
       const locale: Locale = Locale.default();
