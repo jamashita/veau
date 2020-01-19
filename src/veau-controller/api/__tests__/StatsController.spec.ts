@@ -125,7 +125,7 @@ describe('StatsController', () => {
     it('normal case', async () => {
       const stub: SinonStub = sinon.stub();
       StatsInteractor.prototype.findByStatsID = stub;
-      stub.resolves(Stats.from(
+      stub.resolves(Stats.of(
         StatsID.of('059ce0b2-7cba-4ba4-9a5d-a8fa7493f556'),
         Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english name'), ISO639.of('la')),
         Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('RGN')),
@@ -133,8 +133,8 @@ describe('StatsController', () => {
         StatsName.of('stats'),
         StatsUnit.of('unit'),
         UpdatedAt.ofString('2000-01-01 00:00:00'),
-        StatsItems.from([
-          StatsItem.from(StatsItemID.of('09c2e4a6-6839-4fbe-858e-bf2c4ee7d5e6'), StatsItemName.of('stats item'), StatsValues.of([
+        StatsItems.of([
+          StatsItem.of(StatsItemID.of('09c2e4a6-6839-4fbe-858e-bf2c4ee7d5e6'), StatsItemName.of('stats item'), StatsValues.of([
             StatsValue.of(StatsItemID.of('09c2e4a6-6839-4fbe-858e-bf2c4ee7d5e6'), AsOf.ofString('2000-01-01'), NumericalValue.of(5))
           ]))
         ]),

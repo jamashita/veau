@@ -22,7 +22,7 @@ describe('Languages', () => {
     });
 
     it('throws NoSuchElementError when the index is out of range', () => {
-      const languages: Languages = Languages.of([]);
+      const languages: Languages = Languages.empty();
 
       expect(() => {
         languages.get(-1);
@@ -54,7 +54,7 @@ describe('Languages', () => {
       const language1: Language = Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english language 1'), ISO639.of('aa'));
       const language2: Language = Language.of(LanguageID.of(2), LanguageName.of('language 2'), LanguageName.of('english language 2'), ISO639.of('ab'));
 
-      const languages1: Languages = Languages.of([]);
+      const languages1: Languages = Languages.empty();
       const languages2: Languages = Languages.of([language1, language2]);
 
       expect(languages1.isEmpty()).toEqual(true);

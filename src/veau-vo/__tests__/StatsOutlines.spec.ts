@@ -30,7 +30,7 @@ describe('StatsOutlines', () => {
     });
 
     it('throws NoSuchElementError if the index is out of range', () => {
-      const outlines: StatsOutlines = StatsOutlines.of([]);
+      const outlines: StatsOutlines = StatsOutlines.empty();
 
       expect(() => {
         outlines.get(-1);

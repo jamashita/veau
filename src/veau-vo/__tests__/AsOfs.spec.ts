@@ -40,7 +40,7 @@ describe('AsOfs', () => {
     });
 
     it('throws NoSuchElementError when the index is out of range', () => {
-      const asOfs: AsOfs = AsOfs.of([]);
+      const asOfs: AsOfs = AsOfs.empty();
 
       expect(() => {
         asOfs.get(-1);
@@ -110,7 +110,7 @@ describe('AsOfs', () => {
       const asOf1: AsOf = AsOf.ofString('2000-01-01');
       const asOf2: AsOf = AsOf.ofString('2000-01-02');
 
-      const asOfs1: AsOfs = AsOfs.of([]);
+      const asOfs1: AsOfs = AsOfs.empty();
       const asOfs2: AsOfs = AsOfs.of([asOf1, asOf2]);
 
       expect(asOfs1.isEmpty()).toEqual(true);

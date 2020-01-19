@@ -50,6 +50,6 @@ export class StatsQuery {
 
     const items: StatsItems = await this.statsItemQuery.findByStatsID(statsID);
 
-    return Stats.fromRow(statsRows[0], items);
+    return Stats.ofRow(statsRows[0], items);
   }
 }

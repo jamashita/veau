@@ -22,7 +22,7 @@ describe('Regions', () => {
     });
 
     it('throws NoSuchElementError when the index is out of range', () => {
-      const regions: Regions = Regions.of([]);
+      const regions: Regions = Regions.empty();
 
       expect(() => {
         regions.get(-1);
@@ -54,7 +54,7 @@ describe('Regions', () => {
       const region1: Region = Region.of(RegionID.of(1), RegionName.of('region 1'), ISO3166.of('abc'));
       const region2: Region = Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abd'));
 
-      const regions1: Regions = Regions.of([]);
+      const regions1: Regions = Regions.empty();
       const regions2: Regions = Regions.of([region1, region2]);
 
       expect(regions1.isEmpty()).toEqual(true);

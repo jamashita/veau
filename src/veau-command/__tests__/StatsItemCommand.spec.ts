@@ -17,10 +17,10 @@ describe('StatsItemCommand', () => {
 
       const query: IQuery = new QueryMock();
       const statsID: StatsID = StatsID.of('59915b56-b930-426c-a146-3b1dde8054cd');
-      const statsItem: StatsItem = StatsItem.from(
+      const statsItem: StatsItem = StatsItem.of(
         StatsItemID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007'),
         StatsItemName.of('stats item name'),
-        StatsValues.of([])
+        StatsValues.empty()
       );
 
       const statsItemCommand: StatsItemCommand = StatsItemCommand.of(query);

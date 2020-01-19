@@ -33,7 +33,7 @@ describe('StatsCommand', () => {
         }
       });
 
-      const stats: Stats = Stats.from(
+      const stats: Stats = Stats.of(
         StatsID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87'),
         Language.of(LanguageID.of(3), LanguageName.of('language name 1'), LanguageName.of('language name 2'), ISO639.of('aa')),
         Region.of(RegionID.of(4), RegionName.of('region name 5'), ISO3166.of('bb')),
@@ -41,7 +41,7 @@ describe('StatsCommand', () => {
         StatsName.of('stats name'),
         StatsUnit.of('stats unit'),
         UpdatedAt.ofString('2000-01-01'),
-        StatsItems.from([]),
+        StatsItems.empty(),
         empty<AsOf>()
       );
 
@@ -78,7 +78,7 @@ describe('StatsCommand', () => {
         }
       });
 
-      const stats: Stats = Stats.from(
+      const stats: Stats = Stats.of(
         StatsID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87'),
         Language.of(LanguageID.of(3), LanguageName.of('language name 1'), LanguageName.of('language name 2'), ISO639.of('aa')),
         Region.of(RegionID.of(4), RegionName.of('region name 5'), ISO3166.of('bb')),
@@ -86,7 +86,7 @@ describe('StatsCommand', () => {
         StatsName.of('stats name'),
         StatsUnit.of('stats unit'),
         UpdatedAt.ofString('2000-01-01'),
-        StatsItems.from([]),
+        StatsItems.empty(),
         empty<AsOf>()
       );
 

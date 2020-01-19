@@ -29,7 +29,7 @@ describe('StatsCommand', () => {
       QueryMock.prototype.execute = stub;
 
       const query: IQuery = new QueryMock();
-      const stats: Stats = Stats.from(
+      const stats: Stats = Stats.of(
         StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007'),
         Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('language 2'), ISO639.of('aa')),
         Region.of(RegionID.of(2), RegionName.of('region 3'), ISO3166.of('abc')),
@@ -37,7 +37,7 @@ describe('StatsCommand', () => {
         StatsName.of('stats name'),
         StatsUnit.of('stats unit'),
         UpdatedAt.ofString('2000-01-01'),
-        StatsItems.from([]),
+        StatsItems.empty(),
         empty<AsOf>()
       );
       const accountID: VeauAccountID = VeauAccountID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87');

@@ -37,9 +37,9 @@ export class StatsItemQuery {
     const items: Array<StatsItem> = statsItemRows.map<StatsItem>((statsItemRow: StatsItemRow): StatsItem => {
       const values: StatsValues = statsValues.filter(StatsItemID.of(statsItemRow.statsItemID));
 
-      return StatsItem.fromRow(statsItemRow, values);
+      return StatsItem.ofRow(statsItemRow, values);
     });
 
-    return StatsItems.from(items);
+    return StatsItems.of(items);
   }
 }

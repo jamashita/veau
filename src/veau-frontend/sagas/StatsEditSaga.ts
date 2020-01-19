@@ -106,7 +106,7 @@ export class StatsEditSaga {
         stats
       } = state;
 
-      const newStats: Stats = Stats.from(
+      const newStats: Stats = Stats.of(
         stats.getStatsID(),
         stats.getLanguage(),
         stats.getRegion(),
@@ -131,7 +131,7 @@ export class StatsEditSaga {
         stats
       } = state;
 
-      const newStats: Stats = Stats.from(
+      const newStats: Stats = Stats.of(
         stats.getStatsID(),
         stats.getLanguage(),
         stats.getRegion(),
@@ -161,7 +161,7 @@ export class StatsEditSaga {
           return localeQuery.findByISO639(action.iso639);
         });
 
-        const newStats: Stats = Stats.from(
+        const newStats: Stats = Stats.of(
           stats.getStatsID(),
           language,
           stats.getRegion(),
@@ -195,7 +195,7 @@ export class StatsEditSaga {
           return localeQuery.findByISO3166(action.iso3166);
         });
 
-        const newStats: Stats = Stats.from(
+        const newStats: Stats = Stats.of(
           stats.getStatsID(),
           stats.getLanguage(),
           region,
@@ -266,7 +266,7 @@ export class StatsEditSaga {
         name
       } = action;
 
-      const newStatsItem: StatsItem = StatsItem.from(statsItem.getStatsItemID(), name, statsItem.getValues());
+      const newStatsItem: StatsItem = StatsItem.of(statsItem.getStatsItemID(), name, statsItem.getValues());
 
       yield put(updateStatsItem(newStatsItem));
     }
@@ -282,7 +282,7 @@ export class StatsEditSaga {
         statsItem
       } = state;
 
-      const newStats: Stats = Stats.from(
+      const newStats: Stats = Stats.of(
         stats.getStatsID(),
         stats.getLanguage(),
         stats.getRegion(),
@@ -336,7 +336,7 @@ export class StatsEditSaga {
       } = action;
 
       if (selectingItem !== undefined) {
-        const newSelectingItem: StatsItem = StatsItem.from(selectingItem.getStatsItemID(), name, selectingItem.getValues());
+        const newSelectingItem: StatsItem = StatsItem.of(selectingItem.getStatsItemID(), name, selectingItem.getValues());
         const copied: Stats = stats.copy();
         copied.replaceItem(newSelectingItem, selectingRow);
 
@@ -360,7 +360,7 @@ export class StatsEditSaga {
         startDate
       } = action;
 
-      const newStats: Stats = Stats.from(
+      const newStats: Stats = Stats.of(
         stats.getStatsID(),
         stats.getLanguage(),
         stats.getRegion(),

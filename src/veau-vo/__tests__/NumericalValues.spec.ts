@@ -75,7 +75,7 @@ describe('NumericalValues', () => {
       const value1: NumericalValue = NumericalValue.of(1);
       const value2: NumericalValue = NumericalValue.of(2);
 
-      const values1: NumericalValues = NumericalValues.of([]);
+      const values1: NumericalValues = NumericalValues.empty();
       const values2: NumericalValues = NumericalValues.of([value1, value2]);
 
       expect(values1.isEmpty()).toEqual(true);

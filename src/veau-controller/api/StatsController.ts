@@ -163,7 +163,7 @@ router.post('/', authenticationMiddleware.requires(), async (req: express.Reques
   }
 
   const json: StatsJSON = req.body;
-  const stats: Stats = Stats.fromJSON(json);
+  const stats: Stats = Stats.ofJSON(json);
 
   try {
     await statsInteractor.save(stats, res.locals.account.getVeauAccountID());

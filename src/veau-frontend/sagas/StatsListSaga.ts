@@ -80,7 +80,7 @@ export class StatsListSaga {
         name
       } = action;
 
-      const newStats: Stats = Stats.from(
+      const newStats: Stats = Stats.of(
         stats.getStatsID(),
         stats.getLanguage(),
         stats.getRegion(),
@@ -110,7 +110,7 @@ export class StatsListSaga {
         unit
       } = action;
 
-      const newStats: Stats = Stats.from(
+      const newStats: Stats = Stats.of(
         stats.getStatsID(),
         stats.getLanguage(),
         stats.getRegion(),
@@ -142,7 +142,7 @@ export class StatsListSaga {
           return localeQuery.findByISO639(action.iso639);
         });
 
-        const newStats: Stats = Stats.from(
+        const newStats: Stats = Stats.of(
           stats.getStatsID(),
           language,
           stats.getRegion(),
@@ -178,7 +178,7 @@ export class StatsListSaga {
           return localeQuery.findByISO3166(action.iso3166);
         });
 
-        const newStats: Stats = Stats.from(
+        const newStats: Stats = Stats.of(
           stats.getStatsID(),
           stats.getLanguage(),
           region,
@@ -209,7 +209,7 @@ export class StatsListSaga {
         }
       } = state;
 
-      const newStats: Stats = Stats.from(
+      const newStats: Stats = Stats.of(
         stats.getStatsID(),
         stats.getLanguage(),
         stats.getRegion(),

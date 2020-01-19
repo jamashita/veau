@@ -56,14 +56,14 @@ describe('StatsInteractor', () => {
       const name: StatsName = StatsName.of('stats');
       const unit: StatsUnit = StatsUnit.of('unit');
       const updatedAt: UpdatedAt = UpdatedAt.of(moment());
-      const items: StatsItems = StatsItems.from([
-        StatsItem.from(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b'), StatsItemName.of('item1'), StatsValues.of([])),
-        StatsItem.from(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8'), StatsItemName.of('item2'), StatsValues.of([]))
+      const items: StatsItems = StatsItems.of([
+        StatsItem.of(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b'), StatsItemName.of('item1'), StatsValues.empty()),
+        StatsItem.of(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8'), StatsItemName.of('item2'), StatsValues.empty())
       ]);
 
       const stub: SinonStub = sinon.stub();
       StatsQuery.prototype.findByStatsID = stub;
-      stub.resolves(Stats.from(
+      stub.resolves(Stats.of(
         statsID,
         language,
         region,
@@ -156,12 +156,12 @@ describe('StatsInteractor', () => {
       const name: StatsName = StatsName.of('stats');
       const unit: StatsUnit = StatsUnit.of('unit');
       const updatedAt: UpdatedAt = UpdatedAt.of(moment());
-      const items: StatsItems = StatsItems.from([
-        StatsItem.from(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b'), StatsItemName.of('item1'), StatsValues.of([])),
-        StatsItem.from(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8'), StatsItemName.of('item2'), StatsValues.of([]))
+      const items: StatsItems = StatsItems.of([
+        StatsItem.of(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b'), StatsItemName.of('item1'), StatsValues.empty()),
+        StatsItem.of(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8'), StatsItemName.of('item2'), StatsValues.empty())
       ]);
 
-      const stats: Stats = Stats.from(
+      const stats: Stats = Stats.of(
         statsID,
         language,
         region,

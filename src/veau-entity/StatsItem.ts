@@ -24,11 +24,11 @@ export class StatsItem extends Entity<StatsItemID> {
   private name: StatsItemName;
   private values: StatsValues;
 
-  public static from(statsItemID: StatsItemID, name: StatsItemName, values: StatsValues): StatsItem {
+  public static of(statsItemID: StatsItemID, name: StatsItemName, values: StatsValues): StatsItem {
     return new StatsItem(statsItemID, name, values);
   }
 
-  public static fromJSON(json: StatsItemJSON): StatsItem {
+  public static ofJSON(json: StatsItemJSON): StatsItem {
     const {
       statsItemID,
       name,
@@ -37,20 +37,20 @@ export class StatsItem extends Entity<StatsItemID> {
 
     const itemID: StatsItemID = StatsItemID.of(statsItemID);
 
-    return StatsItem.from(itemID, StatsItemName.of(name), StatsValues.ofJSON(itemID, values));
+    return StatsItem.of(itemID, StatsItemName.of(name), StatsValues.ofJSON(itemID, values));
   }
 
-  public static fromRow(row: StatsItemRow, statsValues: StatsValues): StatsItem {
+  public static ofRow(row: StatsItemRow, statsValues: StatsValues): StatsItem {
     const {
       statsItemID,
       name
     } = row;
 
-    return StatsItem.from(StatsItemID.of(statsItemID), StatsItemName.of(name), statsValues);
+    return StatsItem.of(StatsItemID.of(statsItemID), StatsItemName.of(name), statsValues);
   }
 
   public static default(): StatsItem {
-    return StatsItem.from(StatsItemID.generate(), StatsItemName.default(), StatsValues.empty());
+    return StatsItem.of(StatsItemID.generate(), StatsItemName.default(), StatsValues.empty());
   }
 
   private constructor(statsItemID: StatsItemID, name: StatsItemName, values: StatsValues) {

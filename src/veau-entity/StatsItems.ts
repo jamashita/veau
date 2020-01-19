@@ -15,20 +15,20 @@ import { StatsItem, StatsItemJSON } from './StatsItem';
 export class StatsItems implements Collection<number, StatsItem>, JSONable, Cloneable {
   private items: Array<StatsItem>;
 
-  public static from(items: Array<StatsItem>): StatsItems {
+  public static of(items: Array<StatsItem>): StatsItems {
     return new StatsItems(items);
   }
 
-  public static fromJSON(json: Array<StatsItemJSON>): StatsItems {
+  public static ofJSON(json: Array<StatsItemJSON>): StatsItems {
     const items: Array<StatsItem> = json.map<StatsItem>((item: StatsItemJSON): StatsItem => {
-      return StatsItem.fromJSON(item);
+      return StatsItem.ofJSON(item);
     });
 
-    return StatsItems.from(items);
+    return StatsItems.of(items);
   }
 
   public static empty(): StatsItems {
-    return StatsItems.from([]);
+    return StatsItems.of([]);
   }
 
   private constructor(items: Array<StatsItem>) {

@@ -16,10 +16,10 @@ import { StatsItems } from '../StatsItems';
 describe('StatsItems', () => {
   describe('add', () => {
     it('does not affect the original one', () => {
-      const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
-      const statsItem2: StatsItem = StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]));
-      const statsItem3: StatsItem = StatsItem.from(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 3'), StatsValues.of([]));
-      const statsItems1: StatsItems = StatsItems.from([
+      const statsItem1: StatsItem = StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.empty());
+      const statsItem2: StatsItem = StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.empty());
+      const statsItem3: StatsItem = StatsItem.of(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 3'), StatsValues.empty());
+      const statsItems1: StatsItems = StatsItems.of([
         statsItem1,
         statsItem2
       ]);
@@ -39,9 +39,9 @@ describe('StatsItems', () => {
 
   describe('get', () => {
     it('returns Language instance at the correct index', () => {
-      const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
-      const statsItem2: StatsItem = StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]));
-      const items: StatsItems = StatsItems.from([
+      const statsItem1: StatsItem = StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.empty());
+      const statsItem2: StatsItem = StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.empty());
+      const items: StatsItems = StatsItems.of([
         statsItem1,
         statsItem2
       ]);
@@ -52,7 +52,7 @@ describe('StatsItems', () => {
     });
 
     it('throws NoSuchElementError when the index is out of range', () => {
-      const items: StatsItems = StatsItems.from([]);
+      const items: StatsItems = StatsItems.empty();
 
       expect(() => {
         items.get(-1);
@@ -65,10 +65,10 @@ describe('StatsItems', () => {
 
   describe('move', () => {
     it('first index', () => {
-      const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
-      const statsItem2: StatsItem = StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]));
-      const statsItem3: StatsItem = StatsItem.from(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 3'), StatsValues.of([]));
-      const statsItems: StatsItems = StatsItems.from([
+      const statsItem1: StatsItem = StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.empty());
+      const statsItem2: StatsItem = StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.empty());
+      const statsItem3: StatsItem = StatsItem.of(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 3'), StatsValues.empty());
+      const statsItems: StatsItems = StatsItems.of([
         statsItem1,
         statsItem2,
         statsItem3
@@ -83,10 +83,10 @@ describe('StatsItems', () => {
     });
 
     it('middle index', () => {
-      const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
-      const statsItem2: StatsItem = StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]));
-      const statsItem3: StatsItem = StatsItem.from(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 3'), StatsValues.of([]));
-      const statsItems: StatsItems = StatsItems.from([
+      const statsItem1: StatsItem = StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.empty());
+      const statsItem2: StatsItem = StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.empty());
+      const statsItem3: StatsItem = StatsItem.of(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 3'), StatsValues.empty());
+      const statsItems: StatsItems = StatsItems.of([
         statsItem1,
         statsItem2,
         statsItem3
@@ -101,10 +101,10 @@ describe('StatsItems', () => {
     });
 
     it('last index', () => {
-      const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
-      const statsItem2: StatsItem = StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]));
-      const statsItem3: StatsItem = StatsItem.from(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 3'), StatsValues.of([]));
-      const statsItems: StatsItems = StatsItems.from([
+      const statsItem1: StatsItem = StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.empty());
+      const statsItem2: StatsItem = StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.empty());
+      const statsItem3: StatsItem = StatsItem.of(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 3'), StatsValues.empty());
+      const statsItems: StatsItems = StatsItems.of([
         statsItem1,
         statsItem2,
         statsItem3
@@ -121,13 +121,13 @@ describe('StatsItems', () => {
 
   describe('replace', () => {
     it('first index', () => {
-      const statsItems: StatsItems = StatsItems.from([
-        StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([])),
-        StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([])),
-        StatsItem.from(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 3'), StatsValues.of([]))
+      const statsItems: StatsItems = StatsItems.of([
+        StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.empty()),
+        StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.empty()),
+        StatsItem.of(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 3'), StatsValues.empty())
       ]);
 
-      const statsItem: StatsItem = StatsItem.from(StatsItemID.of('06023e5f-7908-4bce-9536-c64dc484756f'), StatsItemName.of('new stats item'), StatsValues.of([]));
+      const statsItem: StatsItem = StatsItem.of(StatsItemID.of('06023e5f-7908-4bce-9536-c64dc484756f'), StatsItemName.of('new stats item'), StatsValues.empty());
 
       const replaced: StatsItems = statsItems.replace(statsItem, Row.of(0));
 
@@ -138,13 +138,13 @@ describe('StatsItems', () => {
     });
 
     it('middle index', () => {
-      const statsItems: StatsItems = StatsItems.from([
-        StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([])),
-        StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([])),
-        StatsItem.from(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 3'), StatsValues.of([]))
+      const statsItems: StatsItems = StatsItems.of([
+        StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.empty()),
+        StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.empty()),
+        StatsItem.of(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 3'), StatsValues.empty())
       ]);
 
-      const statsItem: StatsItem = StatsItem.from(StatsItemID.of('06023e5f-7908-4bce-9536-c64dc484756f'), StatsItemName.of('new stats item'), StatsValues.of([]));
+      const statsItem: StatsItem = StatsItem.of(StatsItemID.of('06023e5f-7908-4bce-9536-c64dc484756f'), StatsItemName.of('new stats item'), StatsValues.empty());
 
       const replaced: StatsItems = statsItems.replace(statsItem, Row.of(1));
 
@@ -155,13 +155,13 @@ describe('StatsItems', () => {
     });
 
     it('last index', () => {
-      const statsItems: StatsItems = StatsItems.from([
-        StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([])),
-        StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([])),
-        StatsItem.from(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 3'), StatsValues.of([]))
+      const statsItems: StatsItems = StatsItems.of([
+        StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.empty()),
+        StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.empty()),
+        StatsItem.of(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 3'), StatsValues.empty())
       ]);
 
-      const statsItem: StatsItem = StatsItem.from(StatsItemID.of('06023e5f-7908-4bce-9536-c64dc484756f'), StatsItemName.of('new stats item'), StatsValues.of([]));
+      const statsItem: StatsItem = StatsItem.of(StatsItemID.of('06023e5f-7908-4bce-9536-c64dc484756f'), StatsItemName.of('new stats item'), StatsValues.empty());
 
       const replaced: StatsItems = statsItems.replace(statsItem, Row.of(2));
 
@@ -174,10 +174,10 @@ describe('StatsItems', () => {
 
   describe('removeItem', () => {
     it('correctly removed the same object', () => {
-      const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
-      const statsItem2: StatsItem = StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]));
-      const statsItem3: StatsItem = StatsItem.from(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 3'), StatsValues.of([]));
-      const statsItems: StatsItems = StatsItems.from([
+      const statsItem1: StatsItem = StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.empty());
+      const statsItem2: StatsItem = StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.empty());
+      const statsItem3: StatsItem = StatsItem.of(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 3'), StatsValues.empty());
+      const statsItems: StatsItems = StatsItems.of([
         statsItem1,
         statsItem2,
         statsItem3
@@ -193,10 +193,10 @@ describe('StatsItems', () => {
 
   describe('maxNameLength', () => {
     it('normal case', () => {
-      const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
-      const statsItem2: StatsItem = StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 11'), StatsValues.of([]));
-      const statsItem3: StatsItem = StatsItem.from(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 111'), StatsValues.of([]));
-      const statsItems: StatsItems = StatsItems.from([
+      const statsItem1: StatsItem = StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.empty());
+      const statsItem2: StatsItem = StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 11'), StatsValues.empty());
+      const statsItem3: StatsItem = StatsItem.of(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 111'), StatsValues.empty());
+      const statsItems: StatsItems = StatsItems.of([
         statsItem1,
         statsItem2,
         statsItem3
@@ -206,7 +206,7 @@ describe('StatsItems', () => {
     });
 
     it('should give 0 when items are 0', () => {
-      const statsItems: StatsItems = StatsItems.from([
+      const statsItems: StatsItems = StatsItems.of([
       ]);
 
       expect(statsItems.maxNameLength()).toEqual(0);
@@ -215,21 +215,21 @@ describe('StatsItems', () => {
 
   describe('getAsOfs', () => {
     it('collects all AsOfs even if the date is same', () => {
-      const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([
+      const statsItem1: StatsItem = StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([
         StatsValue.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), AsOf.ofString('2000-01-01'), NumericalValue.of(1)),
         StatsValue.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), AsOf.ofString('2000-01-02'), NumericalValue.of(1)),
         StatsValue.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), AsOf.ofString('2000-01-03'), NumericalValue.of(1))
       ]));
-      const statsItem2: StatsItem = StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 11'), StatsValues.of([
+      const statsItem2: StatsItem = StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 11'), StatsValues.of([
         StatsValue.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), AsOf.ofString('2000-01-02'), NumericalValue.of(1)),
         StatsValue.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), AsOf.ofString('2000-01-03'), NumericalValue.of(1)),
         StatsValue.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), AsOf.ofString('2000-01-04'), NumericalValue.of(1))
       ]));
-      const statsItem3: StatsItem = StatsItem.from(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 111'), StatsValues.of([
+      const statsItem3: StatsItem = StatsItem.of(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 111'), StatsValues.of([
         StatsValue.of(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), AsOf.ofString('2000-01-04'), NumericalValue.of(1)),
         StatsValue.of(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), AsOf.ofString('2000-01-05'), NumericalValue.of(1))
       ]));
-      const statsItems: StatsItems = StatsItems.from([
+      const statsItems: StatsItems = StatsItems.of([
         statsItem1,
         statsItem2,
         statsItem3
@@ -250,10 +250,10 @@ describe('StatsItems', () => {
 
   describe('getNames', () => {
     it('normal case', () => {
-      const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
-      const statsItem2: StatsItem = StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 11'), StatsValues.of([]));
-      const statsItem3: StatsItem = StatsItem.from(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 111'), StatsValues.of([]));
-      const statsItems: StatsItems = StatsItems.from([
+      const statsItem1: StatsItem = StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.empty());
+      const statsItem2: StatsItem = StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 11'), StatsValues.empty());
+      const statsItem3: StatsItem = StatsItem.of(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 111'), StatsValues.empty());
+      const statsItems: StatsItems = StatsItems.of([
         statsItem1,
         statsItem2,
         statsItem3
@@ -269,14 +269,14 @@ describe('StatsItems', () => {
 
   describe('areFilled', () => {
     it('returns true if the all items are filled', () => {
-      const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
-      const statsItem2: StatsItem = StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]));
-      const statsItem3: StatsItem = StatsItem.from(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.default(), StatsValues.of([]));
-      const statsItems1: StatsItems = StatsItems.from([
+      const statsItem1: StatsItem = StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.empty());
+      const statsItem2: StatsItem = StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.empty());
+      const statsItem3: StatsItem = StatsItem.of(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.default(), StatsValues.empty());
+      const statsItems1: StatsItems = StatsItems.of([
         statsItem1,
         statsItem2
       ]);
-      const statsItems2: StatsItems = StatsItems.from([
+      const statsItems2: StatsItems = StatsItems.of([
         statsItem2,
         statsItem3
       ]);
@@ -288,14 +288,14 @@ describe('StatsItems', () => {
 
   describe('areValid', () => {
     it('returns true if the all items are valid', () => {
-      const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
-      const statsItem2: StatsItem = StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]));
-      const statsItem3: StatsItem = StatsItem.from(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.default(), StatsValues.of([]));
-      const statsItems1: StatsItems = StatsItems.from([
+      const statsItem1: StatsItem = StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.empty());
+      const statsItem2: StatsItem = StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.empty());
+      const statsItem3: StatsItem = StatsItem.of(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.default(), StatsValues.empty());
+      const statsItems1: StatsItems = StatsItems.of([
         statsItem1,
         statsItem2
       ]);
-      const statsItems2: StatsItems = StatsItems.from([
+      const statsItems2: StatsItems = StatsItems.of([
         statsItem2,
         statsItem3
       ]);
@@ -307,21 +307,21 @@ describe('StatsItems', () => {
 
   describe('haveValues', () => {
     it('no items', () => {
-      const statsItems: StatsItems = StatsItems.from([
+      const statsItems: StatsItems = StatsItems.of([
       ]);
 
       expect(statsItems.haveValues()).toEqual(false);
     });
 
     it('no values', () => {
-      const statsItems1: StatsItems = StatsItems.from([
-        StatsItem.from(StatsItemID.of('bf04b0fa-ed4d-4114-84a3-c963871dfe06'), StatsItemName.of('item1'), StatsValues.of([
+      const statsItems1: StatsItems = StatsItems.of([
+        StatsItem.of(StatsItemID.of('bf04b0fa-ed4d-4114-84a3-c963871dfe06'), StatsItemName.of('item1'), StatsValues.of([
         ]))
       ]);
-      const statsItems2: StatsItems = StatsItems.from([
-        StatsItem.from(StatsItemID.of('c9aa6bc7-2f38-49e0-8f5e-a650a43e8885'), StatsItemName.of('item1'), StatsValues.of([
+      const statsItems2: StatsItems = StatsItems.of([
+        StatsItem.of(StatsItemID.of('c9aa6bc7-2f38-49e0-8f5e-a650a43e8885'), StatsItemName.of('item1'), StatsValues.of([
         ])),
-        StatsItem.from(StatsItemID.of('67379875-06e6-47be-8faf-945e93aa47cf'), StatsItemName.of('item1'), StatsValues.of([
+        StatsItem.of(StatsItemID.of('67379875-06e6-47be-8faf-945e93aa47cf'), StatsItemName.of('item1'), StatsValues.of([
         ]))
       ]);
 
@@ -331,8 +331,8 @@ describe('StatsItems', () => {
 
     it('have values', () => {
       const statsItemID: StatsItemID = StatsItemID.of('bf04b0fa-ed4d-4114-84a3-c963871dfe06');
-      const statsItems: StatsItems = StatsItems.from([
-        StatsItem.from(statsItemID, StatsItemName.of('item1'), StatsValues.of([
+      const statsItems: StatsItems = StatsItems.of([
+        StatsItem.of(statsItemID, StatsItemName.of('item1'), StatsValues.of([
           StatsValue.of(statsItemID, AsOf.ofString('2000-01-01'), NumericalValue.of(1))
         ]))
       ]);
@@ -343,11 +343,11 @@ describe('StatsItems', () => {
 
   describe('contains', () => {
     it('returns true if the element exists in the Colors', () => {
-      const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
-      const statsItem2: StatsItem = StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]));
-      const statsItem3: StatsItem = StatsItem.from(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 3'), StatsValues.of([]));
-      const statsItem4: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
-      const statsItems: StatsItems = StatsItems.from([
+      const statsItem1: StatsItem = StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.empty());
+      const statsItem2: StatsItem = StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.empty());
+      const statsItem3: StatsItem = StatsItem.of(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 3'), StatsValues.empty());
+      const statsItem4: StatsItem = StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.empty());
+      const statsItems: StatsItems = StatsItems.of([
         statsItem1,
         statsItem2
       ]);
@@ -361,10 +361,10 @@ describe('StatsItems', () => {
 
   describe('copy', () => {
     it('deeply copied', () => {
-      const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
-      const statsItem2: StatsItem = StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]));
-      const statsItem3: StatsItem = StatsItem.from(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 3'), StatsValues.of([]));
-      const statsItems: StatsItems = StatsItems.from([
+      const statsItem1: StatsItem = StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.empty());
+      const statsItem2: StatsItem = StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.empty());
+      const statsItem3: StatsItem = StatsItem.of(StatsItemID.of('22dc7052-fe53-48ff-ad51-9e7fd20c3498'), StatsItemName.of('stats item 3'), StatsValues.empty());
+      const statsItems: StatsItems = StatsItems.of([
         statsItem1,
         statsItem2,
         statsItem3
@@ -381,14 +381,14 @@ describe('StatsItems', () => {
 
   describe('isEmpty', () => {
     it('returns true if the elements are 0', () => {
-      const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
-      const statsItem2: StatsItem = StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]));
+      const statsItem1: StatsItem = StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.empty());
+      const statsItem2: StatsItem = StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.empty());
 
-      const statsItems1: StatsItems = StatsItems.from([
+      const statsItems1: StatsItems = StatsItems.of([
         statsItem1,
         statsItem2
       ]);
-      const statsItems2: StatsItems = StatsItems.from([
+      const statsItems2: StatsItems = StatsItems.of([
       ]);
 
       expect(statsItems1.isEmpty()).toEqual(false);
@@ -398,14 +398,14 @@ describe('StatsItems', () => {
 
   describe('equals', () => {
     it('returns false if the length is differnet', () => {
-      const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
-      const statsItem2: StatsItem = StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]));
+      const statsItem1: StatsItem = StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.empty());
+      const statsItem2: StatsItem = StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.empty());
 
-      const statsItems1: StatsItems = StatsItems.from([
+      const statsItems1: StatsItems = StatsItems.of([
         statsItem1,
         statsItem2
       ]);
-      const statsItems2: StatsItems = StatsItems.from([
+      const statsItems2: StatsItems = StatsItems.of([
         statsItem2
       ]);
 
@@ -414,14 +414,14 @@ describe('StatsItems', () => {
     });
 
     it('returns false if the sequence is different', () => {
-      const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
-      const statsItem2: StatsItem = StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]));
+      const statsItem1: StatsItem = StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.empty());
+      const statsItem2: StatsItem = StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.empty());
 
-      const statsItems1: StatsItems = StatsItems.from([
+      const statsItems1: StatsItems = StatsItems.of([
         statsItem1,
         statsItem2
       ]);
-      const statsItems2: StatsItems = StatsItems.from([
+      const statsItems2: StatsItems = StatsItems.of([
         statsItem2,
         statsItem1
       ]);
@@ -431,14 +431,14 @@ describe('StatsItems', () => {
     });
 
     it('returns true if the elements and their order are same', () => {
-      const statsItem1: StatsItem = StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]));
-      const statsItem2: StatsItem = StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]));
+      const statsItem1: StatsItem = StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.empty());
+      const statsItem2: StatsItem = StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.empty());
 
-      const statsItems1: StatsItems = StatsItems.from([
+      const statsItems1: StatsItems = StatsItems.of([
         statsItem1,
         statsItem2
       ]);
-      const statsItems2: StatsItems = StatsItems.from([
+      const statsItems2: StatsItems = StatsItems.of([
         statsItem1,
         statsItem2
       ]);
@@ -450,43 +450,43 @@ describe('StatsItems', () => {
 
   describe('areSame', () => {
     it('returns true if all the properties are the same', () => {
-      const statsItems1: StatsItems = StatsItems.from([
-        StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([])),
-        StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]))
+      const statsItems1: StatsItems = StatsItems.of([
+        StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.empty()),
+        StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.empty())
       ]);
-      const statsItems2: StatsItems = StatsItems.from([
-        StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]))
+      const statsItems2: StatsItems = StatsItems.of([
+        StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.empty())
       ]);
-      const statsItems3: StatsItems = StatsItems.from([
-        StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]))
+      const statsItems3: StatsItems = StatsItems.of([
+        StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.empty())
       ]);
-      const statsItems4: StatsItems = StatsItems.from([
-        StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([])),
-        StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([]))
+      const statsItems4: StatsItems = StatsItems.of([
+        StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.empty()),
+        StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.empty())
       ]);
-      const statsItems5: StatsItems = StatsItems.from([
-        StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([])),
-        StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]))
+      const statsItems5: StatsItems = StatsItems.of([
+        StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.empty()),
+        StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.empty())
       ]);
-      const statsItems6: StatsItems = StatsItems.from([
-        StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 3'), StatsValues.of([])),
-        StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]))
+      const statsItems6: StatsItems = StatsItems.of([
+        StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 3'), StatsValues.empty()),
+        StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.empty())
       ]);
-      const statsItems7: StatsItems = StatsItems.from([
-        StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([])),
-        StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 4'), StatsValues.of([]))
+      const statsItems7: StatsItems = StatsItems.of([
+        StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.empty()),
+        StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 4'), StatsValues.empty())
       ]);
-      const statsItems8: StatsItems = StatsItems.from([
-        StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([StatsValue.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), AsOf.ofString('2000-01-01'), NumericalValue.of(1))])),
-        StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([]))
+      const statsItems8: StatsItems = StatsItems.of([
+        StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([StatsValue.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), AsOf.ofString('2000-01-01'), NumericalValue.of(1))])),
+        StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.empty())
       ]);
-      const statsItems9: StatsItems = StatsItems.from([
-        StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([])),
-        StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([StatsValue.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), AsOf.ofString('2000-01-01'), NumericalValue.of(1))]))
+      const statsItems9: StatsItems = StatsItems.of([
+        StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.empty()),
+        StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([StatsValue.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), AsOf.ofString('2000-01-01'), NumericalValue.of(1))]))
       ]);
-      const statsItems10: StatsItems = StatsItems.from([
-        StatsItem.from(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([StatsValue.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), AsOf.ofString('2000-01-01'), NumericalValue.of(1))])),
-        StatsItem.from(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([StatsValue.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), AsOf.ofString('2000-01-01'), NumericalValue.of(1))]))
+      const statsItems10: StatsItems = StatsItems.of([
+        StatsItem.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), StatsItemName.of('stats item 1'), StatsValues.of([StatsValue.of(StatsItemID.of('8f7b1783-b09c-4010-aac1-dca1292ee700'), AsOf.ofString('2000-01-01'), NumericalValue.of(1))])),
+        StatsItem.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), StatsItemName.of('stats item 2'), StatsValues.of([StatsValue.of(StatsItemID.of('9e6b3c69-580c-4c19-9f3f-9bd82f582551'), AsOf.ofString('2000-01-01'), NumericalValue.of(1))]))
       ]);
 
       expect(statsItems1.areSame(statsItems1)).toEqual(true);
@@ -502,7 +502,7 @@ describe('StatsItems', () => {
     });
   });
 
-  describe('fromJSON', () => {
+  describe('ofJSON', () => {
     it('normal case', () => {
       const json: Array<StatsItemJSON> = [
         {
@@ -517,7 +517,7 @@ describe('StatsItems', () => {
         }
       ];
 
-      const items: StatsItems = StatsItems.fromJSON(json);
+      const items: StatsItems = StatsItems.ofJSON(json);
 
       expect(items.size()).toEqual(2);
       expect(items.get(0).getStatsItemID().get()).toEqual(json[0].statsItemID);

@@ -71,11 +71,11 @@ export class Stats extends Entity<StatsID> {
   private startDate: Optional<AsOf>;
   private columns: Optional<AsOfs>;
 
-  public static from(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: StatsUnit, updatedAt: UpdatedAt, items: StatsItems, startDate: Optional<AsOf>): Stats {
+  public static of(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: StatsUnit, updatedAt: UpdatedAt, items: StatsItems, startDate: Optional<AsOf>): Stats {
     return new Stats(statsID, language, region, term, name, unit, updatedAt, items, startDate);
   }
 
-  public static fromJSON(json: StatsJSON): Stats {
+  public static ofJSON(json: StatsJSON): Stats {
     const {
       statsID,
       language,
@@ -87,7 +87,7 @@ export class Stats extends Entity<StatsID> {
       items
     } = json;
 
-    return Stats.from(
+    return Stats.of(
       StatsID.of(statsID),
       Language.ofJSON(language),
       Region.ofJSON(region),
@@ -95,12 +95,12 @@ export class Stats extends Entity<StatsID> {
       StatsName.of(name),
       StatsUnit.of(unit),
       UpdatedAt.ofString(updatedAt),
-      StatsItems.fromJSON(items),
+      StatsItems.ofJSON(items),
       empty<AsOf>()
     );
   }
 
-  public static fromRow(row: StatsRow, statItems: StatsItems): Stats {
+  public static ofRow(row: StatsRow, statItems: StatsItems): Stats {
     const {
       statsID,
       languageID,
@@ -120,7 +120,7 @@ export class Stats extends Entity<StatsID> {
     const region: Region = Region.of(RegionID.of(regionID), RegionName.of(regionName), ISO3166.of(iso3166));
     const term: Term = Term.of(termID);
 
-    return Stats.from(
+    return Stats.of(
       StatsID.of(statsID),
       language,
       region,
@@ -134,7 +134,7 @@ export class Stats extends Entity<StatsID> {
   }
 
   public static default(): Stats {
-    return Stats.from(
+    return Stats.of(
       StatsID.generate(),
       Language.default(),
       Region.default(),

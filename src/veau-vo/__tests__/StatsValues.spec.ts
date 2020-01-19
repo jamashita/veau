@@ -26,7 +26,7 @@ describe('StatsValues', () => {
     });
 
     it('throws NoSuchElementError if the index is out of range', () => {
-      const values: StatsValues = StatsValues.of([]);
+      const values: StatsValues = StatsValues.empty();
 
       expect(() => {
         values.get(-1);

@@ -27,7 +27,7 @@ export class StatsQuery {
 
     switch (status) {
       case OK: {
-        return Stats.fromJSON(body);
+        return Stats.ofJSON(body);
       }
       case NOT_FOUND: {
         throw new NotFoundError();
