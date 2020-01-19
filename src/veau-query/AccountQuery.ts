@@ -2,22 +2,18 @@ import { inject, injectable } from 'inversify';
 import { TYPE } from '../veau-container/Types';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { MySQL } from '../veau-general/MySQL/MySQL';
-import { VeauAccount, VeauAccountRow } from '../veau-vo/VeauAccount';
-
-export type VeauAccountHash = {
-  veauAccount: VeauAccount;
-  hash: string;
-};
+import { Account, AccountRow } from '../veau-vo/Account';
+import { AccountName } from '../veau-vo/AccountName';
 
 @injectable()
-export class VeauAccountQuery {
+export class AccountQuery {
   private mysql: MySQL;
 
   public constructor(@inject(TYPE.MySQL) mysql: MySQL) {
     this.mysql = mysql;
   }
 
-  public async findByAccount(account: string): Promise<VeauAccountHash> {
+  public async findByAccount(account: AccountName): Promise<Account> {
     const query: string = `SELECT
       R1.veau_account_id AS veauAccountID,
       R1.account,
@@ -39,19 +35,16 @@ export class VeauAccountQuery {
       WHERE R1.account = :account
       AND R1.active = true;`;
 
-    const veauAccountRows: Array<VeauAccountRow> = await this.mysql.execute<Array<VeauAccountRow>>(query, {
-      account
+    const accountRows: Array<AccountRow> = await this.mysql.execute<Array<AccountRow>>(query, {
+      account: account.get()
     });
 
-    if (veauAccountRows.length === 0) {
-      throw new NoSuchElementError(account);
+    if (accountRows.length === 0) {
+      throw new NoSuchElementError(account.get());
     }
 
-    const veauAccountRow: VeauAccountRow = veauAccountRows[0];
+    const accountRow: AccountRow = accountRows[0];
 
-    return {
-      veauAccount: VeauAccount.ofRow(veauAccountRow),
-      hash: veauAccountRow.hash
-    };
+    return Account.ofRow(accountRow);
   }
 }

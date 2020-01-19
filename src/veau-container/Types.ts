@@ -7,13 +7,13 @@ export type DIType = {
   AuthenticationInteractor: symbol;
   LocaleInteractor: symbol;
   StatsInteractor: symbol;
+  AccountQuery: symbol;
   LanguageQuery: symbol;
   RegionQuery: symbol;
   StatsItemQuery: symbol;
   StatsOutlineQuery: symbol;
   StatsQuery: symbol;
   StatsValueQuery: symbol;
-  VeauAccountQuery: symbol;
 };
 
 export const TYPE: DIType = {
@@ -25,11 +25,11 @@ export const TYPE: DIType = {
   AuthenticationInteractor: Symbol('AuthenticationInteractor'),
   LocaleInteractor: Symbol('LocaleInteractor'),
   StatsInteractor: Symbol('StatsInteractor'),
+  AccountQuery: Symbol('AccountQuery'),
   LanguageQuery: Symbol('LanguageQuery'),
   RegionQuery: Symbol('RegionQuery'),
   StatsItemQuery: Symbol('StatsItemQuery'),
   StatsOutlineQuery: Symbol('StatsOutlineQuery'),
   StatsQuery: Symbol('StatsQuery'),
-  StatsValueQuery: Symbol('StatsValueQuery'),
-  VeauAccountQuery: Symbol('VeauAccountQuery')
+  StatsValueQuery: Symbol('StatsValueQuery')
 };
