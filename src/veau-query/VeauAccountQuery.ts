@@ -21,18 +21,20 @@ export class VeauAccountQuery {
     const query: string = `SELECT
       R1.veau_account_id AS veauAccountID,
       R1.account,
-      R2.language_id AS languageID,
-      R2.name AS languageName,
-      R2.english_name AS languageEnglishName,
-      R2.iso639,
-      R3.region_id AS regionID,
-      R3.name AS regionName,
-      R3.iso3166,
-      R1.hash
+      R3.language_id AS languageID,
+      R3.name AS languageName,
+      R3.english_name AS languageEnglishName,
+      R3.iso639,
+      R4.region_id AS regionID,
+      R4.name AS regionName,
+      R4.iso3166,
+      R2.hash
       FROM veau_accounts R1
-      INNER JOIN languages R2
+      INNER JOIN veau_account_hashes R2
+      USING(veau_account_id)
+      INNER JOIN languages R3
       USING(language_id)
-      INNER JOIN regions R3
+      INNER JOIN regions R4
       USING(region_id)
       WHERE R1.account = :account
       AND R1.active = true;`;
