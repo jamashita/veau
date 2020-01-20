@@ -2242,10 +2242,10 @@ chardet@^0.7.0:
   resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.7.0.tgz#90094849f0937f2eedc2425d0d28a9e5f0cbad9e"
   integrity sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==
 
-check-types@11.1.1:
-  version "11.1.1"
-  resolved "https://registry.yarnpkg.com/check-types/-/check-types-11.1.1.tgz#82b45cab716fcd8243964f9452b107ae22d97d29"
-  integrity sha512-ERidMpQiiCdZHeanDnOK8G0ewQH3DTCSQWim+36Nk4iEi6RJRyyRIkCsj6OMDnfxQUXmThpV2aCDDQyAPFb/5Q==
+check-types@11.1.2:
+  version "11.1.2"
+  resolved "https://registry.yarnpkg.com/check-types/-/check-types-11.1.2.tgz#86a7c12bf5539f6324eb0e70ca8896c0e38f3e2f"
+  integrity sha512-tzWzvgePgLORb9/3a0YenggReLKAIb2owL03H2Xdoe5pKcUyWRSEQ8xfCar8t2SIAuEDwtmx2da1YB52YuHQMQ==
 
 chokidar@^2.0.0, chokidar@^2.0.2, chokidar@^2.1.8:
   version "2.1.8"
