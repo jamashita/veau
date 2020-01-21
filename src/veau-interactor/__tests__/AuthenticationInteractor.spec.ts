@@ -4,7 +4,6 @@ import sinon, { SinonStub } from 'sinon';
 import { container } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { Digest } from '../../veau-general/Digest';
 import { AccountQuery } from '../../veau-query/AccountQuery';
 import { Account } from '../../veau-vo/Account';
 import { AccountName } from '../../veau-vo/AccountName';
@@ -41,7 +40,7 @@ describe('AuthenticationInteractor', () => {
       AccountQuery.prototype.findByAccount = stub1;
       stub1.rejects(new NoSuchElementError(name));
       const stub2: SinonStub = sinon.stub();
-      Digest.compare = stub2;
+      Account.prototype.verify = stub2;
       stub2.resolves(true);
 
       const authenticationInteractor: AuthenticationInteractor = container.get<AuthenticationInteractor>(TYPE.AuthenticationInteractor);
@@ -60,7 +59,7 @@ describe('AuthenticationInteractor', () => {
       AccountQuery.prototype.findByAccount = stub1;
       stub1.resolves(Account.of(VeauAccountID.of('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9'), AccountName.of('veau'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')), Hash.of('hash 1')));
       const stub2: SinonStub = sinon.stub();
-      Digest.compare = stub2;
+      Account.prototype.verify = stub2;
       stub2.resolves(false);
 
       const authenticationInteractor: AuthenticationInteractor = container.get<AuthenticationInteractor>(TYPE.AuthenticationInteractor);
@@ -80,7 +79,7 @@ describe('AuthenticationInteractor', () => {
       const account: Account = Account.of(VeauAccountID.of('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9'), AccountName.of('veau'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')), Hash.of('hash 1'));
       stub1.resolves(account);
       const stub2: SinonStub = sinon.stub();
-      Digest.compare = stub2;
+      Account.prototype.verify = stub2;
       stub2.resolves(true);
 
       const authenticationInteractor: AuthenticationInteractor = container.get<AuthenticationInteractor>(TYPE.AuthenticationInteractor);

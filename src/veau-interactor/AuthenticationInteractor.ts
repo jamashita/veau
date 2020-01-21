@@ -7,6 +7,7 @@ import { Digest } from '../veau-general/Digest';
 import { AccountQuery } from '../veau-query/AccountQuery';
 import { Account } from '../veau-vo/Account';
 import { AccountName } from '../veau-vo/AccountName';
+import { Password } from '../veau-vo/Password';
 
 const logger: log4js.Logger = log4js.getLogger();
 
@@ -25,11 +26,14 @@ export class AuthenticationInteractor {
 
   public review(): VerifyFunction {
 
-    return async (name: string, password: string, callback: (error: unknown, account?: unknown) => void): Promise<void> => {
+    return async (name: string, pass: string, callback: (error: unknown, account?: unknown) => void): Promise<void> => {
       try {
-        const account: Account = await this.accountQuery.findByAccount(AccountName.of(name));
+        const accountName: AccountName = AccountName.of(name);
+        const password: Password = Password.of(pass);
 
-        const correct: boolean = await Digest.compare(password, account.getHash().get());
+        const account: Account = await this.accountQuery.findByAccount(accountName);
+
+        const correct: boolean = await account.verify(password);
 
         if (correct) {
           callback(null, account.toVeauAccount());
@@ -42,7 +46,7 @@ export class AuthenticationInteractor {
         if (err instanceof NoSuchElementError) {
           // time adjustment
           await Digest.compare(DUMMY_PASSWORD, DUMMY_HASH);
-          logger.info(`invalid account: ${name} and password: ${password}`);
+          logger.info(`invalid account: ${name} and password: ${pass}`);
           callback(null, false);
           return;
         }
