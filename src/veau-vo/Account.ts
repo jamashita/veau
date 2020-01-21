@@ -1,3 +1,4 @@
+import { Digest } from '../veau-general/Digest';
 import { ValueObject } from '../veau-general/ValueObject';
 import { AccountName } from './AccountName';
 import { Hash } from './Hash';
@@ -6,6 +7,7 @@ import { ISO639 } from './ISO639';
 import { Language } from './Language';
 import { LanguageID } from './LanguageID';
 import { LanguageName } from './LanguageName';
+import { Password } from './Password';
 import { Region } from './Region';
 import { RegionID } from './RegionID';
 import { RegionName } from './RegionName';
@@ -83,6 +85,10 @@ export class Account extends ValueObject {
 
   public getHash(): Hash {
     return this.hash;
+  }
+
+  public verify(password: Password): Promise<boolean> {
+    return Digest.compare(password.get(), this.hash.get());
   }
 
   public toVeauAccount(): VeauAccount {
