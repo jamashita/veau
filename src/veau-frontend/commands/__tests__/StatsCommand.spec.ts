@@ -5,7 +5,7 @@ import { Stats } from '../../../veau-entity/Stats';
 import { StatsItems } from '../../../veau-entity/StatsItems';
 import { AJAXError } from '../../../veau-error/AJAXError';
 import { AJAX } from '../../../veau-general/AJAX';
-import { empty } from '../../../veau-general/Optional/Empty';
+import { None } from '../../../veau-general/Optional/None';
 import { AsOf } from '../../../veau-vo/AsOf';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
@@ -42,7 +42,7 @@ describe('StatsCommand', () => {
         StatsUnit.of('stats unit'),
         UpdatedAt.ofString('2000-01-01'),
         StatsItems.empty(),
-        empty<AsOf>()
+        None.of<AsOf>()
       );
 
       const statsCommand: StatsCommand = StatsCommand.getInstance();
@@ -87,7 +87,7 @@ describe('StatsCommand', () => {
         StatsUnit.of('stats unit'),
         UpdatedAt.ofString('2000-01-01'),
         StatsItems.empty(),
-        empty<AsOf>()
+        None.of<AsOf>()
       );
 
       const statsCommand: StatsCommand = StatsCommand.getInstance();
