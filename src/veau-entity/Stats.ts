@@ -1,7 +1,7 @@
 import { Entity } from '../veau-general/Entity';
-import { empty } from '../veau-general/Optional/Empty';
+import { None } from '../veau-general/Optional/None';
 import { Optional } from '../veau-general/Optional/Optional';
-import { present } from '../veau-general/Optional/Present';
+import { Some } from '../veau-general/Optional/Some';
 import { AsOf } from '../veau-vo/AsOf';
 import { AsOfs } from '../veau-vo/AsOfs';
 import { Column } from '../veau-vo/Column';
@@ -96,7 +96,7 @@ export class Stats extends Entity<StatsID> {
       StatsUnit.of(unit),
       UpdatedAt.ofString(updatedAt),
       StatsItems.ofJSON(items),
-      empty<AsOf>()
+      None.of<AsOf>()
     );
   }
 
@@ -129,7 +129,7 @@ export class Stats extends Entity<StatsID> {
       StatsUnit.of(unit),
       UpdatedAt.ofString(updatedAt),
       statItems,
-      empty<AsOf>()
+      None.of<AsOf>()
     );
   }
 
@@ -143,7 +143,7 @@ export class Stats extends Entity<StatsID> {
       StatsUnit.default(),
       UpdatedAt.now(),
       StatsItems.empty(),
-      empty<AsOf>()
+      None.of<AsOf>()
     );
   }
 
@@ -158,7 +158,7 @@ export class Stats extends Entity<StatsID> {
     this.updatedAt = updatedAt;
     this.items = items;
     this.startDate = startDate;
-    this.columns = empty<AsOfs>();
+    this.columns = None.of<AsOfs>();
   }
 
   public getStatsID(): StatsID {
@@ -235,7 +235,7 @@ export class Stats extends Entity<StatsID> {
     }
     asOfs = asOfs.add(maxTerm.next(this.term));
 
-    this.columns = present<AsOfs>(asOfs);
+    this.columns = Some.of<AsOfs>(asOfs);
 
     return asOfs;
   }
@@ -245,7 +245,7 @@ export class Stats extends Entity<StatsID> {
   }
 
   private recalculateColumns(): void {
-    this.columns = empty<AsOfs>();
+    this.columns = None.of<AsOfs>();
     this.getColumns();
   }
 

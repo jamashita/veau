@@ -10,7 +10,7 @@ import { StatsItems } from '../../veau-entity/StatsItems';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { NotFoundError } from '../../veau-error/NotFoundError';
 import { MySQL } from '../../veau-general/MySQL/MySQL';
-import { empty } from '../../veau-general/Optional/Empty';
+import { None } from '../../veau-general/Optional/None';
 import { StatsOutlineQuery } from '../../veau-query/StatsOutlineQuery';
 import { StatsQuery } from '../../veau-query/StatsQuery';
 import { AsOf } from '../../veau-vo/AsOf';
@@ -72,7 +72,7 @@ describe('StatsInteractor', () => {
         unit,
         updatedAt,
         items,
-        empty<AsOf>()
+        None.of<AsOf>()
       ));
 
       const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
@@ -170,7 +170,7 @@ describe('StatsInteractor', () => {
         unit,
         updatedAt,
         items,
-        empty<AsOf>()
+        None.of<AsOf>()
       );
 
       const spy: SinonSpy = sinon.spy();

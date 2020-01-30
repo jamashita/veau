@@ -9,7 +9,7 @@ import { Stats } from '../../../veau-entity/Stats';
 import { StatsItem } from '../../../veau-entity/StatsItem';
 import { StatsItems } from '../../../veau-entity/StatsItems';
 import { NotFoundError } from '../../../veau-error/NotFoundError';
-import { empty } from '../../../veau-general/Optional/Empty';
+import { None } from '../../../veau-general/Optional/None';
 import { StatsInteractor } from '../../../veau-interactor/StatsInteractor';
 import { AccountName } from '../../../veau-vo/AccountName';
 import { AsOf } from '../../../veau-vo/AsOf';
@@ -138,7 +138,7 @@ describe('StatsController', () => {
             StatsValue.of(StatsItemID.of('09c2e4a6-6839-4fbe-858e-bf2c4ee7d5e6'), AsOf.ofString('2000-01-01'), NumericalValue.of(5))
           ]))
         ]),
-        empty<AsOf>()
+        None.of<AsOf>()
       ));
       const app: express.Express = express();
       app.use('/', StatsController);

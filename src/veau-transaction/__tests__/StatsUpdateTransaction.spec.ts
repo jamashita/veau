@@ -9,7 +9,7 @@ import { StatsItem } from '../../veau-entity/StatsItem';
 import { StatsItems } from '../../veau-entity/StatsItems';
 import { IQuery } from '../../veau-general/MySQL/IQuery';
 import { QueryMock } from '../../veau-general/MySQL/QueryMock';
-import { empty } from '../../veau-general/Optional/Empty';
+import { None } from '../../veau-general/Optional/None';
 import { AsOf } from '../../veau-vo/AsOf';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
@@ -76,7 +76,7 @@ describe('StatsUpdateTransaction', () => {
         unit,
         updatedAt,
         items,
-        empty<AsOf>()
+        None.of<AsOf>()
       );
 
       const statsUpdateTransaction: StatsUpdateTransaction = StatsUpdateTransaction.of(stats, VeauAccountID.of('601d14d4-fe47-445c-a6aa-6427776ecd85'));
