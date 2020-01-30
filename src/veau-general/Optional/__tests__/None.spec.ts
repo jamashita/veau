@@ -3,11 +3,12 @@ import sinon, { SinonSpy } from 'sinon';
 import { None } from '../None';
 import { Optional } from '../Optional';
 import { OptionalError } from '../OptionalError';
+import { PrimitiveEqualable } from '../PrimitiveEqualable';
 
 describe('None', () => {
   describe('get', () => {
     it('throws Error', () => {
-      const none: None<number> = None.of<number>();
+      const none: None<PrimitiveEqualable> = None.of<PrimitiveEqualable>();
 
       expect(() => {
         none.get();
@@ -17,7 +18,7 @@ describe('None', () => {
 
   describe('isPresent', () => {
     it('returns false', () => {
-      const none: None<object> = None.of<object>();
+      const none: None<PrimitiveEqualable> = None.of<PrimitiveEqualable>();
 
       expect(none.isPresent()).toEqual(false);
     });
@@ -25,7 +26,7 @@ describe('None', () => {
 
   describe('ifPresent', () => {
     it('following function will not be invoked', () => {
-      const none: None<boolean> = None.of<boolean>();
+      const none: None<PrimitiveEqualable> = None.of<PrimitiveEqualable>();
       const spy: SinonSpy = sinon.spy();
 
       none.ifPresent(() => {
@@ -38,12 +39,12 @@ describe('None', () => {
 
   describe('map', () => {
     it('following function will not be invoked', () => {
-      const none: None<string> = None.of<string>();
+      const none: None<PrimitiveEqualable> = None.of<PrimitiveEqualable>();
       const spy: SinonSpy = sinon.spy();
 
-      const optional: Optional<number> = none.map<number>((value: string) => {
+      const optional: Optional<PrimitiveEqualable> = none.map<PrimitiveEqualable>((value: PrimitiveEqualable) => {
         spy();
-        return Number(value);
+        return value;
       });
 
       expect(spy.called).toEqual(false);
@@ -53,10 +54,10 @@ describe('None', () => {
 
   describe('filter', () => {
     it('following function will not be invoked', () => {
-      const none: None<string> = None.of<string>();
+      const none: None<PrimitiveEqualable> = None.of<PrimitiveEqualable>();
       const spy: SinonSpy = sinon.spy();
 
-      const optional: Optional<string> = none.filter((value: string) => {
+      const optional: Optional<PrimitiveEqualable> = none.filter((value: PrimitiveEqualable) => {
         spy();
         return true;
       });
@@ -68,7 +69,7 @@ describe('None', () => {
 
   describe('toString', () => {
     it('normal case', () => {
-      const none: None<string> = None.of<string>();
+      const none: None<PrimitiveEqualable> = None.of<PrimitiveEqualable>();
 
       expect(none.toString()).toEqual('Optional<NONE>');
     });

@@ -1,14 +1,16 @@
+import { Equalable } from '../Equalable';
+import { Serializable } from '../Serializable';
 import { Consumer } from '../Type/Consumer';
 import { Function } from '../Type/Function';
 import { Predicate } from '../Type/Predicate';
-import { empty } from './Empty';
 import { maybe } from './Maybe';
+import { None } from './None';
 import { Optional } from './Optional';
 
-export class Some<T> implements Optional<T> {
+export class Some<T extends Equalable & Serializable> implements Optional<T> {
   private value: T;
 
-  public static of<T>(value: T): Some<T> {
+  public static of<T extends Equalable & Serializable>(value: T): Some<T> {
     return new Some<T>(value);
   }
 
@@ -28,7 +30,7 @@ export class Some<T> implements Optional<T> {
     consumer(this.value);
   }
 
-  public map<U>(func: Function<T, U>): Optional<U> {
+  public map<U extends Equalable & Serializable>(func: Function<T, U>): Optional<U> {
     const result: U = func(this.value);
 
     return maybe<U>(result);
@@ -39,10 +41,22 @@ export class Some<T> implements Optional<T> {
       return this;
     }
 
-    return empty<T>();
+    return None.of<T>();
+  }
+
+  public equals(other: Optional<T>): boolean {
+    if (this === other) {
+      return true;
+    }
+
+    if (other instanceof Some) {
+      return this.get().equals(other.get());
+    }
+
+    return false;
   }
 
   public toString(): string {
-    return `Optional<${String(this.value)}>`;
+    return `Optional<${this.value.toString()}>`;
   }
 }
