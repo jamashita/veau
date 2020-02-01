@@ -1,20 +1,20 @@
 import 'jest';
 import sinon, { SinonSpy } from 'sinon';
+import { MockNominative } from '../MockNominative';
 import { None } from '../None';
 import { Optional } from '../Optional';
-import { PrimitiveEqualable } from '../PrimitiveEqualable';
 import { Some } from '../Some';
 
 describe('Some', () => {
   describe('get', () => {
     it('the value is got by get method', () => {
-      const some1: Some<PrimitiveEqualable> = Some.of<PrimitiveEqualable>(PrimitiveEqualable.of(1));
-      const some2: Some<PrimitiveEqualable> = Some.of<PrimitiveEqualable>(PrimitiveEqualable.of(0));
-      const some3: Some<PrimitiveEqualable> = Some.of<PrimitiveEqualable>(PrimitiveEqualable.of(-1));
-      const some4: Some<PrimitiveEqualable> = Some.of<PrimitiveEqualable>(PrimitiveEqualable.of(''));
-      const some5: Some<PrimitiveEqualable> = Some.of<PrimitiveEqualable>(PrimitiveEqualable.of('1'));
-      const some6: Some<PrimitiveEqualable> = Some.of<PrimitiveEqualable>(PrimitiveEqualable.of(true));
-      const some7: Some<PrimitiveEqualable> = Some.of<PrimitiveEqualable>(PrimitiveEqualable.of(false));
+      const some1: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(1));
+      const some2: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(0));
+      const some3: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(-1));
+      const some4: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(''));
+      const some5: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of('1'));
+      const some6: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(true));
+      const some7: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(false));
 
       expect(some1.get().get()).toEqual(1);
       expect(some2.get().get()).toEqual(0);
@@ -28,13 +28,13 @@ describe('Some', () => {
 
   describe('isPresent', () => {
     it('returns true', () => {
-      const some1: Some<PrimitiveEqualable> = Some.of<PrimitiveEqualable>(PrimitiveEqualable.of(1));
-      const some2: Some<PrimitiveEqualable> = Some.of<PrimitiveEqualable>(PrimitiveEqualable.of(0));
-      const some3: Some<PrimitiveEqualable> = Some.of<PrimitiveEqualable>(PrimitiveEqualable.of(-1));
-      const some4: Some<PrimitiveEqualable> = Some.of<PrimitiveEqualable>(PrimitiveEqualable.of(''));
-      const some5: Some<PrimitiveEqualable> = Some.of<PrimitiveEqualable>(PrimitiveEqualable.of('1'));
-      const some6: Some<PrimitiveEqualable> = Some.of<PrimitiveEqualable>(PrimitiveEqualable.of(true));
-      const some7: Some<PrimitiveEqualable> = Some.of<PrimitiveEqualable>(PrimitiveEqualable.of(false));
+      const some1: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(1));
+      const some2: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(0));
+      const some3: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(-1));
+      const some4: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(''));
+      const some5: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of('1'));
+      const some6: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(true));
+      const some7: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(false));
 
       expect(some1.isPresent()).toEqual(true);
       expect(some2.isPresent()).toEqual(true);
@@ -48,10 +48,10 @@ describe('Some', () => {
 
   describe('ifPresent', () => {
     it('following function is called', () => {
-      const some: Some<PrimitiveEqualable> = Some.of<PrimitiveEqualable>(PrimitiveEqualable.of(1));
+      const some: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(1));
       const spy: SinonSpy = sinon.spy();
 
-      some.ifPresent((value: PrimitiveEqualable) => {
+      some.ifPresent((value: MockNominative) => {
         spy();
       });
 
@@ -61,12 +61,12 @@ describe('Some', () => {
 
   describe('map', () => {
     it('following function is called', () => {
-      const some: Some<PrimitiveEqualable> = Some.of<PrimitiveEqualable>(PrimitiveEqualable.of(1));
+      const some: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(1));
       const spy: SinonSpy = sinon.spy();
 
-      const optional: Optional<PrimitiveEqualable> = some.map<PrimitiveEqualable>((value: PrimitiveEqualable) => {
+      const optional: Optional<MockNominative> = some.map<MockNominative>((value: MockNominative) => {
         spy();
-        return PrimitiveEqualable.of(value.get() as number * 2);
+        return MockNominative.of(value.get() as number * 2);
       });
 
       expect(spy.called).toEqual(true);
@@ -77,17 +77,17 @@ describe('Some', () => {
 
   describe('filter', () => {
     it('following function is called', () => {
-      const some1: Some<PrimitiveEqualable> = Some.of<PrimitiveEqualable>(PrimitiveEqualable.of(1));
-      const some2: Some<PrimitiveEqualable> = Some.of<PrimitiveEqualable>(PrimitiveEqualable.of(2));
+      const some1: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(1));
+      const some2: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(2));
 
-      const optional1: Optional<PrimitiveEqualable> = some1.filter((value: PrimitiveEqualable) => {
+      const optional1: Optional<MockNominative> = some1.filter((value: MockNominative) => {
         if (value.get() as number % 2 === 0) {
           return true;
         }
 
         return false;
       });
-      const optional2: Optional<PrimitiveEqualable> = some2.filter((value: PrimitiveEqualable) => {
+      const optional2: Optional<MockNominative> = some2.filter((value: MockNominative) => {
         if (value.get() as number % 2 === 0) {
           return true;
         }
@@ -105,13 +105,13 @@ describe('Some', () => {
 
   describe('toString', () => {
     it('normal case', () => {
-      const some1: Some<PrimitiveEqualable> = Some.of<PrimitiveEqualable>(PrimitiveEqualable.of(1));
-      const some2: Some<PrimitiveEqualable> = Some.of<PrimitiveEqualable>(PrimitiveEqualable.of(0));
-      const some3: Some<PrimitiveEqualable> = Some.of<PrimitiveEqualable>(PrimitiveEqualable.of(-1));
-      const some4: Some<PrimitiveEqualable> = Some.of<PrimitiveEqualable>(PrimitiveEqualable.of(''));
-      const some5: Some<PrimitiveEqualable> = Some.of<PrimitiveEqualable>(PrimitiveEqualable.of('1'));
-      const some6: Some<PrimitiveEqualable> = Some.of<PrimitiveEqualable>(PrimitiveEqualable.of(true));
-      const some7: Some<PrimitiveEqualable> = Some.of<PrimitiveEqualable>(PrimitiveEqualable.of(false));
+      const some1: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(1));
+      const some2: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(0));
+      const some3: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(-1));
+      const some4: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(''));
+      const some5: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of('1'));
+      const some6: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(true));
+      const some7: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(false));
 
       expect(some1.toString()).toEqual('Optional<1>');
       expect(some2.toString()).toEqual('Optional<0>');

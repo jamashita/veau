@@ -1,5 +1,4 @@
-import { Equalable } from '../Equalable';
-import { Serializable } from '../Serializable';
+import { Nominative } from '../Nominative';
 import { Consumer } from '../Type/Consumer';
 import { Function } from '../Type/Function';
 import { Predicate } from '../Type/Predicate';
@@ -7,10 +6,10 @@ import { maybe } from './Maybe';
 import { None } from './None';
 import { Optional } from './Optional';
 
-export class Some<T extends Equalable & Serializable> implements Optional<T> {
+export class Some<T extends Nominative> implements Optional<T> {
   private value: T;
 
-  public static of<T extends Equalable & Serializable>(value: T): Some<T> {
+  public static of<T extends Nominative>(value: T): Some<T> {
     return new Some<T>(value);
   }
 
@@ -30,7 +29,7 @@ export class Some<T extends Equalable & Serializable> implements Optional<T> {
     consumer(this.value);
   }
 
-  public map<U extends Equalable & Serializable>(func: Function<T, U>): Optional<U> {
+  public map<U extends Nominative>(func: Function<T, U>): Optional<U> {
     const result: U = func(this.value);
 
     return maybe<U>(result);

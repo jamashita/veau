@@ -1,10 +1,9 @@
-import { Equalable } from '../Equalable';
-import { Serializable } from '../Serializable';
+import { Nominative } from '../Nominative';
 import { Consumer } from '../Type/Consumer';
 import { Function } from '../Type/Function';
 import { Predicate } from '../Type/Predicate';
 
-export interface Optional<T extends Equalable & Serializable> extends Equalable, Serializable {
+export interface Optional<T extends Nominative> extends Nominative {
 
   get(): T;
 
@@ -12,7 +11,7 @@ export interface Optional<T extends Equalable & Serializable> extends Equalable,
 
   ifPresent(consumer: Consumer<T>): void;
 
-  map<U extends Equalable>(func: Function<T, U>): Optional<U>;
+  map<U extends Nominative>(func: Function<T, U>): Optional<U>;
 
   filter(predicate: Predicate<T>): Optional<T>;
 }

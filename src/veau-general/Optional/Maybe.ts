@@ -1,12 +1,11 @@
-import { Equalable } from '../Equalable';
-import { Serializable } from '../Serializable';
+import { Nominative } from '../Nominative';
 import { None } from './None';
 import { Optional } from './Optional';
 import { Some } from './Some';
 
-type Type = undefined | null | Equalable & Serializable;
+type Suspicious = undefined | null | Nominative;
 
-export const maybe: <T extends Equalable & Serializable>(value: Type) => Optional<T> = <T extends Equalable & Serializable>(value: Type): Optional<T> => {
+export const maybe: <T extends Nominative>(value: Suspicious) => Optional<T> = <T extends Nominative>(value: Suspicious): Optional<T> => {
   if (value === null) {
     return None.of<T>();
   }
