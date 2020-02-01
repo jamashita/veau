@@ -1,11 +1,10 @@
 import { Cloneable } from './Cloneable';
 import { Equalable } from './Equalable';
-import { Identifier } from './Identifier';
 import { JSONable } from './JSONable';
-import { Serializable } from './Serializable';
+import { Nominative } from './Nominative';
 import { JSON } from './Type/JSON';
 
-export abstract class Entity<T extends Identifier> implements JSONable, Serializable, Equalable, Cloneable {
+export abstract class Entity<T extends Equalable> implements JSONable, Nominative, Cloneable {
 
   public abstract getIdentifier(): T;
 

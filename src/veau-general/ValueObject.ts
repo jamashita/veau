@@ -1,7 +1,6 @@
-import { Identifier } from './Identifier';
-import { Serializable } from './Serializable';
+import { Nominative } from './Nominative';
 
-export abstract class ValueObject implements Identifier, Serializable {
+export abstract class ValueObject implements Nominative {
 
   public abstract equals(other: ValueObject): boolean;
 
