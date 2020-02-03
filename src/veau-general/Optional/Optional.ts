@@ -14,4 +14,6 @@ export interface Optional<T extends Nominative> extends Nominative {
   map<U extends Nominative>(func: Function<T, U>): Optional<U>;
 
   filter(predicate: Predicate<T>): Optional<T>;
+
+  equals(other: Optional<T>): boolean;
 }
