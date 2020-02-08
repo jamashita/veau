@@ -3,8 +3,8 @@ import { all, call, fork, put, select, take } from 'redux-saga/effects';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { NotFoundError } from '../../veau-error/NotFoundError';
-import { empty } from '../../veau-general/Optional/Empty';
-import { present } from '../../veau-general/Optional/Present';
+import { None } from '../../veau-general/Optional/None';
+import { Some } from '../../veau-general/Optional/Some';
 import { AsOf } from '../../veau-vo/AsOf';
 import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-vo/Region';
@@ -115,7 +115,7 @@ export class StatsEditSaga {
         stats.getUnit(),
         stats.getUpdatedAt(),
         stats.getItems(),
-        empty<AsOf>()
+        None.of<AsOf>()
       );
 
       yield put(updateStats(newStats));
@@ -140,7 +140,7 @@ export class StatsEditSaga {
         action.unit,
         stats.getUpdatedAt(),
         stats.getItems(),
-        empty<AsOf>()
+        None.of<AsOf>()
       );
 
       yield put(updateStats(newStats));
@@ -170,7 +170,7 @@ export class StatsEditSaga {
           stats.getUnit(),
           stats.getUpdatedAt(),
           stats.getItems(),
-          empty<AsOf>()
+          None.of<AsOf>()
         );
 
         yield put(updateStats(newStats));
@@ -204,7 +204,7 @@ export class StatsEditSaga {
           stats.getUnit(),
           stats.getUpdatedAt(),
           stats.getItems(),
-          empty<AsOf>()
+          None.of<AsOf>()
         );
 
         yield put(updateStats(newStats));
@@ -369,7 +369,7 @@ export class StatsEditSaga {
         stats.getUnit(),
         stats.getUpdatedAt(),
         stats.getItems(),
-        present<AsOf>(startDate)
+        Some.of<AsOf>(startDate)
       );
 
       yield put(updateStats(newStats));
