@@ -1,7 +1,7 @@
 import { SagaIterator } from '@redux-saga/types';
 import { all, call, fork, put, select, take } from 'redux-saga/effects';
 import { Stats } from '../../veau-entity/Stats';
-import { empty } from '../../veau-general/Optional/Empty';
+import { None } from '../../veau-general/Optional/None';
 import { AsOf } from '../../veau-vo/AsOf';
 import { Language } from '../../veau-vo/Language';
 import { Page } from '../../veau-vo/Page';
@@ -89,7 +89,7 @@ export class StatsListSaga {
         stats.getUnit(),
         stats.getUpdatedAt(),
         stats.getItems(),
-        empty<AsOf>()
+        None.of<AsOf>()
       );
 
       yield put(updateNewStats(newStats));
@@ -119,7 +119,7 @@ export class StatsListSaga {
         unit,
         stats.getUpdatedAt(),
         stats.getItems(),
-        empty<AsOf>()
+        None.of<AsOf>()
       );
 
       yield put(updateNewStats(newStats));
@@ -151,7 +151,7 @@ export class StatsListSaga {
           stats.getUnit(),
           stats.getUpdatedAt(),
           stats.getItems(),
-          empty<AsOf>()
+          None.of<AsOf>()
         );
 
         yield put(updateNewStats(newStats));
@@ -187,7 +187,7 @@ export class StatsListSaga {
           stats.getUnit(),
           stats.getUpdatedAt(),
           stats.getItems(),
-          empty<AsOf>()
+          None.of<AsOf>()
         );
 
         yield put(updateNewStats(newStats));
@@ -218,7 +218,7 @@ export class StatsListSaga {
         stats.getUnit(),
         stats.getUpdatedAt(),
         stats.getItems(),
-        empty<AsOf>()
+        None.of<AsOf>()
       );
 
       yield put(updateNewStats(newStats));
