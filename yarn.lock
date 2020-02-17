@@ -393,21 +393,20 @@
     "@types/yargs" "^15.0.0"
     chalk "^3.0.0"
 
-"@material-ui/core@4.9.2":
-  version "4.9.2"
-  resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-4.9.2.tgz#23c9a697af15d8daf56ffad1955b24209ef48106"
-  integrity sha512-fSf/yBuE5GR7dA+FiQAAGY7HrCN/8RaYApi9tx3IKMiJIJkRCHk+E2lktgJZ+QRsaqCACLo2lwhU2CW5aeO0UQ==
+"@material-ui/core@4.9.3":
+  version "4.9.3"
+  resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-4.9.3.tgz#29ad51f4d36cbc3af7a9db27d92f93fa4fa42d50"
+  integrity sha512-EQrhN7XHdCfBCMiCTHmiHSn/H1tj2qCt5W/kSDhr1gaYAtBTTiQ29j2xR1NcHT1siVQqAtgIkPephqbTEgQLwA==
   dependencies:
     "@babel/runtime" "^7.4.4"
     "@material-ui/styles" "^4.9.0"
-    "@material-ui/system" "^4.9.1"
+    "@material-ui/system" "^4.9.3"
     "@material-ui/types" "^5.0.0"
     "@material-ui/utils" "^4.7.1"
     "@types/react-transition-group" "^4.2.0"
     clsx "^1.0.2"
     convert-css-length "^2.0.1"
     hoist-non-react-statics "^3.3.2"
-    normalize-scroll-left "^0.2.0"
     popper.js "^1.14.1"
     prop-types "^15.7.2"
     react-is "^16.8.0"
@@ -435,10 +434,10 @@
     jss-plugin-vendor-prefixer "^10.0.3"
     prop-types "^15.7.2"
 
-"@material-ui/system@^4.9.1":
-  version "4.9.1"
-  resolved "https://registry.yarnpkg.com/@material-ui/system/-/system-4.9.1.tgz#beb6595e1b164317340bdc5a629a6798fc35f82d"
-  integrity sha512-CLrJK2aKNWNwruGVTRf+rLz96P4jmozpY2UaCE6hBTa1oGsQ396YXOQQABQ4c0igawmdyf5iQb0zs9j5zsAf1w==
+"@material-ui/system@^4.9.3":
+  version "4.9.3"
+  resolved "https://registry.yarnpkg.com/@material-ui/system/-/system-4.9.3.tgz#ee48990d7941237fdaf21b7b399981d614bb0875"
+  integrity sha512-DBGsTKYrLlFpHG8BUp0X6ZpvaOzef+GhSwn/8DwVTXUdHitphaPQoL9xucrI8X9MTBo//El+7nylko7lo7eJIw==
   dependencies:
     "@babel/runtime" "^7.4.4"
     "@material-ui/utils" "^4.7.1"
@@ -951,10 +950,18 @@
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-1.0.1.tgz#0a851d3bd96498fa25c33ab7278ed3bd65f06c3e"
   integrity sha512-l42BggppR6zLmpfU6fq9HEa2oGPEI8yrSPL3GITjfRInppYFahObbIQOQK3UGxEnyQpltZLaPe75046NOZQikw==
 
-"@types/superagent@*", "@types/superagent@4.1.6":
+"@types/superagent@*":
   version "4.1.6"
   resolved "https://registry.yarnpkg.com/@types/superagent/-/superagent-4.1.6.tgz#16344063e09240316c303a4fbc26de8f9b938463"
   integrity sha512-/T1RB7/2HaAu62fhda87PRVRPakpZpXXLdsbRmAWqZ7mxMqSDXklN2P1RKVyafJTwJm199+gVvjqhpz4f7mT1A==
+  dependencies:
+    "@types/cookiejar" "*"
+    "@types/node" "*"
+
+"@types/superagent@4.1.7":
+  version "4.1.7"
+  resolved "https://registry.yarnpkg.com/@types/superagent/-/superagent-4.1.7.tgz#a7d92d98c490ee0f802a127fdf149b9a114f77a5"
+  integrity sha512-JSwNPgRYjIC4pIeOqLwWwfGj6iP1n5NE6kNBEbGx2V8H78xCPwx7QpNp9plaI30+W3cFEzJO7BIIsXE+dbtaGg==
   dependencies:
     "@types/cookiejar" "*"
     "@types/node" "*"
@@ -6906,7 +6913,7 @@ node-notifier@^6.0.0:
     shellwords "^0.1.1"
     which "^1.3.1"
 
-node-pre-gyp@*, node-pre-gyp@0.14.0:
+node-pre-gyp@0.14.0:
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.14.0.tgz#9a0596533b877289bcad4e143982ca3d904ddc83"
   integrity sha512-+CvDC7ZttU/sSt9rFjix/P05iS43qHCOOGzcr3Ry99bXG7VX953+vFyEuph/tfqoYu8dttBkE86JSKBO2OzcxA==
@@ -7016,11 +7023,6 @@ normalize-range@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/normalize-range/-/normalize-range-0.1.2.tgz#2d10c06bdfd312ea9777695a4d28439456b75942"
   integrity sha1-LRDAa9/TEuqXd2laTShDlFa3WUI=
-
-normalize-scroll-left@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/normalize-scroll-left/-/normalize-scroll-left-0.2.0.tgz#9445d74275f303cc661e113329aefa492f58114c"
-  integrity sha512-t5oCENZJl8TGusJKoCJm7+asaSsPuNmK6+iEjrZ5TyBj2f02brCRsd4c83hwtu+e5d4LCSBZ0uoDlMjBo+A8yA==
 
 now-and-later@^2.0.0:
   version "2.0.1"
@@ -9584,10 +9586,10 @@ terminal-link@^2.0.0:
     ansi-escapes "^4.2.1"
     supports-hyperlinks "^2.0.0"
 
-terser-webpack-plugin@2.3.4:
-  version "2.3.4"
-  resolved "https://registry.yarnpkg.com/terser-webpack-plugin/-/terser-webpack-plugin-2.3.4.tgz#ac045703bd8da0936ce910d8fb6350d0e1dee5fe"
-  integrity sha512-Nv96Nws2R2nrFOpbzF6IxRDpIkkIfmhvOws+IqMvYdFLO7o6wAILWFKONFgaYy8+T4LVz77DQW0f7wOeDEAjrg==
+terser-webpack-plugin@2.3.5:
+  version "2.3.5"
+  resolved "https://registry.yarnpkg.com/terser-webpack-plugin/-/terser-webpack-plugin-2.3.5.tgz#5ad971acce5c517440ba873ea4f09687de2f4a81"
+  integrity sha512-WlWksUoq+E4+JlJ+h+U+QUzXpcsMSSNXkDy9lBVkSqDn1w23Gg29L/ary9GeJVYCGiNJJX7LnVc4bwL1N3/g1w==
   dependencies:
     cacache "^13.0.1"
     find-cache-dir "^3.2.0"
