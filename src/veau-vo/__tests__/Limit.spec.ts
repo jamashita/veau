@@ -1,5 +1,5 @@
 import 'jest';
-import { RuntimeError } from '../../veau-general/RuntimeError';
+import { LimitError } from '../../veau-error/LimitError';
 import { Limit } from '../Limit';
 
 describe('Limit', () => {
@@ -25,16 +25,25 @@ describe('Limit', () => {
   });
 
   describe('of', () => {
-    it('throws RuntimeError when the argument is less than 1', () => {
+    it('throws LimitError when the argument is less than 1', () => {
       expect(() => {
         Limit.of(1);
-      }).not.toThrow(RuntimeError);
+      }).not.toThrow(LimitError);
       expect(() => {
         Limit.of(0);
-      }).toThrow(RuntimeError);
+      }).toThrow(LimitError);
       expect(() => {
         Limit.of(-1);
-      }).toThrow(RuntimeError);
+      }).toThrow(LimitError);
+    });
+
+    it('throws LimitError when the argument is not integer', () => {
+      expect(() => {
+        Limit.of(1.1);
+      }).toThrow(LimitError);
+      expect(() => {
+        Limit.of(0.2);
+      }).toThrow(LimitError);
     });
   });
 });

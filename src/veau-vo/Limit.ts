@@ -1,4 +1,5 @@
-import { RuntimeError } from '../veau-general/RuntimeError';
+import { LimitError } from '../veau-error/LimitError';
+import { Type } from '../veau-general/Type/Type';
 import { ValueObject } from '../veau-general/ValueObject';
 
 export class Limit extends ValueObject {
@@ -6,10 +7,13 @@ export class Limit extends ValueObject {
 
   public static of(limit: number): Limit {
     if (limit <= 0) {
-      throw new RuntimeError(`ILLEGAL LIMIT SPECIFIED ${limit.toString()}`);
+      throw new LimitError(`ILLEGAL LIMIT SPECIFIED ${limit.toString()}`);
+    }
+    if (Type.isInteger(limit)) {
+      return new Limit(limit);
     }
 
-    return new Limit(limit);
+    throw new LimitError('ILLEGAL LIMIT SPECIFIED');
   }
 
   private constructor(limit: number) {
