@@ -9,6 +9,8 @@ import { NumericalValue } from '../../../veau-vo/NumericalValue';
 import { Row } from '../../../veau-vo/Row';
 import { StatsItemNames } from '../../../veau-vo/StatsItemNames';
 
+type CellValue = string | null;
+type CellChange = [number, string | number, CellValue, CellValue];
 type Props = {
   stats: Stats;
   invalidValueInput: () => void;
@@ -75,33 +77,36 @@ export class Spreadsheet extends React.Component<Props, State> {
           row: 0,
           col: 1
         }}
-        beforeChange={(changes: Array<[number, string | number, unknown, unknown]> | null): boolean => {
-          if (changes === null) {
-            return false;
-          }
+        beforeChange={(changes: Array<CellChange>): boolean => {
           const length: number = changes.length;
           for (let i: number = 0; i < length; i++) {
-            const str: string = String(changes[i][3]);
-
-            if (isNaN(Number(str))) {
-              invalidValueInput();
-              return false;
+            const str: string | null = changes[i][3];
+            if (str !== null) {
+              if (isNaN(Number(str))) {
+                invalidValueInput();
+                return false;
+              }
             }
           }
 
           return true;
         }}
-        afterChange={(changes: Array<[number, string | number, unknown, unknown]> | null): void => {
+        afterChange={(changes: Array<CellChange> | null): void => {
           if (changes === null) {
             return;
           }
-          changes.forEach((change: [number, string | number, unknown, unknown]): void => {
+          changes.forEach((change: CellChange): void => {
+            console.log(change);
             const row: Row = Row.of(change[0]);
             const column: Column = Column.of(Number(change[1]));
             const coordinate: Coordinate = Coordinate.of(row, column);
-            const str: string = String(change[3]);
+            const str: string | null = change[3];
 
-            if (str === '') {
+            if (str === null) {
+              dataDeleted(coordinate);
+              return;
+            }
+            if (str.trim() === '') {
               dataDeleted(coordinate);
               return;
             }
