@@ -1,5 +1,5 @@
 import 'jest';
-import { RuntimeError } from '../../veau-general/RuntimeError';
+import { PageError } from '../../veau-error/PageError';
 import { Limit } from '../Limit';
 import { Offset } from '../Offset';
 import { Page } from '../Page';
@@ -52,22 +52,22 @@ describe('Page', () => {
   });
 
   describe('of', () => {
-    it('throws RuntimeError when the argument is less than 1', () => {
+    it('throws PageError when the argument is less than 1', () => {
       expect(() => {
         Page.of(0);
-      }).toThrow(RuntimeError);
+      }).toThrow(PageError);
       expect(() => {
         Page.of(-1);
-      }).toThrow(RuntimeError);
+      }).toThrow(PageError);
     });
 
-    it('throw RuntimeError when the argument is not integer', () => {
+    it('throw PageError when the argument is not integer', () => {
       expect(() => {
         Page.of(0.1);
-      }).toThrow(RuntimeError);
+      }).toThrow(PageError);
       expect(() => {
         Page.of(1.5);
-      }).toThrow(RuntimeError);
+      }).toThrow(PageError);
     });
   });
 });
