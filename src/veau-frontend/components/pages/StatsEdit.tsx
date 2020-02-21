@@ -1,7 +1,7 @@
 import { Button, Icon } from '@material-ui/core';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-import { RuntimeError } from '../../../veau-general/RuntimeError';
+import { AsOfError } from '../../../veau-error/AsOfError';
 import { AsOf } from '../../../veau-vo/AsOf';
 import { Props } from '../../containers/pages/StatsEdit';
 import { Authenticated } from '../../containers/templates/Authenticated';
@@ -215,7 +215,7 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
               startDateDetermined(AsOf.ofString(date));
             }
             catch (err) {
-              if (err instanceof RuntimeError) {
+              if (err instanceof AsOfError) {
                 invalidDateInput();
               }
             }
