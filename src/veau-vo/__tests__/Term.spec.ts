@@ -1,5 +1,5 @@
 import 'jest';
-import { RuntimeError } from '../../veau-general/RuntimeError';
+import { TermError } from '../../veau-error/TermError';
 import { Term } from '../Term';
 
 describe('Term', () => {
@@ -44,16 +44,16 @@ describe('Term', () => {
       expect(Term.of(5)).toEqual(Term.ANNUAL);
     });
 
-    it('throws RuntimeError', () => {
+    it('throws TermError when the id is out of range', () => {
       expect(() => {
         Term.of(-1);
-      }).toThrow(RuntimeError);
+      }).toThrow(TermError);
       expect(() => {
         Term.of(0);
-      }).toThrow(RuntimeError);
+      }).toThrow(TermError);
       expect(() => {
         Term.of(6);
-      }).toThrow(RuntimeError);
+      }).toThrow(TermError);
     });
   });
 });

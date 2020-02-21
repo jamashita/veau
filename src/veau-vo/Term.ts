@@ -1,4 +1,4 @@
-import { RuntimeError } from '../veau-general/RuntimeError';
+import { TermError } from '../veau-error/TermError';
 import { ValueObject } from '../veau-general/ValueObject';
 
 const DAILY_ID: number = 1;
@@ -35,7 +35,7 @@ export class Term extends ValueObject {
         return Term.ANNUAL;
       }
       default: {
-        throw new RuntimeError(id.toString());
+        throw new TermError(id.toString());
       }
     }
   }
