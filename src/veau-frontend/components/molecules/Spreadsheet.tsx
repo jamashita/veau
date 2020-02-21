@@ -96,7 +96,6 @@ export class Spreadsheet extends React.Component<Props, State> {
             return;
           }
           changes.forEach((change: CellChange): void => {
-            console.log(change);
             const row: Row = Row.of(change[0]);
             const column: Column = Column.of(Number(change[1]));
             const coordinate: Coordinate = Coordinate.of(row, column);
