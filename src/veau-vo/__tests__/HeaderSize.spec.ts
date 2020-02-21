@@ -1,5 +1,5 @@
 import 'jest';
-import { RuntimeError } from '../../veau-general/RuntimeError';
+import { HeaderSizeError } from '../../veau-error/HeaderSizeError';
 import { HeaderSize } from '../HeaderSize';
 
 describe('HeaderSize', () => {
@@ -25,22 +25,22 @@ describe('HeaderSize', () => {
   });
 
   describe('of', () => {
-    it('throws RuntimeError when the argument is less than 0', () => {
+    it('throws HeaderSizeError when the argument is less than 0', () => {
       expect(() => {
         HeaderSize.of(0);
-      }).not.toThrow(RuntimeError);
+      }).not.toThrow(HeaderSizeError);
       expect(() => {
         HeaderSize.of(-1);
-      }).toThrow(RuntimeError);
+      }).toThrow(HeaderSizeError);
     });
 
-    it('throws RuntimeError when the argument is not integer', () => {
+    it('throws HeaderSizeError when the argument is not integer', () => {
       expect(() => {
         HeaderSize.of(0.1);
-      }).toThrow(RuntimeError);
+      }).toThrow(HeaderSizeError);
       expect(() => {
         HeaderSize.of(1.5);
-      }).toThrow(RuntimeError);
+      }).toThrow(HeaderSizeError);
     });
   });
 });

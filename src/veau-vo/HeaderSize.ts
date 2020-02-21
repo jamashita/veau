@@ -1,4 +1,4 @@
-import { RuntimeError } from '../veau-general/RuntimeError';
+import { HeaderSizeError } from '../veau-error/HeaderSizeError';
 import { Type } from '../veau-general/Type/Type';
 import { ValueObject } from '../veau-general/ValueObject';
 
@@ -7,13 +7,13 @@ export class HeaderSize extends ValueObject {
 
   public static of(size: number): HeaderSize {
     if (size < 0) {
-      throw new RuntimeError(`ILLEGAL SIZE SPECIFIED ${size.toString()}`);
+      throw new HeaderSizeError(`ILLEGAL SIZE SPECIFIED ${size.toString()}`);
     }
     if (Type.isInteger(size)) {
       return new HeaderSize(size);
     }
 
-    throw new RuntimeError('ILLEGAL SIZE SPECIFIED');
+    throw new HeaderSizeError('ILLEGAL SIZE SPECIFIED');
   }
   private constructor(size: number) {
     super();
