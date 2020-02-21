@@ -1,7 +1,7 @@
 import 'jest';
 import moment from 'moment';
 import sinon, { SinonStub } from 'sinon';
-import { RuntimeError } from '../../veau-general/RuntimeError';
+import { UpdatedAtError } from '../../veau-error/UpdatedAtError';
 import { UpdatedAt } from '../UpdatedAt';
 
 describe('UpdatedAt', () => {
@@ -27,16 +27,16 @@ describe('UpdatedAt', () => {
   });
 
   describe('ofString', () => {
-    it('throws RuntimeError if the parameter is not date format', () => {
+    it('throws UpdatedAtError if the parameter is not date format', () => {
       expect(() => {
         UpdatedAt.ofString('this is not date');
-      }).toThrow(RuntimeError);
+      }).toThrow(UpdatedAtError);
     });
 
     it('normal case', () => {
       expect(() => {
         UpdatedAt.ofString('2000-01-01');
-      }).not.toThrow(RuntimeError);
+      }).not.toThrow(UpdatedAtError);
     });
   });
 

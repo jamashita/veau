@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { RuntimeError } from '../veau-general/RuntimeError';
+import { UpdatedAtError } from '../veau-error/UpdatedAtError';
 import { Type } from '../veau-general/Type/Type';
 import { ValueObject } from '../veau-general/ValueObject';
 
@@ -14,7 +14,7 @@ export class UpdatedAt extends ValueObject {
 
   public static ofString(at: string): UpdatedAt {
     if (!Type.isDateString(at)) {
-      throw new RuntimeError('AT IS NOT DATE FORMAT');
+      throw new UpdatedAtError('AT IS NOT DATE FORMAT');
     }
 
     return UpdatedAt.of(moment.utc(at));
