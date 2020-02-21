@@ -1,5 +1,5 @@
 import 'jest';
-import { RuntimeError } from '../../veau-general/RuntimeError';
+import { ColumnError } from '../../veau-error/ColumnError';
 import { Column } from '../Column';
 
 describe('Column', () => {
@@ -25,22 +25,22 @@ describe('Column', () => {
   });
 
   describe('of', () => {
-    it('throws RuntimeError when the argument is less than 0', () => {
+    it('throws ColumnError when the argument is less than 0', () => {
       expect(() => {
         Column.of(0);
-      }).not.toThrow(RuntimeError);
+      }).not.toThrow(ColumnError);
       expect(() => {
         Column.of(-1);
-      }).toThrow(RuntimeError);
+      }).toThrow(ColumnError);
     });
 
-    it('throws RuntimeError when the argument is not integer', () => {
+    it('throws ColumnError when the argument is not integer', () => {
       expect(() => {
         Column.of(0.1);
-      }).toThrow(RuntimeError);
+      }).toThrow(ColumnError);
       expect(() => {
         Column.of(1.5);
-      }).toThrow(RuntimeError);
+      }).toThrow(ColumnError);
     });
   });
 });

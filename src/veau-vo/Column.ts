@@ -1,4 +1,4 @@
-import { RuntimeError } from '../veau-general/RuntimeError';
+import { ColumnError } from '../veau-error/ColumnError';
 import { Type } from '../veau-general/Type/Type';
 import { ValueObject } from '../veau-general/ValueObject';
 
@@ -7,13 +7,13 @@ export class Column extends ValueObject {
 
   public static of(column: number): Column {
     if (column < 0) {
-      throw new RuntimeError(`ILLEGAL COLUMN SPECIFIED ${column.toString()}`);
+      throw new ColumnError(`ILLEGAL COLUMN SPECIFIED ${column.toString()}`);
     }
     if (Type.isInteger(column)) {
       return new Column(column);
     }
 
-    throw new RuntimeError('ILLEGAL COLUMN SPECIFIED');
+    throw new ColumnError('ILLEGAL COLUMN SPECIFIED');
   }
   private constructor(column: number) {
     super();
