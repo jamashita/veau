@@ -1,4 +1,4 @@
-import { RuntimeError } from '../veau-general/RuntimeError';
+import { RowError } from '../veau-error/RowError';
 import { Type } from '../veau-general/Type/Type';
 import { ValueObject } from '../veau-general/ValueObject';
 
@@ -7,13 +7,13 @@ export class Row extends ValueObject {
 
   public static of(row: number): Row {
     if (row < 0) {
-      throw new RuntimeError(`ILLEGAL ROW SPECIFIED ${row.toString()}`);
+      throw new RowError(`ILLEGAL ROW SPECIFIED ${row.toString()}`);
     }
     if (Type.isInteger(row)) {
       return new Row(row);
     }
 
-    throw new RuntimeError('ILLEGAL ROW SPECIFIED');
+    throw new RowError('ILLEGAL ROW SPECIFIED');
   }
 
   public static default(): Row {

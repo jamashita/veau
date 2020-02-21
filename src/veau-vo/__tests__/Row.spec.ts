@@ -1,5 +1,5 @@
 import 'jest';
-import { RuntimeError } from '../../veau-general/RuntimeError';
+import { RowError } from '../../veau-error/RowError';
 import { Row } from '../Row';
 
 describe('Row', () => {
@@ -25,22 +25,22 @@ describe('Row', () => {
   });
 
   describe('of', () => {
-    it('throws RuntimeError when the argument is less than 0', () => {
+    it('throws RowError when the argument is less than 0', () => {
       expect(() => {
         Row.of(0);
-      }).not.toThrow(RuntimeError);
+      }).not.toThrow(RowError);
       expect(() => {
         Row.of(-1);
-      }).toThrow(RuntimeError);
+      }).toThrow(RowError);
     });
 
-    it('throw RuntimeError when the argument is not integer', () => {
+    it('throw RowError when the argument is not integer', () => {
       expect(() => {
         Row.of(0.1);
-      }).toThrow(RuntimeError);
+      }).toThrow(RowError);
       expect(() => {
         Row.of(1.5);
-      }).toThrow(RuntimeError);
+      }).toThrow(RowError);
     });
   });
 
