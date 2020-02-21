@@ -1,4 +1,4 @@
-import { RuntimeError } from '../veau-general/RuntimeError';
+import { NumericalValueError } from '../veau-error/NumericalValueError';
 import { NumericalValue } from './NumericalValue';
 
 export class NoValue extends NumericalValue {
@@ -12,7 +12,7 @@ export class NoValue extends NumericalValue {
   }
 
   public get(): number {
-    throw new RuntimeError('ILLEGAL OPERATION');
+    throw new NumericalValueError('ILLEGAL OPERATION');
   }
 
   public equals(other: NumericalValue): boolean {
