@@ -1,5 +1,5 @@
 import 'jest';
-import { RuntimeError } from '../../veau-general/RuntimeError';
+import { VeauAccountIDError } from '../../veau-error/VeauAccountIDError';
 import { UUID } from '../../veau-general/UUID';
 import { VeauAccountID } from '../VeauAccountID';
 
@@ -29,13 +29,13 @@ describe('VeauAccountID', () => {
     it('normal case', () => {
       expect(() => {
         VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de');
-      }).not.toThrow(RuntimeError);
+      }).not.toThrow(VeauAccountIDError);
     });
 
-    it('throws RuntimeError when uuid length string is not given', () => {
+    it('throws VeauAccountIDError when uuid length string is not given', () => {
       expect(() => {
         VeauAccountID.of('cinq');
-      }).toThrow(RuntimeError);
+      }).toThrow(VeauAccountIDError);
     });
   });
 

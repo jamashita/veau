@@ -1,4 +1,4 @@
-import { RuntimeError } from '../veau-general/RuntimeError';
+import { VeauAccountIDError } from '../veau-error/VeauAccountIDError';
 import { UUID } from '../veau-general/UUID';
 import { ValueObject } from '../veau-general/ValueObject';
 
@@ -10,7 +10,7 @@ export class VeauAccountID extends ValueObject {
       return new VeauAccountID(id);
     }
 
-    throw new RuntimeError(`VeauAccountID requires ${UUID.size().toString()} LENGTH`);
+    throw new VeauAccountIDError(`VeauAccountID requires ${UUID.size().toString()} LENGTH`);
   }
 
   public static generate(): VeauAccountID {
