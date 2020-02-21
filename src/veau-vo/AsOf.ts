@@ -1,6 +1,5 @@
 import moment from 'moment';
 import { AsOfError } from '../veau-error/AsOfError';
-import { RuntimeError } from '../veau-general/RuntimeError';
 import { Type } from '../veau-general/Type/Type';
 import { ValueObject } from '../veau-general/ValueObject';
 import { Term } from './Term';
@@ -67,7 +66,7 @@ export class AsOf extends ValueObject {
         return AsOf.of(asOf.subtract(1, 'years'));
       }
       default: {
-        throw new RuntimeError(`UNEXPECTED VALUE: ${term.getID().toString()}`);
+        throw new AsOfError(`UNEXPECTED VALUE: ${term.getID().toString()}`);
       }
     }
   }
@@ -92,7 +91,7 @@ export class AsOf extends ValueObject {
         return AsOf.of(asOf.add(1, 'years'));
       }
       default: {
-        throw new RuntimeError(`UNEXPECTED VALUE: ${term.getID().toString()}`);
+        throw new AsOfError(`UNEXPECTED VALUE: ${term.getID().toString()}`);
       }
     }
   }
