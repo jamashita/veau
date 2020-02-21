@@ -4,6 +4,7 @@ metadata:
   name: 'veau-ingress'
   annotations:
     kubernetes.io/ingress.allow-http: 'false'
+    kubernetes.io/ingress.global-static-ip-name: 'veau-ip'
 spec:
   tls:
     - secretName: 'veau-cert'

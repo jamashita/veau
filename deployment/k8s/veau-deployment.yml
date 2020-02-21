@@ -25,6 +25,8 @@ spec:
           ports:
             - containerPort: 4000
           resources:
+            limits:
+              cpu: '1'
             requests:
               cpu: '50m'
         - name: 'veau-redis'
