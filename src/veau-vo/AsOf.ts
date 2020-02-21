@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { AsOfError } from '../veau-error/AsOfError';
 import { RuntimeError } from '../veau-general/RuntimeError';
 import { Type } from '../veau-general/Type/Type';
 import { ValueObject } from '../veau-general/ValueObject';
@@ -18,7 +19,7 @@ export class AsOf extends ValueObject {
       return AsOf.of(moment(asOf));
     }
 
-    throw new RuntimeError('asOf is not suitable for date time');
+    throw new AsOfError('asOf is not suitable for date time');
   }
 
   private constructor(asOf: moment.Moment) {

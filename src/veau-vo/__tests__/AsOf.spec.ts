@@ -1,5 +1,5 @@
 import 'jest';
-import { RuntimeError } from '../../veau-general/RuntimeError';
+import { AsOfError } from '../../veau-error/AsOfError';
 import { AsOf } from '../AsOf';
 import { Term } from '../Term';
 
@@ -136,21 +136,21 @@ describe('AsOf', () => {
     it('normal case', () => {
       expect(() => {
         AsOf.ofString('2000-01-01');
-      }).not.toThrow(RuntimeError);
+      }).not.toThrow(AsOfError);
 
       expect(() => {
         AsOf.ofString('2000-01-01 00:00:00');
-      }).not.toThrow(RuntimeError);
+      }).not.toThrow(AsOfError);
     });
 
-    it('will throw RuntimeError because the string format is not compatible to date time', () => {
+    it('will throw AsOfError because the string format is not compatible to date time', () => {
       expect(() => {
         AsOf.ofString('deux mille');
-      }).toThrow(RuntimeError);
+      }).toThrow(AsOfError);
 
       expect(() => {
         AsOf.ofString('dos mil');
-      }).toThrow(RuntimeError);
+      }).toThrow(AsOfError);
     });
   });
 });

@@ -1,6 +1,6 @@
 import 'jest';
+import { AsOfError } from '../../veau-error/AsOfError';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { RuntimeError } from '../../veau-general/RuntimeError';
 import { AsOf } from '../AsOf';
 import { AsOfs } from '../AsOfs';
 
@@ -79,10 +79,10 @@ describe('AsOfs', () => {
       expect(asOfs.min().toString()).toEqual('2000-01-01');
     });
 
-    it('throws RuntimeError when AsOfs are empty', () =>{
+    it('throws AsOfError when AsOfs are empty', () =>{
       expect(() => {
         AsOfs.empty().min();
-      }).toThrow(RuntimeError);
+      }).toThrow(AsOfError);
     });
   });
 
@@ -98,10 +98,10 @@ describe('AsOfs', () => {
       expect(asOfs.max().toString()).toEqual('2000-01-03');
     });
 
-    it('throws RuntimeError when AsOfs are empty', () =>{
+    it('throws AsOfError when AsOfs are empty', () =>{
       expect(() => {
         AsOfs.empty().max();
-      }).toThrow(RuntimeError);
+      }).toThrow(AsOfError);
     });
   });
 
