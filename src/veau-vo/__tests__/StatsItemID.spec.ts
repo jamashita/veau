@@ -1,5 +1,5 @@
 import 'jest';
-import { RuntimeError } from '../../veau-general/RuntimeError';
+import { StatsItemIDError } from '../../veau-error/StatsItemIDError';
 import { UUID } from '../../veau-general/UUID';
 import { StatsItemID } from '../StatsItemID';
 
@@ -32,13 +32,13 @@ describe('StatsItemID', () => {
       expect(() => {
         const uuid1: string = 'b5203963-d996-40a7-9adb-f05ea9524af0';
         StatsItemID.of(uuid1);
-      }).not.toThrow(RuntimeError);
+      }).not.toThrow(StatsItemIDError);
     });
 
-    it('throws RuntimeError when uuid length string is not given', () => {
+    it('throws StatsItemIDError when uuid length string is not given', () => {
       expect(() => {
         StatsItemID.of('quatre');
-      }).toThrow(RuntimeError);
+      }).toThrow(StatsItemIDError);
     });
   });
 

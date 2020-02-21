@@ -1,4 +1,4 @@
-import { RuntimeError } from '../veau-general/RuntimeError';
+import { StatsItemIDError } from '../veau-error/StatsItemIDError';
 import { UUID } from '../veau-general/UUID';
 import { ValueObject } from '../veau-general/ValueObject';
 
@@ -10,7 +10,7 @@ export class StatsItemID extends ValueObject {
       return new StatsItemID(id);
     }
 
-    throw new RuntimeError(`StatsItemID requires ${UUID.size().toString()} LENGTH`);
+    throw new StatsItemIDError(`StatsItemID requires ${UUID.size().toString()} LENGTH`);
   }
 
   public static generate(): StatsItemID {
