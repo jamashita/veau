@@ -38,6 +38,7 @@ export type Messages = {
   CREATE_NEW_STATS: string;
   FAILED_TO_SAVE_NEW_STATS: string;
   FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: string;
+  MALFORMAT_STATS_ID: string;
 
   STATS_INFO: string;
   STATS_ITEM_INFO: string;
@@ -106,6 +107,7 @@ const en: Messages = {
   CREATE_NEW_STATS: 'Create new statistics',
   FAILED_TO_SAVE_NEW_STATS: 'Failed to save the statistics',
   FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: 'Failed to save the statistics to the server. Please try again.',
+  MALFORMAT_STATS_ID: 'The given ID was not correct.',
 
   STATS_INFO: 'Statistics information',
   STATS_ITEM_INFO: 'Item information',
@@ -173,28 +175,29 @@ const fr: Messages = {
   STATS_LIST: 'Liste de statistiques',
   CREATE_NEW_STATS: 'Créer de nouvelles statistiques',
   FAILED_TO_SAVE_NEW_STATS: 'Échec de la sauvegarde des statistiques',
-  FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: 'Échec de l\'enregistrement des statistiques sur le serveur. Veuillez réessayer.',
+  FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: 'Échec de l\'enregistrement des statistiques sur le serveur. Réessayer s\'il vous plaît.',
+  MALFORMAT_STATS_ID: 'L\'identité donné n\'était correcte.',
 
-  STATS_INFO: 'Informations statistiques',
+  STATS_INFO: 'Informations des statistiques',
   STATS_ITEM_INFO: 'Informations de l\'élément',
   ADD_ITEM: 'Ajouter un élément',
   REMOVE_ITEM: 'Éliminer',
   CREATE_NEW_ITEM: 'Créer un nouvel élément de statistiques',
   START_DATE: 'Date de début',
   DETERMINE_START_DATE: 'Déterminer la date de début',
-  INVALID_INPUT_VALUE: 'La valeur d\'entrée n\'était pas un nombre',
+  INVALID_INPUT_VALUE: 'La valeur d\'entrée n\'était pas un chiffre',
   INVALID_INPUT_DATE: 'La date d\'entrée était invalide',
   STATS_SAVE_FAILURE: 'Enregistrer l\'échec',
-  STATS_SAVE_FAILURE_DESCRIPTION: 'Échec de l\'enregistrement des statistiques sur le serveur. Veuillez réessayer.',
+  STATS_SAVE_FAILURE_DESCRIPTION: 'Échec de l\'enregistrement des statistiques sur le serveur. Réessayer s\'il vous plaît.',
   STATS_NOT_FOUND: 'Statistiques non trouvées',
   STATS_OVERVIEW_NOT_FOUND: 'Liste des statistiques n\'a pas pu trouver',
 
   SAVE_SUCCESS: 'Réussi à sauver',
 
   AUTHENTICATION_FAILED: 'Authentification échouée',
-  AUTHENTICATION_FAILED_DESCRIPTION: 'Compte ou mot de passe est incorrect. Les vérifier à nouveau s\'il vous plaît.',
+  AUTHENTICATION_FAILED_DESCRIPTION: 'Compte ou mot de passe est incorrect. Vérifier-les à nouveau s\'il vous plaît.',
   CONNECTION_ERROR: 'Erreur de connexion',
-  CONNECTION_ERROR_DESCRIPTION: 'Impossible de connecter le serveur. Entrer en contact avec la personne en charge s\'il vous plaît.',
+  CONNECTION_ERROR_DESCRIPTION: 'Impossible de connecter le serveur. Entrez en contact avec la personne en charge s\'il vous plaît.',
 
   EN: 'English',
   FR: 'Français',
@@ -242,12 +245,13 @@ const es: Messages = {
   CREATE_NEW_STATS: 'Crear nuevas estadísticas',
   FAILED_TO_SAVE_NEW_STATS: 'Error al guardar las estadísticas',
   FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: 'Error al guardar las estadísticas en el servidor. Inténtalo de nuevo.',
+  MALFORMAT_STATS_ID: 'La identidad dado no era correcta.',
 
-  STATS_INFO: 'Información estadística',
+  STATS_INFO: 'Información de las estadísticas',
   STATS_ITEM_INFO: 'Información del item',
   ADD_ITEM: 'Añadir un ítem',
   REMOVE_ITEM: 'Eliminar',
-  CREATE_NEW_ITEM: 'Crear nuevo ítem de estadísticas',
+  CREATE_NEW_ITEM: 'Crear nuevo ítem de las estadísticas',
   START_DATE: 'Fecha de inicio',
   DETERMINE_START_DATE: 'Determinar la fecha de inicio',
   INVALID_INPUT_VALUE: 'El valor de entrada no era un número',
@@ -255,7 +259,7 @@ const es: Messages = {
   STATS_SAVE_FAILURE: 'Guarde el fracaso',
   STATS_SAVE_FAILURE_DESCRIPTION: 'Error al guardar las estadísticas en el servidor. Inténtalo de nuevo.',
   STATS_NOT_FOUND: 'Estadísticas no encontradas',
-  STATS_OVERVIEW_NOT_FOUND: 'Lista de estadísticas que no pudo encontrar',
+  STATS_OVERVIEW_NOT_FOUND: 'Lista de estadísticas no pudo encontrar',
 
   SAVE_SUCCESS: 'Consiguió salvar',
 
@@ -310,6 +314,7 @@ const ja: Messages = {
   CREATE_NEW_STATS: '新しい統計を作成する',
   FAILED_TO_SAVE_NEW_STATS: '統計情報の保存に失敗しました',
   FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: '統計情報をサーバーに保存できませんでした。もう一度やり直してください。',
+  MALFORMAT_STATS_ID: '与えられた ID が正しくありません。',
 
   STATS_INFO: '統計情報',
   STATS_ITEM_INFO: '項目情報',

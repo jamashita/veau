@@ -98,7 +98,10 @@ export class StatsEditSaga {
     while (true) {
       yield take(ACTION.STATS_EDIT_INITIALIZATION_FAILURE);
 
-      yield put(pushToStatsList());
+      yield all([
+        put(pushToStatsList()),
+        put(appearNotification('error', 'center', 'top', 'MALFORMAT_STATS_ID'))
+      ]);
     }
   }
 
