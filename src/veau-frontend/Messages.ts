@@ -176,7 +176,7 @@ const fr: Messages = {
   CREATE_NEW_STATS: 'Créer de nouvelles statistiques',
   FAILED_TO_SAVE_NEW_STATS: 'Échec de la sauvegarde des statistiques',
   FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: 'Échec de l\'enregistrement des statistiques sur le serveur. Réessayer s\'il vous plaît.',
-  MALFORMAT_STATS_ID: 'L\'identité donné n\'était correcte.',
+  MALFORMAT_STATS_ID: 'L\'identité donnée n\'était correcte.',
 
   STATS_INFO: 'Informations des statistiques',
   STATS_ITEM_INFO: 'Informations de l\'élément',
@@ -245,7 +245,7 @@ const es: Messages = {
   CREATE_NEW_STATS: 'Crear nuevas estadísticas',
   FAILED_TO_SAVE_NEW_STATS: 'Error al guardar las estadísticas',
   FAILED_TO_SAVE_NEW_STATS_DESCRIPTION: 'Error al guardar las estadísticas en el servidor. Inténtalo de nuevo.',
-  MALFORMAT_STATS_ID: 'La identidad dado no era correcta.',
+  MALFORMAT_STATS_ID: 'La identidad dada no era correcta.',
 
   STATS_INFO: 'Información de las estadísticas',
   STATS_ITEM_INFO: 'Información del item',
