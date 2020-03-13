@@ -35,6 +35,14 @@ class StatsListImpl extends React.Component<Props & WrappedComponentProps, State
     return false;
   }
 
+  public componentDidMount(): void {
+    const {
+      initialize
+    } = this.props;
+
+    initialize();
+  }
+
   public render(): React.ReactNode {
     const {
       statsOutlines,

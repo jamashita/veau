@@ -8,12 +8,11 @@ import { Some } from '../../veau-general/Optional/Some';
 import { AsOf } from '../../veau-vo/AsOf';
 import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-vo/Region';
-import { StatsID } from '../../veau-vo/StatsID';
 import {
   ACTION,
-  LocationChangeAction,
   StatsEditDataDeletedAction,
   StatsEditDataFilledAction,
+  StatsEditInitializeAction,
   StatsEditISO3166SelectedAction,
   StatsEditISO639SelectedAction,
   StatsEditItemNameTypedAction,
@@ -40,12 +39,11 @@ const statsCommand: StatsCommand = StatsCommand.getInstance();
 const statsQuery: StatsQuery = StatsQuery.getInstance();
 const localeQuery: LocaleQuery = LocaleQuery.getInstance();
 
-const STATS_EDIT_PREFIX: string = '/statistics/edit/';
-
 export class StatsEditSaga {
 
   public static *init(): IterableIterator<unknown> {
     yield fork(StatsEditSaga.findStats);
+    yield fork(StatsEditSaga.initializationFailed);
     yield fork(StatsEditSaga.nameTyped);
     yield fork(StatsEditSaga.unitTyped);
     yield fork(StatsEditSaga.iso639Selected);
@@ -66,34 +64,41 @@ export class StatsEditSaga {
 
   private static *findStats(): SagaIterator<unknown> {
     while (true) {
-      const action: LocationChangeAction = yield take(ACTION.LOCATION_CHANGE);
-      const path: string = action.payload.location.pathname;
+      const action: StatsEditInitializeAction = yield take(ACTION.STATS_EDIT_INITIALIZE);
 
-      if (path.startsWith(STATS_EDIT_PREFIX)) {
-        const statsID: string = path.replace(STATS_EDIT_PREFIX, '');
+      const {
+        statsID
+      } = action;
 
-        try {
-          const stats: Stats = yield call((): Promise<Stats> => {
-            return statsQuery.findByStatsID(StatsID.of(statsID));
-          });
+      try {
+        const stats: Stats = yield call((): Promise<Stats> => {
+          return statsQuery.findByStatsID(statsID);
+        });
 
-          yield all([
-            put(updateStats(stats)),
-            put(clearSelectingItem())
-          ]);
-        }
-        catch (err) {
-          if (err instanceof NotFoundError) {
-            yield all([
-              put(pushToStatsList()),
-              put(appearNotification('error', 'center', 'top', 'STATS_NOT_FOUND'))
-            ]);
-            continue;
-          }
-
-          yield put(pushToStatsList());
-        }
+        yield all([
+          put(updateStats(stats)),
+          put(clearSelectingItem())
+        ]);
       }
+      catch (err) {
+        if (err instanceof NotFoundError) {
+          yield all([
+            put(pushToStatsList()),
+            put(appearNotification('error', 'center', 'top', 'STATS_NOT_FOUND'))
+          ]);
+          continue;
+        }
+
+        yield put(pushToStatsList());
+      }
+    }
+  }
+
+  private static *initializationFailed(): SagaIterator<unknown> {
+    while (true) {
+      yield take(ACTION.STATS_EDIT_INITIALIZATION_FAILURE);
+
+      yield put(pushToStatsList());
     }
   }
 

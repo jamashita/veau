@@ -3,6 +3,7 @@ import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { AsOfError } from '../../../veau-error/AsOfError';
 import { AsOf } from '../../../veau-vo/AsOf';
+import { StatsID } from '../../../veau-vo/StatsID';
 import { Props } from '../../containers/pages/StatsEdit';
 import { Authenticated } from '../../containers/templates/Authenticated';
 import { Chart } from '../molecules/Chart';
@@ -27,6 +28,26 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
       openNewStatsItemModal: false,
       openStartDateModal: false
     };
+  }
+
+  public componentDidMount(): void {
+    const {
+      id,
+      initialize,
+      invalidIDInput
+    } = this.props;
+
+    if (id === null) {
+      invalidIDInput();
+      return;
+    }
+
+    try {
+      initialize(StatsID.of(id));
+    }
+    catch (err) {
+      invalidIDInput();
+    }
   }
 
   public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>, nextState: Readonly<State>): boolean {

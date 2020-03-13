@@ -7,6 +7,7 @@ import { Term } from '../../veau-vo/Term';
 import {
   ACTION,
   StatsListCloseNewStatsModalAction,
+  StatsListInitializeAction,
   StatsListISO3166SelectedAction,
   StatsListISO639SelectedAction,
   StatsListNameTypedAction,
@@ -17,6 +18,12 @@ import {
   StatsListUnitTypedAction,
   StatsListUpdateNewStatsAction
 } from './Action';
+
+export const initStatsList: () => StatsListInitializeAction = (): StatsListInitializeAction => {
+  return {
+    type: ACTION.STATS_LIST_INITIALIZE
+  };
+};
 
 export const openNewStatsModal: () => StatsListOpenNewStatsModalAction = (): StatsListOpenNewStatsModalAction => {
   return {

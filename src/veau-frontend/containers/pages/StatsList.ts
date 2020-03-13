@@ -13,6 +13,7 @@ import { Action } from '../../actions/Action';
 import { pushToStatsEdit } from '../../actions/RedirectAction';
 import {
   closeNewStatsModal,
+  initStatsList,
   newStatsISO3166Selected,
   newStatsISO639Selected,
   newStatsNameTyped,
@@ -31,6 +32,7 @@ type StateProps = {
   locale: Locale;
 };
 type DispatchProps = {
+  initialize: () => void;
   toStatsEdit: (statsID: StatsID) => void;
   newStatsClicked: () => void;
   closeNewStatsModal: () => void;
@@ -65,6 +67,9 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>): DispatchProps => {
   return {
+    initialize: (): void => {
+      dispatch(initStatsList());
+    },
     toStatsEdit: (statsID: StatsID): void => {
       dispatch(pushToStatsEdit(statsID));
     },

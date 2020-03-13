@@ -1,4 +1,6 @@
+import { createMatchSelector, matchSelectorFn, RouterRootState } from 'connected-react-router';
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
+import { match } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { Stats } from '../../../veau-entity/Stats';
 import { StatsItem } from '../../../veau-entity/StatsItem';
@@ -10,11 +12,14 @@ import { ISO639 } from '../../../veau-vo/ISO639';
 import { Locale } from '../../../veau-vo/Locale';
 import { NumericalValue } from '../../../veau-vo/NumericalValue';
 import { Row } from '../../../veau-vo/Row';
+import { StatsID } from '../../../veau-vo/StatsID';
 import { StatsItemName } from '../../../veau-vo/StatsItemName';
 import { StatsName } from '../../../veau-vo/StatsName';
 import { StatsUnit } from '../../../veau-vo/StatsUnit';
 import { Action } from '../../actions/Action';
 import {
+  initFailed,
+  initStatsEdit,
   invalidDateInput,
   invalidValueInput,
   itemNameTyped,
@@ -33,15 +38,22 @@ import {
   statsUnitTyped
 } from '../../actions/StatsEditAction';
 import { StatsEdit as Component } from '../../components/pages/StatsEdit';
+import { Endpoints } from '../../Endpoints';
 import { State } from '../../State';
 
+type MatchParam = {
+  id: string;
+};
 type StateProps = {
   stats: Stats;
   statsItem: StatsItem;
   selectingItem?: StatsItem;
   locale: Locale;
+  id: string | null;
 };
 type DispatchProps = {
+  initialize: (statsID: StatsID) => void;
+  invalidIDInput: () => void;
   dataFilled: (coordinate: Coordinate, value: NumericalValue) => void;
   dataDeleted: (coordinate: Coordinate) => void;
   nameTyped: (name: StatsName) => void;
@@ -73,16 +85,36 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
     locale
   } = state;
 
+  const selector: matchSelectorFn<RouterRootState, MatchParam> = createMatchSelector<RouterRootState, MatchParam>(Endpoints.STATS_EDIT);
+  const matchParam: match<MatchParam> | null = selector(state);
+
+  if (matchParam === null) {
+    return {
+      stats,
+      statsItem,
+      selectingItem,
+      locale,
+      id: null
+    };
+  }
+
   return {
     stats,
     statsItem,
     selectingItem,
-    locale
+    locale,
+    id: matchParam.params.id
   };
 };
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>): DispatchProps => {
   return {
+    initialize: (statsID: StatsID): void => {
+      dispatch(initStatsEdit(statsID));
+    },
+    invalidIDInput: (): void => {
+      dispatch(initFailed());
+    },
     dataFilled: (coordinate: Coordinate, value: NumericalValue): void => {
       dispatch(statsDataFilled(coordinate, value));
     },

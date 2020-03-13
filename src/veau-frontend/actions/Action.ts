@@ -53,6 +53,7 @@ export enum ACTION {
   ENTRANCE_PASSWORD_TYPED = '@@veau/ENTRANCE_PASSWORD_TYPED',
   ENTRANCE_UPDATE = '@@veau/ENTRANCE_UPDATE',
 
+  STATS_LIST_INITIALIZE = '@@veau/STATS_LIST_INITIALIZE',
   STATS_LIST_OPEN_STATS_MODAL = '@@veau/STATS_LIST_OPEN_STATS_MODAL',
   STATS_LIST_CLOSE_STATS_MODAL = '@@veau/STATS_LIST_CLOSE_STATS_MODAL',
   STATS_LIST_NAME_TYPED = '@@veau/STATS_LIST_NAME_TYPED',
@@ -64,6 +65,8 @@ export enum ACTION {
   STATS_LIST_RESET_NEW_STATS = '@@veau/STATS_LIST_RESET_NEW_STATS',
   STATS_LIST_SAVE_NEW_STATS = '@@veau/STATS_LIST_SAVE_NEW_STATS',
 
+  STATS_EDIT_INITIALIZE = '@@veau/STATS_EDIT_INITIALIZE',
+  STATS_EDIT_INITIALIZATION_FAILURE = '@@veau/STATS_EDIT_INITIALIZATION_FAILURE',
   STATS_EDIT_NAME_TYPED = '@@veau/STATS_EDIT_NAME_TYPED',
   STATS_EDIT_UNIT_TYPED = '@@veau/STATS_EDIT_UNIT_TYPED',
   STATS_EDIT_ISO639_SELECTED = '@@veau/STATS_EDIT_ISO639_SELECTED',
@@ -171,6 +174,9 @@ export interface EntranceUpdateAction extends ReduxAction {
   type: ACTION.ENTRANCE_UPDATE;
   entranceInformation: EntranceInformation;
 }
+export interface StatsListInitializeAction extends ReduxAction {
+  type: ACTION.STATS_LIST_INITIALIZE;
+}
 export interface StatsListOpenNewStatsModalAction extends ReduxAction {
   type: ACTION.STATS_LIST_OPEN_STATS_MODAL;
 }
@@ -206,6 +212,13 @@ export interface StatsListResetNewStatsAction extends ReduxAction {
 }
 export interface StatsListSaveNewStatsAction extends ReduxAction {
   type: ACTION.STATS_LIST_SAVE_NEW_STATS;
+}
+export interface StatsEditInitializeAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_INITIALIZE;
+  statsID: StatsID;
+}
+export interface StatsEditInitializationFailureAction extends ReduxAction {
+  type: ACTION.STATS_EDIT_INITIALIZATION_FAILURE;
 }
 export interface StatsEditNameTypedAction extends ReduxAction {
   type: ACTION.STATS_EDIT_NAME_TYPED;
@@ -325,6 +338,7 @@ export type Action =
       EntranceAccountNameTypedAction |
       EntrancePasswordTypedAction |
       EntranceUpdateAction |
+      StatsListInitializeAction |
       StatsListOpenNewStatsModalAction |
       StatsListCloseNewStatsModalAction |
       StatsListNameTypedAction |
@@ -335,6 +349,8 @@ export type Action =
       StatsListUpdateNewStatsAction |
       StatsListResetNewStatsAction |
       StatsListSaveNewStatsAction |
+      StatsEditInitializeAction |
+      StatsEditInitializationFailureAction |
       StatsEditNameTypedAction |
       StatsEditUnitTypedAction |
       StatsEditISO639SelectedAction |

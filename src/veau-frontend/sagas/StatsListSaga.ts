@@ -9,7 +9,6 @@ import { Region } from '../../veau-vo/Region';
 import { StatsOutlines } from '../../veau-vo/StatsOutlines';
 import {
   ACTION,
-  LocationChangeAction,
   StatsListISO3166SelectedAction,
   StatsListISO639SelectedAction,
   StatsListNameTypedAction,
@@ -23,7 +22,6 @@ import { pushToStatsEdit } from '../actions/RedirectAction';
 import { resetStatsOutlines, updateStatsOutlines } from '../actions/StatsAction';
 import { closeNewStatsModal, resetNewStats, updateNewStats } from '../actions/StatsListAction';
 import { StatsCommand } from '../commands/StatsCommand';
-import { Endpoints } from '../Endpoints';
 import { LocaleQuery } from '../queries/LocaleQuery';
 import { StatsQuery } from '../queries/StatsQuery';
 import { State } from '../State';
@@ -46,22 +44,19 @@ export class StatsListSaga {
 
   private static *findStatsList(): SagaIterator<unknown> {
     while (true) {
-      const action: LocationChangeAction = yield take(ACTION.LOCATION_CHANGE);
-      const path: string = action.payload.location.pathname;
+      yield take(ACTION.STATS_LIST_INITIALIZE);
 
-      if (path === Endpoints.STATS_LIST) {
-        try {
-          const statsOutlines: StatsOutlines = yield call((): Promise<StatsOutlines> => {
-            return statsQuery.findByPage(Page.of(1));
-          });
-          yield put(updateStatsOutlines(statsOutlines));
-        }
-        catch (err) {
-          yield all([
-            put(resetStatsOutlines()),
-            put(appearNotification('error', 'center', 'top', 'STATS_OVERVIEW_NOT_FOUND'))
-          ]);
-        }
+      try {
+        const statsOutlines: StatsOutlines = yield call((): Promise<StatsOutlines> => {
+          return statsQuery.findByPage(Page.of(1));
+        });
+        yield put(updateStatsOutlines(statsOutlines));
+      }
+      catch (err) {
+        yield all([
+          put(resetStatsOutlines()),
+          put(appearNotification('error', 'center', 'top', 'STATS_OVERVIEW_NOT_FOUND'))
+        ]);
       }
     }
   }

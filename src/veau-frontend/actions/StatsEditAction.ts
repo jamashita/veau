@@ -6,6 +6,7 @@ import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { NumericalValue } from '../../veau-vo/NumericalValue';
 import { Row } from '../../veau-vo/Row';
+import { StatsID } from '../../veau-vo/StatsID';
 import { StatsItemName } from '../../veau-vo/StatsItemName';
 import { StatsName } from '../../veau-vo/StatsName';
 import { StatsUnit } from '../../veau-vo/StatsUnit';
@@ -14,6 +15,8 @@ import {
   StatsEditClearSelectingItemAction,
   StatsEditDataDeletedAction,
   StatsEditDataFilledAction,
+  StatsEditInitializationFailureAction,
+  StatsEditInitializeAction,
   StatsEditInvalidDateInputAction,
   StatsEditInvalidValueInputAction,
   StatsEditISO3166SelectedAction,
@@ -31,6 +34,19 @@ import {
   StatsEditUnitTypedAction,
   StatsEditUpdateSelectingItemAction
 } from './Action';
+
+export const initStatsEdit: (statsID: StatsID) => StatsEditInitializeAction = (statsID: StatsID): StatsEditInitializeAction => {
+  return {
+    type: ACTION.STATS_EDIT_INITIALIZE,
+    statsID
+  };
+};
+
+export const initFailed: () => StatsEditInitializationFailureAction = (): StatsEditInitializationFailureAction => {
+  return {
+    type: ACTION.STATS_EDIT_INITIALIZATION_FAILURE
+  };
+};
 
 export const statsNameTyped: (name: StatsName) => StatsEditNameTypedAction = (name: StatsName): StatsEditNameTypedAction => {
   return {
