@@ -35,7 +35,7 @@ export class MySQL implements IQuery {
   }
 
   private getConnection(): Promise<Connection> {
-    return new Promise<Connection>((resolve: Resolve<Connection>, reject: Reject<unknown>): void => {
+    return new Promise<Connection>((resolve: Resolve<Connection>, reject: Reject): void => {
       this.pool.getConnection((err1: mysql.MysqlError, connection: mysql.PoolConnection): void => {
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unnecessary-condition
         if (err1) {
@@ -72,7 +72,7 @@ export class MySQL implements IQuery {
   }
 
   public execute<T>(sql: string, value?: object): Promise<T> {
-    return new Promise<T>((resolve: Resolve<T>, reject: Reject<unknown>): void => {
+    return new Promise<T>((resolve: Resolve<T>, reject: Reject): void => {
       this.pool.query(sql, value, (err: mysql.MysqlError | null, result: T): void => {
         if (err !== null) {
           reject(err);

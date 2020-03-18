@@ -11,7 +11,7 @@ export class Connection implements IQuery {
   }
 
   public execute<T>(sql: string, value?: object): Promise<T> {
-    return new Promise<T>((resolve: Resolve<T>, reject: Reject<unknown>): void => {
+    return new Promise<T>((resolve: Resolve<T>, reject: Reject): void => {
       this.connection.query(sql, value, (err: mysql.MysqlError | null, result: T): void => {
         if (err !== null) {
           reject(err);
@@ -24,7 +24,7 @@ export class Connection implements IQuery {
   }
 
   public commit(): Promise<unknown> {
-    return new Promise<unknown>((resolve: Resolve<void>, reject: Reject<unknown>): void => {
+    return new Promise<unknown>((resolve: Resolve<void>, reject: Reject): void => {
       this.connection.commit((err: mysql.MysqlError): void => {
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unnecessary-condition
         if (err) {
@@ -38,7 +38,7 @@ export class Connection implements IQuery {
   }
 
   public rollback(): Promise<unknown> {
-    return new Promise<unknown>((resolve: Resolve<void>, reject: Reject<unknown>): void => {
+    return new Promise<unknown>((resolve: Resolve<void>, reject: Reject): void => {
       this.connection.rollback((err: mysql.MysqlError): void => {
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unnecessary-condition
         if (err) {
