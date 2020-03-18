@@ -11,6 +11,14 @@ type State = {
 
 class StatsListImpl extends React.Component<Props & WrappedComponentProps, State> {
 
+  public componentDidMount(): void {
+    const {
+      initialize
+    } = this.props;
+
+    initialize();
+  }
+
   public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
     const {
       statsOutlines,
@@ -33,14 +41,6 @@ class StatsListImpl extends React.Component<Props & WrappedComponentProps, State
     }
 
     return false;
-  }
-
-  public componentDidMount(): void {
-    const {
-      initialize
-    } = this.props;
-
-    initialize();
   }
 
   public render(): React.ReactNode {
