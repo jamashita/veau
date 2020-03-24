@@ -1,4 +1,4 @@
-FROM node:13.10.0 as build-image
+FROM node:13.10.1 as build-image
 
 USER root
 WORKDIR /root
@@ -13,7 +13,7 @@ COPY yarn.lock yarn.lock
 RUN yarn install --production=false --frozen-lockfile
 RUN yarn build
 
-FROM node:13.10.0
+FROM node:13.10.1
 
 USER root
 WORKDIR /root
