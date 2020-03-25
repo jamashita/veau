@@ -14,7 +14,7 @@ spec:
       labels:
         app: 'veau'
       annotations:
-        appVersion: '1.6.2'
+        appVersion: '1.6.3'
     spec:
       containers:
         - name: 'veau'
@@ -28,6 +28,6 @@ spec:
             limits:
               cpu: '1'
             requests:
-              cpu: '50m'
+              cpu: '40m'
         - name: 'veau-redis'
           image: 'redis:5.0.4-alpine'

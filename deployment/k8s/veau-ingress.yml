@@ -7,9 +7,12 @@ metadata:
     kubernetes.io/ingress.global-static-ip-name: 'veau-ip'
 spec:
   tls:
-    - secretName: 'veau-cert'
+    - hosts:
+        - 'veau.jamashita.dev'
+      secretName: 'veau-cert'
   rules:
-    - http:
+    - host: 'veau.jamashita.dev'
+      http:
         paths:
           - path: '/*'
             backend:
