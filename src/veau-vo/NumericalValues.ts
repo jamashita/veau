@@ -1,6 +1,7 @@
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { Collection } from '../veau-general/Collection';
 import { Enumerator } from '../veau-general/Type/Enumerator';
+import { Mapper } from '../veau-general/Type/Mapper';
 import { NumericalValue } from './NumericalValue';
 
 export class NumericalValues implements Collection<number, NumericalValue> {
@@ -74,6 +75,10 @@ export class NumericalValues implements Collection<number, NumericalValue> {
     }
 
     return false;
+  }
+
+  public map<U>(mapper: Mapper<NumericalValue, U>): Array<U> {
+    return this.values.map<U>(mapper);
   }
 
   public equals(other: NumericalValues): boolean {
