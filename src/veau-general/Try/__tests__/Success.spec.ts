@@ -4,6 +4,15 @@ import { Success } from '../Success';
 import { Try } from '../Try';
 
 describe('Success', () => {
+  describe('get', () => {
+    it('returns the inside value', () => {
+      const v: string = 'the lazy fox';
+      const success: Success<string, Error> = Success.of<string, Error>(v);
+
+      expect(success.get()).toEqual(v);
+    });
+  });
+
   describe('isSuccess', () => {
     it('always returns true', () => {
       const success1: Success<number, Error> = Success.of<number, Error>(1);
@@ -54,7 +63,7 @@ describe('Success', () => {
         return true;
       });
 
-      expect(success).toEqual(trial);
+      expect(success).toBe(trial);
     });
 
     it('returns Failure if the predicate returns false', () => {
@@ -78,7 +87,7 @@ describe('Success', () => {
         return v.toString();
       });
 
-      expect(success1).not.toEqual(success2);
+      expect(success1).not.toBe(success2);
       expect(success2.get()).toEqual(v1.toString());
     });
   });

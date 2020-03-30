@@ -16,13 +16,9 @@ export class Failure<S, F extends Error> implements Try<S, F> {
   }
 
   public get(): S {
-    throw new TryFailureError('CONTAINS EXCEPTION');
+    // eslint-disable-next-line @typescript-eslint/no-throw-literal
+    throw this.value as Error;
   }
-
-  // public throw(): unknown {
-  //   // eslint-disable-next-line @typescript-eslint/no-throw-literal
-  //   throw this.value;
-  // }
 
   public isSuccess(): this is Success<S, F> {
     return false;
