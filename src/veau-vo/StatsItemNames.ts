@@ -1,7 +1,6 @@
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { Collection } from '../veau-general/Collection';
 import { JSONable } from '../veau-general/JSONable';
-import { Enumerator } from '../veau-general/Type/Enumerator';
 import { Mapper } from '../veau-general/Type/Mapper';
 import { StatsItemName } from './StatsItemName';
 
@@ -46,10 +45,6 @@ export class StatsItemNames implements Collection<number, StatsItemName>, JSONab
 
   public size(): number {
     return this.names.length;
-  }
-
-  public forEach(iteration: Enumerator<number, StatsItemName>): void {
-    this.names.forEach(iteration);
   }
 
   public map<U>(mapper: Mapper<StatsItemName, U>): Array<U> {

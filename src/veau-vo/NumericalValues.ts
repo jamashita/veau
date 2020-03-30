@@ -1,7 +1,5 @@
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { Collection } from '../veau-general/Collection';
-import { Enumerator } from '../veau-general/Type/Enumerator';
-import { Mapper } from '../veau-general/Type/Mapper';
 import { NumericalValue } from './NumericalValue';
 
 export class NumericalValues implements Collection<number, NumericalValue> {
@@ -65,20 +63,12 @@ export class NumericalValues implements Collection<number, NumericalValue> {
     return this.values.length;
   }
 
-  public forEach(iteration: Enumerator<number, NumericalValue>): void {
-    this.values.forEach(iteration);
-  }
-
   public isEmpty(): boolean {
     if (this.values.length === 0) {
       return true;
     }
 
     return false;
-  }
-
-  public map<U>(mapper: Mapper<NumericalValue, U>): Array<U> {
-    return this.values.map<U>(mapper);
   }
 
   public equals(other: NumericalValues): boolean {

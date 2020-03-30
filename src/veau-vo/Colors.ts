@@ -1,6 +1,4 @@
 import { Collection } from '../veau-general/Collection';
-import { Enumerator } from '../veau-general/Type/Enumerator';
-import { Mapper } from '../veau-general/Type/Mapper';
 import { Color } from './Color';
 
 export class Colors implements Collection<number, Color> {
@@ -65,20 +63,12 @@ export class Colors implements Collection<number, Color> {
     return this.colors.length;
   }
 
-  public forEach(iteration: Enumerator<number, Color>): void {
-    this.colors.forEach(iteration);
-  }
-
   public isEmpty(): boolean {
     if (this.colors.length === 0) {
       return true;
     }
 
     return false;
-  }
-
-  public map<U>(mapper: Mapper<Color, U>): Array<U> {
-    return this.colors.map<U>(mapper);
   }
 
   public equals(other: Colors): boolean {

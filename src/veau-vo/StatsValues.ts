@@ -3,7 +3,6 @@ import { Cloneable } from '../veau-general/Cloneable';
 import { Collection } from '../veau-general/Collection';
 import { JSONable } from '../veau-general/JSONable';
 import { Enumerator } from '../veau-general/Type/Enumerator';
-import { Mapper } from '../veau-general/Type/Mapper';
 import { AsOf } from './AsOf';
 import { AsOfs } from './AsOfs';
 import { NumericalValue } from './NumericalValue';
@@ -147,10 +146,6 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
     }
 
     return false;
-  }
-
-  public map<U>(mapper: Mapper<StatsValue, U>): Array<U> {
-    return this.values.map<U>(mapper);
   }
 
   public copy(): StatsValues {

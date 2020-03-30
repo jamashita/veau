@@ -4,7 +4,6 @@ import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { Collection } from '../veau-general/Collection';
 import { JSONable } from '../veau-general/JSONable';
 import { Enumerator } from '../veau-general/Type/Enumerator';
-import { Mapper } from '../veau-general/Type/Mapper';
 import { AsOf } from './AsOf';
 
 export type AsOfJSON = Array<string>;
@@ -58,10 +57,6 @@ export class AsOfs implements Collection<number, AsOf>, JSONable {
     }
 
     return true;
-  }
-
-  public map<U>(mapper: Mapper<AsOf, U>): Array<U> {
-    return this.asOfs.map<U>(mapper);
   }
 
   public min(): AsOf {

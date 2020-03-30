@@ -151,8 +151,8 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
     return this.items.length;
   }
 
-  public forEach(enumerator: Enumerator<number, StatsItem>): void {
-    this.items.forEach(enumerator);
+  public forEach(iteration: Enumerator<number, StatsItem>): void {
+    this.items.forEach(iteration);
   }
 
   public map<U>(mapper: Mapper<StatsItem, U>): Array<U> {
