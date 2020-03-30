@@ -37,7 +37,7 @@ export class Success<S, F extends Error> implements Try<S, F> {
       return this;
     }
 
-    return Failure.of<S, TryFailureError>(new TryFailureError());
+    return Failure.of<S, TryFailureError>(new TryFailureError('PREDICATE NOT SATISFIED'));
   }
 
   public map<U>(mapper: Function<S, U>): Try<U, F> {

@@ -16,7 +16,7 @@ export class Failure<S, F extends Error> implements Try<S, F> {
   }
 
   public get(): S {
-    throw new TryFailureError();
+    throw new TryFailureError('CONTAINS EXCEPTION');
   }
 
   // public throw(): unknown {
