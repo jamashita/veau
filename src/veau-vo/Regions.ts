@@ -67,8 +67,8 @@ export class Regions implements Collection<number, Region>, JSONable {
     return this.regions.length;
   }
 
-  public forEach(enumerator: Enumerator<number, Region>): void {
-    this.regions.forEach(enumerator);
+  public forEach(iteration: Enumerator<number, Region>): void {
+    this.regions.forEach(iteration);
   }
 
   public map<U>(mapper: Mapper<Region, U>): Array<U> {

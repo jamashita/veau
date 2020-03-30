@@ -65,8 +65,8 @@ export class NumericalValues implements Collection<number, NumericalValue> {
     return this.values.length;
   }
 
-  public forEach(enumerator: Enumerator<number, NumericalValue>): void {
-    this.values.forEach(enumerator);
+  public forEach(iteration: Enumerator<number, NumericalValue>): void {
+    this.values.forEach(iteration);
   }
 
   public isEmpty(): boolean {

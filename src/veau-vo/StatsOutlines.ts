@@ -63,8 +63,8 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
     return this.outlines.length;
   }
 
-  public forEach(enumerator: Enumerator<number, StatsOutline>): void {
-    this.outlines.forEach(enumerator);
+  public forEach(iteration: Enumerator<number, StatsOutline>): void {
+    this.outlines.forEach(iteration);
   }
 
   public map<U>(mapper: Mapper<StatsOutline, U>): Array<U> {

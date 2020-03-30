@@ -67,8 +67,8 @@ export class Languages implements Collection<number, Language>, JSONable {
     return this.languages.length;
   }
 
-  public forEach(enumerator: Enumerator<number, Language>): void {
-    this.languages.forEach(enumerator);
+  public forEach(iteration: Enumerator<number, Language>): void {
+    this.languages.forEach(iteration);
   }
 
   public map<U>(mapper: Mapper<Language, U>): Array<U> {

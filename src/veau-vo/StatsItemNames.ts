@@ -48,8 +48,8 @@ export class StatsItemNames implements Collection<number, StatsItemName>, JSONab
     return this.names.length;
   }
 
-  public forEach(enumerator: Enumerator<number, StatsItemName>): void {
-    this.names.forEach(enumerator);
+  public forEach(iteration: Enumerator<number, StatsItemName>): void {
+    this.names.forEach(iteration);
   }
 
   public map<U>(mapper: Mapper<StatsItemName, U>): Array<U> {

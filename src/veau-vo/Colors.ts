@@ -65,8 +65,8 @@ export class Colors implements Collection<number, Color> {
     return this.colors.length;
   }
 
-  public forEach(enumerator: Enumerator<number, Color>): void {
-    this.colors.forEach(enumerator);
+  public forEach(iteration: Enumerator<number, Color>): void {
+    this.colors.forEach(iteration);
   }
 
   public isEmpty(): boolean {

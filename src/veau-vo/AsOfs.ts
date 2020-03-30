@@ -92,8 +92,8 @@ export class AsOfs implements Collection<number, AsOf>, JSONable {
     return this.asOfs.length;
   }
 
-  public forEach(enumerator: Enumerator<number, AsOf>): void {
-    this.asOfs.forEach(enumerator);
+  public forEach(iteration: Enumerator<number, AsOf>): void {
+    this.asOfs.forEach(iteration);
   }
 
   public isEmpty(): boolean {

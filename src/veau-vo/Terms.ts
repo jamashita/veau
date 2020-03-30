@@ -51,8 +51,8 @@ export class Terms implements Collection<number, Term> {
     return this.terms.length;
   }
 
-  public forEach(enumerator: Enumerator<number, Term>): void {
-    this.terms.forEach(enumerator);
+  public forEach(iteration: Enumerator<number, Term>): void {
+    this.terms.forEach(iteration);
   }
 
   public map<U>(mapper: Mapper<Term, U>): Array<U> {
