@@ -23,8 +23,12 @@ export class None<T extends Nominative> implements Optional<T> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public ifPresent(consumer: Consumer<T>): void {
+  public ifPresent(action: Consumer<T>): void {
     // NOOP
+  }
+
+  public ifPresentOrElse(action: Consumer<T>, emptyAction: Consumer<void>): void {
+    emptyAction();
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

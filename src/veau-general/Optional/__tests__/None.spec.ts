@@ -37,6 +37,23 @@ describe('None', () => {
     });
   });
 
+  describe('ifPresentOrElse', () => {
+    it('emptyAction section will be invoked', () => {
+      const none: None<MockNominative> = None.of<MockNominative>();
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      none.ifPresentOrElse(() => {
+        spy1();
+      }, () => {
+        spy2();
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+  });
+
   describe('map', () => {
     it('following function will not be invoked', () => {
       const none: None<MockNominative> = None.of<MockNominative>();

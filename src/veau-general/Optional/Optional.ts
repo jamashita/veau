@@ -11,6 +11,8 @@ export interface Optional<T extends Nominative> extends Nominative {
 
   ifPresent(consumer: Consumer<T>): void;
 
+  ifPresentOrElse(action: Consumer<T>, emptyAction: Consumer<void>): void;
+
   map<U extends Nominative>(func: Function<T, U>): Optional<U>;
 
   filter(predicate: Predicate<T>): Optional<T>;

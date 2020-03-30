@@ -25,8 +25,13 @@ export class Some<T extends Nominative> implements Optional<T> {
     return true;
   }
 
-  public ifPresent(consumer: Consumer<T>): void {
-    consumer(this.value);
+  public ifPresent(action: Consumer<T>): void {
+    action(this.value);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public ifPresentOrElse(action: Consumer<T>, emptyAction: Consumer<void>): void {
+    action(this.value);
   }
 
   public map<U extends Nominative>(func: Function<T, U>): Optional<U> {
