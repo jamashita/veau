@@ -26,13 +26,13 @@ export class None<T extends Nominative> implements Optional<T> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public map<U extends Nominative>(func: Function<T, U>): Optional<U> {
-    return None.of<U>();
+  public filter(predicate: Predicate<T>): Optional<T> {
+    return this;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public filter(predicate: Predicate<T>): Optional<T> {
-    return this;
+  public map<U extends Nominative>(func: Function<T, U>): Optional<U> {
+    return None.of<U>();
   }
 
   public equals(other: Optional<T>): boolean {

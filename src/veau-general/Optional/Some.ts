@@ -29,18 +29,18 @@ export class Some<T extends Nominative> implements Optional<T> {
     return present(this.value);
   }
 
-  public map<U extends Nominative>(func: Function<T, U>): Optional<U> {
-    const result: U = func(this.value);
-
-    return maybe<U>(result);
-  }
-
   public filter(predicate: Predicate<T>): Optional<T> {
     if (predicate(this.value)) {
       return this;
     }
 
     return None.of<T>();
+  }
+
+  public map<U extends Nominative>(mapper: Function<T, U>): Optional<U> {
+    const result: U = mapper(this.value);
+
+    return maybe<U>(result);
   }
 
   public equals(other: Optional<T>): boolean {
