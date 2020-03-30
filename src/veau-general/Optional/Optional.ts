@@ -1,5 +1,4 @@
 import { Nominative } from '../Nominative';
-import { Consumer } from '../Type/Consumer';
 import { Function } from '../Type/Function';
 import { Predicate } from '../Type/Predicate';
 
@@ -9,9 +8,7 @@ export interface Optional<T extends Nominative> extends Nominative {
 
   isPresent(): boolean;
 
-  ifPresent(consumer: Consumer<T>): void;
-
-  ifPresentOrElse(action: Consumer<T>, emptyAction: Consumer<void>): void;
+  ifPresentOrElse<U>(present: Function<T, U>, empty: Function<void, U>): U;
 
   map<U extends Nominative>(func: Function<T, U>): Optional<U>;
 

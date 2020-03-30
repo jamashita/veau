@@ -1,5 +1,4 @@
 import { Nominative } from '../Nominative';
-import { Consumer } from '../Type/Consumer';
 import { Function } from '../Type/Function';
 import { Predicate } from '../Type/Predicate';
 import { maybe } from './Maybe';
@@ -25,13 +24,9 @@ export class Some<T extends Nominative> implements Optional<T> {
     return true;
   }
 
-  public ifPresent(action: Consumer<T>): void {
-    action(this.value);
-  }
-
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public ifPresentOrElse(action: Consumer<T>, emptyAction: Consumer<void>): void {
-    action(this.value);
+  public ifPresentOrElse<U>(present: Function<T, U>, empty: Function<void, unknown>): U {
+    return present(this.value);
   }
 
   public map<U extends Nominative>(func: Function<T, U>): Optional<U> {

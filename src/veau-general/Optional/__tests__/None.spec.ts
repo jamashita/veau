@@ -24,31 +24,23 @@ describe('None', () => {
     });
   });
 
-  describe('ifPresent', () => {
-    it('following function will not be invoked', () => {
-      const none: None<MockNominative> = None.of<MockNominative>();
-      const spy: SinonSpy = sinon.spy();
-
-      none.ifPresent(() => {
-        spy();
-      });
-
-      expect(spy.called).toEqual(false);
-    });
-  });
-
   describe('ifPresentOrElse', () => {
-    it('emptyAction section will be invoked', () => {
+    it('empty section will be invoked', () => {
       const none: None<MockNominative> = None.of<MockNominative>();
+      const v1: string = 'muchas frases';
+      const v2: string = 'muchas palabras';
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      none.ifPresentOrElse(() => {
+      const ret: string = none.ifPresentOrElse<string>(() => {
         spy1();
+        return v1;
       }, () => {
         spy2();
+        return v2;
       });
 
+      expect(ret).toEqual(v2);
       expect(spy1.called).toEqual(false);
       expect(spy2.called).toEqual(true);
     });

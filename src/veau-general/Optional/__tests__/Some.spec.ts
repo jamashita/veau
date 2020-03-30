@@ -46,31 +46,23 @@ describe('Some', () => {
     });
   });
 
-  describe('ifPresent', () => {
-    it('following function is called', () => {
-      const some: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(1));
-      const spy: SinonSpy = sinon.spy();
-
-      some.ifPresent((value: MockNominative) => {
-        spy();
-      });
-
-      expect(spy.called).toEqual(true);
-    });
-  });
-
   describe('ifPresentOrElse', () => {
-    it('action section will be invoked', () => {
+    it('present section will be invoked', () => {
       const some: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(1));
+      const v1: string = 'muchas frases';
+      const v2: string = 'muchas palabras';
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      some.ifPresentOrElse((value: MockNominative) => {
+      const ret: string = some.ifPresentOrElse<string>((value: MockNominative) => {
         spy1(value);
+        return v1;
       }, () => {
         spy2();
+        return v2;
       });
 
+      expect(ret).toEqual(v1);
       expect(spy1.calledWith(some.get())).toEqual(true);
       expect(spy2.called).toEqual(false);
     });
