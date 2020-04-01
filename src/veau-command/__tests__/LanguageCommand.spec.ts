@@ -55,7 +55,7 @@ describe('LanguageCommand', () => {
       const languageCommand: LanguageCommand = container.get<LanguageCommand>(TYPE.LanguageCommand);
       const trial: Try<void, CacheError> = await languageCommand.deleteAll();
 
-      expect(trial.isSuccess()).toEqual(trial);
+      expect(trial.isSuccess()).toEqual(true);
       expect(stub.withArgs('LANGUAGES').called).toEqual(true);
     });
 
@@ -67,7 +67,7 @@ describe('LanguageCommand', () => {
       const languageCommand: LanguageCommand = container.get<LanguageCommand>(TYPE.LanguageCommand);
       const trial: Try<void, CacheError> = await languageCommand.deleteAll();
 
-      expect(trial.isFailure()).toEqual(trial);
+      expect(trial.isFailure()).toEqual(true);
       trial.complete<void>(() => {
         fail();
       }, (e: CacheError) => {

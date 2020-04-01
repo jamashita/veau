@@ -3,6 +3,9 @@ import { TYPE } from '../veau-container/Types';
 import { CacheError } from '../veau-error/CacheError';
 import { JSONA } from '../veau-general/JSONA';
 import { Redis } from '../veau-general/Redis/Redis';
+import { Failure } from '../veau-general/Try/Failure';
+import { Success } from '../veau-general/Try/Success';
+import { Try } from '../veau-general/Try/Try';
 import { Regions } from '../veau-vo/Regions';
 
 const REDIS_KEY: string = 'REGIONS';
@@ -23,13 +26,13 @@ export class RegionCommand {
     return this.redis.expires(REDIS_KEY, DURATION);
   }
 
-  public async deleteAll(): Promise<void> {
+  public async deleteAll(): Promise<Try<void, CacheError>> {
     const ok: boolean = await this.redis.delete(REDIS_KEY);
 
     if (ok) {
-      return;
+      return Success.of<void, CacheError>(undefined);
     }
 
-    throw new CacheError('FAIL TO DELETE CACHE');
+    return Failure.of<void, CacheError>(new CacheError('FAIL TO DELETE CACHE'));
   }
 }

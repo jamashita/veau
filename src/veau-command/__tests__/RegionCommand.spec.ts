@@ -6,6 +6,7 @@ import { TYPE } from '../../veau-container/Types';
 import { CacheError } from '../../veau-error/CacheError';
 import { Redis } from '../../veau-general/Redis/Redis';
 import { RedisString } from '../../veau-general/Redis/RedisString';
+import { Try } from '../../veau-general/Try/Try';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { Region } from '../../veau-vo/Region';
 import { RegionID } from '../../veau-vo/RegionID';
@@ -19,7 +20,7 @@ describe('RegionCommand', () => {
       const regionCommand1: RegionCommand = container.get<RegionCommand>(TYPE.RegionCommand);
       const regionCommand2: RegionCommand = container.get<RegionCommand>(TYPE.RegionCommand);
 
-      expect(regionCommand1 instanceof RegionCommand).toEqual(true);
+      expect(regionCommand1).toBeInstanceOf(RegionCommand);
       expect(regionCommand1).toBe(regionCommand2);
     });
   });
@@ -52,13 +53,9 @@ describe('RegionCommand', () => {
       stub.resolves(true);
 
       const regionCommand: RegionCommand = container.get<RegionCommand>(TYPE.RegionCommand);
+      const trial: Try<void, CacheError> = await regionCommand.deleteAll();
 
-      try {
-        await regionCommand.deleteAll();
-      }
-      catch (err) {
-        fail(err);
-      }
+      expect(trial.isSuccess()).toEqual(true);
       expect(stub.withArgs('REGIONS').called).toEqual(true);
     });
 
@@ -68,8 +65,14 @@ describe('RegionCommand', () => {
       stub.resolves(false);
 
       const regionCommand: RegionCommand = container.get<RegionCommand>(TYPE.RegionCommand);
+      const trial: Try<void, CacheError> = await regionCommand.deleteAll();
 
-      await expect(regionCommand.deleteAll()).rejects.toThrow(CacheError);
+      expect(trial.isFailure()).toEqual(true);
+      trial.complete<void>(() => {
+        fail();
+      }, (e: CacheError) => {
+        expect(e).toBeInstanceOf(CacheError);
+      });
     });
   });
 });
