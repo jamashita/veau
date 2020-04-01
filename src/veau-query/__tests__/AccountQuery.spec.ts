@@ -16,7 +16,7 @@ describe('AccountQuery', () => {
       const accountQuery1: AccountQuery = container.get<AccountQuery>(TYPE.AccountQuery);
       const accountQuery2: AccountQuery = container.get<AccountQuery>(TYPE.AccountQuery);
 
-      expect(accountQuery1 instanceof AccountQuery).toEqual(true);
+      expect(accountQuery1).toBeInstanceOf(AccountQuery);
       expect(accountQuery1).toBe(accountQuery2);
     });
   });

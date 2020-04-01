@@ -7,6 +7,7 @@ import { TYPE } from '../../veau-container/Types';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { MySQL } from '../../veau-general/MySQL/MySQL';
 import { RedisString } from '../../veau-general/Redis/RedisString';
+import { Try } from '../../veau-general/Try/Try';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { Region } from '../../veau-vo/Region';
 import { Regions } from '../../veau-vo/Regions';
@@ -18,7 +19,7 @@ describe('RegionQuery', () => {
       const regionQuery1: RegionQuery = container.get<RegionQuery>(TYPE.RegionQuery);
       const regionQuery2: RegionQuery = container.get<RegionQuery>(TYPE.RegionQuery);
 
-      expect(regionQuery1 instanceof RegionQuery).toEqual(true);
+      expect(regionQuery1).toBeInstanceOf(RegionQuery);
       expect(regionQuery1).toBe(regionQuery2);
     });
   });
@@ -83,10 +84,15 @@ describe('RegionQuery', () => {
       stub.resolves('[{"regionID":1,"name":"Afghanistan","iso3166":"AFG"},{"regionID":2,"name":"Albania","iso3166":"ALB"}]');
 
       const regionQuery: RegionQuery = container.get<RegionQuery>(TYPE.RegionQuery);
-      const region: Region = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      const trial: Try<Region, NoSuchElementError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
-      expect(region.getRegionID().get()).toEqual(2);
-      expect(region.getName().get()).toEqual('Albania');
+      expect(trial.isSuccess()).toEqual(true);
+      trial.complete<void>((region: Region) => {
+        expect(region.getRegionID().get()).toEqual(2);
+        expect(region.getName().get()).toEqual('Albania');
+      }, (e: NoSuchElementError) => {
+        fail(e);
+      });
     });
 
     it('MySQL returns a region', async () => {
@@ -112,10 +118,15 @@ describe('RegionQuery', () => {
       stub3.resolves();
 
       const regionQuery: RegionQuery = container.get<RegionQuery>(TYPE.RegionQuery);
-      const region: Region = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      const trial: Try<Region, NoSuchElementError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
-      expect(region.getRegionID().get()).toEqual(2);
-      expect(region.getName().get()).toEqual('Albania');
+      expect(trial.isSuccess()).toEqual(true);
+      trial.complete<void>((region: Region) => {
+        expect(region.getRegionID().get()).toEqual(2);
+        expect(region.getName().get()).toEqual('Albania');
+      }, (e: NoSuchElementError) => {
+        fail(e);
+      });
     });
 
     it('Redis throws error', async () => {
@@ -124,8 +135,14 @@ describe('RegionQuery', () => {
       stub.resolves('[]');
 
       const regionQuery: RegionQuery = container.get<RegionQuery>(TYPE.RegionQuery);
+      const trial: Try<Region, NoSuchElementError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
-      await expect(regionQuery.findByISO3166(ISO3166.of('ALB'))).rejects.toThrow(NoSuchElementError);
+      expect(trial.isFailure()).toEqual(true);
+      trial.complete<void>(() => {
+        fail();
+      }, (e: NoSuchElementError) => {
+        expect(e).toBeInstanceOf(NoSuchElementError);
+      });
     });
 
     it('MySQL throws error', async () => {
@@ -151,8 +168,14 @@ describe('RegionQuery', () => {
       stub3.resolves();
 
       const regionQuery: RegionQuery = container.get<RegionQuery>(TYPE.RegionQuery);
+      const trial: Try<Region, NoSuchElementError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
-      await expect(regionQuery.findByISO3166(ISO3166.of('ABA'))).rejects.toThrow(NoSuchElementError);
+      expect(trial.isFailure()).toEqual(true);
+      trial.complete<void>(() => {
+        fail();
+      }, (e: NoSuchElementError) => {
+        expect(e).toBeInstanceOf(NoSuchElementError);
+      });
     });
   });
 });

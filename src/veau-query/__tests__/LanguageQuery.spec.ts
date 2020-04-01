@@ -7,6 +7,7 @@ import { TYPE } from '../../veau-container/Types';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { MySQL } from '../../veau-general/MySQL/MySQL';
 import { RedisString } from '../../veau-general/Redis/RedisString';
+import { Try } from '../../veau-general/Try/Try';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language } from '../../veau-vo/Language';
 import { Languages } from '../../veau-vo/Languages';
@@ -18,7 +19,7 @@ describe('LanguageQuery', () => {
       const languageQuery1: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageQuery);
       const languageQuery2: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageQuery);
 
-      expect(languageQuery1 instanceof LanguageQuery).toEqual(true);
+      expect(languageQuery1).toBeInstanceOf(LanguageQuery);
       expect(languageQuery1).toBe(languageQuery2);
     });
   });
@@ -89,11 +90,16 @@ describe('LanguageQuery', () => {
       stub.resolves('[{"languageID":1,"name":"аҧсуа бызшәа","englishName":"Abkhazian","iso639":"ab"},{"languageID":2,"name":"Afaraf","englishName":"Afar","iso639":"aa"}]');
 
       const languageQuery: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageQuery);
-      const language: Language = await languageQuery.findByISO639(ISO639.of('aa'));
+      const trial: Try<Language, NoSuchElementError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
-      expect(language.getLanguageID().get()).toEqual(2);
-      expect(language.getName().get()).toEqual('Afaraf');
-      expect(language.getEnglishName().get()).toEqual('Afar');
+      expect(trial.isSuccess()).toEqual(true);
+      trial.complete<void>((language: Language) => {
+        expect(language.getLanguageID().get()).toEqual(2);
+        expect(language.getName().get()).toEqual('Afaraf');
+        expect(language.getEnglishName().get()).toEqual('Afar');
+      }, (e: NoSuchElementError) => {
+        fail(e);
+      });
     });
 
     it('MySQL returns a language', async () => {
@@ -121,11 +127,16 @@ describe('LanguageQuery', () => {
       stub3.resolves();
 
       const languageQuery: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageQuery);
-      const language: Language = await languageQuery.findByISO639(ISO639.of('aa'));
+      const trial: Try<Language, NoSuchElementError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
-      expect(language.getLanguageID().get()).toEqual(2);
-      expect(language.getName().get()).toEqual('Afaraf');
-      expect(language.getEnglishName().get()).toEqual('Afar');
+      expect(trial.isSuccess()).toEqual(true);
+      trial.complete<void>((language: Language) => {
+        expect(language.getLanguageID().get()).toEqual(2);
+        expect(language.getName().get()).toEqual('Afaraf');
+        expect(language.getEnglishName().get()).toEqual('Afar');
+      }, (e: NoSuchElementError) => {
+        fail(e);
+      });
     });
 
     it('Redis throws error', async () => {
@@ -134,8 +145,14 @@ describe('LanguageQuery', () => {
       stub.resolves('[]');
 
       const languageQuery: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageQuery);
+      const trial: Try<Language, NoSuchElementError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
-      await expect(languageQuery.findByISO639(ISO639.of('ac'))).rejects.toThrow(NoSuchElementError);
+      expect(trial.isFailure()).toEqual(true);
+      trial.complete<void>(() => {
+        fail();
+      }, (e: NoSuchElementError) => {
+        expect(e).toBeInstanceOf(NoSuchElementError);
+      });
     });
 
     it('MySQL throws error', async () => {
@@ -163,8 +180,14 @@ describe('LanguageQuery', () => {
       stub3.resolves();
 
       const languageQuery: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageQuery);
+      const trial: Try<Language, NoSuchElementError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
-      await expect(languageQuery.findByISO639(ISO639.of('ac'))).rejects.toThrow(NoSuchElementError);
+      expect(trial.isFailure()).toEqual(true);
+      trial.complete<void>(() => {
+        fail();
+      }, (e: NoSuchElementError) => {
+        expect(e).toBeInstanceOf(NoSuchElementError);
+      });
     });
   });
 });

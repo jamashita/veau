@@ -5,6 +5,9 @@ import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { JSONA } from '../veau-general/JSONA';
 import { MySQL } from '../veau-general/MySQL/MySQL';
 import { Redis } from '../veau-general/Redis/Redis';
+import { Failure } from '../veau-general/Try/Failure';
+import { Success } from '../veau-general/Try/Success';
+import { Try } from '../veau-general/Try/Try';
 import { ISO639 } from '../veau-vo/ISO639';
 import { Language, LanguageJSON, LanguageRow } from '../veau-vo/Language';
 import { Languages } from '../veau-vo/Languages';
@@ -51,20 +54,16 @@ export class LanguageQuery {
     return languages;
   }
 
-  public async findByISO639(iso639: ISO639): Promise<Language> {
+  public async findByISO639(iso639: ISO639): Promise<Try<Language, NoSuchElementError>> {
     const languages: Languages = await this.all();
     const found: Language | undefined = languages.find((language: Language): boolean => {
-      if (language.getISO639().equals(iso639)) {
-        return true;
-      }
-
-      return false;
+      return language.getISO639().equals(iso639);
     });
 
     if (found === undefined) {
-      throw new NoSuchElementError(iso639.toString());
+      return Failure.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.toString()));
     }
 
-    return found;
+    return Success.of<Language, NoSuchElementError>(found);
   }
 }
