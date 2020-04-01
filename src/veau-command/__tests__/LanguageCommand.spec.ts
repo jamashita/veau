@@ -6,6 +6,7 @@ import { TYPE } from '../../veau-container/Types';
 import { CacheError } from '../../veau-error/CacheError';
 import { Redis } from '../../veau-general/Redis/Redis';
 import { RedisString } from '../../veau-general/Redis/RedisString';
+import { Try } from '../../veau-general/Try/Try';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language } from '../../veau-vo/Language';
 import { LanguageID } from '../../veau-vo/LanguageID';
@@ -19,7 +20,7 @@ describe('LanguageCommand', () => {
       const languageCommand1: LanguageCommand = container.get<LanguageCommand>(TYPE.LanguageCommand);
       const languageCommand2: LanguageCommand = container.get<LanguageCommand>(TYPE.LanguageCommand);
 
-      expect(languageCommand1 instanceof LanguageCommand).toEqual(true);
+      expect(languageCommand1).toBeInstanceOf(LanguageCommand);
       expect(languageCommand1).toBe(languageCommand2);
     });
   });
@@ -52,13 +53,9 @@ describe('LanguageCommand', () => {
       stub.resolves(true);
 
       const languageCommand: LanguageCommand = container.get<LanguageCommand>(TYPE.LanguageCommand);
+      const trial: Try<void, CacheError> = await languageCommand.deleteAll();
 
-      try {
-        await languageCommand.deleteAll();
-      }
-      catch (err) {
-        fail(err);
-      }
+      expect(trial.isSuccess()).toEqual(trial);
       expect(stub.withArgs('LANGUAGES').called).toEqual(true);
     });
 
@@ -68,8 +65,14 @@ describe('LanguageCommand', () => {
       stub.resolves(false);
 
       const languageCommand: LanguageCommand = container.get<LanguageCommand>(TYPE.LanguageCommand);
+      const trial: Try<void, CacheError> = await languageCommand.deleteAll();
 
-      await expect(languageCommand.deleteAll()).rejects.toThrow(CacheError);
+      expect(trial.isFailure()).toEqual(trial);
+      trial.complete<void>(() => {
+        fail();
+      }, (e: CacheError) => {
+        expect(e).toBeInstanceOf(CacheError);
+      });
     });
   });
 });
