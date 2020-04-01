@@ -5,6 +5,7 @@ import { container } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { MySQL } from '../../veau-general/MySQL/MySQL';
+import { Try } from '../../veau-general/Try/Try';
 import { Account } from '../../veau-vo/Account';
 import { AccountName } from '../../veau-vo/AccountName';
 import { AccountQuery } from '../AccountQuery';
@@ -41,7 +42,9 @@ describe('AccountQuery', () => {
 
       const accountQuery: AccountQuery = container.get<AccountQuery>(TYPE.AccountQuery);
       const name: AccountName = AccountName.of('account');
-      const account: Account = await accountQuery.findByAccount(name);
+      const trial: Try<Account, NoSuchElementError> = await accountQuery.findByAccount(name);
+
+      expect(trial.isSuccess()).toEqual(true);
 
       expect(stub.withArgs(`SELECT
       R1.veau_account_id AS veauAccountID,
@@ -65,16 +68,20 @@ describe('AccountQuery', () => {
       AND R1.active = true;`, {
         account: name.get()
       }).called).toEqual(true);
-      expect(account.getVeauAccountID().get()).toEqual('998106de-b2e7-4981-9643-22cd30cd74de');
-      expect(account.getAccount().get()).toEqual('account');
-      expect(account.getLanguage().getLanguageID().get()).toEqual(1);
-      expect(account.getLanguage().getName().get()).toEqual('аҧсуа бызшәа');
-      expect(account.getLanguage().getEnglishName().get()).toEqual('Abkhazian');
-      expect(account.getLanguage().getISO639().get()).toEqual('ab');
-      expect(account.getRegion().getRegionID().get()).toEqual(1);
-      expect(account.getRegion().getName().get()).toEqual('Afghanistan');
-      expect(account.getRegion().getISO3166().get()).toEqual('AFG');
-      expect(account.getHash().get()).toEqual('hash');
+      trial.complete((account: Account) => {
+        expect(account.getVeauAccountID().get()).toEqual('998106de-b2e7-4981-9643-22cd30cd74de');
+        expect(account.getAccount().get()).toEqual('account');
+        expect(account.getLanguage().getLanguageID().get()).toEqual(1);
+        expect(account.getLanguage().getName().get()).toEqual('аҧсуа бызшәа');
+        expect(account.getLanguage().getEnglishName().get()).toEqual('Abkhazian');
+        expect(account.getLanguage().getISO639().get()).toEqual('ab');
+        expect(account.getRegion().getRegionID().get()).toEqual(1);
+        expect(account.getRegion().getName().get()).toEqual('Afghanistan');
+        expect(account.getRegion().getISO3166().get()).toEqual('AFG');
+        expect(account.getHash().get()).toEqual('hash');
+      }, (e: NoSuchElementError) => {
+        fail(e);
+      });
     });
 
     it('will throw NoSuchElementError because MySQL.query returns 0 results', async () => {
@@ -84,7 +91,15 @@ describe('AccountQuery', () => {
       ]);
 
       const accountQuery: AccountQuery = container.get<AccountQuery>(TYPE.AccountQuery);
-      await expect(accountQuery.findByAccount(AccountName.of('account'))).rejects.toThrow(NoSuchElementError);
+      const trial: Try<Account, NoSuchElementError> = await accountQuery.findByAccount(name);
+
+      expect(trial.isFailure()).toEqual(trial);
+
+      trial.complete<void>(() => {
+        fail();
+      }, (e: NoSuchElementError) => {
+        expect(e instanceof NoSuchElementError).toEqual(true);
+      });
     });
   });
 });
