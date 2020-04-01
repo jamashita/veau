@@ -7,14 +7,14 @@ import { Some } from '../Some';
 describe('Maybe', () => {
   describe('maybe', () => {
     it('when null and undefined given, generates None instance', () => {
-      expect(maybe(MockNominative.of(1)) instanceof Some).toEqual(true);
-      expect(maybe(MockNominative.of(0)) instanceof Some).toEqual(true);
-      expect(maybe(MockNominative.of('a')) instanceof Some).toEqual(true);
-      expect(maybe(MockNominative.of('')) instanceof Some).toEqual(true);
-      expect(maybe(MockNominative.of(true)) instanceof Some).toEqual(true);
-      expect(maybe(MockNominative.of(false)) instanceof Some).toEqual(true);
-      expect(maybe(null) instanceof None).toEqual(true);
-      expect(maybe(undefined) instanceof None).toEqual(true);
+      expect(maybe(MockNominative.of(1))).toBeInstanceOf(Some);
+      expect(maybe(MockNominative.of(0))).toBeInstanceOf(Some);
+      expect(maybe(MockNominative.of('a'))).toBeInstanceOf(Some);
+      expect(maybe(MockNominative.of(''))).toBeInstanceOf(Some);
+      expect(maybe(MockNominative.of(true))).toBeInstanceOf(Some);
+      expect(maybe(MockNominative.of(false))).toBeInstanceOf(Some);
+      expect(maybe(null)).toBeInstanceOf(None);
+      expect(maybe(undefined)).toBeInstanceOf(None);
     });
   });
 });

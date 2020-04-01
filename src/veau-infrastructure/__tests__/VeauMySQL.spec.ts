@@ -10,7 +10,7 @@ describe('VeauMySQL', () => {
       const mysql1: MySQL = container.get<MySQL>(TYPE.MySQL);
       const mysql2: MySQL = container.get<MySQL>(TYPE.MySQL);
 
-      expect(mysql1 instanceof MySQL).toEqual(true);
+      expect(mysql1).toBeInstanceOf(MySQL);
       expect(mysql1).toBe(mysql2);
     });
   });

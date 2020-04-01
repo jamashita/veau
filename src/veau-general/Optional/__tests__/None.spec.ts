@@ -57,7 +57,7 @@ describe('None', () => {
       });
 
       expect(spy.called).toEqual(false);
-      expect(optional instanceof None).toEqual(true);
+      expect(optional).toBeInstanceOf(None);
     });
   });
 
@@ -72,7 +72,7 @@ describe('None', () => {
       });
 
       expect(spy.called).toEqual(false);
-      expect(optional instanceof None).toEqual(true);
+      expect(optional).toBeInstanceOf(None);
     });
   });
 

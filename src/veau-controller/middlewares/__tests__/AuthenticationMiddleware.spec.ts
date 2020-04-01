@@ -13,7 +13,7 @@ describe('AuthenticationMiddleware', () => {
       const authenticationMiddleware1: AuthenticationMiddleware = container.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
       const authenticationMiddleware2: AuthenticationMiddleware = container.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
 
-      expect(authenticationMiddleware1 instanceof AuthenticationMiddleware).toEqual(true);
+      expect(authenticationMiddleware1).toBeInstanceOf(AuthenticationMiddleware);
       expect(authenticationMiddleware1).toBe(authenticationMiddleware2);
     });
   });

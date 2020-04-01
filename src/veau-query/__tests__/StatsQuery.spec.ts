@@ -152,7 +152,7 @@ describe('StatsQuery', () => {
       trial.complete<void>(() => {
         fail();
       }, (e: NoSuchElementError) => {
-        expect(e instanceof NoSuchElementError).toEqual(true);
+        expect(e).toBeInstanceOf(NoSuchElementError);
       });
     });
   });

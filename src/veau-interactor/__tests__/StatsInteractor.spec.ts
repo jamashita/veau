@@ -42,7 +42,7 @@ describe('StatsInteractor', () => {
       const statsInteractor1: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
       const statsInteractor2: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
 
-      expect(statsInteractor1 instanceof StatsInteractor).toEqual(true);
+      expect(statsInteractor1).toBeInstanceOf(StatsInteractor);
       expect(statsInteractor1).toBe(statsInteractor2)
     });
   });

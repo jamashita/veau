@@ -104,8 +104,8 @@ describe('Some', () => {
         return false;
       });
 
-      expect(optional1 instanceof None).toEqual(true);
-      expect(optional2 instanceof Some).toEqual(true);
+      expect(optional1).toBeInstanceOf(None);
+      expect(optional2).toBeInstanceOf(None);
       expect(optional1.isPresent()).toEqual(false);
       expect(optional2.isPresent()).toEqual(true);
       expect(optional2.get().get()).toEqual(2);
