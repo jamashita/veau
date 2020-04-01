@@ -16,7 +16,7 @@ describe('StatsOutlineQuery', () => {
       const statsOutlineQuery1: StatsOutlineQuery = container.get<StatsOutlineQuery>(TYPE.StatsOutlineQuery);
       const statsOutlineQuery2: StatsOutlineQuery = container.get<StatsOutlineQuery>(TYPE.StatsOutlineQuery);
 
-      expect(statsOutlineQuery1 instanceof StatsOutlineQuery).toEqual(true);
+      expect(statsOutlineQuery1).toBeInstanceOf(StatsOutlineQuery);
       expect(statsOutlineQuery1).toBe(statsOutlineQuery2);
     });
   });

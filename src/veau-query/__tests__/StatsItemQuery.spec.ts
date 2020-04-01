@@ -14,7 +14,7 @@ describe('StatsItemQuery', () => {
       const statsItemQuery1: StatsItemQuery = container.get<StatsItemQuery>(TYPE.StatsItemQuery);
       const statsItemQuery2: StatsItemQuery = container.get<StatsItemQuery>(TYPE.StatsItemQuery);
 
-      expect(statsItemQuery1 instanceof StatsItemQuery).toEqual(true);
+      expect(statsItemQuery1).toBeInstanceOf(StatsItemQuery);
       expect(statsItemQuery1).toBe(statsItemQuery2);
     });
   });
