@@ -1,10 +1,14 @@
 import 'jest';
 import 'reflect-metadata';
-import sinon, { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 import { LanguageCommand } from '../../veau-command/LanguageCommand';
 import { RegionCommand } from '../../veau-command/RegionCommand';
 import { container } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
+import { CacheError } from '../../veau-error/CacheError';
+import { Failure } from '../../veau-general/Try/Failure';
+import { Success } from '../../veau-general/Try/Success';
+import { Try } from '../../veau-general/Try/Try';
 import { LanguageQuery } from '../../veau-query/LanguageQuery';
 import { RegionQuery } from '../../veau-query/RegionQuery';
 import { ISO3166 } from '../../veau-vo/ISO3166';
@@ -68,16 +72,61 @@ describe('LocaleInteractor',  () => {
 
   describe('delete', () => {
     it('normal case', async () => {
-      const spy1: SinonSpy = sinon.spy();
-      LanguageCommand.prototype.deleteAll = spy1;
-      const spy2: SinonSpy = sinon.spy();
-      RegionCommand.prototype.deleteAll = spy2;
+      const stub1: SinonStub = sinon.stub();
+      LanguageCommand.prototype.deleteAll = stub1;
+      stub1.resolves(Success.of<void, CacheError>(undefined));
+      const stub2: SinonStub = sinon.stub();
+      RegionCommand.prototype.deleteAll = stub2;
+      stub2.resolves(Success.of<void, CacheError>(undefined));
 
       const localeInteractor: LocaleInteractor = container.get<LocaleInteractor>(TYPE.LocaleInteractor);
-      await localeInteractor.delete();
+      const trial: Try<void, CacheError> = await localeInteractor.delete();
 
-      expect(spy1.called).toEqual(true);
-      expect(spy2.called).toEqual(true);
+      expect(trial.isSuccess()).toEqual(true);
+      expect(stub1.called).toEqual(true);
+      expect(stub2.called).toEqual(true);
+    });
+
+    it('LanguageCommand.deleteAll throws error', async () => {
+      const stub1: SinonStub = sinon.stub();
+      LanguageCommand.prototype.deleteAll = stub1;
+      stub1.rejects(Failure.of<void, CacheError>(new CacheError('test failed')));
+      const stub2: SinonStub = sinon.stub();
+      RegionCommand.prototype.deleteAll = stub2;
+      stub2.resolves(Success.of<void, CacheError>(undefined));
+
+      const localeInteractor: LocaleInteractor = container.get<LocaleInteractor>(TYPE.LocaleInteractor);
+      const trial: Try<void, CacheError> = await localeInteractor.delete();
+
+      expect(trial.isFailure()).toEqual(true);
+      expect(stub1.called).toEqual(true);
+      expect(stub2.called).toEqual(true);
+      trial.complete<void>(() => {
+        fail();
+      }, (e: CacheError) => {
+        expect(e).toBeInstanceOf(CacheError);
+      });
+    });
+
+    it('RegionCommand.deleteAll throws error', async () => {
+      const stub1: SinonStub = sinon.stub();
+      LanguageCommand.prototype.deleteAll = stub1;
+      stub1.resolves(Success.of<void, CacheError>(undefined));
+      const stub2: SinonStub = sinon.stub();
+      RegionCommand.prototype.deleteAll = stub2;
+      stub2.rejects(Failure.of<void, CacheError>(new CacheError('test failed')));
+
+      const localeInteractor: LocaleInteractor = container.get<LocaleInteractor>(TYPE.LocaleInteractor);
+      const trial: Try<void, CacheError> = await localeInteractor.delete();
+
+      expect(trial.isFailure()).toEqual(true);
+      expect(stub1.called).toEqual(true);
+      expect(stub2.called).toEqual(true);
+      trial.complete<void>(() => {
+        fail();
+      }, (e: CacheError) => {
+        expect(e).toBeInstanceOf(CacheError);
+      });
     });
   });
 });
