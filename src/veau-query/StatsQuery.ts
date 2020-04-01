@@ -4,6 +4,9 @@ import { Stats, StatsRow } from '../veau-entity/Stats';
 import { StatsItems } from '../veau-entity/StatsItems';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { MySQL } from '../veau-general/MySQL/MySQL';
+import { Failure } from '../veau-general/Try/Failure';
+import { Success } from '../veau-general/Try/Success';
+import { Try } from '../veau-general/Try/Try';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsItemQuery } from './StatsItemQuery';
 
@@ -19,7 +22,7 @@ export class StatsQuery {
     this.statsItemQuery = statsItemQuery;
   }
 
-  public async findByStatsID(statsID: StatsID): Promise<Stats> {
+  public async findByStatsID(statsID: StatsID): Promise<Try<Stats, NoSuchElementError>> {
     const query: string = `SELECT
       R1.stats_id AS statsID,
       R1.language_id AS languageID,
@@ -45,11 +48,11 @@ export class StatsQuery {
     });
 
     if (statsRows.length === 0) {
-      throw new NoSuchElementError(statsID.toString());
+      return Failure.of<Stats, NoSuchElementError>(new NoSuchElementError(statsID.toString()));
     }
 
     const items: StatsItems = await this.statsItemQuery.findByStatsID(statsID);
 
-    return Stats.ofRow(statsRows[0], items);
+    return Success.of<Stats, NoSuchElementError>(Stats.ofRow(statsRows[0], items));
   }
 }
