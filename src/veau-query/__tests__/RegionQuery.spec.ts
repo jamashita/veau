@@ -159,16 +159,6 @@ describe('RegionQuery', () => {
       const stub2: SinonStub = sinon.stub();
       MySQL.prototype.execute = stub2;
       stub2.resolves([
-        {
-          regionID: 1,
-          name: 'Afghanistan',
-          iso3166: 'AFG'
-        },
-        {
-          regionID: 2,
-          name: 'Albania',
-          iso3166: 'ALB'
-        }
       ]);
       const stub3: SinonStub = sinon.stub();
       RegionCommand.prototype.insertAll = stub3;
