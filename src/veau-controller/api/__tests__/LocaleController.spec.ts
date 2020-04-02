@@ -2,9 +2,11 @@ import express from 'express';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import 'jest';
 import 'reflect-metadata';
-import sinon, { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';
 import { CacheError } from '../../../veau-error/CacheError';
+import { Failure } from '../../../veau-general/Try/Failure';
+import { Success } from '../../../veau-general/Try/Success';
 import { LocaleInteractor } from '../../../veau-interactor/LocaleInteractor';
 import { AccountName } from '../../../veau-vo/AccountName';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
@@ -63,8 +65,9 @@ describe('LocaleController', () => {
 
   describe('DELETE /', () => {
     it('delete all locales of the cache', async () => {
-      const spy: SinonSpy = sinon.spy();
-      LocaleInteractor.prototype.delete = spy;
+      const stub: SinonStub = sinon.stub();
+      LocaleInteractor.prototype.delete = stub;
+      stub.resolves(Success.of<void, CacheError>(undefined));
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
@@ -77,13 +80,30 @@ describe('LocaleController', () => {
 
       const response: supertest.Response = await supertest(app).delete('/');
       expect(response.status).toEqual(OK);
-      expect(spy.called).toEqual(true);
+    });
+
+    it('cache delete error', async () => {
+      const stub: SinonStub = sinon.stub();
+      LocaleInteractor.prototype.delete = stub;
+      stub.resolves(Failure.of<void, CacheError>(new CacheError('error')));
+      const app: express.Express = express();
+      app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+        const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
+        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
+        // @ts-ignore
+        req.user = VeauAccount.of(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b'), AccountName.of('account'), language, region);
+        next();
+      });
+      app.use('/', LocaleController);
+
+      const response: supertest.Response = await supertest(app).delete('/');
+      expect(response.status).toEqual(INTERNAL_SERVER_ERROR);
     });
 
     it('throws error', async () => {
       const stub: SinonStub = sinon.stub();
       LocaleInteractor.prototype.delete = stub;
-      stub.rejects(new CacheError('error'));
+      stub.rejects();
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
