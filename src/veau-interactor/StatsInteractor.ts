@@ -35,25 +35,11 @@ export class StatsInteractor {
   public async findByStatsID(statsID: StatsID): Promise<Try<Stats, NotFoundError>> {
     const trial: Try<Stats, NoSuchElementError> = await this.statsQuery.findByStatsID(statsID);
 
-    return trial.complete<Stats>((stats: Stats) => {
-      return stats;
-    }, (e: NoSuchElementError) => {
-      //
+    return trial.recover<NotFoundError>((err: NoSuchElementError) => {
+      logger.error(err.message);
+
+      return new NotFoundError();
     });
-    try {
-
-      return stats;
-    }
-    catch (err) {
-      if (err instanceof NoSuchElementError) {
-        logger.error(err.message);
-
-        throw new NotFoundError();
-      }
-      logger.fatal(err.toString());
-
-      throw err;
-    }
   }
 
   public findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Promise<StatsOutlines> {

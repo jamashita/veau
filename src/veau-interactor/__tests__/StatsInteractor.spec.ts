@@ -11,6 +11,9 @@ import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { NotFoundError } from '../../veau-error/NotFoundError';
 import { MySQL } from '../../veau-general/MySQL/MySQL';
 import { None } from '../../veau-general/Optional/None';
+import { Failure } from '../../veau-general/Try/Failure';
+import { Success } from '../../veau-general/Try/Success';
+import { Try } from '../../veau-general/Try/Try';
 import { StatsOutlineQuery } from '../../veau-query/StatsOutlineQuery';
 import { StatsQuery } from '../../veau-query/StatsQuery';
 import { AsOf } from '../../veau-vo/AsOf';
@@ -60,10 +63,7 @@ describe('StatsInteractor', () => {
         StatsItem.of(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b'), StatsItemName.of('item1'), StatsValues.empty()),
         StatsItem.of(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8'), StatsItemName.of('item2'), StatsValues.empty())
       ]);
-
-      const stub: SinonStub = sinon.stub();
-      StatsQuery.prototype.findByStatsID = stub;
-      stub.resolves(Stats.of(
+      const stats: Stats = Stats.of(
         statsID,
         language,
         region,
@@ -73,29 +73,47 @@ describe('StatsInteractor', () => {
         updatedAt,
         items,
         None.of<AsOf>()
-      ));
+      );
+
+      const stub: SinonStub = sinon.stub();
+      StatsQuery.prototype.findByStatsID = stub;
+      stub.resolves(Success.of<Stats, NotFoundError>(stats));
+      const spy: SinonSpy = sinon.spy();
 
       const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
-      const stats: Stats = await statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94'));
+      const trial: Try<Stats, NotFoundError> = await statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94'));
 
-      expect(stats.getStatsID()).toEqual(statsID);
-      expect(stats.getLanguage()).toEqual(language);
-      expect(stats.getRegion()).toEqual(region);
-      expect(stats.getTerm()).toEqual(term);
-      expect(stats.getName()).toEqual(name);
-      expect(stats.getUnit()).toEqual(unit);
-      expect(stats.getUpdatedAt()).toEqual(updatedAt);
-      expect(stats.getItems()).toEqual(items);
+      trial.complete<void>((stats: Stats) => {
+        expect(stats.getStatsID()).toEqual(statsID);
+        expect(stats.getLanguage()).toEqual(language);
+        expect(stats.getRegion()).toEqual(region);
+        expect(stats.getTerm()).toEqual(term);
+        expect(stats.getName()).toEqual(name);
+        expect(stats.getUnit()).toEqual(unit);
+        expect(stats.getUpdatedAt()).toEqual(updatedAt);
+        expect(stats.getItems()).toEqual(items);
+        spy();
+      });
+
+      expect(spy.called).toEqual(true);
     });
 
     it('thrown NoSuchElementError', async () => {
       const stub: SinonStub = sinon.stub();
       StatsQuery.prototype.findByStatsID = stub;
-      stub.rejects(new NoSuchElementError(''));
+      stub.resolves(Failure.of<Stats, NoSuchElementError>(new NoSuchElementError('')));
+      const spy: SinonSpy = sinon.spy();
 
       const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
+      const trial: Try<Stats, NotFoundError> = await statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94'));
 
-      await expect(statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94'))).rejects.toThrow(NotFoundError);
+      trial.recover<Error>((e: NotFoundError) => {
+        expect(e).toBeInstanceOf(NotFoundError);
+        spy();
+        return e;
+      });
+
+      expect(spy.called).toEqual(true);
     });
 
     it('thrown Error', async () => {
