@@ -1,5 +1,6 @@
 import 'jest';
 import sinon, { SinonSpy } from 'sinon';
+import { RuntimeError } from '../../RuntimeError';
 import { Success } from '../Success';
 import { Try } from '../Try';
 
@@ -34,37 +35,58 @@ describe('Success', () => {
   });
 
   describe('complete', () => {
+    it('transforms containing value', () => {
+      const v1: number = 100;
+      const success: Success<number, Error> = Success.of<number, Error>(v1);
+      const spy: SinonSpy = sinon.spy();
+
+      const res: Try<string, Error> = success.complete<string>((s: number): string => {
+        const c1: number = s ** 2;
+        spy(c1);
+        return c1.toString();
+      });
+
+      const c2: number = v1 ** 2;
+      expect(res.isSuccess()).toEqual(true);
+      expect(res.get()).toEqual(c2.toString());
+      expect(spy.calledWith(c2)).toEqual(true);
+    });
+  });
+
+  describe('recover', () => {
+    it('does nothing', () => {
+      const v1: number = 100;
+      const success: Success<number, Error> = Success.of<number, Error>(v1);
+      const spy: SinonSpy = sinon.spy();
+
+      const res: Try<number, RuntimeError> = success.recover<RuntimeError>((e: Error): RuntimeError => {
+        spy();
+        return new RuntimeError('test failed');
+      });
+
+      expect(res.isSuccess()).toEqual(true);
+      expect(spy.called).toEqual(false);
+    });
+  });
+
+  describe('match', () => {
     it('excuses success block', () => {
       const v1: number = 100;
       const success: Success<number, Error> = Success.of<number, Error>(v1);
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const res: number = success.complete<number>((s: number) => {
+      const res: number = success.match<number>((s: number): number => {
         spy1(s);
-        return s;
+        return s * 2;
       }, (e: Error) => {
         spy2(e);
         return v1 ** 2;
       });
 
-      expect(res).toEqual(v1);
+      expect(res).toEqual(v1 * 2);
       expect(spy1.calledWith(v1)).toEqual(true);
       expect(spy2.called).toEqual(false);
-    });
-  });
-
-  describe('map', () => {
-    it('successfully mapped into a next one', () => {
-      const v1: number = 100;
-      const success1: Success<number, Error> = Success.of<number, Error>(v1);
-
-      const success2: Try<string, Error> = success1.map<string>((v: number) => {
-        return v.toString();
-      });
-
-      expect(success1).not.toBe(success2);
-      expect(success2.get()).toEqual(v1.toString());
     });
   });
 });

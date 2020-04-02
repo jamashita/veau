@@ -37,43 +37,60 @@ describe('Failure', () => {
   });
 
   describe('complete', () => {
-    it('excuses failure block', () => {
+    it('does nothing', () => {
       const e1: Error = new Error();
       const v1: number = 2040;
+      const failure: Failure<number, Error> = Failure.of<number, Error>(e1);
+      const spy: SinonSpy = sinon.spy();
+
+      const res: Try<number, Error> = failure.complete<number>((s: number): number => {
+        spy();
+        return s ** 3;
+      });
+
+      expect(res.isFailure()).toEqual(true);
+      expect(spy.called).toEqual(false);
+    });
+  });
+
+  describe('recover', () => {
+    it('transforms containing value', () => {
+      const e1: Error = new Error();
+      const failure: Failure<number, Error> = Failure.of<number, Error>(e1);
+      const spy: SinonSpy = sinon.spy();
+
+      const res: Try<number, RuntimeError> = failure.recover<RuntimeError>((e: Error): RuntimeError => {
+        spy(e);
+        return new RuntimeError('test failed');
+      });
+
+      expect(res.isFailure()).toEqual(true);
+      expect(() => {
+        res.get();
+      }).toThrow(RuntimeError);
+      expect(spy.calledWith(e1)).toEqual(true);
+    });
+  });
+
+  describe('match', () => {
+    it('excuses failure block', () => {
+      const e1: Error = new Error();
+      const v1: number = 1234;
       const failure: Failure<number, Error> = Failure.of<number, Error>(e1);
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const res: number = failure.complete<number>((s: number) => {
-        spy1(s);
-        return v1;
+      const res: number = failure.match<number>((n: number): number => {
+        spy1();
+        return n;
       }, (e: Error) => {
         spy2(e);
-        return v1 ** 2;
+        return v1 * 2;
       });
 
-      expect(res).toEqual(v1 ** 2);
+      expect(res).toEqual(v1 * 2);
       expect(spy1.called).toEqual(false);
       expect(spy2.calledWith(e1)).toEqual(true);
-    });
-  });
-
-  describe('map', () => {
-    it('retains error object', () => {
-      const e1: Error = new Error();
-      const failure1: Failure<number, Error> = Failure.of<number, Error>(e1);
-
-      const failure2: Try<string, Error> = failure1.map<string>((n: number) => {
-        return n.toString();
-      });
-
-      expect(failure1).not.toBe(failure2);
-      try {
-        failure2.get();
-      }
-      catch (e) {
-        expect(e).toEqual(e1);
-      }
     });
   });
 });

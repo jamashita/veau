@@ -31,7 +31,7 @@ export class None<T extends Nominative> implements Optional<T> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public map<U extends Nominative>(func: Function<T, U>): Optional<U> {
+  public map<U extends Nominative>(mapper: Function<T, U>): Optional<U> {
     return None.of<U>();
   }
 

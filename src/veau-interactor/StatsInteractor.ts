@@ -6,6 +6,7 @@ import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { NotFoundError } from '../veau-error/NotFoundError';
 import { ITransaction } from '../veau-general/MySQL/ITransaction';
 import { MySQL } from '../veau-general/MySQL/MySQL';
+import { Try } from '../veau-general/Try/Try';
 import { StatsOutlineQuery } from '../veau-query/StatsOutlineQuery';
 import { StatsQuery } from '../veau-query/StatsQuery';
 import { StatsUpdateTransaction } from '../veau-transaction/StatsUpdateTransaction';
@@ -31,9 +32,15 @@ export class StatsInteractor {
     this.statsOutlineQuery = statsOutlineQuery;
   }
 
-  public async findByStatsID(statsID: StatsID): Promise<Stats> {
+  public async findByStatsID(statsID: StatsID): Promise<Try<Stats, NotFoundError>> {
+    const trial: Try<Stats, NoSuchElementError> = await this.statsQuery.findByStatsID(statsID);
+
+    return trial.complete<Stats>((stats: Stats) => {
+      return stats;
+    }, (e: NoSuchElementError) => {
+      //
+    });
     try {
-      const stats: Stats = await this.statsQuery.findByStatsID(statsID);
 
       return stats;
     }

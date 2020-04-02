@@ -10,7 +10,9 @@ export interface Try<S, F extends Error> {
 
   isFailure(): this is Failure<S, F>;
 
-  complete<U>(success: Function<S, U>, failure: Function<F, U>): U;
+  complete<T>(mapper: Function<S, T>): Try<T, F>;
 
-  map<U>(mapper: Function<S, U>): Try<U, F>;
+  recover<E extends Error>(mapper: Function<F, E>): Try<S, E>;
+
+  match<T>(success: Function<S, T>, failure: Function<F, T>): T;
 }
