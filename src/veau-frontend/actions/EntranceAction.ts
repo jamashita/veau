@@ -9,28 +9,28 @@ import {
   IdentityAuthenticateAction
 } from './Action';
 
-export const accountTyped: (account: AccountName) => EntranceAccountNameTypedAction = (account: AccountName): EntranceAccountNameTypedAction => {
+export const accountTyped: (account: AccountName) => EntranceAccountNameTypedAction = (account: AccountName) => {
   return {
     type: ACTION.ENTRANCE_ACCOUNT_NAME_TYPED,
     account
   };
 };
 
-export const passwordTyped: (password: Password) => EntrancePasswordTypedAction = (password: Password): EntrancePasswordTypedAction => {
+export const passwordTyped: (password: Password) => EntrancePasswordTypedAction = (password: Password) => {
   return {
     type: ACTION.ENTRANCE_PASSWORD_TYPED,
     password
   };
 };
 
-export const updateEntranceInformation: (entranceInformation: EntranceInformation) => EntranceUpdateAction = (entranceInformation: EntranceInformation): EntranceUpdateAction => {
+export const updateEntranceInformation: (entranceInformation: EntranceInformation) => EntranceUpdateAction = (entranceInformation: EntranceInformation) => {
   return {
     type: ACTION.ENTRANCE_UPDATE,
     entranceInformation
   };
 };
 
-export const attemptLogin: () => IdentityAuthenticateAction = (): IdentityAuthenticateAction => {
+export const attemptLogin: () => IdentityAuthenticateAction = () => {
   return {
     type: ACTION.IDENTITY_AUTHENTICATE
   };

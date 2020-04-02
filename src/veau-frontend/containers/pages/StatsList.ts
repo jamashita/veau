@@ -47,7 +47,7 @@ type OwnProps = {
 };
 export type Props = StateProps & DispatchProps & OwnProps;
 
-const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State): StateProps => {
+const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
   const {
     statsOutlines,
     statsList: {
@@ -65,36 +65,36 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
   };
 };
 
-const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>): DispatchProps => {
+const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>) => {
   return {
-    initialize: (): void => {
+    initialize: () => {
       dispatch(initStatsList());
     },
-    toStatsEdit: (statsID: StatsID): void => {
+    toStatsEdit: (statsID: StatsID) => {
       dispatch(pushToStatsEdit(statsID));
     },
-    newStatsClicked: (): void => {
+    newStatsClicked: () => {
       dispatch(openNewStatsModal());
     },
-    closeNewStatsModal: (): void => {
+    closeNewStatsModal: () => {
       dispatch(closeNewStatsModal());
     },
-    nameTyped: (name: StatsName): void => {
+    nameTyped: (name: StatsName) => {
       dispatch(newStatsNameTyped(name));
     },
-    unitTyped: (unit: StatsUnit): void => {
+    unitTyped: (unit: StatsUnit) => {
       dispatch(newStatsUnitTyped(unit));
     },
-    iso639Selected: (iso639: ISO639): void => {
+    iso639Selected: (iso639: ISO639) => {
       dispatch(newStatsISO639Selected(iso639));
     },
-    iso3166Selected: (iso3166: ISO3166): void => {
+    iso3166Selected: (iso3166: ISO3166) => {
       dispatch(newStatsISO3166Selected(iso3166));
     },
-    termSelected: (term: Term): void => {
+    termSelected: (term: Term) => {
       dispatch(newStatsTermSelected(term));
     },
-    saveNewStats: (): void => {
+    saveNewStats: () => {
       dispatch(saveNewStats());
     }
   };

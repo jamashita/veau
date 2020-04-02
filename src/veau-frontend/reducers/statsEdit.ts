@@ -13,7 +13,7 @@ const initialState: StatsEdit = {
   selectingRow: Row.default()
 };
 
-export const statsEdit: Reducer<StatsEdit, Action> = (state: StatsEdit = initialState, action: Action): StatsEdit => {
+export const statsEdit: Reducer<StatsEdit, Action> = (state: StatsEdit = initialState, action: Action) => {
   switch (action.type) {
     case ACTION.STATS_EDIT_SELECT_ITEM: {
       const {

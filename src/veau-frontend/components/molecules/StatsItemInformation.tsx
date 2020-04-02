@@ -66,14 +66,14 @@ class StatsItemInformationImpl extends React.Component<Props & WrappedComponentP
             })}
             type='text'
             value={selecting.getName().get()}
-            onKeyUp={(value: string): void => {
+            onKeyUp={(value: string) => {
               nameTyped(StatsItemName.of(value));
             }}
           />
           <CardActions>
             <Button
               color='primary'
-              onClick={(): void => {
+              onClick={() => {
                 removeItem(selecting);
               }}
               fullWidth={true}

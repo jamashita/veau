@@ -75,7 +75,7 @@ class StatsOutlineListTableImpl extends React.Component<Props & WrappedComponent
               <TableRow
                 key={statsOutline.getStatsID().get()}
                 hover={true}
-                onClick={(): void => {
+                onClick={() => {
                   toStatsEdit(statsOutline.getStatsID());
                 }}
               >

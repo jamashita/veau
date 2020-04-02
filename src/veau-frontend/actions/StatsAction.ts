@@ -11,40 +11,40 @@ import {
   StatsUpdateAction
 } from './Action';
 
-export const updateStatsOutlines: (statsOutlines: StatsOutlines) => StatsOutlineUpdateAction = (statsOutlines: StatsOutlines): StatsOutlineUpdateAction => {
+export const updateStatsOutlines: (statsOutlines: StatsOutlines) => StatsOutlineUpdateAction = (statsOutlines: StatsOutlines) => {
   return {
     type: ACTION.STATS_OUTLINE_UPDATE,
     statsOutlines
   };
 };
 
-export const resetStatsOutlines: () => StatsOutlineResetAction = (): StatsOutlineResetAction => {
+export const resetStatsOutlines: () => StatsOutlineResetAction = () => {
   return {
     type: ACTION.STATS_OUTLINE_RESET
   };
 };
 
-export const updateStats: (stats: Stats) => StatsUpdateAction = (stats: Stats): StatsUpdateAction => {
+export const updateStats: (stats: Stats) => StatsUpdateAction = (stats: Stats) => {
   return {
     type: ACTION.STATS_UPDATE,
     stats
   };
 };
 
-export const resetStats: () => StatsResetAction = (): StatsResetAction => {
+export const resetStats: () => StatsResetAction = () => {
   return {
     type: ACTION.STATS_RESET
   };
 };
 
-export const updateStatsItem: (statsItem: StatsItem) => StatsItemUpdateAction = (statsItem: StatsItem): StatsItemUpdateAction => {
+export const updateStatsItem: (statsItem: StatsItem) => StatsItemUpdateAction = (statsItem: StatsItem) => {
   return {
     type: ACTION.STATS_ITEM_UPDATE,
     statsItem
   };
 };
 
-export const resetStatsItem: () => StatsItemResetAction = (): StatsItemResetAction => {
+export const resetStatsItem: () => StatsItemResetAction = () => {
   return {
     type: ACTION.STATS_ITEM_RESET
   };

@@ -15,13 +15,13 @@ export class MySQL implements IQuery {
   public constructor(config: mysql.PoolConfig) {
     const pool: mysql.Pool = mysql.createPool(config);
 
-    pool.on('connection', (connection: mysql.Connection): void => {
-      connection.config.queryFormat = (query: string, value?: Value): string => {
+    pool.on('connection', (connection: mysql.Connection) => {
+      connection.config.queryFormat = (query: string, value?: Value) => {
         if (value === undefined) {
           return query;
         }
 
-        return query.replace(/:(\w+)/g, (txt: string, key: string): string => {
+        return query.replace(/:(\w+)/g, (txt: string, key: string) => {
           if (value.hasOwnProperty(key)) {
             return connection.escape(value[key]);
           }
@@ -35,15 +35,15 @@ export class MySQL implements IQuery {
   }
 
   private getConnection(): Promise<Connection> {
-    return new Promise<Connection>((resolve: Resolve<Connection>, reject: Reject): void => {
-      this.pool.getConnection((err1: mysql.MysqlError, connection: mysql.PoolConnection): void => {
+    return new Promise<Connection>((resolve: Resolve<Connection>, reject: Reject) => {
+      this.pool.getConnection((err1: mysql.MysqlError, connection: mysql.PoolConnection) => {
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unnecessary-condition
         if (err1) {
           reject(err1);
           return;
         }
 
-        connection.beginTransaction((err2: mysql.MysqlError): void => {
+        connection.beginTransaction((err2: mysql.MysqlError) => {
           // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unnecessary-condition
           if (err2) {
             reject(err2);
@@ -72,8 +72,8 @@ export class MySQL implements IQuery {
   }
 
   public execute<T>(sql: string, value?: object): Promise<T> {
-    return new Promise<T>((resolve: Resolve<T>, reject: Reject): void => {
-      this.pool.query(sql, value, (err: mysql.MysqlError | null, result: T): void => {
+    return new Promise<T>((resolve: Resolve<T>, reject: Reject) => {
+      this.pool.query(sql, value, (err: mysql.MysqlError | null, result: T) => {
         if (err !== null) {
           reject(err);
           return;

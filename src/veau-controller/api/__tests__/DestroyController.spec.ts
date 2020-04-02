@@ -8,9 +8,9 @@ describe('DestroyController', () => {
   describe('DELETE /', () => {
     it('no session returns OK', async () => {
       const app: express.Express = express();
-      app.use((req: express.Request, res: express.Response, next: express.NextFunction): void => {
+      app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         // @ts-ignore
-        req.logout = (): void => {
+        req.logout = () => {
         };
         next();
       });

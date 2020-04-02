@@ -151,7 +151,7 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
           <Button
             color='primary'
             fullWidth={true}
-            onClick={(): void => {
+            onClick={() => {
               this.setState({
                 openNewStatsItemModal: true
               });
@@ -168,7 +168,7 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
             color='primary'
             fullWidth={true}
             disabled={stats.isDetermined()}
-            onClick={(): void => {
+            onClick={() => {
               this.setState({
                 openStartDateModal: true
               });
@@ -211,13 +211,13 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
         <StatsItemModal
           open={openNewStatsItemModal}
           statsItem={statsItem}
-          close={(): void => {
+          close={() => {
             this.setState({
               openNewStatsItemModal: false
             });
           }}
           itemNameTyped={itemNameTyped}
-          saveNewItem={(): void => {
+          saveNewItem={() => {
             this.setState({
               openNewStatsItemModal: false
             });
@@ -226,12 +226,12 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
         />
         <StatsEditStartDateModal
           open={openStartDateModal}
-          close={(): void => {
+          close={() => {
             this.setState({
               openStartDateModal: false
             });
           }}
-          determineStartDate={(date: string): void => {
+          determineStartDate={(date: string) => {
             try {
               startDateDetermined(AsOf.ofString(date));
             }

@@ -1,6 +1,6 @@
 import { ACTION, ModalCloseAction, ModalRaiseAction } from './Action';
 
-export const raiseModal: (title: string, description: string, values?: {[key: string]: string}) => ModalRaiseAction = (title: string, description: string, values?: {[key: string]: string}): ModalRaiseAction => {
+export const raiseModal: (title: string, description: string, values?: {[key: string]: string}) => ModalRaiseAction = (title: string, description: string, values?: {[key: string]: string}) => {
   return {
     type: ACTION.MODAL_RAISE,
     title,
@@ -9,7 +9,7 @@ export const raiseModal: (title: string, description: string, values?: {[key: st
   };
 };
 
-export const closeModal: () => ModalCloseAction = (): ModalCloseAction => {
+export const closeModal: () => ModalCloseAction = () => {
   return {
     type: ACTION.MODAL_CLOSE
   };

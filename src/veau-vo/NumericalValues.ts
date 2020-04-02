@@ -38,18 +38,14 @@ export class NumericalValues implements Collection<number, NumericalValue> {
   }
 
   public row(): Array<string> {
-    return this.values.map<string>((value: NumericalValue): string => {
+    return this.values.map<string>((value: NumericalValue) => {
       return value.toString();
     });
   }
 
   public contains(value: NumericalValue): boolean {
-    const found: NumericalValue | undefined = this.values.find((val: NumericalValue): boolean => {
-      if (value.equals(val)) {
-        return true;
-      }
-
-      return false;
+    const found: NumericalValue | undefined = this.values.find((val: NumericalValue) => {
+      return value.equals(val);
     });
 
     if (found === undefined) {

@@ -62,10 +62,10 @@ export class TextField extends React.Component<Props, State> {
         type={type}
         value={value}
         defaultValue={defaultValue}
-        onChange={(e1: React.ChangeEvent<HTMLInputElement>): void => {
+        onChange={(e1: React.ChangeEvent<HTMLInputElement>) => {
           if (onKeyUp !== undefined) {
             onKeyUp(e1.target.value);
-            e1.target.onkeydown = (e2: KeyboardEvent): void => {
+            e1.target.onkeydown = (e2: KeyboardEvent) => {
               if (e2.key === 'Enter') {
                 if (onEnterUp !== undefined) {
                   onEnterUp();

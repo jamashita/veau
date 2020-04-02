@@ -31,7 +31,7 @@ export class Terms implements Collection<number, Term> {
   }
 
   public contains(value: Term): boolean {
-    const found: Term | undefined = this.terms.find((term: Term): boolean => {
+    const found: Term | undefined = this.terms.find((term: Term) => {
       if (value === term) {
         return true;
       }
@@ -73,7 +73,7 @@ export class Terms implements Collection<number, Term> {
   }
 
   public toString(): string {
-    return this.terms.map<string>((term: Term): string => {
+    return this.terms.map<string>((term: Term) => {
       return term.toString();
     }).join(', ');
   }

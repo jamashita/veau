@@ -23,12 +23,8 @@ export class LocaleQuery {
 
   public async findByISO639(iso639: ISO639): Promise<Language> {
     const locale: Locale = await this.all();
-    const found: Language | undefined = locale.getLanguages().find((language: Language): boolean => {
-      if (language.getISO639().equals(iso639)) {
-        return true;
-      }
-
-      return false;
+    const found: Language | undefined = locale.getLanguages().find((language: Language) => {
+      return language.getISO639().equals(iso639);
     });
 
     if (found === undefined) {
@@ -40,12 +36,8 @@ export class LocaleQuery {
 
   public async findByISO3166(iso3166: ISO3166): Promise<Region> {
     const locale: Locale = await this.all();
-    const found: Region | undefined = locale.getRegions().find((region: Region): boolean => {
-      if (region.getISO3166().equals(iso3166)) {
-        return true;
-      }
-
-      return false;
+    const found: Region | undefined = locale.getRegions().find((region: Region) => {
+      return region.getISO3166().equals(iso3166);
     });
 
     if (found === undefined) {

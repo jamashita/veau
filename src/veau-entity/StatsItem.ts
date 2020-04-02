@@ -83,10 +83,10 @@ export class StatsItem extends Entity<StatsItemID> {
   public getValuesByColumn(columns: AsOfs): NumericalValues {
     let valuesByColumn: NumericalValues = NumericalValues.empty();
 
-    columns.forEach((column: AsOf): void => {
+    columns.forEach((column: AsOf) => {
       let alreadyInput: boolean = false;
 
-      this.values.forEach((statsValue: StatsValue): void => {
+      this.values.forEach((statsValue: StatsValue) => {
         if (alreadyInput) {
           return;
         }

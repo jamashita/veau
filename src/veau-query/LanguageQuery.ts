@@ -56,7 +56,7 @@ export class LanguageQuery {
 
   public async findByISO639(iso639: ISO639): Promise<Try<Language, NoSuchElementError>> {
     const languages: Languages = await this.all();
-    const found: Language | undefined = languages.find((language: Language): boolean => {
+    const found: Language | undefined = languages.find((language: Language) => {
       return language.getISO639().equals(iso639);
     });
 

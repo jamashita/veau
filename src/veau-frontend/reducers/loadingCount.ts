@@ -5,7 +5,7 @@ export type LoadingCount = number;
 
 const initialState: LoadingCount = 0;
 
-export const loadingCount: Reducer<LoadingCount, Action> = (state: LoadingCount = initialState, action: Action): LoadingCount => {
+export const loadingCount: Reducer<LoadingCount, Action> = (state: LoadingCount = initialState, action: Action) => {
   switch (action.type) {
     case ACTION.LOADING_START: {
       return state + 1;

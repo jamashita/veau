@@ -8,7 +8,7 @@ export class AuthenticationMiddleware {
 
   public requires(): express.RequestHandler {
 
-    return (req: express.Request, res: express.Response, next: express.NextFunction): void => {
+    return (req: express.Request, res: express.Response, next: express.NextFunction) => {
       if (req.user === undefined) {
         res.sendStatus(UNAUTHORIZED);
         return;

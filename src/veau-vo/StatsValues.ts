@@ -17,13 +17,13 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
   }
 
   public static ofJSON(statsItemID: StatsItemID, statsValues: Array<StatsValueJSON>): StatsValues {
-    return StatsValues.of(statsValues.map<StatsValue>((statsValue: StatsValueJSON): StatsValue => {
+    return StatsValues.of(statsValues.map<StatsValue>((statsValue: StatsValueJSON) => {
       return StatsValue.ofJSON(statsItemID, statsValue);
     }));
   }
 
   public static ofRow(statsValues: Array<StatsValueRow>): StatsValues {
-    return StatsValues.of(statsValues.map<StatsValue>((statsValue: StatsValueRow): StatsValue => {
+    return StatsValues.of(statsValues.map<StatsValue>((statsValue: StatsValueRow) => {
       return StatsValue.ofRow(statsValue);
     }));
   }
@@ -50,7 +50,7 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
     const newValues: Array<StatsValue> = [];
     let isSet: boolean = false;
 
-    this.values.forEach((value: StatsValue): void => {
+    this.values.forEach((value: StatsValue) => {
       if (isSet) {
         newValues.push(value);
         return;
@@ -66,7 +66,7 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
 
     if (!isSet) {
       newValues.push(statsValue);
-      newValues.sort((statsValue1: StatsValue, statsValue2: StatsValue): number => {
+      newValues.sort((statsValue1: StatsValue, statsValue2: StatsValue) => {
         if (statsValue1.getAsOf().isBefore(statsValue2.getAsOf())) {
           return -1;
         }
@@ -79,24 +79,16 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
   }
 
   public delete(asOf: AsOf): StatsValues {
-    const newValues: Array<StatsValue> = this.values.filter((value: StatsValue): boolean => {
-      if (asOf.equals(value.getAsOf())) {
-        return false;
-      }
-
-      return true;
+    const newValues: Array<StatsValue> = this.values.filter((value: StatsValue) => {
+      return asOf.equals(value.getAsOf());
     });
 
     return new StatsValues(newValues);
   }
 
   public contains(value: StatsValue): boolean {
-    const found: StatsValue | undefined = this.values.find((statsValue: StatsValue): boolean => {
-      if (value.equals(statsValue)) {
-        return true;
-      }
-
-      return false;
+    const found: StatsValue | undefined = this.values.find((statsValue: StatsValue) => {
+      return value.equals(statsValue);
     });
 
     if (found === undefined) {
@@ -115,25 +107,21 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
   }
 
   public filter(statsItemID: StatsItemID): StatsValues {
-    const values: Array<StatsValue> = this.values.filter((value: StatsValue): boolean => {
-      if(statsItemID.equals(value.getStatsItemID())) {
-        return true;
-      }
-
-      return false;
+    const values: Array<StatsValue> = this.values.filter((value: StatsValue) => {
+      return statsItemID.equals(value.getStatsItemID());
     });
 
     return StatsValues.of(values);
   }
 
   public getValues(): Array<NumericalValue> {
-    return this.values.map<NumericalValue>((value: StatsValue): NumericalValue => {
+    return this.values.map<NumericalValue>((value: StatsValue) => {
       return value.getValue();
     });
   }
 
   public getAsOfs(): AsOfs {
-    const asOfs: Array<AsOf> = this.values.map<AsOf>((value: StatsValue): AsOf => {
+    const asOfs: Array<AsOf> = this.values.map<AsOf>((value: StatsValue) => {
       return value.getAsOf();
     });
 
@@ -174,13 +162,13 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
   }
 
   public toJSON(): Array<StatsValueJSON> {
-    return this.values.map<StatsValueJSON>((value: StatsValue): StatsValueJSON => {
+    return this.values.map<StatsValueJSON>((value: StatsValue) => {
       return value.toJSON();
     });
   }
 
   public toString(): string {
-    return this.values.map<string>((value: StatsValue): string => {
+    return this.values.map<string>((value: StatsValue) => {
       return value.toString();
     }).join(', ');
   }

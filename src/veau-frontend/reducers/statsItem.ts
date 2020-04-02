@@ -4,7 +4,7 @@ import { ACTION, Action } from '../actions/Action';
 
 const initialState: StatsItem = StatsItem.default();
 
-export const statsItem: Reducer<StatsItem, Action> = (state: StatsItem = initialState, action: Action): StatsItem => {
+export const statsItem: Reducer<StatsItem, Action> = (state: StatsItem = initialState, action: Action) => {
   switch (action.type) {
     case ACTION.STATS_ITEM_UPDATE: {
       return action.statsItem;

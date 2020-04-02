@@ -56,7 +56,7 @@ class EntranceImpl extends React.Component<Props & WrappedComponentProps, State>
             })}
             value={entranceInformation.getAccount().get()}
             type='text'
-            onKeyUp={(value: string): void => {
+            onKeyUp={(value: string) => {
               accountTyped(AccountName.of(value));
             }}
             onEnterUp={loginClicked}
@@ -67,7 +67,7 @@ class EntranceImpl extends React.Component<Props & WrappedComponentProps, State>
             })}
             value={entranceInformation.getPassword().get()}
             type='password'
-            onKeyUp={(value: string): void => {
+            onKeyUp={(value: string) => {
               passwordTyped(Password.of(value));
             }}
             onEnterUp={loginClicked}

@@ -25,12 +25,12 @@ if (mode === undefined) {
   process.exit(1);
 }
 
-process.on('uncaughtException', (error: Error): void => {
+process.on('uncaughtException', (error: Error) => {
   logger.fatal('UNCAUGHT EXCEPTION');
   logger.fatal(error.message);
 });
 
-process.on('unhandledRejection', (reason: unknown): void => {
+process.on('unhandledRejection', (reason: unknown) => {
   logger.fatal('UNHANDLED REJECTION');
   logger.fatal(reason);
 });
@@ -84,6 +84,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', BaseController);
 
-app.listen(port, (): void => {
+app.listen(port, () => {
   logger.info(`Server running on port ${port.toString()} in ${mode} mode`);
 });

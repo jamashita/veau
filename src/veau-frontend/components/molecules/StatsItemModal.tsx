@@ -62,7 +62,7 @@ class StatsItemModalImpl extends React.Component<Props & WrappedComponentProps, 
             })}
             type='text'
             value={statsItem.getName().get()}
-            onKeyUp={(value: string): void => {
+            onKeyUp={(value: string) => {
               itemNameTyped(StatsItemName.of(value));
             }}
           />

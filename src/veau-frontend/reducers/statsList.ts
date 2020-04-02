@@ -12,7 +12,7 @@ const initialState: StatsList = {
   stats: Stats.default()
 };
 
-export const statsList: Reducer<StatsList, Action> = (state: StatsList = initialState, action: Action): StatsList => {
+export const statsList: Reducer<StatsList, Action> = (state: StatsList = initialState, action: Action) => {
   switch (action.type) {
     case ACTION.STATS_LIST_OPEN_STATS_MODAL: {
       return {

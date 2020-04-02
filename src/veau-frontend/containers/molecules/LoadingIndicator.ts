@@ -11,7 +11,7 @@ type OwnProps = {
 };
 export type Props = StateProps & DispatchProps & OwnProps;
 
-const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State): StateProps => {
+const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
   const {
     loadingCount
   } = state;
@@ -21,7 +21,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
   };
 };
 
-const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (): DispatchProps => {
+const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = () => {
   return {
   };
 };

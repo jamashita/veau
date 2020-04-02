@@ -44,12 +44,8 @@ export class Colors implements Collection<number, Color> {
   }
 
   public contains(value: Color): boolean {
-    const found: Color | undefined = this.colors.find((color: Color): boolean => {
-      if (value.equals(color)) {
-        return true;
-      }
-
-      return false;
+    const found: Color | undefined = this.colors.find((color: Color) => {
+      return value.equals(color);
     });
 
     if (found === undefined) {
@@ -91,7 +87,7 @@ export class Colors implements Collection<number, Color> {
   }
 
   public toString(): string {
-    return this.colors.map<string>((color: Color): string => {
+    return this.colors.map<string>((color: Color) => {
       return color.toString();
     }).join(', ');
   }

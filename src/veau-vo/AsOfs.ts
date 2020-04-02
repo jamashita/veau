@@ -44,12 +44,8 @@ export class AsOfs implements Collection<number, AsOf>, JSONable {
   }
 
   public contains(value: AsOf): boolean {
-    const found: AsOf | undefined = this.asOfs.find((asOf: AsOf): boolean => {
-      if (value.equals(asOf)) {
-        return true;
-      }
-
-      return false;
+    const found: AsOf | undefined = this.asOfs.find((asOf: AsOf) => {
+      return value.equals(asOf);
     });
 
     if (found === undefined) {
@@ -64,7 +60,7 @@ export class AsOfs implements Collection<number, AsOf>, JSONable {
       throw new AsOfError('THIS IS 0 LENGTH COLLECTION');
     }
 
-    const asOfs: Array<moment.Moment> = this.asOfs.map<moment.Moment>((asOf: AsOf): moment.Moment => {
+    const asOfs: Array<moment.Moment> = this.asOfs.map<moment.Moment>((asOf: AsOf) => {
       return asOf.get();
     });
 
@@ -76,7 +72,7 @@ export class AsOfs implements Collection<number, AsOf>, JSONable {
       throw new AsOfError('THIS IS 0 LENGTH COLLECTION');
     }
 
-    const asOfs: Array<moment.Moment> = this.asOfs.map<moment.Moment>((asOf: AsOf): moment.Moment => {
+    const asOfs: Array<moment.Moment> = this.asOfs.map<moment.Moment>((asOf: AsOf) => {
       return asOf.get();
     });
 
@@ -118,13 +114,13 @@ export class AsOfs implements Collection<number, AsOf>, JSONable {
   }
 
   public toJSON(): AsOfJSON {
-    return this.asOfs.map<string>((asOf: AsOf): string => {
+    return this.asOfs.map<string>((asOf: AsOf) => {
       return asOf.toString();
     });
   }
 
   public toString(): string {
-    return this.asOfs.map<string>((asOf: AsOf): string => {
+    return this.asOfs.map<string>((asOf: AsOf) => {
       return asOf.toString();
     }).join(', ');
   }

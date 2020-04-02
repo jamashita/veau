@@ -40,7 +40,7 @@ describe('Success', () => {
       const success: Success<number, Error> = Success.of<number, Error>(v1);
       const spy: SinonSpy = sinon.spy();
 
-      const res: Try<string, Error> = success.complete<string>((s: number): string => {
+      const res: Try<string, Error> = success.complete<string>((s: number) => {
         const c1: number = s ** 2;
         spy(c1);
         return c1.toString();
@@ -59,7 +59,7 @@ describe('Success', () => {
       const success: Success<number, Error> = Success.of<number, Error>(v1);
       const spy: SinonSpy = sinon.spy();
 
-      const res: Try<number, RuntimeError> = success.recover<RuntimeError>((e: Error): RuntimeError => {
+      const res: Try<number, RuntimeError> = success.recover<RuntimeError>(() => {
         spy();
         return new RuntimeError('test failed');
       });
@@ -76,7 +76,7 @@ describe('Success', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const res: number = success.match<number>((s: number): number => {
+      const res: number = success.match<number>((s: number) => {
         spy1(s);
         return s * 2;
       }, (e: Error) => {

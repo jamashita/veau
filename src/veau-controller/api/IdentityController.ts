@@ -8,7 +8,7 @@ const router: express.Router = express.Router();
 
 const authenticationMiddleware: AuthenticationMiddleware = container.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
 
-router.get('/', authenticationMiddleware.requires(), (req: express.Request, res: express.Response): void => {
+router.get('/', authenticationMiddleware.requires(), (req: express.Request, res: express.Response) => {
   res.status(OK).send(res.locals.account.toJSON());
 });
 

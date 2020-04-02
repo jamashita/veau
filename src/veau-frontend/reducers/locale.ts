@@ -4,7 +4,7 @@ import { ACTION, Action } from '../actions/Action';
 
 const initialState: Locale = Locale.default();
 
-export const locale: Reducer<Locale, Action> = (state: Locale = initialState, action: Action): Locale => {
+export const locale: Reducer<Locale, Action> = (state: Locale = initialState, action: Action) => {
   switch (action.type) {
     case ACTION.LOCALE_DEFINED: {
       return action.locale;

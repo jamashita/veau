@@ -19,73 +19,73 @@ import {
   StatsListUpdateNewStatsAction
 } from './Action';
 
-export const initStatsList: () => StatsListInitializeAction = (): StatsListInitializeAction => {
+export const initStatsList: () => StatsListInitializeAction = () => {
   return {
     type: ACTION.STATS_LIST_INITIALIZE
   };
 };
 
-export const openNewStatsModal: () => StatsListOpenNewStatsModalAction = (): StatsListOpenNewStatsModalAction => {
+export const openNewStatsModal: () => StatsListOpenNewStatsModalAction = () => {
   return {
     type: ACTION.STATS_LIST_OPEN_STATS_MODAL
   };
 };
 
-export const closeNewStatsModal: () => StatsListCloseNewStatsModalAction = (): StatsListCloseNewStatsModalAction => {
+export const closeNewStatsModal: () => StatsListCloseNewStatsModalAction = () => {
   return {
     type: ACTION.STATS_LIST_CLOSE_STATS_MODAL
   };
 };
 
-export const newStatsNameTyped: (name: StatsName) => StatsListNameTypedAction = (name: StatsName): StatsListNameTypedAction => {
+export const newStatsNameTyped: (name: StatsName) => StatsListNameTypedAction = (name: StatsName) => {
   return {
     type: ACTION.STATS_LIST_NAME_TYPED,
     name
   };
 };
 
-export const newStatsUnitTyped: (unit: StatsUnit) => StatsListUnitTypedAction = (unit: StatsUnit): StatsListUnitTypedAction => {
+export const newStatsUnitTyped: (unit: StatsUnit) => StatsListUnitTypedAction = (unit: StatsUnit) => {
   return {
     type: ACTION.STATS_LIST_UNIT_TYPED,
     unit
   };
 };
 
-export const newStatsISO639Selected: (iso639: ISO639) => StatsListISO639SelectedAction = (iso639: ISO639): StatsListISO639SelectedAction => {
+export const newStatsISO639Selected: (iso639: ISO639) => StatsListISO639SelectedAction = (iso639: ISO639) => {
   return {
     type: ACTION.STATS_LIST_ISO639_SELECTED,
     iso639
   };
 };
 
-export const newStatsISO3166Selected: (iso3166: ISO3166) => StatsListISO3166SelectedAction = (iso3166: ISO3166): StatsListISO3166SelectedAction => {
+export const newStatsISO3166Selected: (iso3166: ISO3166) => StatsListISO3166SelectedAction = (iso3166: ISO3166) => {
   return {
     type: ACTION.STATS_LIST_ISO3166_SELECTED,
     iso3166
   };
 };
 
-export const newStatsTermSelected: (term: Term) => StatsListTermSelectedAction = (term: Term): StatsListTermSelectedAction => {
+export const newStatsTermSelected: (term: Term) => StatsListTermSelectedAction = (term: Term) => {
   return {
     type: ACTION.STATS_LIST_TERM_SELECTED,
     term
   };
 };
 
-export const updateNewStats: (stats: Stats) => StatsListUpdateNewStatsAction = (stats: Stats): StatsListUpdateNewStatsAction => {
+export const updateNewStats: (stats: Stats) => StatsListUpdateNewStatsAction = (stats: Stats) => {
   return {
     type: ACTION.STATS_LIST_UPDATE_NEW_STATS,
     stats
   };
 };
 
-export const saveNewStats: () => StatsListSaveNewStatsAction = (): StatsListSaveNewStatsAction => {
+export const saveNewStats: () => StatsListSaveNewStatsAction = () => {
   return {
     type: ACTION.STATS_LIST_SAVE_NEW_STATS
   };
 };
 
-export const resetNewStats: () => StatsListResetNewStatsAction = (): StatsListResetNewStatsAction => {
+export const resetNewStats: () => StatsListResetNewStatsAction = () => {
   return {
     type: ACTION.STATS_LIST_RESET_NEW_STATS
   };

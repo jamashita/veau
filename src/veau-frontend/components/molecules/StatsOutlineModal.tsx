@@ -95,7 +95,7 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
             })}
             type='text'
             value={stats.getName().get()}
-            onKeyUp={(value: string): void => {
+            onKeyUp={(value: string) => {
               nameTyped(StatsName.of(value));
             }}
           />
@@ -105,7 +105,7 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
             })}
             type='text'
             value={stats.getUnit().get()}
-            onKeyUp={(value: string): void => {
+            onKeyUp={(value: string) => {
               unitTyped(StatsUnit.of(value));
             }}
           />
@@ -122,7 +122,7 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
               onChange={(event: React.ChangeEvent<{
                 name?: string;
                 value: unknown;
-              }>): void => {
+              }>) => {
                 const iso639: string = event.target.value as string;
                 iso639Selected(ISO639.of(iso639));
               }}
@@ -154,7 +154,7 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
               onChange={(event: React.ChangeEvent<{
                 name?: string;
                 value: unknown;
-              }>): void => {
+              }>) => {
                 const iso3166: string = event.target.value as string;
                 iso3166Selected(ISO3166.of(iso3166));
               }}
@@ -186,7 +186,7 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
               onChange={(event: React.ChangeEvent<{
                 name?: string;
                 value: unknown;
-              }>): void => {
+              }>) => {
                 const termID: number = Number(event.target.value as string);
                 termSelected(Term.of(termID));
               }}

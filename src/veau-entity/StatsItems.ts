@@ -20,7 +20,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
   }
 
   public static ofJSON(json: Array<StatsItemJSON>): StatsItems {
-    const items: Array<StatsItem> = json.map<StatsItem>((item: StatsItemJSON): StatsItem => {
+    const items: Array<StatsItem> = json.map<StatsItem>((item: StatsItemJSON) => {
       return StatsItem.ofJSON(item);
     });
 
@@ -53,7 +53,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
   }
 
   public getNames(): StatsItemNames {
-    return StatsItemNames.of(this.items.map<StatsItemName>((item: StatsItem): StatsItemName => {
+    return StatsItemNames.of(this.items.map<StatsItemName>((item: StatsItem) => {
       return item.getName();
     }));
   }
@@ -61,8 +61,8 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
   public getAsOfs(): AsOfs {
     const asOfs: Array<AsOf> = [];
 
-    this.items.forEach((item: StatsItem): void => {
-      item.getAsOfs().forEach((asOf: AsOf): void => {
+    this.items.forEach((item: StatsItem) => {
+      item.getAsOfs().forEach((asOf: AsOf) => {
         asOfs.push(asOf);
       });
     });
@@ -75,7 +75,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
       return 0;
     }
 
-    const lengths: Array<number> = this.items.map<number>((item: StatsItem): number => {
+    const lengths: Array<number> = this.items.map<number>((item: StatsItem) => {
       return item.getName().length();
     });
 
@@ -120,24 +120,16 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
   }
 
   public remove(statsItem: StatsItem): StatsItems {
-    const items: Array<StatsItem> = this.items.filter((item: StatsItem): boolean => {
-      if (item.equals(statsItem)) {
-        return false;
-      }
-
-      return true;
+    const items: Array<StatsItem> = this.items.filter((item: StatsItem) => {
+      return item.equals(statsItem);
     });
 
     return new StatsItems(items);
   }
 
   public contains(value: StatsItem): boolean {
-    const found: StatsItem | undefined = this.items.find((item: StatsItem): boolean => {
-      if (value.equals(item)) {
-        return true;
-      }
-
-      return false;
+    const found: StatsItem | undefined = this.items.find((item: StatsItem) => {
+      return value.equals(item);
     });
 
     if (found === undefined) {
@@ -160,12 +152,8 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
   }
 
   public areFilled(): boolean {
-    return this.items.every((statsItem: StatsItem): boolean => {
-      if (statsItem.isFilled()) {
-        return true;
-      }
-
-      return false;
+    return this.items.every((statsItem: StatsItem) => {
+      return statsItem.isFilled();
     });
   }
 
@@ -182,7 +170,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
       return false;
     }
 
-    const rowLengths: Array<number> = items.map<number>((item: StatsItem): number => {
+    const rowLengths: Array<number> = items.map<number>((item: StatsItem) => {
       return item.getValues().size();
     });
 
@@ -196,7 +184,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
   }
 
   public copy(): StatsItems {
-    return new StatsItems(this.items.map<StatsItem>((statsItem: StatsItem): StatsItem => {
+    return new StatsItems(this.items.map<StatsItem>((statsItem: StatsItem) => {
       return statsItem.copy();
     }));
   }
@@ -247,13 +235,13 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
   }
 
   public toJSON(): Array<StatsItemJSON> {
-    return this.items.map<StatsItemJSON>((item: StatsItem): StatsItemJSON => {
+    return this.items.map<StatsItemJSON>((item: StatsItem) => {
       return item.toJSON();
     });
   }
 
   public toString(): string {
-    return this.items.map<string>((item: StatsItem): string => {
+    return this.items.map<string>((item: StatsItem) => {
       return item.toString();
     }).join(', ');
   }

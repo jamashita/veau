@@ -70,7 +70,7 @@ class StatsEditStartDateModalImpl extends React.Component<Props & WrappedCompone
             })}
             type='date'
             value={startDate}
-            onKeyUp={(date: string): void => {
+            onKeyUp={(date: string) => {
               this.setState({
                 startDate: date
               });
@@ -80,7 +80,7 @@ class StatsEditStartDateModalImpl extends React.Component<Props & WrappedCompone
         <DialogActions>
           <Button
             color='secondary'
-            onClick={(): void => {
+            onClick={() => {
               determineStartDate(startDate);
             }}
           >

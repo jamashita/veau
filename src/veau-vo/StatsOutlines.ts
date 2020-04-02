@@ -13,13 +13,13 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
   }
 
   public static ofJSON(json: Array<StatsOutlineJSON>): StatsOutlines {
-    return StatsOutlines.of(json.map<StatsOutline>((outline: StatsOutlineJSON): StatsOutline => {
+    return StatsOutlines.of(json.map<StatsOutline>((outline: StatsOutlineJSON) => {
       return StatsOutline.ofJSON(outline);
     }));
   }
 
   public static ofRow(rows: Array<StatsOutlineRow>): StatsOutlines {
-    return StatsOutlines.of(rows.map<StatsOutline>((outline: StatsOutlineRow): StatsOutline => {
+    return StatsOutlines.of(rows.map<StatsOutline>((outline: StatsOutlineRow) => {
       return StatsOutline.ofRow(outline);
     }));
   }
@@ -43,12 +43,8 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
   }
 
   public contains(value: StatsOutline): boolean {
-    const found: StatsOutline | undefined = this.outlines.find((outline: StatsOutline): boolean => {
-      if (value.equals(outline)) {
-        return true;
-      }
-
-      return false;
+    const found: StatsOutline | undefined = this.outlines.find((outline: StatsOutline) => {
+      return value.equals(outline);
     });
 
     if (found === undefined) {
@@ -67,7 +63,7 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
   }
 
   public copy(): StatsOutlines {
-    return new StatsOutlines(this.outlines.map<StatsOutline>((outline: StatsOutline): StatsOutline => {
+    return new StatsOutlines(this.outlines.map<StatsOutline>((outline: StatsOutline) => {
       return outline.copy();
     }));
   }
@@ -100,13 +96,13 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
   }
 
   public toJSON(): Array<StatsOutlineJSON> {
-    return this.outlines.map<StatsOutlineJSON>((outline: StatsOutline): StatsOutlineJSON => {
+    return this.outlines.map<StatsOutlineJSON>((outline: StatsOutline) => {
       return outline.toJSON();
     });
   }
 
   public toString(): string {
-    return this.outlines.map<string>((outline: StatsOutline): string => {
+    return this.outlines.map<string>((outline: StatsOutline) => {
       return outline.toString();
     }).join(', ');
   }

@@ -13,7 +13,7 @@ export class Regions implements Collection<number, Region>, JSONable {
   }
 
   public static ofJSON(json: Array<RegionJSON>): Regions {
-    const regions: Array<Region> = json.map<Region>((region: RegionJSON): Region => {
+    const regions: Array<Region> = json.map<Region>((region: RegionJSON) => {
       return Region.ofJSON(region);
     });
 
@@ -21,7 +21,7 @@ export class Regions implements Collection<number, Region>, JSONable {
   }
 
   public static ofRow(rows: Array<RegionRow>): Regions {
-    const regions: Array<Region> = rows.map<Region>((region: RegionRow): Region => {
+    const regions: Array<Region> = rows.map<Region>((region: RegionRow) => {
       return Region.ofRow(region);
     });
 
@@ -47,12 +47,8 @@ export class Regions implements Collection<number, Region>, JSONable {
   }
 
   public contains(value: Region): boolean {
-    const found: Region | undefined = this.regions.find((region: Region): boolean => {
-      if (value.equals(region)) {
-        return true;
-      }
-
-      return false;
+    const found: Region | undefined = this.regions.find((region: Region) => {
+      return value.equals(region);
     });
 
     if (found === undefined) {
@@ -101,13 +97,13 @@ export class Regions implements Collection<number, Region>, JSONable {
   }
 
   public toJSON(): Array<RegionJSON> {
-    return this.regions.map<RegionJSON>((region: Region): RegionJSON => {
+    return this.regions.map<RegionJSON>((region: Region) => {
       return region.toJSON();
     });
   }
 
   public toString(): string {
-    return this.regions.map<string>((region: Region): string => {
+    return this.regions.map<string>((region: Region) => {
       return region.toString();
     }).join(', ');
   }

@@ -75,7 +75,7 @@ type OwnProps = {
 };
 export type Props = StateProps & DispatchProps & OwnProps;
 
-const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State): StateProps => {
+const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
   const {
     stats,
     statsItem,
@@ -107,60 +107,60 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
   };
 };
 
-const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>): DispatchProps => {
+const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>) => {
   return {
-    initialize: (statsID: StatsID): void => {
+    initialize: (statsID: StatsID) => {
       dispatch(initStatsEdit(statsID));
     },
-    invalidIDInput: (): void => {
+    invalidIDInput: () => {
       dispatch(initFailed());
     },
-    dataFilled: (coordinate: Coordinate, value: NumericalValue): void => {
+    dataFilled: (coordinate: Coordinate, value: NumericalValue) => {
       dispatch(statsDataFilled(coordinate, value));
     },
-    dataDeleted: (coordinate: Coordinate): void => {
+    dataDeleted: (coordinate: Coordinate) => {
       dispatch(statsDataDeleted(coordinate));
     },
-    nameTyped: (name: StatsName): void => {
+    nameTyped: (name: StatsName) => {
       dispatch(statsNameTyped(name));
     },
-    unitTyped: (unit: StatsUnit): void => {
+    unitTyped: (unit: StatsUnit) => {
       dispatch(statsUnitTyped(unit));
     },
-    iso639Selected: (iso639: ISO639): void => {
+    iso639Selected: (iso639: ISO639) => {
       dispatch(statsISO639Selected(iso639));
     },
-    iso3166Selected: (iso3166: ISO3166): void => {
+    iso3166Selected: (iso3166: ISO3166) => {
       dispatch(statsISO3166Selected(iso3166));
     },
-    itemNameTyped: (name: StatsItemName): void => {
+    itemNameTyped: (name: StatsItemName) => {
       dispatch(itemNameTyped(name));
     },
-    saveNewItem: (): void => {
+    saveNewItem: () => {
       dispatch(saveItem());
     },
-    rowSelected: (row: Row): void => {
+    rowSelected: (row: Row) => {
       dispatch(rowSelected(row));
     },
-    selectingItemNameTyped: (name: StatsItemName): void => {
+    selectingItemNameTyped: (name: StatsItemName) => {
       dispatch(selectingItemNameTyped(name));
     },
-    startDateDetermined: (startDate: AsOf): void => {
+    startDateDetermined: (startDate: AsOf) => {
       dispatch(startDateDetermined(startDate));
     },
-    invalidDateInput: (): void => {
+    invalidDateInput: () => {
       dispatch(invalidDateInput());
     },
-    rowMoved: (column: Column, target: Column): void => {
+    rowMoved: (column: Column, target: Column) => {
       dispatch(rowMoved(column, target));
     },
-    invalidValueInput: (): void => {
+    invalidValueInput: () => {
       dispatch(invalidValueInput());
     },
-    removeItem: (statsItem: StatsItem): void => {
+    removeItem: (statsItem: StatsItem) => {
       dispatch(removeItem(statsItem));
     },
-    save: (): void => {
+    save: () => {
       dispatch(saveStats());
     }
   };

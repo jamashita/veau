@@ -43,10 +43,10 @@ export class StatsUpdateTransaction implements ITransaction {
 
     await statsCommand.create(stats, veauAccountID);
 
-    this.stats.getItems().forEach((statsItem: StatsItem, index: number): void => {
+    this.stats.getItems().forEach((statsItem: StatsItem, index: number) => {
       itemPromises.push(statsItemCommand.create(statsID, statsItem, index + 1));
 
-      statsItem.getValues().forEach((statsValue: StatsValue): void => {
+      statsItem.getValues().forEach((statsValue: StatsValue) => {
         valuePromises.push(statsValueCommand.create(statsValue));
       });
     });

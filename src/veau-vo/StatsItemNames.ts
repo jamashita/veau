@@ -28,12 +28,8 @@ export class StatsItemNames implements Collection<number, StatsItemName>, JSONab
   }
 
   public contains(value: StatsItemName): boolean {
-    const found: StatsItemName | undefined = this.names.find((name: StatsItemName): boolean => {
-      if (value.equals(name)) {
-        return true;
-      }
-
-      return false;
+    const found: StatsItemName | undefined = this.names.find((name: StatsItemName) => {
+      return value.equals(name);
     });
 
     if (found === undefined) {
@@ -79,13 +75,13 @@ export class StatsItemNames implements Collection<number, StatsItemName>, JSONab
   }
 
   public toJSON(): StatsItemNamesJSON {
-    return this.names.map<string>((name: StatsItemName): string => {
+    return this.names.map<string>((name: StatsItemName) => {
       return name.get();
     });
   }
 
   public toString(): string {
-    return this.names.map<string>((name: StatsItemName): string => {
+    return this.names.map<string>((name: StatsItemName) => {
       return name.toString();
     }).join(', ');
   }

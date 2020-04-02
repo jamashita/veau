@@ -1,6 +1,6 @@
 import { ACTION, NotificationAppearAction, NotificationDisappearAction } from './Action';
 
-export const appearNotification: (kind: 'info' | 'success' | 'warn' | 'error', horizontal: 'left' | 'center' | 'right', vertical: 'top' | 'bottom', message: string, duration?: number, values?: {[key: string]: string}) => NotificationAppearAction = (kind: 'info' | 'success' | 'warn' | 'error', horizontal: 'left' | 'center' | 'right', vertical: 'top' | 'bottom', message: string, duration: number = 3000, values?: {[key: string]: string}): NotificationAppearAction => {
+export const appearNotification: (kind: 'info' | 'success' | 'warn' | 'error', horizontal: 'left' | 'center' | 'right', vertical: 'top' | 'bottom', message: string, duration?: number, values?: {[key: string]: string}) => NotificationAppearAction = (kind: 'info' | 'success' | 'warn' | 'error', horizontal: 'left' | 'center' | 'right', vertical: 'top' | 'bottom', message: string, duration: number = 3000, values?: {[key: string]: string}) => {
   return {
     type: ACTION.NOTIFICATION_APPEAR,
     kind,
@@ -12,7 +12,7 @@ export const appearNotification: (kind: 'info' | 'success' | 'warn' | 'error', h
   };
 };
 
-export const disappearNotification: () => NotificationDisappearAction = (): NotificationDisappearAction => {
+export const disappearNotification: () => NotificationDisappearAction = () => {
   return {
     type: ACTION.NOTIFICATION_DISAPPEAR
   };

@@ -14,14 +14,14 @@ type OwnProps = {
 };
 export type Props = StateProps & DispatchProps & OwnProps;
 
-const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (): StateProps => {
+const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = () => {
   return {
   };
 };
 
-const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>): DispatchProps => {
+const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>) => {
   return {
-    menuClicked: (): void => {
+    menuClicked: () => {
       dispatch(openProvider());
     }
   };

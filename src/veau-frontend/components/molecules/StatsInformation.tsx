@@ -67,7 +67,7 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
             })}
             type='text'
             value={stats.getName().get()}
-            onKeyUp={(value: string): void => {
+            onKeyUp={(value: string) => {
               nameTyped(StatsName.of(value));
             }}
           />
@@ -77,7 +77,7 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
             })}
             type='text'
             value={stats.getUnit().get()}
-            onKeyUp={(value: string): void => {
+            onKeyUp={(value: string) => {
               unitTyped(StatsUnit.of(value));
             }}
           />
@@ -94,7 +94,7 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
               onChange={(event: React.ChangeEvent<{
                 name?: string;
                 value: unknown;
-              }>): void => {
+              }>) => {
                 const iso639: string = event.target.value as string;
                 iso639Selected(ISO639.of(iso639));
               }}
@@ -126,7 +126,7 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
               onChange={(event: React.ChangeEvent<{
                 name?: string;
                 value: unknown;
-              }>): void => {
+              }>) => {
                 const iso3166: string = event.target.value as string;
                 iso3166Selected(ISO3166.of(iso3166));
               }}

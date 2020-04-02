@@ -34,7 +34,7 @@ export class StatsItemQuery {
 
     const statsValues: StatsValues = await this.statsValueQuery.findByStatsID(statsID);
 
-    const items: Array<StatsItem> = statsItemRows.map<StatsItem>((statsItemRow: StatsItemRow): StatsItem => {
+    const items: Array<StatsItem> = statsItemRows.map<StatsItem>((statsItemRow: StatsItemRow) => {
       const values: StatsValues = statsValues.filter(StatsItemID.of(statsItemRow.statsItemID));
 
       return StatsItem.ofRow(statsItemRow, values);

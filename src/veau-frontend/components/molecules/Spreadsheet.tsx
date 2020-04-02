@@ -77,7 +77,7 @@ export class Spreadsheet extends React.Component<Props, State> {
           row: 0,
           col: 1
         }}
-        beforeChange={(changes: Array<CellChange>): boolean => {
+        beforeChange={(changes: Array<CellChange>) => {
           const length: number = changes.length;
           for (let i: number = 0; i < length; i++) {
             const str: string | null = changes[i][3];
@@ -91,11 +91,11 @@ export class Spreadsheet extends React.Component<Props, State> {
 
           return true;
         }}
-        afterChange={(changes: Array<CellChange> | null): void => {
+        afterChange={(changes: Array<CellChange> | null) => {
           if (changes === null) {
             return;
           }
-          changes.forEach((change: CellChange): void => {
+          changes.forEach((change: CellChange) => {
             const row: Row = Row.of(change[0]);
             const column: Column = Column.of(Number(change[1]));
             const coordinate: Coordinate = Coordinate.of(row, column);
@@ -114,14 +114,13 @@ export class Spreadsheet extends React.Component<Props, State> {
             dataFilled(coordinate, value);
           });
         }}
-        afterSelection={(row1: number, col1: number, row2: number): void => {
+        afterSelection={(row1: number, col1: number, row2: number) => {
           if (row1 === row2) {
             rowSelected(Row.of(row1));
           }
         }}
-        beforeRowMove={(columns: Array<number>, target: number): boolean => {
-          columns.forEach((column: number): void => {
-
+        beforeRowMove={(columns: Array<number>, target: number) => {
+          columns.forEach((column: number) => {
             if (column === target) {
               return;
             }

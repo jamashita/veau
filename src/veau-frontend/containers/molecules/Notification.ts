@@ -21,7 +21,7 @@ type OwnProps = {
 };
 export type Props = StateProps & DispatchProps & OwnProps;
 
-const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State): StateProps => {
+const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
   const {
     notification: {
       kind,
@@ -45,9 +45,9 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
   };
 };
 
-const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>): DispatchProps => {
+const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>) => {
   return {
-    closeClicked: (): void => {
+    closeClicked: () => {
       dispatch(disappearNotification());
     }
   };

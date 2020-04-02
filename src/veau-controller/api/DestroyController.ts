@@ -3,7 +3,7 @@ import { OK } from 'http-status';
 
 const router: express.Router = express.Router();
 
-router.delete('/', (req: express.Request, res: express.Response): void => {
+router.delete('/', (req: express.Request, res: express.Response) => {
   req.logout();
   res.sendStatus(OK);
 });

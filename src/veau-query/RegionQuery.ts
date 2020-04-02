@@ -55,7 +55,7 @@ export class RegionQuery {
 
   public async findByISO3166(iso3166: ISO3166): Promise<Try<Region, NoSuchElementError>> {
     const regions: Regions = await this.all();
-    const found: Region | undefined = regions.find((region: Region): boolean => {
+    const found: Region | undefined = regions.find((region: Region) => {
       return region.getISO3166().equals(iso3166);
     });
 

@@ -13,7 +13,7 @@ export class Languages implements Collection<number, Language>, JSONable {
   }
 
   public static ofJSON(json: Array<LanguageJSON>): Languages {
-    const languages: Array<Language> = json.map<Language>((language: LanguageJSON): Language => {
+    const languages: Array<Language> = json.map<Language>((language: LanguageJSON) => {
       return Language.ofJSON(language);
     });
 
@@ -21,7 +21,7 @@ export class Languages implements Collection<number, Language>, JSONable {
   }
 
   public static ofRow(rows: Array<LanguageRow>): Languages {
-    const languages: Array<Language> = rows.map<Language>((language: LanguageJSON): Language => {
+    const languages: Array<Language> = rows.map<Language>((language: LanguageJSON) => {
       return Language.ofRow(language);
     });
 
@@ -47,12 +47,8 @@ export class Languages implements Collection<number, Language>, JSONable {
   }
 
   public contains(value: Language): boolean {
-    const found: Language | undefined = this.languages.find((language: Language): boolean => {
-      if (value.equals(language)) {
-        return true;
-      }
-
-      return false;
+    const found: Language | undefined = this.languages.find((language: Language) => {
+      return value.equals(language);
     });
 
     if (found === undefined) {
@@ -101,13 +97,13 @@ export class Languages implements Collection<number, Language>, JSONable {
   }
 
   public toJSON(): Array<LanguageJSON> {
-    return this.languages.map<LanguageJSON>((language: Language): LanguageJSON => {
+    return this.languages.map<LanguageJSON>((language: Language) => {
       return language.toJSON();
     });
   }
 
   public toString(): string {
-    return this.languages.map<string>((language: Language): string => {
+    return this.languages.map<string>((language: Language) => {
       return language.toString();
     }).join(', ');
   }
