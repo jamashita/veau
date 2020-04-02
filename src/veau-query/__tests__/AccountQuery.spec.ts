@@ -46,7 +46,6 @@ describe('AccountQuery', () => {
       const trial: Try<Account, NoSuchElementError> = await accountQuery.findByAccount(name);
 
       expect(trial.isSuccess()).toEqual(true);
-
       expect(stub.withArgs(`SELECT
       R1.veau_account_id AS veauAccountID,
       R1.account,
@@ -94,10 +93,10 @@ describe('AccountQuery', () => {
       const spy: SinonSpy = sinon.spy();
 
       const accountQuery: AccountQuery = container.get<AccountQuery>(TYPE.AccountQuery);
+      const name: AccountName = AccountName.of('account');
       const trial: Try<Account, NoSuchElementError> = await accountQuery.findByAccount(name);
 
-      expect(trial.isFailure()).toEqual(trial);
-
+      expect(trial.isFailure()).toEqual(true);
       trial.recover<Error>((e: NoSuchElementError) => {
         expect(e).toBeInstanceOf(NoSuchElementError);
         spy();
