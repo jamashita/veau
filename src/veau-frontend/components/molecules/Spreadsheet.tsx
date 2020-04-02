@@ -131,6 +131,7 @@ export class Spreadsheet extends React.Component<Props, State> {
 
             rowMoved(Column.of(column), Column.of(target));
           });
+
           return true;
         }}
         licenseKey='non-commercial-and-evaluation'
