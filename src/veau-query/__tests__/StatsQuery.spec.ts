@@ -150,8 +150,7 @@ describe('StatsQuery', () => {
       const statsQuery: StatsQuery = container.get<StatsQuery>(TYPE.StatsQuery);
       const trial: Try<Stats, NoSuchElementError> = await statsQuery.findByStatsID(StatsID.of('a25a8b7f-c810-4dc0-b94e-e97e74329307'));
 
-      expect(trial.isFailure()).toEqual(trial);
-
+      expect(trial.isFailure()).toEqual(true);
       trial.recover<Error>((e: NoSuchElementError) => {
         expect(e).toBeInstanceOf(NoSuchElementError);
         spy();
