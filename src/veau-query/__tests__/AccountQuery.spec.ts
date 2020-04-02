@@ -1,6 +1,6 @@
 import 'jest';
 import 'reflect-metadata';
-import sinon, { SinonStub } from 'sinon';
+import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { container } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
@@ -39,6 +39,7 @@ describe('AccountQuery', () => {
           hash: 'hash'
         }
       ]);
+      const spy: SinonSpy = sinon.spy();
 
       const accountQuery: AccountQuery = container.get<AccountQuery>(TYPE.AccountQuery);
       const name: AccountName = AccountName.of('account');
@@ -79,9 +80,10 @@ describe('AccountQuery', () => {
         expect(account.getRegion().getName().get()).toEqual('Afghanistan');
         expect(account.getRegion().getISO3166().get()).toEqual('AFG');
         expect(account.getHash().get()).toEqual('hash');
-      }, (e: NoSuchElementError) => {
-        fail(e);
+        spy();
       });
+
+      expect(spy.called).toEqual(true);
     });
 
     it('will throw NoSuchElementError because MySQL.query returns 0 results', async () => {
@@ -89,17 +91,20 @@ describe('AccountQuery', () => {
       MySQL.prototype.execute = stub;
       stub.resolves([
       ]);
+      const spy: SinonSpy = sinon.spy();
 
       const accountQuery: AccountQuery = container.get<AccountQuery>(TYPE.AccountQuery);
       const trial: Try<Account, NoSuchElementError> = await accountQuery.findByAccount(name);
 
       expect(trial.isFailure()).toEqual(trial);
 
-      trial.complete<void>(() => {
-        fail();
-      }, (e: NoSuchElementError) => {
+      trial.recover<Error>((e: NoSuchElementError) => {
         expect(e).toBeInstanceOf(NoSuchElementError);
+        spy();
+        return e;
       });
+
+      expect(spy.called).toEqual(true);
     });
   });
 });

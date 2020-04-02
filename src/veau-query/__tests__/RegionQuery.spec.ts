@@ -1,6 +1,6 @@
 import 'jest';
 import 'reflect-metadata';
-import sinon, { SinonStub } from 'sinon';
+import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { RegionCommand } from '../../veau-command/RegionCommand';
 import { container } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
@@ -82,6 +82,7 @@ describe('RegionQuery', () => {
       const stub: SinonStub = sinon.stub();
       RedisString.prototype.get = stub;
       stub.resolves('[{"regionID":1,"name":"Afghanistan","iso3166":"AFG"},{"regionID":2,"name":"Albania","iso3166":"ALB"}]');
+      const spy: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = container.get<RegionQuery>(TYPE.RegionQuery);
       const trial: Try<Region, NoSuchElementError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
@@ -90,9 +91,10 @@ describe('RegionQuery', () => {
       trial.complete<void>((region: Region) => {
         expect(region.getRegionID().get()).toEqual(2);
         expect(region.getName().get()).toEqual('Albania');
-      }, (e: NoSuchElementError) => {
-        fail(e);
+        spy();
       });
+
+      expect(spy.called).toEqual(true);
     });
 
     it('MySQL returns a region', async () => {
@@ -116,6 +118,7 @@ describe('RegionQuery', () => {
       const stub3: SinonStub = sinon.stub();
       RegionCommand.prototype.insertAll = stub3;
       stub3.resolves();
+      const spy: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = container.get<RegionQuery>(TYPE.RegionQuery);
       const trial: Try<Region, NoSuchElementError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
@@ -124,25 +127,29 @@ describe('RegionQuery', () => {
       trial.complete<void>((region: Region) => {
         expect(region.getRegionID().get()).toEqual(2);
         expect(region.getName().get()).toEqual('Albania');
-      }, (e: NoSuchElementError) => {
-        fail(e);
+        spy();
       });
+
+      expect(spy.called).toEqual(true);
     });
 
     it('Redis throws error', async () => {
       const stub: SinonStub = sinon.stub();
       RedisString.prototype.get = stub;
       stub.resolves('[]');
+      const spy: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = container.get<RegionQuery>(TYPE.RegionQuery);
       const trial: Try<Region, NoSuchElementError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(trial.isFailure()).toEqual(true);
-      trial.complete<void>(() => {
-        fail();
-      }, (e: NoSuchElementError) => {
+      trial.recover<Error>((e: NoSuchElementError) => {
         expect(e).toBeInstanceOf(NoSuchElementError);
+        spy();
+        return e;
       });
+
+      expect(spy.called).toEqual(true);
     });
 
     it('MySQL throws error', async () => {
@@ -166,16 +173,19 @@ describe('RegionQuery', () => {
       const stub3: SinonStub = sinon.stub();
       RegionCommand.prototype.insertAll = stub3;
       stub3.resolves();
+      const spy: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = container.get<RegionQuery>(TYPE.RegionQuery);
       const trial: Try<Region, NoSuchElementError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(trial.isFailure()).toEqual(true);
-      trial.complete<void>(() => {
-        fail();
-      }, (e: NoSuchElementError) => {
+      trial.recover<Error>((e: NoSuchElementError) => {
         expect(e).toBeInstanceOf(NoSuchElementError);
+        spy();
+        return e;
       });
+
+      expect(spy.called).toEqual(true);
     });
   });
 });

@@ -1,6 +1,6 @@
 import 'jest';
 import 'reflect-metadata';
-import sinon, { SinonStub } from 'sinon';
+import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { container } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
 import { Stats } from '../../veau-entity/Stats';
@@ -85,6 +85,7 @@ describe('StatsQuery', () => {
           value: 3
         }
       ]);
+      const spy: SinonSpy = sinon.spy();
 
       const statsQuery: StatsQuery = container.get<StatsQuery>(TYPE.StatsQuery);
       const trial: Try<Stats, NoSuchElementError> = await statsQuery.findByStatsID(StatsID.of('a25a8b7f-c810-4dc0-b94e-e97e74329307'));
@@ -134,26 +135,30 @@ describe('StatsQuery', () => {
 
         values = items.get(2).getValues();
         expect(values.size()).toEqual(0);
-      }, (e: NoSuchElementError) => {
-        fail(e);
+        spy();
       });
+
+      expect(spy.called).toEqual(true);
     });
 
     it('throws error', async () => {
       const stub: SinonStub = sinon.stub();
       MySQL.prototype.execute = stub;
       stub.resolves([]);
+      const spy: SinonSpy = sinon.spy();
 
       const statsQuery: StatsQuery = container.get<StatsQuery>(TYPE.StatsQuery);
       const trial: Try<Stats, NoSuchElementError> = await statsQuery.findByStatsID(StatsID.of('a25a8b7f-c810-4dc0-b94e-e97e74329307'));
 
       expect(trial.isFailure()).toEqual(trial);
 
-      trial.complete<void>(() => {
-        fail();
-      }, (e: NoSuchElementError) => {
+      trial.recover<Error>((e: NoSuchElementError) => {
         expect(e).toBeInstanceOf(NoSuchElementError);
+        spy();
+        return e;
       });
+
+      expect(spy.called).toEqual(true);
     });
   });
 });
