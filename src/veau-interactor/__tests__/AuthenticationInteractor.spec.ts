@@ -4,6 +4,8 @@ import sinon, { SinonStub } from 'sinon';
 import { container } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { Failure } from '../../veau-general/Try/Failure';
+import { Success } from '../../veau-general/Try/Success';
 import { AccountQuery } from '../../veau-query/AccountQuery';
 import { Account } from '../../veau-vo/Account';
 import { AccountName } from '../../veau-vo/AccountName';
@@ -38,7 +40,7 @@ describe('AuthenticationInteractor', () => {
 
       const stub1: SinonStub = sinon.stub();
       AccountQuery.prototype.findByAccount = stub1;
-      stub1.rejects(new NoSuchElementError(name));
+      stub1.resolves(Failure.of<Account, NoSuchElementError>(new NoSuchElementError(name)));
       const stub2: SinonStub = sinon.stub();
       Account.prototype.verify = stub2;
       stub2.resolves(true);
@@ -57,7 +59,8 @@ describe('AuthenticationInteractor', () => {
 
       const stub1: SinonStub = sinon.stub();
       AccountQuery.prototype.findByAccount = stub1;
-      stub1.resolves(Account.of(VeauAccountID.of('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9'), AccountName.of('veau'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')), Hash.of('hash 1')));
+      const account: Account = Account.of(VeauAccountID.of('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9'), AccountName.of('veau'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')), Hash.of('hash 1'));
+      stub1.resolves(Success.of<Account, NoSuchElementError>(account));
       const stub2: SinonStub = sinon.stub();
       Account.prototype.verify = stub2;
       stub2.resolves(false);
@@ -77,7 +80,7 @@ describe('AuthenticationInteractor', () => {
       const stub1: SinonStub = sinon.stub();
       AccountQuery.prototype.findByAccount = stub1;
       const account: Account = Account.of(VeauAccountID.of('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9'), AccountName.of('veau'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')), Hash.of('hash 1'));
-      stub1.resolves(account);
+      stub1.resolves(Success.of<Account, NoSuchElementError>(account));
       const stub2: SinonStub = sinon.stub();
       Account.prototype.verify = stub2;
       stub2.resolves(true);

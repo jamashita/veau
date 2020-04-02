@@ -4,6 +4,7 @@ import { VerifyFunction } from 'passport-local';
 import { TYPE } from '../veau-container/Types';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { Digest } from '../veau-general/Digest';
+import { Try } from '../veau-general/Try/Try';
 import { AccountQuery } from '../veau-query/AccountQuery';
 import { Account } from '../veau-vo/Account';
 import { AccountName } from '../veau-vo/AccountName';
@@ -31,26 +32,26 @@ export class AuthenticationInteractor {
         const accountName: AccountName = AccountName.of(name);
         const password: Password = Password.of(pass);
 
-        const account: Account = await this.accountQuery.findByAccount(accountName);
+        const trial: Try<Account, NoSuchElementError> = await this.accountQuery.findByAccount(accountName);
 
-        const correct: boolean = await account.verify(password);
+        await trial.match<Promise<void>>(async (account: Account) => {
+          const correct: boolean = await account.verify(password);
 
-        if (correct) {
-          callback(null, account.toVeauAccount());
-          return;
-        }
+          if (correct) {
+            callback(null, account.toVeauAccount());
+            return;
+          }
 
-        callback(null, false);
-      }
-      catch (err) {
-        if (err instanceof NoSuchElementError) {
+          callback(null, false);
+        }, async () => {
           // time adjustment
           await Digest.compare(DUMMY_PASSWORD, DUMMY_HASH);
           logger.info(`invalid account: ${name} and password: ${pass}`);
           callback(null, false);
           return;
-        }
-
+        });
+      }
+      catch (err) {
         logger.fatal(err.message);
         callback(err);
       }
