@@ -169,18 +169,6 @@ describe('LanguageQuery', () => {
       const stub2: SinonStub = sinon.stub();
       MySQL.prototype.execute = stub2;
       stub2.resolves([
-        {
-          languageID: 1,
-          name: 'аҧсуа бызшәа',
-          englishName: 'Abkhazian',
-          iso639: 'ab'
-        },
-        {
-          languageID: 2,
-          name: 'Afaraf',
-          englishName: 'Afar',
-          iso639: 'aa'
-        }
       ]);
       const stub3: SinonStub = sinon.stub();
       LanguageCommand.prototype.insertAll = stub3;
