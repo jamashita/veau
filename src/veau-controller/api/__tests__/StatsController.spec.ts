@@ -10,6 +10,8 @@ import { StatsItem } from '../../../veau-entity/StatsItem';
 import { StatsItems } from '../../../veau-entity/StatsItems';
 import { NotFoundError } from '../../../veau-error/NotFoundError';
 import { None } from '../../../veau-general/Optional/None';
+import { Failure } from '../../../veau-general/Try/Failure';
+import { Success } from '../../../veau-general/Try/Success';
 import { StatsInteractor } from '../../../veau-interactor/StatsInteractor';
 import { AccountName } from '../../../veau-vo/AccountName';
 import { AsOf } from '../../../veau-vo/AsOf';
@@ -125,7 +127,7 @@ describe('StatsController', () => {
     it('normal case', async () => {
       const stub: SinonStub = sinon.stub();
       StatsInteractor.prototype.findByStatsID = stub;
-      stub.resolves(Stats.of(
+      const stats: Stats = Stats.of(
         StatsID.of('059ce0b2-7cba-4ba4-9a5d-a8fa7493f556'),
         Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english name'), ISO639.of('la')),
         Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('RGN')),
@@ -139,7 +141,8 @@ describe('StatsController', () => {
           ]))
         ]),
         None.of<AsOf>()
-      ));
+      );
+      stub.resolves(Success.of<Stats, NotFoundError>(stats));
       const app: express.Express = express();
       app.use('/', StatsController);
 
@@ -180,7 +183,7 @@ describe('StatsController', () => {
     it('not found', async () => {
       const stub: SinonStub = sinon.stub();
       StatsInteractor.prototype.findByStatsID = stub;
-      stub.rejects(new NotFoundError());
+      stub.resolves(Failure.of<Stats, NotFoundError>(new NotFoundError()));
       const app: express.Express = express();
       app.use('/', StatsController);
 

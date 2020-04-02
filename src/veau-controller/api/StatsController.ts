@@ -6,6 +6,7 @@ import { TYPE } from '../../veau-container/Types';
 import { Stats, StatsJSON } from '../../veau-entity/Stats';
 import { NotFoundError } from '../../veau-error/NotFoundError';
 import { JSONable } from '../../veau-general/JSONable';
+import { Try } from '../../veau-general/Try/Try';
 import { PlainObject } from '../../veau-general/Type/PlainObject';
 import { Type } from '../../veau-general/Type/Type';
 import { StatsInteractor } from '../../veau-interactor/StatsInteractor';
@@ -40,16 +41,16 @@ router.get('/page/:page(\\d+)', authenticationMiddleware.requires(), async (req:
 
 router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: express.Response): Promise<void> => {
   try {
-    const stats: JSONable = await statsInteractor.findByStatsID(StatsID.of(req.params.statsID));
+    const trial: Try<JSONable, NotFoundError> = await statsInteractor.findByStatsID(StatsID.of(req.params.statsID));
 
-    res.status(OK).send(stats.toJSON());
+    trial.match<void>((stats: JSONable) => {
+      res.status(OK).send(stats.toJSON());
+    }, (err: NotFoundError) => {
+      logger.warn(err.message);
+      res.sendStatus(NOT_FOUND);
+    });
   }
   catch (err) {
-    if (err instanceof NotFoundError) {
-      res.sendStatus(NOT_FOUND);
-      return;
-    }
-
     logger.fatal(err.toString());
     res.sendStatus(INTERNAL_SERVER_ERROR);
   }
