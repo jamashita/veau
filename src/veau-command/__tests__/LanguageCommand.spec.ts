@@ -1,6 +1,6 @@
 import 'jest';
 import 'reflect-metadata';
-import sinon, { SinonStub } from 'sinon';
+import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { container } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
 import { CacheError } from '../../veau-error/CacheError';
@@ -63,16 +63,19 @@ describe('LanguageCommand', () => {
       const stub: SinonStub = sinon.stub();
       Redis.prototype.delete = stub;
       stub.resolves(false);
+      const spy: SinonSpy = sinon.spy();
 
       const languageCommand: LanguageCommand = container.get<LanguageCommand>(TYPE.LanguageCommand);
       const trial: Try<void, CacheError> = await languageCommand.deleteAll();
 
       expect(trial.isFailure()).toEqual(true);
-      trial.complete<void>(() => {
-        fail();
-      }, (e: CacheError) => {
+      trial.recover<Error>((e: CacheError) => {
         expect(e).toBeInstanceOf(CacheError);
+        spy();
+        return e;
       });
+
+      expect(spy.called).toEqual(true);
     });
   });
 });
