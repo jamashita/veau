@@ -121,7 +121,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
 
   public remove(statsItem: StatsItem): StatsItems {
     const items: Array<StatsItem> = this.items.filter((item: StatsItem) => {
-      return item.equals(statsItem);
+      return !item.equals(statsItem);
     });
 
     return new StatsItems(items);
