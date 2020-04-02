@@ -1,8 +1,6 @@
 import { Function } from '../Type/Function';
-import { Predicate } from '../Type/Predicate';
 import { Success } from './Success';
 import { Try } from './Try';
-import { TryFailureError } from './TryFailureError';
 
 export class Failure<S, F extends Error> implements Try<S, F> {
   private value: F;
@@ -30,11 +28,6 @@ export class Failure<S, F extends Error> implements Try<S, F> {
 
   public complete<U>(success: Function<S, U>, failure: Function<F, U>): U {
     return failure(this.value);
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public filter(predicate: Predicate<S>): Try<S, F | TryFailureError> {
-    return this;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

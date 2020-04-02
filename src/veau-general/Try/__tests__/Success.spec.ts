@@ -54,30 +54,6 @@ describe('Success', () => {
     });
   });
 
-  describe('filter', () => {
-    it('returns self if the predicate returns true', () => {
-      const v1: number = 100;
-      const success: Success<number, Error> = Success.of<number, Error>(v1);
-
-      const trial: Try<number, Error> = success.filter(() => {
-        return true;
-      });
-
-      expect(success).toBe(trial);
-    });
-
-    it('returns Failure if the predicate returns false', () => {
-      const v1: number = 100;
-      const success: Success<number, Error> = Success.of<number, Error>(v1);
-
-      const trial: Try<number, Error> = success.filter(() => {
-        return false;
-      });
-
-      expect(trial.isFailure()).toEqual(true);
-    });
-  });
-
   describe('map', () => {
     it('successfully mapped into a next one', () => {
       const v1: number = 100;
