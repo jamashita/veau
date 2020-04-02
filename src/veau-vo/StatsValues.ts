@@ -80,7 +80,7 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
 
   public delete(asOf: AsOf): StatsValues {
     const newValues: Array<StatsValue> = this.values.filter((value: StatsValue) => {
-      return asOf.equals(value.getAsOf());
+      return !asOf.equals(value.getAsOf());
     });
 
     return new StatsValues(newValues);
