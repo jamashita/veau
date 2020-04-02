@@ -84,6 +84,48 @@ describe('Some', () => {
     });
   });
 
+  describe('equals', () => {
+    it('values are the same, returns true', () => {
+      const some1: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(1));
+      const some2: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(1));
+      const some3: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of('a'));
+      const some4: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of('a'));
+      const some5: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(true));
+      const some6: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(true));
+
+      expect(some1.equals(some1)).toEqual(true);
+      expect(some1.equals(some2)).toEqual(true);
+      expect(some3.equals(some3)).toEqual(true);
+      expect(some3.equals(some4)).toEqual(true);
+      expect(some5.equals(some5)).toEqual(true);
+      expect(some5.equals(some6)).toEqual(true);
+    });
+
+    it('if the value is not the same, returns false', () => {
+      const some1: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(1));
+      const some2: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(2));
+      const some3: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of('a'));
+      const some4: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of('b'));
+      const some5: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(true));
+      const some6: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(false));
+
+      expect(some1.equals(some2)).toEqual(false);
+      expect(some3.equals(some4)).toEqual(false);
+      expect(some5.equals(some6)).toEqual(false);
+    });
+
+    it('none and some are always not equal, reutns false', () => {
+      const some1: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(1));
+      const some2: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of('a'));
+      const some3: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(true));
+      const none: None<MockNominative> = None.of<MockNominative>();
+
+      expect(some1.equals(none)).toEqual(false);
+      expect(some2.equals(none)).toEqual(false);
+      expect(some3.equals(none)).toEqual(false);
+    });
+  });
+
   describe('filter', () => {
     it('following function is called', () => {
       const some1: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(1));
@@ -105,7 +147,7 @@ describe('Some', () => {
       });
 
       expect(optional1).toBeInstanceOf(None);
-      expect(optional2).toBeInstanceOf(None);
+      expect(optional2).toBeInstanceOf(Some);
       expect(optional1.isPresent()).toEqual(false);
       expect(optional2.isPresent()).toEqual(true);
       expect(optional2.get().get()).toEqual(2);

@@ -4,6 +4,7 @@ import { MockNominative } from '../MockNominative';
 import { None } from '../None';
 import { Optional } from '../Optional';
 import { OptionalError } from '../OptionalError';
+import { Some } from '../Some';
 
 describe('None', () => {
   describe('get', () => {
@@ -58,6 +59,23 @@ describe('None', () => {
 
       expect(spy.called).toEqual(false);
       expect(optional).toBeInstanceOf(None);
+    });
+  });
+
+  describe('equals', () => {
+    it('None are always the same, returns true', () => {
+      const none1: None<MockNominative> = None.of<MockNominative>();
+      const none2: None<MockNominative> = None.of<MockNominative>();
+
+      expect(none1.equals(none1)).toEqual(true);
+      expect(none1.equals(none2)).toEqual(true);
+    });
+
+    it('none and some are always not equal, returns false', () => {
+      const none: None<MockNominative> = None.of<MockNominative>();
+      const some: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(1));
+
+      expect(none.equals(some)).toEqual(false);
     });
   });
 
