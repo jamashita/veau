@@ -1,23 +1,26 @@
 import { RowError } from '../veau-error/RowError';
+import { Failure } from '../veau-general/Try/Failure';
+import { Success } from '../veau-general/Try/Success';
+import { Try } from '../veau-general/Try/Try';
 import { Type } from '../veau-general/Type/Type';
 import { ValueObject } from '../veau-general/ValueObject';
 
 export class Row extends ValueObject {
   private row: number;
 
-  public static of(row: number): Row {
+  public static of(row: number): Try<Row, RowError> {
     if (row < 0) {
-      throw new RowError(`ILLEGAL ROW SPECIFIED ${row.toString()}`);
+      return Failure.of<Row, RowError>(new RowError(`ILLEGAL ROW SPECIFIED ${row.toString()}`));
     }
     if (Type.isInteger(row)) {
-      return new Row(row);
+      return Success.of<Row, RowError>(new Row(row));
     }
 
-    throw new RowError('ILLEGAL ROW SPECIFIED');
+    return Failure.of<Row, RowError>(new RowError('ILLEGAL ROW SPECIFIED'));
   }
 
   public static default(): Row {
-    return Row.of(0);
+    return new Row(0);
   }
 
   private constructor(row: number) {
