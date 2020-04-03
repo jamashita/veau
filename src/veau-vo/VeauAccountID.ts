@@ -1,16 +1,19 @@
 import { VeauAccountIDError } from '../veau-error/VeauAccountIDError';
+import { Failure } from '../veau-general/Try/Failure';
+import { Success } from '../veau-general/Try/Success';
+import { Try } from '../veau-general/Try/Try';
 import { UUID } from '../veau-general/UUID';
 import { ValueObject } from '../veau-general/ValueObject';
 
 export class VeauAccountID extends ValueObject {
   private id: string;
 
-  public static of(id: string): VeauAccountID {
+  public static of(id: string): Try<VeauAccountID, VeauAccountIDError> {
     if (id.length === UUID.size()) {
-      return new VeauAccountID(id);
+      return Success.of<VeauAccountID, VeauAccountIDError>(new VeauAccountID(id));
     }
 
-    throw new VeauAccountIDError(`VeauAccountID requires ${UUID.size().toString()} LENGTH`);
+    return Failure.of<VeauAccountID, VeauAccountIDError>(new VeauAccountIDError(`VeauAccountID requires ${UUID.size().toString()} LENGTH`));
   }
 
   public static generate(): VeauAccountID {
