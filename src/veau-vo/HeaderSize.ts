@@ -1,20 +1,24 @@
 import { HeaderSizeError } from '../veau-error/HeaderSizeError';
+import { Failure } from '../veau-general/Try/Failure';
+import { Success } from '../veau-general/Try/Success';
+import { Try } from '../veau-general/Try/Try';
 import { Type } from '../veau-general/Type/Type';
 import { ValueObject } from '../veau-general/ValueObject';
 
 export class HeaderSize extends ValueObject {
   private size: number;
 
-  public static of(size: number): HeaderSize {
+  public static of(size: number): Try<HeaderSize, HeaderSizeError> {
     if (size < 0) {
-      throw new HeaderSizeError(`ILLEGAL SIZE SPECIFIED ${size.toString()}`);
+      return Failure.of<HeaderSize, HeaderSizeError>(new HeaderSizeError(`ILLEGAL SIZE SPECIFIED ${size.toString()}`));
     }
     if (Type.isInteger(size)) {
-      return new HeaderSize(size);
+      return Success.of<HeaderSize, HeaderSizeError>(new HeaderSize(size));
     }
 
-    throw new HeaderSizeError('ILLEGAL SIZE SPECIFIED');
+    return Failure.of<HeaderSize, HeaderSizeError>(new HeaderSizeError('ILLEGAL SIZE SPECIFIED'));
   }
+
   private constructor(size: number) {
     super();
     this.size = size;
