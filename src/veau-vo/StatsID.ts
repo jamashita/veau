@@ -1,20 +1,23 @@
 import { StatsIDError } from '../veau-error/StatsIDError';
+import { Failure } from '../veau-general/Try/Failure';
+import { Success } from '../veau-general/Try/Success';
+import { Try } from '../veau-general/Try/Try';
 import { UUID } from '../veau-general/UUID';
 import { ValueObject } from '../veau-general/ValueObject';
 
 export class StatsID extends ValueObject {
   private id: string;
 
-  public static of(id: string): StatsID {
+  public static of(id: string): Try<StatsID, StatsIDError> {
     if (id.length === UUID.size()) {
-      return new StatsID(id);
+      return Success.of<StatsID, StatsIDError>(new StatsID(id));
     }
 
-    throw new StatsIDError(`StatsID requires ${UUID.size().toString()} LENGTH`);
+    return Failure.of<StatsID, StatsIDError>(new StatsIDError(`StatsID requires ${UUID.size().toString()} LENGTH`));
   }
 
   public static generate(): StatsID {
-    return StatsID.of(UUID.v4());
+    return new StatsID(UUID.v4());
   }
 
   private constructor(id: string) {
