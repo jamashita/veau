@@ -84,7 +84,7 @@ describe('StatsInteractor', () => {
       const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
       const trial: Try<Stats, NotFoundError> = await statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94'));
 
-      trial.complete<void, Error>((stats: Stats) => {
+      trial.match<void>((stats: Stats) => {
         expect(stats.getStatsID()).toEqual(statsID);
         expect(stats.getLanguage()).toEqual(language);
         expect(stats.getRegion()).toEqual(region);
@@ -94,10 +94,8 @@ describe('StatsInteractor', () => {
         expect(stats.getUpdatedAt()).toEqual(updatedAt);
         expect(stats.getItems()).toEqual(items);
         spy1();
-        return Success.of<void, Error>(undefined);
-      }, (e: NotFoundError) => {
+      }, () => {
         spy2();
-        return Failure.of<void, Error>(e);
       });
 
       expect(spy1.called).toEqual(true);
@@ -114,13 +112,11 @@ describe('StatsInteractor', () => {
       const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
       const trial: Try<Stats, NotFoundError> = await statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94'));
 
-      trial.complete<void, Error>(() => {
+      trial.match<void>(() => {
         spy1();
-        return Success.of<void, Error>(undefined);
       }, (e: NotFoundError) => {
         expect(e).toBeInstanceOf(NotFoundError);
         spy2();
-        return Failure.of<void, Error>(e);
       });
 
       expect(spy1.called).toEqual(false);

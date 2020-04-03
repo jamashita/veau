@@ -103,13 +103,11 @@ describe('LocaleInteractor',  () => {
       expect(trial.isFailure()).toEqual(true);
       expect(stub1.called).toEqual(true);
       expect(stub2.called).toEqual(true);
-      trial.complete<void, Error>(() => {
+      trial.match<void>(() => {
         spy1();
-        return Success.of<void, Error>(undefined);
       }, (e: CacheError) => {
         expect(e).toBeInstanceOf(CacheError);
         spy2();
-        return Failure.of<void, Error>(e);
       });
 
       expect(spy1.called).toEqual(false);
@@ -132,13 +130,11 @@ describe('LocaleInteractor',  () => {
       expect(trial.isFailure()).toEqual(true);
       expect(stub1.called).toEqual(true);
       expect(stub2.called).toEqual(true);
-      trial.complete<void, Error>(() => {
+      trial.match<void>(() => {
         spy1();
-        return Success.of<void, Error>(undefined);
       }, (e: CacheError) => {
         expect(e).toBeInstanceOf(CacheError);
         spy2();
-        return Failure.of<void, Error>(e);
       });
 
       expect(spy1.called).toEqual(false);

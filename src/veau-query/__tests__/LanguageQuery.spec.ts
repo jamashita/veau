@@ -7,7 +7,6 @@ import { TYPE } from '../../veau-container/Types';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { MySQL } from '../../veau-general/MySQL/MySQL';
 import { RedisString } from '../../veau-general/Redis/RedisString';
-import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language } from '../../veau-vo/Language';
@@ -96,15 +95,13 @@ describe('LanguageQuery', () => {
       const trial: Try<Language, NoSuchElementError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(trial.isSuccess()).toEqual(true);
-      trial.complete<void, Error>((language: Language) => {
+      trial.match<void>((language: Language) => {
         expect(language.getLanguageID().get()).toEqual(2);
         expect(language.getName().get()).toEqual('Afaraf');
         expect(language.getEnglishName().get()).toEqual('Afar');
         spy1();
-        return Success.of<void, Error>(undefined);
       }, () => {
         spy2();
-        return Success.of<void, Error>(undefined);
       });
 
       expect(spy1.called).toEqual(true);
@@ -141,15 +138,13 @@ describe('LanguageQuery', () => {
       const trial: Try<Language, NoSuchElementError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(trial.isSuccess()).toEqual(true);
-      trial.complete<void, Error>((language: Language) => {
+      trial.match<void>((language: Language) => {
         expect(language.getLanguageID().get()).toEqual(2);
         expect(language.getName().get()).toEqual('Afaraf');
         expect(language.getEnglishName().get()).toEqual('Afar');
         spy1();
-        return Success.of<void, Error>(undefined);
       }, () => {
         spy2();
-        return Success.of<void, Error>(undefined);
       });
 
       expect(spy1.called).toEqual(true);
@@ -167,13 +162,11 @@ describe('LanguageQuery', () => {
       const trial: Try<Language, NoSuchElementError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(trial.isFailure()).toEqual(true);
-      trial.complete<void, Error>(() => {
+      trial.match<void>(() => {
         spy1();
-        return Success.of<void, Error>(undefined);
       }, (e: NoSuchElementError) => {
         expect(e).toBeInstanceOf(NoSuchElementError);
         spy2();
-        return Success.of<void, Error>(undefined);
       });
 
       expect(spy1.called).toEqual(true);
@@ -198,13 +191,11 @@ describe('LanguageQuery', () => {
       const trial: Try<Language, NoSuchElementError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(trial.isFailure()).toEqual(true);
-      trial.complete<void, Error>(() => {
+      trial.match<void>(() => {
         spy1();
-        return Success.of<void, Error>(undefined);
       }, (e: NoSuchElementError) => {
         expect(e).toBeInstanceOf(NoSuchElementError);
         spy2();
-        return Success.of<void, Error>(undefined);
       });
 
       expect(spy1.called).toEqual(false);

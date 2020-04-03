@@ -6,8 +6,6 @@ import { TYPE } from '../../veau-container/Types';
 import { CacheError } from '../../veau-error/CacheError';
 import { Redis } from '../../veau-general/Redis/Redis';
 import { RedisString } from '../../veau-general/Redis/RedisString';
-import { Failure } from '../../veau-general/Try/Failure';
-import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language } from '../../veau-vo/Language';
@@ -72,13 +70,11 @@ describe('LanguageCommand', () => {
       const trial: Try<void, CacheError> = await languageCommand.deleteAll();
 
       expect(trial.isFailure()).toEqual(true);
-      trial.complete<void, Error>(() => {
+      trial.match<void>(() => {
         spy1();
-        return Success.of<void, Error>(undefined);
         }, (e: CacheError) => {
         expect(e).toBeInstanceOf(CacheError);
         spy2();
-        return Failure.of<void, Error>(e);
       });
 
       expect(spy1.called).toEqual(false);

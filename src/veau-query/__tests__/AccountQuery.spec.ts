@@ -5,8 +5,6 @@ import { container } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { MySQL } from '../../veau-general/MySQL/MySQL';
-import { Failure } from '../../veau-general/Try/Failure';
-import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
 import { Account } from '../../veau-vo/Account';
 import { AccountName } from '../../veau-vo/AccountName';
@@ -71,7 +69,7 @@ describe('AccountQuery', () => {
       AND R1.active = true;`, {
         account: name.get()
       }).called).toEqual(true);
-      trial.complete<void, Error>((account: Account) => {
+      trial.match<void>((account: Account) => {
         expect(account.getVeauAccountID().get()).toEqual('998106de-b2e7-4981-9643-22cd30cd74de');
         expect(account.getAccount().get()).toEqual('account');
         expect(account.getLanguage().getLanguageID().get()).toEqual(1);
@@ -83,10 +81,8 @@ describe('AccountQuery', () => {
         expect(account.getRegion().getISO3166().get()).toEqual('AFG');
         expect(account.getHash().get()).toEqual('hash');
         spy1();
-        return Success.of<void, Error>(undefined);
-      }, (e: NoSuchElementError) => {
+      }, () => {
         spy2();
-        return Failure.of<void, Error>(e);
       });
 
       expect(spy1.called).toEqual(true);
@@ -106,13 +102,11 @@ describe('AccountQuery', () => {
       const trial: Try<Account, NoSuchElementError> = await accountQuery.findByAccount(name);
 
       expect(trial.isFailure()).toEqual(true);
-      trial.complete<void, Error>(() => {
+      trial.match<void>(() => {
         spy1();
-        return Success.of<void, Error>(undefined);
       }, (e: NoSuchElementError) => {
         expect(e).toBeInstanceOf(NoSuchElementError);
         spy2();
-        return Failure.of<void, Error>(e);
       });
 
       expect(spy1.called).toEqual(false);

@@ -1,9 +1,10 @@
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import 'jest';
-import sinon, { SinonStub } from 'sinon';
+import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { AJAXError } from '../../../veau-error/AJAXError';
 import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
 import { AJAX } from '../../../veau-general/AJAX';
+import { Try } from '../../../veau-general/Try/Try';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
 import { Language } from '../../../veau-vo/Language';
@@ -111,14 +112,25 @@ describe('LocaleQuery', () => {
           ]
         }
       });
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const localeQuery: LocaleQuery = LocaleQuery.getInstance();
-      const language: Language = await localeQuery.findByISO639(ISO639.of('aa'));
+      const trial: Try<Language, NoSuchElementError> = await localeQuery.findByISO639(ISO639.of('aa'));
 
-      expect(language.getLanguageID().get()).toEqual(1);
-      expect(language.getName().get()).toEqual('language');
-      expect(language.getEnglishName().get()).toEqual('english language');
-      expect(language.getISO639().get()).toEqual('aa');
+      expect(trial.isSuccess()).toEqual(true);
+      trial.match<void>((language: Language) => {
+        expect(language.getLanguageID().get()).toEqual(1);
+        expect(language.getName().get()).toEqual('language');
+        expect(language.getEnglishName().get()).toEqual('english language');
+        expect(language.getISO639().get()).toEqual('aa');
+        spy1();
+      }, () => {
+        spy2();
+      });
+
+      expect(spy1.called).toEqual(true);
+      expect(spy2.called).toEqual(false);
     });
 
     it('could\'t find the language', async () => {
@@ -144,10 +156,22 @@ describe('LocaleQuery', () => {
           ]
         }
       });
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const localeQuery: LocaleQuery = LocaleQuery.getInstance();
+      const trial: Try<Language, NoSuchElementError> = await localeQuery.findByISO639(ISO639.of('aa'));
 
-      await expect(localeQuery.findByISO639(ISO639.of('ab'))).rejects.toThrow(NoSuchElementError);
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (e: NoSuchElementError) => {
+        spy2();
+        expect(e).toBeInstanceOf(NoSuchElementError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
   });
 
@@ -175,13 +199,24 @@ describe('LocaleQuery', () => {
           ]
         }
       });
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const localeQuery: LocaleQuery = LocaleQuery.getInstance();
-      const region: Region = await localeQuery.findByISO3166(ISO3166.of('bb'));
+      const trial: Try<Region, NoSuchElementError> = await localeQuery.findByISO3166(ISO3166.of('bb'));
 
-      expect(region.getRegionID().get()).toEqual(2);
-      expect(region.getName().get()).toEqual('region');
-      expect(region.getISO3166().get()).toEqual('bb');
+      expect(trial.isSuccess()).toEqual(true);
+      trial.match<void>((region: Region) => {
+        expect(region.getRegionID().get()).toEqual(2);
+        expect(region.getName().get()).toEqual('region');
+        expect(region.getISO3166().get()).toEqual('bb');
+        spy1();
+      }, () => {
+        spy2();
+      });
+
+      expect(spy1.called).toEqual(true);
+      expect(spy2.called).toEqual(false);
     });
 
     it('could\'t find the region', async () => {
@@ -207,10 +242,19 @@ describe('LocaleQuery', () => {
           ]
         }
       });
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const localeQuery: LocaleQuery = LocaleQuery.getInstance();
+      const trial: Try<Language, NoSuchElementError> = await localeQuery.findByISO639(ISO639.of('aa'));
 
-      await expect(localeQuery.findByISO3166(ISO3166.of('ba'))).rejects.toThrow(NoSuchElementError);
+      expect(trial.isFailure()).toEqual(trial);
+      trial.match<void>(() => {
+        spy1();
+      }, (e: NoSuchElementError) => {
+        spy2();
+        expect(e).toBeInstanceOf(NoSuchElementError);
+      });
     });
   });
 });

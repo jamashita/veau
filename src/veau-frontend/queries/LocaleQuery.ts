@@ -2,6 +2,9 @@ import { OK } from 'http-status';
 import { AJAXError } from '../../veau-error/AJAXError';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
+import { Failure } from '../../veau-general/Try/Failure';
+import { Success } from '../../veau-general/Try/Success';
+import { Try } from '../../veau-general/Try/Try';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language } from '../../veau-vo/Language';
@@ -21,30 +24,30 @@ export class LocaleQuery {
     this.locale = null;
   }
 
-  public async findByISO639(iso639: ISO639): Promise<Language> {
+  public async findByISO639(iso639: ISO639): Promise<Try<Language, NoSuchElementError>> {
     const locale: Locale = await this.all();
     const found: Language | undefined = locale.getLanguages().find((language: Language) => {
       return language.getISO639().equals(iso639);
     });
 
     if (found === undefined) {
-      throw new NoSuchElementError(iso639.toString());
+      return Failure.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.toString()));
     }
 
-    return found;
+    return Success.of<Language, NoSuchElementError>(found);
   }
 
-  public async findByISO3166(iso3166: ISO3166): Promise<Region> {
+  public async findByISO3166(iso3166: ISO3166): Promise<Try<Region, NoSuchElementError>> {
     const locale: Locale = await this.all();
     const found: Region | undefined = locale.getRegions().find((region: Region) => {
       return region.getISO3166().equals(iso3166);
     });
 
     if (found === undefined) {
-      throw new NoSuchElementError(iso3166.toString());
+      return Failure.of<Region, NoSuchElementError>(new NoSuchElementError(iso3166.toString()));
     }
 
-    return found;
+    return Success.of<Region, NoSuchElementError>(found);
   }
 
   public async all(): Promise<Locale> {

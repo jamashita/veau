@@ -6,8 +6,6 @@ import { StatsItems } from '../../../veau-entity/StatsItems';
 import { AJAXError } from '../../../veau-error/AJAXError';
 import { AJAX } from '../../../veau-general/AJAX';
 import { None } from '../../../veau-general/Optional/None';
-import { Failure } from '../../../veau-general/Try/Failure';
-import { Success } from '../../../veau-general/Try/Success';
 import { Try } from '../../../veau-general/Try/Try';
 import { AsOf } from '../../../veau-vo/AsOf';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
@@ -54,12 +52,10 @@ describe('StatsCommand', () => {
       const trial: Try<void, AJAXError> = await statsCommand.create(stats);
 
       expect(trial.isSuccess()).toEqual(true);
-      trial.complete<void, Error>(() => {
+      trial.match<void>(() => {
         spy1();
-        return Success.of<void, Error>(undefined);
       }, (e: AJAXError) => {
         spy2();
-        return Failure.of<void, Error>(e);
       });
       expect(spy1.called).toEqual(true);
       expect(spy2.called).toEqual(false);
@@ -112,13 +108,11 @@ describe('StatsCommand', () => {
       const trial: Try<void, AJAXError> = await statsCommand.create(stats);
 
       expect(trial.isFailure()).toEqual(true);
-      trial.complete<void, Error>(() => {
+      trial.match<void>(() => {
         spy1();
-        return Success.of<void, Error>(undefined);
       }, (e: AJAXError) => {
         expect(e).toBeInstanceOf(AJAXError);
         spy2();
-        return Failure.of<void, Error>(e);
       });
       expect(spy1.called).toEqual(false);
       expect(spy2.called).toEqual(true);
