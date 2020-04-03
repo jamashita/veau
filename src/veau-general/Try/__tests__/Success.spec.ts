@@ -1,8 +1,6 @@
 import 'jest';
 import sinon, { SinonSpy } from 'sinon';
-import { Failure } from '../Failure';
 import { Success } from '../Success';
-import { Try } from '../Try';
 
 describe('Success', () => {
   describe('get', () => {
@@ -31,30 +29,6 @@ describe('Success', () => {
 
       expect(success1.isFailure()).toEqual(false);
       expect(success2.isFailure()).toEqual(false);
-    });
-  });
-
-  describe('complete', () => {
-    it('excuses success section', () => {
-      const v1: number = 100;
-      const success: Success<number, Error> = Success.of<number, Error>(v1);
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
-      const res: Try<string, Error> = success.complete<string, Error>((s: number) => {
-        const c1: number = s ** 2;
-        spy1(c1);
-        return Success.of<string, Error>(c1.toString());
-      }, (e: Error) => {
-        spy2();
-        return Failure.of<string, Error>(e);
-      });
-
-      const c2: number = v1 ** 2;
-      expect(res.isSuccess()).toEqual(true);
-      expect(res.get()).toEqual(c2.toString());
-      expect(spy1.calledWith(c2)).toEqual(true);
-      expect(spy2.called).toEqual(false);
     });
   });
 

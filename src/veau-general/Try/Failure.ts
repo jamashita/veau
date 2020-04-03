@@ -26,10 +26,6 @@ export class Failure<S, F extends Error> implements Try<S, F> {
     return true;
   }
 
-  public complete<T, E extends Error>(success: Function<S, Try<T, E>>, failure: Function<F, Try<T, E>>): Try<T, E> {
-    return failure(this.value);
-  }
-
   public match<T>(success: Function<S, T>, failure: Function<F, T>): T {
     return failure(this.value);
   }

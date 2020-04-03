@@ -26,11 +26,6 @@ export class Success<S, F extends Error> implements Try<S, F> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public complete<T, E extends Error>(success: Function<S, Try<T, E>>, failure: Function<F, Try<T, E>>): Try<T, E> {
-    return success(this.value);
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public match<T>(success: Function<S, T>, failure: Function<F, T>): T {
     return success(this.value);
   }

@@ -15,7 +15,5 @@ export interface Try<S, F extends Error> {
 
   isFailure(): this is Failure<S, F>;
 
-  complete<T, E extends Error>(success: Function<S, Try<T, E>>, failure: Function<F, Try<T, E>>): Try<T, E>;
-
   match<T>(success: Function<S, T>, failure: Function<F, T>): T;
 }
