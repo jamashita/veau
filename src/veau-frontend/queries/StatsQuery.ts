@@ -12,14 +12,6 @@ import { StatsOutlineJSON } from '../../veau-vo/StatsOutline';
 import { StatsOutlines } from '../../veau-vo/StatsOutlines';
 
 export class StatsQuery {
-  private static instance: StatsQuery = new StatsQuery();
-
-  public static getInstance(): StatsQuery {
-    return StatsQuery.instance;
-  }
-
-  private constructor() {
-  }
 
   public async findByStatsID(statsID: StatsID): Promise<Try<Stats, NotFoundError | AJAXError>> {
     const response: AJAXResponse<StatsJSON> = await AJAX.get<StatsJSON>(`/api/stats/${statsID.get()}`);

@@ -25,7 +25,7 @@ describe('LocaleQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeQuery: LocaleQuery = LocaleQuery.getInstance();
+      const localeQuery: LocaleQuery = new LocaleQuery();
       const trial: Try<Locale, AJAXError> = await localeQuery.all();
 
       expect(trial.isFailure()).toEqual(true);
@@ -65,7 +65,7 @@ describe('LocaleQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeQuery: LocaleQuery = LocaleQuery.getInstance();
+      const localeQuery: LocaleQuery = new LocaleQuery();
       const trial: Try<Locale, AJAXError> = await localeQuery.all();
 
       expect(stub.withArgs('/api/locale').called).toEqual(true);
@@ -102,7 +102,7 @@ describe('LocaleQuery', () => {
         }
       });
 
-      const localeQuery: LocaleQuery = LocaleQuery.getInstance();
+      const localeQuery: LocaleQuery = new LocaleQuery();
       const trial1: Try<Locale, AJAXError> = await localeQuery.all();
       const trial2: Try<Locale, AJAXError> = await localeQuery.all();
 
@@ -140,7 +140,7 @@ describe('LocaleQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeQuery: LocaleQuery = LocaleQuery.getInstance();
+      const localeQuery: LocaleQuery = new LocaleQuery();
       const trial: Try<Language, NoSuchElementError | AJAXError> = await localeQuery.findByISO639(ISO639.of('aa'));
 
       expect(trial.isSuccess()).toEqual(true);
@@ -184,7 +184,7 @@ describe('LocaleQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeQuery: LocaleQuery = LocaleQuery.getInstance();
+      const localeQuery: LocaleQuery = new LocaleQuery();
       const trial: Try<Language, NoSuchElementError | AJAXError> = await localeQuery.findByISO639(ISO639.of('cc'));
 
       expect(trial.isFailure()).toEqual(true);
@@ -227,7 +227,7 @@ describe('LocaleQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeQuery: LocaleQuery = LocaleQuery.getInstance();
+      const localeQuery: LocaleQuery = new LocaleQuery();
       const trial: Try<Region, NoSuchElementError | AJAXError> = await localeQuery.findByISO3166(ISO3166.of('bb'));
 
       expect(trial.isSuccess()).toEqual(true);
@@ -270,7 +270,7 @@ describe('LocaleQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeQuery: LocaleQuery = LocaleQuery.getInstance();
+      const localeQuery: LocaleQuery = new LocaleQuery();
       const trial: Try<Region, NoSuchElementError | AJAXError> = await localeQuery.findByISO3166(ISO3166.of('aa'));
 
       expect(trial.isFailure()).toEqual(true);

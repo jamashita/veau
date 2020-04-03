@@ -38,7 +38,7 @@ describe('SessionQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const sessionQuery: SessionQuery = SessionQuery.getInstance();
+      const sessionQuery: SessionQuery = new SessionQuery();
       const trial: Try<VeauAccount, UnauthorizedError> = await sessionQuery.find();
 
       expect(stub.withArgs('/api/identity').called).toEqual(true);
@@ -68,7 +68,7 @@ describe('SessionQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const sessionQuery: SessionQuery = SessionQuery.getInstance();
+      const sessionQuery: SessionQuery = new SessionQuery();
       const trial: Try<VeauAccount, UnauthorizedError> = await sessionQuery.find();
 
       expect(trial.isFailure()).toEqual(true);
@@ -110,7 +110,7 @@ describe('SessionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
-      const sessionQuery: SessionQuery = SessionQuery.getInstance();
+      const sessionQuery: SessionQuery = new SessionQuery();
       const trial: Try<VeauAccount, UnauthorizedError> = await sessionQuery.findByEntranceInfo(info);
 
       expect(stub.withArgs('/api/auth', {
@@ -144,7 +144,7 @@ describe('SessionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
-      const sessionQuery: SessionQuery = SessionQuery.getInstance();
+      const sessionQuery: SessionQuery = new SessionQuery();
       const trial: Try<VeauAccount, AuthenticationFailureError | AJAXError> = await sessionQuery.findByEntranceInfo(info);
 
       expect(trial.isFailure()).toEqual(true);
@@ -171,7 +171,7 @@ describe('SessionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
-      const sessionQuery: SessionQuery = SessionQuery.getInstance();
+      const sessionQuery: SessionQuery = new SessionQuery();
       const trial: Try<VeauAccount, AuthenticationFailureError | AJAXError> = await sessionQuery.findByEntranceInfo(info);
 
       expect(trial.isFailure()).toEqual(true);

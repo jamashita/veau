@@ -14,13 +14,7 @@ import { Region } from '../../veau-vo/Region';
 export class LocaleQuery {
   private locale: Locale | null;
 
-  private static instance: LocaleQuery = new LocaleQuery();
-
-  public static getInstance(): LocaleQuery {
-    return LocaleQuery.instance;
-  }
-
-  private constructor() {
+  public constructor() {
     this.locale = null;
   }
 

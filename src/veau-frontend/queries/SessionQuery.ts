@@ -10,14 +10,6 @@ import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 import { VeauAccount, VeauAccountJSON } from '../../veau-vo/VeauAccount';
 
 export class SessionQuery {
-  private static instance: SessionQuery = new SessionQuery();
-
-  public static getInstance(): SessionQuery {
-    return SessionQuery.instance;
-  }
-
-  private constructor() {
-  }
 
   public async find(): Promise<Try<VeauAccount, UnauthorizedError>> {
     const response: AJAXResponse<VeauAccountJSON> = await AJAX.get<VeauAccountJSON>('/api/identity');

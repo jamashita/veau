@@ -43,7 +43,7 @@ describe('StatsQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsID: StatsID = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
-      const statsQuery: StatsQuery = StatsQuery.getInstance();
+      const statsQuery: StatsQuery = new StatsQuery();
       const trial: Try<Stats, NotFoundError | AJAXError> = await statsQuery.findByStatsID(statsID);
 
       expect(trial.isSuccess()).toEqual(true);
@@ -75,7 +75,7 @@ describe('StatsQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsID: StatsID = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
-      const statsQuery: StatsQuery = StatsQuery.getInstance();
+      const statsQuery: StatsQuery = new StatsQuery();
       const trial: Try<Stats, NotFoundError | AJAXError> = await statsQuery.findByStatsID(statsID);
 
       expect(trial.isFailure()).toEqual(true);
@@ -102,7 +102,7 @@ describe('StatsQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsID: StatsID = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
-      const statsQuery: StatsQuery = StatsQuery.getInstance();
+      const statsQuery: StatsQuery = new StatsQuery();
       const trial: Try<Stats, NotFoundError | AJAXError> = await statsQuery.findByStatsID(statsID);
 
       expect(trial.isFailure()).toEqual(true);
@@ -148,7 +148,7 @@ describe('StatsQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsQuery: StatsQuery = StatsQuery.getInstance();
+      const statsQuery: StatsQuery = new StatsQuery();
       const trial: Try<StatsOutlines, AJAXError> = await statsQuery.findByPage(Page.of(3));
 
       expect(trial.isSuccess()).toEqual(true);
@@ -179,7 +179,7 @@ describe('StatsQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsQuery: StatsQuery = StatsQuery.getInstance();
+      const statsQuery: StatsQuery = new StatsQuery();
       const trial: Try<StatsOutlines, AJAXError> = await statsQuery.findByPage(Page.of(3));
 
       expect(trial.isFailure()).toEqual(true);
