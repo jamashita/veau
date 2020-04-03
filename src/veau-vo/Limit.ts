@@ -1,19 +1,22 @@
 import { LimitError } from '../veau-error/LimitError';
+import { Failure } from '../veau-general/Try/Failure';
+import { Success } from '../veau-general/Try/Success';
+import { Try } from '../veau-general/Try/Try';
 import { Type } from '../veau-general/Type/Type';
 import { ValueObject } from '../veau-general/ValueObject';
 
 export class Limit extends ValueObject {
   private limit: number;
 
-  public static of(limit: number): Limit {
+  public static of(limit: number): Try<Limit, LimitError> {
     if (limit <= 0) {
-      throw new LimitError(`ILLEGAL LIMIT SPECIFIED ${limit.toString()}`);
+      return Failure.of<Limit, LimitError>(new LimitError(`ILLEGAL LIMIT SPECIFIED ${limit.toString()}`));
     }
     if (Type.isInteger(limit)) {
-      return new Limit(limit);
+      return Success.of<Limit, LimitError>(new Limit(limit));
     }
 
-    throw new LimitError('ILLEGAL LIMIT SPECIFIED');
+    return Failure.of<Limit, LimitError>(new LimitError('ILLEGAL LIMIT SPECIFIED'));
   }
 
   private constructor(limit: number) {
