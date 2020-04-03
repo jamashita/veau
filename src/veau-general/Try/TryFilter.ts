@@ -4,11 +4,11 @@ import { Try } from './Try';
 
 export class TryFilter {
 
-  public static isSuccess(trial: Try<unknown, Error>): trial is Success<unknown, Error> {
+  public static isSuccess<S, F extends Error>(trial: Try<S, F>): trial is Success<S, F> {
     return trial.isSuccess();
   }
 
-  public static isFailure(trial: Try<unknown, Error>): trial is Failure<unknown, Error> {
+  public static isFailure<S, F extends Error>(trial: Try<S, F>): trial is Failure<S, F> {
     return trial.isFailure();
   }
 
