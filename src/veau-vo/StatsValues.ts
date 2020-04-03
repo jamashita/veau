@@ -1,7 +1,13 @@
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
+import { StatsValueError } from '../veau-error/StatsValueError';
+import { StatsValuesError } from '../veau-error/StatsValuesError';
 import { Cloneable } from '../veau-general/Cloneable';
 import { Collection } from '../veau-general/Collection';
 import { JSONable } from '../veau-general/JSONable';
+import { Failure } from '../veau-general/Try/Failure';
+import { Success } from '../veau-general/Try/Success';
+import { Try } from '../veau-general/Try/Try';
+import { TryFilter } from '../veau-general/Try/TryFilter';
 import { Enumerator } from '../veau-general/Type/Enumerator';
 import { AsOf } from './AsOf';
 import { AsOfs } from './AsOfs';
@@ -16,16 +22,42 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
     return new StatsValues(values);
   }
 
-  public static ofJSON(statsItemID: StatsItemID, statsValues: Array<StatsValueJSON>): StatsValues {
-    return StatsValues.of(statsValues.map<StatsValue>((statsValue: StatsValueJSON) => {
-      return StatsValue.ofJSON(statsItemID, statsValue);
-    }));
+  public static ofTry(tries: Array<Try<StatsValue, StatsValueError>>): Try<StatsValues, StatsValuesError> {
+    const failures: Array<Failure<StatsValue, StatsValueError>> = tries.filter<Failure<StatsValue, StatsValueError>>(TryFilter.isFailure);
+
+    if (failures.length !== 0) {
+      const message: string = failures.map<string>((failure: Failure<StatsValue, StatsValueError>) => {
+        return failure.match<string>(() => {
+          return 'IMPOSSIBLE';
+        }, (err: StatsValueError) => {
+          return err.message;
+        });
+      }).join(': ');
+
+      return Failure.of<StatsValues, StatsValuesError>(new StatsValuesError(message));
+    }
+
+    const values: Array<StatsValue> = tries.map<StatsValue>((trial: Try<StatsValue, StatsValueError>) => {
+      return trial.get();
+    });
+
+    return Success.of<StatsValues, StatsValuesError>(StatsValues.of(values));
   }
 
-  public static ofRow(statsValues: Array<StatsValueRow>): StatsValues {
-    return StatsValues.of(statsValues.map<StatsValue>((statsValue: StatsValueRow) => {
+  public static ofJSON(statsItemID: StatsItemID, statsValues: Array<StatsValueJSON>): Try<StatsValues, StatsValuesError> {
+    const trials: Array<Try<StatsValue, StatsValueError>> = statsValues.map<Try<StatsValue, StatsValueError>>((statsValue: StatsValueJSON) => {
+      return StatsValue.ofJSON(statsItemID, statsValue);
+    });
+
+    return StatsValues.ofTry(trials);
+  }
+
+  public static ofRow(statsValues: Array<StatsValueRow>): Try<StatsValues, StatsValuesError> {
+    const trials: Array<Try<StatsValue, StatsValueError>> = statsValues.map<Try<StatsValue, StatsValueError>>((statsValue: StatsValueRow) => {
       return StatsValue.ofRow(statsValue);
-    }));
+    });
+
+    return StatsValues.ofTry(trials);
   }
 
   public static empty(): StatsValues {
