@@ -78,12 +78,13 @@ describe('StatsInteractor', () => {
       const stub: SinonStub = sinon.stub();
       StatsQuery.prototype.findByStatsID = stub;
       stub.resolves(Success.of<Stats, NotFoundError>(stats));
-      const spy: SinonSpy = sinon.spy();
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
       const trial: Try<Stats, NotFoundError> = await statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94'));
 
-      trial.complete<void>((stats: Stats) => {
+      trial.complete<void, Error>((stats: Stats) => {
         expect(stats.getStatsID()).toEqual(statsID);
         expect(stats.getLanguage()).toEqual(language);
         expect(stats.getRegion()).toEqual(region);
@@ -92,28 +93,38 @@ describe('StatsInteractor', () => {
         expect(stats.getUnit()).toEqual(unit);
         expect(stats.getUpdatedAt()).toEqual(updatedAt);
         expect(stats.getItems()).toEqual(items);
-        spy();
+        spy1();
+        return Success.of<void, Error>(undefined);
+      }, (e: NotFoundError) => {
+        spy2();
+        return Failure.of<void, Error>(e);
       });
 
-      expect(spy.called).toEqual(true);
+      expect(spy1.called).toEqual(true);
+      expect(spy2.called).toEqual(false);
     });
 
     it('thrown NoSuchElementError', async () => {
       const stub: SinonStub = sinon.stub();
       StatsQuery.prototype.findByStatsID = stub;
       stub.resolves(Failure.of<Stats, NoSuchElementError>(new NoSuchElementError('')));
-      const spy: SinonSpy = sinon.spy();
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
       const trial: Try<Stats, NotFoundError> = await statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94'));
 
-      trial.recover<Error>((e: NotFoundError) => {
+      trial.complete<void, Error>(() => {
+        spy1();
+        return Success.of<void, Error>(undefined);
+      }, (e: NotFoundError) => {
         expect(e).toBeInstanceOf(NotFoundError);
-        spy();
-        return e;
+        spy2();
+        return Failure.of<void, Error>(e);
       });
 
-      expect(spy.called).toEqual(true);
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
 
     it('thrown Error', async () => {

@@ -6,6 +6,8 @@ import { StatsItems } from '../../../veau-entity/StatsItems';
 import { AJAXError } from '../../../veau-error/AJAXError';
 import { AJAX } from '../../../veau-general/AJAX';
 import { None } from '../../../veau-general/Optional/None';
+import { Failure } from '../../../veau-general/Try/Failure';
+import { Success } from '../../../veau-general/Try/Success';
 import { Try } from '../../../veau-general/Try/Try';
 import { AsOf } from '../../../veau-vo/AsOf';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
@@ -33,7 +35,8 @@ describe('StatsCommand', () => {
         body: {
         }
       });
-      const spy: SinonSpy = sinon.spy();
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const stats: Stats = Stats.of(
         StatsID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87'),
@@ -51,10 +54,15 @@ describe('StatsCommand', () => {
       const trial: Try<void, AJAXError> = await statsCommand.create(stats);
 
       expect(trial.isSuccess()).toEqual(true);
-      trial.complete<void>(() => {
-        spy();
+      trial.complete<void, Error>(() => {
+        spy1();
+        return Success.of<void, Error>(undefined);
+      }, (e: AJAXError) => {
+        spy2();
+        return Failure.of<void, Error>(e);
       });
-      expect(spy.called).toEqual(true);
+      expect(spy1.called).toEqual(true);
+      expect(spy2.called).toEqual(false);
       expect(stub.withArgs('/api/stats', {
         statsID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
         language: {
@@ -85,7 +93,8 @@ describe('StatsCommand', () => {
         body: {
         }
       });
-      const spy: SinonSpy = sinon.spy();
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const stats: Stats = Stats.of(
         StatsID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87'),
@@ -103,12 +112,16 @@ describe('StatsCommand', () => {
       const trial: Try<void, AJAXError> = await statsCommand.create(stats);
 
       expect(trial.isFailure()).toEqual(true);
-      trial.recover<Error>((e: AJAXError) => {
+      trial.complete<void, Error>(() => {
+        spy1();
+        return Success.of<void, Error>(undefined);
+      }, (e: AJAXError) => {
         expect(e).toBeInstanceOf(AJAXError);
-        spy();
-        return e;
+        spy2();
+        return Failure.of<void, Error>(e);
       });
-      expect(spy.called).toEqual(true);
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
   });
 });

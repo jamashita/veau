@@ -6,6 +6,8 @@ import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { NotFoundError } from '../veau-error/NotFoundError';
 import { ITransaction } from '../veau-general/MySQL/ITransaction';
 import { MySQL } from '../veau-general/MySQL/MySQL';
+import { Failure } from '../veau-general/Try/Failure';
+import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
 import { StatsOutlineQuery } from '../veau-query/StatsOutlineQuery';
 import { StatsQuery } from '../veau-query/StatsQuery';
@@ -35,10 +37,12 @@ export class StatsInteractor {
   public async findByStatsID(statsID: StatsID): Promise<Try<Stats, NotFoundError>> {
     const trial: Try<Stats, NoSuchElementError> = await this.statsQuery.findByStatsID(statsID);
 
-    return trial.recover<NotFoundError>((err: NoSuchElementError) => {
+    return trial.complete<Stats, NotFoundError>((stats: Stats) => {
+      return Success.of<Stats, NotFoundError>(stats);
+    }, (err: NoSuchElementError) => {
       logger.error(err.message);
 
-      return new NotFoundError();
+      return Failure.of<Stats, NotFoundError>(new NotFoundError());
     });
   }
 

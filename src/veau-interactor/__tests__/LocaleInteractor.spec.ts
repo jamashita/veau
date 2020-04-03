@@ -94,7 +94,8 @@ describe('LocaleInteractor',  () => {
       const stub2: SinonStub = sinon.stub();
       RegionCommand.prototype.deleteAll = stub2;
       stub2.resolves(Success.of<void, CacheError>(undefined));
-      const spy: SinonSpy = sinon.spy();
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const localeInteractor: LocaleInteractor = container.get<LocaleInteractor>(TYPE.LocaleInteractor);
       const trial: Try<void, CacheError> = await localeInteractor.delete();
@@ -102,13 +103,17 @@ describe('LocaleInteractor',  () => {
       expect(trial.isFailure()).toEqual(true);
       expect(stub1.called).toEqual(true);
       expect(stub2.called).toEqual(true);
-      trial.recover<Error>((e: CacheError) => {
+      trial.complete<void, Error>(() => {
+        spy1();
+        return Success.of<void, Error>(undefined);
+      }, (e: CacheError) => {
         expect(e).toBeInstanceOf(CacheError);
-        spy();
-        return e;
+        spy2();
+        return Failure.of<void, Error>(e);
       });
 
-      expect(spy.called).toEqual(true);
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
 
     it('RegionCommand.deleteAll throws error', async () => {
@@ -118,7 +123,8 @@ describe('LocaleInteractor',  () => {
       const stub2: SinonStub = sinon.stub();
       RegionCommand.prototype.deleteAll = stub2;
       stub2.resolves(Failure.of<void, CacheError>(new CacheError('test failed')));
-      const spy: SinonSpy = sinon.spy();
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const localeInteractor: LocaleInteractor = container.get<LocaleInteractor>(TYPE.LocaleInteractor);
       const trial: Try<void, CacheError> = await localeInteractor.delete();
@@ -126,13 +132,17 @@ describe('LocaleInteractor',  () => {
       expect(trial.isFailure()).toEqual(true);
       expect(stub1.called).toEqual(true);
       expect(stub2.called).toEqual(true);
-      trial.recover<Error>((e: CacheError) => {
+      trial.complete<void, Error>(() => {
+        spy1();
+        return Success.of<void, Error>(undefined);
+      }, (e: CacheError) => {
         expect(e).toBeInstanceOf(CacheError);
-        spy();
-        return e;
+        spy2();
+        return Failure.of<void, Error>(e);
       });
 
-      expect(spy.called).toEqual(true);
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
   });
 });

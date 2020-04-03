@@ -1,14 +1,17 @@
 import { SagaIterator } from 'redux-saga';
-import { all, call, fork, put, select, take } from 'redux-saga/effects';
+import { all, call, fork, put, PutEffect, select, take } from 'redux-saga/effects';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
+import { AJAXError } from '../../veau-error/AJAXError';
 import { NotFoundError } from '../../veau-error/NotFoundError';
 import { None } from '../../veau-general/Optional/None';
 import { Some } from '../../veau-general/Optional/Some';
+import { Try } from '../../veau-general/Try/Try';
 import { AsOf } from '../../veau-vo/AsOf';
 import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-vo/Region';
 import {
+  Action,
   ACTION,
   StatsEditDataDeletedAction,
   StatsEditDataFilledAction,
@@ -448,22 +451,18 @@ export class StatsEditSaga {
       } = state;
 
       yield put(loading());
-      try {
-        yield call((): Promise<unknown> => {
-          return statsCommand.create(stats);
-        });
 
-        yield all([
-          put(loaded()),
-          put(appearNotification('success', 'center', 'top', 'SAVE_SUCCESS'))
-        ]);
-      }
-      catch (err) {
-        yield all([
-          put(loaded()),
-          put(raiseModal('STATS_SAVE_FAILURE', 'STATS_SAVE_FAILURE_DESCRIPTION'))
-        ]);
-      }
+      const trial: Try<void, AJAXError> = yield call((): Promise<Try<void, AJAXError>> => {
+        return statsCommand.create(stats);
+      });
+
+      yield put(loaded());
+
+      yield trial.match<PutEffect<Action>>(() => {
+        return put(appearNotification('success', 'center', 'top', 'SAVE_SUCCESS'));
+      }, () => {
+        return put(raiseModal('STATS_SAVE_FAILURE', 'STATS_SAVE_FAILURE_DESCRIPTION'));
+      });
     }
   }
 

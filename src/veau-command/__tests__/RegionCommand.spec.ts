@@ -6,6 +6,8 @@ import { TYPE } from '../../veau-container/Types';
 import { CacheError } from '../../veau-error/CacheError';
 import { Redis } from '../../veau-general/Redis/Redis';
 import { RedisString } from '../../veau-general/Redis/RedisString';
+import { Failure } from '../../veau-general/Try/Failure';
+import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { Region } from '../../veau-vo/Region';
@@ -63,19 +65,24 @@ describe('RegionCommand', () => {
       const stub: SinonStub = sinon.stub();
       Redis.prototype.delete = stub;
       stub.resolves(false);
-      const spy: SinonSpy = sinon.spy();
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const regionCommand: RegionCommand = container.get<RegionCommand>(TYPE.RegionCommand);
       const trial: Try<void, CacheError> = await regionCommand.deleteAll();
 
       expect(trial.isFailure()).toEqual(true);
-      trial.recover<Error>((e: CacheError) => {
+      trial.complete<void, Error>(() => {
+        spy1();
+        return Success.of<void, Error>(undefined);
+      }, (e: CacheError) => {
         expect(e).toBeInstanceOf(CacheError);
-        spy();
-        return e;
+        spy2();
+        return Failure.of<void, Error>(e);
       });
 
-      expect(spy.called).toEqual(true);
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
   });
 });

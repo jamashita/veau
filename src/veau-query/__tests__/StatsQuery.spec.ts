@@ -7,6 +7,7 @@ import { Stats } from '../../veau-entity/Stats';
 import { StatsItems } from '../../veau-entity/StatsItems';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { MySQL } from '../../veau-general/MySQL/MySQL';
+import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsValues } from '../../veau-vo/StatsValues';
@@ -85,14 +86,15 @@ describe('StatsQuery', () => {
           value: 3
         }
       ]);
-      const spy: SinonSpy = sinon.spy();
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const statsQuery: StatsQuery = container.get<StatsQuery>(TYPE.StatsQuery);
       const trial: Try<Stats, NoSuchElementError> = await statsQuery.findByStatsID(StatsID.of('a25a8b7f-c810-4dc0-b94e-e97e74329307'));
 
       expect(trial.isSuccess()).toEqual(true);
 
-      trial.complete<void>((stats: Stats) => {
+      trial.complete<void, Error>((stats: Stats) => {
         expect(stats.getStatsID().get()).toEqual('a25a8b7f-c810-4dc0-b94e-e97e74329307');
         expect(stats.getLanguage().getLanguageID().get()).toEqual(1);
         expect(stats.getLanguage().getName().get()).toEqual('language1');
@@ -135,29 +137,39 @@ describe('StatsQuery', () => {
 
         values = items.get(2).getValues();
         expect(values.size()).toEqual(0);
-        spy();
+        spy1();
+        return Success.of<void, Error>(undefined);
+      }, () => {
+        spy2();
+        return Success.of<void, Error>(undefined);
       });
 
-      expect(spy.called).toEqual(true);
+      expect(spy1.called).toEqual(true);
+      expect(spy2.called).toEqual(false);
     });
 
     it('throws error', async () => {
       const stub: SinonStub = sinon.stub();
       MySQL.prototype.execute = stub;
       stub.resolves([]);
-      const spy: SinonSpy = sinon.spy();
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const statsQuery: StatsQuery = container.get<StatsQuery>(TYPE.StatsQuery);
       const trial: Try<Stats, NoSuchElementError> = await statsQuery.findByStatsID(StatsID.of('a25a8b7f-c810-4dc0-b94e-e97e74329307'));
 
       expect(trial.isFailure()).toEqual(true);
-      trial.recover<Error>((e: NoSuchElementError) => {
+      trial.complete<void, Error>(() => {
+        spy1();
+        return Success.of<void, Error>(undefined);
+      }, (e: NoSuchElementError) => {
         expect(e).toBeInstanceOf(NoSuchElementError);
-        spy();
-        return e;
+        spy2();
+        return Success.of<void, Error>(undefined);
       });
 
-      expect(spy.called).toEqual(true);
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
   });
 });

@@ -7,6 +7,7 @@ import { TYPE } from '../../veau-container/Types';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { MySQL } from '../../veau-general/MySQL/MySQL';
 import { RedisString } from '../../veau-general/Redis/RedisString';
+import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language } from '../../veau-vo/Language';
@@ -88,20 +89,26 @@ describe('LanguageQuery', () => {
       const stub: SinonStub = sinon.stub();
       RedisString.prototype.get = stub;
       stub.resolves('[{"languageID":1,"name":"аҧсуа бызшәа","englishName":"Abkhazian","iso639":"ab"},{"languageID":2,"name":"Afaraf","englishName":"Afar","iso639":"aa"}]');
-      const spy: SinonSpy = sinon.spy();
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageQuery);
       const trial: Try<Language, NoSuchElementError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(trial.isSuccess()).toEqual(true);
-      trial.complete<void>((language: Language) => {
+      trial.complete<void, Error>((language: Language) => {
         expect(language.getLanguageID().get()).toEqual(2);
         expect(language.getName().get()).toEqual('Afaraf');
         expect(language.getEnglishName().get()).toEqual('Afar');
-        spy();
+        spy1();
+        return Success.of<void, Error>(undefined);
+      }, () => {
+        spy2();
+        return Success.of<void, Error>(undefined);
       });
 
-      expect(spy.called).toEqual(true);
+      expect(spy1.called).toEqual(true);
+      expect(spy2.called).toEqual(false);
     });
 
     it('MySQL returns a language', async () => {
@@ -127,39 +134,50 @@ describe('LanguageQuery', () => {
       const stub3: SinonStub = sinon.stub();
       LanguageCommand.prototype.insertAll = stub3;
       stub3.resolves();
-      const spy: SinonSpy = sinon.spy();
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageQuery);
       const trial: Try<Language, NoSuchElementError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(trial.isSuccess()).toEqual(true);
-      trial.complete<void>((language: Language) => {
+      trial.complete<void, Error>((language: Language) => {
         expect(language.getLanguageID().get()).toEqual(2);
         expect(language.getName().get()).toEqual('Afaraf');
         expect(language.getEnglishName().get()).toEqual('Afar');
-        spy();
+        spy1();
+        return Success.of<void, Error>(undefined);
+      }, () => {
+        spy2();
+        return Success.of<void, Error>(undefined);
       });
 
-      expect(spy.called).toEqual(true);
+      expect(spy1.called).toEqual(true);
+      expect(spy2.called).toEqual(false);
     });
 
     it('Redis throws error', async () => {
       const stub: SinonStub = sinon.stub();
       RedisString.prototype.get = stub;
       stub.resolves('[]');
-      const spy: SinonSpy = sinon.spy();
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageQuery);
       const trial: Try<Language, NoSuchElementError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(trial.isFailure()).toEqual(true);
-      trial.recover<Error>((e: NoSuchElementError) => {
+      trial.complete<void, Error>(() => {
+        spy1();
+        return Success.of<void, Error>(undefined);
+      }, (e: NoSuchElementError) => {
         expect(e).toBeInstanceOf(NoSuchElementError);
-        spy();
-        return e;
+        spy2();
+        return Success.of<void, Error>(undefined);
       });
 
-      expect(spy.called).toEqual(true);
+      expect(spy1.called).toEqual(true);
+      expect(spy2.called).toEqual(true);
     });
 
     it('MySQL throws error', async () => {
@@ -173,19 +191,24 @@ describe('LanguageQuery', () => {
       const stub3: SinonStub = sinon.stub();
       LanguageCommand.prototype.insertAll = stub3;
       stub3.resolves();
-      const spy: SinonSpy = sinon.spy();
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageQuery);
       const trial: Try<Language, NoSuchElementError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(trial.isFailure()).toEqual(true);
-      trial.recover<Error>((e: NoSuchElementError) => {
+      trial.complete<void, Error>(() => {
+        spy1();
+        return Success.of<void, Error>(undefined);
+      }, (e: NoSuchElementError) => {
         expect(e).toBeInstanceOf(NoSuchElementError);
-        spy();
-        return e;
+        spy2();
+        return Success.of<void, Error>(undefined);
       });
 
-      expect(spy.called).toEqual(true);
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
   });
 });
