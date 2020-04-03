@@ -2,6 +2,9 @@ import { CREATED } from 'http-status';
 import { Stats } from '../../veau-entity/Stats';
 import { AJAXError } from '../../veau-error/AJAXError';
 import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
+import { Failure } from '../../veau-general/Try/Failure';
+import { Success } from '../../veau-general/Try/Success';
+import { Try } from '../../veau-general/Try/Try';
 
 export class StatsCommand {
   private static instance: StatsCommand = new StatsCommand();
@@ -13,15 +16,15 @@ export class StatsCommand {
   private constructor() {
   }
 
-  public async create(stats: Stats): Promise<void> {
+  public async create(stats: Stats): Promise<Try<void, AJAXError>> {
     const response: AJAXResponse<unknown> = await AJAX.post<unknown>('/api/stats', stats.toJSON());
 
     switch (response.status) {
       case CREATED: {
-        return;
+        return Success.of<void, AJAXError>(undefined);
       }
       default: {
-        throw new AJAXError('UNKNOWN ERROR');
+        return Failure.of<void, AJAXError>(new AJAXError('UNKNOWN ERROR'));
       }
     }
   }

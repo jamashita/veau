@@ -1,11 +1,12 @@
 import { BAD_REQUEST, CREATED } from 'http-status';
 import 'jest';
-import sinon, { SinonStub } from 'sinon';
+import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { Stats } from '../../../veau-entity/Stats';
 import { StatsItems } from '../../../veau-entity/StatsItems';
 import { AJAXError } from '../../../veau-error/AJAXError';
 import { AJAX } from '../../../veau-general/AJAX';
 import { None } from '../../../veau-general/Optional/None';
+import { Try } from '../../../veau-general/Try/Try';
 import { AsOf } from '../../../veau-vo/AsOf';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
@@ -24,7 +25,7 @@ import { StatsCommand } from '../StatsCommand';
 
 describe('StatsCommand', () => {
   describe('create', () => {
-    it('normal case',  () => {
+    it('normal case',  async () => {
       const stub: SinonStub = sinon.stub();
       AJAX.post = stub;
       stub.resolves({
@@ -32,6 +33,7 @@ describe('StatsCommand', () => {
         body: {
         }
       });
+      const spy: SinonSpy = sinon.spy();
 
       const stats: Stats = Stats.of(
         StatsID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87'),
@@ -46,7 +48,13 @@ describe('StatsCommand', () => {
       );
 
       const statsCommand: StatsCommand = StatsCommand.getInstance();
-      expect(statsCommand.create(stats)).resolves.toEqual(undefined);
+      const trial: Try<void, AJAXError> = await statsCommand.create(stats);
+
+      expect(trial.isSuccess()).toEqual(true);
+      trial.complete<void>(() => {
+        spy();
+      });
+      expect(spy.called).toEqual(true);
       expect(stub.withArgs('/api/stats', {
         statsID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
         language: {
@@ -77,6 +85,7 @@ describe('StatsCommand', () => {
         body: {
         }
       });
+      const spy: SinonSpy = sinon.spy();
 
       const stats: Stats = Stats.of(
         StatsID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87'),
@@ -91,7 +100,15 @@ describe('StatsCommand', () => {
       );
 
       const statsCommand: StatsCommand = StatsCommand.getInstance();
-      await expect(statsCommand.create(stats)).rejects.toThrow(AJAXError);
+      const trial: Try<void, AJAXError> = await statsCommand.create(stats);
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.recover<Error>((e: AJAXError) => {
+        expect(e).toBeInstanceOf(AJAXError);
+        spy();
+        return e;
+      });
+      expect(spy.called).toEqual(true);
     });
   });
 });
