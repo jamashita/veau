@@ -1,4 +1,9 @@
+import { StatsItemError } from '../veau-error/StatsItemError';
+import { StatsItemIDError } from '../veau-error/StatsItemIDError';
 import { Entity } from '../veau-general/Entity';
+import { Failure } from '../veau-general/Try/Failure';
+import { Success } from '../veau-general/Try/Success';
+import { Try } from '../veau-general/Try/Try';
 import { AsOf } from '../veau-vo/AsOf';
 import { AsOfs } from '../veau-vo/AsOfs';
 import { NoValue } from '../veau-vo/NoValue';
@@ -28,25 +33,31 @@ export class StatsItem extends Entity<StatsItemID> {
     return new StatsItem(statsItemID, name, values);
   }
 
-  public static ofJSON(json: StatsItemJSON): StatsItem {
+  public static ofJSON(json: StatsItemJSON): Try<StatsItem, StatsItemError> {
     const {
       statsItemID,
       name,
       values
     } = json;
 
-    const itemID: StatsItemID = StatsItemID.of(statsItemID);
-
-    return StatsItem.of(itemID, StatsItemName.of(name), StatsValues.ofJSON(itemID, values));
+    return StatsItemID.of(statsItemID).match<Try<StatsItem, StatsItemError>>((id: StatsItemID) => {
+      return Success.of<StatsItem, StatsItemError>(StatsItem.of(id, StatsItemName.of(name), StatsValues.ofJSON(id, values)));
+    }, (err: StatsItemIDError) => {
+      return Failure.of<StatsItem, StatsItemError>(new StatsItemError(err.message));
+    });
   }
 
-  public static ofRow(row: StatsItemRow, statsValues: StatsValues): StatsItem {
+  public static ofRow(row: StatsItemRow, statsValues: StatsValues): Try<StatsItem, StatsItemError> {
     const {
       statsItemID,
       name
     } = row;
 
-    return StatsItem.of(StatsItemID.of(statsItemID), StatsItemName.of(name), statsValues);
+    return StatsItemID.of(statsItemID).match<Try<StatsItem, StatsItemError>>((id: StatsItemID) => {
+      return Success.of<StatsItem, StatsItemError>(StatsItem.of(id, StatsItemName.of(name), statsValues));
+    }, (err: StatsItemIDError) => {
+      return Failure.of<StatsItem, StatsItemError>(new StatsItemError(err.message));
+    });
   }
 
   public static default(): StatsItem {
