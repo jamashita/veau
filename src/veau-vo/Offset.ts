@@ -1,19 +1,22 @@
 import { OffsetError } from '../veau-error/OffsetError';
+import { Failure } from '../veau-general/Try/Failure';
+import { Success } from '../veau-general/Try/Success';
+import { Try } from '../veau-general/Try/Try';
 import { Type } from '../veau-general/Type/Type';
 import { ValueObject } from '../veau-general/ValueObject';
 
 export class Offset extends ValueObject {
   private offset: number;
 
-  public static of(offset: number): Offset {
+  public static of(offset: number): Try<Offset, OffsetError> {
     if (offset < 0) {
-      throw new OffsetError(`ILLEGAL OFFSET SPECIFIED ${offset.toString()}`);
+      return Failure.of<Offset, OffsetError>(new OffsetError(`ILLEGAL OFFSET SPECIFIED ${offset.toString()}`));
     }
     if (Type.isInteger(offset)) {
-      return new Offset(offset);
+      return Success.of<Offset, OffsetError>(new Offset(offset));
     }
 
-    throw new OffsetError('ILLEGAL OFFSET SPECIFIED');
+    return Failure.of<Offset, OffsetError>(new OffsetError('ILLEGAL OFFSET SPECIFIED'));
   }
 
   private constructor(offset: number) {
