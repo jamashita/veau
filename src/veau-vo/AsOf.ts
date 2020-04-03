@@ -1,5 +1,8 @@
 import moment from 'moment';
 import { AsOfError } from '../veau-error/AsOfError';
+import { Failure } from '../veau-general/Try/Failure';
+import { Success } from '../veau-general/Try/Success';
+import { Try } from '../veau-general/Try/Try';
 import { Type } from '../veau-general/Type/Type';
 import { ValueObject } from '../veau-general/ValueObject';
 import { Term } from './Term';
@@ -13,12 +16,12 @@ export class AsOf extends ValueObject {
     return new AsOf(asOf);
   }
 
-  public static ofString(asOf: string): AsOf {
+  public static ofString(asOf: string): Try<AsOf, AsOfError> {
     if (Type.isDateString(asOf)) {
-      return AsOf.of(moment(asOf));
+      return Success.of<AsOf, AsOfError>(AsOf.of(moment(asOf)));
     }
 
-    throw new AsOfError('asOf is not suitable for date time');
+    return Failure.of<AsOf, AsOfError>(new AsOfError('asOf is not suitable for date time'));
   }
 
   private constructor(asOf: moment.Moment) {
