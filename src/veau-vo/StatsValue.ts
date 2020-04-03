@@ -1,4 +1,10 @@
+import { AsOfError } from '../veau-error/AsOfError';
+import { StatsItemIDError } from '../veau-error/StatsItemIDError';
+import { StatsValueError } from '../veau-error/StatsValueError';
 import { JSONable } from '../veau-general/JSONable';
+import { Failure } from '../veau-general/Try/Failure';
+import { Success } from '../veau-general/Try/Success';
+import { Try } from '../veau-general/Try/Try';
 import { ValueObject } from '../veau-general/ValueObject';
 import { AsOf } from './AsOf';
 import { NumericalValue } from './NumericalValue';
@@ -24,23 +30,35 @@ export class StatsValue extends ValueObject implements JSONable {
     return new StatsValue(statsItemID, asOf, value);
   }
 
-  public static ofJSON(statsItemID: StatsItemID, json: StatsValueJSON): StatsValue {
+  public static ofJSON(statsItemID: StatsItemID, json: StatsValueJSON): Try<StatsValue, StatsValueError> {
     const {
       asOf,
       value
     } = json;
 
-    return StatsValue.of(statsItemID, AsOf.ofString(asOf), NumericalValue.of(value));
+    return AsOf.ofString(asOf).match<Try<StatsValue, StatsValueError>>((of: AsOf) => {
+      return Success.of<StatsValue, StatsValueError>(StatsValue.of(statsItemID, of, NumericalValue.of(value)));
+    }, (err: AsOfError) => {
+      return Failure.of<StatsValue, StatsValueError>(new StatsValueError(err.message));
+    });
   }
 
-  public static ofRow(row: StatsValueRow): StatsValue {
+  public static ofRow(row: StatsValueRow): Try<StatsValue, StatsValueError> {
     const {
       statsItemID,
       asOf,
       value
     } = row;
 
-    return StatsValue.of(StatsItemID.of(statsItemID), AsOf.ofString(asOf), NumericalValue.of(value));
+    return StatsItemID.of(statsItemID).match<Try<StatsValue, StatsValueError>>((id: StatsItemID) => {
+      return AsOf.ofString(asOf).match<Try<StatsValue, StatsValueError>>((of: AsOf) => {
+        return Success.of<StatsValue, StatsValueError>(StatsValue.of(id, of, NumericalValue.of(value)));
+      }, (err: AsOfError) => {
+        return Failure.of<StatsValue, StatsValueError>(new StatsValueError(err.message));
+      });
+    }, (err: StatsItemIDError) => {
+      return Failure.of<StatsValue, StatsValueError>(new StatsValueError(err.message));
+    });
   }
 
   private constructor(statsItemID: StatsItemID, asOf: AsOf, value: NumericalValue) {
