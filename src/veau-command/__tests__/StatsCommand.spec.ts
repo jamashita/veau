@@ -2,9 +2,12 @@ import 'jest';
 import sinon, { SinonStub } from 'sinon';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItems } from '../../veau-entity/StatsItems';
+import { StatsIDError } from '../../veau-error/StatsIDError';
+import { VeauAccountIDError } from '../../veau-error/VeauAccountIDError';
 import { IQuery } from '../../veau-general/MySQL/IQuery';
 import { QueryMock } from '../../veau-general/MySQL/QueryMock';
 import { None } from '../../veau-general/Optional/None';
+import { Try } from '../../veau-general/Try/Try';
 import { AsOf } from '../../veau-vo/AsOf';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
@@ -30,21 +33,21 @@ describe('StatsCommand', () => {
 
       const query: IQuery = new QueryMock();
       const stats: Stats = Stats.of(
-        StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007'),
+        StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(),
         Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('language 2'), ISO639.of('aa')),
         Region.of(RegionID.of(2), RegionName.of('region 3'), ISO3166.of('abc')),
         Term.DAILY,
         StatsName.of('stats name'),
         StatsUnit.of('stats unit'),
-        UpdatedAt.ofString('2000-01-01'),
+        UpdatedAt.ofString('2000-01-01').get(),
         StatsItems.empty(),
         None.of<AsOf>()
       );
-      const accountID: VeauAccountID = VeauAccountID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87');
+      const accountID: Try<VeauAccountID, VeauAccountIDError> = VeauAccountID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87');
 
       const statsCommand: StatsCommand = StatsCommand.of(query);
 
-      await statsCommand.create(stats, accountID);
+      await statsCommand.create(stats, accountID.get());
 
       expect(stub.withArgs(`INSERT INTO stats VALUES (
       :statsID,
@@ -73,11 +76,11 @@ describe('StatsCommand', () => {
       QueryMock.prototype.execute = stub;
 
       const query: IQuery = new QueryMock();
-      const statsID: StatsID = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
+      const statsID: Try<StatsID, StatsIDError> = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
 
       const statsCommand: StatsCommand = StatsCommand.of(query);
 
-      await statsCommand.deleteByStatsID(statsID);
+      await statsCommand.deleteByStatsID(statsID.get());
 
       expect(stub.withArgs(`DELETE R1
       FROM stats R1

@@ -37,13 +37,13 @@ describe('StatsCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const stats: Stats = Stats.of(
-        StatsID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87'),
+        StatsID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87').get(),
         Language.of(LanguageID.of(3), LanguageName.of('language name 1'), LanguageName.of('language name 2'), ISO639.of('aa')),
         Region.of(RegionID.of(4), RegionName.of('region name 5'), ISO3166.of('bb')),
         Term.DAILY,
         StatsName.of('stats name'),
         StatsUnit.of('stats unit'),
-        UpdatedAt.ofString('2000-01-01'),
+        UpdatedAt.ofString('2000-01-01').get(),
         StatsItems.empty(),
         None.of<AsOf>()
       );
@@ -54,7 +54,7 @@ describe('StatsCommand', () => {
       expect(trial.isSuccess()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (e: AJAXError) => {
+      }, () => {
         spy2();
       });
       expect(spy1.called).toEqual(true);
@@ -93,13 +93,13 @@ describe('StatsCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const stats: Stats = Stats.of(
-        StatsID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87'),
+        StatsID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87').get(),
         Language.of(LanguageID.of(3), LanguageName.of('language name 1'), LanguageName.of('language name 2'), ISO639.of('aa')),
         Region.of(RegionID.of(4), RegionName.of('region name 5'), ISO3166.of('bb')),
         Term.DAILY,
         StatsName.of('stats name'),
         StatsUnit.of('stats unit'),
-        UpdatedAt.ofString('2000-01-01'),
+        UpdatedAt.ofString('2000-01-01').get(),
         StatsItems.empty(),
         None.of<AsOf>()
       );

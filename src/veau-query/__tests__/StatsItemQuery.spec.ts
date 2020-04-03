@@ -67,7 +67,7 @@ describe('StatsItemQuery', () => {
       ]);
 
       const statsItemQuery: StatsItemQuery = container.get<StatsItemQuery>(TYPE.StatsItemQuery);
-      const statsItems: StatsItems = await statsItemQuery.findByStatsID(StatsID.of(statsID));
+      const statsItems: StatsItems = await statsItemQuery.findByStatsID(StatsID.of(statsID).get());
 
       expect(statsItems.size()).toEqual(3);
       expect(statsItems.get(0).getStatsItemID().get()).toEqual('c0e18d31-d026-4a84-af4f-d5d26c520600');

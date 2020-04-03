@@ -1,7 +1,10 @@
 import 'jest';
 import sinon, { SinonStub } from 'sinon';
+import { StatsIDError } from '../../veau-error/StatsIDError';
+import { StatsItemIDError } from '../../veau-error/StatsItemIDError';
 import { IQuery } from '../../veau-general/MySQL/IQuery';
 import { QueryMock } from '../../veau-general/MySQL/QueryMock';
+import { Try } from '../../veau-general/Try/Try';
 import { AsOf } from '../../veau-vo/AsOf';
 import { NumericalValue } from '../../veau-vo/NumericalValue';
 import { StatsID } from '../../veau-vo/StatsID';
@@ -16,8 +19,8 @@ describe('StatsValueCommand', () => {
       QueryMock.prototype.execute = stub;
 
       const query: IQuery = new QueryMock();
-      const statsItemID: StatsItemID = StatsItemID.of('6c3f54e0-bfe5-4b4b-9227-2175604ab739');
-      const statsValue: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01'), NumericalValue.of(1));
+      const statsItemID: Try<StatsItemID, StatsItemIDError> = StatsItemID.of('6c3f54e0-bfe5-4b4b-9227-2175604ab739');
+      const statsValue: StatsValue = StatsValue.of(statsItemID.get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
 
       const statsValueCommand: StatsValueCommand = StatsValueCommand.of(query);
 
@@ -41,11 +44,11 @@ describe('StatsValueCommand', () => {
       QueryMock.prototype.execute = stub;
 
       const query: IQuery = new QueryMock();
-      const statsID: StatsID = StatsID.of('59915b56-b930-426c-a146-3b1dde8054cd');
+      const statsID: Try<StatsID, StatsIDError> = StatsID.of('59915b56-b930-426c-a146-3b1dde8054cd');
 
       const statsValueCommand: StatsValueCommand = StatsValueCommand.of(query);
 
-      await statsValueCommand.deleteByStatsID(statsID);
+      await statsValueCommand.deleteByStatsID(statsID.get());
 
       expect(stub.withArgs(`DELETE R1
       FROM stats_values R1
