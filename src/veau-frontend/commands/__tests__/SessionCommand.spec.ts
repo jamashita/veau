@@ -19,7 +19,7 @@ describe('SessionCommand', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const sessionCommand: SessionCommand = SessionCommand.getInstance();
+      const sessionCommand: SessionCommand = new SessionCommand();
       const trial: Try<void, AJAXError> = await sessionCommand.delete();
 
       expect(trial.isSuccess()).toEqual(true);
@@ -44,7 +44,7 @@ describe('SessionCommand', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const sessionCommand: SessionCommand = SessionCommand.getInstance();
+      const sessionCommand: SessionCommand = new SessionCommand();
       const trial: Try<void, AJAXError> = await sessionCommand.delete();
 
       expect(trial.isFailure()).toEqual(true);

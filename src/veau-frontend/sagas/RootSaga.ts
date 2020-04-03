@@ -7,16 +7,35 @@ import { StatsEditSaga } from './StatsEditSaga';
 import { StatsListSaga } from './StatsListSaga';
 
 export class RootSaga {
+  private entranceSaga: EntranceSaga;
+  private identitySaga: IdentitySaga;
+  private logoutSaga: LogoutSaga;
+  private redirectSaga: RedirectSaga;
+  private statsEditSaga: StatsEditSaga;
+  private statsListSaga: StatsListSaga;
 
-  public static *init(): IterableIterator<unknown> {
-    yield fork(EntranceSaga.init);
-    yield fork(IdentitySaga.init);
-    yield fork(LogoutSaga.init);
-    yield fork(RedirectSaga.init);
-    yield fork(StatsEditSaga.init);
-    yield fork(StatsListSaga.init);
+  public constructor(
+    entranceSaga: EntranceSaga,
+    identitySaga: IdentitySaga,
+    logoutSaga: LogoutSaga,
+    redirectSaga: RedirectSaga,
+    statsEditSaga: StatsEditSaga,
+    statsListSaga: StatsListSaga
+  ) {
+    this.entranceSaga = entranceSaga;
+    this.identitySaga = identitySaga;
+    this.logoutSaga = logoutSaga;
+    this.redirectSaga = redirectSaga;
+    this.statsEditSaga = statsEditSaga;
+    this.statsListSaga = statsListSaga;
   }
 
-  private constructor() {
+  public *init(): IterableIterator<unknown> {
+    yield fork(this.entranceSaga.init);
+    yield fork(this.identitySaga.init);
+    yield fork(this.logoutSaga.init);
+    yield fork(this.redirectSaga.init);
+    yield fork(this.statsEditSaga.init);
+    yield fork(this.statsListSaga.init);
   }
 }

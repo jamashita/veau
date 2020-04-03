@@ -14,17 +14,20 @@ import { pushToStatsList } from '../actions/RedirectAction';
 import { SessionQuery } from '../queries/SessionQuery';
 import { State } from '../State';
 
-const sessionQuery: SessionQuery = SessionQuery.getInstance();
-
 export class EntranceSaga {
+  private sessionQuery: SessionQuery;
 
-  public static *init(): IterableIterator<unknown> {
-    yield fork(EntranceSaga.login);
-    yield fork(EntranceSaga.accountNameTyped);
-    yield fork(EntranceSaga.passwordTyped);
+  public constructor(sessionQuery: SessionQuery) {
+    this.sessionQuery = sessionQuery;
   }
 
-  private static *login(): SagaIterator<unknown> {
+  public *init(): IterableIterator<unknown> {
+    yield fork(this.login);
+    yield fork(this.accountNameTyped);
+    yield fork(this.passwordTyped);
+  }
+
+  private *login(): SagaIterator<unknown> {
     while (true) {
       yield take(ACTION.IDENTITY_AUTHENTICATE);
       const state: State = yield select();
@@ -46,7 +49,7 @@ export class EntranceSaga {
       yield put(loading());
 
       const trial: Try<VeauAccount, AuthenticationFailureError | AJAXError> = yield call((): Promise<Try<VeauAccount, AuthenticationFailureError | AJAXError>> => {
-        return sessionQuery.findByEntranceInfo(entranceInformation);
+        return this.sessionQuery.findByEntranceInfo(entranceInformation);
       });
 
       yield put(loaded());
@@ -67,7 +70,7 @@ export class EntranceSaga {
     }
   }
 
-  private static *accountNameTyped(): SagaIterator<unknown> {
+  private *accountNameTyped(): SagaIterator<unknown> {
     while (true) {
       const action: EntranceAccountNameTypedAction = yield take(ACTION.ENTRANCE_ACCOUNT_NAME_TYPED);
       const state: State = yield select();
@@ -81,7 +84,7 @@ export class EntranceSaga {
     }
   }
 
-  private static *passwordTyped(): SagaIterator<unknown> {
+  private *passwordTyped(): SagaIterator<unknown> {
     while (true) {
       const action: EntrancePasswordTypedAction = yield take(ACTION.ENTRANCE_PASSWORD_TYPED);
       const state: State = yield select();
@@ -93,8 +96,5 @@ export class EntranceSaga {
       const newLogin: EntranceInformation = EntranceInformation.of(entranceInformation.getAccount(), action.password);
       yield put(updateEntranceInformation(newLogin));
     }
-  }
-
-  private constructor() {
   }
 }

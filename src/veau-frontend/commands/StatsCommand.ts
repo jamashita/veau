@@ -7,14 +7,6 @@ import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
 
 export class StatsCommand {
-  private static instance: StatsCommand = new StatsCommand();
-
-  public static getInstance(): StatsCommand {
-    return StatsCommand.instance;
-  }
-
-  private constructor() {
-  }
 
   public async create(stats: Stats): Promise<Try<void, AJAXError>> {
     const response: AJAXResponse<unknown> = await AJAX.post<unknown>('/api/stats', stats.toJSON());

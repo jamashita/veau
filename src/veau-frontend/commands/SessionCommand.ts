@@ -6,14 +6,6 @@ import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
 
 export class SessionCommand {
-  private static instance: SessionCommand = new SessionCommand();
-
-  public static getInstance(): SessionCommand {
-    return SessionCommand.instance;
-  }
-
-  private constructor() {
-  }
 
   public async delete(): Promise<Try<void, AJAXError>> {
     const response: AJAXResponse<unknown> = await AJAX.delete<unknown>('/api/destroy');;

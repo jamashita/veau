@@ -22,21 +22,25 @@ import { LocaleQuery } from '../queries/LocaleQuery';
 import { SessionQuery } from '../queries/SessionQuery';
 import { State } from '../State';
 
-const sessionQuery: SessionQuery = SessionQuery.getInstance();
-const localeQuery: LocaleQuery = LocaleQuery.getInstance();
-
 export class IdentitySaga {
+  private sessionQuery: SessionQuery;
+  private localeQuery: LocaleQuery;
 
-  public static *init(): IterableIterator<unknown> {
-    yield fork(IdentitySaga.initIdentity);
-    yield fork(IdentitySaga.initialize);
+  public constructor(sessionQuery: SessionQuery, localeQuery: LocaleQuery) {
+    this.sessionQuery = sessionQuery;
+    this.localeQuery = localeQuery;
   }
 
-  private static *initIdentity(): SagaIterator<void> {
+  public *init(): IterableIterator<unknown> {
+    yield fork(this.initIdentity);
+    yield fork(this.initialize);
+  }
+
+  private *initIdentity(): SagaIterator<void> {
     yield put(loading());
 
     const trial1: Try<Locale, AJAXError> = yield call((): Promise<Try<Locale, AJAXError>> => {
-      return localeQuery.all();
+      return this.localeQuery.all();
     });
 
     yield put(loaded());
@@ -48,7 +52,7 @@ export class IdentitySaga {
     });
 
     const trial2: Try<VeauAccount, UnauthorizedError> = yield call((): Promise<Try<VeauAccount, UnauthorizedError>> => {
-      return sessionQuery.find();
+      return this.sessionQuery.find();
     });
 
     if (trial2.isSuccess()) {
@@ -74,7 +78,7 @@ export class IdentitySaga {
     } = state;
 
     const trial3: Try<Language, NoSuchElementError | AJAXError> = yield call((): Promise<Try<Language, NoSuchElementError | AJAXError>> => {
-      return localeQuery.findByISO639(iso639);
+      return this.localeQuery.findByISO639(iso639);
     });
 
     yield trial3.match<Effect>((language: Language) => {
@@ -89,7 +93,7 @@ export class IdentitySaga {
     });
   }
 
-  private static *initialize(): SagaIterator<unknown> {
+  private *initialize(): SagaIterator<unknown> {
     while (true) {
       yield take(ACTION.IDENTITY_INITIALIZE);
       const state: State = yield select();
@@ -102,8 +106,5 @@ export class IdentitySaga {
 
       yield put(identityAuthenticated(veauAccount));
     }
-  }
-
-  private constructor() {
   }
 }

@@ -29,28 +29,33 @@ import { LocaleQuery } from '../queries/LocaleQuery';
 import { StatsQuery } from '../queries/StatsQuery';
 import { State } from '../State';
 
-const statsCommand: StatsCommand = StatsCommand.getInstance();
-const statsQuery: StatsQuery = StatsQuery.getInstance();
-const localeQuery: LocaleQuery = LocaleQuery.getInstance();
-
 export class StatsListSaga {
+  private statsCommand: StatsCommand;
+  private statsQuery: StatsQuery;
+  private localeQuery: LocaleQuery;
 
-  public static *init(): IterableIterator<unknown> {
-    yield fork(StatsListSaga.findStatsList);
-    yield fork(StatsListSaga.nameTyped);
-    yield fork(StatsListSaga.unitTyped);
-    yield fork(StatsListSaga.iso639Selected);
-    yield fork(StatsListSaga.iso3166Selected);
-    yield fork(StatsListSaga.termSelected);
-    yield fork(StatsListSaga.save);
+  public constructor(statsCommand: StatsCommand, statsQuery: StatsQuery, localeQuery: LocaleQuery) {
+    this.statsCommand = statsCommand;
+    this.statsQuery = statsQuery;
+    this.localeQuery = localeQuery;
   }
 
-  private static *findStatsList(): SagaIterator<unknown> {
+  public *init(): IterableIterator<unknown> {
+    yield fork(this.findStatsList);
+    yield fork(this.nameTyped);
+    yield fork(this.unitTyped);
+    yield fork(this.iso639Selected);
+    yield fork(this.iso3166Selected);
+    yield fork(this.termSelected);
+    yield fork(this.save);
+  }
+
+  private *findStatsList(): SagaIterator<unknown> {
     while (true) {
       yield take(ACTION.STATS_LIST_INITIALIZE);
 
       const trial: Try<StatsOutlines, AJAXError> = yield call((): Promise<Try<StatsOutlines, AJAXError>> => {
-        return statsQuery.findByPage(Page.of(1));
+        return this.statsQuery.findByPage(Page.of(1));
       });
 
       yield trial.match<Effect>((statsOutlines: StatsOutlines) => {
@@ -64,7 +69,7 @@ export class StatsListSaga {
     }
   }
 
-  private static *nameTyped(): SagaIterator<unknown> {
+  private *nameTyped(): SagaIterator<unknown> {
     while (true) {
       const action: StatsListNameTypedAction = yield take(ACTION.STATS_LIST_NAME_TYPED);
       const state: State = yield select();
@@ -94,7 +99,7 @@ export class StatsListSaga {
     }
   }
 
-  private static *unitTyped(): SagaIterator<unknown> {
+  private *unitTyped(): SagaIterator<unknown> {
     while (true) {
       const action: StatsListUnitTypedAction = yield take(ACTION.STATS_LIST_UNIT_TYPED);
       const state: State = yield select();
@@ -124,7 +129,7 @@ export class StatsListSaga {
     }
   }
 
-  private static *iso639Selected(): SagaIterator<unknown> {
+  private *iso639Selected(): SagaIterator<unknown> {
     while (true) {
       const action: StatsListISO639SelectedAction = yield take(ACTION.STATS_LIST_ISO639_SELECTED);
       const state: State = yield select();
@@ -136,7 +141,7 @@ export class StatsListSaga {
       } = state;
 
       const trial: Try<Language, NoSuchElementError | AJAXError> = yield call((): Promise<Try<Language, NoSuchElementError | AJAXError>> => {
-        return localeQuery.findByISO639(action.iso639);
+        return this.localeQuery.findByISO639(action.iso639);
       });
 
       if (trial.isSuccess()) {
@@ -157,7 +162,7 @@ export class StatsListSaga {
     }
   }
 
-  private static *iso3166Selected(): SagaIterator<unknown> {
+  private *iso3166Selected(): SagaIterator<unknown> {
     while (true) {
       const action: StatsListISO3166SelectedAction = yield take(ACTION.STATS_LIST_ISO3166_SELECTED);
       const state: State = yield select();
@@ -169,7 +174,7 @@ export class StatsListSaga {
       } = state;
 
       const trial: Try<Region, NoSuchElementError | AJAXError> = yield call((): Promise<Try<Region, NoSuchElementError | AJAXError>> => {
-        return localeQuery.findByISO3166(action.iso3166);
+        return this.localeQuery.findByISO3166(action.iso3166);
       });
 
       if (trial.isSuccess()) {
@@ -190,7 +195,7 @@ export class StatsListSaga {
     }
   }
 
-  private static *termSelected(): SagaIterator<unknown> {
+  private *termSelected(): SagaIterator<unknown> {
     while (true) {
       const action: StatsListTermSelectedAction = yield take(ACTION.STATS_LIST_TERM_SELECTED);
       const state: State = yield select();
@@ -217,7 +222,7 @@ export class StatsListSaga {
     }
   }
 
-  private static *save(): SagaIterator<unknown> {
+  private *save(): SagaIterator<unknown> {
     while (true) {
       yield take(ACTION.STATS_LIST_SAVE_NEW_STATS);
 
@@ -239,7 +244,7 @@ export class StatsListSaga {
       ]);
 
       const trial: Try<void, AJAXError> = yield call((): Promise<Try<void, AJAXError>> => {
-        return statsCommand.create(stats);
+        return this.statsCommand.create(stats);
       });
 
       yield trial.match<Effect>(() => {
@@ -255,8 +260,5 @@ export class StatsListSaga {
         ]);
       });
     }
-  }
-
-  private constructor() {
   }
 }

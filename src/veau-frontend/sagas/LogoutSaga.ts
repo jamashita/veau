@@ -8,20 +8,23 @@ import { closeProvider } from '../actions/PageProviderAction';
 import { pushToEntrance } from '../actions/RedirectAction';
 import { SessionCommand } from '../commands/SessionCommand';
 
-const sessionCommand: SessionCommand = SessionCommand.getInstance();
-
 export class LogoutSaga {
+  private sessionCommand: SessionCommand;
 
-  public static *init(): IterableIterator<unknown> {
-    yield fork(LogoutSaga.logout);
+  public constructor(sessionCommand: SessionCommand) {
+    this.sessionCommand = sessionCommand;
   }
 
-  private static *logout(): SagaIterator<unknown> {
+  public *init(): IterableIterator<unknown> {
+    yield fork(this.logout);
+  }
+
+  private *logout(): SagaIterator<unknown> {
     while (true) {
       yield take(ACTION.LOGOUT);
 
       yield call((): Promise<Try<void, AJAXError>> => {
-        return sessionCommand.delete();
+        return this.sessionCommand.delete();
       });
 
       yield all([
@@ -30,8 +33,5 @@ export class LogoutSaga {
         put(pushToEntrance())
       ]);
     }
-  }
-
-  private constructor() {
   }
 }

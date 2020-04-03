@@ -48,7 +48,7 @@ describe('StatsCommand', () => {
         None.of<AsOf>()
       );
 
-      const statsCommand: StatsCommand = StatsCommand.getInstance();
+      const statsCommand: StatsCommand = new StatsCommand();
       const trial: Try<void, AJAXError> = await statsCommand.create(stats);
 
       expect(trial.isSuccess()).toEqual(true);
@@ -104,7 +104,7 @@ describe('StatsCommand', () => {
         None.of<AsOf>()
       );
 
-      const statsCommand: StatsCommand = StatsCommand.getInstance();
+      const statsCommand: StatsCommand = new StatsCommand();
       const trial: Try<void, AJAXError> = await statsCommand.create(stats);
 
       expect(trial.isFailure()).toEqual(true);
