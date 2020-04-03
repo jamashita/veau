@@ -1,7 +1,8 @@
 import 'jest';
 import moment from 'moment';
-import sinon, { SinonStub } from 'sinon';
+import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { UpdatedAtError } from '../../veau-error/UpdatedAtError';
+import { Try } from '../../veau-general/Try/Try';
 import { UpdatedAt } from '../UpdatedAt';
 
 describe('UpdatedAt', () => {
@@ -20,23 +21,35 @@ describe('UpdatedAt', () => {
   describe('toString', () => {
     it('normal case', () => {
       const at: string = '2000-01-01 00:01:02';
-      const updatedAt: UpdatedAt = UpdatedAt.ofString(at);
+      const updatedAt: Try<UpdatedAt, UpdatedAtError> = UpdatedAt.ofString(at);
 
-      expect(updatedAt.toString()).toEqual(at);
+      expect(updatedAt.get().toString()).toEqual(at);
     });
   });
 
   describe('ofString', () => {
     it('throws UpdatedAtError if the parameter is not date format', () => {
-      expect(() => {
-        UpdatedAt.ofString('this is not date');
-      }).toThrow(UpdatedAtError);
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const updatedAt: Try<UpdatedAt, UpdatedAtError> = UpdatedAt.ofString('this is not date');
+
+      expect(updatedAt.isFailure()).toEqual(true);
+      updatedAt.match<void>(() => {
+        spy1();
+      }, (e: UpdatedAtError) => {
+        spy2();
+        expect(e).toBeInstanceOf(UpdatedAtError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
 
     it('normal case', () => {
-      expect(() => {
-        UpdatedAt.ofString('2000-01-01');
-      }).not.toThrow(UpdatedAtError);
+      const updatedAt: Try<UpdatedAt, UpdatedAtError> = UpdatedAt.ofString('2000-01-01');
+
+      expect(updatedAt.isSuccess()).toEqual(true);
     });
   });
 

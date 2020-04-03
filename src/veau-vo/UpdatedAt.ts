@@ -1,5 +1,8 @@
 import moment from 'moment';
 import { UpdatedAtError } from '../veau-error/UpdatedAtError';
+import { Failure } from '../veau-general/Try/Failure';
+import { Success } from '../veau-general/Try/Success';
+import { Try } from '../veau-general/Try/Try';
 import { Type } from '../veau-general/Type/Type';
 import { ValueObject } from '../veau-general/ValueObject';
 
@@ -12,12 +15,12 @@ export class UpdatedAt extends ValueObject {
     return new UpdatedAt(at);
   }
 
-  public static ofString(at: string): UpdatedAt {
-    if (!Type.isDateString(at)) {
-      throw new UpdatedAtError('AT IS NOT DATE FORMAT');
+  public static ofString(at: string): Try<UpdatedAt, UpdatedAtError> {
+    if (Type.isDateString(at)) {
+      return Success.of<UpdatedAt, UpdatedAtError>(UpdatedAt.of(moment.utc(at)));
     }
 
-    return UpdatedAt.of(moment.utc(at));
+    return Failure.of<UpdatedAt, UpdatedAtError>(new UpdatedAtError('AT IS NOT DATE FORMAT'));
   }
 
   public static now(): UpdatedAt {
