@@ -1,4 +1,9 @@
+import { LimitError } from '../veau-error/LimitError';
+import { OffsetError } from '../veau-error/OffsetError';
 import { PageError } from '../veau-error/PageError';
+import { Failure } from '../veau-general/Try/Failure';
+import { Success } from '../veau-general/Try/Success';
+import { Try } from '../veau-general/Try/Try';
 import { Type } from '../veau-general/Type/Type';
 import { ValueObject } from '../veau-general/ValueObject';
 import { Limit } from './Limit';
@@ -9,15 +14,15 @@ const LIMIT: number = 40;
 export class Page extends ValueObject {
   private page: number;
 
-  public static of(page: number): Page {
+  public static of(page: number): Try<Page, PageError> {
     if (page <= 0) {
-      throw new PageError(`ILLEGAL PAGE SPECIFIED ${page.toString()}`);
+      return Failure.of<Page, PageError>(new PageError(`ILLEGAL PAGE SPECIFIED ${page.toString()}`));
     }
     if (Type.isInteger(page)) {
-      return new Page(page);
+      return Success.of<Page, PageError>(new Page(page));
     }
 
-    throw new PageError('ILLEGAL PAGE SPECIFIED');
+    return Failure.of<Page, PageError>(new PageError('ILLEGAL PAGE SPECIFIED'));
   }
 
   private constructor(page: number) {
@@ -29,11 +34,11 @@ export class Page extends ValueObject {
     return this.page;
   }
 
-  public getLimit(): Limit {
+  public getLimit(): Try<Limit, LimitError> {
     return Limit.of(LIMIT);
   }
 
-  public getOffset(): Offset {
+  public getOffset(): Try<Offset, OffsetError> {
     const offset: number = (this.page - 1) * LIMIT;
     return Offset.of(offset);
   }
