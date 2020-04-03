@@ -1,6 +1,8 @@
 import { SagaIterator } from '@redux-saga/types';
-import { all, call, fork, put, select, take } from 'redux-saga/effects';
+import { all, call, Effect, fork, put, select, take } from 'redux-saga/effects';
+import { AJAXError } from '../../veau-error/AJAXError';
 import { AuthenticationFailureError } from '../../veau-error/AuthenticationFailureError';
+import { Try } from '../../veau-general/Try/Try';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 import { VeauAccount } from '../../veau-vo/VeauAccount';
 import { ACTION, EntranceAccountNameTypedAction, EntrancePasswordTypedAction } from '../actions/Action';
@@ -43,28 +45,25 @@ export class EntranceSaga {
 
       yield put(loading());
 
-      try {
-        const veauAccount: VeauAccount = yield call((): Promise<VeauAccount> => {
-          return sessionQuery.findByEntranceInfo(entranceInformation);
-        });
+      const trial: Try<VeauAccount, AuthenticationFailureError | AJAXError> = yield call((): Promise<Try<VeauAccount, AuthenticationFailureError | AJAXError>> => {
+        return sessionQuery.findByEntranceInfo(entranceInformation);
+      });
 
-        yield all([
+      yield put(loaded());
+
+      yield trial.match<Effect>((veauAccount: VeauAccount) => {
+        return all([
           put(identityAuthenticated(veauAccount)),
           put(pushToStatsList()),
-          put(identified()),
-          put(loaded())
+          put(identified())
         ]);
-      }
-      catch (err) {
-        yield put(loaded());
-
+      }, (err: AuthenticationFailureError | AJAXError) => {
         if (err instanceof AuthenticationFailureError) {
-          yield put(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
-          continue;
+          return put(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
         }
 
-        yield put(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
-      }
+        return put(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
+      });
     }
   }
 

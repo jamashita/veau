@@ -1,5 +1,7 @@
 import { SagaIterator } from '@redux-saga/types';
 import { all, call, fork, put, take } from 'redux-saga/effects';
+import { AJAXError } from '../../veau-error/AJAXError';
+import { Try } from '../../veau-general/Try/Try';
 import { ACTION } from '../actions/Action';
 import { initializeIdentity } from '../actions/IdentityAction';
 import { closeProvider } from '../actions/PageProviderAction';
@@ -18,7 +20,7 @@ export class LogoutSaga {
     while (true) {
       yield take(ACTION.LOGOUT);
 
-      yield call((): Promise<unknown> => {
+      yield call((): Promise<Try<void, AJAXError>> => {
         return sessionCommand.delete();
       });
 

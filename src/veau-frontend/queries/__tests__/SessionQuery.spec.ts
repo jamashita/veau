@@ -1,10 +1,11 @@
 import { INTERNAL_SERVER_ERROR, OK, UNAUTHORIZED } from 'http-status';
 import 'jest';
-import sinon, { SinonStub } from 'sinon';
+import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { AJAXError } from '../../../veau-error/AJAXError';
 import { AuthenticationFailureError } from '../../../veau-error/AuthenticationFailureError';
 import { UnauthorizedError } from '../../../veau-error/UnauthorizedError';
 import { AJAX } from '../../../veau-general/AJAX';
+import { Try } from '../../../veau-general/Try/Try';
 import { AccountName } from '../../../veau-vo/AccountName';
 import { EntranceInformation } from '../../../veau-vo/EntranceInformation';
 import { Password } from '../../../veau-vo/Password';
@@ -34,15 +35,26 @@ describe('SessionQuery', () => {
           }
         }
       });
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const sessionQuery: SessionQuery = SessionQuery.getInstance();
-      const veauAccount: VeauAccount = await sessionQuery.find();
+      const trial: Try<VeauAccount, UnauthorizedError> = await sessionQuery.find();
 
       expect(stub.withArgs('/api/identity').called).toEqual(true);
-      expect(veauAccount.getVeauAccountID().get()).toEqual('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
-      expect(veauAccount.getAccount().get()).toEqual('account');
-      expect(veauAccount.getLanguage().getLanguageID().get()).toEqual(1);
-      expect(veauAccount.getRegion().getRegionID().get()).toEqual(2);
+      expect(trial.isSuccess()).toEqual(true);
+      trial.match<void>((veauAccount: VeauAccount) => {
+        expect(veauAccount.getVeauAccountID().get()).toEqual('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
+        expect(veauAccount.getAccount().get()).toEqual('account');
+        expect(veauAccount.getLanguage().getLanguageID().get()).toEqual(1);
+        expect(veauAccount.getRegion().getRegionID().get()).toEqual(2);
+        spy1();
+      }, () => {
+        spy2();
+      });
+
+      expect(spy1.called).toEqual(true);
+      expect(spy2.called).toEqual(false);
     });
 
     it('doesn\'t return OK', async () => {
@@ -53,10 +65,22 @@ describe('SessionQuery', () => {
         body: {
         }
       });
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const sessionQuery: SessionQuery = SessionQuery.getInstance();
+      const trial: Try<VeauAccount, UnauthorizedError> = await sessionQuery.find();
 
-      await expect(sessionQuery.find()).rejects.toThrow(UnauthorizedError);
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (e: UnauthorizedError) => {
+        spy2();
+        expect(e).toBeInstanceOf(UnauthorizedError);
+      })
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
   });
 
@@ -82,19 +106,30 @@ describe('SessionQuery', () => {
           }
         }
       });
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
       const sessionQuery: SessionQuery = SessionQuery.getInstance();
-      const veauAccount: VeauAccount = await sessionQuery.findByEntranceInfo(info);
+      const trial: Try<VeauAccount, UnauthorizedError> = await sessionQuery.findByEntranceInfo(info);
 
       expect(stub.withArgs('/api/auth', {
         account: 'account',
         password: 'password'
       }).called).toEqual(true);
-      expect(veauAccount.getVeauAccountID().get()).toEqual('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
-      expect(veauAccount.getAccount().get()).toEqual('account');
-      expect(veauAccount.getLanguage().getLanguageID().get()).toEqual(1);
-      expect(veauAccount.getRegion().getRegionID().get()).toEqual(2);
+      expect(trial.isSuccess()).toEqual(true);
+      trial.match<void>((veauAccount: VeauAccount) => {
+        expect(veauAccount.getVeauAccountID().get()).toEqual('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
+        expect(veauAccount.getAccount().get()).toEqual('account');
+        expect(veauAccount.getLanguage().getLanguageID().get()).toEqual(1);
+        expect(veauAccount.getRegion().getRegionID().get()).toEqual(2);
+        spy1();
+      }, () => {
+        spy2();
+      });
+
+      expect(spy1.called).toEqual(true);
+      expect(spy2.called).toEqual(false);
     });
 
     it('returns UNAUTHORIZED', async () => {
@@ -105,11 +140,23 @@ describe('SessionQuery', () => {
         body: {
         }
       });
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
       const sessionQuery: SessionQuery = SessionQuery.getInstance();
+      const trial: Try<VeauAccount, AuthenticationFailureError | AJAXError> = await sessionQuery.findByEntranceInfo(info);
 
-      await expect(sessionQuery.findByEntranceInfo(info)).rejects.toThrow(AuthenticationFailureError);
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (e: AuthenticationFailureError | AJAXError) => {
+        spy2();
+        expect(e).toBeInstanceOf(AuthenticationFailureError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
 
     it('doesn\'t return OK', async () => {
@@ -120,11 +167,23 @@ describe('SessionQuery', () => {
         body: {
         }
       });
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
       const sessionQuery: SessionQuery = SessionQuery.getInstance();
+      const trial: Try<VeauAccount, AuthenticationFailureError | AJAXError> = await sessionQuery.findByEntranceInfo(info);
 
-      await expect(sessionQuery.findByEntranceInfo(info)).rejects.toThrow(AJAXError);
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (e: AuthenticationFailureError | AJAXError) => {
+        spy2();
+        expect(e).toBeInstanceOf(AJAXError);
+      });
+
+      expect(spy1.called).toEqual(true);
+      expect(spy2.called).toEqual(false);
     });
   });
 });

@@ -1,7 +1,9 @@
 import { SagaIterator } from '@redux-saga/types';
-import { all, call, fork, put, select, take } from 'redux-saga/effects';
+import { all, call, Effect, fork, put, select, take } from 'redux-saga/effects';
 import { AJAXError } from '../../veau-error/AJAXError';
+import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { UnauthorizedError } from '../../veau-error/UnauthorizedError';
+import { Try } from '../../veau-general/Try/Try';
 import { LanguageIdentificationService } from '../../veau-service/LanguageIdentificationService';
 import { AccountName } from '../../veau-vo/AccountName';
 import { ISO639 } from '../../veau-vo/ISO639';
@@ -31,64 +33,60 @@ export class IdentitySaga {
   }
 
   private static *initIdentity(): SagaIterator<void> {
-    try {
-      yield put(loading());
+    yield put(loading());
 
-      const locale: Locale = yield call((): Promise<Locale> => {
-        return localeQuery.all();
-      });
+    const trial1: Try<Locale, AJAXError> = yield call((): Promise<Try<Locale, AJAXError>> => {
+      return localeQuery.all();
+    });
 
-      yield all([
-        put(defineLocale(locale)),
-        put(loaded())
-      ]);
+    yield put(loaded());
 
-      const veauAccount: VeauAccount = yield call((): Promise<VeauAccount> => {
-        return sessionQuery.find();
-      });
+    yield trial1.match<Effect>((locale: Locale) => {
+      return put(defineLocale(locale));
+    }, () => {
+      return put(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
+    });
 
-      yield all([
-        put(identityAuthenticated(veauAccount)),
+    const trial2: Try<VeauAccount, UnauthorizedError> = yield call((): Promise<Try<VeauAccount, UnauthorizedError>> => {
+      return sessionQuery.find();
+    });
+
+    if (trial2.isSuccess()) {
+      const effects: Array<Effect> = [
+        put(identityAuthenticated(trial2.get())),
         put(identified())
-      ]);
+      ];
 
       if (location.pathname === Endpoints.ENTRANCE) {
-        yield put(pushToStatsList());
+        effects.push(put(pushToStatsList()));
       }
+
+      yield all(effects);
+      return;
     }
-    catch (err1) {
-      if (err1 instanceof AJAXError) {
-        yield all([
-          put(loaded()),
-          put(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'))
-        ]);
-      }
-      if (err1 instanceof UnauthorizedError) {
-        const newLanguage: string = LanguageIdentificationService.toISO639(navigator.language);
-        const iso639: ISO639 = ISO639.of(newLanguage);
-        const state: State = yield select();
 
-        const {
-          identity
-        } = state;
+    const newLanguage: string = LanguageIdentificationService.toISO639(navigator.language);
+    const iso639: ISO639 = ISO639.of(newLanguage);
+    const state: State = yield select();
 
-        try {
-          const language: Language = yield call((): Promise<Language> => {
-            return localeQuery.findByISO639(iso639);
-          });
+    const {
+      identity
+    } = state;
 
-          const veauAccount: VeauAccount = VeauAccount.of(identity.getVeauAccountID(), identity.getAccount(), language, identity.getRegion());
+    const trial3: Try<Language, NoSuchElementError | AJAXError> = yield call((): Promise<Try<Language, NoSuchElementError | AJAXError>> => {
+      return localeQuery.findByISO639(iso639);
+    });
 
-          yield all([
-            put(identityAuthenticated(veauAccount)),
-            put(pushToEntrance())
-          ]);
-        }
-        catch (err2) {
-          yield put(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
-        }
-      }
-    }
+    yield trial3.match<Effect>((language: Language) => {
+      const veauAccount: VeauAccount = VeauAccount.of(identity.getVeauAccountID(), identity.getAccount(), language, identity.getRegion());
+
+      return all([
+        put(identityAuthenticated(veauAccount)),
+        put(pushToEntrance())
+      ]);
+    }, () => {
+      return put(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
+    });
   }
 
   private static *initialize(): SagaIterator<unknown> {

@@ -3,6 +3,9 @@ import { AJAXError } from '../../veau-error/AJAXError';
 import { AuthenticationFailureError } from '../../veau-error/AuthenticationFailureError';
 import { UnauthorizedError } from '../../veau-error/UnauthorizedError';
 import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
+import { Failure } from '../../veau-general/Try/Failure';
+import { Success } from '../../veau-general/Try/Success';
+import { Try } from '../../veau-general/Try/Try';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 import { VeauAccount, VeauAccountJSON } from '../../veau-vo/VeauAccount';
 
@@ -16,7 +19,7 @@ export class SessionQuery {
   private constructor() {
   }
 
-  public async find(): Promise<VeauAccount> {
+  public async find(): Promise<Try<VeauAccount, UnauthorizedError>> {
     const response: AJAXResponse<VeauAccountJSON> = await AJAX.get<VeauAccountJSON>('/api/identity');
     const {
       status,
@@ -25,15 +28,15 @@ export class SessionQuery {
 
     switch (status) {
       case OK: {
-        return VeauAccount.ofJSON(body);
+        return Success.of<VeauAccount, UnauthorizedError>(VeauAccount.ofJSON(body));
       }
       default: {
-        throw new UnauthorizedError();
+        return Failure.of<VeauAccount, UnauthorizedError>(new UnauthorizedError());
       }
     }
   }
 
-  public async findByEntranceInfo(entranceInformation: EntranceInformation): Promise<VeauAccount> {
+  public async findByEntranceInfo(entranceInformation: EntranceInformation): Promise<Try<VeauAccount, AuthenticationFailureError | AJAXError>> {
     const response: AJAXResponse<VeauAccountJSON> = await AJAX.post<VeauAccountJSON>('/api/auth', entranceInformation.toJSON());
     const {
       status,
@@ -42,13 +45,13 @@ export class SessionQuery {
 
     switch (status) {
       case OK: {
-        return VeauAccount.ofJSON(body);
+        return Success.of<VeauAccount, AuthenticationFailureError>(VeauAccount.ofJSON(body));
       }
       case UNAUTHORIZED: {
-        throw new AuthenticationFailureError();
+        return Failure.of<VeauAccount, AuthenticationFailureError>(new AuthenticationFailureError());
       }
       default: {
-        throw new AJAXError('UNKNOWN ERROR');
+        return Failure.of<VeauAccount, AJAXError>(new AJAXError('UNKNOWN ERROR'));
       }
     }
   }

@@ -1,8 +1,9 @@
 import { SagaIterator } from 'redux-saga';
-import { all, call, fork, put, PutEffect, select, take } from 'redux-saga/effects';
+import { all, call, Effect, fork, put, PutEffect, select, take } from 'redux-saga/effects';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { AJAXError } from '../../veau-error/AJAXError';
+import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { NotFoundError } from '../../veau-error/NotFoundError';
 import { None } from '../../veau-general/Optional/None';
 import { Some } from '../../veau-general/Optional/Some';
@@ -73,27 +74,25 @@ export class StatsEditSaga {
         statsID
       } = action;
 
-      try {
-        const stats: Stats = yield call((): Promise<Stats> => {
-          return statsQuery.findByStatsID(statsID);
-        });
+      const trial: Try<Stats, NotFoundError | AJAXError> = yield call((): Promise<Try<Stats, NotFoundError | AJAXError>> => {
+        return statsQuery.findByStatsID(statsID);
+      });
 
-        yield all([
+      yield trial.match<Effect>((stats: Stats) => {
+        return all([
           put(updateStats(stats)),
           put(clearSelectingItem())
         ]);
-      }
-      catch (err) {
+      }, (err: NotFoundError | AJAXError) => {
         if (err instanceof NotFoundError) {
-          yield all([
+          return all([
             put(pushToStatsList()),
             put(appearNotification('error', 'center', 'top', 'STATS_NOT_FOUND'))
           ]);
-          continue;
         }
 
-        yield put(pushToStatsList());
-      }
+        return put(pushToStatsList());
+      });
     }
   }
 
@@ -167,14 +166,14 @@ export class StatsEditSaga {
         stats
       } = state;
 
-      try {
-        const language: Language = yield call((): Promise<Language> => {
-          return localeQuery.findByISO639(action.iso639);
-        });
+      const trial: Try<Language, NoSuchElementError | AJAXError> = yield call((): Promise<Try<Language, NoSuchElementError | AJAXError>> => {
+        return localeQuery.findByISO639(action.iso639);
+      });
 
+      if (trial.isSuccess()) {
         const newStats: Stats = Stats.of(
           stats.getStatsID(),
-          language,
+          trial.get(),
           stats.getRegion(),
           stats.getTerm(),
           stats.getName(),
@@ -185,9 +184,6 @@ export class StatsEditSaga {
         );
 
         yield put(updateStats(newStats));
-      }
-      catch (err) {
-        // NOOP
       }
     }
   }
@@ -201,15 +197,15 @@ export class StatsEditSaga {
         stats
       } = state;
 
-      try {
-        const region: Region = yield call((): Promise<Region> => {
-          return localeQuery.findByISO3166(action.iso3166);
-        });
+      const trial: Try<Region, NoSuchElementError | AJAXError> = yield call((): Promise<Try<Region, NoSuchElementError | AJAXError>> => {
+        return localeQuery.findByISO3166(action.iso3166);
+      });
 
+      if (trial.isSuccess()) {
         const newStats: Stats = Stats.of(
           stats.getStatsID(),
           stats.getLanguage(),
-          region,
+          trial.get(),
           stats.getTerm(),
           stats.getName(),
           stats.getUnit(),
@@ -219,9 +215,6 @@ export class StatsEditSaga {
         );
 
         yield put(updateStats(newStats));
-      }
-      catch (err) {
-        // NOOP
       }
     }
   }

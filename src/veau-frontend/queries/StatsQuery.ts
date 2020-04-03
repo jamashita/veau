@@ -3,6 +3,9 @@ import { Stats, StatsJSON } from '../../veau-entity/Stats';
 import { AJAXError } from '../../veau-error/AJAXError';
 import { NotFoundError } from '../../veau-error/NotFoundError';
 import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
+import { Failure } from '../../veau-general/Try/Failure';
+import { Success } from '../../veau-general/Try/Success';
+import { Try } from '../../veau-general/Try/Try';
 import { Page } from '../../veau-vo/Page';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsOutlineJSON } from '../../veau-vo/StatsOutline';
@@ -18,7 +21,7 @@ export class StatsQuery {
   private constructor() {
   }
 
-  public async findByStatsID(statsID: StatsID): Promise<Stats> {
+  public async findByStatsID(statsID: StatsID): Promise<Try<Stats, NotFoundError | AJAXError>> {
     const response: AJAXResponse<StatsJSON> = await AJAX.get<StatsJSON>(`/api/stats/${statsID.get()}`);
     const {
       status,
@@ -27,18 +30,18 @@ export class StatsQuery {
 
     switch (status) {
       case OK: {
-        return Stats.ofJSON(body);
+        return Success.of<Stats, NotFoundError | AJAXError>(Stats.ofJSON(body));
       }
       case NOT_FOUND: {
-        throw new NotFoundError();
+        return Failure.of<Stats, NotFoundError | AJAXError>(new NotFoundError());
       }
       default: {
-        throw new AJAXError('UNKNOWN ERROR');
+        return Failure.of<Stats, NotFoundError | AJAXError>(new AJAXError('UNKNOWN ERROR'));
       }
     }
   }
 
-  public async findByPage(page: Page): Promise<StatsOutlines> {
+  public async findByPage(page: Page): Promise<Try<StatsOutlines, AJAXError>> {
     const response: AJAXResponse<Array<StatsOutlineJSON>> = await AJAX.get<Array<StatsOutlineJSON>>(`/api/stats/page/${page.get().toString()}`);
     const {
       status,
@@ -47,10 +50,10 @@ export class StatsQuery {
 
     switch (status) {
       case OK: {
-        return StatsOutlines.ofJSON(body);
+        return Success.of<StatsOutlines, AJAXError>(StatsOutlines.ofJSON(body));
       }
       default: {
-        throw new AJAXError('UNKNOWN ERROR');
+        return Failure.of<StatsOutlines, AJAXError>(new AJAXError('UNKNOWN ERROR'));
       }
     }
   }

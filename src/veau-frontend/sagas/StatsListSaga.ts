@@ -1,7 +1,10 @@
 import { SagaIterator } from '@redux-saga/types';
-import { all, call, fork, put, select, take } from 'redux-saga/effects';
+import { all, call, Effect, fork, put, select, take } from 'redux-saga/effects';
 import { Stats } from '../../veau-entity/Stats';
+import { AJAXError } from '../../veau-error/AJAXError';
+import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { None } from '../../veau-general/Optional/None';
+import { Try } from '../../veau-general/Try/Try';
 import { AsOf } from '../../veau-vo/AsOf';
 import { Language } from '../../veau-vo/Language';
 import { Page } from '../../veau-vo/Page';
@@ -46,18 +49,18 @@ export class StatsListSaga {
     while (true) {
       yield take(ACTION.STATS_LIST_INITIALIZE);
 
-      try {
-        const statsOutlines: StatsOutlines = yield call((): Promise<StatsOutlines> => {
-          return statsQuery.findByPage(Page.of(1));
-        });
-        yield put(updateStatsOutlines(statsOutlines));
-      }
-      catch (err) {
-        yield all([
+      const trial: Try<StatsOutlines, AJAXError> = yield call((): Promise<Try<StatsOutlines, AJAXError>> => {
+        return statsQuery.findByPage(Page.of(1));
+      });
+
+      yield trial.match<Effect>((statsOutlines: StatsOutlines) => {
+        return put(updateStatsOutlines(statsOutlines));
+      }, () => {
+        return all([
           put(resetStatsOutlines()),
           put(appearNotification('error', 'center', 'top', 'STATS_OVERVIEW_NOT_FOUND'))
         ]);
-      }
+      });
     }
   }
 
@@ -132,14 +135,14 @@ export class StatsListSaga {
         }
       } = state;
 
-      try {
-        const language: Language = yield call((): Promise<Language> => {
-          return localeQuery.findByISO639(action.iso639);
-        });
+      const trial: Try<Language, NoSuchElementError | AJAXError> = yield call((): Promise<Try<Language, NoSuchElementError | AJAXError>> => {
+        return localeQuery.findByISO639(action.iso639);
+      });
 
+      if (trial.isSuccess()) {
         const newStats: Stats = Stats.of(
           stats.getStatsID(),
-          language,
+          trial.get(),
           stats.getRegion(),
           stats.getTerm(),
           stats.getName(),
@@ -149,10 +152,7 @@ export class StatsListSaga {
           None.of<AsOf>()
         );
 
-        yield put(updateNewStats(newStats));
-      }
-      catch (err) {
-        // NOOP
+        return put(updateNewStats(newStats));
       }
     }
   }
@@ -168,15 +168,15 @@ export class StatsListSaga {
         }
       } = state;
 
-      try {
-        const region: Region = yield call((): Promise<Region> => {
-          return localeQuery.findByISO3166(action.iso3166);
-        });
+      const trial: Try<Region, NoSuchElementError | AJAXError> = yield call((): Promise<Try<Region, NoSuchElementError | AJAXError>> => {
+        return localeQuery.findByISO3166(action.iso3166);
+      });
 
+      if (trial.isSuccess()) {
         const newStats: Stats = Stats.of(
           stats.getStatsID(),
           stats.getLanguage(),
-          region,
+          trial.get(),
           stats.getTerm(),
           stats.getName(),
           stats.getUnit(),
@@ -186,9 +186,6 @@ export class StatsListSaga {
         );
 
         yield put(updateNewStats(newStats));
-      }
-      catch (err) {
-        // NOOP
       }
     }
   }
@@ -241,23 +238,22 @@ export class StatsListSaga {
         put(loading())
       ]);
 
-      try {
-        yield call((): Promise<unknown> => {
-          return statsCommand.create(stats);
-        });
+      const trial: Try<void, AJAXError> = yield call((): Promise<Try<void, AJAXError>> => {
+        return statsCommand.create(stats);
+      });
 
-        yield all([
+      yield trial.match<Effect>(() => {
+        return all([
           put(loaded()),
           put(pushToStatsEdit(stats.getStatsID())),
           put(resetNewStats())
         ]);
-      }
-      catch (err) {
-        yield all([
+      }, () => {
+        return all([
           put(loaded()),
           put(raiseModal('FAILED_TO_SAVE_NEW_STATS', 'FAILED_TO_SAVE_NEW_STATS_DESCRIPTION'))
         ]);
-      }
+      });
     }
   }
 

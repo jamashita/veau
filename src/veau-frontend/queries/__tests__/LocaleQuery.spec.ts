@@ -51,20 +51,31 @@ describe('LocaleQuery', () => {
           ]
         }
       });
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const localeQuery: LocaleQuery = LocaleQuery.getInstance();
-      const locale: Locale = await localeQuery.all();
+      const trial: Try<Locale, AJAXError> = await localeQuery.all();
 
       expect(stub.withArgs('/api/locale').called).toEqual(true);
-      expect(locale.getLanguages().size()).toEqual(1);
-      expect(locale.getLanguages().get(0).getLanguageID().get()).toEqual(1);
-      expect(locale.getLanguages().get(0).getName().get()).toEqual('language');
-      expect(locale.getLanguages().get(0).getEnglishName().get()).toEqual('english language');
-      expect(locale.getLanguages().get(0).getISO639().get()).toEqual('aa');
-      expect(locale.getRegions().size()).toEqual(1);
-      expect(locale.getRegions().get(0).getRegionID().get()).toEqual(2);
-      expect(locale.getRegions().get(0).getName().get()).toEqual('region');
-      expect(locale.getRegions().get(0).getISO3166().get()).toEqual('bb');
+      expect(trial.isSuccess()).toEqual(true);
+      trial.match<void>((locale: Locale) => {
+        expect(locale.getLanguages().size()).toEqual(1);
+        expect(locale.getLanguages().get(0).getLanguageID().get()).toEqual(1);
+        expect(locale.getLanguages().get(0).getName().get()).toEqual('language');
+        expect(locale.getLanguages().get(0).getEnglishName().get()).toEqual('english language');
+        expect(locale.getLanguages().get(0).getISO639().get()).toEqual('aa');
+        expect(locale.getRegions().size()).toEqual(1);
+        expect(locale.getRegions().get(0).getRegionID().get()).toEqual(2);
+        expect(locale.getRegions().get(0).getName().get()).toEqual('region');
+        expect(locale.getRegions().get(0).getISO3166().get()).toEqual('bb');
+        spy1();
+      }, () => {
+        spy2();
+      });
+
+      expect(spy1.called).toEqual(true);
+      expect(spy2.called).toEqual(false);
     });
 
     it('already has locale in memory', async () => {
@@ -81,10 +92,13 @@ describe('LocaleQuery', () => {
       });
 
       const localeQuery: LocaleQuery = LocaleQuery.getInstance();
-      const locale1: Locale = await localeQuery.all();
-      const locale2: Locale = await localeQuery.all();
+      const trial1: Try<Locale, AJAXError> = await localeQuery.all();
+      const trial2: Try<Locale, AJAXError> = await localeQuery.all();
 
-      expect(locale1).toBe(locale2);
+      expect(trial1.isSuccess()).toEqual(true);
+      expect(trial2.isSuccess()).toEqual(true);
+
+      expect(trial1.get()).toBe(trial2.get());
     });
   });
 
