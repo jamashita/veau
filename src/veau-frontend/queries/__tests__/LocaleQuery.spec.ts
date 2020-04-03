@@ -22,10 +22,21 @@ describe('LocaleQuery', () => {
         body: {
         }
       });
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const localeQuery: LocaleQuery = LocaleQuery.getInstance();
+      const trial: Try<Locale, AJAXError> = await localeQuery.all();
 
-      await expect(localeQuery.all()).rejects.toThrow(AJAXError);
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (e: AJAXError) => {
+        spy2();
+        expect(e).toBeInstanceOf(AJAXError);
+      });
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
 
     it('normal case', async () => {
@@ -130,7 +141,7 @@ describe('LocaleQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeQuery: LocaleQuery = LocaleQuery.getInstance();
-      const trial: Try<Language, NoSuchElementError> = await localeQuery.findByISO639(ISO639.of('aa'));
+      const trial: Try<Language, NoSuchElementError | AJAXError> = await localeQuery.findByISO639(ISO639.of('aa'));
 
       expect(trial.isSuccess()).toEqual(true);
       trial.match<void>((language: Language) => {
@@ -174,12 +185,12 @@ describe('LocaleQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeQuery: LocaleQuery = LocaleQuery.getInstance();
-      const trial: Try<Language, NoSuchElementError> = await localeQuery.findByISO639(ISO639.of('aa'));
+      const trial: Try<Language, NoSuchElementError | AJAXError> = await localeQuery.findByISO639(ISO639.of('cc'));
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (e: NoSuchElementError) => {
+      }, (e: NoSuchElementError | AJAXError) => {
         spy2();
         expect(e).toBeInstanceOf(NoSuchElementError);
       });
@@ -217,7 +228,7 @@ describe('LocaleQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeQuery: LocaleQuery = LocaleQuery.getInstance();
-      const trial: Try<Region, NoSuchElementError> = await localeQuery.findByISO3166(ISO3166.of('bb'));
+      const trial: Try<Region, NoSuchElementError | AJAXError> = await localeQuery.findByISO3166(ISO3166.of('bb'));
 
       expect(trial.isSuccess()).toEqual(true);
       trial.match<void>((region: Region) => {
@@ -260,15 +271,17 @@ describe('LocaleQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeQuery: LocaleQuery = LocaleQuery.getInstance();
-      const trial: Try<Language, NoSuchElementError> = await localeQuery.findByISO639(ISO639.of('aa'));
+      const trial: Try<Region, NoSuchElementError | AJAXError> = await localeQuery.findByISO3166(ISO3166.of('aa'));
 
-      expect(trial.isFailure()).toEqual(trial);
+      expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (e: NoSuchElementError) => {
+      }, (e: NoSuchElementError | AJAXError) => {
         spy2();
         expect(e).toBeInstanceOf(NoSuchElementError);
       });
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
   });
 });

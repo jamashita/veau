@@ -169,7 +169,7 @@ describe('LanguageQuery', () => {
         spy2();
       });
 
-      expect(spy1.called).toEqual(true);
+      expect(spy1.called).toEqual(false);
       expect(spy2.called).toEqual(true);
     });
 

@@ -182,8 +182,8 @@ describe('SessionQuery', () => {
         expect(e).toBeInstanceOf(AJAXError);
       });
 
-      expect(spy1.called).toEqual(true);
-      expect(spy2.called).toEqual(false);
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
   });
 });
