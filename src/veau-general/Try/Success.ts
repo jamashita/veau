@@ -25,15 +25,9 @@ export class Success<S, F extends Error> implements Try<S, F> {
     return false;
   }
 
-  public complete<T>(mapper: Function<S, T>): Try<T, F> {
-    const result: T = mapper(this.value);
-
-    return Success.of<T, F>(result);
-  }
-
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public recover<E extends Error>(mapper: Function<F, E>): Try<S, E> {
-    return Success.of<S, E>(this.value);
+  public complete<T, E extends Error>(success: Function<S, Try<T, E>>, failure: Function<F, Try<T, E>>): Try<T, E> {
+    return success(this.value);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

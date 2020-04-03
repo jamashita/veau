@@ -6,7 +6,7 @@ export class Failure<S, F extends Error> implements Try<S, F> {
   private value: F;
 
   public static of<S, F extends Error>(value: F): Failure<S, F> {
-    return new Failure(value);
+    return new Failure<S, F>(value);
   }
 
   private constructor(value: F) {
@@ -26,15 +26,8 @@ export class Failure<S, F extends Error> implements Try<S, F> {
     return true;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public complete<T>(mapper: Function<S, T>): Try<T, F> {
-    return Failure.of<T, F>(this.value);
-  }
-
-  public recover<E extends Error>(mapper: Function<F, E>): Try<S, E> {
-    const result: E = mapper(this.value);
-
-    return Failure.of<S, E>(result);
+  public complete<T, E extends Error>(success: Function<S, Try<T, E>>, failure: Function<F, Try<T, E>>): Try<T, E> {
+    return failure(this.value);
   }
 
   public match<T>(success: Function<S, T>, failure: Function<F, T>): T {

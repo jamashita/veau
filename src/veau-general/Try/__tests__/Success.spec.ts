@@ -1,6 +1,6 @@
 import 'jest';
 import sinon, { SinonSpy } from 'sinon';
-import { RuntimeError } from '../../RuntimeError';
+import { Failure } from '../Failure';
 import { Success } from '../Success';
 import { Try } from '../Try';
 
@@ -35,37 +35,26 @@ describe('Success', () => {
   });
 
   describe('complete', () => {
-    it('transforms containing value', () => {
+    it('excuses success section', () => {
       const v1: number = 100;
       const success: Success<number, Error> = Success.of<number, Error>(v1);
-      const spy: SinonSpy = sinon.spy();
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
-      const res: Try<string, Error> = success.complete<string>((s: number) => {
+      const res: Try<string, Error> = success.complete<string, Error>((s: number) => {
         const c1: number = s ** 2;
-        spy(c1);
-        return c1.toString();
+        spy1(c1);
+        return Success.of<string, Error>(c1.toString());
+      }, (e: Error) => {
+        spy2();
+        return Failure.of<string, Error>(e);
       });
 
       const c2: number = v1 ** 2;
       expect(res.isSuccess()).toEqual(true);
       expect(res.get()).toEqual(c2.toString());
-      expect(spy.calledWith(c2)).toEqual(true);
-    });
-  });
-
-  describe('recover', () => {
-    it('does nothing', () => {
-      const v1: number = 100;
-      const success: Success<number, Error> = Success.of<number, Error>(v1);
-      const spy: SinonSpy = sinon.spy();
-
-      const res: Try<number, RuntimeError> = success.recover<RuntimeError>(() => {
-        spy();
-        return new RuntimeError('test failed');
-      });
-
-      expect(res.isSuccess()).toEqual(true);
-      expect(spy.called).toEqual(false);
+      expect(spy1.calledWith(c2)).toEqual(true);
+      expect(spy2.called).toEqual(false);
     });
   });
 
