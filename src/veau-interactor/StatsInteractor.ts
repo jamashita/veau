@@ -37,7 +37,7 @@ export class StatsInteractor {
   public async findByStatsID(statsID: StatsID): Promise<Try<Stats, NotFoundError>> {
     const trial: Try<Stats, NoSuchElementError> = await this.statsQuery.findByStatsID(statsID);
 
-    return trial.complete<Stats, NotFoundError>((stats: Stats) => {
+    return trial.match<Try<Stats, NotFoundError>>((stats: Stats) => {
       return Success.of<Stats, NotFoundError>(stats);
     }, (err: NoSuchElementError) => {
       logger.error(err.message);

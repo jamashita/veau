@@ -20,7 +20,8 @@ export class LocaleQuery {
 
   public async findByISO639(iso639: ISO639): Promise<Try<Language, NoSuchElementError | AJAXError>> {
     const trial: Try<Locale, AJAXError> = await this.all();
-    return trial.complete<Language, NoSuchElementError | AJAXError>((locale: Locale) => {
+
+    return trial.match<Try<Language, NoSuchElementError | AJAXError>>((locale: Locale) => {
       const found: Language | undefined = locale.getLanguages().find((language: Language) => {
         return language.getISO639().equals(iso639);
       });
@@ -37,7 +38,8 @@ export class LocaleQuery {
 
   public async findByISO3166(iso3166: ISO3166): Promise<Try<Region, NoSuchElementError | AJAXError>> {
     const trial: Try<Locale, AJAXError> = await this.all();
-    return trial.complete<Region, NoSuchElementError | AJAXError>((locale: Locale) => {
+
+    return trial.match<Try<Region, NoSuchElementError | AJAXError>>((locale: Locale) => {
       const found: Region | undefined = locale.getRegions().find((region: Region) => {
         return region.getISO3166().equals(iso3166);
       });
