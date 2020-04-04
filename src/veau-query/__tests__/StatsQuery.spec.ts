@@ -42,7 +42,7 @@ describe('StatsQuery', () => {
           termID: 3,
           name: 'name',
           unit: 'unit',
-          updatedAt: '2000-01-01T00:00:00.000Z'
+          updatedAt: '2000-01-01 00:00:00'
         }
       ]);
       stub.onCall(1).resolves([
@@ -136,8 +136,8 @@ describe('StatsQuery', () => {
       expect(values.size()).toEqual(0);
     });
 
-    it('throws StatsError', async () => {
-      const statsID: string = 'a25a8b7f-c810-4dc0-b94e-e97e74329307';
+    it('returns Failure becuase of the statsID is malformat', async () => {
+      const statsID: string = 'malformat uuid';
       const stub: SinonStub = sinon.stub();
       MySQL.prototype.execute = stub;
       stub.onCall(0).resolves([
@@ -153,7 +153,7 @@ describe('StatsQuery', () => {
           termID: 3,
           name: 'name',
           unit: 'unit',
-          updatedAt: '2000-01-01T00:00:00.000Z'
+          updatedAt: '2000-01-01 00:00:00'
         }
       ]);
       stub.onCall(1).resolves([
@@ -216,7 +216,7 @@ describe('StatsQuery', () => {
       expect(spy2.called).toEqual(true);
     });
 
-    it('throws NoSuchElementError', async () => {
+    it('returns Failure because there is no results', async () => {
       const stub: SinonStub = sinon.stub();
       MySQL.prototype.execute = stub;
       stub.resolves([]);
@@ -229,7 +229,7 @@ describe('StatsQuery', () => {
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: NoSuchElementError) => {
+      }, (err: NoSuchElementError | StatsError) => {
         expect(err).toBeInstanceOf(NoSuchElementError);
         spy2();
       });

@@ -1,6 +1,7 @@
 import { StatsError } from '../veau-error/StatsError';
 import { StatsIDError } from '../veau-error/StatsIDError';
 import { StatsItemsError } from '../veau-error/StatsItemsError';
+import { TermError } from '../veau-error/TermError';
 import { UpdatedAtError } from '../veau-error/UpdatedAtError';
 import { Entity } from '../veau-general/Entity';
 import { None } from '../veau-general/Optional/None';
@@ -95,25 +96,29 @@ export class Stats extends Entity<StatsID> {
     } = json;
 
     return StatsID.of(statsID).match<Try<Stats, StatsError>>((id: StatsID) => {
-      return UpdatedAt.ofString(updatedAt).match<Try<Stats, StatsError>>((at: UpdatedAt) => {
-        return StatsItems.ofJSON(items).match<Try<Stats, StatsError>>((statsItems: StatsItems) => {
-          const stats: Stats = Stats.of(
-            id,
-            Language.ofJSON(language),
-            Region.ofJSON(region),
-            Term.of(termID),
-            StatsName.of(name),
-            StatsUnit.of(unit),
-            at,
-            statsItems,
-            None.of<AsOf>()
-          );
+      return Term.of(termID).match<Try<Stats, StatsError>>((term: Term) => {
+        return UpdatedAt.ofString(updatedAt).match<Try<Stats, StatsError>>((at: UpdatedAt) => {
+          return StatsItems.ofJSON(items).match<Try<Stats, StatsError>>((statsItems: StatsItems) => {
+            const stats: Stats = Stats.of(
+              id,
+              Language.ofJSON(language),
+              Region.ofJSON(region),
+              term,
+              StatsName.of(name),
+              StatsUnit.of(unit),
+              at,
+              statsItems,
+              None.of<AsOf>()
+            );
 
-          return Success.of<Stats, StatsError>(stats);
-        }, (err: StatsItemsError) => {
+            return Success.of<Stats, StatsError>(stats);
+          }, (err: StatsItemsError) => {
+            return Failure.of<Stats, StatsError>(new StatsError(err.message));
+          });
+        }, (err: UpdatedAtError) => {
           return Failure.of<Stats, StatsError>(new StatsError(err.message));
         });
-      }, (err: UpdatedAtError) => {
+      }, (err: TermError) => {
         return Failure.of<Stats, StatsError>(new StatsError(err.message));
       });
     }, (err: StatsIDError) => {
@@ -139,24 +144,27 @@ export class Stats extends Entity<StatsID> {
 
     const language: Language = Language.of(LanguageID.of(languageID), LanguageName.of(languageName), LanguageName.of(languageEnglishName), ISO639.of(iso639));
     const region: Region = Region.of(RegionID.of(regionID), RegionName.of(regionName), ISO3166.of(iso3166));
-    const term: Term = Term.of(termID);
 
     return StatsID.of(statsID).match<Try<Stats, StatsError>>((id: StatsID) => {
-      return UpdatedAt.ofString(updatedAt).match<Try<Stats, StatsError>>((at: UpdatedAt) => {
-        const stats: Stats = Stats.of(
-          id,
-          language,
-          region,
-          term,
-          StatsName.of(name),
-          StatsUnit.of(unit),
-          at,
-          statsItems,
-          None.of<AsOf>()
-        );
+      return Term.of(termID).match<Try<Stats, StatsError>>((term: Term) => {
+        return UpdatedAt.ofString(updatedAt).match<Try<Stats, StatsError>>((at: UpdatedAt) => {
+          const stats: Stats = Stats.of(
+            id,
+            language,
+            region,
+            term,
+            StatsName.of(name),
+            StatsUnit.of(unit),
+            at,
+            statsItems,
+            None.of<AsOf>()
+          );
 
-        return Success.of<Stats, StatsError>(stats);
-      }, (err: UpdatedAtError) => {
+          return Success.of<Stats, StatsError>(stats);
+        }, (err: UpdatedAtError) => {
+          return Failure.of<Stats, StatsError>(new StatsError(err.message));
+        });
+      }, (err: TermError) => {
         return Failure.of<Stats, StatsError>(new StatsError(err.message));
       });
     }, (err: StatsIDError) => {
@@ -307,19 +315,39 @@ export class Stats extends Entity<StatsID> {
   }
 
   public setData(coordinate: Coordinate, value: NumericalValue): void {
-    const item: StatsItem = this.items.get(coordinate.getRow().get());
-    const asOf: AsOf = this.getColumns().get(coordinate.getColumn().get());
-    const statsValue: StatsValue = StatsValue.of(item.getStatsItemID(), asOf, value);
+    const op1: Optional<StatsItem> = this.items.get(coordinate.getRow().get());
 
-    item.setValue(statsValue);
-    this.recalculateColumns();
+    op1.ifPresentOrElse<void>((item: StatsItem) => {
+      const op2: Optional<AsOf> = this.getColumns().get(coordinate.getColumn().get());
+
+      op2.ifPresentOrElse<void>((asOf: AsOf) => {
+        const statsValue: StatsValue = StatsValue.of(item.getStatsItemID(), asOf, value);
+
+        item.setValue(statsValue);
+        this.recalculateColumns();
+      }, () => {
+        // NOOP
+      });
+    }, () => {
+      // NOOP
+    });
   }
 
   public deleteData(coordinate: Coordinate): void {
-    const asOf: AsOf = this.getColumn(coordinate.getColumn());
+    const op1: Optional<AsOf> = this.getColumn(coordinate.getColumn());
 
-    this.getRow(coordinate.getRow()).delete(asOf);
-    this.recalculateColumns();
+    op1.ifPresentOrElse<void>((asOf: AsOf) => {
+      const op2: Optional<StatsItem> = this.getRow(coordinate.getRow());
+
+      op2.ifPresentOrElse<void>((item: StatsItem) => {
+        item.delete(asOf);
+        this.recalculateColumns();
+      }, () => {
+        // NOOP
+      });
+    }, () => {
+      // NOOP
+    });
   }
 
   public getChart(): Array<object> {

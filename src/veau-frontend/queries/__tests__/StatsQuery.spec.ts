@@ -4,6 +4,8 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { Stats } from '../../../veau-entity/Stats';
 import { AJAXError } from '../../../veau-error/AJAXError';
 import { NotFoundError } from '../../../veau-error/NotFoundError';
+import { StatsError } from '../../../veau-error/StatsError';
+import { StatsOutlinesError } from '../../../veau-error/StatsOutlinesError';
 import { AJAX } from '../../../veau-general/AJAX';
 import { Try } from '../../../veau-general/Try/Try';
 import { Page } from '../../../veau-vo/Page';
@@ -42,7 +44,7 @@ describe('StatsQuery', () => {
 
       const statsID: StatsID = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get();
       const statsQuery: StatsQuery = new StatsQuery();
-      const trial: Try<Stats, NotFoundError | AJAXError> = await statsQuery.findByStatsID(statsID);
+      const trial: Try<Stats, StatsError | NotFoundError | AJAXError> = await statsQuery.findByStatsID(statsID);
 
       expect(stub.withArgs('/api/stats/f6fb9662-cbe8-4a91-8aa4-47a92f05b007').called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
@@ -52,6 +54,51 @@ describe('StatsQuery', () => {
       expect(stats.getRegion().getRegionID().get()).toEqual(2);
       expect(stats.getTerm().getID()).toEqual(3);
       expect(stats.getItems().size()).toEqual(0);
+    });
+
+    it('malformat statsID', async () => {
+      const stub: SinonStub = sinon.stub();
+      AJAX.get = stub;
+      stub.resolves({
+        status: OK,
+        body: {
+          statsID: 'malformat uuid',
+          language: {
+            languageID: 1,
+            name: 'language',
+            englishName: 'english language',
+            iso639: 'aa'
+          },
+          region: {
+            regionID: 2,
+            name: 'region',
+            iso3166: 'bb'
+          },
+          termID: 3,
+          name: 'stats name',
+          unit: 'stats unit',
+          updatedAt: '2000-01-01',
+          items: [
+          ]
+        }
+      });
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const statsID: StatsID = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get();
+      const statsQuery: StatsQuery = new StatsQuery();
+      const trial: Try<Stats, StatsError | NotFoundError | AJAXError> = await statsQuery.findByStatsID(statsID);
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (err: StatsError | NotFoundError | AJAXError) => {
+        spy2();
+        expect(err).toBeInstanceOf(StatsError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
 
     it('returns NOT_FOUND', async () => {
@@ -67,12 +114,12 @@ describe('StatsQuery', () => {
 
       const statsID: StatsID = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get();
       const statsQuery: StatsQuery = new StatsQuery();
-      const trial: Try<Stats, NotFoundError | AJAXError> = await statsQuery.findByStatsID(statsID);
+      const trial: Try<Stats, StatsError | NotFoundError | AJAXError> = await statsQuery.findByStatsID(statsID);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: NotFoundError | AJAXError) => {
+      }, (err: StatsError | NotFoundError | AJAXError) => {
         spy2();
         expect(err).toBeInstanceOf(NotFoundError);
       });
@@ -94,12 +141,12 @@ describe('StatsQuery', () => {
 
       const statsID: StatsID = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get();
       const statsQuery: StatsQuery = new StatsQuery();
-      const trial: Try<Stats, NotFoundError | AJAXError> = await statsQuery.findByStatsID(statsID);
+      const trial: Try<Stats, StatsError | NotFoundError | AJAXError> = await statsQuery.findByStatsID(statsID);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: NotFoundError | AJAXError) => {
+      }, (err: StatsError| NotFoundError | AJAXError) => {
         spy2();
         expect(err).toBeInstanceOf(AJAXError);
       });
@@ -138,7 +185,7 @@ describe('StatsQuery', () => {
       });
 
       const statsQuery: StatsQuery = new StatsQuery();
-      const trial: Try<StatsOutlines, AJAXError> = await statsQuery.findByPage(Page.of(3).get());
+      const trial: Try<StatsOutlines, StatsOutlinesError | AJAXError> = await statsQuery.findByPage(Page.of(3).get());
 
       expect(stub.withArgs('/api/stats/page/3').called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
@@ -148,6 +195,50 @@ describe('StatsQuery', () => {
       expect(outlines.get(0).get().getLanguage().getLanguageID().get()).toEqual(1);
       expect(outlines.get(0).get().getRegion().getRegionID().get()).toEqual(2);
       expect(outlines.get(0).get().getTerm().getID()).toEqual(3);
+    });
+
+    it('malformat statsID', async () => {
+      const stub: SinonStub = sinon.stub();
+      AJAX.get = stub;
+      stub.resolves({
+        status: OK,
+        body: [
+          {
+            statsID: 'malformat uuid',
+            language: {
+              languageID: 1,
+              name: 'language',
+              englishName: 'english language',
+              iso639: 'aa'
+            },
+            region: {
+              regionID: 2,
+              name: 'region',
+              iso3166: 'bb'
+            },
+            termID: 3,
+            name: 'stats name',
+            unit: 'stats unit',
+            updatedAt: '2000-01-01'
+          }
+        ]
+      });
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const statsQuery: StatsQuery = new StatsQuery();
+      const trial: Try<StatsOutlines, StatsOutlinesError | AJAXError> = await statsQuery.findByPage(Page.of(3).get());
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (err: StatsOutlinesError | AJAXError) => {
+        spy2();
+        expect(err).toBeInstanceOf(AJAXError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
 
     it('doesn\'t return OK', async () => {
@@ -162,15 +253,18 @@ describe('StatsQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsQuery: StatsQuery = new StatsQuery();
-      const trial: Try<StatsOutlines, AJAXError> = await statsQuery.findByPage(Page.of(3).get());
+      const trial: Try<StatsOutlines, StatsOutlinesError | AJAXError> = await statsQuery.findByPage(Page.of(3).get());
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: AJAXError) => {
+      }, (err: StatsOutlinesError | AJAXError) => {
         spy2();
         expect(err).toBeInstanceOf(AJAXError);
       });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
   });
 });

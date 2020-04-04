@@ -7,7 +7,6 @@ import { StatsError } from '../veau-error/StatsError';
 import { StatsItemsError } from '../veau-error/StatsItemsError';
 import { MySQL } from '../veau-general/MySQL/MySQL';
 import { Failure } from '../veau-general/Try/Failure';
-import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsItemQuery } from './StatsItemQuery';
@@ -56,7 +55,7 @@ export class StatsQuery {
     const trial: Try<StatsItems, StatsItemsError> = await this.statsItemQuery.findByStatsID(statsID);
 
     return trial.match<Try<Stats, StatsError>>((statsItems: StatsItems) => {
-      return Success.of<Stats, StatsError>(Stats.ofRow(statsRows[0], statsItems));
+      return Stats.ofRow(statsRows[0], statsItems);
     }, (err: StatsItemsError) => {
       return Failure.of<Stats, StatsError>(new StatsError(err.message));
     });
