@@ -1,4 +1,9 @@
+import { AccountError } from '../veau-error/AccountError';
+import { VeauAccountIDError } from '../veau-error/VeauAccountIDError';
 import { Digest } from '../veau-general/Digest';
+import { Failure } from '../veau-general/Try/Failure';
+import { Success } from '../veau-general/Try/Success';
+import { Try } from '../veau-general/Try/Try';
 import { ValueObject } from '../veau-general/ValueObject';
 import { AccountName } from './AccountName';
 import { Hash } from './Hash';
@@ -38,7 +43,7 @@ export class Account extends ValueObject {
     return new Account(veauAccountID, account, language, region, hash);
   }
 
-  public static ofRow(row: AccountRow): Account {
+  public static ofRow(row: AccountRow): Try<Account, AccountError> {
     const {
       veauAccountID,
       account,
@@ -55,7 +60,11 @@ export class Account extends ValueObject {
     const language: Language = Language.of(LanguageID.of(languageID), LanguageName.of(languageName), LanguageName.of(languageEnglishName), ISO639.of(iso639));
     const region: Region = Region.of(RegionID.of(regionID), RegionName.of(regionName), ISO3166.of(iso3166));
 
-    return Account.of(VeauAccountID.of(veauAccountID), AccountName.of(account), language, region, Hash.of(hash));
+    return VeauAccountID.of(veauAccountID).match<Try<Account, AccountError>>((id: VeauAccountID) => {
+      return Success.of<Account, AccountError>(Account.of(id, AccountName.of(account), language, region, Hash.of(hash)));
+    }, (err: VeauAccountIDError) => {
+      return Failure.of<Account, AccountError>(new AccountError(err.message));
+    });
   }
 
   private constructor(veauAccountID: VeauAccountID, account: AccountName, language: Language, region: Region, hash: Hash) {
