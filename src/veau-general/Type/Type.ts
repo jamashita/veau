@@ -1,5 +1,4 @@
 import check from 'check-types';
-import moment from 'moment';
 import { PlainObject } from './PlainObject';
 import { Primitive } from './Primitive';
 
@@ -55,17 +54,6 @@ export class Type {
 
   public static isArray(value: unknown): value is Array<unknown> {
     if (check.array(value)) {
-      return true;
-    }
-
-    return false;
-  }
-
-  public static isDateString(value: unknown): value is string {
-    if (!Type.isString(value)) {
-      return false;
-    }
-    if (moment(value).isValid()) {
       return true;
     }
 
