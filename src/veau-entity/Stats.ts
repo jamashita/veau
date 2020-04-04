@@ -360,12 +360,8 @@ export class Stats extends Entity<StatsID> {
   }
 
   public setData(coordinate: Coordinate, value: NumericalValue): void {
-    const op1: Optional<StatsItem> = this.items.get(coordinate.getRow().get());
-
-    op1.ifPresentOrElse<void>((item: StatsItem) => {
-      const op2: Optional<AsOf> = this.getColumns().get(coordinate.getColumn().get());
-
-      op2.ifPresentOrElse<void>((asOf: AsOf) => {
+    this.items.get(coordinate.getRow().get()).ifPresentOrElse<void>((item: StatsItem) => {
+      this.getColumns().get(coordinate.getColumn().get()).ifPresentOrElse<void>((asOf: AsOf) => {
         const statsValue: StatsValue = StatsValue.of(item.getStatsItemID(), asOf, value);
 
         item.setValue(statsValue);
@@ -379,12 +375,8 @@ export class Stats extends Entity<StatsID> {
   }
 
   public deleteData(coordinate: Coordinate): void {
-    const op1: Optional<AsOf> = this.getColumn(coordinate.getColumn());
-
-    op1.ifPresentOrElse<void>((asOf: AsOf) => {
-      const op2: Optional<StatsItem> = this.getRow(coordinate.getRow());
-
-      op2.ifPresentOrElse<void>((item: StatsItem) => {
+    this.getColumn(coordinate.getColumn()).ifPresentOrElse<void>((asOf: AsOf) => {
+      this.getRow(coordinate.getRow()).ifPresentOrElse<void>((item: StatsItem) => {
         item.delete(asOf);
         this.recalculateColumns();
       }, () => {

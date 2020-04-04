@@ -15,13 +15,13 @@ const logger: log4js.Logger = log4js.getLogger();
 const authenticationMiddleware: AuthenticationMiddleware = container.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
 const localeInteractor: LocaleInteractor = container.get<LocaleInteractor>(TYPE.LocaleInteractor);
 
-router.get('/', async (req: express.Request, res: express.Response): Promise<void> => {
+router.get('/', async (req: express.Request, res: express.Response) => {
   const locale: JSONable = await localeInteractor.all();
 
   res.status(OK).send(locale.toJSON());
 });
 
-router.delete('/', authenticationMiddleware.requires(), async (req: express.Request, res: express.Response): Promise<void> => {
+router.delete('/', authenticationMiddleware.requires(), async (req: express.Request, res: express.Response) => {
   const trial: Try<void, CacheError> = await localeInteractor.delete();
 
   trial.match<void>(() => {

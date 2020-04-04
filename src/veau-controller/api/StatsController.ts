@@ -22,7 +22,7 @@ const logger: log4js.Logger = log4js.getLogger();
 const authenticationMiddleware: AuthenticationMiddleware = container.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
 const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
 
-router.get('/page/:page(\\d+)', authenticationMiddleware.requires(), async (req: express.Request, res: express.Response): Promise<void> => {
+router.get('/page/:page(\\d+)', authenticationMiddleware.requires(), async (req: express.Request, res: express.Response) => {
   await Page.of(Number(req.params.page)).match<Promise<void>>(async (page: Page) => {
     const trial: Try<JSONable, StatsOutlinesError> = await statsInteractor.findByVeauAccountID(res.locals.account.getVeauAccountID(), page);
 
@@ -42,7 +42,7 @@ router.get('/page/:page(\\d+)', authenticationMiddleware.requires(), async (req:
   });
 });
 
-router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: express.Response): Promise<void> => {
+router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: express.Response) => {
   await StatsID.of(req.params.statsID).match<Promise<void>>(async (statsID: StatsID) => {
     const trial: Try<JSONable, NotFoundError | StatsError> = await statsInteractor.findByStatsID(statsID);
 
@@ -69,7 +69,7 @@ router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: expres
   });
 });
 
-router.post('/', authenticationMiddleware.requires(), async (req: express.Request, res: express.Response): Promise<void> => {
+router.post('/', authenticationMiddleware.requires(), async (req: express.Request, res: express.Response) => {
   if (!Stats.isJSON(req.body)) {
     res.sendStatus(BAD_REQUEST);
     return;
