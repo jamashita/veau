@@ -87,7 +87,7 @@ describe('LocaleInteractor',  () => {
       expect(stub2.called).toEqual(true);
     });
 
-    it('LanguageCommand.deleteAll throws error', async () => {
+    it('LanguageCommand.deleteAll returns Failure', async () => {
       const stub1: SinonStub = sinon.stub();
       LanguageCommand.prototype.deleteAll = stub1;
       stub1.resolves(Failure.of<void, CacheError>(new CacheError('test failed')));
@@ -114,7 +114,7 @@ describe('LocaleInteractor',  () => {
       expect(spy2.called).toEqual(true);
     });
 
-    it('RegionCommand.deleteAll throws error', async () => {
+    it('RegionCommand.deleteAll returns Failure', async () => {
       const stub1: SinonStub = sinon.stub();
       LanguageCommand.prototype.deleteAll = stub1;
       stub1.resolves(Success.of<void, CacheError>(undefined));

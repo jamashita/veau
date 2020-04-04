@@ -133,7 +133,7 @@ describe('LanguageQuery', () => {
       expect(language.getEnglishName().get()).toEqual('Afar');
     });
 
-    it('Redis throws error', async () => {
+    it('Redis returns empty array', async () => {
       const stub: SinonStub = sinon.stub();
       RedisString.prototype.get = stub;
       stub.resolves('[]');
@@ -155,7 +155,7 @@ describe('LanguageQuery', () => {
       expect(spy2.called).toEqual(true);
     });
 
-    it('MySQL throws error', async () => {
+    it('MySQL returns empty array', async () => {
       const stub1: SinonStub = sinon.stub();
       RedisString.prototype.get = stub1;
       stub1.resolves(null);

@@ -101,7 +101,7 @@ describe('AsOf', () => {
       }
     });
 
-    it('throws error', () => {
+    it('throws AsOfError because this situation is not considered', () => {
       const asOf: AsOf = AsOf.ofString('2000-01-01').get();
 
       expect(() => {
@@ -162,7 +162,7 @@ describe('AsOf', () => {
       }
     });
 
-    it('throws error', () => {
+    it('throws AsOfError because this situation is not considered', () => {
       const asOf: AsOf = AsOf.ofString('2000-01-01').get();
 
       expect(() => {
@@ -188,7 +188,7 @@ describe('AsOf', () => {
       expect(trial2.isSuccess()).toEqual(true);
     });
 
-    it('will throw AsOfError because the string format is not compatible to date time', () => {
+    it('will return Failure because the string format is not compatible to date time', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();

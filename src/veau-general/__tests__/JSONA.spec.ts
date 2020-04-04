@@ -9,7 +9,7 @@ describe('JSONA', () => {
       expect(await JSONA.parse<object>(str)).toEqual(JSON.parse(str));
     });
 
-    it('throws error when the JSON is mal format', async () => {
+    it('throws SyntaxError when the JSON is mal format', async () => {
       const str: string = '{"we":"you"';
 
       await expect(JSONA.parse<object>(str)).rejects.toThrow(SyntaxError);
@@ -44,7 +44,7 @@ describe('JSONA', () => {
       expect(await JSONA.stringify(obj)).toEqual(JSON.stringify(obj));
     });
 
-    it('throws error when the JSON has circular reference', async () => {
+    it('throws TypeError when the JSON has circular reference', async () => {
       const obj1: any = {
       };
       const obj2: any = {
