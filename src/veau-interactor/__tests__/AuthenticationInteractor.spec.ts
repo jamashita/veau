@@ -1,4 +1,3 @@
-import 'jest';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { container } from '../../veau-container/Container';
@@ -59,7 +58,7 @@ describe('AuthenticationInteractor', () => {
 
       const stub1: SinonStub = sinon.stub();
       AccountQuery.prototype.findByAccount = stub1;
-      const account: Account = Account.of(VeauAccountID.of('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9'), AccountName.of('veau'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')), Hash.of('hash 1'));
+      const account: Account = Account.of(VeauAccountID.of('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9').get(), AccountName.of('veau'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')), Hash.of('hash 1'));
       stub1.resolves(Success.of<Account, NoSuchElementError>(account));
       const stub2: SinonStub = sinon.stub();
       Account.prototype.verify = stub2;
@@ -79,7 +78,7 @@ describe('AuthenticationInteractor', () => {
 
       const stub1: SinonStub = sinon.stub();
       AccountQuery.prototype.findByAccount = stub1;
-      const account: Account = Account.of(VeauAccountID.of('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9'), AccountName.of('veau'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')), Hash.of('hash 1'));
+      const account: Account = Account.of(VeauAccountID.of('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9').get(), AccountName.of('veau'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')), Hash.of('hash 1'));
       stub1.resolves(Success.of<Account, NoSuchElementError>(account));
       const stub2: SinonStub = sinon.stub();
       Account.prototype.verify = stub2;

@@ -16,32 +16,21 @@ const authenticationMiddleware: AuthenticationMiddleware = container.get<Authent
 const localeInteractor: LocaleInteractor = container.get<LocaleInteractor>(TYPE.LocaleInteractor);
 
 router.get('/', async (req: express.Request, res: express.Response): Promise<void> => {
-  try {
-    const locale: JSONable = await localeInteractor.all();
+  const locale: JSONable = await localeInteractor.all();
 
-    res.status(OK).send(locale.toJSON());
-  }
-  catch (err) {
-    logger.fatal(err.toString());
-    res.sendStatus(INTERNAL_SERVER_ERROR);
-  }
+  res.status(OK).send(locale.toJSON());
 });
 
 router.delete('/', authenticationMiddleware.requires(), async (req: express.Request, res: express.Response): Promise<void> => {
-  try {
-    const trial: Try<void, CacheError> = await localeInteractor.delete();
+  const trial: Try<void, CacheError> = await localeInteractor.delete();
 
-    trial.match<void>(() => {
-      res.sendStatus(OK);
-    }, (err: CacheError) => {
-      logger.error(err.message);
-      res.sendStatus(INTERNAL_SERVER_ERROR);
-    });
-  }
-  catch (err) {
-    logger.fatal(err.toString());
+  trial.match<void>(() => {
+    res.sendStatus(OK);
+  }, (err: CacheError) => {
+    logger.error(err.message);
+
     res.sendStatus(INTERNAL_SERVER_ERROR);
-  }
+  });
 });
 
 export const LocaleController: express.Router = router;

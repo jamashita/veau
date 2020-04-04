@@ -53,20 +53,20 @@ describe('LocaleInteractor',  () => {
       const localeInteractor: LocaleInteractor = container.get<LocaleInteractor>(TYPE.LocaleInteractor);
       const locale: Locale = await localeInteractor.all();
 
-      expect(locale.getLanguage(0).getLanguageID().get()).toEqual(1);
-      expect(locale.getLanguage(0).getName().get()).toEqual('аҧсуа бызшәа');
-      expect(locale.getLanguage(0).getEnglishName().get()).toEqual('Abkhazian');
-      expect(locale.getLanguage(0).getISO639().get()).toEqual('ab');
-      expect(locale.getLanguage(1).getLanguageID().get()).toEqual(2);
-      expect(locale.getLanguage(1).getName().get()).toEqual('Afaraf');
-      expect(locale.getLanguage(1).getEnglishName().get()).toEqual('Afar');
-      expect(locale.getLanguage(1).getISO639().get()).toEqual('aa');
-      expect(locale.getRegion(0).getRegionID().get()).toEqual(1);
-      expect(locale.getRegion(0).getName().get()).toEqual('Afghanistan');
-      expect(locale.getRegion(0).getISO3166().get()).toEqual('AFG');
-      expect(locale.getRegion(1).getRegionID().get()).toEqual(2);
-      expect(locale.getRegion(1).getName().get()).toEqual('Albania');
-      expect(locale.getRegion(1).getISO3166().get()).toEqual('ALB');
+      expect(locale.getLanguage(0).get().getLanguageID().get()).toEqual(1);
+      expect(locale.getLanguage(0).get().getName().get()).toEqual('аҧсуа бызшәа');
+      expect(locale.getLanguage(0).get().getEnglishName().get()).toEqual('Abkhazian');
+      expect(locale.getLanguage(0).get().getISO639().get()).toEqual('ab');
+      expect(locale.getLanguage(1).get().getLanguageID().get()).toEqual(2);
+      expect(locale.getLanguage(1).get().getName().get()).toEqual('Afaraf');
+      expect(locale.getLanguage(1).get().getEnglishName().get()).toEqual('Afar');
+      expect(locale.getLanguage(1).get().getISO639().get()).toEqual('aa');
+      expect(locale.getRegion(0).get().getRegionID().get()).toEqual(1);
+      expect(locale.getRegion(0).get().getName().get()).toEqual('Afghanistan');
+      expect(locale.getRegion(0).get().getISO3166().get()).toEqual('AFG');
+      expect(locale.getRegion(1).get().getRegionID().get()).toEqual(2);
+      expect(locale.getRegion(1).get().getName().get()).toEqual('Albania');
+      expect(locale.getRegion(1).get().getISO3166().get()).toEqual('ALB');
     });
   });
 

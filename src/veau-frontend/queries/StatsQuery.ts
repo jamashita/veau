@@ -26,10 +26,10 @@ export class StatsQuery {
         return Stats.ofJSON(body);
       }
       case NOT_FOUND: {
-        return Failure.of<Stats, NotFoundError>(new NotFoundError());
+        return Failure.of<Stats, NotFoundError>(new NotFoundError('NOT FOUND'));
       }
       default: {
-        return Failure.of<Stats, NotFoundError>(new AJAXError('UNKNOWN ERROR'));
+        return Failure.of<Stats, AJAXError>(new AJAXError('UNKNOWN ERROR'));
       }
     }
   }
