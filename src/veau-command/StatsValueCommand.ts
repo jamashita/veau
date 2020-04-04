@@ -22,7 +22,7 @@ export class StatsValueCommand {
 
     return this.query.execute(query, {
       statsItemID: statsValue.getStatsItemID().get(),
-      asOf: statsValue.getAsOfAsString(),
+      asOf: statsValue.getAsOf().toString(),
       value: statsValue.getValue().get()
     });
   }

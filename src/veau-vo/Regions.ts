@@ -1,6 +1,8 @@
-import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { Collection } from '../veau-general/Collection';
 import { JSONable } from '../veau-general/JSONable';
+import { None } from '../veau-general/Optional/None';
+import { Optional } from '../veau-general/Optional/Optional';
+import { Some } from '../veau-general/Optional/Some';
 import { Mapper } from '../veau-general/Type/Mapper';
 import { Predicate } from '../veau-general/Type/Predicate';
 import { Region, RegionJSON, RegionRow } from './Region';
@@ -36,14 +38,14 @@ export class Regions implements Collection<number, Region>, JSONable {
     this.regions = regions;
   }
 
-  public get(index: number): Region {
+  public get(index: number): Optional<Region> {
     const region: Region | undefined = this.regions[index];
 
     if (region === undefined) {
-      throw new NoSuchElementError(index.toString());
+      return None.of<Region>();
     }
 
-    return region;
+    return Some.of<Region>(region);
   }
 
   public contains(value: Region): boolean {
@@ -88,7 +90,7 @@ export class Regions implements Collection<number, Region>, JSONable {
       return false;
     }
     for (let i: number = 0; i < length; i++) {
-      if (!this.get(i).equals(other.get(i))) {
+      if (!this.regions[i].equals(other.get(i).get())) {
         return false;
       }
     }

@@ -1,6 +1,6 @@
 import 'jest';
 import { AsOfError } from '../../veau-error/AsOfError';
-import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { None } from '../../veau-general/Optional/None';
 import { AsOf } from '../AsOf';
 import { AsOfs } from '../AsOfs';
 
@@ -34,20 +34,16 @@ describe('AsOfs', () => {
       const asOfs: AsOfs = AsOfs.of([asOf1, asOf2, asOf3]);
 
       expect(asOfs.size()).toEqual(3);
-      expect(asOfs.get(0)).toEqual(asOf1);
-      expect(asOfs.get(1)).toEqual(asOf2);
-      expect(asOfs.get(2)).toEqual(asOf3);
+      expect(asOfs.get(0).get()).toEqual(asOf1);
+      expect(asOfs.get(1).get()).toEqual(asOf2);
+      expect(asOfs.get(2).get()).toEqual(asOf3);
     });
 
-    it('throws NoSuchElementError when the index is out of range', () => {
+    it('returns None when the index is out of range', () => {
       const asOfs: AsOfs = AsOfs.empty();
 
-      expect(() => {
-        asOfs.get(-1);
-      }).toThrow(NoSuchElementError);
-      expect(() => {
-        asOfs.get(0);
-      }).toThrow(NoSuchElementError);
+      expect(asOfs.get(-1)).toBeInstanceOf(None);
+      expect(asOfs.get(0)).toBeInstanceOf(None);
     });
   });
 

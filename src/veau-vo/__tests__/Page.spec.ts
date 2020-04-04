@@ -54,7 +54,7 @@ describe('Page', () => {
   });
 
   describe('of', () => {
-    it('throws PageError when the argument is less than 1', () => {
+    it('returns Failure when the argument is less than 1', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
@@ -86,7 +86,7 @@ describe('Page', () => {
       expect(spy4.called).toEqual(true);
     });
 
-    it('throw PageError when the argument is not integer', () => {
+    it('returns Failure when the argument is not integer', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();

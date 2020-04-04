@@ -28,7 +28,7 @@ describe('UpdatedAt', () => {
   });
 
   describe('ofString', () => {
-    it('throws UpdatedAtError if the parameter is not date format', () => {
+    it('returns Failure if the parameter is not date format', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 

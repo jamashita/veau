@@ -1,5 +1,5 @@
 import 'jest';
-import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { None } from '../../veau-general/Optional/None';
 import { ISO3166 } from '../ISO3166';
 import { Region, RegionJSON, RegionRow } from '../Region';
 import { RegionID } from '../RegionID';
@@ -16,20 +16,16 @@ describe('Regions', () => {
       const regions: Regions = Regions.of([region1, region2, region3]);
 
       expect(regions.size()).toEqual(3);
-      expect(regions.get(0)).toEqual(region1);
-      expect(regions.get(1)).toEqual(region2);
-      expect(regions.get(2)).toEqual(region3);
+      expect(regions.get(0).get()).toEqual(region1);
+      expect(regions.get(1).get()).toEqual(region2);
+      expect(regions.get(2).get()).toEqual(region3);
     });
 
-    it('throws NoSuchElementError when the index is out of range', () => {
+    it('returns None when the index is out of range', () => {
       const regions: Regions = Regions.empty();
 
-      expect(() => {
-        regions.get(-1);
-      }).toThrow(NoSuchElementError);
-      expect(() => {
-        regions.get(0);
-      }).toThrow(NoSuchElementError);
+      expect(regions.get(-1)).toBeInstanceOf(None);
+      expect(regions.get(0)).toBeInstanceOf(None);
     });
   });
 
@@ -142,9 +138,10 @@ describe('Regions', () => {
       const regions: Regions = Regions.ofJSON(json);
 
       expect(regions.size()).toEqual(1);
-      expect(regions.get(0).getRegionID().get()).toEqual(1);
-      expect(regions.get(0).getName().get()).toEqual('region 1');
-      expect(regions.get(0).getISO3166().get()).toEqual('abc');
+      const region: Region = regions.get(0).get();
+      expect(region.getRegionID().get()).toEqual(json[0].regionID);
+      expect(region.getName().get()).toEqual(json[0].name);
+      expect(region.getISO3166().get()).toEqual(json[0].iso3166);
     });
   });
 
@@ -161,9 +158,10 @@ describe('Regions', () => {
       const regions: Regions = Regions.ofRow(rows);
 
       expect(regions.size()).toEqual(1);
-      expect(regions.get(0).getRegionID().get()).toEqual(1);
-      expect(regions.get(0).getName().get()).toEqual('region 1');
-      expect(regions.get(0).getISO3166().get()).toEqual('abc');
+      const region: Region = regions.get(0).get();
+      expect(region.getRegionID().get()).toEqual(rows[0].regionID);
+      expect(region.getName().get()).toEqual(rows[0].name);
+      expect(region.getISO3166().get()).toEqual(rows[0].iso3166);
     });
   });
 

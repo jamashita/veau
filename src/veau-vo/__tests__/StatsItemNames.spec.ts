@@ -1,5 +1,5 @@
 import 'jest';
-import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { None } from '../../veau-general/Optional/None';
 import { StatsItemName } from '../StatsItemName';
 import { StatsItemNames } from '../StatsItemNames';
 
@@ -17,12 +17,12 @@ describe('StatsItemNames', () => {
       ]);
 
       expect(names.size()).toEqual(3);
-      expect(names.get(0)).toEqual(name1);
-      expect(names.get(1)).toEqual(name2);
-      expect(names.get(2)).toEqual(name3);
+      expect(names.get(0).get()).toEqual(name1);
+      expect(names.get(1).get()).toEqual(name2);
+      expect(names.get(2).get()).toEqual(name3);
     });
 
-    it('throws NoSuchElementError if the index is out of range', () => {
+    it('returns None if the index is out of range', () => {
       const name1: StatsItemName = StatsItemName.of('item 1');
       const name2: StatsItemName = StatsItemName.of('item 2');
       const name3: StatsItemName = StatsItemName.of('item 3');
@@ -33,12 +33,8 @@ describe('StatsItemNames', () => {
         name3
       ]);
 
-      expect(() => {
-        names.get(-1);
-      }).toThrow(NoSuchElementError);
-      expect(() => {
-        names.get(3);
-      }).toThrow(NoSuchElementError);
+      expect(names.get(-1)).toBeInstanceOf(None);
+      expect(names.get(3)).toBeInstanceOf(None);
     });
   });
 

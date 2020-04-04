@@ -1,5 +1,7 @@
-import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { Collection } from '../veau-general/Collection';
+import { None } from '../veau-general/Optional/None';
+import { Optional } from '../veau-general/Optional/Optional';
+import { Some } from '../veau-general/Optional/Some';
 import { NumericalValue } from './NumericalValue';
 
 export class NumericalValues implements Collection<number, NumericalValue> {
@@ -27,14 +29,14 @@ export class NumericalValues implements Collection<number, NumericalValue> {
     return NumericalValues.of(values);
   }
 
-  public get(index: number): NumericalValue {
+  public get(index: number): Optional<NumericalValue> {
     const value: NumericalValue | undefined = this.values[index];
 
     if (value === undefined) {
-      throw new NoSuchElementError(index.toString());
+      return None.of<NumericalValue>();
     }
 
-    return value;
+    return Some.of<NumericalValue>(value);
   }
 
   public row(): Array<string> {
@@ -77,7 +79,7 @@ export class NumericalValues implements Collection<number, NumericalValue> {
       return false;
     }
     for (let i: number = 0; i < length; i++) {
-      if (!this.values[i].equals(other.get(i))) {
+      if (!this.values[i].equals(other.get(i).get())) {
         return false;
       }
     }

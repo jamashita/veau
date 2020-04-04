@@ -80,10 +80,6 @@ export class StatsValue extends ValueObject implements JSONable {
     return this.value;
   }
 
-  public getAsOfAsString(): string {
-    return this.asOf.toString();
-  }
-
   public isBefore(other: StatsValue): boolean {
     if (this.asOf.isBefore(other.getAsOf())) {
       return true;

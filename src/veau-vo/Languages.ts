@@ -1,6 +1,8 @@
-import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { Collection } from '../veau-general/Collection';
 import { JSONable } from '../veau-general/JSONable';
+import { None } from '../veau-general/Optional/None';
+import { Optional } from '../veau-general/Optional/Optional';
+import { Some } from '../veau-general/Optional/Some';
 import { Mapper } from '../veau-general/Type/Mapper';
 import { Predicate } from '../veau-general/Type/Predicate';
 import { Language, LanguageJSON, LanguageRow } from './Language';
@@ -36,14 +38,14 @@ export class Languages implements Collection<number, Language>, JSONable {
     this.languages = languages;
   }
 
-  public get(index: number): Language {
+  public get(index: number): Optional<Language> {
     const language: Language | undefined = this.languages[index];
 
     if (language === undefined) {
-      throw new NoSuchElementError(index.toString());
+      return None.of<Language>();
     }
 
-    return language;
+    return Some.of<Language>(language);
   }
 
   public contains(value: Language): boolean {
@@ -88,7 +90,7 @@ export class Languages implements Collection<number, Language>, JSONable {
       return false;
     }
     for (let i: number = 0; i < length; i++) {
-      if (!this.get(i).equals(other.get(i))) {
+      if (!this.languages[i].equals(other.get(i).get())) {
         return false;
       }
     }

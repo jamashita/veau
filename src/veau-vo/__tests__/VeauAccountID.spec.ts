@@ -34,7 +34,7 @@ describe('VeauAccountID', () => {
       expect(trial.isSuccess()).toEqual(true);
     });
 
-    it('throws VeauAccountIDError when uuid length string is not given', () => {
+    it('returns Failure when uuid length string is not given', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 

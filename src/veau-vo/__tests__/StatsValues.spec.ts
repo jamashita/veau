@@ -1,8 +1,8 @@
 import 'jest';
 import sinon, { SinonSpy } from 'sinon';
-import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { StatsValueError } from '../../veau-error/StatsValueError';
 import { StatsValuesError } from '../../veau-error/StatsValuesError';
+import { None } from '../../veau-general/Optional/None';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
@@ -26,20 +26,16 @@ describe('StatsValues', () => {
       ]);
 
       expect(statsValues.size()).toEqual(3);
-      expect(statsValues.get(0)).toEqual(statsValue1);
-      expect(statsValues.get(1)).toEqual(statsValue2);
-      expect(statsValues.get(2)).toEqual(statsValue3);
+      expect(statsValues.get(0).get()).toEqual(statsValue1);
+      expect(statsValues.get(1).get()).toEqual(statsValue2);
+      expect(statsValues.get(2).get()).toEqual(statsValue3);
     });
 
-    it('throws NoSuchElementError if the index is out of range', () => {
+    it('returns None if the index is out of range', () => {
       const values: StatsValues = StatsValues.empty();
 
-      expect(() => {
-        values.get(-1);
-      }).toThrow(NoSuchElementError);
-      expect(() => {
-        values.get(0);
-      }).toThrow(NoSuchElementError);
+      expect(values.get(-1)).toBeInstanceOf(None);
+      expect(values.get(0)).toBeInstanceOf(None);
     });
   });
 
@@ -58,9 +54,9 @@ describe('StatsValues', () => {
       const set: StatsValues = statsValues.set(StatsValue.of(statsItemID, AsOf.ofString('2000-01-02').get(), NumericalValue.of(4)));
 
       expect(set.size()).toEqual(3);
-      expect(set.get(0).getValue().get()).toEqual(1);
-      expect(set.get(1).getValue().get()).toEqual(4);
-      expect(set.get(2).getValue().get()).toEqual(3);
+      expect(set.get(0).get().getValue().get()).toEqual(1);
+      expect(set.get(1).get().getValue().get()).toEqual(4);
+      expect(set.get(2).get().getValue().get()).toEqual(3);
     });
 
     it('insert pattern', () => {
@@ -75,9 +71,9 @@ describe('StatsValues', () => {
       const set: StatsValues = statsValues.set(StatsValue.of(statsItemID, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2)));
 
       expect(set.size()).toEqual(3);
-      expect(set.get(0).getValue().get()).toEqual(1);
-      expect(set.get(1).getValue().get()).toEqual(2);
-      expect(set.get(2).getValue().get()).toEqual(3);
+      expect(set.get(0).get().getValue().get()).toEqual(1);
+      expect(set.get(1).get().getValue().get()).toEqual(2);
+      expect(set.get(2).get().getValue().get()).toEqual(3);
     });
   });
 
@@ -96,8 +92,8 @@ describe('StatsValues', () => {
       const deleted: StatsValues = statsValues.delete(AsOf.ofString('2000-01-02').get());
 
       expect(deleted.size()).toEqual(2);
-      expect(deleted.get(0).getValue().get()).toEqual(1);
-      expect(deleted.get(1).getValue().get()).toEqual(3);
+      expect(deleted.get(0).get().getValue().get()).toEqual(1);
+      expect(deleted.get(1).get().getValue().get()).toEqual(3);
     });
   });
 
@@ -129,8 +125,8 @@ describe('StatsValues', () => {
       ]);
 
       expect(statsValues.getAsOfs().size()).toEqual(2);
-      expect(statsValues.getAsOfs().get(0)).toEqual(asOf1);
-      expect(statsValues.getAsOfs().get(1)).toEqual(asOf2);
+      expect(statsValues.getAsOfs().get(0).get()).toEqual(asOf1);
+      expect(statsValues.getAsOfs().get(1).get()).toEqual(asOf2);
     });
   });
 
@@ -189,11 +185,11 @@ describe('StatsValues', () => {
       const filtered2: StatsValues = statsValues.filter(statsItemID2);
 
       expect(filtered1.size()).toEqual(2);
-      expect(filtered1.get(0).getAsOfAsString()).toEqual('2000-01-01');
-      expect(filtered1.get(1).getAsOfAsString()).toEqual('2000-01-04');
+      expect(filtered1.get(0).get().getAsOf().toString()).toEqual('2000-01-01');
+      expect(filtered1.get(1).get().getAsOf().toString()).toEqual('2000-01-04');
       expect(filtered2.size()).toEqual(2);
-      expect(filtered2.get(0).getAsOfAsString()).toEqual('2000-01-02');
-      expect(filtered2.get(1).getAsOfAsString()).toEqual('2000-01-03');
+      expect(filtered2.get(0).get().getAsOf().toString()).toEqual('2000-01-02');
+      expect(filtered2.get(1).get().getAsOf().toString()).toEqual('2000-01-03');
     });
   });
 
@@ -389,9 +385,10 @@ describe('StatsValues', () => {
       const values: StatsValues = trial.get();
       expect(values.size()).toEqual(json.length);
       for (let i: number = 0; i < values.size(); i++) {
-        expect(values.get(i).getStatsItemID()).toEqual(statsItemID);
-        expect(values.get(i).getAsOf().toString()).toEqual(json[i].asOf);
-        expect(values.get(i).getValue().get()).toEqual(json[i].value);
+        const value: StatsValue = values.get(i).get();
+        expect(value.getStatsItemID()).toEqual(statsItemID);
+        expect(value.getAsOf().toString()).toEqual(json[i].asOf);
+        expect(value.getValue().get()).toEqual(json[i].value);
       }
     });
 
@@ -479,9 +476,10 @@ describe('StatsValues', () => {
       const values: StatsValues = trial.get();
       expect(values.size()).toEqual(row.length);
       for (let i: number = 0; i < values.size(); i++) {
-        expect(values.get(i).getStatsItemID().get()).toEqual(row[i].statsItemID);
-        expect(values.get(i).getAsOf().toString()).toEqual(row[i].asOf);
-        expect(values.get(i).getValue().get()).toEqual(row[i].value);
+        const value: StatsValue = values.get(i).get();
+        expect(value.getStatsItemID().get()).toEqual(row[i].statsItemID);
+        expect(value.getAsOf().toString()).toEqual(row[i].asOf);
+        expect(value.getValue().get()).toEqual(row[i].value);
       }
     });
 

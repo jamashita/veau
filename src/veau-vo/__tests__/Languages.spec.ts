@@ -1,5 +1,5 @@
 import 'jest';
-import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { None } from '../../veau-general/Optional/None';
 import { ISO639 } from '../ISO639';
 import { Language, LanguageJSON, LanguageRow } from '../Language';
 import { LanguageID } from '../LanguageID';
@@ -16,20 +16,16 @@ describe('Languages', () => {
       const languages: Languages = Languages.of([language1, language2, language3]);
 
       expect(languages.size()).toEqual(3);
-      expect(languages.get(0)).toEqual(language1);
-      expect(languages.get(1)).toEqual(language2);
-      expect(languages.get(2)).toEqual(language3);
+      expect(languages.get(0).get()).toEqual(language1);
+      expect(languages.get(1).get()).toEqual(language2);
+      expect(languages.get(2).get()).toEqual(language3);
     });
 
-    it('throws NoSuchElementError when the index is out of range', () => {
+    it('returns None when the index is out of range', () => {
       const languages: Languages = Languages.empty();
 
-      expect(() => {
-        languages.get(-1);
-      }).toThrow(NoSuchElementError);
-      expect(() => {
-        languages.get(0);
-      }).toThrow(NoSuchElementError);
+      expect(languages.get(-1)).toBeInstanceOf(None);
+      expect(languages.get(0)).toBeInstanceOf(None);
     });
   });
 
@@ -147,10 +143,11 @@ describe('Languages', () => {
       const languages: Languages = Languages.ofJSON(json);
 
       expect(languages.size()).toEqual(1);
-      expect(languages.get(0).getLanguageID().get()).toEqual(json[0].languageID);
-      expect(languages.get(0).getName().get()).toEqual(json[0].name);
-      expect(languages.get(0).getEnglishName().get()).toEqual(json[0].englishName);
-      expect(languages.get(0).getISO639().get()).toEqual(json[0].iso639);
+      const language: Language = languages.get(0).get();
+      expect(language.getLanguageID().get()).toEqual(json[0].languageID);
+      expect(language.getName().get()).toEqual(json[0].name);
+      expect(language.getEnglishName().get()).toEqual(json[0].englishName);
+      expect(language.getISO639().get()).toEqual(json[0].iso639);
     });
   });
 
@@ -168,10 +165,11 @@ describe('Languages', () => {
       const languages: Languages = Languages.ofRow(rows);
 
       expect(languages.size()).toEqual(1);
-      expect(languages.get(0).getLanguageID().get()).toEqual(rows[0].languageID);
-      expect(languages.get(0).getName().get()).toEqual(rows[0].name);
-      expect(languages.get(0).getEnglishName().get()).toEqual(rows[0].englishName);
-      expect(languages.get(0).getISO639().get()).toEqual(rows[0].iso639);
+      const language: Language = languages.get(0).get();
+      expect(language.getLanguageID().get()).toEqual(rows[0].languageID);
+      expect(language.getName().get()).toEqual(rows[0].name);
+      expect(language.getEnglishName().get()).toEqual(rows[0].englishName);
+      expect(language.getISO639().get()).toEqual(rows[0].iso639);
     });
   });
 

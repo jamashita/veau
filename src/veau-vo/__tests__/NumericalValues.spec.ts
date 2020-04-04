@@ -1,5 +1,5 @@
 import 'jest';
-import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { None } from '../../veau-general/Optional/None';
 import { NumericalValue } from '../NumericalValue';
 import { NumericalValues } from '../NumericalValues';
 
@@ -14,13 +14,13 @@ describe('NumericalValues', () => {
       const values2: NumericalValues = values1.add(value3);
 
       expect(values1.size()).toEqual(2);
-      expect(values1.get(0)).toEqual(value1);
-      expect(values1.get(1)).toEqual(value2);
+      expect(values1.get(0).get()).toEqual(value1);
+      expect(values1.get(1).get()).toEqual(value2);
 
       expect(values2.size()).toEqual(3);
-      expect(values2.get(0)).toEqual(value1);
-      expect(values2.get(1)).toEqual(value2);
-      expect(values2.get(2)).toEqual(value3);
+      expect(values2.get(0).get()).toEqual(value1);
+      expect(values2.get(1).get()).toEqual(value2);
+      expect(values2.get(2).get()).toEqual(value3);
     });
   });
 
@@ -33,24 +33,20 @@ describe('NumericalValues', () => {
       const values: NumericalValues = NumericalValues.of([value1, value2, value3]);
 
       expect(values.size()).toEqual(3);
-      expect(values.get(0)).toEqual(value1);
-      expect(values.get(1)).toEqual(value2);
-      expect(values.get(2)).toEqual(value3);
+      expect(values.get(0).get()).toEqual(value1);
+      expect(values.get(1).get()).toEqual(value2);
+      expect(values.get(2).get()).toEqual(value3);
     });
 
-    it('throws NoSuchElementError when the index is out of range', () => {
+    it('returns None when the index is out of range', () => {
       const value1: NumericalValue = NumericalValue.of(1);
       const value2: NumericalValue = NumericalValue.of(2);
       const value3: NumericalValue = NumericalValue.of(3);
 
       const values: NumericalValues = NumericalValues.of([value1, value2, value3]);
 
-      expect(() => {
-        values.get(-1);
-      }).toThrow(NoSuchElementError);
-      expect(() => {
-        values.get(3);
-      }).toThrow(NoSuchElementError);
+      expect(values.get(-1)).toBeInstanceOf(None);
+      expect(values.get(3)).toBeInstanceOf(None);
     });
   });
 

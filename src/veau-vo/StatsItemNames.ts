@@ -1,6 +1,8 @@
-import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { Collection } from '../veau-general/Collection';
 import { JSONable } from '../veau-general/JSONable';
+import { None } from '../veau-general/Optional/None';
+import { Optional } from '../veau-general/Optional/Optional';
+import { Some } from '../veau-general/Optional/Some';
 import { Mapper } from '../veau-general/Type/Mapper';
 import { StatsItemName } from './StatsItemName';
 
@@ -17,14 +19,14 @@ export class StatsItemNames implements Collection<number, StatsItemName>, JSONab
     this.names = names;
   }
 
-  public get(index: number): StatsItemName {
+  public get(index: number): Optional<StatsItemName> {
     const name: StatsItemName | undefined = this.names[index];
 
     if (name === undefined) {
-      throw new NoSuchElementError(index.toString());
+      return None.of<StatsItemName>();
     }
 
-    return name;
+    return Some.of<StatsItemName>(name);
   }
 
   public contains(value: StatsItemName): boolean {
@@ -66,7 +68,7 @@ export class StatsItemNames implements Collection<number, StatsItemName>, JSONab
     }
 
     for (let i: number = 0; i < length; i++) {
-      if (!this.names[i].equals(other.get(i))) {
+      if (!this.names[i].equals(other.get(i).get())) {
         return false;
       }
     }

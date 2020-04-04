@@ -27,7 +27,7 @@ describe('Offset', () => {
   });
 
   describe('of', () => {
-    it('throws OffsetError when the argument is less than 0', () => {
+    it('returns Failure when the argument is less than 0', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
@@ -48,7 +48,7 @@ describe('Offset', () => {
       expect(spy2.called).toEqual(true);
     });
 
-    it('throws OffsetError when the argument is not integer', () => {
+    it('returns Failure when the argument is not integer', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();

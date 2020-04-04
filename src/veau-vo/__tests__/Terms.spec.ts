@@ -1,5 +1,5 @@
 import 'jest';
-import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { None } from '../../veau-general/Optional/None';
 import { Term } from '../Term';
 import { Terms } from '../Terms';
 
@@ -8,22 +8,18 @@ describe('Terms', () => {
     it('returns Term instance at the correct index', () => {
       const terms: Terms = Terms.all();
 
-      expect(terms.get(0)).toEqual(Term.DAILY);
-      expect(terms.get(1)).toEqual(Term.WEEKLY);
-      expect(terms.get(2)).toEqual(Term.MONTHLY);
-      expect(terms.get(3)).toEqual(Term.QUARTERLY);
-      expect(terms.get(4)).toEqual(Term.ANNUAL);
+      expect(terms.get(0).get()).toEqual(Term.DAILY);
+      expect(terms.get(1).get()).toEqual(Term.WEEKLY);
+      expect(terms.get(2).get()).toEqual(Term.MONTHLY);
+      expect(terms.get(3).get()).toEqual(Term.QUARTERLY);
+      expect(terms.get(4).get()).toEqual(Term.ANNUAL);
     });
 
-    it('throws NoSuchElementError when the index is out of range', () => {
+    it('returns None when the index is out of range', () => {
       const terms: Terms = Terms.all();
 
-      expect(() => {
-        terms.get(-1);
-      }).toThrow(NoSuchElementError);
-      expect(() => {
-        terms.get(5);
-      }).toThrow(NoSuchElementError);
+      expect(terms.get(-1)).toBeInstanceOf(None);
+      expect(terms.get(5)).toBeInstanceOf(None);
     });
   });
 

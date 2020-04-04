@@ -1,8 +1,10 @@
 import moment from 'moment';
 import { AsOfError } from '../veau-error/AsOfError';
-import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { Collection } from '../veau-general/Collection';
 import { JSONable } from '../veau-general/JSONable';
+import { None } from '../veau-general/Optional/None';
+import { Optional } from '../veau-general/Optional/Optional';
+import { Some } from '../veau-general/Optional/Some';
 import { Enumerator } from '../veau-general/Type/Enumerator';
 import { AsOf } from './AsOf';
 
@@ -33,14 +35,14 @@ export class AsOfs implements Collection<number, AsOf>, JSONable {
     return AsOfs.of(asOfs);
   }
 
-  public get(index: number): AsOf {
+  public get(index: number): Optional<AsOf> {
     const asOf: AsOf | undefined = this.asOfs[index];
 
     if (asOf === undefined) {
-      throw new NoSuchElementError(index.toString());
+      return None.of<AsOf>();
     }
 
-    return asOf;
+    return Some.of<AsOf>(asOf);
   }
 
   public contains(value: AsOf): boolean {
@@ -105,7 +107,7 @@ export class AsOfs implements Collection<number, AsOf>, JSONable {
       return false;
     }
     for (let i: number = 0; i < length; i++) {
-      if (!this.asOfs[i].equals(other.get(i))) {
+      if (!this.asOfs[i].equals(other.get(i).get())) {
         return false;
       }
     }

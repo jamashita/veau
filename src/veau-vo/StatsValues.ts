@@ -1,9 +1,11 @@
-import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { StatsValueError } from '../veau-error/StatsValueError';
 import { StatsValuesError } from '../veau-error/StatsValuesError';
 import { Cloneable } from '../veau-general/Cloneable';
 import { Collection } from '../veau-general/Collection';
 import { JSONable } from '../veau-general/JSONable';
+import { None } from '../veau-general/Optional/None';
+import { Optional } from '../veau-general/Optional/Optional';
+import { Some } from '../veau-general/Optional/Some';
 import { Failure } from '../veau-general/Try/Failure';
 import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
@@ -65,14 +67,14 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
     this.values = values;
   }
 
-  public get(index: number): StatsValue {
+  public get(index: number): Optional<StatsValue> {
     const statsValue: StatsValue | undefined = this.values[index];
 
     if (statsValue === undefined) {
-      throw new NoSuchElementError(index.toString());
+      return None.of<StatsValue>();
     }
 
-    return statsValue;
+    return Some.of<StatsValue>(statsValue);
   }
 
   public set(statsValue: StatsValue): StatsValues {
@@ -182,7 +184,7 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
     }
 
     for (let i: number = 0; i < length; i++) {
-      if (!this.values[i].equals(other.get(i))) {
+      if (!this.values[i].equals(other.get(i).get())) {
         return false;
       }
     }

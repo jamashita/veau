@@ -1,8 +1,8 @@
 import 'jest';
 import sinon, { SinonSpy } from 'sinon';
-import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { StatsItemError } from '../../veau-error/StatsItemError';
 import { StatsItemsError } from '../../veau-error/StatsItemsError';
+import { None } from '../../veau-general/Optional/None';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
@@ -53,19 +53,15 @@ describe('StatsItems', () => {
       ]);
 
       expect(items.size()).toEqual(2);
-      expect(items.get(0)).toEqual(statsItem1);
-      expect(items.get(1)).toEqual(statsItem2);
+      expect(items.get(0).get()).toEqual(statsItem1);
+      expect(items.get(1).get()).toEqual(statsItem2);
     });
 
-    it('throws NoSuchElementError when the index is out of range', () => {
+    it('returns None when the index is out of range', () => {
       const items: StatsItems = StatsItems.empty();
 
-      expect(() => {
-        items.get(-1);
-      }).toThrow(NoSuchElementError);
-      expect(() => {
-        items.get(0);
-      }).toThrow(NoSuchElementError);
+      expect(items.get(-1)).toBeInstanceOf(None);
+      expect(items.get(0)).toBeInstanceOf(None);
     });
   });
 
@@ -636,8 +632,9 @@ describe('StatsItems', () => {
       const items: StatsItems = trial.get();
       expect(items.size()).toEqual(2);
       for (let i: number = 0; i < items.size(); i++) {
-        expect(items.get(i).getStatsItemID().get()).toEqual(json[i].statsItemID);
-        expect(items.get(i).getName().get()).toEqual(json[i].name);
+        const item: StatsItem = items.get(i).get();
+        expect(item.getStatsItemID().get()).toEqual(json[i].statsItemID);
+        expect(item.getName().get()).toEqual(json[i].name);
       }
     });
 

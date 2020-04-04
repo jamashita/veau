@@ -1,5 +1,7 @@
-import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { Collection } from '../veau-general/Collection';
+import { None } from '../veau-general/Optional/None';
+import { Optional } from '../veau-general/Optional/Optional';
+import { Some } from '../veau-general/Optional/Some';
 import { Mapper } from '../veau-general/Type/Mapper';
 import { Term } from './Term';
 
@@ -20,14 +22,14 @@ export class Terms implements Collection<number, Term> {
     this.terms = terms;
   }
 
-  public get(index: number): Term {
+  public get(index: number): Optional<Term> {
     const term: Term | undefined = this.terms[index];
 
     if (term === undefined) {
-      throw new NoSuchElementError(index.toString());
+      return None.of<Term>();
     }
 
-    return term;
+    return Some.of<Term>(term);
   }
 
   public contains(value: Term): boolean {
@@ -64,7 +66,7 @@ export class Terms implements Collection<number, Term> {
       return false;
     }
     for (let i: number = 0; i < length; i++) {
-      if (this.terms[i] !== other.get(i)) {
+      if (this.terms[i] !== other.get(i).get()) {
         return false;
       }
     }
