@@ -7,7 +7,6 @@ import { JSONable } from '../veau-general/JSONable';
 import { Failure } from '../veau-general/Try/Failure';
 import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
-import { TryFilter } from '../veau-general/Try/TryFilter';
 import { Enumerator } from '../veau-general/Type/Enumerator';
 import { AsOf } from './AsOf';
 import { AsOfs } from './AsOfs';
@@ -23,7 +22,9 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
   }
 
   public static ofTry(tries: Array<Try<StatsValue, StatsValueError>>): Try<StatsValues, StatsValuesError> {
-    const failures: Array<Failure<StatsValue, StatsValueError>> = tries.filter<Failure<StatsValue, StatsValueError>>(TryFilter.isFailure);
+    const failures: Array<Failure<StatsValue, StatsValueError>> = tries.filter<Failure<StatsValue, StatsValueError>>((trial: Try<StatsValue, StatsValueError>): trial is Failure<StatsValue, StatsValueError> => {
+      return trial.isFailure();
+    });
 
     if (failures.length !== 0) {
       const message: string = failures.map<string>((failure: Failure<StatsValue, StatsValueError>) => {
