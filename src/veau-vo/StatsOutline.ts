@@ -1,5 +1,11 @@
+import { StatsIDError } from '../veau-error/StatsIDError';
+import { StatsOutlineError } from '../veau-error/StatsOutlineError';
+import { UpdatedAtError } from '../veau-error/UpdatedAtError';
 import { Cloneable } from '../veau-general/Cloneable';
 import { JSONable } from '../veau-general/JSONable';
+import { Failure } from '../veau-general/Try/Failure';
+import { Success } from '../veau-general/Try/Success';
+import { Try } from '../veau-general/Try/Try';
 import { ValueObject } from '../veau-general/ValueObject';
 import { ISO3166 } from './ISO3166';
 import { ISO639 } from './ISO639';
@@ -53,7 +59,7 @@ export class StatsOutline extends ValueObject implements JSONable, Cloneable {
     return new StatsOutline(statsID, language, region, term, name, unit, updatedAt);
   }
 
-  public static ofJSON(json: StatsOutlineJSON): StatsOutline {
+  public static ofJSON(json: StatsOutlineJSON): Try<StatsOutline, StatsOutlineError> {
     const {
       statsID,
       language,
@@ -64,18 +70,26 @@ export class StatsOutline extends ValueObject implements JSONable, Cloneable {
       updatedAt
     } = json;
 
-    return StatsOutline.of(
-      StatsID.of(statsID),
-      Language.ofJSON(language),
-      Region.ofJSON(region),
-      Term.of(termID),
-      StatsName.of(name),
-      StatsUnit.of(unit),
-      UpdatedAt.ofString(updatedAt)
-    );
+    return StatsID.of(statsID).match<Try<StatsOutline, StatsOutlineError>>((id: StatsID) => {
+      return UpdatedAt.ofString(updatedAt).match<Try<StatsOutline, StatsOutlineError>>((at: UpdatedAt) => {
+        return Success.of<StatsOutline, StatsOutlineError>(StatsOutline.of(
+          id,
+          Language.ofJSON(language),
+          Region.ofJSON(region),
+          Term.of(termID),
+          StatsName.of(name),
+          StatsUnit.of(unit),
+          at
+        ));
+      }, (err: UpdatedAtError) => {
+        return Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError(err.message));
+      });
+    }, (err: StatsIDError) => {
+      return Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError(err.message));
+    });
   }
 
-  public static ofRow(row: StatsOutlineRow): StatsOutline {
+  public static ofRow(row: StatsOutlineRow): Try<StatsOutline, StatsOutlineError> {
     const {
       statsID,
       languageID,
@@ -94,15 +108,23 @@ export class StatsOutline extends ValueObject implements JSONable, Cloneable {
     const language: Language = Language.of(LanguageID.of(languageID), LanguageName.of(languageName), LanguageName.of(languageEnglishName), ISO639.of(iso639));
     const region: Region = Region.of(RegionID.of(regionID), RegionName.of(regionName), ISO3166.of(iso3166));
 
-    return StatsOutline.of(
-      StatsID.of(statsID),
-      language,
-      region,
-      Term.of(termID),
-      StatsName.of(name),
-      StatsUnit.of(unit),
-      UpdatedAt.ofString(updatedAt)
-    );
+    return StatsID.of(statsID).match<Try<StatsOutline, StatsOutlineError>>((id: StatsID) => {
+      return UpdatedAt.ofString(updatedAt).match<Try<StatsOutline, StatsOutlineError>>((at: UpdatedAt) => {
+        return Success.of<StatsOutline, StatsOutlineError>(StatsOutline.of(
+          id,
+          language,
+          region,
+          Term.of(termID),
+          StatsName.of(name),
+          StatsUnit.of(unit),
+          at
+        ));
+      }, (err: UpdatedAtError) => {
+        return Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError(err.message));
+      });
+    }, (err: StatsIDError) => {
+      return Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError(err.message));
+    });
   }
 
   private constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: StatsUnit, updatedAt: UpdatedAt) {
