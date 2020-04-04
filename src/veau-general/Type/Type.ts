@@ -5,59 +5,31 @@ import { Primitive } from './Primitive';
 export class Type {
 
   public static isString(value: unknown): value is string {
-    if (check.string(value)) {
-      return true;
-    }
-
-    return false;
+    return check.string(value);
   }
 
   public static isNumber(value: unknown): value is number {
-    if (check.number(value)) {
-      return true;
-    }
-
-    return false;
+    return check.number(value);
   }
 
   public static isInteger(value: unknown): value is number {
-    if (check.integer(value)) {
-      return true;
-    }
-
-    return false;
+    return check.integer(value);
   }
 
   public static isBoolean(value: unknown): value is boolean {
-    if (check.boolean(value)) {
-      return true;
-    }
-
-    return false;
+    return check.boolean(value);
   }
 
   public static isPrimitive(value: unknown): value is Primitive {
-    if (check.primitive(value)) {
-      return true;
-    }
-
-    return false;
+    return check.primitive(value);
   }
 
   public static isPlainObject(value: unknown): value is PlainObject {
-    if (check.object(value)) {
-      return true;
-    }
-
-    return false;
+    return check.object(value);
   }
 
   public static isArray(value: unknown): value is Array<unknown> {
-    if (check.array(value)) {
-      return true;
-    }
-
-    return false;
+    return check.array(value);
   }
 
   private constructor() {

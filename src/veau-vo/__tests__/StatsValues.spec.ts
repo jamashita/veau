@@ -546,6 +546,96 @@ describe('StatsValues', () => {
     });
   });
 
+  describe('isJSON', () => {
+    it('normal case', () => {
+      const n: unknown = [
+        {
+          asOf: '2000-01-01',
+          value: 1
+        },
+        {
+          asOf: '2000-01-02',
+          value: 2
+        },
+        {
+          asOf: '2000-01-03',
+          value: 3
+        }
+      ];
+
+      expect(StatsValues.isJSON(n)).toEqual(true);
+    });
+
+    it('returns false because given parameter is not an object', () => {
+      expect(StatsValues.isJSON(null)).toEqual(false);
+      expect(StatsValues.isJSON(undefined)).toEqual(false);
+      expect(StatsValues.isJSON(56)).toEqual(false);
+      expect(StatsValues.isJSON('fjafsd')).toEqual(false);
+      expect(StatsValues.isJSON(false)).toEqual(false);
+    });
+
+    it('returns false because given parameter is not an array', () => {
+      expect(StatsValues.isJSON({})).toEqual(false);
+    });
+
+    it('returns false because the first element would not be StatsValueJSON', () => {
+      const n: unknown = [
+        {
+          asOf: '2000-01-01 00:00:00',
+          value: 1
+        },
+        {
+          asOf: '2000-01-02',
+          value: 2
+        },
+        {
+          asOf: '2000-01-03',
+          value: 3
+        }
+      ];
+
+      expect(StatsValues.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because the second element would not be StatsValueJSON', () => {
+      const n: unknown = [
+        {
+          asOf: '2000-01-01',
+          value: 1
+        },
+        {
+          asOf: '2000-01-02 00:00:00',
+          value: 2
+        },
+        {
+          asOf: '2000-01-03',
+          value: 3
+        }
+      ];
+
+      expect(StatsValues.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because the last element would not be StatsValueJSON', () => {
+      const n: unknown = [
+        {
+          asOf: '2000-01-01',
+          value: 1
+        },
+        {
+          asOf: '2000-01-02',
+          value: 2
+        },
+        {
+          asOf: '2000-01-03',
+          value: '20'
+        }
+      ];
+
+      expect(StatsValues.isJSON(n)).toEqual(false);
+    });
+  });
+
   describe('empty', () => {
     it('must be 0 length StatsValues', () => {
       expect(StatsValues.empty().isEmpty()).toEqual(true);

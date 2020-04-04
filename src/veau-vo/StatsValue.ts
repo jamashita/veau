@@ -5,6 +5,7 @@ import { JSONable } from '../veau-general/JSONable';
 import { Failure } from '../veau-general/Try/Failure';
 import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
+import { Type } from '../veau-general/Type/Type';
 import { ValueObject } from '../veau-general/ValueObject';
 import { AsOf } from './AsOf';
 import { NumericalValue } from './NumericalValue';
@@ -59,6 +60,26 @@ export class StatsValue extends ValueObject implements JSONable {
     }, (err: StatsItemIDError) => {
       return Failure.of<StatsValue, StatsValueError>(new StatsValueError(err.message));
     });
+  }
+
+  public static isJSON(n: unknown): n is StatsValueJSON {
+    if (!Type.isPlainObject(n)) {
+      return false;
+    }
+
+    const {
+      asOf,
+      value
+    } = n;
+
+    if (!Type.isString(asOf)) {
+      return false;
+    }
+    if (!Type.isNumber(value)) {
+      return false;
+    }
+
+    return true;
   }
 
   private constructor(statsItemID: StatsItemID, asOf: AsOf, value: NumericalValue) {

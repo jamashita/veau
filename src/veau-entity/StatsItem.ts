@@ -5,6 +5,7 @@ import { Entity } from '../veau-general/Entity';
 import { Failure } from '../veau-general/Try/Failure';
 import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
+import { Type } from '../veau-general/Type/Type';
 import { AsOf } from '../veau-vo/AsOf';
 import { AsOfs } from '../veau-vo/AsOfs';
 import { NoValue } from '../veau-vo/NoValue';
@@ -63,6 +64,30 @@ export class StatsItem extends Entity<StatsItemID> {
     }, (err: StatsItemIDError) => {
       return Failure.of<StatsItem, StatsItemError>(new StatsItemError(err.message));
     });
+  }
+
+  public static isJSON(n: unknown): n is StatsItemJSON {
+    if (!Type.isPlainObject(n)) {
+      return false;
+    }
+
+    const {
+      statsItemID,
+      name,
+      values
+    } = n;
+
+    if (!Type.isString(statsItemID)) {
+      return false;
+    }
+    if (!Type.isString(name)) {
+      return false;
+    }
+    if (!StatsValues.isJSON(values)) {
+      return false;
+    }
+
+    return true;
   }
 
   public static default(): StatsItem {

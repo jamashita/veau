@@ -1,4 +1,5 @@
 import { JSONable } from '../veau-general/JSONable';
+import { Type } from '../veau-general/Type/Type';
 import { ValueObject } from '../veau-general/ValueObject';
 import { ISO3166 } from './ISO3166';
 import { RegionID } from './RegionID';
@@ -47,6 +48,30 @@ export class Region extends ValueObject implements JSONable {
 
   public static default(): Region {
     return Region.of(RegionID.of(0), RegionName.default(), ISO3166.default());
+  }
+
+  public static isJSON(n: unknown): n is RegionJSON {
+    if (!Type.isPlainObject(n)) {
+      return false;
+    }
+
+    const {
+      regionID,
+      name,
+      iso3166
+    } = n;
+
+    if (!Type.isInteger(regionID)) {
+      return false;
+    }
+    if (!Type.isString(name)) {
+      return false;
+    }
+    if (!Type.isString(iso3166)) {
+      return false;
+    }
+
+    return true;
   }
 
   private constructor(regionID: RegionID, name: RegionName, iso3166: ISO3166) {

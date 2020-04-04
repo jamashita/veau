@@ -1076,6 +1076,798 @@ describe('Stats', () => {
     });
   });
 
+  describe('isJSON', () => {
+    it('normal case', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 1,
+        name: 'stats1',
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00',
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(true);
+    });
+
+    it('returns false because given parameter is not an object', () => {
+      expect(Stats.isJSON(null)).toEqual(false);
+      expect(Stats.isJSON(undefined)).toEqual(false);
+      expect(Stats.isJSON(56)).toEqual(false);
+      expect(Stats.isJSON('fjafsd')).toEqual(false);
+      expect(Stats.isJSON(false)).toEqual(false);
+    });
+
+    it('returns false because statsID is missing', () => {
+      const n: unknown = {
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 1,
+        name: 'stats1',
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00',
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because statsID is not string', () => {
+      const n: unknown = {
+        statsID: false,
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 1,
+        name: 'stats1',
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00',
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because language is missing', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 1,
+        name: 'stats1',
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00',
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because language is LanguageJSON', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: true,
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 1,
+        name: 'stats1',
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00',
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false region statsID is missing', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        termID: 1,
+        name: 'stats1',
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00',
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because region is not RegionJSON', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: 8,
+        termID: 1,
+        name: 'stats1',
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00',
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because termID is missing', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        name: 'stats1',
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00',
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because termID is not number', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 'soixante',
+        name: 'stats1',
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00',
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because name is missing', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 1,
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00',
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because name is not string', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 1,
+        name: null,
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00',
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because unit is missing', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 1,
+        name: 'stats1',
+        updatedAt: '2000-01-01 00:00:00',
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because unit is not string', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 1,
+        name: 'stats1',
+        unit: null,
+        updatedAt: '2000-01-01 00:00:00',
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because updatedAt is missing', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 1,
+        name: 'stats1',
+        unit: 'unit1',
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because updatedAt is not string', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 1,
+        name: 'stats1',
+        unit: 'unit1',
+        updatedAt: 2000,
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because items is missing', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 1,
+        name: 'stats1',
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00'
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because items is not array', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 1,
+        name: 'stats1',
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00',
+        items: {
+          c: {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          d: {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        }
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+  });
+
   describe('default', () => {
     it('id will be generated, data are empty', () => {
       const stats: Stats = Stats.default();

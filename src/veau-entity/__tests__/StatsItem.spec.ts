@@ -359,6 +359,129 @@ describe('StatsItem', () => {
     });
   });
 
+  describe('isJSON', () => {
+    it('normal case', () => {
+      const n: unknown = {
+        statsItemID: 'ding dong',
+        name: 'cameleon',
+        values: [
+          {
+            asOf: '2000-01-01',
+            value: 1
+          },
+          {
+            asOf: '2000-01-02',
+            value: 2
+          }
+        ]
+      };
+
+      expect(StatsItem.isJSON(n)).toEqual(true);
+    });
+
+    it('returns false because given parameter is not an object', () => {
+      expect(StatsItem.isJSON(null)).toEqual(false);
+      expect(StatsItem.isJSON(undefined)).toEqual(false);
+      expect(StatsItem.isJSON(56)).toEqual(false);
+      expect(StatsItem.isJSON('fjafsd')).toEqual(false);
+      expect(StatsItem.isJSON(false)).toEqual(false);
+    });
+
+    it('returns false because statsItemID is missing', () => {
+      const n: unknown = {
+        name: 'cameleon',
+        values: [
+          {
+            asOf: '2000-01-01',
+            value: 1
+          },
+          {
+            asOf: '2000-01-02',
+            value: 2
+          }
+        ]
+      };
+
+      expect(StatsItem.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because statsItemID is not string', () => {
+      const n: unknown = {
+        statsItemID: -1,
+        name: 'cameleon',
+        values: [
+          {
+            asOf: '2000-01-01',
+            value: 1
+          },
+          {
+            asOf: '2000-01-02',
+            value: 2
+          }
+        ]
+      };
+
+      expect(StatsItem.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because name is missing', () => {
+      const n: unknown = {
+        statsItemID: 'ding dong',
+        values: [
+          {
+            asOf: '2000-01-01',
+            value: 1
+          },
+          {
+            asOf: '2000-01-02',
+            value: 2
+          }
+        ]
+      };
+
+      expect(StatsItem.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because name is not string', () => {
+      const n: unknown = {
+        statsItemID: 'ding dong',
+        name: false,
+        values: [
+          {
+            asOf: '2000-01-01',
+            value: 1
+          },
+          {
+            asOf: '2000-01-02',
+            value: 2
+          }
+        ]
+      };
+
+      expect(StatsItem.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because values is missing', () => {
+      const n: unknown = {
+        statsItemID: 'ding dong',
+        name: 'cameleon'
+      };
+
+      expect(StatsItem.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because values is not array', () => {
+      const n: unknown = {
+        statsItemID: 'ding dong',
+        name: 'cameleon',
+        values: {
+        }
+      };
+
+      expect(StatsItem.isJSON(n)).toEqual(false);
+    });
+  });
+
   describe('default', () => {
     it('id will be generated, data are empty', () => {
       const item: StatsItem = StatsItem.default();

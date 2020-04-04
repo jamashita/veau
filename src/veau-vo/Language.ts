@@ -1,4 +1,5 @@
 import { JSONable } from '../veau-general/JSONable';
+import { Type } from '../veau-general/Type/Type';
 import { ValueObject } from '../veau-general/ValueObject';
 import { ISO639 } from './ISO639';
 import { LanguageID } from './LanguageID';
@@ -52,6 +53,34 @@ export class Language extends ValueObject implements JSONable {
 
   public static default(): Language {
     return Language.of(LanguageID.default(), LanguageName.default(), LanguageName.default(), ISO639.default());
+  }
+
+  public static isJSON(n: unknown): n is LanguageJSON {
+    if (!Type.isPlainObject(n)) {
+      return false;
+    }
+
+    const {
+      languageID,
+      name,
+      englishName,
+      iso639
+    } = n;
+
+    if (!Type.isInteger(languageID)) {
+      return false;
+    }
+    if (!Type.isString(name)) {
+      return false;
+    }
+    if (!Type.isString(englishName)) {
+      return false;
+    }
+    if (!Type.isString(iso639)) {
+      return false;
+    }
+
+    return true;
   }
 
   private constructor(languageID: LanguageID, name: LanguageName, englishName: LanguageName, iso639: ISO639) {

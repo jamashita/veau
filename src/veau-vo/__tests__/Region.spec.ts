@@ -88,4 +88,81 @@ describe('Region', () => {
       expect(region.getISO3166().get()).toEqual(row.iso3166);
     });
   });
+
+  describe('isJSON', () => {
+    it('normal case', () => {
+      const n: unknown = {
+        regionID: 3,
+        name: 'Albania',
+        iso3166: 'ALB'
+      };
+
+      expect(Region.isJSON(n)).toEqual(true);
+    });
+
+    it('returns false because given parameter is not an object', () => {
+      expect(Region.isJSON(null)).toEqual(false);
+      expect(Region.isJSON(undefined)).toEqual(false);
+      expect(Region.isJSON(56)).toEqual(false);
+      expect(Region.isJSON('fjafsd')).toEqual(false);
+      expect(Region.isJSON(false)).toEqual(false);
+    });
+
+    it('returns false because regionID is missing', () => {
+      const n: unknown = {
+        name: 'Albania',
+        iso3166: 'ALB'
+      };
+
+      expect(Region.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because regionID is not number', () => {
+      const n: unknown = {
+        regionID: 'to to',
+        name: 'Albania',
+        iso3166: 'ALB'
+      };
+
+      expect(Region.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because name is missing', () => {
+      const n: unknown = {
+        regionID: 3,
+        iso3166: 'ALB'
+      };
+
+      expect(Region.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because name is not string', () => {
+      const n: unknown = {
+        regionID: 3,
+        name: true,
+        iso3166: 'ALB'
+      };
+
+      expect(Region.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because iso3166 is missing', () => {
+      const n: unknown = {
+        regionID: 3,
+        name: 'Albania'
+      };
+
+      expect(Region.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because iso3166 is not string', () => {
+      const n: unknown = {
+        regionID: 3,
+        name: 'Albania',
+        iso3166: -5
+      };
+
+      expect(Region.isJSON(n)).toEqual(false);
+    });
+  });
 });

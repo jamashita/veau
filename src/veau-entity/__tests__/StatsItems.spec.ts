@@ -785,6 +785,131 @@ describe('StatsItems', () => {
     });
   });
 
+  describe('isJSON', () => {
+    it('normal case', () => {
+      const n: unknown = [
+        {
+          statsItemID: 'ding dong 1',
+          values: [
+            {
+              asOf: '2000-01-01',
+              value: 1
+            },
+            {
+              asOf: '2000-01-02',
+              value: 2
+            }
+          ]
+        },
+        {
+          statsItemID: 'ding dong 2',
+          values: [
+            {
+              asOf: '2000-01-03',
+              value: 3
+            },
+            {
+              asOf: '2000-01-04',
+              value: 4
+            },
+            {
+              asOf: '2000-01-05',
+              value: 5
+            }
+          ]
+        }
+      ];
+
+      expect(StatsItems.isJSON(n)).toEqual(true);
+    });
+
+    it('returns false because given parameter is not an object', () => {
+      expect(StatsItems.isJSON(null)).toEqual(false);
+      expect(StatsItems.isJSON(undefined)).toEqual(false);
+      expect(StatsItems.isJSON(56)).toEqual(false);
+      expect(StatsItems.isJSON('fjafsd')).toEqual(false);
+      expect(StatsItems.isJSON(false)).toEqual(false);
+    });
+
+    it('returns false because given parameter is not an array', () => {
+      expect(StatsItems.isJSON({})).toEqual(false);
+    });
+
+    it('returns false because the first element would not be StatsItemJSON', () => {
+      const n: unknown = [
+        {
+          statsItemID: -0.2,
+          values: [
+            {
+              asOf: '2000-01-01',
+              value: 1
+            },
+            {
+              asOf: '2000-01-02',
+              value: 2
+            }
+          ]
+        },
+        {
+          statsItemID: 'ding dong 2',
+          values: [
+            {
+              asOf: '2000-01-03',
+              value: 3
+            },
+            {
+              asOf: '2000-01-04',
+              value: 4
+            },
+            {
+              asOf: '2000-01-05',
+              value: 5
+            }
+          ]
+        }
+      ];
+
+      expect(StatsItems.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because the first element would not be StatsItemJSON', () => {
+      const n: unknown = [
+        {
+          statsItemID: 'ding dong 1',
+          values: [
+            {
+              asOf: '2000-01-01',
+              value: 1
+            },
+            {
+              asOf: '2000-01-02',
+              value: 2
+            }
+          ]
+        },
+        {
+          statsItemID: 'ding dong 2',
+          values: [
+            {
+              asOf: '2000-01-03 00:00:00',
+              value: 3
+            },
+            {
+              asOf: '2000-01-04',
+              value: 4
+            },
+            {
+              asOf: '2000-01-05',
+              value: 5
+            }
+          ]
+        }
+      ];
+
+      expect(StatsItems.isJSON(n)).toEqual(false);
+    });
+  });
+
   describe('empty', () => {
     it('gives 0-length StatsItems', () => {
       expect(StatsItems.empty().isEmpty()).toEqual(true);

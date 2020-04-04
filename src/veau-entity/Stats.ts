@@ -10,6 +10,7 @@ import { Some } from '../veau-general/Optional/Some';
 import { Failure } from '../veau-general/Try/Failure';
 import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
+import { Type } from '../veau-general/Type/Type';
 import { AsOf } from '../veau-vo/AsOf';
 import { AsOfs } from '../veau-vo/AsOfs';
 import { Column } from '../veau-vo/Column';
@@ -170,6 +171,50 @@ export class Stats extends Entity<StatsID> {
     }, (err: StatsIDError) => {
       return Failure.of<Stats, StatsError>(new StatsError(err.message));
     });
+  }
+
+  public static isJSON(n: unknown): n is StatsJSON {
+    if (!Type.isPlainObject(n)) {
+      return false;
+    }
+
+    const {
+      statsID,
+      language,
+      region,
+      termID,
+      name,
+      unit,
+      updatedAt,
+      items
+    } = n;
+
+    if (!Type.isString(statsID)) {
+      return false;
+    }
+    if (!Language.isJSON(language)) {
+      return false;
+    }
+    if (!Region.isJSON(region)) {
+      return false;
+    }
+    if (!Type.isInteger(termID)) {
+      return false;
+    }
+    if (!Type.isString(name)) {
+      return false;
+    }
+    if (!Type.isString(unit)) {
+      return false;
+    }
+    if (!Type.isString(updatedAt)) {
+      return false;
+    }
+    if (!StatsItems.isJSON(items)) {
+      return false;
+    }
+
+    return true;
   }
 
   public static default(): Stats {

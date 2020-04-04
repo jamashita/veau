@@ -164,4 +164,57 @@ describe('StatsValue', () => {
       expect(spy2.called).toEqual(true);
     });
   });
+
+  describe('isJSON', () => {
+    it('normal case', () => {
+      const n: unknown = {
+        statsItemID: 'f186dad1-6170-4fdc-9020-d73d9bf86fb0',
+        asOf: '2000-01-01 00:00:00',
+      };
+
+      expect(StatsValue.isJSON(n)).toEqual(true);
+    });
+
+    it('returns false because given parameter is not an object', () => {
+      expect(StatsValue.isJSON(null)).toEqual(false);
+      expect(StatsValue.isJSON(undefined)).toEqual(false);
+      expect(StatsValue.isJSON(56)).toEqual(false);
+      expect(StatsValue.isJSON('fjafsd')).toEqual(false);
+      expect(StatsValue.isJSON(false)).toEqual(false);
+    });
+
+    it('returns false because statsItemID is missing', () => {
+      const n: unknown = {
+        asOf: '2000-01-01 00:00:00',
+      };
+
+      expect(StatsValue.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because statsItemID is not string', () => {
+      const n: unknown = {
+        statsItemID: -0.3,
+        asOf: '2000-01-01 00:00:00',
+      };
+
+      expect(StatsValue.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because asOf is missing', () => {
+      const n: unknown = {
+        statsItemID: 'f186dad1-6170-4fdc-9020-d73d9bf86fb0'
+      };
+
+      expect(StatsValue.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because asOf is not string', () => {
+      const n: unknown = {
+        statsItemID: 'f186dad1-6170-4fdc-9020-d73d9bf86fb0',
+        asOf: false,
+      };
+
+      expect(StatsValue.isJSON(n)).toEqual(false);
+    });
+  });
 });

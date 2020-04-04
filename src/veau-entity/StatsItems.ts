@@ -12,6 +12,7 @@ import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
 import { Enumerator } from '../veau-general/Type/Enumerator';
 import { Mapper } from '../veau-general/Type/Mapper';
+import { Type } from '../veau-general/Type/Type';
 import { AsOf } from '../veau-vo/AsOf';
 import { AsOfs } from '../veau-vo/AsOfs';
 import { Column } from '../veau-vo/Column';
@@ -70,6 +71,16 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
     });
 
     return StatsItems.ofTry(trials);
+  }
+
+  public static isJSON(n: unknown): n is Array<StatsItemJSON> {
+    if (!Type.isArray(n)) {
+      return false;
+    }
+
+    return n.every((o: unknown) => {
+      return StatsItem.isJSON(o);
+    });
   }
 
   public static empty(): StatsItems {

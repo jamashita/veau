@@ -10,6 +10,7 @@ import { Failure } from '../veau-general/Try/Failure';
 import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
 import { Enumerator } from '../veau-general/Type/Enumerator';
+import { Type } from '../veau-general/Type/Type';
 import { AsOf } from './AsOf';
 import { AsOfs } from './AsOfs';
 import { NumericalValue } from './NumericalValue';
@@ -57,6 +58,16 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
     });
 
     return StatsValues.ofTry(trials);
+  }
+
+  public static isJSON(n: unknown): n is Array<StatsValueJSON> {
+    if (!Type.isArray(n)) {
+      return false;
+    }
+
+    return n.every((o: unknown) => {
+      return StatsValue.isJSON(o);
+    });
   }
 
   public static empty(): StatsValues {
