@@ -9,6 +9,8 @@ import { Stats } from '../../../veau-entity/Stats';
 import { StatsItem } from '../../../veau-entity/StatsItem';
 import { StatsItems } from '../../../veau-entity/StatsItems';
 import { NotFoundError } from '../../../veau-error/NotFoundError';
+import { StatsError } from '../../../veau-error/StatsError';
+import { StatsOutlinesError } from '../../../veau-error/StatsOutlinesError';
 import { None } from '../../../veau-general/Optional/None';
 import { Failure } from '../../../veau-general/Try/Failure';
 import { Success } from '../../../veau-general/Try/Success';
@@ -44,7 +46,7 @@ describe('StatsController', () => {
     it('normal case', async () => {
       const stub: SinonStub = sinon.stub();
       StatsInteractor.prototype.findByVeauAccountID = stub;
-      stub.resolves(StatsOutlines.of([
+      const outlines: StatsOutlines = StatsOutlines.of([
         StatsOutline.of(
           StatsID.of('01c466f3-198a-45a4-9204-348ac57b1b5d').get(),
           Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
@@ -54,7 +56,8 @@ describe('StatsController', () => {
           StatsUnit.of('unit'),
           UpdatedAt.ofString('2000-01-01 00:00:00').get()
         )
-      ]));
+      ]);
+      stub.resolves(Success.of<StatsOutlines, StatsOutlinesError>(outlines));
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
@@ -107,7 +110,7 @@ describe('StatsController', () => {
     it('replies INTERNAL_SERVER_ERROR', async () => {
       const stub: SinonStub = sinon.stub();
       StatsInteractor.prototype.findByVeauAccountID = stub;
-      stub.rejects();
+      stub.resolves(Failure.of<StatsOutlines, StatsOutlinesError>(new StatsOutlinesError('test failed')));
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
@@ -195,7 +198,7 @@ describe('StatsController', () => {
     it('replies INTERNAL_SERVER_ERROR', async () => {
       const stub: SinonStub = sinon.stub();
       StatsInteractor.prototype.findByStatsID = stub;
-      stub.rejects();
+      stub.resolves(Failure.of<Stats, NotFoundError | StatsError>(new StatsError('test failed')));
       const app: express.Express = express();
       app.use('/', StatsController);
 
@@ -254,57 +257,6 @@ describe('StatsController', () => {
         ]
       });
       expect(response.status).toEqual(CREATED);
-    });
-
-    it('replies INTERNAL_SERVER_ERROR', async () => {
-      const stub: SinonStub = sinon.stub();
-      StatsInteractor.prototype.save = stub;
-      stub.rejects();
-      const app: express.Express = express();
-      app.use(bodyParser.urlencoded({
-        extended: false
-      }));
-      app.use(bodyParser.json());
-      app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-        const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
-        // @ts-ignore
-        req.user = VeauAccount.of(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b').get(), AccountName.of('account'), language, region);
-        next();
-      });
-      app.use('/', StatsController);
-
-      const response: supertest.Response = await supertest(app).post('/').send({
-        statsID: '059ce0b2-7cba-4ba4-9a5d-a8fa7493f556',
-        language: {
-          languageID: 1,
-          name: 'language',
-          englishName: 'english name',
-          iso639: 'la'
-        },
-        region: {
-          regionID: 1,
-          name: 'region',
-          iso3166: 'RGN'
-        },
-        termID: 1,
-        name: 'stats',
-        unit: 'unit',
-        updatedAt: '2000-01-01 00:00:00',
-        items: [
-          {
-            statsItemID: '09c2e4a6-6839-4fbe-858e-bf2c4ee7d5e6',
-            name: 'stats item',
-            values: [
-              {
-                asOf: '2000-01-01',
-                value: 5
-              }
-            ]
-          }
-        ]
-      });
-      expect(response.status).toEqual(INTERNAL_SERVER_ERROR);
     });
 
     it('statsID is missing', async () => {

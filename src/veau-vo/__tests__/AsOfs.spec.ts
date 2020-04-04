@@ -15,13 +15,13 @@ describe('AsOfs', () => {
       const asOfs2: AsOfs = asOfs1.add(asOf3);
 
       expect(asOfs1.size()).toEqual(2);
-      expect(asOfs1.get(0)).toEqual(asOf1);
-      expect(asOfs1.get(1)).toEqual(asOf2);
+      expect(asOfs1.get(0).get()).toEqual(asOf1);
+      expect(asOfs1.get(1).get()).toEqual(asOf2);
 
       expect(asOfs2.size()).toEqual(3);
-      expect(asOfs2.get(0)).toEqual(asOf1);
-      expect(asOfs2.get(1)).toEqual(asOf2);
-      expect(asOfs2.get(2)).toEqual(asOf3);
+      expect(asOfs2.get(0).get()).toEqual(asOf1);
+      expect(asOfs2.get(1).get()).toEqual(asOf2);
+      expect(asOfs2.get(2).get()).toEqual(asOf3);
     });
   });
 

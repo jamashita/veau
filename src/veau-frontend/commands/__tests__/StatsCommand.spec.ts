@@ -41,7 +41,7 @@ describe('StatsCommand', () => {
         Term.DAILY,
         StatsName.of('stats name'),
         StatsUnit.of('stats unit'),
-        UpdatedAt.ofString('2000-01-01').get(),
+        UpdatedAt.ofString('2000-01-01 01:01:01').get(),
         StatsItems.empty(),
         None.of<AsOf>()
       );
@@ -65,7 +65,7 @@ describe('StatsCommand', () => {
         termID: 1,
         name: 'stats name',
         unit: 'stats unit',
-        updatedAt: '2000-01-01 00:00:00',
+        updatedAt: '2000-01-01 01:01:01',
         items: [
         ]
       }).called).toEqual(true);
@@ -90,7 +90,7 @@ describe('StatsCommand', () => {
         Term.DAILY,
         StatsName.of('stats name'),
         StatsUnit.of('stats unit'),
-        UpdatedAt.ofString('2000-01-01').get(),
+        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
         StatsItems.empty(),
         None.of<AsOf>()
       );

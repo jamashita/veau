@@ -79,8 +79,8 @@ describe('StatsItem', () => {
       ));
 
       expect(statsItem.getAsOfs().size()).toEqual(2);
-      expect(statsItem.getAsOfs().get(0)).toEqual(asOf1);
-      expect(statsItem.getAsOfs().get(1)).toEqual(asOf2);
+      expect(statsItem.getAsOfs().get(0).get()).toEqual(asOf1);
+      expect(statsItem.getAsOfs().get(1).get()).toEqual(asOf2);
     });
   });
 
@@ -100,9 +100,9 @@ describe('StatsItem', () => {
       const values: NumericalValues = statsItem.getValuesByColumn(column);
 
       expect(values.size()).toEqual(3);
-      expect(values.get(0).toString()).toEqual('1');
-      expect(values.get(1).toString()).toEqual('');
-      expect(values.get(2).toString()).toEqual('3');
+      expect(values.get(0).get().toString()).toEqual('1');
+      expect(values.get(1).get().toString()).toEqual('');
+      expect(values.get(2).get().toString()).toEqual('3');
     });
   });
 
@@ -168,7 +168,7 @@ describe('StatsItem', () => {
 
       expect(statsItem.getStatsItemID().equals(statsItemID)).toEqual(true);
       expect(statsItem.getName()).toEqual(name);
-      expect(statsItem.getValues().get(0)).toEqual(statsValue);
+      expect(statsItem.getValues().get(0).get()).toEqual(statsValue);
     });
   });
 

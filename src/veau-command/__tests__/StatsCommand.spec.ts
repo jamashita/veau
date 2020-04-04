@@ -39,7 +39,7 @@ describe('StatsCommand', () => {
         Term.DAILY,
         StatsName.of('stats name'),
         StatsUnit.of('stats unit'),
-        UpdatedAt.ofString('2000-01-01').get(),
+        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
         StatsItems.empty(),
         None.of<AsOf>()
       );

@@ -62,7 +62,7 @@ describe('StatsValue', () => {
   describe('ofJSON', () => {
     it('normal case', () => {
       const json: StatsValueJSON = {
-        asOf: '2000-01-01 00:00:00',
+        asOf: '2000-01-01',
         value: -1.1
       };
 
@@ -103,7 +103,7 @@ describe('StatsValue', () => {
     it('normal case', () => {
       const row: StatsValueRow = {
         statsItemID: 'f186dad1-6170-4fdc-9020-d73d9bf86fb0',
-        asOf: '2000-01-01 00:00:00',
+        asOf: '2000-01-01',
         value: -1.1
       };
 
@@ -122,7 +122,7 @@ describe('StatsValue', () => {
 
       const row: StatsValueRow = {
         statsItemID: 'illegal uuid',
-        asOf: '2000-01-01 00:00:00',
+        asOf: '2000-01-01',
         value: -1.1
       };
 
@@ -168,9 +168,9 @@ describe('StatsValue', () => {
   describe('isJSON', () => {
     it('normal case', () => {
       const n: unknown = {
-        statsItemID: 'f186dad1-6170-4fdc-9020-d73d9bf86fb0',
-        asOf: '2000-01-01 00:00:00',
-      };
+        asOf: '2000-01-01',
+        value: 1
+    };
 
       expect(StatsValue.isJSON(n)).toEqual(true);
     });
@@ -183,26 +183,9 @@ describe('StatsValue', () => {
       expect(StatsValue.isJSON(false)).toEqual(false);
     });
 
-    it('returns false because statsItemID is missing', () => {
-      const n: unknown = {
-        asOf: '2000-01-01 00:00:00',
-      };
-
-      expect(StatsValue.isJSON(n)).toEqual(false);
-    });
-
-    it('returns false because statsItemID is not string', () => {
-      const n: unknown = {
-        statsItemID: -0.3,
-        asOf: '2000-01-01 00:00:00',
-      };
-
-      expect(StatsValue.isJSON(n)).toEqual(false);
-    });
-
     it('returns false because asOf is missing', () => {
       const n: unknown = {
-        statsItemID: 'f186dad1-6170-4fdc-9020-d73d9bf86fb0'
+        value: -0.3
       };
 
       expect(StatsValue.isJSON(n)).toEqual(false);
@@ -210,8 +193,25 @@ describe('StatsValue', () => {
 
     it('returns false because asOf is not string', () => {
       const n: unknown = {
-        statsItemID: 'f186dad1-6170-4fdc-9020-d73d9bf86fb0',
         asOf: false,
+        value: -0.3,
+      };
+
+      expect(StatsValue.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because value is missing', () => {
+      const n: unknown = {
+        asOf: '2000-01-01',
+      };
+
+      expect(StatsValue.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because value is not number', () => {
+      const n: unknown = {
+        asOf: '2000-01-01',
+        value: null
       };
 
       expect(StatsValue.isJSON(n)).toEqual(false);

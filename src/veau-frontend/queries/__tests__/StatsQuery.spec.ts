@@ -36,7 +36,7 @@ describe('StatsQuery', () => {
           termID: 3,
           name: 'stats name',
           unit: 'stats unit',
-          updatedAt: '2000-01-01',
+          updatedAt: '2000-01-01 00:00:00',
           items: [
           ]
         }
@@ -77,7 +77,7 @@ describe('StatsQuery', () => {
           termID: 3,
           name: 'stats name',
           unit: 'stats unit',
-          updatedAt: '2000-01-01',
+          updatedAt: '2000-01-01 00:00:00',
           items: [
           ]
         }
@@ -179,7 +179,7 @@ describe('StatsQuery', () => {
             termID: 3,
             name: 'stats name',
             unit: 'stats unit',
-            updatedAt: '2000-01-01'
+            updatedAt: '2000-01-01 00:00:00'
           }
         ]
       });
@@ -219,7 +219,7 @@ describe('StatsQuery', () => {
             termID: 3,
             name: 'stats name',
             unit: 'stats unit',
-            updatedAt: '2000-01-01'
+            updatedAt: '2000-01-01 00:00:00'
           }
         ]
       });
@@ -234,7 +234,7 @@ describe('StatsQuery', () => {
         spy1();
       }, (err: StatsOutlinesError | AJAXError) => {
         spy2();
-        expect(err).toBeInstanceOf(AJAXError);
+        expect(err).toBeInstanceOf(StatsOutlinesError);
       });
 
       expect(spy1.called).toEqual(false);

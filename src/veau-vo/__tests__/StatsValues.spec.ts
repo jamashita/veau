@@ -212,7 +212,7 @@ describe('StatsValues', () => {
       expect(statsValues).not.toBe(copied);
       expect(statsValues.size()).toEqual(copied.size());
       for (let i: number = 0; i < statsValues.size(); i++) {
-        expect(statsValues.get(i)).toBe(copied.get(i));
+        expect(statsValues.get(i).equals(copied.get(i))).toEqual(true);
       }
     });
   });
@@ -311,8 +311,8 @@ describe('StatsValues', () => {
       expect(trial.isSuccess()).toEqual(true);
       const values: StatsValues = trial.get();
       expect(values.size()).toEqual(2);
-      expect(values.get(0)).toEqual(statsValue1);
-      expect(values.get(1)).toEqual(statsValue2);
+      expect(values.get(0).get()).toEqual(statsValue1);
+      expect(values.get(1).get()).toEqual(statsValue2);
     });
 
     it('contains failure', () => {
@@ -581,8 +581,8 @@ describe('StatsValues', () => {
     it('returns false because the first element would not be StatsValueJSON', () => {
       const n: unknown = [
         {
-          asOf: '2000-01-01 00:00:00',
-          value: 1
+          asOf: '2000-01-01',
+          value: true
         },
         {
           asOf: '2000-01-02',
@@ -604,7 +604,7 @@ describe('StatsValues', () => {
           value: 1
         },
         {
-          asOf: '2000-01-02 00:00:00',
+          asOf: false,
           value: 2
         },
         {

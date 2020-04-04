@@ -244,7 +244,7 @@ describe('StatsOutlines', () => {
 
       const trial: Try<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofJSON(json);
 
-      expect(trial.isSuccess()).toEqual(trial);
+      expect(trial.isSuccess()).toEqual(true);
       const outlines: StatsOutlines = trial.get();
       for (let i: number = 0; i < 2; i++) {
         const outline: StatsOutline = outlines.get(i).get();
@@ -299,7 +299,7 @@ describe('StatsOutlines', () => {
 
       const trial: Try<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofRow(rows);
 
-      expect(trial.isSuccess()).toEqual(trial);
+      expect(trial.isSuccess()).toEqual(true);
       const outlines: StatsOutlines = trial.get();
       for (let i: number = 0; i < 2; i++) {
         const outline: StatsOutline = outlines.get(i).get();

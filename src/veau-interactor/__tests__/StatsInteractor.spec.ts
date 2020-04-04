@@ -151,7 +151,7 @@ describe('StatsInteractor', () => {
 
       const stub: SinonStub = sinon.stub();
       StatsOutlineQuery.prototype.findByVeauAccountID = stub;
-      stub.resolves(StatsOutlines.of([
+      const outlines: StatsOutlines = StatsOutlines.of([
         StatsOutline.of(
           statsID,
           language,
@@ -161,7 +161,8 @@ describe('StatsInteractor', () => {
           unit,
           updatedAt
         )
-      ]));
+      ]);
+      stub.resolves(Success.of<StatsOutlines, StatsOutlinesError>(outlines));
 
       const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
       const trial: Try<StatsOutlines, StatsOutlinesError> = await statsInteractor.findByVeauAccountID(VeauAccountID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2').get(), Page.of(1).get());

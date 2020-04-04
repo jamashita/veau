@@ -106,7 +106,7 @@ describe('VeauAccount', () => {
 
       const trial: Try<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
 
-      expect(trial.isSuccess()).toEqual(trial);
+      expect(trial.isSuccess()).toEqual(true);
       const veauAccount: VeauAccount = trial.get();
       expect(veauAccount.getVeauAccountID().get()).toEqual(json.veauAccountID);
       expect(veauAccount.getAccount().get()).toEqual(json.account);

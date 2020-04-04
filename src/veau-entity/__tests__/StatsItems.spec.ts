@@ -32,13 +32,13 @@ describe('StatsItems', () => {
       const statsItems2: StatsItems = statsItems1.add(statsItem3);
 
       expect(statsItems1.size()).toEqual(2);
-      expect(statsItems1.get(0)).toEqual(statsItem1);
-      expect(statsItems1.get(1)).toEqual(statsItem2);
+      expect(statsItems1.get(0).get()).toEqual(statsItem1);
+      expect(statsItems1.get(1).get()).toEqual(statsItem2);
 
       expect(statsItems2.size()).toEqual(3);
-      expect(statsItems2.get(0)).toEqual(statsItem1);
-      expect(statsItems2.get(1)).toEqual(statsItem2);
-      expect(statsItems2.get(2)).toEqual(statsItem3);
+      expect(statsItems2.get(0).get()).toEqual(statsItem1);
+      expect(statsItems2.get(1).get()).toEqual(statsItem2);
+      expect(statsItems2.get(2).get()).toEqual(statsItem3);
     });
   });
 
@@ -79,9 +79,9 @@ describe('StatsItems', () => {
       const moved: StatsItems = statsItems.move(Column.of(0).get(), Column.of(1).get());
 
       expect(moved.size()).toEqual(3);
-      expect(moved.get(0)).toEqual(statsItem2);
-      expect(moved.get(1)).toEqual(statsItem1);
-      expect(moved.get(2)).toEqual(statsItem3);
+      expect(moved.get(0).get()).toEqual(statsItem2);
+      expect(moved.get(1).get()).toEqual(statsItem1);
+      expect(moved.get(2).get()).toEqual(statsItem3);
     });
 
     it('middle index', () => {
@@ -97,9 +97,9 @@ describe('StatsItems', () => {
       const moved: StatsItems = statsItems.move(Column.of(1).get(), Column.of(2).get());
 
       expect(moved.size()).toEqual(3);
-      expect(moved.get(0)).toEqual(statsItem1);
-      expect(moved.get(1)).toEqual(statsItem3);
-      expect(moved.get(2)).toEqual(statsItem2);
+      expect(moved.get(0).get()).toEqual(statsItem1);
+      expect(moved.get(1).get()).toEqual(statsItem3);
+      expect(moved.get(2).get()).toEqual(statsItem2);
     });
 
     it('last index', () => {
@@ -115,9 +115,9 @@ describe('StatsItems', () => {
       const moved: StatsItems = statsItems.move(Column.of(2).get(), Column.of(0).get());
 
       expect(moved.size()).toEqual(3);
-      expect(moved.get(0)).toEqual(statsItem3);
-      expect(moved.get(1)).toEqual(statsItem2);
-      expect(moved.get(2)).toEqual(statsItem1);
+      expect(moved.get(0).get()).toEqual(statsItem3);
+      expect(moved.get(1).get()).toEqual(statsItem2);
+      expect(moved.get(2).get()).toEqual(statsItem1);
     });
   });
 
@@ -134,9 +134,9 @@ describe('StatsItems', () => {
       const replaced: StatsItems = statsItems.replace(statsItem, Row.of(0).get());
 
       expect(replaced.size()).toEqual(3);
-      expect(replaced.get(0)).toEqual(statsItem);
-      expect(replaced.get(1)).not.toEqual(statsItem);
-      expect(replaced.get(2)).not.toEqual(statsItem);
+      expect(replaced.get(0).get()).toEqual(statsItem);
+      expect(replaced.get(1).get()).not.toEqual(statsItem);
+      expect(replaced.get(2).get()).not.toEqual(statsItem);
     });
 
     it('middle index', () => {
@@ -151,9 +151,9 @@ describe('StatsItems', () => {
       const replaced: StatsItems = statsItems.replace(statsItem, Row.of(1).get());
 
       expect(replaced.size()).toEqual(3);
-      expect(replaced.get(0)).not.toEqual(statsItem);
-      expect(replaced.get(1)).toEqual(statsItem);
-      expect(replaced.get(2)).not.toEqual(statsItem);
+      expect(replaced.get(0).get()).not.toEqual(statsItem);
+      expect(replaced.get(1).get()).toEqual(statsItem);
+      expect(replaced.get(2).get()).not.toEqual(statsItem);
     });
 
     it('last index', () => {
@@ -168,9 +168,9 @@ describe('StatsItems', () => {
       const replaced: StatsItems = statsItems.replace(statsItem, Row.of(2).get());
 
       expect(replaced.size()).toEqual(3);
-      expect(replaced.get(0)).not.toEqual(statsItem);
-      expect(replaced.get(1)).not.toEqual(statsItem);
-      expect(replaced.get(2)).toEqual(statsItem);
+      expect(replaced.get(0).get()).not.toEqual(statsItem);
+      expect(replaced.get(1).get()).not.toEqual(statsItem);
+      expect(replaced.get(2).get()).toEqual(statsItem);
     });
   });
 
@@ -188,8 +188,8 @@ describe('StatsItems', () => {
       const removed: StatsItems = statsItems.remove(statsItem1);
 
       expect(removed.size()).toEqual(2);
-      expect(removed.get(0)).toEqual(statsItem2);
-      expect(removed.get(1)).toEqual(statsItem3);
+      expect(removed.get(0).get()).toEqual(statsItem2);
+      expect(removed.get(1).get()).toEqual(statsItem3);
     });
   });
 
@@ -239,14 +239,14 @@ describe('StatsItems', () => {
 
       const asOfs: AsOfs = statsItems.getAsOfs();
       expect(asOfs.size()).toEqual(8);
-      expect(asOfs.get(0).toString()).toEqual('2000-01-01');
-      expect(asOfs.get(1).toString()).toEqual('2000-01-02');
-      expect(asOfs.get(2).toString()).toEqual('2000-01-03');
-      expect(asOfs.get(3).toString()).toEqual('2000-01-02');
-      expect(asOfs.get(4).toString()).toEqual('2000-01-03');
-      expect(asOfs.get(5).toString()).toEqual('2000-01-04');
-      expect(asOfs.get(6).toString()).toEqual('2000-01-04');
-      expect(asOfs.get(7).toString()).toEqual('2000-01-05');
+      expect(asOfs.get(0).get().toString()).toEqual('2000-01-01');
+      expect(asOfs.get(1).get().toString()).toEqual('2000-01-02');
+      expect(asOfs.get(2).get().toString()).toEqual('2000-01-03');
+      expect(asOfs.get(3).get().toString()).toEqual('2000-01-02');
+      expect(asOfs.get(4).get().toString()).toEqual('2000-01-03');
+      expect(asOfs.get(5).get().toString()).toEqual('2000-01-04');
+      expect(asOfs.get(6).get().toString()).toEqual('2000-01-04');
+      expect(asOfs.get(7).get().toString()).toEqual('2000-01-05');
     });
   });
 
@@ -263,9 +263,9 @@ describe('StatsItems', () => {
 
       const names: StatsItemNames = statsItems.getNames();
       expect(names.size()).toEqual(3);
-      expect(names.get(0).get()).toEqual('stats item 1');
-      expect(names.get(1).get()).toEqual('stats item 11');
-      expect(names.get(2).get()).toEqual('stats item 111');
+      expect(names.get(0).get().get()).toEqual('stats item 1');
+      expect(names.get(1).get().get()).toEqual('stats item 11');
+      expect(names.get(2).get().get()).toEqual('stats item 111');
     });
   });
 
@@ -375,9 +375,9 @@ describe('StatsItems', () => {
       const copied: StatsItems = statsItems.copy();
 
       expect(statsItems).not.toBe(copied);
-      expect(copied.get(0)).toEqual(statsItem1);
-      expect(copied.get(1)).toEqual(statsItem2);
-      expect(copied.get(2)).toEqual(statsItem3);
+      expect(copied.get(0).get()).toEqual(statsItem1);
+      expect(copied.get(1).get()).toEqual(statsItem2);
+      expect(copied.get(2).get()).toEqual(statsItem3);
     });
   });
 
@@ -560,8 +560,8 @@ describe('StatsItems', () => {
       expect(trial.isSuccess()).toEqual(true);
       const items: StatsItems = trial.get();
       expect(items.size()).toEqual(2);
-      expect(items.get(0)).toEqual(statsItem1);
-      expect(items.get(1)).toEqual(statsItem2);
+      expect(items.get(0).get()).toEqual(statsItem1);
+      expect(items.get(1).get()).toEqual(statsItem2);
     });
 
     it('contains failure', () => {
@@ -790,6 +790,7 @@ describe('StatsItems', () => {
       const n: unknown = [
         {
           statsItemID: 'ding dong 1',
+          name: 'ting de dong 1',
           values: [
             {
               asOf: '2000-01-01',
@@ -803,6 +804,7 @@ describe('StatsItems', () => {
         },
         {
           statsItemID: 'ding dong 2',
+          name: 'ting de dong 2',
           values: [
             {
               asOf: '2000-01-03',
@@ -839,6 +841,7 @@ describe('StatsItems', () => {
       const n: unknown = [
         {
           statsItemID: -0.2,
+          name: 'ting de dong 1',
           values: [
             {
               asOf: '2000-01-01',
@@ -852,6 +855,7 @@ describe('StatsItems', () => {
         },
         {
           statsItemID: 'ding dong 2',
+          name: 'ting de dong 2',
           values: [
             {
               asOf: '2000-01-03',
@@ -872,10 +876,11 @@ describe('StatsItems', () => {
       expect(StatsItems.isJSON(n)).toEqual(false);
     });
 
-    it('returns false because the first element would not be StatsItemJSON', () => {
+    it('returns false because the second element would not be StatsItemJSON', () => {
       const n: unknown = [
         {
           statsItemID: 'ding dong 1',
+          name: 'ting de dong 1',
           values: [
             {
               asOf: '2000-01-01',
@@ -889,9 +894,10 @@ describe('StatsItems', () => {
         },
         {
           statsItemID: 'ding dong 2',
+          name: false,
           values: [
             {
-              asOf: '2000-01-03 00:00:00',
+              asOf: '2000-01-03',
               value: 3
             },
             {
