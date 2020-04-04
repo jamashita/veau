@@ -7,22 +7,22 @@ import { HeaderSize } from '../HeaderSize';
 describe('HeaderSize', () => {
   describe('equals', () => {
     it('returns true if both properties are the same', () => {
-      const size1: Try<HeaderSize, HeaderSizeError> = HeaderSize.of(10);
-      const size2: Try<HeaderSize, HeaderSizeError> = HeaderSize.of(20);
-      const size3: Try<HeaderSize, HeaderSizeError> = HeaderSize.of(10);
+      const size1: HeaderSize = HeaderSize.of(10).get();
+      const size2: HeaderSize = HeaderSize.of(20).get();
+      const size3: HeaderSize = HeaderSize.of(10).get();
 
-      expect(size1.get().equals(size1.get())).toEqual(true);
-      expect(size1.get().equals(size2.get())).toEqual(false);
-      expect(size1.get().equals(size3.get())).toEqual(true);
+      expect(size1.equals(size1)).toEqual(true);
+      expect(size1.equals(size2)).toEqual(false);
+      expect(size1.equals(size3)).toEqual(true);
     });
   });
 
   describe('toString', () => {
     it('normal case', () => {
       const size: number = 10;
-      const headerSize: Try<HeaderSize, HeaderSizeError> = HeaderSize.of(size);
+      const headerSize: HeaderSize = HeaderSize.of(size).get();
 
-      expect(headerSize.get().toString()).toEqual(size.toString());
+      expect(headerSize.toString()).toEqual(headerSize.toString());
     });
   });
 
@@ -31,13 +31,13 @@ describe('HeaderSize', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const size1: Try<HeaderSize, HeaderSizeError> = HeaderSize.of(0);
-      const size2: Try<HeaderSize, HeaderSizeError> = HeaderSize.of(-1);
+      const trial1: Try<HeaderSize, HeaderSizeError> = HeaderSize.of(0);
+      const trial2: Try<HeaderSize, HeaderSizeError> = HeaderSize.of(-1);
 
-      expect(size1.isSuccess()).toEqual(true);
-      expect(size2.isFailure()).toEqual(true);
+      expect(trial1.isSuccess()).toEqual(true);
+      expect(trial2.isFailure()).toEqual(true);
 
-      size2.match<void>(() => {
+      trial2.match<void>(() => {
         spy1();
       }, (e: HeaderSizeError) => {
         spy2();
@@ -54,20 +54,20 @@ describe('HeaderSize', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const size1: Try<HeaderSize, HeaderSizeError> = HeaderSize.of(0.1);
-      const size2: Try<HeaderSize, HeaderSizeError> = HeaderSize.of(1.5);
+      const trial1: Try<HeaderSize, HeaderSizeError> = HeaderSize.of(0.1);
+      const trial2: Try<HeaderSize, HeaderSizeError> = HeaderSize.of(1.5);
 
-      expect(size1.isFailure()).toEqual(true);
-      expect(size2.isFailure()).toEqual(true);
+      expect(trial1.isFailure()).toEqual(true);
+      expect(trial2.isFailure()).toEqual(true);
 
-      size1.match<void>(() => {
+      trial1.match<void>(() => {
         spy1();
       }, (e: HeaderSizeError) => {
         spy2();
         expect(e).toBeInstanceOf(HeaderSizeError);
       });
 
-      size2.match<void>(() => {
+      trial2.match<void>(() => {
         spy3();
       }, (e: HeaderSizeError) => {
         spy4();

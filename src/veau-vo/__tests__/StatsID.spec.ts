@@ -10,20 +10,20 @@ describe('StatsID', () => {
     it('returns true if the property is the same', () => {
       const uuid1: string = 'db9c9de2-1fc6-4072-8348-b8894239b2b0';
       const uuid2: string = 'b5203963-d996-40a7-9adb-f05ea9524af0';
-      const statsID1: Try<StatsID, StatsIDError> = StatsID.of(uuid1);
-      const statsID2: Try<StatsID, StatsIDError> = StatsID.of(uuid2);
-      const statsID3: Try<StatsID, StatsIDError> = StatsID.of(uuid1);
+      const statsID1: StatsID = StatsID.of(uuid1).get();
+      const statsID2: StatsID = StatsID.of(uuid2).get();
+      const statsID3: StatsID = StatsID.of(uuid1).get();
 
-      expect(statsID1.get().equals(statsID1.get())).toEqual(true);
-      expect(statsID1.get().equals(statsID2.get())).toEqual(false);
-      expect(statsID1.get().equals(statsID3.get())).toEqual(true);
+      expect(statsID1.equals(statsID1)).toEqual(true);
+      expect(statsID1.equals(statsID2)).toEqual(false);
+      expect(statsID1.equals(statsID3)).toEqual(true);
     });
   });
 
   describe('toString', () => {
     it('returns the original string', () => {
       const uuid: string = 'db9c9de2-1fc6-4072-8348-b8894239b2b0';
-      const statsID: Try<StatsID, StatsIDError> = StatsID.of(uuid);
+      const statsID: StatsID = StatsID.of(uuid).get();
 
       expect(statsID.get().toString()).toEqual(uuid);
     });
@@ -32,19 +32,19 @@ describe('StatsID', () => {
   describe('of', () => {
     it('normal case', () => {
       const uuid1: string = 'db9c9de2-1fc6-4072-8348-b8894239b2b0';
-      const statsID: Try<StatsID, StatsIDError> = StatsID.of(uuid1);
+      const trial: Try<StatsID, StatsIDError> = StatsID.of(uuid1);
 
-      expect(statsID.isSuccess()).toEqual(true);
+      expect(trial.isSuccess()).toEqual(true);
     });
 
     it('throws StatsIDError when uuid length string is not given', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsID: Try<StatsID, StatsIDError> = StatsID.of('trois');
+      const trial: Try<StatsID, StatsIDError> = StatsID.of('trois');
 
-      expect(statsID.isFailure()).toEqual(true);
-      statsID.match<void>(() => {
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
         spy1();
       }, (e: StatsIDError) => {
         spy2();

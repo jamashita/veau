@@ -7,22 +7,22 @@ import { Column } from '../Column';
 describe('Column', () => {
   describe('equals', () => {
     it('returns true if both properties are the same', () => {
-      const column1: Try<Column, ColumnError> = Column.of(1);
-      const column2: Try<Column, ColumnError> = Column.of(2);
-      const column3: Try<Column, ColumnError> = Column.of(1);
+      const column1: Column = Column.of(1).get();
+      const column2: Column = Column.of(2).get();
+      const column3: Column = Column.of(1).get();
 
-      expect(column1.get().equals(column1.get())).toEqual(true);
-      expect(column1.get().equals(column2.get())).toEqual(false);
-      expect(column1.get().equals(column3.get())).toEqual(true);
+      expect(column1.equals(column1)).toEqual(true);
+      expect(column1.equals(column2)).toEqual(false);
+      expect(column1.equals(column3)).toEqual(true);
     });
   });
 
   describe('toString', () => {
     it('normal case', () => {
       const num: number = 1231;
-      const column: Try<Column, ColumnError> = Column.of(num);
+      const column: Column = Column.of(num).get();
 
-      expect(column.get().toString()).toEqual(num.toString());
+      expect(column.toString()).toEqual(num.toString());
     });
   });
 
@@ -31,13 +31,13 @@ describe('Column', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const column1: Try<Column, ColumnError> = Column.of(0);
-      const column2: Try<Column, ColumnError> = Column.of(-1);
+      const trial1: Try<Column, ColumnError> = Column.of(0);
+      const trial2: Try<Column, ColumnError> = Column.of(-1);
 
-      expect(column1.isSuccess()).toEqual(true);
-      expect(column2.isFailure()).toEqual(true);
+      expect(trial1.isSuccess()).toEqual(true);
+      expect(trial2.isFailure()).toEqual(true);
 
-      column2.match<void>(() => {
+      trial2.match<void>(() => {
         spy1();
       }, (e: ColumnError) => {
         spy2();
@@ -54,20 +54,20 @@ describe('Column', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const column1: Try<Column, ColumnError> = Column.of(0.1);
-      const column2: Try<Column, ColumnError> = Column.of(1.5);
+      const trial1: Try<Column, ColumnError> = Column.of(0.1);
+      const trial2: Try<Column, ColumnError> = Column.of(1.5);
 
-      expect(column1.isFailure()).toEqual(true);
-      expect(column2.isFailure()).toEqual(true);
+      expect(trial1.isFailure()).toEqual(true);
+      expect(trial2.isFailure()).toEqual(true);
 
-      column1.match<void>(() => {
+      trial1.match<void>(() => {
         spy1();
       }, (e: ColumnError) => {
         spy2();
         expect(e).toBeInstanceOf(ColumnError);
       });
 
-      column2.match<void>(() => {
+      trial2.match<void>(() => {
         spy3();
       }, (e: ColumnError) => {
         spy4();

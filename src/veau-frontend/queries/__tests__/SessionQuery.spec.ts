@@ -35,26 +35,17 @@ describe('SessionQuery', () => {
           }
         }
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const sessionQuery: SessionQuery = new SessionQuery();
       const trial: Try<VeauAccount, UnauthorizedError> = await sessionQuery.find();
 
       expect(stub.withArgs('/api/identity').called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
-      trial.match<void>((veauAccount: VeauAccount) => {
-        expect(veauAccount.getVeauAccountID().get()).toEqual('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
-        expect(veauAccount.getAccount().get()).toEqual('account');
-        expect(veauAccount.getLanguage().getLanguageID().get()).toEqual(1);
-        expect(veauAccount.getRegion().getRegionID().get()).toEqual(2);
-        spy1();
-      }, () => {
-        spy2();
-      });
-
-      expect(spy1.called).toEqual(true);
-      expect(spy2.called).toEqual(false);
+      const veauAccount: VeauAccount = trial.get();
+      expect(veauAccount.getVeauAccountID().get()).toEqual('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
+      expect(veauAccount.getAccount().get()).toEqual('account');
+      expect(veauAccount.getLanguage().getLanguageID().get()).toEqual(1);
+      expect(veauAccount.getRegion().getRegionID().get()).toEqual(2);
     });
 
     it('doesn\'t return OK', async () => {
@@ -106,8 +97,6 @@ describe('SessionQuery', () => {
           }
         }
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
       const sessionQuery: SessionQuery = new SessionQuery();
@@ -118,18 +107,11 @@ describe('SessionQuery', () => {
         password: 'password'
       }).called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
-      trial.match<void>((veauAccount: VeauAccount) => {
-        expect(veauAccount.getVeauAccountID().get()).toEqual('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
-        expect(veauAccount.getAccount().get()).toEqual('account');
-        expect(veauAccount.getLanguage().getLanguageID().get()).toEqual(1);
-        expect(veauAccount.getRegion().getRegionID().get()).toEqual(2);
-        spy1();
-      }, () => {
-        spy2();
-      });
-
-      expect(spy1.called).toEqual(true);
-      expect(spy2.called).toEqual(false);
+      const veauAccount: VeauAccount = trial.get();
+      expect(veauAccount.getVeauAccountID().get()).toEqual('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
+      expect(veauAccount.getAccount().get()).toEqual('account');
+      expect(veauAccount.getLanguage().getLanguageID().get()).toEqual(1);
+      expect(veauAccount.getRegion().getRegionID().get()).toEqual(2);
     });
 
     it('returns UNAUTHORIZED', async () => {

@@ -88,9 +88,6 @@ describe('VeauAccount', () => {
 
   describe('ofJSON', () => {
     it('normal case', () => {
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const json: VeauAccountJSON = {
         veauAccountID: '998106de-b2e7-4981-9643-22cd30cd74de',
         account: 'account',
@@ -107,25 +104,19 @@ describe('VeauAccount', () => {
         }
       };
 
-      const veauAccount: Try<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
+      const trial: Try<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
 
-      veauAccount.match<void>((veauAccount: VeauAccount) => {
-        expect(veauAccount.getVeauAccountID().get()).toEqual(json.veauAccountID);
-        expect(veauAccount.getAccount().get()).toEqual(json.account);
-        expect(veauAccount.getLanguage().getLanguageID().get()).toEqual(json.language.languageID);
-        expect(veauAccount.getLanguage().getName().get()).toEqual(json.language.name);
-        expect(veauAccount.getLanguage().getEnglishName().get()).toEqual(json.language.englishName);
-        expect(veauAccount.getLanguage().getISO639().get()).toEqual(json.language.iso639);
-        expect(veauAccount.getRegion().getRegionID().get()).toEqual(json.region.regionID);
-        expect(veauAccount.getRegion().getName().get()).toEqual(json.region.name);
-        expect(veauAccount.getRegion().getISO3166().get()).toEqual(json.region.iso3166);
-        spy1();
-      }, () => {
-        spy2();
-      });
-
-      expect(spy1.called).toEqual(true);
-      expect(spy2.called).toEqual(false);
+      expect(trial.isSuccess()).toEqual(trial);
+      const veauAccount: VeauAccount = trial.get();
+      expect(veauAccount.getVeauAccountID().get()).toEqual(json.veauAccountID);
+      expect(veauAccount.getAccount().get()).toEqual(json.account);
+      expect(veauAccount.getLanguage().getLanguageID().get()).toEqual(json.language.languageID);
+      expect(veauAccount.getLanguage().getName().get()).toEqual(json.language.name);
+      expect(veauAccount.getLanguage().getEnglishName().get()).toEqual(json.language.englishName);
+      expect(veauAccount.getLanguage().getISO639().get()).toEqual(json.language.iso639);
+      expect(veauAccount.getRegion().getRegionID().get()).toEqual(json.region.regionID);
+      expect(veauAccount.getRegion().getName().get()).toEqual(json.region.name);
+      expect(veauAccount.getRegion().getISO3166().get()).toEqual(json.region.iso3166);
     });
 
     it('veauAccountID is malformat', () => {
@@ -148,9 +139,9 @@ describe('VeauAccount', () => {
         }
       };
 
-      const veauAccount: Try<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
+      const trial: Try<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
 
-      veauAccount.match<void>(() => {
+      trial.match<void>(() => {
         spy1();
       }, (e: VeauAccountError) => {
         spy2();

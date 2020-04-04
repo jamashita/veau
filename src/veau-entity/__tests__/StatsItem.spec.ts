@@ -174,9 +174,6 @@ describe('StatsItem', () => {
 
   describe('ofJSON', () => {
     it('normal case', () => {
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const json: StatsItemJSON = {
         statsItemID: '4d0cf4e5-4f48-4db3-9c04-085374d857d1',
         name: 'name',
@@ -192,24 +189,17 @@ describe('StatsItem', () => {
         ]
       };
 
-      const statsItem: Try<StatsItem, StatsItemError> = StatsItem.ofJSON(json);
+      const trial: Try<StatsItem, StatsItemError> = StatsItem.ofJSON(json);
 
-      expect(statsItem.isSuccess()).toEqual(true);
-      statsItem.match<void>((item: StatsItem) => {
-        expect(item.getStatsItemID().get()).toEqual(json.statsItemID);
-        expect(item.getName().get()).toEqual(json.name);
-        expect(item.getValues().size()).toEqual(json.values.length);
-        for (let i: number = 0; i < item.getValues().size(); i++) {
-          expect(item.getValues().get(i).getAsOf().toString()).toEqual(AsOf.ofString(json.values[i].asOf).get().toString());
-          expect(item.getValues().get(i).getValue().get()).toEqual(json.values[i].value);
-        }
-        spy1();
-      }, () => {
-        spy2();
-      });
-
-      expect(spy1.called).toEqual(true);
-      expect(spy2.called).toEqual(false);
+      expect(trial.isSuccess()).toEqual(true);
+      const statsItem: StatsItem = trial.get();
+      expect(statsItem.getStatsItemID().get()).toEqual(json.statsItemID);
+      expect(statsItem.getName().get()).toEqual(json.name);
+      expect(statsItem.getValues().size()).toEqual(json.values.length);
+      for (let i: number = 0; i < statsItem.getValues().size(); i++) {
+        expect(statsItem.getValues().get(i).getAsOf().toString()).toEqual(AsOf.ofString(json.values[i].asOf).get().toString());
+        expect(statsItem.getValues().get(i).getValue().get()).toEqual(json.values[i].value);
+      }
     });
 
     it('statsItemID is malformat', () => {
@@ -231,10 +221,10 @@ describe('StatsItem', () => {
         ]
       };
 
-      const statsItem: Try<StatsItem, StatsItemError> = StatsItem.ofJSON(json);
+      const trial: Try<StatsItem, StatsItemError> = StatsItem.ofJSON(json);
 
-      expect(statsItem.isFailure()).toEqual(true);
-      statsItem.match<void>(() => {
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
         spy1();
       }, (err: StatsItemError) => {
         spy2();
@@ -264,10 +254,10 @@ describe('StatsItem', () => {
         ]
       };
 
-      const statsItem: Try<StatsItem, StatsItemError> = StatsItem.ofJSON(json);
+      const trial: Try<StatsItem, StatsItemError> = StatsItem.ofJSON(json);
 
-      expect(statsItem.isFailure()).toEqual(true);
-      statsItem.match<void>(() => {
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
         spy1();
       }, (err: StatsItemError) => {
         spy2();
@@ -297,10 +287,10 @@ describe('StatsItem', () => {
         ]
       };
 
-      const statsItem: Try<StatsItem, StatsItemError> = StatsItem.ofJSON(json);
+      const trial: Try<StatsItem, StatsItemError> = StatsItem.ofJSON(json);
 
-      expect(statsItem.isFailure()).toEqual(true);
-      statsItem.match<void>(() => {
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
         spy1();
       }, (err: StatsItemError) => {
         spy2();
@@ -314,9 +304,6 @@ describe('StatsItem', () => {
 
   describe('ofRow', () => {
     it('normal case', () => {
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const row: StatsItemRow = {
         statsItemID: '4d0cf4e5-4f48-4db3-9c04-085374d857d1',
         name: 'name'
@@ -327,24 +314,17 @@ describe('StatsItem', () => {
         StatsValue.of(StatsItemID.of('4d0cf4e5-4f48-4db3-9c04-085374d857d1').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(1000))
       ]);
 
-      const statsItem: Try<StatsItem, StatsItemError> = StatsItem.ofRow(row, statsValues);
+      const trial: Try<StatsItem, StatsItemError> = StatsItem.ofRow(row, statsValues);
 
-      expect(statsItem.isSuccess()).toEqual(true);
-      statsItem.match<void>((item: StatsItem) => {
-        expect(item.getStatsItemID().get()).toEqual(row.statsItemID);
-        expect(item.getName().get()).toEqual(row.name);
-        expect(item.getValues().size()).toEqual(statsValues.size());
-        for (let i: number = 0; i < item.getValues().size(); i++) {
-          expect(item.getValues().get(i).getAsOf()).toEqual(statsValues.get(i).getAsOf());
-          expect(item.getValues().get(i).getValue()).toEqual(statsValues.get(i).getValue());
-        }
-        spy1();
-      }, (err: StatsItemError) => {
-        spy2();
-      });
-
-      expect(spy1.called).toEqual(true);
-      expect(spy2.called).toEqual(false);
+      expect(trial.isSuccess()).toEqual(true);
+      const statsItem: StatsItem = trial.get();
+      expect(statsItem.getStatsItemID().get()).toEqual(row.statsItemID);
+      expect(statsItem.getName().get()).toEqual(row.name);
+      expect(statsItem.getValues().size()).toEqual(statsValues.size());
+      for (let i: number = 0; i < statsItem.getValues().size(); i++) {
+        expect(statsItem.getValues().get(i).getAsOf()).toEqual(statsValues.get(i).getAsOf());
+        expect(statsItem.getValues().get(i).getValue()).toEqual(statsValues.get(i).getValue());
+      }
     });
 
     it('statsItemID is malformat', () => {
@@ -361,10 +341,10 @@ describe('StatsItem', () => {
         StatsValue.of(StatsItemID.of('4d0cf4e5-4f48-4db3-9c04-085374d857d1').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(1000))
       ]);
 
-      const statsItem: Try<StatsItem, StatsItemError> = StatsItem.ofRow(row, statsValues);
+      const trial: Try<StatsItem, StatsItemError> = StatsItem.ofRow(row, statsValues);
 
-      expect(statsItem.isFailure()).toEqual(true);
-      statsItem.match<void>((item: StatsItem) => {
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>((item: StatsItem) => {
         expect(item.getStatsItemID().get()).toEqual(row.statsItemID);
         spy1();
       }, (err: StatsItemError) => {

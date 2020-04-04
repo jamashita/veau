@@ -21,9 +21,9 @@ describe('UpdatedAt', () => {
   describe('toString', () => {
     it('normal case', () => {
       const at: string = '2000-01-01 00:01:02';
-      const updatedAt: Try<UpdatedAt, UpdatedAtError> = UpdatedAt.ofString(at);
+      const updatedAt: UpdatedAt = UpdatedAt.ofString(at).get();
 
-      expect(updatedAt.get().toString()).toEqual(at);
+      expect(updatedAt.toString()).toEqual(at);
     });
   });
 
@@ -32,10 +32,10 @@ describe('UpdatedAt', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const updatedAt: Try<UpdatedAt, UpdatedAtError> = UpdatedAt.ofString('this is not date');
+      const trial: Try<UpdatedAt, UpdatedAtError> = UpdatedAt.ofString('this is not date');
 
-      expect(updatedAt.isFailure()).toEqual(true);
-      updatedAt.match<void>(() => {
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
         spy1();
       }, (e: UpdatedAtError) => {
         spy2();
@@ -47,9 +47,9 @@ describe('UpdatedAt', () => {
     });
 
     it('normal case', () => {
-      const updatedAt: Try<UpdatedAt, UpdatedAtError> = UpdatedAt.ofString('2000-01-01 00:00:00');
+      const trial: Try<UpdatedAt, UpdatedAtError> = UpdatedAt.ofString('2000-01-01 00:00:00');
 
-      expect(updatedAt.isSuccess()).toEqual(true);
+      expect(trial.isSuccess()).toEqual(true);
     });
   });
 

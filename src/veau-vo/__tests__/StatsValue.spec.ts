@@ -61,28 +61,18 @@ describe('StatsValue', () => {
 
   describe('ofJSON', () => {
     it('normal case', () => {
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const json: StatsValueJSON = {
         asOf: '2000-01-01 00:00:00',
         value: -1.1
       };
 
-      const statsValue: Try<StatsValue, StatsValueError> = StatsValue.ofJSON(StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get(), json);
+      const trial: Try<StatsValue, StatsValueError> = StatsValue.ofJSON(StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get(), json);
 
-      expect(statsValue.isSuccess()).toEqual(true);
-      statsValue.match<void>((value: StatsValue) => {
-        expect(value.getStatsItemID().get()).toEqual('f186dad1-6170-4fdc-9020-d73d9bf86fb0');
-        expect(value.getAsOfAsString()).toEqual('2000-01-01');
-        expect(value.getValue().get()).toEqual(-1.1);
-        spy1();
-      }, () => {
-        spy2();
-      });
-
-      expect(spy1.called).toEqual(true);
-      expect(spy2.called).toEqual(false);
+      expect(trial.isSuccess()).toEqual(true);
+      const statsValue: StatsValue = trial.get();
+      expect(statsValue.getStatsItemID().get()).toEqual('f186dad1-6170-4fdc-9020-d73d9bf86fb0');
+      expect(statsValue.getAsOfAsString()).toEqual('2000-01-01');
+      expect(statsValue.getValue().get()).toEqual(-1.1);
     });
 
     it('asOf is malformat', () => {
@@ -94,10 +84,10 @@ describe('StatsValue', () => {
         value: -1.1
       };
 
-      const statsValue: Try<StatsValue, StatsValueError> = StatsValue.ofJSON(StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get(), json);
+      const trial: Try<StatsValue, StatsValueError> = StatsValue.ofJSON(StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get(), json);
 
-      expect(statsValue.isFailure()).toEqual(true);
-      statsValue.match<void>(() => {
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
         spy1();
       }, (e: StatsValueError) => {
         spy2();
@@ -111,29 +101,19 @@ describe('StatsValue', () => {
 
   describe('ofRow', () => {
     it('normal case', () => {
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const row: StatsValueRow = {
         statsItemID: 'f186dad1-6170-4fdc-9020-d73d9bf86fb0',
         asOf: '2000-01-01 00:00:00',
         value: -1.1
       };
 
-      const statsValue: Try<StatsValue, StatsValueError> = StatsValue.ofRow(row);
+      const trial: Try<StatsValue, StatsValueError> = StatsValue.ofRow(row);
 
-      expect(statsValue.isSuccess()).toEqual(true);
-      statsValue.match<void>((value: StatsValue) => {
-        expect(value.getStatsItemID().get()).toEqual('f186dad1-6170-4fdc-9020-d73d9bf86fb0');
-        expect(value.getAsOfAsString()).toEqual('2000-01-01');
-        expect(value.getValue().get()).toEqual(-1.1);
-        spy1();
-      }, () => {
-        spy2();
-      });
-
-      expect(spy1.called).toEqual(true);
-      expect(spy2.called).toEqual(false);
+      expect(trial.isSuccess()).toEqual(true);
+      const statsValue: StatsValue = trial.get();
+      expect(statsValue.getStatsItemID().get()).toEqual('f186dad1-6170-4fdc-9020-d73d9bf86fb0');
+      expect(statsValue.getAsOfAsString()).toEqual('2000-01-01');
+      expect(statsValue.getValue().get()).toEqual(-1.1);
     });
 
     it('statsItemID is malformat', () => {
@@ -146,10 +126,10 @@ describe('StatsValue', () => {
         value: -1.1
       };
 
-      const statsValue: Try<StatsValue, StatsValueError> = StatsValue.ofRow(row);
+      const trial: Try<StatsValue, StatsValueError> = StatsValue.ofRow(row);
 
-      expect(statsValue.isFailure()).toEqual(true);
-      statsValue.match<void>(() => {
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
         spy1();
       }, (e: StatsValueError) => {
         spy2();
@@ -170,10 +150,10 @@ describe('StatsValue', () => {
         value: -1.1
       };
 
-      const statsValue: Try<StatsValue, StatsValueError> = StatsValue.ofRow(row);
+      const trial: Try<StatsValue, StatsValueError> = StatsValue.ofRow(row);
 
-      expect(statsValue.isFailure()).toEqual(true);
-      statsValue.match<void>(() => {
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
         spy1();
       }, (e: StatsValueError) => {
         spy2();

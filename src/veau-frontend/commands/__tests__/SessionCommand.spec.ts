@@ -16,21 +16,12 @@ describe('SessionCommand', () => {
         body: {
         }
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const sessionCommand: SessionCommand = new SessionCommand();
       const trial: Try<void, AJAXError> = await sessionCommand.delete();
 
       expect(trial.isSuccess()).toEqual(true);
       expect(stub.withArgs('/api/destroy').called).toEqual(true);
-      trial.match<void>(() => {
-        spy1();
-      }, () => {
-        spy2();
-      });
-      expect(spy1.called).toEqual(true);
-      expect(spy2.called).toEqual(false);
     });
 
     it('throws error', async () => {

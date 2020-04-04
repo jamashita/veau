@@ -1,5 +1,3 @@
-import { LimitError } from '../veau-error/LimitError';
-import { OffsetError } from '../veau-error/OffsetError';
 import { PageError } from '../veau-error/PageError';
 import { Failure } from '../veau-general/Try/Failure';
 import { Success } from '../veau-general/Try/Success';
@@ -34,13 +32,14 @@ export class Page extends ValueObject {
     return this.page;
   }
 
-  public getLimit(): Try<Limit, LimitError> {
-    return Limit.of(LIMIT);
+  public getLimit(): Limit {
+    return Limit.of(LIMIT).get();
   }
 
-  public getOffset(): Try<Offset, OffsetError> {
+  public getOffset(): Offset {
     const offset: number = (this.page - 1) * LIMIT;
-    return Offset.of(offset);
+
+    return Offset.of(offset).get();
   }
 
   public equals(other: Page): boolean {

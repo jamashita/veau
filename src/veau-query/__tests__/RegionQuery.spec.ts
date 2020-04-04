@@ -82,23 +82,14 @@ describe('RegionQuery', () => {
       const stub: SinonStub = sinon.stub();
       RedisString.prototype.get = stub;
       stub.resolves('[{"regionID":1,"name":"Afghanistan","iso3166":"AFG"},{"regionID":2,"name":"Albania","iso3166":"ALB"}]');
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = container.get<RegionQuery>(TYPE.RegionQuery);
       const trial: Try<Region, NoSuchElementError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(trial.isSuccess()).toEqual(true);
-      trial.match<void>((region: Region) => {
-        expect(region.getRegionID().get()).toEqual(2);
-        expect(region.getName().get()).toEqual('Albania');
-        spy1();
-      }, () => {
-        spy2();
-      });
-
-      expect(spy1.called).toEqual(true);
-      expect(spy2.called).toEqual(false);
+      const region: Region = trial.get();
+      expect(region.getRegionID().get()).toEqual(2);
+      expect(region.getName().get()).toEqual('Albania');
     });
 
     it('MySQL returns a region', async () => {
@@ -122,23 +113,14 @@ describe('RegionQuery', () => {
       const stub3: SinonStub = sinon.stub();
       RegionCommand.prototype.insertAll = stub3;
       stub3.resolves();
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = container.get<RegionQuery>(TYPE.RegionQuery);
       const trial: Try<Region, NoSuchElementError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(trial.isSuccess()).toEqual(true);
-      trial.match<void>((region: Region) => {
-        expect(region.getRegionID().get()).toEqual(2);
-        expect(region.getName().get()).toEqual('Albania');
-        spy1();
-      }, () => {
-        spy2();
-      });
-
-      expect(spy1.called).toEqual(true);
-      expect(spy2.called).toEqual(false);
+      const region: Region = trial.get();
+      expect(region.getRegionID().get()).toEqual(2);
+      expect(region.getName().get()).toEqual('Albania');
     });
 
     it('Redis throws error', async () => {

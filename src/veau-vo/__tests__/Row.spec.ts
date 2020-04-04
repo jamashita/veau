@@ -7,22 +7,22 @@ import { Row } from '../Row';
 describe('Row', () => {
   describe('equals', () => {
     it('returns true if both properties are the same', () => {
-      const row1: Try<Row, RowError> = Row.of(1);
-      const row2: Try<Row, RowError> = Row.of(2);
-      const row3: Try<Row, RowError> = Row.of(1);
+      const row1: Row = Row.of(1).get();
+      const row2: Row = Row.of(2).get();
+      const row3: Row = Row.of(1).get();
 
-      expect(row1.get().equals(row1.get())).toEqual(true);
-      expect(row1.get().equals(row2.get())).toEqual(false);
-      expect(row1.get().equals(row3.get())).toEqual(true);
+      expect(row1.equals(row1)).toEqual(true);
+      expect(row1.equals(row2)).toEqual(false);
+      expect(row1.equals(row3)).toEqual(true);
     });
   });
 
   describe('toString', () => {
     it('normal case', () => {
       const num: number = 2;
-      const row: Try<Row, RowError> = Row.of(num);
+      const row: Row = Row.of(num).get();
 
-      expect(row.get().toString()).toEqual(num.toString());
+      expect(row.toString()).toEqual(num.toString());
     });
   });
 
@@ -31,13 +31,13 @@ describe('Row', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const row1: Try<Row, RowError> = Row.of(0);
-      const row2: Try<Row, RowError> = Row.of(-1);
+      const trial1: Try<Row, RowError> = Row.of(0);
+      const trial2: Try<Row, RowError> = Row.of(-1);
 
-      expect(row1.isSuccess()).toEqual(true);
-      expect(row2.isFailure()).toEqual(true);
+      expect(trial1.isSuccess()).toEqual(true);
+      expect(trial2.isFailure()).toEqual(true);
 
-      row2.match<void>(() => {
+      trial2.match<void>(() => {
         spy1();
       }, (e: RowError) => {
         spy2();
@@ -54,20 +54,20 @@ describe('Row', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const row1: Try<Row, RowError> = Row.of(0.1);
-      const row2: Try<Row, RowError> = Row.of(1.5);
+      const trial1: Try<Row, RowError> = Row.of(0.1);
+      const trial2: Try<Row, RowError> = Row.of(1.5);
 
-      expect(row1.isFailure()).toEqual(true);
-      expect(row2.isFailure()).toEqual(true);
+      expect(trial1.isFailure()).toEqual(true);
+      expect(trial2.isFailure()).toEqual(true);
 
-      row1.match<void>(() => {
+      trial1.match<void>(() => {
         spy1();
       }, (e: RowError) => {
         spy2();
         expect(e).toBeInstanceOf(RowError);
       });
 
-      row2.match<void>(() => {
+      trial2.match<void>(() => {
         spy3();
       }, (e: RowError) => {
         spy4();

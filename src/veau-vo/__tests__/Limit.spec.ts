@@ -7,22 +7,22 @@ import { Limit } from '../Limit';
 describe('Limit', () => {
   describe('equals', () => {
     it('returns true if both properties are the same', () => {
-      const limit1: Try<Limit, LimitError> = Limit.of(1);
-      const limit2: Try<Limit, LimitError> = Limit.of(2);
-      const limit3: Try<Limit, LimitError> = Limit.of(1);
+      const limit1: Limit = Limit.of(1).get();
+      const limit2: Limit = Limit.of(2).get();
+      const limit3: Limit = Limit.of(1).get();
 
-      expect(limit1.get().equals(limit1.get())).toEqual(true);
-      expect(limit1.get().equals(limit2.get())).toEqual(false);
-      expect(limit1.get().equals(limit3.get())).toEqual(true);
+      expect(limit1.equals(limit1)).toEqual(true);
+      expect(limit1.equals(limit2)).toEqual(false);
+      expect(limit1.equals(limit3)).toEqual(true);
     });
   });
 
   describe('toString', () => {
     it('normal case', () => {
       const num: number = 1;
-      const limit: Try<Limit, LimitError> = Limit.of(num);
+      const limit: Limit = Limit.of(num).get();
 
-      expect(limit.get().toString()).toEqual(num.toString());
+      expect(limit.toString()).toEqual(num.toString());
     });
   });
 
@@ -33,26 +33,26 @@ describe('Limit', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const limit1: Try<Limit, LimitError> = Limit.of(1);
-      const limit2: Try<Limit, LimitError> = Limit.of(0);
-      const limit3: Try<Limit, LimitError> = Limit.of(-1);
+      const trial1: Try<Limit, LimitError> = Limit.of(1);
+      const trial2: Try<Limit, LimitError> = Limit.of(0);
+      const trial3: Try<Limit, LimitError> = Limit.of(-1);
 
-      expect(limit1.isSuccess()).toEqual(true);
-      expect(limit2.isFailure()).toEqual(true);
-      expect(limit3.isFailure()).toEqual(true);
+      expect(trial1.isSuccess()).toEqual(true);
+      expect(trial2.isFailure()).toEqual(true);
+      expect(trial3.isFailure()).toEqual(true);
 
-      limit2.match<void>(() => {
+      trial2.match<void>(() => {
         spy1();
-      }, (e: LimitError) => {
+      }, (err: LimitError) => {
         spy2();
-        expect(e).toBeInstanceOf(LimitError);
+        expect(err).toBeInstanceOf(LimitError);
       });
 
-      limit3.match<void>(() => {
+      trial3.match<void>(() => {
         spy3();
-      }, (e: LimitError) => {
+      }, (err: LimitError) => {
         spy4();
-        expect(e).toBeInstanceOf(LimitError);
+        expect(err).toBeInstanceOf(LimitError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -67,24 +67,24 @@ describe('Limit', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const limit1: Try<Limit, LimitError> = Limit.of(1.1);
-      const limit2: Try<Limit, LimitError> = Limit.of(0.2);
+      const trial1: Try<Limit, LimitError> = Limit.of(1.1);
+      const trial2: Try<Limit, LimitError> = Limit.of(0.2);
 
-      expect(limit1.isFailure()).toEqual(true);
-      expect(limit2.isFailure()).toEqual(true);
+      expect(trial1.isFailure()).toEqual(true);
+      expect(trial2.isFailure()).toEqual(true);
 
-      limit1.match<void>(() => {
+      trial1.match<void>(() => {
         spy1();
-      }, (e: LimitError) => {
+      }, (err: LimitError) => {
         spy2();
-        expect(e).toBeInstanceOf(LimitError);
+        expect(err).toBeInstanceOf(LimitError);
       });
 
-      limit2.match<void>(() => {
+      trial2.match<void>(() => {
         spy3();
-      }, (e: LimitError) => {
+      }, (err: LimitError) => {
         spy4();
-        expect(e).toBeInstanceOf(LimitError);
+        expect(err).toBeInstanceOf(LimitError);
       });
 
       expect(spy1.called).toEqual(false);

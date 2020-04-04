@@ -33,8 +33,6 @@ describe('StatsCommand', () => {
         body: {
         }
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const stats: Stats = Stats.of(
         StatsID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87').get(),
@@ -51,14 +49,6 @@ describe('StatsCommand', () => {
       const statsCommand: StatsCommand = new StatsCommand();
       const trial: Try<void, AJAXError> = await statsCommand.create(stats);
 
-      expect(trial.isSuccess()).toEqual(true);
-      trial.match<void>(() => {
-        spy1();
-      }, () => {
-        spy2();
-      });
-      expect(spy1.called).toEqual(true);
-      expect(spy2.called).toEqual(false);
       expect(stub.withArgs('/api/stats', {
         statsID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
         language: {
@@ -79,6 +69,7 @@ describe('StatsCommand', () => {
         items: [
         ]
       }).called).toEqual(true);
+      expect(trial.isSuccess()).toEqual(true);
     });
 
     it('throws error', async () => {

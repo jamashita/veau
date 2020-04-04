@@ -8,20 +8,20 @@ import { VeauAccountID } from '../VeauAccountID';
 describe('VeauAccountID', () => {
   describe('equals', () => {
     it('returns true if the property is the same', () => {
-      const account1: Try<VeauAccountID, VeauAccountIDError> = VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de');
-      const account2: Try<VeauAccountID, VeauAccountIDError> = VeauAccountID.of('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9');
-      const account3: Try<VeauAccountID, VeauAccountIDError> = VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de');
+      const account1: VeauAccountID = VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de').get();
+      const account2: VeauAccountID = VeauAccountID.of('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9').get();
+      const account3: VeauAccountID = VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de').get();
 
-      expect(account1.get().equals(account1.get())).toEqual(true);
-      expect(account1.get().equals(account2.get())).toEqual(false);
-      expect(account1.get().equals(account3.get())).toEqual(true);
+      expect(account1.equals(account1)).toEqual(true);
+      expect(account1.equals(account2)).toEqual(false);
+      expect(account1.equals(account3)).toEqual(true);
     });
   });
 
   describe('toString', () => {
     it('returns the original string', () => {
       const id: string = '998106de-b2e7-4981-9643-22cd30cd74de';
-      const veauAccountID: Try<VeauAccountID, VeauAccountIDError> = VeauAccountID.of(id);
+      const veauAccountID: VeauAccountID = VeauAccountID.of(id).get();
 
       expect(veauAccountID.get().toString()).toEqual(id);
     });
@@ -29,19 +29,19 @@ describe('VeauAccountID', () => {
 
   describe('of', () => {
     it('normal case', () => {
-      const veauAccountID: Try<VeauAccountID, VeauAccountIDError> = VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de');
+      const trial: Try<VeauAccountID, VeauAccountIDError> = VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de');
 
-      expect(veauAccountID.isSuccess()).toEqual(true);
+      expect(trial.isSuccess()).toEqual(true);
     });
 
     it('throws VeauAccountIDError when uuid length string is not given', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const veauAccountID: Try<VeauAccountID, VeauAccountIDError> = VeauAccountID.of('cinq');
+      const trial: Try<VeauAccountID, VeauAccountIDError> = VeauAccountID.of('cinq');
 
-      expect(veauAccountID.isFailure()).toEqual(true);
-      veauAccountID.match<void>(() => {
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
         spy1();
       }, (e: VeauAccountIDError) => {
         spy2();

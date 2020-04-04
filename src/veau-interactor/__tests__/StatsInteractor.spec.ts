@@ -52,7 +52,7 @@ describe('StatsInteractor', () => {
 
   describe('findByStatsID', () => {
     it('normal case', async () => {
-      const statsID: StatsID = StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94');
+      const statsID: StatsID = StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94').get();
       const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
       const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
       const term: Term = Term.MONTHLY;
@@ -60,8 +60,8 @@ describe('StatsInteractor', () => {
       const unit: StatsUnit = StatsUnit.of('unit');
       const updatedAt: UpdatedAt = UpdatedAt.of(moment());
       const items: StatsItems = StatsItems.of([
-        StatsItem.of(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b'), StatsItemName.of('item1'), StatsValues.empty()),
-        StatsItem.of(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8'), StatsItemName.of('item2'), StatsValues.empty())
+        StatsItem.of(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b').get(), StatsItemName.of('item1'), StatsValues.empty()),
+        StatsItem.of(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8').get(), StatsItemName.of('item2'), StatsValues.empty())
       ]);
       const stats: Stats = Stats.of(
         statsID,
@@ -78,39 +78,31 @@ describe('StatsInteractor', () => {
       const stub: SinonStub = sinon.stub();
       StatsQuery.prototype.findByStatsID = stub;
       stub.resolves(Success.of<Stats, NotFoundError>(stats));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
-      const trial: Try<Stats, NotFoundError> = await statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94'));
+      const trial: Try<Stats, NotFoundError> = await statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94').get());
 
-      trial.match<void>((stats: Stats) => {
-        expect(stats.getStatsID()).toEqual(statsID);
-        expect(stats.getLanguage()).toEqual(language);
-        expect(stats.getRegion()).toEqual(region);
-        expect(stats.getTerm()).toEqual(term);
-        expect(stats.getName()).toEqual(name);
-        expect(stats.getUnit()).toEqual(unit);
-        expect(stats.getUpdatedAt()).toEqual(updatedAt);
-        expect(stats.getItems()).toEqual(items);
-        spy1();
-      }, () => {
-        spy2();
-      });
-
-      expect(spy1.called).toEqual(true);
-      expect(spy2.called).toEqual(false);
+      expect(trial.isSuccess()).toEqual(true);
+      const s: Stats = trial.get();
+      expect(s.getStatsID()).toEqual(statsID);
+      expect(s.getLanguage()).toEqual(language);
+      expect(s.getRegion()).toEqual(region);
+      expect(s.getTerm()).toEqual(term);
+      expect(s.getName()).toEqual(name);
+      expect(s.getUnit()).toEqual(unit);
+      expect(s.getUpdatedAt()).toEqual(updatedAt);
+      expect(s.getItems()).toEqual(items);
     });
 
     it('thrown NoSuchElementError', async () => {
       const stub: SinonStub = sinon.stub();
       StatsQuery.prototype.findByStatsID = stub;
-      stub.resolves(Failure.of<Stats, NoSuchElementError>(new NoSuchElementError('')));
+      stub.resolves(Failure.of<Stats, NoSuchElementError>(new NoSuchElementError('test failed')));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
       const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
-      const trial: Try<Stats, NotFoundError> = await statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94'));
+      const trial: Try<Stats, NotFoundError> = await statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94').get());
 
       trial.match<void>(() => {
         spy1();
@@ -130,13 +122,13 @@ describe('StatsInteractor', () => {
 
       const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
 
-      await expect(statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94'))).rejects.toThrow(Error);
+      await expect(statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94').get())).rejects.toThrow(Error);
     });
   });
 
   describe('findByVeauAccountID', () => {
     it('normal case', async () => {
-      const statsID: StatsID = StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94');
+      const statsID: StatsID = StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94').get();
       const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
       const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
       const term: Term = Term.MONTHLY;
@@ -159,7 +151,7 @@ describe('StatsInteractor', () => {
       ]));
 
       const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
-      const statsOutlines: StatsOutlines =  await statsInteractor.findByVeauAccountID(VeauAccountID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2'), Page.of(1));
+      const statsOutlines: StatsOutlines =  await statsInteractor.findByVeauAccountID(VeauAccountID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2').get(), Page.of(1).get());
 
       expect(statsOutlines.size()).toEqual(1);
       expect(statsOutlines.get(0).getStatsID()).toEqual(statsID);
@@ -174,7 +166,7 @@ describe('StatsInteractor', () => {
 
   describe('save', () => {
     it('normal case', async () => {
-      const statsID: StatsID = StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94');
+      const statsID: StatsID = StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94').get();
       const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
       const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
       const term: Term = Term.MONTHLY;
@@ -182,8 +174,8 @@ describe('StatsInteractor', () => {
       const unit: StatsUnit = StatsUnit.of('unit');
       const updatedAt: UpdatedAt = UpdatedAt.of(moment());
       const items: StatsItems = StatsItems.of([
-        StatsItem.of(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b'), StatsItemName.of('item1'), StatsValues.empty()),
-        StatsItem.of(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8'), StatsItemName.of('item2'), StatsValues.empty())
+        StatsItem.of(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b').get(), StatsItemName.of('item1'), StatsValues.empty()),
+        StatsItem.of(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8').get(), StatsItemName.of('item2'), StatsValues.empty())
       ]);
 
       const stats: Stats = Stats.of(
@@ -202,7 +194,7 @@ describe('StatsInteractor', () => {
       MySQL.prototype.transact = spy;
 
       const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
-      await statsInteractor.save(stats, VeauAccountID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2'));
+      await statsInteractor.save(stats, VeauAccountID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2').get());
 
       expect(spy.called).toEqual(true);
     });
