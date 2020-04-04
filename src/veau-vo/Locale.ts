@@ -1,4 +1,5 @@
 import { JSONable } from '../veau-general/JSONable';
+import { Optional } from '../veau-general/Optional/Optional';
 import { Serializable } from '../veau-general/Serializable';
 import { Language, LanguageJSON } from './Language';
 import { Languages } from './Languages';
@@ -44,11 +45,11 @@ export class Locale implements JSONable, Serializable {
     return this.regions;
   }
 
-  public getLanguage(index: number): Language {
+  public getLanguage(index: number): Optional<Language> {
     return this.languages.get(index);
   }
 
-  public getRegion(index: number): Region {
+  public getRegion(index: number): Optional<Region> {
     return this.regions.get(index);
   }
 

@@ -4,6 +4,7 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { AJAXError } from '../../../veau-error/AJAXError';
 import { AuthenticationFailureError } from '../../../veau-error/AuthenticationFailureError';
 import { UnauthorizedError } from '../../../veau-error/UnauthorizedError';
+import { VeauAccountError } from '../../../veau-error/VeauAccountError';
 import { AJAX } from '../../../veau-general/AJAX';
 import { Try } from '../../../veau-general/Try/Try';
 import { AccountName } from '../../../veau-vo/AccountName';
@@ -37,7 +38,7 @@ describe('SessionQuery', () => {
       });
 
       const sessionQuery: SessionQuery = new SessionQuery();
-      const trial: Try<VeauAccount, UnauthorizedError> = await sessionQuery.find();
+      const trial: Try<VeauAccount, VeauAccountError | AuthenticationFailureError | AJAXError> = await sessionQuery.find();
 
       expect(stub.withArgs('/api/identity').called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
@@ -46,6 +47,45 @@ describe('SessionQuery', () => {
       expect(veauAccount.getAccount().get()).toEqual('account');
       expect(veauAccount.getLanguage().getLanguageID().get()).toEqual(1);
       expect(veauAccount.getRegion().getRegionID().get()).toEqual(2);
+    });
+
+    it('has wrong format veauAccountID', async () => {
+      const stub: SinonStub = sinon.stub();
+      AJAX.get = stub;
+      stub.resolves({
+        status: OK,
+        body: {
+          veauAccountID: 'malformat uuid',
+          account: 'account',
+          language: {
+            languageID: 1,
+            name: 'language',
+            englishName: 'english language',
+            iso639: 'aa'
+          },
+          region: {
+            regionID: 2,
+            name: 'region',
+            iso3166: 'bb'
+          }
+        }
+      });
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const sessionQuery: SessionQuery = new SessionQuery();
+      const trial: Try<VeauAccount, VeauAccountError | AuthenticationFailureError | AJAXError> = await sessionQuery.find();
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (e: VeauAccountError | UnauthorizedError) => {
+        spy2();
+        expect(e).toBeInstanceOf(VeauAccountError);
+      })
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
 
     it('doesn\'t return OK', async () => {
@@ -60,12 +100,12 @@ describe('SessionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const sessionQuery: SessionQuery = new SessionQuery();
-      const trial: Try<VeauAccount, UnauthorizedError> = await sessionQuery.find();
+      const trial: Try<VeauAccount, VeauAccountError | AuthenticationFailureError | AJAXError> = await sessionQuery.find();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (e: UnauthorizedError) => {
+      }, (e: VeauAccountError | UnauthorizedError) => {
         spy2();
         expect(e).toBeInstanceOf(UnauthorizedError);
       })
@@ -100,7 +140,7 @@ describe('SessionQuery', () => {
 
       const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
       const sessionQuery: SessionQuery = new SessionQuery();
-      const trial: Try<VeauAccount, UnauthorizedError> = await sessionQuery.findByEntranceInfo(info);
+      const trial: Try<VeauAccount, VeauAccountError | AuthenticationFailureError | AJAXError> = await sessionQuery.findByEntranceInfo(info);
 
       expect(stub.withArgs('/api/auth', {
         account: 'account',
@@ -112,6 +152,46 @@ describe('SessionQuery', () => {
       expect(veauAccount.getAccount().get()).toEqual('account');
       expect(veauAccount.getLanguage().getLanguageID().get()).toEqual(1);
       expect(veauAccount.getRegion().getRegionID().get()).toEqual(2);
+    });
+
+    it('has wrong format veauAccountID', async () => {
+      const stub: SinonStub = sinon.stub();
+      AJAX.post = stub;
+      stub.resolves({
+        status: OK,
+        body: {
+          veauAccountID: 'malformat uuid',
+          account: 'account',
+          language: {
+            languageID: 1,
+            name: 'language',
+            englishName: 'english language',
+            iso639: 'aa'
+          },
+          region: {
+            regionID: 2,
+            name: 'region',
+            iso3166: 'bb'
+          }
+        }
+      });
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
+      const sessionQuery: SessionQuery = new SessionQuery();
+      const trial: Try<VeauAccount, VeauAccountError | AuthenticationFailureError | AJAXError> = await sessionQuery.findByEntranceInfo(info);
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (e: VeauAccountError | AuthenticationFailureError | AJAXError) => {
+        spy2();
+        expect(e).toBeInstanceOf(VeauAccountError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
 
     it('returns UNAUTHORIZED', async () => {
@@ -127,12 +207,12 @@ describe('SessionQuery', () => {
 
       const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
       const sessionQuery: SessionQuery = new SessionQuery();
-      const trial: Try<VeauAccount, AuthenticationFailureError | AJAXError> = await sessionQuery.findByEntranceInfo(info);
+      const trial: Try<VeauAccount, VeauAccountError | AuthenticationFailureError | AJAXError> = await sessionQuery.findByEntranceInfo(info);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (e: AuthenticationFailureError | AJAXError) => {
+      }, (e: VeauAccountError | AuthenticationFailureError | AJAXError) => {
         spy2();
         expect(e).toBeInstanceOf(AuthenticationFailureError);
       });
@@ -154,12 +234,12 @@ describe('SessionQuery', () => {
 
       const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
       const sessionQuery: SessionQuery = new SessionQuery();
-      const trial: Try<VeauAccount, AuthenticationFailureError | AJAXError> = await sessionQuery.findByEntranceInfo(info);
+      const trial: Try<VeauAccount, VeauAccountError | AuthenticationFailureError | AJAXError> = await sessionQuery.findByEntranceInfo(info);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (e: AuthenticationFailureError | AJAXError) => {
+      }, (e: VeauAccountError | AuthenticationFailureError | AJAXError) => {
         spy2();
         expect(e).toBeInstanceOf(AJAXError);
       });

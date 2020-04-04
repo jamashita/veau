@@ -34,12 +34,12 @@ describe('RegionQuery', () => {
       const regions: Regions = await regionQuery.all();
 
       expect(regions.size()).toEqual(2);
-      expect(regions.get(0).getRegionID().get()).toEqual(1);
-      expect(regions.get(0).getName().get()).toEqual('Afghanistan');
-      expect(regions.get(0).getISO3166().get()).toEqual('AFG');
-      expect(regions.get(1).getRegionID().get()).toEqual(2);
-      expect(regions.get(1).getName().get()).toEqual('Albania');
-      expect(regions.get(1).getISO3166().get()).toEqual('ALB');
+      expect(regions.get(0).get().getRegionID().get()).toEqual(1);
+      expect(regions.get(0).get().getName().get()).toEqual('Afghanistan');
+      expect(regions.get(0).get().getISO3166().get()).toEqual('AFG');
+      expect(regions.get(1).get().getRegionID().get()).toEqual(2);
+      expect(regions.get(1).get().getName().get()).toEqual('Albania');
+      expect(regions.get(1).get().getISO3166().get()).toEqual('ALB');
     });
 
     it('MySQL returns regions', async () => {
@@ -68,12 +68,12 @@ describe('RegionQuery', () => {
       const regions: Regions = await regionQuery.all();
 
       expect(regions.size()).toEqual(2);
-      expect(regions.get(0).getRegionID().get()).toEqual(1);
-      expect(regions.get(0).getName().get()).toEqual('Afghanistan');
-      expect(regions.get(0).getISO3166().get()).toEqual('AFG');
-      expect(regions.get(1).getRegionID().get()).toEqual(2);
-      expect(regions.get(1).getName().get()).toEqual('Albania');
-      expect(regions.get(1).getISO3166().get()).toEqual('ALB');
+      expect(regions.get(0).get().getRegionID().get()).toEqual(1);
+      expect(regions.get(0).get().getName().get()).toEqual('Afghanistan');
+      expect(regions.get(0).get().getISO3166().get()).toEqual('AFG');
+      expect(regions.get(1).get().getRegionID().get()).toEqual(2);
+      expect(regions.get(1).get().getName().get()).toEqual('Albania');
+      expect(regions.get(1).get().getISO3166().get()).toEqual('ALB');
     });
   });
 

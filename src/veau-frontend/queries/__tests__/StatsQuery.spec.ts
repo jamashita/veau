@@ -144,10 +144,10 @@ describe('StatsQuery', () => {
       expect(trial.isSuccess()).toEqual(true);
       const outlines: StatsOutlines = trial.get();
       expect(outlines.size()).toEqual(1);
-      expect(outlines.get(0).getStatsID().get()).toEqual('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
-      expect(outlines.get(0).getLanguage().getLanguageID().get()).toEqual(1);
-      expect(outlines.get(0).getRegion().getRegionID().get()).toEqual(2);
-      expect(outlines.get(0).getTerm().getID()).toEqual(3);
+      expect(outlines.get(0).get().getStatsID().get()).toEqual('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
+      expect(outlines.get(0).get().getLanguage().getLanguageID().get()).toEqual(1);
+      expect(outlines.get(0).get().getRegion().getRegionID().get()).toEqual(2);
+      expect(outlines.get(0).get().getTerm().getID()).toEqual(3);
     });
 
     it('doesn\'t return OK', async () => {

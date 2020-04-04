@@ -70,14 +70,14 @@ describe('LocaleQuery', () => {
       expect(trial.isSuccess()).toEqual(true);
       const locale: Locale = trial.get();
       expect(locale.getLanguages().size()).toEqual(1);
-      expect(locale.getLanguages().get(0).getLanguageID().get()).toEqual(1);
-      expect(locale.getLanguages().get(0).getName().get()).toEqual('language');
-      expect(locale.getLanguages().get(0).getEnglishName().get()).toEqual('english language');
-      expect(locale.getLanguages().get(0).getISO639().get()).toEqual('aa');
+      expect(locale.getLanguages().get(0).get().getLanguageID().get()).toEqual(1);
+      expect(locale.getLanguages().get(0).get().getName().get()).toEqual('language');
+      expect(locale.getLanguages().get(0).get().getEnglishName().get()).toEqual('english language');
+      expect(locale.getLanguages().get(0).get().getISO639().get()).toEqual('aa');
       expect(locale.getRegions().size()).toEqual(1);
-      expect(locale.getRegions().get(0).getRegionID().get()).toEqual(2);
-      expect(locale.getRegions().get(0).getName().get()).toEqual('region');
-      expect(locale.getRegions().get(0).getISO3166().get()).toEqual('bb');
+      expect(locale.getRegions().get(0).get().getRegionID().get()).toEqual(2);
+      expect(locale.getRegions().get(0).get().getName().get()).toEqual('region');
+      expect(locale.getRegions().get(0).get().getISO3166().get()).toEqual('bb');
     });
 
     it('already has locale in memory', async () => {
@@ -138,6 +138,32 @@ describe('LocaleQuery', () => {
       expect(language.getName().get()).toEqual('language');
       expect(language.getEnglishName().get()).toEqual('english language');
       expect(language.getISO639().get()).toEqual('aa');
+    });
+
+    it('requests incorrectly', async () => {
+      const stub: SinonStub = sinon.stub();
+      AJAX.get = stub;
+      stub.resolves({
+        status: INTERNAL_SERVER_ERROR,
+        body: {
+        }
+      });
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const localeQuery: LocaleQuery = new LocaleQuery();
+      const trial: Try<Language, NoSuchElementError | AJAXError> = await localeQuery.findByISO639(ISO639.of('cc'));
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (e: NoSuchElementError | AJAXError) => {
+        spy2();
+        expect(e).toBeInstanceOf(AJAXError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
 
     it('could\'t find the language', async () => {

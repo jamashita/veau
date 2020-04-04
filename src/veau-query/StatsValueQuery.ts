@@ -1,6 +1,8 @@
 import { inject, injectable } from 'inversify';
 import { TYPE } from '../veau-container/Types';
+import { StatsValuesError } from '../veau-error/StatsValuesError';
 import { MySQL } from '../veau-general/MySQL/MySQL';
+import { Try } from '../veau-general/Try/Try';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValueRow } from '../veau-vo/StatsValue';
 import { StatsValues } from '../veau-vo/StatsValues';
@@ -13,7 +15,7 @@ export class StatsValueQuery {
     this.mysql = mysql;
   }
 
-  public async findByStatsID(statsID: StatsID): Promise<StatsValues> {
+  public async findByStatsID(statsID: StatsID): Promise<Try<StatsValues, StatsValuesError>> {
     const query: string = `SELECT
       R1.stats_item_id AS statsItemID,
       R1.as_of AS asOf,

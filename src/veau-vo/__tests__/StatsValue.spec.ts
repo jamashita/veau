@@ -71,7 +71,7 @@ describe('StatsValue', () => {
       expect(trial.isSuccess()).toEqual(true);
       const statsValue: StatsValue = trial.get();
       expect(statsValue.getStatsItemID().get()).toEqual('f186dad1-6170-4fdc-9020-d73d9bf86fb0');
-      expect(statsValue.getAsOfAsString()).toEqual('2000-01-01');
+      expect(statsValue.getAsOf().toString()).toEqual('2000-01-01');
       expect(statsValue.getValue().get()).toEqual(-1.1);
     });
 
@@ -112,7 +112,7 @@ describe('StatsValue', () => {
       expect(trial.isSuccess()).toEqual(true);
       const statsValue: StatsValue = trial.get();
       expect(statsValue.getStatsItemID().get()).toEqual('f186dad1-6170-4fdc-9020-d73d9bf86fb0');
-      expect(statsValue.getAsOfAsString()).toEqual('2000-01-01');
+      expect(statsValue.getAsOf().toString()).toEqual('2000-01-01');
       expect(statsValue.getValue().get()).toEqual(-1.1);
     });
 

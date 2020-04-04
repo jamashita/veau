@@ -34,14 +34,14 @@ describe('LanguageQuery', () => {
       const languages: Languages = await languageQuery.all();
 
       expect(languages.size()).toEqual(2);
-      expect(languages.get(0).getLanguageID().get()).toEqual(1);
-      expect(languages.get(0).getName().get()).toEqual('аҧсуа бызшәа');
-      expect(languages.get(0).getEnglishName().get()).toEqual('Abkhazian');
-      expect(languages.get(0).getISO639().get()).toEqual('ab');
-      expect(languages.get(1).getLanguageID().get()).toEqual(2);
-      expect(languages.get(1).getName().get()).toEqual('Afaraf');
-      expect(languages.get(1).getEnglishName().get()).toEqual('Afar');
-      expect(languages.get(1).getISO639().get()).toEqual('aa');
+      expect(languages.get(0).get().getLanguageID().get()).toEqual(1);
+      expect(languages.get(0).get().getName().get()).toEqual('аҧсуа бызшәа');
+      expect(languages.get(0).get().getEnglishName().get()).toEqual('Abkhazian');
+      expect(languages.get(0).get().getISO639().get()).toEqual('ab');
+      expect(languages.get(1).get().getLanguageID().get()).toEqual(2);
+      expect(languages.get(1).get().getName().get()).toEqual('Afaraf');
+      expect(languages.get(1).get().getEnglishName().get()).toEqual('Afar');
+      expect(languages.get(1).get().getISO639().get()).toEqual('aa');
     });
 
     it('MySQL returns languages', async () => {
@@ -72,14 +72,14 @@ describe('LanguageQuery', () => {
       const languages: Languages = await languageQuery.all();
 
       expect(languages.size()).toEqual(2);
-      expect(languages.get(0).getLanguageID().get()).toEqual(1);
-      expect(languages.get(0).getName().get()).toEqual('аҧсуа бызшәа');
-      expect(languages.get(0).getEnglishName().get()).toEqual('Abkhazian');
-      expect(languages.get(0).getISO639().get()).toEqual('ab');
-      expect(languages.get(1).getLanguageID().get()).toEqual(2);
-      expect(languages.get(1).getName().get()).toEqual('Afaraf');
-      expect(languages.get(1).getEnglishName().get()).toEqual('Afar');
-      expect(languages.get(1).getISO639().get()).toEqual('aa');
+      expect(languages.get(0).get().getLanguageID().get()).toEqual(1);
+      expect(languages.get(0).get().getName().get()).toEqual('аҧсуа бызшәа');
+      expect(languages.get(0).get().getEnglishName().get()).toEqual('Abkhazian');
+      expect(languages.get(0).get().getISO639().get()).toEqual('ab');
+      expect(languages.get(1).get().getLanguageID().get()).toEqual(2);
+      expect(languages.get(1).get().getName().get()).toEqual('Afaraf');
+      expect(languages.get(1).get().getEnglishName().get()).toEqual('Afar');
+      expect(languages.get(1).get().getISO639().get()).toEqual('aa');
     });
   });
 
@@ -88,24 +88,15 @@ describe('LanguageQuery', () => {
       const stub: SinonStub = sinon.stub();
       RedisString.prototype.get = stub;
       stub.resolves('[{"languageID":1,"name":"аҧсуа бызшәа","englishName":"Abkhazian","iso639":"ab"},{"languageID":2,"name":"Afaraf","englishName":"Afar","iso639":"aa"}]');
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageQuery);
       const trial: Try<Language, NoSuchElementError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(trial.isSuccess()).toEqual(true);
-      trial.match<void>((language: Language) => {
-        expect(language.getLanguageID().get()).toEqual(2);
-        expect(language.getName().get()).toEqual('Afaraf');
-        expect(language.getEnglishName().get()).toEqual('Afar');
-        spy1();
-      }, () => {
-        spy2();
-      });
-
-      expect(spy1.called).toEqual(true);
-      expect(spy2.called).toEqual(false);
+      const language: Language = trial.get();
+      expect(language.getLanguageID().get()).toEqual(2);
+      expect(language.getName().get()).toEqual('Afaraf');
+      expect(language.getEnglishName().get()).toEqual('Afar');
     });
 
     it('MySQL returns a language', async () => {
@@ -131,24 +122,15 @@ describe('LanguageQuery', () => {
       const stub3: SinonStub = sinon.stub();
       LanguageCommand.prototype.insertAll = stub3;
       stub3.resolves();
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageQuery);
       const trial: Try<Language, NoSuchElementError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(trial.isSuccess()).toEqual(true);
-      trial.match<void>((language: Language) => {
-        expect(language.getLanguageID().get()).toEqual(2);
-        expect(language.getName().get()).toEqual('Afaraf');
-        expect(language.getEnglishName().get()).toEqual('Afar');
-        spy1();
-      }, () => {
-        spy2();
-      });
-
-      expect(spy1.called).toEqual(true);
-      expect(spy2.called).toEqual(false);
+      const language: Language = trial.get();
+      expect(language.getLanguageID().get()).toEqual(2);
+      expect(language.getName().get()).toEqual('Afaraf');
+      expect(language.getEnglishName().get()).toEqual('Afar');
     });
 
     it('Redis throws error', async () => {

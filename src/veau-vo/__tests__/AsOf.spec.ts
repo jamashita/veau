@@ -95,12 +95,9 @@ describe('AsOf', () => {
       const allTerm: Terms = Terms.all();
 
       for (let i: number = 0; i < allTerm.size(); i++) {
-        try {
-          asOf.previous(allTerm.get(i));
-        }
-        catch (err) {
-          fail(err);
-        }
+        expect(() => {
+          asOf.previous(allTerm.get(i).get());
+        }).not.toThrow(AsOfError);
       }
     });
 
@@ -159,12 +156,9 @@ describe('AsOf', () => {
       const allTerm: Terms = Terms.all();
 
       for (let i: number = 0; i < allTerm.size(); i++) {
-        try {
-          asOf.next(allTerm.get(i));
-        }
-        catch (err) {
-          fail(err);
-        }
+        expect(() => {
+          asOf.next(allTerm.get(i).get());
+        }).not.toThrow(AsOfError);
       }
     });
 

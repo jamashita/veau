@@ -197,8 +197,9 @@ describe('StatsItem', () => {
       expect(statsItem.getName().get()).toEqual(json.name);
       expect(statsItem.getValues().size()).toEqual(json.values.length);
       for (let i: number = 0; i < statsItem.getValues().size(); i++) {
-        expect(statsItem.getValues().get(i).getAsOf().toString()).toEqual(AsOf.ofString(json.values[i].asOf).get().toString());
-        expect(statsItem.getValues().get(i).getValue().get()).toEqual(json.values[i].value);
+        const statsValue: StatsValue = statsItem.getValues().get(i).get();
+        expect(statsValue.getAsOf().toString()).toEqual(AsOf.ofString(json.values[i].asOf).get().toString());
+        expect(statsValue.getValue().get()).toEqual(json.values[i].value);
       }
     });
 
@@ -322,8 +323,9 @@ describe('StatsItem', () => {
       expect(statsItem.getName().get()).toEqual(row.name);
       expect(statsItem.getValues().size()).toEqual(statsValues.size());
       for (let i: number = 0; i < statsItem.getValues().size(); i++) {
-        expect(statsItem.getValues().get(i).getAsOf()).toEqual(statsValues.get(i).getAsOf());
-        expect(statsItem.getValues().get(i).getValue()).toEqual(statsValues.get(i).getValue());
+        const statsValue: StatsValue = statsItem.getValues().get(i).get();
+        expect(statsValue.getAsOf()).toEqual(statsValues.get(i).get().getAsOf());
+        expect(statsValue.getValue()).toEqual(statsValues.get(i).get().getValue());
       }
     });
 

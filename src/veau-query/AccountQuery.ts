@@ -1,9 +1,9 @@
 import { inject, injectable } from 'inversify';
 import { TYPE } from '../veau-container/Types';
+import { AccountError } from '../veau-error/AccountError';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { MySQL } from '../veau-general/MySQL/MySQL';
 import { Failure } from '../veau-general/Try/Failure';
-import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
 import { Account, AccountRow } from '../veau-vo/Account';
 import { AccountName } from '../veau-vo/AccountName';
@@ -16,7 +16,7 @@ export class AccountQuery {
     this.mysql = mysql;
   }
 
-  public async findByAccount(account: AccountName): Promise<Try<Account, NoSuchElementError>> {
+  public async findByAccount(account: AccountName): Promise<Try<Account, NoSuchElementError | AccountError>> {
     const query: string = `SELECT
       R1.veau_account_id AS veauAccountID,
       R1.account,
@@ -48,6 +48,6 @@ export class AccountQuery {
 
     const accountRow: AccountRow = accountRows[0];
 
-    return Success.of<Account, NoSuchElementError>(Account.ofRow(accountRow));
+    return Account.ofRow(accountRow);
   }
 }
