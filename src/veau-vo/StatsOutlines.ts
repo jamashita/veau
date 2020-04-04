@@ -1,7 +1,12 @@
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
+import { StatsOutlineError } from '../veau-error/StatsOutlineError';
+import { StatsOutlinesError } from '../veau-error/StatsOutlinesError';
 import { Cloneable } from '../veau-general/Cloneable';
 import { Collection } from '../veau-general/Collection';
 import { JSONable } from '../veau-general/JSONable';
+import { Failure } from '../veau-general/Try/Failure';
+import { Success } from '../veau-general/Try/Success';
+import { Try } from '../veau-general/Try/Try';
 import { Mapper } from '../veau-general/Type/Mapper';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from './StatsOutline';
 
@@ -12,16 +17,40 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
     return new StatsOutlines(outlines);
   }
 
-  public static ofJSON(json: Array<StatsOutlineJSON>): StatsOutlines {
-    return StatsOutlines.of(json.map<StatsOutline>((outline: StatsOutlineJSON) => {
-      return StatsOutline.ofJSON(outline);
-    }));
+  public static ofTry(tries: Array<Try<StatsOutline, StatsOutlineError>>): Try<StatsOutlines, StatsOutlinesError> {
+    const failures: Array<Failure<StatsOutline, StatsOutlineError>> = tries.filter((trial: Try<StatsOutline, StatsOutlineError>): trial is Failure<StatsOutline, StatsOutlineError> => {
+      return trial.isFailure();
+    });
+
+    if (failures.length !== 0) {
+      const message: string = failures.map<string>((failure: Failure<StatsOutline, StatsOutlineError>) => {
+        return failure.getMessage();
+      }).join(': ');
+
+      return Failure.of<StatsOutlines, StatsOutlinesError>(new StatsOutlinesError(message));
+    }
+
+    const outlines: Array<StatsOutline> = tries.map<StatsOutline>((trial: Try<StatsOutline, StatsOutlineError>) => {
+      return trial.get();
+    });
+
+    return Success.of<StatsOutlines, StatsOutlinesError>(StatsOutlines.of(outlines));
   }
 
-  public static ofRow(rows: Array<StatsOutlineRow>): StatsOutlines {
-    return StatsOutlines.of(rows.map<StatsOutline>((outline: StatsOutlineRow) => {
+  public static ofJSON(json: Array<StatsOutlineJSON>): Try<StatsOutlines, StatsOutlinesError> {
+    const trials: Array<Try<StatsOutline, StatsOutlineError>> = json.map<Try<StatsOutline, StatsOutlineError>>((outline: StatsOutlineJSON) => {
+      return StatsOutline.ofJSON(outline);
+    });
+
+    return StatsOutlines.ofTry(trials);
+  }
+
+  public static ofRow(rows: Array<StatsOutlineRow>): Try<StatsOutlines, StatsOutlinesError> {
+    const trials: Array<Try<StatsOutline, StatsOutlineError>> = rows.map<Try<StatsOutline, StatsOutlineError>>((outline: StatsOutlineRow) => {
       return StatsOutline.ofRow(outline);
-    }));
+    });
+
+    return StatsOutlines.ofTry(trials);
   }
 
   public static empty(): StatsOutlines {
