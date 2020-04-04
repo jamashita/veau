@@ -22,17 +22,13 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
   }
 
   public static ofTry(tries: Array<Try<StatsValue, StatsValueError>>): Try<StatsValues, StatsValuesError> {
-    const failures: Array<Failure<StatsValue, StatsValueError>> = tries.filter<Failure<StatsValue, StatsValueError>>((trial: Try<StatsValue, StatsValueError>): trial is Failure<StatsValue, StatsValueError> => {
+    const failures: Array<Failure<StatsValue, StatsValueError>> = tries.filter((trial: Try<StatsValue, StatsValueError>): trial is Failure<StatsValue, StatsValueError> => {
       return trial.isFailure();
     });
 
     if (failures.length !== 0) {
       const message: string = failures.map<string>((failure: Failure<StatsValue, StatsValueError>) => {
-        return failure.match<string>(() => {
-          return 'IMPOSSIBLE';
-        }, (err: StatsValueError) => {
-          return err.message;
-        });
+        return failure.getMessage();
       }).join(': ');
 
       return Failure.of<StatsValues, StatsValuesError>(new StatsValuesError(message));

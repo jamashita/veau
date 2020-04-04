@@ -9,7 +9,7 @@ import { Try } from '../../veau-general/Try/Try';
 import { AsOf } from '../AsOf';
 import { NumericalValue } from '../NumericalValue';
 import { StatsItemID } from '../StatsItemID';
-import { StatsValue } from '../StatsValue';
+import { StatsValue, StatsValueJSON, StatsValueRow } from '../StatsValue';
 import { StatsValues } from '../StatsValues';
 
 describe('StatsValues', () => {
@@ -346,7 +346,7 @@ describe('StatsValues', () => {
       expect(spy2.called).toEqual(true);
     });
 
-    it('is all the failures', () => {
+    it('will be multiple failures', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
@@ -354,6 +354,186 @@ describe('StatsValues', () => {
       const trial2: Try<StatsValue, StatsValueError> = Failure.of<StatsValue, StatsValueError>(new StatsValueError('test failed2'));
 
       const trial: Try<StatsValues, StatsValuesError> = StatsValues.ofTry([trial1, trial2]);
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (err: StatsValuesError) => {
+        expect(err).toBeInstanceOf(StatsValuesError);
+        spy2();
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+  });
+
+  describe('ofJSON', () => {
+    it('normal case', () => {
+      const json: Array<StatsValueJSON> = [
+        {
+          asOf: '2000-01-01',
+          value: 1
+        },
+        {
+          asOf: '2000-01-02',
+          value: 2
+        }
+      ];
+      const id: string = 'f186dad1-6170-4fdc-9020-d73d9bf86fb0';
+      const statsItemID: StatsItemID = StatsItemID.of(id).get();
+
+      const trial: Try<StatsValues, StatsValuesError> = StatsValues.ofJSON(statsItemID, json);
+
+      expect(trial.isSuccess()).toEqual(true);
+      const values: StatsValues = trial.get();
+      expect(values.size()).toEqual(json.length);
+      for (let i: number = 0; i < values.size(); i++) {
+        expect(values.get(i).getStatsItemID()).toEqual(statsItemID);
+        expect(values.get(i).getAsOf().toString()).toEqual(json[i].asOf);
+        expect(values.get(i).getValue().get()).toEqual(json[i].value);
+      }
+    });
+
+    it('contains malformat asOf', () => {
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const json: Array<StatsValueJSON> = [
+        {
+          asOf: '2000-01-01 00:00:00',
+          value: 1
+        },
+        {
+          asOf: '2000-01-02',
+          value: 2
+        }
+      ];
+      const id: string = 'f186dad1-6170-4fdc-9020-d73d9bf86fb0';
+      const statsItemID: StatsItemID = StatsItemID.of(id).get();
+
+      const trial: Try<StatsValues, StatsValuesError> = StatsValues.ofJSON(statsItemID, json);
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (err: StatsValuesError) => {
+        expect(err).toBeInstanceOf(StatsValuesError);
+        spy2();
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('will be multiple malformat asOfs', () => {
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const json: Array<StatsValueJSON> = [
+        {
+          asOf: '2000-01-01 00:00:00',
+          value: 1
+        },
+        {
+          asOf: '2000-01-02 00:00:00',
+          value: 2
+        }
+      ];
+      const id: string = 'f186dad1-6170-4fdc-9020-d73d9bf86fb0';
+      const statsItemID: StatsItemID = StatsItemID.of(id).get();
+
+      const trial: Try<StatsValues, StatsValuesError> = StatsValues.ofJSON(statsItemID, json);
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (err: StatsValuesError) => {
+        expect(err).toBeInstanceOf(StatsValuesError);
+        spy2();
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+  });
+
+  describe('ofRow', () => {
+    it('normal case', () => {
+      const row: Array<StatsValueRow> = [
+        {
+          statsItemID: 'f186dad1-6170-4fdc-9020-d73d9bf86fb0',
+          asOf: '2000-01-01',
+          value: 1
+        },
+        {
+          statsItemID: 'f186dad1-6170-4fdc-9020-d73d9bf86fb0',
+          asOf: '2000-01-02',
+          value: 2
+        }
+      ];
+
+      const trial: Try<StatsValues, StatsValuesError> = StatsValues.ofRow(row);
+
+      expect(trial.isSuccess()).toEqual(true);
+      const values: StatsValues = trial.get();
+      expect(values.size()).toEqual(row.length);
+      for (let i: number = 0; i < values.size(); i++) {
+        expect(values.get(i).getStatsItemID().get()).toEqual(row[i].statsItemID);
+        expect(values.get(i).getAsOf().toString()).toEqual(row[i].asOf);
+        expect(values.get(i).getValue().get()).toEqual(row[i].value);
+      }
+    });
+
+    it('contains malformat statsItemID', () => {
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const row: Array<StatsValueRow> = [
+        {
+          statsItemID: 'illegal uuid',
+          asOf: '2000-01-01',
+          value: 1
+        },
+        {
+          statsItemID: 'f186dad1-6170-4fdc-9020-d73d9bf86fb0',
+          asOf: '2000-01-02',
+          value: 2
+        }
+      ];
+
+      const trial: Try<StatsValues, StatsValuesError> = StatsValues.ofRow(row);
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (err: StatsValuesError) => {
+        expect(err).toBeInstanceOf(StatsValuesError);
+        spy2();
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('contains malformat asOf', () => {
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const row: Array<StatsValueRow> = [
+        {
+          statsItemID: 'f186dad1-6170-4fdc-9020-d73d9bf86fb0',
+          asOf: '2000-01-01',
+          value: 1
+        },
+        {
+          statsItemID: 'f186dad1-6170-4fdc-9020-d73d9bf86fb0',
+          asOf: '2000-01-02 00:00:00',
+          value: 2
+        }
+      ];
+
+      const trial: Try<StatsValues, StatsValuesError> = StatsValues.ofRow(row);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
