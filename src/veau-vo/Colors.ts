@@ -1,4 +1,5 @@
 import { Collection } from '../veau-general/Collection';
+import { Some } from '../veau-general/Optional/Some';
 import { Color } from './Color';
 
 export class Colors implements Collection<number, Color> {
@@ -37,10 +38,10 @@ export class Colors implements Collection<number, Color> {
     this.colors = colors;
   }
 
-  public get(index: number): Color {
+  public get(index: number): Some<Color> {
     const length: number = this.colors.length;
 
-    return this.colors[index % length];
+    return Some.of<Color>(this.colors[index % length]);
   }
 
   public contains(value: Color): boolean {
@@ -78,7 +79,7 @@ export class Colors implements Collection<number, Color> {
     }
 
     for (let i: number = 0; i < length; i++) {
-      if (!this.colors[i].equals(other.get(i))) {
+      if (!this.colors[i].equals(other.get(i).get())) {
         return false;
       }
     }

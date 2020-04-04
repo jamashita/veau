@@ -10,9 +10,9 @@ describe('Colors', () => {
         Color.of('#000000')
       ]);
 
-      expect(colors.get(0).toString()).toEqual('#ffffff');
-      expect(colors.get(1).toString()).toEqual('#000000');
-      expect(colors.get(2).toString()).toEqual('#ffffff');
+      expect(colors.get(0).get().toString()).toEqual('#ffffff');
+      expect(colors.get(1).get().toString()).toEqual('#000000');
+      expect(colors.get(2).get().toString()).toEqual('#ffffff');
     });
   });
 
