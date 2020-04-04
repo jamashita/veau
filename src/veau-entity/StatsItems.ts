@@ -1,4 +1,5 @@
 import { StatsItemError } from '../veau-error/StatsItemError';
+import { StatsItemIDError } from '../veau-error/StatsItemIDError';
 import { StatsItemsError } from '../veau-error/StatsItemsError';
 import { Cloneable } from '../veau-general/Cloneable';
 import { Collection } from '../veau-general/Collection';
@@ -15,9 +16,11 @@ import { AsOf } from '../veau-vo/AsOf';
 import { AsOfs } from '../veau-vo/AsOfs';
 import { Column } from '../veau-vo/Column';
 import { Row } from '../veau-vo/Row';
+import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsItemName } from '../veau-vo/StatsItemName';
 import { StatsItemNames } from '../veau-vo/StatsItemNames';
-import { StatsItem, StatsItemJSON } from './StatsItem';
+import { StatsValues } from '../veau-vo/StatsValues';
+import { StatsItem, StatsItemJSON, StatsItemRow } from './StatsItem';
 
 export class StatsItems implements Collection<number, StatsItem>, JSONable, Cloneable {
   private items: Array<StatsItem>;
@@ -49,6 +52,21 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
   public static ofJSON(json: Array<StatsItemJSON>):  Try<StatsItems, StatsItemsError> {
     const trials: Array<Try<StatsItem, StatsItemError>> = json.map<Try<StatsItem, StatsItemError>>((item: StatsItemJSON) => {
       return StatsItem.ofJSON(item);
+    });
+
+    return StatsItems.ofTry(trials);
+  }
+
+  public static ofRow(statsItemRows: Array<StatsItemRow>, statsValues: StatsValues): Try<StatsItems, StatsItemsError> {
+    const trials: Array<Try<StatsItem, StatsItemError>> = statsItemRows.map<Try<StatsItem, StatsItemError>>((statsItemRow: StatsItemRow) => {
+      return StatsItemID.of(statsItemRow.statsItemID).match<Try<StatsItem, StatsItemError>>((statsItemID: StatsItemID) => {
+        const values: StatsValues = statsValues.filter(statsItemID);
+
+        return StatsItem.ofRow(statsItemRow, values);
+      }, (err: StatsItemIDError) => {
+        return Failure.of<StatsItem, StatsItemError>(new StatsItemError(err.message));
+      });
+
     });
 
     return StatsItems.ofTry(trials);

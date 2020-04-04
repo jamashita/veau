@@ -1,15 +1,13 @@
 import { inject, injectable } from 'inversify';
 import { TYPE } from '../veau-container/Types';
-import { StatsItem, StatsItemRow } from '../veau-entity/StatsItem';
+import { StatsItemRow } from '../veau-entity/StatsItem';
 import { StatsItems } from '../veau-entity/StatsItems';
 import { StatsItemsError } from '../veau-error/StatsItemsError';
 import { StatsValuesError } from '../veau-error/StatsValuesError';
 import { MySQL } from '../veau-general/MySQL/MySQL';
 import { Failure } from '../veau-general/Try/Failure';
-import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
 import { StatsID } from '../veau-vo/StatsID';
-import { StatsItemID } from '../veau-vo/StatsItemID';
 import { StatsValues } from '../veau-vo/StatsValues';
 import { StatsValueQuery } from './StatsValueQuery';
 
@@ -40,13 +38,7 @@ export class StatsItemQuery {
     const trial: Try<StatsValues, StatsValuesError> = await this.statsValueQuery.findByStatsID(statsID);
 
     return trial.match<Try<StatsItems, StatsItemsError>>((statsValues: StatsValues) => {
-      const items: Array<StatsItem> = statsItemRows.map<StatsItem>((statsItemRow: StatsItemRow) => {
-        const values: StatsValues = statsValues.filter(StatsItemID.of(statsItemRow.statsItemID));
-
-        return StatsItem.ofRow(statsItemRow, values);
-      });
-
-      return Success.of<StatsItems, StatsItemsError>(StatsItems.of(items));
+      return StatsItems.ofRow(statsItemRows, statsValues);
     }, (err: StatsValuesError) => {
       return Failure.of<StatsItems, StatsItemsError>(new StatsItemsError(err.message));
     });

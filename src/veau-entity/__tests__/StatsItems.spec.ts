@@ -16,7 +16,7 @@ import { StatsItemName } from '../../veau-vo/StatsItemName';
 import { StatsItemNames } from '../../veau-vo/StatsItemNames';
 import { StatsValue } from '../../veau-vo/StatsValue';
 import { StatsValues } from '../../veau-vo/StatsValues';
-import { StatsItem, StatsItemJSON } from '../StatsItem';
+import { StatsItem, StatsItemJSON, StatsItemRow } from '../StatsItem';
 import { StatsItems } from '../StatsItems';
 
 describe('StatsItems', () => {
@@ -687,6 +687,90 @@ describe('StatsItems', () => {
       ];
 
       const trial: Try<StatsItems, StatsItemsError> = StatsItems.ofJSON(json);
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>((items: StatsItems) => {
+        spy1();
+      }, (err: StatsItemsError) => {
+        spy2();
+        expect(err).toBeInstanceOf(StatsItemsError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+  });
+
+  describe('ofRow', () => {
+    it('normal case', () => {
+      const row: Array<StatsItemRow> = [
+        {
+          statsItemID: 'b1524ae3-8e91-4938-9997-579ef7b84602',
+          name: 'stats name 1'
+        },
+        {
+          statsItemID: '1f0719d6-6512-43b3-93f9-2a92bcb51e32',
+          name: 'stats name 2'
+        }
+      ];
+
+      const trial: Try<StatsItems, StatsItemsError> = StatsItems.ofRow(row, StatsValues.empty());
+
+      expect(trial.isSuccess()).toEqual(true);
+      const items: StatsItems = trial.get();
+      expect(items.size()).toEqual(2);
+      for (let i: number = 0; i < items.size(); i++) {
+        const item: StatsItem = items.get(i).get();
+        expect(item.getStatsItemID().get()).toEqual(row[i].statsItemID);
+        expect(item.getName().get()).toEqual(row[i].name);
+      }
+    });
+
+    it('contains malformat statsItemID', () => {
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const row: Array<StatsItemRow> = [
+        {
+          statsItemID: 'malformat uuid',
+          name: 'stats name 1'
+        },
+        {
+          statsItemID: '1f0719d6-6512-43b3-93f9-2a92bcb51e32',
+          name: 'stats name 2'
+        }
+      ];
+
+      const trial: Try<StatsItems, StatsItemsError> = StatsItems.ofRow(row, StatsValues.empty());
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>((items: StatsItems) => {
+        spy1();
+      }, (err: StatsItemsError) => {
+        spy2();
+        expect(err).toBeInstanceOf(StatsItemsError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('contains malformat statsItemIDs', () => {
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const row: Array<StatsItemRow> = [
+        {
+          statsItemID: 'malformat uuid 1',
+          name: 'stats name 1'
+        },
+        {
+          statsItemID: 'malformat uuid 2',
+          name: 'stats name 2'
+        }
+      ];
+
+      const trial: Try<StatsItems, StatsItemsError> = StatsItems.ofRow(row, StatsValues.empty());
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>((items: StatsItems) => {

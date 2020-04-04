@@ -6,6 +6,7 @@ import { TYPE } from '../../veau-container/Types';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItems } from '../../veau-entity/StatsItems';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { StatsError } from '../../veau-error/StatsError';
 import { MySQL } from '../../veau-general/MySQL/MySQL';
 import { Try } from '../../veau-general/Try/Try';
 import { StatsID } from '../../veau-vo/StatsID';
@@ -87,7 +88,7 @@ describe('StatsQuery', () => {
       ]);
 
       const statsQuery: StatsQuery = container.get<StatsQuery>(TYPE.StatsQuery);
-      const trial: Try<Stats, NoSuchElementError> = await statsQuery.findByStatsID(StatsID.of('a25a8b7f-c810-4dc0-b94e-e97e74329307').get());
+      const trial: Try<Stats, NoSuchElementError | StatsError> = await statsQuery.findByStatsID(StatsID.of('a25a8b7f-c810-4dc0-b94e-e97e74329307').get());
 
       expect(trial.isSuccess()).toEqual(true);
       const stats: Stats = trial.get();
@@ -135,7 +136,87 @@ describe('StatsQuery', () => {
       expect(values.size()).toEqual(0);
     });
 
-    it('throws error', async () => {
+    it('throws StatsError', async () => {
+      const statsID: string = 'a25a8b7f-c810-4dc0-b94e-e97e74329307';
+      const stub: SinonStub = sinon.stub();
+      MySQL.prototype.execute = stub;
+      stub.onCall(0).resolves([
+        {
+          statsID,
+          languageID: 1,
+          languageName: 'language1',
+          languageEnglishName: 'englishLanguage1',
+          iso639: 'lang1',
+          regionID: 2,
+          regionName: 'region1',
+          iso3166: 'regn1',
+          termID: 3,
+          name: 'name',
+          unit: 'unit',
+          updatedAt: '2000-01-01T00:00:00.000Z'
+        }
+      ]);
+      stub.onCall(1).resolves([
+        {
+          statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
+          name: 'name1'
+        },
+        {
+          statsItemID: '5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c',
+          name: 'name2'
+        },
+        {
+          statsItemID: '2ac64841-5267-48bc-8952-ba9ad1cb12d7',
+          name: 'name3'
+        }
+      ]);
+      stub.onCall(2).resolves([
+        {
+          statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
+          asOf: '2000-01-01',
+          value: 1
+        },
+        {
+          statsItemID: '5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c',
+          asOf: '2001-01-01',
+          value: 11
+        },
+        {
+          statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
+          asOf: '2000-01-02',
+          value: 2
+        },
+        {
+          statsItemID: '5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c',
+          asOf: '2001-01-02',
+          value: 12
+        },
+        {
+          statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
+          asOf: '2000-01-03',
+          value: 3
+        }
+      ]);
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const statsQuery: StatsQuery = container.get<StatsQuery>(TYPE.StatsQuery);
+      const trial: Try<Stats, NoSuchElementError | StatsError> = await statsQuery.findByStatsID(StatsID.of('a25a8b7f-c810-4dc0-b94e-e97e74329307').get());
+
+      expect(trial.isFailure()).toEqual(true);
+
+      trial.match<void>(() => {
+        spy1();
+      }, (err: NoSuchElementError | StatsError) => {
+        spy2();
+        expect(err).toBeInstanceOf(StatsError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('throws NoSuchElementError', async () => {
       const stub: SinonStub = sinon.stub();
       MySQL.prototype.execute = stub;
       stub.resolves([]);
@@ -143,7 +224,7 @@ describe('StatsQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsQuery: StatsQuery = container.get<StatsQuery>(TYPE.StatsQuery);
-      const trial: Try<Stats, NoSuchElementError> = await statsQuery.findByStatsID(StatsID.of('a25a8b7f-c810-4dc0-b94e-e97e74329307').get());
+      const trial: Try<Stats, NoSuchElementError | StatsError> = await statsQuery.findByStatsID(StatsID.of('a25a8b7f-c810-4dc0-b94e-e97e74329307').get());
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
