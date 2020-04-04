@@ -309,8 +309,8 @@ export class Stats extends Entity<StatsID> {
       return AsOfs.empty();
     }
 
-    const minTerm: AsOf = asOfs.min();
-    const maxTerm: AsOf = asOfs.max();
+    const minTerm: AsOf = asOfs.min().get();
+    const maxTerm: AsOf = asOfs.max().get();
     asOfs = AsOfs.empty();
 
     asOfs = asOfs.add(minTerm.previous(this.term));

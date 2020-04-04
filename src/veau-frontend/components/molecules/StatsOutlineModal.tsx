@@ -188,7 +188,12 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
                 value: unknown;
               }>) => {
                 const termID: number = Number(event.target.value as string);
-                termSelected(Term.of(termID));
+
+                Term.of(termID).match<void>((term: Term) => {
+                  termSelected(term);
+                }, () => {
+                  // NOOP
+                });
               }}
             >
               {Terms.all().map<React.ReactNode>((term: Term): React.ReactNode => {

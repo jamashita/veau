@@ -1,5 +1,4 @@
 import 'jest';
-import { AsOfError } from '../../veau-error/AsOfError';
 import { None } from '../../veau-general/Optional/None';
 import { AsOf } from '../AsOf';
 import { AsOfs } from '../AsOfs';
@@ -72,13 +71,19 @@ describe('AsOfs', () => {
 
       const asOfs: AsOfs = AsOfs.of([asOf1, asOf2, asOf3, asOf4]);
 
-      expect(asOfs.min().toString()).toEqual('2000-01-01');
+      expect(asOfs.min().get().equals(asOf2)).toEqual(true);
     });
 
-    it('throws AsOfError when AsOfs are empty', () =>{
-      expect(() => {
-        AsOfs.empty().min();
-      }).toThrow(AsOfError);
+    it('returns asOf itself when the elements are only one', () => {
+      const asOf: AsOf = AsOf.ofString('2000-01-03').get();
+
+      const asOfs: AsOfs = AsOfs.of([asOf]);
+
+      expect(asOfs.min().get().equals(asOf)).toEqual(true);
+    });
+
+    it('returns None when AsOfs are empty', () =>{
+      expect(AsOfs.empty().min()).toBeInstanceOf(None);
     });
   });
 
@@ -91,13 +96,19 @@ describe('AsOfs', () => {
 
       const asOfs: AsOfs = AsOfs.of([asOf1, asOf2, asOf3, asOf4]);
 
-      expect(asOfs.max().toString()).toEqual('2000-01-03');
+      expect(asOfs.max().get().equals(asOf4)).toEqual(true);
     });
 
-    it('throws AsOfError when AsOfs are empty', () =>{
-      expect(() => {
-        AsOfs.empty().max();
-      }).toThrow(AsOfError);
+    it('returns asOf itself when the elements are only one', () => {
+      const asOf: AsOf = AsOf.ofString('2000-01-03').get();
+
+      const asOfs: AsOfs = AsOfs.of([asOf]);
+
+      expect(asOfs.max().get().equals(asOf)).toEqual(true);
+    });
+
+    it('returns None when AsOfs are empty', () =>{
+      expect(AsOfs.empty().max()).toBeInstanceOf(None);
     });
   });
 

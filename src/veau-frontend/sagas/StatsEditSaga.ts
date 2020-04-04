@@ -5,7 +5,9 @@ import { StatsItem } from '../../veau-entity/StatsItem';
 import { AJAXError } from '../../veau-error/AJAXError';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { NotFoundError } from '../../veau-error/NotFoundError';
+import { StatsError } from '../../veau-error/StatsError';
 import { None } from '../../veau-general/Optional/None';
+import { Optional } from '../../veau-general/Optional/Optional';
 import { Some } from '../../veau-general/Optional/Some';
 import { Try } from '../../veau-general/Try/Try';
 import { AsOf } from '../../veau-vo/AsOf';
@@ -79,7 +81,7 @@ export class StatsEditSaga {
         statsID
       } = action;
 
-      const trial: Try<Stats, NotFoundError | AJAXError> = yield call((): Promise<Try<Stats, NotFoundError | AJAXError>> => {
+      const trial: Try<Stats, StatsError | NotFoundError | AJAXError> = yield call((): Promise<Try<Stats, StatsError | NotFoundError | AJAXError>> => {
         return this.statsQuery.findByStatsID(statsID);
       });
 
@@ -88,7 +90,7 @@ export class StatsEditSaga {
           put(updateStats(stats)),
           put(clearSelectingItem())
         ]);
-      }, (err: NotFoundError | AJAXError) => {
+      }, (err: StatsError | NotFoundError | AJAXError) => {
         if (err instanceof NotFoundError) {
           return all([
             put(pushToStatsList()),
@@ -322,9 +324,11 @@ export class StatsEditSaga {
         row
       } = action;
 
-      const selecting: StatsItem = stats.getRow(row);
+      const op: Optional<StatsItem> = stats.getRow(row);
 
-      yield put(selectItem(selecting, row));
+      if (op.isPresent()) {
+        yield put(selectItem(op.get(), row));
+      }
     }
   }
 
@@ -344,16 +348,18 @@ export class StatsEditSaga {
         name
       } = action;
 
-      if (selectingItem !== undefined) {
-        const newSelectingItem: StatsItem = StatsItem.of(selectingItem.getStatsItemID(), name, selectingItem.getValues());
-        const copied: Stats = stats.copy();
-        copied.replaceItem(newSelectingItem, selectingRow);
-
-        yield all([
-          put(updateSelectingItem(newSelectingItem)),
-          put(updateStats(copied))
-        ]);
+      if (selectingItem === undefined) {
+        continue;
       }
+
+      const newSelectingItem: StatsItem = StatsItem.of(selectingItem.getStatsItemID(), name, selectingItem.getValues());
+      const copied: Stats = stats.copy();
+      copied.replaceItem(newSelectingItem, selectingRow);
+
+      yield all([
+        put(updateSelectingItem(newSelectingItem)),
+        put(updateStats(copied))
+      ]);
     }
   }
 

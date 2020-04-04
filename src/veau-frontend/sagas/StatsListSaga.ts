@@ -3,6 +3,7 @@ import { all, call, Effect, fork, put, select, take } from 'redux-saga/effects';
 import { Stats } from '../../veau-entity/Stats';
 import { AJAXError } from '../../veau-error/AJAXError';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { StatsOutlinesError } from '../../veau-error/StatsOutlinesError';
 import { None } from '../../veau-general/Optional/None';
 import { Try } from '../../veau-general/Try/Try';
 import { AsOf } from '../../veau-vo/AsOf';
@@ -54,8 +55,8 @@ export class StatsListSaga {
     while (true) {
       yield take(ACTION.STATS_LIST_INITIALIZE);
 
-      const trial: Try<StatsOutlines, AJAXError> = yield call((): Promise<Try<StatsOutlines, AJAXError>> => {
-        return this.statsQuery.findByPage(Page.of(1));
+      const trial: Try<StatsOutlines, StatsOutlinesError | AJAXError> = yield call((): Promise<Try<StatsOutlines, AJAXError>> => {
+        return this.statsQuery.findByPage(Page.of(1).get());
       });
 
       yield trial.match<Effect>((statsOutlines: StatsOutlines) => {

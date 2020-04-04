@@ -65,7 +65,7 @@ export class Chart extends React.Component<Props, State> {
                 connectNulls={true}
                 key={item.get()}
                 dataKey={item.get()}
-                stroke={Colors.chartScheme().get(index).get()}
+                stroke={Colors.chartScheme().get(index).get().get()}
               />
             );
           })}

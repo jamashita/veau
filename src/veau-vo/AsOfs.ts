@@ -1,5 +1,4 @@
 import moment from 'moment';
-import { AsOfError } from '../veau-error/AsOfError';
 import { Collection } from '../veau-general/Collection';
 import { JSONable } from '../veau-general/JSONable';
 import { None } from '../veau-general/Optional/None';
@@ -57,28 +56,28 @@ export class AsOfs implements Collection<number, AsOf>, JSONable {
     return true;
   }
 
-  public min(): AsOf {
+  public min(): Optional<AsOf> {
     if (this.isEmpty()) {
-      throw new AsOfError('THIS IS 0 LENGTH COLLECTION');
+      return None.of<AsOf>();
     }
 
     const asOfs: Array<moment.Moment> = this.asOfs.map<moment.Moment>((asOf: AsOf) => {
       return asOf.get();
     });
 
-    return AsOf.of(moment.min(asOfs));
+    return Some.of<AsOf>(AsOf.of(moment.min(asOfs)));
   }
 
-  public max(): AsOf {
+  public max(): Optional<AsOf> {
     if (this.isEmpty()) {
-      throw new AsOfError('THIS IS 0 LENGTH COLLECTION');
+      return None.of<AsOf>();
     }
 
     const asOfs: Array<moment.Moment> = this.asOfs.map<moment.Moment>((asOf: AsOf) => {
       return asOf.get();
     });
 
-    return AsOf.of(moment.max(asOfs));
+    return Some.of<AsOf>(AsOf.of(moment.max(asOfs)));
   }
 
   public size(): number {

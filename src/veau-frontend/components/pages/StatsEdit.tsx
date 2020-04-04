@@ -1,7 +1,6 @@
 import { Button, Icon } from '@material-ui/core';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-import { AsOfError } from '../../../veau-error/AsOfError';
 import { AsOf } from '../../../veau-vo/AsOf';
 import { StatsID } from '../../../veau-vo/StatsID';
 import { Props } from '../../containers/pages/StatsEdit';
@@ -42,12 +41,11 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
       return;
     }
 
-    try {
-      initialize(StatsID.of(id));
-    }
-    catch (err) {
+    StatsID.of(id).match<void>((statsID: StatsID) => {
+      initialize(statsID);
+    }, () => {
       invalidIDInput();
-    }
+    });
   }
 
   public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>, nextState: Readonly<State>): boolean {
@@ -232,14 +230,12 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
             });
           }}
           determineStartDate={(date: string) => {
-            try {
-              startDateDetermined(AsOf.ofString(date));
-            }
-            catch (err) {
-              if (err instanceof AsOfError) {
-                invalidDateInput();
-              }
-            }
+            AsOf.ofString(date).match<void>((asOf: AsOf) => {
+              startDateDetermined(asOf);
+            }, () => {
+              invalidDateInput();
+            });
+
             this.setState({
               openStartDateModal: false
             });

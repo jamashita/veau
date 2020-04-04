@@ -96,27 +96,37 @@ export class Spreadsheet extends React.Component<Props, State> {
             return;
           }
           changes.forEach((change: CellChange) => {
-            const row: Row = Row.of(change[0]);
-            const column: Column = Column.of(Number(change[1]));
-            const coordinate: Coordinate = Coordinate.of(row, column);
-            const str: string | null = change[3];
+            Row.of(change[0]).match<void>((row: Row) => {
+              Column.of(Number(change[1])).match<void>((column: Column) => {
+                const coordinate: Coordinate = Coordinate.of(row, column);
+                const str: string | null = change[3];
 
-            if (str === null) {
-              dataDeleted(coordinate);
-              return;
-            }
-            if (str.trim() === '') {
-              dataDeleted(coordinate);
-              return;
-            }
+                if (str === null) {
+                  dataDeleted(coordinate);
+                  return;
+                }
+                if (str.trim() === '') {
+                  dataDeleted(coordinate);
+                  return;
+                }
 
-            const value: NumericalValue = NumericalValue.of(Number(str));
-            dataFilled(coordinate, value);
+                const value: NumericalValue = NumericalValue.of(Number(str));
+                dataFilled(coordinate, value);
+              }, () => {
+                // NOOP
+              });
+            }, () => {
+              // NOOP
+            });
           });
         }}
         afterSelection={(row1: number, col1: number, row2: number) => {
           if (row1 === row2) {
-            rowSelected(Row.of(row1));
+            Row.of(row1).match((row: Row) => {
+              rowSelected(row);
+            }, () => {
+              // NOOP
+            });
           }
         }}
         beforeRowMove={(columns: Array<number>, target: number) => {
@@ -124,12 +134,25 @@ export class Spreadsheet extends React.Component<Props, State> {
             if (column === target) {
               return;
             }
-            if (column < target) {
-              rowMoved(Column.of(column), Column.of(target - 1));
-              return;
-            }
 
-            rowMoved(Column.of(column), Column.of(target));
+            Column.of(column).match<void>((col1: Column) => {
+              if (column < target) {
+                Column.of(target - 1).match<void>((col2: Column) => {
+                  rowMoved(col1, col2);
+                }, () => {
+                  // NOOP
+                });
+                return;
+              }
+
+              Column.of(target).match<void>((col2: Column) => {
+                rowMoved(col1, col2);
+              }, () => {
+                // NOOP
+              });
+            }, () => {
+              // NOOP
+            });
           });
 
           return true;

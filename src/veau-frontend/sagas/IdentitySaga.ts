@@ -3,6 +3,7 @@ import { all, call, Effect, fork, put, select, take } from 'redux-saga/effects';
 import { AJAXError } from '../../veau-error/AJAXError';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { UnauthorizedError } from '../../veau-error/UnauthorizedError';
+import { VeauAccountError } from '../../veau-error/VeauAccountError';
 import { Try } from '../../veau-general/Try/Try';
 import { LanguageIdentificationService } from '../../veau-service/LanguageIdentificationService';
 import { AccountName } from '../../veau-vo/AccountName';
@@ -51,7 +52,7 @@ export class IdentitySaga {
       return put(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
     });
 
-    const trial2: Try<VeauAccount, UnauthorizedError> = yield call((): Promise<Try<VeauAccount, UnauthorizedError>> => {
+    const trial2: Try<VeauAccount, VeauAccountError | UnauthorizedError> = yield call((): Promise<Try<VeauAccount, VeauAccountError | UnauthorizedError>> => {
       return this.sessionQuery.find();
     });
 
@@ -66,7 +67,6 @@ export class IdentitySaga {
       }
 
       yield all(effects);
-      return;
     }
 
     const newLanguage: string = LanguageIdentificationService.toISO639(navigator.language);
