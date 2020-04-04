@@ -8,9 +8,9 @@ import { Term } from '../Term';
 describe('AsOf', () => {
   describe('equals', () => {
     it('returns true if both properties are the same', () => {
-      const asOf1: Try<AsOf, AsOfError> = AsOf.ofString('2000-01-01 00:00:00');
-      const asOf2: Try<AsOf, AsOfError> = AsOf.ofString('2000-01-02 00:00:00');
-      const asOf3: Try<AsOf, AsOfError> = AsOf.ofString('2000-01-01 00:00:00');
+      const asOf1: Try<AsOf, AsOfError> = AsOf.ofString('2000-01-01');
+      const asOf2: Try<AsOf, AsOfError> = AsOf.ofString('2000-01-02');
+      const asOf3: Try<AsOf, AsOfError> = AsOf.ofString('2000-01-01');
 
       expect(asOf1.get().equals(asOf1.get())).toEqual(true);
       expect(asOf1.get().equals(asOf2.get())).toEqual(false);
@@ -20,9 +20,9 @@ describe('AsOf', () => {
 
   describe('isBefore', () => {
     it('returns true if the value is before than the other', () => {
-      const asOf1: Try<AsOf, AsOfError> = AsOf.ofString('2000-01-02 00:00:00');
-      const asOf2: Try<AsOf, AsOfError> = AsOf.ofString('2000-01-03 00:00:00');
-      const asOf3: Try<AsOf, AsOfError> = AsOf.ofString('2000-01-04 00:00:00');
+      const asOf1: Try<AsOf, AsOfError> = AsOf.ofString('2000-01-02');
+      const asOf2: Try<AsOf, AsOfError> = AsOf.ofString('2000-01-03');
+      const asOf3: Try<AsOf, AsOfError> = AsOf.ofString('2000-01-04');
 
       expect(asOf2.get().isBefore(asOf1.get())).toEqual(false);
       expect(asOf2.get().isBefore(asOf2.get())).toEqual(false);
@@ -32,9 +32,9 @@ describe('AsOf', () => {
 
   describe('isAfter', () => {
     it('returns true if the value is after than the other', () => {
-      const asOf1: Try<AsOf, AsOfError> = AsOf.ofString('2000-01-02 00:00:00');
-      const asOf2: Try<AsOf, AsOfError> = AsOf.ofString('2000-01-03 00:00:00');
-      const asOf3: Try<AsOf, AsOfError> = AsOf.ofString('2000-01-04 00:00:00');
+      const asOf1: Try<AsOf, AsOfError> = AsOf.ofString('2000-01-02');
+      const asOf2: Try<AsOf, AsOfError> = AsOf.ofString('2000-01-03');
+      const asOf3: Try<AsOf, AsOfError> = AsOf.ofString('2000-01-04');
 
       expect(asOf2.get().isAfter(asOf1.get())).toEqual(true);
       expect(asOf2.get().isAfter(asOf2.get())).toEqual(false);
@@ -137,7 +137,7 @@ describe('AsOf', () => {
   describe('ofString', () => {
     it('normal case', () => {
       const asOf1: Try<AsOf, AsOfError> = AsOf.ofString('2000-01-01');
-      const asOf2: Try<AsOf, AsOfError> = AsOf.ofString('2000-01-01 00:00:00');
+      const asOf2: Try<AsOf, AsOfError> = AsOf.ofString('2000-01-01');
 
       expect(asOf1.isSuccess()).toEqual(true);
       expect(asOf2.isSuccess()).toEqual(true);
