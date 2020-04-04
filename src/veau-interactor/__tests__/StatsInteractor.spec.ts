@@ -9,6 +9,8 @@ import { StatsItem } from '../../veau-entity/StatsItem';
 import { StatsItems } from '../../veau-entity/StatsItems';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { NotFoundError } from '../../veau-error/NotFoundError';
+import { StatsError } from '../../veau-error/StatsError';
+import { StatsOutlinesError } from '../../veau-error/StatsOutlinesError';
 import { MySQL } from '../../veau-general/MySQL/MySQL';
 import { None } from '../../veau-general/Optional/None';
 import { Failure } from '../../veau-general/Try/Failure';
@@ -80,7 +82,7 @@ describe('StatsInteractor', () => {
       stub.resolves(Success.of<Stats, NotFoundError>(stats));
 
       const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
-      const trial: Try<Stats, NotFoundError> = await statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94').get());
+      const trial: Try<Stats, NotFoundError | StatsError> = await statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94').get());
 
       expect(trial.isSuccess()).toEqual(true);
       const s: Stats = trial.get();
@@ -94,7 +96,7 @@ describe('StatsInteractor', () => {
       expect(s.getItems()).toEqual(items);
     });
 
-    it('thrown NoSuchElementError', async () => {
+    it('returns Failure when StatsQuery.findByStatsID throws NoSuchElementError', async () => {
       const stub: SinonStub = sinon.stub();
       StatsQuery.prototype.findByStatsID = stub;
       stub.resolves(Failure.of<Stats, NoSuchElementError>(new NoSuchElementError('test failed')));
@@ -102,11 +104,11 @@ describe('StatsInteractor', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
-      const trial: Try<Stats, NotFoundError> = await statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94').get());
+      const trial: Try<Stats, NotFoundError | StatsError> = await statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94').get());
 
       trial.match<void>(() => {
         spy1();
-      }, (err: NotFoundError) => {
+      }, (err: NotFoundError | StatsError) => {
         expect(err).toBeInstanceOf(NotFoundError);
         spy2();
       });
@@ -115,14 +117,25 @@ describe('StatsInteractor', () => {
       expect(spy2.called).toEqual(true);
     });
 
-    it('thrown Error', async () => {
+    it('returns Failure when StatsQuery.findByStatsID returns Failure<Stats, StatsError>', async () => {
       const stub: SinonStub = sinon.stub();
       StatsQuery.prototype.findByStatsID = stub;
-      stub.rejects(new Error());
+      stub.resolves(Failure.of<Stats, NoSuchElementError | StatsError>(new StatsError('test failed')));
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
+      const trial: Try<Stats, NotFoundError | StatsError> = await statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94').get());
 
-      await expect(statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94').get())).rejects.toThrow(Error);
+      trial.match<void>(() => {
+        spy1();
+      }, (err: NotFoundError | StatsError) => {
+        expect(err).toBeInstanceOf(StatsError);
+        spy2();
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
   });
 
@@ -151,16 +164,17 @@ describe('StatsInteractor', () => {
       ]));
 
       const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
-      const statsOutlines: StatsOutlines =  await statsInteractor.findByVeauAccountID(VeauAccountID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2').get(), Page.of(1).get());
+      const trial: Try<StatsOutlines, StatsOutlinesError> = await statsInteractor.findByVeauAccountID(VeauAccountID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2').get(), Page.of(1).get());
 
+      const statsOutlines: StatsOutlines = trial.get();
       expect(statsOutlines.size()).toEqual(1);
-      expect(statsOutlines.get(0).getStatsID()).toEqual(statsID);
-      expect(statsOutlines.get(0).getLanguage()).toEqual(language);
-      expect(statsOutlines.get(0).getRegion()).toEqual(region);
-      expect(statsOutlines.get(0).getTerm()).toEqual(term);
-      expect(statsOutlines.get(0).getName()).toEqual(name);
-      expect(statsOutlines.get(0).getUnit()).toEqual(unit);
-      expect(statsOutlines.get(0).getUpdatedAt()).toEqual(updatedAt);
+      expect(statsOutlines.get(0).get().getStatsID()).toEqual(statsID);
+      expect(statsOutlines.get(0).get().getLanguage()).toEqual(language);
+      expect(statsOutlines.get(0).get().getRegion()).toEqual(region);
+      expect(statsOutlines.get(0).get().getTerm()).toEqual(term);
+      expect(statsOutlines.get(0).get().getName()).toEqual(name);
+      expect(statsOutlines.get(0).get().getUnit()).toEqual(unit);
+      expect(statsOutlines.get(0).get().getUpdatedAt()).toEqual(updatedAt);
     });
   });
 

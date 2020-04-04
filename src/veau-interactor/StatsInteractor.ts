@@ -4,6 +4,8 @@ import { TYPE } from '../veau-container/Types';
 import { Stats } from '../veau-entity/Stats';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { NotFoundError } from '../veau-error/NotFoundError';
+import { StatsError } from '../veau-error/StatsError';
+import { StatsOutlinesError } from '../veau-error/StatsOutlinesError';
 import { ITransaction } from '../veau-general/MySQL/ITransaction';
 import { MySQL } from '../veau-general/MySQL/MySQL';
 import { Failure } from '../veau-general/Try/Failure';
@@ -34,22 +36,27 @@ export class StatsInteractor {
     this.statsOutlineQuery = statsOutlineQuery;
   }
 
-  public async findByStatsID(statsID: StatsID): Promise<Try<Stats, NotFoundError>> {
-    const trial: Try<Stats, NoSuchElementError> = await this.statsQuery.findByStatsID(statsID);
+  public async findByStatsID(statsID: StatsID): Promise<Try<Stats, NotFoundError | StatsError>> {
+    const trial: Try<Stats, NoSuchElementError | StatsError> = await this.statsQuery.findByStatsID(statsID);
 
     return trial.match<Try<Stats, NotFoundError>>((stats: Stats) => {
       return Success.of<Stats, NotFoundError>(stats);
-    }, (err: NoSuchElementError) => {
+    }, (err: NoSuchElementError | StatsError) => {
       logger.error(err.message);
 
-      return Failure.of<Stats, NotFoundError>(new NotFoundError());
+      if (err instanceof StatsError) {
+        return Failure.of<Stats, StatsError>(err);
+      }
+
+      return Failure.of<Stats, NotFoundError>(new NotFoundError(err.message));
     });
   }
 
-  public findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Promise<StatsOutlines> {
+  public findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Promise<Try<StatsOutlines, StatsOutlinesError>> {
     return this.statsOutlineQuery.findByVeauAccountID(veauAccountID, page.getLimit(), page.getOffset());
   }
 
+  // FIXME manage to do it (returns to Try)
   public save(stats: Stats, veauAccountID: VeauAccountID): Promise<unknown> {
     const statsUpdateTransaction: ITransaction = StatsUpdateTransaction.of(stats, veauAccountID);
 
