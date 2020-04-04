@@ -200,7 +200,7 @@ describe('StatsItem', () => {
         expect(item.getName().get()).toEqual(json.name);
         expect(item.getValues().size()).toEqual(json.values.length);
         for (let i: number = 0; i < item.getValues().size(); i++) {
-          expect(item.getValues().get(i).getAsOf().toString()).toEqual(AsOf.ofString(json.values[i].asOf).toString());
+          expect(item.getValues().get(i).getAsOf().toString()).toEqual(AsOf.ofString(json.values[i].asOf).get().toString());
           expect(item.getValues().get(i).getValue().get()).toEqual(json.values[i].value);
         }
         spy1();
@@ -226,6 +226,72 @@ describe('StatsItem', () => {
           },
           {
             asOf: '2000-01-02',
+            value: 100
+          }
+        ]
+      };
+
+      const statsItem: Try<StatsItem, StatsItemError> = StatsItem.ofJSON(json);
+
+      expect(statsItem.isFailure()).toEqual(true);
+      statsItem.match<void>(() => {
+        spy1();
+      }, (err: StatsItemError) => {
+        spy2();
+        expect(err).toBeInstanceOf(StatsItemError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('some asOf is malformat', () => {
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const json: StatsItemJSON = {
+        statsItemID: '4d0cf4e5-4f48-4db3-9c04-085374d857d1',
+        name: 'name',
+        values: [
+          {
+            asOf: 'illegal asOf format',
+            value: 10
+          },
+          {
+            asOf: '2000-01-02',
+            value: 100
+          }
+        ]
+      };
+
+      const statsItem: Try<StatsItem, StatsItemError> = StatsItem.ofJSON(json);
+
+      expect(statsItem.isFailure()).toEqual(true);
+      statsItem.match<void>(() => {
+        spy1();
+      }, (err: StatsItemError) => {
+        spy2();
+        expect(err).toBeInstanceOf(StatsItemError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('all asOf are malformat', () => {
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const json: StatsItemJSON = {
+        statsItemID: '4d0cf4e5-4f48-4db3-9c04-085374d857d1',
+        name: 'name',
+        values: [
+          {
+            asOf: 'illegal asOf format 1',
+            value: 10
+          },
+          {
+            asOf: 'illegal asOf format 2',
             value: 100
           }
         ]

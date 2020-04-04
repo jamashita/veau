@@ -1,5 +1,6 @@
 import { StatsItemError } from '../veau-error/StatsItemError';
 import { StatsItemIDError } from '../veau-error/StatsItemIDError';
+import { StatsValuesError } from '../veau-error/StatsValuesError';
 import { Entity } from '../veau-general/Entity';
 import { Failure } from '../veau-general/Try/Failure';
 import { Success } from '../veau-general/Try/Success';
@@ -41,7 +42,11 @@ export class StatsItem extends Entity<StatsItemID> {
     } = json;
 
     return StatsItemID.of(statsItemID).match<Try<StatsItem, StatsItemError>>((id: StatsItemID) => {
-      return Success.of<StatsItem, StatsItemError>(StatsItem.of(id, StatsItemName.of(name), StatsValues.ofJSON(id, values)));
+      return StatsValues.ofJSON(id, values).match<Try<StatsItem, StatsItemError>>((v: StatsValues) => {
+        return Success.of<StatsItem, StatsItemError>(StatsItem.of(id, StatsItemName.of(name), v));
+      }, (err: StatsValuesError) => {
+        return Failure.of<StatsItem, StatsItemError>(new StatsItemError(err.message));
+      });
     }, (err: StatsItemIDError) => {
       return Failure.of<StatsItem, StatsItemError>(new StatsItemError(err.message));
     });
