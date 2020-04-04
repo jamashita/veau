@@ -1,7 +1,12 @@
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
+import { StatsItemError } from '../veau-error/StatsItemError';
+import { StatsItemsError } from '../veau-error/StatsItemsError';
 import { Cloneable } from '../veau-general/Cloneable';
 import { Collection } from '../veau-general/Collection';
 import { JSONable } from '../veau-general/JSONable';
+import { Failure } from '../veau-general/Try/Failure';
+import { Success } from '../veau-general/Try/Success';
+import { Try } from '../veau-general/Try/Try';
 import { Enumerator } from '../veau-general/Type/Enumerator';
 import { Mapper } from '../veau-general/Type/Mapper';
 import { AsOf } from '../veau-vo/AsOf';
@@ -19,12 +24,32 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
     return new StatsItems(items);
   }
 
-  public static ofJSON(json: Array<StatsItemJSON>): StatsItems {
-    const items: Array<StatsItem> = json.map<StatsItem>((item: StatsItemJSON) => {
+  public static ofTry(tries: Array<Try<StatsItem, StatsItemError>>): Try<StatsItems, StatsItemsError> {
+    const failures: Array<Failure<StatsItem, StatsItemError>> = tries.filter((trial: Try<StatsItem, StatsItemError>): trial is Failure<StatsItem, StatsItemError> => {
+      return trial.isFailure();
+    });
+
+    if (failures.length !== 0) {
+      const message: string = failures.map<string>((failure: Failure<StatsItem, StatsItemError>) => {
+        return failure.getMessage();
+      }).join(': ');
+
+      return Failure.of<StatsItems, StatsItemsError>(new StatsItemsError(message));
+    }
+
+    const items: Array<StatsItem> = tries.map<StatsItem>((trial: Try<StatsItem, StatsItemError>) => {
+      return trial.get();
+    });
+
+    return Success.of<StatsItems, StatsItemsError>(StatsItems.of(items));
+  }
+
+  public static ofJSON(json: Array<StatsItemJSON>):  Try<StatsItems, StatsItemsError> {
+    const trials: Array<Try<StatsItem, StatsItemError>> = json.map<Try<StatsItem, StatsItemError>>((item: StatsItemJSON) => {
       return StatsItem.ofJSON(item);
     });
 
-    return StatsItems.of(items);
+    return StatsItems.ofTry(trials);
   }
 
   public static empty(): StatsItems {
