@@ -10,6 +10,7 @@ export type DIType = {
   AccountQuery: symbol;
   LanguageMySQLQuery: symbol;
   LanguageQuery: symbol;
+  LanguageRedisQuery: symbol;
   RegionQuery: symbol;
   StatsItemQuery: symbol;
   StatsOutlineQuery: symbol;
@@ -29,6 +30,7 @@ export const TYPE: DIType = {
   AccountQuery: Symbol('AccountQuery'),
   LanguageMySQLQuery: Symbol('LanguageMySQLQuery'),
   LanguageQuery: Symbol('LanguageQuery'),
+  LanguageRedisQuery: Symbol('LanguageRedisQuery'),
   RegionQuery: Symbol('RegionQuery'),
   StatsItemQuery: Symbol('StatsItemQuery'),
   StatsOutlineQuery: Symbol('StatsOutlineQuery'),
