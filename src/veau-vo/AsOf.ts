@@ -16,7 +16,7 @@ export class AsOf extends ValueObject {
   }
 
   public static ofString(asOf: string): Try<AsOf, AsOfError> {
-    const date: moment.Moment = moment(asOf, TERM_FORMAT, true);
+    const date: moment.Moment = moment.utc(asOf, TERM_FORMAT, true);
 
     if (date.isValid()) {
       return Success.of<AsOf, AsOfError>(AsOf.of(date));

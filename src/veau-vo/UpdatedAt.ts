@@ -15,7 +15,7 @@ export class UpdatedAt extends ValueObject {
   }
 
   public static ofString(at: string): Try<UpdatedAt, UpdatedAtError> {
-    const date: moment.Moment = moment.utc(at);
+    const date: moment.Moment = moment.utc(at, TERM_FORMAT, true);
 
     if (date.isValid()) {
       return Success.of<UpdatedAt, UpdatedAtError>(UpdatedAt.of(date));
