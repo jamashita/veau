@@ -11,11 +11,12 @@ import { Try } from '../veau-general/Try/Try';
 import { ISO639 } from '../veau-vo/ISO639';
 import { Language, LanguageJSON, LanguageRow } from '../veau-vo/Language';
 import { Languages } from '../veau-vo/Languages';
+import { ILanguageQuery } from './ILanguageQuery';
 
 const REDIS_KEY: string = 'LANGUAGES';
 
 @injectable()
-export class LanguageQuery {
+export class LanguageQuery implements ILanguageQuery {
   private mysql: MySQL;
   private redis: Redis;
   private languageCommand: LanguageCommand;
