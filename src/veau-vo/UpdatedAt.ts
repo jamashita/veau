@@ -3,7 +3,6 @@ import { UpdatedAtError } from '../veau-error/UpdatedAtError';
 import { Failure } from '../veau-general/Try/Failure';
 import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
-import { Type } from '../veau-general/Type/Type';
 import { ValueObject } from '../veau-general/ValueObject';
 
 const TERM_FORMAT: string = 'YYYY-MM-DD HH:mm:ss';
@@ -16,8 +15,10 @@ export class UpdatedAt extends ValueObject {
   }
 
   public static ofString(at: string): Try<UpdatedAt, UpdatedAtError> {
-    if (Type.isDateString(at)) {
-      return Success.of<UpdatedAt, UpdatedAtError>(UpdatedAt.of(moment.utc(at)));
+    const date: moment.Moment = moment.utc(at);
+
+    if (date.isValid()) {
+      return Success.of<UpdatedAt, UpdatedAtError>(UpdatedAt.of(date));
     }
 
     return Failure.of<UpdatedAt, UpdatedAtError>(new UpdatedAtError('AT IS NOT DATE FORMAT'));
