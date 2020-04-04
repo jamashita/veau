@@ -29,4 +29,8 @@ export class Failure<S, F extends Error> implements Try<S, F> {
   public match<T>(success: Function<S, T>, failure: Function<F, T>): T {
     return failure(this.value);
   }
+
+  public getMessage(): string {
+    return this.value.message;
+  }
 }

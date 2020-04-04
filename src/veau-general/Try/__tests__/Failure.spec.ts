@@ -56,4 +56,14 @@ describe('Failure', () => {
       expect(spy2.calledWith(e1)).toEqual(true);
     });
   });
+
+  describe('getMessage', () => {
+    it('normal case', () => {
+      const message: string = 'los perros';
+      const e1: Error = new Error(message);
+      const failure: Failure<number, Error> = Failure.of<number, Error>(e1);
+
+      expect(failure.getMessage()).toEqual(message);
+    });
+  });
 });
