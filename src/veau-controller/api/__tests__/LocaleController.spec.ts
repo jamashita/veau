@@ -100,7 +100,7 @@ describe('LocaleController', () => {
       expect(response.status).toEqual(INTERNAL_SERVER_ERROR);
     });
 
-    it('throws error', async () => {
+    it('replies INTERNAL_SERVER_ERROR', async () => {
       const stub: SinonStub = sinon.stub();
       LocaleInteractor.prototype.delete = stub;
       stub.rejects();

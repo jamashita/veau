@@ -8,7 +8,7 @@ import { Some } from '../Some';
 
 describe('None', () => {
   describe('get', () => {
-    it('throws Error', () => {
+    it('throws OptionalError', () => {
       const none: None<MockNominative> = None.of<MockNominative>();
 
       expect(() => {
@@ -22,6 +22,14 @@ describe('None', () => {
       const none: None<MockNominative> = None.of<MockNominative>();
 
       expect(none.isPresent()).toEqual(false);
+    });
+  });
+
+  describe('isEmpty', () => {
+    it('returns true', () => {
+      const none: None<MockNominative> = None.of<MockNominative>();
+
+      expect(none.isEmpty()).toEqual(true);
     });
   });
 

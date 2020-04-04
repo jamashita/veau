@@ -79,9 +79,9 @@ describe('SessionQuery', () => {
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (e: VeauAccountError | UnauthorizedError) => {
+      }, (err: VeauAccountError | UnauthorizedError) => {
         spy2();
-        expect(e).toBeInstanceOf(VeauAccountError);
+        expect(err).toBeInstanceOf(VeauAccountError);
       })
 
       expect(spy1.called).toEqual(false);
@@ -105,9 +105,9 @@ describe('SessionQuery', () => {
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (e: VeauAccountError | UnauthorizedError) => {
+      }, (err: VeauAccountError | UnauthorizedError) => {
         spy2();
-        expect(e).toBeInstanceOf(UnauthorizedError);
+        expect(err).toBeInstanceOf(UnauthorizedError);
       })
 
       expect(spy1.called).toEqual(false);
@@ -185,9 +185,9 @@ describe('SessionQuery', () => {
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (e: VeauAccountError | AuthenticationFailureError | AJAXError) => {
+      }, (err: VeauAccountError | AuthenticationFailureError | AJAXError) => {
         spy2();
-        expect(e).toBeInstanceOf(VeauAccountError);
+        expect(err).toBeInstanceOf(VeauAccountError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -212,9 +212,9 @@ describe('SessionQuery', () => {
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (e: VeauAccountError | AuthenticationFailureError | AJAXError) => {
+      }, (err: VeauAccountError | AuthenticationFailureError | AJAXError) => {
         spy2();
-        expect(e).toBeInstanceOf(AuthenticationFailureError);
+        expect(err).toBeInstanceOf(AuthenticationFailureError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -239,9 +239,9 @@ describe('SessionQuery', () => {
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (e: VeauAccountError | AuthenticationFailureError | AJAXError) => {
+      }, (err: VeauAccountError | AuthenticationFailureError | AJAXError) => {
         spy2();
-        expect(e).toBeInstanceOf(AJAXError);
+        expect(err).toBeInstanceOf(AJAXError);
       });
 
       expect(spy1.called).toEqual(false);

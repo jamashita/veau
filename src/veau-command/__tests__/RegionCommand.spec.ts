@@ -72,8 +72,8 @@ describe('RegionCommand', () => {
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (e: CacheError) => {
-        expect(e).toBeInstanceOf(CacheError);
+      }, (err: CacheError) => {
+        expect(err).toBeInstanceOf(CacheError);
         spy2();
       });
 

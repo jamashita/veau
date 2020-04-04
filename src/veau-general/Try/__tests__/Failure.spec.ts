@@ -46,8 +46,8 @@ describe('Failure', () => {
       const res: number = failure.match<number>((n: number) => {
         spy1();
         return n;
-      }, (e: Error) => {
-        spy2(e);
+      }, (err: Error) => {
+        spy2(err);
         return v1 * 2;
       });
 

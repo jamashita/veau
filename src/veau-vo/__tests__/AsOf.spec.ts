@@ -201,16 +201,16 @@ describe('AsOf', () => {
       expect(trial2.isFailure()).toEqual(true);
       trial1.match<void>(() => {
         spy1();
-      }, (e: AsOfError) => {
+      }, (err: AsOfError) => {
         spy2();
-        expect(e).toBeInstanceOf(AsOfError);
+        expect(err).toBeInstanceOf(AsOfError);
       });
 
       trial2.match<void>(() => {
         spy3();
-      }, (e: AsOfError) => {
+      }, (err: AsOfError) => {
         spy4();
-        expect(e).toBeInstanceOf(AsOfError);
+        expect(err).toBeInstanceOf(AsOfError);
       });
 
       expect(spy1.called).toEqual(false);

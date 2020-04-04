@@ -14,7 +14,7 @@ describe('Container', () => {
       expect(container.get<Map<unknown, unknown>>(identifier)).toEqual(instance);
     });
 
-    it('throws error when the instance does not exist', () => {
+    it('throws NoInstanceError when the instance does not exist', () => {
       const container: Container = new Container();
       const identifier: symbol = Symbol('test');
 

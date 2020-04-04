@@ -42,8 +42,8 @@ describe('Success', () => {
       const res: number = success.match<number>((s: number) => {
         spy1(s);
         return s * 2;
-      }, (e: Error) => {
-        spy2(e);
+      }, (err: Error) => {
+        spy2(err);
         return v1 ** 2;
       });
 

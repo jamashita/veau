@@ -59,7 +59,7 @@ describe('LanguageCommand', () => {
       expect(stub.withArgs('LANGUAGES').called).toEqual(true);
     });
 
-    it('throws error', async () => {
+    it('throws CacheError', async () => {
       const stub: SinonStub = sinon.stub();
       Redis.prototype.delete = stub;
       stub.resolves(false);
@@ -72,8 +72,8 @@ describe('LanguageCommand', () => {
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-        }, (e: CacheError) => {
-        expect(e).toBeInstanceOf(CacheError);
+        }, (err: CacheError) => {
+        expect(err).toBeInstanceOf(CacheError);
         spy2();
       });
 

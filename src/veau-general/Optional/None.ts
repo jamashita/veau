@@ -3,6 +3,7 @@ import { Function } from '../Type/Function';
 import { Predicate } from '../Type/Predicate';
 import { Optional } from './Optional';
 import { OptionalError } from './OptionalError';
+import { Some } from './Some';
 
 export class None<T extends Nominative> implements Optional<T> {
 
@@ -17,8 +18,12 @@ export class None<T extends Nominative> implements Optional<T> {
     throw new OptionalError('IS NOT PRESENT');
   }
 
-  public isPresent(): boolean {
+  public isPresent(): this is Some<T> {
     return false;
+  }
+
+  public isEmpty(): this is None<T> {
+    return true;
   }
 
   public ifPresentOrElse<U>(present: Function<T, unknown>, empty: Function<void, U>): U {

@@ -39,9 +39,9 @@ describe('HeaderSize', () => {
 
       trial2.match<void>(() => {
         spy1();
-      }, (e: HeaderSizeError) => {
+      }, (err: HeaderSizeError) => {
         spy2();
-        expect(e).toBeInstanceOf(HeaderSizeError);
+        expect(err).toBeInstanceOf(HeaderSizeError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -62,16 +62,16 @@ describe('HeaderSize', () => {
 
       trial1.match<void>(() => {
         spy1();
-      }, (e: HeaderSizeError) => {
+      }, (err: HeaderSizeError) => {
         spy2();
-        expect(e).toBeInstanceOf(HeaderSizeError);
+        expect(err).toBeInstanceOf(HeaderSizeError);
       });
 
       trial2.match<void>(() => {
         spy3();
-      }, (e: HeaderSizeError) => {
+      }, (err: HeaderSizeError) => {
         spy4();
-        expect(e).toBeInstanceOf(HeaderSizeError);
+        expect(err).toBeInstanceOf(HeaderSizeError);
       });
 
       expect(spy1.called).toEqual(false);

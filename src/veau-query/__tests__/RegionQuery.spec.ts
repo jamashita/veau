@@ -136,8 +136,8 @@ describe('RegionQuery', () => {
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (e: NoSuchElementError) => {
-        expect(e).toBeInstanceOf(NoSuchElementError);
+      }, (err: NoSuchElementError) => {
+        expect(err).toBeInstanceOf(NoSuchElementError);
         spy2();
       });
 
@@ -165,8 +165,8 @@ describe('RegionQuery', () => {
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (e: NoSuchElementError) => {
-        expect(e).toBeInstanceOf(NoSuchElementError);
+      }, (err: NoSuchElementError) => {
+        expect(err).toBeInstanceOf(NoSuchElementError);
         spy2();
       });
 

@@ -72,7 +72,7 @@ describe('StatsCommand', () => {
       expect(trial.isSuccess()).toEqual(true);
     });
 
-    it('throws error', async () => {
+    it('throws AJAXError', async () => {
       const stub: SinonStub = sinon.stub();
       AJAX.post = stub;
       stub.resolves({
@@ -101,8 +101,8 @@ describe('StatsCommand', () => {
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (e: AJAXError) => {
-        expect(e).toBeInstanceOf(AJAXError);
+      }, (err: AJAXError) => {
+        expect(err).toBeInstanceOf(AJAXError);
         spy2();
       });
       expect(spy1.called).toEqual(false);

@@ -31,9 +31,9 @@ describe('LocaleQuery', () => {
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (e: AJAXError) => {
+      }, (err: AJAXError) => {
         spy2();
-        expect(e).toBeInstanceOf(AJAXError);
+        expect(err).toBeInstanceOf(AJAXError);
       });
       expect(spy1.called).toEqual(false);
       expect(spy2.called).toEqual(true);
@@ -157,9 +157,9 @@ describe('LocaleQuery', () => {
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (e: NoSuchElementError | AJAXError) => {
+      }, (err: NoSuchElementError | AJAXError) => {
         spy2();
-        expect(e).toBeInstanceOf(AJAXError);
+        expect(err).toBeInstanceOf(AJAXError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -198,9 +198,9 @@ describe('LocaleQuery', () => {
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (e: NoSuchElementError | AJAXError) => {
+      }, (err: NoSuchElementError | AJAXError) => {
         spy2();
-        expect(e).toBeInstanceOf(NoSuchElementError);
+        expect(err).toBeInstanceOf(NoSuchElementError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -275,9 +275,9 @@ describe('LocaleQuery', () => {
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (e: NoSuchElementError | AJAXError) => {
+      }, (err: NoSuchElementError | AJAXError) => {
         spy2();
-        expect(e).toBeInstanceOf(NoSuchElementError);
+        expect(err).toBeInstanceOf(NoSuchElementError);
       });
       expect(spy1.called).toEqual(false);
       expect(spy2.called).toEqual(true);

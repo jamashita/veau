@@ -1,7 +1,14 @@
+import { StatsError } from '../veau-error/StatsError';
+import { StatsIDError } from '../veau-error/StatsIDError';
+import { StatsItemsError } from '../veau-error/StatsItemsError';
+import { UpdatedAtError } from '../veau-error/UpdatedAtError';
 import { Entity } from '../veau-general/Entity';
 import { None } from '../veau-general/Optional/None';
 import { Optional } from '../veau-general/Optional/Optional';
 import { Some } from '../veau-general/Optional/Some';
+import { Failure } from '../veau-general/Try/Failure';
+import { Success } from '../veau-general/Try/Success';
+import { Try } from '../veau-general/Try/Try';
 import { AsOf } from '../veau-vo/AsOf';
 import { AsOfs } from '../veau-vo/AsOfs';
 import { Column } from '../veau-vo/Column';
@@ -75,7 +82,7 @@ export class Stats extends Entity<StatsID> {
     return new Stats(statsID, language, region, term, name, unit, updatedAt, items, startDate);
   }
 
-  public static ofJSON(json: StatsJSON): Stats {
+  public static ofJSON(json: StatsJSON): Try<Stats, StatsError> {
     const {
       statsID,
       language,
@@ -87,20 +94,34 @@ export class Stats extends Entity<StatsID> {
       items
     } = json;
 
-    return Stats.of(
-      StatsID.of(statsID),
-      Language.ofJSON(language),
-      Region.ofJSON(region),
-      Term.of(termID),
-      StatsName.of(name),
-      StatsUnit.of(unit),
-      UpdatedAt.ofString(updatedAt),
-      StatsItems.ofJSON(items),
-      None.of<AsOf>()
-    );
+    return StatsID.of(statsID).match<Try<Stats, StatsError>>((id: StatsID) => {
+      return UpdatedAt.ofString(updatedAt).match<Try<Stats, StatsError>>((at: UpdatedAt) => {
+        return StatsItems.ofJSON(items).match<Try<Stats, StatsError>>((statsItems: StatsItems) => {
+          const stats: Stats = Stats.of(
+            id,
+            Language.ofJSON(language),
+            Region.ofJSON(region),
+            Term.of(termID),
+            StatsName.of(name),
+            StatsUnit.of(unit),
+            at,
+            statsItems,
+            None.of<AsOf>()
+          );
+
+          return Success.of<Stats, StatsError>(stats);
+        }, (err: StatsItemsError) => {
+          return Failure.of<Stats, StatsError>(new StatsError(err.message));
+        });
+      }, (err: UpdatedAtError) => {
+        return Failure.of<Stats, StatsError>(new StatsError(err.message));
+      });
+    }, (err: StatsIDError) => {
+      return Failure.of<Stats, StatsError>(new StatsError(err.message));
+    });
   }
 
-  public static ofRow(row: StatsRow, statItems: StatsItems): Stats {
+  public static ofRow(row: StatsRow, statsItems: StatsItems): Try<Stats, StatsError> {
     const {
       statsID,
       languageID,
@@ -120,17 +141,27 @@ export class Stats extends Entity<StatsID> {
     const region: Region = Region.of(RegionID.of(regionID), RegionName.of(regionName), ISO3166.of(iso3166));
     const term: Term = Term.of(termID);
 
-    return Stats.of(
-      StatsID.of(statsID),
-      language,
-      region,
-      term,
-      StatsName.of(name),
-      StatsUnit.of(unit),
-      UpdatedAt.ofString(updatedAt),
-      statItems,
-      None.of<AsOf>()
-    );
+    return StatsID.of(statsID).match<Try<Stats, StatsError>>((id: StatsID) => {
+      return UpdatedAt.ofString(updatedAt).match<Try<Stats, StatsError>>((at: UpdatedAt) => {
+        const stats: Stats = Stats.of(
+          id,
+          language,
+          region,
+          term,
+          StatsName.of(name),
+          StatsUnit.of(unit),
+          at,
+          statsItems,
+          None.of<AsOf>()
+        );
+
+        return Success.of<Stats, StatsError>(stats);
+      }, (err: UpdatedAtError) => {
+        return Failure.of<Stats, StatsError>(new StatsError(err.message));
+      });
+    }, (err: StatsIDError) => {
+      return Failure.of<Stats, StatsError>(new StatsError(err.message));
+    });
   }
 
   public static default(): Stats {
@@ -201,7 +232,7 @@ export class Stats extends Entity<StatsID> {
     return this.statsID;
   }
 
-  public getRow(row: Row): StatsItem {
+  public getRow(row: Row): Optional<StatsItem> {
     return this.items.get(row.get());
   }
 
@@ -240,7 +271,7 @@ export class Stats extends Entity<StatsID> {
     return asOfs;
   }
 
-  public getColumn(column: Column): AsOf {
+  public getColumn(column: Column): Optional<AsOf> {
     return this.getColumns().get(column.get());
   }
 
@@ -261,10 +292,10 @@ export class Stats extends Entity<StatsID> {
     const length: number = this.items.maxNameLength();
 
     if (length === 0) {
-      return HeaderSize.of(1 * REVISED_VALUE);
+      return HeaderSize.of(1 * REVISED_VALUE).get();
     }
 
-    return HeaderSize.of(length * REVISED_VALUE);
+    return HeaderSize.of(length * REVISED_VALUE).get();
   }
 
   public getData(): Array<Array<string>> {
@@ -301,7 +332,7 @@ export class Stats extends Entity<StatsID> {
 
     this.items.forEach((statsItem: StatsItem) => {
       statsItem.getValues().forEach((statsValue: StatsValue) => {
-        const line: Chart | undefined = chartItems.get(statsValue.getAsOfAsString());
+        const line: Chart | undefined = chartItems.get(statsValue.getAsOf().toString());
 
         if (line !== undefined) {
           line[statsItem.getName().get()] = statsValue.getValue().get();

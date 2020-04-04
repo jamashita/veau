@@ -104,7 +104,7 @@ describe('StatsController', () => {
       expect(response.status).toEqual(BAD_REQUEST);
     });
 
-    it('throws error', async () => {
+    it('replies INTERNAL_SERVER_ERROR', async () => {
       const stub: SinonStub = sinon.stub();
       StatsInteractor.prototype.findByVeauAccountID = stub;
       stub.rejects();
@@ -192,7 +192,7 @@ describe('StatsController', () => {
     });
 
 
-    it('throws error', async () => {
+    it('replies INTERNAL_SERVER_ERROR', async () => {
       const stub: SinonStub = sinon.stub();
       StatsInteractor.prototype.findByStatsID = stub;
       stub.rejects();
@@ -256,7 +256,7 @@ describe('StatsController', () => {
       expect(response.status).toEqual(CREATED);
     });
 
-    it('throws error', async () => {
+    it('replies INTERNAL_SERVER_ERROR', async () => {
       const stub: SinonStub = sinon.stub();
       StatsInteractor.prototype.save = stub;
       stub.rejects();

@@ -143,9 +143,9 @@ describe('VeauAccount', () => {
 
       trial.match<void>(() => {
         spy1();
-      }, (e: VeauAccountError) => {
+      }, (err: VeauAccountError) => {
         spy2();
-        expect(e).toBeInstanceOf(VeauAccountError);
+        expect(err).toBeInstanceOf(VeauAccountError);
       });
 
       expect(spy1.called).toEqual(false);

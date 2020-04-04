@@ -24,7 +24,7 @@ describe('SessionCommand', () => {
       expect(stub.withArgs('/api/destroy').called).toEqual(true);
     });
 
-    it('throws error', async () => {
+    it('throws AJAXError', async () => {
       const stub: SinonStub = sinon.stub();
       AJAX.delete = stub;
       stub.resolves({
@@ -41,8 +41,9 @@ describe('SessionCommand', () => {
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, () => {
+      }, (err: AJAXError) => {
         spy2();
+        expect(err).toBeInstanceOf(AJAXError);
       });
       expect(spy1.called).toEqual(false);
       expect(spy2.called).toEqual(true);

@@ -20,8 +20,12 @@ export class Some<T extends Nominative> implements Optional<T> {
     return this.value;
   }
 
-  public isPresent(): boolean {
+  public isPresent(): this is Some<T> {
     return true;
+  }
+
+  public isEmpty(): this is None<T> {
+    return false;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

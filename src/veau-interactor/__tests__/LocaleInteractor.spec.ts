@@ -105,8 +105,8 @@ describe('LocaleInteractor',  () => {
       expect(stub2.called).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (e: CacheError) => {
-        expect(e).toBeInstanceOf(CacheError);
+      }, (err: CacheError) => {
+        expect(err).toBeInstanceOf(CacheError);
         spy2();
       });
 
@@ -132,8 +132,8 @@ describe('LocaleInteractor',  () => {
       expect(stub2.called).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (e: CacheError) => {
-        expect(e).toBeInstanceOf(CacheError);
+      }, (err: CacheError) => {
+        expect(err).toBeInstanceOf(CacheError);
         spy2();
       });
 

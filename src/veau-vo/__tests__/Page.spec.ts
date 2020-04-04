@@ -68,16 +68,16 @@ describe('Page', () => {
 
       trial1.match<void>(() => {
         spy1();
-      }, (e: PageError) => {
+      }, (err: PageError) => {
         spy2();
-        expect(e).toBeInstanceOf(PageError);
+        expect(err).toBeInstanceOf(PageError);
       });
 
       trial2.match<void>(() => {
         spy3();
-      }, (e: PageError) => {
+      }, (err: PageError) => {
         spy4();
-        expect(e).toBeInstanceOf(PageError);
+        expect(err).toBeInstanceOf(PageError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -100,16 +100,16 @@ describe('Page', () => {
 
       trial1.match<void>(() => {
         spy1();
-      }, (e: PageError) => {
+      }, (err: PageError) => {
         spy2();
-        expect(e).toBeInstanceOf(PageError);
+        expect(err).toBeInstanceOf(PageError);
       });
 
       trial2.match<void>(() => {
         spy3();
-      }, (e: PageError) => {
+      }, (err: PageError) => {
         spy4();
-        expect(e).toBeInstanceOf(PageError);
+        expect(err).toBeInstanceOf(PageError);
       });
 
       expect(spy1.called).toEqual(false);

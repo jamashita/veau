@@ -37,9 +37,9 @@ describe('UpdatedAt', () => {
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (e: UpdatedAtError) => {
+      }, (err: UpdatedAtError) => {
         spy2();
-        expect(e).toBeInstanceOf(UpdatedAtError);
+        expect(err).toBeInstanceOf(UpdatedAtError);
       });
 
       expect(spy1.called).toEqual(false);

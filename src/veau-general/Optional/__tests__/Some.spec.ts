@@ -46,6 +46,26 @@ describe('Some', () => {
     });
   });
 
+  describe('isEmpty', () => {
+    it('returns false', () => {
+      const some1: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(1));
+      const some2: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(0));
+      const some3: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(-1));
+      const some4: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(''));
+      const some5: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of('1'));
+      const some6: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(true));
+      const some7: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(false));
+
+      expect(some1.isEmpty()).toEqual(false);
+      expect(some2.isEmpty()).toEqual(false);
+      expect(some3.isEmpty()).toEqual(false);
+      expect(some4.isEmpty()).toEqual(false);
+      expect(some5.isEmpty()).toEqual(false);
+      expect(some6.isEmpty()).toEqual(false);
+      expect(some7.isEmpty()).toEqual(false);
+    });
+  });
+
   describe('ifPresentOrElse', () => {
     it('present section will be invoked', () => {
       const some: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(1));

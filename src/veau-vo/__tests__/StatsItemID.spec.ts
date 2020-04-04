@@ -46,9 +46,9 @@ describe('StatsItemID', () => {
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (e: StatsItemIDError) => {
+      }, (err: StatsItemIDError) => {
         spy2();
-        expect(e).toBeInstanceOf(StatsItemIDError);
+        expect(err).toBeInstanceOf(StatsItemIDError);
       });
 
       expect(spy1.called).toEqual(false);

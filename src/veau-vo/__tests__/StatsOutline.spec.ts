@@ -318,7 +318,44 @@ describe('StatsOutline', () => {
       expect(spy2.called).toEqual(true);
     });
 
-    it('contains malformat asOf', () => {
+    it('contains malformat termID', () => {
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const json: StatsOutlineJSON = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: -1,
+        name: 'stats1',
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00'
+      };
+
+      const trial: Try<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (err: StatsOutlineError) => {
+        expect(err).toBeInstanceOf(StatsOutlineError);
+        spy2();
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('contains malformat updatedAt', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
@@ -424,7 +461,40 @@ describe('StatsOutline', () => {
       expect(spy2.called).toEqual(true);
     });
 
-    it('contains malformat asOf', () => {
+    it('contains malformat termID', () => {
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const row: StatsOutlineRow = {
+        statsID: '0ec47089-24d3-4035-a27d-b636bd7a5170',
+        languageID: 1,
+        languageName: 'language1',
+        languageEnglishName: 'englishLanguage1',
+        iso639: 'lang1',
+        regionID: 2,
+        regionName: 'region1',
+        iso3166: 'regn1',
+        termID: -1,
+        name: 'name',
+        unit: 'unit',
+        updatedAt: '2000-01-01 00:00:00'
+      };
+
+      const trial: Try<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (err: StatsOutlineError) => {
+        expect(err).toBeInstanceOf(StatsOutlineError);
+        spy2();
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('contains malformat updatedAt', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 

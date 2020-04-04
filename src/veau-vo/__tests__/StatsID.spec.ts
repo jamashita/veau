@@ -46,9 +46,9 @@ describe('StatsID', () => {
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (e: StatsIDError) => {
+      }, (err: StatsIDError) => {
         spy2();
-        expect(e).toBeInstanceOf(StatsIDError);
+        expect(err).toBeInstanceOf(StatsIDError);
       });
 
       expect(spy1.called).toEqual(false);

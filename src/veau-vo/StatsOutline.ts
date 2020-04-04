@@ -1,5 +1,6 @@
 import { StatsIDError } from '../veau-error/StatsIDError';
 import { StatsOutlineError } from '../veau-error/StatsOutlineError';
+import { TermError } from '../veau-error/TermError';
 import { UpdatedAtError } from '../veau-error/UpdatedAtError';
 import { Cloneable } from '../veau-general/Cloneable';
 import { JSONable } from '../veau-general/JSONable';
@@ -71,17 +72,21 @@ export class StatsOutline extends ValueObject implements JSONable, Cloneable {
     } = json;
 
     return StatsID.of(statsID).match<Try<StatsOutline, StatsOutlineError>>((id: StatsID) => {
-      return UpdatedAt.ofString(updatedAt).match<Try<StatsOutline, StatsOutlineError>>((at: UpdatedAt) => {
-        return Success.of<StatsOutline, StatsOutlineError>(StatsOutline.of(
-          id,
-          Language.ofJSON(language),
-          Region.ofJSON(region),
-          Term.of(termID),
-          StatsName.of(name),
-          StatsUnit.of(unit),
-          at
-        ));
-      }, (err: UpdatedAtError) => {
+      return Term.of(termID).match<Try<StatsOutline, StatsOutlineError>>((term: Term) => {
+        return UpdatedAt.ofString(updatedAt).match<Try<StatsOutline, StatsOutlineError>>((at: UpdatedAt) => {
+          return Success.of<StatsOutline, StatsOutlineError>(StatsOutline.of(
+            id,
+            Language.ofJSON(language),
+            Region.ofJSON(region),
+            term,
+            StatsName.of(name),
+            StatsUnit.of(unit),
+            at
+          ));
+        }, (err: UpdatedAtError) => {
+          return Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError(err.message));
+        });
+      }, (err: TermError) => {
         return Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError(err.message));
       });
     }, (err: StatsIDError) => {
@@ -109,17 +114,21 @@ export class StatsOutline extends ValueObject implements JSONable, Cloneable {
     const region: Region = Region.of(RegionID.of(regionID), RegionName.of(regionName), ISO3166.of(iso3166));
 
     return StatsID.of(statsID).match<Try<StatsOutline, StatsOutlineError>>((id: StatsID) => {
-      return UpdatedAt.ofString(updatedAt).match<Try<StatsOutline, StatsOutlineError>>((at: UpdatedAt) => {
-        return Success.of<StatsOutline, StatsOutlineError>(StatsOutline.of(
-          id,
-          language,
-          region,
-          Term.of(termID),
-          StatsName.of(name),
-          StatsUnit.of(unit),
-          at
-        ));
-      }, (err: UpdatedAtError) => {
+      return Term.of(termID).match<Try<StatsOutline, StatsOutlineError>>((term: Term) => {
+        return UpdatedAt.ofString(updatedAt).match<Try<StatsOutline, StatsOutlineError>>((at: UpdatedAt) => {
+          return Success.of<StatsOutline, StatsOutlineError>(StatsOutline.of(
+            id,
+            language,
+            region,
+            term,
+            StatsName.of(name),
+            StatsUnit.of(unit),
+            at
+          ));
+        }, (err: UpdatedAtError) => {
+          return Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError(err.message));
+        });
+      }, (err: TermError) => {
         return Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError(err.message));
       });
     }, (err: StatsIDError) => {

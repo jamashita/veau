@@ -106,8 +106,8 @@ describe('StatsInteractor', () => {
 
       trial.match<void>(() => {
         spy1();
-      }, (e: NotFoundError) => {
-        expect(e).toBeInstanceOf(NotFoundError);
+      }, (err: NotFoundError) => {
+        expect(err).toBeInstanceOf(NotFoundError);
         spy2();
       });
 

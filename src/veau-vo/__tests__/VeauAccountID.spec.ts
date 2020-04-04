@@ -43,9 +43,9 @@ describe('VeauAccountID', () => {
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (e: VeauAccountIDError) => {
+      }, (err: VeauAccountIDError) => {
         spy2();
-        expect(e).toBeInstanceOf(VeauAccountIDError);
+        expect(err).toBeInstanceOf(VeauAccountIDError);
       });
 
       expect(spy1.called).toEqual(false);

@@ -1,4 +1,7 @@
 import { TermError } from '../veau-error/TermError';
+import { Failure } from '../veau-general/Try/Failure';
+import { Success } from '../veau-general/Try/Success';
+import { Try } from '../veau-general/Try/Try';
 import { ValueObject } from '../veau-general/ValueObject';
 
 const DAILY_ID: number = 1;
@@ -17,25 +20,25 @@ export class Term extends ValueObject {
   public static QUARTERLY: Term = new Term(QUARTERLY_ID, 'QUARTERLY');
   public static ANNUAL: Term = new Term(ANNUAL_ID, 'ANNUAL');
 
-  public static of(id: number): Term {
+  public static of(id: number): Try<Term, TermError> {
     switch (id) {
       case DAILY_ID: {
-        return Term.DAILY;
+        return Success.of<Term, TermError>(Term.DAILY);
       }
       case WEEKLY_ID: {
-        return Term.WEEKLY;
+        return Success.of<Term, TermError>(Term.WEEKLY);
       }
       case MONTHLY_ID: {
-        return Term.MONTHLY;
+        return Success.of<Term, TermError>(Term.MONTHLY);
       }
       case QUARTERLY_ID: {
-        return Term.QUARTERLY;
+        return Success.of<Term, TermError>(Term.QUARTERLY);
       }
       case ANNUAL_ID: {
-        return Term.ANNUAL;
+        return Success.of<Term, TermError>(Term.ANNUAL);
       }
       default: {
-        throw new TermError(id.toString());
+        return Failure.of<Term, TermError>(new TermError(id.toString()));
       }
     }
   }

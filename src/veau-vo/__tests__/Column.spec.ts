@@ -39,9 +39,9 @@ describe('Column', () => {
 
       trial2.match<void>(() => {
         spy1();
-      }, (e: ColumnError) => {
+      }, (err: ColumnError) => {
         spy2();
-        expect(e).toBeInstanceOf(ColumnError);
+        expect(err).toBeInstanceOf(ColumnError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -62,16 +62,16 @@ describe('Column', () => {
 
       trial1.match<void>(() => {
         spy1();
-      }, (e: ColumnError) => {
+      }, (err: ColumnError) => {
         spy2();
-        expect(e).toBeInstanceOf(ColumnError);
+        expect(err).toBeInstanceOf(ColumnError);
       });
 
       trial2.match<void>(() => {
         spy3();
-      }, (e: ColumnError) => {
+      }, (err: ColumnError) => {
         spy4();
-        expect(e).toBeInstanceOf(ColumnError);
+        expect(err).toBeInstanceOf(ColumnError);
       });
 
       expect(spy1.called).toEqual(false);

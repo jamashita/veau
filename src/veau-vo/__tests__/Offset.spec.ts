@@ -39,9 +39,9 @@ describe('Offset', () => {
 
       trial2.match<void>(() => {
         spy1();
-      }, (e: OffsetError) => {
+      }, (err: OffsetError) => {
         spy2();
-        expect(e).toBeInstanceOf(OffsetError);
+        expect(err).toBeInstanceOf(OffsetError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -62,16 +62,16 @@ describe('Offset', () => {
 
       trial1.match<void>(() => {
         spy1();
-      }, (e: OffsetError) => {
+      }, (err: OffsetError) => {
         spy2();
-        expect(e).toBeInstanceOf(OffsetError);
+        expect(err).toBeInstanceOf(OffsetError);
       });
 
       trial2.match<void>(() => {
         spy3();
-      }, (e: OffsetError) => {
+      }, (err: OffsetError) => {
         spy4();
-        expect(e).toBeInstanceOf(OffsetError);
+        expect(err).toBeInstanceOf(OffsetError);
       });
 
       expect(spy1.called).toEqual(false);

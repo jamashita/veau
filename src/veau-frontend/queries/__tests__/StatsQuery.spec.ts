@@ -72,9 +72,9 @@ describe('StatsQuery', () => {
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (e: NotFoundError | AJAXError) => {
+      }, (err: NotFoundError | AJAXError) => {
         spy2();
-        expect(e).toBeInstanceOf(NotFoundError);
+        expect(err).toBeInstanceOf(NotFoundError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -99,9 +99,9 @@ describe('StatsQuery', () => {
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (e: NotFoundError | AJAXError) => {
+      }, (err: NotFoundError | AJAXError) => {
         spy2();
-        expect(e).toBeInstanceOf(AJAXError);
+        expect(err).toBeInstanceOf(AJAXError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -167,9 +167,9 @@ describe('StatsQuery', () => {
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (e: AJAXError) => {
+      }, (err: AJAXError) => {
         spy2();
-        expect(e).toBeInstanceOf(AJAXError);
+        expect(err).toBeInstanceOf(AJAXError);
       });
     });
   });
