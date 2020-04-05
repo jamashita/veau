@@ -8,7 +8,7 @@ import { None } from './None';
 import { Optional } from './Optional';
 import { OptionalError } from './OptionalError';
 
-export class Some<T extends Nominative> implements Optional<T> {
+export class Some<T extends Nominative> extends Optional<T> {
   private value: T;
 
   public static of<T extends Nominative>(value: T): Some<T> {
@@ -16,6 +16,7 @@ export class Some<T extends Nominative> implements Optional<T> {
   }
 
   private constructor(value: T) {
+    super();
     this.value = value;
   }
 

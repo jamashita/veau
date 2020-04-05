@@ -2,13 +2,16 @@ import { Function } from '../Type/Function';
 import { Failure } from './Failure';
 import { Success } from './Success';
 
-export interface Try<S, F extends Error> {
+export abstract class Try<S, F extends Error> {
 
-  get(): S;
+  protected constructor() {
+  }
 
-  isSuccess(): this is Success<S, F>;
+  public abstract get(): S;
 
-  isFailure(): this is Failure<S, F>;
+  public abstract isSuccess(): this is Success<S, F>;
 
-  match<T>(success: Function<S, T>, failure: Function<F, T>): T;
+  public abstract isFailure(): this is Failure<S, F>;
+
+  public abstract match<T>(success: Function<S, T>, failure: Function<F, T>): T;
 }

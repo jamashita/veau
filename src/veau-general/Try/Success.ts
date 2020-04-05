@@ -2,7 +2,7 @@ import { Function } from '../Type/Function';
 import { Failure } from './Failure';
 import { Try } from './Try';
 
-export class Success<S, F extends Error> implements Try<S, F> {
+export class Success<S, F extends Error> extends Try<S, F> {
   private value: S;
 
   public static of<S, F extends Error>(value: S): Success<S, F> {
@@ -10,6 +10,7 @@ export class Success<S, F extends Error> implements Try<S, F> {
   }
 
   private constructor(value: S) {
+    super();
     this.value = value;
   }
 

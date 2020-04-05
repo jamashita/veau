@@ -12,10 +12,7 @@ export const maybe: <T extends Nominative>(value: Suspicious) => Optional<T> = <
   if (value === undefined) {
     return None.of<T>();
   }
-  if (value instanceof None) {
-    return value;
-  }
-  if (value instanceof Some) {
+  if (value instanceof Optional) {
     return value;
   }
 

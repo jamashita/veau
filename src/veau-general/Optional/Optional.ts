@@ -6,23 +6,26 @@ import { None } from './None';
 import { OptionalError } from './OptionalError';
 import { Some } from './Some';
 
-export interface Optional<T extends Nominative> extends Nominative {
+export abstract class Optional<T extends Nominative> implements Nominative {
 
-  get(): T;
+  protected constructor() {
+  }
 
-  isPresent(): this is Some<T>;
+  public abstract get(): T;
 
-  isEmpty(): this is None<T>;
+  public abstract isPresent(): this is Some<T>;
 
-  ifPresent(consumer: Function<T, void>): void;
+  public abstract isEmpty(): this is None<T>;
 
-  ifPresentAsync(consumer: Function<T, Promise<void>>): Promise<void>;
+  public abstract ifPresent(consumer: Function<T, void>): void;
 
-  filter(predicate: Predicate<T>): Optional<T>;
+  public abstract ifPresentAsync(consumer: Function<T, Promise<void>>): Promise<void>;
 
-  map<U extends Nominative>(mapper: Function<T, U>): Optional<U>;
+  public abstract filter(predicate: Predicate<T>): Optional<T>;
 
-  equals(other: Optional<T>): boolean;
+  public abstract map<U extends Nominative>(mapper: Function<T, U>): Optional<U>;
 
-  toTry(): Try<T, OptionalError>;
+  public abstract equals(other: Optional<T>): boolean;
+
+  public abstract toTry(): Try<T, OptionalError>;
 }

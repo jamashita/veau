@@ -7,13 +7,14 @@ import { Optional } from './Optional';
 import { OptionalError } from './OptionalError';
 import { Some } from './Some';
 
-export class None<T extends Nominative> implements Optional<T> {
+export class None<T extends Nominative> extends Optional<T> {
 
   public static of<T extends Nominative>(): None<T> {
     return new None<T>();
   }
 
   private constructor() {
+    super();
   }
 
   public get(): T {
