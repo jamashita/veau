@@ -7,7 +7,7 @@ import { ValueObject } from '../veau-general/ValueObject';
 
 export class StatsID extends ValueObject {
   public readonly noun: 'StatsID' = 'StatsID';
-  private id: string;
+  private readonly id: string;
 
   public static of(id: string): Try<StatsID, StatsIDError> {
     if (id.length === UUID.size()) {

@@ -4,7 +4,7 @@ import { Resolve } from '../Type/Resolve';
 import { IQuery } from './IQuery';
 
 export class Connection implements IQuery {
-  private connection: mysql.PoolConnection;
+  private readonly connection: mysql.PoolConnection;
 
   public constructor(connection: mysql.PoolConnection) {
     this.connection = connection;

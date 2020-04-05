@@ -1,7 +1,7 @@
 import { NoInstanceError } from './NoInstanceError';
 
 export class Container {
-  private instances: Map<symbol, unknown>;
+  private readonly instances: Map<symbol, unknown>;
 
   public constructor() {
     this.instances = new Map<symbol, unknown>();

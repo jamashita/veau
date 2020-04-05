@@ -24,9 +24,9 @@ export type StatsValueRow = {
 
 export class StatsValue extends ValueObject implements JSONable {
   public readonly noun: 'StatsValue' = 'StatsValue';
-  private statsItemID: StatsItemID;
-  private asOf: AsOf;
-  private value: NumericalValue;
+  private readonly statsItemID: StatsItemID;
+  private readonly asOf: AsOf;
+  private readonly value: NumericalValue;
 
   public static of(statsItemID: StatsItemID, asOf: AsOf, value: NumericalValue): StatsValue {
     return new StatsValue(statsItemID, asOf, value);

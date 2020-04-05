@@ -14,8 +14,8 @@ import { IStatsQuery } from '../interfaces/IStatsQuery';
 
 @injectable()
 export class StatsQuery implements IStatsQuery {
-  private mysql: MySQL;
-  private statsItemQuery: IStatsItemQuery;
+  private readonly mysql: MySQL;
+  private readonly statsItemQuery: IStatsItemQuery;
 
   public constructor(@inject(TYPE.MySQL) mysql: MySQL,
     @inject(TYPE.StatsItemQuery) statsItemQuery: IStatsItemQuery

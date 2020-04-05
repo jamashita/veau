@@ -15,7 +15,7 @@ import { SessionQuery } from '../queries/SessionQuery';
 import { State } from '../State';
 
 export class EntranceSaga {
-  private sessionQuery: SessionQuery;
+  private readonly sessionQuery: SessionQuery;
 
   public constructor(sessionQuery: SessionQuery) {
     this.sessionQuery = sessionQuery;

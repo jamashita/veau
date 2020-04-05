@@ -2,7 +2,7 @@ import { ValueObject } from '../veau-general/ValueObject';
 
 export class Color extends ValueObject {
   public readonly noun: 'Color' = 'Color';
-  private rgb: string;
+  private readonly rgb: string;
 
   public static of(rgb: string): Color {
     return new Color(rgb);

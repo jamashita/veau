@@ -69,9 +69,9 @@ type Chart = {
 };
 
 export class Stats extends Entity<StatsID> {
-  private statsID: StatsID;
-  private language: Language;
-  private region: Region;
+  private readonly statsID: StatsID;
+  private readonly language: Language;
+  private readonly region: Region;
   private term: Term;
   private name: StatsName;
   private unit: StatsUnit;

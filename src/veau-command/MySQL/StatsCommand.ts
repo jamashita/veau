@@ -5,7 +5,7 @@ import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { IStatsCommand } from '../interfaces/IStatsCommand';
 
 export class StatsCommand implements IStatsCommand {
-  private query: IQuery;
+  private readonly query: IQuery;
 
   public static of(query: IQuery): StatsCommand {
     return new StatsCommand(query);

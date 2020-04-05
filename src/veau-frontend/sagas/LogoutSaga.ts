@@ -9,7 +9,7 @@ import { pushToEntrance } from '../actions/RedirectAction';
 import { SessionCommand } from '../commands/SessionCommand';
 
 export class LogoutSaga {
-  private sessionCommand: SessionCommand;
+  private readonly sessionCommand: SessionCommand;
 
   public constructor(sessionCommand: SessionCommand) {
     this.sessionCommand = sessionCommand;

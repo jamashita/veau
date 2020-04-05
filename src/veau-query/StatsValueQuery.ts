@@ -8,7 +8,7 @@ import { IStatsValueQuery } from './interfaces/IStatsValueQuery';
 
 @injectable()
 export class StatsValueQuery implements IStatsValueQuery {
-  private statsValueQuery: IStatsValueQuery;
+  private readonly statsValueQuery: IStatsValueQuery;
 
   public constructor(@inject(TYPE.StatsValueMySQLQuery) statsValueQuery: IStatsValueQuery) {
     this.statsValueQuery = statsValueQuery;

@@ -2,7 +2,6 @@ import { NumericalValueError } from '../veau-error/NumericalValueError';
 import { NumericalValue } from './NumericalValue';
 
 export class NoValue extends NumericalValue {
-  public readonly noun: 'NoValue' = 'NoValue';
 
   public static of(): NoValue {
     return new NoValue();

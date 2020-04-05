@@ -10,7 +10,7 @@ import { IStatsValueQuery } from '../interfaces/IStatsValueQuery';
 
 @injectable()
 export class StatsValueQuery implements IStatsValueQuery {
-  private mysql: MySQL;
+  private readonly mysql: MySQL;
 
   public constructor(@inject(TYPE.MySQL) mysql: MySQL) {
     this.mysql = mysql;

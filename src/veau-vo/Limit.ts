@@ -7,7 +7,7 @@ import { ValueObject } from '../veau-general/ValueObject';
 
 export class Limit extends ValueObject {
   public readonly noun: 'Limit' = 'Limit';
-  private limit: number;
+  private readonly limit: number;
 
   public static of(limit: number): Try<Limit, LimitError> {
     if (limit <= 0) {

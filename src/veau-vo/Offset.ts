@@ -7,7 +7,7 @@ import { ValueObject } from '../veau-general/ValueObject';
 
 export class Offset extends ValueObject {
   public readonly noun: 'Offset' = 'Offset';
-  private offset: number;
+  private readonly offset: number;
 
   public static of(offset: number): Try<Offset, OffsetError> {
     if (offset < 0) {

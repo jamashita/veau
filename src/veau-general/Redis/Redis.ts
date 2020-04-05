@@ -5,11 +5,11 @@ import { RedisSet } from './RedisSet';
 import { RedisString } from './RedisString';
 
 export class Redis {
-  private hash: RedisHash;
-  private set: RedisSet;
-  private list: RedisList;
-  private string: RedisString;
-  private client: IORedis.Redis;
+  private readonly hash: RedisHash;
+  private readonly set: RedisSet;
+  private readonly list: RedisList;
+  private readonly string: RedisString;
+  private readonly client: IORedis.Redis;
 
   public constructor(config: IORedis.RedisOptions) {
     const client: IORedis.Redis = new IORedis(config);

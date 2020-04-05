@@ -10,7 +10,7 @@ import { IStatsOutlineQuery } from './interfaces/IStatsOutlineQuery';
 
 @injectable()
 export class StatsOutlineQuery implements IStatsOutlineQuery {
-  private statsOutlineQuery: IStatsOutlineQuery;
+  private readonly statsOutlineQuery: IStatsOutlineQuery;
 
   public constructor(@inject(TYPE.StatsOutlineMySQLQuery) statsOutlineMySQLQuery: IStatsOutlineQuery) {
     this.statsOutlineQuery = statsOutlineMySQLQuery;

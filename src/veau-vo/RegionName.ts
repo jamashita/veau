@@ -2,7 +2,7 @@ import { ValueObject } from '../veau-general/ValueObject';
 
 export class RegionName extends ValueObject {
   public readonly noun: 'RegionName' = 'RegionName';
-  private name: string;
+  private readonly name: string;
 
   public static of(name: string): RegionName {
     return new RegionName(name);

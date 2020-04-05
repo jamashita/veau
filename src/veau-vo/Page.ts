@@ -11,7 +11,7 @@ const LIMIT: number = 40;
 
 export class Page extends ValueObject {
   public readonly noun: 'Page' = 'Page';
-  private page: number;
+  private readonly page: number;
 
   public static of(page: number): Try<Page, PageError> {
     if (page <= 0) {

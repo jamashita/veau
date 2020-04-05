@@ -12,7 +12,7 @@ import { ILanguageQuery } from '../interfaces/ILanguageQuery';
 
 @injectable()
 export class LanguageQuery implements ILanguageQuery {
-  private mysql: MySQL;
+  private readonly mysql: MySQL;
 
   public constructor(@inject(TYPE.MySQL) mysql: MySQL) {
     this.mysql = mysql;

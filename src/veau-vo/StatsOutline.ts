@@ -49,13 +49,13 @@ export type StatsOutlineRow = {
 
 export class StatsOutline extends ValueObject implements JSONable, Cloneable {
   public readonly noun: 'StatsOutline' = 'StatsOutline';
-  private statsID: StatsID;
-  private language: Language;
-  private region: Region;
-  private term: Term;
-  private name: StatsName;
-  private unit: StatsUnit;
-  private updatedAt: UpdatedAt;
+  private readonly statsID: StatsID;
+  private readonly language: Language;
+  private readonly region: Region;
+  private readonly term: Term;
+  private readonly name: StatsName;
+  private readonly unit: StatsUnit;
+  private readonly updatedAt: UpdatedAt;
 
   public static of(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: StatsUnit, updatedAt: UpdatedAt): StatsOutline {
     return new StatsOutline(statsID, language, region, term, name, unit, updatedAt);

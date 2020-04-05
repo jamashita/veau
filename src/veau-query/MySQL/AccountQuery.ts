@@ -11,7 +11,7 @@ import { IAccountQuery } from '../interfaces/IAccountQuery';
 
 @injectable()
 export class AccountQuery implements IAccountQuery {
-  private mysql: MySQL;
+  private readonly mysql: MySQL;
 
   public constructor(@inject(TYPE.MySQL) mysql: MySQL) {
     this.mysql = mysql;

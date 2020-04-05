@@ -4,8 +4,8 @@ import { VeauAccountID } from './VeauAccountID';
 
 export class AccountHash extends ValueObject {
   public readonly noun: 'AccountHash' = 'AccountHash';
-  private veauAccountID: VeauAccountID;
-  private hash: Hash;
+  private readonly veauAccountID: VeauAccountID;
+  private readonly hash: Hash;
 
   public static of(veauAccountID: VeauAccountID, hash: Hash): AccountHash {
     return new AccountHash(veauAccountID, hash);

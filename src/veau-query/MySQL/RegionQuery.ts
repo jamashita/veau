@@ -12,7 +12,7 @@ import { IRegionQuery } from '../interfaces/IRegionQuery';
 
 @injectable()
 export class RegionQuery implements IRegionQuery {
-  private mysql: MySQL;
+  private readonly mysql: MySQL;
 
   public constructor(@inject(TYPE.MySQL) mysql: MySQL) {
     this.mysql = mysql;

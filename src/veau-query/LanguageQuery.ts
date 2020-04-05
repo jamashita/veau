@@ -12,9 +12,9 @@ import { ILanguageQuery } from './interfaces/ILanguageQuery';
 
 @injectable()
 export class LanguageQuery implements ILanguageQuery {
-  private languageMySQLQuery: ILanguageQuery;
-  private languageRedisQuery: ILanguageQuery;
-  private languageCommand: ILanguageCommand;
+  private readonly languageMySQLQuery: ILanguageQuery;
+  private readonly languageRedisQuery: ILanguageQuery;
+  private readonly languageCommand: ILanguageCommand;
 
   public constructor(@inject(TYPE.LanguageMySQLQuery) languageMySQLQuery: ILanguageQuery,
     @inject(TYPE.LanguageRedisQuery) languageRedisQuery: ILanguageQuery,

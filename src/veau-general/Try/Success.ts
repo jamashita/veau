@@ -4,7 +4,7 @@ import { Try } from './Try';
 
 export class Success<S, F extends Error> extends Try<S, F> {
   public readonly noun: 'Success' = 'Success';
-  private value: S;
+  private readonly value: S;
 
   public static of<S, F extends Error>(value: S): Success<S, F> {
     return new Success<S, F>(value);

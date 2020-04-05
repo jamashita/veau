@@ -21,10 +21,10 @@ export type LanguageRow = {
 
 export class Language extends ValueObject implements JSONable {
   public readonly noun: 'Language' = 'Language';
-  private languageID: LanguageID;
-  private name: LanguageName;
-  private englishName: LanguageName;
-  private iso639: ISO639;
+  private readonly languageID: LanguageID;
+  private readonly name: LanguageName;
+  private readonly englishName: LanguageName;
+  private readonly iso639: ISO639;
 
   public static of(languageID: LanguageID, name: LanguageName, englishName: LanguageName, iso639: ISO639): Language {
     return new Language(languageID, name, englishName, iso639);

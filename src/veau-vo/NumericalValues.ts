@@ -6,7 +6,7 @@ import { NumericalValue } from './NumericalValue';
 
 export class NumericalValues implements Collection<number, NumericalValue> {
   public readonly noun: 'NumericalValues' = 'NumericalValues';
-  private values: Array<NumericalValue>;
+  private readonly values: Array<NumericalValue>;
 
   public static of(values: Array<NumericalValue>): NumericalValues {
     return new NumericalValues(values);

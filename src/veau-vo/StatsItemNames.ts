@@ -8,7 +8,7 @@ import { StatsItemName } from './StatsItemName';
 
 export class StatsItemNames implements Collection<number, StatsItemName>, JSONable {
   public readonly noun: 'StatsItemNames' = 'StatsItemNames';
-  private names: Array<StatsItemName>;
+  private readonly names: Array<StatsItemName>;
 
   public static of(names: Array<StatsItemName>): StatsItemNames {
     return new StatsItemNames(names);

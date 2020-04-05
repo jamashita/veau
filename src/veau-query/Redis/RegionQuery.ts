@@ -15,7 +15,7 @@ const REDIS_KEY: string = 'REGIONS';
 
 @injectable()
 export class RegionQuery implements IRegionQuery {
-  private redis: Redis;
+  private readonly redis: Redis;
 
   public constructor(@inject(TYPE.Redis) redis: Redis) {
     this.redis = redis;

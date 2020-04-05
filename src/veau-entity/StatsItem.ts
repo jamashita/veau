@@ -27,9 +27,9 @@ export type StatsItemRow = {
 };
 
 export class StatsItem extends Entity<StatsItemID> {
-  private statsItemID: StatsItemID;
-  private name: StatsItemName;
-  private values: StatsValues;
+  private readonly statsItemID: StatsItemID;
+  private readonly name: StatsItemName;
+  private readonly values: StatsValues;
 
   public static of(statsItemID: StatsItemID, name: StatsItemName, values: StatsValues): StatsItem {
     return new StatsItem(statsItemID, name, values);

@@ -10,7 +10,7 @@ import { OptionalError } from './OptionalError';
 
 export class Some<T extends Nominative> extends Optional<T> {
   public readonly noun: 'Some' = 'Some';
-  private value: T;
+  private readonly value: T;
 
   public static of<T extends Nominative>(value: T): Some<T> {
     return new Some<T>(value);

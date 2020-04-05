@@ -12,9 +12,9 @@ import { IRegionQuery } from './interfaces/IRegionQuery';
 
 @injectable()
 export class RegionQuery implements IRegionQuery {
-  private regionMySQLQuery: IRegionQuery;
-  private regionRedisQuery: IRegionQuery;
-  private regionCommand: IRegionCommand;
+  private readonly regionMySQLQuery: IRegionQuery;
+  private readonly regionRedisQuery: IRegionQuery;
+  private readonly regionCommand: IRegionCommand;
 
   public constructor(@inject(TYPE.RegionMySQLQuery) regionMySQLQuery: IRegionQuery,
     @inject(TYPE.RegionRedisQuery) regionRedisQuery: IRegionQuery,

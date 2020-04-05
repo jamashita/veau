@@ -11,7 +11,7 @@ export type AsOfJSON = Array<string>;
 
 export class AsOfs implements Collection<number, AsOf>, JSONable {
   public readonly noun: 'AsOfs' = 'AsOfs';
-  private asOfs: Array<AsOf>;
+  private readonly asOfs: Array<AsOf>;
 
   public static of(asOfs: Array<AsOf>): AsOfs {
     return new AsOfs(asOfs);

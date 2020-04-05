@@ -9,7 +9,7 @@ import { Region, RegionJSON, RegionRow } from './Region';
 
 export class Regions implements Collection<number, Region>, JSONable {
   public readonly noun: 'Regions' = 'Regions';
-  private regions: Array<Region>;
+  private readonly regions: Array<Region>;
 
   public static of(regions: Array<Region>): Regions {
     return new Regions(regions);

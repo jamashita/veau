@@ -12,8 +12,8 @@ const ANNUAL_ID: number = 5;
 
 export class Term extends ValueObject {
   public readonly noun: 'Term' = 'Term';
-  private id: number;
-  private key: string;
+  private readonly id: number;
+  private readonly key: string;
 
   public static DAILY: Term = new Term(DAILY_ID, 'DAILY');
   public static WEEKLY: Term = new Term(WEEKLY_ID, 'WEEKLY');

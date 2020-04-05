@@ -4,7 +4,7 @@ import { StatsValue } from '../../veau-vo/StatsValue';
 import { IStatsValueCommand } from '../interfaces/IStatsValueCommand';
 
 export class StatsValueCommand implements IStatsValueCommand {
-  private query: IQuery;
+  private readonly query: IQuery;
 
   public static of(query: IQuery): StatsValueCommand {
     return new StatsValueCommand(query);

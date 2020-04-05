@@ -2,7 +2,7 @@ import { ValueObject } from '../veau-general/ValueObject';
 
 export class RegionID extends ValueObject {
   public readonly noun: 'RegionID' = 'RegionID';
-  private id: number;
+  private readonly id: number;
 
   public static of(id: number): RegionID {
     return new RegionID(id);

@@ -14,7 +14,7 @@ import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from './StatsOutline'
 
 export class StatsOutlines implements Collection<number, StatsOutline>, JSONable, Cloneable {
   public readonly noun: 'StatsOutlines' = 'StatsOutlines';
-  private outlines: Array<StatsOutline>;
+  private readonly outlines: Array<StatsOutline>;
 
   public static of(outlines: Array<StatsOutline>): StatsOutlines {
     return new StatsOutlines(outlines);

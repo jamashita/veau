@@ -9,7 +9,7 @@ const TERM_FORMAT: string = 'YYYY-MM-DD HH:mm:ss';
 
 export class UpdatedAt extends ValueObject {
   public readonly noun: 'UpdatedAt' = 'UpdatedAt';
-  private at: moment.Moment;
+  private readonly at: moment.Moment;
 
   public static of(at: moment.Moment): UpdatedAt {
     return new UpdatedAt(at);

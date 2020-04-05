@@ -1,6 +1,7 @@
-export class RuntimeError extends Error {
+export abstract class RuntimeError extends Error {
+  public abstract readonly name: string;
 
-  public constructor(message: string) {
+  protected constructor(message: string) {
     super(message);
   }
 }

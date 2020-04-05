@@ -2,7 +2,7 @@ import { ValueObject } from '../veau-general/ValueObject';
 
 export class StatsName extends ValueObject {
   public readonly noun: 'StatsName' = 'StatsName';
-  private name: string;
+  private readonly name: string;
 
   public static of(name: string): StatsName {
     return new StatsName(name);

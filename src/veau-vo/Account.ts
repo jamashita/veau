@@ -34,11 +34,11 @@ export type AccountRow = {
 
 export class Account extends ValueObject {
   public readonly noun: 'Account' = 'Account';
-  private veauAccountID: VeauAccountID;
-  private account: AccountName;
-  private language: Language;
-  private region: Region;
-  private hash: Hash;
+  private readonly veauAccountID: VeauAccountID;
+  private readonly account: AccountName;
+  private readonly language: Language;
+  private readonly region: Region;
+  private readonly hash: Hash;
 
   public static of(veauAccountID: VeauAccountID, account: AccountName, language: Language, region: Region, hash: Hash): Account {
     return new Account(veauAccountID, account, language, region, hash);

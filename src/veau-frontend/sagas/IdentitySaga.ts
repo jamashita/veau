@@ -24,8 +24,8 @@ import { SessionQuery } from '../queries/SessionQuery';
 import { State } from '../State';
 
 export class IdentitySaga {
-  private sessionQuery: SessionQuery;
-  private localeQuery: LocaleQuery;
+  private readonly sessionQuery: SessionQuery;
+  private readonly localeQuery: LocaleQuery;
 
   public constructor(sessionQuery: SessionQuery, localeQuery: LocaleQuery) {
     this.sessionQuery = sessionQuery;

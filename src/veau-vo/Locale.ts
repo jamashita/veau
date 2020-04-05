@@ -13,8 +13,8 @@ export type LocaleJSON = {
 
 export class Locale extends ValueObject implements JSONable {
   public readonly noun: 'Locale' = 'Locale';
-  private languages: Languages;
-  private regions: Regions;
+  private readonly languages: Languages;
+  private readonly regions: Regions;
 
   public static of(languages: Languages, regions: Regions): Locale {
     return new Locale(languages, regions);

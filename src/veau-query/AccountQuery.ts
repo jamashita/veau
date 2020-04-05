@@ -9,7 +9,7 @@ import { IAccountQuery } from './interfaces/IAccountQuery';
 
 @injectable()
 export class AccountQuery implements IAccountQuery {
-  private accountQuery: IAccountQuery;
+  private readonly accountQuery: IAccountQuery;
 
   public constructor(@inject(TYPE.AccountMySQLQuery) accountQuery: IAccountQuery) {
     this.accountQuery = accountQuery;

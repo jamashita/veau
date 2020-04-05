@@ -1,7 +1,7 @@
 import IORedis from 'ioredis';
 
 export class RedisList {
-  private client: IORedis.Redis;
+  private readonly client: IORedis.Redis;
 
   public constructor(client: IORedis.Redis) {
     this.client = client;

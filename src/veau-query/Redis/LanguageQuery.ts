@@ -15,7 +15,7 @@ const REDIS_KEY: string = 'LANGUAGES';
 
 @injectable()
 export class LanguageQuery implements ILanguageQuery {
-  private redis: Redis;
+  private readonly redis: Redis;
 
   public constructor(@inject(TYPE.Redis) redis: Redis) {
     this.redis = redis;

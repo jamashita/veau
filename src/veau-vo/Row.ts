@@ -7,7 +7,7 @@ import { ValueObject } from '../veau-general/ValueObject';
 
 export class Row extends ValueObject {
   public readonly noun: 'Row' = 'Row';
-  private row: number;
+  private readonly row: number;
 
   public static of(row: number): Try<Row, RowError> {
     if (row < 0) {

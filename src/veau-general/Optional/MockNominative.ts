@@ -3,7 +3,7 @@ import { Primitive } from '../Type/Primitive';
 
 export class MockNominative implements Nominative {
   public readonly noun: 'MockNominative' = 'MockNominative';
-  private value: Primitive;
+  private readonly value: Primitive;
 
   public static of(value: Primitive): MockNominative {
     return new MockNominative(value);

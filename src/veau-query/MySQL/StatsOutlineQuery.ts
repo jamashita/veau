@@ -12,7 +12,7 @@ import { IStatsOutlineQuery } from '../interfaces/IStatsOutlineQuery';
 
 @injectable()
 export class StatsOutlineQuery implements IStatsOutlineQuery {
-  private mysql: MySQL;
+  private readonly mysql: MySQL;
 
   public constructor(@inject(TYPE.MySQL) mysql: MySQL) {
     this.mysql = mysql;

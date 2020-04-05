@@ -14,7 +14,7 @@ const DURATION: number = 3 * 60 * 60;
 
 @injectable()
 export class RegionCommand implements IRegionCommand {
-  private redis: Redis;
+  private readonly redis: Redis;
 
   public constructor(@inject(TYPE.Redis) redis: Redis) {
     this.redis = redis;
