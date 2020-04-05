@@ -4,6 +4,7 @@ import log4js from 'log4js';
 import { container } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
 import { CacheError } from '../../veau-error/CacheError';
+import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { JSONable } from '../../veau-general/JSONable';
 import { Try } from '../../veau-general/Try/Try';
 import { LocaleInteractor } from '../../veau-interactor/LocaleInteractor';
@@ -16,9 +17,15 @@ const authenticationMiddleware: AuthenticationMiddleware = container.get<Authent
 const localeInteractor: LocaleInteractor = container.get<LocaleInteractor>(TYPE.LocaleInteractor);
 
 router.get('/', async (req: express.Request, res: express.Response) => {
-  const locale: JSONable = await localeInteractor.all();
+  const trial: Try<JSONable, NoSuchElementError> = await localeInteractor.all();
 
-  res.status(OK).send(locale.toJSON());
+  trial.match<void>((locale: JSONable) => {
+    res.status(OK).send(locale.toJSON());
+  }, (err: CacheError) => {
+    logger.error(err.message);
+
+    res.sendStatus(INTERNAL_SERVER_ERROR);
+  });
 });
 
 router.delete('/', authenticationMiddleware.requires(), async (req: express.Request, res: express.Response) => {
