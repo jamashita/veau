@@ -1,8 +1,10 @@
 import 'jest';
 import sinon, { SinonSpy } from 'sinon';
+import { Try } from '../../Try/Try';
 import { MockNominative } from '../MockNominative';
 import { None } from '../None';
 import { Optional } from '../Optional';
+import { OptionalError } from '../OptionalError';
 import { Some } from '../Some';
 
 describe('Some', () => {
@@ -66,25 +68,29 @@ describe('Some', () => {
     });
   });
 
-  describe('ifPresentOrElse', () => {
-    it('present section will be invoked', () => {
+  describe('ifPresent', () => {
+    it('consumer will be invoked', () => {
       const some: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(1));
-      const v1: string = 'muchas frases';
-      const v2: string = 'muchas palabras';
       const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
-      const ret: string = some.ifPresentOrElse<string>((value: MockNominative) => {
+      some.ifPresent((value: MockNominative) => {
         spy1(value);
-        return v1;
-      }, () => {
-        spy2();
-        return v2;
       });
 
-      expect(ret).toEqual(v1);
       expect(spy1.calledWith(some.get())).toEqual(true);
-      expect(spy2.called).toEqual(false);
+    });
+  });
+
+  describe('ifPresentAsync', () => {
+    it('consumer will be invoked', async () => {
+      const some: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(1));
+      const spy1: SinonSpy = sinon.spy();
+
+      await some.ifPresentAsync(async (value: MockNominative) => {
+        spy1(value);
+      });
+
+      expect(spy1.calledWith(some.get())).toEqual(true);
     });
   });
 
@@ -103,6 +109,17 @@ describe('Some', () => {
       expect(optional.get().get()).toEqual(2);
     });
   });
+
+  describe('toTry', () => {
+    it('returns Success', () => {
+      const some: Some<MockNominative> = Some.of<MockNominative>(MockNominative.of(1));
+
+      const trial: Try<MockNominative, OptionalError> = some.toTry();
+
+      expect(trial.isSuccess()).toEqual(true);
+    });
+  });
+
 
   describe('equals', () => {
     it('values are the same, returns true', () => {

@@ -1,5 +1,6 @@
 import 'jest';
 import sinon, { SinonSpy } from 'sinon';
+import { Try } from '../../Try/Try';
 import { MockNominative } from '../MockNominative';
 import { None } from '../None';
 import { Optional } from '../Optional';
@@ -33,25 +34,29 @@ describe('None', () => {
     });
   });
 
-  describe('ifPresentOrElse', () => {
-    it('empty section will be invoked', () => {
+  describe('ifPresent', () => {
+    it('consumer will not be invoked', () => {
       const none: None<MockNominative> = None.of<MockNominative>();
-      const v1: string = 'muchas frases';
-      const v2: string = 'muchas palabras';
       const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
-      const ret: string = none.ifPresentOrElse<string>(() => {
+      none.ifPresent(() => {
         spy1();
-        return v1;
-      }, () => {
-        spy2();
-        return v2;
       });
 
-      expect(ret).toEqual(v2);
       expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+    });
+  });
+
+  describe('ifPresentAsync', () => {
+    it('consumer is not invoked', async () => {
+      const none: None<MockNominative> = None.of<MockNominative>();
+      const spy1: SinonSpy = sinon.spy();
+
+      await none.ifPresentAsync(async () => {
+        spy1();
+      });
+
+      expect(spy1.called).toEqual(false);
     });
   });
 
@@ -67,6 +72,16 @@ describe('None', () => {
 
       expect(spy.called).toEqual(false);
       expect(optional).toBeInstanceOf(None);
+    });
+  });
+
+  describe('toTry', () => {
+    it('returns Failure', () => {
+      const none: None<MockNominative> = None.of<MockNominative>();
+
+      const trial: Try<MockNominative, OptionalError> = none.toTry();
+
+      expect(trial.isFailure()).toEqual(true);
     });
   });
 

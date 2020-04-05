@@ -1,9 +1,12 @@
 import { Nominative } from '../Nominative';
+import { Success } from '../Try/Success';
+import { Try } from '../Try/Try';
 import { Function } from '../Type/Function';
 import { Predicate } from '../Type/Predicate';
 import { maybe } from './Maybe';
 import { None } from './None';
 import { Optional } from './Optional';
+import { OptionalError } from './OptionalError';
 
 export class Some<T extends Nominative> implements Optional<T> {
   private value: T;
@@ -28,9 +31,12 @@ export class Some<T extends Nominative> implements Optional<T> {
     return false;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public ifPresentOrElse<U>(present: Function<T, U>, empty: Function<void, unknown>): U {
-    return present(this.value);
+  public ifPresent(consumer: Function<T, void>): void {
+    consumer(this.value);
+  }
+
+  public ifPresentAsync(consumer: Function<T, Promise<void>>): Promise<void> {
+    return consumer(this.value);
   }
 
   public filter(predicate: Predicate<T>): Optional<T> {
@@ -45,6 +51,10 @@ export class Some<T extends Nominative> implements Optional<T> {
     const result: U = mapper(this.value);
 
     return maybe<U>(result);
+  }
+
+  public toTry(): Try<T, OptionalError> {
+    return Success.of<T, OptionalError>(this.value);
   }
 
   public equals(other: Optional<T>): boolean {

@@ -1,7 +1,9 @@
 import { Nominative } from '../Nominative';
+import { Try } from '../Try/Try';
 import { Function } from '../Type/Function';
 import { Predicate } from '../Type/Predicate';
 import { None } from './None';
+import { OptionalError } from './OptionalError';
 import { Some } from './Some';
 
 export interface Optional<T extends Nominative> extends Nominative {
@@ -12,11 +14,15 @@ export interface Optional<T extends Nominative> extends Nominative {
 
   isEmpty(): this is None<T>;
 
-  ifPresentOrElse<U>(present: Function<T, U>, empty: Function<void, U>): U;
+  ifPresent(consumer: Function<T, void>): void;
+
+  ifPresentAsync(consumer: Function<T, Promise<void>>): Promise<void>;
 
   filter(predicate: Predicate<T>): Optional<T>;
 
   map<U extends Nominative>(mapper: Function<T, U>): Optional<U>;
 
   equals(other: Optional<T>): boolean;
+
+  toTry(): Try<T, OptionalError>;
 }

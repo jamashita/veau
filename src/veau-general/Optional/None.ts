@@ -1,4 +1,6 @@
 import { Nominative } from '../Nominative';
+import { Failure } from '../Try/Failure';
+import { Try } from '../Try/Try';
 import { Function } from '../Type/Function';
 import { Predicate } from '../Type/Predicate';
 import { Optional } from './Optional';
@@ -26,8 +28,13 @@ export class None<T extends Nominative> implements Optional<T> {
     return true;
   }
 
-  public ifPresentOrElse<U>(present: Function<T, unknown>, empty: Function<void, U>): U {
-    return empty();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-function
+  public ifPresent(consumer: Function<T, void>): void {
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public ifPresentAsync(consumer: Function<T, Promise<void>>): Promise<void> {
+    return Promise.resolve<void>(undefined);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -38,6 +45,10 @@ export class None<T extends Nominative> implements Optional<T> {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public map<U extends Nominative>(mapper: Function<T, U>): Optional<U> {
     return None.of<U>();
+  }
+
+  public toTry(): Try<T, OptionalError> {
+    return Failure.of<T, OptionalError>(new OptionalError('IS NOT PRESENT'));
   }
 
   public equals(other: Optional<T>): boolean {
