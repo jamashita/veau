@@ -4,8 +4,8 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { container } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
 import { CacheError } from '../../veau-error/CacheError';
-import { Redis } from '../../veau-general/Redis/Redis';
-import { RedisString } from '../../veau-general/Redis/RedisString';
+import { Failure } from '../../veau-general/Try/Failure';
+import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language } from '../../veau-vo/Language';
@@ -13,6 +13,7 @@ import { LanguageID } from '../../veau-vo/LanguageID';
 import { LanguageName } from '../../veau-vo/LanguageName';
 import { Languages } from '../../veau-vo/Languages';
 import { LanguageCommand } from '../LanguageCommand';
+import { LanguageCommand as LanguageRedisCommand } from '../Redis/LanguageCommand';
 
 describe('LanguageCommand', () => {
   describe('container', () => {
@@ -27,42 +28,41 @@ describe('LanguageCommand', () => {
 
   describe('insertAll', () => {
     it('normal case', async () => {
-      const stub1: SinonStub = sinon.stub();
-      RedisString.prototype.set = stub1;
-      stub1.resolves();
-      const stub2: SinonStub = sinon.stub();
-      Redis.prototype.expires = stub2;
-      stub2.resolves();
+      const stub: SinonStub = sinon.stub();
+      LanguageRedisCommand.prototype.insertAll = stub;
+      stub.resolves();
 
       const languages: Languages = Languages.of([
         Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english 1'), ISO639.of('aa'))
       ]);
 
       const languageCommand: LanguageCommand = container.get<LanguageCommand>(TYPE.LanguageCommand);
-      await languageCommand.insertAll(languages);
 
-      expect(stub1.withArgs('LANGUAGES', '[{"languageID":1,"name":"language 1","englishName":"english 1","iso639":"aa"}]').called).toEqual(true);
-      expect(stub2.withArgs('LANGUAGES', 3 * 60 * 60).called).toEqual(true);
+      try {
+        await languageCommand.insertAll(languages);
+      }
+      catch (err) {
+        fail(err);
+      }
     });
   });
 
   describe('deleteAll', () => {
     it('normal case', async () => {
       const stub: SinonStub = sinon.stub();
-      Redis.prototype.delete = stub;
-      stub.resolves(true);
+      LanguageRedisCommand.prototype.deleteAll = stub;
+      stub.resolves(Success.of<void, CacheError>(undefined));
 
       const languageCommand: LanguageCommand = container.get<LanguageCommand>(TYPE.LanguageCommand);
       const trial: Try<void, CacheError> = await languageCommand.deleteAll();
 
       expect(trial.isSuccess()).toEqual(true);
-      expect(stub.withArgs('LANGUAGES').called).toEqual(true);
     });
 
     it('throws CacheError', async () => {
       const stub: SinonStub = sinon.stub();
-      Redis.prototype.delete = stub;
-      stub.resolves(false);
+      LanguageRedisCommand.prototype.deleteAll = stub;
+      stub.resolves(Failure.of<void, CacheError>(new CacheError('test failed')));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
