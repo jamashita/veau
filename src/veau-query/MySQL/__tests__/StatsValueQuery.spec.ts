@@ -1,6 +1,6 @@
 import 'jest';
 import 'reflect-metadata';
-import sinon, { SinonStub } from 'sinon';
+import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { container } from '../../../veau-container/Container';
 import { TYPE } from '../../../veau-container/Types';
 import { StatsValuesError } from '../../../veau-error/StatsValuesError';
@@ -56,6 +56,8 @@ describe('StatsValueQuery', () => {
 
       const statsValueQuery: StatsValueQuery = container.get<StatsValueQuery>(TYPE.StatsValueMySQLQuery);
       const trial: Try<StatsValues, StatsValuesError> = await statsValueQuery.findByStatsID(StatsID.of('d4703058-a6ff-420b-95b2-4475beba9027').get());
+
+      expect(trial.isSuccess()).toEqual(true);
       const values: StatsValues = trial.get();
 
       const year2001: StatsValues = values.filter(StatsItemID.of('5318ad74-f15f-4835-9fd7-890be4cce933').get());
@@ -75,6 +77,54 @@ describe('StatsValueQuery', () => {
       expect(year2000.get(1).get().getValue().get()).toEqual(2);
       expect(year2000.get(2).get().getAsOf().toString()).toEqual('2000-01-03');
       expect(year2000.get(2).get().getValue().get()).toEqual(3);
+    });
+
+    it('returns Failure when statsItemID is malformat', async () => {
+      const stub: SinonStub = sinon.stub();
+      MySQL.prototype.execute = stub;
+      stub.onCall(0).resolves([
+        {
+          statsItemID: '98d1e9b5-6b18-44de-b615-d8016f49977d',
+          asOf: '2000-01-01',
+          value: 1
+        },
+        {
+          statsItemID: '5318ad74-f15f-4835-9fd7-890be4cce933',
+          asOf: '2001-01-01',
+          value: 11
+        },
+        {
+          statsItemID: 'malformat uuid',
+          asOf: '2000-01-02',
+          value: 2
+        },
+        {
+          statsItemID: '5318ad74-f15f-4835-9fd7-890be4cce933',
+          asOf: '2001-01-02',
+          value: 12
+        },
+        {
+          statsItemID: '98d1e9b5-6b18-44de-b615-d8016f49977d',
+          asOf: '2000-01-03',
+          value: 3
+        }
+      ]);
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const statsValueQuery: StatsValueQuery = container.get<StatsValueQuery>(TYPE.StatsValueMySQLQuery);
+      const trial: Try<StatsValues, StatsValuesError> = await statsValueQuery.findByStatsID(StatsID.of('d4703058-a6ff-420b-95b2-4475beba9027').get());
+
+      expect(trial.isFailure()).toEqual(true);
+
+      trial.match<void>(() => {
+        spy1();
+      }, (err: StatsValuesError) => {
+        spy2();
+        expect(err).toBeInstanceOf(StatsValuesError);
+      });
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
   });
 });

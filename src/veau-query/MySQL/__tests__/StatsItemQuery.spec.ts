@@ -95,7 +95,7 @@ describe('StatsItemQuery', () => {
       expect(statsItems.get(2).get().getValues().size()).toEqual(0);
     });
 
-    it('statsItems\' statsItemID is malformat', async () => {
+    it('returns Failure when statsItems\' statsItemID is malformat', async () => {
       const statsID: string = '428a0978-5d01-4da6-96f3-f851cb18e935';
       const stub: SinonStub = sinon.stub();
       MySQL.prototype.execute = stub;
@@ -158,7 +158,7 @@ describe('StatsItemQuery', () => {
       expect(spy2.called).toEqual(true);
     });
 
-    it('statsValues\' statsItemID is malformat', async () => {
+    it('returns Failure when statsValues\' statsItemID is malformat', async () => {
       const statsID: string = '428a0978-5d01-4da6-96f3-f851cb18e935';
       const stub: SinonStub = sinon.stub();
       MySQL.prototype.execute = stub;
