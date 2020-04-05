@@ -7,6 +7,8 @@ import { ILanguageCommand } from './interfaces/ILanguageCommand';
 
 @injectable()
 export class LanguageCommand implements ILanguageCommand {
+  public readonly noun: 'LanguageCommand' = 'LanguageCommand';
+  public readonly source: 'Complex' = 'Complex';
   private readonly languageCommand: ILanguageCommand;
 
   public constructor(@inject(TYPE.LanguageRedisCommand) languageCommand: ILanguageCommand) {

@@ -8,12 +8,15 @@ import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
 import { Regions } from '../../veau-vo/Regions';
 import { IRegionCommand } from '../interfaces/IRegionCommand';
+import { RedisCommand } from './RedisCommand';
 
 const REDIS_KEY: string = 'REGIONS';
 const DURATION: number = 3 * 60 * 60;
 
 @injectable()
-export class RegionCommand implements IRegionCommand {
+export class RegionCommand implements IRegionCommand, RedisCommand {
+  public readonly noun: 'RegionCommand' = 'RegionCommand';
+  public readonly source: 'Redis' = 'Redis';
   private readonly redis: Redis;
 
   public constructor(@inject(TYPE.Redis) redis: Redis) {

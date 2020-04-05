@@ -7,6 +7,8 @@ import { IRegionCommand } from './interfaces/IRegionCommand';
 
 @injectable()
 export class RegionCommand implements IRegionCommand {
+  public readonly noun: 'RegionCommand' = 'RegionCommand';
+  public readonly source: 'Complex' = 'Complex';
   private regionCommand: IRegionCommand;
 
   public constructor(@inject(TYPE.RegionRedisCommand) regionCommand: IRegionCommand) {

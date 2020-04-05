@@ -2,8 +2,11 @@ import { StatsItem } from '../../veau-entity/StatsItem';
 import { IQuery } from '../../veau-general/MySQL/IQuery';
 import { StatsID } from '../../veau-vo/StatsID';
 import { IStatsItemCommand } from '../interfaces/IStatsItemCommand';
+import { MySQLCommand } from './MySQLCommand';
 
-export class StatsItemCommand implements IStatsItemCommand {
+export class StatsItemCommand implements IStatsItemCommand, MySQLCommand {
+  public readonly noun: 'StatsItemCommand' = 'StatsItemCommand';
+  public readonly source: 'MySQL' = 'MySQL';
   private readonly query: IQuery;
 
   public static of(query: IQuery): StatsItemCommand {

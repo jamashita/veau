@@ -3,8 +3,11 @@ import { IQuery } from '../../veau-general/MySQL/IQuery';
 import { StatsID } from '../../veau-vo/StatsID';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { IStatsCommand } from '../interfaces/IStatsCommand';
+import { MySQLCommand } from './MySQLCommand';
 
-export class StatsCommand implements IStatsCommand {
+export class StatsCommand implements IStatsCommand, MySQLCommand {
+  public readonly noun: 'StatsCommand' = 'StatsCommand';
+  public readonly source: 'MySQL' = 'MySQL';
   private readonly query: IQuery;
 
   public static of(query: IQuery): StatsCommand {
