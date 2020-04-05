@@ -123,6 +123,7 @@ describe('StatsValueQuery', () => {
         spy2();
         expect(err).toBeInstanceOf(StatsValuesError);
       });
+
       expect(spy1.called).toEqual(false);
       expect(spy2.called).toEqual(true);
     });

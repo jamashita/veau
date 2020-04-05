@@ -45,6 +45,7 @@ describe('SessionCommand', () => {
         spy2();
         expect(err).toBeInstanceOf(AJAXError);
       });
+
       expect(spy1.called).toEqual(false);
       expect(spy2.called).toEqual(true);
     });

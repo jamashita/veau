@@ -35,6 +35,7 @@ describe('LocaleQuery', () => {
         spy2();
         expect(err).toBeInstanceOf(AJAXError);
       });
+
       expect(spy1.called).toEqual(false);
       expect(spy2.called).toEqual(true);
     });
@@ -279,6 +280,7 @@ describe('LocaleQuery', () => {
         spy2();
         expect(err).toBeInstanceOf(NoSuchElementError);
       });
+
       expect(spy1.called).toEqual(false);
       expect(spy2.called).toEqual(true);
     });

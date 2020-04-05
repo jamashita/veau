@@ -132,6 +132,7 @@ describe('StatsOutlineQuery', () => {
         spy2();
         expect(err).toBeInstanceOf(StatsOutlinesError);
       });
+
       expect(spy1.called).toEqual(false);
       expect(spy2.called).toEqual(true);
     });

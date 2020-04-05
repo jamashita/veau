@@ -105,6 +105,7 @@ describe('StatsCommand', () => {
         expect(err).toBeInstanceOf(AJAXError);
         spy2();
       });
+
       expect(spy1.called).toEqual(false);
       expect(spy2.called).toEqual(true);
     });
