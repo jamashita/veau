@@ -12,7 +12,7 @@ import { StatsInteractor } from '../veau-interactor/StatsInteractor';
 import { AccountQuery } from '../veau-query/AccountQuery';
 import { LanguageQuery } from '../veau-query/LanguageQuery';
 import { LanguageRedisQuery } from '../veau-query/LanguageRedisQuery';
-import { LanguageMySQLQuery } from '../veau-query/MySQL/LanguageMySQLQuery';
+import { LanguageQuery as LanguageMySQLQuery } from '../veau-query/MySQL/LanguageQuery';
 import { RegionMySQLQuery } from '../veau-query/RegionMySQLQuery';
 import { RegionQuery } from '../veau-query/RegionQuery';
 import { StatsItemQuery } from '../veau-query/StatsItemQuery';

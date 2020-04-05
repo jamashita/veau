@@ -9,15 +9,15 @@ import { Try } from '../../../veau-general/Try/Try';
 import { ISO639 } from '../../../veau-vo/ISO639';
 import { Language } from '../../../veau-vo/Language';
 import { Languages } from '../../../veau-vo/Languages';
-import { LanguageMySQLQuery } from '../LanguageMySQLQuery';
+import { LanguageQuery } from '../LanguageQuery';
 
-describe('LanguageMySQLQuery', () => {
+describe('LanguageQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const languageQuery1: LanguageMySQLQuery = container.get<LanguageMySQLQuery>(TYPE.LanguageMySQLQuery);
-      const languageQuery2: LanguageMySQLQuery = container.get<LanguageMySQLQuery>(TYPE.LanguageMySQLQuery);
+      const languageQuery1: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageMySQLQuery);
+      const languageQuery2: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageMySQLQuery);
 
-      expect(languageQuery1).toBeInstanceOf(LanguageMySQLQuery);
+      expect(languageQuery1).toBeInstanceOf(LanguageQuery);
       expect(languageQuery1).toBe(languageQuery2);
     });
   });
@@ -41,7 +41,7 @@ describe('LanguageMySQLQuery', () => {
         }
       ]);
 
-      const languageQuery: LanguageMySQLQuery = container.get<LanguageMySQLQuery>(TYPE.LanguageMySQLQuery);
+      const languageQuery: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageMySQLQuery);
       const trial: Try<Languages, NoSuchElementError> = await languageQuery.all();
 
       expect(trial.isSuccess()).toEqual(true);
@@ -74,7 +74,7 @@ describe('LanguageMySQLQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const languageQuery: LanguageMySQLQuery = container.get<LanguageMySQLQuery>(TYPE.LanguageMySQLQuery);
+      const languageQuery: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageMySQLQuery);
       const trial: Try<Languages, NoSuchElementError> = await languageQuery.all();
 
       expect(trial.isFailure()).toEqual(true);
@@ -104,7 +104,7 @@ describe('LanguageMySQLQuery', () => {
         }
       ]);
 
-      const languageQuery: LanguageMySQLQuery = container.get<LanguageMySQLQuery>(TYPE.LanguageMySQLQuery);
+      const languageQuery: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageMySQLQuery);
       const trial: Try<Language, NoSuchElementError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(stub.withArgs(`SELECT
@@ -132,7 +132,7 @@ describe('LanguageMySQLQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const languageQuery: LanguageMySQLQuery = container.get<LanguageMySQLQuery>(TYPE.LanguageMySQLQuery);
+      const languageQuery: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageMySQLQuery);
       const trial: Try<Language, NoSuchElementError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(trial.isFailure()).toEqual(true);

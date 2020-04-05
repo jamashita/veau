@@ -11,7 +11,7 @@ import { Languages } from '../../veau-vo/Languages';
 import { ILanguageQuery } from '../ILanguageQuery';
 
 @injectable()
-export class LanguageMySQLQuery implements ILanguageQuery {
+export class LanguageQuery implements ILanguageQuery {
   private mysql: MySQL;
 
   public constructor(@inject(TYPE.MySQL) mysql: MySQL) {
