@@ -81,6 +81,7 @@ describe('LanguageQuery', () => {
       expect(language.getLanguageID().get()).toEqual(2);
       expect(language.getName().get()).toEqual('Afaraf');
       expect(language.getEnglishName().get()).toEqual('Afar');
+      expect(language.getISO639().get()).toEqual('aa');
     });
 
     it('Redis returns empty array', async () => {
