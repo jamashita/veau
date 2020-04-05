@@ -1,6 +1,6 @@
 import { ValueObject } from '../veau-general/ValueObject';
 
-export class RegionName extends  ValueObject {
+export class RegionName extends ValueObject {
   private name: string;
 
   public static of(name: string): RegionName {

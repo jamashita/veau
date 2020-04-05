@@ -5,7 +5,7 @@ import { TYPE } from '../veau-container/Types';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { Digest } from '../veau-general/Digest';
 import { Try } from '../veau-general/Try/Try';
-import { IAccountQuery } from '../veau-query/interfaces/IAccountQuery';
+import { AccountQuery } from '../veau-query/AccountQuery';
 import { Account } from '../veau-vo/Account';
 import { AccountName } from '../veau-vo/AccountName';
 import { Password } from '../veau-vo/Password';
@@ -17,9 +17,9 @@ const DUMMY_HASH: string = '$2b$14$iyzp4FTxFklmPUjQMaNYcOO4Svv6kBEtphNseTlhWQ/Sx
 
 @injectable()
 export class AuthenticationInteractor {
-  public accountQuery: IAccountQuery;
+  public accountQuery: AccountQuery;
 
-  public constructor(@inject(TYPE.AccountQuery) accountQuery: IAccountQuery) {
+  public constructor(@inject(TYPE.AccountQuery) accountQuery: AccountQuery) {
     this.accountQuery = accountQuery;
   }
 

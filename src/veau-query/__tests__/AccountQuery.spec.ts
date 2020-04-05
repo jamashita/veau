@@ -21,14 +21,13 @@ import { RegionID } from '../../veau-vo/RegionID';
 import { RegionName } from '../../veau-vo/RegionName';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { AccountQuery } from '../AccountQuery';
-import { IAccountQuery } from '../interfaces/IAccountQuery';
 import { AccountQuery as AccountMySQLQuery } from '../MySQL/AccountQuery';
 
 describe('AccountQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const accountQuery1: IAccountQuery = container.get<IAccountQuery>(TYPE.AccountQuery);
-      const accountQuery2: IAccountQuery = container.get<IAccountQuery>(TYPE.AccountQuery);
+      const accountQuery1: AccountQuery = container.get<AccountQuery>(TYPE.AccountQuery);
+      const accountQuery2: AccountQuery = container.get<AccountQuery>(TYPE.AccountQuery);
 
       expect(accountQuery1).toBeInstanceOf(AccountQuery);
       expect(accountQuery1).toBe(accountQuery2);
@@ -47,7 +46,7 @@ describe('AccountQuery', () => {
         Hash.of('hash')
       )));
 
-      const accountQuery: IAccountQuery = container.get<IAccountQuery>(TYPE.AccountQuery);
+      const accountQuery: AccountQuery = container.get<AccountQuery>(TYPE.AccountQuery);
       const name: AccountName = AccountName.of('account');
       const trial: Try<Account, NoSuchElementError | AccountError> = await accountQuery.findByAccount(name);
 
@@ -72,7 +71,7 @@ describe('AccountQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const accountQuery: IAccountQuery = container.get<IAccountQuery>(TYPE.AccountQuery);
+      const accountQuery: AccountQuery = container.get<AccountQuery>(TYPE.AccountQuery);
       const name: AccountName = AccountName.of('account');
       const trial: Try<Account, NoSuchElementError | AccountError> = await accountQuery.findByAccount(name);
 
@@ -95,7 +94,7 @@ describe('AccountQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const accountQuery: IAccountQuery = container.get<IAccountQuery>(TYPE.AccountQuery);
+      const accountQuery: AccountQuery = container.get<AccountQuery>(TYPE.AccountQuery);
       const name: AccountName = AccountName.of('account');
       const trial: Try<Account, NoSuchElementError | AccountError> = await accountQuery.findByAccount(name);
 

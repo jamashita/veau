@@ -89,7 +89,7 @@ describe('AccountQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const accountQuery: AccountQuery = container.get<AccountQuery>(TYPE.AccountQuery);
+      const accountQuery: AccountQuery = container.get<AccountQuery>(TYPE.AccountMySQLQuery);
       const name: AccountName = AccountName.of('account');
       const trial: Try<Account, NoSuchElementError | AccountError> = await accountQuery.findByAccount(name);
 
@@ -125,7 +125,7 @@ describe('AccountQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const accountQuery: AccountQuery = container.get<AccountQuery>(TYPE.AccountQuery);
+      const accountQuery: AccountQuery = container.get<AccountQuery>(TYPE.AccountMySQLQuery);
       const name: AccountName = AccountName.of('account');
       const trial: Try<Account, NoSuchElementError | AccountError> = await accountQuery.findByAccount(name);
 

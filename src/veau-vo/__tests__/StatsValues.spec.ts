@@ -63,7 +63,7 @@ describe('StatsValues', () => {
       const statsItemID: StatsItemID = StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
       const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
       const statsValue3: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-03').get(), NumericalValue.of(3));
-      const  statsValues: StatsValues = StatsValues.of([
+      const statsValues: StatsValues = StatsValues.of([
         statsValue1,
         statsValue3
       ]);
