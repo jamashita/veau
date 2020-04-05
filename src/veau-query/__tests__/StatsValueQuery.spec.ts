@@ -4,18 +4,23 @@ import sinon, { SinonStub } from 'sinon';
 import { container } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
 import { StatsValuesError } from '../../veau-error/StatsValuesError';
-import { MySQL } from '../../veau-general/MySQL/MySQL';
+import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
+import { AsOf } from '../../veau-vo/AsOf';
+import { NumericalValue } from '../../veau-vo/NumericalValue';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
+import { StatsValue } from '../../veau-vo/StatsValue';
 import { StatsValues } from '../../veau-vo/StatsValues';
+import { IStatsValueQuery } from '../interfaces/IStatsValueQuery';
+import { StatsValueQuery as StatsValueMySQLQuery } from '../MySQL/StatsValueQuery';
 import { StatsValueQuery } from '../StatsValueQuery';
 
 describe('StatsValueQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const statsValueQuery1: StatsValueQuery = container.get<StatsValueQuery>(TYPE.StatsValueQuery);
-      const statsValueQuery2: StatsValueQuery = container.get<StatsValueQuery>(TYPE.StatsValueQuery);
+      const statsValueQuery1: IStatsValueQuery = container.get<IStatsValueQuery>(TYPE.StatsValueQuery);
+      const statsValueQuery2: IStatsValueQuery = container.get<IStatsValueQuery>(TYPE.StatsValueQuery);
 
       expect(statsValueQuery1).toBeInstanceOf(StatsValueQuery);
       expect(statsValueQuery1).toBe(statsValueQuery2);
@@ -25,37 +30,19 @@ describe('StatsValueQuery', () => {
   describe('findByStatsID', () => {
     it('normal case', async () => {
       const stub: SinonStub = sinon.stub();
-      MySQL.prototype.execute = stub;
-      stub.onCall(0).resolves([
-        {
-          statsItemID: '98d1e9b5-6b18-44de-b615-d8016f49977d',
-          asOf: '2000-01-01',
-          value: 1
-        },
-        {
-          statsItemID: '5318ad74-f15f-4835-9fd7-890be4cce933',
-          asOf: '2001-01-01',
-          value: 11
-        },
-        {
-          statsItemID: '98d1e9b5-6b18-44de-b615-d8016f49977d',
-          asOf: '2000-01-02',
-          value: 2
-        },
-        {
-          statsItemID: '5318ad74-f15f-4835-9fd7-890be4cce933',
-          asOf: '2001-01-02',
-          value: 12
-        },
-        {
-          statsItemID: '98d1e9b5-6b18-44de-b615-d8016f49977d',
-          asOf: '2000-01-03',
-          value: 3
-        }
-      ]);
+      StatsValueMySQLQuery.prototype.findByStatsID = stub;
+      stub.resolves(Success.of<StatsValues, StatsValuesError>(StatsValues.of([
+        StatsValue.of(StatsItemID.of('98d1e9b5-6b18-44de-b615-d8016f49977d').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1)),
+        StatsValue.of(StatsItemID.of('5318ad74-f15f-4835-9fd7-890be4cce933').get(), AsOf.ofString('2001-01-01').get(), NumericalValue.of(11)),
+        StatsValue.of(StatsItemID.of('98d1e9b5-6b18-44de-b615-d8016f49977d').get(), AsOf.ofString('2000-01-02').get(), NumericalValue.of(2)),
+        StatsValue.of(StatsItemID.of('5318ad74-f15f-4835-9fd7-890be4cce933').get(), AsOf.ofString('2001-01-02').get(), NumericalValue.of(12)),
+        StatsValue.of(StatsItemID.of('98d1e9b5-6b18-44de-b615-d8016f49977d').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(3)),
+      ])));
 
       const statsValueQuery: StatsValueQuery = container.get<StatsValueQuery>(TYPE.StatsValueQuery);
       const trial: Try<StatsValues, StatsValuesError> = await statsValueQuery.findByStatsID(StatsID.of('d4703058-a6ff-420b-95b2-4475beba9027').get());
+
+      expect(trial.isSuccess()).toEqual(true);
       const values: StatsValues = trial.get();
 
       const year2001: StatsValues = values.filter(StatsItemID.of('5318ad74-f15f-4835-9fd7-890be4cce933').get());

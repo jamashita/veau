@@ -13,6 +13,7 @@ import { AccountQuery } from '../veau-query/AccountQuery';
 import { IAccountQuery } from '../veau-query/interfaces/IAccountQuery';
 import { ILanguageQuery } from '../veau-query/interfaces/ILanguageQuery';
 import { IRegionQuery } from '../veau-query/interfaces/IRegionQuery';
+import { IStatsValueQuery } from '../veau-query/interfaces/IStatsValueQuery';
 import { LanguageQuery } from '../veau-query/LanguageQuery';
 import { AccountQuery as AccountMySQLQuery } from '../veau-query/MySQL/AccountQuery';
 import { LanguageQuery as LanguageMySQLQuery } from '../veau-query/MySQL/LanguageQuery';
@@ -40,6 +41,7 @@ container.bind<StatsInteractor>(TYPE.StatsInteractor).to(StatsInteractor).inSing
 container.bind<IAccountQuery>(TYPE.AccountQuery).to(AccountQuery).inSingletonScope();
 container.bind<ILanguageQuery>(TYPE.LanguageQuery).to(LanguageQuery).inSingletonScope();
 container.bind<IRegionQuery>(TYPE.RegionQuery).to(RegionQuery).inSingletonScope();
+container.bind<IStatsValueQuery>(TYPE.StatsValueQuery).to(StatsValueQuery).inSingletonScope();
 container.bind<AccountMySQLQuery>(TYPE.AccountMySQLQuery).to(AccountMySQLQuery).inSingletonScope();
 container.bind<LanguageMySQLQuery>(TYPE.LanguageMySQLQuery).to(LanguageMySQLQuery).inSingletonScope();
 container.bind<RegionMySQLQuery>(TYPE.RegionMySQLQuery).to(RegionMySQLQuery).inSingletonScope();
@@ -49,4 +51,3 @@ container.bind<RegionRedisQuery>(TYPE.RegionRedisQuery).to(RegionRedisQuery).inS
 container.bind<StatsItemQuery>(TYPE.StatsItemQuery).to(StatsItemQuery).inSingletonScope();
 container.bind<StatsOutlineQuery>(TYPE.StatsOutlineQuery).to(StatsOutlineQuery).inSingletonScope();
 container.bind<StatsQuery>(TYPE.StatsQuery).to(StatsQuery).inSingletonScope();
-container.bind<StatsValueQuery>(TYPE.StatsValueQuery).to(StatsValueQuery).inSingletonScope();
