@@ -2,67 +2,64 @@ import { inject, injectable } from 'inversify';
 import { RegionCommand } from '../veau-command/RegionCommand';
 import { TYPE } from '../veau-container/Types';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
-import { JSONA } from '../veau-general/JSONA';
-import { MySQL } from '../veau-general/MySQL/MySQL';
-import { Redis } from '../veau-general/Redis/Redis';
 import { Failure } from '../veau-general/Try/Failure';
 import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
 import { ISO3166 } from '../veau-vo/ISO3166';
-import { Region, RegionJSON, RegionRow } from '../veau-vo/Region';
+import { Region } from '../veau-vo/Region';
 import { Regions } from '../veau-vo/Regions';
-
-const REDIS_KEY: string = 'REGIONS';
+import { IRegionQuery } from './IRegionQuery';
+import { RegionQuery as RegionMySQLQuery } from './MySQL/RegionQuery';
+import { RegionQuery as RegionRedisQuery } from './Redis/RegionQuery';
 
 @injectable()
-export class RegionQuery {
-  private mysql: MySQL;
-  private redis: Redis;
+export class RegionQuery implements IRegionQuery {
+  private regionMySQLQuery: RegionMySQLQuery;
+  private regionRedisQuery: RegionRedisQuery;
   private regionCommand: RegionCommand;
 
-  public constructor(@inject(TYPE.MySQL) mysql: MySQL,
-    @inject(TYPE.Redis) redis: Redis,
+  public constructor(@inject(TYPE.RegionMySQLQuery) regionMySQLQuery: RegionMySQLQuery,
+    @inject(TYPE.RegionRedisQuery) regionRedisQuery: RegionRedisQuery,
     @inject(TYPE.RegionCommand) regionCommand: RegionCommand
   ) {
-    this.mysql = mysql;
-    this.redis = redis;
+    this.regionMySQLQuery = regionMySQLQuery;
+    this.regionRedisQuery = regionRedisQuery;
     this.regionCommand = regionCommand;
   }
 
-  public async all(): Promise<Regions> {
-    const regionString: string | null = await this.redis.getString().get(REDIS_KEY);
+  public async all(): Promise<Try<Regions, NoSuchElementError>> {
+    const trial1: Try<Regions, NoSuchElementError> = await this.regionRedisQuery.all();
 
-    if (regionString !== null) {
-      const regionJSONs: Array<RegionJSON> = await JSONA.parse<Array<RegionJSON>>(regionString);
-      return Regions.ofJSON(regionJSONs);
-    }
+    return trial1.match<Promise<Try<Regions, NoSuchElementError>>>((regions: Regions) => {
+      return Promise.resolve<Success<Regions, NoSuchElementError>>(Success.of<Regions, NoSuchElementError>(regions));
+    }, async () => {
+      const trial2: Try<Regions, NoSuchElementError> = await this.regionMySQLQuery.all();
 
-    const query: string = `SELECT
-      R1.region_id AS regionID,
-      R1.name,
-      R1.iso3166
-      FROM regions R1
-      FORCE INDEX(iso3166)
-      ORDER BY R1.iso3166;`;
+      return trial2.match<Promise<Try<Regions, NoSuchElementError>>>(async (regions: Regions) => {
+        await this.regionCommand.insertAll(regions);
 
-    const regionRows: Array<RegionRow> = await this.mysql.execute<Array<RegionRow>>(query);
-    const regions: Regions = Regions.ofRow(regionRows);
-
-    await this.regionCommand.insertAll(regions);
-
-    return regions;
+        return Success.of<Regions, NoSuchElementError>(regions);
+      }, (err: NoSuchElementError) => {
+        return Promise.resolve<Failure<Regions, NoSuchElementError>>(Failure.of<Regions, NoSuchElementError>(err));
+      });
+    });
   }
 
   public async findByISO3166(iso3166: ISO3166): Promise<Try<Region, NoSuchElementError>> {
-    const regions: Regions = await this.all();
-    const found: Region | undefined = regions.find((region: Region) => {
-      return region.getISO3166().equals(iso3166);
+    const trial: Try<Regions, NoSuchElementError> = await this.all();
+
+    return trial.match<Try<Region, NoSuchElementError>>((regions: Regions) => {
+      const found: Region | undefined = regions.find((region: Region) => {
+        return region.getISO3166().equals(iso3166);
+      });
+
+      if (found === undefined) {
+        return Failure.of<Region, NoSuchElementError>(new NoSuchElementError(iso3166.toString()));
+      }
+
+      return Success.of<Region, NoSuchElementError>(found);
+    }, (err: NoSuchElementError) => {
+      return Failure.of<Region, NoSuchElementError>(err);
     });
-
-    if (found === undefined) {
-      return Failure.of<Region, NoSuchElementError>(new NoSuchElementError(iso3166.toString()));
-    }
-
-    return Success.of<Region, NoSuchElementError>(found);
   }
 }

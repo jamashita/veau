@@ -10,6 +10,8 @@ import { AuthenticationInteractor } from '../veau-interactor/AuthenticationInter
 import { LocaleInteractor } from '../veau-interactor/LocaleInteractor';
 import { StatsInteractor } from '../veau-interactor/StatsInteractor';
 import { AccountQuery } from '../veau-query/AccountQuery';
+import { ILanguageQuery } from '../veau-query/ILanguageQuery';
+import { IRegionQuery } from '../veau-query/IRegionQuery';
 import { LanguageQuery } from '../veau-query/LanguageQuery';
 import { LanguageQuery as LanguageMySQLQuery } from '../veau-query/MySQL/LanguageQuery';
 import { RegionQuery as RegionMySQLQuery } from '../veau-query/MySQL/RegionQuery';
@@ -33,12 +35,12 @@ container.bind<AuthenticationInteractor>(TYPE.AuthenticationInteractor).to(Authe
 container.bind<LocaleInteractor>(TYPE.LocaleInteractor).to(LocaleInteractor).inSingletonScope();
 container.bind<StatsInteractor>(TYPE.StatsInteractor).to(StatsInteractor).inSingletonScope();
 container.bind<AccountQuery>(TYPE.AccountQuery).to(AccountQuery).inSingletonScope();
-container.bind<LanguageQuery>(TYPE.LanguageQuery).to(LanguageQuery).inSingletonScope();
+container.bind<ILanguageQuery>(TYPE.LanguageQuery).to(LanguageQuery).inSingletonScope();
+container.bind<IRegionQuery>(TYPE.RegionQuery).to(RegionQuery).inSingletonScope();
 container.bind<LanguageMySQLQuery>(TYPE.LanguageMySQLQuery).to(LanguageMySQLQuery).inSingletonScope();
 container.bind<RegionMySQLQuery>(TYPE.RegionMySQLQuery).to(RegionMySQLQuery).inSingletonScope();
 container.bind<LanguageRedisQuery>(TYPE.LanguageRedisQuery).to(LanguageRedisQuery).inSingletonScope();
 container.bind<RegionRedisQuery>(TYPE.RegionRedisQuery).to(RegionRedisQuery).inSingletonScope();
-container.bind<RegionQuery>(TYPE.RegionQuery).to(RegionQuery).inSingletonScope();
 container.bind<StatsItemQuery>(TYPE.StatsItemQuery).to(StatsItemQuery).inSingletonScope();
 container.bind<StatsOutlineQuery>(TYPE.StatsOutlineQuery).to(StatsOutlineQuery).inSingletonScope();
 container.bind<StatsQuery>(TYPE.StatsQuery).to(StatsQuery).inSingletonScope();

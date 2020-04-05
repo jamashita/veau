@@ -20,7 +20,7 @@ export class LanguageQuery implements ILanguageQuery {
 
   public constructor(@inject(TYPE.LanguageMySQLQuery) languageMySQLQuery: LanguageMySQLQuery,
    @inject(TYPE.LanguageRedisQuery) languageRedisQuery: LanguageRedisQuery,
-   @inject(TYPE.LanguageQuery) languageCommand: LanguageCommand
+   @inject(TYPE.LanguageCommand) languageCommand: LanguageCommand
   ) {
     this.languageMySQLQuery = languageMySQLQuery;
     this.languageRedisQuery = languageRedisQuery;
