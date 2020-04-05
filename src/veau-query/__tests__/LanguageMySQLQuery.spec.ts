@@ -42,7 +42,10 @@ describe('LanguageMySQLQuery', () => {
       ]);
 
       const languageQuery: LanguageMySQLQuery = container.get<LanguageMySQLQuery>(TYPE.LanguageMySQLQuery);
-      const languages: Languages = await languageQuery.all();
+      const trial: Try<Languages, NoSuchElementError> = await languageQuery.all();
+
+      expect(trial.isSuccess()).toEqual(true);
+      const languages: Languages = trial.get();
 
       expect(stub.withArgs(`SELECT
       R1.language_id AS languageID,
@@ -61,6 +64,30 @@ describe('LanguageMySQLQuery', () => {
       expect(languages.get(1).get().getName().get()).toEqual('Afaraf');
       expect(languages.get(1).get().getEnglishName().get()).toEqual('Afar');
       expect(languages.get(1).get().getISO639().get()).toEqual('aa');
+    });
+
+    it('returns Failure when MySQL returns empty array', async () => {
+      const stub: SinonStub = sinon.stub();
+      MySQL.prototype.execute = stub;
+      stub.resolves([
+      ]);
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const languageQuery: LanguageMySQLQuery = container.get<LanguageMySQLQuery>(TYPE.LanguageMySQLQuery);
+      const trial: Try<Languages, NoSuchElementError> = await languageQuery.all();
+
+      expect(trial.isFailure()).toEqual(true);
+
+      trial.match<void>(() => {
+        spy1();
+      }, (err: NoSuchElementError) => {
+        spy2();
+        expect(err).toBeInstanceOf(NoSuchElementError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
   });
 

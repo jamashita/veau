@@ -6,7 +6,7 @@ import { Languages } from '../veau-vo/Languages';
 
 export interface ILanguageQuery {
 
-  all(): Promise<Languages>;
+  all(): Promise<Try<Languages, NoSuchElementError>>;
 
   findByISO639(iso639: ISO639): Promise<Try<Language, NoSuchElementError>>;
 }

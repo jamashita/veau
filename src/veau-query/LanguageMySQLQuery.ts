@@ -18,7 +18,7 @@ export class LanguageMySQLQuery implements ILanguageQuery {
     this.mysql = mysql;
   }
 
-  public async all(): Promise<Languages> {
+  public async all(): Promise<Try<Languages, NoSuchElementError>> {
     const query: string = `SELECT
       R1.language_id AS languageID,
       R1.name,
@@ -30,7 +30,11 @@ export class LanguageMySQLQuery implements ILanguageQuery {
 
     const languageRows: Array<LanguageRow> = await this.mysql.execute<Array<LanguageRow>>(query);
 
-    return Languages.ofRow(languageRows);
+    if (languageRows.length === 0) {
+      return Failure.of<Languages, NoSuchElementError>(new NoSuchElementError('NO LANGUAGES FROM MYSQL'));
+    }
+
+    return Success.of<Languages, NoSuchElementError>(Languages.ofRow(languageRows));
   }
 
   public async findByISO639(iso639: ISO639): Promise<Try<Language, NoSuchElementError>> {

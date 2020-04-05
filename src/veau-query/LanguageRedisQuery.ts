@@ -21,29 +21,33 @@ export class LanguageRedisQuery implements ILanguageQuery {
     this.redis = redis;
   }
 
-  public async all(): Promise<Languages> {
+  public async all(): Promise<Try<Languages, NoSuchElementError>> {
     const languagesString: string | null = await this.redis.getString().get(REDIS_KEY);
 
     if (languagesString === null) {
-      return Languages.empty();
+      return Failure.of<Languages, NoSuchElementError>(new NoSuchElementError('NO LANGUAGES FROM REDIS'));
     }
 
     const languageJSONs: Array<LanguageJSON> = await JSONA.parse<Array<LanguageJSON>>(languagesString);
 
-    return Languages.ofJSON(languageJSONs);
+    return Success.of<Languages, NoSuchElementError>(Languages.ofJSON(languageJSONs));
   }
 
   public async findByISO639(iso639: ISO639): Promise<Try<Language, NoSuchElementError>> {
-    const languages: Languages = await this.all();
+    const trial: Try<Languages, NoSuchElementError> = await this.all();
 
-    const found: Language | undefined = languages.find((language: Language) => {
-      return language.getISO639().equals(iso639);
+    return trial.match<Try<Language, NoSuchElementError>>((languages: Languages) => {
+      const found: Language | undefined = languages.find((language: Language) => {
+        return language.getISO639().equals(iso639);
+      });
+
+      if (found === undefined) {
+        return Failure.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.toString()));
+      }
+
+      return Success.of<Language, NoSuchElementError>(found);
+    }, (err: NoSuchElementError) => {
+      return Failure.of<Language, NoSuchElementError>(err);
     });
-
-    if (found === undefined) {
-      return Failure.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.toString()));
-    }
-
-    return Success.of<Language, NoSuchElementError>(found);
   }
 }
