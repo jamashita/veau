@@ -8,7 +8,7 @@ import { Try } from '../../veau-general/Try/Try';
 export class SessionCommand {
 
   public async delete(): Promise<Try<void, AJAXError>> {
-    const response: AJAXResponse<unknown> = await AJAX.delete<unknown>('/api/destroy');;
+    const response: AJAXResponse<unknown> = await AJAX.delete<unknown>('/api/destroy');
 
     switch (response.status) {
       case OK: {

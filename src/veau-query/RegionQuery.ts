@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { RegionCommand } from '../veau-command/RegionCommand';
+import { IRegionCommand } from '../veau-command/interfaces/IRegionCommand';
 import { TYPE } from '../veau-container/Types';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { Failure } from '../veau-general/Try/Failure';
@@ -14,11 +14,11 @@ import { IRegionQuery } from './interfaces/IRegionQuery';
 export class RegionQuery implements IRegionQuery {
   private regionMySQLQuery: IRegionQuery;
   private regionRedisQuery: IRegionQuery;
-  private regionCommand: RegionCommand;
+  private regionCommand: IRegionCommand;
 
   public constructor(@inject(TYPE.RegionMySQLQuery) regionMySQLQuery: IRegionQuery,
     @inject(TYPE.RegionRedisQuery) regionRedisQuery: IRegionQuery,
-    @inject(TYPE.RegionCommand) regionCommand: RegionCommand
+    @inject(TYPE.RegionCommand) regionCommand: IRegionCommand
   ) {
     this.regionMySQLQuery = regionMySQLQuery;
     this.regionRedisQuery = regionRedisQuery;

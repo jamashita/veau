@@ -14,7 +14,7 @@ import { IStatsOutlineQuery } from '../interfaces/IStatsOutlineQuery';
 export class StatsOutlineQuery implements IStatsOutlineQuery {
   private mysql: MySQL;
 
-  public constructor(@inject(TYPE.MySQL)  mysql: MySQL) {
+  public constructor(@inject(TYPE.MySQL) mysql: MySQL) {
     this.mysql = mysql;
   }
 
