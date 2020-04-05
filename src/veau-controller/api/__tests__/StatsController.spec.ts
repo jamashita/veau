@@ -183,18 +183,10 @@ describe('StatsController', () => {
       });
     });
 
-    it('replies BAD_REQUEST when the id is not uuid format', async () => {
-      const app: express.Express = express();
-      app.use('/', StatsController);
-
-      const response: supertest.Response = await supertest(app).get('/not-uuid');
-      expect(response.status).toEqual(BAD_REQUEST);
-    });
-
     it('not found', async () => {
       const stub: SinonStub = sinon.stub();
       StatsInteractor.prototype.findByStatsID = stub;
-      stub.resolves(Failure.of<Stats, NotFoundError>(new NotFoundError('test faield')));
+      stub.resolves(Failure.of<Stats, NotFoundError>(new NotFoundError('test failed')));
       const app: express.Express = express();
       app.use('/', StatsController);
 

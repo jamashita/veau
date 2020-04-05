@@ -7,7 +7,6 @@ import { Stats } from '../../veau-entity/Stats';
 import { NotFoundError } from '../../veau-error/NotFoundError';
 import { PageError } from '../../veau-error/PageError';
 import { StatsError } from '../../veau-error/StatsError';
-import { StatsIDError } from '../../veau-error/StatsIDError';
 import { StatsOutlinesError } from '../../veau-error/StatsOutlinesError';
 import { JSONable } from '../../veau-general/JSONable';
 import { Try } from '../../veau-general/Try/Try';
@@ -43,29 +42,23 @@ router.get('/page/:page(\\d+)', authenticationMiddleware.requires(), async (req:
 });
 
 router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: express.Response) => {
-  await StatsID.of(req.params.statsID).match<Promise<void>>(async (statsID: StatsID) => {
-    const trial: Try<JSONable, NotFoundError | StatsError> = await statsInteractor.findByStatsID(statsID);
+  const statsID: StatsID = StatsID.of(req.params.statsID).get();
 
-    trial.match<void>((stats: JSONable) => {
-      res.status(OK).send(stats.toJSON());
-    }, (err: NotFoundError | StatsError) => {
-      if (err instanceof StatsError) {
-        logger.fatal(err.message);
+  const trial: Try<JSONable, NotFoundError | StatsError> = await statsInteractor.findByStatsID(statsID);
 
-        res.sendStatus(INTERNAL_SERVER_ERROR);
-        return;
-      }
+  trial.match<void>((stats: JSONable) => {
+    res.status(OK).send(stats.toJSON());
+  }, (err: NotFoundError | StatsError) => {
+    if (err instanceof StatsError) {
+      logger.fatal(err.message);
 
-      logger.warn(err.message);
+      res.sendStatus(INTERNAL_SERVER_ERROR);
+      return;
+    }
 
-      res.sendStatus(NOT_FOUND);
-    });
-  }, (err: StatsIDError) => {
     logger.warn(err.message);
 
-    res.sendStatus(BAD_REQUEST);
-
-    return Promise.resolve<void>(undefined);
+    res.sendStatus(NOT_FOUND);
   });
 });
 

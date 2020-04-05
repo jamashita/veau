@@ -38,7 +38,7 @@ describe('SessionQuery', () => {
       });
 
       const sessionQuery: SessionQuery = new SessionQuery();
-      const trial: Try<VeauAccount, VeauAccountError | AuthenticationFailureError | AJAXError> = await sessionQuery.find();
+      const trial: Try<VeauAccount, VeauAccountError | UnauthorizedError> = await sessionQuery.find();
 
       expect(stub.withArgs('/api/identity').called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
@@ -74,7 +74,7 @@ describe('SessionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const sessionQuery: SessionQuery = new SessionQuery();
-      const trial: Try<VeauAccount, VeauAccountError | AuthenticationFailureError | AJAXError> = await sessionQuery.find();
+      const trial: Try<VeauAccount, VeauAccountError | UnauthorizedError> = await sessionQuery.find();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -100,7 +100,7 @@ describe('SessionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const sessionQuery: SessionQuery = new SessionQuery();
-      const trial: Try<VeauAccount, VeauAccountError | AuthenticationFailureError | AJAXError> = await sessionQuery.find();
+      const trial: Try<VeauAccount, VeauAccountError | UnauthorizedError> = await sessionQuery.find();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
