@@ -1,6 +1,6 @@
 import { JSONable } from '../veau-general/JSONable';
 import { Optional } from '../veau-general/Optional/Optional';
-import { Serializable } from '../veau-general/Serializable';
+import { ValueObject } from '../veau-general/ValueObject';
 import { Language, LanguageJSON } from './Language';
 import { Languages } from './Languages';
 import { Region, RegionJSON } from './Region';
@@ -11,7 +11,8 @@ export type LocaleJSON = {
   regions: Array<RegionJSON>;
 };
 
-export class Locale implements JSONable, Serializable {
+export class Locale extends ValueObject implements JSONable {
+  public readonly noun: 'Locale' = 'Locale';
   private languages: Languages;
   private regions: Regions;
 
@@ -33,6 +34,7 @@ export class Locale implements JSONable, Serializable {
   }
 
   private constructor(languages: Languages, regions: Regions) {
+    super();
     this.languages = languages;
     this.regions = regions;
   }

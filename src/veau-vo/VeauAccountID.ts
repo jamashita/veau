@@ -6,6 +6,7 @@ import { UUID } from '../veau-general/UUID';
 import { ValueObject } from '../veau-general/ValueObject';
 
 export class VeauAccountID extends ValueObject {
+  public readonly noun: 'VeauAccountID' = 'VeauAccountID';
   private id: string;
 
   public static of(id: string): Try<VeauAccountID, VeauAccountIDError> {

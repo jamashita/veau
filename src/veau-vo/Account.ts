@@ -33,6 +33,7 @@ export type AccountRow = {
 };
 
 export class Account extends ValueObject {
+  public readonly noun: 'Account' = 'Account';
   private veauAccountID: VeauAccountID;
   private account: AccountName;
   private language: Language;

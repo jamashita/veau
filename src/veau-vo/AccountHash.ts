@@ -3,6 +3,7 @@ import { Hash } from './Hash';
 import { VeauAccountID } from './VeauAccountID';
 
 export class AccountHash extends ValueObject {
+  public readonly noun: 'AccountHash' = 'AccountHash';
   private veauAccountID: VeauAccountID;
   private hash: Hash;
 

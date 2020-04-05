@@ -20,6 +20,7 @@ export type LanguageRow = {
 };
 
 export class Language extends ValueObject implements JSONable {
+  public readonly noun: 'Language' = 'Language';
   private languageID: LanguageID;
   private name: LanguageName;
   private englishName: LanguageName;

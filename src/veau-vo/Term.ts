@@ -11,6 +11,7 @@ const QUARTERLY_ID: number = 4;
 const ANNUAL_ID: number = 5;
 
 export class Term extends ValueObject {
+  public readonly noun: 'Term' = 'Term';
   private id: number;
   private key: string;
 

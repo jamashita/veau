@@ -6,9 +6,8 @@ import { Some } from '../veau-general/Optional/Some';
 import { Mapper } from '../veau-general/Type/Mapper';
 import { StatsItemName } from './StatsItemName';
 
-export type StatsItemNamesJSON = Array<string>;
-
 export class StatsItemNames implements Collection<number, StatsItemName>, JSONable {
+  public readonly noun: 'StatsItemNames' = 'StatsItemNames';
   private names: Array<StatsItemName>;
 
   public static of(names: Array<StatsItemName>): StatsItemNames {
@@ -76,7 +75,7 @@ export class StatsItemNames implements Collection<number, StatsItemName>, JSONab
     return true;
   }
 
-  public toJSON(): StatsItemNamesJSON {
+  public toJSON(): Array<string> {
     return this.names.map<string>((name: StatsItemName) => {
       return name.get();
     });

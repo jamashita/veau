@@ -1,6 +1,7 @@
 import { ValueObject } from '../veau-general/ValueObject';
 
 export class Password extends ValueObject {
+  public readonly noun: 'Password' = 'Password';
   private password: string;
 
   public static of(password: string): Password {

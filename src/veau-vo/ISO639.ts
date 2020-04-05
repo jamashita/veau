@@ -1,6 +1,7 @@
 import { ValueObject } from '../veau-general/ValueObject';
 
 export class ISO639 extends ValueObject {
+  public readonly noun: 'ISO639' = 'ISO639';
   private iso639: string;
 
   public static of(iso639: string): ISO639 {

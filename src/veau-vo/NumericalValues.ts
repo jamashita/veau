@@ -5,6 +5,7 @@ import { Some } from '../veau-general/Optional/Some';
 import { NumericalValue } from './NumericalValue';
 
 export class NumericalValues implements Collection<number, NumericalValue> {
+  public readonly noun: 'NumericalValues' = 'NumericalValues';
   private values: Array<NumericalValue>;
 
   public static of(values: Array<NumericalValue>): NumericalValues {

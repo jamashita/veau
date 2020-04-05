@@ -9,6 +9,7 @@ import { Term } from './Term';
 const TERM_FORMAT: string = 'YYYY-MM-DD';
 
 export class AsOf extends ValueObject {
+  public readonly noun: 'AsOf' = 'AsOf';
   private asOf: moment.Moment;
 
   public static of(asOf: moment.Moment): AsOf {

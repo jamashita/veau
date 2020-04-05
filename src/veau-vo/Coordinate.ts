@@ -3,6 +3,7 @@ import { Column } from './Column';
 import { Row } from './Row';
 
 export class Coordinate extends ValueObject {
+  public readonly noun: 'Coordinate' = 'Coordinate';
   private row: Row;
   private column: Column;
 

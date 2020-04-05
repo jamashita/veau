@@ -1,6 +1,7 @@
 import { ValueObject } from '../veau-general/ValueObject';
 
 export class Hash extends ValueObject {
+  public readonly noun: 'Hash' = 'Hash';
   private hash: string;
 
   public static of(hash: string): Hash {

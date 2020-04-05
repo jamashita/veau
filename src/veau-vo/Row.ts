@@ -6,6 +6,7 @@ import { Type } from '../veau-general/Type/Type';
 import { ValueObject } from '../veau-general/ValueObject';
 
 export class Row extends ValueObject {
+  public readonly noun: 'Row' = 'Row';
   private row: number;
 
   public static of(row: number): Try<Row, RowError> {

@@ -6,6 +6,7 @@ import { Mapper } from '../veau-general/Type/Mapper';
 import { Term } from './Term';
 
 export class Terms implements Collection<number, Term> {
+  public readonly noun: 'Terms' = 'Terms';
   private terms: Array<Term>;
 
   public static all(): Terms {

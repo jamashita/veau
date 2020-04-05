@@ -23,6 +23,7 @@ export type StatsValueRow = {
 };
 
 export class StatsValue extends ValueObject implements JSONable {
+  public readonly noun: 'StatsValue' = 'StatsValue';
   private statsItemID: StatsItemID;
   private asOf: AsOf;
   private value: NumericalValue;

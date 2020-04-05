@@ -17,6 +17,7 @@ export type VeauAccountJSON = {
 };
 
 export class VeauAccount extends ValueObject implements JSONable {
+  public readonly noun: 'VeauAccount' = 'VeauAccount';
   private veauAccountID: VeauAccountID;
   private account: AccountName;
   private language: Language;

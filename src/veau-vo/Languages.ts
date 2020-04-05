@@ -8,6 +8,7 @@ import { Predicate } from '../veau-general/Type/Predicate';
 import { Language, LanguageJSON, LanguageRow } from './Language';
 
 export class Languages implements Collection<number, Language>, JSONable {
+  public readonly noun: 'Languages' = 'Languages';
   private languages: Array<Language>;
 
   public static of(languages: Array<Language>): Languages {

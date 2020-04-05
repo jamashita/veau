@@ -1,6 +1,7 @@
 import { ValueObject } from '../veau-general/ValueObject';
 
 export class LanguageName extends ValueObject {
+  public readonly noun: 'LanguageName' = 'LanguageName';
   private name: string;
 
   public static of(name: string): LanguageName {

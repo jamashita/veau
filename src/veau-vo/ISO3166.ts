@@ -1,6 +1,7 @@
 import { ValueObject } from '../veau-general/ValueObject';
 
 export class ISO3166 extends ValueObject {
+  public readonly noun: 'ISO3166' = 'ISO3166';
   private iso3166: string;
 
   public static of(iso3166: string): ISO3166 {

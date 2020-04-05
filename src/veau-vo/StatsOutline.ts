@@ -48,6 +48,7 @@ export type StatsOutlineRow = {
 };
 
 export class StatsOutline extends ValueObject implements JSONable, Cloneable {
+  public readonly noun: 'StatsOutline' = 'StatsOutline';
   private statsID: StatsID;
   private language: Language;
   private region: Region;

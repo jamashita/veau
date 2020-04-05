@@ -6,6 +6,7 @@ import { Type } from '../veau-general/Type/Type';
 import { ValueObject } from '../veau-general/ValueObject';
 
 export class Limit extends ValueObject {
+  public readonly noun: 'Limit' = 'Limit';
   private limit: number;
 
   public static of(limit: number): Try<Limit, LimitError> {

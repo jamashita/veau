@@ -1,6 +1,7 @@
 import { ValueObject } from '../veau-general/ValueObject';
 
 export class NumericalValue extends ValueObject {
+  public readonly noun: 'NumericalValue' = 'NumericalValue';
   private value: number;
 
   public static of(value: number): NumericalValue {

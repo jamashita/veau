@@ -18,6 +18,7 @@ import { StatsItemID } from './StatsItemID';
 import { StatsValue, StatsValueJSON, StatsValueRow } from './StatsValue';
 
 export class StatsValues implements Collection<number, StatsValue>, JSONable, Cloneable {
+  public readonly noun: 'StatsValues' = 'StatsValues';
   private values: Array<StatsValue>;
 
   public static of(values: Array<StatsValue>): StatsValues {
