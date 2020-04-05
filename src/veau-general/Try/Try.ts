@@ -3,9 +3,14 @@ import { Failure } from './Failure';
 import { Success } from './Success';
 
 export abstract class Try<S, F extends Error> {
+  public abstract readonly noun: string;
 
   protected constructor() {
   }
+
+  // public static all(): Try<any, any> {
+  //   //
+  // }
 
   public abstract get(): S;
 

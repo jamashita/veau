@@ -8,6 +8,7 @@ import { OptionalError } from './OptionalError';
 import { Some } from './Some';
 
 export class None<T extends Nominative> extends Optional<T> {
+  public readonly noun: 'None' = 'None';
 
   public static of<T extends Nominative>(): None<T> {
     return new None<T>();

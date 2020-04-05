@@ -3,6 +3,7 @@ import { Success } from './Success';
 import { Try } from './Try';
 
 export class Failure<S, F extends Error> extends Try<S, F> {
+  public readonly noun: 'Failure' = 'Failure';
   private value: F;
 
   public static of<S, F extends Error>(value: F): Failure<S, F> {

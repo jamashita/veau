@@ -2,6 +2,7 @@ import { Nominative } from '../Nominative';
 import { Primitive } from '../Type/Primitive';
 
 export class MockNominative implements Nominative {
+  public readonly noun: 'MockNominative' = 'MockNominative';
   private value: Primitive;
 
   public static of(value: Primitive): MockNominative {

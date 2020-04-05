@@ -7,6 +7,7 @@ import { OptionalError } from './OptionalError';
 import { Some } from './Some';
 
 export abstract class Optional<T extends Nominative> implements Nominative {
+  public abstract readonly noun: string;
 
   protected constructor() {
   }
