@@ -16,7 +16,7 @@ export class AccountQuery implements IAccountQuery {
     this.accountMySQLQuery = accountMySQLQuery;
   }
 
-  public async findByAccount(account: AccountName): Promise<Try<Account, NoSuchElementError | AccountError>> {
+  public findByAccount(account: AccountName): Promise<Try<Account, NoSuchElementError | AccountError>> {
     return this.accountMySQLQuery.findByAccount(account);
   }
 }

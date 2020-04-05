@@ -15,7 +15,7 @@ export class StatsValueQuery implements IStatsValueQuery {
     this.statsValueMySQLQuery = statsValueMySQLQuery;
   }
 
-  public async findByStatsID(statsID: StatsID): Promise<Try<StatsValues, StatsValuesError>> {
+  public findByStatsID(statsID: StatsID): Promise<Try<StatsValues, StatsValuesError>> {
     return this.statsValueMySQLQuery.findByStatsID(statsID);
   }
 }
