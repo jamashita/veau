@@ -16,6 +16,7 @@ import { LanguageQuery as LanguageMySQLQuery } from '../veau-query/MySQL/Languag
 import { RegionQuery as RegionMySQLQuery } from '../veau-query/MySQL/RegionQuery';
 import { StatsItemQuery as StatsItemMySQLQuery } from '../veau-query/MySQL/StatsItemQuery';
 import { StatsOutlineQuery as StatsOutlineMySQLQuery } from '../veau-query/MySQL/StatsOutlineQuery';
+import { StatsQuery as StatsMySQLQuery } from '../veau-query/MySQL/StatsQuery';
 import { StatsValueQuery as StatsValueMySQLQuery } from '../veau-query/MySQL/StatsValueQuery';
 import { LanguageQuery as LanguageRedisQuery } from '../veau-query/Redis/LanguageQuery';
 import { RegionQuery as RegionRedisQuery } from '../veau-query/Redis/RegionQuery';
@@ -47,6 +48,7 @@ container.bind<LanguageMySQLQuery>(TYPE.LanguageMySQLQuery).to(LanguageMySQLQuer
 container.bind<RegionMySQLQuery>(TYPE.RegionMySQLQuery).to(RegionMySQLQuery).inSingletonScope();
 container.bind<StatsItemMySQLQuery>(TYPE.StatsItemMySQLQuery).to(StatsItemMySQLQuery).inSingletonScope();
 container.bind<StatsOutlineMySQLQuery>(TYPE.StatsOutlineMySQLQuery).to(StatsOutlineMySQLQuery).inSingletonScope();
+container.bind<StatsMySQLQuery>(TYPE.StatsMySQLQuery).to(StatsMySQLQuery).inSingletonScope();
 container.bind<StatsValueMySQLQuery>(TYPE.StatsValueMySQLQuery).to(StatsValueMySQLQuery).inSingletonScope();
 container.bind<LanguageRedisQuery>(TYPE.LanguageRedisQuery).to(LanguageRedisQuery).inSingletonScope();
 container.bind<RegionRedisQuery>(TYPE.RegionRedisQuery).to(RegionRedisQuery).inSingletonScope();
