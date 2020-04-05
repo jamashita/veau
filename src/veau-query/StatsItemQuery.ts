@@ -5,17 +5,16 @@ import { StatsItemsError } from '../veau-error/StatsItemsError';
 import { Try } from '../veau-general/Try/Try';
 import { StatsID } from '../veau-vo/StatsID';
 import { IStatsItemQuery } from './interfaces/IStatsItemQuery';
-import { StatsItemQuery as StatsItemMySQLQuery } from './MySQL/StatsItemQuery';
 
 @injectable()
 export class StatsItemQuery implements IStatsItemQuery {
-  private statsItemMySQLQuery: StatsItemMySQLQuery;
+  private statsItemQuery: IStatsItemQuery;
 
-  public constructor(@inject(TYPE.StatsItemMySQLQuery) statsItemMySQLQuery: StatsItemMySQLQuery) {
-    this.statsItemMySQLQuery = statsItemMySQLQuery;
+  public constructor(@inject(TYPE.StatsItemMySQLQuery) statsItemQuery: IStatsItemQuery) {
+    this.statsItemQuery = statsItemQuery;
   }
 
   public findByStatsID(statsID: StatsID): Promise<Try<StatsItems, StatsItemsError>> {
-    return this.statsItemMySQLQuery.findByStatsID(statsID);
+    return this.statsItemQuery.findByStatsID(statsID);
   }
 }

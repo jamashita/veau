@@ -11,7 +11,7 @@ import { MySQL } from '../veau-general/MySQL/MySQL';
 import { Failure } from '../veau-general/Try/Failure';
 import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
-import { StatsOutlineQuery } from '../veau-query/StatsOutlineQuery';
+import { IStatsOutlineQuery } from '../veau-query/interfaces/IStatsOutlineQuery';
 import { StatsQuery } from '../veau-query/StatsQuery';
 import { StatsUpdateTransaction } from '../veau-transaction/StatsUpdateTransaction';
 import { Page } from '../veau-vo/Page';
@@ -25,11 +25,11 @@ const logger: log4js.Logger = log4js.getLogger();
 export class StatsInteractor {
   private mysql: MySQL;
   private statsQuery: StatsQuery;
-  private statsOutlineQuery: StatsOutlineQuery;
+  private statsOutlineQuery: IStatsOutlineQuery;
 
   public constructor(@inject(TYPE.MySQL) mysql: MySQL,
     @inject(TYPE.StatsQuery) statsQuery: StatsQuery,
-    @inject(TYPE.StatsOutlineQuery) statsOutlineQuery: StatsOutlineQuery
+    @inject(TYPE.StatsOutlineQuery) statsOutlineQuery: IStatsOutlineQuery
   ) {
     this.mysql = mysql;
     this.statsQuery = statsQuery;

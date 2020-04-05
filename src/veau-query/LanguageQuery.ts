@@ -9,17 +9,15 @@ import { ISO639 } from '../veau-vo/ISO639';
 import { Language } from '../veau-vo/Language';
 import { Languages } from '../veau-vo/Languages';
 import { ILanguageQuery } from './interfaces/ILanguageQuery';
-import { LanguageQuery as LanguageMySQLQuery } from './MySQL/LanguageQuery';
-import { LanguageQuery as LanguageRedisQuery } from './Redis/LanguageQuery';
 
 @injectable()
 export class LanguageQuery implements ILanguageQuery {
-  private languageMySQLQuery: LanguageMySQLQuery;
-  private languageRedisQuery: LanguageRedisQuery;
+  private languageMySQLQuery: ILanguageQuery;
+  private languageRedisQuery: ILanguageQuery;
   private languageCommand: LanguageCommand;
 
-  public constructor(@inject(TYPE.LanguageMySQLQuery) languageMySQLQuery: LanguageMySQLQuery,
-   @inject(TYPE.LanguageRedisQuery) languageRedisQuery: LanguageRedisQuery,
+  public constructor(@inject(TYPE.LanguageMySQLQuery) languageMySQLQuery: ILanguageQuery,
+   @inject(TYPE.LanguageRedisQuery) languageRedisQuery: ILanguageQuery,
    @inject(TYPE.LanguageCommand) languageCommand: LanguageCommand
   ) {
     this.languageMySQLQuery = languageMySQLQuery;

@@ -9,17 +9,15 @@ import { ISO3166 } from '../veau-vo/ISO3166';
 import { Region } from '../veau-vo/Region';
 import { Regions } from '../veau-vo/Regions';
 import { IRegionQuery } from './interfaces/IRegionQuery';
-import { RegionQuery as RegionMySQLQuery } from './MySQL/RegionQuery';
-import { RegionQuery as RegionRedisQuery } from './Redis/RegionQuery';
 
 @injectable()
 export class RegionQuery implements IRegionQuery {
-  private regionMySQLQuery: RegionMySQLQuery;
-  private regionRedisQuery: RegionRedisQuery;
+  private regionMySQLQuery: IRegionQuery;
+  private regionRedisQuery: IRegionQuery;
   private regionCommand: RegionCommand;
 
-  public constructor(@inject(TYPE.RegionMySQLQuery) regionMySQLQuery: RegionMySQLQuery,
-    @inject(TYPE.RegionRedisQuery) regionRedisQuery: RegionRedisQuery,
+  public constructor(@inject(TYPE.RegionMySQLQuery) regionMySQLQuery: IRegionQuery,
+    @inject(TYPE.RegionRedisQuery) regionRedisQuery: IRegionQuery,
     @inject(TYPE.RegionCommand) regionCommand: RegionCommand
   ) {
     this.regionMySQLQuery = regionMySQLQuery;

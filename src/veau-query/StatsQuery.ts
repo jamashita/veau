@@ -9,15 +9,15 @@ import { MySQL } from '../veau-general/MySQL/MySQL';
 import { Failure } from '../veau-general/Try/Failure';
 import { Try } from '../veau-general/Try/Try';
 import { StatsID } from '../veau-vo/StatsID';
-import { StatsItemQuery } from './StatsItemQuery';
+import { IStatsItemQuery } from './interfaces/IStatsItemQuery';
 
 @injectable()
 export class StatsQuery {
   private mysql: MySQL;
-  private statsItemQuery: StatsItemQuery;
+  private statsItemQuery: IStatsItemQuery;
 
   public constructor(@inject(TYPE.MySQL) mysql: MySQL,
-    @inject(TYPE.StatsItemQuery) statsItemQuery: StatsItemQuery
+    @inject(TYPE.StatsItemQuery) statsItemQuery: IStatsItemQuery
   ) {
     this.mysql = mysql;
     this.statsItemQuery = statsItemQuery;
