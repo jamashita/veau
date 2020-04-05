@@ -63,6 +63,31 @@ describe('StatsOutlineQuery', () => {
       const statsOutlineQuery: StatsOutlineQuery = container.get<StatsOutlineQuery>(TYPE.StatsOutlineMySQLQuery);
       const trial: Try<StatsOutlines, StatsOutlinesError> = await statsOutlineQuery.findByVeauAccountID(VeauAccountID.of('2ac64841-5267-48bc-8952-ba9ad1cb12d7').get(), Limit.of(2).get(), Offset.of(0).get());
 
+      expect(stub.withArgs(`SELECT
+      R1.stats_id AS statsID,
+      R1.language_id AS languageID,
+      R1.term_id AS termID,
+      R2.name AS languageName,
+      R2.english_name AS languageEnglishName,
+      R2.iso639,
+      R1.region_id AS regionID,
+      R3.name AS regionName,
+      R3.iso3166,
+      R1.name,
+      R1.unit,
+      R1.updated_at AS updatedAt
+      FROM stats R1
+      INNER JOIN languages R2
+      USING(language_id)
+      INNER JOIN regions R3
+      USING(region_id)
+      WHERE R1.veau_account_id = :veauAccountID
+      LIMIT :limit
+      OFFSET :offset;`, {
+        veauAccountID: '2ac64841-5267-48bc-8952-ba9ad1cb12d7',
+        limit: 2,
+        offset: 0
+      }).called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
       const statsOutlines: StatsOutlines = trial.get();
 
