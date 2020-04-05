@@ -16,15 +16,14 @@ import { StatsItemID } from '../../veau-vo/StatsItemID';
 import { StatsItemName } from '../../veau-vo/StatsItemName';
 import { StatsValue } from '../../veau-vo/StatsValue';
 import { StatsValues } from '../../veau-vo/StatsValues';
-import { IStatsItemQuery } from '../interfaces/IStatsItemQuery';
 import { StatsItemQuery as StatsItemMySQLQuery } from '../MySQL/StatsItemQuery';
 import { StatsItemQuery } from '../StatsItemQuery';
 
 describe('StatsItemQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const statsItemQuery1: IStatsItemQuery = container.get<IStatsItemQuery>(TYPE.StatsItemQuery);
-      const statsItemQuery2: IStatsItemQuery = container.get<IStatsItemQuery>(TYPE.StatsItemQuery);
+      const statsItemQuery1: StatsItemQuery = container.get<StatsItemQuery>(TYPE.StatsItemQuery);
+      const statsItemQuery2: StatsItemQuery = container.get<StatsItemQuery>(TYPE.StatsItemQuery);
 
       expect(statsItemQuery1).toBeInstanceOf(StatsItemQuery);
       expect(statsItemQuery1).toBe(statsItemQuery2);
@@ -50,7 +49,7 @@ describe('StatsItemQuery', () => {
         ]))
       ])));
 
-      const statsItemQuery: IStatsItemQuery = container.get<IStatsItemQuery>(TYPE.StatsItemQuery);
+      const statsItemQuery: StatsItemQuery = container.get<StatsItemQuery>(TYPE.StatsItemQuery);
       const trial: Try<StatsItems, StatsItemsError> = await statsItemQuery.findByStatsID(StatsID.of(statsID).get());
 
       expect(trial.isSuccess()).toEqual(true);
@@ -85,7 +84,7 @@ describe('StatsItemQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsItemQuery: IStatsItemQuery = container.get<IStatsItemQuery>(TYPE.StatsItemQuery);
+      const statsItemQuery: StatsItemQuery = container.get<StatsItemQuery>(TYPE.StatsItemQuery);
       const trial: Try<StatsItems, StatsItemsError> = await statsItemQuery.findByStatsID(StatsID.of(statsID).get());
 
       expect(trial.isFailure()).toEqual(true);
@@ -96,6 +95,7 @@ describe('StatsItemQuery', () => {
         spy2();
         expect(err).toBeInstanceOf(StatsItemsError);
       });
+
       expect(spy1.called).toEqual(false);
       expect(spy2.called).toEqual(true);
     });

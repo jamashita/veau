@@ -13,15 +13,14 @@ import { StatsID } from '../../veau-vo/StatsID';
 import { StatsItemID } from '../../veau-vo/StatsItemID';
 import { StatsValue } from '../../veau-vo/StatsValue';
 import { StatsValues } from '../../veau-vo/StatsValues';
-import { IStatsValueQuery } from '../interfaces/IStatsValueQuery';
 import { StatsValueQuery as StatsValueMySQLQuery } from '../MySQL/StatsValueQuery';
 import { StatsValueQuery } from '../StatsValueQuery';
 
 describe('StatsValueQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const statsValueQuery1: IStatsValueQuery = container.get<IStatsValueQuery>(TYPE.StatsValueQuery);
-      const statsValueQuery2: IStatsValueQuery = container.get<IStatsValueQuery>(TYPE.StatsValueQuery);
+      const statsValueQuery1: StatsValueQuery = container.get<StatsValueQuery>(TYPE.StatsValueQuery);
+      const statsValueQuery2: StatsValueQuery = container.get<StatsValueQuery>(TYPE.StatsValueQuery);
 
       expect(statsValueQuery1).toBeInstanceOf(StatsValueQuery);
       expect(statsValueQuery1).toBe(statsValueQuery2);

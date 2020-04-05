@@ -15,7 +15,7 @@ export class StatsItemQuery implements IStatsItemQuery {
     this.statsItemMySQLQuery = statsItemMySQLQuery;
   }
 
-  public async findByStatsID(statsID: StatsID): Promise<Try<StatsItems, StatsItemsError>> {
+  public findByStatsID(statsID: StatsID): Promise<Try<StatsItems, StatsItemsError>> {
     return this.statsItemMySQLQuery.findByStatsID(statsID);
   }
 }
