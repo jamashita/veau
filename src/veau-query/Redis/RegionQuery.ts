@@ -10,11 +10,14 @@ import { ISO3166 } from '../../veau-vo/ISO3166';
 import { Region, RegionJSON } from '../../veau-vo/Region';
 import { Regions } from '../../veau-vo/Regions';
 import { IRegionQuery } from '../interfaces/IRegionQuery';
+import { RedisQuery } from './RedisQuery';
 
 const REDIS_KEY: string = 'REGIONS';
 
 @injectable()
-export class RegionQuery implements IRegionQuery {
+export class RegionQuery implements IRegionQuery, RedisQuery {
+  public readonly noun: 'RegionQuery' = 'RegionQuery';
+  public readonly source: 'Redis' = 'Redis';
   private readonly redis: Redis;
 
   public constructor(@inject(TYPE.Redis) redis: Redis) {

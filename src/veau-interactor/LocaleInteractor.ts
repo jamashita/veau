@@ -12,9 +12,11 @@ import { IRegionQuery } from '../veau-query/interfaces/IRegionQuery';
 import { Languages } from '../veau-vo/Languages';
 import { Locale } from '../veau-vo/Locale';
 import { Regions } from '../veau-vo/Regions';
+import { IInteractor } from './IInteractor';
 
 @injectable()
-export class LocaleInteractor {
+export class LocaleInteractor implements IInteractor {
+  public readonly noun: 'LocaleInteractor' = 'LocaleInteractor';
   private readonly languageQuery: ILanguageQuery;
   private readonly regionQuery: IRegionQuery;
   private readonly languageCommand: ILanguageCommand;

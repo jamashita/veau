@@ -11,9 +11,12 @@ import { StatsID } from '../../veau-vo/StatsID';
 import { StatsValues } from '../../veau-vo/StatsValues';
 import { IStatsItemQuery } from '../interfaces/IStatsItemQuery';
 import { IStatsValueQuery } from '../interfaces/IStatsValueQuery';
+import { MySQLQuery } from './MySQLQuery';
 
 @injectable()
-export class StatsItemQuery implements IStatsItemQuery {
+export class StatsItemQuery implements IStatsItemQuery, MySQLQuery {
+  public readonly noun: 'StatsItemQuery' = 'StatsItemQuery';
+  public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: MySQL;
   private readonly statsValueQuery: IStatsValueQuery;
 

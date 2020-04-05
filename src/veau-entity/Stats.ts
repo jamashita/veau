@@ -82,14 +82,14 @@ export class Stats extends Entity<StatsID> {
   private columns: Optional<AsOfs>;
 
   public static of(statsID: StatsID,
-                   language: Language,
-                   region: Region,
-                   term: Term,
-                   name: StatsName,
-                   unit: StatsUnit,
-                   updatedAt: UpdatedAt,
-                   items: StatsItems,
-                   startDate: Optional<AsOf>): Stats {
+    language: Language,
+    region: Region,
+    term: Term,
+    name: StatsName,
+    unit: StatsUnit,
+    updatedAt: UpdatedAt,
+    items: StatsItems,
+    startDate: Optional<AsOf>): Stats {
     return new Stats(statsID, language, region, term, name, unit, updatedAt, items, startDate);
   }
 
@@ -241,14 +241,14 @@ export class Stats extends Entity<StatsID> {
   }
 
   private constructor(statsID: StatsID,
-                      language: Language,
-                      region: Region,
-                      term: Term,
-                      name: StatsName,
-                      unit: StatsUnit,
-                      updatedAt: UpdatedAt,
-                      items: StatsItems,
-                      startDate: Optional<AsOf>) {
+    language: Language,
+    region: Region,
+    term: Term,
+    name: StatsName,
+    unit: StatsUnit,
+    updatedAt: UpdatedAt,
+    items: StatsItems,
+    startDate: Optional<AsOf>) {
     super();
     this.statsID = statsID;
     this.language = language;

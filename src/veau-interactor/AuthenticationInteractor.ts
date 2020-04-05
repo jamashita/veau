@@ -10,6 +10,7 @@ import { IAccountQuery } from '../veau-query/interfaces/IAccountQuery';
 import { Account } from '../veau-vo/Account';
 import { AccountName } from '../veau-vo/AccountName';
 import { Password } from '../veau-vo/Password';
+import { IInteractor } from './IInteractor';
 
 const logger: log4js.Logger = log4js.getLogger();
 
@@ -17,7 +18,8 @@ const DUMMY_PASSWORD: string = '30DC7JzTgjAd8eXcwytlKCwI6kh1eqdU';
 const DUMMY_HASH: string = '$2b$14$iyzp4FTxFklmPUjQMaNYcOO4Svv6kBEtphNseTlhWQ/SxV0VBKOa.';
 
 @injectable()
-export class AuthenticationInteractor {
+export class AuthenticationInteractor implements IInteractor {
+  public readonly noun: 'AuthenticationInteractor' = 'AuthenticationInteractor';
   public readonly accountQuery: IAccountQuery;
 
   public constructor(@inject(TYPE.AccountQuery) accountQuery: IAccountQuery) {

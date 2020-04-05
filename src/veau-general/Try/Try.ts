@@ -8,6 +8,7 @@ export abstract class Try<S, F extends Error> {
   protected constructor() {
   }
 
+  // TODO
   // public static all(): Try<any, any> {
   //   //
   // }

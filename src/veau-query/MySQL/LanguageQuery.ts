@@ -9,9 +9,12 @@ import { ISO639 } from '../../veau-vo/ISO639';
 import { Language, LanguageRow } from '../../veau-vo/Language';
 import { Languages } from '../../veau-vo/Languages';
 import { ILanguageQuery } from '../interfaces/ILanguageQuery';
+import { MySQLQuery } from './MySQLQuery';
 
 @injectable()
-export class LanguageQuery implements ILanguageQuery {
+export class LanguageQuery implements ILanguageQuery, MySQLQuery {
+  public readonly noun: 'LanguageQuery' = 'LanguageQuery';
+  public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: MySQL;
 
   public constructor(@inject(TYPE.MySQL) mysql: MySQL) {

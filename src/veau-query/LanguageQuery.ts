@@ -12,6 +12,8 @@ import { ILanguageQuery } from './interfaces/ILanguageQuery';
 
 @injectable()
 export class LanguageQuery implements ILanguageQuery {
+  public readonly noun: 'LanguageQuery' = 'LanguageQuery';
+  public readonly source: 'Complex' = 'Complex';
   private readonly languageMySQLQuery: ILanguageQuery;
   private readonly languageRedisQuery: ILanguageQuery;
   private readonly languageCommand: ILanguageCommand;

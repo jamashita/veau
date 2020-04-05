@@ -9,9 +9,12 @@ import { ISO3166 } from '../../veau-vo/ISO3166';
 import { Region, RegionRow } from '../../veau-vo/Region';
 import { Regions } from '../../veau-vo/Regions';
 import { IRegionQuery } from '../interfaces/IRegionQuery';
+import { MySQLQuery } from './MySQLQuery';
 
 @injectable()
-export class RegionQuery implements IRegionQuery {
+export class RegionQuery implements IRegionQuery, MySQLQuery {
+  public readonly noun: 'RegionQuery' = 'RegionQuery';
+  public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: MySQL;
 
   public constructor(@inject(TYPE.MySQL) mysql: MySQL) {

@@ -7,9 +7,12 @@ import { StatsID } from '../../veau-vo/StatsID';
 import { StatsValueRow } from '../../veau-vo/StatsValue';
 import { StatsValues } from '../../veau-vo/StatsValues';
 import { IStatsValueQuery } from '../interfaces/IStatsValueQuery';
+import { MySQLQuery } from './MySQLQuery';
 
 @injectable()
-export class StatsValueQuery implements IStatsValueQuery {
+export class StatsValueQuery implements IStatsValueQuery, MySQLQuery {
+  public readonly noun: 'StatsValueQuery' = 'StatsValueQuery';
+  public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: MySQL;
 
   public constructor(@inject(TYPE.MySQL) mysql: MySQL) {

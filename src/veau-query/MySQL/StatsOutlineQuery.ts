@@ -9,9 +9,12 @@ import { StatsOutlineRow } from '../../veau-vo/StatsOutline';
 import { StatsOutlines } from '../../veau-vo/StatsOutlines';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { IStatsOutlineQuery } from '../interfaces/IStatsOutlineQuery';
+import { MySQLQuery } from './MySQLQuery';
 
 @injectable()
-export class StatsOutlineQuery implements IStatsOutlineQuery {
+export class StatsOutlineQuery implements IStatsOutlineQuery, MySQLQuery {
+  public readonly noun: 'StatsOutlineQuery' = 'StatsOutlineQuery';
+  public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: MySQL;
 
   public constructor(@inject(TYPE.MySQL) mysql: MySQL) {

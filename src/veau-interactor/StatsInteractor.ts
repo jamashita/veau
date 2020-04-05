@@ -18,11 +18,13 @@ import { Page } from '../veau-vo/Page';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsOutlines } from '../veau-vo/StatsOutlines';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
+import { IInteractor } from './IInteractor';
 
 const logger: log4js.Logger = log4js.getLogger();
 
 @injectable()
-export class StatsInteractor {
+export class StatsInteractor implements IInteractor {
+  public readonly noun: 'StatsInteractor' = 'StatsInteractor';
   private readonly mysql: MySQL;
   private readonly statsQuery: IStatsQuery;
   private readonly statsOutlineQuery: IStatsOutlineQuery;

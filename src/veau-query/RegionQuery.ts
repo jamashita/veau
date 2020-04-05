@@ -12,6 +12,8 @@ import { IRegionQuery } from './interfaces/IRegionQuery';
 
 @injectable()
 export class RegionQuery implements IRegionQuery {
+  public readonly noun: 'RegionQuery' = 'RegionQuery';
+  public readonly source: 'Complex' = 'Complex';
   private readonly regionMySQLQuery: IRegionQuery;
   private readonly regionRedisQuery: IRegionQuery;
   private readonly regionCommand: IRegionCommand;

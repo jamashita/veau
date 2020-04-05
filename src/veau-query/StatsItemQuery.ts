@@ -8,6 +8,8 @@ import { IStatsItemQuery } from './interfaces/IStatsItemQuery';
 
 @injectable()
 export class StatsItemQuery implements IStatsItemQuery {
+  public readonly noun: 'StatsItemQuery' = 'StatsItemQuery';
+  public readonly source: 'Complex' = 'Complex';
   private readonly statsItemQuery: IStatsItemQuery;
 
   public constructor(@inject(TYPE.StatsItemMySQLQuery) statsItemQuery: IStatsItemQuery) {
