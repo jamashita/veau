@@ -1,9 +1,9 @@
 import 'jest';
 import moment from 'moment';
 import sinon, { SinonSpy } from 'sinon';
-import { StatsCommand } from '../../veau-command/StatsCommand';
-import { StatsItemCommand } from '../../veau-command/StatsItemCommand';
-import { StatsValueCommand } from '../../veau-command/StatsValueCommand';
+import { StatsCommand } from '../../veau-command/MySQL/StatsCommand';
+import { StatsItemCommand } from '../../veau-command/MySQL/StatsItemCommand';
+import { StatsValueCommand } from '../../veau-command/MySQL/StatsValueCommand';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { StatsItems } from '../../veau-entity/StatsItems';
