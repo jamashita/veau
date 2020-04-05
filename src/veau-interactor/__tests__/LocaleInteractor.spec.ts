@@ -54,7 +54,7 @@ describe('LocaleInteractor',  () => {
       const localeInteractor: LocaleInteractor = container.get<LocaleInteractor>(TYPE.LocaleInteractor);
       const trial: Try<Locale, NoSuchElementError> = await localeInteractor.all();
 
-      expect(trial.isSuccess()).toEqual(trial);
+      expect(trial.isSuccess()).toEqual(true);
       const locale: Locale = trial.get();
       expect(locale.getLanguage(0).get().getLanguageID().get()).toEqual(1);
       expect(locale.getLanguage(0).get().getName().get()).toEqual('аҧсуа бызшәа');

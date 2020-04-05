@@ -5,6 +5,7 @@ import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';
 import { CacheError } from '../../../veau-error/CacheError';
+import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
 import { Failure } from '../../../veau-general/Try/Failure';
 import { Success } from '../../../veau-general/Try/Success';
 import { LocaleInteractor } from '../../../veau-interactor/LocaleInteractor';
@@ -29,14 +30,14 @@ describe('LocaleController', () => {
     it('returns JSON as LocaleInteractor returns', async () => {
       const stub: SinonStub = sinon.stub();
       LocaleInteractor.prototype.all = stub;
-      stub.resolves(Locale.of(
+      stub.resolves(Success.of<Locale, NoSuchElementError>(Locale.of(
         Languages.of([
           Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english name'), ISO639.of('la'))
         ]),
         Regions.of([
           Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('RGN'))
         ])
-      ));
+      )));
 
       const app: express.Express = express();
       app.use('/', LocaleController);

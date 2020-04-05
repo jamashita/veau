@@ -111,6 +111,7 @@ describe('RegionQuery', () => {
       const regionQuery: IRegionQuery = container.get<IRegionQuery>(TYPE.RegionQuery);
       const trial: Try<Region, NoSuchElementError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
+      expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError) => {
@@ -133,7 +134,7 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: IRegionQuery = container.get<IRegionQuery>(TYPE.RegionQuery);
-      const trial: Try<Region, NoSuchElementError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      const trial: Try<Region, NoSuchElementError> = await regionQuery.findByISO3166(ISO3166.of('AIO'));
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
