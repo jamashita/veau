@@ -59,7 +59,7 @@ describe('LanguageCommand', () => {
       expect(trial.isSuccess()).toEqual(true);
     });
 
-    it('throws CacheError', async () => {
+    it('returns Failure, contains CacheError', async () => {
       const stub: SinonStub = sinon.stub();
       LanguageRedisCommand.prototype.deleteAll = stub;
       stub.resolves(Failure.of<void, CacheError>(new CacheError('test failed')));
