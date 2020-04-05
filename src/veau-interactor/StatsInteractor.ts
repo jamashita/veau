@@ -12,7 +12,7 @@ import { Failure } from '../veau-general/Try/Failure';
 import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
 import { IStatsOutlineQuery } from '../veau-query/interfaces/IStatsOutlineQuery';
-import { StatsQuery } from '../veau-query/StatsQuery';
+import { IStatsQuery } from '../veau-query/interfaces/IStatsQuery';
 import { StatsUpdateTransaction } from '../veau-transaction/StatsUpdateTransaction';
 import { Page } from '../veau-vo/Page';
 import { StatsID } from '../veau-vo/StatsID';
@@ -24,11 +24,11 @@ const logger: log4js.Logger = log4js.getLogger();
 @injectable()
 export class StatsInteractor {
   private mysql: MySQL;
-  private statsQuery: StatsQuery;
+  private statsQuery: IStatsQuery;
   private statsOutlineQuery: IStatsOutlineQuery;
 
   public constructor(@inject(TYPE.MySQL) mysql: MySQL,
-    @inject(TYPE.StatsQuery) statsQuery: StatsQuery,
+    @inject(TYPE.StatsQuery) statsQuery: IStatsQuery,
     @inject(TYPE.StatsOutlineQuery) statsOutlineQuery: IStatsOutlineQuery
   ) {
     this.mysql = mysql;

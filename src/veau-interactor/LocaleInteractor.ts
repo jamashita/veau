@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
-import { LanguageCommand } from '../veau-command/LanguageCommand';
-import { RegionCommand } from '../veau-command/RegionCommand';
+import { ILanguageCommand } from '../veau-command/interfaces/ILanguageCommand';
+import { IRegionCommand } from '../veau-command/interfaces/IRegionCommand';
 import { TYPE } from '../veau-container/Types';
 import { CacheError } from '../veau-error/CacheError';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
@@ -17,13 +17,13 @@ import { Regions } from '../veau-vo/Regions';
 export class LocaleInteractor {
   private languageQuery: ILanguageQuery;
   private regionQuery: IRegionQuery;
-  private languageCommand: LanguageCommand;
-  private regionCommand: RegionCommand;
+  private languageCommand: ILanguageCommand;
+  private regionCommand: IRegionCommand;
 
   public constructor(@inject(TYPE.LanguageQuery) languageQuery: ILanguageQuery,
     @inject(TYPE.RegionQuery) regionQuery: IRegionQuery,
-    @inject(TYPE.LanguageCommand) languageCommand: LanguageCommand,
-    @inject(TYPE.RegionCommand) regionCommand: RegionCommand
+    @inject(TYPE.LanguageCommand) languageCommand: ILanguageCommand,
+    @inject(TYPE.RegionCommand) regionCommand: IRegionCommand
   ) {
     this.languageQuery = languageQuery;
     this.regionQuery = regionQuery;

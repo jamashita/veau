@@ -38,38 +38,28 @@ describe('LocaleInteractor',  () => {
 
   describe('all', () => {
     it('normal case', async () => {
-      const stub1: SinonStub = sinon.stub();
-      LanguageQuery.prototype.all = stub1;
-      stub1.resolves(Success.of<Languages, NoSuchElementError>(Languages.of([
+      const languages: Languages = Languages.of([
         Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
         Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
-      ])));
-      const stub2: SinonStub = sinon.stub();
-      RegionQuery.prototype.all = stub2;
-      stub2.resolves(Success.of<Regions, NoSuchElementError>(Regions.of([
+      ]);
+      const regions: Regions = Regions.of([
         Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
         Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB'))
-      ])));
+      ]);
+
+      const stub1: SinonStub = sinon.stub();
+      LanguageQuery.prototype.all = stub1;
+      stub1.resolves(Success.of<Languages, NoSuchElementError>(languages));
+      const stub2: SinonStub = sinon.stub();
+      RegionQuery.prototype.all = stub2;
+      stub2.resolves(Success.of<Regions, NoSuchElementError>(regions));
 
       const localeInteractor: LocaleInteractor = container.get<LocaleInteractor>(TYPE.LocaleInteractor);
       const trial: Try<Locale, NoSuchElementError> = await localeInteractor.all();
 
       expect(trial.isSuccess()).toEqual(true);
-      const locale: Locale = trial.get();
-      expect(locale.getLanguage(0).get().getLanguageID().get()).toEqual(1);
-      expect(locale.getLanguage(0).get().getName().get()).toEqual('аҧсуа бызшәа');
-      expect(locale.getLanguage(0).get().getEnglishName().get()).toEqual('Abkhazian');
-      expect(locale.getLanguage(0).get().getISO639().get()).toEqual('ab');
-      expect(locale.getLanguage(1).get().getLanguageID().get()).toEqual(2);
-      expect(locale.getLanguage(1).get().getName().get()).toEqual('Afaraf');
-      expect(locale.getLanguage(1).get().getEnglishName().get()).toEqual('Afar');
-      expect(locale.getLanguage(1).get().getISO639().get()).toEqual('aa');
-      expect(locale.getRegion(0).get().getRegionID().get()).toEqual(1);
-      expect(locale.getRegion(0).get().getName().get()).toEqual('Afghanistan');
-      expect(locale.getRegion(0).get().getISO3166().get()).toEqual('AFG');
-      expect(locale.getRegion(1).get().getRegionID().get()).toEqual(2);
-      expect(locale.getRegion(1).get().getName().get()).toEqual('Albania');
-      expect(locale.getRegion(1).get().getISO3166().get()).toEqual('ALB');
+      expect(trial.get().getLanguages().equals(languages)).toEqual(true);
+      expect(trial.get().getRegions().equals(regions)).toEqual(true);
     });
 
     it('LanguageQuery.all returns Failure', async () => {
