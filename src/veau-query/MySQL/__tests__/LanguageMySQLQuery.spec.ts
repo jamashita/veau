@@ -1,14 +1,14 @@
 import 'jest';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { container } from '../../veau-container/Container';
-import { TYPE } from '../../veau-container/Types';
-import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { MySQL } from '../../veau-general/MySQL/MySQL';
-import { Try } from '../../veau-general/Try/Try';
-import { ISO639 } from '../../veau-vo/ISO639';
-import { Language } from '../../veau-vo/Language';
-import { Languages } from '../../veau-vo/Languages';
+import { container } from '../../../veau-container/Container';
+import { TYPE } from '../../../veau-container/Types';
+import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
+import { MySQL } from '../../../veau-general/MySQL/MySQL';
+import { Try } from '../../../veau-general/Try/Try';
+import { ISO639 } from '../../../veau-vo/ISO639';
+import { Language } from '../../../veau-vo/Language';
+import { Languages } from '../../../veau-vo/Languages';
 import { LanguageMySQLQuery } from '../LanguageMySQLQuery';
 
 describe('LanguageMySQLQuery', () => {
@@ -121,6 +121,7 @@ describe('LanguageMySQLQuery', () => {
       expect(language.getLanguageID().get()).toEqual(2);
       expect(language.getName().get()).toEqual('Afaraf');
       expect(language.getEnglishName().get()).toEqual('Afar');
+      expect(language.getISO639().get()).toEqual('aa');
     });
 
     it('MySQL returns empty array', async () => {

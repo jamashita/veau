@@ -1,14 +1,14 @@
 import { inject, injectable } from 'inversify';
-import { TYPE } from '../veau-container/Types';
-import { NoSuchElementError } from '../veau-error/NoSuchElementError';
-import { MySQL } from '../veau-general/MySQL/MySQL';
-import { Failure } from '../veau-general/Try/Failure';
-import { Success } from '../veau-general/Try/Success';
-import { Try } from '../veau-general/Try/Try';
-import { ISO639 } from '../veau-vo/ISO639';
-import { Language, LanguageRow } from '../veau-vo/Language';
-import { Languages } from '../veau-vo/Languages';
-import { ILanguageQuery } from './ILanguageQuery';
+import { TYPE } from '../../veau-container/Types';
+import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { MySQL } from '../../veau-general/MySQL/MySQL';
+import { Failure } from '../../veau-general/Try/Failure';
+import { Success } from '../../veau-general/Try/Success';
+import { Try } from '../../veau-general/Try/Try';
+import { ISO639 } from '../../veau-vo/ISO639';
+import { Language, LanguageRow } from '../../veau-vo/Language';
+import { Languages } from '../../veau-vo/Languages';
+import { ILanguageQuery } from '../ILanguageQuery';
 
 @injectable()
 export class LanguageMySQLQuery implements ILanguageQuery {

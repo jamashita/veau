@@ -8,9 +8,10 @@ export type DIType = {
   LocaleInteractor: symbol;
   StatsInteractor: symbol;
   AccountQuery: symbol;
-  LanguageMySQLQuery: symbol;
   LanguageQuery: symbol;
   LanguageRedisQuery: symbol;
+  LanguageMySQLQuery: symbol;
+  RegionMySQLQuery: symbol;
   RegionQuery: symbol;
   StatsItemQuery: symbol;
   StatsOutlineQuery: symbol;
@@ -28,9 +29,10 @@ export const TYPE: DIType = {
   LocaleInteractor: Symbol('LocaleInteractor'),
   StatsInteractor: Symbol('StatsInteractor'),
   AccountQuery: Symbol('AccountQuery'),
-  LanguageMySQLQuery: Symbol('LanguageMySQLQuery'),
   LanguageQuery: Symbol('LanguageQuery'),
   LanguageRedisQuery: Symbol('LanguageRedisQuery'),
+  LanguageMySQLQuery: Symbol('LanguageMySQLQuery'),
+  RegionMySQLQuery: Symbol('RegionMySQLQuery'),
   RegionQuery: Symbol('RegionQuery'),
   StatsItemQuery: Symbol('StatsItemQuery'),
   StatsOutlineQuery: Symbol('StatsOutlineQuery'),

@@ -10,9 +10,10 @@ import { AuthenticationInteractor } from '../veau-interactor/AuthenticationInter
 import { LocaleInteractor } from '../veau-interactor/LocaleInteractor';
 import { StatsInteractor } from '../veau-interactor/StatsInteractor';
 import { AccountQuery } from '../veau-query/AccountQuery';
-import { LanguageMySQLQuery } from '../veau-query/LanguageMySQLQuery';
 import { LanguageQuery } from '../veau-query/LanguageQuery';
 import { LanguageRedisQuery } from '../veau-query/LanguageRedisQuery';
+import { LanguageMySQLQuery } from '../veau-query/MySQL/LanguageMySQLQuery';
+import { RegionMySQLQuery } from '../veau-query/RegionMySQLQuery';
 import { RegionQuery } from '../veau-query/RegionQuery';
 import { StatsItemQuery } from '../veau-query/StatsItemQuery';
 import { StatsOutlineQuery } from '../veau-query/StatsOutlineQuery';
@@ -31,9 +32,10 @@ container.bind<AuthenticationInteractor>(TYPE.AuthenticationInteractor).to(Authe
 container.bind<LocaleInteractor>(TYPE.LocaleInteractor).to(LocaleInteractor).inSingletonScope();
 container.bind<StatsInteractor>(TYPE.StatsInteractor).to(StatsInteractor).inSingletonScope();
 container.bind<AccountQuery>(TYPE.AccountQuery).to(AccountQuery).inSingletonScope();
-container.bind<LanguageMySQLQuery>(TYPE.LanguageMySQLQuery).to(LanguageMySQLQuery).inSingletonScope();
 container.bind<LanguageQuery>(TYPE.LanguageQuery).to(LanguageQuery).inSingletonScope();
 container.bind<LanguageRedisQuery>(TYPE.LanguageRedisQuery).to(LanguageRedisQuery).inSingletonScope();
+container.bind<LanguageMySQLQuery>(TYPE.LanguageMySQLQuery).to(LanguageMySQLQuery).inSingletonScope();
+container.bind<RegionMySQLQuery>(TYPE.RegionMySQLQuery).to(RegionMySQLQuery).inSingletonScope();
 container.bind<RegionQuery>(TYPE.RegionQuery).to(RegionQuery).inSingletonScope();
 container.bind<StatsItemQuery>(TYPE.StatsItemQuery).to(StatsItemQuery).inSingletonScope();
 container.bind<StatsOutlineQuery>(TYPE.StatsOutlineQuery).to(StatsOutlineQuery).inSingletonScope();
