@@ -360,30 +360,22 @@ export class Stats extends Entity<StatsID> {
   }
 
   public setData(coordinate: Coordinate, value: NumericalValue): void {
-    this.items.get(coordinate.getRow().get()).ifPresentOrElse<void>((item: StatsItem) => {
-      this.getColumns().get(coordinate.getColumn().get()).ifPresentOrElse<void>((asOf: AsOf) => {
+    this.items.get(coordinate.getRow().get()).ifPresent((item: StatsItem) => {
+      this.getColumns().get(coordinate.getColumn().get()).ifPresent((asOf: AsOf) => {
         const statsValue: StatsValue = StatsValue.of(item.getStatsItemID(), asOf, value);
 
         item.setValue(statsValue);
         this.recalculateColumns();
-      }, () => {
-        // NOOP
       });
-    }, () => {
-      // NOOP
     });
   }
 
   public deleteData(coordinate: Coordinate): void {
-    this.getColumn(coordinate.getColumn()).ifPresentOrElse<void>((asOf: AsOf) => {
-      this.getRow(coordinate.getRow()).ifPresentOrElse<void>((item: StatsItem) => {
+    this.getColumn(coordinate.getColumn()).ifPresent((asOf: AsOf) => {
+      this.getRow(coordinate.getRow()).ifPresent((item: StatsItem) => {
         item.delete(asOf);
         this.recalculateColumns();
-      }, () => {
-        // NOOP
       });
-    }, () => {
-      // NOOP
     });
   }
 
