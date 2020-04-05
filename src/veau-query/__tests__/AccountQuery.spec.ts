@@ -21,7 +21,7 @@ import { RegionID } from '../../veau-vo/RegionID';
 import { RegionName } from '../../veau-vo/RegionName';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { AccountQuery } from '../AccountQuery';
-import { IAccountQuery } from '../IAccountQuery';
+import { IAccountQuery } from '../interfaces/IAccountQuery';
 import { AccountQuery as AccountMySQLQuery } from '../MySQL/AccountQuery';
 
 describe('AccountQuery', () => {

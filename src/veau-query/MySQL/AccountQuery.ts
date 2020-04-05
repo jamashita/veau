@@ -7,7 +7,7 @@ import { Failure } from '../../veau-general/Try/Failure';
 import { Try } from '../../veau-general/Try/Try';
 import { Account, AccountRow } from '../../veau-vo/Account';
 import { AccountName } from '../../veau-vo/AccountName';
-import { IAccountQuery } from '../IAccountQuery';
+import { IAccountQuery } from '../interfaces/IAccountQuery';
 
 @injectable()
 export class AccountQuery implements IAccountQuery {

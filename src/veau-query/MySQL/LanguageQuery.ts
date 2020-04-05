@@ -8,7 +8,7 @@ import { Try } from '../../veau-general/Try/Try';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language, LanguageRow } from '../../veau-vo/Language';
 import { Languages } from '../../veau-vo/Languages';
-import { ILanguageQuery } from '../ILanguageQuery';
+import { ILanguageQuery } from '../interfaces/ILanguageQuery';
 
 @injectable()
 export class LanguageQuery implements ILanguageQuery {

@@ -8,7 +8,7 @@ import { Try } from '../veau-general/Try/Try';
 import { ISO639 } from '../veau-vo/ISO639';
 import { Language } from '../veau-vo/Language';
 import { Languages } from '../veau-vo/Languages';
-import { ILanguageQuery } from './ILanguageQuery';
+import { ILanguageQuery } from './interfaces/ILanguageQuery';
 import { LanguageQuery as LanguageMySQLQuery } from './MySQL/LanguageQuery';
 import { LanguageQuery as LanguageRedisQuery } from './Redis/LanguageQuery';
 

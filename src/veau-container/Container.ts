@@ -10,9 +10,9 @@ import { AuthenticationInteractor } from '../veau-interactor/AuthenticationInter
 import { LocaleInteractor } from '../veau-interactor/LocaleInteractor';
 import { StatsInteractor } from '../veau-interactor/StatsInteractor';
 import { AccountQuery } from '../veau-query/AccountQuery';
-import { IAccountQuery } from '../veau-query/IAccountQuery';
-import { ILanguageQuery } from '../veau-query/ILanguageQuery';
-import { IRegionQuery } from '../veau-query/IRegionQuery';
+import { IAccountQuery } from '../veau-query/interfaces/IAccountQuery';
+import { ILanguageQuery } from '../veau-query/interfaces/ILanguageQuery';
+import { IRegionQuery } from '../veau-query/interfaces/IRegionQuery';
 import { LanguageQuery } from '../veau-query/LanguageQuery';
 import { AccountQuery as AccountMySQLQuery } from '../veau-query/MySQL/AccountQuery';
 import { LanguageQuery as LanguageMySQLQuery } from '../veau-query/MySQL/LanguageQuery';

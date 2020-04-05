@@ -13,7 +13,7 @@ import { Language } from '../../veau-vo/Language';
 import { LanguageID } from '../../veau-vo/LanguageID';
 import { LanguageName } from '../../veau-vo/LanguageName';
 import { Languages } from '../../veau-vo/Languages';
-import { ILanguageQuery } from '../ILanguageQuery';
+import { ILanguageQuery } from '../interfaces/ILanguageQuery';
 import { LanguageQuery } from '../LanguageQuery';
 import { LanguageQuery as LanguageMySQLQuery } from '../MySQL/LanguageQuery';
 import { LanguageQuery as LanguageRedisQuery } from '../Redis/LanguageQuery';

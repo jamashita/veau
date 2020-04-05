@@ -9,7 +9,7 @@ import { Try } from '../../veau-general/Try/Try';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { Region, RegionJSON } from '../../veau-vo/Region';
 import { Regions } from '../../veau-vo/Regions';
-import { IRegionQuery } from '../IRegionQuery';
+import { IRegionQuery } from '../interfaces/IRegionQuery';
 
 const REDIS_KEY: string = 'REGIONS';
 

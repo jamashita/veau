@@ -13,7 +13,7 @@ import { Region } from '../../veau-vo/Region';
 import { RegionID } from '../../veau-vo/RegionID';
 import { RegionName } from '../../veau-vo/RegionName';
 import { Regions } from '../../veau-vo/Regions';
-import { IRegionQuery } from '../IRegionQuery';
+import { IRegionQuery } from '../interfaces/IRegionQuery';
 import { RegionQuery as RegionMySQLQuery } from '../MySQL/RegionQuery';
 import { RegionQuery as RegionRedisQuery } from '../Redis/RegionQuery';
 import { RegionQuery } from '../RegionQuery';

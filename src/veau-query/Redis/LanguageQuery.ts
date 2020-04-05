@@ -9,7 +9,7 @@ import { Try } from '../../veau-general/Try/Try';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language, LanguageJSON } from '../../veau-vo/Language';
 import { Languages } from '../../veau-vo/Languages';
-import { ILanguageQuery } from '../ILanguageQuery';
+import { ILanguageQuery } from '../interfaces/ILanguageQuery';
 
 const REDIS_KEY: string = 'LANGUAGES';
 

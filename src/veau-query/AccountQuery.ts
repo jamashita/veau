@@ -5,7 +5,7 @@ import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { Try } from '../veau-general/Try/Try';
 import { Account } from '../veau-vo/Account';
 import { AccountName } from '../veau-vo/AccountName';
-import { IAccountQuery } from './IAccountQuery';
+import { IAccountQuery } from './interfaces/IAccountQuery';
 import { AccountQuery as AccountMySQLQuery } from './MySQL/AccountQuery';
 
 @injectable()

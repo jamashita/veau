@@ -8,7 +8,7 @@ import { Try } from '../veau-general/Try/Try';
 import { ISO3166 } from '../veau-vo/ISO3166';
 import { Region } from '../veau-vo/Region';
 import { Regions } from '../veau-vo/Regions';
-import { IRegionQuery } from './IRegionQuery';
+import { IRegionQuery } from './interfaces/IRegionQuery';
 import { RegionQuery as RegionMySQLQuery } from './MySQL/RegionQuery';
 import { RegionQuery as RegionRedisQuery } from './Redis/RegionQuery';
 
