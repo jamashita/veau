@@ -9,6 +9,11 @@ export type DIType = {
   StatsInteractor: symbol;
   AccountQuery: symbol;
   LanguageQuery: symbol;
+  RegionQuery: symbol;
+  StatsItemQuery: symbol;
+  StatsOutlineQuery: symbol;
+  StatsQuery: symbol;
+  StatsValueQuery: symbol;
   AccountMySQLQuery: symbol;
   LanguageMySQLQuery: symbol;
   RegionMySQLQuery: symbol;
@@ -18,11 +23,6 @@ export type DIType = {
   StatsValueMySQLQuery: symbol;
   LanguageRedisQuery: symbol;
   RegionRedisQuery: symbol;
-  RegionQuery: symbol;
-  StatsItemQuery: symbol;
-  StatsOutlineQuery: symbol;
-  StatsQuery: symbol;
-  StatsValueQuery: symbol;
 };
 
 export const TYPE: DIType = {
@@ -36,6 +36,11 @@ export const TYPE: DIType = {
   StatsInteractor: Symbol('StatsInteractor'),
   AccountQuery: Symbol('AccountQuery'),
   LanguageQuery: Symbol('LanguageQuery'),
+  RegionQuery: Symbol('RegionQuery'),
+  StatsItemQuery: Symbol('StatsItemQuery'),
+  StatsOutlineQuery: Symbol('StatsOutlineQuery'),
+  StatsQuery: Symbol('StatsQuery'),
+  StatsValueQuery: Symbol('StatsValueQuery'),
   AccountMySQLQuery: Symbol('AccountMySQLQuery'),
   LanguageMySQLQuery: Symbol('LanguageMySQLQuery'),
   RegionMySQLQuery: Symbol('RegionMySQLQuery'),
@@ -44,10 +49,5 @@ export const TYPE: DIType = {
   StatsMySQLQuery: Symbol('StatsMySQLQuery'),
   StatsValueMySQLQuery: Symbol('StatsValueMySQLQuery'),
   LanguageRedisQuery: Symbol('LanguageRedisQuery'),
-  RegionRedisQuery: Symbol('RegionRedisQuery'),
-  RegionQuery: Symbol('RegionQuery'),
-  StatsItemQuery: Symbol('StatsItemQuery'),
-  StatsOutlineQuery: Symbol('StatsOutlineQuery'),
-  StatsQuery: Symbol('StatsQuery'),
-  StatsValueQuery: Symbol('StatsValueQuery')
+  RegionRedisQuery: Symbol('RegionRedisQuery')
 };

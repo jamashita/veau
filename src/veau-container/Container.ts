@@ -42,6 +42,7 @@ container.bind<LanguageQuery>(TYPE.LanguageQuery).to(LanguageQuery).inSingletonS
 container.bind<RegionQuery>(TYPE.RegionQuery).to(RegionQuery).inSingletonScope();
 container.bind<StatsItemQuery>(TYPE.StatsItemQuery).to(StatsItemQuery).inSingletonScope();
 container.bind<StatsOutlineQuery>(TYPE.StatsOutlineQuery).to(StatsOutlineQuery).inSingletonScope();
+container.bind<StatsQuery>(TYPE.StatsQuery).to(StatsQuery).inSingletonScope();
 container.bind<StatsValueQuery>(TYPE.StatsValueQuery).to(StatsValueQuery).inSingletonScope();
 container.bind<AccountMySQLQuery>(TYPE.AccountMySQLQuery).to(AccountMySQLQuery).inSingletonScope();
 container.bind<LanguageMySQLQuery>(TYPE.LanguageMySQLQuery).to(LanguageMySQLQuery).inSingletonScope();
@@ -52,4 +53,3 @@ container.bind<StatsMySQLQuery>(TYPE.StatsMySQLQuery).to(StatsMySQLQuery).inSing
 container.bind<StatsValueMySQLQuery>(TYPE.StatsValueMySQLQuery).to(StatsValueMySQLQuery).inSingletonScope();
 container.bind<LanguageRedisQuery>(TYPE.LanguageRedisQuery).to(LanguageRedisQuery).inSingletonScope();
 container.bind<RegionRedisQuery>(TYPE.RegionRedisQuery).to(RegionRedisQuery).inSingletonScope();
-container.bind<StatsQuery>(TYPE.StatsQuery).to(StatsQuery).inSingletonScope();
