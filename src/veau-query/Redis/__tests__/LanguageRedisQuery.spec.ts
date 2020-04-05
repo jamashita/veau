@@ -1,14 +1,14 @@
 import 'jest';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { container } from '../../veau-container/Container';
-import { TYPE } from '../../veau-container/Types';
-import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { RedisString } from '../../veau-general/Redis/RedisString';
-import { Try } from '../../veau-general/Try/Try';
-import { ISO639 } from '../../veau-vo/ISO639';
-import { Language } from '../../veau-vo/Language';
-import { Languages } from '../../veau-vo/Languages';
+import { container } from '../../../veau-container/Container';
+import { TYPE } from '../../../veau-container/Types';
+import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
+import { RedisString } from '../../../veau-general/Redis/RedisString';
+import { Try } from '../../../veau-general/Try/Try';
+import { ISO639 } from '../../../veau-vo/ISO639';
+import { Language } from '../../../veau-vo/Language';
+import { Languages } from '../../../veau-vo/Languages';
 import { LanguageRedisQuery } from '../LanguageRedisQuery';
 
 describe('LanguageRedisQuery', () => {
