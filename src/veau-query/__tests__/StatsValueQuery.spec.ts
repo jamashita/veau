@@ -1,9 +1,10 @@
 import 'jest';
 import 'reflect-metadata';
-import sinon, { SinonStub } from 'sinon';
+import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { container } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
 import { StatsValuesError } from '../../veau-error/StatsValuesError';
+import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
 import { AsOf } from '../../veau-vo/AsOf';
@@ -62,6 +63,30 @@ describe('StatsValueQuery', () => {
       expect(year2000.get(1).get().getValue().get()).toEqual(2);
       expect(year2000.get(2).get().getAsOf().toString()).toEqual('2000-01-03');
       expect(year2000.get(2).get().getValue().get()).toEqual(3);
+    });
+
+    it('returns Failure', async () => {
+      const stub: SinonStub = sinon.stub();
+      StatsValueMySQLQuery.prototype.findByStatsID = stub;
+      stub.resolves(Failure.of<StatsValues, StatsValuesError>(new StatsValuesError('test failed')));
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+
+      const statsValueQuery: StatsValueQuery = container.get<StatsValueQuery>(TYPE.StatsValueQuery);
+      const trial: Try<StatsValues, StatsValuesError> = await statsValueQuery.findByStatsID(StatsID.of('d4703058-a6ff-420b-95b2-4475beba9027').get());
+
+      expect(trial.isFailure()).toEqual(true);
+
+      trial.match<void>(() => {
+        spy1();
+      }, (err: StatsValuesError) => {
+        spy2();
+        expect(err).toBeInstanceOf(StatsValuesError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
   });
 });

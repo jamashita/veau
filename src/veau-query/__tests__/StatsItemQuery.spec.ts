@@ -3,18 +3,28 @@ import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { container } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
+import { StatsItem } from '../../veau-entity/StatsItem';
 import { StatsItems } from '../../veau-entity/StatsItems';
 import { StatsItemsError } from '../../veau-error/StatsItemsError';
-import { MySQL } from '../../veau-general/MySQL/MySQL';
+import { Failure } from '../../veau-general/Try/Failure';
+import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
+import { AsOf } from '../../veau-vo/AsOf';
+import { NumericalValue } from '../../veau-vo/NumericalValue';
 import { StatsID } from '../../veau-vo/StatsID';
+import { StatsItemID } from '../../veau-vo/StatsItemID';
+import { StatsItemName } from '../../veau-vo/StatsItemName';
+import { StatsValue } from '../../veau-vo/StatsValue';
+import { StatsValues } from '../../veau-vo/StatsValues';
+import { IStatsItemQuery } from '../interfaces/IStatsItemQuery';
+import { StatsItemQuery as StatsItemMySQLQuery } from '../MySQL/StatsItemQuery';
 import { StatsItemQuery } from '../StatsItemQuery';
 
 describe('StatsItemQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const statsItemQuery1: StatsItemQuery = container.get<StatsItemQuery>(TYPE.StatsItemQuery);
-      const statsItemQuery2: StatsItemQuery = container.get<StatsItemQuery>(TYPE.StatsItemQuery);
+      const statsItemQuery1: IStatsItemQuery = container.get<IStatsItemQuery>(TYPE.StatsItemQuery);
+      const statsItemQuery2: IStatsItemQuery = container.get<IStatsItemQuery>(TYPE.StatsItemQuery);
 
       expect(statsItemQuery1).toBeInstanceOf(StatsItemQuery);
       expect(statsItemQuery1).toBe(statsItemQuery2);
@@ -25,50 +35,22 @@ describe('StatsItemQuery', () => {
     it('normal case', async () => {
       const statsID: string = '428a0978-5d01-4da6-96f3-f851cb18e935';
       const stub: SinonStub = sinon.stub();
-      MySQL.prototype.execute = stub;
-      stub.onCall(0).resolves([
-        {
-          statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
-          name: 'name1'
-        },
-        {
-          statsItemID: '5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c',
-          name: 'name2'
-        },
-        {
-          statsItemID: '2ac64841-5267-48bc-8952-ba9ad1cb12d7',
-          name: 'name3'
-        }
-      ]);
-      stub.onCall(1).resolves([
-        {
-          statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
-          asOf: '2000-01-01',
-          value: 1
-        },
-        {
-          statsItemID: '5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c',
-          asOf: '2001-01-01',
-          value: 11
-        },
-        {
-          statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
-          asOf: '2000-01-02',
-          value: 2
-        },
-        {
-          statsItemID: '5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c',
-          asOf: '2001-01-02',
-          value: 12
-        },
-        {
-          statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
-          asOf: '2000-01-03',
-          value: 3
-        }
-      ]);
+      StatsItemMySQLQuery.prototype.findByStatsID = stub;
+      stub.resolves(Success.of<StatsItems, StatsItemsError>(StatsItems.of([
+        StatsItem.of(StatsItemID.of('c0e18d31-d026-4a84-af4f-d5d26c520600').get(), StatsItemName.of('name1'), StatsValues.of([
+          StatsValue.of(StatsItemID.of('c0e18d31-d026-4a84-af4f-d5d26c520600').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1)),
+          StatsValue.of(StatsItemID.of('c0e18d31-d026-4a84-af4f-d5d26c520600').get(), AsOf.ofString('2000-01-02').get(), NumericalValue.of(2)),
+          StatsValue.of(StatsItemID.of('c0e18d31-d026-4a84-af4f-d5d26c520600').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(3))
+        ])),
+        StatsItem.of(StatsItemID.of('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c').get(), StatsItemName.of('name2'), StatsValues.of([
+          StatsValue.of(StatsItemID.of('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c').get(), AsOf.ofString('2001-01-01').get(), NumericalValue.of(11)),
+          StatsValue.of(StatsItemID.of('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c').get(), AsOf.ofString('2001-01-02').get(), NumericalValue.of(12))
+        ])),
+        StatsItem.of(StatsItemID.of('2ac64841-5267-48bc-8952-ba9ad1cb12d7').get(), StatsItemName.of('name3'), StatsValues.of([
+        ]))
+      ])));
 
-      const statsItemQuery: StatsItemQuery = container.get<StatsItemQuery>(TYPE.StatsItemQuery);
+      const statsItemQuery: IStatsItemQuery = container.get<IStatsItemQuery>(TYPE.StatsItemQuery);
       const trial: Try<StatsItems, StatsItemsError> = await statsItemQuery.findByStatsID(StatsID.of(statsID).get());
 
       expect(trial.isSuccess()).toEqual(true);
@@ -95,118 +77,15 @@ describe('StatsItemQuery', () => {
       expect(statsItems.get(2).get().getValues().size()).toEqual(0);
     });
 
-    it('statsValues\' statsItemID is malformat', async () => {
+    it('returns Failure', async () => {
       const statsID: string = '428a0978-5d01-4da6-96f3-f851cb18e935';
       const stub: SinonStub = sinon.stub();
-      MySQL.prototype.execute = stub;
-      stub.onCall(0).resolves([
-        {
-          statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
-          name: 'name1'
-        },
-        {
-          statsItemID: '5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c',
-          name: 'name2'
-        },
-        {
-          statsItemID: '2ac64841-5267-48bc-8952-ba9ad1cb12d7',
-          name: 'name3'
-        }
-      ]);
-      stub.onCall(1).resolves([
-        {
-          statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
-          asOf: '2000-01-01',
-          value: 1
-        },
-        {
-          statsItemID: 'malformat uuid',
-          asOf: '2001-01-01',
-          value: 11
-        },
-        {
-          statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
-          asOf: '2000-01-02',
-          value: 2
-        },
-        {
-          statsItemID: '5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c',
-          asOf: '2001-01-02',
-          value: 12
-        },
-        {
-          statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
-          asOf: '2000-01-03',
-          value: 3
-        }
-      ]);
+      StatsItemMySQLQuery.prototype.findByStatsID = stub;
+      stub.resolves(Failure.of<StatsItems, StatsItemsError>(new StatsItemsError('test failed')));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsItemQuery: StatsItemQuery = container.get<StatsItemQuery>(TYPE.StatsItemQuery);
-      const trial: Try<StatsItems, StatsItemsError> = await statsItemQuery.findByStatsID(StatsID.of(statsID).get());
-
-      expect(trial.isFailure()).toEqual(true);
-
-      trial.match<void>(() => {
-        spy1();
-      }, (err: StatsItemsError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsItemsError);
-      });
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
-    });
-
-    it('statsItems\' statsItemID is malformat', async () => {
-      const statsID: string = '428a0978-5d01-4da6-96f3-f851cb18e935';
-      const stub: SinonStub = sinon.stub();
-      MySQL.prototype.execute = stub;
-      stub.onCall(0).resolves([
-        {
-          statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
-          name: 'name1'
-        },
-        {
-          statsItemID: '5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c',
-          name: 'name2'
-        },
-        {
-          statsItemID: 'malformat uuid',
-          name: 'name3'
-        }
-      ]);
-      stub.onCall(1).resolves([
-        {
-          statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
-          asOf: '2000-01-01',
-          value: 1
-        },
-        {
-          statsItemID: '5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c',
-          asOf: '2001-01-01',
-          value: 11
-        },
-        {
-          statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
-          asOf: '2000-01-02',
-          value: 2
-        },
-        {
-          statsItemID: '5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c',
-          asOf: '2001-01-02',
-          value: 12
-        },
-        {
-          statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
-          asOf: '2000-01-03',
-          value: 3
-        }
-      ]);
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
-      const statsItemQuery: StatsItemQuery = container.get<StatsItemQuery>(TYPE.StatsItemQuery);
+      const statsItemQuery: IStatsItemQuery = container.get<IStatsItemQuery>(TYPE.StatsItemQuery);
       const trial: Try<StatsItems, StatsItemsError> = await statsItemQuery.findByStatsID(StatsID.of(statsID).get());
 
       expect(trial.isFailure()).toEqual(true);
