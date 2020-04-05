@@ -32,10 +32,7 @@ describe('StatsItemQuery', () => {
 
   describe('findByStatsID', () => {
     it('normal case', async () => {
-      const statsID: string = '428a0978-5d01-4da6-96f3-f851cb18e935';
-      const stub: SinonStub = sinon.stub();
-      StatsItemMySQLQuery.prototype.findByStatsID = stub;
-      stub.resolves(Success.of<StatsItems, StatsItemsError>(StatsItems.of([
+      const items: StatsItems = StatsItems.of([
         StatsItem.of(StatsItemID.of('c0e18d31-d026-4a84-af4f-d5d26c520600').get(), StatsItemName.of('name1'), StatsValues.of([
           StatsValue.of(StatsItemID.of('c0e18d31-d026-4a84-af4f-d5d26c520600').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1)),
           StatsValue.of(StatsItemID.of('c0e18d31-d026-4a84-af4f-d5d26c520600').get(), AsOf.ofString('2000-01-02').get(), NumericalValue.of(2)),
@@ -47,37 +44,20 @@ describe('StatsItemQuery', () => {
         ])),
         StatsItem.of(StatsItemID.of('2ac64841-5267-48bc-8952-ba9ad1cb12d7').get(), StatsItemName.of('name3'), StatsValues.of([
         ]))
-      ])));
+      ]);
+
+      const stub: SinonStub = sinon.stub();
+      StatsItemMySQLQuery.prototype.findByStatsID = stub;
+      stub.resolves(Success.of<StatsItems, StatsItemsError>(items));
 
       const statsItemQuery: StatsItemQuery = container.get<StatsItemQuery>(TYPE.StatsItemQuery);
-      const trial: Try<StatsItems, StatsItemsError> = await statsItemQuery.findByStatsID(StatsID.of(statsID).get());
+      const trial: Try<StatsItems, StatsItemsError> = await statsItemQuery.findByStatsID(StatsID.of('428a0978-5d01-4da6-96f3-f851cb18e935').get());
 
       expect(trial.isSuccess()).toEqual(true);
-      const statsItems: StatsItems = trial.get();
-      expect(statsItems.size()).toEqual(3);
-      expect(statsItems.get(0).get().getStatsItemID().get()).toEqual('c0e18d31-d026-4a84-af4f-d5d26c520600');
-      expect(statsItems.get(0).get().getName().get()).toEqual('name1');
-      expect(statsItems.get(0).get().getValues().size()).toEqual(3);
-      expect(statsItems.get(0).get().getValues().get(0).get().getAsOf().toString()).toEqual('2000-01-01');
-      expect(statsItems.get(0).get().getValues().get(0).get().getValue().get()).toEqual(1);
-      expect(statsItems.get(0).get().getValues().get(1).get().getAsOf().toString()).toEqual('2000-01-02');
-      expect(statsItems.get(0).get().getValues().get(1).get().getValue().get()).toEqual(2);
-      expect(statsItems.get(0).get().getValues().get(2).get().getAsOf().toString()).toEqual('2000-01-03');
-      expect(statsItems.get(0).get().getValues().get(2).get().getValue().get()).toEqual(3);
-      expect(statsItems.get(1).get().getStatsItemID().get()).toEqual('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c');
-      expect(statsItems.get(1).get().getName().get()).toEqual('name2');
-      expect(statsItems.get(1).get().getValues().size()).toEqual(2);
-      expect(statsItems.get(1).get().getValues().get(0).get().getAsOf().toString()).toEqual('2001-01-01');
-      expect(statsItems.get(1).get().getValues().get(0).get().getValue().get()).toEqual(11);
-      expect(statsItems.get(1).get().getValues().get(1).get().getAsOf().toString()).toEqual('2001-01-02');
-      expect(statsItems.get(1).get().getValues().get(1).get().getValue().get()).toEqual(12);
-      expect(statsItems.get(2).get().getStatsItemID().get()).toEqual('2ac64841-5267-48bc-8952-ba9ad1cb12d7');
-      expect(statsItems.get(2).get().getName().get()).toEqual('name3');
-      expect(statsItems.get(2).get().getValues().size()).toEqual(0);
+      expect(trial.get().equals(items)).toEqual(true);
     });
 
     it('returns Failure', async () => {
-      const statsID: string = '428a0978-5d01-4da6-96f3-f851cb18e935';
       const stub: SinonStub = sinon.stub();
       StatsItemMySQLQuery.prototype.findByStatsID = stub;
       stub.resolves(Failure.of<StatsItems, StatsItemsError>(new StatsItemsError('test failed')));
@@ -85,10 +65,9 @@ describe('StatsItemQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsItemQuery: StatsItemQuery = container.get<StatsItemQuery>(TYPE.StatsItemQuery);
-      const trial: Try<StatsItems, StatsItemsError> = await statsItemQuery.findByStatsID(StatsID.of(statsID).get());
+      const trial: Try<StatsItems, StatsItemsError> = await statsItemQuery.findByStatsID(StatsID.of('428a0978-5d01-4da6-96f3-f851cb18e935').get());
 
       expect(trial.isFailure()).toEqual(true);
-
       trial.match<void>(() => {
         spy1();
       }, (err: StatsItemsError) => {

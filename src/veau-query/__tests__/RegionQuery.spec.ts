@@ -29,38 +29,35 @@ describe('RegionQuery', () => {
   });
 
   describe('all', () => {
-    it('LanguageRedisQuery returns languages', async () => {
-      const stub: SinonStub = sinon.stub();
-      RegionRedisQuery.prototype.all = stub;
-      stub.resolves(Success.of<Regions, NoSuchElementError>(Regions.of([
+    it('RegionRedisQuery returns Success', async () => {
+      const regions: Regions = Regions.of([
         Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
         Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB'))
-      ])));
+      ]);
+
+      const stub: SinonStub = sinon.stub();
+      RegionRedisQuery.prototype.all = stub;
+      stub.resolves(Success.of<Regions, NoSuchElementError>(regions));
 
       const regionQuery: RegionQuery = container.get<RegionQuery>(TYPE.RegionQuery);
       const trial: Try<Regions, NoSuchElementError>= await regionQuery.all();
 
       expect(trial.isSuccess()).toEqual(true);
-      const regions: Regions = trial.get();
-      expect(regions.size()).toEqual(2);
-      expect(regions.get(0).get().getRegionID().get()).toEqual(1);
-      expect(regions.get(0).get().getName().get()).toEqual('Afghanistan');
-      expect(regions.get(0).get().getISO3166().get()).toEqual('AFG');
-      expect(regions.get(1).get().getRegionID().get()).toEqual(2);
-      expect(regions.get(1).get().getName().get()).toEqual('Albania');
-      expect(regions.get(1).get().getISO3166().get()).toEqual('ALB');
+      expect(trial.get().equals(regions)).toEqual(true);
     });
 
-    it('LanguageMySQLQuery returns languages', async () => {
+    it('RegionMySQLQuery returns Success', async () => {
+      const regions: Regions = Regions.of([
+        Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
+        Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB'))
+      ]);
+
       const stub1: SinonStub = sinon.stub();
       RegionRedisQuery.prototype.all = stub1;
       stub1.resolves(Failure.of<Regions, NoSuchElementError>(new NoSuchElementError('test failed')));
       const stub2: SinonStub = sinon.stub();
       RegionMySQLQuery.prototype.all = stub2;
-      stub2.resolves(Success.of<Regions, NoSuchElementError>(Regions.of([
-        Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
-        Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB'))
-      ])));
+      stub2.resolves(Success.of<Regions, NoSuchElementError>(regions));
       const stub3: SinonStub = sinon.stub();
       RegionCommand.prototype.insertAll = stub3;
       stub3.resolves();
@@ -69,35 +66,54 @@ describe('RegionQuery', () => {
       const trial: Try<Regions, NoSuchElementError>= await regionQuery.all();
 
       expect(trial.isSuccess()).toEqual(true);
-      const regions: Regions = trial.get();
-      expect(regions.size()).toEqual(2);
-      expect(regions.get(0).get().getRegionID().get()).toEqual(1);
-      expect(regions.get(0).get().getName().get()).toEqual('Afghanistan');
-      expect(regions.get(0).get().getISO3166().get()).toEqual('AFG');
-      expect(regions.get(1).get().getRegionID().get()).toEqual(2);
-      expect(regions.get(1).get().getName().get()).toEqual('Albania');
-      expect(regions.get(1).get().getISO3166().get()).toEqual('ALB');
-      expect(stub3.called).toEqual(true);
+      expect(trial.get().equals(regions)).toEqual(true);
+    });
+
+    it('RegionRedisQuery nor RegionMySQLQuery returns Failure', async () => {
+      const stub1: SinonStub = sinon.stub();
+      RegionRedisQuery.prototype.all = stub1;
+      stub1.resolves(Failure.of<Regions, NoSuchElementError>(new NoSuchElementError('test failed')));
+      const stub2: SinonStub = sinon.stub();
+      RegionMySQLQuery.prototype.all = stub2;
+      stub2.resolves(Failure.of<Regions, NoSuchElementError>(new NoSuchElementError('test failed')));
+      const stub3: SinonStub = sinon.stub();
+      RegionCommand.prototype.insertAll = stub3;
+      stub3.resolves();
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const regionQuery: RegionQuery = container.get<RegionQuery>(TYPE.RegionQuery);
+      const trial: Try<Regions, NoSuchElementError>= await regionQuery.all();
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (err: NoSuchElementError) => {
+        spy2();
+        expect(err).toBeInstanceOf(NoSuchElementError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
   });
 
   describe('findByISO3166', () => {
-    it('Redis returns a region', async () => {
-      const stub: SinonStub = sinon.stub();
-      RegionQuery.prototype.all = stub;
-      stub.resolves(Success.of<Regions, NoSuchElementError>(Regions.of([
+    it('normal case', async () => {
+      const regions: Regions = Regions.of([
         Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
         Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB'))
-      ])));
+      ]);
+
+      const stub: SinonStub = sinon.stub();
+      RegionQuery.prototype.all = stub;
+      stub.resolves(Success.of<Regions, NoSuchElementError>(regions));
 
       const regionQuery: RegionQuery = container.get<RegionQuery>(TYPE.RegionQuery);
       const trial: Try<Region, NoSuchElementError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(trial.isSuccess()).toEqual(true);
-      const region: Region = trial.get();
-      expect(region.getRegionID().get()).toEqual(2);
-      expect(region.getName().get()).toEqual('Albania');
-      expect(region.getISO3166().get()).toEqual('ALB');
+      expect(trial.get().equals(regions.get(1).get())).toEqual(true);
     });
 
     it('RegionQuery.all returns Failure', async () => {

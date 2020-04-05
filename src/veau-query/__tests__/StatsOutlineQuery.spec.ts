@@ -87,24 +87,7 @@ describe('StatsOutlineQuery', () => {
       const trial: Try<StatsOutlines, StatsOutlinesError> = await statsOutlineQuery.findByVeauAccountID(VeauAccountID.of('2ac64841-5267-48bc-8952-ba9ad1cb12d7').get(), Limit.of(2).get(), Offset.of(0).get());
 
       expect(trial.isSuccess()).toEqual(true);
-      const statsOutlines: StatsOutlines = trial.get();
-
-      expect(statsOutlines.size()).toEqual(2);
-      for (let i: number = 0; i < statsOutlines.size(); i++) {
-        const statsOutline: StatsOutline = statsOutlines.get(i).get();
-        expect(statsOutline.getStatsID()).toEqual(outlines.get(i).get().getStatsID());
-        expect(statsOutline.getLanguage().getLanguageID()).toEqual(outlines.get(i).get().getLanguage().getLanguageID());
-        expect(statsOutline.getLanguage().getName()).toEqual(outlines.get(i).get().getLanguage().getName());
-        expect(statsOutline.getLanguage().getEnglishName()).toEqual( outlines.get(i).get().getLanguage().getEnglishName());
-        expect(statsOutline.getLanguage().getISO639()).toEqual(outlines.get(i).get().getLanguage().getISO639());
-        expect(statsOutline.getRegion().getRegionID()).toEqual(outlines.get(i).get().getRegion().getRegionID());
-        expect(statsOutline.getRegion().getName()).toEqual(outlines.get(i).get().getRegion().getName());
-        expect(statsOutline.getRegion().getISO3166()).toEqual(outlines.get(i).get().getRegion().getISO3166());
-        expect(statsOutline.getTerm()).toEqual(outlines.get(i).get().getTerm());
-        expect(statsOutline.getName()).toEqual(outlines.get(i).get().getName());
-        expect(statsOutline.getUnit()).toEqual(outlines.get(i).get().getUnit());
-        expect(statsOutline.getUpdatedAt()).toEqual(outlines.get(i).get().getUpdatedAt());
-      }
+      expect(trial.get().equals(outlines)).toEqual(true);
     });
 
     it('returns Failure when statsID is malformat', async () => {
@@ -118,7 +101,6 @@ describe('StatsOutlineQuery', () => {
       const trial: Try<StatsOutlines, StatsOutlinesError> = await statsOutlineQuery.findByVeauAccountID(VeauAccountID.of('2ac64841-5267-48bc-8952-ba9ad1cb12d7').get(), Limit.of(2).get(), Offset.of(0).get());
 
       expect(trial.isFailure()).toEqual(true);
-
       trial.match<void>(() => {
         spy1();
       }, (err: StatsOutlinesError) => {

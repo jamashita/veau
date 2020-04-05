@@ -36,32 +36,24 @@ describe('AccountQuery', () => {
 
   describe('findByAccount', () => {
     it('normal case', async () => {
-      const stub: SinonStub = sinon.stub();
-      AccountMySQLQuery.prototype.findByAccount = stub;
-      stub.resolves(Success.of<Account, NoSuchElementError | AccountError>(Account.of(
+      const account: Account = Account.of(
         VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de').get(),
         AccountName.of('account'),
         Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
         Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
         Hash.of('hash')
-      )));
+      );
+
+      const stub: SinonStub = sinon.stub();
+      AccountMySQLQuery.prototype.findByAccount = stub;
+      stub.resolves(Success.of<Account, NoSuchElementError | AccountError>(account));
 
       const accountQuery: AccountQuery = container.get<AccountQuery>(TYPE.AccountQuery);
       const name: AccountName = AccountName.of('account');
       const trial: Try<Account, NoSuchElementError | AccountError> = await accountQuery.findByAccount(name);
 
       expect(trial.isSuccess()).toEqual(true);
-      const account: Account = trial.get();
-      expect(account.getVeauAccountID().get()).toEqual('998106de-b2e7-4981-9643-22cd30cd74de');
-      expect(account.getAccount().get()).toEqual('account');
-      expect(account.getLanguage().getLanguageID().get()).toEqual(1);
-      expect(account.getLanguage().getName().get()).toEqual('аҧсуа бызшәа');
-      expect(account.getLanguage().getEnglishName().get()).toEqual('Abkhazian');
-      expect(account.getLanguage().getISO639().get()).toEqual('ab');
-      expect(account.getRegion().getRegionID().get()).toEqual(1);
-      expect(account.getRegion().getName().get()).toEqual('Afghanistan');
-      expect(account.getRegion().getISO3166().get()).toEqual('AFG');
-      expect(account.getHash().get()).toEqual('hash');
+      expect(trial.get().equals(account)).toEqual(true);
     });
 
     it('returns Failure by NoSuchElementError', async () => {

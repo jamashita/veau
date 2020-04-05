@@ -29,40 +29,35 @@ describe('LanguageQuery', () => {
   });
 
   describe('all', () => {
-    it('LanguageRedisQuery returns languages', async () => {
-      const stub: SinonStub = sinon.stub();
-      LanguageRedisQuery.prototype.all = stub;
-      stub.resolves(Success.of<Languages, NoSuchElementError>(Languages.of([
+    it('LanguageRedisQuery returns Success', async () => {
+      const languages: Languages = Languages.of([
         Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
         Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
-      ])));
+      ]);
+
+      const stub: SinonStub = sinon.stub();
+      LanguageRedisQuery.prototype.all = stub;
+      stub.resolves(Success.of<Languages, NoSuchElementError>(languages));
 
       const languageQuery: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageQuery);
       const trial: Try<Languages, NoSuchElementError> = await languageQuery.all();
 
       expect(trial.isSuccess()).toEqual(true);
-      const languages: Languages = trial.get();
-      expect(languages.size()).toEqual(2);
-      expect(languages.get(0).get().getLanguageID().get()).toEqual(1);
-      expect(languages.get(0).get().getName().get()).toEqual('аҧсуа бызшәа');
-      expect(languages.get(0).get().getEnglishName().get()).toEqual('Abkhazian');
-      expect(languages.get(0).get().getISO639().get()).toEqual('ab');
-      expect(languages.get(1).get().getLanguageID().get()).toEqual(2);
-      expect(languages.get(1).get().getName().get()).toEqual('Afaraf');
-      expect(languages.get(1).get().getEnglishName().get()).toEqual('Afar');
-      expect(languages.get(1).get().getISO639().get()).toEqual('aa');
+      expect(trial.get().equals(languages)).toEqual(true);
     });
 
-    it('LanguageMySQLQuery returns languages', async () => {
+    it('LanguageMySQLQuery returns Success', async () => {
+      const languages: Languages = Languages.of([
+        Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
+        Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
+      ]);
+
       const stub1: SinonStub = sinon.stub();
       LanguageRedisQuery.prototype.all = stub1;
       stub1.resolves(Failure.of<Languages, NoSuchElementError>(new NoSuchElementError('test failed')));
       const stub2: SinonStub = sinon.stub();
       LanguageMySQLQuery.prototype.all = stub2;
-      stub2.resolves(Success.of<Languages, NoSuchElementError>(Languages.of([
-        Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
-        Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
-      ])));
+      stub2.resolves(Success.of<Languages, NoSuchElementError>(languages));
       const stub3: SinonStub = sinon.stub();
       LanguageCommand.prototype.insertAll = stub3;
       stub3.resolves();
@@ -71,37 +66,54 @@ describe('LanguageQuery', () => {
       const trial: Try<Languages, NoSuchElementError> = await languageQuery.all();
 
       expect(trial.isSuccess()).toEqual(true);
-      const languages: Languages = trial.get();
-      expect(languages.size()).toEqual(2);
-      expect(languages.get(0).get().getLanguageID().get()).toEqual(1);
-      expect(languages.get(0).get().getName().get()).toEqual('аҧсуа бызшәа');
-      expect(languages.get(0).get().getEnglishName().get()).toEqual('Abkhazian');
-      expect(languages.get(0).get().getISO639().get()).toEqual('ab');
-      expect(languages.get(1).get().getLanguageID().get()).toEqual(2);
-      expect(languages.get(1).get().getName().get()).toEqual('Afaraf');
-      expect(languages.get(1).get().getEnglishName().get()).toEqual('Afar');
-      expect(languages.get(1).get().getISO639().get()).toEqual('aa');
-      expect(stub3.called).toEqual(true);
+      expect(trial.get().equals(languages)).toEqual(true);
+    });
+
+    it('LanguageRedisQuery nor LanguageMySQLQuery returns Failure', async () => {
+      const stub1: SinonStub = sinon.stub();
+      LanguageRedisQuery.prototype.all = stub1;
+      stub1.resolves(Failure.of<Languages, NoSuchElementError>(new NoSuchElementError('test failed')));
+      const stub2: SinonStub = sinon.stub();
+      LanguageMySQLQuery.prototype.all = stub2;
+      stub2.resolves(Failure.of<Languages, NoSuchElementError>(new NoSuchElementError('test failed')));
+      const stub3: SinonStub = sinon.stub();
+      LanguageCommand.prototype.insertAll = stub3;
+      stub3.resolves();
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const languageQuery: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageQuery);
+      const trial: Try<Languages, NoSuchElementError>= await languageQuery.all();
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (err: NoSuchElementError) => {
+        spy2();
+        expect(err).toBeInstanceOf(NoSuchElementError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
   });
 
   describe('findByISO639', () => {
     it('normal case', async () => {
-      const stub: SinonStub = sinon.stub();
-      LanguageQuery.prototype.all = stub;
-      stub.resolves(Success.of<Languages, NoSuchElementError>(Languages.of([
+      const languages: Languages = Languages.of([
         Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
         Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
-      ])));
+      ]);
+
+      const stub: SinonStub = sinon.stub();
+      LanguageQuery.prototype.all = stub;
+      stub.resolves(Success.of<Languages, NoSuchElementError>(languages));
 
       const languageQuery: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageQuery);
       const trial: Try<Language, NoSuchElementError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(trial.isSuccess()).toEqual(true);
-      const language: Language = trial.get();
-      expect(language.getLanguageID().get()).toEqual(2);
-      expect(language.getName().get()).toEqual('Afaraf');
-      expect(language.getEnglishName().get()).toEqual('Afar');
+      expect(trial.get().equals(languages.get(1).get())).toEqual(true);
     });
 
     it('LanguageQuery.all returns Failure', async () => {
