@@ -9,6 +9,7 @@ export type DIType = {
   StatsInteractor: symbol;
   AccountQuery: symbol;
   LanguageQuery: symbol;
+  AccountMySQLQuery: symbol;
   LanguageMySQLQuery: symbol;
   RegionMySQLQuery: symbol;
   LanguageRedisQuery: symbol;
@@ -31,6 +32,7 @@ export const TYPE: DIType = {
   StatsInteractor: Symbol('StatsInteractor'),
   AccountQuery: Symbol('AccountQuery'),
   LanguageQuery: Symbol('LanguageQuery'),
+  AccountMySQLQuery: Symbol('AccountMySQLQuery'),
   LanguageMySQLQuery: Symbol('LanguageMySQLQuery'),
   RegionMySQLQuery: Symbol('RegionMySQLQuery'),
   LanguageRedisQuery: Symbol('LanguageRedisQuery'),
