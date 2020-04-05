@@ -14,9 +14,9 @@ import { Language } from '../../veau-vo/Language';
 import { LanguageID } from '../../veau-vo/LanguageID';
 import { LanguageName } from '../../veau-vo/LanguageName';
 import { Languages } from '../../veau-vo/Languages';
-import { LanguageMySQLQuery } from '../LanguageMySQLQuery';
 import { LanguageQuery } from '../LanguageQuery';
-import { LanguageRedisQuery } from '../LanguageRedisQuery';
+import { LanguageQuery as LanguageMySQLQuery } from '../MySQL/LanguageQuery';
+import { LanguageQuery as LanguageRedisQuery } from '../Redis/LanguageQuery';
 
 describe('LanguageQuery', () => {
   describe('container', () => {
@@ -56,10 +56,10 @@ describe('LanguageQuery', () => {
 
     it('LanguageMySQLQuery returns languages', async () => {
       const stub1: SinonStub = sinon.stub();
-      LanguageRedisQuery.prototype.all = stub1;
+      LanguageMySQLQuery.prototype.all = stub1;
       stub1.resolves(Failure.of<Languages, NoSuchElementError>(new NoSuchElementError('test failed')));
       const stub2: SinonStub = sinon.stub();
-      LanguageMySQLQuery.prototype.all = stub2;
+      LanguageQuery.prototype.all = stub2;
       stub2.resolves(Success.of<Languages, NoSuchElementError>(Languages.of([
         Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
         Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
@@ -105,7 +105,7 @@ describe('LanguageQuery', () => {
       expect(language.getEnglishName().get()).toEqual('Afar');
     });
 
-    it('LanguageQuery.prototype.all returns Failure', async () => {
+    it('LanguageQuery.all returns Failure', async () => {
       const stub: SinonStub = sinon.stub();
       LanguageQuery.prototype.all = stub;
       stub.resolves(Failure.of<Languages, NoSuchElementError>(new NoSuchElementError('test failed')));

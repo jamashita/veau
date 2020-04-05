@@ -9,8 +9,8 @@ import { ISO639 } from '../veau-vo/ISO639';
 import { Language } from '../veau-vo/Language';
 import { Languages } from '../veau-vo/Languages';
 import { ILanguageQuery } from './ILanguageQuery';
-import { LanguageMySQLQuery } from './LanguageMySQLQuery';
-import { LanguageRedisQuery } from './LanguageRedisQuery';
+import { LanguageQuery as LanguageMySQLQuery } from './MySQL/LanguageQuery';
+import { LanguageQuery as LanguageRedisQuery } from './Redis/LanguageQuery';
 
 @injectable()
 export class LanguageQuery implements ILanguageQuery {
