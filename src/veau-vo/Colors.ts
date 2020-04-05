@@ -4,7 +4,7 @@ import { Color } from './Color';
 
 export class Colors implements Collection<number, Color> {
   public readonly noun: 'Colors' = 'Colors';
-  private colors: Array<Color>;
+  private readonly colors: Array<Color>;
 
   public static of(colors: Array<Color>): Colors {
     return new Colors(colors);

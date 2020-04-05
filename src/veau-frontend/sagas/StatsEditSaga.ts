@@ -42,9 +42,9 @@ import { StatsQuery } from '../queries/StatsQuery';
 import { State } from '../State';
 
 export class StatsEditSaga {
-  private statsCommand: StatsCommand;
-  private statsQuery: StatsQuery;
-  private localeQuery: LocaleQuery;
+  private readonly statsCommand: StatsCommand;
+  private readonly statsQuery: StatsQuery;
+  private readonly localeQuery: LocaleQuery;
 
   public constructor(statsCommand: StatsCommand, statsQuery: StatsQuery, localeQuery: LocaleQuery) {
     this.statsCommand = statsCommand;

@@ -69,18 +69,27 @@ type Chart = {
 };
 
 export class Stats extends Entity<StatsID> {
+  public readonly noun: 'Stats' = 'Stats';
   private readonly statsID: StatsID;
   private readonly language: Language;
   private readonly region: Region;
-  private term: Term;
-  private name: StatsName;
-  private unit: StatsUnit;
-  private updatedAt: UpdatedAt;
+  private readonly term: Term;
+  private readonly name: StatsName;
+  private readonly unit: StatsUnit;
+  private readonly updatedAt: UpdatedAt;
   private items: StatsItems;
-  private startDate: Optional<AsOf>;
+  private readonly startDate: Optional<AsOf>;
   private columns: Optional<AsOfs>;
 
-  public static of(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: StatsUnit, updatedAt: UpdatedAt, items: StatsItems, startDate: Optional<AsOf>): Stats {
+  public static of(statsID: StatsID,
+                   language: Language,
+                   region: Region,
+                   term: Term,
+                   name: StatsName,
+                   unit: StatsUnit,
+                   updatedAt: UpdatedAt,
+                   items: StatsItems,
+                   startDate: Optional<AsOf>): Stats {
     return new Stats(statsID, language, region, term, name, unit, updatedAt, items, startDate);
   }
 
@@ -231,7 +240,15 @@ export class Stats extends Entity<StatsID> {
     );
   }
 
-  private constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: StatsUnit, updatedAt: UpdatedAt, items: StatsItems, startDate: Optional<AsOf>) {
+  private constructor(statsID: StatsID,
+                      language: Language,
+                      region: Region,
+                      term: Term,
+                      name: StatsName,
+                      unit: StatsUnit,
+                      updatedAt: UpdatedAt,
+                      items: StatsItems,
+                      startDate: Optional<AsOf>) {
     super();
     this.statsID = statsID;
     this.language = language;

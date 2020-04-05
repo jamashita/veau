@@ -7,7 +7,7 @@ import { ValueObject } from '../veau-general/ValueObject';
 
 export class HeaderSize extends ValueObject {
   public readonly noun: 'HeaderSize' = 'HeaderSize';
-  private size: number;
+  private readonly size: number;
 
   public static of(size: number): Try<HeaderSize, HeaderSizeError> {
     if (size < 0) {

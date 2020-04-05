@@ -85,15 +85,7 @@ describe('StatsInteractor', () => {
       const trial: Try<Stats, NotFoundError | StatsError> = await statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94').get());
 
       expect(trial.isSuccess()).toEqual(true);
-      const s: Stats = trial.get();
-      expect(s.getStatsID()).toEqual(statsID);
-      expect(s.getLanguage()).toEqual(language);
-      expect(s.getRegion()).toEqual(region);
-      expect(s.getTerm()).toEqual(term);
-      expect(s.getName()).toEqual(name);
-      expect(s.getUnit()).toEqual(unit);
-      expect(s.getUpdatedAt()).toEqual(updatedAt);
-      expect(s.getItems()).toEqual(items);
+      expect(trial.get().equals(stats)).toEqual(true);
     });
 
     it('returns Failure when StatsQuery.findByStatsID throws NoSuchElementError', async () => {
@@ -167,15 +159,7 @@ describe('StatsInteractor', () => {
       const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
       const trial: Try<StatsOutlines, StatsOutlinesError> = await statsInteractor.findByVeauAccountID(VeauAccountID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2').get(), Page.of(1).get());
 
-      const statsOutlines: StatsOutlines = trial.get();
-      expect(statsOutlines.size()).toEqual(1);
-      expect(statsOutlines.get(0).get().getStatsID()).toEqual(statsID);
-      expect(statsOutlines.get(0).get().getLanguage()).toEqual(language);
-      expect(statsOutlines.get(0).get().getRegion()).toEqual(region);
-      expect(statsOutlines.get(0).get().getTerm()).toEqual(term);
-      expect(statsOutlines.get(0).get().getName()).toEqual(name);
-      expect(statsOutlines.get(0).get().getUnit()).toEqual(unit);
-      expect(statsOutlines.get(0).get().getUpdatedAt()).toEqual(updatedAt);
+      expect(trial.get()).toEqual(outlines);
     });
   });
 

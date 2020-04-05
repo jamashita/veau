@@ -7,7 +7,7 @@ import { Term } from './Term';
 
 export class Terms implements Collection<number, Term> {
   public readonly noun: 'Terms' = 'Terms';
-  private terms: Array<Term>;
+  private readonly terms: Array<Term>;
 
   public static all(): Terms {
     return new Terms([

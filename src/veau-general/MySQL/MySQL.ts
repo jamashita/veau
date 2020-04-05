@@ -10,7 +10,7 @@ type Value = {
 };
 
 export class MySQL implements IQuery {
-  private pool: mysql.Pool;
+  private readonly pool: mysql.Pool;
 
   public constructor(config: mysql.PoolConfig) {
     const pool: mysql.Pool = mysql.createPool(config);

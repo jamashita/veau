@@ -10,8 +10,8 @@ export type EntranceInformationJSON = {
 
 export class EntranceInformation extends ValueObject implements JSONable {
   public readonly noun: 'EntranceInformation' = 'EntranceInformation';
-  private account: AccountName;
-  private password: Password;
+  private readonly account: AccountName;
+  private readonly password: Password;
 
   public static of(account: AccountName, password: Password): EntranceInformation {
     return new EntranceInformation(account, password);

@@ -5,6 +5,7 @@ import { Nominative } from './Nominative';
 import { JSON } from './Type/JSON';
 
 export abstract class Entity<T extends Equalable> implements JSONable, Nominative, Cloneable {
+  public abstract readonly noun: string;
 
   public abstract getIdentifier(): T;
 

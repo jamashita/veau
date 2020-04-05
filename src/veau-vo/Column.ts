@@ -7,7 +7,7 @@ import { ValueObject } from '../veau-general/ValueObject';
 
 export class Column extends ValueObject {
   public readonly noun: 'Column' = 'Column';
-  private column: number;
+  private readonly column: number;
 
   public static of(column: number): Try<Column, ColumnError> {
     if (column < 0) {

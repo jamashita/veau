@@ -2,7 +2,7 @@ import { ValueObject } from '../veau-general/ValueObject';
 
 export class LanguageID extends ValueObject {
   public readonly noun: 'LanguageID' = 'LanguageID';
-  private id: number;
+  private readonly id: number;
 
   public static of(id: number): LanguageID {
     return new LanguageID(id);

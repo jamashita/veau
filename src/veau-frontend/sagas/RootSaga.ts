@@ -7,12 +7,12 @@ import { StatsEditSaga } from './StatsEditSaga';
 import { StatsListSaga } from './StatsListSaga';
 
 export class RootSaga {
-  private entranceSaga: EntranceSaga;
-  private identitySaga: IdentitySaga;
-  private logoutSaga: LogoutSaga;
-  private redirectSaga: RedirectSaga;
-  private statsEditSaga: StatsEditSaga;
-  private statsListSaga: StatsListSaga;
+  private readonly entranceSaga: EntranceSaga;
+  private readonly identitySaga: IdentitySaga;
+  private readonly logoutSaga: LogoutSaga;
+  private readonly redirectSaga: RedirectSaga;
+  private readonly statsEditSaga: StatsEditSaga;
+  private readonly statsListSaga: StatsListSaga;
 
   public constructor(
     entranceSaga: EntranceSaga,

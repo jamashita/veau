@@ -7,7 +7,7 @@ import { ValueObject } from '../veau-general/ValueObject';
 
 export class VeauAccountID extends ValueObject {
   public readonly noun: 'VeauAccountID' = 'VeauAccountID';
-  private id: string;
+  private readonly id: string;
 
   public static of(id: string): Try<VeauAccountID, VeauAccountIDError> {
     if (id.length === UUID.size()) {

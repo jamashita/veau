@@ -2,6 +2,7 @@ import { SagaIterator } from '@redux-saga/types';
 import { all, call, Effect, fork, put, select, take } from 'redux-saga/effects';
 import { AJAXError } from '../../veau-error/AJAXError';
 import { AuthenticationFailureError } from '../../veau-error/AuthenticationFailureError';
+import { VeauAccountError } from '../../veau-error/VeauAccountError';
 import { Try } from '../../veau-general/Try/Try';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 import { VeauAccount } from '../../veau-vo/VeauAccount';
@@ -48,7 +49,7 @@ export class EntranceSaga {
 
       yield put(loading());
 
-      const trial: Try<VeauAccount, AuthenticationFailureError | AJAXError> = yield call((): Promise<Try<VeauAccount, AuthenticationFailureError | AJAXError>> => {
+      const trial: Try<VeauAccount, VeauAccountError | AuthenticationFailureError | AJAXError> = yield call((): Promise<Try<VeauAccount, VeauAccountError | AuthenticationFailureError | AJAXError>> => {
         return this.sessionQuery.findByEntranceInfo(entranceInformation);
       });
 
@@ -60,7 +61,7 @@ export class EntranceSaga {
           put(pushToStatsList()),
           put(identified())
         ]);
-      }, (err: AuthenticationFailureError | AJAXError) => {
+      }, (err: VeauAccountError | AuthenticationFailureError | AJAXError) => {
         if (err instanceof AuthenticationFailureError) {
           return put(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
         }

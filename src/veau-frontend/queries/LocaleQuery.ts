@@ -12,7 +12,7 @@ import { Locale, LocaleJSON } from '../../veau-vo/Locale';
 import { Region } from '../../veau-vo/Region';
 
 export class LocaleQuery {
-  private readonly locale: Locale | null;
+  private locale: Locale | null;
 
   public constructor() {
     this.locale = null;

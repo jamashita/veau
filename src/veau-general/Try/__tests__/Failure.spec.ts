@@ -1,24 +1,24 @@
 import 'jest';
 import sinon, { SinonSpy } from 'sinon';
-import { RuntimeError } from '../../RuntimeError';
 import { Failure } from '../Failure';
+import { MockError } from '../MockError';
 
 describe('Failure', () => {
   describe('get', () => {
     it('throws the inside error', () => {
-      const e: RuntimeError = new RuntimeError('test failed');
-      const failure: Failure<number, RuntimeError> = Failure.of<number, RuntimeError>(e);
+      const e: MockError = new MockError('test failed');
+      const failure: Failure<number, MockError> = Failure.of<number, MockError>(e);
 
       expect(() => {
         failure.get();
-      }).toThrow(RuntimeError);
+      }).toThrow(MockError);
     });
   });
 
   describe('isSuccess', () => {
     it('always returns false', () => {
       const failure1: Failure<number, Error> = Failure.of<number, Error>(new Error('failure'));
-      const failure2: Failure<number, RuntimeError> = Failure.of<number, RuntimeError>(new RuntimeError('failure'));
+      const failure2: Failure<number, MockError> = Failure.of<number, MockError>(new MockError('failure'));
 
       expect(failure1.isSuccess()).toEqual(false);
       expect(failure2.isSuccess()).toEqual(false);
@@ -28,7 +28,7 @@ describe('Failure', () => {
   describe('isFailure', () => {
     it('always returns true', () => {
       const failure1: Failure<number, Error> = Failure.of<number, Error>(new Error('failure'));
-      const failure2: Failure<number, RuntimeError> = Failure.of<number, RuntimeError>(new RuntimeError('failure'));
+      const failure2: Failure<number, MockError> = Failure.of<number, MockError>(new MockError('failure'));
 
       expect(failure1.isFailure()).toEqual(true);
       expect(failure2.isFailure()).toEqual(true);
@@ -37,9 +37,9 @@ describe('Failure', () => {
 
   describe('match', () => {
     it('excuses failure block', () => {
-      const e1: Error = new Error();
+      const e1: MockError = new MockError('test failed');
       const v1: number = 1234;
-      const failure: Failure<number, Error> = Failure.of<number, Error>(e1);
+      const failure: Failure<number, MockError> = Failure.of<number, MockError>(e1);
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
@@ -60,8 +60,8 @@ describe('Failure', () => {
   describe('getMessage', () => {
     it('normal case', () => {
       const message: string = 'los perros';
-      const e1: Error = new Error(message);
-      const failure: Failure<number, Error> = Failure.of<number, Error>(e1);
+      const e1: MockError = new MockError(message);
+      const failure: Failure<number, Error> = Failure.of<number, MockError>(e1);
 
       expect(failure.getMessage()).toEqual(message);
     });

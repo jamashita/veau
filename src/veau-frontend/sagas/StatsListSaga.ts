@@ -31,9 +31,9 @@ import { StatsQuery } from '../queries/StatsQuery';
 import { State } from '../State';
 
 export class StatsListSaga {
-  private statsCommand: StatsCommand;
-  private statsQuery: StatsQuery;
-  private localeQuery: LocaleQuery;
+  private readonly statsCommand: StatsCommand;
+  private readonly statsQuery: StatsQuery;
+  private readonly localeQuery: LocaleQuery;
 
   public constructor(statsCommand: StatsCommand, statsQuery: StatsQuery, localeQuery: LocaleQuery) {
     this.statsCommand = statsCommand;
@@ -55,7 +55,7 @@ export class StatsListSaga {
     while (true) {
       yield take(ACTION.STATS_LIST_INITIALIZE);
 
-      const trial: Try<StatsOutlines, StatsOutlinesError | AJAXError> = yield call((): Promise<Try<StatsOutlines, AJAXError>> => {
+      const trial: Try<StatsOutlines, StatsOutlinesError | AJAXError> = yield call((): Promise<Try<StatsOutlines, StatsOutlinesError | AJAXError>> => {
         return this.statsQuery.findByPage(Page.of(1).get());
       });
 

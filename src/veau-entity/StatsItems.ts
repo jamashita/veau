@@ -24,7 +24,8 @@ import { StatsValues } from '../veau-vo/StatsValues';
 import { StatsItem, StatsItemJSON, StatsItemRow } from './StatsItem';
 
 export class StatsItems implements Collection<number, StatsItem>, JSONable, Cloneable {
-  private items: Array<StatsItem>;
+  public readonly noun: 'StatsItems' = 'StatsItems';
+  private readonly items: Array<StatsItem>;
 
   public static of(items: Array<StatsItem>): StatsItems {
     return new StatsItems(items);

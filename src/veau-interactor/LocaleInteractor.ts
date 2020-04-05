@@ -15,10 +15,10 @@ import { Regions } from '../veau-vo/Regions';
 
 @injectable()
 export class LocaleInteractor {
-  private languageQuery: ILanguageQuery;
-  private regionQuery: IRegionQuery;
-  private languageCommand: ILanguageCommand;
-  private regionCommand: IRegionCommand;
+  private readonly languageQuery: ILanguageQuery;
+  private readonly regionQuery: IRegionQuery;
+  private readonly languageCommand: ILanguageCommand;
+  private readonly regionCommand: IRegionCommand;
 
   public constructor(@inject(TYPE.LanguageQuery) languageQuery: ILanguageQuery,
     @inject(TYPE.RegionQuery) regionQuery: IRegionQuery,

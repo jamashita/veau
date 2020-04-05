@@ -23,9 +23,9 @@ const logger: log4js.Logger = log4js.getLogger();
 
 @injectable()
 export class StatsInteractor {
-  private mysql: MySQL;
-  private statsQuery: IStatsQuery;
-  private statsOutlineQuery: IStatsOutlineQuery;
+  private readonly mysql: MySQL;
+  private readonly statsQuery: IStatsQuery;
+  private readonly statsOutlineQuery: IStatsOutlineQuery;
 
   public constructor(@inject(TYPE.MySQL) mysql: MySQL,
     @inject(TYPE.StatsQuery) statsQuery: IStatsQuery,
@@ -39,7 +39,7 @@ export class StatsInteractor {
   public async findByStatsID(statsID: StatsID): Promise<Try<Stats, NotFoundError | StatsError>> {
     const trial: Try<Stats, NoSuchElementError | StatsError> = await this.statsQuery.findByStatsID(statsID);
 
-    return trial.match<Try<Stats, NotFoundError>>((stats: Stats) => {
+    return trial.match<Try<Stats, NotFoundError | StatsError>>((stats: Stats) => {
       return Success.of<Stats, NotFoundError>(stats);
     }, (err: NoSuchElementError | StatsError) => {
       logger.error(err.message);

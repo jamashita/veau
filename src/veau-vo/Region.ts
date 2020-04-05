@@ -19,9 +19,9 @@ export type RegionRow = {
 
 export class Region extends ValueObject implements JSONable {
   public readonly noun: 'Region' = 'Region';
-  private regionID: RegionID;
-  private name: RegionName;
-  private iso3166: ISO3166;
+  private readonly regionID: RegionID;
+  private readonly name: RegionName;
+  private readonly iso3166: ISO3166;
 
   public static of(regionID: RegionID, name: RegionName, iso3166: ISO3166): Region {
     return new Region(regionID, name, iso3166);

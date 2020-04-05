@@ -4,8 +4,8 @@ import { Row } from './Row';
 
 export class Coordinate extends ValueObject {
   public readonly noun: 'Coordinate' = 'Coordinate';
-  private row: Row;
-  private column: Column;
+  private readonly row: Row;
+  private readonly column: Column;
 
   public static of(row: Row, column: Column): Coordinate {
     return new Coordinate(row, column);

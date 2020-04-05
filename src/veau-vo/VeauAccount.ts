@@ -1,4 +1,5 @@
 import { VeauAccountError } from '../veau-error/VeauAccountError';
+import { VeauAccountIDError } from '../veau-error/VeauAccountIDError';
 import { JSONable } from '../veau-general/JSONable';
 import { Failure } from '../veau-general/Try/Failure';
 import { Success } from '../veau-general/Try/Success';
@@ -18,10 +19,10 @@ export type VeauAccountJSON = {
 
 export class VeauAccount extends ValueObject implements JSONable {
   public readonly noun: 'VeauAccount' = 'VeauAccount';
-  private veauAccountID: VeauAccountID;
-  private account: AccountName;
-  private language: Language;
-  private region: Region;
+  private readonly veauAccountID: VeauAccountID;
+  private readonly account: AccountName;
+  private readonly language: Language;
+  private readonly region: Region;
 
   public static of(veauAccountID: VeauAccountID, name: AccountName, language: Language, region: Region): VeauAccount {
     return new VeauAccount(veauAccountID, name, language, region);
@@ -37,7 +38,7 @@ export class VeauAccount extends ValueObject implements JSONable {
 
     return VeauAccountID.of(veauAccountID).match<Try<VeauAccount, VeauAccountError>>((id: VeauAccountID) => {
       return Success.of<VeauAccount, VeauAccountError>(VeauAccount.of(id, AccountName.of(account), Language.ofJSON(language), Region.ofJSON(region)));
-    }, (err: VeauAccountError) => {
+    }, (err: VeauAccountIDError) => {
       return Failure.of<VeauAccount, VeauAccountError>(new VeauAccountError(err.message));
     });
   }

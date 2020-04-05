@@ -10,8 +10,8 @@ import { StatsValue } from '../veau-vo/StatsValue';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
 
 export class StatsUpdateTransaction implements ITransaction {
-  private stats: Stats;
-  private veauAccountID: VeauAccountID;
+  private readonly stats: Stats;
+  private readonly veauAccountID: VeauAccountID;
 
   public static of(stats: Stats, veauAccountID: VeauAccountID): StatsUpdateTransaction {
     return new StatsUpdateTransaction(stats, veauAccountID);
