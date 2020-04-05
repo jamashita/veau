@@ -62,6 +62,18 @@ describe('LocaleController', () => {
         ]
       });
     });
+
+    it('returns INTERNAL_SERVER_ERROR when Failure contains NoSuchElementError', async () => {
+      const stub: SinonStub = sinon.stub();
+      LocaleInteractor.prototype.all = stub;
+      stub.resolves(Failure.of<Locale, NoSuchElementError>(new NoSuchElementError('test failed')));
+
+      const app: express.Express = express();
+      app.use('/', LocaleController);
+
+      const response: supertest.Response = await supertest(app).get('/');
+      expect(response.status).toEqual(INTERNAL_SERVER_ERROR);
+    });
   });
 
   describe('DELETE /', () => {

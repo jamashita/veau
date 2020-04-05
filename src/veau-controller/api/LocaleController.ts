@@ -21,7 +21,7 @@ router.get('/', async (req: express.Request, res: express.Response) => {
 
   trial.match<void>((locale: JSONable) => {
     res.status(OK).send(locale.toJSON());
-  }, (err: CacheError) => {
+  }, (err: NoSuchElementError) => {
     logger.error(err.message);
 
     res.sendStatus(INTERNAL_SERVER_ERROR);
