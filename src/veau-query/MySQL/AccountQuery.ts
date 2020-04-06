@@ -3,6 +3,7 @@ import { TYPE } from '../../veau-container/Types';
 import { AccountError } from '../../veau-error/AccountError';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { IMySQL } from '../../veau-general/MySQL/interfaces/IMySQL';
+import { MySQLError } from '../../veau-general/MySQL/MySQLError';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Try } from '../../veau-general/Try/Try';
 import { Account, AccountRow } from '../../veau-vo/Account';
@@ -11,7 +12,7 @@ import { IAccountQuery } from '../interfaces/IAccountQuery';
 import { IMySQLQuery } from '../interfaces/IMySQLQuery';
 
 @injectable()
-export class AccountQuery implements IAccountQuery, IMySQLQuery {
+export class AccountQuery implements IAccountQuery<MySQLError>, IMySQLQuery {
   public readonly noun: 'AccountQuery' = 'AccountQuery';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: IMySQL;
@@ -20,7 +21,7 @@ export class AccountQuery implements IAccountQuery, IMySQLQuery {
     this.mysql = mysql;
   }
 
-  public async findByAccount(account: AccountName): Promise<Try<Account, NoSuchElementError | AccountError>> {
+  public async findByAccount(account: AccountName): Promise<Try<Account, NoSuchElementError | AccountError | MySQLError>> {
     const query: string = `SELECT
       R1.veau_account_id AS veauAccountID,
       R1.account,
@@ -42,16 +43,23 @@ export class AccountQuery implements IAccountQuery, IMySQLQuery {
       WHERE R1.account = :account
       AND R1.active = true;`;
 
-    const accountRows: Array<AccountRow> = await this.mysql.execute<Array<AccountRow>>(query, {
-      account: account.get()
-    });
+    try {
+      const accountRows: Array<AccountRow> = await this.mysql.execute<Array<AccountRow>>(query, {
+        account: account.get()
+      });
 
-    if (accountRows.length === 0) {
-      return Failure.of<Account, NoSuchElementError>(new NoSuchElementError(account.get()));
+      if (accountRows.length === 0) {
+        return Failure.of<Account, NoSuchElementError>(new NoSuchElementError(account.get()));
+      }
+
+      return Account.ofRow(accountRows[0]);
     }
+    catch (err) {
+      if (err instanceof MySQLError) {
+        return Failure.of<Account, MySQLError>(err);
+      }
 
-    const accountRow: AccountRow = accountRows[0];
-
-    return Account.ofRow(accountRow);
+      throw err;
+    }
   }
 }

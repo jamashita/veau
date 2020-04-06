@@ -5,7 +5,9 @@ import { kernel } from '../../../veau-container/Container';
 import { TYPE } from '../../../veau-container/Types';
 import { AccountError } from '../../../veau-error/AccountError';
 import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
-import { MySQL } from '../../../veau-general/MySQL/MySQL';
+import { MockMySQL } from '../../../veau-general/MySQL/mocks/MockMySQL';
+import { MockMySQLError } from '../../../veau-general/MySQL/mocks/MockMySQLError';
+import { MySQLError } from '../../../veau-general/MySQL/MySQLError';
 import { Try } from '../../../veau-general/Try/Try';
 import { Account } from '../../../veau-vo/Account';
 import { AccountName } from '../../../veau-vo/AccountName';
@@ -24,8 +26,11 @@ describe('AccountQuery', () => {
 
   describe('findByAccount', () => {
     it('normal case', async () => {
+      const name: AccountName = AccountName.of('account');
+
+      const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
-      MySQL.prototype.execute = stub;
+      mysql.execute = stub;
       stub.resolves([
         {
           veauAccountID: '998106de-b2e7-4981-9643-22cd30cd74de',
@@ -41,9 +46,8 @@ describe('AccountQuery', () => {
         }
       ]);
 
-      const accountQuery: AccountQuery = kernel.get<AccountQuery>(TYPE.AccountMySQLQuery);
-      const name: AccountName = AccountName.of('account');
-      const trial: Try<Account, NoSuchElementError | AccountError> = await accountQuery.findByAccount(name);
+      const accountQuery: AccountQuery = new AccountQuery(mysql);
+      const trial: Try<Account, NoSuchElementError | AccountError | MySQLError> = await accountQuery.findByAccount(name);
 
       expect(trial.isSuccess()).toEqual(true);
       expect(stub.withArgs(`SELECT
@@ -82,21 +86,23 @@ describe('AccountQuery', () => {
     });
 
     it('returns Failure because MySQL.query returns 0 results', async () => {
+      const name: AccountName = AccountName.of('account');
+
+      const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
-      MySQL.prototype.execute = stub;
+      mysql.execute = stub;
       stub.resolves([
       ]);
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const accountQuery: AccountQuery = kernel.get<AccountQuery>(TYPE.AccountMySQLQuery);
-      const name: AccountName = AccountName.of('account');
-      const trial: Try<Account, NoSuchElementError | AccountError> = await accountQuery.findByAccount(name);
+      const accountQuery: AccountQuery = new AccountQuery(mysql);
+      const trial: Try<Account, NoSuchElementError | AccountError | MySQLError> = await accountQuery.findByAccount(name);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: NoSuchElementError | AccountError) => {
+      }, (err: NoSuchElementError | AccountError | MySQLError) => {
         spy2();
         expect(err).toBeInstanceOf(NoSuchElementError);
       });
@@ -106,8 +112,11 @@ describe('AccountQuery', () => {
     });
 
     it('returns Failure because veauAccountID is malformat', async () => {
+      const name: AccountName = AccountName.of('account');
+
+      const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
-      MySQL.prototype.execute = stub;
+      mysql.execute = stub;
       stub.resolves([
         {
           veauAccountID: 'malformat uuid',
@@ -125,17 +134,67 @@ describe('AccountQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const accountQuery: AccountQuery = kernel.get<AccountQuery>(TYPE.AccountMySQLQuery);
-      const name: AccountName = AccountName.of('account');
-      const trial: Try<Account, NoSuchElementError | AccountError> = await accountQuery.findByAccount(name);
+      const accountQuery: AccountQuery = new AccountQuery(mysql);
+      const trial: Try<Account, NoSuchElementError | AccountError | MySQLError> = await accountQuery.findByAccount(name);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: NoSuchElementError | AccountError) => {
+      }, (err: NoSuchElementError | AccountError | MySQLError) => {
         spy2();
         expect(err).toBeInstanceOf(AccountError);
       });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('returns Failure because the client throws MySQLError by MockMySQL.execute', async () => {
+      const name: AccountName = AccountName.of('account');
+
+      const mysql: MockMySQL = new MockMySQL();
+      const stub: SinonStub = sinon.stub();
+      mysql.execute = stub;
+      stub.rejects(new MockMySQLError());
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const accountQuery: AccountQuery = new AccountQuery(mysql);
+      const trial: Try<Account, NoSuchElementError | AccountError | MySQLError> = await accountQuery.findByAccount(name);
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (err: NoSuchElementError | AccountError | MySQLError) => {
+        spy2();
+        expect(err).toBeInstanceOf(MySQLError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('returns Failure because the client throws MySQLError by MockMySQL.execute', async () => {
+      const name: AccountName = AccountName.of('account');
+      const error: Error = new Error();
+
+      const mysql: MockMySQL = new MockMySQL();
+      const stub: SinonStub = sinon.stub();
+      mysql.execute = stub;
+      stub.rejects(error);
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const accountQuery: AccountQuery = new AccountQuery(mysql);
+
+      try {
+        await accountQuery.findByAccount(name);
+        spy1();
+      }
+      catch (err) {
+        spy2();
+        expect(err).toBe(error);
+      }
 
       expect(spy1.called).toEqual(false);
       expect(spy2.called).toEqual(true);
