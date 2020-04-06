@@ -1,6 +1,6 @@
 import bodyParser from 'body-parser';
 import express from 'express';
-import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'http-status';
+import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NO_CONTENT, OK } from 'http-status';
 import 'jest';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
@@ -191,7 +191,7 @@ describe('StatsController', () => {
       app.use('/', StatsController);
 
       const response: supertest.Response = await supertest(app).get('/059ce0b2-7cba-4ba4-9a5d-a8fa7493f556');
-      expect(response.status).toEqual(NOT_FOUND);
+      expect(response.status).toEqual(NO_CONTENT);
     });
 
 

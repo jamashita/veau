@@ -1,5 +1,5 @@
 import express from 'express';
-import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'http-status';
+import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NO_CONTENT, OK } from 'http-status';
 import log4js from 'log4js';
 import { kernel } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
@@ -58,7 +58,7 @@ router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: expres
 
     logger.warn(err.message);
 
-    res.sendStatus(NOT_FOUND);
+    res.sendStatus(NO_CONTENT);
   });
 });
 
