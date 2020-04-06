@@ -1,4 +1,4 @@
-import { RuntimeError } from '../veau-general/RuntimeError';
+import { RuntimeError } from '../RuntimeError';
 
 export class AJAXError extends RuntimeError {
   public readonly name: 'AJAXError' = 'AJAXError';
