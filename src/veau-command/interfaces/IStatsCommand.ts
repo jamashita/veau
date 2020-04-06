@@ -1,12 +1,8 @@
 import { Stats } from '../../veau-entity/Stats';
-import { StatsID } from '../../veau-vo/StatsID';
-import { VeauAccountID } from '../../veau-vo/VeauAccountID';
-import { ICommand } from './ICommand';
+import { AJAXError } from '../../veau-error/AJAXError';
+import { Try } from '../../veau-general/Try/Try';
 
-export interface IStatsCommand extends ICommand {
-  readonly noun: 'StatsCommand';
+export interface IStatsCommand {
 
-  create(stats: Stats, veauAccountID: VeauAccountID): Promise<unknown>;
-
-  deleteByStatsID(statsID: StatsID): Promise<unknown>;
+  create(stats: Stats): Promise<Try<void, AJAXError>>;
 }

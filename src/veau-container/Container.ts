@@ -1,5 +1,6 @@
 import { Container } from 'inversify';
 import { SessionCommand as SessionAJAXCommand } from '../veau-command/AJAX/SessionCommand';
+import { StatsCommand as StatsAJAXCommand } from '../veau-command/AJAX/StatsCommand';
 import { LanguageCommand } from '../veau-command/LanguageCommand';
 import { LanguageCommand as LanguageRedisCommand } from '../veau-command/Redis/LanguageCommand';
 import { RegionCommand as RegionRedisCommand } from '../veau-command/Redis/RegionCommand';
@@ -63,3 +64,4 @@ kernel.bind<RegionRedisQuery>(TYPE.RegionRedisQuery).to(RegionRedisQuery).inSing
 
 vault.bind<AJAX>(TYPE.AJAX).to(AJAX).inSingletonScope();
 vault.bind<SessionAJAXCommand>(TYPE.SessionAJAXCommand).to(SessionAJAXCommand).inSingletonScope();
+vault.bind<StatsAJAXCommand>(TYPE.StatsAJAXCommand).to(StatsAJAXCommand).inSingletonScope();

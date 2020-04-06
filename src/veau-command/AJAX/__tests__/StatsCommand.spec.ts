@@ -1,6 +1,9 @@
 import { BAD_REQUEST, CREATED } from 'http-status';
 import 'jest';
+import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+import { vault } from '../../../veau-container/Container';
+import { TYPE } from '../../../veau-container/Types';
 import { Stats } from '../../../veau-entity/Stats';
 import { StatsItems } from '../../../veau-entity/StatsItems';
 import { AJAXError } from '../../../veau-error/AJAXError';
@@ -24,10 +27,20 @@ import { UpdatedAt } from '../../../veau-vo/UpdatedAt';
 import { StatsCommand } from '../StatsCommand';
 
 describe('StatsCommand', () => {
+  describe('container', () => {
+    it('must be a singleton', () => {
+      const statsCommand1: StatsCommand = vault.get<StatsCommand>(TYPE.StatsAJAXCommand);
+      const statsCommand2: StatsCommand = vault.get<StatsCommand>(TYPE.StatsAJAXCommand);
+
+      expect(statsCommand1).toBeInstanceOf(StatsCommand);
+      expect(statsCommand1).toBe(statsCommand2);
+    });
+  });
+
   describe('create', () => {
     it('normal case',  async () => {
       const stub: SinonStub = sinon.stub();
-      AJAX.post = stub;
+      AJAX.prototype.post = stub;
       stub.resolves({
         status: CREATED,
         body: {
@@ -46,7 +59,7 @@ describe('StatsCommand', () => {
         None.of<AsOf>()
       );
 
-      const statsCommand: StatsCommand = new StatsCommand();
+      const statsCommand: StatsCommand = vault.get<StatsCommand>(TYPE.StatsAJAXCommand);
       const trial: Try<void, AJAXError> = await statsCommand.create(stats);
 
       expect(stub.withArgs('/api/stats', {
@@ -74,7 +87,7 @@ describe('StatsCommand', () => {
 
     it('throws AJAXError', async () => {
       const stub: SinonStub = sinon.stub();
-      AJAX.post = stub;
+      AJAX.prototype.post = stub;
       stub.resolves({
         status: BAD_REQUEST,
         body: {
@@ -95,7 +108,7 @@ describe('StatsCommand', () => {
         None.of<AsOf>()
       );
 
-      const statsCommand: StatsCommand = new StatsCommand();
+      const statsCommand: StatsCommand = vault.get<StatsCommand>(TYPE.StatsAJAXCommand);
       const trial: Try<void, AJAXError> = await statsCommand.create(stats);
 
       expect(trial.isFailure()).toEqual(true);

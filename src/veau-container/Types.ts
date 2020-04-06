@@ -2,6 +2,7 @@ export type DIType = {
   LanguageCommand: symbol;
   RegionCommand: symbol;
   SessionAJAXCommand: symbol;
+  StatsAJAXCommand: symbol;
   LanguageRedisCommand: symbol;
   RegionRedisCommand: symbol;
   AuthenticationMiddleware: symbol;
@@ -33,6 +34,7 @@ export const TYPE: DIType = {
   LanguageCommand: Symbol('LanguageCommand'),
   RegionCommand: Symbol('RegionCommand'),
   SessionAJAXCommand: Symbol('SessionAJAXCommand'),
+  StatsAJAXCommand: Symbol('StatsAJAXCommand'),
   LanguageRedisCommand: Symbol('LanguageRedisCommand'),
   RegionRedisCommand: Symbol('RegionRedisCommand'),
   AuthenticationMiddleware: Symbol('AuthenticationMiddleware'),
