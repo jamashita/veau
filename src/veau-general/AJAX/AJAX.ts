@@ -1,10 +1,9 @@
-import { injectable } from 'inversify';
 import request from 'superagent';
-import { AJAXResponse, Requestable } from './Requestable';
-import { Resolve } from './Type/Resolve';
+import { Resolve } from '../Type/Resolve';
+import { AJAXRequestable } from './AJAXRequestable';
+import { AJAXResponse } from './AJAXResponse';
 
-@injectable()
-export class AJAX implements Requestable {
+export class AJAX implements AJAXRequestable {
 
   public get<T>(url: string): Promise<AJAXResponse<T>> {
     return new Promise<AJAXResponse<T>>((resolve: Resolve<AJAXResponse<T>>) => {

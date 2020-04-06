@@ -1,5 +1,5 @@
-import { ICommand } from '../../veau-command/interfaces/ICommand';
+import { IQuery } from './IQuery';
 
-export interface IRedisQuery extends ICommand {
+export interface IRedisQuery extends IQuery {
   readonly source: 'Redis';
 }

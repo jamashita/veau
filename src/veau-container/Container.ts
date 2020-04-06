@@ -6,7 +6,7 @@ import { LanguageCommand as LanguageRedisCommand } from '../veau-command/Redis/L
 import { RegionCommand as RegionRedisCommand } from '../veau-command/Redis/RegionCommand';
 import { RegionCommand } from '../veau-command/RegionCommand';
 import { AuthenticationMiddleware } from '../veau-controller/middlewares/AuthenticationMiddleware';
-import { AJAX } from '../veau-general/AJAX';
+import { AJAX } from '../veau-general/AJAX/AJAX';
 import { MySQL } from '../veau-general/MySQL/MySQL';
 import { Redis } from '../veau-general/Redis/Redis';
 import { veauMySQL } from '../veau-infrastructure/VeauMySQL';
@@ -15,6 +15,7 @@ import { AuthenticationInteractor } from '../veau-interactor/AuthenticationInter
 import { LocaleInteractor } from '../veau-interactor/LocaleInteractor';
 import { StatsInteractor } from '../veau-interactor/StatsInteractor';
 import { AccountQuery } from '../veau-query/AccountQuery';
+import { LocaleQuery as LocaleAJAXQuery } from '../veau-query/AJAX/LocaleQuery';
 import { LanguageQuery } from '../veau-query/LanguageQuery';
 import { AccountQuery as AccountMySQLQuery } from '../veau-query/MySQL/AccountQuery';
 import { LanguageQuery as LanguageMySQLQuery } from '../veau-query/MySQL/LanguageQuery';
@@ -62,6 +63,7 @@ kernel.bind<StatsValueMySQLQuery>(TYPE.StatsValueMySQLQuery).to(StatsValueMySQLQ
 kernel.bind<LanguageRedisQuery>(TYPE.LanguageRedisQuery).to(LanguageRedisQuery).inSingletonScope();
 kernel.bind<RegionRedisQuery>(TYPE.RegionRedisQuery).to(RegionRedisQuery).inSingletonScope();
 
-vault.bind<AJAX>(TYPE.AJAX).to(AJAX).inSingletonScope();
+vault.bind<AJAX>(TYPE.AJAX).toConstantValue(new AJAX());
 vault.bind<SessionAJAXCommand>(TYPE.SessionAJAXCommand).to(SessionAJAXCommand).inSingletonScope();
 vault.bind<StatsAJAXCommand>(TYPE.StatsAJAXCommand).to(StatsAJAXCommand).inSingletonScope();
+vault.bind<LocaleAJAXQuery>(TYPE.LocaleAJAXQuery).to(LocaleAJAXQuery).inSingletonScope();

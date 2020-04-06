@@ -1,5 +1,5 @@
-import { ICommand } from '../../veau-command/interfaces/ICommand';
+import { IQuery } from './IQuery';
 
-export interface IMySQLQuery extends ICommand {
+export interface IMySQLQuery extends IQuery {
   readonly source: 'MySQL';
 }

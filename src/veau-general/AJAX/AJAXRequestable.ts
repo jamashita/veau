@@ -1,9 +1,6 @@
-export type AJAXResponse<T> = {
-  status: number;
-  body: T;
-};
+import { AJAXResponse } from './AJAXResponse';
 
-export interface Requestable {
+export interface AJAXRequestable {
 
   get<T>(url: string): Promise<AJAXResponse<T>>;
 
