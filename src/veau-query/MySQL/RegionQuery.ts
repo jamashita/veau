@@ -2,6 +2,7 @@ import { inject, injectable } from 'inversify';
 import { TYPE } from '../../veau-container/Types';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { IMySQL } from '../../veau-general/MySQL/interfaces/IMySQL';
+import { MySQLError } from '../../veau-general/MySQL/MySQLError';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
@@ -12,7 +13,7 @@ import { IMySQLQuery } from '../interfaces/IMySQLQuery';
 import { IRegionQuery } from '../interfaces/IRegionQuery';
 
 @injectable()
-export class RegionQuery implements IRegionQuery, IMySQLQuery {
+export class RegionQuery implements IRegionQuery<MySQLError>, IMySQLQuery {
   public readonly noun: 'RegionQuery' = 'RegionQuery';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: IMySQL;
@@ -21,7 +22,7 @@ export class RegionQuery implements IRegionQuery, IMySQLQuery {
     this.mysql = mysql;
   }
 
-  public async all(): Promise<Try<Regions, NoSuchElementError>> {
+  public async all(): Promise<Try<Regions, NoSuchElementError | MySQLError>> {
     const query: string = `SELECT
       R1.region_id AS regionID,
       R1.name,
@@ -30,16 +31,25 @@ export class RegionQuery implements IRegionQuery, IMySQLQuery {
       FORCE INDEX(iso3166)
       ORDER BY R1.iso3166;`;
 
-    const regionRows: Array<RegionRow> = await this.mysql.execute<Array<RegionRow>>(query);
+    try {
+      const regionRows: Array<RegionRow> = await this.mysql.execute<Array<RegionRow>>(query);
 
-    if (regionRows.length === 0) {
-      return Failure.of<Regions, NoSuchElementError>(new NoSuchElementError('NO LANGUAGES FROM MYSQL'));
+      if (regionRows.length === 0) {
+        return Failure.of<Regions, NoSuchElementError>(new NoSuchElementError('NO REGIONS FROM MYSQL'));
+      }
+
+      return Success.of<Regions, NoSuchElementError>(Regions.ofRow(regionRows));
     }
+    catch (err) {
+      if (err instanceof MySQLError) {
+        return Failure.of<Regions, MySQLError>(err);
+      }
 
-    return Success.of<Regions, NoSuchElementError>(Regions.ofRow(regionRows));
+      throw err;
+    }
   }
 
-  public async findByISO3166(iso3166: ISO3166): Promise<Try<Region, NoSuchElementError>> {
+  public async findByISO3166(iso3166: ISO3166): Promise<Try<Region, NoSuchElementError | MySQLError>> {
     const query: string = `SELECT
       R1.region_id AS regionID,
       R1.name,
@@ -47,14 +57,23 @@ export class RegionQuery implements IRegionQuery, IMySQLQuery {
       FROM regions R1
       WHERE R1.iso3166 = :iso3166;`;
 
-    const regionRows: Array<RegionRow> = await this.mysql.execute<Array<RegionRow>>(query, {
-      iso3166: iso3166.get()
-    });
+    try {
+      const regionRows: Array<RegionRow> = await this.mysql.execute<Array<RegionRow>>(query, {
+        iso3166: iso3166.get()
+      });
 
-    if (regionRows.length === 0) {
-      return Failure.of<Region, NoSuchElementError>(new NoSuchElementError('NO LANGUAGES FROM MYSQL'));
+      if (regionRows.length === 0) {
+        return Failure.of<Region, NoSuchElementError>(new NoSuchElementError('NO REGIONS FROM MYSQL'));
+      }
+
+      return Success.of<Region, NoSuchElementError>(Region.ofRow(regionRows[0]));
     }
+    catch (err) {
+      if (err instanceof MySQLError) {
+        return Failure.of<Region, MySQLError>(err);
+      }
 
-    return Success.of<Region, NoSuchElementError>(Region.ofRow(regionRows[0]));
+      throw err;
+    }
   }
 }
