@@ -2,10 +2,8 @@ import 'jest';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { Stats } from '../../../veau-entity/Stats';
 import { StatsItems } from '../../../veau-entity/StatsItems';
-import { StatsIDError } from '../../../veau-error/StatsIDError';
-import { IQuery } from '../../../veau-general/MySQL/IQuery';
-import { MockMySQLError } from '../../../veau-general/MySQL/MockMySQLError';
-import { MockQuery } from '../../../veau-general/MySQL/MockQuery';
+import { MockMySQLError } from '../../../veau-general/MySQL/mocks/MockMySQLError';
+import { MockQuery } from '../../../veau-general/MySQL/mocks/MockQuery';
 import { MySQLError } from '../../../veau-general/MySQL/MySQLError';
 import { None } from '../../../veau-general/Optional/None';
 import { Try } from '../../../veau-general/Try/Try';
@@ -42,7 +40,7 @@ describe('StatsCommand', () => {
       );
       const accountID: VeauAccountID = VeauAccountID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87').get();
 
-      const query: IQuery = new MockQuery();
+      const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
 
@@ -84,7 +82,7 @@ describe('StatsCommand', () => {
       );
       const accountID: VeauAccountID = VeauAccountID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87').get();
 
-      const query: IQuery = new MockQuery();
+      const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
       stub.rejects(new MockMySQLError());
@@ -121,7 +119,7 @@ describe('StatsCommand', () => {
       const accountID: VeauAccountID = VeauAccountID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87').get();
       const error: Error = new Error();
 
-      const query: IQuery = new MockQuery();
+      const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
       stub.rejects(error);
@@ -138,14 +136,14 @@ describe('StatsCommand', () => {
 
   describe('deleteByStatsID', () => {
     it('normal case', async () => {
-      const statsID: Try<StatsID, StatsIDError> = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
+      const statsID: StatsID = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get();
 
-      const query: IQuery = new MockQuery();
+      const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
 
       const statsCommand: StatsCommand = StatsCommand.of(query);
-      const trial: Try<void, MySQLError> = await statsCommand.deleteByStatsID(statsID.get());
+      const trial: Try<void, MySQLError> = await statsCommand.deleteByStatsID(statsID);
 
       expect(stub.withArgs(`DELETE R1
       FROM stats R1
@@ -156,9 +154,9 @@ describe('StatsCommand', () => {
     });
 
     it('returns Failure because the client throws MysqlError', async () => {
-      const statsID: Try<StatsID, StatsIDError> = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
+      const statsID: StatsID = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get();
 
-      const query: IQuery = new MockQuery();
+      const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
       stub.rejects(new MockMySQLError());
@@ -166,7 +164,7 @@ describe('StatsCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsCommand: StatsCommand = StatsCommand.of(query);
-      const trial: Try<void, MySQLError> = await statsCommand.deleteByStatsID(statsID.get());
+      const trial: Try<void, MySQLError> = await statsCommand.deleteByStatsID(statsID);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -181,17 +179,17 @@ describe('StatsCommand', () => {
     });
 
     it('throws Error', async () => {
-      const statsID: Try<StatsID, StatsIDError> = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
+      const statsID: StatsID = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get();
       const error: Error = new Error();
 
-      const query: IQuery = new MockQuery();
+      const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
       stub.rejects(error);
 
       const statsCommand: StatsCommand = StatsCommand.of(query);
       try {
-        await statsCommand.deleteByStatsID(statsID.get());
+        await statsCommand.deleteByStatsID(statsID);
       }
       catch (err) {
         expect(err).toBe(error);

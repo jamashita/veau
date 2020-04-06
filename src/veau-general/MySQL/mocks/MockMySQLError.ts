@@ -1,4 +1,4 @@
-import { MysqlError } from 'src/veau-general/MySQL/MySQL';
+import { MysqlError } from 'mysql';
 import { MySQLError } from '../MySQLError';
 
 const err: MysqlError = {

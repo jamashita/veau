@@ -1,9 +1,9 @@
 import 'jest';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { StatsItem } from '../../../veau-entity/StatsItem';
-import { IQuery } from '../../../veau-general/MySQL/IQuery';
-import { MockMySQLError } from '../../../veau-general/MySQL/MockMySQLError';
-import { MockQuery } from '../../../veau-general/MySQL/MockQuery';
+import { IQuery } from '../../../veau-general/MySQL/interfaces/IQuery';
+import { MockMySQLError } from '../../../veau-general/MySQL/mocks/MockMySQLError';
+import { MockQuery } from '../../../veau-general/MySQL/mocks/MockQuery';
 import { MySQLError } from '../../../veau-general/MySQL/MySQLError';
 import { Try } from '../../../veau-general/Try/Try';
 import { StatsID } from '../../../veau-vo/StatsID';
