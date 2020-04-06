@@ -1,4 +1,5 @@
 import IORedis from 'ioredis';
+import { RedisError } from './RedisError';
 
 export class RedisString {
   private readonly client: IORedis.Redis;
@@ -8,16 +9,36 @@ export class RedisString {
   }
 
   public async set(key: string, value: string): Promise<boolean> {
-    const result: string = await this.client.set(key, value);
+    try {
+      const result: string = await this.client.set(key, value);
 
-    if (result === 'OK') {
-      return true;
+      if (result === 'OK') {
+        return true;
+      }
+
+      return false;
     }
+    catch (err) {
+      if (err instanceof Error) {
+        throw new RedisError(err);
+      }
 
-    return false;
+      throw err;
+    }
   }
 
-  public get(key: string): Promise<string | null> {
-    return this.client.get(key);
+  public async get(key: string): Promise<string | null> {
+    try {
+      const result: string | null = await this.client.get(key);
+
+      return result;
+    }
+    catch (err) {
+      if (err instanceof Error) {
+        throw new RedisError(err);
+      }
+
+      throw err;
+    }
   }
 }

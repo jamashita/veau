@@ -1,6 +1,6 @@
-import { RuntimeError } from '../RuntimeError';
+import { SourceError } from '../SourceError';
 
-export class RedisError extends RuntimeError {
+export class RedisError extends SourceError {
   public readonly name: 'RedisError' = 'RedisError';
 
   public constructor(err: Error) {

@@ -1,7 +1,7 @@
 import { MysqlError } from 'mysql';
-import { RuntimeError } from '../RuntimeError';
+import { SourceError } from '../SourceError';
 
-export class MySQLError extends RuntimeError implements MysqlError {
+export class MySQLError extends SourceError implements MysqlError {
   public readonly name: 'MySQLError' = 'MySQLError';
   public readonly code: string;
   public readonly errno: number;

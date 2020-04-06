@@ -1,4 +1,5 @@
 import IORedis from 'ioredis';
+import { RedisError } from './RedisError';
 
 export class RedisSet {
   private readonly client: IORedis.Redis;
@@ -7,37 +8,112 @@ export class RedisSet {
     this.client = client;
   }
 
-  public add(key: string, value: string): unknown {
-    return this.client.sadd(key, value);
+  public async add(key: string, ...values: Array<string>): Promise<number> {
+    try {
+      const result: number = await this.client.sadd(key, ...values);
+
+      return result;
+    }
+    catch (err) {
+      if (err instanceof Error) {
+        throw new RedisError(err);
+      }
+
+      throw err;
+    }
   }
 
-  public remove(key: string, value: string): unknown {
-    return this.client.srem(key, value);
+  public async remove(key: string, values: Array<string>): Promise<number> {
+    try {
+      const result: number = await this.client.srem(key, ...values);
+
+      return result;
+    }
+    catch (err) {
+      if (err instanceof Error) {
+        throw new RedisError(err);
+      }
+
+      throw err;
+    }
   }
 
   public async has(key: string, value: string): Promise<boolean> {
-    const result: 0 | 1 = await this.client.sismember(key, value);
+    try {
+      const result: 0 | 1 = await this.client.sismember(key, value);
 
-    if (result === 0) {
-      return false;
+      if (result === 0) {
+        return false;
+      }
+
+      return true;
     }
+    catch (err) {
+      if (err instanceof Error) {
+        throw new RedisError(err);
+      }
 
-    return true;
+      throw err;
+    }
   }
 
-  public length(key: string): Promise<number> {
-    return this.client.scard(key);
+  public async length(key: string): Promise<number> {
+    try {
+      const result: number = await this.client.scard(key);
+
+      return result;
+    }
+    catch (err) {
+      if (err instanceof Error) {
+        throw new RedisError(err);
+      }
+
+      throw err;
+    }
   }
 
-  public dump(key: string): Promise<unknown> {
-    return this.client.smembers(key);
+  public async dump(key: string): Promise<Array<string>> {
+    try {
+      const result: Array<string> = await this.client.smembers(key);
+
+      return result;
+    }
+    catch (err) {
+      if (err instanceof Error) {
+        throw new RedisError(err);
+      }
+
+      throw err;
+    }
   }
 
-  public random(key: string): Promise<unknown> {
-    return this.client.srandmember(key);
+  public async random(key: string): Promise<string | null> {
+    try {
+      const result: string | null = await this.client.srandmember(key);
+
+      return result;
+    }
+    catch (err) {
+      if (err instanceof Error) {
+        throw new RedisError(err);
+      }
+
+      throw err;
+    }
   }
 
-  public pop(key: string): Promise<unknown> {
-    return this.client.spop(key);
+  public async pop(key: string): Promise<unknown> {
+    try {
+      const result: string | null = await this.client.spop(key);
+
+      return result;
+    }
+    catch (err) {
+      if (err instanceof Error) {
+        throw new RedisError(err);
+      }
+
+      throw err;
+    }
   }
 }

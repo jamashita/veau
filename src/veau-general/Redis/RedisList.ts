@@ -1,4 +1,5 @@
 import IORedis from 'ioredis';
+import { RedisError } from './RedisError';
 
 export class RedisList {
   private readonly client: IORedis.Redis;
@@ -7,34 +8,111 @@ export class RedisList {
     this.client = client;
   }
 
-  public push(key: string, value: string): unknown {
-    return this.client.rpush(key, value);
+  public async push(key: string, value: string): Promise<number> {
+    try {
+      const result: number = await this.client.rpush(key, value);
+
+      return result;
+    }
+    catch (err) {
+      if (err instanceof Error) {
+        throw new RedisError(err);
+      }
+
+      throw err;
+    }
   }
 
-  public pop(key: string): Promise<string> {
-    return this.client.rpop(key);
+  public async pop(key: string): Promise<string> {
+    try {
+      const result: string = await this.client.rpop(key);
+
+      return result;
+    }
+    catch (err) {
+      if (err instanceof Error) {
+        throw new RedisError(err);
+      }
+
+      throw err;
+    }
   }
 
-  public shift(key: string): Promise<string> {
-    return this.client.lpop(key);
+  public async shift(key: string): Promise<string> {
+    try {
+      const result: string = await this.client.lpop(key);
+
+      return result;
+    }
+    catch (err) {
+      if (err instanceof Error) {
+        throw new RedisError(err);
+      }
+
+      throw err;
+    }
   }
 
-  public length(key: string): Promise<number> {
-    return this.client.llen(key);
+  public async length(key: string): Promise<number> {
+    try {
+      const result: number = await this.client.llen(key);
+
+      return result;
+    }
+    catch (err) {
+      if (err instanceof Error) {
+        throw new RedisError(err);
+      }
+
+      throw err;
+    }
   }
 
-  public remove(key: string, value: string): Promise<number> {
-    return this.client.lrem(key, 0, value);
+  public async remove(key: string, value: string): Promise<number> {
+    try {
+      const result: number = await this.client.lrem(key, 0, value);
+
+      return result;
+    }
+    catch (err) {
+      if (err instanceof Error) {
+        throw new RedisError(err);
+      }
+
+      throw err;
+    }
   }
 
-  public select(key: string, offset: number, limit: number): Promise<unknown> {
+  public async select(key: string, offset: number, limit: number): Promise<Array<string>> {
     const start: number = offset;
     const stop: number = offset + limit;
 
-    return this.client.lrange(key, start, stop);
+    try {
+      const result: Array<string> = await this.client.lrange(key, start, stop);
+
+      return result;
+    }
+    catch (err) {
+      if (err instanceof Error) {
+        throw new RedisError(err);
+      }
+
+      throw err;
+    }
   }
 
-  public dump(key: string): Promise<unknown> {
-    return this.client.lrange(key, 0, -1);
+  public async dump(key: string): Promise<Array<string>> {
+    try {
+      const result: Array<string> = await this.client.lrange(key, 0, -1);
+
+      return result;
+    }
+    catch (err) {
+      if (err instanceof Error) {
+        throw new RedisError(err);
+      }
+
+      throw err;
+    }
   }
 }

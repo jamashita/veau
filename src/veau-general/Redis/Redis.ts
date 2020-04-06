@@ -1,4 +1,5 @@
 import IORedis from 'ioredis';
+import { RedisError } from './RedisError';
 import { RedisHash } from './RedisHash';
 import { RedisList } from './RedisList';
 import { RedisSet } from './RedisSet';
@@ -42,49 +43,118 @@ export class Redis {
     return this.string;
   }
 
-  public async delete(key: string): Promise<boolean> {
-    const result: number = await this.client.del(key);
+  public async delete(keys: Array<string>): Promise<boolean> {
+    try {
+      const result: number = await this.client.del(...keys);
 
-    if (result === 0) {
-      return false;
+      if (result === 0) {
+        return false;
+      }
+
+      return true;
     }
+    catch (err) {
+      if (err instanceof Error) {
+        throw new RedisError(err);
+      }
 
-    return true;
+      throw err;
+    }
   }
 
-  public async exists(key: string): Promise<boolean> {
-    const result: number = await this.client.exists(key);
+  public async exists(keys: Array<string>): Promise<boolean> {
+    try {
+      const result: number = await this.client.exists(...keys);
 
-    if (result === 0) {
-      return false;
+      if (result === 0) {
+        return false;
+      }
+
+      return true;
     }
+    catch (err) {
+      if (err instanceof Error) {
+        throw new RedisError(err);
+      }
 
-    return true;
+      throw err;
+    }
   }
 
   public async expires(key: string, seconds: number): Promise<boolean> {
-    const result: 0 | 1 = await this.client.expire(key, seconds);
+    try {
+      const result: 0 | 1 = await this.client.expire(key, seconds);
 
-    if (result === 0) {
-      return false;
+      if (result === 0) {
+        return false;
+      }
+
+      return true;
     }
+    catch (err) {
+      if (err instanceof Error) {
+        throw new RedisError(err);
+      }
 
-    return true;
+      throw err;
+    }
   }
 
-  public subscribe(channel: string): unknown {
-    return this.client.subscribe(channel);
+  public async subscribe(channels: Array<string>): Promise<number> {
+    try {
+      const result: number = await this.client.subscribe(...channels);
+
+      return result;
+    }
+    catch (err) {
+      if (err instanceof Error) {
+        throw new RedisError(err);
+      }
+
+      throw err;
+    }
   }
 
-  public unsubscribe(channel: string): unknown {
-    return this.client.unsubscribe(channel);
+  public async unsubscribe(channels: Array<string>): Promise<number> {
+    try {
+      const result: number = await this.client.unsubscribe(...channels);
+
+      return result;
+    }
+    catch (err) {
+      if (err instanceof Error) {
+        throw new RedisError(err);
+      }
+
+      throw err;
+    }
   }
 
-  public publish(channel: string, message: string): Promise<number> {
-    return this.client.publish(channel, message);
+  public async publish(channel: string, message: string): Promise<number> {
+    try {
+      const result: number = await this.client.publish(channel, message);
+
+      return result;
+    }
+    catch (err) {
+      if (err instanceof Error) {
+        throw new RedisError(err);
+      }
+
+      throw err;
+    }
   }
 
-  public onMessage(callback: (channel: string, message: string) => void): void {
-    this.client.on('message', callback);
+  public on(callback: (channel: string, message: string) => void): void {
+    try {
+      this.client.on('message', callback);
+    }
+    catch (err) {
+      if (err instanceof Error) {
+        throw new RedisError(err);
+      }
+
+      throw err;
+    }
   }
 }
