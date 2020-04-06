@@ -2,6 +2,7 @@ import { inject, injectable } from 'inversify';
 import { TYPE } from '../../veau-container/Types';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { IMySQL } from '../../veau-general/MySQL/interfaces/IMySQL';
+import { MySQLError } from '../../veau-general/MySQL/MySQLError';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
@@ -12,7 +13,7 @@ import { ILanguageQuery } from '../interfaces/ILanguageQuery';
 import { IMySQLQuery } from '../interfaces/IMySQLQuery';
 
 @injectable()
-export class LanguageQuery implements ILanguageQuery, IMySQLQuery {
+export class LanguageQuery implements ILanguageQuery<MySQLError>, IMySQLQuery {
   public readonly noun: 'LanguageQuery' = 'LanguageQuery';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: IMySQL;
@@ -21,7 +22,7 @@ export class LanguageQuery implements ILanguageQuery, IMySQLQuery {
     this.mysql = mysql;
   }
 
-  public async all(): Promise<Try<Languages, NoSuchElementError>> {
+  public async all(): Promise<Try<Languages, NoSuchElementError | MySQLError>> {
     const query: string = `SELECT
       R1.language_id AS languageID,
       R1.name,
@@ -31,16 +32,25 @@ export class LanguageQuery implements ILanguageQuery, IMySQLQuery {
       FORCE INDEX(iso639)
       ORDER BY R1.iso639;`;
 
-    const languageRows: Array<LanguageRow> = await this.mysql.execute<Array<LanguageRow>>(query);
+    try {
+      const languageRows: Array<LanguageRow> = await this.mysql.execute<Array<LanguageRow>>(query);
 
-    if (languageRows.length === 0) {
-      return Failure.of<Languages, NoSuchElementError>(new NoSuchElementError('NO LANGUAGES FROM MYSQL'));
+      if (languageRows.length === 0) {
+        return Failure.of<Languages, NoSuchElementError>(new NoSuchElementError('NO LANGUAGES FROM MYSQL'));
+      }
+
+      return Success.of<Languages, NoSuchElementError>(Languages.ofRow(languageRows));
     }
+    catch (err) {
+      if (err instanceof MySQLError) {
+        return Failure.of<Languages, MySQLError>(err);
+      }
 
-    return Success.of<Languages, NoSuchElementError>(Languages.ofRow(languageRows));
+      throw err;
+    }
   }
 
-  public async findByISO639(iso639: ISO639): Promise<Try<Language, NoSuchElementError>> {
+  public async findByISO639(iso639: ISO639): Promise<Try<Language, NoSuchElementError | MySQLError>> {
     const query: string = `SELECT
       R1.language_id AS languageID,
       R1.name,
@@ -49,14 +59,23 @@ export class LanguageQuery implements ILanguageQuery, IMySQLQuery {
       FROM languages R1
       WHERE R1.iso639 = :iso639;`;
 
-    const languageRows: Array<LanguageRow> = await this.mysql.execute<Array<LanguageRow>>(query, {
-      iso639: iso639.get()
-    });
+    try {
+      const languageRows: Array<LanguageRow> = await this.mysql.execute<Array<LanguageRow>>(query, {
+        iso639: iso639.get()
+      });
 
-    if (languageRows.length === 0) {
-      return Failure.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.toString()));
+      if (languageRows.length === 0) {
+        return Failure.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.toString()));
+      }
+
+      return Success.of<Language, NoSuchElementError>(Language.ofRow(languageRows[0]));
     }
+    catch (err) {
+      if (err instanceof MySQLError) {
+        return Failure.of<Language, MySQLError>(err);
+      }
 
-    return Success.of<Language, NoSuchElementError>(Language.ofRow(languageRows[0]));
+      throw err;
+    }
   }
 }
