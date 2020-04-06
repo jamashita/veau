@@ -82,8 +82,8 @@ describe('LocaleInteractor',  () => {
       trial.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError) => {
-        expect(err).toBeInstanceOf(NoSuchElementError);
         spy2();
+        expect(err).toBeInstanceOf(NoSuchElementError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -110,8 +110,8 @@ describe('LocaleInteractor',  () => {
       trial.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError) => {
-        expect(err).toBeInstanceOf(NoSuchElementError);
         spy2();
+        expect(err).toBeInstanceOf(NoSuchElementError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -155,8 +155,8 @@ describe('LocaleInteractor',  () => {
       trial.match<void>(() => {
         spy1();
       }, (err: CacheError) => {
-        expect(err).toBeInstanceOf(CacheError);
         spy2();
+        expect(err).toBeInstanceOf(CacheError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -182,8 +182,8 @@ describe('LocaleInteractor',  () => {
       trial.match<void>(() => {
         spy1();
       }, (err: CacheError) => {
-        expect(err).toBeInstanceOf(CacheError);
         spy2();
+        expect(err).toBeInstanceOf(CacheError);
       });
 
       expect(spy1.called).toEqual(false);

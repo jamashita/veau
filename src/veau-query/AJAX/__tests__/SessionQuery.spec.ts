@@ -4,10 +4,10 @@ import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { vault } from '../../../veau-container/Container';
 import { TYPE } from '../../../veau-container/Types';
-import { AJAXError } from '../../../veau-general/AJAX/AJAXError';
 import { AuthenticationFailureError } from '../../../veau-error/AuthenticationFailureError';
 import { UnauthorizedError } from '../../../veau-error/UnauthorizedError';
 import { VeauAccountError } from '../../../veau-error/VeauAccountError';
+import { AJAXError } from '../../../veau-general/AJAX/AJAXError';
 import { MockAJAX } from '../../../veau-general/AJAX/mocks/MockAJAX';
 import { Try } from '../../../veau-general/Try/Try';
 import { AccountName } from '../../../veau-vo/AccountName';
@@ -99,7 +99,7 @@ describe('SessionQuery', () => {
       }, (err: VeauAccountError | UnauthorizedError) => {
         spy2();
         expect(err).toBeInstanceOf(VeauAccountError);
-      })
+      });
 
       expect(spy1.called).toEqual(false);
       expect(spy2.called).toEqual(true);
@@ -127,7 +127,7 @@ describe('SessionQuery', () => {
       }, (err: VeauAccountError | UnauthorizedError) => {
         spy2();
         expect(err).toBeInstanceOf(UnauthorizedError);
-      })
+      });
 
       expect(spy1.called).toEqual(false);
       expect(spy2.called).toEqual(true);

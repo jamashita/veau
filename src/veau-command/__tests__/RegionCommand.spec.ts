@@ -31,6 +31,8 @@ describe('RegionCommand', () => {
       const stub: SinonStub = sinon.stub();
       RegionRedisCommand.prototype.insertAll = stub;
       stub.resolves();
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const regions: Regions = Regions.of([
         Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abc'))
@@ -41,10 +43,15 @@ describe('RegionCommand', () => {
 
       try {
         await regionCommand.insertAll(regions);
+        spy1();
       }
       catch (err) {
+        spy2();
         fail(err);
       }
+
+      expect(spy1.called).toEqual(true);
+      expect(spy2.called).toEqual(false);
     });
   });
 
@@ -74,8 +81,8 @@ describe('RegionCommand', () => {
       trial.match<void>(() => {
         spy1();
       }, (err: CacheError) => {
-        expect(err).toBeInstanceOf(CacheError);
         spy2();
+        expect(err).toBeInstanceOf(CacheError);
       });
 
       expect(spy1.called).toEqual(false);

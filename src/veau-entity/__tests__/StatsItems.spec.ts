@@ -581,8 +581,8 @@ describe('StatsItems', () => {
       trial.match<void>(() => {
         spy1();
       }, (err: StatsItemsError) => {
-        expect(err).toBeInstanceOf(StatsItemsError);
         spy2();
+        expect(err).toBeInstanceOf(StatsItemsError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -602,8 +602,8 @@ describe('StatsItems', () => {
       trial.match<void>(() => {
         spy1();
       }, (err: StatsItemsError) => {
-        expect(err).toBeInstanceOf(StatsItemsError);
         spy2();
+        expect(err).toBeInstanceOf(StatsItemsError);
       });
 
       expect(spy1.called).toEqual(false);

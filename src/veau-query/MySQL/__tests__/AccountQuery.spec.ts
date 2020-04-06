@@ -97,8 +97,8 @@ describe('AccountQuery', () => {
       trial.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | AccountError) => {
-        expect(err).toBeInstanceOf(NoSuchElementError);
         spy2();
+        expect(err).toBeInstanceOf(NoSuchElementError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -133,8 +133,8 @@ describe('AccountQuery', () => {
       trial.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | AccountError) => {
-        expect(err).toBeInstanceOf(AccountError);
         spy2();
+        expect(err).toBeInstanceOf(AccountError);
       });
 
       expect(spy1.called).toEqual(false);

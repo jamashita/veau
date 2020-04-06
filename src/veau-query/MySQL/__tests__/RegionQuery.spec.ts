@@ -123,8 +123,8 @@ describe('RegionQuery', () => {
       trial.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError) => {
-        expect(err).toBeInstanceOf(NoSuchElementError);
         spy2();
+        expect(err).toBeInstanceOf(NoSuchElementError);
       });
 
       expect(spy1.called).toEqual(false);

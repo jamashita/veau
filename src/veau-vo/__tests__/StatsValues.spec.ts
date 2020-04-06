@@ -334,8 +334,8 @@ describe('StatsValues', () => {
       trial.match<void>(() => {
         spy1();
       }, (err: StatsValuesError) => {
-        expect(err).toBeInstanceOf(StatsValuesError);
         spy2();
+        expect(err).toBeInstanceOf(StatsValuesError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -355,8 +355,8 @@ describe('StatsValues', () => {
       trial.match<void>(() => {
         spy1();
       }, (err: StatsValuesError) => {
-        expect(err).toBeInstanceOf(StatsValuesError);
         spy2();
+        expect(err).toBeInstanceOf(StatsValuesError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -415,8 +415,8 @@ describe('StatsValues', () => {
       trial.match<void>(() => {
         spy1();
       }, (err: StatsValuesError) => {
-        expect(err).toBeInstanceOf(StatsValuesError);
         spy2();
+        expect(err).toBeInstanceOf(StatsValuesError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -446,8 +446,8 @@ describe('StatsValues', () => {
       trial.match<void>(() => {
         spy1();
       }, (err: StatsValuesError) => {
-        expect(err).toBeInstanceOf(StatsValuesError);
         spy2();
+        expect(err).toBeInstanceOf(StatsValuesError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -506,8 +506,8 @@ describe('StatsValues', () => {
       trial.match<void>(() => {
         spy1();
       }, (err: StatsValuesError) => {
-        expect(err).toBeInstanceOf(StatsValuesError);
         spy2();
+        expect(err).toBeInstanceOf(StatsValuesError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -537,8 +537,8 @@ describe('StatsValues', () => {
       trial.match<void>(() => {
         spy1();
       }, (err: StatsValuesError) => {
-        expect(err).toBeInstanceOf(StatsValuesError);
         spy2();
+        expect(err).toBeInstanceOf(StatsValuesError);
       });
 
       expect(spy1.called).toEqual(false);

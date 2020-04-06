@@ -101,8 +101,8 @@ describe('StatsInteractor', () => {
       trial.match<void>(() => {
         spy1();
       }, (err: NotFoundError | StatsError) => {
-        expect(err).toBeInstanceOf(NotFoundError);
         spy2();
+        expect(err).toBeInstanceOf(NotFoundError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -122,8 +122,8 @@ describe('StatsInteractor', () => {
       trial.match<void>(() => {
         spy1();
       }, (err: NotFoundError | StatsError) => {
-        expect(err).toBeInstanceOf(StatsError);
         spy2();
+        expect(err).toBeInstanceOf(StatsError);
       });
 
       expect(spy1.called).toEqual(false);

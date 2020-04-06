@@ -117,8 +117,8 @@ describe('StatsCommand', () => {
       trial.match<void>(() => {
         spy1();
       }, (err: AJAXError) => {
-        expect(err).toBeInstanceOf(AJAXError);
         spy2();
+        expect(err).toBeInstanceOf(AJAXError);
       });
 
       expect(spy1.called).toEqual(false);
