@@ -8,7 +8,7 @@ import { AJAXError } from '../../../veau-general/AJAX/AJAXError';
 import { AuthenticationFailureError } from '../../../veau-error/AuthenticationFailureError';
 import { UnauthorizedError } from '../../../veau-error/UnauthorizedError';
 import { VeauAccountError } from '../../../veau-error/VeauAccountError';
-import { MockAJAX } from '../../../veau-general/AJAX/MockAJAX';
+import { MockAJAX } from '../../../veau-general/AJAX/mocks/MockAJAX';
 import { Try } from '../../../veau-general/Try/Try';
 import { AccountName } from '../../../veau-vo/AccountName';
 import { EntranceInformation } from '../../../veau-vo/EntranceInformation';

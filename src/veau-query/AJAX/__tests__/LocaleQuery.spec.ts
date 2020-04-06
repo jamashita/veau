@@ -6,7 +6,7 @@ import { vault } from '../../../veau-container/Container';
 import { TYPE } from '../../../veau-container/Types';
 import { AJAXError } from '../../../veau-general/AJAX/AJAXError';
 import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
-import { MockAJAX } from '../../../veau-general/AJAX/MockAJAX';
+import { MockAJAX } from '../../../veau-general/AJAX/mocks/MockAJAX';
 import { Try } from '../../../veau-general/Try/Try';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';

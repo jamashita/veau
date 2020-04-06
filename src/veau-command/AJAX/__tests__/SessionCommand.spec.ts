@@ -4,8 +4,8 @@ import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { vault } from '../../../veau-container/Container';
 import { TYPE } from '../../../veau-container/Types';
-import { AJAXError } from '../../../veau-error/AJAXError';
-import { MockAJAX } from '../../../veau-general/AJAX/MockAJAX';
+import { AJAXError } from '../../../veau-general/AJAX/AJAXError';
+import { MockAJAX } from '../../../veau-general/AJAX/mocks/MockAJAX';
 import { Try } from '../../../veau-general/Try/Try';
 import { SessionCommand } from '../SessionCommand';
 

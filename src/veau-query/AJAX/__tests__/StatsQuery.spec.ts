@@ -1,12 +1,12 @@
-import { INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'http-status';
+import { INTERNAL_SERVER_ERROR, NO_CONTENT, OK } from 'http-status';
 import 'jest';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { Stats } from '../../../veau-entity/Stats';
-import { AJAXError } from '../../../veau-error/AJAXError';
+import { AJAXError } from '../../../veau-general/AJAX/AJAXError';
 import { NotFoundError } from '../../../veau-error/NotFoundError';
 import { StatsError } from '../../../veau-error/StatsError';
 import { StatsOutlinesError } from '../../../veau-error/StatsOutlinesError';
-import { AJAX } from '../../../veau-general/AJAX';
+import { AJAX } from '../../../veau-general/AJAX/AJAX';
 import { Try } from '../../../veau-general/Try/Try';
 import { Page } from '../../../veau-vo/Page';
 import { StatsID } from '../../../veau-vo/StatsID';
@@ -101,11 +101,11 @@ describe('StatsQuery', () => {
       expect(spy2.called).toEqual(true);
     });
 
-    it('returns NOT_FOUND', async () => {
+    it('returns NO_CONTENT', async () => {
       const stub: SinonStub = sinon.stub();
       AJAX.get = stub;
       stub.resolves({
-        status: NOT_FOUND,
+        status: NO_CONTENT,
         body: {
         }
       });

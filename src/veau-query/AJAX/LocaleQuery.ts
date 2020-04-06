@@ -1,10 +1,10 @@
 import { OK } from 'http-status';
 import { inject, injectable } from 'inversify';
 import { TYPE } from '../../veau-container/Types';
-import { AJAXError } from '../../veau-general/AJAX/AJAXError';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { AJAXRequestable } from '../../veau-general/AJAX/AJAXRequestable';
+import { AJAXError } from '../../veau-general/AJAX/AJAXError';
 import { AJAXResponse } from '../../veau-general/AJAX/AJAXResponse';
+import { IAJAX } from '../../veau-general/AJAX/interfaces/IAJAX';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
@@ -20,10 +20,10 @@ import { ILocaleQuery } from '../interfaces/ILocaleQuery';
 export class LocaleQuery implements ILocaleQuery, IAJAXQuery {
   public readonly noun: 'LocaleQuery' = 'LocaleQuery';
   public readonly source: 'AJAX' = 'AJAX';
-  private ajax: AJAXRequestable;
+  private ajax: IAJAX;
   private locale: Locale | null;
 
-  public constructor(@inject(TYPE.AJAX) ajax: AJAXRequestable) {
+  public constructor(@inject(TYPE.AJAX) ajax: IAJAX) {
     this.ajax = ajax;
     this.locale = null;
   }
