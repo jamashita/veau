@@ -40,7 +40,7 @@ export class LanguageQuery implements ILanguageQuery, IMySQLQuery {
         return Failure.of<Languages, NoSuchElementError>(new NoSuchElementError('NO LANGUAGES FROM MYSQL'));
       }
 
-      return Success.of<Languages, NoSuchElementError>(Languages.ofRow(languageRows));
+      return Success.of<Languages, DataSourceError>(Languages.ofRow(languageRows));
     }
     catch (err) {
       if (err instanceof MySQLError) {
@@ -69,7 +69,7 @@ export class LanguageQuery implements ILanguageQuery, IMySQLQuery {
         return Failure.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.toString()));
       }
 
-      return Success.of<Language, NoSuchElementError>(Language.ofRow(languageRows[0]));
+      return Success.of<Language, DataSourceError>(Language.ofRow(languageRows[0]));
     }
     catch (err) {
       if (err instanceof MySQLError) {

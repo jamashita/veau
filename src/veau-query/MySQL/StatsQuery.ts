@@ -5,6 +5,7 @@ import { StatsItems } from '../../veau-entity/StatsItems';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { StatsError } from '../../veau-error/StatsError';
 import { StatsItemsError } from '../../veau-error/StatsItemsError';
+import { DataSourceError } from '../../veau-general/DataSourceError';
 import { IMySQL } from '../../veau-general/MySQL/interfaces/IMySQL';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Try } from '../../veau-general/Try/Try';
@@ -27,7 +28,7 @@ export class StatsQuery implements IStatsQuery, IMySQLQuery {
     this.statsItemQuery = statsItemQuery;
   }
 
-  public async findByStatsID(statsID: StatsID): Promise<Try<Stats, NoSuchElementError | StatsError>> {
+  public async findByStatsID(statsID: StatsID): Promise<Try<Stats, NoSuchElementError | StatsError | DataSourceError>> {
     const query: string = `SELECT
       R1.stats_id AS statsID,
       R1.language_id AS languageID,
@@ -56,11 +57,15 @@ export class StatsQuery implements IStatsQuery, IMySQLQuery {
       return Failure.of<Stats, NoSuchElementError>(new NoSuchElementError(statsID.toString()));
     }
 
-    const trial: Try<StatsItems, StatsItemsError> = await this.statsItemQuery.findByStatsID(statsID);
+    const trial: Try<StatsItems, StatsItemsError | DataSourceError> = await this.statsItemQuery.findByStatsID(statsID);
 
-    return trial.match<Try<Stats, StatsError>>((statsItems: StatsItems) => {
+    return trial.match<Try<Stats, StatsError | DataSourceError>>((statsItems: StatsItems) => {
       return Stats.ofRow(statsRows[0], statsItems);
-    }, (err: StatsItemsError) => {
+    }, (err: StatsItemsError | DataSourceError) => {
+      if (err instanceof DataSourceError) {
+        return Failure.of<Stats, DataSourceError>(err);
+      }
+
       return Failure.of<Stats, StatsError>(new StatsError(err.message));
     });
   }

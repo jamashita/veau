@@ -10,7 +10,7 @@ import { IQuery } from './IQuery';
 export interface ISessionQuery extends IQuery {
   readonly noun: 'SessionQuery';
 
-  find(): Promise<Try<VeauAccount, VeauAccountError | UnauthorizedError>>;
+  find(): Promise<Try<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>>;
 
   findByEntranceInfo(entranceInformation: EntranceInformation): Promise<Try<VeauAccount, VeauAccountError | AuthenticationFailureError | DataSourceError>>;
 }

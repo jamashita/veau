@@ -26,7 +26,7 @@ export class SessionQuery implements ISessionQuery, IAJAXQuery {
     this.ajax = ajax;
   }
 
-  public async find(): Promise<Try<VeauAccount, VeauAccountError | UnauthorizedError>> {
+  public async find(): Promise<Try<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>> {
     const response: AJAXResponse<VeauAccountJSON> = await this.ajax.get<VeauAccountJSON>('/api/identity');
     const {
       status,
@@ -35,8 +35,8 @@ export class SessionQuery implements ISessionQuery, IAJAXQuery {
 
     switch (status) {
       case OK: {
-        return VeauAccount.ofJSON(body).match<Try<VeauAccount, VeauAccountError>>((veauAccount: VeauAccount) => {
-          return Success.of<VeauAccount, VeauAccountError>(veauAccount);
+        return VeauAccount.ofJSON(body).match<Try<VeauAccount, VeauAccountError | DataSourceError>>((veauAccount: VeauAccount) => {
+          return Success.of<VeauAccount, DataSourceError>(veauAccount);
         }, (err: VeauAccountError) => {
           return Failure.of<VeauAccount, VeauAccountError>(new VeauAccountError(err.message));
         });
@@ -56,8 +56,8 @@ export class SessionQuery implements ISessionQuery, IAJAXQuery {
 
     switch (status) {
       case OK: {
-        return VeauAccount.ofJSON(body).match<Try<VeauAccount, VeauAccountError>>((veauAccount: VeauAccount) => {
-          return Success.of<VeauAccount, VeauAccountError>(veauAccount);
+        return VeauAccount.ofJSON(body).match<Try<VeauAccount, VeauAccountError | DataSourceError>>((veauAccount: VeauAccount) => {
+          return Success.of<VeauAccount, DataSourceError>(veauAccount);
         }, (err: VeauAccountError) => {
           return Failure.of<VeauAccount, VeauAccountError>(new VeauAccountError(err.message));
         });

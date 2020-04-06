@@ -1,6 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { TYPE } from '../../veau-container/Types';
 import { StatsOutlinesError } from '../../veau-error/StatsOutlinesError';
+import { DataSourceError } from '../../veau-general/DataSourceError';
 import { IMySQL } from '../../veau-general/MySQL/interfaces/IMySQL';
 import { Try } from '../../veau-general/Try/Try';
 import { Limit } from '../../veau-vo/Limit';
@@ -21,7 +22,7 @@ export class StatsOutlineQuery implements IStatsOutlineQuery, IMySQLQuery {
     this.mysql = mysql;
   }
 
-  public async findByVeauAccountID(veauAccountID: VeauAccountID, limit: Limit, offset: Offset): Promise<Try<StatsOutlines, StatsOutlinesError>> {
+  public async findByVeauAccountID(veauAccountID: VeauAccountID, limit: Limit, offset: Offset): Promise<Try<StatsOutlines, StatsOutlinesError | DataSourceError>> {
     const query: string = `SELECT
       R1.stats_id AS statsID,
       R1.language_id AS languageID,

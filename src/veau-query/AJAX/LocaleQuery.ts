@@ -59,7 +59,7 @@ export class LocaleQuery implements ILocaleQuery, IAJAXQuery {
         return Failure.of<Region, NoSuchElementError>(new NoSuchElementError(iso3166.toString()));
       }
 
-      return Success.of<Region, NoSuchElementError>(found);
+      return Success.of<Region, DataSourceError>(found);
     }, (err: DataSourceError) => {
       return Failure.of<Region, DataSourceError>(err);
     });
@@ -71,7 +71,7 @@ export class LocaleQuery implements ILocaleQuery, IAJAXQuery {
     } = this;
 
     if (locale !== null) {
-      return Success.of<Locale, AJAXError>(locale);
+      return Success.of<Locale, DataSourceError>(locale);
     }
 
     const response: AJAXResponse<LocaleJSON> = await this.ajax.get<LocaleJSON>('/api/locale');
@@ -84,7 +84,7 @@ export class LocaleQuery implements ILocaleQuery, IAJAXQuery {
       case OK: {
         this.locale = Locale.ofJSON(body);
 
-        return Success.of<Locale, AJAXError>(this.locale);
+        return Success.of<Locale, DataSourceError>(this.locale);
       }
       default: {
         return Failure.of<Locale, AJAXError>(new AJAXError('GET LOCALE FAILED'));

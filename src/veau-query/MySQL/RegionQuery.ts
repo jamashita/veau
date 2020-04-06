@@ -39,7 +39,7 @@ export class RegionQuery implements IRegionQuery, IMySQLQuery {
         return Failure.of<Regions, NoSuchElementError>(new NoSuchElementError('NO REGIONS FROM MYSQL'));
       }
 
-      return Success.of<Regions, NoSuchElementError>(Regions.ofRow(regionRows));
+      return Success.of<Regions, DataSourceError>(Regions.ofRow(regionRows));
     }
     catch (err) {
       if (err instanceof MySQLError) {
@@ -67,7 +67,7 @@ export class RegionQuery implements IRegionQuery, IMySQLQuery {
         return Failure.of<Region, NoSuchElementError>(new NoSuchElementError('NO REGIONS FROM MYSQL'));
       }
 
-      return Success.of<Region, NoSuchElementError>(Region.ofRow(regionRows[0]));
+      return Success.of<Region, DataSourceError>(Region.ofRow(regionRows[0]));
     }
     catch (err) {
       if (err instanceof MySQLError) {

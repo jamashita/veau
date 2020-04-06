@@ -1,4 +1,5 @@
 import { StatsOutlinesError } from '../../veau-error/StatsOutlinesError';
+import { DataSourceError } from '../../veau-general/DataSourceError';
 import { Try } from '../../veau-general/Try/Try';
 import { Limit } from '../../veau-vo/Limit';
 import { Offset } from '../../veau-vo/Offset';
@@ -9,5 +10,5 @@ import { IQuery } from './IQuery';
 export interface IStatsOutlineQuery extends IQuery {
   readonly noun: 'StatsOutlineQuery';
 
-  findByVeauAccountID(veauAccountID: VeauAccountID, limit: Limit, offset: Offset): Promise<Try<StatsOutlines, StatsOutlinesError>>;
+  findByVeauAccountID(veauAccountID: VeauAccountID, limit: Limit, offset: Offset): Promise<Try<StatsOutlines, StatsOutlinesError | DataSourceError>>;
 }
