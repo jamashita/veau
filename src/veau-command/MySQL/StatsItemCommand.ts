@@ -38,7 +38,7 @@ export class StatsItemCommand implements IStatsItemCommand, IMySQLCommand {
         seq
       });
 
-      return Success.of<void, MySQLError>(undefined);
+      return Success.of<void, DataSourceError>(undefined);
     }
     catch (err) {
       if (err instanceof MySQLError) {
@@ -61,7 +61,7 @@ export class StatsItemCommand implements IStatsItemCommand, IMySQLCommand {
         statsID: statsID.get()
       });
 
-      return Success.of<void, MySQLError>(undefined);
+      return Success.of<void, DataSourceError>(undefined);
     }
     catch (err) {
       if (err instanceof MySQLError) {

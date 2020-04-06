@@ -47,7 +47,7 @@ export class RegionCommand implements IRegionCommand, IRedisCommand {
       const ok: boolean = await this.redis.delete(REDIS_KEY);
 
       if (ok) {
-        return Success.of<void, CacheError>(undefined);
+        return Success.of<void, DataSourceError>(undefined);
       }
 
       return Failure.of<void, CacheError>(new CacheError('FAIL TO DELETE CACHE'));

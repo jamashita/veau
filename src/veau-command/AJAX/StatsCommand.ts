@@ -29,7 +29,7 @@ export class StatsCommand implements IStatsCommand, IAJAXCommand {
 
     switch (response.status) {
       case CREATED: {
-        return Success.of<void, AJAXError>(undefined);
+        return Success.of<void, DataSourceError>(undefined);
       }
       default: {
         return Failure.of<void, AJAXError>(new AJAXError('UNKNOWN ERROR'));
@@ -39,6 +39,6 @@ export class StatsCommand implements IStatsCommand, IAJAXCommand {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public deleteByStatsID(statsID: StatsID): Promise<Try<void, DataSourceError>> {
-    return Promise.reject<Try<void, AJAXError>>(new UnimplementedError());
+    return Promise.reject<Try<void, DataSourceError>>(new UnimplementedError());
   }
 }

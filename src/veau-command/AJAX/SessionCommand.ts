@@ -26,7 +26,7 @@ export class SessionCommand implements ISessionCommand, IAJAXCommand {
 
     switch (response.status) {
       case OK: {
-        return Success.of<void, AJAXError>(undefined);
+        return Success.of<void, DataSourceError>(undefined);
       }
       default: {
         return Failure.of<void, AJAXError>(new AJAXError('UNKNOWN ERROR'));

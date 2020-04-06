@@ -46,7 +46,7 @@ export class StatsCommand implements IStatsCommand, IMySQLCommand {
         unit: stats.getUnit().get()
       });
 
-      return Success.of<void, MySQLError>(undefined);
+      return Success.of<void, DataSourceError>(undefined);
     }
     catch (err) {
       if (err instanceof MySQLError) {
@@ -67,7 +67,7 @@ export class StatsCommand implements IStatsCommand, IMySQLCommand {
         statsID: statsID.get()
       });
 
-      return Success.of<void, MySQLError>(undefined);
+      return Success.of<void, DataSourceError>(undefined);
     }
     catch (err) {
       if (err instanceof MySQLError) {
