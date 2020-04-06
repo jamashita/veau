@@ -43,7 +43,7 @@ export class Redis {
     return this.string;
   }
 
-  public async delete(keys: Array<string>): Promise<boolean> {
+  public async delete(...keys: Array<string>): Promise<boolean> {
     try {
       const result: number = await this.client.del(...keys);
 
@@ -62,7 +62,7 @@ export class Redis {
     }
   }
 
-  public async exists(keys: Array<string>): Promise<boolean> {
+  public async exists(...keys: Array<string>): Promise<boolean> {
     try {
       const result: number = await this.client.exists(...keys);
 
@@ -100,7 +100,7 @@ export class Redis {
     }
   }
 
-  public async subscribe(channels: Array<string>): Promise<number> {
+  public async subscribe(...channels: Array<string>): Promise<number> {
     try {
       const result: number = await this.client.subscribe(...channels);
 
@@ -115,7 +115,7 @@ export class Redis {
     }
   }
 
-  public async unsubscribe(channels: Array<string>): Promise<number> {
+  public async unsubscribe(...channels: Array<string>): Promise<number> {
     try {
       const result: number = await this.client.unsubscribe(...channels);
 

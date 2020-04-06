@@ -23,7 +23,7 @@ export class RedisSet {
     }
   }
 
-  public async remove(key: string, values: Array<string>): Promise<number> {
+  public async remove(key: string, ...values: Array<string>): Promise<number> {
     try {
       const result: number = await this.client.srem(key, ...values);
 
