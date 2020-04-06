@@ -1,7 +1,10 @@
 import { OK } from 'http-status';
+import { inject, injectable } from 'inversify';
+import { TYPE } from '../../veau-container/Types';
 import { AJAXError } from '../../veau-error/AJAXError';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { AJAX, AJAXResponse } from '../../veau-general/AJAX';
+import { AJAXRequestable } from '../../veau-general/AJAX/AJAXRequestable';
+import { AJAXResponse } from '../../veau-general/AJAX/AJAXResponse';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
@@ -10,11 +13,18 @@ import { ISO639 } from '../../veau-vo/ISO639';
 import { Language } from '../../veau-vo/Language';
 import { Locale, LocaleJSON } from '../../veau-vo/Locale';
 import { Region } from '../../veau-vo/Region';
+import { IAJAXQuery } from '../interfaces/IAJAXQuery';
+import { ILocaleQuery } from '../interfaces/ILocaleQuery';
 
-export class LocaleQuery {
+@injectable()
+export class LocaleQuery implements ILocaleQuery, IAJAXQuery {
+  public readonly noun: 'LocaleQuery' = 'LocaleQuery';
+  public readonly source: 'AJAX' = 'AJAX';
+  private ajax: AJAXRequestable;
   private locale: Locale | null;
 
-  public constructor() {
+  public constructor(@inject(TYPE.AJAX) ajax: AJAXRequestable) {
+    this.ajax = ajax;
     this.locale = null;
   }
 
@@ -63,7 +73,7 @@ export class LocaleQuery {
       return Success.of<Locale, AJAXError>(locale);
     }
 
-    const response: AJAXResponse<LocaleJSON> = await AJAX.get<LocaleJSON>('/api/locale');
+    const response: AJAXResponse<LocaleJSON> = await this.ajax.get<LocaleJSON>('/api/locale');
     const {
       status,
       body

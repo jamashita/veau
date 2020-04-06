@@ -1,9 +1,12 @@
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import 'jest';
+import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+import { vault } from '../../../veau-container/Container';
+import { TYPE } from '../../../veau-container/Types';
 import { AJAXError } from '../../../veau-error/AJAXError';
 import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
-import { AJAX } from '../../../veau-general/AJAX';
+import { MockAJAX } from '../../../veau-general/AJAX/MockAJAX';
 import { Try } from '../../../veau-general/Try/Try';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
@@ -13,10 +16,22 @@ import { Region } from '../../../veau-vo/Region';
 import { LocaleQuery } from '../LocaleQuery';
 
 describe('LocaleQuery', () => {
+  describe('container', () => {
+    it('must be a singleton', () => {
+      const localeQuery1: LocaleQuery = vault.get<LocaleQuery>(TYPE.LocaleAJAXQuery);
+      const localeQuery2: LocaleQuery = vault.get<LocaleQuery>(TYPE.LocaleAJAXQuery);
+
+      expect(localeQuery1).toBeInstanceOf(LocaleQuery);
+      expect(localeQuery1).toBe(localeQuery2);
+    });
+  });
+
   describe('all', () => {
     it('doesn\'t return OK', async () => {
+      const ajax: MockAJAX = new MockAJAX();
+
       const stub: SinonStub = sinon.stub();
-      AJAX.get = stub;
+      ajax.get = stub;
       stub.resolves({
         status: INTERNAL_SERVER_ERROR,
         body: {
@@ -25,7 +40,7 @@ describe('LocaleQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeQuery: LocaleQuery = new LocaleQuery();
+      const localeQuery: LocaleQuery = new LocaleQuery(ajax);
       const trial: Try<Locale, AJAXError> = await localeQuery.all();
 
       expect(trial.isFailure()).toEqual(true);
@@ -41,8 +56,10 @@ describe('LocaleQuery', () => {
     });
 
     it('normal case', async () => {
+      const ajax: MockAJAX = new MockAJAX();
+
       const stub: SinonStub = sinon.stub();
-      AJAX.get = stub;
+      ajax.get = stub;
       stub.resolves({
         status: OK,
         body: {
@@ -64,7 +81,7 @@ describe('LocaleQuery', () => {
         }
       });
 
-      const localeQuery: LocaleQuery = new LocaleQuery();
+      const localeQuery: LocaleQuery = new LocaleQuery(ajax);
       const trial: Try<Locale, AJAXError> = await localeQuery.all();
 
       expect(stub.withArgs('/api/locale').called).toEqual(true);
@@ -82,8 +99,10 @@ describe('LocaleQuery', () => {
     });
 
     it('already has locale in memory', async () => {
+      const ajax: MockAJAX = new MockAJAX();
+
       const stub: SinonStub = sinon.stub();
-      AJAX.get = stub;
+      ajax.get = stub;
       stub.resolves({
         status: OK,
         body: {
@@ -94,7 +113,7 @@ describe('LocaleQuery', () => {
         }
       });
 
-      const localeQuery: LocaleQuery = new LocaleQuery();
+      const localeQuery: LocaleQuery = new LocaleQuery(ajax);
       const trial1: Try<Locale, AJAXError> = await localeQuery.all();
       const trial2: Try<Locale, AJAXError> = await localeQuery.all();
 
@@ -107,8 +126,10 @@ describe('LocaleQuery', () => {
 
   describe('findByISO639', () => {
     it('normal case', async () => {
+      const ajax: MockAJAX = new MockAJAX();
+
       const stub: SinonStub = sinon.stub();
-      AJAX.get = stub;
+      ajax.get = stub;
       stub.resolves({
         status: OK,
         body: {
@@ -130,7 +151,7 @@ describe('LocaleQuery', () => {
         }
       });
 
-      const localeQuery: LocaleQuery = new LocaleQuery();
+      const localeQuery: LocaleQuery = new LocaleQuery(ajax);
       const trial: Try<Language, NoSuchElementError | AJAXError> = await localeQuery.findByISO639(ISO639.of('aa'));
 
       expect(trial.isSuccess()).toEqual(true);
@@ -142,8 +163,10 @@ describe('LocaleQuery', () => {
     });
 
     it('requests incorrectly', async () => {
+      const ajax: MockAJAX = new MockAJAX();
+
       const stub: SinonStub = sinon.stub();
-      AJAX.get = stub;
+      ajax.get = stub;
       stub.resolves({
         status: INTERNAL_SERVER_ERROR,
         body: {
@@ -152,7 +175,7 @@ describe('LocaleQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeQuery: LocaleQuery = new LocaleQuery();
+      const localeQuery: LocaleQuery = new LocaleQuery(ajax);
       const trial: Try<Language, NoSuchElementError | AJAXError> = await localeQuery.findByISO639(ISO639.of('cc'));
 
       expect(trial.isFailure()).toEqual(true);
@@ -168,8 +191,10 @@ describe('LocaleQuery', () => {
     });
 
     it('could\'t find the language', async () => {
+      const ajax: MockAJAX = new MockAJAX();
+
       const stub: SinonStub = sinon.stub();
-      AJAX.get = stub;
+      ajax.get = stub;
       stub.resolves({
         status: OK,
         body: {
@@ -193,7 +218,7 @@ describe('LocaleQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeQuery: LocaleQuery = new LocaleQuery();
+      const localeQuery: LocaleQuery = new LocaleQuery(ajax);
       const trial: Try<Language, NoSuchElementError | AJAXError> = await localeQuery.findByISO639(ISO639.of('cc'));
 
       expect(trial.isFailure()).toEqual(true);
@@ -211,8 +236,10 @@ describe('LocaleQuery', () => {
 
   describe('findByISO3166', () => {
     it('normal case', async () => {
+      const ajax: MockAJAX = new MockAJAX();
+
       const stub: SinonStub = sinon.stub();
-      AJAX.get = stub;
+      ajax.get = stub;
       stub.resolves({
         status: OK,
         body: {
@@ -234,7 +261,7 @@ describe('LocaleQuery', () => {
         }
       });
 
-      const localeQuery: LocaleQuery = new LocaleQuery();
+      const localeQuery: LocaleQuery = new LocaleQuery(ajax);
       const trial: Try<Region, NoSuchElementError | AJAXError> = await localeQuery.findByISO3166(ISO3166.of('bb'));
 
       expect(trial.isSuccess()).toEqual(true);
@@ -245,8 +272,10 @@ describe('LocaleQuery', () => {
     });
 
     it('could\'t find the region', async () => {
+      const ajax: MockAJAX = new MockAJAX();
+
       const stub: SinonStub = sinon.stub();
-      AJAX.get = stub;
+      ajax.get = stub;
       stub.resolves({
         status: OK,
         body: {
@@ -270,7 +299,7 @@ describe('LocaleQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeQuery: LocaleQuery = new LocaleQuery();
+      const localeQuery: LocaleQuery = new LocaleQuery(ajax);
       const trial: Try<Region, NoSuchElementError | AJAXError> = await localeQuery.findByISO3166(ISO3166.of('aa'));
 
       expect(trial.isFailure()).toEqual(true);
