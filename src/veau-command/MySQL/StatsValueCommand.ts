@@ -1,10 +1,10 @@
 import { IQuery } from '../../veau-general/MySQL/IQuery';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsValue } from '../../veau-vo/StatsValue';
+import { IMySQLCommand } from '../interfaces/IMySQLCommand';
 import { IStatsValueCommand } from '../interfaces/IStatsValueCommand';
-import { MySQLCommand } from './MySQLCommand';
 
-export class StatsValueCommand implements IStatsValueCommand, MySQLCommand {
+export class StatsValueCommand implements IStatsValueCommand, IMySQLCommand {
   public readonly noun: 'StatsValueCommand' = 'StatsValueCommand';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly query: IQuery;
