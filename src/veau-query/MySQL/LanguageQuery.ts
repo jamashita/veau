@@ -9,10 +9,10 @@ import { ISO639 } from '../../veau-vo/ISO639';
 import { Language, LanguageRow } from '../../veau-vo/Language';
 import { Languages } from '../../veau-vo/Languages';
 import { ILanguageQuery } from '../interfaces/ILanguageQuery';
-import { MySQLQuery } from './MySQLQuery';
+import { IMySQLQuery } from '../interfaces/IMySQLQuery';
 
 @injectable()
-export class LanguageQuery implements ILanguageQuery, MySQLQuery {
+export class LanguageQuery implements ILanguageQuery, IMySQLQuery {
   public readonly noun: 'LanguageQuery' = 'LanguageQuery';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: MySQL;

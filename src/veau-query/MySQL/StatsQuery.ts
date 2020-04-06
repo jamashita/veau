@@ -9,12 +9,12 @@ import { MySQL } from '../../veau-general/MySQL/MySQL';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Try } from '../../veau-general/Try/Try';
 import { StatsID } from '../../veau-vo/StatsID';
+import { IMySQLQuery } from '../interfaces/IMySQLQuery';
 import { IStatsItemQuery } from '../interfaces/IStatsItemQuery';
 import { IStatsQuery } from '../interfaces/IStatsQuery';
-import { MySQLQuery } from './MySQLQuery';
 
 @injectable()
-export class StatsQuery implements IStatsQuery, MySQLQuery {
+export class StatsQuery implements IStatsQuery, IMySQLQuery {
   public readonly noun: 'StatsQuery' = 'StatsQuery';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: MySQL;

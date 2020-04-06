@@ -6,11 +6,11 @@ import { Try } from '../../veau-general/Try/Try';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsValueRow } from '../../veau-vo/StatsValue';
 import { StatsValues } from '../../veau-vo/StatsValues';
+import { IMySQLQuery } from '../interfaces/IMySQLQuery';
 import { IStatsValueQuery } from '../interfaces/IStatsValueQuery';
-import { MySQLQuery } from './MySQLQuery';
 
 @injectable()
-export class StatsValueQuery implements IStatsValueQuery, MySQLQuery {
+export class StatsValueQuery implements IStatsValueQuery, IMySQLQuery {
   public readonly noun: 'StatsValueQuery' = 'StatsValueQuery';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: MySQL;

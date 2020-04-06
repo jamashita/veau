@@ -8,10 +8,10 @@ import { Try } from '../../veau-general/Try/Try';
 import { Account, AccountRow } from '../../veau-vo/Account';
 import { AccountName } from '../../veau-vo/AccountName';
 import { IAccountQuery } from '../interfaces/IAccountQuery';
-import { MySQLQuery } from './MySQLQuery';
+import { IMySQLQuery } from '../interfaces/IMySQLQuery';
 
 @injectable()
-export class AccountQuery implements IAccountQuery, MySQLQuery {
+export class AccountQuery implements IAccountQuery, IMySQLQuery {
   public readonly noun: 'AccountQuery' = 'AccountQuery';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: MySQL;

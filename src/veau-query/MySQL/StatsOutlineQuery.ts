@@ -8,11 +8,11 @@ import { Offset } from '../../veau-vo/Offset';
 import { StatsOutlineRow } from '../../veau-vo/StatsOutline';
 import { StatsOutlines } from '../../veau-vo/StatsOutlines';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
+import { IMySQLQuery } from '../interfaces/IMySQLQuery';
 import { IStatsOutlineQuery } from '../interfaces/IStatsOutlineQuery';
-import { MySQLQuery } from './MySQLQuery';
 
 @injectable()
-export class StatsOutlineQuery implements IStatsOutlineQuery, MySQLQuery {
+export class StatsOutlineQuery implements IStatsOutlineQuery, IMySQLQuery {
   public readonly noun: 'StatsOutlineQuery' = 'StatsOutlineQuery';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: MySQL;

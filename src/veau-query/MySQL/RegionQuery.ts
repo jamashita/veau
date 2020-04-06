@@ -8,11 +8,11 @@ import { Try } from '../../veau-general/Try/Try';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { Region, RegionRow } from '../../veau-vo/Region';
 import { Regions } from '../../veau-vo/Regions';
+import { IMySQLQuery } from '../interfaces/IMySQLQuery';
 import { IRegionQuery } from '../interfaces/IRegionQuery';
-import { MySQLQuery } from './MySQLQuery';
 
 @injectable()
-export class RegionQuery implements IRegionQuery, MySQLQuery {
+export class RegionQuery implements IRegionQuery, IMySQLQuery {
   public readonly noun: 'RegionQuery' = 'RegionQuery';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: MySQL;
