@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
-import { container } from '../../veau-container/Container';
+import { kernel } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { Failure } from '../../veau-general/Try/Failure';
@@ -24,8 +24,8 @@ import { AuthenticationInteractor } from '../AuthenticationInteractor';
 describe('AuthenticationInteractor', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const authenticationInteractor1: AuthenticationInteractor = container.get<AuthenticationInteractor>(TYPE.AuthenticationInteractor);
-      const authenticationInteractor2: AuthenticationInteractor = container.get<AuthenticationInteractor>(TYPE.AuthenticationInteractor);
+      const authenticationInteractor1: AuthenticationInteractor = kernel.get<AuthenticationInteractor>(TYPE.AuthenticationInteractor);
+      const authenticationInteractor2: AuthenticationInteractor = kernel.get<AuthenticationInteractor>(TYPE.AuthenticationInteractor);
 
       expect(authenticationInteractor1).toBeInstanceOf(AuthenticationInteractor);
       expect(authenticationInteractor1).toBe(authenticationInteractor2);
@@ -44,7 +44,7 @@ describe('AuthenticationInteractor', () => {
       Account.prototype.verify = stub2;
       stub2.resolves(true);
 
-      const authenticationInteractor: AuthenticationInteractor = container.get<AuthenticationInteractor>(TYPE.AuthenticationInteractor);
+      const authenticationInteractor: AuthenticationInteractor = kernel.get<AuthenticationInteractor>(TYPE.AuthenticationInteractor);
       authenticationInteractor.review()(name, password, (err: unknown, ret: unknown) => {
         expect(err).toEqual(null);
         expect(ret).toEqual(false);
@@ -64,7 +64,7 @@ describe('AuthenticationInteractor', () => {
       Account.prototype.verify = stub2;
       stub2.resolves(false);
 
-      const authenticationInteractor: AuthenticationInteractor = container.get<AuthenticationInteractor>(TYPE.AuthenticationInteractor);
+      const authenticationInteractor: AuthenticationInteractor = kernel.get<AuthenticationInteractor>(TYPE.AuthenticationInteractor);
       authenticationInteractor.review()(name, password, (err: unknown, ret: unknown) => {
         expect(err).toEqual(null);
         expect(ret).toEqual(false);
@@ -84,7 +84,7 @@ describe('AuthenticationInteractor', () => {
       Account.prototype.verify = stub2;
       stub2.resolves(true);
 
-      const authenticationInteractor: AuthenticationInteractor = container.get<AuthenticationInteractor>(TYPE.AuthenticationInteractor);
+      const authenticationInteractor: AuthenticationInteractor = kernel.get<AuthenticationInteractor>(TYPE.AuthenticationInteractor);
       authenticationInteractor.review()(name, password, (err: unknown, ret: VeauAccount) => {
         expect(err).toEqual(null);
         expect(ret.getVeauAccountID()).toEqual(account.getVeauAccountID());

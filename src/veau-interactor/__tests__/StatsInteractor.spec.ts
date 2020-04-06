@@ -2,7 +2,7 @@ import 'jest';
 import moment from 'moment';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { container } from '../../veau-container/Container';
+import { kernel } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
@@ -44,8 +44,8 @@ import { StatsInteractor } from '../StatsInteractor';
 describe('StatsInteractor', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const statsInteractor1: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
-      const statsInteractor2: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
+      const statsInteractor1: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
+      const statsInteractor2: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
 
       expect(statsInteractor1).toBeInstanceOf(StatsInteractor);
       expect(statsInteractor1).toBe(statsInteractor2)
@@ -81,7 +81,7 @@ describe('StatsInteractor', () => {
       StatsQuery.prototype.findByStatsID = stub;
       stub.resolves(Success.of<Stats, NotFoundError>(stats));
 
-      const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
+      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
       const trial: Try<Stats, NotFoundError | StatsError> = await statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94').get());
 
       expect(trial.isSuccess()).toEqual(true);
@@ -95,7 +95,7 @@ describe('StatsInteractor', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
+      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
       const trial: Try<Stats, NotFoundError | StatsError> = await statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94').get());
 
       trial.match<void>(() => {
@@ -116,7 +116,7 @@ describe('StatsInteractor', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
+      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
       const trial: Try<Stats, NotFoundError | StatsError> = await statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94').get());
 
       trial.match<void>(() => {
@@ -156,7 +156,7 @@ describe('StatsInteractor', () => {
       ]);
       stub.resolves(Success.of<StatsOutlines, StatsOutlinesError>(outlines));
 
-      const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
+      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
       const trial: Try<StatsOutlines, StatsOutlinesError> = await statsInteractor.findByVeauAccountID(VeauAccountID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2').get(), Page.of(1).get());
 
       expect(trial.get()).toEqual(outlines);
@@ -192,7 +192,7 @@ describe('StatsInteractor', () => {
       const spy: SinonSpy = sinon.spy();
       MySQL.prototype.transact = spy;
 
-      const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
+      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
       await statsInteractor.save(stats, VeauAccountID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2').get());
 
       expect(spy.called).toEqual(true);

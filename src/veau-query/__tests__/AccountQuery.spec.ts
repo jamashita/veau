@@ -1,7 +1,7 @@
 import 'jest';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { container } from '../../veau-container/Container';
+import { kernel } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
 import { AccountError } from '../../veau-error/AccountError';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
@@ -26,8 +26,8 @@ import { AccountQuery as AccountMySQLQuery } from '../MySQL/AccountQuery';
 describe('AccountQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const accountQuery1: AccountQuery = container.get<AccountQuery>(TYPE.AccountQuery);
-      const accountQuery2: AccountQuery = container.get<AccountQuery>(TYPE.AccountQuery);
+      const accountQuery1: AccountQuery = kernel.get<AccountQuery>(TYPE.AccountQuery);
+      const accountQuery2: AccountQuery = kernel.get<AccountQuery>(TYPE.AccountQuery);
 
       expect(accountQuery1).toBeInstanceOf(AccountQuery);
       expect(accountQuery1).toBe(accountQuery2);
@@ -48,7 +48,7 @@ describe('AccountQuery', () => {
       AccountMySQLQuery.prototype.findByAccount = stub;
       stub.resolves(Success.of<Account, NoSuchElementError | AccountError>(account));
 
-      const accountQuery: AccountQuery = container.get<AccountQuery>(TYPE.AccountQuery);
+      const accountQuery: AccountQuery = kernel.get<AccountQuery>(TYPE.AccountQuery);
       const name: AccountName = AccountName.of('account');
       const trial: Try<Account, NoSuchElementError | AccountError> = await accountQuery.findByAccount(name);
 
@@ -63,7 +63,7 @@ describe('AccountQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const accountQuery: AccountQuery = container.get<AccountQuery>(TYPE.AccountQuery);
+      const accountQuery: AccountQuery = kernel.get<AccountQuery>(TYPE.AccountQuery);
       const name: AccountName = AccountName.of('account');
       const trial: Try<Account, NoSuchElementError | AccountError> = await accountQuery.findByAccount(name);
 
@@ -86,7 +86,7 @@ describe('AccountQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const accountQuery: AccountQuery = container.get<AccountQuery>(TYPE.AccountQuery);
+      const accountQuery: AccountQuery = kernel.get<AccountQuery>(TYPE.AccountQuery);
       const name: AccountName = AccountName.of('account');
       const trial: Try<Account, NoSuchElementError | AccountError> = await accountQuery.findByAccount(name);
 

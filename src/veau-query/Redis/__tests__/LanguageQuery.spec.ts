@@ -1,7 +1,7 @@
 import 'jest';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { container } from '../../../veau-container/Container';
+import { kernel } from '../../../veau-container/Container';
 import { TYPE } from '../../../veau-container/Types';
 import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
 import { RedisString } from '../../../veau-general/Redis/RedisString';
@@ -14,8 +14,8 @@ import { LanguageQuery } from '../LanguageQuery';
 describe('LanguageQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const languageQuery1: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageRedisQuery);
-      const languageQuery2: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageRedisQuery);
+      const languageQuery1: LanguageQuery = kernel.get<LanguageQuery>(TYPE.LanguageRedisQuery);
+      const languageQuery2: LanguageQuery = kernel.get<LanguageQuery>(TYPE.LanguageRedisQuery);
 
       expect(languageQuery1).toBeInstanceOf(LanguageQuery);
       expect(languageQuery1).toBe(languageQuery2);
@@ -28,7 +28,7 @@ describe('LanguageQuery', () => {
       RedisString.prototype.get = stub;
       stub.resolves('[{"languageID":1,"name":"аҧсуа бызшәа","englishName":"Abkhazian","iso639":"ab"},{"languageID":2,"name":"Afaraf","englishName":"Afar","iso639":"aa"}]');
 
-      const languageQuery: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageRedisQuery);
+      const languageQuery: LanguageQuery = kernel.get<LanguageQuery>(TYPE.LanguageRedisQuery);
       const trial: Try<Languages, NoSuchElementError> = await languageQuery.all();
 
       expect(trial.isSuccess()).toEqual(true);
@@ -51,7 +51,7 @@ describe('LanguageQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const languageQuery: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageRedisQuery);
+      const languageQuery: LanguageQuery = kernel.get<LanguageQuery>(TYPE.LanguageRedisQuery);
       const trial: Try<Languages, NoSuchElementError> = await languageQuery.all();
 
       expect(trial.isFailure()).toEqual(true);
@@ -73,7 +73,7 @@ describe('LanguageQuery', () => {
       RedisString.prototype.get = stub;
       stub.resolves('[{"languageID":1,"name":"аҧсуа бызшәа","englishName":"Abkhazian","iso639":"ab"},{"languageID":2,"name":"Afaraf","englishName":"Afar","iso639":"aa"}]');
 
-      const languageQuery: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageRedisQuery);
+      const languageQuery: LanguageQuery = kernel.get<LanguageQuery>(TYPE.LanguageRedisQuery);
       const trial: Try<Language, NoSuchElementError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(trial.isSuccess()).toEqual(true);
@@ -91,7 +91,7 @@ describe('LanguageQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const languageQuery: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageRedisQuery);
+      const languageQuery: LanguageQuery = kernel.get<LanguageQuery>(TYPE.LanguageRedisQuery);
       const trial: Try<Language, NoSuchElementError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(trial.isFailure()).toEqual(true);
@@ -113,7 +113,7 @@ describe('LanguageQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const languageQuery: LanguageQuery = container.get<LanguageQuery>(TYPE.LanguageRedisQuery);
+      const languageQuery: LanguageQuery = kernel.get<LanguageQuery>(TYPE.LanguageRedisQuery);
       const trial: Try<Language, NoSuchElementError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(trial.isFailure()).toEqual(true);

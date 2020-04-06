@@ -1,7 +1,7 @@
 import 'jest';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { container } from '../../veau-container/Container';
+import { kernel } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
 import { CacheError } from '../../veau-error/CacheError';
 import { Failure } from '../../veau-general/Try/Failure';
@@ -18,8 +18,8 @@ import { RegionCommand } from '../RegionCommand';
 describe('RegionCommand', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const regionCommand1: RegionCommand = container.get<RegionCommand>(TYPE.RegionCommand);
-      const regionCommand2: RegionCommand = container.get<RegionCommand>(TYPE.RegionCommand);
+      const regionCommand1: RegionCommand = kernel.get<RegionCommand>(TYPE.RegionCommand);
+      const regionCommand2: RegionCommand = kernel.get<RegionCommand>(TYPE.RegionCommand);
 
       expect(regionCommand1).toBeInstanceOf(RegionCommand);
       expect(regionCommand1).toBe(regionCommand2);
@@ -36,7 +36,7 @@ describe('RegionCommand', () => {
         Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abc'))
       ]);
 
-      const regionCommand: RegionCommand = container.get<RegionCommand>(TYPE.RegionCommand);
+      const regionCommand: RegionCommand = kernel.get<RegionCommand>(TYPE.RegionCommand);
 
 
       try {
@@ -54,7 +54,7 @@ describe('RegionCommand', () => {
       RegionRedisCommand.prototype.deleteAll = stub;
       stub.resolves(Success.of<void, CacheError>(undefined));
 
-      const regionCommand: RegionCommand = container.get<RegionCommand>(TYPE.RegionCommand);
+      const regionCommand: RegionCommand = kernel.get<RegionCommand>(TYPE.RegionCommand);
       const trial: Try<void, CacheError> = await regionCommand.deleteAll();
 
       expect(trial.isSuccess()).toEqual(true);
@@ -67,7 +67,7 @@ describe('RegionCommand', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const regionCommand: RegionCommand = container.get<RegionCommand>(TYPE.RegionCommand);
+      const regionCommand: RegionCommand = kernel.get<RegionCommand>(TYPE.RegionCommand);
       const trial: Try<void, CacheError> = await regionCommand.deleteAll();
 
       expect(trial.isFailure()).toEqual(true);

@@ -1,7 +1,7 @@
 import 'jest';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { container } from '../../veau-container/Container';
+import { kernel } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { StatsItems } from '../../veau-entity/StatsItems';
@@ -22,8 +22,8 @@ import { StatsItemQuery } from '../StatsItemQuery';
 describe('StatsItemQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const statsItemQuery1: StatsItemQuery = container.get<StatsItemQuery>(TYPE.StatsItemQuery);
-      const statsItemQuery2: StatsItemQuery = container.get<StatsItemQuery>(TYPE.StatsItemQuery);
+      const statsItemQuery1: StatsItemQuery = kernel.get<StatsItemQuery>(TYPE.StatsItemQuery);
+      const statsItemQuery2: StatsItemQuery = kernel.get<StatsItemQuery>(TYPE.StatsItemQuery);
 
       expect(statsItemQuery1).toBeInstanceOf(StatsItemQuery);
       expect(statsItemQuery1).toBe(statsItemQuery2);
@@ -50,7 +50,7 @@ describe('StatsItemQuery', () => {
       StatsItemMySQLQuery.prototype.findByStatsID = stub;
       stub.resolves(Success.of<StatsItems, StatsItemsError>(items));
 
-      const statsItemQuery: StatsItemQuery = container.get<StatsItemQuery>(TYPE.StatsItemQuery);
+      const statsItemQuery: StatsItemQuery = kernel.get<StatsItemQuery>(TYPE.StatsItemQuery);
       const trial: Try<StatsItems, StatsItemsError> = await statsItemQuery.findByStatsID(StatsID.of('428a0978-5d01-4da6-96f3-f851cb18e935').get());
 
       expect(trial.isSuccess()).toEqual(true);
@@ -64,7 +64,7 @@ describe('StatsItemQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsItemQuery: StatsItemQuery = container.get<StatsItemQuery>(TYPE.StatsItemQuery);
+      const statsItemQuery: StatsItemQuery = kernel.get<StatsItemQuery>(TYPE.StatsItemQuery);
       const trial: Try<StatsItems, StatsItemsError> = await statsItemQuery.findByStatsID(StatsID.of('428a0978-5d01-4da6-96f3-f851cb18e935').get());
 
       expect(trial.isFailure()).toEqual(true);

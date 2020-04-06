@@ -1,7 +1,7 @@
 import 'jest';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { container } from '../../veau-container/Container';
+import { kernel } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
 import { StatsOutlinesError } from '../../veau-error/StatsOutlinesError';
 import { Failure } from '../../veau-general/Try/Failure';
@@ -31,8 +31,8 @@ import { StatsOutlineQuery } from '../StatsOutlineQuery';
 describe('StatsOutlineQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const statsOutlineQuery1: StatsOutlineQuery = container.get<StatsOutlineQuery>(TYPE.StatsOutlineQuery);
-      const statsOutlineQuery2: StatsOutlineQuery = container.get<StatsOutlineQuery>(TYPE.StatsOutlineQuery);
+      const statsOutlineQuery1: StatsOutlineQuery = kernel.get<StatsOutlineQuery>(TYPE.StatsOutlineQuery);
+      const statsOutlineQuery2: StatsOutlineQuery = kernel.get<StatsOutlineQuery>(TYPE.StatsOutlineQuery);
 
       expect(statsOutlineQuery1).toBeInstanceOf(StatsOutlineQuery);
       expect(statsOutlineQuery1).toBe(statsOutlineQuery2);
@@ -83,7 +83,7 @@ describe('StatsOutlineQuery', () => {
       StatsOutlineMySQLQuery.prototype.findByVeauAccountID = stub;
       stub.resolves(Success.of<StatsOutlines, StatsOutlinesError>(outlines));
 
-      const statsOutlineQuery: StatsOutlineQuery = container.get<StatsOutlineQuery>(TYPE.StatsOutlineQuery);
+      const statsOutlineQuery: StatsOutlineQuery = kernel.get<StatsOutlineQuery>(TYPE.StatsOutlineQuery);
       const trial: Try<StatsOutlines, StatsOutlinesError> = await statsOutlineQuery.findByVeauAccountID(VeauAccountID.of('2ac64841-5267-48bc-8952-ba9ad1cb12d7').get(), Limit.of(2).get(), Offset.of(0).get());
 
       expect(trial.isSuccess()).toEqual(true);
@@ -97,7 +97,7 @@ describe('StatsOutlineQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsOutlineQuery: StatsOutlineQuery = container.get<StatsOutlineQuery>(TYPE.StatsOutlineQuery);
+      const statsOutlineQuery: StatsOutlineQuery = kernel.get<StatsOutlineQuery>(TYPE.StatsOutlineQuery);
       const trial: Try<StatsOutlines, StatsOutlinesError> = await statsOutlineQuery.findByVeauAccountID(VeauAccountID.of('2ac64841-5267-48bc-8952-ba9ad1cb12d7').get(), Limit.of(2).get(), Offset.of(0).get());
 
       expect(trial.isFailure()).toEqual(true);

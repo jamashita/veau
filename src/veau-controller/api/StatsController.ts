@@ -1,7 +1,7 @@
 import express from 'express';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'http-status';
 import log4js from 'log4js';
-import { container } from '../../veau-container/Container';
+import { kernel } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
 import { Stats } from '../../veau-entity/Stats';
 import { NotFoundError } from '../../veau-error/NotFoundError';
@@ -18,8 +18,8 @@ import { AuthenticationMiddleware } from '../middlewares/AuthenticationMiddlewar
 const router: express.Router = express.Router();
 const logger: log4js.Logger = log4js.getLogger();
 
-const authenticationMiddleware: AuthenticationMiddleware = container.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
-const statsInteractor: StatsInteractor = container.get<StatsInteractor>(TYPE.StatsInteractor);
+const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
+const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
 
 router.get('/page/:page(\\d+)', authenticationMiddleware.requires(), async (req: express.Request, res: express.Response) => {
   await Page.of(Number(req.params.page)).match<Promise<void>>(async (page: Page) => {

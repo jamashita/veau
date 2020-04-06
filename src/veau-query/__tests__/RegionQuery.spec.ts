@@ -2,7 +2,7 @@ import 'jest';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { RegionCommand } from '../../veau-command/RegionCommand';
-import { container } from '../../veau-container/Container';
+import { kernel } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { Failure } from '../../veau-general/Try/Failure';
@@ -20,8 +20,8 @@ import { RegionQuery } from '../RegionQuery';
 describe('RegionQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const regionQuery1: RegionQuery = container.get<RegionQuery>(TYPE.RegionQuery);
-      const regionQuery2: RegionQuery = container.get<RegionQuery>(TYPE.RegionQuery);
+      const regionQuery1: RegionQuery = kernel.get<RegionQuery>(TYPE.RegionQuery);
+      const regionQuery2: RegionQuery = kernel.get<RegionQuery>(TYPE.RegionQuery);
 
       expect(regionQuery1).toBeInstanceOf(RegionQuery);
       expect(regionQuery1).toBe(regionQuery2);
@@ -39,7 +39,7 @@ describe('RegionQuery', () => {
       RegionRedisQuery.prototype.all = stub;
       stub.resolves(Success.of<Regions, NoSuchElementError>(regions));
 
-      const regionQuery: RegionQuery = container.get<RegionQuery>(TYPE.RegionQuery);
+      const regionQuery: RegionQuery = kernel.get<RegionQuery>(TYPE.RegionQuery);
       const trial: Try<Regions, NoSuchElementError>= await regionQuery.all();
 
       expect(trial.isSuccess()).toEqual(true);
@@ -62,7 +62,7 @@ describe('RegionQuery', () => {
       RegionCommand.prototype.insertAll = stub3;
       stub3.resolves();
 
-      const regionQuery: RegionQuery = container.get<RegionQuery>(TYPE.RegionQuery);
+      const regionQuery: RegionQuery = kernel.get<RegionQuery>(TYPE.RegionQuery);
       const trial: Try<Regions, NoSuchElementError>= await regionQuery.all();
 
       expect(trial.isSuccess()).toEqual(true);
@@ -82,7 +82,7 @@ describe('RegionQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const regionQuery: RegionQuery = container.get<RegionQuery>(TYPE.RegionQuery);
+      const regionQuery: RegionQuery = kernel.get<RegionQuery>(TYPE.RegionQuery);
       const trial: Try<Regions, NoSuchElementError>= await regionQuery.all();
 
       expect(trial.isFailure()).toEqual(true);
@@ -109,7 +109,7 @@ describe('RegionQuery', () => {
       RegionQuery.prototype.all = stub;
       stub.resolves(Success.of<Regions, NoSuchElementError>(regions));
 
-      const regionQuery: RegionQuery = container.get<RegionQuery>(TYPE.RegionQuery);
+      const regionQuery: RegionQuery = kernel.get<RegionQuery>(TYPE.RegionQuery);
       const trial: Try<Region, NoSuchElementError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(trial.isSuccess()).toEqual(true);
@@ -123,7 +123,7 @@ describe('RegionQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const regionQuery: RegionQuery = container.get<RegionQuery>(TYPE.RegionQuery);
+      const regionQuery: RegionQuery = kernel.get<RegionQuery>(TYPE.RegionQuery);
       const trial: Try<Region, NoSuchElementError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(trial.isFailure()).toEqual(true);
@@ -148,7 +148,7 @@ describe('RegionQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const regionQuery: RegionQuery = container.get<RegionQuery>(TYPE.RegionQuery);
+      const regionQuery: RegionQuery = kernel.get<RegionQuery>(TYPE.RegionQuery);
       const trial: Try<Region, NoSuchElementError> = await regionQuery.findByISO3166(ISO3166.of('AIO'));
 
       expect(trial.isFailure()).toEqual(true);

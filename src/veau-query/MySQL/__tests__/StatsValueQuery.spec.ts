@@ -1,7 +1,7 @@
 import 'jest';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { container } from '../../../veau-container/Container';
+import { kernel } from '../../../veau-container/Container';
 import { TYPE } from '../../../veau-container/Types';
 import { StatsValuesError } from '../../../veau-error/StatsValuesError';
 import { MySQL } from '../../../veau-general/MySQL/MySQL';
@@ -14,8 +14,8 @@ import { StatsValueQuery } from '../StatsValueQuery';
 describe('StatsValueQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const statsValueQuery1: StatsValueQuery = container.get<StatsValueQuery>(TYPE.StatsValueMySQLQuery);
-      const statsValueQuery2: StatsValueQuery = container.get<StatsValueQuery>(TYPE.StatsValueMySQLQuery);
+      const statsValueQuery1: StatsValueQuery = kernel.get<StatsValueQuery>(TYPE.StatsValueMySQLQuery);
+      const statsValueQuery2: StatsValueQuery = kernel.get<StatsValueQuery>(TYPE.StatsValueMySQLQuery);
 
       expect(statsValueQuery1).toBeInstanceOf(StatsValueQuery);
       expect(statsValueQuery1).toBe(statsValueQuery2);
@@ -54,7 +54,7 @@ describe('StatsValueQuery', () => {
         }
       ]);
 
-      const statsValueQuery: StatsValueQuery = container.get<StatsValueQuery>(TYPE.StatsValueMySQLQuery);
+      const statsValueQuery: StatsValueQuery = kernel.get<StatsValueQuery>(TYPE.StatsValueMySQLQuery);
       const trial: Try<StatsValues, StatsValuesError> = await statsValueQuery.findByStatsID(StatsID.of('d4703058-a6ff-420b-95b2-4475beba9027').get());
 
       expect(trial.isSuccess()).toEqual(true);
@@ -112,7 +112,7 @@ describe('StatsValueQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsValueQuery: StatsValueQuery = container.get<StatsValueQuery>(TYPE.StatsValueMySQLQuery);
+      const statsValueQuery: StatsValueQuery = kernel.get<StatsValueQuery>(TYPE.StatsValueMySQLQuery);
       const trial: Try<StatsValues, StatsValuesError> = await statsValueQuery.findByStatsID(StatsID.of('d4703058-a6ff-420b-95b2-4475beba9027').get());
 
       expect(trial.isFailure()).toEqual(true);

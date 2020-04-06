@@ -1,7 +1,7 @@
 import 'jest';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { container } from '../../../veau-container/Container';
+import { kernel } from '../../../veau-container/Container';
 import { TYPE } from '../../../veau-container/Types';
 import { AccountError } from '../../../veau-error/AccountError';
 import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
@@ -14,8 +14,8 @@ import { AccountQuery } from '../AccountQuery';
 describe('AccountQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const accountQuery1: AccountQuery = container.get<AccountQuery>(TYPE.AccountMySQLQuery);
-      const accountQuery2: AccountQuery = container.get<AccountQuery>(TYPE.AccountMySQLQuery);
+      const accountQuery1: AccountQuery = kernel.get<AccountQuery>(TYPE.AccountMySQLQuery);
+      const accountQuery2: AccountQuery = kernel.get<AccountQuery>(TYPE.AccountMySQLQuery);
 
       expect(accountQuery1).toBeInstanceOf(AccountQuery);
       expect(accountQuery1).toBe(accountQuery2);
@@ -41,7 +41,7 @@ describe('AccountQuery', () => {
         }
       ]);
 
-      const accountQuery: AccountQuery = container.get<AccountQuery>(TYPE.AccountMySQLQuery);
+      const accountQuery: AccountQuery = kernel.get<AccountQuery>(TYPE.AccountMySQLQuery);
       const name: AccountName = AccountName.of('account');
       const trial: Try<Account, NoSuchElementError | AccountError> = await accountQuery.findByAccount(name);
 
@@ -89,7 +89,7 @@ describe('AccountQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const accountQuery: AccountQuery = container.get<AccountQuery>(TYPE.AccountMySQLQuery);
+      const accountQuery: AccountQuery = kernel.get<AccountQuery>(TYPE.AccountMySQLQuery);
       const name: AccountName = AccountName.of('account');
       const trial: Try<Account, NoSuchElementError | AccountError> = await accountQuery.findByAccount(name);
 
@@ -125,7 +125,7 @@ describe('AccountQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const accountQuery: AccountQuery = container.get<AccountQuery>(TYPE.AccountMySQLQuery);
+      const accountQuery: AccountQuery = kernel.get<AccountQuery>(TYPE.AccountMySQLQuery);
       const name: AccountName = AccountName.of('account');
       const trial: Try<Account, NoSuchElementError | AccountError> = await accountQuery.findByAccount(name);
 

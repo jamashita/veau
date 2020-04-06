@@ -1,7 +1,7 @@
 import 'jest';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { container } from '../../../veau-container/Container';
+import { kernel } from '../../../veau-container/Container';
 import { TYPE } from '../../../veau-container/Types';
 import { StatsItems } from '../../../veau-entity/StatsItems';
 import { StatsItemsError } from '../../../veau-error/StatsItemsError';
@@ -13,8 +13,8 @@ import { StatsItemQuery } from '../StatsItemQuery';
 describe('StatsItemQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const statsItemQuery1: StatsItemQuery = container.get<StatsItemQuery>(TYPE.StatsItemMySQLQuery);
-      const statsItemQuery2: StatsItemQuery = container.get<StatsItemQuery>(TYPE.StatsItemMySQLQuery);
+      const statsItemQuery1: StatsItemQuery = kernel.get<StatsItemQuery>(TYPE.StatsItemMySQLQuery);
+      const statsItemQuery2: StatsItemQuery = kernel.get<StatsItemQuery>(TYPE.StatsItemMySQLQuery);
 
       expect(statsItemQuery1).toBeInstanceOf(StatsItemQuery);
       expect(statsItemQuery1).toBe(statsItemQuery2);
@@ -68,7 +68,7 @@ describe('StatsItemQuery', () => {
         }
       ]);
 
-      const statsItemQuery: StatsItemQuery = container.get<StatsItemQuery>(TYPE.StatsItemMySQLQuery);
+      const statsItemQuery: StatsItemQuery = kernel.get<StatsItemQuery>(TYPE.StatsItemMySQLQuery);
       const trial: Try<StatsItems, StatsItemsError> = await statsItemQuery.findByStatsID(StatsID.of(statsID).get());
 
       expect(trial.isSuccess()).toEqual(true);
@@ -143,7 +143,7 @@ describe('StatsItemQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsItemQuery: StatsItemQuery = container.get<StatsItemQuery>(TYPE.StatsItemMySQLQuery);
+      const statsItemQuery: StatsItemQuery = kernel.get<StatsItemQuery>(TYPE.StatsItemMySQLQuery);
       const trial: Try<StatsItems, StatsItemsError> = await statsItemQuery.findByStatsID(StatsID.of(statsID).get());
 
       expect(trial.isFailure()).toEqual(true);
@@ -207,7 +207,7 @@ describe('StatsItemQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsItemQuery: StatsItemQuery = container.get<StatsItemQuery>(TYPE.StatsItemMySQLQuery);
+      const statsItemQuery: StatsItemQuery = kernel.get<StatsItemQuery>(TYPE.StatsItemMySQLQuery);
       const trial: Try<StatsItems, StatsItemsError> = await statsItemQuery.findByStatsID(StatsID.of(statsID).get());
 
       expect(trial.isFailure()).toEqual(true);

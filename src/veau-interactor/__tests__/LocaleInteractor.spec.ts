@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { LanguageCommand } from '../../veau-command/LanguageCommand';
 import { RegionCommand } from '../../veau-command/RegionCommand';
-import { container } from '../../veau-container/Container';
+import { kernel } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
 import { CacheError } from '../../veau-error/CacheError';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
@@ -28,8 +28,8 @@ import { LocaleInteractor } from '../LocaleInteractor';
 describe('LocaleInteractor',  () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const localeInteractor1: LocaleInteractor = container.get<LocaleInteractor>(TYPE.LocaleInteractor);
-      const localeInteractor2: LocaleInteractor = container.get<LocaleInteractor>(TYPE.LocaleInteractor);
+      const localeInteractor1: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
+      const localeInteractor2: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
 
       expect(localeInteractor1).toBeInstanceOf(LocaleInteractor);
       expect(localeInteractor1).toBe(localeInteractor2);
@@ -54,7 +54,7 @@ describe('LocaleInteractor',  () => {
       RegionQuery.prototype.all = stub2;
       stub2.resolves(Success.of<Regions, NoSuchElementError>(regions));
 
-      const localeInteractor: LocaleInteractor = container.get<LocaleInteractor>(TYPE.LocaleInteractor);
+      const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
       const trial: Try<Locale, NoSuchElementError> = await localeInteractor.all();
 
       expect(trial.isSuccess()).toEqual(true);
@@ -75,7 +75,7 @@ describe('LocaleInteractor',  () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeInteractor: LocaleInteractor = container.get<LocaleInteractor>(TYPE.LocaleInteractor);
+      const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
       const trial: Try<Locale, NoSuchElementError> = await localeInteractor.all();
 
       expect(trial.isFailure()).toEqual(true);
@@ -103,7 +103,7 @@ describe('LocaleInteractor',  () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeInteractor: LocaleInteractor = container.get<LocaleInteractor>(TYPE.LocaleInteractor);
+      const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
       const trial: Try<Locale, NoSuchElementError> = await localeInteractor.all();
 
       expect(trial.isFailure()).toEqual(true);
@@ -128,7 +128,7 @@ describe('LocaleInteractor',  () => {
       RegionCommand.prototype.deleteAll = stub2;
       stub2.resolves(Success.of<void, CacheError>(undefined));
 
-      const localeInteractor: LocaleInteractor = container.get<LocaleInteractor>(TYPE.LocaleInteractor);
+      const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
       const trial: Try<void, CacheError> = await localeInteractor.delete();
 
       expect(trial.isSuccess()).toEqual(true);
@@ -146,7 +146,7 @@ describe('LocaleInteractor',  () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeInteractor: LocaleInteractor = container.get<LocaleInteractor>(TYPE.LocaleInteractor);
+      const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
       const trial: Try<void, CacheError> = await localeInteractor.delete();
 
       expect(trial.isFailure()).toEqual(true);
@@ -173,7 +173,7 @@ describe('LocaleInteractor',  () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeInteractor: LocaleInteractor = container.get<LocaleInteractor>(TYPE.LocaleInteractor);
+      const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
       const trial: Try<void, CacheError> = await localeInteractor.delete();
 
       expect(trial.isFailure()).toEqual(true);

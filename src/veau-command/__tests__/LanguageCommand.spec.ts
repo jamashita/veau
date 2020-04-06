@@ -1,7 +1,7 @@
 import 'jest';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { container } from '../../veau-container/Container';
+import { kernel } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
 import { CacheError } from '../../veau-error/CacheError';
 import { Failure } from '../../veau-general/Try/Failure';
@@ -18,8 +18,8 @@ import { LanguageCommand as LanguageRedisCommand } from '../Redis/LanguageComman
 describe('LanguageCommand', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const languageCommand1: LanguageCommand = container.get<LanguageCommand>(TYPE.LanguageCommand);
-      const languageCommand2: LanguageCommand = container.get<LanguageCommand>(TYPE.LanguageCommand);
+      const languageCommand1: LanguageCommand = kernel.get<LanguageCommand>(TYPE.LanguageCommand);
+      const languageCommand2: LanguageCommand = kernel.get<LanguageCommand>(TYPE.LanguageCommand);
 
       expect(languageCommand1).toBeInstanceOf(LanguageCommand);
       expect(languageCommand1).toBe(languageCommand2);
@@ -36,7 +36,7 @@ describe('LanguageCommand', () => {
         Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english 1'), ISO639.of('aa'))
       ]);
 
-      const languageCommand: LanguageCommand = container.get<LanguageCommand>(TYPE.LanguageCommand);
+      const languageCommand: LanguageCommand = kernel.get<LanguageCommand>(TYPE.LanguageCommand);
 
       try {
         await languageCommand.insertAll(languages);
@@ -53,7 +53,7 @@ describe('LanguageCommand', () => {
       LanguageRedisCommand.prototype.deleteAll = stub;
       stub.resolves(Success.of<void, CacheError>(undefined));
 
-      const languageCommand: LanguageCommand = container.get<LanguageCommand>(TYPE.LanguageCommand);
+      const languageCommand: LanguageCommand = kernel.get<LanguageCommand>(TYPE.LanguageCommand);
       const trial: Try<void, CacheError> = await languageCommand.deleteAll();
 
       expect(trial.isSuccess()).toEqual(true);
@@ -66,7 +66,7 @@ describe('LanguageCommand', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const languageCommand: LanguageCommand = container.get<LanguageCommand>(TYPE.LanguageCommand);
+      const languageCommand: LanguageCommand = kernel.get<LanguageCommand>(TYPE.LanguageCommand);
       const trial: Try<void, CacheError> = await languageCommand.deleteAll();
 
       expect(trial.isFailure()).toEqual(true);

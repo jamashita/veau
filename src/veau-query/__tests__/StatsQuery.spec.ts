@@ -1,7 +1,7 @@
 import 'jest';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { container } from '../../veau-container/Container';
+import { kernel } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
@@ -37,8 +37,8 @@ import { StatsQuery } from '../StatsQuery';
 describe('StatsQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const statsQuery1: StatsQuery = container.get<StatsQuery>(TYPE.StatsQuery);
-      const statsQuery2: StatsQuery = container.get<StatsQuery>(TYPE.StatsQuery);
+      const statsQuery1: StatsQuery = kernel.get<StatsQuery>(TYPE.StatsQuery);
+      const statsQuery2: StatsQuery = kernel.get<StatsQuery>(TYPE.StatsQuery);
 
       expect(statsQuery1).toBeInstanceOf(StatsQuery);
       expect(statsQuery1).toBe(statsQuery2);
@@ -115,7 +115,7 @@ describe('StatsQuery', () => {
       StatsMySQLQuery.prototype.findByStatsID = stub;
       stub.resolves(Success.of<Stats, NoSuchElementError | StatsError>(stats));
 
-      const statsQuery: StatsQuery = container.get<StatsQuery>(TYPE.StatsQuery);
+      const statsQuery: StatsQuery = kernel.get<StatsQuery>(TYPE.StatsQuery);
       const trial: Try<Stats, NoSuchElementError | StatsError> = await statsQuery.findByStatsID(StatsID.of('a25a8b7f-c810-4dc0-b94e-e97e74329307').get());
 
       expect(trial.isSuccess()).toEqual(true);
@@ -129,7 +129,7 @@ describe('StatsQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsQuery: StatsQuery = container.get<StatsQuery>(TYPE.StatsQuery);
+      const statsQuery: StatsQuery = kernel.get<StatsQuery>(TYPE.StatsQuery);
       const trial: Try<Stats, NoSuchElementError | StatsError> = await statsQuery.findByStatsID(StatsID.of('a25a8b7f-c810-4dc0-b94e-e97e74329307').get());
 
       expect(trial.isFailure()).toEqual(true);
@@ -151,7 +151,7 @@ describe('StatsQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsQuery: StatsQuery = container.get<StatsQuery>(TYPE.StatsQuery);
+      const statsQuery: StatsQuery = kernel.get<StatsQuery>(TYPE.StatsQuery);
       const trial: Try<Stats, NoSuchElementError | StatsError> = await statsQuery.findByStatsID(StatsID.of('a25a8b7f-c810-4dc0-b94e-e97e74329307').get());
 
       expect(trial.isFailure()).toEqual(true);

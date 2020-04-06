@@ -1,7 +1,7 @@
 import 'jest';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { container } from '../../../veau-container/Container';
+import { kernel } from '../../../veau-container/Container';
 import { TYPE } from '../../../veau-container/Types';
 import { CacheError } from '../../../veau-error/CacheError';
 import { Redis } from '../../../veau-general/Redis/Redis';
@@ -17,8 +17,8 @@ import { RegionCommand } from '../RegionCommand';
 describe('RegionCommand', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const regionCommand1: RegionCommand = container.get<RegionCommand>(TYPE.RegionRedisCommand);
-      const regionCommand2: RegionCommand = container.get<RegionCommand>(TYPE.RegionRedisCommand);
+      const regionCommand1: RegionCommand = kernel.get<RegionCommand>(TYPE.RegionRedisCommand);
+      const regionCommand2: RegionCommand = kernel.get<RegionCommand>(TYPE.RegionRedisCommand);
 
       expect(regionCommand1).toBeInstanceOf(RegionCommand);
       expect(regionCommand1).toBe(regionCommand2);
@@ -38,7 +38,7 @@ describe('RegionCommand', () => {
         Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abc'))
       ]);
 
-      const regionCommand: RegionCommand = container.get<RegionCommand>(TYPE.RegionRedisCommand);
+      const regionCommand: RegionCommand = kernel.get<RegionCommand>(TYPE.RegionRedisCommand);
       await regionCommand.insertAll(regions);
 
       expect(stub1.withArgs('REGIONS', '[{"regionID":2,"name":"region 2","iso3166":"abc"}]').called).toEqual(true);
@@ -52,7 +52,7 @@ describe('RegionCommand', () => {
       Redis.prototype.delete = stub;
       stub.resolves(true);
 
-      const regionCommand: RegionCommand = container.get<RegionCommand>(TYPE.RegionRedisCommand);
+      const regionCommand: RegionCommand = kernel.get<RegionCommand>(TYPE.RegionRedisCommand);
       const trial: Try<void, CacheError> = await regionCommand.deleteAll();
 
       expect(trial.isSuccess()).toEqual(true);
@@ -66,7 +66,7 @@ describe('RegionCommand', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const regionCommand: RegionCommand = container.get<RegionCommand>(TYPE.RegionRedisCommand);
+      const regionCommand: RegionCommand = kernel.get<RegionCommand>(TYPE.RegionRedisCommand);
       const trial: Try<void, CacheError> = await regionCommand.deleteAll();
 
       expect(trial.isFailure()).toEqual(true);
