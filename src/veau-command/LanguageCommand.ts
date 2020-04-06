@@ -1,12 +1,14 @@
 import { inject, injectable } from 'inversify';
 import { TYPE } from '../veau-container/Types';
 import { CacheError } from '../veau-error/CacheError';
+import { RedisError } from '../veau-general/Redis/RedisError';
 import { Try } from '../veau-general/Try/Try';
 import { Languages } from '../veau-vo/Languages';
 import { ILanguageCommand } from './interfaces/ILanguageCommand';
+import { IRedisCommand } from './interfaces/IRedisCommand';
 
 @injectable()
-export class LanguageCommand implements ILanguageCommand {
+export class LanguageCommand implements ILanguageCommand<RedisError>, IRedisCommand {
   public readonly noun: 'LanguageCommand' = 'LanguageCommand';
   public readonly source: 'Complex' = 'Complex';
   private readonly languageCommand: ILanguageCommand;

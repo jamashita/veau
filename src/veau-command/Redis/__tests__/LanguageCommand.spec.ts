@@ -4,8 +4,10 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../../veau-container/Container';
 import { TYPE } from '../../../veau-container/Types';
 import { CacheError } from '../../../veau-error/CacheError';
-import { Redis } from '../../../veau-general/Redis/Redis';
-import { RedisString } from '../../../veau-general/Redis/RedisString';
+import { MockRedisError } from '../../../veau-general/Redis/MockRedisError';
+import { MockRedis } from '../../../veau-general/Redis/mocks/MockRedis';
+import { MockRedisString } from '../../../veau-general/Redis/mocks/MockRedisString';
+import { RedisError } from '../../../veau-general/Redis/RedisError';
 import { Try } from '../../../veau-general/Try/Try';
 import { ISO639 } from '../../../veau-vo/ISO639';
 import { Language } from '../../../veau-vo/Language';
@@ -27,55 +29,199 @@ describe('LanguageCommand', () => {
 
   describe('insertAll', () => {
     it('normal case', async () => {
-      const stub1: SinonStub = sinon.stub();
-      RedisString.prototype.set = stub1;
-      stub1.resolves();
-      const stub2: SinonStub = sinon.stub();
-      Redis.prototype.expires = stub2;
-      stub2.resolves();
-
       const languages: Languages = Languages.of([
         Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english 1'), ISO639.of('aa'))
       ]);
 
-      const languageCommand: LanguageCommand = kernel.get<LanguageCommand>(TYPE.LanguageRedisCommand);
-      await languageCommand.insertAll(languages);
+      const string: MockRedisString = new MockRedisString();
+      const stub1: SinonStub = sinon.stub();
+      string.set = stub1;
+      stub1.resolves();
+      const redis: MockRedis = MockRedis.of({
+        string
+      });
+      const stub2: SinonStub = sinon.stub();
+      redis.expires = stub2;
+      stub2.resolves();
+
+      const languageCommand: LanguageCommand = new LanguageCommand(redis);
+      const trial: Try<void, RedisError> = await languageCommand.insertAll(languages);
 
       expect(stub1.withArgs('LANGUAGES', '[{"languageID":1,"name":"language 1","englishName":"english 1","iso639":"aa"}]').called).toEqual(true);
       expect(stub2.withArgs('LANGUAGES', 3 * 60 * 60).called).toEqual(true);
+      expect(trial.isSuccess()).toEqual(true);
+    });
+
+    it('returns Failure because the client throws RedisError by MockRedisString.set', async () => {
+      const languages: Languages = Languages.of([
+        Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english 1'), ISO639.of('aa'))
+      ]);
+
+      const string: MockRedisString = new MockRedisString();
+      const stub1: SinonStub = sinon.stub();
+      string.set = stub1;
+      stub1.rejects(new MockRedisError());
+      const redis: MockRedis = MockRedis.of({
+        string
+      });
+      const stub2: SinonStub = sinon.stub();
+      redis.expires = stub2;
+      stub2.resolves();
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const languageCommand: LanguageCommand = new LanguageCommand(redis);
+      const trial: Try<void, RedisError> = await languageCommand.insertAll(languages);
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (err: RedisError) => {
+        spy2();
+        expect(err).toBeInstanceOf(RedisError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('returns Failure because the client throws RedisError by MockRedis.expires', async () => {
+      const languages: Languages = Languages.of([
+        Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english 1'), ISO639.of('aa'))
+      ]);
+
+      const string: MockRedisString = new MockRedisString();
+      const stub1: SinonStub = sinon.stub();
+      string.set = stub1;
+      stub1.resolves();
+      const redis: MockRedis = MockRedis.of({
+        string
+      });
+      const stub2: SinonStub = sinon.stub();
+      redis.expires = stub2;
+      stub2.rejects(new MockRedisError());
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const languageCommand: LanguageCommand = new LanguageCommand(redis);
+      const trial: Try<void, RedisError> = await languageCommand.insertAll(languages);
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (err: RedisError) => {
+        spy2();
+        expect(err).toBeInstanceOf(RedisError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('throws Error', async () => {
+      const languages: Languages = Languages.of([
+        Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english 1'), ISO639.of('aa'))
+      ]);
+      const error: Error = new Error();
+
+      const string: MockRedisString = new MockRedisString();
+      const stub: SinonStub = sinon.stub();
+      string.set = stub;
+      stub.rejects(error);
+
+      const redis: MockRedis = MockRedis.of({
+        string
+      });
+
+      const languageCommand: LanguageCommand = new LanguageCommand(redis);
+      try {
+        await languageCommand.insertAll(languages);
+      }
+      catch (err) {
+        expect(err).toBe(error);
+      }
     });
   });
 
   describe('deleteAll', () => {
     it('normal case', async () => {
+      const redis: MockRedis = MockRedis.of({});
       const stub: SinonStub = sinon.stub();
-      Redis.prototype.delete = stub;
+      redis.delete = stub;
       stub.resolves(true);
 
-      const languageCommand: LanguageCommand = kernel.get<LanguageCommand>(TYPE.LanguageRedisCommand);
-      const trial: Try<void, CacheError> = await languageCommand.deleteAll();
+      const languageCommand: LanguageCommand = new LanguageCommand(redis);
+      const trial: Try<void, CacheError | RedisError> = await languageCommand.deleteAll();
 
-      expect(trial.isSuccess()).toEqual(true);
       expect(stub.withArgs('LANGUAGES').called).toEqual(true);
+      expect(trial.isSuccess()).toEqual(true);
     });
 
-    it('throws CacheError', async () => {
+    it('returns Failure with CacheError because Redis.delete fails', async () => {
+      const redis: MockRedis = MockRedis.of({});
       const stub: SinonStub = sinon.stub();
-      Redis.prototype.delete = stub;
+      redis.delete = stub;
       stub.resolves(false);
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const languageCommand: LanguageCommand = kernel.get<LanguageCommand>(TYPE.LanguageRedisCommand);
-      const trial: Try<void, CacheError> = await languageCommand.deleteAll();
+      const languageCommand: LanguageCommand = new LanguageCommand(redis);
+      const trial: Try<void, CacheError | RedisError> = await languageCommand.deleteAll();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-        }, (err: CacheError) => {
-        expect(err).toBeInstanceOf(CacheError);
+      }, (err: CacheError | RedisError) => {
         spy2();
+        expect(err).toBeInstanceOf(CacheError);
       });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('returns Failure because the client throws RedisError', async () => {
+      const redis: MockRedis = MockRedis.of({});
+      const stub: SinonStub = sinon.stub();
+      redis.delete = stub;
+      stub.rejects(new MockRedisError());
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const languageCommand: LanguageCommand = new LanguageCommand(redis);
+      const trial: Try<void, CacheError | RedisError> = await languageCommand.deleteAll();
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (err: CacheError | RedisError) => {
+        spy2();
+        expect(err).toBeInstanceOf(RedisError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('throws Error', async () => {
+      const error: Error = new Error();
+
+      const redis: MockRedis = MockRedis.of({});
+      const stub: SinonStub = sinon.stub();
+      redis.delete = stub;
+      stub.rejects(error);
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const languageCommand: LanguageCommand = new LanguageCommand(redis);
+      try {
+        await languageCommand.deleteAll();
+        spy1();
+      }
+      catch (err) {
+        spy2();
+        expect(err).toBe(error);
+      }
 
       expect(spy1.called).toEqual(false);
       expect(spy2.called).toEqual(true);

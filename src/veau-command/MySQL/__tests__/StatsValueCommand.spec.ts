@@ -36,7 +36,7 @@ describe('StatsValueCommand', () => {
       expect(trial.isSuccess()).toEqual(true);
     });
 
-    it('returns Failure because the client throws MysqlError', async () => {
+    it('returns Failure because the client throws MySQLError', async () => {
       const statsItemID: StatsItemID = StatsItemID.of('6c3f54e0-bfe5-4b4b-9227-2175604ab739').get();
       const statsValue: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
 
@@ -105,7 +105,7 @@ describe('StatsValueCommand', () => {
       expect(trial.isSuccess()).toEqual(true);
     });
 
-    it('returns Failure because the client throws MysqlError', async () => {
+    it('returns Failure because the client throws MySQLError', async () => {
       const statsID: StatsID = StatsID.of('59915b56-b930-426c-a146-3b1dde8054cd').get();
 
       const query: MockQuery = new MockQuery();

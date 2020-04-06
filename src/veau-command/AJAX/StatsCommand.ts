@@ -36,7 +36,7 @@ export class StatsCommand implements IStatsCommand<AJAXError>, IAJAXCommand {
     }
   }
 
-  public deleteByStatsID(statsID: StatsID): Promise<Try<unknown, AJAXError>> {
-    return Promise.reject<Try<unknown, AJAXError>>(new UnimplementedError());
+  public deleteByStatsID(statsID: StatsID): Promise<Try<void, AJAXError>> {
+    return Promise.reject<Try<void, AJAXError>>(new UnimplementedError());
   }
 }

@@ -68,7 +68,7 @@ describe('StatsCommand', () => {
       expect(trial.isSuccess()).toEqual(true);
     });
 
-    it('returns Failure because the client throws MysqlError', async () => {
+    it('returns Failure because the client throws MySQLError', async () => {
       const stats: Stats = Stats.of(
         StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(),
         Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('language 2'), ISO639.of('aa')),
@@ -153,7 +153,7 @@ describe('StatsCommand', () => {
       expect(trial.isSuccess()).toEqual(true);
     });
 
-    it('returns Failure because the client throws MysqlError', async () => {
+    it('returns Failure because the client throws MySQLError', async () => {
       const statsID: StatsID = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get();
 
       const query: MockQuery = new MockQuery();

@@ -5,20 +5,16 @@ import { IRedisHash } from '../interfaces/IRedisHash';
 import { IRedisList } from '../interfaces/IRedisList';
 import { IRedisSet } from '../interfaces/IRedisSet';
 import { IRedisString } from '../interfaces/IRedisString';
-import { RedisHash } from '../RedisHash';
-import { RedisList } from '../RedisList';
-import { RedisSet } from '../RedisSet';
-import { RedisString } from '../RedisString';
 import { MockRedisHash } from './MockRedisHash';
 import { MockRedisList } from './MockRedisList';
 import { MockRedisSet } from './MockRedisSet';
 import { MockRedisString } from './MockRedisString';
 
 type MockRedisSetting = Readonly<{
-  hash: RedisHash;
-  set: RedisSet;
-  list: RedisList;
-  string: RedisString;
+  hash: IRedisHash;
+  set: IRedisSet;
+  list: IRedisList;
+  string: IRedisString;
 }>;
 
 export class MockRedis implements IRedis {

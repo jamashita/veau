@@ -42,7 +42,7 @@ describe('StatsItemCommand', () => {
       expect(trial.isSuccess()).toEqual(true);
     });
 
-    it('returns Failure because the client throws MysqlError', async () => {
+    it('returns Failure because the client throws MySQLError', async () => {
       const statsID: StatsID = StatsID.of('59915b56-b930-426c-a146-3b1dde8054cd').get();
       const statsItem: StatsItem = StatsItem.of(
         StatsItemID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(),
@@ -116,7 +116,7 @@ describe('StatsItemCommand', () => {
       expect(trial.isSuccess()).toEqual(true);
     });
 
-    it('returns Failure because the client throws MysqlError', async () => {
+    it('returns Failure because the client throws MySQLError', async () => {
       const statsID: StatsID = StatsID.of('59915b56-b930-426c-a146-3b1dde8054cd').get();
 
       const query: MockQuery = new MockQuery();
