@@ -1,12 +1,7 @@
-import IORedis from 'ioredis';
-import { UnimplementedError } from '../UnimplementedError';
-import { RedisSet } from './RedisSet';
+import { UnimplementedError } from '../../UnimplementedError';
+import { IRedisSet } from '../interfaces/IRedisSet';
 
-export class MockRedisSet extends RedisSet {
-
-  public constructor() {
-    super(new IORedis({}));
-  }
+export class MockRedisSet implements IRedisSet {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async add(key: string, ...values: Array<string>): Promise<number> {

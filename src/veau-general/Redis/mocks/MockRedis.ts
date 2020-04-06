@@ -1,14 +1,18 @@
 import IORedis from 'ioredis';
-import { UnimplementedError } from '../UnimplementedError';
+import { UnimplementedError } from '../../UnimplementedError';
+import { IRedis } from '../interfaces/IRedis';
+import { IRedisHash } from '../interfaces/IRedisHash';
+import { IRedisList } from '../interfaces/IRedisList';
+import { IRedisSet } from '../interfaces/IRedisSet';
+import { IRedisString } from '../interfaces/IRedisString';
+import { RedisHash } from '../RedisHash';
+import { RedisList } from '../RedisList';
+import { RedisSet } from '../RedisSet';
+import { RedisString } from '../RedisString';
 import { MockRedisHash } from './MockRedisHash';
 import { MockRedisList } from './MockRedisList';
 import { MockRedisSet } from './MockRedisSet';
 import { MockRedisString } from './MockRedisString';
-import { Redis } from './Redis';
-import { RedisHash } from './RedisHash';
-import { RedisList } from './RedisList';
-import { RedisSet } from './RedisSet';
-import { RedisString } from './RedisString';
 
 type MockRedisSetting = Readonly<{
   hash: RedisHash;
@@ -17,21 +21,15 @@ type MockRedisSetting = Readonly<{
   string: RedisString;
 }>;
 
-export class MockRedis extends Redis {
+export class MockRedis implements IRedis {
+  private readonly client: IORedis.Redis;
+  private readonly hash: IRedisHash;
+  private readonly set: IRedisSet;
+  private readonly list: IRedisList;
+  private readonly string: IRedisString;
 
-  public static ofSetting(setting?: Partial<MockRedisSetting>): MockRedis {
-    const client: IORedis.Redis = new IORedis({});
-
-    if (setting === undefined) {
-      const hash: RedisHash = new MockRedisHash();
-      const set: RedisSet = new MockRedisSet();
-      const list: RedisList = new MockRedisList();
-      const string: RedisString = new MockRedisString();
-
-      return new MockRedis(client, hash, set, list, string);
-    }
-
-    let hash: RedisHash;
+  public static of(setting: Partial<MockRedisSetting>): MockRedis {
+    let hash: IRedisHash;
     if (setting.hash === undefined) {
       hash = new MockRedisHash();
     }
@@ -39,7 +37,7 @@ export class MockRedis extends Redis {
       hash = setting.hash;
     }
 
-    let set: RedisSet;
+    let set: IRedisSet;
     if (setting.set === undefined) {
       set = new MockRedisSet();
     }
@@ -47,7 +45,7 @@ export class MockRedis extends Redis {
       set = setting.set;
     }
 
-    let list: RedisList;
+    let list: IRedisList;
     if (setting.list === undefined) {
       list = new MockRedisList();
     }
@@ -55,7 +53,7 @@ export class MockRedis extends Redis {
       list = setting.list;
     }
 
-    let string: RedisString;
+    let string: IRedisString;
     if (setting.string === undefined) {
       string = new MockRedisString();
     }
@@ -63,26 +61,38 @@ export class MockRedis extends Redis {
       string = setting.string;
     }
 
-    return new MockRedis(client, hash, set, list, string);
+    return new MockRedis(hash, set, list, string);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public static of(config: IORedis.RedisOptions): MockRedis {
-    const client: IORedis.Redis = new IORedis({});
-    const hash: RedisHash = new MockRedisHash();
-    const set: RedisSet = new MockRedisSet();
-    const list: RedisList = new MockRedisList();
-    const string: RedisString = new MockRedisString();
-
-    return new MockRedis(client, hash, set, list, string);
+  private constructor(hash: IRedisHash,
+    set: IRedisSet,
+    list: IRedisList,
+    string: IRedisString) {
+    this.client = new IORedis({});
+    this.hash = hash;
+    this.set = set;
+    this.list = list;
+    this.string = string;
   }
 
-  protected constructor(client: IORedis.Redis,
-    hash: RedisHash,
-    set: RedisSet,
-    list: RedisList,
-    string: RedisString) {
-    super(client, hash, set, list, string);
+  public getClient(): IORedis.Redis {
+    return this.client;
+  }
+
+  public getHash(): IRedisHash {
+    return this.hash;
+  }
+
+  public getSet(): IRedisSet {
+    return this.set;
+  }
+
+  public getList(): IRedisList {
+    return this.list;
+  }
+
+  public getString(): IRedisString {
+    return this.string;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
