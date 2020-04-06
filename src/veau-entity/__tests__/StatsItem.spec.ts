@@ -347,8 +347,8 @@ describe('StatsItem', () => {
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>((item: StatsItem) => {
-        expect(item.getStatsItemID().get()).toEqual(row.statsItemID);
         spy1();
+        expect(item.getStatsItemID().get()).toEqual(row.statsItemID);
       }, (err: StatsItemError) => {
         spy2();
         expect(err).toBeInstanceOf(StatsItemError);

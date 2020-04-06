@@ -4,8 +4,10 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../../veau-container/Container';
 import { TYPE } from '../../../veau-container/Types';
 import { CacheError } from '../../../veau-error/CacheError';
-import { Redis } from '../../../veau-general/Redis/Redis';
-import { RedisString } from '../../../veau-general/Redis/RedisString';
+import { MockRedisError } from '../../../veau-general/Redis/MockRedisError';
+import { MockRedis } from '../../../veau-general/Redis/mocks/MockRedis';
+import { MockRedisString } from '../../../veau-general/Redis/mocks/MockRedisString';
+import { RedisError } from '../../../veau-general/Redis/RedisError';
 import { Try } from '../../../veau-general/Try/Try';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { Region } from '../../../veau-vo/Region';
@@ -27,55 +29,206 @@ describe('RegionCommand', () => {
 
   describe('insertAll', () => {
     it('normal case', async () => {
-      const stub1: SinonStub = sinon.stub();
-      RedisString.prototype.set = stub1;
-      stub1.resolves();
-      const stub2: SinonStub = sinon.stub();
-      Redis.prototype.expires = stub2;
-      stub2.resolves();
-
       const regions: Regions = Regions.of([
         Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abc'))
       ]);
 
-      const regionCommand: RegionCommand = kernel.get<RegionCommand>(TYPE.RegionRedisCommand);
-      await regionCommand.insertAll(regions);
+      const string: MockRedisString = new MockRedisString();
+      const stub1: SinonStub = sinon.stub();
+      string.set = stub1;
+      stub1.resolves();
+      const redis: MockRedis = MockRedis.of({
+        string
+      });
+      const stub2: SinonStub = sinon.stub();
+      redis.expires = stub2;
+      stub2.resolves();
+
+      const regionCommand: RegionCommand = new RegionCommand(redis);
+      const trial: Try<void, RedisError> = await regionCommand.insertAll(regions);
 
       expect(stub1.withArgs('REGIONS', '[{"regionID":2,"name":"region 2","iso3166":"abc"}]').called).toEqual(true);
       expect(stub2.withArgs('REGIONS', 3 * 60 * 60).called).toEqual(true);
+      expect(trial.isSuccess()).toEqual(true);
+    });
+
+    it('returns Failure because the client throws RedisError by MockRedisString.set', async () => {
+      const regions: Regions = Regions.of([
+        Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abc'))
+      ]);
+
+      const string: MockRedisString = new MockRedisString();
+      const stub1: SinonStub = sinon.stub();
+      string.set = stub1;
+      stub1.rejects(new MockRedisError());
+      const redis: MockRedis = MockRedis.of({
+        string
+      });
+      const stub2: SinonStub = sinon.stub();
+      redis.expires = stub2;
+      stub2.resolves();
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const regionCommand: RegionCommand = new RegionCommand(redis);
+      const trial: Try<void, RedisError> = await regionCommand.insertAll(regions);
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (err: RedisError) => {
+        spy2();
+        expect(err).toBeInstanceOf(RedisError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('returns Failure because the client throws RedisError by MockRedis.expires', async () => {
+      const regions: Regions = Regions.of([
+        Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abc'))
+      ]);
+
+      const string: MockRedisString = new MockRedisString();
+      const stub1: SinonStub = sinon.stub();
+      string.set = stub1;
+      stub1.resolves();
+      const redis: MockRedis = MockRedis.of({
+        string
+      });
+      const stub2: SinonStub = sinon.stub();
+      redis.expires = stub2;
+      stub2.rejects(new MockRedisError());
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const regionCommand: RegionCommand = new RegionCommand(redis);
+      const trial: Try<void, RedisError> = await regionCommand.insertAll(regions);
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (err: RedisError) => {
+        spy2();
+        expect(err).toBeInstanceOf(RedisError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('throws Error', async () => {
+      const regions: Regions = Regions.of([
+        Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abc'))
+      ]);
+      const error: Error = new Error();
+
+      const string: MockRedisString = new MockRedisString();
+      const stub: SinonStub = sinon.stub();
+      string.set = stub;
+      stub.rejects(error);
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const redis: MockRedis = MockRedis.of({
+        string
+      });
+
+      const regionCommand: RegionCommand = new RegionCommand(redis);
+      try {
+        await regionCommand.insertAll(regions);
+        spy1();
+      }
+      catch (err) {
+        spy2();
+        expect(err).toBe(error);
+      }
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
   });
 
   describe('deleteAll', () => {
     it('normal case', async () => {
+      const redis: MockRedis = MockRedis.of({});
       const stub: SinonStub = sinon.stub();
-      Redis.prototype.delete = stub;
+      redis.delete = stub;
       stub.resolves(true);
 
-      const regionCommand: RegionCommand = kernel.get<RegionCommand>(TYPE.RegionRedisCommand);
-      const trial: Try<void, CacheError> = await regionCommand.deleteAll();
+      const regionCommand: RegionCommand = new RegionCommand(redis);
+      const trial: Try<void, CacheError | RedisError> = await regionCommand.deleteAll();
 
-      expect(trial.isSuccess()).toEqual(true);
       expect(stub.withArgs('REGIONS').called).toEqual(true);
+      expect(trial.isSuccess()).toEqual(true);
     });
 
-    it('throws CacheError', async () => {
+    it('returns Failure with CacheError because Redis.delete fails', async () => {
+      const redis: MockRedis = MockRedis.of({});
       const stub: SinonStub = sinon.stub();
-      Redis.prototype.delete = stub;
+      redis.delete = stub;
       stub.resolves(false);
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const regionCommand: RegionCommand = kernel.get<RegionCommand>(TYPE.RegionRedisCommand);
-      const trial: Try<void, CacheError> = await regionCommand.deleteAll();
+      const regionCommand: RegionCommand = new RegionCommand(redis);
+      const trial: Try<void, CacheError | RedisError> = await regionCommand.deleteAll();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: CacheError) => {
+      }, (err: CacheError | RedisError) => {
         spy2();
         expect(err).toBeInstanceOf(CacheError);
       });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('returns Failure because the client throws RedisError', async () => {
+      const redis: MockRedis = MockRedis.of({});
+      const stub: SinonStub = sinon.stub();
+      redis.delete = stub;
+      stub.resolves(false);
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const regionCommand: RegionCommand = new RegionCommand(redis);
+      const trial: Try<void, CacheError | RedisError> = await regionCommand.deleteAll();
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (err: CacheError | RedisError) => {
+        spy2();
+        expect(err).toBeInstanceOf(CacheError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('throws Error', async () => {
+      const error: Error = new Error();
+
+      const redis: MockRedis = MockRedis.of({});
+      const stub: SinonStub = sinon.stub();
+      redis.delete = stub;
+      stub.rejects(error);
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const regionCommand: RegionCommand = new RegionCommand(redis);
+      try {
+        await regionCommand.deleteAll();
+        spy1();
+      }
+      catch (err) {
+        spy2();
+        expect(err).toBe(error);
+      }
 
       expect(spy1.called).toEqual(false);
       expect(spy2.called).toEqual(true);

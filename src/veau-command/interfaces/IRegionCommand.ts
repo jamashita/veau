@@ -7,7 +7,7 @@ import { ICommand } from './ICommand';
 export interface IRegionCommand<E extends SourceError> extends ICommand {
   readonly noun: 'RegionCommand';
 
-  insertAll(regions: Regions): Promise<unknown>;
+  insertAll(regions: Regions): Promise<Try<void, E>>;
 
-  deleteAll(): Promise<Try<void, CacheError>>;
+  deleteAll(): Promise<Try<void, CacheError | E>>;
 }
