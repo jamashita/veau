@@ -4,6 +4,7 @@ import { Resolve } from '../Type/Resolve';
 import { Connection } from './Connection';
 import { IQuery } from './IQuery';
 import { ITransaction } from './ITransaction';
+import { MySQLError } from './MySQLError';
 
 type Value = {
   [key: string]: unknown;
@@ -39,14 +40,14 @@ export class MySQL implements IQuery {
       this.pool.getConnection((err1: mysql.MysqlError, connection: mysql.PoolConnection) => {
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unnecessary-condition
         if (err1) {
-          reject(err1);
+          reject(new MySQLError(err1));
           return;
         }
 
         connection.beginTransaction((err2: mysql.MysqlError) => {
           // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unnecessary-condition
           if (err2) {
-            reject(err2);
+            reject(new MySQLError(err2));
             return;
           }
 
@@ -75,7 +76,7 @@ export class MySQL implements IQuery {
     return new Promise<T>((resolve: Resolve<T>, reject: Reject) => {
       this.pool.query(sql, value, (err: mysql.MysqlError | null, result: T) => {
         if (err !== null) {
-          reject(err);
+          reject(new MySQLError(err));
           return;
         }
 

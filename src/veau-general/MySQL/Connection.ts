@@ -2,6 +2,7 @@ import mysql from 'mysql';
 import { Reject } from '../Type/Reject';
 import { Resolve } from '../Type/Resolve';
 import { IQuery } from './IQuery';
+import { MySQLError } from './MySQLError';
 
 export class Connection implements IQuery {
   private readonly connection: mysql.PoolConnection;
@@ -14,7 +15,7 @@ export class Connection implements IQuery {
     return new Promise<T>((resolve: Resolve<T>, reject: Reject) => {
       this.connection.query(sql, value, (err: mysql.MysqlError | null, result: T) => {
         if (err !== null) {
-          reject(err);
+          reject(new MySQLError(err));
           return;
         }
 
@@ -28,7 +29,7 @@ export class Connection implements IQuery {
       this.connection.commit((err: mysql.MysqlError) => {
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unnecessary-condition
         if (err) {
-          reject(err);
+          reject(new MySQLError(err));
           return;
         }
 
@@ -42,7 +43,7 @@ export class Connection implements IQuery {
       this.connection.rollback((err: mysql.MysqlError) => {
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unnecessary-condition
         if (err) {
-          reject(err);
+          reject(new MySQLError(err));
           return;
         }
 
