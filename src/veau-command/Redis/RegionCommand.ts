@@ -7,14 +7,14 @@ import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
 import { Regions } from '../../veau-vo/Regions';
+import { IRedisCommand } from '../interfaces/IRedisCommand';
 import { IRegionCommand } from '../interfaces/IRegionCommand';
-import { RedisCommand } from './RedisCommand';
 
 const REDIS_KEY: string = 'REGIONS';
 const DURATION: number = 3 * 60 * 60;
 
 @injectable()
-export class RegionCommand implements IRegionCommand, RedisCommand {
+export class RegionCommand implements IRegionCommand, IRedisCommand {
   public readonly noun: 'RegionCommand' = 'RegionCommand';
   public readonly source: 'Redis' = 'Redis';
   private readonly redis: Redis;

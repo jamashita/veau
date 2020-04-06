@@ -8,13 +8,13 @@ import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
 import { Languages } from '../../veau-vo/Languages';
 import { ILanguageCommand } from '../interfaces/ILanguageCommand';
-import { RedisCommand } from './RedisCommand';
+import { IRedisCommand } from '../interfaces/IRedisCommand';
 
 const REDIS_KEY: string = 'LANGUAGES';
 const DURATION: number = 3 * 60 * 60;
 
 @injectable()
-export class LanguageCommand implements ILanguageCommand, RedisCommand {
+export class LanguageCommand implements ILanguageCommand, IRedisCommand {
   public readonly noun: 'LanguageCommand' = 'LanguageCommand';
   public readonly source: 'Redis' = 'Redis';
   private readonly redis: Redis;
