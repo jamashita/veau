@@ -8,6 +8,8 @@ import { IAJAX } from '../../veau-general/AJAX/interfaces/IAJAX';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
+import { UnimplementedError } from '../../veau-general/UnimplementedError';
+import { StatsID } from '../../veau-vo/StatsID';
 import { IAJAXCommand } from '../interfaces/IAJAXCommand';
 import { IStatsCommand } from '../interfaces/IStatsCommand';
 
@@ -32,5 +34,9 @@ export class StatsCommand implements IStatsCommand<AJAXError>, IAJAXCommand {
         return Failure.of<void, AJAXError>(new AJAXError('UNKNOWN ERROR'));
       }
     }
+  }
+
+  public deleteByStatsID(statsID: StatsID): Promise<Try<unknown, AJAXError>> {
+    return Promise.reject<Try<unknown, AJAXError>>(new UnimplementedError());
   }
 }
