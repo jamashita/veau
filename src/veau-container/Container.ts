@@ -1,10 +1,8 @@
 import { Container } from 'inversify';
 import { SessionCommand as SessionAJAXCommand } from '../veau-command/AJAX/SessionCommand';
 import { StatsCommand as StatsAJAXCommand } from '../veau-command/AJAX/StatsCommand';
-import { LanguageCommand } from '../veau-command/LanguageCommand';
 import { LanguageCommand as LanguageRedisCommand } from '../veau-command/Redis/LanguageCommand';
 import { RegionCommand as RegionRedisCommand } from '../veau-command/Redis/RegionCommand';
-import { RegionCommand } from '../veau-command/RegionCommand';
 import { AuthenticationMiddleware } from '../veau-controller/middlewares/AuthenticationMiddleware';
 import { AJAX } from '../veau-general/AJAX/AJAX';
 import { MySQL } from '../veau-general/MySQL/MySQL';
@@ -37,8 +35,6 @@ import { TYPE } from './Types';
 export const kernel: Container = new Container();
 export const vault: Container = new Container();
 
-kernel.bind<LanguageCommand>(TYPE.LanguageCommand).to(LanguageCommand).inSingletonScope();
-kernel.bind<RegionCommand>(TYPE.RegionCommand).to(RegionCommand).inSingletonScope();
 kernel.bind<LanguageRedisCommand>(TYPE.LanguageRedisCommand).to(LanguageRedisCommand).inSingletonScope();
 kernel.bind<RegionRedisCommand>(TYPE.RegionRedisCommand).to(RegionRedisCommand).inSingletonScope();
 kernel.bind<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware).to(AuthenticationMiddleware).inSingletonScope();
