@@ -39,16 +39,6 @@ describe('StatsCommand', () => {
 
   describe('create', () => {
     it('normal case',  async () => {
-      const ajax: MockAJAX = new MockAJAX();
-
-      const stub: SinonStub = sinon.stub();
-      ajax.post = stub;
-      stub.resolves({
-        status: CREATED,
-        body: {
-        }
-      });
-
       const stats: Stats = Stats.of(
         StatsID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87').get(),
         Language.of(LanguageID.of(3), LanguageName.of('language name 1'), LanguageName.of('language name 2'), ISO639.of('aa')),
@@ -60,6 +50,15 @@ describe('StatsCommand', () => {
         StatsItems.empty(),
         None.of<AsOf>()
       );
+
+      const ajax: MockAJAX = new MockAJAX();
+      const stub: SinonStub = sinon.stub();
+      ajax.post = stub;
+      stub.resolves({
+        status: CREATED,
+        body: {
+        }
+      });
 
       const statsCommand: StatsCommand = new StatsCommand(ajax);
       const trial: Try<void, AJAXError> = await statsCommand.create(stats);
@@ -88,18 +87,6 @@ describe('StatsCommand', () => {
     });
 
     it('throws AJAXError', async () => {
-      const ajax: MockAJAX = new MockAJAX();
-
-      const stub: SinonStub = sinon.stub();
-      ajax.post = stub;
-      stub.resolves({
-        status: BAD_REQUEST,
-        body: {
-        }
-      });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const stats: Stats = Stats.of(
         StatsID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87').get(),
         Language.of(LanguageID.of(3), LanguageName.of('language name 1'), LanguageName.of('language name 2'), ISO639.of('aa')),
@@ -111,6 +98,17 @@ describe('StatsCommand', () => {
         StatsItems.empty(),
         None.of<AsOf>()
       );
+
+      const ajax: MockAJAX = new MockAJAX();
+      const stub: SinonStub = sinon.stub();
+      ajax.post = stub;
+      stub.resolves({
+        status: BAD_REQUEST,
+        body: {
+        }
+      });
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const statsCommand: StatsCommand = new StatsCommand(ajax);
       const trial: Try<void, AJAXError> = await statsCommand.create(stats);

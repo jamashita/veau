@@ -1,6 +1,5 @@
 import 'jest';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { IQuery } from '../../../veau-general/MySQL/interfaces/IQuery';
 import { MockMySQLError } from '../../../veau-general/MySQL/mocks/MockMySQLError';
 import { MockQuery } from '../../../veau-general/MySQL/mocks/MockQuery';
 import { MySQLError } from '../../../veau-general/MySQL/MySQLError';
@@ -18,7 +17,7 @@ describe('StatsValueCommand', () => {
       const statsItemID: StatsItemID = StatsItemID.of('6c3f54e0-bfe5-4b4b-9227-2175604ab739').get();
       const statsValue: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
 
-      const query: IQuery = new MockQuery();
+      const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
 
@@ -41,7 +40,7 @@ describe('StatsValueCommand', () => {
       const statsItemID: StatsItemID = StatsItemID.of('6c3f54e0-bfe5-4b4b-9227-2175604ab739').get();
       const statsValue: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
 
-      const query: IQuery = new MockQuery();
+      const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
       stub.rejects(new MockMySQLError());
@@ -68,7 +67,7 @@ describe('StatsValueCommand', () => {
       const statsValue: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
       const error: Error = new Error();
 
-      const query: IQuery = new MockQuery();
+      const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
       stub.rejects(error);
@@ -87,7 +86,7 @@ describe('StatsValueCommand', () => {
     it('normal case', async () => {
       const statsID: StatsID = StatsID.of('59915b56-b930-426c-a146-3b1dde8054cd').get();
 
-      const query: IQuery = new MockQuery();
+      const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
 
@@ -109,7 +108,7 @@ describe('StatsValueCommand', () => {
     it('returns Failure because the client throws MysqlError', async () => {
       const statsID: StatsID = StatsID.of('59915b56-b930-426c-a146-3b1dde8054cd').get();
 
-      const query: IQuery = new MockQuery();
+      const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
       stub.rejects(new MockMySQLError());
@@ -135,7 +134,7 @@ describe('StatsValueCommand', () => {
       const statsID: StatsID = StatsID.of('59915b56-b930-426c-a146-3b1dde8054cd').get();
       const error: Error = new Error();
 
-      const query: IQuery = new MockQuery();
+      const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
       stub.rejects(error);

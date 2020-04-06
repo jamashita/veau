@@ -23,7 +23,6 @@ describe('SessionCommand', () => {
   describe('delete', () => {
     it('normal case', async () => {
       const ajax: MockAJAX = new MockAJAX();
-
       const stub: SinonStub = sinon.stub();
       ajax.delete = stub;
       stub.resolves({
@@ -41,7 +40,6 @@ describe('SessionCommand', () => {
 
     it('throws AJAXError', async () => {
       const ajax: MockAJAX = new MockAJAX();
-
       const stub: SinonStub = sinon.stub();
       ajax.delete = stub;
       stub.resolves({
