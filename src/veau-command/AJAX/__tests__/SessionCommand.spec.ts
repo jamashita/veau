@@ -5,7 +5,7 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { vault } from '../../../veau-container/Container';
 import { TYPE } from '../../../veau-container/Types';
 import { AJAXError } from '../../../veau-error/AJAXError';
-import { AJAX } from '../../../veau-general/AJAX';
+import { MockAJAX } from '../../../veau-general/AJAX/MockAJAX';
 import { Try } from '../../../veau-general/Try/Try';
 import { SessionCommand } from '../SessionCommand';
 
@@ -22,15 +22,17 @@ describe('SessionCommand', () => {
 
   describe('delete', () => {
     it('normal case', async () => {
+      const ajax: MockAJAX = new MockAJAX();
+
       const stub: SinonStub = sinon.stub();
-      AJAX.prototype.delete = stub;
+      ajax.delete = stub;
       stub.resolves({
         status: OK,
         body: {
         }
       });
 
-      const sessionCommand: SessionCommand = vault.get<SessionCommand>(TYPE.SessionAJAXCommand);
+      const sessionCommand: SessionCommand = new SessionCommand(ajax);
       const trial: Try<void, AJAXError> = await sessionCommand.delete();
 
       expect(trial.isSuccess()).toEqual(true);
@@ -38,8 +40,10 @@ describe('SessionCommand', () => {
     });
 
     it('throws AJAXError', async () => {
+      const ajax: MockAJAX = new MockAJAX();
+
       const stub: SinonStub = sinon.stub();
-      AJAX.prototype.delete = stub;
+      ajax.delete = stub;
       stub.resolves({
         status: INTERNAL_SERVER_ERROR,
         body: {
@@ -48,7 +52,7 @@ describe('SessionCommand', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const sessionCommand: SessionCommand = vault.get<SessionCommand>(TYPE.SessionAJAXCommand);
+      const sessionCommand: SessionCommand = new SessionCommand(ajax);
       const trial: Try<void, AJAXError> = await sessionCommand.delete();
 
       expect(trial.isFailure()).toEqual(true);

@@ -2,7 +2,7 @@ import { UnimplementedError } from '../UnimplementedError';
 import { AJAX } from './AJAX';
 import { AJAXResponse } from './AJAXResponse';
 
-export class MockAJAX<T> extends AJAX {
+export class MockAJAX extends AJAX {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public get<T>(url: string): Promise<AJAXResponse<T>> {

@@ -2,7 +2,8 @@ import { OK } from 'http-status';
 import { inject, injectable } from 'inversify';
 import { TYPE } from '../../veau-container/Types';
 import { AJAXError } from '../../veau-error/AJAXError';
-import { AJAXResponse, Requestable } from '../../veau-general/Requestable';
+import { AJAXRequestable } from '../../veau-general/AJAX/AJAXRequestable';
+import { AJAXResponse } from '../../veau-general/AJAX/AJAXResponse';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
@@ -13,9 +14,9 @@ import { ISessionCommand } from '../interfaces/ISessionCommand';
 export class SessionCommand implements ISessionCommand, IAJAXCommand {
   public readonly noun: 'SessionCommand' = 'SessionCommand';
   public readonly source: 'AJAX' = 'AJAX';
-  private readonly ajax: Requestable;
+  private readonly ajax: AJAXRequestable;
 
-  public constructor(@inject(TYPE.AJAX) ajax: Requestable) {
+  public constructor(@inject(TYPE.AJAX) ajax: AJAXRequestable) {
     this.ajax = ajax;
   }
 
