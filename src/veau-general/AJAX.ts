@@ -1,14 +1,12 @@
+import { injectable } from 'inversify';
 import request from 'superagent';
+import { AJAXResponse, Requestable } from './Requestable';
 import { Resolve } from './Type/Resolve';
 
-export type AJAXResponse<T> = {
-  status: number;
-  body: T;
-};
+@injectable()
+export class AJAX implements Requestable {
 
-export class AJAX {
-
-  public static get<T>(url: string): Promise<AJAXResponse<T>> {
+  public get<T>(url: string): Promise<AJAXResponse<T>> {
     return new Promise<AJAXResponse<T>>((resolve: Resolve<AJAXResponse<T>>) => {
       request.get(url).end((err: unknown, res: request.Response) => {
         const {
@@ -24,7 +22,7 @@ export class AJAX {
     });
   }
 
-  public static post<T>(url: string, payload: string | object | undefined): Promise<AJAXResponse<T>> {
+  public post<T>(url: string, payload?: object): Promise<AJAXResponse<T>> {
     return new Promise<AJAXResponse<T>>((resolve: Resolve<AJAXResponse<T>>) => {
       request.post(url).send(payload).end((err: unknown, res: request.Response) => {
         const {
@@ -40,7 +38,7 @@ export class AJAX {
     });
   }
 
-  public static put<T>(url: string, payload: string | object | undefined): Promise<AJAXResponse<T>> {
+  public put<T>(url: string, payload?: object): Promise<AJAXResponse<T>> {
     return new Promise<AJAXResponse<T>>((resolve: Resolve<AJAXResponse<T>>) => {
       request.put(url).send(payload).end((err: unknown, res: request.Response) => {
         const {
@@ -56,7 +54,7 @@ export class AJAX {
     });
   }
 
-  public static delete<T>(url: string): Promise<AJAXResponse<T>> {
+  public delete<T>(url: string): Promise<AJAXResponse<T>> {
     return new Promise<AJAXResponse<T>>((resolve: Resolve<AJAXResponse<T>>) => {
       request.del(url).end((err: unknown, res: request.Response) => {
         const {
@@ -70,8 +68,5 @@ export class AJAX {
         });
       });
     });
-  }
-
-  private constructor() {
   }
 }
