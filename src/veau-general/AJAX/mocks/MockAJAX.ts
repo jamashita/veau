@@ -1,8 +1,8 @@
-import { UnimplementedError } from '../UnimplementedError';
-import { AJAX } from './AJAX';
-import { AJAXResponse } from './AJAXResponse';
+import { UnimplementedError } from '../../UnimplementedError';
+import { AJAXResponse } from '../AJAXResponse';
+import { IAJAX } from '../interfaces/IAJAX';
 
-export class MockAJAX extends AJAX {
+export class MockAJAX implements IAJAX {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public get<T>(url: string): Promise<AJAXResponse<T>> {

@@ -1,6 +1,6 @@
-import { AJAXResponse } from './AJAXResponse';
+import { AJAXResponse } from '../AJAXResponse';
 
-export interface AJAXRequestable {
+export interface IAJAX {
 
   get<T>(url: string): Promise<AJAXResponse<T>>;
 

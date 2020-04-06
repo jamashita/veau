@@ -1,9 +1,9 @@
 import request from 'superagent';
 import { Resolve } from '../Type/Resolve';
-import { AJAXRequestable } from './AJAXRequestable';
 import { AJAXResponse } from './AJAXResponse';
+import { IAJAX } from './interfaces/IAJAX';
 
-export class AJAX implements AJAXRequestable {
+export class AJAX implements IAJAX {
 
   public get<T>(url: string): Promise<AJAXResponse<T>> {
     return new Promise<AJAXResponse<T>>((resolve: Resolve<AJAXResponse<T>>) => {
