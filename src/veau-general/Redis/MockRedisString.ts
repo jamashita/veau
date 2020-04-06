@@ -4,8 +4,8 @@ import { RedisString } from './RedisString';
 
 export class MockRedisString extends RedisString {
 
-  public constructor(client: IORedis.Redis) {
-    super(client);
+  public constructor() {
+    super(new IORedis({}));
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -10,14 +10,69 @@ import { RedisList } from './RedisList';
 import { RedisSet } from './RedisSet';
 import { RedisString } from './RedisString';
 
+type MockRedisSetting = Readonly<{
+  hash: RedisHash;
+  set: RedisSet;
+  list: RedisList;
+  string: RedisString;
+}>;
+
 export class MockRedis extends Redis {
 
-  public static of(): MockRedis {
+  public static ofSetting(setting?: Partial<MockRedisSetting>): MockRedis {
     const client: IORedis.Redis = new IORedis({});
-    const hash: RedisHash = new MockRedisHash(client);
-    const set: RedisSet = new MockRedisSet(client);
-    const list: RedisList = new MockRedisList(client);
-    const string: RedisString = new MockRedisString(client);
+
+    if (setting === undefined) {
+      const hash: RedisHash = new MockRedisHash();
+      const set: RedisSet = new MockRedisSet();
+      const list: RedisList = new MockRedisList();
+      const string: RedisString = new MockRedisString();
+
+      return new MockRedis(client, hash, set, list, string);
+    }
+
+    let hash: RedisHash;
+    if (setting.hash === undefined) {
+      hash = new MockRedisHash();
+    }
+    else {
+      hash = setting.hash;
+    }
+
+    let set: RedisSet;
+    if (setting.set === undefined) {
+      set = new MockRedisSet();
+    }
+    else {
+      set = setting.set;
+    }
+
+    let list: RedisList;
+    if (setting.list === undefined) {
+      list = new MockRedisList();
+    }
+    else {
+      list = setting.list;
+    }
+
+    let string: RedisString;
+    if (setting.string === undefined) {
+      string = new MockRedisString();
+    }
+    else {
+      string = setting.string;
+    }
+
+    return new MockRedis(client, hash, set, list, string);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public static of(config: IORedis.RedisOptions): MockRedis {
+    const client: IORedis.Redis = new IORedis({});
+    const hash: RedisHash = new MockRedisHash();
+    const set: RedisSet = new MockRedisSet();
+    const list: RedisList = new MockRedisList();
+    const string: RedisString = new MockRedisString();
 
     return new MockRedis(client, hash, set, list, string);
   }

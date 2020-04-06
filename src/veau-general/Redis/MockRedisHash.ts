@@ -4,8 +4,8 @@ import { RedisHash } from './RedisHash';
 
 export class MockRedisHash extends RedisHash {
 
-  public constructor(client: IORedis.Redis) {
-    super(client);
+  public constructor() {
+    super(new IORedis({}));
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
