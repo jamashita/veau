@@ -18,6 +18,7 @@ export class LanguageIdentificationService {
         if (lang === smallLocale) {
           return 'en';
         }
+
         return LanguageIdentificationService.toISO639(lang);
       }
     }

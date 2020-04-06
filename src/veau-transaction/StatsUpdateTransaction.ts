@@ -10,6 +10,7 @@ import { StatsValue } from '../veau-vo/StatsValue';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
 
 export class StatsUpdateTransaction implements ITransaction {
+  public readonly noun: 'StatsUpdateTransaction' = 'StatsUpdateTransaction';
   private readonly stats: Stats;
   private readonly veauAccountID: VeauAccountID;
 
