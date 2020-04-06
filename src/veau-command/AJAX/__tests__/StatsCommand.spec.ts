@@ -7,7 +7,7 @@ import { TYPE } from '../../../veau-container/Types';
 import { Stats } from '../../../veau-entity/Stats';
 import { StatsItems } from '../../../veau-entity/StatsItems';
 import { AJAXError } from '../../../veau-error/AJAXError';
-import { AJAX } from '../../../veau-general/AJAX';
+import { MockAJAX } from '../../../veau-general/AJAX/MockAJAX';
 import { None } from '../../../veau-general/Optional/None';
 import { Try } from '../../../veau-general/Try/Try';
 import { AsOf } from '../../../veau-vo/AsOf';
@@ -39,8 +39,10 @@ describe('StatsCommand', () => {
 
   describe('create', () => {
     it('normal case',  async () => {
+      const ajax: MockAJAX = new MockAJAX();
+
       const stub: SinonStub = sinon.stub();
-      AJAX.prototype.post = stub;
+      ajax.post = stub;
       stub.resolves({
         status: CREATED,
         body: {
@@ -59,7 +61,7 @@ describe('StatsCommand', () => {
         None.of<AsOf>()
       );
 
-      const statsCommand: StatsCommand = vault.get<StatsCommand>(TYPE.StatsAJAXCommand);
+      const statsCommand: StatsCommand = new StatsCommand(ajax);
       const trial: Try<void, AJAXError> = await statsCommand.create(stats);
 
       expect(stub.withArgs('/api/stats', {
@@ -86,8 +88,10 @@ describe('StatsCommand', () => {
     });
 
     it('throws AJAXError', async () => {
+      const ajax: MockAJAX = new MockAJAX();
+
       const stub: SinonStub = sinon.stub();
-      AJAX.prototype.post = stub;
+      ajax.post = stub;
       stub.resolves({
         status: BAD_REQUEST,
         body: {
@@ -108,7 +112,7 @@ describe('StatsCommand', () => {
         None.of<AsOf>()
       );
 
-      const statsCommand: StatsCommand = vault.get<StatsCommand>(TYPE.StatsAJAXCommand);
+      const statsCommand: StatsCommand = new StatsCommand(ajax);
       const trial: Try<void, AJAXError> = await statsCommand.create(stats);
 
       expect(trial.isFailure()).toEqual(true);
