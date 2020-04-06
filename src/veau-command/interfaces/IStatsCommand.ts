@@ -10,5 +10,5 @@ export interface IStatsCommand<E extends SourceError> extends ICommand {
 
   create(stats: Stats, veauAccountID: VeauAccountID): Promise<Try<void, E>>;
 
-  deleteByStatsID(statsID: StatsID): Promise<Try<unknown, E>>;
+  deleteByStatsID(statsID: StatsID): Promise<Try<void, E>>;
 }
