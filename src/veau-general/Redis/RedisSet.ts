@@ -102,7 +102,7 @@ export class RedisSet {
     }
   }
 
-  public async pop(key: string): Promise<unknown> {
+  public async pop(key: string): Promise<string | null> {
     try {
       const result: string | null = await this.client.spop(key);
 
