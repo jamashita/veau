@@ -1,11 +1,15 @@
 import { Stats } from '../../veau-entity/Stats';
 import { IQuery } from '../../veau-general/MySQL/IQuery';
+import { MySQLError } from '../../veau-general/MySQL/MySQLError';
+import { Failure } from '../../veau-general/Try/Failure';
+import { Success } from '../../veau-general/Try/Success';
+import { Try } from '../../veau-general/Try/Try';
 import { StatsID } from '../../veau-vo/StatsID';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { IMySQLCommand } from '../interfaces/IMySQLCommand';
 import { IStatsCommand } from '../interfaces/IStatsCommand';
 
-export class StatsCommand implements IStatsCommand, IMySQLCommand {
+export class StatsCommand implements IStatsCommand<MySQLError>, IMySQLCommand {
   public readonly noun: 'StatsCommand' = 'StatsCommand';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly query: IQuery;
@@ -18,7 +22,7 @@ export class StatsCommand implements IStatsCommand, IMySQLCommand {
     this.query = query;
   }
 
-  public create(stats: Stats, veauAccountID: VeauAccountID): Promise<unknown> {
+  public async create(stats: Stats, veauAccountID: VeauAccountID): Promise<Try<void, MySQLError>> {
     const query: string = `INSERT INTO stats VALUES (
       :statsID,
       :languageID,
@@ -30,24 +34,46 @@ export class StatsCommand implements IStatsCommand, IMySQLCommand {
       UTC_TIMESTAMP()
       );`;
 
-    return this.query.execute(query, {
-      statsID: stats.getStatsID().get(),
-      languageID: stats.getLanguage().getLanguageID().get(),
-      regionID: stats.getRegion().getRegionID().get(),
-      termID: stats.getTerm().getID(),
-      veauAccountID: veauAccountID.get(),
-      name: stats.getName().get(),
-      unit: stats.getUnit().get()
-    });
+    try {
+      await this.query.execute<unknown>(query, {
+        statsID: stats.getStatsID().get(),
+        languageID: stats.getLanguage().getLanguageID().get(),
+        regionID: stats.getRegion().getRegionID().get(),
+        termID: stats.getTerm().getID(),
+        veauAccountID: veauAccountID.get(),
+        name: stats.getName().get(),
+        unit: stats.getUnit().get()
+      });
+
+      return Success.of<void, MySQLError>(undefined);
+    }
+    catch (err) {
+      if (err instanceof MySQLError) {
+        return Failure.of<void, MySQLError>(err);
+      }
+
+      throw err;
+    }
   }
 
-  public deleteByStatsID(statsID: StatsID): Promise<unknown> {
+  public async deleteByStatsID(statsID: StatsID): Promise<Try<void, MySQLError>> {
     const query: string = `DELETE R1
       FROM stats R1
       WHERE R1.stats_id = :statsID;`;
 
-    return this.query.execute(query, {
-      statsID: statsID.get()
-    });
+    try {
+      await this.query.execute<unknown>(query, {
+        statsID: statsID.get()
+      });
+
+      return Success.of<void, MySQLError>(undefined);
+    }
+    catch (err) {
+      if (err instanceof MySQLError) {
+        return Failure.of<void, MySQLError>(err);
+      }
+
+      throw err;
+    }
   }
 }

@@ -1,7 +1,8 @@
-import { AJAXError } from '../../veau-error/AJAXError';
 import { Try } from '../../veau-general/Try/Try';
+import { ICommand } from './ICommand';
 
-export interface ISessionCommand {
+export interface ISessionCommand<E extends Error> extends ICommand {
+  readonly noun: 'SessionCommand';
 
-  delete(): Promise<Try<void, AJAXError>>;
+  delete(): Promise<Try<void, E>>;
 }
