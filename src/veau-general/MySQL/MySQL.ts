@@ -2,15 +2,15 @@ import mysql from 'mysql';
 import { Reject } from '../Type/Reject';
 import { Resolve } from '../Type/Resolve';
 import { Connection } from './Connection';
-import { IQuery } from './IQuery';
-import { ITransaction } from './ITransaction';
+import { IMySQL } from './interfaces/IMySQL';
+import { ITransaction } from './interfaces/ITransaction';
 import { MySQLError } from './MySQLError';
 
 type Value = {
   [key: string]: unknown;
 };
 
-export class MySQL implements IQuery {
+export class MySQL implements IMySQL {
   private readonly pool: mysql.Pool;
 
   public constructor(config: mysql.PoolConfig) {

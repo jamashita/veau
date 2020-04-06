@@ -1,4 +1,4 @@
-import { IQuery } from './IQuery';
+import { IQuery } from '../interfaces/IQuery';
 
 export class MockQuery implements IQuery {
 

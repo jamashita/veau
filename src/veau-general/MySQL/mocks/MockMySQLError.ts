@@ -1,5 +1,5 @@
-import { MysqlError } from 'mysql';
-import { MySQLError } from './MySQLError';
+import { MysqlError } from 'src/veau-general/MySQL/MySQL';
+import { MySQLError } from '../MySQLError';
 
 const err: MysqlError = {
   name: 'MockMysqlError',
