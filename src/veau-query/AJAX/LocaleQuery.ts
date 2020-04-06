@@ -5,6 +5,7 @@ import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { AJAXError } from '../../veau-general/AJAX/AJAXError';
 import { AJAXResponse } from '../../veau-general/AJAX/AJAXResponse';
 import { IAJAX } from '../../veau-general/AJAX/interfaces/IAJAX';
+import { DataSourceError } from '../../veau-general/DataSourceError';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
@@ -28,10 +29,10 @@ export class LocaleQuery implements ILocaleQuery, IAJAXQuery {
     this.locale = null;
   }
 
-  public async findByISO639(iso639: ISO639): Promise<Try<Language, NoSuchElementError | AJAXError>> {
-    const trial: Try<Locale, AJAXError> = await this.all();
+  public async findByISO639(iso639: ISO639): Promise<Try<Language, NoSuchElementError | DataSourceError>> {
+    const trial: Try<Locale, DataSourceError> = await this.all();
 
-    return trial.match<Try<Language, NoSuchElementError | AJAXError>>((locale: Locale) => {
+    return trial.match<Try<Language, NoSuchElementError | DataSourceError>>((locale: Locale) => {
       const found: Language | undefined = locale.getLanguages().find((language: Language) => {
         return language.getISO639().equals(iso639);
       });
@@ -41,15 +42,15 @@ export class LocaleQuery implements ILocaleQuery, IAJAXQuery {
       }
 
       return Success.of<Language, NoSuchElementError>(found);
-    }, (err: AJAXError) => {
-      return Failure.of<Language, AJAXError>(err);
+    }, (err: DataSourceError) => {
+      return Failure.of<Language, DataSourceError>(err);
     });
   }
 
-  public async findByISO3166(iso3166: ISO3166): Promise<Try<Region, NoSuchElementError | AJAXError>> {
-    const trial: Try<Locale, AJAXError> = await this.all();
+  public async findByISO3166(iso3166: ISO3166): Promise<Try<Region, NoSuchElementError | DataSourceError>> {
+    const trial: Try<Locale, DataSourceError> = await this.all();
 
-    return trial.match<Try<Region, NoSuchElementError | AJAXError>>((locale: Locale) => {
+    return trial.match<Try<Region, NoSuchElementError | DataSourceError>>((locale: Locale) => {
       const found: Region | undefined = locale.getRegions().find((region: Region) => {
         return region.getISO3166().equals(iso3166);
       });
@@ -59,12 +60,12 @@ export class LocaleQuery implements ILocaleQuery, IAJAXQuery {
       }
 
       return Success.of<Region, NoSuchElementError>(found);
-    }, (err: AJAXError) => {
-      return Failure.of<Region, AJAXError>(err);
+    }, (err: DataSourceError) => {
+      return Failure.of<Region, DataSourceError>(err);
     });
   }
 
-  public async all(): Promise<Try<Locale, AJAXError>> {
+  public async all(): Promise<Try<Locale, DataSourceError>> {
     const {
       locale
     } = this;

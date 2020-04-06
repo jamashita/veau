@@ -2,6 +2,7 @@ import { inject, injectable } from 'inversify';
 import { TYPE } from '../../veau-container/Types';
 import { AccountError } from '../../veau-error/AccountError';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { DataSourceError } from '../../veau-general/DataSourceError';
 import { IMySQL } from '../../veau-general/MySQL/interfaces/IMySQL';
 import { MySQLError } from '../../veau-general/MySQL/MySQLError';
 import { Failure } from '../../veau-general/Try/Failure';
@@ -21,7 +22,7 @@ export class AccountQuery implements IAccountQuery, IMySQLQuery {
     this.mysql = mysql;
   }
 
-  public async findByAccount(account: AccountName): Promise<Try<Account, NoSuchElementError | AccountError | MySQLError>> {
+  public async findByAccount(account: AccountName): Promise<Try<Account, NoSuchElementError | AccountError | DataSourceError>> {
     const query: string = `SELECT
       R1.veau_account_id AS veauAccountID,
       R1.account,

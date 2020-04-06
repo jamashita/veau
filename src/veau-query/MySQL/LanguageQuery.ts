@@ -1,6 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { TYPE } from '../../veau-container/Types';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { DataSourceError } from '../../veau-general/DataSourceError';
 import { IMySQL } from '../../veau-general/MySQL/interfaces/IMySQL';
 import { MySQLError } from '../../veau-general/MySQL/MySQLError';
 import { Failure } from '../../veau-general/Try/Failure';
@@ -22,7 +23,7 @@ export class LanguageQuery implements ILanguageQuery, IMySQLQuery {
     this.mysql = mysql;
   }
 
-  public async all(): Promise<Try<Languages, NoSuchElementError | MySQLError>> {
+  public async all(): Promise<Try<Languages, NoSuchElementError | DataSourceError>> {
     const query: string = `SELECT
       R1.language_id AS languageID,
       R1.name,
@@ -50,7 +51,7 @@ export class LanguageQuery implements ILanguageQuery, IMySQLQuery {
     }
   }
 
-  public async findByISO639(iso639: ISO639): Promise<Try<Language, NoSuchElementError | MySQLError>> {
+  public async findByISO639(iso639: ISO639): Promise<Try<Language, NoSuchElementError | DataSourceError>> {
     const query: string = `SELECT
       R1.language_id AS languageID,
       R1.name,

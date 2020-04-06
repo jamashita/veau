@@ -7,6 +7,7 @@ import { VeauAccountError } from '../../veau-error/VeauAccountError';
 import { AJAXError } from '../../veau-general/AJAX/AJAXError';
 import { AJAXResponse } from '../../veau-general/AJAX/AJAXResponse';
 import { IAJAX } from '../../veau-general/AJAX/interfaces/IAJAX';
+import { DataSourceError } from '../../veau-general/DataSourceError';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
@@ -46,7 +47,7 @@ export class SessionQuery implements ISessionQuery, IAJAXQuery {
     }
   }
 
-  public async findByEntranceInfo(entranceInformation: EntranceInformation): Promise<Try<VeauAccount, VeauAccountError | AuthenticationFailureError | AJAXError>> {
+  public async findByEntranceInfo(entranceInformation: EntranceInformation): Promise<Try<VeauAccount, VeauAccountError | AuthenticationFailureError | DataSourceError>> {
     const response: AJAXResponse<VeauAccountJSON> = await this.ajax.post<VeauAccountJSON>('/api/auth', entranceInformation.toJSON());
     const {
       status,

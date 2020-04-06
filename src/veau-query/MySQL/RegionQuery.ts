@@ -1,6 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { TYPE } from '../../veau-container/Types';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { DataSourceError } from '../../veau-general/DataSourceError';
 import { IMySQL } from '../../veau-general/MySQL/interfaces/IMySQL';
 import { MySQLError } from '../../veau-general/MySQL/MySQLError';
 import { Failure } from '../../veau-general/Try/Failure';
@@ -22,7 +23,7 @@ export class RegionQuery implements IRegionQuery, IMySQLQuery {
     this.mysql = mysql;
   }
 
-  public async all(): Promise<Try<Regions, NoSuchElementError | MySQLError>> {
+  public async all(): Promise<Try<Regions, NoSuchElementError | DataSourceError>> {
     const query: string = `SELECT
       R1.region_id AS regionID,
       R1.name,
@@ -49,7 +50,7 @@ export class RegionQuery implements IRegionQuery, IMySQLQuery {
     }
   }
 
-  public async findByISO3166(iso3166: ISO3166): Promise<Try<Region, NoSuchElementError | MySQLError>> {
+  public async findByISO3166(iso3166: ISO3166): Promise<Try<Region, NoSuchElementError | DataSourceError>> {
     const query: string = `SELECT
       R1.region_id AS regionID,
       R1.name,
