@@ -2,6 +2,8 @@ import { inject, injectable } from 'inversify';
 import { TYPE } from '../../veau-container/Types';
 import { StatsValuesError } from '../../veau-error/StatsValuesError';
 import { IMySQL } from '../../veau-general/MySQL/interfaces/IMySQL';
+import { MySQLError } from '../../veau-general/MySQL/MySQLError';
+import { Failure } from '../../veau-general/Try/Failure';
 import { Try } from '../../veau-general/Try/Try';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsValueRow } from '../../veau-vo/StatsValue';
@@ -10,7 +12,7 @@ import { IMySQLQuery } from '../interfaces/IMySQLQuery';
 import { IStatsValueQuery } from '../interfaces/IStatsValueQuery';
 
 @injectable()
-export class StatsValueQuery implements IStatsValueQuery, IMySQLQuery {
+export class StatsValueQuery implements IStatsValueQuery<MySQLError>, IMySQLQuery {
   public readonly noun: 'StatsValueQuery' = 'StatsValueQuery';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: IMySQL;
@@ -19,7 +21,7 @@ export class StatsValueQuery implements IStatsValueQuery, IMySQLQuery {
     this.mysql = mysql;
   }
 
-  public async findByStatsID(statsID: StatsID): Promise<Try<StatsValues, StatsValuesError>> {
+  public async findByStatsID(statsID: StatsID): Promise<Try<StatsValues, StatsValuesError | MySQLError>> {
     const query: string = `SELECT
       R1.stats_item_id AS statsItemID,
       R1.as_of AS asOf,
@@ -29,10 +31,19 @@ export class StatsValueQuery implements IStatsValueQuery, IMySQLQuery {
       USING(stats_item_id)
       WHERE R2.stats_id = :statsID;`;
 
-    const statsValueRows: Array<StatsValueRow> = await this.mysql.execute<Array<StatsValueRow>>(query, {
-      statsID: statsID.get()
-    });
+    try {
+      const statsValueRows: Array<StatsValueRow> = await this.mysql.execute<Array<StatsValueRow>>(query, {
+        statsID: statsID.get()
+      });
 
-    return StatsValues.ofRow(statsValueRows);
+      return StatsValues.ofRow(statsValueRows);
+    }
+    catch (err) {
+      if (err instanceof MySQLError) {
+        return Failure.of<StatsValues, MySQLError>(err);
+      }
+
+      throw err;
+    }
   }
 }

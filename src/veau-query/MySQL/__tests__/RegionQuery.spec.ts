@@ -121,7 +121,6 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-
       try {
         await regionQuery.all();
         spy1();
@@ -225,7 +224,6 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-
       try {
         await regionQuery.findByISO3166(ISO3166.of('ALB'));
         spy1();

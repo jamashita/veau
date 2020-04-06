@@ -4,7 +4,9 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../../veau-container/Container';
 import { TYPE } from '../../../veau-container/Types';
 import { StatsValuesError } from '../../../veau-error/StatsValuesError';
-import { MySQL } from '../../../veau-general/MySQL/MySQL';
+import { MockMySQL } from '../../../veau-general/MySQL/mocks/MockMySQL';
+import { MockMySQLError } from '../../../veau-general/MySQL/mocks/MockMySQLError';
+import { MySQLError } from '../../../veau-general/MySQL/MySQLError';
 import { Try } from '../../../veau-general/Try/Try';
 import { StatsID } from '../../../veau-vo/StatsID';
 import { StatsItemID } from '../../../veau-vo/StatsItemID';
@@ -24,9 +26,10 @@ describe('StatsValueQuery', () => {
 
   describe('findByStatsID', () => {
     it('normal case', async () => {
+      const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
-      MySQL.prototype.execute = stub;
-      stub.onCall(0).resolves([
+      mysql.execute = stub;
+      stub.resolves([
         {
           statsItemID: '98d1e9b5-6b18-44de-b615-d8016f49977d',
           asOf: '2000-01-01',
@@ -54,10 +57,20 @@ describe('StatsValueQuery', () => {
         }
       ]);
 
-      const statsValueQuery: StatsValueQuery = kernel.get<StatsValueQuery>(TYPE.StatsValueMySQLQuery);
-      const trial: Try<StatsValues, StatsValuesError> = await statsValueQuery.findByStatsID(StatsID.of('d4703058-a6ff-420b-95b2-4475beba9027').get());
+      const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
+      const trial: Try<StatsValues, StatsValuesError | MySQLError> = await statsValueQuery.findByStatsID(StatsID.of('d4703058-a6ff-420b-95b2-4475beba9027').get());
 
       expect(trial.isSuccess()).toEqual(true);
+      expect(stub.withArgs(`SELECT
+      R1.stats_item_id AS statsItemID,
+      R1.as_of AS asOf,
+      R1.value
+      FROM stats_values R1
+      INNER JOIN stats_items R2
+      USING(stats_item_id)
+      WHERE R2.stats_id = :statsID;`, {
+        statsID: 'd4703058-a6ff-420b-95b2-4475beba9027'
+      }).called).toEqual(true);
       const values: StatsValues = trial.get();
 
       const year2001: StatsValues = values.filter(StatsItemID.of('5318ad74-f15f-4835-9fd7-890be4cce933').get());
@@ -80,9 +93,10 @@ describe('StatsValueQuery', () => {
     });
 
     it('returns Failure when statsItemID is malformat', async () => {
+      const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
-      MySQL.prototype.execute = stub;
-      stub.onCall(0).resolves([
+      mysql.execute = stub;
+      stub.resolves([
         {
           statsItemID: '98d1e9b5-6b18-44de-b615-d8016f49977d',
           asOf: '2000-01-01',
@@ -112,17 +126,63 @@ describe('StatsValueQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsValueQuery: StatsValueQuery = kernel.get<StatsValueQuery>(TYPE.StatsValueMySQLQuery);
-      const trial: Try<StatsValues, StatsValuesError> = await statsValueQuery.findByStatsID(StatsID.of('d4703058-a6ff-420b-95b2-4475beba9027').get());
+      const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
+      const trial: Try<StatsValues, StatsValuesError | MySQLError> = await statsValueQuery.findByStatsID(StatsID.of('d4703058-a6ff-420b-95b2-4475beba9027').get());
 
       expect(trial.isFailure()).toEqual(true);
-
       trial.match<void>(() => {
         spy1();
-      }, (err: StatsValuesError) => {
+      }, (err: StatsValuesError | MySQLError) => {
         spy2();
         expect(err).toBeInstanceOf(StatsValuesError);
       });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('returns Failure because the client throws MySQLError', async () => {
+      const mysql: MockMySQL = new MockMySQL();
+      const stub: SinonStub = sinon.stub();
+      mysql.execute = stub;
+      stub.rejects(new MockMySQLError());
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
+      const trial: Try<StatsValues, StatsValuesError | MySQLError> = await statsValueQuery.findByStatsID(StatsID.of('d4703058-a6ff-420b-95b2-4475beba9027').get());
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (err: StatsValuesError | MySQLError) => {
+        spy2();
+        expect(err).toBeInstanceOf(MySQLError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('throws Error', async () => {
+      const error: Error = new Error();
+
+      const mysql: MockMySQL = new MockMySQL();
+      const stub: SinonStub = sinon.stub();
+      mysql.execute = stub;
+      stub.rejects(error);
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
+      try {
+        await statsValueQuery.findByStatsID(StatsID.of('d4703058-a6ff-420b-95b2-4475beba9027').get());
+        spy1();
+      }
+      catch (err) {
+        spy2();
+        expect(err).toBe(error);
+      }
 
       expect(spy1.called).toEqual(false);
       expect(spy2.called).toEqual(true);

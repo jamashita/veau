@@ -126,7 +126,6 @@ describe('LanguageQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(mysql);
-
       try {
         await languageQuery.all();
         spy1();
@@ -233,7 +232,6 @@ describe('LanguageQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(mysql);
-
       try {
         await languageQuery.findByISO639(ISO639.of('aa'));
         spy1();

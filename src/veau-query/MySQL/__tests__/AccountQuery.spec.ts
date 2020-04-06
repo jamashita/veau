@@ -85,7 +85,7 @@ describe('AccountQuery', () => {
       expect(account.getHash().get()).toEqual('hash');
     });
 
-    it('returns Failure because MySQL.query returns 0 results', async () => {
+    it('returns Failure because MySQL.execute returns 0 results', async () => {
       const name: AccountName = AccountName.of('account');
 
       const mysql: MockMySQL = new MockMySQL();
@@ -149,7 +149,7 @@ describe('AccountQuery', () => {
       expect(spy2.called).toEqual(true);
     });
 
-    it('returns Failure because the client throws MySQLError by MockMySQL.execute', async () => {
+    it('returns Failure because the client throws MySQLError', async () => {
       const name: AccountName = AccountName.of('account');
 
       const mysql: MockMySQL = new MockMySQL();
@@ -174,7 +174,7 @@ describe('AccountQuery', () => {
       expect(spy2.called).toEqual(true);
     });
 
-    it('returns Failure because the client throws MySQLError by MockMySQL.execute', async () => {
+    it('throws Error', async () => {
       const name: AccountName = AccountName.of('account');
       const error: Error = new Error();
 
@@ -186,7 +186,6 @@ describe('AccountQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-
       try {
         await accountQuery.findByAccount(name);
         spy1();
