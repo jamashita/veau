@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify';
 import { TYPE } from '../../veau-container/Types';
 import { AccountError } from '../../veau-error/AccountError';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { MySQL } from '../../veau-general/MySQL/MySQL';
+import { IMySQL } from '../../veau-general/MySQL/interfaces/IMySQL';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Try } from '../../veau-general/Try/Try';
 import { Account, AccountRow } from '../../veau-vo/Account';
@@ -14,9 +14,9 @@ import { IMySQLQuery } from '../interfaces/IMySQLQuery';
 export class AccountQuery implements IAccountQuery, IMySQLQuery {
   public readonly noun: 'AccountQuery' = 'AccountQuery';
   public readonly source: 'MySQL' = 'MySQL';
-  private readonly mysql: MySQL;
+  private readonly mysql: IMySQL;
 
-  public constructor(@inject(TYPE.MySQL) mysql: MySQL) {
+  public constructor(@inject(TYPE.MySQL) mysql: IMySQL) {
     this.mysql = mysql;
   }
 

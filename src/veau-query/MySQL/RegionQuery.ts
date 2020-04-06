@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { TYPE } from '../../veau-container/Types';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { MySQL } from '../../veau-general/MySQL/MySQL';
+import { IMySQL } from '../../veau-general/MySQL/interfaces/IMySQL';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
@@ -15,9 +15,9 @@ import { IRegionQuery } from '../interfaces/IRegionQuery';
 export class RegionQuery implements IRegionQuery, IMySQLQuery {
   public readonly noun: 'RegionQuery' = 'RegionQuery';
   public readonly source: 'MySQL' = 'MySQL';
-  private readonly mysql: MySQL;
+  private readonly mysql: IMySQL;
 
-  public constructor(@inject(TYPE.MySQL) mysql: MySQL) {
+  public constructor(@inject(TYPE.MySQL) mysql: IMySQL) {
     this.mysql = mysql;
   }
 

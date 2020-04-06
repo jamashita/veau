@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { TYPE } from '../../veau-container/Types';
 import { StatsValuesError } from '../../veau-error/StatsValuesError';
-import { MySQL } from '../../veau-general/MySQL/MySQL';
+import { IMySQL } from '../../veau-general/MySQL/interfaces/IMySQL';
 import { Try } from '../../veau-general/Try/Try';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsValueRow } from '../../veau-vo/StatsValue';
@@ -13,9 +13,9 @@ import { IStatsValueQuery } from '../interfaces/IStatsValueQuery';
 export class StatsValueQuery implements IStatsValueQuery, IMySQLQuery {
   public readonly noun: 'StatsValueQuery' = 'StatsValueQuery';
   public readonly source: 'MySQL' = 'MySQL';
-  private readonly mysql: MySQL;
+  private readonly mysql: IMySQL;
 
-  public constructor(@inject(TYPE.MySQL) mysql: MySQL) {
+  public constructor(@inject(TYPE.MySQL) mysql: IMySQL) {
     this.mysql = mysql;
   }
 

@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { TYPE } from '../../veau-container/Types';
 import { StatsOutlinesError } from '../../veau-error/StatsOutlinesError';
-import { MySQL } from '../../veau-general/MySQL/MySQL';
+import { IMySQL } from '../../veau-general/MySQL/interfaces/IMySQL';
 import { Try } from '../../veau-general/Try/Try';
 import { Limit } from '../../veau-vo/Limit';
 import { Offset } from '../../veau-vo/Offset';
@@ -15,9 +15,9 @@ import { IStatsOutlineQuery } from '../interfaces/IStatsOutlineQuery';
 export class StatsOutlineQuery implements IStatsOutlineQuery, IMySQLQuery {
   public readonly noun: 'StatsOutlineQuery' = 'StatsOutlineQuery';
   public readonly source: 'MySQL' = 'MySQL';
-  private readonly mysql: MySQL;
+  private readonly mysql: IMySQL;
 
-  public constructor(@inject(TYPE.MySQL) mysql: MySQL) {
+  public constructor(@inject(TYPE.MySQL) mysql: IMySQL) {
     this.mysql = mysql;
   }
 

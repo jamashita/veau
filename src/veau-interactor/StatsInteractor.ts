@@ -6,8 +6,8 @@ import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { NotFoundError } from '../veau-error/NotFoundError';
 import { StatsError } from '../veau-error/StatsError';
 import { StatsOutlinesError } from '../veau-error/StatsOutlinesError';
-import { ITransaction } from '../veau-general/MySQL/ITransaction';
-import { MySQL } from '../veau-general/MySQL/MySQL';
+import { IMySQL } from '../veau-general/MySQL/interfaces/IMySQL';
+import { ITransaction } from '../veau-general/MySQL/interfaces/ITransaction';
 import { Failure } from '../veau-general/Try/Failure';
 import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
@@ -25,11 +25,11 @@ const logger: log4js.Logger = log4js.getLogger();
 @injectable()
 export class StatsInteractor implements IInteractor {
   public readonly noun: 'StatsInteractor' = 'StatsInteractor';
-  private readonly mysql: MySQL;
+  private readonly mysql: IMySQL;
   private readonly statsQuery: IStatsQuery;
   private readonly statsOutlineQuery: IStatsOutlineQuery;
 
-  public constructor(@inject(TYPE.MySQL) mysql: MySQL,
+  public constructor(@inject(TYPE.MySQL) mysql: IMySQL,
     @inject(TYPE.StatsQuery) statsQuery: IStatsQuery,
     @inject(TYPE.StatsOutlineQuery) statsOutlineQuery: IStatsOutlineQuery
   ) {

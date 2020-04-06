@@ -4,7 +4,7 @@ import { StatsItemRow } from '../../veau-entity/StatsItem';
 import { StatsItems } from '../../veau-entity/StatsItems';
 import { StatsItemsError } from '../../veau-error/StatsItemsError';
 import { StatsValuesError } from '../../veau-error/StatsValuesError';
-import { MySQL } from '../../veau-general/MySQL/MySQL';
+import { IMySQL } from '../../veau-general/MySQL/interfaces/IMySQL';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Try } from '../../veau-general/Try/Try';
 import { StatsID } from '../../veau-vo/StatsID';
@@ -17,10 +17,10 @@ import { IStatsValueQuery } from '../interfaces/IStatsValueQuery';
 export class StatsItemQuery implements IStatsItemQuery, IMySQLQuery {
   public readonly noun: 'StatsItemQuery' = 'StatsItemQuery';
   public readonly source: 'MySQL' = 'MySQL';
-  private readonly mysql: MySQL;
+  private readonly mysql: IMySQL;
   private readonly statsValueQuery: IStatsValueQuery;
 
-  public constructor(@inject(TYPE.MySQL) mysql: MySQL,
+  public constructor(@inject(TYPE.MySQL) mysql: IMySQL,
     @inject(TYPE.StatsValueQuery) statsValueQuery: IStatsValueQuery
   ) {
     this.mysql = mysql;
