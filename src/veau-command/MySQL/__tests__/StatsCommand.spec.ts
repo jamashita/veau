@@ -6,7 +6,7 @@ import { StatsIDError } from '../../../veau-error/StatsIDError';
 import { IQuery } from '../../../veau-general/MySQL/IQuery';
 import { MockMySQLError } from '../../../veau-general/MySQL/MockMySQLError';
 import { MySQLError } from '../../../veau-general/MySQL/MySQLError';
-import { QueryMock } from '../../../veau-general/MySQL/QueryMock';
+import { MockQuery } from '../../../veau-general/MySQL/QueryMock';
 import { None } from '../../../veau-general/Optional/None';
 import { Try } from '../../../veau-general/Try/Try';
 import { AsOf } from '../../../veau-vo/AsOf';
@@ -42,7 +42,7 @@ describe('StatsCommand', () => {
       );
       const accountID: VeauAccountID = VeauAccountID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87').get();
 
-      const query: IQuery = new QueryMock();
+      const query: IQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
 
@@ -84,7 +84,7 @@ describe('StatsCommand', () => {
       );
       const accountID: VeauAccountID = VeauAccountID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87').get();
 
-      const query: IQuery = new QueryMock();
+      const query: IQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
       stub.rejects(new MockMySQLError());
@@ -121,7 +121,7 @@ describe('StatsCommand', () => {
       const accountID: VeauAccountID = VeauAccountID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87').get();
       const error: Error = new Error();
 
-      const query: IQuery = new QueryMock();
+      const query: IQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
       stub.rejects(error);
@@ -140,7 +140,7 @@ describe('StatsCommand', () => {
     it('normal case', async () => {
       const statsID: Try<StatsID, StatsIDError> = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
 
-      const query: IQuery = new QueryMock();
+      const query: IQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
 
@@ -158,7 +158,7 @@ describe('StatsCommand', () => {
     it('returns Failure because the client throws MysqlError', async () => {
       const statsID: Try<StatsID, StatsIDError> = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
 
-      const query: IQuery = new QueryMock();
+      const query: IQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
       stub.rejects(new MockMySQLError());
@@ -184,7 +184,7 @@ describe('StatsCommand', () => {
       const statsID: Try<StatsID, StatsIDError> = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007');
       const error: Error = new Error();
 
-      const query: IQuery = new QueryMock();
+      const query: IQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
       stub.rejects(error);

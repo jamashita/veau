@@ -1,7 +1,7 @@
 import { OK } from 'http-status';
 import { inject, injectable } from 'inversify';
 import { TYPE } from '../../veau-container/Types';
-import { AJAXError } from '../../veau-error/AJAXError';
+import { AJAXError } from '../../veau-general/AJAX/AJAXError';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { AJAXRequestable } from '../../veau-general/AJAX/AJAXRequestable';
 import { AJAXResponse } from '../../veau-general/AJAX/AJAXResponse';

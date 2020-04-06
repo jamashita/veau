@@ -4,7 +4,7 @@ import { StatsItem } from '../../../veau-entity/StatsItem';
 import { IQuery } from '../../../veau-general/MySQL/IQuery';
 import { MockMySQLError } from '../../../veau-general/MySQL/MockMySQLError';
 import { MySQLError } from '../../../veau-general/MySQL/MySQLError';
-import { QueryMock } from '../../../veau-general/MySQL/QueryMock';
+import { MockQuery } from '../../../veau-general/MySQL/QueryMock';
 import { Try } from '../../../veau-general/Try/Try';
 import { StatsID } from '../../../veau-vo/StatsID';
 import { StatsItemID } from '../../../veau-vo/StatsItemID';
@@ -22,7 +22,7 @@ describe('StatsItemCommand', () => {
         StatsValues.empty()
       );
 
-      const query: IQuery = new QueryMock();
+      const query: IQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
 
@@ -51,7 +51,7 @@ describe('StatsItemCommand', () => {
         StatsValues.empty()
       );
 
-      const query: IQuery = new QueryMock();
+      const query: IQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
       stub.rejects(new MockMySQLError());
@@ -82,7 +82,7 @@ describe('StatsItemCommand', () => {
       );
       const error: Error = new Error();
 
-      const query: IQuery = new QueryMock();
+      const query: IQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
       stub.rejects(error);
@@ -100,7 +100,7 @@ describe('StatsItemCommand', () => {
     it('normal case', async () => {
       const statsID: StatsID = StatsID.of('59915b56-b930-426c-a146-3b1dde8054cd').get();
 
-      const query: IQuery = new QueryMock();
+      const query: IQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
 
@@ -120,7 +120,7 @@ describe('StatsItemCommand', () => {
     it('returns Failure because the client throws MysqlError', async () => {
       const statsID: StatsID = StatsID.of('59915b56-b930-426c-a146-3b1dde8054cd').get();
 
-      const query: IQuery = new QueryMock();
+      const query: IQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
       stub.rejects(new MockMySQLError());
@@ -146,7 +146,7 @@ describe('StatsItemCommand', () => {
       const statsID: StatsID = StatsID.of('59915b56-b930-426c-a146-3b1dde8054cd').get();
       const error: Error = new Error();
 
-      const query: IQuery = new QueryMock();
+      const query: IQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
       stub.rejects(error);

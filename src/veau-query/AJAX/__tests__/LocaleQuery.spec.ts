@@ -4,7 +4,7 @@ import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { vault } from '../../../veau-container/Container';
 import { TYPE } from '../../../veau-container/Types';
-import { AJAXError } from '../../../veau-error/AJAXError';
+import { AJAXError } from '../../../veau-general/AJAX/AJAXError';
 import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
 import { MockAJAX } from '../../../veau-general/AJAX/MockAJAX';
 import { Try } from '../../../veau-general/Try/Try';

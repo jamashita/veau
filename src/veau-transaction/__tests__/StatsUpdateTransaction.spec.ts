@@ -8,7 +8,7 @@ import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { StatsItems } from '../../veau-entity/StatsItems';
 import { IQuery } from '../../veau-general/MySQL/IQuery';
-import { QueryMock } from '../../veau-general/MySQL/QueryMock';
+import { MockQuery } from '../../veau-general/MySQL/QueryMock';
 import { None } from '../../veau-general/Optional/None';
 import { AsOf } from '../../veau-vo/AsOf';
 import { ISO3166 } from '../../veau-vo/ISO3166';
@@ -80,7 +80,7 @@ describe('StatsUpdateTransaction', () => {
       );
 
       const statsUpdateTransaction: StatsUpdateTransaction = StatsUpdateTransaction.of(stats, VeauAccountID.of('601d14d4-fe47-445c-a6aa-6427776ecd85').get());
-      const query: IQuery = new QueryMock();
+      const query: IQuery = new MockQuery();
       await statsUpdateTransaction.with(query);
 
       expect(spy1.called).toEqual(true);

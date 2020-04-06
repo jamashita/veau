@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify';
 import { TYPE } from '../../veau-container/Types';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { JSONA } from '../../veau-general/JSONA';
-import { Redis } from '../../veau-general/Redis/Redis';
+import { IRedis } from '../../veau-general/Redis/interfaces/IRedis';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
@@ -18,9 +18,9 @@ const REDIS_KEY: string = 'LANGUAGES';
 export class LanguageQuery implements ILanguageQuery, IRedisQuery {
   public readonly noun: 'LanguageQuery' = 'LanguageQuery';
   public readonly source: 'Redis' = 'Redis';
-  private readonly redis: Redis;
+  private readonly redis: IRedis;
 
-  public constructor(@inject(TYPE.Redis) redis: Redis) {
+  public constructor(@inject(TYPE.Redis) redis: IRedis) {
     this.redis = redis;
   }
 

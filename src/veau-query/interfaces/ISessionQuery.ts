@@ -1,4 +1,4 @@
-import { AJAXError } from '../../veau-error/AJAXError';
+import { AJAXError } from '../../veau-general/AJAX/AJAXError';
 import { AuthenticationFailureError } from '../../veau-error/AuthenticationFailureError';
 import { UnauthorizedError } from '../../veau-error/UnauthorizedError';
 import { VeauAccountError } from '../../veau-error/VeauAccountError';

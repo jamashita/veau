@@ -1,4 +1,4 @@
-import { AJAXError } from '../../veau-error/AJAXError';
+import { AJAXError } from '../../veau-general/AJAX/AJAXError';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { Try } from '../../veau-general/Try/Try';
 import { ISO3166 } from '../../veau-vo/ISO3166';
