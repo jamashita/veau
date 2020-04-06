@@ -128,6 +128,8 @@ describe('LanguageCommand', () => {
       const stub: SinonStub = sinon.stub();
       string.set = stub;
       stub.rejects(error);
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const redis: MockRedis = MockRedis.of({
         string
@@ -136,10 +138,15 @@ describe('LanguageCommand', () => {
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
       try {
         await languageCommand.insertAll(languages);
+        spy1();
       }
       catch (err) {
+        spy2();
         expect(err).toBe(error);
       }
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
   });
 

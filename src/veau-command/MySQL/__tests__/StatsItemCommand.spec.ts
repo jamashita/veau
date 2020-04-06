@@ -85,13 +85,21 @@ describe('StatsItemCommand', () => {
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
       stub.rejects(error);
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const statsItemCommand: StatsItemCommand = StatsItemCommand.of(query);
       try {
         await statsItemCommand.create(statsID, statsItem, 1);
-      } catch (err) {
+        spy1();
+      }
+      catch (err) {
+        spy2();
         expect(err).toBe(error);
       }
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
   });
 
@@ -149,14 +157,21 @@ describe('StatsItemCommand', () => {
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
       stub.rejects(error);
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const statsItemCommand: StatsItemCommand = StatsItemCommand.of(query);
       try {
         await statsItemCommand.deleteByStatsID(statsID);
+        spy1();
       }
       catch (err) {
+        spy2();
         expect(err).toBe(error);
       }
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
   });
 });
