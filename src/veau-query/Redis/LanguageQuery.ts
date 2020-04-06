@@ -10,12 +10,12 @@ import { ISO639 } from '../../veau-vo/ISO639';
 import { Language, LanguageJSON } from '../../veau-vo/Language';
 import { Languages } from '../../veau-vo/Languages';
 import { ILanguageQuery } from '../interfaces/ILanguageQuery';
-import { RedisQuery } from './RedisQuery';
+import { IRedisQuery } from '../interfaces/IRedisQuery';
 
 const REDIS_KEY: string = 'LANGUAGES';
 
 @injectable()
-export class LanguageQuery implements ILanguageQuery, RedisQuery {
+export class LanguageQuery implements ILanguageQuery, IRedisQuery {
   public readonly noun: 'LanguageQuery' = 'LanguageQuery';
   public readonly source: 'Redis' = 'Redis';
   private readonly redis: Redis;
