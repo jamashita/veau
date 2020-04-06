@@ -142,7 +142,7 @@ describe('StatsItemCommand', () => {
       expect(spy2.called).toEqual(true);
     });
 
-    it('returns Failure because the client throws MysqlError', async () => {
+    it('throws Error', async () => {
       const statsID: StatsID = StatsID.of('59915b56-b930-426c-a146-3b1dde8054cd').get();
       const error: Error = new Error();
 

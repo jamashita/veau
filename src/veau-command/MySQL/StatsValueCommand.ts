@@ -1,10 +1,14 @@
 import { IQuery } from '../../veau-general/MySQL/IQuery';
+import { MySQLError } from '../../veau-general/MySQL/MySQLError';
+import { Failure } from '../../veau-general/Try/Failure';
+import { Success } from '../../veau-general/Try/Success';
+import { Try } from '../../veau-general/Try/Try';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsValue } from '../../veau-vo/StatsValue';
 import { IMySQLCommand } from '../interfaces/IMySQLCommand';
 import { IStatsValueCommand } from '../interfaces/IStatsValueCommand';
 
-export class StatsValueCommand implements IStatsValueCommand, IMySQLCommand {
+export class StatsValueCommand implements IStatsValueCommand<MySQLError>, IMySQLCommand {
   public readonly noun: 'StatsValueCommand' = 'StatsValueCommand';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly query: IQuery;
@@ -17,21 +21,33 @@ export class StatsValueCommand implements IStatsValueCommand, IMySQLCommand {
     this.query = query;
   }
 
-  public create(statsValue: StatsValue): Promise<unknown> {
+  public async create(statsValue: StatsValue): Promise<Try<void, MySQLError>> {
     const query: string = `INSERT INTO stats_values VALUES (
       :statsItemID,
       :asOf,
       :value
       );`;
 
-    return this.query.execute(query, {
-      statsItemID: statsValue.getStatsItemID().get(),
-      asOf: statsValue.getAsOf().toString(),
-      value: statsValue.getValue().get()
-    });
+
+    try {
+      await this.query.execute<unknown>(query, {
+        statsItemID: statsValue.getStatsItemID().get(),
+        asOf: statsValue.getAsOf().toString(),
+        value: statsValue.getValue().get()
+      });
+
+      return Success.of<void, MySQLError>(undefined);
+    }
+    catch (err) {
+      if (err instanceof MySQLError) {
+        return Failure.of<void, MySQLError>(err);
+      }
+
+      throw err;
+    }
   }
 
-  public deleteByStatsID(statsID: StatsID): Promise<unknown> {
+  public async deleteByStatsID(statsID: StatsID): Promise<Try<void, MySQLError>> {
     const query: string = `DELETE R1
       FROM stats_values R1
       INNER JOIN stats_items R2
@@ -40,8 +56,19 @@ export class StatsValueCommand implements IStatsValueCommand, IMySQLCommand {
       USING(stats_id)
       WHERE R3.stats_id = :statsID;`;
 
-    return this.query.execute(query, {
-      statsID: statsID.get()
-    });
+    try {
+      await this.query.execute<unknown>(query, {
+        statsID: statsID.get()
+      });
+
+      return Success.of<void, MySQLError>(undefined);
+    }
+    catch (err) {
+      if (err instanceof MySQLError) {
+        return Failure.of<void, MySQLError>(err);
+      }
+
+      throw err;
+    }
   }
 }
