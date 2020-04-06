@@ -1,11 +1,14 @@
 import { INTERNAL_SERVER_ERROR, OK, UNAUTHORIZED } from 'http-status';
 import 'jest';
+import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+import { vault } from '../../../veau-container/Container';
+import { TYPE } from '../../../veau-container/Types';
 import { AJAXError } from '../../../veau-error/AJAXError';
 import { AuthenticationFailureError } from '../../../veau-error/AuthenticationFailureError';
 import { UnauthorizedError } from '../../../veau-error/UnauthorizedError';
 import { VeauAccountError } from '../../../veau-error/VeauAccountError';
-import { AJAX } from '../../../veau-general/AJAX';
+import { MockAJAX } from '../../../veau-general/AJAX/MockAJAX';
 import { Try } from '../../../veau-general/Try/Try';
 import { AccountName } from '../../../veau-vo/AccountName';
 import { EntranceInformation } from '../../../veau-vo/EntranceInformation';
@@ -14,10 +17,22 @@ import { VeauAccount } from '../../../veau-vo/VeauAccount';
 import { SessionQuery } from '../SessionQuery';
 
 describe('SessionQuery', () => {
+  describe('container', () => {
+    it('must be a singleton', () => {
+      const sessionQuery1: SessionQuery = vault.get<SessionQuery>(TYPE.SessionAJAXQuery);
+      const sessionQuery2: SessionQuery = vault.get<SessionQuery>(TYPE.SessionAJAXQuery);
+
+      expect(sessionQuery1).toBeInstanceOf(SessionQuery);
+      expect(sessionQuery1).toBe(sessionQuery2);
+    });
+  });
+
   describe('find', () => {
     it('normal case', async () => {
+      const ajax: MockAJAX = new MockAJAX();
+
       const stub: SinonStub = sinon.stub();
-      AJAX.get = stub;
+      ajax.get = stub;
       stub.resolves({
         status: OK,
         body: {
@@ -37,7 +52,7 @@ describe('SessionQuery', () => {
         }
       });
 
-      const sessionQuery: SessionQuery = new SessionQuery();
+      const sessionQuery: SessionQuery = new SessionQuery(ajax);
       const trial: Try<VeauAccount, VeauAccountError | UnauthorizedError> = await sessionQuery.find();
 
       expect(stub.withArgs('/api/identity').called).toEqual(true);
@@ -50,8 +65,10 @@ describe('SessionQuery', () => {
     });
 
     it('has wrong format veauAccountID', async () => {
+      const ajax: MockAJAX = new MockAJAX();
+
       const stub: SinonStub = sinon.stub();
-      AJAX.get = stub;
+      ajax.get = stub;
       stub.resolves({
         status: OK,
         body: {
@@ -73,7 +90,7 @@ describe('SessionQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const sessionQuery: SessionQuery = new SessionQuery();
+      const sessionQuery: SessionQuery = new SessionQuery(ajax);
       const trial: Try<VeauAccount, VeauAccountError | UnauthorizedError> = await sessionQuery.find();
 
       expect(trial.isFailure()).toEqual(true);
@@ -89,8 +106,10 @@ describe('SessionQuery', () => {
     });
 
     it('doesn\'t return OK', async () => {
+      const ajax: MockAJAX = new MockAJAX();
+
       const stub: SinonStub = sinon.stub();
-      AJAX.get = stub;
+      ajax.get = stub;
       stub.resolves({
         status: INTERNAL_SERVER_ERROR,
         body: {
@@ -99,7 +118,7 @@ describe('SessionQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const sessionQuery: SessionQuery = new SessionQuery();
+      const sessionQuery: SessionQuery = new SessionQuery(ajax);
       const trial: Try<VeauAccount, VeauAccountError | UnauthorizedError> = await sessionQuery.find();
 
       expect(trial.isFailure()).toEqual(true);
@@ -117,8 +136,10 @@ describe('SessionQuery', () => {
 
   describe('findByEntranceInfo', () => {
     it('normal case', async () => {
+      const ajax: MockAJAX = new MockAJAX();
+
       const stub: SinonStub = sinon.stub();
-      AJAX.post = stub;
+      ajax.post = stub;
       stub.resolves({
         status: OK,
         body: {
@@ -139,7 +160,7 @@ describe('SessionQuery', () => {
       });
 
       const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
-      const sessionQuery: SessionQuery = new SessionQuery();
+      const sessionQuery: SessionQuery = new SessionQuery(ajax);
       const trial: Try<VeauAccount, VeauAccountError | AuthenticationFailureError | AJAXError> = await sessionQuery.findByEntranceInfo(info);
 
       expect(stub.withArgs('/api/auth', {
@@ -155,8 +176,10 @@ describe('SessionQuery', () => {
     });
 
     it('has wrong format veauAccountID', async () => {
+      const ajax: MockAJAX = new MockAJAX();
+
       const stub: SinonStub = sinon.stub();
-      AJAX.post = stub;
+      ajax.post = stub;
       stub.resolves({
         status: OK,
         body: {
@@ -179,7 +202,7 @@ describe('SessionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
-      const sessionQuery: SessionQuery = new SessionQuery();
+      const sessionQuery: SessionQuery = new SessionQuery(ajax);
       const trial: Try<VeauAccount, VeauAccountError | AuthenticationFailureError | AJAXError> = await sessionQuery.findByEntranceInfo(info);
 
       expect(trial.isFailure()).toEqual(true);
@@ -195,8 +218,10 @@ describe('SessionQuery', () => {
     });
 
     it('returns UNAUTHORIZED', async () => {
+      const ajax: MockAJAX = new MockAJAX();
+
       const stub: SinonStub = sinon.stub();
-      AJAX.post = stub;
+      ajax.post = stub;
       stub.resolves({
         status: UNAUTHORIZED,
         body: {
@@ -206,7 +231,7 @@ describe('SessionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
-      const sessionQuery: SessionQuery = new SessionQuery();
+      const sessionQuery: SessionQuery = new SessionQuery(ajax);
       const trial: Try<VeauAccount, VeauAccountError | AuthenticationFailureError | AJAXError> = await sessionQuery.findByEntranceInfo(info);
 
       expect(trial.isFailure()).toEqual(true);
@@ -222,8 +247,10 @@ describe('SessionQuery', () => {
     });
 
     it('doesn\'t return OK', async () => {
+      const ajax: MockAJAX = new MockAJAX();
+
       const stub: SinonStub = sinon.stub();
-      AJAX.post = stub;
+      ajax.post = stub;
       stub.resolves({
         status: INTERNAL_SERVER_ERROR,
         body: {
@@ -233,7 +260,7 @@ describe('SessionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
-      const sessionQuery: SessionQuery = new SessionQuery();
+      const sessionQuery: SessionQuery = new SessionQuery(ajax);
       const trial: Try<VeauAccount, VeauAccountError | AuthenticationFailureError | AJAXError> = await sessionQuery.findByEntranceInfo(info);
 
       expect(trial.isFailure()).toEqual(true);
