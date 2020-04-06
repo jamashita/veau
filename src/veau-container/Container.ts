@@ -1,4 +1,5 @@
 import { Container } from 'inversify';
+import { SessionCommand as SessionAJAXCommand } from '../veau-command/AJAX/SessionCommand';
 import { LanguageCommand } from '../veau-command/LanguageCommand';
 import { LanguageCommand as LanguageRedisCommand } from '../veau-command/Redis/LanguageCommand';
 import { RegionCommand as RegionRedisCommand } from '../veau-command/Redis/RegionCommand';
@@ -31,7 +32,7 @@ import { StatsValueQuery } from '../veau-query/StatsValueQuery';
 import { TYPE } from './Types';
 
 export const kernel: Container = new Container();
-export const feContainer: Container = new Container();
+export const vault: Container = new Container();
 
 kernel.bind<LanguageCommand>(TYPE.LanguageCommand).to(LanguageCommand).inSingletonScope();
 kernel.bind<RegionCommand>(TYPE.RegionCommand).to(RegionCommand).inSingletonScope();
@@ -60,4 +61,5 @@ kernel.bind<StatsValueMySQLQuery>(TYPE.StatsValueMySQLQuery).to(StatsValueMySQLQ
 kernel.bind<LanguageRedisQuery>(TYPE.LanguageRedisQuery).to(LanguageRedisQuery).inSingletonScope();
 kernel.bind<RegionRedisQuery>(TYPE.RegionRedisQuery).to(RegionRedisQuery).inSingletonScope();
 
-feContainer.bind<AJAX>(TYPE.AJAX).to(AJAX).inSingletonScope();
+vault.bind<AJAX>(TYPE.AJAX).to(AJAX).inSingletonScope();
+vault.bind<SessionAJAXCommand>(TYPE.SessionAJAXCommand).to(SessionAJAXCommand).inSingletonScope();
