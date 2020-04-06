@@ -2,7 +2,6 @@ import { inject, injectable } from 'inversify';
 import { IRegionCommand } from '../veau-command/interfaces/IRegionCommand';
 import { TYPE } from '../veau-container/Types';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
-import { SourceError } from '../veau-general/SourceError';
 import { Failure } from '../veau-general/Try/Failure';
 import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
@@ -17,11 +16,11 @@ export class RegionQuery implements IRegionQuery {
   public readonly source: 'Complex' = 'Complex';
   private readonly regionMySQLQuery: IRegionQuery;
   private readonly regionRedisQuery: IRegionQuery;
-  private readonly regionCommand: IRegionCommand<SourceError>;
+  private readonly regionCommand: IRegionCommand;
 
   public constructor(@inject(TYPE.RegionMySQLQuery) regionMySQLQuery: IRegionQuery,
     @inject(TYPE.RegionRedisQuery) regionRedisQuery: IRegionQuery,
-    @inject(TYPE.RegionRedisCommand) regionCommand: IRegionCommand<SourceError>
+    @inject(TYPE.RegionRedisCommand) regionCommand: IRegionCommand
   ) {
     this.regionMySQLQuery = regionMySQLQuery;
     this.regionRedisQuery = regionRedisQuery;

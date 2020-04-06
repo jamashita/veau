@@ -1,13 +1,13 @@
 import { CacheError } from '../../veau-error/CacheError';
-import { SourceError } from '../../veau-general/SourceError';
+import { DataSourceError } from '../../veau-general/DataSourceError';
 import { Try } from '../../veau-general/Try/Try';
 import { Regions } from '../../veau-vo/Regions';
 import { ICommand } from './ICommand';
 
-export interface IRegionCommand<E extends SourceError> extends ICommand {
+export interface IRegionCommand extends ICommand {
   readonly noun: 'RegionCommand';
 
-  insertAll(regions: Regions): Promise<Try<void, E>>;
+  insertAll(regions: Regions): Promise<Try<void, DataSourceError>>;
 
-  deleteAll(): Promise<Try<void, CacheError | E>>;
+  deleteAll(): Promise<Try<void, CacheError | DataSourceError>>;
 }

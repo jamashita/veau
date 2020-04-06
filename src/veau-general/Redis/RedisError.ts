@@ -1,6 +1,6 @@
-import { SourceError } from '../SourceError';
+import { DataSourceError } from '../DataSourceError';
 
-export class RedisError extends SourceError {
+export class RedisError extends DataSourceError {
   public readonly name: 'RedisError' = 'RedisError';
 
   public constructor(err: Error) {

@@ -1,9 +1,9 @@
-import { SourceError } from '../../veau-general/SourceError';
+import { DataSourceError } from '../../veau-general/DataSourceError';
 import { Try } from '../../veau-general/Try/Try';
 import { ICommand } from './ICommand';
 
-export interface ISessionCommand<E extends SourceError> extends ICommand {
+export interface ISessionCommand extends ICommand {
   readonly noun: 'SessionCommand';
 
-  delete(): Promise<Try<void, E>>;
+  delete(): Promise<Try<void, DataSourceError>>;
 }

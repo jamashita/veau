@@ -4,6 +4,7 @@ import { IRegionCommand } from '../veau-command/interfaces/IRegionCommand';
 import { TYPE } from '../veau-container/Types';
 import { CacheError } from '../veau-error/CacheError';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
+import { DataSourceError } from '../veau-general/DataSourceError';
 import { Failure } from '../veau-general/Try/Failure';
 import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
@@ -24,18 +25,19 @@ export class LocaleInteractor implements IInteractor {
 
   public constructor(@inject(TYPE.LanguageQuery) languageQuery: ILanguageQuery,
     @inject(TYPE.RegionQuery) regionQuery: IRegionQuery,
-    @inject(TYPE.LanguageCommand) languageCommand: ILanguageCommand,
-    @inject(TYPE.RegionCommand) regionCommand: IRegionCommand
+    @inject(TYPE.LanguageRedisCommand) languageCommand: ILanguageCommand,
+    @inject(TYPE.RegionRedisCommand) regionCommand: IRegionCommand
   ) {
     this.languageQuery = languageQuery;
     this.regionQuery = regionQuery;
     this.languageCommand = languageCommand;
     this.regionCommand = regionCommand;
   }
+
   public async all(): Promise<Try<Locale, NoSuchElementError>> {
     const trials: [
-      Try<Languages, NoSuchElementError>,
-      Try<Regions, NoSuchElementError>
+      Try<Languages, NoSuchElementError | DataSourceError>,
+      Try<Regions, NoSuchElementError | DataSourceError>
     ] = await Promise.all([
       this.languageQuery.all(),
       this.regionQuery.all()
@@ -44,16 +46,20 @@ export class LocaleInteractor implements IInteractor {
     return trials[0].match<Try<Locale, NoSuchElementError>>((languages: Languages) => {
       return trials[1].match<Try<Locale, NoSuchElementError>>((regions: Regions) => {
         return Success.of<Locale, NoSuchElementError>(Locale.of(languages, regions));
-      }, (err: NoSuchElementError) => {
-        return Failure.of<Locale, NoSuchElementError>(err);
+      }, (err: NoSuchElementError | DataSourceError) => {
+        // TODO SourceError
+        // return Failure.of<Locale, NoSuchElementError>(err);
+        return Failure.of<Locale, NoSuchElementError>(new NoSuchElementError('temporary error avoiding'));
       });
-    }, (err: NoSuchElementError) => {
-      return Failure.of<Locale, NoSuchElementError>(err);
+    }, (err: NoSuchElementError | DataSourceError) => {
+      // TODO SourceError
+      // return Failure.of<Locale, NoSuchElementError>(err);
+      return Failure.of<Locale, NoSuchElementError>(new NoSuchElementError('temporary error avoiding'));
     });
   }
 
-  public async delete(): Promise<Try<void, CacheError>> {
-    const trials: [Try<void, CacheError>, Try<void, CacheError>] = await Promise.all([
+  public async delete(): Promise<Try<void, CacheError | DataSourceError>> {
+    const trials: [Try<void, CacheError | DataSourceError>, Try<void, CacheError | DataSourceError>] = await Promise.all([
       this.languageCommand.deleteAll(),
       this.regionCommand.deleteAll()
     ]);

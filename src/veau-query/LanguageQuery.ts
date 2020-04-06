@@ -2,7 +2,6 @@ import { inject, injectable } from 'inversify';
 import { ILanguageCommand } from '../veau-command/interfaces/ILanguageCommand';
 import { TYPE } from '../veau-container/Types';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
-import { SourceError } from '../veau-general/SourceError';
 import { Failure } from '../veau-general/Try/Failure';
 import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
@@ -17,11 +16,11 @@ export class LanguageQuery implements ILanguageQuery {
   public readonly source: 'Complex' = 'Complex';
   private readonly languageMySQLQuery: ILanguageQuery;
   private readonly languageRedisQuery: ILanguageQuery;
-  private readonly languageCommand: ILanguageCommand<SourceError>;
+  private readonly languageCommand: ILanguageCommand;
 
   public constructor(@inject(TYPE.LanguageMySQLQuery) languageMySQLQuery: ILanguageQuery,
     @inject(TYPE.LanguageRedisQuery) languageRedisQuery: ILanguageQuery,
-    @inject(TYPE.LanguageRedisCommand) languageCommand: ILanguageCommand<SourceError>
+    @inject(TYPE.LanguageRedisCommand) languageCommand: ILanguageCommand
   ) {
     this.languageMySQLQuery = languageMySQLQuery;
     this.languageRedisQuery = languageRedisQuery;
