@@ -1,6 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { TYPE } from '../../veau-container/Types';
 import { CacheError } from '../../veau-error/CacheError';
+import { DataSourceError } from '../../veau-general/DataSourceError';
 import { JSONA } from '../../veau-general/JSONA';
 import { IRedis } from '../../veau-general/Redis/interfaces/IRedis';
 import { RedisError } from '../../veau-general/Redis/RedisError';
@@ -24,13 +25,13 @@ export class RegionCommand implements IRegionCommand, IRedisCommand {
     this.redis = redis;
   }
 
-  public async insertAll(regions: Regions): Promise<Try<void, RedisError>> {
+  public async insertAll(regions: Regions): Promise<Try<void, DataSourceError>> {
     try {
       const str: string = await JSONA.stringify(regions.toJSON());
       await this.redis.getString().set(REDIS_KEY, str);
       await this.redis.expires(REDIS_KEY, DURATION);
 
-      return Success.of<void, RedisError>(undefined);
+      return Success.of<void, DataSourceError>(undefined);
     }
     catch (err) {
       if (err instanceof RedisError) {
@@ -41,7 +42,7 @@ export class RegionCommand implements IRegionCommand, IRedisCommand {
     }
   }
 
-  public async deleteAll(): Promise<Try<void, CacheError | RedisError>> {
+  public async deleteAll(): Promise<Try<void, CacheError | DataSourceError>> {
     try {
       const ok: boolean = await this.redis.delete(REDIS_KEY);
 

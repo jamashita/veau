@@ -1,12 +1,13 @@
 import 'jest';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { LanguageCommand } from '../../veau-command/LanguageCommand';
-import { RegionCommand } from '../../veau-command/RegionCommand';
+import { LanguageCommand } from '../../veau-command/Redis/LanguageCommand';
+import { RegionCommand } from '../../veau-command/Redis/RegionCommand';
 import { kernel } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
 import { CacheError } from '../../veau-error/CacheError';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { DataSourceError } from '../../veau-general/DataSourceError';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
@@ -129,7 +130,7 @@ describe('LocaleInteractor',  () => {
       stub2.resolves(Success.of<void, CacheError>(undefined));
 
       const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
-      const trial: Try<void, CacheError> = await localeInteractor.delete();
+      const trial: Try<void, CacheError | DataSourceError> = await localeInteractor.delete();
 
       expect(trial.isSuccess()).toEqual(true);
       expect(stub1.called).toEqual(true);
@@ -147,14 +148,14 @@ describe('LocaleInteractor',  () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
-      const trial: Try<void, CacheError> = await localeInteractor.delete();
+      const trial: Try<void, CacheError | DataSourceError> = await localeInteractor.delete();
 
       expect(trial.isFailure()).toEqual(true);
       expect(stub1.called).toEqual(true);
       expect(stub2.called).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: CacheError) => {
+      }, (err: CacheError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(CacheError);
       });
@@ -174,14 +175,14 @@ describe('LocaleInteractor',  () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
-      const trial: Try<void, CacheError> = await localeInteractor.delete();
+      const trial: Try<void, CacheError | DataSourceError> = await localeInteractor.delete();
 
       expect(trial.isFailure()).toEqual(true);
       expect(stub1.called).toEqual(true);
       expect(stub2.called).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: CacheError) => {
+      }, (err: CacheError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(CacheError);
       });

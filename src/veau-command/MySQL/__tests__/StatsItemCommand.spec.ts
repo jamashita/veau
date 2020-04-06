@@ -1,6 +1,7 @@
 import 'jest';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { StatsItem } from '../../../veau-entity/StatsItem';
+import { DataSourceError } from '../../../veau-general/DataSourceError';
 import { MockMySQLError } from '../../../veau-general/MySQL/mocks/MockMySQLError';
 import { MockQuery } from '../../../veau-general/MySQL/mocks/MockQuery';
 import { MySQLError } from '../../../veau-general/MySQL/MySQLError';
@@ -26,7 +27,7 @@ describe('StatsItemCommand', () => {
       query.execute = stub;
 
       const statsItemCommand: StatsItemCommand = StatsItemCommand.of(query);
-      const trial: Try<void, MySQLError> = await statsItemCommand.create(statsID, statsItem, 1);
+      const trial: Try<void, DataSourceError> = await statsItemCommand.create(statsID, statsItem, 1);
 
       expect(stub.withArgs(`INSERT INTO stats_items VALUES (
       :statsItemID,
@@ -58,12 +59,12 @@ describe('StatsItemCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsItemCommand: StatsItemCommand = StatsItemCommand.of(query);
-      const trial: Try<void, MySQLError> = await statsItemCommand.create(statsID, statsItem, 1);
+      const trial: Try<void, DataSourceError> = await statsItemCommand.create(statsID, statsItem, 1);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: MySQLError) => {
+      }, (err: DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(MySQLError);
       });
@@ -112,7 +113,7 @@ describe('StatsItemCommand', () => {
       query.execute = stub;
 
       const statsItemCommand: StatsItemCommand = StatsItemCommand.of(query);
-      const trial: Try<void, MySQLError> = await statsItemCommand.deleteByStatsID(statsID);
+      const trial: Try<void, DataSourceError> = await statsItemCommand.deleteByStatsID(statsID);
 
       expect(stub.withArgs(`DELETE R1
       FROM stats_items R1
@@ -135,12 +136,12 @@ describe('StatsItemCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsItemCommand: StatsItemCommand = StatsItemCommand.of(query);
-      const trial: Try<void, MySQLError> = await statsItemCommand.deleteByStatsID(statsID);
+      const trial: Try<void, DataSourceError> = await statsItemCommand.deleteByStatsID(statsID);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: MySQLError) => {
+      }, (err: DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(MySQLError);
       });

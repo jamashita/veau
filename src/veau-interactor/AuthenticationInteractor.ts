@@ -4,6 +4,7 @@ import { VerifyFunction } from 'passport-local';
 import { TYPE } from '../veau-container/Types';
 import { AccountError } from '../veau-error/AccountError';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
+import { DataSourceError } from '../veau-general/DataSourceError';
 import { Digest } from '../veau-general/Digest';
 import { Try } from '../veau-general/Try/Try';
 import { IAccountQuery } from '../veau-query/interfaces/IAccountQuery';
@@ -33,7 +34,7 @@ export class AuthenticationInteractor implements IInteractor {
         const accountName: AccountName = AccountName.of(name);
         const password: Password = Password.of(pass);
 
-        const trial: Try<Account, NoSuchElementError | AccountError> = await this.accountQuery.findByAccount(accountName);
+        const trial: Try<Account, NoSuchElementError | AccountError | DataSourceError> = await this.accountQuery.findByAccount(accountName);
 
         await trial.match<Promise<void>>(async (account: Account) => {
           const correct: boolean = await account.verify(password);
@@ -44,7 +45,7 @@ export class AuthenticationInteractor implements IInteractor {
           }
 
           callback(null, false);
-        }, async (err: NoSuchElementError | AccountError) => {
+        }, async (err: NoSuchElementError | AccountError | DataSourceError) => {
           // time adjustment
           await Digest.compare(DUMMY_PASSWORD, DUMMY_HASH);
 

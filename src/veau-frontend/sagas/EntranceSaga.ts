@@ -1,6 +1,6 @@
 import { SagaIterator } from '@redux-saga/types';
 import { all, call, Effect, fork, put, select, take } from 'redux-saga/effects';
-import { AJAXError } from '../../veau-error/AJAXError';
+import { AJAXError } from '../../veau-general/AJAX/AJAXError';
 import { AuthenticationFailureError } from '../../veau-error/AuthenticationFailureError';
 import { VeauAccountError } from '../../veau-error/VeauAccountError';
 import { Try } from '../../veau-general/Try/Try';
@@ -12,7 +12,7 @@ import { identified, identityAuthenticated } from '../actions/IdentityAction';
 import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
 import { pushToStatsList } from '../actions/RedirectAction';
-import { SessionQuery } from '../queries/SessionQuery';
+import { SessionQuery } from '../../veau-query/AJAX/SessionQuery';
 import { State } from '../State';
 
 export class EntranceSaga {

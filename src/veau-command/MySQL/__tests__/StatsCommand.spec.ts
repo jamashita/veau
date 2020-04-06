@@ -2,6 +2,7 @@ import 'jest';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { Stats } from '../../../veau-entity/Stats';
 import { StatsItems } from '../../../veau-entity/StatsItems';
+import { DataSourceError } from '../../../veau-general/DataSourceError';
 import { MockMySQLError } from '../../../veau-general/MySQL/mocks/MockMySQLError';
 import { MockQuery } from '../../../veau-general/MySQL/mocks/MockQuery';
 import { MySQLError } from '../../../veau-general/MySQL/MySQLError';
@@ -45,7 +46,7 @@ describe('StatsCommand', () => {
       query.execute = stub;
 
       const statsCommand: StatsCommand = StatsCommand.of(query);
-      const trial: Try<void, MySQLError> = await statsCommand.create(stats, accountID);
+      const trial: Try<void, DataSourceError> = await statsCommand.create(stats, accountID);
 
       expect(stub.withArgs(`INSERT INTO stats VALUES (
       :statsID,
@@ -90,12 +91,12 @@ describe('StatsCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsCommand: StatsCommand = StatsCommand.of(query);
-      const trial: Try<void, MySQLError> = await statsCommand.create(stats, accountID);
+      const trial: Try<void, DataSourceError> = await statsCommand.create(stats, accountID);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: MySQLError) => {
+      }, (err: DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(MySQLError);
       });
@@ -150,7 +151,7 @@ describe('StatsCommand', () => {
       query.execute = stub;
 
       const statsCommand: StatsCommand = StatsCommand.of(query);
-      const trial: Try<void, MySQLError> = await statsCommand.deleteByStatsID(statsID);
+      const trial: Try<void, DataSourceError> = await statsCommand.deleteByStatsID(statsID);
 
       expect(stub.withArgs(`DELETE R1
       FROM stats R1
@@ -171,12 +172,12 @@ describe('StatsCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsCommand: StatsCommand = StatsCommand.of(query);
-      const trial: Try<void, MySQLError> = await statsCommand.deleteByStatsID(statsID);
+      const trial: Try<void, DataSourceError> = await statsCommand.deleteByStatsID(statsID);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: MySQLError) => {
+      }, (err: DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(MySQLError);
       });

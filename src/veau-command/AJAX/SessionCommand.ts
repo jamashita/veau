@@ -4,6 +4,7 @@ import { TYPE } from '../../veau-container/Types';
 import { AJAXError } from '../../veau-general/AJAX/AJAXError';
 import { AJAXResponse } from '../../veau-general/AJAX/AJAXResponse';
 import { IAJAX } from '../../veau-general/AJAX/interfaces/IAJAX';
+import { DataSourceError } from '../../veau-general/DataSourceError';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
@@ -20,7 +21,7 @@ export class SessionCommand implements ISessionCommand, IAJAXCommand {
     this.ajax = ajax;
   }
 
-  public async delete(): Promise<Try<void, AJAXError>> {
+  public async delete(): Promise<Try<void, DataSourceError>> {
     const response: AJAXResponse<unknown> = await this.ajax.delete<unknown>('/api/destroy');
 
     switch (response.status) {

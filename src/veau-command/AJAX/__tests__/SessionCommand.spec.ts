@@ -6,6 +6,7 @@ import { vault } from '../../../veau-container/Container';
 import { TYPE } from '../../../veau-container/Types';
 import { AJAXError } from '../../../veau-general/AJAX/AJAXError';
 import { MockAJAX } from '../../../veau-general/AJAX/mocks/MockAJAX';
+import { DataSourceError } from '../../../veau-general/DataSourceError';
 import { Try } from '../../../veau-general/Try/Try';
 import { SessionCommand } from '../SessionCommand';
 
@@ -32,7 +33,7 @@ describe('SessionCommand', () => {
       });
 
       const sessionCommand: SessionCommand = new SessionCommand(ajax);
-      const trial: Try<void, AJAXError> = await sessionCommand.delete();
+      const trial: Try<void, DataSourceError> = await sessionCommand.delete();
 
       expect(trial.isSuccess()).toEqual(true);
       expect(stub.withArgs('/api/destroy').called).toEqual(true);
@@ -51,12 +52,12 @@ describe('SessionCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const sessionCommand: SessionCommand = new SessionCommand(ajax);
-      const trial: Try<void, AJAXError> = await sessionCommand.delete();
+      const trial: Try<void, DataSourceError> = await sessionCommand.delete();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: AJAXError) => {
+      }, (err: DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(AJAXError);
       });

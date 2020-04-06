@@ -1,3 +1,4 @@
+import { DataSourceError } from '../../veau-general/DataSourceError';
 import { IQuery } from '../../veau-general/MySQL/interfaces/IQuery';
 import { MySQLError } from '../../veau-general/MySQL/MySQLError';
 import { Failure } from '../../veau-general/Try/Failure';
@@ -21,7 +22,7 @@ export class StatsValueCommand implements IStatsValueCommand, IMySQLCommand {
     this.query = query;
   }
 
-  public async create(statsValue: StatsValue): Promise<Try<void, MySQLError>> {
+  public async create(statsValue: StatsValue): Promise<Try<void, DataSourceError>> {
     const query: string = `INSERT INTO stats_values VALUES (
       :statsItemID,
       :asOf,
@@ -47,7 +48,7 @@ export class StatsValueCommand implements IStatsValueCommand, IMySQLCommand {
     }
   }
 
-  public async deleteByStatsID(statsID: StatsID): Promise<Try<void, MySQLError>> {
+  public async deleteByStatsID(statsID: StatsID): Promise<Try<void, DataSourceError>> {
     const query: string = `DELETE R1
       FROM stats_values R1
       INNER JOIN stats_items R2

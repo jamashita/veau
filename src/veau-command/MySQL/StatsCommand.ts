@@ -1,4 +1,5 @@
 import { Stats } from '../../veau-entity/Stats';
+import { DataSourceError } from '../../veau-general/DataSourceError';
 import { IQuery } from '../../veau-general/MySQL/interfaces/IQuery';
 import { MySQLError } from '../../veau-general/MySQL/MySQLError';
 import { Failure } from '../../veau-general/Try/Failure';
@@ -22,7 +23,7 @@ export class StatsCommand implements IStatsCommand, IMySQLCommand {
     this.query = query;
   }
 
-  public async create(stats: Stats, veauAccountID: VeauAccountID): Promise<Try<void, MySQLError>> {
+  public async create(stats: Stats, veauAccountID: VeauAccountID): Promise<Try<void, DataSourceError>> {
     const query: string = `INSERT INTO stats VALUES (
       :statsID,
       :languageID,
@@ -56,7 +57,7 @@ export class StatsCommand implements IStatsCommand, IMySQLCommand {
     }
   }
 
-  public async deleteByStatsID(statsID: StatsID): Promise<Try<void, MySQLError>> {
+  public async deleteByStatsID(statsID: StatsID): Promise<Try<void, DataSourceError>> {
     const query: string = `DELETE R1
       FROM stats R1
       WHERE R1.stats_id = :statsID;`;

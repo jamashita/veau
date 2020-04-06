@@ -8,6 +8,7 @@ import { Stats } from '../../../veau-entity/Stats';
 import { StatsItems } from '../../../veau-entity/StatsItems';
 import { AJAXError } from '../../../veau-general/AJAX/AJAXError';
 import { MockAJAX } from '../../../veau-general/AJAX/mocks/MockAJAX';
+import { DataSourceError } from '../../../veau-general/DataSourceError';
 import { None } from '../../../veau-general/Optional/None';
 import { Try } from '../../../veau-general/Try/Try';
 import { AsOf } from '../../../veau-vo/AsOf';
@@ -61,7 +62,7 @@ describe('StatsCommand', () => {
       });
 
       const statsCommand: StatsCommand = new StatsCommand(ajax);
-      const trial: Try<void, AJAXError> = await statsCommand.create(stats);
+      const trial: Try<void, DataSourceError> = await statsCommand.create(stats);
 
       expect(stub.withArgs('/api/stats', {
         statsID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
@@ -111,12 +112,12 @@ describe('StatsCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsCommand: StatsCommand = new StatsCommand(ajax);
-      const trial: Try<void, AJAXError> = await statsCommand.create(stats);
+      const trial: Try<void, DataSourceError> = await statsCommand.create(stats);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: AJAXError) => {
+      }, (err: DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(AJAXError);
       });

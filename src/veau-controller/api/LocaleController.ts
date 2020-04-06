@@ -5,6 +5,7 @@ import { kernel } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
 import { CacheError } from '../../veau-error/CacheError';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { DataSourceError } from '../../veau-general/DataSourceError';
 import { JSONable } from '../../veau-general/JSONable';
 import { Try } from '../../veau-general/Try/Try';
 import { LocaleInteractor } from '../../veau-interactor/LocaleInteractor';
@@ -29,11 +30,11 @@ router.get('/', async (req: express.Request, res: express.Response) => {
 });
 
 router.delete('/', authenticationMiddleware.requires(), async (req: express.Request, res: express.Response) => {
-  const trial: Try<void, CacheError> = await localeInteractor.delete();
+  const trial: Try<void, CacheError | DataSourceError> = await localeInteractor.delete();
 
   trial.match<void>(() => {
     res.sendStatus(OK);
-  }, (err: CacheError) => {
+  }, (err: CacheError | DataSourceError) => {
     logger.error(err.message);
 
     res.sendStatus(INTERNAL_SERVER_ERROR);

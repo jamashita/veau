@@ -4,6 +4,7 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../../veau-container/Container';
 import { TYPE } from '../../../veau-container/Types';
 import { CacheError } from '../../../veau-error/CacheError';
+import { DataSourceError } from '../../../veau-general/DataSourceError';
 import { MockRedisError } from '../../../veau-general/Redis/MockRedisError';
 import { MockRedis } from '../../../veau-general/Redis/mocks/MockRedis';
 import { MockRedisString } from '../../../veau-general/Redis/mocks/MockRedisString';
@@ -45,7 +46,7 @@ describe('RegionCommand', () => {
       stub2.resolves();
 
       const regionCommand: RegionCommand = new RegionCommand(redis);
-      const trial: Try<void, RedisError> = await regionCommand.insertAll(regions);
+      const trial: Try<void, DataSourceError> = await regionCommand.insertAll(regions);
 
       expect(stub1.withArgs('REGIONS', '[{"regionID":2,"name":"region 2","iso3166":"abc"}]').called).toEqual(true);
       expect(stub2.withArgs('REGIONS', 3 * 60 * 60).called).toEqual(true);
@@ -71,12 +72,12 @@ describe('RegionCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionCommand: RegionCommand = new RegionCommand(redis);
-      const trial: Try<void, RedisError> = await regionCommand.insertAll(regions);
+      const trial: Try<void, DataSourceError> = await regionCommand.insertAll(regions);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: RedisError) => {
+      }, (err: DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(RedisError);
       });
@@ -104,12 +105,12 @@ describe('RegionCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionCommand: RegionCommand = new RegionCommand(redis);
-      const trial: Try<void, RedisError> = await regionCommand.insertAll(regions);
+      const trial: Try<void, DataSourceError> = await regionCommand.insertAll(regions);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: RedisError) => {
+      }, (err: DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(RedisError);
       });
@@ -158,7 +159,7 @@ describe('RegionCommand', () => {
       stub.resolves(true);
 
       const regionCommand: RegionCommand = new RegionCommand(redis);
-      const trial: Try<void, CacheError | RedisError> = await regionCommand.deleteAll();
+      const trial: Try<void, CacheError | DataSourceError> = await regionCommand.deleteAll();
 
       expect(stub.withArgs('REGIONS').called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
@@ -173,12 +174,12 @@ describe('RegionCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionCommand: RegionCommand = new RegionCommand(redis);
-      const trial: Try<void, CacheError | RedisError> = await regionCommand.deleteAll();
+      const trial: Try<void, CacheError | DataSourceError> = await regionCommand.deleteAll();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: CacheError | RedisError) => {
+      }, (err: CacheError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(CacheError);
       });
@@ -191,19 +192,19 @@ describe('RegionCommand', () => {
       const redis: MockRedis = MockRedis.of({});
       const stub: SinonStub = sinon.stub();
       redis.delete = stub;
-      stub.resolves(false);
+      stub.rejects(new MockRedisError());
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
       const regionCommand: RegionCommand = new RegionCommand(redis);
-      const trial: Try<void, CacheError | RedisError> = await regionCommand.deleteAll();
+      const trial: Try<void, CacheError | DataSourceError> = await regionCommand.deleteAll();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: CacheError | RedisError) => {
+      }, (err: CacheError | DataSourceError) => {
         spy2();
-        expect(err).toBeInstanceOf(CacheError);
+        expect(err).toBeInstanceOf(RedisError);
       });
 
       expect(spy1.called).toEqual(false);

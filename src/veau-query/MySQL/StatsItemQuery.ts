@@ -4,7 +4,9 @@ import { StatsItemRow } from '../../veau-entity/StatsItem';
 import { StatsItems } from '../../veau-entity/StatsItems';
 import { StatsItemsError } from '../../veau-error/StatsItemsError';
 import { StatsValuesError } from '../../veau-error/StatsValuesError';
+import { DataSourceError } from '../../veau-general/DataSourceError';
 import { IMySQL } from '../../veau-general/MySQL/interfaces/IMySQL';
+import { MySQLError } from '../../veau-general/MySQL/MySQLError';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Try } from '../../veau-general/Try/Try';
 import { StatsID } from '../../veau-vo/StatsID';
@@ -27,7 +29,7 @@ export class StatsItemQuery implements IStatsItemQuery, IMySQLQuery {
     this.statsValueQuery = statsValueQuery;
   }
 
-  public async findByStatsID(statsID: StatsID): Promise<Try<StatsItems, StatsItemsError>> {
+  public async findByStatsID(statsID: StatsID): Promise<Try<StatsItems, StatsItemsError | DataSourceError>> {
     const query: string = `SELECT
       R1.stats_item_id AS statsItemID,
       R1.name
@@ -35,16 +37,29 @@ export class StatsItemQuery implements IStatsItemQuery, IMySQLQuery {
       WHERE R1.stats_id = :statsID
       ORDER BY R1.seq;`;
 
-    const statsItemRows: Array<StatsItemRow> = await this.mysql.execute<Array<StatsItemRow>>(query, {
-      statsID: statsID.get()
-    });
+    try {
+      const statsItemRows: Array<StatsItemRow> = await this.mysql.execute<Array<StatsItemRow>>(query, {
+        statsID: statsID.get()
+      });
 
-    const trial: Try<StatsValues, StatsValuesError> = await this.statsValueQuery.findByStatsID(statsID);
+      const trial: Try<StatsValues, StatsValuesError | DataSourceError> = await this.statsValueQuery.findByStatsID(statsID);
 
-    return trial.match<Try<StatsItems, StatsItemsError>>((statsValues: StatsValues) => {
-      return StatsItems.ofRow(statsItemRows, statsValues);
-    }, (err: StatsValuesError) => {
-      return Failure.of<StatsItems, StatsItemsError>(new StatsItemsError(err.message));
-    });
+      return trial.match<Try<StatsItems, StatsItemsError | DataSourceError>>((statsValues: StatsValues) => {
+        return StatsItems.ofRow(statsItemRows, statsValues);
+      }, (err: StatsValuesError | DataSourceError) => {
+        if (err instanceof DataSourceError) {
+          return Failure.of<StatsItems, DataSourceError>(err);
+        }
+
+        return Failure.of<StatsItems, StatsItemsError>(new StatsItemsError(err.message));
+      });
+    }
+    catch (err) {
+      if (err instanceof MySQLError) {
+        return Failure.of<StatsItems, MySQLError>(err);
+      }
+
+      throw err;
+    }
   }
 }
