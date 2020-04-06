@@ -1,10 +1,10 @@
 import 'jest';
-import { MysqlError } from 'mysql';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { Stats } from '../../../veau-entity/Stats';
 import { StatsItems } from '../../../veau-entity/StatsItems';
 import { StatsIDError } from '../../../veau-error/StatsIDError';
 import { IQuery } from '../../../veau-general/MySQL/IQuery';
+import { MockMySQLError } from '../../../veau-general/MySQL/MockMySQLError';
 import { MySQLError } from '../../../veau-general/MySQL/MySQLError';
 import { QueryMock } from '../../../veau-general/MySQL/QueryMock';
 import { None } from '../../../veau-general/Optional/None';
@@ -87,7 +87,7 @@ describe('StatsCommand', () => {
       const query: IQuery = new QueryMock();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
-      stub.rejects(new MySQLError(new Error() as MysqlError));
+      stub.rejects(new MockMySQLError());
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
@@ -161,7 +161,7 @@ describe('StatsCommand', () => {
       const query: IQuery = new QueryMock();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
-      stub.rejects(new MySQLError(new Error() as MysqlError));
+      stub.rejects(new MockMySQLError());
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
