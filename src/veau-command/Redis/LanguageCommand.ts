@@ -15,7 +15,7 @@ const REDIS_KEY: string = 'LANGUAGES';
 const DURATION: number = 3 * 60 * 60;
 
 @injectable()
-export class LanguageCommand implements ILanguageCommand<RedisError>, IRedisCommand {
+export class LanguageCommand implements ILanguageCommand, IRedisCommand {
   public readonly noun: 'LanguageCommand' = 'LanguageCommand';
   public readonly source: 'Redis' = 'Redis';
   private readonly redis: IRedis;

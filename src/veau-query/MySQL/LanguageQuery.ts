@@ -13,7 +13,7 @@ import { ILanguageQuery } from '../interfaces/ILanguageQuery';
 import { IMySQLQuery } from '../interfaces/IMySQLQuery';
 
 @injectable()
-export class LanguageQuery implements ILanguageQuery<MySQLError>, IMySQLQuery {
+export class LanguageQuery implements ILanguageQuery, IMySQLQuery {
   public readonly noun: 'LanguageQuery' = 'LanguageQuery';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: IMySQL;

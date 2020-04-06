@@ -12,7 +12,7 @@ import { IAccountQuery } from '../interfaces/IAccountQuery';
 import { IMySQLQuery } from '../interfaces/IMySQLQuery';
 
 @injectable()
-export class AccountQuery implements IAccountQuery<MySQLError>, IMySQLQuery {
+export class AccountQuery implements IAccountQuery, IMySQLQuery {
   public readonly noun: 'AccountQuery' = 'AccountQuery';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: IMySQL;

@@ -17,7 +17,7 @@ import { IAJAXQuery } from '../interfaces/IAJAXQuery';
 import { ILocaleQuery } from '../interfaces/ILocaleQuery';
 
 @injectable()
-export class LocaleQuery implements ILocaleQuery<AJAXError>, IAJAXQuery {
+export class LocaleQuery implements ILocaleQuery, IAJAXQuery {
   public readonly noun: 'LocaleQuery' = 'LocaleQuery';
   public readonly source: 'AJAX' = 'AJAX';
   private ajax: IAJAX;

@@ -13,7 +13,7 @@ import { IMySQLQuery } from '../interfaces/IMySQLQuery';
 import { IRegionQuery } from '../interfaces/IRegionQuery';
 
 @injectable()
-export class RegionQuery implements IRegionQuery<MySQLError>, IMySQLQuery {
+export class RegionQuery implements IRegionQuery, IMySQLQuery {
   public readonly noun: 'RegionQuery' = 'RegionQuery';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: IMySQL;

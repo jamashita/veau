@@ -14,7 +14,7 @@ import { IAJAXCommand } from '../interfaces/IAJAXCommand';
 import { IStatsCommand } from '../interfaces/IStatsCommand';
 
 @injectable()
-export class StatsCommand implements IStatsCommand<AJAXError>, IAJAXCommand {
+export class StatsCommand implements IStatsCommand, IAJAXCommand {
   public readonly noun: 'StatsCommand' = 'StatsCommand';
   public readonly source: 'AJAX' = 'AJAX';
   private ajax: IAJAX;
@@ -36,6 +36,7 @@ export class StatsCommand implements IStatsCommand<AJAXError>, IAJAXCommand {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public deleteByStatsID(statsID: StatsID): Promise<Try<void, AJAXError>> {
     return Promise.reject<Try<void, AJAXError>>(new UnimplementedError());
   }

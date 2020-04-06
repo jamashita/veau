@@ -11,7 +11,7 @@ import { IAJAXCommand } from '../interfaces/IAJAXCommand';
 import { ISessionCommand } from '../interfaces/ISessionCommand';
 
 @injectable()
-export class SessionCommand implements ISessionCommand<AJAXError>, IAJAXCommand {
+export class SessionCommand implements ISessionCommand, IAJAXCommand {
   public readonly noun: 'SessionCommand' = 'SessionCommand';
   public readonly source: 'AJAX' = 'AJAX';
   private readonly ajax: IAJAX;

@@ -8,7 +8,7 @@ import { StatsValue } from '../../veau-vo/StatsValue';
 import { IMySQLCommand } from '../interfaces/IMySQLCommand';
 import { IStatsValueCommand } from '../interfaces/IStatsValueCommand';
 
-export class StatsValueCommand implements IStatsValueCommand<MySQLError>, IMySQLCommand {
+export class StatsValueCommand implements IStatsValueCommand, IMySQLCommand {
   public readonly noun: 'StatsValueCommand' = 'StatsValueCommand';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly query: IQuery;

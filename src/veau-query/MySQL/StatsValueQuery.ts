@@ -12,7 +12,7 @@ import { IMySQLQuery } from '../interfaces/IMySQLQuery';
 import { IStatsValueQuery } from '../interfaces/IStatsValueQuery';
 
 @injectable()
-export class StatsValueQuery implements IStatsValueQuery<MySQLError>, IMySQLQuery {
+export class StatsValueQuery implements IStatsValueQuery, IMySQLQuery {
   public readonly noun: 'StatsValueQuery' = 'StatsValueQuery';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: IMySQL;

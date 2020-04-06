@@ -15,7 +15,7 @@ const REDIS_KEY: string = 'REGIONS';
 const DURATION: number = 3 * 60 * 60;
 
 @injectable()
-export class RegionCommand implements IRegionCommand<RedisError>, IRedisCommand {
+export class RegionCommand implements IRegionCommand, IRedisCommand {
   public readonly noun: 'RegionCommand' = 'RegionCommand';
   public readonly source: 'Redis' = 'Redis';
   private readonly redis: IRedis;

@@ -9,7 +9,7 @@ import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import { IMySQLCommand } from '../interfaces/IMySQLCommand';
 import { IStatsCommand } from '../interfaces/IStatsCommand';
 
-export class StatsCommand implements IStatsCommand<MySQLError>, IMySQLCommand {
+export class StatsCommand implements IStatsCommand, IMySQLCommand {
   public readonly noun: 'StatsCommand' = 'StatsCommand';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly query: IQuery;
