@@ -1,7 +1,8 @@
 import IORedis from 'ioredis';
+import { IRedisList } from './interfaces/IRedisList';
 import { RedisError } from './RedisError';
 
-export class RedisList {
+export class RedisList implements IRedisList {
   private readonly client: IORedis.Redis;
 
   public constructor(client: IORedis.Redis) {

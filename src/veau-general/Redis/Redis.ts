@@ -1,37 +1,25 @@
 import IORedis from 'ioredis';
+import { IRedis } from './interfaces/IRedis';
 import { RedisError } from './RedisError';
 import { RedisHash } from './RedisHash';
 import { RedisList } from './RedisList';
 import { RedisSet } from './RedisSet';
 import { RedisString } from './RedisString';
 
-export class Redis {
+export class Redis implements IRedis {
+  private readonly client: IORedis.Redis;
   private readonly hash: RedisHash;
   private readonly set: RedisSet;
   private readonly list: RedisList;
   private readonly string: RedisString;
-  private readonly client: IORedis.Redis;
 
-  public static of(config: IORedis.RedisOptions): Redis {
+  public constructor(config: IORedis.RedisOptions) {
     const client: IORedis.Redis = new IORedis(config);
-    const hash: RedisHash = new RedisHash(client);
-    const set: RedisSet = new RedisSet(client);
-    const list: RedisList = new RedisList(client);
-    const string: RedisString = new RedisString(client);
-
-    return new Redis(client, hash, set, list, string);
-  }
-
-  protected constructor(client: IORedis.Redis,
-    hash: RedisHash,
-    set: RedisSet,
-    list: RedisList,
-    string: RedisString) {
     this.client = client;
-    this.hash = hash;
-    this.set = set;
-    this.list = list;
-    this.string = string;
+    this.hash = new RedisHash(client);
+    this.set = new RedisSet(client);
+    this.list = new RedisList(client);
+    this.string = new RedisString(client);
   }
 
   public getClient(): IORedis.Redis {
