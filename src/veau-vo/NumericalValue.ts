@@ -29,6 +29,6 @@ export class NumericalValue extends ValueObject {
   }
 
   public toString(): string {
-    return this.value.toString();
+    return `${this.value}`;
   }
 }

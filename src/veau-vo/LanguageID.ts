@@ -33,6 +33,6 @@ export class LanguageID extends ValueObject {
   }
 
   public toString(): string {
-    return this.id.toString();
+    return `${this.id}`;
   }
 }

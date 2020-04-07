@@ -41,6 +41,6 @@ export class HeaderSize extends ValueObject {
   }
 
   public toString(): string {
-    return this.size.toString();
+    return `${this.size}`;
   }
 }

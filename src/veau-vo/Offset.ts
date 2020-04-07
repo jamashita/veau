@@ -41,6 +41,6 @@ export class Offset extends ValueObject {
   }
 
   public toString(): string {
-    return this.offset.toString();
+    return `${this.offset}`;
   }
 }

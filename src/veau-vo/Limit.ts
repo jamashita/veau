@@ -41,6 +41,6 @@ export class Limit extends ValueObject {
   }
 
   public toString(): string {
-    return this.limit.toString();
+    return `${this.limit}`;
   }
 }

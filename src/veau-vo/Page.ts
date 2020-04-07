@@ -55,6 +55,6 @@ export class Page extends ValueObject {
   }
 
   public toString(): string {
-    return this.page.toString();
+    return `${this.page}`;
   }
 }

@@ -41,6 +41,6 @@ export class Column extends ValueObject {
   }
 
   public toString(): string {
-    return this.column.toString();
+    return `${this.column}`;
   }
 }

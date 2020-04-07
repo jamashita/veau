@@ -45,6 +45,6 @@ export class Row extends ValueObject {
   }
 
   public toString(): string {
-    return this.row.toString();
+    return `${this.row}`;
   }
 }

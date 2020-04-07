@@ -292,7 +292,12 @@
     "@typescript-eslint/require-array-sort-compare": "error",
     "@typescript-eslint/require-await": "error",
     "@typescript-eslint/restrict-plus-operands": "error",
-    "@typescript-eslint/restrict-template-expressions": "error",
+    "@typescript-eslint/restrict-template-expressions": [
+      "error",
+      {
+        "allowNumber": true
+      }
+    ],
     "@typescript-eslint/return-await": "error",
     "@typescript-eslint/semi": "error",
     "@typescript-eslint/space-before-function-paren": [
