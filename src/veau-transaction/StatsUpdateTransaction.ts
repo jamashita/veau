@@ -3,8 +3,10 @@ import { StatsItemCommand } from '../veau-command/MySQL/StatsItemCommand';
 import { StatsValueCommand } from '../veau-command/MySQL/StatsValueCommand';
 import { Stats } from '../veau-entity/Stats';
 import { StatsItem } from '../veau-entity/StatsItem';
+import { DataSourceError } from '../veau-general/DataSourceError';
 import { IQuery } from '../veau-general/MySQL/interfaces/IQuery';
 import { ITransaction } from '../veau-general/MySQL/interfaces/ITransaction';
+import { Try } from '../veau-general/Try/Try';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValue } from '../veau-vo/StatsValue';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
@@ -35,14 +37,14 @@ export class StatsUpdateTransaction implements ITransaction {
 
     const statsID: StatsID = stats.getStatsID();
 
-    await statsValueCommand.deleteByStatsID(statsID);
-    await statsItemCommand.deleteByStatsID(statsID);
-    await statsCommand.deleteByStatsID(statsID);
+    const trial1: Try<void, DataSourceError> = await statsValueCommand.deleteByStatsID(statsID);
+    const trial2: Try<void, DataSourceError> = await statsItemCommand.deleteByStatsID(statsID);
+    const trial3: Try<void, DataSourceError> = await statsCommand.deleteByStatsID(statsID);
+
+    // TODO when error, terminate and throw error;
 
     const itemPromises: Array<Promise<unknown>> = [];
     const valuePromises: Array<Promise<unknown>> = [];
-
-    await statsCommand.create(stats, veauAccountID);
 
     this.stats.getItems().forEach((statsItem: StatsItem, index: number) => {
       itemPromises.push(statsItemCommand.create(statsID, statsItem, index + 1));
@@ -52,8 +54,10 @@ export class StatsUpdateTransaction implements ITransaction {
       });
     });
 
-    await Promise.all<unknown>(itemPromises);
+    const trial4: Try<void, DataSourceError> = await statsCommand.create(stats, veauAccountID);
+    const trial5: Array<Try<void, DataSourceError>> = await Promise.all<unknown>(itemPromises);
+    const trial5: Array<Try<void, DataSourceError>> = await Promise.all<unknown>(valuePromises);
 
-    return Promise.all<unknown>(valuePromises);
+    // TODO when error, terminate and throw error;
   }
 }
