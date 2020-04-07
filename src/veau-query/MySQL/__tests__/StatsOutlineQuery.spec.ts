@@ -3,10 +3,12 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../../veau-container/Container';
 import { TYPE } from '../../../veau-container/Types';
 import { StatsOutlinesError } from '../../../veau-error/StatsOutlinesError';
-import { MySQL } from '../../../veau-general/MySQL/MySQL';
+import { DataSourceError } from '../../../veau-general/DataSourceError';
+import { MockMySQL } from '../../../veau-general/MySQL/mocks/MockMySQL';
+import { MockMySQLError } from '../../../veau-general/MySQL/mocks/MockMySQLError';
+import { MySQLError } from '../../../veau-general/MySQL/MySQLError';
 import { Try } from '../../../veau-general/Try/Try';
-import { Limit } from '../../../veau-vo/Limit';
-import { Offset } from '../../../veau-vo/Offset';
+import { Page } from '../../../veau-vo/Page';
 import { StatsOutline, StatsOutlineRow } from '../../../veau-vo/StatsOutline';
 import { StatsOutlines } from '../../../veau-vo/StatsOutlines';
 import { VeauAccountID } from '../../../veau-vo/VeauAccountID';
@@ -25,7 +27,7 @@ describe('StatsOutlineQuery', () => {
 
   describe('findByVeauAccountID', () => {
     it('normal case', async () => {
-      const row: Array<StatsOutlineRow> = [
+      const rows: Array<StatsOutlineRow> = [
         {
           statsID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
           languageID: 1,
@@ -55,12 +57,14 @@ describe('StatsOutlineQuery', () => {
           updatedAt: '2001-01-01 00:00:00'
         }
       ];
-      const stub: SinonStub = sinon.stub();
-      MySQL.prototype.execute = stub;
-      stub.resolves(row);
 
-      const statsOutlineQuery: StatsOutlineQuery = kernel.get<StatsOutlineQuery>(TYPE.StatsOutlineMySQLQuery);
-      const trial: Try<StatsOutlines, StatsOutlinesError> = await statsOutlineQuery.findByVeauAccountID(VeauAccountID.of('2ac64841-5267-48bc-8952-ba9ad1cb12d7').get(), Limit.of(2).get(), Offset.of(0).get());
+      const mysql: MockMySQL = new MockMySQL();
+      const stub: SinonStub = sinon.stub();
+      mysql.execute = stub;
+      stub.resolves(rows);
+
+      const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
+      const trial: Try<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(VeauAccountID.of('2ac64841-5267-48bc-8952-ba9ad1cb12d7').get(), Page.of(1).get());
 
       expect(stub.withArgs(`SELECT
       R1.stats_id AS statsID,
@@ -84,32 +88,31 @@ describe('StatsOutlineQuery', () => {
       LIMIT :limit
       OFFSET :offset;`, {
         veauAccountID: '2ac64841-5267-48bc-8952-ba9ad1cb12d7',
-        limit: 2,
+        limit: 40,
         offset: 0
       }).called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
       const statsOutlines: StatsOutlines = trial.get();
-
       expect(statsOutlines.size()).toEqual(2);
       for (let i: number = 0; i < statsOutlines.size(); i++) {
         const statsOutline: StatsOutline = statsOutlines.get(i).get();
-        expect(statsOutline.getStatsID().get()).toEqual(row[i].statsID);
-        expect(statsOutline.getLanguage().getLanguageID().get()).toEqual(row[i].languageID);
-        expect(statsOutline.getLanguage().getName().get()).toEqual(row[i].languageName);
-        expect(statsOutline.getLanguage().getEnglishName().get()).toEqual( row[i].languageEnglishName);
-        expect(statsOutline.getLanguage().getISO639().get()).toEqual(row[i].iso639);
-        expect(statsOutline.getRegion().getRegionID().get()).toEqual(row[i].regionID);
-        expect(statsOutline.getRegion().getName().get()).toEqual(row[i].regionName);
-        expect(statsOutline.getRegion().getISO3166().get()).toEqual(row[i].iso3166);
-        expect(statsOutline.getTerm().getID()).toEqual(row[i].termID);
-        expect(statsOutline.getName().get()).toEqual(row[i].name);
-        expect(statsOutline.getUnit().get()).toEqual(row[i].unit);
-        expect(statsOutline.getUpdatedAt().toString()).toEqual(row[i].updatedAt);
+        expect(statsOutline.getStatsID().get()).toEqual(rows[i].statsID);
+        expect(statsOutline.getLanguage().getLanguageID().get()).toEqual(rows[i].languageID);
+        expect(statsOutline.getLanguage().getName().get()).toEqual(rows[i].languageName);
+        expect(statsOutline.getLanguage().getEnglishName().get()).toEqual( rows[i].languageEnglishName);
+        expect(statsOutline.getLanguage().getISO639().get()).toEqual(rows[i].iso639);
+        expect(statsOutline.getRegion().getRegionID().get()).toEqual(rows[i].regionID);
+        expect(statsOutline.getRegion().getName().get()).toEqual(rows[i].regionName);
+        expect(statsOutline.getRegion().getISO3166().get()).toEqual(rows[i].iso3166);
+        expect(statsOutline.getTerm().getID()).toEqual(rows[i].termID);
+        expect(statsOutline.getName().get()).toEqual(rows[i].name);
+        expect(statsOutline.getUnit().get()).toEqual(rows[i].unit);
+        expect(statsOutline.getUpdatedAt().toString()).toEqual(rows[i].updatedAt);
       }
     });
 
     it('returns Failure when statsID is malformat', async () => {
-      const row: Array<StatsOutlineRow> = [
+      const rows: Array<StatsOutlineRow> = [
         {
           statsID: 'malformat uuid',
           languageID: 1,
@@ -139,23 +142,71 @@ describe('StatsOutlineQuery', () => {
           updatedAt: '2001-01-01 00:00:00'
         }
       ];
+
+      const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
-      MySQL.prototype.execute = stub;
-      stub.resolves(row);
+      mysql.execute = stub;
+      stub.resolves(rows);
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsOutlineQuery: StatsOutlineQuery = kernel.get<StatsOutlineQuery>(TYPE.StatsOutlineMySQLQuery);
-      const trial: Try<StatsOutlines, StatsOutlinesError> = await statsOutlineQuery.findByVeauAccountID(VeauAccountID.of('2ac64841-5267-48bc-8952-ba9ad1cb12d7').get(), Limit.of(2).get(), Offset.of(0).get());
+      const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
+      const trial: Try<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(VeauAccountID.of('2ac64841-5267-48bc-8952-ba9ad1cb12d7').get(), Page.of(2).get());
 
       expect(trial.isFailure()).toEqual(true);
-
       trial.match<void>(() => {
         spy1();
-      }, (err: StatsOutlinesError) => {
+      }, (err: StatsOutlinesError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(StatsOutlinesError);
       });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('returns Failure because the client throws MySQLError', async () => {
+      const mysql: MockMySQL = new MockMySQL();
+      const stub: SinonStub = sinon.stub();
+      mysql.execute = stub;
+      stub.rejects(new MockMySQLError());
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
+      const trial: Try<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(VeauAccountID.of('2ac64841-5267-48bc-8952-ba9ad1cb12d7').get(), Page.of(1).get());
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (err: StatsOutlinesError | DataSourceError) => {
+        spy2();
+        expect(err).toBeInstanceOf(MySQLError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('throws Error', async () => {
+      const error: Error = new Error();
+
+      const mysql: MockMySQL = new MockMySQL();
+      const stub: SinonStub = sinon.stub();
+      mysql.execute = stub;
+      stub.rejects(error);
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
+      try {
+        await statsOutlineQuery.findByVeauAccountID(VeauAccountID.of('2ac64841-5267-48bc-8952-ba9ad1cb12d7').get(), Page.of(1).get());
+        spy1();
+      }
+      catch (err) {
+        spy2();
+        expect(err).toBe(error);
+      }
 
       expect(spy1.called).toEqual(false);
       expect(spy2.called).toEqual(true);

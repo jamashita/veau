@@ -147,11 +147,10 @@ describe('StatsQuery', () => {
       expect(stats.getName().get()).toEqual(rows[0].name);
       expect(stats.getUnit().get()).toEqual(rows[0].unit);
       expect(stats.getUpdatedAt().toString()).toEqual(rows[0].updatedAt);
-
       expect(items).toEqual(stats.getItems());
     });
 
-    it('returns Failure becuase of the statsID is malformat', async () => {
+    it('returns Failure because of the statsID is malformat', async () => {
       const statsID: StatsID = StatsID.of('a25a8b7f-c810-4dc0-b94e-e97e74329307').get();
       const rows: Array<StatsRow> = [
         {
