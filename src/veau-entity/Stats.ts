@@ -64,9 +64,9 @@ export type StatsRow = Readonly<{
   updatedAt: string;
 }>;
 
-type Chart = Readonly<{
+type Chart = {
   [key: string]: string | number;
-}>;
+};
 
 export class Stats extends Entity<StatsID> {
   public readonly noun: 'Stats' = 'Stats';
