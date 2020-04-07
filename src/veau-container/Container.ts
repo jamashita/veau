@@ -31,6 +31,7 @@ import { StatsQuery as StatsMySQLQuery } from '../veau-query/MySQL/StatsQuery';
 import { StatsValueQuery as StatsValueMySQLQuery } from '../veau-query/MySQL/StatsValueQuery';
 import { LanguageQuery as LanguageRedisQuery } from '../veau-query/Redis/LanguageQuery';
 import { RegionQuery as RegionRedisQuery } from '../veau-query/Redis/RegionQuery';
+import { LanguageQuery as LanguageVaultQuery } from '../veau-query/Vault/LanguageQuery';
 import { LocaleQuery as LocaleVaultQuery } from '../veau-query/Vault/LocaleQuery';
 import { TYPE } from './Types';
 
@@ -67,4 +68,5 @@ vault.bind<SessionAJAXQuery>(TYPE.SessionAJAXQuery).to(SessionAJAXQuery).inSingl
 vault.bind<StatsOutlineAJAXQuery>(TYPE.StatsOutlineAJAXQuery).to(StatsOutlineAJAXQuery).inSingletonScope();
 vault.bind<StatsAJAXQuery>(TYPE.StatsAJAXQuery).to(StatsAJAXQuery).inSingletonScope();
 vault.bind<LocaleHeapQuery>(TYPE.LocaleHeapQuery).to(LocaleHeapQuery).inSingletonScope();
+vault.bind<LanguageVaultQuery>(TYPE.LanguageVaultQuery).to(LanguageVaultQuery).inSingletonScope();
 vault.bind<LocaleVaultQuery>(TYPE.LocaleVaultQuery).to(LocaleVaultQuery).inSingletonScope();
