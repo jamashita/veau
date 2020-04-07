@@ -21,6 +21,7 @@ export type DIType = {
   StatsValueQuery: symbol;
   LocaleAJAXQuery: symbol;
   SessionAJAXQuery: symbol;
+  StatsAJAXQuery: symbol;
   LocaleHeapQuery: symbol;
   AccountMySQLQuery: symbol;
   LanguageMySQLQuery: symbol;
@@ -57,6 +58,7 @@ export const TYPE: DIType = {
   StatsValueQuery: Symbol('StatsValueQuery'),
   LocaleAJAXQuery: Symbol('LocaleAJAXQuery'),
   SessionAJAXQuery: Symbol('SessionAJAXQuery'),
+  StatsAJAXQuery: Symbol('StatsAJAXQuery'),
   LocaleHeapQuery: Symbol('LocaleHeapQuery'),
   AccountMySQLQuery: Symbol('AccountMySQLQuery'),
   LanguageMySQLQuery: Symbol('LanguageMySQLQuery'),

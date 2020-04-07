@@ -1,4 +1,4 @@
-import { NOT_FOUND, OK } from 'http-status';
+import { NO_CONTENT, OK } from 'http-status';
 import { inject, injectable } from 'inversify';
 import { TYPE } from '../../veau-container/Types';
 import { Stats, StatsJSON } from '../../veau-entity/Stats';
@@ -25,7 +25,7 @@ export class StatsQuery implements IStatsQuery, IAJAXQuery {
   }
 
   public async findByStatsID(statsID: StatsID): Promise<Try<Stats, StatsError | NotFoundError | DataSourceError>> {
-    const response: AJAXResponse<StatsJSON> = await his.ajax.get<StatsJSON>(`/api/stats/${statsID.get()}`);
+    const response: AJAXResponse<StatsJSON> = await this.ajax.get<StatsJSON>(`/api/stats/${statsID.get()}`);
     const {
       status,
       body
@@ -35,8 +35,7 @@ export class StatsQuery implements IStatsQuery, IAJAXQuery {
       case OK: {
         return Stats.ofJSON(body);
       }
-      // TODO NOT FOUND ? NO CONTENT ?
-      case NOT_FOUND: {
+      case NO_CONTENT: {
         return Failure.of<Stats, NotFoundError>(new NotFoundError('NOT FOUND'));
       }
       default: {

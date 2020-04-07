@@ -18,6 +18,7 @@ import { StatsInteractor } from '../veau-interactor/StatsInteractor';
 import { AccountQuery } from '../veau-query/AccountQuery';
 import { LocaleQuery as LocaleAJAXQuery } from '../veau-query/AJAX/LocaleQuery';
 import { SessionQuery as SessionAJAXQuery } from '../veau-query/AJAX/SessionQuery';
+import { StatsQuery as StatsAJAXQuery } from '../veau-query/AJAX/StatsQuery';
 import { LocaleQuery as LocaleHeapQuery } from '../veau-query/Heap/LocaleQuery';
 import { LanguageQuery } from '../veau-query/LanguageQuery';
 import { AccountQuery as AccountMySQLQuery } from '../veau-query/MySQL/AccountQuery';
@@ -72,5 +73,6 @@ vault.bind<StatsAJAXCommand>(TYPE.StatsAJAXCommand).to(StatsAJAXCommand).inSingl
 vault.bind<LocaleHeapCommand>(TYPE.LocaleHeapCommand).to(LocaleHeapCommand).inSingletonScope();
 vault.bind<LocaleAJAXQuery>(TYPE.LocaleAJAXQuery).to(LocaleAJAXQuery).inSingletonScope();
 vault.bind<SessionAJAXQuery>(TYPE.SessionAJAXQuery).to(SessionAJAXQuery).inSingletonScope();
+vault.bind<StatsAJAXQuery>(TYPE.StatsAJAXQuery).to(StatsAJAXQuery).inSingletonScope();
 vault.bind<LocaleHeapQuery>(TYPE.LocaleHeapQuery).to(LocaleHeapQuery).inSingletonScope();
 vault.bind<LocaleVaultQuery>(TYPE.LocaleVaultQuery).to(LocaleVaultQuery).inSingletonScope();
