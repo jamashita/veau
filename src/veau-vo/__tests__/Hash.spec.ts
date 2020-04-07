@@ -1,4 +1,3 @@
-import 'jest';
 import { Hash } from '../Hash';
 
 describe('Hash', () => {

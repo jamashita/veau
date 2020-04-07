@@ -1,4 +1,3 @@
-import 'jest';
 import sinon, { SinonSpy } from 'sinon';
 import { StatsValueError } from '../../veau-error/StatsValueError';
 import { StatsValuesError } from '../../veau-error/StatsValuesError';

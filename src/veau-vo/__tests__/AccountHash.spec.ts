@@ -1,4 +1,3 @@
-import 'jest';
 import { AccountHash } from '../AccountHash';
 import { Hash } from '../Hash';
 import { VeauAccountID } from '../VeauAccountID';

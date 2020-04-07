@@ -1,4 +1,3 @@
-import 'jest';
 import { JSONA } from '../JSONA';
 
 describe('JSONA', () => {

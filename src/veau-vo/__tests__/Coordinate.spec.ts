@@ -1,4 +1,3 @@
-import 'jest';
 import { Column } from '../Column';
 import { Coordinate } from '../Coordinate';
 import { Row } from '../Row';

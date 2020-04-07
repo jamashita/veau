@@ -1,4 +1,3 @@
-import 'jest';
 import { None } from '../../veau-general/Optional/None';
 import { AsOf } from '../AsOf';
 import { AsOfs } from '../AsOfs';

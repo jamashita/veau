@@ -1,4 +1,3 @@
-import 'jest';
 import sinon, { SinonSpy } from 'sinon';
 import { OffsetError } from '../../veau-error/OffsetError';
 import { Try } from '../../veau-general/Try/Try';

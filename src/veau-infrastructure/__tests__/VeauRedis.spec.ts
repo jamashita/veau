@@ -1,4 +1,3 @@
-import 'jest';
 import 'reflect-metadata';
 import { kernel } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';

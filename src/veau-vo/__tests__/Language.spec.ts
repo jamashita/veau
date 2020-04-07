@@ -1,4 +1,3 @@
-import 'jest';
 import { ISO639 } from '../ISO639';
 import { Language, LanguageJSON, LanguageRow } from '../Language';
 import { LanguageID } from '../LanguageID';

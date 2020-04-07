@@ -1,4 +1,3 @@
-import 'jest';
 import { LanguageIdentificationService } from '../LanguageIdentificationService';
 
 describe('LanguageIdentificationService', () => {

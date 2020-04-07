@@ -1,4 +1,3 @@
-import 'jest';
 import { None } from '../../veau-general/Optional/None';
 import { ISO3166 } from '../ISO3166';
 import { Region, RegionJSON, RegionRow } from '../Region';

@@ -1,4 +1,3 @@
-import 'jest';
 import { Type } from '../Type';
 
 describe('Type', () => {

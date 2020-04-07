@@ -1,5 +1,5 @@
 import { INTERNAL_SERVER_ERROR, NO_CONTENT, OK } from 'http-status';
-import 'jest';
+
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { Stats } from '../../../veau-entity/Stats';
 import { AJAXError } from '../../../veau-general/AJAX/AJAXError';

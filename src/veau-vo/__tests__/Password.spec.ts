@@ -1,4 +1,3 @@
-import 'jest';
 import { Password } from '../Password';
 
 describe('Password', () => {

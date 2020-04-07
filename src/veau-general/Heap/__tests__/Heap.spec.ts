@@ -1,4 +1,3 @@
-import 'jest';
 import { Heap } from '../Heap';
 import { HeapError } from '../HeapError';
 

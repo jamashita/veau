@@ -1,4 +1,3 @@
-import 'jest';
 import { StatsName } from '../StatsName';
 
 describe('StatsName', () => {

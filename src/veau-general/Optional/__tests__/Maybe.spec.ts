@@ -1,4 +1,3 @@
-import 'jest';
 import { maybe } from '../Maybe';
 import { MockNominative } from '../MockNominative';
 import { None } from '../None';

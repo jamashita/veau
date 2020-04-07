@@ -1,4 +1,3 @@
-import 'jest';
 import { LanguageID } from '../LanguageID';
 
 describe('LanguageID', () => {

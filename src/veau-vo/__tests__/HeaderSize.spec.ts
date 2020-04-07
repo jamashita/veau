@@ -1,4 +1,3 @@
-import 'jest';
 import sinon, { SinonSpy } from 'sinon';
 import { HeaderSizeError } from '../../veau-error/HeaderSizeError';
 import { Try } from '../../veau-general/Try/Try';

@@ -1,4 +1,3 @@
-import 'jest';
 import sinon, { SinonSpy } from 'sinon';
 import { AccountError } from '../../veau-error/AccountError';
 import { Try } from '../../veau-general/Try/Try';

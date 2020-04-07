@@ -1,4 +1,3 @@
-import 'jest';
 import { ISO3166 } from '../ISO3166';
 import { ISO639 } from '../ISO639';
 import { Language, LanguageJSON } from '../Language';

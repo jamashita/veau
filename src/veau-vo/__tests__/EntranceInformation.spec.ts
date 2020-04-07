@@ -1,4 +1,3 @@
-import 'jest';
 import { AccountName } from '../AccountName';
 import { EntranceInformation } from '../EntranceInformation';
 import { Password } from '../Password';

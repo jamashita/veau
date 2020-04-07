@@ -1,4 +1,3 @@
-import 'jest';
 import { StatsOutlinesError } from '../../veau-error/StatsOutlinesError';
 import { None } from '../../veau-general/Optional/None';
 import { Try } from '../../veau-general/Try/Try';

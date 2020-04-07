@@ -1,4 +1,3 @@
-import 'jest';
 import { NumericalValue } from '../NumericalValue';
 
 describe('NumericalValue', () => {

@@ -1,4 +1,3 @@
-import 'jest';
 import sinon, { SinonSpy } from 'sinon';
 import { ColumnError } from '../../veau-error/ColumnError';
 import { Try } from '../../veau-general/Try/Try';

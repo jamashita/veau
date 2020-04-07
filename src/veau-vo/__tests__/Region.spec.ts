@@ -1,4 +1,3 @@
-import 'jest';
 import { ISO3166 } from '../ISO3166';
 import { Region, RegionJSON, RegionRow } from '../Region';
 import { RegionID } from '../RegionID';

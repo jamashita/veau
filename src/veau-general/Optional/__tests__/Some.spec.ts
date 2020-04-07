@@ -1,4 +1,3 @@
-import 'jest';
 import sinon, { SinonSpy } from 'sinon';
 import { Try } from '../../Try/Try';
 import { MockNominative } from '../MockNominative';

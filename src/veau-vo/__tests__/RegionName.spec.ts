@@ -1,4 +1,3 @@
-import 'jest';
 import { RegionName } from '../RegionName';
 
 describe('RegionName', () => {

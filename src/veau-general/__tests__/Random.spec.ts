@@ -1,4 +1,3 @@
-import 'jest';
 import { Random } from '../Random';
 
 describe('Random', () => {

@@ -1,7 +1,7 @@
 import bodyParser from 'body-parser';
 import express from 'express';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NO_CONTENT, OK } from 'http-status';
-import 'jest';
+
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';

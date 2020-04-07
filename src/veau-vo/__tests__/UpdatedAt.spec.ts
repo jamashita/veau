@@ -1,4 +1,3 @@
-import 'jest';
 import moment from 'moment';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { UpdatedAtError } from '../../veau-error/UpdatedAtError';

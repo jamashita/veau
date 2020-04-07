@@ -1,4 +1,3 @@
-import 'jest';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { Stats } from '../../../veau-entity/Stats';
 import { StatsItems } from '../../../veau-entity/StatsItems';

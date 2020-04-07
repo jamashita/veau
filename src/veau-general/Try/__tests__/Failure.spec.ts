@@ -1,4 +1,3 @@
-import 'jest';
 import sinon, { SinonSpy } from 'sinon';
 import { Failure } from '../Failure';
 import { MockError } from '../MockError';

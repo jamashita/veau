@@ -1,4 +1,3 @@
-import 'jest';
 import { UUID } from '../UUID';
 
 describe('UUID', () => {

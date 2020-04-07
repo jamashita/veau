@@ -1,6 +1,6 @@
 import express from 'express';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
-import 'jest';
+
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';

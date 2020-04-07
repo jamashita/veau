@@ -1,4 +1,3 @@
-import 'jest';
 import { None } from '../../veau-general/Optional/None';
 import { NumericalValue } from '../NumericalValue';
 import { NumericalValues } from '../NumericalValues';

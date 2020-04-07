@@ -1,4 +1,3 @@
-import 'jest';
 import { None } from '../../veau-general/Optional/None';
 import { StatsItemName } from '../StatsItemName';
 import { StatsItemNames } from '../StatsItemNames';

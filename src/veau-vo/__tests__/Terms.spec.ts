@@ -1,4 +1,3 @@
-import 'jest';
 import { None } from '../../veau-general/Optional/None';
 import { Term } from '../Term';
 import { Terms } from '../Terms';

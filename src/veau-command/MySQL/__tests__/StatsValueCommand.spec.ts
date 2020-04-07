@@ -1,4 +1,3 @@
-import 'jest';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { DataSourceError } from '../../../veau-general/DataSourceError';
 import { MockMySQLError } from '../../../veau-general/MySQL/mocks/MockMySQLError';

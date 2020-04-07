@@ -1,4 +1,3 @@
-import 'jest';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { RegionCommand } from '../../veau-command/RegionCommand';

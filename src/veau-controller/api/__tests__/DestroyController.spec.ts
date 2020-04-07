@@ -1,6 +1,6 @@
 import express from 'express';
 import { OK } from 'http-status';
-import 'jest';
+
 import supertest from 'supertest';
 import { DestroyController } from '../DestroyController';
 

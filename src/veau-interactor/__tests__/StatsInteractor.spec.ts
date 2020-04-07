@@ -1,4 +1,3 @@
-import 'jest';
 import moment from 'moment';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';

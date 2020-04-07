@@ -1,4 +1,3 @@
-import 'jest';
 import { NumericalValueError } from '../../veau-error/NumericalValueError';
 import { NoValue } from '../NoValue';
 import { NumericalValue } from '../NumericalValue';

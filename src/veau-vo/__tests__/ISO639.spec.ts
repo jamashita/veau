@@ -1,4 +1,3 @@
-import 'jest';
 import { ISO639 } from '../ISO639';
 
 describe('ISO639', () => {

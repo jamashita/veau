@@ -1,7 +1,7 @@
 import { SagaIterator } from '@redux-saga/types';
 import { all, call, Effect, fork, put, select, take } from 'redux-saga/effects';
 import { Stats } from '../../veau-entity/Stats';
-import { AJAXError } from '../../veau-error/AJAXError';
+import { AJAXError } from '../../veau-general/AJAX/AJAXError';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { StatsOutlinesError } from '../../veau-error/StatsOutlinesError';
 import { None } from '../../veau-general/Optional/None';
@@ -25,9 +25,9 @@ import { appearNotification } from '../actions/NotificationAction';
 import { pushToStatsEdit } from '../actions/RedirectAction';
 import { resetStatsOutlines, updateStatsOutlines } from '../actions/StatsAction';
 import { closeNewStatsModal, resetNewStats, updateNewStats } from '../actions/StatsListAction';
-import { StatsCommand } from '../commands/StatsCommand';
-import { LocaleQuery } from '../queries/LocaleQuery';
-import { StatsQuery } from '../queries/StatsQuery';
+import { StatsCommand } from '../../veau-command/AJAX/StatsCommand';
+import { LocaleQuery } from '../../veau-query/AJAX/LocaleQuery';
+import { StatsQuery } from '../../veau-query/AJAX/StatsQuery';
 import { State } from '../State';
 
 export class StatsListSaga {

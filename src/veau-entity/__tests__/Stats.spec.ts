@@ -1,4 +1,3 @@
-import 'jest';
 import { StatsError } from '../../veau-error/StatsError';
 import { None } from '../../veau-general/Optional/None';
 import { Some } from '../../veau-general/Optional/Some';

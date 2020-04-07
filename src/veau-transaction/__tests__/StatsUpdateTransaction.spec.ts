@@ -1,4 +1,3 @@
-import 'jest';
 import moment from 'moment';
 import sinon, { SinonSpy } from 'sinon';
 import { StatsCommand } from '../../veau-command/MySQL/StatsCommand';
