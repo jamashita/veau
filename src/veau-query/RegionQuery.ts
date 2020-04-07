@@ -2,6 +2,7 @@ import { inject, injectable } from 'inversify';
 import { IRegionCommand } from '../veau-command/interfaces/IRegionCommand';
 import { TYPE } from '../veau-container/Types';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
+import { DataSourceError } from '../veau-general/DataSourceError';
 import { Failure } from '../veau-general/Try/Failure';
 import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
@@ -27,28 +28,29 @@ export class RegionQuery implements IRegionQuery {
     this.regionCommand = regionCommand;
   }
 
-  public async all(): Promise<Try<Regions, NoSuchElementError>> {
-    const trial1: Try<Regions, NoSuchElementError> = await this.regionRedisQuery.all();
+  // TODO handling DataSourceError
+  public async all(): Promise<Try<Regions, NoSuchElementError | DataSourceError>> {
+    const trial1: Try<Regions, NoSuchElementError | DataSourceError> = await this.regionRedisQuery.all();
 
-    return trial1.match<Promise<Try<Regions, NoSuchElementError>>>((regions: Regions) => {
+    return trial1.match<Promise<Try<Regions, NoSuchElementError | DataSourceError>>>((regions: Regions) => {
       return Promise.resolve<Success<Regions, NoSuchElementError>>(Success.of<Regions, NoSuchElementError>(regions));
     }, async () => {
-      const trial2: Try<Regions, NoSuchElementError> = await this.regionMySQLQuery.all();
+      const trial2: Try<Regions, NoSuchElementError | DataSourceError> = await this.regionMySQLQuery.all();
 
-      return trial2.match<Promise<Try<Regions, NoSuchElementError>>>(async (regions: Regions) => {
+      return trial2.match<Promise<Try<Regions, NoSuchElementError | DataSourceError>>>(async (regions: Regions) => {
         await this.regionCommand.insertAll(regions);
 
         return Success.of<Regions, NoSuchElementError>(regions);
-      }, (err: NoSuchElementError) => {
-        return Promise.resolve<Failure<Regions, NoSuchElementError>>(Failure.of<Regions, NoSuchElementError>(err));
+      }, (err: NoSuchElementError | DataSourceError) => {
+        return Promise.resolve<Failure<Regions, NoSuchElementError | DataSourceError>>(Failure.of<Regions, NoSuchElementError | DataSourceError>(err));
       });
     });
   }
 
-  public async findByISO3166(iso3166: ISO3166): Promise<Try<Region, NoSuchElementError>> {
-    const trial: Try<Regions, NoSuchElementError> = await this.all();
+  public async findByISO3166(iso3166: ISO3166): Promise<Try<Region, NoSuchElementError | DataSourceError>> {
+    const trial: Try<Regions, NoSuchElementError | DataSourceError> = await this.all();
 
-    return trial.match<Try<Region, NoSuchElementError>>((regions: Regions) => {
+    return trial.match<Try<Region, NoSuchElementError | DataSourceError>>((regions: Regions) => {
       const found: Region | undefined = regions.find((region: Region) => {
         return region.getISO3166().equals(iso3166);
       });
@@ -58,8 +60,8 @@ export class RegionQuery implements IRegionQuery {
       }
 
       return Success.of<Region, NoSuchElementError>(found);
-    }, (err: NoSuchElementError) => {
-      return Failure.of<Region, NoSuchElementError>(err);
+    }, (err: NoSuchElementError | DataSourceError) => {
+      return Failure.of<Region, NoSuchElementError | DataSourceError>(err);
     });
   }
 }

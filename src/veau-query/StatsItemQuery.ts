@@ -2,6 +2,7 @@ import { inject, injectable } from 'inversify';
 import { TYPE } from '../veau-container/Types';
 import { StatsItems } from '../veau-entity/StatsItems';
 import { StatsItemsError } from '../veau-error/StatsItemsError';
+import { DataSourceError } from '../veau-general/DataSourceError';
 import { Try } from '../veau-general/Try/Try';
 import { StatsID } from '../veau-vo/StatsID';
 import { IStatsItemQuery } from './interfaces/IStatsItemQuery';
@@ -16,7 +17,7 @@ export class StatsItemQuery implements IStatsItemQuery {
     this.statsItemQuery = statsItemQuery;
   }
 
-  public findByStatsID(statsID: StatsID): Promise<Try<StatsItems, StatsItemsError>> {
+  public findByStatsID(statsID: StatsID): Promise<Try<StatsItems, StatsItemsError | DataSourceError>> {
     return this.statsItemQuery.findByStatsID(statsID);
   }
 }

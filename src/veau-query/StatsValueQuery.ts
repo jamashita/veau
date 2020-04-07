@@ -1,6 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { TYPE } from '../veau-container/Types';
 import { StatsValuesError } from '../veau-error/StatsValuesError';
+import { DataSourceError } from '../veau-general/DataSourceError';
 import { Try } from '../veau-general/Try/Try';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValues } from '../veau-vo/StatsValues';
@@ -16,7 +17,7 @@ export class StatsValueQuery implements IStatsValueQuery {
     this.statsValueQuery = statsValueQuery;
   }
 
-  public findByStatsID(statsID: StatsID): Promise<Try<StatsValues, StatsValuesError>> {
+  public findByStatsID(statsID: StatsID): Promise<Try<StatsValues, StatsValuesError | DataSourceError>> {
     return this.statsValueQuery.findByStatsID(statsID);
   }
 }

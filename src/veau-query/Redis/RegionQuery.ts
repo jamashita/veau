@@ -1,6 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { TYPE } from '../../veau-container/Types';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { DataSourceError } from '../../veau-general/DataSourceError';
 import { JSONA } from '../../veau-general/JSONA';
 import { IRedis } from '../../veau-general/Redis/interfaces/IRedis';
 import { Failure } from '../../veau-general/Try/Failure';
@@ -23,7 +24,7 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
     this.redis = redis;
   }
 
-  public async all(): Promise<Try<Regions, NoSuchElementError>> {
+  public async all(): Promise<Try<Regions, NoSuchElementError | DataSourceError>> {
     const regionString: string | null = await this.redis.getString().get(REDIS_REGION_KEY);
 
     if (regionString === null) {
@@ -35,10 +36,10 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
     return Success.of<Regions, NoSuchElementError>(Regions.ofJSON(regionJSONs));
   }
 
-  public async findByISO3166(iso3166: ISO3166): Promise<Try<Region, NoSuchElementError>> {
-    const trial: Try<Regions, NoSuchElementError> = await this.all();
+  public async findByISO3166(iso3166: ISO3166): Promise<Try<Region, NoSuchElementError | DataSourceError>> {
+    const trial: Try<Regions, NoSuchElementError | DataSourceError> = await this.all();
 
-    return trial.match<Try<Region, NoSuchElementError>>((regions: Regions) => {
+    return trial.match<Try<Region, NoSuchElementError | DataSourceError>>((regions: Regions) => {
       const found: Region | undefined = regions.find((region: Region) => {
         return region.getISO3166().equals(iso3166);
       });
@@ -47,9 +48,9 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
         return Failure.of<Region, NoSuchElementError>(new NoSuchElementError(iso3166.toString()));
       }
 
-      return Success.of<Region, NoSuchElementError>(found);
-    }, (err: NoSuchElementError) => {
-      return Failure.of<Region, NoSuchElementError>(err);
+      return Success.of<Region, NoSuchElementError | DataSourceError>(found);
+    }, (err: NoSuchElementError | DataSourceError) => {
+      return Failure.of<Region, NoSuchElementError | DataSourceError>(err);
     });
   }
 }

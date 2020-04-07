@@ -1,6 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { TYPE } from '../../veau-container/Types';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { DataSourceError } from '../../veau-general/DataSourceError';
 import { JSONA } from '../../veau-general/JSONA';
 import { IRedis } from '../../veau-general/Redis/interfaces/IRedis';
 import { Failure } from '../../veau-general/Try/Failure';
@@ -23,7 +24,7 @@ export class LanguageQuery implements ILanguageQuery, IRedisQuery {
     this.redis = redis;
   }
 
-  public async all(): Promise<Try<Languages, NoSuchElementError>> {
+  public async all(): Promise<Try<Languages, NoSuchElementError | DataSourceError>> {
     const languagesString: string | null = await this.redis.getString().get(REDIS_LANGUAGE_KEY);
 
     if (languagesString === null) {
@@ -35,10 +36,10 @@ export class LanguageQuery implements ILanguageQuery, IRedisQuery {
     return Success.of<Languages, NoSuchElementError>(Languages.ofJSON(languageJSONs));
   }
 
-  public async findByISO639(iso639: ISO639): Promise<Try<Language, NoSuchElementError>> {
-    const trial: Try<Languages, NoSuchElementError> = await this.all();
+  public async findByISO639(iso639: ISO639): Promise<Try<Language, NoSuchElementError | DataSourceError>> {
+    const trial: Try<Languages, NoSuchElementError | DataSourceError> = await this.all();
 
-    return trial.match<Try<Language, NoSuchElementError>>((languages: Languages) => {
+    return trial.match<Try<Language, NoSuchElementError | DataSourceError>>((languages: Languages) => {
       const found: Language | undefined = languages.find((language: Language) => {
         return language.getISO639().equals(iso639);
       });
@@ -48,8 +49,8 @@ export class LanguageQuery implements ILanguageQuery, IRedisQuery {
       }
 
       return Success.of<Language, NoSuchElementError>(found);
-    }, (err: NoSuchElementError) => {
-      return Failure.of<Language, NoSuchElementError>(err);
+    }, (err: NoSuchElementError | DataSourceError) => {
+      return Failure.of<Language, NoSuchElementError | DataSourceError>(err);
     });
   }
 }

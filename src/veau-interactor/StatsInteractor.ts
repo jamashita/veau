@@ -6,6 +6,7 @@ import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { NotFoundError } from '../veau-error/NotFoundError';
 import { StatsError } from '../veau-error/StatsError';
 import { StatsOutlinesError } from '../veau-error/StatsOutlinesError';
+import { DataSourceError } from '../veau-general/DataSourceError';
 import { IMySQL } from '../veau-general/MySQL/interfaces/IMySQL';
 import { ITransaction } from '../veau-general/MySQL/interfaces/ITransaction';
 import { Failure } from '../veau-general/Try/Failure';
@@ -39,13 +40,14 @@ export class StatsInteractor implements IInteractor {
   }
 
   public async findByStatsID(statsID: StatsID): Promise<Try<Stats, NotFoundError | StatsError>> {
-    const trial: Try<Stats, NoSuchElementError | StatsError> = await this.statsQuery.findByStatsID(statsID);
+    const trial: Try<Stats, NoSuchElementError | StatsError | DataSourceError> = await this.statsQuery.findByStatsID(statsID);
 
     return trial.match<Try<Stats, NotFoundError | StatsError>>((stats: Stats) => {
       return Success.of<Stats, NotFoundError>(stats);
-    }, (err: NoSuchElementError | StatsError) => {
+    }, (err: NoSuchElementError | StatsError | DataSourceError) => {
       logger.error(err.message);
 
+      // TODO handling DataSourceError
       if (err instanceof StatsError) {
         return Failure.of<Stats, StatsError>(err);
       }
@@ -54,7 +56,7 @@ export class StatsInteractor implements IInteractor {
     });
   }
 
-  public findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Promise<Try<StatsOutlines, StatsOutlinesError>> {
+  public findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Promise<Try<StatsOutlines, StatsOutlinesError | DataSourceError>> {
     return this.statsOutlineQuery.findByVeauAccountID(veauAccountID, page.getLimit(), page.getOffset());
   }
 

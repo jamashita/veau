@@ -2,6 +2,7 @@ import { inject, injectable } from 'inversify';
 import { TYPE } from '../veau-container/Types';
 import { AccountError } from '../veau-error/AccountError';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';
+import { DataSourceError } from '../veau-general/DataSourceError';
 import { Try } from '../veau-general/Try/Try';
 import { Account } from '../veau-vo/Account';
 import { AccountName } from '../veau-vo/AccountName';
@@ -17,7 +18,7 @@ export class AccountQuery implements IAccountQuery {
     this.accountQuery = accountQuery;
   }
 
-  public findByAccount(account: AccountName): Promise<Try<Account, NoSuchElementError | AccountError>> {
+  public findByAccount(account: AccountName): Promise<Try<Account, NoSuchElementError | AccountError | DataSourceError>> {
     return this.accountQuery.findByAccount(account);
   }
 }
