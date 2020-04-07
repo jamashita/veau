@@ -5,7 +5,7 @@ import { TYPE } from '../../veau-container/Types';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
-import { AccountQuery } from '../../veau-query/MySQL/AccountQuery';
+import { MockAccountQuery } from '../../veau-query/Mock/MockAccountQuery';
 import { Account } from '../../veau-vo/Account';
 import { AccountName } from '../../veau-vo/AccountName';
 import { Hash } from '../../veau-vo/Hash';
@@ -33,64 +33,86 @@ describe('AuthenticationInteractor', () => {
   });
 
   describe('review', () => {
-    it('name not found', (done) => {
-      const name: string = 'dummy name';
-      const password: string = 'dummy password';
-
-      const stub1: SinonStub = sinon.stub();
-      AccountQuery.prototype.findByAccount = stub1;
-      stub1.resolves(Failure.of<Account, NoSuchElementError>(new NoSuchElementError(name)));
-      const stub2: SinonStub = sinon.stub();
-      Account.prototype.verify = stub2;
-      stub2.resolves(true);
-
-      const authenticationInteractor: AuthenticationInteractor = kernel.get<AuthenticationInteractor>(TYPE.AuthenticationInteractor);
-      authenticationInteractor.review()(name, password, (err: unknown, ret: unknown) => {
-        expect(err).toEqual(null);
-        expect(ret).toEqual(false);
-        done();
-      });
-    });
-
-    it('Digest.compare returns false', (done) => {
-      const name: string = 'dummy name';
-      const password: string = 'dummy password';
-
-      const stub1: SinonStub = sinon.stub();
-      AccountQuery.prototype.findByAccount = stub1;
-      const account: Account = Account.of(VeauAccountID.of('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9').get(), AccountName.of('veau'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')), Hash.of('hash 1'));
-      stub1.resolves(Success.of<Account, NoSuchElementError>(account));
-      const stub2: SinonStub = sinon.stub();
-      Account.prototype.verify = stub2;
-      stub2.resolves(false);
-
-      const authenticationInteractor: AuthenticationInteractor = kernel.get<AuthenticationInteractor>(TYPE.AuthenticationInteractor);
-      authenticationInteractor.review()(name, password, (err: unknown, ret: unknown) => {
-        expect(err).toEqual(null);
-        expect(ret).toEqual(false);
-        done();
-      });
-    });
-
     it('normal case', (done) => {
       const name: string = 'dummy name';
       const password: string = 'dummy password';
+      const account: Account = Account.of(
+        VeauAccountID.of('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9').get(),
+        AccountName.of('veau'),
+        Language.of(LanguageID.of(1),
+          LanguageName.of('аҧсуа бызшәа'),
+          LanguageName.of('Abkhazian'),
+          ISO639.of('ab')),
+        Region.of(RegionID.of(1),
+          RegionName.of('Afghanistan'),
+          ISO3166.of('AFG')),
+        Hash.of('hash 1')
+      );
 
+      const accountQuery: MockAccountQuery = new MockAccountQuery();
       const stub1: SinonStub = sinon.stub();
-      AccountQuery.prototype.findByAccount = stub1;
-      const account: Account = Account.of(VeauAccountID.of('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9').get(), AccountName.of('veau'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')), Hash.of('hash 1'));
+      accountQuery.findByAccount = stub1;
       stub1.resolves(Success.of<Account, NoSuchElementError>(account));
       const stub2: SinonStub = sinon.stub();
-      Account.prototype.verify = stub2;
+      account.verify = stub2;
       stub2.resolves(true);
 
-      const authenticationInteractor: AuthenticationInteractor = kernel.get<AuthenticationInteractor>(TYPE.AuthenticationInteractor);
+      const authenticationInteractor: AuthenticationInteractor = new AuthenticationInteractor(accountQuery);
       authenticationInteractor.review()(name, password, (err: unknown, ret: VeauAccount) => {
         expect(err).toEqual(null);
         expect(ret.getVeauAccountID()).toEqual(account.getVeauAccountID());
         expect(ret.getAccount()).toEqual(account.getAccount());
         expect(ret.getLanguage()).toEqual(account.getLanguage());
         expect(ret.getRegion()).toEqual(account.getRegion());
+        done();
+      });
+    });
+
+    it('name not found', (done) => {
+      const name: string = 'dummy name';
+      const password: string = 'dummy password';
+
+      const accountQuery: MockAccountQuery = new MockAccountQuery();
+      const stub: SinonStub = sinon.stub();
+      accountQuery.findByAccount = stub;
+      stub.resolves(Failure.of<Account, NoSuchElementError>(new NoSuchElementError('test failed')));
+
+      const authenticationInteractor: AuthenticationInteractor = new AuthenticationInteractor(accountQuery);
+      authenticationInteractor.review()(name, password, (err: unknown, ret: unknown) => {
+        expect(err).toEqual(null);
+        expect(ret).toEqual(false);
+        done();
+      });
+    });
+
+    it('Account.verify returns false', (done) => {
+      const name: string = 'dummy name';
+      const password: string = 'dummy password';
+      const account: Account = Account.of(
+        VeauAccountID.of('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9').get(),
+        AccountName.of('veau'),
+        Language.of(LanguageID.of(1),
+          LanguageName.of('аҧсуа бызшәа'),
+          LanguageName.of('Abkhazian'),
+          ISO639.of('ab')),
+        Region.of(RegionID.of(1),
+          RegionName.of('Afghanistan'),
+          ISO3166.of('AFG')),
+        Hash.of('hash 1')
+      );
+
+      const accountQuery: MockAccountQuery = new MockAccountQuery();
+      const stub1: SinonStub = sinon.stub();
+      accountQuery.findByAccount = stub1;
+      stub1.resolves(Success.of<Account, NoSuchElementError>(account));
+      const stub2: SinonStub = sinon.stub();
+      account.verify = stub2;
+      stub2.resolves(false);
+
+      const authenticationInteractor: AuthenticationInteractor = new AuthenticationInteractor(accountQuery);
+      authenticationInteractor.review()(name, password, (err: unknown, ret: unknown) => {
+        expect(err).toEqual(null);
+        expect(ret).toEqual(false);
         done();
       });
     });

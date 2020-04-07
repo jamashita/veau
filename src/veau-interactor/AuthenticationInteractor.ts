@@ -36,7 +36,7 @@ export class AuthenticationInteractor implements IInteractor {
 
         const trial: Try<Account, NoSuchElementError | AccountError | DataSourceError> = await this.accountQuery.findByAccount(accountName);
 
-        await trial.match<Promise<void>>(async (account: Account) => {
+        return trial.match<Promise<void>>(async (account: Account) => {
           const correct: boolean = await account.verify(password);
 
           if (correct) {

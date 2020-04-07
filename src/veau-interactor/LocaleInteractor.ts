@@ -34,7 +34,7 @@ export class LocaleInteractor implements IInteractor {
     this.regionCommand = regionCommand;
   }
 
-  public async all(): Promise<Try<Locale, NoSuchElementError>> {
+  public async all(): Promise<Try<Locale, NoSuchElementError | DataSourceError>> {
     const trials: [
       Try<Languages, NoSuchElementError | DataSourceError>,
       Try<Regions, NoSuchElementError | DataSourceError>
@@ -43,34 +43,34 @@ export class LocaleInteractor implements IInteractor {
       this.regionQuery.all()
     ]);
 
-    return trials[0].match<Try<Locale, NoSuchElementError>>((languages: Languages) => {
-      return trials[1].match<Try<Locale, NoSuchElementError>>((regions: Regions) => {
-        return Success.of<Locale, NoSuchElementError>(Locale.of(languages, regions));
+    return trials[0].match<Try<Locale, NoSuchElementError | DataSourceError>>((languages: Languages) => {
+      return trials[1].match<Try<Locale, NoSuchElementError | DataSourceError>>((regions: Regions) => {
+        return Success.of<Locale, DataSourceError>(Locale.of(languages, regions));
       }, (err: NoSuchElementError | DataSourceError) => {
-        // TODO SourceError
-        // return Failure.of<Locale, NoSuchElementError>(err);
-        return Failure.of<Locale, NoSuchElementError>(new NoSuchElementError('temporary error avoiding'));
+        return Failure.of<Locale, NoSuchElementError | DataSourceError>(err);
       });
     }, (err: NoSuchElementError | DataSourceError) => {
-      // TODO SourceError
-      // return Failure.of<Locale, NoSuchElementError>(err);
-      return Failure.of<Locale, NoSuchElementError>(new NoSuchElementError('temporary error avoiding'));
+      return Failure.of<Locale, NoSuchElementError | DataSourceError>(err);
     });
   }
 
   public async delete(): Promise<Try<void, CacheError | DataSourceError>> {
-    const trials: [Try<void, CacheError | DataSourceError>, Try<void, CacheError | DataSourceError>] = await Promise.all([
+    const trials: [
+      Try<void, CacheError | DataSourceError>,
+      Try<void, CacheError | DataSourceError>
+    ] = await Promise.all([
       this.languageCommand.deleteAll(),
       this.regionCommand.deleteAll()
     ]);
 
-    if (trials[0].isFailure()) {
-      return trials[0];
-    }
-    if (trials[1].isFailure()) {
-      return trials[1];
-    }
-
-    return Success.of<void, CacheError>(undefined);
+    return trials[0].match<Try<void, CacheError | DataSourceError>>(() => {
+      return trials[1].match<Try<void, CacheError | DataSourceError>>(() => {
+        return Success.of<void, DataSourceError>(undefined);
+      }, (err: CacheError | DataSourceError) => {
+        return Failure.of<void, CacheError | DataSourceError>(err);
+      });
+    }, (err: CacheError | DataSourceError) => {
+      return Failure.of<void, CacheError | DataSourceError>(err);
+    });
   }
 }
