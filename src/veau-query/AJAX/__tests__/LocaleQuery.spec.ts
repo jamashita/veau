@@ -71,7 +71,7 @@ describe('LocaleQuery', () => {
       }
     });
 
-    it('returns Failure when AJX call doesn\'t return OK', async () => {
+    it('returns Failure when AJAX call doesn\'t return OK', async () => {
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
       ajax.get = stub;
