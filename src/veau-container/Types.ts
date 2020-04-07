@@ -31,6 +31,7 @@ export type DIType = {
   StatsValueMySQLQuery: symbol;
   LanguageRedisQuery: symbol;
   RegionRedisQuery: symbol;
+  LocaleVaultQuery: symbol;
 };
 
 export const TYPE: DIType = {
@@ -65,5 +66,6 @@ export const TYPE: DIType = {
   StatsMySQLQuery: Symbol('StatsMySQLQuery'),
   StatsValueMySQLQuery: Symbol('StatsValueMySQLQuery'),
   LanguageRedisQuery: Symbol('LanguageRedisQuery'),
-  RegionRedisQuery: Symbol('RegionRedisQuery')
+  RegionRedisQuery: Symbol('RegionRedisQuery'),
+  LocaleVaultQuery: Symbol('LocaleVaultQuery')
 };

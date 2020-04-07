@@ -34,6 +34,7 @@ import { StatsItemQuery } from '../veau-query/StatsItemQuery';
 import { StatsOutlineQuery } from '../veau-query/StatsOutlineQuery';
 import { StatsQuery } from '../veau-query/StatsQuery';
 import { StatsValueQuery } from '../veau-query/StatsValueQuery';
+import { LocaleQuery as LocaleVaultQuery } from '../veau-query/Vault/LocaleQuery';
 import { TYPE } from './Types';
 
 export const kernel: Container = new Container();
@@ -72,3 +73,4 @@ vault.bind<LocaleHeapCommand>(TYPE.LocaleHeapCommand).to(LocaleHeapCommand).inSi
 vault.bind<LocaleAJAXQuery>(TYPE.LocaleAJAXQuery).to(LocaleAJAXQuery).inSingletonScope();
 vault.bind<SessionAJAXQuery>(TYPE.SessionAJAXQuery).to(SessionAJAXQuery).inSingletonScope();
 vault.bind<LocaleHeapQuery>(TYPE.LocaleHeapQuery).to(LocaleHeapQuery).inSingletonScope();
+vault.bind<LocaleVaultQuery>(TYPE.LocaleVaultQuery).to(LocaleVaultQuery).inSingletonScope();
