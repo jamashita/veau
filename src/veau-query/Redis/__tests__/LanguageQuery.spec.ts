@@ -81,8 +81,7 @@ describe('LanguageQuery', () => {
       const trial: Try<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
 
       expect(trial.isSuccess()).toEqual(true);
-      const languages: Languages = trial.get();
-      expect(languages.size()).toEqual(json.length);
+      expect(trial.get().size()).toEqual(json.length);
     });
 
     it('returns Failure when Redis returns null', async () => {

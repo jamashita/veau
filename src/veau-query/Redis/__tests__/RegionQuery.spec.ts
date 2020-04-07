@@ -4,10 +4,13 @@ import { kernel } from '../../../veau-container/Container';
 import { TYPE } from '../../../veau-container/Types';
 import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
 import { DataSourceError } from '../../../veau-general/DataSourceError';
-import { RedisString } from '../../../veau-general/Redis/RedisString';
+import { MockRedisError } from '../../../veau-general/Redis/MockRedisError';
+import { MockRedis } from '../../../veau-general/Redis/mocks/MockRedis';
+import { MockRedisString } from '../../../veau-general/Redis/mocks/MockRedisString';
 import { Try } from '../../../veau-general/Try/Try';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
-import { Region } from '../../../veau-vo/Region';
+import { LanguageJSON } from '../../../veau-vo/Language';
+import { Region, RegionJSON } from '../../../veau-vo/Region';
 import { Regions } from '../../../veau-vo/Regions';
 import { RegionQuery } from '../RegionQuery';
 
@@ -23,33 +26,74 @@ describe('RegionQuery', () => {
   });
 
   describe('all', () => {
-    it('Redis returns regions', async () => {
-      const stub: SinonStub = sinon.stub();
-      RedisString.prototype.get = stub;
-      stub.resolves('[{"regionID":1,"name":"Afghanistan","iso3166":"AFG"},{"regionID":2,"name":"Albania","iso3166":"ALB"}]');
+    it('normal case', async () => {
+      const json: Array<RegionJSON> = [
+        {
+          regionID: 1,
+          name: 'Afghanistan',
+          iso3166: 'AFG'
+        },
+        {
+          regionID: 2,
+          name: 'Albania',
+          iso3166: 'ALB'
+        }
+      ];
+      const jsonStr: string = JSON.stringify(json);
 
-      const regionQuery: RegionQuery = kernel.get<RegionQuery>(TYPE.RegionRedisQuery);
+      const string: MockRedisString = new MockRedisString();
+      const stub: SinonStub = sinon.stub();
+      string.get = stub;
+      stub.resolves(jsonStr);
+      const redis: MockRedis = MockRedis.of({
+        string
+      });
+
+      const regionQuery: RegionQuery = new RegionQuery(redis);
       const trial: Try<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
       expect(trial.isSuccess()).toEqual(true);
       const regions: Regions = trial.get();
-      expect(regions.size()).toEqual(2);
-      expect(regions.get(0).get().getRegionID().get()).toEqual(1);
-      expect(regions.get(0).get().getName().get()).toEqual('Afghanistan');
-      expect(regions.get(0).get().getISO3166().get()).toEqual('AFG');
-      expect(regions.get(1).get().getRegionID().get()).toEqual(2);
-      expect(regions.get(1).get().getName().get()).toEqual('Albania');
-      expect(regions.get(1).get().getISO3166().get()).toEqual('ALB');
+      expect(regions.size()).toEqual(json.length);
+      for (let i: number = 0; i < regions.size(); i++) {
+        expect(regions.get(i).get().getRegionID().get()).toEqual(json[i].regionID);
+        expect(regions.get(i).get().getName().get()).toEqual(json[i].name);
+        expect(regions.get(i).get().getISO3166().get()).toEqual(json[i].iso3166);
+      }
     });
 
-    it('returns empty Regions when Redis returns null', async () => {
+    it('Redis returns empty array', async () => {
+      const json: Array<LanguageJSON> = [
+      ];
+      const jsonStr: string = JSON.stringify(json);
+
+      const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
-      RedisString.prototype.get = stub;
+      string.get = stub;
+      stub.resolves(jsonStr);
+      const redis: MockRedis = MockRedis.of({
+        string
+      });
+
+      const regionQuery: RegionQuery = new RegionQuery(redis);
+      const trial: Try<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
+
+      expect(trial.isSuccess()).toEqual(true);
+      expect(trial.get().size()).toEqual(json.length);
+    });
+
+    it('returns Failure when Redis returns null', async () => {
+      const string: MockRedisString = new MockRedisString();
+      const stub: SinonStub = sinon.stub();
+      string.get = stub;
       stub.resolves(null);
+      const redis: MockRedis = MockRedis.of({
+        string
+      });
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const regionQuery: RegionQuery = kernel.get<RegionQuery>(TYPE.RegionRedisQuery);
+      const regionQuery: RegionQuery = new RegionQuery(redis);
       const trial: Try<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
       expect(trial.isFailure()).toEqual(true);
@@ -59,6 +103,59 @@ describe('RegionQuery', () => {
         spy2();
         expect(err).toBeInstanceOf(NoSuchElementError);
       });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('Redis returns RedisError', async () => {
+      const string: MockRedisString = new MockRedisString();
+      const stub: SinonStub = sinon.stub();
+      string.get = stub;
+      stub.rejects(new MockRedisError());
+      const redis: MockRedis = MockRedis.of({
+        string
+      });
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const regionQuery: RegionQuery = new RegionQuery(redis);
+      const trial: Try<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (err: NoSuchElementError | DataSourceError) => {
+        spy2();
+        expect(err).toBeInstanceOf(DataSourceError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('throws Error', async () => {
+      const error: Error = new Error();
+
+      const string: MockRedisString = new MockRedisString();
+      const stub: SinonStub = sinon.stub();
+      string.get = stub;
+      stub.rejects(error);
+      const redis: MockRedis = MockRedis.of({
+        string
+      });
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const regionQuery: RegionQuery = new RegionQuery(redis);
+      try {
+        await regionQuery.all();
+        spy1();
+      }
+      catch (err) {
+        spy2();
+        expect(err).toBe(error);
+      }
 
       expect(spy1.called).toEqual(false);
       expect(spy2.called).toEqual(true);
@@ -67,28 +164,54 @@ describe('RegionQuery', () => {
 
   describe('findByISO3166', () => {
     it('normal case', async () => {
-      const stub: SinonStub = sinon.stub();
-      RedisString.prototype.get = stub;
-      stub.resolves('[{"regionID":1,"name":"Afghanistan","iso3166":"AFG"},{"regionID":2,"name":"Albania","iso3166":"ALB"}]');
+      const json: Array<RegionJSON> = [
+        {
+          regionID: 1,
+          name: 'Afghanistan',
+          iso3166: 'AFG'
+        },
+        {
+          regionID: 2,
+          name: 'Albania',
+          iso3166: 'ALB'
+        }
+      ];
+      const jsonStr: string = JSON.stringify(json);
 
-      const regionQuery: RegionQuery = kernel.get<RegionQuery>(TYPE.RegionRedisQuery);
+      const string: MockRedisString = new MockRedisString();
+      const stub: SinonStub = sinon.stub();
+      string.get = stub;
+      stub.resolves(jsonStr);
+      const redis: MockRedis = MockRedis.of({
+        string
+      });
+
+      const regionQuery: RegionQuery = new RegionQuery(redis);
       const trial: Try<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(trial.isSuccess()).toEqual(true);
       const region: Region = trial.get();
-      expect(region.getRegionID().get()).toEqual(2);
-      expect(region.getName().get()).toEqual('Albania');
-      expect(region.getISO3166().get()).toEqual('ALB');
+      expect(region.getRegionID().get()).toEqual(json[1].regionID);
+      expect(region.getName().get()).toEqual(json[1].name);
+      expect(region.getISO3166().get()).toEqual(json[1].iso3166);
     });
 
     it('Redis returns empty array', async () => {
+      const json: Array<RegionJSON> = [
+      ];
+      const jsonStr: string = JSON.stringify(json);
+
+      const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
-      RedisString.prototype.get = stub;
-      stub.resolves('[]');
+      string.get = stub;
+      stub.resolves(jsonStr);
+      const redis: MockRedis = MockRedis.of({
+        string
+      });
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const regionQuery: RegionQuery = kernel.get<RegionQuery>(TYPE.RegionRedisQuery);
+      const regionQuery: RegionQuery = new RegionQuery(redis);
       const trial: Try<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(trial.isFailure()).toEqual(true);
@@ -103,14 +226,18 @@ describe('RegionQuery', () => {
       expect(spy2.called).toEqual(true);
     });
 
-    it('Redis returns null', async () => {
+    it('returns Failure because Redis returns null', async () => {
+      const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
-      RedisString.prototype.get = stub;
+      string.get = stub;
       stub.resolves(null);
+      const redis: MockRedis = MockRedis.of({
+        string
+      });
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const regionQuery: RegionQuery = kernel.get<RegionQuery>(TYPE.RegionRedisQuery);
+      const regionQuery: RegionQuery = new RegionQuery(redis);
       const trial: Try<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(trial.isFailure()).toEqual(true);
@@ -120,6 +247,99 @@ describe('RegionQuery', () => {
         spy2();
         expect(err).toBeInstanceOf(NoSuchElementError);
       });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('no match results', async () => {
+      const json: Array<RegionJSON> = [
+        {
+          regionID: 1,
+          name: 'Afghanistan',
+          iso3166: 'AFG'
+        },
+        {
+          regionID: 2,
+          name: 'Albania',
+          iso3166: 'ALB'
+        }
+      ];
+      const jsonStr: string = JSON.stringify(json);
+
+      const string: MockRedisString = new MockRedisString();
+      const stub: SinonStub = sinon.stub();
+      string.get = stub;
+      stub.resolves(jsonStr);
+      const redis: MockRedis = MockRedis.of({
+        string
+      });
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const regionQuery: RegionQuery = new RegionQuery(redis);
+      const trial: Try<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('OOP'));
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (err: NoSuchElementError | DataSourceError) => {
+        spy2();
+        expect(err).toBeInstanceOf(NoSuchElementError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('Redis returns RedisError', async () => {
+      const string: MockRedisString = new MockRedisString();
+      const stub: SinonStub = sinon.stub();
+      string.get = stub;
+      stub.rejects(new MockRedisError());
+      const redis: MockRedis = MockRedis.of({
+        string
+      });
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const regionQuery: RegionQuery = new RegionQuery(redis);
+      const trial: Try<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (err: NoSuchElementError | DataSourceError) => {
+        spy2();
+        expect(err).toBeInstanceOf(DataSourceError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('throws Error', async () => {
+      const error: Error = new Error();
+
+      const string: MockRedisString = new MockRedisString();
+      const stub: SinonStub = sinon.stub();
+      string.get = stub;
+      stub.rejects(error);
+      const redis: MockRedis = MockRedis.of({
+        string
+      });
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const regionQuery: RegionQuery = new RegionQuery(redis);
+      try {
+        await regionQuery.findByISO3166(ISO3166.of('ALB'));
+        spy1();
+      }
+      catch (err) {
+        spy2();
+        expect(err).toBe(error);
+      }
 
       expect(spy1.called).toEqual(false);
       expect(spy2.called).toEqual(true);
