@@ -36,8 +36,13 @@ export class VeauAccount extends ValueObject implements JSONable {
       region
     } = json;
 
-    return VeauAccountID.of(veauAccountID).match<Try<VeauAccount, VeauAccountError>>((id: VeauAccountID) => {
-      return Success.of<VeauAccount, VeauAccountError>(VeauAccount.of(id, AccountName.of(account), Language.ofJSON(language), Region.ofJSON(region)));
+    return VeauAccountID.ofString(veauAccountID).match<Try<VeauAccount, VeauAccountError>>((id: VeauAccountID) => {
+      return Success.of<VeauAccount, VeauAccountError>(VeauAccount.of(
+        id,
+        AccountName.of(account),
+        Language.ofJSON(language),
+        Region.ofJSON(region)
+      ));
     }, (err: VeauAccountIDError) => {
       return Failure.of<VeauAccount, VeauAccountError>(new VeauAccountError(err.message));
     });
@@ -108,7 +113,7 @@ export class VeauAccount extends ValueObject implements JSONable {
     } = this;
 
     return {
-      veauAccountID: veauAccountID.get(),
+      veauAccountID: veauAccountID.get().get(),
       account: account.get(),
       language: language.toJSON(),
       region: region.toJSON()
