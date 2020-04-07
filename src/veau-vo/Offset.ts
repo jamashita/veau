@@ -11,7 +11,7 @@ export class Offset extends ValueObject {
 
   public static of(offset: number): Try<Offset, OffsetError> {
     if (offset < 0) {
-      return Failure.of<Offset, OffsetError>(new OffsetError(`ILLEGAL OFFSET SPECIFIED ${offset.toString()}`));
+      return Failure.of<Offset, OffsetError>(new OffsetError(`ILLEGAL OFFSET SPECIFIED ${offset}`));
     }
     if (Type.isInteger(offset)) {
       return Success.of<Offset, OffsetError>(new Offset(offset));

@@ -11,7 +11,7 @@ export class HeaderSize extends ValueObject {
 
   public static of(size: number): Try<HeaderSize, HeaderSizeError> {
     if (size < 0) {
-      return Failure.of<HeaderSize, HeaderSizeError>(new HeaderSizeError(`ILLEGAL SIZE SPECIFIED ${size.toString()}`));
+      return Failure.of<HeaderSize, HeaderSizeError>(new HeaderSizeError(`ILLEGAL SIZE SPECIFIED ${size}`));
     }
     if (Type.isInteger(size)) {
       return Success.of<HeaderSize, HeaderSizeError>(new HeaderSize(size));

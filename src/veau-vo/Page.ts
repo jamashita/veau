@@ -15,7 +15,7 @@ export class Page extends ValueObject {
 
   public static of(page: number): Try<Page, PageError> {
     if (page <= 0) {
-      return Failure.of<Page, PageError>(new PageError(`ILLEGAL PAGE SPECIFIED ${page.toString()}`));
+      return Failure.of<Page, PageError>(new PageError(`ILLEGAL PAGE SPECIFIED ${page}`));
     }
     if (Type.isInteger(page)) {
       return Success.of<Page, PageError>(new Page(page));

@@ -11,7 +11,7 @@ export class Limit extends ValueObject {
 
   public static of(limit: number): Try<Limit, LimitError> {
     if (limit <= 0) {
-      return Failure.of<Limit, LimitError>(new LimitError(`ILLEGAL LIMIT SPECIFIED ${limit.toString()}`));
+      return Failure.of<Limit, LimitError>(new LimitError(`ILLEGAL LIMIT SPECIFIED ${limit}`));
     }
     if (Type.isInteger(limit)) {
       return Success.of<Limit, LimitError>(new Limit(limit));

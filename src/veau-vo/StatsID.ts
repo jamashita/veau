@@ -14,7 +14,7 @@ export class StatsID extends ValueObject {
       return Success.of<StatsID, StatsIDError>(new StatsID(id));
     }
 
-    return Failure.of<StatsID, StatsIDError>(new StatsIDError(`StatsID requires ${UUID.size().toString()} LENGTH`));
+    return Failure.of<StatsID, StatsIDError>(new StatsIDError(`StatsID requires ${UUID.size()} LENGTH`));
   }
 
   public static generate(): StatsID {

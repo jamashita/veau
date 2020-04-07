@@ -14,7 +14,7 @@ export class VeauAccountID extends ValueObject {
       return Success.of<VeauAccountID, VeauAccountIDError>(new VeauAccountID(id));
     }
 
-    return Failure.of<VeauAccountID, VeauAccountIDError>(new VeauAccountIDError(`VeauAccountID requires ${UUID.size().toString()} LENGTH`));
+    return Failure.of<VeauAccountID, VeauAccountIDError>(new VeauAccountIDError(`VeauAccountID requires ${UUID.size()} LENGTH`));
   }
 
   public static generate(): VeauAccountID {

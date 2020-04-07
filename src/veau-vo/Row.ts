@@ -11,7 +11,7 @@ export class Row extends ValueObject {
 
   public static of(row: number): Try<Row, RowError> {
     if (row < 0) {
-      return Failure.of<Row, RowError>(new RowError(`ILLEGAL ROW SPECIFIED ${row.toString()}`));
+      return Failure.of<Row, RowError>(new RowError(`ILLEGAL ROW SPECIFIED ${row}`));
     }
     if (Type.isInteger(row)) {
       return Success.of<Row, RowError>(new Row(row));
