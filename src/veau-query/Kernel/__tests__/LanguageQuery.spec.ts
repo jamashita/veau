@@ -40,7 +40,7 @@ describe('LanguageQuery', () => {
       const languageRedisQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub: SinonStub = sinon.stub();
       languageRedisQuery.all = stub;
-      stub.resolves(Success.of<Languages, NoSuchElementError | DataSourceError>(languages));
+      stub.resolves(Success.of<Languages, NoSuchElementError>(languages));
       const languageMySQLQuery: MockLanguageQuery = new MockLanguageQuery();
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
 

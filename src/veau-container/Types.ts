@@ -12,7 +12,6 @@ export type DIType = {
   AuthenticationInteractor: symbol;
   LocaleInteractor: symbol;
   StatsInteractor: symbol;
-  RegionQuery: symbol;
   StatsItemQuery: symbol;
   StatsOutlineQuery: symbol;
   StatsQuery: symbol;
@@ -23,6 +22,7 @@ export type DIType = {
   StatsAJAXQuery: symbol;
   LocaleHeapQuery: symbol;
   LanguageKernelQuery: symbol;
+  RegionKernelQuery: symbol;
   AccountMySQLQuery: symbol;
   LanguageMySQLQuery: symbol;
   RegionMySQLQuery: symbol;
@@ -49,7 +49,6 @@ export const TYPE: DIType = {
   AuthenticationInteractor: Symbol('AuthenticationInteractor'),
   LocaleInteractor: Symbol('LocaleInteractor'),
   StatsInteractor: Symbol('StatsInteractor'),
-  RegionQuery: Symbol('RegionQuery'),
   StatsItemQuery: Symbol('StatsItemQuery'),
   StatsOutlineQuery: Symbol('StatsOutlineQuery'),
   StatsQuery: Symbol('StatsQuery'),
@@ -60,6 +59,7 @@ export const TYPE: DIType = {
   StatsAJAXQuery: Symbol('StatsAJAXQuery'),
   LocaleHeapQuery: Symbol('LocaleHeapQuery'),
   LanguageKernelQuery: Symbol('LanguageKernelQuery'),
+  RegionKernelQuery: Symbol('RegionKernelQuery'),
   AccountMySQLQuery: Symbol('AccountMySQLQuery'),
   LanguageMySQLQuery: Symbol('LanguageMySQLQuery'),
   RegionMySQLQuery: Symbol('RegionMySQLQuery'),

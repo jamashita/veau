@@ -21,6 +21,7 @@ import { StatsOutlineQuery as StatsOutlineAJAXQuery } from '../veau-query/AJAX/S
 import { StatsQuery as StatsAJAXQuery } from '../veau-query/AJAX/StatsQuery';
 import { LocaleQuery as LocaleHeapQuery } from '../veau-query/Heap/LocaleQuery';
 import { LanguageQuery as LanguageKernelQuery } from '../veau-query/Kernel/LanguageQuery';
+import { RegionQuery as RegionKernelQuery } from '../veau-query/Kernel/RegionQuery';
 import { AccountQuery as AccountMySQLQuery } from '../veau-query/MySQL/AccountQuery';
 import { LanguageQuery as LanguageMySQLQuery } from '../veau-query/MySQL/LanguageQuery';
 import { RegionQuery as RegionMySQLQuery } from '../veau-query/MySQL/RegionQuery';
@@ -30,7 +31,6 @@ import { StatsQuery as StatsMySQLQuery } from '../veau-query/MySQL/StatsQuery';
 import { StatsValueQuery as StatsValueMySQLQuery } from '../veau-query/MySQL/StatsValueQuery';
 import { LanguageQuery as LanguageRedisQuery } from '../veau-query/Redis/LanguageQuery';
 import { RegionQuery as RegionRedisQuery } from '../veau-query/Redis/RegionQuery';
-import { RegionQuery } from '../veau-query/RegionQuery';
 import { StatsItemQuery } from '../veau-query/StatsItemQuery';
 import { StatsOutlineQuery } from '../veau-query/StatsOutlineQuery';
 import { StatsQuery } from '../veau-query/StatsQuery';
@@ -49,10 +49,11 @@ kernel.bind<Redis>(TYPE.Redis).toConstantValue(veauRedis);
 kernel.bind<AuthenticationInteractor>(TYPE.AuthenticationInteractor).to(AuthenticationInteractor).inSingletonScope();
 kernel.bind<LocaleInteractor>(TYPE.LocaleInteractor).to(LocaleInteractor).inSingletonScope();
 kernel.bind<StatsInteractor>(TYPE.StatsInteractor).to(StatsInteractor).inSingletonScope();
-kernel.bind<RegionQuery>(TYPE.RegionQuery).to(RegionQuery).inSingletonScope();
 kernel.bind<StatsItemQuery>(TYPE.StatsItemQuery).to(StatsItemQuery).inSingletonScope();
 kernel.bind<StatsOutlineQuery>(TYPE.StatsOutlineQuery).to(StatsOutlineQuery).inSingletonScope();
 kernel.bind<StatsQuery>(TYPE.StatsQuery).to(StatsQuery).inSingletonScope();
+kernel.bind<LanguageKernelQuery>(TYPE.LanguageKernelQuery).to(LanguageKernelQuery).inSingletonScope();
+kernel.bind<RegionKernelQuery>(TYPE.RegionKernelQuery).to(RegionKernelQuery).inSingletonScope();
 kernel.bind<StatsValueQuery>(TYPE.StatsValueQuery).to(StatsValueQuery).inSingletonScope();
 kernel.bind<AccountMySQLQuery>(TYPE.AccountMySQLQuery).to(AccountMySQLQuery).inSingletonScope();
 kernel.bind<LanguageMySQLQuery>(TYPE.LanguageMySQLQuery).to(LanguageMySQLQuery).inSingletonScope();
@@ -61,7 +62,6 @@ kernel.bind<StatsItemMySQLQuery>(TYPE.StatsItemMySQLQuery).to(StatsItemMySQLQuer
 kernel.bind<StatsOutlineMySQLQuery>(TYPE.StatsOutlineMySQLQuery).to(StatsOutlineMySQLQuery).inSingletonScope();
 kernel.bind<StatsMySQLQuery>(TYPE.StatsMySQLQuery).to(StatsMySQLQuery).inSingletonScope();
 kernel.bind<StatsValueMySQLQuery>(TYPE.StatsValueMySQLQuery).to(StatsValueMySQLQuery).inSingletonScope();
-kernel.bind<LanguageKernelQuery>(TYPE.LanguageKernelQuery).to(LanguageKernelQuery).inSingletonScope();
 kernel.bind<LanguageRedisQuery>(TYPE.LanguageRedisQuery).to(LanguageRedisQuery).inSingletonScope();
 kernel.bind<RegionRedisQuery>(TYPE.RegionRedisQuery).to(RegionRedisQuery).inSingletonScope();
 
