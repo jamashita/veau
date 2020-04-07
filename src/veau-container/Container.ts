@@ -33,6 +33,7 @@ import { LanguageQuery as LanguageRedisQuery } from '../veau-query/Redis/Languag
 import { RegionQuery as RegionRedisQuery } from '../veau-query/Redis/RegionQuery';
 import { LanguageQuery as LanguageVaultQuery } from '../veau-query/Vault/LanguageQuery';
 import { LocaleQuery as LocaleVaultQuery } from '../veau-query/Vault/LocaleQuery';
+import { RegionQuery as RegionVaultQuery } from '../veau-query/Vault/RegionQuery';
 import { TYPE } from './Types';
 
 export const kernel: Container = new Container();
@@ -70,3 +71,4 @@ vault.bind<StatsAJAXQuery>(TYPE.StatsAJAXQuery).to(StatsAJAXQuery).inSingletonSc
 vault.bind<LocaleHeapQuery>(TYPE.LocaleHeapQuery).to(LocaleHeapQuery).inSingletonScope();
 vault.bind<LanguageVaultQuery>(TYPE.LanguageVaultQuery).to(LanguageVaultQuery).inSingletonScope();
 vault.bind<LocaleVaultQuery>(TYPE.LocaleVaultQuery).to(LocaleVaultQuery).inSingletonScope();
+vault.bind<RegionVaultQuery>(TYPE.RegionVaultQuery).to(RegionVaultQuery).inSingletonScope();

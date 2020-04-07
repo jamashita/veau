@@ -20,16 +20,16 @@ import { RegionID } from '../../../veau-vo/RegionID';
 import { RegionName } from '../../../veau-vo/RegionName';
 import { Regions } from '../../../veau-vo/Regions';
 import { MockLocaleQuery } from '../../Mock/MockLocaleQuery';
-import { LanguageQuery } from '../LanguageQuery';
+import { RegionQuery } from '../RegionQuery';
 
-describe('LanguageQuery', () => {
+describe('RegionQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const languageQuery1: LanguageQuery = vault.get<LanguageQuery>(TYPE.LanguageVaultQuery);
-      const languageQuery2: LanguageQuery = vault.get<LanguageQuery>(TYPE.LanguageVaultQuery);
+      const regionQuery1: RegionQuery = vault.get<RegionQuery>(TYPE.RegionVaultQuery);
+      const regionQuery2: RegionQuery = vault.get<RegionQuery>(TYPE.RegionVaultQuery);
 
-      expect(languageQuery1).toBeInstanceOf(LanguageQuery);
-      expect(languageQuery1).toBe(languageQuery2);
+      expect(regionQuery1).toBeInstanceOf(RegionQuery);
+      expect(regionQuery1).toBe(regionQuery2);
     });
   });
 
@@ -51,11 +51,11 @@ describe('LanguageQuery', () => {
       localeVaultQuery.all = stub;
       stub.resolves(Success.of<Locale, DataSourceError>(locale));
 
-      const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const trial: Try<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
+      const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
+      const trial: Try<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
       expect(trial.isSuccess()).toEqual(true);
-      expect(trial.get()).toEqual(locale.getLanguages());
+      expect(trial.get()).toEqual(locale.getRegions());
     });
 
     it('LocaleQuery returns Failure', async () => {
@@ -66,8 +66,8 @@ describe('LanguageQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const trial: Try<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
+      const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
+      const trial: Try<Regions, NoSuchElementError | DataSourceError>= await regionQuery.all();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -82,7 +82,7 @@ describe('LanguageQuery', () => {
     });
   });
 
-  describe('findByISO639', () => {
+  describe('findByISO3166', () => {
     it('normal case', async () => {
       const locale: Locale = Locale.of(
         Languages.of([
@@ -100,11 +100,11 @@ describe('LanguageQuery', () => {
       localeVaultQuery.all = stub;
       stub.resolves(Success.of<Locale, DataSourceError>(locale));
 
-      const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const trial: Try<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
+      const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
+      const trial: Try<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(trial.isSuccess()).toEqual(true);
-      expect(trial.get()).toEqual(locale.getLanguages().get(1).get());
+      expect(trial.get()).toEqual(locale.getRegions().get(1).get());
     });
 
     it('LocaleQuery.all returns Failure', async () => {
@@ -115,8 +115,8 @@ describe('LanguageQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const trial: Try<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
+      const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
+      const trial: Try<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -149,8 +149,8 @@ describe('LanguageQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const trial: Try<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('oop'));
+      const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
+      const trial: Try<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('OOP'));
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {

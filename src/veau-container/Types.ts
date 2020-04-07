@@ -30,6 +30,7 @@ export type DIType = {
   RegionRedisQuery: symbol;
   LanguageVaultQuery: symbol;
   LocaleVaultQuery: symbol;
+  RegionVaultQuery: symbol;
 };
 
 export const TYPE: DIType = {
@@ -63,5 +64,6 @@ export const TYPE: DIType = {
   LanguageRedisQuery: Symbol('LanguageRedisQuery'),
   RegionRedisQuery: Symbol('RegionRedisQuery'),
   LanguageVaultQuery: Symbol('LanguageVaultQuery'),
-  LocaleVaultQuery: Symbol('LocaleVaultQuery')
+  LocaleVaultQuery: Symbol('LocaleVaultQuery'),
+  RegionVaultQuery: Symbol('RegionVaultQuery')
 };
