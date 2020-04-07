@@ -6,13 +6,12 @@ import { IRedis } from '../../veau-general/Redis/interfaces/IRedis';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
+import { REDIS_REGION_KEY } from '../../veau-infrastructure/VeauRedis';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { Region, RegionJSON } from '../../veau-vo/Region';
 import { Regions } from '../../veau-vo/Regions';
 import { IRedisQuery } from '../interfaces/IRedisQuery';
 import { IRegionQuery } from '../interfaces/IRegionQuery';
-
-const REDIS_KEY: string = 'REGIONS';
 
 @injectable()
 export class RegionQuery implements IRegionQuery, IRedisQuery {
@@ -25,7 +24,7 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
   }
 
   public async all(): Promise<Try<Regions, NoSuchElementError>> {
-    const regionString: string | null = await this.redis.getString().get(REDIS_KEY);
+    const regionString: string | null = await this.redis.getString().get(REDIS_REGION_KEY);
 
     if (regionString === null) {
       return Failure.of<Regions, NoSuchElementError>(new NoSuchElementError('NO REGIONS FROM REDIS'));

@@ -8,11 +8,11 @@ import { RedisError } from '../../veau-general/Redis/RedisError';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
+import { REDIS_REGION_KEY } from '../../veau-infrastructure/VeauRedis';
 import { Regions } from '../../veau-vo/Regions';
 import { IRedisCommand } from '../interfaces/IRedisCommand';
 import { IRegionCommand } from '../interfaces/IRegionCommand';
 
-const REDIS_KEY: string = 'REGIONS';
 const DURATION: number = 3 * 60 * 60;
 
 @injectable()
@@ -28,8 +28,8 @@ export class RegionCommand implements IRegionCommand, IRedisCommand {
   public async insertAll(regions: Regions): Promise<Try<void, DataSourceError>> {
     try {
       const str: string = await JSONA.stringify(regions.toJSON());
-      await this.redis.getString().set(REDIS_KEY, str);
-      await this.redis.expires(REDIS_KEY, DURATION);
+      await this.redis.getString().set(REDIS_REGION_KEY, str);
+      await this.redis.expires(REDIS_REGION_KEY, DURATION);
 
       return Success.of<void, DataSourceError>(undefined);
     }
@@ -44,7 +44,7 @@ export class RegionCommand implements IRegionCommand, IRedisCommand {
 
   public async deleteAll(): Promise<Try<void, CacheError | DataSourceError>> {
     try {
-      const ok: boolean = await this.redis.delete(REDIS_KEY);
+      const ok: boolean = await this.redis.delete(REDIS_REGION_KEY);
 
       if (ok) {
         return Success.of<void, DataSourceError>(undefined);

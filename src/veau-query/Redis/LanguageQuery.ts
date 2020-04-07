@@ -6,13 +6,12 @@ import { IRedis } from '../../veau-general/Redis/interfaces/IRedis';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
+import { REDIS_LANGUAGE_KEY } from '../../veau-infrastructure/VeauRedis';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language, LanguageJSON } from '../../veau-vo/Language';
 import { Languages } from '../../veau-vo/Languages';
 import { ILanguageQuery } from '../interfaces/ILanguageQuery';
 import { IRedisQuery } from '../interfaces/IRedisQuery';
-
-const REDIS_KEY: string = 'LANGUAGES';
 
 @injectable()
 export class LanguageQuery implements ILanguageQuery, IRedisQuery {
@@ -25,7 +24,7 @@ export class LanguageQuery implements ILanguageQuery, IRedisQuery {
   }
 
   public async all(): Promise<Try<Languages, NoSuchElementError>> {
-    const languagesString: string | null = await this.redis.getString().get(REDIS_KEY);
+    const languagesString: string | null = await this.redis.getString().get(REDIS_LANGUAGE_KEY);
 
     if (languagesString === null) {
       return Failure.of<Languages, NoSuchElementError>(new NoSuchElementError('NO LANGUAGES FROM REDIS'));

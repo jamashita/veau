@@ -8,11 +8,11 @@ import { RedisError } from '../../veau-general/Redis/RedisError';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
+import { REDIS_LANGUAGE_KEY } from '../../veau-infrastructure/VeauRedis';
 import { Languages } from '../../veau-vo/Languages';
 import { ILanguageCommand } from '../interfaces/ILanguageCommand';
 import { IRedisCommand } from '../interfaces/IRedisCommand';
 
-const REDIS_KEY: string = 'LANGUAGES';
 const DURATION: number = 3 * 60 * 60;
 
 @injectable()
@@ -28,8 +28,8 @@ export class LanguageCommand implements ILanguageCommand, IRedisCommand {
   public async insertAll(languages: Languages): Promise<Try<void, DataSourceError>> {
     try {
       const str: string = await JSONA.stringify(languages.toJSON());
-      await this.redis.getString().set(REDIS_KEY, str);
-      await this.redis.expires(REDIS_KEY, DURATION);
+      await this.redis.getString().set(REDIS_LANGUAGE_KEY, str);
+      await this.redis.expires(REDIS_LANGUAGE_KEY, DURATION);
 
       return Success.of<void, DataSourceError>(undefined);
     }
@@ -44,7 +44,7 @@ export class LanguageCommand implements ILanguageCommand, IRedisCommand {
 
   public async deleteAll(): Promise<Try<void, CacheError | DataSourceError>> {
     try {
-      const ok: boolean = await this.redis.delete(REDIS_KEY);
+      const ok: boolean = await this.redis.delete(REDIS_LANGUAGE_KEY);
 
       if (ok) {
         return Success.of<void, DataSourceError>(undefined);
