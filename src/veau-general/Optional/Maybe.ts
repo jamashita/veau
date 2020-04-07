@@ -3,9 +3,9 @@ import { None } from './None';
 import { Optional } from './Optional';
 import { Some } from './Some';
 
-type Suspicious = undefined | null | Nominative;
+type Suspicious<T> = undefined | null | T;
 
-export const maybe: <T extends Nominative>(value: Suspicious) => Optional<T> = <T extends Nominative>(value: Suspicious) => {
+export const maybe: <T extends Nominative>(value: Suspicious<T>) => Optional<T> = <T extends Nominative>(value: Suspicious<T>) => {
   if (value === null) {
     return None.of<T>();
   }
@@ -16,5 +16,5 @@ export const maybe: <T extends Nominative>(value: Suspicious) => Optional<T> = <
     return value;
   }
 
-  return Some.of<T>(value as T);
+  return Some.of<T>(value);
 };
