@@ -2,39 +2,51 @@ import { StatsItemIDError } from '../veau-error/StatsItemIDError';
 import { Failure } from '../veau-general/Try/Failure';
 import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
-import { UUID } from '../veau-general/UUID';
+import { UUID } from '../veau-general/UUID/UUID';
+import { UUIDError } from '../veau-general/UUID/UUIDError';
 import { ValueObject } from '../veau-general/ValueObject';
 
 export class StatsItemID extends ValueObject {
   public readonly noun: 'StatsItemID' = 'StatsItemID';
-  private readonly id: string;
+  private readonly uuid: UUID;
 
-  public static of(id: string): Try<StatsItemID, StatsItemIDError> {
-    if (id.length === UUID.size()) {
-      return Success.of<StatsItemID, StatsItemIDError>(new StatsItemID(id));
+  public static of(uuid: UUID): StatsItemID {
+    return new StatsItemID(uuid);
+  }
+
+  public static ofString(id: string): Try<StatsItemID, StatsItemIDError> {
+    try {
+      const uuid: UUID = UUID.of(id);
+
+      return Success.of<StatsItemID, StatsItemIDError>(new StatsItemID(uuid));
     }
+    catch (err) {
+      if (err instanceof UUIDError) {
+        return Failure.of<StatsItemID, StatsItemIDError>(new StatsItemIDError(err));
+      }
 
-    return Failure.of<StatsItemID, StatsItemIDError>(new StatsItemIDError(`StatsItemID requires ${UUID.size()} LENGTH`));
+      throw err;
+    }
   }
 
   public static generate(): StatsItemID {
     return new StatsItemID(UUID.v4());
   }
 
-  private constructor(id: string) {
+  private constructor(uuid: UUID) {
     super();
-    this.id = id;
+    this.uuid = uuid;
   }
 
-  public get(): string {
-    return this.id;
+  public get(): UUID {
+    return this.uuid;
   }
 
   public equals(other: StatsItemID): boolean {
     if (this === other) {
       return true;
     }
-    if (this.id === other.get()) {
+    if (this.uuid.equals(other.get())) {
       return true;
     }
 
@@ -42,6 +54,6 @@ export class StatsItemID extends ValueObject {
   }
 
   public toString(): string {
-    return this.id;
+    return this.uuid.toString();
   }
 }

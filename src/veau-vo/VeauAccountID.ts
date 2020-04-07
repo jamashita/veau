@@ -2,39 +2,51 @@ import { VeauAccountIDError } from '../veau-error/VeauAccountIDError';
 import { Failure } from '../veau-general/Try/Failure';
 import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
-import { UUID } from '../veau-general/UUID';
+import { UUID } from '../veau-general/UUID/UUID';
+import { UUIDError } from '../veau-general/UUID/UUIDError';
 import { ValueObject } from '../veau-general/ValueObject';
 
 export class VeauAccountID extends ValueObject {
   public readonly noun: 'VeauAccountID' = 'VeauAccountID';
-  private readonly id: string;
+  private readonly uuid: UUID;
 
-  public static of(id: string): Try<VeauAccountID, VeauAccountIDError> {
-    if (id.length === UUID.size()) {
-      return Success.of<VeauAccountID, VeauAccountIDError>(new VeauAccountID(id));
+  public static of(uuid: UUID): VeauAccountID {
+    return new VeauAccountID(uuid);
+  }
+
+  public static ofString(id: string): Try<VeauAccountID, VeauAccountIDError> {
+    try {
+      const uuid: UUID = UUID.of(id);
+
+      return Success.of<VeauAccountID, VeauAccountIDError>(new VeauAccountID(uuid));
     }
+    catch (err) {
+      if (err instanceof UUIDError) {
+        return Failure.of<VeauAccountID, VeauAccountIDError>(new VeauAccountIDError(err));
+      }
 
-    return Failure.of<VeauAccountID, VeauAccountIDError>(new VeauAccountIDError(`VeauAccountID requires ${UUID.size()} LENGTH`));
+      throw err;
+    }
   }
 
   public static generate(): VeauAccountID {
     return new VeauAccountID(UUID.v4());
   }
 
-  private constructor(id: string) {
+  private constructor(uuid: UUID) {
     super();
-    this.id = id;
+    this.uuid = uuid;
   }
 
-  public get(): string {
-    return this.id;
+  public get(): UUID {
+    return this.uuid;
   }
 
   public equals(other: VeauAccountID): boolean {
     if (this === other) {
       return true;
     }
-    if (this.id === other.get()) {
+    if (this.uuid.equals(other.get())) {
       return true;
     }
 
@@ -42,6 +54,6 @@ export class VeauAccountID extends ValueObject {
   }
 
   public toString(): string {
-    return this.id;
+    return this.uuid.toString();
   }
 }
