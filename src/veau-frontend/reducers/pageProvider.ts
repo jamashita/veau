@@ -1,9 +1,9 @@
 import { Reducer } from 'redux';
 import { ACTION, Action } from '../actions/Action';
 
-export type PageProvider = {
+export type PageProvider = Readonly<{
   open: boolean;
-};
+}>;
 
 const initialState: PageProvider = {
   open: false

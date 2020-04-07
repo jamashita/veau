@@ -18,7 +18,7 @@ import { IStatsQuery } from '../interfaces/IStatsQuery';
 export class StatsQuery implements IStatsQuery, IAJAXQuery {
   public readonly noun: 'StatsQuery' = 'StatsQuery';
   public readonly source: 'AJAX' = 'AJAX';
-  private ajax: IAJAX;
+  private readonly ajax: IAJAX;
 
   public constructor(@inject(TYPE.AJAX) ajax: IAJAX) {
     this.ajax = ajax;

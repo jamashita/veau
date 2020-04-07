@@ -22,7 +22,7 @@ import { StatsUnit } from './StatsUnit';
 import { Term } from './Term';
 import { UpdatedAt } from './UpdatedAt';
 
-export type StatsOutlineJSON = {
+export type StatsOutlineJSON = Readonly<{
   statsID: string;
   language: LanguageJSON;
   region: RegionJSON;
@@ -30,9 +30,9 @@ export type StatsOutlineJSON = {
   name: string;
   unit: string;
   updatedAt: string;
-};
+}>;
 
-export type StatsOutlineRow = {
+export type StatsOutlineRow = Readonly<{
   statsID: string;
   languageID: number;
   languageName: string;
@@ -45,7 +45,7 @@ export type StatsOutlineRow = {
   name: string;
   unit: string;
   updatedAt: string;
-};
+}>;
 
 export class StatsOutline extends ValueObject implements JSONable, Cloneable {
   public readonly noun: 'StatsOutline' = 'StatsOutline';

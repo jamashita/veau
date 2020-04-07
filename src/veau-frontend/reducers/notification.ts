@@ -1,15 +1,15 @@
 import { Reducer } from 'redux';
-import { ACTION, Action } from '../actions/Action';
+import { ACTION, Action, NotificationHPosition, NotificationKind, NotificationVPosition } from '../actions/Action';
 
-export type Notification = {
-  kind: 'info' | 'success' | 'warn' | 'error';
+export type Notification = Readonly<{
+  kind: NotificationKind;
   open: boolean;
-  horizontal: 'left' | 'center' | 'right';
-  vertical: 'top' | 'bottom';
+  horizontal: NotificationHPosition;
+  vertical: NotificationVPosition;
   message: string;
   duration: number;
   values?: {[key: string]: string};
-};
+}>;
 
 const initialState: Notification = {
   kind: 'info',

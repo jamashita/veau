@@ -20,7 +20,7 @@ import { ISessionQuery } from '../interfaces/ISessionQuery';
 export class SessionQuery implements ISessionQuery, IAJAXQuery {
   public readonly noun: 'SessionQuery' = 'SessionQuery';
   public readonly source: 'AJAX' = 'AJAX';
-  private ajax: IAJAX;
+  private readonly ajax: IAJAX;
 
   public constructor(@inject(TYPE.AJAX) ajax: IAJAX) {
     this.ajax = ajax;

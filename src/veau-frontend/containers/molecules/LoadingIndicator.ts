@@ -2,13 +2,16 @@ import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from
 import { LoadingIndicator as Component } from '../../components/molecules/LoadingIndicator';
 import { State } from '../../State';
 
-type StateProps = {
+type StateProps = Readonly<{
   loadingCount: number;
-};
-type DispatchProps = {
-};
-type OwnProps = {
-};
+}>;
+
+type DispatchProps = Readonly<{
+}>;
+
+type OwnProps = Readonly<{
+}>;
+
 export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {

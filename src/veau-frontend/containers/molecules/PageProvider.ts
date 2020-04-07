@@ -7,16 +7,19 @@ import { pushToStatsList } from '../../actions/RedirectAction';
 import { PageProvider as Component } from '../../components/molecules/PageProvider';
 import { State } from '../../State';
 
-type StateProps = {
+type StateProps = Readonly<{
   open: boolean;
-};
-type DispatchProps = {
+}>;
+
+type DispatchProps = Readonly<{
   close: () => void;
   toStatsList: () => void;
   logout: () => void;
-};
-type OwnProps = {
-};
+}>;
+
+type OwnProps = Readonly<{
+}>;
+
 export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {

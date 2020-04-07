@@ -3,10 +3,10 @@ import { StatsItem } from '../../veau-entity/StatsItem';
 import { Row } from '../../veau-vo/Row';
 import { ACTION, Action } from '../actions/Action';
 
-export type StatsEdit = {
+export type StatsEdit = Readonly<{
   selectingItem?: StatsItem;
   selectingRow: Row;
-};
+}>;
 
 const initialState: StatsEdit = {
   selectingItem: undefined,

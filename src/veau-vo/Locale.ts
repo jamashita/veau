@@ -6,10 +6,10 @@ import { Languages } from './Languages';
 import { Region, RegionJSON } from './Region';
 import { Regions } from './Regions';
 
-export type LocaleJSON = {
+export type LocaleJSON = Readonly<{
   languages: Array<LanguageJSON>;
   regions: Array<RegionJSON>;
-};
+}>;
 
 export class Locale extends ValueObject implements JSONable {
   public readonly noun: 'Locale' = 'Locale';

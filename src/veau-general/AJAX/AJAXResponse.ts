@@ -1,4 +1,4 @@
-export type AJAXResponse<T> = {
+export type AJAXResponse<T> = Readonly<{
   status: number;
   body: T;
-};
+}>;

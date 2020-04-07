@@ -1,10 +1,10 @@
-export type EndpointType = {
+export type EndpointType = Readonly<{
   ENTRANCE: string;
   STATS_LIST: string;
   STATS_EDIT: string;
   LOGOUT: string;
   NOTFOUND: string;
-};
+}>;
 
 export const Endpoints: EndpointType = {
   ENTRANCE: '/',

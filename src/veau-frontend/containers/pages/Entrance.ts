@@ -8,16 +8,19 @@ import { accountTyped, attemptLogin, passwordTyped } from '../../actions/Entranc
 import { Entrance as Component } from '../../components/pages/Entrance';
 import { State } from '../../State';
 
-type StateProps = {
+type StateProps = Readonly<{
   entranceInformation: EntranceInformation;
-};
-type DispatchProps = {
+}>;
+
+type DispatchProps = Readonly<{
   accountTyped: (name: AccountName) => void;
   passwordTyped: (password: Password) => void;
   loginClicked: () => void;
-};
-type OwnProps = {
-};
+}>;
+
+type OwnProps = Readonly<{
+}>;
+
 export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {

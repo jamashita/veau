@@ -25,13 +25,14 @@ import {
 import { StatsList as Component } from '../../components/pages/StatsList';
 import { State } from '../../State';
 
-type StateProps = {
+type StateProps = Readonly<{
   statsOutlines: StatsOutlines;
   open: boolean;
   stats: Stats;
   locale: Locale;
-};
-type DispatchProps = {
+}>;
+
+type DispatchProps = Readonly<{
   initialize: () => void;
   toStatsEdit: (statsID: StatsID) => void;
   newStatsClicked: () => void;
@@ -42,9 +43,11 @@ type DispatchProps = {
   iso3166Selected: (iso3166: ISO3166) => void;
   termSelected: (term: Term) => void;
   saveNewStats: () => void;
-};
-type OwnProps = {
-};
+}>;
+
+type OwnProps = Readonly<{
+}>;
+
 export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {

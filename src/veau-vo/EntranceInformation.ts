@@ -3,10 +3,10 @@ import { ValueObject } from '../veau-general/ValueObject';
 import { AccountName } from './AccountName';
 import { Password } from './Password';
 
-export type EntranceInformationJSON = {
+export type EntranceInformationJSON = Readonly<{
   account: string;
   password: string;
-};
+}>;
 
 export class EntranceInformation extends ValueObject implements JSONable {
   public readonly noun: 'EntranceInformation' = 'EntranceInformation';

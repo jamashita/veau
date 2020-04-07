@@ -5,17 +5,20 @@ import { closeModal } from '../../actions/ModalAction';
 import { Modal as Component } from '../../components/molecules/Modal';
 import { State } from '../../State';
 
-type StateProps = {
+type StateProps = Readonly<{
   open: boolean;
   title: string;
   description: string;
   values?: {[key: string]: string};
-};
-type DispatchProps = {
+}>;
+
+type DispatchProps = Readonly<{
   closeClicked: () => void;
-};
-type OwnProps = {
-};
+}>;
+
+type OwnProps = Readonly<{
+}>;
+
 export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {

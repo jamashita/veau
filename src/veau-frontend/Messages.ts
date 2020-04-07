@@ -1,4 +1,4 @@
-export type Messages = {
+export type Messages = Readonly<{
   GREETING: string;
 
   YES: string;
@@ -65,7 +65,7 @@ export type Messages = {
   FR: string;
   ES: string;
   JA: string;
-};
+}>;
 
 const en: Messages = {
   GREETING: 'Hello',
@@ -343,13 +343,13 @@ const ja: Messages = {
   JA: '日本語'
 };
 
-type I18NMessages = {
+type I18NMessages = Readonly<{
   [key: string]: Messages;
   en: Messages;
   fr: Messages;
   es: Messages;
   ja: Messages;
-};
+}>;
 
 export const i18nMessages: I18NMessages = {
   en,

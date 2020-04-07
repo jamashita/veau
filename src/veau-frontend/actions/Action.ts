@@ -108,11 +108,14 @@ export interface ModalRaiseAction extends ReduxAction {
 export interface ModalCloseAction extends ReduxAction {
   type: ACTION.MODAL_CLOSE;
 }
+export type NotificationKind = 'info' | 'success' | 'warn' | 'error';
+export type NotificationHPosition = 'left' | 'center' | 'right';
+export type NotificationVPosition = 'top' | 'bottom';
 export interface NotificationAppearAction extends ReduxAction {
   type: ACTION.NOTIFICATION_APPEAR;
-  kind: 'info' | 'success' | 'warn' | 'error';
-  horizontal: 'left' | 'center' | 'right';
-  vertical: 'top' | 'bottom';
+  kind: NotificationKind;
+  horizontal: NotificationHPosition;
+  vertical: NotificationVPosition;
   message: string;
   duration: number;
   values?: {[key: string]: string};

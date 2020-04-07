@@ -1,24 +1,27 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
-import { Action } from '../../actions/Action';
+import { Action, NotificationHPosition, NotificationKind, NotificationVPosition } from '../../actions/Action';
 import { disappearNotification } from '../../actions/NotificationAction';
 import { Notification as Component } from '../../components/molecules/Notification';
 import { State } from '../../State';
 
-type StateProps = {
-  kind: 'info' | 'success' | 'warn' | 'error';
+type StateProps = Readonly<{
+  kind: NotificationKind;
   open: boolean;
-  horizontal: 'left' | 'center' | 'right';
-  vertical: 'top' | 'bottom';
+  horizontal: NotificationHPosition;
+  vertical: NotificationVPosition;
   message: string;
   duration: number;
   values?: {[key: string]: string};
-};
-type DispatchProps = {
+}>;
+
+type DispatchProps = Readonly<{
   closeClicked: () => void;
-};
-type OwnProps = {
-};
+}>;
+
+type OwnProps = Readonly<{
+}>;
+
 export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {

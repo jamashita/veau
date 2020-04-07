@@ -5,19 +5,19 @@ import { ISO639 } from './ISO639';
 import { LanguageID } from './LanguageID';
 import { LanguageName } from './LanguageName';
 
-export type LanguageJSON = {
+export type LanguageJSON = Readonly<{
   languageID: number;
   name: string;
   englishName: string;
   iso639: string;
-};
+}>;
 
-export type LanguageRow = {
+export type LanguageRow = Readonly<{
   languageID: number;
   name: string;
   englishName: string;
   iso639: string;
-};
+}>;
 
 export class Language extends ValueObject implements JSONable {
   public readonly noun: 'Language' = 'Language';

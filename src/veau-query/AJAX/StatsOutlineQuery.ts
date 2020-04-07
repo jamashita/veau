@@ -19,7 +19,7 @@ import { IStatsOutlineQuery } from '../interfaces/IStatsOutlineQuery';
 export class StatsOutlineQuery implements IStatsOutlineQuery, IAJAXQuery {
   public readonly noun: 'StatsOutlineQuery' = 'StatsOutlineQuery';
   public readonly source: 'AJAX' = 'AJAX';
-  private ajax: IAJAX;
+  private readonly ajax: IAJAX;
 
   public constructor(@inject(TYPE.AJAX) ajax: IAJAX) {
     this.ajax = ajax;

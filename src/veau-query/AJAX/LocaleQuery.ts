@@ -16,7 +16,7 @@ import { ILocaleQuery } from '../interfaces/ILocaleQuery';
 export class LocaleQuery implements ILocaleQuery, IAJAXQuery {
   public readonly noun: 'LocaleQuery' = 'LocaleQuery';
   public readonly source: 'AJAX' = 'AJAX';
-  private ajax: IAJAX;
+  private readonly ajax: IAJAX;
 
   public constructor(@inject(TYPE.AJAX) ajax: IAJAX) {
     this.ajax = ajax;

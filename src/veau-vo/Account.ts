@@ -19,7 +19,7 @@ import { RegionName } from './RegionName';
 import { VeauAccount } from './VeauAccount';
 import { VeauAccountID } from './VeauAccountID';
 
-export type AccountRow = {
+export type AccountRow = Readonly<{
   veauAccountID: string;
   account: string;
   languageID: number;
@@ -30,7 +30,7 @@ export type AccountRow = {
   regionName: string;
   iso3166: string;
   hash: string;
-};
+}>;
 
 export class Account extends ValueObject {
   public readonly noun: 'Account' = 'Account';

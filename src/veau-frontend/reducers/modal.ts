@@ -1,12 +1,12 @@
 import { Reducer } from 'redux';
 import { ACTION, Action } from '../actions/Action';
 
-export type Modal = {
+export type Modal = Readonly<{
   open: boolean;
   title: string;
   description: string;
   values?: {[key: string]: string};
-};
+}>;
 
 const initialState: Modal = {
   open: false,

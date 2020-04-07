@@ -5,17 +5,17 @@ import { ISO3166 } from './ISO3166';
 import { RegionID } from './RegionID';
 import { RegionName } from './RegionName';
 
-export type RegionJSON = {
+export type RegionJSON = Readonly<{
   regionID: number;
   name: string;
   iso3166: string;
-};
+}>;
 
-export type RegionRow = {
+export type RegionRow = Readonly<{
   regionID: number;
   name: string;
   iso3166: string;
-};
+}>;
 
 export class Region extends ValueObject implements JSONable {
   public readonly noun: 'Region' = 'Region';

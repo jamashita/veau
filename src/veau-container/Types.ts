@@ -1,4 +1,4 @@
-export type DIType = {
+export type DIType = Readonly<{
   SessionAJAXCommand: symbol;
   StatsAJAXCommand: symbol;
   LocaleHeapCommand: symbol;
@@ -31,7 +31,7 @@ export type DIType = {
   LanguageVaultQuery: symbol;
   LocaleVaultQuery: symbol;
   RegionVaultQuery: symbol;
-};
+}>;
 
 export const TYPE: DIType = {
   SessionAJAXCommand: Symbol('SessionAJAXCommand'),

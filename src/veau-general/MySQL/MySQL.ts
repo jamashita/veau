@@ -6,9 +6,9 @@ import { IMySQL } from './interfaces/IMySQL';
 import { ITransaction } from './interfaces/ITransaction';
 import { MySQLError } from './MySQLError';
 
-type Value = {
+type Value = Readonly<{
   [key: string]: unknown;
-};
+}>;
 
 export class MySQL implements IMySQL {
   private readonly pool: mysql.Pool;

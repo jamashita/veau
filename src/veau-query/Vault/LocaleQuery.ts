@@ -13,9 +13,9 @@ import { IVaultQuery } from '../interfaces/IVaultQuery';
 export class LocaleQuery implements ILocaleQuery, IVaultQuery {
   public readonly noun: 'LocaleQuery' = 'LocaleQuery';
   public readonly source: 'Vault' = 'Vault';
-  private localeAJAXQuery: ILocaleQuery;
-  private localeHeapQuery: ILocaleQuery;
-  private localeCommand: ILocaleCommand;
+  private readonly localeAJAXQuery: ILocaleQuery;
+  private readonly localeHeapQuery: ILocaleQuery;
+  private readonly localeCommand: ILocaleCommand;
 
   public constructor(@inject(TYPE.LocaleAJAXQuery) localeAJAXQuery: ILocaleQuery,
     @inject(TYPE.LocaleHeapQuery) localeHeapQuery: ILocaleQuery,

@@ -3,13 +3,16 @@ import { VeauAccount } from '../../veau-vo/VeauAccount';
 import { I18NProvider as Component } from '../components/I18NProvider';
 import { State } from '../State';
 
-type StateProps = {
+type StateProps = Readonly<{
   identity: VeauAccount;
-};
-type DispatchProps = {
-};
-type OwnProps = {
-};
+}>;
+
+type DispatchProps = Readonly<{
+}>;
+
+type OwnProps = Readonly<{
+}>;
+
 export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {

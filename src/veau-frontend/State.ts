@@ -12,7 +12,7 @@ import { PageProvider } from './reducers/pageProvider';
 import { StatsEdit } from './reducers/statsEdit';
 import { StatsList } from './reducers/statsList';
 
-export type State = {
+export type State = Readonly<{
   entranceInformation: EntranceInformation;
   identity: VeauAccount;
   loadingCount: LoadingCount;
@@ -26,4 +26,4 @@ export type State = {
   statsList: StatsList;
   statsOutlines: StatsOutlines;
   router: RouterState;
-};
+}>;

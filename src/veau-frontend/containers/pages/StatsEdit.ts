@@ -41,17 +41,19 @@ import { StatsEdit as Component } from '../../components/pages/StatsEdit';
 import { Endpoints } from '../../Endpoints';
 import { State } from '../../State';
 
-type MatchParam = {
+type MatchParam = Readonly<{
   id: string;
-};
-type StateProps = {
+}>;
+
+type StateProps = Readonly<{
   stats: Stats;
   statsItem: StatsItem;
   selectingItem?: StatsItem;
   locale: Locale;
   id: string | null;
-};
-type DispatchProps = {
+}>;
+
+type DispatchProps = Readonly<{
   initialize: (statsID: StatsID) => void;
   invalidIDInput: () => void;
   dataFilled: (coordinate: Coordinate, value: NumericalValue) => void;
@@ -70,9 +72,11 @@ type DispatchProps = {
   invalidValueInput: () => void;
   removeItem: (statsItem: StatsItem) => void;
   save: () => void;
-};
-type OwnProps = {
-};
+}>;
+
+type OwnProps = Readonly<{
+}>;
+
 export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {

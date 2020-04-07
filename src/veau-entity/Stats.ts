@@ -38,7 +38,7 @@ import { StatsItems } from './StatsItems';
 
 const REVISED_VALUE: number = 14;
 
-export type StatsJSON = {
+export type StatsJSON = Readonly<{
   statsID: string;
   language: LanguageJSON;
   region: RegionJSON;
@@ -47,9 +47,9 @@ export type StatsJSON = {
   unit: string;
   updatedAt: string;
   items: Array<StatsItemJSON>;
-};
+}>;
 
-export type StatsRow = {
+export type StatsRow = Readonly<{
   statsID: string;
   languageID: number;
   languageName: string;
@@ -62,11 +62,11 @@ export type StatsRow = {
   name: string;
   unit: string;
   updatedAt: string;
-};
+}>;
 
-type Chart = {
+type Chart = Readonly<{
   [key: string]: string | number;
-};
+}>;
 
 export class Stats extends Entity<StatsID> {
   public readonly noun: 'Stats' = 'Stats';

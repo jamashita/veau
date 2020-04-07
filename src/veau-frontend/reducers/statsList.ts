@@ -2,10 +2,10 @@ import { Reducer } from 'redux';
 import { Stats } from '../../veau-entity/Stats';
 import { ACTION, Action } from '../actions/Action';
 
-export type StatsList = {
+export type StatsList = Readonly<{
   open: boolean;
   stats: Stats;
-};
+}>;
 
 const initialState: StatsList = {
   open: false,

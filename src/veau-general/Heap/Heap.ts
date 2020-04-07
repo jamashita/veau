@@ -2,7 +2,7 @@ import { HeapError } from './HeapError';
 import { IHeap } from './interfaces/IHeap';
 
 export class Heap implements IHeap {
-  private values: Map<symbol, unknown>;
+  private readonly values: Map<symbol, unknown>;
 
   public constructor() {
     this.values = new Map<symbol, unknown>();

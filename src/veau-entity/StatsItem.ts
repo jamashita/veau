@@ -15,16 +15,16 @@ import { StatsItemName } from '../veau-vo/StatsItemName';
 import { StatsValue, StatsValueJSON } from '../veau-vo/StatsValue';
 import { StatsValues } from '../veau-vo/StatsValues';
 
-export type StatsItemJSON = {
+export type StatsItemJSON = Readonly<{
   statsItemID: string;
   name: string;
   values: Array<StatsValueJSON>;
-};
+}>;
 
-export type StatsItemRow = {
+export type StatsItemRow = Readonly<{
   statsItemID: string;
   name: string;
-};
+}>;
 
 export class StatsItem extends Entity<StatsItemID> {
   public readonly noun: 'StatsItem' = 'StatsItem';

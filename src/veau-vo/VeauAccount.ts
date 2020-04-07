@@ -10,12 +10,12 @@ import { Language, LanguageJSON } from './Language';
 import { Region, RegionJSON } from './Region';
 import { VeauAccountID } from './VeauAccountID';
 
-export type VeauAccountJSON = {
+export type VeauAccountJSON = Readonly<{
   veauAccountID: string;
   account: string;
   language: LanguageJSON;
   region: RegionJSON;
-};
+}>;
 
 export class VeauAccount extends ValueObject implements JSONable {
   public readonly noun: 'VeauAccount' = 'VeauAccount';

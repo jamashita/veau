@@ -18,7 +18,7 @@ import { IStatsCommand } from '../interfaces/IStatsCommand';
 export class StatsCommand implements IStatsCommand, IAJAXCommand {
   public readonly noun: 'StatsCommand' = 'StatsCommand';
   public readonly source: 'AJAX' = 'AJAX';
-  private ajax: IAJAX;
+  private readonly ajax: IAJAX;
 
   public constructor(@inject(TYPE.AJAX) ajax: IAJAX) {
     this.ajax = ajax;

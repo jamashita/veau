@@ -11,16 +11,16 @@ import { AsOf } from './AsOf';
 import { NumericalValue } from './NumericalValue';
 import { StatsItemID } from './StatsItemID';
 
-export type StatsValueJSON = {
+export type StatsValueJSON = Readonly<{
   asOf: string;
   value: number;
-};
+}>;
 
-export type StatsValueRow = {
+export type StatsValueRow = Readonly<{
   statsItemID: string;
   asOf: string;
   value: number;
-};
+}>;
 
 export class StatsValue extends ValueObject implements JSONable {
   public readonly noun: 'StatsValue' = 'StatsValue';
