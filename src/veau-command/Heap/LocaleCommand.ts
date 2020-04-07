@@ -25,14 +25,17 @@ export class LocaleCommand implements ILocaleCommand, IHeapCommand {
     try {
       this.heap.set(VAULT_LOCALE_KEY, locale);
 
-      return Promise.resolve<Success<void, DataSourceError>>(Success.of<void, DataSourceError>(undefined));
+      // eslint-disable-next-line @typescript-eslint/return-await
+      return Promise.resolve<Try<void, DataSourceError>>(Success.of<void, DataSourceError>(undefined));
     }
     catch (err) {
       if (err instanceof HeapError) {
-        return Promise.resolve<Failure<void, DataSourceError>>(Failure.of<void, HeapError>(new HeapError('CREATION ERROR')));
+        // eslint-disable-next-line @typescript-eslint/return-await
+        return Promise.resolve<Try<void, DataSourceError>>(Failure.of<void, HeapError>(new HeapError('CREATION ERROR')));
       }
 
-      throw err;
+      // eslint-disable-next-line @typescript-eslint/return-await
+      return Promise.reject<Try<void, DataSourceError>>(err);
     }
   }
 }

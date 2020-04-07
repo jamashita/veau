@@ -29,7 +29,7 @@ export class LocaleQuery implements ILocaleQuery, IVaultQuery {
     const trial1: Try<Locale, DataSourceError> = await this.localeHeapQuery.all();
 
     return trial1.match<Promise<Try<Locale, DataSourceError>>>((locale: Locale) => {
-      return Promise.resolve<Success<Locale, DataSourceError>>(Success.of<Locale, DataSourceError>(locale));
+      return Promise.resolve<Try<Locale, DataSourceError>>(Success.of<Locale, DataSourceError>(locale));
     }, async () => {
       const trial2: Try<Locale, DataSourceError> = await this.localeAJAXQuery.all();
 
@@ -42,7 +42,7 @@ export class LocaleQuery implements ILocaleQuery, IVaultQuery {
           return Failure.of<Locale, DataSourceError>(err);
         });
       }, (err: DataSourceError) => {
-        return Promise.resolve<Failure<Locale, DataSourceError>>(Failure.of<Locale, DataSourceError>(err));
+        return Promise.resolve<Try<Locale, DataSourceError>>(Failure.of<Locale, DataSourceError>(err));
       });
     });
   }

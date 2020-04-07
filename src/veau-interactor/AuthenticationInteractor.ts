@@ -36,6 +36,7 @@ export class AuthenticationInteractor implements IInteractor {
 
         const trial: Try<Account, NoSuchElementError | AccountError | DataSourceError> = await this.accountQuery.findByAccount(accountName);
 
+        // eslint-disable-next-line @typescript-eslint/return-await
         return trial.match<Promise<void>>(async (account: Account) => {
           const correct: boolean = await account.verify(password);
 

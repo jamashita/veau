@@ -33,7 +33,7 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
     const trial1: Try<Regions, NoSuchElementError | DataSourceError> = await this.regionRedisQuery.all();
 
     return trial1.match<Promise<Try<Regions, NoSuchElementError | DataSourceError>>>((regions: Regions) => {
-      return Promise.resolve<Success<Regions, NoSuchElementError>>(Success.of<Regions, NoSuchElementError>(regions));
+      return Promise.resolve<Try<Regions, NoSuchElementError>>(Success.of<Regions, NoSuchElementError>(regions));
     }, async () => {
       const trial2: Try<Regions, NoSuchElementError | DataSourceError> = await this.regionMySQLQuery.all();
 
@@ -46,7 +46,7 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
           return Failure.of<Regions, DataSourceError>(err);
         });
       }, (err: NoSuchElementError | DataSourceError) => {
-        return Promise.resolve<Failure<Regions, NoSuchElementError | DataSourceError>>(Failure.of<Regions, NoSuchElementError | DataSourceError>(err));
+        return Promise.resolve<Try<Regions, NoSuchElementError | DataSourceError>>(Failure.of<Regions, NoSuchElementError | DataSourceError>(err));
       });
     });
   }

@@ -33,7 +33,7 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
     const trial1: Try<Languages, NoSuchElementError | DataSourceError> = await this.languageRedisQuery.all();
 
     return trial1.match<Promise<Try<Languages, NoSuchElementError | DataSourceError>>>((languages: Languages) => {
-      return Promise.resolve<Success<Languages, DataSourceError>>(Success.of<Languages, DataSourceError>(languages));
+      return Promise.resolve<Try<Languages, DataSourceError>>(Success.of<Languages, DataSourceError>(languages));
     }, async () => {
       const trial2: Try<Languages, NoSuchElementError | DataSourceError> = await this.languageMySQLQuery.all();
 
@@ -46,7 +46,7 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
           return Failure.of<Languages, DataSourceError>(err);
         });
       }, (err: NoSuchElementError | DataSourceError) => {
-        return Promise.resolve<Failure<Languages, NoSuchElementError | DataSourceError>>(Failure.of<Languages, NoSuchElementError | DataSourceError>(err));
+        return Promise.resolve<Try<Languages, NoSuchElementError | DataSourceError>>(Failure.of<Languages, NoSuchElementError | DataSourceError>(err));
       });
     });
   }

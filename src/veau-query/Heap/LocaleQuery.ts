@@ -21,18 +21,22 @@ export class LocaleQuery implements ILocaleQuery, IHeapQuery {
     this.heap = heap;
   }
 
+
   public all(): Promise<Try<Locale, DataSourceError>> {
     try {
       const locale: Locale = this.heap.get<Locale>(VAULT_LOCALE_KEY);
 
-      return Promise.resolve<Success<Locale, DataSourceError>>(Success.of<Locale, DataSourceError>(locale));
+      // eslint-disable-next-line @typescript-eslint/return-await
+      return Promise.resolve<Try<Locale, DataSourceError>>(Success.of<Locale, DataSourceError>(locale));
     }
     catch (err) {
       if (err instanceof HeapError) {
-        return Promise.resolve<Failure<Locale, HeapError>>(Failure.of<Locale, HeapError>(err));
+        // eslint-disable-next-line @typescript-eslint/return-await
+        return Promise.resolve<Try<Locale, DataSourceError>>(Failure.of<Locale, HeapError>(err));
       }
 
-      throw err;
+      // eslint-disable-next-line @typescript-eslint/return-await
+      return Promise.reject<Try<Locale, HeapError>>(err);
     }
   }
 }
