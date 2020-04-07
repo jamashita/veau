@@ -35,7 +35,7 @@ describe('StatsItemQuery', () => {
 
   describe('findByStatsID', () => {
     it('normal case', async () => {
-      const statsID: StatsID = StatsID.of('428a0978-5d01-4da6-96f3-f851cb18e935').get();
+      const statsID: StatsID = StatsID.ofString('428a0978-5d01-4da6-96f3-f851cb18e935').get();
       const rows: Array<StatsItemRow> = [
         {
           statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
@@ -52,27 +52,27 @@ describe('StatsItemQuery', () => {
       ];
       const values: StatsValues = StatsValues.of([
         StatsValue.of(
-          StatsItemID.of('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
+          StatsItemID.ofString('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
           AsOf.ofString('2000-01-01').get(),
           NumericalValue.of(1)
         ),
         StatsValue.of(
-          StatsItemID.of('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c').get(),
+          StatsItemID.ofString('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c').get(),
           AsOf.ofString('2001-01-01').get(),
           NumericalValue.of(11)
         ),
         StatsValue.of(
-          StatsItemID.of('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
+          StatsItemID.ofString('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
           AsOf.ofString('2000-01-02').get(),
           NumericalValue.of(2)
         ),
         StatsValue.of(
-          StatsItemID.of('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c').get(),
+          StatsItemID.ofString('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c').get(),
           AsOf.ofString('2001-01-02').get(),
           NumericalValue.of(12)
         ),
         StatsValue.of(
-          StatsItemID.of('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
+          StatsItemID.ofString('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
           AsOf.ofString('2000-01-03').get(),
           NumericalValue.of(3)
         )
@@ -117,7 +117,7 @@ describe('StatsItemQuery', () => {
     });
 
     it('returns Failure when statsItems\' statsItemID is malformat', async () => {
-      const statsID: StatsID = StatsID.of('428a0978-5d01-4da6-96f3-f851cb18e935').get();
+      const statsID: StatsID = StatsID.ofString('428a0978-5d01-4da6-96f3-f851cb18e935').get();
       const rows: Array<StatsItemRow> = [
         {
           statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
@@ -134,27 +134,27 @@ describe('StatsItemQuery', () => {
       ];
       const values: StatsValues = StatsValues.of([
         StatsValue.of(
-          StatsItemID.of('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
+          StatsItemID.ofString('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
           AsOf.ofString('2000-01-01').get(),
           NumericalValue.of(1)
         ),
         StatsValue.of(
-          StatsItemID.of('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c').get(),
+          StatsItemID.ofString('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c').get(),
           AsOf.ofString('2001-01-01').get(),
           NumericalValue.of(11)
         ),
         StatsValue.of(
-          StatsItemID.of('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
+          StatsItemID.ofString('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
           AsOf.ofString('2000-01-02').get(),
           NumericalValue.of(2)
         ),
         StatsValue.of(
-          StatsItemID.of('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c').get(),
+          StatsItemID.ofString('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c').get(),
           AsOf.ofString('2001-01-02').get(),
           NumericalValue.of(12)
         ),
         StatsValue.of(
-          StatsItemID.of('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
+          StatsItemID.ofString('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
           AsOf.ofString('2000-01-03').get(),
           NumericalValue.of(3)
         )
@@ -187,7 +187,7 @@ describe('StatsItemQuery', () => {
     });
 
     it('returns Failure when StatsValueQuery throws StatsValuesError', async () => {
-      const statsID: StatsID = StatsID.of('428a0978-5d01-4da6-96f3-f851cb18e935').get();
+      const statsID: StatsID = StatsID.ofString('428a0978-5d01-4da6-96f3-f851cb18e935').get();
       const rows: Array<StatsItemRow> = [
         {
           statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
@@ -230,7 +230,7 @@ describe('StatsItemQuery', () => {
     });
 
     it('returns Failure when StatsValueQuery throws DataSourceError', async () => {
-      const statsID: StatsID = StatsID.of('428a0978-5d01-4da6-96f3-f851cb18e935').get();
+      const statsID: StatsID = StatsID.ofString('428a0978-5d01-4da6-96f3-f851cb18e935').get();
       const rows: Array<StatsItemRow> = [
         {
           statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
@@ -274,7 +274,7 @@ describe('StatsItemQuery', () => {
 
     it('throws Error', async () => {
       const error: Error = new Error();
-      const statsID: StatsID = StatsID.of('428a0978-5d01-4da6-96f3-f851cb18e935').get();
+      const statsID: StatsID = StatsID.ofString('428a0978-5d01-4da6-96f3-f851cb18e935').get();
 
       const mysql: MockMySQL = new MockMySQL();
       const stub1: SinonStub = sinon.stub();

@@ -60,7 +60,7 @@ describe('StatsValueQuery', () => {
       stub.resolves(rows);
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
-      const trial: Try<StatsValues, StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(StatsID.of('d4703058-a6ff-420b-95b2-4475beba9027').get());
+      const trial: Try<StatsValues, StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(StatsID.ofString('d4703058-a6ff-420b-95b2-4475beba9027').get());
 
       expect(stub.withArgs(`SELECT
       R1.stats_item_id AS statsItemID,
@@ -118,7 +118,7 @@ describe('StatsValueQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
-      const trial: Try<StatsValues, StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(StatsID.of('d4703058-a6ff-420b-95b2-4475beba9027').get());
+      const trial: Try<StatsValues, StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(StatsID.ofString('d4703058-a6ff-420b-95b2-4475beba9027').get());
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -141,7 +141,7 @@ describe('StatsValueQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
-      const trial: Try<StatsValues, StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(StatsID.of('d4703058-a6ff-420b-95b2-4475beba9027').get());
+      const trial: Try<StatsValues, StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(StatsID.ofString('d4703058-a6ff-420b-95b2-4475beba9027').get());
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -167,7 +167,7 @@ describe('StatsValueQuery', () => {
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
       try {
-        await statsValueQuery.findByStatsID(StatsID.of('d4703058-a6ff-420b-95b2-4475beba9027').get());
+        await statsValueQuery.findByStatsID(StatsID.ofString('d4703058-a6ff-420b-95b2-4475beba9027').get());
         spy1();
       }
       catch (err) {

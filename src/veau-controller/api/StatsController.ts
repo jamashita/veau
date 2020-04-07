@@ -42,7 +42,7 @@ router.get('/page/:page(\\d+)', authenticationMiddleware.requires(), async (req:
 });
 
 router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: express.Response) => {
-  const statsID: StatsID = StatsID.of(req.params.statsID).get();
+  const statsID: StatsID = StatsID.ofString(req.params.statsID).get();
 
   const trial: Try<JSONable, NotFoundError | StatsError> = await statsInteractor.findByStatsID(statsID);
 

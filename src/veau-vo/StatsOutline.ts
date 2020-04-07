@@ -72,7 +72,7 @@ export class StatsOutline extends ValueObject implements JSONable, Cloneable {
       updatedAt
     } = json;
 
-    return StatsID.of(statsID).match<Try<StatsOutline, StatsOutlineError>>((id: StatsID) => {
+    return StatsID.ofString(statsID).match<Try<StatsOutline, StatsOutlineError>>((id: StatsID) => {
       return Term.of(termID).match<Try<StatsOutline, StatsOutlineError>>((term: Term) => {
         return UpdatedAt.ofString(updatedAt).match<Try<StatsOutline, StatsOutlineError>>((at: UpdatedAt) => {
           return Success.of<StatsOutline, StatsOutlineError>(StatsOutline.of(
@@ -114,7 +114,7 @@ export class StatsOutline extends ValueObject implements JSONable, Cloneable {
     const language: Language = Language.of(LanguageID.of(languageID), LanguageName.of(languageName), LanguageName.of(languageEnglishName), ISO639.of(iso639));
     const region: Region = Region.of(RegionID.of(regionID), RegionName.of(regionName), ISO3166.of(iso3166));
 
-    return StatsID.of(statsID).match<Try<StatsOutline, StatsOutlineError>>((id: StatsID) => {
+    return StatsID.ofString(statsID).match<Try<StatsOutline, StatsOutlineError>>((id: StatsID) => {
       return Term.of(termID).match<Try<StatsOutline, StatsOutlineError>>((term: Term) => {
         return UpdatedAt.ofString(updatedAt).match<Try<StatsOutline, StatsOutlineError>>((at: UpdatedAt) => {
           return Success.of<StatsOutline, StatsOutlineError>(StatsOutline.of(

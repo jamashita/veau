@@ -14,9 +14,9 @@ import { StatsItemCommand } from '../StatsItemCommand';
 describe('StatsItemCommand', () => {
   describe('create', () => {
     it('normal case', async () => {
-      const statsID: StatsID = StatsID.of('59915b56-b930-426c-a146-3b1dde8054cd').get();
+      const statsID: StatsID = StatsID.ofString('59915b56-b930-426c-a146-3b1dde8054cd').get();
       const statsItem: StatsItem = StatsItem.of(
-        StatsItemID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(),
+        StatsItemID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(),
         StatsItemName.of('stats item name'),
         StatsValues.empty()
       );
@@ -43,9 +43,9 @@ describe('StatsItemCommand', () => {
     });
 
     it('returns Failure because the client throws MySQLError', async () => {
-      const statsID: StatsID = StatsID.of('59915b56-b930-426c-a146-3b1dde8054cd').get();
+      const statsID: StatsID = StatsID.ofString('59915b56-b930-426c-a146-3b1dde8054cd').get();
       const statsItem: StatsItem = StatsItem.of(
-        StatsItemID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(),
+        StatsItemID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(),
         StatsItemName.of('stats item name'),
         StatsValues.empty()
       );
@@ -73,9 +73,9 @@ describe('StatsItemCommand', () => {
     });
 
     it('throws Error', async () => {
-      const statsID: StatsID = StatsID.of('59915b56-b930-426c-a146-3b1dde8054cd').get();
+      const statsID: StatsID = StatsID.ofString('59915b56-b930-426c-a146-3b1dde8054cd').get();
       const statsItem: StatsItem = StatsItem.of(
-        StatsItemID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(),
+        StatsItemID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(),
         StatsItemName.of('stats item name'),
         StatsValues.empty()
       );
@@ -105,7 +105,7 @@ describe('StatsItemCommand', () => {
 
   describe('deleteByStatsID', () => {
     it('normal case', async () => {
-      const statsID: StatsID = StatsID.of('59915b56-b930-426c-a146-3b1dde8054cd').get();
+      const statsID: StatsID = StatsID.ofString('59915b56-b930-426c-a146-3b1dde8054cd').get();
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
@@ -125,7 +125,7 @@ describe('StatsItemCommand', () => {
     });
 
     it('returns Failure because the client throws MySQLError', async () => {
-      const statsID: StatsID = StatsID.of('59915b56-b930-426c-a146-3b1dde8054cd').get();
+      const statsID: StatsID = StatsID.ofString('59915b56-b930-426c-a146-3b1dde8054cd').get();
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
@@ -150,7 +150,7 @@ describe('StatsItemCommand', () => {
     });
 
     it('throws Error', async () => {
-      const statsID: StatsID = StatsID.of('59915b56-b930-426c-a146-3b1dde8054cd').get();
+      const statsID: StatsID = StatsID.ofString('59915b56-b930-426c-a146-3b1dde8054cd').get();
       const error: Error = new Error();
 
       const query: MockQuery = new MockQuery();

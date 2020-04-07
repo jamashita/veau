@@ -60,7 +60,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
 
   public static ofRow(statsItemRows: Array<StatsItemRow>, statsValues: StatsValues): Try<StatsItems, StatsItemsError> {
     const trials: Array<Try<StatsItem, StatsItemError>> = statsItemRows.map<Try<StatsItem, StatsItemError>>((statsItemRow: StatsItemRow) => {
-      return StatsItemID.of(statsItemRow.statsItemID).match<Try<StatsItem, StatsItemError>>((statsItemID: StatsItemID) => {
+      return StatsItemID.ofString(statsItemRow.statsItemID).match<Try<StatsItem, StatsItemError>>((statsItemID: StatsItemID) => {
         const values: StatsValues = statsValues.filter(statsItemID);
 
         return StatsItem.ofRow(statsItemRow, values);

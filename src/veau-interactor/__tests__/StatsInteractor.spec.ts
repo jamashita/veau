@@ -53,7 +53,7 @@ describe('StatsInteractor', () => {
 
   describe('findByStatsID', () => {
     it('normal case', async () => {
-      const statsID: StatsID = StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94').get();
+      const statsID: StatsID = StatsID.ofString('9016f5d7-654e-4903-bfc9-a89c40919e94').get();
       const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
       const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
       const term: Term = Term.MONTHLY;
@@ -61,8 +61,8 @@ describe('StatsInteractor', () => {
       const unit: StatsUnit = StatsUnit.of('unit');
       const updatedAt: UpdatedAt = UpdatedAt.of(moment());
       const items: StatsItems = StatsItems.of([
-        StatsItem.of(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b').get(), StatsItemName.of('item1'), StatsValues.empty()),
-        StatsItem.of(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8').get(), StatsItemName.of('item2'), StatsValues.empty())
+        StatsItem.of(StatsItemID.ofString('e4acd635-c9bc-4957-ba4d-4d299a08949b').get(), StatsItemName.of('item1'), StatsValues.empty()),
+        StatsItem.of(StatsItemID.ofString('7680c494-158b-43ec-9846-d37d513cf4d8').get(), StatsItemName.of('item2'), StatsValues.empty())
       ]);
       const stats: Stats = Stats.of(
         statsID,
@@ -81,7 +81,7 @@ describe('StatsInteractor', () => {
       stub.resolves(Success.of<Stats, NotFoundError>(stats));
 
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
-      const trial: Try<Stats, NotFoundError | StatsError> = await statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94').get());
+      const trial: Try<Stats, NotFoundError | StatsError> = await statsInteractor.findByStatsID(StatsID.ofString('9016f5d7-654e-4903-bfc9-a89c40919e94').get());
 
       expect(trial.isSuccess()).toEqual(true);
       expect(trial.get().equals(stats)).toEqual(true);
@@ -95,7 +95,7 @@ describe('StatsInteractor', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
-      const trial: Try<Stats, NotFoundError | StatsError> = await statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94').get());
+      const trial: Try<Stats, NotFoundError | StatsError> = await statsInteractor.findByStatsID(StatsID.ofString('9016f5d7-654e-4903-bfc9-a89c40919e94').get());
 
       trial.match<void>(() => {
         spy1();
@@ -116,7 +116,7 @@ describe('StatsInteractor', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
-      const trial: Try<Stats, NotFoundError | StatsError> = await statsInteractor.findByStatsID(StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94').get());
+      const trial: Try<Stats, NotFoundError | StatsError> = await statsInteractor.findByStatsID(StatsID.ofString('9016f5d7-654e-4903-bfc9-a89c40919e94').get());
 
       trial.match<void>(() => {
         spy1();
@@ -132,7 +132,7 @@ describe('StatsInteractor', () => {
 
   describe('findByVeauAccountID', () => {
     it('normal case', async () => {
-      const statsID: StatsID = StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94').get();
+      const statsID: StatsID = StatsID.ofString('9016f5d7-654e-4903-bfc9-a89c40919e94').get();
       const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
       const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
       const term: Term = Term.MONTHLY;
@@ -164,7 +164,7 @@ describe('StatsInteractor', () => {
 
   describe('save', () => {
     it('normal case', async () => {
-      const statsID: StatsID = StatsID.of('9016f5d7-654e-4903-bfc9-a89c40919e94').get();
+      const statsID: StatsID = StatsID.ofString('9016f5d7-654e-4903-bfc9-a89c40919e94').get();
       const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
       const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
       const term: Term = Term.MONTHLY;
@@ -172,8 +172,8 @@ describe('StatsInteractor', () => {
       const unit: StatsUnit = StatsUnit.of('unit');
       const updatedAt: UpdatedAt = UpdatedAt.of(moment());
       const items: StatsItems = StatsItems.of([
-        StatsItem.of(StatsItemID.of('e4acd635-c9bc-4957-ba4d-4d299a08949b').get(), StatsItemName.of('item1'), StatsValues.empty()),
-        StatsItem.of(StatsItemID.of('7680c494-158b-43ec-9846-d37d513cf4d8').get(), StatsItemName.of('item2'), StatsValues.empty())
+        StatsItem.of(StatsItemID.ofString('e4acd635-c9bc-4957-ba4d-4d299a08949b').get(), StatsItemName.of('item1'), StatsValues.empty()),
+        StatsItem.of(StatsItemID.ofString('7680c494-158b-43ec-9846-d37d513cf4d8').get(), StatsItemName.of('item2'), StatsValues.empty())
       ]);
 
       const stats: Stats = Stats.of(

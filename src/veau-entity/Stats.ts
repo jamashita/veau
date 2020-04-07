@@ -105,7 +105,7 @@ export class Stats extends Entity<StatsID> {
       items
     } = json;
 
-    return StatsID.of(statsID).match<Try<Stats, StatsError>>((id: StatsID) => {
+    return StatsID.ofString(statsID).match<Try<Stats, StatsError>>((id: StatsID) => {
       return Term.of(termID).match<Try<Stats, StatsError>>((term: Term) => {
         return UpdatedAt.ofString(updatedAt).match<Try<Stats, StatsError>>((at: UpdatedAt) => {
           return StatsItems.ofJSON(items).match<Try<Stats, StatsError>>((statsItems: StatsItems) => {
@@ -155,7 +155,7 @@ export class Stats extends Entity<StatsID> {
     const language: Language = Language.of(LanguageID.of(languageID), LanguageName.of(languageName), LanguageName.of(languageEnglishName), ISO639.of(iso639));
     const region: Region = Region.of(RegionID.of(regionID), RegionName.of(regionName), ISO3166.of(iso3166));
 
-    return StatsID.of(statsID).match<Try<Stats, StatsError>>((id: StatsID) => {
+    return StatsID.ofString(statsID).match<Try<Stats, StatsError>>((id: StatsID) => {
       return Term.of(termID).match<Try<Stats, StatsError>>((term: Term) => {
         return UpdatedAt.ofString(updatedAt).match<Try<Stats, StatsError>>((at: UpdatedAt) => {
           const stats: Stats = Stats.of(

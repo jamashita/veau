@@ -32,7 +32,7 @@ describe('StatsID', () => {
       const spy2: SinonSpy = sinon.spy();
 
       try {
-        StatsID.of(UUID.of('998106de-b2e7-4981-9643-22cd30cd74de'));
+        StatsID.ofString(UUID.of('998106de-b2e7-4981-9643-22cd30cd74de'));
         spy1();
       }
       catch (err) {

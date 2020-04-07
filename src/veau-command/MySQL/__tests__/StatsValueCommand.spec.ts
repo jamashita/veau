@@ -14,7 +14,7 @@ import { StatsValueCommand } from '../StatsValueCommand';
 describe('StatsValueCommand', () => {
   describe('create', () => {
     it('normal case', async () => {
-      const statsItemID: StatsItemID = StatsItemID.of('6c3f54e0-bfe5-4b4b-9227-2175604ab739').get();
+      const statsItemID: StatsItemID = StatsItemID.ofString('6c3f54e0-bfe5-4b4b-9227-2175604ab739').get();
       const statsValue: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
 
       const query: MockQuery = new MockQuery();
@@ -37,7 +37,7 @@ describe('StatsValueCommand', () => {
     });
 
     it('returns Failure because the client throws MySQLError', async () => {
-      const statsItemID: StatsItemID = StatsItemID.of('6c3f54e0-bfe5-4b4b-9227-2175604ab739').get();
+      const statsItemID: StatsItemID = StatsItemID.ofString('6c3f54e0-bfe5-4b4b-9227-2175604ab739').get();
       const statsValue: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
 
       const query: MockQuery = new MockQuery();
@@ -63,7 +63,7 @@ describe('StatsValueCommand', () => {
     });
 
     it('throws Error', async () => {
-      const statsItemID: StatsItemID = StatsItemID.of('6c3f54e0-bfe5-4b4b-9227-2175604ab739').get();
+      const statsItemID: StatsItemID = StatsItemID.ofString('6c3f54e0-bfe5-4b4b-9227-2175604ab739').get();
       const statsValue: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
       const error: Error = new Error();
 
@@ -91,7 +91,7 @@ describe('StatsValueCommand', () => {
 
   describe('deleteByStatsID', () => {
     it('normal case', async () => {
-      const statsID: StatsID = StatsID.of('59915b56-b930-426c-a146-3b1dde8054cd').get();
+      const statsID: StatsID = StatsID.ofString('59915b56-b930-426c-a146-3b1dde8054cd').get();
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
@@ -113,7 +113,7 @@ describe('StatsValueCommand', () => {
     });
 
     it('returns Failure because the client throws MySQLError', async () => {
-      const statsID: StatsID = StatsID.of('59915b56-b930-426c-a146-3b1dde8054cd').get();
+      const statsID: StatsID = StatsID.ofString('59915b56-b930-426c-a146-3b1dde8054cd').get();
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
@@ -138,7 +138,7 @@ describe('StatsValueCommand', () => {
     });
 
     it('throws Error', async () => {
-      const statsID: StatsID = StatsID.of('59915b56-b930-426c-a146-3b1dde8054cd').get();
+      const statsID: StatsID = StatsID.ofString('59915b56-b930-426c-a146-3b1dde8054cd').get();
       const error: Error = new Error();
 
       const query: MockQuery = new MockQuery();

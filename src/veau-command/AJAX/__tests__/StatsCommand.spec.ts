@@ -41,7 +41,7 @@ describe('StatsCommand', () => {
   describe('create', () => {
     it('normal case',  async () => {
       const stats: Stats = Stats.of(
-        StatsID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87').get(),
+        StatsID.ofString('d5619e72-3233-43a8-9cc8-571e53b2ff87').get(),
         Language.of(LanguageID.of(3), LanguageName.of('language name 1'), LanguageName.of('language name 2'), ISO639.of('aa')),
         Region.of(RegionID.of(4), RegionName.of('region name 5'), ISO3166.of('bb')),
         Term.DAILY,
@@ -89,7 +89,7 @@ describe('StatsCommand', () => {
 
     it('throws AJAXError', async () => {
       const stats: Stats = Stats.of(
-        StatsID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87').get(),
+        StatsID.ofString('d5619e72-3233-43a8-9cc8-571e53b2ff87').get(),
         Language.of(LanguageID.of(3), LanguageName.of('language name 1'), LanguageName.of('language name 2'), ISO639.of('aa')),
         Region.of(RegionID.of(4), RegionName.of('region name 5'), ISO3166.of('bb')),
         Term.DAILY,

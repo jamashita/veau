@@ -48,7 +48,7 @@ describe('StatsController', () => {
       StatsInteractor.prototype.findByVeauAccountID = stub;
       const outlines: StatsOutlines = StatsOutlines.of([
         StatsOutline.of(
-          StatsID.of('01c466f3-198a-45a4-9204-348ac57b1b5d').get(),
+          StatsID.ofString('01c466f3-198a-45a4-9204-348ac57b1b5d').get(),
           Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
           Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
           Term.DAILY,
@@ -131,7 +131,7 @@ describe('StatsController', () => {
       const stub: SinonStub = sinon.stub();
       StatsInteractor.prototype.findByStatsID = stub;
       const stats: Stats = Stats.of(
-        StatsID.of('059ce0b2-7cba-4ba4-9a5d-a8fa7493f556').get(),
+        StatsID.ofString('059ce0b2-7cba-4ba4-9a5d-a8fa7493f556').get(),
         Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english name'), ISO639.of('la')),
         Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('RGN')),
         Term.DAILY,
@@ -139,8 +139,8 @@ describe('StatsController', () => {
         StatsUnit.of('unit'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
         StatsItems.of([
-          StatsItem.of(StatsItemID.of('09c2e4a6-6839-4fbe-858e-bf2c4ee7d5e6').get(), StatsItemName.of('stats item'), StatsValues.of([
-            StatsValue.of(StatsItemID.of('09c2e4a6-6839-4fbe-858e-bf2c4ee7d5e6').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(5))
+          StatsItem.of(StatsItemID.ofString('09c2e4a6-6839-4fbe-858e-bf2c4ee7d5e6').get(), StatsItemName.of('stats item'), StatsValues.of([
+            StatsValue.of(StatsItemID.ofString('09c2e4a6-6839-4fbe-858e-bf2c4ee7d5e6').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(5))
           ]))
         ]),
         None.of<AsOf>()

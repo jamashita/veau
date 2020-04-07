@@ -28,7 +28,7 @@ describe('StatsCommand', () => {
   describe('create', () => {
     it('normal case', async () => {
       const stats: Stats = Stats.of(
-        StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(),
+        StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(),
         Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('language 2'), ISO639.of('aa')),
         Region.of(RegionID.of(2), RegionName.of('region 3'), ISO3166.of('abc')),
         Term.DAILY,
@@ -70,7 +70,7 @@ describe('StatsCommand', () => {
 
     it('returns Failure because the client throws MySQLError', async () => {
       const stats: Stats = Stats.of(
-        StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(),
+        StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(),
         Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('language 2'), ISO639.of('aa')),
         Region.of(RegionID.of(2), RegionName.of('region 3'), ISO3166.of('abc')),
         Term.DAILY,
@@ -106,7 +106,7 @@ describe('StatsCommand', () => {
 
     it('throws Error', async () => {
       const stats: Stats = Stats.of(
-        StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(),
+        StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(),
         Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('language 2'), ISO639.of('aa')),
         Region.of(RegionID.of(2), RegionName.of('region 3'), ISO3166.of('abc')),
         Term.DAILY,
@@ -143,7 +143,7 @@ describe('StatsCommand', () => {
 
   describe('deleteByStatsID', () => {
     it('normal case', async () => {
-      const statsID: StatsID = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get();
+      const statsID: StatsID = StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get();
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
@@ -161,7 +161,7 @@ describe('StatsCommand', () => {
     });
 
     it('returns Failure because the client throws MySQLError', async () => {
-      const statsID: StatsID = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get();
+      const statsID: StatsID = StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get();
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
@@ -186,7 +186,7 @@ describe('StatsCommand', () => {
     });
 
     it('throws Error', async () => {
-      const statsID: StatsID = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get();
+      const statsID: StatsID = StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get();
       const error: Error = new Error();
 
       const query: MockQuery = new MockQuery();

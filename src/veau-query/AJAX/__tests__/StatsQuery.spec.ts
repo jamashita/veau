@@ -26,7 +26,7 @@ describe('StatsQuery', () => {
 
   describe('findByStatsID', () => {
     it('normal case', async () => {
-      const statsID: StatsID = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get();
+      const statsID: StatsID = StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get();
       const json: StatsJSON = {
         statsID: 'f6fb9662-cbe8-4a91-8aa4-47a92f05b007',
         language: {
@@ -77,7 +77,7 @@ describe('StatsQuery', () => {
     });
 
     it('returns Failure when it has wrong format statsID', async () => {
-      const statsID: StatsID = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get();
+      const statsID: StatsID = StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get();
       const json: StatsJSON = {
         statsID: 'malformat uuid',
         language: {
@@ -125,7 +125,7 @@ describe('StatsQuery', () => {
     });
 
     it('returns NO_CONTENT', async () => {
-      const statsID: StatsID = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get();
+      const statsID: StatsID = StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get();
 
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
@@ -154,7 +154,7 @@ describe('StatsQuery', () => {
     });
 
     it('doesn\'t return OK', async () => {
-      const statsID: StatsID = StatsID.of('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get();
+      const statsID: StatsID = StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get();
 
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
