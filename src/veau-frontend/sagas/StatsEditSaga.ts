@@ -50,8 +50,7 @@ export class StatsEditSaga {
   private readonly languageQuery: ILanguageQuery;
   private readonly regionQuery: IRegionQuery;
 
-  public constructor(
-    @inject(TYPE.StatsAJAXQuery) statsQuery: IStatsQuery,
+  public constructor(@inject(TYPE.StatsAJAXQuery) statsQuery: IStatsQuery,
     @inject(TYPE.LocaleVaultQuery) localeQuery: ILocaleQuery,
     @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery,
     @inject(TYPE.RegionVaultQuery) regionQuery: IRegionQuery

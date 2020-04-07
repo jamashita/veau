@@ -17,13 +17,12 @@ export class RootSaga {
   private readonly statsEditSaga: StatsEditSaga;
   private readonly statsListSaga: StatsListSaga;
 
-  public constructor(
-    @inject(TYPE.EntranceSaga) entranceSaga: EntranceSaga,
+  public constructor(@inject(TYPE.EntranceSaga) entranceSaga: EntranceSaga,
     @inject(TYPE.IdentitySaga) identitySaga: IdentitySaga,
     @inject(TYPE.LogoutSaga) logoutSaga: LogoutSaga,
     @inject(TYPE.RedirectSaga) redirectSaga: RedirectSaga,
-    @inject(TYPE.S) statsEditSaga: StatsEditSaga,
-    statsListSaga: StatsListSaga
+    @inject(TYPE.StatsEditSaga) statsEditSaga: StatsEditSaga,
+    @inject(TYPE.StatsListSaga) statsListSaga: StatsListSaga
   ) {
     this.entranceSaga = entranceSaga;
     this.identitySaga = identitySaga;
