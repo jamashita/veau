@@ -5,6 +5,7 @@ export type DIType = {
   RegionRedisCommand: symbol;
   AuthenticationMiddleware: symbol;
   AJAX: symbol;
+  Vault: symbol;
   MySQL: symbol;
   Redis: symbol;
   AuthenticationInteractor: symbol;
@@ -38,6 +39,7 @@ export const TYPE: DIType = {
   RegionRedisCommand: Symbol('RegionRedisCommand'),
   AuthenticationMiddleware: Symbol('AuthenticationMiddleware'),
   AJAX: Symbol('AJAX'),
+  Vault: Symbol('Vault'),
   MySQL: Symbol('MySQL'),
   Redis: Symbol('Redis'),
   AuthenticationInteractor: Symbol('AuthenticationInteractor'),
