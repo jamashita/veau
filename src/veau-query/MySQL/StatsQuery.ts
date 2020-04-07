@@ -7,6 +7,7 @@ import { StatsError } from '../../veau-error/StatsError';
 import { StatsItemsError } from '../../veau-error/StatsItemsError';
 import { DataSourceError } from '../../veau-general/DataSourceError';
 import { IMySQL } from '../../veau-general/MySQL/interfaces/IMySQL';
+import { MySQLError } from '../../veau-general/MySQL/MySQLError';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Try } from '../../veau-general/Try/Try';
 import { StatsID } from '../../veau-vo/StatsID';
@@ -49,24 +50,33 @@ export class StatsQuery implements IStatsQuery, IMySQLQuery {
       USING(region_id)
       WHERE R1.stats_id = :statsID;`;
 
-    const statsRows: Array<StatsRow> = await this.mysql.execute<Array<StatsRow>>(query, {
-      statsID: statsID.get()
-    });
+    try {
+      const statsRows: Array<StatsRow> = await this.mysql.execute<Array<StatsRow>>(query, {
+        statsID: statsID.get()
+      });
 
-    if (statsRows.length === 0) {
-      return Failure.of<Stats, NoSuchElementError>(new NoSuchElementError(statsID.toString()));
-    }
-
-    const trial: Try<StatsItems, StatsItemsError | DataSourceError> = await this.statsItemQuery.findByStatsID(statsID);
-
-    return trial.match<Try<Stats, StatsError | DataSourceError>>((statsItems: StatsItems) => {
-      return Stats.ofRow(statsRows[0], statsItems);
-    }, (err: StatsItemsError | DataSourceError) => {
-      if (err instanceof DataSourceError) {
-        return Failure.of<Stats, DataSourceError>(err);
+      if (statsRows.length === 0) {
+        return Failure.of<Stats, NoSuchElementError>(new NoSuchElementError(statsID.toString()));
       }
 
-      return Failure.of<Stats, StatsError>(new StatsError(err.message));
-    });
+      const trial: Try<StatsItems, StatsItemsError | DataSourceError> = await this.statsItemQuery.findByStatsID(statsID);
+
+      return trial.match<Try<Stats, StatsError | DataSourceError>>((statsItems: StatsItems) => {
+        return Stats.ofRow(statsRows[0], statsItems);
+      }, (err: StatsItemsError | DataSourceError) => {
+        if (err instanceof DataSourceError) {
+          return Failure.of<Stats, DataSourceError>(err);
+        }
+
+        return Failure.of<Stats, StatsError>(new StatsError(err.message));
+      });
+    }
+    catch (err) {
+      if (err instanceof MySQLError) {
+        return Failure.of<Stats, MySQLError>(err);
+      }
+
+      throw err;
+    }
   }
 }

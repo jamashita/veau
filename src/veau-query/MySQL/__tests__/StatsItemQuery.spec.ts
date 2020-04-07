@@ -75,7 +75,7 @@ describe('StatsItemQuery', () => {
           StatsItemID.of('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
           AsOf.ofString('2000-01-03').get(),
           NumericalValue.of(3)
-        ),
+        )
       ]);
 
       const mysql: MockMySQL = new MockMySQL();
@@ -157,7 +157,7 @@ describe('StatsItemQuery', () => {
           StatsItemID.of('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
           AsOf.ofString('2000-01-03').get(),
           NumericalValue.of(3)
-        ),
+        )
       ]);
 
       const mysql: MockMySQL = new MockMySQL();
