@@ -1,6 +1,7 @@
 import { Container } from 'inversify';
 import { SessionCommand as SessionAJAXCommand } from '../veau-command/AJAX/SessionCommand';
 import { StatsCommand as StatsAJAXCommand } from '../veau-command/AJAX/StatsCommand';
+import { LocaleCommand as LocaleHeapCommand } from '../veau-command/Heap/LocaleCommand';
 import { LanguageCommand as LanguageRedisCommand } from '../veau-command/Redis/LanguageCommand';
 import { RegionCommand as RegionRedisCommand } from '../veau-command/Redis/RegionCommand';
 import { AuthenticationMiddleware } from '../veau-controller/middlewares/AuthenticationMiddleware';
@@ -67,6 +68,7 @@ vault.bind<AJAX>(TYPE.AJAX).toConstantValue(new AJAX());
 vault.bind<Heap>(TYPE.Vault).toConstantValue(veauVault);
 vault.bind<SessionAJAXCommand>(TYPE.SessionAJAXCommand).to(SessionAJAXCommand).inSingletonScope();
 vault.bind<StatsAJAXCommand>(TYPE.StatsAJAXCommand).to(StatsAJAXCommand).inSingletonScope();
+vault.bind<LocaleHeapCommand>(TYPE.LocaleHeapCommand).to(LocaleHeapCommand).inSingletonScope();
 vault.bind<LocaleAJAXQuery>(TYPE.LocaleAJAXQuery).to(LocaleAJAXQuery).inSingletonScope();
 vault.bind<SessionAJAXQuery>(TYPE.SessionAJAXQuery).to(SessionAJAXQuery).inSingletonScope();
 vault.bind<LocaleHeapQuery>(TYPE.LocaleHeapQuery).to(LocaleHeapQuery).inSingletonScope();
