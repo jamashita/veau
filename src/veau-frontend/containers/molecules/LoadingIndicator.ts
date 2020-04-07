@@ -5,13 +5,10 @@ import { State } from '../../State';
 type StateProps = Readonly<{
   loadingCount: number;
 }>;
-
 type DispatchProps = Readonly<{
 }>;
-
 type OwnProps = Readonly<{
 }>;
-
 export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {

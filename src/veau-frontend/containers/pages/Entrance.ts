@@ -11,16 +11,13 @@ import { State } from '../../State';
 type StateProps = Readonly<{
   entranceInformation: EntranceInformation;
 }>;
-
 type DispatchProps = Readonly<{
   accountTyped: (name: AccountName) => void;
   passwordTyped: (password: Password) => void;
   loginClicked: () => void;
 }>;
-
 type OwnProps = Readonly<{
 }>;
-
 export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {

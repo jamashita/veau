@@ -5,13 +5,13 @@ import { StatsItem } from '../../../veau-entity/StatsItem';
 import { StatsItemName } from '../../../veau-vo/StatsItemName';
 import { TextField } from '../atoms/TextField';
 
-type Props = {
+type Props = Readonly<{
   selecting?: StatsItem;
   nameTyped: (name: StatsItemName) => void;
   removeItem: (statsItem: StatsItem) => void;
-};
-type State = {
-};
+}>;
+type State = Readonly<{
+}>;
 
 class StatsItemInformationImpl extends React.Component<Props & WrappedComponentProps, State> {
 

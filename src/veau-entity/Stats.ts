@@ -48,7 +48,6 @@ export type StatsJSON = Readonly<{
   updatedAt: string;
   items: Array<StatsItemJSON>;
 }>;
-
 export type StatsRow = Readonly<{
   statsID: string;
   languageID: number;
@@ -63,7 +62,6 @@ export type StatsRow = Readonly<{
   unit: string;
   updatedAt: string;
 }>;
-
 type Chart = {
   [key: string]: string | number;
 };
@@ -572,7 +570,7 @@ export class Stats extends Entity<StatsID> {
     } = this;
 
     return {
-      statsID: statsID.get(),
+      statsID: statsID.get().get(),
       language: language.toJSON(),
       region: region.toJSON(),
       termID: term.getID(),

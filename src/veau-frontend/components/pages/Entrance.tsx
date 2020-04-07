@@ -6,8 +6,8 @@ import { Password } from '../../../veau-vo/Password';
 import { Props } from '../../containers/pages/Entrance';
 import { TextField } from '../atoms/TextField';
 
-type State = {
-};
+type State = Readonly<{
+}>;
 
 class EntranceImpl extends React.Component<Props & WrappedComponentProps, State> {
 

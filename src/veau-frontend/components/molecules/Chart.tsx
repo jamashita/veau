@@ -4,11 +4,11 @@ import { Stats } from '../../../veau-entity/Stats';
 import { Colors } from '../../../veau-vo/Colors';
 import { StatsItemName } from '../../../veau-vo/StatsItemName';
 
-type Props = {
+type Props = Readonly<{
   stats: Stats;
-};
-type State = {
-};
+}>;
+type State = Readonly<{
+}>;
 
 const CHART_HEIGHT: number = 500;
 const MARGIN: number = 8;

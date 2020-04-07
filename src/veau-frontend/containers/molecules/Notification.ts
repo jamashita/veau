@@ -14,14 +14,11 @@ type StateProps = Readonly<{
   duration: number;
   values?: {[key: string]: string};
 }>;
-
 type DispatchProps = Readonly<{
   closeClicked: () => void;
 }>;
-
 type OwnProps = Readonly<{
 }>;
-
 export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {

@@ -1,9 +1,9 @@
 import React from 'react';
 
-type Props = {
-};
-type State = {
-};
+type Props = Readonly<{
+}>;
+type State = Readonly<{
+}>;
 
 export class NotFound extends React.Component<Props, State> {
 

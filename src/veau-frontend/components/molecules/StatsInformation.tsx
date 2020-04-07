@@ -11,16 +11,16 @@ import { StatsName } from '../../../veau-vo/StatsName';
 import { StatsUnit } from '../../../veau-vo/StatsUnit';
 import { TextField } from '../atoms/TextField';
 
-type Props = {
+type Props = Readonly<{
   stats: Stats;
   locale: Locale;
   nameTyped: (name: StatsName) => void;
   unitTyped: (unit: StatsUnit) => void;
   iso639Selected: (iso639: ISO639) => void;
   iso3166Selected: (iso3166: ISO3166) => void;
-};
-type State = {
-};
+}>;
+type State = Readonly<{
+}>;
 
 class StatsInformationImpl extends React.Component<Props & WrappedComponentProps, State> {
 

@@ -1,14 +1,13 @@
 import bodyParser from 'body-parser';
 import express from 'express';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NO_CONTENT, OK } from 'http-status';
-
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';
 import { Stats } from '../../../veau-entity/Stats';
 import { StatsItem } from '../../../veau-entity/StatsItem';
 import { StatsItems } from '../../../veau-entity/StatsItems';
-import { NotFoundError } from '../../../veau-error/NotFoundError';
+import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
 import { StatsError } from '../../../veau-error/StatsError';
 import { StatsOutlinesError } from '../../../veau-error/StatsOutlinesError';
 import { None } from '../../../veau-general/Optional/None';
@@ -145,7 +144,7 @@ describe('StatsController', () => {
         ]),
         None.of<AsOf>()
       );
-      stub.resolves(Success.of<Stats, NotFoundError>(stats));
+      stub.resolves(Success.of<Stats, NoSuchElementError>(stats));
       const app: express.Express = express();
       app.use('/', StatsController);
 
@@ -186,7 +185,7 @@ describe('StatsController', () => {
     it('not found', async () => {
       const stub: SinonStub = sinon.stub();
       StatsInteractor.prototype.findByStatsID = stub;
-      stub.resolves(Failure.of<Stats, NotFoundError>(new NotFoundError('test failed')));
+      stub.resolves(Failure.of<Stats, NoSuchElementError>(new NoSuchElementError('test failed')));
       const app: express.Express = express();
       app.use('/', StatsController);
 
@@ -198,7 +197,7 @@ describe('StatsController', () => {
     it('replies INTERNAL_SERVER_ERROR', async () => {
       const stub: SinonStub = sinon.stub();
       StatsInteractor.prototype.findByStatsID = stub;
-      stub.resolves(Failure.of<Stats, NotFoundError | StatsError>(new StatsError('test failed')));
+      stub.resolves(Failure.of<Stats, NoSuchElementError | StatsError>(new StatsError('test failed')));
       const app: express.Express = express();
       app.use('/', StatsController);
 

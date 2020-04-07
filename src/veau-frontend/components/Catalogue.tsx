@@ -6,10 +6,10 @@ import { StatsList } from '../containers/pages/StatsList';
 import { Endpoints } from '../Endpoints';
 import { NotFound } from './pages/NotFound';
 
-type Props = {
-};
-type State = {
-};
+type Props = Readonly<{
+}>;
+type State = Readonly<{
+}>;
 
 export class Catalogue extends React.Component<Props, State> {
 

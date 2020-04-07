@@ -5,15 +5,15 @@ import { StatsItem } from '../../../veau-entity/StatsItem';
 import { StatsItemName } from '../../../veau-vo/StatsItemName';
 import { TextField } from '../atoms/TextField';
 
-type Props = {
+type Props = Readonly<{
   open: boolean;
   statsItem: StatsItem;
   close: () => void;
   itemNameTyped: (name: StatsItemName) => void;
   saveNewItem: () => void;
-};
-type State = {
-};
+}>;
+type State = Readonly<{
+}>;
 
 class StatsItemModalImpl extends React.Component<Props & WrappedComponentProps, State> {
 

@@ -6,8 +6,8 @@ import { Authenticated } from '../../containers/templates/Authenticated';
 import { StatsOutlineListTable } from '../molecules/StatsOutlineListTable';
 import { StatsOutlineModal } from '../molecules/StatsOutlineModal';
 
-type State = {
-};
+type State = Readonly<{
+}>;
 
 class StatsListImpl extends React.Component<Props & WrappedComponentProps, State> {
 

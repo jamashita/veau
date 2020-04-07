@@ -24,7 +24,7 @@ import { Term } from '../../../veau-vo/Term';
 import { Terms } from '../../../veau-vo/Terms';
 import { TextField } from '../atoms/TextField';
 
-type Props = {
+type Props = Readonly<{
   open: boolean;
   stats: Stats;
   locale: Locale;
@@ -35,9 +35,9 @@ type Props = {
   iso3166Selected: (iso3166: ISO3166) => void;
   termSelected: (term: Term) => void;
   saveNewStats: () => void;
-};
-type State = {
-};
+}>;
+type State = Readonly<{
+}>;
 
 class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProps, State> {
 

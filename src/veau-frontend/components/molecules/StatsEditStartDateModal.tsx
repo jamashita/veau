@@ -4,14 +4,14 @@ import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { TextField } from '../atoms/TextField';
 
-type Props = {
+type Props = Readonly<{
   open: boolean;
   close: () => void;
   determineStartDate: (startDate: string) => void;
-};
-type State = {
+}>;
+type State = Readonly<{
   startDate: string;
-};
+}>;
 
 class StatsEditStartDateModalImpl extends React.Component<Props & WrappedComponentProps, State> {
 

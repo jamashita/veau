@@ -3,8 +3,8 @@ import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Props } from '../../containers/molecules/LoadingIndicator';
 
-type State = {
-};
+type State = Readonly<{
+}>;
 
 const SIZE: number = 100;
 

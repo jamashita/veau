@@ -3,8 +3,8 @@ import { PageProvider } from '../../containers/molecules/PageProvider';
 import { Props } from '../../containers/templates/Authenticated';
 import { Header } from '../molecules/Header';
 
-type State = {
-};
+type State = Readonly<{
+}>;
 
 export class Authenticated extends React.Component<Props, State> {
 

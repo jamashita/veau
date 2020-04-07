@@ -2,7 +2,7 @@ import { NO_CONTENT, OK } from 'http-status';
 import { inject, injectable } from 'inversify';
 import { TYPE } from '../../veau-container/Types';
 import { Stats, StatsJSON } from '../../veau-entity/Stats';
-import { NotFoundError } from '../../veau-error/NotFoundError';
+import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { StatsError } from '../../veau-error/StatsError';
 import { AJAXError } from '../../veau-general/AJAX/AJAXError';
 import { AJAXResponse } from '../../veau-general/AJAX/AJAXResponse';
@@ -24,8 +24,8 @@ export class StatsQuery implements IStatsQuery, IAJAXQuery {
     this.ajax = ajax;
   }
 
-  public async findByStatsID(statsID: StatsID): Promise<Try<Stats, StatsError | NotFoundError | DataSourceError>> {
-    const response: AJAXResponse<StatsJSON> = await this.ajax.get<StatsJSON>(`/api/stats/${statsID.get()}`);
+  public async findByStatsID(statsID: StatsID): Promise<Try<Stats, NoSuchElementError | StatsError | DataSourceError>> {
+    const response: AJAXResponse<StatsJSON> = await this.ajax.get<StatsJSON>(`/api/stats/${statsID.get().get()}`);
     const {
       status,
       body
@@ -36,7 +36,7 @@ export class StatsQuery implements IStatsQuery, IAJAXQuery {
         return Stats.ofJSON(body);
       }
       case NO_CONTENT: {
-        return Failure.of<Stats, NotFoundError>(new NotFoundError('NOT FOUND'));
+        return Failure.of<Stats, NoSuchElementError>(new NoSuchElementError('NOT FOUND'));
       }
       default: {
         return Failure.of<Stats, AJAXError>(new AJAXError('UNKNOWN ERROR'));

@@ -44,7 +44,6 @@ import { State } from '../../State';
 type MatchParam = Readonly<{
   id: string;
 }>;
-
 type StateProps = Readonly<{
   stats: Stats;
   statsItem: StatsItem;
@@ -52,7 +51,6 @@ type StateProps = Readonly<{
   locale: Locale;
   id: string | null;
 }>;
-
 type DispatchProps = Readonly<{
   initialize: (statsID: StatsID) => void;
   invalidIDInput: () => void;
@@ -73,7 +71,6 @@ type DispatchProps = Readonly<{
   removeItem: (statsItem: StatsItem) => void;
   save: () => void;
 }>;
-
 type OwnProps = Readonly<{
 }>;
 

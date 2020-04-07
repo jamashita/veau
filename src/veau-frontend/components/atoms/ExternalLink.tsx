@@ -1,11 +1,11 @@
 import React from 'react';
 
-type Props = {
+type Props = Readonly<{
   href: string;
   style?: {[key: string]: string};
-};
-type State = {
-};
+}>;
+type State = Readonly<{
+}>;
 
 export class ExternalLink extends React.Component<Props, State> {
 

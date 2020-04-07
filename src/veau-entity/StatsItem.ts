@@ -20,7 +20,6 @@ export type StatsItemJSON = Readonly<{
   name: string;
   values: Array<StatsValueJSON>;
 }>;
-
 export type StatsItemRow = Readonly<{
   statsItemID: string;
   name: string;

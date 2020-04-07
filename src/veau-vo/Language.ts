@@ -11,7 +11,6 @@ export type LanguageJSON = Readonly<{
   englishName: string;
   iso639: string;
 }>;
-
 export type LanguageRow = Readonly<{
   languageID: number;
   name: string;

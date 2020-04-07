@@ -3,8 +3,8 @@ import { IntlProvider } from 'react-intl';
 import { Props } from '../containers/I18NProvider';
 import { i18nMessages, Messages } from '../Messages';
 
-type State = {
-};
+type State = Readonly<{
+}};
 
 export class I18NProvider extends React.Component<Props, State> {
 

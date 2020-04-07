@@ -11,16 +11,16 @@ import { StatsItemNames } from '../../../veau-vo/StatsItemNames';
 
 type CellValue = string | null;
 type CellChange = [number, string | number, CellValue, CellValue];
-type Props = {
+type Props = Readonly<{
   stats: Stats;
   invalidValueInput: () => void;
   dataDeleted: (coordinate: Coordinate) => void;
   dataFilled: (coordinate: Coordinate, value: NumericalValue) => void;
   rowSelected: (row: Row) => void;
   rowMoved: (from: Column, to: Column) => void;
-};
-type State = {
-};
+}>;
+type State = Readonly<{
+}>;
 
 const SPREADSHEET_HEIGHT: number = 500;
 

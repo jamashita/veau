@@ -12,11 +12,11 @@ import { StatsInformation } from '../molecules/StatsInformation';
 import { StatsItemInformation } from '../molecules/StatsItemInformation';
 import { StatsItemModal } from '../molecules/StatsItemModal';
 
-type State = {
+type State = Readonly<{
   openNewStatsItemModal: boolean;
   openStartDateModal: boolean;
   startDate?: string;
-};
+}>;
 
 export class StatsEditImpl extends React.Component<Props & WrappedComponentProps, State> {
 
@@ -41,7 +41,7 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
       return;
     }
 
-    StatsID.of(id).match<void>((statsID: StatsID) => {
+    StatsID.ofString(id).match<void>((statsID: StatsID) => {
       initialize(statsID);
     }, () => {
       invalidIDInput();

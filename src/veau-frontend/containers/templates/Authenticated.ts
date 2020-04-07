@@ -7,14 +7,11 @@ import { State } from '../../State';
 
 type StateProps = Readonly<{
 }>;
-
 type DispatchProps = Readonly<{
   menuClicked: () => void;
 }>;
-
 type OwnProps = Readonly<{
 }>;
-
 export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = () => {

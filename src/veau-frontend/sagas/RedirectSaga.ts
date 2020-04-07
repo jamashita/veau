@@ -24,7 +24,7 @@ export class RedirectSaga {
   private *toStatsEdit(): SagaIterator<unknown> {
     while (true) {
       const action: PushToStatsEditAction = yield take(ACTION.PUSH_TO_STATS_EDIT);
-      yield put(push(Endpoints.STATS_EDIT.replace(':id', action.statsID.get())));
+      yield put(push(Endpoints.STATS_EDIT.replace(':id', action.statsID.get().get)));
     }
   }
 

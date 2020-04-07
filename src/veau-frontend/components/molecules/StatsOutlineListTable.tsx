@@ -5,12 +5,12 @@ import { StatsID } from '../../../veau-vo/StatsID';
 import { StatsOutline } from '../../../veau-vo/StatsOutline';
 import { StatsOutlines } from '../../../veau-vo/StatsOutlines';
 
-type Props = {
+type Props = Readonly<{
   statsOutlines: StatsOutlines;
   toStatsEdit: (statsID: StatsID) => void;
-};
-type State = {
-};
+}>;
+type State = Readonly<{
+}>;
 
 class StatsOutlineListTableImpl extends React.Component<Props & WrappedComponentProps, State> {
 
@@ -73,7 +73,7 @@ class StatsOutlineListTableImpl extends React.Component<Props & WrappedComponent
           {statsOutlines.map<React.ReactNode>((statsOutline: StatsOutline): React.ReactNode => {
             return (
               <TableRow
-                key={statsOutline.getStatsID().get()}
+                key={statsOutline.getStatsID().get().get()}
                 hover={true}
                 onClick={() => {
                   toStatsEdit(statsOutline.getStatsID());

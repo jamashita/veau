@@ -3,8 +3,8 @@ import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Props } from '../../containers/molecules/Modal';
 
-type State = {
-};
+type State = Readonly<{
+}>;
 
 class ModalImpl extends React.Component<Props & WrappedComponentProps, State> {
 

@@ -4,8 +4,8 @@ import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Props } from '../../containers/molecules/Notification';
 
-type State = {
-};
+type State = Readonly<{
+}>;
 
 class NotificationImpl extends React.Component<Props & WrappedComponentProps, State> {
 
