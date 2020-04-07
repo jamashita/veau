@@ -4,6 +4,7 @@ import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { DataSourceError } from '../../veau-general/DataSourceError';
 import { JSONA } from '../../veau-general/JSONA';
 import { IRedis } from '../../veau-general/Redis/interfaces/IRedis';
+import { RedisError } from '../../veau-general/Redis/RedisError';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
@@ -25,15 +26,24 @@ export class LanguageQuery implements ILanguageQuery, IRedisQuery {
   }
 
   public async all(): Promise<Try<Languages, NoSuchElementError | DataSourceError>> {
-    const languagesString: string | null = await this.redis.getString().get(REDIS_LANGUAGE_KEY);
+    try {
+      const languagesString: string | null = await this.redis.getString().get(REDIS_LANGUAGE_KEY);
 
-    if (languagesString === null) {
-      return Failure.of<Languages, NoSuchElementError>(new NoSuchElementError('NO LANGUAGES FROM REDIS'));
+      if (languagesString === null) {
+        return Failure.of<Languages, NoSuchElementError>(new NoSuchElementError('NO LANGUAGES FROM REDIS'));
+      }
+
+      const languageJSONs: Array<LanguageJSON> = await JSONA.parse<Array<LanguageJSON>>(languagesString);
+
+      return Success.of<Languages, NoSuchElementError>(Languages.ofJSON(languageJSONs));
     }
+    catch (err) {
+      if (err instanceof RedisError) {
+        return Failure.of<Languages, DataSourceError>(err);
+      }
 
-    const languageJSONs: Array<LanguageJSON> = await JSONA.parse<Array<LanguageJSON>>(languagesString);
-
-    return Success.of<Languages, NoSuchElementError>(Languages.ofJSON(languageJSONs));
+      throw err;
+    }
   }
 
   public async findByISO639(iso639: ISO639): Promise<Try<Language, NoSuchElementError | DataSourceError>> {

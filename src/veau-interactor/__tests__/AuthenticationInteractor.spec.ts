@@ -5,7 +5,7 @@ import { TYPE } from '../../veau-container/Types';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
-import { AccountQuery } from '../../veau-query/AccountQuery';
+import { AccountQuery } from '../../veau-query/MySQL/AccountQuery';
 import { Account } from '../../veau-vo/Account';
 import { AccountName } from '../../veau-vo/AccountName';
 import { Hash } from '../../veau-vo/Hash';
