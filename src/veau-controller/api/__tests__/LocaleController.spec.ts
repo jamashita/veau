@@ -86,7 +86,7 @@ describe('LocaleController', () => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
         const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
-        req.user = VeauAccount.of(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b').get(), AccountName.of('account'), language, region);
+        req.user = VeauAccount.of(VeauAccountID.ofString('6ffd502d-e6d9-450c-81c6-05806302ed1b').get(), AccountName.of('account'), language, region);
         next();
       });
       app.use('/', LocaleController);
@@ -104,7 +104,7 @@ describe('LocaleController', () => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
         const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
-        req.user = VeauAccount.of(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b').get(), AccountName.of('account'), language, region);
+        req.user = VeauAccount.of(VeauAccountID.ofString('6ffd502d-e6d9-450c-81c6-05806302ed1b').get(), AccountName.of('account'), language, region);
         next();
       });
       app.use('/', LocaleController);
@@ -122,7 +122,7 @@ describe('LocaleController', () => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
         const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
         // @ts-ignore
-        req.user = VeauAccount.of(VeauAccountID.of('6ffd502d-e6d9-450c-81c6-05806302ed1b').get(), AccountName.of('account'), language, region);
+        req.user = VeauAccount.of(VeauAccountID.ofString('6ffd502d-e6d9-450c-81c6-05806302ed1b').get(), AccountName.of('account'), language, region);
         next();
       });
       app.use('/', LocaleController);

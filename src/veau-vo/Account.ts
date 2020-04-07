@@ -61,7 +61,7 @@ export class Account extends ValueObject {
     const language: Language = Language.of(LanguageID.of(languageID), LanguageName.of(languageName), LanguageName.of(languageEnglishName), ISO639.of(iso639));
     const region: Region = Region.of(RegionID.of(regionID), RegionName.of(regionName), ISO3166.of(iso3166));
 
-    return VeauAccountID.of(veauAccountID).match<Try<Account, AccountError>>((id: VeauAccountID) => {
+    return VeauAccountID.ofString(veauAccountID).match<Try<Account, AccountError>>((id: VeauAccountID) => {
       return Success.of<Account, AccountError>(Account.of(id, AccountName.of(account), language, region, Hash.of(hash)));
     }, (err: VeauAccountIDError) => {
       return Failure.of<Account, AccountError>(new AccountError(err.message));

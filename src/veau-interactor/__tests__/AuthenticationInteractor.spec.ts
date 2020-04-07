@@ -37,7 +37,7 @@ describe('AuthenticationInteractor', () => {
       const name: string = 'dummy name';
       const password: string = 'dummy password';
       const account: Account = Account.of(
-        VeauAccountID.of('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9').get(),
+        VeauAccountID.ofString('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9').get(),
         AccountName.of('veau'),
         Language.of(LanguageID.of(1),
           LanguageName.of('аҧсуа бызшәа'),
@@ -89,7 +89,7 @@ describe('AuthenticationInteractor', () => {
       const name: string = 'dummy name';
       const password: string = 'dummy password';
       const account: Account = Account.of(
-        VeauAccountID.of('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9').get(),
+        VeauAccountID.ofString('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9').get(),
         AccountName.of('veau'),
         Language.of(LanguageID.of(1),
           LanguageName.of('аҧсуа бызшәа'),

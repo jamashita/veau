@@ -78,7 +78,7 @@ describe('StatsUpdateTransaction', () => {
         None.of<AsOf>()
       );
 
-      const statsUpdateTransaction: StatsUpdateTransaction = StatsUpdateTransaction.of(stats, VeauAccountID.of('601d14d4-fe47-445c-a6aa-6427776ecd85').get());
+      const statsUpdateTransaction: StatsUpdateTransaction = StatsUpdateTransaction.of(stats, VeauAccountID.ofString('601d14d4-fe47-445c-a6aa-6427776ecd85').get());
       const query: IQuery = new MockQuery();
       await statsUpdateTransaction.with(query);
 

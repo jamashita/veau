@@ -27,7 +27,7 @@ describe('StatsOutlineQuery', () => {
 
   describe('findByPage', () => {
     it('normal case', async () => {
-      const veauAccountID: VeauAccountID = VeauAccountID.of('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9').get();
+      const veauAccountID: VeauAccountID = VeauAccountID.ofString('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9').get();
       const json: Array<StatsOutlineJSON> = [
         {
           statsID: 'f6fb9662-cbe8-4a91-8aa4-47a92f05b007',
@@ -81,7 +81,7 @@ describe('StatsOutlineQuery', () => {
     });
 
     it('returns Failure when it has wrong format statsID', async () => {
-      const veauAccountID: VeauAccountID = VeauAccountID.of('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9').get();
+      const veauAccountID: VeauAccountID = VeauAccountID.ofString('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9').get();
       const json: Array<StatsOutlineJSON> = [
         {
           statsID: 'malformat uuid',
@@ -129,7 +129,7 @@ describe('StatsOutlineQuery', () => {
     });
 
     it('doesn\'t return OK', async () => {
-      const veauAccountID: VeauAccountID = VeauAccountID.of('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9').get();
+      const veauAccountID: VeauAccountID = VeauAccountID.ofString('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9').get();
 
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();

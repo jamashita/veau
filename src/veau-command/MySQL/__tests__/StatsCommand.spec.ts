@@ -38,7 +38,7 @@ describe('StatsCommand', () => {
         StatsItems.empty(),
         None.of<AsOf>()
       );
-      const accountID: VeauAccountID = VeauAccountID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87').get();
+      const accountID: VeauAccountID = VeauAccountID.ofString('d5619e72-3233-43a8-9cc8-571e53b2ff87').get();
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
@@ -80,7 +80,7 @@ describe('StatsCommand', () => {
         StatsItems.empty(),
         None.of<AsOf>()
       );
-      const accountID: VeauAccountID = VeauAccountID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87').get();
+      const accountID: VeauAccountID = VeauAccountID.ofString('d5619e72-3233-43a8-9cc8-571e53b2ff87').get();
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
@@ -116,7 +116,7 @@ describe('StatsCommand', () => {
         StatsItems.empty(),
         None.of<AsOf>()
       );
-      const accountID: VeauAccountID = VeauAccountID.of('d5619e72-3233-43a8-9cc8-571e53b2ff87').get();
+      const accountID: VeauAccountID = VeauAccountID.ofString('d5619e72-3233-43a8-9cc8-571e53b2ff87').get();
       const error: Error = new Error();
 
       const query: MockQuery = new MockQuery();

@@ -32,7 +32,7 @@ describe('VeauAccountID', () => {
       const spy2: SinonSpy = sinon.spy();
 
       try {
-        VeauAccountID.of(UUID.of('998106de-b2e7-4981-9643-22cd30cd74de'));
+        VeauAccountID.ofString(UUID.of('998106de-b2e7-4981-9643-22cd30cd74de'));
         spy1();
       }
       catch (err) {

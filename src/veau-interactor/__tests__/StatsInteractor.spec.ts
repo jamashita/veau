@@ -156,7 +156,7 @@ describe('StatsInteractor', () => {
       stub.resolves(Success.of<StatsOutlines, StatsOutlinesError>(outlines));
 
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
-      const trial: Try<StatsOutlines, StatsOutlinesError> = await statsInteractor.findByVeauAccountID(VeauAccountID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2').get(), Page.of(1).get());
+      const trial: Try<StatsOutlines, StatsOutlinesError> = await statsInteractor.findByVeauAccountID(VeauAccountID.ofString('cfd6a7f1-b583-443e-9831-bdfc7621b0d2').get(), Page.of(1).get());
 
       expect(trial.get()).toEqual(outlines);
     });
@@ -192,7 +192,7 @@ describe('StatsInteractor', () => {
       MySQL.prototype.transact = spy;
 
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
-      await statsInteractor.save(stats, VeauAccountID.of('cfd6a7f1-b583-443e-9831-bdfc7621b0d2').get());
+      await statsInteractor.save(stats, VeauAccountID.ofString('cfd6a7f1-b583-443e-9831-bdfc7621b0d2').get());
 
       expect(spy.called).toEqual(true);
     });
