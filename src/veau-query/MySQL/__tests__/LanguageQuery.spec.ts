@@ -3,12 +3,13 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../../veau-container/Container';
 import { TYPE } from '../../../veau-container/Types';
 import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
+import { DataSourceError } from '../../../veau-general/DataSourceError';
 import { MockMySQL } from '../../../veau-general/MySQL/mocks/MockMySQL';
 import { MockMySQLError } from '../../../veau-general/MySQL/mocks/MockMySQLError';
 import { MySQLError } from '../../../veau-general/MySQL/MySQLError';
 import { Try } from '../../../veau-general/Try/Try';
 import { ISO639 } from '../../../veau-vo/ISO639';
-import { Language } from '../../../veau-vo/Language';
+import { Language, LanguageRow } from '../../../veau-vo/Language';
 import { Languages } from '../../../veau-vo/Languages';
 import { LanguageQuery } from '../LanguageQuery';
 
@@ -25,10 +26,7 @@ describe('LanguageQuery', () => {
 
   describe('all', () => {
     it('normal case', async () => {
-      const mysql: MockMySQL = new MockMySQL();
-      const stub: SinonStub = sinon.stub();
-      mysql.execute = stub;
-      stub.resolves([
+      const rows: Array<LanguageRow> = [
         {
           languageID: 1,
           name: 'аҧсуа бызшәа',
@@ -41,12 +39,16 @@ describe('LanguageQuery', () => {
           englishName: 'Afar',
           iso639: 'aa'
         }
-      ]);
+      ];
+
+      const mysql: MockMySQL = new MockMySQL();
+      const stub: SinonStub = sinon.stub();
+      mysql.execute = stub;
+      stub.resolves(rows);
 
       const languageQuery: LanguageQuery = new LanguageQuery(mysql);
-      const trial: Try<Languages, NoSuchElementError | MySQLError> = await languageQuery.all();
+      const trial: Try<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
 
-      expect(trial.isSuccess()).toEqual(true);
       expect(stub.withArgs(`SELECT
       R1.language_id AS languageID,
       R1.name,
@@ -55,16 +57,15 @@ describe('LanguageQuery', () => {
       FROM languages R1
       FORCE INDEX(iso639)
       ORDER BY R1.iso639;`).called).toEqual(true);
+      expect(trial.isSuccess()).toEqual(true);
       const languages: Languages = trial.get();
       expect(languages.size()).toEqual(2);
-      expect(languages.get(0).get().getLanguageID().get()).toEqual(1);
-      expect(languages.get(0).get().getName().get()).toEqual('аҧсуа бызшәа');
-      expect(languages.get(0).get().getEnglishName().get()).toEqual('Abkhazian');
-      expect(languages.get(0).get().getISO639().get()).toEqual('ab');
-      expect(languages.get(1).get().getLanguageID().get()).toEqual(2);
-      expect(languages.get(1).get().getName().get()).toEqual('Afaraf');
-      expect(languages.get(1).get().getEnglishName().get()).toEqual('Afar');
-      expect(languages.get(1).get().getISO639().get()).toEqual('aa');
+      for (let i: number = 0; i < languages.size(); i++) {
+        expect(languages.get(i).get().getLanguageID().get()).toEqual(rows[i].languageID);
+        expect(languages.get(i).get().getName().get()).toEqual(rows[i].name);
+        expect(languages.get(i).get().getEnglishName().get()).toEqual(rows[i].englishName);
+        expect(languages.get(i).get().getISO639().get()).toEqual(rows[i].iso639);
+      }
     });
 
     it('returns Failure when MySQL.execute returns 0 results', async () => {
@@ -77,12 +78,12 @@ describe('LanguageQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(mysql);
-      const trial: Try<Languages, NoSuchElementError | MySQLError> = await languageQuery.all();
+      const trial: Try<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: NoSuchElementError | MySQLError) => {
+      }, (err: NoSuchElementError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(NoSuchElementError);
       });
@@ -100,12 +101,12 @@ describe('LanguageQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(mysql);
-      const trial: Try<Languages, NoSuchElementError | MySQLError> = await languageQuery.all();
+      const trial: Try<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: NoSuchElementError | MySQLError) => {
+      }, (err: NoSuchElementError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(MySQLError);
       });
@@ -141,22 +142,23 @@ describe('LanguageQuery', () => {
 
   describe('findByISO639', () => {
     it('normal case', async () => {
-      const mysql: MockMySQL = new MockMySQL();
-      const stub: SinonStub = sinon.stub();
-      mysql.execute = stub;
-      stub.resolves([
+      const rows: Array<LanguageRow> = [
         {
           languageID: 2,
           name: 'Afaraf',
           englishName: 'Afar',
           iso639: 'aa'
         }
-      ]);
+      ];
+
+      const mysql: MockMySQL = new MockMySQL();
+      const stub: SinonStub = sinon.stub();
+      mysql.execute = stub;
+      stub.resolves(rows);
 
       const languageQuery: LanguageQuery = new LanguageQuery(mysql);
-      const trial: Try<Language, NoSuchElementError | MySQLError> = await languageQuery.findByISO639(ISO639.of('aa'));
+      const trial: Try<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
-      expect(trial.isSuccess()).toEqual(true);
       expect(stub.withArgs(`SELECT
       R1.language_id AS languageID,
       R1.name,
@@ -166,11 +168,12 @@ describe('LanguageQuery', () => {
       WHERE R1.iso639 = :iso639;`, {
         iso639: 'aa'
       }).called).toEqual(true);
+      expect(trial.isSuccess()).toEqual(true);
       const language: Language = trial.get();
-      expect(language.getLanguageID().get()).toEqual(2);
-      expect(language.getName().get()).toEqual('Afaraf');
-      expect(language.getEnglishName().get()).toEqual('Afar');
-      expect(language.getISO639().get()).toEqual('aa');
+      expect(language.getLanguageID().get()).toEqual(rows[0].languageID);
+      expect(language.getName().get()).toEqual(rows[0].name);
+      expect(language.getEnglishName().get()).toEqual(rows[0].englishName);
+      expect(language.getISO639().get()).toEqual(rows[0].iso639);
     });
 
     it('returns Failure because MySQL returns 0 results', async () => {
@@ -183,12 +186,12 @@ describe('LanguageQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(mysql);
-      const trial: Try<Language, NoSuchElementError | MySQLError> = await languageQuery.findByISO639(ISO639.of('aa'));
+      const trial: Try<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: NoSuchElementError | MySQLError) => {
+      }, (err: NoSuchElementError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(NoSuchElementError);
       });
@@ -206,12 +209,12 @@ describe('LanguageQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(mysql);
-      const trial: Try<Language, NoSuchElementError | MySQLError> = await languageQuery.findByISO639(ISO639.of('aa'));
+      const trial: Try<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: NoSuchElementError | MySQLError) => {
+      }, (err: NoSuchElementError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(MySQLError);
       });
