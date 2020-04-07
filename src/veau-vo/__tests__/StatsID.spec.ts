@@ -1,17 +1,15 @@
 import sinon, { SinonSpy } from 'sinon';
 import { StatsIDError } from '../../veau-error/StatsIDError';
 import { Try } from '../../veau-general/Try/Try';
-import { UUID } from '../../veau-general/UUID';
+import { UUID } from '../../veau-general/UUID/UUID';
 import { StatsID } from '../StatsID';
 
 describe('StatsID', () => {
   describe('equals', () => {
     it('returns true if the property is the same', () => {
-      const uuid1: string = 'db9c9de2-1fc6-4072-8348-b8894239b2b0';
-      const uuid2: string = 'b5203963-d996-40a7-9adb-f05ea9524af0';
-      const statsID1: StatsID = StatsID.of(uuid1).get();
-      const statsID2: StatsID = StatsID.of(uuid2).get();
-      const statsID3: StatsID = StatsID.of(uuid1).get();
+      const statsID1: StatsID = StatsID.ofString('db9c9de2-1fc6-4072-8348-b8894239b2b0').get();
+      const statsID2: StatsID = StatsID.ofString('b5203963-d996-40a7-9adb-f05ea9524af0').get();
+      const statsID3: StatsID = StatsID.ofString('db9c9de2-1fc6-4072-8348-b8894239b2b0').get();
 
       expect(statsID1.equals(statsID1)).toEqual(true);
       expect(statsID1.equals(statsID2)).toEqual(false);
@@ -22,7 +20,7 @@ describe('StatsID', () => {
   describe('toString', () => {
     it('returns the original string', () => {
       const uuid: string = 'db9c9de2-1fc6-4072-8348-b8894239b2b0';
-      const statsID: StatsID = StatsID.of(uuid).get();
+      const statsID: StatsID = StatsID.ofString(uuid).get();
 
       expect(statsID.get().toString()).toEqual(uuid);
     });
@@ -30,8 +28,25 @@ describe('StatsID', () => {
 
   describe('of', () => {
     it('normal case', () => {
-      const uuid1: string = 'db9c9de2-1fc6-4072-8348-b8894239b2b0';
-      const trial: Try<StatsID, StatsIDError> = StatsID.of(uuid1);
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      try {
+        StatsID.of(UUID.of('998106de-b2e7-4981-9643-22cd30cd74de'));
+        spy1();
+      }
+      catch (err) {
+        spy2();
+      }
+
+      expect(spy1.called).toEqual(true);
+      expect(spy2.called).toEqual(false);
+    });
+  });
+
+  describe('ofString', () => {
+    it('normal case', () => {
+      const trial: Try<StatsID, StatsIDError> = StatsID.ofString('db9c9de2-1fc6-4072-8348-b8894239b2b0');
 
       expect(trial.isSuccess()).toEqual(true);
     });
@@ -40,7 +55,7 @@ describe('StatsID', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const trial: Try<StatsID, StatsIDError> = StatsID.of('trois');
+      const trial: Try<StatsID, StatsIDError> = StatsID.ofString('trois');
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -58,7 +73,7 @@ describe('StatsID', () => {
   describe('generate', () => {
     it('always gives UUID length string', () => {
       for (let i: number = 0; i < 100; i++) {
-        expect(StatsID.generate().get().length).toEqual(UUID.size());
+        expect(StatsID.generate().get().get().length).toEqual(UUID.size());
       }
     });
   });
