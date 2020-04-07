@@ -1,6 +1,6 @@
-export interface IHeap<T> {
+export interface IHeap {
 
-  set(value: T): void;
+  set(identifier: symbol, value: unknown): void;
 
-  get(): T;
+  get<H>(identifier: symbol): H;
 }
