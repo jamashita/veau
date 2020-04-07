@@ -119,9 +119,6 @@ describe('VeauAccount', () => {
     });
 
     it('veauAccountID is malformat', () => {
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const json: VeauAccountJSON = {
         veauAccountID: 'illegal one',
         account: 'account',
@@ -137,6 +134,9 @@ describe('VeauAccount', () => {
           iso3166: 'AFG'
         }
       };
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const trial: Try<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
 

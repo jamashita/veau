@@ -12,6 +12,7 @@ describe('Colors', () => {
       expect(colors.get(0).get().toString()).toEqual('#ffffff');
       expect(colors.get(1).get().toString()).toEqual('#000000');
       expect(colors.get(2).get().toString()).toEqual('#ffffff');
+      expect(colors.get(3).get().toString()).toEqual('#000000');
     });
   });
 
@@ -21,7 +22,6 @@ describe('Colors', () => {
       const color2: Color = Color.of('#000000');
       const color3: Color = Color.of('#ffffff');
       const color4: Color = Color.of('#ffff00');
-
       const colors: Colors = Colors.of([
         color1,
         color2
@@ -52,7 +52,6 @@ describe('Colors', () => {
     it('returns false if the length is different', () => {
       const color1: Color = Color.of('#ffffff');
       const color2: Color = Color.of('#000000');
-
       const colors1: Colors = Colors.of([
         color1,
         color2
@@ -68,7 +67,6 @@ describe('Colors', () => {
     it('returns false if the sequence is different', () => {
       const color1: Color = Color.of('#ffffff');
       const color2: Color = Color.of('#000000');
-
       const colors1: Colors = Colors.of([
         color1,
         color2
@@ -85,7 +83,6 @@ describe('Colors', () => {
     it('returns true if the length is the same and the sequence is the same', () => {
       const color1: Color = Color.of('#ffffff');
       const color2: Color = Color.of('#000000');
-
       const colors1: Colors = Colors.of([
         color1,
         color2
@@ -104,7 +101,10 @@ describe('Colors', () => {
     it('normal case', () => {
       const rgb1: string = '#ffffff';
       const rgb2: string = '#000000';
-      const colors: Colors = Colors.of([Color.of(rgb1), Color.of(rgb2)]);
+      const colors: Colors = Colors.of([
+        Color.of(rgb1),
+        Color.of(rgb2)
+      ]);
 
       expect(colors.toString()).toEqual(`${rgb1}, ${rgb2}`);
     });

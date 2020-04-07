@@ -26,6 +26,7 @@ describe('Terms', () => {
     it('returns true if the element exists in the Terms', () => {
       const terms: Terms = Terms.all();
       const fakeTerm: Term = {} as Term;
+
       expect(terms.contains(Term.ANNUAL)).toEqual(true);
       expect(terms.contains(Term.QUARTERLY)).toEqual(true);
       expect(terms.contains(Term.MONTHLY)).toEqual(true);
@@ -48,7 +49,7 @@ describe('Terms', () => {
       const terms1: Terms = Terms.all();
       const terms2: Terms = Terms.all();
 
-      expect(terms1.equals(terms2)).toEqual(true);
+      expect(terms1).toEqual(terms2);
     });
   });
 

@@ -12,7 +12,11 @@ describe('Languages', () => {
       const language2: Language = Language.of(LanguageID.of(2), LanguageName.of('language 2'), LanguageName.of('english language 2'), ISO639.of('ab'));
       const language3: Language = Language.of(LanguageID.of(3), LanguageName.of('language 3'), LanguageName.of('english language 3'), ISO639.of('ac'));
 
-      const languages: Languages = Languages.of([language1, language2, language3]);
+      const languages: Languages = Languages.of([
+        language1,
+        language2,
+        language3
+      ]);
 
       expect(languages.size()).toEqual(3);
       expect(languages.get(0).get()).toEqual(language1);
@@ -35,7 +39,10 @@ describe('Languages', () => {
       const language3: Language = Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english language 1'), ISO639.of('aa'));
       const language4: Language = Language.of(LanguageID.of(3), LanguageName.of('language 3'), LanguageName.of('english language 3'), ISO639.of('ac'));
 
-      const languages: Languages = Languages.of([language1, language2]);
+      const languages: Languages = Languages.of([
+        language1,
+        language2
+      ]);
 
       expect(languages.contains(language1)).toEqual(true);
       expect(languages.contains(language2)).toEqual(true);
@@ -48,9 +55,12 @@ describe('Languages', () => {
     it('returns true if the elements are 0', () => {
       const language1: Language = Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english language 1'), ISO639.of('aa'));
       const language2: Language = Language.of(LanguageID.of(2), LanguageName.of('language 2'), LanguageName.of('english language 2'), ISO639.of('ab'));
-
       const languages1: Languages = Languages.empty();
-      const languages2: Languages = Languages.of([language1, language2]);
+
+      const languages2: Languages = Languages.of([
+        language1,
+        language2
+      ]);
 
       expect(languages1.isEmpty()).toEqual(true);
       expect(languages2.isEmpty()).toEqual(false);
@@ -62,8 +72,13 @@ describe('Languages', () => {
       const language1: Language = Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english language 1'), ISO639.of('aa'));
       const language2: Language = Language.of(LanguageID.of(2), LanguageName.of('language 2'), LanguageName.of('english language 2'), ISO639.of('ab'));
 
-      const languages1: Languages = Languages.of([language1, language2]);
-      const languages2: Languages = Languages.of([language1]);
+      const languages1: Languages = Languages.of([
+        language1,
+        language2
+      ]);
+      const languages2: Languages = Languages.of([
+        language1
+      ]);
 
       expect(languages1.equals(languages1)).toEqual(true);
       expect(languages1.equals(languages2)).toEqual(false);
@@ -73,8 +88,14 @@ describe('Languages', () => {
       const language1: Language = Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english language 1'), ISO639.of('aa'));
       const language2: Language = Language.of(LanguageID.of(2), LanguageName.of('language 2'), LanguageName.of('english language 2'), ISO639.of('ab'));
 
-      const languages1: Languages = Languages.of([language1, language2]);
-      const languages2: Languages = Languages.of([language2, language1]);
+      const languages1: Languages = Languages.of([
+        language1,
+        language2
+      ]);
+      const languages2: Languages = Languages.of([
+        language2,
+        language1
+      ]);
 
       expect(languages1.equals(languages1)).toEqual(true);
       expect(languages1.equals(languages2)).toEqual(false);
@@ -84,8 +105,14 @@ describe('Languages', () => {
       const language1: Language = Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english language 1'), ISO639.of('aa'));
       const language2: Language = Language.of(LanguageID.of(2), LanguageName.of('language 2'), LanguageName.of('english language 2'), ISO639.of('ab'));
 
-      const languages1: Languages = Languages.of([language1, language2]);
-      const languages2: Languages = Languages.of([language1, language2]);
+      const languages1: Languages = Languages.of([
+        language1,
+        language2
+      ]);
+      const languages2: Languages = Languages.of([
+        language1,
+        language2
+      ]);
 
       expect(languages1.equals(languages1)).toEqual(true);
       expect(languages1.equals(languages2)).toEqual(true);
@@ -96,7 +123,9 @@ describe('Languages', () => {
     it('normal case', () => {
       const language1: Language = Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english language 1'), ISO639.of('aa'));
 
-      const languages: Languages = Languages.of([language1]);
+      const languages: Languages = Languages.of([
+        language1
+      ]);
 
       expect(languages.toJSON()).toEqual([
         {
@@ -122,7 +151,10 @@ describe('Languages', () => {
       const language1: Language = Language.of(LanguageID.of(id1), LanguageName.of(name1), LanguageName.of(englishName1), ISO639.of(iso6391));
       const language2: Language = Language.of(LanguageID.of(id2), LanguageName.of(name2), LanguageName.of(englishName2), ISO639.of(iso6392));
 
-      const languages: Languages = Languages.of([language1, language2]);
+      const languages: Languages = Languages.of([
+        language1,
+        language2
+      ]);
 
       expect(languages.toString()).toEqual(`${id1} ${name1} ${englishName1} ${iso6391}, ${id2} ${name2} ${englishName2} ${iso6392}`);
     });

@@ -27,14 +27,14 @@ describe('Limit', () => {
 
   describe('of', () => {
     it('returns Failure when the argument is less than 1', () => {
+      const trial1: Try<Limit, LimitError> = Limit.of(1);
+      const trial2: Try<Limit, LimitError> = Limit.of(0);
+      const trial3: Try<Limit, LimitError> = Limit.of(-1);
+
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
-
-      const trial1: Try<Limit, LimitError> = Limit.of(1);
-      const trial2: Try<Limit, LimitError> = Limit.of(0);
-      const trial3: Try<Limit, LimitError> = Limit.of(-1);
 
       expect(trial1.isSuccess()).toEqual(true);
       expect(trial2.isFailure()).toEqual(true);
@@ -61,13 +61,13 @@ describe('Limit', () => {
     });
 
     it('returns Failure when the argument is not integer', () => {
+      const trial1: Try<Limit, LimitError> = Limit.of(1.1);
+      const trial2: Try<Limit, LimitError> = Limit.of(0.2);
+
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
-
-      const trial1: Try<Limit, LimitError> = Limit.of(1.1);
-      const trial2: Try<Limit, LimitError> = Limit.of(0.2);
 
       expect(trial1.isFailure()).toEqual(true);
       expect(trial2.isFailure()).toEqual(true);

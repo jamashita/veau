@@ -5,8 +5,8 @@ import { VeauAccountID } from '../VeauAccountID';
 describe('AccountHash', () => {
   describe('equals', () => {
     it('returns true if all the properties are the same', () => {
-      const account1: VeauAccountID = VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de').get();
-      const account2: VeauAccountID = VeauAccountID.of('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9').get();
+      const account1: VeauAccountID = VeauAccountID.ofString('998106de-b2e7-4981-9643-22cd30cd74de').get();
+      const account2: VeauAccountID = VeauAccountID.ofString('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9').get();
       const hash1: Hash = Hash.of('hash 1');
       const hash2: Hash = Hash.of('hash 2');
 
@@ -28,7 +28,7 @@ describe('AccountHash', () => {
     it('normal case', () => {
       const id: string = '998106de-b2e7-4981-9643-22cd30cd74de';
       const h: string = 'hash';
-      const account: VeauAccountID = VeauAccountID.of(id).get();
+      const account: VeauAccountID = VeauAccountID.ofString(id).get();
       const hash: Hash = Hash.of(h);
 
       const accountHash: AccountHash = AccountHash.of(account, hash);

@@ -188,13 +188,13 @@ describe('AsOf', () => {
     });
 
     it('will return Failure because the string format is not compatible to date time', () => {
+      const trial1: Try<AsOf, AsOfError> = AsOf.ofString('deux mille');
+      const trial2: Try<AsOf, AsOfError> = AsOf.ofString('dos mil');
+
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
-
-      const trial1: Try<AsOf, AsOfError> = AsOf.ofString('deux mille');
-      const trial2: Try<AsOf, AsOfError> = AsOf.ofString('dos mil');
 
       expect(trial1.isFailure()).toEqual(true);
       expect(trial2.isFailure()).toEqual(true);

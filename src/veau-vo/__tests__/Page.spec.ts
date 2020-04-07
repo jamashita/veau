@@ -33,12 +33,10 @@ describe('Page', () => {
     it('depends the argument which generated Offset is', () => {
       const page1: Page = Page.of(1).get();
       const offset1: Offset = page1.getOffset();
-
-      expect(offset1.get()).toEqual(0);
-
       const page2: Page = Page.of(2).get();
       const offset2: Offset = page2.getOffset();
 
+      expect(offset1.get()).toEqual(0);
       expect(offset2.get()).toEqual(40);
     });
   });
@@ -54,13 +52,13 @@ describe('Page', () => {
 
   describe('of', () => {
     it('returns Failure when the argument is less than 1', () => {
+      const trial1: Try<Page, PageError> = Page.of(0);
+      const trial2: Try<Page, PageError> = Page.of(-1);
+
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
-
-      const trial1: Try<Page, PageError> = Page.of(0);
-      const trial2: Try<Page, PageError> = Page.of(-1);
 
       expect(trial1.isFailure()).toEqual(true);
       expect(trial2.isFailure()).toEqual(true);
@@ -86,13 +84,13 @@ describe('Page', () => {
     });
 
     it('returns Failure when the argument is not integer', () => {
+      const trial1: Try<Page, PageError> = Page.of(0.1);
+      const trial2: Try<Page, PageError> = Page.of(1.5);
+
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
-
-      const trial1: Try<Page, PageError> = Page.of(0.1);
-      const trial2: Try<Page, PageError> = Page.of(1.5);
 
       expect(trial1.isFailure()).toEqual(true);
       expect(trial2.isFailure()).toEqual(true);

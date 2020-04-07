@@ -24,6 +24,7 @@ export type StatsValueRow = Readonly<{
 
 export class StatsValue extends ValueObject implements JSONable {
   public readonly noun: 'StatsValue' = 'StatsValue';
+  // TODO REMOVE
   private readonly statsItemID: StatsItemID;
   private readonly asOf: AsOf;
   private readonly value: NumericalValue;
@@ -52,7 +53,7 @@ export class StatsValue extends ValueObject implements JSONable {
       value
     } = row;
 
-    return StatsItemID.of(statsItemID).match<Try<StatsValue, StatsValueError>>((id: StatsItemID) => {
+    return StatsItemID.ofString(statsItemID).match<Try<StatsValue, StatsValueError>>((id: StatsItemID) => {
       return AsOf.ofString(asOf).match<Try<StatsValue, StatsValueError>>((of: AsOf) => {
         return Success.of<StatsValue, StatsValueError>(StatsValue.of(id, of, NumericalValue.of(value)));
       }, (err: AsOfError) => {
@@ -103,11 +104,7 @@ export class StatsValue extends ValueObject implements JSONable {
   }
 
   public isBefore(other: StatsValue): boolean {
-    if (this.asOf.isBefore(other.getAsOf())) {
-      return true;
-    }
-
-    return false;
+    return this.asOf.isBefore(other.getAsOf());
   }
 
   public equals(other: StatsValue): boolean {

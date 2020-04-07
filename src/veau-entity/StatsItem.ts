@@ -43,7 +43,7 @@ export class StatsItem extends Entity<StatsItemID> {
       values
     } = json;
 
-    return StatsItemID.of(statsItemID).match<Try<StatsItem, StatsItemError>>((id: StatsItemID) => {
+    return StatsItemID.ofString(statsItemID).match<Try<StatsItem, StatsItemError>>((id: StatsItemID) => {
       return StatsValues.ofJSON(id, values).match<Try<StatsItem, StatsItemError>>((v: StatsValues) => {
         return Success.of<StatsItem, StatsItemError>(StatsItem.of(id, StatsItemName.of(name), v));
       }, (err: StatsValuesError) => {
@@ -60,7 +60,7 @@ export class StatsItem extends Entity<StatsItemID> {
       name
     } = row;
 
-    return StatsItemID.of(statsItemID).match<Try<StatsItem, StatsItemError>>((id: StatsItemID) => {
+    return StatsItemID.ofString(statsItemID).match<Try<StatsItem, StatsItemError>>((id: StatsItemID) => {
       return Success.of<StatsItem, StatsItemError>(StatsItem.of(id, StatsItemName.of(name), statsValues));
     }, (err: StatsItemIDError) => {
       return Failure.of<StatsItem, StatsItemError>(new StatsItemError(err.message));
@@ -208,7 +208,7 @@ export class StatsItem extends Entity<StatsItemID> {
     } = this;
 
     return {
-      statsItemID: statsItemID.get(),
+      statsItemID: statsItemID.get().get(),
       name: name.get(),
       values: values.toJSON()
     };

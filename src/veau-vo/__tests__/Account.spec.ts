@@ -21,7 +21,22 @@ describe('Account', () => {
     it('returns true if the password is acceptable', async () => {
       const password1: Password = Password.of('password');
       const password2: Password = Password.of('wrong one');
-      const account: Account = Account.of(VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de').get(), AccountName.of('veau'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')), Hash.of('$2b$14$dVujfUAxm6mo8rujdy7jbuoNcMYC4R2Rf.mqzk2/oXhFQgBIWiZUu'));
+      const account: Account = Account.of(
+        VeauAccountID.ofString('998106de-b2e7-4981-9643-22cd30cd74de').get(),
+        AccountName.of('veau'),
+        Language.of(
+          LanguageID.of(1),
+          LanguageName.of('аҧсуа бызшәа'),
+          LanguageName.of('Abkhazian'),
+          ISO639.of('ab')
+        ),
+        Region.of(
+          RegionID.of(1),
+          RegionName.of('Afghanistan'),
+          ISO3166.of('AFG')
+        ),
+        Hash.of('$2b$14$dVujfUAxm6mo8rujdy7jbuoNcMYC4R2Rf.mqzk2/oXhFQgBIWiZUu')
+      );
 
       const correct1: boolean = await account.verify(password1);
       const correct2: boolean = await account.verify(password2);
@@ -33,13 +48,13 @@ describe('Account', () => {
 
   describe('equals', () => {
     it('returns true if the all properties are the same', () => {
-      const account1: Account = Account.of(VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de').get(), AccountName.of('veau'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')), Hash.of('hash 1'));
-      const account2: Account = Account.of(VeauAccountID.of('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9').get(), AccountName.of('veau'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')), Hash.of('hash 1'));
-      const account3: Account = Account.of(VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de').get(), AccountName.of('rectangle'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')), Hash.of('hash 1'));
-      const account4: Account = Account.of(VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de').get(), AccountName.of('veau'), Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')), Hash.of('hash 1'));
-      const account5: Account = Account.of(VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de').get(), AccountName.of('veau'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB')), Hash.of('hash 1'));
-      const account6: Account = Account.of(VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de').get(), AccountName.of('veau'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')), Hash.of('hash 2'));
-      const account7: Account = Account.of(VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de').get(), AccountName.of('veau'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')), Hash.of('hash 1'));
+      const account1: Account = Account.of(VeauAccountID.ofString('998106de-b2e7-4981-9643-22cd30cd74de').get(), AccountName.of('veau'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')), Hash.of('hash 1'));
+      const account2: Account = Account.of(VeauAccountID.ofString('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9').get(), AccountName.of('veau'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')), Hash.of('hash 1'));
+      const account3: Account = Account.of(VeauAccountID.ofString('998106de-b2e7-4981-9643-22cd30cd74de').get(), AccountName.of('rectangle'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')), Hash.of('hash 1'));
+      const account4: Account = Account.of(VeauAccountID.ofString('998106de-b2e7-4981-9643-22cd30cd74de').get(), AccountName.of('veau'), Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')), Hash.of('hash 1'));
+      const account5: Account = Account.of(VeauAccountID.ofString('998106de-b2e7-4981-9643-22cd30cd74de').get(), AccountName.of('veau'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB')), Hash.of('hash 1'));
+      const account6: Account = Account.of(VeauAccountID.ofString('998106de-b2e7-4981-9643-22cd30cd74de').get(), AccountName.of('veau'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')), Hash.of('hash 2'));
+      const account7: Account = Account.of(VeauAccountID.ofString('998106de-b2e7-4981-9643-22cd30cd74de').get(), AccountName.of('veau'), Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')), Hash.of('hash 1'));
 
       expect(account1.equals(account1)).toEqual(true);
       expect(account1.equals(account2)).toEqual(false);
@@ -56,7 +71,7 @@ describe('Account', () => {
       const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
       const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
       const hash: Hash = Hash.of('hash');
-      const account: Account = Account.of(VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de').get(), AccountName.of('veau'), language, region, hash);
+      const account: Account = Account.of(VeauAccountID.ofString('998106de-b2e7-4981-9643-22cd30cd74de').get(), AccountName.of('veau'), language, region, hash);
       const veauAccount: VeauAccount = account.toVeauAccount();
 
       expect(veauAccount.getVeauAccountID()).toEqual(account.getVeauAccountID());
@@ -74,7 +89,7 @@ describe('Account', () => {
       const language: Language = Language.default();
       const region: Region = Region.default();
       const hash: Hash = Hash.of(h);
-      const account: Account = Account.of(VeauAccountID.of(id).get(), AccountName.of(name), language, region, hash);
+      const account: Account = Account.of(VeauAccountID.ofString(id).get(), AccountName.of(name), language, region, hash);
 
       expect(account.toString()).toEqual(`${id} ${name} ${language.toString()} ${region.toString()} ${h}`);
     });
@@ -82,7 +97,7 @@ describe('Account', () => {
 
   describe('of', () => {
     it('normal case', () => {
-      const accountID: VeauAccountID = VeauAccountID.of('998106de-b2e7-4981-9643-22cd30cd74de').get();
+      const accountID: VeauAccountID = VeauAccountID.ofString('998106de-b2e7-4981-9643-22cd30cd74de').get();
       const name: AccountName = AccountName.of('account');
       const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
       const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
@@ -90,11 +105,11 @@ describe('Account', () => {
 
       const account: Account = Account.of(accountID, name, language, region, hash);
 
-      expect(account.getVeauAccountID().equals(accountID)).toEqual(true);
-      expect(account.getAccount().equals(name)).toEqual(true);
-      expect(account.getLanguage().equals(language)).toEqual(true);
-      expect(account.getRegion().equals(region)).toEqual(true);
-      expect(account.getHash().equals(hash)).toEqual(true);
+      expect(account.getVeauAccountID()).toEqual(accountID);
+      expect(account.getAccount()).toEqual(name);
+      expect(account.getLanguage()).toEqual(language);
+      expect(account.getRegion()).toEqual(region);
+      expect(account.getHash()).toEqual(hash);
     });
   });
 
@@ -130,9 +145,6 @@ describe('Account', () => {
     });
 
     it('contains malformat veauAccountID', () => {
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const row: AccountRow = {
         veauAccountID: 'malformat',
         account: 'account',
@@ -145,6 +157,9 @@ describe('Account', () => {
         iso3166: 'AFG',
         hash: 'hash'
       };
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const trial: Try<Account, AccountError> = Account.ofRow(row);
 

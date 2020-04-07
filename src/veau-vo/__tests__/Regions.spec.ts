@@ -12,7 +12,11 @@ describe('Regions', () => {
       const region2: Region = Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abd'));
       const region3: Region = Region.of(RegionID.of(3), RegionName.of('region 3'), ISO3166.of('abe'));
 
-      const regions: Regions = Regions.of([region1, region2, region3]);
+      const regions: Regions = Regions.of([
+        region1,
+        region2,
+        region3
+      ]);
 
       expect(regions.size()).toEqual(3);
       expect(regions.get(0).get()).toEqual(region1);
@@ -35,7 +39,10 @@ describe('Regions', () => {
       const region3: Region = Region.of(RegionID.of(1), RegionName.of('region 1'), ISO3166.of('abc'));
       const region4: Region = Region.of(RegionID.of(3), RegionName.of('region 3'), ISO3166.of('abe'));
 
-      const regions: Regions = Regions.of([region1, region2]);
+      const regions: Regions = Regions.of([
+        region1,
+        region2
+      ]);
 
       expect(regions.contains(region1)).toEqual(true);
       expect(regions.contains(region2)).toEqual(true);
@@ -50,7 +57,10 @@ describe('Regions', () => {
       const region2: Region = Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abd'));
 
       const regions1: Regions = Regions.empty();
-      const regions2: Regions = Regions.of([region1, region2]);
+      const regions2: Regions = Regions.of([
+        region1,
+        region2
+      ]);
 
       expect(regions1.isEmpty()).toEqual(true);
       expect(regions2.isEmpty()).toEqual(false);
@@ -62,8 +72,13 @@ describe('Regions', () => {
       const region1: Region = Region.of(RegionID.of(1), RegionName.of('region 1'), ISO3166.of('abc'));
       const region2: Region = Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abd'));
 
-      const regions1: Regions = Regions.of([region1, region2]);
-      const regions2: Regions = Regions.of([region1]);
+      const regions1: Regions = Regions.of([
+        region1,
+        region2
+      ]);
+      const regions2: Regions = Regions.of([
+        region1
+      ]);
 
       expect(regions1.equals(regions1)).toEqual(true);
       expect(regions1.equals(regions2)).toEqual(false);
@@ -73,8 +88,14 @@ describe('Regions', () => {
       const region1: Region = Region.of(RegionID.of(1), RegionName.of('region 1'), ISO3166.of('abc'));
       const region2: Region = Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abd'));
 
-      const regions1: Regions = Regions.of([region1, region2]);
-      const regions2: Regions = Regions.of([region2, region1]);
+      const regions1: Regions = Regions.of([
+        region1,
+        region2
+      ]);
+      const regions2: Regions = Regions.of([
+        region2,
+        region1
+      ]);
 
       expect(regions1.equals(regions1)).toEqual(true);
       expect(regions1.equals(regions2)).toEqual(false);
@@ -84,8 +105,14 @@ describe('Regions', () => {
       const region1: Region = Region.of(RegionID.of(1), RegionName.of('region 1'), ISO3166.of('abc'));
       const region2: Region = Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abd'));
 
-      const regions1: Regions = Regions.of([region1, region2]);
-      const regions2: Regions = Regions.of([region1, region2]);
+      const regions1: Regions = Regions.of([
+        region1,
+        region2
+      ]);
+      const regions2: Regions = Regions.of([
+        region1,
+        region2
+      ]);
 
       expect(regions1.equals(regions1)).toEqual(true);
       expect(regions1.equals(regions2)).toEqual(true);
@@ -96,7 +123,9 @@ describe('Regions', () => {
     it('normal case', () => {
       const region1: Region = Region.of(RegionID.of(1), RegionName.of('region 1'), ISO3166.of('abc'));
 
-      const regions: Regions = Regions.of([region1]);
+      const regions: Regions = Regions.of([
+        region1
+      ]);
 
       expect(regions.toJSON()).toEqual([
         {
@@ -118,7 +147,11 @@ describe('Regions', () => {
       const iso31662: string = 'abd';
       const region1: Region = Region.of(RegionID.of(id1), RegionName.of(name1), ISO3166.of(iso31661));
       const region2: Region = Region.of(RegionID.of(id2), RegionName.of(name2), ISO3166.of(iso31662));
-      const regions: Regions = Regions.of([region1, region2]);
+
+      const regions: Regions = Regions.of([
+        region1,
+        region2
+      ]);
 
       expect(regions.toString()).toEqual(`${id1} ${name1} ${iso31661}, ${id2} ${name2} ${iso31662}`);
     });

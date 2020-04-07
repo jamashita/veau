@@ -27,11 +27,11 @@ describe('Column', () => {
 
   describe('of', () => {
     it('returns Failure when the argument is less than 0', () => {
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const trial1: Try<Column, ColumnError> = Column.of(0);
       const trial2: Try<Column, ColumnError> = Column.of(-1);
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       expect(trial1.isSuccess()).toEqual(true);
       expect(trial2.isFailure()).toEqual(true);
@@ -48,13 +48,13 @@ describe('Column', () => {
     });
 
     it('returns Failure when the argument is not integer', () => {
+      const trial1: Try<Column, ColumnError> = Column.of(0.1);
+      const trial2: Try<Column, ColumnError> = Column.of(1.5);
+
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
-
-      const trial1: Try<Column, ColumnError> = Column.of(0.1);
-      const trial2: Try<Column, ColumnError> = Column.of(1.5);
 
       expect(trial1.isFailure()).toEqual(true);
       expect(trial2.isFailure()).toEqual(true);

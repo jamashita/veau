@@ -9,7 +9,10 @@ describe('NumericalValues', () => {
       const value2: NumericalValue = NumericalValue.of(2);
       const value3: NumericalValue = NumericalValue.of(3);
 
-      const values1: NumericalValues = NumericalValues.of([value1, value2]);
+      const values1: NumericalValues = NumericalValues.of([
+        value1,
+        value2
+      ]);
       const values2: NumericalValues = values1.add(value3);
 
       expect(values1.size()).toEqual(2);
@@ -29,7 +32,11 @@ describe('NumericalValues', () => {
       const value2: NumericalValue = NumericalValue.of(2);
       const value3: NumericalValue = NumericalValue.of(3);
 
-      const values: NumericalValues = NumericalValues.of([value1, value2, value3]);
+      const values: NumericalValues = NumericalValues.of([
+        value1,
+        value2,
+        value3
+      ]);
 
       expect(values.size()).toEqual(3);
       expect(values.get(0).get()).toEqual(value1);
@@ -42,7 +49,11 @@ describe('NumericalValues', () => {
       const value2: NumericalValue = NumericalValue.of(2);
       const value3: NumericalValue = NumericalValue.of(3);
 
-      const values: NumericalValues = NumericalValues.of([value1, value2, value3]);
+      const values: NumericalValues = NumericalValues.of([
+        value1,
+        value2,
+        value3
+      ]);
 
       expect(values.get(-1)).toBeInstanceOf(None);
       expect(values.get(3)).toBeInstanceOf(None);
@@ -56,7 +67,10 @@ describe('NumericalValues', () => {
       const value3: NumericalValue = NumericalValue.of(3);
       const value4: NumericalValue = NumericalValue.of(1);
 
-      const values: NumericalValues = NumericalValues.of([value1, value2]);
+      const values: NumericalValues = NumericalValues.of([
+        value1,
+        value2
+      ]);
 
       expect(values.contains(value1)).toEqual(true);
       expect(values.contains(value2)).toEqual(true);
@@ -69,9 +83,12 @@ describe('NumericalValues', () => {
     it('returns true if the elements a re 0', () => {
       const value1: NumericalValue = NumericalValue.of(1);
       const value2: NumericalValue = NumericalValue.of(2);
-
       const values1: NumericalValues = NumericalValues.empty();
-      const values2: NumericalValues = NumericalValues.of([value1, value2]);
+
+      const values2: NumericalValues = NumericalValues.of([
+        value1,
+        value2
+      ]);
 
       expect(values1.isEmpty()).toEqual(true);
       expect(values2.isEmpty()).toEqual(false);
@@ -83,8 +100,13 @@ describe('NumericalValues', () => {
       const value1: NumericalValue = NumericalValue.of(1);
       const value2: NumericalValue = NumericalValue.of(2);
 
-      const values1: NumericalValues = NumericalValues.of([value1]);
-      const values2: NumericalValues = NumericalValues.of([value1, value2]);
+      const values1: NumericalValues = NumericalValues.of([
+        value1
+      ]);
+      const values2: NumericalValues = NumericalValues.of([
+        value1,
+        value2
+      ]);
 
       expect(values1.equals(values1)).toEqual(true);
       expect(values1.equals(values2)).toEqual(false);
@@ -94,8 +116,14 @@ describe('NumericalValues', () => {
       const value1: NumericalValue = NumericalValue.of(1);
       const value2: NumericalValue = NumericalValue.of(2);
 
-      const values1: NumericalValues = NumericalValues.of([value2, value1]);
-      const values2: NumericalValues = NumericalValues.of([value1, value2]);
+      const values1: NumericalValues = NumericalValues.of([
+        value2,
+        value1
+      ]);
+      const values2: NumericalValues = NumericalValues.of([
+        value1,
+        value2
+      ]);
 
       expect(values1.equals(values1)).toEqual(true);
       expect(values1.equals(values2)).toEqual(false);
@@ -105,8 +133,14 @@ describe('NumericalValues', () => {
       const value1: NumericalValue = NumericalValue.of(1);
       const value2: NumericalValue = NumericalValue.of(2);
 
-      const values1: NumericalValues = NumericalValues.of([value1, value2]);
-      const values2: NumericalValues = NumericalValues.of([value1, value2]);
+      const values1: NumericalValues = NumericalValues.of([
+        value1,
+        value2
+      ]);
+      const values2: NumericalValues = NumericalValues.of([
+        value1,
+        value2
+      ]);
 
       expect(values1.equals(values1)).toEqual(true);
       expect(values1.equals(values2)).toEqual(true);
@@ -120,7 +154,10 @@ describe('NumericalValues', () => {
       const value1: NumericalValue = NumericalValue.of(num1);
       const value2: NumericalValue = NumericalValue.of(num2);
 
-      const values: NumericalValues = NumericalValues.of([value1, value2]);
+      const values: NumericalValues = NumericalValues.of([
+        value1,
+        value2
+      ]);
 
       expect(values.row()).toEqual([num1.toString(), num2.toString()]);
     });
@@ -133,7 +170,10 @@ describe('NumericalValues', () => {
       const value1: NumericalValue = NumericalValue.of(num1);
       const value2: NumericalValue = NumericalValue.of(num2);
 
-      const values: NumericalValues = NumericalValues.of([value1, value2]);
+      const values: NumericalValues = NumericalValues.of([
+        value1,
+        value2
+      ]);
 
       expect(values.toString()).toEqual(`${num1}, ${num2}`);
     });

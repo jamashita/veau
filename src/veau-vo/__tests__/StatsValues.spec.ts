@@ -14,10 +14,11 @@ import { StatsValues } from '../StatsValues';
 describe('StatsValues', () => {
   describe('get', () => {
     it('returns StatsValue of index-th item', () => {
-      const statsItemID: StatsItemID = StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
+      const statsItemID: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
       const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
       const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
       const statsValue3: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-03').get(), NumericalValue.of(3));
+
       const statsValues: StatsValues = StatsValues.of([
         statsValue1,
         statsValue2,
@@ -40,10 +41,11 @@ describe('StatsValues', () => {
 
   describe('set', () => {
     it('update pattern', () => {
-      const statsItemID: StatsItemID = StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
+      const statsItemID: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
       const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
       const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
       const statsValue3: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-03').get(), NumericalValue.of(3));
+
       const statsValues: StatsValues = StatsValues.of([
         statsValue1,
         statsValue2,
@@ -59,9 +61,10 @@ describe('StatsValues', () => {
     });
 
     it('insert pattern', () => {
-      const statsItemID: StatsItemID = StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
+      const statsItemID: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
       const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
       const statsValue3: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-03').get(), NumericalValue.of(3));
+
       const statsValues: StatsValues = StatsValues.of([
         statsValue1,
         statsValue3
@@ -78,10 +81,11 @@ describe('StatsValues', () => {
 
   describe('delete', () => {
     it('deletes a element if its asOf is the same', () => {
-      const statsItemID: StatsItemID = StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
+      const statsItemID: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
       const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
       const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
       const statsValue3: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-03').get(), NumericalValue.of(3));
+
       const statsValues: StatsValues = StatsValues.of([
         statsValue1,
         statsValue2,
@@ -100,7 +104,8 @@ describe('StatsValues', () => {
     it('extracts only their values', () => {
       const value1: NumericalValue = NumericalValue.of(1);
       const value2: NumericalValue = NumericalValue.of(3);
-      const statsItemID: StatsItemID = StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
+      const statsItemID: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
+
       const statsValues: StatsValues = StatsValues.of([
         StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), value1),
         StatsValue.of(statsItemID, AsOf.ofString('2000-01-03').get(), value2)
@@ -115,9 +120,10 @@ describe('StatsValues', () => {
 
   describe('getAdOfs', () => {
     it('extracts only their asOfs', () => {
-      const statsItemID: StatsItemID = StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
+      const statsItemID: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
       const asOf1: AsOf = AsOf.ofString('2000-01-01').get();
       const asOf2: AsOf = AsOf.ofString('2000-01-03').get();
+
       const statsValues: StatsValues = StatsValues.of([
         StatsValue.of(statsItemID, asOf1, NumericalValue.of(1)),
         StatsValue.of(statsItemID, asOf2, NumericalValue.of(3))
@@ -131,11 +137,12 @@ describe('StatsValues', () => {
 
   describe('contains', () => {
     it('returns true if the element exists in the Colors', () => {
-      const statsItemID: StatsItemID = StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
+      const statsItemID: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
       const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
       const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
       const statsValue3: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-03').get(), NumericalValue.of(3));
       const statsValue4: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
+
       const statsValues: StatsValues = StatsValues.of([
         statsValue1,
         statsValue2
@@ -150,9 +157,10 @@ describe('StatsValues', () => {
 
   describe('isEmpty', () => {
     it('returns true if the elements are 0', () => {
-      const statsItemID: StatsItemID = StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
+      const statsItemID: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
       const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
       const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
+
       const statsValues1: StatsValues = StatsValues.of([
       ]);
       const statsValues2: StatsValues = StatsValues.of([
@@ -167,12 +175,13 @@ describe('StatsValues', () => {
 
   describe('filter', () => {
     it('only returns a certain StatsItemID\'s StatsValue', () => {
-      const statsItemID1: StatsItemID = StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
-      const statsItemID2: StatsItemID = StatsItemID.of('b5f208c3-f171-488f-a8dc-f3798db5f9f4').get();
+      const statsItemID1: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
+      const statsItemID2: StatsItemID = StatsItemID.ofString('b5f208c3-f171-488f-a8dc-f3798db5f9f4').get();
       const statsValue1: StatsValue = StatsValue.of(statsItemID1, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
       const statsValue2: StatsValue = StatsValue.of(statsItemID2, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
       const statsValue3: StatsValue = StatsValue.of(statsItemID2, AsOf.ofString('2000-01-03').get(), NumericalValue.of(3));
       const statsValue4: StatsValue = StatsValue.of(statsItemID1, AsOf.ofString('2000-01-04').get(), NumericalValue.of(1));
+
       const statsValues: StatsValues = StatsValues.of([
         statsValue1,
         statsValue2,
@@ -184,22 +193,23 @@ describe('StatsValues', () => {
       const filtered2: StatsValues = statsValues.filter(statsItemID2);
 
       expect(filtered1.size()).toEqual(2);
-      expect(filtered1.get(0).get().getAsOf().toString()).toEqual('2000-01-01');
-      expect(filtered1.get(1).get().getAsOf().toString()).toEqual('2000-01-04');
+      expect(filtered1.get(0).get()).toEqual(statsValue1);
+      expect(filtered1.get(1).get()).toEqual(statsValue4);
       expect(filtered2.size()).toEqual(2);
-      expect(filtered2.get(0).get().getAsOf().toString()).toEqual('2000-01-02');
-      expect(filtered2.get(1).get().getAsOf().toString()).toEqual('2000-01-03');
+      expect(filtered2.get(0).get()).toEqual(statsValue2);
+      expect(filtered2.get(1).get()).toEqual(statsValue3);
     });
   });
 
   describe('copy', () => {
     it('just create a new array but the objects are the same', () => {
-      const statsItemID1: StatsItemID = StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
-      const statsItemID2: StatsItemID = StatsItemID.of('b5f208c3-f171-488f-a8dc-f3798db5f9f4').get();
+      const statsItemID1: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
+      const statsItemID2: StatsItemID = StatsItemID.ofString('b5f208c3-f171-488f-a8dc-f3798db5f9f4').get();
       const statsValue1: StatsValue = StatsValue.of(statsItemID1, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
       const statsValue2: StatsValue = StatsValue.of(statsItemID2, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
       const statsValue3: StatsValue = StatsValue.of(statsItemID2, AsOf.ofString('2000-01-03').get(), NumericalValue.of(3));
       const statsValue4: StatsValue = StatsValue.of(statsItemID1, AsOf.ofString('2000-01-04').get(), NumericalValue.of(1));
+
       const statsValues: StatsValues = StatsValues.of([
         statsValue1,
         statsValue2,
@@ -218,7 +228,7 @@ describe('StatsValues', () => {
 
   describe('equals', () => {
     it('returns false if the length is differnet', () => {
-      const statsItemID: StatsItemID = StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
+      const statsItemID: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
       const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
       const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
 
@@ -235,7 +245,7 @@ describe('StatsValues', () => {
     });
 
     it('returns false if the sequence is different', () => {
-      const statsItemID: StatsItemID = StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
+      const statsItemID: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
       const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
       const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
 
@@ -253,7 +263,7 @@ describe('StatsValues', () => {
     });
 
     it('returns true if the elements and their order are the same', () => {
-      const statsItemID: StatsItemID = StatsItemID.of('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
+      const statsItemID: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
       const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
       const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
 
@@ -278,7 +288,7 @@ describe('StatsValues', () => {
       const asOf2: string = '2000-01-02';
       const value1: number = 1;
       const value2: number = 2;
-      const statsItemID: StatsItemID = StatsItemID.of(id).get();
+      const statsItemID: StatsItemID = StatsItemID.ofString(id).get();
       const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString(asOf1).get(), NumericalValue.of(value1));
       const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString(asOf2).get(), NumericalValue.of(value2));
 
@@ -298,13 +308,12 @@ describe('StatsValues', () => {
       const asOf2: string = '2000-01-02';
       const value1: number = 1;
       const value2: number = 2;
-      const statsItemID: StatsItemID = StatsItemID.of(id).get();
+      const statsItemID: StatsItemID = StatsItemID.ofString(id).get();
       const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString(asOf1).get(), NumericalValue.of(value1));
       const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString(asOf2).get(), NumericalValue.of(value2));
 
       const trial1: Try<StatsValue, StatsValueError> = Success.of<StatsValue, StatsValueError>(statsValue1);
       const trial2: Try<StatsValue, StatsValueError> = Success.of<StatsValue, StatsValueError>(statsValue2);
-
       const trial: Try<StatsValues, StatsValuesError> = StatsValues.ofTry([trial1, trial2]);
 
       expect(trial.isSuccess()).toEqual(true);
@@ -315,18 +324,17 @@ describe('StatsValues', () => {
     });
 
     it('contains failure', () => {
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const id: string = 'f186dad1-6170-4fdc-9020-d73d9bf86fb0';
       const asOf1: string = '2000-01-01';
       const value1: number = 1;
-      const statsItemID: StatsItemID = StatsItemID.of(id).get();
+      const statsItemID: StatsItemID = StatsItemID.ofString(id).get();
       const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString(asOf1).get(), NumericalValue.of(value1));
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const trial1: Try<StatsValue, StatsValueError> = Success.of<StatsValue, StatsValueError>(statsValue1);
       const trial2: Try<StatsValue, StatsValueError> = Failure.of<StatsValue, StatsValueError>(new StatsValueError('test failed'));
-
       const trial: Try<StatsValues, StatsValuesError> = StatsValues.ofTry([trial1, trial2]);
 
       expect(trial.isFailure()).toEqual(true);
@@ -347,7 +355,6 @@ describe('StatsValues', () => {
 
       const trial1: Try<StatsValue, StatsValueError> = Failure.of<StatsValue, StatsValueError>(new StatsValueError('test failed1'));
       const trial2: Try<StatsValue, StatsValueError> = Failure.of<StatsValue, StatsValueError>(new StatsValueError('test failed2'));
-
       const trial: Try<StatsValues, StatsValuesError> = StatsValues.ofTry([trial1, trial2]);
 
       expect(trial.isFailure()).toEqual(true);
@@ -375,8 +382,7 @@ describe('StatsValues', () => {
           value: 2
         }
       ];
-      const id: string = 'f186dad1-6170-4fdc-9020-d73d9bf86fb0';
-      const statsItemID: StatsItemID = StatsItemID.of(id).get();
+      const statsItemID: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
 
       const trial: Try<StatsValues, StatsValuesError> = StatsValues.ofJSON(statsItemID, json);
 
@@ -392,9 +398,6 @@ describe('StatsValues', () => {
     });
 
     it('contains malformat asOf', () => {
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const json: Array<StatsValueJSON> = [
         {
           asOf: '2000-01-01 00:00:00',
@@ -405,8 +408,10 @@ describe('StatsValues', () => {
           value: 2
         }
       ];
-      const id: string = 'f186dad1-6170-4fdc-9020-d73d9bf86fb0';
-      const statsItemID: StatsItemID = StatsItemID.of(id).get();
+      const statsItemID: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const trial: Try<StatsValues, StatsValuesError> = StatsValues.ofJSON(statsItemID, json);
 
@@ -423,9 +428,6 @@ describe('StatsValues', () => {
     });
 
     it('will be multiple malformat asOfs', () => {
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const json: Array<StatsValueJSON> = [
         {
           asOf: '2000-01-01 00:00:00',
@@ -436,8 +438,10 @@ describe('StatsValues', () => {
           value: 2
         }
       ];
-      const id: string = 'f186dad1-6170-4fdc-9020-d73d9bf86fb0';
-      const statsItemID: StatsItemID = StatsItemID.of(id).get();
+      const statsItemID: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const trial: Try<StatsValues, StatsValuesError> = StatsValues.ofJSON(statsItemID, json);
 
@@ -476,16 +480,13 @@ describe('StatsValues', () => {
       expect(values.size()).toEqual(row.length);
       for (let i: number = 0; i < values.size(); i++) {
         const value: StatsValue = values.get(i).get();
-        expect(value.getStatsItemID().get()).toEqual(row[i].statsItemID);
+        expect(value.getStatsItemID().get().get()).toEqual(row[i].statsItemID);
         expect(value.getAsOf().toString()).toEqual(row[i].asOf);
         expect(value.getValue().get()).toEqual(row[i].value);
       }
     });
 
     it('contains malformat statsItemID', () => {
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const row: Array<StatsValueRow> = [
         {
           statsItemID: 'illegal uuid',
@@ -498,6 +499,9 @@ describe('StatsValues', () => {
           value: 2
         }
       ];
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const trial: Try<StatsValues, StatsValuesError> = StatsValues.ofRow(row);
 
@@ -514,9 +518,6 @@ describe('StatsValues', () => {
     });
 
     it('contains malformat asOf', () => {
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const row: Array<StatsValueRow> = [
         {
           statsItemID: 'f186dad1-6170-4fdc-9020-d73d9bf86fb0',
@@ -529,6 +530,9 @@ describe('StatsValues', () => {
           value: 2
         }
       ];
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const trial: Try<StatsValues, StatsValuesError> = StatsValues.ofRow(row);
 
