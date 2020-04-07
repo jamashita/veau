@@ -12,10 +12,6 @@ export type DIType = {
   AuthenticationInteractor: symbol;
   LocaleInteractor: symbol;
   StatsInteractor: symbol;
-  StatsItemQuery: symbol;
-  StatsOutlineQuery: symbol;
-  StatsQuery: symbol;
-  StatsValueQuery: symbol;
   LocaleAJAXQuery: symbol;
   SessionAJAXQuery: symbol;
   StatsOutlineAJAXQuery: symbol;
@@ -49,10 +45,6 @@ export const TYPE: DIType = {
   AuthenticationInteractor: Symbol('AuthenticationInteractor'),
   LocaleInteractor: Symbol('LocaleInteractor'),
   StatsInteractor: Symbol('StatsInteractor'),
-  StatsItemQuery: Symbol('StatsItemQuery'),
-  StatsOutlineQuery: Symbol('StatsOutlineQuery'),
-  StatsQuery: Symbol('StatsQuery'),
-  StatsValueQuery: Symbol('StatsValueQuery'),
   LocaleAJAXQuery: Symbol('LocaleAJAXQuery'),
   SessionAJAXQuery: Symbol('SessionAJAXQuery'),
   StatsOutlineAJAXQuery: Symbol('StatsOutlineAJAXQuery'),

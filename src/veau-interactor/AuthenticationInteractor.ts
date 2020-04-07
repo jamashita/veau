@@ -23,7 +23,7 @@ export class AuthenticationInteractor implements IInteractor {
   public readonly noun: 'AuthenticationInteractor' = 'AuthenticationInteractor';
   public readonly accountQuery: IAccountQuery;
 
-  public constructor(@inject(TYPE.AccountQuery) accountQuery: IAccountQuery) {
+  public constructor(@inject(TYPE.AccountMySQLQuery) accountQuery: IAccountQuery) {
     this.accountQuery = accountQuery;
   }
 

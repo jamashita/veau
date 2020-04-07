@@ -31,8 +31,8 @@ export class StatsInteractor implements IInteractor {
   private readonly statsOutlineQuery: IStatsOutlineQuery;
 
   public constructor(@inject(TYPE.MySQL) mysql: IMySQL,
-    @inject(TYPE.StatsQuery) statsQuery: IStatsQuery,
-    @inject(TYPE.StatsOutlineQuery) statsOutlineQuery: IStatsOutlineQuery
+    @inject(TYPE.StatsMySQLQuery) statsQuery: IStatsQuery,
+    @inject(TYPE.StatsOutlineMySQLQuery) statsOutlineQuery: IStatsOutlineQuery
   ) {
     this.mysql = mysql;
     this.statsQuery = statsQuery;
@@ -57,7 +57,7 @@ export class StatsInteractor implements IInteractor {
   }
 
   public findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Promise<Try<StatsOutlines, StatsOutlinesError | DataSourceError>> {
-    return this.statsOutlineQuery.findByVeauAccountID(veauAccountID, page.getLimit(), page.getOffset());
+    return this.statsOutlineQuery.findByVeauAccountID(veauAccountID, page);
   }
 
   // FIXME manage to do it (returns to Try)
