@@ -60,11 +60,11 @@ describe('LanguageQuery', () => {
       const languageRedisQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub1: SinonStub = sinon.stub();
       languageRedisQuery.all = stub1;
-      stub1.resolves(Failure.of<Languages, NoSuchElementError | DataSourceError>(new MockMySQLError()));
+      stub1.resolves(Failure.of<Languages, DataSourceError>(new MockMySQLError()));
       const languageMySQLQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
       languageMySQLQuery.all = stub2;
-      stub2.resolves(Success.of<Languages, NoSuchElementError | DataSourceError>(languages));
+      stub2.resolves(Success.of<Languages, DataSourceError>(languages));
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const stub3: SinonStub = sinon.stub();
       languageRedisCommand.insertAll = stub3;
@@ -179,6 +179,7 @@ describe('LanguageQuery', () => {
       const languageQuery: LanguageQuery = new LanguageQuery(languageMySQLQuery, languageRedisQuery, languageRedisCommand);
       const trial: Try<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
+      expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -208,6 +209,7 @@ describe('LanguageQuery', () => {
       const languageQuery: LanguageQuery = new LanguageQuery(languageMySQLQuery, languageRedisQuery, languageRedisCommand);
       const trial: Try<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('oop'));
 
+      expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {

@@ -1,34 +1,34 @@
 import { inject, injectable } from 'inversify';
-import { IRegionCommand } from '../veau-command/interfaces/IRegionCommand';
-import { TYPE } from '../veau-container/Types';
-import { NoSuchElementError } from '../veau-error/NoSuchElementError';
-import { DataSourceError } from '../veau-general/DataSourceError';
-import { Failure } from '../veau-general/Try/Failure';
-import { Success } from '../veau-general/Try/Success';
-import { Try } from '../veau-general/Try/Try';
-import { ISO3166 } from '../veau-vo/ISO3166';
-import { Region } from '../veau-vo/Region';
-import { Regions } from '../veau-vo/Regions';
-import { IRegionQuery } from './interfaces/IRegionQuery';
+import { IRegionCommand } from '../../veau-command/interfaces/IRegionCommand';
+import { TYPE } from '../../veau-container/Types';
+import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
+import { DataSourceError } from '../../veau-general/DataSourceError';
+import { Failure } from '../../veau-general/Try/Failure';
+import { Success } from '../../veau-general/Try/Success';
+import { Try } from '../../veau-general/Try/Try';
+import { ISO3166 } from '../../veau-vo/ISO3166';
+import { Region } from '../../veau-vo/Region';
+import { Regions } from '../../veau-vo/Regions';
+import { IKernelQuery } from '../interfaces/IKernelQuery';
+import { IRegionQuery } from '../interfaces/IRegionQuery';
 
 @injectable()
-export class RegionQuery implements IRegionQuery {
+export class RegionQuery implements IRegionQuery, IKernelQuery {
   public readonly noun: 'RegionQuery' = 'RegionQuery';
-  public readonly source: 'Complex' = 'Complex';
+  public readonly source: 'Kernel' = 'Kernel';
   private readonly regionMySQLQuery: IRegionQuery;
   private readonly regionRedisQuery: IRegionQuery;
-  private readonly regionCommand: IRegionCommand;
+  private readonly regionRedisCommand: IRegionCommand;
 
   public constructor(@inject(TYPE.RegionMySQLQuery) regionMySQLQuery: IRegionQuery,
     @inject(TYPE.RegionRedisQuery) regionRedisQuery: IRegionQuery,
-    @inject(TYPE.RegionRedisCommand) regionCommand: IRegionCommand
+    @inject(TYPE.RegionRedisCommand) regionRedisCommand: IRegionCommand
   ) {
     this.regionMySQLQuery = regionMySQLQuery;
     this.regionRedisQuery = regionRedisQuery;
-    this.regionCommand = regionCommand;
+    this.regionRedisCommand = regionRedisCommand;
   }
 
-  // TODO handling DataSourceError
   public async all(): Promise<Try<Regions, NoSuchElementError | DataSourceError>> {
     const trial1: Try<Regions, NoSuchElementError | DataSourceError> = await this.regionRedisQuery.all();
 
@@ -38,9 +38,13 @@ export class RegionQuery implements IRegionQuery {
       const trial2: Try<Regions, NoSuchElementError | DataSourceError> = await this.regionMySQLQuery.all();
 
       return trial2.match<Promise<Try<Regions, NoSuchElementError | DataSourceError>>>(async (regions: Regions) => {
-        await this.regionCommand.insertAll(regions);
+        const trial3: Try<void, DataSourceError> = await this.regionRedisCommand.insertAll(regions);
 
-        return Success.of<Regions, NoSuchElementError>(regions);
+        return trial3.match<Try<Regions, DataSourceError>>(() => {
+          return Success.of<Regions, NoSuchElementError>(regions);
+        }, (err: DataSourceError) => {
+          return Failure.of<Regions, DataSourceError>(err);
+        });
       }, (err: NoSuchElementError | DataSourceError) => {
         return Promise.resolve<Failure<Regions, NoSuchElementError | DataSourceError>>(Failure.of<Regions, NoSuchElementError | DataSourceError>(err));
       });
