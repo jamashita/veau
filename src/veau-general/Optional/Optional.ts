@@ -1,7 +1,6 @@
 import { Nominative } from '../Nominative';
 import { Try } from '../Try/Try';
-import { Function } from '../Type/Function';
-import { Predicate } from '../Type/Predicate';
+import { AsyncConsumer, Consumer, MonoFunction, Predicate } from '../Type/Function';
 import { None } from './None';
 import { OptionalError } from './OptionalError';
 import { Some } from './Some';
@@ -18,13 +17,13 @@ export abstract class Optional<T extends Nominative> implements Nominative {
 
   public abstract isEmpty(): this is None<T>;
 
-  public abstract ifPresent(consumer: Function<T, void>): void;
+  public abstract ifPresent(consumer: Consumer<T>): void;
 
-  public abstract ifPresentAsync(consumer: Function<T, Promise<void>>): Promise<void>;
+  public abstract ifPresentAsync(consumer: AsyncConsumer<T>): Promise<void>;
 
   public abstract filter(predicate: Predicate<T>): Optional<T>;
 
-  public abstract map<U extends Nominative>(mapper: Function<T, U>): Optional<U>;
+  public abstract map<U extends Nominative>(mapper: MonoFunction<T, U>): Optional<U>;
 
   public abstract equals(other: Optional<T>): boolean;
 

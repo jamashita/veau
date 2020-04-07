@@ -1,9 +1,9 @@
-import { Reject } from './Type/Reject';
-import { Resolve } from './Type/Resolve';
+import { Reject, Resolve } from './Type/Function';
+import { JSObjectNotation } from './Type/Value';
 
 export class JSONA {
 
-  public static parse<T>(text: string): Promise<T> {
+  public static parse<T extends JSObjectNotation>(text: string): Promise<T> {
     return new Promise<T>((resolve: Resolve<T>, reject: Reject) => {
       setTimeout(() => {
         try {

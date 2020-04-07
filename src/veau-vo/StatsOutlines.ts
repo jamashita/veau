@@ -9,7 +9,7 @@ import { Some } from '../veau-general/Optional/Some';
 import { Failure } from '../veau-general/Try/Failure';
 import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
-import { Mapper } from '../veau-general/Type/Mapper';
+import { Mapper } from '../veau-general/Type/Function';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from './StatsOutline';
 
 export class StatsOutlines implements Collection<number, StatsOutline>, JSONable, Cloneable {

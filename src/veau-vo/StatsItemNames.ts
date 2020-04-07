@@ -3,7 +3,7 @@ import { JSONable } from '../veau-general/JSONable';
 import { None } from '../veau-general/Optional/None';
 import { Optional } from '../veau-general/Optional/Optional';
 import { Some } from '../veau-general/Optional/Some';
-import { Mapper } from '../veau-general/Type/Mapper';
+import { Mapper } from '../veau-general/Type/Function';
 import { StatsItemName } from './StatsItemName';
 
 export class StatsItemNames implements Collection<number, StatsItemName>, JSONable {

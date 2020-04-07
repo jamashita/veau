@@ -2,14 +2,14 @@ import { Cloneable } from './Cloneable';
 import { Equalable } from './Equalable';
 import { JSONable } from './JSONable';
 import { Nominative } from './Nominative';
-import { JSON } from './Type/JSON';
+import { JSObjectNotation } from './Type/Value';
 
 export abstract class Entity<T extends Equalable> implements JSONable, Nominative, Cloneable {
   public abstract readonly noun: string;
 
   public abstract getIdentifier(): T;
 
-  public abstract toJSON(): JSON;
+  public abstract toJSON(): JSObjectNotation;
 
   public abstract toString(): string;
 

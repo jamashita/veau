@@ -1,6 +1,6 @@
-import { JSON } from './Type/JSON';
+import { JSObjectNotation } from './Type/Value';
 
 export interface JSONable {
 
-  toJSON(): JSON;
+  toJSON(): JSObjectNotation;
 }

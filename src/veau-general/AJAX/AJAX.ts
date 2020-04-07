@@ -1,5 +1,5 @@
 import request from 'superagent';
-import { Resolve } from '../Type/Resolve';
+import { Resolve } from '../Type/Function';
 import { AJAXResponse } from './AJAXResponse';
 import { IAJAX } from './interfaces/IAJAX';
 

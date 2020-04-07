@@ -1,8 +1,7 @@
 import { Nominative } from '../Nominative';
 import { Failure } from '../Try/Failure';
 import { Try } from '../Try/Try';
-import { Function } from '../Type/Function';
-import { Predicate } from '../Type/Predicate';
+import { AsyncConsumer, Consumer, MonoFunction, Predicate } from '../Type/Function';
 import { Optional } from './Optional';
 import { OptionalError } from './OptionalError';
 import { Some } from './Some';
@@ -31,11 +30,11 @@ export class None<T extends Nominative> extends Optional<T> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-function
-  public ifPresent(consumer: Function<T, void>): void {
+  public ifPresent(consumer: Consumer<T>): void {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public ifPresentAsync(consumer: Function<T, Promise<void>>): Promise<void> {
+  public ifPresentAsync(consumer: AsyncConsumer<T>): Promise<void> {
     return Promise.resolve<void>(undefined);
   }
 
@@ -45,7 +44,7 @@ export class None<T extends Nominative> extends Optional<T> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public map<U extends Nominative>(mapper: Function<T, U>): Optional<U> {
+  public map<U extends Nominative>(mapper: MonoFunction<T, U>): Optional<U> {
     return None.of<U>();
   }
 

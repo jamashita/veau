@@ -1,6 +1,5 @@
 import check from 'check-types';
-import { PlainObject } from './PlainObject';
-import { Primitive } from './Primitive';
+import { PlainObject, Primitive } from './Value';
 
 export class Type {
 

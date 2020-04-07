@@ -9,7 +9,7 @@ import { Some } from '../veau-general/Optional/Some';
 import { Failure } from '../veau-general/Try/Failure';
 import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
-import { Enumerator } from '../veau-general/Type/Enumerator';
+import { Enumerator } from '../veau-general/Type/Function';
 import { Type } from '../veau-general/Type/Type';
 import { AsOf } from './AsOf';
 import { AsOfs } from './AsOfs';

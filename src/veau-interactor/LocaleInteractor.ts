@@ -38,7 +38,7 @@ export class LocaleInteractor implements IInteractor {
     const trials: [
       Try<Languages, NoSuchElementError | DataSourceError>,
       Try<Regions, NoSuchElementError | DataSourceError>
-    ] = await Promise.all([
+    ] = await Promise.all<Try<Languages, NoSuchElementError | DataSourceError>, Try<Regions, NoSuchElementError | DataSourceError>>([
       this.languageQuery.all(),
       this.regionQuery.all()
     ]);
@@ -58,7 +58,7 @@ export class LocaleInteractor implements IInteractor {
     const trials: [
       Try<void, CacheError | DataSourceError>,
       Try<void, CacheError | DataSourceError>
-    ] = await Promise.all([
+    ] = await Promise.all<Try<void, CacheError | DataSourceError>, Try<void, CacheError | DataSourceError>>([
       this.languageCommand.deleteAll(),
       this.regionCommand.deleteAll()
     ]);

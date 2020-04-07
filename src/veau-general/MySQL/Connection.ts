@@ -1,6 +1,5 @@
 import mysql from 'mysql';
-import { Reject } from '../Type/Reject';
-import { Resolve } from '../Type/Resolve';
+import { Reject, Resolve } from '../Type/Function';
 import { IConnection } from './interfaces/IConnection';
 import { MySQLError } from './MySQLError';
 

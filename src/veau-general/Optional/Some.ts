@@ -1,8 +1,7 @@
 import { Nominative } from '../Nominative';
 import { Success } from '../Try/Success';
 import { Try } from '../Try/Try';
-import { Function } from '../Type/Function';
-import { Predicate } from '../Type/Predicate';
+import { AsyncConsumer, Consumer, MonoFunction, Predicate } from '../Type/Function';
 import { maybe } from './Maybe';
 import { None } from './None';
 import { Optional } from './Optional';
@@ -33,11 +32,11 @@ export class Some<T extends Nominative> extends Optional<T> {
     return false;
   }
 
-  public ifPresent(consumer: Function<T, void>): void {
+  public ifPresent(consumer: Consumer<T>): void {
     consumer(this.value);
   }
 
-  public ifPresentAsync(consumer: Function<T, Promise<void>>): Promise<void> {
+  public ifPresentAsync(consumer: AsyncConsumer<T>): Promise<void> {
     return consumer(this.value);
   }
 
@@ -49,7 +48,7 @@ export class Some<T extends Nominative> extends Optional<T> {
     return None.of<T>();
   }
 
-  public map<U extends Nominative>(mapper: Function<T, U>): Optional<U> {
+  public map<U extends Nominative>(mapper: MonoFunction<T, U>): Optional<U> {
     const result: U = mapper(this.value);
 
     return maybe<U>(result);

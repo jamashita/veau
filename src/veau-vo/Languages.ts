@@ -3,8 +3,7 @@ import { JSONable } from '../veau-general/JSONable';
 import { None } from '../veau-general/Optional/None';
 import { Optional } from '../veau-general/Optional/Optional';
 import { Some } from '../veau-general/Optional/Some';
-import { Mapper } from '../veau-general/Type/Mapper';
-import { Predicate } from '../veau-general/Type/Predicate';
+import { Mapper, Predicate } from '../veau-general/Type/Function';
 import { Language, LanguageJSON, LanguageRow } from './Language';
 
 export class Languages implements Collection<number, Language>, JSONable {
