@@ -4,7 +4,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Supplier } from '../veau-general/Type/Supplier';
+import { Supplier } from '../veau-general/Type/Function';
 import { View } from './components/View';
 import { I18NProvider } from './containers/I18NProvider';
 import { history } from './history';

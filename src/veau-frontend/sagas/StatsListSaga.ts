@@ -1,11 +1,18 @@
 import { SagaIterator } from '@redux-saga/types';
+import { inject, injectable } from 'inversify';
 import { all, call, Effect, fork, put, select, take } from 'redux-saga/effects';
+import { IStatsCommand } from '../../veau-command/interfaces/IStatsCommand';
+import { TYPE } from '../../veau-container/Types';
 import { Stats } from '../../veau-entity/Stats';
-import { AJAXError } from '../../veau-general/AJAX/AJAXError';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { StatsOutlinesError } from '../../veau-error/StatsOutlinesError';
+import { AJAXError } from '../../veau-general/AJAX/AJAXError';
+import { DataSourceError } from '../../veau-general/DataSourceError';
 import { None } from '../../veau-general/Optional/None';
 import { Try } from '../../veau-general/Try/Try';
+import { ILanguageQuery } from '../../veau-query/interfaces/ILanguageQuery';
+import { IRegionQuery } from '../../veau-query/interfaces/IRegionQuery';
+import { IStatsQuery } from '../../veau-query/interfaces/IStatsQuery';
 import { AsOf } from '../../veau-vo/AsOf';
 import { Language } from '../../veau-vo/Language';
 import { Page } from '../../veau-vo/Page';
@@ -25,20 +32,25 @@ import { appearNotification } from '../actions/NotificationAction';
 import { pushToStatsEdit } from '../actions/RedirectAction';
 import { resetStatsOutlines, updateStatsOutlines } from '../actions/StatsAction';
 import { closeNewStatsModal, resetNewStats, updateNewStats } from '../actions/StatsListAction';
-import { StatsCommand } from '../../veau-command/AJAX/StatsCommand';
-import { LocaleQuery } from '../../veau-query/AJAX/LocaleQuery';
-import { StatsQuery } from '../../veau-query/AJAX/StatsQuery';
 import { State } from '../State';
 
+@injectable()
 export class StatsListSaga {
-  private readonly statsCommand: StatsCommand;
-  private readonly statsQuery: StatsQuery;
-  private readonly localeQuery: LocaleQuery;
+  private readonly statsQuery: IStatsQuery;
+  private readonly languageQuery: ILanguageQuery;
+  private readonly regionQuery: IRegionQuery;
+  private readonly statsCommand: IStatsCommand;
 
-  public constructor(statsCommand: StatsCommand, statsQuery: StatsQuery, localeQuery: LocaleQuery) {
-    this.statsCommand = statsCommand;
+  public constructor(
+    @inject(TYPE.StatsAJAXQuery) statsQuery: IStatsQuery,
+    @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery,
+    @inject(TYPE.RegionVaultQuery) regionQuery: IRegionQuery,
+    @inject(TYPE.StatsAJAXCommand) statsCommand: IStatsCommand
+  ) {
     this.statsQuery = statsQuery;
-    this.localeQuery = localeQuery;
+    this.languageQuery = languageQuery;
+    this.regionQuery = regionQuery;
+    this.statsCommand = statsCommand;
   }
 
   public *init(): IterableIterator<unknown> {
@@ -56,6 +68,7 @@ export class StatsListSaga {
       yield take(ACTION.STATS_LIST_INITIALIZE);
 
       const trial: Try<StatsOutlines, StatsOutlinesError | AJAXError> = yield call((): Promise<Try<StatsOutlines, StatsOutlinesError | AJAXError>> => {
+        // TODO statsoutline
         return this.statsQuery.findByPage(Page.of(1).get());
       });
 
@@ -141,8 +154,8 @@ export class StatsListSaga {
         }
       } = state;
 
-      const trial: Try<Language, NoSuchElementError | AJAXError> = yield call((): Promise<Try<Language, NoSuchElementError | AJAXError>> => {
-        return this.localeQuery.findByISO639(action.iso639);
+      const trial: Try<Language, NoSuchElementError | DataSourceError> = yield call((): Promise<Try<Language, NoSuchElementError | DataSourceError>> => {
+        return this.languageQuery.findByISO639(action.iso639);
       });
 
       if (trial.isSuccess()) {
@@ -174,8 +187,8 @@ export class StatsListSaga {
         }
       } = state;
 
-      const trial: Try<Region, NoSuchElementError | AJAXError> = yield call((): Promise<Try<Region, NoSuchElementError | AJAXError>> => {
-        return this.localeQuery.findByISO3166(action.iso3166);
+      const trial: Try<Region, NoSuchElementError | DataSourceError> = yield call((): Promise<Try<Region, NoSuchElementError | DataSourceError>> => {
+        return this.regionQuery.findByISO3166(action.iso3166);
       });
 
       if (trial.isSuccess()) {
@@ -245,6 +258,7 @@ export class StatsListSaga {
       ]);
 
       const trial: Try<void, AJAXError> = yield call((): Promise<Try<void, AJAXError>> => {
+        // TODO
         return this.statsCommand.create(stats);
       });
 

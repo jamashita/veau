@@ -1,15 +1,20 @@
+import { inject, injectable } from 'inversify';
 import { SagaIterator } from 'redux-saga';
 import { all, call, Effect, fork, put, PutEffect, select, take } from 'redux-saga/effects';
+import { TYPE } from '../../veau-container/Types';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
-import { AJAXError } from '../../veau-error/AJAXError';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { NotFoundError } from '../../veau-error/NotFoundError';
 import { StatsError } from '../../veau-error/StatsError';
+import { DataSourceError } from '../../veau-general/DataSourceError';
 import { None } from '../../veau-general/Optional/None';
 import { Optional } from '../../veau-general/Optional/Optional';
 import { Some } from '../../veau-general/Optional/Some';
 import { Try } from '../../veau-general/Try/Try';
+import { ILanguageQuery } from '../../veau-query/interfaces/ILanguageQuery';
+import { ILocaleQuery } from '../../veau-query/interfaces/ILocaleQuery';
+import { IRegionQuery } from '../../veau-query/interfaces/IRegionQuery';
+import { IStatsQuery } from '../../veau-query/interfaces/IStatsQuery';
 import { AsOf } from '../../veau-vo/AsOf';
 import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-vo/Region';
@@ -36,20 +41,25 @@ import { appearNotification } from '../actions/NotificationAction';
 import { pushToStatsList } from '../actions/RedirectAction';
 import { resetStatsItem, updateStats, updateStatsItem } from '../actions/StatsAction';
 import { clearSelectingItem, selectItem, updateSelectingItem } from '../actions/StatsEditAction';
-import { StatsCommand } from '../commands/StatsCommand';
-import { LocaleQuery } from '../queries/LocaleQuery';
-import { StatsQuery } from '../queries/StatsQuery';
 import { State } from '../State';
 
+@injectable()
 export class StatsEditSaga {
-  private readonly statsCommand: StatsCommand;
-  private readonly statsQuery: StatsQuery;
-  private readonly localeQuery: LocaleQuery;
+  private readonly statsQuery: IStatsQuery;
+  private readonly localeQuery: ILocaleQuery;
+  private readonly languageQuery: ILanguageQuery;
+  private readonly regionQuery: IRegionQuery;
 
-  public constructor(statsCommand: StatsCommand, statsQuery: StatsQuery, localeQuery: LocaleQuery) {
-    this.statsCommand = statsCommand;
+  public constructor(
+    @inject(TYPE.StatsAJAXQuery) statsQuery: IStatsQuery,
+    @inject(TYPE.LocaleVaultQuery) localeQuery: ILocaleQuery,
+    @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery,
+    @inject(TYPE.RegionVaultQuery) regionQuery: IRegionQuery
+  ) {
     this.statsQuery = statsQuery;
     this.localeQuery = localeQuery;
+    this.languageQuery = languageQuery;
+    this.regionQuery = regionQuery;
   }
 
   public *init(): IterableIterator<unknown> {
@@ -81,7 +91,7 @@ export class StatsEditSaga {
         statsID
       } = action;
 
-      const trial: Try<Stats, StatsError | NotFoundError | AJAXError> = yield call((): Promise<Try<Stats, StatsError | NotFoundError | AJAXError>> => {
+      const trial: Try<Stats, NoSuchElementError | StatsError | DataSourceError> = yield call((): Promise<Try<Stats, NoSuchElementError | StatsError | DataSourceError>> => {
         return this.statsQuery.findByStatsID(statsID);
       });
 
@@ -90,8 +100,8 @@ export class StatsEditSaga {
           put(updateStats(stats)),
           put(clearSelectingItem())
         ]);
-      }, (err: StatsError | NotFoundError | AJAXError) => {
-        if (err instanceof NotFoundError) {
+      }, (err: NoSuchElementError | StatsError | DataSourceError) => {
+        if (err instanceof NoSuchElementError) {
           return all([
             put(pushToStatsList()),
             put(appearNotification('error', 'center', 'top', 'STATS_NOT_FOUND'))
@@ -173,8 +183,8 @@ export class StatsEditSaga {
         stats
       } = state;
 
-      const trial: Try<Language, NoSuchElementError | AJAXError> = yield call((): Promise<Try<Language, NoSuchElementError | AJAXError>> => {
-        return this.localeQuery.findByISO639(action.iso639);
+      const trial: Try<Language, NoSuchElementError | DataSourceError> = yield call((): Promise<Try<Language, NoSuchElementError | DataSourceError>> => {
+        return this.languageQuery.findByISO639(action.iso639);
       });
 
       if (trial.isSuccess()) {
@@ -204,8 +214,8 @@ export class StatsEditSaga {
         stats
       } = state;
 
-      const trial: Try<Region, NoSuchElementError | AJAXError> = yield call((): Promise<Try<Region, NoSuchElementError | AJAXError>> => {
-        return this.localeQuery.findByISO3166(action.iso3166);
+      const trial: Try<Region, NoSuchElementError | DataSourceError> = yield call((): Promise<Try<Region, NoSuchElementError | DataSourceError>> => {
+        return this.regionQuery.findByISO3166(action.iso3166);
       });
 
       if (trial.isSuccess()) {
@@ -456,7 +466,8 @@ export class StatsEditSaga {
 
       yield put(loading());
 
-      const trial: Try<void, AJAXError> = yield call((): Promise<Try<void, AJAXError>> => {
+      const trial: Try<void, DataSourceError> = yield call((): Promise<Try<void, DataSourceError>> => {
+        // TODO
         return this.statsCommand.create(stats);
       });
 

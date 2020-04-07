@@ -1,4 +1,6 @@
+import { inject, injectable } from 'inversify';
 import { fork } from 'redux-saga/effects';
+import { TYPE } from '../../veau-container/Types';
 import { EntranceSaga } from './EntranceSaga';
 import { IdentitySaga } from './IdentitySaga';
 import { LogoutSaga } from './LogoutSaga';
@@ -6,6 +8,7 @@ import { RedirectSaga } from './RedirectSaga';
 import { StatsEditSaga } from './StatsEditSaga';
 import { StatsListSaga } from './StatsListSaga';
 
+@injectable()
 export class RootSaga {
   private readonly entranceSaga: EntranceSaga;
   private readonly identitySaga: IdentitySaga;
@@ -15,11 +18,11 @@ export class RootSaga {
   private readonly statsListSaga: StatsListSaga;
 
   public constructor(
-    entranceSaga: EntranceSaga,
-    identitySaga: IdentitySaga,
-    logoutSaga: LogoutSaga,
-    redirectSaga: RedirectSaga,
-    statsEditSaga: StatsEditSaga,
+    @inject(TYPE.EntranceSaga) entranceSaga: EntranceSaga,
+    @inject(TYPE.IdentitySaga) identitySaga: IdentitySaga,
+    @inject(TYPE.LogoutSaga) logoutSaga: LogoutSaga,
+    @inject(TYPE.RedirectSaga) redirectSaga: RedirectSaga,
+    @inject(TYPE.S) statsEditSaga: StatsEditSaga,
     statsListSaga: StatsListSaga
   ) {
     this.entranceSaga = entranceSaga;

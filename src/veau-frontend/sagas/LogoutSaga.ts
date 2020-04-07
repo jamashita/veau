@@ -1,17 +1,20 @@
 import { SagaIterator } from '@redux-saga/types';
+import { inject, injectable } from 'inversify';
 import { all, call, fork, put, take } from 'redux-saga/effects';
-import { AJAXError } from '../../veau-error/AJAXError';
+import { ISessionCommand } from '../../veau-command/interfaces/ISessionCommand';
+import { TYPE } from '../../veau-container/Types';
+import { DataSourceError } from '../../veau-general/DataSourceError';
 import { Try } from '../../veau-general/Try/Try';
 import { ACTION } from '../actions/Action';
 import { initializeIdentity } from '../actions/IdentityAction';
 import { closeProvider } from '../actions/PageProviderAction';
 import { pushToEntrance } from '../actions/RedirectAction';
-import { SessionCommand } from '../commands/SessionCommand';
 
+@injectable()
 export class LogoutSaga {
-  private readonly sessionCommand: SessionCommand;
+  private readonly sessionCommand: ISessionCommand;
 
-  public constructor(sessionCommand: SessionCommand) {
+  public constructor(@inject(TYPE.SessionAJAXCommand) sessionCommand: ISessionCommand) {
     this.sessionCommand = sessionCommand;
   }
 
@@ -23,7 +26,7 @@ export class LogoutSaga {
     while (true) {
       yield take(ACTION.LOGOUT);
 
-      yield call((): Promise<Try<void, AJAXError>> => {
+      yield call((): Promise<Try<void, DataSourceError>> => {
         return this.sessionCommand.delete();
       });
 

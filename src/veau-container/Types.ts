@@ -4,6 +4,13 @@ export type DIType = Readonly<{
   LocaleHeapCommand: symbol;
   LanguageRedisCommand: symbol;
   RegionRedisCommand: symbol;
+  EntranceSaga: symbol;
+  IdentitySaga: symbol;
+  LogoutSaga: symbol;
+  RedirectSaga: symbol;
+  RootSaga: symbol;
+  StatsEditSaga: symbol;
+  StatsListSaga: symbol;
   AuthenticationMiddleware: symbol;
   AJAX: symbol;
   Vault: symbol;
@@ -39,6 +46,13 @@ export const TYPE: DIType = {
   LocaleHeapCommand: Symbol('LocaleHeapCommand'),
   LanguageRedisCommand: Symbol('LanguageRedisCommand'),
   RegionRedisCommand: Symbol('RegionRedisCommand'),
+  EntranceSaga: Symbol('EntranceSaga'),
+  IdentitySaga: Symbol('IdentitySaga'),
+  LogoutSaga: Symbol('LogoutSaga'),
+  RedirectSaga: Symbol('RedirectSaga'),
+  RootSaga: Symbol('RootSaga'),
+  StatsEditSaga: Symbol('StatsEditSaga'),
+  StatsListSaga: Symbol('StatsListSaga'),
   AuthenticationMiddleware: Symbol('AuthenticationMiddleware'),
   AJAX: Symbol('AJAX'),
   Vault: Symbol('Vault'),

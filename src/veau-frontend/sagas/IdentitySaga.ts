@@ -1,10 +1,15 @@
 import { SagaIterator } from '@redux-saga/types';
+import { inject, injectable } from 'inversify';
 import { all, call, Effect, fork, put, select, take } from 'redux-saga/effects';
-import { AJAXError } from '../../veau-error/AJAXError';
+import { TYPE } from '../../veau-container/Types';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { UnauthorizedError } from '../../veau-error/UnauthorizedError';
 import { VeauAccountError } from '../../veau-error/VeauAccountError';
+import { DataSourceError } from '../../veau-general/DataSourceError';
 import { Try } from '../../veau-general/Try/Try';
+import { ILanguageQuery } from '../../veau-query/interfaces/ILanguageQuery';
+import { ILocaleQuery } from '../../veau-query/interfaces/ILocaleQuery';
+import { ISessionQuery } from '../../veau-query/interfaces/ISessionQuery';
 import { LanguageIdentificationService } from '../../veau-service/LanguageIdentificationService';
 import { AccountName } from '../../veau-vo/AccountName';
 import { ISO639 } from '../../veau-vo/ISO639';
@@ -19,17 +24,22 @@ import { defineLocale } from '../actions/LocaleAction';
 import { raiseModal } from '../actions/ModalAction';
 import { pushToEntrance, pushToStatsList } from '../actions/RedirectAction';
 import { Endpoints } from '../Endpoints';
-import { LocaleQuery } from '../queries/LocaleQuery';
-import { SessionQuery } from '../queries/SessionQuery';
 import { State } from '../State';
 
+@injectable()
 export class IdentitySaga {
-  private readonly sessionQuery: SessionQuery;
-  private readonly localeQuery: LocaleQuery;
+  private readonly sessionQuery: ISessionQuery;
+  private readonly localeQuery: ILocaleQuery;
+  private readonly languageQuery: ILanguageQuery;
 
-  public constructor(sessionQuery: SessionQuery, localeQuery: LocaleQuery) {
+  public constructor(
+    @inject(TYPE.SessionAJAXQuery) sessionQuery: ISessionQuery,
+    @inject(TYPE.LocaleVaultQuery) localeQuery: ILocaleQuery,
+    @inject(TYPE.LanguageVaultQuery) LanguageQuery: ILanguageQuery
+  ) {
     this.sessionQuery = sessionQuery;
     this.localeQuery = localeQuery;
+    this.languageQuery = LanguageQuery;
   }
 
   public *init(): IterableIterator<unknown> {
@@ -40,7 +50,7 @@ export class IdentitySaga {
   private *initIdentity(): SagaIterator<void> {
     yield put(loading());
 
-    const trial1: Try<Locale, AJAXError> = yield call((): Promise<Try<Locale, AJAXError>> => {
+    const trial1: Try<Locale, DataSourceError> = yield call((): Promise<Try<Locale, DataSourceError>> => {
       return this.localeQuery.all();
     });
 
@@ -52,7 +62,7 @@ export class IdentitySaga {
       return put(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
     });
 
-    const trial2: Try<VeauAccount, VeauAccountError | UnauthorizedError> = yield call((): Promise<Try<VeauAccount, VeauAccountError | UnauthorizedError>> => {
+    const trial2: Try<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError> = yield call((): Promise<Try<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>> => {
       return this.sessionQuery.find();
     });
 
@@ -77,8 +87,8 @@ export class IdentitySaga {
       identity
     } = state;
 
-    const trial3: Try<Language, NoSuchElementError | AJAXError> = yield call((): Promise<Try<Language, NoSuchElementError | AJAXError>> => {
-      return this.localeQuery.findByISO639(iso639);
+    const trial3: Try<Language, NoSuchElementError | DataSourceError> = yield call((): Promise<Try<Language, NoSuchElementError | DataSourceError>> => {
+      return this.languageQuery.findByISO639(iso639);
     });
 
     yield trial3.match<Effect>((language: Language) => {

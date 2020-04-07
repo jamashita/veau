@@ -1,9 +1,12 @@
 import { SagaIterator } from '@redux-saga/types';
+import { inject, injectable } from 'inversify';
 import { all, call, Effect, fork, put, select, take } from 'redux-saga/effects';
-import { AJAXError } from '../../veau-general/AJAX/AJAXError';
+import { TYPE } from '../../veau-container/Types';
 import { AuthenticationFailureError } from '../../veau-error/AuthenticationFailureError';
 import { VeauAccountError } from '../../veau-error/VeauAccountError';
+import { DataSourceError } from '../../veau-general/DataSourceError';
 import { Try } from '../../veau-general/Try/Try';
+import { ISessionQuery } from '../../veau-query/interfaces/ISessionQuery';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 import { VeauAccount } from '../../veau-vo/VeauAccount';
 import { ACTION, EntranceAccountNameTypedAction, EntrancePasswordTypedAction } from '../actions/Action';
@@ -12,13 +15,13 @@ import { identified, identityAuthenticated } from '../actions/IdentityAction';
 import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
 import { pushToStatsList } from '../actions/RedirectAction';
-import { SessionQuery } from '../../veau-query/AJAX/SessionQuery';
 import { State } from '../State';
 
+@injectable()
 export class EntranceSaga {
-  private readonly sessionQuery: SessionQuery;
+  private readonly sessionQuery: ISessionQuery;
 
-  public constructor(sessionQuery: SessionQuery) {
+  public constructor(@inject(TYPE.SessionAJAXQuery) sessionQuery: ISessionQuery) {
     this.sessionQuery = sessionQuery;
   }
 
@@ -49,7 +52,7 @@ export class EntranceSaga {
 
       yield put(loading());
 
-      const trial: Try<VeauAccount, VeauAccountError | AuthenticationFailureError | AJAXError> = yield call((): Promise<Try<VeauAccount, VeauAccountError | AuthenticationFailureError | AJAXError>> => {
+      const trial: Try<VeauAccount, VeauAccountError | AuthenticationFailureError | DataSourceError> = yield call((): Promise<Try<VeauAccount, VeauAccountError | AuthenticationFailureError | DataSourceError>> => {
         return this.sessionQuery.findByEntranceInfo(entranceInformation);
       });
 
@@ -61,7 +64,7 @@ export class EntranceSaga {
           put(pushToStatsList()),
           put(identified())
         ]);
-      }, (err: VeauAccountError | AuthenticationFailureError | AJAXError) => {
+      }, (err: VeauAccountError | AuthenticationFailureError | DataSourceError) => {
         if (err instanceof AuthenticationFailureError) {
           return put(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
         }
