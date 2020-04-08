@@ -4,7 +4,7 @@ import { Props } from '../containers/I18NProvider';
 import { i18nMessages, Messages } from '../Messages';
 
 type State = Readonly<{
-}};
+}>;
 
 export class I18NProvider extends React.Component<Props, State> {
 

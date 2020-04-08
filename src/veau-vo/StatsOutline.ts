@@ -266,7 +266,7 @@ export class StatsOutline extends ValueObject implements JSONable, Cloneable {
     } = this;
 
     return {
-      statsID: statsID.get(),
+      statsID: statsID.get().get(),
       language: language.toJSON(),
       region: region.toJSON(),
       termID: term.getID(),

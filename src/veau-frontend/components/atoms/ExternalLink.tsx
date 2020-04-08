@@ -2,7 +2,7 @@ import React from 'react';
 
 type Props = Readonly<{
   href: string;
-  style?: {[key: string]: string};
+  style?: Record<string, string>;
 }>;
 type State = Readonly<{
 }>;

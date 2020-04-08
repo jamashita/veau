@@ -12,7 +12,7 @@ type StateProps = Readonly<{
   vertical: NotificationVPosition;
   message: string;
   duration: number;
-  values?: {[key: string]: string};
+  values?: Record<string, string>;
 }>;
 type DispatchProps = Readonly<{
   closeClicked: () => void;

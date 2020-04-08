@@ -103,7 +103,7 @@ export interface ModalRaiseAction extends ReduxAction {
   type: ACTION.MODAL_RAISE;
   title: string;
   description: string;
-  values?: {[key: string]: string};
+  values?: Record<string, string>;
 }
 export interface ModalCloseAction extends ReduxAction {
   type: ACTION.MODAL_CLOSE;
@@ -118,7 +118,7 @@ export interface NotificationAppearAction extends ReduxAction {
   vertical: NotificationVPosition;
   message: string;
   duration: number;
-  values?: {[key: string]: string};
+  values?: Record<string, string>;
 }
 export interface NotificationDisappearAction extends ReduxAction {
   type: ACTION.NOTIFICATION_DISAPPEAR;
