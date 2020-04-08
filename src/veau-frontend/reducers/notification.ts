@@ -1,5 +1,11 @@
 import { Reducer } from 'redux';
-import { ACTION, Action, NotificationHPosition, NotificationKind, NotificationVPosition } from '../actions/Action';
+import {
+  ACTION,
+  Action,
+  NotificationHPosition,
+  NotificationKind,
+  NotificationVPosition
+} from '../actions/Action';
 
 export type Notification = Readonly<{
   kind: NotificationKind;
@@ -17,8 +23,7 @@ const initialState: Notification = {
   horizontal: 'center',
   vertical: 'top',
   duration: 3000,
-  message: 'GREETING',
-  values: undefined
+  message: 'GREETING'
 };
 
 export const notification: Reducer<Notification, Action> = (state: Notification = initialState, action: Action) => {

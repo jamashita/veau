@@ -9,7 +9,7 @@ type StateProps = Readonly<{
   open: boolean;
   title: string;
   description: string;
-  values?: Record<string, string>
+  values?: Record<string, string>;
 }>;
 type DispatchProps = Readonly<{
   closeClicked: () => void;

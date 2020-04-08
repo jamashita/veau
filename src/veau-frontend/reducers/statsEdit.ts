@@ -9,7 +9,6 @@ export type StatsEdit = Readonly<{
 }>;
 
 const initialState: StatsEdit = {
-  selectingItem: undefined,
   selectingRow: Row.default()
 };
 

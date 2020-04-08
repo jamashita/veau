@@ -11,8 +11,7 @@ export type Modal = Readonly<{
 const initialState: Modal = {
   open: false,
   title: 'GREETING',
-  description: 'GREETING',
-  values: undefined
+  description: 'GREETING'
 };
 
 export const modal: Reducer<Modal, Action> = (state: Modal = initialState, action: Action) => {
