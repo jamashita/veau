@@ -13,13 +13,12 @@ describe('Failure', () => {
     });
   });
 
-  describe('getMessage', () => {
+  describe('getError', () => {
     it('normal case', () => {
-      const message: string = 'los perros';
-      const e1: MockError = new MockError(message);
+      const e1: MockError = new MockError();
       const failure: Failure<number, MockError> = Failure.of<number, MockError>(e1);
 
-      expect(failure.getMessage()).toEqual(message);
+      expect(failure.getError()).toBe(e1);
     });
   });
 

@@ -20,8 +20,8 @@ export class Failure<S, F extends Error> extends Try<S, F> {
     throw this.value as Error;
   }
 
-  public getMessage(): string {
-    return this.value.message;
+  public getError(): F {
+    return this.value;
   }
 
   public isSuccess(): this is Success<S, F> {
