@@ -70,9 +70,15 @@ router.post('/', authenticationMiddleware.requires(), async (req: express.Reques
   }
 
   await Stats.ofJSON(req.body).match<Promise<void>>(async (stats: Stats) => {
-    await statsInteractor.save(stats, res.locals.account.getVeauAccountID());
+    const trial: Try<unknown, DataSourceError> = await statsInteractor.save(stats, res.locals.account.getVeauAccountID());
 
-    res.sendStatus(CREATED);
+    trial.match<void>(() => {
+      res.sendStatus(CREATED);
+    }, (err: DataSourceError) => {
+      logger.warn(err.message);
+
+      res.sendStatus(BAD_REQUEST);
+    });
   }, (err: StatsError) => {
     logger.warn(err.message);
 
