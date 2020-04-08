@@ -187,6 +187,5 @@ describe('Try', () => {
       expect(spy1.called).toEqual(false);
       expect(spy2.called).toEqual(true);
     });
-
   });
 });

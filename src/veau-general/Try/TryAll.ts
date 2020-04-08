@@ -16,9 +16,9 @@ export const tryAll: <S, F extends Error>(tries: Array<Try<S, F>>) => Try<Array<
     }
   }
 
-  const i: Array<S> = tries.map<S>((t: Try<S, F>) => {
+  const values: Array<S> = tries.map<S>((t: Try<S, F>) => {
     return t.get();
   });
 
-  return Success.of<Array<S>, F>(i);
+  return Success.of<Array<S>, F>(values);
 };
