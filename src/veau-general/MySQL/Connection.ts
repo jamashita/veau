@@ -1,6 +1,6 @@
 import mysql from 'mysql';
 import { Reject, Resolve } from '../Type/Function';
-import { Nullable } from '../Type/Value';
+import { JSObjectNotation, Nullable } from '../Type/Value';
 import { IConnection } from './interfaces/IConnection';
 import { MySQLError } from './MySQLError';
 
@@ -11,7 +11,7 @@ export class Connection implements IConnection {
     this.connection = connection;
   }
 
-  public execute<T>(sql: string, value?: object): Promise<T> {
+  public execute<T>(sql: string, value?: JSObjectNotation): Promise<T> {
     return new Promise<T>((resolve: Resolve<T>, reject: Reject) => {
       this.connection.query(sql, value, (err: Nullable<mysql.MysqlError>, result: T) => {
         if (err !== null) {

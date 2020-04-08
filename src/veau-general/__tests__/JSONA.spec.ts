@@ -18,7 +18,7 @@ describe('JSONA', () => {
 
   describe('stringify', () => {
     it('outputs the same object as JSON.stringify()', async () => {
-      const obj: object = {
+      const obj: JSObjectNotation = {
         glossary: {
           title: 'example glossary',
           GlossDiv: {

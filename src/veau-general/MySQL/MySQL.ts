@@ -1,6 +1,6 @@
 import mysql from 'mysql';
 import { Reject, Resolve } from '../Type/Function';
-import { Nullable } from '../Type/Value';
+import { JSObjectNotation, Nullable } from '../Type/Value';
 import { Connection } from './Connection';
 import { IMySQL } from './interfaces/IMySQL';
 import { ITransaction } from './interfaces/ITransaction';
@@ -70,7 +70,7 @@ export class MySQL implements IMySQL {
     }
   }
 
-  public execute<T>(sql: string, value?: object): Promise<T> {
+  public execute<T>(sql: string, value?: JSObjectNotation): Promise<T> {
     return new Promise<T>((resolve: Resolve<T>, reject: Reject) => {
       this.pool.query(sql, value, (err: Nullable<mysql.MysqlError>, result: T) => {
         if (err !== null) {

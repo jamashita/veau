@@ -395,7 +395,7 @@ export class Stats extends Entity<StatsID> {
     });
   }
 
-  public getChart(): Array<object> {
+  public getChart(): Array<Chart> {
     const chartItems: Map<string, Chart> = new Map<string, Chart>();
 
     this.getColumns().forEach((column: AsOf) => {
@@ -413,8 +413,8 @@ export class Stats extends Entity<StatsID> {
       });
     });
 
-    const chart: Array<object> = [];
-    chartItems.forEach((value: object) => {
+    const chart: Array<Chart> = [];
+    chartItems.forEach((value: Chart) => {
       chart.push(value);
     });
 
