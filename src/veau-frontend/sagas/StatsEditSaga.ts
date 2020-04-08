@@ -1,6 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { SagaIterator } from 'redux-saga';
 import { all, call, Effect, fork, put, PutEffect, select, take } from 'redux-saga/effects';
+import { IStatsCommand } from '../../veau-command/interfaces/IStatsCommand';
 import { TYPE } from '../../veau-container/Types';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
@@ -17,6 +18,7 @@ import { IStatsQuery } from '../../veau-query/interfaces/IStatsQuery';
 import { AsOf } from '../../veau-vo/AsOf';
 import { Language } from '../../veau-vo/Language';
 import { Region } from '../../veau-vo/Region';
+import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import {
   Action,
   ACTION,
@@ -48,17 +50,20 @@ export class StatsEditSaga {
   private readonly localeQuery: ILocaleQuery;
   private readonly languageQuery: ILanguageQuery;
   private readonly regionQuery: IRegionQuery;
+  private readonly statsCommand: IStatsCommand;
 
   public constructor(
     @inject(TYPE.StatsAJAXQuery) statsQuery: IStatsQuery,
     @inject(TYPE.LocaleVaultQuery) localeQuery: ILocaleQuery,
     @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery,
-    @inject(TYPE.RegionVaultQuery) regionQuery: IRegionQuery
+    @inject(TYPE.RegionVaultQuery) regionQuery: IRegionQuery,
+    @inject(TYPE.StatsAJAXCommand) statsCommand: IStatsCommand
   ) {
     this.statsQuery = statsQuery;
     this.localeQuery = localeQuery;
     this.languageQuery = languageQuery;
     this.regionQuery = regionQuery;
+    this.statsCommand = statsCommand;
   }
 
   public *init(): IterableIterator<unknown> {
@@ -462,8 +467,7 @@ export class StatsEditSaga {
       yield put(loading());
 
       const trial: Try<void, DataSourceError> = yield call((): Promise<Try<void, DataSourceError>> => {
-        // TODO
-        return this.statsCommand.create(stats);
+        return this.statsCommand.create(stats, VeauAccountID.generate());
       });
 
       yield put(loaded());
