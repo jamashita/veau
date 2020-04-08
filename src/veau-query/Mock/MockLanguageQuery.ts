@@ -18,7 +18,7 @@ export class MockLanguageQuery implements ILanguageQuery, IMockQuery {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async findByISO639(iso639: ISO639): Promise<Try<Language, NoSuchElementError | DataSourceError>> {
+  public findByISO639(iso639: ISO639): Promise<Try<Language, NoSuchElementError | DataSourceError>> {
     return Promise.reject<Try<Language, NoSuchElementError | DataSourceError>>(new UnimplementedError());
   }
 }

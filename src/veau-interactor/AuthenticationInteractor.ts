@@ -34,7 +34,7 @@ export class AuthenticationInteractor implements IInteractor {
         const accountName: AccountName = AccountName.of(name);
         const password: Password = Password.of(pass);
 
-        const trial: Try<Account, NoSuchElementError | AccountError | DataSourceError> = await this.accountQuery.findByAccount(accountName);
+        const trial: Try<Account, AccountError | NoSuchElementError | DataSourceError> = await this.accountQuery.findByAccount(accountName);
 
         // eslint-disable-next-line @typescript-eslint/return-await
         return trial.match<Promise<void>>(async (account: Account) => {
@@ -46,7 +46,7 @@ export class AuthenticationInteractor implements IInteractor {
           }
 
           callback(null, false);
-        }, async (err: NoSuchElementError | AccountError | DataSourceError) => {
+        }, async (err: AccountError | NoSuchElementError | DataSourceError) => {
           // time adjustment
           await Digest.compare(DUMMY_PASSWORD, DUMMY_HASH);
 

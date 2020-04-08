@@ -13,12 +13,12 @@ export class MockRegionQuery implements IRegionQuery, IMockQuery {
   public readonly source: 'Mock' = 'Mock';
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async all(): Promise<Try<Regions, NoSuchElementError | DataSourceError>> {
+  public all(): Promise<Try<Regions, NoSuchElementError | DataSourceError>> {
     return Promise.reject<Try<Regions, NoSuchElementError | DataSourceError>>(new UnimplementedError());
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async findByISO3166(iso3166: ISO3166): Promise<Try<Region, NoSuchElementError | DataSourceError>> {
+  public findByISO3166(iso3166: ISO3166): Promise<Try<Region, NoSuchElementError | DataSourceError>> {
     return Promise.reject<Try<Region, NoSuchElementError | DataSourceError>>(new UnimplementedError());
   }
 }

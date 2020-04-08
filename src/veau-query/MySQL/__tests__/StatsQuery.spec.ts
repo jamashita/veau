@@ -110,7 +110,7 @@ describe('StatsQuery', () => {
       stub2.resolves(Success.of<StatsItems, StatsItemsError | DataSourceError>(items));
 
       const statsQuery: StatsQuery = new StatsQuery(mysql, statsItemQuery);
-      const trial: Try<Stats, NoSuchElementError | StatsError | DataSourceError> = await statsQuery.findByStatsID(statsID);
+      const trial: Try<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
 
       expect(stub1.withArgs(`SELECT
       R1.stats_id AS statsID,
@@ -225,12 +225,12 @@ describe('StatsQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsQuery: StatsQuery = new StatsQuery(mysql, statsItemQuery);
-      const trial: Try<Stats, NoSuchElementError | StatsError | DataSourceError> = await statsQuery.findByStatsID(statsID);
+      const trial: Try<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: NoSuchElementError | StatsError | DataSourceError
+      }, (err: StatsError | NoSuchElementError | DataSourceError
       ) => {
         spy2();
         expect(err).toBeInstanceOf(StatsError);
@@ -253,12 +253,12 @@ describe('StatsQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsQuery: StatsQuery = new StatsQuery(mysql, statsItemQuery);
-      const trial: Try<Stats, NoSuchElementError | StatsError | DataSourceError> = await statsQuery.findByStatsID(statsID);
+      const trial: Try<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: NoSuchElementError | StatsError | DataSourceError) => {
+      }, (err: StatsError | NoSuchElementError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(NoSuchElementError);
       });
@@ -298,12 +298,12 @@ describe('StatsQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsQuery: StatsQuery = new StatsQuery(mysql, statsItemQuery);
-      const trial: Try<Stats, NoSuchElementError | StatsError | DataSourceError> = await statsQuery.findByStatsID(statsID);
+      const trial: Try<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: NoSuchElementError | StatsError | DataSourceError) => {
+      }, (err: StatsError | NoSuchElementError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(StatsError);
       });
@@ -343,12 +343,12 @@ describe('StatsQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsQuery: StatsQuery = new StatsQuery(mysql, statsItemQuery);
-      const trial: Try<Stats, NoSuchElementError | StatsError | DataSourceError> = await statsQuery.findByStatsID(statsID);
+      const trial: Try<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: NoSuchElementError | StatsError | DataSourceError) => {
+      }, (err: StatsError | NoSuchElementError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(MySQLError);
       });

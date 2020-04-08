@@ -29,7 +29,7 @@ export class StatsQuery implements IStatsQuery, IMySQLQuery {
     this.statsItemQuery = statsItemQuery;
   }
 
-  public async findByStatsID(statsID: StatsID): Promise<Try<Stats, NoSuchElementError | StatsError | DataSourceError>> {
+  public async findByStatsID(statsID: StatsID): Promise<Try<Stats, StatsError | NoSuchElementError | DataSourceError>> {
     const query: string = `SELECT
       R1.stats_id AS statsID,
       R1.language_id AS languageID,

@@ -22,7 +22,7 @@ export class AccountQuery implements IAccountQuery, IMySQLQuery {
     this.mysql = mysql;
   }
 
-  public async findByAccount(account: AccountName): Promise<Try<Account, NoSuchElementError | AccountError | DataSourceError>> {
+  public async findByAccount(account: AccountName): Promise<Try<Account, AccountError | NoSuchElementError | DataSourceError>> {
     const query: string = `SELECT
       R1.veau_account_id AS veauAccountID,
       R1.account,

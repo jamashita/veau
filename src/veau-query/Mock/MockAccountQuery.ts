@@ -12,9 +12,8 @@ export class MockAccountQuery implements IAccountQuery, IMockQuery {
   public readonly noun: 'AccountQuery' = 'AccountQuery';
   public readonly source: 'Mock' = 'Mock';
 
-
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async findByAccount(account: AccountName): Promise<Try<Account, NoSuchElementError | AccountError | DataSourceError>> {
+  public findByAccount(account: AccountName): Promise<Try<Account, AccountError | NoSuchElementError | DataSourceError>> {
     return Promise.reject<Try<Account, NoSuchElementError | AccountError | DataSourceError>>(new UnimplementedError());
   }
 }

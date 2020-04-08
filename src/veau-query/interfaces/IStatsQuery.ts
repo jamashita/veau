@@ -9,5 +9,5 @@ import { IQuery } from './IQuery';
 export interface IStatsQuery extends IQuery {
   readonly noun: 'StatsQuery';
 
-  findByStatsID(statsID: StatsID): Promise<Try<Stats, NoSuchElementError | StatsError | DataSourceError>>;
+  findByStatsID(statsID: StatsID): Promise<Try<Stats, StatsError | NoSuchElementError | DataSourceError>>;
 }

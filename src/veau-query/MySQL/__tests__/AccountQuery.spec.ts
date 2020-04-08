@@ -48,7 +48,7 @@ describe('AccountQuery', () => {
       stub.resolves(rows);
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const trial: Try<Account, NoSuchElementError | AccountError | DataSourceError> = await accountQuery.findByAccount(name);
+      const trial: Try<Account, AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(name);
 
       expect(stub.withArgs(`SELECT
       R1.veau_account_id AS veauAccountID,
@@ -98,12 +98,12 @@ describe('AccountQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const trial: Try<Account, NoSuchElementError | AccountError | DataSourceError> = await accountQuery.findByAccount(name);
+      const trial: Try<Account, AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(name);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: NoSuchElementError | AccountError | DataSourceError) => {
+      }, (err: AccountError | NoSuchElementError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(NoSuchElementError);
       });
@@ -137,12 +137,12 @@ describe('AccountQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const trial: Try<Account, NoSuchElementError | AccountError | DataSourceError> = await accountQuery.findByAccount(name);
+      const trial: Try<Account, AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(name);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: NoSuchElementError | AccountError | DataSourceError) => {
+      }, (err: AccountError | NoSuchElementError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(AccountError);
       });
@@ -162,12 +162,12 @@ describe('AccountQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const trial: Try<Account, NoSuchElementError | AccountError | DataSourceError> = await accountQuery.findByAccount(name);
+      const trial: Try<Account, AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(name);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: NoSuchElementError | AccountError | DataSourceError) => {
+      }, (err: AccountError | NoSuchElementError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(MySQLError);
       });

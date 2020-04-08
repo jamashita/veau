@@ -1,4 +1,3 @@
-import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { DataSourceError } from '../../veau-general/DataSourceError';
 import { Try } from '../../veau-general/Try/Try';
 import { UnimplementedError } from '../../veau-general/UnimplementedError';
@@ -11,6 +10,6 @@ export class MockLocaleQuery implements ILocaleQuery, IMockQuery {
   public readonly source: 'Mock' = 'Mock';
 
   public all(): Promise<Try<Locale, DataSourceError>> {
-    return Promise.reject<Try<Locale, NoSuchElementError | DataSourceError>>(new UnimplementedError());
+    return Promise.reject<Try<Locale, DataSourceError>>(new UnimplementedError());
   }
 }

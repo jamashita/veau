@@ -9,5 +9,5 @@ import { IQuery } from './IQuery';
 export interface IAccountQuery extends IQuery {
   readonly noun: 'AccountQuery';
 
-  findByAccount(account: AccountName): Promise<Try<Account, NoSuchElementError | AccountError | DataSourceError>>;
+  findByAccount(account: AccountName): Promise<Try<Account, AccountError | NoSuchElementError | DataSourceError>>;
 }
