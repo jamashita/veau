@@ -18,11 +18,11 @@ const authenticationMiddleware: AuthenticationMiddleware = kernel.get<Authentica
 const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
 
 router.get('/', async (req: express.Request, res: express.Response) => {
-  const trial: Try<JSONable, NoSuchElementError> = await localeInteractor.all();
+  const trial: Try<JSONable, NoSuchElementError | DataSourceError> = await localeInteractor.all();
 
   trial.match<void>((locale: JSONable) => {
     res.status(OK).send(locale.toJSON());
-  }, (err: NoSuchElementError) => {
+  }, (err: NoSuchElementError | DataSourceError) => {
     logger.error(err.message);
 
     res.sendStatus(INTERNAL_SERVER_ERROR);

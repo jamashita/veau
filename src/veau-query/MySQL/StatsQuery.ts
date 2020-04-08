@@ -52,7 +52,7 @@ export class StatsQuery implements IStatsQuery, IMySQLQuery {
 
     try {
       const statsRows: Array<StatsRow> = await this.mysql.execute<Array<StatsRow>>(query, {
-        statsID: statsID.get()
+        statsID: statsID.get().get()
       });
 
       if (statsRows.length === 0) {

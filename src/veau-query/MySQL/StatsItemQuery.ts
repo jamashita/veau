@@ -39,7 +39,7 @@ export class StatsItemQuery implements IStatsItemQuery, IMySQLQuery {
 
     try {
       const statsItemRows: Array<StatsItemRow> = await this.mysql.execute<Array<StatsItemRow>>(query, {
-        statsID: statsID.get()
+        statsID: statsID.get().get()
       });
 
       const trial: Try<StatsValues, StatsValuesError | DataSourceError> = await this.statsValueQuery.findByStatsID(statsID);
