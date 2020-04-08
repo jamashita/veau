@@ -74,7 +74,7 @@ describe('AccountQuery', () => {
       }).called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
       const account: Account = trial.get();
-      expect(account.getVeauAccountID().get()).toEqual(rows[0].veauAccountID);
+      expect(account.getVeauAccountID().get().get()).toEqual(rows[0].veauAccountID);
       expect(account.getAccount().get()).toEqual(rows[0].account);
       expect(account.getLanguage().getLanguageID().get()).toEqual(rows[0].languageID);
       expect(account.getLanguage().getName().get()).toEqual(rows[0].languageName);

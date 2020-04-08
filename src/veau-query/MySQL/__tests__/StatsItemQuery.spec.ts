@@ -102,7 +102,7 @@ describe('StatsItemQuery', () => {
       const statsItems: StatsItems = trial.get();
       expect(statsItems.size()).toEqual(3);
       for (let i: number = 0; i < statsItems.size(); i++) {
-        expect(statsItems.get(i).get().getStatsItemID().get()).toEqual(rows[i].statsItemID);
+        expect(statsItems.get(i).get().getStatsItemID().get().get()).toEqual(rows[i].statsItemID);
         expect(statsItems.get(i).get().getName().get()).toEqual(rows[i].name);
 
         const vs: StatsValues = values.filter(statsItems.get(i).get().getStatsItemID());

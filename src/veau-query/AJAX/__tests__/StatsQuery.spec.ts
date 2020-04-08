@@ -62,7 +62,7 @@ describe('StatsQuery', () => {
       expect(stub.withArgs('/api/stats/f6fb9662-cbe8-4a91-8aa4-47a92f05b007').called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
       const stats: Stats = trial.get();
-      expect(stats.getStatsID().get()).toEqual(json.statsID);
+      expect(stats.getStatsID().get().get()).toEqual(json.statsID);
       expect(stats.getLanguage().getLanguageID().get()).toEqual(json.language.languageID);
       expect(stats.getLanguage().getName().get()).toEqual(json.language.name);
       expect(stats.getLanguage().getEnglishName().get()).toEqual(json.language.englishName);

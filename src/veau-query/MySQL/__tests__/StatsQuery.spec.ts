@@ -135,7 +135,7 @@ describe('StatsQuery', () => {
       }).called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
       const stats: Stats = trial.get();
-      expect(stats.getStatsID().get()).toEqual(rows[0].statsID);
+      expect(stats.getStatsID().get().get()).toEqual(rows[0].statsID);
       expect(stats.getLanguage().getLanguageID().get()).toEqual(rows[0].languageID);
       expect(stats.getLanguage().getName().get()).toEqual(rows[0].languageName);
       expect(stats.getLanguage().getEnglishName().get()).toEqual(rows[0].languageEnglishName);

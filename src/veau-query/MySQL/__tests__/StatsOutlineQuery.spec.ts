@@ -96,7 +96,7 @@ describe('StatsOutlineQuery', () => {
       expect(statsOutlines.size()).toEqual(2);
       for (let i: number = 0; i < statsOutlines.size(); i++) {
         const statsOutline: StatsOutline = statsOutlines.get(i).get();
-        expect(statsOutline.getStatsID().get()).toEqual(rows[i].statsID);
+        expect(statsOutline.getStatsID().get().get()).toEqual(rows[i].statsID);
         expect(statsOutline.getLanguage().getLanguageID().get()).toEqual(rows[i].languageID);
         expect(statsOutline.getLanguage().getName().get()).toEqual(rows[i].languageName);
         expect(statsOutline.getLanguage().getEnglishName().get()).toEqual( rows[i].languageEnglishName);

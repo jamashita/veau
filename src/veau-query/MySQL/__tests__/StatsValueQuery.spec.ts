@@ -75,7 +75,7 @@ describe('StatsValueQuery', () => {
       expect(trial.isSuccess()).toEqual(true);
       const values: StatsValues = trial.get();
       for (let i: number = 0; i < values.size(); i++) {
-        expect(values.get(i).get().getStatsItemID().get()).toEqual(rows[i].statsItemID);
+        expect(values.get(i).get().getStatsItemID().get().get()).toEqual(rows[i].statsItemID);
         expect(values.get(i).get().getAsOf().toString()).toEqual(rows[i].asOf);
         expect(values.get(i).get().getValue().get()).toEqual(rows[i].value);
       }

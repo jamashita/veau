@@ -176,7 +176,7 @@ describe('SessionQuery', () => {
       }).called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
       const veauAccount: VeauAccount = trial.get();
-      expect(veauAccount.getVeauAccountID().get()).toEqual(json.veauAccountID);
+      expect(veauAccount.getVeauAccountID().get().get()).toEqual(json.veauAccountID);
       expect(veauAccount.getAccount().get()).toEqual(json.account);
       expect(veauAccount.getLanguage().getLanguageID().get()).toEqual(json.language.languageID);
       expect(veauAccount.getLanguage().getName().get()).toEqual(json.language.name);
