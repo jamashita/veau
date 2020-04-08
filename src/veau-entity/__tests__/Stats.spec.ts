@@ -1,5 +1,4 @@
 import { StatsError } from '../../veau-error/StatsError';
-import { None } from '../../veau-general/Optional/None';
 import { Some } from '../../veau-general/Optional/Some';
 import { Try } from '../../veau-general/Try/Try';
 import { UUID } from '../../veau-general/UUID/UUID';
@@ -338,26 +337,8 @@ describe('Stats', () => {
             StatsItemName.of('stats'),
             StatsValues.empty()
           )
-        ]),
-        Some.of<AsOf>(AsOf.ofString('2000-01-01').get())
-      );
-      const stats17: Stats = Stats.of(
-        StatsID.ofString('d5d311b5-c09a-4f82-91e5-b7b55736120e').get(),
-        Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
-        Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
-        Term.DAILY,
-        StatsName.of('name'),
-        StatsUnit.of('unit'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
-          StatsItem.of(
-            StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
-            StatsItemName.of('stats'),
-            StatsValues.empty()
-          )
         ])
       );
-
 
       expect(stats1.isSame(stats1)).toEqual(true);
       expect(stats1.isSame(stats2)).toEqual(false);
@@ -373,13 +354,12 @@ describe('Stats', () => {
       expect(stats1.isSame(stats12)).toEqual(false);
       expect(stats1.isSame(stats13)).toEqual(true);
       expect(stats1.isSame(stats14)).toEqual(true);
-      expect(stats1.isSame(stats15)).toEqual(false);
-      expect(stats1.isSame(stats16)).toEqual(false);
-      expect(stats1.isSame(stats17)).toEqual(true);
+      expect(stats1.isSame(stats15)).toEqual(true);
+      expect(stats1.isSame(stats16)).toEqual(true);
       expect(stats14.isSame(stats14)).toEqual(true);
-      expect(stats14.isSame(stats15)).toEqual(false);
+      expect(stats14.isSame(stats15)).toEqual(true);
       expect(stats14.isSame(stats16)).toEqual(true);
-      expect(stats14.isSame(stats17)).toEqual(false);
+      expect(stats15.isSame(stats16)).toEqual(true);
     });
   });
 
@@ -841,29 +821,35 @@ describe('Stats', () => {
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
         StatsItems.of([
           StatsItem.of(
-            StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), StatsItemName.of('stats1'), StatsValues.of([
+            StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(),
+            StatsItemName.of('stats1'),
+            StatsValues.of([
               StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1)),
               StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(2))
-            ])),
-          StatsItem.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), StatsItemName.of('stats2'), StatsValues.of([
-            StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-02').get(), NumericalValue.of(12)),
-            StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(13)),
-            StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-04').get(), NumericalValue.of(14))
-          ]))
+            ])
+          ),
+          StatsItem.of(
+            StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(),
+            StatsItemName.of('stats2'),
+            StatsValues.of([
+              StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(2)),
+              StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-02').get(), NumericalValue.of(4)),
+              StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-05').get(), NumericalValue.of(6))
+            ])
+          )
         ])
       );
 
       stats.deleteData(Coordinate.of(Row.of(0).get(), Column.of(1).get()));
 
       const items: StatsItems = stats.getItems();
-      expect(items.size()).toEqual(3);
+      expect(items.size()).toEqual(2);
       expect(items.get(0).get().getValues().size()).toEqual(1);
       expect(items.get(0).get().getValues().get(0).get().getAsOf().toString()).toEqual('2000-01-03');
       expect(items.get(1).get().getValues().size()).toEqual(3);
-      expect(items.get(1).get().getValues().get(0).get().getAsOf().toString()).toEqual('2000-01-02');
-      expect(items.get(1).get().getValues().get(1).get().getAsOf().toString()).toEqual('2000-01-03');
-      expect(items.get(1).get().getValues().get(2).get().getAsOf().toString()).toEqual('2000-01-04');
-      expect(items.get(2).get().getValues().size()).toEqual(0);
+      expect(items.get(1).get().getValues().get(0).get().getAsOf().toString()).toEqual('2000-01-01');
+      expect(items.get(1).get().getValues().get(1).get().getAsOf().toString()).toEqual('2000-01-02');
+      expect(items.get(1).get().getValues().get(2).get().getAsOf().toString()).toEqual('2000-01-05');
     });
   });
 
