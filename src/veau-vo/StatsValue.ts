@@ -15,7 +15,6 @@ export type StatsValueJSON = Readonly<{
   asOf: string;
   value: number;
 }>;
-
 export type StatsValueRow = Readonly<{
   statsItemID: string;
   asOf: string;

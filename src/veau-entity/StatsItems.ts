@@ -12,6 +12,7 @@ import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
 import { Enumerator, Mapper } from '../veau-general/Type/Function';
 import { Type } from '../veau-general/Type/Type';
+import { Ambiguous } from '../veau-general/Type/Value';
 import { AsOf } from '../veau-vo/AsOf';
 import { AsOfs } from '../veau-vo/AsOfs';
 import { Column } from '../veau-vo/Column';
@@ -99,7 +100,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
   }
 
   public get(index: number): Optional<StatsItem> {
-    const statsItem: StatsItem | undefined = this.items[index];
+    const statsItem: Ambiguous<StatsItem> = this.items[index];
 
     if (statsItem === undefined) {
       return None.of<StatsItem>();
@@ -184,7 +185,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
   }
 
   public contains(value: StatsItem): boolean {
-    const found: StatsItem | undefined = this.items.find((item: StatsItem) => {
+    const found: Ambiguous<StatsItem> = this.items.find((item: StatsItem) => {
       return value.equals(item);
     });
 

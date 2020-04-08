@@ -10,7 +10,6 @@ export type RegionJSON = Readonly<{
   name: string;
   iso3166: string;
 }>;
-
 export type RegionRow = Readonly<{
   regionID: number;
   name: string;

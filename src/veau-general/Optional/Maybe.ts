@@ -1,9 +1,8 @@
 import { Nominative } from '../Nominative';
+import { Suspicious } from '../Type/Value';
 import { None } from './None';
 import { Optional } from './Optional';
 import { Some } from './Some';
-
-type Suspicious<T> = undefined | null | T;
 
 export const maybe: <T extends Nominative>(value: Suspicious<T>) => Optional<T> = <T extends Nominative>(value: Suspicious<T>) => {
   if (value === null) {

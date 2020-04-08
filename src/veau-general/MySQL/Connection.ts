@@ -1,5 +1,6 @@
 import mysql from 'mysql';
 import { Reject, Resolve } from '../Type/Function';
+import { Nullable } from '../Type/Value';
 import { IConnection } from './interfaces/IConnection';
 import { MySQLError } from './MySQLError';
 
@@ -12,7 +13,7 @@ export class Connection implements IConnection {
 
   public execute<T>(sql: string, value?: object): Promise<T> {
     return new Promise<T>((resolve: Resolve<T>, reject: Reject) => {
-      this.connection.query(sql, value, (err: mysql.MysqlError | null, result: T) => {
+      this.connection.query(sql, value, (err: Nullable<mysql.MysqlError>, result: T) => {
         if (err !== null) {
           reject(new MySQLError(err));
           return;

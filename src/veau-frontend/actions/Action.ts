@@ -21,6 +21,10 @@ import { StatsUnit } from '../../veau-vo/StatsUnit';
 import { Term } from '../../veau-vo/Term';
 import { VeauAccount } from '../../veau-vo/VeauAccount';
 
+export type NotificationKind = 'info' | 'success' | 'warn' | 'error';
+export type NotificationHPosition = 'left' | 'center' | 'right';
+export type NotificationVPosition = 'top' | 'bottom';
+
 export enum ACTION {
   LOCATION_CHANGE = '@@router/LOCATION_CHANGE',
 
@@ -108,9 +112,6 @@ export interface ModalRaiseAction extends ReduxAction {
 export interface ModalCloseAction extends ReduxAction {
   type: ACTION.MODAL_CLOSE;
 }
-export type NotificationKind = 'info' | 'success' | 'warn' | 'error';
-export type NotificationHPosition = 'left' | 'center' | 'right';
-export type NotificationVPosition = 'top' | 'bottom';
 export interface NotificationAppearAction extends ReduxAction {
   type: ACTION.NOTIFICATION_APPEAR;
   kind: NotificationKind;

@@ -1,4 +1,5 @@
 import IORedis from 'ioredis';
+import { Nullable } from '../Type/Value';
 import { IRedisString } from './interfaces/IRedisString';
 import { RedisError } from './RedisError';
 
@@ -28,9 +29,9 @@ export class RedisString implements IRedisString {
     }
   }
 
-  public async get(key: string): Promise<string | null> {
+  public async get(key: string): Promise<Nullable<string>> {
     try {
-      const result: string | null = await this.client.get(key);
+      const result: Nullable<string> = await this.client.get(key);
 
       return result;
     }

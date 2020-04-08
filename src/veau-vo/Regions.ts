@@ -4,6 +4,7 @@ import { None } from '../veau-general/Optional/None';
 import { Optional } from '../veau-general/Optional/Optional';
 import { Some } from '../veau-general/Optional/Some';
 import { Mapper, Predicate } from '../veau-general/Type/Function';
+import { Ambiguous } from '../veau-general/Type/Value';
 import { Region, RegionJSON, RegionRow } from './Region';
 
 export class Regions implements Collection<number, Region>, JSONable {
@@ -39,7 +40,7 @@ export class Regions implements Collection<number, Region>, JSONable {
   }
 
   public get(index: number): Optional<Region> {
-    const region: Region | undefined = this.regions[index];
+    const region: Ambiguous<Region> = this.regions[index];
 
     if (region === undefined) {
       return None.of<Region>();
@@ -49,7 +50,7 @@ export class Regions implements Collection<number, Region>, JSONable {
   }
 
   public contains(value: Region): boolean {
-    const found: Region | undefined = this.regions.find((region: Region) => {
+    const found: Ambiguous<Region> = this.regions.find((region: Region) => {
       return value.equals(region);
     });
 
@@ -68,7 +69,7 @@ export class Regions implements Collection<number, Region>, JSONable {
     return this.regions.map<U>(mapper);
   }
 
-  public find(predicate: Predicate<Region>): Region | undefined {
+  public find(predicate: Predicate<Region>): Ambiguous<Region> {
     return this.regions.find(predicate);
   }
 

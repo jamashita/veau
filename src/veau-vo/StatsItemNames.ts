@@ -4,6 +4,7 @@ import { None } from '../veau-general/Optional/None';
 import { Optional } from '../veau-general/Optional/Optional';
 import { Some } from '../veau-general/Optional/Some';
 import { Mapper } from '../veau-general/Type/Function';
+import { Ambiguous } from '../veau-general/Type/Value';
 import { StatsItemName } from './StatsItemName';
 
 export class StatsItemNames implements Collection<number, StatsItemName>, JSONable {
@@ -19,7 +20,7 @@ export class StatsItemNames implements Collection<number, StatsItemName>, JSONab
   }
 
   public get(index: number): Optional<StatsItemName> {
-    const name: StatsItemName | undefined = this.names[index];
+    const name: Ambiguous<StatsItemName> = this.names[index];
 
     if (name === undefined) {
       return None.of<StatsItemName>();
@@ -29,7 +30,7 @@ export class StatsItemNames implements Collection<number, StatsItemName>, JSONab
   }
 
   public contains(value: StatsItemName): boolean {
-    const found: StatsItemName | undefined = this.names.find((name: StatsItemName) => {
+    const found: Ambiguous<StatsItemName> = this.names.find((name: StatsItemName) => {
       return value.equals(name);
     });
 

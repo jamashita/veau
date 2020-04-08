@@ -10,6 +10,7 @@ import { Failure } from '../veau-general/Try/Failure';
 import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
 import { Mapper } from '../veau-general/Type/Function';
+import { Ambiguous } from '../veau-general/Type/Value';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from './StatsOutline';
 
 export class StatsOutlines implements Collection<number, StatsOutline>, JSONable, Cloneable {
@@ -65,7 +66,7 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
   }
 
   public get(index: number): Optional<StatsOutline> {
-    const outline: StatsOutline | undefined = this.outlines[index];
+    const outline: Ambiguous<StatsOutline> = this.outlines[index];
 
     if (outline === undefined) {
       return None.of<StatsOutline>();
@@ -75,7 +76,7 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
   }
 
   public contains(value: StatsOutline): boolean {
-    const found: StatsOutline | undefined = this.outlines.find((outline: StatsOutline) => {
+    const found: Ambiguous<StatsOutline> = this.outlines.find((outline: StatsOutline) => {
       return value.equals(outline);
     });
 

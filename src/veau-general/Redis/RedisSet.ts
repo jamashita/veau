@@ -1,4 +1,5 @@
 import IORedis from 'ioredis';
+import { Nullable } from '../Type/Value';
 import { IRedisSet } from './interfaces/IRedisSet';
 import { RedisError } from './RedisError';
 
@@ -88,9 +89,9 @@ export class RedisSet implements IRedisSet {
     }
   }
 
-  public async random(key: string): Promise<string | null> {
+  public async random(key: string): Promise<Nullable<string>> {
     try {
-      const result: string | null = await this.client.srandmember(key);
+      const result: Nullable<string> = await this.client.srandmember(key);
 
       return result;
     }
@@ -103,9 +104,9 @@ export class RedisSet implements IRedisSet {
     }
   }
 
-  public async pop(key: string): Promise<string | null> {
+  public async pop(key: string): Promise<Nullable<string>> {
     try {
-      const result: string | null = await this.client.spop(key);
+      const result: Nullable<string> = await this.client.spop(key);
 
       return result;
     }

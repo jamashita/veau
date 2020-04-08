@@ -92,32 +92,32 @@ export class MockRedis implements IRedis {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async delete(...keys: Array<string>): Promise<boolean> {
+  public delete(...keys: Array<string>): Promise<boolean> {
     return Promise.reject<boolean>(new UnimplementedError());
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async exists(...keys: Array<string>): Promise<boolean> {
+  public exists(...keys: Array<string>): Promise<boolean> {
     return Promise.reject<boolean>(new UnimplementedError());
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async expires(key: string, seconds: number): Promise<boolean> {
+  public expires(key: string, seconds: number): Promise<boolean> {
     return Promise.reject<boolean>(new UnimplementedError());
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async subscribe(...channels: Array<string>): Promise<number> {
+  public subscribe(...channels: Array<string>): Promise<number> {
     return Promise.reject<number>(new UnimplementedError());
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async unsubscribe(...channels: Array<string>): Promise<number> {
+  public unsubscribe(...channels: Array<string>): Promise<number> {
     return Promise.reject<number>(new UnimplementedError());
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async publish(channel: string, message: string): Promise<number> {
+  public publish(channel: string, message: string): Promise<number> {
     return Promise.reject<number>(new UnimplementedError());
   }
 

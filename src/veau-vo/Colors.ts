@@ -1,5 +1,6 @@
 import { Collection } from '../veau-general/Collection';
 import { Some } from '../veau-general/Optional/Some';
+import { Ambiguous } from '../veau-general/Type/Value';
 import { Color } from './Color';
 
 export class Colors implements Collection<number, Color> {
@@ -46,7 +47,7 @@ export class Colors implements Collection<number, Color> {
   }
 
   public contains(value: Color): boolean {
-    const found: Color | undefined = this.colors.find((color: Color) => {
+    const found: Ambiguous<Color> = this.colors.find((color: Color) => {
       return value.equals(color);
     });
 

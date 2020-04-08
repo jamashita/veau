@@ -5,9 +5,8 @@ import { None } from '../veau-general/Optional/None';
 import { Optional } from '../veau-general/Optional/Optional';
 import { Some } from '../veau-general/Optional/Some';
 import { Enumerator } from '../veau-general/Type/Function';
+import { Ambiguous } from '../veau-general/Type/Value';
 import { AsOf } from './AsOf';
-
-export type AsOfJSON = Array<string>;
 
 export class AsOfs implements Collection<number, AsOf>, JSONable {
   public readonly noun: 'AsOfs' = 'AsOfs';
@@ -36,7 +35,7 @@ export class AsOfs implements Collection<number, AsOf>, JSONable {
   }
 
   public get(index: number): Optional<AsOf> {
-    const asOf: AsOf | undefined = this.asOfs[index];
+    const asOf: Ambiguous<AsOf> = this.asOfs[index];
 
     if (asOf === undefined) {
       return None.of<AsOf>();
@@ -46,7 +45,7 @@ export class AsOfs implements Collection<number, AsOf>, JSONable {
   }
 
   public contains(value: AsOf): boolean {
-    const found: AsOf | undefined = this.asOfs.find((asOf: AsOf) => {
+    const found: Ambiguous<AsOf> = this.asOfs.find((asOf: AsOf) => {
       return value.equals(asOf);
     });
 
@@ -115,7 +114,7 @@ export class AsOfs implements Collection<number, AsOf>, JSONable {
     return true;
   }
 
-  public toJSON(): AsOfJSON {
+  public toJSON(): Array<string> {
     return this.asOfs.map<string>((asOf: AsOf) => {
       return asOf.toString();
     });

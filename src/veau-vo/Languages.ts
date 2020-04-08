@@ -4,6 +4,7 @@ import { None } from '../veau-general/Optional/None';
 import { Optional } from '../veau-general/Optional/Optional';
 import { Some } from '../veau-general/Optional/Some';
 import { Mapper, Predicate } from '../veau-general/Type/Function';
+import { Ambiguous } from '../veau-general/Type/Value';
 import { Language, LanguageJSON, LanguageRow } from './Language';
 
 export class Languages implements Collection<number, Language>, JSONable {
@@ -39,7 +40,7 @@ export class Languages implements Collection<number, Language>, JSONable {
   }
 
   public get(index: number): Optional<Language> {
-    const language: Language | undefined = this.languages[index];
+    const language: Ambiguous<Language> = this.languages[index];
 
     if (language === undefined) {
       return None.of<Language>();
@@ -49,7 +50,7 @@ export class Languages implements Collection<number, Language>, JSONable {
   }
 
   public contains(value: Language): boolean {
-    const found: Language | undefined = this.languages.find((language: Language) => {
+    const found: Ambiguous<Language> = this.languages.find((language: Language) => {
       return value.equals(language);
     });
 
@@ -68,7 +69,7 @@ export class Languages implements Collection<number, Language>, JSONable {
     return this.languages.map<U>(mapper);
   }
 
-  public find(predicate: Predicate<Language>): Language | undefined {
+  public find(predicate: Predicate<Language>): Ambiguous<Language> {
     return this.languages.find(predicate);
   }
 

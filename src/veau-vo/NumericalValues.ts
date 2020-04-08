@@ -2,6 +2,7 @@ import { Collection } from '../veau-general/Collection';
 import { None } from '../veau-general/Optional/None';
 import { Optional } from '../veau-general/Optional/Optional';
 import { Some } from '../veau-general/Optional/Some';
+import { Ambiguous } from '../veau-general/Type/Value';
 import { NumericalValue } from './NumericalValue';
 
 export class NumericalValues implements Collection<number, NumericalValue> {
@@ -31,7 +32,7 @@ export class NumericalValues implements Collection<number, NumericalValue> {
   }
 
   public get(index: number): Optional<NumericalValue> {
-    const value: NumericalValue | undefined = this.values[index];
+    const value: Ambiguous<NumericalValue> = this.values[index];
 
     if (value === undefined) {
       return None.of<NumericalValue>();
@@ -47,7 +48,7 @@ export class NumericalValues implements Collection<number, NumericalValue> {
   }
 
   public contains(value: NumericalValue): boolean {
-    const found: NumericalValue | undefined = this.values.find((val: NumericalValue) => {
+    const found: Ambiguous<NumericalValue> = this.values.find((val: NumericalValue) => {
       return value.equals(val);
     });
 

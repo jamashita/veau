@@ -8,6 +8,7 @@ import { RedisError } from '../../veau-general/Redis/RedisError';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
+import { Ambiguous, Nullable } from '../../veau-general/Type/Value';
 import { REDIS_REGION_KEY } from '../../veau-infrastructure/VeauRedis';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { Region, RegionJSON } from '../../veau-vo/Region';
@@ -27,7 +28,7 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
 
   public async all(): Promise<Try<Regions, NoSuchElementError | DataSourceError>> {
     try {
-      const regionString: string | null = await this.redis.getString().get(REDIS_REGION_KEY);
+      const regionString: Nullable<string> = await this.redis.getString().get(REDIS_REGION_KEY);
 
       if (regionString === null) {
         return Failure.of<Regions, NoSuchElementError>(new NoSuchElementError('NO REGIONS FROM REDIS'));
@@ -50,7 +51,7 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
     const trial: Try<Regions, NoSuchElementError | DataSourceError> = await this.all();
 
     return trial.match<Try<Region, NoSuchElementError | DataSourceError>>((regions: Regions) => {
-      const found: Region | undefined = regions.find((region: Region) => {
+      const found: Ambiguous<Region> = regions.find((region: Region) => {
         return region.getISO3166().equals(iso3166);
       });
 

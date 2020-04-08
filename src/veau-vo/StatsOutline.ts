@@ -31,7 +31,6 @@ export type StatsOutlineJSON = Readonly<{
   unit: string;
   updatedAt: string;
 }>;
-
 export type StatsOutlineRow = Readonly<{
   statsID: string;
   languageID: number;

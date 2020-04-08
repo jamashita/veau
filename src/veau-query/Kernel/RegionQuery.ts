@@ -6,6 +6,7 @@ import { DataSourceError } from '../../veau-general/DataSourceError';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
+import { Ambiguous } from '../../veau-general/Type/Value';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { Region } from '../../veau-vo/Region';
 import { Regions } from '../../veau-vo/Regions';
@@ -55,7 +56,7 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
     const trial: Try<Regions, NoSuchElementError | DataSourceError> = await this.all();
 
     return trial.match<Try<Region, NoSuchElementError | DataSourceError>>((regions: Regions) => {
-      const found: Region | undefined = regions.find((region: Region) => {
+      const found: Ambiguous<Region> = regions.find((region: Region) => {
         return region.getISO3166().equals(iso3166);
       });
 

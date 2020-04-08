@@ -8,6 +8,7 @@ import { RedisError } from '../../veau-general/Redis/RedisError';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
+import { Ambiguous, Nullable } from '../../veau-general/Type/Value';
 import { REDIS_LANGUAGE_KEY } from '../../veau-infrastructure/VeauRedis';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language, LanguageJSON } from '../../veau-vo/Language';
@@ -27,7 +28,7 @@ export class LanguageQuery implements ILanguageQuery, IRedisQuery {
 
   public async all(): Promise<Try<Languages, NoSuchElementError | DataSourceError>> {
     try {
-      const languagesString: string | null = await this.redis.getString().get(REDIS_LANGUAGE_KEY);
+      const languagesString: Nullable<string> = await this.redis.getString().get(REDIS_LANGUAGE_KEY);
 
       if (languagesString === null) {
         return Failure.of<Languages, NoSuchElementError>(new NoSuchElementError('NO LANGUAGES FROM REDIS'));
@@ -50,7 +51,7 @@ export class LanguageQuery implements ILanguageQuery, IRedisQuery {
     const trial: Try<Languages, NoSuchElementError | DataSourceError> = await this.all();
 
     return trial.match<Try<Language, NoSuchElementError | DataSourceError>>((languages: Languages) => {
-      const found: Language | undefined = languages.find((language: Language) => {
+      const found: Ambiguous<Language> = languages.find((language: Language) => {
         return language.getISO639().equals(iso639);
       });
 

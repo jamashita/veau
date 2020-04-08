@@ -4,6 +4,7 @@ import { match } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { Stats } from '../../../veau-entity/Stats';
 import { StatsItem } from '../../../veau-entity/StatsItem';
+import { Nullable } from '../../../veau-general/Type/Value';
 import { AsOf } from '../../../veau-vo/AsOf';
 import { Column } from '../../../veau-vo/Column';
 import { Coordinate } from '../../../veau-vo/Coordinate';
@@ -49,7 +50,7 @@ type StateProps = Readonly<{
   statsItem: StatsItem;
   selectingItem?: StatsItem;
   locale: Locale;
-  id: string | null;
+  id: Nullable<string>;
 }>;
 type DispatchProps = Readonly<{
   initialize: (statsID: StatsID) => void;
@@ -73,7 +74,6 @@ type DispatchProps = Readonly<{
 }>;
 type OwnProps = Readonly<{
 }>;
-
 export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
@@ -87,7 +87,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
   } = state;
 
   const selector: matchSelectorFn<RouterRootState, MatchParam> = createMatchSelector<RouterRootState, MatchParam>(Endpoints.STATS_EDIT);
-  const matchParam: match<MatchParam> | null = selector(state);
+  const matchParam: Nullable<match<MatchParam>> = selector(state);
 
   if (matchParam === null) {
     return {

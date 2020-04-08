@@ -1,3 +1,4 @@
+import { Ambiguous } from '../Type/Value';
 import { HeapError } from './HeapError';
 import { IHeap } from './interfaces/IHeap';
 
@@ -13,7 +14,7 @@ export class Heap implements IHeap {
   }
 
   public get<H>(identifier: symbol): H {
-    const instance: unknown | undefined = this.values.get(identifier);
+    const instance: Ambiguous<unknown> = this.values.get(identifier);
 
     if (instance === undefined) {
       throw new HeapError('NOT EXIST');

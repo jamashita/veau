@@ -3,6 +3,7 @@ import { None } from '../veau-general/Optional/None';
 import { Optional } from '../veau-general/Optional/Optional';
 import { Some } from '../veau-general/Optional/Some';
 import { Mapper } from '../veau-general/Type/Function';
+import { Ambiguous } from '../veau-general/Type/Value';
 import { Term } from './Term';
 
 export class Terms implements Collection<number, Term> {
@@ -24,7 +25,7 @@ export class Terms implements Collection<number, Term> {
   }
 
   public get(index: number): Optional<Term> {
-    const term: Term | undefined = this.terms[index];
+    const term: Ambiguous<Term> = this.terms[index];
 
     if (term === undefined) {
       return None.of<Term>();
@@ -34,7 +35,7 @@ export class Terms implements Collection<number, Term> {
   }
 
   public contains(value: Term): boolean {
-    const found: Term | undefined = this.terms.find((term: Term) => {
+    const found: Ambiguous<Term> = this.terms.find((term: Term) => {
       if (value === term) {
         return true;
       }

@@ -11,6 +11,7 @@ import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
 import { Enumerator } from '../veau-general/Type/Function';
 import { Type } from '../veau-general/Type/Type';
+import { Ambiguous } from '../veau-general/Type/Value';
 import { AsOf } from './AsOf';
 import { AsOfs } from './AsOfs';
 import { NumericalValue } from './NumericalValue';
@@ -80,7 +81,7 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
   }
 
   public get(index: number): Optional<StatsValue> {
-    const statsValue: StatsValue | undefined = this.values[index];
+    const statsValue: Ambiguous<StatsValue> = this.values[index];
 
     if (statsValue === undefined) {
       return None.of<StatsValue>();
@@ -130,7 +131,7 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
   }
 
   public contains(value: StatsValue): boolean {
-    const found: StatsValue | undefined = this.values.find((statsValue: StatsValue) => {
+    const found: Ambiguous<StatsValue> = this.values.find((statsValue: StatsValue) => {
       return value.equals(statsValue);
     });
 

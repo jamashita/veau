@@ -5,6 +5,7 @@ import { DataSourceError } from '../../veau-general/DataSourceError';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
+import { Ambiguous } from '../../veau-general/Type/Value';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language } from '../../veau-vo/Language';
 import { Languages } from '../../veau-vo/Languages';
@@ -37,7 +38,7 @@ export class LanguageQuery implements ILanguageQuery, IVaultQuery {
     const trial: Try<Languages, NoSuchElementError | DataSourceError> = await this.all();
 
     return trial.match<Try<Language, NoSuchElementError | DataSourceError>>((languages: Languages) => {
-      const found: Language | undefined = languages.find((language: Language) => {
+      const found: Ambiguous<Language> = languages.find((language: Language) => {
         return language.getISO639().equals(iso639);
       });
 

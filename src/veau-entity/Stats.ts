@@ -11,6 +11,7 @@ import { Failure } from '../veau-general/Try/Failure';
 import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
 import { Type } from '../veau-general/Type/Type';
+import { Ambiguous } from '../veau-general/Type/Value';
 import { AsOf } from '../veau-vo/AsOf';
 import { AsOfs } from '../veau-vo/AsOfs';
 import { Column } from '../veau-vo/Column';
@@ -404,7 +405,7 @@ export class Stats extends Entity<StatsID> {
 
     this.items.forEach((statsItem: StatsItem) => {
       statsItem.getValues().forEach((statsValue: StatsValue) => {
-        const line: Chart | undefined = chartItems.get(statsValue.getAsOf().toString());
+        const line: Ambiguous<Chart> = chartItems.get(statsValue.getAsOf().toString());
 
         if (line !== undefined) {
           line[statsItem.getName().get()] = statsValue.getValue().get();

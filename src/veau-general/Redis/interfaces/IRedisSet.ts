@@ -1,3 +1,5 @@
+import { Nullable } from '../../Type/Value';
+
 export interface IRedisSet {
 
   add(key: string, ...values: Array<string>): Promise<number>;
@@ -10,7 +12,7 @@ export interface IRedisSet {
 
   dump(key: string): Promise<Array<string>>;
 
-  random(key: string): Promise<string | null>;
+  random(key: string): Promise<Nullable<string>>;
 
-  pop(key: string): Promise<string | null>;
+  pop(key: string): Promise<Nullable<string>>;
 }

@@ -11,11 +11,12 @@ import 'reflect-metadata';
 import favicon from 'serve-favicon';
 import 'source-map-support/register';
 import { BaseController } from '../veau-controller/BaseController';
+import { Ambiguous } from '../veau-general/Type/Value';
 import { veauRedis } from '../veau-infrastructure/VeauRedis';
 import '../veau-service/AuthenticationService';
 
 const port: number = config.get<number>('port');
-const mode: string | undefined = process.env.NODE_ENV;
+const mode: Ambiguous<string> = process.env.NODE_ENV;
 
 log4js.configure(config.get<log4js.Configuration>('log4js'));
 const logger: log4js.Logger = log4js.getLogger();
