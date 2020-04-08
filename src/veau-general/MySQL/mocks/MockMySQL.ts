@@ -5,7 +5,7 @@ import { ITransaction } from '../interfaces/ITransaction';
 export class MockMySQL implements IMySQL {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async transact(transaction: ITransaction): Promise<void> {
+  public transact(transaction: ITransaction): Promise<void> {
     return Promise.reject<void>(new UnimplementedError());
   }
 
