@@ -632,7 +632,7 @@ describe('StatsItems', () => {
       expect(items.size()).toEqual(2);
       for (let i: number = 0; i < items.size(); i++) {
         const item: StatsItem = items.get(i).get();
-        expect(item.getStatsItemID().get()).toEqual(json[i].statsItemID);
+        expect(item.getStatsItemID().get().get()).toEqual(json[i].statsItemID);
         expect(item.getName().get()).toEqual(json[i].name);
       }
     });

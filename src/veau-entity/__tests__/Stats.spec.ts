@@ -919,7 +919,7 @@ describe('Stats', () => {
         {name: '1999-12-31'},
         {name: '2000-01-01', stats1: 1},
         {name: '2000-01-02', stats2: 12},
-        {name: '2000-01-03', stats1: 3, stats2: 13},
+        {name: '2000-01-03', stats1: 2, stats2: 13},
         {name: '2000-01-04', stats2: 14},
         {name: '2000-01-05'}
       ]);
@@ -1070,7 +1070,7 @@ describe('Stats', () => {
       expect(stats.getUpdatedAt().toString()).toEqual(json.updatedAt);
       expect(stats.getItems().size()).toEqual(json.items.length);
       for (let i: number = 0; i < stats.getItems().size(); i++) {
-        expect(stats.getItems().get(i).get().getStatsItemID().get()).toEqual(json.items[i].statsItemID);
+        expect(stats.getItems().get(i).get().getStatsItemID().get().get()).toEqual(json.items[i].statsItemID);
         expect(stats.getItems().get(i).get().getName().get()).toEqual(json.items[i].name);
         expect(stats.getItems().get(i).get().getValues().size()).toEqual(json.items[i].values.length);
         for (let j: number = 0; j < stats.getItems().get(i).get().getValues().size(); j++) {
@@ -1118,7 +1118,7 @@ describe('Stats', () => {
 
       expect(trial.isSuccess()).toEqual(true);
       const stats: Stats = trial.get();
-      expect(stats.getStatsID().get()).toEqual(row.statsID);
+      expect(stats.getStatsID().get().get()).toEqual(row.statsID);
       expect(stats.getLanguage().getLanguageID().get()).toEqual(row.languageID);
       expect(stats.getLanguage().getName().get()).toEqual(row.languageName);
       expect(stats.getLanguage().getEnglishName().get()).toEqual(row.languageEnglishName);

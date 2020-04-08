@@ -326,7 +326,7 @@ describe('StatsOutlines', () => {
       const outlines: StatsOutlines = trial.get();
       for (let i: number = 0; i < 2; i++) {
         const outline: StatsOutline = outlines.get(i).get();
-        expect(outline.getStatsID().get()).toEqual(rows[i].statsID);
+        expect(outline.getStatsID().get().get()).toEqual(rows[i].statsID);
         expect(outline.getLanguage().getLanguageID().get()).toEqual(rows[i].languageID);
         expect(outline.getLanguage().getName().get()).toEqual(rows[i].languageName);
         expect(outline.getLanguage().getEnglishName().get()).toEqual(rows[i].languageEnglishName);
