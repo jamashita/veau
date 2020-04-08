@@ -2,7 +2,7 @@ import { Failure } from './Failure';
 import { Success } from './Success';
 import { Try } from './Try';
 
-export const tryAll: <S, F extends Error>(tries: Array<Try<S, F>>) => Try<Array<S>, F> = <S, F extends Error>(tries: Array<Try<S, F>>) => {
+export const manoeuvre: <S, F extends Error>(tries: Array<Try<S, F>>) => Try<Array<S>, F> = <S, F extends Error>(tries: Array<Try<S, F>>) => {
   const failure: Failure<S, F> | undefined = tries.find((t: Try<S, F>): t is Failure<S, F> => {
     return t.isFailure();
   });

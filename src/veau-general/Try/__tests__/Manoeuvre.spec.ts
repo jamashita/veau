@@ -1,10 +1,10 @@
 import sinon, { SinonSpy } from 'sinon';
 import { Failure } from '../Failure';
+import { manoeuvre } from '../Manoeuvre';
 import { Success } from '../Success';
 import { Try } from '../Try';
-import { tryAll } from '../TryAll';
 
-describe('Try', () => {
+describe('Manoeuvre', () => {
   describe('all', () => {
     it('all are Success', () => {
       const tries: Array<Try<number, Error>> = [
@@ -13,7 +13,7 @@ describe('Try', () => {
         Success.of<number, Error>(2)
       ];
 
-      const ret: Try<Array<number>, Error> = tryAll<number, Error>(tries);
+      const ret: Try<Array<number>, Error> = manoeuvre<number, Error>(tries);
 
       expect(ret.isSuccess()).toEqual(true);
       const array: Array<number> = ret.get();
@@ -27,7 +27,7 @@ describe('Try', () => {
       const tries: Array<Try<number, Error>> = [
       ];
 
-      const ret: Try<Array<number>, Error> = tryAll<number, Error>(tries);
+      const ret: Try<Array<number>, Error> = manoeuvre<number, Error>(tries);
 
       expect(ret.isSuccess()).toEqual(true);
       const array: Array<number> = ret.get();
@@ -45,7 +45,7 @@ describe('Try', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const ret: Try<Array<number>, Error> = tryAll<number, Error>(tries);
+      const ret: Try<Array<number>, Error> = manoeuvre<number, Error>(tries);
 
       expect(ret.isFailure()).toEqual(true);
       ret.match<void>(() => {
@@ -70,7 +70,7 @@ describe('Try', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const ret: Try<Array<number>, Error> = tryAll<number, Error>(tries);
+      const ret: Try<Array<number>, Error> = manoeuvre<number, Error>(tries);
 
       expect(ret.isFailure()).toEqual(true);
       ret.match<void>(() => {
@@ -95,7 +95,7 @@ describe('Try', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const ret: Try<Array<number>, Error> = tryAll<number, Error>(tries);
+      const ret: Try<Array<number>, Error> = manoeuvre<number, Error>(tries);
 
       expect(ret.isFailure()).toEqual(true);
       ret.match<void>(() => {
@@ -121,7 +121,7 @@ describe('Try', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const ret: Try<Array<number>, Error> = tryAll<number, Error>(tries);
+      const ret: Try<Array<number>, Error> = manoeuvre<number, Error>(tries);
 
       expect(ret.isFailure()).toEqual(true);
       ret.match<void>(() => {
@@ -147,7 +147,7 @@ describe('Try', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const ret: Try<Array<number>, Error> = tryAll<number, Error>(tries);
+      const ret: Try<Array<number>, Error> = manoeuvre<number, Error>(tries);
 
       expect(ret.isFailure()).toEqual(true);
       ret.match<void>(() => {
@@ -174,7 +174,7 @@ describe('Try', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const ret: Try<Array<number>, Error> = tryAll<number, Error>(tries);
+      const ret: Try<Array<number>, Error> = manoeuvre<number, Error>(tries);
 
       expect(ret.isFailure()).toEqual(true);
       ret.match<void>(() => {
