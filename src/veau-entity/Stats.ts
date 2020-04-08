@@ -87,7 +87,7 @@ export class Stats extends Entity<StatsID> {
     unit: StatsUnit,
     updatedAt: UpdatedAt,
     items: StatsItems,
-    startDate: Optional<AsOf>
+    startDate: Optional<AsOf> = None.of<AsOf>()
   ): Stats {
     return new Stats(statsID, language, region, term, name, unit, updatedAt, items, startDate);
   }
@@ -116,8 +116,7 @@ export class Stats extends Entity<StatsID> {
               StatsName.of(name),
               StatsUnit.of(unit),
               at,
-              statsItems,
-              None.of<AsOf>()
+              statsItems
             );
 
             return Success.of<Stats, StatsError>(stats);
@@ -165,8 +164,7 @@ export class Stats extends Entity<StatsID> {
             StatsName.of(name),
             StatsUnit.of(unit),
             at,
-            statsItems,
-            None.of<AsOf>()
+            statsItems
           );
 
           return Success.of<Stats, StatsError>(stats);
@@ -528,6 +526,7 @@ export class Stats extends Entity<StatsID> {
     if (!items.areSame(other.getItems())) {
       return false;
     }
+    // TODO optional
     if (!startDate.equals(other.getStartDate())) {
       return false;
     }
