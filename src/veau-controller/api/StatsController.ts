@@ -4,10 +4,11 @@ import log4js from 'log4js';
 import { kernel } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
 import { Stats } from '../../veau-entity/Stats';
-import { NotFoundError } from '../../veau-error/NotFoundError';
+import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { PageError } from '../../veau-error/PageError';
 import { StatsError } from '../../veau-error/StatsError';
 import { StatsOutlinesError } from '../../veau-error/StatsOutlinesError';
+import { DataSourceError } from '../../veau-general/DataSourceError';
 import { JSONable } from '../../veau-general/JSONable';
 import { Try } from '../../veau-general/Try/Try';
 import { StatsInteractor } from '../../veau-interactor/StatsInteractor';
@@ -23,11 +24,11 @@ const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsI
 
 router.get('/page/:page(\\d+)', authenticationMiddleware.requires(), async (req: express.Request, res: express.Response) => {
   await Page.of(Number(req.params.page)).match<Promise<void>>(async (page: Page) => {
-    const trial: Try<JSONable, StatsOutlinesError> = await statsInteractor.findByVeauAccountID(res.locals.account.getVeauAccountID(), page);
+    const trial: Try<JSONable, StatsOutlinesError | DataSourceError> = await statsInteractor.findByVeauAccountID(res.locals.account.getVeauAccountID(), page);
 
     trial.match<void>((outlines: JSONable) => {
       res.status(OK).send(outlines.toJSON());
-    }, (err: StatsOutlinesError) => {
+    }, (err: StatsOutlinesError | DataSourceError) => {
       logger.fatal(err.message);
 
       res.sendStatus(INTERNAL_SERVER_ERROR);
@@ -44,11 +45,11 @@ router.get('/page/:page(\\d+)', authenticationMiddleware.requires(), async (req:
 router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: express.Response) => {
   const statsID: StatsID = StatsID.ofString(req.params.statsID).get();
 
-  const trial: Try<JSONable, NotFoundError | StatsError> = await statsInteractor.findByStatsID(statsID);
+  const trial: Try<JSONable, NoSuchElementError | StatsError | DataSourceError> = await statsInteractor.findByStatsID(statsID);
 
   trial.match<void>((stats: JSONable) => {
     res.status(OK).send(stats.toJSON());
-  }, (err: NotFoundError | StatsError) => {
+  }, (err: NoSuchElementError | StatsError | DataSourceError) => {
     if (err instanceof StatsError) {
       logger.fatal(err.message);
 

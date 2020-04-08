@@ -7,9 +7,9 @@ import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
 import { StatsItems } from '../../veau-entity/StatsItems';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
-import { NotFoundError } from '../../veau-error/NotFoundError';
 import { StatsError } from '../../veau-error/StatsError';
 import { StatsOutlinesError } from '../../veau-error/StatsOutlinesError';
+import { DataSourceError } from '../../veau-general/DataSourceError';
 import { MySQL } from '../../veau-general/MySQL/MySQL';
 import { None } from '../../veau-general/Optional/None';
 import { Failure } from '../../veau-general/Try/Failure';
@@ -78,10 +78,10 @@ describe('StatsInteractor', () => {
 
       const stub: SinonStub = sinon.stub();
       StatsQuery.prototype.findByStatsID = stub;
-      stub.resolves(Success.of<Stats, NotFoundError>(stats));
+      stub.resolves(Success.of<Stats, NoSuchElementError>(stats));
 
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
-      const trial: Try<Stats, NotFoundError | StatsError> = await statsInteractor.findByStatsID(StatsID.ofString('9016f5d7-654e-4903-bfc9-a89c40919e94').get());
+      const trial: Try<Stats, NoSuchElementError | StatsError | DataSourceError> = await statsInteractor.findByStatsID(StatsID.ofString('9016f5d7-654e-4903-bfc9-a89c40919e94').get());
 
       expect(trial.isSuccess()).toEqual(true);
       expect(trial.get().equals(stats)).toEqual(true);
@@ -95,13 +95,13 @@ describe('StatsInteractor', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
-      const trial: Try<Stats, NotFoundError | StatsError> = await statsInteractor.findByStatsID(StatsID.ofString('9016f5d7-654e-4903-bfc9-a89c40919e94').get());
+      const trial: Try<Stats, NoSuchElementError | StatsError | DataSourceError> = await statsInteractor.findByStatsID(StatsID.ofString('9016f5d7-654e-4903-bfc9-a89c40919e94').get());
 
       trial.match<void>(() => {
         spy1();
-      }, (err: NotFoundError | StatsError) => {
+      }, (err: NoSuchElementError | StatsError | DataSourceError) => {
         spy2();
-        expect(err).toBeInstanceOf(NotFoundError);
+        expect(err).toBeInstanceOf(NoSuchElementError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -116,11 +116,11 @@ describe('StatsInteractor', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
-      const trial: Try<Stats, NotFoundError | StatsError> = await statsInteractor.findByStatsID(StatsID.ofString('9016f5d7-654e-4903-bfc9-a89c40919e94').get());
+      const trial: Try<Stats, NoSuchElementError | StatsError | DataSourceError> = await statsInteractor.findByStatsID(StatsID.ofString('9016f5d7-654e-4903-bfc9-a89c40919e94').get());
 
       trial.match<void>(() => {
         spy1();
-      }, (err: NotFoundError | StatsError) => {
+      }, (err: NoSuchElementError | StatsError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(StatsError);
       });
@@ -156,7 +156,7 @@ describe('StatsInteractor', () => {
       stub.resolves(Success.of<StatsOutlines, StatsOutlinesError>(outlines));
 
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
-      const trial: Try<StatsOutlines, StatsOutlinesError> = await statsInteractor.findByVeauAccountID(VeauAccountID.ofString('cfd6a7f1-b583-443e-9831-bdfc7621b0d2').get(), Page.of(1).get());
+      const trial: Try<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsInteractor.findByVeauAccountID(VeauAccountID.ofString('cfd6a7f1-b583-443e-9831-bdfc7621b0d2').get(), Page.of(1).get());
 
       expect(trial.get()).toEqual(outlines);
     });

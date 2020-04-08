@@ -527,18 +527,11 @@ export class Stats extends Entity<StatsID> {
     if (!items.areSame(other.getItems())) {
       return false;
     }
-    if (startDate.isPresent() && other.getStartDate().isPresent()) {
-      if (startDate.get().equals(other.getStartDate().get())) {
-        return true;
-      }
-
+    if (!startDate.equals(other.getStartDate())) {
       return false;
     }
-    if (!startDate.isPresent() && !other.getStartDate().isPresent()) {
-      return true;
-    }
 
-    return false;
+    return true;
   }
 
   public copy(): Stats {
