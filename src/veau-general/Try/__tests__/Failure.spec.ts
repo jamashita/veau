@@ -5,7 +5,7 @@ import { Failure } from '../Failure';
 describe('Failure', () => {
   describe('get', () => {
     it('throws the inside error', () => {
-      const failure: Failure<number, MockError> = Failure.of<number, MockError>(new MockError('test failed'));
+      const failure: Failure<number, MockError> = Failure.of<number, MockError>(new MockError());
 
       expect(() => {
         failure.get();
@@ -25,8 +25,8 @@ describe('Failure', () => {
 
   describe('isSuccess', () => {
     it('always returns false', () => {
-      const failure1: Failure<number, MockError> = Failure.of<number, MockError>(new MockError('failure'));
-      const failure2: Failure<number, MockError> = Failure.of<number, MockError>(new MockError('failure'));
+      const failure1: Failure<number, MockError> = Failure.of<number, MockError>(new MockError());
+      const failure2: Failure<number, MockError> = Failure.of<number, MockError>(new MockError());
 
       expect(failure1.isSuccess()).toEqual(false);
       expect(failure2.isSuccess()).toEqual(false);
@@ -35,8 +35,8 @@ describe('Failure', () => {
 
   describe('isFailure', () => {
     it('always returns true', () => {
-      const failure1: Failure<number, MockError> = Failure.of<number, MockError>(new MockError('failure'));
-      const failure2: Failure<number, MockError> = Failure.of<number, MockError>(new MockError('failure'));
+      const failure1: Failure<number, MockError> = Failure.of<number, MockError>(new MockError());
+      const failure2: Failure<number, MockError> = Failure.of<number, MockError>(new MockError());
 
       expect(failure1.isFailure()).toEqual(true);
       expect(failure2.isFailure()).toEqual(true);
@@ -45,7 +45,7 @@ describe('Failure', () => {
 
   describe('match', () => {
     it('excuses failure block', () => {
-      const e1: MockError = new MockError('test failed');
+      const e1: MockError = new MockError();
       const v1: number = 1234;
       const failure: Failure<number, MockError> = Failure.of<number, MockError>(e1);
 

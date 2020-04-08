@@ -93,7 +93,7 @@ describe('Success', () => {
         return s * 2;
       }).complete<symbol>(() => {
         spy2();
-        return Failure.of<symbol, MockError>(new MockError('test failed'));
+        return Failure.of<symbol, MockError>(new MockError());
       }).complete<void>(() => {
         spy3();
       });

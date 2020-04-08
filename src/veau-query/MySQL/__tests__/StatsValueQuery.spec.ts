@@ -4,6 +4,7 @@ import { kernel } from '../../../veau-container/Container';
 import { TYPE } from '../../../veau-container/Types';
 import { StatsValuesError } from '../../../veau-error/StatsValuesError';
 import { DataSourceError } from '../../../veau-general/DataSourceError';
+import { MockError } from '../../../veau-general/MockError';
 import { MockMySQL } from '../../../veau-general/MySQL/mocks/MockMySQL';
 import { MockMySQLError } from '../../../veau-general/MySQL/mocks/MockMySQLError';
 import { MySQLError } from '../../../veau-general/MySQL/MySQLError';
@@ -156,27 +157,13 @@ describe('StatsValueQuery', () => {
     });
 
     it('throws Error', async () => {
-      const error: Error = new Error();
-
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
       mysql.execute = stub;
-      stub.rejects(error);
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub.rejects(new MockError());
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
-      try {
-        await statsValueQuery.findByStatsID(StatsID.ofString('d4703058-a6ff-420b-95b2-4475beba9027').get());
-        spy1();
-      }
-      catch (err) {
-        spy2();
-        expect(err).toBe(error);
-      }
-
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      await expect(statsValueQuery.findByStatsID(StatsID.ofString('d4703058-a6ff-420b-95b2-4475beba9027').get())).rejects.toThrow(MockError);
     });
   });
 });

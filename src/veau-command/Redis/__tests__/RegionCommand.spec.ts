@@ -4,6 +4,7 @@ import { kernel } from '../../../veau-container/Container';
 import { TYPE } from '../../../veau-container/Types';
 import { CacheError } from '../../../veau-error/CacheError';
 import { DataSourceError } from '../../../veau-general/DataSourceError';
+import { MockError } from '../../../veau-general/MockError';
 import { MockRedisError } from '../../../veau-general/Redis/MockRedisError';
 import { MockRedis } from '../../../veau-general/Redis/mocks/MockRedis';
 import { MockRedisString } from '../../../veau-general/Redis/mocks/MockRedisString';
@@ -47,7 +48,7 @@ describe('RegionCommand', () => {
       const regionCommand: RegionCommand = new RegionCommand(redis);
       const trial: Try<void, DataSourceError> = await regionCommand.insertAll(regions);
 
-      expect(stub1.withArgs('REGIONS', '[{"regionID":2,"name":"region 2","iso3166":"abc"}]').called).toEqual(true);
+      expect(stub1.withArgs('REGIONS', JSON.stringify(regions.toJSON())).called).toEqual(true);
       expect(stub2.withArgs('REGIONS', 3 * 60 * 60).called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
     });
@@ -122,31 +123,18 @@ describe('RegionCommand', () => {
       const regions: Regions = Regions.of([
         Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abc'))
       ]);
-      const error: Error = new Error();
 
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
       string.set = stub;
-      stub.rejects(error);
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub.rejects(new MockError());
 
       const redis: MockRedis = MockRedis.of({
         string
       });
 
       const regionCommand: RegionCommand = new RegionCommand(redis);
-      try {
-        await regionCommand.insertAll(regions);
-        spy1();
-      }
-      catch (err) {
-        spy2();
-        expect(err).toBe(error);
-      }
-
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      await expect(regionCommand.insertAll(regions)).rejects.toThrow(MockError);
     });
   });
 
@@ -211,27 +199,13 @@ describe('RegionCommand', () => {
     });
 
     it('throws Error', async () => {
-      const error: Error = new Error();
-
       const redis: MockRedis = MockRedis.of({});
       const stub: SinonStub = sinon.stub();
       redis.delete = stub;
-      stub.rejects(error);
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub.rejects(new MockError());
 
       const regionCommand: RegionCommand = new RegionCommand(redis);
-      try {
-        await regionCommand.deleteAll();
-        spy1();
-      }
-      catch (err) {
-        spy2();
-        expect(err).toBe(error);
-      }
-
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      await expect(regionCommand.deleteAll()).rejects.toThrow(MockError);
     });
   });
 });

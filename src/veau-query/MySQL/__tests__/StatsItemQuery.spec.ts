@@ -7,6 +7,7 @@ import { StatsItems } from '../../../veau-entity/StatsItems';
 import { StatsItemsError } from '../../../veau-error/StatsItemsError';
 import { StatsValuesError } from '../../../veau-error/StatsValuesError';
 import { DataSourceError } from '../../../veau-general/DataSourceError';
+import { MockError } from '../../../veau-general/MockError';
 import { MockMySQL } from '../../../veau-general/MySQL/mocks/MockMySQL';
 import { MockMySQLError } from '../../../veau-general/MySQL/mocks/MockMySQLError';
 import { MySQLError } from '../../../veau-general/MySQL/MySQLError';
@@ -273,29 +274,16 @@ describe('StatsItemQuery', () => {
     });
 
     it('throws Error', async () => {
-      const error: Error = new Error();
       const statsID: StatsID = StatsID.ofString('428a0978-5d01-4da6-96f3-f851cb18e935').get();
 
       const mysql: MockMySQL = new MockMySQL();
       const stub1: SinonStub = sinon.stub();
       mysql.execute = stub1;
-      stub1.rejects(error);
+      stub1.rejects(new MockError());
       const statsValueQuery: MockStatsValueQuery = new MockStatsValueQuery();
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
-      try {
-        await statsItemQuery.findByStatsID(statsID);
-        spy1();
-      }
-      catch (err) {
-        spy2();
-        expect(err).toBe(error);
-      }
-
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      await expect(statsItemQuery.findByStatsID(statsID)).rejects.toThrow(MockError);
     });
   });
 });
