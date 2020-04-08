@@ -6,18 +6,17 @@ import { TYPE } from '../../veau-container/Types';
 import { Stats } from '../../veau-entity/Stats';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { StatsOutlinesError } from '../../veau-error/StatsOutlinesError';
-import { AJAXError } from '../../veau-general/AJAX/AJAXError';
+import { DataSourceError } from '../../veau-general/AJAX/DataSourceError';
 import { DataSourceError } from '../../veau-general/DataSourceError';
-import { None } from '../../veau-general/Optional/None';
 import { Try } from '../../veau-general/Try/Try';
 import { ILanguageQuery } from '../../veau-query/interfaces/ILanguageQuery';
 import { IRegionQuery } from '../../veau-query/interfaces/IRegionQuery';
 import { IStatsQuery } from '../../veau-query/interfaces/IStatsQuery';
-import { AsOf } from '../../veau-vo/AsOf';
 import { Language } from '../../veau-vo/Language';
 import { Page } from '../../veau-vo/Page';
 import { Region } from '../../veau-vo/Region';
 import { StatsOutlines } from '../../veau-vo/StatsOutlines';
+import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import {
   ACTION,
   StatsListISO3166SelectedAction,
@@ -67,7 +66,7 @@ export class StatsListSaga {
     while (true) {
       yield take(ACTION.STATS_LIST_INITIALIZE);
 
-      const trial: Try<StatsOutlines, StatsOutlinesError | AJAXError> = yield call((): Promise<Try<StatsOutlines, StatsOutlinesError | AJAXError>> => {
+      const trial: Try<StatsOutlines, StatsOutlinesError | DataSourceError> = yield call((): Promise<Try<StatsOutlines, StatsOutlinesError | DataSourceError>> => {
         // TODO statsoutline
         return this.statsQuery.findByPage(Page.of(1).get());
       });
@@ -105,8 +104,7 @@ export class StatsListSaga {
         name,
         stats.getUnit(),
         stats.getUpdatedAt(),
-        stats.getItems(),
-        None.of<AsOf>()
+        stats.getItems()
       );
 
       yield put(updateNewStats(newStats));
@@ -135,8 +133,7 @@ export class StatsListSaga {
         stats.getName(),
         unit,
         stats.getUpdatedAt(),
-        stats.getItems(),
-        None.of<AsOf>()
+        stats.getItems()
       );
 
       yield put(updateNewStats(newStats));
@@ -167,8 +164,7 @@ export class StatsListSaga {
           stats.getName(),
           stats.getUnit(),
           stats.getUpdatedAt(),
-          stats.getItems(),
-          None.of<AsOf>()
+          stats.getItems()
         );
 
         return put(updateNewStats(newStats));
@@ -200,8 +196,7 @@ export class StatsListSaga {
           stats.getName(),
           stats.getUnit(),
           stats.getUpdatedAt(),
-          stats.getItems(),
-          None.of<AsOf>()
+          stats.getItems()
         );
 
         yield put(updateNewStats(newStats));
@@ -228,8 +223,7 @@ export class StatsListSaga {
         stats.getName(),
         stats.getUnit(),
         stats.getUpdatedAt(),
-        stats.getItems(),
-        None.of<AsOf>()
+        stats.getItems()
       );
 
       yield put(updateNewStats(newStats));
@@ -257,9 +251,8 @@ export class StatsListSaga {
         put(loading())
       ]);
 
-      const trial: Try<void, AJAXError> = yield call((): Promise<Try<void, AJAXError>> => {
-        // TODO
-        return this.statsCommand.create(stats);
+      const trial: Try<void, DataSourceError> = yield call((): Promise<Try<void, DataSourceError>> => {
+        return this.statsCommand.create(stats, VeauAccountID.generate());
       });
 
       yield trial.match<Effect>(() => {

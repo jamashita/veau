@@ -5,9 +5,7 @@ import { DataSourceError } from '../../../veau-general/DataSourceError';
 import { MockMySQLError } from '../../../veau-general/MySQL/mocks/MockMySQLError';
 import { MockQuery } from '../../../veau-general/MySQL/mocks/MockQuery';
 import { MySQLError } from '../../../veau-general/MySQL/MySQLError';
-import { None } from '../../../veau-general/Optional/None';
 import { Try } from '../../../veau-general/Try/Try';
-import { AsOf } from '../../../veau-vo/AsOf';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
 import { Language } from '../../../veau-vo/Language';
@@ -35,8 +33,7 @@ describe('StatsCommand', () => {
         StatsName.of('stats name'),
         StatsUnit.of('stats unit'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.empty(),
-        None.of<AsOf>()
+        StatsItems.empty()
       );
       const accountID: VeauAccountID = VeauAccountID.ofString('d5619e72-3233-43a8-9cc8-571e53b2ff87').get();
 
@@ -77,8 +74,7 @@ describe('StatsCommand', () => {
         StatsName.of('stats name'),
         StatsUnit.of('stats unit'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.empty(),
-        None.of<AsOf>()
+        StatsItems.empty()
       );
       const accountID: VeauAccountID = VeauAccountID.ofString('d5619e72-3233-43a8-9cc8-571e53b2ff87').get();
 
@@ -113,8 +109,7 @@ describe('StatsCommand', () => {
         StatsName.of('stats name'),
         StatsUnit.of('stats unit'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.empty(),
-        None.of<AsOf>()
+        StatsItems.empty()
       );
       const accountID: VeauAccountID = VeauAccountID.ofString('d5619e72-3233-43a8-9cc8-571e53b2ff87').get();
       const error: Error = new Error();

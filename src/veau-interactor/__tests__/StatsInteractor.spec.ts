@@ -11,13 +11,11 @@ import { StatsError } from '../../veau-error/StatsError';
 import { StatsOutlinesError } from '../../veau-error/StatsOutlinesError';
 import { DataSourceError } from '../../veau-general/DataSourceError';
 import { MySQL } from '../../veau-general/MySQL/MySQL';
-import { None } from '../../veau-general/Optional/None';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
 import { StatsOutlineQuery } from '../../veau-query/MySQL/StatsOutlineQuery';
 import { StatsQuery } from '../../veau-query/MySQL/StatsQuery';
-import { AsOf } from '../../veau-vo/AsOf';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language } from '../../veau-vo/Language';
@@ -72,8 +70,7 @@ describe('StatsInteractor', () => {
         name,
         unit,
         updatedAt,
-        items,
-        None.of<AsOf>()
+        items
       );
 
       const stub: SinonStub = sinon.stub();
@@ -184,8 +181,7 @@ describe('StatsInteractor', () => {
         name,
         unit,
         updatedAt,
-        items,
-        None.of<AsOf>()
+        items
       );
 
       const spy: SinonSpy = sinon.spy();

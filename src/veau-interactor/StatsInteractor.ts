@@ -47,7 +47,7 @@ export class StatsInteractor implements IInteractor {
 
   // FIXME manage to do it (returns to Try)
   public save(stats: Stats, veauAccountID: VeauAccountID): Promise<unknown> {
-    const statsUpdateTransaction: ITransaction = StatsUpdateTransaction.of(stats, veauAccountID);
+    const statsUpdateTransaction: ITransaction<> = StatsUpdateTransaction.of(stats, veauAccountID);
 
     return this.mysql.transact(statsUpdateTransaction);
   }
