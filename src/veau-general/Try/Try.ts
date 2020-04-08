@@ -1,4 +1,4 @@
-import { MonoFunction } from '../Type/Function';
+import { BiFunction } from '../Type/Function';
 import { Failure } from './Failure';
 import { Success } from './Success';
 
@@ -14,5 +14,5 @@ export abstract class Try<S, F extends Error> {
 
   public abstract isFailure(): this is Failure<S, F>;
 
-  public abstract match<T>(success: MonoFunction<S, T>, failure: MonoFunction<F, T>): T;
+  public abstract match<T>(success: BiFunction<S, this, T>, failure: BiFunction<F, this, T>): T;
 }

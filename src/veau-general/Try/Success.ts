@@ -1,4 +1,4 @@
-import { MonoFunction } from '../Type/Function';
+import { BiFunction } from '../Type/Function';
 import { Failure } from './Failure';
 import { Try } from './Try';
 
@@ -28,7 +28,7 @@ export class Success<S, F extends Error> extends Try<S, F> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public match<T>(success: MonoFunction<S, T>, failure: MonoFunction<F, T>): T {
-    return success(this.value);
+  public match<T>(success: BiFunction<S, this, T>, failure: BiFunction<F, this, T>): T {
+    return success(this.value, this);
   }
 }

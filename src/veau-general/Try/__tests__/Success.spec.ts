@@ -44,8 +44,9 @@ describe('Success', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const res: number = success.match<number>((s: number) => {
+      const res: number = success.match<number>((s: number, t: Success<number, MockError>) => {
         spy1();
+        expect(t).toBe(success);
         return s * 2;
       }, () => {
         spy2();

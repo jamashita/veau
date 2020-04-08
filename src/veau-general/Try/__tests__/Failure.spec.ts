@@ -54,9 +54,10 @@ describe('Failure', () => {
       const res: number = failure.match<number>((n: number) => {
         spy1();
         return n;
-      }, (err: MockError) => {
+      }, (err: MockError, t: Failure<number, MockError>) => {
         spy2();
         expect(err).toBe(e1);
+        expect(t).toBe(failure);
         return v1 * 2;
       });
 
