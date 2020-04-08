@@ -6,12 +6,11 @@ import { TYPE } from '../../veau-container/Types';
 import { Stats } from '../../veau-entity/Stats';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { StatsOutlinesError } from '../../veau-error/StatsOutlinesError';
-import { DataSourceError } from '../../veau-general/AJAX/DataSourceError';
 import { DataSourceError } from '../../veau-general/DataSourceError';
 import { Try } from '../../veau-general/Try/Try';
 import { ILanguageQuery } from '../../veau-query/interfaces/ILanguageQuery';
 import { IRegionQuery } from '../../veau-query/interfaces/IRegionQuery';
-import { IStatsQuery } from '../../veau-query/interfaces/IStatsQuery';
+import { IStatsOutlineQuery } from '../../veau-query/interfaces/IStatsOutlineQuery';
 import { Language } from '../../veau-vo/Language';
 import { Page } from '../../veau-vo/Page';
 import { Region } from '../../veau-vo/Region';
@@ -35,18 +34,18 @@ import { State } from '../State';
 
 @injectable()
 export class StatsListSaga {
-  private readonly statsQuery: IStatsQuery;
+  private readonly statsOutlineQuery: IStatsOutlineQuery;
   private readonly languageQuery: ILanguageQuery;
   private readonly regionQuery: IRegionQuery;
   private readonly statsCommand: IStatsCommand;
 
   public constructor(
-    @inject(TYPE.StatsAJAXQuery) statsQuery: IStatsQuery,
+    @inject(TYPE.StatsOutlineAJAXQuery) statsOutlineQuery: IStatsOutlineQuery,
     @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery,
     @inject(TYPE.RegionVaultQuery) regionQuery: IRegionQuery,
     @inject(TYPE.StatsAJAXCommand) statsCommand: IStatsCommand
   ) {
-    this.statsQuery = statsQuery;
+    this.statsOutlineQuery = statsOutlineQuery;
     this.languageQuery = languageQuery;
     this.regionQuery = regionQuery;
     this.statsCommand = statsCommand;
@@ -67,8 +66,7 @@ export class StatsListSaga {
       yield take(ACTION.STATS_LIST_INITIALIZE);
 
       const trial: Try<StatsOutlines, StatsOutlinesError | DataSourceError> = yield call((): Promise<Try<StatsOutlines, StatsOutlinesError | DataSourceError>> => {
-        // TODO statsoutline
-        return this.statsQuery.findByPage(Page.of(1).get());
+        return this.statsOutlineQuery.findByVeauAccountID(VeauAccountID.generate(), Page.of(1).get());
       });
 
       yield trial.match<Effect>((statsOutlines: StatsOutlines) => {
