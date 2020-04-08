@@ -38,7 +38,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
 
     if (failures.length !== 0) {
       const message: string = failures.map<string>((failure: Failure<StatsItem, StatsItemError>) => {
-        return failure.getMessage();
+        return failure.getError().message;
       }).join(': ');
 
       return Failure.of<StatsItems, StatsItemsError>(new StatsItemsError(message));

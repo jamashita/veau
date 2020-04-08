@@ -28,7 +28,7 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
 
     if (failures.length !== 0) {
       const message: string = failures.map<string>((failure: Failure<StatsOutline, StatsOutlineError>) => {
-        return failure.getMessage();
+        return failure.getError().message;
       }).join(': ');
 
       return Failure.of<StatsOutlines, StatsOutlinesError>(new StatsOutlinesError(message));
