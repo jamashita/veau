@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
+import { MockError } from '../../MockError';
 import { Failure } from '../Failure';
-import { MockError } from '../MockError';
 import { Success } from '../Success';
 import { Try } from '../Try';
 
