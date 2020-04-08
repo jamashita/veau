@@ -47,8 +47,7 @@ describe('StatsCommand', () => {
         StatsName.of('stats name'),
         StatsUnit.of('stats unit'),
         UpdatedAt.ofString('2000-01-01 01:01:01').get(),
-        StatsItems.empty(),
-        None.of<AsOf>()
+        StatsItems.empty()
       );
 
       const ajax: MockAJAX = new MockAJAX();

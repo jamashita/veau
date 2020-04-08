@@ -232,12 +232,12 @@ export class Stats extends Entity<StatsID> {
       StatsName.default(),
       StatsUnit.default(),
       UpdatedAt.now(),
-      StatsItems.empty(),
-      None.of<AsOf>()
+      StatsItems.empty()
     );
   }
 
-  private constructor(statsID: StatsID,
+  private constructor(
+    statsID: StatsID,
     language: Language,
     region: Region,
     term: Term,
@@ -524,10 +524,6 @@ export class Stats extends Entity<StatsID> {
       return false;
     }
     if (!items.areSame(other.getItems())) {
-      return false;
-    }
-    // TODO optional
-    if (!startDate.equals(other.getStartDate())) {
       return false;
     }
 
