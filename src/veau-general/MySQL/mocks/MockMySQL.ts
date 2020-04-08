@@ -6,12 +6,12 @@ import { ITransaction } from '../interfaces/ITransaction';
 export class MockMySQL implements IMySQL {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public transact(transaction: ITransaction): Promise<void> {
-    return Promise.reject<void>(new UnimplementedError());
+  public transact<R>(transaction: ITransaction<R>): Promise<R> {
+    return Promise.reject<R>(new UnimplementedError());
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public execute<T>(sql: string, value?: JSObjectNotation): Promise<T> {
-    return Promise.reject<T>(new UnimplementedError());
+  public execute<R>(sql: string, value?: JSObjectNotation): Promise<R> {
+    return Promise.reject<R>(new UnimplementedError());
   }
 }

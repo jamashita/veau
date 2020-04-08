@@ -6,12 +6,14 @@ import { StatsItem } from '../veau-entity/StatsItem';
 import { DataSourceError } from '../veau-general/DataSourceError';
 import { IQuery } from '../veau-general/MySQL/interfaces/IQuery';
 import { ITransaction } from '../veau-general/MySQL/interfaces/ITransaction';
+import { Failure } from '../veau-general/Try/Failure';
+import { manoeuvre } from '../veau-general/Try/Manoeuvre';
 import { Try } from '../veau-general/Try/Try';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValue } from '../veau-vo/StatsValue';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
 
-export class StatsUpdateTransaction implements ITransaction {
+export class StatsUpdateTransaction implements ITransaction<Try<unknown, DataSourceError>> {
   public readonly noun: 'StatsUpdateTransaction' = 'StatsUpdateTransaction';
   private readonly stats: Stats;
   private readonly veauAccountID: VeauAccountID;
@@ -25,7 +27,7 @@ export class StatsUpdateTransaction implements ITransaction {
     this.veauAccountID = veauAccountID;
   }
 
-  public async with(query: IQuery): Promise<unknown> {
+  public async with(query: IQuery): Promise<Try<unknown, DataSourceError>> {
     const statsCommand: StatsCommand = StatsCommand.of(query);
     const statsItemCommand: StatsItemCommand = StatsItemCommand.of(query);
     const statsValueCommand: StatsValueCommand = StatsValueCommand.of(query);
@@ -37,27 +39,37 @@ export class StatsUpdateTransaction implements ITransaction {
 
     const statsID: StatsID = stats.getStatsID();
 
-    const trial1: Try<void, DataSourceError> = await statsValueCommand.deleteByStatsID(statsID);
-    const trial2: Try<void, DataSourceError> = await statsItemCommand.deleteByStatsID(statsID);
-    const trial3: Try<void, DataSourceError> = await statsCommand.deleteByStatsID(statsID);
+    const tries: Array<Try<void, DataSourceError>> = [
+      await statsValueCommand.deleteByStatsID(statsID),
+      await statsItemCommand.deleteByStatsID(statsID),
+      await statsCommand.deleteByStatsID(statsID)
+    ];
 
-    // TODO when error, terminate and throw error;
+    const deleteCompletion: Try<unknown, DataSourceError> = manoeuvre<void, DataSourceError>(tries);
 
-    const itemPromises: Array<Promise<unknown>> = [];
-    const valuePromises: Array<Promise<unknown>> = [];
+    return deleteCompletion.match<Promise<Try<unknown, DataSourceError>>>(async () => {
+      const itemPromises: Array<Promise<Try<void, DataSourceError>>> = [];
+      const valuePromises: Array<Promise<Try<void, DataSourceError>>> = [];
 
-    this.stats.getItems().forEach((statsItem: StatsItem, index: number) => {
-      itemPromises.push(statsItemCommand.create(statsID, statsItem, index + 1));
+      this.stats.getItems().forEach((statsItem: StatsItem, index: number) => {
+        itemPromises.push(statsItemCommand.create(statsID, statsItem, index + 1));
 
-      statsItem.getValues().forEach((statsValue: StatsValue) => {
-        valuePromises.push(statsValueCommand.create(statsValue));
+        statsItem.getValues().forEach((statsValue: StatsValue) => {
+          valuePromises.push(statsValueCommand.create(statsValue));
+        });
       });
+
+      const statsInsertTry: Try<void, DataSourceError> = await statsCommand.create(stats, veauAccountID);
+      const statsItemInsertTries: Array<Try<void, DataSourceError>> = await Promise.all<Try<void, DataSourceError>>(itemPromises);
+      const statsValueInsertTries: Array<Try<void, DataSourceError>> = await Promise.all<Try<void, DataSourceError>>(valuePromises);
+
+      return manoeuvre<unknown, DataSourceError>([
+        statsInsertTry,
+        ...statsItemInsertTries,
+        ...statsValueInsertTries
+      ]);
+    }, (err: DataSourceError) => {
+      return Promise.resolve<Try<unknown, DataSourceError>>(Failure.of<void, DataSourceError>(err));
     });
-
-    const trial4: Try<void, DataSourceError> = await statsCommand.create(stats, veauAccountID);
-    const trial5: Array<Try<void, DataSourceError>> = await Promise.all<unknown>(itemPromises);
-    const trial6: Array<Try<void, DataSourceError>> = await Promise.all<unknown>(valuePromises);
-
-    // TODO when error, terminate and throw error;
   }
 }

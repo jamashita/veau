@@ -11,9 +11,9 @@ export class Connection implements IConnection {
     this.connection = connection;
   }
 
-  public execute<T>(sql: string, value?: JSObjectNotation): Promise<T> {
-    return new Promise<T>((resolve: Resolve<T>, reject: Reject) => {
-      this.connection.query(sql, value, (err: Nullable<mysql.MysqlError>, result: T) => {
+  public execute<R>(sql: string, value?: JSObjectNotation): Promise<R> {
+    return new Promise<R>((resolve: Resolve<R>, reject: Reject) => {
+      this.connection.query(sql, value, (err: Nullable<mysql.MysqlError>, result: R) => {
         if (err !== null) {
           reject(new MySQLError(err));
           return;
