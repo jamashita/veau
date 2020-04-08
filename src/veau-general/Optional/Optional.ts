@@ -1,4 +1,3 @@
-import { Nominative } from '../Nominative';
 import { Noun } from '../Noun';
 import { Try } from '../Try/Try';
 import { AsyncConsumer, Consumer, MonoFunction, Predicate } from '../Type/Function';
@@ -25,7 +24,7 @@ export abstract class Optional<T> implements Noun {
 
   public abstract filter(predicate: Predicate<T>): Optional<T>;
 
-  public abstract map<U extends Nominative>(mapper: MonoFunction<T, Suspicious<U>>): Optional<U>;
+  public abstract map<U>(mapper: MonoFunction<T, Suspicious<U>>): Optional<U>;
 
   public abstract toTry(): Try<T, OptionalError>;
 }

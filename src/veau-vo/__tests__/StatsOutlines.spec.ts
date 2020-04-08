@@ -146,7 +146,7 @@ describe('StatsOutlines', () => {
       expect(outlines.equals(copied)).toEqual(true);
       expect(outlines.size()).toEqual(copied.size());
       for (let i: number = 0; i < outlines.size(); i++) {
-        expect(outlines.get(i).equals(copied.get(i))).toEqual(true);
+        expect(outlines.get(i).get().equals(copied.get(i).get())).toEqual(true);
       }
     });
   });
