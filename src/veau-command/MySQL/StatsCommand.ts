@@ -37,11 +37,11 @@ export class StatsCommand implements IStatsCommand, IMySQLCommand {
 
     try {
       await this.query.execute<unknown>(query, {
-        statsID: stats.getStatsID().get(),
+        statsID: stats.getStatsID().get().get(),
         languageID: stats.getLanguage().getLanguageID().get(),
         regionID: stats.getRegion().getRegionID().get(),
         termID: stats.getTerm().getID(),
-        veauAccountID: veauAccountID.get(),
+        veauAccountID: veauAccountID.get().get(),
         name: stats.getName().get(),
         unit: stats.getUnit().get()
       });
@@ -64,7 +64,7 @@ export class StatsCommand implements IStatsCommand, IMySQLCommand {
 
     try {
       await this.query.execute<unknown>(query, {
-        statsID: statsID.get()
+        statsID: statsID.get().get()
       });
 
       return Success.of<void, DataSourceError>(undefined);
