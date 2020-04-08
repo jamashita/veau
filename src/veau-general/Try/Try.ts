@@ -15,8 +15,4 @@ export abstract class Try<S, F extends Error> {
   public abstract isFailure(): this is Failure<S, F>;
 
   public abstract match<T>(success: MonoFunction<S, T>, failure: MonoFunction<F, T>): T;
-
-  public abstract complete<U>(mapper: MonoFunction<S, U | Try<U, F>>): Try<U, F>;
-
-  public abstract recover<U>(mapper: MonoFunction<F, U | Try<U, F>>): Try<U, F>;
 }

@@ -35,19 +35,4 @@ export class Failure<S, F extends Error> extends Try<S, F> {
   public match<T>(success: MonoFunction<S, T>, failure: MonoFunction<F, T>): T {
     return failure(this.value);
   }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public complete<U>(mapper: MonoFunction<S, U | Try<U, F>>): Try<U, F> {
-    return this as never as Try<U, F>;
-  }
-
-  public recover<U>(mapper: MonoFunction<F, U | Try<U, F>>): Try<U, F> {
-    const result: U | Try<U, F> = mapper(this.value);
-
-    if (result instanceof Try) {
-      return result;
-    }
-
-    return Success.of<U, F>(result);
-  }
 }
