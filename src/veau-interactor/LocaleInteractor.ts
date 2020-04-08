@@ -23,7 +23,8 @@ export class LocaleInteractor implements IInteractor {
   private readonly languageCommand: ILanguageCommand;
   private readonly regionCommand: IRegionCommand;
 
-  public constructor(@inject(TYPE.LanguageKernelQuery) languageQuery: ILanguageQuery,
+  public constructor(
+    @inject(TYPE.LanguageKernelQuery) languageQuery: ILanguageQuery,
     @inject(TYPE.RegionKernelQuery) regionQuery: IRegionQuery,
     @inject(TYPE.LanguageRedisCommand) languageCommand: ILanguageCommand,
     @inject(TYPE.RegionRedisCommand) regionCommand: IRegionCommand

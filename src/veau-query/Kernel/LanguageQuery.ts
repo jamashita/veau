@@ -21,7 +21,8 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
   private readonly languageRedisQuery: ILanguageQuery;
   private readonly languageRedisCommand: ILanguageCommand;
 
-  public constructor(@inject(TYPE.LanguageMySQLQuery) languageMySQLQuery: ILanguageQuery,
+  public constructor(
+    @inject(TYPE.LanguageMySQLQuery) languageMySQLQuery: ILanguageQuery,
     @inject(TYPE.LanguageRedisQuery) languageRedisQuery: ILanguageQuery,
     @inject(TYPE.LanguageRedisCommand) languageRedisCommand: ILanguageCommand
   ) {

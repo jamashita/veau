@@ -22,7 +22,8 @@ export class StatsItemQuery implements IStatsItemQuery, IMySQLQuery {
   private readonly mysql: IMySQL;
   private readonly statsValueQuery: IStatsValueQuery;
 
-  public constructor(@inject(TYPE.MySQL) mysql: IMySQL,
+  public constructor(
+    @inject(TYPE.MySQL) mysql: IMySQL,
     @inject(TYPE.StatsValueMySQLQuery) statsValueQuery: IStatsValueQuery
   ) {
     this.mysql = mysql;

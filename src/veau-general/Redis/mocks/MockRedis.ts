@@ -61,10 +61,12 @@ export class MockRedis implements IRedis {
     return new MockRedis(hash, set, list, string);
   }
 
-  private constructor(hash: IRedisHash,
+  private constructor(
+    hash: IRedisHash,
     set: IRedisSet,
     list: IRedisList,
-    string: IRedisString) {
+    string: IRedisString
+  ) {
     this.client = new IORedis({});
     this.hash = hash;
     this.set = set;

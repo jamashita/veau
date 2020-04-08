@@ -17,9 +17,11 @@ export class LocaleQuery implements ILocaleQuery, IVaultQuery {
   private readonly localeHeapQuery: ILocaleQuery;
   private readonly localeCommand: ILocaleCommand;
 
-  public constructor(@inject(TYPE.LocaleAJAXQuery) localeAJAXQuery: ILocaleQuery,
+  public constructor(
+    @inject(TYPE.LocaleAJAXQuery) localeAJAXQuery: ILocaleQuery,
     @inject(TYPE.LocaleHeapQuery) localeHeapQuery: ILocaleQuery,
-    @inject(TYPE.LocaleHeapCommand) localeCommand: ILocaleCommand) {
+    @inject(TYPE.LocaleHeapCommand) localeCommand: ILocaleCommand
+  ) {
     this.localeAJAXQuery = localeAJAXQuery;
     this.localeHeapQuery = localeHeapQuery;
     this.localeCommand = localeCommand;

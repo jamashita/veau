@@ -41,7 +41,8 @@ export class StatsListSaga {
   private readonly regionQuery: IRegionQuery;
   private readonly statsCommand: IStatsCommand;
 
-  public constructor(@inject(TYPE.StatsAJAXQuery) statsQuery: IStatsQuery,
+  public constructor(
+    @inject(TYPE.StatsAJAXQuery) statsQuery: IStatsQuery,
     @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery,
     @inject(TYPE.RegionVaultQuery) regionQuery: IRegionQuery,
     @inject(TYPE.StatsAJAXCommand) statsCommand: IStatsCommand
