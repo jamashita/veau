@@ -32,7 +32,7 @@ export class Failure<S, F extends Error> extends Try<S, F> {
     return true;
   }
 
-  public match<T>(success: BiFunction<S, this, T>, failure: BiFunction<F, this, T>): T {
+  public match<T>(success: BiFunction<S, Success<S, F>, T>, failure: BiFunction<F, Failure<S, F>, T>): T {
     return failure(this.value, this);
   }
 }

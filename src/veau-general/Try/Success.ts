@@ -28,7 +28,7 @@ export class Success<S, F extends Error> extends Try<S, F> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public match<T>(success: BiFunction<S, this, T>, failure: BiFunction<F, this, T>): T {
+  public match<T>(success: BiFunction<S, Success<S, F>, T>, failure: BiFunction<F, Failure<S, F>, T>): T {
     return success(this.value, this);
   }
 }

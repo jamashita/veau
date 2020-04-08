@@ -14,5 +14,5 @@ export abstract class Try<S, F extends Error> {
 
   public abstract isFailure(): this is Failure<S, F>;
 
-  public abstract match<T>(success: BiFunction<S, this, T>, failure: BiFunction<F, this, T>): T;
+  public abstract match<T>(success: BiFunction<S, Success<S, F>, T>, failure: BiFunction<F, Failure<S, F>, T>): T;
 }
