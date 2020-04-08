@@ -1,9 +1,10 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
+import { LoadingCount } from '../../../veau-vo/LoadingCount';
 import { LoadingIndicator as Component } from '../../components/molecules/LoadingIndicator';
 import { State } from '../../State';
 
 type StateProps = Readonly<{
-  loadingCount: number;
+  loadingCount: LoadingCount;
 }>;
 type DispatchProps = Readonly<{
 }>;

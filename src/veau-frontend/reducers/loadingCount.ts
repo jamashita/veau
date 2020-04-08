@@ -1,17 +1,16 @@
 import { Reducer } from 'redux';
+import { LoadingCount } from '../../veau-vo/LoadingCount';
 import { ACTION, Action } from '../actions/Action';
 
-export type LoadingCount = number;
-
-const initialState: LoadingCount = 0;
+const initialState: LoadingCount = LoadingCount.default();
 
 export const loadingCount: Reducer<LoadingCount, Action> = (state: LoadingCount = initialState, action: Action) => {
   switch (action.type) {
     case ACTION.LOADING_START: {
-      return state + 1;
+      return state.increment();
     }
     case ACTION.LOADING_FINISH: {
-      return state - 1;
+      return state.decrement();
     }
     default: {
       return state;

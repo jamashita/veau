@@ -30,7 +30,7 @@ class LoadingIndicatorImpl extends React.Component<Props & WrappedComponentProps
 
     return (
       <Dialog
-        open={loadingCount > 0}
+        open={loadingCount.isLoading()}
       >
         <DialogTitle
           style={{
