@@ -35,4 +35,8 @@ export class Failure<S, F extends Error> extends Try<S, F> {
   public match<T>(success: BiFunction<S, Success<S, F>, T>, failure: BiFunction<F, Failure<S, F>, T>): T {
     return failure(this.value, this);
   }
+
+  public transpose<U>(): Failure<U, F> {
+    return this as never as Failure<U, F>;
+  }
 }

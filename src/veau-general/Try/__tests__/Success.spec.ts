@@ -1,5 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 import { MockError } from '../../MockError';
+import { MySQLError } from '../../MySQL/MySQLError';
 import { Success } from '../Success';
 
 describe('Success', () => {
@@ -56,6 +57,14 @@ describe('Success', () => {
       expect(res).toEqual(v1 * 2);
       expect(spy1.called).toEqual(true);
       expect(spy2.called).toEqual(false);
+    });
+  });
+
+  describe('transpose', () => {
+    it('does nothing', () => {
+      const success: Success<number, MockError> = Success.of<number, MockError>(100);
+
+      expect(success.transpose<MySQLError>()).toBe(success);
     });
   });
 });
