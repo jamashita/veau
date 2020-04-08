@@ -1,5 +1,5 @@
 import { Nominative } from '../Nominative';
-import { Primitive } from '../Type/Primitive';
+import { Primitive } from '../Type/Value';
 
 export class MockNominative implements Nominative {
   public readonly noun: 'MockNominative' = 'MockNominative';

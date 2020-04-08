@@ -36,8 +36,6 @@ import { UpdatedAt } from '../veau-vo/UpdatedAt';
 import { StatsItem, StatsItemJSON } from './StatsItem';
 import { StatsItems } from './StatsItems';
 
-const REVISED_VALUE: number = 14;
-
 export type StatsJSON = Readonly<{
   statsID: string;
   language: LanguageJSON;
@@ -64,6 +62,8 @@ export type StatsRow = Readonly<{
 }>;
 type Chart = Record<string, string | number>;
 
+const REVISED_VALUE: number = 14;
+
 export class Stats extends Entity<StatsID> {
   public readonly noun: 'Stats' = 'Stats';
   private readonly statsID: StatsID;
@@ -77,7 +77,8 @@ export class Stats extends Entity<StatsID> {
   private readonly startDate: Optional<AsOf>;
   private columns: Optional<AsOfs>;
 
-  public static of(statsID: StatsID,
+  public static of(
+    statsID: StatsID,
     language: Language,
     region: Region,
     term: Term,
@@ -85,7 +86,8 @@ export class Stats extends Entity<StatsID> {
     unit: StatsUnit,
     updatedAt: UpdatedAt,
     items: StatsItems,
-    startDate: Optional<AsOf>): Stats {
+    startDate: Optional<AsOf>
+  ): Stats {
     return new Stats(statsID, language, region, term, name, unit, updatedAt, items, startDate);
   }
 

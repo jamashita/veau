@@ -56,7 +56,7 @@ export class StatsUpdateTransaction implements ITransaction {
 
     const trial4: Try<void, DataSourceError> = await statsCommand.create(stats, veauAccountID);
     const trial5: Array<Try<void, DataSourceError>> = await Promise.all<unknown>(itemPromises);
-    const trial5: Array<Try<void, DataSourceError>> = await Promise.all<unknown>(valuePromises);
+    const trial6: Array<Try<void, DataSourceError>> = await Promise.all<unknown>(valuePromises);
 
     // TODO when error, terminate and throw error;
   }
