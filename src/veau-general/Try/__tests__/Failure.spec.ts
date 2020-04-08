@@ -5,8 +5,7 @@ import { MockError } from '../MockError';
 describe('Failure', () => {
   describe('get', () => {
     it('throws the inside error', () => {
-      const e: MockError = new MockError('test failed');
-      const failure: Failure<number, MockError> = Failure.of<number, MockError>(e);
+      const failure: Failure<number, MockError> = Failure.of<number, MockError>(new MockError('test failed'));
 
       expect(() => {
         failure.get();
@@ -14,9 +13,19 @@ describe('Failure', () => {
     });
   });
 
+  describe('getMessage', () => {
+    it('normal case', () => {
+      const message: string = 'los perros';
+      const e1: MockError = new MockError(message);
+      const failure: Failure<number, MockError> = Failure.of<number, MockError>(e1);
+
+      expect(failure.getMessage()).toEqual(message);
+    });
+  });
+
   describe('isSuccess', () => {
     it('always returns false', () => {
-      const failure1: Failure<number, Error> = Failure.of<number, Error>(new Error('failure'));
+      const failure1: Failure<number, MockError> = Failure.of<number, MockError>(new MockError('failure'));
       const failure2: Failure<number, MockError> = Failure.of<number, MockError>(new MockError('failure'));
 
       expect(failure1.isSuccess()).toEqual(false);
@@ -26,7 +35,7 @@ describe('Failure', () => {
 
   describe('isFailure', () => {
     it('always returns true', () => {
-      const failure1: Failure<number, Error> = Failure.of<number, Error>(new Error('failure'));
+      const failure1: Failure<number, MockError> = Failure.of<number, MockError>(new MockError('failure'));
       const failure2: Failure<number, MockError> = Failure.of<number, MockError>(new MockError('failure'));
 
       expect(failure1.isFailure()).toEqual(true);
@@ -39,30 +48,22 @@ describe('Failure', () => {
       const e1: MockError = new MockError('test failed');
       const v1: number = 1234;
       const failure: Failure<number, MockError> = Failure.of<number, MockError>(e1);
+
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
       const res: number = failure.match<number>((n: number) => {
         spy1();
         return n;
-      }, (err: Error) => {
-        spy2(err);
+      }, (err: MockError) => {
+        spy2();
+        expect(err).toBe(e1);
         return v1 * 2;
       });
 
       expect(res).toEqual(v1 * 2);
       expect(spy1.called).toEqual(false);
-      expect(spy2.calledWith(e1)).toEqual(true);
-    });
-  });
-
-  describe('getMessage', () => {
-    it('normal case', () => {
-      const message: string = 'los perros';
-      const e1: MockError = new MockError(message);
-      const failure: Failure<number, Error> = Failure.of<number, MockError>(e1);
-
-      expect(failure.getMessage()).toEqual(message);
+      expect(spy2.called).toEqual(true);
     });
   });
 });

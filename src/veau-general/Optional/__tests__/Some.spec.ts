@@ -68,29 +68,33 @@ describe('Some', () => {
 
   describe('ifPresent', () => {
     it('consumer will be invoked', () => {
-      const some: Some<number> = Some.of<number>(1);
+      const value: number = 5398;
+      const some: Some<number> = Some.of<number>(value);
 
       const spy1: SinonSpy = sinon.spy();
 
-      some.ifPresent((value: number) => {
-        spy1(value);
+      some.ifPresent((v: number) => {
+        expect(v).toEqual(value);
+        spy1();
       });
 
-      expect(spy1.calledWith(some.get())).toEqual(true);
+      expect(spy1.called).toEqual(true);
     });
   });
 
   describe('ifPresentAsync', () => {
     it('consumer will be invoked', async () => {
-      const some: Some<number> = Some.of<number>(1);
+      const value: number = 329853;
+      const some: Some<number> = Some.of<number>(value);
 
       const spy1: SinonSpy = sinon.spy();
 
-      await some.ifPresentAsync(async (value: number) => {
-        spy1(value);
+      await some.ifPresentAsync(async (v: number) => {
+        expect(v).toEqual(value);
+        spy1();
       });
 
-      expect(spy1.calledWith(some.get())).toEqual(true);
+      expect(spy1.called).toEqual(true);
     });
   });
 

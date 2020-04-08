@@ -20,6 +20,10 @@ export class Failure<S, F extends Error> extends Try<S, F> {
     throw this.value as Error;
   }
 
+  public getMessage(): string {
+    return this.value.message;
+  }
+
   public isSuccess(): this is Success<S, F> {
     return false;
   }
@@ -32,7 +36,18 @@ export class Failure<S, F extends Error> extends Try<S, F> {
     return failure(this.value);
   }
 
-  public getMessage(): string {
-    return this.value.message;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public complete<U>(mapper: MonoFunction<S, U | Try<U, F>>): Try<U, F> {
+    return this as never as Try<U, F>;
+  }
+
+  public recover<U>(mapper: MonoFunction<F, U | Try<U, F>>): Try<U, F> {
+    const result: U | Try<U, F> = mapper(this.value);
+
+    if (result instanceof Try) {
+      return result;
+    }
+
+    return Success.of<U, F>(result);
   }
 }
