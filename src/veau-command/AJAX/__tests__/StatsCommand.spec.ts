@@ -1,5 +1,4 @@
 import { BAD_REQUEST, CREATED } from 'http-status';
-
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { vault } from '../../../veau-container/Container';
