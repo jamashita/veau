@@ -1,5 +1,10 @@
 import { StatsID } from '../../veau-vo/StatsID';
-import { ACTION, PushToEntranceAction, PushToStatsEditAction, PushToStatsListAction } from './Action';
+import {
+  ACTION,
+  PushToEntranceAction,
+  PushToStatsEditAction,
+  PushToStatsListAction
+} from './Action';
 
 export const pushToStatsList: () => PushToStatsListAction = () => {
   return {
@@ -7,7 +12,7 @@ export const pushToStatsList: () => PushToStatsListAction = () => {
   };
 };
 
-export const pushToStatsEdit: (statsID: StatsID) => PushToStatsEditAction = (statsID: StatsID) => {
+export const pushToStatsEdit = (statsID: StatsID): PushToStatsEditAction => {
   return {
     type: ACTION.PUSH_TO_STATS_EDIT,
     statsID

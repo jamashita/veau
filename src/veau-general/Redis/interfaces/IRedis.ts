@@ -1,4 +1,5 @@
 import IORedis from 'ioredis';
+import { BiFunction } from '../../Type/Function';
 import { IRedisHash } from './IRedisHash';
 import { IRedisList } from './IRedisList';
 import { IRedisSet } from './IRedisSet';
@@ -28,5 +29,5 @@ export interface IRedis {
 
   publish(channel: string, message: string): Promise<number>;
 
-  on(callback: (channel: string, message: string) => void): void;
+  on(callback: BiFunction<string, string, void>): void;
 }

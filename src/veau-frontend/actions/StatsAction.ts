@@ -11,7 +11,7 @@ import {
   StatsUpdateAction
 } from './Action';
 
-export const updateStatsOutlines: (statsOutlines: StatsOutlines) => StatsOutlineUpdateAction = (statsOutlines: StatsOutlines) => {
+export const updateStatsOutlines = (statsOutlines: StatsOutlines): StatsOutlineUpdateAction => {
   return {
     type: ACTION.STATS_OUTLINE_UPDATE,
     statsOutlines
@@ -24,7 +24,7 @@ export const resetStatsOutlines: () => StatsOutlineResetAction = () => {
   };
 };
 
-export const updateStats: (stats: Stats) => StatsUpdateAction = (stats: Stats) => {
+export const updateStats = (stats: Stats): StatsUpdateAction => {
   return {
     type: ACTION.STATS_UPDATE,
     stats
@@ -37,7 +37,7 @@ export const resetStats: () => StatsResetAction = () => {
   };
 };
 
-export const updateStatsItem: (statsItem: StatsItem) => StatsItemUpdateAction = (statsItem: StatsItem) => {
+export const updateStatsItem = (statsItem: StatsItem): StatsItemUpdateAction => {
   return {
     type: ACTION.STATS_ITEM_UPDATE,
     statsItem

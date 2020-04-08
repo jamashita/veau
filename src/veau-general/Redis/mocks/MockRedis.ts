@@ -1,4 +1,5 @@
 import IORedis from 'ioredis';
+import { BiFunction } from '../../Type/Function';
 import { UnimplementedError } from '../../UnimplementedError';
 import { IRedis } from '../interfaces/IRedis';
 import { IRedisHash } from '../interfaces/IRedisHash';
@@ -122,7 +123,7 @@ export class MockRedis implements IRedis {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public on(callback: (channel: string, message: string) => void): void {
+  public on(callback: BiFunction<string, string, void>): void {
     // NOOP
   }
 }

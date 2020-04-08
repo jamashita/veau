@@ -37,42 +37,42 @@ export const closeNewStatsModal: () => StatsListCloseNewStatsModalAction = () =>
   };
 };
 
-export const newStatsNameTyped: (name: StatsName) => StatsListNameTypedAction = (name: StatsName) => {
+export const newStatsNameTyped = (name: StatsName): StatsListNameTypedAction => {
   return {
     type: ACTION.STATS_LIST_NAME_TYPED,
     name
   };
 };
 
-export const newStatsUnitTyped: (unit: StatsUnit) => StatsListUnitTypedAction = (unit: StatsUnit) => {
+export const newStatsUnitTyped = (unit: StatsUnit): StatsListUnitTypedAction => {
   return {
     type: ACTION.STATS_LIST_UNIT_TYPED,
     unit
   };
 };
 
-export const newStatsISO639Selected: (iso639: ISO639) => StatsListISO639SelectedAction = (iso639: ISO639) => {
+export const newStatsISO639Selected = (iso639: ISO639): StatsListISO639SelectedAction => {
   return {
     type: ACTION.STATS_LIST_ISO639_SELECTED,
     iso639
   };
 };
 
-export const newStatsISO3166Selected: (iso3166: ISO3166) => StatsListISO3166SelectedAction = (iso3166: ISO3166) => {
+export const newStatsISO3166Selected = (iso3166: ISO3166): StatsListISO3166SelectedAction => {
   return {
     type: ACTION.STATS_LIST_ISO3166_SELECTED,
     iso3166
   };
 };
 
-export const newStatsTermSelected: (term: Term) => StatsListTermSelectedAction = (term: Term) => {
+export const newStatsTermSelected = (term: Term): StatsListTermSelectedAction => {
   return {
     type: ACTION.STATS_LIST_TERM_SELECTED,
     term
   };
 };
 
-export const updateNewStats: (stats: Stats) => StatsListUpdateNewStatsAction = (stats: Stats) => {
+export const updateNewStats = (stats: Stats): StatsListUpdateNewStatsAction => {
   return {
     type: ACTION.STATS_LIST_UPDATE_NEW_STATS,
     stats
