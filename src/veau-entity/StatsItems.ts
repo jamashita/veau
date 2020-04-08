@@ -8,6 +8,7 @@ import { None } from '../veau-general/Optional/None';
 import { Optional } from '../veau-general/Optional/Optional';
 import { Some } from '../veau-general/Optional/Some';
 import { Failure } from '../veau-general/Try/Failure';
+import { manoeuvre } from '../veau-general/Try/Manoeuvre';
 import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
 import { Enumerator, Mapper } from '../veau-general/Type/Function';
@@ -32,23 +33,11 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
   }
 
   public static ofTry(tries: Array<Try<StatsItem, StatsItemError>>): Try<StatsItems, StatsItemsError> {
-    const failures: Array<Failure<StatsItem, StatsItemError>> = tries.filter((trial: Try<StatsItem, StatsItemError>): trial is Failure<StatsItem, StatsItemError> => {
-      return trial.isFailure();
+    return manoeuvre<StatsItem, StatsItemError>(tries).match<Try<StatsItems, StatsItemsError>>((is: Array<StatsItem>) => {
+      return Success.of<StatsItems, StatsItemsError>(StatsItems.of(is));
+    }, (err: StatsItemError) => {
+      return Failure.of<StatsItems, StatsItemsError>(new StatsItemsError(err.message));
     });
-
-    if (failures.length !== 0) {
-      const message: string = failures.map<string>((failure: Failure<StatsItem, StatsItemError>) => {
-        return failure.getError().message;
-      }).join(': ');
-
-      return Failure.of<StatsItems, StatsItemsError>(new StatsItemsError(message));
-    }
-
-    const items: Array<StatsItem> = tries.map<StatsItem>((trial: Try<StatsItem, StatsItemError>) => {
-      return trial.get();
-    });
-
-    return Success.of<StatsItems, StatsItemsError>(StatsItems.of(items));
   }
 
   public static ofJSON(json: Array<StatsItemJSON>):  Try<StatsItems, StatsItemsError> {

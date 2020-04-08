@@ -7,6 +7,7 @@ import { None } from '../veau-general/Optional/None';
 import { Optional } from '../veau-general/Optional/Optional';
 import { Some } from '../veau-general/Optional/Some';
 import { Failure } from '../veau-general/Try/Failure';
+import { manoeuvre } from '../veau-general/Try/Manoeuvre';
 import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
 import { Mapper } from '../veau-general/Type/Function';
@@ -22,23 +23,11 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
   }
 
   public static ofTry(tries: Array<Try<StatsOutline, StatsOutlineError>>): Try<StatsOutlines, StatsOutlinesError> {
-    const failures: Array<Failure<StatsOutline, StatsOutlineError>> = tries.filter((trial: Try<StatsOutline, StatsOutlineError>): trial is Failure<StatsOutline, StatsOutlineError> => {
-      return trial.isFailure();
+    return manoeuvre<StatsOutline, StatsOutlineError>(tries).match<Try<StatsOutlines, StatsOutlinesError>>((so: Array<StatsOutline>) => {
+      return Success.of<StatsOutlines, StatsOutlinesError>(StatsOutlines.of(so));
+    }, (err: StatsOutlineError) => {
+      return Failure.of<StatsOutlines, StatsOutlinesError>(new StatsOutlinesError(err.message));
     });
-
-    if (failures.length !== 0) {
-      const message: string = failures.map<string>((failure: Failure<StatsOutline, StatsOutlineError>) => {
-        return failure.getError().message;
-      }).join(': ');
-
-      return Failure.of<StatsOutlines, StatsOutlinesError>(new StatsOutlinesError(message));
-    }
-
-    const outlines: Array<StatsOutline> = tries.map<StatsOutline>((trial: Try<StatsOutline, StatsOutlineError>) => {
-      return trial.get();
-    });
-
-    return Success.of<StatsOutlines, StatsOutlinesError>(StatsOutlines.of(outlines));
   }
 
   public static ofJSON(json: Array<StatsOutlineJSON>): Try<StatsOutlines, StatsOutlinesError> {
