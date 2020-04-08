@@ -1,15 +1,15 @@
-import { Nominative } from '../Nominative';
 import { Failure } from '../Try/Failure';
 import { Try } from '../Try/Try';
 import { AsyncConsumer, Consumer, MonoFunction, Predicate } from '../Type/Function';
+import { Suspicious } from '../Type/Value';
 import { Optional } from './Optional';
 import { OptionalError } from './OptionalError';
 import { Some } from './Some';
 
-export class None<T extends Nominative> extends Optional<T> {
+export class None<T> extends Optional<T> {
   public readonly noun: 'None' = 'None';
 
-  public static of<T extends Nominative>(): None<T> {
+  public static of<T>(): None<T> {
     return new None<T>();
   }
 
@@ -25,7 +25,7 @@ export class None<T extends Nominative> extends Optional<T> {
     return false;
   }
 
-  public isEmpty(): this is None<T> {
+  public isAbsent(): this is None<T> {
     return true;
   }
 
@@ -44,27 +44,11 @@ export class None<T extends Nominative> extends Optional<T> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public map<U extends Nominative>(mapper: MonoFunction<T, U>): Optional<U> {
+  public map<U>(mapper: MonoFunction<T, Suspicious<U>>): Optional<U> {
     return None.of<U>();
   }
 
   public toTry(): Try<T, OptionalError> {
     return Failure.of<T, OptionalError>(new OptionalError('IS NOT PRESENT'));
-  }
-
-  public equals(other: Optional<T>): boolean {
-    if (this === other) {
-      return true;
-    }
-
-    if (other instanceof None) {
-      return true;
-    }
-
-    return false;
-  }
-
-  public toString(): string {
-    return 'Optional<NONE>';
   }
 }
