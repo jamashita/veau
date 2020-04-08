@@ -48,9 +48,11 @@ export class LocaleInteractor implements IInteractor {
       return trials[1].match<Try<Locale, NoSuchElementError | DataSourceError>>((regions: Regions) => {
         return Success.of<Locale, DataSourceError>(Locale.of(languages, regions));
       }, (err: NoSuchElementError | DataSourceError) => {
+        // TODO
         return Failure.of<Locale, NoSuchElementError | DataSourceError>(err);
       });
     }, (err: NoSuchElementError | DataSourceError) => {
+      // TODO
       return Failure.of<Locale, NoSuchElementError | DataSourceError>(err);
     });
   }
@@ -68,9 +70,11 @@ export class LocaleInteractor implements IInteractor {
       return trials[1].match<Try<void, CacheError | DataSourceError>>(() => {
         return Success.of<void, DataSourceError>(undefined);
       }, (err: CacheError | DataSourceError) => {
+        // TODO
         return Failure.of<void, CacheError | DataSourceError>(err);
       });
     }, (err: CacheError | DataSourceError) => {
+      // TODO
       return Failure.of<void, CacheError | DataSourceError>(err);
     });
   }

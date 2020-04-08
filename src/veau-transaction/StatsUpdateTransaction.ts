@@ -5,15 +5,15 @@ import { Stats } from '../veau-entity/Stats';
 import { StatsItem } from '../veau-entity/StatsItem';
 import { DataSourceError } from '../veau-general/DataSourceError';
 import { IQuery } from '../veau-general/MySQL/interfaces/IQuery';
-import { ITransaction } from '../veau-general/MySQL/interfaces/ITransaction';
 import { Failure } from '../veau-general/Try/Failure';
 import { manoeuvre } from '../veau-general/Try/Manoeuvre';
 import { Try } from '../veau-general/Try/Try';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValue } from '../veau-vo/StatsValue';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
+import { IStatsUpdateTransaction } from './interfaces/IStatsUpdateTransaction';
 
-export class StatsUpdateTransaction implements ITransaction<Try<unknown, DataSourceError>> {
+export class StatsUpdateTransaction implements IStatsUpdateTransaction {
   public readonly noun: 'StatsUpdateTransaction' = 'StatsUpdateTransaction';
   private readonly stats: Stats;
   private readonly veauAccountID: VeauAccountID;

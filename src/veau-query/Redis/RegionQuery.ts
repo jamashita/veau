@@ -61,6 +61,7 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
 
       return Success.of<Region, NoSuchElementError | DataSourceError>(found);
     }, (err: NoSuchElementError | DataSourceError) => {
+      // TODO
       return Failure.of<Region, NoSuchElementError | DataSourceError>(err);
     });
   }

@@ -8,12 +8,7 @@ export const manoeuvre: <S, F extends Error>(tries: Array<Try<S, F>>) => Try<Arr
   });
 
   if (failure !== undefined) {
-    try {
-      failure.get();
-    }
-    catch (err) {
-      return Failure.of<Array<S>, F>(err);
-    }
+    return failure as unknown as Try<Array<S>, F>;
   }
 
   const values: Array<S> = tries.map<S>((t: Try<S, F>) => {

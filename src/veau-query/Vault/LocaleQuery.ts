@@ -41,6 +41,7 @@ export class LocaleQuery implements ILocaleQuery, IVaultQuery {
         return trial3.match<Try<Locale, DataSourceError>>(() => {
           return Success.of<Locale, DataSourceError>(locale);
         }, (err: DataSourceError) => {
+          // TODO
           return Failure.of<Locale, DataSourceError>(err);
         });
       }, (err: DataSourceError) => {

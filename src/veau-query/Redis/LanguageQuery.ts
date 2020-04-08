@@ -61,6 +61,7 @@ export class LanguageQuery implements ILanguageQuery, IRedisQuery {
 
       return Success.of<Language, NoSuchElementError>(found);
     }, (err: NoSuchElementError | DataSourceError) => {
+      // TODO
       return Failure.of<Language, NoSuchElementError | DataSourceError>(err);
     });
   }

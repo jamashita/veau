@@ -49,9 +49,11 @@ export class StatsItemQuery implements IStatsItemQuery, IMySQLQuery {
         return StatsItems.ofRow(statsItemRows, statsValues);
       }, (err: StatsValuesError | DataSourceError) => {
         if (err instanceof DataSourceError) {
+          // TODO
           return Failure.of<StatsItems, DataSourceError>(err);
         }
 
+        // TODO
         return Failure.of<StatsItems, StatsItemsError>(new StatsItemsError(err.message));
       });
     }
