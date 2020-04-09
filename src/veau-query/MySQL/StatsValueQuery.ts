@@ -34,7 +34,7 @@ export class StatsValueQuery implements IStatsValueQuery, IMySQLQuery {
 
     try {
       const statsValueRows: Array<StatsValueRow> = await this.mysql.execute<Array<StatsValueRow>>(query, {
-        statsID: statsID.get()
+        statsID: statsID.get().get()
       });
 
       return StatsValues.ofRow(statsValueRows);

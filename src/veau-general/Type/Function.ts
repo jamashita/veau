@@ -1,10 +1,10 @@
 export type MonoFunction<I, O> = (arg: I) => O;
 export type BiFunction<I1, I2, O> = (arg1: I1, arg2: I2) => O;
-export type Consumer<T> = MonoFunction<T, void>;
-export type AsyncConsumer<T> = MonoFunction<T, Promise<void>>;
-export type Predicate<T> = MonoFunction<T, boolean>;
-export type Supplier<T> = MonoFunction<void, T>;
-export type Enumerator<K, V> = BiFunction<V, K, void>;
-export type Mapper<I, O> = BiFunction<I, number, O>;
-export type Resolve<T> = Consumer<T>;
-export type Reject = Consumer<unknown>;
+export type Consumer<T> = (arg: T) => void;
+export type AsyncConsumer<T> = (arg: T) => Promise<void>;
+export type Predicate<T> = (arg: T) => boolean;
+export type Supplier<T> = () => T;
+export type Enumerator<K, V> = (value: V, key: K) => void;
+export type Mapper<I, O> = (value: I, index: number) => O;
+export type Resolve<T> = (arg: T) => unknown;
+export type Reject = (arg: unknown) => unknown;

@@ -6,4 +6,4 @@ export type PlainObject = {
   [name: string]: Item | Array<Item>;
 };
 type Item = Primitive | PlainObject;
-export type JSObjectNotation = Item | Array<Item>;
+export type JSObjectNotation = PlainObject | Array<Item>;

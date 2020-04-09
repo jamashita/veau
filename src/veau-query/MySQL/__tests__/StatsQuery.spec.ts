@@ -9,6 +9,7 @@ import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
 import { StatsError } from '../../../veau-error/StatsError';
 import { StatsItemsError } from '../../../veau-error/StatsItemsError';
 import { DataSourceError } from '../../../veau-general/DataSourceError';
+import { MockError } from '../../../veau-general/MockError';
 import { MockMySQL } from '../../../veau-general/MySQL/mocks/MockMySQL';
 import { MockMySQLError } from '../../../veau-general/MySQL/mocks/MockMySQLError';
 import { MySQLError } from '../../../veau-general/MySQL/MySQLError';
@@ -135,7 +136,7 @@ describe('StatsQuery', () => {
       }).called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
       const stats: Stats = trial.get();
-      expect(stats.getStatsID().get()).toEqual(rows[0].statsID);
+      expect(stats.getStatsID().get().get()).toEqual(rows[0].statsID);
       expect(stats.getLanguage().getLanguageID().get()).toEqual(rows[0].languageID);
       expect(stats.getLanguage().getName().get()).toEqual(rows[0].languageName);
       expect(stats.getLanguage().getEnglishName().get()).toEqual(rows[0].languageEnglishName);
@@ -358,29 +359,16 @@ describe('StatsQuery', () => {
     });
 
     it('throws Error', async () => {
-      const error: Error = new Error();
       const statsID: StatsID = StatsID.ofString('a25a8b7f-c810-4dc0-b94e-e97e74329307').get();
 
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
       mysql.execute = stub;
-      stub.rejects(error);
+      stub.rejects(new MockError());
       const statsItemQuery: MockStatsItemQuery = new MockStatsItemQuery();
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const statsQuery: StatsQuery = new StatsQuery(mysql, statsItemQuery);
-      try {
-        await statsQuery.findByStatsID(statsID);
-        spy1();
-      }
-      catch (err) {
-        spy2();
-        expect(err).toBe(error);
-      }
-
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      await expect(statsQuery.findByStatsID(statsID)).rejects.toThrow(MockError);
     });
   });
 });

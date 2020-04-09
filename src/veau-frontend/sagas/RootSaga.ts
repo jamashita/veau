@@ -17,7 +17,8 @@ export class RootSaga {
   private readonly statsEditSaga: StatsEditSaga;
   private readonly statsListSaga: StatsListSaga;
 
-  public constructor(@inject(TYPE.EntranceSaga) entranceSaga: EntranceSaga,
+  public constructor(
+    @inject(TYPE.EntranceSaga) entranceSaga: EntranceSaga,
     @inject(TYPE.IdentitySaga) identitySaga: IdentitySaga,
     @inject(TYPE.LogoutSaga) logoutSaga: LogoutSaga,
     @inject(TYPE.RedirectSaga) redirectSaga: RedirectSaga,

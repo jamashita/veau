@@ -22,8 +22,9 @@ export class StatsQuery implements IStatsQuery, IMySQLQuery {
   private readonly mysql: IMySQL;
   private readonly statsItemQuery: IStatsItemQuery;
 
-  public constructor(@inject(TYPE.MySQL) mysql: IMySQL,
-    @inject(TYPE.StatsMySQLQuery) statsItemQuery: IStatsItemQuery
+  public constructor(
+    @inject(TYPE.MySQL) mysql: IMySQL,
+    @inject(TYPE.StatsItemMySQLQuery) statsItemQuery: IStatsItemQuery
   ) {
     this.mysql = mysql;
     this.statsItemQuery = statsItemQuery;
@@ -52,7 +53,7 @@ export class StatsQuery implements IStatsQuery, IMySQLQuery {
 
     try {
       const statsRows: Array<StatsRow> = await this.mysql.execute<Array<StatsRow>>(query, {
-        statsID: statsID.get()
+        statsID: statsID.get().get()
       });
 
       if (statsRows.length === 0) {
@@ -65,9 +66,11 @@ export class StatsQuery implements IStatsQuery, IMySQLQuery {
         return Stats.ofRow(statsRows[0], statsItems);
       }, (err: StatsItemsError | DataSourceError) => {
         if (err instanceof DataSourceError) {
+          // TODO
           return Failure.of<Stats, DataSourceError>(err);
         }
 
+        // TODO
         return Failure.of<Stats, StatsError>(new StatsError(err.message));
       });
     }

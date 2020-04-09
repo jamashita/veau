@@ -6,18 +6,16 @@ import { TYPE } from '../../veau-container/Types';
 import { Stats } from '../../veau-entity/Stats';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { StatsOutlinesError } from '../../veau-error/StatsOutlinesError';
-import { AJAXError } from '../../veau-general/AJAX/AJAXError';
 import { DataSourceError } from '../../veau-general/DataSourceError';
-import { None } from '../../veau-general/Optional/None';
 import { Try } from '../../veau-general/Try/Try';
 import { ILanguageQuery } from '../../veau-query/interfaces/ILanguageQuery';
 import { IRegionQuery } from '../../veau-query/interfaces/IRegionQuery';
-import { IStatsQuery } from '../../veau-query/interfaces/IStatsQuery';
-import { AsOf } from '../../veau-vo/AsOf';
+import { IStatsOutlineQuery } from '../../veau-query/interfaces/IStatsOutlineQuery';
 import { Language } from '../../veau-vo/Language';
 import { Page } from '../../veau-vo/Page';
 import { Region } from '../../veau-vo/Region';
 import { StatsOutlines } from '../../veau-vo/StatsOutlines';
+import { VeauAccountID } from '../../veau-vo/VeauAccountID';
 import {
   ACTION,
   StatsListISO3166SelectedAction,
@@ -36,17 +34,18 @@ import { State } from '../State';
 
 @injectable()
 export class StatsListSaga {
-  private readonly statsQuery: IStatsQuery;
+  private readonly statsOutlineQuery: IStatsOutlineQuery;
   private readonly languageQuery: ILanguageQuery;
   private readonly regionQuery: IRegionQuery;
   private readonly statsCommand: IStatsCommand;
 
-  public constructor(@inject(TYPE.StatsAJAXQuery) statsQuery: IStatsQuery,
+  public constructor(
+    @inject(TYPE.StatsOutlineAJAXQuery) statsOutlineQuery: IStatsOutlineQuery,
     @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery,
     @inject(TYPE.RegionVaultQuery) regionQuery: IRegionQuery,
     @inject(TYPE.StatsAJAXCommand) statsCommand: IStatsCommand
   ) {
-    this.statsQuery = statsQuery;
+    this.statsOutlineQuery = statsOutlineQuery;
     this.languageQuery = languageQuery;
     this.regionQuery = regionQuery;
     this.statsCommand = statsCommand;
@@ -66,9 +65,8 @@ export class StatsListSaga {
     while (true) {
       yield take(ACTION.STATS_LIST_INITIALIZE);
 
-      const trial: Try<StatsOutlines, StatsOutlinesError | AJAXError> = yield call((): Promise<Try<StatsOutlines, StatsOutlinesError | AJAXError>> => {
-        // TODO statsoutline
-        return this.statsQuery.findByPage(Page.of(1).get());
+      const trial: Try<StatsOutlines, StatsOutlinesError | DataSourceError> = yield call((): Promise<Try<StatsOutlines, StatsOutlinesError | DataSourceError>> => {
+        return this.statsOutlineQuery.findByVeauAccountID(VeauAccountID.generate(), Page.of(1).get());
       });
 
       yield trial.match<Effect>((statsOutlines: StatsOutlines) => {
@@ -104,8 +102,7 @@ export class StatsListSaga {
         name,
         stats.getUnit(),
         stats.getUpdatedAt(),
-        stats.getItems(),
-        None.of<AsOf>()
+        stats.getItems()
       );
 
       yield put(updateNewStats(newStats));
@@ -134,8 +131,7 @@ export class StatsListSaga {
         stats.getName(),
         unit,
         stats.getUpdatedAt(),
-        stats.getItems(),
-        None.of<AsOf>()
+        stats.getItems()
       );
 
       yield put(updateNewStats(newStats));
@@ -166,8 +162,7 @@ export class StatsListSaga {
           stats.getName(),
           stats.getUnit(),
           stats.getUpdatedAt(),
-          stats.getItems(),
-          None.of<AsOf>()
+          stats.getItems()
         );
 
         return put(updateNewStats(newStats));
@@ -199,8 +194,7 @@ export class StatsListSaga {
           stats.getName(),
           stats.getUnit(),
           stats.getUpdatedAt(),
-          stats.getItems(),
-          None.of<AsOf>()
+          stats.getItems()
         );
 
         yield put(updateNewStats(newStats));
@@ -227,8 +221,7 @@ export class StatsListSaga {
         stats.getName(),
         stats.getUnit(),
         stats.getUpdatedAt(),
-        stats.getItems(),
-        None.of<AsOf>()
+        stats.getItems()
       );
 
       yield put(updateNewStats(newStats));
@@ -256,9 +249,8 @@ export class StatsListSaga {
         put(loading())
       ]);
 
-      const trial: Try<void, AJAXError> = yield call((): Promise<Try<void, AJAXError>> => {
-        // TODO
-        return this.statsCommand.create(stats);
+      const trial: Try<void, DataSourceError> = yield call((): Promise<Try<void, DataSourceError>> => {
+        return this.statsCommand.create(stats, VeauAccountID.generate());
       });
 
       yield trial.match<Effect>(() => {

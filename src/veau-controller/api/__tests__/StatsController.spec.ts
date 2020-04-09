@@ -10,7 +10,6 @@ import { StatsItems } from '../../../veau-entity/StatsItems';
 import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
 import { StatsError } from '../../../veau-error/StatsError';
 import { StatsOutlinesError } from '../../../veau-error/StatsOutlinesError';
-import { None } from '../../../veau-general/Optional/None';
 import { Failure } from '../../../veau-general/Try/Failure';
 import { Success } from '../../../veau-general/Try/Success';
 import { StatsInteractor } from '../../../veau-interactor/StatsInteractor';
@@ -141,8 +140,7 @@ describe('StatsController', () => {
           StatsItem.of(StatsItemID.ofString('09c2e4a6-6839-4fbe-858e-bf2c4ee7d5e6').get(), StatsItemName.of('stats item'), StatsValues.of([
             StatsValue.of(StatsItemID.ofString('09c2e4a6-6839-4fbe-858e-bf2c4ee7d5e6').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(5))
           ]))
-        ]),
-        None.of<AsOf>()
+        ])
       );
       stub.resolves(Success.of<Stats, NoSuchElementError>(stats));
       const app: express.Express = express();

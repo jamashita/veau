@@ -132,7 +132,7 @@ describe('Account', () => {
 
       expect(trial.isSuccess()).toEqual(true);
       const account: Account = trial.get();
-      expect(account.getVeauAccountID().get()).toEqual(row.veauAccountID);
+      expect(account.getVeauAccountID().get().get()).toEqual(row.veauAccountID);
       expect(account.getAccount().get()).toEqual(row.account);
       expect(account.getLanguage().getLanguageID().get()).toEqual(row.languageID);
       expect(account.getLanguage().getName().get()).toEqual(row.languageName);

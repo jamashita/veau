@@ -22,7 +22,8 @@ export class StatsItemQuery implements IStatsItemQuery, IMySQLQuery {
   private readonly mysql: IMySQL;
   private readonly statsValueQuery: IStatsValueQuery;
 
-  public constructor(@inject(TYPE.MySQL) mysql: IMySQL,
+  public constructor(
+    @inject(TYPE.MySQL) mysql: IMySQL,
     @inject(TYPE.StatsValueMySQLQuery) statsValueQuery: IStatsValueQuery
   ) {
     this.mysql = mysql;
@@ -39,16 +40,16 @@ export class StatsItemQuery implements IStatsItemQuery, IMySQLQuery {
 
     try {
       const statsItemRows: Array<StatsItemRow> = await this.mysql.execute<Array<StatsItemRow>>(query, {
-        statsID: statsID.get()
+        statsID: statsID.get().get()
       });
 
       const trial: Try<StatsValues, StatsValuesError | DataSourceError> = await this.statsValueQuery.findByStatsID(statsID);
 
       return trial.match<Try<StatsItems, StatsItemsError | DataSourceError>>((statsValues: StatsValues) => {
         return StatsItems.ofRow(statsItemRows, statsValues);
-      }, (err: StatsValuesError | DataSourceError) => {
+      }, (err: StatsValuesError | DataSourceError, self: Failure<StatsValues, StatsValuesError | DataSourceError>) => {
         if (err instanceof DataSourceError) {
-          return Failure.of<StatsItems, DataSourceError>(err);
+          return self.transpose<StatsItems>();
         }
 
         return Failure.of<StatsItems, StatsItemsError>(new StatsItemsError(err.message));

@@ -1,6 +1,6 @@
 import mysql from 'mysql';
 import { Reject, Resolve } from '../Type/Function';
-import { Nullable } from '../Type/Value';
+import { JSObjectNotation, Nullable } from '../Type/Value';
 import { Connection } from './Connection';
 import { IMySQL } from './interfaces/IMySQL';
 import { ITransaction } from './interfaces/ITransaction';
@@ -55,13 +55,15 @@ export class MySQL implements IMySQL {
     });
   }
 
-  public async transact(transaction: ITransaction): Promise<void> {
+  public async transact<R>(transaction: ITransaction<R>): Promise<R> {
     const connection: Connection = await this.getConnection();
 
     try {
-      await transaction.with(connection);
+      const ret: R = await transaction.with(connection);
       await connection.commit();
       connection.release();
+
+      return ret;
     }
     catch (err) {
       await connection.rollback();
@@ -70,9 +72,9 @@ export class MySQL implements IMySQL {
     }
   }
 
-  public execute<T>(sql: string, value?: object): Promise<T> {
-    return new Promise<T>((resolve: Resolve<T>, reject: Reject) => {
-      this.pool.query(sql, value, (err: Nullable<mysql.MysqlError>, result: T) => {
+  public execute<R>(sql: string, value?: JSObjectNotation): Promise<R> {
+    return new Promise<R>((resolve: Resolve<R>, reject: Reject) => {
+      this.pool.query(sql, value, (err: Nullable<mysql.MysqlError>, result: R) => {
         if (err !== null) {
           reject(new MySQLError(err));
           return;

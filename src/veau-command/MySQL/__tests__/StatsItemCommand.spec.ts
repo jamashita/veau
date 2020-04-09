@@ -1,6 +1,7 @@
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { StatsItem } from '../../../veau-entity/StatsItem';
 import { DataSourceError } from '../../../veau-general/DataSourceError';
+import { MockError } from '../../../veau-general/MockError';
 import { MockMySQLError } from '../../../veau-general/MySQL/mocks/MockMySQLError';
 import { MockQuery } from '../../../veau-general/MySQL/mocks/MockQuery';
 import { MySQLError } from '../../../veau-general/MySQL/MySQLError';
@@ -79,27 +80,14 @@ describe('StatsItemCommand', () => {
         StatsItemName.of('stats item name'),
         StatsValues.empty()
       );
-      const error: Error = new Error();
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
-      stub.rejects(error);
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub.rejects(new MockError());
 
       const statsItemCommand: StatsItemCommand = StatsItemCommand.of(query);
-      try {
-        await statsItemCommand.create(statsID, statsItem, 1);
-        spy1();
-      }
-      catch (err) {
-        spy2();
-        expect(err).toBe(error);
-      }
-
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      await expect(statsItemCommand.create(statsID, statsItem, 1)).rejects.toThrow(MockError);
     });
   });
 
@@ -151,27 +139,14 @@ describe('StatsItemCommand', () => {
 
     it('throws Error', async () => {
       const statsID: StatsID = StatsID.ofString('59915b56-b930-426c-a146-3b1dde8054cd').get();
-      const error: Error = new Error();
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
-      stub.rejects(error);
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub.rejects(new MockError());
 
       const statsItemCommand: StatsItemCommand = StatsItemCommand.of(query);
-      try {
-        await statsItemCommand.deleteByStatsID(statsID);
-        spy1();
-      }
-      catch (err) {
-        spy2();
-        expect(err).toBe(error);
-      }
-
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      await expect(statsItemCommand.deleteByStatsID(statsID)).rejects.toThrow(MockError);
     });
   });
 });

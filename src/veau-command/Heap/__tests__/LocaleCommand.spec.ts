@@ -5,6 +5,7 @@ import { TYPE } from '../../../veau-container/Types';
 import { DataSourceError } from '../../../veau-general/DataSourceError';
 import { HeapError } from '../../../veau-general/Heap/HeapError';
 import { MockHeap } from '../../../veau-general/Heap/mocks/MockHeap';
+import { MockError } from '../../../veau-general/MockError';
 import { Try } from '../../../veau-general/Try/Try';
 import { VAULT_LOCALE_KEY } from '../../../veau-infrastructure/VeauVault';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
@@ -113,27 +114,14 @@ describe('LocaleCommand', () => {
           ISO3166.of('bb')
         )
       ]));
-      const error: Error = new Error();
 
       const heap: MockHeap = new MockHeap();
       const stub: SinonStub = sinon.stub();
       heap.set = stub;
-      stub.throws(error);
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub.throws( new MockError());
 
       const localeCommand: LocaleCommand = new LocaleCommand(heap);
-      try {
-        await localeCommand.create(locale);
-        spy1();
-      }
-      catch (err) {
-        spy2();
-        expect(err).toBe(error);
-      }
-
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      await expect(localeCommand.create(locale)).rejects.toThrow(MockError);
     });
   });
 });

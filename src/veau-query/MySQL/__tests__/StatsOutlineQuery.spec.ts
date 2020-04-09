@@ -4,6 +4,7 @@ import { kernel } from '../../../veau-container/Container';
 import { TYPE } from '../../../veau-container/Types';
 import { StatsOutlinesError } from '../../../veau-error/StatsOutlinesError';
 import { DataSourceError } from '../../../veau-general/DataSourceError';
+import { MockError } from '../../../veau-general/MockError';
 import { MockMySQL } from '../../../veau-general/MySQL/mocks/MockMySQL';
 import { MockMySQLError } from '../../../veau-general/MySQL/mocks/MockMySQLError';
 import { MySQLError } from '../../../veau-general/MySQL/MySQLError';
@@ -96,7 +97,7 @@ describe('StatsOutlineQuery', () => {
       expect(statsOutlines.size()).toEqual(2);
       for (let i: number = 0; i < statsOutlines.size(); i++) {
         const statsOutline: StatsOutline = statsOutlines.get(i).get();
-        expect(statsOutline.getStatsID().get()).toEqual(rows[i].statsID);
+        expect(statsOutline.getStatsID().get().get()).toEqual(rows[i].statsID);
         expect(statsOutline.getLanguage().getLanguageID().get()).toEqual(rows[i].languageID);
         expect(statsOutline.getLanguage().getName().get()).toEqual(rows[i].languageName);
         expect(statsOutline.getLanguage().getEnglishName().get()).toEqual( rows[i].languageEnglishName);
@@ -189,27 +190,13 @@ describe('StatsOutlineQuery', () => {
     });
 
     it('throws Error', async () => {
-      const error: Error = new Error();
-
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
       mysql.execute = stub;
-      stub.rejects(error);
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub.rejects(new MockError());
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
-      try {
-        await statsOutlineQuery.findByVeauAccountID(VeauAccountID.ofString('2ac64841-5267-48bc-8952-ba9ad1cb12d7').get(), Page.of(1).get());
-        spy1();
-      }
-      catch (err) {
-        spy2();
-        expect(err).toBe(error);
-      }
-
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      await expect(statsOutlineQuery.findByVeauAccountID(VeauAccountID.ofString('2ac64841-5267-48bc-8952-ba9ad1cb12d7').get(), Page.of(1).get())).rejects.toThrow(MockError);
     });
   });
 });

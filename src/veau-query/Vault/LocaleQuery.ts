@@ -17,9 +17,11 @@ export class LocaleQuery implements ILocaleQuery, IVaultQuery {
   private readonly localeHeapQuery: ILocaleQuery;
   private readonly localeCommand: ILocaleCommand;
 
-  public constructor(@inject(TYPE.LocaleAJAXQuery) localeAJAXQuery: ILocaleQuery,
+  public constructor(
+    @inject(TYPE.LocaleAJAXQuery) localeAJAXQuery: ILocaleQuery,
     @inject(TYPE.LocaleHeapQuery) localeHeapQuery: ILocaleQuery,
-    @inject(TYPE.LocaleHeapCommand) localeCommand: ILocaleCommand) {
+    @inject(TYPE.LocaleHeapCommand) localeCommand: ILocaleCommand
+  ) {
     this.localeAJAXQuery = localeAJAXQuery;
     this.localeHeapQuery = localeHeapQuery;
     this.localeCommand = localeCommand;
@@ -39,6 +41,7 @@ export class LocaleQuery implements ILocaleQuery, IVaultQuery {
         return trial3.match<Try<Locale, DataSourceError>>(() => {
           return Success.of<Locale, DataSourceError>(locale);
         }, (err: DataSourceError) => {
+          // TODO
           return Failure.of<Locale, DataSourceError>(err);
         });
       }, (err: DataSourceError) => {

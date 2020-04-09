@@ -21,7 +21,8 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
   private readonly regionRedisQuery: IRegionQuery;
   private readonly regionRedisCommand: IRegionCommand;
 
-  public constructor(@inject(TYPE.RegionMySQLQuery) regionMySQLQuery: IRegionQuery,
+  public constructor(
+    @inject(TYPE.RegionMySQLQuery) regionMySQLQuery: IRegionQuery,
     @inject(TYPE.RegionRedisQuery) regionRedisQuery: IRegionQuery,
     @inject(TYPE.RegionRedisCommand) regionRedisCommand: IRegionCommand
   ) {
@@ -44,9 +45,11 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
         return trial3.match<Try<Regions, DataSourceError>>(() => {
           return Success.of<Regions, NoSuchElementError>(regions);
         }, (err: DataSourceError) => {
+          // TODO
           return Failure.of<Regions, DataSourceError>(err);
         });
       }, (err: NoSuchElementError | DataSourceError) => {
+        // TODO
         return Promise.resolve<Try<Regions, NoSuchElementError | DataSourceError>>(Failure.of<Regions, NoSuchElementError | DataSourceError>(err));
       });
     });
@@ -66,6 +69,7 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
 
       return Success.of<Region, NoSuchElementError>(found);
     }, (err: NoSuchElementError | DataSourceError) => {
+      // TODO
       return Failure.of<Region, NoSuchElementError | DataSourceError>(err);
     });
   }

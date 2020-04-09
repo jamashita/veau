@@ -221,7 +221,7 @@ describe('StatsValues', () => {
       expect(statsValues).not.toBe(copied);
       expect(statsValues.size()).toEqual(copied.size());
       for (let i: number = 0; i < statsValues.size(); i++) {
-        expect(statsValues.get(i).equals(copied.get(i))).toEqual(true);
+        expect(statsValues.get(i).get().equals(copied.get(i).get())).toEqual(true);
       }
     });
   });

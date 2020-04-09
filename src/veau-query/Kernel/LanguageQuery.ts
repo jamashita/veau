@@ -21,7 +21,8 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
   private readonly languageRedisQuery: ILanguageQuery;
   private readonly languageRedisCommand: ILanguageCommand;
 
-  public constructor(@inject(TYPE.LanguageMySQLQuery) languageMySQLQuery: ILanguageQuery,
+  public constructor(
+    @inject(TYPE.LanguageMySQLQuery) languageMySQLQuery: ILanguageQuery,
     @inject(TYPE.LanguageRedisQuery) languageRedisQuery: ILanguageQuery,
     @inject(TYPE.LanguageRedisCommand) languageRedisCommand: ILanguageCommand
   ) {
@@ -44,9 +45,11 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
         return trial3.match<Try<Languages, DataSourceError>>(() => {
           return Success.of<Languages, DataSourceError>(languages);
         }, (err: DataSourceError) => {
+          // TODO
           return Failure.of<Languages, DataSourceError>(err);
         });
       }, (err: NoSuchElementError | DataSourceError) => {
+        // TODO
         return Promise.resolve<Try<Languages, NoSuchElementError | DataSourceError>>(Failure.of<Languages, NoSuchElementError | DataSourceError>(err));
       });
     });
@@ -66,6 +69,7 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
 
       return Success.of<Language, DataSourceError>(found);
     }, (err: NoSuchElementError | DataSourceError) => {
+      // TODO
       return Failure.of<Language, NoSuchElementError | DataSourceError>(err);
     });
   }

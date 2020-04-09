@@ -266,7 +266,7 @@ describe('StatsOutline', () => {
 
       expect(trial.isSuccess()).toEqual(true);
       const statsOutline: StatsOutline = trial.get();
-      expect(statsOutline.getStatsID().get()).toEqual(json.statsID);
+      expect(statsOutline.getStatsID().get().get()).toEqual(json.statsID);
       expect(statsOutline.getLanguage().getLanguageID().get()).toEqual(json.language.languageID);
       expect(statsOutline.getLanguage().getName().get()).toEqual(json.language.name);
       expect(statsOutline.getLanguage().getEnglishName().get()).toEqual(json.language.englishName);
@@ -413,7 +413,7 @@ describe('StatsOutline', () => {
 
       expect(trial.isSuccess()).toEqual(true);
       const statsOutline: StatsOutline = trial.get();
-      expect(statsOutline.getStatsID().get()).toEqual(row.statsID);
+      expect(statsOutline.getStatsID().get().get()).toEqual(row.statsID);
       expect(statsOutline.getLanguage().getLanguageID().get()).toEqual(row.languageID);
       expect(statsOutline.getLanguage().getName().get()).toEqual(row.languageName);
       expect(statsOutline.getLanguage().getEnglishName().get()).toEqual(row.languageEnglishName);

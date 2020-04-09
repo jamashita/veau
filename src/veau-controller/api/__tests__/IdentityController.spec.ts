@@ -1,6 +1,5 @@
 import express from 'express';
 import { OK } from 'http-status';
-
 import 'reflect-metadata';
 import supertest from 'supertest';
 import { AccountName } from '../../../veau-vo/AccountName';

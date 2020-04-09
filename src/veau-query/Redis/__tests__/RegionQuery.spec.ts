@@ -4,6 +4,7 @@ import { kernel } from '../../../veau-container/Container';
 import { TYPE } from '../../../veau-container/Types';
 import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
 import { DataSourceError } from '../../../veau-general/DataSourceError';
+import { MockError } from '../../../veau-general/MockError';
 import { MockRedisError } from '../../../veau-general/Redis/MockRedisError';
 import { MockRedis } from '../../../veau-general/Redis/mocks/MockRedis';
 import { MockRedisString } from '../../../veau-general/Redis/mocks/MockRedisString';
@@ -135,30 +136,16 @@ describe('RegionQuery', () => {
     });
 
     it('throws Error', async () => {
-      const error: Error = new Error();
-
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
       string.get = stub;
-      stub.rejects(error);
+      stub.rejects(new MockError());
       const redis: MockRedis = MockRedis.of({
         string
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      try {
-        await regionQuery.all();
-        spy1();
-      }
-      catch (err) {
-        spy2();
-        expect(err).toBe(error);
-      }
-
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      await expect(regionQuery.all()).rejects.toThrow(MockError);
     });
   });
 
@@ -319,30 +306,16 @@ describe('RegionQuery', () => {
     });
 
     it('throws Error', async () => {
-      const error: Error = new Error();
-
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
       string.get = stub;
-      stub.rejects(error);
+      stub.rejects(new MockError());
       const redis: MockRedis = MockRedis.of({
         string
       });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      try {
-        await regionQuery.findByISO3166(ISO3166.of('ALB'));
-        spy1();
-      }
-      catch (err) {
-        spy2();
-        expect(err).toBe(error);
-      }
-
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      await expect(regionQuery.findByISO3166(ISO3166.of('ALB'))).rejects.toThrow(MockError);
     });
   });
 });

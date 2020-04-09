@@ -16,7 +16,7 @@ export class JSONA {
     });
   }
 
-  public static stringify(value: object): Promise<string> {
+  public static stringify(value: JSObjectNotation): Promise<string> {
     return new Promise<string>((resolve: Resolve<string>, reject: Reject) => {
       setTimeout(() => {
         try {

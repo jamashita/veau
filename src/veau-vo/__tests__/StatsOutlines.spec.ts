@@ -146,7 +146,7 @@ describe('StatsOutlines', () => {
       expect(outlines.equals(copied)).toEqual(true);
       expect(outlines.size()).toEqual(copied.size());
       for (let i: number = 0; i < outlines.size(); i++) {
-        expect(outlines.get(i).equals(copied.get(i))).toEqual(true);
+        expect(outlines.get(i).get().equals(copied.get(i).get())).toEqual(true);
       }
     });
   });
@@ -271,7 +271,7 @@ describe('StatsOutlines', () => {
       const outlines: StatsOutlines = trial.get();
       for (let i: number = 0; i < 2; i++) {
         const outline: StatsOutline = outlines.get(i).get();
-        expect(outline.getStatsID().get()).toEqual(json[i].statsID);
+        expect(outline.getStatsID().get().get()).toEqual(json[i].statsID);
         expect(outline.getLanguage().getLanguageID().get()).toEqual(json[i].language.languageID);
         expect(outline.getLanguage().getName().get()).toEqual(json[i].language.name);
         expect(outline.getLanguage().getEnglishName().get()).toEqual(json[i].language.englishName);
@@ -326,7 +326,7 @@ describe('StatsOutlines', () => {
       const outlines: StatsOutlines = trial.get();
       for (let i: number = 0; i < 2; i++) {
         const outline: StatsOutline = outlines.get(i).get();
-        expect(outline.getStatsID().get()).toEqual(rows[i].statsID);
+        expect(outline.getStatsID().get().get()).toEqual(rows[i].statsID);
         expect(outline.getLanguage().getLanguageID().get()).toEqual(rows[i].languageID);
         expect(outline.getLanguage().getName().get()).toEqual(rows[i].languageName);
         expect(outline.getLanguage().getEnglishName().get()).toEqual(rows[i].languageEnglishName);

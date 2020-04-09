@@ -7,7 +7,6 @@ import { StatsError } from '../veau-error/StatsError';
 import { StatsOutlinesError } from '../veau-error/StatsOutlinesError';
 import { DataSourceError } from '../veau-general/DataSourceError';
 import { IMySQL } from '../veau-general/MySQL/interfaces/IMySQL';
-import { ITransaction } from '../veau-general/MySQL/interfaces/ITransaction';
 import { Try } from '../veau-general/Try/Try';
 import { IStatsOutlineQuery } from '../veau-query/interfaces/IStatsOutlineQuery';
 import { IStatsQuery } from '../veau-query/interfaces/IStatsQuery';
@@ -27,7 +26,8 @@ export class StatsInteractor implements IInteractor {
   private readonly statsQuery: IStatsQuery;
   private readonly statsOutlineQuery: IStatsOutlineQuery;
 
-  public constructor(@inject(TYPE.MySQL) mysql: IMySQL,
+  public constructor(
+    @inject(TYPE.MySQL) mysql: IMySQL,
     @inject(TYPE.StatsMySQLQuery) statsQuery: IStatsQuery,
     @inject(TYPE.StatsOutlineMySQLQuery) statsOutlineQuery: IStatsOutlineQuery
   ) {
@@ -44,10 +44,9 @@ export class StatsInteractor implements IInteractor {
     return this.statsOutlineQuery.findByVeauAccountID(veauAccountID, page);
   }
 
-  // FIXME manage to do it (returns to Try)
-  public save(stats: Stats, veauAccountID: VeauAccountID): Promise<unknown> {
-    const statsUpdateTransaction: ITransaction = StatsUpdateTransaction.of(stats, veauAccountID);
+  public save(stats: Stats, veauAccountID: VeauAccountID): Promise<Try<unknown, DataSourceError>> {
+    const statsUpdateTransaction: StatsUpdateTransaction = StatsUpdateTransaction.of(stats, veauAccountID);
 
-    return this.mysql.transact(statsUpdateTransaction);
+    return this.mysql.transact<Try<unknown, DataSourceError>>(statsUpdateTransaction);
   }
 }

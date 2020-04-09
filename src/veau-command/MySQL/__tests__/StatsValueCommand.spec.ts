@@ -1,5 +1,6 @@
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { DataSourceError } from '../../../veau-general/DataSourceError';
+import { MockError } from '../../../veau-general/MockError';
 import { MockMySQLError } from '../../../veau-general/MySQL/mocks/MockMySQLError';
 import { MockQuery } from '../../../veau-general/MySQL/mocks/MockQuery';
 import { MySQLError } from '../../../veau-general/MySQL/MySQLError';
@@ -65,27 +66,14 @@ describe('StatsValueCommand', () => {
     it('throws Error', async () => {
       const statsItemID: StatsItemID = StatsItemID.ofString('6c3f54e0-bfe5-4b4b-9227-2175604ab739').get();
       const statsValue: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
-      const error: Error = new Error();
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
-      stub.rejects(error);
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub.rejects(new MockError());
 
       const statsValueCommand: StatsValueCommand = StatsValueCommand.of(query);
-      try {
-        await statsValueCommand.create(statsValue);
-        spy1();
-      }
-      catch (err) {
-        spy2();
-        expect(err).toBe(error);
-      }
-
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      await expect(statsValueCommand.create(statsValue)).rejects.toThrow(MockError);
     });
   });
 
@@ -139,27 +127,14 @@ describe('StatsValueCommand', () => {
 
     it('throws Error', async () => {
       const statsID: StatsID = StatsID.ofString('59915b56-b930-426c-a146-3b1dde8054cd').get();
-      const error: Error = new Error();
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
-      stub.rejects(error);
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub.rejects(new MockError());
 
       const statsValueCommand: StatsValueCommand = StatsValueCommand.of(query);
-      try {
-        await statsValueCommand.deleteByStatsID(statsID);
-        spy1();
-      }
-      catch (err) {
-        spy2();
-        expect(err).toBe(error);
-      }
-
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      await expect(statsValueCommand.deleteByStatsID(statsID)).rejects.toThrow(MockError);
     });
   });
 });

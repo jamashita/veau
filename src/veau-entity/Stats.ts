@@ -87,7 +87,7 @@ export class Stats extends Entity<StatsID> {
     unit: StatsUnit,
     updatedAt: UpdatedAt,
     items: StatsItems,
-    startDate: Optional<AsOf>
+    startDate: Optional<AsOf> = None.of<AsOf>()
   ): Stats {
     return new Stats(statsID, language, region, term, name, unit, updatedAt, items, startDate);
   }
@@ -116,8 +116,7 @@ export class Stats extends Entity<StatsID> {
               StatsName.of(name),
               StatsUnit.of(unit),
               at,
-              statsItems,
-              None.of<AsOf>()
+              statsItems
             );
 
             return Success.of<Stats, StatsError>(stats);
@@ -165,8 +164,7 @@ export class Stats extends Entity<StatsID> {
             StatsName.of(name),
             StatsUnit.of(unit),
             at,
-            statsItems,
-            None.of<AsOf>()
+            statsItems
           );
 
           return Success.of<Stats, StatsError>(stats);
@@ -234,12 +232,12 @@ export class Stats extends Entity<StatsID> {
       StatsName.default(),
       StatsUnit.default(),
       UpdatedAt.now(),
-      StatsItems.empty(),
-      None.of<AsOf>()
+      StatsItems.empty()
     );
   }
 
-  private constructor(statsID: StatsID,
+  private constructor(
+    statsID: StatsID,
     language: Language,
     region: Region,
     term: Term,
@@ -395,7 +393,7 @@ export class Stats extends Entity<StatsID> {
     });
   }
 
-  public getChart(): Array<object> {
+  public getChart(): Array<Chart> {
     const chartItems: Map<string, Chart> = new Map<string, Chart>();
 
     this.getColumns().forEach((column: AsOf) => {
@@ -413,8 +411,8 @@ export class Stats extends Entity<StatsID> {
       });
     });
 
-    const chart: Array<object> = [];
-    chartItems.forEach((value: object) => {
+    const chart: Array<Chart> = [];
+    chartItems.forEach((value: Chart) => {
       chart.push(value);
     });
 
@@ -526,9 +524,6 @@ export class Stats extends Entity<StatsID> {
       return false;
     }
     if (!items.areSame(other.getItems())) {
-      return false;
-    }
-    if (!startDate.equals(other.getStartDate())) {
       return false;
     }
 

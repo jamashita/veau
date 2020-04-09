@@ -4,6 +4,7 @@ import { kernel } from '../../../veau-container/Container';
 import { TYPE } from '../../../veau-container/Types';
 import { CacheError } from '../../../veau-error/CacheError';
 import { DataSourceError } from '../../../veau-general/DataSourceError';
+import { MockError } from '../../../veau-general/MockError';
 import { MockRedisError } from '../../../veau-general/Redis/MockRedisError';
 import { MockRedis } from '../../../veau-general/Redis/mocks/MockRedis';
 import { MockRedisString } from '../../../veau-general/Redis/mocks/MockRedisString';
@@ -47,7 +48,7 @@ describe('LanguageCommand', () => {
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
       const trial: Try<void, DataSourceError> = await languageCommand.insertAll(languages);
 
-      expect(stub1.withArgs('LANGUAGES', '[{"languageID":1,"name":"language 1","englishName":"english 1","iso639":"aa"}]').called).toEqual(true);
+      expect(stub1.withArgs('LANGUAGES', JSON.stringify(languages.toJSON())).called).toEqual(true);
       expect(stub2.withArgs('LANGUAGES', 3 * 60 * 60).called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
     });
@@ -122,31 +123,17 @@ describe('LanguageCommand', () => {
       const languages: Languages = Languages.of([
         Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english 1'), ISO639.of('aa'))
       ]);
-      const error: Error = new Error();
 
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
       string.set = stub;
-      stub.rejects(error);
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
+      stub.rejects(new MockError());
       const redis: MockRedis = MockRedis.of({
         string
       });
 
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      try {
-        await languageCommand.insertAll(languages);
-        spy1();
-      }
-      catch (err) {
-        spy2();
-        expect(err).toBe(error);
-      }
-
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      await expect(languageCommand.insertAll(languages)).rejects.toThrow(MockError);
     });
   });
 
@@ -211,27 +198,13 @@ describe('LanguageCommand', () => {
     });
 
     it('throws Error', async () => {
-      const error: Error = new Error();
-
       const redis: MockRedis = MockRedis.of({});
       const stub: SinonStub = sinon.stub();
       redis.delete = stub;
-      stub.rejects(error);
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub.rejects(new MockError());
 
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      try {
-        await languageCommand.deleteAll();
-        spy1();
-      }
-      catch (err) {
-        spy2();
-        expect(err).toBe(error);
-      }
-
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      await expect(languageCommand.deleteAll()).rejects.toThrow(MockError);
     });
   });
 });

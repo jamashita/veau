@@ -1,5 +1,6 @@
 import request from 'superagent';
 import { Resolve } from '../Type/Function';
+import { JSObjectNotation } from '../Type/Value';
 import { AJAXResponse } from './AJAXResponse';
 import { IAJAX } from './interfaces/IAJAX';
 
@@ -21,7 +22,7 @@ export class AJAX implements IAJAX {
     });
   }
 
-  public post<T>(url: string, payload?: object): Promise<AJAXResponse<T>> {
+  public post<T>(url: string, payload?: JSObjectNotation): Promise<AJAXResponse<T>> {
     return new Promise<AJAXResponse<T>>((resolve: Resolve<AJAXResponse<T>>) => {
       request.post(url).send(payload).end((err: unknown, res: request.Response) => {
         const {
@@ -37,7 +38,7 @@ export class AJAX implements IAJAX {
     });
   }
 
-  public put<T>(url: string, payload?: object): Promise<AJAXResponse<T>> {
+  public put<T>(url: string, payload?: JSObjectNotation): Promise<AJAXResponse<T>> {
     return new Promise<AJAXResponse<T>>((resolve: Resolve<AJAXResponse<T>>) => {
       request.put(url).send(payload).end((err: unknown, res: request.Response) => {
         const {

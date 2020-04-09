@@ -1,6 +1,5 @@
 import express from 'express';
 import { OK, UNAUTHORIZED } from 'http-status';
-
 import 'reflect-metadata';
 import supertest from 'supertest';
 import { kernel } from '../../../veau-container/Container';

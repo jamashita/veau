@@ -2,12 +2,11 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { Stats } from '../../../veau-entity/Stats';
 import { StatsItems } from '../../../veau-entity/StatsItems';
 import { DataSourceError } from '../../../veau-general/DataSourceError';
+import { MockError } from '../../../veau-general/MockError';
 import { MockMySQLError } from '../../../veau-general/MySQL/mocks/MockMySQLError';
 import { MockQuery } from '../../../veau-general/MySQL/mocks/MockQuery';
 import { MySQLError } from '../../../veau-general/MySQL/MySQLError';
-import { None } from '../../../veau-general/Optional/None';
 import { Try } from '../../../veau-general/Try/Try';
-import { AsOf } from '../../../veau-vo/AsOf';
 import { ISO3166 } from '../../../veau-vo/ISO3166';
 import { ISO639 } from '../../../veau-vo/ISO639';
 import { Language } from '../../../veau-vo/Language';
@@ -35,8 +34,7 @@ describe('StatsCommand', () => {
         StatsName.of('stats name'),
         StatsUnit.of('stats unit'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.empty(),
-        None.of<AsOf>()
+        StatsItems.empty()
       );
       const accountID: VeauAccountID = VeauAccountID.ofString('d5619e72-3233-43a8-9cc8-571e53b2ff87').get();
 
@@ -77,8 +75,7 @@ describe('StatsCommand', () => {
         StatsName.of('stats name'),
         StatsUnit.of('stats unit'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.empty(),
-        None.of<AsOf>()
+        StatsItems.empty()
       );
       const accountID: VeauAccountID = VeauAccountID.ofString('d5619e72-3233-43a8-9cc8-571e53b2ff87').get();
 
@@ -113,31 +110,17 @@ describe('StatsCommand', () => {
         StatsName.of('stats name'),
         StatsUnit.of('stats unit'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.empty(),
-        None.of<AsOf>()
+        StatsItems.empty()
       );
       const accountID: VeauAccountID = VeauAccountID.ofString('d5619e72-3233-43a8-9cc8-571e53b2ff87').get();
-      const error: Error = new Error();
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
-      stub.rejects(error);
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub.rejects(new MockError());
 
       const statsCommand: StatsCommand = StatsCommand.of(query);
-      try {
-        await expect(statsCommand.create(stats, accountID)).rejects.toThrow();
-        spy1();
-      }
-      catch (err) {
-        spy2();
-        expect(err).toBe(error);
-      }
-
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      await expect(statsCommand.create(stats, accountID)).rejects.toThrow(MockError);
     });
   });
 
@@ -187,27 +170,14 @@ describe('StatsCommand', () => {
 
     it('throws Error', async () => {
       const statsID: StatsID = StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get();
-      const error: Error = new Error();
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
-      stub.rejects(error);
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
+      stub.rejects(new MockError());
 
       const statsCommand: StatsCommand = StatsCommand.of(query);
-      try {
-        await statsCommand.deleteByStatsID(statsID);
-        spy1();
-      }
-      catch (err) {
-        spy2();
-        expect(err).toBe(error);
-      }
-
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      await expect(statsCommand.deleteByStatsID(statsID)).rejects.toThrow(MockError);
     });
   });
 });

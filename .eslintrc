@@ -326,13 +326,14 @@
     "@typescript-eslint/typedef": [
       "error",
       {
-        "arrayDestructuring": false,
+        "arrayDestructuring": true,
         "arrowParameter": true,
         "memberVariableDeclaration": true,
         "objectDestructuring": false,
         "parameter": true,
         "propertyDeclaration": true,
-        "variableDeclaration": true
+        "variableDeclaration": true,
+        "variableDeclarationIgnoreFunction": true
       }
     ],
     "@typescript-eslint/unbound-method": "off",

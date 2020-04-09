@@ -48,7 +48,7 @@ export class StatsOutlineQuery implements IStatsOutlineQuery, IMySQLQuery {
 
     try {
       const statsOutlineRows: Array<StatsOutlineRow> = await this.mysql.execute<Array<StatsOutlineRow>>(query, {
-        veauAccountID: veauAccountID.get(),
+        veauAccountID: veauAccountID.get().get(),
         limit: page.getLimit().get(),
         offset: page.getOffset().get()
       });

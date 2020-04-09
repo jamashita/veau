@@ -3,5 +3,5 @@ import { ITransaction } from './ITransaction';
 
 export interface IMySQL extends IQuery {
 
-  transact(transaction: ITransaction): Promise<void>;
+  transact<R>(transaction: ITransaction<R>): Promise<R>;
 }
