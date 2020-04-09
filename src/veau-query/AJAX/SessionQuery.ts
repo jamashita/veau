@@ -9,7 +9,6 @@ import { AJAXResponse } from '../../veau-general/AJAX/AJAXResponse';
 import { IAJAX } from '../../veau-general/AJAX/interfaces/IAJAX';
 import { DataSourceError } from '../../veau-general/DataSourceError';
 import { Failure } from '../../veau-general/Try/Failure';
-import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 import { VeauAccount, VeauAccountJSON } from '../../veau-vo/VeauAccount';
@@ -35,10 +34,8 @@ export class SessionQuery implements ISessionQuery, IAJAXQuery {
 
     switch (status) {
       case OK: {
-        return VeauAccount.ofJSON(body).match<Try<VeauAccount, VeauAccountError | DataSourceError>>((veauAccount: VeauAccount) => {
-          return Success.of<VeauAccount, DataSourceError>(veauAccount);
-        }, (err: VeauAccountError, self: Failure<VeauAccount, VeauAccountError>) => {
-          return self;
+        return VeauAccount.ofJSON(body).complete<VeauAccount>((veauAccount: VeauAccount) => {
+          return veauAccount;
         });
       }
       default: {
@@ -56,10 +53,8 @@ export class SessionQuery implements ISessionQuery, IAJAXQuery {
 
     switch (status) {
       case OK: {
-        return VeauAccount.ofJSON(body).match<Try<VeauAccount, VeauAccountError | DataSourceError>>((veauAccount: VeauAccount) => {
-          return Success.of<VeauAccount, DataSourceError>(veauAccount);
-        }, (err: VeauAccountError, self: Failure<VeauAccount, VeauAccountError>) => {
-          return self;
+        return VeauAccount.ofJSON(body).complete<VeauAccount>((veauAccount: VeauAccount) => {
+          return veauAccount;
         });
       }
       case UNAUTHORIZED: {
