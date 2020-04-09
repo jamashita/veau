@@ -37,9 +37,8 @@ export class SessionQuery implements ISessionQuery, IAJAXQuery {
       case OK: {
         return VeauAccount.ofJSON(body).match<Try<VeauAccount, VeauAccountError | DataSourceError>>((veauAccount: VeauAccount) => {
           return Success.of<VeauAccount, DataSourceError>(veauAccount);
-        }, (err: VeauAccountError) => {
-          // TODO
-          return Failure.of<VeauAccount, VeauAccountError>(err);
+        }, (err: VeauAccountError, self: Failure<VeauAccount, VeauAccountError>) => {
+          return self;
         });
       }
       default: {
@@ -59,9 +58,8 @@ export class SessionQuery implements ISessionQuery, IAJAXQuery {
       case OK: {
         return VeauAccount.ofJSON(body).match<Try<VeauAccount, VeauAccountError | DataSourceError>>((veauAccount: VeauAccount) => {
           return Success.of<VeauAccount, DataSourceError>(veauAccount);
-        }, (err: VeauAccountError) => {
-          // TODO
-          return Failure.of<VeauAccount, VeauAccountError>(err);
+        }, (err: VeauAccountError, self: Failure<VeauAccount, VeauAccountError>) => {
+          return self;
         });
       }
       case UNAUTHORIZED: {
