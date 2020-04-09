@@ -7,8 +7,8 @@ services:
       MYSQL_ROOT_PASSWORD: 'veau'
       MYSQL_DATABASE: 'veau'
     volumes:
-      - '$PWD/mysql/cnf:/etc/mysql/conf.d'
-      - '$PWD/mysql/initdata:/docker-entrypoint-initdb.d'
+      - './mysql/cnf:/etc/mysql/conf.d:ro'
+      - './mysql/initdata:/docker-entrypoint-initdb.d:ro'
   veau_redis:
     container_name: 'veau_redis'
     image: 'redis:5.0.4-alpine'
@@ -18,9 +18,9 @@ services:
     ports:
       - '443:443'
     volumes:
-      - '$PWD/nginx/veau.conf:/etc/nginx/conf.d/veau.conf'
-      - '$PWD/cert/ssl.jamashita.dev.crt:/etc/nginx/conf.d/server.crt'
-      - '$PWD/cert/ssl.jamashita.dev.key:/etc/nginx/conf.d/server.key'
+      - './nginx/veau.conf:/etc/nginx/conf.d/veau.conf:ro'
+      - './cert/ssl.jamashita.dev.crt:/etc/nginx/conf.d/server.crt:ro'
+      - './cert/ssl.jamashita.dev.key:/etc/nginx/conf.d/server.key:ro'
     links:
       - 'veau'
   veau:
