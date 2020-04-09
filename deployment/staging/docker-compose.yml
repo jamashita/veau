@@ -7,8 +7,8 @@ services:
       MYSQL_ROOT_PASSWORD: 'veau'
       MYSQL_DATABASE: 'veau'
     volumes:
-      - '$PWD/mysql/cnf:/etc/mysql/conf.d'
-      - '$PWD/mysql/initdata:/docker-entrypoint-initdb.d'
+      - './mysql/cnf:/etc/mysql/conf.d'
+      - './mysql/initdata:/docker-entrypoint-initdb.d'
   veau_redis:
     container_name: 'veau_redis'
     image: 'redis:5.0.4-alpine'
@@ -18,14 +18,14 @@ services:
     ports:
       - '443:443'
     volumes:
-      - '$PWD/nginx/veau.conf:/etc/nginx/conf.d/veau.conf'
-      - '$PWD/cert/ssl.jamashita.dev.crt:/etc/nginx/conf.d/server.crt'
-      - '$PWD/cert/ssl.jamashita.dev.key:/etc/nginx/conf.d/server.key'
+      - './nginx/veau.conf:/etc/nginx/conf.d/veau.conf'
+      - './cert/ssl.jamashita.dev.crt:/etc/nginx/conf.d/server.crt'
+      - './cert/ssl.jamashita.dev.key:/etc/nginx/conf.d/server.key'
     links:
       - 'veau'
   veau:
     container_name: 'veau'
-    image: 'gcr.io/veau-229916/veau:1.2.0'
+    image: 'gcr.io/veau-229916/veau:1.6.3'
     environment:
       NODE_ENV: 'staging'
     ports:
