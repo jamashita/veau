@@ -4,13 +4,16 @@ import { ACTION, Action } from '../actions/Action';
 
 const initialState: StatsOutlines = StatsOutlines.empty();
 
-export const statsOutlines: Reducer<StatsOutlines, Action> = (state: StatsOutlines = initialState, action: Action) => {
+export const statsOutlines: Reducer<StatsOutlines, Action> = (
+  state: StatsOutlines = initialState,
+  action: Action
+) => {
   switch (action.type) {
     case ACTION.STATS_OUTLINE_UPDATE: {
       return action.statsOutlines;
     }
     case ACTION.STATS_OUTLINE_RESET: {
-      return StatsOutlines.of([]);
+      return StatsOutlines.empty();
     }
     default: {
       return state;

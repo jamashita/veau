@@ -9,7 +9,10 @@ const initialState: PageProvider = {
   open: false
 };
 
-export const pageProvider: Reducer<PageProvider, Action> = (state: PageProvider = initialState, action: Action) => {
+export const pageProvider: Reducer<PageProvider, Action> = (
+  state: PageProvider = initialState,
+  action: Action
+) => {
   switch (action.type) {
     case ACTION.LOCATION_CHANGE: {
       return {

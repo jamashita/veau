@@ -29,6 +29,5 @@ export const reducers: Reducer<State, Action> = combineReducers<State, Action>({
   statsItem,
   statsList,
   statsOutlines,
-  // TODO
   router: connectRouter(history) as Reducer<RouterState, Action>
 });

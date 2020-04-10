@@ -1,4 +1,7 @@
-import { RouterState } from 'connected-react-router';
+import {
+  LocationChangeAction as ChangeAction,
+  LocationChangePayload
+} from 'connected-react-router';
 import { Action as ReduxAction } from 'redux';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';
@@ -99,9 +102,9 @@ export enum ACTION {
   STATS_ITEM_RESET = '@@veau/STATS_ITEM_RESET'
 }
 
-export interface LocationChangeAction extends ReduxAction {
+export interface LocationChangeAction extends ChangeAction {
   type: ACTION.LOCATION_CHANGE;
-  payload: RouterState;
+  payload: LocationChangePayload;
 }
 export interface ModalRaiseAction extends ReduxAction {
   type: ACTION.MODAL_RAISE;
