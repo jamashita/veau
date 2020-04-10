@@ -36,7 +36,10 @@ export class LocaleInteractor implements IInteractor {
   }
 
   public async all(): Promise<Try<Locale, NoSuchElementError | DataSourceError>> {
-    const trials: [
+    const [
+      languagesTry,
+      regionsTry
+    ]: [
       Try<Languages, NoSuchElementError | DataSourceError>,
       Try<Regions, NoSuchElementError | DataSourceError>
     ] = await Promise.all<Try<Languages, NoSuchElementError | DataSourceError>, Try<Regions, NoSuchElementError | DataSourceError>>([
@@ -44,21 +47,22 @@ export class LocaleInteractor implements IInteractor {
       this.regionQuery.all()
     ]);
 
-    return trials[0].match<Try<Locale, NoSuchElementError | DataSourceError>>((languages: Languages) => {
-      return trials[1].match<Try<Locale, NoSuchElementError | DataSourceError>>((regions: Regions) => {
+    return languagesTry.match<Try<Locale, NoSuchElementError | DataSourceError>>((languages: Languages) => {
+      return regionsTry.match<Try<Locale, NoSuchElementError | DataSourceError>>((regions: Regions) => {
         return Success.of<Locale, DataSourceError>(Locale.of(languages, regions));
-      }, (err: NoSuchElementError | DataSourceError) => {
-        // TODO
-        return Failure.of<Locale, NoSuchElementError | DataSourceError>(err);
+      }, (err: NoSuchElementError | DataSourceError, self: Failure<Regions, NoSuchElementError | DataSourceError>) => {
+        return self.transpose<Locale>();
       });
-    }, (err: NoSuchElementError | DataSourceError) => {
-      // TODO
-      return Failure.of<Locale, NoSuchElementError | DataSourceError>(err);
+    }, (err: NoSuchElementError | DataSourceError, self: Failure<Languages, NoSuchElementError | DataSourceError>) => {
+      return self.transpose<Locale>();
     });
   }
 
   public async delete(): Promise<Try<void, CacheError | DataSourceError>> {
-    const trials: [
+    const [
+      languagesTry,
+      regionsTry
+    ]: [
       Try<void, CacheError | DataSourceError>,
       Try<void, CacheError | DataSourceError>
     ] = await Promise.all<Try<void, CacheError | DataSourceError>, Try<void, CacheError | DataSourceError>>([
@@ -66,16 +70,14 @@ export class LocaleInteractor implements IInteractor {
       this.regionCommand.deleteAll()
     ]);
 
-    return trials[0].match<Try<void, CacheError | DataSourceError>>(() => {
-      return trials[1].match<Try<void, CacheError | DataSourceError>>(() => {
+    return languagesTry.match<Try<void, CacheError | DataSourceError>>(() => {
+      return regionsTry.match<Try<void, CacheError | DataSourceError>>(() => {
         return Success.of<void, DataSourceError>(undefined);
-      }, (err: CacheError | DataSourceError) => {
-        // TODO
-        return Failure.of<void, CacheError | DataSourceError>(err);
+      }, (err: CacheError | DataSourceError, self: Failure<void, CacheError | DataSourceError>) => {
+        return self;
       });
-    }, (err: CacheError | DataSourceError) => {
-      // TODO
-      return Failure.of<void, CacheError | DataSourceError>(err);
+    }, (err: CacheError | DataSourceError, self: Failure<void, CacheError | DataSourceError>) => {
+      return self;
     });
   }
 }

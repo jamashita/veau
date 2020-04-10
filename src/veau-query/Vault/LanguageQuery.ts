@@ -29,9 +29,8 @@ export class LanguageQuery implements ILanguageQuery, IVaultQuery {
 
     return trial.match<Try<Languages, DataSourceError>>((locale: Locale) => {
       return Success.of<Languages, DataSourceError>(locale.getLanguages());
-    }, (err: DataSourceError) => {
-      // TODO
-      return Failure.of<Languages, DataSourceError>(err);
+    }, (err: DataSourceError, self: Failure<Locale, DataSourceError>) => {
+      return self.transpose<Languages>();
     });
   }
 
@@ -48,9 +47,8 @@ export class LanguageQuery implements ILanguageQuery, IVaultQuery {
       }
 
       return Success.of<Language, DataSourceError>(found);
-    }, (err: NoSuchElementError | DataSourceError) => {
-      // TODO
-      return Failure.of<Language, NoSuchElementError | DataSourceError>(err);
+    }, (err: NoSuchElementError | DataSourceError, self: Failure<Languages, NoSuchElementError | DataSourceError>) => {
+      return self.transpose<Language>();
     });
   }
 }

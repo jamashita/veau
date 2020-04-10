@@ -31,7 +31,7 @@ export class LocaleCommand implements ILocaleCommand, IHeapCommand {
     catch (err) {
       if (err instanceof HeapError) {
         // eslint-disable-next-line @typescript-eslint/return-await
-        return Promise.resolve<Try<void, DataSourceError>>(Failure.of<void, HeapError>(new HeapError('CREATION ERROR')));
+        return Promise.resolve<Try<void, HeapError>>(Failure.of<void, HeapError>(err));
       }
 
       // eslint-disable-next-line @typescript-eslint/return-await

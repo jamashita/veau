@@ -68,8 +68,8 @@ export class StatsUpdateTransaction implements IStatsUpdateTransaction {
         ...statsItemInsertTries,
         ...statsValueInsertTries
       ]);
-    }, (err: DataSourceError) => {
-      return Promise.resolve<Try<unknown, DataSourceError>>(Failure.of<void, DataSourceError>(err));
+    }, (err: DataSourceError, self: Failure<unknown, DataSourceError>) => {
+      return Promise.resolve<Try<unknown, DataSourceError>>(self);
     });
   }
 }

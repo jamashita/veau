@@ -36,7 +36,7 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
 
       const regionJSONs: Array<RegionJSON> = await JSONA.parse<Array<RegionJSON>>(regionString);
 
-      return Success.of<Regions, NoSuchElementError>(Regions.ofJSON(regionJSONs));
+      return Success.of<Regions, DataSourceError>(Regions.ofJSON(regionJSONs));
     }
     catch (err) {
       if (err instanceof RedisError) {
@@ -59,7 +59,7 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
         return Failure.of<Region, NoSuchElementError>(new NoSuchElementError(iso3166.toString()));
       }
 
-      return Success.of<Region, NoSuchElementError | DataSourceError>(found);
+      return Success.of<Region, DataSourceError>(found);
     }, (err: NoSuchElementError | DataSourceError) => {
       return Failure.of<Region, NoSuchElementError | DataSourceError>(err);
     });

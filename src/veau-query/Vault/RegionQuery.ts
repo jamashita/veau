@@ -29,9 +29,8 @@ export class RegionQuery implements IRegionQuery, IVaultQuery {
 
     return trial.match<Try<Regions, DataSourceError>>((locale: Locale) => {
       return Success.of<Regions, DataSourceError>(locale.getRegions());
-    }, (err: DataSourceError) => {
-      // TODO
-      return Failure.of<Regions, DataSourceError>(err);
+    }, (err: DataSourceError, self: Failure<Locale, DataSourceError>) => {
+      return self.transpose<Regions>();
     });
   }
 
@@ -48,9 +47,8 @@ export class RegionQuery implements IRegionQuery, IVaultQuery {
       }
 
       return Success.of<Region, NoSuchElementError>(found);
-    }, (err: NoSuchElementError | DataSourceError) => {
-      // TODO
-      return Failure.of<Region, NoSuchElementError | DataSourceError>(err);
+    }, (err: NoSuchElementError | DataSourceError, self: Failure<Regions, NoSuchElementError | DataSourceError>) => {
+      return self.transpose<Region>();
     });
   }
 }

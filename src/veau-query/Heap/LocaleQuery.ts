@@ -32,7 +32,7 @@ export class LocaleQuery implements ILocaleQuery, IHeapQuery {
     catch (err) {
       if (err instanceof HeapError) {
         // eslint-disable-next-line @typescript-eslint/return-await
-        return Promise.resolve<Try<Locale, DataSourceError>>(Failure.of<Locale, HeapError>(err));
+        return Promise.resolve<Try<Locale, HeapError>>(Failure.of<Locale, HeapError>(err));
       }
 
       // eslint-disable-next-line @typescript-eslint/return-await

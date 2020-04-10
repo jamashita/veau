@@ -40,12 +40,11 @@ export class LocaleQuery implements ILocaleQuery, IVaultQuery {
 
         return trial3.match<Try<Locale, DataSourceError>>(() => {
           return Success.of<Locale, DataSourceError>(locale);
-        }, (err: DataSourceError) => {
-          // TODO
-          return Failure.of<Locale, DataSourceError>(err);
+        }, (err: DataSourceError, self: Failure<void, DataSourceError>) => {
+          return self.transpose<Locale>();
         });
-      }, (err: DataSourceError) => {
-        return Promise.resolve<Try<Locale, DataSourceError>>(Failure.of<Locale, DataSourceError>(err));
+      }, (err: DataSourceError, self: Failure<Locale, DataSourceError>) => {
+        return Promise.resolve<Try<Locale, DataSourceError>>(self);
       });
     });
   }
