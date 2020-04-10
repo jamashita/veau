@@ -344,7 +344,6 @@ const ja: Messages = {
 };
 
 type I18NMessages = Readonly<{
-  // [key: string]: Messages;
   en: Messages;
   fr: Messages;
   es: Messages;

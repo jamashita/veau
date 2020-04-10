@@ -1,11 +1,16 @@
 import { routerMiddleware } from 'connected-react-router';
 import { applyMiddleware, createStore, Middleware, Store } from 'redux';
 import { createLogger } from 'redux-logger';
-import createSagaMiddleware, { SagaMiddleware } from 'redux-saga';
+import { createEpicMiddleware, EpicMiddleware } from 'redux-observable';
+import { vault } from '../veau-container/Container';
+import { TYPE } from '../veau-container/Types';
+import { Action } from './actions/Action';
+import { RootEpic } from './epics/RootEpis';
 import { history } from './history';
 import { reducers } from './reducers/reducer';
+import { State } from './State';
 
-const saga: SagaMiddleware = createSagaMiddleware();
+const epic: EpicMiddleware<Action, Action, State> = createEpicMiddleware<Action, Action, State>();
 const logger: Middleware = createLogger({
   diff: true,
   collapsed: true
@@ -14,8 +19,9 @@ const router: Middleware = routerMiddleware(history);
 
 export const store: Store = createStore(
   reducers,
-  applyMiddleware(saga, logger, router)
+  applyMiddleware(epic, logger, router)
 );
 
-// TODO
-// saga.run(rootSaga.init);
+const rootEpic: RootEpic = vault.get<RootEpic>(TYPE.AccountMySQLQuery);
+
+epic.run(rootEpic.init());
