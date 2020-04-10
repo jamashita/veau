@@ -44,13 +44,11 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
 
         return trial3.match<Try<Languages, DataSourceError>>(() => {
           return Success.of<Languages, DataSourceError>(languages);
-        }, (err: DataSourceError) => {
-          // TODO
-          return Failure.of<Languages, DataSourceError>(err);
+        }, (err: DataSourceError, self: Failure<void, DataSourceError>) => {
+          return self.transpose<Languages>();
         });
-      }, (err: NoSuchElementError | DataSourceError) => {
-        // TODO
-        return Promise.resolve<Try<Languages, NoSuchElementError | DataSourceError>>(Failure.of<Languages, NoSuchElementError | DataSourceError>(err));
+      }, (err: NoSuchElementError | DataSourceError, self: Failure<Languages, NoSuchElementError | DataSourceError>) => {
+        return Promise.resolve<Try<Languages, NoSuchElementError | DataSourceError>>(self);
       });
     });
   }
@@ -68,9 +66,8 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
       }
 
       return Success.of<Language, DataSourceError>(found);
-    }, (err: NoSuchElementError | DataSourceError) => {
-      // TODO
-      return Failure.of<Language, NoSuchElementError | DataSourceError>(err);
+    }, (err: NoSuchElementError | DataSourceError, self: Failure<Languages, NoSuchElementError | DataSourceError>) => {
+      return self.transpose<Language>();
     });
   }
 }
