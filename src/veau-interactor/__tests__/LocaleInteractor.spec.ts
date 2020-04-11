@@ -40,11 +40,11 @@ describe('LocaleInteractor',  () => {
 
   describe('all', () => {
     it('normal case', async () => {
-      const languages: Languages = Languages.of([
+      const languages: Languages = Languages.ofArray([
         Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
         Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
       ]);
-      const regions: Regions = Regions.of([
+      const regions: Regions = Regions.ofArray([
         Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
         Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB'))
       ]);
@@ -69,7 +69,7 @@ describe('LocaleInteractor',  () => {
     });
 
     it('LanguageQuery.all returns Failure by NoSuchElementError', async () => {
-      const regions: Regions = Regions.of([
+      const regions: Regions = Regions.ofArray([
         Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
         Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB'))
       ]);
@@ -103,7 +103,7 @@ describe('LocaleInteractor',  () => {
     });
 
     it('LanguageQuery.all returns Failure by DataSourceError', async () => {
-      const regions: Regions = Regions.of([
+      const regions: Regions = Regions.ofArray([
         Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
         Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB'))
       ]);
@@ -137,7 +137,7 @@ describe('LocaleInteractor',  () => {
     });
 
     it('RegionQuery.all returns Failure by NoSuchElementError', async () => {
-      const languages: Languages = Languages.of([
+      const languages: Languages = Languages.ofArray([
         Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
         Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
       ]);
@@ -171,7 +171,7 @@ describe('LocaleInteractor',  () => {
     });
 
     it('RegionQuery.all returns Failure by NoSuchElementError', async () => {
-      const languages: Languages = Languages.of([
+      const languages: Languages = Languages.ofArray([
         Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
         Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
       ]);

@@ -61,8 +61,8 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
         return region.getISO3166().equals(iso3166);
       });
 
-      return optional.toTry().match<Try<Region, NoSuchElementError>>((region: Region) => {
-        return Success.of<Region, NoSuchElementError>(region);
+      return optional.toTry().match<Try<Region, NoSuchElementError | DataSourceError>>((region: Region) => {
+        return Success.of<Region, DataSourceError>(region);
       }, () => {
         return Failure.of<Region, NoSuchElementError>(new NoSuchElementError(iso3166.toString()));
       });

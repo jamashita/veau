@@ -32,7 +32,7 @@ describe('LanguageQuery', () => {
 
   describe('all', () => {
     it('LanguageRedisQuery returns Success', async () => {
-      const languages: Languages = Languages.of([
+      const languages: Languages = Languages.ofArray([
         Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
         Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
       ]);
@@ -52,7 +52,7 @@ describe('LanguageQuery', () => {
     });
 
     it('LanguageMySQLQuery returns Success', async () => {
-      const languages: Languages = Languages.of([
+      const languages: Languages = Languages.ofArray([
         Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
         Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
       ]);
@@ -106,7 +106,7 @@ describe('LanguageQuery', () => {
     });
 
     it('LanguageCommand returns Failure', async () => {
-      const languages: Languages = Languages.of([
+      const languages: Languages = Languages.ofArray([
         Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
         Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
       ]);
@@ -144,7 +144,7 @@ describe('LanguageQuery', () => {
 
   describe('findByISO639', () => {
     it('normal case', async () => {
-      const languages: Languages = Languages.of([
+      const languages: Languages = Languages.ofArray([
         Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
         Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
       ]);
@@ -192,7 +192,7 @@ describe('LanguageQuery', () => {
     });
 
     it('no match results', async () => {
-      const languages: Languages = Languages.of([
+      const languages: Languages = Languages.ofArray([
         Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
         Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
       ]);

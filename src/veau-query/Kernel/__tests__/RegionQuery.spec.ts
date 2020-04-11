@@ -32,7 +32,7 @@ describe('RegionQuery', () => {
 
   describe('all', () => {
     it('RegionRedisQuery returns Success', async () => {
-      const regions: Regions = Regions.of([
+      const regions: Regions = Regions.ofArray([
         Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
         Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB'))
       ]);
@@ -52,7 +52,7 @@ describe('RegionQuery', () => {
     });
 
     it('RegionMySQLQuery returns Success', async () => {
-      const regions: Regions = Regions.of([
+      const regions: Regions = Regions.ofArray([
         Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
         Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB'))
       ]);
@@ -109,7 +109,7 @@ describe('RegionQuery', () => {
     });
 
     it('RegionCommand returns Failure', async () => {
-      const regions: Regions = Regions.of([
+      const regions: Regions = Regions.ofArray([
         Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
         Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB'))
       ]);
@@ -147,7 +147,7 @@ describe('RegionQuery', () => {
 
   describe('findByISO3166', () => {
     it('normal case', async () => {
-      const regions: Regions = Regions.of([
+      const regions: Regions = Regions.ofArray([
         Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
         Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB'))
       ]);
@@ -195,7 +195,7 @@ describe('RegionQuery', () => {
     });
 
     it('no match results', async () => {
-      const regions: Regions = Regions.of([
+      const regions: Regions = Regions.ofArray([
         Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
         Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB'))
       ]);
