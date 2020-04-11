@@ -30,7 +30,7 @@ describe('LanguageCommand', () => {
 
   describe('insertAll', () => {
     it('normal case', async () => {
-      const languages: Languages = Languages.of([
+      const languages: Languages = Languages.ofArray([
         Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english 1'), ISO639.of('aa'))
       ]);
 
@@ -54,7 +54,7 @@ describe('LanguageCommand', () => {
     });
 
     it('returns Failure because the client throws RedisError by MockRedisString.set', async () => {
-      const languages: Languages = Languages.of([
+      const languages: Languages = Languages.ofArray([
         Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english 1'), ISO639.of('aa'))
       ]);
 
@@ -87,7 +87,7 @@ describe('LanguageCommand', () => {
     });
 
     it('returns Failure because the client throws RedisError by MockRedis.expires', async () => {
-      const languages: Languages = Languages.of([
+      const languages: Languages = Languages.ofArray([
         Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english 1'), ISO639.of('aa'))
       ]);
 
@@ -120,7 +120,7 @@ describe('LanguageCommand', () => {
     });
 
     it('throws Error', async () => {
-      const languages: Languages = Languages.of([
+      const languages: Languages = Languages.ofArray([
         Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english 1'), ISO639.of('aa'))
       ]);
 

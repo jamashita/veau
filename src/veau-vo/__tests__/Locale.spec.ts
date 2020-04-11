@@ -13,47 +13,47 @@ import { Regions } from '../Regions';
 describe('Locale', () => {
   describe('equals', () => {
     it('returns true if languages and regions are the same', () => {
-      const languages1: Languages = Languages.of([
+      const languages1: Languages = Languages.ofArray([
         Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa')),
         Language.of(LanguageID.of(2), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
       ]);
-      const regions1: Regions = Regions.of([
+      const regions1: Regions = Regions.ofArray([
         Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb')),
         Region.of(RegionID.of(2), RegionName.of('region'), ISO3166.of('bb'))
       ]);
       const locale1: Locale = Locale.of(languages1, regions1);
 
-      const languages2: Languages = Languages.of([
+      const languages2: Languages = Languages.ofArray([
         Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
       ]);
-      const regions2: Regions = Regions.of([
+      const regions2: Regions = Regions.ofArray([
         Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb')),
         Region.of(RegionID.of(2), RegionName.of('region'), ISO3166.of('bb'))
       ]);
       const locale2: Locale = Locale.of(languages2, regions2);
 
-      const languages3: Languages = Languages.of([
+      const languages3: Languages = Languages.ofArray([
         Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa')),
         Language.of(LanguageID.of(2), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
       ]);
-      const regions3: Regions = Regions.of([
+      const regions3: Regions = Regions.ofArray([
         Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb'))
       ]);
       const locale3: Locale = Locale.of(languages3, regions3);
 
-      const languages4: Languages = Languages.of([
+      const languages4: Languages = Languages.ofArray([
         Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
       ]);
-      const regions4: Regions = Regions.of([
+      const regions4: Regions = Regions.ofArray([
         Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb'))
       ]);
       const locale4: Locale = Locale.of(languages4, regions4);
 
-      const languages5: Languages = Languages.of([
+      const languages5: Languages = Languages.ofArray([
         Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa')),
         Language.of(LanguageID.of(2), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
       ]);
-      const regions5: Regions = Regions.of([
+      const regions5: Regions = Regions.ofArray([
         Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb')),
         Region.of(RegionID.of(2), RegionName.of('region'), ISO3166.of('bb'))
       ]);
@@ -130,11 +130,11 @@ describe('Locale', () => {
       const language2: Language = Language.of(LanguageID.of(id2), LanguageName.of(name2), LanguageName.of(englishName2), ISO639.of(iso6392));
       const region1: Region = Region.of(RegionID.of(id3), RegionName.of(name3), ISO3166.of(iso31661));
       const region2: Region = Region.of(RegionID.of(id4), RegionName.of(name4), ISO3166.of(iso31662));
-      const languages: Languages = Languages.of([
+      const languages: Languages = Languages.ofArray([
         language1,
         language2
       ]);
-      const regions: Regions = Regions.of([
+      const regions: Regions = Regions.ofArray([
         region1,
         region2
       ]);

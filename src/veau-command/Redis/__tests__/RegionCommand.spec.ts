@@ -30,7 +30,7 @@ describe('RegionCommand', () => {
 
   describe('insertAll', () => {
     it('normal case', async () => {
-      const regions: Regions = Regions.of([
+      const regions: Regions = Regions.ofArray([
         Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abc'))
       ]);
 
@@ -54,7 +54,7 @@ describe('RegionCommand', () => {
     });
 
     it('returns Failure because the client throws RedisError by MockRedisString.set', async () => {
-      const regions: Regions = Regions.of([
+      const regions: Regions = Regions.ofArray([
         Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abc'))
       ]);
 
@@ -87,7 +87,7 @@ describe('RegionCommand', () => {
     });
 
     it('returns Failure because the client throws RedisError by MockRedis.expires', async () => {
-      const regions: Regions = Regions.of([
+      const regions: Regions = Regions.ofArray([
         Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abc'))
       ]);
 
@@ -120,7 +120,7 @@ describe('RegionCommand', () => {
     });
 
     it('throws Error', async () => {
-      const regions: Regions = Regions.of([
+      const regions: Regions = Regions.ofArray([
         Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abc'))
       ]);
 

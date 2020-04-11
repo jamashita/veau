@@ -53,7 +53,7 @@ describe('Stats', () => {
         StatsName.of('name2'),
         StatsUnit.of('unit2'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
+        StatsItems.ofArray([
           StatsItem.of(
             StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
             StatsItemName.of('stats1'),
@@ -69,7 +69,7 @@ describe('Stats', () => {
         StatsName.of('name2'),
         StatsUnit.of('unit2'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
+        StatsItems.ofArray([
           StatsItem.of(
             StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
             StatsItemName.of('stats1'),
@@ -94,7 +94,7 @@ describe('Stats', () => {
         StatsName.of('name'),
         StatsUnit.of('unit'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
+        StatsItems.ofArray([
           StatsItem.of(
             StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
             StatsItemName.of('stats'),
@@ -110,7 +110,7 @@ describe('Stats', () => {
         StatsName.of('name'),
         StatsUnit.of('unit'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
+        StatsItems.ofArray([
           StatsItem.of(
             StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
             StatsItemName.of('stats'),
@@ -126,7 +126,7 @@ describe('Stats', () => {
         StatsName.of('name'),
         StatsUnit.of('unit'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
+        StatsItems.ofArray([
           StatsItem.of(
             StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
             StatsItemName.of('stats'),
@@ -142,7 +142,7 @@ describe('Stats', () => {
         StatsName.of('name'),
         StatsUnit.of('unit'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
+        StatsItems.ofArray([
           StatsItem.of(
             StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
             StatsItemName.of('stats'),
@@ -158,7 +158,7 @@ describe('Stats', () => {
         StatsName.of('name'),
         StatsUnit.of('unit'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
+        StatsItems.ofArray([
           StatsItem.of(
             StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
             StatsItemName.of('stats'),
@@ -174,7 +174,7 @@ describe('Stats', () => {
         StatsName.of('namae'),
         StatsUnit.of('unit'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
+        StatsItems.ofArray([
           StatsItem.of(
             StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
             StatsItemName.of('stats'),
@@ -190,7 +190,7 @@ describe('Stats', () => {
         StatsName.of('name'),
         StatsUnit.of('unito'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
+        StatsItems.ofArray([
           StatsItem.of(
             StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
             StatsItemName.of('stats'),
@@ -206,7 +206,7 @@ describe('Stats', () => {
         StatsName.of('name'),
         StatsUnit.of('unit'),
         UpdatedAt.ofString('2000-01-02 03:04:05').get(),
-        StatsItems.of([
+        StatsItems.ofArray([
           StatsItem.of(
             StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
             StatsItemName.of('stats'),
@@ -222,7 +222,7 @@ describe('Stats', () => {
         StatsName.of('name'),
         StatsUnit.of('unit'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
+        StatsItems.ofArray([
         ])
       );
       const stats10: Stats = Stats.of(
@@ -233,7 +233,7 @@ describe('Stats', () => {
         StatsName.of('name'),
         StatsUnit.of('unit'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
+        StatsItems.ofArray([
           StatsItem.of(
             StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ee').get(),
             StatsItemName.of('stats'),
@@ -249,7 +249,7 @@ describe('Stats', () => {
         StatsName.of('name'),
         StatsUnit.of('unit'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
+        StatsItems.ofArray([
           StatsItem.of(
             StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
             StatsItemName.of('statsu'),
@@ -265,11 +265,11 @@ describe('Stats', () => {
         StatsName.of('name'),
         StatsUnit.of('unit'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
+        StatsItems.ofArray([
           StatsItem.of(
             StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
             StatsItemName.of('stats'),
-            StatsValues.of([StatsValue.of(StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(2))])
+            StatsValues.ofArray([StatsValue.of(StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(2))])
           )
         ])
       );
@@ -281,7 +281,7 @@ describe('Stats', () => {
         StatsName.of('name'),
         StatsUnit.of('unit'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
+        StatsItems.ofArray([
           StatsItem.of(
             StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
             StatsItemName.of('stats'),
@@ -297,7 +297,7 @@ describe('Stats', () => {
         StatsName.of('name'),
         StatsUnit.of('unit'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
+        StatsItems.ofArray([
           StatsItem.of(
             StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
             StatsItemName.of('stats'),
@@ -314,7 +314,7 @@ describe('Stats', () => {
         StatsName.of('name'),
         StatsUnit.of('unit'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
+        StatsItems.ofArray([
           StatsItem.of(
             StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
             StatsItemName.of('stats'),
@@ -331,7 +331,7 @@ describe('Stats', () => {
         StatsName.of('name'),
         StatsUnit.of('unit'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
+        StatsItems.ofArray([
           StatsItem.of(
             StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
             StatsItemName.of('stats'),
@@ -367,7 +367,7 @@ describe('Stats', () => {
     it('normal case', () => {
       const statsID: StatsID = StatsID.ofString('bfb0ebff-fc8c-450e-9265-82fa4938ae94').get();
       const statsItemID: StatsItemID = StatsItemID.ofString('2e787bad-6727-47d0-af9a-9c8189342a50').get();
-      const statsItem: StatsItem = StatsItem.of(statsItemID, StatsItemName.of('stats1'), StatsValues.of([StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(10))]));
+      const statsItem: StatsItem = StatsItem.of(statsItemID, StatsItemName.of('stats1'), StatsValues.ofArray([StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(10))]));
       const stats: Stats = Stats.of(
         statsID,
         Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('englishname1'), ISO639.of('lang1')),
@@ -376,7 +376,7 @@ describe('Stats', () => {
         StatsName.of('name1'),
         StatsUnit.of('unit1'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
+        StatsItems.ofArray([
           statsItem
         ])
       );
@@ -427,7 +427,7 @@ describe('Stats', () => {
       const unit: string = 'unit1';
       const statsID: StatsID = StatsID.ofString(id1).get();
       const statsItemID: StatsItemID = StatsItemID.ofString(id2).get();
-      const statsItem: StatsItem = StatsItem.of(statsItemID, StatsItemName.of(name1), StatsValues.of([StatsValue.of(statsItemID, AsOf.ofString(at1).get(), NumericalValue.of(value1))]));
+      const statsItem: StatsItem = StatsItem.of(statsItemID, StatsItemName.of(name1), StatsValues.ofArray([StatsValue.of(statsItemID, AsOf.ofString(at1).get(), NumericalValue.of(value1))]));
       const stats: Stats = Stats.of(
         statsID,
         Language.default(),
@@ -436,7 +436,7 @@ describe('Stats', () => {
         StatsName.of(name2),
         StatsUnit.of(unit),
         UpdatedAt.ofString(at2).get(),
-        StatsItems.of([
+        StatsItems.ofArray([
           statsItem
         ])
       );
@@ -455,18 +455,18 @@ describe('Stats', () => {
         StatsName.of('stats1'),
         StatsUnit.of('unit1'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
+        StatsItems.ofArray([
           StatsItem.of(
             StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(),
             StatsItemName.of('stats item 1'),
-            StatsValues.of([
+            StatsValues.ofArray([
               StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1)),
               StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(2))
             ])),
           StatsItem.of(
             StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(),
             StatsItemName.of('stats item 2'),
-            StatsValues.of([
+            StatsValues.ofArray([
               StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(2)),
               StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-02').get(), NumericalValue.of(4)),
               StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-05').get(), NumericalValue.of(6))
@@ -494,12 +494,12 @@ describe('Stats', () => {
         StatsName.of('stats1'),
         StatsUnit.of('unit1'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
-          StatsItem.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), StatsItemName.of('stats item 1'), StatsValues.of([
+        StatsItems.ofArray([
+          StatsItem.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), StatsItemName.of('stats item 1'), StatsValues.ofArray([
             StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1)),
             StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(2))
           ])),
-          StatsItem.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), StatsItemName.of('stats item 2'), StatsValues.of([
+          StatsItem.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), StatsItemName.of('stats item 2'), StatsValues.ofArray([
             StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(2)),
             StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-02').get(), NumericalValue.of(4)),
             StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-05').get(), NumericalValue.of(6))
@@ -531,7 +531,7 @@ describe('Stats', () => {
         StatsName.of('stats1'),
         StatsUnit.of('unit1'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
+        StatsItems.ofArray([
         ])
       );
 
@@ -549,12 +549,12 @@ describe('Stats', () => {
         StatsName.of('stats1'),
         StatsUnit.of('unit1'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
-          StatsItem.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), StatsItemName.of('stats item 1'), StatsValues.of([
+        StatsItems.ofArray([
+          StatsItem.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), StatsItemName.of('stats item 1'), StatsValues.ofArray([
             StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1)),
             StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(2))
           ])),
-          StatsItem.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), StatsItemName.of('stats item 2'), StatsValues.of([
+          StatsItem.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), StatsItemName.of('stats item 2'), StatsValues.ofArray([
             StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(2)),
             StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-02').get(), NumericalValue.of(4)),
             StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-05').get(), NumericalValue.of(6))
@@ -573,11 +573,11 @@ describe('Stats', () => {
   });
 
   describe('getRow', () => {
-    const statsItem1: StatsItem = StatsItem.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), StatsItemName.of('stats item 1'), StatsValues.of([
+    const statsItem1: StatsItem = StatsItem.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), StatsItemName.of('stats item 1'), StatsValues.ofArray([
       StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1)),
       StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(2))
     ]));
-    const statsItem2: StatsItem = StatsItem.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), StatsItemName.of('stats item 2'), StatsValues.of([
+    const statsItem2: StatsItem = StatsItem.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), StatsItemName.of('stats item 2'), StatsValues.ofArray([
       StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(2)),
       StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-02').get(), NumericalValue.of(4)),
       StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-05').get(), NumericalValue.of(6))
@@ -591,7 +591,7 @@ describe('Stats', () => {
       StatsName.of('stats1'),
       StatsUnit.of('unit1'),
       UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-      StatsItems.of([
+      StatsItems.ofArray([
         statsItem1,
         statsItem2
       ])
@@ -611,12 +611,12 @@ describe('Stats', () => {
         StatsName.of('stats1'),
         StatsUnit.of('unit1'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
-          StatsItem.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), StatsItemName.of('stats item 1'), StatsValues.of([
+        StatsItems.ofArray([
+          StatsItem.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), StatsItemName.of('stats item 1'), StatsValues.ofArray([
             StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1)),
             StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(2))
           ])),
-          StatsItem.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), StatsItemName.of('stats item 2'), StatsValues.of([
+          StatsItem.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), StatsItemName.of('stats item 2'), StatsValues.ofArray([
             StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(2)),
             StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-02').get(), NumericalValue.of(4)),
             StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-05').get(), NumericalValue.of(6))
@@ -641,12 +641,12 @@ describe('Stats', () => {
         StatsName.of('stats1'),
         StatsUnit.of('unit1'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
-          StatsItem.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), StatsItemName.of('stats item 1'), StatsValues.of([
+        StatsItems.ofArray([
+          StatsItem.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), StatsItemName.of('stats item 1'), StatsValues.ofArray([
             StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1)),
             StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(2))
           ])),
-          StatsItem.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), StatsItemName.of('stats item 11'), StatsValues.of([
+          StatsItem.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), StatsItemName.of('stats item 11'), StatsValues.ofArray([
             StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(2)),
             StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-02').get(), NumericalValue.of(4)),
             StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-05').get(), NumericalValue.of(6))
@@ -666,7 +666,7 @@ describe('Stats', () => {
         StatsName.of('stats1'),
         StatsUnit.of('unit1'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
+        StatsItems.ofArray([
         ])
       );
 
@@ -684,12 +684,12 @@ describe('Stats', () => {
         StatsName.of('stats1'),
         StatsUnit.of('unit1'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
-          StatsItem.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), StatsItemName.of('stats item 1'), StatsValues.of([
+        StatsItems.ofArray([
+          StatsItem.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), StatsItemName.of('stats item 1'), StatsValues.ofArray([
             StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1)),
             StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(2))
           ])),
-          StatsItem.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), StatsItemName.of('stats item 2'), StatsValues.of([
+          StatsItem.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), StatsItemName.of('stats item 2'), StatsValues.ofArray([
             StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(2)),
             StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-02').get(), NumericalValue.of(4)),
             StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-05').get(), NumericalValue.of(6))
@@ -744,10 +744,10 @@ describe('Stats', () => {
     });
 
     it('stats is filled but statsItems are invalid', () => {
-      const stats1: Stats = Stats.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01 10:10:10').get(), StatsItems.of([
+      const stats1: Stats = Stats.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01 10:10:10').get(), StatsItems.ofArray([
         StatsItem.of(StatsItemID.ofString('4905faa8-0b6d-4032-9788-704c2703a5c9').get(), StatsItemName.default(), StatsValues.empty())
       ]));
-      const stats2: Stats = Stats.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01 11:11:11').get(), StatsItems.of([
+      const stats2: Stats = Stats.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01 11:11:11').get(), StatsItems.ofArray([
         StatsItem.of(StatsItemID.ofString('4905faa8-0b6d-4032-9788-704c2703a5c9').get(), StatsItemName.of('name1'), StatsValues.empty())
       ]));
 
@@ -757,10 +757,10 @@ describe('Stats', () => {
 
     it('stats and their items are filled', () => {
       const stats1: Stats = Stats.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01 08:08:08').get(), StatsItems.empty());
-      const stats2: Stats = Stats.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01 09:09:09').get(), StatsItems.of([
+      const stats2: Stats = Stats.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01 09:09:09').get(), StatsItems.ofArray([
         StatsItem.of(StatsItemID.ofString('4905faa8-0b6d-4032-9788-704c2703a5c9').get(), StatsItemName.of('name'), StatsValues.empty())
       ]));
-      const stats3: Stats = Stats.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01 10:10:10').get(), StatsItems.of([
+      const stats3: Stats = Stats.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01 10:10:10').get(), StatsItems.ofArray([
         StatsItem.of(StatsItemID.ofString('4905faa8-0b6d-4032-9788-704c2703a5c9').get(), StatsItemName.of('name1'), StatsValues.empty()),
         StatsItem.of(StatsItemID.ofString('4905faa8-0b6d-4032-9788-704c2703a5c9').get(), StatsItemName.of('name2'), StatsValues.empty())
       ]));
@@ -773,8 +773,8 @@ describe('Stats', () => {
 
   describe('setData', () => {
     it('update pattern', () => {
-      const stats: Stats = Stats.of(StatsID.ofString('14351289-d8ce-48cd-8ef9-ac1b356c9233').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01 06:06:06').get(), StatsItems.of([
-        StatsItem.of(StatsItemID.ofString('bf04b0fa-ed4d-4114-84a3-c963871dfe06').get(), StatsItemName.of('item1'), StatsValues.of([
+      const stats: Stats = Stats.of(StatsID.ofString('14351289-d8ce-48cd-8ef9-ac1b356c9233').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01 06:06:06').get(), StatsItems.ofArray([
+        StatsItem.of(StatsItemID.ofString('bf04b0fa-ed4d-4114-84a3-c963871dfe06').get(), StatsItemName.of('item1'), StatsValues.ofArray([
           StatsValue.of(StatsItemID.ofString('bf04b0fa-ed4d-4114-84a3-c963871dfe06').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1)),
           StatsValue.of(StatsItemID.ofString('bf04b0fa-ed4d-4114-84a3-c963871dfe06').get(), AsOf.ofString('2000-01-02').get(), NumericalValue.of(2))
         ]))
@@ -790,8 +790,8 @@ describe('Stats', () => {
     });
 
     it('insert pattern', () => {
-      const stats: Stats = Stats.of(StatsID.ofString('14351289-d8ce-48cd-8ef9-ac1b356c9233').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01 05:05:05').get(), StatsItems.of([
-        StatsItem.of(StatsItemID.ofString('bf04b0fa-ed4d-4114-84a3-c963871dfe06').get(), StatsItemName.of('item1'), StatsValues.of([
+      const stats: Stats = Stats.of(StatsID.ofString('14351289-d8ce-48cd-8ef9-ac1b356c9233').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01 05:05:05').get(), StatsItems.ofArray([
+        StatsItem.of(StatsItemID.ofString('bf04b0fa-ed4d-4114-84a3-c963871dfe06').get(), StatsItemName.of('item1'), StatsValues.ofArray([
           StatsValue.of(StatsItemID.ofString('bf04b0fa-ed4d-4114-84a3-c963871dfe06').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1)),
           StatsValue.of(StatsItemID.ofString('bf04b0fa-ed4d-4114-84a3-c963871dfe06').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(3))
         ]))
@@ -819,11 +819,11 @@ describe('Stats', () => {
         StatsName.of('stats1'),
         StatsUnit.of('unit1'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
+        StatsItems.ofArray([
           StatsItem.of(
             StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(),
             StatsItemName.of('stats1'),
-            StatsValues.of([
+            StatsValues.ofArray([
               StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1)),
               StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(2))
             ])
@@ -831,7 +831,7 @@ describe('Stats', () => {
           StatsItem.of(
             StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(),
             StatsItemName.of('stats2'),
-            StatsValues.of([
+            StatsValues.ofArray([
               StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(2)),
               StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-02').get(), NumericalValue.of(4)),
               StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-05').get(), NumericalValue.of(6))
@@ -887,13 +887,13 @@ describe('Stats', () => {
         StatsName.of('stats1'),
         StatsUnit.of('unit1'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
+        StatsItems.ofArray([
           StatsItem.of(
-            StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), StatsItemName.of('stats1'), StatsValues.of([
+            StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), StatsItemName.of('stats1'), StatsValues.ofArray([
             StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1)),
             StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(2))
           ])),
-          StatsItem.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), StatsItemName.of('stats2'), StatsValues.of([
+          StatsItem.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), StatsItemName.of('stats2'), StatsValues.ofArray([
             StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-02').get(), NumericalValue.of(12)),
             StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(13)),
             StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-04').get(), NumericalValue.of(14))
@@ -921,8 +921,8 @@ describe('Stats', () => {
       const name: StatsName = StatsName.of('name1');
       const unit: StatsUnit = StatsUnit.of('unit1');
       const updatedAt: UpdatedAt = UpdatedAt.ofString('2000-01-01 03:03:03').get();
-      const items: StatsItems = StatsItems.of([
-        StatsItem.of(StatsItemID.ofString('c4c9d345-251b-4397-9c54-0b38dc735dee').get(), StatsItemName.of('stats1'), StatsValues.of([
+      const items: StatsItems = StatsItems.ofArray([
+        StatsItem.of(StatsItemID.ofString('c4c9d345-251b-4397-9c54-0b38dc735dee').get(), StatsItemName.of('stats1'), StatsValues.ofArray([
           StatsValue.of(StatsItemID.ofString('c4c9d345-251b-4397-9c54-0b38dc735dee').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1))
         ])),
       ]);
@@ -940,7 +940,7 @@ describe('Stats', () => {
       const name: StatsName = StatsName.of('name1');
       const unit: StatsUnit = StatsUnit.of('unit1');
       const updatedAt: UpdatedAt = UpdatedAt.ofString('2000-01-01 00:00:00').get();
-      const items: StatsItems = StatsItems.of([
+      const items: StatsItems = StatsItems.ofArray([
       ]);
 
       const stats: Stats = Stats.of(statsID, language, region, term, name, unit, updatedAt, items, Some.of<AsOf>(AsOf.ofString('2000-01-01').get()));
@@ -956,7 +956,7 @@ describe('Stats', () => {
       const name: StatsName = StatsName.of('name1');
       const unit: StatsUnit = StatsUnit.of('unit1');
       const updatedAt: UpdatedAt = UpdatedAt.ofString('2000-01-01 00:00:00').get();
-      const items: StatsItems = StatsItems.of([
+      const items: StatsItems = StatsItems.ofArray([
       ]);
 
       const stats: Stats = Stats.of(statsID, language, region, term, name, unit, updatedAt, items);
@@ -974,7 +974,7 @@ describe('Stats', () => {
       const name: StatsName = StatsName.of('name1');
       const unit: StatsUnit = StatsUnit.of('unit1');
       const updatedAt: UpdatedAt = UpdatedAt.ofString('2000-01-01 02:02:02').get();
-      const items: StatsItems = StatsItems.of([
+      const items: StatsItems = StatsItems.ofArray([
         StatsItem.of(StatsItemID.ofString('a28eceac-0451-4339-b1c5-0c298b3905f6').get(), StatsItemName.of('stats1'), StatsValues.empty())
       ]);
 
@@ -1087,7 +1087,7 @@ describe('Stats', () => {
         StatsItem.of(
           StatsItemID.ofString('610b532b-5711-461a-b44a-7387e8d08596').get(),
           StatsItemName.of('stats item1'),
-          StatsValues.of([
+          StatsValues.ofArray([
             StatsValue.of(StatsItemID.ofString('610b532b-5711-461a-b44a-7387e8d08596').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1)),
             StatsValue.of(StatsItemID.ofString('610b532b-5711-461a-b44a-7387e8d08596').get(), AsOf.ofString('2000-01-02').get(), NumericalValue.of(2))
           ])
@@ -1095,12 +1095,12 @@ describe('Stats', () => {
         StatsItem.of(
           StatsItemID.ofString('530e0e07-654f-4764-a3ac-77ce12a2a5e4').get(),
           StatsItemName.of('stats item2'),
-          StatsValues.of([
+          StatsValues.ofArray([
           ])
         )
       ];
 
-      const trial: Try<Stats, StatsError> = Stats.ofRow(row, StatsItems.of(items));
+      const trial: Try<Stats, StatsError> = Stats.ofRow(row, StatsItems.ofArray(items));
 
       expect(trial.isSuccess()).toEqual(true);
       const stats: Stats = trial.get();

@@ -44,7 +44,7 @@ describe('StatsController', () => {
     it('normal case', async () => {
       const stub: SinonStub = sinon.stub();
       StatsInteractor.prototype.findByVeauAccountID = stub;
-      const outlines: StatsOutlines = StatsOutlines.of([
+      const outlines: StatsOutlines = StatsOutlines.ofArray([
         StatsOutline.of(
           StatsID.ofString('01c466f3-198a-45a4-9204-348ac57b1b5d').get(),
           Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
@@ -136,8 +136,8 @@ describe('StatsController', () => {
         StatsName.of('stats'),
         StatsUnit.of('unit'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.of([
-          StatsItem.of(StatsItemID.ofString('09c2e4a6-6839-4fbe-858e-bf2c4ee7d5e6').get(), StatsItemName.of('stats item'), StatsValues.of([
+        StatsItems.ofArray([
+          StatsItem.of(StatsItemID.ofString('09c2e4a6-6839-4fbe-858e-bf2c4ee7d5e6').get(), StatsItemName.of('stats item'), StatsValues.ofArray([
             StatsValue.of(StatsItemID.ofString('09c2e4a6-6839-4fbe-858e-bf2c4ee7d5e6').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(5))
           ]))
         ])

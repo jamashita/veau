@@ -30,10 +30,10 @@ describe('LocaleController', () => {
       const stub: SinonStub = sinon.stub();
       LocaleInteractor.prototype.all = stub;
       stub.resolves(Success.of<Locale, NoSuchElementError>(Locale.of(
-        Languages.of([
+        Languages.ofArray([
           Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english name'), ISO639.of('la'))
         ]),
-        Regions.of([
+        Regions.ofArray([
           Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('RGN'))
         ])
       )));

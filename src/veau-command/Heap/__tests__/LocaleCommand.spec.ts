@@ -34,14 +34,14 @@ describe('LocaleCommand', () => {
 
   describe('create', () => {
     it('normal case', async () => {
-      const locale: Locale = Locale.of(Languages.of([
+      const locale: Locale = Locale.of(Languages.ofArray([
         Language.of(
           LanguageID.of(1),
           LanguageName.of('language'),
           LanguageName.of('english language'),
           ISO639.of('aa')
         )
-      ]), Regions.of([
+      ]), Regions.ofArray([
         Region.of(
           RegionID.of(2),
           RegionName.of('region'),
@@ -62,14 +62,14 @@ describe('LocaleCommand', () => {
     });
 
     it('returns Failure when Heap throws HeapError', async () => {
-      const locale: Locale = Locale.of(Languages.of([
+      const locale: Locale = Locale.of(Languages.ofArray([
         Language.of(
           LanguageID.of(1),
           LanguageName.of('language'),
           LanguageName.of('english language'),
           ISO639.of('aa')
         )
-      ]), Regions.of([
+      ]), Regions.ofArray([
         Region.of(
           RegionID.of(2),
           RegionName.of('region'),
@@ -100,14 +100,14 @@ describe('LocaleCommand', () => {
     });
 
     it('returns Failure when Heap throws HeapError', async () => {
-      const locale: Locale = Locale.of(Languages.of([
+      const locale: Locale = Locale.of(Languages.ofArray([
         Language.of(
           LanguageID.of(1),
           LanguageName.of('language'),
           LanguageName.of('english language'),
           ISO639.of('aa')
         )
-      ]), Regions.of([
+      ]), Regions.ofArray([
         Region.of(
           RegionID.of(2),
           RegionName.of('region'),
