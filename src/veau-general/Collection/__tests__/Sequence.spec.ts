@@ -270,6 +270,40 @@ describe('Sequence', () => {
     });
   });
 
+  describe('toArray', () => {
+    it('normal case', () => {
+      const noun1: MockNominative<number> = new MockNominative<number>(1);
+      const noun2: MockNominative<number> = new MockNominative<number>(2);
+      const noun3: MockNominative<number> = new MockNominative<number>(3);
+
+      const nouns: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>([
+        noun1,
+        noun2,
+        noun3
+      ]);
+      const array: Array<MockNominative<number>> = nouns.toArray();
+
+      expect(nouns.size()).toEqual(array.length);
+      for (let i: number = 0; i < array.length; i++) {
+        expect(nouns.get(i).get()).toEqual(array[i]);
+      }
+    });
+
+    it('does not return the array itself', () => {
+      const noun1: MockNominative<number> = new MockNominative<number>(1);
+      const noun2: MockNominative<number> = new MockNominative<number>(2);
+      const noun3: MockNominative<number> = new MockNominative<number>(3);
+
+      const elements: Array<MockNominative<number>> = [
+        noun1,
+        noun2,
+        noun3
+      ];
+      const nouns: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>(elements);
+      expect(nouns.toArray()).not.toBe(elements);
+    });
+  });
+
   describe('empty', () => {
     it('always empty, the length is 0', () => {
       const sequence: Sequence<MockNominative<number>> = Sequence.empty();
@@ -277,5 +311,4 @@ describe('Sequence', () => {
       expect(sequence.isEmpty()).toEqual(true);
     });
   });
-
 });
