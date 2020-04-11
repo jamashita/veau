@@ -257,6 +257,52 @@ describe('Sequence', () => {
     });
   });
 
+  describe('screen', () => {
+    it('normal case', () => {
+      const noun1: MockNominative<number> = new MockNominative<number>(1);
+      const noun2: MockNominative<number> = new MockNominative<number>(2);
+      const noun3: MockNominative<number> = new MockNominative<number>(3);
+      const noun4: MockNominative<number> = new MockNominative<number>(2);
+      const noun5: MockNominative<number> = new MockNominative<number>(5);
+
+      const nouns: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>([
+        noun1,
+        noun2,
+        noun3,
+        noun4
+      ]);
+
+      const screen1: Sequence<MockNominative<number>> = nouns.screen((mock: MockNominative<number>) => {
+        if (mock.get() % 2 === 0) {
+          return true;
+        }
+
+        return false;
+      });
+      const screen2: Sequence<MockNominative<number>> = nouns.screen((mock: MockNominative<number>) => {
+        if (mock === noun4) {
+          return true;
+        }
+
+        return false;
+      });
+      const screen3: Sequence<MockNominative<number>> = nouns.screen((mock: MockNominative<number>) => {
+        if (mock === noun5) {
+          return true;
+        }
+
+        return false;
+      });
+
+      expect(screen1.size()).toEqual(2);
+      expect(screen1.get(0).get()).toEqual(noun2);
+      expect(screen1.get(1).get()).toEqual(noun4);
+      expect(screen2.size()).toEqual(1);
+      expect(screen2.get(0).get()).toEqual(noun4);
+      expect(screen3.size()).toEqual(0);
+    });
+  });
+
   describe('equals', () => {
     it('returns false if the length is different', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
