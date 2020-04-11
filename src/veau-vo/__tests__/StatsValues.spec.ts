@@ -7,34 +7,12 @@ import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
 import { AsOf } from '../AsOf';
 import { NumericalValue } from '../NumericalValue';
+import { NumericalValues } from '../NumericalValues';
 import { StatsItemID } from '../StatsItemID';
 import { StatsValue, StatsValueJSON, StatsValueRow } from '../StatsValue';
 import { StatsValues } from '../StatsValues';
 
 describe('StatsValues', () => {
-  describe('[Symbol.iterator]', () => {
-    it('can iterate for loop', () => {
-      const statsItemID: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
-      const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
-      const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
-      const statsValue3: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-03').get(), NumericalValue.of(3));
-
-      const statsValues: StatsValues = StatsValues.of([
-        statsValue1,
-        statsValue2,
-        statsValue3
-      ]);
-
-      let i: number = 0;
-      for (const statsValue of statsValues) {
-        expect(statsValues.get(i).get()).toBe(statsValue);
-        i++;
-      }
-
-      expect(i).toEqual(statsValues.size());
-    });
-  });
-
   describe('get', () => {
     it('returns StatsValue of index-th item', () => {
       const statsItemID: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
@@ -42,7 +20,7 @@ describe('StatsValues', () => {
       const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
       const statsValue3: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-03').get(), NumericalValue.of(3));
 
-      const statsValues: StatsValues = StatsValues.of([
+      const statsValues: StatsValues = StatsValues.ofArray([
         statsValue1,
         statsValue2,
         statsValue3
@@ -69,7 +47,7 @@ describe('StatsValues', () => {
       const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
       const statsValue3: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-03').get(), NumericalValue.of(3));
 
-      const statsValues: StatsValues = StatsValues.of([
+      const statsValues: StatsValues = StatsValues.ofArray([
         statsValue1,
         statsValue2,
         statsValue3
@@ -88,7 +66,7 @@ describe('StatsValues', () => {
       const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
       const statsValue3: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-03').get(), NumericalValue.of(3));
 
-      const statsValues: StatsValues = StatsValues.of([
+      const statsValues: StatsValues = StatsValues.ofArray([
         statsValue1,
         statsValue3
       ]);
@@ -109,7 +87,7 @@ describe('StatsValues', () => {
       const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
       const statsValue3: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-03').get(), NumericalValue.of(3));
 
-      const statsValues: StatsValues = StatsValues.of([
+      const statsValues: StatsValues = StatsValues.ofArray([
         statsValue1,
         statsValue2,
         statsValue3
@@ -129,15 +107,16 @@ describe('StatsValues', () => {
       const value2: NumericalValue = NumericalValue.of(3);
       const statsItemID: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
 
-      const statsValues: StatsValues = StatsValues.of([
+      const statsValues: StatsValues = StatsValues.ofArray([
         StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), value1),
         StatsValue.of(statsItemID, AsOf.ofString('2000-01-03').get(), value2)
       ]);
-
-      expect(statsValues.getValues()).toEqual([
+      const vallues: NumericalValues = NumericalValues.ofArray([
         value1,
         value2
       ]);
+
+      expect(statsValues.getValues().equals(vallues)).toEqual(true);
     });
   });
 
@@ -147,7 +126,7 @@ describe('StatsValues', () => {
       const asOf1: AsOf = AsOf.ofString('2000-01-01').get();
       const asOf2: AsOf = AsOf.ofString('2000-01-03').get();
 
-      const statsValues: StatsValues = StatsValues.of([
+      const statsValues: StatsValues = StatsValues.ofArray([
         StatsValue.of(statsItemID, asOf1, NumericalValue.of(1)),
         StatsValue.of(statsItemID, asOf2, NumericalValue.of(3))
       ]);
@@ -166,7 +145,7 @@ describe('StatsValues', () => {
       const statsValue3: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-03').get(), NumericalValue.of(3));
       const statsValue4: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
 
-      const statsValues: StatsValues = StatsValues.of([
+      const statsValues: StatsValues = StatsValues.ofArray([
         statsValue1,
         statsValue2
       ]);
@@ -184,9 +163,9 @@ describe('StatsValues', () => {
       const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
       const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
 
-      const statsValues1: StatsValues = StatsValues.of([
+      const statsValues1: StatsValues = StatsValues.ofArray([
       ]);
-      const statsValues2: StatsValues = StatsValues.of([
+      const statsValues2: StatsValues = StatsValues.ofArray([
         statsValue1,
         statsValue2
       ]);
@@ -205,7 +184,7 @@ describe('StatsValues', () => {
       const statsValue3: StatsValue = StatsValue.of(statsItemID2, AsOf.ofString('2000-01-03').get(), NumericalValue.of(3));
       const statsValue4: StatsValue = StatsValue.of(statsItemID1, AsOf.ofString('2000-01-04').get(), NumericalValue.of(1));
 
-      const statsValues: StatsValues = StatsValues.of([
+      const statsValues: StatsValues = StatsValues.ofArray([
         statsValue1,
         statsValue2,
         statsValue3,
@@ -233,7 +212,7 @@ describe('StatsValues', () => {
       const statsValue3: StatsValue = StatsValue.of(statsItemID2, AsOf.ofString('2000-01-03').get(), NumericalValue.of(3));
       const statsValue4: StatsValue = StatsValue.of(statsItemID1, AsOf.ofString('2000-01-04').get(), NumericalValue.of(1));
 
-      const statsValues: StatsValues = StatsValues.of([
+      const statsValues: StatsValues = StatsValues.ofArray([
         statsValue1,
         statsValue2,
         statsValue3,
@@ -255,11 +234,11 @@ describe('StatsValues', () => {
       const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
       const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
 
-      const statsValues1: StatsValues = StatsValues.of([
+      const statsValues1: StatsValues = StatsValues.ofArray([
         statsValue1,
         statsValue2
       ]);
-      const statsValues2: StatsValues = StatsValues.of([
+      const statsValues2: StatsValues = StatsValues.ofArray([
         statsValue1
       ]);
 
@@ -272,11 +251,11 @@ describe('StatsValues', () => {
       const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
       const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
 
-      const statsValues1: StatsValues = StatsValues.of([
+      const statsValues1: StatsValues = StatsValues.ofArray([
         statsValue1,
         statsValue2
       ]);
-      const statsValues2: StatsValues = StatsValues.of([
+      const statsValues2: StatsValues = StatsValues.ofArray([
         statsValue2,
         statsValue1
       ]);
@@ -290,11 +269,11 @@ describe('StatsValues', () => {
       const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
       const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
 
-      const statsValues1: StatsValues = StatsValues.of([
+      const statsValues1: StatsValues = StatsValues.ofArray([
         statsValue1,
         statsValue2
       ]);
-      const statsValues2: StatsValues = StatsValues.of([
+      const statsValues2: StatsValues = StatsValues.ofArray([
         statsValue1,
         statsValue2
       ]);
@@ -315,7 +294,7 @@ describe('StatsValues', () => {
       const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString(asOf1).get(), NumericalValue.of(value1));
       const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString(asOf2).get(), NumericalValue.of(value2));
 
-      const statsValues: StatsValues = StatsValues.of([
+      const statsValues: StatsValues = StatsValues.ofArray([
         statsValue1,
         statsValue2
       ]);

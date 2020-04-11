@@ -1,35 +1,38 @@
 import { StatsValueError } from '../veau-error/StatsValueError';
 import { StatsValuesError } from '../veau-error/StatsValuesError';
 import { Cloneable } from '../veau-general/Cloneable';
-import { Collection } from '../veau-general/Collection';
+import { Collection } from '../veau-general/Collection/Collection';
+import { Sequence } from '../veau-general/Collection/Sequence';
 import { JSONable } from '../veau-general/JSONable';
-import { None } from '../veau-general/Optional/None';
 import { Optional } from '../veau-general/Optional/Optional';
-import { Some } from '../veau-general/Optional/Some';
 import { Failure } from '../veau-general/Try/Failure';
 import { manoeuvre } from '../veau-general/Try/Manoeuvre';
 import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
 import { Enumerator } from '../veau-general/Type/Function';
 import { Type } from '../veau-general/Type/Type';
-import { Ambiguous } from '../veau-general/Type/Value';
 import { AsOf } from './AsOf';
 import { AsOfs } from './AsOfs';
 import { NumericalValue } from './NumericalValue';
+import { NumericalValues } from './NumericalValues';
 import { StatsItemID } from './StatsItemID';
 import { StatsValue, StatsValueJSON, StatsValueRow } from './StatsValue';
 
 export class StatsValues implements Collection<number, StatsValue>, JSONable, Cloneable {
   public readonly noun: 'StatsValues' = 'StatsValues';
-  private readonly values: Array<StatsValue>;
+  private readonly values: Sequence<StatsValue>;
 
-  public static of(values: Array<StatsValue>): StatsValues {
+  public static of(values: Sequence<StatsValue>): StatsValues {
     return new StatsValues(values);
+  }
+
+  public static ofArray(values: Array<StatsValue>): StatsValues {
+    return StatsValues.of(Sequence.of<StatsValue>(values));
   }
 
   public static ofTry(tries: Array<Try<StatsValue, StatsValueError>>): Try<StatsValues, StatsValuesError> {
     return manoeuvre<StatsValue, StatsValueError>(tries).match<Try<StatsValues, StatsValuesError>>((vs: Array<StatsValue>) => {
-      return Success.of<StatsValues, StatsValuesError>(StatsValues.of(vs));
+      return Success.of<StatsValues, StatsValuesError>(StatsValues.ofArray(vs));
     }, (err: StatsValueError) => {
       return Failure.of<StatsValues, StatsValuesError>(new StatsValuesError(err.message));
     });
@@ -62,32 +65,23 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
   }
 
   public static empty(): StatsValues {
-    return StatsValues.of([]);
+    return StatsValues.ofArray([
+    ]);
   }
 
-  private constructor(values: Array<StatsValue>) {
+  private constructor(values: Sequence<StatsValue>) {
     this.values = values;
   }
 
-  public [Symbol.iterator](): Iterator<StatsValue> {
-    return this.values[Symbol.iterator]();
-  }
-
   public get(index: number): Optional<StatsValue> {
-    const statsValue: Ambiguous<StatsValue> = this.values[index];
-
-    if (statsValue === undefined) {
-      return None.of<StatsValue>();
-    }
-
-    return Some.of<StatsValue>(statsValue);
+    return this.values.get(index);
   }
 
   public set(statsValue: StatsValue): StatsValues {
     const newValues: Array<StatsValue> = [];
     let isSet: boolean = false;
 
-    this.values.forEach((value: StatsValue) => {
+    this.values.iterate((value: StatsValue) => {
       if (isSet) {
         newValues.push(value);
         return;
@@ -112,53 +106,47 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
       });
     }
 
-    return new StatsValues(newValues);
+    return StatsValues.ofArray(newValues);
   }
 
   public delete(asOf: AsOf): StatsValues {
-    const newValues: Array<StatsValue> = this.values.filter((value: StatsValue) => {
+    const newValues: Sequence<StatsValue> = this.values.screen((value: StatsValue) => {
       return !asOf.equals(value.getAsOf());
     });
 
-    return new StatsValues(newValues);
+    return StatsValues.of(newValues);
   }
 
   public contains(value: StatsValue): boolean {
-    const found: Ambiguous<StatsValue> = this.values.find((statsValue: StatsValue) => {
-      return value.equals(statsValue);
-    });
-
-    if (found === undefined) {
-      return false;
-    }
-
-    return true;
+    return this.values.contains(value);
   }
 
   public size(): number {
-    return this.values.length;
+    return this.values.size();
   }
 
   public forEach(iteration: Enumerator<number, StatsValue>): void {
-    this.values.forEach(iteration);
+    this.values.iterate(iteration);
   }
 
   public filter(statsItemID: StatsItemID): StatsValues {
-    const values: Array<StatsValue> = this.values.filter((value: StatsValue) => {
+    const values: Sequence<StatsValue> = this.values.screen((value: StatsValue) => {
       return statsItemID.equals(value.getStatsItemID());
     });
 
     return StatsValues.of(values);
   }
 
-  public getValues(): Array<NumericalValue> {
-    return this.values.map<NumericalValue>((value: StatsValue) => {
+  public getValues(): NumericalValues {
+    const values: Sequence<NumericalValue> = this.values.project<NumericalValue>((value: StatsValue) => {
       return value.getValue();
     });
+
+    return NumericalValues.of(values);
   }
 
   public getAsOfs(): AsOfs {
-    const asOfs: Array<AsOf> = this.values.map<AsOf>((value: StatsValue) => {
+    const asOfs: Sequence<AsOf> = this.values.project<AsOf>((value: StatsValue) => {
       return value.getAsOf();
     });
 
@@ -166,17 +154,11 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
   }
 
   public isEmpty(): boolean {
-    if (this.values.length === 0) {
-      return true;
-    }
-
-    return false;
+    return this.values.isEmpty();
   }
 
   public copy(): StatsValues {
-    return StatsValues.of([
-      ...this.values
-    ]);
+    return StatsValues.of(this.values.coppy());
   }
 
   public equals(other: StatsValues): boolean {
@@ -184,28 +166,17 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
       return true;
     }
 
-    const length: number = this.values.length;
-    if (length !== other.size()) {
-      return false;
-    }
-
-    for (let i: number = 0; i < length; i++) {
-      if (!this.values[i].equals(other.get(i).get())) {
-        return false;
-      }
-    }
-
-    return true;
+    return this.values.equals(other.values);
   }
 
   public toJSON(): Array<StatsValueJSON> {
-    return this.values.map<StatsValueJSON>((value: StatsValue) => {
+    return this.values.toArray().map<StatsValueJSON>((value: StatsValue) => {
       return value.toJSON();
     });
   }
 
   public toString(): string {
-    return this.values.map<string>((value: StatsValue) => {
+    return this.values.toArray().map<string>((value: StatsValue) => {
       return value.toString();
     }).join(', ');
   }
