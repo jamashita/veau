@@ -2,9 +2,10 @@ import { NumericalValueError } from '../veau-error/NumericalValueError';
 import { NumericalValue } from './NumericalValue';
 
 export class NoValue extends NumericalValue {
+  private static readonly INSTANCE: NoValue = new NoValue();
 
   public static of(): NoValue {
-    return new NoValue();
+    return NoValue.INSTANCE;
   }
 
   private constructor() {
