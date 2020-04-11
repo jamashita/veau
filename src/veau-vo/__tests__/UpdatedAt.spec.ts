@@ -1,8 +1,8 @@
 import moment from 'moment';
-import sinon, {SinonSpy} from 'sinon';
-import {UpdatedAtError} from '../../veau-error/UpdatedAtError';
-import {Try} from '../../veau-general/Try/Try';
-import {UpdatedAt} from '../UpdatedAt';
+import sinon, { SinonSpy } from 'sinon';
+import { UpdatedAtError } from '../../veau-error/UpdatedAtError';
+import { Try } from '../../veau-general/Try/Try';
+import { UpdatedAt } from '../UpdatedAt';
 
 describe('UpdatedAt', () => {
   describe('ofString', () => {

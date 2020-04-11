@@ -1,7 +1,7 @@
-import {Collection} from '../veau-general/Collection/Collection';
-import {Sequence} from '../veau-general/Collection/Sequence';
-import {Optional} from '../veau-general/Optional/Optional';
-import {NumericalValue} from './NumericalValue';
+import { Collection } from '../veau-general/Collection/Collection';
+import { Sequence } from '../veau-general/Collection/Sequence';
+import { Optional } from '../veau-general/Optional/Optional';
+import { NumericalValue } from './NumericalValue';
 
 export class NumericalValues implements Collection<number, NumericalValue> {
   public readonly noun: 'NumericalValues' = 'NumericalValues';

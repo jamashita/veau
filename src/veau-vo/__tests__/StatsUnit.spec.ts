@@ -1,4 +1,4 @@
-import {StatsUnit} from '../StatsUnit';
+import { StatsUnit } from '../StatsUnit';
 
 describe('StatsUnit', () => {
   describe('default', () => {

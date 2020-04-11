@@ -1,6 +1,6 @@
-import {NumericalValues} from '../NumericalValues';
-import {NumericalValue} from '../NumericalValue';
-import {MockSequence} from '../../veau-general/Collection/Mock/MockSequence';
+import { NumericalValues } from '../NumericalValues';
+import { NumericalValue } from '../NumericalValue';
+import { MockSequence } from '../../veau-general/Collection/Mock/MockSequence';
 
 export class MockNumericalValues extends NumericalValues {
 

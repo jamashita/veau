@@ -1,10 +1,10 @@
 import moment from 'moment';
-import {AsOfError} from '../veau-error/AsOfError';
-import {Failure} from '../veau-general/Try/Failure';
-import {Success} from '../veau-general/Try/Success';
-import {Try} from '../veau-general/Try/Try';
-import {ValueObject} from '../veau-general/ValueObject';
-import {Term} from './Term';
+import { AsOfError } from '../veau-error/AsOfError';
+import { Failure } from '../veau-general/Try/Failure';
+import { Success } from '../veau-general/Try/Success';
+import { Try } from '../veau-general/Try/Try';
+import { ValueObject } from '../veau-general/ValueObject';
+import { Term } from './Term';
 
 const TERM_FORMAT: string = 'YYYY-MM-DD';
 

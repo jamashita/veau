@@ -1,4 +1,4 @@
-import {AsOf} from '../AsOf';
+import { AsOf } from '../AsOf';
 import moment from 'moment';
 
 type AsOfArgs = Partial<Readonly<{

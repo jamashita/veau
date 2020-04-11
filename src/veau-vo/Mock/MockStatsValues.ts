@@ -1,6 +1,6 @@
-import {StatsValues} from '../StatsValues';
-import {StatsValue} from '../StatsValue';
-import {MockSequence} from '../../veau-general/Collection/Mock/MockSequence';
+import { StatsValues } from '../StatsValues';
+import { StatsValue } from '../StatsValue';
+import { MockSequence } from '../../veau-general/Collection/Mock/MockSequence';
 
 export class MockStatsValues extends StatsValues {
 

@@ -1,24 +1,24 @@
-import sinon, {SinonSpy} from 'sinon';
-import {VeauAccountError} from '../../veau-error/VeauAccountError';
-import {Try} from '../../veau-general/Try/Try';
-import {UUID} from '../../veau-general/UUID/UUID';
-import {AccountName} from '../AccountName';
-import {ISO3166} from '../ISO3166';
-import {ISO639} from '../ISO639';
-import {Language} from '../Language';
-import {LanguageID} from '../LanguageID';
-import {LanguageName} from '../LanguageName';
-import {MockAccountName} from '../Mock/MockAccountName';
-import {MockLanguage} from '../Mock/MockLanguage';
-import {MockVeauAccountID} from '../Mock/MockVeauAccountID';
-import {Region} from '../Region';
-import {RegionID} from '../RegionID';
-import {RegionName} from '../RegionName';
-import {VeauAccount, VeauAccountJSON} from '../VeauAccount';
-import {VeauAccountID} from '../VeauAccountID';
-import {MockRegion} from '../Mock/MockRegion';
-import {MockLanguageID} from '../Mock/MockLanguageID';
-import {MockRegionID} from '../Mock/MockRegionID';
+import sinon, { SinonSpy } from 'sinon';
+import { VeauAccountError } from '../../veau-error/VeauAccountError';
+import { Try } from '../../veau-general/Try/Try';
+import { UUID } from '../../veau-general/UUID/UUID';
+import { AccountName } from '../AccountName';
+import { ISO3166 } from '../ISO3166';
+import { ISO639 } from '../ISO639';
+import { Language } from '../Language';
+import { LanguageID } from '../LanguageID';
+import { LanguageName } from '../LanguageName';
+import { MockAccountName } from '../Mock/MockAccountName';
+import { MockLanguage } from '../Mock/MockLanguage';
+import { MockVeauAccountID } from '../Mock/MockVeauAccountID';
+import { Region } from '../Region';
+import { RegionID } from '../RegionID';
+import { RegionName } from '../RegionName';
+import { VeauAccount, VeauAccountJSON } from '../VeauAccount';
+import { VeauAccountID } from '../VeauAccountID';
+import { MockRegion } from '../Mock/MockRegion';
+import { MockLanguageID } from '../Mock/MockLanguageID';
+import { MockRegionID } from '../Mock/MockRegionID';
 
 describe('VeauAccount', () => {
   describe('of', () => {

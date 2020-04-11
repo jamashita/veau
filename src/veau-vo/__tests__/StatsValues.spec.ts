@@ -1,21 +1,21 @@
-import sinon, {SinonSpy} from 'sinon';
-import {StatsValueError} from '../../veau-error/StatsValueError';
-import {StatsValuesError} from '../../veau-error/StatsValuesError';
-import {None} from '../../veau-general/Optional/None';
-import {Failure} from '../../veau-general/Try/Failure';
-import {Success} from '../../veau-general/Try/Success';
-import {Try} from '../../veau-general/Try/Try';
-import {AsOf} from '../AsOf';
-import {NumericalValue} from '../NumericalValue';
-import {StatsItemID} from '../StatsItemID';
-import {StatsValue, StatsValueJSON, StatsValueRow} from '../StatsValue';
-import {StatsValues} from '../StatsValues';
-import {MockStatsValue} from '../Mock/MockStatsValue';
-import {MockStatsItemID} from '../Mock/MockStatsItemID';
-import {MockAsOf} from '../Mock/MockAsOf';
-import {MockNumericalValue} from '../Mock/MockNumericalValue';
-import {MockNumericalValues} from '../Mock/MockNumericalValues';
-import {UUID} from '../../veau-general/UUID/UUID';
+import sinon, { SinonSpy } from 'sinon';
+import { StatsValueError } from '../../veau-error/StatsValueError';
+import { StatsValuesError } from '../../veau-error/StatsValuesError';
+import { None } from '../../veau-general/Optional/None';
+import { Failure } from '../../veau-general/Try/Failure';
+import { Success } from '../../veau-general/Try/Success';
+import { Try } from '../../veau-general/Try/Try';
+import { AsOf } from '../AsOf';
+import { NumericalValue } from '../NumericalValue';
+import { StatsItemID } from '../StatsItemID';
+import { StatsValue, StatsValueJSON, StatsValueRow } from '../StatsValue';
+import { StatsValues } from '../StatsValues';
+import { MockStatsValue } from '../Mock/MockStatsValue';
+import { MockStatsItemID } from '../Mock/MockStatsItemID';
+import { MockAsOf } from '../Mock/MockAsOf';
+import { MockNumericalValue } from '../Mock/MockNumericalValue';
+import { MockNumericalValues } from '../Mock/MockNumericalValues';
+import { UUID } from '../../veau-general/UUID/UUID';
 
 describe('StatsValues', () => {
   describe('ofTry', () => {

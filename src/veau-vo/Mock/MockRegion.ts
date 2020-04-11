@@ -1,10 +1,10 @@
-import {ISO3166} from '../ISO3166';
-import {Region} from '../Region';
-import {RegionID} from '../RegionID';
-import {RegionName} from '../RegionName';
-import {MockRegionID} from './MockRegionID';
-import {MockRegionName} from './MockRegionName';
-import {MockISO3166} from './MockISO3166';
+import { ISO3166 } from '../ISO3166';
+import { Region } from '../Region';
+import { RegionID } from '../RegionID';
+import { RegionName } from '../RegionName';
+import { MockRegionID } from './MockRegionID';
+import { MockRegionName } from './MockRegionName';
+import { MockISO3166 } from './MockISO3166';
 
 type RegionArgs = Partial<Readonly<{
   regionID: RegionID;

@@ -1,14 +1,14 @@
-import {VeauAccountError} from '../veau-error/VeauAccountError';
-import {VeauAccountIDError} from '../veau-error/VeauAccountIDError';
-import {JSONable} from '../veau-general/JSONable';
-import {Failure} from '../veau-general/Try/Failure';
-import {Success} from '../veau-general/Try/Success';
-import {Try} from '../veau-general/Try/Try';
-import {ValueObject} from '../veau-general/ValueObject';
-import {AccountName} from './AccountName';
-import {Language, LanguageJSON} from './Language';
-import {Region, RegionJSON} from './Region';
-import {VeauAccountID} from './VeauAccountID';
+import { VeauAccountError } from '../veau-error/VeauAccountError';
+import { VeauAccountIDError } from '../veau-error/VeauAccountIDError';
+import { JSONable } from '../veau-general/JSONable';
+import { Failure } from '../veau-general/Try/Failure';
+import { Success } from '../veau-general/Try/Success';
+import { Try } from '../veau-general/Try/Try';
+import { ValueObject } from '../veau-general/ValueObject';
+import { AccountName } from './AccountName';
+import { Language, LanguageJSON } from './Language';
+import { Region, RegionJSON } from './Region';
+import { VeauAccountID } from './VeauAccountID';
 
 export type VeauAccountJSON = Readonly<{
   veauAccountID: string;

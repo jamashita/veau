@@ -9,7 +9,11 @@ import { Try } from '../../veau-general/Try/Try';
 import { ISessionQuery } from '../../veau-query/Interface/ISessionQuery';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 import { VeauAccount } from '../../veau-vo/VeauAccount';
-import { ACTION, EntranceAccountNameTypedAction, EntrancePasswordTypedAction } from '../actions/Action';
+import {
+  ACTION,
+  EntranceAccountNameTypedAction,
+  EntrancePasswordTypedAction
+} from '../actions/Action';
 import { updateEntranceInformation } from '../actions/EntranceAction';
 import { identified, identityAuthenticated } from '../actions/IdentityAction';
 import { loaded, loading } from '../actions/LoadingAction';

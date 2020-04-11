@@ -1,6 +1,6 @@
-import {None} from '../../veau-general/Optional/None';
-import {NumericalValues} from '../NumericalValues';
-import {MockNumericalValue} from '../Mock/MockNumericalValue';
+import { None } from '../../veau-general/Optional/None';
+import { NumericalValues } from '../NumericalValues';
+import { MockNumericalValue } from '../Mock/MockNumericalValue';
 
 describe('NumericalValues', () => {
   describe('ofArray', () => {

@@ -1,20 +1,26 @@
 import { inject, injectable } from 'inversify';
 import { ofType, StateObservable } from 'redux-observable';
-import { from, merge, Observable, ObservableInput } from 'rxjs';
+import { EMPTY, from, merge, Observable } from 'rxjs';
 import { filter, map, mapTo, mergeMap } from 'rxjs/operators';
 import { TYPE } from '../../veau-container/Types';
 import { AuthenticationFailureError } from '../../veau-error/AuthenticationFailureError';
 import { VeauAccountError } from '../../veau-error/VeauAccountError';
 import { DataSourceError } from '../../veau-general/DataSourceError';
 import { Try } from '../../veau-general/Try/Try';
-import { ISessionQuery } from '../../veau-query/interfaces/ISessionQuery';
+import { ISessionQuery } from '../../veau-query/Interface/ISessionQuery';
+import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 import { VeauAccount } from '../../veau-vo/VeauAccount';
-import { ACTION, Action } from '../actions/Action';
-import { identified, identityAuthenticated } from '../actions/IdentityAction';
-import { loading } from '../actions/LoadingAction';
+import { ACTION, Action, EntranceAccountNameTypedAction } from '../actions/Action';
+import { updateEntranceInformation } from '../actions/EntranceAction';
+import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
 import { pushToStatsList } from '../actions/RedirectAction';
 import { State } from '../State';
+import {, identityAuthenticated
+  identified,
+  identifieduthenticated,
+  identityAuthenticated
+} from '../actions/IdentityAction';
 
 @injectable()
 export class EntranceEpic {
@@ -24,13 +30,14 @@ export class EntranceEpic {
     this.sessionQuery = sessionQuery;
   }
 
-  public init(action$: Observable<Action>, stats$: StateObservable<State>): Observable<Action> {
+  public init(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
     return merge(
-      this.login(action$, stats$)
+      this.login(action$, state$),
+      this.accountNameTyped(action$, state$)
     );
   }
 
-  public login(action$: Observable<Action>, stats$: StateObservable<State>): Observable<Action> {
+  public login(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
     const {
       value: {
         modal: {
@@ -38,12 +45,11 @@ export class EntranceEpic {
         },
         entranceInformation
       }
-    } = stats$;
+    } = state$;
 
     return action$.pipe(
       ofType<Action, Action>(ACTION.IDENTITY_AUTHENTICATE),
-      filter<Action>(() => {
-
+      filter<unknown>(() => {
         if (open) {
           return false;
         }
@@ -53,25 +59,49 @@ export class EntranceEpic {
 
         return true;
       }),
-      mapTo<Action, Action>(loading()),
-      mergeMap<unknown, ObservableInput<Action>>(() => {
-        return from<Promise<Try<VeauAccount, VeauAccountError | AuthenticationFailureError | DataSourceError>>>(
-          this.sessionQuery.findByEntranceInfo(entranceInformation)
-        ).pipe(
-          map((tri: Try<VeauAccount, VeauAccountError | AuthenticationFailureError | DataSourceError>) => {
-            return tri.match<Action>((veauAccount: VeauAccount) => {
-              identityAuthenticated(veauAccount);
-              pushToStatsList();
-              return identified();
-            }, (err: VeauAccountError | AuthenticationFailureError | DataSourceError) => {
-              if (err instanceof AuthenticationFailureError) {
-                return raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION');
-              }
+      mapTo<unknown, unknown>(loading()),
+      mergeMap(() => {
+        return from(this.sessionQuery.findByEntranceInfo(entranceInformation)).pipe(
+          mergeMap((tri: Try<VeauAccount, VeauAccountError | AuthenticationFailureError | DataSourceError>) => {
+            return EMPTY.pipe(
+              mapTo(loaded()),
+              map(() => {
+                return tri.match<Action | Array<Action>>((veauAccount: VeauAccount) => {
+                  return [
+                    identityAuthenticated(veauAccount),
+                    pushToStatsList(),
+                    identified()
+                  ];
+                }, (err: VeauAccountError | AuthenticationFailureError | DataSourceError) => {
+                  if (err instanceof AuthenticationFailureError) {
+                    return raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION');
+                  }
 
-              return raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION');
-            });
+                  return raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION');
+                });
+              })
+              // }),
+              // mapTo(loaded())
+            );
           })
         );
+      })
+    );
+  }
+
+  public accountNameTyped(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+    const {
+      value: {
+        entranceInformation
+      }
+    } = state$;
+
+    return action$.pipe(
+      ofType<Action, EntranceAccountNameTypedAction>(ACTION.ENTRANCE_ACCOUNT_NAME_TYPED),
+      map<EntranceAccountNameTypedAction, Action>((action: EntranceAccountNameTypedAction) => {
+        const newLogin: EntranceInformation = EntranceInformation.of(action.account, entranceInformation.getPassword());
+
+        return updateEntranceInformation(newLogin);
       })
     );
   }

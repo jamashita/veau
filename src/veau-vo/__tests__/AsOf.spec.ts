@@ -1,10 +1,10 @@
-import sinon, {SinonSpy} from 'sinon';
-import {AsOfError} from '../../veau-error/AsOfError';
-import {Try} from '../../veau-general/Try/Try';
-import {AsOf} from '../AsOf';
-import {Term} from '../Term';
-import {Terms} from '../Terms';
-import {MockTerm} from '../Mock/MockTerm';
+import sinon, { SinonSpy } from 'sinon';
+import { AsOfError } from '../../veau-error/AsOfError';
+import { Try } from '../../veau-general/Try/Try';
+import { AsOf } from '../AsOf';
+import { Term } from '../Term';
+import { Terms } from '../Terms';
+import { MockTerm } from '../Mock/MockTerm';
 
 describe('AsOf', () => {
   describe('ofString', () => {

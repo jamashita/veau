@@ -1,4 +1,4 @@
-import {ISO3166} from '../ISO3166';
+import { ISO3166 } from '../ISO3166';
 
 export class MockISO3166 extends ISO3166 {
 

@@ -1,14 +1,14 @@
-import sinon, {SinonSpy} from 'sinon';
-import {StatsValueError} from '../../veau-error/StatsValueError';
-import {Try} from '../../veau-general/Try/Try';
-import {AsOf} from '../AsOf';
-import {NumericalValue} from '../NumericalValue';
-import {StatsItemID} from '../StatsItemID';
-import {StatsValue, StatsValueJSON, StatsValueRow} from '../StatsValue';
-import {UUID} from '../../veau-general/UUID/UUID';
-import {MockStatsItemID} from '../Mock/MockStatsItemID';
-import {MockAsOf} from '../Mock/MockAsOf';
-import {MockNumericalValue} from '../Mock/MockNumericalValue';
+import sinon, { SinonSpy } from 'sinon';
+import { StatsValueError } from '../../veau-error/StatsValueError';
+import { Try } from '../../veau-general/Try/Try';
+import { AsOf } from '../AsOf';
+import { NumericalValue } from '../NumericalValue';
+import { StatsItemID } from '../StatsItemID';
+import { StatsValue, StatsValueJSON, StatsValueRow } from '../StatsValue';
+import { UUID } from '../../veau-general/UUID/UUID';
+import { MockStatsItemID } from '../Mock/MockStatsItemID';
+import { MockAsOf } from '../Mock/MockAsOf';
+import { MockNumericalValue } from '../Mock/MockNumericalValue';
 
 describe('StatsValue', () => {
   describe('ofJSON', () => {

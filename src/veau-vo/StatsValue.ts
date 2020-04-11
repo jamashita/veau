@@ -1,15 +1,15 @@
-import {AsOfError} from '../veau-error/AsOfError';
-import {StatsItemIDError} from '../veau-error/StatsItemIDError';
-import {StatsValueError} from '../veau-error/StatsValueError';
-import {JSONable} from '../veau-general/JSONable';
-import {Failure} from '../veau-general/Try/Failure';
-import {Success} from '../veau-general/Try/Success';
-import {Try} from '../veau-general/Try/Try';
-import {Type} from '../veau-general/Type/Type';
-import {ValueObject} from '../veau-general/ValueObject';
-import {AsOf} from './AsOf';
-import {NumericalValue} from './NumericalValue';
-import {StatsItemID} from './StatsItemID';
+import { AsOfError } from '../veau-error/AsOfError';
+import { StatsItemIDError } from '../veau-error/StatsItemIDError';
+import { StatsValueError } from '../veau-error/StatsValueError';
+import { JSONable } from '../veau-general/JSONable';
+import { Failure } from '../veau-general/Try/Failure';
+import { Success } from '../veau-general/Try/Success';
+import { Try } from '../veau-general/Try/Try';
+import { Type } from '../veau-general/Type/Type';
+import { ValueObject } from '../veau-general/ValueObject';
+import { AsOf } from './AsOf';
+import { NumericalValue } from './NumericalValue';
+import { StatsItemID } from './StatsItemID';
 
 export type StatsValueJSON = Readonly<{
   asOf: string;

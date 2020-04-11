@@ -1,9 +1,9 @@
 import moment from 'moment';
-import {UpdatedAtError} from '../veau-error/UpdatedAtError';
-import {Failure} from '../veau-general/Try/Failure';
-import {Success} from '../veau-general/Try/Success';
-import {Try} from '../veau-general/Try/Try';
-import {ValueObject} from '../veau-general/ValueObject';
+import { UpdatedAtError } from '../veau-error/UpdatedAtError';
+import { Failure } from '../veau-general/Try/Failure';
+import { Success } from '../veau-general/Try/Success';
+import { Try } from '../veau-general/Try/Try';
+import { ValueObject } from '../veau-general/ValueObject';
 
 const TERM_FORMAT: string = 'YYYY-MM-DD HH:mm:ss';
 

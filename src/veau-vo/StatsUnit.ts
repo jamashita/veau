@@ -1,4 +1,4 @@
-import {ValueObject} from '../veau-general/ValueObject';
+import { ValueObject } from '../veau-general/ValueObject';
 
 const DEFAULT_UNIT: string = '';
 

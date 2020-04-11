@@ -1,4 +1,4 @@
-import {NumericalValue} from '../NumericalValue';
+import { NumericalValue } from '../NumericalValue';
 
 export class MockNumericalValue extends NumericalValue {
 

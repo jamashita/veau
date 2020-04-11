@@ -1,8 +1,8 @@
-import {Collection} from '../veau-general/Collection/Collection';
-import {Sequence} from '../veau-general/Collection/Sequence';
-import {Optional} from '../veau-general/Optional/Optional';
-import {Mapper} from '../veau-general/Type/Function';
-import {Term} from './Term';
+import { Collection } from '../veau-general/Collection/Collection';
+import { Sequence } from '../veau-general/Collection/Sequence';
+import { Optional } from '../veau-general/Optional/Optional';
+import { Mapper } from '../veau-general/Type/Function';
+import { Term } from './Term';
 
 export class Terms implements Collection<number, Term> {
   public readonly noun: 'Terms' = 'Terms';

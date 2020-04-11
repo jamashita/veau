@@ -1,5 +1,5 @@
-import {Sequence} from '../Sequence';
-import {Nominative} from '../../Nominative';
+import { Sequence } from '../Sequence';
+import { Nominative } from '../../Nominative';
 
 export class MockSequence<E extends Nominative> extends Sequence<E> {
 
