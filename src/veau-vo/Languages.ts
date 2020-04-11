@@ -1,18 +1,20 @@
-import { Collection } from '../veau-general/Collection';
+import { Collection } from '../veau-general/Collection/Collection';
+import { Sequence } from '../veau-general/Collection/Sequence';
 import { JSONable } from '../veau-general/JSONable';
-import { None } from '../veau-general/Optional/None';
 import { Optional } from '../veau-general/Optional/Optional';
-import { Some } from '../veau-general/Optional/Some';
 import { Mapper, Predicate } from '../veau-general/Type/Function';
-import { Ambiguous } from '../veau-general/Type/Value';
 import { Language, LanguageJSON, LanguageRow } from './Language';
 
 export class Languages implements Collection<number, Language>, JSONable {
   public readonly noun: 'Languages' = 'Languages';
-  private readonly languages: Array<Language>;
+  private readonly languages: Sequence<Language>;
 
-  public static of(languages: Array<Language>): Languages {
+  public static of(languages: Sequence<Language>): Languages {
     return new Languages(languages);
+  }
+
+  public static ofArray(languages: Array<Language>): Languages {
+    return Languages.of(Sequence.of<Language>(languages));
   }
 
   public static ofJSON(json: Array<LanguageJSON>): Languages {
@@ -20,7 +22,7 @@ export class Languages implements Collection<number, Language>, JSONable {
       return Language.ofJSON(language);
     });
 
-    return Languages.of(languages);
+    return Languages.ofArray(languages);
   }
 
   public static ofRow(rows: Array<LanguageRow>): Languages {
@@ -28,61 +30,40 @@ export class Languages implements Collection<number, Language>, JSONable {
       return Language.ofRow(language);
     });
 
-    return Languages.of(languages);
+    return Languages.ofArray(languages);
   }
 
   public static empty(): Languages {
-    return Languages.of([]);
+    return Languages.ofArray([
+    ]);
   }
 
-  private constructor(languages: Array<Language>) {
+  private constructor(languages: Sequence<Language>) {
     this.languages = languages;
   }
 
-  public [Symbol.iterator](): Iterator<Language> {
-    return this.languages[Symbol.iterator]();
-  }
-
   public get(index: number): Optional<Language> {
-    const language: Ambiguous<Language> = this.languages[index];
-
-    if (language === undefined) {
-      return None.of<Language>();
-    }
-
-    return Some.of<Language>(language);
+    return this.languages.get(index);
   }
 
   public contains(value: Language): boolean {
-    const found: Ambiguous<Language> = this.languages.find((language: Language) => {
-      return value.equals(language);
-    });
-
-    if (found === undefined) {
-      return false;
-    }
-
-    return true;
+    return this.languages.contains(value);
   }
 
   public size(): number {
-    return this.languages.length;
+    return this.languages.size();
   }
 
   public map<U>(mapper: Mapper<Language, U>): Array<U> {
-    return this.languages.map<U>(mapper);
+    return this.languages.toArray().map<U>(mapper);
   }
 
-  public find(predicate: Predicate<Language>): Ambiguous<Language> {
-    return this.languages.find(predicate);
+  public find(predicate: Predicate<Language>): Optional<Language> {
+    return this.languages.select(predicate);
   }
 
   public isEmpty(): boolean {
-    if (this.languages.length === 0) {
-      return true;
-    }
-
-    return false;
+    return this.languages.isEmpty();
   }
 
   public equals(other: Languages): boolean {
@@ -90,27 +71,17 @@ export class Languages implements Collection<number, Language>, JSONable {
       return true;
     }
 
-    const length: number = this.languages.length;
-    if (length !== other.size()) {
-      return false;
-    }
-    for (let i: number = 0; i < length; i++) {
-      if (!this.languages[i].equals(other.get(i).get())) {
-        return false;
-      }
-    }
-
-    return true;
+    return this.languages.equals(other.languages);
   }
 
   public toJSON(): Array<LanguageJSON> {
-    return this.languages.map<LanguageJSON>((language: Language) => {
+    return this.languages.toArray().map<LanguageJSON>((language: Language) => {
       return language.toJSON();
     });
   }
 
   public toString(): string {
-    return this.languages.map<string>((language: Language) => {
+    return this.languages.toArray().map<string>((language: Language) => {
       return language.toString();
     }).join(', ');
   }
