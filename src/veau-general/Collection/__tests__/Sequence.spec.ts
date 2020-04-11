@@ -303,6 +303,242 @@ describe('Sequence', () => {
     });
   });
 
+  describe('every', () => {
+    it('normal case', () => {
+      const noun1: MockNominative<number> = new MockNominative<number>(2);
+      const noun2: MockNominative<number> = new MockNominative<number>(4);
+      const noun3: MockNominative<number> = new MockNominative<number>(6);
+      const noun4: MockNominative<number> = new MockNominative<number>(8);
+
+      const nouns: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>([
+        noun1,
+        noun2,
+        noun3,
+        noun4
+      ]);
+
+      const every: boolean = nouns.every((mock: MockNominative<number>) => {
+        if (mock.get() % 2 === 0) {
+          return true;
+        }
+
+        return false;
+      });
+
+      expect(every).toEqual(true);
+    });
+
+    it('if one of them are not satisfied, returns false', () => {
+      const noun1: MockNominative<number> = new MockNominative<number>(1);
+      const noun2: MockNominative<number> = new MockNominative<number>(4);
+      const noun3: MockNominative<number> = new MockNominative<number>(6);
+      const noun4: MockNominative<number> = new MockNominative<number>(8);
+      const noun5: MockNominative<number> = new MockNominative<number>(3);
+
+      const nouns1: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>([
+        noun1,
+        noun2,
+        noun3,
+        noun4
+      ]);
+      const nouns2: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>([
+        noun2,
+        noun1,
+        noun3,
+        noun4
+      ]);
+      const nouns3: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>([
+        noun2,
+        noun3,
+        noun1,
+        noun4
+      ]);
+      const nouns4: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>([
+        noun2,
+        noun3,
+        noun4,
+        noun1
+      ]);
+      const nouns5: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>([
+        noun1,
+        noun5,
+        noun3,
+        noun4
+      ]);
+      const nouns6: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>([
+        noun1,
+        noun2,
+        noun5,
+        noun4
+      ]);
+
+      const every1: boolean = nouns1.every((mock: MockNominative<number>) => {
+        if (mock.get() % 2 === 0) {
+          return true;
+        }
+
+        return false;
+      });
+      const every2: boolean = nouns2.every((mock: MockNominative<number>) => {
+        if (mock.get() % 2 === 0) {
+          return true;
+        }
+
+        return false;
+      });
+      const every3: boolean = nouns3.every((mock: MockNominative<number>) => {
+        if (mock.get() % 2 === 0) {
+          return true;
+        }
+
+        return false;
+      });
+      const every4: boolean = nouns4.every((mock: MockNominative<number>) => {
+        if (mock.get() % 2 === 0) {
+          return true;
+        }
+
+        return false;
+      });
+      const every5: boolean = nouns5.every((mock: MockNominative<number>) => {
+        if (mock.get() % 2 === 0) {
+          return true;
+        }
+
+        return false;
+      });
+      const every6: boolean = nouns6.every((mock: MockNominative<number>) => {
+        if (mock.get() % 2 === 0) {
+          return true;
+        }
+
+        return false;
+      });
+
+      expect(every1).toEqual(false);
+      expect(every2).toEqual(false);
+      expect(every3).toEqual(false);
+      expect(every4).toEqual(false);
+      expect(every5).toEqual(false);
+      expect(every6).toEqual(false);
+    });
+  });
+
+  describe('some', () => {
+    it('normal case', () => {
+      const noun1: MockNominative<number> = new MockNominative<number>(2);
+      const noun2: MockNominative<number> = new MockNominative<number>(4);
+      const noun3: MockNominative<number> = new MockNominative<number>(6);
+      const noun4: MockNominative<number> = new MockNominative<number>(8);
+
+      const nouns: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>([
+        noun1,
+        noun2,
+        noun3,
+        noun4
+      ]);
+
+      const some1: boolean = nouns.some((mock: MockNominative<number>) => {
+        if (mock.get() % 2 === 0) {
+          return true;
+        }
+
+        return false;
+      });
+      const some2: boolean = nouns.some((mock: MockNominative<number>) => {
+        if (mock.get() === 2) {
+          return true;
+        }
+
+        return false;
+      });
+
+      expect(some1).toEqual(true);
+      expect(some2).toEqual(true);
+    });
+
+    it('if none of them are not satisfied, returns false', () => {
+      const noun1: MockNominative<number> = new MockNominative<number>(1);
+      const noun2: MockNominative<number> = new MockNominative<number>(4);
+      const noun3: MockNominative<number> = new MockNominative<number>(6);
+      const noun4: MockNominative<number> = new MockNominative<number>(8);
+      const noun5: MockNominative<number> = new MockNominative<number>(10);
+
+      const nouns1: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>([
+        noun1,
+        noun2,
+        noun3,
+        noun4
+      ]);
+      const nouns2: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>([
+        noun2,
+        noun1,
+        noun3,
+        noun4
+      ]);
+      const nouns3: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>([
+        noun2,
+        noun3,
+        noun1,
+        noun4
+      ]);
+      const nouns4: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>([
+        noun2,
+        noun3,
+        noun4,
+        noun1
+      ]);
+      const nouns5: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>([
+        noun2,
+        noun3,
+        noun4,
+        noun5
+      ]);
+
+      const some1: boolean = nouns1.some((mock: MockNominative<number>) => {
+        if (mock.get() % 2 === 1) {
+          return true;
+        }
+
+        return false;
+      });
+      const some2: boolean = nouns2.some((mock: MockNominative<number>) => {
+        if (mock.get() % 2 === 1) {
+          return true;
+        }
+
+        return false;
+      });
+      const some3: boolean = nouns3.some((mock: MockNominative<number>) => {
+        if (mock.get() % 2 === 1) {
+          return true;
+        }
+
+        return false;
+      });
+      const some4: boolean = nouns4.some((mock: MockNominative<number>) => {
+        if (mock.get() % 2 === 1) {
+          return true;
+        }
+
+        return false;
+      });
+      const some5: boolean = nouns5.some((mock: MockNominative<number>) => {
+        if (mock.get() % 2 === 1) {
+          return true;
+        }
+
+        return false;
+      });
+
+      expect(some1).toEqual(true);
+      expect(some2).toEqual(true);
+      expect(some3).toEqual(true);
+      expect(some4).toEqual(true);
+      expect(some5).toEqual(false);
+    });
+  });
+
   describe('copy', () => {
     it('normal case', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
@@ -316,7 +552,7 @@ describe('Sequence', () => {
         noun3,
         noun4
       ]);
-      const nouns2: Sequence<MockNominative<number>> = nouns1.coppy();
+      const nouns2: Sequence<MockNominative<number>> = nouns1.copy();
 
       expect(nouns1.size()).toEqual(nouns2.size());
       expect(nouns1).not.toBe(nouns2);
@@ -336,7 +572,7 @@ describe('Sequence', () => {
         noun2,
         noun3,
       ]);
-      const nouns2: Sequence<MockNominative<number>> = nouns1.coppy();
+      const nouns2: Sequence<MockNominative<number>> = nouns1.copy();
       const nouns3: Sequence<MockNominative<number>> = nouns2.add(noun4);
 
       expect(nouns1.size()).toEqual(nouns2.size());

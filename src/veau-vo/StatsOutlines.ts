@@ -74,7 +74,7 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
   }
 
   public copy(): StatsOutlines {
-    return StatsOutlines.of(this.outlines.coppy());
+    return StatsOutlines.of(this.outlines.copy());
   }
 
   public isEmpty(): boolean {

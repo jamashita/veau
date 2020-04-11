@@ -90,7 +90,15 @@ export class Sequence<E extends Nominative> implements Collection<number, E>, It
     return Sequence.of<E>(this.elements.filter(iterator));
   }
 
-  public coppy(): Sequence<E> {
+  public every(enumerator: Enumerator<number, E>): boolean {
+    return this.elements.every(enumerator);
+  }
+
+  public some(enumerator: Enumerator<number, E>): boolean {
+    return this.elements.some(enumerator);
+  }
+
+  public copy(): Sequence<E> {
     return Sequence.of<E>([
       ...this.elements
     ]);

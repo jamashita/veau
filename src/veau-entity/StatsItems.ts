@@ -2,18 +2,16 @@ import { StatsItemError } from '../veau-error/StatsItemError';
 import { StatsItemIDError } from '../veau-error/StatsItemIDError';
 import { StatsItemsError } from '../veau-error/StatsItemsError';
 import { Cloneable } from '../veau-general/Cloneable';
-import { Collection } from '../veau-general/Collection';
+import { Collection } from '../veau-general/Collection/Collection';
+import { Sequence } from '../veau-general/Collection/Sequence';
 import { JSONable } from '../veau-general/JSONable';
-import { None } from '../veau-general/Optional/None';
 import { Optional } from '../veau-general/Optional/Optional';
-import { Some } from '../veau-general/Optional/Some';
 import { Failure } from '../veau-general/Try/Failure';
 import { manoeuvre } from '../veau-general/Try/Manoeuvre';
 import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
 import { Enumerator, Mapper } from '../veau-general/Type/Function';
 import { Type } from '../veau-general/Type/Type';
-import { Ambiguous } from '../veau-general/Type/Value';
 import { AsOf } from '../veau-vo/AsOf';
 import { AsOfs } from '../veau-vo/AsOfs';
 import { Column } from '../veau-vo/Column';
@@ -26,15 +24,19 @@ import { StatsItem, StatsItemJSON, StatsItemRow } from './StatsItem';
 
 export class StatsItems implements Collection<number, StatsItem>, JSONable, Cloneable {
   public readonly noun: 'StatsItems' = 'StatsItems';
-  private readonly items: Array<StatsItem>;
+  private readonly items: Sequence<StatsItem>;
 
-  public static of(items: Array<StatsItem>): StatsItems {
+  public static of(items: Sequence<StatsItem>): StatsItems {
     return new StatsItems(items);
+  }
+
+  public static ofArray(items: Array<StatsItem>): StatsItems {
+    return StatsItems.of(Sequence.of<StatsItem>(items));
   }
 
   public static ofTry(tries: Array<Try<StatsItem, StatsItemError>>): Try<StatsItems, StatsItemsError> {
     return manoeuvre<StatsItem, StatsItemError>(tries).match<Try<StatsItems, StatsItemsError>>((is: Array<StatsItem>) => {
-      return Success.of<StatsItems, StatsItemsError>(StatsItems.of(is));
+      return Success.of<StatsItems, StatsItemsError>(StatsItems.ofArray(is));
     }, (err: StatsItemError) => {
       return Failure.of<StatsItems, StatsItemsError>(new StatsItemsError(err.message));
     });
@@ -57,7 +59,6 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
       }, (err: StatsItemIDError) => {
         return Failure.of<StatsItem, StatsItemError>(new StatsItemError(err.message));
       });
-
     });
 
     return StatsItems.ofTry(trials);
@@ -74,36 +75,24 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
   }
 
   public static empty(): StatsItems {
-    return StatsItems.of([]);
-  }
-
-  private constructor(items: Array<StatsItem>) {
-    this.items = items;
-  }
-
-  public [Symbol.iterator](): Iterator<StatsItem> {
-    return this.items[Symbol.iterator]();
-  }
-
-  public add(statsItem: StatsItem): StatsItems {
-    return new StatsItems([
-      ...this.items,
-      statsItem
+    return StatsItems.ofArray([
     ]);
   }
 
+  private constructor(items: Sequence<StatsItem>) {
+    this.items = items;
+  }
+
+  public add(statsItem: StatsItem): StatsItems {
+    return StatsItems.of(this.items.add(statsItem));
+  }
+
   public get(index: number): Optional<StatsItem> {
-    const statsItem: Ambiguous<StatsItem> = this.items[index];
-
-    if (statsItem === undefined) {
-      return None.of<StatsItem>();
-    }
-
-    return Some.of<StatsItem>(statsItem);
+    return this.items.get(index);
   }
 
   public getNames(): StatsItemNames {
-    return StatsItemNames.of(this.items.map<StatsItemName>((item: StatsItem) => {
+    return StatsItemNames.of(this.items.project<StatsItemName>((item: StatsItem) => {
       return item.getName();
     }));
   }
@@ -111,13 +100,13 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
   public getAsOfs(): AsOfs {
     const asOfs: Array<AsOf> = [];
 
-    this.items.forEach((item: StatsItem) => {
+    this.items.iterate((item: StatsItem) => {
       item.getAsOfs().forEach((asOf: AsOf) => {
         asOfs.push(asOf);
       });
     });
 
-    return AsOfs.of(asOfs);
+    return AsOfs.ofArray(asOfs);
   }
 
   public maxNameLength(): number {
@@ -125,7 +114,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
       return 0;
     }
 
-    const lengths: Array<number> = this.items.map<number>((item: StatsItem) => {
+    const lengths: Array<number> = this.items.toArray().map<number>((item: StatsItem) => {
       return item.getName().length();
     });
 
@@ -133,9 +122,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
   }
 
   public move(from: Column, to: Column): StatsItems {
-    const {
-      items
-    } = this;
+    const items: Array<StatsItem> = this.items.toArray();
 
     const fromValue: number = from.get();
     const toValue: number = to.get();
@@ -150,13 +137,11 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
       ...items.slice(max + 1)
     ];
 
-    return new StatsItems(newItems);
+    return StatsItems.ofArray(newItems);
   }
 
   public replace(statsItem: StatsItem, to: Row): StatsItems {
-    const {
-      items
-    } = this;
+    const items: Array<StatsItem> = this.items.toArray();
 
     const toValue: number = to.get();
 
@@ -166,35 +151,27 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
       ...items.slice(toValue + 1)
     ];
 
-    return new StatsItems(newItems);
+    return StatsItems.ofArray(newItems);
   }
 
   public remove(statsItem: StatsItem): StatsItems {
-    const items: Array<StatsItem> = this.items.filter((item: StatsItem) => {
+    const items: Sequence<StatsItem> = this.items.screen((item: StatsItem) => {
       return !item.equals(statsItem);
     });
 
-    return new StatsItems(items);
+    return StatsItems.of(items);
   }
 
   public contains(value: StatsItem): boolean {
-    const found: Ambiguous<StatsItem> = this.items.find((item: StatsItem) => {
-      return value.equals(item);
-    });
-
-    if (found === undefined) {
-      return false;
-    }
-
-    return true;
+    return this.items.contains(value);
   }
 
   public size(): number {
-    return this.items.length;
+    return this.items.size();
   }
 
   public forEach(iteration: Enumerator<number, StatsItem>): void {
-    this.items.forEach(iteration);
+    this.items.iterate(iteration);
   }
 
   public map<U>(mapper: Mapper<StatsItem, U>): Array<U> {

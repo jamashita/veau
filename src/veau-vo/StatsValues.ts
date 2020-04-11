@@ -158,7 +158,7 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
   }
 
   public copy(): StatsValues {
-    return StatsValues.of(this.values.coppy());
+    return StatsValues.of(this.values.copy());
   }
 
   public equals(other: StatsValues): boolean {
