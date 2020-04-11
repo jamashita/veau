@@ -8,7 +8,7 @@ import { Collection } from './Collection';
 
 export class Sequence<E extends Nominative> implements Collection<number, E>, Iterable<E> {
   public readonly noun: 'List' = 'List';
-  private elements: Array<E>;
+  private readonly elements: Array<E>;
 
   public static of<E extends Nominative>(elements: Array<E>): Sequence<E> {
     return new Sequence<E>(elements);
