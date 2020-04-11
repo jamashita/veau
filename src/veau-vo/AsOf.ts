@@ -1,10 +1,10 @@
 import moment from 'moment';
-import { AsOfError } from '../veau-error/AsOfError';
-import { Failure } from '../veau-general/Try/Failure';
-import { Success } from '../veau-general/Try/Success';
-import { Try } from '../veau-general/Try/Try';
-import { ValueObject } from '../veau-general/ValueObject';
-import { Term } from './Term';
+import {AsOfError} from '../veau-error/AsOfError';
+import {Failure} from '../veau-general/Try/Failure';
+import {Success} from '../veau-general/Try/Success';
+import {Try} from '../veau-general/Try/Try';
+import {ValueObject} from '../veau-general/ValueObject';
+import {Term} from './Term';
 
 const TERM_FORMAT: string = 'YYYY-MM-DD';
 
@@ -26,7 +26,7 @@ export class AsOf extends ValueObject {
     return Failure.of<AsOf, AsOfError>(new AsOfError('asOf is not suitable for date time'));
   }
 
-  private constructor(asOf: moment.Moment) {
+  protected constructor(asOf: moment.Moment) {
     super();
     this.asOf = asOf;
   }
@@ -36,7 +36,7 @@ export class AsOf extends ValueObject {
   }
 
   public isBefore(other: AsOf): boolean {
-    if (this.asOf.isBefore(other.get())) {
+    if (this.asOf.isBefore(other.asOf)) {
       return true;
     }
 
@@ -44,7 +44,7 @@ export class AsOf extends ValueObject {
   }
 
   public isAfter(other: AsOf): boolean {
-    if (this.asOf.isAfter(other.get())) {
+    if (this.asOf.isAfter(other.asOf)) {
       return true;
     }
 
@@ -105,7 +105,7 @@ export class AsOf extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.asOf.isSame(other.get())) {
+    if (this.asOf.isSame(other.asOf)) {
       return true;
     }
 
