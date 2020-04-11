@@ -6,35 +6,13 @@ import { RegionName } from '../RegionName';
 import { Regions } from '../Regions';
 
 describe('Regions', () => {
-  describe('[Symbol.iterator]', () => {
-    it('can iterate for loop', () => {
-      const region1: Region = Region.of(RegionID.of(1), RegionName.of('region 1'), ISO3166.of('abc'));
-      const region2: Region = Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abd'));
-      const region3: Region = Region.of(RegionID.of(3), RegionName.of('region 3'), ISO3166.of('abe'));
-
-      const regions: Regions = Regions.of([
-        region1,
-        region2,
-        region3
-      ]);
-
-      let i: number = 0;
-      for (const region of regions) {
-        expect(regions.get(i).get()).toBe(region);
-        i++;
-      }
-
-      expect(i).toEqual(regions.size());
-    });
-  });
-
   describe('get', () => {
     it('returns Region instance at the correct index', () => {
       const region1: Region = Region.of(RegionID.of(1), RegionName.of('region 1'), ISO3166.of('abc'));
       const region2: Region = Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abd'));
       const region3: Region = Region.of(RegionID.of(3), RegionName.of('region 3'), ISO3166.of('abe'));
 
-      const regions: Regions = Regions.of([
+      const regions: Regions = Regions.ofArray([
         region1,
         region2,
         region3
@@ -61,7 +39,7 @@ describe('Regions', () => {
       const region3: Region = Region.of(RegionID.of(1), RegionName.of('region 1'), ISO3166.of('abc'));
       const region4: Region = Region.of(RegionID.of(3), RegionName.of('region 3'), ISO3166.of('abe'));
 
-      const regions: Regions = Regions.of([
+      const regions: Regions = Regions.ofArray([
         region1,
         region2
       ]);
@@ -79,7 +57,7 @@ describe('Regions', () => {
       const region2: Region = Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abd'));
 
       const regions1: Regions = Regions.empty();
-      const regions2: Regions = Regions.of([
+      const regions2: Regions = Regions.ofArray([
         region1,
         region2
       ]);
@@ -94,11 +72,11 @@ describe('Regions', () => {
       const region1: Region = Region.of(RegionID.of(1), RegionName.of('region 1'), ISO3166.of('abc'));
       const region2: Region = Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abd'));
 
-      const regions1: Regions = Regions.of([
+      const regions1: Regions = Regions.ofArray([
         region1,
         region2
       ]);
-      const regions2: Regions = Regions.of([
+      const regions2: Regions = Regions.ofArray([
         region1
       ]);
 
@@ -110,11 +88,11 @@ describe('Regions', () => {
       const region1: Region = Region.of(RegionID.of(1), RegionName.of('region 1'), ISO3166.of('abc'));
       const region2: Region = Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abd'));
 
-      const regions1: Regions = Regions.of([
+      const regions1: Regions = Regions.ofArray([
         region1,
         region2
       ]);
-      const regions2: Regions = Regions.of([
+      const regions2: Regions = Regions.ofArray([
         region2,
         region1
       ]);
@@ -127,11 +105,11 @@ describe('Regions', () => {
       const region1: Region = Region.of(RegionID.of(1), RegionName.of('region 1'), ISO3166.of('abc'));
       const region2: Region = Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abd'));
 
-      const regions1: Regions = Regions.of([
+      const regions1: Regions = Regions.ofArray([
         region1,
         region2
       ]);
-      const regions2: Regions = Regions.of([
+      const regions2: Regions = Regions.ofArray([
         region1,
         region2
       ]);
@@ -145,7 +123,7 @@ describe('Regions', () => {
     it('normal case', () => {
       const region1: Region = Region.of(RegionID.of(1), RegionName.of('region 1'), ISO3166.of('abc'));
 
-      const regions: Regions = Regions.of([
+      const regions: Regions = Regions.ofArray([
         region1
       ]);
 
@@ -170,7 +148,7 @@ describe('Regions', () => {
       const region1: Region = Region.of(RegionID.of(id1), RegionName.of(name1), ISO3166.of(iso31661));
       const region2: Region = Region.of(RegionID.of(id2), RegionName.of(name2), ISO3166.of(iso31662));
 
-      const regions: Regions = Regions.of([
+      const regions: Regions = Regions.ofArray([
         region1,
         region2
       ]);
