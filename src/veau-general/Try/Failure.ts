@@ -15,7 +15,7 @@ export class Failure<S, F extends Error> extends Try<S, F> {
     this.value = value;
   }
 
-  public get(): S {
+  public get(): never {
     // eslint-disable-next-line @typescript-eslint/no-throw-literal
     throw this.value as Error;
   }

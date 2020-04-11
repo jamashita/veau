@@ -19,7 +19,7 @@ export class None<T> extends Optional<T> {
     super();
   }
 
-  public get(): T {
+  public get(): never {
     throw new OptionalError('IS NOT PRESENT');
   }
 

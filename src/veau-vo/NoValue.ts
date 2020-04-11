@@ -12,7 +12,7 @@ export class NoValue extends NumericalValue {
     super(0);
   }
 
-  public get(): number {
+  public get(): never {
     throw new NumericalValueError('ILLEGAL OPERATION');
   }
 
