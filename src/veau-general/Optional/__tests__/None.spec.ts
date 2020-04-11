@@ -79,7 +79,6 @@ describe('None', () => {
       });
 
       expect(spy.called).toEqual(false);
-      expect(none).not.toBe(optional);
       expect(optional).toBeInstanceOf(None);
     });
   });
