@@ -1,15 +1,19 @@
 import { ValueObject } from '../veau-general/ValueObject';
 
+const DEFAULT_NAME: string = '';
+
 export class AccountName extends ValueObject {
   public readonly noun: 'AccountName' = 'AccountName';
   private readonly name: string;
+
+  private static readonly DEFAULT: AccountName = AccountName.of(DEFAULT_NAME);
 
   public static of(name: string): AccountName {
     return new AccountName(name);
   }
 
   public static default(): AccountName {
-    return AccountName.of('');
+    return AccountName.DEFAULT;
   }
 
   private constructor(name: string) {
@@ -22,7 +26,10 @@ export class AccountName extends ValueObject {
   }
 
   public isDefault(): boolean {
-    if (this.name === '') {
+    if (this === AccountName.DEFAULT) {
+      return true;
+    }
+    if (this.name === DEFAULT_NAME) {
       return true;
     }
 
@@ -33,7 +40,7 @@ export class AccountName extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.name === other.get()) {
+    if (this.name === other.name) {
       return true;
     }
 

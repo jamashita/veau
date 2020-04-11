@@ -1,6 +1,12 @@
 import { LanguageName } from '../LanguageName';
 
 describe('LanguageName', () => {
+  describe('default', () => {
+    it('always returns empty string', () => {
+      expect(LanguageName.default().get()).toEqual('');
+    });
+  });
+
   describe('equals', () => {
     it('returns true if both properties are the same', () => {
       const name1: LanguageName = LanguageName.of('language name 1');

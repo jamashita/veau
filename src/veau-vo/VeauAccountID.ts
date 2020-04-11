@@ -46,7 +46,7 @@ export class VeauAccountID extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.uuid.equals(other.get())) {
+    if (this.uuid.equals(other.uuid)) {
       return true;
     }
 

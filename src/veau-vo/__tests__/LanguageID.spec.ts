@@ -1,6 +1,12 @@
 import { LanguageID } from '../LanguageID';
 
 describe('LanguageID', () => {
+  describe('default', () => {
+    it('always returns 0', () => {
+      expect(LanguageID.default().get()).toEqual(0);
+    });
+  });
+
   describe('equals', () => {
     it('returns true if the property is the same', () => {
       const languageID1: LanguageID = LanguageID.of(1);

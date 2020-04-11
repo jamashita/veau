@@ -1,15 +1,19 @@
 import { ValueObject } from '../veau-general/ValueObject';
 
+const DEFAULT_NAME: string = '';
+
 export class LanguageName extends ValueObject {
   public readonly noun: 'LanguageName' = 'LanguageName';
   private readonly name: string;
+
+  private static readonly DEFAULT: LanguageName = LanguageName.of(DEFAULT_NAME);
 
   public static of(name: string): LanguageName {
     return new LanguageName(name);
   }
 
   public static default(): LanguageName {
-    return LanguageName.of('');
+    return LanguageName.DEFAULT;
   }
 
   private constructor(name: string) {
@@ -25,7 +29,7 @@ export class LanguageName extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.name === other.get()) {
+    if (this.name === other.name) {
       return true;
     }
 

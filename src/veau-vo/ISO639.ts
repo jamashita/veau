@@ -1,15 +1,19 @@
 import { ValueObject } from '../veau-general/ValueObject';
 
+const DEFAULT_NAME: string = '';
+
 export class ISO639 extends ValueObject {
   public readonly noun: 'ISO639' = 'ISO639';
   private readonly iso639: string;
+
+  private static readonly DEFAULT: ISO639 = ISO639.of(DEFAULT_NAME);
 
   public static of(iso639: string): ISO639 {
     return new ISO639(iso639);
   }
 
   public static default(): ISO639 {
-    return new ISO639('');
+    return ISO639.DEFAULT;
   }
 
   private constructor(iso639: string) {
@@ -25,7 +29,7 @@ export class ISO639 extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.iso639 === other.get()) {
+    if (this.iso639 === other.iso639) {
       return true;
     }
 

@@ -1,6 +1,12 @@
 import { AccountName } from '../AccountName';
 
 describe('AccountName', () => {
+  describe('default', () => {
+    it('must be an empty name', () => {
+      expect(AccountName.default().get()).toEqual('');
+    });
+  });
+
   describe('equals', () => {
     it('returns true if both properties are the same', () => {
       const name1: AccountName = AccountName.of('account name 1');
@@ -31,12 +37,6 @@ describe('AccountName', () => {
       const accountName: AccountName = AccountName.of(name);
 
       expect(accountName.toString()).toEqual(name);
-    });
-  });
-
-  describe('default', () => {
-    it('must be an empty name', () => {
-      expect(AccountName.default().get()).toEqual('');
     });
   });
 });

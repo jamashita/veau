@@ -1,6 +1,12 @@
 import { ISO639 } from '../ISO639';
 
 describe('ISO639', () => {
+  describe('default', () => {
+    it('always returns empty string', () => {
+      expect(ISO639.default().get()).toEqual('');
+    });
+  });
+
   describe('equals', () => {
     it('returns true if the property is the same', () => {
       const iso6391: ISO639 = ISO639.of('ab');
