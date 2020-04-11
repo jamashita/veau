@@ -7,7 +7,7 @@ import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { DataSourceError } from '../veau-general/DataSourceError';
 import { Digest } from '../veau-general/Digest';
 import { Try } from '../veau-general/Try/Try';
-import { IAccountQuery } from '../veau-query/interfaces/IAccountQuery';
+import { IAccountQuery } from '../veau-query/Interfaces/IAccountQuery';
 import { Account } from '../veau-vo/Account';
 import { AccountName } from '../veau-vo/AccountName';
 import { Password } from '../veau-vo/Password';

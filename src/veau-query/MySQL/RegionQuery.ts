@@ -10,8 +10,8 @@ import { Try } from '../../veau-general/Try/Try';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { Region, RegionRow } from '../../veau-vo/Region';
 import { Regions } from '../../veau-vo/Regions';
-import { IMySQLQuery } from '../interfaces/IMySQLQuery';
-import { IRegionQuery } from '../interfaces/IRegionQuery';
+import { IMySQLQuery } from '../Interfaces/IMySQLQuery';
+import { IRegionQuery } from '../Interfaces/IRegionQuery';
 
 @injectable()
 export class RegionQuery implements IRegionQuery, IMySQLQuery {

@@ -6,7 +6,7 @@ import { AuthenticationFailureError } from '../../veau-error/AuthenticationFailu
 import { VeauAccountError } from '../../veau-error/VeauAccountError';
 import { DataSourceError } from '../../veau-general/DataSourceError';
 import { Try } from '../../veau-general/Try/Try';
-import { ISessionQuery } from '../../veau-query/interfaces/ISessionQuery';
+import { ISessionQuery } from '../../veau-query/Interfaces/ISessionQuery';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 import { VeauAccount } from '../../veau-vo/VeauAccount';
 import { ACTION, EntranceAccountNameTypedAction, EntrancePasswordTypedAction } from '../actions/Action';

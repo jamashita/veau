@@ -10,8 +10,8 @@ import { Page } from '../../veau-vo/Page';
 import { StatsOutlineRow } from '../../veau-vo/StatsOutline';
 import { StatsOutlines } from '../../veau-vo/StatsOutlines';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
-import { IMySQLQuery } from '../interfaces/IMySQLQuery';
-import { IStatsOutlineQuery } from '../interfaces/IStatsOutlineQuery';
+import { IMySQLQuery } from '../Interfaces/IMySQLQuery';
+import { IStatsOutlineQuery } from '../Interfaces/IStatsOutlineQuery';
 
 @injectable()
 export class StatsOutlineQuery implements IStatsOutlineQuery, IMySQLQuery {

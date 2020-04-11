@@ -4,8 +4,8 @@ import { DataSourceError } from '../../veau-general/DataSourceError';
 import { Try } from '../../veau-general/Try/Try';
 import { UnimplementedError } from '../../veau-general/UnimplementedError';
 import { StatsID } from '../../veau-vo/StatsID';
-import { IMockQuery } from '../interfaces/IMockQuery';
-import { IStatsItemQuery } from '../interfaces/IStatsItemQuery';
+import { IMockQuery } from '../Interfaces/IMockQuery';
+import { IStatsItemQuery } from '../Interfaces/IStatsItemQuery';
 
 export class MockStatsItemQuery implements IStatsItemQuery, IMockQuery {
   public readonly noun: 'StatsItemQuery' = 'StatsItemQuery';

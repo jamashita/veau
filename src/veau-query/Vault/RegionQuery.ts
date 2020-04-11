@@ -10,9 +10,9 @@ import { ISO3166 } from '../../veau-vo/ISO3166';
 import { Locale } from '../../veau-vo/Locale';
 import { Region } from '../../veau-vo/Region';
 import { Regions } from '../../veau-vo/Regions';
-import { ILocaleQuery } from '../interfaces/ILocaleQuery';
-import { IRegionQuery } from '../interfaces/IRegionQuery';
-import { IVaultQuery } from '../interfaces/IVaultQuery';
+import { ILocaleQuery } from '../Interfaces/ILocaleQuery';
+import { IRegionQuery } from '../Interfaces/IRegionQuery';
+import { IVaultQuery } from '../Interfaces/IVaultQuery';
 
 @injectable()
 export class RegionQuery implements IRegionQuery, IVaultQuery {

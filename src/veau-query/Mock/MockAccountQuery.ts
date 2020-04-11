@@ -5,8 +5,8 @@ import { Try } from '../../veau-general/Try/Try';
 import { UnimplementedError } from '../../veau-general/UnimplementedError';
 import { Account } from '../../veau-vo/Account';
 import { AccountName } from '../../veau-vo/AccountName';
-import { IAccountQuery } from '../interfaces/IAccountQuery';
-import { IMockQuery } from '../interfaces/IMockQuery';
+import { IAccountQuery } from '../Interfaces/IAccountQuery';
+import { IMockQuery } from '../Interfaces/IMockQuery';
 
 export class MockAccountQuery implements IAccountQuery, IMockQuery {
   public readonly noun: 'AccountQuery' = 'AccountQuery';

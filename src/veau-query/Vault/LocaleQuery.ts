@@ -6,8 +6,8 @@ import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
 import { Locale } from '../../veau-vo/Locale';
-import { ILocaleQuery } from '../interfaces/ILocaleQuery';
-import { IVaultQuery } from '../interfaces/IVaultQuery';
+import { ILocaleQuery } from '../Interfaces/ILocaleQuery';
+import { IVaultQuery } from '../Interfaces/IVaultQuery';
 
 @injectable()
 export class LocaleQuery implements ILocaleQuery, IVaultQuery {

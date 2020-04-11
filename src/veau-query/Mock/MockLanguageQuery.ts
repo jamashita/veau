@@ -5,8 +5,8 @@ import { UnimplementedError } from '../../veau-general/UnimplementedError';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language } from '../../veau-vo/Language';
 import { Languages } from '../../veau-vo/Languages';
-import { ILanguageQuery } from '../interfaces/ILanguageQuery';
-import { IMockQuery } from '../interfaces/IMockQuery';
+import { ILanguageQuery } from '../Interfaces/ILanguageQuery';
+import { IMockQuery } from '../Interfaces/IMockQuery';
 
 export class MockLanguageQuery implements ILanguageQuery, IMockQuery {
   public readonly noun: 'LanguageQuery' = 'LanguageQuery';

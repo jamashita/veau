@@ -10,8 +10,8 @@ import { Try } from '../../veau-general/Try/Try';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language, LanguageRow } from '../../veau-vo/Language';
 import { Languages } from '../../veau-vo/Languages';
-import { ILanguageQuery } from '../interfaces/ILanguageQuery';
-import { IMySQLQuery } from '../interfaces/IMySQLQuery';
+import { ILanguageQuery } from '../Interfaces/ILanguageQuery';
+import { IMySQLQuery } from '../Interfaces/IMySQLQuery';
 
 @injectable()
 export class LanguageQuery implements ILanguageQuery, IMySQLQuery {

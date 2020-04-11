@@ -1,4 +1,4 @@
-export type DIType = Readonly<{
+type DIType = Readonly<{
   SessionAJAXCommand: symbol;
   StatsAJAXCommand: symbol;
   LocaleHeapCommand: symbol;

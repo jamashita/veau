@@ -9,8 +9,8 @@ import { Failure } from '../../veau-general/Try/Failure';
 import { Try } from '../../veau-general/Try/Try';
 import { Account, AccountRow } from '../../veau-vo/Account';
 import { AccountName } from '../../veau-vo/AccountName';
-import { IAccountQuery } from '../interfaces/IAccountQuery';
-import { IMySQLQuery } from '../interfaces/IMySQLQuery';
+import { IAccountQuery } from '../Interfaces/IAccountQuery';
+import { IMySQLQuery } from '../Interfaces/IMySQLQuery';
 
 @injectable()
 export class AccountQuery implements IAccountQuery, IMySQLQuery {

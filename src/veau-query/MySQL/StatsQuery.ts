@@ -11,9 +11,9 @@ import { MySQLError } from '../../veau-general/MySQL/MySQLError';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Try } from '../../veau-general/Try/Try';
 import { StatsID } from '../../veau-vo/StatsID';
-import { IMySQLQuery } from '../interfaces/IMySQLQuery';
-import { IStatsItemQuery } from '../interfaces/IStatsItemQuery';
-import { IStatsQuery } from '../interfaces/IStatsQuery';
+import { IMySQLQuery } from '../Interfaces/IMySQLQuery';
+import { IStatsItemQuery } from '../Interfaces/IStatsItemQuery';
+import { IStatsQuery } from '../Interfaces/IStatsQuery';
 
 @injectable()
 export class StatsQuery implements IStatsQuery, IMySQLQuery {

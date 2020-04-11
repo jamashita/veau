@@ -10,8 +10,8 @@ import { Try } from '../../veau-general/Try/Try';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language } from '../../veau-vo/Language';
 import { Languages } from '../../veau-vo/Languages';
-import { IKernelQuery } from '../interfaces/IKernelQuery';
-import { ILanguageQuery } from '../interfaces/ILanguageQuery';
+import { IKernelQuery } from '../Interfaces/IKernelQuery';
+import { ILanguageQuery } from '../Interfaces/ILanguageQuery';
 
 @injectable()
 export class LanguageQuery implements ILanguageQuery, IKernelQuery {

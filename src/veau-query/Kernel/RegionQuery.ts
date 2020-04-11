@@ -10,8 +10,8 @@ import { Try } from '../../veau-general/Try/Try';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { Region } from '../../veau-vo/Region';
 import { Regions } from '../../veau-vo/Regions';
-import { IKernelQuery } from '../interfaces/IKernelQuery';
-import { IRegionQuery } from '../interfaces/IRegionQuery';
+import { IKernelQuery } from '../Interfaces/IKernelQuery';
+import { IRegionQuery } from '../Interfaces/IRegionQuery';
 
 @injectable()
 export class RegionQuery implements IRegionQuery, IKernelQuery {

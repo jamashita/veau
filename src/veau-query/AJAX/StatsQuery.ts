@@ -11,8 +11,8 @@ import { DataSourceError } from '../../veau-general/DataSourceError';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Try } from '../../veau-general/Try/Try';
 import { StatsID } from '../../veau-vo/StatsID';
-import { IAJAXQuery } from '../interfaces/IAJAXQuery';
-import { IStatsQuery } from '../interfaces/IStatsQuery';
+import { IAJAXQuery } from '../Interfaces/IAJAXQuery';
+import { IStatsQuery } from '../Interfaces/IStatsQuery';
 
 @injectable()
 export class StatsQuery implements IStatsQuery, IAJAXQuery {

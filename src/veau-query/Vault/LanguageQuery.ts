@@ -10,9 +10,9 @@ import { ISO639 } from '../../veau-vo/ISO639';
 import { Language } from '../../veau-vo/Language';
 import { Languages } from '../../veau-vo/Languages';
 import { Locale } from '../../veau-vo/Locale';
-import { ILanguageQuery } from '../interfaces/ILanguageQuery';
-import { ILocaleQuery } from '../interfaces/ILocaleQuery';
-import { IVaultQuery } from '../interfaces/IVaultQuery';
+import { ILanguageQuery } from '../Interfaces/ILanguageQuery';
+import { ILocaleQuery } from '../Interfaces/ILocaleQuery';
+import { IVaultQuery } from '../Interfaces/IVaultQuery';
 
 @injectable()
 export class LanguageQuery implements ILanguageQuery, IVaultQuery {
