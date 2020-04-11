@@ -51,7 +51,7 @@ describe('StatsItemQuery', () => {
           name: 'name3'
         }
       ];
-      const values: StatsValues = StatsValues.of([
+      const values: StatsValues = StatsValues.ofArray([
         StatsValue.of(
           StatsItemID.ofString('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
           AsOf.ofString('2000-01-01').get(),
@@ -133,7 +133,7 @@ describe('StatsItemQuery', () => {
           name: 'name3'
         }
       ];
-      const values: StatsValues = StatsValues.of([
+      const values: StatsValues = StatsValues.ofArray([
         StatsValue.of(
           StatsItemID.ofString('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
           AsOf.ofString('2000-01-01').get(),

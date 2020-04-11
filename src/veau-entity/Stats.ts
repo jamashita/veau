@@ -318,13 +318,14 @@ export class Stats extends Entity<StatsID> {
     if (startDate.isPresent()) {
       asOfs = asOfs.add(startDate.get());
     }
-
     if (asOfs.isEmpty()) {
       return AsOfs.empty();
     }
 
     const minTerm: AsOf = asOfs.min().get();
     const maxTerm: AsOf = asOfs.max().get();
+
+    // TODO
     asOfs = AsOfs.empty();
 
     asOfs = asOfs.add(minTerm.previous(this.term));
@@ -498,8 +499,7 @@ export class Stats extends Entity<StatsID> {
       name,
       unit,
       updatedAt,
-      items,
-      startDate
+      items
     } = this;
 
     if (!statsID.equals(other.getStatsID())) {
