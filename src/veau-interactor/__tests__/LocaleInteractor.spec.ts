@@ -232,7 +232,7 @@ describe('LocaleInteractor',  () => {
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const stub1: SinonStub = sinon.stub();
       languageRedisCommand.deleteAll = stub1;
-      stub1.resolves(Failure.of<void, CacheError>(new CacheError('test failed')));
+      stub1.resolves(Failure.of<CacheError>(new CacheError('test failed')));
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub2: SinonStub = sinon.stub();
       regionRedisCommand.deleteAll = stub2;
@@ -263,7 +263,7 @@ describe('LocaleInteractor',  () => {
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const stub1: SinonStub = sinon.stub();
       languageRedisCommand.deleteAll = stub1;
-      stub1.resolves(Failure.of<void, DataSourceError>(new MockRedisError()));
+      stub1.resolves(Failure.of<DataSourceError>(new MockRedisError()));
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub2: SinonStub = sinon.stub();
       regionRedisCommand.deleteAll = stub2;
@@ -298,7 +298,7 @@ describe('LocaleInteractor',  () => {
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub2: SinonStub = sinon.stub();
       regionRedisCommand.deleteAll = stub2;
-      stub2.resolves(Failure.of<void, CacheError>(new CacheError('test failed')));
+      stub2.resolves(Failure.of<CacheError>(new CacheError('test failed')));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
@@ -329,7 +329,7 @@ describe('LocaleInteractor',  () => {
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub2: SinonStub = sinon.stub();
       regionRedisCommand.deleteAll = stub2;
-      stub2.resolves(Failure.of<void, DataSourceError>(new MockRedisError()));
+      stub2.resolves(Failure.of<DataSourceError>(new MockRedisError()));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 

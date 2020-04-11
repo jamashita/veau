@@ -31,11 +31,11 @@ export class LanguageCommand implements ILanguageCommand, IRedisCommand {
       await this.redis.getString().set(REDIS_LANGUAGE_KEY, str);
       await this.redis.expires(REDIS_LANGUAGE_KEY, DURATION);
 
-      return Success.of<void, DataSourceError>(undefined);
+      return Success.of<DataSourceError>();
     }
     catch (err) {
       if (err instanceof RedisError) {
-        return Failure.of<void, RedisError>(err);
+        return Failure.of<RedisError>(err);
       }
 
       throw err;
@@ -47,14 +47,14 @@ export class LanguageCommand implements ILanguageCommand, IRedisCommand {
       const ok: boolean = await this.redis.delete(REDIS_LANGUAGE_KEY);
 
       if (ok) {
-        return Success.of<void, DataSourceError>(undefined);
+        return Success.of<DataSourceError>();
       }
 
-      return Failure.of<void, CacheError>(new CacheError('FAIL TO DELETE CACHE'));
+      return Failure.of<CacheError>(new CacheError('FAIL TO DELETE CACHE'));
     }
     catch (err) {
       if (err instanceof RedisError) {
-        return Failure.of<void, RedisError>(err);
+        return Failure.of<RedisError>(err);
       }
 
       throw err;

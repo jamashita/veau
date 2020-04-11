@@ -31,11 +31,11 @@ export class RegionCommand implements IRegionCommand, IRedisCommand {
       await this.redis.getString().set(REDIS_REGION_KEY, str);
       await this.redis.expires(REDIS_REGION_KEY, DURATION);
 
-      return Success.of<void, DataSourceError>(undefined);
+      return Success.of<DataSourceError>();
     }
     catch (err) {
       if (err instanceof RedisError) {
-        return Failure.of<void, RedisError>(err);
+        return Failure.of<RedisError>(err);
       }
 
       throw err;
@@ -47,14 +47,14 @@ export class RegionCommand implements IRegionCommand, IRedisCommand {
       const ok: boolean = await this.redis.delete(REDIS_REGION_KEY);
 
       if (ok) {
-        return Success.of<void, DataSourceError>(undefined);
+        return Success.of<DataSourceError>();
       }
 
-      return Failure.of<void, CacheError>(new CacheError('FAIL TO DELETE CACHE'));
+      return Failure.of<CacheError>(new CacheError('FAIL TO DELETE CACHE'));
     }
     catch (err) {
       if (err instanceof RedisError) {
-        return Failure.of<void, RedisError>(err);
+        return Failure.of<RedisError>(err);
       }
 
       throw err;

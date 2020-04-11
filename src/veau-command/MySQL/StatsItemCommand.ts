@@ -38,11 +38,11 @@ export class StatsItemCommand implements IStatsItemCommand, IMySQLCommand {
         seq
       });
 
-      return Success.of<void, DataSourceError>(undefined);
+      return Success.of<DataSourceError>();
     }
     catch (err) {
       if (err instanceof MySQLError) {
-        return Failure.of<void, MySQLError>(err);
+        return Failure.of<MySQLError>(err);
       }
 
       throw err;
@@ -61,11 +61,11 @@ export class StatsItemCommand implements IStatsItemCommand, IMySQLCommand {
         statsID: statsID.get().get()
       });
 
-      return Success.of<void, DataSourceError>(undefined);
+      return Success.of<DataSourceError>();
     }
     catch (err) {
       if (err instanceof MySQLError) {
-        return Failure.of<void, MySQLError>(err);
+        return Failure.of<MySQLError>(err);
       }
 
       throw err;

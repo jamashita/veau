@@ -100,7 +100,7 @@ describe('LocaleQuery', () => {
       stub2.resolves(Success.of<Locale, DataSourceError>(locale));
       const stub3: SinonStub = sinon.stub();
       localeCommand.create = stub3;
-      stub3.resolves(Success.of<void, DataSourceError>(undefined));
+      stub3.resolves(Success.of<DataSourceError>());
 
       const localeQuery: LocaleQuery = new LocaleQuery(localeAJAXQuery, localeHeapQuery, localeCommand);
       const trial: Try<Locale, DataSourceError> = await localeQuery.all();

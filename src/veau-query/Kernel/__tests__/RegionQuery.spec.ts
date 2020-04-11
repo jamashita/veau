@@ -68,7 +68,7 @@ describe('RegionQuery', () => {
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub3: SinonStub = sinon.stub();
       regionRedisCommand.insertAll= stub3;
-      stub3.resolves(Success.of<void, DataSourceError>(undefined));
+      stub3.resolves(Success.of<DataSourceError>());
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand)
       const trial: Try<Regions, NoSuchElementError | DataSourceError>= await regionQuery.all();
@@ -89,7 +89,7 @@ describe('RegionQuery', () => {
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub3: SinonStub = sinon.stub();
       regionRedisCommand.insertAll= stub3;
-      stub3.resolves(Success.of<void, DataSourceError>(undefined));
+      stub3.resolves(Success.of<DataSourceError>());
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
@@ -125,7 +125,7 @@ describe('RegionQuery', () => {
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub3: SinonStub = sinon.stub();
       regionRedisCommand.insertAll= stub3;
-      stub3.resolves(Failure.of<void, DataSourceError>(new MockRedisError()));
+      stub3.resolves(Failure.of<DataSourceError>(new MockRedisError()));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 

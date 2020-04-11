@@ -97,7 +97,7 @@ describe('LocaleController', () => {
     it('cache delete error', async () => {
       const stub: SinonStub = sinon.stub();
       LocaleInteractor.prototype.delete = stub;
-      stub.resolves(Failure.of<void, CacheError>(new CacheError('error')));
+      stub.resolves(Failure.of<CacheError>(new CacheError('error')));
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
@@ -115,7 +115,7 @@ describe('LocaleController', () => {
     it('replies INTERNAL_SERVER_ERROR', async () => {
       const stub: SinonStub = sinon.stub();
       LocaleInteractor.prototype.delete = stub;
-      stub.resolves(Failure.of<void, CacheError>(new CacheError('test failed')));
+      stub.resolves(Failure.of<CacheError>(new CacheError('test failed')));
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));

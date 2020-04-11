@@ -68,7 +68,7 @@ describe('LanguageQuery', () => {
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const stub3: SinonStub = sinon.stub();
       languageRedisCommand.insertAll = stub3;
-      stub3.resolves(Success.of<void, DataSourceError>(undefined));
+      stub3.resolves(Success.of<DataSourceError>());
 
       const languageQuery: LanguageQuery = new LanguageQuery(languageMySQLQuery, languageRedisQuery, languageRedisCommand);
       const trial: Try<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
@@ -122,7 +122,7 @@ describe('LanguageQuery', () => {
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const stub3: SinonStub = sinon.stub();
       languageRedisCommand.insertAll = stub3;
-      stub3.resolves(Failure.of<void, DataSourceError>(new MockRedisError()));
+      stub3.resolves(Failure.of<DataSourceError>(new MockRedisError()));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 

@@ -72,7 +72,7 @@ export class LocaleInteractor implements IInteractor {
 
     return languagesTry.match<Try<void, CacheError | DataSourceError>>(() => {
       return regionsTry.match<Try<void, CacheError | DataSourceError>>(() => {
-        return Success.of<void, DataSourceError>(undefined);
+        return Success.of<DataSourceError>();
       }, (err: CacheError | DataSourceError, self: Failure<void, CacheError | DataSourceError>) => {
         return self;
       });
