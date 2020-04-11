@@ -10,218 +10,81 @@ import { StatsOutlines } from '../StatsOutlines';
 import { StatsUnit } from '../StatsUnit';
 import { Term } from '../Term';
 import { UpdatedAt } from '../UpdatedAt';
+import { MockStatsOutline } from '../Mock/MockStatsOutline';
+import { Success } from '../../veau-general/Try/Success';
+import { StatsOutlineError } from '../../veau-error/StatsOutlineError';
+import { Failure } from '../../veau-general/Try/Failure';
+import sinon, { SinonSpy } from 'sinon';
+import { MockStatsID } from '../Mock/MockStatsID';
 
 describe('StatsOutlines', () => {
-  describe('get', () => {
-    it('returns StatsOutline of index-th item', () => {
-      const outline1: StatsOutline = StatsOutline.of(StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01 00:00:00').get());
-      const outline2: StatsOutline = StatsOutline.of(StatsID.ofString('15620e91-f63a-4aaa-94b7-2844978fa129').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01 00:00:00').get());
-      const outline3: StatsOutline = StatsOutline.of(StatsID.ofString('b1524ae3-8e91-4938-9997-579ef7b84602').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01 00:00:00').get());
-
-      const outlines: StatsOutlines = StatsOutlines.ofArray([
-        outline1,
-        outline2,
-        outline3
-      ]);
-
-      expect(outlines.size()).toEqual(3);
-      expect(outlines.get(0).get()).toEqual(outline1);
-      expect(outlines.get(1).get()).toEqual(outline2);
-      expect(outlines.get(2).get()).toEqual(outline3);
-    });
-
-    it('returns None if the index is out of range', () => {
-      const outlines: StatsOutlines = StatsOutlines.empty();
-
-      expect(outlines.get(-1)).toBeInstanceOf(None);
-      expect(outlines.get(0)).toBeInstanceOf(None);
-    });
-  });
-
-  describe('contains', () => {
-    it('returns true if the element exists in the Colors', () => {
-      const outline1: StatsOutline = StatsOutline.of(StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01 00:00:00').get());
-      const outline2: StatsOutline = StatsOutline.of(StatsID.ofString('15620e91-f63a-4aaa-94b7-2844978fa129').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01 00:00:00').get());
-      const outline3: StatsOutline = StatsOutline.of(StatsID.ofString('b1524ae3-8e91-4938-9997-579ef7b84602').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01 00:00:00').get());
-      const outline4: StatsOutline = StatsOutline.of(StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01 00:00:00').get());
-
-      const outlines: StatsOutlines = StatsOutlines.ofArray([
-        outline1,
-        outline2
-      ]);
-
-      expect(outlines.contains(outline1)).toEqual(true);
-      expect(outlines.contains(outline2)).toEqual(true);
-      expect(outlines.contains(outline3)).toEqual(false);
-      expect(outlines.contains(outline4)).toEqual(true);
-    });
-  });
-
-  describe('isEmpty', () => {
-    it('returns true if the elements are 0', () => {
-      const outline1: StatsOutline = StatsOutline.of(StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01 00:00:00').get());
-      const outline2: StatsOutline = StatsOutline.of(StatsID.ofString('15620e91-f63a-4aaa-94b7-2844978fa129').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01 00:00:00').get());
-
-      const outlines1: StatsOutlines = StatsOutlines.ofArray([
-      ]);
-      const outlines2: StatsOutlines = StatsOutlines.ofArray([
-        outline1,
-        outline2
-      ]);
-
-      expect(outlines1.isEmpty()).toEqual(true);
-      expect(outlines2.isEmpty()).toEqual(false);
-    });
-  });
-
-  describe('equals', () => {
-    it('returns false if the lengths are different', () => {
-      const outline1: StatsOutline = StatsOutline.of(StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01 00:00:00').get());
-      const outline2: StatsOutline = StatsOutline.of(StatsID.ofString('15620e91-f63a-4aaa-94b7-2844978fa129').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01 00:00:00').get());
-      const outline3: StatsOutline = StatsOutline.of(StatsID.ofString('b1524ae3-8e91-4938-9997-579ef7b84602').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01 00:00:00').get());
-
-      const outlines1: StatsOutlines = StatsOutlines.ofArray([
-        outline1,
-        outline2,
-        outline3
-      ]);
-      const outlines2: StatsOutlines = StatsOutlines.ofArray([
-        outline1,
-        outline2
-      ]);
-
-      expect(outlines1.equals(outlines1)).toEqual(true);
-      expect(outlines1.equals(outlines2)).toEqual(false);
-    });
-
-    it('returns false if the sequences are different', () => {
-      const outline1: StatsOutline = StatsOutline.of(StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01 00:00:00').get());
-      const outline2: StatsOutline = StatsOutline.of(StatsID.ofString('15620e91-f63a-4aaa-94b7-2844978fa129').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01 00:00:00').get());
-
-      const outlines1: StatsOutlines = StatsOutlines.ofArray([
-        outline1,
-        outline2
-      ]);
-      const outlines2: StatsOutlines = StatsOutlines.ofArray([
-        outline2,
-        outline1
-      ]);
-
-      expect(outlines1.equals(outlines1)).toEqual(true);
-      expect(outlines1.equals(outlines2)).toEqual(false);
-    });
-
-    it('returns true if the size and the sequence are the same', () => {
-      const outline1: StatsOutline = StatsOutline.of(StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01 00:00:00').get());
-      const outline2: StatsOutline = StatsOutline.of(StatsID.ofString('15620e91-f63a-4aaa-94b7-2844978fa129').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01 00:00:00').get());
-
-      const outlines1: StatsOutlines = StatsOutlines.ofArray([
-        outline1,
-        outline2
-      ]);
-      const outlines2: StatsOutlines = StatsOutlines.ofArray([
-        outline1,
-        outline2
-      ]);
-
-      expect(outlines1.equals(outlines1)).toEqual(true);
-      expect(outlines1.equals(outlines2)).toEqual(true);
-    });
-  });
-
-  describe('copy', () => {
-    it('deeply copies the instance and its own elements', () => {
-      const outline1: StatsOutline = StatsOutline.of(StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01 00:00:00').get());
-      const outline2: StatsOutline = StatsOutline.of(StatsID.ofString('15620e91-f63a-4aaa-94b7-2844978fa129').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01 00:00:00').get());
-      const outline3: StatsOutline = StatsOutline.of(StatsID.ofString('b1524ae3-8e91-4938-9997-579ef7b84602').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01 00:00:00').get());
-
-      const outlines: StatsOutlines = StatsOutlines.ofArray([
-        outline1,
-        outline2,
-        outline3
-      ]);
-      const copied: StatsOutlines = outlines.copy();
-
-      expect(outlines).not.toBe(copied);
-      expect(outlines.equals(copied)).toEqual(true);
-      expect(outlines.size()).toEqual(copied.size());
-      for (let i: number = 0; i < outlines.size(); i++) {
-        expect(outlines.get(i).get().equals(copied.get(i).get())).toEqual(true);
-      }
-    });
-  });
-
-  describe('toJSON', () => {
+  describe('ofTry', () => {
     it('normal case', () => {
-      const outline1: StatsOutline = StatsOutline.of(StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01 00:00:00').get());
-      const outline2: StatsOutline = StatsOutline.of(StatsID.ofString('15620e91-f63a-4aaa-94b7-2844978fa129').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01 00:00:00').get());
+      const statsOutline1: MockStatsOutline = new MockStatsOutline();
+      const statsOutline2: MockStatsOutline = new MockStatsOutline();
 
-      const outlines: StatsOutlines = StatsOutlines.ofArray([
-        outline1,
-        outline2
+      const trial1: Try<StatsOutline, StatsOutlineError> = Success.of<StatsOutline, StatsOutlineError>(statsOutline1);
+      const trial2: Try<StatsOutline, StatsOutlineError> = Success.of<StatsOutline, StatsOutlineError>(statsOutline2);
+      const trial: Try<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofTry([
+        trial1,
+        trial2
       ]);
 
-      expect(outlines.toJSON()).toEqual([
-        {
-          statsID: 'f6fb9662-cbe8-4a91-8aa4-47a92f05b007',
-          language: {
-            languageID: 0,
-            name: '',
-            englishName: '',
-            iso639: ''
-          },
-          region: {
-            regionID: 0,
-            name: '',
-            iso3166: ''
-          },
-          termID: 1,
-          name: 'stats name',
-          unit: 'stats unit',
-          updatedAt: '2000-01-01 00:00:00'
-        },
-        {
-          statsID: '15620e91-f63a-4aaa-94b7-2844978fa129',
-          language: {
-            languageID: 0,
-            name: '',
-            englishName: '',
-            iso639: ''
-          },
-          region: {
-            regionID: 0,
-            name: '',
-            iso3166: ''
-          },
-          termID: 1,
-          name: 'stats name',
-          unit: 'stats unit',
-          updatedAt: '2000-01-01 00:00:00'
-        }
-      ]);
+      expect(trial.isSuccess()).toEqual(true);
+      const outlines: StatsOutlines = trial.get();
+      expect(outlines.size()).toEqual(2);
+      expect(outlines.get(0).get()).toEqual(statsOutline1);
+      expect(outlines.get(1).get()).toEqual(statsOutline2);
+
     });
   });
 
-  describe('toString', () => {
-    it('normal case', () => {
-      const id1: string = 'f6fb9662-cbe8-4a91-8aa4-47a92f05b007';
-      const id2: string = '15620e91-f63a-4aaa-94b7-2844978fa129';
-      const term: Term = Term.DAILY;
-      const name1: string = 'stats name 1';
-      const name2: string = 'stats name 2';
-      const unit1: string = 'stats unit 1';
-      const unit2: string = 'stats unit 2';
-      const at: UpdatedAt = UpdatedAt.ofString('2000-01-01 00:00:00').get();
+  it('contains failure', () => {
+    const statsOutline1: MockStatsOutline = new MockStatsOutline();
 
-      const outline1: StatsOutline = StatsOutline.of(StatsID.ofString(id1).get(), Language.default(), Region.default(), term, StatsName.of(name1), StatsUnit.of(unit1), at);
-      const outline2: StatsOutline = StatsOutline.of(StatsID.ofString(id2).get(), Language.default(), Region.default(), term, StatsName.of(name2), StatsUnit.of(unit2), at);
-      const outlines: StatsOutlines = StatsOutlines.ofArray([
-        outline1,
-        outline2
-      ]);
+    const spy1: SinonSpy = sinon.spy();
+    const spy2: SinonSpy = sinon.spy();
 
-      expect(outlines.toString()).toEqual(`${id1} 0    0   ${term.toString()} ${name1} ${unit1} ${at.toString()}, ${id2} 0    0   ${term.toString()} ${name2} ${unit2} ${at.toString()}`);
+    const trial1: Try<StatsOutline, StatsOutlineError> = Success.of<StatsOutline, StatsOutlineError>(statsOutline1);
+    const trial2: Try<StatsOutline, StatsOutlineError> = Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('test failed'));
+    const trial: Try<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofTry([
+      trial1,
+      trial2
+    ]);
+
+    expect(trial.isFailure()).toEqual(true);
+    trial.match<void>(() => {
+      spy1();
+    }, (err: StatsOutlinesError) => {
+      spy2();
+      expect(err).toBeInstanceOf(StatsOutlinesError);
     });
+
+    expect(spy1.called).toEqual(false);
+    expect(spy2.called).toEqual(true);
+  });
+
+  it('contains failure', () => {
+    const spy1: SinonSpy = sinon.spy();
+    const spy2: SinonSpy = sinon.spy();
+
+    const trial1: Try<StatsOutline, StatsOutlineError> = Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('test failed 1'));
+    const trial2: Try<StatsOutline, StatsOutlineError> = Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('test failed 2'));
+    const trial: Try<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofTry([
+      trial1,
+      trial2
+    ]);
+
+    expect(trial.isFailure()).toEqual(true);
+    trial.match<void>(() => {
+      spy1();
+    }, (err: StatsOutlinesError) => {
+      spy2();
+      expect(err).toBeInstanceOf(StatsOutlinesError);
+    });
+
+    expect(spy1.called).toEqual(false);
+    expect(spy2.called).toEqual(true);
   });
 
   describe('ofJSON', () => {
@@ -342,9 +205,293 @@ describe('StatsOutlines', () => {
     });
   });
 
+  describe('ofArray', () => {
+    it('normal case', () => {
+      const statsOutline1: MockStatsOutline = new MockStatsOutline();
+      const statsOutline2: MockStatsOutline = new MockStatsOutline();
+      const outlines: Array<StatsOutline> = [
+        statsOutline1,
+        statsOutline2
+      ];
+
+
+      const statsOutlines: StatsOutlines = StatsOutlines.ofArray(outlines);
+
+      expect(statsOutlines.size()).toEqual(outlines.length);
+      for (let i: number = 0; i < statsOutlines.size(); i++) {
+        expect(statsOutlines.get(i).get()).toEqual(outlines[i]);
+      }
+    });
+  });
+
+  describe('ofSpread', () => {
+    it('normal case', () => {
+      const statsOutline1: MockStatsOutline = new MockStatsOutline();
+      const statsOutline2: MockStatsOutline = new MockStatsOutline();
+      const outlines: Array<StatsOutline> = [
+        statsOutline1,
+        statsOutline2
+      ];
+
+      const statsOutlines: StatsOutlines = StatsOutlines.ofSpread(
+        statsOutline1,
+        statsOutline2
+      );
+
+      expect(statsOutlines.size()).toEqual(outlines.length);
+      for (let i: number = 0; i < statsOutlines.size(); i++) {
+        expect(statsOutlines.get(i).get()).toEqual(outlines[i]);
+      }
+    });
+  });
+
   describe('empty', () => {
     it('must be 0 length StatsOutlines', () => {
       expect(StatsOutlines.empty().isEmpty()).toEqual(true);
+    });
+  });
+
+  describe('get', () => {
+    it('returns StatsOutline of index-th item', () => {
+      const outline1: MockStatsOutline = new MockStatsOutline();
+      const outline2: MockStatsOutline = new MockStatsOutline();
+      const outline3: MockStatsOutline = new MockStatsOutline();
+
+      const outlines: StatsOutlines = StatsOutlines.ofSpread(
+        outline1,
+        outline2,
+        outline3
+      );
+
+      expect(outlines.size()).toEqual(3);
+      expect(outlines.get(0).get()).toEqual(outline1);
+      expect(outlines.get(1).get()).toEqual(outline2);
+      expect(outlines.get(2).get()).toEqual(outline3);
+    });
+
+    it('returns None if the index is out of range', () => {
+      const outlines: StatsOutlines = StatsOutlines.empty();
+
+      expect(outlines.get(-1)).toBeInstanceOf(None);
+      expect(outlines.get(0)).toBeInstanceOf(None);
+    });
+  });
+
+  describe('contains', () => {
+    it('returns true if the element exists', () => {
+      const statsID1: MockStatsID = new MockStatsID();
+      const statsID2: MockStatsID = new MockStatsID();
+      const statsID3: MockStatsID = new MockStatsID();
+      const outline1: MockStatsOutline = new MockStatsOutline({
+        statsID: statsID1
+      });
+      const outline2: MockStatsOutline = new MockStatsOutline({
+        statsID: statsID2
+      });
+      const outline3: MockStatsOutline = new MockStatsOutline({
+        statsID: statsID3
+      });
+      const outline4: MockStatsOutline = new MockStatsOutline({
+        statsID: statsID1
+      });
+
+      const outlines: StatsOutlines = StatsOutlines.ofSpread(
+        outline1,
+        outline2
+      );
+
+      expect(outlines.contains(outline1)).toEqual(true);
+      expect(outlines.contains(outline2)).toEqual(true);
+      expect(outlines.contains(outline3)).toEqual(false);
+      expect(outlines.contains(outline4)).toEqual(true);
+    });
+  });
+
+  describe('isEmpty', () => {
+    it('returns true if the elements are 0', () => {
+      const outline1: MockStatsOutline = new MockStatsOutline();
+      const outline2: MockStatsOutline = new MockStatsOutline();
+
+      const outlines1: StatsOutlines = StatsOutlines.ofSpread();
+      const outlines2: StatsOutlines = StatsOutlines.ofSpread(
+        outline1,
+        outline2
+      );
+
+      expect(outlines1.isEmpty()).toEqual(true);
+      expect(outlines2.isEmpty()).toEqual(false);
+    });
+  });
+
+  describe('equals', () => {
+    it('returns false if the lengths are different', () => {
+      const outline1: MockStatsOutline = new MockStatsOutline();
+      const outline2: MockStatsOutline = new MockStatsOutline();
+      const outline3: MockStatsOutline = new MockStatsOutline();
+
+      const outlines1: StatsOutlines = StatsOutlines.ofSpread(
+        outline1,
+        outline2,
+        outline3
+      );
+      const outlines2: StatsOutlines = StatsOutlines.ofSpread(
+        outline1,
+        outline2
+      );
+
+      expect(outlines1.equals(outlines1)).toEqual(true);
+      expect(outlines1.equals(outlines2)).toEqual(false);
+    });
+
+    it('returns false if the sequences are different', () => {
+      const outline1: MockStatsOutline = new MockStatsOutline();
+      const outline2: MockStatsOutline = new MockStatsOutline();
+
+      const outlines1: StatsOutlines = StatsOutlines.ofSpread(
+        outline1,
+        outline2
+      );
+      const outlines2: StatsOutlines = StatsOutlines.ofSpread(
+        outline2,
+        outline1
+      );
+
+      expect(outlines1.equals(outlines1)).toEqual(true);
+      expect(outlines1.equals(outlines2)).toEqual(false);
+    });
+
+    it('returns true if the size and the sequence are the same', () => {
+      const outline1: MockStatsOutline = new MockStatsOutline();
+      const outline2: MockStatsOutline = new MockStatsOutline();
+
+      const outlines1: StatsOutlines = StatsOutlines.ofSpread(
+        outline1,
+        outline2
+      );
+      const outlines2: StatsOutlines = StatsOutlines.ofSpread(
+        outline1,
+        outline2
+      );
+
+      expect(outlines1.equals(outlines1)).toEqual(true);
+      expect(outlines1.equals(outlines2)).toEqual(true);
+    });
+  });
+
+  describe('copy', () => {
+    it('shallow copies the instance and its own elements', () => {
+      const outline1: MockStatsOutline = new MockStatsOutline();
+      const outline2: MockStatsOutline = new MockStatsOutline();
+      const outline3: MockStatsOutline = new MockStatsOutline();
+
+      const outlines: StatsOutlines = StatsOutlines.ofSpread(
+        outline1,
+        outline2,
+        outline3
+      );
+      const copied: StatsOutlines = outlines.copy();
+
+      expect(outlines).not.toBe(copied);
+      expect(outlines.equals(copied)).toEqual(true);
+      expect(outlines.size()).toEqual(copied.size());
+      for (let i: number = 0; i < outlines.size(); i++) {
+        expect(outlines.get(i).get()).toBe(copied.get(i).get());
+      }
+    });
+  });
+
+  describe('toJSON', () => {
+    it('normal case', () => {
+      const outline1: StatsOutline = StatsOutline.of(
+        StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(),
+        Language.default(), Region.default(),
+        Term.DAILY,
+        StatsName.of('stats name'),
+        StatsUnit.of('stats unit'),
+        UpdatedAt.ofString('2000-01-01 00:00:00').get()
+      );
+      const outline2: StatsOutline = StatsOutline.of(
+        StatsID.ofString('15620e91-f63a-4aaa-94b7-2844978fa129').get(),
+        Language.default(),
+        Region.default(),
+        Term.DAILY,
+        StatsName.of('stats name'),
+        StatsUnit.of('stats unit'),
+        UpdatedAt.ofString('2000-01-01 00:00:00').get()
+      );
+
+      const outlines: StatsOutlines = StatsOutlines.ofSpread(
+        outline1,
+        outline2
+      );
+
+      expect(outlines.toJSON()).toEqual([
+        {
+          statsID: 'f6fb9662-cbe8-4a91-8aa4-47a92f05b007',
+          language: {
+            languageID: 0,
+            name: '',
+            englishName: '',
+            iso639: ''
+          },
+          region: {
+            regionID: 0,
+            name: '',
+            iso3166: ''
+          },
+          termID: 1,
+          name: 'stats name',
+          unit: 'stats unit',
+          updatedAt: '2000-01-01 00:00:00'
+        },
+        {
+          statsID: '15620e91-f63a-4aaa-94b7-2844978fa129',
+          language: {
+            languageID: 0,
+            name: '',
+            englishName: '',
+            iso639: ''
+          },
+          region: {
+            regionID: 0,
+            name: '',
+            iso3166: ''
+          },
+          termID: 1,
+          name: 'stats name',
+          unit: 'stats unit',
+          updatedAt: '2000-01-01 00:00:00'
+        }
+      ]);
+    });
+  });
+
+  describe('toString', () => {
+    it('normal case', () => {
+      const id1: string = 'f6fb9662-cbe8-4a91-8aa4-47a92f05b007';
+      const id2: string = '15620e91-f63a-4aaa-94b7-2844978fa129';
+      const term: Term = Term.DAILY;
+      const name1: string = 'stats name 1';
+      const name2: string = 'stats name 2';
+      const unit1: string = 'stats unit 1';
+      const unit2: string = 'stats unit 2';
+      const at: string = '2000-01-01 00:00:00';
+      const updatedAt: UpdatedAt = UpdatedAt.ofString(at).get();
+
+      const outline1: StatsOutline = StatsOutline.of(
+        StatsID.ofString(id1).get(),
+        Language.default(),
+        Region.default(),
+        term,
+        StatsName.of(name1),
+        StatsUnit.of(unit1), updatedAt);
+      const outline2: StatsOutline = StatsOutline.of(StatsID.ofString(id2).get(), Language.default(), Region.default(), term, StatsName.of(name2), StatsUnit.of(unit2), updatedAt);
+      const outlines: StatsOutlines = StatsOutlines.ofArray([
+        outline1,
+        outline2
+      ]);
+
+      expect(outlines.toString()).toEqual(`${id1} 0    0   ${term.toString()} ${name1} ${unit1} ${updatedAt.toString()}, ${id2} 0    0   ${term.toString()} ${name2} ${unit2} ${at}`);
     });
   });
 });
