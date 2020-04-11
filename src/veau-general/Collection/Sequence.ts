@@ -86,7 +86,7 @@ export class Sequence<E extends Nominative> implements Collection<number, E>, It
       return false;
     }
     for (let i: number = 0; i < length; i++) {
-      if (!this.elements[i].equals(other.get(i).get())) {
+      if (!this.elements[i].equals(other.elements[i])) {
         return false;
       }
     }

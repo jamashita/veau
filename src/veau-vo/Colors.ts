@@ -1,18 +1,22 @@
-import { Collection } from '../veau-general/Collection';
-import { Some } from '../veau-general/Optional/Some';
-import { Ambiguous } from '../veau-general/Type/Value';
+import { Collection } from '../veau-general/Collection/Collection';
+import { Sequence } from '../veau-general/Collection/Sequence';
+import { Optional } from '../veau-general/Optional/Optional';
 import { Color } from './Color';
 
 export class Colors implements Collection<number, Color> {
   public readonly noun: 'Colors' = 'Colors';
-  private readonly colors: Array<Color>;
+  private readonly colors: Sequence<Color>;
 
-  public static of(colors: Array<Color>): Colors {
+  public static of(colors: Sequence<Color>): Colors {
     return new Colors(colors);
   }
 
+  public static ofArray(colors: Array<Color>): Colors {
+    return Colors.of(Sequence.of<Color>(colors));
+  }
+
   public static chartScheme(): Colors {
-    return Colors.of([
+    return Colors.ofArray([
       Color.of('#8aa399'),
       Color.of('#7d84b2'),
       Color.of('#8fa6cb'),
@@ -36,42 +40,26 @@ export class Colors implements Collection<number, Color> {
     ]);
   }
 
-  private constructor(colors: Array<Color>) {
+  private constructor(colors: Sequence<Color>) {
     this.colors = colors;
   }
 
-  public [Symbol.iterator](): Iterator<Color> {
-    return this.colors[Symbol.iterator]();
-  }
+  public get(index: number): Optional<Color> {
+    const length: number = this.colors.size();
 
-  public get(index: number): Some<Color> {
-    const length: number = this.colors.length;
-
-    return Some.of<Color>(this.colors[index % length]);
+    return this.colors.get(index % length);
   }
 
   public contains(value: Color): boolean {
-    const found: Ambiguous<Color> = this.colors.find((color: Color) => {
-      return value.equals(color);
-    });
-
-    if (found === undefined) {
-      return false;
-    }
-
-    return true;
+    return this.colors.contains(value);
   }
 
   public size(): number {
-    return this.colors.length;
+    return this.colors.size();
   }
 
   public isEmpty(): boolean {
-    if (this.colors.length === 0) {
-      return true;
-    }
-
-    return false;
+    return this.colors.isEmpty();
   }
 
   public equals(other: Colors): boolean {
@@ -79,22 +67,11 @@ export class Colors implements Collection<number, Color> {
       return true;
     }
 
-    const length: number = this.colors.length;
-    if (length !== other.size()) {
-      return false;
-    }
-
-    for (let i: number = 0; i < length; i++) {
-      if (!this.colors[i].equals(other.get(i).get())) {
-        return false;
-      }
-    }
-
-    return true;
+    return this.colors.equals(other.colors);
   }
 
   public toString(): string {
-    return this.colors.map<string>((color: Color) => {
+    return this.colors.toArray().map<string>((color: Color) => {
       return color.toString();
     }).join(', ');
   }
