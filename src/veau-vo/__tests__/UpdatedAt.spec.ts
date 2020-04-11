@@ -1,31 +1,10 @@
 import moment from 'moment';
-import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { UpdatedAtError } from '../../veau-error/UpdatedAtError';
-import { Try } from '../../veau-general/Try/Try';
-import { UpdatedAt } from '../UpdatedAt';
+import sinon, {SinonSpy} from 'sinon';
+import {UpdatedAtError} from '../../veau-error/UpdatedAtError';
+import {Try} from '../../veau-general/Try/Try';
+import {UpdatedAt} from '../UpdatedAt';
 
 describe('UpdatedAt', () => {
-  describe('equals', () => {
-    it('returns true if both properties are the same', () => {
-      const at1: UpdatedAt = UpdatedAt.of(moment('2000-01-01 00:00:00'));
-      const at2: UpdatedAt = UpdatedAt.of(moment('2000-01-02 00:00:00'));
-      const at3: UpdatedAt = UpdatedAt.of(moment('2000-01-01 00:00:00'));
-
-      expect(at1.equals(at1)).toEqual(true);
-      expect(at1.equals(at2)).toEqual(false);
-      expect(at1.equals(at3)).toEqual(true);
-    });
-  });
-
-  describe('toString', () => {
-    it('normal case', () => {
-      const at: string = '2000-01-01 00:01:02';
-      const updatedAt: UpdatedAt = UpdatedAt.ofString(at).get();
-
-      expect(updatedAt.toString()).toEqual(at);
-    });
-  });
-
   describe('ofString', () => {
     it('returns Failure if the parameter is not date format', () => {
       const spy1: SinonSpy = sinon.spy();
@@ -52,13 +31,24 @@ describe('UpdatedAt', () => {
     });
   });
 
-  describe('now', () => {
-    it('returns current utc time', () => {
-      const stub: SinonStub = sinon.stub();
-      moment.utc = stub;
-      stub.returns(moment('2000-01-01 00:00:00'));
+  describe('equals', () => {
+    it('returns true if both properties are the same', () => {
+      const at1: UpdatedAt = UpdatedAt.of(moment('2000-01-01 00:00:00'));
+      const at2: UpdatedAt = UpdatedAt.of(moment('2000-01-02 00:00:00'));
+      const at3: UpdatedAt = UpdatedAt.of(moment('2000-01-01 00:00:00'));
 
-      expect(UpdatedAt.now().toString()).toEqual('2000-01-01 00:00:00');
+      expect(at1.equals(at1)).toEqual(true);
+      expect(at1.equals(at2)).toEqual(false);
+      expect(at1.equals(at3)).toEqual(true);
+    });
+  });
+
+  describe('toString', () => {
+    it('normal case', () => {
+      const at: string = '2345-06-07 08:09:10';
+      const updatedAt: UpdatedAt = UpdatedAt.ofString(at).get();
+
+      expect(updatedAt.toString()).toEqual(at);
     });
   });
 });
