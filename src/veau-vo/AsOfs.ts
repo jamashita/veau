@@ -12,6 +12,8 @@ export class AsOfs implements Collection<number, AsOf>, JSONable {
   public readonly noun: 'AsOfs' = 'AsOfs';
   private readonly asOfs: Sequence<AsOf>;
 
+  private static readonly EMPTY: AsOfs = AsOfs.of(Sequence.empty<AsOf>());
+
   public static of(asOfs: Sequence<AsOf>): AsOfs {
     return new AsOfs(asOfs);
   }
@@ -20,9 +22,12 @@ export class AsOfs implements Collection<number, AsOf>, JSONable {
     return AsOfs.of(Sequence.of<AsOf>(asOfs));
   }
 
+  public static ofSpread(...asOfs: Array<AsOf>): AsOfs {
+    return AsOfs.ofArray(asOfs);
+  }
+
   public static empty(): AsOfs {
-    return AsOfs.ofArray([
-    ]);
+    return AsOfs.EMPTY;
   }
 
   private constructor(asOfs: Sequence<AsOf>) {

@@ -16,6 +16,8 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
   public readonly noun: 'StatsOutlines' = 'StatsOutlines';
   private readonly outlines: Sequence<StatsOutline>;
 
+  private static readonly EMPTY: StatsOutlines = StatsOutlines.of(Sequence.empty<StatsOutline>());
+
   public static of(outlines: Sequence<StatsOutline>): StatsOutlines {
     return new StatsOutlines(outlines);
   }
@@ -53,8 +55,7 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
   }
 
   public static empty(): StatsOutlines {
-    return StatsOutlines.ofArray([
-    ]);
+    return StatsOutlines.EMPTY;
   }
 
   private constructor(outlines: Sequence<StatsOutline>) {

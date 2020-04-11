@@ -10,13 +10,14 @@ export class Sequence<E extends Nominative> implements Collection<number, E>, It
   public readonly noun: 'Sequence' = 'Sequence';
   private readonly elements: Array<E>;
 
+  private static readonly EMPTY: Sequence<Nominative> = Sequence.of<Nominative>([]);
+
   public static of<E extends Nominative>(elements: Array<E>): Sequence<E> {
     return new Sequence<E>(elements);
   }
 
   public static empty<E extends Nominative>(): Sequence<E> {
-    return Sequence.of([
-    ]);
+    return Sequence.EMPTY as Sequence<E>;
   }
 
   protected constructor(elements: Array<E>) {

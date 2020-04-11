@@ -7,6 +7,8 @@ export class NumericalValues implements Collection<number, NumericalValue> {
   public readonly noun: 'NumericalValues' = 'NumericalValues';
   private readonly values: Sequence<NumericalValue>;
 
+  private static readonly EMPTY: NumericalValues = NumericalValues.of(Sequence.empty<NumericalValue>());
+
   public static of(values: Sequence<NumericalValue>): NumericalValues {
     return new NumericalValues(values);
   }
@@ -20,8 +22,7 @@ export class NumericalValues implements Collection<number, NumericalValue> {
   }
 
   public static empty(): NumericalValues {
-    return NumericalValues.ofArray([
-    ]);
+    return NumericalValues.EMPTY;
   }
 
   protected constructor(values: Sequence<NumericalValue>) {

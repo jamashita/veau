@@ -26,6 +26,8 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
   public readonly noun: 'StatsItems' = 'StatsItems';
   private readonly items: Sequence<StatsItem>;
 
+  private static readonly EMPTY: StatsItems = StatsItems.of(Sequence.empty<StatsItem>());
+
   public static of(items: Sequence<StatsItem>): StatsItems {
     return new StatsItems(items);
   }
@@ -79,7 +81,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
   }
 
   public static empty(): StatsItems {
-    return StatsItems.ofSpread();
+    return StatsItems.EMPTY;
   }
 
   private constructor(items: Sequence<StatsItem>) {

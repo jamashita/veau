@@ -9,12 +9,18 @@ export class Languages implements Collection<number, Language>, JSONable {
   public readonly noun: 'Languages' = 'Languages';
   private readonly languages: Sequence<Language>;
 
+  private static readonly EMPTY: Languages = Languages.of(Sequence.empty<Language>());
+
   public static of(languages: Sequence<Language>): Languages {
     return new Languages(languages);
   }
 
   public static ofArray(languages: Array<Language>): Languages {
     return Languages.of(Sequence.of<Language>(languages));
+  }
+
+  public static ofSpread(...languages: Array<Language>): Languages {
+    return Languages.ofArray(languages);
   }
 
   public static ofJSON(json: Array<LanguageJSON>): Languages {
@@ -34,8 +40,7 @@ export class Languages implements Collection<number, Language>, JSONable {
   }
 
   public static empty(): Languages {
-    return Languages.ofArray([
-    ]);
+    return Languages.EMPTY;
   }
 
   private constructor(languages: Sequence<Language>) {

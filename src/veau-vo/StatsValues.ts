@@ -22,6 +22,8 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
   public readonly noun: 'StatsValues' = 'StatsValues';
   private readonly values: Sequence<StatsValue>;
 
+  private static readonly EMPTY: StatsValues = StatsValues.of(Sequence.empty<StatsValue>());
+
   public static of(values: Sequence<StatsValue>): StatsValues {
     return new StatsValues(values);
   }
@@ -69,8 +71,7 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
   }
 
   public static empty(): StatsValues {
-    return StatsValues.ofArray([
-    ]);
+    return StatsValues.EMPTY;
   }
 
   protected constructor(values: Sequence<StatsValue>) {

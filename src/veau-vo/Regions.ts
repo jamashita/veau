@@ -9,12 +9,18 @@ export class Regions implements Collection<number, Region>, JSONable {
   public readonly noun: 'Regions' = 'Regions';
   private readonly regions: Sequence<Region>;
 
+  private static readonly EMPTY: Regions = Regions.of(Sequence.empty<Region>());
+
   public static of(regions: Sequence<Region>): Regions {
     return new Regions(regions);
   }
 
   public static ofArray(regions: Array<Region>): Regions {
     return Regions.of(Sequence.of<Region>(regions));
+  }
+
+  public static ofSpread(...regions: Array<Region>): Regions {
+    return Regions.ofArray(regions);
   }
 
   public static ofJSON(json: Array<RegionJSON>): Regions {
@@ -34,8 +40,7 @@ export class Regions implements Collection<number, Region>, JSONable {
   }
 
   public static empty(): Regions {
-    return Regions.ofArray([
-    ]);
+    return Regions.EMPTY;
   }
 
   private constructor(regions: Sequence<Region>) {

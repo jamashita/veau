@@ -1,15 +1,19 @@
 import { ValueObject } from '../veau-general/ValueObject';
 
+const DEFAULT_NAME: string = '';
+
 export class StatsItemName extends ValueObject {
   public readonly noun: 'StatsItemName' = 'StatsItemName';
   private readonly name: string;
+
+  private static readonly DEFAULT: StatsItemName = StatsItemName.of(DEFAULT_NAME);
 
   public static of(name: string): StatsItemName {
     return new StatsItemName(name);
   }
 
   public static default(): StatsItemName {
-    return StatsItemName.of('');
+    return StatsItemName.DEFAULT;
   }
 
   protected constructor(name: string) {
