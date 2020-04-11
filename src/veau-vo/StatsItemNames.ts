@@ -17,6 +17,10 @@ export class StatsItemNames implements Collection<number, StatsItemName>, JSONab
     return StatsItemNames.of(Sequence.of<StatsItemName>(names));
   }
 
+  public static ofSpread(...names: Array<StatsItemName>): StatsItemNames {
+    return StatsItemNames.ofArray(names);
+  }
+
   private constructor(names: Sequence<StatsItemName>) {
     this.names = names;
   }
