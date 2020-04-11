@@ -526,8 +526,8 @@ describe('StatsOutline', () => {
         new MockLanguage(),
         new MockRegion(),
         new MockTerm(),
-        new MockStatsName(''),
-        new MockStatsUnit(''),
+        new MockStatsName(),
+        new MockStatsUnit(),
         new MockUpdatedAt()
       );
       const statsOutline2: StatsOutline = StatsOutline.of(
@@ -537,8 +537,8 @@ describe('StatsOutline', () => {
         }),
         new MockRegion(),
         new MockTerm(),
-        new MockStatsName(''),
-        new MockStatsUnit(''),
+        new MockStatsName(),
+        new MockStatsUnit(),
         new MockUpdatedAt()
       );
       const statsOutline3: StatsOutline = StatsOutline.of(
@@ -548,8 +548,8 @@ describe('StatsOutline', () => {
           regionID: new MockRegionID(3)
         }),
         new MockTerm(),
-        new MockStatsName(''),
-        new MockStatsUnit(''),
+        new MockStatsName(),
+        new MockStatsUnit(),
         new MockUpdatedAt()
       );
       const statsOutline4: StatsOutline = StatsOutline.of(
@@ -561,8 +561,8 @@ describe('StatsOutline', () => {
           regionID: new MockRegionID(3)
         }),
         new MockTerm(),
-        new MockStatsName(''),
-        new MockStatsUnit(''),
+        new MockStatsName(),
+        new MockStatsUnit(),
         new MockUpdatedAt()
       );
       const statsOutline5: StatsOutline = StatsOutline.of(
@@ -575,7 +575,7 @@ describe('StatsOutline', () => {
         }),
         new MockTerm(),
         new MockStatsName(),
-        new MockStatsUnit(''),
+        new MockStatsUnit(),
         new MockUpdatedAt()
       );
       const statsOutline6: StatsOutline = StatsOutline.of(
@@ -587,7 +587,7 @@ describe('StatsOutline', () => {
           regionID: new MockRegionID(3)
         }),
         new MockTerm(),
-        new MockStatsName(''),
+        new MockStatsName(),
         new MockStatsUnit(),
         new MockUpdatedAt()
       );
