@@ -13,8 +13,8 @@ import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
 import { EntranceInformation } from '../../veau-vo/EntranceInformation';
 import { VeauAccount, VeauAccountJSON } from '../../veau-vo/VeauAccount';
-import { IAJAXQuery } from '../Interfaces/IAJAXQuery';
-import { ISessionQuery } from '../Interfaces/ISessionQuery';
+import { IAJAXQuery } from '../Interface/IAJAXQuery';
+import { ISessionQuery } from '../Interface/ISessionQuery';
 
 @injectable()
 export class SessionQuery implements ISessionQuery, IAJAXQuery {

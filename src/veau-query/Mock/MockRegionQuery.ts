@@ -5,8 +5,8 @@ import { UnimplementedError } from '../../veau-general/UnimplementedError';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { Region } from '../../veau-vo/Region';
 import { Regions } from '../../veau-vo/Regions';
-import { IMockQuery } from '../Interfaces/IMockQuery';
-import { IRegionQuery } from '../Interfaces/IRegionQuery';
+import { IMockQuery } from '../Interface/IMockQuery';
+import { IRegionQuery } from '../Interface/IRegionQuery';
 
 export class MockRegionQuery implements IRegionQuery, IMockQuery {
   public readonly noun: 'RegionQuery' = 'RegionQuery';

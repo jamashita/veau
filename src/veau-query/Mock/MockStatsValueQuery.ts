@@ -4,8 +4,8 @@ import { Try } from '../../veau-general/Try/Try';
 import { UnimplementedError } from '../../veau-general/UnimplementedError';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsValues } from '../../veau-vo/StatsValues';
-import { IMockQuery } from '../Interfaces/IMockQuery';
-import { IStatsValueQuery } from '../Interfaces/IStatsValueQuery';
+import { IMockQuery } from '../Interface/IMockQuery';
+import { IStatsValueQuery } from '../Interface/IStatsValueQuery';
 
 export class MockStatsValueQuery implements IStatsValueQuery, IMockQuery {
   public readonly noun: 'StatsValueQuery' = 'StatsValueQuery';

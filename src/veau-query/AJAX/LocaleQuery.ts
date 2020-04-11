@@ -9,8 +9,8 @@ import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
 import { Locale, LocaleJSON } from '../../veau-vo/Locale';
-import { IAJAXQuery } from '../Interfaces/IAJAXQuery';
-import { ILocaleQuery } from '../Interfaces/ILocaleQuery';
+import { IAJAXQuery } from '../Interface/IAJAXQuery';
+import { ILocaleQuery } from '../Interface/ILocaleQuery';
 
 @injectable()
 export class LocaleQuery implements ILocaleQuery, IAJAXQuery {

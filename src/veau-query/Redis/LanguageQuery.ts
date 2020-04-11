@@ -14,8 +14,8 @@ import { REDIS_LANGUAGE_KEY } from '../../veau-infrastructure/VeauRedis';
 import { ISO639 } from '../../veau-vo/ISO639';
 import { Language, LanguageJSON } from '../../veau-vo/Language';
 import { Languages } from '../../veau-vo/Languages';
-import { ILanguageQuery } from '../Interfaces/ILanguageQuery';
-import { IRedisQuery } from '../Interfaces/IRedisQuery';
+import { ILanguageQuery } from '../Interface/ILanguageQuery';
+import { IRedisQuery } from '../Interface/IRedisQuery';
 
 @injectable()
 export class LanguageQuery implements ILanguageQuery, IRedisQuery {

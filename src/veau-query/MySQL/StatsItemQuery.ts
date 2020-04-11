@@ -11,9 +11,9 @@ import { Failure } from '../../veau-general/Try/Failure';
 import { Try } from '../../veau-general/Try/Try';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsValues } from '../../veau-vo/StatsValues';
-import { IMySQLQuery } from '../Interfaces/IMySQLQuery';
-import { IStatsItemQuery } from '../Interfaces/IStatsItemQuery';
-import { IStatsValueQuery } from '../Interfaces/IStatsValueQuery';
+import { IMySQLQuery } from '../Interface/IMySQLQuery';
+import { IStatsItemQuery } from '../Interface/IStatsItemQuery';
+import { IStatsValueQuery } from '../Interface/IStatsValueQuery';
 
 @injectable()
 export class StatsItemQuery implements IStatsItemQuery, IMySQLQuery {

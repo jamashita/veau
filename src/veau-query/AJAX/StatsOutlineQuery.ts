@@ -12,8 +12,8 @@ import { Page } from '../../veau-vo/Page';
 import { StatsOutlineJSON } from '../../veau-vo/StatsOutline';
 import { StatsOutlines } from '../../veau-vo/StatsOutlines';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
-import { IAJAXQuery } from '../Interfaces/IAJAXQuery';
-import { IStatsOutlineQuery } from '../Interfaces/IStatsOutlineQuery';
+import { IAJAXQuery } from '../Interface/IAJAXQuery';
+import { IStatsOutlineQuery } from '../Interface/IStatsOutlineQuery';
 
 @injectable()
 export class StatsOutlineQuery implements IStatsOutlineQuery, IAJAXQuery {

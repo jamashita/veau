@@ -9,8 +9,8 @@ import { Try } from '../../veau-general/Try/Try';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsValueRow } from '../../veau-vo/StatsValue';
 import { StatsValues } from '../../veau-vo/StatsValues';
-import { IMySQLQuery } from '../Interfaces/IMySQLQuery';
-import { IStatsValueQuery } from '../Interfaces/IStatsValueQuery';
+import { IMySQLQuery } from '../Interface/IMySQLQuery';
+import { IStatsValueQuery } from '../Interface/IStatsValueQuery';
 
 @injectable()
 export class StatsValueQuery implements IStatsValueQuery, IMySQLQuery {

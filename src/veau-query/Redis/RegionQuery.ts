@@ -14,8 +14,8 @@ import { REDIS_REGION_KEY } from '../../veau-infrastructure/VeauRedis';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { Region, RegionJSON } from '../../veau-vo/Region';
 import { Regions } from '../../veau-vo/Regions';
-import { IRedisQuery } from '../Interfaces/IRedisQuery';
-import { IRegionQuery } from '../Interfaces/IRegionQuery';
+import { IRedisQuery } from '../Interface/IRedisQuery';
+import { IRegionQuery } from '../Interface/IRegionQuery';
 
 @injectable()
 export class RegionQuery implements IRegionQuery, IRedisQuery {

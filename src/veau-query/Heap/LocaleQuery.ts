@@ -8,8 +8,8 @@ import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
 import { VAULT_LOCALE_KEY } from '../../veau-infrastructure/VeauVault';
 import { Locale } from '../../veau-vo/Locale';
-import { IHeapQuery } from '../Interfaces/IHeapQuery';
-import { ILocaleQuery } from '../Interfaces/ILocaleQuery';
+import { IHeapQuery } from '../Interface/IHeapQuery';
+import { ILocaleQuery } from '../Interface/ILocaleQuery';
 
 @injectable()
 export class LocaleQuery implements ILocaleQuery, IHeapQuery {
