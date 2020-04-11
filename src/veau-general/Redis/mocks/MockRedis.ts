@@ -11,12 +11,12 @@ import { MockRedisList } from './MockRedisList';
 import { MockRedisSet } from './MockRedisSet';
 import { MockRedisString } from './MockRedisString';
 
-type MockRedisSetting = Readonly<{
+type MockRedisSetting = Partial<Readonly<{
   hash: IRedisHash;
   set: IRedisSet;
   list: IRedisList;
   string: IRedisString;
-}>;
+}>>;
 
 export class MockRedis implements IRedis {
   private readonly client: IORedis.Redis;
@@ -25,48 +25,12 @@ export class MockRedis implements IRedis {
   private readonly list: IRedisList;
   private readonly string: IRedisString;
 
-  public static of(setting: Partial<MockRedisSetting>): MockRedis {
-    let hash: IRedisHash;
-    if (setting.hash === undefined) {
-      hash = new MockRedisHash();
-    }
-    else {
-      hash = setting.hash;
-    }
-
-    let set: IRedisSet;
-    if (setting.set === undefined) {
-      set = new MockRedisSet();
-    }
-    else {
-      set = setting.set;
-    }
-
-    let list: IRedisList;
-    if (setting.list === undefined) {
-      list = new MockRedisList();
-    }
-    else {
-      list = setting.list;
-    }
-
-    let string: IRedisString;
-    if (setting.string === undefined) {
-      string = new MockRedisString();
-    }
-    else {
-      string = setting.string;
-    }
-
-    return new MockRedis(hash, set, list, string);
-  }
-
-  private constructor(
-    hash: IRedisHash,
-    set: IRedisSet,
-    list: IRedisList,
-    string: IRedisString
-  ) {
+  public constructor({
+    hash = new MockRedisHash(),
+    set = new MockRedisSet(),
+    list = new MockRedisList(),
+    string = new MockRedisString()
+  }: MockRedisSetting = {}) {
     this.client = new IORedis({});
     this.hash = hash;
     this.set = set;

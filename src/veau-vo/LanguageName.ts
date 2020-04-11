@@ -16,7 +16,7 @@ export class LanguageName extends ValueObject {
     return LanguageName.DEFAULT;
   }
 
-  private constructor(name: string) {
+  protected constructor(name: string) {
     super();
     this.name = name;
   }

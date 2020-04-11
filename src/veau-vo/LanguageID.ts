@@ -16,7 +16,7 @@ export class LanguageID extends ValueObject {
     return LanguageID.DEFAULT;
   }
 
-  private constructor(id: number) {
+  protected constructor(id: number) {
     super();
     this.id = id;
   }

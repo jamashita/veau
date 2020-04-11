@@ -16,7 +16,7 @@ export class ISO639 extends ValueObject {
     return ISO639.DEFAULT;
   }
 
-  private constructor(iso639: string) {
+  protected constructor(iso639: string) {
     super();
     this.iso639 = iso639;
   }

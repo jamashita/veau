@@ -105,7 +105,7 @@ export class Language extends ValueObject implements JSONable {
     return true;
   }
 
-  private constructor(
+  protected constructor(
     languageID: LanguageID,
     name: LanguageName,
     englishName: LanguageName,
