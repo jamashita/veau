@@ -4,6 +4,21 @@ import { MySQLError } from '../../MySQL/MySQLError';
 import { Success } from '../Success';
 
 describe('Success', () => {
+  describe('of', () => {
+    it('no argument call', () => {
+      const success: Success<void, MockError> = Success.of<MockError>();
+
+      expect(success.get()).toEqual(undefined);
+    });
+
+    it('normal case', () => {
+      const v: number = 113;
+      const success: Success<number, MockError> = Success.of<number, MockError>(v);
+
+      expect(success.get()).toEqual(v);
+    });
+  });
+
   describe('get', () => {
     it('returns the inside value', () => {
       const v: string = 'the lazy fox';

@@ -7,7 +7,7 @@ import { OptionalError } from './OptionalError';
 import { Some } from './Some';
 
 export abstract class Optional<T> implements Noun {
-  public abstract readonly noun: string;
+  public abstract readonly noun: 'Some' | 'None';
 
   protected constructor() {
   }

@@ -12,6 +12,7 @@ export class MockStatsItemID extends StatsItemID {
     throw new UnimplementedError();
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public equals(other: StatsItemID): boolean {
     throw new UnimplementedError();
   }

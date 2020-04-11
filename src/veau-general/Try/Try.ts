@@ -3,7 +3,7 @@ import { Failure } from './Failure';
 import { Success } from './Success';
 
 export abstract class Try<S, F extends Error> {
-  public abstract readonly noun: string;
+  public abstract readonly noun: 'Success' | 'Failure';
 
   protected constructor() {
   }

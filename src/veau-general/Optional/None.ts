@@ -9,8 +9,10 @@ import { Some } from './Some';
 export class None<T> extends Optional<T> {
   public readonly noun: 'None' = 'None';
 
-  private static readonly INSTANCE: None<unknown> = new None<unknown>();
+  private static readonly INSTANCE: None<void> = new None();
 
+  public static of(): None<void>;
+  public static of<T>(): None<T>;
   public static of<T = void>(): None<T> {
     return None.INSTANCE.transform<T>();
   }
@@ -41,12 +43,12 @@ export class None<T> extends Optional<T> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public filter(predicate: Predicate<T>): Optional<T> {
+  public filter(predicate: Predicate<T>): None<T> {
     return this;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public map<U>(mapper: MonoFunction<T, Suspicious<U>>): Optional<U> {
+  public map<U>(mapper: MonoFunction<T, Suspicious<U>>): None<U> {
     return this.transform<U>();
   }
 

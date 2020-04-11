@@ -6,7 +6,13 @@ export class Success<S, F extends Error> extends Try<S, F> {
   public readonly noun: 'Success' = 'Success';
   private readonly value: S;
 
-  public static of<S, F extends Error>(value: S): Success<S, F> {
+  public static of<F extends Error>(): Success<void, F>;
+  public static of<S, F extends Error>(value: S): Success<S, F>;
+  public static of<S, F extends Error>(value?: S): Success<void, F> | Success<S, F> {
+    if (value === undefined) {
+      return new Success<void, F>(undefined);
+    }
+
     return new Success<S, F>(value);
   }
 
