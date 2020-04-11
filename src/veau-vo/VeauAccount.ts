@@ -1,14 +1,14 @@
-import { VeauAccountError } from '../veau-error/VeauAccountError';
-import { VeauAccountIDError } from '../veau-error/VeauAccountIDError';
-import { JSONable } from '../veau-general/JSONable';
-import { Failure } from '../veau-general/Try/Failure';
-import { Success } from '../veau-general/Try/Success';
-import { Try } from '../veau-general/Try/Try';
-import { ValueObject } from '../veau-general/ValueObject';
-import { AccountName } from './AccountName';
-import { Language, LanguageJSON } from './Language';
-import { Region, RegionJSON } from './Region';
-import { VeauAccountID } from './VeauAccountID';
+import {VeauAccountError} from '../veau-error/VeauAccountError';
+import {VeauAccountIDError} from '../veau-error/VeauAccountIDError';
+import {JSONable} from '../veau-general/JSONable';
+import {Failure} from '../veau-general/Try/Failure';
+import {Success} from '../veau-general/Try/Success';
+import {Try} from '../veau-general/Try/Try';
+import {ValueObject} from '../veau-general/ValueObject';
+import {AccountName} from './AccountName';
+import {Language, LanguageJSON} from './Language';
+import {Region, RegionJSON} from './Region';
+import {VeauAccountID} from './VeauAccountID';
 
 export type VeauAccountJSON = Readonly<{
   veauAccountID: string;
@@ -24,7 +24,12 @@ export class VeauAccount extends ValueObject implements JSONable {
   private readonly language: Language;
   private readonly region: Region;
 
-  public static of(veauAccountID: VeauAccountID, name: AccountName, language: Language, region: Region): VeauAccount {
+  public static of(
+    veauAccountID: VeauAccountID,
+    name: AccountName,
+    language: Language,
+    region: Region
+  ): VeauAccount {
     return new VeauAccount(veauAccountID, name, language, region);
   }
 
@@ -37,22 +42,34 @@ export class VeauAccount extends ValueObject implements JSONable {
     } = json;
 
     return VeauAccountID.ofString(veauAccountID).match<Try<VeauAccount, VeauAccountError>>((id: VeauAccountID) => {
-      return Success.of<VeauAccount, VeauAccountError>(VeauAccount.of(
-        id,
-        AccountName.of(account),
-        Language.ofJSON(language),
-        Region.ofJSON(region)
-      ));
+      return Success.of<VeauAccount, VeauAccountError>(
+        VeauAccount.of(
+          id,
+          AccountName.of(account),
+          Language.ofJSON(language),
+          Region.ofJSON(region)
+        )
+      );
     }, (err: VeauAccountIDError) => {
       return Failure.of<VeauAccount, VeauAccountError>(new VeauAccountError(err.message));
     });
   }
 
   public static default(): VeauAccount {
-    return VeauAccount.of(VeauAccountID.generate(), AccountName.default(), Language.default(), Region.default());
+    return VeauAccount.of(
+      VeauAccountID.generate(),
+      AccountName.default(),
+      Language.default(),
+      Region.default()
+    );
   }
 
-  private constructor(veauAccountID: VeauAccountID, account: AccountName, language: Language, region: Region) {
+  protected constructor(
+    veauAccountID: VeauAccountID,
+    account: AccountName,
+    language: Language,
+    region: Region
+  ) {
     super();
     this.veauAccountID = veauAccountID;
     this.account = account;
@@ -88,16 +105,16 @@ export class VeauAccount extends ValueObject implements JSONable {
       region
     } = this;
 
-    if (!veauAccountID.equals(other.getVeauAccountID())) {
+    if (!veauAccountID.equals(other.veauAccountID)) {
       return false;
     }
-    if (!account.equals(other.getAccount())) {
+    if (!account.equals(other.account)) {
       return false;
     }
-    if (!language.equals(other.getLanguage())) {
+    if (!language.equals(other.language)) {
       return false;
     }
-    if (!region.equals(other.getRegion())) {
+    if (!region.equals(other.region)) {
       return false;
     }
 
