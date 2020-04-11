@@ -1,13 +1,13 @@
-import { Nominative } from '../Nominative';
-import { None } from '../Optional/None';
-import { Optional } from '../Optional/Optional';
-import { Some } from '../Optional/Some';
-import { Enumerator, Mapper, Predicate } from '../Type/Function';
-import { Ambiguous } from '../Type/Value';
-import { Collection } from './Collection';
+import {Nominative} from '../Nominative';
+import {None} from '../Optional/None';
+import {Optional} from '../Optional/Optional';
+import {Some} from '../Optional/Some';
+import {Enumerator, Mapper, Predicate} from '../Type/Function';
+import {Ambiguous} from '../Type/Value';
+import {Collection} from './Collection';
 
 export class Sequence<E extends Nominative> implements Collection<number, E>, Iterable<E> {
-  public readonly noun: 'List' = 'List';
+  public readonly noun: 'Sequence' = 'Sequence';
   private readonly elements: Array<E>;
 
   public static of<E extends Nominative>(elements: Array<E>): Sequence<E> {

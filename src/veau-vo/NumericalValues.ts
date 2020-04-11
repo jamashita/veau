@@ -1,7 +1,7 @@
-import { Collection } from '../veau-general/Collection/Collection';
-import { Sequence } from '../veau-general/Collection/Sequence';
-import { Optional } from '../veau-general/Optional/Optional';
-import { NumericalValue } from './NumericalValue';
+import {Collection} from '../veau-general/Collection/Collection';
+import {Sequence} from '../veau-general/Collection/Sequence';
+import {Optional} from '../veau-general/Optional/Optional';
+import {NumericalValue} from './NumericalValue';
 
 export class NumericalValues implements Collection<number, NumericalValue> {
   public readonly noun: 'NumericalValues' = 'NumericalValues';
@@ -15,12 +15,16 @@ export class NumericalValues implements Collection<number, NumericalValue> {
     return NumericalValues.of(Sequence.of<NumericalValue>(values));
   }
 
+  public static ofSpread(...values: Array<NumericalValue>): NumericalValues {
+    return NumericalValues.ofArray(values);
+  }
+
   public static empty(): NumericalValues {
     return NumericalValues.ofArray([
     ]);
   }
 
-  private constructor(values: Sequence<NumericalValue>) {
+  protected constructor(values: Sequence<NumericalValue>) {
     this.values = values;
   }
 

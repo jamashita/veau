@@ -1,22 +1,22 @@
-import { StatsValueError } from '../veau-error/StatsValueError';
-import { StatsValuesError } from '../veau-error/StatsValuesError';
-import { Cloneable } from '../veau-general/Cloneable';
-import { Collection } from '../veau-general/Collection/Collection';
-import { Sequence } from '../veau-general/Collection/Sequence';
-import { JSONable } from '../veau-general/JSONable';
-import { Optional } from '../veau-general/Optional/Optional';
-import { Failure } from '../veau-general/Try/Failure';
-import { manoeuvre } from '../veau-general/Try/Manoeuvre';
-import { Success } from '../veau-general/Try/Success';
-import { Try } from '../veau-general/Try/Try';
-import { Enumerator } from '../veau-general/Type/Function';
-import { Type } from '../veau-general/Type/Type';
-import { AsOf } from './AsOf';
-import { AsOfs } from './AsOfs';
-import { NumericalValue } from './NumericalValue';
-import { NumericalValues } from './NumericalValues';
-import { StatsItemID } from './StatsItemID';
-import { StatsValue, StatsValueJSON, StatsValueRow } from './StatsValue';
+import {StatsValueError} from '../veau-error/StatsValueError';
+import {StatsValuesError} from '../veau-error/StatsValuesError';
+import {Cloneable} from '../veau-general/Cloneable';
+import {Collection} from '../veau-general/Collection/Collection';
+import {Sequence} from '../veau-general/Collection/Sequence';
+import {JSONable} from '../veau-general/JSONable';
+import {Optional} from '../veau-general/Optional/Optional';
+import {Failure} from '../veau-general/Try/Failure';
+import {manoeuvre} from '../veau-general/Try/Manoeuvre';
+import {Success} from '../veau-general/Try/Success';
+import {Try} from '../veau-general/Try/Try';
+import {Enumerator} from '../veau-general/Type/Function';
+import {Type} from '../veau-general/Type/Type';
+import {AsOf} from './AsOf';
+import {AsOfs} from './AsOfs';
+import {NumericalValue} from './NumericalValue';
+import {NumericalValues} from './NumericalValues';
+import {StatsItemID} from './StatsItemID';
+import {StatsValue, StatsValueJSON, StatsValueRow} from './StatsValue';
 
 export class StatsValues implements Collection<number, StatsValue>, JSONable, Cloneable {
   public readonly noun: 'StatsValues' = 'StatsValues';
@@ -30,9 +30,13 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
     return StatsValues.of(Sequence.of<StatsValue>(values));
   }
 
+  public static ofSpread(...values: Array<StatsValue>): StatsValues {
+    return StatsValues.ofArray(values);
+  }
+
   public static ofTry(tries: Array<Try<StatsValue, StatsValueError>>): Try<StatsValues, StatsValuesError> {
-    return manoeuvre<StatsValue, StatsValueError>(tries).match<Try<StatsValues, StatsValuesError>>((vs: Array<StatsValue>) => {
-      return Success.of<StatsValues, StatsValuesError>(StatsValues.ofArray(vs));
+    return manoeuvre<StatsValue, StatsValueError>(tries).match<Try<StatsValues, StatsValuesError>>((values: Array<StatsValue>) => {
+      return Success.of<StatsValues, StatsValuesError>(StatsValues.ofArray(values));
     }, (err: StatsValueError) => {
       return Failure.of<StatsValues, StatsValuesError>(new StatsValuesError(err.message));
     });
@@ -69,7 +73,7 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
     ]);
   }
 
-  private constructor(values: Sequence<StatsValue>) {
+  protected constructor(values: Sequence<StatsValue>) {
     this.values = values;
   }
 
