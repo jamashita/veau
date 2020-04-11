@@ -1,5 +1,6 @@
 import { MockNominative } from '../../MockNominative';
 import { None } from '../../Optional/None';
+import { Optional } from '../../Optional/Optional';
 import { Sequence } from '../Sequence';
 
 describe('Sequence', () => {
@@ -199,6 +200,60 @@ describe('Sequence', () => {
       expect(nouns2.get(0).get().get()).toEqual('1');
       expect(nouns2.get(1).get().get()).toEqual('4');
       expect(nouns2.get(2).get().get()).toEqual('9');
+    });
+  });
+
+  describe('select', () => {
+    it('normal case', () => {
+      const noun1: MockNominative<number> = new MockNominative<number>(1);
+      const noun2: MockNominative<number> = new MockNominative<number>(2);
+      const noun3: MockNominative<number> = new MockNominative<number>(3);
+      const noun4: MockNominative<number> = new MockNominative<number>(4);
+
+      const nouns: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>([
+        noun1,
+        noun2,
+        noun3,
+        noun4
+      ]);
+
+      const select1: Optional<MockNominative<number>> = nouns.select((mock: MockNominative<number>) => {
+        if (mock.get() === 1) {
+          return true;
+        }
+
+        return false;
+      });
+      const select2: Optional<MockNominative<number>> = nouns.select((mock: MockNominative<number>) => {
+        if (mock.get() === 2) {
+          return true;
+        }
+
+        return false;
+      });
+      const select3: Optional<MockNominative<number>> = nouns.select((mock: MockNominative<number>) => {
+        if (mock.get() % 2 === 0) {
+          return true;
+        }
+
+        return false;
+      });
+      const select4: Optional<MockNominative<number>> = nouns.select((mock: MockNominative<number>) => {
+        if (mock.get() > 1000) {
+          return true;
+        }
+
+        return false;
+      });
+
+
+      expect(select1.isPresent()).toEqual(true);
+      expect(select1.get()).toEqual(noun1);
+      expect(select2.isPresent()).toEqual(true);
+      expect(select2.get()).toEqual(noun2);
+      expect(select3.isPresent()).toEqual(true);
+      expect(select3.get()).toEqual(noun2);
+      expect(select4.isAbsent()).toEqual(true);
     });
   });
 

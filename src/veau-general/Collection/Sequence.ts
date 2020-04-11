@@ -2,7 +2,7 @@ import { Nominative } from '../Nominative';
 import { None } from '../Optional/None';
 import { Optional } from '../Optional/Optional';
 import { Some } from '../Optional/Some';
-import { Mapper } from '../Type/Function';
+import { Mapper, Predicate } from '../Type/Function';
 import { Ambiguous } from '../Type/Value';
 import { Collection } from './Collection';
 
@@ -74,6 +74,16 @@ export class Sequence<E extends Nominative> implements Collection<number, E>, It
 
   public project<F extends Nominative>(mapper: Mapper<E, F>): Sequence<F> {
     return Sequence.of(this.elements.map<F>(mapper));
+  }
+
+  public select(predicate: Predicate<E>): Optional<E> {
+    const element: E  | undefined =  this.elements.find(predicate);
+
+    if (element === undefined) {
+      return None.of<E>();
+    }
+
+    return Some.of<E>(element);
   }
 
   public equals(other: Sequence<E>): boolean {
