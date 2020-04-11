@@ -3,35 +3,13 @@ import { StatsItemName } from '../StatsItemName';
 import { StatsItemNames } from '../StatsItemNames';
 
 describe('StatsItemNames', () => {
-  describe('[Symbol.iterator]', () => {
-    it('can iterate for loop', () => {
-      const name1: StatsItemName = StatsItemName.of('item 1');
-      const name2: StatsItemName = StatsItemName.of('item 2');
-      const name3: StatsItemName = StatsItemName.of('item 3');
-
-      const names: StatsItemNames = StatsItemNames.of([
-        name1,
-        name2,
-        name3
-      ]);
-
-      let i: number = 0;
-      for (const name of names) {
-        expect(names.get(i).get()).toBe(name);
-        i++;
-      }
-
-      expect(i).toEqual(names.size());
-    });
-  });
-
   describe('get', () => {
     it('returns StatsItemName of index-th item', () => {
       const name1: StatsItemName = StatsItemName.of('item 1');
       const name2: StatsItemName = StatsItemName.of('item 2');
       const name3: StatsItemName = StatsItemName.of('item 3');
 
-      const names: StatsItemNames = StatsItemNames.of([
+      const names: StatsItemNames = StatsItemNames.ofArray([
         name1,
         name2,
         name3
@@ -48,7 +26,7 @@ describe('StatsItemNames', () => {
       const name2: StatsItemName = StatsItemName.of('item 2');
       const name3: StatsItemName = StatsItemName.of('item 3');
 
-      const names: StatsItemNames = StatsItemNames.of([
+      const names: StatsItemNames = StatsItemNames.ofArray([
         name1,
         name2,
         name3
@@ -66,7 +44,7 @@ describe('StatsItemNames', () => {
       const name3: StatsItemName = StatsItemName.of('item 3');
       const name4: StatsItemName = StatsItemName.of('item 1');
 
-      const names: StatsItemNames = StatsItemNames.of([
+      const names: StatsItemNames = StatsItemNames.ofArray([
         name1,
         name2
       ]);
@@ -83,9 +61,9 @@ describe('StatsItemNames', () => {
       const name1: StatsItemName = StatsItemName.of('item 1');
       const name2: StatsItemName = StatsItemName.of('item 2');
 
-      const names1: StatsItemNames = StatsItemNames.of([
+      const names1: StatsItemNames = StatsItemNames.ofArray([
       ]);
-      const names2: StatsItemNames = StatsItemNames.of([
+      const names2: StatsItemNames = StatsItemNames.ofArray([
         name1,
         name2
       ]);
@@ -101,12 +79,12 @@ describe('StatsItemNames', () => {
       const name2: StatsItemName = StatsItemName.of('item 2');
       const name3: StatsItemName = StatsItemName.of('item 3');
 
-      const names1: StatsItemNames = StatsItemNames.of([
+      const names1: StatsItemNames = StatsItemNames.ofArray([
         name1,
         name2,
         name3
       ]);
-      const names2: StatsItemNames = StatsItemNames.of([
+      const names2: StatsItemNames = StatsItemNames.ofArray([
         name1
       ]);
 
@@ -118,11 +96,11 @@ describe('StatsItemNames', () => {
       const name1: StatsItemName = StatsItemName.of('item 1');
       const name2: StatsItemName = StatsItemName.of('item 2');
 
-      const names1: StatsItemNames = StatsItemNames.of([
+      const names1: StatsItemNames = StatsItemNames.ofArray([
         name1,
         name2
       ]);
-      const names2: StatsItemNames = StatsItemNames.of([
+      const names2: StatsItemNames = StatsItemNames.ofArray([
         name2,
         name1
       ]);
@@ -135,11 +113,11 @@ describe('StatsItemNames', () => {
       const name1: StatsItemName = StatsItemName.of('item 1');
       const name2: StatsItemName = StatsItemName.of('item 2');
 
-      const names1: StatsItemNames = StatsItemNames.of([
+      const names1: StatsItemNames = StatsItemNames.ofArray([
         name1,
         name2
       ]);
-      const names2: StatsItemNames = StatsItemNames.of([
+      const names2: StatsItemNames = StatsItemNames.ofArray([
         name1,
         name2
       ]);
@@ -154,7 +132,7 @@ describe('StatsItemNames', () => {
       const name1: StatsItemName = StatsItemName.of('item 1');
       const name2: StatsItemName = StatsItemName.of('item 2');
 
-      const names: StatsItemNames = StatsItemNames.of([
+      const names: StatsItemNames = StatsItemNames.ofArray([
         name1,
         name2
       ]);
@@ -173,7 +151,7 @@ describe('StatsItemNames', () => {
       const statsItemName1: StatsItemName = StatsItemName.of(name1);
       const statsItemName2: StatsItemName = StatsItemName.of(name2);
 
-      const statsItemNames: StatsItemNames = StatsItemNames.of([
+      const statsItemNames: StatsItemNames = StatsItemNames.ofArray([
         statsItemName1,
         statsItemName2
       ]);
