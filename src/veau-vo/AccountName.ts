@@ -16,7 +16,7 @@ export class AccountName extends ValueObject {
     return AccountName.DEFAULT;
   }
 
-  private constructor(name: string) {
+  protected constructor(name: string) {
     super();
     this.name = name;
   }

@@ -33,7 +33,7 @@ export class VeauAccountID extends ValueObject {
     return new VeauAccountID(UUID.v4());
   }
 
-  private constructor(uuid: UUID) {
+  protected constructor(uuid: UUID) {
     super();
     this.uuid = uuid;
   }
