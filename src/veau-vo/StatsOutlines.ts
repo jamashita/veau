@@ -1,30 +1,32 @@
 import { StatsOutlineError } from '../veau-error/StatsOutlineError';
 import { StatsOutlinesError } from '../veau-error/StatsOutlinesError';
 import { Cloneable } from '../veau-general/Cloneable';
-import { Collection } from '../veau-general/Collection';
+import { Collection } from '../veau-general/Collection/Collection';
+import { Sequence } from '../veau-general/Collection/Sequence';
 import { JSONable } from '../veau-general/JSONable';
-import { None } from '../veau-general/Optional/None';
 import { Optional } from '../veau-general/Optional/Optional';
-import { Some } from '../veau-general/Optional/Some';
 import { Failure } from '../veau-general/Try/Failure';
 import { manoeuvre } from '../veau-general/Try/Manoeuvre';
 import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
 import { Mapper } from '../veau-general/Type/Function';
-import { Ambiguous } from '../veau-general/Type/Value';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from './StatsOutline';
 
 export class StatsOutlines implements Collection<number, StatsOutline>, JSONable, Cloneable {
   public readonly noun: 'StatsOutlines' = 'StatsOutlines';
-  private readonly outlines: Array<StatsOutline>;
+  private readonly outlines: Sequence<StatsOutline>;
 
-  public static of(outlines: Array<StatsOutline>): StatsOutlines {
+  public static of(outlines: Sequence<StatsOutline>): StatsOutlines {
     return new StatsOutlines(outlines);
+  }
+
+  public static ofArray(outlines: Array<StatsOutline>): StatsOutlines {
+    return StatsOutlines.of(Sequence.of<StatsOutline>(outlines));
   }
 
   public static ofTry(tries: Array<Try<StatsOutline, StatsOutlineError>>): Try<StatsOutlines, StatsOutlinesError> {
     return manoeuvre<StatsOutline, StatsOutlineError>(tries).match<Try<StatsOutlines, StatsOutlinesError>>((so: Array<StatsOutline>) => {
-      return Success.of<StatsOutlines, StatsOutlinesError>(StatsOutlines.of(so));
+      return Success.of<StatsOutlines, StatsOutlinesError>(StatsOutlines.ofArray(so));
     }, (err: StatsOutlineError) => {
       return Failure.of<StatsOutlines, StatsOutlinesError>(new StatsOutlinesError(err.message));
     });
@@ -47,59 +49,36 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
   }
 
   public static empty(): StatsOutlines {
-    return StatsOutlines.of([]);
+    return StatsOutlines.ofArray([
+    ]);
   }
 
-  private constructor(outlines: Array<StatsOutline>) {
+  private constructor(outlines: Sequence<StatsOutline>) {
     this.outlines = outlines;
   }
 
-  public [Symbol.iterator](): Iterator<StatsOutline> {
-    return this.outlines[Symbol.iterator]();
-  }
-
   public get(index: number): Optional<StatsOutline> {
-    const outline: Ambiguous<StatsOutline> = this.outlines[index];
-
-    if (outline === undefined) {
-      return None.of<StatsOutline>();
-    }
-
-    return Some.of<StatsOutline>(outline);
+    return this.outlines.get(index);
   }
 
   public contains(value: StatsOutline): boolean {
-    const found: Ambiguous<StatsOutline> = this.outlines.find((outline: StatsOutline) => {
-      return value.equals(outline);
-    });
-
-    if (found === undefined) {
-      return false;
-    }
-
-    return true;
+    return this.outlines.contains(value);
   }
 
   public size(): number {
-    return this.outlines.length;
+    return this.outlines.size();
   }
 
   public map<U>(mapper: Mapper<StatsOutline, U>): Array<U> {
-    return this.outlines.map<U>(mapper);
+    return this.outlines.toArray().map<U>(mapper);
   }
 
   public copy(): StatsOutlines {
-    return new StatsOutlines(this.outlines.map<StatsOutline>((outline: StatsOutline) => {
-      return outline.copy();
-    }));
+    return StatsOutlines.of(this.outlines.coppy());
   }
 
   public isEmpty(): boolean {
-    if (this.outlines.length === 0) {
-      return true;
-    }
-
-    return false;
+    return this.outlines.isEmpty();
   }
 
   public equals(other: StatsOutlines): boolean {
@@ -107,28 +86,17 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
       return true;
     }
 
-    const length: number = this.outlines.length;
-    if (length !== other.size()) {
-      return false;
-    }
-
-    for (let i: number = 0; i < length; i++) {
-      if (!this.outlines[i].equals(other.get(i).get())) {
-        return false;
-      }
-    }
-
-    return true;
+    return this.outlines.equals(other.outlines);
   }
 
   public toJSON(): Array<StatsOutlineJSON> {
-    return this.outlines.map<StatsOutlineJSON>((outline: StatsOutline) => {
+    return this.outlines.toArray().map<StatsOutlineJSON>((outline: StatsOutline) => {
       return outline.toJSON();
     });
   }
 
   public toString(): string {
-    return this.outlines.map<string>((outline: StatsOutline) => {
+    return this.outlines.toArray().map<string>((outline: StatsOutline) => {
       return outline.toString();
     }).join(', ');
   }
