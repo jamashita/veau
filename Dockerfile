@@ -23,7 +23,7 @@ WORKDIR /root/app
 
 COPY --from=build-image /root/dist dist
 COPY config config
-COPY ecosystem.config.js ecosystem.config.js
+COPY pm2.config.js pm2.config.js
 COPY package.json package.json
 COPY yarn.lock yarn.lock
 
