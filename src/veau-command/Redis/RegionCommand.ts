@@ -10,8 +10,8 @@ import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
 import { REDIS_REGION_KEY } from '../../veau-infrastructure/VeauRedis';
 import { Regions } from '../../veau-vo/Regions';
-import { IRedisCommand } from '../interfaces/IRedisCommand';
-import { IRegionCommand } from '../interfaces/IRegionCommand';
+import { IRedisCommand } from '../Interfaces/IRedisCommand';
+import { IRegionCommand } from '../Interfaces/IRegionCommand';
 
 const DURATION: number = 3 * 60 * 60;
 

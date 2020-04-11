@@ -3,8 +3,8 @@ import { DataSourceError } from '../../veau-general/DataSourceError';
 import { Try } from '../../veau-general/Try/Try';
 import { UnimplementedError } from '../../veau-general/UnimplementedError';
 import { StatsID } from '../../veau-vo/StatsID';
-import { IMockCommand } from '../interfaces/IMockCommand';
-import { IStatsItemCommand } from '../interfaces/IStatsItemCommand';
+import { IMockCommand } from '../Interfaces/IMockCommand';
+import { IStatsItemCommand } from '../Interfaces/IStatsItemCommand';
 
 export class MockStatsItemCommand implements IStatsItemCommand, IMockCommand {
   public readonly noun: 'StatsItemCommand' = 'StatsItemCommand';

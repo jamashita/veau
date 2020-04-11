@@ -1,7 +1,7 @@
 import { SagaIterator } from '@redux-saga/types';
 import { inject, injectable } from 'inversify';
 import { all, call, fork, put, take } from 'redux-saga/effects';
-import { ISessionCommand } from '../../veau-command/interfaces/ISessionCommand';
+import { ISessionCommand } from '../../veau-command/Interfaces/ISessionCommand';
 import { TYPE } from '../../veau-container/Types';
 import { DataSourceError } from '../../veau-general/DataSourceError';
 import { Try } from '../../veau-general/Try/Try';

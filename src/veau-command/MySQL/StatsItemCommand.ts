@@ -6,8 +6,8 @@ import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
 import { StatsID } from '../../veau-vo/StatsID';
-import { IMySQLCommand } from '../interfaces/IMySQLCommand';
-import { IStatsItemCommand } from '../interfaces/IStatsItemCommand';
+import { IMySQLCommand } from '../Interfaces/IMySQLCommand';
+import { IStatsItemCommand } from '../Interfaces/IStatsItemCommand';
 
 export class StatsItemCommand implements IStatsItemCommand, IMySQLCommand {
   public readonly noun: 'StatsItemCommand' = 'StatsItemCommand';

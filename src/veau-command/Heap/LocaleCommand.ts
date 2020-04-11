@@ -8,8 +8,8 @@ import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
 import { VAULT_LOCALE_KEY } from '../../veau-infrastructure/VeauVault';
 import { Locale } from '../../veau-vo/Locale';
-import { IHeapCommand } from '../interfaces/IHeapCommand';
-import { ILocaleCommand } from '../interfaces/ILocaleCommand';
+import { IHeapCommand } from '../Interfaces/IHeapCommand';
+import { ILocaleCommand } from '../Interfaces/ILocaleCommand';
 
 @injectable()
 export class LocaleCommand implements ILocaleCommand, IHeapCommand {

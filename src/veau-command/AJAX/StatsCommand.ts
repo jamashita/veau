@@ -11,8 +11,8 @@ import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
 import { UnimplementedError } from '../../veau-general/UnimplementedError';
 import { StatsID } from '../../veau-vo/StatsID';
-import { IAJAXCommand } from '../interfaces/IAJAXCommand';
-import { IStatsCommand } from '../interfaces/IStatsCommand';
+import { IAJAXCommand } from '../Interfaces/IAJAXCommand';
+import { IStatsCommand } from '../Interfaces/IStatsCommand';
 
 @injectable()
 export class StatsCommand implements IStatsCommand, IAJAXCommand {

@@ -3,8 +3,8 @@ import { DataSourceError } from '../../veau-general/DataSourceError';
 import { Try } from '../../veau-general/Try/Try';
 import { UnimplementedError } from '../../veau-general/UnimplementedError';
 import { Locale } from '../../veau-vo/Locale';
-import { ILocaleCommand } from '../interfaces/ILocaleCommand';
-import { IMockCommand } from '../interfaces/IMockCommand';
+import { ILocaleCommand } from '../Interfaces/ILocaleCommand';
+import { IMockCommand } from '../Interfaces/IMockCommand';
 
 @injectable()
 export class MockLocaleCommand implements ILocaleCommand, IMockCommand {

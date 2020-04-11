@@ -3,8 +3,8 @@ import { DataSourceError } from '../../veau-general/DataSourceError';
 import { Try } from '../../veau-general/Try/Try';
 import { UnimplementedError } from '../../veau-general/UnimplementedError';
 import { Regions } from '../../veau-vo/Regions';
-import { IMockCommand } from '../interfaces/IMockCommand';
-import { IRegionCommand } from '../interfaces/IRegionCommand';
+import { IMockCommand } from '../Interfaces/IMockCommand';
+import { IRegionCommand } from '../Interfaces/IRegionCommand';
 
 export class MockRegionCommand implements IRegionCommand, IMockCommand {
   public readonly noun: 'RegionCommand' = 'RegionCommand';
