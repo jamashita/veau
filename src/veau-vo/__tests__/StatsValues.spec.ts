@@ -7,12 +7,15 @@ import {Success} from '../../veau-general/Try/Success';
 import {Try} from '../../veau-general/Try/Try';
 import {AsOf} from '../AsOf';
 import {NumericalValue} from '../NumericalValue';
-import {NumericalValues} from '../NumericalValues';
 import {StatsItemID} from '../StatsItemID';
 import {StatsValue, StatsValueJSON, StatsValueRow} from '../StatsValue';
 import {StatsValues} from '../StatsValues';
 import {MockStatsValue} from '../Mock/MockStatsValue';
 import {MockStatsItemID} from '../Mock/MockStatsItemID';
+import {MockAsOf} from '../Mock/MockAsOf';
+import {MockNumericalValue} from '../Mock/MockNumericalValue';
+import {MockNumericalValues} from '../Mock/MockNumericalValues';
+import {UUID} from '../../veau-general/UUID/UUID';
 
 describe('StatsValues', () => {
   describe('ofTry', () => {
@@ -400,11 +403,11 @@ describe('StatsValues', () => {
       const statsValue2: MockStatsValue = new MockStatsValue();
       const statsValue3: MockStatsValue = new MockStatsValue();
 
-      const statsValues: StatsValues = StatsValues.ofArray([
+      const statsValues: StatsValues = StatsValues.ofSpread(
         statsValue1,
         statsValue2,
         statsValue3
-      ]);
+      );
 
       expect(statsValues.size()).toEqual(3);
       expect(statsValues.get(0).get()).toEqual(statsValue1);
@@ -422,18 +425,45 @@ describe('StatsValues', () => {
 
   describe('set', () => {
     it('update pattern', () => {
-      const statsItemID: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
-      const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
-      const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
-      const statsValue3: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-03').get(), NumericalValue.of(3));
+      const statsValue1: MockStatsValue = new MockStatsValue({
+        asOf: new MockAsOf({
+          year: 2000,
+          month: 1,
+          day: 1
+        }),
+        value: new MockNumericalValue(1)
+      });
+      const statsValue2: MockStatsValue = new MockStatsValue({
+        asOf: new MockAsOf({
+          year: 2000,
+          month: 1,
+          day: 2
+        }),
+        value: new MockNumericalValue(2)
+      });
+      const statsValue3: MockStatsValue = new MockStatsValue({
+        asOf: new MockAsOf({
+          year: 2000,
+          month: 1,
+          day: 3
+        }),
+        value: new MockNumericalValue(3)
+      });
+      const statsValue4: MockStatsValue = new MockStatsValue({
+        asOf: new MockAsOf({
+          year: 2000,
+          month: 1,
+          day: 2
+        }),
+        value: new MockNumericalValue(4)
+      });
 
-      const statsValues: StatsValues = StatsValues.ofArray([
+      const statsValues: StatsValues = StatsValues.ofSpread(
         statsValue1,
         statsValue2,
         statsValue3
-      ]);
-
-      const set: StatsValues = statsValues.set(StatsValue.of(statsItemID, AsOf.ofString('2000-01-02').get(), NumericalValue.of(4)));
+      );
+      const set: StatsValues = statsValues.set(statsValue4);
 
       expect(set.size()).toEqual(3);
       expect(set.get(0).get().getValue().get()).toEqual(1);
@@ -442,16 +472,36 @@ describe('StatsValues', () => {
     });
 
     it('insert pattern', () => {
-      const statsItemID: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
-      const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
-      const statsValue3: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-03').get(), NumericalValue.of(3));
+      const statsValue1: MockStatsValue = new MockStatsValue({
+        asOf: new MockAsOf({
+          year: 2000,
+          month: 1,
+          day: 1
+        }),
+        value: new MockNumericalValue(1)
+      });
+      const statsValue2: MockStatsValue = new MockStatsValue({
+        asOf: new MockAsOf({
+          year: 2000,
+          month: 1,
+          day: 2
+        }),
+        value: new MockNumericalValue(2)
+      });
+      const statsValue3: MockStatsValue = new MockStatsValue({
+        asOf: new MockAsOf({
+          year: 2000,
+          month: 1,
+          day: 3
+        }),
+        value: new MockNumericalValue(3)
+      });
 
-      const statsValues: StatsValues = StatsValues.ofArray([
+      const statsValues: StatsValues = StatsValues.ofSpread(
         statsValue1,
         statsValue3
-      ]);
-
-      const set: StatsValues = statsValues.set(StatsValue.of(statsItemID, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2)));
+      );
+      const set: StatsValues = statsValues.set(statsValue2);
 
       expect(set.size()).toEqual(3);
       expect(set.get(0).get().getValue().get()).toEqual(1);
@@ -462,18 +512,42 @@ describe('StatsValues', () => {
 
   describe('delete', () => {
     it('deletes a element if its asOf is the same', () => {
-      const statsItemID: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
-      const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
-      const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
-      const statsValue3: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-03').get(), NumericalValue.of(3));
+      const statsValue1: MockStatsValue = new MockStatsValue({
+        asOf: new MockAsOf({
+          year: 2000,
+          month: 1,
+          day: 1
+        }),
+        value: new MockNumericalValue(1)
+      });
+      const statsValue2: MockStatsValue = new MockStatsValue({
+        asOf: new MockAsOf({
+          year: 2000,
+          month: 1,
+          day: 2
+        }),
+        value: new MockNumericalValue(2)
+      });
+      const statsValue3: MockStatsValue = new MockStatsValue({
+        asOf: new MockAsOf({
+          year: 2000,
+          month: 1,
+          day: 3
+        }),
+        value: new MockNumericalValue(3)
+      });
+      const deleteAsOf: MockAsOf = new MockAsOf({
+        year: 2000,
+        month: 1,
+        day: 2
+      });
 
-      const statsValues: StatsValues = StatsValues.ofArray([
+      const statsValues: StatsValues = StatsValues.ofSpread(
         statsValue1,
         statsValue2,
         statsValue3
-      ]);
-
-      const deleted: StatsValues = statsValues.delete(AsOf.ofString('2000-01-02').get());
+      );
+      const deleted: StatsValues = statsValues.delete(deleteAsOf);
 
       expect(deleted.size()).toEqual(2);
       expect(deleted.get(0).get().getValue().get()).toEqual(1);
@@ -483,33 +557,57 @@ describe('StatsValues', () => {
 
   describe('getValues', () => {
     it('extracts only their values', () => {
-      const value1: NumericalValue = NumericalValue.of(1);
-      const value2: NumericalValue = NumericalValue.of(3);
-      const statsItemID: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
-
-      const statsValues: StatsValues = StatsValues.ofArray([
-        StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), value1),
-        StatsValue.of(statsItemID, AsOf.ofString('2000-01-03').get(), value2)
-      ]);
-      const vallues: NumericalValues = NumericalValues.ofArray([
+      const value1: MockNumericalValue = new MockNumericalValue(1);
+      const value2: MockNumericalValue = new MockNumericalValue(3);
+      const values: MockNumericalValues = new MockNumericalValues(
         value1,
         value2
-      ]);
+      );
 
-      expect(statsValues.getValues().equals(vallues)).toEqual(true);
+      const statsValues: StatsValues = StatsValues.ofSpread(
+        new MockStatsValue({
+          asOf: new MockAsOf({
+            year: 2000,
+            month: 1,
+            day: 1
+          }),
+          value: value1
+        }),
+        new MockStatsValue({
+          asOf: new MockAsOf({
+            year: 2000,
+            month: 1,
+            day: 3
+          }),
+          value: value2
+        })
+      );
+
+      expect(statsValues.getValues().equals(values)).toEqual(true);
     });
   });
 
   describe('getAdOfs', () => {
     it('extracts only their asOfs', () => {
-      const statsItemID: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
-      const asOf1: AsOf = AsOf.ofString('2000-01-01').get();
-      const asOf2: AsOf = AsOf.ofString('2000-01-03').get();
+      const asOf1: MockAsOf = new MockAsOf({
+        year: 2000,
+        month: 1,
+        day: 3
+      });
+      const asOf2: MockAsOf = new MockAsOf({
+        year: 2000,
+        month: 1,
+        day: 3
+      });
 
-      const statsValues: StatsValues = StatsValues.ofArray([
-        StatsValue.of(statsItemID, asOf1, NumericalValue.of(1)),
-        StatsValue.of(statsItemID, asOf2, NumericalValue.of(3))
-      ]);
+      const statsValues: StatsValues = StatsValues.ofSpread(
+        new MockStatsValue({
+          asOf: asOf1
+        }),
+        new MockStatsValue({
+          asOf: asOf2
+        })
+      );
 
       expect(statsValues.getAsOfs().size()).toEqual(2);
       expect(statsValues.getAsOfs().get(0).get()).toEqual(asOf1);
@@ -518,17 +616,49 @@ describe('StatsValues', () => {
   });
 
   describe('contains', () => {
-    it('returns true if the element exists in the Colors', () => {
-      const statsItemID: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
-      const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
-      const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
-      const statsValue3: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-03').get(), NumericalValue.of(3));
-      const statsValue4: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
+    it('returns true if the element exists', () => {
+      const statsItemID: MockStatsItemID = new MockStatsItemID();
+      const statsValue1: MockStatsValue = new MockStatsValue({
+        statsItemID,
+        asOf: new MockAsOf({
+          year: 2000,
+          month: 1,
+          day: 1
+        }),
+        value: new MockNumericalValue(1)
+     });
+      const statsValue2: MockStatsValue = new MockStatsValue({
+        statsItemID,
+        asOf: new MockAsOf({
+          year: 2000,
+          month: 1,
+          day: 2
+        }),
+        value: new MockNumericalValue(2)
+      });
+      const statsValue3: MockStatsValue = new MockStatsValue({
+        statsItemID,
+        asOf: new MockAsOf({
+          year: 2000,
+          month: 1,
+          day: 3
+        }),
+        value: new MockNumericalValue(3)
+      });
+      const statsValue4: MockStatsValue = new MockStatsValue({
+        statsItemID,
+        asOf: new MockAsOf({
+          year: 2000,
+          month: 1,
+          day: 1
+        }),
+        value: new MockNumericalValue(1)
+      });
 
-      const statsValues: StatsValues = StatsValues.ofArray([
+      const statsValues: StatsValues = StatsValues.ofSpread(
         statsValue1,
         statsValue2
-      ]);
+      );
 
       expect(statsValues.contains(statsValue1)).toEqual(true);
       expect(statsValues.contains(statsValue2)).toEqual(true);
@@ -539,16 +669,14 @@ describe('StatsValues', () => {
 
   describe('isEmpty', () => {
     it('returns true if the elements are 0', () => {
-      const statsItemID: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
-      const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
-      const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
+      const statsValue1: MockStatsValue = new MockStatsValue();
+      const statsValue2: MockStatsValue = new MockStatsValue();
 
-      const statsValues1: StatsValues = StatsValues.ofArray([
-      ]);
-      const statsValues2: StatsValues = StatsValues.ofArray([
+      const statsValues1: StatsValues = StatsValues.ofSpread();
+      const statsValues2: StatsValues = StatsValues.ofSpread(
         statsValue1,
         statsValue2
-      ]);
+      );
 
       expect(statsValues1.isEmpty()).toEqual(true);
       expect(statsValues2.isEmpty()).toEqual(false);
@@ -557,19 +685,27 @@ describe('StatsValues', () => {
 
   describe('filter', () => {
     it('only returns a certain StatsItemID\'s StatsValue', () => {
-      const statsItemID1: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
-      const statsItemID2: StatsItemID = StatsItemID.ofString('b5f208c3-f171-488f-a8dc-f3798db5f9f4').get();
-      const statsValue1: StatsValue = StatsValue.of(statsItemID1, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
-      const statsValue2: StatsValue = StatsValue.of(statsItemID2, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
-      const statsValue3: StatsValue = StatsValue.of(statsItemID2, AsOf.ofString('2000-01-03').get(), NumericalValue.of(3));
-      const statsValue4: StatsValue = StatsValue.of(statsItemID1, AsOf.ofString('2000-01-04').get(), NumericalValue.of(1));
+      const statsItemID1: MockStatsItemID = new MockStatsItemID();
+      const statsItemID2: MockStatsItemID = new MockStatsItemID();
+      const statsValue1: StatsValue = new MockStatsValue({
+        statsItemID: statsItemID1
+      });
+      const statsValue2: StatsValue = new MockStatsValue({
+        statsItemID: statsItemID2
+      });
+      const statsValue3: StatsValue = new MockStatsValue({
+        statsItemID: statsItemID2
+      });
+      const statsValue4: StatsValue = new MockStatsValue({
+        statsItemID: statsItemID1
+      });
 
-      const statsValues: StatsValues = StatsValues.ofArray([
+      const statsValues: StatsValues = StatsValues.ofSpread(
         statsValue1,
         statsValue2,
         statsValue3,
         statsValue4
-      ]);
+      );
 
       const filtered1: StatsValues = statsValues.filter(statsItemID1);
       const filtered2: StatsValues = statsValues.filter(statsItemID2);
@@ -585,19 +721,31 @@ describe('StatsValues', () => {
 
   describe('copy', () => {
     it('just create a new array but the objects are the same', () => {
-      const statsItemID1: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
-      const statsItemID2: StatsItemID = StatsItemID.ofString('b5f208c3-f171-488f-a8dc-f3798db5f9f4').get();
-      const statsValue1: StatsValue = StatsValue.of(statsItemID1, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
-      const statsValue2: StatsValue = StatsValue.of(statsItemID2, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
-      const statsValue3: StatsValue = StatsValue.of(statsItemID2, AsOf.ofString('2000-01-03').get(), NumericalValue.of(3));
-      const statsValue4: StatsValue = StatsValue.of(statsItemID1, AsOf.ofString('2000-01-04').get(), NumericalValue.of(1));
+      const statsItemID1: MockStatsItemID = new MockStatsItemID();
+      const statsItemID2: MockStatsItemID = new MockStatsItemID();
+      const statsValue1: StatsValue = new MockStatsValue({
+        statsItemID: statsItemID1,
+        value: new MockNumericalValue(1)
+      });
+      const statsValue2: StatsValue = new MockStatsValue({
+        statsItemID: statsItemID2,
+        value: new MockNumericalValue(2)
+      });
+      const statsValue3: StatsValue = new MockStatsValue({
+        statsItemID: statsItemID2,
+        value: new MockNumericalValue(3)
+      });
+      const statsValue4: StatsValue = new MockStatsValue({
+        statsItemID: statsItemID1,
+        value: new MockNumericalValue(4)
+      });
 
-      const statsValues: StatsValues = StatsValues.ofArray([
+      const statsValues: StatsValues = StatsValues.ofSpread(
         statsValue1,
         statsValue2,
         statsValue3,
         statsValue4
-      ]);
+      );
       const copied: StatsValues = statsValues.copy();
 
       expect(statsValues).not.toBe(copied);
@@ -609,54 +757,51 @@ describe('StatsValues', () => {
   });
 
   describe('equals', () => {
-    it('returns false if the length is differnet', () => {
-      const statsItemID: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
-      const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
-      const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
+    it('returns false if the length is different', () => {
+      const statsValue1: StatsValue = new MockStatsValue();
+      const statsValue2: StatsValue = new MockStatsValue();
 
-      const statsValues1: StatsValues = StatsValues.ofArray([
+      const statsValues1: StatsValues = StatsValues.ofSpread(
         statsValue1,
         statsValue2
-      ]);
-      const statsValues2: StatsValues = StatsValues.ofArray([
+      );
+      const statsValues2: StatsValues = StatsValues.ofSpread(
         statsValue1
-      ]);
+      );
 
       expect(statsValues1.equals(statsValues1)).toEqual(true);
       expect(statsValues1.equals(statsValues2)).toEqual(false);
     });
 
     it('returns false if the sequence is different', () => {
-      const statsItemID: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
-      const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
-      const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
+      const statsValue1: StatsValue = new MockStatsValue();
+      const statsValue2: StatsValue = new MockStatsValue();
 
-      const statsValues1: StatsValues = StatsValues.ofArray([
+      const statsValues1: StatsValues = StatsValues.ofSpread(
         statsValue1,
         statsValue2
-      ]);
-      const statsValues2: StatsValues = StatsValues.ofArray([
+      );
+      const statsValues2: StatsValues = StatsValues.ofSpread(
         statsValue2,
         statsValue1
-      ]);
+      );
 
       expect(statsValues1.equals(statsValues1)).toEqual(true);
       expect(statsValues1.equals(statsValues2)).toEqual(false);
     });
 
     it('returns true if the elements and their order are the same', () => {
-      const statsItemID: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
-      const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
-      const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
+      const statsValue1: StatsValue = new MockStatsValue();
+      const statsValue2: StatsValue = new MockStatsValue();
 
-      const statsValues1: StatsValues = StatsValues.ofArray([
+      const statsValues1: StatsValues = StatsValues.ofSpread(
         statsValue1,
         statsValue2
-      ]);
-      const statsValues2: StatsValues = StatsValues.ofArray([
+      );
+      const statsValues2: StatsValues = StatsValues.ofSpread(
         statsValue1,
         statsValue2
-      ]);
+      );
 
       expect(statsValues1.equals(statsValues1)).toEqual(true);
       expect(statsValues1.equals(statsValues2)).toEqual(true);
@@ -665,21 +810,21 @@ describe('StatsValues', () => {
 
   describe('toString', () => {
     it('normal case', () => {
-      const id: string = 'f186dad1-6170-4fdc-9020-d73d9bf86fb0';
+      const uuid: UUID = UUID.v4();
       const asOf1: string = '2000-01-01';
       const asOf2: string = '2000-01-02';
       const value1: number = 1;
       const value2: number = 2;
-      const statsItemID: StatsItemID = StatsItemID.ofString(id).get();
+      const statsItemID: StatsItemID = StatsItemID.of(uuid);
       const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString(asOf1).get(), NumericalValue.of(value1));
       const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString(asOf2).get(), NumericalValue.of(value2));
 
-      const statsValues: StatsValues = StatsValues.ofArray([
+      const statsValues: StatsValues = StatsValues.ofSpread(
         statsValue1,
         statsValue2
-      ]);
+      );
 
-      expect(statsValues.toString()).toEqual(`${id} ${asOf1} ${value1}, ${id} ${asOf2} ${value2}`);
+      expect(statsValues.toString()).toEqual(`${uuid.get()} ${asOf1} ${value1}, ${uuid.get()} ${asOf2} ${value2}`);
     });
   });
 });
