@@ -3,35 +3,13 @@ import { NumericalValue } from '../NumericalValue';
 import { NumericalValues } from '../NumericalValues';
 
 describe('NumericalValues', () => {
-  describe('[Symbol.iterator]', () => {
-    it('can iterate for loop', () => {
-      const value1: NumericalValue = NumericalValue.of(1);
-      const value2: NumericalValue = NumericalValue.of(2);
-      const value3: NumericalValue = NumericalValue.of(3);
-
-      const values: NumericalValues = NumericalValues.of([
-        value1,
-        value2,
-        value3
-      ]);
-
-      let i: number = 0;
-      for (const value of values) {
-        expect(values.get(i).get()).toBe(value);
-        i++;
-      }
-
-      expect(i).toEqual(values.size());
-    });
-  });
-
   describe('add', () => {
     it('does not affect the original one', () => {
       const value1: NumericalValue = NumericalValue.of(1);
       const value2: NumericalValue = NumericalValue.of(2);
       const value3: NumericalValue = NumericalValue.of(3);
 
-      const values1: NumericalValues = NumericalValues.of([
+      const values1: NumericalValues = NumericalValues.ofArray([
         value1,
         value2
       ]);
@@ -54,7 +32,7 @@ describe('NumericalValues', () => {
       const value2: NumericalValue = NumericalValue.of(2);
       const value3: NumericalValue = NumericalValue.of(3);
 
-      const values: NumericalValues = NumericalValues.of([
+      const values: NumericalValues = NumericalValues.ofArray([
         value1,
         value2,
         value3
@@ -71,7 +49,7 @@ describe('NumericalValues', () => {
       const value2: NumericalValue = NumericalValue.of(2);
       const value3: NumericalValue = NumericalValue.of(3);
 
-      const values: NumericalValues = NumericalValues.of([
+      const values: NumericalValues = NumericalValues.ofArray([
         value1,
         value2,
         value3
@@ -89,7 +67,7 @@ describe('NumericalValues', () => {
       const value3: NumericalValue = NumericalValue.of(3);
       const value4: NumericalValue = NumericalValue.of(1);
 
-      const values: NumericalValues = NumericalValues.of([
+      const values: NumericalValues = NumericalValues.ofArray([
         value1,
         value2
       ]);
@@ -107,7 +85,7 @@ describe('NumericalValues', () => {
       const value2: NumericalValue = NumericalValue.of(2);
       const values1: NumericalValues = NumericalValues.empty();
 
-      const values2: NumericalValues = NumericalValues.of([
+      const values2: NumericalValues = NumericalValues.ofArray([
         value1,
         value2
       ]);
@@ -122,10 +100,10 @@ describe('NumericalValues', () => {
       const value1: NumericalValue = NumericalValue.of(1);
       const value2: NumericalValue = NumericalValue.of(2);
 
-      const values1: NumericalValues = NumericalValues.of([
+      const values1: NumericalValues = NumericalValues.ofArray([
         value1
       ]);
-      const values2: NumericalValues = NumericalValues.of([
+      const values2: NumericalValues = NumericalValues.ofArray([
         value1,
         value2
       ]);
@@ -138,11 +116,11 @@ describe('NumericalValues', () => {
       const value1: NumericalValue = NumericalValue.of(1);
       const value2: NumericalValue = NumericalValue.of(2);
 
-      const values1: NumericalValues = NumericalValues.of([
+      const values1: NumericalValues = NumericalValues.ofArray([
         value2,
         value1
       ]);
-      const values2: NumericalValues = NumericalValues.of([
+      const values2: NumericalValues = NumericalValues.ofArray([
         value1,
         value2
       ]);
@@ -155,11 +133,11 @@ describe('NumericalValues', () => {
       const value1: NumericalValue = NumericalValue.of(1);
       const value2: NumericalValue = NumericalValue.of(2);
 
-      const values1: NumericalValues = NumericalValues.of([
+      const values1: NumericalValues = NumericalValues.ofArray([
         value1,
         value2
       ]);
-      const values2: NumericalValues = NumericalValues.of([
+      const values2: NumericalValues = NumericalValues.ofArray([
         value1,
         value2
       ]);
@@ -176,7 +154,7 @@ describe('NumericalValues', () => {
       const value1: NumericalValue = NumericalValue.of(num1);
       const value2: NumericalValue = NumericalValue.of(num2);
 
-      const values: NumericalValues = NumericalValues.of([
+      const values: NumericalValues = NumericalValues.ofArray([
         value1,
         value2
       ]);
@@ -192,7 +170,7 @@ describe('NumericalValues', () => {
       const value1: NumericalValue = NumericalValue.of(num1);
       const value2: NumericalValue = NumericalValue.of(num2);
 
-      const values: NumericalValues = NumericalValues.of([
+      const values: NumericalValues = NumericalValues.ofArray([
         value1,
         value2
       ]);

@@ -1,78 +1,53 @@
-import { Collection } from '../veau-general/Collection';
-import { None } from '../veau-general/Optional/None';
+import { Collection } from '../veau-general/Collection/Collection';
+import { Sequence } from '../veau-general/Collection/Sequence';
 import { Optional } from '../veau-general/Optional/Optional';
-import { Some } from '../veau-general/Optional/Some';
-import { Ambiguous } from '../veau-general/Type/Value';
 import { NumericalValue } from './NumericalValue';
 
 export class NumericalValues implements Collection<number, NumericalValue> {
   public readonly noun: 'NumericalValues' = 'NumericalValues';
-  private readonly values: Array<NumericalValue>;
+  private readonly values: Sequence<NumericalValue>;
 
-  public static of(values: Array<NumericalValue>): NumericalValues {
+  public static of(values: Sequence<NumericalValue>): NumericalValues {
     return new NumericalValues(values);
   }
 
+  public static ofArray(values: Array<NumericalValue>): NumericalValues {
+    return NumericalValues.of(Sequence.of<NumericalValue>(values));
+  }
+
   public static empty(): NumericalValues {
-    return NumericalValues.of([
+    return NumericalValues.ofArray([
     ]);
   }
 
-  private constructor(values: Array<NumericalValue>) {
+  private constructor(values: Sequence<NumericalValue>) {
     this.values = values;
   }
 
-  public [Symbol.iterator](): Iterator<NumericalValue> {
-    return this.values[Symbol.iterator]();
-  }
-
-  public add(value: NumericalValue): NumericalValues {
-    const values: Array<NumericalValue> = [
-      ...this.values,
-      value
-    ];
-
-    return NumericalValues.of(values);
+  public add(...values: Array<NumericalValue>): NumericalValues {
+    return NumericalValues.of(this.values.add(...values));
   }
 
   public get(index: number): Optional<NumericalValue> {
-    const value: Ambiguous<NumericalValue> = this.values[index];
-
-    if (value === undefined) {
-      return None.of<NumericalValue>();
-    }
-
-    return Some.of<NumericalValue>(value);
+    return this.values.get(index);
   }
 
   public row(): Array<string> {
-    return this.values.map<string>((value: NumericalValue) => {
+    return this.values.toArray().map<string>((value: NumericalValue) => {
       return value.toString();
     });
   }
 
   public contains(value: NumericalValue): boolean {
-    const found: Ambiguous<NumericalValue> = this.values.find((val: NumericalValue) => {
-      return value.equals(val);
-    });
-
-    if (found === undefined) {
-      return false;
-    }
-
-    return true;
+    return this.values.contains(value);
   }
 
   public size(): number {
-    return this.values.length;
+    return this.values.size();
   }
 
   public isEmpty(): boolean {
-    if (this.values.length === 0) {
-      return true;
-    }
-
-    return false;
+    return this.values.isEmpty();
   }
 
   public equals(other: NumericalValues): boolean {
@@ -80,17 +55,7 @@ export class NumericalValues implements Collection<number, NumericalValue> {
       return true;
     }
 
-    const length: number = this.values.length;
-    if (length !== other.size()) {
-      return false;
-    }
-    for (let i: number = 0; i < length; i++) {
-      if (!this.values[i].equals(other.get(i).get())) {
-        return false;
-      }
-    }
-
-    return true;
+    return this.values.equals(other.values);
   }
 
   public toString(): string {
