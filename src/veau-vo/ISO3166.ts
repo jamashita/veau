@@ -16,7 +16,7 @@ export class ISO3166 extends ValueObject {
     return ISO3166.DEFAULT;
   }
 
-  public constructor(iso3166: string) {
+  protected constructor(iso3166: string) {
     super();
     this.iso3166 = iso3166;
   }

@@ -12,7 +12,7 @@ export class RegionName extends ValueObject {
     return RegionName.of('');
   }
 
-  private constructor(name: string) {
+  protected constructor(name: string) {
     super();
     this.name = name;
   }

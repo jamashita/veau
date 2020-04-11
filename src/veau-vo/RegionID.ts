@@ -16,7 +16,7 @@ export class RegionID extends ValueObject {
     return RegionID.DEFAULT;
   }
 
-  private constructor(id: number) {
+  protected constructor(id: number) {
     super();
     this.id = id;
   }

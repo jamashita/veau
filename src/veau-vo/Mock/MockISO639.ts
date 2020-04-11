@@ -2,7 +2,7 @@ import { ISO639 } from '../ISO639';
 
 export class MockISO639 extends ISO639 {
 
-  public constructor(iso639: string = '') {
+  public constructor(iso639: string = 'ISO639') {
     super(iso639);
   }
 }
