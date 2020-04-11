@@ -92,7 +92,7 @@ export class Region extends ValueObject implements JSONable {
     return true;
   }
 
-  private constructor(
+  protected constructor(
     regionID: RegionID,
     name: RegionName,
     iso3166: ISO3166
