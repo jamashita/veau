@@ -9,8 +9,10 @@ import { Some } from './Some';
 export class None<T> extends Optional<T> {
   public readonly noun: 'None' = 'None';
 
+  private static readonly instance: None<unknown> = None.of<unknown>();
+
   public static of<T = void>(): None<T> {
-    return new None<T>();
+    return None.instance.transform<T>();
   }
 
   private constructor() {
