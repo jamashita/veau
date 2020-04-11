@@ -26,26 +26,66 @@ describe('Sequence', () => {
   });
 
   describe('add', () => {
-    it('can extends mutably', () => {
+    it('can extends immutably', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
 
-      const nouns: Sequence<MockNominative<number>> = Sequence.empty<MockNominative<number>>();
+      const nouns1: Sequence<MockNominative<number>> = Sequence.empty<MockNominative<number>>();
 
-      expect(nouns.size()).toEqual(0);
-      nouns.add(noun1);
-      expect(nouns.size()).toEqual(1);
-      expect(nouns.get(0).get()).toEqual(noun1);
-      nouns.add(noun2);
-      expect(nouns.size()).toEqual(2);
-      expect(nouns.get(0).get()).toEqual(noun1);
-      expect(nouns.get(1).get()).toEqual(noun2);
-      nouns.add(noun3);
-      expect(nouns.size()).toEqual(3);
-      expect(nouns.get(0).get()).toEqual(noun1);
-      expect(nouns.get(1).get()).toEqual(noun2);
-      expect(nouns.get(2).get()).toEqual(noun3);
+      expect(nouns1.size()).toEqual(0);
+
+      const nouns2: Sequence<MockNominative<number>> = nouns1.add(noun1);
+
+      expect(nouns1.size()).toEqual(0);
+      expect(nouns2.size()).toEqual(1);
+      expect(nouns2.get(0).get()).toEqual(noun1);
+
+      const nouns3: Sequence<MockNominative<number>> = nouns2.add(noun2);
+
+      expect(nouns1.size()).toEqual(0);
+      expect(nouns2.size()).toEqual(1);
+      expect(nouns3.size()).toEqual(2);
+      expect(nouns3.get(0).get()).toEqual(noun1);
+      expect(nouns3.get(1).get()).toEqual(noun2);
+
+      const nouns4: Sequence<MockNominative<number>> = nouns3.add(noun3);
+
+      expect(nouns1.size()).toEqual(0);
+      expect(nouns2.size()).toEqual(1);
+      expect(nouns3.size()).toEqual(2);
+      expect(nouns4.size()).toEqual(3);
+      expect(nouns4.get(0).get()).toEqual(noun1);
+      expect(nouns4.get(1).get()).toEqual(noun2);
+      expect(nouns4.get(2).get()).toEqual(noun3);
+    });
+
+    it('apply spread syntax', () => {
+      const noun1: MockNominative<number> = new MockNominative<number>(1);
+      const noun2: MockNominative<number> = new MockNominative<number>(2);
+      const noun3: MockNominative<number> = new MockNominative<number>(3);
+      const noun4: MockNominative<number> = new MockNominative<number>(4);
+
+      const nouns1: Sequence<MockNominative<number>> = Sequence.empty<MockNominative<number>>();
+
+      expect(nouns1.size()).toEqual(0);
+
+      const nouns2: Sequence<MockNominative<number>> = nouns1.add(noun1, noun2);
+
+      expect(nouns1.size()).toEqual(0);
+      expect(nouns2.size()).toEqual(2);
+      expect(nouns2.get(0).get()).toEqual(noun1);
+      expect(nouns2.get(1).get()).toEqual(noun2);
+
+      const nouns3: Sequence<MockNominative<number>> = nouns2.add(noun3, noun4);
+
+      expect(nouns1.size()).toEqual(0);
+      expect(nouns2.size()).toEqual(2);
+      expect(nouns3.size()).toEqual(4);
+      expect(nouns3.get(0).get()).toEqual(noun1);
+      expect(nouns3.get(1).get()).toEqual(noun2);
+      expect(nouns3.get(2).get()).toEqual(noun3);
+      expect(nouns3.get(3).get()).toEqual(noun4);
     });
   });
 

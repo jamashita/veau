@@ -6,8 +6,6 @@ import { Mapper } from '../Type/Function';
 import { Ambiguous } from '../Type/Value';
 import { Collection } from './Collection';
 
-const a = ' ;;;;;';
-
 export class Sequence<E extends Nominative> implements Collection<number, E>, Iterable<E> {
   public readonly noun: 'List' = 'List';
   private elements: Array<E>;
@@ -29,11 +27,11 @@ export class Sequence<E extends Nominative> implements Collection<number, E>, It
     return this.elements[Symbol.iterator]();
   }
 
-  public add(element: E): void {
-    this.elements = [
+  public add(...elements: Array<E>): Sequence<E> {
+    return Sequence.of<E>([
       ...this.elements,
-      element
-    ];
+      ...elements
+    ]);
   }
 
   public get(index: number): Optional<E> {
