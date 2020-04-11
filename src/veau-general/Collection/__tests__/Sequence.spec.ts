@@ -1,4 +1,5 @@
 import { MockNominative } from '../../MockNominative';
+import { None } from '../../Optional/None';
 import { Sequence } from '../Sequence';
 
 describe('Sequence', () => {
@@ -24,8 +25,32 @@ describe('Sequence', () => {
     });
   });
 
+  describe('add', () => {
+    it('can extends mutably', () => {
+      const noun1: MockNominative<number> = new MockNominative<number>(1);
+      const noun2: MockNominative<number> = new MockNominative<number>(2);
+      const noun3: MockNominative<number> = new MockNominative<number>(3);
+
+      const nouns: Sequence<MockNominative<number>> = Sequence.empty<MockNominative<number>>();
+
+      expect(nouns.size()).toEqual(0);
+      nouns.add(noun1);
+      expect(nouns.size()).toEqual(1);
+      expect(nouns.get(0).get()).toEqual(noun1);
+      nouns.add(noun2);
+      expect(nouns.size()).toEqual(2);
+      expect(nouns.get(0).get()).toEqual(noun1);
+      expect(nouns.get(1).get()).toEqual(noun2);
+      nouns.add(noun3);
+      expect(nouns.size()).toEqual(3);
+      expect(nouns.get(0).get()).toEqual(noun1);
+      expect(nouns.get(1).get()).toEqual(noun2);
+      expect(nouns.get(2).get()).toEqual(noun3);
+    });
+  });
+
   describe('get', () => {
-    it('returns MockNominative instance at the correct index', ()  => {
+    it('returns Some<MockNominative> instance at the correct index', ()  => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -40,6 +65,22 @@ describe('Sequence', () => {
       expect(nouns.get(0).get()).toEqual(noun1);
       expect(nouns.get(1).get()).toEqual(noun2);
       expect(nouns.get(2).get()).toEqual(noun3);
+    });
+
+    it('returns None<MockNominative> instance at out of index', ()  => {
+      const noun1: MockNominative<number> = new MockNominative<number>(1);
+      const noun2: MockNominative<number> = new MockNominative<number>(2);
+      const noun3: MockNominative<number> = new MockNominative<number>(3);
+
+      const nouns: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>([
+        noun1,
+        noun2,
+        noun3
+      ]);
+
+      expect(nouns.size()).toEqual(3);
+      expect(nouns.get(-1)).toBeInstanceOf(None);
+      expect(nouns.get(3)).toBeInstanceOf(None);
     });
   });
 
@@ -76,6 +117,48 @@ describe('Sequence', () => {
 
       expect(nouns1.isEmpty()).toEqual(false);
       expect(nouns2.isEmpty()).toEqual(true);
+    });
+  });
+
+  describe('iterate', () => {
+    it('normal case', () => {
+      const noun1: MockNominative<number> = new MockNominative<number>(1);
+      const noun2: MockNominative<number> = new MockNominative<number>(2);
+      const noun3: MockNominative<number> = new MockNominative<number>(3);
+
+      const nouns: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>([
+        noun1,
+        noun2,
+        noun3
+      ]);
+
+      nouns.iterate((noun: MockNominative<number>, index: number) => {
+        expect(nouns.get(index).get()).toEqual(noun);
+      });
+    });
+  });
+
+  describe('project', () => {
+    it('normal case', () => {
+      const noun1: MockNominative<number> = new MockNominative<number>(1);
+      const noun2: MockNominative<number> = new MockNominative<number>(2);
+      const noun3: MockNominative<number> = new MockNominative<number>(3);
+
+      const nouns1: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>([
+        noun1,
+        noun2,
+        noun3
+      ]);
+
+      const nouns2: Sequence<MockNominative<string>> = nouns1.project<MockNominative<string>>((noun: MockNominative<number>, index: number) => {
+        const num: number = noun.get();
+        return new MockNominative<string>(`${num ** 2}`);
+      });
+
+      expect(nouns2.size()).toEqual(nouns1.size());
+      expect(nouns2.get(0).get().get()).toEqual('1');
+      expect(nouns2.get(1).get().get()).toEqual('4');
+      expect(nouns2.get(2).get().get()).toEqual('9');
     });
   });
 

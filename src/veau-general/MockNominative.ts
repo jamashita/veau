@@ -9,7 +9,7 @@ export class MockNominative<E extends Primitive> implements Nominative {
     this.value = value;
   }
 
-  public get(): Primitive {
+  public get(): E {
     return this.value;
   }
 
