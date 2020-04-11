@@ -33,7 +33,7 @@ export class StatsItemID extends ValueObject {
     return new StatsItemID(UUID.v4());
   }
 
-  private constructor(uuid: UUID) {
+  protected constructor(uuid: UUID) {
     super();
     this.uuid = uuid;
   }
