@@ -1,3 +1,4 @@
+import sinon, { SinonStub } from 'sinon';
 import { None } from '../../veau-general/Optional/None';
 import { MockTerm } from '../Mock/MockTerm';
 import { Term } from '../Term';
@@ -27,6 +28,10 @@ describe('Terms', () => {
     it('returns true if the element exists in the Terms', () => {
       const terms: Terms = Terms.all();
       const fakeTerm: MockTerm = new MockTerm();
+
+      const stub: SinonStub = sinon.stub();
+      fakeTerm.equals = stub;
+      stub.returns(false);
 
       expect(terms.contains(Term.ANNUAL)).toEqual(true);
       expect(terms.contains(Term.QUARTERLY)).toEqual(true);
