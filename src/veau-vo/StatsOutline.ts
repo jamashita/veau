@@ -56,7 +56,15 @@ export class StatsOutline extends ValueObject implements JSONable, Cloneable {
   private readonly unit: StatsUnit;
   private readonly updatedAt: UpdatedAt;
 
-  public static of(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: StatsUnit, updatedAt: UpdatedAt): StatsOutline {
+  public static of(
+    statsID: StatsID,
+    language: Language,
+    region: Region,
+    term: Term,
+    name: StatsName,
+    unit: StatsUnit,
+    updatedAt: UpdatedAt
+  ): StatsOutline {
     return new StatsOutline(statsID, language, region, term, name, unit, updatedAt);
   }
 
@@ -110,12 +118,21 @@ export class StatsOutline extends ValueObject implements JSONable, Cloneable {
       updatedAt
     } = row;
 
-    const language: Language = Language.of(LanguageID.of(languageID), LanguageName.of(languageName), LanguageName.of(languageEnglishName), ISO639.of(iso639));
-    const region: Region = Region.of(RegionID.of(regionID), RegionName.of(regionName), ISO3166.of(iso3166));
-
     return StatsID.ofString(statsID).match<Try<StatsOutline, StatsOutlineError>>((id: StatsID) => {
       return Term.of(termID).match<Try<StatsOutline, StatsOutlineError>>((term: Term) => {
         return UpdatedAt.ofString(updatedAt).match<Try<StatsOutline, StatsOutlineError>>((at: UpdatedAt) => {
+          const language: Language = Language.of(
+            LanguageID.of(languageID),
+            LanguageName.of(languageName),
+            LanguageName.of(languageEnglishName),
+            ISO639.of(iso639)
+          );
+          const region: Region = Region.of(
+            RegionID.of(regionID),
+            RegionName.of(regionName),
+            ISO3166.of(iso3166)
+          );
+
           return Success.of<StatsOutline, StatsOutlineError>(StatsOutline.of(
             id,
             language,
@@ -136,7 +153,15 @@ export class StatsOutline extends ValueObject implements JSONable, Cloneable {
     });
   }
 
-  private constructor(statsID: StatsID, language: Language, region: Region, term: Term, name: StatsName, unit: StatsUnit, updatedAt: UpdatedAt) {
+  protected constructor(
+    statsID: StatsID,
+    language: Language,
+    region: Region,
+    term: Term,
+    name: StatsName,
+    unit: StatsUnit,
+    updatedAt: UpdatedAt
+  ) {
     super();
     this.statsID = statsID;
     this.language = language;

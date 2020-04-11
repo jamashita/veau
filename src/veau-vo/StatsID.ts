@@ -33,7 +33,7 @@ export class StatsID extends ValueObject {
     return new StatsID(UUID.v4());
   }
 
-  private constructor(uuid: UUID) {
+  protected constructor(uuid: UUID) {
     super();
     this.uuid = uuid;
   }
@@ -46,7 +46,7 @@ export class StatsID extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.uuid.equals(other.get())) {
+    if (this.uuid.equals(other.uuid)) {
       return true;
     }
 

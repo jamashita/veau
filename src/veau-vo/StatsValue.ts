@@ -113,13 +113,13 @@ export class StatsValue extends ValueObject implements JSONable {
       value
     } = this;
 
-    if (!statsItemID.equals(other.getStatsItemID())) {
+    if (!statsItemID.equals(other.statsItemID)) {
       return false;
     }
-    if (!asOf.equals(other.getAsOf())) {
+    if (!asOf.equals(other.asOf)) {
       return false;
     }
-    if (!value.equals(other.getValue())) {
+    if (!value.equals(other.value)) {
       return false;
     }
 
