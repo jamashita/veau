@@ -36,7 +36,15 @@ describe('StatsOutline', () => {
       const unit: MockStatsUnit = new MockStatsUnit();
       const updatedAt: MockUpdatedAt = new MockUpdatedAt();
 
-      const statsOutline: StatsOutline = StatsOutline.of(statsID, language, region, term, name, unit, updatedAt);
+      const statsOutline: StatsOutline = StatsOutline.of(
+        statsID,
+        language,
+        region,
+        term,
+        name,
+        unit,
+        updatedAt
+      );
 
       expect(statsOutline.getStatsID()).toEqual(statsID);
       expect(statsOutline.getLanguage()).toEqual(language);

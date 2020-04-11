@@ -24,9 +24,13 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
     return StatsOutlines.of(Sequence.of<StatsOutline>(outlines));
   }
 
+  public static ofSpread(...outlines: Array<StatsOutline>): StatsOutlines {
+    return StatsOutlines.ofArray(outlines);
+  }
+
   public static ofTry(tries: Array<Try<StatsOutline, StatsOutlineError>>): Try<StatsOutlines, StatsOutlinesError> {
-    return manoeuvre<StatsOutline, StatsOutlineError>(tries).match<Try<StatsOutlines, StatsOutlinesError>>((so: Array<StatsOutline>) => {
-      return Success.of<StatsOutlines, StatsOutlinesError>(StatsOutlines.ofArray(so));
+    return manoeuvre<StatsOutline, StatsOutlineError>(tries).match<Try<StatsOutlines, StatsOutlinesError>>((outlines: Array<StatsOutline>) => {
+      return Success.of<StatsOutlines, StatsOutlinesError>(StatsOutlines.ofArray(outlines));
     }, (err: StatsOutlineError) => {
       return Failure.of<StatsOutlines, StatsOutlinesError>(new StatsOutlinesError(err.message));
     });

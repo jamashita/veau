@@ -410,9 +410,9 @@ describe('StatsValues', () => {
       );
 
       expect(statsValues.size()).toEqual(3);
-      expect(statsValues.get(0).get()).toEqual(statsValue1);
-      expect(statsValues.get(1).get()).toEqual(statsValue2);
-      expect(statsValues.get(2).get()).toEqual(statsValue3);
+      expect(statsValues.get(0).get()).toBe(statsValue1);
+      expect(statsValues.get(1).get()).toBe(statsValue2);
+      expect(statsValues.get(2).get()).toBe(statsValue3);
     });
 
     it('returns None if the index is out of range', () => {

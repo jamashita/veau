@@ -34,6 +34,10 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
     return StatsItems.of(Sequence.of<StatsItem>(items));
   }
 
+  public static ofSpread(...items: Array<StatsItem>): StatsItems {
+    return StatsItems.ofArray(items);
+  }
+
   public static ofTry(tries: Array<Try<StatsItem, StatsItemError>>): Try<StatsItems, StatsItemsError> {
     return manoeuvre<StatsItem, StatsItemError>(tries).match<Try<StatsItems, StatsItemsError>>((is: Array<StatsItem>) => {
       return Success.of<StatsItems, StatsItemsError>(StatsItems.ofArray(is));
@@ -75,8 +79,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
   }
 
   public static empty(): StatsItems {
-    return StatsItems.ofArray([
-    ]);
+    return StatsItems.ofSpread();
   }
 
   private constructor(items: Sequence<StatsItem>) {
