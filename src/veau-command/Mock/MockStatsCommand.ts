@@ -4,8 +4,8 @@ import { Try } from '../../veau-general/Try/Try';
 import { UnimplementedError } from '../../veau-general/UnimplementedError';
 import { StatsID } from '../../veau-vo/StatsID';
 import { VeauAccountID } from '../../veau-vo/VeauAccountID';
-import { IMockCommand } from '../Interfaces/IMockCommand';
-import { IStatsCommand } from '../Interfaces/IStatsCommand';
+import { IMockCommand } from '../Interface/IMockCommand';
+import { IStatsCommand } from '../Interface/IStatsCommand';
 
 export class MockStatsCommand implements IStatsCommand, IMockCommand {
   public readonly noun: 'StatsCommand' = 'StatsCommand';

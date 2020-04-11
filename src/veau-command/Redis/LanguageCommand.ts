@@ -10,8 +10,8 @@ import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
 import { REDIS_LANGUAGE_KEY } from '../../veau-infrastructure/VeauRedis';
 import { Languages } from '../../veau-vo/Languages';
-import { ILanguageCommand } from '../Interfaces/ILanguageCommand';
-import { IRedisCommand } from '../Interfaces/IRedisCommand';
+import { ILanguageCommand } from '../Interface/ILanguageCommand';
+import { IRedisCommand } from '../Interface/IRedisCommand';
 
 const DURATION: number = 3 * 60 * 60;
 

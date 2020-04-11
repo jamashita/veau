@@ -3,8 +3,8 @@ import { DataSourceError } from '../../veau-general/DataSourceError';
 import { Try } from '../../veau-general/Try/Try';
 import { UnimplementedError } from '../../veau-general/UnimplementedError';
 import { Languages } from '../../veau-vo/Languages';
-import { ILanguageCommand } from '../Interfaces/ILanguageCommand';
-import { IMockCommand } from '../Interfaces/IMockCommand';
+import { ILanguageCommand } from '../Interface/ILanguageCommand';
+import { IMockCommand } from '../Interface/IMockCommand';
 
 export class MockLanguageCommand implements ILanguageCommand, IMockCommand {
   public readonly noun: 'LanguageCommand' = 'LanguageCommand';

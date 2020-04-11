@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { SagaIterator } from 'redux-saga';
 import { all, call, Effect, fork, put, PutEffect, select, take } from 'redux-saga/effects';
-import { IStatsCommand } from '../../veau-command/Interfaces/IStatsCommand';
+import { IStatsCommand } from '../../veau-command/Interface/IStatsCommand';
 import { TYPE } from '../../veau-container/Types';
 import { Stats } from '../../veau-entity/Stats';
 import { StatsItem } from '../../veau-entity/StatsItem';

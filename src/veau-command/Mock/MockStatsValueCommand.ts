@@ -3,8 +3,8 @@ import { Try } from '../../veau-general/Try/Try';
 import { UnimplementedError } from '../../veau-general/UnimplementedError';
 import { StatsID } from '../../veau-vo/StatsID';
 import { StatsValue } from '../../veau-vo/StatsValue';
-import { IMockCommand } from '../Interfaces/IMockCommand';
-import { IStatsValueCommand } from '../Interfaces/IStatsValueCommand';
+import { IMockCommand } from '../Interface/IMockCommand';
+import { IStatsValueCommand } from '../Interface/IStatsValueCommand';
 
 export class MockStatsValueCommand implements IStatsValueCommand, IMockCommand {
   public readonly noun: 'StatsValueCommand' = 'StatsValueCommand';

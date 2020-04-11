@@ -8,8 +8,8 @@ import { DataSourceError } from '../../veau-general/DataSourceError';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
-import { IAJAXCommand } from '../Interfaces/IAJAXCommand';
-import { ISessionCommand } from '../Interfaces/ISessionCommand';
+import { IAJAXCommand } from '../Interface/IAJAXCommand';
+import { ISessionCommand } from '../Interface/ISessionCommand';
 
 @injectable()
 export class SessionCommand implements ISessionCommand, IAJAXCommand {
