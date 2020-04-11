@@ -16,6 +16,6 @@ export class MockAsOf extends AsOf {
     month = 1,
     day = 1
   }: AsOfArgs = {}) {
-    super(moment.utc(`${year}-${month}-${day}`, FORMAT));
+    super(moment.utc(`${year.toString().padStart(2, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`, FORMAT));
   }
 }

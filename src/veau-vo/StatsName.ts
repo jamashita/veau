@@ -12,7 +12,7 @@ export class StatsName extends ValueObject {
     return StatsName.of('');
   }
 
-  private constructor(name: string) {
+  protected constructor(name: string) {
     super();
     this.name = name;
   }
@@ -25,7 +25,7 @@ export class StatsName extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.name === other.get()) {
+    if (this.name === other.name) {
       return true;
     }
 

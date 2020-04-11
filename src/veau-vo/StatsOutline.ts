@@ -242,22 +242,22 @@ export class StatsOutline extends ValueObject implements JSONable, Cloneable {
     if (!statsID.equals(other.statsID)) {
       return false;
     }
-    if (!language.equals(other.getLanguage())) {
+    if (!language.equals(other.language)) {
       return false;
     }
-    if (!region.equals(other.getRegion())) {
+    if (!region.equals(other.region)) {
       return false;
     }
-    if (term !== other.getTerm()) {
+    if (!term.equals(other.term)) {
       return false;
     }
-    if (!name.equals(other.getName())) {
+    if (!name.equals(other.name)) {
       return false;
     }
-    if (!unit.equals(other.getUnit())) {
+    if (!unit.equals(other.unit)) {
       return false;
     }
-    if (!updatedAt.equals(other.getUpdatedAt())) {
+    if (!updatedAt.equals(other.updatedAt)) {
       return false;
     }
 

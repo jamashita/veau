@@ -15,219 +15,26 @@ import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from '../StatsOutline
 import { StatsUnit } from '../StatsUnit';
 import { Term } from '../Term';
 import { UpdatedAt } from '../UpdatedAt';
+import { MockLanguage } from '../Mock/MockLanguage';
+import { MockRegion } from '../Mock/MockRegion';
+import { MockTerm } from '../Mock/MockTerm';
+import { MockStatsName } from '../Mock/MockStatsName';
+import { MockStatsUnit } from '../Mock/MockStatsUnit';
+import { MockUpdatedAt } from '../Mock/MockUpdatedAt';
+import { MockStatsID } from '../Mock/MockStatsID';
+import { MockLanguageID } from '../Mock/MockLanguageID';
+import { MockRegionID } from '../Mock/MockRegionID';
 
 describe('StatsOutline', () => {
-  describe('equals', () => {
-    it('returns true if all the properties are the same', () => {
-      const statsOutline1: StatsOutline = StatsOutline.of(
-        StatsID.ofString('d5d311b5-c09a-4f82-91e5-b7b55736120e').get(),
-        Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('LANGUAGE1'), ISO639.of('lang1')),
-        Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('REGION1')),
-        Term.DAILY,
-        StatsName.of('name1'),
-        StatsUnit.of('unit1'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get()
-      );
-      const statsOutline2: StatsOutline = StatsOutline.of(
-        StatsID.ofString('f19bca43-511f-4d8c-bd12-af27bf0cd429').get(),
-        Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('LANGUAGE1'), ISO639.of('lang1')),
-        Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('REGION1')),
-        Term.DAILY,
-        StatsName.of('name1'),
-        StatsUnit.of('unit1'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get()
-      );
-      const statsOutline3: StatsOutline = StatsOutline.of(
-        StatsID.ofString('d5d311b5-c09a-4f82-91e5-b7b55736120e').get(),
-        Language.of(LanguageID.of(2), LanguageName.of('language2'), LanguageName.of('LANGUAGE2'), ISO639.of('lang2')),
-        Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('REGION1')),
-        Term.DAILY,
-        StatsName.of('name1'),
-        StatsUnit.of('unit1'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get()
-      );
-      const statsOutline4: StatsOutline = StatsOutline.of(
-        StatsID.ofString('d5d311b5-c09a-4f82-91e5-b7b55736120e').get(),
-        Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('LANGUAGE1'), ISO639.of('lang1')),
-        Region.of(RegionID.of(2), RegionName.of('region2'), ISO3166.of('REGION2')),
-        Term.DAILY,
-        StatsName.of('name1'),
-        StatsUnit.of('unit1'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get()
-      );
-      const statsOutline5: StatsOutline = StatsOutline.of(
-        StatsID.ofString('d5d311b5-c09a-4f82-91e5-b7b55736120e').get(),
-        Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('LANGUAGE1'), ISO639.of('lang1')),
-        Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('REGION1')),
-        Term.WEEKLY,
-        StatsName.of('name1'),
-        StatsUnit.of('unit1'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get()
-      );
-      const statsOutline6: StatsOutline = StatsOutline.of(
-        StatsID.ofString('d5d311b5-c09a-4f82-91e5-b7b55736120e').get(),
-        Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('LANGUAGE1'), ISO639.of('lang1')),
-        Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('REGION1')),
-        Term.DAILY,
-        StatsName.of('name2'),
-        StatsUnit.of('unit1'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get()
-      );
-      const statsOutline7: StatsOutline = StatsOutline.of(
-        StatsID.ofString('d5d311b5-c09a-4f82-91e5-b7b55736120e').get(),
-        Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('LANGUAGE1'), ISO639.of('lang1')),
-        Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('REGION1')),
-        Term.DAILY,
-        StatsName.of('name1'),
-        StatsUnit.of('unit2'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get()
-      );
-      const statsOutline8: StatsOutline = StatsOutline.of(
-        StatsID.ofString('d5d311b5-c09a-4f82-91e5-b7b55736120e').get(),
-        Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('LANGUAGE1'), ISO639.of('lang1')),
-        Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('REGION1')),
-        Term.DAILY,
-        StatsName.of('name1'),
-        StatsUnit.of('unit1'),
-        UpdatedAt.ofString('2000-01-02 00:00:00').get()
-      );
-      const statsOutline9: StatsOutline = StatsOutline.of(
-        StatsID.ofString('d5d311b5-c09a-4f82-91e5-b7b55736120e').get(),
-        Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('LANGUAGE1'), ISO639.of('lang1')),
-        Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('REGION1')),
-        Term.DAILY,
-        StatsName.of('name1'),
-        StatsUnit.of('unit1'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get()
-      );
-
-      expect(statsOutline1.equals(statsOutline1)).toEqual(true);
-      expect(statsOutline1.equals(statsOutline2)).toEqual(false);
-      expect(statsOutline1.equals(statsOutline3)).toEqual(false);
-      expect(statsOutline1.equals(statsOutline4)).toEqual(false);
-      expect(statsOutline1.equals(statsOutline5)).toEqual(false);
-      expect(statsOutline1.equals(statsOutline6)).toEqual(false);
-      expect(statsOutline1.equals(statsOutline7)).toEqual(false);
-      expect(statsOutline1.equals(statsOutline8)).toEqual(false);
-      expect(statsOutline1.equals(statsOutline9)).toEqual(true);
-    });
-  });
-
-  describe('toJSON', () => {
-    it('normal case', () => {
-      const statsID: StatsID = StatsID.ofString('bfb0ebff-fc8c-450e-9265-82fa4938ae94').get();
-      const statsOutline: StatsOutline = StatsOutline.of(
-        statsID,
-        Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('englishname1'), ISO639.of('lang1')),
-        Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('regn1')),
-        Term.DAILY,
-        StatsName.of('name1'),
-        StatsUnit.of('unit1'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get()
-      );
-
-      expect(statsOutline.toJSON()).toEqual({
-        statsID: 'bfb0ebff-fc8c-450e-9265-82fa4938ae94',
-        language: {
-          languageID: 1,
-          name: 'language1',
-          englishName: 'englishname1',
-          iso639: 'lang1'
-        },
-        region: {
-          regionID: 1,
-          name: 'region1',
-          iso3166: 'regn1'
-        },
-        termID: 1,
-        name: 'name1',
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00'
-      });
-    });
-  });
-
-  describe('toString', () => {
-    it('normal case', () => {
-      const id1: string = 'bfb0ebff-fc8c-450e-9265-82fa4938ae94';
-      const id2: number = 1;
-      const id3: number = 3;
-      const name1: string = 'language1';
-      const name2: string = 'englishname1';
-      const name3: string = 'region1';
-      const name4: string = 'name1';
-      const iso639: string = 'lang1';
-      const iso3166: string = 'regn1';
-      const term: Term = Term.DAILY;
-      const unit: string = 'unit1';
-      const at: UpdatedAt = UpdatedAt.ofString('2000-01-01 00:00:00').get();
-      const statsOutline: StatsOutline = StatsOutline.of(
-        StatsID.ofString(id1).get(),
-        Language.of(LanguageID.of(id2), LanguageName.of(name1), LanguageName.of(name2), ISO639.of(iso639)),
-        Region.of(RegionID.of(id3), RegionName.of(name3), ISO3166.of(iso3166)),
-        term,
-        StatsName.of(name4),
-        StatsUnit.of(unit),
-        at
-      );
-
-      expect(statsOutline.toString()).toEqual(`${id1} ${id2} ${name1} ${name2} ${iso639} ${id3} ${name3} ${iso3166} ${term.toString()} ${name4} ${unit} ${at.toString()}`);
-    });
-  });
-
-  describe('isFilled', () => {
-    it('returns true is language, region, name and unit are filled', () => {
-      const statsOutline1: StatsOutline = StatsOutline.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.default(), Region.default(), Term.DAILY, StatsName.default(), StatsUnit.default(), UpdatedAt.ofString('2000-01-01 00:00:00').get());
-      const statsOutline2: StatsOutline = StatsOutline.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.default(), Term.DAILY, StatsName.default(), StatsUnit.default(), UpdatedAt.ofString('2000-01-01 00:00:00').get());
-      const statsOutline3: StatsOutline = StatsOutline.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.default(), Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.default(), StatsUnit.default(), UpdatedAt.ofString('2000-01-01 00:00:00').get());
-      const statsOutline4: StatsOutline = StatsOutline.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.default(), StatsUnit.default(), UpdatedAt.ofString('2000-01-01 00:00:00').get());
-      const statsOutline5: StatsOutline = StatsOutline.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.of('stats1'), StatsUnit.default(), UpdatedAt.ofString('2000-01-01 00:00:00').get());
-      const statsOutline6: StatsOutline = StatsOutline.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.default(), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01 00:00:00').get());
-      const statsOutline7: StatsOutline = StatsOutline.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01 00:00:00').get());
-
-      expect(statsOutline1.isFilled()).toEqual(false);
-      expect(statsOutline2.isFilled()).toEqual(false);
-      expect(statsOutline3.isFilled()).toEqual(false);
-      expect(statsOutline4.isFilled()).toEqual(false);
-      expect(statsOutline5.isFilled()).toEqual(false);
-      expect(statsOutline6.isFilled()).toEqual(false);
-      expect(statsOutline7.isFilled()).toEqual(true);
-    });
-  });
-
-  describe('copy', () => {
-    it('every properties are copied', () => {
-      const statsID: StatsID = StatsID.ofString('f330c618-6127-46d1-ba10-a9f6af458b4c').get();
-      const language: Language = Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('ab'));
-      const region: Region = Region.of(RegionID.of(2), RegionName.of('region'), ISO3166.of('AFG'));
-      const term: Term = Term.DAILY;
-      const name: StatsName = StatsName.of('stats');
-      const unit: StatsUnit = StatsUnit.of('unit');
-      const updatedAt: UpdatedAt = UpdatedAt.ofString('2000-01-01 00:00:00').get();
-
-      const statsOutline: StatsOutline = StatsOutline.of(statsID, language, region, term, name, unit, updatedAt);
-      const copy: StatsOutline = statsOutline.copy();
-
-      expect(statsOutline).not.toBe(copy);
-      expect(statsOutline.getStatsID()).toEqual(statsID);
-      expect(statsOutline.getLanguage()).toEqual(language);
-      expect(statsOutline.getRegion()).toEqual(region);
-      expect(statsOutline.getTerm()).toEqual(term);
-      expect(statsOutline.getName()).toEqual(name);
-      expect(statsOutline.getUnit()).toEqual(unit);
-      expect(statsOutline.getUpdatedAt()).toEqual(updatedAt);
-    });
-  });
-
   describe('of', () => {
     it('normal case', () => {
-      const statsID: StatsID = StatsID.ofString('af272303-df5d-4d34-8604-398920b7d2bb').get();
-      const language: Language = Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language english name 1'), ISO639.of('lang1'));
-      const region: Region = Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('regn1'));
-      const term: Term = Term.ANNUAL;
-      const name: StatsName = StatsName.of('name1');
-      const unit: StatsUnit = StatsUnit.of('unit1');
-      const updatedAt: UpdatedAt = UpdatedAt.ofString('2000-01-01 00:00:00').get();
+      const statsID: MockStatsID = new MockStatsID();
+      const language: MockLanguage = new MockLanguage();
+      const region: MockRegion = new MockRegion();
+      const term: MockTerm = new MockTerm();
+      const name: MockStatsName = new MockStatsName();
+      const unit: MockStatsUnit = new MockStatsUnit();
+      const updatedAt: MockUpdatedAt = new MockUpdatedAt();
 
       const statsOutline: StatsOutline = StatsOutline.of(statsID, language, region, term, name, unit, updatedAt);
 
@@ -524,6 +331,307 @@ describe('StatsOutline', () => {
 
       expect(spy1.called).toEqual(false);
       expect(spy2.called).toEqual(true);
+    });
+  });
+  describe('equals', () => {
+    it('returns true if all the properties are the same', () => {
+      const statsID1: MockStatsID = new MockStatsID();
+      const statsID2: MockStatsID = new MockStatsID();
+      const statsOutline1: StatsOutline = StatsOutline.of(
+        statsID1,
+        new MockLanguage(),
+        new MockRegion(),
+        new MockTerm(),
+        new MockStatsName(),
+        new MockStatsUnit(),
+        new MockUpdatedAt()
+      );
+      const statsOutline2: StatsOutline = StatsOutline.of(
+        statsID2,
+        new MockLanguage(),
+        new MockRegion(),
+        new MockTerm(),
+        new MockStatsName(),
+        new MockStatsUnit(),
+        new MockUpdatedAt()
+      );
+      const statsOutline3: StatsOutline = StatsOutline.of(
+        statsID1,
+        new MockLanguage({
+          languageID: new MockLanguageID(2)
+        }),
+        new MockRegion(),
+        new MockTerm(),
+        new MockStatsName(),
+        new MockStatsUnit(),
+        new MockUpdatedAt()
+      );
+      const statsOutline4: StatsOutline = StatsOutline.of(
+        statsID1,
+        new MockLanguage(),
+        new MockRegion({
+          regionID: new MockRegionID(2)
+        }),
+        new MockTerm(),
+        new MockStatsName(),
+        new MockStatsUnit(),
+        new MockUpdatedAt()
+      );
+      const statsOutline5: StatsOutline = StatsOutline.of(
+        statsID1,
+        new MockLanguage(),
+        new MockRegion(),
+        new MockTerm({
+          id: 8
+        }),
+        new MockStatsName(),
+        new MockStatsUnit(),
+        new MockUpdatedAt()
+      );
+      const statsOutline6: StatsOutline = StatsOutline.of(
+        statsID1,
+        new MockLanguage(),
+        new MockRegion(),
+        new MockTerm(),
+        new MockStatsName('NO TOFU'),
+        new MockStatsUnit(),
+        new MockUpdatedAt()
+      );
+      const statsOutline7: StatsOutline = StatsOutline.of(
+        statsID1,
+        new MockLanguage(),
+        new MockRegion(),
+        new MockTerm(),
+        new MockStatsName(),
+        new MockStatsUnit('NO TOFU'),
+        new MockUpdatedAt()
+      );
+      const statsOutline8: StatsOutline = StatsOutline.of(
+        statsID1,
+        new MockLanguage(),
+        new MockRegion(),
+        new MockTerm(),
+        new MockStatsName(),
+        new MockStatsUnit(),
+        new MockUpdatedAt({
+          year: 2070
+        })
+      );
+      const statsOutline9: StatsOutline = StatsOutline.of(
+        statsID1,
+        new MockLanguage(),
+        new MockRegion(),
+        new MockTerm(),
+        new MockStatsName(),
+        new MockStatsUnit(),
+        new MockUpdatedAt()
+      );
+
+      expect(statsOutline1.equals(statsOutline1)).toEqual(true);
+      expect(statsOutline1.equals(statsOutline2)).toEqual(false);
+      expect(statsOutline1.equals(statsOutline3)).toEqual(false);
+      expect(statsOutline1.equals(statsOutline4)).toEqual(false);
+      expect(statsOutline1.equals(statsOutline5)).toEqual(false);
+      expect(statsOutline1.equals(statsOutline6)).toEqual(false);
+      expect(statsOutline1.equals(statsOutline7)).toEqual(false);
+      expect(statsOutline1.equals(statsOutline8)).toEqual(false);
+      expect(statsOutline1.equals(statsOutline9)).toEqual(true);
+    });
+  });
+
+  describe('toJSON', () => {
+    it('normal case', () => {
+      const statsID: StatsID = StatsID.ofString('bfb0ebff-fc8c-450e-9265-82fa4938ae94').get();
+      const statsOutline: StatsOutline = StatsOutline.of(
+        statsID,
+        Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('englishname1'), ISO639.of('lang1')),
+        Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('regn1')),
+        Term.DAILY,
+        StatsName.of('name1'),
+        StatsUnit.of('unit1'),
+        UpdatedAt.ofString('2000-01-01 00:00:00').get()
+      );
+
+      expect(statsOutline.toJSON()).toEqual({
+        statsID: 'bfb0ebff-fc8c-450e-9265-82fa4938ae94',
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'englishname1',
+          iso639: 'lang1'
+        },
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 1,
+        name: 'name1',
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00'
+      });
+    });
+  });
+
+  describe('toString', () => {
+    it('normal case', () => {
+      const id1: string = 'bfb0ebff-fc8c-450e-9265-82fa4938ae94';
+      const id2: number = 1;
+      const id3: number = 3;
+      const name1: string = 'language1';
+      const name2: string = 'englishname1';
+      const name3: string = 'region1';
+      const name4: string = 'name1';
+      const iso639: string = 'lang1';
+      const iso3166: string = 'regn1';
+      const term: Term = Term.DAILY;
+      const unit: string = 'unit1';
+      const at: string =  '2000-01-01 00:00:00';
+      const updatedAt: UpdatedAt = UpdatedAt.ofString(at).get();
+      const statsOutline: StatsOutline = StatsOutline.of(
+        StatsID.ofString(id1).get(),
+        Language.of(
+          LanguageID.of(id2),
+          LanguageName.of(name1),
+          LanguageName.of(name2),
+          ISO639.of(iso639)
+        ),
+        Region.of(
+          RegionID.of(id3),
+          RegionName.of(name3),
+          ISO3166.of(iso3166)
+        ),
+        term,
+        StatsName.of(name4),
+        StatsUnit.of(unit),
+        updatedAt
+      );
+
+      expect(statsOutline.toString()).toEqual(`${id1} ${id2} ${name1} ${name2} ${iso639} ${id3} ${name3} ${iso3166} ${term.toString()} ${name4} ${unit} ${at}`);
+    });
+  });
+
+  describe('isFilled', () => {
+    it('returns true is language, region, name and unit are filled', () => {
+      const statsOutline1: StatsOutline = StatsOutline.of(
+        new MockStatsID(),
+        new MockLanguage(),
+        new MockRegion(),
+        new MockTerm(),
+        new MockStatsName(''),
+        new MockStatsUnit(''),
+        new MockUpdatedAt()
+      );
+      const statsOutline2: StatsOutline = StatsOutline.of(
+        new MockStatsID(),
+        new MockLanguage({
+          languageID: new MockLanguageID(2)
+        }),
+        new MockRegion(),
+        new MockTerm(),
+        new MockStatsName(''),
+        new MockStatsUnit(''),
+        new MockUpdatedAt()
+      );
+      const statsOutline3: StatsOutline = StatsOutline.of(
+        new MockStatsID(),
+        new MockLanguage(),
+        new MockRegion({
+          regionID: new MockRegionID(3)
+        }),
+        new MockTerm(),
+        new MockStatsName(''),
+        new MockStatsUnit(''),
+        new MockUpdatedAt()
+      );
+      const statsOutline4: StatsOutline = StatsOutline.of(
+        new MockStatsID(),
+        new MockLanguage({
+          languageID: new MockLanguageID(4)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(3)
+        }),
+        new MockTerm(),
+        new MockStatsName(''),
+        new MockStatsUnit(''),
+        new MockUpdatedAt()
+      );
+      const statsOutline5: StatsOutline = StatsOutline.of(
+        new MockStatsID(),
+        new MockLanguage({
+          languageID: new MockLanguageID(4)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(3)
+        }),
+        new MockTerm(),
+        new MockStatsName(),
+        new MockStatsUnit(''),
+        new MockUpdatedAt()
+      );
+      const statsOutline6: StatsOutline = StatsOutline.of(
+        new MockStatsID(),
+        new MockLanguage({
+          languageID: new MockLanguageID(4)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(3)
+        }),
+        new MockTerm(),
+        new MockStatsName(''),
+        new MockStatsUnit(),
+        new MockUpdatedAt()
+      );
+      const statsOutline7: StatsOutline = StatsOutline.of(
+        new MockStatsID(),
+        new MockLanguage({
+          languageID: new MockLanguageID(4)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(3)
+        }),
+        new MockTerm(),
+        new MockStatsName(),
+        new MockStatsUnit(),
+        new MockUpdatedAt()
+      );
+
+      expect(statsOutline1.isFilled()).toEqual(false);
+      expect(statsOutline2.isFilled()).toEqual(false);
+      expect(statsOutline3.isFilled()).toEqual(false);
+      expect(statsOutline4.isFilled()).toEqual(false);
+      expect(statsOutline5.isFilled()).toEqual(false);
+      expect(statsOutline6.isFilled()).toEqual(false);
+      expect(statsOutline7.isFilled()).toEqual(true);
+    });
+  });
+
+  describe('copy', () => {
+    it('every properties are copied', () => {
+      const statsID: MockStatsID = new MockStatsID();
+      const language: MockLanguage = new MockLanguage({
+        languageID: new MockLanguageID(10)
+      });
+      const region: MockRegion = new MockRegion({
+        regionID: new MockRegionID(30)
+      })
+      const term: MockTerm = new MockTerm();
+      const name: MockStatsName = new MockStatsName();
+      const unit: MockStatsUnit = new MockStatsUnit();
+      const updatedAt: MockUpdatedAt = new MockUpdatedAt();
+
+      const statsOutline: StatsOutline = StatsOutline.of(statsID, language, region, term, name, unit, updatedAt);
+      const copy: StatsOutline = statsOutline.copy();
+
+      expect(statsOutline).not.toBe(copy);
+      expect(statsOutline.getStatsID()).toEqual(statsID);
+      expect(statsOutline.getLanguage()).toEqual(language);
+      expect(statsOutline.getRegion()).toEqual(region);
+      expect(statsOutline.getTerm()).toEqual(term);
+      expect(statsOutline.getName()).toEqual(name);
+      expect(statsOutline.getUnit()).toEqual(unit);
+      expect(statsOutline.getUpdatedAt()).toEqual(updatedAt);
     });
   });
 });

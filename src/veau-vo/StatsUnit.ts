@@ -16,7 +16,7 @@ export class StatsUnit extends ValueObject {
     return StatsUnit.DEFAULT;
   }
 
-  private constructor(unit: string) {
+  protected constructor(unit: string) {
     super();
     this.unit = unit;
   }
