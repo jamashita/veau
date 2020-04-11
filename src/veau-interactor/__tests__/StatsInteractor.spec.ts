@@ -139,7 +139,7 @@ describe('StatsInteractor', () => {
 
       const stub: SinonStub = sinon.stub();
       StatsOutlineQuery.prototype.findByVeauAccountID = stub;
-      const outlines: StatsOutlines = StatsOutlines.of([
+      const outlines: StatsOutlines = StatsOutlines.ofArray([
         StatsOutline.of(
           statsID,
           language,

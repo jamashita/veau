@@ -2,10 +2,10 @@ import { inject, injectable } from 'inversify';
 import { TYPE } from '../../veau-container/Types';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { DataSourceError } from '../../veau-general/DataSourceError';
+import { Optional } from '../../veau-general/Optional/Optional';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';
-import { Ambiguous } from '../../veau-general/Type/Value';
 import { ISO3166 } from '../../veau-vo/ISO3166';
 import { Locale } from '../../veau-vo/Locale';
 import { Region } from '../../veau-vo/Region';
@@ -38,15 +38,15 @@ export class RegionQuery implements IRegionQuery, IVaultQuery {
     const trial: Try<Regions, NoSuchElementError | DataSourceError> = await this.all();
 
     return trial.match<Try<Region, NoSuchElementError | DataSourceError>>((regions: Regions) => {
-      const found: Ambiguous<Region> = regions.find((region: Region) => {
+      const optional: Optional<Region> = regions.find((region: Region) => {
         return region.getISO3166().equals(iso3166);
       });
 
-      if (found === undefined) {
+      return optional.toTry().match<Try<Region, NoSuchElementError | DataSourceError>>((region: Region) => {
+        return Success.of<Region, DataSourceError>(region);
+      }, () => {
         return Failure.of<Region, NoSuchElementError>(new NoSuchElementError(iso3166.toString()));
-      }
-
-      return Success.of<Region, NoSuchElementError>(found);
+      });
     }, (err: NoSuchElementError | DataSourceError, self: Failure<Regions, NoSuchElementError | DataSourceError>) => {
       return self.transpose<Region>();
     });
