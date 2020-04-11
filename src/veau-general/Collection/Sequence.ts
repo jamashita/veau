@@ -90,6 +90,12 @@ export class Sequence<E extends Nominative> implements Collection<number, E>, It
     return Sequence.of<E>(this.elements.filter(iterator));
   }
 
+  public coppy(): Sequence<E> {
+    return Sequence.of<E>([
+      ...this.elements
+    ]);
+  }
+
   public equals(other: Sequence<E>): boolean {
     if (this === other) {
       return true;

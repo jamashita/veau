@@ -303,6 +303,49 @@ describe('Sequence', () => {
     });
   });
 
+  describe('copy', () => {
+    it('normal case', () => {
+      const noun1: MockNominative<number> = new MockNominative<number>(1);
+      const noun2: MockNominative<number> = new MockNominative<number>(2);
+      const noun3: MockNominative<number> = new MockNominative<number>(3);
+      const noun4: MockNominative<number> = new MockNominative<number>(2);
+
+      const nouns1: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>([
+        noun1,
+        noun2,
+        noun3,
+        noun4
+      ]);
+      const nouns2: Sequence<MockNominative<number>> = nouns1.coppy();
+
+      expect(nouns1.size()).toEqual(nouns2.size());
+      expect(nouns1).not.toBe(nouns2);
+      for (let i: number = 0; i < nouns2.size(); i++) {
+        expect(nouns1.get(i).get()).toBe(nouns2.get(i).get());
+      }
+    });
+
+    it('normal case', () => {
+      const noun1: MockNominative<number> = new MockNominative<number>(1);
+      const noun2: MockNominative<number> = new MockNominative<number>(2);
+      const noun3: MockNominative<number> = new MockNominative<number>(3);
+      const noun4: MockNominative<number> = new MockNominative<number>(2);
+
+      const nouns1: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>([
+        noun1,
+        noun2,
+        noun3,
+      ]);
+      const nouns2: Sequence<MockNominative<number>> = nouns1.coppy();
+      const nouns3: Sequence<MockNominative<number>> = nouns2.add(noun4);
+
+      expect(nouns1.size()).toEqual(nouns2.size());
+      expect(nouns2.size()).not.toEqual(nouns3.size());
+      expect(nouns1).not.toBe(nouns2);
+      expect(nouns2).not.toBe(nouns3);
+    });
+  });
+
   describe('equals', () => {
     it('returns false if the length is different', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
