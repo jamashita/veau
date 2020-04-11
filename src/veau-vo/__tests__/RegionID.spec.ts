@@ -1,6 +1,12 @@
 import { RegionID } from '../RegionID';
 
 describe('RegionID', () => {
+  describe('default', () => {
+    it('always returns 0', () => {
+      expect(RegionID.default().get()).toEqual(0);
+    });
+  });
+
   describe('equals', () => {
     it('returns true if the property is the same', () => {
       const regionID1: RegionID = RegionID.of(1);

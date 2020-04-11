@@ -22,7 +22,17 @@ export class Region extends ValueObject implements JSONable {
   private readonly name: RegionName;
   private readonly iso3166: ISO3166;
 
-  public static of(regionID: RegionID, name: RegionName, iso3166: ISO3166): Region {
+  private static readonly DEFAULT: Region = Region.of(
+    RegionID.default(),
+    RegionName.default(),
+    ISO3166.default()
+  );
+
+  public static of(
+    regionID: RegionID,
+    name: RegionName,
+    iso3166: ISO3166
+  ): Region {
     return new Region(regionID, name, iso3166);
   }
 
@@ -33,7 +43,11 @@ export class Region extends ValueObject implements JSONable {
       iso3166
     } = json;
 
-    return Region.of(RegionID.of(regionID), RegionName.of(name), ISO3166.of(iso3166));
+    return Region.of(
+      RegionID.of(regionID),
+      RegionName.of(name),
+      ISO3166.of(iso3166)
+    );
   }
 
   public static ofRow(row: RegionRow): Region {
@@ -43,11 +57,15 @@ export class Region extends ValueObject implements JSONable {
       iso3166
     } = row;
 
-    return Region.of(RegionID.of(regionID), RegionName.of(name), ISO3166.of(iso3166));
+    return Region.of(
+      RegionID.of(regionID),
+      RegionName.of(name),
+      ISO3166.of(iso3166)
+    );
   }
 
   public static default(): Region {
-    return Region.of(RegionID.of(0), RegionName.default(), ISO3166.default());
+    return Region.DEFAULT;
   }
 
   public static isJSON(n: unknown): n is RegionJSON {
@@ -74,7 +92,11 @@ export class Region extends ValueObject implements JSONable {
     return true;
   }
 
-  private constructor(regionID: RegionID, name: RegionName, iso3166: ISO3166) {
+  private constructor(
+    regionID: RegionID,
+    name: RegionName,
+    iso3166: ISO3166
+  ) {
     super();
     this.regionID = regionID;
     this.name = name;
@@ -104,13 +126,13 @@ export class Region extends ValueObject implements JSONable {
       iso3166
     } = this;
 
-    if (!regionID.equals(other.getRegionID())) {
+    if (!regionID.equals(other.regionID)) {
       return false;
     }
-    if (!name.equals(other.getName())) {
+    if (!name.equals(other.name)) {
       return false;
     }
-    if (!iso3166.equals(other.getISO3166())) {
+    if (!iso3166.equals(other.iso3166)) {
       return false;
     }
 

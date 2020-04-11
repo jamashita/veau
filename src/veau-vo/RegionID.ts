@@ -1,11 +1,19 @@
 import { ValueObject } from '../veau-general/ValueObject';
 
+const DEFAULT_ID: number = 0;
+
 export class RegionID extends ValueObject {
   public readonly noun: 'RegionID' = 'RegionID';
   private readonly id: number;
 
+  private static readonly DEFAULT: RegionID = RegionID.of(DEFAULT_ID);
+
   public static of(id: number): RegionID {
     return new RegionID(id);
+  }
+
+  public static default(): RegionID {
+    return RegionID.DEFAULT;
   }
 
   private constructor(id: number) {
@@ -21,7 +29,7 @@ export class RegionID extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.id === other.get()) {
+    if (this.id === other.id) {
       return true;
     }
 

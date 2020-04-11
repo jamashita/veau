@@ -1,6 +1,12 @@
 import { ISO3166 } from '../ISO3166';
 
 describe('ISO3166', () => {
+  describe('default', () => {
+    it('always returns empty string', () => {
+      expect(ISO3166.default().get()).toEqual('');
+    });
+  });
+
   describe('equals', () => {
     it('returns true if the property is the same', () => {
       const iso31661: ISO3166 = ISO3166.of('AFG');

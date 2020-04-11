@@ -25,7 +25,19 @@ export class Language extends ValueObject implements JSONable {
   private readonly englishName: LanguageName;
   private readonly iso639: ISO639;
 
-  public static of(languageID: LanguageID, name: LanguageName, englishName: LanguageName, iso639: ISO639): Language {
+  private static readonly DEFAULT: Language = Language.of(
+    LanguageID.default(),
+    LanguageName.default(),
+    LanguageName.default(),
+    ISO639.default()
+  );
+
+  public static of(
+    languageID: LanguageID,
+    name: LanguageName,
+    englishName: LanguageName,
+    iso639: ISO639
+  ): Language {
     return new Language(languageID, name, englishName, iso639);
   }
 
@@ -37,7 +49,12 @@ export class Language extends ValueObject implements JSONable {
       iso639
     } = json;
 
-    return Language.of(LanguageID.of(languageID), LanguageName.of(name), LanguageName.of(englishName), ISO639.of(iso639));
+    return Language.of(
+      LanguageID.of(languageID),
+      LanguageName.of(name),
+      LanguageName.of(englishName),
+      ISO639.of(iso639)
+    );
   }
 
   public static ofRow(row: LanguageRow): Language {
@@ -48,11 +65,16 @@ export class Language extends ValueObject implements JSONable {
       iso639
     } = row;
 
-    return Language.of(LanguageID.of(languageID), LanguageName.of(name), LanguageName.of(englishName), ISO639.of(iso639));
+    return Language.of(
+      LanguageID.of(languageID),
+      LanguageName.of(name),
+      LanguageName.of(englishName),
+      ISO639.of(iso639)
+    );
   }
 
   public static default(): Language {
-    return Language.of(LanguageID.default(), LanguageName.default(), LanguageName.default(), ISO639.default());
+    return Language.DEFAULT;
   }
 
   public static isJSON(n: unknown): n is LanguageJSON {
@@ -83,7 +105,12 @@ export class Language extends ValueObject implements JSONable {
     return true;
   }
 
-  private constructor(languageID: LanguageID, name: LanguageName, englishName: LanguageName, iso639: ISO639) {
+  private constructor(
+    languageID: LanguageID,
+    name: LanguageName,
+    englishName: LanguageName,
+    iso639: ISO639
+  ) {
     super();
     this.languageID = languageID;
     this.name = name;
@@ -119,16 +146,16 @@ export class Language extends ValueObject implements JSONable {
       iso639
     } = this;
 
-    if (!languageID.equals(other.getLanguageID())) {
+    if (!languageID.equals(other.languageID)) {
       return false;
     }
-    if (!name.equals(other.getName())) {
+    if (!name.equals(other.name)) {
       return false;
     }
-    if (!englishName.equals(other.getEnglishName())) {
+    if (!englishName.equals(other.englishName)) {
       return false;
     }
-    if (!iso639.equals(other.getISO639())) {
+    if (!iso639.equals(other.iso639)) {
       return false;
     }
 

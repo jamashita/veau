@@ -4,49 +4,6 @@ import { LanguageID } from '../LanguageID';
 import { LanguageName } from '../LanguageName';
 
 describe('Language', () => {
-  describe('equals', () => {
-    it('returns true if the all of the properties are the same', () => {
-      const language1: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-      const language2: Language = Language.of(LanguageID.of(2), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-      const language3: Language = Language.of(LanguageID.of(1), LanguageName.of('Afaraf'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-      const language4: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Afar'), ISO639.of('ab'));
-      const language5: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('aa'));
-      const language6: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-
-      expect(language1.equals(language1)).toEqual(true);
-      expect(language1.equals(language2)).toEqual(false);
-      expect(language1.equals(language3)).toEqual(false);
-      expect(language1.equals(language4)).toEqual(false);
-      expect(language1.equals(language5)).toEqual(false);
-      expect(language1.equals(language6)).toEqual(true);
-    });
-  });
-
-  describe('toJSON', () => {
-    it('normal case', () => {
-      const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-
-      expect(language.toJSON()).toEqual({
-        languageID: 1,
-        name: 'аҧсуа бызшәа',
-        englishName: 'Abkhazian',
-        iso639: 'ab'
-      });
-    });
-  });
-
-  describe('toString', () => {
-    it('returns the original string', () => {
-      const id: number = 1;
-      const name1: string = 'аҧсуа бызшәа';
-      const name2: string = 'Abkhazian';
-      const iso639: string = 'ab';
-      const language: Language = Language.of(LanguageID.of(id), LanguageName.of(name1), LanguageName.of(name2), ISO639.of(iso639));
-
-      expect(language.toString()).toEqual(`${id} ${name1} ${name2} ${iso639}`);
-    });
-  });
-
   describe('of', () => {
     it('normal case', () => {
       const languageID: LanguageID = LanguageID.of(1);
@@ -201,6 +158,101 @@ describe('Language', () => {
       };
 
       expect(Language.isJSON(n)).toEqual(false);
+    });
+  });
+
+  describe('default', () => {
+    it('returns each default value', () => {
+      const language: Language = Language.default();
+
+      expect(language.getLanguageID()).toEqual(LanguageID.default());
+      expect(language.getName()).toEqual(LanguageName.default());
+      expect(language.getEnglishName()).toEqual(LanguageName.default());
+      expect(language.getISO639()).toEqual(ISO639.default());
+    });
+  });
+
+  describe('equals', () => {
+    it('returns true if the all of the properties are the same', () => {
+      const language1: Language = Language.of(
+        LanguageID.of(1),
+        LanguageName.of('аҧсуа бызшәа'),
+        LanguageName.of('Abkhazian'),
+        ISO639.of('ab')
+      );
+      const language2: Language = Language.of(
+        LanguageID.of(2),
+        LanguageName.of('аҧсуа бызшәа'),
+        LanguageName.of('Abkhazian'),
+        ISO639.of('ab')
+      );
+      const language3: Language = Language.of(
+        LanguageID.of(1),
+        LanguageName.of('Afaraf'),
+        LanguageName.of('Abkhazian'),
+        ISO639.of('ab')
+      );
+      const language4: Language = Language.of(
+        LanguageID.of(1),
+        LanguageName.of('аҧсуа бызшәа'),
+        LanguageName.of('Afar'),
+        ISO639.of('ab')
+      );
+      const language5: Language = Language.of(
+        LanguageID.of(1),
+        LanguageName.of('аҧсуа бызшәа'),
+        LanguageName.of('Abkhazian'),
+        ISO639.of('aa')
+      );
+      const language6: Language = Language.of(
+        LanguageID.of(1),
+        LanguageName.of('аҧсуа бызшәа'),
+        LanguageName.of('Abkhazian'),
+        ISO639.of('ab')
+      );
+
+      expect(language1.equals(language1)).toEqual(true);
+      expect(language1.equals(language2)).toEqual(false);
+      expect(language1.equals(language3)).toEqual(false);
+      expect(language1.equals(language4)).toEqual(false);
+      expect(language1.equals(language5)).toEqual(false);
+      expect(language1.equals(language6)).toEqual(true);
+    });
+  });
+
+  describe('toJSON', () => {
+    it('normal case', () => {
+      const language: Language = Language.of(
+        LanguageID.of(1),
+        LanguageName.of('аҧсуа бызшәа'),
+        LanguageName.of('Abkhazian'),
+        ISO639.of('ab')
+      );
+
+      expect(language.toJSON()).toEqual({
+        languageID: 1,
+        name: 'аҧсуа бызшәа',
+        englishName: 'Abkhazian',
+        iso639: 'ab'
+      });
+    });
+  });
+
+  describe('toString', () => {
+    it('returns the original string', () => {
+      const id: number = 1;
+      const name1: string = 'аҧсуа бызшәа';
+      const name2: string = 'Abkhazian';
+      const iso639: string = 'ab';
+
+      const language: Language = Language.of(
+        LanguageID.of(id),
+        LanguageName.of(name1),
+        LanguageName.of(name2),
+        ISO639.of(iso639)
+      );
+
+      expect(language.toString()).toEqual(`${id} ${name1} ${name2} ${iso639}`);
     });
   });
 });
