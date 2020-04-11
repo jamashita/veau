@@ -19,7 +19,7 @@ export class Sequence<E extends Nominative> implements Collection<number, E>, It
     ]);
   }
 
-  private constructor(elements: Array<E>) {
+  protected constructor(elements: Array<E>) {
     this.elements = elements;
   }
 

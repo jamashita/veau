@@ -59,10 +59,10 @@ describe('NumericalValues', () => {
       const value2: MockNumericalValue = new MockNumericalValue();
       const value3: MockNumericalValue = new MockNumericalValue();
 
-      const values1: NumericalValues = NumericalValues.ofArray([
+      const values1: NumericalValues = NumericalValues.ofSpread(
         value1,
         value2
-      ]);
+      );
       const values2: NumericalValues = values1.add(value3);
 
       expect(values1.size()).toEqual(2);
@@ -81,7 +81,11 @@ describe('NumericalValues', () => {
       const value3: MockNumericalValue = new MockNumericalValue();
 
       const values1: NumericalValues = NumericalValues.empty();
-      const values2: NumericalValues = values1.add(value1, value2, value3);
+      const values2: NumericalValues = values1.add(
+        value1,
+        value2,
+        value3
+      );
 
       expect(values1.size()).toEqual(0);
 
@@ -133,10 +137,10 @@ describe('NumericalValues', () => {
       const value3: MockNumericalValue = new MockNumericalValue(3);
       const value4: MockNumericalValue = new MockNumericalValue(1);
 
-      const values: NumericalValues = NumericalValues.ofArray([
+      const values: NumericalValues = NumericalValues.ofSpread(
         value1,
         value2
-      ]);
+      );
 
       expect(values.contains(value1)).toEqual(true);
       expect(values.contains(value2)).toEqual(true);
@@ -163,50 +167,50 @@ describe('NumericalValues', () => {
 
   describe('equals', () => {
     it('returns false if the length is different', () => {
-      const value1: MockNumericalValue = new MockNumericalValue();
-      const value2: MockNumericalValue = new MockNumericalValue();
+      const value1: MockNumericalValue = new MockNumericalValue(1);
+      const value2: MockNumericalValue = new MockNumericalValue(2);
 
-      const values1: NumericalValues = NumericalValues.ofArray([
+      const values1: NumericalValues = NumericalValues.ofSpread(
         value1
-      ]);
-      const values2: NumericalValues = NumericalValues.ofArray([
+      );
+      const values2: NumericalValues = NumericalValues.ofSpread(
         value1,
         value2
-      ]);
+      );
 
       expect(values1.equals(values1)).toEqual(true);
       expect(values1.equals(values2)).toEqual(false);
     });
 
     it('returns false if the sequence is different', () => {
-      const value1: MockNumericalValue = new MockNumericalValue();
-      const value2: MockNumericalValue = new MockNumericalValue();
+      const value1: MockNumericalValue = new MockNumericalValue(1);
+      const value2: MockNumericalValue = new MockNumericalValue(2);
 
-      const values1: NumericalValues = NumericalValues.ofArray([
+      const values1: NumericalValues = NumericalValues.ofSpread(
         value2,
         value1
-      ]);
-      const values2: NumericalValues = NumericalValues.ofArray([
+      );
+      const values2: NumericalValues = NumericalValues.ofSpread(
         value1,
         value2
-      ]);
+      );
 
       expect(values1.equals(values1)).toEqual(true);
       expect(values1.equals(values2)).toEqual(false);
     });
 
     it('returns true if the length and the sequence are the same', () => {
-      const value1: MockNumericalValue = new MockNumericalValue();
-      const value2: MockNumericalValue = new MockNumericalValue();
+      const value1: MockNumericalValue = new MockNumericalValue(1);
+      const value2: MockNumericalValue = new MockNumericalValue(2);
 
-      const values1: NumericalValues = NumericalValues.ofArray([
+      const values1: NumericalValues = NumericalValues.ofSpread(
         value1,
         value2
-      ]);
-      const values2: NumericalValues = NumericalValues.ofArray([
+      );
+      const values2: NumericalValues = NumericalValues.ofSpread(
         value1,
         value2
-      ]);
+      );
 
       expect(values1.equals(values1)).toEqual(true);
       expect(values1.equals(values2)).toEqual(true);
