@@ -47,7 +47,7 @@ export class Page extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.page === other.get()) {
+    if (this.page === other.page) {
       return true;
     }
 

@@ -33,7 +33,7 @@ export class Offset extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.offset === other.get()) {
+    if (this.offset === other.offset) {
       return true;
     }
 

@@ -1,15 +1,19 @@
 import { ValueObject } from '../veau-general/ValueObject';
 
+const DEFAULT_PASSWORD: string = '';
+
 export class Password extends ValueObject {
   public readonly noun: 'Password' = 'Password';
   private readonly password: string;
+
+  private static readonly DEFAULT: Password = Password.of(DEFAULT_PASSWORD);
 
   public static of(password: string): Password {
     return new Password(password);
   }
 
   public static default(): Password {
-    return Password.of('');
+    return Password.DEFAULT;
   }
 
   private constructor(password: string) {
@@ -22,7 +26,7 @@ export class Password extends ValueObject {
   }
 
   public isDefault(): boolean {
-    if (this.password === '') {
+    if (this.password === DEFAULT_PASSWORD) {
       return true;
     }
 
@@ -33,7 +37,7 @@ export class Password extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.password === other.get()) {
+    if (this.password === other.password) {
       return true;
     }
 

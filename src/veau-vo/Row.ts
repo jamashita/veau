@@ -37,7 +37,7 @@ export class Row extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.row === other.get()) {
+    if (this.row === other.row) {
       return true;
     }
 

@@ -1,6 +1,12 @@
 import { Password } from '../Password';
 
 describe('Password', () => {
+  describe('default', () => {
+    it('must be an blank password', () => {
+      expect(Password.default().get()).toEqual('');
+    });
+  });
+
   describe('equals', () => {
     it('returns true if both properties are the same', () => {
       const password1: Password = Password.of('password 1');
@@ -31,12 +37,6 @@ describe('Password', () => {
       const password: Password = Password.of(word);
 
       expect(password.toString()).toEqual(word);
-    });
-  });
-
-  describe('default', () => {
-    it('must be an blank password', () => {
-      expect(Password.default().get()).toEqual('');
     });
   });
 });

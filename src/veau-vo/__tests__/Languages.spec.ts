@@ -34,7 +34,7 @@ describe('Languages', () => {
   });
 
   describe('contains', () => {
-    it('returns true if the element exists in the Colors', () => {
+    it('returns true if the element exists', () => {
       const language1: Language = Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english language 1'), ISO639.of('aa'));
       const language2: Language = Language.of(LanguageID.of(2), LanguageName.of('language 2'), LanguageName.of('english language 2'), ISO639.of('ab'));
       const language3: Language = Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english language 1'), ISO639.of('aa'));

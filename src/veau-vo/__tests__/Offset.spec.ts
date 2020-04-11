@@ -4,27 +4,6 @@ import { Try } from '../../veau-general/Try/Try';
 import { Offset } from '../Offset';
 
 describe('Offset', () => {
-  describe('equals', () => {
-    it('returns true i f both properties are the same', () => {
-      const offset1: Offset = Offset.of(1).get();
-      const offset2: Offset = Offset.of(2).get();
-      const offset3: Offset = Offset.of(1).get();
-
-      expect(offset1.equals(offset1)).toEqual(true);
-      expect(offset1.equals(offset2)).toEqual(false);
-      expect(offset1.equals(offset3)).toEqual(true);
-    });
-  });
-
-  describe('toString', () => {
-    it('normal case', () => {
-      const num: number = 2;
-      const offset: Offset = Offset.of(num).get();
-
-      expect(offset.toString()).toEqual(num.toString());
-    });
-  });
-
   describe('of', () => {
     it('returns Failure when the argument is less than 0', () => {
       const trial1: Try<Offset, OffsetError> = Offset.of(0);
@@ -77,6 +56,27 @@ describe('Offset', () => {
       expect(spy2.called).toEqual(true);
       expect(spy3.called).toEqual(false);
       expect(spy4.called).toEqual(true);
+    });
+  });
+
+  describe('equals', () => {
+    it('returns true i f both properties are the same', () => {
+      const offset1: Offset = Offset.of(1).get();
+      const offset2: Offset = Offset.of(2).get();
+      const offset3: Offset = Offset.of(1).get();
+
+      expect(offset1.equals(offset1)).toEqual(true);
+      expect(offset1.equals(offset2)).toEqual(false);
+      expect(offset1.equals(offset3)).toEqual(true);
+    });
+  });
+
+  describe('toString', () => {
+    it('normal case', () => {
+      const num: number = 2;
+      const offset: Offset = Offset.of(num).get();
+
+      expect(offset.toString()).toEqual(num.toString());
     });
   });
 });
