@@ -12,6 +12,29 @@ import { StatsValue, StatsValueJSON, StatsValueRow } from '../StatsValue';
 import { StatsValues } from '../StatsValues';
 
 describe('StatsValues', () => {
+  describe('[Symbol.iterator]', () => {
+    it('can iterate for loop', () => {
+      const statsItemID: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();
+      const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
+      const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-02').get(), NumericalValue.of(2));
+      const statsValue3: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-03').get(), NumericalValue.of(3));
+
+      const statsValues: StatsValues = StatsValues.of([
+        statsValue1,
+        statsValue2,
+        statsValue3
+      ]);
+
+      let i: number = 0;
+      for (const statsValue of statsValues) {
+        expect(statsValues.get(i).get()).toBe(statsValue);
+        i++;
+      }
+
+      expect(i).toEqual(statsValues.size());
+    });
+  });
+
   describe('get', () => {
     it('returns StatsValue of index-th item', () => {
       const statsItemID: StatsItemID = StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get();

@@ -3,25 +3,24 @@ import { AsOf } from '../AsOf';
 import { AsOfs } from '../AsOfs';
 
 describe('AsOfs', () => {
-  describe('add', () => {
-    it('does not affect the original one', () => {
+  describe('[Symbol.iterator]', () => {
+    it('can iterate for loop', () => {
       const asOf1: AsOf = AsOf.ofString('2000-01-01').get();
       const asOf2: AsOf = AsOf.ofString('2000-01-02').get();
       const asOf3: AsOf = AsOf.ofString('2000-01-03').get();
-      const asOfs1: AsOfs = AsOfs.of([
+      const asOfs: AsOfs = AsOfs.of([
         asOf1,
-        asOf2
+        asOf2,
+        asOf3
       ]);
-      const asOfs2: AsOfs = asOfs1.add(asOf3);
 
-      expect(asOfs1.size()).toEqual(2);
-      expect(asOfs1.get(0).get()).toEqual(asOf1);
-      expect(asOfs1.get(1).get()).toEqual(asOf2);
+      let i: number = 0;
+      for (const asOf of asOfs) {
+        expect(asOfs.get(i).get()).toBe(asOf);
+        i++;
+      }
 
-      expect(asOfs2.size()).toEqual(3);
-      expect(asOfs2.get(0).get()).toEqual(asOf1);
-      expect(asOfs2.get(1).get()).toEqual(asOf2);
-      expect(asOfs2.get(2).get()).toEqual(asOf3);
+      expect(i).toEqual(asOfs.size());
     });
   });
 

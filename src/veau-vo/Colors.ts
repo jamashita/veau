@@ -40,6 +40,10 @@ export class Colors implements Collection<number, Color> {
     this.colors = colors;
   }
 
+  public [Symbol.iterator](): Iterator<Color> {
+    return this.colors[Symbol.iterator]();
+  }
+
   public get(index: number): Some<Color> {
     const length: number = this.colors.length;
 

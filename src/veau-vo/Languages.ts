@@ -39,6 +39,10 @@ export class Languages implements Collection<number, Language>, JSONable {
     this.languages = languages;
   }
 
+  public [Symbol.iterator](): Iterator<Language> {
+    return this.languages[Symbol.iterator]();
+  }
+
   public get(index: number): Optional<Language> {
     const language: Ambiguous<Language> = this.languages[index];
 

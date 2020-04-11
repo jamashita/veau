@@ -6,6 +6,28 @@ import { RegionName } from '../RegionName';
 import { Regions } from '../Regions';
 
 describe('Regions', () => {
+  describe('[Symbol.iterator]', () => {
+    it('can iterate for loop', () => {
+      const region1: Region = Region.of(RegionID.of(1), RegionName.of('region 1'), ISO3166.of('abc'));
+      const region2: Region = Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abd'));
+      const region3: Region = Region.of(RegionID.of(3), RegionName.of('region 3'), ISO3166.of('abe'));
+
+      const regions: Regions = Regions.of([
+        region1,
+        region2,
+        region3
+      ]);
+
+      let i: number = 0;
+      for (const region of regions) {
+        expect(regions.get(i).get()).toBe(region);
+        i++;
+      }
+
+      expect(i).toEqual(regions.size());
+    });
+  });
+
   describe('get', () => {
     it('returns Region instance at the correct index', () => {
       const region1: Region = Region.of(RegionID.of(1), RegionName.of('region 1'), ISO3166.of('abc'));

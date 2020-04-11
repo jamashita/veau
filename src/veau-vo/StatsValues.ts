@@ -69,6 +69,10 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
     this.values = values;
   }
 
+  public [Symbol.iterator](): Iterator<StatsValue> {
+    return this.values[Symbol.iterator]();
+  }
+
   public get(index: number): Optional<StatsValue> {
     const statsValue: Ambiguous<StatsValue> = this.values[index];
 

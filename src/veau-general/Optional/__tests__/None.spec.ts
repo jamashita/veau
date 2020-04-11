@@ -7,27 +7,35 @@ import { OptionalError } from '../OptionalError';
 describe('None', () => {
   describe('get', () => {
     it('throws OptionalError', () => {
-      const none: None<number> = None.of<number>();
+      const none1: None<void> = None.of();
+      const none2: None<number> = None.of<number>();
 
       expect(() => {
-        none.get();
+        none1.get();
+      }).toThrow(OptionalError);
+      expect(() => {
+        none2.get();
       }).toThrow(OptionalError);
     });
   });
 
   describe('isPresent', () => {
     it('returns false', () => {
-      const none: None<number> = None.of<number>();
+      const none1: None<void> = None.of();
+      const none2: None<number> = None.of<number>();
 
-      expect(none.isPresent()).toEqual(false);
+      expect(none1.isPresent()).toEqual(false);
+      expect(none2.isPresent()).toEqual(false);
     });
   });
 
   describe('isEmpty', () => {
     it('returns true', () => {
-      const none: None<number> = None.of<number>();
+      const none1: None<void> = None.of();
+      const none2: None<number> = None.of<number>();
 
-      expect(none.isAbsent()).toEqual(true);
+      expect(none1.isAbsent()).toEqual(true);
+      expect(none2.isAbsent()).toEqual(true);
     });
   });
 

@@ -25,13 +25,8 @@ export class AsOfs implements Collection<number, AsOf>, JSONable {
     this.asOfs = asOfs;
   }
 
-  public add(value: AsOf): AsOfs {
-    const asOfs: Array<AsOf> = [
-      ...this.asOfs,
-      value
-    ];
-
-    return AsOfs.of(asOfs);
+  public [Symbol.iterator](): Iterator<AsOf> {
+    return this.asOfs[Symbol.iterator]();
   }
 
   public get(index: number): Optional<AsOf> {

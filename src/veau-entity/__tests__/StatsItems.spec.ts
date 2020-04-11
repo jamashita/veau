@@ -19,6 +19,27 @@ import { StatsItem, StatsItemJSON, StatsItemRow } from '../StatsItem';
 import { StatsItems } from '../StatsItems';
 
 describe('StatsItems', () => {
+  describe('[Symbol.iterator]', () => {
+    it('can iterate for loop', () => {
+      const statsItem1: StatsItem = StatsItem.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), StatsItemName.of('stats item 1'), StatsValues.empty());
+      const statsItem2: StatsItem = StatsItem.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), StatsItemName.of('stats item 2'), StatsValues.empty());
+      const statsItem3: StatsItem = StatsItem.of(StatsItemID.ofString('22dc7052-fe53-48ff-ad51-9e7fd20c3498').get(), StatsItemName.of('stats item 3'), StatsValues.empty());
+      const statsItems: StatsItems = StatsItems.of([
+        statsItem1,
+        statsItem2,
+        statsItem3
+      ]);
+
+      let i: number = 0;
+      for (const statsItem of statsItems) {
+        expect(statsItems.get(i).get()).toBe(statsItem);
+        i++;
+      }
+
+      expect(i).toEqual(statsItems.size());
+    });
+  });
+
   describe('add', () => {
     it('does not affect the original one', () => {
       const statsItem1: StatsItem = StatsItem.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), StatsItemName.of('stats item 1'), StatsValues.empty());

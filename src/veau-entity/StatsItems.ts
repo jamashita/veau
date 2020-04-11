@@ -81,6 +81,10 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
     this.items = items;
   }
 
+  public [Symbol.iterator](): Iterator<StatsItem> {
+    return this.items[Symbol.iterator]();
+  }
+
   public add(statsItem: StatsItem): StatsItems {
     return new StatsItems([
       ...this.items,

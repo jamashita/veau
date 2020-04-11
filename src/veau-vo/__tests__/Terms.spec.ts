@@ -3,6 +3,20 @@ import { Term } from '../Term';
 import { Terms } from '../Terms';
 
 describe('Terms', () => {
+  describe('[Symbol.iterator]', () => {
+    it('can iterate for loop', () => {
+      const terms: Terms = Terms.all();
+
+      let i: number = 0;
+      for (const term of terms) {
+        expect(terms.get(i).get()).toBe(term);
+        i++;
+      }
+
+      expect(i).toEqual(terms.size());
+    });
+  });
+
   describe('get', () => {
     it('returns Term instance at the correct index', () => {
       const terms: Terms = Terms.all();

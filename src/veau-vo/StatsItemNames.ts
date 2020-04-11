@@ -19,6 +19,10 @@ export class StatsItemNames implements Collection<number, StatsItemName>, JSONab
     this.names = names;
   }
 
+  public [Symbol.iterator](): Iterator<StatsItemName> {
+    return this.names[Symbol.iterator]();
+  }
+
   public get(index: number): Optional<StatsItemName> {
     const name: Ambiguous<StatsItemName> = this.names[index];
 

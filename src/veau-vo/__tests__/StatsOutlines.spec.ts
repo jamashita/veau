@@ -12,6 +12,28 @@ import { Term } from '../Term';
 import { UpdatedAt } from '../UpdatedAt';
 
 describe('StatsOutlines', () => {
+  describe('[Symbol.iterator]', () => {
+    it('can iterate for loop', () => {
+      const outline1: StatsOutline = StatsOutline.of(StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01 00:00:00').get());
+      const outline2: StatsOutline = StatsOutline.of(StatsID.ofString('15620e91-f63a-4aaa-94b7-2844978fa129').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01 00:00:00').get());
+      const outline3: StatsOutline = StatsOutline.of(StatsID.ofString('b1524ae3-8e91-4938-9997-579ef7b84602').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01 00:00:00').get());
+
+      const outlines: StatsOutlines = StatsOutlines.of([
+        outline1,
+        outline2,
+        outline3
+      ]);
+
+      let i: number = 0;
+      for (const outline of outlines) {
+        expect(outlines.get(i).get()).toBe(outline);
+        i++;
+      }
+
+      expect(i).toEqual(outlines.size());
+    });
+  });
+
   describe('get', () => {
     it('returns StatsOutline of index-th item', () => {
       const outline1: StatsOutline = StatsOutline.of(StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats name'), StatsUnit.of('stats unit'), UpdatedAt.ofString('2000-01-01 00:00:00').get());

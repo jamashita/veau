@@ -9,7 +9,7 @@ import { Some } from './Some';
 export class None<T> extends Optional<T> {
   public readonly noun: 'None' = 'None';
 
-  public static of<T>(): None<T> {
+  public static of<T = void>(): None<T> {
     return new None<T>();
   }
 
@@ -45,7 +45,11 @@ export class None<T> extends Optional<T> {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public map<U>(mapper: MonoFunction<T, Suspicious<U>>): Optional<U> {
-    return None.of<U>();
+    return this.transform<U>();
+  }
+
+  private transform<U>(): None<U> {
+    return this as never as None<U>;
   }
 
   public toTry(): Try<T, OptionalError> {

@@ -2,6 +2,23 @@ import { Color } from '../Color';
 import { Colors } from '../Colors';
 
 describe('Colors', () => {
+  describe('[Symbol.iterator]', () => {
+    it('can iterate for loop', () => {
+      const colors: Colors = Colors.of([
+        Color.of('#ffffff'),
+        Color.of('#000000')
+      ]);
+
+      let i: number = 0;
+      for (const color of colors) {
+        expect(colors.get(i).get()).toBe(color);
+        i++;
+      }
+
+      expect(i).toEqual(colors.size());
+    });
+  });
+
   describe('get', () => {
     it('when index is over the length of Colors, loops and returns the element of first', () => {
       const colors: Colors = Colors.of([

@@ -3,6 +3,28 @@ import { NumericalValue } from '../NumericalValue';
 import { NumericalValues } from '../NumericalValues';
 
 describe('NumericalValues', () => {
+  describe('[Symbol.iterator]', () => {
+    it('can iterate for loop', () => {
+      const value1: NumericalValue = NumericalValue.of(1);
+      const value2: NumericalValue = NumericalValue.of(2);
+      const value3: NumericalValue = NumericalValue.of(3);
+
+      const values: NumericalValues = NumericalValues.of([
+        value1,
+        value2,
+        value3
+      ]);
+
+      let i: number = 0;
+      for (const value of values) {
+        expect(values.get(i).get()).toBe(value);
+        i++;
+      }
+
+      expect(i).toEqual(values.size());
+    });
+  });
+
   describe('add', () => {
     it('does not affect the original one', () => {
       const value1: NumericalValue = NumericalValue.of(1);

@@ -54,6 +54,10 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
     this.outlines = outlines;
   }
 
+  public [Symbol.iterator](): Iterator<StatsOutline> {
+    return this.outlines[Symbol.iterator]();
+  }
+
   public get(index: number): Optional<StatsOutline> {
     const outline: Ambiguous<StatsOutline> = this.outlines[index];
 

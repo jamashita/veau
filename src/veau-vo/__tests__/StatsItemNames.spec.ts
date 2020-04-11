@@ -3,6 +3,28 @@ import { StatsItemName } from '../StatsItemName';
 import { StatsItemNames } from '../StatsItemNames';
 
 describe('StatsItemNames', () => {
+  describe('[Symbol.iterator]', () => {
+    it('can iterate for loop', () => {
+      const name1: StatsItemName = StatsItemName.of('item 1');
+      const name2: StatsItemName = StatsItemName.of('item 2');
+      const name3: StatsItemName = StatsItemName.of('item 3');
+
+      const names: StatsItemNames = StatsItemNames.of([
+        name1,
+        name2,
+        name3
+      ]);
+
+      let i: number = 0;
+      for (const name of names) {
+        expect(names.get(i).get()).toBe(name);
+        i++;
+      }
+
+      expect(i).toEqual(names.size());
+    });
+  });
+
   describe('get', () => {
     it('returns StatsItemName of index-th item', () => {
       const name1: StatsItemName = StatsItemName.of('item 1');

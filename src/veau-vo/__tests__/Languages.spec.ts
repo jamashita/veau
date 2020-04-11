@@ -6,6 +6,28 @@ import { LanguageName } from '../LanguageName';
 import { Languages } from '../Languages';
 
 describe('Languages', () => {
+  describe('[Symbol.iterator]', () => {
+    it('can iterate for loop', () => {
+      const language1: Language = Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english language 1'), ISO639.of('aa'));
+      const language2: Language = Language.of(LanguageID.of(2), LanguageName.of('language 2'), LanguageName.of('english language 2'), ISO639.of('ab'));
+      const language3: Language = Language.of(LanguageID.of(3), LanguageName.of('language 3'), LanguageName.of('english language 3'), ISO639.of('ac'));
+
+      const languages: Languages = Languages.of([
+        language1,
+        language2,
+        language3
+      ]);
+
+      let i: number = 0;
+      for (const language of languages) {
+        expect(languages.get(i).get()).toBe(language);
+        i++;
+      }
+
+      expect(i).toEqual(languages.size());
+    });
+  });
+
   describe('get', () => {
     it('returns Language instance at the correct index', () => {
       const language1: Language = Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english language 1'), ISO639.of('aa'));

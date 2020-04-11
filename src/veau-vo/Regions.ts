@@ -39,6 +39,10 @@ export class Regions implements Collection<number, Region>, JSONable {
     this.regions = regions;
   }
 
+  public [Symbol.iterator](): Iterator<Region> {
+    return this.regions[Symbol.iterator]();
+  }
+
   public get(index: number): Optional<Region> {
     const region: Ambiguous<Region> = this.regions[index];
 

@@ -22,6 +22,10 @@ export class NumericalValues implements Collection<number, NumericalValue> {
     this.values = values;
   }
 
+  public [Symbol.iterator](): Iterator<NumericalValue> {
+    return this.values[Symbol.iterator]();
+  }
+
   public add(value: NumericalValue): NumericalValues {
     const values: Array<NumericalValue> = [
       ...this.values,

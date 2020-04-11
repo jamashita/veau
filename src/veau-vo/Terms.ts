@@ -24,6 +24,10 @@ export class Terms implements Collection<number, Term> {
     this.terms = terms;
   }
 
+  public [Symbol.iterator](): Iterator<Term> {
+    return this.terms[Symbol.iterator]();
+  }
+
   public get(index: number): Optional<Term> {
     const term: Ambiguous<Term> = this.terms[index];
 
