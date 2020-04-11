@@ -46,7 +46,7 @@ describe('RegionQuery', () => {
       const stub: SinonStub = sinon.stub();
       string.get = stub;
       stub.resolves(jsonStr);
-      const redis: MockRedis = MockRedis.of({
+      const redis: MockRedis = new MockRedis({
         string
       });
 
@@ -72,7 +72,7 @@ describe('RegionQuery', () => {
       const stub: SinonStub = sinon.stub();
       string.get = stub;
       stub.resolves(jsonStr);
-      const redis: MockRedis = MockRedis.of({
+      const redis: MockRedis = new MockRedis({
         string
       });
 
@@ -88,7 +88,7 @@ describe('RegionQuery', () => {
       const stub: SinonStub = sinon.stub();
       string.get = stub;
       stub.resolves(null);
-      const redis: MockRedis = MockRedis.of({
+      const redis: MockRedis = new MockRedis({
         string
       });
       const spy1: SinonSpy = sinon.spy();
@@ -114,7 +114,7 @@ describe('RegionQuery', () => {
       const stub: SinonStub = sinon.stub();
       string.get = stub;
       stub.rejects(new MockRedisError());
-      const redis: MockRedis = MockRedis.of({
+      const redis: MockRedis = new MockRedis({
         string
       });
       const spy1: SinonSpy = sinon.spy();
@@ -140,7 +140,7 @@ describe('RegionQuery', () => {
       const stub: SinonStub = sinon.stub();
       string.get = stub;
       stub.rejects(new MockError());
-      const redis: MockRedis = MockRedis.of({
+      const redis: MockRedis = new MockRedis({
         string
       });
 
@@ -169,7 +169,7 @@ describe('RegionQuery', () => {
       const stub: SinonStub = sinon.stub();
       string.get = stub;
       stub.resolves(jsonStr);
-      const redis: MockRedis = MockRedis.of({
+      const redis: MockRedis = new MockRedis({
         string
       });
 
@@ -192,7 +192,7 @@ describe('RegionQuery', () => {
       const stub: SinonStub = sinon.stub();
       string.get = stub;
       stub.resolves(jsonStr);
-      const redis: MockRedis = MockRedis.of({
+      const redis: MockRedis = new MockRedis({
         string
       });
       const spy1: SinonSpy = sinon.spy();
@@ -218,7 +218,7 @@ describe('RegionQuery', () => {
       const stub: SinonStub = sinon.stub();
       string.get = stub;
       stub.resolves(null);
-      const redis: MockRedis = MockRedis.of({
+      const redis: MockRedis = new MockRedis({
         string
       });
       const spy1: SinonSpy = sinon.spy();
@@ -258,7 +258,7 @@ describe('RegionQuery', () => {
       const stub: SinonStub = sinon.stub();
       string.get = stub;
       stub.resolves(jsonStr);
-      const redis: MockRedis = MockRedis.of({
+      const redis: MockRedis = new MockRedis({
         string
       });
       const spy1: SinonSpy = sinon.spy();
@@ -284,7 +284,7 @@ describe('RegionQuery', () => {
       const stub: SinonStub = sinon.stub();
       string.get = stub;
       stub.rejects(new MockRedisError());
-      const redis: MockRedis = MockRedis.of({
+      const redis: MockRedis = new MockRedis({
         string
       });
       const spy1: SinonSpy = sinon.spy();
@@ -310,7 +310,7 @@ describe('RegionQuery', () => {
       const stub: SinonStub = sinon.stub();
       string.get = stub;
       stub.rejects(new MockError());
-      const redis: MockRedis = MockRedis.of({
+      const redis: MockRedis = new MockRedis({
         string
       });
 

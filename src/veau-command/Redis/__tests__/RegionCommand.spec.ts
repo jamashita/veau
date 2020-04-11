@@ -38,7 +38,7 @@ describe('RegionCommand', () => {
       const stub1: SinonStub = sinon.stub();
       string.set = stub1;
       stub1.resolves();
-      const redis: MockRedis = MockRedis.of({
+      const redis: MockRedis = new MockRedis({
         string
       });
       const stub2: SinonStub = sinon.stub();
@@ -62,7 +62,7 @@ describe('RegionCommand', () => {
       const stub1: SinonStub = sinon.stub();
       string.set = stub1;
       stub1.rejects(new MockRedisError());
-      const redis: MockRedis = MockRedis.of({
+      const redis: MockRedis = new MockRedis({
         string
       });
       const stub2: SinonStub = sinon.stub();
@@ -95,7 +95,7 @@ describe('RegionCommand', () => {
       const stub1: SinonStub = sinon.stub();
       string.set = stub1;
       stub1.resolves();
-      const redis: MockRedis = MockRedis.of({
+      const redis: MockRedis = new MockRedis({
         string
       });
       const stub2: SinonStub = sinon.stub();
@@ -129,7 +129,7 @@ describe('RegionCommand', () => {
       string.set = stub;
       stub.rejects(new MockError());
 
-      const redis: MockRedis = MockRedis.of({
+      const redis: MockRedis = new MockRedis({
         string
       });
 
@@ -140,7 +140,7 @@ describe('RegionCommand', () => {
 
   describe('deleteAll', () => {
     it('normal case', async () => {
-      const redis: MockRedis = MockRedis.of({});
+      const redis: MockRedis = new MockRedis({});
       const stub: SinonStub = sinon.stub();
       redis.delete = stub;
       stub.resolves(true);
@@ -153,7 +153,7 @@ describe('RegionCommand', () => {
     });
 
     it('returns Failure with CacheError because Redis.delete fails', async () => {
-      const redis: MockRedis = MockRedis.of({});
+      const redis: MockRedis = new MockRedis({});
       const stub: SinonStub = sinon.stub();
       redis.delete = stub;
       stub.resolves(false);
@@ -176,7 +176,7 @@ describe('RegionCommand', () => {
     });
 
     it('returns Failure because the client throws RedisError', async () => {
-      const redis: MockRedis = MockRedis.of({});
+      const redis: MockRedis = new MockRedis({});
       const stub: SinonStub = sinon.stub();
       redis.delete = stub;
       stub.rejects(new MockRedisError());
@@ -199,7 +199,7 @@ describe('RegionCommand', () => {
     });
 
     it('throws Error', async () => {
-      const redis: MockRedis = MockRedis.of({});
+      const redis: MockRedis = new MockRedis({});
       const stub: SinonStub = sinon.stub();
       redis.delete = stub;
       stub.rejects(new MockError());
