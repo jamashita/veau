@@ -1,15 +1,19 @@
-import { ValueObject } from '../veau-general/ValueObject';
+import {ValueObject} from '../veau-general/ValueObject';
+
+const DEFAULT_UNIT: string = '';
 
 export class StatsUnit extends ValueObject {
   public readonly noun: 'StatsUnit' = 'StatsUnit';
   private readonly unit: string;
+
+  private static readonly DEFAULT: StatsUnit = StatsUnit.of(DEFAULT_UNIT);
 
   public static of(unit: string): StatsUnit {
     return new StatsUnit(unit);
   }
 
   public static default(): StatsUnit {
-    return StatsUnit.of('');
+    return StatsUnit.DEFAULT;
   }
 
   private constructor(unit: string) {
@@ -25,7 +29,7 @@ export class StatsUnit extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.unit === other.get()) {
+    if (this.unit === other.unit) {
       return true;
     }
 

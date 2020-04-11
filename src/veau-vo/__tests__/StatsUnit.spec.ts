@@ -1,6 +1,12 @@
-import { StatsUnit } from '../StatsUnit';
+import {StatsUnit} from '../StatsUnit';
 
 describe('StatsUnit', () => {
+  describe('default', () => {
+    it('always return empty string', () => {
+      expect(StatsUnit.default().get()).toEqual('');
+    });
+  });
+
   describe('equals', () => {
     it('returns true if both properties are the same', () => {
       const unit1: StatsUnit = StatsUnit.of('stats unit 1');
