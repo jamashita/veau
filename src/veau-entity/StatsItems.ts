@@ -175,7 +175,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
   }
 
   public map<U>(mapper: Mapper<StatsItem, U>): Array<U> {
-    return this.items.map<U>(mapper);
+    return this.items.toArray().map<U>(mapper);
   }
 
   public areFilled(): boolean {
@@ -193,11 +193,11 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
       items
     } = this;
 
-    if (items.length === 0) {
+    if (items.isEmpty()) {
       return false;
     }
 
-    const rowLengths: Array<number> = items.map<number>((item: StatsItem) => {
+    const rowLengths: Array<number> = items.toArray().map<number>((item: StatsItem) => {
       return item.getValues().size();
     });
 
@@ -211,17 +211,15 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
   }
 
   public copy(): StatsItems {
-    return new StatsItems(this.items.map<StatsItem>((statsItem: StatsItem) => {
+    const items: Sequence<StatsItem> = this.items.project<StatsItem>((statsItem: StatsItem) => {
       return statsItem.copy();
-    }));
+    });
+
+    return StatsItems.of(items);
   }
 
   public isEmpty(): boolean {
-    if (this.items.length === 0) {
-      return true;
-    }
-
-    return false;
+    return this.items.isEmpty();
   }
 
   public equals(other: StatsItems): boolean {
@@ -229,17 +227,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
       return true;
     }
 
-    const length: number = this.items.length;
-    if (length !== other.size()) {
-      return false;
-    }
-    for (let i: number = 0; i < length; i++) {
-      if (!this.items[i].equals(other.get(i).get())) {
-        return false;
-      }
-    }
-
-    return true;
+    return this.items.equals(other.items);
   }
 
   public areSame(other: StatsItems): boolean {
@@ -247,13 +235,13 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
       return true;
     }
 
-    const length: number = this.items.length;
+    const length: number = this.items.size();
     if (length !== other.size()) {
       return false;
     }
 
     for (let i: number = 0; i < length; i++) {
-      if (!this.items[i].isSame(other.get(i).get())) {
+      if (!this.items.get(i).get().isSame(other.get(i).get())) {
         return false;
       }
     }
@@ -262,13 +250,13 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
   }
 
   public toJSON(): Array<StatsItemJSON> {
-    return this.items.map<StatsItemJSON>((item: StatsItem) => {
+    return this.items.toArray().map<StatsItemJSON>((item: StatsItem) => {
       return item.toJSON();
     });
   }
 
   public toString(): string {
-    return this.items.map<string>((item: StatsItem) => {
+    return this.items.toArray().map<string>((item: StatsItem) => {
       return item.toString();
     }).join(', ');
   }
