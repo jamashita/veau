@@ -1,54 +1,40 @@
 import moment from 'moment';
-import { Collection } from '../veau-general/Collection';
+import { Collection } from '../veau-general/Collection/Collection';
+import { Sequence } from '../veau-general/Collection/Sequence';
 import { JSONable } from '../veau-general/JSONable';
 import { None } from '../veau-general/Optional/None';
 import { Optional } from '../veau-general/Optional/Optional';
 import { Some } from '../veau-general/Optional/Some';
 import { Enumerator } from '../veau-general/Type/Function';
-import { Ambiguous } from '../veau-general/Type/Value';
 import { AsOf } from './AsOf';
 
 export class AsOfs implements Collection<number, AsOf>, JSONable {
   public readonly noun: 'AsOfs' = 'AsOfs';
-  private readonly asOfs: Array<AsOf>;
+  private readonly asOfs: Sequence<AsOf>;
 
-  public static of(asOfs: Array<AsOf>): AsOfs {
+  public static of(asOfs: Sequence<AsOf>): AsOfs {
     return new AsOfs(asOfs);
   }
 
+  public static ofArray(asOfs: Array<AsOf>): AsOfs {
+    return AsOfs.of(Sequence.of<AsOf>(asOfs));
+  }
+
   public static empty(): AsOfs {
-    return AsOfs.of([
+    return AsOfs.ofArray([
     ]);
   }
 
-  private constructor(asOfs: Array<AsOf>) {
+  private constructor(asOfs: Sequence<AsOf>) {
     this.asOfs = asOfs;
   }
 
-  public [Symbol.iterator](): Iterator<AsOf> {
-    return this.asOfs[Symbol.iterator]();
-  }
-
   public get(index: number): Optional<AsOf> {
-    const asOf: Ambiguous<AsOf> = this.asOfs[index];
-
-    if (asOf === undefined) {
-      return None.of<AsOf>();
-    }
-
-    return Some.of<AsOf>(asOf);
+    return this.asOfs.get(index);
   }
 
   public contains(value: AsOf): boolean {
-    const found: Ambiguous<AsOf> = this.asOfs.find((asOf: AsOf) => {
-      return value.equals(asOf);
-    });
-
-    if (found === undefined) {
-      return false;
-    }
-
-    return true;
+    return this.asOfs.contains(value);
   }
 
   public min(): Optional<AsOf> {
@@ -56,7 +42,7 @@ export class AsOfs implements Collection<number, AsOf>, JSONable {
       return None.of<AsOf>();
     }
 
-    const asOfs: Array<moment.Moment> = this.asOfs.map<moment.Moment>((asOf: AsOf) => {
+    const asOfs: Array<moment.Moment> = this.asOfs.toArray().map<moment.Moment>((asOf: AsOf) => {
       return asOf.get();
     });
 
@@ -68,7 +54,7 @@ export class AsOfs implements Collection<number, AsOf>, JSONable {
       return None.of<AsOf>();
     }
 
-    const asOfs: Array<moment.Moment> = this.asOfs.map<moment.Moment>((asOf: AsOf) => {
+    const asOfs: Array<moment.Moment> = this.asOfs.toArray().map<moment.Moment>((asOf: AsOf) => {
       return asOf.get();
     });
 
@@ -76,19 +62,15 @@ export class AsOfs implements Collection<number, AsOf>, JSONable {
   }
 
   public size(): number {
-    return this.asOfs.length;
+    return this.asOfs.size();
   }
 
   public forEach(iteration: Enumerator<number, AsOf>): void {
-    this.asOfs.forEach(iteration);
+    this.asOfs.iterate(iteration);
   }
 
   public isEmpty(): boolean {
-    if (this.asOfs.length === 0) {
-      return true;
-    }
-
-    return false;
+    return this.asOfs.isEmpty();
   }
 
   public equals(other: AsOfs): boolean {
@@ -96,27 +78,17 @@ export class AsOfs implements Collection<number, AsOf>, JSONable {
       return true;
     }
 
-    const length: number = this.asOfs.length;
-    if (length !== other.size()) {
-      return false;
-    }
-    for (let i: number = 0; i < length; i++) {
-      if (!this.asOfs[i].equals(other.get(i).get())) {
-        return false;
-      }
-    }
-
-    return true;
+    return this.asOfs.equals(other.asOfs);
   }
 
   public toJSON(): Array<string> {
-    return this.asOfs.map<string>((asOf: AsOf) => {
+    return this.asOfs.toArray().map<string>((asOf: AsOf) => {
       return asOf.toString();
     });
   }
 
   public toString(): string {
-    return this.asOfs.map<string>((asOf: AsOf) => {
+    return this.asOfs.toArray().map<string>((asOf: AsOf) => {
       return asOf.toString();
     }).join(', ');
   }

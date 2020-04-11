@@ -3,33 +3,12 @@ import { AsOf } from '../AsOf';
 import { AsOfs } from '../AsOfs';
 
 describe('AsOfs', () => {
-  describe('[Symbol.iterator]', () => {
-    it('can iterate for loop', () => {
-      const asOf1: AsOf = AsOf.ofString('2000-01-01').get();
-      const asOf2: AsOf = AsOf.ofString('2000-01-02').get();
-      const asOf3: AsOf = AsOf.ofString('2000-01-03').get();
-      const asOfs: AsOfs = AsOfs.of([
-        asOf1,
-        asOf2,
-        asOf3
-      ]);
-
-      let i: number = 0;
-      for (const asOf of asOfs) {
-        expect(asOfs.get(i).get()).toBe(asOf);
-        i++;
-      }
-
-      expect(i).toEqual(asOfs.size());
-    });
-  });
-
   describe('get', () => {
     it('returns AsOf instance at the correct index', ()  => {
       const asOf1: AsOf = AsOf.ofString('2000-01-01').get();
       const asOf2: AsOf = AsOf.ofString('2000-01-02').get();
       const asOf3: AsOf = AsOf.ofString('2000-01-03').get();
-      const asOfs: AsOfs = AsOfs.of([
+      const asOfs: AsOfs = AsOfs.ofArray([
         asOf1,
         asOf2,
         asOf3
@@ -55,7 +34,7 @@ describe('AsOfs', () => {
       const asOf2: AsOf = AsOf.ofString('2000-01-02').get();
       const asOf3: AsOf = AsOf.ofString('2000-01-03').get();
       const asOf4: AsOf = AsOf.ofString('2000-01-02').get();
-      const asOfs: AsOfs = AsOfs.of([
+      const asOfs: AsOfs = AsOfs.ofArray([
         asOf1,
         asOf2
       ]);
@@ -73,7 +52,7 @@ describe('AsOfs', () => {
       const asOf2: AsOf = AsOf.ofString('2000-01-01').get();
       const asOf3: AsOf = AsOf.ofString('2000-01-02').get();
       const asOf4: AsOf = AsOf.ofString('2000-01-01').get();
-      const asOfs: AsOfs = AsOfs.of([
+      const asOfs: AsOfs = AsOfs.ofArray([
         asOf1,
         asOf2,
         asOf3,
@@ -85,7 +64,7 @@ describe('AsOfs', () => {
 
     it('returns asOf itself when the elements are only one', () => {
       const asOf: AsOf = AsOf.ofString('2000-01-03').get();
-      const asOfs: AsOfs = AsOfs.of([
+      const asOfs: AsOfs = AsOfs.ofArray([
         asOf
       ]);
 
@@ -103,7 +82,7 @@ describe('AsOfs', () => {
       const asOf2: AsOf = AsOf.ofString('2000-01-01').get();
       const asOf3: AsOf = AsOf.ofString('2000-01-02').get();
       const asOf4: AsOf = AsOf.ofString('2000-01-03').get();
-      const asOfs: AsOfs = AsOfs.of([
+      const asOfs: AsOfs = AsOfs.ofArray([
         asOf1,
         asOf2,
         asOf3,
@@ -116,7 +95,7 @@ describe('AsOfs', () => {
     it('returns asOf itself when the elements are only one', () => {
       const asOf: AsOf = AsOf.ofString('2000-01-03').get();
 
-      const asOfs: AsOfs = AsOfs.of([asOf]);
+      const asOfs: AsOfs = AsOfs.ofArray([asOf]);
 
       expect(asOfs.max().get().equals(asOf)).toEqual(true);
     });
@@ -131,7 +110,7 @@ describe('AsOfs', () => {
       const asOf1: AsOf = AsOf.ofString('2000-01-01').get();
       const asOf2: AsOf = AsOf.ofString('2000-01-02').get();
       const asOfs1: AsOfs = AsOfs.empty();
-      const asOfs2: AsOfs = AsOfs.of([
+      const asOfs2: AsOfs = AsOfs.ofArray([
         asOf1,
         asOf2
       ]);
@@ -145,10 +124,10 @@ describe('AsOfs', () => {
     it('returns false if the length is different', () => {
       const asOf1: AsOf = AsOf.ofString('2000-01-01').get();
       const asOf2: AsOf = AsOf.ofString('2000-01-02').get();
-      const asOfs1: AsOfs = AsOfs.of([
+      const asOfs1: AsOfs = AsOfs.ofArray([
         asOf1
       ]);
-      const asOfs2: AsOfs = AsOfs.of([
+      const asOfs2: AsOfs = AsOfs.ofArray([
         asOf1,
         asOf2
       ]);
@@ -160,11 +139,11 @@ describe('AsOfs', () => {
     it('returns false if the sequence is different', () => {
       const asOf1: AsOf = AsOf.ofString('2000-01-01').get();
       const asOf2: AsOf = AsOf.ofString('2000-01-02').get();
-      const asOfs1: AsOfs = AsOfs.of([
+      const asOfs1: AsOfs = AsOfs.ofArray([
         asOf2,
         asOf1
       ]);
-      const asOfs2: AsOfs = AsOfs.of([
+      const asOfs2: AsOfs = AsOfs.ofArray([
         asOf1,
         asOf2
       ]);
@@ -176,11 +155,11 @@ describe('AsOfs', () => {
     it('returns true if the length is the same and the sequence is the same', () => {
       const asOf1: AsOf = AsOf.ofString('2000-01-01').get();
       const asOf2: AsOf = AsOf.ofString('2000-01-02').get();
-      const asOfs1: AsOfs = AsOfs.of([
+      const asOfs1: AsOfs = AsOfs.ofArray([
         asOf1,
         asOf2
       ]);
-      const asOfs2: AsOfs = AsOfs.of([
+      const asOfs2: AsOfs = AsOfs.ofArray([
         asOf1,
         asOf2
       ]);
@@ -192,7 +171,7 @@ describe('AsOfs', () => {
 
   describe('toJSON', () => {
     it('normal case', () => {
-      const asOfs: AsOfs = AsOfs.of([
+      const asOfs: AsOfs = AsOfs.ofArray([
         AsOf.ofString('2000-01-01').get(),
         AsOf.ofString('2000-01-02').get(),
         AsOf.ofString('2000-01-03').get()
@@ -208,7 +187,7 @@ describe('AsOfs', () => {
 
   describe('toString', () => {
     it('normal case', () => {
-      const asOfs: AsOfs = AsOfs.of([
+      const asOfs: AsOfs = AsOfs.ofArray([
         AsOf.ofString('2000-01-01').get(),
         AsOf.ofString('2000-01-02').get(),
         AsOf.ofString('2000-01-03').get()
