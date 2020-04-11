@@ -15,11 +15,11 @@ export class Term extends ValueObject {
   private readonly id: number;
   private readonly key: string;
 
-  public static DAILY: Term = new Term(DAILY_ID, 'DAILY');
-  public static WEEKLY: Term = new Term(WEEKLY_ID, 'WEEKLY');
-  public static MONTHLY: Term = new Term(MONTHLY_ID, 'MONTHLY');
-  public static QUARTERLY: Term = new Term(QUARTERLY_ID, 'QUARTERLY');
-  public static ANNUAL: Term = new Term(ANNUAL_ID, 'ANNUAL');
+  public static readonly DAILY: Term = new Term(DAILY_ID, 'DAILY');
+  public static readonly WEEKLY: Term = new Term(WEEKLY_ID, 'WEEKLY');
+  public static readonly MONTHLY: Term = new Term(MONTHLY_ID, 'MONTHLY');
+  public static readonly QUARTERLY: Term = new Term(QUARTERLY_ID, 'QUARTERLY');
+  public static readonly ANNUAL: Term = new Term(ANNUAL_ID, 'ANNUAL');
 
   public static of(id: number): Try<Term, TermError> {
     switch (id) {
@@ -44,7 +44,7 @@ export class Term extends ValueObject {
     }
   }
 
-  private constructor(id: number, key: string) {
+  protected constructor(id: number, key: string) {
     super();
     this.id = id;
     this.key = key;

@@ -46,16 +46,16 @@ describe('Term', () => {
     });
 
     it('returns Failure when the id is out of range', () => {
+      const trial1: Try<Term, TermError> = Term.of(-1);
+      const trial2: Try<Term, TermError> = Term.of(0);
+      const trial3: Try<Term, TermError> = Term.of(6);
+
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
       const spy5: SinonSpy = sinon.spy();
       const spy6: SinonSpy = sinon.spy();
-
-      const trial1: Try<Term, TermError> = Term.of(-1);
-      const trial2: Try<Term, TermError> = Term.of(0);
-      const trial3: Try<Term, TermError> = Term.of(6);
 
       expect(trial1.isFailure()).toEqual(true);
       expect(trial2.isFailure()).toEqual(true);

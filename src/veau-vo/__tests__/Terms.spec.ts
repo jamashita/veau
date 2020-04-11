@@ -1,22 +1,9 @@
 import { None } from '../../veau-general/Optional/None';
+import { MockTerm } from '../Mock/MockTerm';
 import { Term } from '../Term';
 import { Terms } from '../Terms';
 
 describe('Terms', () => {
-  describe('[Symbol.iterator]', () => {
-    it('can iterate for loop', () => {
-      const terms: Terms = Terms.all();
-
-      let i: number = 0;
-      for (const term of terms) {
-        expect(terms.get(i).get()).toBe(term);
-        i++;
-      }
-
-      expect(i).toEqual(terms.size());
-    });
-  });
-
   describe('get', () => {
     it('returns Term instance at the correct index', () => {
       const terms: Terms = Terms.all();
@@ -39,7 +26,7 @@ describe('Terms', () => {
   describe('contains', () => {
     it('returns true if the element exists in the Terms', () => {
       const terms: Terms = Terms.all();
-      const fakeTerm: Term = {} as Term;
+      const fakeTerm: MockTerm = new MockTerm();
 
       expect(terms.contains(Term.ANNUAL)).toEqual(true);
       expect(terms.contains(Term.QUARTERLY)).toEqual(true);
