@@ -39,7 +39,7 @@ export class None<T> extends Optional<T> {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public ifPresentAsync(consumer: AsyncConsumer<T>): Promise<void> {
-    return Promise.resolve<void>(undefined);
+    return Promise.resolve();
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

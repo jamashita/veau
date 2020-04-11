@@ -38,7 +38,7 @@ router.get('/page/:page(\\d+)', authenticationMiddleware.requires(), async (req:
 
     res.sendStatus(BAD_REQUEST);
 
-    return Promise.resolve<void>(undefined);
+    return Promise.resolve();
   });
 });
 
@@ -84,7 +84,7 @@ router.post('/', authenticationMiddleware.requires(), async (req: express.Reques
 
     res.sendStatus(BAD_REQUEST);
 
-    return Promise.resolve<void>(undefined);
+    return Promise.resolve();
   });
 });
 
