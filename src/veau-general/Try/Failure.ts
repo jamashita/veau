@@ -6,7 +6,9 @@ export class Failure<S, F extends Error> extends Try<S, F> {
   public readonly noun: 'Failure' = 'Failure';
   private readonly value: F;
 
-  public static of<S, F extends Error>(value: F): Failure<S, F> {
+  public static of<F extends Error>(value: F): Failure<void, F>;
+  public static of<S, F extends Error>(value: F): Failure<S, F>;
+  public static of<S, F extends Error>(value: F): Failure<void, F> | Failure<S, F> {
     return new Failure<S, F>(value);
   }
 

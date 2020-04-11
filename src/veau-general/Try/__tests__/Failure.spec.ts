@@ -4,6 +4,26 @@ import { MySQLError } from '../../MySQL/MySQLError';
 import { Failure } from '../Failure';
 
 describe('Failure', () => {
+  describe('of', () => {
+    it('one generic call', () => {
+      const e1: MockError = new MockError();
+      const failure: Failure<void, MockError> = Failure.of<MockError>(e1);
+
+      expect(() => {
+        failure.get();
+      }).toThrow(MockError);
+    });
+
+    it('normal case', () => {
+      const e1: MockError = new MockError();
+      const failure: Failure<number, MockError> = Failure.of<number, MockError>(e1);
+
+      expect(() => {
+        failure.get();
+      }).toThrow(MockError);
+    });
+  });
+
   describe('get', () => {
     it('throws the inside error', () => {
       const failure: Failure<number, MockError> = Failure.of<number, MockError>(new MockError());
