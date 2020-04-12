@@ -245,6 +245,78 @@ describe('AsOfs', () => {
     });
   });
 
+  describe('unique', () => {
+    it('does not duplicate', () => {
+      const asOf1: MockAsOf = new MockAsOf({
+        day: 1
+      });
+      const asOf2: MockAsOf = new MockAsOf({
+        day: 2
+      });
+      const asOf3: MockAsOf = new MockAsOf({
+        day: 3
+      });
+
+      const asOfs: AsOfs = AsOfs.ofSpread(
+        asOf1,
+        asOf2,
+        asOf3
+      );
+      const unique: AsOfs = asOfs.unique();
+
+      expect(unique.size()).toEqual(3);
+      expect(unique.unique().size()).toEqual(3);
+      expect(unique.get(0).get()).toEqual(asOf1);
+      expect(unique.get(1).get()).toEqual(asOf2);
+      expect(unique.get(2).get()).toEqual(asOf3);
+    });
+
+    it('eliminates duplicated items', () => {
+      const asOf1: MockAsOf = new MockAsOf({
+        day: 1
+      });
+      const asOf2: MockAsOf = new MockAsOf({
+        day: 1
+      });
+      const asOf3: MockAsOf = new MockAsOf({
+        day: 3
+      });
+
+      const asOfs: AsOfs = AsOfs.ofSpread(
+        asOf1,
+        asOf2,
+        asOf3
+      );
+      const unique: AsOfs = asOfs.unique();
+
+      expect(unique.size()).toEqual(2);
+      expect(unique.get(0).get()).toEqual(asOf1);
+      expect(unique.get(1).get()).toEqual(asOf3);
+    });
+
+    it('duplicates all', () => {
+      const asOf1: MockAsOf = new MockAsOf({
+        day: 2
+      });
+      const asOf2: MockAsOf = new MockAsOf({
+        day: 2
+      });
+      const asOf3: MockAsOf = new MockAsOf({
+        day: 2
+      });
+
+      const asOfs: AsOfs = AsOfs.ofSpread(
+        asOf1,
+        asOf2,
+        asOf3
+      );
+      const unique: AsOfs = asOfs.unique();
+
+      expect(unique.size()).toEqual(1);
+      expect(unique.get(0).get()).toEqual(asOf1);
+    });
+  });
+
   describe('equals', () => {
     it('returns false if the length is different', () => {
       const asOf1: MockAsOf = new MockAsOf({
@@ -318,26 +390,6 @@ describe('AsOfs', () => {
         '2000-01-01',
         '2000-01-02',
         '2000-01-03'
-      ]);
-    });
-  });
-
-  describe('toArray', () => {
-    it('normal case', () => {
-      const asOf1: MockAsOf = new MockAsOf();
-      const asOf2: MockAsOf = new MockAsOf();
-      const asOf3: MockAsOf = new MockAsOf();
-
-      const asOfs: AsOfs = AsOfs.ofSpread(
-        asOf1,
-        asOf2,
-        asOf3
-      );
-
-      expect(asOfs.toArray()).toEqual([
-        asOf1,
-        asOf2,
-        asOf3
       ]);
     });
   });
