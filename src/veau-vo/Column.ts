@@ -20,7 +20,7 @@ export class Column extends ValueObject {
     return Failure.of<Column, ColumnError>(new ColumnError('ILLEGAL COLUMN SPECIFIED'));
   }
 
-  private constructor(column: number) {
+  protected constructor(column: number) {
     super();
     this.column = column;
   }
@@ -33,7 +33,7 @@ export class Column extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.column === other.get()) {
+    if (this.column === other.column) {
       return true;
     }
 

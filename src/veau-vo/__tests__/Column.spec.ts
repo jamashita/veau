@@ -4,27 +4,6 @@ import { Try } from '../../veau-general/Try/Try';
 import { Column } from '../Column';
 
 describe('Column', () => {
-  describe('equals', () => {
-    it('returns true if both properties are the same', () => {
-      const column1: Column = Column.of(1).get();
-      const column2: Column = Column.of(2).get();
-      const column3: Column = Column.of(1).get();
-
-      expect(column1.equals(column1)).toEqual(true);
-      expect(column1.equals(column2)).toEqual(false);
-      expect(column1.equals(column3)).toEqual(true);
-    });
-  });
-
-  describe('toString', () => {
-    it('normal case', () => {
-      const num: number = 1231;
-      const column: Column = Column.of(num).get();
-
-      expect(column.toString()).toEqual(num.toString());
-    });
-  });
-
   describe('of', () => {
     it('returns Failure when the argument is less than 0', () => {
       const trial1: Try<Column, ColumnError> = Column.of(0);
@@ -77,6 +56,27 @@ describe('Column', () => {
       expect(spy2.called).toEqual(true);
       expect(spy3.called).toEqual(false);
       expect(spy4.called).toEqual(true);
+    });
+  });
+
+  describe('equals', () => {
+    it('returns true if both properties are the same', () => {
+      const column1: Column = Column.of(1).get();
+      const column2: Column = Column.of(2).get();
+      const column3: Column = Column.of(1).get();
+
+      expect(column1.equals(column1)).toEqual(true);
+      expect(column1.equals(column2)).toEqual(false);
+      expect(column1.equals(column3)).toEqual(true);
+    });
+  });
+
+  describe('toString', () => {
+    it('normal case', () => {
+      const num: number = 1231;
+      const column: Column = Column.of(num).get();
+
+      expect(column.toString()).toEqual(num.toString());
     });
   });
 });

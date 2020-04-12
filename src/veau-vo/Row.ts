@@ -24,7 +24,7 @@ export class Row extends ValueObject {
     return new Row(0);
   }
 
-  private constructor(row: number) {
+  protected constructor(row: number) {
     super();
     this.row = row;
   }
