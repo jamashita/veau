@@ -1,4 +1,4 @@
-import { Noun } from '../../Noun';
+import { Noun } from '../../Interface/Noun';
 import { IQuery } from './IQuery';
 
 export interface ITransaction<R> extends Noun {

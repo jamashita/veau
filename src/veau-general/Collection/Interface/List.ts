@@ -1,6 +1,6 @@
-import { Collection } from '../Collection';
-import { Nominative } from '../../Nominative';
-import { Cloneable } from '../../Cloneable';
+import { Collection } from '../../Interface/Collection';
+import { Nominative } from '../../Interface/Nominative';
+import { Cloneable } from '../../Interface/Cloneable';
 import { Enumerator, Mapper, Predicate } from '../../Type/Function';
 import { Optional } from '../../Optional/Optional';
 

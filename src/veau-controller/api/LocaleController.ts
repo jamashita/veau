@@ -6,7 +6,7 @@ import { TYPE } from '../../veau-container/Types';
 import { CacheError } from '../../veau-error/CacheError';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { DataSourceError } from '../../veau-general/DataSourceError';
-import { JSONable } from '../../veau-general/JSONable';
+import { JSONable } from '../../veau-general/Interface/JSONable';
 import { Try } from '../../veau-general/Try/Try';
 import { LocaleInteractor } from '../../veau-interactor/LocaleInteractor';
 import { AuthenticationMiddleware } from '../middlewares/AuthenticationMiddleware';

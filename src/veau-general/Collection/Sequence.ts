@@ -1,4 +1,4 @@
-import { Nominative } from '../Nominative';
+import { Nominative } from '../Interface/Nominative';
 import { None } from '../Optional/None';
 import { Optional } from '../Optional/Optional';
 import { Some } from '../Optional/Some';

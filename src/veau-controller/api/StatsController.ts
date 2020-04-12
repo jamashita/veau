@@ -9,7 +9,7 @@ import { PageError } from '../../veau-error/PageError';
 import { StatsError } from '../../veau-error/StatsError';
 import { StatsOutlinesError } from '../../veau-error/StatsOutlinesError';
 import { DataSourceError } from '../../veau-general/DataSourceError';
-import { JSONable } from '../../veau-general/JSONable';
+import { JSONable } from '../../veau-general/Interface/JSONable';
 import { Try } from '../../veau-general/Try/Try';
 import { StatsInteractor } from '../../veau-interactor/StatsInteractor';
 import { Page } from '../../veau-vo/Page';
