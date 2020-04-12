@@ -1,15 +1,15 @@
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { StatsItem } from '../../../veau-entity/StatsItem';
-import { DataSourceError } from '../../../veau-general/DataSourceError';
-import { MockError } from '../../../veau-general/MockError';
-import { MockMySQLError } from '../../../veau-general/MySQL/Mock/MockMySQLError';
-import { MockQuery } from '../../../veau-general/MySQL/Mock/MockQuery';
-import { MySQLError } from '../../../veau-general/MySQL/MySQLError';
-import { Try } from '../../../veau-general/Try/Try';
-import { StatsID } from '../../../veau-vo/StatsID';
-import { StatsItemID } from '../../../veau-vo/StatsItemID';
-import { StatsItemName } from '../../../veau-vo/StatsItemName';
-import { StatsValues } from '../../../veau-vo/StatsValues';
+import { StatsItem } from '../../../Entity/StatsItem';
+import { DataSourceError } from '../../../General/DataSourceError';
+import { MockError } from '../../../General/MockError';
+import { MockMySQLError } from '../../../General/MySQL/Mock/MockMySQLError';
+import { MockQuery } from '../../../General/MySQL/Mock/MockQuery';
+import { MySQLError } from '../../../General/MySQL/MySQLError';
+import { Try } from '../../../General/Try/Try';
+import { StatsID } from '../../../VO/StatsID';
+import { StatsItemID } from '../../../VO/StatsItemID';
+import { StatsItemName } from '../../../VO/StatsItemName';
+import { StatsValues } from '../../../VO/StatsValues';
 import { StatsItemCommand } from '../StatsItemCommand';
 
 describe('StatsItemCommand', () => {

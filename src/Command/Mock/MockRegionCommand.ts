@@ -1,8 +1,8 @@
-import { CacheError } from '../../veau-error/CacheError';
-import { DataSourceError } from '../../veau-general/DataSourceError';
-import { Try } from '../../veau-general/Try/Try';
-import { UnimplementedError } from '../../veau-general/UnimplementedError';
-import { Regions } from '../../veau-vo/Regions';
+import { CacheError } from '../../Error/CacheError';
+import { DataSourceError } from '../../General/DataSourceError';
+import { Try } from '../../General/Try/Try';
+import { UnimplementedError } from '../../General/UnimplementedError';
+import { Regions } from '../../VO/Regions';
 import { IMockCommand } from '../Interface/IMockCommand';
 import { IRegionCommand } from '../Interface/IRegionCommand';
 

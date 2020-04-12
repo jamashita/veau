@@ -1,12 +1,12 @@
-import { Stats } from '../../veau-entity/Stats';
-import { DataSourceError } from '../../veau-general/DataSourceError';
-import { IQuery } from '../../veau-general/MySQL/Interface/IQuery';
-import { MySQLError } from '../../veau-general/MySQL/MySQLError';
-import { Failure } from '../../veau-general/Try/Failure';
-import { Success } from '../../veau-general/Try/Success';
-import { Try } from '../../veau-general/Try/Try';
-import { StatsID } from '../../veau-vo/StatsID';
-import { VeauAccountID } from '../../veau-vo/VeauAccountID';
+import { Stats } from '../../Entity/Stats';
+import { DataSourceError } from '../../General/DataSourceError';
+import { IQuery } from '../../General/MySQL/Interface/IQuery';
+import { MySQLError } from '../../General/MySQL/MySQLError';
+import { Failure } from '../../General/Try/Failure';
+import { Success } from '../../General/Try/Success';
+import { Try } from '../../General/Try/Try';
+import { StatsID } from '../../VO/StatsID';
+import { VeauAccountID } from '../../VO/VeauAccountID';
 import { IMySQLCommand } from '../Interface/IMySQLCommand';
 import { IStatsCommand } from '../Interface/IStatsCommand';
 

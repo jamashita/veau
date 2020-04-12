@@ -1,7 +1,7 @@
-import { DataSourceError } from '../../veau-general/DataSourceError';
-import { Try } from '../../veau-general/Try/Try';
-import { StatsID } from '../../veau-vo/StatsID';
-import { StatsValue } from '../../veau-vo/StatsValue';
+import { DataSourceError } from '../../General/DataSourceError';
+import { Try } from '../../General/Try/Try';
+import { StatsID } from '../../VO/StatsID';
+import { StatsValue } from '../../VO/StatsValue';
 import { ICommand } from './ICommand';
 
 export interface IStatsValueCommand extends ICommand {

@@ -1,15 +1,15 @@
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { DataSourceError } from '../../../veau-general/DataSourceError';
-import { MockError } from '../../../veau-general/MockError';
-import { MockMySQLError } from '../../../veau-general/MySQL/Mock/MockMySQLError';
-import { MockQuery } from '../../../veau-general/MySQL/Mock/MockQuery';
-import { MySQLError } from '../../../veau-general/MySQL/MySQLError';
-import { Try } from '../../../veau-general/Try/Try';
-import { AsOf } from '../../../veau-vo/AsOf';
-import { NumericalValue } from '../../../veau-vo/NumericalValue';
-import { StatsID } from '../../../veau-vo/StatsID';
-import { StatsItemID } from '../../../veau-vo/StatsItemID';
-import { StatsValue } from '../../../veau-vo/StatsValue';
+import { DataSourceError } from '../../../General/DataSourceError';
+import { MockError } from '../../../General/MockError';
+import { MockMySQLError } from '../../../General/MySQL/Mock/MockMySQLError';
+import { MockQuery } from '../../../General/MySQL/Mock/MockQuery';
+import { MySQLError } from '../../../General/MySQL/MySQLError';
+import { Try } from '../../../General/Try/Try';
+import { AsOf } from '../../../VO/AsOf';
+import { NumericalValue } from '../../../VO/NumericalValue';
+import { StatsID } from '../../../VO/StatsID';
+import { StatsItemID } from '../../../VO/StatsItemID';
+import { StatsValue } from '../../../VO/StatsValue';
 import { StatsValueCommand } from '../StatsValueCommand';
 
 describe('StatsValueCommand', () => {

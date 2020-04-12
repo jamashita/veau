@@ -1,20 +1,20 @@
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { kernel } from '../../../veau-container/Container';
-import { TYPE } from '../../../veau-container/Types';
-import { CacheError } from '../../../veau-error/CacheError';
-import { DataSourceError } from '../../../veau-general/DataSourceError';
-import { MockError } from '../../../veau-general/MockError';
-import { MockRedisError } from '../../../veau-general/Redis/Mock/MockRedisError';
-import { MockRedis } from '../../../veau-general/Redis/Mock/MockRedis';
-import { MockRedisString } from '../../../veau-general/Redis/Mock/MockRedisString';
-import { RedisError } from '../../../veau-general/Redis/RedisError';
-import { Try } from '../../../veau-general/Try/Try';
-import { ISO3166 } from '../../../veau-vo/ISO3166';
-import { Region } from '../../../veau-vo/Region';
-import { RegionID } from '../../../veau-vo/RegionID';
-import { RegionName } from '../../../veau-vo/RegionName';
-import { Regions } from '../../../veau-vo/Regions';
+import { kernel } from '../../../Container/Container';
+import { TYPE } from '../../../Container/Types';
+import { CacheError } from '../../../Error/CacheError';
+import { DataSourceError } from '../../../General/DataSourceError';
+import { MockError } from '../../../General/MockError';
+import { MockRedisError } from '../../../General/Redis/Mock/MockRedisError';
+import { MockRedis } from '../../../General/Redis/Mock/MockRedis';
+import { MockRedisString } from '../../../General/Redis/Mock/MockRedisString';
+import { RedisError } from '../../../General/Redis/RedisError';
+import { Try } from '../../../General/Try/Try';
+import { ISO3166 } from '../../../VO/ISO3166';
+import { Region } from '../../../VO/Region';
+import { RegionID } from '../../../VO/RegionID';
+import { RegionName } from '../../../VO/RegionName';
+import { Regions } from '../../../VO/Regions';
 import { RegionCommand } from '../RegionCommand';
 
 describe('RegionCommand', () => {

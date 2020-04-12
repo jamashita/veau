@@ -6,7 +6,7 @@ const path = require('path');
 module.exports = {
   entry: {
     app: [
-      path.resolve(__dirname, 'src', 'veau-frontend', 'App.tsx')
+      path.resolve(__dirname, 'src', 'Frontend', 'App.tsx')
     ]
   },
   output: {

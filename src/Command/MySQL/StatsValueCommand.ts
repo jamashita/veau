@@ -1,11 +1,11 @@
-import { DataSourceError } from '../../veau-general/DataSourceError';
-import { IQuery } from '../../veau-general/MySQL/Interface/IQuery';
-import { MySQLError } from '../../veau-general/MySQL/MySQLError';
-import { Failure } from '../../veau-general/Try/Failure';
-import { Success } from '../../veau-general/Try/Success';
-import { Try } from '../../veau-general/Try/Try';
-import { StatsID } from '../../veau-vo/StatsID';
-import { StatsValue } from '../../veau-vo/StatsValue';
+import { DataSourceError } from '../../General/DataSourceError';
+import { IQuery } from '../../General/MySQL/Interface/IQuery';
+import { MySQLError } from '../../General/MySQL/MySQLError';
+import { Failure } from '../../General/Try/Failure';
+import { Success } from '../../General/Try/Success';
+import { Try } from '../../General/Try/Try';
+import { StatsID } from '../../VO/StatsID';
+import { StatsValue } from '../../VO/StatsValue';
 import { IMySQLCommand } from '../Interface/IMySQLCommand';
 import { IStatsValueCommand } from '../Interface/IStatsValueCommand';
 

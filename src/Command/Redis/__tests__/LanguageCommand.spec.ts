@@ -1,20 +1,20 @@
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { kernel } from '../../../veau-container/Container';
-import { TYPE } from '../../../veau-container/Types';
-import { CacheError } from '../../../veau-error/CacheError';
-import { DataSourceError } from '../../../veau-general/DataSourceError';
-import { MockError } from '../../../veau-general/MockError';
-import { MockRedisError } from '../../../veau-general/Redis/Mock/MockRedisError';
-import { MockRedis } from '../../../veau-general/Redis/Mock/MockRedis';
-import { MockRedisString } from '../../../veau-general/Redis/Mock/MockRedisString';
-import { RedisError } from '../../../veau-general/Redis/RedisError';
-import { Try } from '../../../veau-general/Try/Try';
-import { ISO639 } from '../../../veau-vo/ISO639';
-import { Language } from '../../../veau-vo/Language';
-import { LanguageID } from '../../../veau-vo/LanguageID';
-import { LanguageName } from '../../../veau-vo/LanguageName';
-import { Languages } from '../../../veau-vo/Languages';
+import { kernel } from '../../../Container/Container';
+import { TYPE } from '../../../Container/Types';
+import { CacheError } from '../../../Error/CacheError';
+import { DataSourceError } from '../../../General/DataSourceError';
+import { MockError } from '../../../General/MockError';
+import { MockRedisError } from '../../../General/Redis/Mock/MockRedisError';
+import { MockRedis } from '../../../General/Redis/Mock/MockRedis';
+import { MockRedisString } from '../../../General/Redis/Mock/MockRedisString';
+import { RedisError } from '../../../General/Redis/RedisError';
+import { Try } from '../../../General/Try/Try';
+import { ISO639 } from '../../../VO/ISO639';
+import { Language } from '../../../VO/Language';
+import { LanguageID } from '../../../VO/LanguageID';
+import { LanguageName } from '../../../VO/LanguageName';
+import { Languages } from '../../../VO/Languages';
 import { LanguageCommand } from '../LanguageCommand';
 
 describe('LanguageCommand', () => {

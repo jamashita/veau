@@ -1,5 +1,5 @@
-import { DataSourceError } from '../../veau-general/DataSourceError';
-import { Try } from '../../veau-general/Try/Try';
+import { DataSourceError } from '../../General/DataSourceError';
+import { Try } from '../../General/Try/Try';
 import { ICommand } from './ICommand';
 
 export interface ISessionCommand extends ICommand {

@@ -1,16 +1,16 @@
 import { CREATED } from 'http-status';
 import { inject, injectable } from 'inversify';
-import { TYPE } from '../../veau-container/Types';
-import { Stats } from '../../veau-entity/Stats';
-import { AJAXError } from '../../veau-general/AJAX/AJAXError';
-import { AJAXResponse } from '../../veau-general/AJAX/AJAXResponse';
-import { IAJAX } from '../../veau-general/AJAX/Interface/IAJAX';
-import { DataSourceError } from '../../veau-general/DataSourceError';
-import { Failure } from '../../veau-general/Try/Failure';
-import { Success } from '../../veau-general/Try/Success';
-import { Try } from '../../veau-general/Try/Try';
-import { UnimplementedError } from '../../veau-general/UnimplementedError';
-import { StatsID } from '../../veau-vo/StatsID';
+import { TYPE } from '../../Container/Types';
+import { Stats } from '../../Entity/Stats';
+import { AJAXError } from '../../General/AJAX/AJAXError';
+import { AJAXResponse } from '../../General/AJAX/AJAXResponse';
+import { IAJAX } from '../../General/AJAX/Interface/IAJAX';
+import { DataSourceError } from '../../General/DataSourceError';
+import { Failure } from '../../General/Try/Failure';
+import { Success } from '../../General/Try/Success';
+import { Try } from '../../General/Try/Try';
+import { UnimplementedError } from '../../General/UnimplementedError';
+import { StatsID } from '../../VO/StatsID';
 import { IAJAXCommand } from '../Interface/IAJAXCommand';
 import { IStatsCommand } from '../Interface/IStatsCommand';
 

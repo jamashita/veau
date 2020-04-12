@@ -1,9 +1,9 @@
-import { Stats } from '../../veau-entity/Stats';
-import { DataSourceError } from '../../veau-general/DataSourceError';
-import { Try } from '../../veau-general/Try/Try';
-import { UnimplementedError } from '../../veau-general/UnimplementedError';
-import { StatsID } from '../../veau-vo/StatsID';
-import { VeauAccountID } from '../../veau-vo/VeauAccountID';
+import { Stats } from '../../Entity/Stats';
+import { DataSourceError } from '../../General/DataSourceError';
+import { Try } from '../../General/Try/Try';
+import { UnimplementedError } from '../../General/UnimplementedError';
+import { StatsID } from '../../VO/StatsID';
+import { VeauAccountID } from '../../VO/VeauAccountID';
 import { IMockCommand } from '../Interface/IMockCommand';
 import { IStatsCommand } from '../Interface/IStatsCommand';
 

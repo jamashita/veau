@@ -1,8 +1,8 @@
-import { StatsItem } from '../../veau-entity/StatsItem';
-import { DataSourceError } from '../../veau-general/DataSourceError';
-import { Try } from '../../veau-general/Try/Try';
-import { UnimplementedError } from '../../veau-general/UnimplementedError';
-import { StatsID } from '../../veau-vo/StatsID';
+import { StatsItem } from '../../Entity/StatsItem';
+import { DataSourceError } from '../../General/DataSourceError';
+import { Try } from '../../General/Try/Try';
+import { UnimplementedError } from '../../General/UnimplementedError';
+import { StatsID } from '../../VO/StatsID';
 import { IMockCommand } from '../Interface/IMockCommand';
 import { IStatsItemCommand } from '../Interface/IStatsItemCommand';
 

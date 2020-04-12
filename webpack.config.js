@@ -8,7 +8,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 module.exports = {
   entry: {
     app: [
-      path.resolve(__dirname, 'src', 'veau-frontend', 'App.tsx')
+      path.resolve(__dirname, 'src', 'Frontend', 'App.tsx')
     ]
   },
   output: {

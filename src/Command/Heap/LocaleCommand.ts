@@ -1,13 +1,13 @@
 import { inject, injectable } from 'inversify';
-import { TYPE } from '../../veau-container/Types';
-import { DataSourceError } from '../../veau-general/DataSourceError';
-import { HeapError } from '../../veau-general/Heap/HeapError';
-import { IHeap } from '../../veau-general/Heap/Interface/IHeap';
-import { Failure } from '../../veau-general/Try/Failure';
-import { Success } from '../../veau-general/Try/Success';
-import { Try } from '../../veau-general/Try/Try';
-import { VAULT_LOCALE_KEY } from '../../veau-infrastructure/VeauVault';
-import { Locale } from '../../veau-vo/Locale';
+import { TYPE } from '../../Container/Types';
+import { DataSourceError } from '../../General/DataSourceError';
+import { HeapError } from '../../General/Heap/HeapError';
+import { IHeap } from '../../General/Heap/Interface/IHeap';
+import { Failure } from '../../General/Try/Failure';
+import { Success } from '../../General/Try/Success';
+import { Try } from '../../General/Try/Try';
+import { VAULT_LOCALE_KEY } from '../../Infrastructure/VeauVault';
+import { Locale } from '../../VO/Locale';
 import { IHeapCommand } from '../Interface/IHeapCommand';
 import { ILocaleCommand } from '../Interface/ILocaleCommand';
 

@@ -1,6 +1,6 @@
-import { DataSourceError } from '../../veau-general/DataSourceError';
-import { Try } from '../../veau-general/Try/Try';
-import { Locale } from '../../veau-vo/Locale';
+import { DataSourceError } from '../../General/DataSourceError';
+import { Try } from '../../General/Try/Try';
+import { Locale } from '../../VO/Locale';
 import { ICommand } from './ICommand';
 
 export interface ILocaleCommand extends ICommand {

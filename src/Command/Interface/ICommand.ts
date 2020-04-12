@@ -1,4 +1,4 @@
-import { Noun } from '../../veau-general/Interface/Noun';
+import { Noun } from '../../General/Interface/Noun';
 
 export interface ICommand extends Noun {
   readonly source: string;

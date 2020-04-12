@@ -1,8 +1,8 @@
-import { CacheError } from '../../veau-error/CacheError';
-import { DataSourceError } from '../../veau-general/DataSourceError';
-import { Try } from '../../veau-general/Try/Try';
-import { UnimplementedError } from '../../veau-general/UnimplementedError';
-import { Languages } from '../../veau-vo/Languages';
+import { CacheError } from '../../Error/CacheError';
+import { DataSourceError } from '../../General/DataSourceError';
+import { Try } from '../../General/Try/Try';
+import { UnimplementedError } from '../../General/UnimplementedError';
+import { Languages } from '../../VO/Languages';
 import { ILanguageCommand } from '../Interface/ILanguageCommand';
 import { IMockCommand } from '../Interface/IMockCommand';
 

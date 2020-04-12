@@ -1,8 +1,8 @@
-import { Stats } from '../../veau-entity/Stats';
-import { DataSourceError } from '../../veau-general/DataSourceError';
-import { Try } from '../../veau-general/Try/Try';
-import { StatsID } from '../../veau-vo/StatsID';
-import { VeauAccountID } from '../../veau-vo/VeauAccountID';
+import { Stats } from '../../Entity/Stats';
+import { DataSourceError } from '../../General/DataSourceError';
+import { Try } from '../../General/Try/Try';
+import { StatsID } from '../../VO/StatsID';
+import { VeauAccountID } from '../../VO/VeauAccountID';
 import { ICommand } from './ICommand';
 
 export interface IStatsCommand extends ICommand {

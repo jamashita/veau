@@ -1,15 +1,15 @@
 import { inject, injectable } from 'inversify';
-import { TYPE } from '../../veau-container/Types';
-import { CacheError } from '../../veau-error/CacheError';
-import { DataSourceError } from '../../veau-general/DataSourceError';
-import { JSONA } from '../../veau-general/JSONA';
-import { IRedis } from '../../veau-general/Redis/Interface/IRedis';
-import { RedisError } from '../../veau-general/Redis/RedisError';
-import { Failure } from '../../veau-general/Try/Failure';
-import { Success } from '../../veau-general/Try/Success';
-import { Try } from '../../veau-general/Try/Try';
-import { REDIS_REGION_KEY } from '../../veau-infrastructure/VeauRedis';
-import { Regions } from '../../veau-vo/Regions';
+import { TYPE } from '../../Container/Types';
+import { CacheError } from '../../Error/CacheError';
+import { DataSourceError } from '../../General/DataSourceError';
+import { JSONA } from '../../General/JSONA';
+import { IRedis } from '../../General/Redis/Interface/IRedis';
+import { RedisError } from '../../General/Redis/RedisError';
+import { Failure } from '../../General/Try/Failure';
+import { Success } from '../../General/Try/Success';
+import { Try } from '../../General/Try/Try';
+import { REDIS_REGION_KEY } from '../../Infrastructure/VeauRedis';
+import { Regions } from '../../VO/Regions';
 import { IRedisCommand } from '../Interface/IRedisCommand';
 import { IRegionCommand } from '../Interface/IRegionCommand';
 
