@@ -21,7 +21,7 @@ export class NumericalValue extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.value === other.get()) {
+    if (this.value === other.value) {
       return true;
     }
 

@@ -22,11 +22,13 @@ describe('Regions', () => {
 
       const regions: Regions = Regions.ofJSON(json);
 
-      expect(regions.size()).toEqual(1);
-      const region: Region = regions.get(0).get();
-      expect(region.getRegionID().get()).toEqual(json[0].regionID);
-      expect(region.getName().get()).toEqual(json[0].name);
-      expect(region.getISO3166().get()).toEqual(json[0].iso3166);
+      expect(regions.size()).toEqual(json.length);
+      for (let i: number = 0; i < regions.size(); i++) {
+        const region: Region = regions.get(i).get();
+        expect(region.getRegionID().get()).toEqual(json[i].regionID);
+        expect(region.getName().get()).toEqual(json[i].name);
+        expect(region.getISO3166().get()).toEqual(json[i].iso3166);
+      }
     });
   });
 
@@ -42,11 +44,13 @@ describe('Regions', () => {
 
       const regions: Regions = Regions.ofRow(rows);
 
-      expect(regions.size()).toEqual(1);
-      const region: Region = regions.get(0).get();
-      expect(region.getRegionID().get()).toEqual(rows[0].regionID);
-      expect(region.getName().get()).toEqual(rows[0].name);
-      expect(region.getISO3166().get()).toEqual(rows[0].iso3166);
+      expect(regions.size()).toEqual(rows.length);
+      for (let i: number = 0; i < regions.size(); i++) {
+        const region: Region = regions.get(i).get();
+        expect(region.getRegionID().get()).toEqual(rows[i].regionID);
+        expect(region.getName().get()).toEqual(rows[i].name);
+        expect(region.getISO3166().get()).toEqual(rows[i].iso3166);
+      }
     });
   });
 
@@ -77,7 +81,10 @@ describe('Regions', () => {
         region2
       ];
 
-      const regions: Regions = Regions.ofSpread(region1, region2);
+      const regions: Regions = Regions.ofSpread(
+        region1,
+        region2
+      );
 
       expect(regions.size()).toEqual(regs.length);
       for (let i: number = 0; i < regions.size(); i++) {
@@ -268,9 +275,9 @@ describe('Regions', () => {
         ISO3166.of('abc')
       );
 
-      const regions: Regions = Regions.ofArray([
+      const regions: Regions = Regions.ofSpread(
         region1
-      ]);
+      );
 
       expect(regions.toJSON()).toEqual([
         {
@@ -290,13 +297,21 @@ describe('Regions', () => {
       const name2: string = 'region 2';
       const iso31661: string = 'abc';
       const iso31662: string = 'abd';
-      const region1: Region = Region.of(RegionID.of(id1), RegionName.of(name1), ISO3166.of(iso31661));
-      const region2: Region = Region.of(RegionID.of(id2), RegionName.of(name2), ISO3166.of(iso31662));
+      const region1: Region = Region.of(
+        RegionID.of(id1),
+        RegionName.of(name1),
+        ISO3166.of(iso31661)
+      );
+      const region2: Region = Region.of(
+        RegionID.of(id2),
+        RegionName.of(name2),
+        ISO3166.of(iso31662)
+      );
 
-      const regions: Regions = Regions.ofArray([
+      const regions: Regions = Regions.ofSpread(
         region1,
         region2
-      ]);
+      );
 
       expect(regions.toString()).toEqual(`${id1} ${name1} ${iso31661}, ${id2} ${name2} ${iso31662}`);
     });
