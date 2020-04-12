@@ -1,14 +1,16 @@
 import { AccountHash } from '../AccountHash';
 import { Hash } from '../Hash';
 import { VeauAccountID } from '../VeauAccountID';
+import { MockVeauAccountID } from '../Mock/MockVeauAccountID';
+import { MockHash } from '../Mock/MockHash';
 
 describe('AccountHash', () => {
   describe('equals', () => {
     it('returns true if all the properties are the same', () => {
-      const account1: VeauAccountID = VeauAccountID.ofString('998106de-b2e7-4981-9643-22cd30cd74de').get();
-      const account2: VeauAccountID = VeauAccountID.ofString('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9').get();
-      const hash1: Hash = Hash.of('hash 1');
-      const hash2: Hash = Hash.of('hash 2');
+      const account1: MockVeauAccountID = new MockVeauAccountID();
+      const account2: MockVeauAccountID = new MockVeauAccountID();
+      const hash1: Hash = new MockHash('hash 1');
+      const hash2: Hash = new MockHash('hash 2');
 
       const accountHash1: AccountHash = AccountHash.of(account1, hash1);
       const accountHash2: AccountHash = AccountHash.of(account2, hash1);

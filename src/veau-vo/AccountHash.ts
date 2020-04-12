@@ -11,7 +11,7 @@ export class AccountHash extends ValueObject {
     return new AccountHash(veauAccountID, hash);
   }
 
-  private constructor(veauAccountID: VeauAccountID, hash: Hash) {
+  protected constructor(veauAccountID: VeauAccountID, hash: Hash) {
     super();
     this.veauAccountID = veauAccountID;
     this.hash = hash;
@@ -35,10 +35,10 @@ export class AccountHash extends ValueObject {
       hash
     } = this;
 
-    if (!veauAccountID.equals(other.getVeauAccountID())) {
+    if (!veauAccountID.equals(other.veauAccountID)) {
       return false;
     }
-    if (!hash.equals(other.getHash())) {
+    if (!hash.equals(other.hash)) {
       return false;
     }
 

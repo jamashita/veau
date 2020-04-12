@@ -8,7 +8,7 @@ export class Hash extends ValueObject {
     return new Hash(hash);
   }
 
-  private constructor(hash: string) {
+  protected constructor(hash: string) {
     super();
     this.hash = hash;
   }
