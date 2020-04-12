@@ -1,7 +1,7 @@
 {
   "name": "veau",
   "version": "1.6.3",
-  "main": "dist/veau-server/Server.js",
+  "main": "dist/Server/Server.js",
   "repository": "git@gitlab.com:jamashita/veau.git",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
