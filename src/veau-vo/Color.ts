@@ -8,7 +8,7 @@ export class Color extends ValueObject {
     return new Color(rgb);
   }
 
-  private constructor(rgb: string) {
+  protected constructor(rgb: string) {
     super();
     this.rgb = rgb;
   }
@@ -21,7 +21,7 @@ export class Color extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.rgb === other.get()) {
+    if (this.rgb === other.rgb) {
       return true;
     }
 
