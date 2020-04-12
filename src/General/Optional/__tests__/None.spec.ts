@@ -51,15 +51,13 @@ describe('None', () => {
 
       expect(spy1.called).toEqual(false);
     });
-  });
 
-  describe('ifPresentAsync', () => {
-    it('consumer is not invoked', async () => {
+    it('consumer is not invoked asynchronously ', async () => {
       const none: None<number> = None.of<number>();
 
       const spy1: SinonSpy = sinon.spy();
 
-      await none.ifPresentAsync(async () => {
+      await none.ifPresent(async () => {
         spy1();
       });
 

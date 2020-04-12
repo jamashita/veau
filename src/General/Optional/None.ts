@@ -13,7 +13,7 @@ export class None<T> extends Optional<T> {
 
   public static of(): None<void>;
   public static of<T>(): None<T>;
-  public static of<T = void>(): None<T> {
+  public static of<T>(): None<T> {
     return None.INSTANCE.transform<T>();
   }
 
@@ -33,13 +33,10 @@ export class None<T> extends Optional<T> {
     return true;
   }
 
+  public ifPresent(consumer: Consumer<T>): void;
+  public ifPresent(consumer: AsyncConsumer<T>): Promise<void>;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-function
-  public ifPresent(consumer: Consumer<T>): void {
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public ifPresentAsync(consumer: AsyncConsumer<T>): Promise<void> {
-    return Promise.resolve();
+  public ifPresent(consumer: Consumer<T> | AsyncConsumer<T>): void | Promise<void> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

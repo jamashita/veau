@@ -80,16 +80,14 @@ describe('Some', () => {
 
       expect(spy1.called).toEqual(true);
     });
-  });
 
-  describe('ifPresentAsync', () => {
-    it('consumer will be invoked', async () => {
+    it('consumer will be invoked asynchronously', async () => {
       const value: number = 329853;
       const some: Some<number> = Some.of<number>(value);
 
       const spy1: SinonSpy = sinon.spy();
 
-      await some.ifPresentAsync(async (v: number) => {
+      await some.ifPresent(async (v: number) => {
         expect(v).toEqual(value);
         spy1();
       });

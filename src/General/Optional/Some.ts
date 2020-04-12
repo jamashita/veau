@@ -32,11 +32,10 @@ export class Some<T> extends Optional<T> {
     return false;
   }
 
-  public ifPresent(consumer: Consumer<T>): void {
-    consumer(this.value);
-  }
-
-  public ifPresentAsync(consumer: AsyncConsumer<T>): Promise<void> {
+  public ifPresent(consumer: Consumer<T>): void;
+  public ifPresent(consumer: AsyncConsumer<T>): Promise<void>;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-function
+  public ifPresent(consumer: Consumer<T> | AsyncConsumer<T>): void | Promise<void> {
     return consumer(this.value);
   }
 
