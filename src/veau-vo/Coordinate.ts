@@ -11,7 +11,7 @@ export class Coordinate extends ValueObject {
     return new Coordinate(row, column);
   }
 
-  private constructor(row: Row, column: Column) {
+  protected constructor(row: Row, column: Column) {
     super();
     this.row = row;
     this.column = column;

@@ -20,7 +20,7 @@ export class HeaderSize extends ValueObject {
     return Failure.of<HeaderSize, HeaderSizeError>(new HeaderSizeError('ILLEGAL SIZE SPECIFIED'));
   }
 
-  private constructor(size: number) {
+  protected constructor(size: number) {
     super();
     this.size = size;
   }

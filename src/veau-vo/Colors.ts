@@ -46,7 +46,7 @@ export class Colors implements Collection<number, Color> {
     return Colors.DEFAULT;
   }
 
-  private constructor(colors: Sequence<Color>) {
+  protected constructor(colors: Sequence<Color>) {
     this.colors = colors;
   }
 

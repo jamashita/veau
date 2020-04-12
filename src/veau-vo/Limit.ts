@@ -28,7 +28,7 @@ export class Limit extends ValueObject {
     return Limit.DEFAULT;
   }
 
-  private constructor(limit: number) {
+  protected constructor(limit: number) {
     super();
     this.limit = limit;
   }

@@ -58,7 +58,7 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
     return StatsOutlines.EMPTY;
   }
 
-  private constructor(outlines: Sequence<StatsOutline>) {
+  protected constructor(outlines: Sequence<StatsOutline>) {
     this.outlines = outlines;
   }
 

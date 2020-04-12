@@ -21,7 +21,7 @@ export class StatsItemNames implements Collection<number, StatsItemName>, JSONab
     return StatsItemNames.ofArray(names);
   }
 
-  private constructor(names: Sequence<StatsItemName>) {
+  protected constructor(names: Sequence<StatsItemName>) {
     this.names = names;
   }
 

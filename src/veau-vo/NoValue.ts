@@ -8,7 +8,7 @@ export class NoValue extends NumericalValue {
     return NoValue.INSTANCE;
   }
 
-  private constructor() {
+  protected constructor() {
     super(0);
   }
 

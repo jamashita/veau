@@ -21,7 +21,7 @@ export class EntranceInformation extends ValueObject implements JSONable {
     return new EntranceInformation(AccountName.default(), Password.default());
   }
 
-  private constructor(account: AccountName, password: Password) {
+  protected constructor(account: AccountName, password: Password) {
     super();
     this.account = account;
     this.password = password;

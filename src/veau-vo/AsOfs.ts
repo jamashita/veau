@@ -30,7 +30,7 @@ export class AsOfs implements Collection<number, AsOf>, JSONable {
     return AsOfs.EMPTY;
   }
 
-  private constructor(asOfs: Sequence<AsOf>) {
+  protected constructor(asOfs: Sequence<AsOf>) {
     this.asOfs = asOfs;
   }
 

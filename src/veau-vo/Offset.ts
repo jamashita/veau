@@ -20,7 +20,7 @@ export class Offset extends ValueObject {
     return Failure.of<Offset, OffsetError>(new OffsetError('ILLEGAL OFFSET SPECIFIED'));
   }
 
-  private constructor(offset: number) {
+  protected constructor(offset: number) {
     super();
     this.offset = offset;
   }

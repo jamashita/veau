@@ -28,7 +28,7 @@ export class LoadingCount extends ValueObject {
     return LoadingCount.DEFAULT;
   }
 
-  private constructor(count: number) {
+  protected constructor(count: number) {
     super();
     this.count = count;
   }

@@ -22,7 +22,7 @@ export class Page extends ValueObject {
     return Failure.of<Page, PageError>(new PageError('ILLEGAL PAGE SPECIFIED'));
   }
 
-  private constructor(page: number) {
+  protected constructor(page: number) {
     super();
     this.page = page;
   }
