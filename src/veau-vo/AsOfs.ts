@@ -8,6 +8,7 @@ import { Some } from '../veau-general/Optional/Some';
 import { Enumerator } from '../veau-general/Type/Function';
 import { AsOf } from './AsOf';
 import { Cloneable } from '../veau-general/Cloneable';
+import { Term } from './Term';
 
 export class AsOfs implements Collection<number, AsOf>, Cloneable, JSONable {
   public readonly noun: 'AsOfs' = 'AsOfs';
@@ -50,6 +51,18 @@ export class AsOfs implements Collection<number, AsOf>, Cloneable, JSONable {
     });
 
     return AsOfs.ofArray(merged);
+  }
+
+  public static duration(min: AsOf, max: AsOf, term: Term): AsOfs {
+    let asOfs: AsOfs = AsOfs.empty();
+
+    asOfs = asOfs.add(min.previous(term));
+    for (let asOf: AsOf = min; !asOf.isAfter(max); asOf = asOf.next(term)) {
+      asOfs = asOfs.add(asOf);
+    }
+    asOfs = asOfs.add(max.next(term));
+
+    return asOfs;
   }
 
   protected constructor(asOfs: Sequence<AsOf>) {
@@ -100,6 +113,8 @@ export class AsOfs implements Collection<number, AsOf>, Cloneable, JSONable {
     this.asOfs.iterate(iteration);
   }
 
+
+  // TODO NOT USED
   public unique(): AsOfs {
     const strings: Array<string> = [];
     const unique: Array<AsOf> = [];

@@ -3,6 +3,7 @@ import { AsOf } from '../AsOf';
 import { AsOfs } from '../AsOfs';
 import { MockAsOf } from '../Mock/MockAsOf';
 import { Sequence } from '../../veau-general/Collection/Sequence';
+import { Term } from '../Term';
 
 describe('AsOfs', () => {
   describe('of', () => {
@@ -106,6 +107,45 @@ describe('AsOfs', () => {
       expect(asOfs.get(2).get()).toEqual(asOf3);
       expect(asOfs.get(3).get()).toEqual(asOf4);
       expect(asOfs.get(4).get()).toEqual(asOf5);
+    });
+  });
+
+  describe('duration', () => {
+    it('min = max', () => {
+      const min: MockAsOf = new MockAsOf({
+        day: 2
+      });
+      const max: MockAsOf = new MockAsOf({
+        day: 2
+      });
+
+      const asOfs: AsOfs = AsOfs.duration(min, max, Term.DAILY);
+
+      expect(asOfs.size()).toEqual(3);
+      expect(asOfs.get(0).get().toString()).toBe('2000-01-01');
+      expect(asOfs.get(1).get().toString()).toBe('2000-01-02');
+      expect(asOfs.get(2).get().toString()).toBe('2000-01-03');
+    });
+
+    it('normal case', () => {
+      const min: MockAsOf = new MockAsOf({
+        day: 3
+      });
+      const max: MockAsOf = new MockAsOf({
+        day: 8
+      });
+
+      const asOfs: AsOfs = AsOfs.duration(min, max, Term.DAILY);
+
+      expect(asOfs.size()).toEqual(8);
+      expect(asOfs.get(0).get().toString()).toBe('2000-01-02');
+      expect(asOfs.get(1).get().toString()).toBe('2000-01-03');
+      expect(asOfs.get(2).get().toString()).toBe('2000-01-04');
+      expect(asOfs.get(3).get().toString()).toBe('2000-01-05');
+      expect(asOfs.get(4).get().toString()).toBe('2000-01-06');
+      expect(asOfs.get(5).get().toString()).toBe('2000-01-07');
+      expect(asOfs.get(6).get().toString()).toBe('2000-01-08');
+      expect(asOfs.get(7).get().toString()).toBe('2000-01-09');
     });
   });
 
