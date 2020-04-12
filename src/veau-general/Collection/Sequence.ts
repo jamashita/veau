@@ -125,13 +125,10 @@ export class Sequence<E extends Nominative> implements List<E> {
     if (length !== other.size()) {
       return false;
     }
-    for (let i: number = 0; i < length; i++) {
-      if (!this.elements[i].equals(other.elements[i])) {
-        return false;
-      }
-    }
 
-    return true;
+    return this.elements.every((element: E, index: number) => {
+      return element.equals(other.elements[index]);
+    });
   }
 
   public toArray(): Array<E> {
