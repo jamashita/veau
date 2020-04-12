@@ -1,5 +1,6 @@
 import { Type } from '../Type';
 
+// TODO
 describe('Type', () => {
   describe('isString', () => {
     it('even if numerical strings given, return true', () => {
