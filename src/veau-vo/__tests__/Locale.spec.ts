@@ -9,55 +9,143 @@ import { Region, RegionJSON } from '../Region';
 import { RegionID } from '../RegionID';
 import { RegionName } from '../RegionName';
 import { Regions } from '../Regions';
+import { MockLanguages } from '../Mock/MockLanguages';
+import { MockLanguage } from '../Mock/MockLanguage';
+import { MockLanguageID } from '../Mock/MockLanguageID';
+import { MockRegions } from '../Mock/MockRegions';
+import { MockRegion } from '../Mock/MockRegion';
+import { MockRegionID } from '../Mock/MockRegionID';
 
 describe('Locale', () => {
+  describe('ofJSON', () => {
+    it('normal case', () => {
+      const languages: Array<LanguageJSON> = [
+        {
+          languageID: 1,
+          name: 'language name',
+          englishName: 'english language name',
+          iso639: 'ab'
+        }
+      ];
+      const regions: Array<RegionJSON> = [
+        {
+          regionID: 2,
+          name: 'region name',
+          iso3166: 'abc'
+        }
+      ];
+
+      const locale: Locale = Locale.ofJSON({
+        languages,
+        regions
+      });
+
+      expect(locale.getLanguages().size()).toEqual(languages.length);
+      for (let i: number = 0; i < locale.getLanguages().size(); i++) {
+        const language: Language = locale.getLanguages().get(i).get();
+        expect(language.getLanguageID().get()).toEqual(languages[i].languageID);
+        expect(language.getName().get()).toEqual(languages[i].name);
+        expect(language.getEnglishName().get()).toEqual(languages[i].englishName);
+        expect(language.getISO639().get()).toEqual(languages[i].iso639);
+      }
+      expect(locale.getRegions().size()).toEqual(regions.length);
+      for (let i: number = 0; i < locale.getRegions().size(); i++) {
+        const region: Region = locale.getRegions().get(i).get();
+        expect(region.getRegionID().get()).toEqual(regions[i].regionID);
+        expect(region.getName().get()).toEqual(regions[i].name);
+        expect(region.getISO3166().get()).toEqual(regions[i].iso3166);
+      }
+    });
+  });
+
+  describe('default', () => {
+    it('generates 0-length Regions, and Languages', () => {
+      const locale: Locale = Locale.default();
+      expect(locale.getRegions().size()).toEqual(0);
+      expect(locale.getLanguages().size()).toEqual(0);
+    });
+  });
+
   describe('equals', () => {
     it('returns true if languages and regions are the same', () => {
-      const languages1: Languages = Languages.ofArray([
-        Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa')),
-        Language.of(LanguageID.of(2), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
-      ]);
-      const regions1: Regions = Regions.ofArray([
-        Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb')),
-        Region.of(RegionID.of(2), RegionName.of('region'), ISO3166.of('bb'))
-      ]);
-      const locale1: Locale = Locale.of(languages1, regions1);
-
-      const languages2: Languages = Languages.ofArray([
-        Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
-      ]);
-      const regions2: Regions = Regions.ofArray([
-        Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb')),
-        Region.of(RegionID.of(2), RegionName.of('region'), ISO3166.of('bb'))
-      ]);
-      const locale2: Locale = Locale.of(languages2, regions2);
-
-      const languages3: Languages = Languages.ofArray([
-        Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa')),
-        Language.of(LanguageID.of(2), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
-      ]);
-      const regions3: Regions = Regions.ofArray([
-        Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb'))
-      ]);
-      const locale3: Locale = Locale.of(languages3, regions3);
-
-      const languages4: Languages = Languages.ofArray([
-        Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
-      ]);
-      const regions4: Regions = Regions.ofArray([
-        Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb'))
-      ]);
-      const locale4: Locale = Locale.of(languages4, regions4);
-
-      const languages5: Languages = Languages.ofArray([
-        Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa')),
-        Language.of(LanguageID.of(2), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('aa'))
-      ]);
-      const regions5: Regions = Regions.ofArray([
-        Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('bb')),
-        Region.of(RegionID.of(2), RegionName.of('region'), ISO3166.of('bb'))
-      ]);
-      const locale5: Locale = Locale.of(languages5, regions5);
+      const locale1: Locale = Locale.of(
+        new MockLanguages(
+          new MockLanguage({
+            languageID: new MockLanguageID(1)
+          }),
+          new MockLanguage({
+            languageID: new MockLanguageID(2)
+          })
+        ),
+        new MockRegions(
+          new MockRegion({
+            regionID: new MockRegionID(1)
+          }),
+          new MockRegion({
+            regionID: new MockRegionID(2)
+          })
+        )
+      );
+      const locale2: Locale = Locale.of(
+        new MockLanguages(
+          new MockLanguage({
+            languageID: new MockLanguageID(1)
+          })
+        ),
+        new MockRegions(
+          new MockRegion({
+            regionID: new MockRegionID(1)
+          }),
+          new MockRegion({
+            regionID: new MockRegionID(2)
+          })
+        )
+      );
+      const locale3: Locale = Locale.of(
+        new MockLanguages(
+          new MockLanguage({
+            languageID: new MockLanguageID(1)
+          }),
+          new MockLanguage({
+            languageID: new MockLanguageID(2)
+          })
+        ),
+        new MockRegions(
+          new MockRegion({
+            regionID: new MockRegionID(2)
+          })
+        )
+      );
+      const locale4: Locale = Locale.of(
+        new MockLanguages(
+          new MockLanguage({
+            languageID: new MockLanguageID(1)
+          })
+        ),
+        new MockRegions(
+          new MockRegion({
+            regionID: new MockRegionID(1)
+          })
+        )
+      );
+      const locale5: Locale = Locale.of(
+        new MockLanguages(
+          new MockLanguage({
+            languageID: new MockLanguageID(1)
+          }),
+          new MockLanguage({
+            languageID: new MockLanguageID(2)
+          })
+        ),
+        new MockRegions(
+          new MockRegion({
+            regionID: new MockRegionID(1)
+          }),
+          new MockRegion({
+            regionID: new MockRegionID(2)
+          })
+        )
+      );
 
       expect(locale1.equals(locale1)).toEqual(true);
       expect(locale1.equals(locale2)).toEqual(false);
@@ -126,30 +214,37 @@ describe('Locale', () => {
       const iso6392: string = 'ab';
       const iso31661: string = 'abc';
       const iso31662: string = 'abd';
-      const language1: Language = Language.of(LanguageID.of(id1), LanguageName.of(name1), LanguageName.of(englishName1), ISO639.of(iso6391));
-      const language2: Language = Language.of(LanguageID.of(id2), LanguageName.of(name2), LanguageName.of(englishName2), ISO639.of(iso6392));
-      const region1: Region = Region.of(RegionID.of(id3), RegionName.of(name3), ISO3166.of(iso31661));
-      const region2: Region = Region.of(RegionID.of(id4), RegionName.of(name4), ISO3166.of(iso31662));
-      const languages: Languages = Languages.ofArray([
-        language1,
-        language2
-      ]);
-      const regions: Regions = Regions.ofArray([
-        region1,
-        region2
-      ]);
 
-      const locale: Locale = Locale.of(languages, regions);
+      const locale: Locale = Locale.of(
+        Languages.ofSpread(
+          Language.of(
+            LanguageID.of(id1),
+            LanguageName.of(name1),
+            LanguageName.of(englishName1),
+            ISO639.of(iso6391)
+          ),
+          Language.of(
+            LanguageID.of(id2),
+            LanguageName.of(name2),
+            LanguageName.of(englishName2),
+            ISO639.of(iso6392)
+          )
+        ),
+        Regions.ofSpread(
+          Region.of(
+            RegionID.of(id3),
+            RegionName.of(name3),
+            ISO3166.of(iso31661)
+          ),
+          Region.of(
+            RegionID.of(id4),
+            RegionName.of(name4),
+            ISO3166.of(iso31662)
+          )
+        )
+      );
 
       expect(locale.toString()).toEqual(`${id1} ${name1} ${englishName1} ${iso6391}, ${id2} ${name2} ${englishName2} ${iso6392} ${id3} ${name3} ${iso31661}, ${id4} ${name4} ${iso31662}`);
-    });
-  });
-
-  describe('default', () => {
-    it('generates 0-length Regions , and Languages', () => {
-      const locale: Locale = Locale.default();
-      expect(locale.getRegions().size()).toEqual(0);
-      expect(locale.getLanguages().size()).toEqual(0);
     });
   });
 });

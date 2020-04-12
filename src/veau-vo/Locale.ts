@@ -1,9 +1,8 @@
 import { JSONable } from '../veau-general/JSONable';
-import { Optional } from '../veau-general/Optional/Optional';
 import { ValueObject } from '../veau-general/ValueObject';
-import { Language, LanguageJSON } from './Language';
+import { LanguageJSON } from './Language';
 import { Languages } from './Languages';
-import { Region, RegionJSON } from './Region';
+import { RegionJSON } from './Region';
 import { Regions } from './Regions';
 
 export type LocaleJSON = Readonly<{
@@ -15,6 +14,11 @@ export class Locale extends ValueObject implements JSONable {
   public readonly noun: 'Locale' = 'Locale';
   private readonly languages: Languages;
   private readonly regions: Regions;
+
+  private static readonly DEFAULT: Locale = Locale.of(
+    Languages.empty(),
+    Regions.empty()
+  );
 
   public static of(languages: Languages, regions: Regions): Locale {
     return new Locale(languages, regions);
@@ -30,10 +34,10 @@ export class Locale extends ValueObject implements JSONable {
   }
 
   public static default(): Locale {
-    return Locale.of(Languages.empty(), Regions.empty());
+    return Locale.DEFAULT;
   }
 
-  private constructor(languages: Languages, regions: Regions) {
+  protected constructor(languages: Languages, regions: Regions) {
     super();
     this.languages = languages;
     this.regions = regions;
@@ -47,22 +51,14 @@ export class Locale extends ValueObject implements JSONable {
     return this.regions;
   }
 
-  public getLanguage(index: number): Optional<Language> {
-    return this.languages.get(index);
-  }
-
-  public getRegion(index: number): Optional<Region> {
-    return this.regions.get(index);
-  }
-
   public equals(other: Locale): boolean {
     if (this === other) {
       return true;
     }
-    if (!this.languages.equals(other.getLanguages())) {
+    if (!this.languages.equals(other.languages)) {
       return false;
     }
-    if (!this.regions.equals(other.getRegions())) {
+    if (!this.regions.equals(other.regions)) {
       return false;
     }
 
