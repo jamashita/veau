@@ -36,28 +36,6 @@ describe('Sequence', () => {
     });
   });
 
-  describe('[Symbol.iterator]', () => {
-    it('can iterate for loop', () => {
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-      const noun3: MockNominative<number> = new MockNominative<number>(3);
-
-      const nouns: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>([
-        noun1,
-        noun2,
-        noun3
-      ]);
-
-      let i: number = 0;
-      for (const noun of nouns) {
-        expect(nouns.get(i).get()).toBe(noun);
-        i++;
-      }
-
-      expect(i).toEqual(nouns.size());
-    });
-  });
-
   describe('add', () => {
     it('can extends immutably', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);

@@ -4,10 +4,9 @@ import { Optional } from '../Optional/Optional';
 import { Some } from '../Optional/Some';
 import { Enumerator, Mapper, Predicate } from '../Type/Function';
 import { Ambiguous } from '../Type/Value';
-import { Collection } from './Collection';
-import { Cloneable } from '../Cloneable';
+import { List } from './Interface/List';
 
-export class Sequence<E extends Nominative> implements Collection<number, E>, Iterable<E>, Cloneable {
+export class Sequence<E extends Nominative> implements List<E> {
   public readonly noun: 'Sequence' = 'Sequence';
   private readonly elements: Array<E>;
 
@@ -28,10 +27,6 @@ export class Sequence<E extends Nominative> implements Collection<number, E>, It
 
   protected constructor(elements: Array<E>) {
     this.elements = elements;
-  }
-
-  public [Symbol.iterator](): IterableIterator<E> {
-    return this.elements[Symbol.iterator]();
   }
 
   public add(...elements: Array<E>): Sequence<E> {
@@ -139,15 +134,15 @@ export class Sequence<E extends Nominative> implements Collection<number, E>, It
     return true;
   }
 
-  public toString(): string {
-    return this.elements.map<string>((element: E) => {
-      return element.toString();
-    }).join(', ');
-  }
-
   public toArray(): Array<E> {
     return [
       ...this.elements
     ];
+  }
+
+  public toString(): string {
+    return this.elements.map<string>((element: E) => {
+      return element.toString();
+    }).join(', ');
   }
 }
