@@ -79,7 +79,7 @@ describe('LocaleController', () => {
     it('delete all locales of the cache', async () => {
       const stub: SinonStub = sinon.stub();
       LocaleInteractor.prototype.delete = stub;
-      stub.resolves(Success.of<void, CacheError>(undefined));
+      stub.resolves(Success.of<CacheError>());
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));

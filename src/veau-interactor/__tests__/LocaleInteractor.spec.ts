@@ -212,11 +212,11 @@ describe('LocaleInteractor',  () => {
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const stub1: SinonStub = sinon.stub();
       languageRedisCommand.deleteAll = stub1;
-      stub1.resolves(Success.of<void, CacheError>(undefined));
+      stub1.resolves(Success.of<CacheError>());
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub2: SinonStub = sinon.stub();
       regionRedisCommand.deleteAll = stub2;
-      stub2.resolves(Success.of<void, CacheError>(undefined));
+      stub2.resolves(Success.of<CacheError>());
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand)
       const trial: Try<void, CacheError | DataSourceError> = await localeInteractor.delete();
@@ -236,7 +236,7 @@ describe('LocaleInteractor',  () => {
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub2: SinonStub = sinon.stub();
       regionRedisCommand.deleteAll = stub2;
-      stub2.resolves(Success.of<void, CacheError>(undefined));
+      stub2.resolves(Success.of<CacheError>());
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
@@ -267,7 +267,7 @@ describe('LocaleInteractor',  () => {
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub2: SinonStub = sinon.stub();
       regionRedisCommand.deleteAll = stub2;
-      stub2.resolves(Success.of<void, CacheError>(undefined));
+      stub2.resolves(Success.of<CacheError>());
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
@@ -294,7 +294,7 @@ describe('LocaleInteractor',  () => {
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const stub1: SinonStub = sinon.stub();
       languageRedisCommand.deleteAll = stub1;
-      stub1.resolves(Success.of<void, CacheError>(undefined));
+      stub1.resolves(Success.of<CacheError>());
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub2: SinonStub = sinon.stub();
       regionRedisCommand.deleteAll = stub2;
@@ -325,7 +325,7 @@ describe('LocaleInteractor',  () => {
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const stub1: SinonStub = sinon.stub();
       languageRedisCommand.deleteAll = stub1;
-      stub1.resolves(Success.of<void, CacheError>(undefined));
+      stub1.resolves(Success.of<CacheError>());
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub2: SinonStub = sinon.stub();
       regionRedisCommand.deleteAll = stub2;

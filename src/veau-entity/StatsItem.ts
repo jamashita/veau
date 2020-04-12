@@ -42,7 +42,13 @@ export class StatsItem extends Entity<StatsItemID> {
   public static ofJSON(json: StatsItemJSON): Try<StatsItem, StatsItemError> {
     return StatsItemID.ofString(json.statsItemID).match<Try<StatsItem, StatsItemError>>((statsItemID: StatsItemID) => {
       return StatsValues.ofJSON(statsItemID, json.values).match<Try<StatsItem, StatsItemError>>((statsValues: StatsValues) => {
-        return Success.of<StatsItem, StatsItemError>(StatsItem.of(statsItemID, StatsItemName.of(json.name), statsValues));
+        return Success.of<StatsItem, StatsItemError>(
+          StatsItem.of(
+            statsItemID,
+            StatsItemName.of(json.name),
+            statsValues
+          )
+        );
       }, (err: StatsValuesError) => {
         return Failure.of<StatsItem, StatsItemError>(new StatsItemError(err.message));
       });
@@ -53,7 +59,13 @@ export class StatsItem extends Entity<StatsItemID> {
 
   public static ofRow(row: StatsItemRow, statsValues: StatsValues): Try<StatsItem, StatsItemError> {
     return StatsItemID.ofString(row.statsItemID).match<Try<StatsItem, StatsItemError>>((statsItemID: StatsItemID) => {
-      return Success.of<StatsItem, StatsItemError>(StatsItem.of(statsItemID, StatsItemName.of(row.name), statsValues));
+      return Success.of<StatsItem, StatsItemError>(
+        StatsItem.of(
+          statsItemID,
+          StatsItemName.of(row.name),
+          statsValues
+        )
+      );
     }, (err: StatsItemIDError) => {
       return Failure.of<StatsItem, StatsItemError>(new StatsItemError(err.message));
     });
