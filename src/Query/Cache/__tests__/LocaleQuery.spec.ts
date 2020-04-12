@@ -3,11 +3,11 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { vault } from '../../../Container/Container';
 import { TYPE } from '../../../Container/Types';
 import { DataSourceError } from '../../../General/DataSourceError';
-import { HeapError } from '../../../General/Heap/HeapError';
-import { MockHeap } from '../../../General/Heap/Mock/MockHeap';
+import { CacheError } from '../../../General/Cache/CacheError';
+import { MockCache } from '../../../General/Cache/Mock/MockCache';
 import { MockError } from '../../../General/MockError';
 import { Try } from '../../../General/Try/Try';
-import { VAULT_LOCALE_KEY } from '../../../Infrastructure/VeauVault';
+import { VAULT_LOCALE_KEY } from '../../../Infrastructure/VeauCache';
 import { ISO3166 } from '../../../VO/ISO3166';
 import { ISO639 } from '../../../VO/ISO639';
 import { Language } from '../../../VO/Language';
@@ -24,8 +24,8 @@ import { LocaleQuery } from '../LocaleQuery';
 describe('LocaleQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const localeQuery1: LocaleQuery = vault.get<LocaleQuery>(TYPE.LocaleHeapQuery);
-      const localeQuery2: LocaleQuery = vault.get<LocaleQuery>(TYPE.LocaleHeapQuery);
+      const localeQuery1: LocaleQuery = vault.get<LocaleQuery>(TYPE.LocaleCacheQuery);
+      const localeQuery2: LocaleQuery = vault.get<LocaleQuery>(TYPE.LocaleCacheQuery);
 
       expect(localeQuery1).toBeInstanceOf(LocaleQuery);
       expect(localeQuery1).toBe(localeQuery2);
@@ -49,12 +49,12 @@ describe('LocaleQuery', () => {
         )
       ]));
 
-      const heap: MockHeap = new MockHeap();
+      const cache: MockCache = new MockCache();
       const stub: SinonStub = sinon.stub();
-      heap.get = stub;
+      cache.get = stub;
       stub.returns(locale);
 
-      const localeQuery: LocaleQuery = new LocaleQuery(heap);
+      const localeQuery: LocaleQuery = new LocaleQuery(cache);
       const trial: Try<Locale, DataSourceError> = await localeQuery.all();
 
       expect(stub.withArgs(VAULT_LOCALE_KEY).called).toEqual(true);
@@ -77,15 +77,15 @@ describe('LocaleQuery', () => {
       }
     });
 
-    it('returns Failure when Heap throws HeapError', async () => {
-      const heap: MockHeap = new MockHeap();
+    it('returns Failure when Cache throws CacheError', async () => {
+      const cache: MockCache = new MockCache();
       const stub: SinonStub = sinon.stub();
-      heap.get = stub;
-      stub.throws(new HeapError('test failed'));
+      cache.get = stub;
+      stub.throws(new CacheError('test failed'));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeQuery: LocaleQuery = new LocaleQuery(heap);
+      const localeQuery: LocaleQuery = new LocaleQuery(cache);
       const trial: Try<Locale, DataSourceError> = await localeQuery.all();
 
       expect(trial.isFailure()).toEqual(true);
@@ -93,7 +93,7 @@ describe('LocaleQuery', () => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();
-        expect(err).toBeInstanceOf(HeapError);
+        expect(err).toBeInstanceOf(CacheError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -101,12 +101,12 @@ describe('LocaleQuery', () => {
     });
 
     it('throws Error', async () => {
-      const heap: MockHeap = new MockHeap();
+      const cache: MockCache = new MockCache();
       const stub: SinonStub = sinon.stub();
-      heap.get = stub;
+      cache.get = stub;
       stub.throws(new MockError());
 
-      const localeQuery: LocaleQuery = new LocaleQuery(heap);
+      const localeQuery: LocaleQuery = new LocaleQuery(cache);
       await expect(localeQuery.all()).rejects.toThrow(MockError);
     });
   });

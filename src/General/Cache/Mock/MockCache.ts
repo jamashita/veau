@@ -1,7 +1,7 @@
 import { UnimplementedError } from '../../UnimplementedError';
-import { IHeap } from '../Interface/IHeap';
+import { ICache } from '../Interface/ICache';
 
-export class MockHeap implements IHeap {
+export class MockCache implements ICache {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public set(identifier: symbol, value: unknown): void {

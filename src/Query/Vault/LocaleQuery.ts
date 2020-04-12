@@ -14,21 +14,21 @@ export class LocaleQuery implements ILocaleQuery, IVaultQuery {
   public readonly noun: 'LocaleQuery' = 'LocaleQuery';
   public readonly source: 'Vault' = 'Vault';
   private readonly localeAJAXQuery: ILocaleQuery;
-  private readonly localeHeapQuery: ILocaleQuery;
+  private readonly localeCacheQuery: ILocaleQuery;
   private readonly localeCommand: ILocaleCommand;
 
   public constructor(
     @inject(TYPE.LocaleAJAXQuery) localeAJAXQuery: ILocaleQuery,
-    @inject(TYPE.LocaleHeapQuery) localeHeapQuery: ILocaleQuery,
-    @inject(TYPE.LocaleHeapCommand) localeCommand: ILocaleCommand
+    @inject(TYPE.LocaleCacheQuery) localeCacheQuery: ILocaleQuery,
+    @inject(TYPE.LocaleCacheCommand) localeCommand: ILocaleCommand
   ) {
     this.localeAJAXQuery = localeAJAXQuery;
-    this.localeHeapQuery = localeHeapQuery;
+    this.localeCacheQuery = localeCacheQuery;
     this.localeCommand = localeCommand;
   }
 
   public async all(): Promise<Try<Locale, DataSourceError>> {
-    const trial1: Try<Locale, DataSourceError> = await this.localeHeapQuery.all();
+    const trial1: Try<Locale, DataSourceError> = await this.localeCacheQuery.all();
 
     return trial1.match<Promise<Try<Locale, DataSourceError>>>((locale: Locale) => {
       return Promise.resolve<Try<Locale, DataSourceError>>(Success.of<Locale, DataSourceError>(locale));

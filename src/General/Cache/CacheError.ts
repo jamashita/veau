@@ -1,7 +1,7 @@
 import { DataSourceError } from '../DataSourceError';
 
-export class HeapError extends DataSourceError {
-  public readonly name: 'HeapError' = 'HeapError';
+export class CacheError extends DataSourceError {
+  public readonly name: 'CacheError' = 'CacheError';
 
   public constructor(message: string) {
     super(message);

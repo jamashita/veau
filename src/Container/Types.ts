@@ -1,7 +1,7 @@
 type DIType = Readonly<{
   SessionAJAXCommand: symbol;
   StatsAJAXCommand: symbol;
-  LocaleHeapCommand: symbol;
+  LocaleCacheCommand: symbol;
   LanguageRedisCommand: symbol;
   RegionRedisCommand: symbol;
   EntranceSaga: symbol;
@@ -23,7 +23,7 @@ type DIType = Readonly<{
   SessionAJAXQuery: symbol;
   StatsOutlineAJAXQuery: symbol;
   StatsAJAXQuery: symbol;
-  LocaleHeapQuery: symbol;
+  LocaleCacheQuery: symbol;
   LanguageKernelQuery: symbol;
   RegionKernelQuery: symbol;
   AccountMySQLQuery: symbol;
@@ -43,7 +43,7 @@ type DIType = Readonly<{
 export const TYPE: DIType = {
   SessionAJAXCommand: Symbol('SessionAJAXCommand'),
   StatsAJAXCommand: Symbol('StatsAJAXCommand'),
-  LocaleHeapCommand: Symbol('LocaleHeapCommand'),
+  LocaleCacheCommand: Symbol('LocaleCacheCommand'),
   LanguageRedisCommand: Symbol('LanguageRedisCommand'),
   RegionRedisCommand: Symbol('RegionRedisCommand'),
   EntranceSaga: Symbol('EntranceSaga'),
@@ -65,7 +65,7 @@ export const TYPE: DIType = {
   SessionAJAXQuery: Symbol('SessionAJAXQuery'),
   StatsOutlineAJAXQuery: Symbol('StatsOutlineAJAXQuery'),
   StatsAJAXQuery: Symbol('StatsAJAXQuery'),
-  LocaleHeapQuery: Symbol('LocaleHeapQuery'),
+  LocaleCacheQuery: Symbol('LocaleCacheQuery'),
   LanguageKernelQuery: Symbol('LanguageKernelQuery'),
   RegionKernelQuery: Symbol('RegionKernelQuery'),
   AccountMySQLQuery: Symbol('AccountMySQLQuery'),

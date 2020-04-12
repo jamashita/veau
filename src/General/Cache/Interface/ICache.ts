@@ -1,4 +1,4 @@
-export interface IHeap {
+export interface ICache {
 
   set(identifier: symbol, value: unknown): void;
 

@@ -3,11 +3,11 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { vault } from '../../../Container/Container';
 import { TYPE } from '../../../Container/Types';
 import { DataSourceError } from '../../../General/DataSourceError';
-import { HeapError } from '../../../General/Heap/HeapError';
-import { MockHeap } from '../../../General/Heap/Mock/MockHeap';
+import { CacheError } from '../../../General/Cache/CacheError';
+import { MockCache } from '../../../General/Cache/Mock/MockCache';
 import { MockError } from '../../../General/MockError';
 import { Try } from '../../../General/Try/Try';
-import { VAULT_LOCALE_KEY } from '../../../Infrastructure/VeauVault';
+import { VAULT_LOCALE_KEY } from '../../../Infrastructure/VeauCache';
 import { ISO3166 } from '../../../VO/ISO3166';
 import { ISO639 } from '../../../VO/ISO639';
 import { Language } from '../../../VO/Language';
@@ -24,8 +24,8 @@ import { LocaleCommand } from '../LocaleCommand';
 describe('LocaleCommand', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const localeCommand1: LocaleCommand = vault.get<LocaleCommand>(TYPE.LocaleHeapCommand);
-      const localeCommand2: LocaleCommand = vault.get<LocaleCommand>(TYPE.LocaleHeapCommand);
+      const localeCommand1: LocaleCommand = vault.get<LocaleCommand>(TYPE.LocaleCacheCommand);
+      const localeCommand2: LocaleCommand = vault.get<LocaleCommand>(TYPE.LocaleCacheCommand);
 
       expect(localeCommand1).toBeInstanceOf(LocaleCommand);
       expect(localeCommand1).toBe(localeCommand2);
@@ -49,19 +49,19 @@ describe('LocaleCommand', () => {
         )
       ]));
 
-      const heap: MockHeap = new MockHeap();
+      const cache: MockCache = new MockCache();
       const stub: SinonStub = sinon.stub();
-      heap.set = stub;
+      cache.set = stub;
       stub.returns(locale);
 
-      const localeCommand: LocaleCommand = new LocaleCommand(heap);
+      const localeCommand: LocaleCommand = new LocaleCommand(cache);
       const trial: Try<void, DataSourceError> = await localeCommand.create(locale);
 
       expect(stub.withArgs(VAULT_LOCALE_KEY, locale).called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
     });
 
-    it('returns Failure when Heap throws HeapError', async () => {
+    it('returns Failure when Cache throws CacheError', async () => {
       const locale: Locale = Locale.of(Languages.ofArray([
         Language.of(
           LanguageID.of(1),
@@ -77,14 +77,14 @@ describe('LocaleCommand', () => {
         )
       ]));
 
-      const heap: MockHeap = new MockHeap();
+      const cache: MockCache = new MockCache();
       const stub: SinonStub = sinon.stub();
-      heap.set = stub;
-      stub.throws(new HeapError('test failed'));
+      cache.set = stub;
+      stub.throws(new CacheError('test failed'));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeCommand: LocaleCommand = new LocaleCommand(heap);
+      const localeCommand: LocaleCommand = new LocaleCommand(cache);
       const trial: Try<void, DataSourceError> = await localeCommand.create(locale);
 
       expect(trial.isFailure()).toEqual(true);
@@ -92,14 +92,14 @@ describe('LocaleCommand', () => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();
-        expect(err).toBeInstanceOf(HeapError);
+        expect(err).toBeInstanceOf(CacheError);
       });
 
       expect(spy1.called).toEqual(false);
       expect(spy2.called).toEqual(true);
     });
 
-    it('returns Failure when Heap throws HeapError', async () => {
+    it('returns Failure when Cache throws CacheError', async () => {
       const locale: Locale = Locale.of(Languages.ofArray([
         Language.of(
           LanguageID.of(1),
@@ -115,12 +115,12 @@ describe('LocaleCommand', () => {
         )
       ]));
 
-      const heap: MockHeap = new MockHeap();
+      const cache: MockCache = new MockCache();
       const stub: SinonStub = sinon.stub();
-      heap.set = stub;
+      cache.set = stub;
       stub.throws( new MockError());
 
-      const localeCommand: LocaleCommand = new LocaleCommand(heap);
+      const localeCommand: LocaleCommand = new LocaleCommand(cache);
       await expect(localeCommand.create(locale)).rejects.toThrow(MockError);
     });
   });

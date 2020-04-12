@@ -5,7 +5,7 @@ import { vault } from '../../../Container/Container';
 import { TYPE } from '../../../Container/Types';
 import { AJAXError } from '../../../General/AJAX/AJAXError';
 import { DataSourceError } from '../../../General/DataSourceError';
-import { HeapError } from '../../../General/Heap/HeapError';
+import { CacheError } from '../../../General/Cache/CacheError';
 import { Failure } from '../../../General/Try/Failure';
 import { Success } from '../../../General/Try/Success';
 import { Try } from '../../../General/Try/Try';
@@ -35,7 +35,7 @@ describe('LocaleQuery', () => {
   });
 
   describe('all', () => {
-    it('returns Success because Heap has', async () => {
+    it('returns Success because Cache has', async () => {
       const locale: Locale = Locale.of(Languages.ofArray([
         Language.of(
           LanguageID.of(1),
@@ -51,18 +51,18 @@ describe('LocaleQuery', () => {
         )
       ]));
 
-      const localeHeapQuery: MockLocaleQuery = new MockLocaleQuery();
+      const localeCacheQuery: MockLocaleQuery = new MockLocaleQuery();
       const localeAJAXQuery: MockLocaleQuery = new MockLocaleQuery();
       const localeCommand: MockLocaleCommand = new MockLocaleCommand();
       const stub1: SinonStub = sinon.stub();
-      localeHeapQuery.all = stub1;
+      localeCacheQuery.all = stub1;
       stub1.resolves(Success.of<Locale, DataSourceError>(locale));
       const stub2: SinonStub = sinon.stub();
       localeAJAXQuery.all = stub2;
       const stub3: SinonStub = sinon.stub();
       localeCommand.create = stub3;
 
-      const localeQuery: LocaleQuery = new LocaleQuery(localeAJAXQuery, localeHeapQuery, localeCommand);
+      const localeQuery: LocaleQuery = new LocaleQuery(localeAJAXQuery, localeCacheQuery, localeCommand);
       const trial: Try<Locale, DataSourceError> = await localeQuery.all();
 
       expect(stub1.called).toEqual(true);
@@ -89,12 +89,12 @@ describe('LocaleQuery', () => {
         )
       ]));
 
-      const localeHeapQuery: MockLocaleQuery = new MockLocaleQuery();
+      const localeCacheQuery: MockLocaleQuery = new MockLocaleQuery();
       const localeAJAXQuery: MockLocaleQuery = new MockLocaleQuery();
       const localeCommand: MockLocaleCommand = new MockLocaleCommand();
       const stub1: SinonStub = sinon.stub();
-      localeHeapQuery.all = stub1;
-      stub1.resolves(Failure.of<Locale, DataSourceError>(new HeapError('test failed')));
+      localeCacheQuery.all = stub1;
+      stub1.resolves(Failure.of<Locale, DataSourceError>(new CacheError('test failed')));
       const stub2: SinonStub = sinon.stub();
       localeAJAXQuery.all = stub2;
       stub2.resolves(Success.of<Locale, DataSourceError>(locale));
@@ -102,7 +102,7 @@ describe('LocaleQuery', () => {
       localeCommand.create = stub3;
       stub3.resolves(Success.of<DataSourceError>());
 
-      const localeQuery: LocaleQuery = new LocaleQuery(localeAJAXQuery, localeHeapQuery, localeCommand);
+      const localeQuery: LocaleQuery = new LocaleQuery(localeAJAXQuery, localeCacheQuery, localeCommand);
       const trial: Try<Locale, DataSourceError> = await localeQuery.all();
 
       expect(stub1.called).toEqual(true);
@@ -113,13 +113,13 @@ describe('LocaleQuery', () => {
       expect(loc).toEqual(locale);
     });
 
-    it('returns Failure Heap nor AJAX returned nothing', async () => {
-      const localeHeapQuery: MockLocaleQuery = new MockLocaleQuery();
+    it('returns Failure Cache nor AJAX returned nothing', async () => {
+      const localeCacheQuery: MockLocaleQuery = new MockLocaleQuery();
       const localeAJAXQuery: MockLocaleQuery = new MockLocaleQuery();
       const localeCommand: MockLocaleCommand = new MockLocaleCommand();
       const stub1: SinonStub = sinon.stub();
-      localeHeapQuery.all = stub1;
-      stub1.resolves(Failure.of<Locale, DataSourceError>(new HeapError('test failed')));
+      localeCacheQuery.all = stub1;
+      stub1.resolves(Failure.of<Locale, DataSourceError>(new CacheError('test failed')));
       const stub2: SinonStub = sinon.stub();
       localeAJAXQuery.all = stub2;
       stub2.resolves(Failure.of<Locale, DataSourceError>(new AJAXError('test failed')));
@@ -128,7 +128,7 @@ describe('LocaleQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeQuery: LocaleQuery = new LocaleQuery(localeAJAXQuery, localeHeapQuery, localeCommand);
+      const localeQuery: LocaleQuery = new LocaleQuery(localeAJAXQuery, localeCacheQuery, localeCommand);
       const trial: Try<Locale, DataSourceError> = await localeQuery.all();
 
       expect(stub1.called).toEqual(true);
@@ -146,7 +146,7 @@ describe('LocaleQuery', () => {
       expect(spy2.called).toEqual(true);
     });
 
-    it('returns Failure Heap nor AJAX returned nothing', async () => {
+    it('returns Failure Cache nor AJAX returned nothing', async () => {
       const locale: Locale = Locale.of(Languages.ofArray([
         Language.of(
           LanguageID.of(1),
@@ -162,22 +162,22 @@ describe('LocaleQuery', () => {
         )
       ]));
 
-      const localeHeapQuery: MockLocaleQuery = new MockLocaleQuery();
+      const localeCacheQuery: MockLocaleQuery = new MockLocaleQuery();
       const localeAJAXQuery: MockLocaleQuery = new MockLocaleQuery();
       const localeCommand: MockLocaleCommand = new MockLocaleCommand();
       const stub1: SinonStub = sinon.stub();
-      localeHeapQuery.all = stub1;
-      stub1.resolves(Failure.of<Locale, DataSourceError>(new HeapError('test failed')));
+      localeCacheQuery.all = stub1;
+      stub1.resolves(Failure.of<Locale, DataSourceError>(new CacheError('test failed')));
       const stub2: SinonStub = sinon.stub();
       localeAJAXQuery.all = stub2;
       stub2.resolves(Success.of<Locale, DataSourceError>(locale));
       const stub3: SinonStub = sinon.stub();
       localeCommand.create = stub3;
-      stub3.resolves(Failure.of<Locale, DataSourceError>(new HeapError('test failed')));
+      stub3.resolves(Failure.of<Locale, DataSourceError>(new CacheError('test failed')));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeQuery: LocaleQuery = new LocaleQuery(localeAJAXQuery, localeHeapQuery, localeCommand);
+      const localeQuery: LocaleQuery = new LocaleQuery(localeAJAXQuery, localeCacheQuery, localeCommand);
       const trial: Try<Locale, DataSourceError> = await localeQuery.all();
 
       expect(stub1.called).toEqual(true);
@@ -188,7 +188,7 @@ describe('LocaleQuery', () => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();
-        expect(err).toBeInstanceOf(HeapError);
+        expect(err).toBeInstanceOf(CacheError);
       });
 
       expect(spy1.called).toEqual(false);

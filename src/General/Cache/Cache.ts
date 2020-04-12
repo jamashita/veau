@@ -1,8 +1,8 @@
 import { Ambiguous } from '../Type/Value';
-import { HeapError } from './HeapError';
-import { IHeap } from './Interface/IHeap';
+import { CacheError } from './CacheError';
+import { ICache } from './Interface/ICache';
 
-export class Heap implements IHeap {
+export class Cache implements ICache {
   private readonly values: Map<symbol, unknown>;
 
   public constructor() {
@@ -17,7 +17,7 @@ export class Heap implements IHeap {
     const instance: Ambiguous<unknown> = this.values.get(identifier);
 
     if (instance === undefined) {
-      throw new HeapError('NOT EXIST');
+      throw new CacheError('NOT EXIST');
     }
 
     return instance as H;
