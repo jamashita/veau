@@ -5,8 +5,9 @@ import { Some } from '../Optional/Some';
 import { Enumerator, Mapper, Predicate } from '../Type/Function';
 import { Ambiguous } from '../Type/Value';
 import { Collection } from './Collection';
+import { Cloneable } from '../Cloneable';
 
-export class Sequence<E extends Nominative> implements Collection<number, E>, Iterable<E> {
+export class Sequence<E extends Nominative> implements Collection<number, E>, Iterable<E>, Cloneable {
   public readonly noun: 'Sequence' = 'Sequence';
   private readonly elements: Array<E>;
 

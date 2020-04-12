@@ -439,6 +439,26 @@ describe('AsOfs', () => {
     });
   });
 
+  describe('copy', () => {
+    it('normal case, shallow copy', () => {
+      const asOf1: MockAsOf = new MockAsOf({
+        day: 1
+      });
+      const asOf2: MockAsOf = new MockAsOf({
+        day: 2
+      });
+      const asOfs1: AsOfs = AsOfs.ofSpread(
+        asOf1,
+        asOf2
+      );
+      const asOfs2: AsOfs = asOfs1.copy();
+
+      expect(asOfs1.size()).toEqual(asOfs2.size());
+      expect(asOfs1.get(0)).toEqual(asOfs2.get(0));
+      expect(asOfs1.get(1)).toEqual(asOfs2.get(1));
+    });
+  });
+
   describe('toJSON', () => {
     it('normal case', () => {
       const asOfs: AsOfs = AsOfs.ofSpread(

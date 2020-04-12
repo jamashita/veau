@@ -7,8 +7,9 @@ import { Optional } from '../veau-general/Optional/Optional';
 import { Some } from '../veau-general/Optional/Some';
 import { Enumerator } from '../veau-general/Type/Function';
 import { AsOf } from './AsOf';
+import { Cloneable } from '../veau-general/Cloneable';
 
-export class AsOfs implements Collection<number, AsOf>, JSONable {
+export class AsOfs implements Collection<number, AsOf>, Cloneable, JSONable {
   public readonly noun: 'AsOfs' = 'AsOfs';
   private readonly asOfs: Sequence<AsOf>;
 
@@ -127,6 +128,10 @@ export class AsOfs implements Collection<number, AsOf>, JSONable {
     }
 
     return this.asOfs.equals(other.asOfs);
+  }
+
+  public copy(): AsOfs {
+    return AsOfs.of(this.asOfs.copy());
   }
 
   public toJSON(): Array<string> {
