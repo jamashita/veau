@@ -22,7 +22,7 @@ export class VeauAccountID extends ValueObject {
     }
     catch (err) {
       if (err instanceof UUIDError) {
-        return Failure.of<VeauAccountID, VeauAccountIDError>(new VeauAccountIDError(err));
+        return Failure.of<VeauAccountID, VeauAccountIDError>(new VeauAccountIDError('VeauAccountID.ofString()', err));
       }
 
       throw err;
