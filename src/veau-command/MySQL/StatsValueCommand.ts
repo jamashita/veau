@@ -1,5 +1,5 @@
 import { DataSourceError } from '../../veau-general/DataSourceError';
-import { IQuery } from '../../veau-general/MySQL/interfaces/IQuery';
+import { IQuery } from '../../veau-general/MySQL/Interface/IQuery';
 import { MySQLError } from '../../veau-general/MySQL/MySQLError';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';

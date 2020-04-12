@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify';
 import { TYPE } from '../../veau-container/Types';
 import { DataSourceError } from '../../veau-general/DataSourceError';
 import { HeapError } from '../../veau-general/Heap/HeapError';
-import { IHeap } from '../../veau-general/Heap/interfaces/IHeap';
+import { IHeap } from '../../veau-general/Heap/Interface/IHeap';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';
 import { Try } from '../../veau-general/Try/Try';

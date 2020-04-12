@@ -1,5 +1,5 @@
 import { UnimplementedError } from '../../UnimplementedError';
-import { IQuery } from '../interfaces/IQuery';
+import { IQuery } from '../Interface/IQuery';
 
 export class MockQuery implements IQuery {
 

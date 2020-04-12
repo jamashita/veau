@@ -1,5 +1,5 @@
 import { UnimplementedError } from '../../UnimplementedError';
-import { IHeap } from '../interfaces/IHeap';
+import { IHeap } from '../Interface/IHeap';
 
 export class MockHeap implements IHeap {
 

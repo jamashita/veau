@@ -1,8 +1,8 @@
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { DataSourceError } from '../../../veau-general/DataSourceError';
 import { MockError } from '../../../veau-general/MockError';
-import { MockMySQLError } from '../../../veau-general/MySQL/mocks/MockMySQLError';
-import { MockQuery } from '../../../veau-general/MySQL/mocks/MockQuery';
+import { MockMySQLError } from '../../../veau-general/MySQL/Mock/MockMySQLError';
+import { MockQuery } from '../../../veau-general/MySQL/Mock/MockQuery';
 import { MySQLError } from '../../../veau-general/MySQL/MySQLError';
 import { Try } from '../../../veau-general/Try/Try';
 import { AsOf } from '../../../veau-vo/AsOf';

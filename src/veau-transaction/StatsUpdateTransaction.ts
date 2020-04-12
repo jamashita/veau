@@ -4,7 +4,7 @@ import { StatsValueCommand } from '../veau-command/MySQL/StatsValueCommand';
 import { Stats } from '../veau-entity/Stats';
 import { StatsItem } from '../veau-entity/StatsItem';
 import { DataSourceError } from '../veau-general/DataSourceError';
-import { IQuery } from '../veau-general/MySQL/interfaces/IQuery';
+import { IQuery } from '../veau-general/MySQL/Interface/IQuery';
 import { Failure } from '../veau-general/Try/Failure';
 import { manoeuvre } from '../veau-general/Try/Manoeuvre';
 import { Try } from '../veau-general/Try/Try';

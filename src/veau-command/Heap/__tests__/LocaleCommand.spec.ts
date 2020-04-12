@@ -4,7 +4,7 @@ import { vault } from '../../../veau-container/Container';
 import { TYPE } from '../../../veau-container/Types';
 import { DataSourceError } from '../../../veau-general/DataSourceError';
 import { HeapError } from '../../../veau-general/Heap/HeapError';
-import { MockHeap } from '../../../veau-general/Heap/mocks/MockHeap';
+import { MockHeap } from '../../../veau-general/Heap/Mock/MockHeap';
 import { MockError } from '../../../veau-general/MockError';
 import { Try } from '../../../veau-general/Try/Try';
 import { VAULT_LOCALE_KEY } from '../../../veau-infrastructure/VeauVault';

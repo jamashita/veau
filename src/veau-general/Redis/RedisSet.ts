@@ -1,6 +1,6 @@
 import IORedis from 'ioredis';
 import { Nullable } from '../Type/Value';
-import { IRedisSet } from './interfaces/IRedisSet';
+import { IRedisSet } from './Interface/IRedisSet';
 import { RedisError } from './RedisError';
 
 export class RedisSet implements IRedisSet {

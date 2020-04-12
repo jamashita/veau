@@ -1,4 +1,4 @@
-import { RedisError } from './RedisError';
+import { RedisError } from '../RedisError';
 
 export class MockRedisError extends RedisError {
 

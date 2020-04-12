@@ -1,5 +1,5 @@
 import IORedis from 'ioredis';
-import { IRedisList } from './interfaces/IRedisList';
+import { IRedisList } from './Interface/IRedisList';
 import { RedisError } from './RedisError';
 
 export class RedisList implements IRedisList {

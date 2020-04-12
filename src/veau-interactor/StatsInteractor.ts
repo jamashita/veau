@@ -6,7 +6,7 @@ import { NoSuchElementError } from '../veau-error/NoSuchElementError';
 import { StatsError } from '../veau-error/StatsError';
 import { StatsOutlinesError } from '../veau-error/StatsOutlinesError';
 import { DataSourceError } from '../veau-general/DataSourceError';
-import { IMySQL } from '../veau-general/MySQL/interfaces/IMySQL';
+import { IMySQL } from '../veau-general/MySQL/Interface/IMySQL';
 import { Try } from '../veau-general/Try/Try';
 import { IStatsOutlineQuery } from '../veau-query/Interface/IStatsOutlineQuery';
 import { IStatsQuery } from '../veau-query/Interface/IStatsQuery';

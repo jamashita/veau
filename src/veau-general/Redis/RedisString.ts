@@ -1,6 +1,6 @@
 import IORedis from 'ioredis';
 import { Nullable } from '../Type/Value';
-import { IRedisString } from './interfaces/IRedisString';
+import { IRedisString } from './Interface/IRedisString';
 import { RedisError } from './RedisError';
 
 export class RedisString implements IRedisString {

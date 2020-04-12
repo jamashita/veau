@@ -4,7 +4,7 @@ import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { DataSourceError } from '../../veau-general/DataSourceError';
 import { JSONA } from '../../veau-general/JSONA';
 import { Optional } from '../../veau-general/Optional/Optional';
-import { IRedis } from '../../veau-general/Redis/interfaces/IRedis';
+import { IRedis } from '../../veau-general/Redis/Interface/IRedis';
 import { RedisError } from '../../veau-general/Redis/RedisError';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';

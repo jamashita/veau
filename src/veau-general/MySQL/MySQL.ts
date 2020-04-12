@@ -2,8 +2,8 @@ import mysql from 'mysql';
 import { Reject, Resolve } from '../Type/Function';
 import { JSObjectNotation, Nullable } from '../Type/Value';
 import { Connection } from './Connection';
-import { IMySQL } from './interfaces/IMySQL';
-import { ITransaction } from './interfaces/ITransaction';
+import { IMySQL } from './Interface/IMySQL';
+import { ITransaction } from './Interface/ITransaction';
 import { MySQLError } from './MySQLError';
 
 type Value = Readonly<Record<string, unknown>>;

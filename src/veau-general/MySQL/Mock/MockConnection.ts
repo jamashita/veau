@@ -1,6 +1,6 @@
 import { JSObjectNotation } from '../../Type/Value';
 import { UnimplementedError } from '../../UnimplementedError';
-import { IConnection } from '../interfaces/IConnection';
+import { IConnection } from '../Interface/IConnection';
 
 export class MockConnection implements IConnection {
 

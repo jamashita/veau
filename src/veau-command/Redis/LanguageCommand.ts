@@ -3,7 +3,7 @@ import { TYPE } from '../../veau-container/Types';
 import { CacheError } from '../../veau-error/CacheError';
 import { DataSourceError } from '../../veau-general/DataSourceError';
 import { JSONA } from '../../veau-general/JSONA';
-import { IRedis } from '../../veau-general/Redis/interfaces/IRedis';
+import { IRedis } from '../../veau-general/Redis/Interface/IRedis';
 import { RedisError } from '../../veau-general/Redis/RedisError';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Success } from '../../veau-general/Try/Success';

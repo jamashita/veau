@@ -3,7 +3,7 @@ import { TYPE } from '../../veau-container/Types';
 import { AccountError } from '../../veau-error/AccountError';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { DataSourceError } from '../../veau-general/DataSourceError';
-import { IMySQL } from '../../veau-general/MySQL/interfaces/IMySQL';
+import { IMySQL } from '../../veau-general/MySQL/Interface/IMySQL';
 import { MySQLError } from '../../veau-general/MySQL/MySQLError';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Try } from '../../veau-general/Try/Try';

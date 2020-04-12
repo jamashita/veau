@@ -1,11 +1,11 @@
 import IORedis from 'ioredis';
 import { BiFunction } from '../../Type/Function';
 import { UnimplementedError } from '../../UnimplementedError';
-import { IRedis } from '../interfaces/IRedis';
-import { IRedisHash } from '../interfaces/IRedisHash';
-import { IRedisList } from '../interfaces/IRedisList';
-import { IRedisSet } from '../interfaces/IRedisSet';
-import { IRedisString } from '../interfaces/IRedisString';
+import { IRedis } from '../Interface/IRedis';
+import { IRedisHash } from '../Interface/IRedisHash';
+import { IRedisList } from '../Interface/IRedisList';
+import { IRedisSet } from '../Interface/IRedisSet';
+import { IRedisString } from '../Interface/IRedisString';
 import { MockRedisHash } from './MockRedisHash';
 import { MockRedisList } from './MockRedisList';
 import { MockRedisSet } from './MockRedisSet';

@@ -1,6 +1,6 @@
 import { Ambiguous } from '../Type/Value';
 import { HeapError } from './HeapError';
-import { IHeap } from './interfaces/IHeap';
+import { IHeap } from './Interface/IHeap';
 
 export class Heap implements IHeap {
   private readonly values: Map<symbol, unknown>;

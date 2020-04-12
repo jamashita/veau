@@ -1,6 +1,6 @@
 import IORedis from 'ioredis';
 import { Nullable } from '../Type/Value';
-import { IRedisHash } from './interfaces/IRedisHash';
+import { IRedisHash } from './Interface/IRedisHash';
 import { RedisError } from './RedisError';
 
 export class RedisHash implements IRedisHash {
