@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { MockLocaleCommand } from '../../../veau-command/Mock/MockLocaleCommand';
+import { MockLocaleCommand } from '../../../Command/Mock/MockLocaleCommand';
 import { vault } from '../../../veau-container/Container';
 import { TYPE } from '../../../veau-container/Types';
 import { AJAXError } from '../../../veau-general/AJAX/AJAXError';

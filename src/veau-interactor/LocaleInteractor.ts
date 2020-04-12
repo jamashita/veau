@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
-import { ILanguageCommand } from '../veau-command/Interface/ILanguageCommand';
-import { IRegionCommand } from '../veau-command/Interface/IRegionCommand';
+import { ILanguageCommand } from '../Command/Interface/ILanguageCommand';
+import { IRegionCommand } from '../Command/Interface/IRegionCommand';
 import { TYPE } from '../veau-container/Types';
 import { CacheError } from '../veau-error/CacheError';
 import { NoSuchElementError } from '../veau-error/NoSuchElementError';

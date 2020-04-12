@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { MockRegionCommand } from '../../../veau-command/Mock/MockRegionCommand';
+import { MockRegionCommand } from '../../../Command/Mock/MockRegionCommand';
 import { kernel } from '../../../veau-container/Container';
 import { TYPE } from '../../../veau-container/Types';
 import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';

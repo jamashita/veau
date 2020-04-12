@@ -15,13 +15,13 @@ const webpack = require('webpack');
 const stream = require('webpack-stream');
 const webpackConfig = require('./webpack.config');
 
-gulp.task('veau-command', () => {
-  return gulp.src(['src/veau-command/**/*.ts'], {
-      since : gulp.lastRun('veau-command')
+gulp.task('Command', () => {
+  return gulp.src(['src/Command/**/*.ts'], {
+      since : gulp.lastRun('Command')
     })
     .pipe(plumber())
     .pipe(tsc())
-    .pipe(gulp.dest('dist/veau-command'));
+    .pipe(gulp.dest('dist/Command'));
 });
 
 gulp.task('veau-container', () => {
@@ -203,7 +203,7 @@ gulp.task(
       'favicon',
       'font'
     ),
-    'veau-command',
+    'Command',
     'veau-container',
     'veau-controller',
     'veau-entity',
@@ -225,7 +225,7 @@ gulp.task(
   gulp.parallel(
     'nodemon',
     (callback) => {
-      gulp.watch('src/veau-command/**/*.ts', gulp.series('veau-command'));
+      gulp.watch('src/Command/**/*.ts', gulp.series('Command'));
       gulp.watch('src/veau-container/**/*.ts', gulp.series('veau-container'));
       gulp.watch('src/veau-controller/**/*.ts', gulp.series('veau-controller'));
       gulp.watch('src/veau-entity/**/*.ts', gulp.series('veau-entity'));

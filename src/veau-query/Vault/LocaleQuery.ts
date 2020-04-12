@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { ILocaleCommand } from '../../veau-command/Interface/ILocaleCommand';
+import { ILocaleCommand } from '../../Command/Interface/ILocaleCommand';
 import { TYPE } from '../../veau-container/Types';
 import { DataSourceError } from '../../veau-general/DataSourceError';
 import { Failure } from '../../veau-general/Try/Failure';

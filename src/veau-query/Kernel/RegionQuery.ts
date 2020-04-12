@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { IRegionCommand } from '../../veau-command/Interface/IRegionCommand';
+import { IRegionCommand } from '../../Command/Interface/IRegionCommand';
 import { TYPE } from '../../veau-container/Types';
 import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { DataSourceError } from '../../veau-general/DataSourceError';

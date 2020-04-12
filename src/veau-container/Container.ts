@@ -1,9 +1,9 @@
 import { Container } from 'inversify';
-import { SessionCommand as SessionAJAXCommand } from '../veau-command/AJAX/SessionCommand';
-import { StatsCommand as StatsAJAXCommand } from '../veau-command/AJAX/StatsCommand';
-import { LocaleCommand as LocaleHeapCommand } from '../veau-command/Heap/LocaleCommand';
-import { LanguageCommand as LanguageRedisCommand } from '../veau-command/Redis/LanguageCommand';
-import { RegionCommand as RegionRedisCommand } from '../veau-command/Redis/RegionCommand';
+import { SessionCommand as SessionAJAXCommand } from '../Command/AJAX/SessionCommand';
+import { StatsCommand as StatsAJAXCommand } from '../Command/AJAX/StatsCommand';
+import { LocaleCommand as LocaleHeapCommand } from '../Command/Heap/LocaleCommand';
+import { LanguageCommand as LanguageRedisCommand } from '../Command/Redis/LanguageCommand';
+import { RegionCommand as RegionRedisCommand } from '../Command/Redis/RegionCommand';
 import { AuthenticationMiddleware } from '../veau-controller/middlewares/AuthenticationMiddleware';
 import { EntranceSaga } from '../veau-frontend/sagas/EntranceSaga';
 import { IdentitySaga } from '../veau-frontend/sagas/IdentitySaga';

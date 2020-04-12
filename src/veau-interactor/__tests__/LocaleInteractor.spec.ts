@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { MockLanguageCommand } from '../../veau-command/Mock/MockLanguageCommand';
-import { MockRegionCommand } from '../../veau-command/Mock/MockRegionCommand';
+import { MockLanguageCommand } from '../../Command/Mock/MockLanguageCommand';
+import { MockRegionCommand } from '../../Command/Mock/MockRegionCommand';
 import { kernel } from '../../veau-container/Container';
 import { TYPE } from '../../veau-container/Types';
 import { CacheError } from '../../veau-error/CacheError';
