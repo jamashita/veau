@@ -20,7 +20,6 @@ import { StatsItemName } from '../veau-vo/StatsItemName';
 import { StatsItemNames } from '../veau-vo/StatsItemNames';
 import { StatsValues } from '../veau-vo/StatsValues';
 import { StatsItem, StatsItemJSON, StatsItemRow } from './StatsItem';
-import { AsOf } from '../veau-vo/AsOf';
 
 export class StatsItems implements Collection<number, StatsItem>, JSONable, Cloneable {
   public readonly noun: 'StatsItems' = 'StatsItems';
@@ -107,14 +106,12 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
       return item.getAsOfs();
     });
 
-    const all: Array<AsOf> = [];
+    const all: Array<AsOfs> = [];
     sequence.iterate((asOfs: AsOfs) => {
-      asOfs.forEach((asOf: AsOf) => {
-        all.push(asOf);
-      });
+      all.push(asOfs);
     });
 
-    return AsOfs.ofArray(all);
+    return AsOfs.merge(...all);
   }
 
   public maxNameLength(): number {
