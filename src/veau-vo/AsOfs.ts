@@ -34,6 +34,23 @@ export class AsOfs implements Collection<number, AsOf>, JSONable {
     return AsOfs.EMPTY;
   }
 
+  public static merge(...asOfsArray: Array<AsOfs>): AsOfs {
+    if (asOfsArray.length === 0) {
+      return AsOfs.empty();
+    }
+
+    const all: Array<Array<AsOf>> = asOfsArray.map<Array<AsOf>>((asOfs: AsOfs) => {
+      return asOfs.asOfs.toArray();
+    });
+
+    const merged: Array<AsOf> = [];
+    all.forEach((d: Array<AsOf>) => {
+      merged.push(...d);
+    });
+
+    return AsOfs.ofArray(merged);
+  }
+
   protected constructor(asOfs: Sequence<AsOf>) {
     this.asOfs = asOfs;
   }

@@ -75,6 +75,40 @@ describe('AsOfs', () => {
     });
   });
 
+  describe('merge', () => {
+    it('returns empty when argument is 0', () => {
+      const asOfs: AsOfs = AsOfs.merge();
+
+      expect(asOfs.isEmpty()).toEqual(true);
+      expect(asOfs).toBe(AsOfs.empty());
+    });
+
+    it('normal case', () => {
+      const asOf1: MockAsOf = new MockAsOf();
+      const asOf2: MockAsOf = new MockAsOf();
+      const asOf3: MockAsOf = new MockAsOf();
+      const asOf4: MockAsOf = new MockAsOf();
+      const asOf5: MockAsOf = new MockAsOf();
+      const asOfs1: AsOfs = AsOfs.ofSpread(
+        asOf1,
+        asOf2,
+        asOf3
+      );
+      const asOfs2: AsOfs = AsOfs.ofSpread(
+        asOf4,
+        asOf5
+      );
+
+      const asOfs: AsOfs = AsOfs.merge(asOfs1, asOfs2);
+      expect(asOfs.size()).toEqual(5);
+      expect(asOfs.get(0).get()).toEqual(asOf1);
+      expect(asOfs.get(1).get()).toEqual(asOf2);
+      expect(asOfs.get(2).get()).toEqual(asOf3);
+      expect(asOfs.get(3).get()).toEqual(asOf4);
+      expect(asOfs.get(4).get()).toEqual(asOf5);
+    });
+  });
+
   describe('empty', () => {
     it('always empty, the length is 0', () => {
       const asOfs: AsOfs = AsOfs.empty();
