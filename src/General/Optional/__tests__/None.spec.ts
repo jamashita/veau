@@ -4,6 +4,7 @@ import { None } from '../None';
 import { Optional } from '../Optional';
 import { OptionalError } from '../OptionalError';
 
+// DONE
 describe('None', () => {
   describe('get', () => {
     it('throws OptionalError', () => {
@@ -67,7 +68,7 @@ describe('None', () => {
 
   describe('map', () => {
     it('following function will not be invoked', () => {
-      const none: Optional<number> = None.of<number>();
+      const none: None<number> = None.of<number>();
 
       const spy: SinonSpy = sinon.spy();
 
@@ -93,7 +94,7 @@ describe('None', () => {
 
   describe('filter', () => {
     it('following function will not be invoked', () => {
-      const none: Optional<number> = None.of<number>();
+      const none: None<number> = None.of<number>();
 
       const spy: SinonSpy = sinon.spy();
 

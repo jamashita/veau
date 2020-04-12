@@ -2,6 +2,7 @@ import { maybe } from '../Maybe';
 import { None } from '../None';
 import { Some } from '../Some';
 
+// DONE
 describe('Maybe', () => {
   describe('maybe', () => {
     it('when null and undefined given, generates None instance', () => {

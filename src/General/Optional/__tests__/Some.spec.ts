@@ -5,6 +5,7 @@ import { Optional } from '../Optional';
 import { OptionalError } from '../OptionalError';
 import { Some } from '../Some';
 
+// DONE
 describe('Some', () => {
   describe('get', () => {
     it('the value is got by get method', () => {
