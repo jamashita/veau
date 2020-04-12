@@ -12,6 +12,10 @@ export class Languages implements Collection<number, Language>, JSONable {
   private static readonly EMPTY: Languages = Languages.of(Sequence.empty<Language>());
 
   public static of(languages: Sequence<Language>): Languages {
+    if (languages.isEmpty()) {
+      return Languages.empty();
+    }
+
     return new Languages(languages);
   }
 

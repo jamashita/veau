@@ -8,8 +8,33 @@ import { MockLanguage } from '../Mock/MockLanguage';
 import { MockLanguageID } from '../Mock/MockLanguageID';
 import { MockLanguageName } from '../Mock/MockLanguageName';
 import { MockISO639 } from '../Mock/MockISO639';
+import { Sequence } from '../../veau-general/Collection/Sequence';
 
 describe('Languages', () => {
+  describe('of', () => {
+    it('when the Sequence is zero size, returns empty', () => {
+      const languages: Languages = Languages.of(Sequence.empty<Language>());
+
+      expect(languages).toBe(Languages.empty());
+    });
+
+    it('normal case', () => {
+      const language1: MockLanguage = new MockLanguage();
+      const language2: MockLanguage = new MockLanguage();
+      const sequence: Sequence<MockLanguage> = Sequence.of<Language>([
+        language1,
+        language2
+      ]);
+
+      const languages: Languages = Languages.of(sequence);
+
+      expect(languages.size()).toEqual(sequence.size());
+      for (let i: number = 0; i < languages.size(); i++) {
+        expect(languages.get(i).get()).toEqual(sequence.get(i).get());
+      }
+    });
+  });
+
   describe('ofJSON', () => {
     it('normal case', () => {
       const json: Array<LanguageJSON> = [

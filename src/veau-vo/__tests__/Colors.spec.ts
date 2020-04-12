@@ -1,8 +1,29 @@
 import { Color } from '../Color';
 import { Colors } from '../Colors';
 import { MockColor } from '../Mock/MockColor';
+import { Sequence } from '../../veau-general/Collection/Sequence';
 
 describe('Colors', () => {
+  describe('of', () => {
+    it('normal case', () => {
+      const color1: MockColor = new MockColor();
+      const color2: MockColor = new MockColor();
+      const color3: MockColor = new MockColor();
+      const sequence: Sequence<Color> = Sequence.of<Color>([
+        color1,
+        color2,
+        color3
+      ]);
+
+      const colors: Colors = Colors.of(sequence);
+
+      expect(colors.size()).toEqual(sequence.size());
+      for (let i: number = 0; i < colors.size(); i++) {
+        expect(colors.get(i).get()).toEqual(sequence.get(i).get());
+      }
+    });
+  });
+
   describe('ofArray', () => {
     it('normal case', () => {
       const color1: MockColor = new MockColor();
