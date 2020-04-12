@@ -41,16 +41,16 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
   }
 
   public static ofTry(tries: Array<Try<StatsItem, StatsItemError>>): Try<StatsItems, StatsItemsError> {
-    return manoeuvre<StatsItem, StatsItemError>(tries).match<Try<StatsItems, StatsItemsError>>((is: Array<StatsItem>) => {
-      return Success.of<StatsItems, StatsItemsError>(StatsItems.ofArray(is));
+    return manoeuvre<StatsItem, StatsItemError>(tries).match<Try<StatsItems, StatsItemsError>>((statsItems: Array<StatsItem>) => {
+      return Success.of<StatsItems, StatsItemsError>(StatsItems.ofArray(statsItems));
     }, (err: StatsItemError) => {
       return Failure.of<StatsItems, StatsItemsError>(new StatsItemsError(err.message));
     });
   }
 
   public static ofJSON(json: Array<StatsItemJSON>):  Try<StatsItems, StatsItemsError> {
-    const trials: Array<Try<StatsItem, StatsItemError>> = json.map<Try<StatsItem, StatsItemError>>((item: StatsItemJSON) => {
-      return StatsItem.ofJSON(item);
+    const trials: Array<Try<StatsItem, StatsItemError>> = json.map<Try<StatsItem, StatsItemError>>((statsItemJSON: StatsItemJSON) => {
+      return StatsItem.ofJSON(statsItemJSON);
     });
 
     return StatsItems.ofTry(trials);
@@ -88,8 +88,8 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
     this.items = items;
   }
 
-  public add(statsItem: StatsItem): StatsItems {
-    return StatsItems.of(this.items.add(statsItem));
+  public add(...statsItem: Array<StatsItem>): StatsItems {
+    return StatsItems.of(this.items.add(...statsItem));
   }
 
   public get(index: number): Optional<StatsItem> {
@@ -246,7 +246,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
     }
 
     for (let i: number = 0; i < length; i++) {
-      if (!this.items.get(i).get().isSame(other.get(i).get())) {
+      if (!this.items.get(i).get().isSame(other.items.get(i).get())) {
         return false;
       }
     }
