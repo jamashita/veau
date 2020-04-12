@@ -1,6 +1,6 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import { kernel } from '../Container/Container';
+import { kernel } from '../Container/Kernel';
 import { TYPE } from '../Container/Types';
 import { VeauAccountError } from '../Error/VeauAccountError';
 import { AuthenticationInteractor } from '../Interactor/AuthenticationInteractor';

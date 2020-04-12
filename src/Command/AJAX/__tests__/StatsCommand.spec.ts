@@ -1,7 +1,7 @@
 import { BAD_REQUEST, CREATED } from 'http-status';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { vault } from '../../../Container/Container';
+import { vault } from '../../../Container/Vault';
 import { TYPE } from '../../../Container/Types';
 import { Stats } from '../../../Entity/Stats';
 import { StatsItems } from '../../../Entity/StatsItems';

@@ -1,7 +1,7 @@
 import express from 'express';
 import { OK } from 'http-status';
 import passport from 'passport';
-import { kernel } from '../../Container/Container';
+import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
 import { AuthenticationMiddleware } from '../middlewares/AuthenticationMiddleware';
 

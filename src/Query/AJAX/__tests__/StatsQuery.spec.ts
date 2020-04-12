@@ -1,7 +1,7 @@
 import { INTERNAL_SERVER_ERROR, NO_CONTENT, OK } from 'http-status';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { vault } from '../../../Container/Container';
+import { vault } from '../../../Container/Vault';
 import { TYPE } from '../../../Container/Types';
 import { Stats, StatsJSON } from '../../../Entity/Stats';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';

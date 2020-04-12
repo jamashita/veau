@@ -2,7 +2,7 @@ import { routerMiddleware } from 'connected-react-router';
 import { applyMiddleware, createStore, Middleware, Store } from 'redux';
 import { createLogger } from 'redux-logger';
 import { createEpicMiddleware, EpicMiddleware } from 'redux-observable';
-import { vault } from '../Container/Container';
+import { vault } from '../Container/Vault';
 import { TYPE } from '../Container/Types';
 import { Action } from './actions/Action';
 import { RootEpic } from './epics/RootEpis';
@@ -22,6 +22,7 @@ export const store: Store = createStore(
   applyMiddleware(epic, logger, router)
 );
 
+// TODO
 const rootEpic: RootEpic = vault.get<RootEpic>(TYPE.AccountMySQLQuery);
 
 epic.run(rootEpic.init());

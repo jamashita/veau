@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { MockLanguageCommand } from '../../Command/Mock/MockLanguageCommand';
 import { MockRegionCommand } from '../../Command/Mock/MockRegionCommand';
-import { kernel } from '../../Container/Container';
+import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
 import { CacheError } from '../../Error/CacheError';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';

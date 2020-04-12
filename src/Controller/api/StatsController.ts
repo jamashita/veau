@@ -1,7 +1,7 @@
 import express from 'express';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NO_CONTENT, OK } from 'http-status';
 import log4js from 'log4js';
-import { kernel } from '../../Container/Container';
+import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';

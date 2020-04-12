@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { kernel } from '../../../Container/Container';
+import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
 import { StatsValuesError } from '../../../Error/StatsValuesError';
 import { DataSourceError } from '../../../General/DataSourceError';

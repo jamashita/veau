@@ -2,7 +2,7 @@ import express from 'express';
 import { OK, UNAUTHORIZED } from 'http-status';
 import 'reflect-metadata';
 import supertest from 'supertest';
-import { kernel } from '../../../Container/Container';
+import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
 import { AuthenticationMiddleware } from '../AuthenticationMiddleware';
 

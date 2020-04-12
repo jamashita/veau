@@ -1,7 +1,7 @@
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { vault } from '../../../Container/Container';
+import { vault } from '../../../Container/Vault';
 import { TYPE } from '../../../Container/Types';
 import { AJAXError } from '../../../General/AJAX/AJAXError';
 import { MockAJAX } from '../../../General/AJAX/Mock/MockAJAX';

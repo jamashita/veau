@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { MockLocaleCommand } from '../../../Command/Mock/MockLocaleCommand';
-import { vault } from '../../../Container/Container';
+import { vault } from '../../../Container/Vault';
 import { TYPE } from '../../../Container/Types';
 import { AJAXError } from '../../../General/AJAX/AJAXError';
 import { DataSourceError } from '../../../General/DataSourceError';

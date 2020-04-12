@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { MockRegionCommand } from '../../../Command/Mock/MockRegionCommand';
-import { kernel } from '../../../Container/Container';
+import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
 import { DataSourceError } from '../../../General/DataSourceError';

@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
-import { kernel } from '../../Container/Container';
+import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { Failure } from '../../General/Try/Failure';

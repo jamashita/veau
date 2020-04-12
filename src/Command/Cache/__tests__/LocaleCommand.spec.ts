@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { vault } from '../../../Container/Container';
+import { vault } from '../../../Container/Vault';
 import { TYPE } from '../../../Container/Types';
 import { DataSourceError } from '../../../General/DataSourceError';
 import { CacheError } from '../../../General/Cache/CacheError';
