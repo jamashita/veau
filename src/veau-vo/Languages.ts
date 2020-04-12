@@ -43,7 +43,7 @@ export class Languages implements Collection<number, Language>, JSONable {
     return Languages.EMPTY;
   }
 
-  private constructor(languages: Sequence<Language>) {
+  protected constructor(languages: Sequence<Language>) {
     this.languages = languages;
   }
 

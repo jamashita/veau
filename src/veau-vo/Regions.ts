@@ -43,7 +43,7 @@ export class Regions implements Collection<number, Region>, JSONable {
     return Regions.EMPTY;
   }
 
-  private constructor(regions: Sequence<Region>) {
+  protected constructor(regions: Sequence<Region>) {
     this.regions = regions;
   }
 
