@@ -10,7 +10,8 @@ export class Sequence<E extends Nominative> implements Collection<number, E>, It
   public readonly noun: 'Sequence' = 'Sequence';
   private readonly elements: Array<E>;
 
-  private static readonly EMPTY: Sequence<Nominative> = new Sequence<Nominative>([]);
+  private static readonly EMPTY: Sequence<Nominative> = new Sequence<Nominative>([
+  ]);
 
   public static of<E extends Nominative>(elements: Array<E>): Sequence<E> {
     if (elements.length === 0) {
@@ -78,6 +79,10 @@ export class Sequence<E extends Nominative> implements Collection<number, E>, It
   }
 
   public project<F extends Nominative>(mapper: Mapper<E, F>): Sequence<F> {
+    if (this.isEmpty()) {
+      return Sequence.empty<F>();
+    }
+
     return Sequence.of<F>(this.elements.map<F>(mapper));
   }
 

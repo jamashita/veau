@@ -233,6 +233,23 @@ describe('Sequence', () => {
       expect(nouns2.get(1).get().get()).toEqual('4');
       expect(nouns2.get(2).get().get()).toEqual('9');
     });
+
+    it('returns empty sequence when Sequence is empty', () => {
+      const nouns1: Sequence<MockNominative<number>> = Sequence.empty<MockNominative<number>>();
+      const nouns2: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>([]);
+
+      const project1: Sequence<MockNominative<number>> = nouns1.project((mock: MockNominative<number>) => {
+        return mock;
+      });
+      const project2: Sequence<MockNominative<number>> = nouns2.project((mock: MockNominative<number>) => {
+        return mock;
+      });
+
+      expect(nouns1).toBe(nouns2);
+      expect(nouns2).toBe(project1);
+      expect(project1).toBe(project2);
+      expect(project2).toBe(Sequence.empty<MockNominative<number>>());
+    });
   });
 
   describe('select', () => {
