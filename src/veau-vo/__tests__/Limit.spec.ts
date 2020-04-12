@@ -4,27 +4,6 @@ import { Try } from '../../veau-general/Try/Try';
 import { Limit } from '../Limit';
 
 describe('Limit', () => {
-  describe('equals', () => {
-    it('returns true if both properties are the same', () => {
-      const limit1: Limit = Limit.of(1).get();
-      const limit2: Limit = Limit.of(2).get();
-      const limit3: Limit = Limit.of(1).get();
-
-      expect(limit1.equals(limit1)).toEqual(true);
-      expect(limit1.equals(limit2)).toEqual(false);
-      expect(limit1.equals(limit3)).toEqual(true);
-    });
-  });
-
-  describe('toString', () => {
-    it('normal case', () => {
-      const num: number = 1;
-      const limit: Limit = Limit.of(num).get();
-
-      expect(limit.toString()).toEqual(num.toString());
-    });
-  });
-
   describe('of', () => {
     it('returns Failure when the argument is less than 1', () => {
       const trial1: Try<Limit, LimitError> = Limit.of(1);
@@ -90,6 +69,33 @@ describe('Limit', () => {
       expect(spy2.called).toEqual(true);
       expect(spy3.called).toEqual(false);
       expect(spy4.called).toEqual(true);
+    });
+  });
+
+  describe('default', () => {
+    it('always returns 40', () => {
+      expect(Limit.default().get()).toEqual(40);
+    });
+  });
+
+  describe('equals', () => {
+    it('returns true if both properties are the same', () => {
+      const limit1: Limit = Limit.of(1).get();
+      const limit2: Limit = Limit.of(2).get();
+      const limit3: Limit = Limit.of(1).get();
+
+      expect(limit1.equals(limit1)).toEqual(true);
+      expect(limit1.equals(limit2)).toEqual(false);
+      expect(limit1.equals(limit3)).toEqual(true);
+    });
+  });
+
+  describe('toString', () => {
+    it('normal case', () => {
+      const num: number = 1;
+      const limit: Limit = Limit.of(num).get();
+
+      expect(limit.toString()).toEqual(num.toString());
     });
   });
 });

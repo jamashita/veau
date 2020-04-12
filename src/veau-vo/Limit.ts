@@ -5,9 +5,13 @@ import { Try } from '../veau-general/Try/Try';
 import { Type } from '../veau-general/Type/Type';
 import { ValueObject } from '../veau-general/ValueObject';
 
+const LIMIT: number = 40;
+
 export class Limit extends ValueObject {
   public readonly noun: 'Limit' = 'Limit';
   private readonly limit: number;
+
+  private static readonly DEFAULT: Limit = new Limit(LIMIT);
 
   public static of(limit: number): Try<Limit, LimitError> {
     if (limit <= 0) {
@@ -18,6 +22,10 @@ export class Limit extends ValueObject {
     }
 
     return Failure.of<Limit, LimitError>(new LimitError('ILLEGAL LIMIT SPECIFIED'));
+  }
+
+  public static default(): Limit {
+    return Limit.DEFAULT;
   }
 
   private constructor(limit: number) {
@@ -33,7 +41,7 @@ export class Limit extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.limit === other.get()) {
+    if (this.limit === other.limit) {
       return true;
     }
 
