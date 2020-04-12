@@ -6,7 +6,7 @@ import { NoSuchElementError } from '../../veau-error/NoSuchElementError';
 import { StatsError } from '../../veau-error/StatsError';
 import { AJAXError } from '../../veau-general/AJAX/AJAXError';
 import { AJAXResponse } from '../../veau-general/AJAX/AJAXResponse';
-import { IAJAX } from '../../veau-general/AJAX/interfaces/IAJAX';
+import { IAJAX } from '../../veau-general/AJAX/Interface/IAJAX';
 import { DataSourceError } from '../../veau-general/DataSourceError';
 import { Failure } from '../../veau-general/Try/Failure';
 import { Try } from '../../veau-general/Try/Try';

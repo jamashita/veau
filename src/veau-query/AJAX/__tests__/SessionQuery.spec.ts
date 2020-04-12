@@ -7,7 +7,7 @@ import { AuthenticationFailureError } from '../../../veau-error/AuthenticationFa
 import { UnauthorizedError } from '../../../veau-error/UnauthorizedError';
 import { VeauAccountError } from '../../../veau-error/VeauAccountError';
 import { AJAXError } from '../../../veau-general/AJAX/AJAXError';
-import { MockAJAX } from '../../../veau-general/AJAX/mocks/MockAJAX';
+import { MockAJAX } from '../../../veau-general/AJAX/Mock/MockAJAX';
 import { DataSourceError } from '../../../veau-general/DataSourceError';
 import { Try } from '../../../veau-general/Try/Try';
 import { AccountName } from '../../../veau-vo/AccountName';

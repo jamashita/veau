@@ -7,7 +7,7 @@ import { Stats, StatsJSON } from '../../../veau-entity/Stats';
 import { NoSuchElementError } from '../../../veau-error/NoSuchElementError';
 import { StatsError } from '../../../veau-error/StatsError';
 import { AJAXError } from '../../../veau-general/AJAX/AJAXError';
-import { MockAJAX } from '../../../veau-general/AJAX/mocks/MockAJAX';
+import { MockAJAX } from '../../../veau-general/AJAX/Mock/MockAJAX';
 import { DataSourceError } from '../../../veau-general/DataSourceError';
 import { Try } from '../../../veau-general/Try/Try';
 import { StatsID } from '../../../veau-vo/StatsID';

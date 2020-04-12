@@ -5,7 +5,7 @@ import { vault } from '../../../veau-container/Container';
 import { TYPE } from '../../../veau-container/Types';
 import { StatsOutlinesError } from '../../../veau-error/StatsOutlinesError';
 import { AJAXError } from '../../../veau-general/AJAX/AJAXError';
-import { MockAJAX } from '../../../veau-general/AJAX/mocks/MockAJAX';
+import { MockAJAX } from '../../../veau-general/AJAX/Mock/MockAJAX';
 import { DataSourceError } from '../../../veau-general/DataSourceError';
 import { Try } from '../../../veau-general/Try/Try';
 import { Page } from '../../../veau-vo/Page';

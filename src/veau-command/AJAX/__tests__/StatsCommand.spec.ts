@@ -6,7 +6,7 @@ import { TYPE } from '../../../veau-container/Types';
 import { Stats } from '../../../veau-entity/Stats';
 import { StatsItems } from '../../../veau-entity/StatsItems';
 import { AJAXError } from '../../../veau-general/AJAX/AJAXError';
-import { MockAJAX } from '../../../veau-general/AJAX/mocks/MockAJAX';
+import { MockAJAX } from '../../../veau-general/AJAX/Mock/MockAJAX';
 import { DataSourceError } from '../../../veau-general/DataSourceError';
 import { Try } from '../../../veau-general/Try/Try';
 import { ISO3166 } from '../../../veau-vo/ISO3166';

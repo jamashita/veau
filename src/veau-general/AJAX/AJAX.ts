@@ -2,7 +2,7 @@ import request from 'superagent';
 import { Resolve } from '../Type/Function';
 import { JSObjectNotation } from '../Type/Value';
 import { AJAXResponse } from './AJAXResponse';
-import { IAJAX } from './interfaces/IAJAX';
+import { IAJAX } from './Interface/IAJAX';
 
 export class AJAX implements IAJAX {
 
