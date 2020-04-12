@@ -4,6 +4,38 @@ import { Optional } from '../../Optional/Optional';
 import { Sequence } from '../Sequence';
 
 describe('Sequence', () => {
+  describe('of', () => {
+    it('when the arguments specified with 0 length array, returns singleton', () => {
+      const sequence: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>([]);
+
+      expect(sequence.isEmpty()).toEqual(true);
+      expect(sequence).toBe(Sequence.empty<MockNominative<number>>());
+    });
+
+    it('normal case', () => {
+      const sequence1: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>([
+        new MockNominative<number>(1),
+        new MockNominative<number>(3)
+      ]);
+      const sequence2: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>([
+        new MockNominative<number>(2),
+        new MockNominative<number>(4),
+        new MockNominative<number>(5)
+      ]);
+
+      expect(sequence1.size()).toEqual(2);
+      expect(sequence2.size()).toEqual(3);
+    });
+  });
+
+  describe('empty', () => {
+    it('always empty, the length is 0', () => {
+      const sequence: Sequence<MockNominative<number>> = Sequence.empty<MockNominative<number>>();
+
+      expect(sequence.isEmpty()).toEqual(true);
+    });
+  });
+
   describe('[Symbol.iterator]', () => {
     it('can iterate for loop', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
@@ -300,6 +332,27 @@ describe('Sequence', () => {
       expect(screen2.size()).toEqual(1);
       expect(screen2.get(0).get()).toEqual(noun4);
       expect(screen3.size()).toEqual(0);
+    });
+
+    it('returns empty sequence when screen returns nothing', () => {
+      const noun1: MockNominative<number> = new MockNominative<number>(1);
+      const noun2: MockNominative<number> = new MockNominative<number>(2);
+      const noun3: MockNominative<number> = new MockNominative<number>(3);
+      const noun4: MockNominative<number> = new MockNominative<number>(2);
+
+      const nouns: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>([
+        noun1,
+        noun2,
+        noun3,
+        noun4
+      ]);
+
+      const screen: Sequence<MockNominative<number>> = nouns.screen((mock: MockNominative<number>) => {
+        return false;
+      });
+
+      expect(screen.size()).toEqual(0);
+      expect(screen).toBe(Sequence.empty<MockNominative<number>>());
     });
   });
 
@@ -681,14 +734,6 @@ describe('Sequence', () => {
       ];
       const nouns: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>(elements);
       expect(nouns.toArray()).not.toBe(elements);
-    });
-  });
-
-  describe('empty', () => {
-    it('always empty, the length is 0', () => {
-      const sequence: Sequence<MockNominative<number>> = Sequence.empty();
-
-      expect(sequence.isEmpty()).toEqual(true);
     });
   });
 });

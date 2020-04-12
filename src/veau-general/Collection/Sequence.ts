@@ -10,9 +10,13 @@ export class Sequence<E extends Nominative> implements Collection<number, E>, It
   public readonly noun: 'Sequence' = 'Sequence';
   private readonly elements: Array<E>;
 
-  private static readonly EMPTY: Sequence<Nominative> = Sequence.of<Nominative>([]);
+  private static readonly EMPTY: Sequence<Nominative> = new Sequence<Nominative>([]);
 
   public static of<E extends Nominative>(elements: Array<E>): Sequence<E> {
+    if (elements.length === 0) {
+      return Sequence.empty<E>();
+    }
+
     return new Sequence<E>(elements);
   }
 
@@ -74,7 +78,7 @@ export class Sequence<E extends Nominative> implements Collection<number, E>, It
   }
 
   public project<F extends Nominative>(mapper: Mapper<E, F>): Sequence<F> {
-    return Sequence.of(this.elements.map<F>(mapper));
+    return Sequence.of<F>(this.elements.map<F>(mapper));
   }
 
   public select(predicate: Predicate<E>): Optional<E> {
@@ -88,7 +92,13 @@ export class Sequence<E extends Nominative> implements Collection<number, E>, It
   }
 
   public screen(iterator: Enumerator<number, E>): Sequence<E> {
-    return Sequence.of<E>(this.elements.filter(iterator));
+    const filtered: Array<E> = this.elements.filter(iterator);
+
+    if (filtered.length === 0) {
+      return Sequence.empty<E>();
+    }
+
+    return Sequence.of<E>(filtered);
   }
 
   public every(enumerator: Enumerator<number, E>): boolean {
