@@ -84,7 +84,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
     return StatsItems.EMPTY;
   }
 
-  private constructor(items: Sequence<StatsItem>) {
+  protected constructor(items: Sequence<StatsItem>) {
     this.items = items;
   }
 

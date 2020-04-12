@@ -17,15 +17,9 @@ import { AsOfs } from '../veau-vo/AsOfs';
 import { Column } from '../veau-vo/Column';
 import { Coordinate } from '../veau-vo/Coordinate';
 import { HeaderSize } from '../veau-vo/HeaderSize';
-import { ISO3166 } from '../veau-vo/ISO3166';
-import { ISO639 } from '../veau-vo/ISO639';
 import { Language, LanguageJSON } from '../veau-vo/Language';
-import { LanguageID } from '../veau-vo/LanguageID';
-import { LanguageName } from '../veau-vo/LanguageName';
 import { NumericalValue } from '../veau-vo/NumericalValue';
 import { Region, RegionJSON } from '../veau-vo/Region';
-import { RegionID } from '../veau-vo/RegionID';
-import { RegionName } from '../veau-vo/RegionName';
 import { Row } from '../veau-vo/Row';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsItemNames } from '../veau-vo/StatsItemNames';
@@ -89,33 +83,32 @@ export class Stats extends Entity<StatsID> {
     items: StatsItems,
     startDate: Optional<AsOf> = None.of<AsOf>()
   ): Stats {
-    return new Stats(statsID, language, region, term, name, unit, updatedAt, items, startDate);
-  }
-
-  public static ofJSON(json: StatsJSON): Try<Stats, StatsError> {
-    const {
+    return new Stats(
       statsID,
       language,
       region,
-      termID,
+      term,
       name,
       unit,
       updatedAt,
-      items
-    } = json;
+      items,
+      startDate
+    );
+  }
 
-    return StatsID.ofString(statsID).match<Try<Stats, StatsError>>((id: StatsID) => {
-      return Term.of(termID).match<Try<Stats, StatsError>>((term: Term) => {
-        return UpdatedAt.ofString(updatedAt).match<Try<Stats, StatsError>>((at: UpdatedAt) => {
-          return StatsItems.ofJSON(items).match<Try<Stats, StatsError>>((statsItems: StatsItems) => {
+  public static ofJSON(json: StatsJSON): Try<Stats, StatsError> {
+    return StatsID.ofString(json.statsID).match<Try<Stats, StatsError>>((statsID: StatsID) => {
+      return Term.of(json.termID).match<Try<Stats, StatsError>>((term: Term) => {
+        return UpdatedAt.ofString(json.updatedAt).match<Try<Stats, StatsError>>((updatedAt: UpdatedAt) => {
+          return StatsItems.ofJSON(json.items).match<Try<Stats, StatsError>>((statsItems: StatsItems) => {
             const stats: Stats = Stats.of(
-              id,
-              Language.ofJSON(language),
-              Region.ofJSON(region),
+              statsID,
+              Language.ofJSON(json.language),
+              Region.ofJSON(json.region),
               term,
-              StatsName.of(name),
-              StatsUnit.of(unit),
-              at,
+              StatsName.of(json.name),
+              StatsUnit.of(json.unit),
+              updatedAt,
               statsItems
             );
 
@@ -135,35 +128,29 @@ export class Stats extends Entity<StatsID> {
   }
 
   public static ofRow(row: StatsRow, statsItems: StatsItems): Try<Stats, StatsError> {
-    const {
-      statsID,
-      languageID,
-      languageName,
-      languageEnglishName,
-      iso639,
-      regionID,
-      regionName,
-      iso3166,
-      termID,
-      name,
-      unit,
-      updatedAt
-    } = row;
+    return StatsID.ofString(row.statsID).match<Try<Stats, StatsError>>((statsID: StatsID) => {
+      return Term.of(row.termID).match<Try<Stats, StatsError>>((term: Term) => {
+        return UpdatedAt.ofString(row.updatedAt).match<Try<Stats, StatsError>>((updatedAt: UpdatedAt) => {
+          const language: Language = Language.ofRow({
+            languageID: row.languageID,
+            name: row.languageName,
+            englishName: row.languageEnglishName,
+            iso639: row.iso639
+          });
+          const region: Region = Region.ofRow({
+            regionID: row.regionID,
+            name: row.regionName,
+            iso3166: row.iso3166
+          });
 
-    const language: Language = Language.of(LanguageID.of(languageID), LanguageName.of(languageName), LanguageName.of(languageEnglishName), ISO639.of(iso639));
-    const region: Region = Region.of(RegionID.of(regionID), RegionName.of(regionName), ISO3166.of(iso3166));
-
-    return StatsID.ofString(statsID).match<Try<Stats, StatsError>>((id: StatsID) => {
-      return Term.of(termID).match<Try<Stats, StatsError>>((term: Term) => {
-        return UpdatedAt.ofString(updatedAt).match<Try<Stats, StatsError>>((at: UpdatedAt) => {
           const stats: Stats = Stats.of(
-            id,
+            statsID,
             language,
             region,
             term,
-            StatsName.of(name),
-            StatsUnit.of(unit),
-            at,
+            StatsName.of(row.name),
+            StatsUnit.of(row.unit),
+            updatedAt,
             statsItems
           );
 
@@ -245,7 +232,8 @@ export class Stats extends Entity<StatsID> {
     unit: StatsUnit,
     updatedAt: UpdatedAt,
     items: StatsItems,
-    startDate: Optional<AsOf>) {
+    startDate: Optional<AsOf>
+  ) {
     super();
     this.statsID = statsID;
     this.language = language;
@@ -313,7 +301,7 @@ export class Stats extends Entity<StatsID> {
       return columns.get();
     }
 
-    let asOfs: AsOfs = this.getAsOfs();
+    const asOfs: AsOfs = this.getAsOfs();
 
     if (startDate.isPresent()) {
       asOfs = asOfs.add(startDate.get());
@@ -502,28 +490,28 @@ export class Stats extends Entity<StatsID> {
       items
     } = this;
 
-    if (!statsID.equals(other.getStatsID())) {
+    if (!statsID.equals(other.statsID)) {
       return false;
     }
-    if (!language.equals(other.getLanguage())) {
+    if (!language.equals(other.language)) {
       return false;
     }
-    if (!region.equals(other.getRegion())) {
+    if (!region.equals(other.region)) {
       return false;
     }
-    if (term !== other.getTerm()) {
+    if (!term.equals(other.term)) {
       return false;
     }
-    if (!name.equals(other.getName())) {
+    if (!name.equals(other.name)) {
       return false;
     }
-    if (!unit.equals(other.getUnit())) {
+    if (!unit.equals(other.unit)) {
       return false;
     }
-    if (!updatedAt.equals(other.getUpdatedAt())) {
+    if (!updatedAt.equals(other.updatedAt)) {
       return false;
     }
-    if (!items.areSame(other.getItems())) {
+    if (!items.areSame(other.items)) {
       return false;
     }
 
@@ -543,7 +531,17 @@ export class Stats extends Entity<StatsID> {
       startDate
     } = this;
 
-    return new Stats(statsID, language, region, term, name, unit, updatedAt, items.copy(), startDate);
+    return new Stats(
+      statsID,
+      language,
+      region,
+      term,
+      name,
+      unit,
+      updatedAt,
+      items.copy(),
+      startDate
+    );
   }
 
   public toJSON(): StatsJSON {

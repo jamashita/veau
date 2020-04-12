@@ -322,6 +322,42 @@ describe('AsOfs', () => {
     });
   });
 
+  describe('toArray', () => {
+    it('normal case', () => {
+      const asOf1: MockAsOf = new MockAsOf();
+      const asOf2: MockAsOf = new MockAsOf();
+      const asOf3: MockAsOf = new MockAsOf();
+
+      const asOfs: AsOfs = AsOfs.ofSpread(
+        asOf1,
+        asOf2,
+        asOf3
+      );
+
+      expect(asOfs.toArray()).toEqual([
+        asOf1,
+        asOf2,
+        asOf3
+      ]);
+    });
+  });
+
+  describe('toJSON', () => {
+    it('normal case', () => {
+      const asOfs: AsOfs = AsOfs.ofSpread(
+        AsOf.ofString('2000-01-01').get(),
+        AsOf.ofString('2000-01-02').get(),
+        AsOf.ofString('2000-01-03').get()
+      );
+
+      expect(asOfs.toJSON()).toEqual([
+        '2000-01-01',
+        '2000-01-02',
+        '2000-01-03'
+      ]);
+    });
+  });
+
   describe('toString', () => {
     it('normal case', () => {
       const asOfs: AsOfs = AsOfs.ofSpread(

@@ -90,6 +90,10 @@ export class AsOfs implements Collection<number, AsOf>, JSONable {
     return this.asOfs.equals(other.asOfs);
   }
 
+  public toArray(): Array<AsOf> {
+    return this.asOfs.toArray();
+  }
+
   public toJSON(): Array<string> {
     return this.asOfs.toArray().map<string>((asOf: AsOf) => {
       return asOf.toString();
