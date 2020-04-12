@@ -5,7 +5,6 @@ import { TYPE } from '../../../Container/Types';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
 import { DataSourceError } from '../../../General/DataSourceError';
 import { MockError } from '../../../General/MockError';
-import { MockRedisError } from '../../../General/Redis/Mock/MockRedisError';
 import { MockRedis } from '../../../General/Redis/Mock/MockRedis';
 import { MockRedisString } from '../../../General/Redis/Mock/MockRedisString';
 import { Try } from '../../../General/Try/Try';
@@ -13,6 +12,7 @@ import { ISO639 } from '../../../VO/ISO639';
 import { Language, LanguageJSON } from '../../../VO/Language';
 import { Languages } from '../../../VO/Languages';
 import { LanguageQuery } from '../LanguageQuery';
+import { RedisError } from '../../../General/Redis/RedisError';
 
 describe('LanguageQuery', () => {
   describe('container', () => {
@@ -115,7 +115,7 @@ describe('LanguageQuery', () => {
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
       string.get = stub;
-      stub.rejects(new MockRedisError());
+      stub.rejects(new RedisError('test faied'));
       const redis: MockRedis = new MockRedis({
         string
       });
@@ -290,7 +290,7 @@ describe('LanguageQuery', () => {
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
       string.get = stub;
-      stub.rejects(new MockRedisError());
+      stub.rejects(new RedisError('test faied'));
       const redis: MockRedis = new MockRedis({
         string
       });

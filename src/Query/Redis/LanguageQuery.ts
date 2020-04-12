@@ -37,7 +37,7 @@ export class LanguageQuery implements ILanguageQuery, IRedisQuery {
 
       const languageJSONs: Array<LanguageJSON> = await JSONA.parse<Array<LanguageJSON>>(languagesString);
 
-      return Success.of<Languages, NoSuchElementError>(Languages.ofJSON(languageJSONs));
+      return Success.of<Languages, DataSourceError>(Languages.ofJSON(languageJSONs));
     }
     catch (err) {
       if (err instanceof RedisError) {
