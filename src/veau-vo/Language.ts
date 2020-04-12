@@ -42,34 +42,20 @@ export class Language extends ValueObject implements JSONable {
   }
 
   public static ofJSON(json: LanguageJSON): Language {
-    const {
-      languageID,
-      name,
-      englishName,
-      iso639
-    } = json;
-
     return Language.of(
-      LanguageID.of(languageID),
-      LanguageName.of(name),
-      LanguageName.of(englishName),
-      ISO639.of(iso639)
+      LanguageID.of(json.languageID),
+      LanguageName.of(json.name),
+      LanguageName.of(json.englishName),
+      ISO639.of(json.iso639)
     );
   }
 
   public static ofRow(row: LanguageRow): Language {
-    const {
-      languageID,
-      name,
-      englishName,
-      iso639
-    } = row;
-
     return Language.of(
-      LanguageID.of(languageID),
-      LanguageName.of(name),
-      LanguageName.of(englishName),
-      ISO639.of(iso639)
+      LanguageID.of(row.languageID),
+      LanguageName.of(row.name),
+      LanguageName.of(row.englishName),
+      ISO639.of(row.iso639)
     );
   }
 

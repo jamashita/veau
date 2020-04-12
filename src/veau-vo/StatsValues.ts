@@ -52,8 +52,8 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
     return StatsValues.ofTry(tries);
   }
 
-  public static ofRow(statsValues: Array<StatsValueRow>): Try<StatsValues, StatsValuesError> {
-    const tries: Array<Try<StatsValue, StatsValueError>> = statsValues.map<Try<StatsValue, StatsValueError>>((statsValue: StatsValueRow) => {
+  public static ofRow(rows: Array<StatsValueRow>): Try<StatsValues, StatsValuesError> {
+    const tries: Array<Try<StatsValue, StatsValueError>> = rows.map<Try<StatsValue, StatsValueError>>((statsValue: StatsValueRow) => {
       return StatsValue.ofRow(statsValue);
     });
 

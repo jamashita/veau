@@ -33,28 +33,23 @@ export class StatsValue extends ValueObject implements JSONable {
   }
 
   public static ofJSON(statsItemID: StatsItemID, json: StatsValueJSON): Try<StatsValue, StatsValueError> {
-    const {
-      asOf,
-      value
-    } = json;
-
-    return AsOf.ofString(asOf).match<Try<StatsValue, StatsValueError>>((of: AsOf) => {
-      return Success.of<StatsValue, StatsValueError>(StatsValue.of(statsItemID, of, NumericalValue.of(value)));
+    return AsOf.ofString(json.asOf).match<Try<StatsValue, StatsValueError>>((asOf: AsOf) => {
+      return Success.of<StatsValue, StatsValueError>(StatsValue.of(statsItemID, asOf, NumericalValue.of(json.value)));
     }, (err: AsOfError) => {
       return Failure.of<StatsValue, StatsValueError>(new StatsValueError(err.message));
     });
   }
 
   public static ofRow(row: StatsValueRow): Try<StatsValue, StatsValueError> {
-    const {
-      statsItemID,
-      asOf,
-      value
-    } = row;
-
-    return StatsItemID.ofString(statsItemID).match<Try<StatsValue, StatsValueError>>((id: StatsItemID) => {
-      return AsOf.ofString(asOf).match<Try<StatsValue, StatsValueError>>((of: AsOf) => {
-        return Success.of<StatsValue, StatsValueError>(StatsValue.of(id, of, NumericalValue.of(value)));
+    return StatsItemID.ofString(row.statsItemID).match<Try<StatsValue, StatsValueError>>((statsItemID: StatsItemID) => {
+      return AsOf.ofString(row.asOf).match<Try<StatsValue, StatsValueError>>((asOf: AsOf) => {
+        return Success.of<StatsValue, StatsValueError>(
+          StatsValue.of(
+            statsItemID,
+            asOf,
+            NumericalValue.of(row.value)
+          )
+        );
       }, (err: AsOfError) => {
         return Failure.of<StatsValue, StatsValueError>(new StatsValueError(err.message));
       });

@@ -7,15 +7,9 @@ import { Try } from '../veau-general/Try/Try';
 import { ValueObject } from '../veau-general/ValueObject';
 import { AccountName } from './AccountName';
 import { Hash } from './Hash';
-import { ISO3166 } from './ISO3166';
-import { ISO639 } from './ISO639';
 import { Language } from './Language';
-import { LanguageID } from './LanguageID';
-import { LanguageName } from './LanguageName';
 import { Password } from './Password';
 import { Region } from './Region';
-import { RegionID } from './RegionID';
-import { RegionName } from './RegionName';
 import { VeauAccount } from './VeauAccount';
 import { VeauAccountID } from './VeauAccountID';
 
@@ -51,33 +45,28 @@ export class Account extends ValueObject {
   }
 
   public static ofRow(row: AccountRow): Try<Account, AccountError> {
-    const {
-      veauAccountID,
-      account,
-      languageID,
-      languageName,
-      languageEnglishName,
-      iso639,
-      regionID,
-      regionName,
-      iso3166,
-      hash
-    } = row;
+    return VeauAccountID.ofString(row.veauAccountID).match<Try<Account, AccountError>>((veauAccountID: VeauAccountID) => {
+      const language: Language = Language.ofRow({
+        languageID: row.languageID,
+        name: row.languageName,
+        englishName: row.languageEnglishName,
+        iso639: row.iso639
+      });
+      const region: Region = Region.ofRow({
+        regionID: row.regionID,
+        name: row.regionName,
+        iso3166: row.iso3166
+      });
 
-    const language: Language = Language.of(
-      LanguageID.of(languageID),
-      LanguageName.of(languageName),
-      LanguageName.of(languageEnglishName),
-      ISO639.of(iso639)
-    );
-    const region: Region = Region.of(
-      RegionID.of(regionID),
-      RegionName.of(regionName),
-      ISO3166.of(iso3166)
-    );
-
-    return VeauAccountID.ofString(veauAccountID).match<Try<Account, AccountError>>((id: VeauAccountID) => {
-      return Success.of<Account, AccountError>(Account.of(id, AccountName.of(account), language, region, Hash.of(hash)));
+      return Success.of<Account, AccountError>(
+        Account.of(
+          veauAccountID,
+          AccountName.of(row.account),
+          language,
+          region,
+          Hash.of(row.hash)
+        )
+      );
     }, (err: VeauAccountIDError) => {
       return Failure.of<Account, AccountError>(new AccountError(err.message));
     });

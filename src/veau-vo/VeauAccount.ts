@@ -34,20 +34,13 @@ export class VeauAccount extends ValueObject implements JSONable {
   }
 
   public static ofJSON(json: VeauAccountJSON): Try<VeauAccount, VeauAccountError> {
-    const {
-      veauAccountID,
-      account,
-      language,
-      region
-    } = json;
-
-    return VeauAccountID.ofString(veauAccountID).match<Try<VeauAccount, VeauAccountError>>((id: VeauAccountID) => {
+    return VeauAccountID.ofString(json.veauAccountID).match<Try<VeauAccount, VeauAccountError>>((veauAccountID: VeauAccountID) => {
       return Success.of<VeauAccount, VeauAccountError>(
         VeauAccount.of(
-          id,
-          AccountName.of(account),
-          Language.ofJSON(language),
-          Region.ofJSON(region)
+          veauAccountID,
+          AccountName.of(json.account),
+          Language.ofJSON(json.language),
+          Region.ofJSON(json.region)
         )
       );
     }, (err: VeauAccountIDError) => {

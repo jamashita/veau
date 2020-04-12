@@ -37,30 +37,18 @@ export class Region extends ValueObject implements JSONable {
   }
 
   public static ofJSON(json: RegionJSON): Region {
-    const {
-      regionID,
-      name,
-      iso3166
-    } = json;
-
     return Region.of(
-      RegionID.of(regionID),
-      RegionName.of(name),
-      ISO3166.of(iso3166)
+      RegionID.of(json.regionID),
+      RegionName.of(json.name),
+      ISO3166.of(json.iso3166)
     );
   }
 
   public static ofRow(row: RegionRow): Region {
-    const {
-      regionID,
-      name,
-      iso3166
-    } = row;
-
     return Region.of(
-      RegionID.of(regionID),
-      RegionName.of(name),
-      ISO3166.of(iso3166)
+      RegionID.of(row.regionID),
+      RegionName.of(row.name),
+      ISO3166.of(row.iso3166)
     );
   }
 

@@ -24,13 +24,11 @@ export class Locale extends ValueObject implements JSONable {
     return new Locale(languages, regions);
   }
 
-  public static ofJSON(locale: LocaleJSON): Locale {
-    const {
-      languages,
-      regions
-    } = locale;
-
-    return Locale.of(Languages.ofJSON(languages), Regions.ofJSON(regions));
+  public static ofJSON(json: LocaleJSON): Locale {
+    return Locale.of(
+      Languages.ofJSON(json.languages),
+      Regions.ofJSON(json.regions)
+    );
   }
 
   public static default(): Locale {
