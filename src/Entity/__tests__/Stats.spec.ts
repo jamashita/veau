@@ -29,53 +29,88 @@ import { UpdatedAt } from '../../VO/UpdatedAt';
 import { Stats, StatsJSON, StatsRow } from '../Stats';
 import { StatsItem } from '../StatsItem';
 import { StatsItems } from '../StatsItems';
+import { MockStatsID } from '../../VO/Mock/MockStatsID';
+import { MockLanguage } from '../../VO/Mock/MockLanguage';
+import { MockLanguageID } from '../../VO/Mock/MockLanguageID';
+import { MockRegion } from '../../VO/Mock/MockRegion';
+import { MockRegionID } from '../../VO/Mock/MockRegionID';
+import { MockTerm } from '../../VO/Mock/MockTerm';
+import { MockStatsName } from '../../VO/Mock/MockStatsName';
+import { MockStatsUnit } from '../../VO/Mock/MockStatsUnit';
+import { MockUpdatedAt } from '../../VO/Mock/MockUpdatedAt';
+import { MockStatsItems } from '../Mock/MockStatsItems';
+import { MockStatsItem } from '../Mock/MockStatsItem';
+import { MockStatsItemID } from '../../VO/Mock/MockStatsItemID';
+import { MockStatsItemName } from '../../VO/Mock/MockStatsItemName';
+import { MockStatsValues } from '../../VO/Mock/MockStatsValues';
+import { MockStatsValue } from '../../VO/Mock/MockStatsValue';
+import { MockAsOf } from '../../VO/Mock/MockAsOf';
 
+// DONE
 describe('Stats', () => {
   describe('equals', () => {
     it('returns true if the ids equal', () => {
-      const statsID1: StatsID = StatsID.ofString('d5d311b5-c09a-4f82-91e5-b7b55736120e').get();
-      const statsID2: StatsID = StatsID.ofString('f19bca43-511f-4d8c-bd12-af27bf0cd429').get();
+      const uuid1: UUID = UUID.v4();
+      const uuid2: UUID = UUID.v4();
+      const statsID1: MockStatsID = new MockStatsID(uuid1);
+      const statsID2: MockStatsID = new MockStatsID(uuid2);
       const stats1: Stats = Stats.of(
         statsID1,
-        Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('LANGUAGE1'), ISO639.of('lang1')),
-        Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('REGION1')),
-        Term.DAILY,
-        StatsName.of('name1'),
-        StatsUnit.of('unit1'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.empty()
+        new MockLanguage({
+          languageID: new MockLanguageID(1)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(1)
+        }),
+        new MockTerm({
+          id: 1
+        }),
+        new MockStatsName(),
+        new MockStatsUnit(),
+        new MockUpdatedAt({
+          day: 1
+        }),
+        new MockStatsItems()
       );
       const stats2: Stats = Stats.of(
         statsID2,
-        Language.of(LanguageID.of(2), LanguageName.of('language2'), LanguageName.of('LANGUAGE2'), ISO639.of('lang2')),
-        Region.of(RegionID.of(2), RegionName.of('region2'), ISO3166.of('REGION2')),
-        Term.WEEKLY,
-        StatsName.of('name2'),
-        StatsUnit.of('unit2'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.ofArray([
-          StatsItem.of(
-            StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
-            StatsItemName.of('stats1'),
-            StatsValues.empty()
-          )
-        ])
+        new MockLanguage({
+          languageID: new MockLanguageID(2)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(2)
+        }),
+        new MockTerm({
+          id: 5
+        }),
+        new MockStatsName('not default'),
+        new MockStatsUnit('anpersand'),
+        new MockUpdatedAt({
+          day: 1
+        }),
+        new MockStatsItems(
+          new MockStatsItem()
+        )
       );
       const stats3: Stats = Stats.of(
         statsID1,
-        Language.of(LanguageID.of(2), LanguageName.of('language2'), LanguageName.of('LANGUAGE2'), ISO639.of('lang2')),
-        Region.of(RegionID.of(2), RegionName.of('region2'), ISO3166.of('REGION2')),
-        Term.WEEKLY,
-        StatsName.of('name2'),
-        StatsUnit.of('unit2'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.ofArray([
-          StatsItem.of(
-            StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
-            StatsItemName.of('stats1'),
-            StatsValues.empty()
-          )
-        ])
+        new MockLanguage({
+          languageID: new MockLanguageID(2)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(2)
+        }),
+        new MockTerm({
+          id: 5
+        }),
+        new MockStatsName('not default'),
+        new MockStatsUnit('anpersand'),
+        new MockUpdatedAt({
+          day: 1
+        }),
+        new MockStatsItems(
+          new MockStatsItem()
+        )
       );
 
       expect(stats1.equals(stats1)).toEqual(true);
@@ -86,258 +121,360 @@ describe('Stats', () => {
 
   describe('isSame', () => {
     it('returns true if all the properties are the same', () => {
+      const uuid1: UUID = UUID.v4();
+      const uuid2: UUID = UUID.v4();
+      const uuid3: UUID = UUID.v4();
+      const uuid4: UUID = UUID.v4();
+      const statsID1: MockStatsID = new MockStatsID(uuid1);
+      const statsID2: MockStatsID = new MockStatsID(uuid2);
       const stats1: Stats = Stats.of(
-        StatsID.ofString('d5d311b5-c09a-4f82-91e5-b7b55736120e').get(),
-        Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
-        Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
-        Term.DAILY,
-        StatsName.of('name'),
-        StatsUnit.of('unit'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.ofArray([
-          StatsItem.of(
-            StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
-            StatsItemName.of('stats'),
-            StatsValues.empty()
-          )
-        ])
+        statsID1,
+        new MockLanguage({
+          languageID: new MockLanguageID(1)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(1)
+        }),
+        new MockTerm({
+          id: 1
+        }),
+        new MockStatsName('stats name 1'),
+        new MockStatsUnit('unit'),
+        new MockUpdatedAt({
+          day: 1
+        }),
+        new MockStatsItems(
+          new MockStatsItem({
+            statsItemID: new MockStatsItemID(uuid3),
+            name: new MockStatsItemName('item name 1')
+          })
+        )
       );
       const stats2: Stats = Stats.of(
-        StatsID.ofString('f19bca43-511f-4d8c-bd12-af27bf0cd429').get(),
-        Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
-        Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
-        Term.DAILY,
-        StatsName.of('name'),
-        StatsUnit.of('unit'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.ofArray([
-          StatsItem.of(
-            StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
-            StatsItemName.of('stats'),
-            StatsValues.empty()
-          )
-        ])
+        statsID2,
+        new MockLanguage({
+          languageID: new MockLanguageID(1)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(1)
+        }),
+        new MockTerm({
+          id: 1
+        }),
+        new MockStatsName('stats name 1'),
+        new MockStatsUnit('unit'),
+        new MockUpdatedAt({
+          day: 1
+        }),
+        new MockStatsItems(
+          new MockStatsItem({
+            statsItemID: new MockStatsItemID(uuid3),
+            name: new MockStatsItemName('item name 1')
+          })
+        )
       );
       const stats3: Stats = Stats.of(
-        StatsID.ofString('d5d311b5-c09a-4f82-91e5-b7b55736120e').get(),
-        Language.of(LanguageID.of(2), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
-        Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
-        Term.DAILY,
-        StatsName.of('name'),
-        StatsUnit.of('unit'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.ofArray([
-          StatsItem.of(
-            StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
-            StatsItemName.of('stats'),
-            StatsValues.empty()
-          )
-        ])
+        statsID1,
+        new MockLanguage({
+          languageID: new MockLanguageID(2)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(1)
+        }),
+        new MockTerm({
+          id: 1
+        }),
+        new MockStatsName('stats name 1'),
+        new MockStatsUnit('unit'),
+        new MockUpdatedAt({
+          day: 1
+        }),
+        new MockStatsItems(
+          new MockStatsItem({
+            statsItemID: new MockStatsItemID(uuid3),
+            name: new MockStatsItemName('item name 1')
+          })
+        )
       );
       const stats4: Stats = Stats.of(
-        StatsID.ofString('d5d311b5-c09a-4f82-91e5-b7b55736120e').get(),
-        Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
-        Region.of(RegionID.of(2), RegionName.of('region'), ISO3166.of('REGION')),
-        Term.DAILY,
-        StatsName.of('name'),
-        StatsUnit.of('unit'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.ofArray([
-          StatsItem.of(
-            StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
-            StatsItemName.of('stats'),
-            StatsValues.empty()
-          )
-        ])
+        statsID1,
+        new MockLanguage({
+          languageID: new MockLanguageID(1)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(4)
+        }),
+        new MockTerm({
+          id: 1
+        }),
+        new MockStatsName('stats name 1'),
+        new MockStatsUnit('unit'),
+        new MockUpdatedAt({
+          day: 1
+        }),
+        new MockStatsItems(
+          new MockStatsItem({
+            statsItemID: new MockStatsItemID(uuid3),
+            name: new MockStatsItemName('item name 1')
+          })
+        )
       );
       const stats5: Stats = Stats.of(
-        StatsID.ofString('d5d311b5-c09a-4f82-91e5-b7b55736120e').get(),
-        Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
-        Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
-        Term.WEEKLY,
-        StatsName.of('name'),
-        StatsUnit.of('unit'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.ofArray([
-          StatsItem.of(
-            StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
-            StatsItemName.of('stats'),
-            StatsValues.empty()
-          )
-        ])
+        statsID1,
+        new MockLanguage({
+          languageID: new MockLanguageID(1)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(1)
+        }),
+        new MockTerm({
+          id: 50
+        }),
+        new MockStatsName('stats name 1'),
+        new MockStatsUnit('unit'),
+        new MockUpdatedAt({
+          day: 1
+        }),
+        new MockStatsItems(
+          new MockStatsItem({
+            statsItemID: new MockStatsItemID(uuid3),
+            name: new MockStatsItemName('item name 1')
+          })
+        )
       );
       const stats6: Stats = Stats.of(
-        StatsID.ofString('d5d311b5-c09a-4f82-91e5-b7b55736120e').get(),
-        Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
-        Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
-        Term.DAILY,
-        StatsName.of('namae'),
-        StatsUnit.of('unit'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.ofArray([
-          StatsItem.of(
-            StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
-            StatsItemName.of('stats'),
-            StatsValues.empty()
-          )
-        ])
+        statsID1,
+        new MockLanguage({
+          languageID: new MockLanguageID(1)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(1)
+        }),
+        new MockTerm({
+          id: 1
+        }),
+        new MockStatsName('stats name 2'),
+        new MockStatsUnit('unit'),
+        new MockUpdatedAt({
+          day: 1
+        }),
+        new MockStatsItems(
+          new MockStatsItem({
+            statsItemID: new MockStatsItemID(uuid3),
+            name: new MockStatsItemName('item name 1')
+          })
+        )
       );
       const stats7: Stats = Stats.of(
-        StatsID.ofString('d5d311b5-c09a-4f82-91e5-b7b55736120e').get(),
-        Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
-        Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
-        Term.DAILY,
-        StatsName.of('name'),
-        StatsUnit.of('unito'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.ofArray([
-          StatsItem.of(
-            StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
-            StatsItemName.of('stats'),
-            StatsValues.empty()
-          )
-        ])
+        statsID1,
+        new MockLanguage({
+          languageID: new MockLanguageID(1)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(1)
+        }),
+        new MockTerm({
+          id: 1
+        }),
+        new MockStatsName('stats name 1'),
+        new MockStatsUnit('unirse'),
+        new MockUpdatedAt({
+          day: 1
+        }),
+        new MockStatsItems(
+          new MockStatsItem({
+            statsItemID: new MockStatsItemID(uuid3),
+            name: new MockStatsItemName('item name 1')
+          })
+        )
       );
       const stats8: Stats = Stats.of(
-        StatsID.ofString('d5d311b5-c09a-4f82-91e5-b7b55736120e').get(),
-        Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
-        Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
-        Term.DAILY,
-        StatsName.of('name'),
-        StatsUnit.of('unit'),
-        UpdatedAt.ofString('2000-01-02 03:04:05').get(),
-        StatsItems.ofArray([
-          StatsItem.of(
-            StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
-            StatsItemName.of('stats'),
-            StatsValues.empty()
-          )
-        ])
+        statsID1,
+        new MockLanguage({
+          languageID: new MockLanguageID(1)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(1)
+        }),
+        new MockTerm({
+          id: 1
+        }),
+        new MockStatsName('stats name 1'),
+        new MockStatsUnit('unit'),
+        new MockUpdatedAt({
+          day: 2
+        }),
+        new MockStatsItems(
+          new MockStatsItem({
+            statsItemID: new MockStatsItemID(uuid3),
+            name: new MockStatsItemName('item name 1')
+          })
+        )
       );
       const stats9: Stats = Stats.of(
-        StatsID.ofString('d5d311b5-c09a-4f82-91e5-b7b55736120e').get(),
-        Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
-        Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
-        Term.DAILY,
-        StatsName.of('name'),
-        StatsUnit.of('unit'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.ofArray([
-        ])
+        statsID1,
+        new MockLanguage({
+          languageID: new MockLanguageID(1)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(1)
+        }),
+        new MockTerm({
+          id: 1
+        }),
+        new MockStatsName('stats name 1'),
+        new MockStatsUnit('unit'),
+        new MockUpdatedAt({
+          day: 1
+        }),
+        new MockStatsItems()
       );
       const stats10: Stats = Stats.of(
-        StatsID.ofString('d5d311b5-c09a-4f82-91e5-b7b55736120e').get(),
-        Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
-        Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
-        Term.DAILY,
-        StatsName.of('name'),
-        StatsUnit.of('unit'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.ofArray([
-          StatsItem.of(
-            StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ee').get(),
-            StatsItemName.of('stats'),
-            StatsValues.empty()
-          )
-        ])
+        statsID1,
+        new MockLanguage({
+          languageID: new MockLanguageID(1)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(1)
+        }),
+        new MockTerm({
+          id: 1
+        }),
+        new MockStatsName('stats name 1'),
+        new MockStatsUnit('unit'),
+        new MockUpdatedAt({
+          day: 1
+        }),
+        new MockStatsItems(
+          new MockStatsItem({
+            statsItemID: new MockStatsItemID(uuid4),
+            name: new MockStatsItemName('item name 1')
+          })
+        )
       );
       const stats11: Stats = Stats.of(
-        StatsID.ofString('d5d311b5-c09a-4f82-91e5-b7b55736120e').get(),
-        Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
-        Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
-        Term.DAILY,
-        StatsName.of('name'),
-        StatsUnit.of('unit'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.ofArray([
-          StatsItem.of(
-            StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
-            StatsItemName.of('statsu'),
-            StatsValues.empty()
-          )
-        ])
+        statsID1,
+        new MockLanguage({
+          languageID: new MockLanguageID(1)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(1)
+        }),
+        new MockTerm({
+          id: 1
+        }),
+        new MockStatsName('stats name 1'),
+        new MockStatsUnit('unit'),
+        new MockUpdatedAt({
+          day: 1
+        }),
+        new MockStatsItems(
+          new MockStatsItem({
+            statsItemID: new MockStatsItemID(uuid3),
+            name: new MockStatsItemName('item name 2')
+          })
+        )
       );
       const stats12: Stats = Stats.of(
-        StatsID.ofString('d5d311b5-c09a-4f82-91e5-b7b55736120e').get(),
-        Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
-        Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
-        Term.DAILY,
-        StatsName.of('name'),
-        StatsUnit.of('unit'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.ofArray([
-          StatsItem.of(
-            StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
-            StatsItemName.of('stats'),
-            StatsValues.ofArray([StatsValue.of(StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(2))])
-          )
-        ])
+        statsID1,
+        new MockLanguage({
+          languageID: new MockLanguageID(1)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(1)
+        }),
+        new MockTerm({
+          id: 1
+        }),
+        new MockStatsName('stats name 1'),
+        new MockStatsUnit('unit'),
+        new MockUpdatedAt({
+          day: 1
+        }),
+        new MockStatsItems(
+          new MockStatsItem({
+            statsItemID: new MockStatsItemID(uuid3),
+            name: new MockStatsItemName('item name 1'),
+            values: new MockStatsValues(
+              new MockStatsValue()
+            )
+          })
+        )
       );
       const stats13: Stats = Stats.of(
-        StatsID.ofString('d5d311b5-c09a-4f82-91e5-b7b55736120e').get(),
-        Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
-        Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
-        Term.DAILY,
-        StatsName.of('name'),
-        StatsUnit.of('unit'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.ofArray([
-          StatsItem.of(
-            StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
-            StatsItemName.of('stats'),
-            StatsValues.empty()
-          )
-        ])
+        statsID1,
+        new MockLanguage({
+          languageID: new MockLanguageID(1)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(1)
+        }),
+        new MockTerm({
+          id: 1
+        }),
+        new MockStatsName('stats name 1'),
+        new MockStatsUnit('unit'),
+        new MockUpdatedAt({
+          day: 1
+        }),
+        new MockStatsItems(
+          new MockStatsItem({
+            statsItemID: new MockStatsItemID(uuid3),
+            name: new MockStatsItemName('item name 1')
+          })
+        )
       );
       const stats14: Stats = Stats.of(
-        StatsID.ofString('d5d311b5-c09a-4f82-91e5-b7b55736120e').get(),
-        Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
-        Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
-        Term.DAILY,
-        StatsName.of('name'),
-        StatsUnit.of('unit'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.ofArray([
-          StatsItem.of(
-            StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
-            StatsItemName.of('stats'),
-            StatsValues.empty()
-          )
-        ]),
-        Some.of<AsOf>(AsOf.ofString('2000-01-01').get())
+        statsID1,
+        new MockLanguage({
+          languageID: new MockLanguageID(1)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(1)
+        }),
+        new MockTerm({
+          id: 1
+        }),
+        new MockStatsName('stats name 1'),
+        new MockStatsUnit('unit'),
+        new MockUpdatedAt({
+          day: 1
+        }),
+        new MockStatsItems(
+          new MockStatsItem({
+            statsItemID: new MockStatsItemID(uuid3),
+            name: new MockStatsItemName('item name 1')
+          })
+        ),
+        Some.of<AsOf>(new MockAsOf({
+          day: 3
+        }))
       );
       const stats15: Stats = Stats.of(
-        StatsID.ofString('d5d311b5-c09a-4f82-91e5-b7b55736120e').get(),
-        Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
-        Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
-        Term.DAILY,
-        StatsName.of('name'),
-        StatsUnit.of('unit'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.ofArray([
-          StatsItem.of(
-            StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
-            StatsItemName.of('stats'),
-            StatsValues.empty()
-          )
-        ]),
-        Some.of<AsOf>(AsOf.ofString('2000-01-02').get())
-      );
-      const stats16: Stats = Stats.of(
-        StatsID.ofString('d5d311b5-c09a-4f82-91e5-b7b55736120e').get(),
-        Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('LANGUAGE'), ISO639.of('lang')),
-        Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('REGION')),
-        Term.DAILY,
-        StatsName.of('name'),
-        StatsUnit.of('unit'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.ofArray([
-          StatsItem.of(
-            StatsItemID.ofString('30dd05bd-480f-4050-b8d4-5eec32ae11ed').get(),
-            StatsItemName.of('stats'),
-            StatsValues.empty()
-          )
-        ])
+        statsID1,
+        new MockLanguage({
+          languageID: new MockLanguageID(1)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(1)
+        }),
+        new MockTerm({
+          id: 1
+        }),
+        new MockStatsName('stats name 1'),
+        new MockStatsUnit('unit'),
+        new MockUpdatedAt({
+          day: 1
+        }),
+        new MockStatsItems(
+          new MockStatsItem({
+            statsItemID: new MockStatsItemID(uuid3),
+            name: new MockStatsItemName('item name 1')
+          })
+        ),
+        Some.of<AsOf>(new MockAsOf({
+          day: 4
+        }))
       );
 
       expect(stats1.isSame(stats1)).toEqual(true);
@@ -355,11 +492,8 @@ describe('Stats', () => {
       expect(stats1.isSame(stats13)).toEqual(true);
       expect(stats1.isSame(stats14)).toEqual(true);
       expect(stats1.isSame(stats15)).toEqual(true);
-      expect(stats1.isSame(stats16)).toEqual(true);
       expect(stats14.isSame(stats14)).toEqual(true);
       expect(stats14.isSame(stats15)).toEqual(true);
-      expect(stats14.isSame(stats16)).toEqual(true);
-      expect(stats15.isSame(stats16)).toEqual(true);
     });
   });
 
@@ -367,17 +501,33 @@ describe('Stats', () => {
     it('normal case', () => {
       const statsID: StatsID = StatsID.ofString('bfb0ebff-fc8c-450e-9265-82fa4938ae94').get();
       const statsItemID: StatsItemID = StatsItemID.ofString('2e787bad-6727-47d0-af9a-9c8189342a50').get();
-      const statsItem: StatsItem = StatsItem.of(statsItemID, StatsItemName.of('stats1'), StatsValues.ofArray([StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(10))]));
       const stats: Stats = Stats.of(
         statsID,
-        Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('englishname1'), ISO639.of('lang1')),
-        Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('regn1')),
+        Language.of(
+          LanguageID.of(1),
+          LanguageName.of('language1'),
+          LanguageName.of('englishname1'),
+          ISO639.of('lang1')
+        ),
+        Region.of(
+          RegionID.of(1),
+          RegionName.of('region1'),
+          ISO3166.of('regn1')
+        ),
         Term.DAILY,
         StatsName.of('name1'),
         StatsUnit.of('unit1'),
         UpdatedAt.ofString('2000-01-01 00:00:00').get(),
         StatsItems.ofArray([
-          statsItem
+          StatsItem.of(
+            statsItemID,
+            StatsItemName.of('stats1'),
+            StatsValues.ofArray([
+              StatsValue.of(statsItemID,
+                AsOf.ofString('2000-01-01').get(),
+                NumericalValue.of(10))
+            ])
+          )
         ])
       );
 
@@ -427,7 +577,6 @@ describe('Stats', () => {
       const unit: string = 'unit1';
       const statsID: StatsID = StatsID.ofString(id1).get();
       const statsItemID: StatsItemID = StatsItemID.ofString(id2).get();
-      const statsItem: StatsItem = StatsItem.of(statsItemID, StatsItemName.of(name1), StatsValues.ofArray([StatsValue.of(statsItemID, AsOf.ofString(at1).get(), NumericalValue.of(value1))]));
       const stats: Stats = Stats.of(
         statsID,
         Language.default(),
@@ -437,7 +586,17 @@ describe('Stats', () => {
         StatsUnit.of(unit),
         UpdatedAt.ofString(at2).get(),
         StatsItems.ofArray([
-          statsItem
+          StatsItem.of(
+            statsItemID,
+            StatsItemName.of(name1),
+            StatsValues.ofArray([
+              StatsValue.of(
+                statsItemID,
+                AsOf.ofString(at1).get(),
+                NumericalValue.of(value1)
+              )
+            ])
+          )
         ])
       );
 
@@ -448,30 +607,43 @@ describe('Stats', () => {
   describe('getColumns', () => {
     it('asOfs are taken and their duplicated values are eliminated', () => {
       const stats: Stats = Stats.of(
-        StatsID.ofString('f330c618-6127-46d1-ba10-a9f6af458b4c').get(),
-        Language.default(),
-        Region.default(),
+        new MockStatsID(),
+        new MockLanguage(),
+        new MockRegion(),
         Term.DAILY,
-        StatsName.of('stats1'),
-        StatsUnit.of('unit1'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.ofArray([
-          StatsItem.of(
-            StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(),
-            StatsItemName.of('stats item 1'),
-            StatsValues.ofArray([
-              StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1)),
-              StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(2))
-            ])),
-          StatsItem.of(
-            StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(),
-            StatsItemName.of('stats item 2'),
-            StatsValues.ofArray([
-              StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(2)),
-              StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-02').get(), NumericalValue.of(4)),
-              StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-05').get(), NumericalValue.of(6))
-            ]))
-        ])
+        new MockStatsName(),
+        new MockStatsUnit(),
+        new MockUpdatedAt(),
+        new MockStatsItems(
+          new MockStatsItem({
+            values: new MockStatsValues(
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-01').get(),
+                value: NumericalValue.of(1)
+              }),
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-03').get(),
+                value: NumericalValue.of(2)
+              })
+            )
+          }),
+          new MockStatsItem({
+            values: new MockStatsValues(
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-01').get(),
+                value: NumericalValue.of(2)
+              }),
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-02').get(),
+                value: NumericalValue.of(4)
+              }),
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-05').get(),
+                value: NumericalValue.of(6)
+              })
+            )
+          })
+        )
       );
 
       const columns: AsOfs = stats.getColumns();
@@ -487,24 +659,43 @@ describe('Stats', () => {
 
     it('startDate is present', () => {
       const stats: Stats = Stats.of(
-        StatsID.ofString('f330c618-6127-46d1-ba10-a9f6af458b4c').get(),
-        Language.default(),
-        Region.default(),
+        new MockStatsID(),
+        new MockLanguage(),
+        new MockRegion(),
         Term.DAILY,
-        StatsName.of('stats1'),
-        StatsUnit.of('unit1'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.ofArray([
-          StatsItem.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), StatsItemName.of('stats item 1'), StatsValues.ofArray([
-            StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1)),
-            StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(2))
-          ])),
-          StatsItem.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), StatsItemName.of('stats item 2'), StatsValues.ofArray([
-            StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(2)),
-            StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-02').get(), NumericalValue.of(4)),
-            StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-05').get(), NumericalValue.of(6))
-          ]))
-        ]),
+        new MockStatsName(),
+        new MockStatsUnit(),
+        new MockUpdatedAt(),
+        new MockStatsItems(
+          new MockStatsItem({
+            values: new MockStatsValues(
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-01').get(),
+                value: NumericalValue.of(1)
+              }),
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-03').get(),
+                value: NumericalValue.of(2)
+              })
+            )
+          }),
+          new MockStatsItem({
+            values: new MockStatsValues(
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-01').get(),
+                value: NumericalValue.of(2)
+              }),
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-02').get(),
+                value: NumericalValue.of(4)
+              }),
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-05').get(),
+                value: NumericalValue.of(6)
+              })
+            )
+          })
+        ),
         Some.of<AsOf>(AsOf.ofString('2000-01-08').get())
       );
 
@@ -524,15 +715,14 @@ describe('Stats', () => {
 
     it('no AsOfs', () => {
       const stats: Stats = Stats.of(
-        StatsID.ofString('f330c618-6127-46d1-ba10-a9f6af458b4c').get(),
-        Language.default(),
-        Region.default(),
+        new MockStatsID(),
+        new MockLanguage(),
+        new MockRegion(),
         Term.DAILY,
-        StatsName.of('stats1'),
-        StatsUnit.of('unit1'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.ofArray([
-        ])
+        new MockStatsName(),
+        new MockStatsUnit(),
+        new MockUpdatedAt(),
+        new MockStatsItems()
       );
 
       const columns: AsOfs = stats.getColumns();
@@ -543,23 +733,43 @@ describe('Stats', () => {
   describe('getColumn', () => {
     it('properly bring the very correct AsOf', () => {
       const stats: Stats = Stats.of(
-        StatsID.ofString('f330c618-6127-46d1-ba10-a9f6af458b4c').get(),
-        Language.default(), Region.default(),
+        new MockStatsID(),
+        new MockLanguage(),
+        new MockRegion(),
         Term.DAILY,
-        StatsName.of('stats1'),
-        StatsUnit.of('unit1'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.ofArray([
-          StatsItem.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), StatsItemName.of('stats item 1'), StatsValues.ofArray([
-            StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1)),
-            StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(2))
-          ])),
-          StatsItem.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), StatsItemName.of('stats item 2'), StatsValues.ofArray([
-            StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(2)),
-            StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-02').get(), NumericalValue.of(4)),
-            StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-05').get(), NumericalValue.of(6))
-          ]))
-        ])
+        new MockStatsName(),
+        new MockStatsUnit(),
+        new MockUpdatedAt(),
+        new MockStatsItems(
+          new MockStatsItem({
+            values: new MockStatsValues(
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-01').get(),
+                value: NumericalValue.of(1)
+              }),
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-03').get(),
+                value: NumericalValue.of(2)
+              })
+            )
+          }),
+          new MockStatsItem({
+            values: new MockStatsValues(
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-01').get(),
+                value: NumericalValue.of(2)
+              }),
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-02').get(),
+                value: NumericalValue.of(4)
+              }),
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-05').get(),
+                value: NumericalValue.of(6)
+              })
+            )
+          })
+        )
       );
 
       expect(stats.getColumn(Column.of(0).get()).get().toString()).toEqual('1999-12-31');
@@ -573,28 +783,47 @@ describe('Stats', () => {
   });
 
   describe('getRow', () => {
-    const statsItem1: StatsItem = StatsItem.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), StatsItemName.of('stats item 1'), StatsValues.ofArray([
-      StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1)),
-      StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(2))
-    ]));
-    const statsItem2: StatsItem = StatsItem.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), StatsItemName.of('stats item 2'), StatsValues.ofArray([
-      StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(2)),
-      StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-02').get(), NumericalValue.of(4)),
-      StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-05').get(), NumericalValue.of(6))
-    ]));
+    const statsItem1: MockStatsItem = new MockStatsItem({
+      values: new MockStatsValues(
+        new MockStatsValue({
+          asOf: AsOf.ofString('2000-01-01').get(),
+          value: NumericalValue.of(1)
+        }),
+        new MockStatsValue({
+          asOf: AsOf.ofString('2000-01-03').get(),
+          value: NumericalValue.of(2)
+        })
+      )
+    });
+    const statsItem2: MockStatsItem = new MockStatsItem({
+      values: new MockStatsValues(
+        new MockStatsValue({
+          asOf: AsOf.ofString('2000-01-01').get(),
+          value: NumericalValue.of(2)
+        }),
+        new MockStatsValue({
+          asOf: AsOf.ofString('2000-01-02').get(),
+          value: NumericalValue.of(4)
+        }),
+        new MockStatsValue({
+          asOf: AsOf.ofString('2000-01-05').get(),
+          value: NumericalValue.of(6)
+        })
+      )
+    })
 
     const stats: Stats = Stats.of(
-      StatsID.ofString('f330c618-6127-46d1-ba10-a9f6af458b4c').get(),
-      Language.default(),
-      Region.default(),
+      new MockStatsID(),
+      new MockLanguage(),
+      new MockRegion(),
       Term.DAILY,
-      StatsName.of('stats1'),
-      StatsUnit.of('unit1'),
-      UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-      StatsItems.ofArray([
+      new MockStatsName(),
+      new MockStatsUnit(),
+      new MockUpdatedAt(),
+      new MockStatsItems(
         statsItem1,
         statsItem2
-      ])
+      )
     );
 
     expect(stats.getRow(Row.of(0).get()).get()).toEqual(statsItem1);
@@ -604,70 +833,111 @@ describe('Stats', () => {
   describe('getRowHeaders', () => {
     it('the statsItem names are taken', () => {
       const stats: Stats = Stats.of(
-        StatsID.ofString('f330c618-6127-46d1-ba10-a9f6af458b4c').get(),
-        Language.default(),
-        Region.default(),
+        new MockStatsID(),
+        new MockLanguage(),
+        new MockRegion(),
         Term.DAILY,
-        StatsName.of('stats1'),
-        StatsUnit.of('unit1'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.ofArray([
-          StatsItem.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), StatsItemName.of('stats item 1'), StatsValues.ofArray([
-            StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1)),
-            StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(2))
-          ])),
-          StatsItem.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), StatsItemName.of('stats item 2'), StatsValues.ofArray([
-            StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(2)),
-            StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-02').get(), NumericalValue.of(4)),
-            StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-05').get(), NumericalValue.of(6))
-          ]))
-        ])
+        new MockStatsName(),
+        new MockStatsUnit(),
+        new MockUpdatedAt(),
+        new MockStatsItems(
+          new MockStatsItem({
+            name: new MockStatsItemName('stats1'),
+            values: new MockStatsValues(
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-01').get(),
+                value: NumericalValue.of(1)
+              }),
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-03').get(),
+                value: NumericalValue.of(2)
+              })
+            )
+          }),
+          new MockStatsItem({
+            name: new MockStatsItemName('stats2'),
+            values: new MockStatsValues(
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-01').get(),
+                value: NumericalValue.of(2)
+              }),
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-02').get(),
+                value: NumericalValue.of(4)
+              }),
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-05').get(),
+                value: NumericalValue.of(6)
+              })
+            )
+          })
+        )
       );
 
       const rowHeaders: StatsItemNames = stats.getRowHeaders();
       expect(rowHeaders.size()).toEqual(2);
-      expect(rowHeaders.get(0).get().get()).toEqual('stats item 1');
-      expect(rowHeaders.get(1).get().get()).toEqual('stats item 2');
+      expect(rowHeaders.get(0).get().get()).toEqual('stats1');
+      expect(rowHeaders.get(1).get().get()).toEqual('stats2');
     });
   });
 
   describe('getRowHeaderSize', () => {
     it('normal case ', () => {
       const stats: Stats = Stats.of(
-        StatsID.ofString('f330c618-6127-46d1-ba10-a9f6af458b4c').get(),
-        Language.default(),
-        Region.default(),
+        new MockStatsID(),
+        new MockLanguage(),
+        new MockRegion(),
         Term.DAILY,
-        StatsName.of('stats1'),
-        StatsUnit.of('unit1'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.ofArray([
-          StatsItem.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), StatsItemName.of('stats item 1'), StatsValues.ofArray([
-            StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1)),
-            StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(2))
-          ])),
-          StatsItem.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), StatsItemName.of('stats item 11'), StatsValues.ofArray([
-            StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(2)),
-            StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-02').get(), NumericalValue.of(4)),
-            StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-05').get(), NumericalValue.of(6))
-          ]))
-        ])
+        new MockStatsName(),
+        new MockStatsUnit(),
+        new MockUpdatedAt(),
+        new MockStatsItems(
+          new MockStatsItem({
+            name: new MockStatsItemName('stats1'),
+            values: new MockStatsValues(
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-01').get(),
+                value: NumericalValue.of(1)
+              }),
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-03').get(),
+                value: NumericalValue.of(2)
+              })
+            )
+          }),
+          new MockStatsItem({
+            name: new MockStatsItemName('stats11'),
+            values: new MockStatsValues(
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-01').get(),
+                value: NumericalValue.of(2)
+              }),
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-02').get(),
+                value: NumericalValue.of(4)
+              }),
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-05').get(),
+                value: NumericalValue.of(6)
+              })
+            )
+          })
+        )
       );
 
-      expect(stats.getRowHeaderSize().get()).toEqual('stats item 11'.length * 14);
+      expect(stats.getRowHeaderSize().get()).toEqual('stats11'.length * 14);
     });
 
     it('gives 1 * 14 when given stats', () => {
       const stats: Stats = Stats.of(
-        StatsID.ofString('f330c618-6127-46d1-ba10-a9f6af458b4c').get(),
-        Language.default(),
-        Region.default(),
+        new MockStatsID(),
+        new MockLanguage(),
+        new MockRegion(),
         Term.DAILY,
-        StatsName.of('stats1'),
-        StatsUnit.of('unit1'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.ofArray([
-        ])
+        new MockStatsName(),
+        new MockStatsUnit(),
+        new MockUpdatedAt(),
+        new MockStatsItems()
       );
 
       expect(stats.getRowHeaderSize().get()).toEqual(1 * 14);
@@ -677,24 +947,43 @@ describe('Stats', () => {
   describe('getData', () => {
     it('the matrix is made even if the value is not input', () => {
       const stats: Stats = Stats.of(
-        StatsID.ofString('f330c618-6127-46d1-ba10-a9f6af458b4c').get(),
-        Language.default(),
-        Region.default(),
+        new MockStatsID(),
+        new MockLanguage(),
+        new MockRegion(),
         Term.DAILY,
-        StatsName.of('stats1'),
-        StatsUnit.of('unit1'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.ofArray([
-          StatsItem.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), StatsItemName.of('stats item 1'), StatsValues.ofArray([
-            StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1)),
-            StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(2))
-          ])),
-          StatsItem.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), StatsItemName.of('stats item 2'), StatsValues.ofArray([
-            StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(2)),
-            StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-02').get(), NumericalValue.of(4)),
-            StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-05').get(), NumericalValue.of(6))
-          ]))
-        ])
+        new MockStatsName(),
+        new MockStatsUnit(),
+        new MockUpdatedAt(),
+        new MockStatsItems(
+          new MockStatsItem({
+            values: new MockStatsValues(
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-01').get(),
+                value: NumericalValue.of(1)
+              }),
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-03').get(),
+                value: NumericalValue.of(2)
+              })
+            )
+          }),
+          new MockStatsItem({
+            values: new MockStatsValues(
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-01').get(),
+                value: NumericalValue.of(2)
+              }),
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-02').get(),
+                value: NumericalValue.of(4)
+              }),
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-05').get(),
+                value: NumericalValue.of(6)
+              })
+            )
+          })
+        )
       );
 
       expect(stats.getData()).toEqual([
@@ -706,13 +995,191 @@ describe('Stats', () => {
 
   describe('isFilled', () => {
     it('returns true if the language, region, name, and unit are filled', () => {
-      const stats1: Stats = Stats.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.default(), Region.default(), Term.DAILY, StatsName.default(), StatsUnit.default(), UpdatedAt.ofString('2000-01-01 00:00:00').get(), StatsItems.empty());
-      const stats2: Stats = Stats.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.default(), Term.DAILY, StatsName.default(), StatsUnit.default(), UpdatedAt.ofString('2000-01-01 00:00:00').get(), StatsItems.empty());
-      const stats3: Stats = Stats.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.default(), Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.default(), StatsUnit.default(), UpdatedAt.ofString('2000-01-01 00:00:00').get(), StatsItems.empty());
-      const stats4: Stats = Stats.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.default(), StatsUnit.default(), UpdatedAt.ofString('2000-01-01 00:00:00').get(), StatsItems.empty());
-      const stats5: Stats = Stats.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.of('stats1'), StatsUnit.default(), UpdatedAt.ofString('2000-01-01 00:00:00').get(), StatsItems.empty());
-      const stats6: Stats = Stats.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.default(), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01 00:00:00').get(), StatsItems.empty());
-      const stats7: Stats = Stats.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01 00:00:00').get(), StatsItems.empty());
+      const stats1: Stats = Stats.of(
+        new MockStatsID(),
+        Language.default(),
+        Region.default(),
+        Term.DAILY,
+        StatsName.default(),
+        StatsUnit.default(),
+        new MockUpdatedAt(),
+        new MockStatsItems()
+      );
+      const stats2: Stats = Stats.of(
+        new MockStatsID(),
+        new MockLanguage({
+          languageID: new MockLanguageID(2)
+        }),
+        Region.default(),
+        Term.DAILY,
+        StatsName.default(),
+        StatsUnit.default(),
+        new MockUpdatedAt(),
+        new MockStatsItems()
+      );
+      const stats3: Stats = Stats.of(
+        new MockStatsID(),
+        Language.default(),
+        new MockRegion({
+          regionID: new MockRegionID(5)
+        }),
+        Term.DAILY,
+        StatsName.default(),
+        StatsUnit.default(),
+        new MockUpdatedAt(),
+        new MockStatsItems()
+      );
+      const stats4: Stats = Stats.of(
+        new MockStatsID(),
+        Language.default(),
+        Region.default(),
+        Term.DAILY,
+        new MockStatsName('stats name'),
+        StatsUnit.default(),
+        new MockUpdatedAt(),
+        new MockStatsItems(
+          new MockStatsItem()
+        )
+      );
+      const stats5: Stats = Stats.of(
+        new MockStatsID(),
+        Language.default(),
+        Region.default(),
+        Term.DAILY,
+        StatsName.default(),
+        new MockStatsUnit('stats unit'),
+        new MockUpdatedAt(),
+        new MockStatsItems()
+      );
+      const stats6: Stats = Stats.of(
+        new MockStatsID(),
+        new MockLanguage({
+          languageID: new MockLanguageID(2)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(5)
+        }),
+        Term.DAILY,
+        StatsName.default(),
+        StatsUnit.default(),
+        new MockUpdatedAt(),
+        new MockStatsItems(
+          new MockStatsItem()
+        )
+      );
+      const stats7: Stats = Stats.of(
+        new MockStatsID(),
+        new MockLanguage(),
+        new MockRegion({
+          regionID: new MockRegionID(5)
+        }),
+        Term.DAILY,
+        new MockStatsName('stats name'),
+        StatsUnit.default(),
+        new MockUpdatedAt(),
+        new MockStatsItems(
+          new MockStatsItem(),
+          new MockStatsItem()
+        )
+      );
+      const stats8: Stats = Stats.of(
+        new MockStatsID(),
+        Language.default(),
+        Region.default(),
+        Term.DAILY,
+        new MockStatsName('stats name'),
+        new MockStatsUnit('stats unit'),
+        new MockUpdatedAt(),
+        new MockStatsItems()
+      );
+      const stats9: Stats = Stats.of(
+        new MockStatsID(),
+        new MockLanguage({
+          languageID: new MockLanguageID(2)
+        }),
+        Region.default(),
+        Term.DAILY,
+        StatsName.default(),
+        new MockStatsUnit('stats unit'),
+        new MockUpdatedAt(),
+        new MockStatsItems(
+          new MockStatsItem()
+        )
+      );
+      const stats10: Stats = Stats.of(
+        new MockStatsID(),
+        new MockLanguage({
+          languageID: new MockLanguageID(2)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(5)
+        }),
+        Term.DAILY,
+        new MockStatsName('stats name'),
+        StatsUnit.default(),
+        new MockUpdatedAt(),
+        new MockStatsItems(
+          new MockStatsItem(),
+          new MockStatsItem()
+        )
+      );
+      const stats11: Stats = Stats.of(
+        new MockStatsID(),
+        Language.default(),
+        new MockRegion({
+          regionID: new MockRegionID(5)
+        }),
+        Term.DAILY,
+        new MockStatsName('stats name'),
+        new MockStatsUnit('stats unit'),
+        new MockUpdatedAt(),
+        new MockStatsItems()
+      );
+      const stats12: Stats = Stats.of(
+        new MockStatsID(),
+        new MockLanguage({
+          languageID: new MockLanguageID(2)
+        }),
+        Region.default(),
+        Term.DAILY,
+        new MockStatsName('stats name'),
+        new MockStatsUnit('stats unit'),
+        new MockUpdatedAt(),
+        new MockStatsItems(
+          new MockStatsItem(),
+          new MockStatsItem()
+        )
+      );
+      const stats13: Stats = Stats.of(
+        new MockStatsID(),
+        new MockLanguage({
+          languageID: new MockLanguageID(2)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(5)
+        }),
+        Term.DAILY,
+        StatsName.default(),
+        new MockStatsUnit('stats unit'),
+        new MockUpdatedAt(),
+        new MockStatsItems(
+          new MockStatsItem()
+        )
+      );
+      const stats14: Stats = Stats.of(
+        new MockStatsID(),
+        new MockLanguage({
+          languageID: new MockLanguageID(2)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(5)
+        }),
+        Term.DAILY,
+        new MockStatsName('stats name'),
+        new MockStatsUnit('stats unit'),
+        new MockUpdatedAt(),
+        new MockStatsItems()
+      );
 
       expect(stats1.isFilled()).toEqual(false);
       expect(stats2.isFilled()).toEqual(false);
@@ -720,50 +1187,245 @@ describe('Stats', () => {
       expect(stats4.isFilled()).toEqual(false);
       expect(stats5.isFilled()).toEqual(false);
       expect(stats6.isFilled()).toEqual(false);
-      expect(stats7.isFilled()).toEqual(true);
+      expect(stats7.isFilled()).toEqual(false);
+      expect(stats8.isFilled()).toEqual(false);
+      expect(stats9.isFilled()).toEqual(false);
+      expect(stats10.isFilled()).toEqual(false);
+      expect(stats11.isFilled()).toEqual(false);
+      expect(stats12.isFilled()).toEqual(false);
+      expect(stats13.isFilled()).toEqual(false);
+      expect(stats14.isFilled()).toEqual(true);
     });
   });
 
   describe('isValid', () => {
     it('returns true if the stats is filled', () => {
-      const stats1: Stats = Stats.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.default(), Region.default(), Term.DAILY, StatsName.default(), StatsUnit.default(), UpdatedAt.ofString('2000-01-01 00:00:00').get(), StatsItems.empty());
-      const stats2: Stats = Stats.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.default(), Term.DAILY, StatsName.default(), StatsUnit.default(), UpdatedAt.ofString('2000-01-01 00:00:00').get(), StatsItems.empty());
-      const stats3: Stats = Stats.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.default(), Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.default(), StatsUnit.default(), UpdatedAt.ofString('2000-01-01 00:00:00').get(), StatsItems.empty());
-      const stats4: Stats = Stats.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.default(), StatsUnit.default(), UpdatedAt.ofString('2000-01-01 00:00:00').get(), StatsItems.empty());
-      const stats5: Stats = Stats.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.of('stats1'), StatsUnit.default(), UpdatedAt.ofString('2000-01-01 00:00:00').get(), StatsItems.empty());
-      const stats6: Stats = Stats.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.default(), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01 00:00:00').get(), StatsItems.empty());
-      const stats7: Stats = Stats.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01 00:00:00').get(), StatsItems.empty());
+      const stats1: Stats = Stats.of(
+        new MockStatsID(),
+        Language.default(),
+        Region.default(),
+        Term.DAILY,
+        StatsName.default(),
+        StatsUnit.default(),
+        new MockUpdatedAt(),
+        new MockStatsItems()
+      );
+      const stats2: Stats = Stats.of(
+        new MockStatsID(),
+        Language.default(),
+        new MockRegion({
+          regionID: new MockRegionID(5)
+        }),
+        Term.DAILY,
+        StatsName.default(),
+        StatsUnit.default(),
+        new MockUpdatedAt(),
+        new MockStatsItems()
+      );
+      const stats3: Stats = Stats.of(
+        new MockStatsID(),
+        new MockLanguage({
+          languageID: new MockLanguageID(2)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(5)
+        }),
+        Term.DAILY,
+        StatsName.default(),
+        StatsUnit.default(),
+        new MockUpdatedAt(),
+        new MockStatsItems()
+      );
+      const stats4: Stats = Stats.of(
+        new MockStatsID(),
+        new MockLanguage({
+          languageID: new MockLanguageID(2)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(5)
+        }),
+        Term.DAILY,
+        new MockStatsName('stats name'),
+        StatsUnit.default(),
+        new MockUpdatedAt(),
+        new MockStatsItems(
+          new MockStatsItem()
+        )
+      );
+      const stats5: Stats = Stats.of(
+        new MockStatsID(),
+        new MockLanguage({
+          languageID: new MockLanguageID(2)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(5)
+        }),
+        Term.DAILY,
+        StatsName.default(),
+        new MockStatsUnit('stats unit'),
+        new MockUpdatedAt(),
+        new MockStatsItems()
+      );
+      const stats6: Stats = Stats.of(
+        new MockStatsID(),
+        new MockLanguage({
+          languageID: new MockLanguageID(2)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(5)
+        }),
+        Term.DAILY,
+        new MockStatsName('stats name'),
+        new MockStatsUnit('stats unit'),
+        new MockUpdatedAt(),
+        new MockStatsItems()
+      );
+      const stats7: Stats = Stats.of(
+        new MockStatsID(),
+        new MockLanguage({
+          languageID: new MockLanguageID(2)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(5)
+        }),
+        Term.DAILY,
+        new MockStatsName('stats name'),
+        new MockStatsUnit('stats unit'),
+        new MockUpdatedAt(),
+        new MockStatsItems(
+          new MockStatsItem(),
+          new MockStatsItem({
+            name: new MockStatsItemName('cittadino')
+          })
+        )
+      );
+      const stats8: Stats = Stats.of(
+        new MockStatsID(),
+        new MockLanguage({
+          languageID: new MockLanguageID(2)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(5)
+        }),
+        Term.DAILY,
+        new MockStatsName('stats name'),
+        new MockStatsUnit('stats unit'),
+        new MockUpdatedAt(),
+        new MockStatsItems(
+          new MockStatsItem({
+            name: new MockStatsItemName('ogonek')
+          }),
+          new MockStatsItem({
+            name: new MockStatsItemName('cittadino')
+          })
+        )
+      );
 
       expect(stats1.isValid()).toEqual(false);
       expect(stats2.isValid()).toEqual(false);
       expect(stats3.isValid()).toEqual(false);
       expect(stats4.isValid()).toEqual(false);
       expect(stats5.isValid()).toEqual(false);
-      expect(stats6.isValid()).toEqual(false);
-      expect(stats7.isValid()).toEqual(true);
+      expect(stats6.isValid()).toEqual(true);
+      expect(stats7.isValid()).toEqual(false);
+      expect(stats8.isValid()).toEqual(true);
     });
 
     it('stats is filled but statsItems are invalid', () => {
-      const stats1: Stats = Stats.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01 10:10:10').get(), StatsItems.ofArray([
-        StatsItem.of(StatsItemID.ofString('4905faa8-0b6d-4032-9788-704c2703a5c9').get(), StatsItemName.default(), StatsValues.empty())
-      ]));
-      const stats2: Stats = Stats.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01 11:11:11').get(), StatsItems.ofArray([
-        StatsItem.of(StatsItemID.ofString('4905faa8-0b6d-4032-9788-704c2703a5c9').get(), StatsItemName.of('name1'), StatsValues.empty())
-      ]));
+      const stats1: Stats = Stats.of(
+        new MockStatsID(),
+        new MockLanguage({
+          languageID: new MockLanguageID(2)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(5)
+        }),
+        Term.DAILY,
+        new MockStatsName('stats name'),
+        new MockStatsUnit('stats unit'),
+        new MockUpdatedAt(),
+        new MockStatsItems(
+          new MockStatsItem()
+        )
+      );
+      const stats2: Stats = Stats.of(
+        new MockStatsID(),
+        new MockLanguage({
+          languageID: new MockLanguageID(2)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(5)
+        }),
+        Term.DAILY,
+        new MockStatsName('stats name'),
+        new MockStatsUnit('stats unit'),
+        new MockUpdatedAt(),
+        new MockStatsItems(
+          new MockStatsItem({
+            name: new MockStatsItemName('pok')
+          }),
+          new MockStatsItem()
+        )
+      );
 
       expect(stats1.isValid()).toEqual(false);
-      expect(stats2.isValid()).toEqual(true);
+      expect(stats2.isValid()).toEqual(false);
     });
 
     it('stats and their items are filled', () => {
-      const stats1: Stats = Stats.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01 08:08:08').get(), StatsItems.empty());
-      const stats2: Stats = Stats.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01 09:09:09').get(), StatsItems.ofArray([
-        StatsItem.of(StatsItemID.ofString('4905faa8-0b6d-4032-9788-704c2703a5c9').get(), StatsItemName.of('name'), StatsValues.empty())
-      ]));
-      const stats3: Stats = Stats.of(StatsID.ofString('62e103f0-5299-4794-883f-62b9c91583e4').get(), Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language1'), ISO639.of('ab')), Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('AFG')), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01 10:10:10').get(), StatsItems.ofArray([
-        StatsItem.of(StatsItemID.ofString('4905faa8-0b6d-4032-9788-704c2703a5c9').get(), StatsItemName.of('name1'), StatsValues.empty()),
-        StatsItem.of(StatsItemID.ofString('4905faa8-0b6d-4032-9788-704c2703a5c9').get(), StatsItemName.of('name2'), StatsValues.empty())
-      ]));
+      const stats1: Stats = Stats.of(
+        new MockStatsID(),
+        new MockLanguage({
+          languageID: new MockLanguageID(2)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(5)
+        }),
+        Term.DAILY,
+        new MockStatsName('stats name'),
+        new MockStatsUnit('stats unit'),
+        new MockUpdatedAt(),
+        new MockStatsItems()
+      );
+      const stats2: Stats = Stats.of(
+        new MockStatsID(),
+        new MockLanguage({
+          languageID: new MockLanguageID(2)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(5)
+        }),
+        Term.DAILY,
+        new MockStatsName('stats name'),
+        new MockStatsUnit('stats unit'),
+        new MockUpdatedAt(),
+        new MockStatsItems(
+          new MockStatsItem({
+            name: new MockStatsItemName('fidanzato')
+          })
+        )
+      );
+      const stats3: Stats = Stats.of(
+        new MockStatsID(),
+        new MockLanguage({
+          languageID: new MockLanguageID(2)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(5)
+        }),
+        Term.DAILY,
+        new MockStatsName('stats name'),
+        new MockStatsUnit('stats unit'),
+        new MockUpdatedAt(),
+        new MockStatsItems(
+          new MockStatsItem({
+            name: new MockStatsItemName('nonna')
+          }),
+          new MockStatsItem({
+            name: new MockStatsItemName('nipote')
+          })
+        )
+      );
 
       expect(stats1.isValid()).toEqual(true);
       expect(stats2.isValid()).toEqual(true);
@@ -773,14 +1435,36 @@ describe('Stats', () => {
 
   describe('setData', () => {
     it('update pattern', () => {
-      const stats: Stats = Stats.of(StatsID.ofString('14351289-d8ce-48cd-8ef9-ac1b356c9233').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01 06:06:06').get(), StatsItems.ofArray([
-        StatsItem.of(StatsItemID.ofString('bf04b0fa-ed4d-4114-84a3-c963871dfe06').get(), StatsItemName.of('item1'), StatsValues.ofArray([
-          StatsValue.of(StatsItemID.ofString('bf04b0fa-ed4d-4114-84a3-c963871dfe06').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1)),
-          StatsValue.of(StatsItemID.ofString('bf04b0fa-ed4d-4114-84a3-c963871dfe06').get(), AsOf.ofString('2000-01-02').get(), NumericalValue.of(2))
-        ]))
-      ]));
+      const stats: Stats = Stats.of(
+        new MockStatsID(),
+        new MockLanguage(),
+        new MockRegion(),
+        Term.DAILY,
+        new MockStatsName(),
+        new MockStatsUnit(),
+        new MockUpdatedAt(),
+        new MockStatsItems(
+          new MockStatsItem({
+            values: new MockStatsValues(
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-01').get(),
+                value: NumericalValue.of(1)
+              }),
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-02').get(),
+                value: NumericalValue.of(2)
+              })
+            )
+          })
+        )
+      );
 
-      stats.setData(Coordinate.of(Row.of(0).get(), Column.of(2).get()), NumericalValue.of(4));
+      stats.setData(
+        Coordinate.of(
+          Row.of(0).get(),
+          Column.of(2).get()),
+        NumericalValue.of(4)
+      );
 
       expect(stats.getItems().get(0).get().getValues().size()).toEqual(2);
       expect(stats.getItems().get(0).get().getValues().get(0).get().getAsOf().toString()).toEqual('2000-01-01');
@@ -790,14 +1474,36 @@ describe('Stats', () => {
     });
 
     it('insert pattern', () => {
-      const stats: Stats = Stats.of(StatsID.ofString('14351289-d8ce-48cd-8ef9-ac1b356c9233').get(), Language.default(), Region.default(), Term.DAILY, StatsName.of('stats1'), StatsUnit.of('unit1'), UpdatedAt.ofString('2000-01-01 05:05:05').get(), StatsItems.ofArray([
-        StatsItem.of(StatsItemID.ofString('bf04b0fa-ed4d-4114-84a3-c963871dfe06').get(), StatsItemName.of('item1'), StatsValues.ofArray([
-          StatsValue.of(StatsItemID.ofString('bf04b0fa-ed4d-4114-84a3-c963871dfe06').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1)),
-          StatsValue.of(StatsItemID.ofString('bf04b0fa-ed4d-4114-84a3-c963871dfe06').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(3))
-        ]))
-      ]));
+      const stats: Stats = Stats.of(
+        new MockStatsID(),
+        new MockLanguage(),
+        new MockRegion(),
+        Term.DAILY,
+        new MockStatsName(),
+        new MockStatsUnit(),
+        new MockUpdatedAt(),
+        new MockStatsItems(
+          new MockStatsItem({
+            values: new MockStatsValues(
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-01').get(),
+                value: NumericalValue.of(1)
+              }),
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-03').get(),
+                value: NumericalValue.of(3)
+              })
+            )
+          })
+        )
+      );
 
-      stats.setData(Coordinate.of(Row.of(0).get(), Column.of(2).get()), NumericalValue.of(2));
+      stats.setData(
+        Coordinate.of(
+          Row.of(0).get(),
+          Column.of(2).get()),
+        NumericalValue.of(2)
+      );
 
       expect(stats.getItems().get(0).get().getValues().size()).toEqual(3);
       expect(stats.getItems().get(0).get().getValues().get(0).get().getAsOf().toString()).toEqual('2000-01-01');
@@ -812,35 +1518,51 @@ describe('Stats', () => {
   describe('deleteData', () => {
     it('correctly deletes the specified StatsValue', () => {
       const stats: Stats = Stats.of(
-        StatsID.ofString('f330c618-6127-46d1-ba10-a9f6af458b4c').get(),
-        Language.default(),
-        Region.default(),
+        new MockStatsID(),
+        new MockLanguage(),
+        new MockRegion(),
         Term.DAILY,
-        StatsName.of('stats1'),
-        StatsUnit.of('unit1'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.ofArray([
-          StatsItem.of(
-            StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(),
-            StatsItemName.of('stats1'),
-            StatsValues.ofArray([
-              StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1)),
-              StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(2))
-            ])
-          ),
-          StatsItem.of(
-            StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(),
-            StatsItemName.of('stats2'),
-            StatsValues.ofArray([
-              StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(2)),
-              StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-02').get(), NumericalValue.of(4)),
-              StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-05').get(), NumericalValue.of(6))
-            ])
-          )
-        ])
+        new MockStatsName(),
+        new MockStatsUnit(),
+        new MockUpdatedAt(),
+        new MockStatsItems(
+          new MockStatsItem({
+            values: new MockStatsValues(
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-01').get(),
+                value: NumericalValue.of(1)
+              }),
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-03').get(),
+                value: NumericalValue.of(2)
+              })
+            )
+          }),
+          new MockStatsItem({
+            values: new MockStatsValues(
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-01').get(),
+                value: NumericalValue.of(2)
+              }),
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-02').get(),
+                value: NumericalValue.of(4)
+              }),
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-05').get(),
+                value: NumericalValue.of(6)
+              })
+            )
+          })
+        )
       );
 
-      stats.deleteData(Coordinate.of(Row.of(0).get(), Column.of(1).get()));
+      stats.deleteData(
+        Coordinate.of(
+          Row.of(0).get(),
+          Column.of(1).get()
+        )
+      );
 
       const items: StatsItems = stats.getItems();
       expect(items.size()).toEqual(2);
@@ -856,14 +1578,32 @@ describe('Stats', () => {
   describe('copy', () => {
     it('every properties are copied', () => {
       const statsID: StatsID = StatsID.ofString('f330c618-6127-46d1-ba10-a9f6af458b4c').get();
-      const language: Language = Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english language'), ISO639.of('ab'));
-      const region: Region = Region.of(RegionID.of(2), RegionName.of('region'), ISO3166.of('AFG'));
+      const language: Language = Language.of(
+        LanguageID.of(1),
+        LanguageName.of('language'),
+        LanguageName.of('english language'),
+        ISO639.of('ab')
+      );
+      const region: Region = Region.of(
+        RegionID.of(2),
+        RegionName.of('region'),
+        ISO3166.of('AFG')
+      );
       const term: Term = Term.DAILY;
       const name: StatsName = StatsName.of('stats');
       const unit: StatsUnit = StatsUnit.of('unit');
       const updatedAt: UpdatedAt = UpdatedAt.ofString('2000-01-01 04:04:04').get();
 
-      const stats: Stats = Stats.of(statsID, language, region, term, name, unit, updatedAt, StatsItems.empty());
+      const stats: Stats = Stats.of(
+        statsID,
+        language,
+        region,
+        term,
+        name,
+        unit,
+        updatedAt,
+        StatsItems.empty()
+      );
       const copy: Stats = stats.copy();
 
       expect(stats).not.toBe(copy);
@@ -880,25 +1620,45 @@ describe('Stats', () => {
   describe('getChart', () => {
     it('chart is output for recharts', () => {
       const stats: Stats = Stats.of(
-        StatsID.ofString('f330c618-6127-46d1-ba10-a9f6af458b4c').get(),
-        Language.default(),
-        Region.default(),
+        new MockStatsID(),
+        new MockLanguage(),
+        new MockRegion(),
         Term.DAILY,
-        StatsName.of('stats1'),
-        StatsUnit.of('unit1'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.ofArray([
-          StatsItem.of(
-            StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), StatsItemName.of('stats1'), StatsValues.ofArray([
-            StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1)),
-            StatsValue.of(StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(2))
-          ])),
-          StatsItem.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), StatsItemName.of('stats2'), StatsValues.ofArray([
-            StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-02').get(), NumericalValue.of(12)),
-            StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-03').get(), NumericalValue.of(13)),
-            StatsValue.of(StatsItemID.ofString('9e6b3c69-580c-4c19-9f3f-9bd82f582551').get(), AsOf.ofString('2000-01-04').get(), NumericalValue.of(14))
-          ]))
-        ])
+        new MockStatsName(),
+        new MockStatsUnit(),
+        new MockUpdatedAt(),
+        new MockStatsItems(
+          new MockStatsItem({
+            name: new MockStatsItemName('stats1'),
+            values: new MockStatsValues(
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-01').get(),
+                value: NumericalValue.of(1)
+              }),
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-03').get(),
+                value: NumericalValue.of(2)
+              })
+            )
+          }),
+          new MockStatsItem({
+            name: new MockStatsItemName('stats2'),
+            values: new MockStatsValues(
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-02').get(),
+                value: NumericalValue.of(12)
+              }),
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-03').get(),
+                value: NumericalValue.of(13)
+              }),
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-04').get(),
+                value: NumericalValue.of(14)
+              })
+            )
+          })
+        )
       );
 
       expect(stats.getChart()).toEqual([
@@ -914,52 +1674,56 @@ describe('Stats', () => {
 
   describe('isDetermined', () => {
     it('has values , that means it already has some AsOfs', () => {
-      const statsID: StatsID = StatsID.ofString('af272303-df5d-4d34-8604-398920b7d2bb').get();
-      const language: Language = Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language english name 1'), ISO639.of('lang1'));
-      const region: Region = Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('regn1'));
-      const term: Term = Term.ANNUAL;
-      const name: StatsName = StatsName.of('name1');
-      const unit: StatsUnit = StatsUnit.of('unit1');
-      const updatedAt: UpdatedAt = UpdatedAt.ofString('2000-01-01 03:03:03').get();
-      const items: StatsItems = StatsItems.ofArray([
-        StatsItem.of(StatsItemID.ofString('c4c9d345-251b-4397-9c54-0b38dc735dee').get(), StatsItemName.of('stats1'), StatsValues.ofArray([
-          StatsValue.of(StatsItemID.ofString('c4c9d345-251b-4397-9c54-0b38dc735dee').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1))
-        ])),
-      ]);
-
-      const stats: Stats = Stats.of(statsID, language, region, term, name, unit, updatedAt, items);
+      const stats: Stats = Stats.of(
+        new MockStatsID(),
+        new MockLanguage(),
+        new MockRegion(),
+        Term.DAILY,
+        new MockStatsName(),
+        new MockStatsUnit(),
+        new MockUpdatedAt(),
+        new MockStatsItems(
+          new MockStatsItem({
+            values: new MockStatsValues(
+              new MockStatsValue({
+                asOf: AsOf.ofString('2000-01-03').get(),
+                value: NumericalValue.of(2)
+              })
+            )
+          })
+        )
+      );
 
       expect(stats.isDetermined()).toEqual(true);
     });
 
     it('even if it doesn\'t have values , if startDate is set, returns true', () => {
-      const statsID: StatsID = StatsID.ofString('af272303-df5d-4d34-8604-398920b7d2bb').get();
-      const language: Language = Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language english name 1'), ISO639.of('lang1'));
-      const region: Region = Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('regn1'));
-      const term: Term = Term.ANNUAL;
-      const name: StatsName = StatsName.of('name1');
-      const unit: StatsUnit = StatsUnit.of('unit1');
-      const updatedAt: UpdatedAt = UpdatedAt.ofString('2000-01-01 00:00:00').get();
-      const items: StatsItems = StatsItems.ofArray([
-      ]);
-
-      const stats: Stats = Stats.of(statsID, language, region, term, name, unit, updatedAt, items, Some.of<AsOf>(AsOf.ofString('2000-01-01').get()));
+      const stats: Stats = Stats.of(
+        new MockStatsID(),
+        new MockLanguage(),
+        new MockRegion(),
+        Term.DAILY,
+        new MockStatsName(),
+        new MockStatsUnit(),
+        new MockUpdatedAt(),
+        new MockStatsItems(),
+        Some.of<AsOf>(AsOf.ofString('2000-01-01').get())
+      );
 
       expect(stats.isDetermined()).toEqual(true);
     });
 
     it('returns false if stats doesn\'t have values nor startDate', () => {
-      const statsID: StatsID = StatsID.ofString('af272303-df5d-4d34-8604-398920b7d2bb').get();
-      const language: Language = Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language english name 1'), ISO639.of('lang1'));
-      const region: Region = Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('regn1'));
-      const term: Term = Term.ANNUAL;
-      const name: StatsName = StatsName.of('name1');
-      const unit: StatsUnit = StatsUnit.of('unit1');
-      const updatedAt: UpdatedAt = UpdatedAt.ofString('2000-01-01 00:00:00').get();
-      const items: StatsItems = StatsItems.ofArray([
-      ]);
-
-      const stats: Stats = Stats.of(statsID, language, region, term, name, unit, updatedAt, items);
+      const stats: Stats = Stats.of(
+        new MockStatsID(),
+        new MockLanguage(),
+        new MockRegion(),
+        Term.DAILY,
+        new MockStatsName(),
+        new MockStatsUnit(),
+        new MockUpdatedAt(),
+        new MockStatsItems()
+      );
 
       expect(stats.isDetermined()).toEqual(false);
     });
@@ -968,17 +1732,39 @@ describe('Stats', () => {
   describe('of', () => {
     it('normal case', () => {
       const statsID: StatsID = StatsID.ofString('af272303-df5d-4d34-8604-398920b7d2bb').get();
-      const language: Language = Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('language english name 1'), ISO639.of('lang1'));
-      const region: Region = Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('regn1'));
+      const language: Language = Language.of(
+        LanguageID.of(1),
+        LanguageName.of('language1'),
+        LanguageName.of('language english name 1'),
+        ISO639.of('lang1')
+      );
+      const region: Region = Region.of(
+        RegionID.of(1),
+        RegionName.of('region1'),
+        ISO3166.of('regn1')
+      );
       const term: Term = Term.ANNUAL;
       const name: StatsName = StatsName.of('name1');
       const unit: StatsUnit = StatsUnit.of('unit1');
       const updatedAt: UpdatedAt = UpdatedAt.ofString('2000-01-01 02:02:02').get();
       const items: StatsItems = StatsItems.ofArray([
-        StatsItem.of(StatsItemID.ofString('a28eceac-0451-4339-b1c5-0c298b3905f6').get(), StatsItemName.of('stats1'), StatsValues.empty())
+        StatsItem.of(
+          StatsItemID.ofString('a28eceac-0451-4339-b1c5-0c298b3905f6').get(),
+          StatsItemName.of('stats1'),
+          StatsValues.empty()
+        )
       ]);
 
-      const stats: Stats = Stats.of(statsID, language, region, term, name, unit, updatedAt, items);
+      const stats: Stats = Stats.of(
+        statsID,
+        language,
+        region,
+        term,
+        name,
+        unit,
+        updatedAt,
+        items
+      );
 
       expect(stats.getStatsID()).toEqual(statsID);
       expect(stats.getLanguage()).toEqual(language);
@@ -1088,8 +1874,16 @@ describe('Stats', () => {
           StatsItemID.ofString('610b532b-5711-461a-b44a-7387e8d08596').get(),
           StatsItemName.of('stats item1'),
           StatsValues.ofArray([
-            StatsValue.of(StatsItemID.ofString('610b532b-5711-461a-b44a-7387e8d08596').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1)),
-            StatsValue.of(StatsItemID.ofString('610b532b-5711-461a-b44a-7387e8d08596').get(), AsOf.ofString('2000-01-02').get(), NumericalValue.of(2))
+            StatsValue.of(
+              StatsItemID.ofString('610b532b-5711-461a-b44a-7387e8d08596').get(),
+              AsOf.ofString('2000-01-01').get(),
+              NumericalValue.of(1)
+            ),
+            StatsValue.of(
+              StatsItemID.ofString('610b532b-5711-461a-b44a-7387e8d08596').get(),
+              AsOf.ofString('2000-01-02').get(),
+              NumericalValue.of(2)
+            )
           ])
         ),
         StatsItem.of(
