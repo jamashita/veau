@@ -1,7 +1,6 @@
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { DataSourceError } from '../../../General/DataSourceError';
 import { MockError } from '../../../General/MockError';
-import { MockMySQLError } from '../../../General/MySQL/Mock/MockMySQLError';
 import { MockQuery } from '../../../General/MySQL/Mock/MockQuery';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
 import { Try } from '../../../General/Try/Try';
@@ -49,7 +48,7 @@ describe('StatsValueCommand', () => {
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
-      stub.rejects(new MockMySQLError());
+      stub.rejects(new MySQLError('test failed'));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
@@ -111,7 +110,7 @@ describe('StatsValueCommand', () => {
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
-      stub.rejects(new MockMySQLError());
+      stub.rejects(new MySQLError('test failed'));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 

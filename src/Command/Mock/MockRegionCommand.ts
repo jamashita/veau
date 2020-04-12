@@ -1,4 +1,3 @@
-import { CacheError } from '../../Error/CacheError';
 import { DataSourceError } from '../../General/DataSourceError';
 import { Try } from '../../General/Try/Try';
 import { UnimplementedError } from '../../General/UnimplementedError';
@@ -13,7 +12,7 @@ export class MockRegionCommand implements IRegionCommand, IMockCommand {
     return Promise.reject<Try<void, DataSourceError>>(new UnimplementedError());
   }
 
-  public deleteAll(): Promise<Try<void, CacheError | DataSourceError>> {
-    return Promise.reject<Try<void, CacheError | DataSourceError>>(new UnimplementedError());
+  public deleteAll(): Promise<Try<void, DataSourceError>> {
+    return Promise.reject<Try<void, DataSourceError>>(new UnimplementedError());
   }
 }

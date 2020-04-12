@@ -3,7 +3,6 @@ import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import log4js from 'log4js';
 import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
-import { CacheError } from '../../Error/CacheError';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { DataSourceError } from '../../General/DataSourceError';
 import { JSONable } from '../../General/Interface/JSONable';
@@ -30,11 +29,11 @@ router.get('/', async (req: express.Request, res: express.Response) => {
 });
 
 router.delete('/', authenticationMiddleware.requires(), async (req: express.Request, res: express.Response) => {
-  const trial: Try<void, CacheError | DataSourceError> = await localeInteractor.delete();
+  const trial: Try<void, DataSourceError> = await localeInteractor.delete();
 
   trial.match<void>(() => {
     res.sendStatus(OK);
-  }, (err: CacheError | DataSourceError) => {
+  }, (err: DataSourceError) => {
     logger.error(err.message);
 
     res.sendStatus(INTERNAL_SERVER_ERROR);

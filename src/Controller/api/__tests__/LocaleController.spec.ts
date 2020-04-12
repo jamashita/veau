@@ -3,7 +3,6 @@ import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';
-import { CacheError } from '../../../Error/CacheError';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
 import { Failure } from '../../../General/Try/Failure';
 import { Success } from '../../../General/Try/Success';
@@ -23,6 +22,8 @@ import { Regions } from '../../../VO/Regions';
 import { VeauAccount } from '../../../VO/VeauAccount';
 import { VeauAccountID } from '../../../VO/VeauAccountID';
 import { LocaleController } from '../LocaleController';
+import { RedisError } from '../../../General/Redis/RedisError';
+import { DataSourceError } from '../../../General/DataSourceError';
 
 describe('LocaleController', () => {
   describe('GET /', () => {
@@ -81,7 +82,7 @@ describe('LocaleController', () => {
     it('delete all locales of the cache', async () => {
       const stub: SinonStub = sinon.stub();
       LocaleInteractor.prototype.delete = stub;
-      stub.resolves(Success.of<CacheError>());
+      stub.resolves(Success.of<DataSourceError>());
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
@@ -99,7 +100,7 @@ describe('LocaleController', () => {
     it('cache delete error', async () => {
       const stub: SinonStub = sinon.stub();
       LocaleInteractor.prototype.delete = stub;
-      stub.resolves(Failure.of<CacheError>(new CacheError('error')));
+      stub.resolves(Failure.of<RedisError>(new RedisError('error')));
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
@@ -117,7 +118,7 @@ describe('LocaleController', () => {
     it('replies INTERNAL_SERVER_ERROR', async () => {
       const stub: SinonStub = sinon.stub();
       LocaleInteractor.prototype.delete = stub;
-      stub.resolves(Failure.of<CacheError>(new CacheError('test failed')));
+      stub.resolves(Failure.of<RedisError>(new RedisError('test failed')));
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));

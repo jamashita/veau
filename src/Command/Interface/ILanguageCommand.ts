@@ -1,4 +1,3 @@
-import { CacheError } from '../../Error/CacheError';
 import { DataSourceError } from '../../General/DataSourceError';
 import { Try } from '../../General/Try/Try';
 import { Languages } from '../../VO/Languages';
@@ -9,5 +8,5 @@ export interface ILanguageCommand extends ICommand {
 
   insertAll(languages: Languages): Promise<Try<void, DataSourceError>>;
 
-  deleteAll(): Promise<Try<void, CacheError | DataSourceError>>;
+  deleteAll(): Promise<Try<void, DataSourceError>>;
 }

@@ -1,6 +1,5 @@
 import { inject, injectable } from 'inversify';
 import { TYPE } from '../../Container/Types';
-import { CacheError } from '../../Error/CacheError';
 import { DataSourceError } from '../../General/DataSourceError';
 import { JSONA } from '../../General/JSONA';
 import { IRedis } from '../../General/Redis/Interface/IRedis';
@@ -42,7 +41,7 @@ export class RegionCommand implements IRegionCommand, IRedisCommand {
     }
   }
 
-  public async deleteAll(): Promise<Try<void, CacheError | DataSourceError>> {
+  public async deleteAll(): Promise<Try<void, DataSourceError>> {
     try {
       const ok: boolean = await this.redis.delete(REDIS_REGION_KEY);
 
@@ -50,7 +49,7 @@ export class RegionCommand implements IRegionCommand, IRedisCommand {
         return Success.of<DataSourceError>();
       }
 
-      return Failure.of<CacheError>(new CacheError('FAIL TO DELETE CACHE'));
+      return Failure.of<DataSourceError>(new RedisError('FAIL TO DELETE CACHE'));
     }
     catch (err) {
       if (err instanceof RedisError) {
