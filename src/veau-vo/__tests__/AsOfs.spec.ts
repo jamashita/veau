@@ -285,6 +285,15 @@ describe('AsOfs', () => {
     it('returns None when AsOfs are empty', () =>{
       expect(AsOfs.empty().min()).toBeInstanceOf(None);
     });
+
+    it('returns the only one', () =>{
+      const asOf: MockAsOf = new MockAsOf();
+      const asOfs: AsOfs = AsOfs.ofSpread(
+        asOf
+      );
+
+      expect(asOfs.min().get()).toEqual(asOf);
+    });
   });
 
   describe('max', () => {
@@ -324,6 +333,15 @@ describe('AsOfs', () => {
 
     it('returns None when AsOfs are empty', () =>{
       expect(AsOfs.empty().max()).toBeInstanceOf(None);
+    });
+
+    it('returns the only one', () => {
+      const asOf: MockAsOf = new MockAsOf();
+      const asOfs: AsOfs = AsOfs.ofSpread(
+        asOf
+      );
+
+      expect(asOfs.max().get()).toEqual(asOf);
     });
   });
 

@@ -85,6 +85,9 @@ export class AsOfs implements Collection<number, AsOf>, Cloneable, JSONable {
     if (this.isEmpty()) {
       return None.of<AsOf>();
     }
+    if (this.asOfs.size() === 1) {
+      return this.asOfs.get(0);
+    }
 
     const asOfs: Array<moment.Moment> = this.asOfs.toArray().map<moment.Moment>((asOf: AsOf) => {
       return asOf.get();
@@ -96,6 +99,9 @@ export class AsOfs implements Collection<number, AsOf>, Cloneable, JSONable {
   public max(): Optional<AsOf> {
     if (this.isEmpty()) {
       return None.of<AsOf>();
+    }
+    if (this.asOfs.size() === 1) {
+      return this.asOfs.get(0);
     }
 
     const asOfs: Array<moment.Moment> = this.asOfs.toArray().map<moment.Moment>((asOf: AsOf) => {
