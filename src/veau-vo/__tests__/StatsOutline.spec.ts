@@ -574,7 +574,7 @@ describe('StatsOutline', () => {
           regionID: new MockRegionID(3)
         }),
         new MockTerm(),
-        new MockStatsName(),
+        new MockStatsName('stats name'),
         new MockStatsUnit(),
         new MockUpdatedAt()
       );
@@ -588,7 +588,7 @@ describe('StatsOutline', () => {
         }),
         new MockTerm(),
         new MockStatsName(),
-        new MockStatsUnit(),
+        new MockStatsUnit('stats unit'),
         new MockUpdatedAt()
       );
       const statsOutline7: StatsOutline = StatsOutline.of(
@@ -600,8 +600,8 @@ describe('StatsOutline', () => {
           regionID: new MockRegionID(3)
         }),
         new MockTerm(),
-        new MockStatsName(),
-        new MockStatsUnit(),
+        new MockStatsName('stats name'),
+        new MockStatsUnit('stats unit'),
         new MockUpdatedAt()
       );
 
