@@ -1,6 +1,7 @@
 import { JSONA } from '../JSONA';
 import { JSObjectNotation } from '../Type/Value';
 
+// DONE
 describe('JSONA', () => {
   describe('parse', () => {
     it('outputs the same one as JSON.parse()', async () => {

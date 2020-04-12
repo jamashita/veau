@@ -3,6 +3,7 @@ import { None } from '../../Optional/None';
 import { Optional } from '../../Optional/Optional';
 import { Sequence } from '../Sequence';
 
+// DONE
 describe('Sequence', () => {
   describe('of', () => {
     it('when the arguments specified with 0 length array, returns singleton', () => {

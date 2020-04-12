@@ -19,6 +19,7 @@ import { MockNumericalValue } from '../../VO/Mock/MockNumericalValue';
 import { MockAsOfs } from '../../VO/Mock/MockAsOfs';
 import { MockStatsItem } from '../Mock/MockStatsItem';
 
+// DONE
 describe('StatsItem', () => {
   describe('of', () => {
     it('normal case', () => {
@@ -517,7 +518,7 @@ describe('StatsItem', () => {
       });
       const statsItem: StatsItem = StatsItem.of(
         new MockStatsItemID(),
-        new MockStatsItemName('name 3'),
+        new MockStatsItemName(),
         new MockStatsValues(
           new MockStatsValue({
             asOf: asOf1

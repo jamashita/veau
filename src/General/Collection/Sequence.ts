@@ -4,9 +4,9 @@ import { Optional } from '../Optional/Optional';
 import { Some } from '../Optional/Some';
 import { Enumerator, Mapper, Predicate } from '../Type/Function';
 import { Ambiguous } from '../Type/Value';
-import { List } from './Interface/List';
+import { ISequence } from './Interface/ISequence';
 
-export class Sequence<E extends Nominative> implements List<E> {
+export class Sequence<E extends Nominative> implements ISequence<E> {
   public readonly noun: 'Sequence' = 'Sequence';
   private readonly elements: Array<E>;
 
@@ -112,7 +112,7 @@ export class Sequence<E extends Nominative> implements List<E> {
     }
 
     const length: number = this.elements.length;
-    if (length !== other.size()) {
+    if (length !== other.elements.length) {
       return false;
     }
 

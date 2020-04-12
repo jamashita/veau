@@ -22,6 +22,7 @@ import { MockAsOf } from '../../VO/Mock/MockAsOf';
 import { MockNumericalValue } from '../../VO/Mock/MockNumericalValue';
 import { MockStatsItemID } from '../../VO/Mock/MockStatsItemID';
 
+// DONE
 describe('StatsItems', () => {
   describe('ofJSON', () => {
     it('normal case', () => {

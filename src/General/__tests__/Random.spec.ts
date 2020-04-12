@@ -1,5 +1,6 @@
 import { Random } from '../Random';
 
+// DONE
 describe('Random', () => {
   describe('string', () => {
     it('length is fixed', () => {
