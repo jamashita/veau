@@ -1,42 +1,43 @@
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { Stats } from '../../../Entity/Stats';
-import { StatsItems } from '../../../Entity/StatsItems';
 import { DataSourceError } from '../../../General/DataSourceError';
 import { MockError } from '../../../General/MockError';
 import { MockMySQLError } from '../../../General/MySQL/Mock/MockMySQLError';
 import { MockQuery } from '../../../General/MySQL/Mock/MockQuery';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
 import { Try } from '../../../General/Try/Try';
-import { ISO3166 } from '../../../VO/ISO3166';
-import { ISO639 } from '../../../VO/ISO639';
-import { Language } from '../../../VO/Language';
-import { LanguageID } from '../../../VO/LanguageID';
-import { LanguageName } from '../../../VO/LanguageName';
-import { Region } from '../../../VO/Region';
-import { RegionID } from '../../../VO/RegionID';
-import { RegionName } from '../../../VO/RegionName';
-import { StatsID } from '../../../VO/StatsID';
-import { StatsName } from '../../../VO/StatsName';
-import { StatsUnit } from '../../../VO/StatsUnit';
-import { Term } from '../../../VO/Term';
-import { UpdatedAt } from '../../../VO/UpdatedAt';
-import { VeauAccountID } from '../../../VO/VeauAccountID';
 import { StatsCommand } from '../StatsCommand';
+import { UUID } from '../../../General/UUID/UUID';
+import { MockStats } from '../../../Entity/Mock/MockStats';
+import { MockStatsID } from '../../../VO/Mock/MockStatsID';
+import { MockLanguage } from '../../../VO/Mock/MockLanguage';
+import { MockLanguageID } from '../../../VO/Mock/MockLanguageID';
+import { MockRegion } from '../../../VO/Mock/MockRegion';
+import { MockRegionID } from '../../../VO/Mock/MockRegionID';
+import { MockTerm } from '../../../VO/Mock/MockTerm';
+import { MockStatsName } from '../../../VO/Mock/MockStatsName';
+import { MockStatsUnit } from '../../../VO/Mock/MockStatsUnit';
+import { MockVeauAccountID } from '../../../VO/Mock/MockVeauAccountID';
 
 describe('StatsCommand', () => {
   describe('create', () => {
     it('normal case', async () => {
-      const stats: Stats = Stats.of(
-        StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(),
-        Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('language 2'), ISO639.of('aa')),
-        Region.of(RegionID.of(2), RegionName.of('region 3'), ISO3166.of('abc')),
-        Term.DAILY,
-        StatsName.of('stats name'),
-        StatsUnit.of('stats unit'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.empty()
-      );
-      const accountID: VeauAccountID = VeauAccountID.ofString('d5619e72-3233-43a8-9cc8-571e53b2ff87').get();
+      const uuid1: UUID = UUID.v4();
+      const uuid2: UUID = UUID.v4();
+      const stats: MockStats = new MockStats({
+        statsID: new MockStatsID(uuid1),
+        language: new MockLanguage({
+          languageID: new MockLanguageID(24)
+        }),
+        region: new MockRegion({
+          regionID: new MockRegionID(33)
+        }),
+        term: new MockTerm({
+          id: 935
+        }),
+        name: new MockStatsName('stats name'),
+        unit: new MockStatsUnit('stats unit')
+      });
+      const accountID: MockVeauAccountID = new MockVeauAccountID(uuid2);
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
@@ -53,31 +54,23 @@ describe('StatsCommand', () => {
       :veauAccountID,
       :name,
       :unit,
-      UTC_TIMESTAMP()
+      :updatedAt
       );`, {
-        statsID: 'f6fb9662-cbe8-4a91-8aa4-47a92f05b007',
-        languageID: 1,
-        regionID: 2,
-        termID: 1,
-        veauAccountID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+        statsID: uuid1.get(),
+        languageID: 24,
+        regionID: 33,
+        termID: 935,
+        veauAccountID: uuid2.get(),
         name: 'stats name',
-        unit: 'stats unit'
+        unit: 'stats unit',
+        updatedAt: '2000-01-02 01:02:03'
       }).called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
     });
 
     it('returns Failure because the client throws MySQLError', async () => {
-      const stats: Stats = Stats.of(
-        StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(),
-        Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('language 2'), ISO639.of('aa')),
-        Region.of(RegionID.of(2), RegionName.of('region 3'), ISO3166.of('abc')),
-        Term.DAILY,
-        StatsName.of('stats name'),
-        StatsUnit.of('stats unit'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.empty()
-      );
-      const accountID: VeauAccountID = VeauAccountID.ofString('d5619e72-3233-43a8-9cc8-571e53b2ff87').get();
+      const stats: MockStats = new MockStats();
+      const accountID: MockVeauAccountID = new MockVeauAccountID();
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
@@ -102,17 +95,8 @@ describe('StatsCommand', () => {
     });
 
     it('throws Error', async () => {
-      const stats: Stats = Stats.of(
-        StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(),
-        Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('language 2'), ISO639.of('aa')),
-        Region.of(RegionID.of(2), RegionName.of('region 3'), ISO3166.of('abc')),
-        Term.DAILY,
-        StatsName.of('stats name'),
-        StatsUnit.of('stats unit'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.empty()
-      );
-      const accountID: VeauAccountID = VeauAccountID.ofString('d5619e72-3233-43a8-9cc8-571e53b2ff87').get();
+      const stats: MockStats = new MockStats();
+      const accountID: MockVeauAccountID = new MockVeauAccountID();
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
@@ -126,7 +110,8 @@ describe('StatsCommand', () => {
 
   describe('deleteByStatsID', () => {
     it('normal case', async () => {
-      const statsID: StatsID = StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get();
+      const uuid: UUID = UUID.v4();
+      const statsID: MockStatsID = new MockStatsID(uuid);
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
@@ -138,13 +123,13 @@ describe('StatsCommand', () => {
       expect(stub.withArgs(`DELETE R1
       FROM stats R1
       WHERE R1.stats_id = :statsID;`, {
-        statsID: 'f6fb9662-cbe8-4a91-8aa4-47a92f05b007'
+        statsID: uuid.get()
       }).called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
     });
 
     it('returns Failure because the client throws MySQLError', async () => {
-      const statsID: StatsID = StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get();
+      const statsID: MockStatsID = new MockStatsID();
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
@@ -169,7 +154,7 @@ describe('StatsCommand', () => {
     });
 
     it('throws Error', async () => {
-      const statsID: StatsID = StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get();
+      const statsID: MockStatsID = new MockStatsID();
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();

@@ -1,26 +1,27 @@
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { StatsItem } from '../../../Entity/StatsItem';
 import { DataSourceError } from '../../../General/DataSourceError';
 import { MockError } from '../../../General/MockError';
 import { MockMySQLError } from '../../../General/MySQL/Mock/MockMySQLError';
 import { MockQuery } from '../../../General/MySQL/Mock/MockQuery';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
 import { Try } from '../../../General/Try/Try';
-import { StatsID } from '../../../VO/StatsID';
-import { StatsItemID } from '../../../VO/StatsItemID';
-import { StatsItemName } from '../../../VO/StatsItemName';
-import { StatsValues } from '../../../VO/StatsValues';
 import { StatsItemCommand } from '../StatsItemCommand';
+import { UUID } from '../../../General/UUID/UUID';
+import { MockStatsID } from '../../../VO/Mock/MockStatsID';
+import { MockStatsItem } from '../../../Entity/Mock/MockStatsItem';
+import { MockStatsItemID } from '../../../VO/Mock/MockStatsItemID';
+import { MockStatsItemName } from '../../../VO/Mock/MockStatsItemName';
 
 describe('StatsItemCommand', () => {
   describe('create', () => {
     it('normal case', async () => {
-      const statsID: StatsID = StatsID.ofString('59915b56-b930-426c-a146-3b1dde8054cd').get();
-      const statsItem: StatsItem = StatsItem.of(
-        StatsItemID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(),
-        StatsItemName.of('stats item name'),
-        StatsValues.empty()
-      );
+      const uuid1: UUID = UUID.v4();
+      const uuid2: UUID = UUID.v4();
+      const statsID: MockStatsID = new MockStatsID(uuid1);
+      const statsItem: MockStatsItem = new MockStatsItem({
+        statsItemID: new MockStatsItemID(uuid2),
+        name: new MockStatsItemName('stats item name')
+      });
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
@@ -35,8 +36,8 @@ describe('StatsItemCommand', () => {
       :name,
       :seq
       );`, {
-        statsItemID: 'f6fb9662-cbe8-4a91-8aa4-47a92f05b007',
-        statsID: '59915b56-b930-426c-a146-3b1dde8054cd',
+        statsItemID: uuid2.get(),
+        statsID: uuid1.get(),
         name: 'stats item name',
         seq: 1
       }).called).toEqual(true);
@@ -44,12 +45,8 @@ describe('StatsItemCommand', () => {
     });
 
     it('returns Failure because the client throws MySQLError', async () => {
-      const statsID: StatsID = StatsID.ofString('59915b56-b930-426c-a146-3b1dde8054cd').get();
-      const statsItem: StatsItem = StatsItem.of(
-        StatsItemID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(),
-        StatsItemName.of('stats item name'),
-        StatsValues.empty()
-      );
+      const statsID: MockStatsID = new MockStatsID();
+      const statsItem: MockStatsItem = new MockStatsItem();
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
@@ -74,12 +71,8 @@ describe('StatsItemCommand', () => {
     });
 
     it('throws Error', async () => {
-      const statsID: StatsID = StatsID.ofString('59915b56-b930-426c-a146-3b1dde8054cd').get();
-      const statsItem: StatsItem = StatsItem.of(
-        StatsItemID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(),
-        StatsItemName.of('stats item name'),
-        StatsValues.empty()
-      );
+      const statsID: MockStatsID = new MockStatsID();
+      const statsItem: MockStatsItem = new MockStatsItem();
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
@@ -93,7 +86,8 @@ describe('StatsItemCommand', () => {
 
   describe('deleteByStatsID', () => {
     it('normal case', async () => {
-      const statsID: StatsID = StatsID.ofString('59915b56-b930-426c-a146-3b1dde8054cd').get();
+      const uuid: UUID = UUID.v4();
+      const statsID: MockStatsID = new MockStatsID(uuid);
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
@@ -107,13 +101,13 @@ describe('StatsItemCommand', () => {
       INNER JOIN stats R2
       USING(stats_id)
       WHERE R2.stats_id = :statsID;`, {
-        statsID: '59915b56-b930-426c-a146-3b1dde8054cd'
+        statsID: uuid.get()
       }).called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
     });
 
     it('returns Failure because the client throws MySQLError', async () => {
-      const statsID: StatsID = StatsID.ofString('59915b56-b930-426c-a146-3b1dde8054cd').get();
+      const statsID: MockStatsID = new MockStatsID();
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
@@ -138,7 +132,7 @@ describe('StatsItemCommand', () => {
     });
 
     it('throws Error', async () => {
-      const statsID: StatsID = StatsID.ofString('59915b56-b930-426c-a146-3b1dde8054cd').get();
+      const statsID: MockStatsID = new MockStatsID();
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();

@@ -32,7 +32,7 @@ export class StatsCommand implements IStatsCommand, IMySQLCommand {
       :veauAccountID,
       :name,
       :unit,
-      UTC_TIMESTAMP()
+      :updatedAt
       );`;
 
     try {
@@ -43,7 +43,8 @@ export class StatsCommand implements IStatsCommand, IMySQLCommand {
         termID: stats.getTerm().getID(),
         veauAccountID: veauAccountID.get().get(),
         name: stats.getName().get(),
-        unit: stats.getUnit().get()
+        unit: stats.getUnit().get(),
+        updatedAt: stats.getUpdatedAt().toString()
       });
 
       return Success.of<DataSourceError>();

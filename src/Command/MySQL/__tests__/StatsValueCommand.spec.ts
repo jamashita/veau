@@ -5,18 +5,24 @@ import { MockMySQLError } from '../../../General/MySQL/Mock/MockMySQLError';
 import { MockQuery } from '../../../General/MySQL/Mock/MockQuery';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
 import { Try } from '../../../General/Try/Try';
-import { AsOf } from '../../../VO/AsOf';
-import { NumericalValue } from '../../../VO/NumericalValue';
-import { StatsID } from '../../../VO/StatsID';
-import { StatsItemID } from '../../../VO/StatsItemID';
 import { StatsValue } from '../../../VO/StatsValue';
 import { StatsValueCommand } from '../StatsValueCommand';
+import { MockStatsItemID } from '../../../VO/Mock/MockStatsItemID';
+import { UUID } from '../../../General/UUID/UUID';
+import { MockStatsValue } from '../../../VO/Mock/MockStatsValue';
+import { MockAsOf } from '../../../VO/Mock/MockAsOf';
+import { MockNumericalValue } from '../../../VO/Mock/MockNumericalValue';
+import { MockStatsID } from '../../../VO/Mock/MockStatsID';
 
 describe('StatsValueCommand', () => {
   describe('create', () => {
     it('normal case', async () => {
-      const statsItemID: StatsItemID = StatsItemID.ofString('6c3f54e0-bfe5-4b4b-9227-2175604ab739').get();
-      const statsValue: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
+      const uuid: UUID = UUID.v4();
+      const statsValue: StatsValue = new MockStatsValue({
+        statsItemID: new MockStatsItemID(uuid),
+        asOf: new MockAsOf(),
+        value: new MockNumericalValue(9)
+      });
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
@@ -30,16 +36,15 @@ describe('StatsValueCommand', () => {
       :asOf,
       :value
       );`, {
-        statsItemID: '6c3f54e0-bfe5-4b4b-9227-2175604ab739',
+        statsItemID: uuid.get(),
         asOf: '2000-01-01',
-        value: 1
+        value: 9
       }).called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
     });
 
     it('returns Failure because the client throws MySQLError', async () => {
-      const statsItemID: StatsItemID = StatsItemID.ofString('6c3f54e0-bfe5-4b4b-9227-2175604ab739').get();
-      const statsValue: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
+      const statsValue: MockStatsValue = new MockStatsValue();
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
@@ -64,8 +69,7 @@ describe('StatsValueCommand', () => {
     });
 
     it('throws Error', async () => {
-      const statsItemID: StatsItemID = StatsItemID.ofString('6c3f54e0-bfe5-4b4b-9227-2175604ab739').get();
-      const statsValue: StatsValue = StatsValue.of(statsItemID, AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
+      const statsValue: MockStatsValue = new MockStatsValue();
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
@@ -79,7 +83,8 @@ describe('StatsValueCommand', () => {
 
   describe('deleteByStatsID', () => {
     it('normal case', async () => {
-      const statsID: StatsID = StatsID.ofString('59915b56-b930-426c-a146-3b1dde8054cd').get();
+      const uuid: UUID = UUID.v4();
+      const statsID: MockStatsID = new MockStatsID(uuid);
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
@@ -95,13 +100,13 @@ describe('StatsValueCommand', () => {
       INNER JOIN stats R3
       USING(stats_id)
       WHERE R3.stats_id = :statsID;`, {
-        statsID: '59915b56-b930-426c-a146-3b1dde8054cd'
+        statsID: uuid.get()
       }).called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
     });
 
     it('returns Failure because the client throws MySQLError', async () => {
-      const statsID: StatsID = StatsID.ofString('59915b56-b930-426c-a146-3b1dde8054cd').get();
+      const statsID: MockStatsID = new MockStatsID();
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
@@ -126,7 +131,7 @@ describe('StatsValueCommand', () => {
     });
 
     it('throws Error', async () => {
-      const statsID: StatsID = StatsID.ofString('59915b56-b930-426c-a146-3b1dde8054cd').get();
+      const statsID: MockStatsID = new MockStatsID();
 
       const query: MockQuery = new MockQuery();
       const stub: SinonStub = sinon.stub();
