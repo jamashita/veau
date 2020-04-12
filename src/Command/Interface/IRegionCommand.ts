@@ -1,4 +1,3 @@
-import { CacheError } from '../../Error/CacheError';
 import { DataSourceError } from '../../General/DataSourceError';
 import { Try } from '../../General/Try/Try';
 import { Regions } from '../../VO/Regions';
@@ -9,5 +8,5 @@ export interface IRegionCommand extends ICommand {
 
   insertAll(regions: Regions): Promise<Try<void, DataSourceError>>;
 
-  deleteAll(): Promise<Try<void, CacheError | DataSourceError>>;
+  deleteAll(): Promise<Try<void, DataSourceError>>;
 }
