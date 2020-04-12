@@ -12,7 +12,6 @@ import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
 import { Enumerator, Mapper } from '../veau-general/Type/Function';
 import { Type } from '../veau-general/Type/Type';
-import { AsOf } from '../veau-vo/AsOf';
 import { AsOfs } from '../veau-vo/AsOfs';
 import { Column } from '../veau-vo/Column';
 import { Row } from '../veau-vo/Row';
@@ -21,6 +20,7 @@ import { StatsItemName } from '../veau-vo/StatsItemName';
 import { StatsItemNames } from '../veau-vo/StatsItemNames';
 import { StatsValues } from '../veau-vo/StatsValues';
 import { StatsItem, StatsItemJSON, StatsItemRow } from './StatsItem';
+import { AsOf } from '../veau-vo/AsOf';
 
 export class StatsItems implements Collection<number, StatsItem>, JSONable, Cloneable {
   public readonly noun: 'StatsItems' = 'StatsItems';
@@ -56,8 +56,8 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
     return StatsItems.ofTry(trials);
   }
 
-  public static ofRow(statsItemRows: Array<StatsItemRow>, statsValues: StatsValues): Try<StatsItems, StatsItemsError> {
-    const trials: Array<Try<StatsItem, StatsItemError>> = statsItemRows.map<Try<StatsItem, StatsItemError>>((statsItemRow: StatsItemRow) => {
+  public static ofRow(rows: Array<StatsItemRow>, statsValues: StatsValues): Try<StatsItems, StatsItemsError> {
+    const trials: Array<Try<StatsItem, StatsItemError>> = rows.map<Try<StatsItem, StatsItemError>>((statsItemRow: StatsItemRow) => {
       return StatsItemID.ofString(statsItemRow.statsItemID).match<Try<StatsItem, StatsItemError>>((statsItemID: StatsItemID) => {
         const values: StatsValues = statsValues.filter(statsItemID);
 
@@ -103,15 +103,18 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
   }
 
   public getAsOfs(): AsOfs {
-    const asOfs: Array<AsOf> = [];
+    const sequence: Sequence<AsOfs> = this.items.project<AsOfs>((item: StatsItem) => {
+      return item.getAsOfs();
+    });
 
-    this.items.iterate((item: StatsItem) => {
-      item.getAsOfs().forEach((asOf: AsOf) => {
-        asOfs.push(asOf);
+    const all: Array<AsOf> = [];
+    sequence.iterate((asOfs: AsOfs) => {
+      asOfs.forEach((asOf: AsOf) => {
+        all.push(asOf);
       });
     });
 
-    return AsOfs.ofArray(asOfs);
+    return AsOfs.ofArray(all);
   }
 
   public maxNameLength(): number {
@@ -216,11 +219,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
   }
 
   public copy(): StatsItems {
-    const items: Sequence<StatsItem> = this.items.project<StatsItem>((statsItem: StatsItem) => {
-      return statsItem.copy();
-    });
-
-    return StatsItems.of(items);
+    return StatsItems.of(this.items.copy());
   }
 
   public isEmpty(): boolean {
