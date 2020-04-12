@@ -16,8 +16,33 @@ import { StatsOutlineError } from '../../veau-error/StatsOutlineError';
 import { Failure } from '../../veau-general/Try/Failure';
 import sinon, { SinonSpy } from 'sinon';
 import { MockStatsID } from '../Mock/MockStatsID';
+import { Sequence } from '../../veau-general/Collection/Sequence';
 
 describe('StatsOutlines', () => {
+  describe('of', () => {
+    it('when the Sequence is zero size, returns empty', () => {
+      const outlines: StatsOutlines = StatsOutlines.of(Sequence.empty<MockStatsOutline>());
+
+      expect(outlines).toBe(StatsOutlines.empty());
+    });
+
+    it('normal case', () => {
+      const outline1: MockStatsOutline = new MockStatsOutline();
+      const outline2: MockStatsOutline = new MockStatsOutline();
+      const sequence: Sequence<MockStatsOutline> = Sequence.of<StatsOutline>([
+        outline1,
+        outline2
+      ]);
+
+      const outlines: StatsOutlines = StatsOutlines.of(sequence);
+
+      expect(outlines.size()).toEqual(sequence.size());
+      for (let i: number = 0; i < outlines.size(); i++) {
+        expect(outlines.get(i).get()).toEqual(sequence.get(i).get());
+      }
+    });
+  });
+
   describe('ofTry', () => {
     it('normal case', () => {
       const statsOutline1: MockStatsOutline = new MockStatsOutline();
@@ -213,7 +238,6 @@ describe('StatsOutlines', () => {
         statsOutline1,
         statsOutline2
       ];
-
 
       const statsOutlines: StatsOutlines = StatsOutlines.ofArray(outlines);
 

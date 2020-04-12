@@ -7,9 +7,13 @@ export class NumericalValues implements Collection<number, NumericalValue> {
   public readonly noun: 'NumericalValues' = 'NumericalValues';
   private readonly values: Sequence<NumericalValue>;
 
-  private static readonly EMPTY: NumericalValues = NumericalValues.of(Sequence.empty<NumericalValue>());
+  private static readonly EMPTY: NumericalValues = new NumericalValues(Sequence.empty<NumericalValue>());
 
   public static of(values: Sequence<NumericalValue>): NumericalValues {
+    if (values.isEmpty()) {
+      return NumericalValues.empty();
+    }
+
     return new NumericalValues(values);
   }
 

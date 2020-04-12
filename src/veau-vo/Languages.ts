@@ -9,7 +9,7 @@ export class Languages implements Collection<number, Language>, JSONable {
   public readonly noun: 'Languages' = 'Languages';
   private readonly languages: Sequence<Language>;
 
-  private static readonly EMPTY: Languages = Languages.of(Sequence.empty<Language>());
+  private static readonly EMPTY: Languages = new Languages(Sequence.empty<Language>());
 
   public static of(languages: Sequence<Language>): Languages {
     if (languages.isEmpty()) {

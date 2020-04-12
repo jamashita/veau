@@ -16,8 +16,33 @@ import { MockAsOf } from '../Mock/MockAsOf';
 import { MockNumericalValue } from '../Mock/MockNumericalValue';
 import { MockNumericalValues } from '../Mock/MockNumericalValues';
 import { UUID } from '../../veau-general/UUID/UUID';
+import { Sequence } from '../../veau-general/Collection/Sequence';
 
 describe('StatsValues', () => {
+  describe('of', () => {
+    it('when the Sequence is zero size, returns empty', () => {
+      const values: StatsValues = StatsValues.of(Sequence.empty<StatsValue>());
+
+      expect(values).toBe(StatsValues.empty());
+    });
+
+    it('normal case', () => {
+      const value1: MockStatsValue = new MockStatsValue();
+      const value2: MockStatsValue = new MockStatsValue();
+      const sequence: Sequence<MockStatsValue> = Sequence.of<StatsValue>([
+        value1,
+        value2
+      ]);
+
+      const values: StatsValues = StatsValues.of(sequence);
+
+      expect(values.size()).toEqual(sequence.size());
+      for (let i: number = 0; i < values.size(); i++) {
+        expect(values.get(i).get()).toEqual(sequence.get(i).get());
+      }
+    });
+  });
+
   describe('ofTry', () => {
     it('normal case', () => {
       const statsValue1: MockStatsValue = new MockStatsValue();

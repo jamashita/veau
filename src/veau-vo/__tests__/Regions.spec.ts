@@ -8,8 +8,33 @@ import { MockRegion } from '../Mock/MockRegion';
 import { MockRegionID } from '../Mock/MockRegionID';
 import { MockISO3166 } from '../Mock/MockISO3166';
 import { MockRegionName } from '../Mock/MockRegionName';
+import { Sequence } from '../../veau-general/Collection/Sequence';
 
 describe('Regions', () => {
+  describe('of', () => {
+    it('when the Sequence is zero size, returns empty', () => {
+      const regions: Regions = Regions.of(Sequence.empty<Region>());
+
+      expect(regions).toBe(Regions.empty());
+    });
+
+    it('normal case', () => {
+      const region1: MockRegion = new MockRegion();
+      const region2: MockRegion = new MockRegion();
+      const sequence: Sequence<MockRegion> = Sequence.of<Region>([
+        region1,
+        region2
+      ]);
+
+      const regions: Regions = Regions.of(sequence);
+
+      expect(regions.size()).toEqual(sequence.size());
+      for (let i: number = 0; i < regions.size(); i++) {
+        expect(regions.get(i).get()).toEqual(sequence.get(i).get());
+      }
+    });
+  });
+
   describe('ofJSON', () => {
     it('normal case', () => {
       const json: Array<RegionJSON> = [

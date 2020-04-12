@@ -1,8 +1,34 @@
 import { None } from '../../veau-general/Optional/None';
 import { NumericalValues } from '../NumericalValues';
 import { MockNumericalValue } from '../Mock/MockNumericalValue';
+import { Sequence } from '../../veau-general/Collection/Sequence';
+import { NumericalValue } from '../NumericalValue';
 
 describe('NumericalValues', () => {
+  describe('of', () => {
+    it('when the Sequence is zero size, returns empty', () => {
+      const values: NumericalValues = NumericalValues.of(Sequence.empty<NumericalValue>());
+
+      expect(values).toBe(NumericalValues.empty());
+    });
+
+    it('normal case', () => {
+      const value1: MockNumericalValue = new MockNumericalValue();
+      const value2: MockNumericalValue = new MockNumericalValue();
+      const sequence: Sequence<MockNumericalValue> = Sequence.of<MockNumericalValue>([
+        value1,
+        value2
+      ]);
+
+      const values: NumericalValues = NumericalValues.of(sequence);
+
+      expect(values.size()).toEqual(sequence.size());
+      for (let i: number = 0; i < values.size(); i++) {
+        expect(values.get(i).get()).toEqual(sequence.get(i).get());
+      }
+    });
+  });
+
   describe('ofArray', () => {
     it('normal case', () => {
       const value1: MockNumericalValue = new MockNumericalValue(1);

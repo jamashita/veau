@@ -9,9 +9,13 @@ export class Regions implements Collection<number, Region>, JSONable {
   public readonly noun: 'Regions' = 'Regions';
   private readonly regions: Sequence<Region>;
 
-  private static readonly EMPTY: Regions = Regions.of(Sequence.empty<Region>());
+  private static readonly EMPTY: Regions = new Regions(Sequence.empty<Region>());
 
   public static of(regions: Sequence<Region>): Regions {
+    if (regions.isEmpty()) {
+      return Regions.empty();
+    }
+
     return new Regions(regions);
   }
 

@@ -22,9 +22,13 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
   public readonly noun: 'StatsValues' = 'StatsValues';
   private readonly values: Sequence<StatsValue>;
 
-  private static readonly EMPTY: StatsValues = StatsValues.of(Sequence.empty<StatsValue>());
+  private static readonly EMPTY: StatsValues = new StatsValues(Sequence.empty<StatsValue>());
 
   public static of(values: Sequence<StatsValue>): StatsValues {
+    if (values.isEmpty()) {
+      return StatsValues.empty();
+    }
+
     return new StatsValues(values);
   }
 

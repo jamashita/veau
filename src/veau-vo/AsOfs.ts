@@ -12,7 +12,7 @@ export class AsOfs implements Collection<number, AsOf>, JSONable {
   public readonly noun: 'AsOfs' = 'AsOfs';
   private readonly asOfs: Sequence<AsOf>;
 
-  private static readonly EMPTY: AsOfs = AsOfs.of(Sequence.empty<AsOf>());
+  private static readonly EMPTY: AsOfs = new AsOfs(Sequence.empty<AsOf>());
 
   public static of(asOfs: Sequence<AsOf>): AsOfs {
     if (asOfs.isEmpty()) {

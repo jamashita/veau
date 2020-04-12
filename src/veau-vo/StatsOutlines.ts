@@ -16,9 +16,13 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
   public readonly noun: 'StatsOutlines' = 'StatsOutlines';
   private readonly outlines: Sequence<StatsOutline>;
 
-  private static readonly EMPTY: StatsOutlines = StatsOutlines.of(Sequence.empty<StatsOutline>());
+  private static readonly EMPTY: StatsOutlines = new StatsOutlines(Sequence.empty<StatsOutline>());
 
   public static of(outlines: Sequence<StatsOutline>): StatsOutlines {
+    if (outlines.isEmpty()) {
+      return StatsOutlines.empty();
+    }
+
     return new StatsOutlines(outlines);
   }
 
