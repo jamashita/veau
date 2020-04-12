@@ -3,6 +3,7 @@ import { MockError } from '../../MockError';
 import { MySQLError } from '../../MySQL/MySQLError';
 import { Success } from '../Success';
 
+// DONE
 describe('Success', () => {
   describe('of', () => {
     it('no argument call', () => {
@@ -58,16 +59,21 @@ describe('Success', () => {
       const success: Success<number, MockError> = Success.of<number, MockError>(v1);
 
       const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
       const res: number = success.match<number>((n: number, s: Success<number, MockError>) => {
         spy1();
         expect(n).toEqual(v1);
         expect(s).toBe(success);
         return n * 2;
+      }, () => {
+        spy2();
+        return v1 ** 2;
       });
 
       expect(res).toEqual(v1 * 2);
       expect(spy1.called).toEqual(true);
+      expect(spy2.called).toEqual(false);
     });
   });
 

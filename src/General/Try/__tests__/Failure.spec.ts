@@ -3,6 +3,7 @@ import { MockError } from '../../MockError';
 import { MySQLError } from '../../MySQL/MySQLError';
 import { Failure } from '../Failure';
 
+// DONE
 describe('Failure', () => {
   describe('of', () => {
     it('one generic call', () => {
