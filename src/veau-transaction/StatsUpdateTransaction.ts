@@ -11,7 +11,7 @@ import { Try } from '../veau-general/Try/Try';
 import { StatsID } from '../veau-vo/StatsID';
 import { StatsValue } from '../veau-vo/StatsValue';
 import { VeauAccountID } from '../veau-vo/VeauAccountID';
-import { IStatsUpdateTransaction } from './Interfaces/IStatsUpdateTransaction';
+import { IStatsUpdateTransaction } from './Interface/IStatsUpdateTransaction';
 
 export class StatsUpdateTransaction implements IStatsUpdateTransaction {
   public readonly noun: 'StatsUpdateTransaction' = 'StatsUpdateTransaction';
