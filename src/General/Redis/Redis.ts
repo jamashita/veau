@@ -54,7 +54,7 @@ export class Redis implements IRedis {
     }
     catch (err) {
       if (err instanceof Error) {
-        throw new RedisError(err);
+        throw new RedisError('FAIL ON DELETE', err);
       }
 
       throw err;
@@ -73,7 +73,7 @@ export class Redis implements IRedis {
     }
     catch (err) {
       if (err instanceof Error) {
-        throw new RedisError(err);
+        throw new RedisError('FAIL ON EXISTS', err);
       }
 
       throw err;
@@ -92,7 +92,7 @@ export class Redis implements IRedis {
     }
     catch (err) {
       if (err instanceof Error) {
-        throw new RedisError(err);
+        throw new RedisError('FAIL ON EXPIRES', err);
       }
 
       throw err;
@@ -107,7 +107,7 @@ export class Redis implements IRedis {
     }
     catch (err) {
       if (err instanceof Error) {
-        throw new RedisError(err);
+        throw new RedisError('FAIL ON SUBSCRIBE', err);
       }
 
       throw err;
@@ -122,7 +122,7 @@ export class Redis implements IRedis {
     }
     catch (err) {
       if (err instanceof Error) {
-        throw new RedisError(err);
+        throw new RedisError('FAIL ON UNSUBSCRIBE', err);
       }
 
       throw err;
@@ -137,7 +137,7 @@ export class Redis implements IRedis {
     }
     catch (err) {
       if (err instanceof Error) {
-        throw new RedisError(err);
+        throw new RedisError('FAIL ON PUBLISH', err);
       }
 
       throw err;
@@ -150,7 +150,7 @@ export class Redis implements IRedis {
     }
     catch (err) {
       if (err instanceof Error) {
-        throw new RedisError(err);
+        throw new RedisError('FAIL ON ON', err);
       }
 
       throw err;

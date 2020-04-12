@@ -45,7 +45,7 @@ export class LanguageQuery implements ILanguageQuery, IVaultQuery {
       return optional.toTry().match<Try<Language, NoSuchElementError | DataSourceError>>((language: Language) => {
         return Success.of<Language, DataSourceError>(language);
       }, () => {
-        return Failure.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.toString()));
+        return Failure.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.get()));
       });
     }, (err: NoSuchElementError | DataSourceError, self: Failure<Languages, NoSuchElementError | DataSourceError>) => {
       return self.transpose<Language>();

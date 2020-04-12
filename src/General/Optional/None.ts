@@ -1,7 +1,6 @@
 import { Failure } from '../Try/Failure';
 import { Try } from '../Try/Try';
-import { AsyncConsumer, Consumer, MonoFunction, Predicate } from '../Type/Function';
-import { Suspicious } from '../Type/Value';
+import { AsyncConsumer, Consumer } from '../Type/Function';
 import { Optional } from './Optional';
 import { OptionalError } from './OptionalError';
 import { Some } from './Some';
@@ -35,17 +34,15 @@ export class None<T> extends Optional<T> {
 
   public ifPresent(consumer: Consumer<T>): void;
   public ifPresent(consumer: AsyncConsumer<T>): Promise<void>;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-function
-  public ifPresent(consumer: Consumer<T> | AsyncConsumer<T>): void | Promise<void> {
+  public ifPresent(): void | Promise<void> {
+    // NOOP
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public filter(predicate: Predicate<T>): None<T> {
+  public filter(): None<T> {
     return this;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public map<U>(mapper: MonoFunction<T, Suspicious<U>>): None<U> {
+  public map<U>(): None<U> {
     return this.transform<U>();
   }
 

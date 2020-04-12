@@ -22,7 +22,7 @@ export class RedisHash implements IRedisHash {
     }
     catch (err) {
       if (err instanceof Error) {
-        throw new RedisError(err);
+        throw new RedisError('FAIL ON HSET', err);
       }
 
       throw err;
@@ -37,7 +37,7 @@ export class RedisHash implements IRedisHash {
     }
     catch (err) {
       if (err instanceof Error) {
-        throw new RedisError(err);
+        throw new RedisError('FAIL ON HGET', err);
       }
 
       throw err;
@@ -52,7 +52,7 @@ export class RedisHash implements IRedisHash {
     }
     catch (err) {
       if (err instanceof Error) {
-        throw new RedisError(err);
+        throw new RedisError('FAIL ON HDEL', err);
       }
 
       throw err;
@@ -67,7 +67,7 @@ export class RedisHash implements IRedisHash {
     }
     catch (err) {
       if (err instanceof Error) {
-        throw new RedisError(err);
+        throw new RedisError('FAIL ON HLEN', err);
       }
 
       throw err;
@@ -86,7 +86,7 @@ export class RedisHash implements IRedisHash {
     }
     catch (err) {
       if (err instanceof Error) {
-        throw new RedisError(err);
+        throw new RedisError('FAIL ON HEXISTS', err);
       }
 
       throw err;

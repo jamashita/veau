@@ -47,12 +47,12 @@ export class StatsItemQuery implements IStatsItemQuery, IMySQLQuery {
 
       return trial.match<Try<StatsItems, StatsItemsError | DataSourceError>>((statsValues: StatsValues) => {
         return StatsItems.ofRow(statsItemRows, statsValues);
-      }, (err: StatsValuesError | DataSourceError, self: Failure<StatsValues, StatsValuesError | DataSourceError>) => {
+      }, (err: StatsValuesError | DataSourceError) => {
         if (err instanceof DataSourceError) {
-          return self.transpose<StatsItems>();
+          return Failure.of<StatsItems, DataSourceError>(err);
         }
 
-        return Failure.of<StatsItems, StatsItemsError>(new StatsItemsError(err.message));
+        return Failure.of<StatsItems, StatsItemsError>(new StatsItemsError('STATS VALUES ERROR', err));
       });
     }
     catch (err) {

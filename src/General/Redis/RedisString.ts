@@ -22,7 +22,7 @@ export class RedisString implements IRedisString {
     }
     catch (err) {
       if (err instanceof Error) {
-        throw new RedisError(err);
+        throw new RedisError('FAIL ON SET', err);
       }
 
       throw err;
@@ -37,7 +37,7 @@ export class RedisString implements IRedisString {
     }
     catch (err) {
       if (err instanceof Error) {
-        throw new RedisError(err);
+        throw new RedisError('FAIL ON GET', err);
       }
 
       throw err;

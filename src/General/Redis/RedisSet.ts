@@ -18,7 +18,7 @@ export class RedisSet implements IRedisSet {
     }
     catch (err) {
       if (err instanceof Error) {
-        throw new RedisError(err);
+        throw new RedisError('FAIL ON SADD', err);
       }
 
       throw err;
@@ -33,7 +33,7 @@ export class RedisSet implements IRedisSet {
     }
     catch (err) {
       if (err instanceof Error) {
-        throw new RedisError(err);
+        throw new RedisError('FAIL ON SREM', err);
       }
 
       throw err;
@@ -52,7 +52,7 @@ export class RedisSet implements IRedisSet {
     }
     catch (err) {
       if (err instanceof Error) {
-        throw new RedisError(err);
+        throw new RedisError('FAIL ON SISMEMBER', err);
       }
 
       throw err;
@@ -67,7 +67,7 @@ export class RedisSet implements IRedisSet {
     }
     catch (err) {
       if (err instanceof Error) {
-        throw new RedisError(err);
+        throw new RedisError('FAIL ON SCARD', err);
       }
 
       throw err;
@@ -82,7 +82,7 @@ export class RedisSet implements IRedisSet {
     }
     catch (err) {
       if (err instanceof Error) {
-        throw new RedisError(err);
+        throw new RedisError('FAIL ON SMEMBERS', err);
       }
 
       throw err;
@@ -97,7 +97,7 @@ export class RedisSet implements IRedisSet {
     }
     catch (err) {
       if (err instanceof Error) {
-        throw new RedisError(err);
+        throw new RedisError('FAIL ON SRANDMEMBER', err);
       }
 
       throw err;
@@ -112,7 +112,7 @@ export class RedisSet implements IRedisSet {
     }
     catch (err) {
       if (err instanceof Error) {
-        throw new RedisError(err);
+        throw new RedisError('FAIL ON SPOP', err);
       }
 
       throw err;

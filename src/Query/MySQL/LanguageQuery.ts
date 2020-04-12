@@ -66,7 +66,7 @@ export class LanguageQuery implements ILanguageQuery, IMySQLQuery {
       });
 
       if (languageRows.length === 0) {
-        return Failure.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.toString()));
+        return Failure.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.get()));
       }
 
       return Success.of<Language, DataSourceError>(Language.ofRow(languageRows[0]));

@@ -6,7 +6,6 @@ import { StatsOutlinesError } from '../../../Error/StatsOutlinesError';
 import { DataSourceError } from '../../../General/DataSourceError';
 import { MockError } from '../../../General/MockError';
 import { MockMySQL } from '../../../General/MySQL/Mock/MockMySQL';
-import { MockMySQLError } from '../../../General/MySQL/Mock/MockMySQLError';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
 import { Try } from '../../../General/Try/Try';
 import { Page } from '../../../VO/Page';
@@ -170,7 +169,7 @@ describe('StatsOutlineQuery', () => {
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
       mysql.execute = stub;
-      stub.rejects(new MockMySQLError());
+      stub.rejects(new MySQLError('test faied'));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 

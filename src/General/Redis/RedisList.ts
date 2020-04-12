@@ -17,7 +17,7 @@ export class RedisList implements IRedisList {
     }
     catch (err) {
       if (err instanceof Error) {
-        throw new RedisError(err);
+        throw new RedisError('FAIL ON RPUSH', err);
       }
 
       throw err;
@@ -32,7 +32,7 @@ export class RedisList implements IRedisList {
     }
     catch (err) {
       if (err instanceof Error) {
-        throw new RedisError(err);
+        throw new RedisError('FAIL ON RPOP', err);
       }
 
       throw err;
@@ -47,7 +47,7 @@ export class RedisList implements IRedisList {
     }
     catch (err) {
       if (err instanceof Error) {
-        throw new RedisError(err);
+        throw new RedisError('FAIL ON LPOP', err);
       }
 
       throw err;
@@ -62,7 +62,7 @@ export class RedisList implements IRedisList {
     }
     catch (err) {
       if (err instanceof Error) {
-        throw new RedisError(err);
+        throw new RedisError('FAIL ON LLEN', err);
       }
 
       throw err;
@@ -77,7 +77,7 @@ export class RedisList implements IRedisList {
     }
     catch (err) {
       if (err instanceof Error) {
-        throw new RedisError(err);
+        throw new RedisError('FAIL ON LREM', err);
       }
 
       throw err;
@@ -95,7 +95,7 @@ export class RedisList implements IRedisList {
     }
     catch (err) {
       if (err instanceof Error) {
-        throw new RedisError(err);
+        throw new RedisError('FAIL ON LRANGE', err);
       }
 
       throw err;
@@ -110,7 +110,7 @@ export class RedisList implements IRedisList {
     }
     catch (err) {
       if (err instanceof Error) {
-        throw new RedisError(err);
+        throw new RedisError('FAIL ON LRANGE', err);
       }
 
       throw err;

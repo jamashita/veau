@@ -69,7 +69,7 @@ export class StatsQuery implements IStatsQuery, IMySQLQuery {
           return Failure.of<Stats, DataSourceError>(err);
         }
 
-        return Failure.of<Stats, StatsError>(new StatsError(err.message));
+        return Failure.of<Stats, StatsError>(new StatsError('FAIL D TO FIND StatsItem', err));
       });
     }
     catch (err) {

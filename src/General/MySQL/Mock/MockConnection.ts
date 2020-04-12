@@ -18,6 +18,6 @@ export class MockConnection implements IConnection {
   }
 
   public release(): void {
-    new UnimplementedError();
+    throw new UnimplementedError();
   }
 }

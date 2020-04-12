@@ -15,7 +15,7 @@ export class Connection implements IConnection {
     return new Promise<R>((resolve: Resolve<R>, reject: Reject) => {
       this.connection.query(sql, value, (err: Nullable<mysql.MysqlError>, result: R) => {
         if (err !== null) {
-          reject(new MySQLError(err));
+          reject(new MySQLError(err.message, err));
           return;
         }
 
@@ -29,7 +29,7 @@ export class Connection implements IConnection {
       this.connection.commit((err: mysql.MysqlError) => {
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unnecessary-condition
         if (err) {
-          reject(new MySQLError(err));
+          reject(new MySQLError(err.message, err));
           return;
         }
 
@@ -43,7 +43,7 @@ export class Connection implements IConnection {
       this.connection.rollback((err: mysql.MysqlError) => {
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unnecessary-condition
         if (err) {
-          reject(new MySQLError(err));
+          reject(new MySQLError(err.message, err));
           return;
         }
 

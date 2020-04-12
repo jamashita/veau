@@ -2,7 +2,6 @@ import { inject, injectable } from 'inversify';
 import { ILanguageCommand } from '../Command/Interface/ILanguageCommand';
 import { IRegionCommand } from '../Command/Interface/IRegionCommand';
 import { TYPE } from '../Container/Types';
-import { CacheError } from '../Error/CacheError';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { DataSourceError } from '../General/DataSourceError';
 import { Failure } from '../General/Try/Failure';
@@ -58,25 +57,25 @@ export class LocaleInteractor implements IInteractor {
     });
   }
 
-  public async delete(): Promise<Try<void, CacheError | DataSourceError>> {
+  public async delete(): Promise<Try<void, DataSourceError>> {
     const [
       languagesTry,
       regionsTry
     ]: [
-      Try<void, CacheError | DataSourceError>,
-      Try<void, CacheError | DataSourceError>
-    ] = await Promise.all<Try<void, CacheError | DataSourceError>, Try<void, CacheError | DataSourceError>>([
+      Try<void, DataSourceError>,
+      Try<void, DataSourceError>
+    ] = await Promise.all<Try<void, DataSourceError>, Try<void, DataSourceError>>([
       this.languageCommand.deleteAll(),
       this.regionCommand.deleteAll()
     ]);
 
-    return languagesTry.match<Try<void, CacheError | DataSourceError>>(() => {
-      return regionsTry.match<Try<void, CacheError | DataSourceError>>(() => {
+    return languagesTry.match<Try<void, DataSourceError>>(() => {
+      return regionsTry.match<Try<void, DataSourceError>>(() => {
         return Success.of<DataSourceError>();
-      }, (err: CacheError | DataSourceError, self: Failure<void, CacheError | DataSourceError>) => {
+      }, (err: DataSourceError, self: Failure<void, DataSourceError>) => {
         return self;
       });
-    }, (err: CacheError | DataSourceError, self: Failure<void, CacheError | DataSourceError>) => {
+    }, (err: DataSourceError, self: Failure<void, DataSourceError>) => {
       return self;
     });
   }

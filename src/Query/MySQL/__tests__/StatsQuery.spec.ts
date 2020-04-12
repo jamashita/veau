@@ -11,7 +11,6 @@ import { StatsItemsError } from '../../../Error/StatsItemsError';
 import { DataSourceError } from '../../../General/DataSourceError';
 import { MockError } from '../../../General/MockError';
 import { MockMySQL } from '../../../General/MySQL/Mock/MockMySQL';
-import { MockMySQLError } from '../../../General/MySQL/Mock/MockMySQLError';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
 import { Failure } from '../../../General/Try/Failure';
 import { Success } from '../../../General/Try/Success';
@@ -339,7 +338,7 @@ describe('StatsQuery', () => {
       const statsItemQuery: MockStatsItemQuery = new MockStatsItemQuery();
       const stub2: SinonStub = sinon.stub();
       statsItemQuery.findByStatsID = stub2;
-      stub2.resolves(Failure.of<StatsItems, StatsItemsError | DataSourceError>(new MockMySQLError()));
+      stub2.resolves(Failure.of<StatsItems, StatsItemsError | DataSourceError>(new MySQLError('test faied')));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
