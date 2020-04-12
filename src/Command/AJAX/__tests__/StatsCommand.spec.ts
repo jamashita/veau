@@ -3,26 +3,25 @@ import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { vault } from '../../../Container/Vault';
 import { TYPE } from '../../../Container/Types';
-import { Stats } from '../../../Entity/Stats';
-import { StatsItems } from '../../../Entity/StatsItems';
 import { AJAXError } from '../../../General/AJAX/AJAXError';
 import { MockAJAX } from '../../../General/AJAX/Mock/MockAJAX';
 import { DataSourceError } from '../../../General/DataSourceError';
 import { Try } from '../../../General/Try/Try';
-import { ISO3166 } from '../../../VO/ISO3166';
-import { ISO639 } from '../../../VO/ISO639';
-import { Language } from '../../../VO/Language';
-import { LanguageID } from '../../../VO/LanguageID';
-import { LanguageName } from '../../../VO/LanguageName';
-import { Region } from '../../../VO/Region';
-import { RegionID } from '../../../VO/RegionID';
-import { RegionName } from '../../../VO/RegionName';
-import { StatsID } from '../../../VO/StatsID';
-import { StatsName } from '../../../VO/StatsName';
-import { StatsUnit } from '../../../VO/StatsUnit';
-import { Term } from '../../../VO/Term';
-import { UpdatedAt } from '../../../VO/UpdatedAt';
 import { StatsCommand } from '../StatsCommand';
+import { UUID } from '../../../General/UUID/UUID';
+import { MockStatsID } from '../../../VO/Mock/MockStatsID';
+import { MockLanguage } from '../../../VO/Mock/MockLanguage';
+import { MockLanguageID } from '../../../VO/Mock/MockLanguageID';
+import { MockLanguageName } from '../../../VO/Mock/MockLanguageName';
+import { MockISO639 } from '../../../VO/Mock/MockISO639';
+import { MockRegion } from '../../../VO/Mock/MockRegion';
+import { MockRegionID } from '../../../VO/Mock/MockRegionID';
+import { MockRegionName } from '../../../VO/Mock/MockRegionName';
+import { MockISO3166 } from '../../../VO/Mock/MockISO3166';
+import { MockTerm } from '../../../VO/Mock/MockTerm';
+import { MockStatsName } from '../../../VO/Mock/MockStatsName';
+import { MockStatsUnit } from '../../../VO/Mock/MockStatsUnit';
+import { MockStats } from '../../../Entity/Mock/MockStats';
 
 describe('StatsCommand', () => {
   describe('container', () => {
@@ -37,16 +36,26 @@ describe('StatsCommand', () => {
 
   describe('create', () => {
     it('normal case',  async () => {
-      const stats: Stats = Stats.of(
-        StatsID.ofString('d5619e72-3233-43a8-9cc8-571e53b2ff87').get(),
-        Language.of(LanguageID.of(3), LanguageName.of('language name 1'), LanguageName.of('language name 2'), ISO639.of('aa')),
-        Region.of(RegionID.of(4), RegionName.of('region name 5'), ISO3166.of('bb')),
-        Term.DAILY,
-        StatsName.of('stats name'),
-        StatsUnit.of('stats unit'),
-        UpdatedAt.ofString('2000-01-01 01:01:01').get(),
-        StatsItems.empty()
-      );
+      const uuid: UUID = UUID.v4();
+      const stats: MockStats = new MockStats({
+        statsID: new MockStatsID(uuid),
+        language: new MockLanguage({
+          languageID: new MockLanguageID(3),
+          name: new MockLanguageName('language name 1'),
+          englishName: new MockLanguageName('language name 2'),
+          iso639: new MockISO639('aa')
+        }),
+        region: new MockRegion({
+          regionID: new MockRegionID(4),
+          name: new MockRegionName('region name 5'),
+          iso3166: new MockISO3166('bb')
+        }),
+        term: new MockTerm({
+          id: 8
+        }),
+        name: new MockStatsName('stats name'),
+        unit: new MockStatsUnit('stats unit')
+      });
 
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
@@ -61,7 +70,7 @@ describe('StatsCommand', () => {
       const trial: Try<void, DataSourceError> = await statsCommand.create(stats);
 
       expect(stub.withArgs('/api/stats', {
-        statsID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+        statsID: uuid.get(),
         language: {
           languageID: 3,
           name: 'language name 1',
@@ -73,10 +82,10 @@ describe('StatsCommand', () => {
           name: 'region name 5',
           iso3166: 'bb'
         },
-        termID: 1,
+        termID: 8,
         name: 'stats name',
         unit: 'stats unit',
-        updatedAt: '2000-01-01 01:01:01',
+        updatedAt: '2000-01-02 01:02:03',
         items: [
         ]
       }).called).toEqual(true);
@@ -84,16 +93,7 @@ describe('StatsCommand', () => {
     });
 
     it('throws AJAXError', async () => {
-      const stats: Stats = Stats.of(
-        StatsID.ofString('d5619e72-3233-43a8-9cc8-571e53b2ff87').get(),
-        Language.of(LanguageID.of(3), LanguageName.of('language name 1'), LanguageName.of('language name 2'), ISO639.of('aa')),
-        Region.of(RegionID.of(4), RegionName.of('region name 5'), ISO3166.of('bb')),
-        Term.DAILY,
-        StatsName.of('stats name'),
-        StatsUnit.of('stats unit'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.empty()
-      );
+      const stats: MockStats = new MockStats();
 
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();

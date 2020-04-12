@@ -223,7 +223,7 @@ export class Stats extends Entity<StatsID> {
     );
   }
 
-  private constructor(
+  protected constructor(
     statsID: StatsID,
     language: Language,
     region: Region,
