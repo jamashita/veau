@@ -33,7 +33,7 @@ export class HeaderSize extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.size === other.get()) {
+    if (this.size === other.size) {
       return true;
     }
 

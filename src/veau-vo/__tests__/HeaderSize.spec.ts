@@ -4,27 +4,6 @@ import { Try } from '../../veau-general/Try/Try';
 import { HeaderSize } from '../HeaderSize';
 
 describe('HeaderSize', () => {
-  describe('equals', () => {
-    it('returns true if both properties are the same', () => {
-      const size1: HeaderSize = HeaderSize.of(10).get();
-      const size2: HeaderSize = HeaderSize.of(20).get();
-      const size3: HeaderSize = HeaderSize.of(10).get();
-
-      expect(size1.equals(size1)).toEqual(true);
-      expect(size1.equals(size2)).toEqual(false);
-      expect(size1.equals(size3)).toEqual(true);
-    });
-  });
-
-  describe('toString', () => {
-    it('normal case', () => {
-      const size: number = 10;
-      const headerSize: HeaderSize = HeaderSize.of(size).get();
-
-      expect(headerSize.toString()).toEqual(headerSize.toString());
-    });
-  });
-
   describe('of', () => {
     it('returns Failure when the argument is less than 0', () => {
       const trial1: Try<HeaderSize, HeaderSizeError> = HeaderSize.of(0);
@@ -77,6 +56,27 @@ describe('HeaderSize', () => {
       expect(spy2.called).toEqual(true);
       expect(spy3.called).toEqual(false);
       expect(spy4.called).toEqual(true);
+    });
+  });
+
+  describe('equals', () => {
+    it('returns true if both properties are the same', () => {
+      const size1: HeaderSize = HeaderSize.of(10).get();
+      const size2: HeaderSize = HeaderSize.of(20).get();
+      const size3: HeaderSize = HeaderSize.of(10).get();
+
+      expect(size1.equals(size1)).toEqual(true);
+      expect(size1.equals(size2)).toEqual(false);
+      expect(size1.equals(size3)).toEqual(true);
+    });
+  });
+
+  describe('toString', () => {
+    it('normal case', () => {
+      const size: number = 10;
+      const headerSize: HeaderSize = HeaderSize.of(size).get();
+
+      expect(headerSize.toString()).toEqual(headerSize.toString());
     });
   });
 });

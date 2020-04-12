@@ -21,7 +21,7 @@ export class Hash extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.hash === other.get()) {
+    if (this.hash === other.hash) {
       return true;
     }
 

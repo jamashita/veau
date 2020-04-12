@@ -56,10 +56,10 @@ export class EntranceInformation extends ValueObject implements JSONable {
       password
     } = this;
 
-    if (!account.equals(other.getAccount())) {
+    if (!account.equals(other.account)) {
       return false;
     }
-    if (!password.equals(other.getPassword())) {
+    if (!password.equals(other.password)) {
       return false;
     }
 

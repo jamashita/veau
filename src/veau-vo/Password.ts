@@ -16,7 +16,7 @@ export class Password extends ValueObject {
     return Password.DEFAULT;
   }
 
-  private constructor(password: string) {
+  protected constructor(password: string) {
     super();
     this.password = password;
   }
