@@ -1,13 +1,13 @@
 import moment from 'moment';
-import { Collection } from '../veau-general/Collection/Collection';
+import { Collection } from '../veau-general/Interface/Collection';
 import { Sequence } from '../veau-general/Collection/Sequence';
-import { JSONable } from '../veau-general/JSONable';
+import { JSONable } from '../veau-general/Interface/JSONable';
 import { None } from '../veau-general/Optional/None';
 import { Optional } from '../veau-general/Optional/Optional';
 import { Some } from '../veau-general/Optional/Some';
 import { Enumerator } from '../veau-general/Type/Function';
 import { AsOf } from './AsOf';
-import { Cloneable } from '../veau-general/Cloneable';
+import { Cloneable } from '../veau-general/Interface/Cloneable';
 import { Term } from './Term';
 
 export class AsOfs implements Collection<number, AsOf>, Cloneable, JSONable {

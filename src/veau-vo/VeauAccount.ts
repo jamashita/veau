@@ -1,6 +1,6 @@
 import { VeauAccountError } from '../veau-error/VeauAccountError';
 import { VeauAccountIDError } from '../veau-error/VeauAccountIDError';
-import { JSONable } from '../veau-general/JSONable';
+import { JSONable } from '../veau-general/Interface/JSONable';
 import { Failure } from '../veau-general/Try/Failure';
 import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';

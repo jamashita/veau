@@ -1,4 +1,4 @@
-import { JSONable } from '../veau-general/JSONable';
+import { JSONable } from '../veau-general/Interface/JSONable';
 import { ValueObject } from '../veau-general/ValueObject';
 import { AccountName } from './AccountName';
 import { Password } from './Password';

@@ -1,4 +1,4 @@
-import { Collection } from '../veau-general/Collection/Collection';
+import { Collection } from '../veau-general/Interface/Collection';
 import { Sequence } from '../veau-general/Collection/Sequence';
 import { Optional } from '../veau-general/Optional/Optional';
 import { Mapper } from '../veau-general/Type/Function';
@@ -8,7 +8,7 @@ export class Terms implements Collection<number, Term> {
   public readonly noun: 'Terms' = 'Terms';
   private readonly terms: Sequence<Term>;
 
-  public static readonly ALL: Terms = Terms.ofSpread(
+  private static readonly ALL: Terms = Terms.ofSpread(
     Term.DAILY,
     Term.WEEKLY,
     Term.MONTHLY,

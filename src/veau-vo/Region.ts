@@ -1,4 +1,4 @@
-import { JSONable } from '../veau-general/JSONable';
+import { JSONable } from '../veau-general/Interface/JSONable';
 import { Type } from '../veau-general/Type/Type';
 import { ValueObject } from '../veau-general/ValueObject';
 import { ISO3166 } from './ISO3166';

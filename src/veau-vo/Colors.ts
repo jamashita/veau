@@ -1,4 +1,4 @@
-import { Collection } from '../veau-general/Collection/Collection';
+import { Collection } from '../veau-general/Interface/Collection';
 import { Sequence } from '../veau-general/Collection/Sequence';
 import { Optional } from '../veau-general/Optional/Optional';
 import { Color } from './Color';

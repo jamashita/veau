@@ -1,9 +1,9 @@
 import { StatsOutlineError } from '../veau-error/StatsOutlineError';
 import { StatsOutlinesError } from '../veau-error/StatsOutlinesError';
-import { Cloneable } from '../veau-general/Cloneable';
-import { Collection } from '../veau-general/Collection/Collection';
+import { Cloneable } from '../veau-general/Interface/Cloneable';
+import { Collection } from '../veau-general/Interface/Collection';
 import { Sequence } from '../veau-general/Collection/Sequence';
-import { JSONable } from '../veau-general/JSONable';
+import { JSONable } from '../veau-general/Interface/JSONable';
 import { Optional } from '../veau-general/Optional/Optional';
 import { Failure } from '../veau-general/Try/Failure';
 import { manoeuvre } from '../veau-general/Try/Manoeuvre';
