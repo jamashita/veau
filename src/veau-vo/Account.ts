@@ -40,7 +40,13 @@ export class Account extends ValueObject {
   private readonly region: Region;
   private readonly hash: Hash;
 
-  public static of(veauAccountID: VeauAccountID, account: AccountName, language: Language, region: Region, hash: Hash): Account {
+  public static of(
+    veauAccountID: VeauAccountID,
+    account: AccountName,
+    language: Language,
+    region: Region,
+    hash: Hash
+  ): Account {
     return new Account(veauAccountID, account, language, region, hash);
   }
 
@@ -58,8 +64,17 @@ export class Account extends ValueObject {
       hash
     } = row;
 
-    const language: Language = Language.of(LanguageID.of(languageID), LanguageName.of(languageName), LanguageName.of(languageEnglishName), ISO639.of(iso639));
-    const region: Region = Region.of(RegionID.of(regionID), RegionName.of(regionName), ISO3166.of(iso3166));
+    const language: Language = Language.of(
+      LanguageID.of(languageID),
+      LanguageName.of(languageName),
+      LanguageName.of(languageEnglishName),
+      ISO639.of(iso639)
+    );
+    const region: Region = Region.of(
+      RegionID.of(regionID),
+      RegionName.of(regionName),
+      ISO3166.of(iso3166)
+    );
 
     return VeauAccountID.ofString(veauAccountID).match<Try<Account, AccountError>>((id: VeauAccountID) => {
       return Success.of<Account, AccountError>(Account.of(id, AccountName.of(account), language, region, Hash.of(hash)));
@@ -68,7 +83,13 @@ export class Account extends ValueObject {
     });
   }
 
-  private constructor(veauAccountID: VeauAccountID, account: AccountName, language: Language, region: Region, hash: Hash) {
+  protected constructor(
+    veauAccountID: VeauAccountID,
+    account: AccountName,
+    language: Language,
+    region: Region,
+    hash: Hash
+  ) {
     super();
     this.veauAccountID = veauAccountID;
     this.account = account;
@@ -125,19 +146,19 @@ export class Account extends ValueObject {
       hash
     } = this;
 
-    if (!veauAccountID.equals(other.getVeauAccountID())) {
+    if (!veauAccountID.equals(other.veauAccountID)) {
       return false;
     }
-    if (!account.equals(other.getAccount())) {
+    if (!account.equals(other.account)) {
       return false;
     }
-    if (!language.equals(other.getLanguage())) {
+    if (!language.equals(other.language)) {
       return false;
     }
-    if (!region.equals(other.getRegion())) {
+    if (!region.equals(other.region)) {
       return false;
     }
-    if (!hash.equals(other.getHash())) {
+    if (!hash.equals(other.hash)) {
       return false;
     }
 
