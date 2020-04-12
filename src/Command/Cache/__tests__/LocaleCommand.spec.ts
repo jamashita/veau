@@ -8,18 +8,9 @@ import { MockCache } from '../../../General/Cache/Mock/MockCache';
 import { MockError } from '../../../General/MockError';
 import { Try } from '../../../General/Try/Try';
 import { VAULT_LOCALE_KEY } from '../../../Infrastructure/VeauCache';
-import { ISO3166 } from '../../../VO/ISO3166';
-import { ISO639 } from '../../../VO/ISO639';
-import { Language } from '../../../VO/Language';
-import { LanguageID } from '../../../VO/LanguageID';
-import { LanguageName } from '../../../VO/LanguageName';
-import { Languages } from '../../../VO/Languages';
 import { Locale } from '../../../VO/Locale';
-import { Region } from '../../../VO/Region';
-import { RegionID } from '../../../VO/RegionID';
-import { RegionName } from '../../../VO/RegionName';
-import { Regions } from '../../../VO/Regions';
 import { LocaleCommand } from '../LocaleCommand';
+import { MockLocale } from '../../../VO/Mock/MockLocale';
 
 describe('LocaleCommand', () => {
   describe('container', () => {
@@ -34,20 +25,7 @@ describe('LocaleCommand', () => {
 
   describe('create', () => {
     it('normal case', async () => {
-      const locale: Locale = Locale.of(Languages.ofArray([
-        Language.of(
-          LanguageID.of(1),
-          LanguageName.of('language'),
-          LanguageName.of('english language'),
-          ISO639.of('aa')
-        )
-      ]), Regions.ofArray([
-        Region.of(
-          RegionID.of(2),
-          RegionName.of('region'),
-          ISO3166.of('bb')
-        )
-      ]));
+      const locale: Locale = new MockLocale();
 
       const cache: MockCache = new MockCache();
       const stub: SinonStub = sinon.stub();
@@ -62,20 +40,7 @@ describe('LocaleCommand', () => {
     });
 
     it('returns Failure when Cache throws CacheError', async () => {
-      const locale: Locale = Locale.of(Languages.ofArray([
-        Language.of(
-          LanguageID.of(1),
-          LanguageName.of('language'),
-          LanguageName.of('english language'),
-          ISO639.of('aa')
-        )
-      ]), Regions.ofArray([
-        Region.of(
-          RegionID.of(2),
-          RegionName.of('region'),
-          ISO3166.of('bb')
-        )
-      ]));
+      const locale: Locale = new MockLocale();
 
       const cache: MockCache = new MockCache();
       const stub: SinonStub = sinon.stub();
@@ -100,20 +65,7 @@ describe('LocaleCommand', () => {
     });
 
     it('returns Failure when Cache throws CacheError', async () => {
-      const locale: Locale = Locale.of(Languages.ofArray([
-        Language.of(
-          LanguageID.of(1),
-          LanguageName.of('language'),
-          LanguageName.of('english language'),
-          ISO639.of('aa')
-        )
-      ]), Regions.ofArray([
-        Region.of(
-          RegionID.of(2),
-          RegionName.of('region'),
-          ISO3166.of('bb')
-        )
-      ]));
+      const locale: Locale = new MockLocale();
 
       const cache: MockCache = new MockCache();
       const stub: SinonStub = sinon.stub();
