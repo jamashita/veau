@@ -67,7 +67,7 @@ describe('None', () => {
 
   describe('map', () => {
     it('following function will not be invoked', () => {
-      const none: None<number> = None.of<number>();
+      const none: Optional<number> = None.of<number>();
 
       const spy: SinonSpy = sinon.spy();
 
@@ -93,7 +93,7 @@ describe('None', () => {
 
   describe('filter', () => {
     it('following function will not be invoked', () => {
-      const none: None<number> = None.of<number>();
+      const none: Optional<number> = None.of<number>();
 
       const spy: SinonSpy = sinon.spy();
 

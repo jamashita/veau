@@ -4,11 +4,8 @@ import { MockLanguageCommand } from '../../Command/Mock/MockLanguageCommand';
 import { MockRegionCommand } from '../../Command/Mock/MockRegionCommand';
 import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
-import { CacheError } from '../../Error/CacheError';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { DataSourceError } from '../../General/DataSourceError';
-import { MockMySQLError } from '../../General/MySQL/Mock/MockMySQLError';
-import { MockRedisError } from '../../General/Redis/Mock/MockRedisError';
 import { Failure } from '../../General/Try/Failure';
 import { Success } from '../../General/Try/Success';
 import { Try } from '../../General/Try/Try';
@@ -26,6 +23,8 @@ import { RegionID } from '../../VO/RegionID';
 import { RegionName } from '../../VO/RegionName';
 import { Regions } from '../../VO/Regions';
 import { LocaleInteractor } from '../LocaleInteractor';
+import { MySQLError } from '../../General/MySQL/MySQLError';
+import { RedisError } from '../../General/Redis/RedisError';
 
 describe('LocaleInteractor',  () => {
   describe('container', () => {
@@ -111,7 +110,7 @@ describe('LocaleInteractor',  () => {
       const languageKernelQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub1: SinonStub = sinon.stub();
       languageKernelQuery.all = stub1;
-      stub1.resolves(Failure.of<Languages, DataSourceError>(new MockMySQLError()));
+      stub1.resolves(Failure.of<Languages, DataSourceError>(new MySQLError('test faied')));
       const regionKernelQuery: MockRegionQuery = new MockRegionQuery();
       const stub2: SinonStub = sinon.stub();
       regionKernelQuery.all = stub2;
@@ -183,7 +182,7 @@ describe('LocaleInteractor',  () => {
       const regionKernelQuery: MockRegionQuery = new MockRegionQuery();
       const stub2: SinonStub = sinon.stub();
       regionKernelQuery.all = stub2;
-      stub2.resolves(Failure.of<Languages, DataSourceError>(new MockMySQLError()));
+      stub2.resolves(Failure.of<Languages, DataSourceError>(new MySQLError('test faied')));
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const spy1: SinonSpy = sinon.spy();
@@ -212,45 +211,45 @@ describe('LocaleInteractor',  () => {
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const stub1: SinonStub = sinon.stub();
       languageRedisCommand.deleteAll = stub1;
-      stub1.resolves(Success.of<CacheError>());
+      stub1.resolves(Success.of<DataSourceError>());
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub2: SinonStub = sinon.stub();
       regionRedisCommand.deleteAll = stub2;
-      stub2.resolves(Success.of<CacheError>());
+      stub2.resolves(Success.of<DataSourceError>());
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand)
-      const trial: Try<void, CacheError | DataSourceError> = await localeInteractor.delete();
+      const trial: Try<void, DataSourceError> = await localeInteractor.delete();
 
       expect(trial.isSuccess()).toEqual(true);
       expect(stub1.called).toEqual(true);
       expect(stub2.called).toEqual(true);
     });
 
-    it('LanguageCommand.deleteAll returns Failure by CacheError', async () => {
+    it('LanguageCommand.deleteAll returns Failure by DataSourceError', async () => {
       const languageKernelQuery: MockLanguageQuery = new MockLanguageQuery();
       const regionKernelQuery: MockRegionQuery = new MockRegionQuery();
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const stub1: SinonStub = sinon.stub();
       languageRedisCommand.deleteAll = stub1;
-      stub1.resolves(Failure.of<CacheError>(new CacheError('test failed')));
+      stub1.resolves(Failure.of<DataSourceError>(new RedisError('test failed')));
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub2: SinonStub = sinon.stub();
       regionRedisCommand.deleteAll = stub2;
-      stub2.resolves(Success.of<CacheError>());
+      stub2.resolves(Success.of<DataSourceError>());
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand)
-      const trial: Try<void, CacheError | DataSourceError> = await localeInteractor.delete();
+      const trial: Try<void, DataSourceError> = await localeInteractor.delete();
 
       expect(trial.isFailure()).toEqual(true);
       expect(stub1.called).toEqual(true);
       expect(stub2.called).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: CacheError | DataSourceError) => {
+      }, (err: DataSourceError) => {
         spy2();
-        expect(err).toBeInstanceOf(CacheError);
+        expect(err).toBeInstanceOf(DataSourceError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -263,56 +262,25 @@ describe('LocaleInteractor',  () => {
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const stub1: SinonStub = sinon.stub();
       languageRedisCommand.deleteAll = stub1;
-      stub1.resolves(Failure.of<DataSourceError>(new MockRedisError()));
+      stub1.resolves(Failure.of<DataSourceError>(new RedisError('test faied')));
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub2: SinonStub = sinon.stub();
       regionRedisCommand.deleteAll = stub2;
-      stub2.resolves(Success.of<CacheError>());
+      stub2.resolves(Success.of<DataSourceError>());
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand)
-      const trial: Try<void, CacheError | DataSourceError> = await localeInteractor.delete();
+      const trial: Try<void, DataSourceError> = await localeInteractor.delete();
 
       expect(trial.isFailure()).toEqual(true);
       expect(stub1.called).toEqual(true);
       expect(stub2.called).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: CacheError | DataSourceError) => {
+      }, (err: DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(DataSourceError);
-      });
-
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
-    });
-
-    it('RegionCommand.deleteAll returns Failure by CacheError', async () => {
-      const languageKernelQuery: MockLanguageQuery = new MockLanguageQuery();
-      const regionKernelQuery: MockRegionQuery = new MockRegionQuery();
-      const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
-      const stub1: SinonStub = sinon.stub();
-      languageRedisCommand.deleteAll = stub1;
-      stub1.resolves(Success.of<CacheError>());
-      const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
-      const stub2: SinonStub = sinon.stub();
-      regionRedisCommand.deleteAll = stub2;
-      stub2.resolves(Failure.of<CacheError>(new CacheError('test failed')));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
-      const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand)
-      const trial: Try<void, CacheError | DataSourceError> = await localeInteractor.delete();
-
-      expect(trial.isFailure()).toEqual(true);
-      expect(stub1.called).toEqual(true);
-      expect(stub2.called).toEqual(true);
-      trial.match<void>(() => {
-        spy1();
-      }, (err: CacheError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(CacheError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -325,23 +293,54 @@ describe('LocaleInteractor',  () => {
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const stub1: SinonStub = sinon.stub();
       languageRedisCommand.deleteAll = stub1;
-      stub1.resolves(Success.of<CacheError>());
+      stub1.resolves(Success.of<DataSourceError>());
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub2: SinonStub = sinon.stub();
       regionRedisCommand.deleteAll = stub2;
-      stub2.resolves(Failure.of<DataSourceError>(new MockRedisError()));
+      stub2.resolves(Failure.of<DataSourceError>(new RedisError('test failed')));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand)
-      const trial: Try<void, CacheError | DataSourceError> = await localeInteractor.delete();
+      const trial: Try<void, DataSourceError> = await localeInteractor.delete();
 
       expect(trial.isFailure()).toEqual(true);
       expect(stub1.called).toEqual(true);
       expect(stub2.called).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: CacheError | DataSourceError) => {
+      }, (err: DataSourceError) => {
+        spy2();
+        expect(err).toBeInstanceOf(DataSourceError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('RegionCommand.deleteAll returns Failure by DataSourceError', async () => {
+      const languageKernelQuery: MockLanguageQuery = new MockLanguageQuery();
+      const regionKernelQuery: MockRegionQuery = new MockRegionQuery();
+      const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
+      const stub1: SinonStub = sinon.stub();
+      languageRedisCommand.deleteAll = stub1;
+      stub1.resolves(Success.of<DataSourceError>());
+      const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
+      const stub2: SinonStub = sinon.stub();
+      regionRedisCommand.deleteAll = stub2;
+      stub2.resolves(Failure.of<DataSourceError>(new RedisError('test faied')));
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand)
+      const trial: Try<void, DataSourceError> = await localeInteractor.delete();
+
+      expect(trial.isFailure()).toEqual(true);
+      expect(stub1.called).toEqual(true);
+      expect(stub2.called).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (err: DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(DataSourceError);
       });

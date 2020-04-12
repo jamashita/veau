@@ -43,7 +43,7 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
         const trial3: Try<void, DataSourceError> = await this.regionRedisCommand.insertAll(regions);
 
         return trial3.match<Try<Regions, DataSourceError>>(() => {
-          return Success.of<Regions, NoSuchElementError>(regions);
+          return Success.of<Regions, DataSourceError>(regions);
         }, (err: DataSourceError, self: Failure<void, DataSourceError>) => {
           return self.transpose<Regions>();
         });

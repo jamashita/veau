@@ -5,8 +5,6 @@ import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
 import { DataSourceError } from '../../../General/DataSourceError';
-import { MockMySQLError } from '../../../General/MySQL/Mock/MockMySQLError';
-import { MockRedisError } from '../../../General/Redis/Mock/MockRedisError';
 import { RedisError } from '../../../General/Redis/RedisError';
 import { Failure } from '../../../General/Try/Failure';
 import { Success } from '../../../General/Try/Success';
@@ -18,6 +16,7 @@ import { LanguageName } from '../../../VO/LanguageName';
 import { Languages } from '../../../VO/Languages';
 import { MockLanguageQuery } from '../../Mock/MockLanguageQuery';
 import { LanguageQuery } from '../LanguageQuery';
+import { MySQLError } from '../../../General/MySQL/MySQLError';
 
 describe('LanguageQuery', () => {
   describe('container', () => {
@@ -60,7 +59,7 @@ describe('LanguageQuery', () => {
       const languageRedisQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub1: SinonStub = sinon.stub();
       languageRedisQuery.all = stub1;
-      stub1.resolves(Failure.of<Languages, DataSourceError>(new MockMySQLError()));
+      stub1.resolves(Failure.of<Languages, DataSourceError>(new MySQLError('test faied')));
       const languageMySQLQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
       languageMySQLQuery.all = stub2;
@@ -122,7 +121,7 @@ describe('LanguageQuery', () => {
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const stub3: SinonStub = sinon.stub();
       languageRedisCommand.insertAll = stub3;
-      stub3.resolves(Failure.of<DataSourceError>(new MockRedisError()));
+      stub3.resolves(Failure.of<DataSourceError>(new RedisError('test faied')));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
