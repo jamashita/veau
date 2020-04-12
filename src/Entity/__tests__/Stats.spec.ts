@@ -48,6 +48,1007 @@ import { MockAsOf } from '../../VO/Mock/MockAsOf';
 
 // DONE
 describe('Stats', () => {
+  describe('of', () => {
+    it('normal case', () => {
+      const statsID: StatsID = StatsID.ofString('af272303-df5d-4d34-8604-398920b7d2bb').get();
+      const language: Language = Language.of(
+        LanguageID.of(1),
+        LanguageName.of('language1'),
+        LanguageName.of('language english name 1'),
+        ISO639.of('lang1')
+      );
+      const region: Region = Region.of(
+        RegionID.of(1),
+        RegionName.of('region1'),
+        ISO3166.of('regn1')
+      );
+      const term: Term = Term.ANNUAL;
+      const name: StatsName = StatsName.of('name1');
+      const unit: StatsUnit = StatsUnit.of('unit1');
+      const updatedAt: UpdatedAt = UpdatedAt.ofString('2000-01-01 02:02:02').get();
+      const items: StatsItems = StatsItems.ofArray([
+        StatsItem.of(
+          StatsItemID.ofString('a28eceac-0451-4339-b1c5-0c298b3905f6').get(),
+          StatsItemName.of('stats1'),
+          StatsValues.empty()
+        )
+      ]);
+
+      const stats: Stats = Stats.of(
+        statsID,
+        language,
+        region,
+        term,
+        name,
+        unit,
+        updatedAt,
+        items
+      );
+
+      expect(stats.getStatsID()).toEqual(statsID);
+      expect(stats.getLanguage()).toEqual(language);
+      expect(stats.getRegion()).toEqual(region);
+      expect(stats.getTerm()).toEqual(term);
+      expect(stats.getName()).toEqual(name);
+      expect(stats.getUnit()).toEqual(unit);
+      expect(stats.getUpdatedAt()).toEqual(updatedAt);
+      expect(stats.getItems().equals(items)).toEqual(true);
+    });
+  });
+
+  describe('ofJSON', () => {
+    it('normal case', () => {
+      const json: StatsJSON = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 1,
+        name: 'stats1',
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00',
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      const trial: Try<Stats, StatsError> = Stats.ofJSON(json);
+
+      expect(trial.isSuccess()).toEqual(true);
+      const stats: Stats = trial.get();
+      expect(stats.getStatsID().get().get()).toEqual(json.statsID);
+      expect(stats.getLanguage().getLanguageID().get()).toEqual(json.language.languageID);
+      expect(stats.getLanguage().getName().get()).toEqual(json.language.name);
+      expect(stats.getLanguage().getEnglishName().get()).toEqual(json.language.englishName);
+      expect(stats.getLanguage().getISO639().get()).toEqual(json.language.iso639);
+      expect(stats.getRegion().getRegionID().get()).toEqual(json.region.regionID);
+      expect(stats.getRegion().getName().get()).toEqual(json.region.name);
+      expect(stats.getRegion().getISO3166().get()).toEqual(json.region.iso3166);
+      expect(stats.getTerm().getID()).toEqual(json.termID);
+      expect(stats.getName().get()).toEqual(json.name);
+      expect(stats.getUnit().get()).toEqual(json.unit);
+      expect(stats.getUpdatedAt().toString()).toEqual(json.updatedAt);
+      expect(stats.getItems().size()).toEqual(json.items.length);
+      for (let i: number = 0; i < stats.getItems().size(); i++) {
+        expect(stats.getItems().get(i).get().getStatsItemID().get().get()).toEqual(json.items[i].statsItemID);
+        expect(stats.getItems().get(i).get().getName().get()).toEqual(json.items[i].name);
+        expect(stats.getItems().get(i).get().getValues().size()).toEqual(json.items[i].values.length);
+        for (let j: number = 0; j < stats.getItems().get(i).get().getValues().size(); j++) {
+          expect(stats.getItems().get(i).get().getValues().get(j).get().getAsOf().toString()).toEqual(json.items[i].values[j].asOf);
+          expect(stats.getItems().get(i).get().getValues().get(j).get().getValue().get()).toEqual(json.items[i].values[j].value);
+        }
+      }
+    });
+  });
+
+  describe('ofRow', () => {
+    it('normal case', () => {
+      const row: StatsRow = {
+        statsID: '0ec47089-24d3-4035-a27d-b636bd7a5170',
+        languageID: 1,
+        languageName: 'language1',
+        languageEnglishName: 'englishLanguage1',
+        iso639: 'lang1',
+        regionID: 2,
+        regionName: 'region1',
+        iso3166: 'regn1',
+        termID: 3,
+        name: 'name',
+        unit: 'unit',
+        updatedAt: '2000-01-01 00:00:00'
+      };
+      const items: Array<StatsItem> = [
+        StatsItem.of(
+          StatsItemID.ofString('610b532b-5711-461a-b44a-7387e8d08596').get(),
+          StatsItemName.of('stats item1'),
+          StatsValues.ofArray([
+            StatsValue.of(
+              StatsItemID.ofString('610b532b-5711-461a-b44a-7387e8d08596').get(),
+              AsOf.ofString('2000-01-01').get(),
+              NumericalValue.of(1)
+            ),
+            StatsValue.of(
+              StatsItemID.ofString('610b532b-5711-461a-b44a-7387e8d08596').get(),
+              AsOf.ofString('2000-01-02').get(),
+              NumericalValue.of(2)
+            )
+          ])
+        ),
+        StatsItem.of(
+          StatsItemID.ofString('530e0e07-654f-4764-a3ac-77ce12a2a5e4').get(),
+          StatsItemName.of('stats item2'),
+          StatsValues.ofArray([
+          ])
+        )
+      ];
+
+      const trial: Try<Stats, StatsError> = Stats.ofRow(row, StatsItems.ofArray(items));
+
+      expect(trial.isSuccess()).toEqual(true);
+      const stats: Stats = trial.get();
+      expect(stats.getStatsID().get().get()).toEqual(row.statsID);
+      expect(stats.getLanguage().getLanguageID().get()).toEqual(row.languageID);
+      expect(stats.getLanguage().getName().get()).toEqual(row.languageName);
+      expect(stats.getLanguage().getEnglishName().get()).toEqual(row.languageEnglishName);
+      expect(stats.getLanguage().getISO639().get()).toEqual(row.iso639);
+      expect(stats.getRegion().getRegionID().get()).toEqual(row.regionID);
+      expect(stats.getRegion().getName().get()).toEqual(row.regionName);
+      expect(stats.getRegion().getISO3166().get()).toEqual(row.iso3166);
+      expect(stats.getTerm().getID()).toEqual(row.termID);
+      expect(stats.getName().get()).toEqual(row.name);
+      expect(stats.getUnit().get()).toEqual(row.unit);
+      expect(stats.getUpdatedAt().toString()).toEqual(row.updatedAt);
+      expect(stats.getItems().size()).toEqual(items.length);
+      for (let i: number = 0; i < items.length; i++) {
+        expect(stats.getItems().get(i).get().getStatsItemID()).toEqual(items[i].getStatsItemID());
+        expect(stats.getItems().get(i).get().getName()).toEqual(items[i].getName());
+        expect(stats.getItems().get(i).get().getValues().size()).toEqual(items[i].getValues().size());
+        for (let j: number = 0; j < stats.getItems().get(i).get().getValues().size(); j++) {
+          expect(stats.getItems().get(i).get().getValues().get(j).get().getAsOf()).toEqual(items[i].getValues().get(j).get().getAsOf());
+          expect(stats.getItems().get(i).get().getValues().get(j).get().getValue()).toEqual(items[i].getValues().get(j).get().getValue());
+        }
+      }
+    });
+  });
+
+  describe('isJSON', () => {
+    it('normal case', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 1,
+        name: 'stats1',
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00',
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(true);
+    });
+
+    it('returns false because given parameter is not an object', () => {
+      expect(Stats.isJSON(null)).toEqual(false);
+      expect(Stats.isJSON(undefined)).toEqual(false);
+      expect(Stats.isJSON(56)).toEqual(false);
+      expect(Stats.isJSON('fjafsd')).toEqual(false);
+      expect(Stats.isJSON(false)).toEqual(false);
+    });
+
+    it('returns false because statsID is missing', () => {
+      const n: unknown = {
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 1,
+        name: 'stats1',
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00',
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because statsID is not string', () => {
+      const n: unknown = {
+        statsID: false,
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 1,
+        name: 'stats1',
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00',
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because language is missing', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 1,
+        name: 'stats1',
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00',
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because language is LanguageJSON', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: true,
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 1,
+        name: 'stats1',
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00',
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false region statsID is missing', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        termID: 1,
+        name: 'stats1',
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00',
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because region is not RegionJSON', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: 8,
+        termID: 1,
+        name: 'stats1',
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00',
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because termID is missing', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        name: 'stats1',
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00',
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because termID is not number', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 'soixante',
+        name: 'stats1',
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00',
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because name is missing', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 1,
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00',
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because name is not string', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 1,
+        name: null,
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00',
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because unit is missing', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 1,
+        name: 'stats1',
+        updatedAt: '2000-01-01 00:00:00',
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because unit is not string', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 1,
+        name: 'stats1',
+        unit: null,
+        updatedAt: '2000-01-01 00:00:00',
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because updatedAt is missing', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 1,
+        name: 'stats1',
+        unit: 'unit1',
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because updatedAt is not string', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 1,
+        name: 'stats1',
+        unit: 'unit1',
+        updatedAt: 2000,
+        items: [
+          {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        ]
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because items is missing', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 1,
+        name: 'stats1',
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00'
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+
+    it('returns false because items is not array', () => {
+      const n: unknown = {
+        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
+        language: {
+          languageID: 1,
+          name: 'language1',
+          englishName: 'english name 1',
+          iso639: 'lang1'
+        },
+        region: {
+          regionID: 1,
+          name: 'region1',
+          iso3166: 'regn1'
+        },
+        termID: 1,
+        name: 'stats1',
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00',
+        items: {
+          c: {
+            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
+            name: 'stats item1',
+            values: [
+              {
+                asOf: '2001-01-01',
+                value: 1
+              }
+            ]
+          },
+          d: {
+            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
+            name: 'stats item2',
+            values: [
+              {
+                asOf: '2002-01-01',
+                value: 10
+              },
+              {
+                asOf: '2002-01-02',
+                value: 100
+              }
+            ]
+          }
+        }
+      };
+
+      expect(Stats.isJSON(n)).toEqual(false);
+    });
+  });
+
+  describe('default', () => {
+    it('id will be generated, data are empty', () => {
+      const stats: Stats = Stats.default();
+
+      expect(stats.getStatsID().get().get().length).toEqual(UUID.size());
+      expect(stats.getLanguage().getLanguageID().get()).toEqual(0);
+      expect(stats.getRegion().getRegionID().get()).toEqual(0);
+      expect(stats.getTerm()).toEqual(Term.DAILY);
+      expect(stats.getName().get()).toEqual('');
+      expect(stats.getUnit().get()).toEqual('');
+      expect(stats.getItems().isEmpty()).toEqual(true);
+      expect(stats.getStartDate().isPresent()).toEqual(false);
+    });
+  });
+
   describe('equals', () => {
     it('returns true if the ids equal', () => {
       const uuid1: UUID = UUID.v4();
@@ -1726,1007 +2727,6 @@ describe('Stats', () => {
       );
 
       expect(stats.isDetermined()).toEqual(false);
-    });
-  });
-
-  describe('of', () => {
-    it('normal case', () => {
-      const statsID: StatsID = StatsID.ofString('af272303-df5d-4d34-8604-398920b7d2bb').get();
-      const language: Language = Language.of(
-        LanguageID.of(1),
-        LanguageName.of('language1'),
-        LanguageName.of('language english name 1'),
-        ISO639.of('lang1')
-      );
-      const region: Region = Region.of(
-        RegionID.of(1),
-        RegionName.of('region1'),
-        ISO3166.of('regn1')
-      );
-      const term: Term = Term.ANNUAL;
-      const name: StatsName = StatsName.of('name1');
-      const unit: StatsUnit = StatsUnit.of('unit1');
-      const updatedAt: UpdatedAt = UpdatedAt.ofString('2000-01-01 02:02:02').get();
-      const items: StatsItems = StatsItems.ofArray([
-        StatsItem.of(
-          StatsItemID.ofString('a28eceac-0451-4339-b1c5-0c298b3905f6').get(),
-          StatsItemName.of('stats1'),
-          StatsValues.empty()
-        )
-      ]);
-
-      const stats: Stats = Stats.of(
-        statsID,
-        language,
-        region,
-        term,
-        name,
-        unit,
-        updatedAt,
-        items
-      );
-
-      expect(stats.getStatsID()).toEqual(statsID);
-      expect(stats.getLanguage()).toEqual(language);
-      expect(stats.getRegion()).toEqual(region);
-      expect(stats.getTerm()).toEqual(term);
-      expect(stats.getName()).toEqual(name);
-      expect(stats.getUnit()).toEqual(unit);
-      expect(stats.getUpdatedAt()).toEqual(updatedAt);
-      expect(stats.getItems().equals(items)).toEqual(true);
-    });
-  });
-
-  describe('ofJSON', () => {
-    it('normal case', () => {
-      const json: StatsJSON = {
-        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
-        language: {
-          languageID: 1,
-          name: 'language1',
-          englishName: 'english name 1',
-          iso639: 'lang1'
-        },
-        region: {
-          regionID: 1,
-          name: 'region1',
-          iso3166: 'regn1'
-        },
-        termID: 1,
-        name: 'stats1',
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00',
-        items: [
-          {
-            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
-            name: 'stats item1',
-            values: [
-              {
-                asOf: '2001-01-01',
-                value: 1
-              }
-            ]
-          },
-          {
-            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
-            name: 'stats item2',
-            values: [
-              {
-                asOf: '2002-01-01',
-                value: 10
-              },
-              {
-                asOf: '2002-01-02',
-                value: 100
-              }
-            ]
-          }
-        ]
-      };
-
-      const trial: Try<Stats, StatsError> = Stats.ofJSON(json);
-
-      expect(trial.isSuccess()).toEqual(true);
-      const stats: Stats = trial.get();
-      expect(stats.getStatsID().get().get()).toEqual(json.statsID);
-      expect(stats.getLanguage().getLanguageID().get()).toEqual(json.language.languageID);
-      expect(stats.getLanguage().getName().get()).toEqual(json.language.name);
-      expect(stats.getLanguage().getEnglishName().get()).toEqual(json.language.englishName);
-      expect(stats.getLanguage().getISO639().get()).toEqual(json.language.iso639);
-      expect(stats.getRegion().getRegionID().get()).toEqual(json.region.regionID);
-      expect(stats.getRegion().getName().get()).toEqual(json.region.name);
-      expect(stats.getRegion().getISO3166().get()).toEqual(json.region.iso3166);
-      expect(stats.getTerm().getID()).toEqual(json.termID);
-      expect(stats.getName().get()).toEqual(json.name);
-      expect(stats.getUnit().get()).toEqual(json.unit);
-      expect(stats.getUpdatedAt().toString()).toEqual(json.updatedAt);
-      expect(stats.getItems().size()).toEqual(json.items.length);
-      for (let i: number = 0; i < stats.getItems().size(); i++) {
-        expect(stats.getItems().get(i).get().getStatsItemID().get().get()).toEqual(json.items[i].statsItemID);
-        expect(stats.getItems().get(i).get().getName().get()).toEqual(json.items[i].name);
-        expect(stats.getItems().get(i).get().getValues().size()).toEqual(json.items[i].values.length);
-        for (let j: number = 0; j < stats.getItems().get(i).get().getValues().size(); j++) {
-          expect(stats.getItems().get(i).get().getValues().get(j).get().getAsOf().toString()).toEqual(json.items[i].values[j].asOf);
-          expect(stats.getItems().get(i).get().getValues().get(j).get().getValue().get()).toEqual(json.items[i].values[j].value);
-        }
-      }
-    });
-  });
-
-  describe('ofRow', () => {
-    it('normal case', () => {
-      const row: StatsRow = {
-        statsID: '0ec47089-24d3-4035-a27d-b636bd7a5170',
-        languageID: 1,
-        languageName: 'language1',
-        languageEnglishName: 'englishLanguage1',
-        iso639: 'lang1',
-        regionID: 2,
-        regionName: 'region1',
-        iso3166: 'regn1',
-        termID: 3,
-        name: 'name',
-        unit: 'unit',
-        updatedAt: '2000-01-01 00:00:00'
-      };
-      const items: Array<StatsItem> = [
-        StatsItem.of(
-          StatsItemID.ofString('610b532b-5711-461a-b44a-7387e8d08596').get(),
-          StatsItemName.of('stats item1'),
-          StatsValues.ofArray([
-            StatsValue.of(
-              StatsItemID.ofString('610b532b-5711-461a-b44a-7387e8d08596').get(),
-              AsOf.ofString('2000-01-01').get(),
-              NumericalValue.of(1)
-            ),
-            StatsValue.of(
-              StatsItemID.ofString('610b532b-5711-461a-b44a-7387e8d08596').get(),
-              AsOf.ofString('2000-01-02').get(),
-              NumericalValue.of(2)
-            )
-          ])
-        ),
-        StatsItem.of(
-          StatsItemID.ofString('530e0e07-654f-4764-a3ac-77ce12a2a5e4').get(),
-          StatsItemName.of('stats item2'),
-          StatsValues.ofArray([
-          ])
-        )
-      ];
-
-      const trial: Try<Stats, StatsError> = Stats.ofRow(row, StatsItems.ofArray(items));
-
-      expect(trial.isSuccess()).toEqual(true);
-      const stats: Stats = trial.get();
-      expect(stats.getStatsID().get().get()).toEqual(row.statsID);
-      expect(stats.getLanguage().getLanguageID().get()).toEqual(row.languageID);
-      expect(stats.getLanguage().getName().get()).toEqual(row.languageName);
-      expect(stats.getLanguage().getEnglishName().get()).toEqual(row.languageEnglishName);
-      expect(stats.getLanguage().getISO639().get()).toEqual(row.iso639);
-      expect(stats.getRegion().getRegionID().get()).toEqual(row.regionID);
-      expect(stats.getRegion().getName().get()).toEqual(row.regionName);
-      expect(stats.getRegion().getISO3166().get()).toEqual(row.iso3166);
-      expect(stats.getTerm().getID()).toEqual(row.termID);
-      expect(stats.getName().get()).toEqual(row.name);
-      expect(stats.getUnit().get()).toEqual(row.unit);
-      expect(stats.getUpdatedAt().toString()).toEqual(row.updatedAt);
-      expect(stats.getItems().size()).toEqual(items.length);
-      for (let i: number = 0; i < items.length; i++) {
-        expect(stats.getItems().get(i).get().getStatsItemID()).toEqual(items[i].getStatsItemID());
-        expect(stats.getItems().get(i).get().getName()).toEqual(items[i].getName());
-        expect(stats.getItems().get(i).get().getValues().size()).toEqual(items[i].getValues().size());
-        for (let j: number = 0; j < stats.getItems().get(i).get().getValues().size(); j++) {
-          expect(stats.getItems().get(i).get().getValues().get(j).get().getAsOf()).toEqual(items[i].getValues().get(j).get().getAsOf());
-          expect(stats.getItems().get(i).get().getValues().get(j).get().getValue()).toEqual(items[i].getValues().get(j).get().getValue());
-        }
-      }
-    });
-  });
-
-  describe('isJSON', () => {
-    it('normal case', () => {
-      const n: unknown = {
-        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
-        language: {
-          languageID: 1,
-          name: 'language1',
-          englishName: 'english name 1',
-          iso639: 'lang1'
-        },
-        region: {
-          regionID: 1,
-          name: 'region1',
-          iso3166: 'regn1'
-        },
-        termID: 1,
-        name: 'stats1',
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00',
-        items: [
-          {
-            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
-            name: 'stats item1',
-            values: [
-              {
-                asOf: '2001-01-01',
-                value: 1
-              }
-            ]
-          },
-          {
-            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
-            name: 'stats item2',
-            values: [
-              {
-                asOf: '2002-01-01',
-                value: 10
-              },
-              {
-                asOf: '2002-01-02',
-                value: 100
-              }
-            ]
-          }
-        ]
-      };
-
-      expect(Stats.isJSON(n)).toEqual(true);
-    });
-
-    it('returns false because given parameter is not an object', () => {
-      expect(Stats.isJSON(null)).toEqual(false);
-      expect(Stats.isJSON(undefined)).toEqual(false);
-      expect(Stats.isJSON(56)).toEqual(false);
-      expect(Stats.isJSON('fjafsd')).toEqual(false);
-      expect(Stats.isJSON(false)).toEqual(false);
-    });
-
-    it('returns false because statsID is missing', () => {
-      const n: unknown = {
-        language: {
-          languageID: 1,
-          name: 'language1',
-          englishName: 'english name 1',
-          iso639: 'lang1'
-        },
-        region: {
-          regionID: 1,
-          name: 'region1',
-          iso3166: 'regn1'
-        },
-        termID: 1,
-        name: 'stats1',
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00',
-        items: [
-          {
-            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
-            name: 'stats item1',
-            values: [
-              {
-                asOf: '2001-01-01',
-                value: 1
-              }
-            ]
-          },
-          {
-            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
-            name: 'stats item2',
-            values: [
-              {
-                asOf: '2002-01-01',
-                value: 10
-              },
-              {
-                asOf: '2002-01-02',
-                value: 100
-              }
-            ]
-          }
-        ]
-      };
-
-      expect(Stats.isJSON(n)).toEqual(false);
-    });
-
-    it('returns false because statsID is not string', () => {
-      const n: unknown = {
-        statsID: false,
-        language: {
-          languageID: 1,
-          name: 'language1',
-          englishName: 'english name 1',
-          iso639: 'lang1'
-        },
-        region: {
-          regionID: 1,
-          name: 'region1',
-          iso3166: 'regn1'
-        },
-        termID: 1,
-        name: 'stats1',
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00',
-        items: [
-          {
-            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
-            name: 'stats item1',
-            values: [
-              {
-                asOf: '2001-01-01',
-                value: 1
-              }
-            ]
-          },
-          {
-            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
-            name: 'stats item2',
-            values: [
-              {
-                asOf: '2002-01-01',
-                value: 10
-              },
-              {
-                asOf: '2002-01-02',
-                value: 100
-              }
-            ]
-          }
-        ]
-      };
-
-      expect(Stats.isJSON(n)).toEqual(false);
-    });
-
-    it('returns false because language is missing', () => {
-      const n: unknown = {
-        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
-        region: {
-          regionID: 1,
-          name: 'region1',
-          iso3166: 'regn1'
-        },
-        termID: 1,
-        name: 'stats1',
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00',
-        items: [
-          {
-            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
-            name: 'stats item1',
-            values: [
-              {
-                asOf: '2001-01-01',
-                value: 1
-              }
-            ]
-          },
-          {
-            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
-            name: 'stats item2',
-            values: [
-              {
-                asOf: '2002-01-01',
-                value: 10
-              },
-              {
-                asOf: '2002-01-02',
-                value: 100
-              }
-            ]
-          }
-        ]
-      };
-
-      expect(Stats.isJSON(n)).toEqual(false);
-    });
-
-    it('returns false because language is LanguageJSON', () => {
-      const n: unknown = {
-        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
-        language: true,
-        region: {
-          regionID: 1,
-          name: 'region1',
-          iso3166: 'regn1'
-        },
-        termID: 1,
-        name: 'stats1',
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00',
-        items: [
-          {
-            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
-            name: 'stats item1',
-            values: [
-              {
-                asOf: '2001-01-01',
-                value: 1
-              }
-            ]
-          },
-          {
-            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
-            name: 'stats item2',
-            values: [
-              {
-                asOf: '2002-01-01',
-                value: 10
-              },
-              {
-                asOf: '2002-01-02',
-                value: 100
-              }
-            ]
-          }
-        ]
-      };
-
-      expect(Stats.isJSON(n)).toEqual(false);
-    });
-
-    it('returns false region statsID is missing', () => {
-      const n: unknown = {
-        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
-        language: {
-          languageID: 1,
-          name: 'language1',
-          englishName: 'english name 1',
-          iso639: 'lang1'
-        },
-        termID: 1,
-        name: 'stats1',
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00',
-        items: [
-          {
-            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
-            name: 'stats item1',
-            values: [
-              {
-                asOf: '2001-01-01',
-                value: 1
-              }
-            ]
-          },
-          {
-            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
-            name: 'stats item2',
-            values: [
-              {
-                asOf: '2002-01-01',
-                value: 10
-              },
-              {
-                asOf: '2002-01-02',
-                value: 100
-              }
-            ]
-          }
-        ]
-      };
-
-      expect(Stats.isJSON(n)).toEqual(false);
-    });
-
-    it('returns false because region is not RegionJSON', () => {
-      const n: unknown = {
-        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
-        language: {
-          languageID: 1,
-          name: 'language1',
-          englishName: 'english name 1',
-          iso639: 'lang1'
-        },
-        region: 8,
-        termID: 1,
-        name: 'stats1',
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00',
-        items: [
-          {
-            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
-            name: 'stats item1',
-            values: [
-              {
-                asOf: '2001-01-01',
-                value: 1
-              }
-            ]
-          },
-          {
-            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
-            name: 'stats item2',
-            values: [
-              {
-                asOf: '2002-01-01',
-                value: 10
-              },
-              {
-                asOf: '2002-01-02',
-                value: 100
-              }
-            ]
-          }
-        ]
-      };
-
-      expect(Stats.isJSON(n)).toEqual(false);
-    });
-
-    it('returns false because termID is missing', () => {
-      const n: unknown = {
-        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
-        language: {
-          languageID: 1,
-          name: 'language1',
-          englishName: 'english name 1',
-          iso639: 'lang1'
-        },
-        region: {
-          regionID: 1,
-          name: 'region1',
-          iso3166: 'regn1'
-        },
-        name: 'stats1',
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00',
-        items: [
-          {
-            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
-            name: 'stats item1',
-            values: [
-              {
-                asOf: '2001-01-01',
-                value: 1
-              }
-            ]
-          },
-          {
-            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
-            name: 'stats item2',
-            values: [
-              {
-                asOf: '2002-01-01',
-                value: 10
-              },
-              {
-                asOf: '2002-01-02',
-                value: 100
-              }
-            ]
-          }
-        ]
-      };
-
-      expect(Stats.isJSON(n)).toEqual(false);
-    });
-
-    it('returns false because termID is not number', () => {
-      const n: unknown = {
-        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
-        language: {
-          languageID: 1,
-          name: 'language1',
-          englishName: 'english name 1',
-          iso639: 'lang1'
-        },
-        region: {
-          regionID: 1,
-          name: 'region1',
-          iso3166: 'regn1'
-        },
-        termID: 'soixante',
-        name: 'stats1',
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00',
-        items: [
-          {
-            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
-            name: 'stats item1',
-            values: [
-              {
-                asOf: '2001-01-01',
-                value: 1
-              }
-            ]
-          },
-          {
-            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
-            name: 'stats item2',
-            values: [
-              {
-                asOf: '2002-01-01',
-                value: 10
-              },
-              {
-                asOf: '2002-01-02',
-                value: 100
-              }
-            ]
-          }
-        ]
-      };
-
-      expect(Stats.isJSON(n)).toEqual(false);
-    });
-
-    it('returns false because name is missing', () => {
-      const n: unknown = {
-        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
-        language: {
-          languageID: 1,
-          name: 'language1',
-          englishName: 'english name 1',
-          iso639: 'lang1'
-        },
-        region: {
-          regionID: 1,
-          name: 'region1',
-          iso3166: 'regn1'
-        },
-        termID: 1,
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00',
-        items: [
-          {
-            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
-            name: 'stats item1',
-            values: [
-              {
-                asOf: '2001-01-01',
-                value: 1
-              }
-            ]
-          },
-          {
-            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
-            name: 'stats item2',
-            values: [
-              {
-                asOf: '2002-01-01',
-                value: 10
-              },
-              {
-                asOf: '2002-01-02',
-                value: 100
-              }
-            ]
-          }
-        ]
-      };
-
-      expect(Stats.isJSON(n)).toEqual(false);
-    });
-
-    it('returns false because name is not string', () => {
-      const n: unknown = {
-        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
-        language: {
-          languageID: 1,
-          name: 'language1',
-          englishName: 'english name 1',
-          iso639: 'lang1'
-        },
-        region: {
-          regionID: 1,
-          name: 'region1',
-          iso3166: 'regn1'
-        },
-        termID: 1,
-        name: null,
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00',
-        items: [
-          {
-            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
-            name: 'stats item1',
-            values: [
-              {
-                asOf: '2001-01-01',
-                value: 1
-              }
-            ]
-          },
-          {
-            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
-            name: 'stats item2',
-            values: [
-              {
-                asOf: '2002-01-01',
-                value: 10
-              },
-              {
-                asOf: '2002-01-02',
-                value: 100
-              }
-            ]
-          }
-        ]
-      };
-
-      expect(Stats.isJSON(n)).toEqual(false);
-    });
-
-    it('returns false because unit is missing', () => {
-      const n: unknown = {
-        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
-        language: {
-          languageID: 1,
-          name: 'language1',
-          englishName: 'english name 1',
-          iso639: 'lang1'
-        },
-        region: {
-          regionID: 1,
-          name: 'region1',
-          iso3166: 'regn1'
-        },
-        termID: 1,
-        name: 'stats1',
-        updatedAt: '2000-01-01 00:00:00',
-        items: [
-          {
-            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
-            name: 'stats item1',
-            values: [
-              {
-                asOf: '2001-01-01',
-                value: 1
-              }
-            ]
-          },
-          {
-            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
-            name: 'stats item2',
-            values: [
-              {
-                asOf: '2002-01-01',
-                value: 10
-              },
-              {
-                asOf: '2002-01-02',
-                value: 100
-              }
-            ]
-          }
-        ]
-      };
-
-      expect(Stats.isJSON(n)).toEqual(false);
-    });
-
-    it('returns false because unit is not string', () => {
-      const n: unknown = {
-        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
-        language: {
-          languageID: 1,
-          name: 'language1',
-          englishName: 'english name 1',
-          iso639: 'lang1'
-        },
-        region: {
-          regionID: 1,
-          name: 'region1',
-          iso3166: 'regn1'
-        },
-        termID: 1,
-        name: 'stats1',
-        unit: null,
-        updatedAt: '2000-01-01 00:00:00',
-        items: [
-          {
-            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
-            name: 'stats item1',
-            values: [
-              {
-                asOf: '2001-01-01',
-                value: 1
-              }
-            ]
-          },
-          {
-            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
-            name: 'stats item2',
-            values: [
-              {
-                asOf: '2002-01-01',
-                value: 10
-              },
-              {
-                asOf: '2002-01-02',
-                value: 100
-              }
-            ]
-          }
-        ]
-      };
-
-      expect(Stats.isJSON(n)).toEqual(false);
-    });
-
-    it('returns false because updatedAt is missing', () => {
-      const n: unknown = {
-        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
-        language: {
-          languageID: 1,
-          name: 'language1',
-          englishName: 'english name 1',
-          iso639: 'lang1'
-        },
-        region: {
-          regionID: 1,
-          name: 'region1',
-          iso3166: 'regn1'
-        },
-        termID: 1,
-        name: 'stats1',
-        unit: 'unit1',
-        items: [
-          {
-            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
-            name: 'stats item1',
-            values: [
-              {
-                asOf: '2001-01-01',
-                value: 1
-              }
-            ]
-          },
-          {
-            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
-            name: 'stats item2',
-            values: [
-              {
-                asOf: '2002-01-01',
-                value: 10
-              },
-              {
-                asOf: '2002-01-02',
-                value: 100
-              }
-            ]
-          }
-        ]
-      };
-
-      expect(Stats.isJSON(n)).toEqual(false);
-    });
-
-    it('returns false because updatedAt is not string', () => {
-      const n: unknown = {
-        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
-        language: {
-          languageID: 1,
-          name: 'language1',
-          englishName: 'english name 1',
-          iso639: 'lang1'
-        },
-        region: {
-          regionID: 1,
-          name: 'region1',
-          iso3166: 'regn1'
-        },
-        termID: 1,
-        name: 'stats1',
-        unit: 'unit1',
-        updatedAt: 2000,
-        items: [
-          {
-            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
-            name: 'stats item1',
-            values: [
-              {
-                asOf: '2001-01-01',
-                value: 1
-              }
-            ]
-          },
-          {
-            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
-            name: 'stats item2',
-            values: [
-              {
-                asOf: '2002-01-01',
-                value: 10
-              },
-              {
-                asOf: '2002-01-02',
-                value: 100
-              }
-            ]
-          }
-        ]
-      };
-
-      expect(Stats.isJSON(n)).toEqual(false);
-    });
-
-    it('returns false because items is missing', () => {
-      const n: unknown = {
-        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
-        language: {
-          languageID: 1,
-          name: 'language1',
-          englishName: 'english name 1',
-          iso639: 'lang1'
-        },
-        region: {
-          regionID: 1,
-          name: 'region1',
-          iso3166: 'regn1'
-        },
-        termID: 1,
-        name: 'stats1',
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00'
-      };
-
-      expect(Stats.isJSON(n)).toEqual(false);
-    });
-
-    it('returns false because items is not array', () => {
-      const n: unknown = {
-        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
-        language: {
-          languageID: 1,
-          name: 'language1',
-          englishName: 'english name 1',
-          iso639: 'lang1'
-        },
-        region: {
-          regionID: 1,
-          name: 'region1',
-          iso3166: 'regn1'
-        },
-        termID: 1,
-        name: 'stats1',
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00',
-        items: {
-          c: {
-            statsItemID: '04166d3c-be62-4e13-8231-e718b5b96683',
-            name: 'stats item1',
-            values: [
-              {
-                asOf: '2001-01-01',
-                value: 1
-              }
-            ]
-          },
-          d: {
-            statsItemID: 'd5619e72-3233-43a8-9cc8-571e53b2ff87',
-            name: 'stats item2',
-            values: [
-              {
-                asOf: '2002-01-01',
-                value: 10
-              },
-              {
-                asOf: '2002-01-02',
-                value: 100
-              }
-            ]
-          }
-        }
-      };
-
-      expect(Stats.isJSON(n)).toEqual(false);
-    });
-  });
-
-  describe('default', () => {
-    it('id will be generated, data are empty', () => {
-      const stats: Stats = Stats.default();
-
-      expect(stats.getStatsID().get().get().length).toEqual(UUID.size());
-      expect(stats.getLanguage().getLanguageID().get()).toEqual(0);
-      expect(stats.getRegion().getRegionID().get()).toEqual(0);
-      expect(stats.getTerm()).toEqual(Term.DAILY);
-      expect(stats.getName().get()).toEqual('');
-      expect(stats.getUnit().get()).toEqual('');
-      expect(stats.getItems().isEmpty()).toEqual(true);
-      expect(stats.getStartDate().isPresent()).toEqual(false);
     });
   });
 });
