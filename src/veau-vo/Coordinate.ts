@@ -35,10 +35,10 @@ export class Coordinate extends ValueObject {
       column
     } = this;
 
-    if (!row.equals(other.getRow())) {
+    if (!row.equals(other.row)) {
       return false;
     }
-    if (!column.equals(other.getColumn())) {
+    if (!column.equals(other.column)) {
       return false;
     }
 
