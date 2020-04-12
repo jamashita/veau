@@ -6,7 +6,6 @@ import { UpdatedAtError } from '../veau-error/UpdatedAtError';
 import { Entity } from '../veau-general/Entity';
 import { None } from '../veau-general/Optional/None';
 import { Optional } from '../veau-general/Optional/Optional';
-import { Some } from '../veau-general/Optional/Some';
 import { Failure } from '../veau-general/Try/Failure';
 import { Success } from '../veau-general/Try/Success';
 import { Try } from '../veau-general/Try/Try';
@@ -30,6 +29,7 @@ import { Term } from '../veau-vo/Term';
 import { UpdatedAt } from '../veau-vo/UpdatedAt';
 import { StatsItem, StatsItemJSON } from './StatsItem';
 import { StatsItems } from './StatsItems';
+import { Some } from '../veau-general/Optional/Some';
 
 export type StatsJSON = Readonly<{
   statsID: string;
@@ -293,6 +293,7 @@ export class Stats extends Entity<StatsID> {
 
   public getColumns(): AsOfs {
     const {
+      items,
       startDate,
       columns
     } = this;
@@ -301,30 +302,23 @@ export class Stats extends Entity<StatsID> {
       return columns.get();
     }
 
-    const asOfs: AsOfs = this.getAsOfs();
+    let asOfs: AsOfs = items.getAsOfs();
 
-    if (startDate.isPresent()) {
-      asOfs = asOfs.add(startDate.get());
-    }
+    startDate.ifPresent((asOf: AsOf) => {
+      asOfs = asOfs.add(asOf);
+    });
+
     if (asOfs.isEmpty()) {
       return AsOfs.empty();
     }
 
-    const minTerm: AsOf = asOfs.min().get();
-    const maxTerm: AsOf = asOfs.max().get();
+    const min: AsOf = asOfs.min().get();
+    const max: AsOf = asOfs.max().get();
 
-    // TODO
-    asOfs = AsOfs.empty();
+    const newColumns: AsOfs = AsOfs.duration(min, max, this.term);
+    this.columns = Some.of<AsOfs>(newColumns);
 
-    asOfs = asOfs.add(minTerm.previous(this.term));
-    for (let asOf: AsOf = minTerm; !asOf.isAfter(maxTerm); asOf = asOf.next(this.term)) {
-      asOfs = asOfs.add(asOf);
-    }
-    asOfs = asOfs.add(maxTerm.next(this.term));
-
-    this.columns = Some.of<AsOfs>(asOfs);
-
-    return asOfs;
+    return newColumns;
   }
 
   public getColumn(column: Column): Optional<AsOf> {
@@ -334,10 +328,6 @@ export class Stats extends Entity<StatsID> {
   private recalculateColumns(): void {
     this.columns = None.of<AsOfs>();
     this.getColumns();
-  }
-
-  private getAsOfs(): AsOfs {
-    return this.items.getAsOfs();
   }
 
   public getRowHeaders(): StatsItemNames {

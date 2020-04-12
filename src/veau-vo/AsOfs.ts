@@ -120,25 +120,6 @@ export class AsOfs implements Collection<number, AsOf>, Cloneable, JSONable {
   }
 
 
-  // TODO NOT USED
-  public unique(): AsOfs {
-    const strings: Array<string> = [];
-    const unique: Array<AsOf> = [];
-
-    this.asOfs.iterate((asOf: AsOf) => {
-      const str: string = asOf.toString();
-
-      if (strings.includes(str)) {
-        return;
-      }
-
-      strings.push(str);
-      unique.push(asOf);
-    });
-
-    return AsOfs.ofArray(unique);
-  }
-
   public isEmpty(): boolean {
     return this.asOfs.isEmpty();
   }
