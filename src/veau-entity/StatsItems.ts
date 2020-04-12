@@ -241,13 +241,9 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
       return false;
     }
 
-    for (let i: number = 0; i < length; i++) {
-      if (!this.items.get(i).get().isSame(other.items.get(i).get())) {
-        return false;
-      }
-    }
-
-    return true;
+    return this.items.every((item: StatsItem, index: number) => {
+      return item.isSame(other.get(index).get());
+    });
   }
 
   public toJSON(): Array<StatsItemJSON> {

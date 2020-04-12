@@ -75,10 +75,6 @@ export class Sequence<E extends Nominative> implements List<E> {
   }
 
   public project<F extends Nominative>(mapper: Mapper<E, F>): Sequence<F> {
-    if (this.isEmpty()) {
-      return Sequence.empty<F>();
-    }
-
     return Sequence.of<F>(this.elements.map<F>(mapper));
   }
 
@@ -93,13 +89,7 @@ export class Sequence<E extends Nominative> implements List<E> {
   }
 
   public screen(iterator: Enumerator<number, E>): Sequence<E> {
-    const filtered: Array<E> = this.elements.filter(iterator);
-
-    if (filtered.length === 0) {
-      return Sequence.empty<E>();
-    }
-
-    return Sequence.of<E>(filtered);
+    return Sequence.of<E>(this.elements.filter(iterator));
   }
 
   public every(enumerator: Enumerator<number, E>): boolean {
