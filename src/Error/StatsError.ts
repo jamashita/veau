@@ -4,7 +4,7 @@ export class StatsError extends RuntimeError {
   public readonly name: 'StatsError' = 'StatsError';
 
   // TODO
-  public constructor(message: string) {
-    super(`NO SUCH KEY: ${message}`);
+  public constructor(message: string, cause?: Error) {
+    super(`NO SUCH KEY: ${message}`, cause);
   }
 }
