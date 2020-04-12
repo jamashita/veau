@@ -29,14 +29,16 @@ describe('LocaleController', () => {
     it('returns JSON as LocaleInteractor returns', async () => {
       const stub: SinonStub = sinon.stub();
       LocaleInteractor.prototype.all = stub;
-      stub.resolves(Success.of<Locale, NoSuchElementError>(Locale.of(
-        Languages.ofArray([
-          Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english name'), ISO639.of('la'))
-        ]),
-        Regions.ofArray([
-          Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('RGN'))
-        ])
-      )));
+      stub.resolves(Success.of<Locale, NoSuchElementError>(
+        Locale.of(
+          Languages.ofArray([
+            Language.of(LanguageID.of(1), LanguageName.of('language'), LanguageName.of('english name'), ISO639.of('la'))
+          ]),
+          Regions.ofArray([
+            Region.of(RegionID.of(1), RegionName.of('region'), ISO3166.of('RGN'))
+          ])
+        )
+      ));
 
       const app: express.Express = express();
       app.use('/', LocaleController);
