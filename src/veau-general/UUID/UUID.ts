@@ -49,7 +49,7 @@ export class UUID extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.id === other.get()) {
+    if (this.id === other.id) {
       return true;
     }
 

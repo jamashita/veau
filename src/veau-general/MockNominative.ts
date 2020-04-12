@@ -17,7 +17,7 @@ export class MockNominative<E extends Primitive> implements Nominative {
     if (this === other) {
       return true;
     }
-    if (this.value === other.get()) {
+    if (this.value === other.value) {
       return true;
     }
 
