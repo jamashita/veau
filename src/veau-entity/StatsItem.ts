@@ -31,20 +31,18 @@ export class StatsItem extends Entity<StatsItemID> {
   private readonly name: StatsItemName;
   private values: StatsValues;
 
-  public static of(statsItemID: StatsItemID, name: StatsItemName, values: StatsValues): StatsItem {
+  public static of(
+    statsItemID: StatsItemID,
+    name: StatsItemName,
+    values: StatsValues
+  ): StatsItem {
     return new StatsItem(statsItemID, name, values);
   }
 
   public static ofJSON(json: StatsItemJSON): Try<StatsItem, StatsItemError> {
-    const {
-      statsItemID,
-      name,
-      values
-    } = json;
-
-    return StatsItemID.ofString(statsItemID).match<Try<StatsItem, StatsItemError>>((id: StatsItemID) => {
-      return StatsValues.ofJSON(id, values).match<Try<StatsItem, StatsItemError>>((v: StatsValues) => {
-        return Success.of<StatsItem, StatsItemError>(StatsItem.of(id, StatsItemName.of(name), v));
+    return StatsItemID.ofString(json.statsItemID).match<Try<StatsItem, StatsItemError>>((statsItemID: StatsItemID) => {
+      return StatsValues.ofJSON(statsItemID, json.values).match<Try<StatsItem, StatsItemError>>((statsValues: StatsValues) => {
+        return Success.of<StatsItem, StatsItemError>(StatsItem.of(statsItemID, StatsItemName.of(json.name), statsValues));
       }, (err: StatsValuesError) => {
         return Failure.of<StatsItem, StatsItemError>(new StatsItemError(err.message));
       });
@@ -54,13 +52,8 @@ export class StatsItem extends Entity<StatsItemID> {
   }
 
   public static ofRow(row: StatsItemRow, statsValues: StatsValues): Try<StatsItem, StatsItemError> {
-    const {
-      statsItemID,
-      name
-    } = row;
-
-    return StatsItemID.ofString(statsItemID).match<Try<StatsItem, StatsItemError>>((id: StatsItemID) => {
-      return Success.of<StatsItem, StatsItemError>(StatsItem.of(id, StatsItemName.of(name), statsValues));
+    return StatsItemID.ofString(row.statsItemID).match<Try<StatsItem, StatsItemError>>((statsItemID: StatsItemID) => {
+      return Success.of<StatsItem, StatsItemError>(StatsItem.of(statsItemID, StatsItemName.of(row.name), statsValues));
     }, (err: StatsItemIDError) => {
       return Failure.of<StatsItem, StatsItemError>(new StatsItemError(err.message));
     });
@@ -91,10 +84,18 @@ export class StatsItem extends Entity<StatsItemID> {
   }
 
   public static default(): StatsItem {
-    return StatsItem.of(StatsItemID.generate(), StatsItemName.default(), StatsValues.empty());
+    return StatsItem.of(
+      StatsItemID.generate(),
+      StatsItemName.default(),
+      StatsValues.empty()
+    );
   }
 
-  private constructor(statsItemID: StatsItemID, name: StatsItemName, values: StatsValues) {
+  protected constructor(
+    statsItemID: StatsItemID,
+    name: StatsItemName,
+    values: StatsValues
+  ) {
     super();
     this.statsItemID = statsItemID;
     this.name = name;
@@ -154,11 +155,7 @@ export class StatsItem extends Entity<StatsItemID> {
   }
 
   public isFilled(): boolean {
-    if (this.name.equals(StatsItemName.default())) {
-      return false;
-    }
-
-    return true;
+    return !this.name.equals(StatsItemName.default());
   }
 
   public isValid(): boolean {
@@ -176,13 +173,13 @@ export class StatsItem extends Entity<StatsItemID> {
       values
     } = this;
 
-    if (!statsItemID.equals(other.getStatsItemID())) {
+    if (!statsItemID.equals(other.statsItemID)) {
       return false;
     }
-    if (!name.equals(other.getName())) {
+    if (!name.equals(other.name)) {
       return false;
     }
-    if (!values.equals(other.getValues())) {
+    if (!values.equals(other.values)) {
       return false;
     }
 
