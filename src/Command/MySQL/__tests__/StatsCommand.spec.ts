@@ -17,6 +17,7 @@ import { MockStatsName } from '../../../VO/Mock/MockStatsName';
 import { MockStatsUnit } from '../../../VO/Mock/MockStatsUnit';
 import { MockVeauAccountID } from '../../../VO/Mock/MockVeauAccountID';
 
+// DONE
 describe('StatsCommand', () => {
   describe('create', () => {
     it('normal case', async () => {

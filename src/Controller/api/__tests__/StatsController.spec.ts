@@ -191,7 +191,6 @@ describe('StatsController', () => {
       expect(response.status).toEqual(NO_CONTENT);
     });
 
-
     it('replies INTERNAL_SERVER_ERROR', async () => {
       const stub: SinonStub = sinon.stub();
       StatsInteractor.prototype.findByStatsID = stub;
@@ -1269,7 +1268,6 @@ describe('StatsController', () => {
       });
       expect(response.status).toEqual(BAD_REQUEST);
     });
-
 
     it('item.values.asOf is missing', async () => {
       const stub: SinonStub = sinon.stub();

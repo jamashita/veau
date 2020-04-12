@@ -23,6 +23,7 @@ import { MockStatsName } from '../../../VO/Mock/MockStatsName';
 import { MockStatsUnit } from '../../../VO/Mock/MockStatsUnit';
 import { MockStats } from '../../../Entity/Mock/MockStats';
 
+// DONE
 describe('StatsCommand', () => {
   describe('container', () => {
     it('must be a singleton', () => {

@@ -12,6 +12,7 @@ import { Locale } from '../../../VO/Locale';
 import { LocaleCommand } from '../LocaleCommand';
 import { MockLocale } from '../../../VO/Mock/MockLocale';
 
+// DONE
 describe('LocaleCommand', () => {
   describe('container', () => {
     it('must be a singleton', () => {

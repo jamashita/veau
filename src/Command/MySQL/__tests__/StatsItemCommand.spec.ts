@@ -11,6 +11,7 @@ import { MockStatsItem } from '../../../Entity/Mock/MockStatsItem';
 import { MockStatsItemID } from '../../../VO/Mock/MockStatsItemID';
 import { MockStatsItemName } from '../../../VO/Mock/MockStatsItemName';
 
+// DONE
 describe('StatsItemCommand', () => {
   describe('create', () => {
     it('normal case', async () => {

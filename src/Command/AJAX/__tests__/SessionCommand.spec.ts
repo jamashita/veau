@@ -9,6 +9,7 @@ import { DataSourceError } from '../../../General/DataSourceError';
 import { Try } from '../../../General/Try/Try';
 import { SessionCommand } from '../SessionCommand';
 
+// DONE
 describe('SessionCommand', () => {
   describe('container', () => {
     it('must be a singleton', () => {

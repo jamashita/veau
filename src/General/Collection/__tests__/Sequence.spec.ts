@@ -273,7 +273,6 @@ describe('Sequence', () => {
         return false;
       });
 
-
       expect(select1.isPresent()).toEqual(true);
       expect(select1.get()).toEqual(noun1);
       expect(select2.isPresent()).toEqual(true);

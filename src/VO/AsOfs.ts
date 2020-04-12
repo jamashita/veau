@@ -119,7 +119,6 @@ export class AsOfs implements Collection<number, AsOf>, Cloneable, JSONable {
     this.asOfs.iterate(iteration);
   }
 
-
   public isEmpty(): boolean {
     return this.asOfs.isEmpty();
   }

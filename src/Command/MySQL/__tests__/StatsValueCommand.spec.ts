@@ -13,6 +13,7 @@ import { MockAsOf } from '../../../VO/Mock/MockAsOf';
 import { MockNumericalValue } from '../../../VO/Mock/MockNumericalValue';
 import { MockStatsID } from '../../../VO/Mock/MockStatsID';
 
+// DONE
 describe('StatsValueCommand', () => {
   describe('create', () => {
     it('normal case', async () => {

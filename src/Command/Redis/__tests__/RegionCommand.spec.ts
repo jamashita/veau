@@ -8,13 +8,12 @@ import { MockRedis } from '../../../General/Redis/Mock/MockRedis';
 import { MockRedisString } from '../../../General/Redis/Mock/MockRedisString';
 import { RedisError } from '../../../General/Redis/RedisError';
 import { Try } from '../../../General/Try/Try';
-import { ISO3166 } from '../../../VO/ISO3166';
-import { Region } from '../../../VO/Region';
-import { RegionID } from '../../../VO/RegionID';
-import { RegionName } from '../../../VO/RegionName';
-import { Regions } from '../../../VO/Regions';
 import { RegionCommand } from '../RegionCommand';
+import { MockRegions } from '../../../VO/Mock/MockRegions';
+import { MockRegion } from '../../../VO/Mock/MockRegion';
+import { MockRegionName } from '../../../VO/Mock/MockRegionName';
 
+// DONE
 describe('RegionCommand', () => {
   describe('container', () => {
     it('must be a singleton', () => {
@@ -28,9 +27,17 @@ describe('RegionCommand', () => {
 
   describe('insertAll', () => {
     it('normal case', async () => {
-      const regions: Regions = Regions.ofArray([
-        Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abc'))
-      ]);
+      const regions: MockRegions = new MockRegions(
+        new MockRegion({
+          name: new MockRegionName('sorella'),
+        }),
+        new MockRegion({
+          name: new MockRegionName('piment'),
+        }),
+        new MockRegion({
+          name: new MockRegionName('dein'),
+        })
+      );
 
       const string: MockRedisString = new MockRedisString();
       const stub1: SinonStub = sinon.stub();
@@ -52,9 +59,7 @@ describe('RegionCommand', () => {
     });
 
     it('returns Failure because the client throws RedisError by MockRedisString.set', async () => {
-      const regions: Regions = Regions.ofArray([
-        Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abc'))
-      ]);
+      const regions: MockRegions = new MockRegions();
 
       const string: MockRedisString = new MockRedisString();
       const stub1: SinonStub = sinon.stub();
@@ -85,9 +90,7 @@ describe('RegionCommand', () => {
     });
 
     it('returns Failure because the client throws RedisError by MockRedis.expires', async () => {
-      const regions: Regions = Regions.ofArray([
-        Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abc'))
-      ]);
+      const regions: MockRegions = new MockRegions();
 
       const string: MockRedisString = new MockRedisString();
       const stub1: SinonStub = sinon.stub();
@@ -118,9 +121,7 @@ describe('RegionCommand', () => {
     });
 
     it('throws Error', async () => {
-      const regions: Regions = Regions.ofArray([
-        Region.of(RegionID.of(2), RegionName.of('region 2'), ISO3166.of('abc'))
-      ]);
+      const regions: MockRegions = new MockRegions();
 
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();

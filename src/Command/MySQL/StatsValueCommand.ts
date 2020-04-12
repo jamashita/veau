@@ -29,7 +29,6 @@ export class StatsValueCommand implements IStatsValueCommand, IMySQLCommand {
       :value
       );`;
 
-
     try {
       await this.query.execute<unknown>(query, {
         statsItemID: statsValue.getStatsItemID().get().get(),

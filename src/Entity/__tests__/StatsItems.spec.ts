@@ -475,7 +475,6 @@ describe('StatsItems', () => {
     });
   });
 
-
   describe('get', () => {
     it('returns Language instance at the correct index', () => {
       const statsItem1: MockStatsItem = new MockStatsItem();

@@ -8,13 +8,12 @@ import { MockRedis } from '../../../General/Redis/Mock/MockRedis';
 import { MockRedisString } from '../../../General/Redis/Mock/MockRedisString';
 import { RedisError } from '../../../General/Redis/RedisError';
 import { Try } from '../../../General/Try/Try';
-import { ISO639 } from '../../../VO/ISO639';
-import { Language } from '../../../VO/Language';
-import { LanguageID } from '../../../VO/LanguageID';
-import { LanguageName } from '../../../VO/LanguageName';
-import { Languages } from '../../../VO/Languages';
 import { LanguageCommand } from '../LanguageCommand';
+import { MockLanguage } from '../../../VO/Mock/MockLanguage';
+import { MockLanguages } from '../../../VO/Mock/MockLanguages';
+import { MockLanguageName } from '../../../VO/Mock/MockLanguageName';
 
+// DONE
 describe('LanguageCommand', () => {
   describe('container', () => {
     it('must be a singleton', () => {
@@ -28,9 +27,17 @@ describe('LanguageCommand', () => {
 
   describe('insertAll', () => {
     it('normal case', async () => {
-      const languages: Languages = Languages.ofArray([
-        Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english 1'), ISO639.of('aa'))
-      ]);
+      const languages: MockLanguages = new MockLanguages(
+        new MockLanguage({
+          name: new MockLanguageName('lorsque')
+        }),
+        new MockLanguage({
+          name: new MockLanguageName('soreil')
+        }),
+        new MockLanguage({
+          name: new MockLanguageName('kotlin')
+        })
+      );
 
       const string: MockRedisString = new MockRedisString();
       const stub1: SinonStub = sinon.stub();
@@ -52,9 +59,7 @@ describe('LanguageCommand', () => {
     });
 
     it('returns Failure because the client throws RedisError by MockRedisString.set', async () => {
-      const languages: Languages = Languages.ofArray([
-        Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english 1'), ISO639.of('aa'))
-      ]);
+      const languages: MockLanguages = new MockLanguages();
 
       const string: MockRedisString = new MockRedisString();
       const stub1: SinonStub = sinon.stub();
@@ -85,9 +90,7 @@ describe('LanguageCommand', () => {
     });
 
     it('returns Failure because the client throws RedisError by MockRedis.expires', async () => {
-      const languages: Languages = Languages.ofArray([
-        Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english 1'), ISO639.of('aa'))
-      ]);
+      const languages: MockLanguages = new MockLanguages();
 
       const string: MockRedisString = new MockRedisString();
       const stub1: SinonStub = sinon.stub();
@@ -118,9 +121,7 @@ describe('LanguageCommand', () => {
     });
 
     it('throws Error', async () => {
-      const languages: Languages = Languages.ofArray([
-        Language.of(LanguageID.of(1), LanguageName.of('language 1'), LanguageName.of('english 1'), ISO639.of('aa'))
-      ]);
+      const languages: MockLanguages = new MockLanguages();
 
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
