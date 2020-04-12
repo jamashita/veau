@@ -5,6 +5,6 @@ export class StatsError extends RuntimeError {
 
   // TODO
   public constructor(message: string, cause?: Error) {
-    super(`NO SUCH KEY: ${message}`, cause);
+    super(message, cause);
   }
 }
