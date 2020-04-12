@@ -5,9 +5,13 @@ import { Try } from '../veau-general/Try/Try';
 import { Type } from '../veau-general/Type/Type';
 import { ValueObject } from '../veau-general/ValueObject';
 
+const DEFAULT_COUNT: number = 0;
+
 export class LoadingCount extends ValueObject {
   public readonly noun: 'LoadingCount' = 'LoadingCount';
   private readonly count: number;
+
+  private static readonly DEFAULT: LoadingCount = new LoadingCount(DEFAULT_COUNT);
 
   public static of(count: number): Try<LoadingCount, LoadingCountError> {
     if (count < 0) {
@@ -21,8 +25,9 @@ export class LoadingCount extends ValueObject {
   }
 
   public static default(): LoadingCount {
-    return new LoadingCount(0);
+    return LoadingCount.DEFAULT;
   }
+
   private constructor(count: number) {
     super();
     this.count = count;
@@ -60,7 +65,7 @@ export class LoadingCount extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.count === other.get()) {
+    if (this.count === other.count) {
       return true;
     }
 
