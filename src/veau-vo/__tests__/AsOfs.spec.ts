@@ -2,8 +2,35 @@ import { None } from '../../veau-general/Optional/None';
 import { AsOf } from '../AsOf';
 import { AsOfs } from '../AsOfs';
 import { MockAsOf } from '../Mock/MockAsOf';
+import { Sequence } from '../../veau-general/Collection/Sequence';
 
 describe('AsOfs', () => {
+  describe('of', () => {
+    it('when the Sequence is zero size, returns empty', () => {
+      const asOfs: AsOfs = AsOfs.of(Sequence.empty<AsOf>());
+
+      expect(asOfs).toBe(AsOfs.empty());
+    });
+
+    it('normal case', () => {
+      const asOf1: MockAsOf = new MockAsOf();
+      const asOf2: MockAsOf = new MockAsOf();
+      const asOf3: MockAsOf = new MockAsOf();
+      const sequence: Sequence<AsOf> = Sequence.of<AsOf>([
+        asOf1,
+        asOf2,
+        asOf3
+      ]);
+
+      const asOfs: AsOfs = AsOfs.of(sequence);
+
+      expect(asOfs.size()).toEqual(sequence.size());
+      for (let i: number = 0; i < asOfs.size(); i++) {
+        expect(asOfs.get(i).get()).toEqual(sequence.get(i).get());
+      }
+    });
+  });
+
   describe('ofArray', () => {
     it('normal case', () => {
       const asOf1: MockAsOf = new MockAsOf();

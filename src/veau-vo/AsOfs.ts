@@ -15,6 +15,10 @@ export class AsOfs implements Collection<number, AsOf>, JSONable {
   private static readonly EMPTY: AsOfs = AsOfs.of(Sequence.empty<AsOf>());
 
   public static of(asOfs: Sequence<AsOf>): AsOfs {
+    if (asOfs.isEmpty()) {
+      return AsOfs.empty();
+    }
+
     return new AsOfs(asOfs);
   }
 
