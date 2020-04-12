@@ -7,8 +7,6 @@ import { ValueObject } from '../veau-general/ValueObject';
 import { Limit } from './Limit';
 import { Offset } from './Offset';
 
-const LIMIT: number = 40;
-
 export class Page extends ValueObject {
   public readonly noun: 'Page' = 'Page';
   private readonly page: number;
@@ -34,11 +32,11 @@ export class Page extends ValueObject {
   }
 
   public getLimit(): Limit {
-    return Limit.of(LIMIT).get();
+    return Limit.default();
   }
 
   public getOffset(): Offset {
-    const offset: number = (this.page - 1) * LIMIT;
+    const offset: number = (this.page - 1) * this.getLimit().get();
 
     return Offset.of(offset).get();
   }
