@@ -427,32 +427,24 @@ describe('StatsValues', () => {
     it('update pattern', () => {
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
-          year: 2000,
-          month: 1,
           day: 1
         }),
         value: new MockNumericalValue(1)
       });
       const statsValue2: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
-          year: 2000,
-          month: 1,
           day: 2
         }),
         value: new MockNumericalValue(2)
       });
       const statsValue3: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
-          year: 2000,
-          month: 1,
           day: 3
         }),
         value: new MockNumericalValue(3)
       });
       const statsValue4: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
-          year: 2000,
-          month: 1,
           day: 2
         }),
         value: new MockNumericalValue(4)
@@ -474,24 +466,18 @@ describe('StatsValues', () => {
     it('insert pattern', () => {
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
-          year: 2000,
-          month: 1,
           day: 1
         }),
         value: new MockNumericalValue(1)
       });
       const statsValue2: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
-          year: 2000,
-          month: 1,
           day: 2
         }),
         value: new MockNumericalValue(2)
       });
       const statsValue3: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
-          year: 2000,
-          month: 1,
           day: 3
         }),
         value: new MockNumericalValue(3)
@@ -514,31 +500,23 @@ describe('StatsValues', () => {
     it('deletes a element if its asOf is the same', () => {
       const statsValue1: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
-          year: 2000,
-          month: 1,
           day: 1
         }),
         value: new MockNumericalValue(1)
       });
       const statsValue2: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
-          year: 2000,
-          month: 1,
           day: 2
         }),
         value: new MockNumericalValue(2)
       });
       const statsValue3: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
-          year: 2000,
-          month: 1,
           day: 3
         }),
         value: new MockNumericalValue(3)
       });
       const deleteAsOf: MockAsOf = new MockAsOf({
-        year: 2000,
-        month: 1,
         day: 2
       });
 
@@ -567,16 +545,12 @@ describe('StatsValues', () => {
       const statsValues: StatsValues = StatsValues.ofSpread(
         new MockStatsValue({
           asOf: new MockAsOf({
-            year: 2000,
-            month: 1,
             day: 1
           }),
           value: value1
         }),
         new MockStatsValue({
           asOf: new MockAsOf({
-            year: 2000,
-            month: 1,
             day: 3
           }),
           value: value2
@@ -590,13 +564,9 @@ describe('StatsValues', () => {
   describe('getAdOfs', () => {
     it('extracts only their asOfs', () => {
       const asOf1: MockAsOf = new MockAsOf({
-        year: 2000,
-        month: 1,
         day: 3
       });
       const asOf2: MockAsOf = new MockAsOf({
-        year: 2000,
-        month: 1,
         day: 3
       });
 
@@ -621,8 +591,6 @@ describe('StatsValues', () => {
       const statsValue1: MockStatsValue = new MockStatsValue({
         statsItemID,
         asOf: new MockAsOf({
-          year: 2000,
-          month: 1,
           day: 1
         }),
         value: new MockNumericalValue(1)
@@ -630,8 +598,6 @@ describe('StatsValues', () => {
       const statsValue2: MockStatsValue = new MockStatsValue({
         statsItemID,
         asOf: new MockAsOf({
-          year: 2000,
-          month: 1,
           day: 2
         }),
         value: new MockNumericalValue(2)
@@ -639,8 +605,6 @@ describe('StatsValues', () => {
       const statsValue3: MockStatsValue = new MockStatsValue({
         statsItemID,
         asOf: new MockAsOf({
-          year: 2000,
-          month: 1,
           day: 3
         }),
         value: new MockNumericalValue(3)
@@ -648,8 +612,6 @@ describe('StatsValues', () => {
       const statsValue4: MockStatsValue = new MockStatsValue({
         statsItemID,
         asOf: new MockAsOf({
-          year: 2000,
-          month: 1,
           day: 1
         }),
         value: new MockNumericalValue(1)

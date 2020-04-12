@@ -189,8 +189,6 @@ describe('StatsValue', () => {
       const statsValue3: StatsValue = StatsValue.of(
         new MockStatsItemID(uuid1),
         new MockAsOf({
-          year: 2000,
-          month: 1,
           day: 2
         }),
         NumericalValue.of(0)
