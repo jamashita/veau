@@ -10,7 +10,6 @@ import { Failure } from '../../General/Try/Failure';
 import { Success } from '../../General/Try/Success';
 import { Try } from '../../General/Try/Try';
 import { UnimplementedError } from '../../General/UnimplementedError';
-import { StatsID } from '../../VO/StatsID';
 import { IAJAXCommand } from '../Interface/IAJAXCommand';
 import { IStatsCommand } from '../Interface/IStatsCommand';
 
@@ -37,8 +36,7 @@ export class StatsCommand implements IStatsCommand, IAJAXCommand {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public deleteByStatsID(statsID: StatsID): Promise<Try<void, DataSourceError>> {
+  public deleteByStatsID(): Promise<Try<void, DataSourceError>> {
     return Promise.reject<Try<void, DataSourceError>>(new UnimplementedError());
   }
 }
