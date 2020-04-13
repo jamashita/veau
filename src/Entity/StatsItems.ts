@@ -3,7 +3,7 @@ import { StatsItemIDError } from '../Error/StatsItemIDError';
 import { StatsItemsError } from '../Error/StatsItemsError';
 import { Cloneable } from '../General/Interface/Cloneable';
 import { Collection } from '../General/Interface/Collection';
-import { Sequence } from '../General/Collection/Sequence';
+import { ImmutableSequence } from '../General/Collection/ImmutableSequence';
 import { JSONable } from '../General/Interface/JSONable';
 import { Optional } from '../General/Optional/Optional';
 import { Failure } from '../General/Try/Failure';
@@ -20,19 +20,20 @@ import { StatsItemName } from '../VO/StatsItemName';
 import { StatsItemNames } from '../VO/StatsItemNames';
 import { StatsValues } from '../VO/StatsValues';
 import { StatsItem, StatsItemJSON, StatsItemRow } from './StatsItem';
+import { Sequence } from '../General/Collection/Interface/Sequence';
 
 export class StatsItems implements Collection<number, StatsItem>, JSONable, Cloneable {
   public readonly noun: 'StatsItems' = 'StatsItems';
   private readonly items: Sequence<StatsItem>;
 
-  private static readonly EMPTY: StatsItems = StatsItems.of(Sequence.empty<StatsItem>());
+  private static readonly EMPTY: StatsItems = StatsItems.of(ImmutableSequence.empty<StatsItem>());
 
   public static of(items: Sequence<StatsItem>): StatsItems {
     return new StatsItems(items);
   }
 
   public static ofArray(items: Array<StatsItem>): StatsItems {
-    return StatsItems.of(Sequence.of<StatsItem>(items));
+    return StatsItems.of(ImmutableSequence.of<StatsItem>(items));
   }
 
   public static ofSpread(...items: Array<StatsItem>): StatsItems {

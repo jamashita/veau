@@ -1,15 +1,16 @@
 import { Collection } from '../General/Interface/Collection';
-import { Sequence } from '../General/Collection/Sequence';
+import { ImmutableSequence } from '../General/Collection/ImmutableSequence';
 import { JSONable } from '../General/Interface/JSONable';
 import { Optional } from '../General/Optional/Optional';
 import { Mapper } from '../General/Type/Function';
 import { StatsItemName } from './StatsItemName';
+import { Sequence } from '../General/Collection/Interface/Sequence';
 
 export class StatsItemNames implements Collection<number, StatsItemName>, JSONable {
   public readonly noun: 'StatsItemNames' = 'StatsItemNames';
   private readonly names: Sequence<StatsItemName>;
 
-  private static readonly EMPTY: StatsItemNames = new StatsItemNames(Sequence.empty<StatsItemName>());
+  private static readonly EMPTY: StatsItemNames = new StatsItemNames(ImmutableSequence.empty<StatsItemName>());
 
   public static of(names: Sequence<StatsItemName>): StatsItemNames {
     if (names.isEmpty()) {
@@ -20,7 +21,7 @@ export class StatsItemNames implements Collection<number, StatsItemName>, JSONab
   }
 
   public static ofArray(names: Array<StatsItemName>): StatsItemNames {
-    return StatsItemNames.of(Sequence.of<StatsItemName>(names));
+    return StatsItemNames.of(ImmutableSequence.of<StatsItemName>(names));
   }
 
   public static ofSpread(...names: Array<StatsItemName>): StatsItemNames {

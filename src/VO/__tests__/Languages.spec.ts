@@ -8,13 +8,13 @@ import { MockLanguage } from '../Mock/MockLanguage';
 import { MockLanguageID } from '../Mock/MockLanguageID';
 import { MockLanguageName } from '../Mock/MockLanguageName';
 import { MockISO639 } from '../Mock/MockISO639';
-import { Sequence } from '../../General/Collection/Sequence';
+import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
 
 // DONE
 describe('Languages', () => {
   describe('of', () => {
-    it('when the Sequence is zero size, returns Languages.empty()', () => {
-      const languages: Languages = Languages.of(Sequence.empty<Language>());
+    it('when the ImmutableSequence is zero size, returns Languages.empty()', () => {
+      const languages: Languages = Languages.of(ImmutableSequence.empty<Language>());
 
       expect(languages).toBe(Languages.empty());
     });
@@ -22,7 +22,7 @@ describe('Languages', () => {
     it('normal case', () => {
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage();
-      const sequence: Sequence<MockLanguage> = Sequence.of<Language>([
+      const sequence: ImmutableSequence<MockLanguage> = ImmutableSequence.of<Language>([
         language1,
         language2
       ]);

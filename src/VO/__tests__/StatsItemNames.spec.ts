@@ -2,13 +2,13 @@ import { None } from '../../General/Optional/None';
 import { StatsItemName } from '../StatsItemName';
 import { StatsItemNames } from '../StatsItemNames';
 import { MockStatsItemName } from '../Mock/MockStatsItemName';
-import { Sequence } from '../../General/Collection/Sequence';
+import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
 
 // DONE
 describe('StatsItemNames', () => {
   describe('of', () => {
-    it('when the Sequence is zero size, returns StatsItemNames.empty()', () => {
-      const statsItemNames: StatsItemNames = StatsItemNames.of(Sequence.empty<StatsItemName>());
+    it('when the ImmutableSequence is zero size, returns StatsItemNames.empty()', () => {
+      const statsItemNames: StatsItemNames = StatsItemNames.of(ImmutableSequence.empty<StatsItemName>());
 
       expect(statsItemNames).toBe(StatsItemNames.empty());
     });
@@ -16,7 +16,7 @@ describe('StatsItemNames', () => {
     it('normal case', () => {
       const statsItemName1: MockStatsItemName = new MockStatsItemName();
       const statsItemName2: MockStatsItemName = new MockStatsItemName();
-      const sequence: Sequence<MockStatsItemName> = Sequence.of<StatsItemName>([
+      const sequence: ImmutableSequence<MockStatsItemName> = ImmutableSequence.of<StatsItemName>([
         statsItemName1,
         statsItemName2
       ]);

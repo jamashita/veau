@@ -2,14 +2,14 @@ import { None } from '../../General/Optional/None';
 import { AsOf } from '../AsOf';
 import { AsOfs } from '../AsOfs';
 import { MockAsOf } from '../Mock/MockAsOf';
-import { Sequence } from '../../General/Collection/Sequence';
+import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
 import { Term } from '../Term';
 
 // DONE
 describe('AsOfs', () => {
   describe('of', () => {
-    it('when the Sequence is zero size, returns empty', () => {
-      const asOfs: AsOfs = AsOfs.of(Sequence.empty<AsOf>());
+    it('when the ImmutableSequence is zero size, returns empty', () => {
+      const asOfs: AsOfs = AsOfs.of(ImmutableSequence.empty<AsOf>());
 
       expect(asOfs).toBe(AsOfs.empty());
     });
@@ -18,7 +18,7 @@ describe('AsOfs', () => {
       const asOf1: MockAsOf = new MockAsOf();
       const asOf2: MockAsOf = new MockAsOf();
       const asOf3: MockAsOf = new MockAsOf();
-      const sequence: Sequence<AsOf> = Sequence.of<AsOf>([
+      const sequence: ImmutableSequence<AsOf> = ImmutableSequence.of<AsOf>([
         asOf1,
         asOf2,
         asOf3

@@ -16,13 +16,13 @@ import { StatsOutlineError } from '../../Error/StatsOutlineError';
 import { Failure } from '../../General/Try/Failure';
 import sinon, { SinonSpy } from 'sinon';
 import { MockStatsID } from '../Mock/MockStatsID';
-import { Sequence } from '../../General/Collection/Sequence';
+import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
 
 // DONE
 describe('StatsOutlines', () => {
   describe('of', () => {
-    it('when the Sequence is zero size, returns empty', () => {
-      const outlines: StatsOutlines = StatsOutlines.of(Sequence.empty<MockStatsOutline>());
+    it('when the ImmutableSequence is zero size, returns empty', () => {
+      const outlines: StatsOutlines = StatsOutlines.of(ImmutableSequence.empty<MockStatsOutline>());
 
       expect(outlines).toBe(StatsOutlines.empty());
     });
@@ -30,7 +30,7 @@ describe('StatsOutlines', () => {
     it('normal case', () => {
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
-      const sequence: Sequence<MockStatsOutline> = Sequence.of<StatsOutline>([
+      const sequence: ImmutableSequence<MockStatsOutline> = ImmutableSequence.of<StatsOutline>([
         outline1,
         outline2
       ]);

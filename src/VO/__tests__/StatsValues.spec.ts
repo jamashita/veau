@@ -16,13 +16,13 @@ import { MockAsOf } from '../Mock/MockAsOf';
 import { MockNumericalValue } from '../Mock/MockNumericalValue';
 import { MockNumericalValues } from '../Mock/MockNumericalValues';
 import { UUID } from '../../General/UUID/UUID';
-import { Sequence } from '../../General/Collection/Sequence';
+import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
 
 // DONE
 describe('StatsValues', () => {
   describe('of', () => {
-    it('when the Sequence is zero size, returns empty', () => {
-      const values: StatsValues = StatsValues.of(Sequence.empty<StatsValue>());
+    it('when the ImmutableSequence is zero size, returns empty', () => {
+      const values: StatsValues = StatsValues.of(ImmutableSequence.empty<StatsValue>());
 
       expect(values).toBe(StatsValues.empty());
     });
@@ -30,7 +30,7 @@ describe('StatsValues', () => {
     it('normal case', () => {
       const value1: MockStatsValue = new MockStatsValue();
       const value2: MockStatsValue = new MockStatsValue();
-      const sequence: Sequence<MockStatsValue> = Sequence.of<StatsValue>([
+      const sequence: ImmutableSequence<MockStatsValue> = ImmutableSequence.of<StatsValue>([
         value1,
         value2
       ]);
@@ -78,7 +78,9 @@ describe('StatsValues', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const trial1: Try<StatsValue, StatsValueError> = Success.of<StatsValue, StatsValueError>(statsValue1);
-      const trial2: Try<StatsValue, StatsValueError> = Failure.of<StatsValue, StatsValueError>(new StatsValueError('test failed'));
+      const trial2: Try<StatsValue, StatsValueError> = Failure.of<StatsValue, StatsValueError>(
+        new StatsValueError('test failed')
+      );
       const trial: Try<StatsValues, StatsValuesError> = StatsValues.ofTry([
         trial1,
         trial2
@@ -100,8 +102,12 @@ describe('StatsValues', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const trial1: Try<StatsValue, StatsValueError> = Failure.of<StatsValue, StatsValueError>(new StatsValueError('test failed1'));
-      const trial2: Try<StatsValue, StatsValueError> = Failure.of<StatsValue, StatsValueError>(new StatsValueError('test failed2'));
+      const trial1: Try<StatsValue, StatsValueError> = Failure.of<StatsValue, StatsValueError>(
+        new StatsValueError('test failed1')
+      );
+      const trial2: Try<StatsValue, StatsValueError> = Failure.of<StatsValue, StatsValueError>(
+        new StatsValueError('test failed2')
+      );
       const trial: Try<StatsValues, StatsValuesError> = StatsValues.ofTry([
         trial1,
         trial2
@@ -335,7 +341,7 @@ describe('StatsValues', () => {
 
       expect(statsValues.size()).toEqual(values.length);
       for (let i: number = 0; i < statsValues.size(); i++) {
-        expect(statsValues.get(i).get()).toEqual(values[i]);
+        expect(statsValues.get(i).get()).toBe(values[i]);
       }
     });
   });
@@ -359,7 +365,7 @@ describe('StatsValues', () => {
 
       expect(statsValues.size()).toEqual(values.length);
       for (let i: number = 0; i < statsValues.size(); i++) {
-        expect(statsValues.get(i).get()).toEqual(values[i]);
+        expect(statsValues.get(i).get()).toBe(values[i]);
       }
     });
   });

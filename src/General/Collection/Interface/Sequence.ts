@@ -24,5 +24,7 @@ export interface Sequence<E extends Nominative> extends Collection<number, E>, C
 
   some(enumerator: Enumerator<number, E>): boolean;
 
+  copy(): Sequence<E>;
+
   toArray(): Array<E>;
 }

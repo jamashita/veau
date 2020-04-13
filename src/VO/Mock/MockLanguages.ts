@@ -1,10 +1,10 @@
 import { Languages } from '../Languages';
 import { Language } from '../Language';
-import { Sequence } from '../../General/Collection/Sequence';
+import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
 
 export class MockLanguages extends Languages {
 
   public constructor(...languages: Array<Language>) {
-    super(Sequence.of<Language>(languages));
+    super(ImmutableSequence.of<Language>(languages));
   }
 }

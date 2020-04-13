@@ -1,10 +1,10 @@
 import { Regions } from '../Regions';
 import { Region } from '../Region';
-import { Sequence } from '../../General/Collection/Sequence';
+import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
 
 export class MockRegions extends Regions {
 
   public constructor(...regions: Array<Region>) {
-    super(Sequence.of<Region>(regions));
+    super(ImmutableSequence.of<Region>(regions));
   }
 }

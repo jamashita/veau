@@ -1,7 +1,8 @@
 import { Collection } from '../General/Interface/Collection';
-import { Sequence } from '../General/Collection/Sequence';
+import { ImmutableSequence } from '../General/Collection/ImmutableSequence';
 import { Optional } from '../General/Optional/Optional';
 import { Color } from './Color';
+import { Sequence } from '../General/Collection/Interface/Sequence';
 
 export class Colors implements Collection<number, Color> {
   public readonly noun: 'Colors' = 'Colors';
@@ -35,7 +36,7 @@ export class Colors implements Collection<number, Color> {
   }
 
   public static ofArray(colors: Array<Color>): Colors {
-    return Colors.of(Sequence.of<Color>(colors));
+    return Colors.of(ImmutableSequence.of<Color>(colors));
   }
 
   public static ofSpread(...colors: Array<Color>): Colors {

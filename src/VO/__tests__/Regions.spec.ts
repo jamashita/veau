@@ -8,13 +8,13 @@ import { MockRegion } from '../Mock/MockRegion';
 import { MockRegionID } from '../Mock/MockRegionID';
 import { MockISO3166 } from '../Mock/MockISO3166';
 import { MockRegionName } from '../Mock/MockRegionName';
-import { Sequence } from '../../General/Collection/Sequence';
+import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
 
 // DONE
 describe('Regions', () => {
   describe('of', () => {
-    it('when the Sequence is zero size, returns Regions.empty()', () => {
-      const regions: Regions = Regions.of(Sequence.empty<Region>());
+    it('when the ImmutableSequence is zero size, returns Regions.empty()', () => {
+      const regions: Regions = Regions.of(ImmutableSequence.empty<Region>());
 
       expect(regions).toBe(Regions.empty());
     });
@@ -22,7 +22,7 @@ describe('Regions', () => {
     it('normal case', () => {
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
-      const sequence: Sequence<MockRegion> = Sequence.of<Region>([
+      const sequence: ImmutableSequence<MockRegion> = ImmutableSequence.of<Region>([
         region1,
         region2
       ]);

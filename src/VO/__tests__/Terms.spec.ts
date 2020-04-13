@@ -20,11 +20,11 @@ describe('Terms', () => {
     it('returns Term instance at the correct index', () => {
       const terms: Terms = Terms.all();
 
-      expect(terms.get(0).get()).toEqual(Term.DAILY);
-      expect(terms.get(1).get()).toEqual(Term.WEEKLY);
-      expect(terms.get(2).get()).toEqual(Term.MONTHLY);
-      expect(terms.get(3).get()).toEqual(Term.QUARTERLY);
-      expect(terms.get(4).get()).toEqual(Term.ANNUAL);
+      expect(terms.get(0).get()).toBe(Term.DAILY);
+      expect(terms.get(1).get()).toBe(Term.WEEKLY);
+      expect(terms.get(2).get()).toBe(Term.MONTHLY);
+      expect(terms.get(3).get()).toBe(Term.QUARTERLY);
+      expect(terms.get(4).get()).toBe(Term.ANNUAL);
     });
 
     it('returns None when the index is out of range', () => {

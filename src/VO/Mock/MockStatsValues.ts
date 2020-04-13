@@ -1,10 +1,10 @@
 import { StatsValues } from '../StatsValues';
 import { StatsValue } from '../StatsValue';
-import { Sequence } from '../../General/Collection/Sequence';
+import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
 
 export class MockStatsValues extends StatsValues {
 
   public constructor(...values: Array<StatsValue>) {
-    super(Sequence.of<StatsValue>(values));
+    super(ImmutableSequence.of<StatsValue>(values));
   }
 }

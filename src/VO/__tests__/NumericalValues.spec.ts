@@ -1,14 +1,14 @@
 import { None } from '../../General/Optional/None';
 import { NumericalValues } from '../NumericalValues';
 import { MockNumericalValue } from '../Mock/MockNumericalValue';
-import { Sequence } from '../../General/Collection/Sequence';
+import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
 import { NumericalValue } from '../NumericalValue';
 
 // DONE
 describe('NumericalValues', () => {
   describe('of', () => {
-    it('when the Sequence is zero size, returns empty', () => {
-      const values: NumericalValues = NumericalValues.of(Sequence.empty<NumericalValue>());
+    it('when the ImmutableSequence is zero size, returns empty', () => {
+      const values: NumericalValues = NumericalValues.of(ImmutableSequence.empty<NumericalValue>());
 
       expect(values).toBe(NumericalValues.empty());
     });
@@ -16,7 +16,7 @@ describe('NumericalValues', () => {
     it('normal case', () => {
       const value1: MockNumericalValue = new MockNumericalValue();
       const value2: MockNumericalValue = new MockNumericalValue();
-      const sequence: Sequence<MockNumericalValue> = Sequence.of<MockNumericalValue>([
+      const sequence: ImmutableSequence<MockNumericalValue> = ImmutableSequence.of<MockNumericalValue>([
         value1,
         value2
       ]);
@@ -109,13 +109,13 @@ describe('NumericalValues', () => {
       const values2: NumericalValues = values1.add(value3);
 
       expect(values1.size()).toEqual(2);
-      expect(values1.get(0).get()).toEqual(value1);
-      expect(values1.get(1).get()).toEqual(value2);
+      expect(values1.get(0).get()).toBe(value1);
+      expect(values1.get(1).get()).toBe(value2);
 
       expect(values2.size()).toEqual(3);
-      expect(values2.get(0).get()).toEqual(value1);
-      expect(values2.get(1).get()).toEqual(value2);
-      expect(values2.get(2).get()).toEqual(value3);
+      expect(values2.get(0).get()).toBe(value1);
+      expect(values2.get(1).get()).toBe(value2);
+      expect(values2.get(2).get()).toBe(value3);
     });
 
     it('inserts by spread syntax', () => {
@@ -131,11 +131,10 @@ describe('NumericalValues', () => {
       );
 
       expect(values1.size()).toEqual(0);
-
       expect(values2.size()).toEqual(3);
-      expect(values2.get(0).get()).toEqual(value1);
-      expect(values2.get(1).get()).toEqual(value2);
-      expect(values2.get(2).get()).toEqual(value3);
+      expect(values2.get(0).get()).toBe(value1);
+      expect(values2.get(1).get()).toBe(value2);
+      expect(values2.get(2).get()).toBe(value3);
     });
   });
 
@@ -152,9 +151,9 @@ describe('NumericalValues', () => {
       );
 
       expect(values.size()).toEqual(3);
-      expect(values.get(0).get()).toEqual(value1);
-      expect(values.get(1).get()).toEqual(value2);
-      expect(values.get(2).get()).toEqual(value3);
+      expect(values.get(0).get()).toBe(value1);
+      expect(values.get(1).get()).toBe(value2);
+      expect(values.get(2).get()).toBe(value3);
     });
 
     it('returns None when the index is out of range', () => {

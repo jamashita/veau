@@ -1,15 +1,16 @@
 import { Collection } from '../General/Interface/Collection';
-import { Sequence } from '../General/Collection/Sequence';
+import { ImmutableSequence } from '../General/Collection/ImmutableSequence';
 import { JSONable } from '../General/Interface/JSONable';
 import { Optional } from '../General/Optional/Optional';
 import { Mapper, Predicate } from '../General/Type/Function';
 import { Language, LanguageJSON, LanguageRow } from './Language';
+import { Sequence } from '../General/Collection/Interface/Sequence';
 
 export class Languages implements Collection<number, Language>, JSONable {
   public readonly noun: 'Languages' = 'Languages';
   private readonly languages: Sequence<Language>;
 
-  private static readonly EMPTY: Languages = new Languages(Sequence.empty<Language>());
+  private static readonly EMPTY: Languages = new Languages(ImmutableSequence.empty<Language>());
 
   public static of(languages: Sequence<Language>): Languages {
     if (languages.isEmpty()) {
@@ -20,7 +21,7 @@ export class Languages implements Collection<number, Language>, JSONable {
   }
 
   public static ofArray(languages: Array<Language>): Languages {
-    return Languages.of(Sequence.of<Language>(languages));
+    return Languages.of(ImmutableSequence.of<Language>(languages));
   }
 
   public static ofSpread(...languages: Array<Language>): Languages {

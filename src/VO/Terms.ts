@@ -1,8 +1,9 @@
 import { Collection } from '../General/Interface/Collection';
-import { Sequence } from '../General/Collection/Sequence';
+import { ImmutableSequence } from '../General/Collection/ImmutableSequence';
 import { Optional } from '../General/Optional/Optional';
 import { Mapper } from '../General/Type/Function';
 import { Term } from './Term';
+import { Sequence } from '../General/Collection/Interface/Sequence';
 
 export class Terms implements Collection<number, Term> {
   public readonly noun: 'Terms' = 'Terms';
@@ -25,7 +26,7 @@ export class Terms implements Collection<number, Term> {
   }
 
   protected static ofArray(terms: Array<Term>): Terms {
-    return Terms.of(Sequence.of<Term>(terms));
+    return Terms.of(ImmutableSequence.of<Term>(terms));
   }
 
   protected static ofSpread(...terms: Array<Term>): Terms {

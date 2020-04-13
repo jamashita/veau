@@ -1,15 +1,16 @@
 import { Collection } from '../General/Interface/Collection';
-import { Sequence } from '../General/Collection/Sequence';
+import { ImmutableSequence } from '../General/Collection/ImmutableSequence';
 import { JSONable } from '../General/Interface/JSONable';
 import { Optional } from '../General/Optional/Optional';
 import { Mapper, Predicate } from '../General/Type/Function';
 import { Region, RegionJSON, RegionRow } from './Region';
+import { Sequence } from '../General/Collection/Interface/Sequence';
 
 export class Regions implements Collection<number, Region>, JSONable {
   public readonly noun: 'Regions' = 'Regions';
   private readonly regions: Sequence<Region>;
 
-  private static readonly EMPTY: Regions = new Regions(Sequence.empty<Region>());
+  private static readonly EMPTY: Regions = new Regions(ImmutableSequence.empty<Region>());
 
   public static of(regions: Sequence<Region>): Regions {
     if (regions.isEmpty()) {
@@ -20,7 +21,7 @@ export class Regions implements Collection<number, Region>, JSONable {
   }
 
   public static ofArray(regions: Array<Region>): Regions {
-    return Regions.of(Sequence.of<Region>(regions));
+    return Regions.of(ImmutableSequence.of<Region>(regions));
   }
 
   public static ofSpread(...regions: Array<Region>): Regions {

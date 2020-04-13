@@ -1,7 +1,7 @@
 import { Color } from '../Color';
 import { Colors } from '../Colors';
 import { MockColor } from '../Mock/MockColor';
-import { Sequence } from '../../General/Collection/Sequence';
+import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
 
 // DONE
 describe('Colors', () => {
@@ -10,7 +10,7 @@ describe('Colors', () => {
       const color1: MockColor = new MockColor();
       const color2: MockColor = new MockColor();
       const color3: MockColor = new MockColor();
-      const sequence: Sequence<Color> = Sequence.of<Color>([
+      const sequence: ImmutableSequence<Color> = ImmutableSequence.of<Color>([
         color1,
         color2,
         color3
@@ -20,7 +20,7 @@ describe('Colors', () => {
 
       expect(colors.size()).toEqual(sequence.size());
       for (let i: number = 0; i < colors.size(); i++) {
-        expect(colors.get(i).get()).toEqual(sequence.get(i).get());
+        expect(colors.get(i).get()).toBe(sequence.get(i).get());
       }
     });
   });
@@ -40,7 +40,7 @@ describe('Colors', () => {
 
       expect(colours.size()).toEqual(colors.length);
       for (let i: number = 0; i < colours.size(); i++) {
-        expect(colours.get(i).get()).toEqual(colors[i]);
+        expect(colours.get(i).get()).toBe(colors[i]);
       }
     });
   });
@@ -64,7 +64,7 @@ describe('Colors', () => {
 
       expect(colours.size()).toEqual(colors.length);
       for (let i: number = 0; i < colours.size(); i++) {
-        expect(colours.get(i).get()).toEqual(colors[i]);
+        expect(colours.get(i).get()).toBe(colors[i]);
       }
     });
   });

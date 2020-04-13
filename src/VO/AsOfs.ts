@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { Collection } from '../General/Interface/Collection';
-import { Sequence } from '../General/Collection/Sequence';
+import { ImmutableSequence } from '../General/Collection/ImmutableSequence';
 import { JSONable } from '../General/Interface/JSONable';
 import { None } from '../General/Optional/None';
 import { Optional } from '../General/Optional/Optional';
@@ -9,12 +9,13 @@ import { Enumerator } from '../General/Type/Function';
 import { AsOf } from './AsOf';
 import { Cloneable } from '../General/Interface/Cloneable';
 import { Term } from './Term';
+import { Sequence } from '../General/Collection/Interface/Sequence';
 
 export class AsOfs implements Collection<number, AsOf>, Cloneable, JSONable {
   public readonly noun: 'AsOfs' = 'AsOfs';
   private readonly asOfs: Sequence<AsOf>;
 
-  private static readonly EMPTY: AsOfs = new AsOfs(Sequence.empty<AsOf>());
+  private static readonly EMPTY: AsOfs = new AsOfs(ImmutableSequence.empty<AsOf>());
 
   public static of(asOfs: Sequence<AsOf>): AsOfs {
     if (asOfs.isEmpty()) {
@@ -25,7 +26,7 @@ export class AsOfs implements Collection<number, AsOf>, Cloneable, JSONable {
   }
 
   public static ofArray(asOfs: Array<AsOf>): AsOfs {
-    return AsOfs.of(Sequence.of<AsOf>(asOfs));
+    return AsOfs.of(ImmutableSequence.of<AsOf>(asOfs));
   }
 
   public static ofSpread(...asOfs: Array<AsOf>): AsOfs {

@@ -1,13 +1,14 @@
 import { Collection } from '../General/Interface/Collection';
-import { Sequence } from '../General/Collection/Sequence';
+import { ImmutableSequence } from '../General/Collection/ImmutableSequence';
 import { Optional } from '../General/Optional/Optional';
 import { NumericalValue } from './NumericalValue';
+import { Sequence } from '../General/Collection/Interface/Sequence';
 
 export class NumericalValues implements Collection<number, NumericalValue> {
   public readonly noun: 'NumericalValues' = 'NumericalValues';
   private readonly values: Sequence<NumericalValue>;
 
-  private static readonly EMPTY: NumericalValues = new NumericalValues(Sequence.empty<NumericalValue>());
+  private static readonly EMPTY: NumericalValues = new NumericalValues(ImmutableSequence.empty<NumericalValue>());
 
   public static of(values: Sequence<NumericalValue>): NumericalValues {
     if (values.isEmpty()) {
@@ -18,7 +19,7 @@ export class NumericalValues implements Collection<number, NumericalValue> {
   }
 
   public static ofArray(values: Array<NumericalValue>): NumericalValues {
-    return NumericalValues.of(Sequence.of<NumericalValue>(values));
+    return NumericalValues.of(ImmutableSequence.of<NumericalValue>(values));
   }
 
   public static ofSpread(...values: Array<NumericalValue>): NumericalValues {
