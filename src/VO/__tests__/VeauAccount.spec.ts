@@ -111,7 +111,7 @@ describe('VeauAccount', () => {
 
       expect(account1.getVeauAccountID().get().get().length).toEqual(UUID.size());
       expect(account1.getVeauAccountID().equals(account2.getVeauAccountID())).toEqual(false);
-      expect(account1.getAccount()).toEqual(AccountName.default());
+      expect(account1.getAccount()).toEqual(AccountName.empty());
       expect(account1.getRegion()).toEqual(Region.default());
       expect(account1.getLanguage()).toEqual(Language.default());
     });

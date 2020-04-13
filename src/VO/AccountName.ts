@@ -1,23 +1,23 @@
 import { ValueObject } from '../General/ValueObject';
 
-const DEFAULT_NAME: string = '';
+const EMPTY_NAE: string = '';
 
 export class AccountName extends ValueObject {
   public readonly noun: 'AccountName' = 'AccountName';
   private readonly name: string;
 
-  private static readonly DEFAULT: AccountName = new AccountName(DEFAULT_NAME);
+  private static readonly EMPTY: AccountName = new AccountName(EMPTY_NAE);
 
   public static of(name: string): AccountName {
-    if (name === DEFAULT_NAME) {
-      return AccountName.default();
+    if (name === EMPTY_NAE) {
+      return AccountName.empty();
     }
 
     return new AccountName(name);
   }
 
-  public static default(): AccountName {
-    return AccountName.DEFAULT;
+  public static empty(): AccountName {
+    return AccountName.EMPTY;
   }
 
   protected constructor(name: string) {
@@ -29,8 +29,8 @@ export class AccountName extends ValueObject {
     return this.name;
   }
 
-  public isDefault(): boolean {
-    if (this === AccountName.DEFAULT) {
+  public isEmpty(): boolean {
+    if (this === AccountName.EMPTY) {
       return true;
     }
 

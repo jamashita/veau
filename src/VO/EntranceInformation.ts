@@ -14,12 +14,15 @@ export class EntranceInformation extends ValueObject implements JSONable {
   private readonly password: Password;
 
   private static readonly DEFAULT: EntranceInformation = new EntranceInformation(
-    AccountName.default(),
+    AccountName.empty(),
     Password.default()
   );
 
-  public static of(account: AccountName, password: Password): EntranceInformation {
-    if (account.isDefault()) {
+  public static of(
+    account: AccountName,
+    password: Password
+  ): EntranceInformation {
+    if (account.isEmpty()) {
       if (password.isDefault()) {
         return EntranceInformation.default();
       }
@@ -32,7 +35,10 @@ export class EntranceInformation extends ValueObject implements JSONable {
     return EntranceInformation.DEFAULT;
   }
 
-  protected constructor(account: AccountName, password: Password) {
+  protected constructor(
+    account: AccountName,
+    password: Password
+  ) {
     super();
     this.account = account;
     this.password = password;
@@ -47,7 +53,7 @@ export class EntranceInformation extends ValueObject implements JSONable {
   }
 
   public isAcceptable(): boolean {
-    if (this.account.isDefault()) {
+    if (this.account.isEmpty()) {
       return false;
     }
     if (this.password.isDefault()) {

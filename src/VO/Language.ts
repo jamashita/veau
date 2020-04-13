@@ -25,11 +25,11 @@ export class Language extends ValueObject implements JSONable {
   private readonly englishName: LanguageName;
   private readonly iso639: ISO639;
 
-  private static readonly DEFAULT: Language = Language.of(
+  private static readonly DEFAULT: Language = new Language(
     LanguageID.default(),
     LanguageName.default(),
     LanguageName.default(),
-    ISO639.default()
+    ISO639.empty()
   );
 
   public static of(

@@ -119,7 +119,12 @@ export class Account extends ValueObject {
       region
     } = this;
 
-    return VeauAccount.of(veauAccountID, account, language, region);
+    return VeauAccount.of(
+      veauAccountID,
+      account,
+      language,
+      region
+    );
   }
 
   public equals(other: Account): boolean {

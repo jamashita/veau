@@ -2,19 +2,19 @@ import { ISO639 } from '../ISO639';
 
 // DONE
 describe('ISO639', () => {
-  describe('default', () => {
+  describe('empty', () => {
     it('always returns empty string', () => {
-      expect(ISO639.default().get()).toEqual('');
+      expect(ISO639.empty().get()).toEqual('');
     });
 
     it('returns singleton instance', () => {
-      expect(ISO639.default()).toBe(ISO639.default());
+      expect(ISO639.empty()).toBe(ISO639.empty());
     });
   });
 
   describe('of', () => {
-    it('returns ISO639.default() when empty string is given', () => {
-      expect(ISO639.of('')).toBe(ISO639.default());
+    it('returns ISO639.empty() when empty string is given', () => {
+      expect(ISO639.of('')).toBe(ISO639.empty());
     });
 
     it('normal case', () => {

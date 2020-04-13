@@ -10,7 +10,7 @@ describe('EntranceInformation', () => {
     it('\'s account and password must be blank', () => {
       const entranceInformation: EntranceInformation = EntranceInformation.default();
 
-      expect(entranceInformation.getAccount().isDefault()).toEqual(true);
+      expect(entranceInformation.getAccount().isEmpty()).toEqual(true);
       expect(entranceInformation.getPassword().isDefault()).toEqual(true);
     });
 
@@ -22,7 +22,7 @@ describe('EntranceInformation', () => {
   describe('of', () => {
     it('returns EntranceInformation.default() when AccountName and Password is blank', () => {
       const entranceInformation: EntranceInformation = EntranceInformation.of(
-        AccountName.default(),
+        AccountName.empty(),
         Password.default()
       );
 
@@ -45,7 +45,7 @@ describe('EntranceInformation', () => {
   describe('isAcceptable', () => {
     it('returns false if the both are not filled', () => {
       const entranceInformation: EntranceInformation = EntranceInformation.of(
-        AccountName.default(),
+        AccountName.empty(),
         Password.default()
       );
 
@@ -54,7 +54,7 @@ describe('EntranceInformation', () => {
 
     it('account is empty, then user is not able to login', () => {
       const entranceInformation: EntranceInformation = EntranceInformation.of(
-        AccountName.default(),
+        AccountName.empty(),
         new MockPassword('password')
       );
 

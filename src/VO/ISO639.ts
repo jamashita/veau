@@ -1,23 +1,23 @@
 import { ValueObject } from '../General/ValueObject';
 
-const DEFAULT_CODE: string = '';
+const EMPTY_CODE: string = '';
 
 export class ISO639 extends ValueObject {
   public readonly noun: 'ISO639' = 'ISO639';
   private readonly iso639: string;
 
-  private static readonly DEFAULT: ISO639 = new ISO639(DEFAULT_CODE);
+  private static readonly EMPTY: ISO639 = new ISO639(EMPTY_CODE);
 
   public static of(iso639: string): ISO639 {
-    if (iso639 === DEFAULT_CODE) {
-      return ISO639.default();
+    if (iso639 === EMPTY_CODE) {
+      return ISO639.empty();
     }
 
     return new ISO639(iso639);
   }
 
-  public static default(): ISO639 {
-    return ISO639.DEFAULT;
+  public static empty(): ISO639 {
+    return ISO639.EMPTY;
   }
 
   protected constructor(iso639: string) {

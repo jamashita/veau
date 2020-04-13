@@ -168,7 +168,7 @@ describe('Language', () => {
       expect(language.getLanguageID()).toEqual(LanguageID.default());
       expect(language.getName()).toEqual(LanguageName.default());
       expect(language.getEnglishName()).toEqual(LanguageName.default());
-      expect(language.getISO639()).toEqual(ISO639.default());
+      expect(language.getISO639()).toEqual(ISO639.empty());
     });
   });
 

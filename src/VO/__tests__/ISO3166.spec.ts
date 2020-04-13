@@ -1,19 +1,20 @@
 import { ISO3166 } from '../ISO3166';
 
+// DONE
 describe('ISO3166', () => {
-  describe('default', () => {
+  describe('empty', () => {
     it('always returns empty string', () => {
-      expect(ISO3166.default().get()).toEqual('');
+      expect(ISO3166.empty().get()).toEqual('');
     });
 
     it('returns singleton instance', () => {
-      expect(ISO3166.default()).toBe(ISO3166.default());
+      expect(ISO3166.empty()).toBe(ISO3166.empty());
     });
   });
 
   describe('of', () => {
-    it('returns ISO3166.default() when empty string is given', () => {
-      expect(ISO3166.of('')).toEqual(ISO3166.default());
+    it('returns ISO3166.empty() when empty string is given', () => {
+      expect(ISO3166.of('')).toEqual(ISO3166.empty());
     });
 
     it('normal case', () => {

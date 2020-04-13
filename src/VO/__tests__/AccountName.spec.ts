@@ -2,19 +2,19 @@ import { AccountName } from '../AccountName';
 
 // DONE
 describe('AccountName', () => {
-  describe('default', () => {
+  describe('empty', () => {
     it('must be an empty name', () => {
-      expect(AccountName.default().get()).toEqual('');
+      expect(AccountName.empty().get()).toEqual('');
     });
 
     it('returns singleton instance', () => {
-      expect(AccountName.default()).toBe(AccountName.default());
+      expect(AccountName.empty()).toBe(AccountName.empty());
     });
   });
 
   describe('of', () => {
-    it('if the name is empty, returns AccountName.default()', () => {
-      expect(AccountName.of('')).toBe(AccountName.default());
+    it('if the name is empty, returns AccountName.empty()', () => {
+      expect(AccountName.of('')).toBe(AccountName.empty());
     });
 
     it('normal case', () => {
@@ -40,15 +40,15 @@ describe('AccountName', () => {
     });
   });
 
-  describe('isDefault', () => {
+  describe('isEmpty', () => {
     it('returns true if the name is empty string', () => {
-      const name1: AccountName = AccountName.default();
+      const name1: AccountName = AccountName.empty();
       const name2: AccountName = AccountName.of('');
       const name3: AccountName = AccountName.of('p');
 
-      expect(name1.isDefault()).toEqual(true);
-      expect(name2.isDefault()).toEqual(true);
-      expect(name3.isDefault()).toEqual(false);
+      expect(name1.isEmpty()).toEqual(true);
+      expect(name2.isEmpty()).toEqual(true);
+      expect(name3.isEmpty()).toEqual(false);
     });
   });
 

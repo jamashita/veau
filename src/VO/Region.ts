@@ -25,7 +25,7 @@ export class Region extends ValueObject implements JSONable {
   private static readonly DEFAULT: Region = Region.of(
     RegionID.default(),
     RegionName.default(),
-    ISO3166.default()
+    ISO3166.empty()
   );
 
   public static of(

@@ -6,9 +6,13 @@ export class LanguageID extends ValueObject {
   public readonly noun: 'LanguageID' = 'LanguageID';
   private readonly id: number;
 
-  private static readonly DEFAULT: LanguageID = LanguageID.of(DEFAULT_ID);
+  private static readonly DEFAULT: LanguageID = new LanguageID(DEFAULT_ID);
 
   public static of(id: number): LanguageID {
+    if (id === DEFAULT_ID) {
+      return LanguageID.default();
+    }
+
     return new LanguageID(id);
   }
 
@@ -23,6 +27,14 @@ export class LanguageID extends ValueObject {
 
   public get(): number {
     return this.id;
+  }
+
+  public isDefault(): boolean {
+    if (this === LanguageID.DEFAULT) {
+      return true;
+    }
+
+    return false;
   }
 
   public equals(other: LanguageID): boolean {
