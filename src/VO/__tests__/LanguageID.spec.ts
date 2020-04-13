@@ -8,7 +8,7 @@ describe('LanguageID', () => {
     });
 
     it('returns singleton instance', () => {
-      expect(LanguageID.empty()).toEqual(LanguageID.empty());
+      expect(LanguageID.empty()).toBe(LanguageID.empty());
     });
   });
 

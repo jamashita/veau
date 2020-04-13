@@ -26,6 +26,20 @@ describe('ISO639', () => {
     });
   });
 
+  describe('isEmpty', () => {
+    it('returns true when ISO639.empty() is given', () => {
+      expect(ISO639.empty().isEmpty()).toEqual(true);
+    });
+
+    it('normal case', () => {
+      const iso6391: string = 'ab';
+      const iso6392: string = 'aa';
+
+      expect(ISO639.of(iso6391).isEmpty()).toEqual(false);
+      expect(ISO639.of(iso6392).isEmpty()).toEqual(false);
+    });
+  });
+
   describe('equals', () => {
     it('returns true if the property is the same', () => {
       const iso6391: ISO639 = ISO639.of('ab');

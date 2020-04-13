@@ -37,7 +37,7 @@ export class LanguageID extends ValueObject {
   }
 
   public isEmpty(): boolean {
-    if (this === LanguageID.EMPTY) {
+    if (this === LanguageID.empty()) {
       return true;
     }
 

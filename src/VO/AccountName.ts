@@ -30,7 +30,7 @@ export class AccountName extends ValueObject {
   }
 
   public isEmpty(): boolean {
-    if (this === AccountName.EMPTY) {
+    if (this === AccountName.empty()) {
       return true;
     }
 

@@ -26,6 +26,20 @@ describe('ISO3166', () => {
     });
   });
 
+  describe('isEmpty', () => {
+    it('returns true when ISO3166.empty() is given', () => {
+      expect(ISO3166.empty().isEmpty()).toEqual(true);
+    });
+
+    it('normal case', () => {
+      const iso31661: string = 'AFG';
+      const iso31662: string = 'ALB';
+
+      expect(ISO3166.of(iso31661).isEmpty()).toEqual(false);
+      expect(ISO3166.of(iso31662).isEmpty()).toEqual(false);
+    });
+  });
+
   describe('equals', () => {
     it('returns true if the property is the same', () => {
       const iso31661: ISO3166 = ISO3166.of('AFG');

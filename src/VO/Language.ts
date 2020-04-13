@@ -38,6 +38,16 @@ export class Language extends ValueObject implements JSONable {
     englishName: LanguageName,
     iso639: ISO639
   ): Language {
+    if (languageID.isEmpty()) {
+      if (name.isEmpty()) {
+        if (englishName.isEmpty()) {
+          if (iso639.isEmpty()) {
+            return Language.empty();
+          }
+        }
+      }
+    }
+
     return new Language(languageID, name, englishName, iso639);
   }
 
@@ -118,6 +128,14 @@ export class Language extends ValueObject implements JSONable {
 
   public getISO639(): ISO639 {
     return this.iso639;
+  }
+
+  public isEmpty(): boolean {
+    if (this === Language.empty()) {
+      return true;
+    }
+
+    return false;
   }
 
   public equals(other: Language): boolean {

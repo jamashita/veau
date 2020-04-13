@@ -6,9 +6,13 @@ export class LanguageName extends ValueObject {
   public readonly noun: 'LanguageName' = 'LanguageName';
   private readonly name: string;
 
-  private static readonly EMPTY: LanguageName = LanguageName.of(EMPTY_NAME);
+  private static readonly EMPTY: LanguageName = new LanguageName(EMPTY_NAME);
 
   public static of(name: string): LanguageName {
+    if (name === EMPTY_NAME) {
+      return LanguageName.empty();
+    }
+
     return new LanguageName(name);
   }
 
@@ -26,7 +30,7 @@ export class LanguageName extends ValueObject {
   }
 
   public isEmpty(): boolean {
-    if (this === LanguageName.EMPTY) {
+    if (this === LanguageName.empty()) {
       return true;
     }
 

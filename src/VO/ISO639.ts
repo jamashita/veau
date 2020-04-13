@@ -29,6 +29,14 @@ export class ISO639 extends ValueObject {
     return this.iso639;
   }
 
+  public isEmpty(): boolean {
+    if (this === ISO639.empty()) {
+      return true;
+    }
+
+    return false;
+  }
+
   public equals(other: ISO639): boolean {
     if (this === other) {
       return true;

@@ -11,12 +11,28 @@ describe('Language', () => {
       const englishName: LanguageName = LanguageName.of('Afar');
       const iso639: ISO639 = ISO639.of('aa');
 
-      const language: Language = Language.of(languageID, name, englishName, iso639);
+      const language: Language = Language.of(
+        languageID,
+        name,
+        englishName,
+        iso639
+      );
 
       expect(language.getLanguageID()).toEqual(languageID);
       expect(language.getName()).toEqual(name);
       expect(language.getEnglishName()).toEqual(englishName);
       expect(language.getISO639()).toEqual(iso639);
+    });
+
+    it('all are empty, returns Language.empty()', () => {
+      const language: Language = Language.of(
+        LanguageID.empty(),
+        LanguageName.empty(),
+        LanguageName.empty(),
+        ISO639.empty()
+      );
+
+      expect(language).toBe(Language.empty());
     });
   });
 
@@ -161,7 +177,7 @@ describe('Language', () => {
     });
   });
 
-  describe('default', () => {
+  describe('empty', () => {
     it('returns each default value', () => {
       const language: Language = Language.empty();
 
@@ -169,6 +185,10 @@ describe('Language', () => {
       expect(language.getName()).toEqual(LanguageName.empty());
       expect(language.getEnglishName()).toEqual(LanguageName.empty());
       expect(language.getISO639()).toEqual(ISO639.empty());
+    });
+
+    it('returns singleton instance', () => {
+      expect(Language.empty()).toBe(Language.empty());
     });
   });
 
