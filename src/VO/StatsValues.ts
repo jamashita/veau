@@ -44,7 +44,7 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
     return manoeuvre<StatsValue, StatsValueError>(tries).match<Try<StatsValues, StatsValuesError>>((values: Array<StatsValue>) => {
       return Success.of<StatsValues, StatsValuesError>(StatsValues.ofArray(values));
     }, (err: StatsValueError) => {
-      return Failure.of<StatsValues, StatsValuesError>(new StatsValuesError('StatsVlues.ofTry()', err));
+      return Failure.of<StatsValues, StatsValuesError>(new StatsValuesError('StatsValues.ofTry()', err));
     });
   }
 

@@ -67,16 +67,10 @@ export class EntranceInformation extends ValueObject implements JSONable {
     if (this === other) {
       return true;
     }
-
-    const {
-      account,
-      password
-    } = this;
-
-    if (!account.equals(other.account)) {
+    if (!this.account.equals(other.account)) {
       return false;
     }
-    if (!password.equals(other.password)) {
+    if (!this.password.equals(other.password)) {
       return false;
     }
 
@@ -84,23 +78,18 @@ export class EntranceInformation extends ValueObject implements JSONable {
   }
 
   public toJSON(): EntranceInformationJSON {
-    const {
-      account,
-      password
-    } = this;
-
     return {
-      account: account.get(),
-      password: password.get()
+      account: this.account.get(),
+      password: this.password.get()
     };
   }
 
   public toString(): string {
-    const {
-      account,
-      password
-    } = this;
+    const properties: Array<string> = [];
 
-    return `${account.toString()} ${password.toString()}`;
+    properties.push(this.account.toString());
+    properties.push(this.password.toString());
+
+    return properties.join(' ');
   }
 }

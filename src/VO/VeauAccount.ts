@@ -92,7 +92,6 @@ export class VeauAccount extends ValueObject implements JSONable {
     if (this === other) {
       return true;
     }
-
     if (!this.veauAccountID.equals(other.veauAccountID)) {
       return false;
     }

@@ -29,16 +29,10 @@ export class Coordinate extends ValueObject {
     if (this === other) {
       return true;
     }
-
-    const {
-      row,
-      column
-    } = this;
-
-    if (!row.equals(other.row)) {
+    if (!this.row.equals(other.row)) {
       return false;
     }
-    if (!column.equals(other.column)) {
+    if (!this.column.equals(other.column)) {
       return false;
     }
 
@@ -46,11 +40,11 @@ export class Coordinate extends ValueObject {
   }
 
   public toString(): string {
-    const {
-      row,
-      column
-    } = this;
+    const properties: Array<string> = [];
 
-    return `${row.toString()} ${column.toString()}`;
+    properties.push(this.row.toString());
+    properties.push(this.column.toString());
+
+    return properties.join(' ');
   }
 }

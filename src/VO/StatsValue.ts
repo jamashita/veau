@@ -109,7 +109,6 @@ export class StatsValue extends ValueObject implements JSONable {
     if (this === other) {
       return true;
     }
-
     if (!this.statsItemID.equals(other.statsItemID)) {
       return false;
     }

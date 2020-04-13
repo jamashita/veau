@@ -68,7 +68,9 @@ export class Account extends ValueObject {
         )
       );
     }, (err: VeauAccountIDError) => {
-      return Failure.of<Account, AccountError>(new AccountError(err.message));
+      return Failure.of<Account, AccountError>(
+        new AccountError('Account.ofRow()', err)
+      );
     });
   }
 
@@ -112,18 +114,11 @@ export class Account extends ValueObject {
   }
 
   public toVeauAccount(): VeauAccount {
-    const {
-      veauAccountID,
-      account,
-      language,
-      region
-    } = this;
-
     return VeauAccount.of(
-      veauAccountID,
-      account,
-      language,
-      region
+      this.veauAccountID,
+      this.account,
+      this.language,
+      this.region
     );
   }
 
@@ -131,28 +126,19 @@ export class Account extends ValueObject {
     if (this === other) {
       return true;
     }
-
-    const {
-      veauAccountID,
-      account,
-      language,
-      region,
-      hash
-    } = this;
-
-    if (!veauAccountID.equals(other.veauAccountID)) {
+    if (!this.veauAccountID.equals(other.veauAccountID)) {
       return false;
     }
-    if (!account.equals(other.account)) {
+    if (!this.account.equals(other.account)) {
       return false;
     }
-    if (!language.equals(other.language)) {
+    if (!this.language.equals(other.language)) {
       return false;
     }
-    if (!region.equals(other.region)) {
+    if (!this.region.equals(other.region)) {
       return false;
     }
-    if (!hash.equals(other.hash)) {
+    if (!this.hash.equals(other.hash)) {
       return false;
     }
 
@@ -160,14 +146,14 @@ export class Account extends ValueObject {
   }
 
   public toString(): string {
-    const {
-      veauAccountID,
-      account,
-      language,
-      region,
-      hash
-    } = this;
+    const properties: Array<string> = [];
 
-    return `${veauAccountID.toString()} ${account.toString()} ${language.toString()} ${region.toString()} ${hash.toString()}`;
+    properties.push(this.veauAccountID.toString());
+    properties.push(this.account.toString());
+    properties.push(this.language.toString());
+    properties.push(this.region.toString());
+    properties.push(this.hash.toString());
+
+    return properties.join(' ');
   }
 }

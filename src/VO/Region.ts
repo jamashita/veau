@@ -68,20 +68,13 @@ export class Region extends ValueObject implements JSONable {
     if (!Type.isPlainObject(n)) {
       return false;
     }
-
-    const {
-      regionID,
-      name,
-      iso3166
-    } = n;
-
-    if (!Type.isInteger(regionID)) {
+    if (!Type.isInteger(n.regionID)) {
       return false;
     }
-    if (!Type.isString(name)) {
+    if (!Type.isString(n.name)) {
       return false;
     }
-    if (!Type.isString(iso3166)) {
+    if (!Type.isString(n.iso3166)) {
       return false;
     }
 
@@ -123,20 +116,13 @@ export class Region extends ValueObject implements JSONable {
     if (this === other) {
       return true;
     }
-
-    const {
-      regionID,
-      name,
-      iso3166
-    } = this;
-
-    if (!regionID.equals(other.regionID)) {
+    if (!this.regionID.equals(other.regionID)) {
       return false;
     }
-    if (!name.equals(other.name)) {
+    if (!this.name.equals(other.name)) {
       return false;
     }
-    if (!iso3166.equals(other.iso3166)) {
+    if (!this.iso3166.equals(other.iso3166)) {
       return false;
     }
 
@@ -144,26 +130,20 @@ export class Region extends ValueObject implements JSONable {
   }
 
   public toJSON(): RegionJSON {
-    const {
-      regionID,
-      name,
-      iso3166
-    } = this;
-
     return {
-      regionID: regionID.get(),
-      name: name.get(),
-      iso3166: iso3166.get()
+      regionID: this.regionID.get(),
+      name: this.name.get(),
+      iso3166: this.iso3166.get()
     };
   }
 
   public toString(): string {
-    const {
-      regionID,
-      name,
-      iso3166
-    } = this;
+    const properties: Array<string> = [];
 
-    return `${regionID.toString()} ${name.toString()} ${iso3166.toString()}`;
+    properties.push(this.regionID.toString());
+    properties.push(this.name.toString());
+    properties.push(this.iso3166.toString());
+
+    return properties.join(' ');
   }
 }

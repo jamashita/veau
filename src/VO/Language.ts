@@ -77,24 +77,16 @@ export class Language extends ValueObject implements JSONable {
     if (!Type.isPlainObject(n)) {
       return false;
     }
-
-    const {
-      languageID,
-      name,
-      englishName,
-      iso639
-    } = n;
-
-    if (!Type.isInteger(languageID)) {
+    if (!Type.isInteger(n.languageID)) {
       return false;
     }
-    if (!Type.isString(name)) {
+    if (!Type.isString(n.name)) {
       return false;
     }
-    if (!Type.isString(englishName)) {
+    if (!Type.isString(n.englishName)) {
       return false;
     }
-    if (!Type.isString(iso639)) {
+    if (!Type.isString(n.iso639)) {
       return false;
     }
 
@@ -142,24 +134,16 @@ export class Language extends ValueObject implements JSONable {
     if (this === other) {
       return true;
     }
-
-    const {
-      languageID,
-      name,
-      englishName,
-      iso639
-    } = this;
-
-    if (!languageID.equals(other.languageID)) {
+    if (!this.languageID.equals(other.languageID)) {
       return false;
     }
-    if (!name.equals(other.name)) {
+    if (!this.name.equals(other.name)) {
       return false;
     }
-    if (!englishName.equals(other.englishName)) {
+    if (!this.englishName.equals(other.englishName)) {
       return false;
     }
-    if (!iso639.equals(other.iso639)) {
+    if (!this.iso639.equals(other.iso639)) {
       return false;
     }
 
@@ -167,29 +151,22 @@ export class Language extends ValueObject implements JSONable {
   }
 
   public toJSON(): LanguageJSON {
-    const {
-      languageID,
-      name,
-      englishName,
-      iso639
-    } = this;
-
     return {
-      languageID: languageID.get(),
-      name: name.get(),
-      englishName: englishName.get(),
-      iso639: iso639.get()
+      languageID: this.languageID.get(),
+      name: this.name.get(),
+      englishName: this.englishName.get(),
+      iso639: this.iso639.get()
     };
   }
 
   public toString(): string {
-    const {
-      languageID,
-      name,
-      englishName,
-      iso639
-    } = this;
+    const properties: Array<string> = [];
 
-    return `${languageID.toString()} ${name.toString()} ${englishName.toString()} ${iso639.toString()}`;
+    properties.push(this.languageID.toString());
+    properties.push(this.name.toString());
+    properties.push(this.englishName.toString());
+    properties.push(this.iso639.toString());
+
+    return properties.join(' ');
   }
 }

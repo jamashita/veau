@@ -35,16 +35,10 @@ export class AccountHash extends ValueObject {
     if (this === other) {
       return true;
     }
-
-    const {
-      veauAccountID,
-      hash
-    } = this;
-
-    if (!veauAccountID.equals(other.veauAccountID)) {
+    if (!this.veauAccountID.equals(other.veauAccountID)) {
       return false;
     }
-    if (!hash.equals(other.hash)) {
+    if (!this.hash.equals(other.hash)) {
       return false;
     }
 
@@ -52,11 +46,11 @@ export class AccountHash extends ValueObject {
   }
 
   public toString(): string {
-    const {
-      veauAccountID,
-      hash
-    } = this;
+    const properties: Array<string> = [];
 
-    return `${veauAccountID.toString()} ${hash.toString()}`;
+    properties.push(this.veauAccountID.toString());
+    properties.push(this.hash.toString());
+
+    return properties.join(' ');
   }
 }
