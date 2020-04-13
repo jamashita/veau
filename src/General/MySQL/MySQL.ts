@@ -38,14 +38,14 @@ export class MySQL implements IMySQL {
       this.pool.getConnection((err1: mysql.MysqlError, connection: mysql.PoolConnection) => {
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unnecessary-condition
         if (err1) {
-          reject(new MySQLError(err1.message, err1));
+          reject(new MySQLError('MySQL.getConnection()', err1));
           return;
         }
 
         connection.beginTransaction((err2: mysql.MysqlError) => {
           // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unnecessary-condition
           if (err2) {
-            reject(new MySQLError(err2.message, err2));
+            reject(new MySQLError('MySQL.getConnection()', err2));
             return;
           }
 
@@ -76,7 +76,7 @@ export class MySQL implements IMySQL {
     return new Promise<R>((resolve: Resolve<R>, reject: Reject) => {
       this.pool.query(sql, value, (err: Nullable<mysql.MysqlError>, result: R) => {
         if (err !== null) {
-          reject(new MySQLError(err.message, err));
+          reject(new MySQLError('MySQL.execute()', err));
           return;
         }
 
