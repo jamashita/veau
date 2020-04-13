@@ -4,32 +4,32 @@ import { Optional } from '../Optional/Optional';
 import { Some } from '../Optional/Some';
 import { Enumerator, Mapper, Predicate } from '../Type/Function';
 import { Ambiguous } from '../Type/Value';
-import { ISequence } from './Interface/ISequence';
+import { Sequence } from './Interface/Sequence';
 
-export class Sequence<E extends Nominative> implements ISequence<E> {
-  public readonly noun: 'Sequence' = 'Sequence';
+export class ArraySequence<E extends Nominative> implements Sequence<E> {
+  public readonly noun: 'ArraySequence' = 'ArraySequence';
   private readonly elements: Array<E>;
 
-  private static readonly EMPTY: Sequence<Nominative> = new Sequence<Nominative>([]);
+  private static readonly EMPTY: ArraySequence<Nominative> = new ArraySequence<Nominative>([]);
 
-  public static of<E extends Nominative>(elements: Array<E>): Sequence<E> {
+  public static of<E extends Nominative>(elements: Array<E>): ArraySequence<E> {
     if (elements.length === 0) {
-      return Sequence.empty<E>();
+      return ArraySequence.empty<E>();
     }
 
-    return new Sequence<E>(elements);
+    return new ArraySequence<E>(elements);
   }
 
-  public static empty<E extends Nominative>(): Sequence<E> {
-    return Sequence.EMPTY as Sequence<E>;
+  public static empty<E extends Nominative>(): ArraySequence<E> {
+    return ArraySequence.EMPTY as ArraySequence<E>;
   }
 
   protected constructor(elements: Array<E>) {
     this.elements = elements;
   }
 
-  public add(...elements: Array<E>): Sequence<E> {
-    return Sequence.of<E>([
+  public add(...elements: Array<E>): ArraySequence<E> {
+    return ArraySequence.of<E>([
       ...this.elements,
       ...elements
     ]);
@@ -62,7 +62,7 @@ export class Sequence<E extends Nominative> implements ISequence<E> {
   }
 
   public isEmpty(): boolean {
-    if (this === Sequence.empty<E>()) {
+    if (this === ArraySequence.empty<E>()) {
       return true;
     }
 
@@ -73,8 +73,8 @@ export class Sequence<E extends Nominative> implements ISequence<E> {
     this.elements.forEach(iteration);
   }
 
-  public map<F extends Nominative>(mapper: Mapper<E, F>): Sequence<F> {
-    return Sequence.of<F>(this.elements.map<F>(mapper));
+  public map<F extends Nominative>(mapper: Mapper<E, F>): ArraySequence<F> {
+    return ArraySequence.of<F>(this.elements.map<F>(mapper));
   }
 
   public find(predicate: Predicate<E>): Optional<E> {
@@ -87,8 +87,8 @@ export class Sequence<E extends Nominative> implements ISequence<E> {
     return Some.of<E>(element);
   }
 
-  public filter(iterator: Enumerator<number, E>): Sequence<E> {
-    return Sequence.of<E>(this.elements.filter(iterator));
+  public filter(iterator: Enumerator<number, E>): ArraySequence<E> {
+    return ArraySequence.of<E>(this.elements.filter(iterator));
   }
 
   public every(enumerator: Enumerator<number, E>): boolean {
@@ -99,13 +99,13 @@ export class Sequence<E extends Nominative> implements ISequence<E> {
     return this.elements.some(enumerator);
   }
 
-  public copy(): Sequence<E> {
-    return Sequence.of<E>([
+  public copy(): ArraySequence<E> {
+    return ArraySequence.of<E>([
       ...this.elements
     ]);
   }
 
-  public equals(other: Sequence<E>): boolean {
+  public equals(other: ArraySequence<E>): boolean {
     if (this === other) {
       return true;
     }
