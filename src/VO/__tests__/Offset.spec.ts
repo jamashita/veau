@@ -3,6 +3,7 @@ import { OffsetError } from '../../Error/OffsetError';
 import { Try } from '../../General/Try/Try';
 import { Offset } from '../Offset';
 
+// DONE
 describe('Offset', () => {
   describe('of', () => {
     it('returns Failure when the argument is less than 0', () => {

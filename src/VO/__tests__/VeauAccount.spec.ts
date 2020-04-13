@@ -112,7 +112,7 @@ describe('VeauAccount', () => {
       expect(account1.getVeauAccountID().get().get().length).toEqual(UUID.size());
       expect(account1.getVeauAccountID().equals(account2.getVeauAccountID())).toEqual(false);
       expect(account1.getAccount()).toEqual(AccountName.empty());
-      expect(account1.getRegion()).toEqual(Region.default());
+      expect(account1.getRegion()).toEqual(Region.empty());
       expect(account1.getLanguage()).toEqual(Language.empty());
     });
   });
@@ -215,7 +215,7 @@ describe('VeauAccount', () => {
       const id: string = '998106de-b2e7-4981-9643-22cd30cd74de';
       const name: string = 'veau';
       const language: Language = Language.empty();
-      const region: Region = Region.default();
+      const region: Region = Region.empty();
       const veauAccount: VeauAccount = VeauAccount.of(VeauAccountID.ofString(id).get(), AccountName.of(name), language, region);
 
       expect(veauAccount.toString()).toEqual(`${id} ${name} ${language.toString()} ${region.toString()}`);

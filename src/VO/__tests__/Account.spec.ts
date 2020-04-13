@@ -219,7 +219,7 @@ describe('Account', () => {
       const name: string = 'veau';
       const h: string = 'hash';
       const language: Language = Language.empty();
-      const region: Region = Region.default();
+      const region: Region = Region.empty();
       const hash: Hash = Hash.of(h);
       const account: Account = Account.of(VeauAccountID.ofString(id).get(), AccountName.of(name), language, region, hash);
 

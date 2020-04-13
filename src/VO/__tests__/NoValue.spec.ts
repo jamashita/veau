@@ -2,7 +2,15 @@ import { NumericalValueError } from '../../Error/NumericalValueError';
 import { NoValue } from '../NoValue';
 import { NumericalValue } from '../NumericalValue';
 
+// DONE
 describe('NoValue', () => {
+  describe('of', () => {
+    it('returns singleton instance', () => {
+
+      expect(NoValue.of()).toBe(NoValue.of());
+    });
+  });
+
   describe('equals', () => {
     it('returns true if the object is NoValue', () => {
       const value1: NumericalValue = NoValue.of();

@@ -20,9 +20,6 @@ export class NoValue extends NumericalValue {
     if (this === other) {
       return true;
     }
-    if (other instanceof NoValue) {
-      return true;
-    }
 
     return false;
   }

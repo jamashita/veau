@@ -1,19 +1,30 @@
 import { ValueObject } from '../General/ValueObject';
+import { Type } from '../General/Type/Type';
 
-const DEFAULT_ID: number = 0;
+const EMPTY_ID: number = 0;
 
 export class RegionID extends ValueObject {
   public readonly noun: 'RegionID' = 'RegionID';
   private readonly id: number;
 
-  private static readonly DEFAULT: RegionID = RegionID.of(DEFAULT_ID);
+  private static readonly EMPTY: RegionID = new RegionID(EMPTY_ID);
 
   public static of(id: number): RegionID {
-    return new RegionID(id);
+    if (id === EMPTY_ID) {
+      return RegionID.empty();
+    }
+    if (id < 0) {
+      return RegionID.empty();
+    }
+    if (Type.isInteger(id)) {
+      return new RegionID(id);
+    }
+
+    return RegionID.empty();
   }
 
-  public static default(): RegionID {
-    return RegionID.DEFAULT;
+  public static empty(): RegionID {
+    return RegionID.EMPTY;
   }
 
   protected constructor(id: number) {
@@ -23,6 +34,14 @@ export class RegionID extends ValueObject {
 
   public get(): number {
     return this.id;
+  }
+
+  public isEmpty(): boolean {
+    if (this === RegionID.empty()) {
+      return true;
+    }
+
+    return false;
   }
 
   public equals(other: RegionID): boolean {

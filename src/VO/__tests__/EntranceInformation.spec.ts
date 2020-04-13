@@ -11,7 +11,7 @@ describe('EntranceInformation', () => {
       const entranceInformation: EntranceInformation = EntranceInformation.empty();
 
       expect(entranceInformation.getAccount().isEmpty()).toEqual(true);
-      expect(entranceInformation.getPassword().isDefault()).toEqual(true);
+      expect(entranceInformation.getPassword().isEmpty()).toEqual(true);
     });
 
     it('returns singleton instance', () => {
@@ -23,7 +23,7 @@ describe('EntranceInformation', () => {
     it('returns EntranceInformation.empty() when AccountName and Password is blank', () => {
       const entranceInformation: EntranceInformation = EntranceInformation.of(
         AccountName.empty(),
-        Password.default()
+        Password.empty()
       );
 
       expect(entranceInformation).toBe(EntranceInformation.empty());
@@ -46,7 +46,7 @@ describe('EntranceInformation', () => {
     it('returns false if the both are not filled', () => {
       const entranceInformation: EntranceInformation = EntranceInformation.of(
         AccountName.empty(),
-        Password.default()
+        Password.empty()
       );
 
       expect(entranceInformation.isAcceptable()).toEqual(false);
@@ -64,7 +64,7 @@ describe('EntranceInformation', () => {
     it('password is empty, then user is not able to login', () => {
       const entranceInformation: EntranceInformation = EntranceInformation.of(
         new MockAccountName('name'),
-        Password.default()
+        Password.empty()
       );
 
       expect(entranceInformation.isAcceptable()).toEqual(false);

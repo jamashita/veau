@@ -10,6 +10,7 @@ import { MockLanguageName } from '../Mock/MockLanguageName';
 import { MockISO639 } from '../Mock/MockISO639';
 import { Sequence } from '../../General/Collection/Sequence';
 
+// DONE
 describe('Languages', () => {
   describe('of', () => {
     it('when the Sequence is zero size, returns empty', () => {
@@ -125,6 +126,10 @@ describe('Languages', () => {
   describe('empty', () => {
     it('generates 0-length Languages', () => {
       expect(Languages.empty().size()).toEqual(0);
+    });
+
+    it('returns singleton instance', () => {
+      expect(Languages.empty()).toBe(Languages.empty());
     });
   });
 

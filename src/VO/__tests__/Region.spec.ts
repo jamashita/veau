@@ -3,6 +3,7 @@ import { Region, RegionJSON, RegionRow } from '../Region';
 import { RegionID } from '../RegionID';
 import { RegionName } from '../RegionName';
 
+// DONE
 describe('Region', () => {
   describe('of', () => {
     it('normal case', () => {
@@ -15,6 +16,16 @@ describe('Region', () => {
       expect(region.getRegionID()).toEqual(regionID);
       expect(region.getName()).toEqual(name);
       expect(region.getISO3166()).toEqual(iso3166);
+    });
+
+    it('all are empty, returns Region.empty()', () => {
+      const region: Region = Region.of(
+        RegionID.empty(),
+        RegionName.empty(),
+        ISO3166.empty()
+      );
+
+      expect(region).toBe(Region.empty());
     });
   });
 
@@ -124,6 +135,20 @@ describe('Region', () => {
       };
 
       expect(Region.isJSON(n)).toEqual(false);
+    });
+  });
+
+  describe('empty', () => {
+    it('returns each default value', () => {
+      const region: Region = Region.empty();
+
+      expect(region.getRegionID()).toEqual(RegionID.empty());
+      expect(region.getName()).toEqual(RegionName.empty());
+      expect(region.getISO3166()).toEqual(ISO3166.empty());
+    });
+
+    it('returns singleton instance', () => {
+      expect(Region.empty()).toBe(Region.empty());
     });
   });
 

@@ -55,7 +55,7 @@ export class LoadingCount extends ValueObject {
     } = this;
 
     if (count === 0) {
-      return new LoadingCount(0);
+      return LoadingCount.default();
     }
 
     return new LoadingCount(this.count - 1);

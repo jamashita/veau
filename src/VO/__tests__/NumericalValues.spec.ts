@@ -4,6 +4,7 @@ import { MockNumericalValue } from '../Mock/MockNumericalValue';
 import { Sequence } from '../../General/Collection/Sequence';
 import { NumericalValue } from '../NumericalValue';
 
+// DONE
 describe('NumericalValues', () => {
   describe('of', () => {
     it('when the Sequence is zero size, returns empty', () => {

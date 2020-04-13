@@ -3,6 +3,7 @@ import { LimitError } from '../../Error/LimitError';
 import { Try } from '../../General/Try/Try';
 import { Limit } from '../Limit';
 
+// DONE
 describe('Limit', () => {
   describe('of', () => {
     it('returns Failure when the argument is less than 1', () => {

@@ -10,6 +10,7 @@ import { MockISO3166 } from '../Mock/MockISO3166';
 import { MockRegionName } from '../Mock/MockRegionName';
 import { Sequence } from '../../General/Collection/Sequence';
 
+// DONE
 describe('Regions', () => {
   describe('of', () => {
     it('when the Sequence is zero size, returns empty', () => {
@@ -121,6 +122,10 @@ describe('Regions', () => {
   describe('empty', () => {
     it('generates 0-length Regions', () => {
       expect(Regions.empty().size()).toEqual(0);
+    });
+
+    it('returns singleton instance', () => {
+      expect(Regions.empty()).toEqual(Regions.empty());
     });
   });
 

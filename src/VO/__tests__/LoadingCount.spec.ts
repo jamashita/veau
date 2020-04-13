@@ -3,6 +3,7 @@ import { LoadingCountError } from '../../Error/LoadingCountError';
 import { Try } from '../../General/Try/Try';
 import { LoadingCount } from '../LoadingCount';
 
+// TODO
 describe('LoadingCount', () => {
   describe('of', () => {
     it('returns Failure when the argument is less than 1', () => {

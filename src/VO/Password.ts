@@ -1,19 +1,23 @@
 import { ValueObject } from '../General/ValueObject';
 
-const DEFAULT_PASSWORD: string = '';
+const EMPTY_PASSWORD: string = '';
 
 export class Password extends ValueObject {
   public readonly noun: 'Password' = 'Password';
   private readonly password: string;
 
-  private static readonly DEFAULT: Password = Password.of(DEFAULT_PASSWORD);
+  private static readonly EMPTY: Password = new Password(EMPTY_PASSWORD);
 
   public static of(password: string): Password {
+    if (password === EMPTY_PASSWORD) {
+      return Password.empty();
+    }
+
     return new Password(password);
   }
 
-  public static default(): Password {
-    return Password.DEFAULT;
+  public static empty(): Password {
+    return Password.EMPTY;
   }
 
   protected constructor(password: string) {
@@ -25,8 +29,8 @@ export class Password extends ValueObject {
     return this.password;
   }
 
-  public isDefault(): boolean {
-    if (this.password === DEFAULT_PASSWORD) {
+  public isEmpty(): boolean {
+    if (this === Password.empty()) {
       return true;
     }
 

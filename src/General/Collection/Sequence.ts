@@ -63,7 +63,7 @@ export class Sequence<E extends Nominative> implements ISequence<E> {
   }
 
   public isEmpty(): boolean {
-    if (this.elements.length === 0) {
+    if (this === Sequence.empty<E>()) {
       return true;
     }
 

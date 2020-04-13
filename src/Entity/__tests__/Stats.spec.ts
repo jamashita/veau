@@ -1581,7 +1581,7 @@ describe('Stats', () => {
       const stats: Stats = Stats.of(
         statsID,
         Language.empty(),
-        Region.default(),
+        Region.empty(),
         term,
         StatsName.of(name2),
         StatsUnit.of(unit),
@@ -1601,7 +1601,7 @@ describe('Stats', () => {
         ])
       );
 
-      expect(stats.toString()).toEqual(`${id1} ${Language.empty().toString()} ${Region.default().toString()} ${term.toString()} ${name2} ${unit} ${at2}`);
+      expect(stats.toString()).toEqual(`${id1} ${Language.empty().toString()} ${Region.empty().toString()} ${term.toString()} ${name2} ${unit} ${at2}`);
     });
   });
 
@@ -1999,7 +1999,7 @@ describe('Stats', () => {
       const stats1: Stats = Stats.of(
         new MockStatsID(),
         Language.empty(),
-        Region.default(),
+        Region.empty(),
         Term.DAILY,
         StatsName.default(),
         StatsUnit.default(),
@@ -2011,7 +2011,7 @@ describe('Stats', () => {
         new MockLanguage({
           languageID: new MockLanguageID(2)
         }),
-        Region.default(),
+        Region.empty(),
         Term.DAILY,
         StatsName.default(),
         StatsUnit.default(),
@@ -2033,7 +2033,7 @@ describe('Stats', () => {
       const stats4: Stats = Stats.of(
         new MockStatsID(),
         Language.empty(),
-        Region.default(),
+        Region.empty(),
         Term.DAILY,
         new MockStatsName('stats name'),
         StatsUnit.default(),
@@ -2045,7 +2045,7 @@ describe('Stats', () => {
       const stats5: Stats = Stats.of(
         new MockStatsID(),
         Language.empty(),
-        Region.default(),
+        Region.empty(),
         Term.DAILY,
         StatsName.default(),
         new MockStatsUnit('stats unit'),
@@ -2086,7 +2086,7 @@ describe('Stats', () => {
       const stats8: Stats = Stats.of(
         new MockStatsID(),
         Language.empty(),
-        Region.default(),
+        Region.empty(),
         Term.DAILY,
         new MockStatsName('stats name'),
         new MockStatsUnit('stats unit'),
@@ -2098,7 +2098,7 @@ describe('Stats', () => {
         new MockLanguage({
           languageID: new MockLanguageID(2)
         }),
-        Region.default(),
+        Region.empty(),
         Term.DAILY,
         StatsName.default(),
         new MockStatsUnit('stats unit'),
@@ -2141,7 +2141,7 @@ describe('Stats', () => {
         new MockLanguage({
           languageID: new MockLanguageID(2)
         }),
-        Region.default(),
+        Region.empty(),
         Term.DAILY,
         new MockStatsName('stats name'),
         new MockStatsUnit('stats unit'),
@@ -2204,7 +2204,7 @@ describe('Stats', () => {
       const stats1: Stats = Stats.of(
         new MockStatsID(),
         Language.empty(),
-        Region.default(),
+        Region.empty(),
         Term.DAILY,
         StatsName.default(),
         StatsUnit.default(),

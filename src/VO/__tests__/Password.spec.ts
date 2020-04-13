@@ -1,9 +1,28 @@
 import { Password } from '../Password';
 
+// DONE
 describe('Password', () => {
-  describe('default', () => {
+  describe('empty', () => {
     it('must be an blank password', () => {
-      expect(Password.default().get()).toEqual('');
+      expect(Password.empty().get()).toEqual('');
+    });
+
+    it('returns singleton instance', () => {
+      expect(Password.empty()).toEqual(Password.empty());
+    });
+  });
+
+  describe('of', () => {
+    it('returns Password.empty() when empty string is given', () => {
+      expect(Password.of('')).toBe(Password.empty());
+    });
+
+    it('normal case', () => {
+      const pasword1: string = 'password 1';
+      const pasword2: string = 'password 2';
+
+      expect(Password.of(pasword1).get()).toEqual(pasword1);
+      expect(Password.of(pasword2).get()).toEqual(pasword2);
     });
   });
 
@@ -19,15 +38,18 @@ describe('Password', () => {
     });
   });
 
-  describe('isDefault', () => {
-    it('retunrns true if the passwrord is empty string', () => {
-      const password1: Password = Password.default();
-      const password2: Password = Password.of('');
-      const password3: Password = Password.of('s');
+  describe('isEmpty', () => {
+    it('when Password.empty() is given, returns true', () => {
+      expect(Password.empty().isEmpty()).toEqual(true);
+    });
 
-      expect(password1.isDefault()).toEqual(true);
-      expect(password2.isDefault()).toEqual(true);
-      expect(password3.isDefault()).toEqual(false);
+    it('returns true if the password is empty string', () => {
+      expect(Password.of('').isEmpty()).toEqual(true);
+    });
+
+    it('otherwise, returns false', () => {
+      expect(Password.of('s').isEmpty()).toEqual(false);
+      expect(Password.of('public servant').isEmpty()).toEqual(false);
     });
   });
 

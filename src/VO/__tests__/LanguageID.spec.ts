@@ -14,7 +14,17 @@ describe('LanguageID', () => {
 
   describe('of', () => {
     it('returns LanguageID.empty() when 0 is given', () => {
-      expect(LanguageID.of(0)).toEqual(LanguageID.empty());
+      expect(LanguageID.of(0)).toBe(LanguageID.empty());
+    });
+
+    it('returns LanguageID.empty() when negative values are given', () => {
+      expect(LanguageID.of(-9)).toBe(LanguageID.empty());
+      expect(LanguageID.of(-53)).toBe(LanguageID.empty());
+    });
+
+    it('returns LanguageID.empty() when doble values are given', () => {
+      expect(LanguageID.of(0.8)).toBe(LanguageID.empty());
+      expect(LanguageID.of(12.45)).toBe(LanguageID.empty());
     });
 
     it('normal case', () => {

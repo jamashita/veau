@@ -214,7 +214,7 @@ export class Stats extends Entity<StatsID> {
     return Stats.of(
       StatsID.generate(),
       Language.empty(),
-      Region.default(),
+      Region.empty(),
       Term.DAILY,
       StatsName.default(),
       StatsUnit.default(),
@@ -428,7 +428,7 @@ export class Stats extends Entity<StatsID> {
     if (language.equals(Language.empty())) {
       return false;
     }
-    if (region.equals(Region.default())) {
+    if (region.equals(Region.empty())) {
       return false;
     }
     if (name.equals(StatsName.default())) {

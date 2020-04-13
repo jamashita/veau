@@ -428,7 +428,7 @@ describe('StatsOutlines', () => {
     it('normal case', () => {
       const outline1: StatsOutline = StatsOutline.of(
         StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get(),
-        Language.empty(), Region.default(),
+        Language.empty(), Region.empty(),
         Term.DAILY,
         StatsName.of('stats name'),
         StatsUnit.of('stats unit'),
@@ -437,7 +437,7 @@ describe('StatsOutlines', () => {
       const outline2: StatsOutline = StatsOutline.of(
         StatsID.ofString('15620e91-f63a-4aaa-94b7-2844978fa129').get(),
         Language.empty(),
-        Region.default(),
+        Region.empty(),
         Term.DAILY,
         StatsName.of('stats name'),
         StatsUnit.of('stats unit'),
@@ -505,11 +505,11 @@ describe('StatsOutlines', () => {
       const outline1: StatsOutline = StatsOutline.of(
         StatsID.ofString(id1).get(),
         Language.empty(),
-        Region.default(),
+        Region.empty(),
         term,
         StatsName.of(name1),
         StatsUnit.of(unit1), updatedAt);
-      const outline2: StatsOutline = StatsOutline.of(StatsID.ofString(id2).get(), Language.empty(), Region.default(), term, StatsName.of(name2), StatsUnit.of(unit2), updatedAt);
+      const outline2: StatsOutline = StatsOutline.of(StatsID.ofString(id2).get(), Language.empty(), Region.empty(), term, StatsName.of(name2), StatsUnit.of(unit2), updatedAt);
       const outlines: StatsOutlines = StatsOutlines.ofArray([
         outline1,
         outline2

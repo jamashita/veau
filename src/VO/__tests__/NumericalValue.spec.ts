@@ -1,5 +1,6 @@
 import { NumericalValue } from '../NumericalValue';
 
+// DONE
 describe('NumericalValue', () => {
   describe('equals', () => {
     it('returns true if both properties are the same', () => {
