@@ -128,7 +128,7 @@ describe('LocaleInteractor',  () => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
         spy2();
-        expect(err).toBeInstanceOf(DataSourceError);
+        expect(err).toBeInstanceOf(MySQLError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -196,7 +196,7 @@ describe('LocaleInteractor',  () => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
         spy2();
-        expect(err).toBeInstanceOf(DataSourceError);
+        expect(err).toBeInstanceOf(MySQLError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -249,7 +249,7 @@ describe('LocaleInteractor',  () => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();
-        expect(err).toBeInstanceOf(DataSourceError);
+        expect(err).toBeInstanceOf(RedisError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -280,7 +280,7 @@ describe('LocaleInteractor',  () => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();
-        expect(err).toBeInstanceOf(DataSourceError);
+        expect(err).toBeInstanceOf(RedisError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -311,7 +311,7 @@ describe('LocaleInteractor',  () => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();
-        expect(err).toBeInstanceOf(DataSourceError);
+        expect(err).toBeInstanceOf(RedisError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -342,7 +342,7 @@ describe('LocaleInteractor',  () => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();
-        expect(err).toBeInstanceOf(DataSourceError);
+        expect(err).toBeInstanceOf(RedisError);
       });
 
       expect(spy1.called).toEqual(false);

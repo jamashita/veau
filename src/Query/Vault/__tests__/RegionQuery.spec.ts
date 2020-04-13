@@ -22,6 +22,7 @@ import { Regions } from '../../../VO/Regions';
 import { MockLocaleQuery } from '../../Mock/MockLocaleQuery';
 import { RegionQuery } from '../RegionQuery';
 
+// DONE
 describe('RegionQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
@@ -37,12 +38,30 @@ describe('RegionQuery', () => {
     it('normal case', async () => {
       const locale: Locale = Locale.of(
         Languages.ofArray([
-          Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
-          Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
+          Language.of(
+            LanguageID.of(1),
+            LanguageName.of('аҧсуа бызшәа'),
+            LanguageName.of('Abkhazian'),
+            ISO639.of('ab')
+          ),
+          Language.of(
+            LanguageID.of(2),
+            LanguageName.of('Afaraf'),
+            LanguageName.of('Afar'),
+            ISO639.of('aa')
+          )
         ]),
         Regions.ofArray([
-          Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
-          Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB'))
+          Region.of(
+            RegionID.of(1),
+            RegionName.of('Afghanistan'),
+            ISO3166.of('AFG')
+          ),
+          Region.of(
+            RegionID.of(2),
+            RegionName.of('Albania'),
+            ISO3166.of('ALB')
+          )
         ])
       );
 
@@ -74,7 +93,7 @@ describe('RegionQuery', () => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
         spy2();
-        expect(err).toBeInstanceOf(DataSourceError);
+        expect(err).toBeInstanceOf(AJAXError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -86,12 +105,30 @@ describe('RegionQuery', () => {
     it('normal case', async () => {
       const locale: Locale = Locale.of(
         Languages.ofArray([
-          Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
-          Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
+          Language.of(
+            LanguageID.of(1),
+            LanguageName.of('аҧсуа бызшәа'),
+            LanguageName.of('Abkhazian'),
+            ISO639.of('ab')
+          ),
+          Language.of(
+            LanguageID.of(2),
+            LanguageName.of('Afaraf'),
+            LanguageName.of('Afar'),
+            ISO639.of('aa')
+          )
         ]),
         Regions.ofArray([
-          Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
-          Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB'))
+          Region.of(
+            RegionID.of(1),
+            RegionName.of('Afghanistan'),
+            ISO3166.of('AFG')
+          ),
+          Region.of(
+            RegionID.of(2),
+            RegionName.of('Albania'),
+            ISO3166.of('ALB')
+          )
         ])
       );
 
@@ -123,7 +160,7 @@ describe('RegionQuery', () => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
         spy2();
-        expect(err).toBeInstanceOf(DataSourceError);
+        expect(err).toBeInstanceOf(AJAXError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -133,12 +170,30 @@ describe('RegionQuery', () => {
     it('no match results', async () => {
       const locale: Locale = Locale.of(
         Languages.ofArray([
-          Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
-          Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
+          Language.of(
+            LanguageID.of(1),
+            LanguageName.of('аҧсуа бызшәа'),
+            LanguageName.of('Abkhazian'),
+            ISO639.of('ab')
+          ),
+          Language.of(
+            LanguageID.of(2),
+            LanguageName.of('Afaraf'),
+            LanguageName.of('Afar'),
+            ISO639.of('aa')
+          )
         ]),
         Regions.ofArray([
-          Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
-          Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB'))
+          Region.of(
+            RegionID.of(1),
+            RegionName.of('Afghanistan'),
+            ISO3166.of('AFG')
+          ),
+          Region.of(
+            RegionID.of(2),
+            RegionName.of('Albania'),
+            ISO3166.of('ALB')
+          )
         ])
       );
 
