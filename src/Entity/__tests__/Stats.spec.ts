@@ -2001,8 +2001,8 @@ describe('Stats', () => {
         Language.empty(),
         Region.empty(),
         Term.DAILY,
-        StatsName.default(),
-        StatsUnit.default(),
+        StatsName.empty(),
+        StatsUnit.empty(),
         new MockUpdatedAt(),
         new MockStatsItems()
       );
@@ -2013,8 +2013,8 @@ describe('Stats', () => {
         }),
         Region.empty(),
         Term.DAILY,
-        StatsName.default(),
-        StatsUnit.default(),
+        StatsName.empty(),
+        StatsUnit.empty(),
         new MockUpdatedAt(),
         new MockStatsItems()
       );
@@ -2025,8 +2025,8 @@ describe('Stats', () => {
           regionID: new MockRegionID(5)
         }),
         Term.DAILY,
-        StatsName.default(),
-        StatsUnit.default(),
+        StatsName.empty(),
+        StatsUnit.empty(),
         new MockUpdatedAt(),
         new MockStatsItems()
       );
@@ -2036,7 +2036,7 @@ describe('Stats', () => {
         Region.empty(),
         Term.DAILY,
         new MockStatsName('stats name'),
-        StatsUnit.default(),
+        StatsUnit.empty(),
         new MockUpdatedAt(),
         new MockStatsItems(
           new MockStatsItem()
@@ -2047,7 +2047,7 @@ describe('Stats', () => {
         Language.empty(),
         Region.empty(),
         Term.DAILY,
-        StatsName.default(),
+        StatsName.empty(),
         new MockStatsUnit('stats unit'),
         new MockUpdatedAt(),
         new MockStatsItems()
@@ -2061,8 +2061,8 @@ describe('Stats', () => {
           regionID: new MockRegionID(5)
         }),
         Term.DAILY,
-        StatsName.default(),
-        StatsUnit.default(),
+        StatsName.empty(),
+        StatsUnit.empty(),
         new MockUpdatedAt(),
         new MockStatsItems(
           new MockStatsItem()
@@ -2076,7 +2076,7 @@ describe('Stats', () => {
         }),
         Term.DAILY,
         new MockStatsName('stats name'),
-        StatsUnit.default(),
+        StatsUnit.empty(),
         new MockUpdatedAt(),
         new MockStatsItems(
           new MockStatsItem(),
@@ -2100,7 +2100,7 @@ describe('Stats', () => {
         }),
         Region.empty(),
         Term.DAILY,
-        StatsName.default(),
+        StatsName.empty(),
         new MockStatsUnit('stats unit'),
         new MockUpdatedAt(),
         new MockStatsItems(
@@ -2117,7 +2117,7 @@ describe('Stats', () => {
         }),
         Term.DAILY,
         new MockStatsName('stats name'),
-        StatsUnit.default(),
+        StatsUnit.empty(),
         new MockUpdatedAt(),
         new MockStatsItems(
           new MockStatsItem(),
@@ -2160,7 +2160,7 @@ describe('Stats', () => {
           regionID: new MockRegionID(5)
         }),
         Term.DAILY,
-        StatsName.default(),
+        StatsName.empty(),
         new MockStatsUnit('stats unit'),
         new MockUpdatedAt(),
         new MockStatsItems(
@@ -2206,8 +2206,8 @@ describe('Stats', () => {
         Language.empty(),
         Region.empty(),
         Term.DAILY,
-        StatsName.default(),
-        StatsUnit.default(),
+        StatsName.empty(),
+        StatsUnit.empty(),
         new MockUpdatedAt(),
         new MockStatsItems()
       );
@@ -2218,8 +2218,8 @@ describe('Stats', () => {
           regionID: new MockRegionID(5)
         }),
         Term.DAILY,
-        StatsName.default(),
-        StatsUnit.default(),
+        StatsName.empty(),
+        StatsUnit.empty(),
         new MockUpdatedAt(),
         new MockStatsItems()
       );
@@ -2232,8 +2232,8 @@ describe('Stats', () => {
           regionID: new MockRegionID(5)
         }),
         Term.DAILY,
-        StatsName.default(),
-        StatsUnit.default(),
+        StatsName.empty(),
+        StatsUnit.empty(),
         new MockUpdatedAt(),
         new MockStatsItems()
       );
@@ -2247,7 +2247,7 @@ describe('Stats', () => {
         }),
         Term.DAILY,
         new MockStatsName('stats name'),
-        StatsUnit.default(),
+        StatsUnit.empty(),
         new MockUpdatedAt(),
         new MockStatsItems(
           new MockStatsItem()
@@ -2262,7 +2262,7 @@ describe('Stats', () => {
           regionID: new MockRegionID(5)
         }),
         Term.DAILY,
-        StatsName.default(),
+        StatsName.empty(),
         new MockStatsUnit('stats unit'),
         new MockUpdatedAt(),
         new MockStatsItems()

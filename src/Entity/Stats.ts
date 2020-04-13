@@ -114,16 +114,16 @@ export class Stats extends Entity<StatsID> {
 
             return Success.of<Stats, StatsError>(stats);
           }, (err: StatsItemsError) => {
-            return Failure.of<Stats, StatsError>(new StatsError(err.message));
+            return Failure.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
           });
         }, (err: UpdatedAtError) => {
-          return Failure.of<Stats, StatsError>(new StatsError(err.message));
+          return Failure.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
         });
       }, (err: TermError) => {
-        return Failure.of<Stats, StatsError>(new StatsError(err.message));
+        return Failure.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
       });
     }, (err: StatsIDError) => {
-      return Failure.of<Stats, StatsError>(new StatsError(err.message));
+      return Failure.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
     });
   }
 
@@ -156,13 +156,13 @@ export class Stats extends Entity<StatsID> {
 
           return Success.of<Stats, StatsError>(stats);
         }, (err: UpdatedAtError) => {
-          return Failure.of<Stats, StatsError>(new StatsError(err.message));
+          return Failure.of<Stats, StatsError>(new StatsError('Stats.ofRow()', err));
         });
       }, (err: TermError) => {
-        return Failure.of<Stats, StatsError>(new StatsError(err.message));
+        return Failure.of<Stats, StatsError>(new StatsError('Stats.ofRow()', err));
       });
     }, (err: StatsIDError) => {
-      return Failure.of<Stats, StatsError>(new StatsError(err.message));
+      return Failure.of<Stats, StatsError>(new StatsError('Stats.ofRow()', err));
     });
   }
 
@@ -170,40 +170,28 @@ export class Stats extends Entity<StatsID> {
     if (!Type.isPlainObject(n)) {
       return false;
     }
-
-    const {
-      statsID,
-      language,
-      region,
-      termID,
-      name,
-      unit,
-      updatedAt,
-      items
-    } = n;
-
-    if (!Type.isString(statsID)) {
+    if (!Type.isString(n.statsID)) {
       return false;
     }
-    if (!Language.isJSON(language)) {
+    if (!Language.isJSON(n.language)) {
       return false;
     }
-    if (!Region.isJSON(region)) {
+    if (!Region.isJSON(n.region)) {
       return false;
     }
-    if (!Type.isInteger(termID)) {
+    if (!Type.isInteger(n.termID)) {
       return false;
     }
-    if (!Type.isString(name)) {
+    if (!Type.isString(n.name)) {
       return false;
     }
-    if (!Type.isString(unit)) {
+    if (!Type.isString(n.unit)) {
       return false;
     }
-    if (!Type.isString(updatedAt)) {
+    if (!Type.isString(n.updatedAt)) {
       return false;
     }
-    if (!StatsItems.isJSON(items)) {
+    if (!StatsItems.isJSON(n.items)) {
       return false;
     }
 
@@ -216,8 +204,8 @@ export class Stats extends Entity<StatsID> {
       Language.empty(),
       Region.empty(),
       Term.DAILY,
-      StatsName.default(),
-      StatsUnit.default(),
+      StatsName.empty(),
+      StatsUnit.empty(),
       UpdatedAt.now(),
       StatsItems.empty()
     );
@@ -292,19 +280,13 @@ export class Stats extends Entity<StatsID> {
   }
 
   public getColumns(): AsOfs {
-    const {
-      items,
-      startDate,
-      columns
-    } = this;
-
-    if (columns.isPresent()) {
-      return columns.get();
+    if (this.columns.isPresent()) {
+      return this.columns.get();
     }
 
-    let asOfs: AsOfs = items.getAsOfs();
+    let asOfs: AsOfs = this.items.getAsOfs();
 
-    startDate.ifPresent((asOf: AsOf) => {
+    this.startDate.ifPresent((asOf: AsOf) => {
       asOfs = asOfs.add(asOf);
     });
 
@@ -418,23 +400,16 @@ export class Stats extends Entity<StatsID> {
   }
 
   public isFilled(): boolean {
-    const {
-      language,
-      region,
-      name,
-      unit
-    } = this;
-
-    if (language.equals(Language.empty())) {
+    if (this.language.equals(Language.empty())) {
       return false;
     }
-    if (region.equals(Region.empty())) {
+    if (this.region.equals(Region.empty())) {
       return false;
     }
-    if (name.equals(StatsName.default())) {
+    if (this.name.equals(StatsName.empty())) {
       return false;
     }
-    if (unit.equals(StatsUnit.default())) {
+    if (this.unit.equals(StatsUnit.empty())) {
       return false;
     }
 
@@ -468,40 +443,28 @@ export class Stats extends Entity<StatsID> {
     if (this === other) {
       return true;
     }
-
-    const {
-      statsID,
-      language,
-      region,
-      term,
-      name,
-      unit,
-      updatedAt,
-      items
-    } = this;
-
-    if (!statsID.equals(other.statsID)) {
+    if (!this.statsID.equals(other.statsID)) {
       return false;
     }
-    if (!language.equals(other.language)) {
+    if (!this.language.equals(other.language)) {
       return false;
     }
-    if (!region.equals(other.region)) {
+    if (!this.region.equals(other.region)) {
       return false;
     }
-    if (!term.equals(other.term)) {
+    if (!this.term.equals(other.term)) {
       return false;
     }
-    if (!name.equals(other.name)) {
+    if (!this.name.equals(other.name)) {
       return false;
     }
-    if (!unit.equals(other.unit)) {
+    if (!this.unit.equals(other.unit)) {
       return false;
     }
-    if (!updatedAt.equals(other.updatedAt)) {
+    if (!this.updatedAt.equals(other.updatedAt)) {
       return false;
     }
-    if (!items.areSame(other.items)) {
+    if (!this.items.areSame(other.items)) {
       return false;
     }
 
@@ -509,66 +472,43 @@ export class Stats extends Entity<StatsID> {
   }
 
   public copy(): Stats {
-    const {
-      statsID,
-      language,
-      region,
-      term,
-      name,
-      unit,
-      updatedAt,
-      items,
-      startDate
-    } = this;
-
     return new Stats(
-      statsID,
-      language,
-      region,
-      term,
-      name,
-      unit,
-      updatedAt,
-      items.copy(),
-      startDate
+      this.statsID,
+      this.language,
+      this.region,
+      this.term,
+      this.name,
+      this.unit,
+      this.updatedAt,
+      this.items.copy(),
+      this.startDate
     );
   }
 
   public toJSON(): StatsJSON {
-    const {
-      statsID,
-      language,
-      region,
-      term,
-      name,
-      unit,
-      updatedAt,
-      items
-    } = this;
-
     return {
-      statsID: statsID.get().get(),
-      language: language.toJSON(),
-      region: region.toJSON(),
-      termID: term.getID(),
-      name: name.get(),
-      unit: unit.get(),
-      updatedAt: updatedAt.toString(),
-      items: items.toJSON()
+      statsID: this.statsID.get().get(),
+      language: this.language.toJSON(),
+      region: this.region.toJSON(),
+      termID: this.term.getID(),
+      name: this.name.get(),
+      unit: this.unit.get(),
+      updatedAt: this.updatedAt.toString(),
+      items: this.items.toJSON()
     };
   }
 
   public toString(): string {
-    const {
-      statsID,
-      language,
-      region,
-      term,
-      name,
-      unit,
-      updatedAt
-    } = this;
+    const properties: Array<string> = [];
 
-    return `${statsID.toString()} ${language.toString()} ${region.toString()} ${term.toString()} ${name.toString()} ${unit.toString()} ${updatedAt.toString()}`;
+    properties.push(this.statsID.toString());
+    properties.push(this.language.toString());
+    properties.push(this.region.toString());
+    properties.push(this.term.toString());
+    properties.push(this.name.toString());
+    properties.push(this.unit.toString());
+    properties.push(this.updatedAt.toString());
+
+    return properties.join(' ');
   }
 }

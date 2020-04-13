@@ -35,9 +35,9 @@ describe('StatsItem', () => {
         )
       );
 
-      expect(statsItem.getStatsItemID()).toEqual(statsItemID);
-      expect(statsItem.getName()).toEqual(name);
-      expect(statsItem.getValues().get(0).get()).toEqual(statsValue);
+      expect(statsItem.getStatsItemID()).toBe(statsItemID);
+      expect(statsItem.getName()).toBe(name);
+      expect(statsItem.getValues().get(0).get()).toBe(statsValue);
     });
   });
 
@@ -385,7 +385,7 @@ describe('StatsItem', () => {
     it('id will be generated, data are empty', () => {
       const item: StatsItem = StatsItem.default();
       expect(item.getStatsItemID().get().get().length).toEqual(UUID.size());
-      expect(item.getName().get()).toEqual(StatsItemName.default().get());
+      expect(item.getName().get()).toEqual(StatsItemName.empty().get());
       expect(item.getValues().isEmpty()).toEqual(true);
     });
   });
@@ -578,7 +578,7 @@ describe('StatsItem', () => {
     it('returns true if the name is filled', () => {
       const statsItem1: StatsItem = StatsItem.of(
         new MockStatsItemID(),
-        StatsItemName.default(),
+        StatsItemName.empty(),
         new MockStatsValues()
       );
       const statsItem2: StatsItem = StatsItem.of(
@@ -596,7 +596,7 @@ describe('StatsItem', () => {
     it('returns true if the name is filled', () => {
       const statsItem1: StatsItem = StatsItem.of(
         new MockStatsItemID(),
-        StatsItemName.default(),
+        StatsItemName.empty(),
         new MockStatsValues()
       );
       const statsItem2: StatsItem = StatsItem.of(

@@ -43,7 +43,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
     return manoeuvre<StatsItem, StatsItemError>(tries).match<Try<StatsItems, StatsItemsError>>((statsItems: Array<StatsItem>) => {
       return Success.of<StatsItems, StatsItemsError>(StatsItems.ofArray(statsItems));
     }, (err: StatsItemError) => {
-      return Failure.of<StatsItems, StatsItemsError>(new StatsItemsError(err.message));
+      return Failure.of<StatsItems, StatsItemsError>(new StatsItemsError('StatsItems.ofTry()', err));
     });
   }
 
@@ -62,7 +62,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
 
         return StatsItem.ofRow(statsItemRow, values);
       }, (err: StatsItemIDError) => {
-        return Failure.of<StatsItem, StatsItemError>(new StatsItemError(err.message));
+        return Failure.of<StatsItem, StatsItemError>(new StatsItemError('StatsItems.ofRow()', err));
       });
     });
 
@@ -107,6 +107,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
     });
 
     const all: Array<AsOfs> = [];
+
     sequence.iterate((asOfs: AsOfs) => {
       all.push(asOfs);
     });

@@ -66,16 +66,10 @@ export class StatsValue extends ValueObject implements JSONable {
     if (!Type.isPlainObject(n)) {
       return false;
     }
-
-    const {
-      asOf,
-      value
-    } = n;
-
-    if (!Type.isString(asOf)) {
+    if (!Type.isString(n.asOf)) {
       return false;
     }
-    if (!Type.isNumber(value)) {
+    if (!Type.isNumber(n.value)) {
       return false;
     }
 

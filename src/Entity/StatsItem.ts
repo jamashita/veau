@@ -50,10 +50,10 @@ export class StatsItem extends Entity<StatsItemID> {
           )
         );
       }, (err: StatsValuesError) => {
-        return Failure.of<StatsItem, StatsItemError>(new StatsItemError(err.message));
+        return Failure.of<StatsItem, StatsItemError>(new StatsItemError('StatsItem.ofJSON()', err));
       });
     }, (err: StatsItemIDError) => {
-      return Failure.of<StatsItem, StatsItemError>(new StatsItemError(err.message));
+      return Failure.of<StatsItem, StatsItemError>(new StatsItemError('StatsItem.ofJSON()', err));
     });
   }
 
@@ -67,7 +67,7 @@ export class StatsItem extends Entity<StatsItemID> {
         )
       );
     }, (err: StatsItemIDError) => {
-      return Failure.of<StatsItem, StatsItemError>(new StatsItemError(err.message));
+      return Failure.of<StatsItem, StatsItemError>(new StatsItemError('StatsItem.ofRow()', err));
     });
   }
 
@@ -75,20 +75,13 @@ export class StatsItem extends Entity<StatsItemID> {
     if (!Type.isPlainObject(n)) {
       return false;
     }
-
-    const {
-      statsItemID,
-      name,
-      values
-    } = n;
-
-    if (!Type.isString(statsItemID)) {
+    if (!Type.isString(n.statsItemID)) {
       return false;
     }
-    if (!Type.isString(name)) {
+    if (!Type.isString(n.name)) {
       return false;
     }
-    if (!StatsValues.isJSON(values)) {
+    if (!StatsValues.isJSON(n.values)) {
       return false;
     }
 
@@ -98,7 +91,7 @@ export class StatsItem extends Entity<StatsItemID> {
   public static default(): StatsItem {
     return StatsItem.of(
       StatsItemID.generate(),
-      StatsItemName.default(),
+      StatsItemName.empty(),
       StatsValues.empty()
     );
   }
@@ -167,7 +160,7 @@ export class StatsItem extends Entity<StatsItemID> {
   }
 
   public isFilled(): boolean {
-    return !this.name.equals(StatsItemName.default());
+    return !this.name.equals(StatsItemName.empty());
   }
 
   public isValid(): boolean {
@@ -178,20 +171,13 @@ export class StatsItem extends Entity<StatsItemID> {
     if (this === other) {
       return true;
     }
-
-    const {
-      statsItemID,
-      name,
-      values
-    } = this;
-
-    if (!statsItemID.equals(other.statsItemID)) {
+    if (!this.statsItemID.equals(other.statsItemID)) {
       return false;
     }
-    if (!name.equals(other.name)) {
+    if (!this.name.equals(other.name)) {
       return false;
     }
-    if (!values.equals(other.values)) {
+    if (!this.values.equals(other.values)) {
       return false;
     }
 
@@ -199,36 +185,28 @@ export class StatsItem extends Entity<StatsItemID> {
   }
 
   public copy(): StatsItem {
-    const {
-      statsItemID,
-      name,
-      values
-    } = this;
-
-    return new StatsItem(statsItemID, name, values.copy());
+    return new StatsItem(
+      this.statsItemID,
+      this.name,
+      this.values.copy()
+    );
   }
 
   public toJSON(): StatsItemJSON {
-    const {
-      statsItemID,
-      name,
-      values
-    } = this;
-
     return {
-      statsItemID: statsItemID.get().get(),
-      name: name.get(),
-      values: values.toJSON()
+      statsItemID: this.statsItemID.get().get(),
+      name: this.name.get(),
+      values: this.values.toJSON()
     };
   }
 
   public toString(): string {
-    const {
-      statsItemID,
-      name,
-      values
-    } = this;
+    const properties: Array<string> = [];
 
-    return `${statsItemID.toString()} ${name.toString()} ${values.toString()}`;
+    properties.push(this.statsItemID.toString());
+    properties.push(this.name.toString());
+    properties.push(this.values.toString());
+
+    return properties.join(' ');
   }
 }
