@@ -1,4 +1,4 @@
-FROM node:13.10.1 as build-image
+FROM node:13.12.0 as build-image
 
 USER root
 WORKDIR /root
@@ -13,13 +13,14 @@ COPY yarn.lock yarn.lock
 RUN yarn install --production=false --frozen-lockfile
 RUN yarn build
 
-FROM node:13.10.1
+FROM node:13.12.0
 
 USER root
-WORKDIR /root
 
-RUN mkdir app
-WORKDIR /root/app
+RUN groupadd veau
+RUN useradd -g veau veau
+RUN mkdir -p /home/veau
+WORKDIR /home/veau
 
 COPY --from=build-image /root/dist dist
 COPY config config
@@ -31,6 +32,9 @@ RUN mkdir logs
 RUN yarn install --production=true --frozen-lockfile
 RUN yarn cache clean
 RUN yarn global add pm2
+
+RUN chown -R veau /home/veau
+RUN chgrp -R veau /home/veau
 
 EXPOSE 4000
 

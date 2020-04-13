@@ -113,20 +113,5 @@
     "webpack-cli": "3.3.11",
     "webpack-dev-server": "3.10.3",
     "webpack-stream": "5.2.1"
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "testRegex": "/__tests__/.+\\.spec\\.tsx?$",
-    "moduleFileExtensions": [
-      "js",
-      "jsx",
-      "ts",
-      "tsx",
-      "json",
-      "node"
-    ],
-    "testURL": "http://localhost"
   }
 }
