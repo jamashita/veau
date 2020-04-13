@@ -18,6 +18,7 @@ import { MockNumericalValues } from '../Mock/MockNumericalValues';
 import { UUID } from '../../General/UUID/UUID';
 import { Sequence } from '../../General/Collection/Sequence';
 
+// DONE
 describe('StatsValues', () => {
   describe('of', () => {
     it('when the Sequence is zero size, returns empty', () => {
@@ -38,12 +39,20 @@ describe('StatsValues', () => {
 
       expect(values.size()).toEqual(sequence.size());
       for (let i: number = 0; i < values.size(); i++) {
-        expect(values.get(i).get()).toEqual(sequence.get(i).get());
+        expect(values.get(i).get()).toBe(sequence.get(i).get());
       }
     });
   });
 
   describe('ofTry', () => {
+    it('when empty Array given, returns Success, and StatsValues.empty()', () => {
+      const trial: Try<StatsValues, StatsValuesError> = StatsValues.ofTry([
+      ]);
+
+      expect(trial.isSuccess()).toBe(true);
+      expect(trial.get()).toBe(StatsValues.empty());
+    });
+
     it('normal case', () => {
       const statsValue1: MockStatsValue = new MockStatsValue();
       const statsValue2: MockStatsValue = new MockStatsValue();
@@ -58,8 +67,8 @@ describe('StatsValues', () => {
       expect(trial.isSuccess()).toEqual(true);
       const values: StatsValues = trial.get();
       expect(values.size()).toEqual(2);
-      expect(values.get(0).get()).toEqual(statsValue1);
-      expect(values.get(1).get()).toEqual(statsValue2);
+      expect(values.get(0).get()).toBe(statsValue1);
+      expect(values.get(1).get()).toBe(statsValue2);
     });
 
     it('contains failure', () => {
@@ -112,6 +121,16 @@ describe('StatsValues', () => {
   });
 
   describe('ofJSON', () => {
+    it('when empty Array given, returns StatsValues.empty()', () => {
+      const tries: Try<StatsValues, StatsValuesError> = StatsValues.ofJSON(
+        new MockStatsItemID(),
+        []
+      );
+
+      expect(tries.isSuccess()).toEqual(true);
+      expect(tries.get()).toBe(StatsValues.empty());
+    });
+
     it('normal case', () => {
       const json: Array<StatsValueJSON> = [
         {
@@ -200,6 +219,13 @@ describe('StatsValues', () => {
   });
 
   describe('ofRow', () => {
+    it('when empty Array given, returns StatsValues.empty()', () => {
+      const tries: Try<StatsValues, StatsValuesError> = StatsValues.ofRow([]);
+
+      expect(tries.isSuccess()).toEqual(true);
+      expect(tries.get()).toBe(StatsValues.empty());
+    });
+
     it('normal case', () => {
       const row: Array<StatsValueRow> = [
         {
@@ -291,6 +317,12 @@ describe('StatsValues', () => {
   });
 
   describe('ofArray', () => {
+    it('when empty Array given, returns StatsValues.empty()', () => {
+      const statsValues: StatsValues = StatsValues.ofArray([]);
+
+      expect(statsValues).toBe(StatsValues.empty());
+    });
+
     it('normal case', () => {
       const statsValue1: MockStatsValue = new MockStatsValue();
       const statsValue2: MockStatsValue = new MockStatsValue();
@@ -309,6 +341,12 @@ describe('StatsValues', () => {
   });
 
   describe('ofSpread', () => {
+    it('when no arguments given, returns StatsValues.empty()', () => {
+      const statsValues: StatsValues = StatsValues.ofSpread();
+
+      expect(statsValues).toBe(StatsValues.empty());
+    });
+
     it('normal case', () => {
       const statsValue1: MockStatsValue = new MockStatsValue();
       const statsValue2: MockStatsValue = new MockStatsValue();
@@ -417,8 +455,12 @@ describe('StatsValues', () => {
   });
 
   describe('empty', () => {
-    it('must be 0 length StatsValues', () => {
-      expect(StatsValues.empty().isEmpty()).toEqual(true);
+    it('generates 0-length StatsValues', () => {
+      expect(StatsValues.empty().size()).toEqual(0);
+    });
+
+    it('returns singleton instance', () => {
+      expect(StatsValues.empty()).toBe(StatsValues.empty());
     });
   });
 
@@ -659,7 +701,7 @@ describe('StatsValues', () => {
       const statsValue1: MockStatsValue = new MockStatsValue();
       const statsValue2: MockStatsValue = new MockStatsValue();
 
-      const statsValues1: StatsValues = StatsValues.ofSpread();
+      const statsValues1: StatsValues = StatsValues.empty();
       const statsValues2: StatsValues = StatsValues.ofSpread(
         statsValue1,
         statsValue2
@@ -738,7 +780,7 @@ describe('StatsValues', () => {
       expect(statsValues).not.toBe(copied);
       expect(statsValues.size()).toEqual(copied.size());
       for (let i: number = 0; i < statsValues.size(); i++) {
-        expect(statsValues.get(i).get().equals(copied.get(i).get())).toEqual(true);
+        expect(statsValues.get(i).get()).toEqual(copied.get(i).get());
       }
     });
   });
@@ -803,8 +845,16 @@ describe('StatsValues', () => {
       const value1: number = 1;
       const value2: number = 2;
       const statsItemID: StatsItemID = StatsItemID.of(uuid);
-      const statsValue1: StatsValue = StatsValue.of(statsItemID, AsOf.ofString(asOf1).get(), NumericalValue.of(value1));
-      const statsValue2: StatsValue = StatsValue.of(statsItemID, AsOf.ofString(asOf2).get(), NumericalValue.of(value2));
+      const statsValue1: StatsValue = StatsValue.of(
+        statsItemID,
+        AsOf.ofString(asOf1).get(),
+        NumericalValue.of(value1)
+      );
+      const statsValue2: StatsValue = StatsValue.of(
+        statsItemID,
+        AsOf.ofString(asOf2).get(),
+        NumericalValue.of(value2)
+      );
 
       const statsValues: StatsValues = StatsValues.ofSpread(
         statsValue1,

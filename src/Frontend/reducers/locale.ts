@@ -2,7 +2,7 @@ import { Reducer } from 'redux';
 import { Locale } from '../../VO/Locale';
 import { ACTION, Action } from '../actions/Action';
 
-const initialState: Locale = Locale.default();
+const initialState: Locale = Locale.empty();
 
 export const locale: Reducer<Locale, Action> = (
   state: Locale = initialState,

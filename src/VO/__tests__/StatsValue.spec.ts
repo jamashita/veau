@@ -10,6 +10,7 @@ import { MockStatsItemID } from '../Mock/MockStatsItemID';
 import { MockAsOf } from '../Mock/MockAsOf';
 import { MockNumericalValue } from '../Mock/MockNumericalValue';
 
+// DONE
 describe('StatsValue', () => {
   describe('ofJSON', () => {
     it('normal case', () => {
@@ -19,7 +20,10 @@ describe('StatsValue', () => {
         value: -1.1
       };
 
-      const trial: Try<StatsValue, StatsValueError> = StatsValue.ofJSON(StatsItemID.ofString(id).get(), json);
+      const trial: Try<StatsValue, StatsValueError> = StatsValue.ofJSON(
+        StatsItemID.ofString(id).get(),
+        json
+      );
 
       expect(trial.isSuccess()).toEqual(true);
       const statsValue: StatsValue = trial.get();
@@ -37,7 +41,10 @@ describe('StatsValue', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const trial: Try<StatsValue, StatsValueError> = StatsValue.ofJSON(StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get(), json);
+      const trial: Try<StatsValue, StatsValueError> = StatsValue.ofJSON(
+        StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get(),
+        json
+      );
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {

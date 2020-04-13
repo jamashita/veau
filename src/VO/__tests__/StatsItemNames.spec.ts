@@ -2,9 +2,41 @@ import { None } from '../../General/Optional/None';
 import { StatsItemName } from '../StatsItemName';
 import { StatsItemNames } from '../StatsItemNames';
 import { MockStatsItemName } from '../Mock/MockStatsItemName';
+import { Sequence } from '../../General/Collection/Sequence';
 
+// DONE
 describe('StatsItemNames', () => {
+  describe('of', () => {
+    it('when the Sequence is zero size, returns StatsItemNames.empty()', () => {
+      const statsItemNames: StatsItemNames = StatsItemNames.of(Sequence.empty<StatsItemName>());
+
+      expect(statsItemNames).toBe(StatsItemNames.empty());
+    });
+
+    it('normal case', () => {
+      const statsItemName1: MockStatsItemName = new MockStatsItemName();
+      const statsItemName2: MockStatsItemName = new MockStatsItemName();
+      const sequence: Sequence<MockStatsItemName> = Sequence.of<StatsItemName>([
+        statsItemName1,
+        statsItemName2
+      ]);
+
+      const statsItemNames: StatsItemNames = StatsItemNames.of(sequence);
+
+      expect(statsItemNames.size()).toEqual(sequence.size());
+      for (let i: number = 0; i < statsItemNames.size(); i++) {
+        expect(statsItemNames.get(i).get()).toBe(sequence.get(i).get());
+      }
+    });
+  });
+
   describe('ofArray', () => {
+    it('when empty Array given, returns StatsItemNames.empty()', () => {
+      const statsItemNames: StatsItemNames = StatsItemNames.ofArray([]);
+
+      expect(statsItemNames).toBe(StatsItemNames.empty());
+    });
+
     it('normal case', () => {
       const name1: MockStatsItemName = new MockStatsItemName();
       const name2: MockStatsItemName = new MockStatsItemName();
@@ -17,12 +49,18 @@ describe('StatsItemNames', () => {
 
       expect(statsItemNames.size()).toEqual(names.length);
       for (let i: number = 0; i < statsItemNames.size(); i++) {
-        expect(statsItemNames.get(i).get()).toEqual(names[i]);
+        expect(statsItemNames.get(i).get()).toBe(names[i]);
       }
     });
   });
 
   describe('ofSpread', () => {
+    it('when no arguments given, returns StatsItemNames.empty()', () => {
+      const statsItemNames: StatsItemNames = StatsItemNames.ofSpread();
+
+      expect(statsItemNames).toBe(StatsItemNames.empty());
+    });
+
     it('normal case', () => {
       const name1: MockStatsItemName = new MockStatsItemName();
       const name2: MockStatsItemName = new MockStatsItemName();
@@ -38,8 +76,18 @@ describe('StatsItemNames', () => {
 
       expect(statsItemNames.size()).toEqual(names.length);
       for (let i: number = 0; i < statsItemNames.size(); i++) {
-        expect(statsItemNames.get(i).get()).toEqual(names[i]);
+        expect(statsItemNames.get(i).get()).toBe(names[i]);
       }
+    });
+  });
+
+  describe('empty', () => {
+    it('generates 0-length StatsItemNames', () => {
+      expect(StatsItemNames.empty().size()).toEqual(0);
+    });
+
+    it('returns singleton instance', () => {
+      expect(StatsItemNames.empty()).toBe(StatsItemNames.empty());
     });
   });
 
@@ -56,9 +104,9 @@ describe('StatsItemNames', () => {
       );
 
       expect(names.size()).toEqual(3);
-      expect(names.get(0).get()).toEqual(name1);
-      expect(names.get(1).get()).toEqual(name2);
-      expect(names.get(2).get()).toEqual(name3);
+      expect(names.get(0).get()).toBe(name1);
+      expect(names.get(1).get()).toBe(name2);
+      expect(names.get(2).get()).toBe(name3);
     });
 
     it('returns None if the index is out of range', () => {

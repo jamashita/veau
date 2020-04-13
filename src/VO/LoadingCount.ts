@@ -17,11 +17,14 @@ export class LoadingCount extends ValueObject {
     if (count < 0) {
       return Failure.of<LoadingCount, LoadingCountError>(new LoadingCountError(`ILLEGAL COUNT SPECIFIED ${count}`));
     }
+    if (count === DEFAULT_COUNT) {
+      return Success.of<LoadingCount, LoadingCountError>(LoadingCount.default());
+    }
     if (Type.isInteger(count)) {
       return Success.of<LoadingCount, LoadingCountError>(new LoadingCount(count));
     }
 
-    return Failure.of<LoadingCount, LoadingCountError>(new LoadingCountError(`ILLEGAL COUNT SPECIFIED`));
+    return Failure.of<LoadingCount, LoadingCountError>(new LoadingCountError('ILLEGAL COUNT SPECIFIED'));
   }
 
   public static default(): LoadingCount {
@@ -50,11 +53,10 @@ export class LoadingCount extends ValueObject {
   }
 
   public decrement(): LoadingCount {
-    const {
-      count
-    } = this;
-
-    if (count === 0) {
+    if (this.count === 1) {
+      return LoadingCount.default();
+    }
+    if (this.count === 0) {
       return LoadingCount.default();
     }
 

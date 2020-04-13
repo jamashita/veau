@@ -59,7 +59,15 @@ export class StatsOutline extends ValueObject implements JSONable, Cloneable {
     unit: StatsUnit,
     updatedAt: UpdatedAt
   ): StatsOutline {
-    return new StatsOutline(statsID, language, region, term, name, unit, updatedAt);
+    return new StatsOutline(
+      statsID,
+      language,
+      region,
+      term,
+      name,
+      unit,
+      updatedAt
+    );
   }
 
   public static ofJSON(json: StatsOutlineJSON): Try<StatsOutline, StatsOutlineError> {
@@ -76,13 +84,13 @@ export class StatsOutline extends ValueObject implements JSONable, Cloneable {
             updatedAt
           ));
         }, (err: UpdatedAtError) => {
-          return Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError(err.message));
+          return Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofJSON()', err));
         });
       }, (err: TermError) => {
-        return Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError(err.message));
+        return Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofJSON()', err));
       });
     }, (err: StatsIDError) => {
-      return Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError(err.message));
+      return Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofJSON()', err));
     });
   }
 
@@ -114,13 +122,13 @@ export class StatsOutline extends ValueObject implements JSONable, Cloneable {
             )
           );
         }, (err: UpdatedAtError) => {
-          return Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError(err.message));
+          return Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofRow()', err));
         });
       }, (err: TermError) => {
-        return Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError(err.message));
+        return Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofRow()', err));
       });
     }, (err: StatsIDError) => {
-      return Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError(err.message));
+      return Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofRow()', err));
     });
   }
 
@@ -172,23 +180,16 @@ export class StatsOutline extends ValueObject implements JSONable, Cloneable {
   }
 
   public isFilled(): boolean {
-    const {
-      language,
-      region,
-      name,
-      unit
-    } = this;
-
-    if (language.equals(Language.empty())) {
+    if (this.language.equals(Language.empty())) {
       return false;
     }
-    if (region.equals(Region.empty())) {
+    if (this.region.equals(Region.empty())) {
       return false;
     }
-    if (name.equals(StatsName.default())) {
+    if (this.name.equals(StatsName.empty())) {
       return false;
     }
-    if (unit.equals(StatsUnit.default())) {
+    if (this.unit.equals(StatsUnit.empty())) {
       return false;
     }
 
@@ -199,36 +200,25 @@ export class StatsOutline extends ValueObject implements JSONable, Cloneable {
     if (this === other) {
       return true;
     }
-
-    const {
-      statsID,
-      language,
-      region,
-      term,
-      name,
-      unit,
-      updatedAt
-    } = this;
-
-    if (!statsID.equals(other.statsID)) {
+    if (!this.statsID.equals(other.statsID)) {
       return false;
     }
-    if (!language.equals(other.language)) {
+    if (!this.language.equals(other.language)) {
       return false;
     }
-    if (!region.equals(other.region)) {
+    if (!this.region.equals(other.region)) {
       return false;
     }
-    if (!term.equals(other.term)) {
+    if (!this.term.equals(other.term)) {
       return false;
     }
-    if (!name.equals(other.name)) {
+    if (!this.name.equals(other.name)) {
       return false;
     }
-    if (!unit.equals(other.unit)) {
+    if (!this.unit.equals(other.unit)) {
       return false;
     }
-    if (!updatedAt.equals(other.updatedAt)) {
+    if (!this.updatedAt.equals(other.updatedAt)) {
       return false;
     }
 
@@ -236,52 +226,40 @@ export class StatsOutline extends ValueObject implements JSONable, Cloneable {
   }
 
   public copy(): StatsOutline {
-    const {
-      statsID,
-      language,
-      region,
-      term,
-      name,
-      unit,
-      updatedAt
-    } = this;
-
-    return new StatsOutline(statsID, language, region, term, name, unit, updatedAt);
+    return new StatsOutline(
+      this.statsID,
+      this.language,
+      this.region,
+      this.term,
+      this.name,
+      this.unit,
+      this.updatedAt
+    );
   }
 
   public toJSON(): StatsOutlineJSON {
-    const {
-      statsID,
-      language,
-      region,
-      term,
-      name,
-      unit,
-      updatedAt
-    } = this;
-
     return {
-      statsID: statsID.get().get(),
-      language: language.toJSON(),
-      region: region.toJSON(),
-      termID: term.getID(),
-      name: name.get(),
-      unit: unit.get(),
-      updatedAt: updatedAt.toString()
+      statsID: this.statsID.get().get(),
+      language: this.language.toJSON(),
+      region: this.region.toJSON(),
+      termID: this.term.getID(),
+      name: this.name.get(),
+      unit: this.unit.get(),
+      updatedAt: this.updatedAt.toString()
     };
   }
 
   public toString(): string {
-    const {
-      statsID,
-      language,
-      region,
-      term,
-      name,
-      unit,
-      updatedAt
-    } = this;
+    const properties: Array<string> = [];
 
-    return `${statsID.toString()} ${language.toString()} ${region.toString()} ${term.toString()} ${name.get()} ${unit.toString()} ${updatedAt.toString()}`;
+    properties.push(this.statsID.toString());
+    properties.push(this.language.toString());
+    properties.push(this.region.toString());
+    properties.push(this.term.toString());
+    properties.push(this.name.toString());
+    properties.push(this.unit.toString());
+    properties.push(this.updatedAt.toString());
+
+    return properties.join(' ');
   }
 }

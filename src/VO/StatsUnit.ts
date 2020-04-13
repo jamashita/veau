@@ -1,19 +1,23 @@
 import { ValueObject } from '../General/ValueObject';
 
-const DEFAULT_UNIT: string = '';
+const EMPTY_UNIT: string = '';
 
 export class StatsUnit extends ValueObject {
   public readonly noun: 'StatsUnit' = 'StatsUnit';
   private readonly unit: string;
 
-  private static readonly DEFAULT: StatsUnit = StatsUnit.of(DEFAULT_UNIT);
+  private static readonly EMPTY: StatsUnit = new StatsUnit(EMPTY_UNIT);
 
   public static of(unit: string): StatsUnit {
+    if (unit === EMPTY_UNIT) {
+      return StatsUnit.empty();
+    }
+
     return new StatsUnit(unit);
   }
 
-  public static default(): StatsUnit {
-    return StatsUnit.DEFAULT;
+  public static empty(): StatsUnit {
+    return StatsUnit.EMPTY;
   }
 
   protected constructor(unit: string) {
@@ -23,6 +27,14 @@ export class StatsUnit extends ValueObject {
 
   public get(): string {
     return this.unit;
+  }
+
+  public isEmpty(): boolean {
+    if (this === StatsUnit.empty()) {
+      return true;
+    }
+
+    return false;
   }
 
   public equals(other: StatsUnit): boolean {

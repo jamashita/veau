@@ -25,12 +25,18 @@ describe('NumericalValues', () => {
 
       expect(values.size()).toEqual(sequence.size());
       for (let i: number = 0; i < values.size(); i++) {
-        expect(values.get(i).get()).toEqual(sequence.get(i).get());
+        expect(values.get(i).get()).toBe(sequence.get(i).get());
       }
     });
   });
 
   describe('ofArray', () => {
+    it('when empty Array given, returns NumericalValues.empty()', () => {
+      const values: NumericalValues = NumericalValues.ofArray([]);
+
+      expect(values).toBe(NumericalValues.empty());
+    });
+
     it('normal case', () => {
       const value1: MockNumericalValue = new MockNumericalValue(1);
       const value2: MockNumericalValue = new MockNumericalValue(2);
@@ -45,12 +51,18 @@ describe('NumericalValues', () => {
 
       expect(numericalValues.size()).toEqual(values.length);
       for (let i: number = 0; i < numericalValues.size(); i++) {
-        expect(numericalValues.get(i).get()).toEqual(values[i]);
+        expect(numericalValues.get(i).get()).toBe(values[i]);
       }
     });
   });
 
   describe('ofSpread', () => {
+    it('when no arguments given, returns NumericalValues.empty()', () => {
+      const values: NumericalValues = NumericalValues.ofSpread();
+
+      expect(values).toBe(NumericalValues.empty());
+    });
+
     it('normal case', () => {
       const value1: MockNumericalValue = new MockNumericalValue(1);
       const value2: MockNumericalValue = new MockNumericalValue(2);
@@ -69,7 +81,7 @@ describe('NumericalValues', () => {
 
       expect(numericalValues.size()).toEqual(values.length);
       for (let i: number = 0; i < numericalValues.size(); i++) {
-        expect(numericalValues.get(i).get()).toEqual(values[i]);
+        expect(numericalValues.get(i).get()).toBe(values[i]);
       }
     });
   });
@@ -77,6 +89,10 @@ describe('NumericalValues', () => {
   describe('empty', () => {
     it('returns size-0 sequence', () => {
       expect(NumericalValues.empty().size()).toEqual(0);
+    });
+
+    it('returns singleton instance', () => {
+      expect(NumericalValues.empty()).toBe(NumericalValues.empty());
     });
   });
 
@@ -248,6 +264,10 @@ describe('NumericalValues', () => {
     it('returns as a string Array', () => {
       const num1: number = 1;
       const num2: number = 2;
+      const nums: Array<number> = [
+        num1,
+        num2
+      ];
       const value1: MockNumericalValue = new MockNumericalValue(num1);
       const value2: MockNumericalValue = new MockNumericalValue(num2);
 
@@ -256,7 +276,11 @@ describe('NumericalValues', () => {
         value2
       );
 
-      expect(values.row()).toEqual([num1.toString(), num2.toString()]);
+      const rows: Array<string> = values.row();
+      expect(rows.length).toEqual(nums.length);
+      for (let i: number = 0; i < nums.length; i++) {
+        expect(rows[i]).toEqual(nums[i].toString());
+      }
     });
   });
 

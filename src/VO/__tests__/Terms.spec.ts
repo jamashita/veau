@@ -4,7 +4,18 @@ import { MockTerm } from '../Mock/MockTerm';
 import { Term } from '../Term';
 import { Terms } from '../Terms';
 
+// DONE
 describe('Terms', () => {
+  describe('all', () => {
+    it('is singleton instance', () => {
+      expect(Terms.all()).toBe(Terms.all());
+    });
+
+    it('\'s length is 5', () => {
+      expect(Terms.all().size()).toBe(5);
+    });
+  });
+
   describe('get', () => {
     it('returns Term instance at the correct index', () => {
       const terms: Terms = Terms.all();
@@ -44,18 +55,13 @@ describe('Terms', () => {
 
   describe('isEmpty', () => {
     it('always returns false because only 1 terms instance has some elements', () => {
-      const terms: Terms = Terms.all();
-
-      expect(terms.isEmpty()).toEqual(false);
+      expect(Terms.all().isEmpty()).toEqual(false);
     });
   });
 
   describe('equals', () => {
     it('returns true because the instances are quite same', () => {
-      const terms1: Terms = Terms.all();
-      const terms2: Terms = Terms.all();
-
-      expect(terms1).toEqual(terms2);
+      expect(Terms.all()).toBe(Terms.all());
     });
   });
 

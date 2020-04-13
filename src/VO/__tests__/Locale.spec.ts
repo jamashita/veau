@@ -16,7 +16,20 @@ import { MockRegions } from '../Mock/MockRegions';
 import { MockRegion } from '../Mock/MockRegion';
 import { MockRegionID } from '../Mock/MockRegionID';
 
+// DONE
 describe('Locale', () => {
+  describe('empty', () => {
+    it('generates 0-length Regions, and Languages', () => {
+      const locale: Locale = Locale.empty();
+      expect(locale.getLanguages()).toBe(Languages.empty());
+      expect(locale.getRegions()).toBe(Regions.empty());
+    });
+
+    it('returns singleton instance', () => {
+      expect(Locale.empty()).toBe(Locale.empty());
+    });
+  });
+
   describe('ofJSON', () => {
     it('normal case', () => {
       const languages: Array<LanguageJSON> = [
@@ -55,14 +68,6 @@ describe('Locale', () => {
         expect(region.getName().get()).toEqual(regions[i].name);
         expect(region.getISO3166().get()).toEqual(regions[i].iso3166);
       }
-    });
-  });
-
-  describe('default', () => {
-    it('generates 0-length Regions, and Languages', () => {
-      const locale: Locale = Locale.default();
-      expect(locale.getRegions().size()).toEqual(0);
-      expect(locale.getLanguages().size()).toEqual(0);
     });
   });
 

@@ -4,6 +4,7 @@ import { Try } from '../../General/Try/Try';
 import { UUID } from '../../General/UUID/UUID';
 import { StatsItemID } from '../StatsItemID';
 
+// DONE
 describe('StatsItemID', () => {
   describe('of', () => {
     it('normal case', () => {

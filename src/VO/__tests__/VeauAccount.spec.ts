@@ -20,6 +20,7 @@ import { MockRegion } from '../Mock/MockRegion';
 import { MockLanguageID } from '../Mock/MockLanguageID';
 import { MockRegionID } from '../Mock/MockRegionID';
 
+// DONE
 describe('VeauAccount', () => {
   describe('of', () => {
     it('normal case', () => {
@@ -28,12 +29,17 @@ describe('VeauAccount', () => {
       const language: Language = new MockLanguage();
       const region: Region = new MockRegion();
 
-      const veauAccount: VeauAccount = VeauAccount.of(veauAccountID, account, language, region);
+      const veauAccount: VeauAccount = VeauAccount.of(
+        veauAccountID,
+        account,
+        language,
+        region
+      );
 
-      expect(veauAccount.getVeauAccountID().equals(veauAccountID)).toEqual(true);
-      expect(veauAccount.getAccount()).toEqual(account);
-      expect(veauAccount.getLanguage().equals(language)).toEqual(true);
-      expect(veauAccount.getRegion().equals(region)).toEqual(true);
+      expect(veauAccount.getVeauAccountID()).toBe(veauAccountID);
+      expect(veauAccount.getAccount()).toBe(account);
+      expect(veauAccount.getLanguage()).toBe(language);
+      expect(veauAccount.getRegion()).toBe(region);
     });
   });
 
@@ -104,10 +110,10 @@ describe('VeauAccount', () => {
     });
   });
 
-  describe('default', () => {
+  describe('empty', () => {
     it('has randomly generated id and empty name, language, and region', () => {
-      const account1: VeauAccount = VeauAccount.default();
-      const account2: VeauAccount = VeauAccount.default();
+      const account1: VeauAccount = VeauAccount.empty();
+      const account2: VeauAccount = VeauAccount.empty();
 
       expect(account1.getVeauAccountID().get().get().length).toEqual(UUID.size());
       expect(account1.getVeauAccountID().equals(account2.getVeauAccountID())).toEqual(false);

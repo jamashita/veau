@@ -1,19 +1,23 @@
 import { ValueObject } from '../General/ValueObject';
 
-const DEFAULT_NAME: string = '';
+const EMPTY_NAME: string = '';
 
 export class StatsItemName extends ValueObject {
   public readonly noun: 'StatsItemName' = 'StatsItemName';
   private readonly name: string;
 
-  private static readonly DEFAULT: StatsItemName = StatsItemName.of(DEFAULT_NAME);
+  private static readonly EMPTY: StatsItemName = new StatsItemName(EMPTY_NAME);
 
   public static of(name: string): StatsItemName {
+    if (name === EMPTY_NAME) {
+      return StatsItemName.empty();
+    }
+
     return new StatsItemName(name);
   }
 
-  public static default(): StatsItemName {
-    return StatsItemName.DEFAULT;
+  public static empty(): StatsItemName {
+    return StatsItemName.EMPTY;
   }
 
   protected constructor(name: string) {
@@ -27,6 +31,14 @@ export class StatsItemName extends ValueObject {
 
   public length(): number {
     return this.name.length;
+  }
+
+  public isEmpty(): boolean {
+    if (this === StatsItemName.empty()) {
+      return true;
+    }
+
+    return false;
   }
 
   public equals(other: StatsItemName): boolean {

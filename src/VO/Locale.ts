@@ -15,7 +15,7 @@ export class Locale extends ValueObject implements JSONable {
   private readonly languages: Languages;
   private readonly regions: Regions;
 
-  private static readonly DEFAULT: Locale = Locale.of(
+  private static readonly EMPTY: Locale = Locale.of(
     Languages.empty(),
     Regions.empty()
   );
@@ -31,8 +31,8 @@ export class Locale extends ValueObject implements JSONable {
     );
   }
 
-  public static default(): Locale {
-    return Locale.DEFAULT;
+  public static empty(): Locale {
+    return Locale.EMPTY;
   }
 
   protected constructor(languages: Languages, regions: Regions) {
@@ -64,23 +64,18 @@ export class Locale extends ValueObject implements JSONable {
   }
 
   public toJSON(): LocaleJSON {
-    const {
-      languages,
-      regions
-    } = this;
-
     return {
-      languages: languages.toJSON(),
-      regions: regions.toJSON()
+      languages: this.languages.toJSON(),
+      regions: this.regions.toJSON()
     };
   }
 
   public toString(): string {
-    const {
-      languages,
-      regions
-    } = this;
+    const properties: Array<string> = [];
 
-    return `${languages.toString()} ${regions.toString()}`;
+    properties.push(this.languages.toString());
+    properties.push(this.regions.toString());
+
+    return properties.join(' ');
   }
 }

@@ -44,11 +44,13 @@ export class VeauAccount extends ValueObject implements JSONable {
         )
       );
     }, (err: VeauAccountIDError) => {
-      return Failure.of<VeauAccount, VeauAccountError>(new VeauAccountError(err.message));
+      return Failure.of<VeauAccount, VeauAccountError>(
+        new VeauAccountError('VeauAccount.ofJSON()', err)
+      );
     });
   }
 
-  public static default(): VeauAccount {
+  public static empty(): VeauAccount {
     return VeauAccount.of(
       VeauAccountID.generate(),
       AccountName.empty(),
@@ -91,23 +93,16 @@ export class VeauAccount extends ValueObject implements JSONable {
       return true;
     }
 
-    const {
-      veauAccountID,
-      account,
-      language,
-      region
-    } = this;
-
-    if (!veauAccountID.equals(other.veauAccountID)) {
+    if (!this.veauAccountID.equals(other.veauAccountID)) {
       return false;
     }
-    if (!account.equals(other.account)) {
+    if (!this.account.equals(other.account)) {
       return false;
     }
-    if (!language.equals(other.language)) {
+    if (!this.language.equals(other.language)) {
       return false;
     }
-    if (!region.equals(other.region)) {
+    if (!this.region.equals(other.region)) {
       return false;
     }
 
@@ -115,29 +110,22 @@ export class VeauAccount extends ValueObject implements JSONable {
   }
 
   public toJSON(): VeauAccountJSON {
-    const {
-      veauAccountID,
-      account,
-      language,
-      region
-    } = this;
-
     return {
-      veauAccountID: veauAccountID.get().get(),
-      account: account.get(),
-      language: language.toJSON(),
-      region: region.toJSON()
+      veauAccountID: this.veauAccountID.get().get(),
+      account: this.account.get(),
+      language: this.language.toJSON(),
+      region: this.region.toJSON()
     };
   }
 
   public toString(): string {
-    const {
-      veauAccountID,
-      account,
-      language,
-      region
-    } = this;
+    const properties: Array<string> = [];
 
-    return `${veauAccountID.toString()} ${account.toString()} ${language.toString()} ${region.toString()}`;
+    properties.push(this.veauAccountID.toString());
+    properties.push(this.account.toString());
+    properties.push(this.language.toString());
+    properties.push(this.region.toString());
+
+    return properties.join(' ');
   }
 }

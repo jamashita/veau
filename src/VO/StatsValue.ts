@@ -28,7 +28,11 @@ export class StatsValue extends ValueObject implements JSONable {
   private readonly asOf: AsOf;
   private readonly value: NumericalValue;
 
-  public static of(statsItemID: StatsItemID, asOf: AsOf, value: NumericalValue): StatsValue {
+  public static of(
+    statsItemID: StatsItemID,
+    asOf: AsOf,
+    value: NumericalValue
+  ): StatsValue {
     return new StatsValue(statsItemID, asOf, value);
   }
 
@@ -36,7 +40,7 @@ export class StatsValue extends ValueObject implements JSONable {
     return AsOf.ofString(json.asOf).match<Try<StatsValue, StatsValueError>>((asOf: AsOf) => {
       return Success.of<StatsValue, StatsValueError>(StatsValue.of(statsItemID, asOf, NumericalValue.of(json.value)));
     }, (err: AsOfError) => {
-      return Failure.of<StatsValue, StatsValueError>(new StatsValueError(err.message));
+      return Failure.of<StatsValue, StatsValueError>(new StatsValueError('StatsValue.ofRow()', err));
     });
   }
 
@@ -51,10 +55,10 @@ export class StatsValue extends ValueObject implements JSONable {
           )
         );
       }, (err: AsOfError) => {
-        return Failure.of<StatsValue, StatsValueError>(new StatsValueError(err.message));
+        return Failure.of<StatsValue, StatsValueError>(new StatsValueError('StatsValue.ofRow()', err));
       });
     }, (err: StatsItemIDError) => {
-      return Failure.of<StatsValue, StatsValueError>(new StatsValueError(err.message));
+      return Failure.of<StatsValue, StatsValueError>(new StatsValueError('StatsValue.ofRow()', err));
     });
   }
 
@@ -78,7 +82,11 @@ export class StatsValue extends ValueObject implements JSONable {
     return true;
   }
 
-  protected constructor(statsItemID: StatsItemID, asOf: AsOf, value: NumericalValue) {
+  protected constructor(
+    statsItemID: StatsItemID,
+    asOf: AsOf,
+    value: NumericalValue
+  ) {
     super();
     this.statsItemID = statsItemID;
     this.asOf = asOf;
@@ -102,19 +110,13 @@ export class StatsValue extends ValueObject implements JSONable {
       return true;
     }
 
-    const {
-      statsItemID,
-      asOf,
-      value
-    } = this;
-
-    if (!statsItemID.equals(other.statsItemID)) {
+    if (!this.statsItemID.equals(other.statsItemID)) {
       return false;
     }
-    if (!asOf.equals(other.asOf)) {
+    if (!this.asOf.equals(other.asOf)) {
       return false;
     }
-    if (!value.equals(other.value)) {
+    if (!this.value.equals(other.value)) {
       return false;
     }
 
@@ -122,24 +124,19 @@ export class StatsValue extends ValueObject implements JSONable {
   }
 
   public toJSON(): StatsValueJSON {
-    const {
-      asOf,
-      value
-    } = this;
-
     return {
-      asOf: asOf.toString(),
-      value: value.get()
+      asOf: this.asOf.toString(),
+      value: this.value.get()
     };
   }
 
   public toString(): string {
-    const {
-      statsItemID,
-      asOf,
-      value
-    } = this;
+    const properties: Array<string> = [];
 
-    return `${statsItemID.toString()} ${asOf.toString()} ${value.toString()}`;
+    properties.push(this.statsItemID.toString());
+    properties.push(this.asOf.toString());
+    properties.push(this.value.toString());
+
+    return properties.join(' ');
   }
 }

@@ -49,10 +49,10 @@ describe('Row', () => {
     });
 
     it('returns Success and its value is Row.origin() when the argument 0', () => {
-      const trial1: Try<Row, RowError> = Row.of(0);
+      const trial: Try<Row, RowError> = Row.of(0);
 
-      expect(trial1.isSuccess()).toEqual(true);
-      expect(trial1.get()).toBe(Row.origin());
+      expect(trial.isSuccess()).toEqual(true);
+      expect(trial.get()).toBe(Row.origin());
     });
 
     it('returns Failure when the argument is not integer', () => {

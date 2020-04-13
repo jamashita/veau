@@ -3,30 +3,56 @@ import { LoadingCountError } from '../../Error/LoadingCountError';
 import { Try } from '../../General/Try/Try';
 import { LoadingCount } from '../LoadingCount';
 
-// TODO
+// DONE
 describe('LoadingCount', () => {
+  describe('default', () => {
+    it('always returns 0 value', () => {
+      expect(LoadingCount.default().get()).toEqual(0);
+    });
+
+    it('returns singleton instance', () => {
+      expect(LoadingCount.default()).toBe(LoadingCount.default());
+    });
+  });
+
   describe('of', () => {
     it('returns Failure when the argument is less than 1', () => {
-      const trial1: Try<LoadingCount, LoadingCountError> = LoadingCount.of(1);
-      const trial2: Try<LoadingCount, LoadingCountError> = LoadingCount.of(0);
-      const trial3: Try<LoadingCount, LoadingCountError> = LoadingCount.of(-1);
+      const trial1: Try<LoadingCount, LoadingCountError> = LoadingCount.of(-1);
+      const trial2: Try<LoadingCount, LoadingCountError> = LoadingCount.of(-5.6);
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
 
-      expect(trial1.isSuccess()).toEqual(true);
-      expect(trial2.isSuccess()).toEqual(true);
-      expect(trial3.isFailure()).toEqual(true);
+      expect(trial1.isFailure()).toEqual(true);
+      expect(trial2.isFailure()).toEqual(true);
 
-      trial3.match<void>(() => {
+      trial1.match<void>(() => {
         spy1();
       }, (err: LoadingCountError) => {
         spy2();
         expect(err).toBeInstanceOf(LoadingCountError);
       });
 
+      trial2.match<void>(() => {
+        spy3();
+      }, (err: LoadingCountError) => {
+        spy4();
+        expect(err).toBeInstanceOf(LoadingCountError);
+      });
+
       expect(spy1.called).toEqual(false);
       expect(spy2.called).toEqual(true);
+      expect(spy3.called).toEqual(false);
+      expect(spy4.called).toEqual(true);
+    });
+
+    it('returns Success and its value is LoadingCount.default() when the argument 0', () => {
+      const trial: Try<LoadingCount, LoadingCountError> = LoadingCount.of(0);
+
+      expect(trial.isSuccess()).toEqual(true);
+      expect(trial.get()).toBe(LoadingCount.default());
     });
 
     it('returns Failure when the argument is not integer', () => {
@@ -60,11 +86,18 @@ describe('LoadingCount', () => {
       expect(spy3.called).toEqual(false);
       expect(spy4.called).toEqual(true);
     });
-  });
 
-  describe('default', () => {
-    it('always returns 0 value', () => {
-      expect(LoadingCount.default().get()).toEqual(0);
+    it('returns Success when the argument is positive and integer', () => {
+      const value1: number = 6;
+      const value2: number = 17;
+      const trial1: Try<LoadingCount, LoadingCountError> = LoadingCount.of(value1);
+      const trial2: Try<LoadingCount, LoadingCountError> = LoadingCount.of(value2);
+
+      expect(trial1.isSuccess()).toEqual(true);
+      expect(trial2.isSuccess()).toEqual(true);
+
+      expect(trial1.get().get()).toEqual(value1);
+      expect(trial2.get().get()).toEqual(value2);
     });
   });
 
@@ -81,6 +114,10 @@ describe('LoadingCount', () => {
   });
 
   describe('isLoading', () => {
+    it('LoadingCount.default() return false', () => {
+      expect(LoadingCount.default().isLoading()).toEqual(false);
+    });
+
     it('normal case', () => {
       expect(LoadingCount.of(0).get().isLoading()).toEqual(false);
       expect(LoadingCount.of(1).get().isLoading()).toEqual(true);
@@ -107,8 +144,8 @@ describe('LoadingCount', () => {
       expect(count2.get()).toEqual(0);
       expect(count3.get()).toEqual(0);
       expect(count1).not.toBe(count2);
-      expect(count2).not.toBe(count3);
-      expect(count3).not.toBe(count1);
+      expect(count2).toBe(LoadingCount.default());
+      expect(count3).toBe(LoadingCount.default());
     });
   });
 

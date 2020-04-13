@@ -5,7 +5,18 @@ import { Limit } from '../Limit';
 import { Offset } from '../Offset';
 import { Page } from '../Page';
 
+// DONE
 describe('Page', () => {
+  describe('min', () => {
+    it('always returns 1', () => {
+      expect(Page.min().get()).toEqual(1);
+    });
+
+    it('returns singleton instance', () => {
+      expect(Page.min()).toBe(Page.min());
+    });
+  });
+
   describe('of', () => {
     it('returns Failure when the argument is less than 1', () => {
       const trial1: Try<Page, PageError> = Page.of(0);
@@ -39,6 +50,13 @@ describe('Page', () => {
       expect(spy4.called).toEqual(true);
     });
 
+    it('returns Success and its value is Page.min() when the argument 1', () => {
+      const trial: Try<Page, PageError> = Page.of(1);
+
+      expect(trial.isSuccess()).toEqual(true);
+      expect(trial.get()).toBe(Page.min());
+    });
+
     it('returns Failure when the argument is not integer', () => {
       const trial1: Try<Page, PageError> = Page.of(0.1);
       const trial2: Try<Page, PageError> = Page.of(1.5);
@@ -69,6 +87,19 @@ describe('Page', () => {
       expect(spy2.called).toEqual(true);
       expect(spy3.called).toEqual(false);
       expect(spy4.called).toEqual(true);
+    });
+
+    it('normal case', () => {
+      const page1: number = 1;
+      const page2: number = 4;
+      const trial1: Try<Page, PageError> = Page.of(page1);
+      const trial2: Try<Page, PageError> = Page.of(page2);
+
+      expect(trial1.isSuccess()).toEqual(true);
+      expect(trial2.isSuccess()).toEqual(true);
+
+      expect(trial1.get().get()).toEqual(page1);
+      expect(trial2.get().get()).toEqual(page2);
     });
   });
 

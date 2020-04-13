@@ -9,7 +9,13 @@ export class StatsItemNames implements Collection<number, StatsItemName>, JSONab
   public readonly noun: 'StatsItemNames' = 'StatsItemNames';
   private readonly names: Sequence<StatsItemName>;
 
+  private static readonly EMPTY: StatsItemNames = new StatsItemNames(Sequence.empty<StatsItemName>());
+
   public static of(names: Sequence<StatsItemName>): StatsItemNames {
+    if (names.isEmpty()) {
+      return StatsItemNames.empty();
+    }
+
     return new StatsItemNames(names);
   }
 
@@ -19,6 +25,10 @@ export class StatsItemNames implements Collection<number, StatsItemName>, JSONab
 
   public static ofSpread(...names: Array<StatsItemName>): StatsItemNames {
     return StatsItemNames.ofArray(names);
+  }
+
+  public static empty(): StatsItemNames {
+    return StatsItemNames.EMPTY;
   }
 
   protected constructor(names: Sequence<StatsItemName>) {

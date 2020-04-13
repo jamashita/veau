@@ -49,10 +49,10 @@ describe('Column', () => {
     });
 
     it('returns Success and its value is Column.origin() when the argument 0', () => {
-      const trial1: Try<Column, ColumnError> = Column.of(0);
+      const trial: Try<Column, ColumnError> = Column.of(0);
 
-      expect(trial1.isSuccess()).toEqual(true);
-      expect(trial1.get()).toBe(Column.origin());
+      expect(trial.isSuccess()).toEqual(true);
+      expect(trial.get()).toBe(Column.origin());
     });
 
     it('returns Failure when the argument is not integer', () => {

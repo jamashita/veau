@@ -28,12 +28,18 @@ describe('AsOfs', () => {
 
       expect(asOfs.size()).toEqual(sequence.size());
       for (let i: number = 0; i < asOfs.size(); i++) {
-        expect(asOfs.get(i).get()).toEqual(sequence.get(i).get());
+        expect(asOfs.get(i).get()).toBe(sequence.get(i).get());
       }
     });
   });
 
   describe('ofArray', () => {
+    it('when empty Array given, returns AsOfs.empty()', () => {
+      const asOfs: AsOfs = AsOfs.ofArray([]);
+
+      expect(asOfs).toBe(AsOfs.empty());
+    });
+
     it('normal case', () => {
       const asOf1: MockAsOf = new MockAsOf();
       const asOf2: MockAsOf = new MockAsOf();
@@ -48,12 +54,18 @@ describe('AsOfs', () => {
 
       expect(asOfs.size()).toEqual(as.length);
       for (let i: number = 0; i < asOfs.size(); i++) {
-        expect(asOfs.get(i).get()).toEqual(as[i]);
+        expect(asOfs.get(i).get()).toBe(as[i]);
       }
     });
   });
 
   describe('ofSpread', () => {
+    it('when no arguments given, returns AsOfs.empty()', () => {
+      const asOfs: AsOfs = AsOfs.ofSpread();
+
+      expect(asOfs).toBe(AsOfs.empty());
+    });
+
     it('normal case', () => {
       const asOf1: MockAsOf = new MockAsOf();
       const asOf2: MockAsOf = new MockAsOf();
@@ -72,17 +84,14 @@ describe('AsOfs', () => {
 
       expect(asOfs.size()).toEqual(as.length);
       for (let i: number = 0; i < asOfs.size(); i++) {
-        expect(asOfs.get(i).get()).toEqual(as[i]);
+        expect(asOfs.get(i).get()).toBe(as[i]);
       }
     });
   });
 
   describe('merge', () => {
     it('returns empty when argument is 0', () => {
-      const asOfs: AsOfs = AsOfs.merge();
-
-      expect(asOfs.isEmpty()).toEqual(true);
-      expect(asOfs).toBe(AsOfs.empty());
+      expect(AsOfs.merge()).toBe(AsOfs.empty());
     });
 
     it('normal case', () => {
@@ -152,9 +161,11 @@ describe('AsOfs', () => {
 
   describe('empty', () => {
     it('always empty, the length is 0', () => {
-      const asOfs: AsOfs = AsOfs.empty();
+      expect(AsOfs.empty().isEmpty()).toEqual(true);
+    });
 
-      expect(asOfs.isEmpty()).toEqual(true);
+    it('returns singleton instance', () => {
+      expect(AsOfs.empty()).toBe(AsOfs.empty());
     });
   });
 
@@ -209,9 +220,9 @@ describe('AsOfs', () => {
       );
 
       expect(asOfs.size()).toEqual(3);
-      expect(asOfs.get(0).get()).toEqual(asOf1);
-      expect(asOfs.get(1).get()).toEqual(asOf2);
-      expect(asOfs.get(2).get()).toEqual(asOf3);
+      expect(asOfs.get(0).get()).toBe(asOf1);
+      expect(asOfs.get(1).get()).toBe(asOf2);
+      expect(asOfs.get(2).get()).toBe(asOf3);
     });
 
     it('returns None when the index is out of range', () => {

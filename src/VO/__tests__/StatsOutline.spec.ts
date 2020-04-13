@@ -25,6 +25,7 @@ import { MockStatsID } from '../Mock/MockStatsID';
 import { MockLanguageID } from '../Mock/MockLanguageID';
 import { MockRegionID } from '../Mock/MockRegionID';
 
+// DONE
 describe('StatsOutline', () => {
   describe('of', () => {
     it('normal case', () => {
@@ -46,13 +47,13 @@ describe('StatsOutline', () => {
         updatedAt
       );
 
-      expect(statsOutline.getStatsID()).toEqual(statsID);
-      expect(statsOutline.getLanguage()).toEqual(language);
-      expect(statsOutline.getRegion()).toEqual(region);
-      expect(statsOutline.getTerm()).toEqual(term);
-      expect(statsOutline.getName()).toEqual(name);
-      expect(statsOutline.getUnit()).toEqual(unit);
-      expect(statsOutline.getUpdatedAt()).toEqual(updatedAt);
+      expect(statsOutline.getStatsID()).toBe(statsID);
+      expect(statsOutline.getLanguage()).toBe(language);
+      expect(statsOutline.getRegion()).toBe(region);
+      expect(statsOutline.getTerm()).toBe(term);
+      expect(statsOutline.getName()).toBe(name);
+      expect(statsOutline.getUnit()).toBe(unit);
+      expect(statsOutline.getUpdatedAt()).toBe(updatedAt);
     });
   });
 
@@ -341,6 +342,7 @@ describe('StatsOutline', () => {
       expect(spy2.called).toEqual(true);
     });
   });
+
   describe('equals', () => {
     it('returns true if all the properties are the same', () => {
       const statsID1: MockStatsID = new MockStatsID();
@@ -449,11 +451,19 @@ describe('StatsOutline', () => {
 
   describe('toJSON', () => {
     it('normal case', () => {
-      const statsID: StatsID = StatsID.ofString('bfb0ebff-fc8c-450e-9265-82fa4938ae94').get();
       const statsOutline: StatsOutline = StatsOutline.of(
-        statsID,
-        Language.of(LanguageID.of(1), LanguageName.of('language1'), LanguageName.of('englishname1'), ISO639.of('lang1')),
-        Region.of(RegionID.of(1), RegionName.of('region1'), ISO3166.of('regn1')),
+        StatsID.ofString('bfb0ebff-fc8c-450e-9265-82fa4938ae94').get(),
+        Language.of(
+          LanguageID.of(1),
+          LanguageName.of('language1'),
+          LanguageName.of('englishname1'),
+          ISO639.of('lang1')
+        ),
+        Region.of(
+          RegionID.of(1),
+          RegionName.of('region1'),
+          ISO3166.of('regn1')
+        ),
         Term.DAILY,
         StatsName.of('name1'),
         StatsUnit.of('unit1'),
@@ -633,13 +643,13 @@ describe('StatsOutline', () => {
       const copy: StatsOutline = statsOutline.copy();
 
       expect(statsOutline).not.toBe(copy);
-      expect(statsOutline.getStatsID()).toEqual(statsID);
-      expect(statsOutline.getLanguage()).toEqual(language);
-      expect(statsOutline.getRegion()).toEqual(region);
-      expect(statsOutline.getTerm()).toEqual(term);
-      expect(statsOutline.getName()).toEqual(name);
-      expect(statsOutline.getUnit()).toEqual(unit);
-      expect(statsOutline.getUpdatedAt()).toEqual(updatedAt);
+      expect(statsOutline.getStatsID()).toBe(statsID);
+      expect(statsOutline.getLanguage()).toBe(language);
+      expect(statsOutline.getRegion()).toBe(region);
+      expect(statsOutline.getTerm()).toBe(term);
+      expect(statsOutline.getName()).toBe(name);
+      expect(statsOutline.getUnit()).toBe(unit);
+      expect(statsOutline.getUpdatedAt()).toBe(updatedAt);
     });
   });
 });

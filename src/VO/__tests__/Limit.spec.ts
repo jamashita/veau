@@ -5,6 +5,16 @@ import { Limit } from '../Limit';
 
 // DONE
 describe('Limit', () => {
+  describe('default', () => {
+    it('always returns 40', () => {
+      expect(Limit.default().get()).toEqual(40);
+    });
+
+    it('returns singleton instance', () => {
+      expect(Limit.default()).toBe(Limit.default());
+    });
+  });
+
   describe('of', () => {
     it('returns Failure when the argument is less than 1', () => {
       const trial1: Try<Limit, LimitError> = Limit.of(1);
@@ -71,11 +81,12 @@ describe('Limit', () => {
       expect(spy3.called).toEqual(false);
       expect(spy4.called).toEqual(true);
     });
-  });
 
-  describe('default', () => {
-    it('always returns 40', () => {
-      expect(Limit.default().get()).toEqual(40);
+    it('returns Success and its value is Limit.default() when the argument 0', () => {
+      const trial: Try<Limit, LimitError> = Limit.of(40);
+
+      expect(trial.isSuccess()).toEqual(true);
+      expect(trial.get()).toBe(Limit.default());
     });
   });
 

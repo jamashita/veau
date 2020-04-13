@@ -6,7 +6,7 @@ import { VeauAccountID } from '../VeauAccountID';
 
 // DONE
 describe('VeauAccountID', () => {
-  describe('ofString', () => {
+  describe('of', () => {
     it('normal case', () => {
       const uuid: string = '998106de-b2e7-4981-9643-22cd30cd74de';
 
