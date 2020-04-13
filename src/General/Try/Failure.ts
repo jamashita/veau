@@ -26,10 +26,6 @@ export class Failure<S, F extends Error> extends Try<S, F> {
     return this.value;
   }
 
-  public isSuccess(): this is Success<S, F> {
-    return false;
-  }
-
   public isFailure(): this is Failure<S, F> {
     return true;
   }

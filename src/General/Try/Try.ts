@@ -10,9 +10,13 @@ export abstract class Try<S, F extends Error> {
 
   public abstract get(): S;
 
-  public abstract isSuccess(): this is Success<S, F>;
+  public isSuccess(): this is Success<S, F> {
+    return false;
+  }
 
-  public abstract isFailure(): this is Failure<S, F>;
+  public isFailure(): this is Failure<S, F> {
+    return false;
+  }
 
   public abstract match<T>(success: BiFunction<S, Success<S, F>, T>, failure: BiFunction<F, Failure<S, F>, T>): T;
 }

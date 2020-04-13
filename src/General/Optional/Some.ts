@@ -28,10 +28,6 @@ export class Some<T> extends Optional<T> {
     return true;
   }
 
-  public isAbsent(): this is None<T> {
-    return false;
-  }
-
   public ifPresent(consumer: Consumer<T>): void;
   public ifPresent(consumer: AsyncConsumer<T>): Promise<void>;
   public ifPresent(consumer: Consumer<T> | AsyncConsumer<T>): void | Promise<void> {

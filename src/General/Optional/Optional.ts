@@ -14,9 +14,13 @@ export abstract class Optional<T> implements Noun {
 
   public abstract get(): T;
 
-  public abstract isPresent(): this is Some<T>;
+  public isPresent(): this is Some<T> {
+    return false;
+  }
 
-  public abstract isAbsent(): this is None<T>;
+  public isAbsent(): this is None<T> {
+    return false;
+  }
 
   public abstract ifPresent(consumer: Consumer<T>): void;
   public abstract ifPresent(consumer: AsyncConsumer<T>): Promise<void>;

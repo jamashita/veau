@@ -3,7 +3,6 @@ import { Try } from '../Try/Try';
 import { AsyncConsumer, Consumer, MonoFunction, Predicate } from '../Type/Function';
 import { Optional } from './Optional';
 import { OptionalError } from './OptionalError';
-import { Some } from './Some';
 import { Suspicious } from '../Type/Value';
 
 export class None<T> extends Optional<T> {
@@ -23,10 +22,6 @@ export class None<T> extends Optional<T> {
 
   public get(): never {
     throw new OptionalError('IS NOT PRESENT');
-  }
-
-  public isPresent(): this is Some<T> {
-    return false;
   }
 
   public isAbsent(): this is None<T> {
