@@ -131,7 +131,33 @@ describe('LanguageQuery', () => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
         spy2();
-        expect(err).toBeInstanceOf(DataSourceError);
+        expect(err).toBeInstanceOf(RedisError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('Redis returns JSONAError', async () => {
+      const string: MockRedisString = new MockRedisString();
+      const stub: SinonStub = sinon.stub();
+      string.get = stub;
+      stub.resolves('{');
+      const redis: MockRedis = new MockRedis({
+        string
+      });
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const languageQuery: LanguageQuery = new LanguageQuery(redis);
+      const trial: Try<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (err: NoSuchElementError | DataSourceError) => {
+        spy2();
+        expect(err).toBeInstanceOf(RedisError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -179,7 +205,9 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const trial: Try<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
+      const trial: Try<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(
+        ISO639.of('aa')
+      );
 
       expect(trial.isSuccess()).toEqual(true);
       const language: Language = trial.get();
@@ -205,7 +233,9 @@ describe('LanguageQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const trial: Try<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
+      const trial: Try<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(
+        ISO639.of('aa')
+      );
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -231,7 +261,9 @@ describe('LanguageQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const trial: Try<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
+      const trial: Try<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(
+        ISO639.of('aa')
+      );
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -306,7 +338,33 @@ describe('LanguageQuery', () => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
         spy2();
-        expect(err).toBeInstanceOf(DataSourceError);
+        expect(err).toBeInstanceOf(RedisError);
+      });
+
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('Redis returns JSONAError', async () => {
+      const string: MockRedisString = new MockRedisString();
+      const stub: SinonStub = sinon.stub();
+      string.get = stub;
+      stub.resolves('{');
+      const redis: MockRedis = new MockRedis({
+        string
+      });
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const languageQuery: LanguageQuery = new LanguageQuery(redis);
+      const trial: Try<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (err: NoSuchElementError | DataSourceError) => {
+        spy2();
+        expect(err).toBeInstanceOf(RedisError);
       });
 
       expect(spy1.called).toEqual(false);

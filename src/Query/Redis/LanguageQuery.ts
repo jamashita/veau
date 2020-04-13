@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify';
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { DataSourceError } from '../../General/DataSourceError';
-import { JSONA } from '../../General/JSONA';
+import { JSONA } from '../../General/Type/JSONA';
 import { Optional } from '../../General/Optional/Optional';
 import { IRedis } from '../../General/Redis/Interface/IRedis';
 import { RedisError } from '../../General/Redis/RedisError';
@@ -16,6 +16,7 @@ import { Language, LanguageJSON } from '../../VO/Language';
 import { Languages } from '../../VO/Languages';
 import { ILanguageQuery } from '../Interface/ILanguageQuery';
 import { IRedisQuery } from '../Interface/IRedisQuery';
+import { JSONAError } from '../../General/Type/JSONAError';
 
 @injectable()
 export class LanguageQuery implements ILanguageQuery, IRedisQuery {
@@ -32,7 +33,9 @@ export class LanguageQuery implements ILanguageQuery, IRedisQuery {
       const languagesString: Nullable<string> = await this.redis.getString().get(REDIS_LANGUAGE_KEY);
 
       if (languagesString === null) {
-        return Failure.of<Languages, NoSuchElementError>(new NoSuchElementError('NO LANGUAGES FROM REDIS'));
+        return Failure.of<Languages, NoSuchElementError>(
+          new NoSuchElementError('NO LANGUAGES FROM REDIS')
+        );
       }
 
       const languageJSONs: Array<LanguageJSON> = await JSONA.parse<Array<LanguageJSON>>(languagesString);
@@ -41,7 +44,12 @@ export class LanguageQuery implements ILanguageQuery, IRedisQuery {
     }
     catch (err) {
       if (err instanceof RedisError) {
-        return Failure.of<Languages, DataSourceError>(err);
+        return Failure.of<Languages, RedisError>(err);
+      }
+      if (err instanceof JSONAError) {
+        return Failure.of<Languages, RedisError>(
+          new RedisError('LanguageQuery.all()', err)
+        );
       }
 
       throw err;

@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify';
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { DataSourceError } from '../../General/DataSourceError';
-import { JSONA } from '../../General/JSONA';
+import { JSONA } from '../../General/Type/JSONA';
 import { Optional } from '../../General/Optional/Optional';
 import { IRedis } from '../../General/Redis/Interface/IRedis';
 import { RedisError } from '../../General/Redis/RedisError';
@@ -16,6 +16,7 @@ import { Region, RegionJSON } from '../../VO/Region';
 import { Regions } from '../../VO/Regions';
 import { IRedisQuery } from '../Interface/IRedisQuery';
 import { IRegionQuery } from '../Interface/IRegionQuery';
+import { JSONAError } from '../../General/Type/JSONAError';
 
 @injectable()
 export class RegionQuery implements IRegionQuery, IRedisQuery {
@@ -32,7 +33,9 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
       const regionString: Nullable<string> = await this.redis.getString().get(REDIS_REGION_KEY);
 
       if (regionString === null) {
-        return Failure.of<Regions, NoSuchElementError>(new NoSuchElementError('NO REGIONS FROM REDIS'));
+        return Failure.of<Regions, NoSuchElementError>(
+          new NoSuchElementError('NO REGIONS FROM REDIS')
+        );
       }
 
       const regionJSONs: Array<RegionJSON> = await JSONA.parse<Array<RegionJSON>>(regionString);
@@ -41,7 +44,10 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
     }
     catch (err) {
       if (err instanceof RedisError) {
-        return Failure.of<Regions, DataSourceError>(err);
+        return Failure.of<Regions, RedisError>(err);
+      }
+      if (err instanceof JSONAError) {
+        return Failure.of<Regions, RedisError>(new RedisError('RegionQuery.all()', err));
       }
 
       throw err;
