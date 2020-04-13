@@ -25,17 +25,13 @@ export class MockNominative<E extends Primitive> implements Nominative {
   }
 
   public toString(): string {
-    const {
-      value
-    } = this;
-
-    if (value === undefined) {
+    if (this.value === undefined) {
       return 'undefined';
     }
-    if (value === null) {
+    if (this.value === null) {
       return 'null';
     }
 
-    return value.toString();
+    return this.value.toString();
   }
 }

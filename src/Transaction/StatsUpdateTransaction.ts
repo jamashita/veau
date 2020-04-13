@@ -32,12 +32,7 @@ export class StatsUpdateTransaction implements IStatsUpdateTransaction {
     const statsItemCommand: StatsItemCommand = StatsItemCommand.of(query);
     const statsValueCommand: StatsValueCommand = StatsValueCommand.of(query);
 
-    const {
-      stats,
-      veauAccountID
-    } = this;
-
-    const statsID: StatsID = stats.getStatsID();
+    const statsID: StatsID = this.stats.getStatsID();
 
     const tries: Array<Try<void, DataSourceError>> = [
       await statsValueCommand.deleteByStatsID(statsID),
@@ -59,7 +54,7 @@ export class StatsUpdateTransaction implements IStatsUpdateTransaction {
         });
       });
 
-      const statsInsertTry: Try<void, DataSourceError> = await statsCommand.create(stats, veauAccountID);
+      const statsInsertTry: Try<void, DataSourceError> = await statsCommand.create(this.stats, this.veauAccountID);
       const statsItemInsertTries: Array<Try<void, DataSourceError>> = await Promise.all<Try<void, DataSourceError>>(itemPromises);
       const statsValueInsertTries: Array<Try<void, DataSourceError>> = await Promise.all<Try<void, DataSourceError>>(valuePromises);
 

@@ -194,15 +194,11 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
   }
 
   public haveValues(): boolean {
-    const {
-      items
-    } = this;
-
-    if (items.isEmpty()) {
+    if (this.items.isEmpty()) {
       return false;
     }
 
-    const rowLengths: Array<number> = items.toArray().map<number>((item: StatsItem) => {
+    const rowLengths: Array<number> = this.items.toArray().map<number>((item: StatsItem) => {
       return item.getValues().size();
     });
 
