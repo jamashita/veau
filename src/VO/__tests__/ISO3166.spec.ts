@@ -21,8 +21,8 @@ describe('ISO3166', () => {
       const iso31661: string = 'AFG';
       const iso31662: string = 'ALB';
 
-      expect(ISO3166.of(iso31661).get()).toBe(iso31661);
-      expect(ISO3166.of(iso31662).get()).toBe(iso31662);
+      expect(ISO3166.of(iso31661).get()).toEqual(iso31661);
+      expect(ISO3166.of(iso31662).get()).toEqual(iso31662);
     });
   });
 

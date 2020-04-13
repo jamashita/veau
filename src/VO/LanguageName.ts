@@ -1,19 +1,19 @@
 import { ValueObject } from '../General/ValueObject';
 
-const DEFAULT_NAME: string = '';
+const EMPTY_NAME: string = '';
 
 export class LanguageName extends ValueObject {
   public readonly noun: 'LanguageName' = 'LanguageName';
   private readonly name: string;
 
-  private static readonly DEFAULT: LanguageName = LanguageName.of(DEFAULT_NAME);
+  private static readonly EMPTY: LanguageName = LanguageName.of(EMPTY_NAME);
 
   public static of(name: string): LanguageName {
     return new LanguageName(name);
   }
 
-  public static default(): LanguageName {
-    return LanguageName.DEFAULT;
+  public static empty(): LanguageName {
+    return LanguageName.EMPTY;
   }
 
   protected constructor(name: string) {
@@ -23,6 +23,14 @@ export class LanguageName extends ValueObject {
 
   public get(): string {
     return this.name;
+  }
+
+  public isEmpty(): boolean {
+    if (this === LanguageName.EMPTY) {
+      return true;
+    }
+
+    return false;
   }
 
   public equals(other: LanguageName): boolean {

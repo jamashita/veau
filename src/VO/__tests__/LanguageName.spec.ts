@@ -1,9 +1,42 @@
 import { LanguageName } from '../LanguageName';
 
+// DONE
 describe('LanguageName', () => {
-  describe('default', () => {
+  describe('empty', () => {
     it('always returns empty string', () => {
-      expect(LanguageName.default().get()).toEqual('');
+      expect(LanguageName.empty().get()).toEqual('');
+    });
+
+    it('returns singleton instance', () => {
+      expect(LanguageName.empty()).toBe(LanguageName.empty());
+    });
+  });
+
+  describe('of', () => {
+    it('returns LanguageName.empty() when empty string is given', () => {
+      expect(LanguageName.of('')).toEqual(LanguageName.empty());
+    });
+
+    it('normal case', () => {
+      const name1: string = 'language name 1';
+      const name2: string = 'language name 2';
+
+      expect(LanguageName.of(name1).get()).toEqual(name1);
+      expect(LanguageName.of(name2).get()).toEqual(name2);
+    });
+  });
+
+  describe('isEmpty', () => {
+    it('returns true if LanguageName.empty() is given', () => {
+      expect(LanguageName.empty().isEmpty()).toEqual(true);
+    });
+
+    it('normal case', () => {
+      const name1: string = 'language name 1';
+      const name2: string = 'language name 2';
+
+      expect(LanguageName.of(name1).isEmpty()).toEqual(false);
+      expect(LanguageName.of(name2).isEmpty()).toEqual(false);
     });
   });
 

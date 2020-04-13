@@ -2,19 +2,19 @@ import { LanguageID } from '../LanguageID';
 
 // DONE
 describe('LanguageID', () => {
-  describe('default', () => {
+  describe('empty', () => {
     it('always returns 0', () => {
-      expect(LanguageID.default().get()).toEqual(0);
+      expect(LanguageID.empty().get()).toEqual(0);
     });
 
     it('returns singleton instance', () => {
-      expect(LanguageID.default()).toEqual(LanguageID.default());
+      expect(LanguageID.empty()).toEqual(LanguageID.empty());
     });
   });
 
   describe('of', () => {
-    it('returns LanguageID.default() when 0 is given', () => {
-      expect(LanguageID.of(0)).toEqual(LanguageID.default());
+    it('returns LanguageID.empty() when 0 is given', () => {
+      expect(LanguageID.of(0)).toEqual(LanguageID.empty());
     });
 
     it('normal case', () => {
@@ -35,6 +35,27 @@ describe('LanguageID', () => {
       expect(languageID1.equals(languageID1)).toEqual(true);
       expect(languageID1.equals(languageID2)).toEqual(false);
       expect(languageID1.equals(languageID3)).toEqual(true);
+    });
+  });
+
+  describe('isEmpty', () => {
+    it('when LanguageID.empty() given , returns true', () => {
+      expect(LanguageID.empty().isEmpty()).toEqual(true);
+    });
+
+    it('when negative values given , returns true', () => {
+      expect(LanguageID.of(-1).isEmpty()).toEqual(true);
+      expect(LanguageID.of(-11).isEmpty()).toEqual(true);
+    });
+
+    it('when double value is given, returns true', () => {
+      expect(LanguageID.of(1.1).isEmpty()).toEqual(true);
+      expect(LanguageID.of(2.5).isEmpty()).toEqual(true);
+    });
+
+    it('otherwise returns false', () => {
+      expect(LanguageID.of(1).isEmpty()).toEqual(false);
+      expect(LanguageID.of(105).isEmpty()).toEqual(false);
     });
   });
 

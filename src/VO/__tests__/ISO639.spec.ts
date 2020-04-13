@@ -21,8 +21,8 @@ describe('ISO639', () => {
       const iso6391: string = 'ab';
       const iso6392: string = 'aa';
 
-      expect(ISO639.of(iso6391).get()).toBe(iso6391);
-      expect(ISO639.of(iso6392).get()).toBe(iso6392);
+      expect(ISO639.of(iso6391).get()).toEqual(iso6391);
+      expect(ISO639.of(iso6392).get()).toEqual(iso6392);
     });
   });
 

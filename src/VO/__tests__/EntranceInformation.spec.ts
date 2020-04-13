@@ -6,27 +6,27 @@ import { MockPassword } from '../Mock/MockPassword';
 
 // DONE
 describe('EntranceInformation', () => {
-  describe('default', () => {
-    it('\'s account and password must be blank', () => {
-      const entranceInformation: EntranceInformation = EntranceInformation.default();
+  describe('empty', () => {
+    it('\'s account and password must also be empty', () => {
+      const entranceInformation: EntranceInformation = EntranceInformation.empty();
 
       expect(entranceInformation.getAccount().isEmpty()).toEqual(true);
       expect(entranceInformation.getPassword().isDefault()).toEqual(true);
     });
 
     it('returns singleton instance', () => {
-      expect(EntranceInformation.default()).toBe(EntranceInformation.default());
+      expect(EntranceInformation.empty()).toBe(EntranceInformation.empty());
     });
   });
 
   describe('of', () => {
-    it('returns EntranceInformation.default() when AccountName and Password is blank', () => {
+    it('returns EntranceInformation.empty() when AccountName and Password is blank', () => {
       const entranceInformation: EntranceInformation = EntranceInformation.of(
         AccountName.empty(),
         Password.default()
       );
 
-      expect(entranceInformation).toBe(EntranceInformation.default());
+      expect(entranceInformation).toBe(EntranceInformation.empty());
     });
 
     it('normal case', () => {

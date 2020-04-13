@@ -25,10 +25,10 @@ export class Language extends ValueObject implements JSONable {
   private readonly englishName: LanguageName;
   private readonly iso639: ISO639;
 
-  private static readonly DEFAULT: Language = new Language(
-    LanguageID.default(),
-    LanguageName.default(),
-    LanguageName.default(),
+  private static readonly EMPTY: Language = new Language(
+    LanguageID.empty(),
+    LanguageName.empty(),
+    LanguageName.empty(),
     ISO639.empty()
   );
 
@@ -59,8 +59,8 @@ export class Language extends ValueObject implements JSONable {
     );
   }
 
-  public static default(): Language {
-    return Language.DEFAULT;
+  public static empty(): Language {
+    return Language.EMPTY;
   }
 
   public static isJSON(n: unknown): n is LanguageJSON {

@@ -52,7 +52,7 @@ export class VeauAccount extends ValueObject implements JSONable {
     return VeauAccount.of(
       VeauAccountID.generate(),
       AccountName.empty(),
-      Language.default(),
+      Language.empty(),
       Region.default()
     );
   }

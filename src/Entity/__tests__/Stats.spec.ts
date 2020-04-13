@@ -1580,7 +1580,7 @@ describe('Stats', () => {
       const statsItemID: StatsItemID = StatsItemID.ofString(id2).get();
       const stats: Stats = Stats.of(
         statsID,
-        Language.default(),
+        Language.empty(),
         Region.default(),
         term,
         StatsName.of(name2),
@@ -1601,7 +1601,7 @@ describe('Stats', () => {
         ])
       );
 
-      expect(stats.toString()).toEqual(`${id1} ${Language.default().toString()} ${Region.default().toString()} ${term.toString()} ${name2} ${unit} ${at2}`);
+      expect(stats.toString()).toEqual(`${id1} ${Language.empty().toString()} ${Region.default().toString()} ${term.toString()} ${name2} ${unit} ${at2}`);
     });
   });
 
@@ -1998,7 +1998,7 @@ describe('Stats', () => {
     it('returns true if the language, region, name, and unit are filled', () => {
       const stats1: Stats = Stats.of(
         new MockStatsID(),
-        Language.default(),
+        Language.empty(),
         Region.default(),
         Term.DAILY,
         StatsName.default(),
@@ -2020,7 +2020,7 @@ describe('Stats', () => {
       );
       const stats3: Stats = Stats.of(
         new MockStatsID(),
-        Language.default(),
+        Language.empty(),
         new MockRegion({
           regionID: new MockRegionID(5)
         }),
@@ -2032,7 +2032,7 @@ describe('Stats', () => {
       );
       const stats4: Stats = Stats.of(
         new MockStatsID(),
-        Language.default(),
+        Language.empty(),
         Region.default(),
         Term.DAILY,
         new MockStatsName('stats name'),
@@ -2044,7 +2044,7 @@ describe('Stats', () => {
       );
       const stats5: Stats = Stats.of(
         new MockStatsID(),
-        Language.default(),
+        Language.empty(),
         Region.default(),
         Term.DAILY,
         StatsName.default(),
@@ -2085,7 +2085,7 @@ describe('Stats', () => {
       );
       const stats8: Stats = Stats.of(
         new MockStatsID(),
-        Language.default(),
+        Language.empty(),
         Region.default(),
         Term.DAILY,
         new MockStatsName('stats name'),
@@ -2126,7 +2126,7 @@ describe('Stats', () => {
       );
       const stats11: Stats = Stats.of(
         new MockStatsID(),
-        Language.default(),
+        Language.empty(),
         new MockRegion({
           regionID: new MockRegionID(5)
         }),
@@ -2203,7 +2203,7 @@ describe('Stats', () => {
     it('returns true if the stats is filled', () => {
       const stats1: Stats = Stats.of(
         new MockStatsID(),
-        Language.default(),
+        Language.empty(),
         Region.default(),
         Term.DAILY,
         StatsName.default(),
@@ -2213,7 +2213,7 @@ describe('Stats', () => {
       );
       const stats2: Stats = Stats.of(
         new MockStatsID(),
-        Language.default(),
+        Language.empty(),
         new MockRegion({
           regionID: new MockRegionID(5)
         }),

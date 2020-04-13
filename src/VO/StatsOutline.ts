@@ -179,7 +179,7 @@ export class StatsOutline extends ValueObject implements JSONable, Cloneable {
       unit
     } = this;
 
-    if (language.equals(Language.default())) {
+    if (language.equals(Language.empty())) {
       return false;
     }
     if (region.equals(Region.default())) {

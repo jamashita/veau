@@ -163,11 +163,11 @@ describe('Language', () => {
 
   describe('default', () => {
     it('returns each default value', () => {
-      const language: Language = Language.default();
+      const language: Language = Language.empty();
 
-      expect(language.getLanguageID()).toEqual(LanguageID.default());
-      expect(language.getName()).toEqual(LanguageName.default());
-      expect(language.getEnglishName()).toEqual(LanguageName.default());
+      expect(language.getLanguageID()).toEqual(LanguageID.empty());
+      expect(language.getName()).toEqual(LanguageName.empty());
+      expect(language.getEnglishName()).toEqual(LanguageName.empty());
       expect(language.getISO639()).toEqual(ISO639.empty());
     });
   });

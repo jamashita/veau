@@ -1,23 +1,30 @@
 import { ValueObject } from '../General/ValueObject';
+import { Type } from '../General/Type/Type';
 
-const DEFAULT_ID: number = 0;
+const EMPTY_ID: number = 0;
 
 export class LanguageID extends ValueObject {
   public readonly noun: 'LanguageID' = 'LanguageID';
   private readonly id: number;
 
-  private static readonly DEFAULT: LanguageID = new LanguageID(DEFAULT_ID);
+  private static readonly EMPTY: LanguageID = new LanguageID(EMPTY_ID);
 
   public static of(id: number): LanguageID {
-    if (id === DEFAULT_ID) {
-      return LanguageID.default();
+    if (id === EMPTY_ID) {
+      return LanguageID.empty();
+    }
+    if (id < 0) {
+      return LanguageID.empty();
+    }
+    if (Type.isInteger(id)) {
+      return new LanguageID(id);
     }
 
-    return new LanguageID(id);
+    return LanguageID.empty();
   }
 
-  public static default(): LanguageID {
-    return LanguageID.DEFAULT;
+  public static empty(): LanguageID {
+    return LanguageID.EMPTY;
   }
 
   protected constructor(id: number) {
@@ -29,8 +36,8 @@ export class LanguageID extends ValueObject {
     return this.id;
   }
 
-  public isDefault(): boolean {
-    if (this === LanguageID.DEFAULT) {
+  public isEmpty(): boolean {
+    if (this === LanguageID.EMPTY) {
       return true;
     }
 
