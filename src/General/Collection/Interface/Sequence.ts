@@ -5,7 +5,6 @@ import { Collection } from '../../Interface/Collection';
 import { Cloneable } from '../../Interface/Cloneable';
 
 export interface Sequence<E extends Nominative> extends Collection<number, E>, Cloneable {
-  readonly noun: string;
 
   add(...elements: Array<E>): Sequence<E>;
 
