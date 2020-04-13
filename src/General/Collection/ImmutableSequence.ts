@@ -6,30 +6,30 @@ import { Enumerator, Mapper, Predicate } from '../Type/Function';
 import { Ambiguous } from '../Type/Value';
 import { Sequence } from './Interface/Sequence';
 
-export class ArraySequence<E extends Nominative> implements Sequence<E> {
+export class ImmutableSequence<E extends Nominative> implements Sequence<E> {
   public readonly noun: 'ArraySequence' = 'ArraySequence';
   private readonly elements: Array<E>;
 
-  private static readonly EMPTY: ArraySequence<Nominative> = new ArraySequence<Nominative>([]);
+  private static readonly EMPTY: ImmutableSequence<Nominative> = new ImmutableSequence<Nominative>([]);
 
-  public static of<E extends Nominative>(elements: Array<E>): ArraySequence<E> {
+  public static of<E extends Nominative>(elements: Array<E>): ImmutableSequence<E> {
     if (elements.length === 0) {
-      return ArraySequence.empty<E>();
+      return ImmutableSequence.empty<E>();
     }
 
-    return new ArraySequence<E>(elements);
+    return new ImmutableSequence<E>(elements);
   }
 
-  public static empty<E extends Nominative>(): ArraySequence<E> {
-    return ArraySequence.EMPTY as ArraySequence<E>;
+  public static empty<E extends Nominative>(): ImmutableSequence<E> {
+    return ImmutableSequence.EMPTY as ImmutableSequence<E>;
   }
 
   protected constructor(elements: Array<E>) {
     this.elements = elements;
   }
 
-  public add(...elements: Array<E>): ArraySequence<E> {
-    return ArraySequence.of<E>([
+  public add(...elements: Array<E>): ImmutableSequence<E> {
+    return ImmutableSequence.of<E>([
       ...this.elements,
       ...elements
     ]);
@@ -62,7 +62,7 @@ export class ArraySequence<E extends Nominative> implements Sequence<E> {
   }
 
   public isEmpty(): boolean {
-    if (this === ArraySequence.empty<E>()) {
+    if (this === ImmutableSequence.empty<E>()) {
       return true;
     }
 
@@ -73,8 +73,8 @@ export class ArraySequence<E extends Nominative> implements Sequence<E> {
     this.elements.forEach(iteration);
   }
 
-  public map<F extends Nominative>(mapper: Mapper<E, F>): ArraySequence<F> {
-    return ArraySequence.of<F>(this.elements.map<F>(mapper));
+  public map<F extends Nominative>(mapper: Mapper<E, F>): ImmutableSequence<F> {
+    return ImmutableSequence.of<F>(this.elements.map<F>(mapper));
   }
 
   public find(predicate: Predicate<E>): Optional<E> {
@@ -87,8 +87,8 @@ export class ArraySequence<E extends Nominative> implements Sequence<E> {
     return Some.of<E>(element);
   }
 
-  public filter(iterator: Enumerator<number, E>): ArraySequence<E> {
-    return ArraySequence.of<E>(this.elements.filter(iterator));
+  public filter(iterator: Enumerator<number, E>): ImmutableSequence<E> {
+    return ImmutableSequence.of<E>(this.elements.filter(iterator));
   }
 
   public every(enumerator: Enumerator<number, E>): boolean {
@@ -99,13 +99,13 @@ export class ArraySequence<E extends Nominative> implements Sequence<E> {
     return this.elements.some(enumerator);
   }
 
-  public copy(): ArraySequence<E> {
-    return ArraySequence.of<E>([
+  public copy(): ImmutableSequence<E> {
+    return ImmutableSequence.of<E>([
       ...this.elements
     ]);
   }
 
-  public equals(other: ArraySequence<E>): boolean {
+  public equals(other: ImmutableSequence<E>): boolean {
     if (this === other) {
       return true;
     }
