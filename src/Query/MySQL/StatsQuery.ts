@@ -52,12 +52,15 @@ export class StatsQuery implements IStatsQuery, IMySQLQuery {
       WHERE R1.stats_id = :statsID;`;
 
     try {
-      const statsRows: Array<StatsRow> = await this.mysql.execute<Array<StatsRow>>(query, {
-        statsID: statsID.get().get()
-      });
+      const statsRows: Array<StatsRow> = await this.mysql.execute<Array<StatsRow>>(
+        query,
+        {
+          statsID: statsID.get().get()
+        }
+      );
 
       if (statsRows.length === 0) {
-        return Failure.of<Stats, NoSuchElementError>(new NoSuchElementError(statsID.toString()));
+        return Failure.of<Stats, NoSuchElementError>(new NoSuchElementError(statsID.get().get()));
       }
 
       const trial: Try<StatsItems, StatsItemsError | DataSourceError> = await this.statsItemQuery.findByStatsID(statsID);
@@ -69,7 +72,7 @@ export class StatsQuery implements IStatsQuery, IMySQLQuery {
           return Failure.of<Stats, DataSourceError>(err);
         }
 
-        return Failure.of<Stats, StatsError>(new StatsError('FAIL D TO FIND StatsItem', err));
+        return Failure.of<Stats, StatsError>(new StatsError('StatsQuery.findByStatsID()', err));
       });
     }
     catch (err) {

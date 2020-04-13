@@ -8,10 +8,10 @@ import { MockError } from '../../../General/MockError';
 import { MockMySQL } from '../../../General/MySQL/Mock/MockMySQL';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
 import { Try } from '../../../General/Try/Try';
-import { StatsID } from '../../../VO/StatsID';
 import { StatsValueRow } from '../../../VO/StatsValue';
 import { StatsValues } from '../../../VO/StatsValues';
 import { StatsValueQuery } from '../StatsValueQuery';
+import { MockStatsID } from '../../../VO/Mock/MockStatsID';
 
 describe('StatsValueQuery', () => {
   describe('container', () => {
@@ -26,6 +26,7 @@ describe('StatsValueQuery', () => {
 
   describe('findByStatsID', () => {
     it('normal case', async () => {
+      const statsID: MockStatsID = new MockStatsID();
       const rows: Array<StatsValueRow> = [
         {
           statsItemID: '98d1e9b5-6b18-44de-b615-d8016f49977d',
@@ -60,7 +61,7 @@ describe('StatsValueQuery', () => {
       stub.resolves(rows);
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
-      const trial: Try<StatsValues, StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(StatsID.ofString('d4703058-a6ff-420b-95b2-4475beba9027').get());
+      const trial: Try<StatsValues, StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(statsID);
 
       expect(stub.withArgs(`SELECT
       R1.stats_item_id AS statsItemID,
@@ -70,7 +71,7 @@ describe('StatsValueQuery', () => {
       INNER JOIN stats_items R2
       USING(stats_item_id)
       WHERE R2.stats_id = :statsID;`, {
-        statsID: 'd4703058-a6ff-420b-95b2-4475beba9027'
+        statsID: statsID.get().get()
       }).called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
       const values: StatsValues = trial.get();
@@ -82,6 +83,7 @@ describe('StatsValueQuery', () => {
     });
 
     it('returns Failure when statsItemID is malformat', async () => {
+      const statsID: MockStatsID = new MockStatsID();
       const rows: Array<StatsValueRow> = [
         {
           statsItemID: '98d1e9b5-6b18-44de-b615-d8016f49977d',
@@ -118,7 +120,7 @@ describe('StatsValueQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
-      const trial: Try<StatsValues, StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(StatsID.ofString('d4703058-a6ff-420b-95b2-4475beba9027').get());
+      const trial: Try<StatsValues, StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(statsID);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -133,6 +135,8 @@ describe('StatsValueQuery', () => {
     });
 
     it('returns Failure because the client throws MySQLError', async () => {
+      const statsID: MockStatsID = new MockStatsID();
+
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
       mysql.execute = stub;
@@ -141,7 +145,7 @@ describe('StatsValueQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
-      const trial: Try<StatsValues, StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(StatsID.ofString('d4703058-a6ff-420b-95b2-4475beba9027').get());
+      const trial: Try<StatsValues, StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(statsID);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -156,13 +160,15 @@ describe('StatsValueQuery', () => {
     });
 
     it('throws Error', async () => {
+      const statsID: MockStatsID = new MockStatsID();
+
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
       mysql.execute = stub;
       stub.rejects(new MockError());
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
-      await expect(statsValueQuery.findByStatsID(StatsID.ofString('d4703058-a6ff-420b-95b2-4475beba9027').get())).rejects.toThrow(MockError);
+      await expect(statsValueQuery.findByStatsID(statsID)).rejects.toThrow(MockError);
     });
   });
 });

@@ -47,11 +47,14 @@ export class StatsOutlineQuery implements IStatsOutlineQuery, IMySQLQuery {
       OFFSET :offset;`;
 
     try {
-      const statsOutlineRows: Array<StatsOutlineRow> = await this.mysql.execute<Array<StatsOutlineRow>>(query, {
-        veauAccountID: veauAccountID.get().get(),
-        limit: page.getLimit().get(),
-        offset: page.getOffset().get()
-      });
+      const statsOutlineRows: Array<StatsOutlineRow> = await this.mysql.execute<Array<StatsOutlineRow>>(
+        query,
+        {
+          veauAccountID: veauAccountID.get().get(),
+          limit: page.getLimit().get(),
+          offset: page.getOffset().get()
+        }
+      );
 
       return StatsOutlines.ofRow(statsOutlineRows);
     }

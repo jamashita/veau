@@ -15,16 +15,19 @@ import { MySQLError } from '../../../General/MySQL/MySQLError';
 import { Failure } from '../../../General/Try/Failure';
 import { Success } from '../../../General/Try/Success';
 import { Try } from '../../../General/Try/Try';
-import { AsOf } from '../../../VO/AsOf';
-import { NumericalValue } from '../../../VO/NumericalValue';
-import { StatsID } from '../../../VO/StatsID';
-import { StatsItemID } from '../../../VO/StatsItemID';
-import { StatsItemName } from '../../../VO/StatsItemName';
 import { StatsValue } from '../../../VO/StatsValue';
-import { StatsValues } from '../../../VO/StatsValues';
 import { MockStatsItemQuery } from '../../Mock/MockStatsItemQuery';
 import { StatsQuery } from '../StatsQuery';
+import { UUID } from '../../../General/UUID/UUID';
+import { MockStatsID } from '../../../VO/Mock/MockStatsID';
+import { MockStatsItemID } from '../../../VO/Mock/MockStatsItemID';
+import { MockStatsItemName } from '../../../VO/Mock/MockStatsItemName';
+import { MockStatsValues } from '../../../VO/Mock/MockStatsValues';
+import { MockAsOf } from '../../../VO/Mock/MockAsOf';
+import { MockNumericalValue } from '../../../VO/Mock/MockNumericalValue';
+import { MockStatsItems } from '../../../Entity/Mock/MockStatsItems';
 
+// DONE
 describe('StatsQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
@@ -38,10 +41,17 @@ describe('StatsQuery', () => {
 
   describe('findByStatsID', () => {
     it('normal case', async () => {
-      const statsID: StatsID = StatsID.ofString('a25a8b7f-c810-4dc0-b94e-e97e74329307').get();
+      const uuid1: UUID = UUID.v4();
+      const uuid2: UUID = UUID.v4();
+      const uuid3: UUID = UUID.v4();
+      const uuid4: UUID = UUID.v4();
+      const statsID: MockStatsID = new MockStatsID(uuid1);
+      const itemName1: string = 'item name 1';
+      const itemName2: string = 'item name 2';
+      const itemName3: string = 'item name 3';
       const rows: Array<StatsRow> = [
         {
-          statsID: 'a25a8b7f-c810-4dc0-b94e-e97e74329307',
+          statsID: uuid1.get(),
           languageID: 1,
           languageName: 'language1',
           languageEnglishName: 'englishLanguage1',
@@ -57,46 +67,56 @@ describe('StatsQuery', () => {
       ];
       const items: StatsItems = StatsItems.ofArray([
         StatsItem.of(
-          StatsItemID.ofString('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
-          StatsItemName.of('name1'),
-          StatsValues.ofArray([
+          new MockStatsItemID(uuid2),
+          new MockStatsItemName(itemName1),
+          new MockStatsValues(
             StatsValue.of(
-              StatsItemID.ofString('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
-              AsOf.ofString('2000-01-01').get(),
-              NumericalValue.of(1)
+              new MockStatsItemID(uuid2),
+              new MockAsOf({
+                day: 1
+              }),
+              new MockNumericalValue(1)
             ),
             StatsValue.of(
-              StatsItemID.ofString('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
-              AsOf.ofString('2000-01-02').get(),
-              NumericalValue.of(2)
+              new MockStatsItemID(uuid2),
+              new MockAsOf({
+                day: 2
+              }),
+              new MockNumericalValue(2)
             ),
             StatsValue.of(
-              StatsItemID.ofString('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
-              AsOf.ofString('2000-01-03').get(),
-              NumericalValue.of(3)
+              new MockStatsItemID(uuid2),
+              new MockAsOf({
+                day: 3
+              }),
+              new MockNumericalValue(3)
             )
-          ])
+          )
         ),
         StatsItem.of(
-          StatsItemID.ofString('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c').get(),
-          StatsItemName.of('name2'),
-          StatsValues.ofArray([
+          new MockStatsItemID(uuid3),
+          new MockStatsItemName(itemName2),
+          new MockStatsValues(
             StatsValue.of(
-              StatsItemID.ofString('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c').get(),
-              AsOf.ofString('2001-01-01').get(),
-              NumericalValue.of(11)
+              new MockStatsItemID(uuid3),
+              new MockAsOf({
+                day: 1
+              }),
+              new MockNumericalValue(11)
             ),
             StatsValue.of(
-              StatsItemID.ofString('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c').get(),
-              AsOf.ofString('2001-01-02').get(),
-              NumericalValue.of(12)
+              new MockStatsItemID(uuid3),
+              new MockAsOf({
+                day: 12
+              }),
+              new MockNumericalValue(12)
             )
-          ])
+          )
         ),
         StatsItem.of(
-          StatsItemID.ofString('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c').get(),
-          StatsItemName.of('name2'),
-          StatsValues.ofArray([])
+          new MockStatsItemID(uuid4),
+          new MockStatsItemName(itemName3),
+          new MockStatsValues()
         )
       ]);
 
@@ -131,7 +151,7 @@ describe('StatsQuery', () => {
       INNER JOIN regions R3
       USING(region_id)
       WHERE R1.stats_id = :statsID;`, {
-        statsID: 'a25a8b7f-c810-4dc0-b94e-e97e74329307'
+        statsID: uuid1.get()
       }).called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
       const stats: Stats = trial.get();
@@ -151,7 +171,7 @@ describe('StatsQuery', () => {
     });
 
     it('returns Failure because of the statsID is malformat', async () => {
-      const statsID: StatsID = StatsID.ofString('a25a8b7f-c810-4dc0-b94e-e97e74329307').get();
+      const statsID: MockStatsID = new MockStatsID();
       const rows: Array<StatsRow> = [
         {
           statsID: 'malformat uuid',
@@ -168,50 +188,7 @@ describe('StatsQuery', () => {
           updatedAt: '2000-01-01 00:00:00'
         }
       ];
-      const items: StatsItems = StatsItems.ofArray([
-        StatsItem.of(
-          StatsItemID.ofString('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
-          StatsItemName.of('name1'),
-          StatsValues.ofArray([
-            StatsValue.of(
-              StatsItemID.ofString('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
-              AsOf.ofString('2000-01-01').get(),
-              NumericalValue.of(1)
-            ),
-            StatsValue.of(
-              StatsItemID.ofString('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
-              AsOf.ofString('2000-01-02').get(),
-              NumericalValue.of(2)
-            ),
-            StatsValue.of(
-              StatsItemID.ofString('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
-              AsOf.ofString('2000-01-03').get(),
-              NumericalValue.of(3)
-            )
-          ])
-        ),
-        StatsItem.of(
-          StatsItemID.ofString('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c').get(),
-          StatsItemName.of('name2'),
-          StatsValues.ofArray([
-            StatsValue.of(
-              StatsItemID.ofString('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c').get(),
-              AsOf.ofString('2001-01-01').get(),
-              NumericalValue.of(11)
-            ),
-            StatsValue.of(
-              StatsItemID.ofString('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c').get(),
-              AsOf.ofString('2001-01-02').get(),
-              NumericalValue.of(12)
-            )
-          ])
-        ),
-        StatsItem.of(
-          StatsItemID.ofString('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c').get(),
-          StatsItemName.of('name2'),
-          StatsValues.ofArray([])
-        )
-      ]);
+      const items: MockStatsItems = new MockStatsItems();
 
       const mysql: MockMySQL = new MockMySQL();
       const stub1: SinonStub = sinon.stub();
@@ -241,7 +218,7 @@ describe('StatsQuery', () => {
     });
 
     it('returns Failure because there is no results', async () => {
-      const statsID: StatsID = StatsID.ofString('a25a8b7f-c810-4dc0-b94e-e97e74329307').get();
+      const statsID: MockStatsID = new MockStatsID();
 
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
@@ -268,7 +245,7 @@ describe('StatsQuery', () => {
     });
 
     it('returns Failure when StatsItemQuery throws StatsValuesError', async () => {
-      const statsID: StatsID = StatsID.ofString('a25a8b7f-c810-4dc0-b94e-e97e74329307').get();
+      const statsID: MockStatsID = new MockStatsID();
       const rows: Array<StatsRow> = [
         {
           statsID: 'a25a8b7f-c810-4dc0-b94e-e97e74329307',
@@ -313,7 +290,7 @@ describe('StatsQuery', () => {
     });
 
     it('returns Failure when StatsItemQuery throws DataSourceError', async () => {
-      const statsID: StatsID = StatsID.ofString('a25a8b7f-c810-4dc0-b94e-e97e74329307').get();
+      const statsID: MockStatsID = new MockStatsID();
       const rows: Array<StatsRow> = [
         {
           statsID: 'a25a8b7f-c810-4dc0-b94e-e97e74329307',
@@ -358,7 +335,7 @@ describe('StatsQuery', () => {
     });
 
     it('throws Error', async () => {
-      const statsID: StatsID = StatsID.ofString('a25a8b7f-c810-4dc0-b94e-e97e74329307').get();
+      const statsID: MockStatsID = new MockStatsID();
 
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();

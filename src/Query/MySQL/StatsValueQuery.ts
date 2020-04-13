@@ -33,9 +33,12 @@ export class StatsValueQuery implements IStatsValueQuery, IMySQLQuery {
       WHERE R2.stats_id = :statsID;`;
 
     try {
-      const statsValueRows: Array<StatsValueRow> = await this.mysql.execute<Array<StatsValueRow>>(query, {
-        statsID: statsID.get().get()
-      });
+      const statsValueRows: Array<StatsValueRow> = await this.mysql.execute<Array<StatsValueRow>>(
+        query,
+        {
+          statsID: statsID.get().get()
+        }
+      );
 
       return StatsValues.ofRow(statsValueRows);
     }

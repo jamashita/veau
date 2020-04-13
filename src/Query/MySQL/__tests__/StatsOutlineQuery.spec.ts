@@ -13,7 +13,10 @@ import { StatsOutline, StatsOutlineRow } from '../../../VO/StatsOutline';
 import { StatsOutlines } from '../../../VO/StatsOutlines';
 import { VeauAccountID } from '../../../VO/VeauAccountID';
 import { StatsOutlineQuery } from '../StatsOutlineQuery';
+import { MockVeauAccountID } from '../../../VO/Mock/MockVeauAccountID';
+import { MockPage } from '../../../VO/Mock/MockPage';
 
+// DONE
 describe('StatsOutlineQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
@@ -27,6 +30,8 @@ describe('StatsOutlineQuery', () => {
 
   describe('findByVeauAccountID', () => {
     it('normal case', async () => {
+      const accountID: MockVeauAccountID = new MockVeauAccountID();
+      const page: MockPage = new MockPage();
       const rows: Array<StatsOutlineRow> = [
         {
           statsID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
@@ -64,7 +69,10 @@ describe('StatsOutlineQuery', () => {
       stub.resolves(rows);
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
-      const trial: Try<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(VeauAccountID.ofString('2ac64841-5267-48bc-8952-ba9ad1cb12d7').get(), Page.of(1).get());
+      const trial: Try<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(
+        accountID,
+        page
+      );
 
       expect(stub.withArgs(`SELECT
       R1.stats_id AS statsID,
@@ -87,9 +95,9 @@ describe('StatsOutlineQuery', () => {
       WHERE R1.veau_account_id = :veauAccountID
       LIMIT :limit
       OFFSET :offset;`, {
-        veauAccountID: '2ac64841-5267-48bc-8952-ba9ad1cb12d7',
-        limit: 40,
-        offset: 0
+        veauAccountID: accountID.get().get(),
+        limit: page.getLimit().get(),
+        offset: page.getOffset().get()
       }).called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
       const statsOutlines: StatsOutlines = trial.get();
