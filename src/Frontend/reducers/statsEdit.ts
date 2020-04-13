@@ -9,7 +9,7 @@ export type StatsEdit = Readonly<{
 }>;
 
 const initialState: StatsEdit = {
-  selectingRow: Row.default()
+  selectingRow: Row.origin()
 };
 
 export const statsEdit: Reducer<StatsEdit, Action> = (
