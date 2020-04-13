@@ -13,7 +13,7 @@ import { Sequence } from '../../General/Collection/Sequence';
 // DONE
 describe('Regions', () => {
   describe('of', () => {
-    it('when the Sequence is zero size, returns empty', () => {
+    it('when the Sequence is zero size, returns Regions.empty()', () => {
       const regions: Regions = Regions.of(Sequence.empty<Region>());
 
       expect(regions).toBe(Regions.empty());
@@ -31,12 +31,18 @@ describe('Regions', () => {
 
       expect(regions.size()).toEqual(sequence.size());
       for (let i: number = 0; i < regions.size(); i++) {
-        expect(regions.get(i).get()).toEqual(sequence.get(i).get());
+        expect(regions.get(i).get()).toBe(sequence.get(i).get());
       }
     });
   });
 
   describe('ofJSON', () => {
+    it('when empty Array given, returns Regions.empty()', () => {
+      const regions: Regions = Regions.ofJSON([]);
+
+      expect(regions).toBe(Regions.empty());
+    });
+
     it('normal case', () => {
       const json: Array<RegionJSON> = [
         {
@@ -59,6 +65,12 @@ describe('Regions', () => {
   });
 
   describe('ofRow', () => {
+    it('when empty Array given, returns Regions.empty()', () => {
+      const regions: Regions = Regions.ofRow([]);
+
+      expect(regions).toBe(Regions.empty());
+    });
+
     it('normal case', () => {
       const rows: Array<RegionRow> = [
         {
@@ -81,6 +93,12 @@ describe('Regions', () => {
   });
 
   describe('ofArray', () => {
+    it('when empty Array given, returns Regions.empty()', () => {
+      const regions: Regions = Regions.ofArray([]);
+
+      expect(regions).toBe(Regions.empty());
+    });
+
     it('normal case', () => {
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
@@ -93,12 +111,18 @@ describe('Regions', () => {
 
       expect(regions.size()).toEqual(regs.length);
       for (let i: number = 0; i < regions.size(); i++) {
-        expect(regions.get(i).get()).toEqual(regs[i]);
+        expect(regions.get(i).get()).toBe(regs[i]);
       }
     });
   });
 
   describe('ofSpread', () => {
+    it('when no arguments given, returns Regions.empty()', () => {
+      const regions: Regions = Regions.ofSpread();
+
+      expect(regions).toBe(Regions.empty());
+    });
+
     it('normal case', () => {
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
@@ -114,7 +138,7 @@ describe('Regions', () => {
 
       expect(regions.size()).toEqual(regs.length);
       for (let i: number = 0; i < regions.size(); i++) {
-        expect(regions.get(i).get()).toEqual(regs[i]);
+        expect(regions.get(i).get()).toBe(regs[i]);
       }
     });
   });
@@ -125,7 +149,7 @@ describe('Regions', () => {
     });
 
     it('returns singleton instance', () => {
-      expect(Regions.empty()).toEqual(Regions.empty());
+      expect(Regions.empty()).toBe(Regions.empty());
     });
   });
 
@@ -142,9 +166,9 @@ describe('Regions', () => {
       );
 
       expect(regions.size()).toEqual(3);
-      expect(regions.get(0).get()).toEqual(region1);
-      expect(regions.get(1).get()).toEqual(region2);
-      expect(regions.get(2).get()).toEqual(region3);
+      expect(regions.get(0).get()).toBe(region1);
+      expect(regions.get(1).get()).toBe(region2);
+      expect(regions.get(2).get()).toBe(region3);
     });
 
     it('returns None when the index is out of range', () => {
@@ -299,14 +323,12 @@ describe('Regions', () => {
 
   describe('toJSON', () => {
     it('normal case', () => {
-      const region1: Region = Region.of(
-        RegionID.of(1),
-        RegionName.of('region 1'),
-        ISO3166.of('abc')
-      );
-
       const regions: Regions = Regions.ofSpread(
-        region1
+        Region.of(
+          RegionID.of(1),
+          RegionName.of('region 1'),
+          ISO3166.of('abc')
+        )
       );
 
       expect(regions.toJSON()).toEqual([
@@ -327,20 +349,18 @@ describe('Regions', () => {
       const name2: string = 'region 2';
       const iso31661: string = 'abc';
       const iso31662: string = 'abd';
-      const region1: Region = Region.of(
-        RegionID.of(id1),
-        RegionName.of(name1),
-        ISO3166.of(iso31661)
-      );
-      const region2: Region = Region.of(
-        RegionID.of(id2),
-        RegionName.of(name2),
-        ISO3166.of(iso31662)
-      );
 
       const regions: Regions = Regions.ofSpread(
-        region1,
-        region2
+        Region.of(
+          RegionID.of(id1),
+          RegionName.of(name1),
+          ISO3166.of(iso31661)
+        ),
+        Region.of(
+          RegionID.of(id2),
+          RegionName.of(name2),
+          ISO3166.of(iso31662)
+        )
       );
 
       expect(regions.toString()).toEqual(`${id1} ${name1} ${iso31661}, ${id2} ${name2} ${iso31662}`);

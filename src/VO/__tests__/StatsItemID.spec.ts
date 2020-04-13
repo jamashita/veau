@@ -7,12 +7,11 @@ import { StatsItemID } from '../StatsItemID';
 describe('StatsItemID', () => {
   describe('of', () => {
     it('normal case', () => {
-      const spy1: SinonSpy = sinon.spy();
+      const uuid: string = '998106de-b2e7-4981-9643-22cd30cd74de';
 
-      StatsItemID.of(UUID.of('998106de-b2e7-4981-9643-22cd30cd74de'));
-      spy1();
+      const statsItemID: StatsItemID = StatsItemID.of(UUID.of(uuid));
 
-      expect(spy1.called).toEqual(true);
+      expect(statsItemID.get().get()).toEqual(uuid);
     });
   });
 

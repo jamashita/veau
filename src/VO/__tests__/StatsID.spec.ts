@@ -4,15 +4,15 @@ import { Try } from '../../General/Try/Try';
 import { UUID } from '../../General/UUID/UUID';
 import { StatsID } from '../StatsID';
 
+// DONE
 describe('StatsID', () => {
   describe('of', () => {
     it('normal case', () => {
-      const spy1: SinonSpy = sinon.spy();
+      const uuid: string = '998106de-b2e7-4981-9643-22cd30cd74de';
 
-      StatsID.of(UUID.of('998106de-b2e7-4981-9643-22cd30cd74de'));
-      spy1();
+      const statsID: StatsID = StatsID.of(UUID.of(uuid));
 
-      expect(spy1.called).toEqual(true);
+      expect(statsID.get().get()).toEqual(uuid);
     });
   });
 

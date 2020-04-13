@@ -4,7 +4,18 @@ import { Try } from '../../General/Try/Try';
 import { UUID } from '../../General/UUID/UUID';
 import { VeauAccountID } from '../VeauAccountID';
 
+// DONE
 describe('VeauAccountID', () => {
+  describe('ofString', () => {
+    it('normal case', () => {
+      const uuid: string = '998106de-b2e7-4981-9643-22cd30cd74de';
+
+      const veauAccountID: VeauAccountID = VeauAccountID.of(UUID.of(uuid));
+
+      expect(veauAccountID.get().get()).toEqual(uuid);
+    });
+  });
+
   describe('ofString', () => {
     it('normal case', () => {
       const trial: Try<VeauAccountID, VeauAccountIDError> = VeauAccountID.ofString('998106de-b2e7-4981-9643-22cd30cd74de');

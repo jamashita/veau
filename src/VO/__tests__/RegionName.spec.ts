@@ -14,7 +14,7 @@ describe('RegionName', () => {
 
   describe('of', () => {
     it('returns RegionName.empty() when empty string is given', () => {
-      expect(RegionName.of('')).toEqual(RegionName.empty());
+      expect(RegionName.of('')).toBe(RegionName.empty());
     });
 
     it('normal case', () => {

@@ -182,10 +182,10 @@ describe('Language', () => {
     it('returns each default value', () => {
       const language: Language = Language.empty();
 
-      expect(language.getLanguageID()).toEqual(LanguageID.empty());
-      expect(language.getName()).toEqual(LanguageName.empty());
-      expect(language.getEnglishName()).toEqual(LanguageName.empty());
-      expect(language.getISO639()).toEqual(ISO639.empty());
+      expect(language.getLanguageID()).toBe(LanguageID.empty());
+      expect(language.getName()).toBe(LanguageName.empty());
+      expect(language.getEnglishName()).toBe(LanguageName.empty());
+      expect(language.getISO639()).toBe(ISO639.empty());
     });
 
     it('returns singleton instance', () => {

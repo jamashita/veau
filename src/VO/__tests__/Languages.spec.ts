@@ -13,7 +13,7 @@ import { Sequence } from '../../General/Collection/Sequence';
 // DONE
 describe('Languages', () => {
   describe('of', () => {
-    it('when the Sequence is zero size, returns empty', () => {
+    it('when the Sequence is zero size, returns Languages.empty()', () => {
       const languages: Languages = Languages.of(Sequence.empty<Language>());
 
       expect(languages).toBe(Languages.empty());
@@ -31,12 +31,18 @@ describe('Languages', () => {
 
       expect(languages.size()).toEqual(sequence.size());
       for (let i: number = 0; i < languages.size(); i++) {
-        expect(languages.get(i).get()).toEqual(sequence.get(i).get());
+        expect(languages.get(i).get()).toBe(sequence.get(i).get());
       }
     });
   });
 
   describe('ofJSON', () => {
+    it('when empty Array given, returns Languages.empty()', () => {
+      const languages: Languages = Languages.ofJSON([]);
+
+      expect(languages).toBe(Languages.empty());
+    });
+
     it('normal case', () => {
       const json: Array<LanguageJSON> = [
         {
@@ -61,6 +67,12 @@ describe('Languages', () => {
   });
 
   describe('ofRow', () => {
+    it('when empty Array given, returns Languages.empty()', () => {
+      const languages: Languages = Languages.ofRow([]);
+
+      expect(languages).toBe(Languages.empty());
+    });
+
     it('normal case', () => {
       const rows: Array<LanguageRow> = [
         {
@@ -85,6 +97,12 @@ describe('Languages', () => {
   });
 
   describe('ofArray', () => {
+    it('when empty Array given, returns Languages.empty()', () => {
+      const languages: Languages = Languages.ofArray([]);
+
+      expect(languages).toBe(Languages.empty());
+    });
+
     it('normal case', () => {
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage();
@@ -97,12 +115,18 @@ describe('Languages', () => {
 
       expect(languages.size()).toEqual(langs.length);
       for (let i: number = 0; i < languages.size(); i++) {
-        expect(languages.get(i).get()).toEqual(langs[i]);
+        expect(languages.get(i).get()).toBe(langs[i]);
       }
     });
   });
 
   describe('ofSpread', () => {
+    it('when no arguments given, returns Languages.empty()', () => {
+      const languages: Languages = Languages.ofSpread();
+
+      expect(languages).toBe(Languages.empty());
+    });
+
     it('normal case', () => {
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage();
@@ -118,7 +142,7 @@ describe('Languages', () => {
 
       expect(languages.size()).toEqual(langs.length);
       for (let i: number = 0; i < languages.size(); i++) {
-        expect(languages.get(i).get()).toEqual(langs[i]);
+        expect(languages.get(i).get()).toBe(langs[i]);
       }
     });
   });
@@ -146,9 +170,9 @@ describe('Languages', () => {
       );
 
       expect(languages.size()).toEqual(3);
-      expect(languages.get(0).get()).toEqual(language1);
-      expect(languages.get(1).get()).toEqual(language2);
-      expect(languages.get(2).get()).toEqual(language3);
+      expect(languages.get(0).get()).toBe(language1);
+      expect(languages.get(1).get()).toBe(language2);
+      expect(languages.get(2).get()).toBe(language3);
     });
 
     it('returns None when the index is out of range', () => {
@@ -303,15 +327,13 @@ describe('Languages', () => {
 
   describe('toJSON', () => {
     it('normal case', () => {
-      const language1: Language = Language.of(
-        LanguageID.of(1),
-        LanguageName.of('language 1'),
-        LanguageName.of('english language 1'),
-        ISO639.of('aa')
-      );
-
       const languages: Languages = Languages.ofSpread(
-        language1
+        Language.of(
+          LanguageID.of(1),
+          LanguageName.of('language 1'),
+          LanguageName.of('english language 1'),
+          ISO639.of('aa')
+        )
       );
 
       expect(languages.toJSON()).toEqual([
@@ -335,22 +357,20 @@ describe('Languages', () => {
       const englishName2: string = 'english language 2';
       const iso6391: string = 'aa';
       const iso6392: string = 'ab';
-      const language1: Language = Language.of(
-        LanguageID.of(id1),
-        LanguageName.of(name1),
-        LanguageName.of(englishName1),
-        ISO639.of(iso6391)
-      );
-      const language2: Language = Language.of(
-        LanguageID.of(id2),
-        LanguageName.of(name2),
-        LanguageName.of(englishName2),
-        ISO639.of(iso6392)
-      );
 
       const languages: Languages = Languages.ofSpread(
-        language1,
-        language2
+        Language.of(
+          LanguageID.of(id1),
+          LanguageName.of(name1),
+          LanguageName.of(englishName1),
+          ISO639.of(iso6391)
+        ),
+        Language.of(
+          LanguageID.of(id2),
+          LanguageName.of(name2),
+          LanguageName.of(englishName2),
+          ISO639.of(iso6392)
+        )
       );
 
       expect(languages.toString()).toEqual(`${id1} ${name1} ${englishName1} ${iso6391}, ${id2} ${name2} ${englishName2} ${iso6392}`);

@@ -18,7 +18,7 @@ export class StatsID extends ValueObject {
     try {
       const uuid: UUID = UUID.of(id);
 
-      return Success.of<StatsID, StatsIDError>(new StatsID(uuid));
+      return Success.of<StatsID, StatsIDError>(StatsID.of(uuid));
     }
     catch (err) {
       if (err instanceof UUIDError) {
@@ -30,7 +30,7 @@ export class StatsID extends ValueObject {
   }
 
   public static generate(): StatsID {
-    return new StatsID(UUID.v4());
+    return StatsID.of(UUID.v4());
   }
 
   protected constructor(uuid: UUID) {

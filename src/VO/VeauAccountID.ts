@@ -18,7 +18,7 @@ export class VeauAccountID extends ValueObject {
     try {
       const uuid: UUID = UUID.of(id);
 
-      return Success.of<VeauAccountID, VeauAccountIDError>(new VeauAccountID(uuid));
+      return Success.of<VeauAccountID, VeauAccountIDError>(VeauAccountID.of(uuid));
     }
     catch (err) {
       if (err instanceof UUIDError) {
@@ -30,7 +30,7 @@ export class VeauAccountID extends ValueObject {
   }
 
   public static generate(): VeauAccountID {
-    return new VeauAccountID(UUID.v4());
+    return VeauAccountID.of(UUID.v4());
   }
 
   protected constructor(uuid: UUID) {

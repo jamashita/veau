@@ -11,7 +11,11 @@ describe('Region', () => {
       const name: RegionName = RegionName.of('Albania');
       const iso3166: ISO3166 = ISO3166.of('ALB');
 
-      const region: Region = Region.of(regionID, name, iso3166);
+      const region: Region = Region.of(
+        regionID,
+        name,
+        iso3166
+      );
 
       expect(region.getRegionID()).toEqual(regionID);
       expect(region.getName()).toEqual(name);
@@ -142,9 +146,9 @@ describe('Region', () => {
     it('returns each default value', () => {
       const region: Region = Region.empty();
 
-      expect(region.getRegionID()).toEqual(RegionID.empty());
-      expect(region.getName()).toEqual(RegionName.empty());
-      expect(region.getISO3166()).toEqual(ISO3166.empty());
+      expect(region.getRegionID()).toBe(RegionID.empty());
+      expect(region.getName()).toBe(RegionName.empty());
+      expect(region.getISO3166()).toBe(ISO3166.empty());
     });
 
     it('returns singleton instance', () => {

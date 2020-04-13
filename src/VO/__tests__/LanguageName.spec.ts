@@ -14,7 +14,7 @@ describe('LanguageName', () => {
 
   describe('of', () => {
     it('returns LanguageName.empty() when empty string is given', () => {
-      expect(LanguageName.of('')).toEqual(LanguageName.empty());
+      expect(LanguageName.of('')).toBe(LanguageName.empty());
     });
 
     it('normal case', () => {

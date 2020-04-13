@@ -14,7 +14,7 @@ describe('ISO3166', () => {
 
   describe('of', () => {
     it('returns ISO3166.empty() when empty string is given', () => {
-      expect(ISO3166.of('')).toEqual(ISO3166.empty());
+      expect(ISO3166.of('')).toBe(ISO3166.empty());
     });
 
     it('normal case', () => {
