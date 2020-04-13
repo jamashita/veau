@@ -25,7 +25,10 @@ export class StatsOutlineQuery implements IStatsOutlineQuery, IAJAXQuery {
     this.ajax = ajax;
   }
 
-  public async findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Promise<Try<StatsOutlines, StatsOutlinesError | DataSourceError>> {
+  public async findByVeauAccountID(
+    veauAccountID: VeauAccountID,
+    page: Page
+  ): Promise<Try<StatsOutlines, StatsOutlinesError | DataSourceError>> {
     const response: AJAXResponse<Array<StatsOutlineJSON>> = await this.ajax.get<Array<StatsOutlineJSON>>(`/api/stats/page/${page.get()}`);
     const {
       status,

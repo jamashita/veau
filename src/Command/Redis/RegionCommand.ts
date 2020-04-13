@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { TYPE } from '../../Container/Types';
 import { DataSourceError } from '../../General/DataSourceError';
-import { JSONA } from '../../General/JSONA';
+import { JSONA } from '../../General/Type/JSONA';
 import { IRedis } from '../../General/Redis/Interface/IRedis';
 import { RedisError } from '../../General/Redis/RedisError';
 import { Failure } from '../../General/Try/Failure';

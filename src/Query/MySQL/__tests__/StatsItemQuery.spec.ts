@@ -13,15 +13,19 @@ import { MySQLError } from '../../../General/MySQL/MySQLError';
 import { Failure } from '../../../General/Try/Failure';
 import { Success } from '../../../General/Try/Success';
 import { Try } from '../../../General/Try/Try';
-import { AsOf } from '../../../VO/AsOf';
-import { NumericalValue } from '../../../VO/NumericalValue';
 import { StatsID } from '../../../VO/StatsID';
-import { StatsItemID } from '../../../VO/StatsItemID';
-import { StatsValue } from '../../../VO/StatsValue';
 import { StatsValues } from '../../../VO/StatsValues';
 import { MockStatsValueQuery } from '../../Mock/MockStatsValueQuery';
 import { StatsItemQuery } from '../StatsItemQuery';
+import { UUID } from '../../../General/UUID/UUID';
+import { MockStatsID } from '../../../VO/Mock/MockStatsID';
+import { MockStatsValues } from '../../../VO/Mock/MockStatsValues';
+import { MockStatsItemID } from '../../../VO/Mock/MockStatsItemID';
+import { MockAsOf } from '../../../VO/Mock/MockAsOf';
+import { MockNumericalValue } from '../../../VO/Mock/MockNumericalValue';
+import { MockStatsValue } from '../../../VO/Mock/MockStatsValue';
 
+// TODO
 describe('StatsItemQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
@@ -35,48 +39,65 @@ describe('StatsItemQuery', () => {
 
   describe('findByStatsID', () => {
     it('normal case', async () => {
-      const statsID: StatsID = StatsID.ofString('428a0978-5d01-4da6-96f3-f851cb18e935').get();
+      const uuid1: UUID = UUID.v4();
+      const uuid2: UUID = UUID.v4();
+      const uuid3: UUID = UUID.v4();
+      const uuid4: UUID = UUID.v4();
+      const itemName1: string = 'item name 1';
+      const itemName2: string = 'item name 2';
+      const itemName3: string = 'item name 3';
+      const statsID: MockStatsID = new MockStatsID(uuid1);
       const rows: Array<StatsItemRow> = [
         {
-          statsItemID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
-          name: 'name1'
+          statsItemID: uuid2.get(),
+          name: itemName1
         },
         {
-          statsItemID: '5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c',
-          name: 'name2'
+          statsItemID: uuid3.get(),
+          name: itemName2
         },
         {
-          statsItemID: '2ac64841-5267-48bc-8952-ba9ad1cb12d7',
-          name: 'name3'
+          statsItemID: uuid4.get(),
+          name: itemName3
         }
       ];
-      const values: StatsValues = StatsValues.ofArray([
-        StatsValue.of(
-          StatsItemID.ofString('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
-          AsOf.ofString('2000-01-01').get(),
-          NumericalValue.of(1)
-        ),
-        StatsValue.of(
-          StatsItemID.ofString('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c').get(),
-          AsOf.ofString('2001-01-01').get(),
-          NumericalValue.of(11)
-        ),
-        StatsValue.of(
-          StatsItemID.ofString('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
-          AsOf.ofString('2000-01-02').get(),
-          NumericalValue.of(2)
-        ),
-        StatsValue.of(
-          StatsItemID.ofString('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c').get(),
-          AsOf.ofString('2001-01-02').get(),
-          NumericalValue.of(12)
-        ),
-        StatsValue.of(
-          StatsItemID.ofString('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
-          AsOf.ofString('2000-01-03').get(),
-          NumericalValue.of(3)
-        )
-      ]);
+      const values: StatsValues = new MockStatsValues(
+        new MockStatsValue({
+          statsItemID: new MockStatsItemID(uuid2),
+          asOf: new MockAsOf({
+            day: 1
+          }),
+          value: new MockNumericalValue(1)
+        }),
+        new MockStatsValue({
+          statsItemID: new MockStatsItemID(uuid3),
+          asOf: new MockAsOf({
+            day: 1
+          }),
+          value: new MockNumericalValue(11)
+        }),
+        new MockStatsValue({
+          statsItemID: new MockStatsItemID(uuid2),
+          asOf: new MockAsOf({
+            day: 2
+          }),
+          value: new MockNumericalValue(2)
+        }),
+        new MockStatsValue({
+          statsItemID: new MockStatsItemID(uuid3),
+          asOf: new MockAsOf({
+            day: 2
+          }),
+          value: new MockNumericalValue(12)
+        }),
+        new MockStatsValue({
+          statsItemID: new MockStatsItemID(uuid2),
+          asOf: new MockAsOf({
+            day: 3
+          }),
+          value: new MockNumericalValue(4)
+        })
+      );
 
       const mysql: MockMySQL = new MockMySQL();
       const stub1: SinonStub = sinon.stub();
@@ -96,7 +117,7 @@ describe('StatsItemQuery', () => {
       FROM stats_items R1
       WHERE R1.stats_id = :statsID
       ORDER BY R1.seq;`, {
-        statsID: '428a0978-5d01-4da6-96f3-f851cb18e935'
+        statsID: uuid1.get()
       }).called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
       const statsItems: StatsItems = trial.get();
@@ -132,33 +153,7 @@ describe('StatsItemQuery', () => {
           name: 'name3'
         }
       ];
-      const values: StatsValues = StatsValues.ofArray([
-        StatsValue.of(
-          StatsItemID.ofString('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
-          AsOf.ofString('2000-01-01').get(),
-          NumericalValue.of(1)
-        ),
-        StatsValue.of(
-          StatsItemID.ofString('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c').get(),
-          AsOf.ofString('2001-01-01').get(),
-          NumericalValue.of(11)
-        ),
-        StatsValue.of(
-          StatsItemID.ofString('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
-          AsOf.ofString('2000-01-02').get(),
-          NumericalValue.of(2)
-        ),
-        StatsValue.of(
-          StatsItemID.ofString('5fb3c1aa-d23e-4eaa-9f67-01b8d3f24d0c').get(),
-          AsOf.ofString('2001-01-02').get(),
-          NumericalValue.of(12)
-        ),
-        StatsValue.of(
-          StatsItemID.ofString('c0e18d31-d026-4a84-af4f-d5d26c520600').get(),
-          AsOf.ofString('2000-01-03').get(),
-          NumericalValue.of(3)
-        )
-      ]);
+      const values: MockStatsValues = new MockStatsValues();
 
       const mysql: MockMySQL = new MockMySQL();
       const stub1: SinonStub = sinon.stub();

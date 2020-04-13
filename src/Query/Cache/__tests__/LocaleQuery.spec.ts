@@ -21,6 +21,7 @@ import { RegionName } from '../../../VO/RegionName';
 import { Regions } from '../../../VO/Regions';
 import { LocaleQuery } from '../LocaleQuery';
 
+// DONE
 describe('LocaleQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
@@ -59,22 +60,7 @@ describe('LocaleQuery', () => {
 
       expect(stub.withArgs(VAULT_LOCALE_KEY).called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
-      const loc: Locale = trial.get();
-      expect(loc.getLanguages().size()).toEqual(1);
-      for (let i: number = 0; i < loc.getLanguages().size(); i++) {
-        const language: Language = loc.getLanguages().get(i).get();
-        expect(language.getLanguageID()).toEqual(locale.getLanguages().get(i).get().getLanguageID());
-        expect(language.getName()).toEqual(locale.getLanguages().get(i).get().getName());
-        expect(language.getEnglishName()).toEqual(locale.getLanguages().get(i).get().getEnglishName());
-        expect(language.getISO639()).toEqual(locale.getLanguages().get(i).get().getISO639());
-      }
-      expect(loc.getRegions().size()).toEqual(1);
-      for (let i: number = 0; i < loc.getRegions().size(); i++) {
-        const region: Region = loc.getRegions().get(i).get();
-        expect(region.getRegionID()).toEqual(locale.getRegions().get(i).get().getRegionID());
-        expect(region.getName()).toEqual(locale.getRegions().get(i).get().getName());
-        expect(region.getISO3166()).toEqual(locale.getRegions().get(i).get().getISO3166());
-      }
+      expect(trial.get()).toBe(locale);
     });
 
     it('returns Failure when Cache throws CacheError', async () => {

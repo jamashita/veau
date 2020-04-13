@@ -59,7 +59,7 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
       return optional.toTry().match<Try<Region, NoSuchElementError | DataSourceError>>((region: Region) => {
         return Success.of<Region, DataSourceError>(region);
       }, () => {
-        return Failure.of<Region, NoSuchElementError>(new NoSuchElementError(iso3166.toString()));
+        return Failure.of<Region, NoSuchElementError>(new NoSuchElementError(iso3166.get()));
       });
     }, (err: NoSuchElementError | DataSourceError) => {
       return Failure.of<Region, NoSuchElementError | DataSourceError>(err);

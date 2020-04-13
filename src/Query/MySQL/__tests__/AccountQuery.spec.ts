@@ -10,9 +10,10 @@ import { MockMySQL } from '../../../General/MySQL/Mock/MockMySQL';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
 import { Try } from '../../../General/Try/Try';
 import { Account, AccountRow } from '../../../VO/Account';
-import { AccountName } from '../../../VO/AccountName';
 import { AccountQuery } from '../AccountQuery';
+import { MockAccountName } from '../../../VO/Mock/MockAccountName';
 
+// DONE
 describe('AccountQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
@@ -26,7 +27,8 @@ describe('AccountQuery', () => {
 
   describe('findByAccount', () => {
     it('normal case', async () => {
-      const name: AccountName = AccountName.of('account');
+      const name: string = 'moloque';
+      const accountName: MockAccountName = new MockAccountName(name);
       const rows: Array<AccountRow> = [
         {
           veauAccountID: '998106de-b2e7-4981-9643-22cd30cd74de',
@@ -48,7 +50,7 @@ describe('AccountQuery', () => {
       stub.resolves(rows);
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const trial: Try<Account, AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(name);
+      const trial: Try<Account, AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(accountName);
 
       expect(stub.withArgs(`SELECT
       R1.veau_account_id AS veauAccountID,
@@ -70,7 +72,7 @@ describe('AccountQuery', () => {
       USING(region_id)
       WHERE R1.account = :account
       AND R1.active = true;`, {
-        account: name.get()
+        account: name
       }).called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
       const account: Account = trial.get();
@@ -87,7 +89,7 @@ describe('AccountQuery', () => {
     });
 
     it('returns Failure because MySQL.execute returns 0 results', async () => {
-      const name: AccountName = AccountName.of('account');
+      const name: MockAccountName = new MockAccountName();
 
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
@@ -113,7 +115,7 @@ describe('AccountQuery', () => {
     });
 
     it('returns Failure because veauAccountID is malformat', async () => {
-      const name: AccountName = AccountName.of('account');
+      const name: MockAccountName = new MockAccountName();
       const rows: Array<AccountRow> = [
         {
           veauAccountID: 'malformat uuid',
@@ -152,7 +154,7 @@ describe('AccountQuery', () => {
     });
 
     it('returns Failure because the client throws MySQLError', async () => {
-      const name: AccountName = AccountName.of('account');
+      const name: MockAccountName = new MockAccountName();
 
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
@@ -177,7 +179,7 @@ describe('AccountQuery', () => {
     });
 
     it('throws Error', async () => {
-      const name: AccountName = AccountName.of('account');
+      const name: MockAccountName = new MockAccountName();
 
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();

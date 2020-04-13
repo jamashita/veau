@@ -1,5 +1,6 @@
-import { Reject, Resolve } from './Type/Function';
-import { JSObjectNotation } from './Type/Value';
+import { Reject, Resolve } from './Function';
+import { JSObjectNotation } from './Value';
+import { JSONAError } from './JSONAError';
 
 export class JSONA {
 
@@ -10,7 +11,7 @@ export class JSONA {
           resolve(JSON.parse(text));
         }
         catch (err) {
-          reject(err);
+          reject(new JSONAError(err));
         }
       }, 0);
     });
@@ -23,7 +24,7 @@ export class JSONA {
           resolve(JSON.stringify(value));
         }
         catch (err) {
-          reject(err);
+          reject(new JSONAError(err));
         }
       }, 0);
     });

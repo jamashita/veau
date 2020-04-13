@@ -45,9 +45,12 @@ export class AccountQuery implements IAccountQuery, IMySQLQuery {
       AND R1.active = true;`;
 
     try {
-      const accountRows: Array<AccountRow> = await this.mysql.execute<Array<AccountRow>>(query, {
-        account: account.get()
-      });
+      const accountRows: Array<AccountRow> = await this.mysql.execute<Array<AccountRow>>(
+        query,
+        {
+          account: account.get()
+        }
+      );
 
       if (accountRows.length === 0) {
         return Failure.of<Account, NoSuchElementError>(new NoSuchElementError(account.get()));

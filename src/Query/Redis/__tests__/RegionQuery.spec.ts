@@ -15,6 +15,7 @@ import { Regions } from '../../../VO/Regions';
 import { RegionQuery } from '../RegionQuery';
 import { RedisError } from '../../../General/Redis/RedisError';
 
+// DONE
 describe('RegionQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {

@@ -1,5 +1,6 @@
 import { JSONA } from '../JSONA';
-import { JSObjectNotation } from '../Type/Value';
+import { JSObjectNotation } from '../Value';
+import { JSONAError } from '../JSONAError';
 
 // DONE
 describe('JSONA', () => {
@@ -10,10 +11,10 @@ describe('JSONA', () => {
       expect(await JSONA.parse<JSObjectNotation>(str)).toEqual(JSON.parse(str));
     });
 
-    it('throws SyntaxError when the JSON is mal format', async () => {
+    it('throws SyntaxError when the JSON is mal format, but the Error is wrapped', async () => {
       const str: string = '{"we":"you"';
 
-      await expect(JSONA.parse<JSObjectNotation>(str)).rejects.toThrow(SyntaxError);
+      await expect(JSONA.parse<JSObjectNotation>(str)).rejects.toThrow(JSONAError);
     });
   });
 
@@ -48,7 +49,7 @@ describe('JSONA', () => {
       expect(await JSONA.stringify(obj)).toEqual(JSON.stringify(obj));
     });
 
-    it('throws TypeError when the JSON has circular reference', async () => {
+    it('throws TypeError when the JSON has circular reference, but the Error is wrapped', async () => {
       const obj1: any = {
       };
       const obj2: any = {
@@ -56,7 +57,7 @@ describe('JSONA', () => {
       };
       obj1.obj2 = obj2;
 
-      await expect(JSONA.stringify(obj1)).rejects.toThrow(TypeError);
+      await expect(JSONA.stringify(obj1)).rejects.toThrow(JSONAError);
     });
   });
 });

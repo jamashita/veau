@@ -9,5 +9,8 @@ import { IQuery } from './IQuery';
 export interface IStatsOutlineQuery extends IQuery {
   readonly noun: 'StatsOutlineQuery';
 
-  findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Promise<Try<StatsOutlines, StatsOutlinesError | DataSourceError>>;
+  findByVeauAccountID(
+    veauAccountID: VeauAccountID,
+    page: Page
+  ): Promise<Try<StatsOutlines, StatsOutlinesError | DataSourceError>>;
 }

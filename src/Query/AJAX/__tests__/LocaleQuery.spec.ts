@@ -10,6 +10,7 @@ import { Try } from '../../../General/Try/Try';
 import { Locale, LocaleJSON } from '../../../VO/Locale';
 import { LocaleQuery } from '../LocaleQuery';
 
+// DONE
 describe('LocaleQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {

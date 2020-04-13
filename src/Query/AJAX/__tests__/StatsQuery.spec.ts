@@ -12,7 +12,9 @@ import { DataSourceError } from '../../../General/DataSourceError';
 import { Try } from '../../../General/Try/Try';
 import { StatsID } from '../../../VO/StatsID';
 import { StatsQuery } from '../StatsQuery';
+import { MockStatsID } from '../../../VO/Mock/MockStatsID';
 
+// DONE
 describe('StatsQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
@@ -125,7 +127,7 @@ describe('StatsQuery', () => {
     });
 
     it('returns NO_CONTENT', async () => {
-      const statsID: StatsID = StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get();
+      const statsID: MockStatsID = new MockStatsID();
 
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
@@ -154,7 +156,7 @@ describe('StatsQuery', () => {
     });
 
     it('doesn\'t return OK', async () => {
-      const statsID: StatsID = StatsID.ofString('f6fb9662-cbe8-4a91-8aa4-47a92f05b007').get();
+      const statsID: MockStatsID = new MockStatsID();
 
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();

@@ -61,9 +61,12 @@ export class LanguageQuery implements ILanguageQuery, IMySQLQuery {
       WHERE R1.iso639 = :iso639;`;
 
     try {
-      const languageRows: Array<LanguageRow> = await this.mysql.execute<Array<LanguageRow>>(query, {
-        iso639: iso639.get()
-      });
+      const languageRows: Array<LanguageRow> = await this.mysql.execute<Array<LanguageRow>>(
+        query,
+        {
+          iso639: iso639.get()
+        }
+      );
 
       if (languageRows.length === 0) {
         return Failure.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.get()));

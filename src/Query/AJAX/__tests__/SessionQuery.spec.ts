@@ -16,6 +16,7 @@ import { Password } from '../../../VO/Password';
 import { VeauAccount, VeauAccountJSON } from '../../../VO/VeauAccount';
 import { SessionQuery } from '../SessionQuery';
 
+// DONE
 describe('SessionQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {

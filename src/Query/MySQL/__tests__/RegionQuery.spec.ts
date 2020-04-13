@@ -13,6 +13,7 @@ import { Region, RegionRow } from '../../../VO/Region';
 import { Regions } from '../../../VO/Regions';
 import { RegionQuery } from '../RegionQuery';
 
+// DONE
 describe('RegionQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {

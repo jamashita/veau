@@ -26,6 +26,7 @@ export class SessionQuery implements ISessionQuery, IAJAXQuery {
     this.ajax = ajax;
   }
 
+  // TODO UnauthorizedError is not a cause of AJAX, change it
   public async find(): Promise<Try<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>> {
     const response: AJAXResponse<VeauAccountJSON> = await this.ajax.get<VeauAccountJSON>('/api/identity');
     const {
@@ -47,7 +48,10 @@ export class SessionQuery implements ISessionQuery, IAJAXQuery {
     }
   }
 
-  public async findByEntranceInfo(entranceInformation: EntranceInformation): Promise<Try<VeauAccount, VeauAccountError | AuthenticationFailureError | DataSourceError>> {
+  // TODO AuthenticationFailureError is not a cause of AJAX, change it
+  public async findByEntranceInfo(
+    entranceInformation: EntranceInformation
+  ): Promise<Try<VeauAccount, VeauAccountError | AuthenticationFailureError | DataSourceError>> {
     const response: AJAXResponse<VeauAccountJSON> = await this.ajax.post<VeauAccountJSON>('/api/auth', entranceInformation.toJSON());
     const {
       status,

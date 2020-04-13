@@ -13,7 +13,9 @@ import { StatsOutlineJSON } from '../../../VO/StatsOutline';
 import { StatsOutlines } from '../../../VO/StatsOutlines';
 import { VeauAccountID } from '../../../VO/VeauAccountID';
 import { StatsOutlineQuery } from '../StatsOutlineQuery';
+import { MockVeauAccountID } from '../../../VO/Mock/MockVeauAccountID';
 
+// DONE
 describe('StatsOutlineQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
@@ -129,7 +131,7 @@ describe('StatsOutlineQuery', () => {
     });
 
     it('doesn\'t return OK', async () => {
-      const veauAccountID: VeauAccountID = VeauAccountID.ofString('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9').get();
+      const veauAccountID: MockVeauAccountID = new MockVeauAccountID();
 
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();

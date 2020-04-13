@@ -59,9 +59,12 @@ export class RegionQuery implements IRegionQuery, IMySQLQuery {
       WHERE R1.iso3166 = :iso3166;`;
 
     try {
-      const regionRows: Array<RegionRow> = await this.mysql.execute<Array<RegionRow>>(query, {
-        iso3166: iso3166.get()
-      });
+      const regionRows: Array<RegionRow> = await this.mysql.execute<Array<RegionRow>>(
+        query,
+        {
+          iso3166: iso3166.get()
+        }
+      );
 
       if (regionRows.length === 0) {
         return Failure.of<Region, NoSuchElementError>(new NoSuchElementError('NO REGIONS FROM MYSQL'));

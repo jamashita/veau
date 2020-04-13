@@ -59,7 +59,7 @@ export class LanguageQuery implements ILanguageQuery, IRedisQuery {
       return optional.toTry().match<Try<Language, NoSuchElementError | DataSourceError>>((language: Language) => {
         return Success.of<Language, DataSourceError>(language);
       }, () => {
-        return Failure.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.toString()));
+        return Failure.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.get()));
       });
     }, (err: NoSuchElementError | DataSourceError) => {
       return Failure.of<Language, NoSuchElementError | DataSourceError>(err);

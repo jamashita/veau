@@ -14,6 +14,7 @@ import { Languages } from '../../../VO/Languages';
 import { LanguageQuery } from '../LanguageQuery';
 import { RedisError } from '../../../General/Redis/RedisError';
 
+// DONE
 describe('LanguageQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
@@ -322,7 +323,7 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      expect(languageQuery.findByISO639(ISO639.of('aa'))).rejects.toThrow(MockError);
+      await expect(languageQuery.findByISO639(ISO639.of('aa'))).rejects.toThrow(MockError);
     });
   });
 });

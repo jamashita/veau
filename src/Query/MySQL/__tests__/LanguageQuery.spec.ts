@@ -13,6 +13,7 @@ import { Language, LanguageRow } from '../../../VO/Language';
 import { Languages } from '../../../VO/Languages';
 import { LanguageQuery } from '../LanguageQuery';
 
+// DONE
 describe('LanguageQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
