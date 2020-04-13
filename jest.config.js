@@ -1,6 +1,6 @@
 module.exports = {
   verbose: true,
-  rootDir: "src",
+  rootDir: "",
   testRegex: "/__tests__/.+\\.spec\\.tsx?$",
   testEnvironment: "node",
   testPathIgnorePatterns: [
