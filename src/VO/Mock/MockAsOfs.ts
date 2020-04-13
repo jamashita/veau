@@ -1,10 +1,10 @@
 import { AsOfs } from '../AsOfs';
 import { AsOf } from '../AsOf';
-import { MockSequence } from '../../General/Collection/Mock/MockSequence';
+import { Sequence } from '../../General/Collection/Sequence';
 
 export class MockAsOfs extends AsOfs {
 
   public constructor(...asOfs: Array<AsOf>) {
-    super(new MockSequence<AsOf>(asOfs));
+    super(Sequence.of<AsOf>(asOfs));
   }
 }

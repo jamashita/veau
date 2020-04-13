@@ -1,10 +1,10 @@
 import { NumericalValues } from '../NumericalValues';
 import { NumericalValue } from '../NumericalValue';
-import { MockSequence } from '../../General/Collection/Mock/MockSequence';
+import { Sequence } from '../../General/Collection/Sequence';
 
 export class MockNumericalValues extends NumericalValues {
 
   public constructor(...values: Array<NumericalValue>) {
-    super(new MockSequence<NumericalValue>(values));
+    super(Sequence.of<NumericalValue>(values));
   }
 }

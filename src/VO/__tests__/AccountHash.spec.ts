@@ -4,13 +4,14 @@ import { VeauAccountID } from '../VeauAccountID';
 import { MockVeauAccountID } from '../Mock/MockVeauAccountID';
 import { MockHash } from '../Mock/MockHash';
 
+// DONE
 describe('AccountHash', () => {
   describe('equals', () => {
     it('returns true if all the properties are the same', () => {
       const account1: MockVeauAccountID = new MockVeauAccountID();
       const account2: MockVeauAccountID = new MockVeauAccountID();
-      const hash1: Hash = new MockHash('hash 1');
-      const hash2: Hash = new MockHash('hash 2');
+      const hash1: MockHash = new MockHash('hash 1');
+      const hash2: MockHash = new MockHash('hash 2');
 
       const accountHash1: AccountHash = AccountHash.of(account1, hash1);
       const accountHash2: AccountHash = AccountHash.of(account2, hash1);

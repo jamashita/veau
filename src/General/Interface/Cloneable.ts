@@ -1,4 +1,4 @@
 export interface Cloneable {
 
-  copy(): Cloneable;
+  copy(): ThisType<unknown>;
 }

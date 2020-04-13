@@ -13,9 +13,9 @@ export abstract class Entity<T extends Equalable> implements JSONable, Nominativ
 
   public abstract toString(): string;
 
-  public abstract copy(): Entity<T>;
+  public abstract copy(): this;
 
-  public equals(other: Entity<T>): boolean {
+  public equals(other: this): boolean {
     if (this === other) {
       return true;
     }

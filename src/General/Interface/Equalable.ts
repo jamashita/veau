@@ -1,4 +1,4 @@
 export interface Equalable {
 
-  equals(other: Equalable): boolean;
+  equals(other: ThisType<unknown>): boolean;
 }

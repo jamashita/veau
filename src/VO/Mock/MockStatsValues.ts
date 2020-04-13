@@ -1,10 +1,10 @@
 import { StatsValues } from '../StatsValues';
 import { StatsValue } from '../StatsValue';
-import { MockSequence } from '../../General/Collection/Mock/MockSequence';
+import { Sequence } from '../../General/Collection/Sequence';
 
 export class MockStatsValues extends StatsValues {
 
   public constructor(...values: Array<StatsValue>) {
-    super(new MockSequence<StatsValue>(values));
+    super(Sequence.of<StatsValue>(values));
   }
 }

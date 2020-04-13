@@ -8,11 +8,11 @@ export interface List<E extends Nominative> extends Collection<number, E>, Clone
 
   iterate(iteration: Mapper<E, void>): void;
 
-  project<F extends Nominative>(mapper: Mapper<E, F>): List<F>;
+  project<F extends Nominative>(mapper: Mapper<E, F>): ThisType<F>;
 
   select(predicate: Predicate<E>): Optional<E>;
 
-  screen(iterator: Enumerator<number, E>): List<E>;
+  screen(iterator: Enumerator<number, E>): ThisType<E>;
 
   every(enumerator: Enumerator<number, E>): boolean;
 
