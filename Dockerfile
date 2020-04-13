@@ -24,17 +24,19 @@ WORKDIR /home/veau
 
 COPY --from=build-image /root/dist dist
 COPY config config
-COPY pm2.config.js pm2.config.js
+COPY pm2.yml pm2.yml
 COPY package.json package.json
 COPY yarn.lock yarn.lock
 
 RUN mkdir logs
 RUN yarn install --production=true --frozen-lockfile
 RUN yarn cache clean
-RUN yarn global add pm2
 
 RUN chown -R veau /home/veau
 RUN chgrp -R veau /home/veau
+
+USER veau
+# WORKDIR /home/veau
 
 EXPOSE 4000
 

@@ -26,11 +26,6 @@ if (mode === undefined) {
   process.exit(1);
 }
 
-process.on('uncaughtException', (error: Error) => {
-  logger.fatal('UNCAUGHT EXCEPTION');
-  logger.fatal(error.message);
-});
-
 process.on('unhandledRejection', (reason: unknown) => {
   logger.fatal('UNHANDLED REJECTION');
   logger.fatal(reason);
