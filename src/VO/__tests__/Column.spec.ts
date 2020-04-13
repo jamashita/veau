@@ -3,6 +3,7 @@ import { ColumnError } from '../../Error/ColumnError';
 import { Try } from '../../General/Try/Try';
 import { Column } from '../Column';
 
+// DONE
 describe('Column', () => {
   describe('of', () => {
     it('returns Failure when the argument is less than 0', () => {

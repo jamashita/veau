@@ -36,23 +36,15 @@ export class AsOf extends ValueObject {
   }
 
   public isBefore(other: AsOf): boolean {
-    if (this.asOf.isBefore(other.asOf)) {
-      return true;
-    }
-
-    return false;
+    return this.asOf.isBefore(other.asOf);
   }
 
   public isAfter(other: AsOf): boolean {
-    if (this.asOf.isAfter(other.asOf)) {
-      return true;
-    }
-
-    return false;
+    return this.asOf.isAfter(other.asOf);
   }
 
   public previous(term: Term): AsOf {
-    const asOf: moment.Moment = moment(this.asOf);
+    const asOf: moment.Moment = this.get();
 
     switch (term) {
       case Term.DAILY: {
@@ -77,7 +69,7 @@ export class AsOf extends ValueObject {
   }
 
   public next(term: Term): AsOf {
-    const asOf: moment.Moment = moment(this.asOf);
+    const asOf: moment.Moment = this.get();
 
     switch (term) {
       case Term.DAILY: {

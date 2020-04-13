@@ -6,9 +6,13 @@ export class ISO639 extends ValueObject {
   public readonly noun: 'ISO639' = 'ISO639';
   private readonly iso639: string;
 
-  private static readonly DEFAULT: ISO639 = ISO639.of(DEFAULT_CODE);
+  private static readonly DEFAULT: ISO639 = new ISO639(DEFAULT_CODE);
 
   public static of(iso639: string): ISO639 {
+    if (iso639 === DEFAULT_CODE) {
+      return ISO639.default();
+    }
+
     return new ISO639(iso639);
   }
 

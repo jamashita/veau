@@ -6,9 +6,13 @@ export class AccountName extends ValueObject {
   public readonly noun: 'AccountName' = 'AccountName';
   private readonly name: string;
 
-  private static readonly DEFAULT: AccountName = AccountName.of(DEFAULT_NAME);
+  private static readonly DEFAULT: AccountName = new AccountName(DEFAULT_NAME);
 
   public static of(name: string): AccountName {
+    if (name === DEFAULT_NAME) {
+      return AccountName.default();
+    }
+
     return new AccountName(name);
   }
 
@@ -27,9 +31,6 @@ export class AccountName extends ValueObject {
 
   public isDefault(): boolean {
     if (this === AccountName.DEFAULT) {
-      return true;
-    }
-    if (this.name === DEFAULT_NAME) {
       return true;
     }
 

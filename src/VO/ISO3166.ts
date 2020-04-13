@@ -6,9 +6,13 @@ export class ISO3166 extends ValueObject {
   public readonly noun: 'ISO3166' = 'ISO3166';
   private readonly iso3166: string;
 
-  private static readonly DEFAULT: ISO3166 = ISO3166.of(DEFAULT_CODE);
+  private static readonly DEFAULT: ISO3166 = new ISO3166(DEFAULT_CODE);
 
   public static of(iso3166: string): ISO3166 {
+    if (iso3166 === DEFAULT_CODE) {
+      return ISO3166.default();
+    }
+
     return new ISO3166(iso3166);
   }
 

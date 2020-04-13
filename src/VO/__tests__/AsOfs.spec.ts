@@ -5,6 +5,7 @@ import { MockAsOf } from '../Mock/MockAsOf';
 import { Sequence } from '../../General/Collection/Sequence';
 import { Term } from '../Term';
 
+// DONE
 describe('AsOfs', () => {
   describe('of', () => {
     it('when the Sequence is zero size, returns empty', () => {

@@ -13,12 +13,23 @@ export class EntranceInformation extends ValueObject implements JSONable {
   private readonly account: AccountName;
   private readonly password: Password;
 
+  private static readonly DEFAULT: EntranceInformation = new EntranceInformation(
+    AccountName.default(),
+    Password.default()
+  );
+
   public static of(account: AccountName, password: Password): EntranceInformation {
+    if (account.isDefault()) {
+      if (password.isDefault()) {
+        return EntranceInformation.default();
+      }
+    }
+
     return new EntranceInformation(account, password);
   }
 
   public static default(): EntranceInformation {
-    return new EntranceInformation(AccountName.default(), Password.default());
+    return EntranceInformation.DEFAULT;
   }
 
   protected constructor(account: AccountName, password: Password) {

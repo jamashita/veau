@@ -3,6 +3,7 @@ import { HeaderSizeError } from '../../Error/HeaderSizeError';
 import { Try } from '../../General/Try/Try';
 import { HeaderSize } from '../HeaderSize';
 
+// DONE
 describe('HeaderSize', () => {
   describe('of', () => {
     it('returns Failure when the argument is less than 0', () => {

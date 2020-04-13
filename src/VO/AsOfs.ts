@@ -46,8 +46,8 @@ export class AsOfs implements Collection<number, AsOf>, Cloneable, JSONable {
     });
 
     const merged: Array<AsOf> = [];
-    all.forEach((d: Array<AsOf>) => {
-      merged.push(...d);
+    all.forEach((asOfs: Array<AsOf>) => {
+      merged.push(...asOfs);
     });
 
     return AsOfs.ofArray(merged);

@@ -4,6 +4,7 @@ import { Row } from '../Row';
 import { MockRow } from '../Mock/MockRow';
 import { MockColumn } from '../Mock/MockColumn';
 
+// DONE
 describe('Coordinate', () => {
   describe('equals', () => {
     it('returns true if the all properties are the same', () => {
@@ -40,7 +41,10 @@ describe('Coordinate', () => {
     it('returns the original string', () => {
       const row: number = 1;
       const column: number = 2;
-      const coordinate: Coordinate = Coordinate.of(Row.of(row).get(), Column.of(column).get());
+      const coordinate: Coordinate = Coordinate.of(
+        Row.of(row).get(),
+        Column.of(column).get()
+      );
 
       expect(coordinate.toString()).toEqual(`${row} ${column}`);
     });

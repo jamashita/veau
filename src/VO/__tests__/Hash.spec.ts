@@ -1,5 +1,6 @@
 import { Hash } from '../Hash';
 
+// DONE
 describe('Hash', () => {
   describe('equals', () => {
     it('returns true if both properties are the same', () => {

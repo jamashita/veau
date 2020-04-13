@@ -5,6 +5,24 @@ describe('ISO3166', () => {
     it('always returns empty string', () => {
       expect(ISO3166.default().get()).toEqual('');
     });
+
+    it('returns singleton instance', () => {
+      expect(ISO3166.default()).toBe(ISO3166.default());
+    });
+  });
+
+  describe('of', () => {
+    it('returns ISO3166.default() when empty string is given', () => {
+      expect(ISO3166.of('')).toEqual(ISO3166.default());
+    });
+
+    it('normal case', () => {
+      const iso31661: string = 'AFG';
+      const iso31662: string = 'ALB';
+
+      expect(ISO3166.of(iso31661).get()).toBe(iso31661);
+      expect(ISO3166.of(iso31662).get()).toBe(iso31662);
+    });
   });
 
   describe('equals', () => {

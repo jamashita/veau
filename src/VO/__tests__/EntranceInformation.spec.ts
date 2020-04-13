@@ -4,20 +4,57 @@ import { Password } from '../Password';
 import { MockAccountName } from '../Mock/MockAccountName';
 import { MockPassword } from '../Mock/MockPassword';
 
+// DONE
 describe('EntranceInformation', () => {
   describe('default', () => {
-    it('s account and password must be blank', () => {
+    it('\'s account and password must be blank', () => {
       const entranceInformation: EntranceInformation = EntranceInformation.default();
 
       expect(entranceInformation.getAccount().isDefault()).toEqual(true);
       expect(entranceInformation.getPassword().isDefault()).toEqual(true);
     });
+
+    it('returns singleton instance', () => {
+      expect(EntranceInformation.default()).toBe(EntranceInformation.default());
+    });
+  });
+
+  describe('of', () => {
+    it('returns EntranceInformation.default() when AccountName and Password is blank', () => {
+      const entranceInformation: EntranceInformation = EntranceInformation.of(
+        AccountName.default(),
+        Password.default()
+      );
+
+      expect(entranceInformation).toBe(EntranceInformation.default());
+    });
+
+    it('normal case', () => {
+      const name: string = 'name';
+      const password: string = 'password';
+      const entranceInformation: EntranceInformation = EntranceInformation.of(
+        AccountName.of(name),
+        Password.of(password)
+      );
+
+      expect(entranceInformation.getAccount().get()).toEqual(name);
+      expect(entranceInformation.getPassword().get()).toEqual(password);
+    });
   });
 
   describe('isAcceptable', () => {
+    it('returns false if the both are not filled', () => {
+      const entranceInformation: EntranceInformation = EntranceInformation.of(
+        AccountName.default(),
+        Password.default()
+      );
+
+      expect(entranceInformation.isAcceptable()).toEqual(false);
+    });
+
     it('account is empty, then user is not able to login', () => {
       const entranceInformation: EntranceInformation = EntranceInformation.of(
-        new MockAccountName(),
+        AccountName.default(),
         new MockPassword('password')
       );
 
@@ -27,7 +64,7 @@ describe('EntranceInformation', () => {
     it('password is empty, then user is not able to login', () => {
       const entranceInformation: EntranceInformation = EntranceInformation.of(
         new MockAccountName('name'),
-        new MockPassword()
+        Password.default()
       );
 
       expect(entranceInformation.isAcceptable()).toEqual(false);

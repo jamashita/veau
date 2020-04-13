@@ -6,6 +6,7 @@ import { Term } from '../Term';
 import { Terms } from '../Terms';
 import { MockTerm } from '../Mock/MockTerm';
 
+// TODO
 describe('AsOf', () => {
   describe('ofString', () => {
     it('normal case', () => {

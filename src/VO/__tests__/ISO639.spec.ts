@@ -1,9 +1,28 @@
 import { ISO639 } from '../ISO639';
 
+// DONE
 describe('ISO639', () => {
   describe('default', () => {
     it('always returns empty string', () => {
       expect(ISO639.default().get()).toEqual('');
+    });
+
+    it('returns singleton instance', () => {
+      expect(ISO639.default()).toBe(ISO639.default());
+    });
+  });
+
+  describe('of', () => {
+    it('returns ISO639.default() when empty string is given', () => {
+      expect(ISO639.of('')).toBe(ISO639.default());
+    });
+
+    it('normal case', () => {
+      const iso6391: string = 'ab';
+      const iso6392: string = 'aa';
+
+      expect(ISO639.of(iso6391).get()).toBe(iso6391);
+      expect(ISO639.of(iso6392).get()).toBe(iso6392);
     });
   });
 

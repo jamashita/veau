@@ -3,6 +3,7 @@ import { Colors } from '../Colors';
 import { MockColor } from '../Mock/MockColor';
 import { Sequence } from '../../General/Collection/Sequence';
 
+// DONE
 describe('Colors', () => {
   describe('of', () => {
     it('normal case', () => {

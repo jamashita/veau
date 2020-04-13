@@ -1,5 +1,6 @@
 import { Color } from '../Color';
 
+// DONE
 describe('Color', () => {
   describe('equals', () => {
     it('returns true if the property is the same', () => {
