@@ -68,7 +68,7 @@ export class Languages implements Collection<number, Language>, JSONable {
   }
 
   public find(predicate: Predicate<Language>): Optional<Language> {
-    return this.languages.select(predicate);
+    return this.languages.find(predicate);
   }
 
   public isEmpty(): boolean {

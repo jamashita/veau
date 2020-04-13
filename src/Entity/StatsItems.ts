@@ -96,19 +96,19 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
   }
 
   public getNames(): StatsItemNames {
-    return StatsItemNames.of(this.items.project<StatsItemName>((item: StatsItem) => {
+    return StatsItemNames.of(this.items.map<StatsItemName>((item: StatsItem) => {
       return item.getName();
     }));
   }
 
   public getAsOfs(): AsOfs {
-    const sequence: Sequence<AsOfs> = this.items.project<AsOfs>((item: StatsItem) => {
+    const sequence: Sequence<AsOfs> = this.items.map<AsOfs>((item: StatsItem) => {
       return item.getAsOfs();
     });
 
     const all: Array<AsOfs> = [];
 
-    sequence.iterate((asOfs: AsOfs) => {
+    sequence.forEach((asOfs: AsOfs) => {
       all.push(asOfs);
     });
 
@@ -161,7 +161,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
   }
 
   public remove(statsItem: StatsItem): StatsItems {
-    const items: Sequence<StatsItem> = this.items.screen((item: StatsItem) => {
+    const items: Sequence<StatsItem> = this.items.filter((item: StatsItem) => {
       return !item.equals(statsItem);
     });
 
@@ -177,7 +177,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
   }
 
   public forEach(iteration: Enumerator<number, StatsItem>): void {
-    this.items.iterate(iteration);
+    this.items.forEach(iteration);
   }
 
   public map<U>(mapper: Mapper<StatsItem, U>): Array<U> {

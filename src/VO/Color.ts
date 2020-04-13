@@ -17,7 +17,7 @@ export class Color extends ValueObject {
     return this.rgb;
   }
 
-  public equals(other: Color): boolean {
+  public equals(other: this): boolean {
     if (this === other) {
       return true;
     }

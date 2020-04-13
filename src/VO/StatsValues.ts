@@ -90,7 +90,7 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
     const newValues: Array<StatsValue> = [];
     let isSet: boolean = false;
 
-    this.values.iterate((value: StatsValue) => {
+    this.values.forEach((value: StatsValue) => {
       if (isSet) {
         newValues.push(value);
         return;
@@ -119,7 +119,7 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
   }
 
   public delete(asOf: AsOf): StatsValues {
-    const newValues: Sequence<StatsValue> = this.values.screen((value: StatsValue) => {
+    const newValues: Sequence<StatsValue> = this.values.filter((value: StatsValue) => {
       return !asOf.equals(value.getAsOf());
     });
 
@@ -135,11 +135,11 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
   }
 
   public forEach(iteration: Enumerator<number, StatsValue>): void {
-    this.values.iterate(iteration);
+    this.values.forEach(iteration);
   }
 
   public filter(statsItemID: StatsItemID): StatsValues {
-    const values: Sequence<StatsValue> = this.values.screen((value: StatsValue) => {
+    const values: Sequence<StatsValue> = this.values.filter((value: StatsValue) => {
       return statsItemID.equals(value.getStatsItemID());
     });
 
@@ -147,7 +147,7 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
   }
 
   public getValues(): NumericalValues {
-    const values: Sequence<NumericalValue> = this.values.project<NumericalValue>((value: StatsValue) => {
+    const values: Sequence<NumericalValue> = this.values.map<NumericalValue>((value: StatsValue) => {
       return value.getValue();
     });
 
@@ -155,7 +155,7 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
   }
 
   public getAsOfs(): AsOfs {
-    const asOfs: Sequence<AsOf> = this.values.project<AsOf>((value: StatsValue) => {
+    const asOfs: Sequence<AsOf> = this.values.map<AsOf>((value: StatsValue) => {
       return value.getAsOf();
     });
 

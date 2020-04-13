@@ -68,7 +68,7 @@ export class Regions implements Collection<number, Region>, JSONable {
   }
 
   public find(predicate: Predicate<Region>): Optional<Region> {
-    return this.regions.select(predicate);
+    return this.regions.find(predicate);
   }
 
   public isEmpty(): boolean {

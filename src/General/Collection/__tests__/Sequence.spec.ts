@@ -184,7 +184,7 @@ describe('Sequence', () => {
         noun3
       ]);
 
-      nouns.iterate((noun: MockNominative<number>, index: number) => {
+      nouns.forEach((noun: MockNominative<number>, index: number) => {
         expect(nouns.get(index).get()).toEqual(noun);
       });
     });
@@ -202,7 +202,7 @@ describe('Sequence', () => {
         noun3
       ]);
 
-      const nouns2: Sequence<MockNominative<string>> = nouns1.project<MockNominative<string>>((noun: MockNominative<number>, index: number) => {
+      const nouns2: Sequence<MockNominative<string>> = nouns1.map<MockNominative<string>>((noun: MockNominative<number>, index: number) => {
         const num: number = noun.get();
         return new MockNominative<string>(`${num ** 2}`);
       });
@@ -217,10 +217,10 @@ describe('Sequence', () => {
       const nouns1: Sequence<MockNominative<number>> = Sequence.empty<MockNominative<number>>();
       const nouns2: Sequence<MockNominative<number>> = Sequence.of<MockNominative<number>>([]);
 
-      const project1: Sequence<MockNominative<number>> = nouns1.project((mock: MockNominative<number>) => {
+      const project1: Sequence<MockNominative<number>> = nouns1.map((mock: MockNominative<number>) => {
         return mock;
       });
-      const project2: Sequence<MockNominative<number>> = nouns2.project((mock: MockNominative<number>) => {
+      const project2: Sequence<MockNominative<number>> = nouns2.map((mock: MockNominative<number>) => {
         return mock;
       });
 
@@ -245,28 +245,28 @@ describe('Sequence', () => {
         noun4
       ]);
 
-      const select1: Optional<MockNominative<number>> = nouns.select((mock: MockNominative<number>) => {
+      const select1: Optional<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
         if (mock.get() === 1) {
           return true;
         }
 
         return false;
       });
-      const select2: Optional<MockNominative<number>> = nouns.select((mock: MockNominative<number>) => {
+      const select2: Optional<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
         if (mock.get() === 2) {
           return true;
         }
 
         return false;
       });
-      const select3: Optional<MockNominative<number>> = nouns.select((mock: MockNominative<number>) => {
+      const select3: Optional<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
         if (mock.get() % 2 === 0) {
           return true;
         }
 
         return false;
       });
-      const select4: Optional<MockNominative<number>> = nouns.select((mock: MockNominative<number>) => {
+      const select4: Optional<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
         if (mock.get() > 1000) {
           return true;
         }
@@ -299,21 +299,21 @@ describe('Sequence', () => {
         noun4
       ]);
 
-      const screen1: Sequence<MockNominative<number>> = nouns.screen((mock: MockNominative<number>) => {
+      const screen1: Sequence<MockNominative<number>> = nouns.filter((mock: MockNominative<number>) => {
         if (mock.get() % 2 === 0) {
           return true;
         }
 
         return false;
       });
-      const screen2: Sequence<MockNominative<number>> = nouns.screen((mock: MockNominative<number>) => {
+      const screen2: Sequence<MockNominative<number>> = nouns.filter((mock: MockNominative<number>) => {
         if (mock === noun4) {
           return true;
         }
 
         return false;
       });
-      const screen3: Sequence<MockNominative<number>> = nouns.screen((mock: MockNominative<number>) => {
+      const screen3: Sequence<MockNominative<number>> = nouns.filter((mock: MockNominative<number>) => {
         if (mock === noun5) {
           return true;
         }
@@ -342,7 +342,7 @@ describe('Sequence', () => {
         noun4
       ]);
 
-      const screen: Sequence<MockNominative<number>> = nouns.screen((mock: MockNominative<number>) => {
+      const screen: Sequence<MockNominative<number>> = nouns.filter((mock: MockNominative<number>) => {
         return false;
       });
 

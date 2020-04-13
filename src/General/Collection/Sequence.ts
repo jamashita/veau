@@ -10,8 +10,7 @@ export class Sequence<E extends Nominative> implements ISequence<E> {
   public readonly noun: 'Sequence' = 'Sequence';
   private readonly elements: Array<E>;
 
-  private static readonly EMPTY: Sequence<Nominative> = new Sequence<Nominative>([
-  ]);
+  private static readonly EMPTY: Sequence<Nominative> = new Sequence<Nominative>([]);
 
   public static of<E extends Nominative>(elements: Array<E>): Sequence<E> {
     if (elements.length === 0) {
@@ -70,16 +69,16 @@ export class Sequence<E extends Nominative> implements ISequence<E> {
     return false;
   }
 
-  public iterate(iteration: Mapper<E, void>): void {
+  public forEach(iteration: Mapper<E, void>): void {
     this.elements.forEach(iteration);
   }
 
-  public project<F extends Nominative>(mapper: Mapper<E, F>): Sequence<F> {
+  public map<F extends Nominative>(mapper: Mapper<E, F>): Sequence<F> {
     return Sequence.of<F>(this.elements.map<F>(mapper));
   }
 
-  public select(predicate: Predicate<E>): Optional<E> {
-    const element: E  | undefined =  this.elements.find(predicate);
+  public find(predicate: Predicate<E>): Optional<E> {
+    const element: Ambiguous<E> =  this.elements.find(predicate);
 
     if (element === undefined) {
       return None.of<E>();
@@ -88,7 +87,7 @@ export class Sequence<E extends Nominative> implements ISequence<E> {
     return Some.of<E>(element);
   }
 
-  public screen(iterator: Enumerator<number, E>): Sequence<E> {
+  public filter(iterator: Enumerator<number, E>): Sequence<E> {
     return Sequence.of<E>(this.elements.filter(iterator));
   }
 
@@ -110,9 +109,7 @@ export class Sequence<E extends Nominative> implements ISequence<E> {
     if (this === other) {
       return true;
     }
-
-    const length: number = this.elements.length;
-    if (length !== other.elements.length) {
+    if (this.elements.length !== other.elements.length) {
       return false;
     }
 
