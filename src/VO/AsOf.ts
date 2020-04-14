@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
+import utc from 'dayjs/plugin/utc';
 import { AsOfError } from '../Error/AsOfError';
 import { Failure } from '../General/Try/Failure';
 import { Success } from '../General/Try/Success';
@@ -7,6 +8,7 @@ import { Try } from '../General/Try/Try';
 import { ValueObject } from '../General/ValueObject';
 import { Term } from './Term';
 
+dayjs.extend(utc);
 dayjs.extend(minMax);
 
 const TERM_FORMAT: string = 'YYYY-MM-DD';
@@ -20,10 +22,7 @@ export class AsOf extends ValueObject {
   }
 
   public static ofString(asOf: string): Try<AsOf, AsOfError> {
-    const date: dayjs.Dayjs = dayjs(asOf, {
-      format: TERM_FORMAT,
-      utc: true
-    });
+    const date: dayjs.Dayjs = dayjs.utc(asOf, TERM_FORMAT);
 
     if (date.isValid()) {
       return Success.of<AsOf, AsOfError>(AsOf.of(date));

@@ -20,14 +20,18 @@ describe('AsOf', () => {
     it('will return Failure because the string format is not compatible to date time', () => {
       const trial1: Try<AsOf, AsOfError> = AsOf.ofString('deux mille');
       const trial2: Try<AsOf, AsOfError> = AsOf.ofString('dos mil');
+      const trial3: Try<AsOf, AsOfError> = AsOf.ofString('2000-01-01 01:02:03');
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
+      const spy5: SinonSpy = sinon.spy();
+      const spy6: SinonSpy = sinon.spy();
 
       expect(trial1.isFailure()).toEqual(true);
       expect(trial2.isFailure()).toEqual(true);
+      expect(trial3.isFailure()).toEqual(true);
       trial1.match<void>(() => {
         spy1();
       }, (err: AsOfError) => {
@@ -42,10 +46,19 @@ describe('AsOf', () => {
         expect(err).toBeInstanceOf(AsOfError);
       });
 
+      trial2.match<void>(() => {
+        spy5();
+      }, (err: AsOfError) => {
+        spy6();
+        expect(err).toBeInstanceOf(AsOfError);
+      });
+
       expect(spy1.called).toEqual(false);
       expect(spy2.called).toEqual(true);
       expect(spy3.called).toEqual(false);
       expect(spy4.called).toEqual(true);
+      expect(spy5.called).toEqual(false);
+      expect(spy6.called).toEqual(true);
     });
   });
 
