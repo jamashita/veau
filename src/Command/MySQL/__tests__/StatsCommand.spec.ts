@@ -3,6 +3,7 @@ import { DataSourceError } from '../../../General/DataSourceError';
 import { MockError } from '../../../General/MockError';
 import { MockQuery } from '../../../General/MySQL/Mock/MockQuery';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
+import 'reflect-metadata';
 import { Try } from '../../../General/Try/Try';
 import { StatsCommand } from '../StatsCommand';
 import { UUID } from '../../../General/UUID/UUID';
@@ -23,19 +24,24 @@ describe('StatsCommand', () => {
     it('normal case', async () => {
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
+      const languageID: number = 24;
+      const regionID: number = 33;
+      const termID: number = 935;
+      const statsName: string = 'stats name';
+      const statsUnit: string = 'stats unit';
       const stats: MockStats = new MockStats({
         statsID: new MockStatsID(uuid1),
         language: new MockLanguage({
-          languageID: new MockLanguageID(24)
+          languageID: new MockLanguageID(languageID)
         }),
         region: new MockRegion({
-          regionID: new MockRegionID(33)
+          regionID: new MockRegionID(regionID)
         }),
         term: new MockTerm({
-          id: 935
+          id: termID
         }),
-        name: new MockStatsName('stats name'),
-        unit: new MockStatsUnit('stats unit')
+        name: new MockStatsName(statsName),
+        unit: new MockStatsUnit(statsUnit)
       });
       const accountID: MockVeauAccountID = new MockVeauAccountID(uuid2);
 
@@ -43,7 +49,7 @@ describe('StatsCommand', () => {
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
 
-      const statsCommand: StatsCommand = StatsCommand.of(query);
+      const statsCommand: StatsCommand = new StatsCommand(query);
       const trial: Try<void, DataSourceError> = await statsCommand.create(stats, accountID);
 
       expect(stub.withArgs(`INSERT INTO stats VALUES (
@@ -57,12 +63,12 @@ describe('StatsCommand', () => {
       :updatedAt
       );`, {
         statsID: uuid1.get(),
-        languageID: 24,
-        regionID: 33,
-        termID: 935,
+        languageID,
+        regionID,
+        termID,
         veauAccountID: uuid2.get(),
-        name: 'stats name',
-        unit: 'stats unit',
+        name: statsName,
+        unit: statsUnit,
         updatedAt: '2000-01-02 01:02:03'
       }).called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
@@ -79,7 +85,7 @@ describe('StatsCommand', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsCommand: StatsCommand = StatsCommand.of(query);
+      const statsCommand: StatsCommand = new StatsCommand(query);
       const trial: Try<void, DataSourceError> = await statsCommand.create(stats, accountID);
 
       expect(trial.isFailure()).toEqual(true);
@@ -103,7 +109,7 @@ describe('StatsCommand', () => {
       query.execute = stub;
       stub.rejects(new MockError());
 
-      const statsCommand: StatsCommand = StatsCommand.of(query);
+      const statsCommand: StatsCommand = new StatsCommand(query);
       await expect(statsCommand.create(stats, accountID)).rejects.toThrow(MockError);
     });
   });
@@ -117,7 +123,7 @@ describe('StatsCommand', () => {
       const stub: SinonStub = sinon.stub();
       query.execute = stub;
 
-      const statsCommand: StatsCommand = StatsCommand.of(query);
+      const statsCommand: StatsCommand = new StatsCommand(query);
       const trial: Try<void, DataSourceError> = await statsCommand.deleteByStatsID(statsID);
 
       expect(stub.withArgs(`DELETE R1
@@ -138,7 +144,7 @@ describe('StatsCommand', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsCommand: StatsCommand = StatsCommand.of(query);
+      const statsCommand: StatsCommand = new StatsCommand(query);
       const trial: Try<void, DataSourceError> = await statsCommand.deleteByStatsID(statsID);
 
       expect(trial.isFailure()).toEqual(true);
@@ -161,7 +167,7 @@ describe('StatsCommand', () => {
       query.execute = stub;
       stub.rejects(new MockError());
 
-      const statsCommand: StatsCommand = StatsCommand.of(query);
+      const statsCommand: StatsCommand = new StatsCommand(query);
       await expect(statsCommand.deleteByStatsID(statsID)).rejects.toThrow(MockError);
     });
   });

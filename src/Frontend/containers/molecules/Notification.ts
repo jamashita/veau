@@ -1,11 +1,6 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
-import {
-  Action,
-  NotificationHPosition,
-  NotificationKind,
-  NotificationVPosition
-} from '../../actions/Action';
+import { Action, NotificationHPosition, NotificationKind, NotificationVPosition } from '../../actions/Action';
 import { disappearNotification } from '../../actions/NotificationAction';
 import { Notification as Component } from '../../components/molecules/Notification';
 import { State } from '../../State';

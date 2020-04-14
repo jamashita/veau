@@ -8,17 +8,16 @@ import { StatsID } from '../../VO/StatsID';
 import { StatsValue } from '../../VO/StatsValue';
 import { IMySQLCommand } from '../Interface/IMySQLCommand';
 import { IStatsValueCommand } from '../Interface/IStatsValueCommand';
+import { inject, injectable } from 'inversify';
+import { TYPE } from '../../Container/Types';
 
+@injectable()
 export class StatsValueCommand implements IStatsValueCommand, IMySQLCommand {
   public readonly noun: 'StatsValueCommand' = 'StatsValueCommand';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly query: IQuery;
 
-  public static of(query: IQuery): StatsValueCommand {
-    return new StatsValueCommand(query);
-  }
-
-  private constructor(query: IQuery) {
+  public constructor(@inject(TYPE.MySQL) query: IQuery) {
     this.query = query;
   }
 

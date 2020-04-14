@@ -9,11 +9,7 @@ import { Try } from '../../General/Try/Try';
 import { ISessionQuery } from '../../Query/Interface/ISessionQuery';
 import { EntranceInformation } from '../../VO/EntranceInformation';
 import { VeauAccount } from '../../VO/VeauAccount';
-import {
-  ACTION,
-  EntranceAccountNameTypedAction,
-  EntrancePasswordTypedAction
-} from '../actions/Action';
+import { ACTION, EntranceAccountNameTypedAction, EntrancePasswordTypedAction } from '../actions/Action';
 import { updateEntranceInformation } from '../actions/EntranceAction';
 import { identified, identityAuthenticated } from '../actions/IdentityAction';
 import { loaded, loading } from '../actions/LoadingAction';

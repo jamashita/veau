@@ -9,17 +9,16 @@ import { StatsID } from '../../VO/StatsID';
 import { VeauAccountID } from '../../VO/VeauAccountID';
 import { IMySQLCommand } from '../Interface/IMySQLCommand';
 import { IStatsCommand } from '../Interface/IStatsCommand';
+import { inject, injectable } from 'inversify';
+import { TYPE } from '../../Container/Types';
 
+@injectable()
 export class StatsCommand implements IStatsCommand, IMySQLCommand {
   public readonly noun: 'StatsCommand' = 'StatsCommand';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly query: IQuery;
 
-  public static of(query: IQuery): StatsCommand {
-    return new StatsCommand(query);
-  }
-
-  private constructor(query: IQuery) {
+  public constructor(@inject(TYPE.MySQL) query: IQuery) {
     this.query = query;
   }
 
