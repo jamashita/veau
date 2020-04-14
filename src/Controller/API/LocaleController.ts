@@ -22,7 +22,7 @@ router.get('/', async (req: express.Request, res: express.Response) => {
   trial.match<void>((locale: JSONable) => {
     res.status(OK).send(locale.toJSON());
   }, (err: NoSuchElementError | DataSourceError) => {
-    logger.error(err.message);
+    logger.error(err);
 
     res.sendStatus(INTERNAL_SERVER_ERROR);
   });
@@ -34,7 +34,7 @@ router.delete('/', authenticationMiddleware.requires(), async (req: express.Requ
   trial.match<void>(() => {
     res.sendStatus(OK);
   }, (err: DataSourceError) => {
-    logger.error(err.message);
+    logger.error(err);
 
     res.sendStatus(INTERNAL_SERVER_ERROR);
   });

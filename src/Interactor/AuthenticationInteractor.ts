@@ -50,13 +50,13 @@ export class AuthenticationInteractor implements IInteractor {
           // time adjustment
           await Digest.compare(DUMMY_PASSWORD, DUMMY_HASH);
 
-          logger.warn(err.message);
+          logger.warn(err);
           logger.info(`invalid account: ${name} and password: ${pass}`);
           callback(null, false);
         });
       }
       catch (err) {
-        logger.fatal(err.message);
+        logger.fatal(err);
         callback(err);
       }
     };
