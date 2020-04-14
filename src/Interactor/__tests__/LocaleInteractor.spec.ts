@@ -26,7 +26,7 @@ import { LocaleInteractor } from '../LocaleInteractor';
 import { MySQLError } from '../../General/MySQL/MySQLError';
 import { RedisError } from '../../General/Redis/RedisError';
 
-describe('LocaleInteractor',  () => {
+describe('LocaleInteractor', () => {
   describe('container', () => {
     it('must be a singleton', () => {
       const localeInteractor1: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
@@ -86,7 +86,7 @@ describe('LocaleInteractor',  () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand)
+      const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand);
       const trial: Try<Locale, NoSuchElementError | DataSourceError> = await localeInteractor.all();
 
       expect(trial.isFailure()).toEqual(true);
@@ -120,7 +120,7 @@ describe('LocaleInteractor',  () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand)
+      const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand);
       const trial: Try<Locale, NoSuchElementError | DataSourceError> = await localeInteractor.all();
 
       expect(trial.isFailure()).toEqual(true);
@@ -154,7 +154,7 @@ describe('LocaleInteractor',  () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand)
+      const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand);
       const trial: Try<Locale, NoSuchElementError | DataSourceError> = await localeInteractor.all();
 
       expect(trial.isFailure()).toEqual(true);
@@ -188,7 +188,7 @@ describe('LocaleInteractor',  () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand)
+      const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand);
       const trial: Try<Locale, NoSuchElementError | DataSourceError> = await localeInteractor.all();
 
       expect(trial.isFailure()).toEqual(true);
@@ -217,7 +217,7 @@ describe('LocaleInteractor',  () => {
       regionRedisCommand.deleteAll = stub2;
       stub2.resolves(Success.of<DataSourceError>());
 
-      const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand)
+      const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand);
       const trial: Try<void, DataSourceError> = await localeInteractor.delete();
 
       expect(trial.isSuccess()).toEqual(true);
@@ -239,7 +239,7 @@ describe('LocaleInteractor',  () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand)
+      const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand);
       const trial: Try<void, DataSourceError> = await localeInteractor.delete();
 
       expect(trial.isFailure()).toEqual(true);
@@ -270,7 +270,7 @@ describe('LocaleInteractor',  () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand)
+      const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand);
       const trial: Try<void, DataSourceError> = await localeInteractor.delete();
 
       expect(trial.isFailure()).toEqual(true);
@@ -301,7 +301,7 @@ describe('LocaleInteractor',  () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand)
+      const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand);
       const trial: Try<void, DataSourceError> = await localeInteractor.delete();
 
       expect(trial.isFailure()).toEqual(true);
@@ -332,7 +332,7 @@ describe('LocaleInteractor',  () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand)
+      const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand);
       const trial: Try<void, DataSourceError> = await localeInteractor.delete();
 
       expect(trial.isFailure()).toEqual(true);

@@ -46,8 +46,7 @@ describe('StatsValues', () => {
 
   describe('ofTry', () => {
     it('when empty Array given, returns Success, and StatsValues.empty()', () => {
-      const trial: Try<StatsValues, StatsValuesError> = StatsValues.ofTry([
-      ]);
+      const trial: Try<StatsValues, StatsValuesError> = StatsValues.ofTry([]);
 
       expect(trial.isSuccess()).toBe(true);
       expect(trial.get()).toBe(StatsValues.empty());
@@ -337,7 +336,7 @@ describe('StatsValues', () => {
         statsValue2
       ];
 
-      const statsValues : StatsValues = StatsValues.ofArray(values);
+      const statsValues: StatsValues = StatsValues.ofArray(values);
 
       expect(statsValues.size()).toEqual(values.length);
       for (let i: number = 0; i < statsValues.size(); i++) {
@@ -361,7 +360,7 @@ describe('StatsValues', () => {
         statsValue2
       ];
 
-      const statsValues : StatsValues = StatsValues.ofSpread(statsValue1, statsValue2);
+      const statsValues: StatsValues = StatsValues.ofSpread(statsValue1, statsValue2);
 
       expect(statsValues.size()).toEqual(values.length);
       for (let i: number = 0; i < statsValues.size(); i++) {
@@ -667,7 +666,7 @@ describe('StatsValues', () => {
           day: 1
         }),
         value: new MockNumericalValue(1)
-     });
+      });
       const statsValue2: MockStatsValue = new MockStatsValue({
         statsItemID,
         asOf: new MockAsOf({

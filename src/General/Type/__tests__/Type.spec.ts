@@ -19,7 +19,7 @@ describe('Type', () => {
   });
 
   describe('isNumber', () => {
-    it('returns true even if double values are provided', () =>{
+    it('returns true even if double values are provided', () => {
       expect(Type.isNumber(null)).toEqual(false);
       expect(Type.isNumber(undefined)).toEqual(false);
       expect(Type.isNumber('')).toEqual(false);

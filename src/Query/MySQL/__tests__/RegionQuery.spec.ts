@@ -38,7 +38,7 @@ describe('RegionQuery', () => {
           name: 'Albania',
           iso3166: 'ALB'
         }
-      ]
+      ];
 
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
@@ -69,8 +69,7 @@ describe('RegionQuery', () => {
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
       mysql.execute = stub;
-      stub.resolves([
-      ]);
+      stub.resolves([]);
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
@@ -160,8 +159,7 @@ describe('RegionQuery', () => {
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
       mysql.execute = stub;
-      stub.resolves([
-      ]);
+      stub.resolves([]);
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 

@@ -43,7 +43,7 @@ describe('RegionQuery', () => {
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const trial: Try<Regions, NoSuchElementError | DataSourceError>= await regionQuery.all();
+      const trial: Try<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
       expect(trial.isSuccess()).toEqual(true);
       expect(trial.get()).toEqual(regions);
@@ -62,11 +62,11 @@ describe('RegionQuery', () => {
       stub2.resolves(Success.of<Regions, NoSuchElementError>(regions));
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub3: SinonStub = sinon.stub();
-      regionRedisCommand.insertAll= stub3;
+      regionRedisCommand.insertAll = stub3;
       stub3.resolves(Success.of<DataSourceError>());
 
-      const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand)
-      const trial: Try<Regions, NoSuchElementError | DataSourceError>= await regionQuery.all();
+      const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
+      const trial: Try<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
       expect(trial.isSuccess()).toEqual(true);
       expect(trial.get()).toEqual(regions);
@@ -83,13 +83,13 @@ describe('RegionQuery', () => {
       stub2.resolves(Failure.of<Regions, NoSuchElementError>(new NoSuchElementError('test failed')));
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub3: SinonStub = sinon.stub();
-      regionRedisCommand.insertAll= stub3;
+      regionRedisCommand.insertAll = stub3;
       stub3.resolves(Success.of<DataSourceError>());
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand)
-      const trial: Try<Regions, NoSuchElementError | DataSourceError>= await regionQuery.all();
+      const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
+      const trial: Try<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -116,13 +116,13 @@ describe('RegionQuery', () => {
       stub2.resolves(Success.of<Regions, NoSuchElementError>(regions));
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub3: SinonStub = sinon.stub();
-      regionRedisCommand.insertAll= stub3;
+      regionRedisCommand.insertAll = stub3;
       stub3.resolves(Failure.of<DataSourceError>(new RedisError('test faied')));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand)
-      const trial: Try<Regions, NoSuchElementError | DataSourceError>= await regionQuery.all();
+      const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
+      const trial: Try<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {

@@ -375,8 +375,8 @@ describe('StatsItems', () => {
 
   describe('ofTry', () => {
     it('normal case', () => {
-      const statsItem1: MockStatsItem = new MockStatsItem()
-      const statsItem2: MockStatsItem = new MockStatsItem()
+      const statsItem1: MockStatsItem = new MockStatsItem();
+      const statsItem2: MockStatsItem = new MockStatsItem();
 
       const trial1: Try<StatsItem, StatsItemError> = Success.of<StatsItem, StatsItemError>(statsItem1);
       const trial2: Try<StatsItem, StatsItemError> = Success.of<StatsItem, StatsItemError>(statsItem2);
@@ -393,7 +393,7 @@ describe('StatsItems', () => {
     });
 
     it('contains failure', () => {
-      const statsItem1: MockStatsItem = new MockStatsItem()
+      const statsItem1: MockStatsItem = new MockStatsItem();
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -1138,14 +1138,12 @@ describe('StatsItems', () => {
         {
           statsItemID: '8f7b1783-b09c-4010-aac1-dca1292ee700',
           name: 'stats item 1',
-          values: [
-          ]
+          values: []
         },
         {
           statsItemID: '9e6b3c69-580c-4c19-9f3f-9bd82f582551',
           name: 'stats item 2',
-          values: [
-          ]
+          values: []
         }
       ]);
     });

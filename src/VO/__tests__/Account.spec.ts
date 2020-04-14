@@ -24,7 +24,7 @@ describe('Account', () => {
       const accountID: MockVeauAccountID = new MockVeauAccountID();
       const name: MockAccountName = new MockAccountName();
       const language: MockLanguage = new MockLanguage();
-      const region: MockRegion = new MockRegion()
+      const region: MockRegion = new MockRegion();
       const hash: MockHash = new MockHash();
 
       const account: Account = Account.of(

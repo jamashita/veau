@@ -203,7 +203,7 @@ describe('AsOfs', () => {
   });
 
   describe('get', () => {
-    it('returns AsOf instance at the correct index', ()  => {
+    it('returns AsOf instance at the correct index', () => {
       const asOf1: MockAsOf = new MockAsOf({
         day: 1
       });
@@ -294,11 +294,11 @@ describe('AsOfs', () => {
       expect(asOfs.min().get().equals(asOf)).toEqual(true);
     });
 
-    it('returns None when AsOfs are empty', () =>{
+    it('returns None when AsOfs are empty', () => {
       expect(AsOfs.empty().min()).toBeInstanceOf(None);
     });
 
-    it('returns the only one', () =>{
+    it('returns the only one', () => {
       const asOf: MockAsOf = new MockAsOf();
       const asOfs: AsOfs = AsOfs.ofSpread(
         asOf
@@ -343,7 +343,7 @@ describe('AsOfs', () => {
       expect(asOfs.max().get().equals(asOf)).toEqual(true);
     });
 
-    it('returns None when AsOfs are empty', () =>{
+    it('returns None when AsOfs are empty', () => {
       expect(AsOfs.empty().max()).toBeInstanceOf(None);
     });
 

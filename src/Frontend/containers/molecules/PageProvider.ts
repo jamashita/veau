@@ -16,8 +16,7 @@ type DispatchProps = Readonly<{
   toStatsList: () => void;
   logout: () => void;
 }>;
-type OwnProps = Readonly<{
-}>;
+type OwnProps = Readonly<{}>;
 export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {

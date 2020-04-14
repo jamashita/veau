@@ -102,7 +102,7 @@ describe('ImmutableSequence', () => {
   });
 
   describe('get', () => {
-    it('returns Some<MockNominative> instance at the correct index', ()  => {
+    it('returns Some<MockNominative> instance at the correct index', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -119,7 +119,7 @@ describe('ImmutableSequence', () => {
       expect(nouns.get(2).get()).toEqual(noun3);
     });
 
-    it('returns None<MockNominative> instance at out of index', ()  => {
+    it('returns None<MockNominative> instance at out of index', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -164,8 +164,7 @@ describe('ImmutableSequence', () => {
         noun1,
         noun2
       ]);
-      const nouns2: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>([
-      ]);
+      const nouns2: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>([]);
 
       expect(nouns1.isEmpty()).toEqual(false);
       expect(nouns2.isEmpty()).toEqual(true);
@@ -618,7 +617,7 @@ describe('ImmutableSequence', () => {
       const nouns1: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>([
         noun1,
         noun2,
-        noun3,
+        noun3
       ]);
       const nouns2: ImmutableSequence<MockNominative<number>> = nouns1.copy();
       const nouns3: ImmutableSequence<MockNominative<number>> = nouns2.add(noun4);

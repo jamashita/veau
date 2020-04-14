@@ -23,7 +23,7 @@ import { MockStatsItem } from '../Mock/MockStatsItem';
 describe('StatsItem', () => {
   describe('of', () => {
     it('normal case', () => {
-      const statsItemID: MockStatsItemID = new MockStatsItemID()
+      const statsItemID: MockStatsItemID = new MockStatsItemID();
       const name: MockStatsItemName = new MockStatsItemName();
       const statsValue: MockStatsValue = new MockStatsValue();
 
@@ -373,8 +373,7 @@ describe('StatsItem', () => {
       const n: unknown = {
         statsItemID: 'ding dong',
         name: 'cameleon',
-        values: {
-        }
+        values: {}
       };
 
       expect(StatsItem.isJSON(n)).toEqual(false);
@@ -612,7 +611,7 @@ describe('StatsItem', () => {
 
   describe('copy', () => {
     it('evert properties are copied', () => {
-      const statsItemID: MockStatsItemID = new MockStatsItemID()
+      const statsItemID: MockStatsItemID = new MockStatsItemID();
       const name: MockStatsItemName = new MockStatsItemName();
       const statsValues: MockStatsValues = new MockStatsValues();
 
@@ -632,7 +631,7 @@ describe('StatsItem', () => {
 
   describe('toString', () => {
     it('normal case', () => {
-      const id: string = '5ee0c273-c26f-432f-9217-d6a7b481a073'
+      const id: string = '5ee0c273-c26f-432f-9217-d6a7b481a073';
       const name: string = 'name';
       const statsItemID: StatsItemID = StatsItemID.ofString(id).get();
       const statsItemName: StatsItemName = StatsItemName.of(name);

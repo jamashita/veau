@@ -22,7 +22,7 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
   private readonly regionRedisCommand: IRegionCommand;
 
   public constructor(
-    @inject(TYPE.RegionMySQLQuery) regionMySQLQuery: IRegionQuery,
+  @inject(TYPE.RegionMySQLQuery) regionMySQLQuery: IRegionQuery,
     @inject(TYPE.RegionRedisQuery) regionRedisQuery: IRegionQuery,
     @inject(TYPE.RegionRedisCommand) regionRedisCommand: IRegionCommand
   ) {

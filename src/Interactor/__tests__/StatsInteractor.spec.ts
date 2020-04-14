@@ -45,7 +45,7 @@ describe('StatsInteractor', () => {
       const statsInteractor2: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
 
       expect(statsInteractor1).toBeInstanceOf(StatsInteractor);
-      expect(statsInteractor1).toBe(statsInteractor2)
+      expect(statsInteractor1).toBe(statsInteractor2);
     });
   });
 

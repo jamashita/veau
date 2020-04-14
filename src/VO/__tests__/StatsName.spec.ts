@@ -55,7 +55,7 @@ describe('StatsName', () => {
   describe('toString', () => {
     it('returns the original string', () => {
       const name: string = 'stats name';
-      const statsName: StatsName = StatsName.of( name);
+      const statsName: StatsName = StatsName.of(name);
 
       expect(statsName.toString()).toEqual(name);
     });

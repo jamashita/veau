@@ -154,7 +154,7 @@ describe('StatsValue', () => {
     it('returns false because asOf is not string', () => {
       const n: unknown = {
         asOf: false,
-        value: -0.3,
+        value: -0.3
       };
 
       expect(StatsValue.isJSON(n)).toEqual(false);
@@ -162,7 +162,7 @@ describe('StatsValue', () => {
 
     it('returns false because value is missing', () => {
       const n: unknown = {
-        asOf: '2000-01-01',
+        asOf: '2000-01-01'
       };
 
       expect(StatsValue.isJSON(n)).toEqual(false);

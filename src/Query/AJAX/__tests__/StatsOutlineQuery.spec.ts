@@ -138,8 +138,7 @@ describe('StatsOutlineQuery', () => {
       ajax.get = stub;
       stub.resolves({
         status: INTERNAL_SERVER_ERROR,
-        body: [
-        ]
+        body: []
       });
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();

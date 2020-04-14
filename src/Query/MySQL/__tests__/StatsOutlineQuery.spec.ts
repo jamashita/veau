@@ -107,7 +107,7 @@ describe('StatsOutlineQuery', () => {
         expect(statsOutline.getStatsID().get().get()).toEqual(rows[i].statsID);
         expect(statsOutline.getLanguage().getLanguageID().get()).toEqual(rows[i].languageID);
         expect(statsOutline.getLanguage().getName().get()).toEqual(rows[i].languageName);
-        expect(statsOutline.getLanguage().getEnglishName().get()).toEqual( rows[i].languageEnglishName);
+        expect(statsOutline.getLanguage().getEnglishName().get()).toEqual(rows[i].languageEnglishName);
         expect(statsOutline.getLanguage().getISO639().get()).toEqual(rows[i].iso639);
         expect(statsOutline.getRegion().getRegionID().get()).toEqual(rows[i].regionID);
         expect(statsOutline.getRegion().getName().get()).toEqual(rows[i].regionName);

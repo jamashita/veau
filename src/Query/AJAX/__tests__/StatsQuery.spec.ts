@@ -46,8 +46,7 @@ describe('StatsQuery', () => {
         name: 'stats name',
         unit: 'stats unit',
         updatedAt: '2000-01-01 00:00:00',
-        items: [
-        ]
+        items: []
       };
 
       const ajax: MockAJAX = new MockAJAX();
@@ -97,8 +96,7 @@ describe('StatsQuery', () => {
         name: 'stats name',
         unit: 'stats unit',
         updatedAt: '2000-01-01 00:00:00',
-        items: [
-        ]
+        items: []
       };
 
       const ajax: MockAJAX = new MockAJAX();
@@ -134,8 +132,7 @@ describe('StatsQuery', () => {
       ajax.get = stub;
       stub.resolves({
         status: NO_CONTENT,
-        body: {
-        }
+        body: {}
       });
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -163,8 +160,7 @@ describe('StatsQuery', () => {
       ajax.get = stub;
       stub.resolves({
         status: INTERNAL_SERVER_ERROR,
-        body: {
-        }
+        body: {}
       });
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();

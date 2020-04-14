@@ -43,8 +43,7 @@ type DispatchProps = Readonly<{
   termSelected: (term: Term) => void;
   saveNewStats: () => void;
 }>;
-type OwnProps = Readonly<{
-}>;
+type OwnProps = Readonly<{}>;
 export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {

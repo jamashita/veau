@@ -50,8 +50,7 @@ describe('JSONA', () => {
     });
 
     it('throws TypeError when the JSON has circular reference, but the Error is wrapped', async () => {
-      const obj1: any = {
-      };
+      const obj1: any = {};
       const obj2: any = {
         obj1
       };

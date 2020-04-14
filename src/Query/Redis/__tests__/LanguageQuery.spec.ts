@@ -40,7 +40,7 @@ describe('LanguageQuery', () => {
           name: 'Afaraf',
           englishName: 'Afar',
           iso639: 'aa'
-        },
+        }
       ];
       const jsonStr: string = JSON.stringify(json);
 
@@ -67,8 +67,7 @@ describe('LanguageQuery', () => {
     });
 
     it('Redis returns empty array', async () => {
-      const json: Array<LanguageJSON> = [
-      ];
+      const json: Array<LanguageJSON> = [];
       const jsonStr: string = JSON.stringify(json);
 
       const string: MockRedisString = new MockRedisString();
@@ -192,7 +191,7 @@ describe('LanguageQuery', () => {
           name: 'Afaraf',
           englishName: 'Afar',
           iso639: 'aa'
-        },
+        }
       ];
       const jsonStr: string = JSON.stringify(json);
 
@@ -218,8 +217,7 @@ describe('LanguageQuery', () => {
     });
 
     it('Redis returns empty array', async () => {
-      const json: Array<LanguageJSON> = [
-      ];
+      const json: Array<LanguageJSON> = [];
       const jsonStr: string = JSON.stringify(json);
 
       const string: MockRedisString = new MockRedisString();
@@ -290,7 +288,7 @@ describe('LanguageQuery', () => {
           name: 'Afaraf',
           englishName: 'Afar',
           iso639: 'aa'
-        },
+        }
       ];
       const jsonStr: string = JSON.stringify(json);
 

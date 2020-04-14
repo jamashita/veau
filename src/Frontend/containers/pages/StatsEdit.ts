@@ -72,8 +72,7 @@ type DispatchProps = Readonly<{
   removeItem: (statsItem: StatsItem) => void;
   save: () => void;
 }>;
-type OwnProps = Readonly<{
-}>;
+type OwnProps = Readonly<{}>;
 export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {

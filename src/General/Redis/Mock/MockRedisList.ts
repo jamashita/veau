@@ -1,7 +1,7 @@
 import { UnimplementedError } from '../../UnimplementedError';
 import { IRedisList } from '../Interface/IRedisList';
 
-export class MockRedisList implements IRedisList{
+export class MockRedisList implements IRedisList {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public push(key: string, value: string): Promise<number> {

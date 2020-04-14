@@ -65,8 +65,7 @@ describe('RegionQuery', () => {
     });
 
     it('Redis returns empty array', async () => {
-      const json: Array<LanguageJSON> = [
-      ];
+      const json: Array<LanguageJSON> = [];
       const jsonStr: string = JSON.stringify(json);
 
       const string: MockRedisString = new MockRedisString();
@@ -213,8 +212,7 @@ describe('RegionQuery', () => {
     });
 
     it('Redis returns empty array', async () => {
-      const json: Array<RegionJSON> = [
-      ];
+      const json: Array<RegionJSON> = [];
       const jsonStr: string = JSON.stringify(json);
 
       const string: MockRedisString = new MockRedisString();

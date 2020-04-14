@@ -208,8 +208,7 @@ describe('Stats', () => {
         StatsItem.of(
           StatsItemID.ofString('530e0e07-654f-4764-a3ac-77ce12a2a5e4').get(),
           StatsItemName.of('stats item2'),
-          StatsValues.ofArray([
-          ])
+          StatsValues.ofArray([])
         )
       ];
 
@@ -1811,7 +1810,7 @@ describe('Stats', () => {
           value: NumericalValue.of(6)
         })
       )
-    })
+    });
 
     const stats: Stats = Stats.of(
       new MockStatsID(),

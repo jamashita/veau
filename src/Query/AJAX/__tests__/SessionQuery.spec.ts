@@ -74,17 +74,17 @@ describe('SessionQuery', () => {
     it('returns Failure when it has wrong format veauAccountID', async () => {
       const json: VeauAccountJSON = {
         veauAccountID: 'malformat uuid',
-          account: 'account',
-          language: {
+        account: 'account',
+        language: {
           languageID: 1,
-            name: 'language',
-            englishName: 'english language',
-            iso639: 'aa'
+          name: 'language',
+          englishName: 'english language',
+          iso639: 'aa'
         },
         region: {
           regionID: 2,
-            name: 'region',
-            iso3166: 'bb'
+          name: 'region',
+          iso3166: 'bb'
         }
       };
 
@@ -119,8 +119,7 @@ describe('SessionQuery', () => {
       ajax.get = stub;
       stub.resolves({
         status: INTERNAL_SERVER_ERROR,
-        body: {
-        }
+        body: {}
       });
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -237,8 +236,7 @@ describe('SessionQuery', () => {
       ajax.post = stub;
       stub.resolves({
         status: UNAUTHORIZED,
-        body: {
-        }
+        body: {}
       });
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -265,8 +263,7 @@ describe('SessionQuery', () => {
       ajax.post = stub;
       stub.resolves({
         status: INTERNAL_SERVER_ERROR,
-        body: {
-        }
+        body: {}
       });
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();

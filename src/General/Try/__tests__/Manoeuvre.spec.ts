@@ -26,8 +26,7 @@ describe('Manoeuvre', () => {
     });
 
     it('no tries', () => {
-      const tries: Array<Try<number, MockError>> = [
-      ];
+      const tries: Array<Try<number, MockError>> = [];
 
       const ret: Try<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
 

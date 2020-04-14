@@ -16,11 +16,7 @@ import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
 import { pushToStatsList } from '../actions/RedirectAction';
 import { State } from '../State';
-import {, identityAuthenticated
-  identified,
-  identifieduthenticated,
-  identityAuthenticated
-} from '../actions/IdentityAction';
+import { identified, identityAuthenticated } from '../actions/IdentityAction';
 
 @injectable()
 export class EntranceEpic {

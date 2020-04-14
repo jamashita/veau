@@ -28,8 +28,7 @@ describe('SessionCommand', () => {
       ajax.delete = stub;
       stub.resolves({
         status: OK,
-        body: {
-        }
+        body: {}
       });
 
       const sessionCommand: SessionCommand = new SessionCommand(ajax);
@@ -45,8 +44,7 @@ describe('SessionCommand', () => {
       ajax.delete = stub;
       stub.resolves({
         status: INTERNAL_SERVER_ERROR,
-        body: {
-        }
+        body: {}
       });
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();

@@ -156,7 +156,8 @@ describe('Colors', () => {
       expect(colors1.equals(colors2)).toEqual(false);
     });
 
-    it('returns true if the length is the same and the sequence is the same', () => {      const color1: MockColor = new MockColor('#ffffff');
+    it('returns true if the length is the same and the sequence is the same', () => {
+      const color1: MockColor = new MockColor('#ffffff');
       const color2: MockColor = new MockColor('#000000');
       const colors1: Colors = Colors.ofSpread(
         color1,

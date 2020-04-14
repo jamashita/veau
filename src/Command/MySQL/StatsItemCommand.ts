@@ -17,7 +17,7 @@ export class StatsItemCommand implements IStatsItemCommand, IMySQLCommand {
   public readonly source: 'MySQL' = 'MySQL';
   private readonly query: IQuery;
 
-  public  constructor(@inject(TYPE.MySQL) query: IQuery) {
+  public constructor(@inject(TYPE.MySQL) query: IQuery) {
     this.query = query;
   }
 

@@ -36,7 +36,7 @@ describe('StatsCommand', () => {
   });
 
   describe('create', () => {
-    it('normal case',  async () => {
+    it('normal case', async () => {
       const uuid: UUID = UUID.v4();
       const stats: MockStats = new MockStats({
         statsID: new MockStatsID(uuid),
@@ -63,8 +63,7 @@ describe('StatsCommand', () => {
       ajax.post = stub;
       stub.resolves({
         status: CREATED,
-        body: {
-        }
+        body: {}
       });
 
       const statsCommand: StatsCommand = new StatsCommand(ajax);
@@ -87,8 +86,7 @@ describe('StatsCommand', () => {
         name: 'stats name',
         unit: 'stats unit',
         updatedAt: '2000-01-02 01:02:03',
-        items: [
-        ]
+        items: []
       }).called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
     });
@@ -101,8 +99,7 @@ describe('StatsCommand', () => {
       ajax.post = stub;
       stub.resolves({
         status: BAD_REQUEST,
-        body: {
-        }
+        body: {}
       });
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();

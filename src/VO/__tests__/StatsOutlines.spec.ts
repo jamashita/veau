@@ -46,8 +46,7 @@ describe('StatsOutlines', () => {
 
   describe('ofTry', () => {
     it('when empty Array given, returns Success, and StatsOutlines.empty()', () => {
-      const trial: Try<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofTry([
-      ]);
+      const trial: Try<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofTry([]);
 
       expect(trial.isSuccess()).toBe(true);
       expect(trial.get()).toBe(StatsOutlines.empty());

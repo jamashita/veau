@@ -18,7 +18,7 @@ export class LocaleQuery implements ILocaleQuery, IVaultQuery {
   private readonly localeCommand: ILocaleCommand;
 
   public constructor(
-    @inject(TYPE.LocaleAJAXQuery) localeAJAXQuery: ILocaleQuery,
+  @inject(TYPE.LocaleAJAXQuery) localeAJAXQuery: ILocaleQuery,
     @inject(TYPE.LocaleCacheQuery) localeCacheQuery: ILocaleQuery,
     @inject(TYPE.LocaleCacheCommand) localeCommand: ILocaleCommand
   ) {
@@ -36,7 +36,7 @@ export class LocaleQuery implements ILocaleQuery, IVaultQuery {
       const trial2: Try<Locale, DataSourceError> = await this.localeAJAXQuery.all();
 
       return trial2.match<Promise<Try<Locale, DataSourceError>>>(async (locale: Locale) => {
-        const trial3: Try<void, DataSourceError> =await this.localeCommand.create(locale);
+        const trial3: Try<void, DataSourceError> = await this.localeCommand.create(locale);
 
         return trial3.match<Try<Locale, DataSourceError>>(() => {
           return Success.of<Locale, DataSourceError>(locale);

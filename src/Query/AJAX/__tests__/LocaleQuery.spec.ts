@@ -40,7 +40,7 @@ describe('LocaleQuery', () => {
             iso3166: 'bb'
           }
         ]
-      }
+      };
 
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
@@ -77,8 +77,7 @@ describe('LocaleQuery', () => {
       ajax.get = stub;
       stub.resolves({
         status: INTERNAL_SERVER_ERROR,
-        body: {
-        }
+        body: {}
       });
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();

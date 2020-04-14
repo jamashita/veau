@@ -504,7 +504,7 @@ describe('StatsOutline', () => {
       const iso3166: string = 'regn1';
       const term: Term = Term.DAILY;
       const unit: string = 'unit1';
-      const at: string =  '2000-01-01 00:00:00';
+      const at: string = '2000-01-01 00:00:00';
       const updatedAt: UpdatedAt = UpdatedAt.ofString(at).get();
       const statsOutline: StatsOutline = StatsOutline.of(
         StatsID.ofString(id1).get(),
@@ -633,7 +633,7 @@ describe('StatsOutline', () => {
       });
       const region: MockRegion = new MockRegion({
         regionID: new MockRegionID(30)
-      })
+      });
       const term: MockTerm = new MockTerm();
       const name: MockStatsName = new MockStatsName();
       const unit: MockStatsUnit = new MockStatsUnit();

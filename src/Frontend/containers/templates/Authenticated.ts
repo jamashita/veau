@@ -5,18 +5,15 @@ import { openProvider } from '../../actions/PageProviderAction';
 import { Authenticated as Component } from '../../components/templates/Authenticated';
 import { State } from '../../State';
 
-type StateProps = Readonly<{
-}>;
+type StateProps = Readonly<{}>;
 type DispatchProps = Readonly<{
   menuClicked: () => void;
 }>;
-type OwnProps = Readonly<{
-}>;
+type OwnProps = Readonly<{}>;
 export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = () => {
-  return {
-  };
+  return {};
 };
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatch: Dispatch<Action>) => {

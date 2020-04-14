@@ -29,13 +29,13 @@ describe('RegionCommand', () => {
     it('normal case', async () => {
       const regions: MockRegions = new MockRegions(
         new MockRegion({
-          name: new MockRegionName('sorella'),
+          name: new MockRegionName('sorella')
         }),
         new MockRegion({
-          name: new MockRegionName('piment'),
+          name: new MockRegionName('piment')
         }),
         new MockRegion({
-          name: new MockRegionName('dein'),
+          name: new MockRegionName('dein')
         })
       );
 
