@@ -1,37 +1,22 @@
 import dayjs from 'dayjs';
 import { Zeit } from '../Zeit';
-import { ZeitError } from '../ZeitError';
 
 describe('Zeit', () => {
   describe('ofString', () => {
     it('normal case', () => {
       const zeit1: Zeit = Zeit.ofString('2000-01-01');
       const zeit2: Zeit = Zeit.ofString('2000-01-01', 'YYYY-MM-DD');
-      const zeit3: Zeit = Zeit.ofString('2000-01-01 01:02:03');
-      const zeit4: Zeit = Zeit.ofString('2000-01-01 01:02:03', 'YYYY-MM-DD HH:mm:ss');
+      const zeit3: Zeit = Zeit.ofString('2000-01-01', 'YYYY-MM-DD HH:mm:ss');
+      const zeit4: Zeit = Zeit.ofString('2000-01-01 01:02:03');
+      const zeit5: Zeit = Zeit.ofString('2000-01-01 01:02:03', 'YYYY-MM-DD HH:mm:ss');
+      const zeit6: Zeit = Zeit.ofString('2000-01-01 01:02:03', 'YYYY-MM-DD');
 
       expect(zeit1.isValid()).toEqual(true);
       expect(zeit2.isValid()).toEqual(true);
-      expect(zeit3.isValid()).toEqual(true);
+      expect(zeit3.isValid()).toEqual(false);
       expect(zeit4.isValid()).toEqual(true);
-    });
-
-    it('will throw ZeitError when the string is not suitable for time', () => {
-      expect(() => {
-        Zeit.ofString('2000-01-0Y');
-      }).toThrow(ZeitError);
-      expect(() => {
-        Zeit.ofString('2000-01-01 XX:02:03');
-      }).toThrow(ZeitError);
-    });
-
-    it('will throw ZeitError when the string is not suitable for the format', () => {
-      expect(() => {
-        Zeit.ofString('2000-01-0Y', 'YYYY-MM-DD HH:mm:ss');
-      }).toThrow(ZeitError);
-      expect(() => {
-        Zeit.ofString('2000-01-01 XX:02:03', 'YYYY-MM-DD');
-      }).toThrow(ZeitError);
+      expect(zeit5.isValid()).toEqual(true);
+      expect(zeit6.isValid()).toEqual(false);
     });
   });
 
@@ -41,10 +26,10 @@ describe('Zeit', () => {
       expect(Zeit.ofString('2000-01-01', 'YYYY-MM-DD').isValid()).toEqual(true);
       expect(Zeit.ofString('2000-01-01 01:02:03').isValid()).toEqual(true);
       expect(Zeit.ofString('2000-01-01 01:02:03', 'YYYY-MM-DD HH:mm:ss').isValid()).toEqual(true);
-      expect(Zeit.of(dayjs('2000-01-0Y')).isValid()).toEqual(false);
-      expect(Zeit.of(dayjs('2000-01-01 XX:02:03')).isValid()).toEqual(false);
-      expect(Zeit.of(dayjs('2000-01-0Y', 'YYYY-MM-DD HH:mm:ss')).isValid()).toEqual(false);
-      expect(Zeit.of(dayjs('2000-01-01 XX:02:03', 'YYYY-MM-DD')).isValid()).toEqual(false);
+      expect(Zeit.of(dayjs('2000-YY-03')).isValid()).toEqual(false);
+      expect(Zeit.of(dayjs('2000-01-01 ZZ:02:03')).isValid()).toEqual(false);
+      expect(Zeit.of(dayjs('2000-YY-03', 'YYYY-MM-DD HH:mm:ss')).isValid()).toEqual(false);
+      expect(Zeit.of(dayjs('2000-01-01 ZZ:02:03', 'YYYY-MM-DD')).isValid()).toEqual(false);
     });
   });
 
