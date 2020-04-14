@@ -1,6 +1,7 @@
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
 import { IStatsItemCommand } from '../../Command/Interface/IStatsItemCommand';
 import { IStatsValueCommand } from '../../Command/Interface/IStatsValueCommand';
+import { IQuery } from '../../General/MySQL/Interface/IQuery';
 import { IStatsUpdateFactory } from '../Interface/IStatsUpdateFactory';
 
 export class MockStatsUpdateFactory implements IStatsUpdateFactory {
@@ -19,15 +20,18 @@ export class MockStatsUpdateFactory implements IStatsUpdateFactory {
     this.statsValueCommand = statsValueCommand;
   }
 
-  public forgeStatsCommand(): IStatsCommand {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public forgeStatsCommand(query: IQuery): IStatsCommand {
     return this.statsCommand;
   }
 
-  public forgeStatsItemCommand(): IStatsItemCommand {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public forgeStatsItemCommand(query: IQuery): IStatsItemCommand {
     return this.statsItemCommand;
   }
 
-  public forgeStatsValueCommand(): IStatsValueCommand {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public forgeStatsValueCommand(query: IQuery): IStatsValueCommand {
     return this.statsValueCommand;
   }
 }
