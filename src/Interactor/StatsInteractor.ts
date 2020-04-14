@@ -1,10 +1,10 @@
 import { inject, injectable } from 'inversify';
-import log4js from 'log4js';
 import { TYPE } from '../Container/Types';
 import { Stats } from '../Entity/Stats';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { StatsError } from '../Error/StatsError';
 import { StatsOutlinesError } from '../Error/StatsOutlinesError';
+import { StatsUpdateFactory } from '../Factory/StatsUpdateFactory';
 import { DataSourceError } from '../General/DataSourceError';
 import { IMySQL } from '../General/MySQL/Interface/IMySQL';
 import { Try } from '../General/Try/Try';
@@ -16,8 +16,6 @@ import { StatsID } from '../VO/StatsID';
 import { StatsOutlines } from '../VO/StatsOutlines';
 import { VeauAccountID } from '../VO/VeauAccountID';
 import { IInteractor } from './IInteractor';
-
-const logger: log4js.Logger = log4js.getLogger();
 
 @injectable()
 export class StatsInteractor implements IInteractor {
@@ -45,7 +43,11 @@ export class StatsInteractor implements IInteractor {
   }
 
   public save(stats: Stats, veauAccountID: VeauAccountID): Promise<Try<unknown, DataSourceError>> {
-    const statsUpdateTransaction: StatsUpdateTransaction = StatsUpdateTransaction.of(stats, veauAccountID);
+    const statsUpdateTransaction: StatsUpdateTransaction = new StatsUpdateTransaction(
+      stats,
+      veauAccountID,
+      new StatsUpdateFactory()
+    );
 
     return this.mysql.transact<Try<unknown, DataSourceError>>(statsUpdateTransaction);
   }

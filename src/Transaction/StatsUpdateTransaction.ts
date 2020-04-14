@@ -1,9 +1,9 @@
-import { StatsCommand } from '../Command/MySQL/StatsCommand';
-import { StatsItemCommand } from '../Command/MySQL/StatsItemCommand';
-import { StatsValueCommand } from '../Command/MySQL/StatsValueCommand';
+import { IStatsCommand } from '../Command/Interface/IStatsCommand';
+import { IStatsItemCommand } from '../Command/Interface/IStatsItemCommand';
+import { IStatsValueCommand } from '../Command/Interface/IStatsValueCommand';
 import { Stats } from '../Entity/Stats';
 import { StatsItem } from '../Entity/StatsItem';
-import { StatsUpdateFactory } from '../Factory/StatsUpdateFactory';
+import { IStatsUpdateFactory } from '../Factory/Interface/IStatsUpdateFactory';
 import { DataSourceError } from '../General/DataSourceError';
 import { IQuery } from '../General/MySQL/Interface/IQuery';
 import { Failure } from '../General/Try/Failure';
@@ -18,12 +18,12 @@ export class StatsUpdateTransaction implements IStatsUpdateTransaction {
   public readonly noun: 'StatsUpdateTransaction' = 'StatsUpdateTransaction';
   private readonly stats: Stats;
   private readonly veauAccountID: VeauAccountID;
-  private readonly statsUpdateFactory: StatsUpdateFactory;
+  private readonly statsUpdateFactory: IStatsUpdateFactory;
 
   public constructor(
     stats: Stats,
     veauAccountID: VeauAccountID,
-    statsUpdateFactory: StatsUpdateFactory
+    statsUpdateFactory: IStatsUpdateFactory
   ) {
     this.stats = stats;
     this.veauAccountID = veauAccountID;
@@ -31,9 +31,9 @@ export class StatsUpdateTransaction implements IStatsUpdateTransaction {
   }
 
   public async with(query: IQuery): Promise<Try<unknown, DataSourceError>> {
-    const statsCommand: StatsCommand = this.statsUpdateFactory.forgeStatsCommand(query);
-    const statsItemCommand: StatsItemCommand = this.statsUpdateFactory.forgeStatsItemCommand(query);
-    const statsValueCommand: StatsValueCommand = this.statsUpdateFactory.forgeStatsValueCommand(query);
+    const statsCommand: IStatsCommand = this.statsUpdateFactory.forgeStatsCommand(query);
+    const statsItemCommand: IStatsItemCommand = this.statsUpdateFactory.forgeStatsItemCommand(query);
+    const statsValueCommand: IStatsValueCommand = this.statsUpdateFactory.forgeStatsValueCommand(query);
 
     const statsID: StatsID = this.stats.getStatsID();
 

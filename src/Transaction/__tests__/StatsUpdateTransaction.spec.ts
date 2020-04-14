@@ -1,82 +1,68 @@
-import moment from 'moment';
 import sinon, { SinonSpy } from 'sinon';
-import { StatsCommand } from '../../Command/MySQL/StatsCommand';
-import { StatsItemCommand } from '../../Command/MySQL/StatsItemCommand';
-import { StatsValueCommand } from '../../Command/MySQL/StatsValueCommand';
-import { Stats } from '../../Entity/Stats';
-import { StatsItem } from '../../Entity/StatsItem';
-import { StatsItems } from '../../Entity/StatsItems';
+import { MockStatsCommand } from '../../Command/Mock/MockStatsCommand';
+import { MockStatsItemCommand } from '../../Command/Mock/MockStatsItemCommand';
+import { MockStatsValueCommand } from '../../Command/Mock/MockStatsValueCommand';
+import { MockStats } from '../../Entity/Mock/MockStats';
+import { MockStatsItem } from '../../Entity/Mock/MockStatsItem';
+import { MockStatsItems } from '../../Entity/Mock/MockStatsItems';
+import { MockStatsUpdateFactory } from '../../Factory/Mock/MockStatsUpdateFactory';
 import { IQuery } from '../../General/MySQL/Interface/IQuery';
 import { MockQuery } from '../../General/MySQL/Mock/MockQuery';
-import { AsOf } from '../../VO/AsOf';
-import { ISO3166 } from '../../VO/ISO3166';
-import { ISO639 } from '../../VO/ISO639';
-import { Language } from '../../VO/Language';
-import { LanguageID } from '../../VO/LanguageID';
-import { LanguageName } from '../../VO/LanguageName';
-import { NumericalValue } from '../../VO/NumericalValue';
-import { Region } from '../../VO/Region';
-import { RegionID } from '../../VO/RegionID';
-import { RegionName } from '../../VO/RegionName';
-import { StatsID } from '../../VO/StatsID';
-import { StatsItemID } from '../../VO/StatsItemID';
-import { StatsItemName } from '../../VO/StatsItemName';
-import { StatsName } from '../../VO/StatsName';
-import { StatsUnit } from '../../VO/StatsUnit';
-import { StatsValue } from '../../VO/StatsValue';
-import { StatsValues } from '../../VO/StatsValues';
-import { Term } from '../../VO/Term';
-import { UpdatedAt } from '../../VO/UpdatedAt';
+import { MockStatsValue } from '../../VO/Mock/MockStatsValue';
+import { MockStatsValues } from '../../VO/Mock/MockStatsValues';
+import { MockVeauAccountID } from '../../VO/Mock/MockVeauAccountID';
 import { VeauAccountID } from '../../VO/VeauAccountID';
 import { StatsUpdateTransaction } from '../StatsUpdateTransaction';
 
 describe('StatsUpdateTransaction', () => {
   describe('with', () => {
     it('normal case', async () => {
+      const stats: MockStats = new MockStats({
+        items: new MockStatsItems(
+          new MockStatsItem({
+            values: new MockStatsValues(
+              new MockStatsValue(),
+              new MockStatsValue()
+            )
+          }),
+          new MockStatsItem({
+            values: new MockStatsValues(
+              new MockStatsValue(),
+              new MockStatsValue(),
+              new MockStatsValue()
+            )
+          })
+        )
+      });
+      const accountID: VeauAccountID = new MockVeauAccountID();
+
+      const statsCommand: MockStatsCommand = new MockStatsCommand();
       const spy1: SinonSpy = sinon.spy();
-      StatsCommand.prototype.deleteByStatsID = spy1;
+      statsCommand.deleteByStatsID = spy1;
+      const statsItemCommand: MockStatsItemCommand = new MockStatsItemCommand();
       const spy2: SinonSpy = sinon.spy();
-      StatsItemCommand.prototype.deleteByStatsID = spy2;
+      statsItemCommand.deleteByStatsID = spy2;
+      const statsValueCommand: MockStatsValueCommand = new MockStatsValueCommand();
       const spy3: SinonSpy = sinon.spy();
-      StatsValueCommand.prototype.deleteByStatsID = spy3;
+      statsValueCommand.deleteByStatsID = spy3;
       const spy4: SinonSpy = sinon.spy();
-      StatsCommand.prototype.create = spy4;
+      statsCommand.create = spy4;
       const spy5: SinonSpy = sinon.spy();
-      StatsItemCommand.prototype.create = spy5;
+      statsItemCommand.create = spy5;
       const spy6: SinonSpy = sinon.spy();
-      StatsValueCommand.prototype.create = spy6;
+      statsValueCommand.create = spy6;
 
-      const statsID: StatsID = StatsID.ofString('9016f5d7-654e-4903-bfc9-a89c40919e94').get();
-      const language: Language = Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab'));
-      const region: Region = Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
-      const term: Term = Term.MONTHLY;
-      const name: StatsName = StatsName.of('stats');
-      const unit: StatsUnit = StatsUnit.of('unit');
-      const updatedAt: UpdatedAt = UpdatedAt.of(moment());
-      const items: StatsItems = StatsItems.ofArray([
-        StatsItem.of(StatsItemID.ofString('e4acd635-c9bc-4957-ba4d-4d299a08949b').get(), StatsItemName.of('item1'), StatsValues.ofArray([
-          StatsValue.of(StatsItemID.ofString('e4acd635-c9bc-4957-ba4d-4d299a08949b').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(1)),
-          StatsValue.of(StatsItemID.ofString('e4acd635-c9bc-4957-ba4d-4d299a08949b').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(2))
-        ])),
-        StatsItem.of(StatsItemID.ofString('7680c494-158b-43ec-9846-d37d513cf4d8').get(), StatsItemName.of('item2'), StatsValues.ofArray([
-          StatsValue.of(StatsItemID.ofString('7680c494-158b-43ec-9846-d37d513cf4d8').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(3)),
-          StatsValue.of(StatsItemID.ofString('7680c494-158b-43ec-9846-d37d513cf4d8').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(4)),
-          StatsValue.of(StatsItemID.ofString('7680c494-158b-43ec-9846-d37d513cf4d8').get(), AsOf.ofString('2000-01-01').get(), NumericalValue.of(5))
-        ]))
-      ]);
-
-      const stats: Stats = Stats.of(
-        statsID,
-        language,
-        region,
-        term,
-        name,
-        unit,
-        updatedAt,
-        items
+      const statsUpdateFactory: MockStatsUpdateFactory = new MockStatsUpdateFactory(
+        statsCommand,
+        statsItemCommand,
+        statsValueCommand
       );
 
-      const statsUpdateTransaction: StatsUpdateTransaction = StatsUpdateTransaction.of(stats, VeauAccountID.ofString('601d14d4-fe47-445c-a6aa-6427776ecd85').get());
+      const statsUpdateTransaction: StatsUpdateTransaction = new StatsUpdateTransaction(
+        stats,
+        accountID,
+        statsUpdateFactory
+      );
       const query: IQuery = new MockQuery();
       await statsUpdateTransaction.with(query);
 
