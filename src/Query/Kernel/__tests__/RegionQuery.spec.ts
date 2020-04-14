@@ -17,7 +17,9 @@ import { Regions } from '../../../VO/Regions';
 import { MockRegionQuery } from '../../Mock/MockRegionQuery';
 import { RegionQuery } from '../RegionQuery';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
+import { MockRegions } from '../../../VO/Mock/MockRegions';
 
+// DONE
 describe('RegionQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
@@ -31,10 +33,7 @@ describe('RegionQuery', () => {
 
   describe('all', () => {
     it('RegionRedisQuery returns Success', async () => {
-      const regions: Regions = Regions.ofArray([
-        Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
-        Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB'))
-      ]);
+      const regions: MockRegions = new MockRegions();
 
       const regionRedisQuery: MockRegionQuery = new MockRegionQuery();
       const stub: SinonStub = sinon.stub();
@@ -51,10 +50,7 @@ describe('RegionQuery', () => {
     });
 
     it('RegionMySQLQuery returns Success', async () => {
-      const regions: Regions = Regions.ofArray([
-        Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
-        Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB'))
-      ]);
+      const regions: MockRegions = new MockRegions();
 
       const regionRedisQuery: MockRegionQuery = new MockRegionQuery();
       const stub1: SinonStub = sinon.stub();
@@ -108,10 +104,7 @@ describe('RegionQuery', () => {
     });
 
     it('RegionCommand returns Failure', async () => {
-      const regions: Regions = Regions.ofArray([
-        Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
-        Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB'))
-      ]);
+      const regions: MockRegions = new MockRegions();
 
       const regionRedisQuery: MockRegionQuery = new MockRegionQuery();
       const stub1: SinonStub = sinon.stub();
@@ -146,10 +139,16 @@ describe('RegionQuery', () => {
 
   describe('findByISO3166', () => {
     it('normal case', async () => {
-      const regions: Regions = Regions.ofArray([
-        Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
-        Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB'))
-      ]);
+      const regions: MockRegions = new MockRegions(
+        Region.of(
+          RegionID.of(1),
+          RegionName.of('Afghanistan'),
+          ISO3166.of('AFG')),
+        Region.of(RegionID.of(2),
+          RegionName.of('Albania'),
+          ISO3166.of('ALB')
+        )
+      );
 
       const regionRedisQuery: MockRegionQuery = new MockRegionQuery();
       const stub: SinonStub = sinon.stub();
@@ -194,10 +193,16 @@ describe('RegionQuery', () => {
     });
 
     it('no match results', async () => {
-      const regions: Regions = Regions.ofArray([
-        Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
-        Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB'))
-      ]);
+      const regions: MockRegions = new MockRegions(
+        Region.of(
+          RegionID.of(1),
+          RegionName.of('Afghanistan'),
+          ISO3166.of('AFG')),
+        Region.of(RegionID.of(2),
+          RegionName.of('Albania'),
+          ISO3166.of('ALB')
+        )
+      );
 
       const regionRedisQuery: MockRegionQuery = new MockRegionQuery();
       const stub1: SinonStub = sinon.stub();
