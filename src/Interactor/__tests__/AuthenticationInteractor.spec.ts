@@ -7,18 +7,11 @@ import { Failure } from '../../General/Try/Failure';
 import { Success } from '../../General/Try/Success';
 import { MockAccountQuery } from '../../Query/Mock/MockAccountQuery';
 import { Account } from '../../VO/Account';
-import { AccountName } from '../../VO/AccountName';
-import { Hash } from '../../VO/Hash';
-import { ISO3166 } from '../../VO/ISO3166';
-import { ISO639 } from '../../VO/ISO639';
-import { Language } from '../../VO/Language';
-import { LanguageID } from '../../VO/LanguageID';
-import { LanguageName } from '../../VO/LanguageName';
-import { Region } from '../../VO/Region';
-import { RegionID } from '../../VO/RegionID';
-import { RegionName } from '../../VO/RegionName';
+import { MockAccount } from '../../VO/Mock/MockAccount';
+import { MockAccountName } from '../../VO/Mock/MockAccountName';
+import { MockLanguage } from '../../VO/Mock/MockLanguage';
+import { MockRegion } from '../../VO/Mock/MockRegion';
 import { VeauAccount } from '../../VO/VeauAccount';
-import { VeauAccountID } from '../../VO/VeauAccountID';
 import { AuthenticationInteractor } from '../AuthenticationInteractor';
 
 describe('AuthenticationInteractor', () => {
@@ -36,18 +29,11 @@ describe('AuthenticationInteractor', () => {
     it('normal case', (done) => {
       const name: string = 'dummy name';
       const password: string = 'dummy password';
-      const account: Account = Account.of(
-        VeauAccountID.ofString('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9').get(),
-        AccountName.of('veau'),
-        Language.of(LanguageID.of(1),
-          LanguageName.of('аҧсуа бызшәа'),
-          LanguageName.of('Abkhazian'),
-          ISO639.of('ab')),
-        Region.of(RegionID.of(1),
-          RegionName.of('Afghanistan'),
-          ISO3166.of('AFG')),
-        Hash.of('hash 1')
-      );
+      const account: MockAccount = new MockAccount({
+        account: new MockAccountName('veau'),
+        language: new MockLanguage(),
+        region: new MockRegion()
+      });
 
       const accountQuery: MockAccountQuery = new MockAccountQuery();
       const stub1: SinonStub = sinon.stub();
@@ -88,18 +74,7 @@ describe('AuthenticationInteractor', () => {
     it('Account.verify returns false', (done) => {
       const name: string = 'dummy name';
       const password: string = 'dummy password';
-      const account: Account = Account.of(
-        VeauAccountID.ofString('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9').get(),
-        AccountName.of('veau'),
-        Language.of(LanguageID.of(1),
-          LanguageName.of('аҧсуа бызшәа'),
-          LanguageName.of('Abkhazian'),
-          ISO639.of('ab')),
-        Region.of(RegionID.of(1),
-          RegionName.of('Afghanistan'),
-          ISO3166.of('AFG')),
-        Hash.of('hash 1')
-      );
+      const account: MockAccount = new MockAccount();
 
       const accountQuery: MockAccountQuery = new MockAccountQuery();
       const stub1: SinonStub = sinon.stub();
