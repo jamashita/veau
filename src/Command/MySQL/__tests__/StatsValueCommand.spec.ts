@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { DataSourceError } from '../../../General/DataSourceError';
 import { MockError } from '../../../General/MockError';

@@ -1,5 +1,3 @@
-import { inject, injectable } from 'inversify';
-import { TYPE } from '../../Container/Types';
 import { StatsItem } from '../../Entity/StatsItem';
 import { DataSourceError } from '../../General/DataSourceError';
 import { IQuery } from '../../General/MySQL/Interface/IQuery';
@@ -11,13 +9,12 @@ import { StatsID } from '../../VO/StatsID';
 import { IMySQLCommand } from '../Interface/IMySQLCommand';
 import { IStatsItemCommand } from '../Interface/IStatsItemCommand';
 
-@injectable()
 export class StatsItemCommand implements IStatsItemCommand, IMySQLCommand {
   public readonly noun: 'StatsItemCommand' = 'StatsItemCommand';
   public readonly source: 'MySQL' = 'MySQL';
   private readonly query: IQuery;
 
-  public constructor(@inject(TYPE.MySQL) query: IQuery) {
+  public constructor(query: IQuery) {
     this.query = query;
   }
 
