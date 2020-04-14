@@ -1,10 +1,10 @@
-import { StatsValue } from '../StatsValue';
-import { StatsItemID } from '../StatsItemID';
 import { AsOf } from '../AsOf';
 import { NumericalValue } from '../NumericalValue';
-import { MockStatsItemID } from './MockStatsItemID';
+import { StatsItemID } from '../StatsItemID';
+import { StatsValue } from '../StatsValue';
 import { MockAsOf } from './MockAsOf';
 import { MockNumericalValue } from './MockNumericalValue';
+import { MockStatsItemID } from './MockStatsItemID';
 
 type StatsValueArgs = Partial<Readonly<{
   statsItemID: StatsItemID;

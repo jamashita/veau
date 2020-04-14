@@ -5,16 +5,16 @@ import { LanguageID } from '../LanguageID';
 import { LanguageName } from '../LanguageName';
 import { Languages } from '../Languages';
 import { Locale } from '../Locale';
+import { MockLanguage } from '../Mock/MockLanguage';
+import { MockLanguageID } from '../Mock/MockLanguageID';
+import { MockLanguages } from '../Mock/MockLanguages';
+import { MockRegion } from '../Mock/MockRegion';
+import { MockRegionID } from '../Mock/MockRegionID';
+import { MockRegions } from '../Mock/MockRegions';
 import { Region, RegionJSON } from '../Region';
 import { RegionID } from '../RegionID';
 import { RegionName } from '../RegionName';
 import { Regions } from '../Regions';
-import { MockLanguages } from '../Mock/MockLanguages';
-import { MockLanguage } from '../Mock/MockLanguage';
-import { MockLanguageID } from '../Mock/MockLanguageID';
-import { MockRegions } from '../Mock/MockRegions';
-import { MockRegion } from '../Mock/MockRegion';
-import { MockRegionID } from '../Mock/MockRegionID';
 
 // DONE
 describe('Locale', () => {

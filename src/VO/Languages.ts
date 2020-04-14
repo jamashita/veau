@@ -1,10 +1,10 @@
-import { Collection } from '../General/Interface/Collection';
 import { ImmutableSequence } from '../General/Collection/ImmutableSequence';
+import { Sequence } from '../General/Collection/Interface/Sequence';
+import { Collection } from '../General/Interface/Collection';
 import { JSONable } from '../General/Interface/JSONable';
 import { Optional } from '../General/Optional/Optional';
 import { Mapper, Predicate } from '../General/Type/Function';
 import { Language, LanguageJSON, LanguageRow } from './Language';
-import { Sequence } from '../General/Collection/Interface/Sequence';
 
 export class Languages implements Collection<number, Language>, JSONable {
   public readonly noun: 'Languages' = 'Languages';

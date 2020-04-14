@@ -1,5 +1,5 @@
-import { UpdatedAt } from '../UpdatedAt';
 import moment from 'moment';
+import { UpdatedAt } from '../UpdatedAt';
 
 type UpdatedAtArgs = Partial<Readonly<{
   year: number;

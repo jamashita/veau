@@ -1,8 +1,8 @@
 import { AccountHash } from '../AccountHash';
 import { Hash } from '../Hash';
-import { VeauAccountID } from '../VeauAccountID';
-import { MockVeauAccountID } from '../Mock/MockVeauAccountID';
 import { MockHash } from '../Mock/MockHash';
+import { MockVeauAccountID } from '../Mock/MockVeauAccountID';
+import { VeauAccountID } from '../VeauAccountID';
 
 // DONE
 describe('AccountHash', () => {

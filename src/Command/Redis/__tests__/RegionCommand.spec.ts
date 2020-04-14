@@ -8,10 +8,10 @@ import { MockRedis } from '../../../General/Redis/Mock/MockRedis';
 import { MockRedisString } from '../../../General/Redis/Mock/MockRedisString';
 import { RedisError } from '../../../General/Redis/RedisError';
 import { Try } from '../../../General/Try/Try';
-import { RegionCommand } from '../RegionCommand';
-import { MockRegions } from '../../../VO/Mock/MockRegions';
 import { MockRegion } from '../../../VO/Mock/MockRegion';
 import { MockRegionName } from '../../../VO/Mock/MockRegionName';
+import { MockRegions } from '../../../VO/Mock/MockRegions';
+import { RegionCommand } from '../RegionCommand';
 
 // DONE
 describe('RegionCommand', () => {

@@ -10,15 +10,15 @@ import { LanguageID } from '../LanguageID';
 import { LanguageName } from '../LanguageName';
 import { MockAccountName } from '../Mock/MockAccountName';
 import { MockLanguage } from '../Mock/MockLanguage';
+import { MockLanguageID } from '../Mock/MockLanguageID';
+import { MockRegion } from '../Mock/MockRegion';
+import { MockRegionID } from '../Mock/MockRegionID';
 import { MockVeauAccountID } from '../Mock/MockVeauAccountID';
 import { Region } from '../Region';
 import { RegionID } from '../RegionID';
 import { RegionName } from '../RegionName';
 import { VeauAccount, VeauAccountJSON } from '../VeauAccount';
 import { VeauAccountID } from '../VeauAccountID';
-import { MockRegion } from '../Mock/MockRegion';
-import { MockLanguageID } from '../Mock/MockLanguageID';
-import { MockRegionID } from '../Mock/MockRegionID';
 
 // DONE
 describe('VeauAccount', () => {

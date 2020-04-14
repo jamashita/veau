@@ -1,6 +1,6 @@
-import { Regions } from '../Regions';
-import { Region } from '../Region';
 import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
+import { Region } from '../Region';
+import { Regions } from '../Regions';
 
 export class MockRegions extends Regions {
 

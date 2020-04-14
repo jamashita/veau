@@ -1,27 +1,27 @@
 import { BAD_REQUEST, CREATED } from 'http-status';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { vault } from '../../../Container/Vault';
 import { TYPE } from '../../../Container/Types';
+import { vault } from '../../../Container/Vault';
+import { MockStats } from '../../../Entity/Mock/MockStats';
 import { AJAXError } from '../../../General/AJAX/AJAXError';
 import { MockAJAX } from '../../../General/AJAX/Mock/MockAJAX';
 import { DataSourceError } from '../../../General/DataSourceError';
 import { Try } from '../../../General/Try/Try';
-import { StatsCommand } from '../StatsCommand';
 import { UUID } from '../../../General/UUID/UUID';
-import { MockStatsID } from '../../../VO/Mock/MockStatsID';
+import { MockISO3166 } from '../../../VO/Mock/MockISO3166';
+import { MockISO639 } from '../../../VO/Mock/MockISO639';
 import { MockLanguage } from '../../../VO/Mock/MockLanguage';
 import { MockLanguageID } from '../../../VO/Mock/MockLanguageID';
 import { MockLanguageName } from '../../../VO/Mock/MockLanguageName';
-import { MockISO639 } from '../../../VO/Mock/MockISO639';
 import { MockRegion } from '../../../VO/Mock/MockRegion';
 import { MockRegionID } from '../../../VO/Mock/MockRegionID';
 import { MockRegionName } from '../../../VO/Mock/MockRegionName';
-import { MockISO3166 } from '../../../VO/Mock/MockISO3166';
-import { MockTerm } from '../../../VO/Mock/MockTerm';
+import { MockStatsID } from '../../../VO/Mock/MockStatsID';
 import { MockStatsName } from '../../../VO/Mock/MockStatsName';
 import { MockStatsUnit } from '../../../VO/Mock/MockStatsUnit';
-import { MockStats } from '../../../Entity/Mock/MockStats';
+import { MockTerm } from '../../../VO/Mock/MockTerm';
+import { StatsCommand } from '../StatsCommand';
 
 // DONE
 describe('StatsCommand', () => {

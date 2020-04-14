@@ -2,13 +2,14 @@ import { inject, injectable } from 'inversify';
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { DataSourceError } from '../../General/DataSourceError';
-import { JSONA } from '../../General/Type/JSONA';
 import { Optional } from '../../General/Optional/Optional';
 import { IRedis } from '../../General/Redis/Interface/IRedis';
 import { RedisError } from '../../General/Redis/RedisError';
 import { Failure } from '../../General/Try/Failure';
 import { Success } from '../../General/Try/Success';
 import { Try } from '../../General/Try/Try';
+import { JSONA } from '../../General/Type/JSONA';
+import { JSONAError } from '../../General/Type/JSONAError';
 import { Nullable } from '../../General/Type/Value';
 import { REDIS_REGION_KEY } from '../../Infrastructure/VeauRedis';
 import { ISO3166 } from '../../VO/ISO3166';
@@ -16,7 +17,6 @@ import { Region, RegionJSON } from '../../VO/Region';
 import { Regions } from '../../VO/Regions';
 import { IRedisQuery } from '../Interface/IRedisQuery';
 import { IRegionQuery } from '../Interface/IRegionQuery';
-import { JSONAError } from '../../General/Type/JSONAError';
 
 @injectable()
 export class RegionQuery implements IRegionQuery, IRedisQuery {

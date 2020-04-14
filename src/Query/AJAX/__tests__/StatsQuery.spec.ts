@@ -1,8 +1,8 @@
 import { INTERNAL_SERVER_ERROR, NO_CONTENT, OK } from 'http-status';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { vault } from '../../../Container/Vault';
 import { TYPE } from '../../../Container/Types';
+import { vault } from '../../../Container/Vault';
 import { Stats, StatsJSON } from '../../../Entity/Stats';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
 import { StatsError } from '../../../Error/StatsError';
@@ -10,9 +10,9 @@ import { AJAXError } from '../../../General/AJAX/AJAXError';
 import { MockAJAX } from '../../../General/AJAX/Mock/MockAJAX';
 import { DataSourceError } from '../../../General/DataSourceError';
 import { Try } from '../../../General/Try/Try';
+import { MockStatsID } from '../../../VO/Mock/MockStatsID';
 import { StatsID } from '../../../VO/StatsID';
 import { StatsQuery } from '../StatsQuery';
-import { MockStatsID } from '../../../VO/Mock/MockStatsID';
 
 // DONE
 describe('StatsQuery', () => {

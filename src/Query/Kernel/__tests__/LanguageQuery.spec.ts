@@ -5,6 +5,7 @@ import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
 import { DataSourceError } from '../../../General/DataSourceError';
+import { MySQLError } from '../../../General/MySQL/MySQLError';
 import { RedisError } from '../../../General/Redis/RedisError';
 import { Failure } from '../../../General/Try/Failure';
 import { Success } from '../../../General/Try/Success';
@@ -14,10 +15,9 @@ import { Language } from '../../../VO/Language';
 import { LanguageID } from '../../../VO/LanguageID';
 import { LanguageName } from '../../../VO/LanguageName';
 import { Languages } from '../../../VO/Languages';
+import { MockLanguages } from '../../../VO/Mock/MockLanguages';
 import { MockLanguageQuery } from '../../Mock/MockLanguageQuery';
 import { LanguageQuery } from '../LanguageQuery';
-import { MySQLError } from '../../../General/MySQL/MySQLError';
-import { MockLanguages } from '../../../VO/Mock/MockLanguages';
 
 // DONE
 describe('LanguageQuery', () => {

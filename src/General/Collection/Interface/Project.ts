@@ -1,5 +1,5 @@
-import { Collection } from '../../Interface/Collection';
 import { Cloneable } from '../../Interface/Cloneable';
+import { Collection } from '../../Interface/Collection';
 import { Nominative } from '../../Interface/Nominative';
 import { Enumerator } from '../../Type/Function';
 

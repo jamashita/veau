@@ -8,10 +8,10 @@ import { MockError } from '../../../General/MockError';
 import { MockMySQL } from '../../../General/MySQL/Mock/MockMySQL';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
 import { Try } from '../../../General/Try/Try';
+import { MockStatsID } from '../../../VO/Mock/MockStatsID';
 import { StatsValueRow } from '../../../VO/StatsValue';
 import { StatsValues } from '../../../VO/StatsValues';
 import { StatsValueQuery } from '../StatsValueQuery';
-import { MockStatsID } from '../../../VO/Mock/MockStatsID';
 
 // DONE
 describe('StatsValueQuery', () => {

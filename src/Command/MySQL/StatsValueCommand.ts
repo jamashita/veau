@@ -1,3 +1,5 @@
+import { inject, injectable } from 'inversify';
+import { TYPE } from '../../Container/Types';
 import { DataSourceError } from '../../General/DataSourceError';
 import { IQuery } from '../../General/MySQL/Interface/IQuery';
 import { MySQLError } from '../../General/MySQL/MySQLError';
@@ -8,8 +10,6 @@ import { StatsID } from '../../VO/StatsID';
 import { StatsValue } from '../../VO/StatsValue';
 import { IMySQLCommand } from '../Interface/IMySQLCommand';
 import { IStatsValueCommand } from '../Interface/IStatsValueCommand';
-import { inject, injectable } from 'inversify';
-import { TYPE } from '../../Container/Types';
 
 @injectable()
 export class StatsValueCommand implements IStatsValueCommand, IMySQLCommand {

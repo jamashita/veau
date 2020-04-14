@@ -6,21 +6,21 @@ import { Failure } from '../../General/Try/Failure';
 import { Success } from '../../General/Try/Success';
 import { Try } from '../../General/Try/Try';
 import { AsOfs } from '../../VO/AsOfs';
+import { MockAsOf } from '../../VO/Mock/MockAsOf';
+import { MockColumn } from '../../VO/Mock/MockColumn';
+import { MockNumericalValue } from '../../VO/Mock/MockNumericalValue';
+import { MockRow } from '../../VO/Mock/MockRow';
+import { MockStatsItemID } from '../../VO/Mock/MockStatsItemID';
+import { MockStatsItemName } from '../../VO/Mock/MockStatsItemName';
+import { MockStatsValue } from '../../VO/Mock/MockStatsValue';
+import { MockStatsValues } from '../../VO/Mock/MockStatsValues';
 import { StatsItemID } from '../../VO/StatsItemID';
 import { StatsItemName } from '../../VO/StatsItemName';
 import { StatsItemNames } from '../../VO/StatsItemNames';
 import { StatsValues } from '../../VO/StatsValues';
+import { MockStatsItem } from '../Mock/MockStatsItem';
 import { StatsItem, StatsItemJSON, StatsItemRow } from '../StatsItem';
 import { StatsItems } from '../StatsItems';
-import { MockStatsItem } from '../Mock/MockStatsItem';
-import { MockColumn } from '../../VO/Mock/MockColumn';
-import { MockRow } from '../../VO/Mock/MockRow';
-import { MockStatsItemName } from '../../VO/Mock/MockStatsItemName';
-import { MockStatsValues } from '../../VO/Mock/MockStatsValues';
-import { MockStatsValue } from '../../VO/Mock/MockStatsValue';
-import { MockAsOf } from '../../VO/Mock/MockAsOf';
-import { MockNumericalValue } from '../../VO/Mock/MockNumericalValue';
-import { MockStatsItemID } from '../../VO/Mock/MockStatsItemID';
 
 // DONE
 describe('StatsItems', () => {

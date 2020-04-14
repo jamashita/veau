@@ -13,17 +13,17 @@ import { MySQLError } from '../../../General/MySQL/MySQLError';
 import { Failure } from '../../../General/Try/Failure';
 import { Success } from '../../../General/Try/Success';
 import { Try } from '../../../General/Try/Try';
+import { UUID } from '../../../General/UUID/UUID';
+import { MockAsOf } from '../../../VO/Mock/MockAsOf';
+import { MockNumericalValue } from '../../../VO/Mock/MockNumericalValue';
+import { MockStatsID } from '../../../VO/Mock/MockStatsID';
+import { MockStatsItemID } from '../../../VO/Mock/MockStatsItemID';
+import { MockStatsValue } from '../../../VO/Mock/MockStatsValue';
+import { MockStatsValues } from '../../../VO/Mock/MockStatsValues';
 import { StatsID } from '../../../VO/StatsID';
 import { StatsValues } from '../../../VO/StatsValues';
 import { MockStatsValueQuery } from '../../Mock/MockStatsValueQuery';
 import { StatsItemQuery } from '../StatsItemQuery';
-import { UUID } from '../../../General/UUID/UUID';
-import { MockStatsID } from '../../../VO/Mock/MockStatsID';
-import { MockStatsValues } from '../../../VO/Mock/MockStatsValues';
-import { MockStatsItemID } from '../../../VO/Mock/MockStatsItemID';
-import { MockAsOf } from '../../../VO/Mock/MockAsOf';
-import { MockNumericalValue } from '../../../VO/Mock/MockNumericalValue';
-import { MockStatsValue } from '../../../VO/Mock/MockStatsValue';
 
 // DONE
 describe('StatsItemQuery', () => {

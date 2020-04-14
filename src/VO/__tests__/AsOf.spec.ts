@@ -2,9 +2,9 @@ import sinon, { SinonSpy } from 'sinon';
 import { AsOfError } from '../../Error/AsOfError';
 import { Try } from '../../General/Try/Try';
 import { AsOf } from '../AsOf';
+import { MockTerm } from '../Mock/MockTerm';
 import { Term } from '../Term';
 import { Terms } from '../Terms';
-import { MockTerm } from '../Mock/MockTerm';
 
 // DONE
 describe('AsOf', () => {

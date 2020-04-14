@@ -2,13 +2,14 @@ import { inject, injectable } from 'inversify';
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { DataSourceError } from '../../General/DataSourceError';
-import { JSONA } from '../../General/Type/JSONA';
 import { Optional } from '../../General/Optional/Optional';
 import { IRedis } from '../../General/Redis/Interface/IRedis';
 import { RedisError } from '../../General/Redis/RedisError';
 import { Failure } from '../../General/Try/Failure';
 import { Success } from '../../General/Try/Success';
 import { Try } from '../../General/Try/Try';
+import { JSONA } from '../../General/Type/JSONA';
+import { JSONAError } from '../../General/Type/JSONAError';
 import { Nullable } from '../../General/Type/Value';
 import { REDIS_LANGUAGE_KEY } from '../../Infrastructure/VeauRedis';
 import { ISO639 } from '../../VO/ISO639';
@@ -16,7 +17,6 @@ import { Language, LanguageJSON } from '../../VO/Language';
 import { Languages } from '../../VO/Languages';
 import { ILanguageQuery } from '../Interface/ILanguageQuery';
 import { IRedisQuery } from '../Interface/IRedisQuery';
-import { JSONAError } from '../../General/Type/JSONAError';
 
 @injectable()
 export class LanguageQuery implements ILanguageQuery, IRedisQuery {

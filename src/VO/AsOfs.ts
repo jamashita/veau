@@ -1,15 +1,15 @@
 import moment from 'moment';
-import { Collection } from '../General/Interface/Collection';
 import { ImmutableSequence } from '../General/Collection/ImmutableSequence';
+import { Sequence } from '../General/Collection/Interface/Sequence';
+import { Cloneable } from '../General/Interface/Cloneable';
+import { Collection } from '../General/Interface/Collection';
 import { JSONable } from '../General/Interface/JSONable';
 import { None } from '../General/Optional/None';
 import { Optional } from '../General/Optional/Optional';
 import { Some } from '../General/Optional/Some';
 import { Enumerator } from '../General/Type/Function';
 import { AsOf } from './AsOf';
-import { Cloneable } from '../General/Interface/Cloneable';
 import { Term } from './Term';
-import { Sequence } from '../General/Collection/Interface/Sequence';
 
 export class AsOfs implements Collection<number, AsOf>, Cloneable, JSONable {
   public readonly noun: 'AsOfs' = 'AsOfs';

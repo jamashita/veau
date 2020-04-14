@@ -1,14 +1,14 @@
+import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
 import { None } from '../../General/Optional/None';
 import { ISO3166 } from '../ISO3166';
+import { MockISO3166 } from '../Mock/MockISO3166';
+import { MockRegion } from '../Mock/MockRegion';
+import { MockRegionID } from '../Mock/MockRegionID';
+import { MockRegionName } from '../Mock/MockRegionName';
 import { Region, RegionJSON, RegionRow } from '../Region';
 import { RegionID } from '../RegionID';
 import { RegionName } from '../RegionName';
 import { Regions } from '../Regions';
-import { MockRegion } from '../Mock/MockRegion';
-import { MockRegionID } from '../Mock/MockRegionID';
-import { MockISO3166 } from '../Mock/MockISO3166';
-import { MockRegionName } from '../Mock/MockRegionName';
-import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
 
 // DONE
 describe('Regions', () => {

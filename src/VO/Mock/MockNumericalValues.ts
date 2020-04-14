@@ -1,6 +1,6 @@
-import { NumericalValues } from '../NumericalValues';
-import { NumericalValue } from '../NumericalValue';
 import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
+import { NumericalValue } from '../NumericalValue';
+import { NumericalValues } from '../NumericalValues';
 
 export class MockNumericalValues extends NumericalValues {
 

@@ -1,14 +1,14 @@
 import sinon, { SinonSpy } from 'sinon';
 import { StatsValueError } from '../../Error/StatsValueError';
 import { Try } from '../../General/Try/Try';
+import { UUID } from '../../General/UUID/UUID';
 import { AsOf } from '../AsOf';
+import { MockAsOf } from '../Mock/MockAsOf';
+import { MockNumericalValue } from '../Mock/MockNumericalValue';
+import { MockStatsItemID } from '../Mock/MockStatsItemID';
 import { NumericalValue } from '../NumericalValue';
 import { StatsItemID } from '../StatsItemID';
 import { StatsValue, StatsValueJSON, StatsValueRow } from '../StatsValue';
-import { UUID } from '../../General/UUID/UUID';
-import { MockStatsItemID } from '../Mock/MockStatsItemID';
-import { MockAsOf } from '../Mock/MockAsOf';
-import { MockNumericalValue } from '../Mock/MockNumericalValue';
 
 // DONE
 describe('StatsValue', () => {

@@ -1,7 +1,7 @@
-import { Enumerator } from '../../Type/Function';
-import { Collection } from '../../Interface/Collection';
 import { Cloneable } from '../../Interface/Cloneable';
+import { Collection } from '../../Interface/Collection';
 import { Nominative } from '../../Interface/Nominative';
+import { Enumerator } from '../../Type/Function';
 
 export interface Address<E extends Nominative> extends Collection<void, E>, Cloneable {
 

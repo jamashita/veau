@@ -1,6 +1,6 @@
-import { Nominative } from '../../Interface/Nominative';
-import { Collection } from '../../Interface/Collection';
 import { Cloneable } from '../../Interface/Cloneable';
+import { Collection } from '../../Interface/Collection';
+import { Nominative } from '../../Interface/Nominative';
 import { Enumerator } from '../../Type/Function';
 
 export interface Cluster<K, V extends Nominative> extends Collection<K, V>, Cloneable {

@@ -1,8 +1,8 @@
-import { Collection } from '../General/Interface/Collection';
 import { ImmutableSequence } from '../General/Collection/ImmutableSequence';
+import { Sequence } from '../General/Collection/Interface/Sequence';
+import { Collection } from '../General/Interface/Collection';
 import { Optional } from '../General/Optional/Optional';
 import { Color } from './Color';
-import { Sequence } from '../General/Collection/Interface/Sequence';
 
 export class Colors implements Collection<number, Color> {
   public readonly noun: 'Colors' = 'Colors';

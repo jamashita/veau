@@ -1,7 +1,7 @@
+import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
 import { Color } from '../Color';
 import { Colors } from '../Colors';
 import { MockColor } from '../Mock/MockColor';
-import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
 
 // DONE
 describe('Colors', () => {

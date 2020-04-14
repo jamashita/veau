@@ -1,22 +1,22 @@
+import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+import { MockStats } from '../../../Entity/Mock/MockStats';
 import { DataSourceError } from '../../../General/DataSourceError';
 import { MockError } from '../../../General/MockError';
 import { MockQuery } from '../../../General/MySQL/Mock/MockQuery';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
-import 'reflect-metadata';
 import { Try } from '../../../General/Try/Try';
-import { StatsCommand } from '../StatsCommand';
 import { UUID } from '../../../General/UUID/UUID';
-import { MockStats } from '../../../Entity/Mock/MockStats';
-import { MockStatsID } from '../../../VO/Mock/MockStatsID';
 import { MockLanguage } from '../../../VO/Mock/MockLanguage';
 import { MockLanguageID } from '../../../VO/Mock/MockLanguageID';
 import { MockRegion } from '../../../VO/Mock/MockRegion';
 import { MockRegionID } from '../../../VO/Mock/MockRegionID';
-import { MockTerm } from '../../../VO/Mock/MockTerm';
+import { MockStatsID } from '../../../VO/Mock/MockStatsID';
 import { MockStatsName } from '../../../VO/Mock/MockStatsName';
 import { MockStatsUnit } from '../../../VO/Mock/MockStatsUnit';
+import { MockTerm } from '../../../VO/Mock/MockTerm';
 import { MockVeauAccountID } from '../../../VO/Mock/MockVeauAccountID';
+import { StatsCommand } from '../StatsCommand';
 
 // DONE
 describe('StatsCommand', () => {

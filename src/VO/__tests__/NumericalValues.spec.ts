@@ -1,8 +1,8 @@
-import { None } from '../../General/Optional/None';
-import { NumericalValues } from '../NumericalValues';
-import { MockNumericalValue } from '../Mock/MockNumericalValue';
 import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
+import { None } from '../../General/Optional/None';
+import { MockNumericalValue } from '../Mock/MockNumericalValue';
 import { NumericalValue } from '../NumericalValue';
+import { NumericalValues } from '../NumericalValues';
 
 // DONE
 describe('NumericalValues', () => {

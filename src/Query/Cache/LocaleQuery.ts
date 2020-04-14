@@ -1,8 +1,8 @@
 import { inject, injectable } from 'inversify';
 import { TYPE } from '../../Container/Types';
-import { DataSourceError } from '../../General/DataSourceError';
 import { CacheError } from '../../General/Cache/CacheError';
 import { ICache } from '../../General/Cache/Interface/ICache';
+import { DataSourceError } from '../../General/DataSourceError';
 import { Failure } from '../../General/Try/Failure';
 import { Success } from '../../General/Try/Success';
 import { Try } from '../../General/Try/Try';

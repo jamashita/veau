@@ -1,8 +1,9 @@
 import { StatsValueError } from '../Error/StatsValueError';
 import { StatsValuesError } from '../Error/StatsValuesError';
+import { ImmutableSequence } from '../General/Collection/ImmutableSequence';
+import { Sequence } from '../General/Collection/Interface/Sequence';
 import { Cloneable } from '../General/Interface/Cloneable';
 import { Collection } from '../General/Interface/Collection';
-import { ImmutableSequence } from '../General/Collection/ImmutableSequence';
 import { JSONable } from '../General/Interface/JSONable';
 import { Optional } from '../General/Optional/Optional';
 import { Failure } from '../General/Try/Failure';
@@ -17,7 +18,6 @@ import { NumericalValue } from './NumericalValue';
 import { NumericalValues } from './NumericalValues';
 import { StatsItemID } from './StatsItemID';
 import { StatsValue, StatsValueJSON, StatsValueRow } from './StatsValue';
-import { Sequence } from '../General/Collection/Interface/Sequence';
 
 export class StatsValues implements Collection<number, StatsValue>, JSONable, Cloneable {
   public readonly noun: 'StatsValues' = 'StatsValues';

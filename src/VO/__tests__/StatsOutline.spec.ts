@@ -6,6 +6,15 @@ import { ISO639 } from '../ISO639';
 import { Language } from '../Language';
 import { LanguageID } from '../LanguageID';
 import { LanguageName } from '../LanguageName';
+import { MockLanguage } from '../Mock/MockLanguage';
+import { MockLanguageID } from '../Mock/MockLanguageID';
+import { MockRegion } from '../Mock/MockRegion';
+import { MockRegionID } from '../Mock/MockRegionID';
+import { MockStatsID } from '../Mock/MockStatsID';
+import { MockStatsName } from '../Mock/MockStatsName';
+import { MockStatsUnit } from '../Mock/MockStatsUnit';
+import { MockTerm } from '../Mock/MockTerm';
+import { MockUpdatedAt } from '../Mock/MockUpdatedAt';
 import { Region } from '../Region';
 import { RegionID } from '../RegionID';
 import { RegionName } from '../RegionName';
@@ -15,15 +24,6 @@ import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from '../StatsOutline
 import { StatsUnit } from '../StatsUnit';
 import { Term } from '../Term';
 import { UpdatedAt } from '../UpdatedAt';
-import { MockLanguage } from '../Mock/MockLanguage';
-import { MockRegion } from '../Mock/MockRegion';
-import { MockTerm } from '../Mock/MockTerm';
-import { MockStatsName } from '../Mock/MockStatsName';
-import { MockStatsUnit } from '../Mock/MockStatsUnit';
-import { MockUpdatedAt } from '../Mock/MockUpdatedAt';
-import { MockStatsID } from '../Mock/MockStatsID';
-import { MockLanguageID } from '../Mock/MockLanguageID';
-import { MockRegionID } from '../Mock/MockRegionID';
 
 // DONE
 describe('StatsOutline', () => {

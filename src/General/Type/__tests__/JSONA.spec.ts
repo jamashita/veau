@@ -1,6 +1,6 @@
 import { JSONA } from '../JSONA';
-import { JSObjectNotation } from '../Value';
 import { JSONAError } from '../JSONAError';
+import { JSObjectNotation } from '../Value';
 
 // DONE
 describe('JSONA', () => {

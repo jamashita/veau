@@ -1,9 +1,9 @@
-import { Collection } from '../General/Interface/Collection';
 import { ImmutableSequence } from '../General/Collection/ImmutableSequence';
+import { Sequence } from '../General/Collection/Interface/Sequence';
+import { Collection } from '../General/Interface/Collection';
 import { Optional } from '../General/Optional/Optional';
 import { Mapper } from '../General/Type/Function';
 import { Term } from './Term';
-import { Sequence } from '../General/Collection/Interface/Sequence';
 
 export class Terms implements Collection<number, Term> {
   public readonly noun: 'Terms' = 'Terms';

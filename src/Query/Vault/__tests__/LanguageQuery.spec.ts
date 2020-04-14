@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { vault } from '../../../Container/Vault';
 import { TYPE } from '../../../Container/Types';
+import { vault } from '../../../Container/Vault';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
 import { AJAXError } from '../../../General/AJAX/AJAXError';
 import { DataSourceError } from '../../../General/DataSourceError';
@@ -14,10 +14,10 @@ import { LanguageID } from '../../../VO/LanguageID';
 import { LanguageName } from '../../../VO/LanguageName';
 import { Languages } from '../../../VO/Languages';
 import { Locale } from '../../../VO/Locale';
+import { MockLanguages } from '../../../VO/Mock/MockLanguages';
+import { MockLocale } from '../../../VO/Mock/MockLocale';
 import { MockLocaleQuery } from '../../Mock/MockLocaleQuery';
 import { LanguageQuery } from '../LanguageQuery';
-import { MockLocale } from '../../../VO/Mock/MockLocale';
-import { MockLanguages } from '../../../VO/Mock/MockLanguages';
 
 // DONE
 describe('LanguageQuery', () => {

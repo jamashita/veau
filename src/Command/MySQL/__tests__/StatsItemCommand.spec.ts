@@ -1,16 +1,16 @@
-import sinon, { SinonSpy, SinonStub } from 'sinon';
 import 'reflect-metadata';
+import sinon, { SinonSpy, SinonStub } from 'sinon';
+import { MockStatsItem } from '../../../Entity/Mock/MockStatsItem';
 import { DataSourceError } from '../../../General/DataSourceError';
 import { MockError } from '../../../General/MockError';
 import { MockQuery } from '../../../General/MySQL/Mock/MockQuery';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
 import { Try } from '../../../General/Try/Try';
-import { StatsItemCommand } from '../StatsItemCommand';
 import { UUID } from '../../../General/UUID/UUID';
 import { MockStatsID } from '../../../VO/Mock/MockStatsID';
-import { MockStatsItem } from '../../../Entity/Mock/MockStatsItem';
 import { MockStatsItemID } from '../../../VO/Mock/MockStatsItemID';
 import { MockStatsItemName } from '../../../VO/Mock/MockStatsItemName';
+import { StatsItemCommand } from '../StatsItemCommand';
 
 // DONE
 describe('StatsItemCommand', () => {

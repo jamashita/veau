@@ -1,6 +1,6 @@
-import { Languages } from '../Languages';
-import { Language } from '../Language';
 import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
+import { Language } from '../Language';
+import { Languages } from '../Languages';
 
 export class MockLanguages extends Languages {
 

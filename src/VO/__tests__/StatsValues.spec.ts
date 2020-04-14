@@ -1,22 +1,22 @@
 import sinon, { SinonSpy } from 'sinon';
 import { StatsValueError } from '../../Error/StatsValueError';
 import { StatsValuesError } from '../../Error/StatsValuesError';
+import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
 import { None } from '../../General/Optional/None';
 import { Failure } from '../../General/Try/Failure';
 import { Success } from '../../General/Try/Success';
 import { Try } from '../../General/Try/Try';
+import { UUID } from '../../General/UUID/UUID';
 import { AsOf } from '../AsOf';
+import { MockAsOf } from '../Mock/MockAsOf';
+import { MockNumericalValue } from '../Mock/MockNumericalValue';
+import { MockNumericalValues } from '../Mock/MockNumericalValues';
+import { MockStatsItemID } from '../Mock/MockStatsItemID';
+import { MockStatsValue } from '../Mock/MockStatsValue';
 import { NumericalValue } from '../NumericalValue';
 import { StatsItemID } from '../StatsItemID';
 import { StatsValue, StatsValueJSON, StatsValueRow } from '../StatsValue';
 import { StatsValues } from '../StatsValues';
-import { MockStatsValue } from '../Mock/MockStatsValue';
-import { MockStatsItemID } from '../Mock/MockStatsItemID';
-import { MockAsOf } from '../Mock/MockAsOf';
-import { MockNumericalValue } from '../Mock/MockNumericalValue';
-import { MockNumericalValues } from '../Mock/MockNumericalValues';
-import { UUID } from '../../General/UUID/UUID';
-import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
 
 // DONE
 describe('StatsValues', () => {

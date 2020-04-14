@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
+import { MockStatsItems } from '../../../Entity/Mock/MockStatsItems';
 import { Stats, StatsRow } from '../../../Entity/Stats';
 import { StatsItem } from '../../../Entity/StatsItem';
 import { StatsItems } from '../../../Entity/StatsItems';
@@ -15,17 +16,16 @@ import { MySQLError } from '../../../General/MySQL/MySQLError';
 import { Failure } from '../../../General/Try/Failure';
 import { Success } from '../../../General/Try/Success';
 import { Try } from '../../../General/Try/Try';
-import { StatsValue } from '../../../VO/StatsValue';
-import { MockStatsItemQuery } from '../../Mock/MockStatsItemQuery';
-import { StatsQuery } from '../StatsQuery';
 import { UUID } from '../../../General/UUID/UUID';
+import { MockAsOf } from '../../../VO/Mock/MockAsOf';
+import { MockNumericalValue } from '../../../VO/Mock/MockNumericalValue';
 import { MockStatsID } from '../../../VO/Mock/MockStatsID';
 import { MockStatsItemID } from '../../../VO/Mock/MockStatsItemID';
 import { MockStatsItemName } from '../../../VO/Mock/MockStatsItemName';
 import { MockStatsValues } from '../../../VO/Mock/MockStatsValues';
-import { MockAsOf } from '../../../VO/Mock/MockAsOf';
-import { MockNumericalValue } from '../../../VO/Mock/MockNumericalValue';
-import { MockStatsItems } from '../../../Entity/Mock/MockStatsItems';
+import { StatsValue } from '../../../VO/StatsValue';
+import { MockStatsItemQuery } from '../../Mock/MockStatsItemQuery';
+import { StatsQuery } from '../StatsQuery';
 
 // DONE
 describe('StatsQuery', () => {

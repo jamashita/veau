@@ -1,7 +1,14 @@
+import sinon, { SinonSpy } from 'sinon';
+import { StatsOutlineError } from '../../Error/StatsOutlineError';
 import { StatsOutlinesError } from '../../Error/StatsOutlinesError';
+import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
 import { None } from '../../General/Optional/None';
+import { Failure } from '../../General/Try/Failure';
+import { Success } from '../../General/Try/Success';
 import { Try } from '../../General/Try/Try';
 import { Language } from '../Language';
+import { MockStatsID } from '../Mock/MockStatsID';
+import { MockStatsOutline } from '../Mock/MockStatsOutline';
 import { Region } from '../Region';
 import { StatsID } from '../StatsID';
 import { StatsName } from '../StatsName';
@@ -10,13 +17,6 @@ import { StatsOutlines } from '../StatsOutlines';
 import { StatsUnit } from '../StatsUnit';
 import { Term } from '../Term';
 import { UpdatedAt } from '../UpdatedAt';
-import { MockStatsOutline } from '../Mock/MockStatsOutline';
-import { Success } from '../../General/Try/Success';
-import { StatsOutlineError } from '../../Error/StatsOutlineError';
-import { Failure } from '../../General/Try/Failure';
-import sinon, { SinonSpy } from 'sinon';
-import { MockStatsID } from '../Mock/MockStatsID';
-import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
 
 // DONE
 describe('StatsOutlines', () => {

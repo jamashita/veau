@@ -1,14 +1,14 @@
+import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
 import { None } from '../../General/Optional/None';
 import { ISO639 } from '../ISO639';
 import { Language, LanguageJSON, LanguageRow } from '../Language';
 import { LanguageID } from '../LanguageID';
 import { LanguageName } from '../LanguageName';
 import { Languages } from '../Languages';
+import { MockISO639 } from '../Mock/MockISO639';
 import { MockLanguage } from '../Mock/MockLanguage';
 import { MockLanguageID } from '../Mock/MockLanguageID';
 import { MockLanguageName } from '../Mock/MockLanguageName';
-import { MockISO639 } from '../Mock/MockISO639';
-import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
 
 // DONE
 describe('Languages', () => {

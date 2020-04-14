@@ -1,8 +1,8 @@
 import { Column } from '../Column';
 import { Coordinate } from '../Coordinate';
-import { Row } from '../Row';
-import { MockRow } from '../Mock/MockRow';
 import { MockColumn } from '../Mock/MockColumn';
+import { MockRow } from '../Mock/MockRow';
+import { Row } from '../Row';
 
 // DONE
 describe('Coordinate', () => {

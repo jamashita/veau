@@ -1,8 +1,8 @@
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { vault } from '../../../Container/Vault';
 import { TYPE } from '../../../Container/Types';
+import { vault } from '../../../Container/Vault';
 import { AJAXError } from '../../../General/AJAX/AJAXError';
 import { MockAJAX } from '../../../General/AJAX/Mock/MockAJAX';
 import { DataSourceError } from '../../../General/DataSourceError';

@@ -1,3 +1,5 @@
+import { inject, injectable } from 'inversify';
+import { TYPE } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats';
 import { DataSourceError } from '../../General/DataSourceError';
 import { IQuery } from '../../General/MySQL/Interface/IQuery';
@@ -9,8 +11,6 @@ import { StatsID } from '../../VO/StatsID';
 import { VeauAccountID } from '../../VO/VeauAccountID';
 import { IMySQLCommand } from '../Interface/IMySQLCommand';
 import { IStatsCommand } from '../Interface/IStatsCommand';
-import { inject, injectable } from 'inversify';
-import { TYPE } from '../../Container/Types';
 
 @injectable()
 export class StatsCommand implements IStatsCommand, IMySQLCommand {

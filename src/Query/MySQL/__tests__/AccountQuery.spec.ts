@@ -10,8 +10,8 @@ import { MockMySQL } from '../../../General/MySQL/Mock/MockMySQL';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
 import { Try } from '../../../General/Try/Try';
 import { Account, AccountRow } from '../../../VO/Account';
-import { AccountQuery } from '../AccountQuery';
 import { MockAccountName } from '../../../VO/Mock/MockAccountName';
+import { AccountQuery } from '../AccountQuery';
 
 // DONE
 describe('AccountQuery', () => {

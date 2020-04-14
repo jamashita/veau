@@ -1,8 +1,9 @@
 import { StatsOutlineError } from '../Error/StatsOutlineError';
 import { StatsOutlinesError } from '../Error/StatsOutlinesError';
+import { ImmutableSequence } from '../General/Collection/ImmutableSequence';
+import { Sequence } from '../General/Collection/Interface/Sequence';
 import { Cloneable } from '../General/Interface/Cloneable';
 import { Collection } from '../General/Interface/Collection';
-import { ImmutableSequence } from '../General/Collection/ImmutableSequence';
 import { JSONable } from '../General/Interface/JSONable';
 import { Optional } from '../General/Optional/Optional';
 import { Failure } from '../General/Try/Failure';
@@ -11,7 +12,6 @@ import { Success } from '../General/Try/Success';
 import { Try } from '../General/Try/Try';
 import { Mapper } from '../General/Type/Function';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from './StatsOutline';
-import { Sequence } from '../General/Collection/Interface/Sequence';
 
 export class StatsOutlines implements Collection<number, StatsOutline>, JSONable, Cloneable {
   public readonly noun: 'StatsOutlines' = 'StatsOutlines';

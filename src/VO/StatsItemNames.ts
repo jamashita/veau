@@ -1,10 +1,10 @@
-import { Collection } from '../General/Interface/Collection';
 import { ImmutableSequence } from '../General/Collection/ImmutableSequence';
+import { Sequence } from '../General/Collection/Interface/Sequence';
+import { Collection } from '../General/Interface/Collection';
 import { JSONable } from '../General/Interface/JSONable';
 import { Optional } from '../General/Optional/Optional';
 import { Mapper } from '../General/Type/Function';
 import { StatsItemName } from './StatsItemName';
-import { Sequence } from '../General/Collection/Interface/Sequence';
 
 export class StatsItemNames implements Collection<number, StatsItemName>, JSONable {
   public readonly noun: 'StatsItemNames' = 'StatsItemNames';

@@ -8,13 +8,13 @@ import { MockError } from '../../../General/MockError';
 import { MockMySQL } from '../../../General/MySQL/Mock/MockMySQL';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
 import { Try } from '../../../General/Try/Try';
+import { MockPage } from '../../../VO/Mock/MockPage';
+import { MockVeauAccountID } from '../../../VO/Mock/MockVeauAccountID';
 import { Page } from '../../../VO/Page';
 import { StatsOutline, StatsOutlineRow } from '../../../VO/StatsOutline';
 import { StatsOutlines } from '../../../VO/StatsOutlines';
 import { VeauAccountID } from '../../../VO/VeauAccountID';
 import { StatsOutlineQuery } from '../StatsOutlineQuery';
-import { MockVeauAccountID } from '../../../VO/Mock/MockVeauAccountID';
-import { MockPage } from '../../../VO/Mock/MockPage';
 
 // DONE
 describe('StatsOutlineQuery', () => {

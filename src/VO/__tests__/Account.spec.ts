@@ -5,17 +5,17 @@ import { Account, AccountRow } from '../Account';
 import { AccountName } from '../AccountName';
 import { Hash } from '../Hash';
 import { Language } from '../Language';
+import { MockAccountName } from '../Mock/MockAccountName';
+import { MockHash } from '../Mock/MockHash';
+import { MockLanguage } from '../Mock/MockLanguage';
+import { MockLanguageID } from '../Mock/MockLanguageID';
+import { MockRegion } from '../Mock/MockRegion';
+import { MockRegionID } from '../Mock/MockRegionID';
+import { MockVeauAccountID } from '../Mock/MockVeauAccountID';
 import { Password } from '../Password';
 import { Region } from '../Region';
 import { VeauAccount } from '../VeauAccount';
 import { VeauAccountID } from '../VeauAccountID';
-import { MockVeauAccountID } from '../Mock/MockVeauAccountID';
-import { MockAccountName } from '../Mock/MockAccountName';
-import { MockLanguage } from '../Mock/MockLanguage';
-import { MockRegion } from '../Mock/MockRegion';
-import { MockHash } from '../Mock/MockHash';
-import { MockLanguageID } from '../Mock/MockLanguageID';
-import { MockRegionID } from '../Mock/MockRegionID';
 
 // DONE
 describe('Account', () => {

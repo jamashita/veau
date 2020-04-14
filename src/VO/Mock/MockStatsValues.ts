@@ -1,6 +1,6 @@
-import { StatsValues } from '../StatsValues';
-import { StatsValue } from '../StatsValue';
 import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
+import { StatsValue } from '../StatsValue';
+import { StatsValues } from '../StatsValues';
 
 export class MockStatsValues extends StatsValues {
 

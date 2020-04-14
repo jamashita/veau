@@ -1,5 +1,5 @@
-import { StatsID } from '../StatsID';
 import { UUID } from '../../General/UUID/UUID';
+import { StatsID } from '../StatsID';
 
 export class MockStatsID extends StatsID {
 

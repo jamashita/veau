@@ -1,18 +1,18 @@
+import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { DataSourceError } from '../../../General/DataSourceError';
 import { MockError } from '../../../General/MockError';
 import { MockQuery } from '../../../General/MySQL/Mock/MockQuery';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
 import { Try } from '../../../General/Try/Try';
-import { StatsValue } from '../../../VO/StatsValue';
-import { StatsValueCommand } from '../StatsValueCommand';
-import { MockStatsItemID } from '../../../VO/Mock/MockStatsItemID';
 import { UUID } from '../../../General/UUID/UUID';
-import { MockStatsValue } from '../../../VO/Mock/MockStatsValue';
 import { MockAsOf } from '../../../VO/Mock/MockAsOf';
 import { MockNumericalValue } from '../../../VO/Mock/MockNumericalValue';
 import { MockStatsID } from '../../../VO/Mock/MockStatsID';
-import 'reflect-metadata';
+import { MockStatsItemID } from '../../../VO/Mock/MockStatsItemID';
+import { MockStatsValue } from '../../../VO/Mock/MockStatsValue';
+import { StatsValue } from '../../../VO/StatsValue';
+import { StatsValueCommand } from '../StatsValueCommand';
 
 // DONE
 describe('StatsValueCommand', () => {

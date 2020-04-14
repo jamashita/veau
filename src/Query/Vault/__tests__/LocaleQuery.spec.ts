@@ -1,18 +1,18 @@
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { MockLocaleCommand } from '../../../Command/Mock/MockLocaleCommand';
-import { vault } from '../../../Container/Vault';
 import { TYPE } from '../../../Container/Types';
+import { vault } from '../../../Container/Vault';
 import { AJAXError } from '../../../General/AJAX/AJAXError';
-import { DataSourceError } from '../../../General/DataSourceError';
 import { CacheError } from '../../../General/Cache/CacheError';
+import { DataSourceError } from '../../../General/DataSourceError';
 import { Failure } from '../../../General/Try/Failure';
 import { Success } from '../../../General/Try/Success';
 import { Try } from '../../../General/Try/Try';
 import { Locale } from '../../../VO/Locale';
+import { MockLocale } from '../../../VO/Mock/MockLocale';
 import { MockLocaleQuery } from '../../Mock/MockLocaleQuery';
 import { LocaleQuery } from '../LocaleQuery';
-import { MockLocale } from '../../../VO/Mock/MockLocale';
 
 // DONE
 describe('LocaleQuery', () => {

@@ -1,8 +1,8 @@
+import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
 import { None } from '../../General/Optional/None';
 import { AsOf } from '../AsOf';
 import { AsOfs } from '../AsOfs';
 import { MockAsOf } from '../Mock/MockAsOf';
-import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
 import { Term } from '../Term';
 
 // DONE

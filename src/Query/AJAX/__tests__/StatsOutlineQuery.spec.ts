@@ -1,19 +1,19 @@
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { vault } from '../../../Container/Vault';
 import { TYPE } from '../../../Container/Types';
+import { vault } from '../../../Container/Vault';
 import { StatsOutlinesError } from '../../../Error/StatsOutlinesError';
 import { AJAXError } from '../../../General/AJAX/AJAXError';
 import { MockAJAX } from '../../../General/AJAX/Mock/MockAJAX';
 import { DataSourceError } from '../../../General/DataSourceError';
 import { Try } from '../../../General/Try/Try';
+import { MockVeauAccountID } from '../../../VO/Mock/MockVeauAccountID';
 import { Page } from '../../../VO/Page';
 import { StatsOutlineJSON } from '../../../VO/StatsOutline';
 import { StatsOutlines } from '../../../VO/StatsOutlines';
 import { VeauAccountID } from '../../../VO/VeauAccountID';
 import { StatsOutlineQuery } from '../StatsOutlineQuery';
-import { MockVeauAccountID } from '../../../VO/Mock/MockVeauAccountID';
 
 // DONE
 describe('StatsOutlineQuery', () => {

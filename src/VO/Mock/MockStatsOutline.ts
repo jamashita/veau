@@ -1,17 +1,17 @@
-import { StatsOutline } from '../StatsOutline';
-import { StatsID } from '../StatsID';
 import { Language } from '../Language';
 import { Region } from '../Region';
-import { Term } from '../Term';
+import { StatsID } from '../StatsID';
 import { StatsName } from '../StatsName';
+import { StatsOutline } from '../StatsOutline';
 import { StatsUnit } from '../StatsUnit';
+import { Term } from '../Term';
 import { UpdatedAt } from '../UpdatedAt';
-import { MockStatsID } from './MockStatsID';
 import { MockLanguage } from './MockLanguage';
 import { MockRegion } from './MockRegion';
-import { MockTerm } from './MockTerm';
+import { MockStatsID } from './MockStatsID';
 import { MockStatsName } from './MockStatsName';
 import { MockStatsUnit } from './MockStatsUnit';
+import { MockTerm } from './MockTerm';
 import { MockUpdatedAt } from './MockUpdatedAt';
 
 type StatsOutlineArgs = Partial<Readonly<{

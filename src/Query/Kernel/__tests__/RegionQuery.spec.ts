@@ -5,19 +5,19 @@ import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
 import { DataSourceError } from '../../../General/DataSourceError';
+import { MySQLError } from '../../../General/MySQL/MySQLError';
 import { RedisError } from '../../../General/Redis/RedisError';
 import { Failure } from '../../../General/Try/Failure';
 import { Success } from '../../../General/Try/Success';
 import { Try } from '../../../General/Try/Try';
 import { ISO3166 } from '../../../VO/ISO3166';
+import { MockRegions } from '../../../VO/Mock/MockRegions';
 import { Region } from '../../../VO/Region';
 import { RegionID } from '../../../VO/RegionID';
 import { RegionName } from '../../../VO/RegionName';
 import { Regions } from '../../../VO/Regions';
 import { MockRegionQuery } from '../../Mock/MockRegionQuery';
 import { RegionQuery } from '../RegionQuery';
-import { MySQLError } from '../../../General/MySQL/MySQLError';
-import { MockRegions } from '../../../VO/Mock/MockRegions';
 
 // DONE
 describe('RegionQuery', () => {

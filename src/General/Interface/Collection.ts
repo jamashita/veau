@@ -1,5 +1,5 @@
-import { Nominative } from './Nominative';
 import { Optional } from '../Optional/Optional';
+import { Nominative } from './Nominative';
 
 export interface Collection<K, V extends Nominative> extends Nominative {
 

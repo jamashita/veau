@@ -6,6 +6,7 @@ import { UpdatedAtError } from '../Error/UpdatedAtError';
 import { Entity } from '../General/Entity';
 import { None } from '../General/Optional/None';
 import { Optional } from '../General/Optional/Optional';
+import { Some } from '../General/Optional/Some';
 import { Failure } from '../General/Try/Failure';
 import { Success } from '../General/Try/Success';
 import { Try } from '../General/Try/Try';
@@ -29,7 +30,6 @@ import { Term } from '../VO/Term';
 import { UpdatedAt } from '../VO/UpdatedAt';
 import { StatsItem, StatsItemJSON } from './StatsItem';
 import { StatsItems } from './StatsItems';
-import { Some } from '../General/Optional/Some';
 
 export type StatsJSON = Readonly<{
   statsID: string;

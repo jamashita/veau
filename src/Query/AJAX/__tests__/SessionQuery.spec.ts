@@ -1,8 +1,8 @@
 import { INTERNAL_SERVER_ERROR, OK, UNAUTHORIZED } from 'http-status';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { vault } from '../../../Container/Vault';
 import { TYPE } from '../../../Container/Types';
+import { vault } from '../../../Container/Vault';
 import { AuthenticationFailureError } from '../../../Error/AuthenticationFailureError';
 import { UnauthorizedError } from '../../../Error/UnauthorizedError';
 import { VeauAccountError } from '../../../Error/VeauAccountError';

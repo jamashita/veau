@@ -1,8 +1,8 @@
-import { Nominative } from '../../Interface/Nominative';
-import { Enumerator, Mapper, Predicate } from '../../Type/Function';
-import { Optional } from '../../Optional/Optional';
-import { Collection } from '../../Interface/Collection';
 import { Cloneable } from '../../Interface/Cloneable';
+import { Collection } from '../../Interface/Collection';
+import { Nominative } from '../../Interface/Nominative';
+import { Optional } from '../../Optional/Optional';
+import { Enumerator, Mapper, Predicate } from '../../Type/Function';
 
 export interface Sequence<E extends Nominative> extends Collection<number, E>, Cloneable {
 

@@ -1,8 +1,8 @@
+import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
 import { None } from '../../General/Optional/None';
+import { MockStatsItemName } from '../Mock/MockStatsItemName';
 import { StatsItemName } from '../StatsItemName';
 import { StatsItemNames } from '../StatsItemNames';
-import { MockStatsItemName } from '../Mock/MockStatsItemName';
-import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
 
 // DONE
 describe('StatsItemNames', () => {

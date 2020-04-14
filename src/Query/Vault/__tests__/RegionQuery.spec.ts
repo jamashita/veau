@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { vault } from '../../../Container/Vault';
 import { TYPE } from '../../../Container/Types';
+import { vault } from '../../../Container/Vault';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
 import { AJAXError } from '../../../General/AJAX/AJAXError';
 import { DataSourceError } from '../../../General/DataSourceError';
@@ -10,14 +10,14 @@ import { Success } from '../../../General/Try/Success';
 import { Try } from '../../../General/Try/Try';
 import { ISO3166 } from '../../../VO/ISO3166';
 import { Locale } from '../../../VO/Locale';
+import { MockLocale } from '../../../VO/Mock/MockLocale';
+import { MockRegions } from '../../../VO/Mock/MockRegions';
 import { Region } from '../../../VO/Region';
 import { RegionID } from '../../../VO/RegionID';
 import { RegionName } from '../../../VO/RegionName';
 import { Regions } from '../../../VO/Regions';
 import { MockLocaleQuery } from '../../Mock/MockLocaleQuery';
 import { RegionQuery } from '../RegionQuery';
-import { MockLocale } from '../../../VO/Mock/MockLocale';
-import { MockRegions } from '../../../VO/Mock/MockRegions';
 
 // DONE
 describe('RegionQuery', () => {

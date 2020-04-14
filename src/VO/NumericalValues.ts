@@ -1,8 +1,8 @@
-import { Collection } from '../General/Interface/Collection';
 import { ImmutableSequence } from '../General/Collection/ImmutableSequence';
+import { Sequence } from '../General/Collection/Interface/Sequence';
+import { Collection } from '../General/Interface/Collection';
 import { Optional } from '../General/Optional/Optional';
 import { NumericalValue } from './NumericalValue';
-import { Sequence } from '../General/Collection/Interface/Sequence';
 
 export class NumericalValues implements Collection<number, NumericalValue> {
   public readonly noun: 'NumericalValues' = 'NumericalValues';

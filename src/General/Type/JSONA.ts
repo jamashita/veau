@@ -1,6 +1,6 @@
 import { Reject, Resolve } from './Function';
-import { JSObjectNotation } from './Value';
 import { JSONAError } from './JSONAError';
+import { JSObjectNotation } from './Value';
 
 export class JSONA {
 

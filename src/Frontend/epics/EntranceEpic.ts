@@ -12,11 +12,11 @@ import { EntranceInformation } from '../../VO/EntranceInformation';
 import { VeauAccount } from '../../VO/VeauAccount';
 import { ACTION, Action, EntranceAccountNameTypedAction } from '../actions/Action';
 import { updateEntranceInformation } from '../actions/EntranceAction';
+import { identified, identityAuthenticated } from '../actions/IdentityAction';
 import { loaded, loading } from '../actions/LoadingAction';
 import { raiseModal } from '../actions/ModalAction';
 import { pushToStatsList } from '../actions/RedirectAction';
 import { State } from '../State';
-import { identified, identityAuthenticated } from '../actions/IdentityAction';
 
 @injectable()
 export class EntranceEpic {

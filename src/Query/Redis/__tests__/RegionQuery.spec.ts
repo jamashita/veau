@@ -7,13 +7,13 @@ import { DataSourceError } from '../../../General/DataSourceError';
 import { MockError } from '../../../General/MockError';
 import { MockRedis } from '../../../General/Redis/Mock/MockRedis';
 import { MockRedisString } from '../../../General/Redis/Mock/MockRedisString';
+import { RedisError } from '../../../General/Redis/RedisError';
 import { Try } from '../../../General/Try/Try';
 import { ISO3166 } from '../../../VO/ISO3166';
 import { LanguageJSON } from '../../../VO/Language';
 import { Region, RegionJSON } from '../../../VO/Region';
 import { Regions } from '../../../VO/Regions';
 import { RegionQuery } from '../RegionQuery';
-import { RedisError } from '../../../General/Redis/RedisError';
 
 // DONE
 describe('RegionQuery', () => {

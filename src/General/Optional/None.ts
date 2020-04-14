@@ -1,9 +1,9 @@
 import { Failure } from '../Try/Failure';
 import { Try } from '../Try/Try';
 import { AsyncConsumer, Consumer, MonoFunction, Predicate } from '../Type/Function';
+import { Suspicious } from '../Type/Value';
 import { Optional } from './Optional';
 import { OptionalError } from './OptionalError';
-import { Suspicious } from '../Type/Value';
 
 export class None<T> extends Optional<T> {
   public readonly noun: 'None' = 'None';
