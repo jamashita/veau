@@ -1,5 +1,11 @@
 import { Reducer } from 'redux';
-import { ACTION, Action, NotificationHPosition, NotificationKind, NotificationVPosition } from '../actions/Action';
+import {
+  ACTION,
+  Action,
+  NotificationHPosition,
+  NotificationKind,
+  NotificationVPosition
+} from '../actions/Action';
 
 export type Notification = Readonly<{
   kind: NotificationKind;

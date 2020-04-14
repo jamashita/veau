@@ -1,5 +1,10 @@
 import { StatsID } from '../../VO/StatsID';
-import { ACTION, PushToEntranceAction, PushToStatsEditAction, PushToStatsListAction } from './Action';
+import {
+  ACTION,
+  PushToEntranceAction,
+  PushToStatsEditAction,
+  PushToStatsListAction
+} from './Action';
 
 export const pushToStatsList: () => PushToStatsListAction = () => {
   return {

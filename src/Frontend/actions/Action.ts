@@ -1,4 +1,7 @@
-import { LocationChangeAction as ChangeAction, LocationChangePayload } from 'connected-react-router';
+import {
+  LocationChangeAction as ChangeAction,
+  LocationChangePayload
+} from 'connected-react-router';
 import { Action as ReduxAction } from 'redux';
 import { Stats } from '../../Entity/Stats';
 import { StatsItem } from '../../Entity/StatsItem';
