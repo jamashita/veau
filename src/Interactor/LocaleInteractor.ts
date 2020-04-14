@@ -4,6 +4,7 @@ import { IRegionCommand } from '../Command/Interface/IRegionCommand';
 import { TYPE } from '../Container/Types';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { DataSourceError } from '../General/DataSourceError';
+import { Noun } from '../General/Interface/Noun';
 import { Failure } from '../General/Try/Failure';
 import { Success } from '../General/Try/Success';
 import { Try } from '../General/Try/Try';
@@ -12,10 +13,9 @@ import { IRegionQuery } from '../Query/Interface/IRegionQuery';
 import { Languages } from '../VO/Languages';
 import { Locale } from '../VO/Locale';
 import { Regions } from '../VO/Regions';
-import { IInteractor } from './IInteractor';
 
 @injectable()
-export class LocaleInteractor implements IInteractor {
+export class LocaleInteractor implements Noun {
   public readonly noun: 'LocaleInteractor' = 'LocaleInteractor';
   private readonly languageQuery: ILanguageQuery;
   private readonly regionQuery: IRegionQuery;

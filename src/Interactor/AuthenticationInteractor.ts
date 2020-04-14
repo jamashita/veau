@@ -6,12 +6,12 @@ import { AccountError } from '../Error/AccountError';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { DataSourceError } from '../General/DataSourceError';
 import { Digest } from '../General/Digest';
+import { Noun } from '../General/Interface/Noun';
 import { Try } from '../General/Try/Try';
 import { IAccountQuery } from '../Query/Interface/IAccountQuery';
 import { Account } from '../VO/Account';
 import { AccountName } from '../VO/AccountName';
 import { Password } from '../VO/Password';
-import { IInteractor } from './IInteractor';
 
 const logger: log4js.Logger = log4js.getLogger();
 
@@ -19,7 +19,7 @@ const DUMMY_PASSWORD: string = '30DC7JzTgjAd8eXcwytlKCwI6kh1eqdU';
 const DUMMY_HASH: string = '$2b$14$iyzp4FTxFklmPUjQMaNYcOO4Svv6kBEtphNseTlhWQ/SxV0VBKOa.';
 
 @injectable()
-export class AuthenticationInteractor implements IInteractor {
+export class AuthenticationInteractor implements Noun {
   public readonly noun: 'AuthenticationInteractor' = 'AuthenticationInteractor';
   public readonly accountQuery: IAccountQuery;
 

@@ -6,6 +6,7 @@ import { StatsError } from '../Error/StatsError';
 import { StatsOutlinesError } from '../Error/StatsOutlinesError';
 import { StatsUpdateFactory } from '../Factory/StatsUpdateFactory';
 import { DataSourceError } from '../General/DataSourceError';
+import { Noun } from '../General/Interface/Noun';
 import { IMySQL } from '../General/MySQL/Interface/IMySQL';
 import { Try } from '../General/Try/Try';
 import { IStatsOutlineQuery } from '../Query/Interface/IStatsOutlineQuery';
@@ -15,10 +16,9 @@ import { Page } from '../VO/Page';
 import { StatsID } from '../VO/StatsID';
 import { StatsOutlines } from '../VO/StatsOutlines';
 import { VeauAccountID } from '../VO/VeauAccountID';
-import { IInteractor } from './IInteractor';
 
 @injectable()
-export class StatsInteractor implements IInteractor {
+export class StatsInteractor implements Noun {
   public readonly noun: 'StatsInteractor' = 'StatsInteractor';
   private readonly mysql: IMySQL;
   private readonly statsQuery: IStatsQuery;
