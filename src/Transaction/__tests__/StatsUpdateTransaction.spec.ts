@@ -1,4 +1,4 @@
-import sinon, { SinonSpy } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 import { MockStatsCommand } from '../../Command/Mock/MockStatsCommand';
 import { MockStatsItemCommand } from '../../Command/Mock/MockStatsItemCommand';
 import { MockStatsValueCommand } from '../../Command/Mock/MockStatsValueCommand';
@@ -6,8 +6,10 @@ import { MockStats } from '../../Entity/Mock/MockStats';
 import { MockStatsItem } from '../../Entity/Mock/MockStatsItem';
 import { MockStatsItems } from '../../Entity/Mock/MockStatsItems';
 import { MockStatsUpdateFactory } from '../../Factory/Mock/MockStatsUpdateFactory';
+import { DataSourceError } from '../../General/DataSourceError';
 import { IQuery } from '../../General/MySQL/Interface/IQuery';
 import { MockQuery } from '../../General/MySQL/Mock/MockQuery';
+import { Success } from '../../General/Try/Success';
 import { MockStatsValue } from '../../VO/Mock/MockStatsValue';
 import { MockStatsValues } from '../../VO/Mock/MockStatsValues';
 import { MockVeauAccountID } from '../../VO/Mock/MockVeauAccountID';
@@ -37,20 +39,26 @@ describe('StatsUpdateTransaction', () => {
       const accountID: VeauAccountID = new MockVeauAccountID();
 
       const statsCommand: MockStatsCommand = new MockStatsCommand();
-      const spy1: SinonSpy = sinon.spy();
-      statsCommand.deleteByStatsID = spy1;
+      const stub1: SinonStub = sinon.stub();
+      statsCommand.deleteByStatsID = stub1;
+      stub1.resolves(Success.of<DataSourceError>());
       const statsItemCommand: MockStatsItemCommand = new MockStatsItemCommand();
-      const spy2: SinonSpy = sinon.spy();
-      statsItemCommand.deleteByStatsID = spy2;
+      const stub2: SinonStub = sinon.stub();
+      statsItemCommand.deleteByStatsID = stub2;
+      stub2.resolves(Success.of<DataSourceError>());
       const statsValueCommand: MockStatsValueCommand = new MockStatsValueCommand();
-      const spy3: SinonSpy = sinon.spy();
-      statsValueCommand.deleteByStatsID = spy3;
-      const spy4: SinonSpy = sinon.spy();
-      statsCommand.create = spy4;
-      const spy5: SinonSpy = sinon.spy();
-      statsItemCommand.create = spy5;
-      const spy6: SinonSpy = sinon.spy();
-      statsValueCommand.create = spy6;
+      const stub3: SinonStub = sinon.stub();
+      statsValueCommand.deleteByStatsID = stub3;
+      stub3.resolves(Success.of<DataSourceError>());
+      const stub4: SinonStub = sinon.stub();
+      statsCommand.create = stub4;
+      stub4.resolves(Success.of<DataSourceError>());
+      const stub5: SinonStub = sinon.stub();
+      statsItemCommand.create = stub5;
+      stub5.resolves(Success.of<DataSourceError>());
+      const stub6: SinonStub = sinon.stub();
+      statsValueCommand.create = stub6;
+      stub6.resolves(Success.of<DataSourceError>());
 
       const statsUpdateFactory: MockStatsUpdateFactory = new MockStatsUpdateFactory(
         statsCommand,
@@ -66,12 +74,12 @@ describe('StatsUpdateTransaction', () => {
       const query: IQuery = new MockQuery();
       await statsUpdateTransaction.with(query);
 
-      expect(spy1.called).toEqual(true);
-      expect(spy2.called).toEqual(true);
-      expect(spy3.called).toEqual(true);
-      expect(spy4.callCount).toEqual(1);
-      expect(spy5.callCount).toEqual(2);
-      expect(spy6.callCount).toEqual(5);
+      expect(stub1.called).toEqual(true);
+      expect(stub2.called).toEqual(true);
+      expect(stub3.called).toEqual(true);
+      expect(stub4.callCount).toEqual(1);
+      expect(stub5.callCount).toEqual(2);
+      expect(stub6.callCount).toEqual(5);
     });
   });
 });
