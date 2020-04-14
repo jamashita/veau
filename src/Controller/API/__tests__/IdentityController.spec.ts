@@ -16,6 +16,7 @@ import { MockVeauAccountID } from '../../../VO/Mock/MockVeauAccountID';
 import { VeauAccount } from '../../../VO/VeauAccount';
 import { IdentityController } from '../IdentityController';
 
+// DONE
 describe('IdentityController', () => {
   describe('GET /', () => {
     it('returns VeauAccount as JSON', async () => {

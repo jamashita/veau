@@ -3,6 +3,7 @@ import { OK } from 'http-status';
 import supertest from 'supertest';
 import { DestroyController } from '../DestroyController';
 
+// DONE
 describe('DestroyController', () => {
   describe('DELETE /', () => {
     it('no session returns OK', async () => {
