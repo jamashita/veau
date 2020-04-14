@@ -1,4 +1,4 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 import sinon, { SinonSpy } from 'sinon';
 import { UpdatedAtError } from '../../Error/UpdatedAtError';
 import { Try } from '../../General/Try/Try';
@@ -34,9 +34,9 @@ describe('UpdatedAt', () => {
 
   describe('equals', () => {
     it('returns true if both properties are the same', () => {
-      const at1: UpdatedAt = UpdatedAt.of(moment('2000-01-01 00:00:00'));
-      const at2: UpdatedAt = UpdatedAt.of(moment('2000-01-02 00:00:00'));
-      const at3: UpdatedAt = UpdatedAt.of(moment('2000-01-01 00:00:00'));
+      const at1: UpdatedAt = UpdatedAt.of(dayjs('2000-01-01 00:00:00'));
+      const at2: UpdatedAt = UpdatedAt.of(dayjs('2000-01-02 00:00:00'));
+      const at3: UpdatedAt = UpdatedAt.of(dayjs('2000-01-01 00:00:00'));
 
       expect(at1.equals(at1)).toEqual(true);
       expect(at1.equals(at2)).toEqual(false);
