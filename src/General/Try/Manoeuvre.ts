@@ -9,7 +9,7 @@ export const manoeuvre: <S, F extends Error>(tries: Array<Try<S, F>>) => Try<Arr
   });
 
   if (failure !== undefined) {
-    return failure as unknown as Try<Array<S>, F>;
+    return failure.transpose<Array<S>>();
   }
 
   const values: Array<S> = tries.map<S>((t: Try<S, F>) => {
