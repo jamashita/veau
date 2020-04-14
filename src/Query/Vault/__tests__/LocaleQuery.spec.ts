@@ -9,20 +9,12 @@ import { CacheError } from '../../../General/Cache/CacheError';
 import { Failure } from '../../../General/Try/Failure';
 import { Success } from '../../../General/Try/Success';
 import { Try } from '../../../General/Try/Try';
-import { ISO3166 } from '../../../VO/ISO3166';
-import { ISO639 } from '../../../VO/ISO639';
-import { Language } from '../../../VO/Language';
-import { LanguageID } from '../../../VO/LanguageID';
-import { LanguageName } from '../../../VO/LanguageName';
-import { Languages } from '../../../VO/Languages';
 import { Locale } from '../../../VO/Locale';
-import { Region } from '../../../VO/Region';
-import { RegionID } from '../../../VO/RegionID';
-import { RegionName } from '../../../VO/RegionName';
-import { Regions } from '../../../VO/Regions';
 import { MockLocaleQuery } from '../../Mock/MockLocaleQuery';
 import { LocaleQuery } from '../LocaleQuery';
+import { MockLocale } from '../../../VO/Mock/MockLocale';
 
+// DONE
 describe('LocaleQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
@@ -36,20 +28,7 @@ describe('LocaleQuery', () => {
 
   describe('all', () => {
     it('returns Success because Cache has', async () => {
-      const locale: Locale = Locale.of(Languages.ofArray([
-        Language.of(
-          LanguageID.of(1),
-          LanguageName.of('language'),
-          LanguageName.of('english language'),
-          ISO639.of('aa')
-        )
-      ]), Regions.ofArray([
-        Region.of(
-          RegionID.of(2),
-          RegionName.of('region'),
-          ISO3166.of('bb')
-        )
-      ]));
+      const locale: MockLocale = new MockLocale();
 
       const localeCacheQuery: MockLocaleQuery = new MockLocaleQuery();
       const localeAJAXQuery: MockLocaleQuery = new MockLocaleQuery();
@@ -69,25 +48,11 @@ describe('LocaleQuery', () => {
       expect(stub2.called).toEqual(false);
       expect(stub3.called).toEqual(false);
       expect(trial.isSuccess()).toEqual(true);
-      const loc: Locale = trial.get();
-      expect(loc).toEqual(locale);
+      expect(trial.get()).toEqual(locale);
     });
 
     it('returns Success because AJAX has', async () => {
-      const locale: Locale = Locale.of(Languages.ofArray([
-        Language.of(
-          LanguageID.of(1),
-          LanguageName.of('language'),
-          LanguageName.of('english language'),
-          ISO639.of('aa')
-        )
-      ]), Regions.ofArray([
-        Region.of(
-          RegionID.of(2),
-          RegionName.of('region'),
-          ISO3166.of('bb')
-        )
-      ]));
+      const locale: MockLocale = new MockLocale();
 
       const localeCacheQuery: MockLocaleQuery = new MockLocaleQuery();
       const localeAJAXQuery: MockLocaleQuery = new MockLocaleQuery();
@@ -147,20 +112,7 @@ describe('LocaleQuery', () => {
     });
 
     it('returns Failure Cache nor AJAX returned nothing', async () => {
-      const locale: Locale = Locale.of(Languages.ofArray([
-        Language.of(
-          LanguageID.of(1),
-          LanguageName.of('language'),
-          LanguageName.of('english language'),
-          ISO639.of('aa')
-        )
-      ]), Regions.ofArray([
-        Region.of(
-          RegionID.of(2),
-          RegionName.of('region'),
-          ISO3166.of('bb')
-        )
-      ]));
+      const locale: MockLocale = new MockLocale();
 
       const localeCacheQuery: MockLocaleQuery = new MockLocaleQuery();
       const localeAJAXQuery: MockLocaleQuery = new MockLocaleQuery();
