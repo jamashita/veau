@@ -1,4 +1,4 @@
-import sinon, { SinonStub } from 'sinon';
+import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { MockStatsCommand } from '../../Command/Mock/MockStatsCommand';
 import { MockStatsItemCommand } from '../../Command/Mock/MockStatsItemCommand';
 import { MockStatsValueCommand } from '../../Command/Mock/MockStatsValueCommand';
@@ -9,7 +9,10 @@ import { MockStatsUpdateFactory } from '../../Factory/Mock/MockStatsUpdateFactor
 import { DataSourceError } from '../../General/DataSourceError';
 import { IQuery } from '../../General/MySQL/Interface/IQuery';
 import { MockQuery } from '../../General/MySQL/Mock/MockQuery';
+import { MySQLError } from '../../General/MySQL/MySQLError';
+import { Failure } from '../../General/Try/Failure';
 import { Success } from '../../General/Try/Success';
+import { Try } from '../../General/Try/Try';
 import { MockStatsValue } from '../../VO/Mock/MockStatsValue';
 import { MockStatsValues } from '../../VO/Mock/MockStatsValues';
 import { MockVeauAccountID } from '../../VO/Mock/MockVeauAccountID';
@@ -72,14 +75,207 @@ describe('StatsUpdateTransaction', () => {
         statsUpdateFactory
       );
       const query: IQuery = new MockQuery();
-      await statsUpdateTransaction.with(query);
+      const trial: Try<unknown, DataSourceError> = await statsUpdateTransaction.with(query);
 
+      expect(trial.isSuccess()).toEqual(true);
       expect(stub1.called).toEqual(true);
       expect(stub2.called).toEqual(true);
       expect(stub3.called).toEqual(true);
       expect(stub4.callCount).toEqual(1);
       expect(stub5.callCount).toEqual(2);
       expect(stub6.callCount).toEqual(5);
+    });
+
+    it('StatsCommand.deleteByStatsID() returns Failure', async () => {
+      const stats: MockStats = new MockStats({
+        items: new MockStatsItems(
+          new MockStatsItem({
+            values: new MockStatsValues(
+              new MockStatsValue(),
+              new MockStatsValue()
+            )
+          }),
+          new MockStatsItem({
+            values: new MockStatsValues(
+              new MockStatsValue(),
+              new MockStatsValue(),
+              new MockStatsValue()
+            )
+          })
+        )
+      });
+      const accountID: VeauAccountID = new MockVeauAccountID();
+
+      const statsCommand: MockStatsCommand = new MockStatsCommand();
+      const stub1: SinonStub = sinon.stub();
+      statsCommand.deleteByStatsID = stub1;
+      stub1.resolves(Failure.of<DataSourceError>(new MySQLError('test failed')));
+      const statsItemCommand: MockStatsItemCommand = new MockStatsItemCommand();
+      const stub2: SinonStub = sinon.stub();
+      statsItemCommand.deleteByStatsID = stub2;
+      stub2.resolves(Success.of<DataSourceError>());
+      const statsValueCommand: MockStatsValueCommand = new MockStatsValueCommand();
+      const stub3: SinonStub = sinon.stub();
+      statsValueCommand.deleteByStatsID = stub3;
+      stub3.resolves(Success.of<DataSourceError>());
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const statsUpdateFactory: MockStatsUpdateFactory = new MockStatsUpdateFactory(
+        statsCommand,
+        statsItemCommand,
+        statsValueCommand
+      );
+
+      const statsUpdateTransaction: StatsUpdateTransaction = new StatsUpdateTransaction(
+        stats,
+        accountID,
+        statsUpdateFactory
+      );
+      const query: IQuery = new MockQuery();
+      const trial: Try<unknown, DataSourceError> = await statsUpdateTransaction.with(query);
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (err: DataSourceError) => {
+        spy2();
+        expect(err).toBeInstanceOf(MySQLError);
+      });
+
+      expect(stub1.called).toEqual(true);
+      expect(stub2.called).toEqual(true);
+      expect(stub3.called).toEqual(true);
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('StatsItemCommand.deleteByStatsID() returns Failure', async () => {
+      const stats: MockStats = new MockStats({
+        items: new MockStatsItems(
+          new MockStatsItem({
+            values: new MockStatsValues(
+              new MockStatsValue(),
+              new MockStatsValue()
+            )
+          }),
+          new MockStatsItem({
+            values: new MockStatsValues(
+              new MockStatsValue(),
+              new MockStatsValue(),
+              new MockStatsValue()
+            )
+          })
+        )
+      });
+      const accountID: VeauAccountID = new MockVeauAccountID();
+
+      const statsCommand: MockStatsCommand = new MockStatsCommand();
+      const stub1: SinonStub = sinon.stub();
+      statsCommand.deleteByStatsID = stub1;
+      stub1.resolves(Success.of<DataSourceError>());
+      const statsItemCommand: MockStatsItemCommand = new MockStatsItemCommand();
+      const stub2: SinonStub = sinon.stub();
+      statsItemCommand.deleteByStatsID = stub2;
+      stub2.resolves(Failure.of<DataSourceError>(new MySQLError('test failed')));
+      const statsValueCommand: MockStatsValueCommand = new MockStatsValueCommand();
+      const stub3: SinonStub = sinon.stub();
+      statsValueCommand.deleteByStatsID = stub3;
+      stub3.resolves(Success.of<DataSourceError>());
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const statsUpdateFactory: MockStatsUpdateFactory = new MockStatsUpdateFactory(
+        statsCommand,
+        statsItemCommand,
+        statsValueCommand
+      );
+
+      const statsUpdateTransaction: StatsUpdateTransaction = new StatsUpdateTransaction(
+        stats,
+        accountID,
+        statsUpdateFactory
+      );
+      const query: IQuery = new MockQuery();
+      const trial: Try<unknown, DataSourceError> = await statsUpdateTransaction.with(query);
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (err: DataSourceError) => {
+        spy2();
+        expect(err).toBeInstanceOf(MySQLError);
+      });
+
+      expect(stub1.called).toEqual(true);
+      expect(stub2.called).toEqual(true);
+      expect(stub3.called).toEqual(true);
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
+    });
+
+    it('StatsValueCommand.deleteByStatsID() returns Failure', async () => {
+      const stats: MockStats = new MockStats({
+        items: new MockStatsItems(
+          new MockStatsItem({
+            values: new MockStatsValues(
+              new MockStatsValue(),
+              new MockStatsValue()
+            )
+          }),
+          new MockStatsItem({
+            values: new MockStatsValues(
+              new MockStatsValue(),
+              new MockStatsValue(),
+              new MockStatsValue()
+            )
+          })
+        )
+      });
+      const accountID: VeauAccountID = new MockVeauAccountID();
+
+      const statsCommand: MockStatsCommand = new MockStatsCommand();
+      const stub1: SinonStub = sinon.stub();
+      statsCommand.deleteByStatsID = stub1;
+      stub1.resolves(Success.of<DataSourceError>());
+      const statsItemCommand: MockStatsItemCommand = new MockStatsItemCommand();
+      const stub2: SinonStub = sinon.stub();
+      statsItemCommand.deleteByStatsID = stub2;
+      stub2.resolves(Success.of<DataSourceError>());
+      const statsValueCommand: MockStatsValueCommand = new MockStatsValueCommand();
+      const stub3: SinonStub = sinon.stub();
+      statsValueCommand.deleteByStatsID = stub3;
+      stub3.resolves(Failure.of<DataSourceError>(new MySQLError('test failed')));
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const statsUpdateFactory: MockStatsUpdateFactory = new MockStatsUpdateFactory(
+        statsCommand,
+        statsItemCommand,
+        statsValueCommand
+      );
+
+      const statsUpdateTransaction: StatsUpdateTransaction = new StatsUpdateTransaction(
+        stats,
+        accountID,
+        statsUpdateFactory
+      );
+      const query: IQuery = new MockQuery();
+      const trial: Try<unknown, DataSourceError> = await statsUpdateTransaction.with(query);
+
+      expect(trial.isFailure()).toEqual(true);
+      trial.match<void>(() => {
+        spy1();
+      }, (err: DataSourceError) => {
+        spy2();
+        expect(err).toBeInstanceOf(MySQLError);
+      });
+
+      expect(stub1.called).toEqual(true);
+      expect(stub2.called).toEqual(true);
+      expect(stub3.called).toEqual(true);
+      expect(spy1.called).toEqual(false);
+      expect(spy2.called).toEqual(true);
     });
   });
 });
