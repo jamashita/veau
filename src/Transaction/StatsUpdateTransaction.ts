@@ -28,9 +28,9 @@ export class StatsUpdateTransaction implements IStatsUpdateTransaction {
   }
 
   public async with(query: IQuery): Promise<Try<unknown, DataSourceError>> {
-    const statsCommand: StatsCommand = StatsCommand.of(query);
-    const statsItemCommand: StatsItemCommand = StatsItemCommand.of(query);
-    const statsValueCommand: StatsValueCommand = StatsValueCommand.of(query);
+    const statsCommand: StatsCommand = new StatsCommand(query);
+    const statsItemCommand: StatsItemCommand = new StatsItemCommand(query);
+    const statsValueCommand: StatsValueCommand = new StatsValueCommand(query);
 
     const statsID: StatsID = this.stats.getStatsID();
 
