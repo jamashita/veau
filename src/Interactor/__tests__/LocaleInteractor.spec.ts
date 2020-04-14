@@ -13,19 +13,14 @@ import { Success } from '../../General/Try/Success';
 import { Try } from '../../General/Try/Try';
 import { MockLanguageQuery } from '../../Query/Mock/MockLanguageQuery';
 import { MockRegionQuery } from '../../Query/Mock/MockRegionQuery';
-import { ISO3166 } from '../../VO/ISO3166';
-import { ISO639 } from '../../VO/ISO639';
-import { Language } from '../../VO/Language';
-import { LanguageID } from '../../VO/LanguageID';
-import { LanguageName } from '../../VO/LanguageName';
 import { Languages } from '../../VO/Languages';
 import { Locale } from '../../VO/Locale';
-import { Region } from '../../VO/Region';
-import { RegionID } from '../../VO/RegionID';
-import { RegionName } from '../../VO/RegionName';
+import { MockLanguages } from '../../VO/Mock/MockLanguages';
+import { MockRegions } from '../../VO/Mock/MockRegions';
 import { Regions } from '../../VO/Regions';
 import { LocaleInteractor } from '../LocaleInteractor';
 
+// DONE
 describe('LocaleInteractor', () => {
   describe('container', () => {
     it('must be a singleton', () => {
@@ -39,14 +34,8 @@ describe('LocaleInteractor', () => {
 
   describe('all', () => {
     it('normal case', async () => {
-      const languages: Languages = Languages.ofArray([
-        Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
-        Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
-      ]);
-      const regions: Regions = Regions.ofArray([
-        Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
-        Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB'))
-      ]);
+      const languages: MockLanguages = new MockLanguages();
+      const regions: MockRegions = new MockRegions();
 
       const languageKernelQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub1: SinonStub = sinon.stub();
@@ -68,10 +57,7 @@ describe('LocaleInteractor', () => {
     });
 
     it('LanguageQuery.all returns Failure by NoSuchElementError', async () => {
-      const regions: Regions = Regions.ofArray([
-        Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
-        Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB'))
-      ]);
+      const regions: MockRegions = new MockRegions();
 
       const languageKernelQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub1: SinonStub = sinon.stub();
@@ -102,10 +88,7 @@ describe('LocaleInteractor', () => {
     });
 
     it('LanguageQuery.all returns Failure by DataSourceError', async () => {
-      const regions: Regions = Regions.ofArray([
-        Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
-        Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB'))
-      ]);
+      const regions: MockRegions = new MockRegions();
 
       const languageKernelQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub1: SinonStub = sinon.stub();
@@ -136,10 +119,7 @@ describe('LocaleInteractor', () => {
     });
 
     it('RegionQuery.all returns Failure by NoSuchElementError', async () => {
-      const languages: Languages = Languages.ofArray([
-        Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
-        Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
-      ]);
+      const languages: MockLanguages = new MockLanguages();
 
       const languageKernelQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub1: SinonStub = sinon.stub();
@@ -170,10 +150,7 @@ describe('LocaleInteractor', () => {
     });
 
     it('RegionQuery.all returns Failure by NoSuchElementError', async () => {
-      const languages: Languages = Languages.ofArray([
-        Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
-        Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
-      ]);
+      const languages: MockLanguages = new MockLanguages();
 
       const languageKernelQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub1: SinonStub = sinon.stub();
