@@ -13,6 +13,7 @@ import { StatsValues } from '../../../VO/StatsValues';
 import { StatsValueQuery } from '../StatsValueQuery';
 import { MockStatsID } from '../../../VO/Mock/MockStatsID';
 
+// DONE
 describe('StatsValueQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {

@@ -25,7 +25,7 @@ import { MockAsOf } from '../../../VO/Mock/MockAsOf';
 import { MockNumericalValue } from '../../../VO/Mock/MockNumericalValue';
 import { MockStatsValue } from '../../../VO/Mock/MockStatsValue';
 
-// TODO
+// DONE
 describe('StatsItemQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
