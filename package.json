@@ -16,6 +16,10 @@
     "lint": "eslint 'src/**/*.ts{,x}' --fix",
     "update": "ncu -u && yarn install"
   },
+  "engines": {
+    "node": ">= 13.10.0",
+    "npm": ">= 6.12"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-free": "5.13.0",
     "@handsontable/react": "3.1.2",
@@ -92,6 +96,7 @@
     "@typescript-eslint/eslint-plugin": "2.28.0",
     "@typescript-eslint/parser": "2.28.0",
     "@typescript-eslint/typescript-estree": "2.28.0",
+    "concurrently": "5.1.0",
     "eslint": "6.8.0",
     "eslint-plugin-react": "7.19.0",
     "gulp": "4.0.2",
