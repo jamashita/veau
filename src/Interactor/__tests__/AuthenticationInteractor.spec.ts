@@ -14,6 +14,7 @@ import { MockRegion } from '../../VO/Mock/MockRegion';
 import { VeauAccount } from '../../VO/VeauAccount';
 import { AuthenticationInteractor } from '../AuthenticationInteractor';
 
+// ODNE
 describe('AuthenticationInteractor', () => {
   describe('container', () => {
     it('must be a singleton', () => {
