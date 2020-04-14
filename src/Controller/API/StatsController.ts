@@ -23,18 +23,21 @@ const authenticationMiddleware: AuthenticationMiddleware = kernel.get<Authentica
 const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
 
 router.get('/page/:page(\\d+)', authenticationMiddleware.requires(), async (req: express.Request, res: express.Response) => {
-  await Page.of(Number(req.params.page)).match<Promise<void>>(async (page: Page) => {
-    const trial: Try<JSONable, StatsOutlinesError | DataSourceError> = await statsInteractor.findByVeauAccountID(res.locals.account.getVeauAccountID(), page);
+  return Page.of(Number(req.params.page)).match<Promise<void>>(async (page: Page) => {
+    const trial: Try<JSONable, StatsOutlinesError | DataSourceError> = await statsInteractor.findByVeauAccountID(
+      res.locals.account.getVeauAccountID(),
+      page
+    );
 
     trial.match<void>((outlines: JSONable) => {
       res.status(OK).send(outlines.toJSON());
     }, (err: StatsOutlinesError | DataSourceError) => {
-      logger.fatal(err.message);
+      logger.fatal(err);
 
       res.sendStatus(INTERNAL_SERVER_ERROR);
     });
   }, (err: PageError) => {
-    logger.fatal(err.message);
+    logger.fatal(err);
 
     res.sendStatus(BAD_REQUEST);
 
@@ -50,37 +53,40 @@ router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: expres
   trial.match<void>((stats: JSONable) => {
     res.status(OK).send(stats.toJSON());
   }, (err: NoSuchElementError | StatsError | DataSourceError) => {
-    if (err instanceof StatsError) {
-      logger.fatal(err.message);
+    if (err instanceof NoSuchElementError) {
+      logger.warn(err);
 
-      res.sendStatus(INTERNAL_SERVER_ERROR);
+      res.sendStatus(NO_CONTENT);
       return;
     }
 
-    logger.warn(err.message);
+    logger.fatal(err);
 
-    res.sendStatus(NO_CONTENT);
+    res.sendStatus(INTERNAL_SERVER_ERROR);
   });
 });
 
-router.post('/', authenticationMiddleware.requires(), async (req: express.Request, res: express.Response) => {
+router.post('/', authenticationMiddleware.requires(), (req: express.Request, res: express.Response) => {
   if (!Stats.isJSON(req.body)) {
     res.sendStatus(BAD_REQUEST);
     return;
   }
 
-  await Stats.ofJSON(req.body).match<Promise<void>>(async (stats: Stats) => {
-    const trial: Try<unknown, DataSourceError> = await statsInteractor.save(stats, res.locals.account.getVeauAccountID());
+  return Stats.ofJSON(req.body).match<Promise<void>>(async (stats: Stats) => {
+    const trial: Try<unknown, DataSourceError> = await statsInteractor.save(
+      stats,
+      res.locals.account.getVeauAccountID()
+    );
 
     trial.match<void>(() => {
       res.sendStatus(CREATED);
     }, (err: DataSourceError) => {
-      logger.warn(err.message);
+      logger.warn(err);
 
       res.sendStatus(BAD_REQUEST);
     });
   }, (err: StatsError) => {
-    logger.warn(err.message);
+    logger.warn(err);
 
     res.sendStatus(BAD_REQUEST);
 
