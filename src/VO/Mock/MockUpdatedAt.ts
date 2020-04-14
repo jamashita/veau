@@ -1,5 +1,8 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import { UpdatedAt } from '../UpdatedAt';
+
+dayjs.extend(utc);
 
 type UpdatedAtArgs = Partial<Readonly<{
   year: number;
@@ -16,6 +19,6 @@ export class MockUpdatedAt extends UpdatedAt {
     month = 1,
     day = 2
   }: UpdatedAtArgs = {}) {
-    super(moment.utc(`${year.toString().padStart(2, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')} 01:02:03`, FORMAT));
+    super(dayjs.utc(`${year.toString().padStart(2, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')} 01:02:03`, FORMAT));
   }
 }

@@ -1,5 +1,8 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import { AsOf } from '../AsOf';
+
+dayjs.extend(utc);
 
 type AsOfArgs = Partial<Readonly<{
   year: number;
@@ -16,6 +19,6 @@ export class MockAsOf extends AsOf {
     month = 1,
     day = 1
   }: AsOfArgs = {}) {
-    super(moment.utc(`${year.toString().padStart(2, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`, FORMAT));
+    super(dayjs.utc(`${year.toString().padStart(2, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`, FORMAT));
   }
 }
