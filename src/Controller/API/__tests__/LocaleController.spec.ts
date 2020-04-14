@@ -23,9 +23,10 @@ import { MockRegion } from '../../../VO/Mock/MockRegion';
 import { MockRegionID } from '../../../VO/Mock/MockRegionID';
 import { MockRegionName } from '../../../VO/Mock/MockRegionName';
 import { MockRegions } from '../../../VO/Mock/MockRegions';
-import { AuthenticationMiddleware } from '../../Middleware/AuthenticationMiddleware';
+import { MockVeauAccount } from '../../../VO/Mock/MockVeauAccount';
 import { LocaleController } from '../LocaleController';
 
+// DONE
 describe('LocaleController', () => {
   describe('GET /', () => {
     it('returns JSON as LocaleInteractor returns', async () => {
@@ -113,19 +114,16 @@ describe('LocaleController', () => {
 
   describe('DELETE /', () => {
     it('delete all locales of the cache', async () => {
-      const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
-      const stub1: SinonStub = sinon.stub();
-      authenticationMiddleware.requires = stub1;
-      stub1.returns((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        next();
-      });
-
       const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
-      const stub2: SinonStub = sinon.stub();
-      localeInteractor.delete = stub2;
-      stub2.resolves(Success.of<DataSourceError>());
+      const stub: SinonStub = sinon.stub();
+      localeInteractor.delete = stub;
+      stub.resolves(Success.of<DataSourceError>());
 
       const app: express.Express = express();
+      app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+        req.user = new MockVeauAccount();
+        next();
+      });
       app.use('/', LocaleController);
 
       const response: supertest.Response = await supertest(app).delete('/');
@@ -133,19 +131,16 @@ describe('LocaleController', () => {
     });
 
     it('replies INTERNAL_SERVER_ERROR', async () => {
-      const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
-      const stub1: SinonStub = sinon.stub();
-      authenticationMiddleware.requires = stub1;
-      stub1.returns((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        next();
-      });
-
       const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
-      const stub2: SinonStub = sinon.stub();
-      localeInteractor.delete = stub2;
-      stub2.resolves(Failure.of<DataSourceError>(new RedisError('test failed')));
+      const stub: SinonStub = sinon.stub();
+      localeInteractor.delete = stub;
+      stub.resolves(Failure.of<DataSourceError>(new RedisError('test failed')));
 
       const app: express.Express = express();
+      app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+        req.user = new MockVeauAccount();
+        next();
+      });
       app.use('/', LocaleController);
 
       const response: supertest.Response = await supertest(app).delete('/');
