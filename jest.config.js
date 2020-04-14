@@ -1,11 +1,14 @@
 module.exports = {
   verbose: true,
-  rootDir: "",
+  bail: true,
+  roots: [
+    "src"
+  ],
   testRegex: "/__tests__/.+\\.spec\\.tsx?$",
-  testEnvironment: "node",
   testPathIgnorePatterns: [
     "/node_modules/"
   ],
+  collectCoverage: true,
   coveragePathIgnorePatterns: [
     "/node_modules/",
     "/Mock/"
