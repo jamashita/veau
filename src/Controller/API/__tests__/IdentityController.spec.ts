@@ -19,7 +19,7 @@ import { IdentityController } from '../IdentityController';
 // DONE
 describe('IdentityController', () => {
   describe('GET /', () => {
-    it('returns VeauAccount as JSON', async () => {
+    it('returns VeauAccount as JSON', async (done) => {
       const account: VeauAccount = new MockVeauAccount({
         veauAccountID: new MockVeauAccountID(),
         account: new MockAccountName('account'),
@@ -46,6 +46,7 @@ describe('IdentityController', () => {
       const response: supertest.Response = await supertest(app).get('/');
       expect(response.status).toEqual(OK);
       expect(response.body).toEqual(account.toJSON());
+      done();
     });
   });
 });

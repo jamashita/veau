@@ -46,7 +46,7 @@ import { StatsController } from '../StatsController';
 // DONE
 describe('StatsController', () => {
   describe('GET /page/:page(\\d+)', () => {
-    it('normal case', async () => {
+    it('normal case', async (done) => {
       const uuid: UUID = UUID.v4();
       const outlines: MockStatsOutlines = new MockStatsOutlines(
         new MockStatsOutline({
@@ -107,9 +107,10 @@ describe('StatsController', () => {
           updatedAt: '2000-01-02 01:02:03'
         }
       ]);
+      done();
     });
 
-    it('page is 0', async () => {
+    it('page is 0', async (done) => {
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         req.user = new MockVeauAccount();
@@ -119,9 +120,10 @@ describe('StatsController', () => {
 
       const response: supertest.Response = await supertest(app).get('/page/0');
       expect(response.status).toEqual(BAD_REQUEST);
+      done();
     });
 
-    it('replies INTERNAL_SERVER_ERROR', async () => {
+    it('replies INTERNAL_SERVER_ERROR', async (done) => {
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
       const stub: SinonStub = sinon.stub();
       statsInteractor.findByVeauAccountID = stub;
@@ -136,11 +138,12 @@ describe('StatsController', () => {
 
       const response: supertest.Response = await supertest(app).get('/page/1');
       expect(response.status).toEqual(INTERNAL_SERVER_ERROR);
+      done();
     });
   });
 
   describe('GET /:statsID([0-9a-f\-]{36})', () => {
-    it('normal case', async () => {
+    it('normal case', async (done) => {
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const stats: MockStats = new MockStats({
@@ -221,9 +224,10 @@ describe('StatsController', () => {
           }
         ]
       });
+      done();
     });
 
-    it('not found', async () => {
+    it('not found', async (done) => {
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
       const stub: SinonStub = sinon.stub();
       statsInteractor.findByStatsID = stub;
@@ -234,9 +238,10 @@ describe('StatsController', () => {
 
       const response: supertest.Response = await supertest(app).get('/059ce0b2-7cba-4ba4-9a5d-a8fa7493f556');
       expect(response.status).toEqual(NO_CONTENT);
+      done();
     });
 
-    it('replies INTERNAL_SERVER_ERROR', async () => {
+    it('replies INTERNAL_SERVER_ERROR', async (done) => {
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
       const stub: SinonStub = sinon.stub();
       statsInteractor.findByStatsID = stub;
@@ -247,11 +252,12 @@ describe('StatsController', () => {
 
       const response: supertest.Response = await supertest(app).get('/059ce0b2-7cba-4ba4-9a5d-a8fa7493f556');
       expect(response.status).toEqual(INTERNAL_SERVER_ERROR);
+      done();
     });
   });
 
   describe('POST /', () => {
-    it('normal case', async () => {
+    it('normal case', async (done) => {
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
       const stub: SinonStub = sinon.stub();
       statsInteractor.save = stub;
@@ -299,9 +305,10 @@ describe('StatsController', () => {
         ]
       });
       expect(response.status).toEqual(CREATED);
+      done();
     });
 
-    it('replies BAD_REQUEST when the json format is illegal', async () => {
+    it('replies BAD_REQUEST when the json format is illegal', async (done) => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -344,9 +351,10 @@ describe('StatsController', () => {
         ]
       });
       expect(response.status).toEqual(BAD_REQUEST);
+      done();
     });
 
-    it('statsID is missing', async () => {
+    it('statsID is missing', async (done) => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -388,9 +396,10 @@ describe('StatsController', () => {
         ]
       });
       expect(response.status).toEqual(BAD_REQUEST);
+      done();
     });
 
-    it('language is missing', async () => {
+    it('language is missing', async (done) => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -427,9 +436,10 @@ describe('StatsController', () => {
         ]
       });
       expect(response.status).toEqual(BAD_REQUEST);
+      done();
     });
 
-    it('language.languageID is missing', async () => {
+    it('language.languageID is missing', async (done) => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -471,9 +481,10 @@ describe('StatsController', () => {
         ]
       });
       expect(response.status).toEqual(BAD_REQUEST);
+      done();
     });
 
-    it('language.name is missing', async () => {
+    it('language.name is missing', async (done) => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -515,8 +526,10 @@ describe('StatsController', () => {
         ]
       });
       expect(response.status).toEqual(BAD_REQUEST);
+      done();
     });
-    it('language.englishName is missing', async () => {
+
+    it('language.englishName is missing', async (done) => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -558,9 +571,10 @@ describe('StatsController', () => {
         ]
       });
       expect(response.status).toEqual(BAD_REQUEST);
+      done();
     });
 
-    it('language.iso639 is missing', async () => {
+    it('language.iso639 is missing', async (done) => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -602,9 +616,10 @@ describe('StatsController', () => {
         ]
       });
       expect(response.status).toEqual(BAD_REQUEST);
+      done();
     });
 
-    it('region is missing', async () => {
+    it('region is missing', async (done) => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -642,9 +657,10 @@ describe('StatsController', () => {
         ]
       });
       expect(response.status).toEqual(BAD_REQUEST);
+      done();
     });
 
-    it('region.regionID is missing', async () => {
+    it('region.regionID is missing', async (done) => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -686,9 +702,10 @@ describe('StatsController', () => {
         ]
       });
       expect(response.status).toEqual(BAD_REQUEST);
+      done();
     });
 
-    it('region.name is missing', async () => {
+    it('region.name is missing', async (done) => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -730,9 +747,10 @@ describe('StatsController', () => {
         ]
       });
       expect(response.status).toEqual(BAD_REQUEST);
+      done();
     });
 
-    it('region.iso3166 is missing', async () => {
+    it('region.iso3166 is missing', async (done) => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -774,9 +792,10 @@ describe('StatsController', () => {
         ]
       });
       expect(response.status).toEqual(BAD_REQUEST);
+      done();
     });
 
-    it('termID is missing', async () => {
+    it('termID is missing', async (done) => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -818,9 +837,10 @@ describe('StatsController', () => {
         ]
       });
       expect(response.status).toEqual(BAD_REQUEST);
+      done();
     });
 
-    it('name is missing', async () => {
+    it('name is missing', async (done) => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -862,9 +882,10 @@ describe('StatsController', () => {
         ]
       });
       expect(response.status).toEqual(BAD_REQUEST);
+      done();
     });
 
-    it('unit is missing', async () => {
+    it('unit is missing', async (done) => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -906,9 +927,10 @@ describe('StatsController', () => {
         ]
       });
       expect(response.status).toEqual(BAD_REQUEST);
+      done();
     });
 
-    it('updatedAt is missing', async () => {
+    it('updatedAt is missing', async (done) => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -950,9 +972,10 @@ describe('StatsController', () => {
         ]
       });
       expect(response.status).toEqual(BAD_REQUEST);
+      done();
     });
 
-    it('items are missing', async () => {
+    it('items are missing', async (done) => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -983,9 +1006,10 @@ describe('StatsController', () => {
         updatedAt: '2000-01-01 00:00:00'
       });
       expect(response.status).toEqual(BAD_REQUEST);
+      done();
     });
 
-    it('item is not plain object', async () => {
+    it('item is not plain object', async (done) => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -1020,9 +1044,10 @@ describe('StatsController', () => {
         ]
       });
       expect(response.status).toEqual(BAD_REQUEST);
+      done();
     });
 
-    it('item.statsItemID is missing', async () => {
+    it('item.statsItemID is missing', async (done) => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -1064,9 +1089,10 @@ describe('StatsController', () => {
         ]
       });
       expect(response.status).toEqual(BAD_REQUEST);
+      done();
     });
 
-    it('item.name is missing', async () => {
+    it('item.name is missing', async (done) => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -1108,9 +1134,10 @@ describe('StatsController', () => {
         ]
       });
       expect(response.status).toEqual(BAD_REQUEST);
+      done();
     });
 
-    it('item.values are missing', async () => {
+    it('item.values are missing', async (done) => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -1147,9 +1174,10 @@ describe('StatsController', () => {
         ]
       });
       expect(response.status).toEqual(BAD_REQUEST);
+      done();
     });
 
-    it('value is not plain object', async () => {
+    it('value is not plain object', async (done) => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -1190,9 +1218,10 @@ describe('StatsController', () => {
         ]
       });
       expect(response.status).toEqual(BAD_REQUEST);
+      done();
     });
 
-    it('item.values.asOf is missing', async () => {
+    it('item.values.asOf is missing', async (done) => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -1234,9 +1263,10 @@ describe('StatsController', () => {
         ]
       });
       expect(response.status).toEqual(BAD_REQUEST);
+      done();
     });
 
-    it('item.values.value is missing', async () => {
+    it('item.values.value is missing', async (done) => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -1278,6 +1308,7 @@ describe('StatsController', () => {
         ]
       });
       expect(response.status).toEqual(BAD_REQUEST);
+      done();
     });
   });
 });

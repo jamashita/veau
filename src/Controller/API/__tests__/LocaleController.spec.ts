@@ -29,7 +29,7 @@ import { LocaleController } from '../LocaleController';
 // DONE
 describe('LocaleController', () => {
   describe('GET /', () => {
-    it('returns JSON as LocaleInteractor returns', async () => {
+    it('returns JSON as LocaleInteractor returns', async (done) => {
       const locale: MockLocale = new MockLocale({
         languages: new MockLanguages(
           new MockLanguage({
@@ -75,9 +75,10 @@ describe('LocaleController', () => {
           }
         ]
       });
+      done();
     });
 
-    it('returns INTERNAL_SERVER_ERROR when Failure contains NoSuchElementError', async () => {
+    it('returns INTERNAL_SERVER_ERROR when Failure contains NoSuchElementError', async (done) => {
       const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
       const stub: SinonStub = sinon.stub();
       localeInteractor.all = stub;
@@ -92,9 +93,10 @@ describe('LocaleController', () => {
 
       const response: supertest.Response = await supertest(app).get('/');
       expect(response.status).toEqual(INTERNAL_SERVER_ERROR);
+      done();
     });
 
-    it('returns INTERNAL_SERVER_ERROR when Failure contains DataSourceError', async () => {
+    it('returns INTERNAL_SERVER_ERROR when Failure contains DataSourceError', async (done) => {
       const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
       const stub: SinonStub = sinon.stub();
       localeInteractor.all = stub;
@@ -109,11 +111,12 @@ describe('LocaleController', () => {
 
       const response: supertest.Response = await supertest(app).get('/');
       expect(response.status).toEqual(INTERNAL_SERVER_ERROR);
+      done();
     });
   });
 
   describe('DELETE /', () => {
-    it('delete all locales of the cache', async () => {
+    it('delete all locales of the cache', async (done) => {
       const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
       const stub: SinonStub = sinon.stub();
       localeInteractor.delete = stub;
@@ -128,9 +131,10 @@ describe('LocaleController', () => {
 
       const response: supertest.Response = await supertest(app).delete('/');
       expect(response.status).toEqual(OK);
+      done();
     });
 
-    it('replies INTERNAL_SERVER_ERROR', async () => {
+    it('replies INTERNAL_SERVER_ERROR', async (done) => {
       const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
       const stub: SinonStub = sinon.stub();
       localeInteractor.delete = stub;
@@ -145,6 +149,7 @@ describe('LocaleController', () => {
 
       const response: supertest.Response = await supertest(app).delete('/');
       expect(response.status).toEqual(INTERNAL_SERVER_ERROR);
+      done();
     });
   });
 });

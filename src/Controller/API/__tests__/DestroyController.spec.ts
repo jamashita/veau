@@ -6,10 +6,9 @@ import { DestroyController } from '../DestroyController';
 // DONE
 describe('DestroyController', () => {
   describe('DELETE /', () => {
-    it('no session returns OK', async () => {
+    it('no session returns OK', async (done) => {
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        // @ts-ignore
         req.logout = () => {
         };
         next();
@@ -18,6 +17,7 @@ describe('DestroyController', () => {
 
       const response: supertest.Response = await supertest(app).delete('/');
       expect(response.status).toEqual(OK);
+      done();
     });
   });
 });
