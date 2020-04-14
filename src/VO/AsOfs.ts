@@ -1,4 +1,4 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { ImmutableSequence } from '../General/Collection/ImmutableSequence';
 import { Sequence } from '../General/Collection/Interface/Sequence';
 import { Cloneable } from '../General/Interface/Cloneable';
@@ -90,11 +90,11 @@ export class AsOfs implements Collection<number, AsOf>, Cloneable, JSONable {
       return this.asOfs.get(0);
     }
 
-    const asOfs: Array<moment.Moment> = this.asOfs.toArray().map<moment.Moment>((asOf: AsOf) => {
+    const asOfs: Array<dayjs.Dayjs> = this.asOfs.toArray().map<dayjs.Dayjs>((asOf: AsOf) => {
       return asOf.get();
     });
 
-    return Some.of<AsOf>(AsOf.of(moment.min(asOfs)));
+    return Some.of<AsOf>(AsOf.of(dayjs.min(asOfs)));
   }
 
   public max(): Optional<AsOf> {
@@ -105,11 +105,11 @@ export class AsOfs implements Collection<number, AsOf>, Cloneable, JSONable {
       return this.asOfs.get(0);
     }
 
-    const asOfs: Array<moment.Moment> = this.asOfs.toArray().map<moment.Moment>((asOf: AsOf) => {
+    const asOfs: Array<dayjs.Dayjs> = this.asOfs.toArray().map<dayjs.Dayjs>((asOf: AsOf) => {
       return asOf.get();
     });
 
-    return Some.of<AsOf>(AsOf.of(moment.max(asOfs)));
+    return Some.of<AsOf>(AsOf.of(dayjs.max(asOfs)));
   }
 
   public size(): number {

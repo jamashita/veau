@@ -1,10 +1,13 @@
 import dayjs from 'dayjs';
+import minMax from 'dayjs/plugin/minMax';
 import { AsOfError } from '../Error/AsOfError';
 import { Failure } from '../General/Try/Failure';
 import { Success } from '../General/Try/Success';
 import { Try } from '../General/Try/Try';
 import { ValueObject } from '../General/ValueObject';
 import { Term } from './Term';
+
+dayjs.extend(minMax);
 
 const TERM_FORMAT: string = 'YYYY-MM-DD';
 
