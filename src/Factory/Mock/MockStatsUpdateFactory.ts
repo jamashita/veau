@@ -4,6 +4,7 @@ import { IStatsValueCommand } from '../../Command/Interface/IStatsValueCommand';
 import { IStatsUpdateFactory } from '../Interface/IStatsUpdateFactory';
 
 export class MockStatsUpdateFactory implements IStatsUpdateFactory {
+  public readonly noun: 'StatsUpdateFactory' = 'StatsUpdateFactory';
   private readonly statsCommand: IStatsCommand;
   private readonly statsItemCommand:  IStatsItemCommand;
   private readonly statsValueCommand:  IStatsValueCommand;

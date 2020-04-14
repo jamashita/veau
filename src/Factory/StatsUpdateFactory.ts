@@ -5,6 +5,7 @@ import { IQuery } from '../General/MySQL/Interface/IQuery';
 import { IStatsUpdateFactory } from './Interface/IStatsUpdateFactory';
 
 export class StatsUpdateFactory implements IStatsUpdateFactory {
+  public readonly noun: 'StatsUpdateFactory' = 'StatsUpdateFactory';
   private readonly query: IQuery
 
   public constructor(query: IQuery) {
