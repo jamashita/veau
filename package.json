@@ -8,8 +8,9 @@
   "private": true,
   "scripts": {
     "build": "gulp build",
-    "gulp:watch": "gulp",
-    "webpack:watch": "webpack-dev-server --hot --config webpack.dev.config.js",
+    "watch": "concurrently \"npm:watch:*\"",
+    "watch:gulp": "gulp",
+    "watch:webpack": "webpack-dev-server --hot --config webpack.dev.config.js",
     "start": "pm2-runtime start pm2.yml",
     "stop": "pm2-runtime stop pm2.yml",
     "test": "jest test --detectOpenHandles --coverage",
