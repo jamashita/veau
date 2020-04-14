@@ -17,7 +17,7 @@ type VeauAccountArgs = Partial<Readonly<{
 
 export class MockVeauAccount extends VeauAccount {
 
-  protected constructor({
+  public constructor({
     veauAccountID = new MockVeauAccountID(),
     account = new MockAccountName(),
     language = new MockLanguage(),
