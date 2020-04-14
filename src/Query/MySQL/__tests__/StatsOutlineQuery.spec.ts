@@ -4,7 +4,7 @@ import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
 import { StatsOutlinesError } from '../../../Error/StatsOutlinesError';
 import { DataSourceError } from '../../../General/DataSourceError';
-import { MockError } from '../../../General/MockError';
+import { MockError } from '../../../General/Mock/MockError';
 import { MockMySQL } from '../../../General/MySQL/Mock/MockMySQL';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
 import { Try } from '../../../General/Try/Try';

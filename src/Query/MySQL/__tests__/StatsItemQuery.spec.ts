@@ -7,7 +7,7 @@ import { StatsItems } from '../../../Entity/StatsItems';
 import { StatsItemsError } from '../../../Error/StatsItemsError';
 import { StatsValuesError } from '../../../Error/StatsValuesError';
 import { DataSourceError } from '../../../General/DataSourceError';
-import { MockError } from '../../../General/MockError';
+import { MockError } from '../../../General/Mock/MockError';
 import { MockMySQL } from '../../../General/MySQL/Mock/MockMySQL';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
 import { Failure } from '../../../General/Try/Failure';

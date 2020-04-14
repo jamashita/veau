@@ -1,6 +1,6 @@
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { DataSourceError } from '../../../General/DataSourceError';
-import { MockError } from '../../../General/MockError';
+import { MockError } from '../../../General/Mock/MockError';
 import { MockQuery } from '../../../General/MySQL/Mock/MockQuery';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
 import { Try } from '../../../General/Try/Try';

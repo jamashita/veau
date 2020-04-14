@@ -10,7 +10,7 @@ import { NoSuchElementError } from '../../../Error/NoSuchElementError';
 import { StatsError } from '../../../Error/StatsError';
 import { StatsItemsError } from '../../../Error/StatsItemsError';
 import { DataSourceError } from '../../../General/DataSourceError';
-import { MockError } from '../../../General/MockError';
+import { MockError } from '../../../General/Mock/MockError';
 import { MockMySQL } from '../../../General/MySQL/Mock/MockMySQL';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
 import { Failure } from '../../../General/Try/Failure';
