@@ -53,7 +53,7 @@ export class StatsEditSaga {
   private readonly statsCommand: IStatsCommand;
 
   public constructor(
-    @inject(TYPE.StatsAJAXQuery) statsQuery: IStatsQuery,
+  @inject(TYPE.StatsAJAXQuery) statsQuery: IStatsQuery,
     @inject(TYPE.LocaleVaultQuery) localeQuery: ILocaleQuery,
     @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery,
     @inject(TYPE.RegionVaultQuery) regionQuery: IRegionQuery,

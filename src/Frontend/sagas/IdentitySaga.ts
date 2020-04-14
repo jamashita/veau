@@ -33,7 +33,7 @@ export class IdentitySaga {
   private readonly languageQuery: ILanguageQuery;
 
   public constructor(
-    @inject(TYPE.SessionAJAXQuery) sessionQuery: ISessionQuery,
+  @inject(TYPE.SessionAJAXQuery) sessionQuery: ISessionQuery,
     @inject(TYPE.LocaleVaultQuery) localeQuery: ILocaleQuery,
     @inject(TYPE.LanguageVaultQuery) LanguageQuery: ILanguageQuery
   ) {
