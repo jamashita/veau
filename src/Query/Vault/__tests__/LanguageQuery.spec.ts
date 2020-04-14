@@ -8,19 +8,16 @@ import { DataSourceError } from '../../../General/DataSourceError';
 import { Failure } from '../../../General/Try/Failure';
 import { Success } from '../../../General/Try/Success';
 import { Try } from '../../../General/Try/Try';
-import { ISO3166 } from '../../../VO/ISO3166';
 import { ISO639 } from '../../../VO/ISO639';
 import { Language } from '../../../VO/Language';
 import { LanguageID } from '../../../VO/LanguageID';
 import { LanguageName } from '../../../VO/LanguageName';
 import { Languages } from '../../../VO/Languages';
 import { Locale } from '../../../VO/Locale';
-import { Region } from '../../../VO/Region';
-import { RegionID } from '../../../VO/RegionID';
-import { RegionName } from '../../../VO/RegionName';
-import { Regions } from '../../../VO/Regions';
 import { MockLocaleQuery } from '../../Mock/MockLocaleQuery';
 import { LanguageQuery } from '../LanguageQuery';
+import { MockLocale } from '../../../VO/Mock/MockLocale';
+import { MockLanguages } from '../../../VO/Mock/MockLanguages';
 
 // DONE
 describe('LanguageQuery', () => {
@@ -36,34 +33,7 @@ describe('LanguageQuery', () => {
 
   describe('all', () => {
     it('normal case', async () => {
-      const locale: Locale = Locale.of(
-        Languages.ofArray([
-          Language.of(
-            LanguageID.of(1),
-            LanguageName.of('аҧсуа бызшәа'),
-            LanguageName.of('Abkhazian'),
-            ISO639.of('ab')
-          ),
-          Language.of(
-            LanguageID.of(2),
-            LanguageName.of('Afaraf'),
-            LanguageName.of('Afar'),
-            ISO639.of('aa')
-          )
-        ]),
-        Regions.ofArray([
-          Region.of(
-            RegionID.of(1),
-            RegionName.of('Afghanistan'),
-            ISO3166.of('AFG')
-          ),
-          Region.of(
-            RegionID.of(2),
-            RegionName.of('Albania'),
-            ISO3166.of('ALB')
-          )
-        ])
-      );
+      const locale: MockLocale = new MockLocale();
 
       const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
@@ -103,8 +73,8 @@ describe('LanguageQuery', () => {
 
   describe('findByISO639', () => {
     it('normal case', async () => {
-      const locale: Locale = Locale.of(
-        Languages.ofArray([
+      const locale: MockLocale = new MockLocale({
+        languages: new MockLanguages(
           Language.of(
             LanguageID.of(1),
             LanguageName.of('аҧсуа бызшәа'),
@@ -117,20 +87,8 @@ describe('LanguageQuery', () => {
             LanguageName.of('Afar'),
             ISO639.of('aa')
           )
-        ]),
-        Regions.ofArray([
-          Region.of(
-            RegionID.of(1),
-            RegionName.of('Afghanistan'),
-            ISO3166.of('AFG')
-          ),
-          Region.of(
-            RegionID.of(2),
-            RegionName.of('Albania'),
-            ISO3166.of('ALB')
-          )
-        ])
-      );
+        )
+      });
 
       const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
@@ -168,16 +126,22 @@ describe('LanguageQuery', () => {
     });
 
     it('no match results', async () => {
-      const locale: Locale = Locale.of(
-        Languages.ofArray([
-          Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
-          Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
-        ]),
-        Regions.ofArray([
-          Region.of(RegionID.of(1), RegionName.of('Afghanistan'), ISO3166.of('AFG')),
-          Region.of(RegionID.of(2), RegionName.of('Albania'), ISO3166.of('ALB'))
-        ])
-      );
+      const locale: MockLocale = new MockLocale({
+        languages: new MockLanguages(
+          Language.of(
+            LanguageID.of(1),
+            LanguageName.of('аҧсуа бызшәа'),
+            LanguageName.of('Abkhazian'),
+            ISO639.of('ab')
+          ),
+          Language.of(
+            LanguageID.of(2),
+            LanguageName.of('Afaraf'),
+            LanguageName.of('Afar'),
+            ISO639.of('aa')
+          )
+        )
+      });
 
       const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
