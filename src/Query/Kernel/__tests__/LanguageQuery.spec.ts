@@ -17,7 +17,9 @@ import { Languages } from '../../../VO/Languages';
 import { MockLanguageQuery } from '../../Mock/MockLanguageQuery';
 import { LanguageQuery } from '../LanguageQuery';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
+import { MockLanguages } from '../../../VO/Mock/MockLanguages';
 
+// DONE
 describe('LanguageQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
@@ -31,10 +33,7 @@ describe('LanguageQuery', () => {
 
   describe('all', () => {
     it('LanguageRedisQuery returns Success', async () => {
-      const languages: Languages = Languages.ofArray([
-        Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
-        Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
-      ]);
+      const languages: MockLanguages = new MockLanguages();
 
       const languageRedisQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub: SinonStub = sinon.stub();
@@ -51,10 +50,7 @@ describe('LanguageQuery', () => {
     });
 
     it('LanguageMySQLQuery returns Success', async () => {
-      const languages: Languages = Languages.ofArray([
-        Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
-        Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
-      ]);
+      const languages: MockLanguages = new MockLanguages();
 
       const languageRedisQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub1: SinonStub = sinon.stub();
@@ -105,10 +101,7 @@ describe('LanguageQuery', () => {
     });
 
     it('LanguageCommand returns Failure', async () => {
-      const languages: Languages = Languages.ofArray([
-        Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
-        Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
-      ]);
+      const languages: MockLanguages = new MockLanguages();
 
       const languageRedisQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub1: SinonStub = sinon.stub();
@@ -143,10 +136,20 @@ describe('LanguageQuery', () => {
 
   describe('findByISO639', () => {
     it('normal case', async () => {
-      const languages: Languages = Languages.ofArray([
-        Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
-        Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
-      ]);
+      const languages: MockLanguages = new MockLanguages(
+        Language.of(
+          LanguageID.of(1),
+          LanguageName.of('аҧсуа бызшәа'),
+          LanguageName.of('Abkhazian'),
+          ISO639.of('ab')
+        ),
+        Language.of(
+          LanguageID.of(2),
+          LanguageName.of('Afaraf'),
+          LanguageName.of('Afar'),
+          ISO639.of('aa')
+        )
+      );
 
       const languageRedisQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub: SinonStub = sinon.stub();
@@ -191,10 +194,20 @@ describe('LanguageQuery', () => {
     });
 
     it('no match results', async () => {
-      const languages: Languages = Languages.ofArray([
-        Language.of(LanguageID.of(1), LanguageName.of('аҧсуа бызшәа'), LanguageName.of('Abkhazian'), ISO639.of('ab')),
-        Language.of(LanguageID.of(2), LanguageName.of('Afaraf'), LanguageName.of('Afar'), ISO639.of('aa'))
-      ]);
+      const languages: MockLanguages = new MockLanguages(
+        Language.of(
+          LanguageID.of(1),
+          LanguageName.of('аҧсуа бызшәа'),
+          LanguageName.of('Abkhazian'),
+          ISO639.of('ab')
+        ),
+        Language.of(
+          LanguageID.of(2),
+          LanguageName.of('Afaraf'),
+          LanguageName.of('Afar'),
+          ISO639.of('aa')
+        )
+      );
 
       const languageRedisQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub: SinonStub = sinon.stub();
