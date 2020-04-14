@@ -6,6 +6,8 @@ import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { DataSourceError } from '../../General/DataSourceError';
+import { MySQLError } from '../../General/MySQL/MySQLError';
+import { RedisError } from '../../General/Redis/RedisError';
 import { Failure } from '../../General/Try/Failure';
 import { Success } from '../../General/Try/Success';
 import { Try } from '../../General/Try/Try';
@@ -23,8 +25,6 @@ import { RegionID } from '../../VO/RegionID';
 import { RegionName } from '../../VO/RegionName';
 import { Regions } from '../../VO/Regions';
 import { LocaleInteractor } from '../LocaleInteractor';
-import { MySQLError } from '../../General/MySQL/MySQLError';
-import { RedisError } from '../../General/Redis/RedisError';
 
 describe('LocaleInteractor', () => {
   describe('container', () => {

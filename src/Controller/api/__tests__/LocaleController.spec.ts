@@ -4,6 +4,8 @@ import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
+import { DataSourceError } from '../../../General/DataSourceError';
+import { RedisError } from '../../../General/Redis/RedisError';
 import { Failure } from '../../../General/Try/Failure';
 import { Success } from '../../../General/Try/Success';
 import { LocaleInteractor } from '../../../Interactor/LocaleInteractor';
@@ -22,8 +24,6 @@ import { Regions } from '../../../VO/Regions';
 import { VeauAccount } from '../../../VO/VeauAccount';
 import { VeauAccountID } from '../../../VO/VeauAccountID';
 import { LocaleController } from '../LocaleController';
-import { RedisError } from '../../../General/Redis/RedisError';
-import { DataSourceError } from '../../../General/DataSourceError';
 
 describe('LocaleController', () => {
   describe('GET /', () => {
