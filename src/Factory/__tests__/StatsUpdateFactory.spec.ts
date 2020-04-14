@@ -9,9 +9,9 @@ describe('StatsUpdateFactory', () => {
     it('returns StatsCommand instance', () => {
       const query: MockQuery = new MockQuery();
 
-      const statsUpdateFactory: StatsUpdateFactory = new StatsUpdateFactory(query);
+      const statsUpdateFactory: StatsUpdateFactory = new StatsUpdateFactory();
 
-      expect(statsUpdateFactory.forgeStatsCommand()).toBeInstanceOf(StatsCommand);
+      expect(statsUpdateFactory.forgeStatsCommand(query)).toBeInstanceOf(StatsCommand);
     });
   });
 
@@ -19,9 +19,9 @@ describe('StatsUpdateFactory', () => {
     it('returns StatsItemCommand instance', () => {
       const query: MockQuery = new MockQuery();
 
-      const statsUpdateFactory: StatsUpdateFactory = new StatsUpdateFactory(query);
+      const statsUpdateFactory: StatsUpdateFactory = new StatsUpdateFactory();
 
-      expect(statsUpdateFactory.forgeStatsItemCommand()).toBeInstanceOf(StatsItemCommand);
+      expect(statsUpdateFactory.forgeStatsItemCommand(query)).toBeInstanceOf(StatsItemCommand);
     });
   });
 
@@ -29,9 +29,11 @@ describe('StatsUpdateFactory', () => {
     it('returns StatsValueCommand instance', () => {
       const query: MockQuery = new MockQuery();
 
-      const statsUpdateFactory: StatsUpdateFactory = new StatsUpdateFactory(query);
+      const statsUpdateFactory: StatsUpdateFactory = new StatsUpdateFactory(
 
-      expect(statsUpdateFactory.forgeStatsValueCommand()).toBeInstanceOf(StatsValueCommand);
+      );
+
+      expect(statsUpdateFactory.forgeStatsValueCommand(query)).toBeInstanceOf(StatsValueCommand);
     });
   });
 });

@@ -3,6 +3,7 @@ import { StatsItemCommand } from '../Command/MySQL/StatsItemCommand';
 import { StatsValueCommand } from '../Command/MySQL/StatsValueCommand';
 import { Stats } from '../Entity/Stats';
 import { StatsItem } from '../Entity/StatsItem';
+import { StatsUpdateFactory } from '../Factory/StatsUpdateFactory';
 import { DataSourceError } from '../General/DataSourceError';
 import { IQuery } from '../General/MySQL/Interface/IQuery';
 import { Failure } from '../General/Try/Failure';
@@ -17,20 +18,22 @@ export class StatsUpdateTransaction implements IStatsUpdateTransaction {
   public readonly noun: 'StatsUpdateTransaction' = 'StatsUpdateTransaction';
   private readonly stats: Stats;
   private readonly veauAccountID: VeauAccountID;
+  private readonly statsUpdateFactory: StatsUpdateFactory;
 
-  public static of(stats: Stats, veauAccountID: VeauAccountID): StatsUpdateTransaction {
-    return new StatsUpdateTransaction(stats, veauAccountID);
-  }
-
-  private constructor(stats: Stats, veauAccountID: VeauAccountID) {
+  public constructor(
+    stats: Stats,
+    veauAccountID: VeauAccountID,
+    statsUpdateFactory: StatsUpdateFactory
+  ) {
     this.stats = stats;
     this.veauAccountID = veauAccountID;
+    this.statsUpdateFactory = statsUpdateFactory;
   }
 
   public async with(query: IQuery): Promise<Try<unknown, DataSourceError>> {
-    const statsCommand: StatsCommand = new StatsCommand(query);
-    const statsItemCommand: StatsItemCommand = new StatsItemCommand(query);
-    const statsValueCommand: StatsValueCommand = new StatsValueCommand(query);
+    const statsCommand: StatsCommand = this.statsUpdateFactory.forgeStatsCommand(query);
+    const statsItemCommand: StatsItemCommand = this.statsUpdateFactory.forgeStatsItemCommand(query);
+    const statsValueCommand: StatsValueCommand = this.statsUpdateFactory.forgeStatsValueCommand(query);
 
     const statsID: StatsID = this.stats.getStatsID();
 
