@@ -14,7 +14,7 @@ import { Try } from '../../General/Try/Try';
 import { StatsInteractor } from '../../Interactor/StatsInteractor';
 import { Page } from '../../VO/Page';
 import { StatsID } from '../../VO/StatsID';
-import { AuthenticationMiddleware } from '../middlewares/AuthenticationMiddleware';
+import { AuthenticationMiddleware } from '../Middleware/AuthenticationMiddleware';
 
 const router: express.Router = express.Router();
 const logger: log4js.Logger = log4js.getLogger();

@@ -2,7 +2,7 @@ import express from 'express';
 import { OK } from 'http-status';
 import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
-import { AuthenticationMiddleware } from '../middlewares/AuthenticationMiddleware';
+import { AuthenticationMiddleware } from '../Middleware/AuthenticationMiddleware';
 
 const router: express.Router = express.Router();
 

@@ -1,6 +1,6 @@
 import express from 'express';
-import { APIController } from './api/APIController';
-import { FEController } from './fe/FEController';
+import { APIController } from './API/APIController';
+import { FEController } from './FE/FEController';
 
 const router: express.Router = express.Router();
 

@@ -1,7 +1,7 @@
 import { Container } from 'inversify';
 import { LanguageCommand as LanguageRedisCommand } from '../Command/Redis/LanguageCommand';
 import { RegionCommand as RegionRedisCommand } from '../Command/Redis/RegionCommand';
-import { AuthenticationMiddleware } from '../Controller/middlewares/AuthenticationMiddleware';
+import { AuthenticationMiddleware } from '../Controller/Middleware/AuthenticationMiddleware';
 import { MySQL } from '../General/MySQL/MySQL';
 import { Redis } from '../General/Redis/Redis';
 import { veauMySQL } from '../Infrastructure/VeauMySQL';

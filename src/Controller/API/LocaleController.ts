@@ -8,7 +8,7 @@ import { DataSourceError } from '../../General/DataSourceError';
 import { JSONable } from '../../General/Interface/JSONable';
 import { Try } from '../../General/Try/Try';
 import { LocaleInteractor } from '../../Interactor/LocaleInteractor';
-import { AuthenticationMiddleware } from '../middlewares/AuthenticationMiddleware';
+import { AuthenticationMiddleware } from '../Middleware/AuthenticationMiddleware';
 
 const router: express.Router = express.Router();
 const logger: log4js.Logger = log4js.getLogger();
