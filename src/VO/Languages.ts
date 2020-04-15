@@ -1,5 +1,5 @@
-import { ImmutableSequence } from '../General/Collection/ImmutableSequence';
-import { Sequence } from '../General/Collection/Interface/Sequence';
+import { ImmutableSequence } from '../General/Collection/Sequence/ImmutableSequence';
+import { Sequence } from '../General/Collection/Sequence/Interface/Sequence';
 import { Collection } from '../General/Interface/Collection';
 import { JSONable } from '../General/Interface/JSONable';
 import { Optional } from '../General/Optional/Optional';

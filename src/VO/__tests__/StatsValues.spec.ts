@@ -1,7 +1,7 @@
 import sinon, { SinonSpy } from 'sinon';
 import { StatsValueError } from '../../Error/StatsValueError';
 import { StatsValuesError } from '../../Error/StatsValuesError';
-import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
+import { ImmutableSequence } from '../../General/Collection/Sequence/ImmutableSequence';
 import { None } from '../../General/Optional/None';
 import { Failure } from '../../General/Try/Failure';
 import { Success } from '../../General/Try/Success';

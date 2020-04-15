@@ -1,4 +1,4 @@
-import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
+import { ImmutableSequence } from '../../General/Collection/Sequence/ImmutableSequence';
 import { None } from '../../General/Optional/None';
 import { ISO639 } from '../ISO639';
 import { Language, LanguageJSON, LanguageRow } from '../Language';

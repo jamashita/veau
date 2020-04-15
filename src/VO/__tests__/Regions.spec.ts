@@ -1,4 +1,4 @@
-import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
+import { ImmutableSequence } from '../../General/Collection/Sequence/ImmutableSequence';
 import { None } from '../../General/Optional/None';
 import { ISO3166 } from '../ISO3166';
 import { MockISO3166 } from '../Mock/MockISO3166';

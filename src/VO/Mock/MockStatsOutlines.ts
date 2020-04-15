@@ -1,4 +1,4 @@
-import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
+import { ImmutableSequence } from '../../General/Collection/Sequence/ImmutableSequence';
 import { StatsOutline } from '../StatsOutline';
 import { StatsOutlines } from '../StatsOutlines';
 

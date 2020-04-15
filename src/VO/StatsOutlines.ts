@@ -1,7 +1,7 @@
 import { StatsOutlineError } from '../Error/StatsOutlineError';
 import { StatsOutlinesError } from '../Error/StatsOutlinesError';
-import { ImmutableSequence } from '../General/Collection/ImmutableSequence';
-import { Sequence } from '../General/Collection/Interface/Sequence';
+import { ImmutableSequence } from '../General/Collection/Sequence/ImmutableSequence';
+import { Sequence } from '../General/Collection/Sequence/Interface/Sequence';
 import { Cloneable } from '../General/Interface/Cloneable';
 import { Collection } from '../General/Interface/Collection';
 import { JSONable } from '../General/Interface/JSONable';

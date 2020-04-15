@@ -1,4 +1,4 @@
-import { ImmutableSequence } from '../../General/Collection/ImmutableSequence';
+import { ImmutableSequence } from '../../General/Collection/Sequence/ImmutableSequence';
 import { None } from '../../General/Optional/None';
 import { AsOf } from '../AsOf';
 import { AsOfs } from '../AsOfs';
