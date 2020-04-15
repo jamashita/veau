@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import { Zeit } from '../../General/Zeit/Zeit';
 import { UpdatedAt } from '../UpdatedAt';
 
 dayjs.extend(utc);
@@ -10,8 +11,6 @@ type UpdatedAtArgs = Partial<Readonly<{
   day: number;
 }>>;
 
-const FORMAT: string = 'YYYY-MM-DD HH:mm:ss';
-
 export class MockUpdatedAt extends UpdatedAt {
 
   public constructor({
@@ -19,6 +18,6 @@ export class MockUpdatedAt extends UpdatedAt {
     month = 1,
     day = 2
   }: UpdatedAtArgs = {}) {
-    super(dayjs.utc(`${year.toString().padStart(2, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')} 01:02:03`, FORMAT));
+    super(Zeit.ofString(`${year.toString().padStart(4, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')} 01:02:03`, UpdatedAt.format()));
   }
 }
