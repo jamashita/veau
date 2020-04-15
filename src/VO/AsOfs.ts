@@ -8,6 +8,7 @@ import { Optional } from '../General/Optional/Optional';
 import { Some } from '../General/Optional/Some';
 import { Enumerator } from '../General/Type/Function';
 import { Zeit } from '../General/Zeit/Zeit';
+import { ZeitError } from '../General/Zeit/ZeitError';
 import { AsOf } from './AsOf';
 import { Term } from './Term';
 
@@ -94,13 +95,18 @@ export class AsOfs implements Collection<number, AsOf>, Cloneable, JSONable {
       return asOf.get();
     });
 
-    const min: Optional<Zeit> = Zeit.min(zeiten, AsOf.format());
+    try {
+      const min: Zeit = Zeit.min(zeiten, AsOf.format());
 
-    if (min.isAbsent()) {
-      return None.of<AsOf>();
+      return Some.of<AsOf>(AsOf.of(min));
     }
+    catch (err) {
+      if (err instanceof ZeitError) {
+        return None.of<AsOf>();
+      }
 
-    return Some.of<AsOf>(AsOf.of(min.get()));
+      throw err;
+    }
   }
 
   public max(): Optional<AsOf> {
@@ -115,13 +121,18 @@ export class AsOfs implements Collection<number, AsOf>, Cloneable, JSONable {
       return asOf.get();
     });
 
-    const max: Optional<Zeit> = Zeit.max(zeiten, AsOf.format());
+    try {
+      const max: Zeit = Zeit.max(zeiten, AsOf.format());
 
-    if (max.isAbsent()) {
-      return None.of<AsOf>();
+      return Some.of<AsOf>(AsOf.of(max));
     }
+    catch (err) {
+      if (err instanceof ZeitError) {
+        return None.of<AsOf>();
+      }
 
-    return Some.of<AsOf>(AsOf.of(max.get()));
+      throw err;
+    }
   }
 
   public size(): number {
