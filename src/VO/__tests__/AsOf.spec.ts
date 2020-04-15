@@ -62,6 +62,12 @@ describe('AsOf', () => {
     });
   });
 
+  describe('format', () => {
+    it('returns YYYY-MM-DD', () => {
+      expect(AsOf.format()).toEqual('YYYY-MM-DD');
+    });
+  });
+
   describe('equals', () => {
     it('returns true if both properties are the same', () => {
       const asOf1: AsOf = AsOf.ofString('2000-01-01').get();

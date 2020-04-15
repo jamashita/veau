@@ -32,6 +32,10 @@ export class AsOf extends ValueObject {
     }
   }
 
+  public static format(): string {
+    return TERM_FORMAT;
+  }
+
   protected constructor(asOf: Zeit) {
     super();
     this.asOf = asOf;
