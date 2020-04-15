@@ -45,7 +45,7 @@ export class StatsUpdateTransaction implements IStatsUpdateTransaction {
 
     const deleteCompletion: Try<unknown, DataSourceError> = manoeuvre<void, DataSourceError>(tries);
 
-    return deleteCompletion.match<Try<unknown, DataSourceError>>(async () => {
+    return deleteCompletion.match<unknown, DataSourceError>(async () => {
       const itemPromises: Array<Promise<Try<void, DataSourceError>>> = [];
       const valuePromises: Array<Promise<Try<void, DataSourceError>>> = [];
 

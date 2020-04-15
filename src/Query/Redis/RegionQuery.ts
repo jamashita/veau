@@ -57,12 +57,12 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
   public async findByISO3166(iso3166: ISO3166): Promise<Try<Region, NoSuchElementError | DataSourceError>> {
     const trial: Try<Regions, NoSuchElementError | DataSourceError> = await this.all();
 
-    return trial.match<Try<Region, NoSuchElementError | DataSourceError>>((regions: Regions) => {
+    return trial.match<Region, NoSuchElementError | DataSourceError>((regions: Regions) => {
       const optional: Optional<Region> = regions.find((region: Region) => {
         return region.getISO3166().equals(iso3166);
       });
 
-      return optional.toTry().match<Try<Region, NoSuchElementError | DataSourceError>>((region: Region) => {
+      return optional.toTry().match<Region, NoSuchElementError | DataSourceError>((region: Region) => {
         return Success.of<Region, DataSourceError>(region);
       }, () => {
         return Failure.of<Region, NoSuchElementError>(new NoSuchElementError(iso3166.get()));

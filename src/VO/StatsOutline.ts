@@ -71,18 +71,20 @@ export class StatsOutline extends ValueObject implements JSONable, Cloneable {
   }
 
   public static ofJSON(json: StatsOutlineJSON): Try<StatsOutline, StatsOutlineError> {
-    return StatsID.ofString(json.statsID).match<Try<StatsOutline, StatsOutlineError>>((statsID: StatsID) => {
-      return Term.of(json.termID).match<Try<StatsOutline, StatsOutlineError>>((term: Term) => {
-        return UpdatedAt.ofString(json.updatedAt).match<Try<StatsOutline, StatsOutlineError>>((updatedAt: UpdatedAt) => {
-          return Success.of<StatsOutline, StatsOutlineError>(StatsOutline.of(
-            statsID,
-            Language.ofJSON(json.language),
-            Region.ofJSON(json.region),
-            term,
-            StatsName.of(json.name),
-            StatsUnit.of(json.unit),
-            updatedAt
-          ));
+    return StatsID.ofString(json.statsID).match<StatsOutline, StatsOutlineError>((statsID: StatsID) => {
+      return Term.of(json.termID).match<StatsOutline, StatsOutlineError>((term: Term) => {
+        return UpdatedAt.ofString(json.updatedAt).match<StatsOutline, StatsOutlineError>((updatedAt: UpdatedAt) => {
+          return Success.of<StatsOutline, StatsOutlineError>(
+            StatsOutline.of(
+              statsID,
+              Language.ofJSON(json.language),
+              Region.ofJSON(json.region),
+              term,
+              StatsName.of(json.name),
+              StatsUnit.of(json.unit),
+              updatedAt
+            )
+          );
         }, (err: UpdatedAtError) => {
           return Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofJSON()', err));
         });
@@ -95,9 +97,9 @@ export class StatsOutline extends ValueObject implements JSONable, Cloneable {
   }
 
   public static ofRow(row: StatsOutlineRow): Try<StatsOutline, StatsOutlineError> {
-    return StatsID.ofString(row.statsID).match<Try<StatsOutline, StatsOutlineError>>((statsID: StatsID) => {
-      return Term.of(row.termID).match<Try<StatsOutline, StatsOutlineError>>((term: Term) => {
-        return UpdatedAt.ofString(row.updatedAt).match<Try<StatsOutline, StatsOutlineError>>((updatedAt: UpdatedAt) => {
+    return StatsID.ofString(row.statsID).match<StatsOutline, StatsOutlineError>((statsID: StatsID) => {
+      return Term.of(row.termID).match<StatsOutline, StatsOutlineError>((term: Term) => {
+        return UpdatedAt.ofString(row.updatedAt).match<StatsOutline, StatsOutlineError>((updatedAt: UpdatedAt) => {
           const language: Language = Language.ofRow({
             languageID: row.languageID,
             name: row.languageName,

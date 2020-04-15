@@ -45,7 +45,7 @@ export class Account extends ValueObject {
   }
 
   public static ofRow(row: AccountRow): Try<Account, AccountError> {
-    return VeauAccountID.ofString(row.veauAccountID).match<Try<Account, AccountError>>((veauAccountID: VeauAccountID) => {
+    return VeauAccountID.ofString(row.veauAccountID).match<Account, AccountError>((veauAccountID: VeauAccountID) => {
       const language: Language = Language.ofRow({
         languageID: row.languageID,
         name: row.languageName,

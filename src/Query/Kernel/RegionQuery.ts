@@ -34,15 +34,15 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
   public async all(): Promise<Try<Regions, NoSuchElementError | DataSourceError>> {
     const trial1: Try<Regions, NoSuchElementError | DataSourceError> = await this.regionRedisQuery.all();
 
-    return trial1.match<Try<Regions, NoSuchElementError | DataSourceError>>((regions: Regions) => {
+    return trial1.match<Regions, NoSuchElementError | DataSourceError>((regions: Regions) => {
       return Promise.resolve<Try<Regions, NoSuchElementError>>(Success.of<Regions, NoSuchElementError>(regions));
     }, async () => {
       const trial2: Try<Regions, NoSuchElementError | DataSourceError> = await this.regionMySQLQuery.all();
 
-      return trial2.match<Try<Regions, NoSuchElementError | DataSourceError>>(async (regions: Regions) => {
+      return trial2.match<Regions, NoSuchElementError | DataSourceError>(async (regions: Regions) => {
         const trial3: Try<void, DataSourceError> = await this.regionRedisCommand.insertAll(regions);
 
-        return trial3.match<Try<Regions, DataSourceError>>(() => {
+        return trial3.match<Regions, DataSourceError>(() => {
           return Success.of<Regions, DataSourceError>(regions);
         }, (err: DataSourceError, self: Failure<void, DataSourceError>) => {
           return self.transpose<Regions>();
@@ -56,12 +56,12 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
   public async findByISO3166(iso3166: ISO3166): Promise<Try<Region, NoSuchElementError | DataSourceError>> {
     const trial: Try<Regions, NoSuchElementError | DataSourceError> = await this.all();
 
-    return trial.match<Try<Region, NoSuchElementError | DataSourceError>>((regions: Regions) => {
+    return trial.match<Region, NoSuchElementError | DataSourceError>((regions: Regions) => {
       const optional: Optional<Region> = regions.find((region: Region) => {
         return region.getISO3166().equals(iso3166);
       });
 
-      return optional.toTry().match<Try<Region, NoSuchElementError | DataSourceError>>((region: Region) => {
+      return optional.toTry().match<Region, NoSuchElementError | DataSourceError>((region: Region) => {
         return Success.of<Region, DataSourceError>(region);
       }, () => {
         return Failure.of<Region, NoSuchElementError>(new NoSuchElementError(iso3166.toString()));

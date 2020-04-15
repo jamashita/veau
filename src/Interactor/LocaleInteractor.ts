@@ -46,8 +46,8 @@ export class LocaleInteractor implements Noun {
       this.regionQuery.all()
     ]);
 
-    return languagesTry.match<Try<Locale, NoSuchElementError | DataSourceError>>((languages: Languages) => {
-      return regionsTry.match<Try<Locale, NoSuchElementError | DataSourceError>>((regions: Regions) => {
+    return languagesTry.match<Locale, NoSuchElementError | DataSourceError>((languages: Languages) => {
+      return regionsTry.match<Locale, NoSuchElementError | DataSourceError>((regions: Regions) => {
         return Success.of<Locale, DataSourceError>(Locale.of(languages, regions));
       }, (err: NoSuchElementError | DataSourceError, self: Failure<Regions, NoSuchElementError | DataSourceError>) => {
         return self.transpose<Locale>();
@@ -69,8 +69,8 @@ export class LocaleInteractor implements Noun {
       this.regionCommand.deleteAll()
     ]);
 
-    return languagesTry.match<Try<void, DataSourceError>>(() => {
-      return regionsTry.match<Try<void, DataSourceError>>(() => {
+    return languagesTry.match<void, DataSourceError>(() => {
+      return regionsTry.match<void, DataSourceError>(() => {
         return Success.of<DataSourceError>();
       }, (err: DataSourceError, self: Failure<void, DataSourceError>) => {
         return self;

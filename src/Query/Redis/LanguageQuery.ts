@@ -59,12 +59,12 @@ export class LanguageQuery implements ILanguageQuery, IRedisQuery {
   public async findByISO639(iso639: ISO639): Promise<Try<Language, NoSuchElementError | DataSourceError>> {
     const trial: Try<Languages, NoSuchElementError | DataSourceError> = await this.all();
 
-    return trial.match<Try<Language, NoSuchElementError | DataSourceError>>((languages: Languages) => {
+    return trial.match<Language, NoSuchElementError | DataSourceError>((languages: Languages) => {
       const optional: Optional<Language> = languages.find((language: Language) => {
         return language.getISO639().equals(iso639);
       });
 
-      return optional.toTry().match<Try<Language, NoSuchElementError | DataSourceError>>((language: Language) => {
+      return optional.toTry().match<Language, NoSuchElementError | DataSourceError>((language: Language) => {
         return Success.of<Language, DataSourceError>(language);
       }, () => {
         return Failure.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.get()));

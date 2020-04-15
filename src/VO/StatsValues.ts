@@ -42,7 +42,7 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
   }
 
   public static ofTry(tries: Array<Try<StatsValue, StatsValueError>>): Try<StatsValues, StatsValuesError> {
-    return manoeuvre<StatsValue, StatsValueError>(tries).match<Try<StatsValues, StatsValuesError>>((values: Array<StatsValue>) => {
+    return manoeuvre<StatsValue, StatsValueError>(tries).match<StatsValues, StatsValuesError>((values: Array<StatsValue>) => {
       return Success.of<StatsValues, StatsValuesError>(StatsValues.ofArray(values));
     }, (err: StatsValueError) => {
       return Failure.of<StatsValues, StatsValuesError>(new StatsValuesError('StatsValues.ofTry()', err));

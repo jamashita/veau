@@ -65,7 +65,7 @@ export class StatsQuery implements IStatsQuery, IMySQLQuery {
 
       const trial: Try<StatsItems, StatsItemsError | DataSourceError> = await this.statsItemQuery.findByStatsID(statsID);
 
-      return trial.match<Try<Stats, StatsError | DataSourceError>>((statsItems: StatsItems) => {
+      return trial.match<Stats, StatsError | DataSourceError>((statsItems: StatsItems) => {
         return Stats.ofRow(statsRows[0], statsItems);
       }, (err: StatsItemsError | DataSourceError) => {
         if (err instanceof DataSourceError) {

@@ -36,7 +36,7 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
   }
 
   public static ofTry(tries: Array<Try<StatsOutline, StatsOutlineError>>): Try<StatsOutlines, StatsOutlinesError> {
-    return manoeuvre<StatsOutline, StatsOutlineError>(tries).match<Try<StatsOutlines, StatsOutlinesError>>((outlines: Array<StatsOutline>) => {
+    return manoeuvre<StatsOutline, StatsOutlineError>(tries).match<StatsOutlines, StatsOutlinesError>((outlines: Array<StatsOutline>) => {
       return Success.of<StatsOutlines, StatsOutlinesError>(StatsOutlines.ofArray(outlines));
     }, (err: StatsOutlineError) => {
       return Failure.of<StatsOutlines, StatsOutlinesError>(

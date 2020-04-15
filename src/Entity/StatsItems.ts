@@ -41,7 +41,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
   }
 
   public static ofTry(tries: Array<Try<StatsItem, StatsItemError>>): Try<StatsItems, StatsItemsError> {
-    return manoeuvre<StatsItem, StatsItemError>(tries).match<Try<StatsItems, StatsItemsError>>((statsItems: Array<StatsItem>) => {
+    return manoeuvre<StatsItem, StatsItemError>(tries).match<StatsItems, StatsItemsError>((statsItems: Array<StatsItem>) => {
       return Success.of<StatsItems, StatsItemsError>(StatsItems.ofArray(statsItems));
     }, (err: StatsItemError) => {
       return Failure.of<StatsItems, StatsItemsError>(new StatsItemsError('StatsItems.ofTry()', err));
@@ -58,7 +58,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
 
   public static ofRow(rows: Array<StatsItemRow>, statsValues: StatsValues): Try<StatsItems, StatsItemsError> {
     const trials: Array<Try<StatsItem, StatsItemError>> = rows.map<Try<StatsItem, StatsItemError>>((statsItemRow: StatsItemRow) => {
-      return StatsItemID.ofString(statsItemRow.statsItemID).match<Try<StatsItem, StatsItemError>>((statsItemID: StatsItemID) => {
+      return StatsItemID.ofString(statsItemRow.statsItemID).match<StatsItem, StatsItemError>((statsItemID: StatsItemID) => {
         const values: StatsValues = statsValues.filter(statsItemID);
 
         return StatsItem.ofRow(statsItemRow, values);

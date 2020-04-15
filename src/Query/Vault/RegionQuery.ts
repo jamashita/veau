@@ -27,7 +27,7 @@ export class RegionQuery implements IRegionQuery, IVaultQuery {
   public async all(): Promise<Try<Regions, NoSuchElementError | DataSourceError>> {
     const trial: Try<Locale, DataSourceError> = await this.localeVaultQuery.all();
 
-    return trial.match<Try<Regions, DataSourceError>>((locale: Locale) => {
+    return trial.match<Regions, DataSourceError>((locale: Locale) => {
       return Success.of<Regions, DataSourceError>(locale.getRegions());
     }, (err: DataSourceError, self: Failure<Locale, DataSourceError>) => {
       return self.transpose<Regions>();
@@ -37,12 +37,12 @@ export class RegionQuery implements IRegionQuery, IVaultQuery {
   public async findByISO3166(iso3166: ISO3166): Promise<Try<Region, NoSuchElementError | DataSourceError>> {
     const trial: Try<Regions, NoSuchElementError | DataSourceError> = await this.all();
 
-    return trial.match<Try<Region, NoSuchElementError | DataSourceError>>((regions: Regions) => {
+    return trial.match<Region, NoSuchElementError | DataSourceError>((regions: Regions) => {
       const optional: Optional<Region> = regions.find((region: Region) => {
         return region.getISO3166().equals(iso3166);
       });
 
-      return optional.toTry().match<Try<Region, NoSuchElementError | DataSourceError>>((region: Region) => {
+      return optional.toTry().match<Region, NoSuchElementError | DataSourceError>((region: Region) => {
         return Success.of<Region, DataSourceError>(region);
       }, () => {
         return Failure.of<Region, NoSuchElementError>(new NoSuchElementError(iso3166.get()));

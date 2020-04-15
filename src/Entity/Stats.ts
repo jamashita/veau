@@ -97,10 +97,10 @@ export class Stats extends Entity<StatsID> {
   }
 
   public static ofJSON(json: StatsJSON): Try<Stats, StatsError> {
-    return StatsID.ofString(json.statsID).match<Try<Stats, StatsError>>((statsID: StatsID) => {
-      return Term.of(json.termID).match<Try<Stats, StatsError>>((term: Term) => {
-        return UpdatedAt.ofString(json.updatedAt).match<Try<Stats, StatsError>>((updatedAt: UpdatedAt) => {
-          return StatsItems.ofJSON(json.items).match<Try<Stats, StatsError>>((statsItems: StatsItems) => {
+    return StatsID.ofString(json.statsID).match<Stats, StatsError>((statsID: StatsID) => {
+      return Term.of(json.termID).match<Stats, StatsError>((term: Term) => {
+        return UpdatedAt.ofString(json.updatedAt).match<Stats, StatsError>((updatedAt: UpdatedAt) => {
+          return StatsItems.ofJSON(json.items).match<Stats, StatsError>((statsItems: StatsItems) => {
             const stats: Stats = Stats.of(
               statsID,
               Language.ofJSON(json.language),
@@ -128,9 +128,9 @@ export class Stats extends Entity<StatsID> {
   }
 
   public static ofRow(row: StatsRow, statsItems: StatsItems): Try<Stats, StatsError> {
-    return StatsID.ofString(row.statsID).match<Try<Stats, StatsError>>((statsID: StatsID) => {
-      return Term.of(row.termID).match<Try<Stats, StatsError>>((term: Term) => {
-        return UpdatedAt.ofString(row.updatedAt).match<Try<Stats, StatsError>>((updatedAt: UpdatedAt) => {
+    return StatsID.ofString(row.statsID).match<Stats, StatsError>((statsID: StatsID) => {
+      return Term.of(row.termID).match<Stats, StatsError>((term: Term) => {
+        return UpdatedAt.ofString(row.updatedAt).match<Stats, StatsError>((updatedAt: UpdatedAt) => {
           const language: Language = Language.ofRow({
             languageID: row.languageID,
             name: row.languageName,

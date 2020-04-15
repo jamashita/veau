@@ -34,15 +34,15 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
   public async all(): Promise<Try<Languages, NoSuchElementError | DataSourceError>> {
     const trial1: Try<Languages, NoSuchElementError | DataSourceError> = await this.languageRedisQuery.all();
 
-    return trial1.match<Try<Languages, NoSuchElementError | DataSourceError>>((languages: Languages) => {
+    return trial1.match<Languages, NoSuchElementError | DataSourceError>((languages: Languages) => {
       return Promise.resolve<Try<Languages, DataSourceError>>(Success.of<Languages, DataSourceError>(languages));
     }, async () => {
       const trial2: Try<Languages, NoSuchElementError | DataSourceError> = await this.languageMySQLQuery.all();
 
-      return trial2.match<Try<Languages, NoSuchElementError | DataSourceError>>(async (languages: Languages) => {
+      return trial2.match<Languages, NoSuchElementError | DataSourceError>(async (languages: Languages) => {
         const trial3: Try<void, DataSourceError> = await this.languageRedisCommand.insertAll(languages);
 
-        return trial3.match<Try<Languages, DataSourceError>>(() => {
+        return trial3.match<Languages, DataSourceError>(() => {
           return Success.of<Languages, DataSourceError>(languages);
         }, (err: DataSourceError, self: Failure<void, DataSourceError>) => {
           return self.transpose<Languages>();
@@ -56,12 +56,12 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
   public async findByISO639(iso639: ISO639): Promise<Try<Language, NoSuchElementError | DataSourceError>> {
     const trial: Try<Languages, NoSuchElementError | DataSourceError> = await this.all();
 
-    return trial.match<Try<Language, NoSuchElementError | DataSourceError>>((languages: Languages) => {
+    return trial.match<Language, NoSuchElementError | DataSourceError>((languages: Languages) => {
       const optional: Optional<Language> = languages.find((language: Language) => {
         return language.getISO639().equals(iso639);
       });
 
-      return optional.toTry().match<Try<Language, NoSuchElementError | DataSourceError>>((language: Language) => {
+      return optional.toTry().match<Language, NoSuchElementError | DataSourceError>((language: Language) => {
         return Success.of<Language, DataSourceError>(language);
       }, () => {
         return Failure.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.toString()));
