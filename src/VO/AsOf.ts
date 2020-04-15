@@ -1,42 +1,43 @@
-import dayjs from 'dayjs';
-import minMax from 'dayjs/plugin/minMax';
-import utc from 'dayjs/plugin/utc';
 import { AsOfError } from '../Error/AsOfError';
 import { Failure } from '../General/Try/Failure';
 import { Success } from '../General/Try/Success';
 import { Try } from '../General/Try/Try';
 import { ValueObject } from '../General/ValueObject';
+import { Zeit } from '../General/Zeit/Zeit';
+import { ZeitError } from '../General/Zeit/ZeitError';
 import { Term } from './Term';
-
-dayjs.extend(utc);
-dayjs.extend(minMax);
 
 const TERM_FORMAT: string = 'YYYY-MM-DD';
 
 export class AsOf extends ValueObject {
   public readonly noun: 'AsOf' = 'AsOf';
-  private readonly asOf: dayjs.Dayjs;
+  private readonly asOf: Zeit;
 
-  public static of(asOf: dayjs.Dayjs): AsOf {
+  public static of(asOf: Zeit): AsOf {
     return new AsOf(asOf);
   }
 
   public static ofString(asOf: string): Try<AsOf, AsOfError> {
-    const date: dayjs.Dayjs = dayjs.utc(asOf, TERM_FORMAT);
+    try {
+      const zeit: Zeit = Zeit.ofString(asOf, TERM_FORMAT);
 
-    if (date.isValid()) {
-      return Success.of<AsOf, AsOfError>(AsOf.of(date));
+      return Success.of<AsOf, AsOfError>(AsOf.of(zeit));
     }
+    catch (err) {
+      if (err instanceof ZeitError) {
+        return Failure.of<AsOf, AsOfError>(new AsOfError('asOf is not suitable for date time', err));
+      }
 
-    return Failure.of<AsOf, AsOfError>(new AsOfError('asOf is not suitable for date time'));
+      throw err;
+    }
   }
 
-  protected constructor(asOf: dayjs.Dayjs) {
+  protected constructor(asOf: Zeit) {
     super();
     this.asOf = asOf;
   }
 
-  public get(): dayjs.Dayjs {
+  public get(): Zeit {
     return this.asOf;
   }
 
@@ -49,23 +50,21 @@ export class AsOf extends ValueObject {
   }
 
   public previous(term: Term): AsOf {
-    const asOf: dayjs.Dayjs = this.get();
-
     switch (term) {
       case Term.DAILY: {
-        return AsOf.of(asOf.subtract(1, 'day'));
+        return AsOf.of(this.asOf.past(1, 'day'));
       }
       case Term.WEEKLY: {
-        return AsOf.of(asOf.subtract(1, 'week'));
+        return AsOf.of(this.asOf.past(1, 'week'));
       }
       case Term.MONTHLY: {
-        return AsOf.of(asOf.subtract(1, 'month'));
+        return AsOf.of(this.asOf.past(1, 'month'));
       }
       case Term.QUARTERLY: {
-        return AsOf.of(asOf.subtract(3, 'month'));
+        return AsOf.of(this.asOf.past(3, 'month'));
       }
       case Term.ANNUAL: {
-        return AsOf.of(asOf.subtract(1, 'year'));
+        return AsOf.of(this.asOf.past(1, 'year'));
       }
       default: {
         throw new AsOfError(`UNEXPECTED VALUE: ${term.getID()}`);
@@ -74,23 +73,21 @@ export class AsOf extends ValueObject {
   }
 
   public next(term: Term): AsOf {
-    const asOf: dayjs.Dayjs = this.get();
-
     switch (term) {
       case Term.DAILY: {
-        return AsOf.of(asOf.add(1, 'day'));
+        return AsOf.of(this.asOf.future(1, 'day'));
       }
       case Term.WEEKLY: {
-        return AsOf.of(asOf.add(1, 'week'));
+        return AsOf.of(this.asOf.future(1, 'week'));
       }
       case Term.MONTHLY: {
-        return AsOf.of(asOf.add(1, 'month'));
+        return AsOf.of(this.asOf.future(1, 'month'));
       }
       case Term.QUARTERLY: {
-        return AsOf.of(asOf.add(3, 'month'));
+        return AsOf.of(this.asOf.future(3, 'month'));
       }
       case Term.ANNUAL: {
-        return AsOf.of(asOf.add(1, 'year'));
+        return AsOf.of(this.asOf.future(1, 'year'));
       }
       default: {
         throw new AsOfError(`UNEXPECTED VALUE: ${term.getID()}`);
@@ -102,7 +99,7 @@ export class AsOf extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.asOf.isSame(other.asOf)) {
+    if (this.asOf.equals(other.asOf)) {
       return true;
     }
 
@@ -110,6 +107,6 @@ export class AsOf extends ValueObject {
   }
 
   public toString(): string {
-    return this.asOf.format(TERM_FORMAT);
+    return this.asOf.toString();
   }
 }
