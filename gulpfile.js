@@ -60,6 +60,15 @@ gulp.task('Error', () => {
     .pipe(gulp.dest('dist/Error'));
 });
 
+gulp.task('Factory', () => {
+  return gulp.src(['src/Factory/**/*.ts'], {
+    since : gulp.lastRun('Factory')
+  })
+    .pipe(plumber())
+    .pipe(tsc())
+    .pipe(gulp.dest('dist/Factory'));
+});
+
 gulp.task('Frontend', () => {
   return gulp.src(['src/Frontend/**/*.ts', 'src/Frontend/**/*.tsx'])
     .pipe(plumber())
@@ -208,6 +217,7 @@ gulp.task(
     'Controller',
     'Entity',
     'Error',
+    'Factory',
     'Frontend',
     'General',
     'Infrastructure',
@@ -230,6 +240,7 @@ gulp.task(
       gulp.watch('src/Controller/**/*.ts', gulp.series('Controller'));
       gulp.watch('src/Entity/**/*.ts', gulp.series('Entity'));
       gulp.watch('src/Error/**/*.ts', gulp.series('Error'));
+      gulp.watch('src/Factory/**/*.ts', gulp.series('Factory'));
       gulp.watch('src/General/**/*.ts', gulp.series('General'));
       gulp.watch('src/Infrastructure/**/*.ts', gulp.series('Infrastructure'));
       gulp.watch('src/Interactor/**/*.ts', gulp.series('Interactor'));
