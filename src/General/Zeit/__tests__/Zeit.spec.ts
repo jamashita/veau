@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { Optional } from '../../Optional/Optional';
 import { Zeit } from '../Zeit';
 import { ZeitError } from '../ZeitError';
 
@@ -21,6 +22,76 @@ describe('Zeit', () => {
       expect(() => {
         Zeit.ofString('2000-01-01 01:02:03', 'YYYY-MM-DD');
       }).toThrow(ZeitError);
+    });
+  });
+
+  describe('max', () => {
+    it('normal case', () => {
+      const format: string = 'YYYY-MM-DD';
+      const zeiten: Array<Zeit> = [
+        Zeit.ofString('2000-01-03', format),
+        Zeit.ofString('2000-01-01', format),
+        Zeit.ofString('2000-01-02', format),
+        Zeit.ofString('2000-01-03', format)
+      ];
+
+      const max: Optional<Zeit> = Zeit.max(zeiten, format);
+      expect(max.isPresent()).toEqual(true);
+      expect(max.get().toString()).toEqual('2000-01-03');
+    });
+
+    it('return itself when the only one zeit given', () => {
+      const format: string = 'YYYY-MM-DD';
+      const zeiten: Array<Zeit> = [
+        Zeit.ofString('2000-01-01', format)
+      ];
+
+      const max: Optional<Zeit> = Zeit.max(zeiten, format);
+      expect(max.isPresent()).toEqual(true);
+      expect(max.get()).toBe(zeiten[0]);
+    });
+
+    it('return None when empty array given', () => {
+      const format: string = 'YYYY-MM-DD';
+      const zeiten: Array<Zeit> = [];
+
+      const max: Optional<Zeit> = Zeit.max(zeiten, format);
+      expect(max.isAbsent()).toEqual(true);
+    });
+  });
+
+  describe('min', () => {
+    it('normal case', () => {
+      const format: string = 'YYYY-MM-DD';
+      const zeiten: Array<Zeit> = [
+        Zeit.ofString('2000-01-03', format),
+        Zeit.ofString('2000-01-02', format),
+        Zeit.ofString('2000-01-01', format),
+        Zeit.ofString('2000-01-02', format)
+      ];
+
+      const min: Optional<Zeit> = Zeit.min(zeiten, format);
+      expect(min.isPresent()).toEqual(true);
+      expect(min.get().toString()).toEqual('2000-01-01');
+    });
+
+    it('return itself when the only one zeit given', () => {
+      const format: string = 'YYYY-MM-DD';
+      const zeiten: Array<Zeit> = [
+        Zeit.ofString('2000-01-01', format)
+      ];
+
+      const max: Optional<Zeit> = Zeit.min(zeiten, format);
+      expect(max.isPresent()).toEqual(true);
+      expect(max.get()).toBe(zeiten[0]);
+    });
+
+    it('return None when empty array given', () => {
+      const format: string = 'YYYY-MM-DD';
+      const zeiten: Array<Zeit> = [];
+
+      const max: Optional<Zeit> = Zeit.min(zeiten, format);
+      expect(max.isAbsent()).toEqual(true);
     });
   });
 
@@ -196,21 +267,6 @@ describe('Zeit', () => {
   });
 
   describe('toString', () => {
-    it('without format', () => {
-      expect(Zeit.ofString('2000-01-01', 'YYYY-MM-DD').toString()).toEqual('2000-01-01');
-      expect(Zeit.ofString('2001-01-01', 'YYYY-MM-DD').toString()).toEqual('2001-01-01');
-      expect(Zeit.ofString('2000-02-01', 'YYYY-MM-DD').toString()).toEqual('2000-02-01');
-      expect(Zeit.ofString('2000-01-03', 'YYYY-MM-DD').toString()).toEqual('2000-01-03');
-
-      expect(Zeit.ofString('2000-01-01 00:00:00', 'YYYY-MM-DD HH:mm:ss').toString()).toEqual('2000-01-01 00:00:00');
-      expect(Zeit.ofString('3000-01-01 00:00:00', 'YYYY-MM-DD HH:mm:ss').toString()).toEqual('3000-01-01 00:00:00');
-      expect(Zeit.ofString('2000-04-01 00:00:00', 'YYYY-MM-DD HH:mm:ss').toString()).toEqual('2000-04-01 00:00:00');
-      expect(Zeit.ofString('2000-01-05 00:00:00', 'YYYY-MM-DD HH:mm:ss').toString()).toEqual('2000-01-05 00:00:00');
-      expect(Zeit.ofString('2000-01-01 06:00:00', 'YYYY-MM-DD HH:mm:ss').toString()).toEqual('2000-01-01 06:00:00');
-      expect(Zeit.ofString('2000-01-01 00:07:00', 'YYYY-MM-DD HH:mm:ss').toString()).toEqual('2000-01-01 00:07:00');
-      expect(Zeit.ofString('2000-01-01 00:00:08', 'YYYY-MM-DD HH:mm:ss').toString()).toEqual('2000-01-01 00:00:08Z');
-    });
-
     it('with shorthand format', () => {
       expect(Zeit.ofString('2000-01-01', 'YYYY-MM-DD').toString()).toEqual('2000-01-01');
       expect(Zeit.ofString('2001-01-01', 'YYYY-MM-DD').toString()).toEqual('2001-01-01');
