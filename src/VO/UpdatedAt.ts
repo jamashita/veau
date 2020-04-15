@@ -35,6 +35,10 @@ export class UpdatedAt extends ValueObject {
     return UpdatedAt.of(Zeit.now(TERM_FORMAT));
   }
 
+  public static format(): string {
+    return TERM_FORMAT;
+  }
+
   protected constructor(at: Zeit) {
     super();
     this.at = at;

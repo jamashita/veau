@@ -33,6 +33,12 @@ describe('UpdatedAt', () => {
     });
   });
 
+  describe('format', () => {
+    it('returns YYYY-MM-DD HH:mm:ss', () => {
+      expect(UpdatedAt.format()).toEqual('YYYY-MM-DD HH:mm:ss');
+    });
+  });
+
   describe('equals', () => {
     it('returns true if both properties are the same', () => {
       const at1: UpdatedAt = UpdatedAt.of(Zeit.of(dayjs('2000-01-01 00:00:00'), 'YYYY-MM-DD HH:mm:ss'));
