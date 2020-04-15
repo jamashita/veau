@@ -22,8 +22,8 @@ const logger: log4js.Logger = log4js.getLogger();
 const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
 const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
 
-router.get('/page/:page(\\d+)', authenticationMiddleware.requires(), async (req: express.Request, res: express.Response) => {
-  return Page.of(Number(req.params.page)).match<Promise<void>>(async (page: Page) => {
+router.get('/page/:page(\\d+)', authenticationMiddleware.requires(), (req: express.Request, res: express.Response) => {
+  return Page.of(Number(req.params.page)).match<void>(async (page: Page) => {
     const trial: Try<JSONable, StatsOutlinesError | DataSourceError> = await statsInteractor.findByVeauAccountID(
       res.locals.account.getVeauAccountID(),
       page
@@ -72,7 +72,7 @@ router.post('/', authenticationMiddleware.requires(), (req: express.Request, res
     return;
   }
 
-  return Stats.ofJSON(req.body).match<Promise<void>>(async (stats: Stats) => {
+  return Stats.ofJSON(req.body).match<void>(async (stats: Stats) => {
     const trial: Try<unknown, DataSourceError> = await statsInteractor.save(
       stats,
       res.locals.account.getVeauAccountID()

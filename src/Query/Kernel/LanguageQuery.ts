@@ -34,12 +34,12 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
   public async all(): Promise<Try<Languages, NoSuchElementError | DataSourceError>> {
     const trial1: Try<Languages, NoSuchElementError | DataSourceError> = await this.languageRedisQuery.all();
 
-    return trial1.match<Promise<Try<Languages, NoSuchElementError | DataSourceError>>>((languages: Languages) => {
+    return trial1.match<Try<Languages, NoSuchElementError | DataSourceError>>((languages: Languages) => {
       return Promise.resolve<Try<Languages, DataSourceError>>(Success.of<Languages, DataSourceError>(languages));
     }, async () => {
       const trial2: Try<Languages, NoSuchElementError | DataSourceError> = await this.languageMySQLQuery.all();
 
-      return trial2.match<Promise<Try<Languages, NoSuchElementError | DataSourceError>>>(async (languages: Languages) => {
+      return trial2.match<Try<Languages, NoSuchElementError | DataSourceError>>(async (languages: Languages) => {
         const trial3: Try<void, DataSourceError> = await this.languageRedisCommand.insertAll(languages);
 
         return trial3.match<Try<Languages, DataSourceError>>(() => {

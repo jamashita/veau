@@ -30,12 +30,12 @@ export class LocaleQuery implements ILocaleQuery, IVaultQuery {
   public async all(): Promise<Try<Locale, DataSourceError>> {
     const trial1: Try<Locale, DataSourceError> = await this.localeCacheQuery.all();
 
-    return trial1.match<Promise<Try<Locale, DataSourceError>>>((locale: Locale) => {
+    return trial1.match<Try<Locale, DataSourceError>>((locale: Locale) => {
       return Promise.resolve<Try<Locale, DataSourceError>>(Success.of<Locale, DataSourceError>(locale));
     }, async () => {
       const trial2: Try<Locale, DataSourceError> = await this.localeAJAXQuery.all();
 
-      return trial2.match<Promise<Try<Locale, DataSourceError>>>(async (locale: Locale) => {
+      return trial2.match<Try<Locale, DataSourceError>>(async (locale: Locale) => {
         const trial3: Try<void, DataSourceError> = await this.localeCommand.create(locale);
 
         return trial3.match<Try<Locale, DataSourceError>>(() => {
