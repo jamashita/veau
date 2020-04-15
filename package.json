@@ -45,7 +45,6 @@
     "js-yaml": "3.13.1",
     "log4js": "6.2.0",
     "make-error-cause": "2.3.0",
-    "moment": "2.24.0",
     "mysql": "2.18.1",
     "passport": "0.4.1",
     "passport-local": "1.0.0",
