@@ -1,6 +1,6 @@
 import { Success } from '../Try/Success';
 import { Try } from '../Try/Try';
-import { AsyncConsumer, Consumer, MonoFunction, Predicate } from '../Type/Function';
+import { MonoFunction, Predicate } from '../Type/Function';
 import { Suspicious } from '../Type/Value';
 import { maybe } from './Maybe';
 import { None } from './None';
@@ -28,9 +28,9 @@ export class Some<T> extends Optional<T> {
     return true;
   }
 
-  public ifPresent(consumer: Consumer<T>): void;
-  public ifPresent(consumer: AsyncConsumer<T>): Promise<void>;
-  public ifPresent(consumer: Consumer<T> | AsyncConsumer<T>): void | Promise<void> {
+  public ifPresent(consumer: MonoFunction<T, void>): void;
+  public ifPresent(consumer: MonoFunction<T, Promise<void>>): Promise<void>;
+  public ifPresent(consumer: MonoFunction<T, void> | MonoFunction<T, Promise<void>>): void | Promise<void> {
     return consumer(this.value);
   }
 

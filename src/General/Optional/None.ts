@@ -1,6 +1,6 @@
 import { Failure } from '../Try/Failure';
 import { Try } from '../Try/Try';
-import { AsyncConsumer, Consumer, MonoFunction, Predicate } from '../Type/Function';
+import { MonoFunction, Predicate } from '../Type/Function';
 import { Suspicious } from '../Type/Value';
 import { Optional } from './Optional';
 import { OptionalError } from './OptionalError';
@@ -28,10 +28,10 @@ export class None<T> extends Optional<T> {
     return true;
   }
 
-  public ifPresent(consumer: Consumer<T>): void;
-  public ifPresent(consumer: AsyncConsumer<T>): Promise<void>;
+  public ifPresent(consumer: MonoFunction<T, void>): void;
+  public ifPresent(consumer: MonoFunction<T, Promise<void>>): Promise<void>;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public ifPresent(consumer: Consumer<T> | AsyncConsumer<T>): void | Promise<void> {
+  public ifPresent(consumer: MonoFunction<T, void> | MonoFunction<T, Promise<void>>): void | Promise<void> {
     // NOOP
   }
 
