@@ -34,7 +34,7 @@ export class LocaleQuery implements ILocaleQuery, IAJAXQuery {
         return Success.of<Locale, DataSourceError>(Locale.ofJSON(body));
       }
       default: {
-        return Failure.of<Locale, AJAXError>(new AJAXError('GET LOCALE FAILED'));
+        return Failure.of<Locale, AJAXError>(new AJAXError('GET LOCALE FAILED', status));
       }
     }
   }

@@ -40,7 +40,7 @@ export class StatsOutlineQuery implements IStatsOutlineQuery, IAJAXQuery {
         return StatsOutlines.ofJSON(body);
       }
       default: {
-        return Failure.of<StatsOutlines, AJAXError>(new AJAXError('UNKNOWN ERROR'));
+        return Failure.of<StatsOutlines, AJAXError>(new AJAXError('UNKNOWN ERROR', status));
       }
     }
   }

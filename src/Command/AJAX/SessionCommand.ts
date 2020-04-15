@@ -29,7 +29,7 @@ export class SessionCommand implements ISessionCommand, IAJAXCommand {
         return Success.of<DataSourceError>();
       }
       default: {
-        return Failure.of<AJAXError>(new AJAXError('UNKNOWN ERROR'));
+        return Failure.of<AJAXError>(new AJAXError('UNKNOWN ERROR', response.status));
       }
     }
   }

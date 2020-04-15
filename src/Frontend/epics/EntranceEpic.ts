@@ -3,7 +3,6 @@ import { ofType, StateObservable } from 'redux-observable';
 import { EMPTY, from, merge, Observable } from 'rxjs';
 import { filter, map, mapTo, mergeMap } from 'rxjs/operators';
 import { TYPE } from '../../Container/Types';
-import { AuthenticationFailureError } from '../../Error/AuthenticationFailureError';
 import { VeauAccountError } from '../../Error/VeauAccountError';
 import { DataSourceError } from '../../General/DataSourceError';
 import { Try } from '../../General/Try/Try';
@@ -58,7 +57,7 @@ export class EntranceEpic {
       mapTo<unknown, unknown>(loading()),
       mergeMap(() => {
         return from(this.sessionQuery.findByEntranceInfo(entranceInformation)).pipe(
-          mergeMap((tri: Try<VeauAccount, VeauAccountError | AuthenticationFailureError | DataSourceError>) => {
+          mergeMap((tri: Try<VeauAccount, VeauAccountError | DataSourceError>) => {
             return EMPTY.pipe(
               mapTo(loaded()),
               map(() => {
@@ -68,12 +67,8 @@ export class EntranceEpic {
                     pushToStatsList(),
                     identified()
                   ];
-                }, (err: VeauAccountError | AuthenticationFailureError | DataSourceError) => {
-                  if (err instanceof AuthenticationFailureError) {
-                    return raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION');
-                  }
-
-                  return raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION');
+                }, (err: VeauAccountError | DataSourceError) => {
+                  return raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION');
                 });
               })
               // }),

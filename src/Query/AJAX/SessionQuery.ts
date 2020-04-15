@@ -40,7 +40,7 @@ export class SessionQuery implements ISessionQuery, IAJAXQuery {
         });
       }
       default: {
-        return Failure.of<VeauAccount, AJAXError>(new AJAXError('IDENTITY DID NOT RETURN OK'));
+        return Failure.of<VeauAccount, AJAXError>(new AJAXError('IDENTITY DID NOT RETURN OK', status));
       }
     }
   }
@@ -61,10 +61,10 @@ export class SessionQuery implements ISessionQuery, IAJAXQuery {
         });
       }
       case UNAUTHORIZED: {
-        return Failure.of<VeauAccount, AJAXError>(new AJAXError('UNAUTHORIZED'));
+        return Failure.of<VeauAccount, AJAXError>(new AJAXError('UNAUTHORIZED', UNAUTHORIZED));
       }
       default: {
-        return Failure.of<VeauAccount, AJAXError>(new AJAXError('UNKNOWN ERROR'));
+        return Failure.of<VeauAccount, AJAXError>(new AJAXError('UNKNOWN ERROR', status));
       }
     }
   }

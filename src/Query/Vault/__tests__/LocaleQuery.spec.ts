@@ -87,7 +87,7 @@ describe('LocaleQuery', () => {
       stub1.resolves(Failure.of<Locale, DataSourceError>(new CacheError('test failed')));
       const stub2: SinonStub = sinon.stub();
       localeAJAXQuery.all = stub2;
-      stub2.resolves(Failure.of<Locale, DataSourceError>(new AJAXError('test failed')));
+      stub2.resolves(Failure.of<Locale, DataSourceError>(new AJAXError('test failed', 500)));
       const stub3: SinonStub = sinon.stub();
       localeCommand.create = stub3;
       const spy1: SinonSpy = sinon.spy();

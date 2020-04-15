@@ -2,7 +2,6 @@ import { SagaIterator } from '@redux-saga/types';
 import { inject, injectable } from 'inversify';
 import { all, call, Effect, fork, put, select, take } from 'redux-saga/effects';
 import { TYPE } from '../../Container/Types';
-import { AuthenticationFailureError } from '../../Error/AuthenticationFailureError';
 import { VeauAccountError } from '../../Error/VeauAccountError';
 import { DataSourceError } from '../../General/DataSourceError';
 import { Try } from '../../General/Try/Try';
@@ -56,7 +55,7 @@ export class EntranceSaga {
 
       yield put(loading());
 
-      const trial: Try<VeauAccount, VeauAccountError | AuthenticationFailureError | DataSourceError> = yield call((): Promise<Try<VeauAccount, VeauAccountError | AuthenticationFailureError | DataSourceError>> => {
+      const trial: Try<VeauAccount, VeauAccountError | DataSourceError> = yield call((): Promise<Try<VeauAccount, VeauAccountError | DataSourceError>> => {
         return this.sessionQuery.findByEntranceInfo(entranceInformation);
       });
 
@@ -68,12 +67,8 @@ export class EntranceSaga {
           put(pushToStatsList()),
           put(identified())
         ]);
-      }, (err: VeauAccountError | AuthenticationFailureError | DataSourceError) => {
-        if (err instanceof AuthenticationFailureError) {
-          return put(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
-        }
-
-        return put(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
+      }, (err: VeauAccountError | DataSourceError) => {
+        return put(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
       });
     }
   }

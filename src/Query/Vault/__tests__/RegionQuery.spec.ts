@@ -51,7 +51,7 @@ describe('RegionQuery', () => {
       const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
       localeVaultQuery.all = stub;
-      stub.resolves(Failure.of<Locale, DataSourceError>(new AJAXError('test failed')));
+      stub.resolves(Failure.of<Locale, DataSourceError>(new AJAXError('test failed', 500)));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
@@ -104,7 +104,7 @@ describe('RegionQuery', () => {
       const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
       localeVaultQuery.all = stub;
-      stub.resolves(Failure.of<Locale, DataSourceError>(new AJAXError('test failed')));
+      stub.resolves(Failure.of<Locale, DataSourceError>(new AJAXError('test failed', 100)));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 

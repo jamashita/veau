@@ -39,7 +39,7 @@ export class StatsQuery implements IStatsQuery, IAJAXQuery {
         return Failure.of<Stats, NoSuchElementError>(new NoSuchElementError('NOT FOUND'));
       }
       default: {
-        return Failure.of<Stats, AJAXError>(new AJAXError('UNKNOWN ERROR'));
+        return Failure.of<Stats, AJAXError>(new AJAXError('UNKNOWN ERROR', status));
       }
     }
   }
