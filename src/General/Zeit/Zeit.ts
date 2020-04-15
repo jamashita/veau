@@ -27,6 +27,10 @@ export class Zeit extends ValueObject {
     throw new ZeitError(`ILLEGAL ZEIT SPECIFIED: ${str}`);
   }
 
+  public static now(format: string): Zeit {
+    return Zeit.of(dayjs.utc(), format);
+  }
+
   private constructor(zeit: dayjs.Dayjs, format: string) {
     super();
     this.zeit = zeit;
