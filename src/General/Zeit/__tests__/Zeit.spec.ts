@@ -27,7 +27,7 @@ describe('Zeit', () => {
       expect(Zeit.ofString('2000-01-01 01:02:03').isValid()).toEqual(true);
       expect(Zeit.ofString('2000-01-01 01:02:03', 'YYYY-MM-DD HH:mm:ss').isValid()).toEqual(true);
       expect(Zeit.of(dayjs('2000-YY-03')).isValid()).toEqual(false);
-      expect(Zeit.of(dayjs('2000-01-01 ZZ:02:03')).isValid()).toEqual(false);
+      expect(Zeit.of(dayjs('2000-01-01 ZZ:02:03')).isValid()).toEqual(true);
       expect(Zeit.of(dayjs('2000-YY-03', 'YYYY-MM-DD HH:mm:ss')).isValid()).toEqual(false);
       expect(Zeit.of(dayjs('2000-01-01 ZZ:02:03', 'YYYY-MM-DD')).isValid()).toEqual(false);
     });

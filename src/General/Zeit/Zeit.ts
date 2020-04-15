@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
 import utc from 'dayjs/plugin/utc';
 import { ValueObject } from '../ValueObject';
+import { ZeitError } from './ZeitError';
 
 dayjs.extend(utc);
 dayjs.extend(minMax);
@@ -12,36 +13,27 @@ export class Zeit extends ValueObject {
   public readonly noun: 'Zeit' = 'Zeit';
   private readonly zeit: dayjs.Dayjs;
   private readonly format?: string;
-  private readonly valid: boolean;
 
   public static of(zeit: dayjs.Dayjs, format?: string): Zeit {
-    return Zeit.a(zeit, zeit.isValid(), format);
-  }
-
-  private static a(zeit: dayjs.Dayjs, valid: boolean, format?: string): Zeit {
-    return new Zeit(zeit, valid, format);
+    return new Zeit(zeit, format);
   }
 
   public static ofString(str: string, format?: string): Zeit {
-    if (format === undefined) {
-      const zeit: dayjs.Dayjs = dayjs.utc(str);
-
-      return Zeit.a(zeit, zeit.isValid(), format);
+    if (Number.isNaN(Date.parse(str))) {
+      throw new ZeitError(`ILLEGAL ZEIT SPECIFIED: ${str}`);
     }
 
     const zeit: dayjs.Dayjs = dayjs.utc(str, format);
-
     if (zeit.format(format) === str) {
-      return Zeit.a(zeit, true, format);
+      throw new ZeitError(`ILLEGAL ZEIT SPECIFIED: ${str}`);
     }
 
-    return Zeit.a(zeit, false, format);
+    return Zeit.of(zeit, format);
   }
 
-  private constructor(zeit: dayjs.Dayjs, valid: boolean, format?: string) {
+  private constructor(zeit: dayjs.Dayjs, format?: string) {
     super();
     this.zeit = zeit;
-    this.valid = valid;
     this.format = format;
   }
 
@@ -54,7 +46,7 @@ export class Zeit extends ValueObject {
   }
 
   public isValid(): boolean {
-    return this.valid;
+    return this.zeit.isValid();
   }
 
   public isBefore(other: Zeit): boolean {
