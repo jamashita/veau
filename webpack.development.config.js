@@ -54,7 +54,10 @@ module.exports = {
       }
     },
     watchOptions: {
-      poll: true
+      poll: 1000,
+      ignored: [
+        'node_modules'
+      ]
     },
     stats: {
       color: true
