@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import { Zeit } from '../../General/Zeit/Zeit';
 import { AsOf } from '../AsOf';
 
 dayjs.extend(utc);
@@ -10,8 +11,6 @@ type AsOfArgs = Partial<Readonly<{
   day: number;
 }>>;
 
-const FORMAT: string = 'YYYY-MM-DD';
-
 export class MockAsOf extends AsOf {
 
   public constructor({
@@ -19,6 +18,6 @@ export class MockAsOf extends AsOf {
     month = 1,
     day = 1
   }: AsOfArgs = {}) {
-    super(dayjs.utc(`${year.toString().padStart(2, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`, FORMAT));
+    super(Zeit.ofString(`${year.toString().padStart(4, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`, AsOf.format()));
   }
 }

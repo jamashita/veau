@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { ImmutableSequence } from '../General/Collection/ImmutableSequence';
 import { Sequence } from '../General/Collection/Interface/Sequence';
 import { Cloneable } from '../General/Interface/Cloneable';
@@ -8,6 +7,7 @@ import { None } from '../General/Optional/None';
 import { Optional } from '../General/Optional/Optional';
 import { Some } from '../General/Optional/Some';
 import { Enumerator } from '../General/Type/Function';
+import { Zeit } from '../General/Zeit/Zeit';
 import { AsOf } from './AsOf';
 import { Term } from './Term';
 
@@ -90,11 +90,17 @@ export class AsOfs implements Collection<number, AsOf>, Cloneable, JSONable {
       return this.asOfs.get(0);
     }
 
-    const asOfs: Array<dayjs.Dayjs> = this.asOfs.toArray().map<dayjs.Dayjs>((asOf: AsOf) => {
+    const zeiten: Array<Zeit> = this.asOfs.toArray().map<Zeit>((asOf: AsOf) => {
       return asOf.get();
     });
 
-    return Some.of<AsOf>(AsOf.of(dayjs.min(asOfs)));
+    const min: Optional<Zeit> = Zeit.min(zeiten, AsOf.format());
+
+    if (min.isAbsent()) {
+      return None.of<AsOf>();
+    }
+
+    return Some.of<AsOf>(AsOf.of(min.get()));
   }
 
   public max(): Optional<AsOf> {
@@ -105,11 +111,17 @@ export class AsOfs implements Collection<number, AsOf>, Cloneable, JSONable {
       return this.asOfs.get(0);
     }
 
-    const asOfs: Array<dayjs.Dayjs> = this.asOfs.toArray().map<dayjs.Dayjs>((asOf: AsOf) => {
+    const zeiten: Array<Zeit> = this.asOfs.toArray().map<Zeit>((asOf: AsOf) => {
       return asOf.get();
     });
 
-    return Some.of<AsOf>(AsOf.of(dayjs.max(asOfs)));
+    const max: Optional<Zeit> = Zeit.max(zeiten, AsOf.format());
+
+    if (max.isAbsent()) {
+      return None.of<AsOf>();
+    }
+
+    return Some.of<AsOf>(AsOf.of(max.get()));
   }
 
   public size(): number {
