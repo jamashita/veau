@@ -1,5 +1,5 @@
 import { DataSourceError } from '../../General/DataSourceError';
-import { IQuery } from '../../General/MySQL/Interface/IQuery';
+import { ISQL } from '../../General/MySQL/Interface/ISQL';
 import { MySQLError } from '../../General/MySQL/MySQLError';
 import { Failure } from '../../General/Try/Failure';
 import { Success } from '../../General/Try/Success';
@@ -12,10 +12,10 @@ import { IStatsValueCommand } from '../Interface/IStatsValueCommand';
 export class StatsValueCommand implements IStatsValueCommand, IMySQLCommand {
   public readonly noun: 'StatsValueCommand' = 'StatsValueCommand';
   public readonly source: 'MySQL' = 'MySQL';
-  private readonly query: IQuery;
+  private readonly sql: ISQL;
 
-  public constructor(query: IQuery) {
-    this.query = query;
+  public constructor(sql: ISQL) {
+    this.sql = sql;
   }
 
   public async create(statsValue: StatsValue): Promise<Try<void, DataSourceError>> {
@@ -26,7 +26,7 @@ export class StatsValueCommand implements IStatsValueCommand, IMySQLCommand {
       );`;
 
     try {
-      await this.query.execute<unknown>(query, {
+      await this.sql.execute<unknown>(query, {
         statsItemID: statsValue.getStatsItemID().get().get(),
         asOf: statsValue.getAsOf().toString(),
         value: statsValue.getValue().get()
@@ -53,7 +53,7 @@ export class StatsValueCommand implements IStatsValueCommand, IMySQLCommand {
       WHERE R3.stats_id = :statsID;`;
 
     try {
-      await this.query.execute<unknown>(query, {
+      await this.sql.execute<unknown>(query, {
         statsID: statsID.get().get()
       });
 

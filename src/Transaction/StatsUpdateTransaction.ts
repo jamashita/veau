@@ -5,7 +5,7 @@ import { Stats } from '../Entity/Stats';
 import { StatsItem } from '../Entity/StatsItem';
 import { IStatsUpdateFactory } from '../Factory/Interface/IStatsUpdateFactory';
 import { DataSourceError } from '../General/DataSourceError';
-import { IQuery } from '../General/MySQL/Interface/IQuery';
+import { ISQL } from '../General/MySQL/Interface/ISQL';
 import { Failure } from '../General/Try/Failure';
 import { manoeuvre } from '../General/Try/Manoeuvre';
 import { Try } from '../General/Try/Try';
@@ -30,10 +30,10 @@ export class StatsUpdateTransaction implements IStatsUpdateTransaction {
     this.statsUpdateFactory = statsUpdateFactory;
   }
 
-  public async with(query: IQuery): Promise<Try<unknown, DataSourceError>> {
-    const statsCommand: IStatsCommand = this.statsUpdateFactory.forgeStatsCommand(query);
-    const statsItemCommand: IStatsItemCommand = this.statsUpdateFactory.forgeStatsItemCommand(query);
-    const statsValueCommand: IStatsValueCommand = this.statsUpdateFactory.forgeStatsValueCommand(query);
+  public async with(sql: ISQL): Promise<Try<unknown, DataSourceError>> {
+    const statsCommand: IStatsCommand = this.statsUpdateFactory.forgeStatsCommand(sql);
+    const statsItemCommand: IStatsItemCommand = this.statsUpdateFactory.forgeStatsItemCommand(sql);
+    const statsValueCommand: IStatsValueCommand = this.statsUpdateFactory.forgeStatsValueCommand(sql);
 
     const statsID: StatsID = this.stats.getStatsID();
 

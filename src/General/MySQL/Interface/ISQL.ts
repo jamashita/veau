@@ -1,6 +1,6 @@
 import { JSObjectNotation } from '../../Type/Value';
 
-export interface IQuery {
+export interface ISQL {
 
   execute<R>(sql: string, value?: JSObjectNotation): Promise<R>;
 }

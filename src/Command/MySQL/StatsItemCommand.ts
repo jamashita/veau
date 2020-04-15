@@ -1,6 +1,6 @@
 import { StatsItem } from '../../Entity/StatsItem';
 import { DataSourceError } from '../../General/DataSourceError';
-import { IQuery } from '../../General/MySQL/Interface/IQuery';
+import { ISQL } from '../../General/MySQL/Interface/ISQL';
 import { MySQLError } from '../../General/MySQL/MySQLError';
 import { Failure } from '../../General/Try/Failure';
 import { Success } from '../../General/Try/Success';
@@ -12,10 +12,10 @@ import { IStatsItemCommand } from '../Interface/IStatsItemCommand';
 export class StatsItemCommand implements IStatsItemCommand, IMySQLCommand {
   public readonly noun: 'StatsItemCommand' = 'StatsItemCommand';
   public readonly source: 'MySQL' = 'MySQL';
-  private readonly query: IQuery;
+  private readonly sql: ISQL;
 
-  public constructor(query: IQuery) {
-    this.query = query;
+  public constructor(sql: ISQL) {
+    this.sql = sql;
   }
 
   public async create(statsID: StatsID, statsItem: StatsItem, seq: number): Promise<Try<void, DataSourceError>> {
@@ -27,7 +27,7 @@ export class StatsItemCommand implements IStatsItemCommand, IMySQLCommand {
       );`;
 
     try {
-      await this.query.execute<unknown>(query, {
+      await this.sql.execute<unknown>(query, {
         statsItemID: statsItem.getStatsItemID().get().get(),
         statsID: statsID.get().get(),
         name: statsItem.getName().get(),
@@ -53,7 +53,7 @@ export class StatsItemCommand implements IStatsItemCommand, IMySQLCommand {
       WHERE R2.stats_id = :statsID;`;
 
     try {
-      await this.query.execute<unknown>(query, {
+      await this.sql.execute<unknown>(query, {
         statsID: statsID.get().get()
       });
 

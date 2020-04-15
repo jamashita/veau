@@ -1,7 +1,7 @@
-import { IQuery } from './IQuery';
+import { ISQL } from './ISQL';
 import { ITransaction } from './ITransaction';
 
-export interface IMySQL extends IQuery {
+export interface IMySQL extends ISQL {
 
   transact<R>(transaction: ITransaction<R>): Promise<R>;
 }

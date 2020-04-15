@@ -1,6 +1,6 @@
-import { IQuery } from './IQuery';
+import { ISQL } from './ISQL';
 
-export interface IConnection extends IQuery {
+export interface IConnection extends ISQL {
 
   commit(): Promise<void>;
 

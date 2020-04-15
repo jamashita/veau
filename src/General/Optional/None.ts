@@ -12,7 +12,7 @@ export class None<T> extends Optional<T> {
 
   public static of(): None<void>;
   public static of<T>(): None<T>;
-  public static of<T>(): None<T> {
+  public static of<T = void>(): None<T> {
     return None.INSTANCE.transform<T>();
   }
 

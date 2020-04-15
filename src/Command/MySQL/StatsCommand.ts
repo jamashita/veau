@@ -1,6 +1,6 @@
 import { Stats } from '../../Entity/Stats';
 import { DataSourceError } from '../../General/DataSourceError';
-import { IQuery } from '../../General/MySQL/Interface/IQuery';
+import { ISQL } from '../../General/MySQL/Interface/ISQL';
 import { MySQLError } from '../../General/MySQL/MySQLError';
 import { Failure } from '../../General/Try/Failure';
 import { Success } from '../../General/Try/Success';
@@ -13,10 +13,10 @@ import { IStatsCommand } from '../Interface/IStatsCommand';
 export class StatsCommand implements IStatsCommand, IMySQLCommand {
   public readonly noun: 'StatsCommand' = 'StatsCommand';
   public readonly source: 'MySQL' = 'MySQL';
-  private readonly query: IQuery;
+  private readonly sql: ISQL;
 
-  public constructor(query: IQuery) {
-    this.query = query;
+  public constructor(sql: ISQL) {
+    this.sql = sql;
   }
 
   public async create(stats: Stats, veauAccountID: VeauAccountID): Promise<Try<void, DataSourceError>> {
@@ -32,7 +32,7 @@ export class StatsCommand implements IStatsCommand, IMySQLCommand {
       );`;
 
     try {
-      await this.query.execute<unknown>(query, {
+      await this.sql.execute<unknown>(query, {
         statsID: stats.getStatsID().get().get(),
         languageID: stats.getLanguage().getLanguageID().get(),
         regionID: stats.getRegion().getRegionID().get(),
@@ -60,7 +60,7 @@ export class StatsCommand implements IStatsCommand, IMySQLCommand {
       WHERE R1.stats_id = :statsID;`;
 
     try {
-      await this.query.execute<unknown>(query, {
+      await this.sql.execute<unknown>(query, {
         statsID: statsID.get().get()
       });
 

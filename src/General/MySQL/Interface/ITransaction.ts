@@ -1,7 +1,7 @@
 import { Noun } from '../../Interface/Noun';
-import { IQuery } from './IQuery';
+import { ISQL } from './ISQL';
 
 export interface ITransaction<R> extends Noun {
 
-  with(query: IQuery): Promise<R>;
+  with(sql: ISQL): Promise<R>;
 }

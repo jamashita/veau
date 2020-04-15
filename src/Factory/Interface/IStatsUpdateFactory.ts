@@ -2,14 +2,14 @@ import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
 import { IStatsItemCommand } from '../../Command/Interface/IStatsItemCommand';
 import { IStatsValueCommand } from '../../Command/Interface/IStatsValueCommand';
 import { Noun } from '../../General/Interface/Noun';
-import { IQuery } from '../../General/MySQL/Interface/IQuery';
+import { ISQL } from '../../General/MySQL/Interface/ISQL';
 
 export interface IStatsUpdateFactory extends Noun {
   readonly noun: 'StatsUpdateFactory';
 
-  forgeStatsCommand(query: IQuery): IStatsCommand;
+  forgeStatsCommand(sql: ISQL): IStatsCommand;
 
-  forgeStatsItemCommand(query: IQuery): IStatsItemCommand;
+  forgeStatsItemCommand(sql: ISQL): IStatsItemCommand;
 
-  forgeStatsValueCommand(query: IQuery): IStatsValueCommand;
+  forgeStatsValueCommand(sql: ISQL): IStatsValueCommand;
 }
