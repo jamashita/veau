@@ -1,46 +1,46 @@
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
 import { UpdatedAtError } from '../Error/UpdatedAtError';
 import { Failure } from '../General/Try/Failure';
 import { Success } from '../General/Try/Success';
 import { Try } from '../General/Try/Try';
 import { ValueObject } from '../General/ValueObject';
-
-dayjs.extend(utc);
+import { Zeit } from '../General/Zeit/Zeit';
+import { ZeitError } from '../General/Zeit/ZeitError';
 
 const TERM_FORMAT: string = 'YYYY-MM-DD HH:mm:ss';
 
 export class UpdatedAt extends ValueObject {
   public readonly noun: 'UpdatedAt' = 'UpdatedAt';
-  private readonly at: dayjs.Dayjs;
+  private readonly at: Zeit;
 
-  public static of(at: dayjs.Dayjs): UpdatedAt {
+  public static of(at: Zeit): UpdatedAt {
     return new UpdatedAt(at);
   }
 
   public static ofString(at: string): Try<UpdatedAt, UpdatedAtError> {
-    const date: dayjs.Dayjs = dayjs(at, {
-      format: TERM_FORMAT,
-      utc: true
-    });
+    try {
+      const zeit: Zeit = Zeit.ofString(at, TERM_FORMAT);
 
-    if (date.isValid()) {
-      return Success.of<UpdatedAt, UpdatedAtError>(UpdatedAt.of(date));
+      return Success.of<UpdatedAt, UpdatedAtError>(UpdatedAt.of(zeit));
     }
+    catch (err) {
+      if (err instanceof ZeitError) {
+        return Failure.of<UpdatedAt, UpdatedAtError>(new UpdatedAtError('AT IS NOT DATE FORMAT', err));
+      }
 
-    return Failure.of<UpdatedAt, UpdatedAtError>(new UpdatedAtError('AT IS NOT DATE FORMAT'));
+      throw err;
+    }
   }
 
   public static now(): UpdatedAt {
-    return UpdatedAt.of(dayjs.utc());
+    return UpdatedAt.of(Zeit.now(TERM_FORMAT));
   }
 
-  protected constructor(at: dayjs.Dayjs) {
+  protected constructor(at: Zeit) {
     super();
     this.at = at;
   }
 
-  public get(): dayjs.Dayjs {
+  public get(): Zeit {
     return this.at;
   }
 
@@ -48,7 +48,7 @@ export class UpdatedAt extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.at.isSame(other.at)) {
+    if (this.at.equals(other.at)) {
       return true;
     }
 
@@ -56,6 +56,6 @@ export class UpdatedAt extends ValueObject {
   }
 
   public toString(): string {
-    return this.at.format(TERM_FORMAT);
+    return this.at.toString();
   }
 }
