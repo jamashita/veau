@@ -3,12 +3,10 @@ import { MockError } from '../../Mock/MockError';
 import { MySQLError } from '../../MySQL/MySQLError';
 import { Failure } from '../Failure';
 
-// DONE
 describe('Failure', () => {
   describe('of', () => {
     it('one generic call', () => {
-      const e1: MockError = new MockError();
-      const failure: Failure<void, MockError> = Failure.of<MockError>(e1);
+      const failure: Failure<void, MockError> = Failure.of<MockError>(new MockError());
 
       expect(() => {
         failure.get();
@@ -16,8 +14,7 @@ describe('Failure', () => {
     });
 
     it('normal case', () => {
-      const e1: MockError = new MockError();
-      const failure: Failure<number, MockError> = Failure.of<number, MockError>(e1);
+      const failure: Failure<number, MockError> = Failure.of<number, MockError>(new MockError());
 
       expect(() => {
         failure.get();
@@ -37,10 +34,10 @@ describe('Failure', () => {
 
   describe('getError', () => {
     it('normal case', () => {
-      const e1: MockError = new MockError();
-      const failure: Failure<number, MockError> = Failure.of<number, MockError>(e1);
+      const error: MockError = new MockError();
+      const failure: Failure<number, MockError> = Failure.of<number, MockError>(error);
 
-      expect(failure.getError()).toBe(e1);
+      expect(failure.getError()).toBe(error);
     });
   });
 
@@ -66,9 +63,9 @@ describe('Failure', () => {
 
   describe('match', () => {
     it('excuses failure block', () => {
-      const e1: MockError = new MockError();
-      const v1: number = 1234;
-      const failure: Failure<number, MockError> = Failure.of<number, MockError>(e1);
+      const error: MockError = new MockError();
+      const value: number = 1234;
+      const failure: Failure<number, MockError> = Failure.of<number, MockError>(error);
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -78,12 +75,12 @@ describe('Failure', () => {
         return n;
       }, (err: MockError, f: Failure<number, MockError>) => {
         spy2();
-        expect(err).toBe(e1);
+        expect(err).toBe(error);
         expect(f).toBe(failure);
-        return v1 * 2;
+        return value * 2;
       });
 
-      expect(res).toEqual(v1 * 2);
+      expect(res).toEqual(value * 2);
       expect(spy1.called).toEqual(false);
       expect(spy2.called).toEqual(true);
     });

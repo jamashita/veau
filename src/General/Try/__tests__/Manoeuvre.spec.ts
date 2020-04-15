@@ -5,7 +5,6 @@ import { manoeuvre } from '../Manoeuvre';
 import { Success } from '../Success';
 import { Try } from '../Try';
 
-// DONE
 describe('Manoeuvre', () => {
   describe('all', () => {
     it('all are Success', () => {
@@ -15,23 +14,23 @@ describe('Manoeuvre', () => {
         Success.of<number, MockError>(2)
       ];
 
-      const ret: Try<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
+      const values: Try<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
 
-      expect(ret.isSuccess()).toEqual(true);
-      const array: Array<number> = ret.get();
+      expect(values.isSuccess()).toEqual(true);
+      const array: Array<number> = values.get();
       expect(array.length).toEqual(tries.length);
       for (let i: number = 0; i < array.length; i++) {
-        expect(array[i]).toEqual(tries[i].get());
+        expect(array[i]).toBe(tries[i].get());
       }
     });
 
     it('no tries', () => {
       const tries: Array<Try<number, MockError>> = [];
 
-      const ret: Try<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
+      const values: Try<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
 
-      expect(ret.isSuccess()).toEqual(true);
-      const array: Array<number> = ret.get();
+      expect(values.isSuccess()).toEqual(true);
+      const array: Array<number> = values.get();
       expect(array.length).toEqual(tries.length);
     });
 
@@ -46,10 +45,10 @@ describe('Manoeuvre', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const ret: Try<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
+      const values: Try<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
 
-      expect(ret.isFailure()).toEqual(true);
-      ret.match<void>(() => {
+      expect(values.isFailure()).toEqual(true);
+      values.match<void>(() => {
         spy1();
       }, (err: MockError) => {
         spy2();
@@ -71,10 +70,10 @@ describe('Manoeuvre', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const ret: Try<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
+      const values: Try<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
 
-      expect(ret.isFailure()).toEqual(true);
-      ret.match<void>(() => {
+      expect(values.isFailure()).toEqual(true);
+      values.match<void>(() => {
         spy1();
       }, (err: MockError) => {
         spy2();
@@ -96,10 +95,10 @@ describe('Manoeuvre', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const ret: Try<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
+      const values: Try<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
 
-      expect(ret.isFailure()).toEqual(true);
-      ret.match<void>(() => {
+      expect(values.isFailure()).toEqual(true);
+      values.match<void>(() => {
         spy1();
       }, (err: MockError) => {
         spy2();
@@ -122,10 +121,10 @@ describe('Manoeuvre', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const ret: Try<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
+      const values: Try<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
 
-      expect(ret.isFailure()).toEqual(true);
-      ret.match<void>(() => {
+      expect(values.isFailure()).toEqual(true);
+      values.match<void>(() => {
         spy1();
       }, (err: MockError) => {
         spy2();
@@ -148,10 +147,10 @@ describe('Manoeuvre', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const ret: Try<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
+      const values: Try<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
 
-      expect(ret.isFailure()).toEqual(true);
-      ret.match<void>(() => {
+      expect(values.isFailure()).toEqual(true);
+      values.match<void>(() => {
         spy1();
       }, (err: MockError) => {
         spy2();
@@ -175,10 +174,10 @@ describe('Manoeuvre', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const ret: Try<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
+      const values: Try<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
 
-      expect(ret.isFailure()).toEqual(true);
-      ret.match<void>(() => {
+      expect(values.isFailure()).toEqual(true);
+      values.match<void>(() => {
         spy1();
       }, (err: MockError) => {
         spy2();

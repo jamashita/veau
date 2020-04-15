@@ -29,8 +29,10 @@ export class Success<S, F extends Error> extends Try<S, F> {
     return true;
   }
 
+  public match<T>(success: BiFunction<S, Success<S, F>, T>, failure: BiFunction<F, Failure<S, F>, T>): T;
+  public match<T>(success: BiFunction<S, Success<S, F>, Promise<T>>, failure: BiFunction<F, Failure<S, F>, Promise<T>>): Promise<T>;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public match<T>(success: BiFunction<S, Success<S, F>, T>, failure: BiFunction<F, Failure<S, F>, T>): T {
+  public match<T>(success: BiFunction<S, Success<S, F>, T> | BiFunction<S, Success<S, F>, Promise<T>>, failure: BiFunction<F, Failure<S, F>, T> | BiFunction<F, Failure<S, F>, Promise<T>>): T | Promise<T> {
     return success(this.value, this);
   }
 
