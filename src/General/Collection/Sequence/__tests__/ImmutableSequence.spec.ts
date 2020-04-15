@@ -41,7 +41,7 @@ describe('ImmutableSequence', () => {
   });
 
   describe('add', () => {
-    it('returns itself when argumetns are empty', () => {
+    it('returns itself when arguments are empty', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);

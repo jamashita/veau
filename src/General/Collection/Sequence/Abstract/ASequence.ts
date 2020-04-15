@@ -9,7 +9,7 @@ import { Sequence } from '../Interface/Sequence';
 
 export abstract class ASequence<E extends Nominative> implements Sequence<E> {
   public abstract readonly noun: string;
-  private readonly elements: Array<E>;
+  protected readonly elements: Array<E>;
 
   protected constructor(elements: Array<E>) {
     this.elements = elements;
@@ -20,6 +20,8 @@ export abstract class ASequence<E extends Nominative> implements Sequence<E> {
   public abstract map<F extends Nominative>(mapper: Mapper<E, F>): Sequence<F>;
 
   public abstract filter(iterator: Enumerator<number, E>): ImmutableSequence<E>;
+
+  public abstract copy(): Sequence<E>;
 
   public get(index: number): Optional<E> {
     const element: Ambiguous<E> = this.elements[index];
@@ -75,12 +77,6 @@ export abstract class ASequence<E extends Nominative> implements Sequence<E> {
 
   public some(enumerator: Enumerator<number, E>): boolean {
     return this.elements.some(enumerator);
-  }
-
-  public copy(): ImmutableSequence<E> {
-    return ImmutableSequence.of<E>([
-      ...this.elements
-    ]);
   }
 
   public equals(other: ASequence<E>): boolean {
