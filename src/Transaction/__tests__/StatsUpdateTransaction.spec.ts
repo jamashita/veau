@@ -7,7 +7,7 @@ import { MockStatsItem } from '../../Entity/Mock/MockStatsItem';
 import { MockStatsItems } from '../../Entity/Mock/MockStatsItems';
 import { MockStatsUpdateFactory } from '../../Factory/Mock/MockStatsUpdateFactory';
 import { DataSourceError } from '../../General/DataSourceError';
-import { MockQuery } from '../../General/MySQL/Mock/MockQuery';
+import { MockSQL } from '../../General/MySQL/Mock/MockSQL';
 import { MySQLError } from '../../General/MySQL/MySQLError';
 import { Failure } from '../../General/Try/Failure';
 import { Success } from '../../General/Try/Success';
@@ -74,7 +74,7 @@ describe('StatsUpdateTransaction', () => {
         accountID,
         statsUpdateFactory
       );
-      const sql: MockQuery = new MockQuery();
+      const sql: MockSQL = new MockSQL();
       const trial: Try<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
       expect(trial.isSuccess()).toEqual(true);
@@ -132,7 +132,7 @@ describe('StatsUpdateTransaction', () => {
         accountID,
         statsUpdateFactory
       );
-      const sql: MockQuery = new MockQuery();
+      const sql: MockSQL = new MockSQL();
       const trial: Try<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
       expect(trial.isFailure()).toEqual(true);
@@ -196,7 +196,7 @@ describe('StatsUpdateTransaction', () => {
         accountID,
         statsUpdateFactory
       );
-      const sql: MockQuery = new MockQuery();
+      const sql: MockSQL = new MockSQL();
       const trial: Try<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
       expect(trial.isFailure()).toEqual(true);
@@ -260,7 +260,7 @@ describe('StatsUpdateTransaction', () => {
         accountID,
         statsUpdateFactory
       );
-      const sql: MockQuery = new MockQuery();
+      const sql: MockSQL = new MockSQL();
       const trial: Try<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
       expect(trial.isFailure()).toEqual(true);
@@ -333,7 +333,7 @@ describe('StatsUpdateTransaction', () => {
         accountID,
         statsUpdateFactory
       );
-      const sql: MockQuery = new MockQuery();
+      const sql: MockSQL = new MockSQL();
       const trial: Try<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
       expect(trial.isFailure()).toEqual(true);
@@ -409,7 +409,7 @@ describe('StatsUpdateTransaction', () => {
         accountID,
         statsUpdateFactory
       );
-      const sql: MockQuery = new MockQuery();
+      const sql: MockSQL = new MockSQL();
       const trial: Try<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
       expect(trial.isFailure()).toEqual(true);
@@ -485,7 +485,7 @@ describe('StatsUpdateTransaction', () => {
         accountID,
         statsUpdateFactory
       );
-      const sql: MockQuery = new MockQuery();
+      const sql: MockSQL = new MockSQL();
       const trial: Try<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
       expect(trial.isFailure()).toEqual(true);

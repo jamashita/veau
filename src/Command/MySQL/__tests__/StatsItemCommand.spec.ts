@@ -2,7 +2,7 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { MockStatsItem } from '../../../Entity/Mock/MockStatsItem';
 import { DataSourceError } from '../../../General/DataSourceError';
 import { MockError } from '../../../General/Mock/MockError';
-import { MockQuery } from '../../../General/MySQL/Mock/MockQuery';
+import { MockSQL } from '../../../General/MySQL/Mock/MockSQL';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
 import { Try } from '../../../General/Try/Try';
 import { UUID } from '../../../General/UUID/UUID';
@@ -25,11 +25,11 @@ describe('StatsItemCommand', () => {
         name: new MockStatsItemName(itemName)
       });
 
-      const query: MockQuery = new MockQuery();
+      const sql: MockSQL = new MockSQL();
       const stub: SinonStub = sinon.stub();
-      query.execute = stub;
+      sql.execute = stub;
 
-      const statsItemCommand: StatsItemCommand = new StatsItemCommand(query);
+      const statsItemCommand: StatsItemCommand = new StatsItemCommand(sql);
       const trial: Try<void, DataSourceError> = await statsItemCommand.create(statsID, statsItem, seq);
 
       expect(stub.withArgs(`INSERT INTO stats_items VALUES (
@@ -51,14 +51,14 @@ describe('StatsItemCommand', () => {
       const statsItem: MockStatsItem = new MockStatsItem();
       const seq: number = 3109;
 
-      const query: MockQuery = new MockQuery();
+      const sql: MockSQL = new MockSQL();
       const stub: SinonStub = sinon.stub();
-      query.execute = stub;
+      sql.execute = stub;
       stub.rejects(new MySQLError('test failed'));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsItemCommand: StatsItemCommand = new StatsItemCommand(query);
+      const statsItemCommand: StatsItemCommand = new StatsItemCommand(sql);
       const trial: Try<void, DataSourceError> = await statsItemCommand.create(statsID, statsItem, seq);
 
       expect(trial.isFailure()).toEqual(true);
@@ -78,12 +78,12 @@ describe('StatsItemCommand', () => {
       const statsItem: MockStatsItem = new MockStatsItem();
       const seq: number = 3109;
 
-      const query: MockQuery = new MockQuery();
+      const sql: MockSQL = new MockSQL();
       const stub: SinonStub = sinon.stub();
-      query.execute = stub;
+      sql.execute = stub;
       stub.rejects(new MockError());
 
-      const statsItemCommand: StatsItemCommand = new StatsItemCommand(query);
+      const statsItemCommand: StatsItemCommand = new StatsItemCommand(sql);
       await expect(statsItemCommand.create(statsID, statsItem, seq)).rejects.toThrow(MockError);
     });
   });
@@ -93,11 +93,11 @@ describe('StatsItemCommand', () => {
       const uuid: UUID = UUID.v4();
       const statsID: MockStatsID = new MockStatsID(uuid);
 
-      const query: MockQuery = new MockQuery();
+      const sql: MockSQL = new MockSQL();
       const stub: SinonStub = sinon.stub();
-      query.execute = stub;
+      sql.execute = stub;
 
-      const statsItemCommand: StatsItemCommand = new StatsItemCommand(query);
+      const statsItemCommand: StatsItemCommand = new StatsItemCommand(sql);
       const trial: Try<void, DataSourceError> = await statsItemCommand.deleteByStatsID(statsID);
 
       expect(stub.withArgs(`DELETE R1
@@ -113,14 +113,14 @@ describe('StatsItemCommand', () => {
     it('returns Failure because the client throws MySQLError', async () => {
       const statsID: MockStatsID = new MockStatsID();
 
-      const query: MockQuery = new MockQuery();
+      const sql: MockSQL = new MockSQL();
       const stub: SinonStub = sinon.stub();
-      query.execute = stub;
+      sql.execute = stub;
       stub.rejects(new MySQLError('test failed'));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsItemCommand: StatsItemCommand = new StatsItemCommand(query);
+      const statsItemCommand: StatsItemCommand = new StatsItemCommand(sql);
       const trial: Try<void, DataSourceError> = await statsItemCommand.deleteByStatsID(statsID);
 
       expect(trial.isFailure()).toEqual(true);
@@ -138,12 +138,12 @@ describe('StatsItemCommand', () => {
     it('throws Error', async () => {
       const statsID: MockStatsID = new MockStatsID();
 
-      const query: MockQuery = new MockQuery();
+      const sql: MockSQL = new MockSQL();
       const stub: SinonStub = sinon.stub();
-      query.execute = stub;
+      sql.execute = stub;
       stub.rejects(new MockError());
 
-      const statsItemCommand: StatsItemCommand = new StatsItemCommand(query);
+      const statsItemCommand: StatsItemCommand = new StatsItemCommand(sql);
       await expect(statsItemCommand.deleteByStatsID(statsID)).rejects.toThrow(MockError);
     });
   });

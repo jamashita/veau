@@ -1,40 +1,40 @@
 import { StatsCommand } from '../../Command/MySQL/StatsCommand';
 import { StatsItemCommand } from '../../Command/MySQL/StatsItemCommand';
 import { StatsValueCommand } from '../../Command/MySQL/StatsValueCommand';
-import { MockQuery } from '../../General/MySQL/Mock/MockQuery';
+import { MockSQL } from '../../General/MySQL/Mock/MockSQL';
 import { StatsUpdateFactory } from '../StatsUpdateFactory';
 
 // DONE
 describe('StatsUpdateFactory', () => {
   describe('forgeStatsCommand', () => {
     it('returns StatsCommand instance', () => {
-      const query: MockQuery = new MockQuery();
+      const sql: MockSQL = new MockSQL();
 
       const statsUpdateFactory: StatsUpdateFactory = new StatsUpdateFactory();
 
-      expect(statsUpdateFactory.forgeStatsCommand(query)).toBeInstanceOf(StatsCommand);
+      expect(statsUpdateFactory.forgeStatsCommand(sql)).toBeInstanceOf(StatsCommand);
     });
   });
 
   describe('forgeStatsItemCommand', () => {
     it('returns StatsItemCommand instance', () => {
-      const query: MockQuery = new MockQuery();
+      const sql: MockSQL = new MockSQL();
 
       const statsUpdateFactory: StatsUpdateFactory = new StatsUpdateFactory();
 
-      expect(statsUpdateFactory.forgeStatsItemCommand(query)).toBeInstanceOf(StatsItemCommand);
+      expect(statsUpdateFactory.forgeStatsItemCommand(sql)).toBeInstanceOf(StatsItemCommand);
     });
   });
 
   describe('forgeStatsValueCommand', () => {
     it('returns StatsValueCommand instance', () => {
-      const query: MockQuery = new MockQuery();
+      const sql: MockSQL = new MockSQL();
 
       const statsUpdateFactory: StatsUpdateFactory = new StatsUpdateFactory(
 
       );
 
-      expect(statsUpdateFactory.forgeStatsValueCommand(query)).toBeInstanceOf(StatsValueCommand);
+      expect(statsUpdateFactory.forgeStatsValueCommand(sql)).toBeInstanceOf(StatsValueCommand);
     });
   });
 });

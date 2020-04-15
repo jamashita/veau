@@ -1,7 +1,7 @@
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { DataSourceError } from '../../../General/DataSourceError';
 import { MockError } from '../../../General/Mock/MockError';
-import { MockQuery } from '../../../General/MySQL/Mock/MockQuery';
+import { MockSQL } from '../../../General/MySQL/Mock/MockSQL';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
 import { Try } from '../../../General/Try/Try';
 import { UUID } from '../../../General/UUID/UUID';
@@ -25,11 +25,11 @@ describe('StatsValueCommand', () => {
         value: new MockNumericalValue(value)
       });
 
-      const query: MockQuery = new MockQuery();
+      const sql: MockSQL = new MockSQL();
       const stub: SinonStub = sinon.stub();
-      query.execute = stub;
+      sql.execute = stub;
 
-      const statsValueCommand: StatsValueCommand = new StatsValueCommand(query);
+      const statsValueCommand: StatsValueCommand = new StatsValueCommand(sql);
       const trial: Try<void, DataSourceError> = await statsValueCommand.create(statsValue);
 
       expect(stub.withArgs(`INSERT INTO stats_values VALUES (
@@ -47,14 +47,14 @@ describe('StatsValueCommand', () => {
     it('returns Failure because the client throws MySQLError', async () => {
       const statsValue: MockStatsValue = new MockStatsValue();
 
-      const query: MockQuery = new MockQuery();
+      const sql: MockSQL = new MockSQL();
       const stub: SinonStub = sinon.stub();
-      query.execute = stub;
+      sql.execute = stub;
       stub.rejects(new MySQLError('test failed'));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsValueCommand: StatsValueCommand = new StatsValueCommand(query);
+      const statsValueCommand: StatsValueCommand = new StatsValueCommand(sql);
       const trial: Try<void, DataSourceError> = await statsValueCommand.create(statsValue);
 
       expect(trial.isFailure()).toEqual(true);
@@ -72,12 +72,12 @@ describe('StatsValueCommand', () => {
     it('throws Error', async () => {
       const statsValue: MockStatsValue = new MockStatsValue();
 
-      const query: MockQuery = new MockQuery();
+      const sql: MockSQL = new MockSQL();
       const stub: SinonStub = sinon.stub();
-      query.execute = stub;
+      sql.execute = stub;
       stub.rejects(new MockError());
 
-      const statsValueCommand: StatsValueCommand = new StatsValueCommand(query);
+      const statsValueCommand: StatsValueCommand = new StatsValueCommand(sql);
       await expect(statsValueCommand.create(statsValue)).rejects.toThrow(MockError);
     });
   });
@@ -87,11 +87,11 @@ describe('StatsValueCommand', () => {
       const uuid: UUID = UUID.v4();
       const statsID: MockStatsID = new MockStatsID(uuid);
 
-      const query: MockQuery = new MockQuery();
+      const sql: MockSQL = new MockSQL();
       const stub: SinonStub = sinon.stub();
-      query.execute = stub;
+      sql.execute = stub;
 
-      const statsValueCommand: StatsValueCommand = new StatsValueCommand(query);
+      const statsValueCommand: StatsValueCommand = new StatsValueCommand(sql);
       const trial: Try<void, DataSourceError> = await statsValueCommand.deleteByStatsID(statsID);
 
       expect(stub.withArgs(`DELETE R1
@@ -109,14 +109,14 @@ describe('StatsValueCommand', () => {
     it('returns Failure because the client throws MySQLError', async () => {
       const statsID: MockStatsID = new MockStatsID();
 
-      const query: MockQuery = new MockQuery();
+      const sql: MockSQL = new MockSQL();
       const stub: SinonStub = sinon.stub();
-      query.execute = stub;
+      sql.execute = stub;
       stub.rejects(new MySQLError('test failed'));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsValueCommand: StatsValueCommand = new StatsValueCommand(query);
+      const statsValueCommand: StatsValueCommand = new StatsValueCommand(sql);
       const trial: Try<void, DataSourceError> = await statsValueCommand.deleteByStatsID(statsID);
 
       expect(trial.isFailure()).toEqual(true);
@@ -134,12 +134,12 @@ describe('StatsValueCommand', () => {
     it('throws Error', async () => {
       const statsID: MockStatsID = new MockStatsID();
 
-      const query: MockQuery = new MockQuery();
+      const sql: MockSQL = new MockSQL();
       const stub: SinonStub = sinon.stub();
-      query.execute = stub;
+      sql.execute = stub;
       stub.rejects(new MockError());
 
-      const statsValueCommand: StatsValueCommand = new StatsValueCommand(query);
+      const statsValueCommand: StatsValueCommand = new StatsValueCommand(sql);
       await expect(statsValueCommand.deleteByStatsID(statsID)).rejects.toThrow(MockError);
     });
   });
