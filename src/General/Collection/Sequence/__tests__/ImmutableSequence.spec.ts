@@ -1,9 +1,8 @@
-import { MockNominative } from '../../Mock/MockNominative';
-import { None } from '../../Optional/None';
-import { Optional } from '../../Optional/Optional';
+import { MockNominative } from '../../../Mock/MockNominative';
+import { None } from '../../../Optional/None';
+import { Optional } from '../../../Optional/Optional';
 import { ImmutableSequence } from '../ImmutableSequence';
 
-// DONE
 describe('ImmutableSequence', () => {
   describe('of', () => {
     it('when the arguments specified with 0 length array, returns singleton', () => {
@@ -35,9 +34,29 @@ describe('ImmutableSequence', () => {
 
       expect(sequence.isEmpty()).toEqual(true);
     });
+
+    it('returns singleton empty Sequence', () => {
+      expect(ImmutableSequence.empty<MockNominative<number>>()).toEqual(ImmutableSequence.empty<MockNominative<string>>());
+    });
   });
 
   describe('add', () => {
+    it('returns itself when argumetns are empty', () => {
+      const noun1: MockNominative<number> = new MockNominative<number>(1);
+      const noun2: MockNominative<number> = new MockNominative<number>(2);
+      const noun3: MockNominative<number> = new MockNominative<number>(3);
+
+      const nouns1: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>([
+        noun1,
+        noun2,
+        noun3
+      ]);
+      const nouns2: ImmutableSequence<MockNominative<number>> = ImmutableSequence.empty<MockNominative<number>>();
+
+      expect(nouns1.add()).toBe(nouns1);
+      expect(nouns2.add()).toBe(nouns2);
+    });
+
     it('can extends immutably', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
@@ -49,27 +68,33 @@ describe('ImmutableSequence', () => {
 
       const nouns2: ImmutableSequence<MockNominative<number>> = nouns1.add(noun1);
 
+      expect(nouns1).not.toBe(nouns2);
       expect(nouns1.size()).toEqual(0);
       expect(nouns2.size()).toEqual(1);
-      expect(nouns2.get(0).get()).toEqual(noun1);
+      expect(nouns2.get(0).get()).toBe(noun1);
 
       const nouns3: ImmutableSequence<MockNominative<number>> = nouns2.add(noun2);
 
+      expect(nouns1).not.toBe(nouns2);
+      expect(nouns2).not.toBe(nouns3);
       expect(nouns1.size()).toEqual(0);
       expect(nouns2.size()).toEqual(1);
       expect(nouns3.size()).toEqual(2);
-      expect(nouns3.get(0).get()).toEqual(noun1);
-      expect(nouns3.get(1).get()).toEqual(noun2);
+      expect(nouns3.get(0).get()).toBe(noun1);
+      expect(nouns3.get(1).get()).toBe(noun2);
 
       const nouns4: ImmutableSequence<MockNominative<number>> = nouns3.add(noun3);
 
+      expect(nouns1).not.toBe(nouns2);
+      expect(nouns2).not.toBe(nouns3);
+      expect(nouns3).not.toBe(nouns4);
       expect(nouns1.size()).toEqual(0);
       expect(nouns2.size()).toEqual(1);
       expect(nouns3.size()).toEqual(2);
       expect(nouns4.size()).toEqual(3);
-      expect(nouns4.get(0).get()).toEqual(noun1);
-      expect(nouns4.get(1).get()).toEqual(noun2);
-      expect(nouns4.get(2).get()).toEqual(noun3);
+      expect(nouns4.get(0).get()).toBe(noun1);
+      expect(nouns4.get(1).get()).toBe(noun2);
+      expect(nouns4.get(2).get()).toBe(noun3);
     });
 
     it('apply spread syntax', () => {
@@ -84,20 +109,23 @@ describe('ImmutableSequence', () => {
 
       const nouns2: ImmutableSequence<MockNominative<number>> = nouns1.add(noun1, noun2);
 
+      expect(nouns1).not.toBe(nouns2);
       expect(nouns1.size()).toEqual(0);
       expect(nouns2.size()).toEqual(2);
-      expect(nouns2.get(0).get()).toEqual(noun1);
-      expect(nouns2.get(1).get()).toEqual(noun2);
+      expect(nouns2.get(0).get()).toBe(noun1);
+      expect(nouns2.get(1).get()).toBe(noun2);
 
       const nouns3: ImmutableSequence<MockNominative<number>> = nouns2.add(noun3, noun4);
 
+      expect(nouns1).not.toBe(nouns2);
+      expect(nouns2).not.toBe(nouns3);
       expect(nouns1.size()).toEqual(0);
       expect(nouns2.size()).toEqual(2);
       expect(nouns3.size()).toEqual(4);
-      expect(nouns3.get(0).get()).toEqual(noun1);
-      expect(nouns3.get(1).get()).toEqual(noun2);
-      expect(nouns3.get(2).get()).toEqual(noun3);
-      expect(nouns3.get(3).get()).toEqual(noun4);
+      expect(nouns3.get(0).get()).toBe(noun1);
+      expect(nouns3.get(1).get()).toBe(noun2);
+      expect(nouns3.get(2).get()).toBe(noun3);
+      expect(nouns3.get(3).get()).toBe(noun4);
     });
   });
 
@@ -114,9 +142,9 @@ describe('ImmutableSequence', () => {
       ]);
 
       expect(nouns.size()).toEqual(3);
-      expect(nouns.get(0).get()).toEqual(noun1);
-      expect(nouns.get(1).get()).toEqual(noun2);
-      expect(nouns.get(2).get()).toEqual(noun3);
+      expect(nouns.get(0).get()).toBe(noun1);
+      expect(nouns.get(1).get()).toBe(noun2);
+      expect(nouns.get(2).get()).toBe(noun3);
     });
 
     it('returns None<MockNominative> instance at out of index', () => {
@@ -171,7 +199,7 @@ describe('ImmutableSequence', () => {
     });
   });
 
-  describe('iterate', () => {
+  describe('forEach', () => {
     it('normal case', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
@@ -183,13 +211,14 @@ describe('ImmutableSequence', () => {
         noun3
       ]);
 
+      expect(nouns.size()).toEqual(3);
       nouns.forEach((noun: MockNominative<number>, index: number) => {
-        expect(nouns.get(index).get()).toEqual(noun);
+        expect(nouns.get(index).get()).toBe(noun);
       });
     });
   });
 
-  describe('project', () => {
+  describe('map', () => {
     it('normal case', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
@@ -207,30 +236,32 @@ describe('ImmutableSequence', () => {
       });
 
       expect(nouns2.size()).toEqual(nouns1.size());
-      expect(nouns2.get(0).get().get()).toEqual('1');
-      expect(nouns2.get(1).get().get()).toEqual('4');
-      expect(nouns2.get(2).get().get()).toEqual('9');
+      nouns2.forEach((noun: MockNominative<string>, index: number) => {
+        const value: number = nouns1.get(index).get().get() ** 2;
+
+        expect(noun.get()).toBe(value.toString());
+      });
     });
 
     it('returns empty sequence when ImmutableSequence is empty', () => {
       const nouns1: ImmutableSequence<MockNominative<number>> = ImmutableSequence.empty<MockNominative<number>>();
       const nouns2: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>([]);
 
-      const project1: ImmutableSequence<MockNominative<number>> = nouns1.map((mock: MockNominative<number>) => {
+      const map1: ImmutableSequence<MockNominative<number>> = nouns1.map((mock: MockNominative<number>) => {
         return mock;
       });
-      const project2: ImmutableSequence<MockNominative<number>> = nouns2.map((mock: MockNominative<number>) => {
+      const map2: ImmutableSequence<MockNominative<number>> = nouns2.map((mock: MockNominative<number>) => {
         return mock;
       });
 
       expect(nouns1).toBe(nouns2);
-      expect(nouns2).toBe(project1);
-      expect(project1).toBe(project2);
-      expect(project2).toBe(ImmutableSequence.empty<MockNominative<number>>());
+      expect(nouns2).toBe(map1);
+      expect(map1).toBe(map2);
+      expect(map2).toBe(ImmutableSequence.empty<MockNominative<number>>());
     });
   });
 
-  describe('select', () => {
+  describe('find', () => {
     it('normal case', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
@@ -244,28 +275,28 @@ describe('ImmutableSequence', () => {
         noun4
       ]);
 
-      const select1: Optional<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
+      const found1: Optional<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
         if (mock.get() === 1) {
           return true;
         }
 
         return false;
       });
-      const select2: Optional<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
+      const found2: Optional<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
         if (mock.get() === 2) {
           return true;
         }
 
         return false;
       });
-      const select3: Optional<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
+      const found3: Optional<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
         if (mock.get() % 2 === 0) {
           return true;
         }
 
         return false;
       });
-      const select4: Optional<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
+      const found4: Optional<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
         if (mock.get() > 1000) {
           return true;
         }
@@ -273,17 +304,17 @@ describe('ImmutableSequence', () => {
         return false;
       });
 
-      expect(select1.isPresent()).toEqual(true);
-      expect(select1.get()).toEqual(noun1);
-      expect(select2.isPresent()).toEqual(true);
-      expect(select2.get()).toEqual(noun2);
-      expect(select3.isPresent()).toEqual(true);
-      expect(select3.get()).toEqual(noun2);
-      expect(select4.isAbsent()).toEqual(true);
+      expect(found1.isPresent()).toEqual(true);
+      expect(found1.get()).toBe(noun1);
+      expect(found2.isPresent()).toEqual(true);
+      expect(found2.get()).toBe(noun2);
+      expect(found3.isPresent()).toEqual(true);
+      expect(found3.get()).toBe(noun2);
+      expect(found4.isAbsent()).toEqual(true);
     });
   });
 
-  describe('screen', () => {
+  describe('filter', () => {
     it('normal case', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
@@ -298,21 +329,21 @@ describe('ImmutableSequence', () => {
         noun4
       ]);
 
-      const screen1: ImmutableSequence<MockNominative<number>> = nouns.filter((mock: MockNominative<number>) => {
+      const filtered1: ImmutableSequence<MockNominative<number>> = nouns.filter((mock: MockNominative<number>) => {
         if (mock.get() % 2 === 0) {
           return true;
         }
 
         return false;
       });
-      const screen2: ImmutableSequence<MockNominative<number>> = nouns.filter((mock: MockNominative<number>) => {
+      const filtered2: ImmutableSequence<MockNominative<number>> = nouns.filter((mock: MockNominative<number>) => {
         if (mock === noun4) {
           return true;
         }
 
         return false;
       });
-      const screen3: ImmutableSequence<MockNominative<number>> = nouns.filter((mock: MockNominative<number>) => {
+      const filtered3: ImmutableSequence<MockNominative<number>> = nouns.filter((mock: MockNominative<number>) => {
         if (mock === noun5) {
           return true;
         }
@@ -320,12 +351,12 @@ describe('ImmutableSequence', () => {
         return false;
       });
 
-      expect(screen1.size()).toEqual(2);
-      expect(screen1.get(0).get()).toEqual(noun2);
-      expect(screen1.get(1).get()).toEqual(noun4);
-      expect(screen2.size()).toEqual(1);
-      expect(screen2.get(0).get()).toEqual(noun4);
-      expect(screen3.size()).toEqual(0);
+      expect(filtered1.size()).toEqual(2);
+      expect(filtered1.get(0).get()).toBe(noun2);
+      expect(filtered1.get(1).get()).toBe(noun4);
+      expect(filtered2.size()).toEqual(1);
+      expect(filtered2.get(0).get()).toBe(noun4);
+      expect(filtered3.size()).toEqual(0);
     });
 
     it('returns empty sequence when screen returns nothing', () => {
@@ -341,12 +372,12 @@ describe('ImmutableSequence', () => {
         noun4
       ]);
 
-      const screen: ImmutableSequence<MockNominative<number>> = nouns.filter((mock: MockNominative<number>) => {
+      const filtered: ImmutableSequence<MockNominative<number>> = nouns.filter(() => {
         return false;
       });
 
-      expect(screen.size()).toEqual(0);
-      expect(screen).toBe(ImmutableSequence.empty<MockNominative<number>>());
+      expect(filtered.size()).toEqual(0);
+      expect(filtered).toBe(ImmutableSequence.empty<MockNominative<number>>());
     });
   });
 
@@ -712,7 +743,7 @@ describe('ImmutableSequence', () => {
 
       expect(nouns.size()).toEqual(array.length);
       for (let i: number = 0; i < array.length; i++) {
-        expect(nouns.get(i).get()).toEqual(array[i]);
+        expect(nouns.get(i).get()).toBe(array[i]);
       }
     });
 

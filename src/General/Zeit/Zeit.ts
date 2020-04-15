@@ -1,9 +1,6 @@
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
 import utc from 'dayjs/plugin/utc';
-import { None } from '../Optional/None';
-import { Optional } from '../Optional/Optional';
-import { Some } from '../Optional/Some';
 import { ValueObject } from '../ValueObject';
 import { ZeitError } from './ZeitError';
 
@@ -34,12 +31,12 @@ export class Zeit extends ValueObject {
     return Zeit.of(dayjs.utc(), format);
   }
 
-  public static max(zeiten: Array<Zeit>, format: string): Optional<Zeit> {
+  public static max(zeiten: Array<Zeit>, format: string): Zeit {
     if (zeiten.length === 0) {
-      return None.of<Zeit>();
+      throw new ZeitError('ZEITEN IS EMPTY');
     }
     if (zeiten.length === 1) {
-      return Some.of<Zeit>(zeiten[0]);
+      return zeiten[0];
     }
 
     const dates: Array<dayjs.Dayjs> = zeiten.map<dayjs.Dayjs>((zeit: Zeit) => {
@@ -48,15 +45,15 @@ export class Zeit extends ValueObject {
 
     const max: dayjs.Dayjs = dayjs.max(dates);
 
-    return Some.of<Zeit>(Zeit.of(max, format));
+    return Zeit.of(max, format);
   }
 
-  public static min(zeiten: Array<Zeit>, format: string): Optional<Zeit> {
+  public static min(zeiten: Array<Zeit>, format: string): Zeit {
     if (zeiten.length === 0) {
-      return None.of<Zeit>();
+      throw new ZeitError('ZEITEN IS EMPTY');
     }
     if (zeiten.length === 1) {
-      return Some.of<Zeit>(zeiten[0]);
+      return zeiten[0];
     }
 
     const dates: Array<dayjs.Dayjs> = zeiten.map<dayjs.Dayjs>((zeit: Zeit) => {
@@ -65,7 +62,7 @@ export class Zeit extends ValueObject {
 
     const min: dayjs.Dayjs = dayjs.min(dates);
 
-    return Some.of<Zeit>(Zeit.of(min, format));
+    return Zeit.of(min, format);
   }
 
   private constructor(zeit: dayjs.Dayjs, format: string) {

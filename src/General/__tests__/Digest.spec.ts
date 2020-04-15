@@ -1,6 +1,5 @@
 import { Digest } from '../Digest';
 
-// DONE
 describe('Digest', () => {
   describe('generate', () => {
     it('generated hashes are usually different', async () => {

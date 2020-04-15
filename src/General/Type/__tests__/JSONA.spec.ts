@@ -2,7 +2,6 @@ import { JSONA } from '../JSONA';
 import { JSONAError } from '../JSONAError';
 import { JSObjectNotation } from '../Value';
 
-// DONE
 describe('JSONA', () => {
   describe('parse', () => {
     it('outputs the same one as JSON.parse()', async () => {

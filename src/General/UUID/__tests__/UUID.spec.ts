@@ -1,45 +1,23 @@
-import sinon, { SinonSpy } from 'sinon';
 import { UUID } from '../UUID';
+import { UUIDError } from '../UUIDError';
 
-// DONE
 describe('UUID', () => {
   describe('of', () => {
     it('normal case', () => {
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
-      try {
-        UUID.of('998106de-b2e7-4981-9643-22cd30cd74de');
-        spy1();
-      }
-      catch (err) {
-        spy2();
-      }
-
-      expect(spy1.called).toEqual(true);
-      expect(spy2.called).toEqual(false);
+      const uuid: string = '998106de-b2e7-4981-9643-22cd30cd74de';
+      expect(UUID.of(uuid).get()).toEqual(uuid);
     });
 
-    it('returns Failure when uuid length string is not given', () => {
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
-      try {
+    it('throws UUIDError when the argument is not satisfied UUID format', () => {
+      expect(() => {
         UUID.of('cinq');
-        spy1();
-      }
-      catch (err) {
-        spy2();
-      }
-
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      }).toThrow(UUIDError);
     });
   });
 
   describe('v4', () => {
     it('always generates 36 length string', () => {
-      for (let i: number = 0; i < 1000; i++) {
+      for (let i: number = 0; i < 100; i++) {
         const v4: UUID = UUID.v4();
         expect(v4.get().length).toEqual(UUID.size());
       }
@@ -48,7 +26,7 @@ describe('UUID', () => {
 
   describe('v5', () => {
     it('always generates 36 length string', () => {
-      for (let i: number = 0; i < 1000; i++) {
+      for (let i: number = 0; i < 100; i++) {
         const v5: UUID = UUID.v5();
         expect(v5.get().length).toEqual(UUID.size());
       }

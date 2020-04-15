@@ -4,7 +4,6 @@ import { None } from '../None';
 import { Optional } from '../Optional';
 import { OptionalError } from '../OptionalError';
 
-// DONE
 describe('None', () => {
   describe('get', () => {
     it('throws OptionalError', () => {
@@ -30,7 +29,7 @@ describe('None', () => {
     });
   });
 
-  describe('isEmpty', () => {
+  describe('isAbsent', () => {
     it('returns true', () => {
       const none1: None<void> = None.of();
       const none2: None<number> = None.of<number>();
@@ -105,7 +104,6 @@ describe('None', () => {
 
       expect(spy.called).toEqual(false);
       expect(none).toBe(optional);
-      expect(optional).toBeInstanceOf(None);
     });
   });
 });

@@ -1,9 +1,7 @@
 import dayjs from 'dayjs';
-import { Optional } from '../../Optional/Optional';
 import { Zeit } from '../Zeit';
 import { ZeitError } from '../ZeitError';
 
-// DONE
 describe('Zeit', () => {
   describe('ofString', () => {
     it('normal case', () => {
@@ -35,28 +33,27 @@ describe('Zeit', () => {
         Zeit.ofString('2000-01-03', format)
       ];
 
-      const max: Optional<Zeit> = Zeit.max(zeiten, format);
-      expect(max.isPresent()).toEqual(true);
-      expect(max.get().toString()).toEqual('2000-01-03');
+      const max: Zeit = Zeit.max(zeiten, format);
+      expect(max.toString()).toEqual('2000-01-03');
     });
 
-    it('return itself when the only one zeit given', () => {
+    it('returns itself when the only one zeit given', () => {
       const format: string = 'YYYY-MM-DD';
       const zeiten: Array<Zeit> = [
         Zeit.ofString('2000-01-01', format)
       ];
 
-      const max: Optional<Zeit> = Zeit.max(zeiten, format);
-      expect(max.isPresent()).toEqual(true);
-      expect(max.get()).toBe(zeiten[0]);
+      const max: Zeit = Zeit.max(zeiten, format);
+      expect(max).toBe(zeiten[0]);
     });
 
-    it('return None when empty array given', () => {
+    it('throws ZeitError when empty array given', () => {
       const format: string = 'YYYY-MM-DD';
       const zeiten: Array<Zeit> = [];
 
-      const max: Optional<Zeit> = Zeit.max(zeiten, format);
-      expect(max.isAbsent()).toEqual(true);
+      expect(() => {
+        Zeit.max(zeiten, format)
+      }).toThrow(ZeitError);
     });
   });
 
@@ -70,28 +67,27 @@ describe('Zeit', () => {
         Zeit.ofString('2000-01-02', format)
       ];
 
-      const min: Optional<Zeit> = Zeit.min(zeiten, format);
-      expect(min.isPresent()).toEqual(true);
-      expect(min.get().toString()).toEqual('2000-01-01');
+      const min: Zeit = Zeit.min(zeiten, format);
+      expect(min.toString()).toEqual('2000-01-01');
     });
 
-    it('return itself when the only one zeit given', () => {
+    it('returns itself when the only one zeit given', () => {
       const format: string = 'YYYY-MM-DD';
       const zeiten: Array<Zeit> = [
         Zeit.ofString('2000-01-01', format)
       ];
 
-      const max: Optional<Zeit> = Zeit.min(zeiten, format);
-      expect(max.isPresent()).toEqual(true);
-      expect(max.get()).toBe(zeiten[0]);
+      const min: Zeit = Zeit.min(zeiten, format);
+      expect(min).toBe(zeiten[0]);
     });
 
-    it('return None when empty array given', () => {
+    it('throws ZeitError when empty array given', () => {
       const format: string = 'YYYY-MM-DD';
       const zeiten: Array<Zeit> = [];
 
-      const max: Optional<Zeit> = Zeit.min(zeiten, format);
-      expect(max.isAbsent()).toEqual(true);
+      expect(() => {
+        Zeit.max(zeiten, format)
+      }).toThrow(ZeitError);
     });
   });
 

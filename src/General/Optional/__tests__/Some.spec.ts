@@ -5,7 +5,6 @@ import { Optional } from '../Optional';
 import { OptionalError } from '../OptionalError';
 import { Some } from '../Some';
 
-// DONE
 describe('Some', () => {
   describe('get', () => {
     it('the value is got by get method', () => {
@@ -47,7 +46,7 @@ describe('Some', () => {
     });
   });
 
-  describe('isEmpty', () => {
+  describe('isAbsent', () => {
     it('returns false', () => {
       const some1: Some<number> = Some.of<number>(1);
       const some2: Some<number> = Some.of<number>(0);
@@ -99,7 +98,7 @@ describe('Some', () => {
 
   describe('map', () => {
     it('following function is called', () => {
-      const some: Some<number> = Some.of<number>(1);
+      const some: Some<number> = Some.of<number>(10);
 
       const spy: SinonSpy = sinon.spy();
 
@@ -110,7 +109,7 @@ describe('Some', () => {
 
       expect(spy.called).toEqual(true);
       expect(optional.isPresent()).toEqual(true);
-      expect(optional.get()).toEqual(2);
+      expect(optional.get()).toEqual(10 * 2);
     });
 
     it('returns None when function returns null', () => {

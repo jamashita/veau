@@ -1,7 +1,6 @@
 import { Cache } from '../Cache';
 import { CacheError } from '../CacheError';
 
-// DONE
 describe('Cache', () => {
   describe('set', () => {
     it('normal case', () => {
@@ -25,34 +24,34 @@ describe('Cache', () => {
       const identifier3: symbol = Symbol('test');
       const identifier4: symbol = Symbol('test');
       const identifier5: symbol = Symbol('test');
+      const value1: number = 1;
+      const value2: number = 0;
+      const value3: number = 0.2;
+      const value4: number = NaN;
+      const value5: number = Infinity;
 
-      let n: number = 1;
-      cache.set(identifier1, n);
-      expect(cache.get<number>(identifier1)).toEqual(n);
-      n = 0;
-      cache.set(identifier2, n);
-      expect(cache.get<number>(identifier2)).toEqual(n);
-      n = 0.1;
-      cache.set(identifier3, n);
-      expect(cache.get<number>(identifier3)).toEqual(n);
-      n = NaN;
-      cache.set(identifier4, n);
-      expect(cache.get<number>(identifier4)).toEqual(n);
-      n = Infinity;
-      cache.set(identifier5, n);
-      expect(cache.get<number>(identifier5)).toEqual(n);
+      cache.set(identifier1, value1);
+      expect(cache.get<number>(identifier1)).toEqual(value1);
+      cache.set(identifier2, value2);
+      expect(cache.get<number>(identifier2)).toEqual(value2);
+      cache.set(identifier3, value3);
+      expect(cache.get<number>(identifier3)).toEqual(value3);
+      cache.set(identifier4, value4);
+      expect(cache.get<number>(identifier4)).toEqual(value4);
+      cache.set(identifier5, value5);
+      expect(cache.get<number>(identifier5)).toEqual(value5);
     });
 
     it('only retains the last one', () => {
       const cache: Cache = new Cache();
       const identifier1: symbol = Symbol('test');
+      const value1: number = 1;
+      const value2: number = 0;
 
-      let n: number = 1;
-      cache.set(identifier1, n);
-      expect(cache.get<number>(identifier1)).toEqual(n);
-      n = 0;
-      cache.set(identifier1, n);
-      expect(cache.get<number>(identifier1)).toEqual(n);
+      cache.set(identifier1, value1);
+      expect(cache.get<number>(identifier1)).toEqual(value1);
+      cache.set(identifier1, value2);
+      expect(cache.get<number>(identifier1)).toEqual(value2);
     });
 
     it('throws CacheError when value is not set', () => {

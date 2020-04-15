@@ -1,12 +1,12 @@
 import { Random } from '../Random';
 
-// DONE
 describe('Random', () => {
   describe('string', () => {
     it('length is fixed', () => {
       const length: number = 10;
       for (let i: number = 0; i < 10000; i++) {
         const str: string = Random.string(length);
+
         expect(str.length).toEqual(length);
       }
     });

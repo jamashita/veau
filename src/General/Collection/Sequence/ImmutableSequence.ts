@@ -1,9 +1,9 @@
-import { Nominative } from '../Interface/Nominative';
-import { None } from '../Optional/None';
-import { Optional } from '../Optional/Optional';
-import { Some } from '../Optional/Some';
-import { Enumerator, Mapper, Predicate } from '../Type/Function';
-import { Ambiguous } from '../Type/Value';
+import { Nominative } from '../../Interface/Nominative';
+import { None } from '../../Optional/None';
+import { Optional } from '../../Optional/Optional';
+import { Some } from '../../Optional/Some';
+import { Enumerator, Mapper, Predicate } from '../../Type/Function';
+import { Ambiguous } from '../../Type/Value';
 import { Sequence } from './Interface/Sequence';
 
 export class ImmutableSequence<E extends Nominative> implements Sequence<E> {
@@ -29,6 +29,10 @@ export class ImmutableSequence<E extends Nominative> implements Sequence<E> {
   }
 
   public add(...elements: Array<E>): ImmutableSequence<E> {
+    if (elements.length === 0) {
+      return this;
+    }
+
     return ImmutableSequence.of<E>([
       ...this.elements,
       ...elements
