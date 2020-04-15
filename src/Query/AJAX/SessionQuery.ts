@@ -1,8 +1,6 @@
 import { OK, UNAUTHORIZED } from 'http-status';
 import { inject, injectable } from 'inversify';
 import { TYPE } from '../../Container/Types';
-import { AuthenticationFailureError } from '../../Error/AuthenticationFailureError';
-import { UnauthorizedError } from '../../Error/UnauthorizedError';
 import { VeauAccountError } from '../../Error/VeauAccountError';
 import { AJAXError } from '../../General/AJAX/AJAXError';
 import { AJAXResponse } from '../../General/AJAX/AJAXResponse';
@@ -26,8 +24,7 @@ export class SessionQuery implements ISessionQuery, IAJAXQuery {
     this.ajax = ajax;
   }
 
-  // TODO UnauthorizedError is not a cause of AJAX, change it
-  public async find(): Promise<Try<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>> {
+  public async find(): Promise<Try<VeauAccount, VeauAccountError | DataSourceError>> {
     const response: AJAXResponse<VeauAccountJSON> = await this.ajax.get<VeauAccountJSON>('/api/identity');
     const {
       status,
@@ -43,15 +40,12 @@ export class SessionQuery implements ISessionQuery, IAJAXQuery {
         });
       }
       default: {
-        return Failure.of<VeauAccount, UnauthorizedError>(new UnauthorizedError());
+        return Failure.of<VeauAccount, AJAXError>(new AJAXError('IDENTITY DID NOT RETURN OK'));
       }
     }
   }
 
-  // TODO AuthenticationFailureError is not a cause of AJAX, change it
-  public async findByEntranceInfo(
-    entranceInformation: EntranceInformation
-  ): Promise<Try<VeauAccount, VeauAccountError | AuthenticationFailureError | DataSourceError>> {
+  public async findByEntranceInfo(entranceInformation: EntranceInformation): Promise<Try<VeauAccount, VeauAccountError | DataSourceError>> {
     const response: AJAXResponse<VeauAccountJSON> = await this.ajax.post<VeauAccountJSON>('/api/auth', entranceInformation.toJSON());
     const {
       status,
@@ -67,7 +61,7 @@ export class SessionQuery implements ISessionQuery, IAJAXQuery {
         });
       }
       case UNAUTHORIZED: {
-        return Failure.of<VeauAccount, AuthenticationFailureError>(new AuthenticationFailureError());
+        return Failure.of<VeauAccount, AJAXError>(new AJAXError('UNAUTHORIZED'));
       }
       default: {
         return Failure.of<VeauAccount, AJAXError>(new AJAXError('UNKNOWN ERROR'));

@@ -3,8 +3,6 @@ import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { TYPE } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
-import { AuthenticationFailureError } from '../../../Error/AuthenticationFailureError';
-import { UnauthorizedError } from '../../../Error/UnauthorizedError';
 import { VeauAccountError } from '../../../Error/VeauAccountError';
 import { AJAXError } from '../../../General/AJAX/AJAXError';
 import { MockAJAX } from '../../../General/AJAX/Mock/MockAJAX';
@@ -55,7 +53,7 @@ describe('SessionQuery', () => {
       });
 
       const sessionQuery: SessionQuery = new SessionQuery(ajax);
-      const trial: Try<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError> = await sessionQuery.find();
+      const trial: Try<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.find();
 
       expect(stub.withArgs('/api/identity').called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
@@ -99,12 +97,12 @@ describe('SessionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const sessionQuery: SessionQuery = new SessionQuery(ajax);
-      const trial: Try<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError> = await sessionQuery.find();
+      const trial: Try<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.find();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: VeauAccountError | UnauthorizedError | DataSourceError) => {
+      }, (err: VeauAccountError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(VeauAccountError);
       });
@@ -125,14 +123,14 @@ describe('SessionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const sessionQuery: SessionQuery = new SessionQuery(ajax);
-      const trial: Try<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError> = await sessionQuery.find();
+      const trial: Try<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.find();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: VeauAccountError | UnauthorizedError | DataSourceError) => {
+      }, (err: VeauAccountError | DataSourceError) => {
         spy2();
-        expect(err).toBeInstanceOf(UnauthorizedError);
+        expect(err).toBeInstanceOf(DataSourceError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -168,7 +166,7 @@ describe('SessionQuery', () => {
 
       const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
       const sessionQuery: SessionQuery = new SessionQuery(ajax);
-      const trial: Try<VeauAccount, VeauAccountError | AuthenticationFailureError | DataSourceError> = await sessionQuery.findByEntranceInfo(info);
+      const trial: Try<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.findByEntranceInfo(info);
 
       expect(stub.withArgs('/api/auth', {
         account: 'account',
@@ -216,12 +214,12 @@ describe('SessionQuery', () => {
 
       const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
       const sessionQuery: SessionQuery = new SessionQuery(ajax);
-      const trial: Try<VeauAccount, VeauAccountError | AuthenticationFailureError | DataSourceError> = await sessionQuery.findByEntranceInfo(info);
+      const trial: Try<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.findByEntranceInfo(info);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: VeauAccountError | AuthenticationFailureError | AJAXError | DataSourceError) => {
+      }, (err: VeauAccountError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(VeauAccountError);
       });
@@ -243,14 +241,14 @@ describe('SessionQuery', () => {
 
       const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
       const sessionQuery: SessionQuery = new SessionQuery(ajax);
-      const trial: Try<VeauAccount, VeauAccountError | AuthenticationFailureError | DataSourceError> = await sessionQuery.findByEntranceInfo(info);
+      const trial: Try<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.findByEntranceInfo(info);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: VeauAccountError | AuthenticationFailureError | DataSourceError) => {
+      }, (err: VeauAccountError | DataSourceError) => {
         spy2();
-        expect(err).toBeInstanceOf(AuthenticationFailureError);
+        expect(err).toBeInstanceOf(DataSourceError);
       });
 
       expect(spy1.called).toEqual(false);
@@ -270,12 +268,12 @@ describe('SessionQuery', () => {
 
       const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
       const sessionQuery: SessionQuery = new SessionQuery(ajax);
-      const trial: Try<VeauAccount, VeauAccountError | AuthenticationFailureError | DataSourceError> = await sessionQuery.findByEntranceInfo(info);
+      const trial: Try<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.findByEntranceInfo(info);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
         spy1();
-      }, (err: VeauAccountError | AuthenticationFailureError | DataSourceError) => {
+      }, (err: VeauAccountError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(AJAXError);
       });
