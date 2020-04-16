@@ -1,5 +1,5 @@
 import { DataSourceError } from '../../General/DataSourceError';
-import { Try } from '../../General/Try/Try';
+import { Try } from '../../General/Superposition/Try';
 import { Regions } from '../../VO/Regions';
 import { ICommand } from './ICommand';
 

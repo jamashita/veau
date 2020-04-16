@@ -6,7 +6,7 @@ import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { UnauthorizedError } from '../../Error/UnauthorizedError';
 import { VeauAccountError } from '../../Error/VeauAccountError';
 import { DataSourceError } from '../../General/DataSourceError';
-import { Try } from '../../General/Try/Try';
+import { Try } from '../../General/Superposition/Try';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { ILocaleQuery } from '../../Query/Interface/ILocaleQuery';
 import { ISessionQuery } from '../../Query/Interface/ISessionQuery';

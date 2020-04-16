@@ -1,6 +1,6 @@
 import { StatsValuesError } from '../../Error/StatsValuesError';
 import { DataSourceError } from '../../General/DataSourceError';
-import { Try } from '../../General/Try/Try';
+import { Try } from '../../General/Superposition/Try';
 import { StatsID } from '../../VO/StatsID';
 import { StatsValues } from '../../VO/StatsValues';
 import { IQuery } from './IQuery';

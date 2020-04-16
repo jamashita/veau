@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 import { LoadingCountError } from '../../Error/LoadingCountError';
-import { Try } from '../../General/Try/Try';
+import { Try } from '../../General/Superposition/Try';
 import { LoadingCount } from '../LoadingCount';
 
 // DONE

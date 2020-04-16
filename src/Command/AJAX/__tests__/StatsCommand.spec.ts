@@ -7,7 +7,7 @@ import { MockStats } from '../../../Entity/Mock/MockStats';
 import { AJAXError } from '../../../General/AJAX/AJAXError';
 import { MockAJAX } from '../../../General/AJAX/Mock/MockAJAX';
 import { DataSourceError } from '../../../General/DataSourceError';
-import { Try } from '../../../General/Try/Try';
+import { Try } from '../../../General/Superposition/Try';
 import { UUID } from '../../../General/UUID/UUID';
 import { MockISO3166 } from '../../../VO/Mock/MockISO3166';
 import { MockISO639 } from '../../../VO/Mock/MockISO639';

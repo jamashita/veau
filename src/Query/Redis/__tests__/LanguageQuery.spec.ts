@@ -8,7 +8,7 @@ import { MockError } from '../../../General/Mock/MockError';
 import { MockRedis } from '../../../General/Redis/Mock/MockRedis';
 import { MockRedisString } from '../../../General/Redis/Mock/MockRedisString';
 import { RedisError } from '../../../General/Redis/RedisError';
-import { Try } from '../../../General/Try/Try';
+import { Try } from '../../../General/Superposition/Try';
 import { ISO639 } from '../../../VO/ISO639';
 import { Language, LanguageJSON } from '../../../VO/Language';
 import { Languages } from '../../../VO/Languages';

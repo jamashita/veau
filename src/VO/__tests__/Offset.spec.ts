@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 import { OffsetError } from '../../Error/OffsetError';
-import { Try } from '../../General/Try/Try';
+import { Try } from '../../General/Superposition/Try';
 import { Offset } from '../Offset';
 
 // DONE

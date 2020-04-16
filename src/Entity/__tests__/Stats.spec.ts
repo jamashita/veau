@@ -1,6 +1,6 @@
 import { StatsError } from '../../Error/StatsError';
 import { Some } from '../../General/Quantum/Some';
-import { Try } from '../../General/Try/Try';
+import { Try } from '../../General/Superposition/Try';
 import { UUID } from '../../General/UUID/UUID';
 import { AsOf } from '../../VO/AsOf';
 import { AsOfs } from '../../VO/AsOfs';

@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 import { StatsOutlineError } from '../../Error/StatsOutlineError';
-import { Try } from '../../General/Try/Try';
+import { Try } from '../../General/Superposition/Try';
 import { ISO3166 } from '../ISO3166';
 import { ISO639 } from '../ISO639';
 import { Language } from '../Language';

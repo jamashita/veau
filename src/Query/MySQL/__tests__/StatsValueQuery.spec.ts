@@ -7,7 +7,7 @@ import { DataSourceError } from '../../../General/DataSourceError';
 import { MockError } from '../../../General/Mock/MockError';
 import { MockMySQL } from '../../../General/MySQL/Mock/MockMySQL';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
-import { Try } from '../../../General/Try/Try';
+import { Try } from '../../../General/Superposition/Try';
 import { MockStatsID } from '../../../VO/Mock/MockStatsID';
 import { StatsValueRow } from '../../../VO/StatsValue';
 import { StatsValues } from '../../../VO/StatsValues';

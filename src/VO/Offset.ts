@@ -1,7 +1,7 @@
 import { OffsetError } from '../Error/OffsetError';
-import { Failure } from '../General/Try/Failure';
-import { Success } from '../General/Try/Success';
-import { Try } from '../General/Try/Try';
+import { Failure } from '../General/Superposition/Failure';
+import { Success } from '../General/Superposition/Success';
+import { Try } from '../General/Superposition/Try';
 import { Type } from '../General/Type/Type';
 import { ValueObject } from '../General/ValueObject';
 

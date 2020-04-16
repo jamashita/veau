@@ -1,5 +1,5 @@
-import { Success } from '../Try/Success';
-import { Try } from '../Try/Try';
+import { Success } from '../Superposition/Success';
+import { Try } from '../Superposition/Try';
 import { AsyncConsumer, Consumer, MonoFunction, Predicate } from '../Type/Function';
 import { Suspicious } from '../Type/Value';
 import { maybe } from './Maybe';

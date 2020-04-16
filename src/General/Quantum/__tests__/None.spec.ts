@@ -1,5 +1,5 @@
 import sinon, { SinonSpy } from 'sinon';
-import { Try } from '../../Try/Try';
+import { Try } from '../../Superposition/Try';
 import { None } from '../None';
 import { Quantum } from '../Quantum';
 import { QuantumError } from '../QuantumError';

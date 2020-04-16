@@ -5,7 +5,7 @@ import { filter, map, mapTo, mergeMap } from 'rxjs/operators';
 import { TYPE } from '../../Container/Types';
 import { VeauAccountError } from '../../Error/VeauAccountError';
 import { DataSourceError } from '../../General/DataSourceError';
-import { Try } from '../../General/Try/Try';
+import { Try } from '../../General/Superposition/Try';
 import { ISessionQuery } from '../../Query/Interface/ISessionQuery';
 import { EntranceInformation } from '../../VO/EntranceInformation';
 import { VeauAccount } from '../../VO/VeauAccount';

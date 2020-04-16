@@ -10,7 +10,7 @@ import { StatsError } from '../../Error/StatsError';
 import { DataSourceError } from '../../General/DataSourceError';
 import { Quantum } from '../../General/Quantum/Quantum';
 import { Some } from '../../General/Quantum/Some';
-import { Try } from '../../General/Try/Try';
+import { Try } from '../../General/Superposition/Try';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { ILocaleQuery } from '../../Query/Interface/ILocaleQuery';
 import { IRegionQuery } from '../../Query/Interface/IRegionQuery';

@@ -8,7 +8,7 @@ import { StatsUpdateFactory } from '../Factory/StatsUpdateFactory';
 import { DataSourceError } from '../General/DataSourceError';
 import { Noun } from '../General/Interface/Noun';
 import { IMySQL } from '../General/MySQL/Interface/IMySQL';
-import { Try } from '../General/Try/Try';
+import { Try } from '../General/Superposition/Try';
 import { IStatsOutlineQuery } from '../Query/Interface/IStatsOutlineQuery';
 import { IStatsQuery } from '../Query/Interface/IStatsQuery';
 import { StatsUpdateTransaction } from '../Transaction/StatsUpdateTransaction';

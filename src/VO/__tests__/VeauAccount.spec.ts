@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 import { VeauAccountError } from '../../Error/VeauAccountError';
-import { Try } from '../../General/Try/Try';
+import { Try } from '../../General/Superposition/Try';
 import { UUID } from '../../General/UUID/UUID';
 import { AccountName } from '../AccountName';
 import { ISO3166 } from '../ISO3166';

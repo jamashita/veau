@@ -6,7 +6,7 @@ import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { DataSourceError } from '../../General/DataSourceError';
 import { JSONable } from '../../General/Interface/JSONable';
-import { Try } from '../../General/Try/Try';
+import { Try } from '../../General/Superposition/Try';
 import { LocaleInteractor } from '../../Interactor/LocaleInteractor';
 import { AuthenticationMiddleware } from '../Middleware/AuthenticationMiddleware';
 

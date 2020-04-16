@@ -1,7 +1,7 @@
 import { UpdatedAtError } from '../Error/UpdatedAtError';
-import { Failure } from '../General/Try/Failure';
-import { Success } from '../General/Try/Success';
-import { Try } from '../General/Try/Try';
+import { Failure } from '../General/Superposition/Failure';
+import { Success } from '../General/Superposition/Success';
+import { Try } from '../General/Superposition/Try';
 import { ValueObject } from '../General/ValueObject';
 import { Zeit } from '../General/Zeit/Zeit';
 import { ZeitError } from '../General/Zeit/ZeitError';

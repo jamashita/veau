@@ -6,7 +6,7 @@ import { CacheError } from '../../../General/Cache/CacheError';
 import { MockCache } from '../../../General/Cache/Mock/MockCache';
 import { DataSourceError } from '../../../General/DataSourceError';
 import { MockError } from '../../../General/Mock/MockError';
-import { Try } from '../../../General/Try/Try';
+import { Try } from '../../../General/Superposition/Try';
 import { VAULT_LOCALE_KEY } from '../../../Infrastructure/VeauCache';
 import { ISO3166 } from '../../../VO/ISO3166';
 import { ISO639 } from '../../../VO/ISO639';

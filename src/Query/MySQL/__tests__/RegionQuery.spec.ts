@@ -7,7 +7,7 @@ import { DataSourceError } from '../../../General/DataSourceError';
 import { MockError } from '../../../General/Mock/MockError';
 import { MockMySQL } from '../../../General/MySQL/Mock/MockMySQL';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
-import { Try } from '../../../General/Try/Try';
+import { Try } from '../../../General/Superposition/Try';
 import { ISO3166 } from '../../../VO/ISO3166';
 import { Region, RegionRow } from '../../../VO/Region';
 import { Regions } from '../../../VO/Regions';

@@ -6,7 +6,7 @@ import { vault } from '../../../Container/Vault';
 import { AJAXError } from '../../../General/AJAX/AJAXError';
 import { MockAJAX } from '../../../General/AJAX/Mock/MockAJAX';
 import { DataSourceError } from '../../../General/DataSourceError';
-import { Try } from '../../../General/Try/Try';
+import { Try } from '../../../General/Superposition/Try';
 import { Locale, LocaleJSON } from '../../../VO/Locale';
 import { LocaleQuery } from '../LocaleQuery';
 

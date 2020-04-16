@@ -7,7 +7,7 @@ import { Stats } from '../../Entity/Stats';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { StatsOutlinesError } from '../../Error/StatsOutlinesError';
 import { DataSourceError } from '../../General/DataSourceError';
-import { Try } from '../../General/Try/Try';
+import { Try } from '../../General/Superposition/Try';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { IRegionQuery } from '../../Query/Interface/IRegionQuery';
 import { IStatsOutlineQuery } from '../../Query/Interface/IStatsOutlineQuery';

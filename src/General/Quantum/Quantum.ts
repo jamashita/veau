@@ -1,5 +1,5 @@
 import { Noun } from '../Interface/Noun';
-import { Try } from '../Try/Try';
+import { Try } from '../Superposition/Try';
 import { AsyncConsumer, Consumer, MonoFunction, Predicate } from '../Type/Function';
 import { Suspicious } from '../Type/Value';
 import { None } from './None';

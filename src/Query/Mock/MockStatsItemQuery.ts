@@ -1,7 +1,7 @@
 import { StatsItems } from '../../Entity/StatsItems';
 import { StatsItemsError } from '../../Error/StatsItemsError';
 import { DataSourceError } from '../../General/DataSourceError';
-import { Try } from '../../General/Try/Try';
+import { Try } from '../../General/Superposition/Try';
 import { UnimplementedError } from '../../General/UnimplementedError';
 import { StatsID } from '../../VO/StatsID';
 import { IMockQuery } from '../Interface/IMockQuery';

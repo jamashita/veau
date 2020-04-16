@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 import { AsOfError } from '../../Error/AsOfError';
-import { Try } from '../../General/Try/Try';
+import { Try } from '../../General/Superposition/Try';
 import { AsOf } from '../AsOf';
 import { MockTerm } from '../Mock/MockTerm';
 import { Term } from '../Term';

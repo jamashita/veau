@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import sinon, { SinonSpy } from 'sinon';
 import { UpdatedAtError } from '../../Error/UpdatedAtError';
-import { Try } from '../../General/Try/Try';
+import { Try } from '../../General/Superposition/Try';
 import { Zeit } from '../../General/Zeit/Zeit';
 import { UpdatedAt } from '../UpdatedAt';
 

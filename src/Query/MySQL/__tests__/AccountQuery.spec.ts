@@ -8,7 +8,7 @@ import { DataSourceError } from '../../../General/DataSourceError';
 import { MockError } from '../../../General/Mock/MockError';
 import { MockMySQL } from '../../../General/MySQL/Mock/MockMySQL';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
-import { Try } from '../../../General/Try/Try';
+import { Try } from '../../../General/Superposition/Try';
 import { Account, AccountRow } from '../../../VO/Account';
 import { MockAccountName } from '../../../VO/Mock/MockAccountName';
 import { AccountQuery } from '../AccountQuery';

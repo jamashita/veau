@@ -7,7 +7,7 @@ import { VeauAccountError } from '../../../Error/VeauAccountError';
 import { AJAXError } from '../../../General/AJAX/AJAXError';
 import { MockAJAX } from '../../../General/AJAX/Mock/MockAJAX';
 import { DataSourceError } from '../../../General/DataSourceError';
-import { Try } from '../../../General/Try/Try';
+import { Try } from '../../../General/Superposition/Try';
 import { AccountName } from '../../../VO/AccountName';
 import { EntranceInformation } from '../../../VO/EntranceInformation';
 import { Password } from '../../../VO/Password';

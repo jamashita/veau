@@ -10,7 +10,7 @@ import { StatsError } from '../../Error/StatsError';
 import { StatsOutlinesError } from '../../Error/StatsOutlinesError';
 import { DataSourceError } from '../../General/DataSourceError';
 import { JSONable } from '../../General/Interface/JSONable';
-import { Try } from '../../General/Try/Try';
+import { Try } from '../../General/Superposition/Try';
 import { StatsInteractor } from '../../Interactor/StatsInteractor';
 import { Page } from '../../VO/Page';
 import { StatsID } from '../../VO/StatsID';

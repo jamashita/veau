@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 import { StatsIDError } from '../../Error/StatsIDError';
-import { Try } from '../../General/Try/Try';
+import { Try } from '../../General/Superposition/Try';
 import { UUID } from '../../General/UUID/UUID';
 import { StatsID } from '../StatsID';
 

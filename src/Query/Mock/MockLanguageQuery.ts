@@ -1,6 +1,6 @@
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { DataSourceError } from '../../General/DataSourceError';
-import { Try } from '../../General/Try/Try';
+import { Try } from '../../General/Superposition/Try';
 import { UnimplementedError } from '../../General/UnimplementedError';
 import { ISO639 } from '../../VO/ISO639';
 import { Language } from '../../VO/Language';

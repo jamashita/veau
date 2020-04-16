@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 import { HeaderSizeError } from '../../Error/HeaderSizeError';
-import { Try } from '../../General/Try/Try';
+import { Try } from '../../General/Superposition/Try';
 import { HeaderSize } from '../HeaderSize';
 
 // DONE

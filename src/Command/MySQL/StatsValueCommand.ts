@@ -1,9 +1,9 @@
 import { DataSourceError } from '../../General/DataSourceError';
 import { ISQL } from '../../General/MySQL/Interface/ISQL';
 import { MySQLError } from '../../General/MySQL/MySQLError';
-import { Failure } from '../../General/Try/Failure';
-import { Success } from '../../General/Try/Success';
-import { Try } from '../../General/Try/Try';
+import { Failure } from '../../General/Superposition/Failure';
+import { Success } from '../../General/Superposition/Success';
+import { Try } from '../../General/Superposition/Try';
 import { StatsID } from '../../VO/StatsID';
 import { StatsValue } from '../../VO/StatsValue';
 import { IMySQLCommand } from '../Interface/IMySQLCommand';

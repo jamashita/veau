@@ -4,7 +4,7 @@ import { DataSourceError } from '../../../General/DataSourceError';
 import { MockError } from '../../../General/Mock/MockError';
 import { MockSQL } from '../../../General/MySQL/Mock/MockSQL';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
-import { Try } from '../../../General/Try/Try';
+import { Try } from '../../../General/Superposition/Try';
 import { UUID } from '../../../General/UUID/UUID';
 import { MockStatsID } from '../../../VO/Mock/MockStatsID';
 import { MockStatsItemID } from '../../../VO/Mock/MockStatsItemID';

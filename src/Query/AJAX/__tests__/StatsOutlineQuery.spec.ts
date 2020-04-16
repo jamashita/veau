@@ -7,7 +7,7 @@ import { StatsOutlinesError } from '../../../Error/StatsOutlinesError';
 import { AJAXError } from '../../../General/AJAX/AJAXError';
 import { MockAJAX } from '../../../General/AJAX/Mock/MockAJAX';
 import { DataSourceError } from '../../../General/DataSourceError';
-import { Try } from '../../../General/Try/Try';
+import { Try } from '../../../General/Superposition/Try';
 import { MockVeauAccountID } from '../../../VO/Mock/MockVeauAccountID';
 import { Page } from '../../../VO/Page';
 import { StatsOutlineJSON } from '../../../VO/StatsOutline';

@@ -7,7 +7,7 @@ import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { DataSourceError } from '../General/DataSourceError';
 import { Digest } from '../General/Digest';
 import { Noun } from '../General/Interface/Noun';
-import { Try } from '../General/Try/Try';
+import { Try } from '../General/Superposition/Try';
 import { IAccountQuery } from '../Query/Interface/IAccountQuery';
 import { Account } from '../VO/Account';
 import { AccountName } from '../VO/AccountName';

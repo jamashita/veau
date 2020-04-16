@@ -7,7 +7,7 @@ import { DataSourceError } from '../../../General/DataSourceError';
 import { MockError } from '../../../General/Mock/MockError';
 import { MockMySQL } from '../../../General/MySQL/Mock/MockMySQL';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
-import { Try } from '../../../General/Try/Try';
+import { Try } from '../../../General/Superposition/Try';
 import { MockPage } from '../../../VO/Mock/MockPage';
 import { MockVeauAccountID } from '../../../VO/Mock/MockVeauAccountID';
 import { Page } from '../../../VO/Page';

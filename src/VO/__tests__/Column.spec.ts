@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 import { ColumnError } from '../../Error/ColumnError';
-import { Try } from '../../General/Try/Try';
+import { Try } from '../../General/Superposition/Try';
 import { Column } from '../Column';
 
 // DONE

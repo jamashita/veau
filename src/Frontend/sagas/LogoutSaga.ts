@@ -4,7 +4,7 @@ import { all, call, fork, put, take } from 'redux-saga/effects';
 import { ISessionCommand } from '../../Command/Interface/ISessionCommand';
 import { TYPE } from '../../Container/Types';
 import { DataSourceError } from '../../General/DataSourceError';
-import { Try } from '../../General/Try/Try';
+import { Try } from '../../General/Superposition/Try';
 import { ACTION } from '../actions/Action';
 import { initializeIdentity } from '../actions/IdentityAction';
 import { closeProvider } from '../actions/PageProviderAction';

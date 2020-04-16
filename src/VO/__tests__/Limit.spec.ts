@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 import { LimitError } from '../../Error/LimitError';
-import { Try } from '../../General/Try/Try';
+import { Try } from '../../General/Superposition/Try';
 import { Limit } from '../Limit';
 
 // DONE

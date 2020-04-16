@@ -7,7 +7,7 @@ import { MockError } from '../../../General/Mock/MockError';
 import { MockRedis } from '../../../General/Redis/Mock/MockRedis';
 import { MockRedisString } from '../../../General/Redis/Mock/MockRedisString';
 import { RedisError } from '../../../General/Redis/RedisError';
-import { Try } from '../../../General/Try/Try';
+import { Try } from '../../../General/Superposition/Try';
 import { MockRegion } from '../../../VO/Mock/MockRegion';
 import { MockRegionName } from '../../../VO/Mock/MockRegionName';
 import { MockRegions } from '../../../VO/Mock/MockRegions';

@@ -1,5 +1,5 @@
 import { DataSourceError } from '../../General/DataSourceError';
-import { Try } from '../../General/Try/Try';
+import { Try } from '../../General/Superposition/Try';
 import { UnimplementedError } from '../../General/UnimplementedError';
 import { ILanguageCommand } from '../Interface/ILanguageCommand';
 import { IMockCommand } from '../Interface/IMockCommand';

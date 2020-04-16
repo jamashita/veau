@@ -5,9 +5,9 @@ import { AJAXError } from '../../General/AJAX/AJAXError';
 import { AJAXResponse } from '../../General/AJAX/AJAXResponse';
 import { IAJAX } from '../../General/AJAX/Interface/IAJAX';
 import { DataSourceError } from '../../General/DataSourceError';
-import { Failure } from '../../General/Try/Failure';
-import { Success } from '../../General/Try/Success';
-import { Try } from '../../General/Try/Try';
+import { Failure } from '../../General/Superposition/Failure';
+import { Success } from '../../General/Superposition/Success';
+import { Try } from '../../General/Superposition/Try';
 import { IAJAXCommand } from '../Interface/IAJAXCommand';
 import { ISessionCommand } from '../Interface/ISessionCommand';
 
