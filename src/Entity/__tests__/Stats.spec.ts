@@ -1,5 +1,5 @@
 import { StatsError } from '../../Error/StatsError';
-import { Some } from '../../General/Optional/Some';
+import { Some } from '../../General/Quantum/Some';
 import { Try } from '../../General/Try/Try';
 import { UUID } from '../../General/UUID/UUID';
 import { AsOf } from '../../VO/AsOf';

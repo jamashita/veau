@@ -1,7 +1,7 @@
 import { ImmutableSequence } from '../General/Collection/Sequence/ImmutableSequence';
 import { Sequence } from '../General/Collection/Sequence/Interface/Sequence';
 import { Collection } from '../General/Interface/Collection';
-import { Optional } from '../General/Optional/Optional';
+import { Optional } from '../General/Quantum/Optional';
 import { NumericalValue } from './NumericalValue';
 
 export class NumericalValues implements Collection<number, NumericalValue> {

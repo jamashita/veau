@@ -1,5 +1,5 @@
 import { ImmutableSequence } from '../../General/Collection/Sequence/ImmutableSequence';
-import { None } from '../../General/Optional/None';
+import { None } from '../../General/Quantum/None';
 import { MockNumericalValue } from '../Mock/MockNumericalValue';
 import { NumericalValue } from '../NumericalValue';
 import { NumericalValues } from '../NumericalValues';

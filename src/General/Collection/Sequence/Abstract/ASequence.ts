@@ -1,7 +1,7 @@
 import { Nominative } from '../../../Interface/Nominative';
-import { None } from '../../../Optional/None';
-import { Optional } from '../../../Optional/Optional';
-import { Some } from '../../../Optional/Some';
+import { None } from '../../../Quantum/None';
+import { Optional } from '../../../Quantum/Optional';
+import { Some } from '../../../Quantum/Some';
 import { Enumerator, Mapper, Predicate } from '../../../Type/Function';
 import { Ambiguous } from '../../../Type/Value';
 import { ImmutableSequence } from '../ImmutableSequence';

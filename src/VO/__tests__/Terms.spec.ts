@@ -1,5 +1,5 @@
 import sinon, { SinonStub } from 'sinon';
-import { None } from '../../General/Optional/None';
+import { None } from '../../General/Quantum/None';
 import { MockTerm } from '../Mock/MockTerm';
 import { Term } from '../Term';
 import { Terms } from '../Terms';

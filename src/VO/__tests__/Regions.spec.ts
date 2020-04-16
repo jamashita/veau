@@ -1,5 +1,5 @@
 import { ImmutableSequence } from '../../General/Collection/Sequence/ImmutableSequence';
-import { None } from '../../General/Optional/None';
+import { None } from '../../General/Quantum/None';
 import { ISO3166 } from '../ISO3166';
 import { MockISO3166 } from '../Mock/MockISO3166';
 import { MockRegion } from '../Mock/MockRegion';

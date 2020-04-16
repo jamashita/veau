@@ -1,5 +1,5 @@
-import { None } from '../../General/Optional/None';
-import { Optional } from '../../General/Optional/Optional';
+import { None } from '../../General/Quantum/None';
+import { Optional } from '../../General/Quantum/Optional';
 import { AsOf } from '../../VO/AsOf';
 import { Language } from '../../VO/Language';
 import { MockLanguage } from '../../VO/Mock/MockLanguage';

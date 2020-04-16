@@ -2,7 +2,7 @@ import { ImmutableSequence } from '../General/Collection/Sequence/ImmutableSeque
 import { Sequence } from '../General/Collection/Sequence/Interface/Sequence';
 import { Collection } from '../General/Interface/Collection';
 import { JSONable } from '../General/Interface/JSONable';
-import { Optional } from '../General/Optional/Optional';
+import { Optional } from '../General/Quantum/Optional';
 import { Mapper } from '../General/Type/Function';
 import { StatsItemName } from './StatsItemName';
 

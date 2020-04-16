@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify';
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { DataSourceError } from '../../General/DataSourceError';
-import { Optional } from '../../General/Optional/Optional';
+import { Optional } from '../../General/Quantum/Optional';
 import { IRedis } from '../../General/Redis/Interface/IRedis';
 import { RedisError } from '../../General/Redis/RedisError';
 import { Failure } from '../../General/Try/Failure';

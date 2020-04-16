@@ -1,5 +1,5 @@
 import { ImmutableSequence } from '../../General/Collection/Sequence/ImmutableSequence';
-import { None } from '../../General/Optional/None';
+import { None } from '../../General/Quantum/None';
 import { MockStatsItemName } from '../Mock/MockStatsItemName';
 import { StatsItemName } from '../StatsItemName';
 import { StatsItemNames } from '../StatsItemNames';

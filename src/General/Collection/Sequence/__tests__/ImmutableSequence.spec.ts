@@ -1,6 +1,6 @@
 import { MockNominative } from '../../../Mock/MockNominative';
-import { None } from '../../../Optional/None';
-import { Optional } from '../../../Optional/Optional';
+import { None } from '../../../Quantum/None';
+import { Optional } from '../../../Quantum/Optional';
 import { ImmutableSequence } from '../ImmutableSequence';
 
 describe('ImmutableSequence', () => {

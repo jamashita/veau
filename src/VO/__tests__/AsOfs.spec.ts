@@ -1,5 +1,5 @@
 import { ImmutableSequence } from '../../General/Collection/Sequence/ImmutableSequence';
-import { None } from '../../General/Optional/None';
+import { None } from '../../General/Quantum/None';
 import { AsOf } from '../AsOf';
 import { AsOfs } from '../AsOfs';
 import { MockAsOf } from '../Mock/MockAsOf';

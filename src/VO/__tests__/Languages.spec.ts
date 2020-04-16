@@ -1,5 +1,5 @@
 import { ImmutableSequence } from '../../General/Collection/Sequence/ImmutableSequence';
-import { None } from '../../General/Optional/None';
+import { None } from '../../General/Quantum/None';
 import { ISO639 } from '../ISO639';
 import { Language, LanguageJSON, LanguageRow } from '../Language';
 import { LanguageID } from '../LanguageID';
