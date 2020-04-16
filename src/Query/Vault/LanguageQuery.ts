@@ -42,7 +42,7 @@ export class LanguageQuery implements ILanguageQuery, IVaultQuery {
         return language.getISO639().equals(iso639);
       });
 
-      return quantum.toTry().match<Language, NoSuchElementError | DataSourceError>((language: Language) => {
+      return quantum.toSuperposition().match<Language, NoSuchElementError | DataSourceError>((language: Language) => {
         return Success.of<Language, DataSourceError>(language);
       }, () => {
         return Failure.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.get()));

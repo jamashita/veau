@@ -29,5 +29,5 @@ export abstract class Quantum<T> implements Noun {
 
   public abstract map<U>(mapper: MonoFunction<T, Suspicious<U>>): Quantum<U>;
 
-  public abstract toTry(): Superposition<T, QuantumError>;
+  public abstract toSuperposition(): Superposition<T, QuantumError>;
 }

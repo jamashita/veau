@@ -48,7 +48,7 @@ export class Some<T> extends Quantum<T> {
     return maybe<U>(result);
   }
 
-  public toTry(): Superposition<T, QuantumError> {
+  public toSuperposition(): Superposition<T, QuantumError> {
     return Success.of<T, QuantumError>(this.value);
   }
 }

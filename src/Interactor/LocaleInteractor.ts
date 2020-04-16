@@ -36,8 +36,8 @@ export class LocaleInteractor implements Noun {
 
   public async all(): Promise<Superposition<Locale, NoSuchElementError | DataSourceError>> {
     const [
-      languagesTry,
-      regionsTry
+      languagesSuperposition,
+      regionsSuperposition
     ]: [
       Superposition<Languages, NoSuchElementError | DataSourceError>,
       Superposition<Regions, NoSuchElementError | DataSourceError>
@@ -46,8 +46,8 @@ export class LocaleInteractor implements Noun {
       this.regionQuery.all()
     ]);
 
-    return languagesTry.match<Locale, NoSuchElementError | DataSourceError>((languages: Languages) => {
-      return regionsTry.match<Locale, NoSuchElementError | DataSourceError>((regions: Regions) => {
+    return languagesSuperposition.match<Locale, NoSuchElementError | DataSourceError>((languages: Languages) => {
+      return regionsSuperposition.match<Locale, NoSuchElementError | DataSourceError>((regions: Regions) => {
         return Success.of<Locale, DataSourceError>(Locale.of(languages, regions));
       }, (err: NoSuchElementError | DataSourceError, self: Failure<Regions, NoSuchElementError | DataSourceError>) => {
         return self.transpose<Locale>();
@@ -59,8 +59,8 @@ export class LocaleInteractor implements Noun {
 
   public async delete(): Promise<Superposition<void, DataSourceError>> {
     const [
-      languagesTry,
-      regionsTry
+      languagesSuperposition,
+      regionsSuperposition
     ]: [
       Superposition<void, DataSourceError>,
       Superposition<void, DataSourceError>
@@ -69,8 +69,8 @@ export class LocaleInteractor implements Noun {
       this.regionCommand.deleteAll()
     ]);
 
-    return languagesTry.match<void, DataSourceError>(() => {
-      return regionsTry.match<void, DataSourceError>(() => {
+    return languagesSuperposition.match<void, DataSourceError>(() => {
+      return regionsSuperposition.match<void, DataSourceError>(() => {
         return Success.of<DataSourceError>();
       }, (err: DataSourceError, self: Failure<void, DataSourceError>) => {
         return self;

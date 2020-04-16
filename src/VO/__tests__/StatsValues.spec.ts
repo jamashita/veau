@@ -44,9 +44,9 @@ describe('StatsValues', () => {
     });
   });
 
-  describe('ofTry', () => {
+  describe('ofSuperposition', () => {
     it('when empty Array given, returns Success, and StatsValues.empty()', () => {
-      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofTry([]);
+      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofSuperposition([]);
 
       expect(superposition.isSuccess()).toBe(true);
       expect(superposition.get()).toBe(StatsValues.empty());
@@ -58,7 +58,7 @@ describe('StatsValues', () => {
 
       const superposition1: Superposition<StatsValue, StatsValueError> = Success.of<StatsValue, StatsValueError>(statsValue1);
       const superposition2: Superposition<StatsValue, StatsValueError> = Success.of<StatsValue, StatsValueError>(statsValue2);
-      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofTry([
+      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofSuperposition([
         superposition1,
         superposition2
       ]);
@@ -80,7 +80,7 @@ describe('StatsValues', () => {
       const superposition2: Superposition<StatsValue, StatsValueError> = Failure.of<StatsValue, StatsValueError>(
         new StatsValueError('test failed')
       );
-      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofTry([
+      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofSuperposition([
         superposition1,
         superposition2
       ]);
@@ -107,7 +107,7 @@ describe('StatsValues', () => {
       const superposition2: Superposition<StatsValue, StatsValueError> = Failure.of<StatsValue, StatsValueError>(
         new StatsValueError('test failed2')
       );
-      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofTry([
+      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofSuperposition([
         superposition1,
         superposition2
       ]);

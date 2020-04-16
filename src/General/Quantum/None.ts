@@ -49,7 +49,7 @@ export class None<T> extends Quantum<T> {
     return this as never as None<U>;
   }
 
-  public toTry(): Superposition<T, QuantumError> {
+  public toSuperposition(): Superposition<T, QuantumError> {
     return Failure.of<T, QuantumError>(new QuantumError('IS NOT PRESENT'));
   }
 }

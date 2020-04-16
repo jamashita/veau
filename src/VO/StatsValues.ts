@@ -41,11 +41,11 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
     return StatsValues.ofArray(values);
   }
 
-  public static ofTry(superpositions: Array<Superposition<StatsValue, StatsValueError>>): Superposition<StatsValues, StatsValuesError> {
+  public static ofSuperposition(superpositions: Array<Superposition<StatsValue, StatsValueError>>): Superposition<StatsValues, StatsValuesError> {
     return manoeuvre<StatsValue, StatsValueError>(superpositions).match<StatsValues, StatsValuesError>((values: Array<StatsValue>) => {
       return Success.of<StatsValues, StatsValuesError>(StatsValues.ofArray(values));
     }, (err: StatsValueError) => {
-      return Failure.of<StatsValues, StatsValuesError>(new StatsValuesError('StatsValues.ofTry()', err));
+      return Failure.of<StatsValues, StatsValuesError>(new StatsValuesError('StatsValues.ofSuperposition()', err));
     });
   }
 
@@ -54,7 +54,7 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
       return StatsValue.ofJSON(statsItemID, statsValue);
     });
 
-    return StatsValues.ofTry(superpositions);
+    return StatsValues.ofSuperposition(superpositions);
   }
 
   public static ofRow(rows: Array<StatsValueRow>): Superposition<StatsValues, StatsValuesError> {
@@ -62,7 +62,7 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
       return StatsValue.ofRow(statsValue);
     });
 
-    return StatsValues.ofTry(superpositions);
+    return StatsValues.ofSuperposition(superpositions);
   }
 
   public static isJSON(n: unknown): n is Array<StatsValueJSON> {

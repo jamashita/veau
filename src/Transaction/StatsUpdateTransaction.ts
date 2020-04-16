@@ -57,12 +57,12 @@ export class StatsUpdateTransaction implements IStatsUpdateTransaction {
         });
       });
 
-      const statsInsertTry: Superposition<void, DataSourceError> = await statsCommand.create(this.stats, this.veauAccountID);
+      const statsInsertSuperposition: Superposition<void, DataSourceError> = await statsCommand.create(this.stats, this.veauAccountID);
       const statsItemInsertTries: Array<Superposition<void, DataSourceError>> = await Promise.all<Superposition<void, DataSourceError>>(itemPromises);
       const statsValueInsertTries: Array<Superposition<void, DataSourceError>> = await Promise.all<Superposition<void, DataSourceError>>(valuePromises);
 
       return manoeuvre<unknown, DataSourceError>([
-        statsInsertTry,
+        statsInsertSuperposition,
         ...statsItemInsertTries,
         ...statsValueInsertTries
       ]);

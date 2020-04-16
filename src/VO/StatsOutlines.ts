@@ -35,12 +35,12 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
     return StatsOutlines.ofArray(outlines);
   }
 
-  public static ofTry(superpositions: Array<Superposition<StatsOutline, StatsOutlineError>>): Superposition<StatsOutlines, StatsOutlinesError> {
+  public static ofSuperposition(superpositions: Array<Superposition<StatsOutline, StatsOutlineError>>): Superposition<StatsOutlines, StatsOutlinesError> {
     return manoeuvre<StatsOutline, StatsOutlineError>(superpositions).match<StatsOutlines, StatsOutlinesError>((outlines: Array<StatsOutline>) => {
       return Success.of<StatsOutlines, StatsOutlinesError>(StatsOutlines.ofArray(outlines));
     }, (err: StatsOutlineError) => {
       return Failure.of<StatsOutlines, StatsOutlinesError>(
-        new StatsOutlinesError('StatsOutlines.ofTry()', err)
+        new StatsOutlinesError('StatsOutlines.ofSuperposition()', err)
       );
     });
   }
@@ -50,7 +50,7 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
       return StatsOutline.ofJSON(outline);
     });
 
-    return StatsOutlines.ofTry(superpositions);
+    return StatsOutlines.ofSuperposition(superpositions);
   }
 
   public static ofRow(rows: Array<StatsOutlineRow>): Superposition<StatsOutlines, StatsOutlinesError> {
@@ -58,7 +58,7 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
       return StatsOutline.ofRow(outline);
     });
 
-    return StatsOutlines.ofTry(superpositions);
+    return StatsOutlines.ofSuperposition(superpositions);
   }
 
   public static empty(): StatsOutlines {
