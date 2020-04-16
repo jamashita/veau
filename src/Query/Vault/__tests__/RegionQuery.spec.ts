@@ -41,10 +41,10 @@ describe('RegionQuery', () => {
       stub.resolves(Success.of<Locale, DataSourceError>(locale));
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const trial: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
+      const superposition: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
-      expect(trial.isSuccess()).toEqual(true);
-      expect(trial.get()).toEqual(locale.getRegions());
+      expect(superposition.isSuccess()).toEqual(true);
+      expect(superposition.get()).toEqual(locale.getRegions());
     });
 
     it('LocaleQuery returns Failure', async () => {
@@ -56,10 +56,10 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const trial: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
+      const superposition: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
         spy2();
@@ -94,10 +94,10 @@ describe('RegionQuery', () => {
       stub.resolves(Success.of<Locale, DataSourceError>(locale));
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const trial: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      const superposition: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
-      expect(trial.isSuccess()).toEqual(true);
-      expect(trial.get()).toEqual(locale.getRegions().get(1).get());
+      expect(superposition.isSuccess()).toEqual(true);
+      expect(superposition.get()).toEqual(locale.getRegions().get(1).get());
     });
 
     it('LocaleQuery.all returns Failure', async () => {
@@ -109,10 +109,10 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const trial: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      const superposition: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
         spy2();
@@ -147,10 +147,10 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const trial: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('OOP'));
+      const superposition: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('OOP'));
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
         spy2();

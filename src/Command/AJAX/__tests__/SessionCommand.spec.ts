@@ -32,9 +32,9 @@ describe('SessionCommand', () => {
       });
 
       const sessionCommand: SessionCommand = new SessionCommand(ajax);
-      const trial: Superposition<void, DataSourceError> = await sessionCommand.delete();
+      const superposition: Superposition<void, DataSourceError> = await sessionCommand.delete();
 
-      expect(trial.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toEqual(true);
       expect(stub.withArgs('/api/destroy').called).toEqual(true);
     });
 
@@ -50,10 +50,10 @@ describe('SessionCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const sessionCommand: SessionCommand = new SessionCommand(ajax);
-      const trial: Superposition<void, DataSourceError> = await sessionCommand.delete();
+      const superposition: Superposition<void, DataSourceError> = await sessionCommand.delete();
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();

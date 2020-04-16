@@ -75,9 +75,9 @@ describe('StatsUpdateTransaction', () => {
         statsUpdateFactory
       );
       const sql: MockSQL = new MockSQL();
-      const trial: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
+      const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
-      expect(trial.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toEqual(true);
       expect(stub1.called).toEqual(true);
       expect(stub2.called).toEqual(true);
       expect(stub3.called).toEqual(true);
@@ -133,10 +133,10 @@ describe('StatsUpdateTransaction', () => {
         statsUpdateFactory
       );
       const sql: MockSQL = new MockSQL();
-      const trial: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
+      const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();
@@ -197,10 +197,10 @@ describe('StatsUpdateTransaction', () => {
         statsUpdateFactory
       );
       const sql: MockSQL = new MockSQL();
-      const trial: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
+      const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();
@@ -261,10 +261,10 @@ describe('StatsUpdateTransaction', () => {
         statsUpdateFactory
       );
       const sql: MockSQL = new MockSQL();
-      const trial: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
+      const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();
@@ -334,10 +334,10 @@ describe('StatsUpdateTransaction', () => {
         statsUpdateFactory
       );
       const sql: MockSQL = new MockSQL();
-      const trial: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
+      const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();
@@ -410,10 +410,10 @@ describe('StatsUpdateTransaction', () => {
         statsUpdateFactory
       );
       const sql: MockSQL = new MockSQL();
-      const trial: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
+      const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();
@@ -486,10 +486,10 @@ describe('StatsUpdateTransaction', () => {
         statsUpdateFactory
       );
       const sql: MockSQL = new MockSQL();
-      const trial: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
+      const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();

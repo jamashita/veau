@@ -8,11 +8,7 @@ import { Superposition } from '../../General/Superposition/Superposition';
 import { ISessionQuery } from '../../Query/Interface/ISessionQuery';
 import { EntranceInformation } from '../../VO/EntranceInformation';
 import { VeauAccount } from '../../VO/VeauAccount';
-import {
-  ACTION,
-  EntranceAccountNameTypedAction,
-  EntrancePasswordTypedAction
-} from '../actions/Action';
+import { ACTION, EntranceAccountNameTypedAction, EntrancePasswordTypedAction } from '../actions/Action';
 import { updateEntranceInformation } from '../actions/EntranceAction';
 import { identified, identityAuthenticated } from '../actions/IdentityAction';
 import { loaded, loading } from '../actions/LoadingAction';
@@ -55,13 +51,13 @@ export class EntranceSaga {
 
       yield put(loading());
 
-      const trial: Superposition<VeauAccount, VeauAccountError | DataSourceError> = yield call((): Promise<Superposition<VeauAccount, VeauAccountError | DataSourceError>> => {
+      const superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError> = yield call((): Promise<Superposition<VeauAccount, VeauAccountError | DataSourceError>> => {
         return this.sessionQuery.findByEntranceInfo(entranceInformation);
       });
 
       yield put(loaded());
 
-      yield trial.match<Effect>((veauAccount: VeauAccount) => {
+      yield superposition.match<Effect>((veauAccount: VeauAccount) => {
         return all([
           put(identityAuthenticated(veauAccount)),
           put(pushToStatsList()),

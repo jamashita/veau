@@ -58,11 +58,11 @@ describe('StatsQuery', () => {
       });
 
       const statsQuery: StatsQuery = new StatsQuery(ajax);
-      const trial: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
+      const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
 
       expect(stub.withArgs('/api/stats/f6fb9662-cbe8-4a91-8aa4-47a92f05b007').called).toEqual(true);
-      expect(trial.isSuccess()).toEqual(true);
-      const stats: Stats = trial.get();
+      expect(superposition.isSuccess()).toEqual(true);
+      const stats: Stats = superposition.get();
       expect(stats.getStatsID().get().get()).toEqual(json.statsID);
       expect(stats.getLanguage().getLanguageID().get()).toEqual(json.language.languageID);
       expect(stats.getLanguage().getName().get()).toEqual(json.language.name);
@@ -110,10 +110,10 @@ describe('StatsQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsQuery: StatsQuery = new StatsQuery(ajax);
-      const trial: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
+      const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: StatsError | NoSuchElementError | DataSourceError) => {
         spy2();
@@ -138,10 +138,10 @@ describe('StatsQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsQuery: StatsQuery = new StatsQuery(ajax);
-      const trial: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
+      const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: StatsError | NoSuchElementError | DataSourceError) => {
         spy2();
@@ -166,10 +166,10 @@ describe('StatsQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsQuery: StatsQuery = new StatsQuery(ajax);
-      const trial: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
+      const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: StatsError | NoSuchElementError | DataSourceError) => {
         spy2();

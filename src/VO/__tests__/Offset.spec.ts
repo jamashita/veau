@@ -28,25 +28,25 @@ describe('Offset', () => {
     });
 
     it('returns Failure when the argument is not integer', () => {
-      const trial1: Superposition<Offset, OffsetError> = Offset.of(0.1);
-      const trial2: Superposition<Offset, OffsetError> = Offset.of(1.5);
+      const superposition1: Superposition<Offset, OffsetError> = Offset.of(0.1);
+      const superposition2: Superposition<Offset, OffsetError> = Offset.of(1.5);
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      expect(trial1.isFailure()).toEqual(true);
-      expect(trial2.isFailure()).toEqual(true);
+      expect(superposition1.isFailure()).toEqual(true);
+      expect(superposition2.isFailure()).toEqual(true);
 
-      trial1.match<void>(() => {
+      superposition1.match<void>(() => {
         spy1();
       }, (err: OffsetError) => {
         spy2();
         expect(err).toBeInstanceOf(OffsetError);
       });
 
-      trial2.match<void>(() => {
+      superposition2.match<void>(() => {
         spy3();
       }, (err: OffsetError) => {
         spy4();

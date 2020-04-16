@@ -51,11 +51,11 @@ describe('RegionCommand', () => {
       stub2.resolves();
 
       const regionCommand: RegionCommand = new RegionCommand(redis);
-      const trial: Superposition<void, DataSourceError> = await regionCommand.insertAll(regions);
+      const superposition: Superposition<void, DataSourceError> = await regionCommand.insertAll(regions);
 
       expect(stub1.withArgs('REGIONS', JSON.stringify(regions.toJSON())).called).toEqual(true);
       expect(stub2.withArgs('REGIONS', 3 * 60 * 60).called).toEqual(true);
-      expect(trial.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toEqual(true);
     });
 
     it('returns Failure because the client throws RedisError by MockRedisString.set', async () => {
@@ -75,10 +75,10 @@ describe('RegionCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionCommand: RegionCommand = new RegionCommand(redis);
-      const trial: Superposition<void, DataSourceError> = await regionCommand.insertAll(regions);
+      const superposition: Superposition<void, DataSourceError> = await regionCommand.insertAll(regions);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();
@@ -106,10 +106,10 @@ describe('RegionCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionCommand: RegionCommand = new RegionCommand(redis);
-      const trial: Superposition<void, DataSourceError> = await regionCommand.insertAll(regions);
+      const superposition: Superposition<void, DataSourceError> = await regionCommand.insertAll(regions);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();
@@ -145,10 +145,10 @@ describe('RegionCommand', () => {
       stub.resolves(true);
 
       const regionCommand: RegionCommand = new RegionCommand(redis);
-      const trial: Superposition<void, DataSourceError> = await regionCommand.deleteAll();
+      const superposition: Superposition<void, DataSourceError> = await regionCommand.deleteAll();
 
       expect(stub.withArgs('REGIONS').called).toEqual(true);
-      expect(trial.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toEqual(true);
     });
 
     it('returns Failure with CacheError because Redis.delete fails', async () => {
@@ -160,10 +160,10 @@ describe('RegionCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionCommand: RegionCommand = new RegionCommand(redis);
-      const trial: Superposition<void, DataSourceError> = await regionCommand.deleteAll();
+      const superposition: Superposition<void, DataSourceError> = await regionCommand.deleteAll();
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();
@@ -183,10 +183,10 @@ describe('RegionCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionCommand: RegionCommand = new RegionCommand(redis);
-      const trial: Superposition<void, DataSourceError> = await regionCommand.deleteAll();
+      const superposition: Superposition<void, DataSourceError> = await regionCommand.deleteAll();
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();

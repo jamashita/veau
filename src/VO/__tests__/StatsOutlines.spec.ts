@@ -44,27 +44,27 @@ describe('StatsOutlines', () => {
     });
   });
 
-  describe('ofTry', () => {
+  describe('ofSuperposition', () => {
     it('when empty Array given, returns Success, and StatsOutlines.empty()', () => {
-      const trial: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofTry([]);
+      const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofSuperposition([]);
 
-      expect(trial.isSuccess()).toBe(true);
-      expect(trial.get()).toBe(StatsOutlines.empty());
+      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.get()).toBe(StatsOutlines.empty());
     });
 
     it('normal case', () => {
       const statsOutline1: MockStatsOutline = new MockStatsOutline();
       const statsOutline2: MockStatsOutline = new MockStatsOutline();
 
-      const trial1: Superposition<StatsOutline, StatsOutlineError> = Success.of<StatsOutline, StatsOutlineError>(statsOutline1);
-      const trial2: Superposition<StatsOutline, StatsOutlineError> = Success.of<StatsOutline, StatsOutlineError>(statsOutline2);
-      const trial: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofTry([
-        trial1,
-        trial2
+      const superposition1: Superposition<StatsOutline, StatsOutlineError> = Success.of<StatsOutline, StatsOutlineError>(statsOutline1);
+      const superposition2: Superposition<StatsOutline, StatsOutlineError> = Success.of<StatsOutline, StatsOutlineError>(statsOutline2);
+      const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofSuperposition([
+        superposition1,
+        superposition2
       ]);
 
-      expect(trial.isSuccess()).toEqual(true);
-      const outlines: StatsOutlines = trial.get();
+      expect(superposition.isSuccess()).toEqual(true);
+      const outlines: StatsOutlines = superposition.get();
       expect(outlines.size()).toEqual(2);
       expect(outlines.get(0).get()).toBe(statsOutline1);
       expect(outlines.get(1).get()).toBe(statsOutline2);
@@ -77,15 +77,15 @@ describe('StatsOutlines', () => {
     const spy1: SinonSpy = sinon.spy();
     const spy2: SinonSpy = sinon.spy();
 
-    const trial1: Superposition<StatsOutline, StatsOutlineError> = Success.of<StatsOutline, StatsOutlineError>(statsOutline1);
-    const trial2: Superposition<StatsOutline, StatsOutlineError> = Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('test failed'));
-    const trial: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofTry([
-      trial1,
-      trial2
+    const superposition1: Superposition<StatsOutline, StatsOutlineError> = Success.of<StatsOutline, StatsOutlineError>(statsOutline1);
+    const superposition2: Superposition<StatsOutline, StatsOutlineError> = Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('test failed'));
+    const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofSuperposition([
+      superposition1,
+      superposition2
     ]);
 
-    expect(trial.isFailure()).toEqual(true);
-    trial.match<void>(() => {
+    expect(superposition.isFailure()).toEqual(true);
+    superposition.match<void>(() => {
       spy1();
     }, (err: StatsOutlinesError) => {
       spy2();
@@ -100,15 +100,15 @@ describe('StatsOutlines', () => {
     const spy1: SinonSpy = sinon.spy();
     const spy2: SinonSpy = sinon.spy();
 
-    const trial1: Superposition<StatsOutline, StatsOutlineError> = Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('test failed 1'));
-    const trial2: Superposition<StatsOutline, StatsOutlineError> = Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('test failed 2'));
-    const trial: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofTry([
-      trial1,
-      trial2
+    const superposition1: Superposition<StatsOutline, StatsOutlineError> = Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('test failed 1'));
+    const superposition2: Superposition<StatsOutline, StatsOutlineError> = Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('test failed 2'));
+    const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofSuperposition([
+      superposition1,
+      superposition2
     ]);
 
-    expect(trial.isFailure()).toEqual(true);
-    trial.match<void>(() => {
+    expect(superposition.isFailure()).toEqual(true);
+    superposition.match<void>(() => {
       spy1();
     }, (err: StatsOutlinesError) => {
       spy2();
@@ -160,10 +160,10 @@ describe('StatsOutlines', () => {
         }
       ];
 
-      const trial: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofJSON(json);
+      const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofJSON(json);
 
-      expect(trial.isSuccess()).toEqual(true);
-      const outlines: StatsOutlines = trial.get();
+      expect(superposition.isSuccess()).toEqual(true);
+      const outlines: StatsOutlines = superposition.get();
       for (let i: number = 0; i < 2; i++) {
         const outline: StatsOutline = outlines.get(i).get();
         expect(outline.getStatsID().get().get()).toEqual(json[i].statsID);
@@ -221,9 +221,9 @@ describe('StatsOutlines', () => {
         }
       ];
 
-      const trial: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofJSON(json);
+      const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofJSON(json);
 
-      expect(trial.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toEqual(true);
     });
 
     it('has malformat UpdatedAt', () => {
@@ -266,9 +266,9 @@ describe('StatsOutlines', () => {
         }
       ];
 
-      const trial: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofJSON(json);
+      const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofJSON(json);
 
-      expect(trial.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toEqual(true);
     });
 
   });
@@ -306,10 +306,10 @@ describe('StatsOutlines', () => {
         }
       ];
 
-      const trial: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofRow(rows);
+      const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofRow(rows);
 
-      expect(trial.isSuccess()).toEqual(true);
-      const outlines: StatsOutlines = trial.get();
+      expect(superposition.isSuccess()).toEqual(true);
+      const outlines: StatsOutlines = superposition.get();
       for (let i: number = 0; i < 2; i++) {
         const outline: StatsOutline = outlines.get(i).get();
         expect(outline.getStatsID().get().get()).toEqual(rows[i].statsID);
@@ -359,9 +359,9 @@ describe('StatsOutlines', () => {
         }
       ];
 
-      const trial: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofRow(rows);
+      const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofRow(rows);
 
-      expect(trial.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toEqual(true);
     });
 
     it('has malformat UpdatedAt', () => {
@@ -396,9 +396,9 @@ describe('StatsOutlines', () => {
         }
       ];
 
-      const trial: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofRow(rows);
+      const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofRow(rows);
 
-      expect(trial.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toEqual(true);
     });
   });
 

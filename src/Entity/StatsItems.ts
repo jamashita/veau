@@ -40,24 +40,24 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
     return StatsItems.ofArray(items);
   }
 
-  public static ofTry(superpositions: Array<Superposition<StatsItem, StatsItemError>>): Superposition<StatsItems, StatsItemsError> {
+  public static ofSuperposition(superpositions: Array<Superposition<StatsItem, StatsItemError>>): Superposition<StatsItems, StatsItemsError> {
     return manoeuvre<StatsItem, StatsItemError>(superpositions).match<StatsItems, StatsItemsError>((statsItems: Array<StatsItem>) => {
       return Success.of<StatsItems, StatsItemsError>(StatsItems.ofArray(statsItems));
     }, (err: StatsItemError) => {
-      return Failure.of<StatsItems, StatsItemsError>(new StatsItemsError('StatsItems.ofTry()', err));
+      return Failure.of<StatsItems, StatsItemsError>(new StatsItemsError('StatsItems.ofSuperposition()', err));
     });
   }
 
   public static ofJSON(json: Array<StatsItemJSON>):  Superposition<StatsItems, StatsItemsError> {
-    const trials: Array<Superposition<StatsItem, StatsItemError>> = json.map<Superposition<StatsItem, StatsItemError>>((statsItemJSON: StatsItemJSON) => {
+    const superpositions: Array<Superposition<StatsItem, StatsItemError>> = json.map<Superposition<StatsItem, StatsItemError>>((statsItemJSON: StatsItemJSON) => {
       return StatsItem.ofJSON(statsItemJSON);
     });
 
-    return StatsItems.ofTry(trials);
+    return StatsItems.ofSuperposition(superpositions);
   }
 
   public static ofRow(rows: Array<StatsItemRow>, statsValues: StatsValues): Superposition<StatsItems, StatsItemsError> {
-    const trials: Array<Superposition<StatsItem, StatsItemError>> = rows.map<Superposition<StatsItem, StatsItemError>>((statsItemRow: StatsItemRow) => {
+    const superpositions: Array<Superposition<StatsItem, StatsItemError>> = rows.map<Superposition<StatsItem, StatsItemError>>((statsItemRow: StatsItemRow) => {
       return StatsItemID.ofString(statsItemRow.statsItemID).match<StatsItem, StatsItemError>((statsItemID: StatsItemID) => {
         const values: StatsValues = statsValues.filter(statsItemID);
 
@@ -67,7 +67,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
       });
     });
 
-    return StatsItems.ofTry(trials);
+    return StatsItems.ofSuperposition(superpositions);
   }
 
   public static isJSON(n: unknown): n is Array<StatsItemJSON> {

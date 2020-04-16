@@ -15,9 +15,9 @@ describe('Term', () => {
     });
 
     it('returns Failure when the id is out of range', () => {
-      const trial1: Superposition<Term, TermError> = Term.of(-1);
-      const trial2: Superposition<Term, TermError> = Term.of(0);
-      const trial3: Superposition<Term, TermError> = Term.of(6);
+      const superposition1: Superposition<Term, TermError> = Term.of(-1);
+      const superposition2: Superposition<Term, TermError> = Term.of(0);
+      const superposition3: Superposition<Term, TermError> = Term.of(6);
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -26,23 +26,23 @@ describe('Term', () => {
       const spy5: SinonSpy = sinon.spy();
       const spy6: SinonSpy = sinon.spy();
 
-      expect(trial1.isFailure()).toEqual(true);
-      expect(trial2.isFailure()).toEqual(true);
-      expect(trial2.isFailure()).toEqual(true);
+      expect(superposition1.isFailure()).toEqual(true);
+      expect(superposition2.isFailure()).toEqual(true);
+      expect(superposition2.isFailure()).toEqual(true);
 
-      trial1.match<void>(() => {
+      superposition1.match<void>(() => {
         spy1();
       }, (err: TermError) => {
         spy2();
         expect(err).toBeInstanceOf(TermError);
       });
-      trial2.match<void>(() => {
+      superposition2.match<void>(() => {
         spy3();
       }, (err: TermError) => {
         spy4();
         expect(err).toBeInstanceOf(TermError);
       });
-      trial3.match<void>(() => {
+      superposition3.match<void>(() => {
         spy5();
       }, (err: TermError) => {
         spy6();

@@ -61,10 +61,10 @@ describe('VeauAccount', () => {
         }
       };
 
-      const trial: Superposition<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
+      const superposition: Superposition<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
 
-      expect(trial.isSuccess()).toEqual(true);
-      const veauAccount: VeauAccount = trial.get();
+      expect(superposition.isSuccess()).toEqual(true);
+      const veauAccount: VeauAccount = superposition.get();
       expect(veauAccount.getVeauAccountID().get().get()).toEqual(json.veauAccountID);
       expect(veauAccount.getAccount().get()).toEqual(json.account);
       expect(veauAccount.getLanguage().getLanguageID().get()).toEqual(json.language.languageID);
@@ -96,9 +96,9 @@ describe('VeauAccount', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const trial: Superposition<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
+      const superposition: Superposition<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
 
-      trial.match<void>(() => {
+      superposition.match<void>(() => {
         spy1();
       }, (err: VeauAccountError) => {
         spy2();

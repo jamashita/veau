@@ -19,25 +19,25 @@ describe('Page', () => {
 
   describe('of', () => {
     it('returns Failure when the argument is less than 1', () => {
-      const trial1: Superposition<Page, PageError> = Page.of(0);
-      const trial2: Superposition<Page, PageError> = Page.of(-1);
+      const superposition1: Superposition<Page, PageError> = Page.of(0);
+      const superposition2: Superposition<Page, PageError> = Page.of(-1);
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      expect(trial1.isFailure()).toEqual(true);
-      expect(trial2.isFailure()).toEqual(true);
+      expect(superposition1.isFailure()).toEqual(true);
+      expect(superposition2.isFailure()).toEqual(true);
 
-      trial1.match<void>(() => {
+      superposition1.match<void>(() => {
         spy1();
       }, (err: PageError) => {
         spy2();
         expect(err).toBeInstanceOf(PageError);
       });
 
-      trial2.match<void>(() => {
+      superposition2.match<void>(() => {
         spy3();
       }, (err: PageError) => {
         spy4();
@@ -51,32 +51,32 @@ describe('Page', () => {
     });
 
     it('returns Success and its value is Page.min() when the argument 1', () => {
-      const trial: Superposition<Page, PageError> = Page.of(1);
+      const superposition: Superposition<Page, PageError> = Page.of(1);
 
-      expect(trial.isSuccess()).toEqual(true);
-      expect(trial.get()).toBe(Page.min());
+      expect(superposition.isSuccess()).toEqual(true);
+      expect(superposition.get()).toBe(Page.min());
     });
 
     it('returns Failure when the argument is not integer', () => {
-      const trial1: Superposition<Page, PageError> = Page.of(0.1);
-      const trial2: Superposition<Page, PageError> = Page.of(1.5);
+      const superposition1: Superposition<Page, PageError> = Page.of(0.1);
+      const superposition2: Superposition<Page, PageError> = Page.of(1.5);
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      expect(trial1.isFailure()).toEqual(true);
-      expect(trial2.isFailure()).toEqual(true);
+      expect(superposition1.isFailure()).toEqual(true);
+      expect(superposition2.isFailure()).toEqual(true);
 
-      trial1.match<void>(() => {
+      superposition1.match<void>(() => {
         spy1();
       }, (err: PageError) => {
         spy2();
         expect(err).toBeInstanceOf(PageError);
       });
 
-      trial2.match<void>(() => {
+      superposition2.match<void>(() => {
         spy3();
       }, (err: PageError) => {
         spy4();
@@ -92,14 +92,14 @@ describe('Page', () => {
     it('normal case', () => {
       const page1: number = 1;
       const page2: number = 4;
-      const trial1: Superposition<Page, PageError> = Page.of(page1);
-      const trial2: Superposition<Page, PageError> = Page.of(page2);
+      const superposition1: Superposition<Page, PageError> = Page.of(page1);
+      const superposition2: Superposition<Page, PageError> = Page.of(page2);
 
-      expect(trial1.isSuccess()).toEqual(true);
-      expect(trial2.isSuccess()).toEqual(true);
+      expect(superposition1.isSuccess()).toEqual(true);
+      expect(superposition2.isSuccess()).toEqual(true);
 
-      expect(trial1.get().get()).toEqual(page1);
-      expect(trial2.get().get()).toEqual(page2);
+      expect(superposition1.get().get()).toEqual(page1);
+      expect(superposition2.get().get()).toEqual(page2);
     });
   });
 

@@ -95,11 +95,11 @@ export class StatsEditSaga {
         statsID
       } = action;
 
-      const trial: Superposition<Stats, NoSuchElementError | StatsError | DataSourceError> = yield call((): Promise<Superposition<Stats, NoSuchElementError | StatsError | DataSourceError>> => {
+      const superposition: Superposition<Stats, NoSuchElementError | StatsError | DataSourceError> = yield call((): Promise<Superposition<Stats, NoSuchElementError | StatsError | DataSourceError>> => {
         return this.statsQuery.findByStatsID(statsID);
       });
 
-      yield trial.match<Effect>((stats: Stats) => {
+      yield superposition.match<Effect>((stats: Stats) => {
         return all([
           put(updateStats(stats)),
           put(clearSelectingItem())
@@ -185,14 +185,14 @@ export class StatsEditSaga {
         stats
       } = state;
 
-      const trial: Superposition<Language, NoSuchElementError | DataSourceError> = yield call((): Promise<Superposition<Language, NoSuchElementError | DataSourceError>> => {
+      const superposition: Superposition<Language, NoSuchElementError | DataSourceError> = yield call((): Promise<Superposition<Language, NoSuchElementError | DataSourceError>> => {
         return this.languageQuery.findByISO639(action.iso639);
       });
 
-      if (trial.isSuccess()) {
+      if (superposition.isSuccess()) {
         const newStats: Stats = Stats.of(
           stats.getStatsID(),
-          trial.get(),
+          superposition.get(),
           stats.getRegion(),
           stats.getTerm(),
           stats.getName(),
@@ -215,15 +215,15 @@ export class StatsEditSaga {
         stats
       } = state;
 
-      const trial: Superposition<Region, NoSuchElementError | DataSourceError> = yield call((): Promise<Superposition<Region, NoSuchElementError | DataSourceError>> => {
+      const superposition: Superposition<Region, NoSuchElementError | DataSourceError> = yield call((): Promise<Superposition<Region, NoSuchElementError | DataSourceError>> => {
         return this.regionQuery.findByISO3166(action.iso3166);
       });
 
-      if (trial.isSuccess()) {
+      if (superposition.isSuccess()) {
         const newStats: Stats = Stats.of(
           stats.getStatsID(),
           stats.getLanguage(),
-          trial.get(),
+          superposition.get(),
           stats.getTerm(),
           stats.getName(),
           stats.getUnit(),
@@ -466,13 +466,13 @@ export class StatsEditSaga {
 
       yield put(loading());
 
-      const trial: Superposition<void, DataSourceError> = yield call((): Promise<Superposition<void, DataSourceError>> => {
+      const superposition: Superposition<void, DataSourceError> = yield call((): Promise<Superposition<void, DataSourceError>> => {
         return this.statsCommand.create(stats, VeauAccountID.generate());
       });
 
       yield put(loaded());
 
-      yield trial.match<PutEffect<Action>>(() => {
+      yield superposition.match<PutEffect<Action>>(() => {
         return put(appearNotification('success', 'center', 'top', 'SAVE_SUCCESS'));
       }, () => {
         return put(raiseModal('STATS_SAVE_FAILURE', 'STATS_SAVE_FAILURE_DESCRIPTION'));

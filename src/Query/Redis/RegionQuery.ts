@@ -55,14 +55,14 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
   }
 
   public async findByISO3166(iso3166: ISO3166): Promise<Superposition<Region, NoSuchElementError | DataSourceError>> {
-    const trial: Superposition<Regions, NoSuchElementError | DataSourceError> = await this.all();
+    const superposition: Superposition<Regions, NoSuchElementError | DataSourceError> = await this.all();
 
-    return trial.match<Region, NoSuchElementError | DataSourceError>((regions: Regions) => {
+    return superposition.match<Region, NoSuchElementError | DataSourceError>((regions: Regions) => {
       const quantum: Quantum<Region> = regions.find((region: Region) => {
         return region.getISO3166().equals(iso3166);
       });
 
-      return quantum.toTry().match<Region, NoSuchElementError | DataSourceError>((region: Region) => {
+      return quantum.toSuperposition().match<Region, NoSuchElementError | DataSourceError>((region: Region) => {
         return Success.of<Region, DataSourceError>(region);
       }, () => {
         return Failure.of<Region, NoSuchElementError>(new NoSuchElementError(iso3166.get()));

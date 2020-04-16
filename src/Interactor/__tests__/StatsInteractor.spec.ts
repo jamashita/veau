@@ -101,12 +101,12 @@ describe('StatsInteractor', () => {
         statsQuery,
         statsOutlineQuery
       );
-      const trial: Superposition<Stats, NoSuchElementError | StatsError | DataSourceError> = await statsInteractor.findByStatsID(
+      const superposition: Superposition<Stats, NoSuchElementError | StatsError | DataSourceError> = await statsInteractor.findByStatsID(
         new MockStatsID(uuid1)
       );
 
-      expect(trial.isSuccess()).toEqual(true);
-      expect(trial.get().equals(stats)).toEqual(true);
+      expect(superposition.isSuccess()).toEqual(true);
+      expect(superposition.get().equals(stats)).toEqual(true);
     });
 
     it('returns Failure when StatsQuery.findByStatsID throws NoSuchElementError', async () => {
@@ -124,11 +124,11 @@ describe('StatsInteractor', () => {
         statsQuery,
         statsOutlineQuery
       );
-      const trial: Superposition<Stats, NoSuchElementError | StatsError | DataSourceError> = await statsInteractor.findByStatsID(
+      const superposition: Superposition<Stats, NoSuchElementError | StatsError | DataSourceError> = await statsInteractor.findByStatsID(
         new MockStatsID()
       );
 
-      trial.match<void>(() => {
+      superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | StatsError | DataSourceError) => {
         spy2();
@@ -154,11 +154,11 @@ describe('StatsInteractor', () => {
         statsQuery,
         statsOutlineQuery
       );
-      const trial: Superposition<Stats, NoSuchElementError | StatsError | DataSourceError> = await statsInteractor.findByStatsID(
+      const superposition: Superposition<Stats, NoSuchElementError | StatsError | DataSourceError> = await statsInteractor.findByStatsID(
         new MockStatsID()
       );
 
-      trial.match<void>(() => {
+      superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | StatsError | DataSourceError) => {
         spy2();
@@ -210,12 +210,12 @@ describe('StatsInteractor', () => {
         statsQuery,
         statsOutlineQuery
       );
-      const trial: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsInteractor.findByVeauAccountID(
+      const superposition: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsInteractor.findByVeauAccountID(
         new MockVeauAccountID(),
         new MockPage()
       );
 
-      expect(trial.get()).toEqual(outlines);
+      expect(superposition.get()).toEqual(outlines);
     });
   });
 

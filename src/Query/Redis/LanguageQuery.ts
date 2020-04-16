@@ -57,14 +57,14 @@ export class LanguageQuery implements ILanguageQuery, IRedisQuery {
   }
 
   public async findByISO639(iso639: ISO639): Promise<Superposition<Language, NoSuchElementError | DataSourceError>> {
-    const trial: Superposition<Languages, NoSuchElementError | DataSourceError> = await this.all();
+    const superposition: Superposition<Languages, NoSuchElementError | DataSourceError> = await this.all();
 
-    return trial.match<Language, NoSuchElementError | DataSourceError>((languages: Languages) => {
+    return superposition.match<Language, NoSuchElementError | DataSourceError>((languages: Languages) => {
       const quantum: Quantum<Language> = languages.find((language: Language) => {
         return language.getISO639().equals(iso639);
       });
 
-      return quantum.toTry().match<Language, NoSuchElementError | DataSourceError>((language: Language) => {
+      return quantum.toSuperposition().match<Language, NoSuchElementError | DataSourceError>((language: Language) => {
         return Success.of<Language, DataSourceError>(language);
       }, () => {
         return Failure.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.get()));

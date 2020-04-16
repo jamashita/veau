@@ -62,7 +62,7 @@ describe('StatsValueQuery', () => {
       stub.resolves(rows);
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
-      const trial: Superposition<StatsValues, StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(statsID);
+      const superposition: Superposition<StatsValues, StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(statsID);
 
       expect(stub.withArgs(`SELECT
       R1.stats_item_id AS statsItemID,
@@ -74,8 +74,8 @@ describe('StatsValueQuery', () => {
       WHERE R2.stats_id = :statsID;`, {
         statsID: statsID.get().get()
       }).called).toEqual(true);
-      expect(trial.isSuccess()).toEqual(true);
-      const values: StatsValues = trial.get();
+      expect(superposition.isSuccess()).toEqual(true);
+      const values: StatsValues = superposition.get();
       for (let i: number = 0; i < values.size(); i++) {
         expect(values.get(i).get().getStatsItemID().get().get()).toEqual(rows[i].statsItemID);
         expect(values.get(i).get().getAsOf().toString()).toEqual(rows[i].asOf);
@@ -121,10 +121,10 @@ describe('StatsValueQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
-      const trial: Superposition<StatsValues, StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(statsID);
+      const superposition: Superposition<StatsValues, StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(statsID);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: StatsValuesError | DataSourceError) => {
         spy2();
@@ -146,10 +146,10 @@ describe('StatsValueQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
-      const trial: Superposition<StatsValues, StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(statsID);
+      const superposition: Superposition<StatsValues, StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(statsID);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: StatsValuesError | DataSourceError) => {
         spy2();

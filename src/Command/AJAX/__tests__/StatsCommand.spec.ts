@@ -67,7 +67,7 @@ describe('StatsCommand', () => {
       });
 
       const statsCommand: StatsCommand = new StatsCommand(ajax);
-      const trial: Superposition<void, DataSourceError> = await statsCommand.create(stats);
+      const superposition: Superposition<void, DataSourceError> = await statsCommand.create(stats);
 
       expect(stub.withArgs('/api/stats', {
         statsID: uuid.get(),
@@ -88,7 +88,7 @@ describe('StatsCommand', () => {
         updatedAt: '2000-01-02 01:02:03',
         items: []
       }).called).toEqual(true);
-      expect(trial.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toEqual(true);
     });
 
     it('throws AJAXError', async () => {
@@ -105,10 +105,10 @@ describe('StatsCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsCommand: StatsCommand = new StatsCommand(ajax);
-      const trial: Superposition<void, DataSourceError> = await statsCommand.create(stats);
+      const superposition: Superposition<void, DataSourceError> = await statsCommand.create(stats);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();

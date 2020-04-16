@@ -34,10 +34,10 @@ export class AuthenticationInteractor implements Noun {
         const accountName: AccountName = AccountName.of(name);
         const password: Password = Password.of(pass);
 
-        const trial: Superposition<Account, AccountError | NoSuchElementError | DataSourceError> = await this.accountQuery.findByAccount(accountName);
+        const superposition: Superposition<Account, AccountError | NoSuchElementError | DataSourceError> = await this.accountQuery.findByAccount(accountName);
 
         // eslint-disable-next-line @typescript-eslint/return-await
-        return trial.match<void>(async (account: Account) => {
+        return superposition.match<void>(async (account: Account) => {
           const correct: boolean = await account.verify(password);
 
           if (correct) {

@@ -32,17 +32,17 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
   }
 
   public async all(): Promise<Superposition<Regions, NoSuchElementError | DataSourceError>> {
-    const trial1: Superposition<Regions, NoSuchElementError | DataSourceError> = await this.regionRedisQuery.all();
+    const superposition1: Superposition<Regions, NoSuchElementError | DataSourceError> = await this.regionRedisQuery.all();
 
-    return trial1.match<Regions, NoSuchElementError | DataSourceError>((regions: Regions) => {
+    return superposition1.match<Regions, NoSuchElementError | DataSourceError>((regions: Regions) => {
       return Promise.resolve<Superposition<Regions, NoSuchElementError>>(Success.of<Regions, NoSuchElementError>(regions));
     }, async () => {
-      const trial2: Superposition<Regions, NoSuchElementError | DataSourceError> = await this.regionMySQLQuery.all();
+      const superposition2: Superposition<Regions, NoSuchElementError | DataSourceError> = await this.regionMySQLQuery.all();
 
-      return trial2.match<Regions, NoSuchElementError | DataSourceError>(async (regions: Regions) => {
-        const trial3: Superposition<void, DataSourceError> = await this.regionRedisCommand.insertAll(regions);
+      return superposition2.match<Regions, NoSuchElementError | DataSourceError>(async (regions: Regions) => {
+        const superposition3: Superposition<void, DataSourceError> = await this.regionRedisCommand.insertAll(regions);
 
-        return trial3.match<Regions, DataSourceError>(() => {
+        return superposition3.match<Regions, DataSourceError>(() => {
           return Success.of<Regions, DataSourceError>(regions);
         }, (err: DataSourceError, self: Failure<void, DataSourceError>) => {
           return self.transpose<Regions>();
@@ -54,14 +54,14 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
   }
 
   public async findByISO3166(iso3166: ISO3166): Promise<Superposition<Region, NoSuchElementError | DataSourceError>> {
-    const trial: Superposition<Regions, NoSuchElementError | DataSourceError> = await this.all();
+    const superposition: Superposition<Regions, NoSuchElementError | DataSourceError> = await this.all();
 
-    return trial.match<Region, NoSuchElementError | DataSourceError>((regions: Regions) => {
+    return superposition.match<Region, NoSuchElementError | DataSourceError>((regions: Regions) => {
       const quantum: Quantum<Region> = regions.find((region: Region) => {
         return region.getISO3166().equals(iso3166);
       });
 
-      return quantum.toTry().match<Region, NoSuchElementError | DataSourceError>((region: Region) => {
+      return quantum.toSuperposition().match<Region, NoSuchElementError | DataSourceError>((region: Region) => {
         return Success.of<Region, DataSourceError>(region);
       }, () => {
         return Failure.of<Region, NoSuchElementError>(new NoSuchElementError(iso3166.toString()));

@@ -10,17 +10,17 @@ import { Terms } from '../Terms';
 describe('AsOf', () => {
   describe('ofString', () => {
     it('normal case', () => {
-      const trial1: Superposition<AsOf, AsOfError> = AsOf.ofString('2000-01-01');
-      const trial2: Superposition<AsOf, AsOfError> = AsOf.ofString('2000-01-01');
+      const superposition1: Superposition<AsOf, AsOfError> = AsOf.ofString('2000-01-01');
+      const superposition2: Superposition<AsOf, AsOfError> = AsOf.ofString('2000-01-01');
 
-      expect(trial1.isSuccess()).toEqual(true);
-      expect(trial2.isSuccess()).toEqual(true);
+      expect(superposition1.isSuccess()).toEqual(true);
+      expect(superposition2.isSuccess()).toEqual(true);
     });
 
     it('will return Failure because the string format is not compatible to date time', () => {
-      const trial1: Superposition<AsOf, AsOfError> = AsOf.ofString('deux mille');
-      const trial2: Superposition<AsOf, AsOfError> = AsOf.ofString('dos mil');
-      const trial3: Superposition<AsOf, AsOfError> = AsOf.ofString('2000-01-01 01:02:03');
+      const superposition1: Superposition<AsOf, AsOfError> = AsOf.ofString('deux mille');
+      const superposition2: Superposition<AsOf, AsOfError> = AsOf.ofString('dos mil');
+      const superposition3: Superposition<AsOf, AsOfError> = AsOf.ofString('2000-01-01 01:02:03');
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -29,24 +29,24 @@ describe('AsOf', () => {
       const spy5: SinonSpy = sinon.spy();
       const spy6: SinonSpy = sinon.spy();
 
-      expect(trial1.isFailure()).toEqual(true);
-      expect(trial2.isFailure()).toEqual(true);
-      expect(trial3.isFailure()).toEqual(true);
-      trial1.match<void>(() => {
+      expect(superposition1.isFailure()).toEqual(true);
+      expect(superposition2.isFailure()).toEqual(true);
+      expect(superposition3.isFailure()).toEqual(true);
+      superposition1.match<void>(() => {
         spy1();
       }, (err: AsOfError) => {
         spy2();
         expect(err).toBeInstanceOf(AsOfError);
       });
 
-      trial2.match<void>(() => {
+      superposition2.match<void>(() => {
         spy3();
       }, (err: AsOfError) => {
         spy4();
         expect(err).toBeInstanceOf(AsOfError);
       });
 
-      trial2.match<void>(() => {
+      superposition2.match<void>(() => {
         spy5();
       }, (err: AsOfError) => {
         spy6();

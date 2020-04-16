@@ -91,13 +91,13 @@ describe('Row', () => {
       const value1: number = 31;
       const value2: number = 101;
       const superposition1: Superposition<Row, RowError> = Row.of(value1);
-      const trial2: Superposition<Row, RowError> = Row.of(value2);
+      const superposition2: Superposition<Row, RowError> = Row.of(value2);
 
-      expect(trial1.isSuccess()).toEqual(true);
-      expect(trial2.isSuccess()).toEqual(true);
+      expect(superposition1.isSuccess()).toEqual(true);
+      expect(superposition2.isSuccess()).toEqual(true);
 
-      expect(trial1.get().get()).toEqual(value1);
-      expect(trial2.get().get()).toEqual(value2);
+      expect(superposition1.get().get()).toEqual(value1);
+      expect(superposition2.get().get()).toEqual(value2);
     });
   });
 

@@ -32,17 +32,17 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
   }
 
   public async all(): Promise<Superposition<Languages, NoSuchElementError | DataSourceError>> {
-    const trial1: Superposition<Languages, NoSuchElementError | DataSourceError> = await this.languageRedisQuery.all();
+    const superposition1: Superposition<Languages, NoSuchElementError | DataSourceError> = await this.languageRedisQuery.all();
 
-    return trial1.match<Languages, NoSuchElementError | DataSourceError>((languages: Languages) => {
+    return superposition1.match<Languages, NoSuchElementError | DataSourceError>((languages: Languages) => {
       return Promise.resolve<Superposition<Languages, DataSourceError>>(Success.of<Languages, DataSourceError>(languages));
     }, async () => {
-      const trial2: Superposition<Languages, NoSuchElementError | DataSourceError> = await this.languageMySQLQuery.all();
+      const superposition2: Superposition<Languages, NoSuchElementError | DataSourceError> = await this.languageMySQLQuery.all();
 
-      return trial2.match<Languages, NoSuchElementError | DataSourceError>(async (languages: Languages) => {
-        const trial3: Superposition<void, DataSourceError> = await this.languageRedisCommand.insertAll(languages);
+      return superposition2.match<Languages, NoSuchElementError | DataSourceError>(async (languages: Languages) => {
+        const superposition3: Superposition<void, DataSourceError> = await this.languageRedisCommand.insertAll(languages);
 
-        return trial3.match<Languages, DataSourceError>(() => {
+        return superposition3.match<Languages, DataSourceError>(() => {
           return Success.of<Languages, DataSourceError>(languages);
         }, (err: DataSourceError, self: Failure<void, DataSourceError>) => {
           return self.transpose<Languages>();
@@ -54,14 +54,14 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
   }
 
   public async findByISO639(iso639: ISO639): Promise<Superposition<Language, NoSuchElementError | DataSourceError>> {
-    const trial: Superposition<Languages, NoSuchElementError | DataSourceError> = await this.all();
+    const superposition: Superposition<Languages, NoSuchElementError | DataSourceError> = await this.all();
 
-    return trial.match<Language, NoSuchElementError | DataSourceError>((languages: Languages) => {
+    return superposition.match<Language, NoSuchElementError | DataSourceError>((languages: Languages) => {
       const quantum: Quantum<Language> = languages.find((language: Language) => {
         return language.getISO639().equals(iso639);
       });
 
-      return quantum.toTry().match<Language, NoSuchElementError | DataSourceError>((language: Language) => {
+      return quantum.toSuperposition().match<Language, NoSuchElementError | DataSourceError>((language: Language) => {
         return Success.of<Language, DataSourceError>(language);
       }, () => {
         return Failure.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.toString()));

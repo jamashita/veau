@@ -30,7 +30,7 @@ describe('StatsItemCommand', () => {
       sql.execute = stub;
 
       const statsItemCommand: StatsItemCommand = new StatsItemCommand(sql);
-      const trial: Superposition<void, DataSourceError> = await statsItemCommand.create(statsID, statsItem, seq);
+      const superposition: Superposition<void, DataSourceError> = await statsItemCommand.create(statsID, statsItem, seq);
 
       expect(stub.withArgs(`INSERT INTO stats_items VALUES (
       :statsItemID,
@@ -43,7 +43,7 @@ describe('StatsItemCommand', () => {
         name: itemName,
         seq
       }).called).toEqual(true);
-      expect(trial.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toEqual(true);
     });
 
     it('returns Failure because the client throws MySQLError', async () => {
@@ -59,10 +59,10 @@ describe('StatsItemCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsItemCommand: StatsItemCommand = new StatsItemCommand(sql);
-      const trial: Superposition<void, DataSourceError> = await statsItemCommand.create(statsID, statsItem, seq);
+      const superposition: Superposition<void, DataSourceError> = await statsItemCommand.create(statsID, statsItem, seq);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();
@@ -98,7 +98,7 @@ describe('StatsItemCommand', () => {
       sql.execute = stub;
 
       const statsItemCommand: StatsItemCommand = new StatsItemCommand(sql);
-      const trial: Superposition<void, DataSourceError> = await statsItemCommand.deleteByStatsID(statsID);
+      const superposition: Superposition<void, DataSourceError> = await statsItemCommand.deleteByStatsID(statsID);
 
       expect(stub.withArgs(`DELETE R1
       FROM stats_items R1
@@ -107,7 +107,7 @@ describe('StatsItemCommand', () => {
       WHERE R2.stats_id = :statsID;`, {
         statsID: uuid.get()
       }).called).toEqual(true);
-      expect(trial.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toEqual(true);
     });
 
     it('returns Failure because the client throws MySQLError', async () => {
@@ -121,10 +121,10 @@ describe('StatsItemCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsItemCommand: StatsItemCommand = new StatsItemCommand(sql);
-      const trial: Superposition<void, DataSourceError> = await statsItemCommand.deleteByStatsID(statsID);
+      const superposition: Superposition<void, DataSourceError> = await statsItemCommand.deleteByStatsID(statsID);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();

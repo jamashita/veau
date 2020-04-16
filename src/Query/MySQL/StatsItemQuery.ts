@@ -46,9 +46,9 @@ export class StatsItemQuery implements IStatsItemQuery, IMySQLQuery {
         }
       );
 
-      const trial: Superposition<StatsValues, StatsValuesError | DataSourceError> = await this.statsValueQuery.findByStatsID(statsID);
+      const superposition: Superposition<StatsValues, StatsValuesError | DataSourceError> = await this.statsValueQuery.findByStatsID(statsID);
 
-      return trial.match<StatsItems, StatsItemsError | DataSourceError>((statsValues: StatsValues) => {
+      return superposition.match<StatsItems, StatsItemsError | DataSourceError>((statsValues: StatsValues) => {
         return StatsItems.ofRow(statsItemRows, statsValues);
       }, (err: StatsValuesError | DataSourceError) => {
         if (err instanceof DataSourceError) {

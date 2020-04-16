@@ -50,25 +50,25 @@ export class IdentitySaga {
   private *initIdentity(): SagaIterator<void> {
     yield put(loading());
 
-    const trial1: Superposition<Locale, DataSourceError> = yield call((): Promise<Superposition<Locale, DataSourceError>> => {
+    const superposition1: Superposition<Locale, DataSourceError> = yield call((): Promise<Superposition<Locale, DataSourceError>> => {
       return this.localeQuery.all();
     });
 
     yield put(loaded());
 
-    yield trial1.match<Effect>((locale: Locale) => {
+    yield superposition1.match<Effect>((locale: Locale) => {
       return put(defineLocale(locale));
     }, () => {
       return put(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
     });
 
-    const trial2: Superposition<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError> = yield call((): Promise<Superposition<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>> => {
+    const superposition2: Superposition<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError> = yield call((): Promise<Superposition<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>> => {
       return this.sessionQuery.find();
     });
 
-    if (trial2.isSuccess()) {
+    if (superposition2.isSuccess()) {
       const effects: Array<Effect> = [
-        put(identityAuthenticated(trial2.get())),
+        put(identityAuthenticated(superposition2.get())),
         put(identified())
       ];
 
@@ -87,11 +87,11 @@ export class IdentitySaga {
       identity
     } = state;
 
-    const trial3: Superposition<Language, NoSuchElementError | DataSourceError> = yield call((): Promise<Superposition<Language, NoSuchElementError | DataSourceError>> => {
+    const superposition3: Superposition<Language, NoSuchElementError | DataSourceError> = yield call((): Promise<Superposition<Language, NoSuchElementError | DataSourceError>> => {
       return this.languageQuery.findByISO639(iso639);
     });
 
-    yield trial3.match<Effect>((language: Language) => {
+    yield superposition3.match<Effect>((language: Language) => {
       const veauAccount: VeauAccount = VeauAccount.of(identity.getVeauAccountID(), identity.getAccount(), language, identity.getRegion());
 
       return all([

@@ -28,17 +28,17 @@ export class LocaleQuery implements ILocaleQuery, IVaultQuery {
   }
 
   public async all(): Promise<Superposition<Locale, DataSourceError>> {
-    const trial1: Superposition<Locale, DataSourceError> = await this.localeCacheQuery.all();
+    const superposition1: Superposition<Locale, DataSourceError> = await this.localeCacheQuery.all();
 
-    return trial1.match<Locale, DataSourceError>((locale: Locale) => {
+    return superposition1.match<Locale, DataSourceError>((locale: Locale) => {
       return Promise.resolve<Superposition<Locale, DataSourceError>>(Success.of<Locale, DataSourceError>(locale));
     }, async () => {
-      const trial2: Superposition<Locale, DataSourceError> = await this.localeAJAXQuery.all();
+      const superposition2: Superposition<Locale, DataSourceError> = await this.localeAJAXQuery.all();
 
-      return trial2.match<Locale, DataSourceError>(async (locale: Locale) => {
-        const trial3: Superposition<void, DataSourceError> = await this.localeCommand.create(locale);
+      return superposition2.match<Locale, DataSourceError>(async (locale: Locale) => {
+        const superposition3: Superposition<void, DataSourceError> = await this.localeCommand.create(locale);
 
-        return trial3.match<Locale, DataSourceError>(() => {
+        return superposition3.match<Locale, DataSourceError>(() => {
           return Success.of<Locale, DataSourceError>(locale);
         }, (err: DataSourceError, self: Failure<void, DataSourceError>) => {
           return self.transpose<Locale>();

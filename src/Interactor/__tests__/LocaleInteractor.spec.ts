@@ -49,11 +49,11 @@ describe('LocaleInteractor', () => {
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand);
-      const trial: Superposition<Locale, NoSuchElementError | DataSourceError> = await localeInteractor.all();
+      const superposition: Superposition<Locale, NoSuchElementError | DataSourceError> = await localeInteractor.all();
 
-      expect(trial.isSuccess()).toEqual(true);
-      expect(trial.get().getLanguages()).toEqual(languages);
-      expect(trial.get().getRegions()).toEqual(regions);
+      expect(superposition.isSuccess()).toEqual(true);
+      expect(superposition.get().getLanguages()).toEqual(languages);
+      expect(superposition.get().getRegions()).toEqual(regions);
     });
 
     it('LanguageQuery.all returns Failure by NoSuchElementError', async () => {
@@ -73,10 +73,10 @@ describe('LocaleInteractor', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand);
-      const trial: Superposition<Locale, NoSuchElementError | DataSourceError> = await localeInteractor.all();
+      const superposition: Superposition<Locale, NoSuchElementError | DataSourceError> = await localeInteractor.all();
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
         spy2();
@@ -104,10 +104,10 @@ describe('LocaleInteractor', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand);
-      const trial: Superposition<Locale, NoSuchElementError | DataSourceError> = await localeInteractor.all();
+      const superposition: Superposition<Locale, NoSuchElementError | DataSourceError> = await localeInteractor.all();
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
         spy2();
@@ -135,10 +135,10 @@ describe('LocaleInteractor', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand);
-      const trial: Superposition<Locale, NoSuchElementError | DataSourceError> = await localeInteractor.all();
+      const superposition: Superposition<Locale, NoSuchElementError | DataSourceError> = await localeInteractor.all();
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
         spy2();
@@ -166,10 +166,10 @@ describe('LocaleInteractor', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand);
-      const trial: Superposition<Locale, NoSuchElementError | DataSourceError> = await localeInteractor.all();
+      const superposition: Superposition<Locale, NoSuchElementError | DataSourceError> = await localeInteractor.all();
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
         spy2();
@@ -195,9 +195,9 @@ describe('LocaleInteractor', () => {
       stub2.resolves(Success.of<DataSourceError>());
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand);
-      const trial: Superposition<void, DataSourceError> = await localeInteractor.delete();
+      const superposition: Superposition<void, DataSourceError> = await localeInteractor.delete();
 
-      expect(trial.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toEqual(true);
       expect(stub1.called).toEqual(true);
       expect(stub2.called).toEqual(true);
     });
@@ -217,12 +217,12 @@ describe('LocaleInteractor', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand);
-      const trial: Superposition<void, DataSourceError> = await localeInteractor.delete();
+      const superposition: Superposition<void, DataSourceError> = await localeInteractor.delete();
 
-      expect(trial.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toEqual(true);
       expect(stub1.called).toEqual(true);
       expect(stub2.called).toEqual(true);
-      trial.match<void>(() => {
+      superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();
@@ -248,12 +248,12 @@ describe('LocaleInteractor', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand);
-      const trial: Superposition<void, DataSourceError> = await localeInteractor.delete();
+      const superposition: Superposition<void, DataSourceError> = await localeInteractor.delete();
 
-      expect(trial.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toEqual(true);
       expect(stub1.called).toEqual(true);
       expect(stub2.called).toEqual(true);
-      trial.match<void>(() => {
+      superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();
@@ -279,12 +279,12 @@ describe('LocaleInteractor', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand);
-      const trial: Superposition<void, DataSourceError> = await localeInteractor.delete();
+      const superposition: Superposition<void, DataSourceError> = await localeInteractor.delete();
 
-      expect(trial.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toEqual(true);
       expect(stub1.called).toEqual(true);
       expect(stub2.called).toEqual(true);
-      trial.match<void>(() => {
+      superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();
@@ -310,12 +310,12 @@ describe('LocaleInteractor', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand);
-      const trial: Superposition<void, DataSourceError> = await localeInteractor.delete();
+      const superposition: Superposition<void, DataSourceError> = await localeInteractor.delete();
 
-      expect(trial.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toEqual(true);
       expect(stub1.called).toEqual(true);
       expect(stub2.called).toEqual(true);
-      trial.match<void>(() => {
+      superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();

@@ -141,13 +141,13 @@ describe('Some', () => {
     });
   });
 
-  describe('toTry', () => {
+  describe('toSuperposition', () => {
     it('returns Success', () => {
       const some: Some<number> = Some.of<number>(1);
 
-      const trial: Superposition<number, QuantumError> = some.toTry();
+      const superposition: Superposition<number, QuantumError> = some.toSuperposition();
 
-      expect(trial.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toEqual(true);
     });
   });
 

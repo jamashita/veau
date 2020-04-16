@@ -51,11 +51,11 @@ describe('LanguageCommand', () => {
       stub2.resolves();
 
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const trial: Superposition<void, DataSourceError> = await languageCommand.insertAll(languages);
+      const superposition: Superposition<void, DataSourceError> = await languageCommand.insertAll(languages);
 
       expect(stub1.withArgs('LANGUAGES', JSON.stringify(languages.toJSON())).called).toEqual(true);
       expect(stub2.withArgs('LANGUAGES', 3 * 60 * 60).called).toEqual(true);
-      expect(trial.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toEqual(true);
     });
 
     it('returns Failure because the client throws RedisError by MockRedisString.set', async () => {
@@ -75,10 +75,10 @@ describe('LanguageCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const trial: Superposition<void, DataSourceError> = await languageCommand.insertAll(languages);
+      const superposition: Superposition<void, DataSourceError> = await languageCommand.insertAll(languages);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();
@@ -106,10 +106,10 @@ describe('LanguageCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const trial: Superposition<void, DataSourceError> = await languageCommand.insertAll(languages);
+      const superposition: Superposition<void, DataSourceError> = await languageCommand.insertAll(languages);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();
@@ -144,10 +144,10 @@ describe('LanguageCommand', () => {
       stub.resolves(true);
 
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const trial: Superposition<void, DataSourceError> = await languageCommand.deleteAll();
+      const superposition: Superposition<void, DataSourceError> = await languageCommand.deleteAll();
 
       expect(stub.withArgs('LANGUAGES').called).toEqual(true);
-      expect(trial.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toEqual(true);
     });
 
     it('returns Failure with CacheError because Redis.delete fails', async () => {
@@ -159,10 +159,10 @@ describe('LanguageCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const trial: Superposition<void, DataSourceError> = await languageCommand.deleteAll();
+      const superposition: Superposition<void, DataSourceError> = await languageCommand.deleteAll();
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();
@@ -182,10 +182,10 @@ describe('LanguageCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const trial: Superposition<void, DataSourceError> = await languageCommand.deleteAll();
+      const superposition: Superposition<void, DataSourceError> = await languageCommand.deleteAll();
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();

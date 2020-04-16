@@ -81,12 +81,12 @@ describe('StatsValues', () => {
         new StatsValueError('test failed')
       );
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofTry([
-        trial1,
-        trial2
+        superposition1,
+        superposition2
       ]);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: StatsValuesError) => {
         spy2();
@@ -101,19 +101,19 @@ describe('StatsValues', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const trial1: Superposition<StatsValue, StatsValueError> = Failure.of<StatsValue, StatsValueError>(
+      const superposition1: Superposition<StatsValue, StatsValueError> = Failure.of<StatsValue, StatsValueError>(
         new StatsValueError('test failed1')
       );
-      const trial2: Superposition<StatsValue, StatsValueError> = Failure.of<StatsValue, StatsValueError>(
+      const superposition2: Superposition<StatsValue, StatsValueError> = Failure.of<StatsValue, StatsValueError>(
         new StatsValueError('test failed2')
       );
-      const trial: Superposition<StatsValues, StatsValuesError> = StatsValues.ofTry([
-        trial1,
-        trial2
+      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofTry([
+        superposition1,
+        superposition2
       ]);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: StatsValuesError) => {
         spy2();
@@ -149,10 +149,10 @@ describe('StatsValues', () => {
       ];
       const statsItemID: MockStatsItemID = new MockStatsItemID();
 
-      const trial: Superposition<StatsValues, StatsValuesError> = StatsValues.ofJSON(statsItemID, json);
+      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofJSON(statsItemID, json);
 
-      expect(trial.isSuccess()).toEqual(true);
-      const values: StatsValues = trial.get();
+      expect(superposition.isSuccess()).toEqual(true);
+      const values: StatsValues = superposition.get();
       expect(values.size()).toEqual(json.length);
       for (let i: number = 0; i < values.size(); i++) {
         const value: StatsValue = values.get(i).get();
@@ -178,10 +178,10 @@ describe('StatsValues', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const trial: Superposition<StatsValues, StatsValuesError> = StatsValues.ofJSON(statsItemID, json);
+      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofJSON(statsItemID, json);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: StatsValuesError) => {
         spy2();
@@ -208,10 +208,10 @@ describe('StatsValues', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const trial: Superposition<StatsValues, StatsValuesError> = StatsValues.ofJSON(statsItemID, json);
+      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofJSON(statsItemID, json);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: StatsValuesError) => {
         spy2();
@@ -245,10 +245,10 @@ describe('StatsValues', () => {
         }
       ];
 
-      const trial: Superposition<StatsValues, StatsValuesError> = StatsValues.ofRow(row);
+      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofRow(row);
 
-      expect(trial.isSuccess()).toEqual(true);
-      const values: StatsValues = trial.get();
+      expect(superposition.isSuccess()).toEqual(true);
+      const values: StatsValues = superposition.get();
       expect(values.size()).toEqual(row.length);
       for (let i: number = 0; i < values.size(); i++) {
         const value: StatsValue = values.get(i).get();
@@ -275,10 +275,10 @@ describe('StatsValues', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const trial: Superposition<StatsValues, StatsValuesError> = StatsValues.ofRow(row);
+      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofRow(row);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: StatsValuesError) => {
         spy2();
@@ -306,10 +306,10 @@ describe('StatsValues', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const trial: Superposition<StatsValues, StatsValuesError> = StatsValues.ofRow(row);
+      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofRow(row);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: StatsValuesError) => {
         spy2();

@@ -51,11 +51,11 @@ describe('LocaleQuery', () => {
       });
 
       const localeQuery: LocaleQuery = new LocaleQuery(ajax);
-      const trial: Superposition<Locale, DataSourceError> = await localeQuery.all();
+      const superposition: Superposition<Locale, DataSourceError> = await localeQuery.all();
 
       expect(stub.withArgs('/api/locale').called).toEqual(true);
-      expect(trial.isSuccess()).toEqual(true);
-      const locale: Locale = trial.get();
+      expect(superposition.isSuccess()).toEqual(true);
+      const locale: Locale = superposition.get();
       expect(locale.getLanguages().size()).toEqual(json.languages.length);
       for (let i: number = 0; i < locale.getLanguages().size(); i++) {
         expect(locale.getLanguages().get(i).get().getLanguageID().get()).toEqual(json.languages[i].languageID);
@@ -83,10 +83,10 @@ describe('LocaleQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeQuery: LocaleQuery = new LocaleQuery(ajax);
-      const trial: Superposition<Locale, DataSourceError> = await localeQuery.all();
+      const superposition: Superposition<Locale, DataSourceError> = await localeQuery.all();
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();

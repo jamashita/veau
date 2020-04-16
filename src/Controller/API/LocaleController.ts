@@ -17,9 +17,9 @@ const authenticationMiddleware: AuthenticationMiddleware = kernel.get<Authentica
 const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
 
 router.get('/', async (req: express.Request, res: express.Response) => {
-  const trial: Superposition<JSONable, NoSuchElementError | DataSourceError> = await localeInteractor.all();
+  const superposition: Superposition<JSONable, NoSuchElementError | DataSourceError> = await localeInteractor.all();
 
-  trial.match<void>((locale: JSONable) => {
+  superposition.match<void>((locale: JSONable) => {
     res.status(OK).send(locale.toJSON());
   }, (err: NoSuchElementError | DataSourceError) => {
     logger.error(err);
@@ -29,9 +29,9 @@ router.get('/', async (req: express.Request, res: express.Response) => {
 });
 
 router.delete('/', authenticationMiddleware.requires(), async (req: express.Request, res: express.Response) => {
-  const trial: Superposition<void, DataSourceError> = await localeInteractor.delete();
+  const superposition: Superposition<void, DataSourceError> = await localeInteractor.delete();
 
-  trial.match<void>(() => {
+  superposition.match<void>(() => {
     res.sendStatus(OK);
   }, (err: DataSourceError) => {
     logger.error(err);

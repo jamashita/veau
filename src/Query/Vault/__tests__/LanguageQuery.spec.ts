@@ -41,10 +41,10 @@ describe('LanguageQuery', () => {
       stub.resolves(Success.of<Locale, DataSourceError>(locale));
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const trial: Superposition<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
+      const superposition: Superposition<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
 
-      expect(trial.isSuccess()).toEqual(true);
-      expect(trial.get()).toEqual(locale.getLanguages());
+      expect(superposition.isSuccess()).toEqual(true);
+      expect(superposition.get()).toEqual(locale.getLanguages());
     });
 
     it('LocaleQuery returns Failure', async () => {
@@ -56,10 +56,10 @@ describe('LanguageQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const trial: Superposition<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
+      const superposition: Superposition<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
         spy2();
@@ -96,10 +96,10 @@ describe('LanguageQuery', () => {
       stub.resolves(Success.of<Locale, DataSourceError>(locale));
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const trial: Superposition<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
+      const superposition: Superposition<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
-      expect(trial.isSuccess()).toEqual(true);
-      expect(trial.get()).toEqual(locale.getLanguages().get(1).get());
+      expect(superposition.isSuccess()).toEqual(true);
+      expect(superposition.get()).toEqual(locale.getLanguages().get(1).get());
     });
 
     it('LocaleQuery.all returns Failure', async () => {
@@ -111,10 +111,10 @@ describe('LanguageQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const trial: Superposition<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
+      const superposition: Superposition<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
         spy2();
@@ -151,10 +151,10 @@ describe('LanguageQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const trial: Superposition<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('oop'));
+      const superposition: Superposition<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('oop'));
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
         spy2();

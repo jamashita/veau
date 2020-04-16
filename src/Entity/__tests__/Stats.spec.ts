@@ -143,10 +143,10 @@ describe('Stats', () => {
         ]
       };
 
-      const trial: Superposition<Stats, StatsError> = Stats.ofJSON(json);
+      const superposition: Superposition<Stats, StatsError> = Stats.ofJSON(json);
 
-      expect(trial.isSuccess()).toEqual(true);
-      const stats: Stats = trial.get();
+      expect(superposition.isSuccess()).toEqual(true);
+      const stats: Stats = superposition.get();
       expect(stats.getStatsID().get().get()).toEqual(json.statsID);
       expect(stats.getLanguage().getLanguageID().get()).toEqual(json.language.languageID);
       expect(stats.getLanguage().getName().get()).toEqual(json.language.name);
@@ -212,10 +212,10 @@ describe('Stats', () => {
         )
       ];
 
-      const trial: Superposition<Stats, StatsError> = Stats.ofRow(row, StatsItems.ofArray(items));
+      const superposition: Superposition<Stats, StatsError> = Stats.ofRow(row, StatsItems.ofArray(items));
 
-      expect(trial.isSuccess()).toEqual(true);
-      const stats: Stats = trial.get();
+      expect(superposition.isSuccess()).toEqual(true);
+      const stats: Stats = superposition.get();
       expect(stats.getStatsID().get().get()).toEqual(row.statsID);
       expect(stats.getLanguage().getLanguageID().get()).toEqual(row.languageID);
       expect(stats.getLanguage().getName().get()).toEqual(row.languageName);

@@ -65,11 +65,11 @@ export class StatsListSaga {
     while (true) {
       yield take(ACTION.STATS_LIST_INITIALIZE);
 
-      const trial: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = yield call((): Promise<Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>> => {
+      const superposition: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = yield call((): Promise<Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>> => {
         return this.statsOutlineQuery.findByVeauAccountID(VeauAccountID.generate(), Page.of(1).get());
       });
 
-      yield trial.match<Effect>((statsOutlines: StatsOutlines) => {
+      yield superposition.match<Effect>((statsOutlines: StatsOutlines) => {
         return put(updateStatsOutlines(statsOutlines));
       }, () => {
         return all([
@@ -149,14 +149,14 @@ export class StatsListSaga {
         }
       } = state;
 
-      const trial: Superposition<Language, NoSuchElementError | DataSourceError> = yield call((): Promise<Superposition<Language, NoSuchElementError | DataSourceError>> => {
+      const superposition: Superposition<Language, NoSuchElementError | DataSourceError> = yield call((): Promise<Superposition<Language, NoSuchElementError | DataSourceError>> => {
         return this.languageQuery.findByISO639(action.iso639);
       });
 
-      if (trial.isSuccess()) {
+      if (superposition.isSuccess()) {
         const newStats: Stats = Stats.of(
           stats.getStatsID(),
-          trial.get(),
+          superposition.get(),
           stats.getRegion(),
           stats.getTerm(),
           stats.getName(),
@@ -181,15 +181,15 @@ export class StatsListSaga {
         }
       } = state;
 
-      const trial: Superposition<Region, NoSuchElementError | DataSourceError> = yield call((): Promise<Superposition<Region, NoSuchElementError | DataSourceError>> => {
+      const superposition: Superposition<Region, NoSuchElementError | DataSourceError> = yield call((): Promise<Superposition<Region, NoSuchElementError | DataSourceError>> => {
         return this.regionQuery.findByISO3166(action.iso3166);
       });
 
-      if (trial.isSuccess()) {
+      if (superposition.isSuccess()) {
         const newStats: Stats = Stats.of(
           stats.getStatsID(),
           stats.getLanguage(),
-          trial.get(),
+          superposition.get(),
           stats.getTerm(),
           stats.getName(),
           stats.getUnit(),
@@ -249,11 +249,11 @@ export class StatsListSaga {
         put(loading())
       ]);
 
-      const trial: Superposition<void, DataSourceError> = yield call((): Promise<Superposition<void, DataSourceError>> => {
+      const superposition: Superposition<void, DataSourceError> = yield call((): Promise<Superposition<void, DataSourceError>> => {
         return this.statsCommand.create(stats, VeauAccountID.generate());
       });
 
-      yield trial.match<Effect>(() => {
+      yield superposition.match<Effect>(() => {
         return all([
           put(loaded()),
           put(pushToStatsEdit(stats.getStatsID())),

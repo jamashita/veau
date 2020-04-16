@@ -34,10 +34,10 @@ describe('LocaleCommand', () => {
       stub.returns(locale);
 
       const localeCommand: LocaleCommand = new LocaleCommand(cache);
-      const trial: Superposition<void, DataSourceError> = await localeCommand.create(locale);
+      const superposition: Superposition<void, DataSourceError> = await localeCommand.create(locale);
 
       expect(stub.withArgs(VAULT_LOCALE_KEY, locale).called).toEqual(true);
-      expect(trial.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toEqual(true);
     });
 
     it('returns Failure when Cache throws CacheError', async () => {
@@ -51,10 +51,10 @@ describe('LocaleCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeCommand: LocaleCommand = new LocaleCommand(cache);
-      const trial: Superposition<void, DataSourceError> = await localeCommand.create(locale);
+      const superposition: Superposition<void, DataSourceError> = await localeCommand.create(locale);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
         spy2();

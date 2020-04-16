@@ -63,9 +63,9 @@ export class StatsQuery implements IStatsQuery, IMySQLQuery {
         return Failure.of<Stats, NoSuchElementError>(new NoSuchElementError(statsID.get().get()));
       }
 
-      const trial: Superposition<StatsItems, StatsItemsError | DataSourceError> = await this.statsItemQuery.findByStatsID(statsID);
+      const superposition: Superposition<StatsItems, StatsItemsError | DataSourceError> = await this.statsItemQuery.findByStatsID(statsID);
 
-      return trial.match<Stats, StatsError | DataSourceError>((statsItems: StatsItems) => {
+      return superposition.match<Stats, StatsError | DataSourceError>((statsItems: StatsItems) => {
         return Stats.ofRow(statsRows[0], statsItems);
       }, (err: StatsItemsError | DataSourceError) => {
         if (err instanceof DataSourceError) {

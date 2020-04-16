@@ -24,12 +24,12 @@ const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsI
 
 router.get('/page/:page(\\d+)', authenticationMiddleware.requires(), (req: express.Request, res: express.Response) => {
   return Page.of(Number(req.params.page)).match<void>(async (page: Page) => {
-    const trial: Superposition<JSONable, StatsOutlinesError | DataSourceError> = await statsInteractor.findByVeauAccountID(
+    const superposition: Superposition<JSONable, StatsOutlinesError | DataSourceError> = await statsInteractor.findByVeauAccountID(
       res.locals.account.getVeauAccountID(),
       page
     );
 
-    trial.match<void>((outlines: JSONable) => {
+    superposition.match<void>((outlines: JSONable) => {
       res.status(OK).send(outlines.toJSON());
     }, (err: StatsOutlinesError | DataSourceError) => {
       logger.fatal(err);
@@ -48,9 +48,9 @@ router.get('/page/:page(\\d+)', authenticationMiddleware.requires(), (req: expre
 router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: express.Response) => {
   const statsID: StatsID = StatsID.ofString(req.params.statsID).get();
 
-  const trial: Superposition<JSONable, NoSuchElementError | StatsError | DataSourceError> = await statsInteractor.findByStatsID(statsID);
+  const superposition: Superposition<JSONable, NoSuchElementError | StatsError | DataSourceError> = await statsInteractor.findByStatsID(statsID);
 
-  trial.match<void>((stats: JSONable) => {
+  superposition.match<void>((stats: JSONable) => {
     res.status(OK).send(stats.toJSON());
   }, (err: NoSuchElementError | StatsError | DataSourceError) => {
     if (err instanceof NoSuchElementError) {
@@ -73,12 +73,12 @@ router.post('/', authenticationMiddleware.requires(), (req: express.Request, res
   }
 
   return Stats.ofJSON(req.body).match<void>(async (stats: Stats) => {
-    const trial: Superposition<unknown, DataSourceError> = await statsInteractor.save(
+    const superposition: Superposition<unknown, DataSourceError> = await statsInteractor.save(
       stats,
       res.locals.account.getVeauAccountID()
     );
 
-    trial.match<void>(() => {
+    superposition.match<void>(() => {
       res.sendStatus(CREATED);
     }, (err: DataSourceError) => {
       logger.warn(err);

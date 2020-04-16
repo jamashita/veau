@@ -69,7 +69,7 @@ describe('StatsOutlineQuery', () => {
       stub.resolves(rows);
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
-      const trial: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(
+      const superposition: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(
         accountID,
         page
       );
@@ -99,8 +99,8 @@ describe('StatsOutlineQuery', () => {
         limit: page.getLimit().get(),
         offset: page.getOffset().get()
       }).called).toEqual(true);
-      expect(trial.isSuccess()).toEqual(true);
-      const statsOutlines: StatsOutlines = trial.get();
+      expect(superposition.isSuccess()).toEqual(true);
+      const statsOutlines: StatsOutlines = superposition.get();
       expect(statsOutlines.size()).toEqual(2);
       for (let i: number = 0; i < statsOutlines.size(); i++) {
         const statsOutline: StatsOutline = statsOutlines.get(i).get();
@@ -159,10 +159,10 @@ describe('StatsOutlineQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
-      const trial: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(VeauAccountID.ofString('2ac64841-5267-48bc-8952-ba9ad1cb12d7').get(), Page.of(2).get());
+      const superposition: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(VeauAccountID.ofString('2ac64841-5267-48bc-8952-ba9ad1cb12d7').get(), Page.of(2).get());
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: StatsOutlinesError | DataSourceError) => {
         spy2();
@@ -182,10 +182,10 @@ describe('StatsOutlineQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
-      const trial: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(VeauAccountID.ofString('2ac64841-5267-48bc-8952-ba9ad1cb12d7').get(), Page.of(1).get());
+      const superposition: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(VeauAccountID.ofString('2ac64841-5267-48bc-8952-ba9ad1cb12d7').get(), Page.of(1).get());
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: StatsOutlinesError | DataSourceError) => {
         spy2();

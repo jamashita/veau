@@ -81,13 +81,13 @@ describe('None', () => {
     });
   });
 
-  describe('toTry', () => {
+  describe('toSuperposition', () => {
     it('returns Failure', () => {
       const none: None<number> = None.of<number>();
 
-      const trial: Superposition<number, QuantumError> = none.toTry();
+      const superposition: Superposition<number, QuantumError> = none.toSuperposition();
 
-      expect(trial.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toEqual(true);
     });
   });
 

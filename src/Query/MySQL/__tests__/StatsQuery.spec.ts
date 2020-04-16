@@ -130,7 +130,7 @@ describe('StatsQuery', () => {
       stub2.resolves(Success.of<StatsItems, StatsItemsError | DataSourceError>(items));
 
       const statsQuery: StatsQuery = new StatsQuery(mysql, statsItemQuery);
-      const trial: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
+      const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
 
       expect(stub1.withArgs(`SELECT
       R1.stats_id AS statsID,
@@ -153,8 +153,8 @@ describe('StatsQuery', () => {
       WHERE R1.stats_id = :statsID;`, {
         statsID: uuid1.get()
       }).called).toEqual(true);
-      expect(trial.isSuccess()).toEqual(true);
-      const stats: Stats = trial.get();
+      expect(superposition.isSuccess()).toEqual(true);
+      const stats: Stats = superposition.get();
       expect(stats.getStatsID().get().get()).toEqual(rows[0].statsID);
       expect(stats.getLanguage().getLanguageID().get()).toEqual(rows[0].languageID);
       expect(stats.getLanguage().getName().get()).toEqual(rows[0].languageName);
@@ -202,10 +202,10 @@ describe('StatsQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsQuery: StatsQuery = new StatsQuery(mysql, statsItemQuery);
-      const trial: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
+      const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: StatsError | NoSuchElementError | DataSourceError
       ) => {
@@ -229,10 +229,10 @@ describe('StatsQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsQuery: StatsQuery = new StatsQuery(mysql, statsItemQuery);
-      const trial: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
+      const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: StatsError | NoSuchElementError | DataSourceError) => {
         spy2();
@@ -274,10 +274,10 @@ describe('StatsQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsQuery: StatsQuery = new StatsQuery(mysql, statsItemQuery);
-      const trial: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
+      const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: StatsError | NoSuchElementError | DataSourceError) => {
         spy2();
@@ -319,10 +319,10 @@ describe('StatsQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsQuery: StatsQuery = new StatsQuery(mysql, statsItemQuery);
-      const trial: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
+      const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: StatsError | NoSuchElementError | DataSourceError) => {
         spy2();
