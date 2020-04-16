@@ -57,11 +57,11 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
     const trial: Try<Languages, NoSuchElementError | DataSourceError> = await this.all();
 
     return trial.match<Language, NoSuchElementError | DataSourceError>((languages: Languages) => {
-      const optional: Quantum<Language> = languages.find((language: Language) => {
+      const quantum: Quantum<Language> = languages.find((language: Language) => {
         return language.getISO639().equals(iso639);
       });
 
-      return optional.toTry().match<Language, NoSuchElementError | DataSourceError>((language: Language) => {
+      return quantum.toTry().match<Language, NoSuchElementError | DataSourceError>((language: Language) => {
         return Success.of<Language, DataSourceError>(language);
       }, () => {
         return Failure.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.toString()));

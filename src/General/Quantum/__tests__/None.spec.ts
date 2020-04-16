@@ -71,13 +71,13 @@ describe('None', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const optional: Quantum<number> = none.map<number>((value: number) => {
+      const quantum: Quantum<number> = none.map<number>((value: number) => {
         spy();
         return value;
       });
 
       expect(spy.called).toEqual(false);
-      expect(optional).toBeInstanceOf(None);
+      expect(quantum).toBeInstanceOf(None);
     });
   });
 
@@ -97,13 +97,13 @@ describe('None', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const optional: Quantum<number> = none.filter((value: number) => {
+      const quantum: Quantum<number> = none.filter((value: number) => {
         spy();
         return true;
       });
 
       expect(spy.called).toEqual(false);
-      expect(none).toBe(optional);
+      expect(none).toBe(quantum);
     });
   });
 });

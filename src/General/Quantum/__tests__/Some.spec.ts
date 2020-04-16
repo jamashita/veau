@@ -102,14 +102,14 @@ describe('Some', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const optional: Quantum<number> = some.map<number>((value: number) => {
+      const quantum: Quantum<number> = some.map<number>((value: number) => {
         spy();
         return value * 2;
       });
 
       expect(spy.called).toEqual(true);
-      expect(optional.isPresent()).toEqual(true);
-      expect(optional.get()).toEqual(10 * 2);
+      expect(quantum.isPresent()).toEqual(true);
+      expect(quantum.get()).toEqual(10 * 2);
     });
 
     it('returns None when function returns null', () => {
@@ -117,13 +117,13 @@ describe('Some', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const optional: Quantum<number> = some.map<number>(() => {
+      const quantum: Quantum<number> = some.map<number>(() => {
         spy();
         return null;
       });
 
       expect(spy.called).toEqual(true);
-      expect(optional.isAbsent()).toEqual(true);
+      expect(quantum.isAbsent()).toEqual(true);
     });
 
     it('returns None when function returns undefined', () => {
@@ -131,13 +131,13 @@ describe('Some', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const optional: Quantum<number> = some.map<number>(() => {
+      const quantum: Quantum<number> = some.map<number>(() => {
         spy();
         return undefined;
       });
 
       expect(spy.called).toEqual(true);
-      expect(optional.isAbsent()).toEqual(true);
+      expect(quantum.isAbsent()).toEqual(true);
     });
   });
 
@@ -156,14 +156,14 @@ describe('Some', () => {
       const some1: Some<number> = Some.of<number>(1);
       const some2: Some<number> = Some.of<number>(2);
 
-      const optional1: Quantum<number> = some1.filter((value: number) => {
+      const quantum1: Quantum<number> = some1.filter((value: number) => {
         if (value % 2 === 0) {
           return true;
         }
 
         return false;
       });
-      const optional2: Quantum<number> = some2.filter((value: number) => {
+      const quantum2: Quantum<number> = some2.filter((value: number) => {
         if (value % 2 === 0) {
           return true;
         }
@@ -171,11 +171,11 @@ describe('Some', () => {
         return false;
       });
 
-      expect(optional1).toBeInstanceOf(None);
-      expect(optional2).toBeInstanceOf(Some);
-      expect(optional1.isAbsent()).toEqual(true);
-      expect(optional2.isPresent()).toEqual(true);
-      expect(optional2.get()).toEqual(2);
+      expect(quantum1).toBeInstanceOf(None);
+      expect(quantum2).toBeInstanceOf(Some);
+      expect(quantum1.isAbsent()).toEqual(true);
+      expect(quantum2.isPresent()).toEqual(true);
+      expect(quantum2.get()).toEqual(2);
     });
   });
 });

@@ -58,11 +58,11 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
     const trial: Try<Regions, NoSuchElementError | DataSourceError> = await this.all();
 
     return trial.match<Region, NoSuchElementError | DataSourceError>((regions: Regions) => {
-      const optional: Quantum<Region> = regions.find((region: Region) => {
+      const quantum: Quantum<Region> = regions.find((region: Region) => {
         return region.getISO3166().equals(iso3166);
       });
 
-      return optional.toTry().match<Region, NoSuchElementError | DataSourceError>((region: Region) => {
+      return quantum.toTry().match<Region, NoSuchElementError | DataSourceError>((region: Region) => {
         return Success.of<Region, DataSourceError>(region);
       }, () => {
         return Failure.of<Region, NoSuchElementError>(new NoSuchElementError(iso3166.get()));
