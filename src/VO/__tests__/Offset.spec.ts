@@ -7,16 +7,16 @@ import { Offset } from '../Offset';
 describe('Offset', () => {
   describe('of', () => {
     it('returns Failure when the argument is less than 0', () => {
-      const trial1: Superposition<Offset, OffsetError> = Offset.of(0);
-      const trial2: Superposition<Offset, OffsetError> = Offset.of(-1);
+      const superposition1: Superposition<Offset, OffsetError> = Offset.of(0);
+      const superposition2: Superposition<Offset, OffsetError> = Offset.of(-1);
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      expect(trial1.isSuccess()).toEqual(true);
-      expect(trial2.isFailure()).toEqual(true);
+      expect(superposition1.isSuccess()).toEqual(true);
+      expect(superposition2.isFailure()).toEqual(true);
 
-      trial2.match<void>(() => {
+      superposition2.match<void>(() => {
         spy1();
       }, (err: OffsetError) => {
         spy2();

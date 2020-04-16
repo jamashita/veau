@@ -41,8 +41,8 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
     return StatsValues.ofArray(values);
   }
 
-  public static ofTry(tries: Array<Superposition<StatsValue, StatsValueError>>): Superposition<StatsValues, StatsValuesError> {
-    return manoeuvre<StatsValue, StatsValueError>(tries).match<StatsValues, StatsValuesError>((values: Array<StatsValue>) => {
+  public static ofTry(superpositions: Array<Superposition<StatsValue, StatsValueError>>): Superposition<StatsValues, StatsValuesError> {
+    return manoeuvre<StatsValue, StatsValueError>(superpositions).match<StatsValues, StatsValuesError>((values: Array<StatsValue>) => {
       return Success.of<StatsValues, StatsValuesError>(StatsValues.ofArray(values));
     }, (err: StatsValueError) => {
       return Failure.of<StatsValues, StatsValuesError>(new StatsValuesError('StatsValues.ofTry()', err));
@@ -50,19 +50,19 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
   }
 
   public static ofJSON(statsItemID: StatsItemID, statsValues: Array<StatsValueJSON>): Superposition<StatsValues, StatsValuesError> {
-    const tries: Array<Superposition<StatsValue, StatsValueError>> = statsValues.map<Superposition<StatsValue, StatsValueError>>((statsValue: StatsValueJSON) => {
+    const superpositions: Array<Superposition<StatsValue, StatsValueError>> = statsValues.map<Superposition<StatsValue, StatsValueError>>((statsValue: StatsValueJSON) => {
       return StatsValue.ofJSON(statsItemID, statsValue);
     });
 
-    return StatsValues.ofTry(tries);
+    return StatsValues.ofTry(superpositions);
   }
 
   public static ofRow(rows: Array<StatsValueRow>): Superposition<StatsValues, StatsValuesError> {
-    const tries: Array<Superposition<StatsValue, StatsValueError>> = rows.map<Superposition<StatsValue, StatsValueError>>((statsValue: StatsValueRow) => {
+    const superpositions: Array<Superposition<StatsValue, StatsValueError>> = rows.map<Superposition<StatsValue, StatsValueError>>((statsValue: StatsValueRow) => {
       return StatsValue.ofRow(statsValue);
     });
 
-    return StatsValues.ofTry(tries);
+    return StatsValues.ofTry(superpositions);
   }
 
   public static isJSON(n: unknown): n is Array<StatsValueJSON> {

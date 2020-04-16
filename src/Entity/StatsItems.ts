@@ -40,8 +40,8 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
     return StatsItems.ofArray(items);
   }
 
-  public static ofTry(tries: Array<Superposition<StatsItem, StatsItemError>>): Superposition<StatsItems, StatsItemsError> {
-    return manoeuvre<StatsItem, StatsItemError>(tries).match<StatsItems, StatsItemsError>((statsItems: Array<StatsItem>) => {
+  public static ofTry(superpositions: Array<Superposition<StatsItem, StatsItemError>>): Superposition<StatsItems, StatsItemsError> {
+    return manoeuvre<StatsItem, StatsItemError>(superpositions).match<StatsItems, StatsItemsError>((statsItems: Array<StatsItem>) => {
       return Success.of<StatsItems, StatsItemsError>(StatsItems.ofArray(statsItems));
     }, (err: StatsItemError) => {
       return Failure.of<StatsItems, StatsItemsError>(new StatsItemsError('StatsItems.ofTry()', err));

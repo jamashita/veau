@@ -53,11 +53,11 @@ describe('SessionQuery', () => {
       });
 
       const sessionQuery: SessionQuery = new SessionQuery(ajax);
-      const trial: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.find();
+      const superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.find();
 
       expect(stub.withArgs('/api/identity').called).toEqual(true);
-      expect(trial.isSuccess()).toEqual(true);
-      const veauAccount: VeauAccount = trial.get();
+      expect(superposition.isSuccess()).toEqual(true);
+      const veauAccount: VeauAccount = superposition.get();
       expect(veauAccount.getVeauAccountID().get().get()).toEqual(json.veauAccountID);
       expect(veauAccount.getAccount().get()).toEqual(json.account);
       expect(veauAccount.getLanguage().getLanguageID().get()).toEqual(json.language.languageID);
@@ -97,10 +97,10 @@ describe('SessionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const sessionQuery: SessionQuery = new SessionQuery(ajax);
-      const trial: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.find();
+      const superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.find();
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: VeauAccountError | DataSourceError) => {
         spy2();
@@ -123,10 +123,10 @@ describe('SessionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const sessionQuery: SessionQuery = new SessionQuery(ajax);
-      const trial: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.find();
+      const superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.find();
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: VeauAccountError | DataSourceError) => {
         spy2();
@@ -166,14 +166,14 @@ describe('SessionQuery', () => {
 
       const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
       const sessionQuery: SessionQuery = new SessionQuery(ajax);
-      const trial: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.findByEntranceInfo(info);
+      const superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.findByEntranceInfo(info);
 
       expect(stub.withArgs('/api/auth', {
         account: 'account',
         password: 'password'
       }).called).toEqual(true);
-      expect(trial.isSuccess()).toEqual(true);
-      const veauAccount: VeauAccount = trial.get();
+      expect(superposition.isSuccess()).toEqual(true);
+      const veauAccount: VeauAccount = superposition.get();
       expect(veauAccount.getVeauAccountID().get().get()).toEqual(json.veauAccountID);
       expect(veauAccount.getAccount().get()).toEqual(json.account);
       expect(veauAccount.getLanguage().getLanguageID().get()).toEqual(json.language.languageID);
@@ -214,10 +214,10 @@ describe('SessionQuery', () => {
 
       const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
       const sessionQuery: SessionQuery = new SessionQuery(ajax);
-      const trial: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.findByEntranceInfo(info);
+      const superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.findByEntranceInfo(info);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: VeauAccountError | DataSourceError) => {
         spy2();
@@ -241,10 +241,10 @@ describe('SessionQuery', () => {
 
       const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
       const sessionQuery: SessionQuery = new SessionQuery(ajax);
-      const trial: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.findByEntranceInfo(info);
+      const superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.findByEntranceInfo(info);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: VeauAccountError | DataSourceError) => {
         spy2();
@@ -268,10 +268,10 @@ describe('SessionQuery', () => {
 
       const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
       const sessionQuery: SessionQuery = new SessionQuery(ajax);
-      const trial: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.findByEntranceInfo(info);
+      const superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.findByEntranceInfo(info);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: VeauAccountError | DataSourceError) => {
         spy2();

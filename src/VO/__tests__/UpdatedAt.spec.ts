@@ -12,10 +12,10 @@ describe('UpdatedAt', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const trial: Superposition<UpdatedAt, UpdatedAtError> = UpdatedAt.ofString('this is not date');
+      const superposition: Superposition<UpdatedAt, UpdatedAtError> = UpdatedAt.ofString('this is not date');
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: UpdatedAtError) => {
         spy2();
@@ -27,9 +27,9 @@ describe('UpdatedAt', () => {
     });
 
     it('normal case', () => {
-      const trial: Superposition<UpdatedAt, UpdatedAtError> = UpdatedAt.ofString('2000-01-01 00:00:00');
+      const superposition: Superposition<UpdatedAt, UpdatedAtError> = UpdatedAt.ofString('2000-01-01 00:00:00');
 
-      expect(trial.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toEqual(true);
     });
   });
 

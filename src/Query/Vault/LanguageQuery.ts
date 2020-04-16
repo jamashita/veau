@@ -25,9 +25,9 @@ export class LanguageQuery implements ILanguageQuery, IVaultQuery {
   }
 
   public async all(): Promise<Superposition<Languages, NoSuchElementError | DataSourceError>> {
-    const trial: Superposition<Locale, DataSourceError> = await this.localeVaultQuery.all();
+    const superposition: Superposition<Locale, DataSourceError> = await this.localeVaultQuery.all();
 
-    return trial.match<Languages, DataSourceError>((locale: Locale) => {
+    return superposition.match<Languages, DataSourceError>((locale: Locale) => {
       return Success.of<Languages, DataSourceError>(locale.getLanguages());
     }, (err: DataSourceError, self: Failure<Locale, DataSourceError>) => {
       return self.transpose<Languages>();
@@ -35,9 +35,9 @@ export class LanguageQuery implements ILanguageQuery, IVaultQuery {
   }
 
   public async findByISO639(iso639: ISO639): Promise<Superposition<Language, NoSuchElementError | DataSourceError>> {
-    const trial: Superposition<Languages, NoSuchElementError | DataSourceError> = await this.all();
+    const superposition: Superposition<Languages, NoSuchElementError | DataSourceError> = await this.all();
 
-    return trial.match<Language, NoSuchElementError | DataSourceError>((languages: Languages) => {
+    return superposition.match<Language, NoSuchElementError | DataSourceError>((languages: Languages) => {
       const quantum: Quantum<Language> = languages.find((language: Language) => {
         return language.getISO639().equals(iso639);
       });

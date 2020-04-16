@@ -37,13 +37,13 @@ export class StatsUpdateTransaction implements IStatsUpdateTransaction {
 
     const statsID: StatsID = this.stats.getStatsID();
 
-    const tries: Array<Superposition<void, DataSourceError>> = [
+    const superpositions: Array<Superposition<void, DataSourceError>> = [
       await statsValueCommand.deleteByStatsID(statsID),
       await statsItemCommand.deleteByStatsID(statsID),
       await statsCommand.deleteByStatsID(statsID)
     ];
 
-    const deleteCompletion: Superposition<unknown, DataSourceError> = manoeuvre<void, DataSourceError>(tries);
+    const deleteCompletion: Superposition<unknown, DataSourceError> = manoeuvre<void, DataSourceError>(superpositions);
 
     return deleteCompletion.match<unknown, DataSourceError>(async () => {
       const itemPromises: Array<Promise<Superposition<void, DataSourceError>>> = [];

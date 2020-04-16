@@ -7,16 +7,16 @@ import { HeaderSize } from '../HeaderSize';
 describe('HeaderSize', () => {
   describe('of', () => {
     it('returns Failure when the argument is less than 0', () => {
-      const trial1: Superposition<HeaderSize, HeaderSizeError> = HeaderSize.of(0);
-      const trial2: Superposition<HeaderSize, HeaderSizeError> = HeaderSize.of(-1);
+      const superposition1: Superposition<HeaderSize, HeaderSizeError> = HeaderSize.of(0);
+      const superposition2: Superposition<HeaderSize, HeaderSizeError> = HeaderSize.of(-1);
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      expect(trial1.isSuccess()).toEqual(true);
-      expect(trial2.isFailure()).toEqual(true);
+      expect(superposition1.isSuccess()).toEqual(true);
+      expect(superposition2.isFailure()).toEqual(true);
 
-      trial2.match<void>(() => {
+      superposition2.match<void>(() => {
         spy1();
       }, (err: HeaderSizeError) => {
         spy2();
@@ -28,25 +28,25 @@ describe('HeaderSize', () => {
     });
 
     it('returns Failure when the argument is not integer', () => {
-      const trial1: Superposition<HeaderSize, HeaderSizeError> = HeaderSize.of(0.1);
-      const trial2: Superposition<HeaderSize, HeaderSizeError> = HeaderSize.of(1.5);
+      const superposition1: Superposition<HeaderSize, HeaderSizeError> = HeaderSize.of(0.1);
+      const superposition2: Superposition<HeaderSize, HeaderSizeError> = HeaderSize.of(1.5);
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      expect(trial1.isFailure()).toEqual(true);
-      expect(trial2.isFailure()).toEqual(true);
+      expect(superposition1.isFailure()).toEqual(true);
+      expect(superposition2.isFailure()).toEqual(true);
 
-      trial1.match<void>(() => {
+      superposition1.match<void>(() => {
         spy1();
       }, (err: HeaderSizeError) => {
         spy2();
         expect(err).toBeInstanceOf(HeaderSizeError);
       });
 
-      trial2.match<void>(() => {
+      superposition2.match<void>(() => {
         spy3();
       }, (err: HeaderSizeError) => {
         spy4();

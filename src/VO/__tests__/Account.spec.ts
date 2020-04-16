@@ -58,10 +58,10 @@ describe('Account', () => {
         hash: 'hash'
       };
 
-      const trial: Superposition<Account, AccountError> = Account.ofRow(row);
+      const superposition: Superposition<Account, AccountError> = Account.ofRow(row);
 
-      expect(trial.isSuccess()).toEqual(true);
-      const account: Account = trial.get();
+      expect(superposition.isSuccess()).toEqual(true);
+      const account: Account = superposition.get();
       expect(account.getVeauAccountID().get().get()).toEqual(row.veauAccountID);
       expect(account.getAccount().get()).toEqual(row.account);
       expect(account.getLanguage().getLanguageID().get()).toEqual(row.languageID);
@@ -91,10 +91,10 @@ describe('Account', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const trial: Superposition<Account, AccountError> = Account.ofRow(row);
+      const superposition: Superposition<Account, AccountError> = Account.ofRow(row);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: AccountError) => {
         spy2();

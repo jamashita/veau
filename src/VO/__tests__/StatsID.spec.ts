@@ -18,19 +18,19 @@ describe('StatsID', () => {
 
   describe('ofString', () => {
     it('normal case', () => {
-      const trial: Superposition<StatsID, StatsIDError> = StatsID.ofString('db9c9de2-1fc6-4072-8348-b8894239b2b0');
+      const superposition: Superposition<StatsID, StatsIDError> = StatsID.ofString('db9c9de2-1fc6-4072-8348-b8894239b2b0');
 
-      expect(trial.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toEqual(true);
     });
 
     it('returns Failure when uuid length string is not given', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const trial: Superposition<StatsID, StatsIDError> = StatsID.ofString('trois');
+      const superposition: Superposition<StatsID, StatsIDError> = StatsID.ofString('trois');
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: StatsIDError) => {
         spy2();

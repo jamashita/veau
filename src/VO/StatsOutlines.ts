@@ -35,8 +35,8 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
     return StatsOutlines.ofArray(outlines);
   }
 
-  public static ofTry(tries: Array<Superposition<StatsOutline, StatsOutlineError>>): Superposition<StatsOutlines, StatsOutlinesError> {
-    return manoeuvre<StatsOutline, StatsOutlineError>(tries).match<StatsOutlines, StatsOutlinesError>((outlines: Array<StatsOutline>) => {
+  public static ofTry(superpositions: Array<Superposition<StatsOutline, StatsOutlineError>>): Superposition<StatsOutlines, StatsOutlinesError> {
+    return manoeuvre<StatsOutline, StatsOutlineError>(superpositions).match<StatsOutlines, StatsOutlinesError>((outlines: Array<StatsOutline>) => {
       return Success.of<StatsOutlines, StatsOutlinesError>(StatsOutlines.ofArray(outlines));
     }, (err: StatsOutlineError) => {
       return Failure.of<StatsOutlines, StatsOutlinesError>(
@@ -46,19 +46,19 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
   }
 
   public static ofJSON(json: Array<StatsOutlineJSON>): Superposition<StatsOutlines, StatsOutlinesError> {
-    const trials: Array<Superposition<StatsOutline, StatsOutlineError>> = json.map<Superposition<StatsOutline, StatsOutlineError>>((outline: StatsOutlineJSON) => {
+    const superpositions: Array<Superposition<StatsOutline, StatsOutlineError>> = json.map<Superposition<StatsOutline, StatsOutlineError>>((outline: StatsOutlineJSON) => {
       return StatsOutline.ofJSON(outline);
     });
 
-    return StatsOutlines.ofTry(trials);
+    return StatsOutlines.ofTry(superpositions);
   }
 
   public static ofRow(rows: Array<StatsOutlineRow>): Superposition<StatsOutlines, StatsOutlinesError> {
-    const trials: Array<Superposition<StatsOutline, StatsOutlineError>> = rows.map<Superposition<StatsOutline, StatsOutlineError>>((outline: StatsOutlineRow) => {
+    const superpositions: Array<Superposition<StatsOutline, StatsOutlineError>> = rows.map<Superposition<StatsOutline, StatsOutlineError>>((outline: StatsOutlineRow) => {
       return StatsOutline.ofRow(outline);
     });
 
-    return StatsOutlines.ofTry(trials);
+    return StatsOutlines.ofTry(superpositions);
   }
 
   public static empty(): StatsOutlines {

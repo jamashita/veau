@@ -46,25 +46,25 @@ describe('StatsValues', () => {
 
   describe('ofTry', () => {
     it('when empty Array given, returns Success, and StatsValues.empty()', () => {
-      const trial: Superposition<StatsValues, StatsValuesError> = StatsValues.ofTry([]);
+      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofTry([]);
 
-      expect(trial.isSuccess()).toBe(true);
-      expect(trial.get()).toBe(StatsValues.empty());
+      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.get()).toBe(StatsValues.empty());
     });
 
     it('normal case', () => {
       const statsValue1: MockStatsValue = new MockStatsValue();
       const statsValue2: MockStatsValue = new MockStatsValue();
 
-      const trial1: Superposition<StatsValue, StatsValueError> = Success.of<StatsValue, StatsValueError>(statsValue1);
-      const trial2: Superposition<StatsValue, StatsValueError> = Success.of<StatsValue, StatsValueError>(statsValue2);
-      const trial: Superposition<StatsValues, StatsValuesError> = StatsValues.ofTry([
-        trial1,
-        trial2
+      const superposition1: Superposition<StatsValue, StatsValueError> = Success.of<StatsValue, StatsValueError>(statsValue1);
+      const superposition2: Superposition<StatsValue, StatsValueError> = Success.of<StatsValue, StatsValueError>(statsValue2);
+      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofTry([
+        superposition1,
+        superposition2
       ]);
 
-      expect(trial.isSuccess()).toEqual(true);
-      const values: StatsValues = trial.get();
+      expect(superposition.isSuccess()).toEqual(true);
+      const values: StatsValues = superposition.get();
       expect(values.size()).toEqual(2);
       expect(values.get(0).get()).toBe(statsValue1);
       expect(values.get(1).get()).toBe(statsValue2);
@@ -76,11 +76,11 @@ describe('StatsValues', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const trial1: Superposition<StatsValue, StatsValueError> = Success.of<StatsValue, StatsValueError>(statsValue1);
-      const trial2: Superposition<StatsValue, StatsValueError> = Failure.of<StatsValue, StatsValueError>(
+      const superposition1: Superposition<StatsValue, StatsValueError> = Success.of<StatsValue, StatsValueError>(statsValue1);
+      const superposition2: Superposition<StatsValue, StatsValueError> = Failure.of<StatsValue, StatsValueError>(
         new StatsValueError('test failed')
       );
-      const trial: Superposition<StatsValues, StatsValuesError> = StatsValues.ofTry([
+      const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofTry([
         trial1,
         trial2
       ]);
@@ -127,13 +127,13 @@ describe('StatsValues', () => {
 
   describe('ofJSON', () => {
     it('when empty Array given, returns StatsValues.empty()', () => {
-      const tries: Superposition<StatsValues, StatsValuesError> = StatsValues.ofJSON(
+      const superpositions: Superposition<StatsValues, StatsValuesError> = StatsValues.ofJSON(
         new MockStatsItemID(),
         []
       );
 
-      expect(tries.isSuccess()).toEqual(true);
-      expect(tries.get()).toBe(StatsValues.empty());
+      expect(superpositions.isSuccess()).toEqual(true);
+      expect(superpositions.get()).toBe(StatsValues.empty());
     });
 
     it('normal case', () => {
@@ -225,10 +225,10 @@ describe('StatsValues', () => {
 
   describe('ofRow', () => {
     it('when empty Array given, returns StatsValues.empty()', () => {
-      const tries: Superposition<StatsValues, StatsValuesError> = StatsValues.ofRow([]);
+      const superpositions: Superposition<StatsValues, StatsValuesError> = StatsValues.ofRow([]);
 
-      expect(tries.isSuccess()).toEqual(true);
-      expect(tries.get()).toBe(StatsValues.empty());
+      expect(superpositions.isSuccess()).toEqual(true);
+      expect(superpositions.get()).toBe(StatsValues.empty());
     });
 
     it('normal case', () => {

@@ -109,7 +109,7 @@ describe('StatsItemQuery', () => {
       stub2.resolves(Success.of<StatsValues, StatsValuesError | DataSourceError>(values));
 
       const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
-      const trial: Superposition<StatsItems, StatsItemsError | DataSourceError> = await statsItemQuery.findByStatsID(statsID);
+      const superposition: Superposition<StatsItems, StatsItemsError | DataSourceError> = await statsItemQuery.findByStatsID(statsID);
 
       expect(stub1.withArgs(`SELECT
       R1.stats_item_id AS statsItemID,
@@ -119,8 +119,8 @@ describe('StatsItemQuery', () => {
       ORDER BY R1.seq;`, {
         statsID: uuid1.get()
       }).called).toEqual(true);
-      expect(trial.isSuccess()).toEqual(true);
-      const statsItems: StatsItems = trial.get();
+      expect(superposition.isSuccess()).toEqual(true);
+      const statsItems: StatsItems = superposition.get();
       expect(statsItems.size()).toEqual(3);
       for (let i: number = 0; i < statsItems.size(); i++) {
         expect(statsItems.get(i).get().getStatsItemID().get().get()).toEqual(rows[i].statsItemID);
@@ -167,10 +167,10 @@ describe('StatsItemQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
-      const trial: Superposition<StatsItems, StatsItemsError | DataSourceError> = await statsItemQuery.findByStatsID(statsID);
+      const superposition: Superposition<StatsItems, StatsItemsError | DataSourceError> = await statsItemQuery.findByStatsID(statsID);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: StatsItemsError | DataSourceError) => {
         spy2();
@@ -210,10 +210,10 @@ describe('StatsItemQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
-      const trial: Superposition<StatsItems, StatsItemsError | DataSourceError> = await statsItemQuery.findByStatsID(statsID);
+      const superposition: Superposition<StatsItems, StatsItemsError | DataSourceError> = await statsItemQuery.findByStatsID(statsID);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: StatsItemsError | DataSourceError) => {
         spy2();
@@ -253,10 +253,10 @@ describe('StatsItemQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
-      const trial: Superposition<StatsItems, StatsItemsError | DataSourceError> = await statsItemQuery.findByStatsID(statsID);
+      const superposition: Superposition<StatsItems, StatsItemsError | DataSourceError> = await statsItemQuery.findByStatsID(statsID);
 
-      expect(trial.isFailure()).toEqual(true);
-      trial.match<void>(() => {
+      expect(superposition.isFailure()).toEqual(true);
+      superposition.match<void>(() => {
         spy1();
       }, (err: StatsItemsError | DataSourceError) => {
         spy2();
