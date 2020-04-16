@@ -3,7 +3,7 @@ import { VeauAccountIDError } from '../Error/VeauAccountIDError';
 import { Digest } from '../General/Digest';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
-import { Try } from '../General/Superposition/Try';
+import { Superposition } from '../General/Superposition/Superposition';
 import { ValueObject } from '../General/ValueObject';
 import { AccountName } from './AccountName';
 import { Hash } from './Hash';
@@ -44,7 +44,7 @@ export class Account extends ValueObject {
     return new Account(veauAccountID, account, language, region, hash);
   }
 
-  public static ofRow(row: AccountRow): Try<Account, AccountError> {
+  public static ofRow(row: AccountRow): Superposition<Account, AccountError> {
     return VeauAccountID.ofString(row.veauAccountID).match<Account, AccountError>((veauAccountID: VeauAccountID) => {
       const language: Language = Language.ofRow({
         languageID: row.languageID,

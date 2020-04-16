@@ -1,7 +1,7 @@
 import { HeaderSizeError } from '../Error/HeaderSizeError';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
-import { Try } from '../General/Superposition/Try';
+import { Superposition } from '../General/Superposition/Superposition';
 import { Type } from '../General/Type/Type';
 import { ValueObject } from '../General/ValueObject';
 
@@ -9,7 +9,7 @@ export class HeaderSize extends ValueObject {
   public readonly noun: 'HeaderSize' = 'HeaderSize';
   private readonly size: number;
 
-  public static of(size: number): Try<HeaderSize, HeaderSizeError> {
+  public static of(size: number): Superposition<HeaderSize, HeaderSizeError> {
     if (size < 0) {
       return Failure.of<HeaderSize, HeaderSizeError>(new HeaderSizeError(`ILLEGAL SIZE SPECIFIED ${size}`));
     }

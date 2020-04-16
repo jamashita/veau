@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 import { AccountError } from '../../Error/AccountError';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { Account, AccountRow } from '../Account';
 import { AccountName } from '../AccountName';
 import { Hash } from '../Hash';
@@ -58,7 +58,7 @@ describe('Account', () => {
         hash: 'hash'
       };
 
-      const trial: Try<Account, AccountError> = Account.ofRow(row);
+      const trial: Superposition<Account, AccountError> = Account.ofRow(row);
 
       expect(trial.isSuccess()).toEqual(true);
       const account: Account = trial.get();
@@ -91,7 +91,7 @@ describe('Account', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const trial: Try<Account, AccountError> = Account.ofRow(row);
+      const trial: Superposition<Account, AccountError> = Account.ofRow(row);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {

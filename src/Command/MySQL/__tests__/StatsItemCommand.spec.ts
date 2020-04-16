@@ -4,7 +4,7 @@ import { DataSourceError } from '../../../General/DataSourceError';
 import { MockError } from '../../../General/Mock/MockError';
 import { MockSQL } from '../../../General/MySQL/Mock/MockSQL';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
-import { Try } from '../../../General/Superposition/Try';
+import { Superposition } from '../../../General/Superposition/Superposition';
 import { UUID } from '../../../General/UUID/UUID';
 import { MockStatsID } from '../../../VO/Mock/MockStatsID';
 import { MockStatsItemID } from '../../../VO/Mock/MockStatsItemID';
@@ -30,7 +30,7 @@ describe('StatsItemCommand', () => {
       sql.execute = stub;
 
       const statsItemCommand: StatsItemCommand = new StatsItemCommand(sql);
-      const trial: Try<void, DataSourceError> = await statsItemCommand.create(statsID, statsItem, seq);
+      const trial: Superposition<void, DataSourceError> = await statsItemCommand.create(statsID, statsItem, seq);
 
       expect(stub.withArgs(`INSERT INTO stats_items VALUES (
       :statsItemID,
@@ -59,7 +59,7 @@ describe('StatsItemCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsItemCommand: StatsItemCommand = new StatsItemCommand(sql);
-      const trial: Try<void, DataSourceError> = await statsItemCommand.create(statsID, statsItem, seq);
+      const trial: Superposition<void, DataSourceError> = await statsItemCommand.create(statsID, statsItem, seq);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -98,7 +98,7 @@ describe('StatsItemCommand', () => {
       sql.execute = stub;
 
       const statsItemCommand: StatsItemCommand = new StatsItemCommand(sql);
-      const trial: Try<void, DataSourceError> = await statsItemCommand.deleteByStatsID(statsID);
+      const trial: Superposition<void, DataSourceError> = await statsItemCommand.deleteByStatsID(statsID);
 
       expect(stub.withArgs(`DELETE R1
       FROM stats_items R1
@@ -121,7 +121,7 @@ describe('StatsItemCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsItemCommand: StatsItemCommand = new StatsItemCommand(sql);
-      const trial: Try<void, DataSourceError> = await statsItemCommand.deleteByStatsID(statsID);
+      const trial: Superposition<void, DataSourceError> = await statsItemCommand.deleteByStatsID(statsID);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {

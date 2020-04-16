@@ -8,7 +8,7 @@ import { DataSourceError } from '../../General/DataSourceError';
 import { IMySQL } from '../../General/MySQL/Interface/IMySQL';
 import { MySQLError } from '../../General/MySQL/MySQLError';
 import { Failure } from '../../General/Superposition/Failure';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { StatsID } from '../../VO/StatsID';
 import { StatsValues } from '../../VO/StatsValues';
 import { IMySQLQuery } from '../Interface/IMySQLQuery';
@@ -30,7 +30,7 @@ export class StatsItemQuery implements IStatsItemQuery, IMySQLQuery {
     this.statsValueQuery = statsValueQuery;
   }
 
-  public async findByStatsID(statsID: StatsID): Promise<Try<StatsItems, StatsItemsError | DataSourceError>> {
+  public async findByStatsID(statsID: StatsID): Promise<Superposition<StatsItems, StatsItemsError | DataSourceError>> {
     const query: string = `SELECT
       R1.stats_item_id AS statsItemID,
       R1.name
@@ -46,7 +46,7 @@ export class StatsItemQuery implements IStatsItemQuery, IMySQLQuery {
         }
       );
 
-      const trial: Try<StatsValues, StatsValuesError | DataSourceError> = await this.statsValueQuery.findByStatsID(statsID);
+      const trial: Superposition<StatsValues, StatsValuesError | DataSourceError> = await this.statsValueQuery.findByStatsID(statsID);
 
       return trial.match<StatsItems, StatsItemsError | DataSourceError>((statsValues: StatsValues) => {
         return StatsItems.ofRow(statsItemRows, statsValues);

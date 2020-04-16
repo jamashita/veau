@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 import { TermError } from '../../Error/TermError';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { Term } from '../Term';
 
 // DONE
@@ -15,9 +15,9 @@ describe('Term', () => {
     });
 
     it('returns Failure when the id is out of range', () => {
-      const trial1: Try<Term, TermError> = Term.of(-1);
-      const trial2: Try<Term, TermError> = Term.of(0);
-      const trial3: Try<Term, TermError> = Term.of(6);
+      const trial1: Superposition<Term, TermError> = Term.of(-1);
+      const trial2: Superposition<Term, TermError> = Term.of(0);
+      const trial3: Superposition<Term, TermError> = Term.of(6);
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();

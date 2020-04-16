@@ -1,7 +1,7 @@
 import { LimitError } from '../Error/LimitError';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
-import { Try } from '../General/Superposition/Try';
+import { Superposition } from '../General/Superposition/Superposition';
 import { Type } from '../General/Type/Type';
 import { ValueObject } from '../General/ValueObject';
 
@@ -13,7 +13,7 @@ export class Limit extends ValueObject {
 
   private static readonly DEFAULT: Limit = new Limit(DEFAULT_VALUE);
 
-  public static of(limit: number): Try<Limit, LimitError> {
+  public static of(limit: number): Superposition<Limit, LimitError> {
     if (limit <= 0) {
       return Failure.of<Limit, LimitError>(new LimitError(`ILLEGAL LIMIT SPECIFIED ${limit}`));
     }

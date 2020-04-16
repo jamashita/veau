@@ -5,7 +5,7 @@ import { ICache } from '../../General/Cache/Interface/ICache';
 import { DataSourceError } from '../../General/DataSourceError';
 import { Failure } from '../../General/Superposition/Failure';
 import { Success } from '../../General/Superposition/Success';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { VAULT_LOCALE_KEY } from '../../Infrastructure/VeauCache';
 import { Locale } from '../../VO/Locale';
 import { ICacheQuery } from '../Interface/ICacheQuery';
@@ -21,21 +21,21 @@ export class LocaleQuery implements ILocaleQuery, ICacheQuery {
     this.cache = cache;
   }
 
-  public all(): Promise<Try<Locale, DataSourceError>> {
+  public all(): Promise<Superposition<Locale, DataSourceError>> {
     try {
       const locale: Locale = this.cache.get<Locale>(VAULT_LOCALE_KEY);
 
       // eslint-disable-next-line @typescript-eslint/return-await
-      return Promise.resolve<Try<Locale, DataSourceError>>(Success.of<Locale, DataSourceError>(locale));
+      return Promise.resolve<Superposition<Locale, DataSourceError>>(Success.of<Locale, DataSourceError>(locale));
     }
     catch (err) {
       if (err instanceof CacheError) {
         // eslint-disable-next-line @typescript-eslint/return-await
-        return Promise.resolve<Try<Locale, CacheError>>(Failure.of<Locale, CacheError>(err));
+        return Promise.resolve<Superposition<Locale, CacheError>>(Failure.of<Locale, CacheError>(err));
       }
 
       // eslint-disable-next-line @typescript-eslint/return-await
-      return Promise.reject<Try<Locale, CacheError>>(err);
+      return Promise.reject<Superposition<Locale, CacheError>>(err);
     }
   }
 }

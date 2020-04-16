@@ -1,5 +1,5 @@
 import sinon, { SinonSpy } from 'sinon';
-import { Try } from '../../Superposition/Try';
+import { Superposition } from '../../Superposition/Superposition';
 import { None } from '../None';
 import { Quantum } from '../Quantum';
 import { QuantumError } from '../QuantumError';
@@ -85,7 +85,7 @@ describe('None', () => {
     it('returns Failure', () => {
       const none: None<number> = None.of<number>();
 
-      const trial: Try<number, QuantumError> = none.toTry();
+      const trial: Superposition<number, QuantumError> = none.toTry();
 
       expect(trial.isFailure()).toEqual(true);
     });

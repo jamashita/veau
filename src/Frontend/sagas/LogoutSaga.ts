@@ -4,7 +4,7 @@ import { all, call, fork, put, take } from 'redux-saga/effects';
 import { ISessionCommand } from '../../Command/Interface/ISessionCommand';
 import { TYPE } from '../../Container/Types';
 import { DataSourceError } from '../../General/DataSourceError';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { ACTION } from '../actions/Action';
 import { initializeIdentity } from '../actions/IdentityAction';
 import { closeProvider } from '../actions/PageProviderAction';
@@ -26,7 +26,7 @@ export class LogoutSaga {
     while (true) {
       yield take(ACTION.LOGOUT);
 
-      yield call((): Promise<Try<void, DataSourceError>> => {
+      yield call((): Promise<Superposition<void, DataSourceError>> => {
         return this.sessionCommand.delete();
       });
 

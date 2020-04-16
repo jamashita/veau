@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 import { StatsItemIDError } from '../../Error/StatsItemIDError';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { UUID } from '../../General/UUID/UUID';
 import { StatsItemID } from '../StatsItemID';
 
@@ -18,7 +18,7 @@ describe('StatsItemID', () => {
 
   describe('ofString', () => {
     it('normal case', () => {
-      const trial: Try<StatsItemID, StatsItemIDError> = StatsItemID.ofString('b5203963-d996-40a7-9adb-f05ea9524af0');
+      const trial: Superposition<StatsItemID, StatsItemIDError> = StatsItemID.ofString('b5203963-d996-40a7-9adb-f05ea9524af0');
 
       expect(trial.isSuccess()).toEqual(true);
     });
@@ -27,7 +27,7 @@ describe('StatsItemID', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const trial: Try<StatsItemID, StatsItemIDError> = StatsItemID.ofString('quatre');
+      const trial: Superposition<StatsItemID, StatsItemIDError> = StatsItemID.ofString('quatre');
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {

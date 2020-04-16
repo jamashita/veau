@@ -4,7 +4,7 @@ import { StatsValuesError } from '../Error/StatsValuesError';
 import { Entity } from '../General/Entity';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
-import { Try } from '../General/Superposition/Try';
+import { Superposition } from '../General/Superposition/Superposition';
 import { Type } from '../General/Type/Type';
 import { AsOf } from '../VO/AsOf';
 import { AsOfs } from '../VO/AsOfs';
@@ -39,7 +39,7 @@ export class StatsItem extends Entity<StatsItemID> {
     return new StatsItem(statsItemID, name, values);
   }
 
-  public static ofJSON(json: StatsItemJSON): Try<StatsItem, StatsItemError> {
+  public static ofJSON(json: StatsItemJSON): Superposition<StatsItem, StatsItemError> {
     return StatsItemID.ofString(json.statsItemID).match<StatsItem, StatsItemError>((statsItemID: StatsItemID) => {
       return StatsValues.ofJSON(statsItemID, json.values).match<StatsItem, StatsItemError>((statsValues: StatsValues) => {
         return Success.of<StatsItem, StatsItemError>(
@@ -57,7 +57,7 @@ export class StatsItem extends Entity<StatsItemID> {
     });
   }
 
-  public static ofRow(row: StatsItemRow, statsValues: StatsValues): Try<StatsItem, StatsItemError> {
+  public static ofRow(row: StatsItemRow, statsValues: StatsValues): Superposition<StatsItem, StatsItemError> {
     return StatsItemID.ofString(row.statsItemID).match<StatsItem, StatsItemError>((statsItemID: StatsItemID) => {
       return Success.of<StatsItem, StatsItemError>(
         StatsItem.of(

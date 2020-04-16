@@ -7,7 +7,7 @@ import { StatsOutlinesError } from '../../../Error/StatsOutlinesError';
 import { AJAXError } from '../../../General/AJAX/AJAXError';
 import { MockAJAX } from '../../../General/AJAX/Mock/MockAJAX';
 import { DataSourceError } from '../../../General/DataSourceError';
-import { Try } from '../../../General/Superposition/Try';
+import { Superposition } from '../../../General/Superposition/Superposition';
 import { MockVeauAccountID } from '../../../VO/Mock/MockVeauAccountID';
 import { Page } from '../../../VO/Page';
 import { StatsOutlineJSON } from '../../../VO/StatsOutline';
@@ -60,7 +60,7 @@ describe('StatsOutlineQuery', () => {
       });
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(ajax);
-      const trial: Try<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(veauAccountID, Page.of(3).get());
+      const trial: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(veauAccountID, Page.of(3).get());
 
       expect(stub.withArgs('/api/stats/page/3').called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
@@ -116,7 +116,7 @@ describe('StatsOutlineQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(ajax);
-      const trial: Try<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(veauAccountID, Page.of(3).get());
+      const trial: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(veauAccountID, Page.of(3).get());
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -144,7 +144,7 @@ describe('StatsOutlineQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(ajax);
-      const trial: Try<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(veauAccountID, Page.of(3).get());
+      const trial: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(veauAccountID, Page.of(3).get());
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {

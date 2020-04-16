@@ -5,7 +5,7 @@ import { IRedis } from '../../General/Redis/Interface/IRedis';
 import { RedisError } from '../../General/Redis/RedisError';
 import { Failure } from '../../General/Superposition/Failure';
 import { Success } from '../../General/Superposition/Success';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { JSONA } from '../../General/Type/JSONA';
 import { REDIS_LANGUAGE_KEY } from '../../Infrastructure/VeauRedis';
 import { Languages } from '../../VO/Languages';
@@ -24,7 +24,7 @@ export class LanguageCommand implements ILanguageCommand, IRedisCommand {
     this.redis = redis;
   }
 
-  public async insertAll(languages: Languages): Promise<Try<void, DataSourceError>> {
+  public async insertAll(languages: Languages): Promise<Superposition<void, DataSourceError>> {
     try {
       const str: string = await JSONA.stringify(languages.toJSON());
       await this.redis.getString().set(REDIS_LANGUAGE_KEY, str);
@@ -41,7 +41,7 @@ export class LanguageCommand implements ILanguageCommand, IRedisCommand {
     }
   }
 
-  public async deleteAll(): Promise<Try<void, DataSourceError>> {
+  public async deleteAll(): Promise<Superposition<void, DataSourceError>> {
     try {
       const ok: boolean = await this.redis.delete(REDIS_LANGUAGE_KEY);
 

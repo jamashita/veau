@@ -1,7 +1,7 @@
 import { UpdatedAtError } from '../Error/UpdatedAtError';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
-import { Try } from '../General/Superposition/Try';
+import { Superposition } from '../General/Superposition/Superposition';
 import { ValueObject } from '../General/ValueObject';
 import { Zeit } from '../General/Zeit/Zeit';
 import { ZeitError } from '../General/Zeit/ZeitError';
@@ -16,7 +16,7 @@ export class UpdatedAt extends ValueObject {
     return new UpdatedAt(at);
   }
 
-  public static ofString(at: string): Try<UpdatedAt, UpdatedAtError> {
+  public static ofString(at: string): Superposition<UpdatedAt, UpdatedAtError> {
     try {
       const zeit: Zeit = Zeit.ofString(at, TERM_FORMAT);
 

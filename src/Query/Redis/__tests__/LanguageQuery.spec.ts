@@ -8,7 +8,7 @@ import { MockError } from '../../../General/Mock/MockError';
 import { MockRedis } from '../../../General/Redis/Mock/MockRedis';
 import { MockRedisString } from '../../../General/Redis/Mock/MockRedisString';
 import { RedisError } from '../../../General/Redis/RedisError';
-import { Try } from '../../../General/Superposition/Try';
+import { Superposition } from '../../../General/Superposition/Superposition';
 import { ISO639 } from '../../../VO/ISO639';
 import { Language, LanguageJSON } from '../../../VO/Language';
 import { Languages } from '../../../VO/Languages';
@@ -53,7 +53,7 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const trial: Try<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
+      const trial: Superposition<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
 
       expect(trial.isSuccess()).toEqual(true);
       const languages: Languages = trial.get();
@@ -79,7 +79,7 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const trial: Try<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
+      const trial: Superposition<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
 
       expect(trial.isSuccess()).toEqual(true);
       expect(trial.get().size()).toEqual(json.length);
@@ -97,7 +97,7 @@ describe('LanguageQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const trial: Try<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
+      const trial: Superposition<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -123,7 +123,7 @@ describe('LanguageQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const trial: Try<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
+      const trial: Superposition<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -149,7 +149,7 @@ describe('LanguageQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const trial: Try<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
+      const trial: Superposition<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -204,7 +204,7 @@ describe('LanguageQuery', () => {
       });
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const trial: Try<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(
+      const trial: Superposition<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(
         ISO639.of('aa')
       );
 
@@ -231,7 +231,7 @@ describe('LanguageQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const trial: Try<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(
+      const trial: Superposition<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(
         ISO639.of('aa')
       );
 
@@ -259,7 +259,7 @@ describe('LanguageQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const trial: Try<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(
+      const trial: Superposition<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(
         ISO639.of('aa')
       );
 
@@ -303,7 +303,7 @@ describe('LanguageQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const trial: Try<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('oop'));
+      const trial: Superposition<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('oop'));
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -329,7 +329,7 @@ describe('LanguageQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const trial: Try<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
+      const trial: Superposition<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -355,7 +355,7 @@ describe('LanguageQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      const trial: Try<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
+      const trial: Superposition<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {

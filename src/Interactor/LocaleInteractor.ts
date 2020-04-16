@@ -7,7 +7,7 @@ import { DataSourceError } from '../General/DataSourceError';
 import { Noun } from '../General/Interface/Noun';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
-import { Try } from '../General/Superposition/Try';
+import { Superposition } from '../General/Superposition/Superposition';
 import { ILanguageQuery } from '../Query/Interface/ILanguageQuery';
 import { IRegionQuery } from '../Query/Interface/IRegionQuery';
 import { Languages } from '../VO/Languages';
@@ -34,14 +34,14 @@ export class LocaleInteractor implements Noun {
     this.regionCommand = regionCommand;
   }
 
-  public async all(): Promise<Try<Locale, NoSuchElementError | DataSourceError>> {
+  public async all(): Promise<Superposition<Locale, NoSuchElementError | DataSourceError>> {
     const [
       languagesTry,
       regionsTry
     ]: [
-      Try<Languages, NoSuchElementError | DataSourceError>,
-      Try<Regions, NoSuchElementError | DataSourceError>
-    ] = await Promise.all<Try<Languages, NoSuchElementError | DataSourceError>, Try<Regions, NoSuchElementError | DataSourceError>>([
+      Superposition<Languages, NoSuchElementError | DataSourceError>,
+      Superposition<Regions, NoSuchElementError | DataSourceError>
+    ] = await Promise.all<Superposition<Languages, NoSuchElementError | DataSourceError>, Superposition<Regions, NoSuchElementError | DataSourceError>>([
       this.languageQuery.all(),
       this.regionQuery.all()
     ]);
@@ -57,14 +57,14 @@ export class LocaleInteractor implements Noun {
     });
   }
 
-  public async delete(): Promise<Try<void, DataSourceError>> {
+  public async delete(): Promise<Superposition<void, DataSourceError>> {
     const [
       languagesTry,
       regionsTry
     ]: [
-      Try<void, DataSourceError>,
-      Try<void, DataSourceError>
-    ] = await Promise.all<Try<void, DataSourceError>, Try<void, DataSourceError>>([
+      Superposition<void, DataSourceError>,
+      Superposition<void, DataSourceError>
+    ] = await Promise.all<Superposition<void, DataSourceError>, Superposition<void, DataSourceError>>([
       this.languageCommand.deleteAll(),
       this.regionCommand.deleteAll()
     ]);

@@ -6,7 +6,7 @@ import { vault } from '../../../Container/Vault';
 import { AJAXError } from '../../../General/AJAX/AJAXError';
 import { MockAJAX } from '../../../General/AJAX/Mock/MockAJAX';
 import { DataSourceError } from '../../../General/DataSourceError';
-import { Try } from '../../../General/Superposition/Try';
+import { Superposition } from '../../../General/Superposition/Superposition';
 import { SessionCommand } from '../SessionCommand';
 
 // DONE
@@ -32,7 +32,7 @@ describe('SessionCommand', () => {
       });
 
       const sessionCommand: SessionCommand = new SessionCommand(ajax);
-      const trial: Try<void, DataSourceError> = await sessionCommand.delete();
+      const trial: Superposition<void, DataSourceError> = await sessionCommand.delete();
 
       expect(trial.isSuccess()).toEqual(true);
       expect(stub.withArgs('/api/destroy').called).toEqual(true);
@@ -50,7 +50,7 @@ describe('SessionCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const sessionCommand: SessionCommand = new SessionCommand(ajax);
-      const trial: Try<void, DataSourceError> = await sessionCommand.delete();
+      const trial: Superposition<void, DataSourceError> = await sessionCommand.delete();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {

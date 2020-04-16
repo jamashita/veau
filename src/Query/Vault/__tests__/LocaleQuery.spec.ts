@@ -8,7 +8,7 @@ import { CacheError } from '../../../General/Cache/CacheError';
 import { DataSourceError } from '../../../General/DataSourceError';
 import { Failure } from '../../../General/Superposition/Failure';
 import { Success } from '../../../General/Superposition/Success';
-import { Try } from '../../../General/Superposition/Try';
+import { Superposition } from '../../../General/Superposition/Superposition';
 import { Locale } from '../../../VO/Locale';
 import { MockLocale } from '../../../VO/Mock/MockLocale';
 import { MockLocaleQuery } from '../../Mock/MockLocaleQuery';
@@ -42,7 +42,7 @@ describe('LocaleQuery', () => {
       localeCommand.create = stub3;
 
       const localeQuery: LocaleQuery = new LocaleQuery(localeAJAXQuery, localeCacheQuery, localeCommand);
-      const trial: Try<Locale, DataSourceError> = await localeQuery.all();
+      const trial: Superposition<Locale, DataSourceError> = await localeQuery.all();
 
       expect(stub1.called).toEqual(true);
       expect(stub2.called).toEqual(false);
@@ -68,7 +68,7 @@ describe('LocaleQuery', () => {
       stub3.resolves(Success.of<DataSourceError>());
 
       const localeQuery: LocaleQuery = new LocaleQuery(localeAJAXQuery, localeCacheQuery, localeCommand);
-      const trial: Try<Locale, DataSourceError> = await localeQuery.all();
+      const trial: Superposition<Locale, DataSourceError> = await localeQuery.all();
 
       expect(stub1.called).toEqual(true);
       expect(stub2.called).toEqual(true);
@@ -94,7 +94,7 @@ describe('LocaleQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeQuery: LocaleQuery = new LocaleQuery(localeAJAXQuery, localeCacheQuery, localeCommand);
-      const trial: Try<Locale, DataSourceError> = await localeQuery.all();
+      const trial: Superposition<Locale, DataSourceError> = await localeQuery.all();
 
       expect(stub1.called).toEqual(true);
       expect(stub2.called).toEqual(true);
@@ -130,7 +130,7 @@ describe('LocaleQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeQuery: LocaleQuery = new LocaleQuery(localeAJAXQuery, localeCacheQuery, localeCommand);
-      const trial: Try<Locale, DataSourceError> = await localeQuery.all();
+      const trial: Superposition<Locale, DataSourceError> = await localeQuery.all();
 
       expect(stub1.called).toEqual(true);
       expect(stub2.called).toEqual(true);

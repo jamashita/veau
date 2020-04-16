@@ -5,7 +5,7 @@ import { DataSourceError } from '../../General/DataSourceError';
 import { IMySQL } from '../../General/MySQL/Interface/IMySQL';
 import { MySQLError } from '../../General/MySQL/MySQLError';
 import { Failure } from '../../General/Superposition/Failure';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { Page } from '../../VO/Page';
 import { StatsOutlineRow } from '../../VO/StatsOutline';
 import { StatsOutlines } from '../../VO/StatsOutlines';
@@ -23,7 +23,7 @@ export class StatsOutlineQuery implements IStatsOutlineQuery, IMySQLQuery {
     this.mysql = mysql;
   }
 
-  public async findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Promise<Try<StatsOutlines, StatsOutlinesError | DataSourceError>> {
+  public async findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Promise<Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>> {
     const query: string = `SELECT
       R1.stats_id AS statsID,
       R1.language_id AS languageID,

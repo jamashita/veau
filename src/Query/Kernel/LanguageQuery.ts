@@ -6,7 +6,7 @@ import { DataSourceError } from '../../General/DataSourceError';
 import { Quantum } from '../../General/Quantum/Quantum';
 import { Failure } from '../../General/Superposition/Failure';
 import { Success } from '../../General/Superposition/Success';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { ISO639 } from '../../VO/ISO639';
 import { Language } from '../../VO/Language';
 import { Languages } from '../../VO/Languages';
@@ -31,16 +31,16 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
     this.languageRedisCommand = languageRedisCommand;
   }
 
-  public async all(): Promise<Try<Languages, NoSuchElementError | DataSourceError>> {
-    const trial1: Try<Languages, NoSuchElementError | DataSourceError> = await this.languageRedisQuery.all();
+  public async all(): Promise<Superposition<Languages, NoSuchElementError | DataSourceError>> {
+    const trial1: Superposition<Languages, NoSuchElementError | DataSourceError> = await this.languageRedisQuery.all();
 
     return trial1.match<Languages, NoSuchElementError | DataSourceError>((languages: Languages) => {
-      return Promise.resolve<Try<Languages, DataSourceError>>(Success.of<Languages, DataSourceError>(languages));
+      return Promise.resolve<Superposition<Languages, DataSourceError>>(Success.of<Languages, DataSourceError>(languages));
     }, async () => {
-      const trial2: Try<Languages, NoSuchElementError | DataSourceError> = await this.languageMySQLQuery.all();
+      const trial2: Superposition<Languages, NoSuchElementError | DataSourceError> = await this.languageMySQLQuery.all();
 
       return trial2.match<Languages, NoSuchElementError | DataSourceError>(async (languages: Languages) => {
-        const trial3: Try<void, DataSourceError> = await this.languageRedisCommand.insertAll(languages);
+        const trial3: Superposition<void, DataSourceError> = await this.languageRedisCommand.insertAll(languages);
 
         return trial3.match<Languages, DataSourceError>(() => {
           return Success.of<Languages, DataSourceError>(languages);
@@ -48,13 +48,13 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
           return self.transpose<Languages>();
         });
       }, (err: NoSuchElementError | DataSourceError, self: Failure<Languages, NoSuchElementError | DataSourceError>) => {
-        return Promise.resolve<Try<Languages, NoSuchElementError | DataSourceError>>(self);
+        return Promise.resolve<Superposition<Languages, NoSuchElementError | DataSourceError>>(self);
       });
     });
   }
 
-  public async findByISO639(iso639: ISO639): Promise<Try<Language, NoSuchElementError | DataSourceError>> {
-    const trial: Try<Languages, NoSuchElementError | DataSourceError> = await this.all();
+  public async findByISO639(iso639: ISO639): Promise<Superposition<Language, NoSuchElementError | DataSourceError>> {
+    const trial: Superposition<Languages, NoSuchElementError | DataSourceError> = await this.all();
 
     return trial.match<Language, NoSuchElementError | DataSourceError>((languages: Languages) => {
       const quantum: Quantum<Language> = languages.find((language: Language) => {

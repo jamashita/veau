@@ -5,7 +5,7 @@ import { DataSourceError } from '../../General/DataSourceError';
 import { Quantum } from '../../General/Quantum/Quantum';
 import { Failure } from '../../General/Superposition/Failure';
 import { Success } from '../../General/Superposition/Success';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { ISO3166 } from '../../VO/ISO3166';
 import { Locale } from '../../VO/Locale';
 import { Region } from '../../VO/Region';
@@ -24,8 +24,8 @@ export class RegionQuery implements IRegionQuery, IVaultQuery {
     this.localeVaultQuery = localeVaultQuery;
   }
 
-  public async all(): Promise<Try<Regions, NoSuchElementError | DataSourceError>> {
-    const trial: Try<Locale, DataSourceError> = await this.localeVaultQuery.all();
+  public async all(): Promise<Superposition<Regions, NoSuchElementError | DataSourceError>> {
+    const trial: Superposition<Locale, DataSourceError> = await this.localeVaultQuery.all();
 
     return trial.match<Regions, DataSourceError>((locale: Locale) => {
       return Success.of<Regions, DataSourceError>(locale.getRegions());
@@ -34,8 +34,8 @@ export class RegionQuery implements IRegionQuery, IVaultQuery {
     });
   }
 
-  public async findByISO3166(iso3166: ISO3166): Promise<Try<Region, NoSuchElementError | DataSourceError>> {
-    const trial: Try<Regions, NoSuchElementError | DataSourceError> = await this.all();
+  public async findByISO3166(iso3166: ISO3166): Promise<Superposition<Region, NoSuchElementError | DataSourceError>> {
+    const trial: Superposition<Regions, NoSuchElementError | DataSourceError> = await this.all();
 
     return trial.match<Region, NoSuchElementError | DataSourceError>((regions: Regions) => {
       const quantum: Quantum<Region> = regions.find((region: Region) => {

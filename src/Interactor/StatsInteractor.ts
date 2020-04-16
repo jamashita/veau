@@ -8,7 +8,7 @@ import { StatsUpdateFactory } from '../Factory/StatsUpdateFactory';
 import { DataSourceError } from '../General/DataSourceError';
 import { Noun } from '../General/Interface/Noun';
 import { IMySQL } from '../General/MySQL/Interface/IMySQL';
-import { Try } from '../General/Superposition/Try';
+import { Superposition } from '../General/Superposition/Superposition';
 import { IStatsOutlineQuery } from '../Query/Interface/IStatsOutlineQuery';
 import { IStatsQuery } from '../Query/Interface/IStatsQuery';
 import { StatsUpdateTransaction } from '../Transaction/StatsUpdateTransaction';
@@ -34,21 +34,21 @@ export class StatsInteractor implements Noun {
     this.statsOutlineQuery = statsOutlineQuery;
   }
 
-  public findByStatsID(statsID: StatsID): Promise<Try<Stats, NoSuchElementError | StatsError | DataSourceError>> {
+  public findByStatsID(statsID: StatsID): Promise<Superposition<Stats, NoSuchElementError | StatsError | DataSourceError>> {
     return this.statsQuery.findByStatsID(statsID);
   }
 
-  public findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Promise<Try<StatsOutlines, StatsOutlinesError | DataSourceError>> {
+  public findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Promise<Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>> {
     return this.statsOutlineQuery.findByVeauAccountID(veauAccountID, page);
   }
 
-  public save(stats: Stats, veauAccountID: VeauAccountID): Promise<Try<unknown, DataSourceError>> {
+  public save(stats: Stats, veauAccountID: VeauAccountID): Promise<Superposition<unknown, DataSourceError>> {
     const statsUpdateTransaction: StatsUpdateTransaction = new StatsUpdateTransaction(
       stats,
       veauAccountID,
       new StatsUpdateFactory()
     );
 
-    return this.mysql.transact<Try<unknown, DataSourceError>>(statsUpdateTransaction);
+    return this.mysql.transact<Superposition<unknown, DataSourceError>>(statsUpdateTransaction);
   }
 }

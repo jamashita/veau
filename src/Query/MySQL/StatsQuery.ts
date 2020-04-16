@@ -9,7 +9,7 @@ import { DataSourceError } from '../../General/DataSourceError';
 import { IMySQL } from '../../General/MySQL/Interface/IMySQL';
 import { MySQLError } from '../../General/MySQL/MySQLError';
 import { Failure } from '../../General/Superposition/Failure';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { StatsID } from '../../VO/StatsID';
 import { IMySQLQuery } from '../Interface/IMySQLQuery';
 import { IStatsItemQuery } from '../Interface/IStatsItemQuery';
@@ -30,7 +30,7 @@ export class StatsQuery implements IStatsQuery, IMySQLQuery {
     this.statsItemQuery = statsItemQuery;
   }
 
-  public async findByStatsID(statsID: StatsID): Promise<Try<Stats, StatsError | NoSuchElementError | DataSourceError>> {
+  public async findByStatsID(statsID: StatsID): Promise<Superposition<Stats, StatsError | NoSuchElementError | DataSourceError>> {
     const query: string = `SELECT
       R1.stats_id AS statsID,
       R1.language_id AS languageID,
@@ -63,7 +63,7 @@ export class StatsQuery implements IStatsQuery, IMySQLQuery {
         return Failure.of<Stats, NoSuchElementError>(new NoSuchElementError(statsID.get().get()));
       }
 
-      const trial: Try<StatsItems, StatsItemsError | DataSourceError> = await this.statsItemQuery.findByStatsID(statsID);
+      const trial: Superposition<StatsItems, StatsItemsError | DataSourceError> = await this.statsItemQuery.findByStatsID(statsID);
 
       return trial.match<Stats, StatsError | DataSourceError>((statsItems: StatsItems) => {
         return Stats.ofRow(statsRows[0], statsItems);

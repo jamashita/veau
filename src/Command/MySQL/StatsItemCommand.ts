@@ -4,7 +4,7 @@ import { ISQL } from '../../General/MySQL/Interface/ISQL';
 import { MySQLError } from '../../General/MySQL/MySQLError';
 import { Failure } from '../../General/Superposition/Failure';
 import { Success } from '../../General/Superposition/Success';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { StatsID } from '../../VO/StatsID';
 import { IMySQLCommand } from '../Interface/IMySQLCommand';
 import { IStatsItemCommand } from '../Interface/IStatsItemCommand';
@@ -18,7 +18,7 @@ export class StatsItemCommand implements IStatsItemCommand, IMySQLCommand {
     this.sql = sql;
   }
 
-  public async create(statsID: StatsID, statsItem: StatsItem, seq: number): Promise<Try<void, DataSourceError>> {
+  public async create(statsID: StatsID, statsItem: StatsItem, seq: number): Promise<Superposition<void, DataSourceError>> {
     const query: string = `INSERT INTO stats_items VALUES (
       :statsItemID,
       :statsID,
@@ -45,7 +45,7 @@ export class StatsItemCommand implements IStatsItemCommand, IMySQLCommand {
     }
   }
 
-  public async deleteByStatsID(statsID: StatsID): Promise<Try<void, DataSourceError>> {
+  public async deleteByStatsID(statsID: StatsID): Promise<Superposition<void, DataSourceError>> {
     const query: string = `DELETE R1
       FROM stats_items R1
       INNER JOIN stats R2

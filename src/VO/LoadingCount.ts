@@ -1,7 +1,7 @@
 import { LoadingCountError } from '../Error/LoadingCountError';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
-import { Try } from '../General/Superposition/Try';
+import { Superposition } from '../General/Superposition/Superposition';
 import { Type } from '../General/Type/Type';
 import { ValueObject } from '../General/ValueObject';
 
@@ -13,7 +13,7 @@ export class LoadingCount extends ValueObject {
 
   private static readonly DEFAULT: LoadingCount = new LoadingCount(DEFAULT_COUNT);
 
-  public static of(count: number): Try<LoadingCount, LoadingCountError> {
+  public static of(count: number): Superposition<LoadingCount, LoadingCountError> {
     if (count < 0) {
       return Failure.of<LoadingCount, LoadingCountError>(new LoadingCountError(`ILLEGAL COUNT SPECIFIED ${count}`));
     }

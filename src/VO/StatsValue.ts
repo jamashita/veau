@@ -4,7 +4,7 @@ import { StatsValueError } from '../Error/StatsValueError';
 import { JSONable } from '../General/Interface/JSONable';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
-import { Try } from '../General/Superposition/Try';
+import { Superposition } from '../General/Superposition/Superposition';
 import { Type } from '../General/Type/Type';
 import { ValueObject } from '../General/ValueObject';
 import { AsOf } from './AsOf';
@@ -36,7 +36,7 @@ export class StatsValue extends ValueObject implements JSONable {
     return new StatsValue(statsItemID, asOf, value);
   }
 
-  public static ofJSON(statsItemID: StatsItemID, json: StatsValueJSON): Try<StatsValue, StatsValueError> {
+  public static ofJSON(statsItemID: StatsItemID, json: StatsValueJSON): Superposition<StatsValue, StatsValueError> {
     return AsOf.ofString(json.asOf).match<StatsValue, StatsValueError>((asOf: AsOf) => {
       return Success.of<StatsValue, StatsValueError>(StatsValue.of(statsItemID, asOf, NumericalValue.of(json.value)));
     }, (err: AsOfError) => {
@@ -44,7 +44,7 @@ export class StatsValue extends ValueObject implements JSONable {
     });
   }
 
-  public static ofRow(row: StatsValueRow): Try<StatsValue, StatsValueError> {
+  public static ofRow(row: StatsValueRow): Superposition<StatsValue, StatsValueError> {
     return StatsItemID.ofString(row.statsItemID).match<StatsValue, StatsValueError>((statsItemID: StatsItemID) => {
       return AsOf.ofString(row.asOf).match<StatsValue, StatsValueError>((asOf: AsOf) => {
         return Success.of<StatsValue, StatsValueError>(

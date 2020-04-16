@@ -1,7 +1,7 @@
 import { OffsetError } from '../Error/OffsetError';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
-import { Try } from '../General/Superposition/Try';
+import { Superposition } from '../General/Superposition/Superposition';
 import { Type } from '../General/Type/Type';
 import { ValueObject } from '../General/ValueObject';
 
@@ -9,7 +9,7 @@ export class Offset extends ValueObject {
   public readonly noun: 'Offset' = 'Offset';
   private readonly offset: number;
 
-  public static of(offset: number): Try<Offset, OffsetError> {
+  public static of(offset: number): Superposition<Offset, OffsetError> {
     if (offset < 0) {
       return Failure.of<Offset, OffsetError>(new OffsetError(`ILLEGAL OFFSET SPECIFIED ${offset}`));
     }

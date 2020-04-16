@@ -1,5 +1,5 @@
 import { Failure } from '../Superposition/Failure';
-import { Try } from '../Superposition/Try';
+import { Superposition } from '../Superposition/Superposition';
 import { AsyncConsumer, Consumer, MonoFunction, Predicate } from '../Type/Function';
 import { Suspicious } from '../Type/Value';
 import { Quantum } from './Quantum';
@@ -49,7 +49,7 @@ export class None<T> extends Quantum<T> {
     return this as never as None<U>;
   }
 
-  public toTry(): Try<T, QuantumError> {
+  public toTry(): Superposition<T, QuantumError> {
     return Failure.of<T, QuantumError>(new QuantumError('IS NOT PRESENT'));
   }
 }

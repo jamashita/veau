@@ -6,7 +6,7 @@ import { CacheError } from '../../../General/Cache/CacheError';
 import { MockCache } from '../../../General/Cache/Mock/MockCache';
 import { DataSourceError } from '../../../General/DataSourceError';
 import { MockError } from '../../../General/Mock/MockError';
-import { Try } from '../../../General/Superposition/Try';
+import { Superposition } from '../../../General/Superposition/Superposition';
 import { VAULT_LOCALE_KEY } from '../../../Infrastructure/VeauCache';
 import { Locale } from '../../../VO/Locale';
 import { MockLocale } from '../../../VO/Mock/MockLocale';
@@ -34,7 +34,7 @@ describe('LocaleCommand', () => {
       stub.returns(locale);
 
       const localeCommand: LocaleCommand = new LocaleCommand(cache);
-      const trial: Try<void, DataSourceError> = await localeCommand.create(locale);
+      const trial: Superposition<void, DataSourceError> = await localeCommand.create(locale);
 
       expect(stub.withArgs(VAULT_LOCALE_KEY, locale).called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
@@ -51,7 +51,7 @@ describe('LocaleCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeCommand: LocaleCommand = new LocaleCommand(cache);
-      const trial: Try<void, DataSourceError> = await localeCommand.create(locale);
+      const trial: Superposition<void, DataSourceError> = await localeCommand.create(locale);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {

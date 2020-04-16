@@ -1,7 +1,7 @@
 import { DataSourceError } from '../../General/DataSourceError';
 import { ITransaction } from '../../General/MySQL/Interface/ITransaction';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 
-export interface IStatsUpdateTransaction extends ITransaction<Try<unknown, DataSourceError>> {
+export interface IStatsUpdateTransaction extends ITransaction<Superposition<unknown, DataSourceError>> {
   readonly noun: 'StatsUpdateTransaction';
 }

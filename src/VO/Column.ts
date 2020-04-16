@@ -1,7 +1,7 @@
 import { ColumnError } from '../Error/ColumnError';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
-import { Try } from '../General/Superposition/Try';
+import { Superposition } from '../General/Superposition/Superposition';
 import { Type } from '../General/Type/Type';
 import { ValueObject } from '../General/ValueObject';
 
@@ -13,7 +13,7 @@ export class Column extends ValueObject {
 
   private static readonly ORIGIN: Column = new Column(ORIGIN_VALUE);
 
-  public static of(column: number): Try<Column, ColumnError> {
+  public static of(column: number): Superposition<Column, ColumnError> {
     if (column < 0) {
       return Failure.of<Column, ColumnError>(new ColumnError(`ILLEGAL COLUMN SPECIFIED ${column}`));
     }

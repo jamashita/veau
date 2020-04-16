@@ -1,8 +1,8 @@
 import { BiFunction } from '../Type/Function';
 import { Success } from './Success';
-import { Try } from './Try';
+import { Superposition } from './Superposition';
 
-export class Failure<S, F extends Error> extends Try<S, F> {
+export class Failure<S, F extends Error> extends Superposition<S, F> {
   public readonly noun: 'Failure' = 'Failure';
   private readonly value: F;
 
@@ -32,12 +32,12 @@ export class Failure<S, F extends Error> extends Try<S, F> {
 
   public match<T>(success: BiFunction<S, Success<S, F>, T>, failure: BiFunction<F, Failure<S, F>, T>): T;
   public match<T>(success: BiFunction<S, Success<S, F>, Promise<T>>, failure: BiFunction<F, Failure<S, F>, Promise<T>>): Promise<T>;
-  public match<T, E extends Error>(success: BiFunction<S, Success<S, F>, Try<T, E>>, failure: BiFunction<F, Failure<S, F>, Try<T, E>>): Try<T, E>;
-  public match<T, E extends Error>(success: BiFunction<S, Success<S, F>, Promise<Try<T, E>>>, failure: BiFunction<F, Failure<S, F>, Promise<Try<T, E>>>): Promise<Try<T, E>>;
+  public match<T, E extends Error>(success: BiFunction<S, Success<S, F>, Superposition<T, E>>, failure: BiFunction<F, Failure<S, F>, Superposition<T, E>>): Superposition<T, E>;
+  public match<T, E extends Error>(success: BiFunction<S, Success<S, F>, Promise<Superposition<T, E>>>, failure: BiFunction<F, Failure<S, F>, Promise<Superposition<T, E>>>): Promise<Superposition<T, E>>;
   public match<T, E extends Error = F>(
-    success: BiFunction<S, Success<S, F>, T> | BiFunction<S, Success<S, F>, Promise<T>> | BiFunction<S, Success<S, F>, Try<T, E>> | BiFunction<S, Success<S, F>, Promise<Try<T, E>>>,
-    failure: BiFunction<F, Failure<S, F>, T> | BiFunction<F, Failure<S, F>, Promise<T>> | BiFunction<F, Failure<S, F>, Try<T, E>> | BiFunction<F, Failure<S, F>, Promise<Try<T, E>>>
-  ): T | Promise<T> | Try<T, E> | Promise<Try<T, E>> {
+    success: BiFunction<S, Success<S, F>, T> | BiFunction<S, Success<S, F>, Promise<T>> | BiFunction<S, Success<S, F>, Superposition<T, E>> | BiFunction<S, Success<S, F>, Promise<Superposition<T, E>>>,
+    failure: BiFunction<F, Failure<S, F>, T> | BiFunction<F, Failure<S, F>, Promise<T>> | BiFunction<F, Failure<S, F>, Superposition<T, E>> | BiFunction<F, Failure<S, F>, Promise<Superposition<T, E>>>
+  ): T | Promise<T> | Superposition<T, E> | Promise<Superposition<T, E>> {
     return failure(this.value, this);
   }
 

@@ -1,7 +1,7 @@
 import { AsOfError } from '../Error/AsOfError';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
-import { Try } from '../General/Superposition/Try';
+import { Superposition } from '../General/Superposition/Superposition';
 import { ValueObject } from '../General/ValueObject';
 import { Zeit } from '../General/Zeit/Zeit';
 import { ZeitError } from '../General/Zeit/ZeitError';
@@ -17,7 +17,7 @@ export class AsOf extends ValueObject {
     return new AsOf(asOf);
   }
 
-  public static ofString(asOf: string): Try<AsOf, AsOfError> {
+  public static ofString(asOf: string): Superposition<AsOf, AsOfError> {
     try {
       const zeit: Zeit = Zeit.ofString(asOf, TERM_FORMAT);
 

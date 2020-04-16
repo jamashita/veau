@@ -5,7 +5,7 @@ import { ImmutableSequence } from '../../General/Collection/Sequence/ImmutableSe
 import { None } from '../../General/Quantum/None';
 import { Failure } from '../../General/Superposition/Failure';
 import { Success } from '../../General/Superposition/Success';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { Language } from '../Language';
 import { MockStatsID } from '../Mock/MockStatsID';
 import { MockStatsOutline } from '../Mock/MockStatsOutline';
@@ -46,7 +46,7 @@ describe('StatsOutlines', () => {
 
   describe('ofTry', () => {
     it('when empty Array given, returns Success, and StatsOutlines.empty()', () => {
-      const trial: Try<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofTry([]);
+      const trial: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofTry([]);
 
       expect(trial.isSuccess()).toBe(true);
       expect(trial.get()).toBe(StatsOutlines.empty());
@@ -56,9 +56,9 @@ describe('StatsOutlines', () => {
       const statsOutline1: MockStatsOutline = new MockStatsOutline();
       const statsOutline2: MockStatsOutline = new MockStatsOutline();
 
-      const trial1: Try<StatsOutline, StatsOutlineError> = Success.of<StatsOutline, StatsOutlineError>(statsOutline1);
-      const trial2: Try<StatsOutline, StatsOutlineError> = Success.of<StatsOutline, StatsOutlineError>(statsOutline2);
-      const trial: Try<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofTry([
+      const trial1: Superposition<StatsOutline, StatsOutlineError> = Success.of<StatsOutline, StatsOutlineError>(statsOutline1);
+      const trial2: Superposition<StatsOutline, StatsOutlineError> = Success.of<StatsOutline, StatsOutlineError>(statsOutline2);
+      const trial: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofTry([
         trial1,
         trial2
       ]);
@@ -77,9 +77,9 @@ describe('StatsOutlines', () => {
     const spy1: SinonSpy = sinon.spy();
     const spy2: SinonSpy = sinon.spy();
 
-    const trial1: Try<StatsOutline, StatsOutlineError> = Success.of<StatsOutline, StatsOutlineError>(statsOutline1);
-    const trial2: Try<StatsOutline, StatsOutlineError> = Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('test failed'));
-    const trial: Try<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofTry([
+    const trial1: Superposition<StatsOutline, StatsOutlineError> = Success.of<StatsOutline, StatsOutlineError>(statsOutline1);
+    const trial2: Superposition<StatsOutline, StatsOutlineError> = Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('test failed'));
+    const trial: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofTry([
       trial1,
       trial2
     ]);
@@ -100,9 +100,9 @@ describe('StatsOutlines', () => {
     const spy1: SinonSpy = sinon.spy();
     const spy2: SinonSpy = sinon.spy();
 
-    const trial1: Try<StatsOutline, StatsOutlineError> = Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('test failed 1'));
-    const trial2: Try<StatsOutline, StatsOutlineError> = Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('test failed 2'));
-    const trial: Try<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofTry([
+    const trial1: Superposition<StatsOutline, StatsOutlineError> = Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('test failed 1'));
+    const trial2: Superposition<StatsOutline, StatsOutlineError> = Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('test failed 2'));
+    const trial: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofTry([
       trial1,
       trial2
     ]);
@@ -160,7 +160,7 @@ describe('StatsOutlines', () => {
         }
       ];
 
-      const trial: Try<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofJSON(json);
+      const trial: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofJSON(json);
 
       expect(trial.isSuccess()).toEqual(true);
       const outlines: StatsOutlines = trial.get();
@@ -221,7 +221,7 @@ describe('StatsOutlines', () => {
         }
       ];
 
-      const trial: Try<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofJSON(json);
+      const trial: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofJSON(json);
 
       expect(trial.isFailure()).toEqual(true);
     });
@@ -266,7 +266,7 @@ describe('StatsOutlines', () => {
         }
       ];
 
-      const trial: Try<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofJSON(json);
+      const trial: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofJSON(json);
 
       expect(trial.isFailure()).toEqual(true);
     });
@@ -306,7 +306,7 @@ describe('StatsOutlines', () => {
         }
       ];
 
-      const trial: Try<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofRow(rows);
+      const trial: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofRow(rows);
 
       expect(trial.isSuccess()).toEqual(true);
       const outlines: StatsOutlines = trial.get();
@@ -359,7 +359,7 @@ describe('StatsOutlines', () => {
         }
       ];
 
-      const trial: Try<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofRow(rows);
+      const trial: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofRow(rows);
 
       expect(trial.isFailure()).toEqual(true);
     });
@@ -396,7 +396,7 @@ describe('StatsOutlines', () => {
         }
       ];
 
-      const trial: Try<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofRow(rows);
+      const trial: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofRow(rows);
 
       expect(trial.isFailure()).toEqual(true);
     });

@@ -1,7 +1,7 @@
 import { VeauAccountIDError } from '../Error/VeauAccountIDError';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
-import { Try } from '../General/Superposition/Try';
+import { Superposition } from '../General/Superposition/Superposition';
 import { UUID } from '../General/UUID/UUID';
 import { UUIDError } from '../General/UUID/UUIDError';
 import { ValueObject } from '../General/ValueObject';
@@ -14,7 +14,7 @@ export class VeauAccountID extends ValueObject {
     return new VeauAccountID(uuid);
   }
 
-  public static ofString(id: string): Try<VeauAccountID, VeauAccountIDError> {
+  public static ofString(id: string): Superposition<VeauAccountID, VeauAccountIDError> {
     try {
       const uuid: UUID = UUID.of(id);
 

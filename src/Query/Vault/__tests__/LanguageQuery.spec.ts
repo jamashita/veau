@@ -7,7 +7,7 @@ import { AJAXError } from '../../../General/AJAX/AJAXError';
 import { DataSourceError } from '../../../General/DataSourceError';
 import { Failure } from '../../../General/Superposition/Failure';
 import { Success } from '../../../General/Superposition/Success';
-import { Try } from '../../../General/Superposition/Try';
+import { Superposition } from '../../../General/Superposition/Superposition';
 import { ISO639 } from '../../../VO/ISO639';
 import { Language } from '../../../VO/Language';
 import { LanguageID } from '../../../VO/LanguageID';
@@ -41,7 +41,7 @@ describe('LanguageQuery', () => {
       stub.resolves(Success.of<Locale, DataSourceError>(locale));
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const trial: Try<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
+      const trial: Superposition<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
 
       expect(trial.isSuccess()).toEqual(true);
       expect(trial.get()).toEqual(locale.getLanguages());
@@ -56,7 +56,7 @@ describe('LanguageQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const trial: Try<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
+      const trial: Superposition<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -96,7 +96,7 @@ describe('LanguageQuery', () => {
       stub.resolves(Success.of<Locale, DataSourceError>(locale));
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const trial: Try<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
+      const trial: Superposition<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(trial.isSuccess()).toEqual(true);
       expect(trial.get()).toEqual(locale.getLanguages().get(1).get());
@@ -111,7 +111,7 @@ describe('LanguageQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const trial: Try<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
+      const trial: Superposition<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -151,7 +151,7 @@ describe('LanguageQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const trial: Try<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('oop'));
+      const trial: Superposition<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('oop'));
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {

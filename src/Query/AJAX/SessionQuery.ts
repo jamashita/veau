@@ -8,7 +8,7 @@ import { IAJAX } from '../../General/AJAX/Interface/IAJAX';
 import { DataSourceError } from '../../General/DataSourceError';
 import { Failure } from '../../General/Superposition/Failure';
 import { Success } from '../../General/Superposition/Success';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { EntranceInformation } from '../../VO/EntranceInformation';
 import { VeauAccount, VeauAccountJSON } from '../../VO/VeauAccount';
 import { IAJAXQuery } from '../Interface/IAJAXQuery';
@@ -24,7 +24,7 @@ export class SessionQuery implements ISessionQuery, IAJAXQuery {
     this.ajax = ajax;
   }
 
-  public async find(): Promise<Try<VeauAccount, VeauAccountError | DataSourceError>> {
+  public async find(): Promise<Superposition<VeauAccount, VeauAccountError | DataSourceError>> {
     const response: AJAXResponse<VeauAccountJSON> = await this.ajax.get<VeauAccountJSON>('/api/identity');
     const {
       status,
@@ -45,7 +45,7 @@ export class SessionQuery implements ISessionQuery, IAJAXQuery {
     }
   }
 
-  public async findByEntranceInfo(entranceInformation: EntranceInformation): Promise<Try<VeauAccount, VeauAccountError | DataSourceError>> {
+  public async findByEntranceInfo(entranceInformation: EntranceInformation): Promise<Superposition<VeauAccount, VeauAccountError | DataSourceError>> {
     const response: AJAXResponse<VeauAccountJSON> = await this.ajax.post<VeauAccountJSON>('/api/auth', entranceInformation.toJSON());
     const {
       status,

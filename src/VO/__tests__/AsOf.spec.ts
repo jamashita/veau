@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 import { AsOfError } from '../../Error/AsOfError';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { AsOf } from '../AsOf';
 import { MockTerm } from '../Mock/MockTerm';
 import { Term } from '../Term';
@@ -10,17 +10,17 @@ import { Terms } from '../Terms';
 describe('AsOf', () => {
   describe('ofString', () => {
     it('normal case', () => {
-      const trial1: Try<AsOf, AsOfError> = AsOf.ofString('2000-01-01');
-      const trial2: Try<AsOf, AsOfError> = AsOf.ofString('2000-01-01');
+      const trial1: Superposition<AsOf, AsOfError> = AsOf.ofString('2000-01-01');
+      const trial2: Superposition<AsOf, AsOfError> = AsOf.ofString('2000-01-01');
 
       expect(trial1.isSuccess()).toEqual(true);
       expect(trial2.isSuccess()).toEqual(true);
     });
 
     it('will return Failure because the string format is not compatible to date time', () => {
-      const trial1: Try<AsOf, AsOfError> = AsOf.ofString('deux mille');
-      const trial2: Try<AsOf, AsOfError> = AsOf.ofString('dos mil');
-      const trial3: Try<AsOf, AsOfError> = AsOf.ofString('2000-01-01 01:02:03');
+      const trial1: Superposition<AsOf, AsOfError> = AsOf.ofString('deux mille');
+      const trial2: Superposition<AsOf, AsOfError> = AsOf.ofString('dos mil');
+      const trial3: Superposition<AsOf, AsOfError> = AsOf.ofString('2000-01-01 01:02:03');
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();

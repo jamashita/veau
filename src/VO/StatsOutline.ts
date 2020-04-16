@@ -6,7 +6,7 @@ import { Cloneable } from '../General/Interface/Cloneable';
 import { JSONable } from '../General/Interface/JSONable';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
-import { Try } from '../General/Superposition/Try';
+import { Superposition } from '../General/Superposition/Superposition';
 import { ValueObject } from '../General/ValueObject';
 import { Language, LanguageJSON } from './Language';
 import { Region, RegionJSON } from './Region';
@@ -70,7 +70,7 @@ export class StatsOutline extends ValueObject implements JSONable, Cloneable {
     );
   }
 
-  public static ofJSON(json: StatsOutlineJSON): Try<StatsOutline, StatsOutlineError> {
+  public static ofJSON(json: StatsOutlineJSON): Superposition<StatsOutline, StatsOutlineError> {
     return StatsID.ofString(json.statsID).match<StatsOutline, StatsOutlineError>((statsID: StatsID) => {
       return Term.of(json.termID).match<StatsOutline, StatsOutlineError>((term: Term) => {
         return UpdatedAt.ofString(json.updatedAt).match<StatsOutline, StatsOutlineError>((updatedAt: UpdatedAt) => {
@@ -96,7 +96,7 @@ export class StatsOutline extends ValueObject implements JSONable, Cloneable {
     });
   }
 
-  public static ofRow(row: StatsOutlineRow): Try<StatsOutline, StatsOutlineError> {
+  public static ofRow(row: StatsOutlineRow): Superposition<StatsOutline, StatsOutlineError> {
     return StatsID.ofString(row.statsID).match<StatsOutline, StatsOutlineError>((statsID: StatsID) => {
       return Term.of(row.termID).match<StatsOutline, StatsOutlineError>((term: Term) => {
         return UpdatedAt.ofString(row.updatedAt).match<StatsOutline, StatsOutlineError>((updatedAt: UpdatedAt) => {

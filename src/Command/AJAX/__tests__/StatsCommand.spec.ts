@@ -7,7 +7,7 @@ import { MockStats } from '../../../Entity/Mock/MockStats';
 import { AJAXError } from '../../../General/AJAX/AJAXError';
 import { MockAJAX } from '../../../General/AJAX/Mock/MockAJAX';
 import { DataSourceError } from '../../../General/DataSourceError';
-import { Try } from '../../../General/Superposition/Try';
+import { Superposition } from '../../../General/Superposition/Superposition';
 import { UUID } from '../../../General/UUID/UUID';
 import { MockISO3166 } from '../../../VO/Mock/MockISO3166';
 import { MockISO639 } from '../../../VO/Mock/MockISO639';
@@ -67,7 +67,7 @@ describe('StatsCommand', () => {
       });
 
       const statsCommand: StatsCommand = new StatsCommand(ajax);
-      const trial: Try<void, DataSourceError> = await statsCommand.create(stats);
+      const trial: Superposition<void, DataSourceError> = await statsCommand.create(stats);
 
       expect(stub.withArgs('/api/stats', {
         statsID: uuid.get(),
@@ -105,7 +105,7 @@ describe('StatsCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsCommand: StatsCommand = new StatsCommand(ajax);
-      const trial: Try<void, DataSourceError> = await statsCommand.create(stats);
+      const trial: Superposition<void, DataSourceError> = await statsCommand.create(stats);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {

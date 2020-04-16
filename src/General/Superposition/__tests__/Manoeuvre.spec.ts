@@ -3,18 +3,18 @@ import { MockError } from '../../Mock/MockError';
 import { Failure } from '../Failure';
 import { manoeuvre } from '../Manoeuvre';
 import { Success } from '../Success';
-import { Try } from '../Try';
+import { Superposition } from '../Superposition';
 
 describe('Manoeuvre', () => {
   describe('all', () => {
     it('all are Success', () => {
-      const tries: Array<Try<number, MockError>> = [
+      const tries: Array<Superposition<number, MockError>> = [
         Success.of<number, MockError>(0),
         Success.of<number, MockError>(1),
         Success.of<number, MockError>(2)
       ];
 
-      const values: Try<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
+      const values: Superposition<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
 
       expect(values.isSuccess()).toEqual(true);
       const array: Array<number> = values.get();
@@ -25,9 +25,9 @@ describe('Manoeuvre', () => {
     });
 
     it('no tries', () => {
-      const tries: Array<Try<number, MockError>> = [];
+      const tries: Array<Superposition<number, MockError>> = [];
 
-      const values: Try<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
+      const values: Superposition<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
 
       expect(values.isSuccess()).toEqual(true);
       const array: Array<number> = values.get();
@@ -36,7 +36,7 @@ describe('Manoeuvre', () => {
 
     it('contains Failure on first position', () => {
       const error: MockError = new MockError();
-      const tries: Array<Try<number, MockError>> = [
+      const tries: Array<Superposition<number, MockError>> = [
         Failure.of<number, MockError>(error),
         Success.of<number, MockError>(1),
         Success.of<number, MockError>(2)
@@ -45,7 +45,7 @@ describe('Manoeuvre', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const values: Try<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
+      const values: Superposition<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
 
       expect(values.isFailure()).toEqual(true);
       values.match<void>(() => {
@@ -61,7 +61,7 @@ describe('Manoeuvre', () => {
 
     it('contains Failure on second position', () => {
       const error: MockError = new MockError();
-      const tries: Array<Try<number, MockError>> = [
+      const tries: Array<Superposition<number, MockError>> = [
         Success.of<number, MockError>(0),
         Failure.of<number, MockError>(error),
         Success.of<number, MockError>(2)
@@ -70,7 +70,7 @@ describe('Manoeuvre', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const values: Try<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
+      const values: Superposition<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
 
       expect(values.isFailure()).toEqual(true);
       values.match<void>(() => {
@@ -86,7 +86,7 @@ describe('Manoeuvre', () => {
 
     it('contains Failure on last position', () => {
       const error: MockError = new MockError();
-      const tries: Array<Try<number, MockError>> = [
+      const tries: Array<Superposition<number, MockError>> = [
         Success.of<number, MockError>(0),
         Success.of<number, MockError>(1),
         Failure.of<number, MockError>(error)
@@ -95,7 +95,7 @@ describe('Manoeuvre', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const values: Try<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
+      const values: Superposition<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
 
       expect(values.isFailure()).toEqual(true);
       values.match<void>(() => {
@@ -112,7 +112,7 @@ describe('Manoeuvre', () => {
     it('contains more than 1 Failure, returns the first one', () => {
       const error1: MockError = new MockError();
       const error2: MockError = new MockError();
-      const tries: Array<Try<number, MockError>> = [
+      const tries: Array<Superposition<number, MockError>> = [
         Failure.of<number, MockError>(error1),
         Failure.of<number, MockError>(error2),
         Success.of<number, MockError>(2)
@@ -121,7 +121,7 @@ describe('Manoeuvre', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const values: Try<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
+      const values: Superposition<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
 
       expect(values.isFailure()).toEqual(true);
       values.match<void>(() => {
@@ -138,7 +138,7 @@ describe('Manoeuvre', () => {
     it('contains more than 1 Failure, returns the first one - 2', () => {
       const error1: MockError = new MockError();
       const error2: MockError = new MockError();
-      const tries: Array<Try<number, MockError>> = [
+      const tries: Array<Superposition<number, MockError>> = [
         Failure.of<number, MockError>(error1),
         Success.of<number, MockError>(1),
         Failure.of<number, MockError>(error2)
@@ -147,7 +147,7 @@ describe('Manoeuvre', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const values: Try<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
+      const values: Superposition<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
 
       expect(values.isFailure()).toEqual(true);
       values.match<void>(() => {
@@ -165,7 +165,7 @@ describe('Manoeuvre', () => {
       const error1: MockError = new MockError();
       const error2: MockError = new MockError();
       const error3: MockError = new MockError();
-      const tries: Array<Try<number, MockError>> = [
+      const tries: Array<Superposition<number, MockError>> = [
         Failure.of<number, MockError>(error1),
         Failure.of<number, MockError>(error2),
         Failure.of<number, MockError>(error3)
@@ -174,7 +174,7 @@ describe('Manoeuvre', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const values: Try<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
+      const values: Superposition<Array<number>, MockError> = manoeuvre<number, MockError>(tries);
 
       expect(values.isFailure()).toEqual(true);
       values.match<void>(() => {

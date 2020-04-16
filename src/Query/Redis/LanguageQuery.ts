@@ -7,7 +7,7 @@ import { IRedis } from '../../General/Redis/Interface/IRedis';
 import { RedisError } from '../../General/Redis/RedisError';
 import { Failure } from '../../General/Superposition/Failure';
 import { Success } from '../../General/Superposition/Success';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { JSONA } from '../../General/Type/JSONA';
 import { JSONAError } from '../../General/Type/JSONAError';
 import { Nullable } from '../../General/Type/Value';
@@ -28,7 +28,7 @@ export class LanguageQuery implements ILanguageQuery, IRedisQuery {
     this.redis = redis;
   }
 
-  public async all(): Promise<Try<Languages, NoSuchElementError | DataSourceError>> {
+  public async all(): Promise<Superposition<Languages, NoSuchElementError | DataSourceError>> {
     try {
       const languagesString: Nullable<string> = await this.redis.getString().get(REDIS_LANGUAGE_KEY);
 
@@ -56,8 +56,8 @@ export class LanguageQuery implements ILanguageQuery, IRedisQuery {
     }
   }
 
-  public async findByISO639(iso639: ISO639): Promise<Try<Language, NoSuchElementError | DataSourceError>> {
-    const trial: Try<Languages, NoSuchElementError | DataSourceError> = await this.all();
+  public async findByISO639(iso639: ISO639): Promise<Superposition<Language, NoSuchElementError | DataSourceError>> {
+    const trial: Superposition<Languages, NoSuchElementError | DataSourceError> = await this.all();
 
     return trial.match<Language, NoSuchElementError | DataSourceError>((languages: Languages) => {
       const quantum: Quantum<Language> = languages.find((language: Language) => {

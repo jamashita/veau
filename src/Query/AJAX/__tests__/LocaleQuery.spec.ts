@@ -6,7 +6,7 @@ import { vault } from '../../../Container/Vault';
 import { AJAXError } from '../../../General/AJAX/AJAXError';
 import { MockAJAX } from '../../../General/AJAX/Mock/MockAJAX';
 import { DataSourceError } from '../../../General/DataSourceError';
-import { Try } from '../../../General/Superposition/Try';
+import { Superposition } from '../../../General/Superposition/Superposition';
 import { Locale, LocaleJSON } from '../../../VO/Locale';
 import { LocaleQuery } from '../LocaleQuery';
 
@@ -51,7 +51,7 @@ describe('LocaleQuery', () => {
       });
 
       const localeQuery: LocaleQuery = new LocaleQuery(ajax);
-      const trial: Try<Locale, DataSourceError> = await localeQuery.all();
+      const trial: Superposition<Locale, DataSourceError> = await localeQuery.all();
 
       expect(stub.withArgs('/api/locale').called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
@@ -83,7 +83,7 @@ describe('LocaleQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeQuery: LocaleQuery = new LocaleQuery(ajax);
-      const trial: Try<Locale, DataSourceError> = await localeQuery.all();
+      const trial: Superposition<Locale, DataSourceError> = await localeQuery.all();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {

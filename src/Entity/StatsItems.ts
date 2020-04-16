@@ -10,7 +10,7 @@ import { Quantum } from '../General/Quantum/Quantum';
 import { Failure } from '../General/Superposition/Failure';
 import { manoeuvre } from '../General/Superposition/Manoeuvre';
 import { Success } from '../General/Superposition/Success';
-import { Try } from '../General/Superposition/Try';
+import { Superposition } from '../General/Superposition/Superposition';
 import { Enumerator, Mapper } from '../General/Type/Function';
 import { Type } from '../General/Type/Type';
 import { AsOfs } from '../VO/AsOfs';
@@ -40,7 +40,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
     return StatsItems.ofArray(items);
   }
 
-  public static ofTry(tries: Array<Try<StatsItem, StatsItemError>>): Try<StatsItems, StatsItemsError> {
+  public static ofTry(tries: Array<Superposition<StatsItem, StatsItemError>>): Superposition<StatsItems, StatsItemsError> {
     return manoeuvre<StatsItem, StatsItemError>(tries).match<StatsItems, StatsItemsError>((statsItems: Array<StatsItem>) => {
       return Success.of<StatsItems, StatsItemsError>(StatsItems.ofArray(statsItems));
     }, (err: StatsItemError) => {
@@ -48,16 +48,16 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
     });
   }
 
-  public static ofJSON(json: Array<StatsItemJSON>):  Try<StatsItems, StatsItemsError> {
-    const trials: Array<Try<StatsItem, StatsItemError>> = json.map<Try<StatsItem, StatsItemError>>((statsItemJSON: StatsItemJSON) => {
+  public static ofJSON(json: Array<StatsItemJSON>):  Superposition<StatsItems, StatsItemsError> {
+    const trials: Array<Superposition<StatsItem, StatsItemError>> = json.map<Superposition<StatsItem, StatsItemError>>((statsItemJSON: StatsItemJSON) => {
       return StatsItem.ofJSON(statsItemJSON);
     });
 
     return StatsItems.ofTry(trials);
   }
 
-  public static ofRow(rows: Array<StatsItemRow>, statsValues: StatsValues): Try<StatsItems, StatsItemsError> {
-    const trials: Array<Try<StatsItem, StatsItemError>> = rows.map<Try<StatsItem, StatsItemError>>((statsItemRow: StatsItemRow) => {
+  public static ofRow(rows: Array<StatsItemRow>, statsValues: StatsValues): Superposition<StatsItems, StatsItemsError> {
+    const trials: Array<Superposition<StatsItem, StatsItemError>> = rows.map<Superposition<StatsItem, StatsItemError>>((statsItemRow: StatsItemRow) => {
       return StatsItemID.ofString(statsItemRow.statsItemID).match<StatsItem, StatsItemError>((statsItemID: StatsItemID) => {
         const values: StatsValues = statsValues.filter(statsItemID);
 

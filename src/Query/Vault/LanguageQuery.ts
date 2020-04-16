@@ -5,7 +5,7 @@ import { DataSourceError } from '../../General/DataSourceError';
 import { Quantum } from '../../General/Quantum/Quantum';
 import { Failure } from '../../General/Superposition/Failure';
 import { Success } from '../../General/Superposition/Success';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { ISO639 } from '../../VO/ISO639';
 import { Language } from '../../VO/Language';
 import { Languages } from '../../VO/Languages';
@@ -24,8 +24,8 @@ export class LanguageQuery implements ILanguageQuery, IVaultQuery {
     this.localeVaultQuery = localeVaultQuery;
   }
 
-  public async all(): Promise<Try<Languages, NoSuchElementError | DataSourceError>> {
-    const trial: Try<Locale, DataSourceError> = await this.localeVaultQuery.all();
+  public async all(): Promise<Superposition<Languages, NoSuchElementError | DataSourceError>> {
+    const trial: Superposition<Locale, DataSourceError> = await this.localeVaultQuery.all();
 
     return trial.match<Languages, DataSourceError>((locale: Locale) => {
       return Success.of<Languages, DataSourceError>(locale.getLanguages());
@@ -34,8 +34,8 @@ export class LanguageQuery implements ILanguageQuery, IVaultQuery {
     });
   }
 
-  public async findByISO639(iso639: ISO639): Promise<Try<Language, NoSuchElementError | DataSourceError>> {
-    const trial: Try<Languages, NoSuchElementError | DataSourceError> = await this.all();
+  public async findByISO639(iso639: ISO639): Promise<Superposition<Language, NoSuchElementError | DataSourceError>> {
+    const trial: Superposition<Languages, NoSuchElementError | DataSourceError> = await this.all();
 
     return trial.match<Language, NoSuchElementError | DataSourceError>((languages: Languages) => {
       const quantum: Quantum<Language> = languages.find((language: Language) => {

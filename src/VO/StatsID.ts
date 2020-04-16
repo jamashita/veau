@@ -1,7 +1,7 @@
 import { StatsIDError } from '../Error/StatsIDError';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
-import { Try } from '../General/Superposition/Try';
+import { Superposition } from '../General/Superposition/Superposition';
 import { UUID } from '../General/UUID/UUID';
 import { UUIDError } from '../General/UUID/UUIDError';
 import { ValueObject } from '../General/ValueObject';
@@ -14,7 +14,7 @@ export class StatsID extends ValueObject {
     return new StatsID(uuid);
   }
 
-  public static ofString(id: string): Try<StatsID, StatsIDError> {
+  public static ofString(id: string): Superposition<StatsID, StatsIDError> {
     try {
       const uuid: UUID = UUID.of(id);
 

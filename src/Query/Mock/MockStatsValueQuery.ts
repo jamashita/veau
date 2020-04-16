@@ -1,6 +1,6 @@
 import { StatsValuesError } from '../../Error/StatsValuesError';
 import { DataSourceError } from '../../General/DataSourceError';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { UnimplementedError } from '../../General/UnimplementedError';
 import { StatsID } from '../../VO/StatsID';
 import { StatsValues } from '../../VO/StatsValues';
@@ -12,7 +12,7 @@ export class MockStatsValueQuery implements IStatsValueQuery, IMockQuery {
   public readonly source: 'Mock' = 'Mock';
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public findByStatsID(statsID: StatsID): Promise<Try<StatsValues, StatsValuesError | DataSourceError>> {
-    return Promise.reject<Try<StatsValues, StatsValuesError | DataSourceError>>(new UnimplementedError());
+  public findByStatsID(statsID: StatsID): Promise<Superposition<StatsValues, StatsValuesError | DataSourceError>> {
+    return Promise.reject<Superposition<StatsValues, StatsValuesError | DataSourceError>>(new UnimplementedError());
   }
 }

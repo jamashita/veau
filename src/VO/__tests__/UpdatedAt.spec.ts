@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import sinon, { SinonSpy } from 'sinon';
 import { UpdatedAtError } from '../../Error/UpdatedAtError';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { Zeit } from '../../General/Zeit/Zeit';
 import { UpdatedAt } from '../UpdatedAt';
 
@@ -12,7 +12,7 @@ describe('UpdatedAt', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const trial: Try<UpdatedAt, UpdatedAtError> = UpdatedAt.ofString('this is not date');
+      const trial: Superposition<UpdatedAt, UpdatedAtError> = UpdatedAt.ofString('this is not date');
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -27,7 +27,7 @@ describe('UpdatedAt', () => {
     });
 
     it('normal case', () => {
-      const trial: Try<UpdatedAt, UpdatedAtError> = UpdatedAt.ofString('2000-01-01 00:00:00');
+      const trial: Superposition<UpdatedAt, UpdatedAtError> = UpdatedAt.ofString('2000-01-01 00:00:00');
 
       expect(trial.isSuccess()).toEqual(true);
     });

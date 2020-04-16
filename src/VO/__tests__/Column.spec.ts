@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 import { ColumnError } from '../../Error/ColumnError';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { Column } from '../Column';
 
 // DONE
@@ -17,8 +17,8 @@ describe('Column', () => {
 
   describe('of', () => {
     it('returns Failure when the argument is less than 0', () => {
-      const trial1: Try<Column, ColumnError> = Column.of(-1);
-      const trial2: Try<Column, ColumnError> = Column.of(-2.1);
+      const trial1: Superposition<Column, ColumnError> = Column.of(-1);
+      const trial2: Superposition<Column, ColumnError> = Column.of(-2.1);
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -49,15 +49,15 @@ describe('Column', () => {
     });
 
     it('returns Success and its value is Column.origin() when the argument 0', () => {
-      const trial: Try<Column, ColumnError> = Column.of(0);
+      const trial: Superposition<Column, ColumnError> = Column.of(0);
 
       expect(trial.isSuccess()).toEqual(true);
       expect(trial.get()).toBe(Column.origin());
     });
 
     it('returns Failure when the argument is not integer', () => {
-      const trial1: Try<Column, ColumnError> = Column.of(0.1);
-      const trial2: Try<Column, ColumnError> = Column.of(1.5);
+      const trial1: Superposition<Column, ColumnError> = Column.of(0.1);
+      const trial2: Superposition<Column, ColumnError> = Column.of(1.5);
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -90,8 +90,8 @@ describe('Column', () => {
     it('returns Success when the argument is positive and integer', () => {
       const value1: number = 31;
       const value2: number = 101;
-      const trial1: Try<Column, ColumnError> = Column.of(value1);
-      const trial2: Try<Column, ColumnError> = Column.of(value2);
+      const trial1: Superposition<Column, ColumnError> = Column.of(value1);
+      const trial2: Superposition<Column, ColumnError> = Column.of(value2);
 
       expect(trial1.isSuccess()).toEqual(true);
       expect(trial2.isSuccess()).toEqual(true);

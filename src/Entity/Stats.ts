@@ -9,7 +9,7 @@ import { Quantum } from '../General/Quantum/Quantum';
 import { Some } from '../General/Quantum/Some';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
-import { Try } from '../General/Superposition/Try';
+import { Superposition } from '../General/Superposition/Superposition';
 import { Type } from '../General/Type/Type';
 import { Ambiguous } from '../General/Type/Value';
 import { AsOf } from '../VO/AsOf';
@@ -96,7 +96,7 @@ export class Stats extends Entity<StatsID> {
     );
   }
 
-  public static ofJSON(json: StatsJSON): Try<Stats, StatsError> {
+  public static ofJSON(json: StatsJSON): Superposition<Stats, StatsError> {
     return StatsID.ofString(json.statsID).match<Stats, StatsError>((statsID: StatsID) => {
       return Term.of(json.termID).match<Stats, StatsError>((term: Term) => {
         return UpdatedAt.ofString(json.updatedAt).match<Stats, StatsError>((updatedAt: UpdatedAt) => {
@@ -127,7 +127,7 @@ export class Stats extends Entity<StatsID> {
     });
   }
 
-  public static ofRow(row: StatsRow, statsItems: StatsItems): Try<Stats, StatsError> {
+  public static ofRow(row: StatsRow, statsItems: StatsItems): Superposition<Stats, StatsError> {
     return StatsID.ofString(row.statsID).match<Stats, StatsError>((statsID: StatsID) => {
       return Term.of(row.termID).match<Stats, StatsError>((term: Term) => {
         return UpdatedAt.ofString(row.updatedAt).match<Stats, StatsError>((updatedAt: UpdatedAt) => {

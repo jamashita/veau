@@ -1,6 +1,6 @@
 import { StatsOutlinesError } from '../../Error/StatsOutlinesError';
 import { DataSourceError } from '../../General/DataSourceError';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { UnimplementedError } from '../../General/UnimplementedError';
 import { Page } from '../../VO/Page';
 import { StatsOutlines } from '../../VO/StatsOutlines';
@@ -13,7 +13,7 @@ export class MockStatsOutlineQuery implements IStatsOutlineQuery, IMockQuery {
   public readonly source: 'Mock' = 'Mock';
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Promise<Try<StatsOutlines, StatsOutlinesError | DataSourceError>> {
-    return Promise.reject<Try<StatsOutlines, StatsOutlinesError | DataSourceError>>(new UnimplementedError());
+  public findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Promise<Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>> {
+    return Promise.reject<Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>>(new UnimplementedError());
   }
 }

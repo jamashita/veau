@@ -7,7 +7,7 @@ import { IAJAX } from '../../General/AJAX/Interface/IAJAX';
 import { DataSourceError } from '../../General/DataSourceError';
 import { Failure } from '../../General/Superposition/Failure';
 import { Success } from '../../General/Superposition/Success';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { IAJAXCommand } from '../Interface/IAJAXCommand';
 import { ISessionCommand } from '../Interface/ISessionCommand';
 
@@ -21,7 +21,7 @@ export class SessionCommand implements ISessionCommand, IAJAXCommand {
     this.ajax = ajax;
   }
 
-  public async delete(): Promise<Try<void, DataSourceError>> {
+  public async delete(): Promise<Superposition<void, DataSourceError>> {
     const response: AJAXResponse<unknown> = await this.ajax.delete<unknown>('/api/destroy');
 
     switch (response.status) {

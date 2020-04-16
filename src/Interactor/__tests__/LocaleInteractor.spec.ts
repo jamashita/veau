@@ -10,7 +10,7 @@ import { MySQLError } from '../../General/MySQL/MySQLError';
 import { RedisError } from '../../General/Redis/RedisError';
 import { Failure } from '../../General/Superposition/Failure';
 import { Success } from '../../General/Superposition/Success';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { MockLanguageQuery } from '../../Query/Mock/MockLanguageQuery';
 import { MockRegionQuery } from '../../Query/Mock/MockRegionQuery';
 import { Languages } from '../../VO/Languages';
@@ -49,7 +49,7 @@ describe('LocaleInteractor', () => {
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand);
-      const trial: Try<Locale, NoSuchElementError | DataSourceError> = await localeInteractor.all();
+      const trial: Superposition<Locale, NoSuchElementError | DataSourceError> = await localeInteractor.all();
 
       expect(trial.isSuccess()).toEqual(true);
       expect(trial.get().getLanguages()).toEqual(languages);
@@ -73,7 +73,7 @@ describe('LocaleInteractor', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand);
-      const trial: Try<Locale, NoSuchElementError | DataSourceError> = await localeInteractor.all();
+      const trial: Superposition<Locale, NoSuchElementError | DataSourceError> = await localeInteractor.all();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -104,7 +104,7 @@ describe('LocaleInteractor', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand);
-      const trial: Try<Locale, NoSuchElementError | DataSourceError> = await localeInteractor.all();
+      const trial: Superposition<Locale, NoSuchElementError | DataSourceError> = await localeInteractor.all();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -135,7 +135,7 @@ describe('LocaleInteractor', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand);
-      const trial: Try<Locale, NoSuchElementError | DataSourceError> = await localeInteractor.all();
+      const trial: Superposition<Locale, NoSuchElementError | DataSourceError> = await localeInteractor.all();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -166,7 +166,7 @@ describe('LocaleInteractor', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand);
-      const trial: Try<Locale, NoSuchElementError | DataSourceError> = await localeInteractor.all();
+      const trial: Superposition<Locale, NoSuchElementError | DataSourceError> = await localeInteractor.all();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -195,7 +195,7 @@ describe('LocaleInteractor', () => {
       stub2.resolves(Success.of<DataSourceError>());
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand);
-      const trial: Try<void, DataSourceError> = await localeInteractor.delete();
+      const trial: Superposition<void, DataSourceError> = await localeInteractor.delete();
 
       expect(trial.isSuccess()).toEqual(true);
       expect(stub1.called).toEqual(true);
@@ -217,7 +217,7 @@ describe('LocaleInteractor', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand);
-      const trial: Try<void, DataSourceError> = await localeInteractor.delete();
+      const trial: Superposition<void, DataSourceError> = await localeInteractor.delete();
 
       expect(trial.isFailure()).toEqual(true);
       expect(stub1.called).toEqual(true);
@@ -248,7 +248,7 @@ describe('LocaleInteractor', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand);
-      const trial: Try<void, DataSourceError> = await localeInteractor.delete();
+      const trial: Superposition<void, DataSourceError> = await localeInteractor.delete();
 
       expect(trial.isFailure()).toEqual(true);
       expect(stub1.called).toEqual(true);
@@ -279,7 +279,7 @@ describe('LocaleInteractor', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand);
-      const trial: Try<void, DataSourceError> = await localeInteractor.delete();
+      const trial: Superposition<void, DataSourceError> = await localeInteractor.delete();
 
       expect(trial.isFailure()).toEqual(true);
       expect(stub1.called).toEqual(true);
@@ -310,7 +310,7 @@ describe('LocaleInteractor', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeInteractor: LocaleInteractor = new LocaleInteractor(languageKernelQuery, regionKernelQuery, languageRedisCommand, regionRedisCommand);
-      const trial: Try<void, DataSourceError> = await localeInteractor.delete();
+      const trial: Superposition<void, DataSourceError> = await localeInteractor.delete();
 
       expect(trial.isFailure()).toEqual(true);
       expect(stub1.called).toEqual(true);

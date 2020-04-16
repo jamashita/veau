@@ -6,7 +6,7 @@ import { DataSourceError } from '../../General/DataSourceError';
 import { IMySQL } from '../../General/MySQL/Interface/IMySQL';
 import { MySQLError } from '../../General/MySQL/MySQLError';
 import { Failure } from '../../General/Superposition/Failure';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { Account, AccountRow } from '../../VO/Account';
 import { AccountName } from '../../VO/AccountName';
 import { IAccountQuery } from '../Interface/IAccountQuery';
@@ -22,7 +22,7 @@ export class AccountQuery implements IAccountQuery, IMySQLQuery {
     this.mysql = mysql;
   }
 
-  public async findByAccount(account: AccountName): Promise<Try<Account, AccountError | NoSuchElementError | DataSourceError>> {
+  public async findByAccount(account: AccountName): Promise<Superposition<Account, AccountError | NoSuchElementError | DataSourceError>> {
     const query: string = `SELECT
       R1.veau_account_id AS veauAccountID,
       R1.account,

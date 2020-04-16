@@ -1,5 +1,5 @@
 import { Success } from '../Superposition/Success';
-import { Try } from '../Superposition/Try';
+import { Superposition } from '../Superposition/Superposition';
 import { AsyncConsumer, Consumer, MonoFunction, Predicate } from '../Type/Function';
 import { Suspicious } from '../Type/Value';
 import { maybe } from './Maybe';
@@ -48,7 +48,7 @@ export class Some<T> extends Quantum<T> {
     return maybe<U>(result);
   }
 
-  public toTry(): Try<T, QuantumError> {
+  public toTry(): Superposition<T, QuantumError> {
     return Success.of<T, QuantumError>(this.value);
   }
 }

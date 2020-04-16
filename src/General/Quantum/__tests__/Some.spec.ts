@@ -1,5 +1,5 @@
 import sinon, { SinonSpy } from 'sinon';
-import { Try } from '../../Superposition/Try';
+import { Superposition } from '../../Superposition/Superposition';
 import { None } from '../None';
 import { Quantum } from '../Quantum';
 import { QuantumError } from '../QuantumError';
@@ -145,7 +145,7 @@ describe('Some', () => {
     it('returns Success', () => {
       const some: Some<number> = Some.of<number>(1);
 
-      const trial: Try<number, QuantumError> = some.toTry();
+      const trial: Superposition<number, QuantumError> = some.toTry();
 
       expect(trial.isSuccess()).toEqual(true);
     });

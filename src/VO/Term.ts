@@ -1,7 +1,7 @@
 import { TermError } from '../Error/TermError';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
-import { Try } from '../General/Superposition/Try';
+import { Superposition } from '../General/Superposition/Superposition';
 import { ValueObject } from '../General/ValueObject';
 
 const DAILY_ID: number = 1;
@@ -21,7 +21,7 @@ export class Term extends ValueObject {
   public static readonly QUARTERLY: Term = new Term(QUARTERLY_ID, 'QUARTERLY');
   public static readonly ANNUAL: Term = new Term(ANNUAL_ID, 'ANNUAL');
 
-  public static of(id: number): Try<Term, TermError> {
+  public static of(id: number): Superposition<Term, TermError> {
     switch (id) {
       case DAILY_ID: {
         return Success.of<Term, TermError>(Term.DAILY);

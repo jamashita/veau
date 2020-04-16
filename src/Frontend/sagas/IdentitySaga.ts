@@ -6,7 +6,7 @@ import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { UnauthorizedError } from '../../Error/UnauthorizedError';
 import { VeauAccountError } from '../../Error/VeauAccountError';
 import { DataSourceError } from '../../General/DataSourceError';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { ILocaleQuery } from '../../Query/Interface/ILocaleQuery';
 import { ISessionQuery } from '../../Query/Interface/ISessionQuery';
@@ -50,7 +50,7 @@ export class IdentitySaga {
   private *initIdentity(): SagaIterator<void> {
     yield put(loading());
 
-    const trial1: Try<Locale, DataSourceError> = yield call((): Promise<Try<Locale, DataSourceError>> => {
+    const trial1: Superposition<Locale, DataSourceError> = yield call((): Promise<Superposition<Locale, DataSourceError>> => {
       return this.localeQuery.all();
     });
 
@@ -62,7 +62,7 @@ export class IdentitySaga {
       return put(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
     });
 
-    const trial2: Try<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError> = yield call((): Promise<Try<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>> => {
+    const trial2: Superposition<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError> = yield call((): Promise<Superposition<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>> => {
       return this.sessionQuery.find();
     });
 
@@ -87,7 +87,7 @@ export class IdentitySaga {
       identity
     } = state;
 
-    const trial3: Try<Language, NoSuchElementError | DataSourceError> = yield call((): Promise<Try<Language, NoSuchElementError | DataSourceError>> => {
+    const trial3: Superposition<Language, NoSuchElementError | DataSourceError> = yield call((): Promise<Superposition<Language, NoSuchElementError | DataSourceError>> => {
       return this.languageQuery.findByISO639(iso639);
     });
 

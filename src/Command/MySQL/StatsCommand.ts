@@ -4,7 +4,7 @@ import { ISQL } from '../../General/MySQL/Interface/ISQL';
 import { MySQLError } from '../../General/MySQL/MySQLError';
 import { Failure } from '../../General/Superposition/Failure';
 import { Success } from '../../General/Superposition/Success';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { StatsID } from '../../VO/StatsID';
 import { VeauAccountID } from '../../VO/VeauAccountID';
 import { IMySQLCommand } from '../Interface/IMySQLCommand';
@@ -19,7 +19,7 @@ export class StatsCommand implements IStatsCommand, IMySQLCommand {
     this.sql = sql;
   }
 
-  public async create(stats: Stats, veauAccountID: VeauAccountID): Promise<Try<void, DataSourceError>> {
+  public async create(stats: Stats, veauAccountID: VeauAccountID): Promise<Superposition<void, DataSourceError>> {
     const query: string = `INSERT INTO stats VALUES (
       :statsID,
       :languageID,
@@ -54,7 +54,7 @@ export class StatsCommand implements IStatsCommand, IMySQLCommand {
     }
   }
 
-  public async deleteByStatsID(statsID: StatsID): Promise<Try<void, DataSourceError>> {
+  public async deleteByStatsID(statsID: StatsID): Promise<Superposition<void, DataSourceError>> {
     const query: string = `DELETE R1
       FROM stats R1
       WHERE R1.stats_id = :statsID;`;

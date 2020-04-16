@@ -13,7 +13,7 @@ import { DataSourceError } from '../../General/DataSourceError';
 import { MockMySQL } from '../../General/MySQL/Mock/MockMySQL';
 import { Failure } from '../../General/Superposition/Failure';
 import { Success } from '../../General/Superposition/Success';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { UUID } from '../../General/UUID/UUID';
 import { MockStatsOutlineQuery } from '../../Query/Mock/MockStatsOutlineQuery';
 import { MockStatsQuery } from '../../Query/Mock/MockStatsQuery';
@@ -101,7 +101,7 @@ describe('StatsInteractor', () => {
         statsQuery,
         statsOutlineQuery
       );
-      const trial: Try<Stats, NoSuchElementError | StatsError | DataSourceError> = await statsInteractor.findByStatsID(
+      const trial: Superposition<Stats, NoSuchElementError | StatsError | DataSourceError> = await statsInteractor.findByStatsID(
         new MockStatsID(uuid1)
       );
 
@@ -124,7 +124,7 @@ describe('StatsInteractor', () => {
         statsQuery,
         statsOutlineQuery
       );
-      const trial: Try<Stats, NoSuchElementError | StatsError | DataSourceError> = await statsInteractor.findByStatsID(
+      const trial: Superposition<Stats, NoSuchElementError | StatsError | DataSourceError> = await statsInteractor.findByStatsID(
         new MockStatsID()
       );
 
@@ -154,7 +154,7 @@ describe('StatsInteractor', () => {
         statsQuery,
         statsOutlineQuery
       );
-      const trial: Try<Stats, NoSuchElementError | StatsError | DataSourceError> = await statsInteractor.findByStatsID(
+      const trial: Superposition<Stats, NoSuchElementError | StatsError | DataSourceError> = await statsInteractor.findByStatsID(
         new MockStatsID()
       );
 
@@ -210,7 +210,7 @@ describe('StatsInteractor', () => {
         statsQuery,
         statsOutlineQuery
       );
-      const trial: Try<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsInteractor.findByVeauAccountID(
+      const trial: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsInteractor.findByVeauAccountID(
         new MockVeauAccountID(),
         new MockPage()
       );

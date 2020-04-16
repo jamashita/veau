@@ -6,7 +6,7 @@ import { CacheError } from '../../../General/Cache/CacheError';
 import { MockCache } from '../../../General/Cache/Mock/MockCache';
 import { DataSourceError } from '../../../General/DataSourceError';
 import { MockError } from '../../../General/Mock/MockError';
-import { Try } from '../../../General/Superposition/Try';
+import { Superposition } from '../../../General/Superposition/Superposition';
 import { VAULT_LOCALE_KEY } from '../../../Infrastructure/VeauCache';
 import { ISO3166 } from '../../../VO/ISO3166';
 import { ISO639 } from '../../../VO/ISO639';
@@ -56,7 +56,7 @@ describe('LocaleQuery', () => {
       stub.returns(locale);
 
       const localeQuery: LocaleQuery = new LocaleQuery(cache);
-      const trial: Try<Locale, DataSourceError> = await localeQuery.all();
+      const trial: Superposition<Locale, DataSourceError> = await localeQuery.all();
 
       expect(stub.withArgs(VAULT_LOCALE_KEY).called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
@@ -72,7 +72,7 @@ describe('LocaleQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeQuery: LocaleQuery = new LocaleQuery(cache);
-      const trial: Try<Locale, DataSourceError> = await localeQuery.all();
+      const trial: Superposition<Locale, DataSourceError> = await localeQuery.all();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {

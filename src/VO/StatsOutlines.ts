@@ -9,7 +9,7 @@ import { Quantum } from '../General/Quantum/Quantum';
 import { Failure } from '../General/Superposition/Failure';
 import { manoeuvre } from '../General/Superposition/Manoeuvre';
 import { Success } from '../General/Superposition/Success';
-import { Try } from '../General/Superposition/Try';
+import { Superposition } from '../General/Superposition/Superposition';
 import { Mapper } from '../General/Type/Function';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from './StatsOutline';
 
@@ -35,7 +35,7 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
     return StatsOutlines.ofArray(outlines);
   }
 
-  public static ofTry(tries: Array<Try<StatsOutline, StatsOutlineError>>): Try<StatsOutlines, StatsOutlinesError> {
+  public static ofTry(tries: Array<Superposition<StatsOutline, StatsOutlineError>>): Superposition<StatsOutlines, StatsOutlinesError> {
     return manoeuvre<StatsOutline, StatsOutlineError>(tries).match<StatsOutlines, StatsOutlinesError>((outlines: Array<StatsOutline>) => {
       return Success.of<StatsOutlines, StatsOutlinesError>(StatsOutlines.ofArray(outlines));
     }, (err: StatsOutlineError) => {
@@ -45,16 +45,16 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
     });
   }
 
-  public static ofJSON(json: Array<StatsOutlineJSON>): Try<StatsOutlines, StatsOutlinesError> {
-    const trials: Array<Try<StatsOutline, StatsOutlineError>> = json.map<Try<StatsOutline, StatsOutlineError>>((outline: StatsOutlineJSON) => {
+  public static ofJSON(json: Array<StatsOutlineJSON>): Superposition<StatsOutlines, StatsOutlinesError> {
+    const trials: Array<Superposition<StatsOutline, StatsOutlineError>> = json.map<Superposition<StatsOutline, StatsOutlineError>>((outline: StatsOutlineJSON) => {
       return StatsOutline.ofJSON(outline);
     });
 
     return StatsOutlines.ofTry(trials);
   }
 
-  public static ofRow(rows: Array<StatsOutlineRow>): Try<StatsOutlines, StatsOutlinesError> {
-    const trials: Array<Try<StatsOutline, StatsOutlineError>> = rows.map<Try<StatsOutline, StatsOutlineError>>((outline: StatsOutlineRow) => {
+  public static ofRow(rows: Array<StatsOutlineRow>): Superposition<StatsOutlines, StatsOutlinesError> {
+    const trials: Array<Superposition<StatsOutline, StatsOutlineError>> = rows.map<Superposition<StatsOutline, StatsOutlineError>>((outline: StatsOutlineRow) => {
       return StatsOutline.ofRow(outline);
     });
 

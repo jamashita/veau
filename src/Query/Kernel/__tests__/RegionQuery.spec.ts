@@ -9,7 +9,7 @@ import { MySQLError } from '../../../General/MySQL/MySQLError';
 import { RedisError } from '../../../General/Redis/RedisError';
 import { Failure } from '../../../General/Superposition/Failure';
 import { Success } from '../../../General/Superposition/Success';
-import { Try } from '../../../General/Superposition/Try';
+import { Superposition } from '../../../General/Superposition/Superposition';
 import { ISO3166 } from '../../../VO/ISO3166';
 import { MockRegions } from '../../../VO/Mock/MockRegions';
 import { Region } from '../../../VO/Region';
@@ -43,7 +43,7 @@ describe('RegionQuery', () => {
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const trial: Try<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
+      const trial: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
       expect(trial.isSuccess()).toEqual(true);
       expect(trial.get()).toEqual(regions);
@@ -66,7 +66,7 @@ describe('RegionQuery', () => {
       stub3.resolves(Success.of<DataSourceError>());
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const trial: Try<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
+      const trial: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
       expect(trial.isSuccess()).toEqual(true);
       expect(trial.get()).toEqual(regions);
@@ -89,7 +89,7 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const trial: Try<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
+      const trial: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -122,7 +122,7 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const trial: Try<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
+      const trial: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -158,7 +158,7 @@ describe('RegionQuery', () => {
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const trial: Try<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      const trial: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(trial.isSuccess()).toEqual(true);
       expect(trial.get()).toEqual(regions.get(1).get());
@@ -178,7 +178,7 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const trial: Try<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      const trial: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -214,7 +214,7 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const trial: Try<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('AIO'));
+      const trial: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('AIO'));
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {

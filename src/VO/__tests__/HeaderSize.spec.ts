@@ -1,14 +1,14 @@
 import sinon, { SinonSpy } from 'sinon';
 import { HeaderSizeError } from '../../Error/HeaderSizeError';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { HeaderSize } from '../HeaderSize';
 
 // DONE
 describe('HeaderSize', () => {
   describe('of', () => {
     it('returns Failure when the argument is less than 0', () => {
-      const trial1: Try<HeaderSize, HeaderSizeError> = HeaderSize.of(0);
-      const trial2: Try<HeaderSize, HeaderSizeError> = HeaderSize.of(-1);
+      const trial1: Superposition<HeaderSize, HeaderSizeError> = HeaderSize.of(0);
+      const trial2: Superposition<HeaderSize, HeaderSizeError> = HeaderSize.of(-1);
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -28,8 +28,8 @@ describe('HeaderSize', () => {
     });
 
     it('returns Failure when the argument is not integer', () => {
-      const trial1: Try<HeaderSize, HeaderSizeError> = HeaderSize.of(0.1);
-      const trial2: Try<HeaderSize, HeaderSizeError> = HeaderSize.of(1.5);
+      const trial1: Superposition<HeaderSize, HeaderSizeError> = HeaderSize.of(0.1);
+      const trial2: Superposition<HeaderSize, HeaderSizeError> = HeaderSize.of(1.5);
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();

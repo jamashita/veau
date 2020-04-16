@@ -7,7 +7,7 @@ import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { DataSourceError } from '../General/DataSourceError';
 import { Digest } from '../General/Digest';
 import { Noun } from '../General/Interface/Noun';
-import { Try } from '../General/Superposition/Try';
+import { Superposition } from '../General/Superposition/Superposition';
 import { IAccountQuery } from '../Query/Interface/IAccountQuery';
 import { Account } from '../VO/Account';
 import { AccountName } from '../VO/AccountName';
@@ -34,7 +34,7 @@ export class AuthenticationInteractor implements Noun {
         const accountName: AccountName = AccountName.of(name);
         const password: Password = Password.of(pass);
 
-        const trial: Try<Account, AccountError | NoSuchElementError | DataSourceError> = await this.accountQuery.findByAccount(accountName);
+        const trial: Superposition<Account, AccountError | NoSuchElementError | DataSourceError> = await this.accountQuery.findByAccount(accountName);
 
         // eslint-disable-next-line @typescript-eslint/return-await
         return trial.match<void>(async (account: Account) => {

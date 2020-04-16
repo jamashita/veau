@@ -1,14 +1,14 @@
 import sinon, { SinonSpy } from 'sinon';
 import { OffsetError } from '../../Error/OffsetError';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { Offset } from '../Offset';
 
 // DONE
 describe('Offset', () => {
   describe('of', () => {
     it('returns Failure when the argument is less than 0', () => {
-      const trial1: Try<Offset, OffsetError> = Offset.of(0);
-      const trial2: Try<Offset, OffsetError> = Offset.of(-1);
+      const trial1: Superposition<Offset, OffsetError> = Offset.of(0);
+      const trial2: Superposition<Offset, OffsetError> = Offset.of(-1);
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -28,8 +28,8 @@ describe('Offset', () => {
     });
 
     it('returns Failure when the argument is not integer', () => {
-      const trial1: Try<Offset, OffsetError> = Offset.of(0.1);
-      const trial2: Try<Offset, OffsetError> = Offset.of(1.5);
+      const trial1: Superposition<Offset, OffsetError> = Offset.of(0.1);
+      const trial2: Superposition<Offset, OffsetError> = Offset.of(1.5);
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();

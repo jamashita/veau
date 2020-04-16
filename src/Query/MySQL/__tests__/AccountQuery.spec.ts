@@ -8,7 +8,7 @@ import { DataSourceError } from '../../../General/DataSourceError';
 import { MockError } from '../../../General/Mock/MockError';
 import { MockMySQL } from '../../../General/MySQL/Mock/MockMySQL';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
-import { Try } from '../../../General/Superposition/Try';
+import { Superposition } from '../../../General/Superposition/Superposition';
 import { Account, AccountRow } from '../../../VO/Account';
 import { MockAccountName } from '../../../VO/Mock/MockAccountName';
 import { AccountQuery } from '../AccountQuery';
@@ -50,7 +50,7 @@ describe('AccountQuery', () => {
       stub.resolves(rows);
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const trial: Try<Account, AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(accountName);
+      const trial: Superposition<Account, AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(accountName);
 
       expect(stub.withArgs(`SELECT
       R1.veau_account_id AS veauAccountID,
@@ -99,7 +99,7 @@ describe('AccountQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const trial: Try<Account, AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(name);
+      const trial: Superposition<Account, AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(name);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -138,7 +138,7 @@ describe('AccountQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const trial: Try<Account, AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(name);
+      const trial: Superposition<Account, AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(name);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -163,7 +163,7 @@ describe('AccountQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const trial: Try<Account, AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(name);
+      const trial: Superposition<Account, AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(name);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {

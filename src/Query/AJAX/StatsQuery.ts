@@ -9,7 +9,7 @@ import { AJAXResponse } from '../../General/AJAX/AJAXResponse';
 import { IAJAX } from '../../General/AJAX/Interface/IAJAX';
 import { DataSourceError } from '../../General/DataSourceError';
 import { Failure } from '../../General/Superposition/Failure';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { StatsID } from '../../VO/StatsID';
 import { IAJAXQuery } from '../Interface/IAJAXQuery';
 import { IStatsQuery } from '../Interface/IStatsQuery';
@@ -24,7 +24,7 @@ export class StatsQuery implements IStatsQuery, IAJAXQuery {
     this.ajax = ajax;
   }
 
-  public async findByStatsID(statsID: StatsID): Promise<Try<Stats, StatsError | NoSuchElementError | DataSourceError>> {
+  public async findByStatsID(statsID: StatsID): Promise<Superposition<Stats, StatsError | NoSuchElementError | DataSourceError>> {
     const response: AJAXResponse<StatsJSON> = await this.ajax.get<StatsJSON>(`/api/stats/${statsID.get().get()}`);
     const {
       status,

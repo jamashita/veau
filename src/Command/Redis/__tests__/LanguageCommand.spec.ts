@@ -7,7 +7,7 @@ import { MockError } from '../../../General/Mock/MockError';
 import { MockRedis } from '../../../General/Redis/Mock/MockRedis';
 import { MockRedisString } from '../../../General/Redis/Mock/MockRedisString';
 import { RedisError } from '../../../General/Redis/RedisError';
-import { Try } from '../../../General/Superposition/Try';
+import { Superposition } from '../../../General/Superposition/Superposition';
 import { MockLanguage } from '../../../VO/Mock/MockLanguage';
 import { MockLanguageName } from '../../../VO/Mock/MockLanguageName';
 import { MockLanguages } from '../../../VO/Mock/MockLanguages';
@@ -51,7 +51,7 @@ describe('LanguageCommand', () => {
       stub2.resolves();
 
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const trial: Try<void, DataSourceError> = await languageCommand.insertAll(languages);
+      const trial: Superposition<void, DataSourceError> = await languageCommand.insertAll(languages);
 
       expect(stub1.withArgs('LANGUAGES', JSON.stringify(languages.toJSON())).called).toEqual(true);
       expect(stub2.withArgs('LANGUAGES', 3 * 60 * 60).called).toEqual(true);
@@ -75,7 +75,7 @@ describe('LanguageCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const trial: Try<void, DataSourceError> = await languageCommand.insertAll(languages);
+      const trial: Superposition<void, DataSourceError> = await languageCommand.insertAll(languages);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -106,7 +106,7 @@ describe('LanguageCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const trial: Try<void, DataSourceError> = await languageCommand.insertAll(languages);
+      const trial: Superposition<void, DataSourceError> = await languageCommand.insertAll(languages);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -144,7 +144,7 @@ describe('LanguageCommand', () => {
       stub.resolves(true);
 
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const trial: Try<void, DataSourceError> = await languageCommand.deleteAll();
+      const trial: Superposition<void, DataSourceError> = await languageCommand.deleteAll();
 
       expect(stub.withArgs('LANGUAGES').called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
@@ -159,7 +159,7 @@ describe('LanguageCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const trial: Try<void, DataSourceError> = await languageCommand.deleteAll();
+      const trial: Superposition<void, DataSourceError> = await languageCommand.deleteAll();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -182,7 +182,7 @@ describe('LanguageCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const trial: Try<void, DataSourceError> = await languageCommand.deleteAll();
+      const trial: Superposition<void, DataSourceError> = await languageCommand.deleteAll();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {

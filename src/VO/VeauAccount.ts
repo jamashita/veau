@@ -3,7 +3,7 @@ import { VeauAccountIDError } from '../Error/VeauAccountIDError';
 import { JSONable } from '../General/Interface/JSONable';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
-import { Try } from '../General/Superposition/Try';
+import { Superposition } from '../General/Superposition/Superposition';
 import { ValueObject } from '../General/ValueObject';
 import { AccountName } from './AccountName';
 import { Language, LanguageJSON } from './Language';
@@ -33,7 +33,7 @@ export class VeauAccount extends ValueObject implements JSONable {
     return new VeauAccount(veauAccountID, name, language, region);
   }
 
-  public static ofJSON(json: VeauAccountJSON): Try<VeauAccount, VeauAccountError> {
+  public static ofJSON(json: VeauAccountJSON): Superposition<VeauAccount, VeauAccountError> {
     return VeauAccountID.ofString(json.veauAccountID).match<VeauAccount, VeauAccountError>((veauAccountID: VeauAccountID) => {
       return Success.of<VeauAccount, VeauAccountError>(
         VeauAccount.of(

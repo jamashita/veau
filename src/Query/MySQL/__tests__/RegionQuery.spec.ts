@@ -7,7 +7,7 @@ import { DataSourceError } from '../../../General/DataSourceError';
 import { MockError } from '../../../General/Mock/MockError';
 import { MockMySQL } from '../../../General/MySQL/Mock/MockMySQL';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
-import { Try } from '../../../General/Superposition/Try';
+import { Superposition } from '../../../General/Superposition/Superposition';
 import { ISO3166 } from '../../../VO/ISO3166';
 import { Region, RegionRow } from '../../../VO/Region';
 import { Regions } from '../../../VO/Regions';
@@ -46,7 +46,7 @@ describe('RegionQuery', () => {
       stub.resolves(rows);
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const trial: Try<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
+      const trial: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
       expect(stub.withArgs(`SELECT
       R1.region_id AS regionID,
@@ -74,7 +74,7 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const trial: Try<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
+      const trial: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -97,7 +97,7 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const trial: Try<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
+      const trial: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -138,7 +138,7 @@ describe('RegionQuery', () => {
       stub.resolves(rows);
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const trial: Try<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      const trial: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(stub.withArgs(`SELECT
       R1.region_id AS regionID,
@@ -164,7 +164,7 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const trial: Try<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      const trial: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -187,7 +187,7 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const trial: Try<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      const trial: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {

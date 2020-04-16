@@ -11,7 +11,7 @@ import { MockSQL } from '../../General/MySQL/Mock/MockSQL';
 import { MySQLError } from '../../General/MySQL/MySQLError';
 import { Failure } from '../../General/Superposition/Failure';
 import { Success } from '../../General/Superposition/Success';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { MockStatsValue } from '../../VO/Mock/MockStatsValue';
 import { MockStatsValues } from '../../VO/Mock/MockStatsValues';
 import { MockVeauAccountID } from '../../VO/Mock/MockVeauAccountID';
@@ -75,7 +75,7 @@ describe('StatsUpdateTransaction', () => {
         statsUpdateFactory
       );
       const sql: MockSQL = new MockSQL();
-      const trial: Try<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
+      const trial: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
       expect(trial.isSuccess()).toEqual(true);
       expect(stub1.called).toEqual(true);
@@ -133,7 +133,7 @@ describe('StatsUpdateTransaction', () => {
         statsUpdateFactory
       );
       const sql: MockSQL = new MockSQL();
-      const trial: Try<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
+      const trial: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -197,7 +197,7 @@ describe('StatsUpdateTransaction', () => {
         statsUpdateFactory
       );
       const sql: MockSQL = new MockSQL();
-      const trial: Try<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
+      const trial: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -261,7 +261,7 @@ describe('StatsUpdateTransaction', () => {
         statsUpdateFactory
       );
       const sql: MockSQL = new MockSQL();
-      const trial: Try<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
+      const trial: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -334,7 +334,7 @@ describe('StatsUpdateTransaction', () => {
         statsUpdateFactory
       );
       const sql: MockSQL = new MockSQL();
-      const trial: Try<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
+      const trial: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -410,7 +410,7 @@ describe('StatsUpdateTransaction', () => {
         statsUpdateFactory
       );
       const sql: MockSQL = new MockSQL();
-      const trial: Try<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
+      const trial: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -486,7 +486,7 @@ describe('StatsUpdateTransaction', () => {
         statsUpdateFactory
       );
       const sql: MockSQL = new MockSQL();
-      const trial: Try<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
+      const trial: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {

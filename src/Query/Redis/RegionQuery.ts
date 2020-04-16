@@ -7,7 +7,7 @@ import { IRedis } from '../../General/Redis/Interface/IRedis';
 import { RedisError } from '../../General/Redis/RedisError';
 import { Failure } from '../../General/Superposition/Failure';
 import { Success } from '../../General/Superposition/Success';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { JSONA } from '../../General/Type/JSONA';
 import { JSONAError } from '../../General/Type/JSONAError';
 import { Nullable } from '../../General/Type/Value';
@@ -28,7 +28,7 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
     this.redis = redis;
   }
 
-  public async all(): Promise<Try<Regions, NoSuchElementError | DataSourceError>> {
+  public async all(): Promise<Superposition<Regions, NoSuchElementError | DataSourceError>> {
     try {
       const regionString: Nullable<string> = await this.redis.getString().get(REDIS_REGION_KEY);
 
@@ -54,8 +54,8 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
     }
   }
 
-  public async findByISO3166(iso3166: ISO3166): Promise<Try<Region, NoSuchElementError | DataSourceError>> {
-    const trial: Try<Regions, NoSuchElementError | DataSourceError> = await this.all();
+  public async findByISO3166(iso3166: ISO3166): Promise<Superposition<Region, NoSuchElementError | DataSourceError>> {
+    const trial: Superposition<Regions, NoSuchElementError | DataSourceError> = await this.all();
 
     return trial.match<Region, NoSuchElementError | DataSourceError>((regions: Regions) => {
       const quantum: Quantum<Region> = regions.find((region: Region) => {

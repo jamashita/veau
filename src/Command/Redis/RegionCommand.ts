@@ -5,7 +5,7 @@ import { IRedis } from '../../General/Redis/Interface/IRedis';
 import { RedisError } from '../../General/Redis/RedisError';
 import { Failure } from '../../General/Superposition/Failure';
 import { Success } from '../../General/Superposition/Success';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { JSONA } from '../../General/Type/JSONA';
 import { REDIS_REGION_KEY } from '../../Infrastructure/VeauRedis';
 import { Regions } from '../../VO/Regions';
@@ -24,7 +24,7 @@ export class RegionCommand implements IRegionCommand, IRedisCommand {
     this.redis = redis;
   }
 
-  public async insertAll(regions: Regions): Promise<Try<void, DataSourceError>> {
+  public async insertAll(regions: Regions): Promise<Superposition<void, DataSourceError>> {
     try {
       const str: string = await JSONA.stringify(regions.toJSON());
       await this.redis.getString().set(REDIS_REGION_KEY, str);
@@ -41,7 +41,7 @@ export class RegionCommand implements IRegionCommand, IRedisCommand {
     }
   }
 
-  public async deleteAll(): Promise<Try<void, DataSourceError>> {
+  public async deleteAll(): Promise<Superposition<void, DataSourceError>> {
     try {
       const ok: boolean = await this.redis.delete(REDIS_REGION_KEY);
 

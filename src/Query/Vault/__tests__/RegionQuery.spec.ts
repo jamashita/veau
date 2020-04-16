@@ -7,7 +7,7 @@ import { AJAXError } from '../../../General/AJAX/AJAXError';
 import { DataSourceError } from '../../../General/DataSourceError';
 import { Failure } from '../../../General/Superposition/Failure';
 import { Success } from '../../../General/Superposition/Success';
-import { Try } from '../../../General/Superposition/Try';
+import { Superposition } from '../../../General/Superposition/Superposition';
 import { ISO3166 } from '../../../VO/ISO3166';
 import { Locale } from '../../../VO/Locale';
 import { MockLocale } from '../../../VO/Mock/MockLocale';
@@ -41,7 +41,7 @@ describe('RegionQuery', () => {
       stub.resolves(Success.of<Locale, DataSourceError>(locale));
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const trial: Try<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
+      const trial: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
       expect(trial.isSuccess()).toEqual(true);
       expect(trial.get()).toEqual(locale.getRegions());
@@ -56,7 +56,7 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const trial: Try<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
+      const trial: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -94,7 +94,7 @@ describe('RegionQuery', () => {
       stub.resolves(Success.of<Locale, DataSourceError>(locale));
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const trial: Try<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      const trial: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(trial.isSuccess()).toEqual(true);
       expect(trial.get()).toEqual(locale.getRegions().get(1).get());
@@ -109,7 +109,7 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const trial: Try<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      const trial: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -147,7 +147,7 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const trial: Try<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('OOP'));
+      const trial: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('OOP'));
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {

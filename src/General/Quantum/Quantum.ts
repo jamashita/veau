@@ -1,5 +1,5 @@
 import { Noun } from '../Interface/Noun';
-import { Try } from '../Superposition/Try';
+import { Superposition } from '../Superposition/Superposition';
 import { AsyncConsumer, Consumer, MonoFunction, Predicate } from '../Type/Function';
 import { Suspicious } from '../Type/Value';
 import { None } from './None';
@@ -29,5 +29,5 @@ export abstract class Quantum<T> implements Noun {
 
   public abstract map<U>(mapper: MonoFunction<T, Suspicious<U>>): Quantum<U>;
 
-  public abstract toTry(): Try<T, QuantumError>;
+  public abstract toTry(): Superposition<T, QuantumError>;
 }

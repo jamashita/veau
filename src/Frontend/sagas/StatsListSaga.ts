@@ -7,7 +7,7 @@ import { Stats } from '../../Entity/Stats';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { StatsOutlinesError } from '../../Error/StatsOutlinesError';
 import { DataSourceError } from '../../General/DataSourceError';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { IRegionQuery } from '../../Query/Interface/IRegionQuery';
 import { IStatsOutlineQuery } from '../../Query/Interface/IStatsOutlineQuery';
@@ -65,7 +65,7 @@ export class StatsListSaga {
     while (true) {
       yield take(ACTION.STATS_LIST_INITIALIZE);
 
-      const trial: Try<StatsOutlines, StatsOutlinesError | DataSourceError> = yield call((): Promise<Try<StatsOutlines, StatsOutlinesError | DataSourceError>> => {
+      const trial: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = yield call((): Promise<Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>> => {
         return this.statsOutlineQuery.findByVeauAccountID(VeauAccountID.generate(), Page.of(1).get());
       });
 
@@ -149,7 +149,7 @@ export class StatsListSaga {
         }
       } = state;
 
-      const trial: Try<Language, NoSuchElementError | DataSourceError> = yield call((): Promise<Try<Language, NoSuchElementError | DataSourceError>> => {
+      const trial: Superposition<Language, NoSuchElementError | DataSourceError> = yield call((): Promise<Superposition<Language, NoSuchElementError | DataSourceError>> => {
         return this.languageQuery.findByISO639(action.iso639);
       });
 
@@ -181,7 +181,7 @@ export class StatsListSaga {
         }
       } = state;
 
-      const trial: Try<Region, NoSuchElementError | DataSourceError> = yield call((): Promise<Try<Region, NoSuchElementError | DataSourceError>> => {
+      const trial: Superposition<Region, NoSuchElementError | DataSourceError> = yield call((): Promise<Superposition<Region, NoSuchElementError | DataSourceError>> => {
         return this.regionQuery.findByISO3166(action.iso3166);
       });
 
@@ -249,7 +249,7 @@ export class StatsListSaga {
         put(loading())
       ]);
 
-      const trial: Try<void, DataSourceError> = yield call((): Promise<Try<void, DataSourceError>> => {
+      const trial: Superposition<void, DataSourceError> = yield call((): Promise<Superposition<void, DataSourceError>> => {
         return this.statsCommand.create(stats, VeauAccountID.generate());
       });
 

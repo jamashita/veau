@@ -1,6 +1,6 @@
 import { StatsOutlinesError } from '../../Error/StatsOutlinesError';
 import { DataSourceError } from '../../General/DataSourceError';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { Page } from '../../VO/Page';
 import { StatsOutlines } from '../../VO/StatsOutlines';
 import { VeauAccountID } from '../../VO/VeauAccountID';
@@ -12,5 +12,5 @@ export interface IStatsOutlineQuery extends IQuery {
   findByVeauAccountID(
     veauAccountID: VeauAccountID,
     page: Page
-  ): Promise<Try<StatsOutlines, StatsOutlinesError | DataSourceError>>;
+  ): Promise<Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>>;
 }

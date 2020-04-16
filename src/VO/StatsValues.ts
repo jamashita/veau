@@ -9,7 +9,7 @@ import { Quantum } from '../General/Quantum/Quantum';
 import { Failure } from '../General/Superposition/Failure';
 import { manoeuvre } from '../General/Superposition/Manoeuvre';
 import { Success } from '../General/Superposition/Success';
-import { Try } from '../General/Superposition/Try';
+import { Superposition } from '../General/Superposition/Superposition';
 import { Enumerator } from '../General/Type/Function';
 import { Type } from '../General/Type/Type';
 import { AsOf } from './AsOf';
@@ -41,7 +41,7 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
     return StatsValues.ofArray(values);
   }
 
-  public static ofTry(tries: Array<Try<StatsValue, StatsValueError>>): Try<StatsValues, StatsValuesError> {
+  public static ofTry(tries: Array<Superposition<StatsValue, StatsValueError>>): Superposition<StatsValues, StatsValuesError> {
     return manoeuvre<StatsValue, StatsValueError>(tries).match<StatsValues, StatsValuesError>((values: Array<StatsValue>) => {
       return Success.of<StatsValues, StatsValuesError>(StatsValues.ofArray(values));
     }, (err: StatsValueError) => {
@@ -49,16 +49,16 @@ export class StatsValues implements Collection<number, StatsValue>, JSONable, Cl
     });
   }
 
-  public static ofJSON(statsItemID: StatsItemID, statsValues: Array<StatsValueJSON>): Try<StatsValues, StatsValuesError> {
-    const tries: Array<Try<StatsValue, StatsValueError>> = statsValues.map<Try<StatsValue, StatsValueError>>((statsValue: StatsValueJSON) => {
+  public static ofJSON(statsItemID: StatsItemID, statsValues: Array<StatsValueJSON>): Superposition<StatsValues, StatsValuesError> {
+    const tries: Array<Superposition<StatsValue, StatsValueError>> = statsValues.map<Superposition<StatsValue, StatsValueError>>((statsValue: StatsValueJSON) => {
       return StatsValue.ofJSON(statsItemID, statsValue);
     });
 
     return StatsValues.ofTry(tries);
   }
 
-  public static ofRow(rows: Array<StatsValueRow>): Try<StatsValues, StatsValuesError> {
-    const tries: Array<Try<StatsValue, StatsValueError>> = rows.map<Try<StatsValue, StatsValueError>>((statsValue: StatsValueRow) => {
+  public static ofRow(rows: Array<StatsValueRow>): Superposition<StatsValues, StatsValuesError> {
+    const tries: Array<Superposition<StatsValue, StatsValueError>> = rows.map<Superposition<StatsValue, StatsValueError>>((statsValue: StatsValueRow) => {
       return StatsValue.ofRow(statsValue);
     });
 

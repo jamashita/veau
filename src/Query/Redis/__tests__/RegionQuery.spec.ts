@@ -8,7 +8,7 @@ import { MockError } from '../../../General/Mock/MockError';
 import { MockRedis } from '../../../General/Redis/Mock/MockRedis';
 import { MockRedisString } from '../../../General/Redis/Mock/MockRedisString';
 import { RedisError } from '../../../General/Redis/RedisError';
-import { Try } from '../../../General/Superposition/Try';
+import { Superposition } from '../../../General/Superposition/Superposition';
 import { ISO3166 } from '../../../VO/ISO3166';
 import { LanguageJSON } from '../../../VO/Language';
 import { Region, RegionJSON } from '../../../VO/Region';
@@ -52,7 +52,7 @@ describe('RegionQuery', () => {
       });
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const trial: Try<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
+      const trial: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
       expect(trial.isSuccess()).toEqual(true);
       const regions: Regions = trial.get();
@@ -77,7 +77,7 @@ describe('RegionQuery', () => {
       });
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const trial: Try<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
+      const trial: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
       expect(trial.isSuccess()).toEqual(true);
       expect(trial.get().size()).toEqual(json.length);
@@ -95,7 +95,7 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const trial: Try<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
+      const trial: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -121,7 +121,7 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const trial: Try<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
+      const trial: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -147,7 +147,7 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const trial: Try<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
+      const trial: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -200,7 +200,7 @@ describe('RegionQuery', () => {
       });
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const trial: Try<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(
+      const trial: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(
         ISO3166.of('ALB')
       );
 
@@ -226,7 +226,7 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const trial: Try<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(
+      const trial: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(
         ISO3166.of('ALB')
       );
 
@@ -254,7 +254,7 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const trial: Try<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(
+      const trial: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(
         ISO3166.of('ALB')
       );
 
@@ -296,7 +296,7 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const trial: Try<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(
+      const trial: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(
         ISO3166.of('OOP')
       );
 
@@ -324,7 +324,7 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const trial: Try<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(
+      const trial: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(
         ISO3166.of('ALB')
       );
 
@@ -352,7 +352,7 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(redis);
-      const trial: Try<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(
+      const trial: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(
         ISO3166.of('ALB')
       );
 

@@ -5,7 +5,7 @@ import { filter, map, mapTo, mergeMap } from 'rxjs/operators';
 import { TYPE } from '../../Container/Types';
 import { VeauAccountError } from '../../Error/VeauAccountError';
 import { DataSourceError } from '../../General/DataSourceError';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { ISessionQuery } from '../../Query/Interface/ISessionQuery';
 import { EntranceInformation } from '../../VO/EntranceInformation';
 import { VeauAccount } from '../../VO/VeauAccount';
@@ -57,7 +57,7 @@ export class EntranceEpic {
       mapTo<unknown, unknown>(loading()),
       mergeMap(() => {
         return from(this.sessionQuery.findByEntranceInfo(entranceInformation)).pipe(
-          mergeMap((tri: Try<VeauAccount, VeauAccountError | DataSourceError>) => {
+          mergeMap((tri: Superposition<VeauAccount, VeauAccountError | DataSourceError>) => {
             return EMPTY.pipe(
               mapTo(loaded()),
               map(() => {

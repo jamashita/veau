@@ -5,7 +5,7 @@ import { DataSourceError } from '../../General/DataSourceError';
 import { IMySQL } from '../../General/MySQL/Interface/IMySQL';
 import { MySQLError } from '../../General/MySQL/MySQLError';
 import { Failure } from '../../General/Superposition/Failure';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { StatsID } from '../../VO/StatsID';
 import { StatsValueRow } from '../../VO/StatsValue';
 import { StatsValues } from '../../VO/StatsValues';
@@ -22,7 +22,7 @@ export class StatsValueQuery implements IStatsValueQuery, IMySQLQuery {
     this.mysql = mysql;
   }
 
-  public async findByStatsID(statsID: StatsID): Promise<Try<StatsValues, StatsValuesError | DataSourceError>> {
+  public async findByStatsID(statsID: StatsID): Promise<Superposition<StatsValues, StatsValuesError | DataSourceError>> {
     const query: string = `SELECT
       R1.stats_item_id AS statsItemID,
       R1.as_of AS asOf,

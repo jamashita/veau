@@ -1,7 +1,7 @@
 import { PageError } from '../Error/PageError';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
-import { Try } from '../General/Superposition/Try';
+import { Superposition } from '../General/Superposition/Superposition';
 import { Type } from '../General/Type/Type';
 import { ValueObject } from '../General/ValueObject';
 import { Limit } from './Limit';
@@ -15,7 +15,7 @@ export class Page extends ValueObject {
 
   private static readonly MIN: Page = new Page(MIN_PAGE);
 
-  public static of(page: number): Try<Page, PageError> {
+  public static of(page: number): Superposition<Page, PageError> {
     if (page <= 0) {
       return Failure.of<Page, PageError>(new PageError(`ILLEGAL PAGE SPECIFIED ${page}`));
     }

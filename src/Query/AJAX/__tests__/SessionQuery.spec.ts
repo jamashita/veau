@@ -7,7 +7,7 @@ import { VeauAccountError } from '../../../Error/VeauAccountError';
 import { AJAXError } from '../../../General/AJAX/AJAXError';
 import { MockAJAX } from '../../../General/AJAX/Mock/MockAJAX';
 import { DataSourceError } from '../../../General/DataSourceError';
-import { Try } from '../../../General/Superposition/Try';
+import { Superposition } from '../../../General/Superposition/Superposition';
 import { AccountName } from '../../../VO/AccountName';
 import { EntranceInformation } from '../../../VO/EntranceInformation';
 import { Password } from '../../../VO/Password';
@@ -53,7 +53,7 @@ describe('SessionQuery', () => {
       });
 
       const sessionQuery: SessionQuery = new SessionQuery(ajax);
-      const trial: Try<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.find();
+      const trial: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.find();
 
       expect(stub.withArgs('/api/identity').called).toEqual(true);
       expect(trial.isSuccess()).toEqual(true);
@@ -97,7 +97,7 @@ describe('SessionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const sessionQuery: SessionQuery = new SessionQuery(ajax);
-      const trial: Try<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.find();
+      const trial: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.find();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -123,7 +123,7 @@ describe('SessionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const sessionQuery: SessionQuery = new SessionQuery(ajax);
-      const trial: Try<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.find();
+      const trial: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.find();
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -166,7 +166,7 @@ describe('SessionQuery', () => {
 
       const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
       const sessionQuery: SessionQuery = new SessionQuery(ajax);
-      const trial: Try<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.findByEntranceInfo(info);
+      const trial: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.findByEntranceInfo(info);
 
       expect(stub.withArgs('/api/auth', {
         account: 'account',
@@ -214,7 +214,7 @@ describe('SessionQuery', () => {
 
       const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
       const sessionQuery: SessionQuery = new SessionQuery(ajax);
-      const trial: Try<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.findByEntranceInfo(info);
+      const trial: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.findByEntranceInfo(info);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -241,7 +241,7 @@ describe('SessionQuery', () => {
 
       const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
       const sessionQuery: SessionQuery = new SessionQuery(ajax);
-      const trial: Try<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.findByEntranceInfo(info);
+      const trial: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.findByEntranceInfo(info);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -268,7 +268,7 @@ describe('SessionQuery', () => {
 
       const info: EntranceInformation = EntranceInformation.of(AccountName.of('account'), Password.of('password'));
       const sessionQuery: SessionQuery = new SessionQuery(ajax);
-      const trial: Try<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.findByEntranceInfo(info);
+      const trial: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.findByEntranceInfo(info);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {

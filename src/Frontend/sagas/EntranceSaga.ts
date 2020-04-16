@@ -4,7 +4,7 @@ import { all, call, Effect, fork, put, select, take } from 'redux-saga/effects';
 import { TYPE } from '../../Container/Types';
 import { VeauAccountError } from '../../Error/VeauAccountError';
 import { DataSourceError } from '../../General/DataSourceError';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { ISessionQuery } from '../../Query/Interface/ISessionQuery';
 import { EntranceInformation } from '../../VO/EntranceInformation';
 import { VeauAccount } from '../../VO/VeauAccount';
@@ -55,7 +55,7 @@ export class EntranceSaga {
 
       yield put(loading());
 
-      const trial: Try<VeauAccount, VeauAccountError | DataSourceError> = yield call((): Promise<Try<VeauAccount, VeauAccountError | DataSourceError>> => {
+      const trial: Superposition<VeauAccount, VeauAccountError | DataSourceError> = yield call((): Promise<Superposition<VeauAccount, VeauAccountError | DataSourceError>> => {
         return this.sessionQuery.findByEntranceInfo(entranceInformation);
       });
 

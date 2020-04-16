@@ -10,7 +10,7 @@ import { StatsError } from '../../Error/StatsError';
 import { StatsOutlinesError } from '../../Error/StatsOutlinesError';
 import { DataSourceError } from '../../General/DataSourceError';
 import { JSONable } from '../../General/Interface/JSONable';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { StatsInteractor } from '../../Interactor/StatsInteractor';
 import { Page } from '../../VO/Page';
 import { StatsID } from '../../VO/StatsID';
@@ -24,7 +24,7 @@ const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsI
 
 router.get('/page/:page(\\d+)', authenticationMiddleware.requires(), (req: express.Request, res: express.Response) => {
   return Page.of(Number(req.params.page)).match<void>(async (page: Page) => {
-    const trial: Try<JSONable, StatsOutlinesError | DataSourceError> = await statsInteractor.findByVeauAccountID(
+    const trial: Superposition<JSONable, StatsOutlinesError | DataSourceError> = await statsInteractor.findByVeauAccountID(
       res.locals.account.getVeauAccountID(),
       page
     );
@@ -48,7 +48,7 @@ router.get('/page/:page(\\d+)', authenticationMiddleware.requires(), (req: expre
 router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: express.Response) => {
   const statsID: StatsID = StatsID.ofString(req.params.statsID).get();
 
-  const trial: Try<JSONable, NoSuchElementError | StatsError | DataSourceError> = await statsInteractor.findByStatsID(statsID);
+  const trial: Superposition<JSONable, NoSuchElementError | StatsError | DataSourceError> = await statsInteractor.findByStatsID(statsID);
 
   trial.match<void>((stats: JSONable) => {
     res.status(OK).send(stats.toJSON());
@@ -73,7 +73,7 @@ router.post('/', authenticationMiddleware.requires(), (req: express.Request, res
   }
 
   return Stats.ofJSON(req.body).match<void>(async (stats: Stats) => {
-    const trial: Try<unknown, DataSourceError> = await statsInteractor.save(
+    const trial: Superposition<unknown, DataSourceError> = await statsInteractor.save(
       stats,
       res.locals.account.getVeauAccountID()
     );

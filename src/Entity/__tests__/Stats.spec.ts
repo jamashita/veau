@@ -1,6 +1,6 @@
 import { StatsError } from '../../Error/StatsError';
 import { Some } from '../../General/Quantum/Some';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { UUID } from '../../General/UUID/UUID';
 import { AsOf } from '../../VO/AsOf';
 import { AsOfs } from '../../VO/AsOfs';
@@ -143,7 +143,7 @@ describe('Stats', () => {
         ]
       };
 
-      const trial: Try<Stats, StatsError> = Stats.ofJSON(json);
+      const trial: Superposition<Stats, StatsError> = Stats.ofJSON(json);
 
       expect(trial.isSuccess()).toEqual(true);
       const stats: Stats = trial.get();
@@ -212,7 +212,7 @@ describe('Stats', () => {
         )
       ];
 
-      const trial: Try<Stats, StatsError> = Stats.ofRow(row, StatsItems.ofArray(items));
+      const trial: Superposition<Stats, StatsError> = Stats.ofRow(row, StatsItems.ofArray(items));
 
       expect(trial.isSuccess()).toEqual(true);
       const stats: Stats = trial.get();

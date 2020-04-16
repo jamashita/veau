@@ -6,7 +6,7 @@ import { IMySQL } from '../../General/MySQL/Interface/IMySQL';
 import { MySQLError } from '../../General/MySQL/MySQLError';
 import { Failure } from '../../General/Superposition/Failure';
 import { Success } from '../../General/Superposition/Success';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { ISO639 } from '../../VO/ISO639';
 import { Language, LanguageRow } from '../../VO/Language';
 import { Languages } from '../../VO/Languages';
@@ -23,7 +23,7 @@ export class LanguageQuery implements ILanguageQuery, IMySQLQuery {
     this.mysql = mysql;
   }
 
-  public async all(): Promise<Try<Languages, NoSuchElementError | DataSourceError>> {
+  public async all(): Promise<Superposition<Languages, NoSuchElementError | DataSourceError>> {
     const query: string = `SELECT
       R1.language_id AS languageID,
       R1.name,
@@ -51,7 +51,7 @@ export class LanguageQuery implements ILanguageQuery, IMySQLQuery {
     }
   }
 
-  public async findByISO639(iso639: ISO639): Promise<Try<Language, NoSuchElementError | DataSourceError>> {
+  public async findByISO639(iso639: ISO639): Promise<Superposition<Language, NoSuchElementError | DataSourceError>> {
     const query: string = `SELECT
       R1.language_id AS languageID,
       R1.name,

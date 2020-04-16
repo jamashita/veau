@@ -12,7 +12,7 @@ import { MockMySQL } from '../../../General/MySQL/Mock/MockMySQL';
 import { MySQLError } from '../../../General/MySQL/MySQLError';
 import { Failure } from '../../../General/Superposition/Failure';
 import { Success } from '../../../General/Superposition/Success';
-import { Try } from '../../../General/Superposition/Try';
+import { Superposition } from '../../../General/Superposition/Superposition';
 import { UUID } from '../../../General/UUID/UUID';
 import { MockAsOf } from '../../../VO/Mock/MockAsOf';
 import { MockNumericalValue } from '../../../VO/Mock/MockNumericalValue';
@@ -109,7 +109,7 @@ describe('StatsItemQuery', () => {
       stub2.resolves(Success.of<StatsValues, StatsValuesError | DataSourceError>(values));
 
       const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
-      const trial: Try<StatsItems, StatsItemsError | DataSourceError> = await statsItemQuery.findByStatsID(statsID);
+      const trial: Superposition<StatsItems, StatsItemsError | DataSourceError> = await statsItemQuery.findByStatsID(statsID);
 
       expect(stub1.withArgs(`SELECT
       R1.stats_item_id AS statsItemID,
@@ -167,7 +167,7 @@ describe('StatsItemQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
-      const trial: Try<StatsItems, StatsItemsError | DataSourceError> = await statsItemQuery.findByStatsID(statsID);
+      const trial: Superposition<StatsItems, StatsItemsError | DataSourceError> = await statsItemQuery.findByStatsID(statsID);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -210,7 +210,7 @@ describe('StatsItemQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
-      const trial: Try<StatsItems, StatsItemsError | DataSourceError> = await statsItemQuery.findByStatsID(statsID);
+      const trial: Superposition<StatsItems, StatsItemsError | DataSourceError> = await statsItemQuery.findByStatsID(statsID);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -253,7 +253,7 @@ describe('StatsItemQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
-      const trial: Try<StatsItems, StatsItemsError | DataSourceError> = await statsItemQuery.findByStatsID(statsID);
+      const trial: Superposition<StatsItems, StatsItemsError | DataSourceError> = await statsItemQuery.findByStatsID(statsID);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {

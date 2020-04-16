@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 import { VeauAccountError } from '../../Error/VeauAccountError';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { UUID } from '../../General/UUID/UUID';
 import { AccountName } from '../AccountName';
 import { ISO3166 } from '../ISO3166';
@@ -61,7 +61,7 @@ describe('VeauAccount', () => {
         }
       };
 
-      const trial: Try<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
+      const trial: Superposition<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
 
       expect(trial.isSuccess()).toEqual(true);
       const veauAccount: VeauAccount = trial.get();
@@ -96,7 +96,7 @@ describe('VeauAccount', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const trial: Try<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
+      const trial: Superposition<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
 
       trial.match<void>(() => {
         spy1();

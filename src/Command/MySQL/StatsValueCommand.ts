@@ -3,7 +3,7 @@ import { ISQL } from '../../General/MySQL/Interface/ISQL';
 import { MySQLError } from '../../General/MySQL/MySQLError';
 import { Failure } from '../../General/Superposition/Failure';
 import { Success } from '../../General/Superposition/Success';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { StatsID } from '../../VO/StatsID';
 import { StatsValue } from '../../VO/StatsValue';
 import { IMySQLCommand } from '../Interface/IMySQLCommand';
@@ -18,7 +18,7 @@ export class StatsValueCommand implements IStatsValueCommand, IMySQLCommand {
     this.sql = sql;
   }
 
-  public async create(statsValue: StatsValue): Promise<Try<void, DataSourceError>> {
+  public async create(statsValue: StatsValue): Promise<Superposition<void, DataSourceError>> {
     const query: string = `INSERT INTO stats_values VALUES (
       :statsItemID,
       :asOf,
@@ -43,7 +43,7 @@ export class StatsValueCommand implements IStatsValueCommand, IMySQLCommand {
     }
   }
 
-  public async deleteByStatsID(statsID: StatsID): Promise<Try<void, DataSourceError>> {
+  public async deleteByStatsID(statsID: StatsID): Promise<Superposition<void, DataSourceError>> {
     const query: string = `DELETE R1
       FROM stats_values R1
       INNER JOIN stats_items R2

@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 import { VeauAccountIDError } from '../../Error/VeauAccountIDError';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { UUID } from '../../General/UUID/UUID';
 import { VeauAccountID } from '../VeauAccountID';
 
@@ -18,7 +18,7 @@ describe('VeauAccountID', () => {
 
   describe('ofString', () => {
     it('normal case', () => {
-      const trial: Try<VeauAccountID, VeauAccountIDError> = VeauAccountID.ofString('998106de-b2e7-4981-9643-22cd30cd74de');
+      const trial: Superposition<VeauAccountID, VeauAccountIDError> = VeauAccountID.ofString('998106de-b2e7-4981-9643-22cd30cd74de');
 
       expect(trial.isSuccess()).toEqual(true);
     });
@@ -27,7 +27,7 @@ describe('VeauAccountID', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const trial: Try<VeauAccountID, VeauAccountIDError> = VeauAccountID.ofString('cinq');
+      const trial: Superposition<VeauAccountID, VeauAccountIDError> = VeauAccountID.ofString('cinq');
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {

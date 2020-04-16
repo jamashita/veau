@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 import { LoadingCountError } from '../../Error/LoadingCountError';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { LoadingCount } from '../LoadingCount';
 
 // DONE
@@ -17,8 +17,8 @@ describe('LoadingCount', () => {
 
   describe('of', () => {
     it('returns Failure when the argument is less than 1', () => {
-      const trial1: Try<LoadingCount, LoadingCountError> = LoadingCount.of(-1);
-      const trial2: Try<LoadingCount, LoadingCountError> = LoadingCount.of(-5.6);
+      const trial1: Superposition<LoadingCount, LoadingCountError> = LoadingCount.of(-1);
+      const trial2: Superposition<LoadingCount, LoadingCountError> = LoadingCount.of(-5.6);
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -49,15 +49,15 @@ describe('LoadingCount', () => {
     });
 
     it('returns Success and its value is LoadingCount.default() when the argument 0', () => {
-      const trial: Try<LoadingCount, LoadingCountError> = LoadingCount.of(0);
+      const trial: Superposition<LoadingCount, LoadingCountError> = LoadingCount.of(0);
 
       expect(trial.isSuccess()).toEqual(true);
       expect(trial.get()).toBe(LoadingCount.default());
     });
 
     it('returns Failure when the argument is not integer', () => {
-      const trial1: Try<LoadingCount, LoadingCountError> = LoadingCount.of(1.1);
-      const trial2: Try<LoadingCount, LoadingCountError> = LoadingCount.of(0.2);
+      const trial1: Superposition<LoadingCount, LoadingCountError> = LoadingCount.of(1.1);
+      const trial2: Superposition<LoadingCount, LoadingCountError> = LoadingCount.of(0.2);
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -90,8 +90,8 @@ describe('LoadingCount', () => {
     it('returns Success when the argument is positive and integer', () => {
       const value1: number = 6;
       const value2: number = 17;
-      const trial1: Try<LoadingCount, LoadingCountError> = LoadingCount.of(value1);
-      const trial2: Try<LoadingCount, LoadingCountError> = LoadingCount.of(value2);
+      const trial1: Superposition<LoadingCount, LoadingCountError> = LoadingCount.of(value1);
+      const trial2: Superposition<LoadingCount, LoadingCountError> = LoadingCount.of(value2);
 
       expect(trial1.isSuccess()).toEqual(true);
       expect(trial2.isSuccess()).toEqual(true);

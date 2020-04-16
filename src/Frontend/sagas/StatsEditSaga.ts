@@ -10,7 +10,7 @@ import { StatsError } from '../../Error/StatsError';
 import { DataSourceError } from '../../General/DataSourceError';
 import { Quantum } from '../../General/Quantum/Quantum';
 import { Some } from '../../General/Quantum/Some';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { ILocaleQuery } from '../../Query/Interface/ILocaleQuery';
 import { IRegionQuery } from '../../Query/Interface/IRegionQuery';
@@ -95,7 +95,7 @@ export class StatsEditSaga {
         statsID
       } = action;
 
-      const trial: Try<Stats, NoSuchElementError | StatsError | DataSourceError> = yield call((): Promise<Try<Stats, NoSuchElementError | StatsError | DataSourceError>> => {
+      const trial: Superposition<Stats, NoSuchElementError | StatsError | DataSourceError> = yield call((): Promise<Superposition<Stats, NoSuchElementError | StatsError | DataSourceError>> => {
         return this.statsQuery.findByStatsID(statsID);
       });
 
@@ -185,7 +185,7 @@ export class StatsEditSaga {
         stats
       } = state;
 
-      const trial: Try<Language, NoSuchElementError | DataSourceError> = yield call((): Promise<Try<Language, NoSuchElementError | DataSourceError>> => {
+      const trial: Superposition<Language, NoSuchElementError | DataSourceError> = yield call((): Promise<Superposition<Language, NoSuchElementError | DataSourceError>> => {
         return this.languageQuery.findByISO639(action.iso639);
       });
 
@@ -215,7 +215,7 @@ export class StatsEditSaga {
         stats
       } = state;
 
-      const trial: Try<Region, NoSuchElementError | DataSourceError> = yield call((): Promise<Try<Region, NoSuchElementError | DataSourceError>> => {
+      const trial: Superposition<Region, NoSuchElementError | DataSourceError> = yield call((): Promise<Superposition<Region, NoSuchElementError | DataSourceError>> => {
         return this.regionQuery.findByISO3166(action.iso3166);
       });
 
@@ -466,7 +466,7 @@ export class StatsEditSaga {
 
       yield put(loading());
 
-      const trial: Try<void, DataSourceError> = yield call((): Promise<Try<void, DataSourceError>> => {
+      const trial: Superposition<void, DataSourceError> = yield call((): Promise<Superposition<void, DataSourceError>> => {
         return this.statsCommand.create(stats, VeauAccountID.generate());
       });
 

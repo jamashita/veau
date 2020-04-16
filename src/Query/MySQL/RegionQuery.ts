@@ -6,7 +6,7 @@ import { IMySQL } from '../../General/MySQL/Interface/IMySQL';
 import { MySQLError } from '../../General/MySQL/MySQLError';
 import { Failure } from '../../General/Superposition/Failure';
 import { Success } from '../../General/Superposition/Success';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { ISO3166 } from '../../VO/ISO3166';
 import { Region, RegionRow } from '../../VO/Region';
 import { Regions } from '../../VO/Regions';
@@ -23,7 +23,7 @@ export class RegionQuery implements IRegionQuery, IMySQLQuery {
     this.mysql = mysql;
   }
 
-  public async all(): Promise<Try<Regions, NoSuchElementError | DataSourceError>> {
+  public async all(): Promise<Superposition<Regions, NoSuchElementError | DataSourceError>> {
     const query: string = `SELECT
       R1.region_id AS regionID,
       R1.name,
@@ -50,7 +50,7 @@ export class RegionQuery implements IRegionQuery, IMySQLQuery {
     }
   }
 
-  public async findByISO3166(iso3166: ISO3166): Promise<Try<Region, NoSuchElementError | DataSourceError>> {
+  public async findByISO3166(iso3166: ISO3166): Promise<Superposition<Region, NoSuchElementError | DataSourceError>> {
     const query: string = `SELECT
       R1.region_id AS regionID,
       R1.name,

@@ -7,7 +7,7 @@ import { IAJAX } from '../../General/AJAX/Interface/IAJAX';
 import { DataSourceError } from '../../General/DataSourceError';
 import { Failure } from '../../General/Superposition/Failure';
 import { Success } from '../../General/Superposition/Success';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { Locale, LocaleJSON } from '../../VO/Locale';
 import { IAJAXQuery } from '../Interface/IAJAXQuery';
 import { ILocaleQuery } from '../Interface/ILocaleQuery';
@@ -22,7 +22,7 @@ export class LocaleQuery implements ILocaleQuery, IAJAXQuery {
     this.ajax = ajax;
   }
 
-  public async all(): Promise<Try<Locale, DataSourceError>> {
+  public async all(): Promise<Superposition<Locale, DataSourceError>> {
     const response: AJAXResponse<LocaleJSON> = await this.ajax.get<LocaleJSON>('/api/locale');
     const {
       status,

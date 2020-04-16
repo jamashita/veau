@@ -4,7 +4,7 @@ import { StatsItemsError } from '../../Error/StatsItemsError';
 import { None } from '../../General/Quantum/None';
 import { Failure } from '../../General/Superposition/Failure';
 import { Success } from '../../General/Superposition/Success';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { AsOfs } from '../../VO/AsOfs';
 import { MockAsOf } from '../../VO/Mock/MockAsOf';
 import { MockColumn } from '../../VO/Mock/MockColumn';
@@ -39,7 +39,7 @@ describe('StatsItems', () => {
         }
       ];
 
-      const trial: Try<StatsItems, StatsItemsError> = StatsItems.ofJSON(json);
+      const trial: Superposition<StatsItems, StatsItemsError> = StatsItems.ofJSON(json);
 
       expect(trial.isSuccess()).toEqual(true);
       const items: StatsItems = trial.get();
@@ -68,7 +68,7 @@ describe('StatsItems', () => {
         }
       ];
 
-      const trial: Try<StatsItems, StatsItemsError> = StatsItems.ofJSON(json);
+      const trial: Superposition<StatsItems, StatsItemsError> = StatsItems.ofJSON(json);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>((items: StatsItems) => {
@@ -99,7 +99,7 @@ describe('StatsItems', () => {
         }
       ];
 
-      const trial: Try<StatsItems, StatsItemsError> = StatsItems.ofJSON(json);
+      const trial: Superposition<StatsItems, StatsItemsError> = StatsItems.ofJSON(json);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>((items: StatsItems) => {
@@ -127,7 +127,7 @@ describe('StatsItems', () => {
         }
       ];
 
-      const trial: Try<StatsItems, StatsItemsError> = StatsItems.ofRow(row, StatsValues.empty());
+      const trial: Superposition<StatsItems, StatsItemsError> = StatsItems.ofRow(row, StatsValues.empty());
 
       expect(trial.isSuccess()).toEqual(true);
       const items: StatsItems = trial.get();
@@ -154,7 +154,7 @@ describe('StatsItems', () => {
         }
       ];
 
-      const trial: Try<StatsItems, StatsItemsError> = StatsItems.ofRow(row, StatsValues.empty());
+      const trial: Superposition<StatsItems, StatsItemsError> = StatsItems.ofRow(row, StatsValues.empty());
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>((items: StatsItems) => {
@@ -183,7 +183,7 @@ describe('StatsItems', () => {
         }
       ];
 
-      const trial: Try<StatsItems, StatsItemsError> = StatsItems.ofRow(row, StatsValues.empty());
+      const trial: Superposition<StatsItems, StatsItemsError> = StatsItems.ofRow(row, StatsValues.empty());
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>((items: StatsItems) => {
@@ -378,9 +378,9 @@ describe('StatsItems', () => {
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
 
-      const trial1: Try<StatsItem, StatsItemError> = Success.of<StatsItem, StatsItemError>(statsItem1);
-      const trial2: Try<StatsItem, StatsItemError> = Success.of<StatsItem, StatsItemError>(statsItem2);
-      const trial: Try<StatsItems, StatsItemsError> = StatsItems.ofTry([
+      const trial1: Superposition<StatsItem, StatsItemError> = Success.of<StatsItem, StatsItemError>(statsItem1);
+      const trial2: Superposition<StatsItem, StatsItemError> = Success.of<StatsItem, StatsItemError>(statsItem2);
+      const trial: Superposition<StatsItems, StatsItemsError> = StatsItems.ofTry([
         trial1,
         trial2
       ]);
@@ -398,9 +398,9 @@ describe('StatsItems', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const trial1: Try<StatsItem, StatsItemError> = Success.of<StatsItem, StatsItemError>(statsItem1);
-      const trial2: Try<StatsItem, StatsItemError> = Failure.of<StatsItem, StatsItemError>(new StatsItemError('test failed'));
-      const trial: Try<StatsItems, StatsItemsError> = StatsItems.ofTry([
+      const trial1: Superposition<StatsItem, StatsItemError> = Success.of<StatsItem, StatsItemError>(statsItem1);
+      const trial2: Superposition<StatsItem, StatsItemError> = Failure.of<StatsItem, StatsItemError>(new StatsItemError('test failed'));
+      const trial: Superposition<StatsItems, StatsItemsError> = StatsItems.ofTry([
         trial1,
         trial2
       ]);
@@ -421,9 +421,9 @@ describe('StatsItems', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const trial1: Try<StatsItem, StatsItemError> = Failure.of<StatsItem, StatsItemError>(new StatsItemError('test failed1'));
-      const trial2: Try<StatsItem, StatsItemError> = Failure.of<StatsItem, StatsItemError>(new StatsItemError('test failed2'));
-      const trial: Try<StatsItems, StatsItemsError> = StatsItems.ofTry([
+      const trial1: Superposition<StatsItem, StatsItemError> = Failure.of<StatsItem, StatsItemError>(new StatsItemError('test failed1'));
+      const trial2: Superposition<StatsItem, StatsItemError> = Failure.of<StatsItem, StatsItemError>(new StatsItemError('test failed2'));
+      const trial: Superposition<StatsItems, StatsItemsError> = StatsItems.ofTry([
         trial1,
         trial2
       ]);

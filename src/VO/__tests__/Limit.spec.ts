@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 import { LimitError } from '../../Error/LimitError';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { Limit } from '../Limit';
 
 // DONE
@@ -17,9 +17,9 @@ describe('Limit', () => {
 
   describe('of', () => {
     it('returns Failure when the argument is less than 1', () => {
-      const trial1: Try<Limit, LimitError> = Limit.of(1);
-      const trial2: Try<Limit, LimitError> = Limit.of(0);
-      const trial3: Try<Limit, LimitError> = Limit.of(-1);
+      const trial1: Superposition<Limit, LimitError> = Limit.of(1);
+      const trial2: Superposition<Limit, LimitError> = Limit.of(0);
+      const trial3: Superposition<Limit, LimitError> = Limit.of(-1);
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -51,8 +51,8 @@ describe('Limit', () => {
     });
 
     it('returns Failure when the argument is not integer', () => {
-      const trial1: Try<Limit, LimitError> = Limit.of(1.1);
-      const trial2: Try<Limit, LimitError> = Limit.of(0.2);
+      const trial1: Superposition<Limit, LimitError> = Limit.of(1.1);
+      const trial2: Superposition<Limit, LimitError> = Limit.of(0.2);
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -83,7 +83,7 @@ describe('Limit', () => {
     });
 
     it('returns Success and its value is Limit.default() when the argument 0', () => {
-      const trial: Try<Limit, LimitError> = Limit.of(40);
+      const trial: Superposition<Limit, LimitError> = Limit.of(40);
 
       expect(trial.isSuccess()).toEqual(true);
       expect(trial.get()).toBe(Limit.default());

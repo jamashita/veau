@@ -7,7 +7,7 @@ import { AJAXResponse } from '../../General/AJAX/AJAXResponse';
 import { IAJAX } from '../../General/AJAX/Interface/IAJAX';
 import { DataSourceError } from '../../General/DataSourceError';
 import { Failure } from '../../General/Superposition/Failure';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { Page } from '../../VO/Page';
 import { StatsOutlineJSON } from '../../VO/StatsOutline';
 import { StatsOutlines } from '../../VO/StatsOutlines';
@@ -28,7 +28,7 @@ export class StatsOutlineQuery implements IStatsOutlineQuery, IAJAXQuery {
   public async findByVeauAccountID(
     veauAccountID: VeauAccountID,
     page: Page
-  ): Promise<Try<StatsOutlines, StatsOutlinesError | DataSourceError>> {
+  ): Promise<Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>> {
     const response: AJAXResponse<Array<StatsOutlineJSON>> = await this.ajax.get<Array<StatsOutlineJSON>>(`/api/stats/page/${page.get()}`);
     const {
       status,

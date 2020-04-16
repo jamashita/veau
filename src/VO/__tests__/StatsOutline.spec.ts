@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 import { StatsOutlineError } from '../../Error/StatsOutlineError';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { ISO3166 } from '../ISO3166';
 import { ISO639 } from '../ISO639';
 import { Language } from '../Language';
@@ -78,7 +78,7 @@ describe('StatsOutline', () => {
         updatedAt: '2000-01-01 00:00:00'
       };
 
-      const trial: Try<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
+      const trial: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
 
       expect(trial.isSuccess()).toEqual(true);
       const statsOutline: StatsOutline = trial.get();
@@ -119,7 +119,7 @@ describe('StatsOutline', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const trial: Try<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
+      const trial: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -156,7 +156,7 @@ describe('StatsOutline', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const trial: Try<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
+      const trial: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -193,7 +193,7 @@ describe('StatsOutline', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const trial: Try<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
+      const trial: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -225,7 +225,7 @@ describe('StatsOutline', () => {
         updatedAt: '2000-01-01 00:00:00'
       };
 
-      const trial: Try<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
+      const trial: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
 
       expect(trial.isSuccess()).toEqual(true);
       const statsOutline: StatsOutline = trial.get();
@@ -262,7 +262,7 @@ describe('StatsOutline', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const trial: Try<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
+      const trial: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -295,7 +295,7 @@ describe('StatsOutline', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const trial: Try<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
+      const trial: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -328,7 +328,7 @@ describe('StatsOutline', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const trial: Try<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
+      const trial: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {

@@ -6,7 +6,7 @@ import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { DataSourceError } from '../../General/DataSourceError';
 import { JSONable } from '../../General/Interface/JSONable';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { LocaleInteractor } from '../../Interactor/LocaleInteractor';
 import { AuthenticationMiddleware } from '../Middleware/AuthenticationMiddleware';
 
@@ -17,7 +17,7 @@ const authenticationMiddleware: AuthenticationMiddleware = kernel.get<Authentica
 const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
 
 router.get('/', async (req: express.Request, res: express.Response) => {
-  const trial: Try<JSONable, NoSuchElementError | DataSourceError> = await localeInteractor.all();
+  const trial: Superposition<JSONable, NoSuchElementError | DataSourceError> = await localeInteractor.all();
 
   trial.match<void>((locale: JSONable) => {
     res.status(OK).send(locale.toJSON());
@@ -29,7 +29,7 @@ router.get('/', async (req: express.Request, res: express.Response) => {
 });
 
 router.delete('/', authenticationMiddleware.requires(), async (req: express.Request, res: express.Response) => {
-  const trial: Try<void, DataSourceError> = await localeInteractor.delete();
+  const trial: Superposition<void, DataSourceError> = await localeInteractor.delete();
 
   trial.match<void>(() => {
     res.sendStatus(OK);

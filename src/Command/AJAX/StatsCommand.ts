@@ -8,7 +8,7 @@ import { IAJAX } from '../../General/AJAX/Interface/IAJAX';
 import { DataSourceError } from '../../General/DataSourceError';
 import { Failure } from '../../General/Superposition/Failure';
 import { Success } from '../../General/Superposition/Success';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { UnimplementedError } from '../../General/UnimplementedError';
 import { IAJAXCommand } from '../Interface/IAJAXCommand';
 import { IStatsCommand } from '../Interface/IStatsCommand';
@@ -23,7 +23,7 @@ export class StatsCommand implements IStatsCommand, IAJAXCommand {
     this.ajax = ajax;
   }
 
-  public async create(stats: Stats): Promise<Try<void, DataSourceError>> {
+  public async create(stats: Stats): Promise<Superposition<void, DataSourceError>> {
     const response: AJAXResponse<unknown> = await this.ajax.post<unknown>('/api/stats', stats.toJSON());
 
     switch (response.status) {
@@ -36,7 +36,7 @@ export class StatsCommand implements IStatsCommand, IAJAXCommand {
     }
   }
 
-  public deleteByStatsID(): Promise<Try<void, DataSourceError>> {
-    return Promise.reject<Try<void, DataSourceError>>(new UnimplementedError());
+  public deleteByStatsID(): Promise<Superposition<void, DataSourceError>> {
+    return Promise.reject<Superposition<void, DataSourceError>>(new UnimplementedError());
   }
 }

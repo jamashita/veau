@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 import { StatsValueError } from '../../Error/StatsValueError';
-import { Try } from '../../General/Superposition/Try';
+import { Superposition } from '../../General/Superposition/Superposition';
 import { UUID } from '../../General/UUID/UUID';
 import { AsOf } from '../AsOf';
 import { MockAsOf } from '../Mock/MockAsOf';
@@ -20,7 +20,7 @@ describe('StatsValue', () => {
         value: -1.1
       };
 
-      const trial: Try<StatsValue, StatsValueError> = StatsValue.ofJSON(
+      const trial: Superposition<StatsValue, StatsValueError> = StatsValue.ofJSON(
         StatsItemID.ofString(id).get(),
         json
       );
@@ -41,7 +41,7 @@ describe('StatsValue', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const trial: Try<StatsValue, StatsValueError> = StatsValue.ofJSON(
+      const trial: Superposition<StatsValue, StatsValueError> = StatsValue.ofJSON(
         StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get(),
         json
       );
@@ -67,7 +67,7 @@ describe('StatsValue', () => {
         value: -1.1
       };
 
-      const trial: Try<StatsValue, StatsValueError> = StatsValue.ofRow(row);
+      const trial: Superposition<StatsValue, StatsValueError> = StatsValue.ofRow(row);
 
       expect(trial.isSuccess()).toEqual(true);
       const statsValue: StatsValue = trial.get();
@@ -86,7 +86,7 @@ describe('StatsValue', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const trial: Try<StatsValue, StatsValueError> = StatsValue.ofRow(row);
+      const trial: Superposition<StatsValue, StatsValueError> = StatsValue.ofRow(row);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {
@@ -110,7 +110,7 @@ describe('StatsValue', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const trial: Try<StatsValue, StatsValueError> = StatsValue.ofRow(row);
+      const trial: Superposition<StatsValue, StatsValueError> = StatsValue.ofRow(row);
 
       expect(trial.isFailure()).toEqual(true);
       trial.match<void>(() => {

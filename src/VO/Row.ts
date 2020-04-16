@@ -1,7 +1,7 @@
 import { RowError } from '../Error/RowError';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
-import { Try } from '../General/Superposition/Try';
+import { Superposition } from '../General/Superposition/Superposition';
 import { Type } from '../General/Type/Type';
 import { ValueObject } from '../General/ValueObject';
 
@@ -13,7 +13,7 @@ export class Row extends ValueObject {
 
   private static readonly ORIGIN: Row = new Row(ORIGIN_VALUE);
 
-  public static of(row: number): Try<Row, RowError> {
+  public static of(row: number): Superposition<Row, RowError> {
     if (row < 0) {
       return Failure.of<Row, RowError>(new RowError(`ILLEGAL ROW SPECIFIED ${row}`));
     }
