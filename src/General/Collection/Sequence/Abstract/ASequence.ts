@@ -1,6 +1,6 @@
 import { Nominative } from '../../../Interface/Nominative';
 import { None } from '../../../Quantum/None';
-import { Optional } from '../../../Quantum/Optional';
+import { Quantum } from '../../../Quantum/Quantum';
 import { Some } from '../../../Quantum/Some';
 import { Enumerator, Mapper, Predicate } from '../../../Type/Function';
 import { Ambiguous } from '../../../Type/Value';
@@ -23,7 +23,7 @@ export abstract class ASequence<E extends Nominative> implements Sequence<E> {
 
   public abstract copy(): Sequence<E>;
 
-  public get(index: number): Optional<E> {
+  public get(index: number): Quantum<E> {
     const element: Ambiguous<E> = this.elements[index];
 
     if (element === undefined) {
@@ -61,7 +61,7 @@ export abstract class ASequence<E extends Nominative> implements Sequence<E> {
     this.elements.forEach(iteration);
   }
 
-  public find(predicate: Predicate<E>): Optional<E> {
+  public find(predicate: Predicate<E>): Quantum<E> {
     const element: Ambiguous<E> =  this.elements.find(predicate);
 
     if (element === undefined) {

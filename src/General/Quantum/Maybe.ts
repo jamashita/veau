@@ -1,16 +1,16 @@
 import { Suspicious } from '../Type/Value';
 import { None } from './None';
-import { Optional } from './Optional';
+import { Quantum } from './Quantum';
 import { Some } from './Some';
 
-export const maybe = <T>(value: Suspicious<T>): Optional<T> => {
+export const maybe = <T>(value: Suspicious<T>): Quantum<T> => {
   if (value === null) {
     return None.of<T>();
   }
   if (value === undefined) {
     return None.of<T>();
   }
-  if (value instanceof Optional) {
+  if (value instanceof Quantum) {
     return value;
   }
 

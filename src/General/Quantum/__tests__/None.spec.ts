@@ -1,21 +1,21 @@
 import sinon, { SinonSpy } from 'sinon';
 import { Try } from '../../Try/Try';
 import { None } from '../None';
-import { Optional } from '../Optional';
-import { OptionalError } from '../OptionalError';
+import { Quantum } from '../Quantum';
+import { QuantumError } from '../QuantumError';
 
 describe('None', () => {
   describe('get', () => {
-    it('throws OptionalError', () => {
+    it('throws QuantumError', () => {
       const none1: None<void> = None.of();
       const none2: None<number> = None.of<number>();
 
       expect(() => {
         none1.get();
-      }).toThrow(OptionalError);
+      }).toThrow(QuantumError);
       expect(() => {
         none2.get();
-      }).toThrow(OptionalError);
+      }).toThrow(QuantumError);
     });
   });
 
@@ -71,7 +71,7 @@ describe('None', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const optional: Optional<number> = none.map<number>((value: number) => {
+      const optional: Quantum<number> = none.map<number>((value: number) => {
         spy();
         return value;
       });
@@ -85,7 +85,7 @@ describe('None', () => {
     it('returns Failure', () => {
       const none: None<number> = None.of<number>();
 
-      const trial: Try<number, OptionalError> = none.toTry();
+      const trial: Try<number, QuantumError> = none.toTry();
 
       expect(trial.isFailure()).toEqual(true);
     });
@@ -97,7 +97,7 @@ describe('None', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const optional: Optional<number> = none.filter((value: number) => {
+      const optional: Quantum<number> = none.filter((value: number) => {
         spy();
         return true;
       });

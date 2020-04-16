@@ -2,7 +2,7 @@ import { ImmutableSequence } from '../General/Collection/Sequence/ImmutableSeque
 import { Sequence } from '../General/Collection/Sequence/Interface/Sequence';
 import { Collection } from '../General/Interface/Collection';
 import { JSONable } from '../General/Interface/JSONable';
-import { Optional } from '../General/Quantum/Optional';
+import { Quantum } from '../General/Quantum/Quantum';
 import { Mapper, Predicate } from '../General/Type/Function';
 import { Region, RegionJSON, RegionRow } from './Region';
 
@@ -52,7 +52,7 @@ export class Regions implements Collection<number, Region>, JSONable {
     this.regions = regions;
   }
 
-  public get(index: number): Optional<Region> {
+  public get(index: number): Quantum<Region> {
     return this.regions.get(index);
   }
 
@@ -68,7 +68,7 @@ export class Regions implements Collection<number, Region>, JSONable {
     return this.regions.toArray().map<U>(mapper);
   }
 
-  public find(predicate: Predicate<Region>): Optional<Region> {
+  public find(predicate: Predicate<Region>): Quantum<Region> {
     return this.regions.find(predicate);
   }
 

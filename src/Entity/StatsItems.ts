@@ -6,7 +6,7 @@ import { Sequence } from '../General/Collection/Sequence/Interface/Sequence';
 import { Cloneable } from '../General/Interface/Cloneable';
 import { Collection } from '../General/Interface/Collection';
 import { JSONable } from '../General/Interface/JSONable';
-import { Optional } from '../General/Quantum/Optional';
+import { Quantum } from '../General/Quantum/Quantum';
 import { Failure } from '../General/Try/Failure';
 import { manoeuvre } from '../General/Try/Manoeuvre';
 import { Success } from '../General/Try/Success';
@@ -92,7 +92,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
     return StatsItems.of(this.items.add(...statsItem));
   }
 
-  public get(index: number): Optional<StatsItem> {
+  public get(index: number): Quantum<StatsItem> {
     return this.items.get(index);
   }
 

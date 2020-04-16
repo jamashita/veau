@@ -2,7 +2,7 @@ import { ImmutableSequence } from '../General/Collection/Sequence/ImmutableSeque
 import { Sequence } from '../General/Collection/Sequence/Interface/Sequence';
 import { Collection } from '../General/Interface/Collection';
 import { JSONable } from '../General/Interface/JSONable';
-import { Optional } from '../General/Quantum/Optional';
+import { Quantum } from '../General/Quantum/Quantum';
 import { Mapper } from '../General/Type/Function';
 import { StatsItemName } from './StatsItemName';
 
@@ -36,7 +36,7 @@ export class StatsItemNames implements Collection<number, StatsItemName>, JSONab
     this.names = names;
   }
 
-  public get(index: number): Optional<StatsItemName> {
+  public get(index: number): Quantum<StatsItemName> {
     return this.names.get(index);
   }
 

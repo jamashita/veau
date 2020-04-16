@@ -5,7 +5,7 @@ import { TermError } from '../Error/TermError';
 import { UpdatedAtError } from '../Error/UpdatedAtError';
 import { Entity } from '../General/Entity';
 import { None } from '../General/Quantum/None';
-import { Optional } from '../General/Quantum/Optional';
+import { Quantum } from '../General/Quantum/Quantum';
 import { Some } from '../General/Quantum/Some';
 import { Failure } from '../General/Try/Failure';
 import { Success } from '../General/Try/Success';
@@ -69,8 +69,8 @@ export class Stats extends Entity<StatsID> {
   private readonly unit: StatsUnit;
   private readonly updatedAt: UpdatedAt;
   private items: StatsItems;
-  private readonly startDate: Optional<AsOf>;
-  private columns: Optional<AsOfs>;
+  private readonly startDate: Quantum<AsOf>;
+  private columns: Quantum<AsOfs>;
 
   public static of(
     statsID: StatsID,
@@ -81,7 +81,7 @@ export class Stats extends Entity<StatsID> {
     unit: StatsUnit,
     updatedAt: UpdatedAt,
     items: StatsItems,
-    startDate: Optional<AsOf> = None.of<AsOf>()
+    startDate: Quantum<AsOf> = None.of<AsOf>()
   ): Stats {
     return new Stats(
       statsID,
@@ -220,7 +220,7 @@ export class Stats extends Entity<StatsID> {
     unit: StatsUnit,
     updatedAt: UpdatedAt,
     items: StatsItems,
-    startDate: Optional<AsOf>
+    startDate: Quantum<AsOf>
   ) {
     super();
     this.statsID = statsID;
@@ -267,7 +267,7 @@ export class Stats extends Entity<StatsID> {
     return this.items;
   }
 
-  public getStartDate(): Optional<AsOf> {
+  public getStartDate(): Quantum<AsOf> {
     return this.startDate;
   }
 
@@ -275,7 +275,7 @@ export class Stats extends Entity<StatsID> {
     return this.statsID;
   }
 
-  public getRow(row: Row): Optional<StatsItem> {
+  public getRow(row: Row): Quantum<StatsItem> {
     return this.items.get(row.get());
   }
 
@@ -303,7 +303,7 @@ export class Stats extends Entity<StatsID> {
     return newColumns;
   }
 
-  public getColumn(column: Column): Optional<AsOf> {
+  public getColumn(column: Column): Quantum<AsOf> {
     return this.getColumns().get(column.get());
   }
 

@@ -3,10 +3,10 @@ import { Try } from '../Try/Try';
 import { AsyncConsumer, Consumer, MonoFunction, Predicate } from '../Type/Function';
 import { Suspicious } from '../Type/Value';
 import { None } from './None';
-import { OptionalError } from './OptionalError';
+import { QuantumError } from './QuantumError';
 import { Some } from './Some';
 
-export abstract class Optional<T> implements Noun {
+export abstract class Quantum<T> implements Noun {
   public abstract readonly noun: 'Some' | 'None';
 
   protected constructor() {
@@ -25,9 +25,9 @@ export abstract class Optional<T> implements Noun {
   public abstract ifPresent(consumer: Consumer<T>): void;
   public abstract ifPresent(consumer: AsyncConsumer<T>): Promise<void>;
 
-  public abstract filter(predicate: Predicate<T>): Optional<T>;
+  public abstract filter(predicate: Predicate<T>): Quantum<T>;
 
-  public abstract map<U>(mapper: MonoFunction<T, Suspicious<U>>): Optional<U>;
+  public abstract map<U>(mapper: MonoFunction<T, Suspicious<U>>): Quantum<U>;
 
-  public abstract toTry(): Try<T, OptionalError>;
+  public abstract toTry(): Try<T, QuantumError>;
 }

@@ -4,10 +4,10 @@ import { AsyncConsumer, Consumer, MonoFunction, Predicate } from '../Type/Functi
 import { Suspicious } from '../Type/Value';
 import { maybe } from './Maybe';
 import { None } from './None';
-import { Optional } from './Optional';
-import { OptionalError } from './OptionalError';
+import { Quantum } from './Quantum';
+import { QuantumError } from './QuantumError';
 
-export class Some<T> extends Optional<T> {
+export class Some<T> extends Quantum<T> {
   public readonly noun: 'Some' = 'Some';
   private readonly value: T;
 
@@ -34,7 +34,7 @@ export class Some<T> extends Optional<T> {
     return consumer(this.value);
   }
 
-  public filter(predicate: Predicate<T>): Optional<T> {
+  public filter(predicate: Predicate<T>): Quantum<T> {
     if (predicate(this.value)) {
       return this;
     }
@@ -42,13 +42,13 @@ export class Some<T> extends Optional<T> {
     return None.of<T>();
   }
 
-  public map<U>(mapper: MonoFunction<T, Suspicious<U>>): Optional<U> {
+  public map<U>(mapper: MonoFunction<T, Suspicious<U>>): Quantum<U> {
     const result: Suspicious<U> = mapper(this.value);
 
     return maybe<U>(result);
   }
 
-  public toTry(): Try<T, OptionalError> {
-    return Success.of<T, OptionalError>(this.value);
+  public toTry(): Try<T, QuantumError> {
+    return Success.of<T, QuantumError>(this.value);
   }
 }

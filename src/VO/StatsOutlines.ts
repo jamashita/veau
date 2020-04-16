@@ -5,7 +5,7 @@ import { Sequence } from '../General/Collection/Sequence/Interface/Sequence';
 import { Cloneable } from '../General/Interface/Cloneable';
 import { Collection } from '../General/Interface/Collection';
 import { JSONable } from '../General/Interface/JSONable';
-import { Optional } from '../General/Quantum/Optional';
+import { Quantum } from '../General/Quantum/Quantum';
 import { Failure } from '../General/Try/Failure';
 import { manoeuvre } from '../General/Try/Manoeuvre';
 import { Success } from '../General/Try/Success';
@@ -69,7 +69,7 @@ export class StatsOutlines implements Collection<number, StatsOutline>, JSONable
     this.outlines = outlines;
   }
 
-  public get(index: number): Optional<StatsOutline> {
+  public get(index: number): Quantum<StatsOutline> {
     return this.outlines.get(index);
   }
 

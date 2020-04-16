@@ -1,5 +1,5 @@
 import { None } from '../../General/Quantum/None';
-import { Optional } from '../../General/Quantum/Optional';
+import { Quantum } from '../../General/Quantum/Quantum';
 import { AsOf } from '../../VO/AsOf';
 import { Language } from '../../VO/Language';
 import { MockLanguage } from '../../VO/Mock/MockLanguage';
@@ -28,7 +28,7 @@ type StatsArgs = Partial<Readonly<{
   unit: StatsUnit;
   updatedAt: UpdatedAt;
   items: StatsItems;
-  startDate: Optional<AsOf>;
+  startDate: Quantum<AsOf>;
 }>>;
 
 export class MockStats extends Stats {

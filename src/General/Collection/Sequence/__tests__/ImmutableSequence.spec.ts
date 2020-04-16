@@ -1,6 +1,6 @@
 import { MockNominative } from '../../../Mock/MockNominative';
 import { None } from '../../../Quantum/None';
-import { Optional } from '../../../Quantum/Optional';
+import { Quantum } from '../../../Quantum/Quantum';
 import { ImmutableSequence } from '../ImmutableSequence';
 
 describe('ImmutableSequence', () => {
@@ -275,28 +275,28 @@ describe('ImmutableSequence', () => {
         noun4
       ]);
 
-      const found1: Optional<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
+      const found1: Quantum<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
         if (mock.get() === 1) {
           return true;
         }
 
         return false;
       });
-      const found2: Optional<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
+      const found2: Quantum<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
         if (mock.get() === 2) {
           return true;
         }
 
         return false;
       });
-      const found3: Optional<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
+      const found3: Quantum<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
         if (mock.get() % 2 === 0) {
           return true;
         }
 
         return false;
       });
-      const found4: Optional<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
+      const found4: Quantum<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
         if (mock.get() > 1000) {
           return true;
         }

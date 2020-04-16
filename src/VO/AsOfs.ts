@@ -4,7 +4,7 @@ import { Cloneable } from '../General/Interface/Cloneable';
 import { Collection } from '../General/Interface/Collection';
 import { JSONable } from '../General/Interface/JSONable';
 import { None } from '../General/Quantum/None';
-import { Optional } from '../General/Quantum/Optional';
+import { Quantum } from '../General/Quantum/Quantum';
 import { Some } from '../General/Quantum/Some';
 import { Enumerator } from '../General/Type/Function';
 import { Zeit } from '../General/Zeit/Zeit';
@@ -75,7 +75,7 @@ export class AsOfs implements Collection<number, AsOf>, Cloneable, JSONable {
     return AsOfs.of(this.asOfs.add(...values));
   }
 
-  public get(index: number): Optional<AsOf> {
+  public get(index: number): Quantum<AsOf> {
     return this.asOfs.get(index);
   }
 
@@ -83,7 +83,7 @@ export class AsOfs implements Collection<number, AsOf>, Cloneable, JSONable {
     return this.asOfs.contains(value);
   }
 
-  public min(): Optional<AsOf> {
+  public min(): Quantum<AsOf> {
     if (this.isEmpty()) {
       return None.of<AsOf>();
     }
@@ -109,7 +109,7 @@ export class AsOfs implements Collection<number, AsOf>, Cloneable, JSONable {
     }
   }
 
-  public max(): Optional<AsOf> {
+  public max(): Quantum<AsOf> {
     if (this.isEmpty()) {
       return None.of<AsOf>();
     }

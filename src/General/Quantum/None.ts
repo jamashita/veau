@@ -2,10 +2,10 @@ import { Failure } from '../Try/Failure';
 import { Try } from '../Try/Try';
 import { AsyncConsumer, Consumer, MonoFunction, Predicate } from '../Type/Function';
 import { Suspicious } from '../Type/Value';
-import { Optional } from './Optional';
-import { OptionalError } from './OptionalError';
+import { Quantum } from './Quantum';
+import { QuantumError } from './QuantumError';
 
-export class None<T> extends Optional<T> {
+export class None<T> extends Quantum<T> {
   public readonly noun: 'None' = 'None';
 
   private static readonly INSTANCE: None<void> = new None();
@@ -21,7 +21,7 @@ export class None<T> extends Optional<T> {
   }
 
   public get(): never {
-    throw new OptionalError('IS NOT PRESENT');
+    throw new QuantumError('IS NOT PRESENT');
   }
 
   public isAbsent(): this is None<T> {
@@ -41,7 +41,7 @@ export class None<T> extends Optional<T> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public map<U>(mapper: MonoFunction<T, Suspicious<U>>): Optional<U> {
+  public map<U>(mapper: MonoFunction<T, Suspicious<U>>): Quantum<U> {
     return this.transform<U>();
   }
 
@@ -49,7 +49,7 @@ export class None<T> extends Optional<T> {
     return this as never as None<U>;
   }
 
-  public toTry(): Try<T, OptionalError> {
-    return Failure.of<T, OptionalError>(new OptionalError('IS NOT PRESENT'));
+  public toTry(): Try<T, QuantumError> {
+    return Failure.of<T, QuantumError>(new QuantumError('IS NOT PRESENT'));
   }
 }

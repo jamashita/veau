@@ -1,7 +1,7 @@
 import { ImmutableSequence } from '../General/Collection/Sequence/ImmutableSequence';
 import { Sequence } from '../General/Collection/Sequence/Interface/Sequence';
 import { Collection } from '../General/Interface/Collection';
-import { Optional } from '../General/Quantum/Optional';
+import { Quantum } from '../General/Quantum/Quantum';
 import { Mapper } from '../General/Type/Function';
 import { Term } from './Term';
 
@@ -37,7 +37,7 @@ export class Terms implements Collection<number, Term> {
     this.terms = terms;
   }
 
-  public get(index: number): Optional<Term> {
+  public get(index: number): Quantum<Term> {
     return this.terms.get(index);
   }
 

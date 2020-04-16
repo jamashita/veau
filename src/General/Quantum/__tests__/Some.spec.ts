@@ -1,8 +1,8 @@
 import sinon, { SinonSpy } from 'sinon';
 import { Try } from '../../Try/Try';
 import { None } from '../None';
-import { Optional } from '../Optional';
-import { OptionalError } from '../OptionalError';
+import { Quantum } from '../Quantum';
+import { QuantumError } from '../QuantumError';
 import { Some } from '../Some';
 
 describe('Some', () => {
@@ -102,7 +102,7 @@ describe('Some', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const optional: Optional<number> = some.map<number>((value: number) => {
+      const optional: Quantum<number> = some.map<number>((value: number) => {
         spy();
         return value * 2;
       });
@@ -117,7 +117,7 @@ describe('Some', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const optional: Optional<number> = some.map<number>(() => {
+      const optional: Quantum<number> = some.map<number>(() => {
         spy();
         return null;
       });
@@ -131,7 +131,7 @@ describe('Some', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const optional: Optional<number> = some.map<number>(() => {
+      const optional: Quantum<number> = some.map<number>(() => {
         spy();
         return undefined;
       });
@@ -145,7 +145,7 @@ describe('Some', () => {
     it('returns Success', () => {
       const some: Some<number> = Some.of<number>(1);
 
-      const trial: Try<number, OptionalError> = some.toTry();
+      const trial: Try<number, QuantumError> = some.toTry();
 
       expect(trial.isSuccess()).toEqual(true);
     });
@@ -156,14 +156,14 @@ describe('Some', () => {
       const some1: Some<number> = Some.of<number>(1);
       const some2: Some<number> = Some.of<number>(2);
 
-      const optional1: Optional<number> = some1.filter((value: number) => {
+      const optional1: Quantum<number> = some1.filter((value: number) => {
         if (value % 2 === 0) {
           return true;
         }
 
         return false;
       });
-      const optional2: Optional<number> = some2.filter((value: number) => {
+      const optional2: Quantum<number> = some2.filter((value: number) => {
         if (value % 2 === 0) {
           return true;
         }

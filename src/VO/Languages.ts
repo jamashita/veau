@@ -2,7 +2,7 @@ import { ImmutableSequence } from '../General/Collection/Sequence/ImmutableSeque
 import { Sequence } from '../General/Collection/Sequence/Interface/Sequence';
 import { Collection } from '../General/Interface/Collection';
 import { JSONable } from '../General/Interface/JSONable';
-import { Optional } from '../General/Quantum/Optional';
+import { Quantum } from '../General/Quantum/Quantum';
 import { Mapper, Predicate } from '../General/Type/Function';
 import { Language, LanguageJSON, LanguageRow } from './Language';
 
@@ -52,7 +52,7 @@ export class Languages implements Collection<number, Language>, JSONable {
     this.languages = languages;
   }
 
-  public get(index: number): Optional<Language> {
+  public get(index: number): Quantum<Language> {
     return this.languages.get(index);
   }
 
@@ -68,7 +68,7 @@ export class Languages implements Collection<number, Language>, JSONable {
     return this.languages.toArray().map<U>(mapper);
   }
 
-  public find(predicate: Predicate<Language>): Optional<Language> {
+  public find(predicate: Predicate<Language>): Quantum<Language> {
     return this.languages.find(predicate);
   }
 

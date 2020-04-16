@@ -1,7 +1,7 @@
 import { Cloneable } from '../../../Interface/Cloneable';
 import { Collection } from '../../../Interface/Collection';
 import { Nominative } from '../../../Interface/Nominative';
-import { Optional } from '../../../Quantum/Optional';
+import { Quantum } from '../../../Quantum/Quantum';
 import { Enumerator, Mapper, Predicate } from '../../../Type/Function';
 
 export interface Sequence<E extends Nominative> extends Collection<number, E>, Cloneable {
@@ -15,7 +15,7 @@ export interface Sequence<E extends Nominative> extends Collection<number, E>, C
 
   map<F extends Nominative>(mapper: Mapper<E, F>): Sequence<F>;
 
-  find(predicate: Predicate<E>): Optional<E>;
+  find(predicate: Predicate<E>): Quantum<E>;
 
   filter(iterator: Enumerator<number, E>): Sequence<E>;
 

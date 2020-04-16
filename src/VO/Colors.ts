@@ -1,7 +1,7 @@
 import { ImmutableSequence } from '../General/Collection/Sequence/ImmutableSequence';
 import { Sequence } from '../General/Collection/Sequence/Interface/Sequence';
 import { Collection } from '../General/Interface/Collection';
-import { Optional } from '../General/Quantum/Optional';
+import { Quantum } from '../General/Quantum/Quantum';
 import { Color } from './Color';
 
 export class Colors implements Collection<number, Color> {
@@ -51,7 +51,7 @@ export class Colors implements Collection<number, Color> {
     this.colors = colors;
   }
 
-  public get(index: number): Optional<Color> {
+  public get(index: number): Quantum<Color> {
     const length: number = this.colors.size();
 
     return this.colors.get(index % length);

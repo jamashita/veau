@@ -8,7 +8,7 @@ import { StatsItem } from '../../Entity/StatsItem';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { StatsError } from '../../Error/StatsError';
 import { DataSourceError } from '../../General/DataSourceError';
-import { Optional } from '../../General/Quantum/Optional';
+import { Quantum } from '../../General/Quantum/Quantum';
 import { Some } from '../../General/Quantum/Some';
 import { Try } from '../../General/Try/Try';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
@@ -334,7 +334,7 @@ export class StatsEditSaga {
         row
       } = action;
 
-      const op: Optional<StatsItem> = stats.getRow(row);
+      const op: Quantum<StatsItem> = stats.getRow(row);
 
       if (op.isPresent()) {
         yield put(selectItem(op.get(), row));

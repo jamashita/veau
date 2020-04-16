@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify';
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { DataSourceError } from '../../General/DataSourceError';
-import { Optional } from '../../General/Quantum/Optional';
+import { Quantum } from '../../General/Quantum/Quantum';
 import { IRedis } from '../../General/Redis/Interface/IRedis';
 import { RedisError } from '../../General/Redis/RedisError';
 import { Failure } from '../../General/Try/Failure';
@@ -60,7 +60,7 @@ export class LanguageQuery implements ILanguageQuery, IRedisQuery {
     const trial: Try<Languages, NoSuchElementError | DataSourceError> = await this.all();
 
     return trial.match<Language, NoSuchElementError | DataSourceError>((languages: Languages) => {
-      const optional: Optional<Language> = languages.find((language: Language) => {
+      const optional: Quantum<Language> = languages.find((language: Language) => {
         return language.getISO639().equals(iso639);
       });
 

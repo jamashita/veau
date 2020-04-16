@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify';
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { DataSourceError } from '../../General/DataSourceError';
-import { Optional } from '../../General/Quantum/Optional';
+import { Quantum } from '../../General/Quantum/Quantum';
 import { IRedis } from '../../General/Redis/Interface/IRedis';
 import { RedisError } from '../../General/Redis/RedisError';
 import { Failure } from '../../General/Try/Failure';
@@ -58,7 +58,7 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
     const trial: Try<Regions, NoSuchElementError | DataSourceError> = await this.all();
 
     return trial.match<Region, NoSuchElementError | DataSourceError>((regions: Regions) => {
-      const optional: Optional<Region> = regions.find((region: Region) => {
+      const optional: Quantum<Region> = regions.find((region: Region) => {
         return region.getISO3166().equals(iso3166);
       });
 

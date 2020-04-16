@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify';
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { DataSourceError } from '../../General/DataSourceError';
-import { Optional } from '../../General/Quantum/Optional';
+import { Quantum } from '../../General/Quantum/Quantum';
 import { Failure } from '../../General/Try/Failure';
 import { Success } from '../../General/Try/Success';
 import { Try } from '../../General/Try/Try';
@@ -38,7 +38,7 @@ export class RegionQuery implements IRegionQuery, IVaultQuery {
     const trial: Try<Regions, NoSuchElementError | DataSourceError> = await this.all();
 
     return trial.match<Region, NoSuchElementError | DataSourceError>((regions: Regions) => {
-      const optional: Optional<Region> = regions.find((region: Region) => {
+      const optional: Quantum<Region> = regions.find((region: Region) => {
         return region.getISO3166().equals(iso3166);
       });
 
