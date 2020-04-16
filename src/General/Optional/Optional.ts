@@ -1,6 +1,6 @@
 import { Noun } from '../Interface/Noun';
 import { Try } from '../Try/Try';
-import { MonoFunction, Predicate } from '../Type/Function';
+import { AsyncConsumer, Consumer, MonoFunction, Predicate } from '../Type/Function';
 import { Suspicious } from '../Type/Value';
 import { None } from './None';
 import { OptionalError } from './OptionalError';
@@ -22,8 +22,8 @@ export abstract class Optional<T> implements Noun {
     return false;
   }
 
-  public abstract ifPresent(consumer: MonoFunction<T, void>): void;
-  public abstract ifPresent(consumer: MonoFunction<T, Promise<void>>): Promise<void>;
+  public abstract ifPresent(consumer: Consumer<T>): void;
+  public abstract ifPresent(consumer: AsyncConsumer<T>): Promise<void>;
 
   public abstract filter(predicate: Predicate<T>): Optional<T>;
 
