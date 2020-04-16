@@ -55,7 +55,7 @@ describe('ImmutableSequence', () => {
       expect(nouns2.add()).toBe(nouns2);
     });
 
-    it('can extends immutably', () => {
+    it('can extend immutably', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -293,108 +293,6 @@ describe('ImmutableSequence', () => {
       expect(nouns2.size()).not.toEqual(nouns3.size());
       expect(nouns1).not.toBe(nouns2);
       expect(nouns2).not.toBe(nouns3);
-    });
-  });
-
-  describe('equals', () => {
-    it('returns false if the length is different', () => {
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-
-      const nouns1: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>([
-        noun1
-      ]);
-      const nouns2: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>([
-        noun1,
-        noun2
-      ]);
-
-      expect(nouns1.equals(nouns1)).toEqual(true);
-      expect(nouns1.equals(nouns2)).toEqual(false);
-    });
-
-    it('returns false if the sequence is different', () => {
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-
-      const nouns1: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>([
-        noun2,
-        noun1
-      ]);
-      const nouns2: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>([
-        noun1,
-        noun2
-      ]);
-
-      expect(nouns1.equals(nouns1)).toEqual(true);
-      expect(nouns1.equals(nouns2)).toEqual(false);
-    });
-
-    it('returns true if the length is the same and the sequence is the same', () => {
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-
-      const nouns1: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>([
-        noun1,
-        noun2
-      ]);
-      const nouns2: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>([
-        noun1,
-        noun2
-      ]);
-
-      expect(nouns1.equals(nouns1)).toEqual(true);
-      expect(nouns1.equals(nouns2)).toEqual(true);
-    });
-  });
-
-  describe('toString', () => {
-    it('normal case', () => {
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-      const noun3: MockNominative<number> = new MockNominative<number>(3);
-
-      const nouns: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>([
-        noun1,
-        noun2,
-        noun3
-      ]);
-
-      expect(nouns.toString()).toEqual('1, 2, 3');
-    });
-  });
-
-  describe('toArray', () => {
-    it('normal case', () => {
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-      const noun3: MockNominative<number> = new MockNominative<number>(3);
-
-      const nouns: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>([
-        noun1,
-        noun2,
-        noun3
-      ]);
-      const array: Array<MockNominative<number>> = nouns.toArray();
-
-      expect(nouns.size()).toEqual(array.length);
-      for (let i: number = 0; i < array.length; i++) {
-        expect(nouns.get(i).get()).toBe(array[i]);
-      }
-    });
-
-    it('does not return the array itself', () => {
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-      const noun3: MockNominative<number> = new MockNominative<number>(3);
-
-      const elements: Array<MockNominative<number>> = [
-        noun1,
-        noun2,
-        noun3
-      ];
-      const nouns: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>(elements);
-      expect(nouns.toArray()).not.toBe(elements);
     });
   });
 });
