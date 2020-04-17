@@ -1038,10 +1038,10 @@
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
   integrity sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==
 
-"@types/mysql@2.15.9":
-  version "2.15.9"
-  resolved "https://registry.yarnpkg.com/@types/mysql/-/mysql-2.15.9.tgz#2fd4aaa5db9bada88c9d36caab22008214b84653"
-  integrity sha512-rB3w3/YEV11oIoL56iP4OPt6uLkcuu6oIqbUy8T2bSm/ZUYN0fvyyzzrZBDNYL//zRStdmSsUPZDtHXjdR1hTA==
+"@types/mysql@2.15.10":
+  version "2.15.10"
+  resolved "https://registry.yarnpkg.com/@types/mysql/-/mysql-2.15.10.tgz#225e99e16f6ed3e00091e7cd8821c9fa3cb38149"
+  integrity sha512-mx8HnU+ob01hT3f4GDW8NSoUqID1CgRfiPh/CgeDgdwvG0DsQtZsPdOXH9LHos/pKv2qkZAA4/ospo0+QoOfUQ==
   dependencies:
     "@types/node" "*"
 
@@ -4312,10 +4312,10 @@ expect@^25.3.0:
     jest-message-util "^25.3.0"
     jest-regex-util "^25.2.6"
 
-express-session@1.17.0:
-  version "1.17.0"
-  resolved "https://registry.yarnpkg.com/express-session/-/express-session-1.17.0.tgz#9b50dbb5e8a03c3537368138f072736150b7f9b3"
-  integrity sha512-t4oX2z7uoSqATbMfsxWMbNjAL0T5zpvcJCk3Z9wnPPN7ibddhnmDZXHfEcoBMG2ojKXZoCyPMc5FbtK+G7SoDg==
+express-session@1.17.1:
+  version "1.17.1"
+  resolved "https://registry.yarnpkg.com/express-session/-/express-session-1.17.1.tgz#36ecbc7034566d38c8509885c044d461c11bf357"
+  integrity sha512-UbHwgqjxQZJiWRTMyhvWGvjBQduGCSBDhhZXYenziMFjxst5rMV+aJZ6hKPHZnPyHGsrqRICxtX8jtEbm/z36Q==
   dependencies:
     cookie "0.4.0"
     cookie-signature "1.0.6"
@@ -11306,10 +11306,10 @@ trim-newlines@^1.0.0:
   dependencies:
     glob "^7.1.2"
 
-ts-jest@25.3.1:
-  version "25.3.1"
-  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-25.3.1.tgz#58e2ed3506e4e4487c0b9b532846a5cade9656ba"
-  integrity sha512-O53FtKguoMUByalAJW+NWEv7c4tus5ckmhfa7/V0jBb2z8v5rDSLFC1Ate7wLknYPC1euuhY6eJjQq4FtOZrkg==
+ts-jest@25.4.0:
+  version "25.4.0"
+  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-25.4.0.tgz#5ad504299f8541d463a52e93e5e9d76876be0ba4"
+  integrity sha512-+0ZrksdaquxGUBwSdTIcdX7VXdwLIlSRsyjivVA9gcO+Cvr6ByqDhu/mi5+HCcb6cMkiQp5xZ8qRO7/eCqLeyw==
   dependencies:
     bs-logger "0.x"
     buffer-from "1.x"
