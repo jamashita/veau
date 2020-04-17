@@ -4,7 +4,7 @@ import { Quantum } from '../../../Quantum/Quantum';
 import { MockASequence } from '../../Sequence/Mock/MockASequence';
 import { MockAAddress } from '../Mock/MockAAddress';
 
-describe('MockAAddress', () => {
+describe('AAddress', () => {
   describe('get', () => {
     it('always returns None', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);

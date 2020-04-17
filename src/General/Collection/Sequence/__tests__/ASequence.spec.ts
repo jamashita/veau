@@ -3,7 +3,7 @@ import { None } from '../../../Quantum/None';
 import { Quantum } from '../../../Quantum/Quantum';
 import { MockASequence } from '../Mock/MockASequence';
 
-describe('MockASequence', () => {
+describe('ASequence', () => {
   describe('get', () => {
     it('returns Some instance at the correct index', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);

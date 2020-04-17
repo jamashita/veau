@@ -6,7 +6,7 @@ import { Enumerator, Predicate } from '../../../Type/Function';
 import { Ambiguous } from '../../../Type/Value';
 import { Address } from '../Interface/Address';
 
-export abstract class AAddress<E extends Nominative> implements Address<E>  {
+export abstract class AAddress<E extends Nominative> implements Address<E> {
   public abstract readonly noun: string;
   protected readonly elements: Set<E>;
 
