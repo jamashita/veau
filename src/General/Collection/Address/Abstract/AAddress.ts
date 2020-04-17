@@ -26,7 +26,13 @@ export abstract class AAddress<E extends Nominative> implements Address<E>  {
   }
 
   public contains(value: E): boolean {
-    return this.elements.has(value);
+    if (this.elements.has(value)) {
+      return true;
+    }
+
+    return this.some((element: E) => {
+      return value.equals(element);
+    });
   }
 
   public size(): number {
