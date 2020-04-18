@@ -6,31 +6,24 @@ import { MockASequence } from '../Mock/MockASequence';
 describe('ASequence', () => {
   describe('get', () => {
     it('returns Present instance at the correct index', () => {
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-      const noun3: MockNominative<number> = new MockNominative<number>(3);
+      const nounArray: Array<MockNominative<number>> = [
+        new MockNominative<number>(1),
+        new MockNominative<number>(2),
+        new MockNominative<number>(3)
+      ];
 
-      const nouns: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>([
-        noun1,
-        noun2,
-        noun3
-      ]);
-
-      expect(nouns.size()).toEqual(3);
-      expect(nouns.get(0).get()).toBe(noun1);
-      expect(nouns.get(1).get()).toBe(noun2);
-      expect(nouns.get(2).get()).toBe(noun3);
+      const nouns: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>(nounArray);
+      expect(nouns.size()).toEqual(nounArray.length);
+      for (let i: number = 0; i < nouns.size(); i++) {
+        expect(nouns.get(i).get()).toBe(nounArray[i]);
+      }
     });
 
     it('returns Absent instance at out of index', () => {
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-      const noun3: MockNominative<number> = new MockNominative<number>(3);
-
       const nouns: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>([
-        noun1,
-        noun2,
-        noun3
+        new MockNominative<number>(1),
+        new MockNominative<number>(2),
+        new MockNominative<number>(3)
       ]);
 
       expect(nouns.size()).toEqual(3);
@@ -60,12 +53,9 @@ describe('ASequence', () => {
 
   describe('isEmpty', () => {
     it('returns true if the elements are 0', () => {
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-
       const nouns1: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>([
-        noun1,
-        noun2
+        new MockNominative<number>(1),
+        new MockNominative<number>(2)
       ]);
       const nouns2: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>([]);
 
@@ -76,14 +66,10 @@ describe('ASequence', () => {
 
   describe('forEach', () => {
     it('normal case', () => {
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-      const noun3: MockNominative<number> = new MockNominative<number>(3);
-
       const nouns: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>([
-        noun1,
-        noun2,
-        noun3
+        new MockNominative<number>(1),
+        new MockNominative<number>(2),
+        new MockNominative<number>(3)
       ]);
 
       expect(nouns.size()).toEqual(3);
@@ -148,16 +134,11 @@ describe('ASequence', () => {
 
   describe('every', () => {
     it('normal case', () => {
-      const noun1: MockNominative<number> = new MockNominative<number>(2);
-      const noun2: MockNominative<number> = new MockNominative<number>(4);
-      const noun3: MockNominative<number> = new MockNominative<number>(6);
-      const noun4: MockNominative<number> = new MockNominative<number>(8);
-
       const nouns: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>([
-        noun1,
-        noun2,
-        noun3,
-        noun4
+        new MockNominative<number>(2),
+        new MockNominative<number>(4),
+        new MockNominative<number>(6),
+        new MockNominative<number>(8)
       ]);
 
       const every: boolean = nouns.every((mock: MockNominative<number>) => {
@@ -269,16 +250,11 @@ describe('ASequence', () => {
 
   describe('some', () => {
     it('normal case', () => {
-      const noun1: MockNominative<number> = new MockNominative<number>(2);
-      const noun2: MockNominative<number> = new MockNominative<number>(4);
-      const noun3: MockNominative<number> = new MockNominative<number>(6);
-      const noun4: MockNominative<number> = new MockNominative<number>(8);
-
       const nouns: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>([
-        noun1,
-        noun2,
-        noun3,
-        noun4
+        new MockNominative<number>(2),
+        new MockNominative<number>(4),
+        new MockNominative<number>(6),
+        new MockNominative<number>(8)
       ]);
 
       const some1: boolean = nouns.some((mock: MockNominative<number>) => {
@@ -436,14 +412,10 @@ describe('ASequence', () => {
 
   describe('toString', () => {
     it('normal case', () => {
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-      const noun3: MockNominative<number> = new MockNominative<number>(3);
-
       const nouns: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>([
-        noun1,
-        noun2,
-        noun3
+        new MockNominative<number>(1),
+        new MockNominative<number>(2),
+        new MockNominative<number>(3)
       ]);
 
       expect(nouns.toString()).toEqual('1, 2, 3');
@@ -452,35 +424,30 @@ describe('ASequence', () => {
 
   describe('toArray', () => {
     it('normal case', () => {
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-      const noun3: MockNominative<number> = new MockNominative<number>(3);
+      const nounArray: Array<MockNominative<number>> = [
+        new MockNominative<number>(1),
+        new MockNominative<number>(2),
+        new MockNominative<number>(3)
+      ];
 
-      const nouns: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>([
-        noun1,
-        noun2,
-        noun3
-      ]);
-      const array: Array<MockNominative<number>> = nouns.toArray();
+      const nouns: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>(nounArray);
 
-      expect(nouns.size()).toEqual(array.length);
-      for (let i: number = 0; i < array.length; i++) {
-        expect(nouns.get(i).get()).toBe(array[i]);
+      expect(nouns.size()).toEqual(nounArray.length);
+      for (let i: number = 0; i < nounArray.length; i++) {
+        expect(nouns.get(i).get()).toBe(nounArray[i]);
       }
     });
 
     it('does not return the array itself', () => {
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-      const noun3: MockNominative<number> = new MockNominative<number>(3);
-
-      const elements: Array<MockNominative<number>> = [
-        noun1,
-        noun2,
-        noun3
+      const nounArrray: Array<MockNominative<number>> = [
+        new MockNominative<number>(1),
+        new MockNominative<number>(2),
+        new MockNominative<number>(3)
       ];
-      const nouns: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>(elements);
-      expect(nouns.toArray()).not.toBe(elements);
+
+      const nouns: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>(nounArrray);
+
+      expect(nouns.toArray()).not.toBe(nounArrray);
     });
   });
 });

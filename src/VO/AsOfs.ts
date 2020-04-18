@@ -59,6 +59,7 @@ export class AsOfs extends Objet implements Collection<number, AsOf>, Cloneable<
     return AsOfs.ofArray(merged);
   }
 
+  // TODO to normal method
   public static duration(min: AsOf, max: AsOf, term: Term): AsOfs {
     let asOfs: AsOfs = AsOfs.empty();
 

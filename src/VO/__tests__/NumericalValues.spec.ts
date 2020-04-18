@@ -4,7 +4,6 @@ import { MockNumericalValue } from '../Mock/MockNumericalValue';
 import { NumericalValue } from '../NumericalValue';
 import { NumericalValues } from '../NumericalValues';
 
-// DONE
 describe('NumericalValues', () => {
   describe('of', () => {
     it('when the ImmutableSequence is zero size, returns empty', () => {

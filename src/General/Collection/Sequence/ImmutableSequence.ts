@@ -52,6 +52,10 @@ export class ImmutableSequence<E extends Nominative> extends ASequence<E> implem
   }
 
   public duplicate(): ImmutableSequence<E> {
+    if (this.isEmpty()) {
+      return ImmutableSequence.empty<E>();
+    }
+
     return ImmutableSequence.of<E>([
       ...this.elements
     ]);
