@@ -37,6 +37,10 @@ export class ImmutableAddress<E extends Objet> extends AAddress<E> implements Ad
     const map: Map<string, E> = new Map<string, E>(this.elements);
 
     elements.forEach((e: E) => {
+      if (this.contains(e)) {
+        return;
+      }
+
       map.set(e.hashCode(), e);
     });
 
