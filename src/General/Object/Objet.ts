@@ -11,8 +11,12 @@ export abstract class Objet implements Nominative {
 
   public abstract serialize(): string;
 
+  protected innerHashCode(objet: Nominative): string {
+    return hash(objet);
+  }
+
   public hashCode(): string {
-    return hash(this);
+    return this.innerHashCode(this);
   }
 
   public toString(): string {

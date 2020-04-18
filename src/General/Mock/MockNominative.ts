@@ -1,20 +1,20 @@
 import { ValueObject } from '../Object/ValueObject';
 import { Primitive } from '../Type/Value';
 
-export class MockNominative<E extends Primitive> extends ValueObject {
+export class MockNominative<T extends Primitive> extends ValueObject {
   public readonly noun: 'MockNominative' = 'MockNominative';
-  private readonly value: E;
+  private readonly value: T;
 
-  public constructor(value: E) {
+  public constructor(value: T) {
     super();
     this.value = value;
   }
 
-  public get(): E {
+  public get(): T {
     return this.value;
   }
 
-  public equals(other: MockNominative<E>): boolean {
+  public equals(other: MockNominative<T>): boolean {
     if (this === other) {
       return true;
     }

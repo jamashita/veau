@@ -1,8 +1,8 @@
 import { UnimplementedError } from '../../UnimplementedError';
 import { Objet } from '../Objet';
 
-export class AObjet<T> extends Objet {
-  public readonly noun: 'AObjet' = 'AObjet';
+export class MockAObjet<T> extends Objet {
+  public readonly noun: 'MockAObjet' = 'MockAObjet';
   private value: T;
 
   public constructor(value: T) {
@@ -11,7 +11,7 @@ export class AObjet<T> extends Objet {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public equals(other: AObjet<T>): boolean {
+  public equals(other: MockAObjet<T>): boolean {
     throw new UnimplementedError();
   }
 
