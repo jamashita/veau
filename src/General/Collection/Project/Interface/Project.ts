@@ -1,9 +1,9 @@
 import { Cloneable } from '../../../Interface/Cloneable';
-import { Objet } from '../../../Object/Objet';
+import { Nominative } from '../../../Interface/Nominative';
 import { Enumerator } from '../../../Type/Function';
 import { Collection } from '../../Interface/Collection';
 
-export interface Project<K extends Objet, V extends Objet> extends Collection<K, V>, Cloneable<Project<K, V>> {
+export interface Project<K extends Nominative, V extends Nominative> extends Collection<K, V>, Cloneable<Project<K, V>> {
 
   set(key: K, value: V): Project<K, V>;
 

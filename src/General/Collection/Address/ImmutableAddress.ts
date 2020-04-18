@@ -1,13 +1,14 @@
+import { Nominative } from '../../Interface/Nominative';
 import { Objet } from '../../Object/Objet';
 import { AAddress } from './Abstract/AAddress';
 import { Address } from './Interface/Address';
 
-export class ImmutableAddress<E extends Objet> extends AAddress<E> implements Address<E> {
+export class ImmutableAddress<E extends Nominative> extends AAddress<E> implements Address<E> {
   public readonly noun: 'ImmutableAddress' = 'ImmutableAddress';
 
   private static readonly EMPTY: ImmutableAddress<Objet> = new ImmutableAddress(new Map<string, Objet>());
 
-  public static of<E extends Objet>(elements: Set<E>): ImmutableAddress<E> {
+  public static of<E extends Nominative>(elements: Set<E>): ImmutableAddress<E> {
     if (elements.size === 0) {
       return ImmutableAddress.empty<E>();
     }
@@ -21,11 +22,11 @@ export class ImmutableAddress<E extends Objet> extends AAddress<E> implements Ad
     return ImmutableAddress.ofMap<E>(map);
   }
 
-  public static ofMap<E extends Objet>(elements: Map<string, E>): ImmutableAddress<E> {
+  public static ofMap<E extends Nominative>(elements: Map<string, E>): ImmutableAddress<E> {
     return new ImmutableAddress<E>(elements);
   }
 
-  public static empty<E extends Objet>(): ImmutableAddress<E> {
+  public static empty<E extends Nominative>(): ImmutableAddress<E> {
     return ImmutableAddress.EMPTY as ImmutableAddress<E>;
   }
 

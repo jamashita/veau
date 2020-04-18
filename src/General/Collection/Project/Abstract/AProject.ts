@@ -1,3 +1,4 @@
+import { Nominative } from '../../../Interface/Nominative';
 import { Objet } from '../../../Object/Objet';
 import { Absent } from '../../../Quantum/Absent';
 import { Present } from '../../../Quantum/Present';
@@ -6,7 +7,7 @@ import { Enumerator } from '../../../Type/Function';
 import { Ambiguous } from '../../../Type/Value';
 import { Project } from '../Interface/Project';
 
-export abstract class AProject<K extends Objet, V extends Objet> extends Objet implements Project<K, V> {
+export abstract class AProject<K extends Nominative, V extends Nominative> extends Objet implements Project<K, V> {
   public abstract readonly noun: string;
   protected readonly elements: Map<string, [K, V]>;
 

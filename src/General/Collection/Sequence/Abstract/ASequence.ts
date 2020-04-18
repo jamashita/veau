@@ -1,3 +1,4 @@
+import { Nominative } from '../../../Interface/Nominative';
 import { Objet } from '../../../Object/Objet';
 import { Absent } from '../../../Quantum/Absent';
 import { Present } from '../../../Quantum/Present';
@@ -7,7 +8,7 @@ import { Ambiguous } from '../../../Type/Value';
 import { ImmutableSequence } from '../ImmutableSequence';
 import { Sequence } from '../Interface/Sequence';
 
-export abstract class ASequence<E extends Objet> extends Objet implements Sequence<E> {
+export abstract class ASequence<E extends Nominative> extends Objet implements Sequence<E> {
   public abstract readonly noun: string;
   protected readonly elements: Array<E>;
 
@@ -18,7 +19,7 @@ export abstract class ASequence<E extends Objet> extends Objet implements Sequen
 
   public abstract add(...elements: Array<E>): Sequence<E>;
 
-  public abstract map<F extends Objet>(mapper: Mapper<E, F>): Sequence<F>;
+  public abstract map<F extends Nominative>(mapper: Mapper<E, F>): Sequence<F>;
 
   public abstract filter(iterator: Enumerator<number, E>): ImmutableSequence<E>;
 
