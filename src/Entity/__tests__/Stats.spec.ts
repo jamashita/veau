@@ -1,5 +1,5 @@
 import { StatsError } from '../../Error/StatsError';
-import { Some } from '../../General/Quantum/Some';
+import { Present } from '../../General/Quantum/Present';
 import { Superposition } from '../../General/Superposition/Superposition';
 import { UUID } from '../../General/UUID/UUID';
 import { AsOf } from '../../VO/AsOf';
@@ -1446,7 +1446,7 @@ describe('Stats', () => {
             name: new MockStatsItemName('item name 1')
           })
         ),
-        Some.of<AsOf>(new MockAsOf({
+        Present.of<AsOf>(new MockAsOf({
           day: 3
         }))
       );
@@ -1472,7 +1472,7 @@ describe('Stats', () => {
             name: new MockStatsItemName('item name 1')
           })
         ),
-        Some.of<AsOf>(new MockAsOf({
+        Present.of<AsOf>(new MockAsOf({
           day: 4
         }))
       );
@@ -1696,7 +1696,7 @@ describe('Stats', () => {
             )
           })
         ),
-        Some.of<AsOf>(AsOf.ofString('2000-01-08').get())
+        Present.of<AsOf>(AsOf.ofString('2000-01-08').get())
       );
 
       const columns: AsOfs = stats.getColumns();
@@ -2707,7 +2707,7 @@ describe('Stats', () => {
         new MockStatsUnit(),
         new MockUpdatedAt(),
         new MockStatsItems(),
-        Some.of<AsOf>(AsOf.ofString('2000-01-01').get())
+        Present.of<AsOf>(AsOf.ofString('2000-01-01').get())
       );
 
       expect(stats.isDetermined()).toEqual(true);

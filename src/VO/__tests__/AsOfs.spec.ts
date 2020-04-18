@@ -1,5 +1,5 @@
 import { ImmutableSequence } from '../../General/Collection/Sequence/ImmutableSequence';
-import { None } from '../../General/Quantum/None';
+import { Absent } from '../../General/Quantum/Absent';
 import { AsOf } from '../AsOf';
 import { AsOfs } from '../AsOfs';
 import { MockAsOf } from '../Mock/MockAsOf';
@@ -225,11 +225,11 @@ describe('AsOfs', () => {
       expect(asOfs.get(2).get()).toBe(asOf3);
     });
 
-    it('returns None when the index is out of range', () => {
+    it('returns Absent when the index is out of range', () => {
       const asOfs: AsOfs = AsOfs.empty();
 
-      expect(asOfs.get(-1)).toBeInstanceOf(None);
-      expect(asOfs.get(0)).toBeInstanceOf(None);
+      expect(asOfs.get(-1)).toBeInstanceOf(Absent);
+      expect(asOfs.get(0)).toBeInstanceOf(Absent);
     });
   });
 
@@ -294,8 +294,8 @@ describe('AsOfs', () => {
       expect(asOfs.min().get().equals(asOf)).toEqual(true);
     });
 
-    it('returns None when AsOfs are empty', () => {
-      expect(AsOfs.empty().min()).toBeInstanceOf(None);
+    it('returns Absent when AsOfs are empty', () => {
+      expect(AsOfs.empty().min()).toBeInstanceOf(Absent);
     });
 
     it('returns the only one', () => {
@@ -343,8 +343,8 @@ describe('AsOfs', () => {
       expect(asOfs.max().get().equals(asOf)).toEqual(true);
     });
 
-    it('returns None when AsOfs are empty', () => {
-      expect(AsOfs.empty().max()).toBeInstanceOf(None);
+    it('returns Absent when AsOfs are empty', () => {
+      expect(AsOfs.empty().max()).toBeInstanceOf(Absent);
     });
 
     it('returns the only one', () => {

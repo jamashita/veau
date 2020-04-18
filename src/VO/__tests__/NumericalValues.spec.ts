@@ -1,5 +1,5 @@
 import { ImmutableSequence } from '../../General/Collection/Sequence/ImmutableSequence';
-import { None } from '../../General/Quantum/None';
+import { Absent } from '../../General/Quantum/Absent';
 import { MockNumericalValue } from '../Mock/MockNumericalValue';
 import { NumericalValue } from '../NumericalValue';
 import { NumericalValues } from '../NumericalValues';
@@ -156,7 +156,7 @@ describe('NumericalValues', () => {
       expect(values.get(2).get()).toBe(value3);
     });
 
-    it('returns None when the index is out of range', () => {
+    it('returns Absent when the index is out of range', () => {
       const value1: MockNumericalValue = new MockNumericalValue();
       const value2: MockNumericalValue = new MockNumericalValue();
       const value3: MockNumericalValue = new MockNumericalValue();
@@ -167,8 +167,8 @@ describe('NumericalValues', () => {
         value3
       );
 
-      expect(values.get(-1)).toBeInstanceOf(None);
-      expect(values.get(3)).toBeInstanceOf(None);
+      expect(values.get(-1)).toBeInstanceOf(Absent);
+      expect(values.get(3)).toBeInstanceOf(Absent);
     });
   });
 

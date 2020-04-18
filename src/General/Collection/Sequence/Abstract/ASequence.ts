@@ -1,7 +1,7 @@
 import { Nominative } from '../../../Interface/Nominative';
-import { None } from '../../../Quantum/None';
+import { Absent } from '../../../Quantum/Absent';
+import { Present } from '../../../Quantum/Present';
 import { Quantum } from '../../../Quantum/Quantum';
-import { Some } from '../../../Quantum/Some';
 import { Enumerator, Mapper, Predicate } from '../../../Type/Function';
 import { Ambiguous } from '../../../Type/Value';
 import { ImmutableSequence } from '../ImmutableSequence';
@@ -27,10 +27,10 @@ export abstract class ASequence<E extends Nominative> implements Sequence<E> {
     const element: Ambiguous<E> = this.elements[index];
 
     if (element === undefined) {
-      return None.of<E>();
+      return Absent.of<E>();
     }
 
-    return Some.of<E>(element);
+    return Present.of<E>(element);
   }
 
   public contains(value: E): boolean {
@@ -62,13 +62,13 @@ export abstract class ASequence<E extends Nominative> implements Sequence<E> {
   }
 
   public find(predicate: Predicate<E>): Quantum<E> {
-    const element: Ambiguous<E> =  this.elements.find(predicate);
+    const element: Ambiguous<E> = this.elements.find(predicate);
 
     if (element === undefined) {
-      return None.of<E>();
+      return Absent.of<E>();
     }
 
-    return Some.of<E>(element);
+    return Present.of<E>(element);
   }
 
   public every(enumerator: Enumerator<number, E>): boolean {

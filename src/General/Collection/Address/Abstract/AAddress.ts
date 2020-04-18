@@ -1,7 +1,7 @@
 import { Nominative } from '../../../Interface/Nominative';
-import { None } from '../../../Quantum/None';
+import { Absent } from '../../../Quantum/Absent';
+import { Present } from '../../../Quantum/Present';
 import { Quantum } from '../../../Quantum/Quantum';
-import { Some } from '../../../Quantum/Some';
 import { Enumerator, Predicate } from '../../../Type/Function';
 import { Ambiguous } from '../../../Type/Value';
 import { Address } from '../Interface/Address';
@@ -22,7 +22,7 @@ export abstract class AAddress<E extends Nominative> implements Address<E> {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public get(key: void): Quantum<E> {
-    return None.of<E>();
+    return Absent.of<E>();
   }
 
   public contains(value: E): boolean {
@@ -55,10 +55,10 @@ export abstract class AAddress<E extends Nominative> implements Address<E> {
     const element: Ambiguous<E> = this.toArray().find(predicate);
 
     if (element === undefined) {
-      return None.of<E>();
+      return Absent.of<E>();
     }
 
-    return Some.of<E>(element);
+    return Present.of<E>(element);
   }
 
   public every(enumerator: Enumerator<unknown, E>): boolean {

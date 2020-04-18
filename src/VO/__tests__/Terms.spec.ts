@@ -1,5 +1,5 @@
 import sinon, { SinonStub } from 'sinon';
-import { None } from '../../General/Quantum/None';
+import { Absent } from '../../General/Quantum/Absent';
 import { MockTerm } from '../Mock/MockTerm';
 import { Term } from '../Term';
 import { Terms } from '../Terms';
@@ -27,11 +27,11 @@ describe('Terms', () => {
       expect(terms.get(4).get()).toBe(Term.ANNUAL);
     });
 
-    it('returns None when the index is out of range', () => {
+    it('returns Absent when the index is out of range', () => {
       const terms: Terms = Terms.all();
 
-      expect(terms.get(-1)).toBeInstanceOf(None);
-      expect(terms.get(5)).toBeInstanceOf(None);
+      expect(terms.get(-1)).toBeInstanceOf(Absent);
+      expect(terms.get(5)).toBeInstanceOf(Absent);
     });
   });
 

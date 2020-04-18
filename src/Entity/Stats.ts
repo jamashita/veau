@@ -4,9 +4,9 @@ import { StatsItemsError } from '../Error/StatsItemsError';
 import { TermError } from '../Error/TermError';
 import { UpdatedAtError } from '../Error/UpdatedAtError';
 import { Entity } from '../General/Entity';
-import { None } from '../General/Quantum/None';
+import { Absent } from '../General/Quantum/Absent';
+import { Present } from '../General/Quantum/Present';
 import { Quantum } from '../General/Quantum/Quantum';
-import { Some } from '../General/Quantum/Some';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
 import { Superposition } from '../General/Superposition/Superposition';
@@ -81,7 +81,7 @@ export class Stats extends Entity<StatsID> {
     unit: StatsUnit,
     updatedAt: UpdatedAt,
     items: StatsItems,
-    startDate: Quantum<AsOf> = None.of<AsOf>()
+    startDate: Quantum<AsOf> = Absent.of<AsOf>()
   ): Stats {
     return new Stats(
       statsID,
@@ -232,7 +232,7 @@ export class Stats extends Entity<StatsID> {
     this.updatedAt = updatedAt;
     this.items = items;
     this.startDate = startDate;
-    this.columns = None.of<AsOfs>();
+    this.columns = Absent.of<AsOfs>();
   }
 
   public getStatsID(): StatsID {
@@ -298,7 +298,7 @@ export class Stats extends Entity<StatsID> {
     const max: AsOf = asOfs.max().get();
 
     const newColumns: AsOfs = AsOfs.duration(min, max, this.term);
-    this.columns = Some.of<AsOfs>(newColumns);
+    this.columns = Present.of<AsOfs>(newColumns);
 
     return newColumns;
   }
@@ -308,7 +308,7 @@ export class Stats extends Entity<StatsID> {
   }
 
   private recalculateColumns(): void {
-    this.columns = None.of<AsOfs>();
+    this.columns = Absent.of<AsOfs>();
     this.getColumns();
   }
 

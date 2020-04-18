@@ -8,8 +8,8 @@ import { StatsItem } from '../../Entity/StatsItem';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { StatsError } from '../../Error/StatsError';
 import { DataSourceError } from '../../General/DataSourceError';
+import { Present } from '../../General/Quantum/Present';
 import { Quantum } from '../../General/Quantum/Quantum';
-import { Some } from '../../General/Quantum/Some';
 import { Superposition } from '../../General/Superposition/Superposition';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { ILocaleQuery } from '../../Query/Interface/ILocaleQuery';
@@ -53,7 +53,7 @@ export class StatsEditSaga {
   private readonly statsCommand: IStatsCommand;
 
   public constructor(
-  @inject(TYPE.StatsAJAXQuery) statsQuery: IStatsQuery,
+    @inject(TYPE.StatsAJAXQuery) statsQuery: IStatsQuery,
     @inject(TYPE.LocaleVaultQuery) localeQuery: ILocaleQuery,
     @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery,
     @inject(TYPE.RegionVaultQuery) regionQuery: IRegionQuery,
@@ -66,7 +66,7 @@ export class StatsEditSaga {
     this.statsCommand = statsCommand;
   }
 
-  public *init(): IterableIterator<unknown> {
+  public* init(): IterableIterator<unknown> {
     yield fork(this.findStats);
     yield fork(this.initializationFailed);
     yield fork(this.nameTyped);
@@ -87,7 +87,7 @@ export class StatsEditSaga {
     yield fork(this.save);
   }
 
-  private *findStats(): SagaIterator<unknown> {
+  private* findStats(): SagaIterator<unknown> {
     while (true) {
       const action: StatsEditInitializeAction = yield take(ACTION.STATS_EDIT_INITIALIZE);
 
@@ -117,7 +117,7 @@ export class StatsEditSaga {
     }
   }
 
-  private *initializationFailed(): SagaIterator<unknown> {
+  private* initializationFailed(): SagaIterator<unknown> {
     while (true) {
       yield take(ACTION.STATS_EDIT_INITIALIZATION_FAILURE);
 
@@ -128,7 +128,7 @@ export class StatsEditSaga {
     }
   }
 
-  private *nameTyped(): SagaIterator<unknown> {
+  private* nameTyped(): SagaIterator<unknown> {
     while (true) {
       const action: StatsEditNameTypedAction = yield take(ACTION.STATS_EDIT_NAME_TYPED);
       const state: State = yield select();
@@ -152,7 +152,7 @@ export class StatsEditSaga {
     }
   }
 
-  private *unitTyped(): SagaIterator<unknown> {
+  private* unitTyped(): SagaIterator<unknown> {
     while (true) {
       const action: StatsEditUnitTypedAction = yield take(ACTION.STATS_EDIT_UNIT_TYPED);
       const state: State = yield select();
@@ -176,7 +176,7 @@ export class StatsEditSaga {
     }
   }
 
-  private *iso639Selected(): SagaIterator<unknown> {
+  private* iso639Selected(): SagaIterator<unknown> {
     while (true) {
       const action: StatsEditISO639SelectedAction = yield take(ACTION.STATS_EDIT_ISO639_SELECTED);
       const state: State = yield select();
@@ -206,7 +206,7 @@ export class StatsEditSaga {
     }
   }
 
-  private *iso3166Selected(): SagaIterator<unknown> {
+  private* iso3166Selected(): SagaIterator<unknown> {
     while (true) {
       const action: StatsEditISO3166SelectedAction = yield take(ACTION.STATS_EDIT_ISO3166_SELECTED);
       const state: State = yield select();
@@ -236,7 +236,7 @@ export class StatsEditSaga {
     }
   }
 
-  private *dataFilled(): SagaIterator<unknown> {
+  private* dataFilled(): SagaIterator<unknown> {
     while (true) {
       const action: StatsEditDataFilledAction = yield take(ACTION.STATS_EDIT_DATA_FILLED);
       const state: State = yield select();
@@ -256,7 +256,7 @@ export class StatsEditSaga {
     }
   }
 
-  private *dataDeleted(): SagaIterator<unknown> {
+  private* dataDeleted(): SagaIterator<unknown> {
     while (true) {
       const action: StatsEditDataDeletedAction = yield take(ACTION.STATS_EDIT_DATA_DELETED);
       const state: State = yield select();
@@ -275,7 +275,7 @@ export class StatsEditSaga {
     }
   }
 
-  private *itemNameTyped(): SagaIterator<unknown> {
+  private* itemNameTyped(): SagaIterator<unknown> {
     while (true) {
       const action: StatsEditItemNameTypedAction = yield take(ACTION.STATS_EDIT_ITEM_NAME_TYPED);
       const state: State = yield select();
@@ -293,7 +293,7 @@ export class StatsEditSaga {
     }
   }
 
-  private *saveItem(): SagaIterator<unknown> {
+  private* saveItem(): SagaIterator<unknown> {
     while (true) {
       yield take(ACTION.STATS_EDIT_ITEM_SAVE);
       const state: State = yield select();
@@ -322,7 +322,7 @@ export class StatsEditSaga {
     }
   }
 
-  private *rowSelected(): SagaIterator<unknown> {
+  private* rowSelected(): SagaIterator<unknown> {
     while (true) {
       const action: StatsEditRowSelectedAction = yield take(ACTION.STATS_EDIT_ROW_SELECTED);
       const state: State = yield select();
@@ -342,7 +342,7 @@ export class StatsEditSaga {
     }
   }
 
-  private *selectingItemNameTyped(): SagaIterator<unknown> {
+  private* selectingItemNameTyped(): SagaIterator<unknown> {
     while (true) {
       const action: StatsEditSelectingItemNameTypedAction = yield take(ACTION.STATS_EDIT_SELECTING_ITEM_NAME_TYPED);
       const state: State = yield select();
@@ -373,7 +373,7 @@ export class StatsEditSaga {
     }
   }
 
-  private *startDateDetermined(): SagaIterator<unknown> {
+  private* startDateDetermined(): SagaIterator<unknown> {
     while (true) {
       const action: StatsEditStartDateDeterminedAction = yield take(ACTION.STATS_EDIT_START_DATE_DETERMINED);
       const state: State = yield select();
@@ -394,14 +394,14 @@ export class StatsEditSaga {
         stats.getUnit(),
         stats.getUpdatedAt(),
         stats.getItems(),
-        Some.of<AsOf>(startDate)
+        Present.of<AsOf>(startDate)
       );
 
       yield put(updateStats(newStats));
     }
   }
 
-  private *invalidDateInput(): SagaIterator<unknown> {
+  private* invalidDateInput(): SagaIterator<unknown> {
     while (true) {
       yield take(ACTION.STATS_EDIT_INVALID_DATE_INPUT);
 
@@ -409,7 +409,7 @@ export class StatsEditSaga {
     }
   }
 
-  private *rowMoved(): SagaIterator<unknown> {
+  private* rowMoved(): SagaIterator<unknown> {
     while (true) {
       const action: StatsEditRowMovedAction = yield take(ACTION.STATS_EDIT_ROW_MOVED);
       const state: State = yield select();
@@ -429,14 +429,14 @@ export class StatsEditSaga {
     }
   }
 
-  private *invalidValueInput(): SagaIterator<unknown> {
+  private* invalidValueInput(): SagaIterator<unknown> {
     while (true) {
       yield take(ACTION.STATS_EDIT_INVALID_VALUE_INPUT);
       yield put(appearNotification('warn', 'center', 'top', 'INVALID_INPUT_VALUE'));
     }
   }
 
-  private *removeItem(): SagaIterator<unknown> {
+  private* removeItem(): SagaIterator<unknown> {
     while (true) {
       const action: StatsEditRemoveSelectingItemAction = yield take(ACTION.STATS_EDIT_REMOVE_SELECTING_ITEM);
       const state: State = yield select();
@@ -455,7 +455,7 @@ export class StatsEditSaga {
     }
   }
 
-  private *save(): SagaIterator<unknown> {
+  private* save(): SagaIterator<unknown> {
     while (true) {
       yield take(ACTION.STATS_EDIT_SAVE_STATS);
       const state: State = yield select();

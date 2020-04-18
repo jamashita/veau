@@ -2,23 +2,23 @@ import { Noun } from '../Interface/Noun';
 import { Superposition } from '../Superposition/Superposition';
 import { AsyncConsumer, Consumer, MonoFunction, Predicate } from '../Type/Function';
 import { Suspicious } from '../Type/Value';
-import { None } from './None';
+import { Absent } from './Absent';
+import { Present } from './Present';
 import { QuantumError } from './QuantumError';
-import { Some } from './Some';
 
 export abstract class Quantum<T> implements Noun {
-  public abstract readonly noun: 'Some' | 'None';
+  public abstract readonly noun: 'Present' | 'Absent';
 
   protected constructor() {
   }
 
   public abstract get(): T;
 
-  public isPresent(): this is Some<T> {
+  public isPresent(): this is Present<T> {
     return false;
   }
 
-  public isAbsent(): this is None<T> {
+  public isAbsent(): this is Absent<T> {
     return false;
   }
 

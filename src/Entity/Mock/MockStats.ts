@@ -1,4 +1,4 @@
-import { None } from '../../General/Quantum/None';
+import { Absent } from '../../General/Quantum/Absent';
 import { Quantum } from '../../General/Quantum/Quantum';
 import { AsOf } from '../../VO/AsOf';
 import { Language } from '../../VO/Language';
@@ -34,16 +34,16 @@ type StatsArgs = Partial<Readonly<{
 export class MockStats extends Stats {
 
   public constructor({
-    statsID = new MockStatsID(),
-    language = new MockLanguage(),
-    region = new MockRegion(),
-    term = new MockTerm(),
-    name = new MockStatsName(),
-    unit = new MockStatsUnit(),
-    updatedAt = new MockUpdatedAt(),
-    items = new MockStatsItems(),
-    startDate = None.of<AsOf>()
-  }: StatsArgs = {}) {
+                       statsID = new MockStatsID(),
+                       language = new MockLanguage(),
+                       region = new MockRegion(),
+                       term = new MockTerm(),
+                       name = new MockStatsName(),
+                       unit = new MockStatsUnit(),
+                       updatedAt = new MockUpdatedAt(),
+                       items = new MockStatsItems(),
+                       startDate = Absent.of<AsOf>()
+                     }: StatsArgs = {}) {
     super(
       statsID,
       language,

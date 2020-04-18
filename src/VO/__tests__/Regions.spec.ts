@@ -1,5 +1,5 @@
 import { ImmutableSequence } from '../../General/Collection/Sequence/ImmutableSequence';
-import { None } from '../../General/Quantum/None';
+import { Absent } from '../../General/Quantum/Absent';
 import { ISO3166 } from '../ISO3166';
 import { MockISO3166 } from '../Mock/MockISO3166';
 import { MockRegion } from '../Mock/MockRegion';
@@ -171,11 +171,11 @@ describe('Regions', () => {
       expect(regions.get(2).get()).toBe(region3);
     });
 
-    it('returns None when the index is out of range', () => {
+    it('returns Absent when the index is out of range', () => {
       const regions: Regions = Regions.empty();
 
-      expect(regions.get(-1)).toBeInstanceOf(None);
-      expect(regions.get(0)).toBeInstanceOf(None);
+      expect(regions.get(-1)).toBeInstanceOf(Absent);
+      expect(regions.get(0)).toBeInstanceOf(Absent);
     });
   });
 
@@ -203,7 +203,7 @@ describe('Regions', () => {
   });
 
   describe('find', () => {
-    it('returns Some if the element exists', () => {
+    it('returns Present if the element exists', () => {
       const region1: MockRegion = new MockRegion({
         regionID: new MockRegionID(1)
       });

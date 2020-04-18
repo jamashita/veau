@@ -2,7 +2,7 @@ import sinon, { SinonSpy } from 'sinon';
 import { StatsValueError } from '../../Error/StatsValueError';
 import { StatsValuesError } from '../../Error/StatsValuesError';
 import { ImmutableSequence } from '../../General/Collection/Sequence/ImmutableSequence';
-import { None } from '../../General/Quantum/None';
+import { Absent } from '../../General/Quantum/Absent';
 import { Failure } from '../../General/Superposition/Failure';
 import { Success } from '../../General/Superposition/Success';
 import { Superposition } from '../../General/Superposition/Superposition';
@@ -487,11 +487,11 @@ describe('StatsValues', () => {
       expect(statsValues.get(2).get()).toBe(statsValue3);
     });
 
-    it('returns None if the index is out of range', () => {
+    it('returns Absent if the index is out of range', () => {
       const values: StatsValues = StatsValues.empty();
 
-      expect(values.get(-1)).toBeInstanceOf(None);
-      expect(values.get(0)).toBeInstanceOf(None);
+      expect(values.get(-1)).toBeInstanceOf(Absent);
+      expect(values.get(0)).toBeInstanceOf(Absent);
     });
   });
 

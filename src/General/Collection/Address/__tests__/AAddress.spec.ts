@@ -1,12 +1,12 @@
 import { MockNominative } from '../../../Mock/MockNominative';
-import { None } from '../../../Quantum/None';
+import { Absent } from '../../../Quantum/Absent';
 import { Quantum } from '../../../Quantum/Quantum';
 import { MockASequence } from '../../Sequence/Mock/MockASequence';
 import { MockAAddress } from '../Mock/MockAAddress';
 
 describe('AAddress', () => {
   describe('get', () => {
-    it('always returns None', () => {
+    it('always returns Absent', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
 
       const nouns1: MockAAddress<MockNominative<number>> = new MockAAddress<MockNominative<number>>(new Set());
@@ -15,9 +15,9 @@ describe('AAddress', () => {
       ]));
 
       expect(nouns1.size()).toEqual(0);
-      expect(nouns2.get()).toBeInstanceOf(None);
+      expect(nouns2.get()).toBeInstanceOf(Absent);
       expect(nouns2.size()).toEqual(1);
-      expect(nouns2.get()).toBeInstanceOf(None);
+      expect(nouns2.get()).toBeInstanceOf(Absent);
     });
   });
 

@@ -25,7 +25,7 @@ export class StatsInteractor implements Noun {
   private readonly statsOutlineQuery: IStatsOutlineQuery;
 
   public constructor(
-  @inject(TYPE.MySQL) mysql: IMySQL,
+    @inject(TYPE.MySQL) mysql: IMySQL,
     @inject(TYPE.StatsMySQLQuery) statsQuery: IStatsQuery,
     @inject(TYPE.StatsOutlineMySQLQuery) statsOutlineQuery: IStatsOutlineQuery
   ) {

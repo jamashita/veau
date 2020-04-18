@@ -1,42 +1,42 @@
+import { Absent } from '../Absent';
 import { maybe } from '../Maybe';
-import { None } from '../None';
-import { Some } from '../Some';
+import { Present } from '../Present';
 
 describe('Maybe', () => {
   describe('maybe', () => {
-    it('when null and undefined given, generates None instance', () => {
-      expect(maybe(1)).toBeInstanceOf(Some);
-      expect(maybe(0)).toBeInstanceOf(Some);
-      expect(maybe('a')).toBeInstanceOf(Some);
-      expect(maybe('')).toBeInstanceOf(Some);
-      expect(maybe(true)).toBeInstanceOf(Some);
-      expect(maybe(false)).toBeInstanceOf(Some);
-      expect(maybe(null)).toBeInstanceOf(None);
-      expect(maybe(undefined)).toBeInstanceOf(None);
+    it('when null and undefined given, generates Absent instance', () => {
+      expect(maybe(1)).toBeInstanceOf(Present);
+      expect(maybe(0)).toBeInstanceOf(Present);
+      expect(maybe('a')).toBeInstanceOf(Present);
+      expect(maybe('')).toBeInstanceOf(Present);
+      expect(maybe(true)).toBeInstanceOf(Present);
+      expect(maybe(false)).toBeInstanceOf(Present);
+      expect(maybe(null)).toBeInstanceOf(Absent);
+      expect(maybe(undefined)).toBeInstanceOf(Absent);
     });
 
-    it('when instances of Some given, returns themselves', () => {
-      const some1: Some<number> = Some.of<number>(1);
-      const some2: Some<number> = Some.of<number>(0);
-      const some3: Some<number> = Some.of<number>(-1);
-      const some4: Some<string> = Some.of<string>('');
-      const some5: Some<string> = Some.of<string>('1');
-      const some6: Some<boolean> = Some.of<boolean>(true);
-      const some7: Some<boolean> = Some.of<boolean>(false);
+    it('when instances of Present given, returns themselves', () => {
+      const present1: Present<number> = Present.of<number>(1);
+      const present2: Present<number> = Present.of<number>(0);
+      const present3: Present<number> = Present.of<number>(-1);
+      const present4: Present<string> = Present.of<string>('');
+      const present5: Present<string> = Present.of<string>('1');
+      const present6: Present<boolean> = Present.of<boolean>(true);
+      const present7: Present<boolean> = Present.of<boolean>(false);
 
-      expect(maybe(some1)).toBe(some1);
-      expect(maybe(some2)).toBe(some2);
-      expect(maybe(some3)).toBe(some3);
-      expect(maybe(some4)).toBe(some4);
-      expect(maybe(some5)).toBe(some5);
-      expect(maybe(some6)).toBe(some6);
-      expect(maybe(some7)).toBe(some7);
+      expect(maybe(present1)).toBe(present1);
+      expect(maybe(present2)).toBe(present2);
+      expect(maybe(present3)).toBe(present3);
+      expect(maybe(present4)).toBe(present4);
+      expect(maybe(present5)).toBe(present5);
+      expect(maybe(present6)).toBe(present6);
+      expect(maybe(present7)).toBe(present7);
     });
 
-    it('when instances of None given, returns themselves', () => {
-      const none: None<number> = None.of<number>();
+    it('when instances of Absent given, returns themselves', () => {
+      const absent: Absent<number> = Absent.of<number>();
 
-      expect(maybe(none)).toBe(none);
+      expect(maybe(absent)).toBe(absent);
     });
   });
 });

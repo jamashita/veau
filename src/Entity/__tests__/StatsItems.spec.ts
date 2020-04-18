@@ -1,7 +1,7 @@
 import sinon, { SinonSpy } from 'sinon';
 import { StatsItemError } from '../../Error/StatsItemError';
 import { StatsItemsError } from '../../Error/StatsItemsError';
-import { None } from '../../General/Quantum/None';
+import { Absent } from '../../General/Quantum/Absent';
 import { Failure } from '../../General/Superposition/Failure';
 import { Success } from '../../General/Superposition/Success';
 import { Superposition } from '../../General/Superposition/Superposition';
@@ -490,11 +490,11 @@ describe('StatsItems', () => {
       expect(statsItems.get(1).get()).toEqual(statsItem2);
     });
 
-    it('returns None when the index is out of range', () => {
+    it('returns Absent when the index is out of range', () => {
       const items: StatsItems = StatsItems.empty();
 
-      expect(items.get(-1)).toBeInstanceOf(None);
-      expect(items.get(0)).toBeInstanceOf(None);
+      expect(items.get(-1)).toBeInstanceOf(Absent);
+      expect(items.get(0)).toBeInstanceOf(Absent);
     });
   });
 

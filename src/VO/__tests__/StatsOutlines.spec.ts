@@ -2,7 +2,7 @@ import sinon, { SinonSpy } from 'sinon';
 import { StatsOutlineError } from '../../Error/StatsOutlineError';
 import { StatsOutlinesError } from '../../Error/StatsOutlinesError';
 import { ImmutableSequence } from '../../General/Collection/Sequence/ImmutableSequence';
-import { None } from '../../General/Quantum/None';
+import { Absent } from '../../General/Quantum/Absent';
 import { Failure } from '../../General/Superposition/Failure';
 import { Success } from '../../General/Superposition/Success';
 import { Superposition } from '../../General/Superposition/Superposition';
@@ -481,11 +481,11 @@ describe('StatsOutlines', () => {
       expect(outlines.get(2).get()).toBe(outline3);
     });
 
-    it('returns None if the index is out of range', () => {
+    it('returns Absent if the index is out of range', () => {
       const outlines: StatsOutlines = StatsOutlines.empty();
 
-      expect(outlines.get(-1)).toBeInstanceOf(None);
-      expect(outlines.get(0)).toBeInstanceOf(None);
+      expect(outlines.get(-1)).toBeInstanceOf(Absent);
+      expect(outlines.get(0)).toBeInstanceOf(Absent);
     });
   });
 

@@ -1,11 +1,11 @@
 import { MockNominative } from '../../../Mock/MockNominative';
-import { None } from '../../../Quantum/None';
+import { Absent } from '../../../Quantum/Absent';
 import { Quantum } from '../../../Quantum/Quantum';
 import { MockASequence } from '../Mock/MockASequence';
 
 describe('ASequence', () => {
   describe('get', () => {
-    it('returns Some instance at the correct index', () => {
+    it('returns Present instance at the correct index', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -22,7 +22,7 @@ describe('ASequence', () => {
       expect(nouns.get(2).get()).toBe(noun3);
     });
 
-    it('returns None instance at out of index', () => {
+    it('returns Absent instance at out of index', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -34,8 +34,8 @@ describe('ASequence', () => {
       ]);
 
       expect(nouns.size()).toEqual(3);
-      expect(nouns.get(-1)).toBeInstanceOf(None);
-      expect(nouns.get(3)).toBeInstanceOf(None);
+      expect(nouns.get(-1)).toBeInstanceOf(Absent);
+      expect(nouns.get(3)).toBeInstanceOf(Absent);
     });
   });
 

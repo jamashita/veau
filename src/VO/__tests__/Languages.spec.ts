@@ -1,5 +1,5 @@
 import { ImmutableSequence } from '../../General/Collection/Sequence/ImmutableSequence';
-import { None } from '../../General/Quantum/None';
+import { Absent } from '../../General/Quantum/Absent';
 import { ISO639 } from '../ISO639';
 import { Language, LanguageJSON, LanguageRow } from '../Language';
 import { LanguageID } from '../LanguageID';
@@ -175,11 +175,11 @@ describe('Languages', () => {
       expect(languages.get(2).get()).toBe(language3);
     });
 
-    it('returns None when the index is out of range', () => {
+    it('returns Absent when the index is out of range', () => {
       const languages: Languages = Languages.empty();
 
-      expect(languages.get(-1)).toBeInstanceOf(None);
-      expect(languages.get(0)).toBeInstanceOf(None);
+      expect(languages.get(-1)).toBeInstanceOf(Absent);
+      expect(languages.get(0)).toBeInstanceOf(Absent);
     });
   });
 
@@ -207,7 +207,7 @@ describe('Languages', () => {
   });
 
   describe('find', () => {
-    it('returns Some if the element exists', () => {
+    it('returns Present if the element exists', () => {
       const language1: MockLanguage = new MockLanguage({
         languageID: new MockLanguageID(1)
       });

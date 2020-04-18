@@ -5,15 +5,15 @@ import { Suspicious } from '../Type/Value';
 import { Quantum } from './Quantum';
 import { QuantumError } from './QuantumError';
 
-export class None<T> extends Quantum<T> {
-  public readonly noun: 'None' = 'None';
+export class Absent<T> extends Quantum<T> {
+  public readonly noun: 'Absent' = 'Absent';
 
-  private static readonly INSTANCE: None<void> = new None();
+  private static readonly INSTANCE: Absent<void> = new Absent();
 
-  public static of(): None<void>;
-  public static of<T>(): None<T>;
-  public static of<T = void>(): None<T> {
-    return None.INSTANCE.transform<T>();
+  public static of(): Absent<void>;
+  public static of<T>(): Absent<T>;
+  public static of<T = void>(): Absent<T> {
+    return Absent.INSTANCE.transform<T>();
   }
 
   private constructor() {
@@ -24,7 +24,7 @@ export class None<T> extends Quantum<T> {
     throw new QuantumError('IS NOT PRESENT');
   }
 
-  public isAbsent(): this is None<T> {
+  public isAbsent(): this is Absent<T> {
     return true;
   }
 
@@ -36,7 +36,7 @@ export class None<T> extends Quantum<T> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public filter(predicate: Predicate<T>): None<T> {
+  public filter(predicate: Predicate<T>): Absent<T> {
     return this;
   }
 
@@ -45,8 +45,8 @@ export class None<T> extends Quantum<T> {
     return this.transform<U>();
   }
 
-  private transform<U>(): None<U> {
-    return this as never as None<U>;
+  private transform<U>(): Absent<U> {
+    return this as never as Absent<U>;
   }
 
   public toSuperposition(): Superposition<T, QuantumError> {

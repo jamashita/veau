@@ -1,5 +1,5 @@
 import { ImmutableSequence } from '../../General/Collection/Sequence/ImmutableSequence';
-import { None } from '../../General/Quantum/None';
+import { Absent } from '../../General/Quantum/Absent';
 import { MockStatsItemName } from '../Mock/MockStatsItemName';
 import { StatsItemName } from '../StatsItemName';
 import { StatsItemNames } from '../StatsItemNames';
@@ -109,7 +109,7 @@ describe('StatsItemNames', () => {
       expect(names.get(2).get()).toBe(name3);
     });
 
-    it('returns None if the index is out of range', () => {
+    it('returns Absent if the index is out of range', () => {
       const name1: MockStatsItemName = new MockStatsItemName();
       const name2: MockStatsItemName = new MockStatsItemName();
       const name3: MockStatsItemName = new MockStatsItemName();
@@ -120,8 +120,8 @@ describe('StatsItemNames', () => {
         name3
       );
 
-      expect(names.get(-1)).toBeInstanceOf(None);
-      expect(names.get(3)).toBeInstanceOf(None);
+      expect(names.get(-1)).toBeInstanceOf(Absent);
+      expect(names.get(3)).toBeInstanceOf(Absent);
     });
   });
 

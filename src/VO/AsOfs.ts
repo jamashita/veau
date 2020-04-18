@@ -3,9 +3,9 @@ import { Sequence } from '../General/Collection/Sequence/Interface/Sequence';
 import { Cloneable } from '../General/Interface/Cloneable';
 import { Collection } from '../General/Interface/Collection';
 import { JSONable } from '../General/Interface/JSONable';
-import { None } from '../General/Quantum/None';
+import { Absent } from '../General/Quantum/Absent';
+import { Present } from '../General/Quantum/Present';
 import { Quantum } from '../General/Quantum/Quantum';
-import { Some } from '../General/Quantum/Some';
 import { Enumerator } from '../General/Type/Function';
 import { Zeit } from '../General/Zeit/Zeit';
 import { ZeitError } from '../General/Zeit/ZeitError';
@@ -85,7 +85,7 @@ export class AsOfs implements Collection<number, AsOf>, Cloneable, JSONable {
 
   public min(): Quantum<AsOf> {
     if (this.isEmpty()) {
-      return None.of<AsOf>();
+      return Absent.of<AsOf>();
     }
     if (this.asOfs.size() === 1) {
       return this.asOfs.get(0);
@@ -98,11 +98,10 @@ export class AsOfs implements Collection<number, AsOf>, Cloneable, JSONable {
     try {
       const min: Zeit = Zeit.min(zeiten, AsOf.format());
 
-      return Some.of<AsOf>(AsOf.of(min));
-    }
-    catch (err) {
+      return Present.of<AsOf>(AsOf.of(min));
+    } catch (err) {
       if (err instanceof ZeitError) {
-        return None.of<AsOf>();
+        return Absent.of<AsOf>();
       }
 
       throw err;
@@ -111,7 +110,7 @@ export class AsOfs implements Collection<number, AsOf>, Cloneable, JSONable {
 
   public max(): Quantum<AsOf> {
     if (this.isEmpty()) {
-      return None.of<AsOf>();
+      return Absent.of<AsOf>();
     }
     if (this.asOfs.size() === 1) {
       return this.asOfs.get(0);
@@ -124,11 +123,10 @@ export class AsOfs implements Collection<number, AsOf>, Cloneable, JSONable {
     try {
       const max: Zeit = Zeit.max(zeiten, AsOf.format());
 
-      return Some.of<AsOf>(AsOf.of(max));
-    }
-    catch (err) {
+      return Present.of<AsOf>(AsOf.of(max));
+    } catch (err) {
       if (err instanceof ZeitError) {
-        return None.of<AsOf>();
+        return Absent.of<AsOf>();
       }
 
       throw err;

@@ -2,17 +2,17 @@ import { Success } from '../Superposition/Success';
 import { Superposition } from '../Superposition/Superposition';
 import { AsyncConsumer, Consumer, MonoFunction, Predicate } from '../Type/Function';
 import { Suspicious } from '../Type/Value';
+import { Absent } from './Absent';
 import { maybe } from './Maybe';
-import { None } from './None';
 import { Quantum } from './Quantum';
 import { QuantumError } from './QuantumError';
 
-export class Some<T> extends Quantum<T> {
-  public readonly noun: 'Some' = 'Some';
+export class Present<T> extends Quantum<T> {
+  public readonly noun: 'Present' = 'Present';
   private readonly value: T;
 
-  public static of<T>(value: T): Some<T> {
-    return new Some<T>(value);
+  public static of<T>(value: T): Present<T> {
+    return new Present<T>(value);
   }
 
   private constructor(value: T) {
@@ -24,7 +24,7 @@ export class Some<T> extends Quantum<T> {
     return this.value;
   }
 
-  public isPresent(): this is Some<T> {
+  public isPresent(): this is Present<T> {
     return true;
   }
 
@@ -39,7 +39,7 @@ export class Some<T> extends Quantum<T> {
       return this;
     }
 
-    return None.of<T>();
+    return Absent.of<T>();
   }
 
   public map<U>(mapper: MonoFunction<T, Suspicious<U>>): Quantum<U> {
