@@ -33,7 +33,12 @@ export class ImmutableAddress<E extends Objet> extends AAddress<E> implements Ad
     super(elements);
   }
 
-  public add(...elements: Array<E>): Address<E> {
+  public add(...elements: Array<E>): ImmutableAddress<E> {
+    if (elements.length === 0) {
+      return this;
+    }
+
+    let set: boolean = false;
     const map: Map<string, E> = new Map<string, E>(this.elements);
 
     elements.forEach((e: E) => {
@@ -41,18 +46,25 @@ export class ImmutableAddress<E extends Objet> extends AAddress<E> implements Ad
         return;
       }
 
+      set = true;
       map.set(e.hashCode(), e);
     });
 
-    return ImmutableAddress.ofMap<E>(map);
+    if (set) {
+      return ImmutableAddress.ofMap<E>(map);
+    }
+
+    return this;
   }
 
-  public remove(element: E): Address<E> {
+  public remove(element: E): ImmutableAddress<E> {
     const map: Map<string, E> = new Map<string, E>(this.elements);
 
-    map.delete(element.hashCode());
+    if (map.delete(element.hashCode())) {
+      return ImmutableAddress.ofMap<E>(map);
+    }
 
-    return ImmutableAddress.ofMap<E>(map);
+    return this;
   }
 
   public isEmpty(): boolean {

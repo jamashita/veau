@@ -34,7 +34,7 @@ describe('ImmutableSequence', () => {
     });
 
     it('returns singleton empty Sequence', () => {
-      expect(ImmutableSequence.empty<MockNominative<number>>()).toEqual(ImmutableSequence.empty<MockNominative<string>>());
+      expect(ImmutableSequence.empty<MockNominative<number>>()).toBe(ImmutableSequence.empty<MockNominative<string>>());
     });
   });
 
@@ -75,6 +75,7 @@ describe('ImmutableSequence', () => {
 
       expect(nouns1).not.toBe(nouns2);
       expect(nouns2).not.toBe(nouns3);
+      expect(nouns3).not.toBe(nouns1);
       expect(nouns1.size()).toEqual(0);
       expect(nouns2.size()).toEqual(1);
       expect(nouns3.size()).toEqual(2);
@@ -275,7 +276,7 @@ describe('ImmutableSequence', () => {
       }
     });
 
-    it('normal case', () => {
+    it('does not affect original one', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
