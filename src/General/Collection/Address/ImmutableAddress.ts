@@ -15,7 +15,7 @@ export class ImmutableAddress<E extends Objet> extends AAddress<E> implements Ad
     const map: Map<string, E> = new Map<string, E>();
 
     elements.forEach((e: E) => {
-      map.set(e.toString(), e);
+      map.set(e.hashCode(), e);
     });
 
     return ImmutableAddress.ofMap<E>(map);
@@ -61,6 +61,10 @@ export class ImmutableAddress<E extends Objet> extends AAddress<E> implements Ad
     const map: Map<string, E> = new Map<string, E>(this.elements);
 
     if (map.delete(element.hashCode())) {
+      if (map.size === 0) {
+        return ImmutableAddress.empty<E>();
+      }
+
       return ImmutableAddress.ofMap<E>(map);
     }
 
@@ -76,6 +80,6 @@ export class ImmutableAddress<E extends Objet> extends AAddress<E> implements Ad
   }
 
   public duplicate(): ImmutableAddress<E> {
-    return new ImmutableAddress<E>(new Map(this.elements));
+    return ImmutableAddress.ofMap<E>(new Map(this.elements));
   }
 }
