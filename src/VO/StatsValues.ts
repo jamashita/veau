@@ -170,6 +170,10 @@ export class StatsValues extends Objet implements Collection<number, StatsValue>
   }
 
   public duplicate(): StatsValues {
+    if (this.isEmpty()) {
+      return StatsValues.empty();
+    }
+
     return StatsValues.of(this.values.duplicate());
   }
 

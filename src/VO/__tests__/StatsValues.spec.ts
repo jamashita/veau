@@ -18,7 +18,6 @@ import { StatsItemID } from '../StatsItemID';
 import { StatsValue, StatsValueJSON, StatsValueRow } from '../StatsValue';
 import { StatsValues } from '../StatsValues';
 
-// DONE
 describe('StatsValues', () => {
   describe('of', () => {
     it('when the ImmutableSequence is zero size, returns empty', () => {
@@ -603,6 +602,22 @@ describe('StatsValues', () => {
       expect(deleted.get(0).get().getValue().get()).toEqual(1);
       expect(deleted.get(1).get().getValue().get()).toEqual(3);
     });
+
+    it('returns StatsValues.empty() if the all values are deleted', () => {
+      const asOf: MockAsOf = new MockAsOf({
+        day: 10
+      });
+      const statsValues: StatsValues = StatsValues.ofSpread(
+        new MockStatsValue({
+          asOf
+        }),
+        new MockStatsValue({
+          asOf
+        })
+      );
+
+      expect(statsValues.delete(asOf)).toBe(StatsValues.empty());
+    });
   });
 
   describe('getValues', () => {
@@ -787,6 +802,10 @@ describe('StatsValues', () => {
       for (let i: number = 0; i < statsValues.size(); i++) {
         expect(statsValues.get(i).get()).toEqual(duplicated.get(i).get());
       }
+    });
+
+    it('returns StatsValues.empty() if the original is empty', () => {
+      expect(StatsValues.empty().duplicate()).toBe(StatsValues.empty());
     });
   });
 
