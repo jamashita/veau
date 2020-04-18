@@ -20,5 +20,5 @@ export interface Address<E extends Objet> extends Collection<void, E>, Cloneable
 
   toArray(): Array<E>;
 
-  toSet(): Set<E>
+  toSet(): Set<E>;
 }

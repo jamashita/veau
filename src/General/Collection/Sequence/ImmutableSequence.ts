@@ -40,7 +40,7 @@ export class ImmutableSequence<E extends Objet> extends ASequence<E> implements 
       return true;
     }
 
-    return false;
+    return super.isEmpty();
   }
 
   public map<F extends Objet>(mapper: Mapper<E, F>): ImmutableSequence<F> {
