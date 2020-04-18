@@ -27,7 +27,7 @@ export class StatsItems extends Objet implements Collection<number, StatsItem>, 
   public readonly noun: 'StatsItems' = 'StatsItems';
   private readonly items: Sequence<StatsItem>;
 
-  private static readonly EMPTY: StatsItems = StatsItems.of(ImmutableSequence.empty<StatsItem>());
+  private static readonly EMPTY: StatsItems = new StatsItems(ImmutableSequence.empty<StatsItem>());
 
   public static of(items: Sequence<StatsItem>): StatsItems {
     if (items.isEmpty()) {
@@ -95,6 +95,10 @@ export class StatsItems extends Objet implements Collection<number, StatsItem>, 
   }
 
   public add(...statsItem: Array<StatsItem>): StatsItems {
+    if (statsItem.length === 0) {
+      return this;
+    }
+
     return StatsItems.of(this.items.add(...statsItem));
   }
 
@@ -239,9 +243,7 @@ export class StatsItems extends Objet implements Collection<number, StatsItem>, 
     if (this === other) {
       return true;
     }
-
-    const length: number = this.items.size();
-    if (length !== other.size()) {
+    if (this.items.size() !== other.size()) {
       return false;
     }
 

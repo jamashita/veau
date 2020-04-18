@@ -1,6 +1,7 @@
 import sinon, { SinonSpy } from 'sinon';
 import { StatsItemError } from '../../Error/StatsItemError';
 import { StatsItemsError } from '../../Error/StatsItemsError';
+import { ImmutableSequence } from '../../General/Collection/Sequence/ImmutableSequence';
 import { Absent } from '../../General/Quantum/Absent';
 import { Failure } from '../../General/Superposition/Failure';
 import { Success } from '../../General/Superposition/Success';
@@ -441,6 +442,26 @@ describe('StatsItems', () => {
     });
   });
 
+  describe('of', () => {
+    it('returns StatsItem.empty() when the empty Sequence given', () => {
+      expect(StatsItems.of(ImmutableSequence.empty<StatsItem>())).toBe(StatsItems.empty());
+    });
+
+    it('normal case', () => {
+      const statsItem1: MockStatsItem = new MockStatsItem();
+      const statsItem2: MockStatsItem = new MockStatsItem();
+
+      const statsItems: StatsItems = StatsItems.of(
+        ImmutableSequence.of<StatsItem>([
+          statsItem1,
+          statsItem2
+        ])
+      );
+
+      expect(statsItems).not.toBe(StatsItems.empty());
+    });
+  });
+
   describe('empty', () => {
     it('gives 0-length StatsItems', () => {
       expect(StatsItems.empty().isEmpty()).toEqual(true);
@@ -473,6 +494,18 @@ describe('StatsItems', () => {
       expect(statsItems2.get(1).get()).toEqual(statsItem2);
       expect(statsItems2.get(2).get()).toEqual(statsItem3);
       expect(statsItems2.get(3).get()).toEqual(statsItem4);
+    });
+
+    it('returns itself when the items are 0', () => {
+      const statsItem1: MockStatsItem = new MockStatsItem();
+      const statsItem2: MockStatsItem = new MockStatsItem();
+
+      const statsItems: StatsItems = StatsItems.ofSpread(
+        statsItem1,
+        statsItem2
+      );
+
+      expect(statsItems.add()).toBe(statsItems);
     });
   });
 
