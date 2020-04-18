@@ -19,4 +19,6 @@ export interface Address<E extends Objet> extends Collection<void, E>, Cloneable
   some(enumerator: Enumerator<unknown, E>): boolean;
 
   toArray(): Array<E>;
+
+  toSet(): Set<E>
 }

@@ -84,7 +84,7 @@ export abstract class ASequence<E extends Objet> extends Objet implements Sequen
     if (this === other) {
       return true;
     }
-    if (this.elements.length !== other.elements.length) {
+    if (this.size() !== other.size()) {
       return false;
     }
 

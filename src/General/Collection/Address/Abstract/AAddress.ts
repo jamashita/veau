@@ -68,7 +68,7 @@ export abstract class AAddress<E extends Objet> extends Objet implements Address
     if (this === other) {
       return true;
     }
-    if (this.elements.size !== other.elements.size) {
+    if (this.size() !== other.size()) {
       return false;
     }
 
@@ -79,6 +79,10 @@ export abstract class AAddress<E extends Objet> extends Objet implements Address
 
   public toArray(): Array<E> {
     return Array.from<E>(this.elements.values());
+  }
+
+  public toSet(): Set<E> {
+    return new Set<E>(this.elements.values());
   }
 
   public serialize(): string {
