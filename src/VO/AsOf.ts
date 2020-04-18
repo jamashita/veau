@@ -110,7 +110,7 @@ export class AsOf extends ValueObject {
     return false;
   }
 
-  protected serialize(): string {
+  public serialize(): string {
     return this.asOf.toString();
   }
 }

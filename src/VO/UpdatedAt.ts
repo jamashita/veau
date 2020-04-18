@@ -59,7 +59,7 @@ export class UpdatedAt extends ValueObject {
     return false;
   }
 
-  protected serialize(): string {
+  public serialize(): string {
     return this.at.toString();
   }
 }

@@ -110,7 +110,7 @@ export class Zeit extends ValueObject {
     return this.zeit.isSame(other.zeit);
   }
 
-  protected serialize(): string {
+  public serialize(): string {
     return this.zeit.format(this.format);
   }
 }

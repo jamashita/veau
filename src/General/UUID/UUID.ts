@@ -56,7 +56,7 @@ export class UUID extends ValueObject {
     return false;
   }
 
-  protected serialize(): string {
+  public serialize(): string {
     return this.id;
   }
 }

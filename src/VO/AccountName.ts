@@ -48,7 +48,7 @@ export class AccountName extends ValueObject {
     return false;
   }
 
-  protected serialize(): string {
+  public serialize(): string {
     return this.name;
   }
 }

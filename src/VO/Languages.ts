@@ -92,9 +92,7 @@ export class Languages extends Objet implements Collection<number, Language>, JS
     });
   }
 
-  protected serialize(): string {
-    return this.languages.toArray().map<string>((language: Language) => {
-      return language.toString();
-    }).join(', ');
+  public serialize(): string {
+    return this.languages.toString();
   }
 }

@@ -109,9 +109,7 @@ export class StatsOutlines extends Objet implements Collection<number, StatsOutl
     });
   }
 
-  protected serialize(): string {
-    return this.outlines.toArray().map<string>((outline: StatsOutline) => {
-      return outline.toString();
-    }).join(', ');
+  public serialize(): string {
+    return this.outlines.toString();
   }
 }

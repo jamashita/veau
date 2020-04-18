@@ -498,7 +498,7 @@ export class Stats extends Entity<StatsID> {
     };
   }
 
-  protected serialize(): string {
+  public serialize(): string {
     const properties: Array<string> = [];
 
     properties.push(this.statsID.toString());

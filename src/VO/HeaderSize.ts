@@ -40,7 +40,7 @@ export class HeaderSize extends ValueObject {
     return false;
   }
 
-  protected serialize(): string {
+  public serialize(): string {
     return `${this.size}`;
   }
 }

@@ -48,7 +48,7 @@ export class StatsName extends ValueObject {
     return false;
   }
 
-  protected serialize(): string {
+  public serialize(): string {
     return this.name;
   }
 }

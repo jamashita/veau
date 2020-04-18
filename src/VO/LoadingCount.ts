@@ -74,7 +74,7 @@ export class LoadingCount extends ValueObject {
     return false;
   }
 
-  protected serialize(): string {
+  public serialize(): string {
     return `${this.count}`;
   }
 }

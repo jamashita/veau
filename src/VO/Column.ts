@@ -59,7 +59,7 @@ export class Column extends ValueObject {
     return false;
   }
 
-  protected serialize(): string {
+  public serialize(): string {
     return `${this.column}`;
   }
 }

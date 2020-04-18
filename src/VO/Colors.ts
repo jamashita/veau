@@ -79,9 +79,7 @@ export class Colors extends Objet implements Collection<number, Color> {
     return this.colors.equals(other.colors);
   }
 
-  protected serialize(): string {
-    return this.colors.toArray().map<string>((color: Color) => {
-      return color.toString();
-    }).join(', ');
+  public serialize(): string {
+    return this.colors.toString();
   }
 }

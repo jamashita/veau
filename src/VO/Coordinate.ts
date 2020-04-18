@@ -39,7 +39,7 @@ export class Coordinate extends ValueObject {
     return true;
   }
 
-  protected serialize(): string {
+  public serialize(): string {
     const properties: Array<string> = [];
 
     properties.push(this.row.toString());

@@ -251,7 +251,7 @@ export class StatsOutline extends ValueObject implements Cloneable<StatsOutline>
     };
   }
 
-  protected serialize(): string {
+  public serialize(): string {
     const properties: Array<string> = [];
 
     properties.push(this.statsID.toString());

@@ -40,7 +40,7 @@ export class Offset extends ValueObject {
     return false;
   }
 
-  protected serialize(): string {
+  public serialize(): string {
     return `${this.offset}`;
   }
 }

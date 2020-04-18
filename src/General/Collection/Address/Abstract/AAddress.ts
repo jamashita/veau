@@ -91,7 +91,7 @@ export abstract class AAddress<E extends Nominative> extends Objet implements Ad
     ];
   }
 
-  protected serialize(): string {
+  public serialize(): string {
     return this.toArray().map<string>((element: E) => {
       return element.toString();
     }).join(', ');

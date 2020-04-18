@@ -55,7 +55,7 @@ export class RegionID extends ValueObject {
     return false;
   }
 
-  protected serialize(): string {
+  public serialize(): string {
     return `${this.id}`;
   }
 }

@@ -48,7 +48,7 @@ export class ISO639 extends ValueObject {
     return false;
   }
 
-  protected serialize(): string {
+  public serialize(): string {
     return this.iso639;
   }
 }

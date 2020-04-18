@@ -66,7 +66,7 @@ export class Term extends ValueObject {
     return false;
   }
 
-  protected serialize(): string {
+  public serialize(): string {
     return this.key;
   }
 }

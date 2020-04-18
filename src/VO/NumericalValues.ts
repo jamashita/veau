@@ -70,7 +70,7 @@ export class NumericalValues extends Objet implements Collection<number, Numeric
     return this.values.equals(other.values);
   }
 
-  protected serialize(): string {
-    return this.row().join(', ');
+  public serialize(): string {
+    return this.values.toString();
   }
 }

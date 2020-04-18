@@ -15,7 +15,7 @@ export class AObjet<T> extends Objet {
     throw new UnimplementedError();
   }
 
-  protected serialize(): string {
+  public serialize(): string {
     throw new UnimplementedError();
   }
 }

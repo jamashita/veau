@@ -4,7 +4,7 @@ import { ASequence } from './Abstract/ASequence';
 import { Sequence } from './Interface/Sequence';
 
 export class ImmutableSequence<E extends Nominative> extends ASequence<E> implements Sequence<E> {
-  public readonly noun: 'ArraySequence' = 'ArraySequence';
+  public readonly noun: 'ImmutableSequence' = 'ImmutableSequence';
 
   private static readonly EMPTY: ImmutableSequence<Nominative> = new ImmutableSequence<Nominative>([]);
 

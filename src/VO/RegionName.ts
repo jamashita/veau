@@ -48,7 +48,7 @@ export class RegionName extends ValueObject {
     return false;
   }
 
-  protected serialize(): string {
+  public serialize(): string {
     return this.name;
   }
 }

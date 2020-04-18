@@ -28,7 +28,7 @@ export class Color extends ValueObject {
     return false;
   }
 
-  protected serialize(): string {
+  public serialize(): string {
     return this.rgb;
   }
 }

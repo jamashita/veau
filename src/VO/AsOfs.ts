@@ -167,9 +167,7 @@ export class AsOfs extends Objet implements Collection<number, AsOf>, Cloneable<
     });
   }
 
-  protected serialize(): string {
-    return this.asOfs.toArray().map<string>((asOf: AsOf) => {
-      return asOf.toString();
-    }).join(', ');
+  public serialize(): string {
+    return this.asOfs.toString();
   }
 }

@@ -92,9 +92,7 @@ export class Regions extends Objet implements Collection<number, Region>, JSONab
     });
   }
 
-  protected serialize(): string {
-    return this.regions.toArray().map<string>((region: Region) => {
-      return region.toString();
-    }).join(', ');
+  public serialize(): string {
+    return this.regions.toString();
   }
 }

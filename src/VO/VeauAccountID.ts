@@ -55,7 +55,7 @@ export class VeauAccountID extends ValueObject {
     return false;
   }
 
-  protected serialize(): string {
+  public serialize(): string {
     return this.uuid.toString();
   }
 }

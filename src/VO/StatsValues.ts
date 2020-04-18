@@ -187,9 +187,7 @@ export class StatsValues extends Objet implements Collection<number, StatsValue>
     });
   }
 
-  protected serialize(): string {
-    return this.values.toArray().map<string>((value: StatsValue) => {
-      return value.toString();
-    }).join(', ');
+  public serialize(): string {
+    return this.values.toString();
   }
 }

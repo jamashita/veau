@@ -137,7 +137,7 @@ export class Region extends ValueObject implements JSONable {
     };
   }
 
-  protected serialize(): string {
+  public serialize(): string {
     const properties: Array<string> = [];
 
     properties.push(this.regionID.toString());

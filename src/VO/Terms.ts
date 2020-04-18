@@ -67,9 +67,7 @@ export class Terms extends Objet implements Collection<number, Term> {
     return this.terms.equals(other.terms);
   }
 
-  protected serialize(): string {
-    return this.terms.toArray().map<string>((term: Term) => {
-      return term.toString();
-    }).join(', ');
+  public serialize(): string {
+    return this.terms.toString();
   }
 }

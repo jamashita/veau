@@ -72,9 +72,7 @@ export class StatsItemNames extends Objet implements Collection<number, StatsIte
     });
   }
 
-  protected serialize(): string {
-    return this.names.toArray().map<string>((name: StatsItemName) => {
-      return name.toString();
-    }).join(', ');
+  public serialize(): string {
+    return this.names.toString();
   }
 }

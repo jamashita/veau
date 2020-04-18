@@ -100,7 +100,7 @@ export abstract class ASequence<E extends Nominative> extends Objet implements S
     ];
   }
 
-  protected serialize(): string {
+  public serialize(): string {
     return this.elements.map<string>((element: E) => {
       return element.toString();
     }).join(', ');

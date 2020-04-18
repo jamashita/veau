@@ -200,7 +200,7 @@ export class StatsItem extends Entity<StatsItemID> {
     };
   }
 
-  protected serialize(): string {
+  public serialize(): string {
     const properties: Array<string> = [];
 
     properties.push(this.statsItemID.toString());

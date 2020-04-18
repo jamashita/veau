@@ -28,7 +28,7 @@ export class Hash extends ValueObject {
     return false;
   }
 
-  protected serialize(): string {
+  public serialize(): string {
     return this.hash;
   }
 }

@@ -14,6 +14,4 @@ export interface Project<K, V extends Nominative> extends Collection<K, V>, Clon
   values(): Set<V>;
 
   forEach(iteration: Enumerator<K, V>): void;
-
-  duplicate(): Project<K, V>;
 }
