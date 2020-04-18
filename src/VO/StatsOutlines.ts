@@ -88,6 +88,10 @@ export class StatsOutlines extends Objet implements Collection<number, StatsOutl
   }
 
   public duplicate(): StatsOutlines {
+    if (this.isEmpty()) {
+      return StatsOutlines.empty();
+    }
+
     return StatsOutlines.of(this.outlines.duplicate());
   }
 
