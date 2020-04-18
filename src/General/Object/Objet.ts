@@ -13,7 +13,7 @@ export abstract class Objet implements Nominative {
     return hash(this);
   }
 
-  protected abstract serialize(): string;
+  public abstract serialize(): string;
 
   public toString(): string {
     return this.serialize();

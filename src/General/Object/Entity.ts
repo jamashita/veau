@@ -13,7 +13,7 @@ export abstract class Entity<T extends Equalable> extends Objet implements Clone
 
   public abstract toJSON(): JSObjectNotation;
 
-  protected abstract serialize(): string;
+  public abstract serialize(): string;
 
   public equals(other: Entity<T>): boolean {
     if (this === other) {

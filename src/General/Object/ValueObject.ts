@@ -5,5 +5,5 @@ export abstract class ValueObject extends Objet {
 
   public abstract equals(other: ValueObject): boolean;
 
-  protected abstract serialize(): string;
+  public abstract serialize(): string;
 }
