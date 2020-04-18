@@ -1,9 +1,9 @@
-import { Nominative } from '../../../Interface/Nominative';
+import { Objet } from '../../../Object/Objet';
 import { UnimplementedError } from '../../../UnimplementedError';
 import { AAddress } from '../Abstract/AAddress';
 import { Address } from '../Interface/Address';
 
-export class MockAAddress<E extends Nominative> extends AAddress<E> implements Address<E> {
+export class MockAAddress<E extends Objet> extends AAddress<E> implements Address<E> {
   public readonly noun: 'MockAAddress' = 'MockAAddress';
 
   public constructor(elements: Set<E>) {

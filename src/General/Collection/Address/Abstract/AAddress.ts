@@ -1,4 +1,3 @@
-import { Nominative } from '../../../Interface/Nominative';
 import { Objet } from '../../../Object/Objet';
 import { Absent } from '../../../Quantum/Absent';
 import { Present } from '../../../Quantum/Present';
@@ -7,7 +6,7 @@ import { Enumerator, Predicate } from '../../../Type/Function';
 import { Ambiguous } from '../../../Type/Value';
 import { Address } from '../Interface/Address';
 
-export abstract class AAddress<E extends Nominative> extends Objet implements Address<E> {
+export abstract class AAddress<E extends Objet> extends Objet implements Address<E> {
   public abstract readonly noun: string;
   protected readonly elements: Set<E>;
 

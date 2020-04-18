@@ -1,10 +1,10 @@
 import { Cloneable } from '../../../Interface/Cloneable';
-import { Nominative } from '../../../Interface/Nominative';
+import { Objet } from '../../../Object/Objet';
 import { Quantum } from '../../../Quantum/Quantum';
 import { Enumerator, Predicate } from '../../../Type/Function';
 import { Collection } from '../../Interface/Collection';
 
-export interface Address<E extends Nominative> extends Collection<void, E>, Cloneable<Address<E>> {
+export interface Address<E extends Objet> extends Collection<void, E>, Cloneable<Address<E>> {
 
   add(...elements: Array<E>): Address<E>;
 

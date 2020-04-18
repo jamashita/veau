@@ -1,11 +1,12 @@
-import { Nominative } from '../Interface/Nominative';
+import { Objet } from '../Object/Objet';
 import { Primitive } from '../Type/Value';
 
-export class MockNominative<E extends Primitive> implements Nominative {
+export class MockNominative<E extends Primitive> extends Objet {
   public readonly noun: 'MockNominative' = 'MockNominative';
   private readonly value: E;
 
   public constructor(value: E) {
+    super();
     this.value = value;
   }
 
@@ -24,7 +25,7 @@ export class MockNominative<E extends Primitive> implements Nominative {
     return false;
   }
 
-  public toString(): string {
+  public serialize(): string {
     if (this.value === undefined) {
       return 'undefined';
     }

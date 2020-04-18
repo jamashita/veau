@@ -1,14 +1,14 @@
-import { Nominative } from '../../Interface/Nominative';
+import { Objet } from '../../Object/Objet';
 import { Enumerator, Mapper } from '../../Type/Function';
 import { ASequence } from './Abstract/ASequence';
 import { Sequence } from './Interface/Sequence';
 
-export class ImmutableSequence<E extends Nominative> extends ASequence<E> implements Sequence<E> {
+export class ImmutableSequence<E extends Objet> extends ASequence<E> implements Sequence<E> {
   public readonly noun: 'ImmutableSequence' = 'ImmutableSequence';
 
-  private static readonly EMPTY: ImmutableSequence<Nominative> = new ImmutableSequence<Nominative>([]);
+  private static readonly EMPTY: ImmutableSequence<Objet> = new ImmutableSequence<Objet>([]);
 
-  public static of<E extends Nominative>(elements: Array<E>): ImmutableSequence<E> {
+  public static of<E extends Objet>(elements: Array<E>): ImmutableSequence<E> {
     if (elements.length === 0) {
       return ImmutableSequence.empty<E>();
     }
@@ -16,7 +16,7 @@ export class ImmutableSequence<E extends Nominative> extends ASequence<E> implem
     return new ImmutableSequence<E>(elements);
   }
 
-  public static empty<E extends Nominative>(): ImmutableSequence<E> {
+  public static empty<E extends Objet>(): ImmutableSequence<E> {
     return ImmutableSequence.EMPTY as ImmutableSequence<E>;
   }
 
@@ -43,7 +43,7 @@ export class ImmutableSequence<E extends Nominative> extends ASequence<E> implem
     return false;
   }
 
-  public map<F extends Nominative>(mapper: Mapper<E, F>): ImmutableSequence<F> {
+  public map<F extends Objet>(mapper: Mapper<E, F>): ImmutableSequence<F> {
     return ImmutableSequence.of<F>(this.elements.map<F>(mapper));
   }
 
