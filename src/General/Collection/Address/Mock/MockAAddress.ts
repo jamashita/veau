@@ -6,8 +6,18 @@ import { Address } from '../Interface/Address';
 export class MockAAddress<E extends Objet> extends AAddress<E> implements Address<E> {
   public readonly noun: 'MockAAddress' = 'MockAAddress';
 
+  private static constructMap<E extends Objet>(elements: Set<E>): Map<string, E> {
+    const map: Map<string, E> = new Map<string, E>();
+
+    elements.forEach((e: E) => {
+      map.set(e.hashCode(), e);
+    });
+
+    return map;
+  }
+
   public constructor(elements: Set<E>) {
-    super(elements);
+    super(MockAAddress.constructMap<E>(elements));
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

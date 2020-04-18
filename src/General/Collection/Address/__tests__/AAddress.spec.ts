@@ -469,4 +469,25 @@ describe('AAddress', () => {
       expect(nouns.toArray()).not.toBe(elements);
     });
   });
+
+  describe('toSet', () => {
+    it('normal case', () => {
+      const noun1: MockNominative<number> = new MockNominative<number>(1);
+      const noun2: MockNominative<number> = new MockNominative<number>(2);
+      const noun3: MockNominative<number> = new MockNominative<number>(3);
+      const elements: Array<MockNominative<number>> = [
+        noun1,
+        noun2,
+        noun3
+      ];
+
+      const nouns: MockAAddress<MockNominative<number>> = new MockAAddress<MockNominative<number>>(new Set(elements));
+      const set: Set<MockNominative<number>> = nouns.toSet();
+
+      expect(nouns.size()).toEqual(set.size);
+      for (let i: number = 0; i < set.size; i++) {
+        expect(set.has(elements[i])).toEqual(true);
+      }
+    });
+  });
 });
