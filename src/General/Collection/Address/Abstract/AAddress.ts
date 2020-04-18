@@ -8,9 +8,9 @@ import { Address } from '../Interface/Address';
 
 export abstract class AAddress<E extends Objet> extends Objet implements Address<E> {
   public abstract readonly noun: string;
-  protected readonly elements: Set<E>;
+  protected readonly elements: Map<string, E>;
 
-  protected constructor(elements: Set<E>) {
+  protected constructor(elements: Map<string, E>) {
     super();
     this.elements = elements;
   }
@@ -27,13 +27,7 @@ export abstract class AAddress<E extends Objet> extends Objet implements Address
   }
 
   public contains(value: E): boolean {
-    if (this.elements.has(value)) {
-      return true;
-    }
-
-    return this.some((element: E) => {
-      return value.equals(element);
-    });
+    return this.elements.has(value.hashCode());
   }
 
   public size(): number {
@@ -83,11 +77,8 @@ export abstract class AAddress<E extends Objet> extends Objet implements Address
     });
   }
 
-
   public toArray(): Array<E> {
-    return [
-      ...this.elements
-    ];
+    return Array.from<E>(this.elements.values());
   }
 
   public serialize(): string {
