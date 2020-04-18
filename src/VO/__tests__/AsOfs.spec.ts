@@ -5,23 +5,17 @@ import { AsOfs } from '../AsOfs';
 import { MockAsOf } from '../Mock/MockAsOf';
 import { Term } from '../Term';
 
-// DONE
 describe('AsOfs', () => {
   describe('of', () => {
-    it('when the ImmutableSequence is zero size, returns empty', () => {
-      const asOfs: AsOfs = AsOfs.of(ImmutableSequence.empty<AsOf>());
-
-      expect(asOfs).toBe(AsOfs.empty());
+    it('when the ImmutableSequence is zero size, returns AsOfs.empty()', () => {
+      expect(AsOfs.of(ImmutableSequence.empty<AsOf>())).toBe(AsOfs.empty());
     });
 
     it('normal case', () => {
-      const asOf1: MockAsOf = new MockAsOf();
-      const asOf2: MockAsOf = new MockAsOf();
-      const asOf3: MockAsOf = new MockAsOf();
       const sequence: ImmutableSequence<AsOf> = ImmutableSequence.of<AsOf>([
-        asOf1,
-        asOf2,
-        asOf3
+        new MockAsOf(),
+        new MockAsOf(),
+        new MockAsOf()
       ]);
 
       const asOfs: AsOfs = AsOfs.of(sequence);
@@ -35,19 +29,14 @@ describe('AsOfs', () => {
 
   describe('ofArray', () => {
     it('when empty Array given, returns AsOfs.empty()', () => {
-      const asOfs: AsOfs = AsOfs.ofArray([]);
-
-      expect(asOfs).toBe(AsOfs.empty());
+      expect(AsOfs.ofArray([])).toBe(AsOfs.empty());
     });
 
     it('normal case', () => {
-      const asOf1: MockAsOf = new MockAsOf();
-      const asOf2: MockAsOf = new MockAsOf();
-      const asOf3: MockAsOf = new MockAsOf();
       const as: Array<AsOf> = [
-        asOf1,
-        asOf2,
-        asOf3
+        new MockAsOf(),
+        new MockAsOf(),
+        new MockAsOf()
       ];
 
       const asOfs: AsOfs = AsOfs.ofArray(as);
@@ -61,9 +50,7 @@ describe('AsOfs', () => {
 
   describe('ofSpread', () => {
     it('when no arguments given, returns AsOfs.empty()', () => {
-      const asOfs: AsOfs = AsOfs.ofSpread();
-
-      expect(asOfs).toBe(AsOfs.empty());
+      expect(AsOfs.ofSpread()).toBe(AsOfs.empty());
     });
 
     it('normal case', () => {
@@ -90,8 +77,21 @@ describe('AsOfs', () => {
   });
 
   describe('merge', () => {
-    it('returns empty when argument is 0', () => {
+    it('returns AsOfs.empty() when argument is 0', () => {
       expect(AsOfs.merge()).toBe(AsOfs.empty());
+    });
+
+    it('returns asOfs itself when argument is 1', () => {
+      const asOf1: MockAsOf = new MockAsOf();
+      const asOf2: MockAsOf = new MockAsOf();
+      const asOf3: MockAsOf = new MockAsOf();
+      const asOfs: AsOfs = AsOfs.ofSpread(
+        asOf1,
+        asOf2,
+        asOf3
+      );
+
+      expect(AsOfs.merge(asOfs)).toBe(asOfs);
     });
 
     it('normal case', () => {
@@ -170,6 +170,21 @@ describe('AsOfs', () => {
   });
 
   describe('add', () => {
+    it('returns itself when the argument is 0', () => {
+      const asOf1: MockAsOf = new MockAsOf({
+        day: 1
+      });
+      const asOf2: MockAsOf = new MockAsOf({
+        day: 2
+      });
+      const asOfs: AsOfs = AsOfs.ofSpread(
+        asOf1,
+        asOf2
+      );
+
+      expect(asOfs.add()).toBe(asOfs);
+    });
+
     it('does not affect the original one', () => {
       const asOf1: MockAsOf = new MockAsOf({
         day: 1
@@ -291,20 +306,11 @@ describe('AsOfs', () => {
         asOf
       );
 
-      expect(asOfs.min().get().equals(asOf)).toEqual(true);
+      expect(asOfs.min().get()).toBe(asOf);
     });
 
     it('returns Absent when AsOfs are empty', () => {
       expect(AsOfs.empty().min()).toBeInstanceOf(Absent);
-    });
-
-    it('returns the only one', () => {
-      const asOf: MockAsOf = new MockAsOf();
-      const asOfs: AsOfs = AsOfs.ofSpread(
-        asOf
-      );
-
-      expect(asOfs.min().get()).toEqual(asOf);
     });
   });
 
@@ -340,20 +346,11 @@ describe('AsOfs', () => {
         asOf
       );
 
-      expect(asOfs.max().get().equals(asOf)).toEqual(true);
+      expect(asOfs.max().get()).toBe(asOf);
     });
 
     it('returns Absent when AsOfs are empty', () => {
       expect(AsOfs.empty().max()).toBeInstanceOf(Absent);
-    });
-
-    it('returns the only one', () => {
-      const asOf: MockAsOf = new MockAsOf();
-      const asOfs: AsOfs = AsOfs.ofSpread(
-        asOf
-      );
-
-      expect(asOfs.max().get()).toEqual(asOf);
     });
   });
 
@@ -451,9 +448,16 @@ describe('AsOfs', () => {
       );
       const asOfs2: AsOfs = asOfs1.duplicate();
 
+      expect(asOfs1).not.toBe(asOfs2);
       expect(asOfs1.size()).toEqual(asOfs2.size());
       expect(asOfs1.get(0)).toEqual(asOfs2.get(0));
       expect(asOfs1.get(1)).toEqual(asOfs2.get(1));
+    });
+
+    it('returns AsOfs.empty() when original AsOfs is empty', () => {
+      const asOfs: AsOfs = AsOfs.ofSpread();
+
+      expect(asOfs.duplicate()).toBe(asOfs);
     });
   });
 

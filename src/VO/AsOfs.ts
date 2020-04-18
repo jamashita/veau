@@ -43,6 +43,9 @@ export class AsOfs extends Objet implements Collection<number, AsOf>, Cloneable<
     if (asOfsArray.length === 0) {
       return AsOfs.empty();
     }
+    if (asOfsArray.length === 1) {
+      return asOfsArray[0];
+    }
 
     const all: Array<Array<AsOf>> = asOfsArray.map<Array<AsOf>>((asOfs: AsOfs) => {
       return asOfs.asOfs.toArray();
@@ -74,6 +77,10 @@ export class AsOfs extends Objet implements Collection<number, AsOf>, Cloneable<
   }
 
   public add(...values: Array<AsOf>): AsOfs {
+    if (values.length === 0) {
+      return this;
+    }
+
     return AsOfs.of(this.asOfs.add(...values));
   }
 
@@ -158,6 +165,10 @@ export class AsOfs extends Objet implements Collection<number, AsOf>, Cloneable<
   }
 
   public duplicate(): AsOfs {
+    if (this.isEmpty()) {
+      return AsOfs.empty();
+    }
+
     return AsOfs.of(this.asOfs.duplicate());
   }
 

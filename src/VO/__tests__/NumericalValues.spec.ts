@@ -136,6 +136,13 @@ describe('NumericalValues', () => {
       expect(values2.get(1).get()).toBe(value2);
       expect(values2.get(2).get()).toBe(value3);
     });
+
+    it('returns itself when the argument is 0', () => {
+      const values1: NumericalValues = NumericalValues.empty();
+      const values2: NumericalValues = values1.add();
+
+      expect(values1).toBe(values2);
+    });
   });
 
   describe('get', () => {

@@ -37,6 +37,10 @@ export class NumericalValues extends Objet implements Collection<number, Numeric
   }
 
   public add(...values: Array<NumericalValue>): NumericalValues {
+    if (values.length === 0) {
+      return this;
+    }
+
     return NumericalValues.of(this.values.add(...values));
   }
 
