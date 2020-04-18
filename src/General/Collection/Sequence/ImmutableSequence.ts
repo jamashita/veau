@@ -1,5 +1,4 @@
 import { Nominative } from '../../Interface/Nominative';
-import { Objet } from '../../Object/Objet';
 import { Enumerator, Mapper } from '../../Type/Function';
 import { ASequence } from './Abstract/ASequence';
 import { Sequence } from './Interface/Sequence';
@@ -7,7 +6,7 @@ import { Sequence } from './Interface/Sequence';
 export class ImmutableSequence<E extends Nominative> extends ASequence<E> implements Sequence<E> {
   public readonly noun: 'ImmutableSequence' = 'ImmutableSequence';
 
-  private static readonly EMPTY: ImmutableSequence<Objet> = new ImmutableSequence<Objet>([]);
+  private static readonly EMPTY: ImmutableSequence<Nominative> = new ImmutableSequence<Nominative>([]);
 
   public static of<E extends Nominative>(elements: Array<E>): ImmutableSequence<E> {
     if (elements.length === 0) {

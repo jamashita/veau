@@ -30,6 +30,10 @@ export class StatsItems extends Objet implements Collection<number, StatsItem>, 
   private static readonly EMPTY: StatsItems = StatsItems.of(ImmutableSequence.empty<StatsItem>());
 
   public static of(items: Sequence<StatsItem>): StatsItems {
+    if (items.isEmpty()) {
+      return StatsItems.empty();
+    }
+
     return new StatsItems(items);
   }
 
