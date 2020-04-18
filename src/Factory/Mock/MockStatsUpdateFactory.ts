@@ -7,13 +7,13 @@ import { IStatsUpdateFactory } from '../Interface/IStatsUpdateFactory';
 export class MockStatsUpdateFactory implements IStatsUpdateFactory {
   public readonly noun: 'StatsUpdateFactory' = 'StatsUpdateFactory';
   private readonly statsCommand: IStatsCommand;
-  private readonly statsItemCommand:  IStatsItemCommand;
-  private readonly statsValueCommand:  IStatsValueCommand;
+  private readonly statsItemCommand: IStatsItemCommand;
+  private readonly statsValueCommand: IStatsValueCommand;
 
   public constructor(
     statsCommand: IStatsCommand,
-    statsItemCommand:  IStatsItemCommand,
-    statsValueCommand:  IStatsValueCommand
+    statsItemCommand: IStatsItemCommand,
+    statsValueCommand: IStatsValueCommand
   ) {
     this.statsCommand = statsCommand;
     this.statsItemCommand = statsItemCommand;

@@ -11,8 +11,8 @@ export class RootEpic {
   private entranceEcpic: EntranceEpic;
 
   public constructor(
-  // TODO
-  @inject(TYPE.AccountMySQLQuery) entranceEpic: EntranceEpic
+    // TODO
+    @inject(TYPE.AccountMySQLQuery) entranceEpic: EntranceEpic
   ) {
     this.entranceEcpic = entranceEpic;
   }
