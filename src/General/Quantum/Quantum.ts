@@ -14,14 +14,6 @@ export abstract class Quantum<T> implements Noun {
 
   public abstract get(): T;
 
-  public isPresent(): this is Present<T> {
-    return false;
-  }
-
-  public isAbsent(): this is Absent<T> {
-    return false;
-  }
-
   public abstract ifPresent(consumer: Consumer<T>): void;
   public abstract ifPresent(consumer: AsyncConsumer<T>): Promise<void>;
 
@@ -30,4 +22,12 @@ export abstract class Quantum<T> implements Noun {
   public abstract map<U>(mapper: MonoFunction<T, Suspicious<U>>): Quantum<U>;
 
   public abstract toSuperposition(): Superposition<T, QuantumError>;
+
+  public isPresent(): this is Present<T> {
+    return false;
+  }
+
+  public isAbsent(): this is Absent<T> {
+    return false;
+  }
 }

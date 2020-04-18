@@ -9,11 +9,11 @@ export abstract class Objet implements Nominative {
 
   public abstract equals(other: Objet): boolean;
 
+  public abstract serialize(): string;
+
   public hashCode(): string {
     return hash(this);
   }
-
-  public abstract serialize(): string;
 
   public toString(): string {
     return this.serialize();

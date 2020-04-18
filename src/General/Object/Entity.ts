@@ -25,4 +25,8 @@ export abstract class Entity<T extends Equalable> extends Objet implements Clone
 
     return false;
   }
+
+  public hashCode(): string {
+    return super.hashCode();
+  }
 }
