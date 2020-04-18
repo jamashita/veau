@@ -10,11 +10,12 @@ export class AObjet<T> extends Objet {
     this.value = value;
   }
 
-  public duplicate(): AObjet {
+  public duplicate(): AObjet<T> {
     throw new UnimplementedError();
   }
 
-  public equals(other: Objet): boolean {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public equals(other: AObjet<T>): boolean {
     throw new UnimplementedError();
   }
 
