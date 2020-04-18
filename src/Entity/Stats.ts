@@ -471,7 +471,7 @@ export class Stats extends Entity<StatsID> {
     return true;
   }
 
-  public copy(): Stats {
+  public duplicate(): Stats {
     return new Stats(
       this.statsID,
       this.language,
@@ -480,7 +480,7 @@ export class Stats extends Entity<StatsID> {
       this.name,
       this.unit,
       this.updatedAt,
-      this.items.copy(),
+      this.items.duplicate(),
       this.startDate
     );
   }

@@ -437,8 +437,8 @@ describe('AsOfs', () => {
     });
   });
 
-  describe('copy', () => {
-    it('normal case, shallow copy', () => {
+  describe('duplicate', () => {
+    it('normal case, shallow duplicate', () => {
       const asOf1: MockAsOf = new MockAsOf({
         day: 1
       });
@@ -449,7 +449,7 @@ describe('AsOfs', () => {
         asOf1,
         asOf2
       );
-      const asOfs2: AsOfs = asOfs1.copy();
+      const asOfs2: AsOfs = asOfs1.duplicate();
 
       expect(asOfs1.size()).toEqual(asOfs2.size());
       expect(asOfs1.get(0)).toEqual(asOfs2.get(0));

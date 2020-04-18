@@ -253,7 +253,7 @@ describe('ImmutableSequence', () => {
     });
   });
 
-  describe('copy', () => {
+  describe('duplicate', () => {
     it('normal case', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
@@ -266,7 +266,7 @@ describe('ImmutableSequence', () => {
         noun3,
         noun4
       ]);
-      const nouns2: ImmutableSequence<MockNominative<number>> = nouns1.copy();
+      const nouns2: ImmutableSequence<MockNominative<number>> = nouns1.duplicate();
 
       expect(nouns1.size()).toEqual(nouns2.size());
       expect(nouns1).not.toBe(nouns2);
@@ -286,7 +286,7 @@ describe('ImmutableSequence', () => {
         noun2,
         noun3
       ]);
-      const nouns2: ImmutableSequence<MockNominative<number>> = nouns1.copy();
+      const nouns2: ImmutableSequence<MockNominative<number>> = nouns1.duplicate();
       const nouns3: ImmutableSequence<MockNominative<number>> = nouns2.add(noun4);
 
       expect(nouns1.size()).toEqual(nouns2.size());

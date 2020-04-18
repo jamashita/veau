@@ -898,8 +898,8 @@ describe('StatsItems', () => {
     });
   });
 
-  describe('copy', () => {
-    it('shallow copied', () => {
+  describe('duplicate', () => {
+    it('shallow duplicated', () => {
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
       const statsItem3: MockStatsItem = new MockStatsItem();
@@ -909,15 +909,15 @@ describe('StatsItems', () => {
         statsItem3
       );
 
-      const copied: StatsItems = statsItems.copy();
+      const duplicated: StatsItems = statsItems.duplicate();
 
-      expect(statsItems).not.toBe(copied);
-      expect(copied.get(0).get().equals(statsItem1)).toEqual(true);
-      expect(copied.get(1).get().equals(statsItem2)).toEqual(true);
-      expect(copied.get(2).get().equals(statsItem3)).toEqual(true);
-      expect(copied.get(0).get()).toEqual(statsItem1);
-      expect(copied.get(1).get()).toEqual(statsItem2);
-      expect(copied.get(2).get()).toEqual(statsItem3);
+      expect(statsItems).not.toBe(duplicated);
+      expect(duplicated.get(0).get().equals(statsItem1)).toEqual(true);
+      expect(duplicated.get(1).get().equals(statsItem2)).toEqual(true);
+      expect(duplicated.get(2).get().equals(statsItem3)).toEqual(true);
+      expect(duplicated.get(0).get()).toEqual(statsItem1);
+      expect(duplicated.get(1).get()).toEqual(statsItem2);
+      expect(duplicated.get(2).get()).toEqual(statsItem3);
     });
   });
 

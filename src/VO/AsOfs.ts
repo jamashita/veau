@@ -155,8 +155,8 @@ export class AsOfs implements Collection<number, AsOf>, Cloneable<AsOfs>, JSONab
     return this.asOfs.equals(other.asOfs);
   }
 
-  public copy(): AsOfs {
-    return AsOfs.of(this.asOfs.copy());
+  public duplicate(): AsOfs {
+    return AsOfs.of(this.asOfs.duplicate());
   }
 
   public toJSON(): Array<string> {

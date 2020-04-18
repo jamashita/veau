@@ -590,8 +590,8 @@ describe('StatsOutlines', () => {
     });
   });
 
-  describe('copy', () => {
-    it('shallow copies the instance and its own elements', () => {
+  describe('duplicate', () => {
+    it('shallow duplicateses the instance and its own elements', () => {
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
@@ -601,13 +601,13 @@ describe('StatsOutlines', () => {
         outline2,
         outline3
       );
-      const copied: StatsOutlines = outlines.copy();
+      const duplicated: StatsOutlines = outlines.duplicate();
 
-      expect(outlines).not.toBe(copied);
-      expect(outlines.equals(copied)).toEqual(true);
-      expect(outlines.size()).toEqual(copied.size());
+      expect(outlines).not.toBe(duplicated);
+      expect(outlines.equals(duplicated)).toEqual(true);
+      expect(outlines.size()).toEqual(duplicated.size());
       for (let i: number = 0; i < outlines.size(); i++) {
-        expect(outlines.get(i).get()).toBe(copied.get(i).get());
+        expect(outlines.get(i).get()).toBe(duplicated.get(i).get());
       }
     });
   });

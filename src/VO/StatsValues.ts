@@ -167,8 +167,8 @@ export class StatsValues implements Collection<number, StatsValue>, Cloneable<St
     return this.values.isEmpty();
   }
 
-  public copy(): StatsValues {
-    return StatsValues.of(this.values.copy());
+  public duplicate(): StatsValues {
+    return StatsValues.of(this.values.duplicate());
   }
 
   public equals(other: StatsValues): boolean {

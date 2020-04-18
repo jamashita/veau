@@ -20,7 +20,7 @@ export class MockAAddress<E extends Nominative> extends AAddress<E> implements A
     throw new UnimplementedError();
   }
 
-  public copy(): Address<E> {
+  public duplicate(): Address<E> {
     throw new UnimplementedError();
   }
 }

@@ -18,7 +18,7 @@ export interface Address<E extends Nominative> extends Collection<void, E>, Clon
 
   some(enumerator: Enumerator<unknown, E>): boolean;
 
-  copy(): Address<E>;
+  duplicate(): Address<E>;
 
   toArray(): Array<E>;
 }

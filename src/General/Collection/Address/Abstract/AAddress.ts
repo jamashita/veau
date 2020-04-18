@@ -18,7 +18,7 @@ export abstract class AAddress<E extends Nominative> implements Address<E> {
 
   public abstract remove(element: E): Address<E>;
 
-  public abstract copy(): Address<E>;
+  public abstract duplicate(): Address<E>;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public get(key: void): Quantum<E> {

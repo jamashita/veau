@@ -213,8 +213,8 @@ export class StatsItems implements Collection<number, StatsItem>, Cloneable<Stat
     return true;
   }
 
-  public copy(): StatsItems {
-    return StatsItems.of(this.items.copy());
+  public duplicate(): StatsItems {
+    return StatsItems.of(this.items.duplicate());
   }
 
   public isEmpty(): boolean {

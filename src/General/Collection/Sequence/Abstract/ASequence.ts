@@ -21,7 +21,7 @@ export abstract class ASequence<E extends Nominative> implements Sequence<E> {
 
   public abstract filter(iterator: Enumerator<number, E>): ImmutableSequence<E>;
 
-  public abstract copy(): Sequence<E>;
+  public abstract duplicate(): Sequence<E>;
 
   public get(index: number): Quantum<E> {
     const element: Ambiguous<E> = this.elements[index];

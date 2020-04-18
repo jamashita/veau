@@ -13,7 +13,7 @@ export abstract class Entity<T extends Equalable> implements Cloneable<Entity<T>
 
   public abstract toString(): string;
 
-  public abstract copy(): Entity<T>;
+  public abstract duplicate(): Entity<T>;
 
   public equals(other: Entity<T>): boolean {
     if (this === other) {

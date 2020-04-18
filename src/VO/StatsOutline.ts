@@ -227,7 +227,7 @@ export class StatsOutline extends ValueObject implements Cloneable<StatsOutline>
     return true;
   }
 
-  public copy(): StatsOutline {
+  public duplicate(): StatsOutline {
     return new StatsOutline(
       this.statsID,
       this.language,

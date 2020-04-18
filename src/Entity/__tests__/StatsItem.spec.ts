@@ -609,8 +609,8 @@ describe('StatsItem', () => {
     });
   });
 
-  describe('copy', () => {
-    it('evert properties are copied', () => {
+  describe('duplicate', () => {
+    it('evert properties are duplicated', () => {
       const statsItemID: MockStatsItemID = new MockStatsItemID();
       const name: MockStatsItemName = new MockStatsItemName();
       const statsValues: MockStatsValues = new MockStatsValues();
@@ -620,9 +620,9 @@ describe('StatsItem', () => {
         name,
         statsValues
       );
-      const copy: StatsItem = statsItem.copy();
+      const duplicated: StatsItem = statsItem.duplicate();
 
-      expect(statsItem).not.toBe(copy);
+      expect(statsItem).not.toBe(duplicated);
       expect(statsItem.getStatsItemID()).toEqual(statsItemID);
       expect(statsItem.getName()).toEqual(name);
       expect(statsItem.getValues()).toEqual(statsValues);

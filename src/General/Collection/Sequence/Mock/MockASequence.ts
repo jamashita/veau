@@ -27,7 +27,7 @@ export class MockASequence<E extends Nominative> extends ASequence<E> implements
     throw new UnimplementedError();
   }
 
-  public copy(): Sequence<E> {
+  public duplicate(): Sequence<E> {
     throw new UnimplementedError();
   }
 }

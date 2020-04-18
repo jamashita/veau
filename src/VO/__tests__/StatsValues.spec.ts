@@ -753,7 +753,7 @@ describe('StatsValues', () => {
     });
   });
 
-  describe('copy', () => {
+  describe('duplicate', () => {
     it('just create a new array but the objects are the same', () => {
       const statsItemID1: MockStatsItemID = new MockStatsItemID();
       const statsItemID2: MockStatsItemID = new MockStatsItemID();
@@ -780,12 +780,12 @@ describe('StatsValues', () => {
         statsValue3,
         statsValue4
       );
-      const copied: StatsValues = statsValues.copy();
+      const duplicated: StatsValues = statsValues.duplicate();
 
-      expect(statsValues).not.toBe(copied);
-      expect(statsValues.size()).toEqual(copied.size());
+      expect(statsValues).not.toBe(duplicated);
+      expect(statsValues.size()).toEqual(duplicated.size());
       for (let i: number = 0; i < statsValues.size(); i++) {
-        expect(statsValues.get(i).get()).toEqual(copied.get(i).get());
+        expect(statsValues.get(i).get()).toEqual(duplicated.get(i).get());
       }
     });
   });

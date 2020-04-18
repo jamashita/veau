@@ -625,8 +625,8 @@ describe('StatsOutline', () => {
     });
   });
 
-  describe('copy', () => {
-    it('every properties are copied', () => {
+  describe('duplicate', () => {
+    it('every properties are duplicated', () => {
       const statsID: MockStatsID = new MockStatsID();
       const language: MockLanguage = new MockLanguage({
         languageID: new MockLanguageID(10)
@@ -640,9 +640,9 @@ describe('StatsOutline', () => {
       const updatedAt: MockUpdatedAt = new MockUpdatedAt();
 
       const statsOutline: StatsOutline = StatsOutline.of(statsID, language, region, term, name, unit, updatedAt);
-      const copy: StatsOutline = statsOutline.copy();
+      const duplicated: StatsOutline = statsOutline.duplicate();
 
-      expect(statsOutline).not.toBe(copy);
+      expect(statsOutline).not.toBe(duplicated);
       expect(statsOutline.getStatsID()).toBe(statsID);
       expect(statsOutline.getLanguage()).toBe(language);
       expect(statsOutline.getRegion()).toBe(region);

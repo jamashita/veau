@@ -2575,8 +2575,8 @@ describe('Stats', () => {
     });
   });
 
-  describe('copy', () => {
-    it('every properties are copied', () => {
+  describe('duplicate', () => {
+    it('every properties are duplicated', () => {
       const statsID: StatsID = StatsID.ofString('f330c618-6127-46d1-ba10-a9f6af458b4c').get();
       const language: Language = Language.of(
         LanguageID.of(1),
@@ -2604,9 +2604,9 @@ describe('Stats', () => {
         updatedAt,
         StatsItems.empty()
       );
-      const copy: Stats = stats.copy();
+      const duplicated: Stats = stats.duplicate();
 
-      expect(stats).not.toBe(copy);
+      expect(stats).not.toBe(duplicated);
       expect(stats.getStatsID()).toEqual(statsID);
       expect(stats.getLanguage()).toEqual(language);
       expect(stats.getRegion()).toEqual(region);

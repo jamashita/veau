@@ -15,5 +15,5 @@ export interface Cluster<K, V extends Nominative> extends Collection<K, V>, Clon
 
   forEach(iteration: Enumerator<K, V>): void;
 
-  copy(): Cluster<K, V>;
+  duplicate(): Cluster<K, V>;
 }

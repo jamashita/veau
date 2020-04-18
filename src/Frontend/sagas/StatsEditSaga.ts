@@ -249,10 +249,10 @@ export class StatsEditSaga {
         value
       } = action;
 
-      const copied: Stats = stats.copy();
-      copied.setData(coordinate, value);
+      const duplicated: Stats = stats.duplicate();
+      duplicated.setData(coordinate, value);
 
-      yield put(updateStats(copied));
+      yield put(updateStats(duplicated));
     }
   }
 
@@ -268,10 +268,10 @@ export class StatsEditSaga {
         coordinate
       } = action;
 
-      const copied: Stats = stats.copy();
-      copied.deleteData(coordinate);
+      const duplicated: Stats = stats.duplicate();
+      duplicated.deleteData(coordinate);
 
-      yield put(updateStats(copied));
+      yield put(updateStats(duplicated));
     }
   }
 
@@ -363,12 +363,12 @@ export class StatsEditSaga {
       }
 
       const newSelectingItem: StatsItem = StatsItem.of(selectingItem.getStatsItemID(), name, selectingItem.getValues());
-      const copied: Stats = stats.copy();
-      copied.replaceItem(newSelectingItem, selectingRow);
+      const duplicated: Stats = stats.duplicate();
+      duplicated.replaceItem(newSelectingItem, selectingRow);
 
       yield all([
         put(updateSelectingItem(newSelectingItem)),
-        put(updateStats(copied))
+        put(updateStats(duplicated))
       ]);
     }
   }
@@ -422,10 +422,10 @@ export class StatsEditSaga {
         target
       } = action;
 
-      const copied: Stats = stats.copy();
-      copied.moveItem(column, target);
+      const duplicated: Stats = stats.duplicate();
+      duplicated.moveItem(column, target);
 
-      yield put(updateStats(copied));
+      yield put(updateStats(duplicated));
     }
   }
 
@@ -445,11 +445,11 @@ export class StatsEditSaga {
         stats
       } = state;
 
-      const copied: Stats = stats.copy();
-      copied.removeItem(action.statsItem);
+      const duplicated: Stats = stats.duplicate();
+      duplicated.removeItem(action.statsItem);
 
       yield all([
-        put(updateStats(copied)),
+        put(updateStats(duplicated)),
         put(clearSelectingItem())
       ]);
     }

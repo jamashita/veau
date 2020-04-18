@@ -184,11 +184,11 @@ export class StatsItem extends Entity<StatsItemID> {
     return true;
   }
 
-  public copy(): StatsItem {
+  public duplicate(): StatsItem {
     return new StatsItem(
       this.statsItemID,
       this.name,
-      this.values.copy()
+      this.values.duplicate()
     );
   }
 

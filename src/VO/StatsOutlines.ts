@@ -85,8 +85,8 @@ export class StatsOutlines implements Collection<number, StatsOutline>, Cloneabl
     return this.outlines.toArray().map<U>(mapper);
   }
 
-  public copy(): StatsOutlines {
-    return StatsOutlines.of(this.outlines.copy());
+  public duplicate(): StatsOutlines {
+    return StatsOutlines.of(this.outlines.duplicate());
   }
 
   public isEmpty(): boolean {
