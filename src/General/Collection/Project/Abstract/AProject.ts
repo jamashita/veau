@@ -38,6 +38,7 @@ export abstract class AProject<K extends Nominative, V extends Nominative> exten
 
   public contains(value: V): boolean {
     // TODO
+    return false;
   }
 
   public size(): number {
