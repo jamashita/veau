@@ -3,7 +3,7 @@ import { StatsIDError } from '../Error/StatsIDError';
 import { StatsItemsError } from '../Error/StatsItemsError';
 import { TermError } from '../Error/TermError';
 import { UpdatedAtError } from '../Error/UpdatedAtError';
-import { Entity } from '../General/Entity';
+import { Entity } from '../General/Object/Entity';
 import { Absent } from '../General/Quantum/Absent';
 import { Present } from '../General/Quantum/Present';
 import { Quantum } from '../General/Quantum/Quantum';
@@ -498,7 +498,7 @@ export class Stats extends Entity<StatsID> {
     };
   }
 
-  public toString(): string {
+  protected serialize(): string {
     const properties: Array<string> = [];
 
     properties.push(this.statsID.toString());

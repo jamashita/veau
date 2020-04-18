@@ -1,7 +1,7 @@
 import { StatsItemError } from '../Error/StatsItemError';
 import { StatsItemIDError } from '../Error/StatsItemIDError';
 import { StatsValuesError } from '../Error/StatsValuesError';
-import { Entity } from '../General/Entity';
+import { Entity } from '../General/Object/Entity';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
 import { Superposition } from '../General/Superposition/Superposition';
@@ -200,7 +200,7 @@ export class StatsItem extends Entity<StatsItemID> {
     };
   }
 
-  public toString(): string {
+  protected serialize(): string {
     const properties: Array<string> = [];
 
     properties.push(this.statsItemID.toString());
