@@ -88,6 +88,7 @@ export class ImmutableAddress<E extends Nominative> extends AAddress<E> implemen
   }
 
   public duplicate(): ImmutableAddress<E> {
+    // TODO empty adoptament
     return ImmutableAddress.ofMap<E>(new Map(this.elements));
   }
 }

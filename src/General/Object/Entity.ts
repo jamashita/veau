@@ -19,11 +19,8 @@ export abstract class Entity<T extends Nominative> extends Objet implements Clon
     if (this === other) {
       return true;
     }
-    if (this.getIdentifier().equals(other.getIdentifier())) {
-      return true;
-    }
 
-    return false;
+    return this.getIdentifier().equals(other.getIdentifier());
   }
 
   public hashCode(): string {
