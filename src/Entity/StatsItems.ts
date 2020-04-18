@@ -113,14 +113,8 @@ export class StatsItems extends Objet implements Collection<number, StatsItem>, 
   }
 
   public getAsOfs(): AsOfs {
-    const sequence: Sequence<AsOfs> = this.items.map<AsOfs>((item: StatsItem) => {
+    const all: Array<AsOfs> = this.items.toArray().map<AsOfs>((item: StatsItem) => {
       return item.getAsOfs();
-    });
-
-    const all: Array<AsOfs> = [];
-
-    sequence.forEach((asOfs: AsOfs) => {
-      all.push(asOfs);
     });
 
     return AsOfs.merge(...all);
@@ -173,8 +167,14 @@ export class StatsItems extends Objet implements Collection<number, StatsItem>, 
 
   public remove(statsItem: StatsItem): StatsItems {
     const items: Sequence<StatsItem> = this.items.filter((item: StatsItem) => {
-      return !item.equals(statsItem);
+      const eq: boolean = item.equals(statsItem);
+
+      return !eq;
     });
+
+    if (items.isEmpty()) {
+      return StatsItems.empty();
+    }
 
     return StatsItems.of(items);
   }
@@ -224,6 +224,10 @@ export class StatsItems extends Objet implements Collection<number, StatsItem>, 
   }
 
   public duplicate(): StatsItems {
+    if (this.isEmpty()) {
+      return StatsItems.empty();
+    }
+
     return StatsItems.of(this.items.duplicate());
   }
 
