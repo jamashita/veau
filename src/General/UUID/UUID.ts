@@ -1,5 +1,5 @@
 import Chance from 'chance';
-import { ValueObject } from '../ValueObject';
+import { ValueObject } from '../Object/ValueObject';
 import { UUIDError } from './UUIDError';
 
 const chance: Chance.Chance = new Chance();
@@ -56,7 +56,7 @@ export class UUID extends ValueObject {
     return false;
   }
 
-  public toString(): string {
+  protected serialize(): string {
     return this.id;
   }
 }

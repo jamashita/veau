@@ -1,8 +1,8 @@
 import { AsOfError } from '../Error/AsOfError';
+import { ValueObject } from '../General/Object/ValueObject';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
 import { Superposition } from '../General/Superposition/Superposition';
-import { ValueObject } from '../General/ValueObject';
 import { Zeit } from '../General/Zeit/Zeit';
 import { ZeitError } from '../General/Zeit/ZeitError';
 import { Term } from './Term';
@@ -110,7 +110,7 @@ export class AsOf extends ValueObject {
     return false;
   }
 
-  public toString(): string {
+  protected serialize(): string {
     return this.asOf.toString();
   }
 }

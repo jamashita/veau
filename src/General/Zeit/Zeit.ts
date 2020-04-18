@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
 import utc from 'dayjs/plugin/utc';
-import { ValueObject } from '../ValueObject';
+import { ValueObject } from '../Object/ValueObject';
 import { ZeitError } from './ZeitError';
 
 dayjs.extend(utc);
@@ -110,7 +110,7 @@ export class Zeit extends ValueObject {
     return this.zeit.isSame(other.zeit);
   }
 
-  public toString(): string {
+  protected serialize(): string {
     return this.zeit.format(this.format);
   }
 }

@@ -1,5 +1,5 @@
 import { JSONable } from '../General/Interface/JSONable';
-import { ValueObject } from '../General/ValueObject';
+import { ValueObject } from '../General/Object/ValueObject';
 import { LanguageJSON } from './Language';
 import { Languages } from './Languages';
 import { RegionJSON } from './Region';
@@ -70,7 +70,7 @@ export class Locale extends ValueObject implements JSONable {
     };
   }
 
-  public toString(): string {
+  protected serialize(): string {
     const properties: Array<string> = [];
 
     properties.push(this.languages.toString());

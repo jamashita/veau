@@ -1,10 +1,10 @@
 import { StatsIDError } from '../Error/StatsIDError';
+import { ValueObject } from '../General/Object/ValueObject';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
 import { Superposition } from '../General/Superposition/Superposition';
 import { UUID } from '../General/UUID/UUID';
 import { UUIDError } from '../General/UUID/UUIDError';
-import { ValueObject } from '../General/ValueObject';
 
 export class StatsID extends ValueObject {
   public readonly noun: 'StatsID' = 'StatsID';
@@ -53,7 +53,7 @@ export class StatsID extends ValueObject {
     return false;
   }
 
-  public toString(): string {
+  protected serialize(): string {
     return this.uuid.toString();
   }
 }

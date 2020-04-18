@@ -1,9 +1,9 @@
 import { OffsetError } from '../Error/OffsetError';
+import { ValueObject } from '../General/Object/ValueObject';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
 import { Superposition } from '../General/Superposition/Superposition';
 import { Type } from '../General/Type/Type';
-import { ValueObject } from '../General/ValueObject';
 
 export class Offset extends ValueObject {
   public readonly noun: 'Offset' = 'Offset';
@@ -40,7 +40,7 @@ export class Offset extends ValueObject {
     return false;
   }
 
-  public toString(): string {
+  protected serialize(): string {
     return `${this.offset}`;
   }
 }

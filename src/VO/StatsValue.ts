@@ -2,11 +2,11 @@ import { AsOfError } from '../Error/AsOfError';
 import { StatsItemIDError } from '../Error/StatsItemIDError';
 import { StatsValueError } from '../Error/StatsValueError';
 import { JSONable } from '../General/Interface/JSONable';
+import { ValueObject } from '../General/Object/ValueObject';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
 import { Superposition } from '../General/Superposition/Superposition';
 import { Type } from '../General/Type/Type';
-import { ValueObject } from '../General/ValueObject';
 import { AsOf } from './AsOf';
 import { NumericalValue } from './NumericalValue';
 import { StatsItemID } from './StatsItemID';
@@ -123,7 +123,7 @@ export class StatsValue extends ValueObject implements JSONable {
     };
   }
 
-  public toString(): string {
+  protected serialize(): string {
     const properties: Array<string> = [];
 
     properties.push(this.statsItemID.toString());

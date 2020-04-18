@@ -1,9 +1,9 @@
 import { LimitError } from '../Error/LimitError';
+import { ValueObject } from '../General/Object/ValueObject';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
 import { Superposition } from '../General/Superposition/Superposition';
 import { Type } from '../General/Type/Type';
-import { ValueObject } from '../General/ValueObject';
 
 const DEFAULT_VALUE: number = 40;
 
@@ -51,7 +51,7 @@ export class Limit extends ValueObject {
     return false;
   }
 
-  public toString(): string {
+  protected serialize(): string {
     return `${this.limit}`;
   }
 }

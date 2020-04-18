@@ -1,5 +1,5 @@
 import { JSONable } from '../General/Interface/JSONable';
-import { ValueObject } from '../General/ValueObject';
+import { ValueObject } from '../General/Object/ValueObject';
 import { AccountName } from './AccountName';
 import { Password } from './Password';
 
@@ -84,7 +84,7 @@ export class EntranceInformation extends ValueObject implements JSONable {
     };
   }
 
-  public toString(): string {
+  protected serialize(): string {
     const properties: Array<string> = [];
 
     properties.push(this.account.toString());

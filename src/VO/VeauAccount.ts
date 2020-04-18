@@ -1,10 +1,10 @@
 import { VeauAccountError } from '../Error/VeauAccountError';
 import { VeauAccountIDError } from '../Error/VeauAccountIDError';
 import { JSONable } from '../General/Interface/JSONable';
+import { ValueObject } from '../General/Object/ValueObject';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
 import { Superposition } from '../General/Superposition/Superposition';
-import { ValueObject } from '../General/ValueObject';
 import { AccountName } from './AccountName';
 import { Language, LanguageJSON } from './Language';
 import { Region, RegionJSON } from './Region';
@@ -117,7 +117,7 @@ export class VeauAccount extends ValueObject implements JSONable {
     };
   }
 
-  public toString(): string {
+  protected serialize(): string {
     const properties: Array<string> = [];
 
     properties.push(this.veauAccountID.toString());

@@ -1,4 +1,4 @@
-import { ValueObject } from '../General/ValueObject';
+import { ValueObject } from '../General/Object/ValueObject';
 
 const EMPTY_NAE: string = '';
 
@@ -48,7 +48,7 @@ export class AccountName extends ValueObject {
     return false;
   }
 
-  public toString(): string {
+  protected serialize(): string {
     return this.name;
   }
 }

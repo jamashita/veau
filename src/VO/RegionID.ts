@@ -1,5 +1,5 @@
+import { ValueObject } from '../General/Object/ValueObject';
 import { Type } from '../General/Type/Type';
-import { ValueObject } from '../General/ValueObject';
 
 const EMPTY_ID: number = 0;
 
@@ -55,7 +55,7 @@ export class RegionID extends ValueObject {
     return false;
   }
 
-  public toString(): string {
+  protected serialize(): string {
     return `${this.id}`;
   }
 }

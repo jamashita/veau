@@ -1,9 +1,9 @@
 import { ColumnError } from '../Error/ColumnError';
+import { ValueObject } from '../General/Object/ValueObject';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
 import { Superposition } from '../General/Superposition/Superposition';
 import { Type } from '../General/Type/Type';
-import { ValueObject } from '../General/ValueObject';
 
 const ORIGIN_VALUE: number = 0;
 
@@ -59,7 +59,7 @@ export class Column extends ValueObject {
     return false;
   }
 
-  public toString(): string {
+  protected serialize(): string {
     return `${this.column}`;
   }
 }

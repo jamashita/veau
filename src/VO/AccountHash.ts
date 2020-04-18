@@ -1,4 +1,4 @@
-import { ValueObject } from '../General/ValueObject';
+import { ValueObject } from '../General/Object/ValueObject';
 import { Hash } from './Hash';
 import { VeauAccountID } from './VeauAccountID';
 
@@ -45,7 +45,7 @@ export class AccountHash extends ValueObject {
     return true;
   }
 
-  public toString(): string {
+  protected serialize(): string {
     const properties: Array<string> = [];
 
     properties.push(this.veauAccountID.toString());

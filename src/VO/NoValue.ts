@@ -24,7 +24,7 @@ export class NoValue extends NumericalValue {
     return false;
   }
 
-  public toString(): string {
+  protected serialize(): string {
     return '';
   }
 }

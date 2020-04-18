@@ -4,10 +4,10 @@ import { TermError } from '../Error/TermError';
 import { UpdatedAtError } from '../Error/UpdatedAtError';
 import { Cloneable } from '../General/Interface/Cloneable';
 import { JSONable } from '../General/Interface/JSONable';
+import { ValueObject } from '../General/Object/ValueObject';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
 import { Superposition } from '../General/Superposition/Superposition';
-import { ValueObject } from '../General/ValueObject';
 import { Language, LanguageJSON } from './Language';
 import { Region, RegionJSON } from './Region';
 import { StatsID } from './StatsID';
@@ -251,7 +251,7 @@ export class StatsOutline extends ValueObject implements Cloneable<StatsOutline>
     };
   }
 
-  public toString(): string {
+  protected serialize(): string {
     const properties: Array<string> = [];
 
     properties.push(this.statsID.toString());

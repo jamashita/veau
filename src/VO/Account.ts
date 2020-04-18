@@ -1,10 +1,10 @@
 import { AccountError } from '../Error/AccountError';
 import { VeauAccountIDError } from '../Error/VeauAccountIDError';
 import { Digest } from '../General/Digest';
+import { ValueObject } from '../General/Object/ValueObject';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
 import { Superposition } from '../General/Superposition/Superposition';
-import { ValueObject } from '../General/ValueObject';
 import { AccountName } from './AccountName';
 import { Hash } from './Hash';
 import { Language } from './Language';
@@ -145,7 +145,7 @@ export class Account extends ValueObject {
     return true;
   }
 
-  public toString(): string {
+  protected serialize(): string {
     const properties: Array<string> = [];
 
     properties.push(this.veauAccountID.toString());

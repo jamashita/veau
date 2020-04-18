@@ -1,4 +1,4 @@
-import { ValueObject } from '../General/ValueObject';
+import { ValueObject } from '../General/Object/ValueObject';
 
 export class Color extends ValueObject {
   public readonly noun: 'Color' = 'Color';
@@ -28,7 +28,7 @@ export class Color extends ValueObject {
     return false;
   }
 
-  public toString(): string {
+  protected serialize(): string {
     return this.rgb;
   }
 }

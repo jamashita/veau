@@ -1,9 +1,9 @@
 import { LoadingCountError } from '../Error/LoadingCountError';
+import { ValueObject } from '../General/Object/ValueObject';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
 import { Superposition } from '../General/Superposition/Superposition';
 import { Type } from '../General/Type/Type';
-import { ValueObject } from '../General/ValueObject';
 
 const DEFAULT_COUNT: number = 0;
 
@@ -74,7 +74,7 @@ export class LoadingCount extends ValueObject {
     return false;
   }
 
-  public toString(): string {
+  protected serialize(): string {
     return `${this.count}`;
   }
 }

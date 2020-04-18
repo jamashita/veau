@@ -1,4 +1,4 @@
-import { ValueObject } from '../General/ValueObject';
+import { ValueObject } from '../General/Object/ValueObject';
 
 const EMPTY_NAME: string = '';
 
@@ -52,7 +52,7 @@ export class StatsItemName extends ValueObject {
     return false;
   }
 
-  public toString(): string {
+  protected serialize(): string {
     return this.name;
   }
 }

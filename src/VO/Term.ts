@@ -1,8 +1,8 @@
 import { TermError } from '../Error/TermError';
+import { ValueObject } from '../General/Object/ValueObject';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
 import { Superposition } from '../General/Superposition/Superposition';
-import { ValueObject } from '../General/ValueObject';
 
 const DAILY_ID: number = 1;
 const WEEKLY_ID: number = 2;
@@ -66,7 +66,7 @@ export class Term extends ValueObject {
     return false;
   }
 
-  public toString(): string {
+  protected serialize(): string {
     return this.key;
   }
 }

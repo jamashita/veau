@@ -1,10 +1,10 @@
 import { VeauAccountIDError } from '../Error/VeauAccountIDError';
+import { ValueObject } from '../General/Object/ValueObject';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
 import { Superposition } from '../General/Superposition/Superposition';
 import { UUID } from '../General/UUID/UUID';
 import { UUIDError } from '../General/UUID/UUIDError';
-import { ValueObject } from '../General/ValueObject';
 
 export class VeauAccountID extends ValueObject {
   public readonly noun: 'VeauAccountID' = 'VeauAccountID';
@@ -55,7 +55,7 @@ export class VeauAccountID extends ValueObject {
     return false;
   }
 
-  public toString(): string {
+  protected serialize(): string {
     return this.uuid.toString();
   }
 }

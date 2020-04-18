@@ -1,4 +1,4 @@
-import { ValueObject } from '../General/ValueObject';
+import { ValueObject } from '../General/Object/ValueObject';
 
 export class Hash extends ValueObject {
   public readonly noun: 'Hash' = 'Hash';
@@ -28,7 +28,7 @@ export class Hash extends ValueObject {
     return false;
   }
 
-  public toString(): string {
+  protected serialize(): string {
     return this.hash;
   }
 }

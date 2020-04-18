@@ -1,6 +1,6 @@
 import { JSONable } from '../General/Interface/JSONable';
+import { ValueObject } from '../General/Object/ValueObject';
 import { Type } from '../General/Type/Type';
-import { ValueObject } from '../General/ValueObject';
 import { ISO3166 } from './ISO3166';
 import { RegionID } from './RegionID';
 import { RegionName } from './RegionName';
@@ -137,7 +137,7 @@ export class Region extends ValueObject implements JSONable {
     };
   }
 
-  public toString(): string {
+  protected serialize(): string {
     const properties: Array<string> = [];
 
     properties.push(this.regionID.toString());

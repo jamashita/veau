@@ -1,6 +1,6 @@
 import { JSONable } from '../General/Interface/JSONable';
+import { ValueObject } from '../General/Object/ValueObject';
 import { Type } from '../General/Type/Type';
-import { ValueObject } from '../General/ValueObject';
 import { ISO639 } from './ISO639';
 import { LanguageID } from './LanguageID';
 import { LanguageName } from './LanguageName';
@@ -159,7 +159,7 @@ export class Language extends ValueObject implements JSONable {
     };
   }
 
-  public toString(): string {
+  protected serialize(): string {
     const properties: Array<string> = [];
 
     properties.push(this.languageID.toString());

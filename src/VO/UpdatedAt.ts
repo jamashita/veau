@@ -1,8 +1,8 @@
 import { UpdatedAtError } from '../Error/UpdatedAtError';
+import { ValueObject } from '../General/Object/ValueObject';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
 import { Superposition } from '../General/Superposition/Superposition';
-import { ValueObject } from '../General/ValueObject';
 import { Zeit } from '../General/Zeit/Zeit';
 import { ZeitError } from '../General/Zeit/ZeitError';
 
@@ -59,7 +59,7 @@ export class UpdatedAt extends ValueObject {
     return false;
   }
 
-  public toString(): string {
+  protected serialize(): string {
     return this.at.toString();
   }
 }

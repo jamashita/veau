@@ -1,9 +1,9 @@
 import { PageError } from '../Error/PageError';
+import { ValueObject } from '../General/Object/ValueObject';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
 import { Superposition } from '../General/Superposition/Superposition';
 import { Type } from '../General/Type/Type';
-import { ValueObject } from '../General/ValueObject';
 import { Limit } from './Limit';
 import { Offset } from './Offset';
 
@@ -63,7 +63,7 @@ export class Page extends ValueObject {
     return false;
   }
 
-  public toString(): string {
+  protected serialize(): string {
     return `${this.page}`;
   }
 }
