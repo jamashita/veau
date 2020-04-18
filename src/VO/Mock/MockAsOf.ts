@@ -1,9 +1,5 @@
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
 import { Zeit } from '../../General/Zeit/Zeit';
 import { AsOf } from '../AsOf';
-
-dayjs.extend(utc);
 
 type AsOfArgs = Partial<Readonly<{
   year: number;

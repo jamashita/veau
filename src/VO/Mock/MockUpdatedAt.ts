@@ -1,9 +1,5 @@
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
 import { Zeit } from '../../General/Zeit/Zeit';
 import { UpdatedAt } from '../UpdatedAt';
-
-dayjs.extend(utc);
 
 type UpdatedAtArgs = Partial<Readonly<{
   year: number;

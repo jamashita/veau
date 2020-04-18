@@ -1,3 +1,5 @@
+import { SystemSupportLanguage } from '../VO/SystemSupportLanguage';
+
 export type Messages = Readonly<{
   GREETING: string;
 
@@ -344,10 +346,7 @@ const ja: Messages = {
 };
 
 type I18NMessages = Readonly<{
-  en: Messages;
-  fr: Messages;
-  es: Messages;
-  ja: Messages;
+  [key in SystemSupportLanguage]: Messages;
 }>;
 
 export const i18nMessages: I18NMessages = {

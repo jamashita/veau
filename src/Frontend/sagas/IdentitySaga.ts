@@ -15,6 +15,7 @@ import { AccountName } from '../../VO/AccountName';
 import { ISO639 } from '../../VO/ISO639';
 import { Language } from '../../VO/Language';
 import { Locale } from '../../VO/Locale';
+import { SystemSupportLanguage } from '../../VO/SystemSupportLanguage';
 import { VeauAccount } from '../../VO/VeauAccount';
 import { VeauAccountID } from '../../VO/VeauAccountID';
 import { ACTION } from '../actions/Action';
@@ -33,7 +34,7 @@ export class IdentitySaga {
   private readonly languageQuery: ILanguageQuery;
 
   public constructor(
-  @inject(TYPE.SessionAJAXQuery) sessionQuery: ISessionQuery,
+    @inject(TYPE.SessionAJAXQuery) sessionQuery: ISessionQuery,
     @inject(TYPE.LocaleVaultQuery) localeQuery: ILocaleQuery,
     @inject(TYPE.LanguageVaultQuery) LanguageQuery: ILanguageQuery
   ) {
@@ -79,8 +80,8 @@ export class IdentitySaga {
       yield all(effects);
     }
 
-    const newLanguage: string = LanguageIdentificationService.toISO639(navigator.language);
-    const iso639: ISO639 = ISO639.of(newLanguage);
+    const supportLanguage: SystemSupportLanguage = LanguageIdentificationService.toSupportLanguage(navigator.language);
+    const iso639: ISO639 = ISO639.of(supportLanguage);
     const state: State = yield select();
 
     const {

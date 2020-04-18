@@ -1,11 +1,14 @@
+import { SystemSupportLanguage } from '../VO/SystemSupportLanguage';
+
 export class LanguageIdentificationService {
 
   private static split(language: string): string {
     return language.split('-')[0];
   }
 
-  public static toISO639(language: string): string {
+  public static toSupportLanguage(language: string): SystemSupportLanguage {
     const smallLocale: string = language.toLowerCase();
+
     switch (smallLocale) {
       case 'en':
       case 'fr':
@@ -19,7 +22,7 @@ export class LanguageIdentificationService {
           return 'en';
         }
 
-        return LanguageIdentificationService.toISO639(lang);
+        return LanguageIdentificationService.toSupportLanguage(lang);
       }
     }
   }
