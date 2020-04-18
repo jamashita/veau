@@ -13,7 +13,7 @@ import { Superposition } from '../General/Superposition/Superposition';
 import { Mapper } from '../General/Type/Function';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from './StatsOutline';
 
-export class StatsOutlines implements Collection<number, StatsOutline>, JSONable, Cloneable {
+export class StatsOutlines implements Collection<number, StatsOutline>, Cloneable<StatsOutlines>, JSONable {
   public readonly noun: 'StatsOutlines' = 'StatsOutlines';
   private readonly outlines: Sequence<StatsOutline>;
 

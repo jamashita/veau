@@ -19,7 +19,7 @@ import { NumericalValues } from './NumericalValues';
 import { StatsItemID } from './StatsItemID';
 import { StatsValue, StatsValueJSON, StatsValueRow } from './StatsValue';
 
-export class StatsValues implements Collection<number, StatsValue>, JSONable, Cloneable {
+export class StatsValues implements Collection<number, StatsValue>, Cloneable<StatsValues>, JSONable {
   public readonly noun: 'StatsValues' = 'StatsValues';
   private readonly values: Sequence<StatsValue>;
 

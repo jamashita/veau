@@ -12,7 +12,7 @@ import { ZeitError } from '../General/Zeit/ZeitError';
 import { AsOf } from './AsOf';
 import { Term } from './Term';
 
-export class AsOfs implements Collection<number, AsOf>, Cloneable, JSONable {
+export class AsOfs implements Collection<number, AsOf>, Cloneable<AsOfs>, JSONable {
   public readonly noun: 'AsOfs' = 'AsOfs';
   private readonly asOfs: Sequence<AsOf>;
 
@@ -99,7 +99,8 @@ export class AsOfs implements Collection<number, AsOf>, Cloneable, JSONable {
       const min: Zeit = Zeit.min(zeiten, AsOf.format());
 
       return Present.of<AsOf>(AsOf.of(min));
-    } catch (err) {
+    }
+    catch (err) {
       if (err instanceof ZeitError) {
         return Absent.of<AsOf>();
       }
@@ -124,7 +125,8 @@ export class AsOfs implements Collection<number, AsOf>, Cloneable, JSONable {
       const max: Zeit = Zeit.max(zeiten, AsOf.format());
 
       return Present.of<AsOf>(AsOf.of(max));
-    } catch (err) {
+    }
+    catch (err) {
       if (err instanceof ZeitError) {
         return Absent.of<AsOf>();
       }

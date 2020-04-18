@@ -4,7 +4,7 @@ import { JSONable } from './Interface/JSONable';
 import { Nominative } from './Interface/Nominative';
 import { JSObjectNotation } from './Type/Value';
 
-export abstract class Entity<T extends Equalable> implements JSONable, Nominative, Cloneable {
+export abstract class Entity<T extends Equalable> implements Cloneable<Entity<T>>, JSONable, Nominative {
   public abstract readonly noun: string;
 
   public abstract getIdentifier(): T;

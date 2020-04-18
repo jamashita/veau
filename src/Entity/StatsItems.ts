@@ -22,7 +22,7 @@ import { StatsItemNames } from '../VO/StatsItemNames';
 import { StatsValues } from '../VO/StatsValues';
 import { StatsItem, StatsItemJSON, StatsItemRow } from './StatsItem';
 
-export class StatsItems implements Collection<number, StatsItem>, JSONable, Cloneable {
+export class StatsItems implements Collection<number, StatsItem>, Cloneable<StatsItems>, JSONable {
   public readonly noun: 'StatsItems' = 'StatsItems';
   private readonly items: Sequence<StatsItem>;
 
@@ -48,7 +48,7 @@ export class StatsItems implements Collection<number, StatsItem>, JSONable, Clon
     });
   }
 
-  public static ofJSON(json: Array<StatsItemJSON>):  Superposition<StatsItems, StatsItemsError> {
+  public static ofJSON(json: Array<StatsItemJSON>): Superposition<StatsItems, StatsItemsError> {
     const superpositions: Array<Superposition<StatsItem, StatsItemError>> = json.map<Superposition<StatsItem, StatsItemError>>((statsItemJSON: StatsItemJSON) => {
       return StatsItem.ofJSON(statsItemJSON);
     });

@@ -40,7 +40,7 @@ export type StatsOutlineRow = Readonly<{
   updatedAt: string;
 }>;
 
-export class StatsOutline extends ValueObject implements JSONable, Cloneable {
+export class StatsOutline extends ValueObject implements Cloneable<StatsOutline>, JSONable {
   public readonly noun: 'StatsOutline' = 'StatsOutline';
   private readonly statsID: StatsID;
   private readonly language: Language;

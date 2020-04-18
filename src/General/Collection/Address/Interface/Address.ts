@@ -4,7 +4,7 @@ import { Nominative } from '../../../Interface/Nominative';
 import { Quantum } from '../../../Quantum/Quantum';
 import { Enumerator, Predicate } from '../../../Type/Function';
 
-export interface Address<E extends Nominative> extends Collection<void, E>, Cloneable {
+export interface Address<E extends Nominative> extends Collection<void, E>, Cloneable<Address<E>> {
 
   add(...elements: Array<E>): Address<E>;
 

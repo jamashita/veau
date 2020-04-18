@@ -1,4 +1,4 @@
-export interface Cloneable {
+export interface Cloneable<T extends Cloneable<T>> {
 
-  copy(): Cloneable;
+  copy(): T;
 }
