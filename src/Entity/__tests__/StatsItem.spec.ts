@@ -19,7 +19,6 @@ import { StatsValues } from '../../VO/StatsValues';
 import { MockStatsItem } from '../Mock/MockStatsItem';
 import { StatsItem, StatsItemJSON, StatsItemRow } from '../StatsItem';
 
-// DONE
 describe('StatsItem', () => {
   describe('of', () => {
     it('normal case', () => {
@@ -208,8 +207,8 @@ describe('StatsItem', () => {
       expect(statsItem.getValues().size()).toEqual(statsValues.size());
       for (let i: number = 0; i < statsItem.getValues().size(); i++) {
         const statsValue: StatsValue = statsItem.getValues().get(i).get();
-        expect(statsValue.getAsOf()).toEqual(statsValues.get(i).get().getAsOf());
-        expect(statsValue.getValue()).toEqual(statsValues.get(i).get().getValue());
+        expect(statsValue.getAsOf()).toBe(statsValues.get(i).get().getAsOf());
+        expect(statsValue.getValue()).toBe(statsValues.get(i).get().getValue());
       }
     });
 
@@ -384,7 +383,7 @@ describe('StatsItem', () => {
     it('id will be generated, data are empty', () => {
       const item: StatsItem = StatsItem.default();
       expect(item.getStatsItemID().get().get().length).toEqual(UUID.size());
-      expect(item.getName().get()).toEqual(StatsItemName.empty().get());
+      expect(item.getName()).toBe(StatsItemName.empty());
       expect(item.getValues().isEmpty()).toEqual(true);
     });
   });
@@ -529,8 +528,8 @@ describe('StatsItem', () => {
       );
 
       expect(statsItem.getAsOfs().size()).toEqual(2);
-      expect(statsItem.getAsOfs().get(0).get()).toEqual(asOf1);
-      expect(statsItem.getAsOfs().get(1).get()).toEqual(asOf2);
+      expect(statsItem.getAsOfs().get(0).get()).toBe(asOf1);
+      expect(statsItem.getAsOfs().get(1).get()).toBe(asOf2);
     });
   });
 
@@ -623,9 +622,9 @@ describe('StatsItem', () => {
       const duplicated: StatsItem = statsItem.duplicate();
 
       expect(statsItem).not.toBe(duplicated);
-      expect(statsItem.getStatsItemID()).toEqual(statsItemID);
-      expect(statsItem.getName()).toEqual(name);
-      expect(statsItem.getValues()).toEqual(statsValues);
+      expect(statsItem.getStatsItemID()).toBe(statsItemID);
+      expect(statsItem.getName()).toBe(name);
+      expect(statsItem.getValues()).toBe(statsValues);
     });
   });
 

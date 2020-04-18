@@ -341,7 +341,7 @@ describe('StatsItems', () => {
 
       expect(statsItems.size()).toEqual(items.length);
       for (let i: number = 0; i < statsItems.size(); i++) {
-        expect(statsItems.get(i).get()).toEqual(items[i]);
+        expect(statsItems.get(i).get()).toBe(items[i]);
       }
     });
   });
@@ -365,7 +365,7 @@ describe('StatsItems', () => {
 
       expect(statsItems.size()).toEqual(items.length);
       for (let i: number = 0; i < statsItems.size(); i++) {
-        expect(statsItems.get(i).get()).toEqual(items[i]);
+        expect(statsItems.get(i).get()).toBe(items[i]);
       }
     });
   });
