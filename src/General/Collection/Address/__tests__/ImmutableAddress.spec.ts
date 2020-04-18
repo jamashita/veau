@@ -145,6 +145,14 @@ describe('ImmutableAddress', () => {
       expect(nouns2.size()).toEqual(1);
     });
 
+    it('does nothing because the address is already nothing', () => {
+      const noun: MockNominative<number> = new MockNominative<number>(1);
+
+      const nouns: ImmutableAddress<MockNominative<number>> = ImmutableAddress.empty<MockNominative<number>>();
+
+      expect(nouns.remove(noun)).toBe(nouns);
+    });
+
     it('returns the value even if the other other', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);

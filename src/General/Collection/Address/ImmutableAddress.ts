@@ -59,6 +59,10 @@ export class ImmutableAddress<E extends Nominative> extends AAddress<E> implemen
   }
 
   public remove(element: E): ImmutableAddress<E> {
+    if (this.isEmpty()) {
+      return this;
+    }
+
     const map: Map<string, E> = new Map<string, E>(this.elements);
 
     if (map.delete(element.hashCode())) {
