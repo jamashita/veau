@@ -1,11 +1,12 @@
 import { StatsItemError } from '../Error/StatsItemError';
 import { StatsItemIDError } from '../Error/StatsItemIDError';
 import { StatsItemsError } from '../Error/StatsItemsError';
+import { Collection } from '../General/Collection/Interface/Collection';
 import { ImmutableSequence } from '../General/Collection/Sequence/ImmutableSequence';
 import { Sequence } from '../General/Collection/Sequence/Interface/Sequence';
 import { Cloneable } from '../General/Interface/Cloneable';
-import { Collection } from '../General/Interface/Collection';
 import { JSONable } from '../General/Interface/JSONable';
+import { Objet } from '../General/Object/Objet';
 import { Quantum } from '../General/Quantum/Quantum';
 import { Failure } from '../General/Superposition/Failure';
 import { manoeuvre } from '../General/Superposition/Manoeuvre';
@@ -22,7 +23,7 @@ import { StatsItemNames } from '../VO/StatsItemNames';
 import { StatsValues } from '../VO/StatsValues';
 import { StatsItem, StatsItemJSON, StatsItemRow } from './StatsItem';
 
-export class StatsItems implements Collection<number, StatsItem>, Cloneable<StatsItems>, JSONable {
+export class StatsItems extends Objet implements Collection<number, StatsItem>, Cloneable<StatsItems>, JSONable {
   public readonly noun: 'StatsItems' = 'StatsItems';
   private readonly items: Sequence<StatsItem>;
 
@@ -85,6 +86,7 @@ export class StatsItems implements Collection<number, StatsItem>, Cloneable<Stat
   }
 
   protected constructor(items: Sequence<StatsItem>) {
+    super();
     this.items = items;
   }
 
@@ -250,7 +252,7 @@ export class StatsItems implements Collection<number, StatsItem>, Cloneable<Stat
     });
   }
 
-  public toString(): string {
+  protected serialize(): string {
     return this.items.toArray().map<string>((item: StatsItem) => {
       return item.toString();
     }).join(', ');

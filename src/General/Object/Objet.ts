@@ -1,5 +1,5 @@
 import hash from 'object-hash';
-import { Nominative } from '../../Interface/Nominative';
+import { Nominative } from '../Interface/Nominative';
 
 export abstract class Objet implements Nominative {
   public abstract readonly noun: string;

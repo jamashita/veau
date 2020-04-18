@@ -1,4 +1,5 @@
 import { Nominative } from '../../../Interface/Nominative';
+import { Objet } from '../../../Object/Objet';
 import { Absent } from '../../../Quantum/Absent';
 import { Present } from '../../../Quantum/Present';
 import { Quantum } from '../../../Quantum/Quantum';
@@ -7,11 +8,12 @@ import { Ambiguous } from '../../../Type/Value';
 import { ImmutableSequence } from '../ImmutableSequence';
 import { Sequence } from '../Interface/Sequence';
 
-export abstract class ASequence<E extends Nominative> implements Sequence<E> {
+export abstract class ASequence<E extends Nominative> extends Objet implements Sequence<E> {
   public abstract readonly noun: string;
   protected readonly elements: Array<E>;
 
   protected constructor(elements: Array<E>) {
+    super();
     this.elements = elements;
   }
 
@@ -98,7 +100,7 @@ export abstract class ASequence<E extends Nominative> implements Sequence<E> {
     ];
   }
 
-  public toString(): string {
+  protected serialize(): string {
     return this.elements.map<string>((element: E) => {
       return element.toString();
     }).join(', ');

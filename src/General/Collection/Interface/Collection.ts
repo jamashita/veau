@@ -1,5 +1,5 @@
-import { Quantum } from '../Quantum/Quantum';
-import { Nominative } from './Nominative';
+import { Nominative } from '../../Interface/Nominative';
+import { Quantum } from '../../Quantum/Quantum';
 
 export interface Collection<K, V extends Nominative> extends Nominative {
 

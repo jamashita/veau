@@ -1,4 +1,5 @@
 import { Nominative } from '../../../Interface/Nominative';
+import { Objet } from '../../../Object/Objet';
 import { Absent } from '../../../Quantum/Absent';
 import { Present } from '../../../Quantum/Present';
 import { Quantum } from '../../../Quantum/Quantum';
@@ -6,11 +7,12 @@ import { Enumerator, Predicate } from '../../../Type/Function';
 import { Ambiguous } from '../../../Type/Value';
 import { Address } from '../Interface/Address';
 
-export abstract class AAddress<E extends Nominative> implements Address<E> {
+export abstract class AAddress<E extends Nominative> extends Objet implements Address<E> {
   public abstract readonly noun: string;
   protected readonly elements: Set<E>;
 
   protected constructor(elements: Set<E>) {
+    super();
     this.elements = elements;
   }
 
@@ -89,7 +91,7 @@ export abstract class AAddress<E extends Nominative> implements Address<E> {
     ];
   }
 
-  public toString(): string {
+  protected serialize(): string {
     return this.toArray().map<string>((element: E) => {
       return element.toString();
     }).join(', ');

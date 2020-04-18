@@ -1,10 +1,11 @@
+import { Collection } from '../General/Collection/Interface/Collection';
 import { ImmutableSequence } from '../General/Collection/Sequence/ImmutableSequence';
 import { Sequence } from '../General/Collection/Sequence/Interface/Sequence';
-import { Collection } from '../General/Interface/Collection';
+import { Objet } from '../General/Object/Objet';
 import { Quantum } from '../General/Quantum/Quantum';
 import { NumericalValue } from './NumericalValue';
 
-export class NumericalValues implements Collection<number, NumericalValue> {
+export class NumericalValues extends Objet implements Collection<number, NumericalValue> {
   public readonly noun: 'NumericalValues' = 'NumericalValues';
   private readonly values: Sequence<NumericalValue>;
 
@@ -31,6 +32,7 @@ export class NumericalValues implements Collection<number, NumericalValue> {
   }
 
   protected constructor(values: Sequence<NumericalValue>) {
+    super();
     this.values = values;
   }
 
@@ -68,7 +70,7 @@ export class NumericalValues implements Collection<number, NumericalValue> {
     return this.values.equals(other.values);
   }
 
-  public toString(): string {
+  protected serialize(): string {
     return this.row().join(', ');
   }
 }

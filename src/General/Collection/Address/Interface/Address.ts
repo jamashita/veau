@@ -1,8 +1,8 @@
 import { Cloneable } from '../../../Interface/Cloneable';
-import { Collection } from '../../../Interface/Collection';
 import { Nominative } from '../../../Interface/Nominative';
 import { Quantum } from '../../../Quantum/Quantum';
 import { Enumerator, Predicate } from '../../../Type/Function';
+import { Collection } from '../../Interface/Collection';
 
 export interface Address<E extends Nominative> extends Collection<void, E>, Cloneable<Address<E>> {
 

@@ -1,12 +1,13 @@
+import { Collection } from '../General/Collection/Interface/Collection';
 import { ImmutableSequence } from '../General/Collection/Sequence/ImmutableSequence';
 import { Sequence } from '../General/Collection/Sequence/Interface/Sequence';
-import { Collection } from '../General/Interface/Collection';
 import { JSONable } from '../General/Interface/JSONable';
+import { Objet } from '../General/Object/Objet';
 import { Quantum } from '../General/Quantum/Quantum';
 import { Mapper } from '../General/Type/Function';
 import { StatsItemName } from './StatsItemName';
 
-export class StatsItemNames implements Collection<number, StatsItemName>, JSONable {
+export class StatsItemNames extends Objet implements Collection<number, StatsItemName>, JSONable {
   public readonly noun: 'StatsItemNames' = 'StatsItemNames';
   private readonly names: Sequence<StatsItemName>;
 
@@ -33,6 +34,7 @@ export class StatsItemNames implements Collection<number, StatsItemName>, JSONab
   }
 
   protected constructor(names: Sequence<StatsItemName>) {
+    super();
     this.names = names;
   }
 
@@ -70,7 +72,7 @@ export class StatsItemNames implements Collection<number, StatsItemName>, JSONab
     });
   }
 
-  public toString(): string {
+  protected serialize(): string {
     return this.names.toArray().map<string>((name: StatsItemName) => {
       return name.toString();
     }).join(', ');

@@ -1,8 +1,9 @@
+import { Collection } from '../General/Collection/Interface/Collection';
 import { ImmutableSequence } from '../General/Collection/Sequence/ImmutableSequence';
 import { Sequence } from '../General/Collection/Sequence/Interface/Sequence';
 import { Cloneable } from '../General/Interface/Cloneable';
-import { Collection } from '../General/Interface/Collection';
 import { JSONable } from '../General/Interface/JSONable';
+import { Objet } from '../General/Object/Objet';
 import { Absent } from '../General/Quantum/Absent';
 import { Present } from '../General/Quantum/Present';
 import { Quantum } from '../General/Quantum/Quantum';
@@ -12,7 +13,7 @@ import { ZeitError } from '../General/Zeit/ZeitError';
 import { AsOf } from './AsOf';
 import { Term } from './Term';
 
-export class AsOfs implements Collection<number, AsOf>, Cloneable<AsOfs>, JSONable {
+export class AsOfs extends Objet implements Collection<number, AsOf>, Cloneable<AsOfs>, JSONable {
   public readonly noun: 'AsOfs' = 'AsOfs';
   private readonly asOfs: Sequence<AsOf>;
 
@@ -68,6 +69,7 @@ export class AsOfs implements Collection<number, AsOf>, Cloneable<AsOfs>, JSONab
   }
 
   protected constructor(asOfs: Sequence<AsOf>) {
+    super();
     this.asOfs = asOfs;
   }
 
@@ -165,7 +167,7 @@ export class AsOfs implements Collection<number, AsOf>, Cloneable<AsOfs>, JSONab
     });
   }
 
-  public toString(): string {
+  protected serialize(): string {
     return this.asOfs.toArray().map<string>((asOf: AsOf) => {
       return asOf.toString();
     }).join(', ');

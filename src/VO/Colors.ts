@@ -1,10 +1,11 @@
+import { Collection } from '../General/Collection/Interface/Collection';
 import { ImmutableSequence } from '../General/Collection/Sequence/ImmutableSequence';
 import { Sequence } from '../General/Collection/Sequence/Interface/Sequence';
-import { Collection } from '../General/Interface/Collection';
+import { Objet } from '../General/Object/Objet';
 import { Quantum } from '../General/Quantum/Quantum';
 import { Color } from './Color';
 
-export class Colors implements Collection<number, Color> {
+export class Colors extends Objet implements Collection<number, Color> {
   public readonly noun: 'Colors' = 'Colors';
   private readonly colors: Sequence<Color>;
 
@@ -48,6 +49,7 @@ export class Colors implements Collection<number, Color> {
   }
 
   protected constructor(colors: Sequence<Color>) {
+    super();
     this.colors = colors;
   }
 
@@ -77,7 +79,7 @@ export class Colors implements Collection<number, Color> {
     return this.colors.equals(other.colors);
   }
 
-  public toString(): string {
+  protected serialize(): string {
     return this.colors.toArray().map<string>((color: Color) => {
       return color.toString();
     }).join(', ');

@@ -1,12 +1,13 @@
+import { Collection } from '../General/Collection/Interface/Collection';
 import { ImmutableSequence } from '../General/Collection/Sequence/ImmutableSequence';
 import { Sequence } from '../General/Collection/Sequence/Interface/Sequence';
-import { Collection } from '../General/Interface/Collection';
 import { JSONable } from '../General/Interface/JSONable';
+import { Objet } from '../General/Object/Objet';
 import { Quantum } from '../General/Quantum/Quantum';
 import { Mapper, Predicate } from '../General/Type/Function';
 import { Language, LanguageJSON, LanguageRow } from './Language';
 
-export class Languages implements Collection<number, Language>, JSONable {
+export class Languages extends Objet implements Collection<number, Language>, JSONable {
   public readonly noun: 'Languages' = 'Languages';
   private readonly languages: Sequence<Language>;
 
@@ -49,6 +50,7 @@ export class Languages implements Collection<number, Language>, JSONable {
   }
 
   protected constructor(languages: Sequence<Language>) {
+    super();
     this.languages = languages;
   }
 
@@ -90,7 +92,7 @@ export class Languages implements Collection<number, Language>, JSONable {
     });
   }
 
-  public toString(): string {
+  protected serialize(): string {
     return this.languages.toArray().map<string>((language: Language) => {
       return language.toString();
     }).join(', ');

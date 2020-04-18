@@ -1,11 +1,12 @@
+import { Collection } from '../General/Collection/Interface/Collection';
 import { ImmutableSequence } from '../General/Collection/Sequence/ImmutableSequence';
 import { Sequence } from '../General/Collection/Sequence/Interface/Sequence';
-import { Collection } from '../General/Interface/Collection';
+import { Objet } from '../General/Object/Objet';
 import { Quantum } from '../General/Quantum/Quantum';
 import { Mapper } from '../General/Type/Function';
 import { Term } from './Term';
 
-export class Terms implements Collection<number, Term> {
+export class Terms extends Objet implements Collection<number, Term> {
   public readonly noun: 'Terms' = 'Terms';
   private readonly terms: Sequence<Term>;
 
@@ -34,6 +35,7 @@ export class Terms implements Collection<number, Term> {
   }
 
   protected constructor(terms: Sequence<Term>) {
+    super();
     this.terms = terms;
   }
 
@@ -65,7 +67,7 @@ export class Terms implements Collection<number, Term> {
     return this.terms.equals(other.terms);
   }
 
-  public toString(): string {
+  protected serialize(): string {
     return this.terms.toArray().map<string>((term: Term) => {
       return term.toString();
     }).join(', ');

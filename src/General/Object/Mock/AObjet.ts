@@ -1,5 +1,5 @@
 import { UnimplementedError } from '../../UnimplementedError';
-import { Objet } from '../Abstract/Objet';
+import { Objet } from '../Objet';
 
 export class AObjet<T> extends Objet {
   public readonly noun: 'AObjet' = 'AObjet';

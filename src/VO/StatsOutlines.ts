@@ -1,10 +1,11 @@
 import { StatsOutlineError } from '../Error/StatsOutlineError';
 import { StatsOutlinesError } from '../Error/StatsOutlinesError';
+import { Collection } from '../General/Collection/Interface/Collection';
 import { ImmutableSequence } from '../General/Collection/Sequence/ImmutableSequence';
 import { Sequence } from '../General/Collection/Sequence/Interface/Sequence';
 import { Cloneable } from '../General/Interface/Cloneable';
-import { Collection } from '../General/Interface/Collection';
 import { JSONable } from '../General/Interface/JSONable';
+import { Objet } from '../General/Object/Objet';
 import { Quantum } from '../General/Quantum/Quantum';
 import { Failure } from '../General/Superposition/Failure';
 import { manoeuvre } from '../General/Superposition/Manoeuvre';
@@ -13,7 +14,7 @@ import { Superposition } from '../General/Superposition/Superposition';
 import { Mapper } from '../General/Type/Function';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from './StatsOutline';
 
-export class StatsOutlines implements Collection<number, StatsOutline>, Cloneable<StatsOutlines>, JSONable {
+export class StatsOutlines extends Objet implements Collection<number, StatsOutline>, Cloneable<StatsOutlines>, JSONable {
   public readonly noun: 'StatsOutlines' = 'StatsOutlines';
   private readonly outlines: Sequence<StatsOutline>;
 
@@ -66,6 +67,7 @@ export class StatsOutlines implements Collection<number, StatsOutline>, Cloneabl
   }
 
   protected constructor(outlines: Sequence<StatsOutline>) {
+    super();
     this.outlines = outlines;
   }
 
@@ -107,7 +109,7 @@ export class StatsOutlines implements Collection<number, StatsOutline>, Cloneabl
     });
   }
 
-  public toString(): string {
+  protected serialize(): string {
     return this.outlines.toArray().map<string>((outline: StatsOutline) => {
       return outline.toString();
     }).join(', ');

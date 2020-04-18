@@ -1,4 +1,4 @@
-import { Objet } from './Abstract/Objet';
+import { Objet } from './Objet';
 
 export abstract class ValueObject extends Objet {
   public abstract readonly noun: string;
