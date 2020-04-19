@@ -19,6 +19,14 @@ describe('MockAEntity', () => {
   });
 
   describe('hashCode', () => {
+    it('returns same value of id\'s hashCode', () => {
+      const noun: MockNominative<number> = new MockNominative<number>(-1);
+
+      const entity: MockAEntity<number> = new MockAEntity<number>(noun, {});
+
+      expect(noun.hashCode()).toEqual(entity.hashCode());
+    });
+
     it('only depends on the id value, even if the other valeus are changed, returns same hashCode', () => {
       const noun: MockNominative<number> = new MockNominative<number>(-1);
 

@@ -24,6 +24,6 @@ export abstract class Entity<T extends Nominative> extends Objet implements Clon
   }
 
   public hashCode(): string {
-    return super.innerHashCode(this.getIdentifier());
+    return this.getIdentifier().hashCode();
   }
 }

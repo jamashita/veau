@@ -5,7 +5,6 @@ import { TermError } from '../Error/TermError';
 import { UpdatedAtError } from '../Error/UpdatedAtError';
 import { Entity } from '../General/Object/Entity';
 import { Absent } from '../General/Quantum/Absent';
-import { Present } from '../General/Quantum/Present';
 import { Quantum } from '../General/Quantum/Quantum';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
@@ -70,7 +69,7 @@ export class Stats extends Entity<StatsID> {
   private readonly updatedAt: UpdatedAt;
   private items: StatsItems;
   private readonly startDate: Quantum<AsOf>;
-  private columns: Quantum<AsOfs>;
+  private columns?: AsOfs;
 
   public static of(
     statsID: StatsID,
@@ -229,7 +228,6 @@ export class Stats extends Entity<StatsID> {
     this.updatedAt = updatedAt;
     this.items = items;
     this.startDate = startDate;
-    this.columns = Absent.of<AsOfs>();
   }
 
   public getStatsID(): StatsID {
@@ -277,8 +275,8 @@ export class Stats extends Entity<StatsID> {
   }
 
   public getColumns(): AsOfs {
-    if (this.columns.isPresent()) {
-      return this.columns.get();
+    if (this.columns !== undefined) {
+      return this.columns;
     }
 
     let asOfs: AsOfs = this.items.getAsOfs();
@@ -294,10 +292,9 @@ export class Stats extends Entity<StatsID> {
     const min: AsOf = asOfs.min().get();
     const max: AsOf = asOfs.max().get();
 
-    const newColumns: AsOfs = AsOfs.duration(min, max, this.term);
-    this.columns = Present.of<AsOfs>(newColumns);
+    this.columns = AsOfs.duration(min, max, this.term);
 
-    return newColumns;
+    return this.columns;
   }
 
   public getColumn(column: Column): Quantum<AsOf> {
@@ -305,7 +302,7 @@ export class Stats extends Entity<StatsID> {
   }
 
   private recalculate(): void {
-    this.columns = Absent.of<AsOfs>();
+    this.columns = undefined;
     this.getColumns();
   }
 
