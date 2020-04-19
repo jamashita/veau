@@ -822,22 +822,19 @@ describe('StatsItems', () => {
 
   describe('areFilled', () => {
     it('returns true if the all items are filled', () => {
-      const statsItem1: MockStatsItem = new MockStatsItem({
-        name: new MockStatsItemName('stats item 1')
-      });
-      const statsItem2: MockStatsItem = new MockStatsItem({
-        name: new MockStatsItemName('stats item 2')
-      });
-      const statsItem3: MockStatsItem = new MockStatsItem({
-        name: new MockStatsItemName('')
-      });
       const statsItems1: StatsItems = StatsItems.ofSpread(
-        statsItem1,
-        statsItem2
+        new MockStatsItem({
+          name: new MockStatsItemName('stats item 1')
+        }),
+        new MockStatsItem({
+          name: new MockStatsItemName('stats item 2')
+        })
       );
       const statsItems2: StatsItems = StatsItems.ofSpread(
-        statsItem2,
-        statsItem3
+        new MockStatsItem({
+          name: new MockStatsItemName('stats item 3')
+        }),
+        StatsItem.default()
       );
 
       expect(statsItems1.areFilled()).toEqual(true);
@@ -847,22 +844,19 @@ describe('StatsItems', () => {
 
   describe('areValid', () => {
     it('returns true if the all items are valid', () => {
-      const statsItem1: MockStatsItem = new MockStatsItem({
-        name: new MockStatsItemName('stats item 1')
-      });
-      const statsItem2: MockStatsItem = new MockStatsItem({
-        name: new MockStatsItemName('stats item 2')
-      });
-      const statsItem3: MockStatsItem = new MockStatsItem({
-        name: new MockStatsItemName('')
-      });
       const statsItems1: StatsItems = StatsItems.ofSpread(
-        statsItem1,
-        statsItem2
+        new MockStatsItem({
+          name: new MockStatsItemName('stats item 1')
+        }),
+        new MockStatsItem({
+          name: new MockStatsItemName('stats item 2')
+        })
       );
       const statsItems2: StatsItems = StatsItems.ofSpread(
-        statsItem2,
-        statsItem3
+        new MockStatsItem({
+          name: new MockStatsItemName('stats item 3')
+        }),
+        StatsItem.default()
       );
 
       expect(statsItems1.areValid()).toEqual(true);
