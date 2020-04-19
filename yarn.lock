@@ -1272,10 +1272,10 @@
     "@types/source-list-map" "*"
     source-map "^0.6.1"
 
-"@types/webpack@4.41.11":
-  version "4.41.11"
-  resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-4.41.11.tgz#7b7f725397d3b630bede05415d34e9ff30d9771f"
-  integrity sha512-PtEZISfBMWL05qOpZN19hztZPt0rPuGQh5sbBP3bB4RrJgzdb0SScn47hdcMaoN1IgaU7NZWeDO6reFcKTK2iQ==
+"@types/webpack@4.41.12":
+  version "4.41.12"
+  resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-4.41.12.tgz#0386ee2a2814368e2f2397abb036c0bf173ff6c3"
+  integrity sha512-BpCtM4NnBen6W+KEhrL9jKuZCXVtiH6+0b6cxdvNt2EwU949Al334PjQSl2BeAyvAX9mgoNNG21wvjP3xZJJ5w==
   dependencies:
     "@types/anymatch" "*"
     "@types/node" "*"
@@ -10453,6 +10453,14 @@ source-map-support@0.5.16, source-map-support@^0.5.6, source-map-support@~0.5.12
   version "0.5.16"
   resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.5.16.tgz#0ae069e7fe3ba7538c64c98515e35339eac5a042"
   integrity sha512-efyLRJDr68D9hBBNIPWFjhpFzURh+KJykQwvMyW5UiZzYwoF6l4YMMDIJJEyFWxWCqfyxLzz6tSfUFR+kXXsVQ==
+  dependencies:
+    buffer-from "^1.0.0"
+    source-map "^0.6.0"
+
+source-map-support@0.5.17:
+  version "0.5.17"
+  resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.5.17.tgz#29fe1b3c98b9dbd5064ada89052ee8ff070cb46c"
+  integrity sha512-bwdKOBZ5L0gFRh4KOxNap/J/MpvX9Yxsq9lFDx65s3o7F/NiHy7JRaGIS8MwW6tZPAq9UXE207Il0cfcb5yu/Q==
   dependencies:
     buffer-from "^1.0.0"
     source-map "^0.6.0"

@@ -63,7 +63,7 @@
     "reflect-metadata": "0.1.13",
     "rxjs": "6.5.5",
     "serve-favicon": "2.5.0",
-    "source-map-support": "0.5.16",
+    "source-map-support": "0.5.17",
     "superagent": "5.2.2"
   },
   "devDependencies": {
@@ -94,7 +94,7 @@
     "@types/sinon": "9.0.0",
     "@types/superagent": "4.1.7",
     "@types/supertest": "2.0.8",
-    "@types/webpack": "4.41.11",
+    "@types/webpack": "4.41.12",
     "@typescript-eslint/eslint-plugin": "2.28.0",
     "@typescript-eslint/parser": "2.28.0",
     "@typescript-eslint/typescript-estree": "2.28.0",
