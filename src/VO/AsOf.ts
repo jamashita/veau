@@ -107,11 +107,8 @@ export class AsOf extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.asOf.equals(other.asOf)) {
-      return true;
-    }
 
-    return false;
+    return this.asOf.equals(other.asOf);
   }
 
   public serialize(): string {

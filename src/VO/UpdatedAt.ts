@@ -52,11 +52,8 @@ export class UpdatedAt extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.at.equals(other.at)) {
-      return true;
-    }
 
-    return false;
+    return this.at.equals(other.at);
   }
 
   public serialize(): string {
