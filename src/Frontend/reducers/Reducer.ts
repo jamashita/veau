@@ -3,18 +3,18 @@ import { combineReducers, Reducer } from 'redux';
 import { Action } from '../actions/Action';
 import { history } from '../history';
 import { State } from '../State';
-import { entranceInformation } from './entranceInformation';
-import { identity } from './identity';
-import { loadingCount } from './loadingCount';
-import { locale } from './locale';
-import { modal } from './modal';
-import { notification } from './notification';
-import { pageProvider } from './pageProvider';
-import { stats } from './stats';
-import { statsEdit } from './statsEdit';
-import { statsItem } from './statsItem';
-import { statsList } from './statsList';
-import { statsOutlines } from './statsOutlines';
+import { entranceInformation } from './EntranceInformation';
+import { identity } from './Identity';
+import { loadingCount } from './LoadingCount';
+import { locale } from './Locale';
+import { modal } from './Modal';
+import { notification } from './Notification';
+import { pageProvider } from './PageProvider';
+import { stats } from './Stats';
+import { statsEdit } from './StatsEdit';
+import { statsItem } from './StatsItem';
+import { statsList } from './StatsList';
+import { statsOutlines } from './StatsOutlines';
 
 export const reducers: Reducer<State, Action> = combineReducers<State, Action>({
   entranceInformation,

@@ -7,7 +7,7 @@ import { vault } from '../Container/Vault';
 import { Action } from './actions/Action';
 import { RootEpic } from './epics/RootEpis';
 import { history } from './history';
-import { reducers } from './reducers/reducer';
+import { reducers } from './reducers/Reducer';
 import { State } from './State';
 
 const epic: EpicMiddleware<Action, Action, State> = createEpicMiddleware<Action, Action, State>();
