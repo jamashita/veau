@@ -102,284 +102,346 @@ export enum ACTION {
   STATS_ITEM_RESET = '@@veau/STATS_ITEM_RESET'
 }
 
-export interface LocationChangeAction extends ChangeAction {
-  type: ACTION.LOCATION_CHANGE;
-  payload: LocationChangePayload;
+export interface VeauAction extends ReduxAction {
+  readonly type: ACTION;
 }
-export interface ModalRaiseAction extends ReduxAction {
-  type: ACTION.MODAL_RAISE;
-  title: string;
-  description: string;
-  values?: Record<string, string>;
+
+export interface LocationChangeAction extends ChangeAction, VeauAction {
+  readonly type: ACTION.LOCATION_CHANGE;
+  readonly payload: LocationChangePayload;
 }
-export interface ModalCloseAction extends ReduxAction {
-  type: ACTION.MODAL_CLOSE;
+
+export interface ModalRaiseAction extends VeauAction {
+  readonly type: ACTION.MODAL_RAISE;
+  readonly title: string;
+  readonly description: string;
+  readonly values?: Record<string, string>;
 }
-export interface NotificationAppearAction extends ReduxAction {
-  type: ACTION.NOTIFICATION_APPEAR;
-  kind: NotificationKind;
-  horizontal: NotificationHPosition;
-  vertical: NotificationVPosition;
-  message: string;
-  duration: number;
-  values?: Record<string, string>;
+
+export interface ModalCloseAction extends VeauAction {
+  readonly type: ACTION.MODAL_CLOSE;
 }
-export interface NotificationDisappearAction extends ReduxAction {
-  type: ACTION.NOTIFICATION_DISAPPEAR;
+
+export interface NotificationAppearAction extends VeauAction {
+  readonly type: ACTION.NOTIFICATION_APPEAR;
+  readonly kind: NotificationKind;
+  readonly horizontal: NotificationHPosition;
+  readonly vertical: NotificationVPosition;
+  readonly message: string;
+  readonly duration: number;
+  readonly values?: Record<string, string>;
 }
-export interface LoadingStartAction extends ReduxAction {
-  type: ACTION.LOADING_START;
+
+export interface NotificationDisappearAction extends VeauAction {
+  readonly type: ACTION.NOTIFICATION_DISAPPEAR;
 }
-export interface LoadingFinishAction extends ReduxAction {
-  type: ACTION.LOADING_FINISH;
+
+export interface LoadingStartAction extends VeauAction {
+  readonly type: ACTION.LOADING_START;
 }
-export interface IdentityAuthenticateAction extends ReduxAction {
-  type: ACTION.IDENTITY_AUTHENTICATE;
+
+export interface LoadingFinishAction extends VeauAction {
+  readonly type: ACTION.LOADING_FINISH;
 }
-export interface IdentityAuthenticatedAction extends ReduxAction {
-  type: ACTION.IDENTITY_AUTHENTICATED;
-  identity: VeauAccount;
+
+export interface IdentityAuthenticateAction extends VeauAction {
+  readonly type: ACTION.IDENTITY_AUTHENTICATE;
 }
-export interface IdentityInitializeAction extends ReduxAction {
-  type: ACTION.IDENTITY_INITIALIZE;
+
+export interface IdentityAuthenticatedAction extends VeauAction {
+  readonly type: ACTION.IDENTITY_AUTHENTICATED;
+  readonly identity: VeauAccount;
 }
-export interface IdentityIdentifiedAction extends ReduxAction {
-  type: ACTION.IDENTITY_IDENTIFIED;
+
+export interface IdentityInitializeAction extends VeauAction {
+  readonly type: ACTION.IDENTITY_INITIALIZE;
 }
-export interface LogoutAction extends ReduxAction {
-  type: ACTION.LOGOUT;
+
+export interface IdentityIdentifiedAction extends VeauAction {
+  readonly type: ACTION.IDENTITY_IDENTIFIED;
 }
-export interface PushToStatsListAction extends ReduxAction {
-  type: ACTION.PUSH_TO_STATS_LIST;
+
+export interface LogoutAction extends VeauAction {
+  readonly type: ACTION.LOGOUT;
 }
-export interface PushToStatsEditAction extends ReduxAction {
-  type: ACTION.PUSH_TO_STATS_EDIT;
-  statsID: StatsID;
+
+export interface PushToStatsListAction extends VeauAction {
+  readonly type: ACTION.PUSH_TO_STATS_LIST;
 }
-export interface PushToEntranceAction extends ReduxAction {
-  type: ACTION.PUSH_TO_ENTRANCE;
+
+export interface PushToStatsEditAction extends VeauAction {
+  readonly type: ACTION.PUSH_TO_STATS_EDIT;
+  readonly statsID: StatsID;
 }
-export interface ProviderOpenAction extends ReduxAction {
-  type: ACTION.PROVIDER_OPEN;
+
+export interface PushToEntranceAction extends VeauAction {
+  readonly type: ACTION.PUSH_TO_ENTRANCE;
 }
-export interface ProviderCloseAction extends ReduxAction {
-  type: ACTION.PROVIDER_CLOSE;
+
+export interface ProviderOpenAction extends VeauAction {
+  readonly type: ACTION.PROVIDER_OPEN;
 }
-export interface LocaleDefinedAction extends ReduxAction {
-  type: ACTION.LOCALE_DEFINED;
-  locale: Locale;
+
+export interface ProviderCloseAction extends VeauAction {
+  readonly type: ACTION.PROVIDER_CLOSE;
 }
-export interface EntranceAccountNameTypedAction extends ReduxAction {
-  type: ACTION.ENTRANCE_ACCOUNT_NAME_TYPED;
-  account: AccountName;
+
+export interface LocaleDefinedAction extends VeauAction {
+  readonly type: ACTION.LOCALE_DEFINED;
+  readonly locale: Locale;
 }
-export interface EntrancePasswordTypedAction extends ReduxAction {
-  type: ACTION.ENTRANCE_PASSWORD_TYPED;
-  password: Password;
+
+export interface EntranceAccountNameTypedAction extends VeauAction {
+  readonly type: ACTION.ENTRANCE_ACCOUNT_NAME_TYPED;
+  readonly account: AccountName;
 }
-export interface EntranceUpdateAction extends ReduxAction {
-  type: ACTION.ENTRANCE_UPDATE;
-  entranceInformation: EntranceInformation;
+
+export interface EntrancePasswordTypedAction extends VeauAction {
+  readonly type: ACTION.ENTRANCE_PASSWORD_TYPED;
+  readonly password: Password;
 }
-export interface StatsListInitializeAction extends ReduxAction {
-  type: ACTION.STATS_LIST_INITIALIZE;
+
+export interface EntranceUpdateAction extends VeauAction {
+  readonly type: ACTION.ENTRANCE_UPDATE;
+  readonly entranceInformation: EntranceInformation;
 }
-export interface StatsListOpenNewStatsModalAction extends ReduxAction {
-  type: ACTION.STATS_LIST_OPEN_STATS_MODAL;
+
+export interface StatsListInitializeAction extends VeauAction {
+  readonly type: ACTION.STATS_LIST_INITIALIZE;
 }
-export interface StatsListCloseNewStatsModalAction extends ReduxAction {
-  type: ACTION.STATS_LIST_CLOSE_STATS_MODAL;
+
+export interface StatsListOpenNewStatsModalAction extends VeauAction {
+  readonly type: ACTION.STATS_LIST_OPEN_STATS_MODAL;
 }
-export interface StatsListNameTypedAction extends ReduxAction {
-  type: ACTION.STATS_LIST_NAME_TYPED;
-  name: StatsName;
+
+export interface StatsListCloseNewStatsModalAction extends VeauAction {
+  readonly type: ACTION.STATS_LIST_CLOSE_STATS_MODAL;
 }
-export interface StatsListUnitTypedAction extends ReduxAction {
-  type: ACTION.STATS_LIST_UNIT_TYPED;
-  unit: StatsUnit;
+
+export interface StatsListNameTypedAction extends VeauAction {
+  readonly type: ACTION.STATS_LIST_NAME_TYPED;
+  readonly name: StatsName;
 }
-export interface StatsListISO639SelectedAction extends ReduxAction {
-  type: ACTION.STATS_LIST_ISO639_SELECTED;
-  iso639: ISO639;
+
+export interface StatsListUnitTypedAction extends VeauAction {
+  readonly type: ACTION.STATS_LIST_UNIT_TYPED;
+  readonly unit: StatsUnit;
 }
-export interface StatsListISO3166SelectedAction extends ReduxAction {
-  type: ACTION.STATS_LIST_ISO3166_SELECTED;
-  iso3166: ISO3166;
+
+export interface StatsListISO639SelectedAction extends VeauAction {
+  readonly type: ACTION.STATS_LIST_ISO639_SELECTED;
+  readonly iso639: ISO639;
 }
-export interface StatsListTermSelectedAction extends ReduxAction {
-  type: ACTION.STATS_LIST_TERM_SELECTED;
-  term: Term;
+
+export interface StatsListISO3166SelectedAction extends VeauAction {
+  readonly type: ACTION.STATS_LIST_ISO3166_SELECTED;
+  readonly iso3166: ISO3166;
 }
-export interface StatsListUpdateNewStatsAction extends ReduxAction {
-  type: ACTION.STATS_LIST_UPDATE_NEW_STATS;
-  stats: Stats;
+
+export interface StatsListTermSelectedAction extends VeauAction {
+  readonly type: ACTION.STATS_LIST_TERM_SELECTED;
+  readonly term: Term;
 }
-export interface StatsListResetNewStatsAction extends ReduxAction {
-  type: ACTION.STATS_LIST_RESET_NEW_STATS;
+
+export interface StatsListUpdateNewStatsAction extends VeauAction {
+  readonly type: ACTION.STATS_LIST_UPDATE_NEW_STATS;
+  readonly stats: Stats;
 }
-export interface StatsListSaveNewStatsAction extends ReduxAction {
-  type: ACTION.STATS_LIST_SAVE_NEW_STATS;
+
+export interface StatsListResetNewStatsAction extends VeauAction {
+  readonly type: ACTION.STATS_LIST_RESET_NEW_STATS;
 }
-export interface StatsEditInitializeAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_INITIALIZE;
-  statsID: StatsID;
+
+export interface StatsListSaveNewStatsAction extends VeauAction {
+  readonly type: ACTION.STATS_LIST_SAVE_NEW_STATS;
 }
-export interface StatsEditInitializationFailureAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_INITIALIZATION_FAILURE;
+
+export interface StatsEditInitializeAction extends VeauAction {
+  readonly type: ACTION.STATS_EDIT_INITIALIZE;
+  readonly statsID: StatsID;
 }
-export interface StatsEditNameTypedAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_NAME_TYPED;
-  name: StatsName;
+
+export interface StatsEditInitializationFailureAction extends VeauAction {
+  readonly type: ACTION.STATS_EDIT_INITIALIZATION_FAILURE;
 }
-export interface StatsEditUnitTypedAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_UNIT_TYPED;
-  unit: StatsUnit;
+
+export interface StatsEditNameTypedAction extends VeauAction {
+  readonly type: ACTION.STATS_EDIT_NAME_TYPED;
+  readonly name: StatsName;
 }
-export interface StatsEditISO639SelectedAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_ISO639_SELECTED;
-  iso639: ISO639;
+
+export interface StatsEditUnitTypedAction extends VeauAction {
+  readonly type: ACTION.STATS_EDIT_UNIT_TYPED;
+  readonly unit: StatsUnit;
 }
-export interface StatsEditISO3166SelectedAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_ISO3166_SELECTED;
-  iso3166: ISO3166;
+
+export interface StatsEditISO639SelectedAction extends VeauAction {
+  readonly type: ACTION.STATS_EDIT_ISO639_SELECTED;
+  readonly iso639: ISO639;
 }
-export interface StatsEditItemNameTypedAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_ITEM_NAME_TYPED;
-  name: StatsItemName;
+
+export interface StatsEditISO3166SelectedAction extends VeauAction {
+  readonly type: ACTION.STATS_EDIT_ISO3166_SELECTED;
+  readonly iso3166: ISO3166;
 }
-export interface StatsEditItemSaveAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_ITEM_SAVE;
+
+export interface StatsEditItemNameTypedAction extends VeauAction {
+  readonly type: ACTION.STATS_EDIT_ITEM_NAME_TYPED;
+  readonly name: StatsItemName;
 }
-export interface StatsEditSelectItemAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_SELECT_ITEM;
-  statsItem: StatsItem;
-  row: Row;
+
+export interface StatsEditItemSaveAction extends VeauAction {
+  readonly type: ACTION.STATS_EDIT_ITEM_SAVE;
 }
-export interface StatsEditSelectingItemNameTypedAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_SELECTING_ITEM_NAME_TYPED;
-  name: StatsItemName;
+
+export interface StatsEditSelectItemAction extends VeauAction {
+  readonly type: ACTION.STATS_EDIT_SELECT_ITEM;
+  readonly statsItem: StatsItem;
+  readonly row: Row;
 }
-export interface StatsEditUpdateSelectingItemAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_UPDATE_SELECTING_ITEM;
-  statsItem: StatsItem;
+
+export interface StatsEditSelectingItemNameTypedAction extends VeauAction {
+  readonly type: ACTION.STATS_EDIT_SELECTING_ITEM_NAME_TYPED;
+  readonly name: StatsItemName;
 }
-export interface StatsEditRemoveSelectingItemAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_REMOVE_SELECTING_ITEM;
-  statsItem: StatsItem;
+
+export interface StatsEditUpdateSelectingItemAction extends VeauAction {
+  readonly type: ACTION.STATS_EDIT_UPDATE_SELECTING_ITEM;
+  readonly statsItem: StatsItem;
 }
-export interface StatsEditClearSelectingItemAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_CLEAR_SELECTING_ITEM;
+
+export interface StatsEditRemoveSelectingItemAction extends VeauAction {
+  readonly type: ACTION.STATS_EDIT_REMOVE_SELECTING_ITEM;
+  readonly statsItem: StatsItem;
 }
-export interface StatsEditStartDateDeterminedAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_START_DATE_DETERMINED;
-  startDate: AsOf;
+
+export interface StatsEditClearSelectingItemAction extends VeauAction {
+  readonly type: ACTION.STATS_EDIT_CLEAR_SELECTING_ITEM;
 }
-export interface StatsEditInvalidDateInputAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_INVALID_DATE_INPUT;
+
+export interface StatsEditStartDateDeterminedAction extends VeauAction {
+  readonly type: ACTION.STATS_EDIT_START_DATE_DETERMINED;
+  readonly startDate: AsOf;
 }
-export interface StatsEditDataFilledAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_DATA_FILLED;
-  coordinate: Coordinate;
-  value: NumericalValue;
+
+export interface StatsEditInvalidDateInputAction extends VeauAction {
+  readonly type: ACTION.STATS_EDIT_INVALID_DATE_INPUT;
 }
-export interface StatsEditDataDeletedAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_DATA_DELETED;
-  coordinate: Coordinate;
+
+export interface StatsEditDataFilledAction extends VeauAction {
+  readonly type: ACTION.STATS_EDIT_DATA_FILLED;
+  readonly coordinate: Coordinate;
+  readonly value: NumericalValue;
 }
-export interface StatsEditRowSelectedAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_ROW_SELECTED;
-  row: Row;
+
+export interface StatsEditDataDeletedAction extends VeauAction {
+  readonly type: ACTION.STATS_EDIT_DATA_DELETED;
+  readonly coordinate: Coordinate;
 }
-export interface StatsEditRowMovedAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_ROW_MOVED;
-  column: Column;
-  target: Column;
+
+export interface StatsEditRowSelectedAction extends VeauAction {
+  readonly type: ACTION.STATS_EDIT_ROW_SELECTED;
+  readonly row: Row;
 }
-export interface StatsEditInvalidValueInputAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_INVALID_VALUE_INPUT;
+
+export interface StatsEditRowMovedAction extends VeauAction {
+  readonly type: ACTION.STATS_EDIT_ROW_MOVED;
+  readonly column: Column;
+  readonly target: Column;
 }
-export interface StatsEditSaveStatsAction extends ReduxAction {
-  type: ACTION.STATS_EDIT_SAVE_STATS;
+
+export interface StatsEditInvalidValueInputAction extends VeauAction {
+  readonly type: ACTION.STATS_EDIT_INVALID_VALUE_INPUT;
 }
-export interface StatsOutlineUpdateAction extends ReduxAction {
-  type: ACTION.STATS_OUTLINE_UPDATE;
-  statsOutlines: StatsOutlines;
+
+export interface StatsEditSaveStatsAction extends VeauAction {
+  readonly type: ACTION.STATS_EDIT_SAVE_STATS;
 }
-export interface StatsOutlineResetAction extends ReduxAction {
-  type: ACTION.STATS_OUTLINE_RESET;
+
+export interface StatsOutlineUpdateAction extends VeauAction {
+  readonly type: ACTION.STATS_OUTLINE_UPDATE;
+  readonly statsOutlines: StatsOutlines;
 }
-export interface StatsUpdateAction extends ReduxAction {
-  type: ACTION.STATS_UPDATE;
-  stats: Stats;
+
+export interface StatsOutlineResetAction extends VeauAction {
+  readonly type: ACTION.STATS_OUTLINE_RESET;
 }
-export interface StatsResetAction extends ReduxAction {
-  type: ACTION.STATS_RESET;
+
+export interface StatsUpdateAction extends VeauAction {
+  readonly type: ACTION.STATS_UPDATE;
+  readonly stats: Stats;
 }
-export interface StatsItemUpdateAction extends ReduxAction {
-  type: ACTION.STATS_ITEM_UPDATE;
-  statsItem: StatsItem;
+
+export interface StatsResetAction extends VeauAction {
+  readonly type: ACTION.STATS_RESET;
 }
-export interface StatsItemResetAction extends ReduxAction {
-  type: ACTION.STATS_ITEM_RESET;
+
+export interface StatsItemUpdateAction extends VeauAction {
+  readonly type: ACTION.STATS_ITEM_UPDATE;
+  readonly statsItem: StatsItem;
+}
+
+export interface StatsItemResetAction extends VeauAction {
+  readonly type: ACTION.STATS_ITEM_RESET;
 }
 
 export type Action =
-      LocationChangeAction |
-      ModalRaiseAction |
-      ModalCloseAction |
-      NotificationAppearAction |
-      NotificationDisappearAction |
-      LoadingStartAction |
-      LoadingFinishAction |
-      IdentityAuthenticateAction |
-      IdentityAuthenticatedAction |
-      IdentityInitializeAction |
-      IdentityIdentifiedAction |
-      LogoutAction |
-      PushToStatsListAction |
-      PushToStatsEditAction |
-      PushToEntranceAction |
-      ProviderOpenAction |
-      ProviderCloseAction |
-      LocaleDefinedAction |
-      EntranceAccountNameTypedAction |
-      EntrancePasswordTypedAction |
-      EntranceUpdateAction |
-      StatsListInitializeAction |
-      StatsListOpenNewStatsModalAction |
-      StatsListCloseNewStatsModalAction |
-      StatsListNameTypedAction |
-      StatsListUnitTypedAction |
-      StatsListISO639SelectedAction |
-      StatsListISO3166SelectedAction |
-      StatsListTermSelectedAction |
-      StatsListUpdateNewStatsAction |
-      StatsListResetNewStatsAction |
-      StatsListSaveNewStatsAction |
-      StatsEditInitializeAction |
-      StatsEditInitializationFailureAction |
-      StatsEditNameTypedAction |
-      StatsEditUnitTypedAction |
-      StatsEditISO639SelectedAction |
-      StatsEditISO3166SelectedAction |
-      StatsEditItemNameTypedAction |
-      StatsEditItemSaveAction |
-      StatsEditSelectItemAction |
-      StatsEditSelectingItemNameTypedAction |
-      StatsEditUpdateSelectingItemAction |
-      StatsEditRemoveSelectingItemAction |
-      StatsEditClearSelectingItemAction |
-      StatsEditStartDateDeterminedAction |
-      StatsEditInvalidDateInputAction |
-      StatsEditDataFilledAction |
-      StatsEditDataDeletedAction |
-      StatsEditRowSelectedAction |
-      StatsEditRowMovedAction |
-      StatsEditInvalidValueInputAction |
-      StatsEditSaveStatsAction |
-      StatsOutlineUpdateAction |
-      StatsOutlineResetAction |
-      StatsUpdateAction |
-      StatsResetAction |
-      StatsItemUpdateAction |
-      StatsItemResetAction;
+  LocationChangeAction |
+  ModalRaiseAction |
+  ModalCloseAction |
+  NotificationAppearAction |
+  NotificationDisappearAction |
+  LoadingStartAction |
+  LoadingFinishAction |
+  IdentityAuthenticateAction |
+  IdentityAuthenticatedAction |
+  IdentityInitializeAction |
+  IdentityIdentifiedAction |
+  LogoutAction |
+  PushToStatsListAction |
+  PushToStatsEditAction |
+  PushToEntranceAction |
+  ProviderOpenAction |
+  ProviderCloseAction |
+  LocaleDefinedAction |
+  EntranceAccountNameTypedAction |
+  EntrancePasswordTypedAction |
+  EntranceUpdateAction |
+  StatsListInitializeAction |
+  StatsListOpenNewStatsModalAction |
+  StatsListCloseNewStatsModalAction |
+  StatsListNameTypedAction |
+  StatsListUnitTypedAction |
+  StatsListISO639SelectedAction |
+  StatsListISO3166SelectedAction |
+  StatsListTermSelectedAction |
+  StatsListUpdateNewStatsAction |
+  StatsListResetNewStatsAction |
+  StatsListSaveNewStatsAction |
+  StatsEditInitializeAction |
+  StatsEditInitializationFailureAction |
+  StatsEditNameTypedAction |
+  StatsEditUnitTypedAction |
+  StatsEditISO639SelectedAction |
+  StatsEditISO3166SelectedAction |
+  StatsEditItemNameTypedAction |
+  StatsEditItemSaveAction |
+  StatsEditSelectItemAction |
+  StatsEditSelectingItemNameTypedAction |
+  StatsEditUpdateSelectingItemAction |
+  StatsEditRemoveSelectingItemAction |
+  StatsEditClearSelectingItemAction |
+  StatsEditStartDateDeterminedAction |
+  StatsEditInvalidDateInputAction |
+  StatsEditDataFilledAction |
+  StatsEditDataDeletedAction |
+  StatsEditRowSelectedAction |
+  StatsEditRowMovedAction |
+  StatsEditInvalidValueInputAction |
+  StatsEditSaveStatsAction |
+  StatsOutlineUpdateAction |
+  StatsOutlineResetAction |
+  StatsUpdateAction |
+  StatsResetAction |
+  StatsItemUpdateAction |
+  StatsItemResetAction;
