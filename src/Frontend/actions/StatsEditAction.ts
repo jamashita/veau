@@ -1,4 +1,6 @@
 import { StatsItem } from '../../Entity/StatsItem';
+import { Present } from '../../General/Quantum/Present';
+import { Quantum } from '../../General/Quantum/Quantum';
 import { AsOf } from '../../VO/AsOf';
 import { Column } from '../../VO/Column';
 import { Coordinate } from '../../VO/Coordinate';
@@ -111,7 +113,7 @@ export const rowSelected = (row: Row): StatsEditRowSelectedAction => {
   };
 };
 
-export const selectItem = (statsItem: StatsItem, row: Row): StatsEditSelectItemAction => {
+export const selectItem = (statsItem: Quantum<StatsItem>, row: Row): StatsEditSelectItemAction => {
   return {
     type: ACTION.STATS_EDIT_SELECT_ITEM,
     statsItem,
@@ -139,7 +141,7 @@ export const invalidDateInput = (): StatsEditInvalidDateInputAction => {
   };
 };
 
-export const updateSelectingItem = (statsItem: StatsItem): StatsEditUpdateSelectingItemAction => {
+export const updateSelectingItem = (statsItem: Present<StatsItem>): StatsEditUpdateSelectingItemAction => {
   return {
     type: ACTION.STATS_EDIT_UPDATE_SELECTING_ITEM,
     statsItem

@@ -45,7 +45,7 @@ export const statsEdit: Reducer<StatsEdit, Action> = (
     case ACTION.STATS_EDIT_CLEAR_SELECTING_ITEM: {
       return {
         ...state,
-        selectingItem: undefined
+        selectingItem: Absent.of<StatsItem>()
       };
     }
     default: {

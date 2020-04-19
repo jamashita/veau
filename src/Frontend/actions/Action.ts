@@ -5,6 +5,8 @@ import {
 import { Action as ReduxAction } from 'redux';
 import { Stats } from '../../Entity/Stats';
 import { StatsItem } from '../../Entity/StatsItem';
+import { Present } from '../../General/Quantum/Present';
+import { Quantum } from '../../General/Quantum/Quantum';
 import { AccountName } from '../../VO/AccountName';
 import { AsOf } from '../../VO/AsOf';
 import { Column } from '../../VO/Column';
@@ -296,7 +298,7 @@ export interface StatsEditItemSaveAction extends VeauAction {
 
 export interface StatsEditSelectItemAction extends VeauAction {
   readonly type: ACTION.STATS_EDIT_SELECT_ITEM;
-  readonly statsItem: StatsItem;
+  readonly statsItem: Quantum<StatsItem>;
   readonly row: Row;
 }
 
@@ -307,7 +309,7 @@ export interface StatsEditSelectingItemNameTypedAction extends VeauAction {
 
 export interface StatsEditUpdateSelectingItemAction extends VeauAction {
   readonly type: ACTION.STATS_EDIT_UPDATE_SELECTING_ITEM;
-  readonly statsItem: StatsItem;
+  readonly statsItem: Present<StatsItem>;
 }
 
 export interface StatsEditRemoveSelectingItemAction extends VeauAction {
