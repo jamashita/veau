@@ -27,13 +27,13 @@ const muiTheme: Theme = createMuiTheme({
   }
 });
 
-const app: Supplier<React.ReactElement> = (): React.ReactElement => {
+const app: Supplier<React.ReactElement> = () => {
   return (
     <MuiThemeProvider theme={muiTheme}>
       <Provider store={store}>
         <I18NProvider>
           <ConnectedRouter history={history}>
-            <View/>
+            <View />
           </ConnectedRouter>
         </I18NProvider>
       </Provider>

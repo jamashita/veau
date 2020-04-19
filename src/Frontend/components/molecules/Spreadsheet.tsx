@@ -1,6 +1,7 @@
 import { HotTable } from '@handsontable/react';
 import React from 'react';
 import { Stats } from '../../../Entity/Stats';
+import { Nullable } from '../../../General/Type/Value';
 import { AsOfs } from '../../../VO/AsOfs';
 import { Column } from '../../../VO/Column';
 import { Coordinate } from '../../../VO/Coordinate';
@@ -9,7 +10,7 @@ import { NumericalValue } from '../../../VO/NumericalValue';
 import { Row } from '../../../VO/Row';
 import { StatsItemNames } from '../../../VO/StatsItemNames';
 
-type CellValue = string | null;
+type CellValue = Nullable<string>;
 type CellChange = [number, string | number, CellValue, CellValue];
 type Props = Readonly<{
   stats: Stats;
@@ -19,8 +20,7 @@ type Props = Readonly<{
   rowSelected: (row: Row) => void;
   rowMoved: (from: Column, to: Column) => void;
 }>;
-type State = Readonly<{
-}>;
+type State = Readonly<{}>;
 
 const SPREADSHEET_HEIGHT: number = 500;
 

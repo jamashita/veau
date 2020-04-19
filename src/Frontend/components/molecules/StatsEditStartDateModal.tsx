@@ -1,16 +1,24 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon } from '@material-ui/core';
-import moment from 'moment';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Icon from '@material-ui/core/Icon';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
+import { AsOfError } from '../../../Error/AsOfError';
+import { Success } from '../../../General/Superposition/Success';
+import { Superposition } from '../../../General/Superposition/Superposition';
+import { AsOf } from '../../../VO/AsOf';
 import { TextField } from '../atoms/TextField';
 
 type Props = Readonly<{
   open: boolean;
   close: () => void;
-  determineStartDate: (startDate: string) => void;
+  determineStartDate: (superposition: Superposition<AsOf, AsOfError>) => void;
 }>;
 type State = Readonly<{
-  startDate: string;
+  startDate: Superposition<AsOf, AsOfError>;
 }>;
 
 class StatsEditStartDateModalImpl extends React.Component<Props & WrappedComponentProps, State> {
@@ -18,7 +26,7 @@ class StatsEditStartDateModalImpl extends React.Component<Props & WrappedCompone
   public constructor(props: Props & WrappedComponentProps) {
     super(props);
     this.state = {
-      startDate: moment().format('YYYY-MM-DD')
+      startDate: Success.of<AsOf, AsOfError>(AsOf.now())
     };
   }
 
@@ -69,10 +77,10 @@ class StatsEditStartDateModalImpl extends React.Component<Props & WrappedCompone
               id: 'START_DATE'
             })}
             type='date'
-            value={startDate}
+            value={startDate.toString()}
             onKeyUp={(date: string) => {
               this.setState({
-                startDate: date
+                startDate: AsOf.ofString(date)
               });
             }}
           />

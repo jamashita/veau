@@ -1,12 +1,10 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select
-} from '@material-ui/core';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardHeader from '@material-ui/core/CardHeader';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Stats } from '../../../Entity/Stats';
@@ -27,8 +25,7 @@ type Props = Readonly<{
   iso639Selected: (iso639: ISO639) => void;
   iso3166Selected: (iso3166: ISO3166) => void;
 }>;
-type State = Readonly<{
-}>;
+type State = Readonly<{}>;
 
 class StatsInformationImpl extends React.Component<Props & WrappedComponentProps, State> {
 
@@ -107,7 +104,7 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
                 iso639Selected(ISO639.of(iso639));
               }}
             >
-              {locale.getLanguages().map<React.ReactNode>((language: Language): React.ReactNode => {
+              {locale.getLanguages().map<React.ReactNode>((language: Language) => {
                 const iso639: string = language.getISO639().get();
 
                 return (
@@ -139,7 +136,7 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
                 iso3166Selected(ISO3166.of(iso3166));
               }}
             >
-              {locale.getRegions().map<React.ReactNode>((region: Region): React.ReactNode => {
+              {locale.getRegions().map<React.ReactNode>((region: Region) => {
                 const iso3166: string = region.getISO3166().get();
 
                 return (

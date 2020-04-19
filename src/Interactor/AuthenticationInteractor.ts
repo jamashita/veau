@@ -29,7 +29,7 @@ export class AuthenticationInteractor implements Noun {
 
   public review(): VerifyFunction {
 
-    return async (name: string, pass: string, callback: (error: unknown, account?: unknown) => void): Promise<void> => {
+    return async (name: string, pass: string, callback: (error: unknown, account?: unknown) => void) => {
       try {
         const accountName: AccountName = AccountName.of(name);
         const password: Password = Password.of(pass);

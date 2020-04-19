@@ -1,15 +1,13 @@
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  FormControl,
-  Icon,
-  InputLabel,
-  MenuItem,
-  Select
-} from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import FormControl from '@material-ui/core/FormControl';
+import Icon from '@material-ui/core/Icon';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { Stats } from '../../../Entity/Stats';
@@ -36,8 +34,7 @@ type Props = Readonly<{
   termSelected: (term: Term) => void;
   saveNewStats: () => void;
 }>;
-type State = Readonly<{
-}>;
+type State = Readonly<{}>;
 
 class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProps, State> {
 
@@ -127,7 +124,7 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
                 iso639Selected(ISO639.of(iso639));
               }}
             >
-              {locale.getLanguages().map<React.ReactNode>((language: Language): React.ReactNode => {
+              {locale.getLanguages().map<React.ReactNode>((language: Language) => {
                 const iso639: string = language.getISO639().get();
 
                 return (
@@ -159,7 +156,7 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
                 iso3166Selected(ISO3166.of(iso3166));
               }}
             >
-              {locale.getRegions().map<React.ReactNode>((region: Region): React.ReactNode => {
+              {locale.getRegions().map<React.ReactNode>((region: Region) => {
                 const iso3166: string = region.getISO3166().get();
 
                 return (

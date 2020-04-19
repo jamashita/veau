@@ -1,17 +1,22 @@
-import { Button, Card, CardActions, CardContent, CardHeader, Icon } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardHeader from '@material-ui/core/CardHeader';
+import Icon from '@material-ui/core/Icon';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { StatsItem } from '../../../Entity/StatsItem';
+import { Quantum } from '../../../General/Quantum/Quantum';
 import { StatsItemName } from '../../../VO/StatsItemName';
 import { TextField } from '../atoms/TextField';
 
 type Props = Readonly<{
-  selecting?: StatsItem;
+  selecting: Quantum<StatsItem>;
   nameTyped: (name: StatsItemName) => void;
   removeItem: (statsItem: StatsItem) => void;
 }>;
-type State = Readonly<{
-}>;
+type State = Readonly<{}>;
 
 class StatsItemInformationImpl extends React.Component<Props & WrappedComponentProps, State> {
 
@@ -20,22 +25,11 @@ class StatsItemInformationImpl extends React.Component<Props & WrappedComponentP
       selecting
     } = this.props;
 
-    if (selecting !== undefined) {
-      if (nextProps.selecting !== undefined) {
-        if (selecting.isSame(nextProps.selecting)) {
-          return false;
-        }
-
-        return true;
-      }
-
-      return true;
-    }
-    if (nextProps.selecting !== undefined) {
-      return true;
+    if (selecting === nextProps.selecting) {
+      return false;
     }
 
-    return false;
+    return true;
   }
 
   public render(): React.ReactNode {
@@ -65,7 +59,7 @@ class StatsItemInformationImpl extends React.Component<Props & WrappedComponentP
               id: 'NAME'
             })}
             type='text'
-            value={selecting.getName().get()}
+            value={selecting.get().getName().get()}
             onKeyUp={(value: string) => {
               nameTyped(StatsItemName.of(value));
             }}
@@ -74,7 +68,7 @@ class StatsItemInformationImpl extends React.Component<Props & WrappedComponentP
             <Button
               color='primary'
               onClick={() => {
-                removeItem(selecting);
+                removeItem(selecting.get());
               }}
               fullWidth={true}
             >

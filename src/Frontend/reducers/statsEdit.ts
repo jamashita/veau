@@ -1,14 +1,17 @@
 import { Reducer } from 'redux';
 import { StatsItem } from '../../Entity/StatsItem';
+import { Absent } from '../../General/Quantum/Absent';
+import { Quantum } from '../../General/Quantum/Quantum';
 import { Row } from '../../VO/Row';
 import { ACTION, Action } from '../actions/Action';
 
 export type StatsEdit = Readonly<{
-  selectingItem?: StatsItem;
+  selectingItem: Quantum<StatsItem>;
   selectingRow: Row;
 }>;
 
 const initialState: StatsEdit = {
+  selectingItem: Absent.of<StatsItem>(),
   selectingRow: Row.origin()
 };
 

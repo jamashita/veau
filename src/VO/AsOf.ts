@@ -32,6 +32,10 @@ export class AsOf extends ValueObject {
     }
   }
 
+  public static now(): AsOf {
+    return AsOf.of(Zeit.now(TERM_FORMAT));
+  }
+
   public static format(): string {
     return TERM_FORMAT;
   }

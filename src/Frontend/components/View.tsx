@@ -4,10 +4,8 @@ import { Modal } from '../containers/molecules/Modal';
 import { Notification } from '../containers/molecules/Notification';
 import { Catalogue } from './Catalogue';
 
-type Props = Readonly<{
-}>;
-type State = Readonly<{
-}>;
+type Props = Readonly<{}>;
+type State = Readonly<{}>;
 
 export class View extends React.Component<Props, State> {
 

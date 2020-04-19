@@ -16,8 +16,7 @@ import { StatsItemName } from '../../../VO/StatsItemName';
 type Props = Readonly<{
   stats: Stats;
 }>;
-type State = Readonly<{
-}>;
+type State = Readonly<{}>;
 
 const CHART_HEIGHT: number = 500;
 const MARGIN: number = 8;
@@ -67,7 +66,7 @@ export class Chart extends React.Component<Props, State> {
           <CartesianGrid />
           <Legend />
           <Tooltip />
-          {stats.getItemNames().map<React.ReactNode>((item: StatsItemName, index: number): React.ReactNode => {
+          {stats.getItemNames().map<React.ReactNode>((item: StatsItemName, index: number) => {
             return (
               <Line
                 type='monotone'

@@ -10,8 +10,7 @@ type Props = Readonly<{
   onKeyUp?: (value: string) => void;
   onEnterUp?: () => void;
 }>;
-type State = Readonly<{
-}>;
+type State = Readonly<{}>;
 
 export class TextField extends React.Component<Props, State> {
 

@@ -4,8 +4,7 @@ type Props = Readonly<{
   href: string;
   style?: Record<string, string>;
 }>;
-type State = Readonly<{
-}>;
+type State = Readonly<{}>;
 
 export class ExternalLink extends React.Component<Props, State> {
 

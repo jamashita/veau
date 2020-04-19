@@ -1,6 +1,11 @@
-import { Button, Icon } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import Icon from '@material-ui/core/Icon';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
+import { AsOfError } from '../../../Error/AsOfError';
+import { Absent } from '../../../General/Quantum/Absent';
+import { Quantum } from '../../../General/Quantum/Quantum';
+import { Superposition } from '../../../General/Superposition/Superposition';
 import { AsOf } from '../../../VO/AsOf';
 import { StatsID } from '../../../VO/StatsID';
 import { Props } from '../../containers/pages/StatsEdit';
@@ -15,7 +20,7 @@ import { StatsItemModal } from '../molecules/StatsItemModal';
 type State = Readonly<{
   openNewStatsItemModal: boolean;
   openStartDateModal: boolean;
-  startDate?: string;
+  startDate: Quantum<AsOf>;
 }>;
 
 export class StatsEditImpl extends React.Component<Props & WrappedComponentProps, State> {
@@ -25,7 +30,8 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
 
     this.state = {
       openNewStatsItemModal: false,
-      openStartDateModal: false
+      openStartDateModal: false,
+      startDate: Absent.of<AsOf>()
     };
   }
 
@@ -79,18 +85,7 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
     if (startDate !== nextState.startDate) {
       return true;
     }
-    if (selectingItem !== undefined) {
-      if (nextProps.selectingItem !== undefined) {
-        if (selectingItem.isSame(nextProps.selectingItem)) {
-          return false;
-        }
-
-        return true;
-      }
-
-      return true;
-    }
-    if (nextProps.selectingItem !== undefined) {
+    if (selectingItem !== nextProps.selectingItem) {
       return true;
     }
 
@@ -229,8 +224,8 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
               openStartDateModal: false
             });
           }}
-          determineStartDate={(date: string) => {
-            AsOf.ofString(date).match<void>((asOf: AsOf) => {
+          determineStartDate={(superposition: Superposition<AsOf, AsOfError>) => {
+            superposition.match<void>((asOf: AsOf) => {
               startDateDetermined(asOf);
             }, () => {
               invalidDateInput();

@@ -1,12 +1,14 @@
-import { AppBar, Icon, Toolbar, Typography } from '@material-ui/core';
+import AppBar from '@material-ui/core/AppBar';
+import Icon from '@material-ui/core/Icon';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 
 type Props = Readonly<{
   menuClicked: () => void;
 }>;
-type State = Readonly<{
-}>;
+type State = Readonly<{}>;
 
 class HeaderImpl extends React.Component<Props & WrappedComponentProps, State> {
 

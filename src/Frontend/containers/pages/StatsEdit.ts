@@ -4,6 +4,7 @@ import { match } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { Stats } from '../../../Entity/Stats';
 import { StatsItem } from '../../../Entity/StatsItem';
+import { Quantum } from '../../../General/Quantum/Quantum';
 import { Nullable } from '../../../General/Type/Value';
 import { AsOf } from '../../../VO/AsOf';
 import { Column } from '../../../VO/Column';
@@ -48,7 +49,7 @@ type MatchParam = Readonly<{
 type StateProps = Readonly<{
   stats: Stats;
   statsItem: StatsItem;
-  selectingItem?: StatsItem;
+  selectingItem: Quantum<StatsItem>;
   locale: Locale;
   id: Nullable<string>;
 }>;

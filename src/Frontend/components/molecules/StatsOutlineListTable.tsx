@@ -1,4 +1,8 @@
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { StatsID } from '../../../VO/StatsID';
@@ -9,8 +13,7 @@ type Props = Readonly<{
   statsOutlines: StatsOutlines;
   toStatsEdit: (statsID: StatsID) => void;
 }>;
-type State = Readonly<{
-}>;
+type State = Readonly<{}>;
 
 class StatsOutlineListTableImpl extends React.Component<Props & WrappedComponentProps, State> {
 
@@ -70,7 +73,7 @@ class StatsOutlineListTableImpl extends React.Component<Props & WrappedComponent
           </TableRow>
         </TableHead>
         <TableBody>
-          {statsOutlines.map<React.ReactNode>((statsOutline: StatsOutline): React.ReactNode => {
+          {statsOutlines.map<React.ReactNode>((statsOutline: StatsOutline) => {
             return (
               <TableRow
                 key={statsOutline.getStatsID().get().get()}
