@@ -36,7 +36,7 @@ RUN chown -R veau /home/veau
 RUN chgrp -R veau /home/veau
 
 USER veau
-# WORKDIR /home/veau
+WORKDIR /home/veau
 
 EXPOSE 4000
 

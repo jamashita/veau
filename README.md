@@ -3,11 +3,11 @@
 Veau (pronunciation /vo/) is for the users who treat statistics.  
 This system supports the users to simplify the input statistics data by showing the data in the chart.
 
-Veau (prononciation /vo/) est pour les utilisateurs qui traitent les statistiques.  
-Ce système soutient les utilisateurs pour simplifier l'input des données des statistiques en montrant les données dans le graphique.
-
 Veau (pronunciación /vo/) es para los usuarios que manejan las estadísticas.  
 Este sistema mantiene los usuarios para simplificar la entrada de datos de las estadísticas demostrando los datos en el gráfico.
+
+Veau (prononciation /vo/) est pour les utilisateurs qui traitent les statistiques.  
+Ce système soutient les utilisateurs pour simplifier l'input des données des statistiques en montrant les données dans le graphique.
 
 Veau (発音 /vo/) は統計を取り扱うユーザーのためのものです。  
 このシステムは図にデータを表示することによってユーザーの統計データ入力を補助します。
@@ -18,9 +18,9 @@ Veau (発音 /vo/) は統計を取り扱うユーザーのためのものです�
 
 Veau is the name for young cattle.
 
-Veau est le nom du jeune bétail.
-
 Veau es el nombre para el ganado joven.
+
+Veau est le nom du jeune bétail.
 
 Veauは若い牛の名前です。
 
