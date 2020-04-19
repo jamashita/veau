@@ -2,5 +2,7 @@
 **/dist/*
 **/coverage/*
 *.log
+certs/*
+!certs/.gitkeep
 logs/*
 !logs/.gitkeep
