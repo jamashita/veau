@@ -14,6 +14,7 @@ import { LanguageName } from '../../VO/LanguageName';
 import { MockAsOf } from '../../VO/Mock/MockAsOf';
 import { MockLanguage } from '../../VO/Mock/MockLanguage';
 import { MockLanguageID } from '../../VO/Mock/MockLanguageID';
+import { MockNumericalValue } from '../../VO/Mock/MockNumericalValue';
 import { MockRegion } from '../../VO/Mock/MockRegion';
 import { MockRegionID } from '../../VO/Mock/MockRegionID';
 import { MockStatsID } from '../../VO/Mock/MockStatsID';
@@ -85,14 +86,14 @@ describe('Stats', () => {
         items
       );
 
-      expect(stats.getStatsID()).toEqual(statsID);
-      expect(stats.getLanguage()).toEqual(language);
-      expect(stats.getRegion()).toEqual(region);
-      expect(stats.getTerm()).toEqual(term);
-      expect(stats.getName()).toEqual(name);
-      expect(stats.getUnit()).toEqual(unit);
-      expect(stats.getUpdatedAt()).toEqual(updatedAt);
-      expect(stats.getItems().equals(items)).toEqual(true);
+      expect(stats.getStatsID()).toBe(statsID);
+      expect(stats.getLanguage()).toBe(language);
+      expect(stats.getRegion()).toBe(region);
+      expect(stats.getTerm()).toBe(term);
+      expect(stats.getName()).toBe(name);
+      expect(stats.getUnit()).toBe(unit);
+      expect(stats.getUpdatedAt()).toBe(updatedAt);
+      expect(stats.getItems()).toBe(items);
     });
   });
 
@@ -230,12 +231,12 @@ describe('Stats', () => {
       expect(stats.getUpdatedAt().toString()).toEqual(row.updatedAt);
       expect(stats.getItems().size()).toEqual(items.length);
       for (let i: number = 0; i < items.length; i++) {
-        expect(stats.getItems().get(i).get().getStatsItemID()).toEqual(items[i].getStatsItemID());
-        expect(stats.getItems().get(i).get().getName()).toEqual(items[i].getName());
+        expect(stats.getItems().get(i).get().getStatsItemID()).toBe(items[i].getStatsItemID());
+        expect(stats.getItems().get(i).get().getName()).toBe(items[i].getName());
         expect(stats.getItems().get(i).get().getValues().size()).toEqual(items[i].getValues().size());
         for (let j: number = 0; j < stats.getItems().get(i).get().getValues().size(); j++) {
-          expect(stats.getItems().get(i).get().getValues().get(j).get().getAsOf()).toEqual(items[i].getValues().get(j).get().getAsOf());
-          expect(stats.getItems().get(i).get().getValues().get(j).get().getValue()).toEqual(items[i].getValues().get(j).get().getValue());
+          expect(stats.getItems().get(i).get().getValues().get(j).get().getAsOf()).toBe(items[i].getValues().get(j).get().getAsOf());
+          expect(stats.getItems().get(i).get().getValues().get(j).get().getValue()).toBe(items[i].getValues().get(j).get().getValue());
         }
       }
     });
@@ -1038,12 +1039,12 @@ describe('Stats', () => {
       const stats: Stats = Stats.default();
 
       expect(stats.getStatsID().get().get().length).toEqual(UUID.size());
-      expect(stats.getLanguage().getLanguageID().get()).toEqual(0);
-      expect(stats.getRegion().getRegionID().get()).toEqual(0);
-      expect(stats.getTerm()).toEqual(Term.DAILY);
-      expect(stats.getName().get()).toEqual('');
-      expect(stats.getUnit().get()).toEqual('');
-      expect(stats.getItems().isEmpty()).toEqual(true);
+      expect(stats.getLanguage().getLanguageID()).toBe(LanguageID.empty());
+      expect(stats.getRegion().getRegionID()).toEqual(RegionID.empty());
+      expect(stats.getTerm()).toBe(Term.DAILY);
+      expect(stats.getName()).toBe(StatsName.empty());
+      expect(stats.getUnit()).toBe(StatsUnit.empty());
+      expect(stats.getItems()).toBe(StatsItems.empty());
       expect(stats.getStartDate().isPresent()).toEqual(false);
     });
   });
@@ -1618,28 +1619,43 @@ describe('Stats', () => {
           new MockStatsItem({
             values: new MockStatsValues(
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-01').get(),
-                value: NumericalValue.of(1)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 1
+                }),
+                value: new MockNumericalValue(1)
               }),
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-03').get(),
-                value: NumericalValue.of(2)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 3
+                }),
+                value: new MockNumericalValue(2)
               })
             )
           }),
           new MockStatsItem({
             values: new MockStatsValues(
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-01').get(),
-                value: NumericalValue.of(2)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 1
+                }),
+                value: new MockNumericalValue(2)
               }),
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-02').get(),
-                value: NumericalValue.of(4)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 2
+                }),
+                value: new MockNumericalValue(4)
               }),
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-05').get(),
-                value: NumericalValue.of(6)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 5
+                }),
+                value: new MockNumericalValue(6)
               })
             )
           })
@@ -1670,28 +1686,43 @@ describe('Stats', () => {
           new MockStatsItem({
             values: new MockStatsValues(
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-01').get(),
-                value: NumericalValue.of(1)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 1
+                }),
+                value: new MockNumericalValue(1)
               }),
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-03').get(),
-                value: NumericalValue.of(2)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 3
+                }),
+                value: new MockNumericalValue(2)
               })
             )
           }),
           new MockStatsItem({
             values: new MockStatsValues(
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-01').get(),
-                value: NumericalValue.of(2)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 1
+                }),
+                value: new MockNumericalValue(2)
               }),
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-02').get(),
-                value: NumericalValue.of(4)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 2
+                }),
+                value: new MockNumericalValue(4)
               }),
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-05').get(),
-                value: NumericalValue.of(6)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 5
+                }),
+                value: new MockNumericalValue(6)
               })
             )
           })
@@ -1744,28 +1775,43 @@ describe('Stats', () => {
           new MockStatsItem({
             values: new MockStatsValues(
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-01').get(),
-                value: NumericalValue.of(1)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 1
+                }),
+                value: new MockNumericalValue(1)
               }),
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-03').get(),
-                value: NumericalValue.of(2)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 3
+                }),
+                value: new MockNumericalValue(2)
               })
             )
           }),
           new MockStatsItem({
             values: new MockStatsValues(
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-01').get(),
-                value: NumericalValue.of(2)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 1
+                }),
+                value: new MockNumericalValue(2)
               }),
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-02').get(),
-                value: NumericalValue.of(4)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 2
+                }),
+                value: new MockNumericalValue(4)
               }),
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-05').get(),
-                value: NumericalValue.of(6)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 5
+                }),
+                value: new MockNumericalValue(6)
               })
             )
           })
@@ -1786,28 +1832,43 @@ describe('Stats', () => {
     const statsItem1: MockStatsItem = new MockStatsItem({
       values: new MockStatsValues(
         new MockStatsValue({
-          asOf: AsOf.ofString('2000-01-01').get(),
-          value: NumericalValue.of(1)
+          asOf: new MockAsOf({
+            month: 1,
+            day: 1
+          }),
+          value: new MockNumericalValue(1)
         }),
         new MockStatsValue({
-          asOf: AsOf.ofString('2000-01-03').get(),
-          value: NumericalValue.of(2)
+          asOf: new MockAsOf({
+            month: 1,
+            day: 3
+          }),
+          value: new MockNumericalValue(2)
         })
       )
     });
     const statsItem2: MockStatsItem = new MockStatsItem({
       values: new MockStatsValues(
         new MockStatsValue({
-          asOf: AsOf.ofString('2000-01-01').get(),
-          value: NumericalValue.of(2)
+          asOf: new MockAsOf({
+            month: 1,
+            day: 1
+          }),
+          value: new MockNumericalValue(2)
         }),
         new MockStatsValue({
-          asOf: AsOf.ofString('2000-01-02').get(),
-          value: NumericalValue.of(4)
+          asOf: new MockAsOf({
+            month: 1,
+            day: 2
+          }),
+          value: new MockNumericalValue(4)
         }),
         new MockStatsValue({
-          asOf: AsOf.ofString('2000-01-05').get(),
-          value: NumericalValue.of(6)
+          asOf: new MockAsOf({
+            month: 1,
+            day: 5
+          }),
+          value: new MockNumericalValue(6)
         })
       )
     });
@@ -1826,12 +1887,14 @@ describe('Stats', () => {
       )
     );
 
-    expect(stats.getRow(Row.of(0).get()).get()).toEqual(statsItem1);
-    expect(stats.getRow(Row.of(1).get()).get()).toEqual(statsItem2);
+    expect(stats.getRow(Row.of(0).get()).get()).toBe(statsItem1);
+    expect(stats.getRow(Row.of(1).get()).get()).toBe(statsItem2);
   });
 
   describe('getRowHeaders', () => {
     it('the statsItem names are taken', () => {
+      const name1: MockStatsItemName = new MockStatsItemName('stats1');
+      const name2: MockStatsItemName = new MockStatsItemName('stats2');
       const stats: Stats = Stats.of(
         new MockStatsID(),
         new MockLanguage(),
@@ -1842,32 +1905,47 @@ describe('Stats', () => {
         new MockUpdatedAt(),
         new MockStatsItems(
           new MockStatsItem({
-            name: new MockStatsItemName('stats1'),
+            name: name1,
             values: new MockStatsValues(
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-01').get(),
-                value: NumericalValue.of(1)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 1
+                }),
+                value: new MockNumericalValue(1)
               }),
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-03').get(),
-                value: NumericalValue.of(2)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 3
+                }),
+                value: new MockNumericalValue(2)
               })
             )
           }),
           new MockStatsItem({
-            name: new MockStatsItemName('stats2'),
+            name: name2,
             values: new MockStatsValues(
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-01').get(),
-                value: NumericalValue.of(2)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 1
+                }),
+                value: new MockNumericalValue(2)
               }),
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-02').get(),
-                value: NumericalValue.of(4)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 2
+                }),
+                value: new MockNumericalValue(4)
               }),
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-05').get(),
-                value: NumericalValue.of(6)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 5
+                }),
+                value: new MockNumericalValue(6)
               })
             )
           })
@@ -1876,13 +1954,15 @@ describe('Stats', () => {
 
       const rowHeaders: StatsItemNames = stats.getRowHeaders();
       expect(rowHeaders.size()).toEqual(2);
-      expect(rowHeaders.get(0).get().get()).toEqual('stats1');
-      expect(rowHeaders.get(1).get().get()).toEqual('stats2');
+      expect(rowHeaders.get(0).get()).toBe(name1);
+      expect(rowHeaders.get(1).get()).toBe(name2);
     });
   });
 
   describe('getRowHeaderSize', () => {
     it('normal case ', () => {
+      const name1: MockStatsItemName = new MockStatsItemName('stats1');
+      const name2: MockStatsItemName = new MockStatsItemName('stats1111');
       const stats: Stats = Stats.of(
         new MockStatsID(),
         new MockLanguage(),
@@ -1893,39 +1973,54 @@ describe('Stats', () => {
         new MockUpdatedAt(),
         new MockStatsItems(
           new MockStatsItem({
-            name: new MockStatsItemName('stats1'),
+            name: name1,
             values: new MockStatsValues(
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-01').get(),
-                value: NumericalValue.of(1)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 1
+                }),
+                value: new MockNumericalValue(1)
               }),
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-03').get(),
-                value: NumericalValue.of(2)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 3
+                }),
+                value: new MockNumericalValue(2)
               })
             )
           }),
           new MockStatsItem({
-            name: new MockStatsItemName('stats11'),
+            name: name2,
             values: new MockStatsValues(
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-01').get(),
-                value: NumericalValue.of(2)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 1
+                }),
+                value: new MockNumericalValue(2)
               }),
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-02').get(),
-                value: NumericalValue.of(4)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 2
+                }),
+                value: new MockNumericalValue(4)
               }),
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-05').get(),
-                value: NumericalValue.of(6)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 5
+                }),
+                value: new MockNumericalValue(6)
               })
             )
           })
         )
       );
 
-      expect(stats.getRowHeaderSize().get()).toEqual('stats11'.length * 14);
+      expect(stats.getRowHeaderSize().get()).toEqual(name2.length() * 14);
     });
 
     it('gives 1 * 14 when given stats', () => {
@@ -1940,7 +2035,7 @@ describe('Stats', () => {
         new MockStatsItems()
       );
 
-      expect(stats.getRowHeaderSize().get()).toEqual(1 * 14);
+      expect(stats.getRowHeaderSize().get()).toEqual(14);
     });
   });
 
@@ -1958,28 +2053,43 @@ describe('Stats', () => {
           new MockStatsItem({
             values: new MockStatsValues(
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-01').get(),
-                value: NumericalValue.of(1)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 1
+                }),
+                value: new MockNumericalValue(1)
               }),
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-03').get(),
-                value: NumericalValue.of(2)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 3
+                }),
+                value: new MockNumericalValue(2)
               })
             )
           }),
           new MockStatsItem({
             values: new MockStatsValues(
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-01').get(),
-                value: NumericalValue.of(2)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 1
+                }),
+                value: new MockNumericalValue(2)
               }),
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-02').get(),
-                value: NumericalValue.of(4)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 2
+                }),
+                value: new MockNumericalValue(4)
               }),
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-05').get(),
-                value: NumericalValue.of(6)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 5
+                }),
+                value: new MockNumericalValue(6)
               })
             )
           })
@@ -2213,9 +2323,7 @@ describe('Stats', () => {
       const stats2: Stats = Stats.of(
         new MockStatsID(),
         Language.empty(),
-        new MockRegion({
-          regionID: new MockRegionID(5)
-        }),
+        new MockRegion(),
         Term.DAILY,
         StatsName.empty(),
         StatsUnit.empty(),
@@ -2224,12 +2332,8 @@ describe('Stats', () => {
       );
       const stats3: Stats = Stats.of(
         new MockStatsID(),
-        new MockLanguage({
-          languageID: new MockLanguageID(2)
-        }),
-        new MockRegion({
-          regionID: new MockRegionID(5)
-        }),
+        new MockLanguage(),
+        new MockRegion(),
         Term.DAILY,
         StatsName.empty(),
         StatsUnit.empty(),
@@ -2238,12 +2342,8 @@ describe('Stats', () => {
       );
       const stats4: Stats = Stats.of(
         new MockStatsID(),
-        new MockLanguage({
-          languageID: new MockLanguageID(2)
-        }),
-        new MockRegion({
-          regionID: new MockRegionID(5)
-        }),
+        new MockLanguage(),
+        new MockRegion(),
         Term.DAILY,
         new MockStatsName('stats name'),
         StatsUnit.empty(),
@@ -2254,12 +2354,8 @@ describe('Stats', () => {
       );
       const stats5: Stats = Stats.of(
         new MockStatsID(),
-        new MockLanguage({
-          languageID: new MockLanguageID(2)
-        }),
-        new MockRegion({
-          regionID: new MockRegionID(5)
-        }),
+        new MockLanguage(),
+        new MockRegion(),
         Term.DAILY,
         StatsName.empty(),
         new MockStatsUnit('stats unit'),
@@ -2268,12 +2364,8 @@ describe('Stats', () => {
       );
       const stats6: Stats = Stats.of(
         new MockStatsID(),
-        new MockLanguage({
-          languageID: new MockLanguageID(2)
-        }),
-        new MockRegion({
-          regionID: new MockRegionID(5)
-        }),
+        new MockLanguage(),
+        new MockRegion(),
         Term.DAILY,
         new MockStatsName('stats name'),
         new MockStatsUnit('stats unit'),
@@ -2282,12 +2374,8 @@ describe('Stats', () => {
       );
       const stats7: Stats = Stats.of(
         new MockStatsID(),
-        new MockLanguage({
-          languageID: new MockLanguageID(2)
-        }),
-        new MockRegion({
-          regionID: new MockRegionID(5)
-        }),
+        Language.empty(),
+        Region.empty(),
         Term.DAILY,
         new MockStatsName('stats name'),
         new MockStatsUnit('stats unit'),
@@ -2301,12 +2389,8 @@ describe('Stats', () => {
       );
       const stats8: Stats = Stats.of(
         new MockStatsID(),
-        new MockLanguage({
-          languageID: new MockLanguageID(2)
-        }),
-        new MockRegion({
-          regionID: new MockRegionID(5)
-        }),
+        new MockLanguage(),
+        new MockRegion(),
         Term.DAILY,
         new MockStatsName('stats name'),
         new MockStatsUnit('stats unit'),
@@ -2334,28 +2418,20 @@ describe('Stats', () => {
     it('stats is filled but statsItems are invalid', () => {
       const stats1: Stats = Stats.of(
         new MockStatsID(),
-        new MockLanguage({
-          languageID: new MockLanguageID(2)
-        }),
-        new MockRegion({
-          regionID: new MockRegionID(5)
-        }),
+        new MockLanguage(),
+        new MockRegion(),
         Term.DAILY,
         new MockStatsName('stats name'),
         new MockStatsUnit('stats unit'),
         new MockUpdatedAt(),
         new MockStatsItems(
-          new MockStatsItem()
+          StatsItem.default()
         )
       );
       const stats2: Stats = Stats.of(
         new MockStatsID(),
-        new MockLanguage({
-          languageID: new MockLanguageID(2)
-        }),
-        new MockRegion({
-          regionID: new MockRegionID(5)
-        }),
+        new MockLanguage(),
+        new MockRegion(),
         Term.DAILY,
         new MockStatsName('stats name'),
         new MockStatsUnit('stats unit'),
@@ -2364,7 +2440,7 @@ describe('Stats', () => {
           new MockStatsItem({
             name: new MockStatsItemName('pok')
           }),
-          new MockStatsItem()
+          StatsItem.default()
         )
       );
 
@@ -2447,12 +2523,18 @@ describe('Stats', () => {
           new MockStatsItem({
             values: new MockStatsValues(
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-01').get(),
-                value: NumericalValue.of(1)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 1
+                }),
+                value: new MockNumericalValue(1)
               }),
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-02').get(),
-                value: NumericalValue.of(2)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 2
+                }),
+                value: new MockNumericalValue(2)
               })
             )
           })
@@ -2486,12 +2568,18 @@ describe('Stats', () => {
           new MockStatsItem({
             values: new MockStatsValues(
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-01').get(),
-                value: NumericalValue.of(1)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 1
+                }),
+                value: new MockNumericalValue(1)
               }),
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-03').get(),
-                value: NumericalValue.of(3)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 3
+                }),
+                value: new MockNumericalValue(3)
               })
             )
           })
@@ -2529,28 +2617,43 @@ describe('Stats', () => {
           new MockStatsItem({
             values: new MockStatsValues(
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-01').get(),
-                value: NumericalValue.of(1)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 1
+                }),
+                value: new MockNumericalValue(1)
               }),
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-03').get(),
-                value: NumericalValue.of(2)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 3
+                }),
+                value: new MockNumericalValue(2)
               })
             )
           }),
           new MockStatsItem({
             values: new MockStatsValues(
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-01').get(),
-                value: NumericalValue.of(2)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 1
+                }),
+                value: new MockNumericalValue(2)
               }),
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-02').get(),
-                value: NumericalValue.of(4)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 2
+                }),
+                value: new MockNumericalValue(4)
               }),
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-05').get(),
-                value: NumericalValue.of(6)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 5
+                }),
+                value: new MockNumericalValue(6)
               })
             )
           })
@@ -2577,22 +2680,13 @@ describe('Stats', () => {
 
   describe('duplicate', () => {
     it('every properties are duplicated', () => {
-      const statsID: StatsID = StatsID.ofString('f330c618-6127-46d1-ba10-a9f6af458b4c').get();
-      const language: Language = Language.of(
-        LanguageID.of(1),
-        LanguageName.of('language'),
-        LanguageName.of('english language'),
-        ISO639.of('ab')
-      );
-      const region: Region = Region.of(
-        RegionID.of(2),
-        RegionName.of('region'),
-        ISO3166.of('AFG')
-      );
-      const term: Term = Term.DAILY;
-      const name: StatsName = StatsName.of('stats');
-      const unit: StatsUnit = StatsUnit.of('unit');
-      const updatedAt: UpdatedAt = UpdatedAt.ofString('2000-01-01 04:04:04').get();
+      const statsID: MockStatsID = new MockStatsID();
+      const language: MockLanguage = new MockLanguage();
+      const region: MockRegion = new MockRegion()
+      const term: MockTerm = new MockTerm();
+      const name: MockStatsName = new MockStatsName();
+      const unit: MockStatsUnit = new MockStatsUnit();
+      const updatedAt: MockUpdatedAt = new MockUpdatedAt()
 
       const stats: Stats = Stats.of(
         statsID,
@@ -2607,13 +2701,13 @@ describe('Stats', () => {
       const duplicated: Stats = stats.duplicate();
 
       expect(stats).not.toBe(duplicated);
-      expect(stats.getStatsID()).toEqual(statsID);
-      expect(stats.getLanguage()).toEqual(language);
-      expect(stats.getRegion()).toEqual(region);
-      expect(stats.getTerm()).toEqual(term);
-      expect(stats.getName()).toEqual(name);
-      expect(stats.getUnit()).toEqual(unit);
-      expect(stats.getUpdatedAt()).toEqual(updatedAt);
+      expect(stats.getStatsID()).toBe(statsID);
+      expect(stats.getLanguage()).toBe(language);
+      expect(stats.getRegion()).toBe(region);
+      expect(stats.getTerm()).toBe(term);
+      expect(stats.getName()).toBe(name);
+      expect(stats.getUnit()).toBe(unit);
+      expect(stats.getUpdatedAt()).toBe(updatedAt);
     });
   });
 
@@ -2632,12 +2726,18 @@ describe('Stats', () => {
             name: new MockStatsItemName('stats1'),
             values: new MockStatsValues(
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-01').get(),
-                value: NumericalValue.of(1)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 1
+                }),
+                value: new MockNumericalValue(1)
               }),
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-03').get(),
-                value: NumericalValue.of(2)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 3
+                }),
+                value: new MockNumericalValue(2)
               })
             )
           }),
@@ -2645,16 +2745,25 @@ describe('Stats', () => {
             name: new MockStatsItemName('stats2'),
             values: new MockStatsValues(
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-02').get(),
-                value: NumericalValue.of(12)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 2
+                }),
+                value: new MockNumericalValue(12)
               }),
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-03').get(),
-                value: NumericalValue.of(13)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 3
+                }),
+                value: new MockNumericalValue(13)
               }),
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-04').get(),
-                value: NumericalValue.of(14)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 4
+                }),
+                value: new MockNumericalValue(14)
               })
             )
           })
@@ -2686,8 +2795,11 @@ describe('Stats', () => {
           new MockStatsItem({
             values: new MockStatsValues(
               new MockStatsValue({
-                asOf: AsOf.ofString('2000-01-03').get(),
-                value: NumericalValue.of(2)
+                asOf: new MockAsOf({
+                  month: 1,
+                  day: 3
+                }),
+                value: new MockNumericalValue(2)
               })
             )
           })

@@ -131,22 +131,19 @@ export class Stats extends Entity<StatsID> {
     return StatsID.ofString(row.statsID).match<Stats, StatsError>((statsID: StatsID) => {
       return Term.of(row.termID).match<Stats, StatsError>((term: Term) => {
         return UpdatedAt.ofString(row.updatedAt).match<Stats, StatsError>((updatedAt: UpdatedAt) => {
-          const language: Language = Language.ofRow({
-            languageID: row.languageID,
-            name: row.languageName,
-            englishName: row.languageEnglishName,
-            iso639: row.iso639
-          });
-          const region: Region = Region.ofRow({
-            regionID: row.regionID,
-            name: row.regionName,
-            iso3166: row.iso3166
-          });
-
           const stats: Stats = Stats.of(
             statsID,
-            language,
-            region,
+            Language.ofRow({
+              languageID: row.languageID,
+              name: row.languageName,
+              englishName: row.languageEnglishName,
+              iso639: row.iso639
+            }),
+            Region.ofRow({
+              regionID: row.regionID,
+              name: row.regionName,
+              iso3166: row.iso3166
+            }),
             term,
             StatsName.of(row.name),
             StatsUnit.of(row.unit),
@@ -307,7 +304,7 @@ export class Stats extends Entity<StatsID> {
     return this.getColumns().get(column.get());
   }
 
-  private recalculateColumns(): void {
+  private recalculate(): void {
     this.columns = Absent.of<AsOfs>();
     this.getColumns();
   }
@@ -320,7 +317,7 @@ export class Stats extends Entity<StatsID> {
     const length: number = this.items.maxNameLength();
 
     if (length === 0) {
-      return HeaderSize.of(1 * REVISED_VALUE).get();
+      return HeaderSize.of(REVISED_VALUE).get();
     }
 
     return HeaderSize.of(length * REVISED_VALUE).get();
@@ -340,7 +337,7 @@ export class Stats extends Entity<StatsID> {
         const statsValue: StatsValue = StatsValue.of(item.getStatsItemID(), asOf, value);
 
         item.setValue(statsValue);
-        this.recalculateColumns();
+        this.recalculate();
       });
     });
   }
@@ -349,7 +346,7 @@ export class Stats extends Entity<StatsID> {
     this.getColumn(coordinate.getColumn()).ifPresent((asOf: AsOf) => {
       this.getRow(coordinate.getRow()).ifPresent((item: StatsItem) => {
         item.delete(asOf);
-        this.recalculateColumns();
+        this.recalculate();
       });
     });
   }
@@ -359,7 +356,9 @@ export class Stats extends Entity<StatsID> {
 
     this.getColumns().forEach((column: AsOf) => {
       const asOfString: string = column.toString();
-      chartItems.set(asOfString, {name: asOfString});
+      chartItems.set(asOfString, {
+        name: asOfString
+      });
     });
 
     this.items.forEach((statsItem: StatsItem) => {
@@ -400,16 +399,16 @@ export class Stats extends Entity<StatsID> {
   }
 
   public isFilled(): boolean {
-    if (this.language.equals(Language.empty())) {
+    if (this.language.isEmpty()) {
       return false;
     }
-    if (this.region.equals(Region.empty())) {
+    if (this.region.isEmpty()) {
       return false;
     }
-    if (this.name.equals(StatsName.empty())) {
+    if (this.name.isEmpty()) {
       return false;
     }
-    if (this.unit.equals(StatsUnit.empty())) {
+    if (this.unit.isEmpty()) {
       return false;
     }
 

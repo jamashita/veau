@@ -160,7 +160,7 @@ export class StatsItem extends Entity<StatsItemID> {
   }
 
   public isFilled(): boolean {
-    return !this.name.equals(StatsItemName.empty());
+    return !this.name.isEmpty();
   }
 
   public isValid(): boolean {
