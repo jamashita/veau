@@ -43,14 +43,12 @@ import { MockVeauAccount } from '../../../VO/Mock/MockVeauAccount';
 import { StatsOutlines } from '../../../VO/StatsOutlines';
 import { StatsController } from '../StatsController';
 
-// DONE
 describe('StatsController', () => {
   describe('GET /page/:page(\\d+)', () => {
-    it('normal case', async (done) => {
-      const uuid: UUID = UUID.v4();
+    it('normal case', async () => {
       const outlines: MockStatsOutlines = new MockStatsOutlines(
         new MockStatsOutline({
-          statsID: new MockStatsID(uuid),
+          statsID: new MockStatsID(),
           language: new MockLanguage({
             languageID: new MockLanguageID(1),
             name: new MockLanguageName('аҧсуа бызшәа'),
@@ -86,31 +84,11 @@ describe('StatsController', () => {
       app.use('/', StatsController);
 
       const response: supertest.Response = await supertest(app).get('/page/1');
-      expect(response.status).toEqual(OK);
-      expect(response.body).toEqual([
-        {
-          statsID: uuid.get(),
-          language: {
-            languageID: 1,
-            name: 'аҧсуа бызшәа',
-            englishName: 'Abkhazian',
-            iso639: 'ab'
-          },
-          region: {
-            regionID: 1,
-            name: 'Afghanistan',
-            iso3166: 'AFG'
-          },
-          termID: 32,
-          name: 'stats',
-          unit: 'unit',
-          updatedAt: '2000-01-02 01:02:03'
-        }
-      ]);
-      done();
+      expect(response.status).toBe(OK);
+      expect(response.body).toEqual(outlines.toJSON());
     });
 
-    it('page is 0', async (done) => {
+    it('page is 0', async () => {
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         req.user = new MockVeauAccount();
@@ -119,11 +97,10 @@ describe('StatsController', () => {
       app.use('/', StatsController);
 
       const response: supertest.Response = await supertest(app).get('/page/0');
-      expect(response.status).toEqual(BAD_REQUEST);
-      done();
+      expect(response.status).toBe(BAD_REQUEST);
     });
 
-    it('replies INTERNAL_SERVER_ERROR', async (done) => {
+    it('replies INTERNAL_SERVER_ERROR', async () => {
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
       const stub: SinonStub = sinon.stub();
       statsInteractor.findByVeauAccountID = stub;
@@ -137,17 +114,14 @@ describe('StatsController', () => {
       app.use('/', StatsController);
 
       const response: supertest.Response = await supertest(app).get('/page/1');
-      expect(response.status).toEqual(INTERNAL_SERVER_ERROR);
-      done();
+      expect(response.status).toBe(INTERNAL_SERVER_ERROR);
     });
   });
 
   describe('GET /:statsID([0-9a-f\-]{36})', () => {
-    it('normal case', async (done) => {
-      const uuid1: UUID = UUID.v4();
-      const uuid2: UUID = UUID.v4();
+    it('normal case', async () => {
       const stats: MockStats = new MockStats({
-        statsID: new MockStatsID(uuid1),
+        statsID: new MockStatsID(),
         language: new MockLanguage({
           languageID: new MockLanguageID(1),
           name: new MockLanguageName('language'),
@@ -169,11 +143,11 @@ describe('StatsController', () => {
         }),
         items: new MockStatsItems(
           new MockStatsItem({
-            statsItemID: new MockStatsItemID(uuid2),
+            statsItemID: new MockStatsItemID(),
             name: new MockStatsItemName('stats item'),
             values: new MockStatsValues(
               new MockStatsValue({
-                statsItemID: new MockStatsItemID(uuid2),
+                statsItemID: new MockStatsItemID(),
                 asOf: new MockAsOf({
                   day: 5
                 }),
@@ -192,42 +166,12 @@ describe('StatsController', () => {
       const app: express.Express = express();
       app.use('/', StatsController);
 
-      const response: supertest.Response = await supertest(app).get('/059ce0b2-7cba-4ba4-9a5d-a8fa7493f556');
-      expect(response.status).toEqual(OK);
-      expect(response.body).toEqual({
-        statsID: uuid1.get(),
-        language: {
-          languageID: 1,
-          name: 'language',
-          englishName: 'english name',
-          iso639: 'la'
-        },
-        region: {
-          regionID: 1,
-          name: 'region',
-          iso3166: 'RGN'
-        },
-        termID: 32,
-        name: 'stats',
-        unit: 'unit',
-        updatedAt: '2000-01-02 01:02:03',
-        items: [
-          {
-            statsItemID: uuid2.get(),
-            name: 'stats item',
-            values: [
-              {
-                asOf: '2000-01-05',
-                value: 5
-              }
-            ]
-          }
-        ]
-      });
-      done();
+      const response: supertest.Response = await supertest(app).get(`/${UUID.v4()}`);
+      expect(response.status).toBe(OK);
+      expect(response.body).toEqual(stats.toJSON());
     });
 
-    it('not found', async (done) => {
+    it('not found', async () => {
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
       const stub: SinonStub = sinon.stub();
       statsInteractor.findByStatsID = stub;
@@ -236,12 +180,11 @@ describe('StatsController', () => {
       const app: express.Express = express();
       app.use('/', StatsController);
 
-      const response: supertest.Response = await supertest(app).get('/059ce0b2-7cba-4ba4-9a5d-a8fa7493f556');
-      expect(response.status).toEqual(NO_CONTENT);
-      done();
+      const response: supertest.Response = await supertest(app).get(`/${UUID.v4()}`);
+      expect(response.status).toBe(NO_CONTENT);
     });
 
-    it('replies INTERNAL_SERVER_ERROR', async (done) => {
+    it('replies INTERNAL_SERVER_ERROR', async () => {
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
       const stub: SinonStub = sinon.stub();
       statsInteractor.findByStatsID = stub;
@@ -250,14 +193,13 @@ describe('StatsController', () => {
       const app: express.Express = express();
       app.use('/', StatsController);
 
-      const response: supertest.Response = await supertest(app).get('/059ce0b2-7cba-4ba4-9a5d-a8fa7493f556');
-      expect(response.status).toEqual(INTERNAL_SERVER_ERROR);
-      done();
+      const response: supertest.Response = await supertest(app).get(`/${UUID.v4()}`);
+      expect(response.status).toBe(INTERNAL_SERVER_ERROR);
     });
   });
 
   describe('POST /', () => {
-    it('normal case', async (done) => {
+    it('normal case', async () => {
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
       const stub: SinonStub = sinon.stub();
       statsInteractor.save = stub;
@@ -304,11 +246,10 @@ describe('StatsController', () => {
           }
         ]
       });
-      expect(response.status).toEqual(CREATED);
-      done();
+      expect(response.status).toBe(CREATED);
     });
 
-    it('replies BAD_REQUEST when the json format is illegal', async (done) => {
+    it('replies BAD_REQUEST when the json format is illegal', async () => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -350,11 +291,10 @@ describe('StatsController', () => {
           }
         ]
       });
-      expect(response.status).toEqual(BAD_REQUEST);
-      done();
+      expect(response.status).toBe(BAD_REQUEST);
     });
 
-    it('statsID is missing', async (done) => {
+    it('statsID is missing', async () => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -395,11 +335,10 @@ describe('StatsController', () => {
           }
         ]
       });
-      expect(response.status).toEqual(BAD_REQUEST);
-      done();
+      expect(response.status).toBe(BAD_REQUEST);
     });
 
-    it('language is missing', async (done) => {
+    it('language is missing', async () => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -435,11 +374,10 @@ describe('StatsController', () => {
           }
         ]
       });
-      expect(response.status).toEqual(BAD_REQUEST);
-      done();
+      expect(response.status).toBe(BAD_REQUEST);
     });
 
-    it('language.languageID is missing', async (done) => {
+    it('language.languageID is missing', async () => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -480,11 +418,10 @@ describe('StatsController', () => {
           }
         ]
       });
-      expect(response.status).toEqual(BAD_REQUEST);
-      done();
+      expect(response.status).toBe(BAD_REQUEST);
     });
 
-    it('language.name is missing', async (done) => {
+    it('language.name is missing', async () => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -525,11 +462,10 @@ describe('StatsController', () => {
           }
         ]
       });
-      expect(response.status).toEqual(BAD_REQUEST);
-      done();
+      expect(response.status).toBe(BAD_REQUEST);
     });
 
-    it('language.englishName is missing', async (done) => {
+    it('language.englishName is missing', async () => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -570,11 +506,10 @@ describe('StatsController', () => {
           }
         ]
       });
-      expect(response.status).toEqual(BAD_REQUEST);
-      done();
+      expect(response.status).toBe(BAD_REQUEST);
     });
 
-    it('language.iso639 is missing', async (done) => {
+    it('language.iso639 is missing', async () => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -615,11 +550,10 @@ describe('StatsController', () => {
           }
         ]
       });
-      expect(response.status).toEqual(BAD_REQUEST);
-      done();
+      expect(response.status).toBe(BAD_REQUEST);
     });
 
-    it('region is missing', async (done) => {
+    it('region is missing', async () => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -656,11 +590,10 @@ describe('StatsController', () => {
           }
         ]
       });
-      expect(response.status).toEqual(BAD_REQUEST);
-      done();
+      expect(response.status).toBe(BAD_REQUEST);
     });
 
-    it('region.regionID is missing', async (done) => {
+    it('region.regionID is missing', async () => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -701,11 +634,10 @@ describe('StatsController', () => {
           }
         ]
       });
-      expect(response.status).toEqual(BAD_REQUEST);
-      done();
+      expect(response.status).toBe(BAD_REQUEST);
     });
 
-    it('region.name is missing', async (done) => {
+    it('region.name is missing', async () => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -746,11 +678,10 @@ describe('StatsController', () => {
           }
         ]
       });
-      expect(response.status).toEqual(BAD_REQUEST);
-      done();
+      expect(response.status).toBe(BAD_REQUEST);
     });
 
-    it('region.iso3166 is missing', async (done) => {
+    it('region.iso3166 is missing', async () => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -791,11 +722,10 @@ describe('StatsController', () => {
           }
         ]
       });
-      expect(response.status).toEqual(BAD_REQUEST);
-      done();
+      expect(response.status).toBe(BAD_REQUEST);
     });
 
-    it('termID is missing', async (done) => {
+    it('termID is missing', async () => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -836,11 +766,10 @@ describe('StatsController', () => {
           }
         ]
       });
-      expect(response.status).toEqual(BAD_REQUEST);
-      done();
+      expect(response.status).toBe(BAD_REQUEST);
     });
 
-    it('name is missing', async (done) => {
+    it('name is missing', async () => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -881,11 +810,10 @@ describe('StatsController', () => {
           }
         ]
       });
-      expect(response.status).toEqual(BAD_REQUEST);
-      done();
+      expect(response.status).toBe(BAD_REQUEST);
     });
 
-    it('unit is missing', async (done) => {
+    it('unit is missing', async () => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -926,11 +854,10 @@ describe('StatsController', () => {
           }
         ]
       });
-      expect(response.status).toEqual(BAD_REQUEST);
-      done();
+      expect(response.status).toBe(BAD_REQUEST);
     });
 
-    it('updatedAt is missing', async (done) => {
+    it('updatedAt is missing', async () => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -971,11 +898,10 @@ describe('StatsController', () => {
           }
         ]
       });
-      expect(response.status).toEqual(BAD_REQUEST);
-      done();
+      expect(response.status).toBe(BAD_REQUEST);
     });
 
-    it('items are missing', async (done) => {
+    it('items are missing', async () => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -1005,11 +931,10 @@ describe('StatsController', () => {
         unit: 'unit',
         updatedAt: '2000-01-01 00:00:00'
       });
-      expect(response.status).toEqual(BAD_REQUEST);
-      done();
+      expect(response.status).toBe(BAD_REQUEST);
     });
 
-    it('item is not plain object', async (done) => {
+    it('item is not plain object', async () => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -1043,11 +968,10 @@ describe('StatsController', () => {
           'item 2'
         ]
       });
-      expect(response.status).toEqual(BAD_REQUEST);
-      done();
+      expect(response.status).toBe(BAD_REQUEST);
     });
 
-    it('item.statsItemID is missing', async (done) => {
+    it('item.statsItemID is missing', async () => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -1088,11 +1012,10 @@ describe('StatsController', () => {
           }
         ]
       });
-      expect(response.status).toEqual(BAD_REQUEST);
-      done();
+      expect(response.status).toBe(BAD_REQUEST);
     });
 
-    it('item.name is missing', async (done) => {
+    it('item.name is missing', async () => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -1133,11 +1056,10 @@ describe('StatsController', () => {
           }
         ]
       });
-      expect(response.status).toEqual(BAD_REQUEST);
-      done();
+      expect(response.status).toBe(BAD_REQUEST);
     });
 
-    it('item.values are missing', async (done) => {
+    it('item.values are missing', async () => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -1173,11 +1095,10 @@ describe('StatsController', () => {
           }
         ]
       });
-      expect(response.status).toEqual(BAD_REQUEST);
-      done();
+      expect(response.status).toBe(BAD_REQUEST);
     });
 
-    it('value is not plain object', async (done) => {
+    it('value is not plain object', async () => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -1217,11 +1138,10 @@ describe('StatsController', () => {
           }
         ]
       });
-      expect(response.status).toEqual(BAD_REQUEST);
-      done();
+      expect(response.status).toBe(BAD_REQUEST);
     });
 
-    it('item.values.asOf is missing', async (done) => {
+    it('item.values.asOf is missing', async () => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -1262,11 +1182,10 @@ describe('StatsController', () => {
           }
         ]
       });
-      expect(response.status).toEqual(BAD_REQUEST);
-      done();
+      expect(response.status).toBe(BAD_REQUEST);
     });
 
-    it('item.values.value is missing', async (done) => {
+    it('item.values.value is missing', async () => {
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({
         extended: false
@@ -1307,8 +1226,7 @@ describe('StatsController', () => {
           }
         ]
       });
-      expect(response.status).toEqual(BAD_REQUEST);
-      done();
+      expect(response.status).toBe(BAD_REQUEST);
     });
   });
 });

@@ -16,10 +16,9 @@ import { MockVeauAccountID } from '../../../VO/Mock/MockVeauAccountID';
 import { VeauAccount } from '../../../VO/VeauAccount';
 import { IdentityController } from '../IdentityController';
 
-// DONE
 describe('IdentityController', () => {
   describe('GET /', () => {
-    it('returns VeauAccount as JSON', async (done) => {
+    it('returns VeauAccount as JSON', async () => {
       const account: VeauAccount = new MockVeauAccount({
         veauAccountID: new MockVeauAccountID(),
         account: new MockAccountName('account'),
@@ -37,16 +36,14 @@ describe('IdentityController', () => {
 
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        // @ts-ignore
         req.user = account;
         next();
       });
       app.use('/', IdentityController);
 
       const response: supertest.Response = await supertest(app).get('/');
-      expect(response.status).toEqual(OK);
+      expect(response.status).toBe(OK);
       expect(response.body).toEqual(account.toJSON());
-      done();
     });
   });
 });

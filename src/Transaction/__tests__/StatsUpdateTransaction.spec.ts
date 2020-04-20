@@ -18,7 +18,6 @@ import { MockVeauAccountID } from '../../VO/Mock/MockVeauAccountID';
 import { VeauAccountID } from '../../VO/VeauAccountID';
 import { StatsUpdateTransaction } from '../StatsUpdateTransaction';
 
-// DONE
 describe('StatsUpdateTransaction', () => {
   describe('with', () => {
     it('normal case', async () => {
@@ -77,13 +76,13 @@ describe('StatsUpdateTransaction', () => {
       const sql: MockSQL = new MockSQL();
       const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
-      expect(superposition.isSuccess()).toEqual(true);
-      expect(stub1.called).toEqual(true);
-      expect(stub2.called).toEqual(true);
-      expect(stub3.called).toEqual(true);
-      expect(stub4.callCount).toEqual(1);
-      expect(stub5.callCount).toEqual(2);
-      expect(stub6.callCount).toEqual(5);
+      expect(superposition.isSuccess()).toBe(true);
+      expect(stub1.called).toBe(true);
+      expect(stub2.called).toBe(true);
+      expect(stub3.called).toBe(true);
+      expect(stub4.callCount).toBe(1);
+      expect(stub5.callCount).toBe(2);
+      expect(stub6.callCount).toBe(5);
     });
 
     it('StatsCommand.deleteByStatsID() returns Failure', async () => {
@@ -135,7 +134,7 @@ describe('StatsUpdateTransaction', () => {
       const sql: MockSQL = new MockSQL();
       const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
@@ -143,11 +142,11 @@ describe('StatsUpdateTransaction', () => {
         expect(err).toBeInstanceOf(MySQLError);
       });
 
-      expect(stub1.called).toEqual(true);
-      expect(stub2.called).toEqual(true);
-      expect(stub3.called).toEqual(true);
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(stub1.called).toBe(true);
+      expect(stub2.called).toBe(true);
+      expect(stub3.called).toBe(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('StatsItemCommand.deleteByStatsID() returns Failure', async () => {
@@ -199,7 +198,7 @@ describe('StatsUpdateTransaction', () => {
       const sql: MockSQL = new MockSQL();
       const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
@@ -207,11 +206,11 @@ describe('StatsUpdateTransaction', () => {
         expect(err).toBeInstanceOf(MySQLError);
       });
 
-      expect(stub1.called).toEqual(true);
-      expect(stub2.called).toEqual(true);
-      expect(stub3.called).toEqual(true);
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(stub1.called).toBe(true);
+      expect(stub2.called).toBe(true);
+      expect(stub3.called).toBe(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('StatsValueCommand.deleteByStatsID() returns Failure', async () => {
@@ -263,7 +262,7 @@ describe('StatsUpdateTransaction', () => {
       const sql: MockSQL = new MockSQL();
       const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
@@ -271,11 +270,11 @@ describe('StatsUpdateTransaction', () => {
         expect(err).toBeInstanceOf(MySQLError);
       });
 
-      expect(stub1.called).toEqual(true);
-      expect(stub2.called).toEqual(true);
-      expect(stub3.called).toEqual(true);
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(stub1.called).toBe(true);
+      expect(stub2.called).toBe(true);
+      expect(stub3.called).toBe(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('StatsCommand.create() returns Failure', async () => {
@@ -336,7 +335,7 @@ describe('StatsUpdateTransaction', () => {
       const sql: MockSQL = new MockSQL();
       const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
@@ -344,14 +343,14 @@ describe('StatsUpdateTransaction', () => {
         expect(err).toBeInstanceOf(MySQLError);
       });
 
-      expect(stub1.called).toEqual(true);
-      expect(stub2.called).toEqual(true);
-      expect(stub3.called).toEqual(true);
-      expect(stub4.called).toEqual(true);
-      expect(stub5.called).toEqual(true);
-      expect(stub6.called).toEqual(true);
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(stub1.called).toBe(true);
+      expect(stub2.called).toBe(true);
+      expect(stub3.called).toBe(true);
+      expect(stub4.called).toBe(true);
+      expect(stub5.called).toBe(true);
+      expect(stub6.called).toBe(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('StatsItemCommand.create() returns Failure', async () => {
@@ -412,7 +411,7 @@ describe('StatsUpdateTransaction', () => {
       const sql: MockSQL = new MockSQL();
       const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
@@ -420,14 +419,14 @@ describe('StatsUpdateTransaction', () => {
         expect(err).toBeInstanceOf(MySQLError);
       });
 
-      expect(stub1.called).toEqual(true);
-      expect(stub2.called).toEqual(true);
-      expect(stub3.called).toEqual(true);
-      expect(stub4.called).toEqual(true);
-      expect(stub5.called).toEqual(true);
-      expect(stub6.called).toEqual(true);
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(stub1.called).toBe(true);
+      expect(stub2.called).toBe(true);
+      expect(stub3.called).toBe(true);
+      expect(stub4.called).toBe(true);
+      expect(stub5.called).toBe(true);
+      expect(stub6.called).toBe(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('StatsValueCommand.create() returns Failure', async () => {
@@ -488,7 +487,7 @@ describe('StatsUpdateTransaction', () => {
       const sql: MockSQL = new MockSQL();
       const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
@@ -496,14 +495,14 @@ describe('StatsUpdateTransaction', () => {
         expect(err).toBeInstanceOf(MySQLError);
       });
 
-      expect(stub1.called).toEqual(true);
-      expect(stub2.called).toEqual(true);
-      expect(stub3.called).toEqual(true);
-      expect(stub4.called).toEqual(true);
-      expect(stub5.called).toEqual(true);
-      expect(stub6.called).toEqual(true);
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(stub1.called).toBe(true);
+      expect(stub2.called).toBe(true);
+      expect(stub3.called).toBe(true);
+      expect(stub4.called).toBe(true);
+      expect(stub5.called).toBe(true);
+      expect(stub6.called).toBe(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
   });
 });

@@ -26,10 +26,9 @@ import { MockRegions } from '../../../VO/Mock/MockRegions';
 import { MockVeauAccount } from '../../../VO/Mock/MockVeauAccount';
 import { LocaleController } from '../LocaleController';
 
-// DONE
 describe('LocaleController', () => {
   describe('GET /', () => {
-    it('returns JSON as LocaleInteractor returns', async (done) => {
+    it('returns JSON as LocaleInteractor returns', async () => {
       const locale: MockLocale = new MockLocale({
         languages: new MockLanguages(
           new MockLanguage({
@@ -57,28 +56,11 @@ describe('LocaleController', () => {
       app.use('/', LocaleController);
 
       const response: supertest.Response = await supertest(app).get('/');
-      expect(response.status).toEqual(OK);
-      expect(response.body).toEqual({
-        languages: [
-          {
-            languageID: 1,
-            name: 'language',
-            englishName: 'english name',
-            iso639: 'la'
-          }
-        ],
-        regions: [
-          {
-            regionID: 1,
-            name: 'region',
-            iso3166: 'RGN'
-          }
-        ]
-      });
-      done();
+      expect(response.status).toBe(OK);
+      expect(response.body).toEqual(locale.toJSON());
     });
 
-    it('returns INTERNAL_SERVER_ERROR when Failure contains NoSuchElementError', async (done) => {
+    it('returns INTERNAL_SERVER_ERROR when Failure contains NoSuchElementError', async () => {
       const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
       const stub: SinonStub = sinon.stub();
       localeInteractor.all = stub;
@@ -92,11 +74,10 @@ describe('LocaleController', () => {
       app.use('/', LocaleController);
 
       const response: supertest.Response = await supertest(app).get('/');
-      expect(response.status).toEqual(INTERNAL_SERVER_ERROR);
-      done();
+      expect(response.status).toBe(INTERNAL_SERVER_ERROR);
     });
 
-    it('returns INTERNAL_SERVER_ERROR when Failure contains DataSourceError', async (done) => {
+    it('returns INTERNAL_SERVER_ERROR when Failure contains DataSourceError', async () => {
       const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
       const stub: SinonStub = sinon.stub();
       localeInteractor.all = stub;
@@ -110,13 +91,12 @@ describe('LocaleController', () => {
       app.use('/', LocaleController);
 
       const response: supertest.Response = await supertest(app).get('/');
-      expect(response.status).toEqual(INTERNAL_SERVER_ERROR);
-      done();
+      expect(response.status).toBe(INTERNAL_SERVER_ERROR);
     });
   });
 
   describe('DELETE /', () => {
-    it('delete all locales of the cache', async (done) => {
+    it('delete all locales of the cache', async () => {
       const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
       const stub: SinonStub = sinon.stub();
       localeInteractor.delete = stub;
@@ -130,11 +110,10 @@ describe('LocaleController', () => {
       app.use('/', LocaleController);
 
       const response: supertest.Response = await supertest(app).delete('/');
-      expect(response.status).toEqual(OK);
-      done();
+      expect(response.status).toBe(OK);
     });
 
-    it('replies INTERNAL_SERVER_ERROR', async (done) => {
+    it('replies INTERNAL_SERVER_ERROR', async () => {
       const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
       const stub: SinonStub = sinon.stub();
       localeInteractor.delete = stub;
@@ -148,8 +127,7 @@ describe('LocaleController', () => {
       app.use('/', LocaleController);
 
       const response: supertest.Response = await supertest(app).delete('/');
-      expect(response.status).toEqual(INTERNAL_SERVER_ERROR);
-      done();
+      expect(response.status).toBe(INTERNAL_SERVER_ERROR);
     });
   });
 });
