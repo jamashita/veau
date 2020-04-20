@@ -13,7 +13,6 @@ import { Account, AccountRow } from '../../../VO/Account';
 import { MockAccountName } from '../../../VO/Mock/MockAccountName';
 import { AccountQuery } from '../AccountQuery';
 
-// DONE
 describe('AccountQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
@@ -27,8 +26,7 @@ describe('AccountQuery', () => {
 
   describe('findByAccount', () => {
     it('normal case', async () => {
-      const name: string = 'moloque';
-      const accountName: MockAccountName = new MockAccountName(name);
+      const accountName: MockAccountName = new MockAccountName('moloque');
       const rows: Array<AccountRow> = [
         {
           veauAccountID: '998106de-b2e7-4981-9643-22cd30cd74de',
@@ -72,20 +70,20 @@ describe('AccountQuery', () => {
       USING(region_id)
       WHERE R1.account = :account
       AND R1.active = true;`, {
-        account: name
-      }).called).toEqual(true);
-      expect(superposition.isSuccess()).toEqual(true);
+        account: accountName.get()
+      }).called).toBe(true);
+      expect(superposition.isSuccess()).toBe(true);
       const account: Account = superposition.get();
-      expect(account.getVeauAccountID().get().get()).toEqual(rows[0].veauAccountID);
-      expect(account.getAccount().get()).toEqual(rows[0].account);
-      expect(account.getLanguage().getLanguageID().get()).toEqual(rows[0].languageID);
-      expect(account.getLanguage().getName().get()).toEqual(rows[0].languageName);
-      expect(account.getLanguage().getEnglishName().get()).toEqual(rows[0].languageEnglishName);
-      expect(account.getLanguage().getISO639().get()).toEqual(rows[0].iso639);
-      expect(account.getRegion().getRegionID().get()).toEqual(rows[0].regionID);
-      expect(account.getRegion().getName().get()).toEqual(rows[0].regionName);
-      expect(account.getRegion().getISO3166().get()).toEqual(rows[0].iso3166);
-      expect(account.getHash().get()).toEqual(rows[0].hash);
+      expect(account.getVeauAccountID().get().get()).toBe(rows[0].veauAccountID);
+      expect(account.getAccount().get()).toBe(rows[0].account);
+      expect(account.getLanguage().getLanguageID().get()).toBe(rows[0].languageID);
+      expect(account.getLanguage().getName().get()).toBe(rows[0].languageName);
+      expect(account.getLanguage().getEnglishName().get()).toBe(rows[0].languageEnglishName);
+      expect(account.getLanguage().getISO639().get()).toBe(rows[0].iso639);
+      expect(account.getRegion().getRegionID().get()).toBe(rows[0].regionID);
+      expect(account.getRegion().getName().get()).toBe(rows[0].regionName);
+      expect(account.getRegion().getISO3166().get()).toBe(rows[0].iso3166);
+      expect(account.getHash().get()).toBe(rows[0].hash);
     });
 
     it('returns Failure because MySQL.execute returns 0 results', async () => {
@@ -101,7 +99,7 @@ describe('AccountQuery', () => {
       const accountQuery: AccountQuery = new AccountQuery(mysql);
       const superposition: Superposition<Account, AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(name);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: AccountError | NoSuchElementError | DataSourceError) => {
@@ -109,8 +107,8 @@ describe('AccountQuery', () => {
         expect(err).toBeInstanceOf(NoSuchElementError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('returns Failure because veauAccountID is malformat', async () => {
@@ -140,7 +138,7 @@ describe('AccountQuery', () => {
       const accountQuery: AccountQuery = new AccountQuery(mysql);
       const superposition: Superposition<Account, AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(name);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: AccountError | NoSuchElementError | DataSourceError) => {
@@ -148,8 +146,8 @@ describe('AccountQuery', () => {
         expect(err).toBeInstanceOf(AccountError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('returns Failure because the client throws MySQLError', async () => {
@@ -165,7 +163,7 @@ describe('AccountQuery', () => {
       const accountQuery: AccountQuery = new AccountQuery(mysql);
       const superposition: Superposition<Account, AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(name);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: AccountError | NoSuchElementError | DataSourceError) => {
@@ -173,8 +171,8 @@ describe('AccountQuery', () => {
         expect(err).toBeInstanceOf(MySQLError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('throws Error', async () => {

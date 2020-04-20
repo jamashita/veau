@@ -10,16 +10,15 @@ import { Success } from '../../../General/Superposition/Success';
 import { Superposition } from '../../../General/Superposition/Superposition';
 import { ISO639 } from '../../../VO/ISO639';
 import { Language } from '../../../VO/Language';
-import { LanguageID } from '../../../VO/LanguageID';
-import { LanguageName } from '../../../VO/LanguageName';
 import { Languages } from '../../../VO/Languages';
 import { Locale } from '../../../VO/Locale';
+import { MockISO639 } from '../../../VO/Mock/MockISO639';
+import { MockLanguage } from '../../../VO/Mock/MockLanguage';
 import { MockLanguages } from '../../../VO/Mock/MockLanguages';
 import { MockLocale } from '../../../VO/Mock/MockLocale';
 import { MockLocaleQuery } from '../../Mock/MockLocaleQuery';
 import { LanguageQuery } from '../LanguageQuery';
 
-// DONE
 describe('LanguageQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
@@ -43,8 +42,8 @@ describe('LanguageQuery', () => {
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
       const superposition: Superposition<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
 
-      expect(superposition.isSuccess()).toEqual(true);
-      expect(superposition.get()).toEqual(locale.getLanguages());
+      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.get()).toBe(locale.getLanguages());
     });
 
     it('LocaleQuery returns Failure', async () => {
@@ -58,7 +57,7 @@ describe('LanguageQuery', () => {
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
       const superposition: Superposition<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -66,8 +65,8 @@ describe('LanguageQuery', () => {
         expect(err).toBeInstanceOf(AJAXError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
   });
 
@@ -75,20 +74,15 @@ describe('LanguageQuery', () => {
     it('normal case', async () => {
       const locale: MockLocale = new MockLocale({
         languages: new MockLanguages(
-          Language.of(
-            LanguageID.of(1),
-            LanguageName.of('аҧсуа бызшәа'),
-            LanguageName.of('Abkhazian'),
-            ISO639.of('ab')
-          ),
-          Language.of(
-            LanguageID.of(2),
-            LanguageName.of('Afaraf'),
-            LanguageName.of('Afar'),
-            ISO639.of('aa')
-          )
+          new MockLanguage({
+            iso639: new MockISO639('ab')
+          }),
+          new MockLanguage({
+            iso639: new MockISO639('aa')
+          })
         )
       });
+
 
       const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
@@ -98,8 +92,8 @@ describe('LanguageQuery', () => {
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
       const superposition: Superposition<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
-      expect(superposition.isSuccess()).toEqual(true);
-      expect(superposition.get()).toEqual(locale.getLanguages().get(1).get());
+      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.get()).toBe(locale.getLanguages().get(1).get());
     });
 
     it('LocaleQuery.all returns Failure', async () => {
@@ -113,7 +107,7 @@ describe('LanguageQuery', () => {
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
       const superposition: Superposition<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -121,25 +115,19 @@ describe('LanguageQuery', () => {
         expect(err).toBeInstanceOf(AJAXError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('no match results', async () => {
       const locale: MockLocale = new MockLocale({
         languages: new MockLanguages(
-          Language.of(
-            LanguageID.of(1),
-            LanguageName.of('аҧсуа бызшәа'),
-            LanguageName.of('Abkhazian'),
-            ISO639.of('ab')
-          ),
-          Language.of(
-            LanguageID.of(2),
-            LanguageName.of('Afaraf'),
-            LanguageName.of('Afar'),
-            ISO639.of('aa')
-          )
+          new MockLanguage({
+            iso639: new MockISO639('ab')
+          }),
+          new MockLanguage({
+            iso639: new MockISO639('aa')
+          })
         )
       });
 
@@ -153,7 +141,7 @@ describe('LanguageQuery', () => {
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
       const superposition: Superposition<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('oop'));
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -161,8 +149,8 @@ describe('LanguageQuery', () => {
         expect(err).toBeInstanceOf(NoSuchElementError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
   });
 });

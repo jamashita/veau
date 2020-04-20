@@ -14,7 +14,6 @@ import { MockLocale } from '../../../VO/Mock/MockLocale';
 import { MockLocaleQuery } from '../../Mock/MockLocaleQuery';
 import { LocaleQuery } from '../LocaleQuery';
 
-// DONE
 describe('LocaleQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
@@ -41,14 +40,18 @@ describe('LocaleQuery', () => {
       const stub3: SinonStub = sinon.stub();
       localeCommand.create = stub3;
 
-      const localeQuery: LocaleQuery = new LocaleQuery(localeAJAXQuery, localeCacheQuery, localeCommand);
+      const localeQuery: LocaleQuery = new LocaleQuery(
+        localeAJAXQuery,
+        localeCacheQuery,
+        localeCommand
+      );
       const superposition: Superposition<Locale, DataSourceError> = await localeQuery.all();
 
-      expect(stub1.called).toEqual(true);
-      expect(stub2.called).toEqual(false);
-      expect(stub3.called).toEqual(false);
-      expect(superposition.isSuccess()).toEqual(true);
-      expect(superposition.get()).toEqual(locale);
+      expect(stub1.called).toBe(true);
+      expect(stub2.called).toBe(false);
+      expect(stub3.called).toBe(false);
+      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.get()).toBe(locale);
     });
 
     it('returns Success because AJAX has', async () => {
@@ -67,15 +70,19 @@ describe('LocaleQuery', () => {
       localeCommand.create = stub3;
       stub3.resolves(Success.of<DataSourceError>());
 
-      const localeQuery: LocaleQuery = new LocaleQuery(localeAJAXQuery, localeCacheQuery, localeCommand);
+      const localeQuery: LocaleQuery = new LocaleQuery(
+        localeAJAXQuery,
+        localeCacheQuery,
+        localeCommand
+      );
       const superposition: Superposition<Locale, DataSourceError> = await localeQuery.all();
 
-      expect(stub1.called).toEqual(true);
-      expect(stub2.called).toEqual(true);
-      expect(stub3.called).toEqual(true);
-      expect(superposition.isSuccess()).toEqual(true);
+      expect(stub1.called).toBe(true);
+      expect(stub2.called).toBe(true);
+      expect(stub3.called).toBe(true);
+      expect(superposition.isSuccess()).toBe(true);
       const loc: Locale = superposition.get();
-      expect(loc).toEqual(locale);
+      expect(loc).toBe(locale);
     });
 
     it('returns Failure Cache nor AJAX returned nothing', async () => {
@@ -93,13 +100,17 @@ describe('LocaleQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeQuery: LocaleQuery = new LocaleQuery(localeAJAXQuery, localeCacheQuery, localeCommand);
+      const localeQuery: LocaleQuery = new LocaleQuery(
+        localeAJAXQuery,
+        localeCacheQuery,
+        localeCommand
+      );
       const superposition: Superposition<Locale, DataSourceError> = await localeQuery.all();
 
-      expect(stub1.called).toEqual(true);
-      expect(stub2.called).toEqual(true);
-      expect(stub3.called).toEqual(false);
-      expect(superposition.isFailure()).toEqual(true);
+      expect(stub1.called).toBe(true);
+      expect(stub2.called).toBe(true);
+      expect(stub3.called).toBe(false);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
@@ -107,8 +118,8 @@ describe('LocaleQuery', () => {
         expect(err).toBeInstanceOf(AJAXError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('returns Failure Cache nor AJAX returned nothing', async () => {
@@ -129,13 +140,17 @@ describe('LocaleQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeQuery: LocaleQuery = new LocaleQuery(localeAJAXQuery, localeCacheQuery, localeCommand);
+      const localeQuery: LocaleQuery = new LocaleQuery(
+        localeAJAXQuery,
+        localeCacheQuery,
+        localeCommand
+      );
       const superposition: Superposition<Locale, DataSourceError> = await localeQuery.all();
 
-      expect(stub1.called).toEqual(true);
-      expect(stub2.called).toEqual(true);
-      expect(stub3.called).toEqual(true);
-      expect(superposition.isFailure()).toEqual(true);
+      expect(stub1.called).toBe(true);
+      expect(stub2.called).toBe(true);
+      expect(stub3.called).toBe(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
@@ -143,8 +158,8 @@ describe('LocaleQuery', () => {
         expect(err).toBeInstanceOf(CacheError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
   });
 });

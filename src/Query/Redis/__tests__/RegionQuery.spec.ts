@@ -15,7 +15,6 @@ import { Region, RegionJSON } from '../../../VO/Region';
 import { Regions } from '../../../VO/Regions';
 import { RegionQuery } from '../RegionQuery';
 
-// DONE
 describe('RegionQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
@@ -54,13 +53,13 @@ describe('RegionQuery', () => {
       const regionQuery: RegionQuery = new RegionQuery(redis);
       const superposition: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
-      expect(superposition.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toBe(true);
       const regions: Regions = superposition.get();
-      expect(regions.size()).toEqual(json.length);
+      expect(regions.size()).toBe(json.length);
       for (let i: number = 0; i < regions.size(); i++) {
-        expect(regions.get(i).get().getRegionID().get()).toEqual(json[i].regionID);
-        expect(regions.get(i).get().getName().get()).toEqual(json[i].name);
-        expect(regions.get(i).get().getISO3166().get()).toEqual(json[i].iso3166);
+        expect(regions.get(i).get().getRegionID().get()).toBe(json[i].regionID);
+        expect(regions.get(i).get().getName().get()).toBe(json[i].name);
+        expect(regions.get(i).get().getISO3166().get()).toBe(json[i].iso3166);
       }
     });
 
@@ -79,8 +78,8 @@ describe('RegionQuery', () => {
       const regionQuery: RegionQuery = new RegionQuery(redis);
       const superposition: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
-      expect(superposition.isSuccess()).toEqual(true);
-      expect(superposition.get().size()).toEqual(json.length);
+      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.get().size()).toBe(json.length);
     });
 
     it('returns Failure when Redis returns null', async () => {
@@ -97,7 +96,7 @@ describe('RegionQuery', () => {
       const regionQuery: RegionQuery = new RegionQuery(redis);
       const superposition: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -105,8 +104,8 @@ describe('RegionQuery', () => {
         expect(err).toBeInstanceOf(NoSuchElementError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('Redis returns RedisError', async () => {
@@ -123,7 +122,7 @@ describe('RegionQuery', () => {
       const regionQuery: RegionQuery = new RegionQuery(redis);
       const superposition: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -131,8 +130,8 @@ describe('RegionQuery', () => {
         expect(err).toBeInstanceOf(RedisError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('Redis returns JSONAError', async () => {
@@ -149,7 +148,7 @@ describe('RegionQuery', () => {
       const regionQuery: RegionQuery = new RegionQuery(redis);
       const superposition: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -157,8 +156,8 @@ describe('RegionQuery', () => {
         expect(err).toBeInstanceOf(RedisError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('throws Error', async () => {
@@ -204,11 +203,11 @@ describe('RegionQuery', () => {
         ISO3166.of('ALB')
       );
 
-      expect(superposition.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toBe(true);
       const region: Region = superposition.get();
-      expect(region.getRegionID().get()).toEqual(json[1].regionID);
-      expect(region.getName().get()).toEqual(json[1].name);
-      expect(region.getISO3166().get()).toEqual(json[1].iso3166);
+      expect(region.getRegionID().get()).toBe(json[1].regionID);
+      expect(region.getName().get()).toBe(json[1].name);
+      expect(region.getISO3166().get()).toBe(json[1].iso3166);
     });
 
     it('Redis returns empty array', async () => {
@@ -230,7 +229,7 @@ describe('RegionQuery', () => {
         ISO3166.of('ALB')
       );
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -238,8 +237,8 @@ describe('RegionQuery', () => {
         expect(err).toBeInstanceOf(NoSuchElementError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('returns Failure because Redis returns null', async () => {
@@ -258,7 +257,7 @@ describe('RegionQuery', () => {
         ISO3166.of('ALB')
       );
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -266,8 +265,8 @@ describe('RegionQuery', () => {
         expect(err).toBeInstanceOf(NoSuchElementError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('no match results', async () => {
@@ -300,7 +299,7 @@ describe('RegionQuery', () => {
         ISO3166.of('OOP')
       );
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -308,8 +307,8 @@ describe('RegionQuery', () => {
         expect(err).toBeInstanceOf(NoSuchElementError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('Redis returns RedisError', async () => {
@@ -328,7 +327,7 @@ describe('RegionQuery', () => {
         ISO3166.of('ALB')
       );
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -336,8 +335,8 @@ describe('RegionQuery', () => {
         expect(err).toBeInstanceOf(RedisError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('Redis returns JSONAError', async () => {
@@ -356,7 +355,7 @@ describe('RegionQuery', () => {
         ISO3166.of('ALB')
       );
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -364,8 +363,8 @@ describe('RegionQuery', () => {
         expect(err).toBeInstanceOf(RedisError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('throws Error', async () => {

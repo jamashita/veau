@@ -10,13 +10,10 @@ import { MySQLError } from '../../../General/MySQL/MySQLError';
 import { Superposition } from '../../../General/Superposition/Superposition';
 import { MockPage } from '../../../VO/Mock/MockPage';
 import { MockVeauAccountID } from '../../../VO/Mock/MockVeauAccountID';
-import { Page } from '../../../VO/Page';
 import { StatsOutline, StatsOutlineRow } from '../../../VO/StatsOutline';
 import { StatsOutlines } from '../../../VO/StatsOutlines';
-import { VeauAccountID } from '../../../VO/VeauAccountID';
 import { StatsOutlineQuery } from '../StatsOutlineQuery';
 
-// DONE
 describe('StatsOutlineQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
@@ -98,28 +95,30 @@ describe('StatsOutlineQuery', () => {
         veauAccountID: accountID.get().get(),
         limit: page.getLimit().get(),
         offset: page.getOffset().get()
-      }).called).toEqual(true);
-      expect(superposition.isSuccess()).toEqual(true);
+      }).called).toBe(true);
+      expect(superposition.isSuccess()).toBe(true);
       const statsOutlines: StatsOutlines = superposition.get();
-      expect(statsOutlines.size()).toEqual(2);
+      expect(statsOutlines.size()).toBe(2);
       for (let i: number = 0; i < statsOutlines.size(); i++) {
         const statsOutline: StatsOutline = statsOutlines.get(i).get();
-        expect(statsOutline.getStatsID().get().get()).toEqual(rows[i].statsID);
-        expect(statsOutline.getLanguage().getLanguageID().get()).toEqual(rows[i].languageID);
-        expect(statsOutline.getLanguage().getName().get()).toEqual(rows[i].languageName);
-        expect(statsOutline.getLanguage().getEnglishName().get()).toEqual(rows[i].languageEnglishName);
-        expect(statsOutline.getLanguage().getISO639().get()).toEqual(rows[i].iso639);
-        expect(statsOutline.getRegion().getRegionID().get()).toEqual(rows[i].regionID);
-        expect(statsOutline.getRegion().getName().get()).toEqual(rows[i].regionName);
-        expect(statsOutline.getRegion().getISO3166().get()).toEqual(rows[i].iso3166);
-        expect(statsOutline.getTerm().getID()).toEqual(rows[i].termID);
-        expect(statsOutline.getName().get()).toEqual(rows[i].name);
-        expect(statsOutline.getUnit().get()).toEqual(rows[i].unit);
-        expect(statsOutline.getUpdatedAt().toString()).toEqual(rows[i].updatedAt);
+        expect(statsOutline.getStatsID().get().get()).toBe(rows[i].statsID);
+        expect(statsOutline.getLanguage().getLanguageID().get()).toBe(rows[i].languageID);
+        expect(statsOutline.getLanguage().getName().get()).toBe(rows[i].languageName);
+        expect(statsOutline.getLanguage().getEnglishName().get()).toBe(rows[i].languageEnglishName);
+        expect(statsOutline.getLanguage().getISO639().get()).toBe(rows[i].iso639);
+        expect(statsOutline.getRegion().getRegionID().get()).toBe(rows[i].regionID);
+        expect(statsOutline.getRegion().getName().get()).toBe(rows[i].regionName);
+        expect(statsOutline.getRegion().getISO3166().get()).toBe(rows[i].iso3166);
+        expect(statsOutline.getTerm().getID()).toBe(rows[i].termID);
+        expect(statsOutline.getName().get()).toBe(rows[i].name);
+        expect(statsOutline.getUnit().get()).toBe(rows[i].unit);
+        expect(statsOutline.getUpdatedAt().toString()).toBe(rows[i].updatedAt);
       }
     });
 
     it('returns Failure when statsID is malformat', async () => {
+      const accountID: MockVeauAccountID = new MockVeauAccountID();
+      const page: MockPage = new MockPage();
       const rows: Array<StatsOutlineRow> = [
         {
           statsID: 'malformat uuid',
@@ -159,9 +158,12 @@ describe('StatsOutlineQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
-      const superposition: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(VeauAccountID.ofString('2ac64841-5267-48bc-8952-ba9ad1cb12d7').get(), Page.of(2).get());
+      const superposition: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(
+        accountID,
+        page
+      );
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsOutlinesError | DataSourceError) => {
@@ -169,11 +171,14 @@ describe('StatsOutlineQuery', () => {
         expect(err).toBeInstanceOf(StatsOutlinesError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('returns Failure because the client throws MySQLError', async () => {
+      const accountID: MockVeauAccountID = new MockVeauAccountID();
+      const page: MockPage = new MockPage();
+
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
       mysql.execute = stub;
@@ -182,9 +187,12 @@ describe('StatsOutlineQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
-      const superposition: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(VeauAccountID.ofString('2ac64841-5267-48bc-8952-ba9ad1cb12d7').get(), Page.of(1).get());
+      const superposition: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(
+        accountID,
+        page
+      );
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsOutlinesError | DataSourceError) => {
@@ -192,18 +200,24 @@ describe('StatsOutlineQuery', () => {
         expect(err).toBeInstanceOf(MySQLError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('throws Error', async () => {
+      const accountID: MockVeauAccountID = new MockVeauAccountID();
+      const page: MockPage = new MockPage();
+
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
       mysql.execute = stub;
       stub.rejects(new MockError());
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
-      await expect(statsOutlineQuery.findByVeauAccountID(VeauAccountID.ofString('2ac64841-5267-48bc-8952-ba9ad1cb12d7').get(), Page.of(1).get())).rejects.toThrow(MockError);
+      await expect(statsOutlineQuery.findByVeauAccountID(
+        accountID,
+        page
+      )).rejects.toThrow(MockError);
     });
   });
 });

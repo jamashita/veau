@@ -8,20 +8,10 @@ import { DataSourceError } from '../../../General/DataSourceError';
 import { MockError } from '../../../General/Mock/MockError';
 import { Superposition } from '../../../General/Superposition/Superposition';
 import { VAULT_LOCALE_KEY } from '../../../Infrastructure/VeauCache';
-import { ISO3166 } from '../../../VO/ISO3166';
-import { ISO639 } from '../../../VO/ISO639';
-import { Language } from '../../../VO/Language';
-import { LanguageID } from '../../../VO/LanguageID';
-import { LanguageName } from '../../../VO/LanguageName';
-import { Languages } from '../../../VO/Languages';
 import { Locale } from '../../../VO/Locale';
-import { Region } from '../../../VO/Region';
-import { RegionID } from '../../../VO/RegionID';
-import { RegionName } from '../../../VO/RegionName';
-import { Regions } from '../../../VO/Regions';
+import { MockLocale } from '../../../VO/Mock/MockLocale';
 import { LocaleQuery } from '../LocaleQuery';
 
-// DONE
 describe('LocaleQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
@@ -35,20 +25,7 @@ describe('LocaleQuery', () => {
 
   describe('all', () => {
     it('normal case', async () => {
-      const locale: Locale = Locale.of(Languages.ofArray([
-        Language.of(
-          LanguageID.of(1),
-          LanguageName.of('language'),
-          LanguageName.of('english language'),
-          ISO639.of('aa')
-        )
-      ]), Regions.ofArray([
-        Region.of(
-          RegionID.of(2),
-          RegionName.of('region'),
-          ISO3166.of('bb')
-        )
-      ]));
+      const locale: MockLocale = new MockLocale();
 
       const cache: MockCache = new MockCache();
       const stub: SinonStub = sinon.stub();
@@ -58,8 +35,8 @@ describe('LocaleQuery', () => {
       const localeQuery: LocaleQuery = new LocaleQuery(cache);
       const superposition: Superposition<Locale, DataSourceError> = await localeQuery.all();
 
-      expect(stub.withArgs(VAULT_LOCALE_KEY).called).toEqual(true);
-      expect(superposition.isSuccess()).toEqual(true);
+      expect(stub.withArgs(VAULT_LOCALE_KEY).called).toBe(true);
+      expect(superposition.isSuccess()).toBe(true);
       expect(superposition.get()).toBe(locale);
     });
 
@@ -74,7 +51,7 @@ describe('LocaleQuery', () => {
       const localeQuery: LocaleQuery = new LocaleQuery(cache);
       const superposition: Superposition<Locale, DataSourceError> = await localeQuery.all();
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
@@ -82,8 +59,8 @@ describe('LocaleQuery', () => {
         expect(err).toBeInstanceOf(CacheError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('throws Error', async () => {

@@ -4,7 +4,6 @@ import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
 import { MockStatsItems } from '../../../Entity/Mock/MockStatsItems';
 import { Stats, StatsRow } from '../../../Entity/Stats';
-import { StatsItem } from '../../../Entity/StatsItem';
 import { StatsItems } from '../../../Entity/StatsItems';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
 import { StatsError } from '../../../Error/StatsError';
@@ -16,18 +15,10 @@ import { MySQLError } from '../../../General/MySQL/MySQLError';
 import { Failure } from '../../../General/Superposition/Failure';
 import { Success } from '../../../General/Superposition/Success';
 import { Superposition } from '../../../General/Superposition/Superposition';
-import { UUID } from '../../../General/UUID/UUID';
-import { MockAsOf } from '../../../VO/Mock/MockAsOf';
-import { MockNumericalValue } from '../../../VO/Mock/MockNumericalValue';
 import { MockStatsID } from '../../../VO/Mock/MockStatsID';
-import { MockStatsItemID } from '../../../VO/Mock/MockStatsItemID';
-import { MockStatsItemName } from '../../../VO/Mock/MockStatsItemName';
-import { MockStatsValues } from '../../../VO/Mock/MockStatsValues';
-import { StatsValue } from '../../../VO/StatsValue';
 import { MockStatsItemQuery } from '../../Mock/MockStatsItemQuery';
 import { StatsQuery } from '../StatsQuery';
 
-// DONE
 describe('StatsQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
@@ -41,17 +32,10 @@ describe('StatsQuery', () => {
 
   describe('findByStatsID', () => {
     it('normal case', async () => {
-      const uuid1: UUID = UUID.v4();
-      const uuid2: UUID = UUID.v4();
-      const uuid3: UUID = UUID.v4();
-      const uuid4: UUID = UUID.v4();
-      const statsID: MockStatsID = new MockStatsID(uuid1);
-      const itemName1: string = 'item name 1';
-      const itemName2: string = 'item name 2';
-      const itemName3: string = 'item name 3';
+      const statsID: MockStatsID = new MockStatsID();
       const rows: Array<StatsRow> = [
         {
-          statsID: uuid1.get(),
+          statsID: statsID.get().get(),
           languageID: 1,
           languageName: 'language1',
           languageEnglishName: 'englishLanguage1',
@@ -65,60 +49,7 @@ describe('StatsQuery', () => {
           updatedAt: '2000-01-01 00:00:00'
         }
       ];
-      const items: StatsItems = StatsItems.ofArray([
-        StatsItem.of(
-          new MockStatsItemID(uuid2),
-          new MockStatsItemName(itemName1),
-          new MockStatsValues(
-            StatsValue.of(
-              new MockStatsItemID(uuid2),
-              new MockAsOf({
-                day: 1
-              }),
-              new MockNumericalValue(1)
-            ),
-            StatsValue.of(
-              new MockStatsItemID(uuid2),
-              new MockAsOf({
-                day: 2
-              }),
-              new MockNumericalValue(2)
-            ),
-            StatsValue.of(
-              new MockStatsItemID(uuid2),
-              new MockAsOf({
-                day: 3
-              }),
-              new MockNumericalValue(3)
-            )
-          )
-        ),
-        StatsItem.of(
-          new MockStatsItemID(uuid3),
-          new MockStatsItemName(itemName2),
-          new MockStatsValues(
-            StatsValue.of(
-              new MockStatsItemID(uuid3),
-              new MockAsOf({
-                day: 1
-              }),
-              new MockNumericalValue(11)
-            ),
-            StatsValue.of(
-              new MockStatsItemID(uuid3),
-              new MockAsOf({
-                day: 12
-              }),
-              new MockNumericalValue(12)
-            )
-          )
-        ),
-        StatsItem.of(
-          new MockStatsItemID(uuid4),
-          new MockStatsItemName(itemName3),
-          new MockStatsValues()
-        )
-      ]);
+      const items: MockStatsItems = new MockStatsItems();
 
       const mysql: MockMySQL = new MockMySQL();
       const stub1: SinonStub = sinon.stub();
@@ -151,23 +82,23 @@ describe('StatsQuery', () => {
       INNER JOIN regions R3
       USING(region_id)
       WHERE R1.stats_id = :statsID;`, {
-        statsID: uuid1.get()
-      }).called).toEqual(true);
-      expect(superposition.isSuccess()).toEqual(true);
+        statsID: statsID.get().get()
+      }).called).toBe(true);
+      expect(superposition.isSuccess()).toBe(true);
       const stats: Stats = superposition.get();
-      expect(stats.getStatsID().get().get()).toEqual(rows[0].statsID);
-      expect(stats.getLanguage().getLanguageID().get()).toEqual(rows[0].languageID);
-      expect(stats.getLanguage().getName().get()).toEqual(rows[0].languageName);
-      expect(stats.getLanguage().getEnglishName().get()).toEqual(rows[0].languageEnglishName);
-      expect(stats.getLanguage().getISO639().get()).toEqual(rows[0].iso639);
-      expect(stats.getRegion().getRegionID().get()).toEqual(rows[0].regionID);
-      expect(stats.getRegion().getName().get()).toEqual(rows[0].regionName);
-      expect(stats.getRegion().getISO3166().get()).toEqual(rows[0].iso3166);
-      expect(stats.getTerm().getID()).toEqual(rows[0].termID);
-      expect(stats.getName().get()).toEqual(rows[0].name);
-      expect(stats.getUnit().get()).toEqual(rows[0].unit);
-      expect(stats.getUpdatedAt().toString()).toEqual(rows[0].updatedAt);
-      expect(items).toEqual(stats.getItems());
+      expect(stats.getStatsID().get().get()).toBe(rows[0].statsID);
+      expect(stats.getLanguage().getLanguageID().get()).toBe(rows[0].languageID);
+      expect(stats.getLanguage().getName().get()).toBe(rows[0].languageName);
+      expect(stats.getLanguage().getEnglishName().get()).toBe(rows[0].languageEnglishName);
+      expect(stats.getLanguage().getISO639().get()).toBe(rows[0].iso639);
+      expect(stats.getRegion().getRegionID().get()).toBe(rows[0].regionID);
+      expect(stats.getRegion().getName().get()).toBe(rows[0].regionName);
+      expect(stats.getRegion().getISO3166().get()).toBe(rows[0].iso3166);
+      expect(stats.getTerm().getID()).toBe(rows[0].termID);
+      expect(stats.getName().get()).toBe(rows[0].name);
+      expect(stats.getUnit().get()).toBe(rows[0].unit);
+      expect(stats.getUpdatedAt().toString()).toBe(rows[0].updatedAt);
+      expect(items).toBe(stats.getItems());
     });
 
     it('returns Failure because of the statsID is malformat', async () => {
@@ -204,7 +135,7 @@ describe('StatsQuery', () => {
       const statsQuery: StatsQuery = new StatsQuery(mysql, statsItemQuery);
       const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsError | NoSuchElementError | DataSourceError
@@ -213,8 +144,8 @@ describe('StatsQuery', () => {
         expect(err).toBeInstanceOf(StatsError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('returns Failure because there is no results', async () => {
@@ -231,7 +162,7 @@ describe('StatsQuery', () => {
       const statsQuery: StatsQuery = new StatsQuery(mysql, statsItemQuery);
       const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsError | NoSuchElementError | DataSourceError) => {
@@ -239,8 +170,8 @@ describe('StatsQuery', () => {
         expect(err).toBeInstanceOf(NoSuchElementError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('returns Failure when StatsItemQuery throws StatsValuesError', async () => {
@@ -276,7 +207,7 @@ describe('StatsQuery', () => {
       const statsQuery: StatsQuery = new StatsQuery(mysql, statsItemQuery);
       const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsError | NoSuchElementError | DataSourceError) => {
@@ -284,8 +215,8 @@ describe('StatsQuery', () => {
         expect(err).toBeInstanceOf(StatsError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('returns Failure when StatsItemQuery throws DataSourceError', async () => {
@@ -321,7 +252,7 @@ describe('StatsQuery', () => {
       const statsQuery: StatsQuery = new StatsQuery(mysql, statsItemQuery);
       const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsError | NoSuchElementError | DataSourceError) => {
@@ -329,8 +260,8 @@ describe('StatsQuery', () => {
         expect(err).toBeInstanceOf(MySQLError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('throws Error', async () => {

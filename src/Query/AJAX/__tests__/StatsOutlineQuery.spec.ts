@@ -8,14 +8,12 @@ import { AJAXError } from '../../../General/AJAX/AJAXError';
 import { MockAJAX } from '../../../General/AJAX/Mock/MockAJAX';
 import { DataSourceError } from '../../../General/DataSourceError';
 import { Superposition } from '../../../General/Superposition/Superposition';
+import { MockPage } from '../../../VO/Mock/MockPage';
 import { MockVeauAccountID } from '../../../VO/Mock/MockVeauAccountID';
-import { Page } from '../../../VO/Page';
 import { StatsOutlineJSON } from '../../../VO/StatsOutline';
 import { StatsOutlines } from '../../../VO/StatsOutlines';
-import { VeauAccountID } from '../../../VO/VeauAccountID';
 import { StatsOutlineQuery } from '../StatsOutlineQuery';
 
-// DONE
 describe('StatsOutlineQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
@@ -29,7 +27,8 @@ describe('StatsOutlineQuery', () => {
 
   describe('findByPage', () => {
     it('normal case', async () => {
-      const veauAccountID: VeauAccountID = VeauAccountID.ofString('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9').get();
+      const veauAccountID: MockVeauAccountID = new MockVeauAccountID();
+      const page: MockPage = new MockPage(3);
       const json: Array<StatsOutlineJSON> = [
         {
           statsID: 'f6fb9662-cbe8-4a91-8aa4-47a92f05b007',
@@ -60,30 +59,34 @@ describe('StatsOutlineQuery', () => {
       });
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(ajax);
-      const superposition: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(veauAccountID, Page.of(3).get());
+      const superposition: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(
+        veauAccountID,
+        page
+      );
 
-      expect(stub.withArgs('/api/stats/page/3').called).toEqual(true);
-      expect(superposition.isSuccess()).toEqual(true);
+      expect(stub.withArgs('/api/stats/page/3').called).toBe(true);
+      expect(superposition.isSuccess()).toBe(true);
       const outlines: StatsOutlines = superposition.get();
-      expect(outlines.size()).toEqual(1);
+      expect(outlines.size()).toBe(1);
       for (let i: number = 0; i < outlines.size(); i++) {
-        expect(outlines.get(i).get().getStatsID().get().get()).toEqual(json[i].statsID);
-        expect(outlines.get(i).get().getLanguage().getLanguageID().get()).toEqual(json[i].language.languageID);
-        expect(outlines.get(i).get().getLanguage().getName().get()).toEqual(json[i].language.name);
-        expect(outlines.get(i).get().getLanguage().getEnglishName().get()).toEqual(json[i].language.englishName);
-        expect(outlines.get(i).get().getLanguage().getISO639().get()).toEqual(json[i].language.iso639);
-        expect(outlines.get(i).get().getRegion().getRegionID().get()).toEqual(json[i].region.regionID);
-        expect(outlines.get(i).get().getRegion().getName().get()).toEqual(json[i].region.name);
-        expect(outlines.get(i).get().getRegion().getISO3166().get()).toEqual(json[i].region.iso3166);
-        expect(outlines.get(i).get().getTerm().getID()).toEqual(json[i].termID);
-        expect(outlines.get(i).get().getName().get()).toEqual(json[i].name);
-        expect(outlines.get(i).get().getUnit().get()).toEqual(json[i].unit);
-        expect(outlines.get(i).get().getUpdatedAt().toString()).toEqual(json[i].updatedAt);
+        expect(outlines.get(i).get().getStatsID().get().get()).toBe(json[i].statsID);
+        expect(outlines.get(i).get().getLanguage().getLanguageID().get()).toBe(json[i].language.languageID);
+        expect(outlines.get(i).get().getLanguage().getName().get()).toBe(json[i].language.name);
+        expect(outlines.get(i).get().getLanguage().getEnglishName().get()).toBe(json[i].language.englishName);
+        expect(outlines.get(i).get().getLanguage().getISO639().get()).toBe(json[i].language.iso639);
+        expect(outlines.get(i).get().getRegion().getRegionID().get()).toBe(json[i].region.regionID);
+        expect(outlines.get(i).get().getRegion().getName().get()).toBe(json[i].region.name);
+        expect(outlines.get(i).get().getRegion().getISO3166().get()).toBe(json[i].region.iso3166);
+        expect(outlines.get(i).get().getTerm().getID()).toBe(json[i].termID);
+        expect(outlines.get(i).get().getName().get()).toBe(json[i].name);
+        expect(outlines.get(i).get().getUnit().get()).toBe(json[i].unit);
+        expect(outlines.get(i).get().getUpdatedAt().toString()).toBe(json[i].updatedAt);
       }
     });
 
     it('returns Failure when it has wrong format statsID', async () => {
-      const veauAccountID: VeauAccountID = VeauAccountID.ofString('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9').get();
+      const veauAccountID: MockVeauAccountID = new MockVeauAccountID();
+      const page: MockPage = new MockPage(3);
       const json: Array<StatsOutlineJSON> = [
         {
           statsID: 'malformat uuid',
@@ -116,9 +119,12 @@ describe('StatsOutlineQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(ajax);
-      const superposition: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(veauAccountID, Page.of(3).get());
+      const superposition: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(
+        veauAccountID,
+        page
+      );
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsOutlinesError | DataSourceError) => {
@@ -126,12 +132,13 @@ describe('StatsOutlineQuery', () => {
         expect(err).toBeInstanceOf(StatsOutlinesError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('doesn\'t return OK', async () => {
       const veauAccountID: MockVeauAccountID = new MockVeauAccountID();
+      const page: MockPage = new MockPage(3);
 
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
@@ -144,9 +151,12 @@ describe('StatsOutlineQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(ajax);
-      const superposition: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(veauAccountID, Page.of(3).get());
+      const superposition: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(
+        veauAccountID,
+        page
+      );
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsOutlinesError | DataSourceError) => {
@@ -154,8 +164,8 @@ describe('StatsOutlineQuery', () => {
         expect(err).toBeInstanceOf(AJAXError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
   });
 });
