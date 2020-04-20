@@ -13,7 +13,7 @@ describe('ASequence', () => {
       ];
 
       const nouns: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>(nounArray);
-      expect(nouns.size()).toEqual(nounArray.length);
+      expect(nouns.size()).toBe(nounArray.length);
       for (let i: number = 0; i < nouns.size(); i++) {
         expect(nouns.get(i).get()).toBe(nounArray[i]);
       }
@@ -26,7 +26,7 @@ describe('ASequence', () => {
         new MockNominative<number>(3)
       ]);
 
-      expect(nouns.size()).toEqual(3);
+      expect(nouns.size()).toBe(3);
       expect(nouns.get(-1)).toBeInstanceOf(Absent);
       expect(nouns.get(3)).toBeInstanceOf(Absent);
     });
@@ -44,10 +44,10 @@ describe('ASequence', () => {
         noun2
       ]);
 
-      expect(nouns.contains(noun1)).toEqual(true);
-      expect(nouns.contains(noun2)).toEqual(true);
-      expect(nouns.contains(noun3)).toEqual(false);
-      expect(nouns.contains(noun4)).toEqual(true);
+      expect(nouns.contains(noun1)).toBe(true);
+      expect(nouns.contains(noun2)).toBe(true);
+      expect(nouns.contains(noun3)).toBe(false);
+      expect(nouns.contains(noun4)).toBe(true);
     });
   });
 
@@ -59,8 +59,8 @@ describe('ASequence', () => {
       ]);
       const nouns2: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>([]);
 
-      expect(nouns1.isEmpty()).toEqual(false);
-      expect(nouns2.isEmpty()).toEqual(true);
+      expect(nouns1.isEmpty()).toBe(false);
+      expect(nouns2.isEmpty()).toBe(true);
     });
   });
 
@@ -72,7 +72,7 @@ describe('ASequence', () => {
         new MockNominative<number>(3)
       ]);
 
-      expect(nouns.size()).toEqual(3);
+      expect(nouns.size()).toBe(3);
       nouns.forEach((noun: MockNominative<number>, index: number) => {
         expect(nouns.get(index).get()).toBe(noun);
       });
@@ -122,13 +122,13 @@ describe('ASequence', () => {
         return false;
       });
 
-      expect(found1.isPresent()).toEqual(true);
+      expect(found1.isPresent()).toBe(true);
       expect(found1.get()).toBe(noun1);
-      expect(found2.isPresent()).toEqual(true);
+      expect(found2.isPresent()).toBe(true);
       expect(found2.get()).toBe(noun2);
-      expect(found3.isPresent()).toEqual(true);
+      expect(found3.isPresent()).toBe(true);
       expect(found3.get()).toBe(noun2);
-      expect(found4.isAbsent()).toEqual(true);
+      expect(found4.isAbsent()).toBe(true);
     });
   });
 
@@ -149,7 +149,7 @@ describe('ASequence', () => {
         return false;
       });
 
-      expect(every).toEqual(true);
+      expect(every).toBe(true);
     });
 
     it('if one of them are not satisfied, returns false', () => {
@@ -239,12 +239,12 @@ describe('ASequence', () => {
         return false;
       });
 
-      expect(every1).toEqual(false);
-      expect(every2).toEqual(false);
-      expect(every3).toEqual(false);
-      expect(every4).toEqual(false);
-      expect(every5).toEqual(false);
-      expect(every6).toEqual(false);
+      expect(every1).toBe(false);
+      expect(every2).toBe(false);
+      expect(every3).toBe(false);
+      expect(every4).toBe(false);
+      expect(every5).toBe(false);
+      expect(every6).toBe(false);
     });
   });
 
@@ -272,8 +272,8 @@ describe('ASequence', () => {
         return false;
       });
 
-      expect(some1).toEqual(true);
-      expect(some2).toEqual(true);
+      expect(some1).toBe(true);
+      expect(some2).toBe(true);
     });
 
     it('if none of them are not satisfied, returns false', () => {
@@ -350,11 +350,11 @@ describe('ASequence', () => {
         return false;
       });
 
-      expect(some1).toEqual(true);
-      expect(some2).toEqual(true);
-      expect(some3).toEqual(true);
-      expect(some4).toEqual(true);
-      expect(some5).toEqual(false);
+      expect(some1).toBe(true);
+      expect(some2).toBe(true);
+      expect(some3).toBe(true);
+      expect(some4).toBe(true);
+      expect(some5).toBe(false);
     });
   });
 
@@ -371,8 +371,8 @@ describe('ASequence', () => {
         noun2
       ]);
 
-      expect(nouns1.equals(nouns1)).toEqual(true);
-      expect(nouns1.equals(nouns2)).toEqual(false);
+      expect(nouns1.equals(nouns1)).toBe(true);
+      expect(nouns1.equals(nouns2)).toBe(false);
     });
 
     it('returns false if the sequence is different', () => {
@@ -388,8 +388,8 @@ describe('ASequence', () => {
         noun2
       ]);
 
-      expect(nouns1.equals(nouns1)).toEqual(true);
-      expect(nouns1.equals(nouns2)).toEqual(false);
+      expect(nouns1.equals(nouns1)).toBe(true);
+      expect(nouns1.equals(nouns2)).toBe(false);
     });
 
     it('returns true if the length is the same and the sequence is the same', () => {
@@ -405,8 +405,8 @@ describe('ASequence', () => {
         noun2
       ]);
 
-      expect(nouns1.equals(nouns1)).toEqual(true);
-      expect(nouns1.equals(nouns2)).toEqual(true);
+      expect(nouns1.equals(nouns1)).toBe(true);
+      expect(nouns1.equals(nouns2)).toBe(true);
     });
   });
 
@@ -418,7 +418,7 @@ describe('ASequence', () => {
         new MockNominative<number>(3)
       ]);
 
-      expect(nouns.toString()).toEqual('1, 2, 3');
+      expect(nouns.toString()).toBe('1, 2, 3');
     });
   });
 
@@ -432,7 +432,7 @@ describe('ASequence', () => {
 
       const nouns: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>(nounArray);
 
-      expect(nouns.size()).toEqual(nounArray.length);
+      expect(nouns.size()).toBe(nounArray.length);
       for (let i: number = 0; i < nounArray.length; i++) {
         expect(nouns.get(i).get()).toBe(nounArray[i]);
       }

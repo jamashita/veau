@@ -16,13 +16,13 @@ describe('Present', () => {
       const present6: Present<boolean> = Present.of<boolean>(true);
       const present7: Present<boolean> = Present.of<boolean>(false);
 
-      expect(present1.get()).toEqual(1);
-      expect(present2.get()).toEqual(0);
-      expect(present3.get()).toEqual(-1);
-      expect(present4.get()).toEqual('');
-      expect(present5.get()).toEqual('1');
-      expect(present6.get()).toEqual(true);
-      expect(present7.get()).toEqual(false);
+      expect(present1.get()).toBe(1);
+      expect(present2.get()).toBe(0);
+      expect(present3.get()).toBe(-1);
+      expect(present4.get()).toBe('');
+      expect(present5.get()).toBe('1');
+      expect(present6.get()).toBe(true);
+      expect(present7.get()).toBe(false);
     });
   });
 
@@ -36,13 +36,13 @@ describe('Present', () => {
       const present6: Present<boolean> = Present.of<boolean>(true);
       const present7: Present<boolean> = Present.of<boolean>(false);
 
-      expect(present1.isPresent()).toEqual(true);
-      expect(present2.isPresent()).toEqual(true);
-      expect(present3.isPresent()).toEqual(true);
-      expect(present4.isPresent()).toEqual(true);
-      expect(present5.isPresent()).toEqual(true);
-      expect(present6.isPresent()).toEqual(true);
-      expect(present7.isPresent()).toEqual(true);
+      expect(present1.isPresent()).toBe(true);
+      expect(present2.isPresent()).toBe(true);
+      expect(present3.isPresent()).toBe(true);
+      expect(present4.isPresent()).toBe(true);
+      expect(present5.isPresent()).toBe(true);
+      expect(present6.isPresent()).toBe(true);
+      expect(present7.isPresent()).toBe(true);
     });
   });
 
@@ -56,13 +56,13 @@ describe('Present', () => {
       const present6: Present<boolean> = Present.of<boolean>(true);
       const present7: Present<boolean> = Present.of<boolean>(false);
 
-      expect(present1.isAbsent()).toEqual(false);
-      expect(present2.isAbsent()).toEqual(false);
-      expect(present3.isAbsent()).toEqual(false);
-      expect(present4.isAbsent()).toEqual(false);
-      expect(present5.isAbsent()).toEqual(false);
-      expect(present6.isAbsent()).toEqual(false);
-      expect(present7.isAbsent()).toEqual(false);
+      expect(present1.isAbsent()).toBe(false);
+      expect(present2.isAbsent()).toBe(false);
+      expect(present3.isAbsent()).toBe(false);
+      expect(present4.isAbsent()).toBe(false);
+      expect(present5.isAbsent()).toBe(false);
+      expect(present6.isAbsent()).toBe(false);
+      expect(present7.isAbsent()).toBe(false);
     });
   });
 
@@ -74,11 +74,11 @@ describe('Present', () => {
       const spy1: SinonSpy = sinon.spy();
 
       present.ifPresent((v: number) => {
-        expect(v).toEqual(value);
+        expect(v).toBe(value);
         spy1();
       });
 
-      expect(spy1.called).toEqual(true);
+      expect(spy1.called).toBe(true);
     });
 
     it('consumer will be invoked asynchronously', async () => {
@@ -88,11 +88,11 @@ describe('Present', () => {
       const spy1: SinonSpy = sinon.spy();
 
       await present.ifPresent(async (v: number) => {
-        expect(v).toEqual(value);
+        expect(v).toBe(value);
         spy1();
       });
 
-      expect(spy1.called).toEqual(true);
+      expect(spy1.called).toBe(true);
     });
   });
 
@@ -107,9 +107,9 @@ describe('Present', () => {
         return value * 2;
       });
 
-      expect(spy.called).toEqual(true);
-      expect(quantum.isPresent()).toEqual(true);
-      expect(quantum.get()).toEqual(10 * 2);
+      expect(spy.called).toBe(true);
+      expect(quantum.isPresent()).toBe(true);
+      expect(quantum.get()).toBe(10 * 2);
     });
 
     it('returns Absent when function returns null', () => {
@@ -122,8 +122,8 @@ describe('Present', () => {
         return null;
       });
 
-      expect(spy.called).toEqual(true);
-      expect(quantum.isAbsent()).toEqual(true);
+      expect(spy.called).toBe(true);
+      expect(quantum.isAbsent()).toBe(true);
     });
 
     it('returns Absent when function returns undefined', () => {
@@ -136,8 +136,8 @@ describe('Present', () => {
         return undefined;
       });
 
-      expect(spy.called).toEqual(true);
-      expect(quantum.isAbsent()).toEqual(true);
+      expect(spy.called).toBe(true);
+      expect(quantum.isAbsent()).toBe(true);
     });
   });
 
@@ -147,7 +147,7 @@ describe('Present', () => {
 
       const superposition: Superposition<number, QuantumError> = present.toSuperposition();
 
-      expect(superposition.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toBe(true);
     });
   });
 
@@ -173,9 +173,9 @@ describe('Present', () => {
 
       expect(quantum1).toBeInstanceOf(Absent);
       expect(quantum2).toBeInstanceOf(Present);
-      expect(quantum1.isAbsent()).toEqual(true);
-      expect(quantum2.isPresent()).toEqual(true);
-      expect(quantum2.get()).toEqual(2);
+      expect(quantum1.isAbsent()).toBe(true);
+      expect(quantum2.isPresent()).toBe(true);
+      expect(quantum2.get()).toBe(2);
     });
   });
 });

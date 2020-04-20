@@ -12,9 +12,9 @@ describe('MockAEntity', () => {
       const entity2: MockAEntity<number> = new MockAEntity<number>(noun2, {});
       const entity3: MockAEntity<number> = new MockAEntity<number>(noun3, {});
 
-      expect(entity1.equals(entity1)).toEqual(true);
-      expect(entity1.equals(entity2)).toEqual(false);
-      expect(entity1.equals(entity3)).toEqual(true);
+      expect(entity1.equals(entity1)).toBe(true);
+      expect(entity1.equals(entity2)).toBe(false);
+      expect(entity1.equals(entity3)).toBe(true);
     });
   });
 
@@ -24,7 +24,7 @@ describe('MockAEntity', () => {
 
       const entity: MockAEntity<number> = new MockAEntity<number>(noun, {});
 
-      expect(noun.hashCode()).toEqual(entity.hashCode());
+      expect(noun.hashCode()).toBe(entity.hashCode());
     });
 
     it('only depends on the id value, even if the other valeus are changed, returns same hashCode', () => {
@@ -46,8 +46,8 @@ describe('MockAEntity', () => {
         code2
       };
 
-      expect(code1).toEqual(code2);
-      expect(code2).toEqual(code3);
+      expect(code1).toBe(code2);
+      expect(code2).toBe(code3);
     });
   });
 });

@@ -24,8 +24,8 @@ describe('Absent', () => {
       const absent1: Absent<void> = Absent.of();
       const absent2: Absent<number> = Absent.of<number>();
 
-      expect(absent1.isPresent()).toEqual(false);
-      expect(absent2.isPresent()).toEqual(false);
+      expect(absent1.isPresent()).toBe(false);
+      expect(absent2.isPresent()).toBe(false);
     });
   });
 
@@ -34,8 +34,8 @@ describe('Absent', () => {
       const absent1: Absent<void> = Absent.of();
       const absent2: Absent<number> = Absent.of<number>();
 
-      expect(absent1.isAbsent()).toEqual(true);
-      expect(absent2.isAbsent()).toEqual(true);
+      expect(absent1.isAbsent()).toBe(true);
+      expect(absent2.isAbsent()).toBe(true);
     });
   });
 
@@ -49,7 +49,7 @@ describe('Absent', () => {
         spy1();
       });
 
-      expect(spy1.called).toEqual(false);
+      expect(spy1.called).toBe(false);
     });
 
     it('consumer is not invoked asynchronously ', async () => {
@@ -61,7 +61,7 @@ describe('Absent', () => {
         spy1();
       });
 
-      expect(spy1.called).toEqual(false);
+      expect(spy1.called).toBe(false);
     });
   });
 
@@ -76,7 +76,7 @@ describe('Absent', () => {
         return value;
       });
 
-      expect(spy.called).toEqual(false);
+      expect(spy.called).toBe(false);
       expect(quantum).toBeInstanceOf(Absent);
     });
   });
@@ -87,7 +87,7 @@ describe('Absent', () => {
 
       const superposition: Superposition<number, QuantumError> = absent.toSuperposition();
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
     });
   });
 
@@ -102,7 +102,7 @@ describe('Absent', () => {
         return true;
       });
 
-      expect(spy.called).toEqual(false);
+      expect(spy.called).toBe(false);
       expect(absent).toBe(quantum);
     });
   });

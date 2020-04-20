@@ -14,9 +14,9 @@ describe('AAddress', () => {
         noun1
       ]));
 
-      expect(nouns1.size()).toEqual(0);
+      expect(nouns1.size()).toBe(0);
       expect(nouns2.get()).toBeInstanceOf(Absent);
-      expect(nouns2.size()).toEqual(1);
+      expect(nouns2.size()).toBe(1);
       expect(nouns2.get()).toBeInstanceOf(Absent);
     });
   });
@@ -33,10 +33,10 @@ describe('AAddress', () => {
         noun2
       ]));
 
-      expect(nouns.contains(noun1)).toEqual(true);
-      expect(nouns.contains(noun2)).toEqual(true);
-      expect(nouns.contains(noun3)).toEqual(false);
-      expect(nouns.contains(noun4)).toEqual(true);
+      expect(nouns.contains(noun1)).toBe(true);
+      expect(nouns.contains(noun2)).toBe(true);
+      expect(nouns.contains(noun3)).toBe(false);
+      expect(nouns.contains(noun4)).toBe(true);
     });
   });
 
@@ -51,8 +51,8 @@ describe('AAddress', () => {
       ]));
       const nouns2: MockAAddress<MockNominative<number>> = new MockAAddress<MockNominative<number>>(new Set());
 
-      expect(nouns1.isEmpty()).toEqual(false);
-      expect(nouns2.isEmpty()).toEqual(true);
+      expect(nouns1.isEmpty()).toBe(false);
+      expect(nouns2.isEmpty()).toBe(true);
     });
   });
 
@@ -69,7 +69,7 @@ describe('AAddress', () => {
 
       const nouns: MockAAddress<MockNominative<number>> = new MockAAddress<MockNominative<number>>(new Set(elements));
 
-      expect(nouns.size()).toEqual(3);
+      expect(nouns.size()).toBe(3);
       let i: number = 0;
       nouns.forEach((noun: MockNominative<number>) => {
         expect(noun).toBe(elements[i]);
@@ -121,13 +121,13 @@ describe('AAddress', () => {
         return false;
       });
 
-      expect(found1.isPresent()).toEqual(true);
+      expect(found1.isPresent()).toBe(true);
       expect(found1.get()).toBe(noun1);
-      expect(found2.isPresent()).toEqual(true);
+      expect(found2.isPresent()).toBe(true);
       expect(found2.get()).toBe(noun2);
-      expect(found3.isPresent()).toEqual(true);
+      expect(found3.isPresent()).toBe(true);
       expect(found3.get()).toBe(noun2);
-      expect(found4.isAbsent()).toEqual(true);
+      expect(found4.isAbsent()).toBe(true);
     });
   });
 
@@ -153,7 +153,7 @@ describe('AAddress', () => {
         return false;
       });
 
-      expect(every).toEqual(true);
+      expect(every).toBe(true);
     });
 
     it('if one of them are not satisfied, returns false', () => {
@@ -243,12 +243,12 @@ describe('AAddress', () => {
         return false;
       });
 
-      expect(every1).toEqual(false);
-      expect(every2).toEqual(false);
-      expect(every3).toEqual(false);
-      expect(every4).toEqual(false);
-      expect(every5).toEqual(false);
-      expect(every6).toEqual(false);
+      expect(every1).toBe(false);
+      expect(every2).toBe(false);
+      expect(every3).toBe(false);
+      expect(every4).toBe(false);
+      expect(every5).toBe(false);
+      expect(every6).toBe(false);
     });
   });
 
@@ -281,8 +281,8 @@ describe('AAddress', () => {
         return false;
       });
 
-      expect(some1).toEqual(true);
-      expect(some2).toEqual(true);
+      expect(some1).toBe(true);
+      expect(some2).toBe(true);
     });
 
     it('if none of them are not satisfied, returns false', () => {
@@ -359,11 +359,11 @@ describe('AAddress', () => {
         return false;
       });
 
-      expect(some1).toEqual(true);
-      expect(some2).toEqual(true);
-      expect(some3).toEqual(true);
-      expect(some4).toEqual(true);
-      expect(some5).toEqual(false);
+      expect(some1).toBe(true);
+      expect(some2).toBe(true);
+      expect(some3).toBe(true);
+      expect(some4).toBe(true);
+      expect(some5).toBe(false);
     });
   });
 
@@ -380,8 +380,8 @@ describe('AAddress', () => {
         noun2
       ]));
 
-      expect(nouns1.equals(nouns1)).toEqual(true);
-      expect(nouns1.equals(nouns2)).toEqual(false);
+      expect(nouns1.equals(nouns1)).toBe(true);
+      expect(nouns1.equals(nouns2)).toBe(false);
     });
 
     it('returns true even if the sequence is different', () => {
@@ -397,8 +397,8 @@ describe('AAddress', () => {
         noun2
       ]));
 
-      expect(nouns1.equals(nouns1)).toEqual(true);
-      expect(nouns1.equals(nouns2)).toEqual(true);
+      expect(nouns1.equals(nouns1)).toBe(true);
+      expect(nouns1.equals(nouns2)).toBe(true);
     });
 
     it('returns true if the length is the same and the sequence is the same', () => {
@@ -414,8 +414,8 @@ describe('AAddress', () => {
         noun2
       ]));
 
-      expect(nouns1.equals(nouns1)).toEqual(true);
-      expect(nouns1.equals(nouns2)).toEqual(true);
+      expect(nouns1.equals(nouns1)).toBe(true);
+      expect(nouns1.equals(nouns2)).toBe(true);
     });
   });
 
@@ -431,7 +431,7 @@ describe('AAddress', () => {
         noun3
       ]));
 
-      expect(nouns.toString()).toEqual('1, 2, 3');
+      expect(nouns.toString()).toBe('1, 2, 3');
     });
   });
 
@@ -449,7 +449,7 @@ describe('AAddress', () => {
       const nouns: MockAAddress<MockNominative<number>> = new MockAAddress<MockNominative<number>>(new Set(elements));
       const array: Array<MockNominative<number>> = nouns.toArray();
 
-      expect(nouns.size()).toEqual(array.length);
+      expect(nouns.size()).toBe(array.length);
       for (let i: number = 0; i < array.length; i++) {
         expect(elements[i]).toBe(array[i]);
       }
@@ -484,9 +484,9 @@ describe('AAddress', () => {
       const nouns: MockAAddress<MockNominative<number>> = new MockAAddress<MockNominative<number>>(new Set(elements));
       const set: Set<MockNominative<number>> = nouns.toSet();
 
-      expect(nouns.size()).toEqual(set.size);
+      expect(nouns.size()).toBe(set.size);
       for (let i: number = 0; i < set.size; i++) {
-        expect(set.has(elements[i])).toEqual(true);
+        expect(set.has(elements[i])).toBe(true);
       }
     });
   });

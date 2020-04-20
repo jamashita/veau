@@ -5,9 +5,7 @@ describe('Random', () => {
     it('length is fixed', () => {
       const length: number = 10;
       for (let i: number = 0; i < 10000; i++) {
-        const str: string = Random.string(length);
-
-        expect(str.length).toEqual(length);
+        expect(Random.string(length).length).toBe(length);
       }
     });
   });
@@ -19,8 +17,8 @@ describe('Random', () => {
       for (let i: number = 0; i < 10000; i++) {
         const value: number = Random.integer(min, max);
 
-        expect(value <= max).toEqual(true);
-        expect(min <= value).toEqual(true);
+        expect(value <= max).toBe(true);
+        expect(min <= value).toBe(true);
       }
     });
   });

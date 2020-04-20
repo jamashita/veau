@@ -45,7 +45,7 @@ describe('JSONA', () => {
         }
       };
 
-      expect(await JSONA.stringify(obj)).toEqual(JSON.stringify(obj));
+      expect(await JSONA.stringify(obj)).toBe(JSON.stringify(obj));
     });
 
     it('throws TypeError when the JSON has circular reference, but the Error is wrapped', async () => {

@@ -31,15 +31,15 @@ describe('Cache', () => {
       const value5: number = Infinity;
 
       cache.set(identifier1, value1);
-      expect(cache.get<number>(identifier1)).toEqual(value1);
+      expect(cache.get<number>(identifier1)).toBe(value1);
       cache.set(identifier2, value2);
-      expect(cache.get<number>(identifier2)).toEqual(value2);
+      expect(cache.get<number>(identifier2)).toBe(value2);
       cache.set(identifier3, value3);
-      expect(cache.get<number>(identifier3)).toEqual(value3);
+      expect(cache.get<number>(identifier3)).toBe(value3);
       cache.set(identifier4, value4);
-      expect(cache.get<number>(identifier4)).toEqual(value4);
+      expect(cache.get<number>(identifier4)).toBe(value4);
       cache.set(identifier5, value5);
-      expect(cache.get<number>(identifier5)).toEqual(value5);
+      expect(cache.get<number>(identifier5)).toBe(value5);
     });
 
     it('only retains the last one', () => {
@@ -49,9 +49,9 @@ describe('Cache', () => {
       const value2: number = 0;
 
       cache.set(identifier1, value1);
-      expect(cache.get<number>(identifier1)).toEqual(value1);
+      expect(cache.get<number>(identifier1)).toBe(value1);
       cache.set(identifier1, value2);
-      expect(cache.get<number>(identifier1)).toEqual(value2);
+      expect(cache.get<number>(identifier1)).toBe(value2);
     });
 
     it('throws CacheError when value is not set', () => {

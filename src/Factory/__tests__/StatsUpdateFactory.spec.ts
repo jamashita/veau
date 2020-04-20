@@ -4,7 +4,6 @@ import { StatsValueCommand } from '../../Command/MySQL/StatsValueCommand';
 import { MockSQL } from '../../General/MySQL/Mock/MockSQL';
 import { StatsUpdateFactory } from '../StatsUpdateFactory';
 
-// DONE
 describe('StatsUpdateFactory', () => {
   describe('forgeStatsCommand', () => {
     it('returns StatsCommand instance', () => {

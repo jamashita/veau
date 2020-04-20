@@ -16,9 +16,9 @@ describe('Manoeuvre', () => {
 
       const values: Superposition<Array<number>, MockError> = manoeuvre<number, MockError>(superpositions);
 
-      expect(values.isSuccess()).toEqual(true);
+      expect(values.isSuccess()).toBe(true);
       const array: Array<number> = values.get();
-      expect(array.length).toEqual(superpositions.length);
+      expect(array.length).toBe(superpositions.length);
       for (let i: number = 0; i < array.length; i++) {
         expect(array[i]).toBe(superpositions[i].get());
       }
@@ -29,9 +29,9 @@ describe('Manoeuvre', () => {
 
       const values: Superposition<Array<number>, MockError> = manoeuvre<number, MockError>(superpositions);
 
-      expect(values.isSuccess()).toEqual(true);
+      expect(values.isSuccess()).toBe(true);
       const array: Array<number> = values.get();
-      expect(array.length).toEqual(superpositions.length);
+      expect(array.length).toBe(superpositions.length);
     });
 
     it('contains Failure on first position', () => {
@@ -47,7 +47,7 @@ describe('Manoeuvre', () => {
 
       const values: Superposition<Array<number>, MockError> = manoeuvre<number, MockError>(superpositions);
 
-      expect(values.isFailure()).toEqual(true);
+      expect(values.isFailure()).toBe(true);
       values.match<void>(() => {
         spy1();
       }, (err: MockError) => {
@@ -55,8 +55,8 @@ describe('Manoeuvre', () => {
         expect(err).toBe(error);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('contains Failure on second position', () => {
@@ -72,7 +72,7 @@ describe('Manoeuvre', () => {
 
       const values: Superposition<Array<number>, MockError> = manoeuvre<number, MockError>(superpositions);
 
-      expect(values.isFailure()).toEqual(true);
+      expect(values.isFailure()).toBe(true);
       values.match<void>(() => {
         spy1();
       }, (err: MockError) => {
@@ -80,8 +80,8 @@ describe('Manoeuvre', () => {
         expect(err).toBe(error);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('contains Failure on last position', () => {
@@ -97,7 +97,7 @@ describe('Manoeuvre', () => {
 
       const values: Superposition<Array<number>, MockError> = manoeuvre<number, MockError>(superpositions);
 
-      expect(values.isFailure()).toEqual(true);
+      expect(values.isFailure()).toBe(true);
       values.match<void>(() => {
         spy1();
       }, (err: MockError) => {
@@ -105,8 +105,8 @@ describe('Manoeuvre', () => {
         expect(err).toBe(error);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('contains more than 1 Failure, returns the first one', () => {
@@ -123,7 +123,7 @@ describe('Manoeuvre', () => {
 
       const values: Superposition<Array<number>, MockError> = manoeuvre<number, MockError>(superpositions);
 
-      expect(values.isFailure()).toEqual(true);
+      expect(values.isFailure()).toBe(true);
       values.match<void>(() => {
         spy1();
       }, (err: MockError) => {
@@ -131,8 +131,8 @@ describe('Manoeuvre', () => {
         expect(err).toBe(error1);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('contains more than 1 Failure, returns the first one - 2', () => {
@@ -149,7 +149,7 @@ describe('Manoeuvre', () => {
 
       const values: Superposition<Array<number>, MockError> = manoeuvre<number, MockError>(superpositions);
 
-      expect(values.isFailure()).toEqual(true);
+      expect(values.isFailure()).toBe(true);
       values.match<void>(() => {
         spy1();
       }, (err: MockError) => {
@@ -157,8 +157,8 @@ describe('Manoeuvre', () => {
         expect(err).toBe(error1);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('contains more than 1 Failure, returns the first one - 4', () => {
@@ -176,7 +176,7 @@ describe('Manoeuvre', () => {
 
       const values: Superposition<Array<number>, MockError> = manoeuvre<number, MockError>(superpositions);
 
-      expect(values.isFailure()).toEqual(true);
+      expect(values.isFailure()).toBe(true);
       values.match<void>(() => {
         spy1();
       }, (err: MockError) => {
@@ -184,8 +184,8 @@ describe('Manoeuvre', () => {
         expect(err).toBe(error1);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
   });
 });

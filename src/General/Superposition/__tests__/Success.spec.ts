@@ -8,14 +8,14 @@ describe('Success', () => {
     it('no argument call', () => {
       const success: Success<void, MockError> = Success.of<MockError>();
 
-      expect(success.get()).toEqual(undefined);
+      expect(success.get()).toBe(undefined);
     });
 
     it('normal case', () => {
       const value: number = 113;
       const success: Success<number, MockError> = Success.of<number, MockError>(value);
 
-      expect(success.get()).toEqual(value);
+      expect(success.get()).toBe(value);
     });
   });
 
@@ -24,7 +24,7 @@ describe('Success', () => {
       const value: string = 'the lazy fox';
       const success: Success<string, MockError> = Success.of<string, MockError>(value);
 
-      expect(success.get()).toEqual(value);
+      expect(success.get()).toBe(value);
     });
   });
 
@@ -35,10 +35,10 @@ describe('Success', () => {
       const success1: Success<number, MockError> = Success.of<number, MockError>(value1);
       const success2: Success<string, MockError> = Success.of<string, MockError>(value2);
 
-      expect(success1.isSuccess()).toEqual(true);
-      expect(success1.get()).toEqual(value1);
-      expect(success2.isSuccess()).toEqual(true);
-      expect(success2.get()).toEqual(value2);
+      expect(success1.isSuccess()).toBe(true);
+      expect(success1.get()).toBe(value1);
+      expect(success2.isSuccess()).toBe(true);
+      expect(success2.get()).toBe(value2);
     });
   });
 
@@ -47,8 +47,8 @@ describe('Success', () => {
       const success1: Success<number, MockError> = Success.of<number, MockError>(1);
       const success2: Success<string, MockError> = Success.of<string, MockError>('aiutare');
 
-      expect(success1.isFailure()).toEqual(false);
-      expect(success2.isFailure()).toEqual(false);
+      expect(success1.isFailure()).toBe(false);
+      expect(success2.isFailure()).toBe(false);
     });
   });
 
@@ -62,7 +62,7 @@ describe('Success', () => {
 
       const res: number = success.match<number>((n: number, s: Success<number, MockError>) => {
         spy1();
-        expect(n).toEqual(value);
+        expect(n).toBe(value);
         expect(s).toBe(success);
         return n * 2;
       }, () => {
@@ -70,9 +70,9 @@ describe('Success', () => {
         return value ** 2;
       });
 
-      expect(res).toEqual(value * 2);
-      expect(spy1.called).toEqual(true);
-      expect(spy2.called).toEqual(false);
+      expect(res).toBe(value * 2);
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(false);
     });
   });
 

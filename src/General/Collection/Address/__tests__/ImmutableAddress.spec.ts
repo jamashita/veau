@@ -8,7 +8,7 @@ describe('ImmutableAddress', () => {
         new Set<MockNominative<number>>()
       );
 
-      expect(address.isEmpty()).toEqual(true);
+      expect(address.isEmpty()).toBe(true);
       expect(address).toBe(ImmutableAddress.empty<MockNominative<number>>());
     });
 
@@ -27,8 +27,8 @@ describe('ImmutableAddress', () => {
         ])
       );
 
-      expect(address1.size()).toEqual(2);
-      expect(address2.size()).toEqual(3);
+      expect(address1.size()).toBe(2);
+      expect(address2.size()).toBe(3);
     });
   });
 
@@ -38,7 +38,7 @@ describe('ImmutableAddress', () => {
         new Map<string, MockNominative<number>>()
       );
 
-      expect(address.isEmpty()).toEqual(true);
+      expect(address.isEmpty()).toBe(true);
       expect(address).toBe(ImmutableAddress.empty<MockNominative<number>>());
     });
 
@@ -57,8 +57,8 @@ describe('ImmutableAddress', () => {
         ])
       );
 
-      expect(address1.size()).toEqual(2);
-      expect(address2.size()).toEqual(3);
+      expect(address1.size()).toBe(2);
+      expect(address2.size()).toBe(3);
     });
   });
 
@@ -66,7 +66,7 @@ describe('ImmutableAddress', () => {
     it('always empty, the size is 0', () => {
       const address: ImmutableAddress<MockNominative<number>> = ImmutableAddress.empty<MockNominative<number>>();
 
-      expect(address.isEmpty()).toEqual(true);
+      expect(address.isEmpty()).toBe(true);
     });
 
     it('returns singleton empty Address', () => {
@@ -100,22 +100,22 @@ describe('ImmutableAddress', () => {
 
       const nouns1: ImmutableAddress<MockNominative<number>> = ImmutableAddress.empty<MockNominative<number>>();
 
-      expect(nouns1.size()).toEqual(0);
+      expect(nouns1.size()).toBe(0);
 
       const nouns2: ImmutableAddress<MockNominative<number>> = nouns1.add(noun1);
 
       expect(nouns1).not.toBe(nouns2);
-      expect(nouns1.size()).toEqual(0);
-      expect(nouns2.size()).toEqual(1);
+      expect(nouns1.size()).toBe(0);
+      expect(nouns2.size()).toBe(1);
 
       const nouns3: ImmutableAddress<MockNominative<number>> = nouns2.add(noun2, noun3);
 
       expect(nouns1).not.toBe(nouns2);
       expect(nouns2).not.toBe(nouns3);
       expect(nouns3).not.toBe(nouns1);
-      expect(nouns1.size()).toEqual(0);
-      expect(nouns2.size()).toEqual(1);
-      expect(nouns3.size()).toEqual(3);
+      expect(nouns1.size()).toBe(0);
+      expect(nouns2.size()).toBe(1);
+      expect(nouns3.size()).toBe(3);
     });
 
     it('does nothing when the arguments are already contained', () => {
@@ -131,8 +131,8 @@ describe('ImmutableAddress', () => {
       const nouns2: ImmutableAddress<MockNominative<number>> = nouns1.add(noun1);
 
       expect(nouns1).toBe(nouns2);
-      expect(nouns1.size()).toEqual(2);
-      expect(nouns2.size()).toEqual(2);
+      expect(nouns1.size()).toBe(2);
+      expect(nouns2.size()).toBe(2);
     });
 
     it('does nothing when the same value other object are already contained', () => {
@@ -149,8 +149,8 @@ describe('ImmutableAddress', () => {
       const nouns2: ImmutableAddress<MockNominative<number>> = nouns1.add(noun3);
 
       expect(nouns1).toBe(nouns2);
-      expect(nouns1.size()).toEqual(2);
-      expect(nouns2.size()).toEqual(2);
+      expect(nouns1.size()).toBe(2);
+      expect(nouns2.size()).toBe(2);
     });
   });
 
@@ -167,8 +167,8 @@ describe('ImmutableAddress', () => {
       );
       const nouns2: ImmutableAddress<MockNominative<number>> = nouns1.remove(noun1);
 
-      expect(nouns1.size()).toEqual(2);
-      expect(nouns2.size()).toEqual(1);
+      expect(nouns1.size()).toBe(2);
+      expect(nouns2.size()).toBe(1);
     });
 
     it('does nothing because the address is already nothing', () => {
@@ -193,8 +193,8 @@ describe('ImmutableAddress', () => {
       const nouns2: ImmutableAddress<MockNominative<number>> = nouns1.remove(noun3);
 
       expect(nouns1).not.toBe(nouns2);
-      expect(nouns1.size()).toEqual(2);
-      expect(nouns2.size()).toEqual(1);
+      expect(nouns1.size()).toBe(2);
+      expect(nouns2.size()).toBe(1);
     });
 
     it('does not contains the value, returns itself', () => {
@@ -211,8 +211,8 @@ describe('ImmutableAddress', () => {
       const nouns2: ImmutableAddress<MockNominative<number>> = nouns1.remove(noun3);
 
       expect(nouns1).toBe(nouns2);
-      expect(nouns1.size()).toEqual(2);
-      expect(nouns2.size()).toEqual(2);
+      expect(nouns1.size()).toBe(2);
+      expect(nouns2.size()).toBe(2);
     });
 
     it('returns ImmutableAddress.empty() when the size will be 0', () => {
@@ -244,8 +244,8 @@ describe('ImmutableAddress', () => {
         new Set<MockNominative<number>>([])
       );
 
-      expect(nouns1.isEmpty()).toEqual(false);
-      expect(nouns2.isEmpty()).toEqual(true);
+      expect(nouns1.isEmpty()).toBe(false);
+      expect(nouns2.isEmpty()).toBe(true);
     });
   });
 
@@ -266,7 +266,7 @@ describe('ImmutableAddress', () => {
       );
       const nouns2: ImmutableAddress<MockNominative<number>> = nouns1.duplicate();
 
-      expect(nouns1.size()).toEqual(nouns2.size());
+      expect(nouns1.size()).toBe(nouns2.size());
       expect(nouns1).not.toBe(nouns2);
     });
 
@@ -286,8 +286,8 @@ describe('ImmutableAddress', () => {
       const nouns2: ImmutableAddress<MockNominative<number>> = nouns1.duplicate();
       const nouns3: ImmutableAddress<MockNominative<number>> = nouns2.add(noun4);
 
-      expect(nouns1.size()).toEqual(nouns2.size());
-      expect(nouns2.size()).not.toEqual(nouns3.size());
+      expect(nouns1.size()).toBe(nouns2.size());
+      expect(nouns2.size()).not.toBe(nouns3.size());
       expect(nouns1).not.toBe(nouns2);
       expect(nouns2).not.toBe(nouns3);
     });

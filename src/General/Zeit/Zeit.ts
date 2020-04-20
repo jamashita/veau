@@ -75,10 +75,6 @@ export class Zeit extends ValueObject {
     return this.zeit;
   }
 
-  public getFormat(): string {
-    return this.format;
-  }
-
   public isValid(): boolean {
     return this.zeit.isValid();
   }

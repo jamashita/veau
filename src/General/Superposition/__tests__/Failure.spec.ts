@@ -46,8 +46,8 @@ describe('Failure', () => {
       const failure1: Failure<number, MockError> = Failure.of<number, MockError>(new MockError());
       const failure2: Failure<number, MockError> = Failure.of<number, MockError>(new MockError());
 
-      expect(failure1.isSuccess()).toEqual(false);
-      expect(failure2.isSuccess()).toEqual(false);
+      expect(failure1.isSuccess()).toBe(false);
+      expect(failure2.isSuccess()).toBe(false);
     });
   });
 
@@ -56,8 +56,8 @@ describe('Failure', () => {
       const failure1: Failure<number, MockError> = Failure.of<number, MockError>(new MockError());
       const failure2: Failure<number, MockError> = Failure.of<number, MockError>(new MockError());
 
-      expect(failure1.isFailure()).toEqual(true);
-      expect(failure2.isFailure()).toEqual(true);
+      expect(failure1.isFailure()).toBe(true);
+      expect(failure2.isFailure()).toBe(true);
     });
   });
 
@@ -80,9 +80,9 @@ describe('Failure', () => {
         return value * 2;
       });
 
-      expect(res).toEqual(value * 2);
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(res).toBe(value * 2);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
   });
 
