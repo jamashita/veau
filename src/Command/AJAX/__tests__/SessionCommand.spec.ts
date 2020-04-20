@@ -9,7 +9,6 @@ import { DataSourceError } from '../../../General/DataSourceError';
 import { Superposition } from '../../../General/Superposition/Superposition';
 import { SessionCommand } from '../SessionCommand';
 
-// DONE
 describe('SessionCommand', () => {
   describe('container', () => {
     it('must be a singleton', () => {
@@ -34,8 +33,8 @@ describe('SessionCommand', () => {
       const sessionCommand: SessionCommand = new SessionCommand(ajax);
       const superposition: Superposition<void, DataSourceError> = await sessionCommand.delete();
 
-      expect(superposition.isSuccess()).toEqual(true);
-      expect(stub.withArgs('/api/destroy').called).toEqual(true);
+      expect(superposition.isSuccess()).toBe(true);
+      expect(stub.withArgs('/api/destroy').called).toBe(true);
     });
 
     it('throws AJAXError', async () => {
@@ -52,7 +51,7 @@ describe('SessionCommand', () => {
       const sessionCommand: SessionCommand = new SessionCommand(ajax);
       const superposition: Superposition<void, DataSourceError> = await sessionCommand.delete();
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
@@ -60,8 +59,8 @@ describe('SessionCommand', () => {
         expect(err).toBeInstanceOf(AJAXError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
   });
 });

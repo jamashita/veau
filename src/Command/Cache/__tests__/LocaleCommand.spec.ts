@@ -12,7 +12,6 @@ import { Locale } from '../../../VO/Locale';
 import { MockLocale } from '../../../VO/Mock/MockLocale';
 import { LocaleCommand } from '../LocaleCommand';
 
-// DONE
 describe('LocaleCommand', () => {
   describe('container', () => {
     it('must be a singleton', () => {
@@ -36,8 +35,8 @@ describe('LocaleCommand', () => {
       const localeCommand: LocaleCommand = new LocaleCommand(cache);
       const superposition: Superposition<void, DataSourceError> = await localeCommand.create(locale);
 
-      expect(stub.withArgs(VAULT_LOCALE_KEY, locale).called).toEqual(true);
-      expect(superposition.isSuccess()).toEqual(true);
+      expect(stub.withArgs(VAULT_LOCALE_KEY, locale).called).toBe(true);
+      expect(superposition.isSuccess()).toBe(true);
     });
 
     it('returns Failure when Cache throws CacheError', async () => {
@@ -53,7 +52,7 @@ describe('LocaleCommand', () => {
       const localeCommand: LocaleCommand = new LocaleCommand(cache);
       const superposition: Superposition<void, DataSourceError> = await localeCommand.create(locale);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
@@ -61,8 +60,8 @@ describe('LocaleCommand', () => {
         expect(err).toBeInstanceOf(CacheError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('returns Failure when Cache throws CacheError', async () => {

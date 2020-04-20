@@ -41,20 +41,17 @@ describe('StatsItems', () => {
 
       const superposition: Superposition<StatsItems, StatsItemsError> = StatsItems.ofJSON(json);
 
-      expect(superposition.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toBe(true);
       const items: StatsItems = superposition.get();
-      expect(items.size()).toEqual(2);
+      expect(items.size()).toBe(2);
       for (let i: number = 0; i < items.size(); i++) {
         const item: StatsItem = items.get(i).get();
-        expect(item.getStatsItemID().get().get()).toEqual(json[i].statsItemID);
-        expect(item.getName().get()).toEqual(json[i].name);
+        expect(item.getStatsItemID().get().get()).toBe(json[i].statsItemID);
+        expect(item.getName().get()).toBe(json[i].name);
       }
     });
 
     it('contains malformat statsItemID', () => {
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const json: Array<StatsItemJSON> = [
         {
           statsItemID: 'malformat uuid',
@@ -68,9 +65,12 @@ describe('StatsItems', () => {
         }
       ];
 
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
       const superposition: Superposition<StatsItems, StatsItemsError> = StatsItems.ofJSON(json);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>((items: StatsItems) => {
         spy1();
       }, (err: StatsItemsError) => {
@@ -78,14 +78,11 @@ describe('StatsItems', () => {
         expect(err).toBeInstanceOf(StatsItemsError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('contains malformat statsItemIDs', () => {
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const json: Array<StatsItemJSON> = [
         {
           statsItemID: 'malformat uuid 1',
@@ -99,9 +96,12 @@ describe('StatsItems', () => {
         }
       ];
 
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
       const superposition: Superposition<StatsItems, StatsItemsError> = StatsItems.ofJSON(json);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>((items: StatsItems) => {
         spy1();
       }, (err: StatsItemsError) => {
@@ -109,8 +109,8 @@ describe('StatsItems', () => {
         expect(err).toBeInstanceOf(StatsItemsError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
   });
 
@@ -127,22 +127,22 @@ describe('StatsItems', () => {
         }
       ];
 
-      const superposition: Superposition<StatsItems, StatsItemsError> = StatsItems.ofRow(row, StatsValues.empty());
+      const superposition: Superposition<StatsItems, StatsItemsError> = StatsItems.ofRow(
+        row,
+        StatsValues.empty()
+      );
 
-      expect(superposition.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toBe(true);
       const items: StatsItems = superposition.get();
-      expect(items.size()).toEqual(2);
+      expect(items.size()).toBe(2);
       for (let i: number = 0; i < items.size(); i++) {
         const item: StatsItem = items.get(i).get();
-        expect(item.getStatsItemID().get().get()).toEqual(row[i].statsItemID);
-        expect(item.getName().get()).toEqual(row[i].name);
+        expect(item.getStatsItemID().get().get()).toBe(row[i].statsItemID);
+        expect(item.getName().get()).toBe(row[i].name);
       }
     });
 
     it('contains malformat statsItemID', () => {
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const row: Array<StatsItemRow> = [
         {
           statsItemID: 'malformat uuid',
@@ -154,9 +154,15 @@ describe('StatsItems', () => {
         }
       ];
 
-      const superposition: Superposition<StatsItems, StatsItemsError> = StatsItems.ofRow(row, StatsValues.empty());
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
-      expect(superposition.isFailure()).toEqual(true);
+      const superposition: Superposition<StatsItems, StatsItemsError> = StatsItems.ofRow(
+        row,
+        StatsValues.empty()
+      );
+
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>((items: StatsItems) => {
         spy1();
       }, (err: StatsItemsError) => {
@@ -164,14 +170,11 @@ describe('StatsItems', () => {
         expect(err).toBeInstanceOf(StatsItemsError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('contains malformat statsItemIDs', () => {
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const row: Array<StatsItemRow> = [
         {
           statsItemID: 'malformat uuid 1',
@@ -183,9 +186,15 @@ describe('StatsItems', () => {
         }
       ];
 
-      const superposition: Superposition<StatsItems, StatsItemsError> = StatsItems.ofRow(row, StatsValues.empty());
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
-      expect(superposition.isFailure()).toEqual(true);
+      const superposition: Superposition<StatsItems, StatsItemsError> = StatsItems.ofRow(
+        row,
+        StatsValues.empty()
+      );
+
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>((items: StatsItems) => {
         spy1();
       }, (err: StatsItemsError) => {
@@ -193,8 +202,8 @@ describe('StatsItems', () => {
         expect(err).toBeInstanceOf(StatsItemsError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
   });
 
@@ -235,19 +244,19 @@ describe('StatsItems', () => {
         }
       ];
 
-      expect(StatsItems.isJSON(n)).toEqual(true);
+      expect(StatsItems.isJSON(n)).toBe(true);
     });
 
     it('returns false because given parameter is not an object', () => {
-      expect(StatsItems.isJSON(null)).toEqual(false);
-      expect(StatsItems.isJSON(undefined)).toEqual(false);
-      expect(StatsItems.isJSON(56)).toEqual(false);
-      expect(StatsItems.isJSON('fjafsd')).toEqual(false);
-      expect(StatsItems.isJSON(false)).toEqual(false);
+      expect(StatsItems.isJSON(null)).toBe(false);
+      expect(StatsItems.isJSON(undefined)).toBe(false);
+      expect(StatsItems.isJSON(56)).toBe(false);
+      expect(StatsItems.isJSON('fjafsd')).toBe(false);
+      expect(StatsItems.isJSON(false)).toBe(false);
     });
 
     it('returns false because given parameter is not an array', () => {
-      expect(StatsItems.isJSON({})).toEqual(false);
+      expect(StatsItems.isJSON({})).toBe(false);
     });
 
     it('returns false because the first element would not be StatsItemJSON', () => {
@@ -286,7 +295,7 @@ describe('StatsItems', () => {
         }
       ];
 
-      expect(StatsItems.isJSON(n)).toEqual(false);
+      expect(StatsItems.isJSON(n)).toBe(false);
     });
 
     it('returns false because the second element would not be StatsItemJSON', () => {
@@ -325,7 +334,7 @@ describe('StatsItems', () => {
         }
       ];
 
-      expect(StatsItems.isJSON(n)).toEqual(false);
+      expect(StatsItems.isJSON(n)).toBe(false);
     });
   });
 
@@ -339,7 +348,7 @@ describe('StatsItems', () => {
 
       const statsItems: StatsItems = StatsItems.ofArray(items);
 
-      expect(statsItems.size()).toEqual(items.length);
+      expect(statsItems.size()).toBe(items.length);
       for (let i: number = 0; i < statsItems.size(); i++) {
         expect(statsItems.get(i).get()).toBe(items[i]);
       }
@@ -351,11 +360,6 @@ describe('StatsItems', () => {
       const item1: MockStatsItem = new MockStatsItem();
       const item2: MockStatsItem = new MockStatsItem();
       const item3: MockStatsItem = new MockStatsItem();
-      const items: Array<MockStatsItem> = [
-        item1,
-        item2,
-        item3
-      ];
 
       const statsItems: StatsItems = StatsItems.ofSpread(
         item1,
@@ -363,10 +367,10 @@ describe('StatsItems', () => {
         item3
       );
 
-      expect(statsItems.size()).toEqual(items.length);
-      for (let i: number = 0; i < statsItems.size(); i++) {
-        expect(statsItems.get(i).get()).toBe(items[i]);
-      }
+      expect(statsItems.size()).toBe(3);
+      expect(statsItems.get(0).get()).toBe(item1);
+      expect(statsItems.get(1).get()).toBe(item2);
+      expect(statsItems.get(2).get()).toBe(item3);
     });
   });
 
@@ -382,11 +386,11 @@ describe('StatsItems', () => {
         superposition2
       ]);
 
-      expect(superposition.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toBe(true);
       const items: StatsItems = superposition.get();
-      expect(items.size()).toEqual(2);
-      expect(items.get(0).get()).toEqual(statsItem1);
-      expect(items.get(1).get()).toEqual(statsItem2);
+      expect(items.size()).toBe(2);
+      expect(items.get(0).get()).toBe(statsItem1);
+      expect(items.get(1).get()).toBe(statsItem2);
     });
 
     it('contains failure', () => {
@@ -404,7 +408,7 @@ describe('StatsItems', () => {
         superposition2
       ]);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsItemsError) => {
@@ -412,8 +416,8 @@ describe('StatsItems', () => {
         expect(err).toBeInstanceOf(StatsItemsError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('will be multiple failures', () => {
@@ -431,7 +435,7 @@ describe('StatsItems', () => {
         superposition2
       ]);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsItemsError) => {
@@ -439,8 +443,8 @@ describe('StatsItems', () => {
         expect(err).toBeInstanceOf(StatsItemsError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
   });
 
@@ -463,7 +467,7 @@ describe('StatsItems', () => {
 
   describe('empty', () => {
     it('gives 0-length StatsItems', () => {
-      expect(StatsItems.empty().isEmpty()).toEqual(true);
+      expect(StatsItems.empty().isEmpty()).toBe(true);
     });
   });
 
@@ -474,21 +478,21 @@ describe('StatsItems', () => {
       const statsItem3: MockStatsItem = new MockStatsItem();
       const statsItem4: MockStatsItem = new MockStatsItem();
 
-      const statsItems1: StatsItems = StatsItems.ofSpread(
+      const statsItems1: StatsItems = StatsItems.ofArray([
         statsItem1,
         statsItem2
-      );
+      ]);
 
       const statsItems2: StatsItems = statsItems1.add(
         statsItem3,
         statsItem4
       );
 
-      expect(statsItems1.size()).toEqual(2);
+      expect(statsItems1.size()).toBe(2);
       expect(statsItems1.get(0).get()).toBe(statsItem1);
       expect(statsItems1.get(1).get()).toBe(statsItem2);
 
-      expect(statsItems2.size()).toEqual(4);
+      expect(statsItems2.size()).toBe(4);
       expect(statsItems2.get(0).get()).toBe(statsItem1);
       expect(statsItems2.get(1).get()).toBe(statsItem2);
       expect(statsItems2.get(2).get()).toBe(statsItem3);
@@ -496,10 +500,10 @@ describe('StatsItems', () => {
     });
 
     it('returns itself when the items are 0', () => {
-      const statsItems: StatsItems = StatsItems.ofSpread(
+      const statsItems: StatsItems = StatsItems.ofArray([
         new MockStatsItem(),
         new MockStatsItem()
-      );
+      ]);
 
       expect(statsItems.add()).toBe(statsItems);
     });
@@ -507,17 +511,17 @@ describe('StatsItems', () => {
 
   describe('get', () => {
     it('returns Language instance at the correct index', () => {
-      const statsItem1: MockStatsItem = new MockStatsItem();
-      const statsItem2: MockStatsItem = new MockStatsItem();
+      const items: Array<MockStatsItem> = [
+        new MockStatsItem(),
+        new MockStatsItem()
+      ];
 
-      const statsItems: StatsItems = StatsItems.ofSpread(
-        statsItem1,
-        statsItem2
-      );
+      const statsItems: StatsItems = StatsItems.ofArray(items);
 
-      expect(statsItems.size()).toEqual(2);
-      expect(statsItems.get(0).get()).toBe(statsItem1);
-      expect(statsItems.get(1).get()).toBe(statsItem2);
+      expect(statsItems.size()).toBe(items.length);
+      for (let i: number = 0; i < statsItems.size(); i++) {
+        expect(statsItems.get(i).get()).toBe(items[i]);
+      }
     });
 
     it('returns Absent when the index is out of range', () => {
@@ -533,18 +537,18 @@ describe('StatsItems', () => {
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
       const statsItem3: MockStatsItem = new MockStatsItem();
-      const statsItems: StatsItems = StatsItems.ofSpread(
+      const statsItems: StatsItems = StatsItems.ofArray([
         statsItem1,
         statsItem2,
         statsItem3
-      );
+      ]);
 
       const moved: StatsItems = statsItems.move(
         new MockColumn(0),
         new MockColumn(1)
       );
 
-      expect(moved.size()).toEqual(3);
+      expect(moved.size()).toBe(3);
       expect(moved.get(0).get()).toBe(statsItem2);
       expect(moved.get(1).get()).toBe(statsItem1);
       expect(moved.get(2).get()).toBe(statsItem3);
@@ -554,18 +558,18 @@ describe('StatsItems', () => {
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
       const statsItem3: MockStatsItem = new MockStatsItem();
-      const statsItems: StatsItems = StatsItems.ofSpread(
+      const statsItems: StatsItems = StatsItems.ofArray([
         statsItem1,
         statsItem2,
         statsItem3
-      );
+      ]);
 
       const moved: StatsItems = statsItems.move(
         new MockColumn(1),
         new MockColumn(2)
       );
 
-      expect(moved.size()).toEqual(3);
+      expect(moved.size()).toBe(3);
       expect(moved.get(0).get()).toBe(statsItem1);
       expect(moved.get(1).get()).toBe(statsItem3);
       expect(moved.get(2).get()).toBe(statsItem2);
@@ -575,18 +579,18 @@ describe('StatsItems', () => {
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
       const statsItem3: MockStatsItem = new MockStatsItem();
-      const statsItems: StatsItems = StatsItems.ofSpread(
+      const statsItems: StatsItems = StatsItems.ofArray([
         statsItem1,
         statsItem2,
         statsItem3
-      );
+      ]);
 
       const moved: StatsItems = statsItems.move(
         new MockColumn(2),
         new MockColumn(0)
       );
 
-      expect(moved.size()).toEqual(3);
+      expect(moved.size()).toBe(3);
       expect(moved.get(0).get()).toBe(statsItem3);
       expect(moved.get(1).get()).toBe(statsItem2);
       expect(moved.get(2).get()).toBe(statsItem1);
@@ -599,18 +603,18 @@ describe('StatsItems', () => {
       const statsItem2: MockStatsItem = new MockStatsItem();
       const statsItem3: MockStatsItem = new MockStatsItem();
       const statsItem4: MockStatsItem = new MockStatsItem();
-      const statsItems: StatsItems = StatsItems.ofSpread(
+      const statsItems: StatsItems = StatsItems.ofArray([
         statsItem1,
         statsItem2,
         statsItem3
-      );
+      ]);
 
       const replaced: StatsItems = statsItems.replace(
         statsItem4,
         new MockRow(0)
       );
 
-      expect(replaced.size()).toEqual(3);
+      expect(replaced.size()).toBe(3);
       expect(replaced.get(0).get()).toBe(statsItem4);
       expect(replaced.get(1).get()).not.toBe(statsItem4);
       expect(replaced.get(2).get()).not.toBe(statsItem4);
@@ -621,18 +625,18 @@ describe('StatsItems', () => {
       const statsItem2: MockStatsItem = new MockStatsItem();
       const statsItem3: MockStatsItem = new MockStatsItem();
       const statsItem4: MockStatsItem = new MockStatsItem();
-      const statsItems: StatsItems = StatsItems.ofSpread(
+      const statsItems: StatsItems = StatsItems.ofArray([
         statsItem1,
         statsItem2,
         statsItem3
-      );
+      ]);
 
       const replaced: StatsItems = statsItems.replace(
         statsItem4,
         new MockRow(1)
       );
 
-      expect(replaced.size()).toEqual(3);
+      expect(replaced.size()).toBe(3);
       expect(replaced.get(0).get()).not.toBe(statsItem4);
       expect(replaced.get(1).get()).toBe(statsItem4);
       expect(replaced.get(2).get()).not.toBe(statsItem4);
@@ -643,18 +647,18 @@ describe('StatsItems', () => {
       const statsItem2: MockStatsItem = new MockStatsItem();
       const statsItem3: MockStatsItem = new MockStatsItem();
       const statsItem4: MockStatsItem = new MockStatsItem();
-      const statsItems: StatsItems = StatsItems.ofSpread(
+      const statsItems: StatsItems = StatsItems.ofArray([
         statsItem1,
         statsItem2,
         statsItem3
-      );
+      ]);
 
       const replaced: StatsItems = statsItems.replace(
         statsItem4,
         new MockRow(2)
       );
 
-      expect(replaced.size()).toEqual(3);
+      expect(replaced.size()).toBe(3);
       expect(replaced.get(0).get()).not.toBe(statsItem4);
       expect(replaced.get(1).get()).not.toBe(statsItem4);
       expect(replaced.get(2).get()).toBe(statsItem4);
@@ -666,28 +670,28 @@ describe('StatsItems', () => {
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
       const statsItem3: MockStatsItem = new MockStatsItem();
-      const statsItems: StatsItems = StatsItems.ofSpread(
+      const statsItems: StatsItems = StatsItems.ofArray([
         statsItem1,
         statsItem2,
         statsItem3
-      );
+      ]);
 
       const removed: StatsItems = statsItems.remove(statsItem1);
 
-      expect(removed.size()).toEqual(2);
+      expect(removed.size()).toBe(2);
       expect(removed.get(0).get()).toBe(statsItem2);
       expect(removed.get(1).get()).toBe(statsItem3);
     });
 
     it('returns StatsItems.empty() when all the items are removed', () => {
       const statsItem: MockStatsItem = new MockStatsItem();
-      const statsItems: StatsItems = StatsItems.ofSpread(
+      const statsItems: StatsItems = StatsItems.ofArray([
         statsItem
-      );
+      ]);
 
       const removed: StatsItems = statsItems.remove(statsItem);
 
-      expect(removed.size()).toEqual(0);
+      expect(removed.size()).toBe(0);
       expect(removed).toBe(StatsItems.empty());
     });
   });
@@ -698,7 +702,7 @@ describe('StatsItems', () => {
       const name2: MockStatsItemName = new MockStatsItemName('stats name 11');
       const name3: MockStatsItemName = new MockStatsItemName('stats name 111');
 
-      const statsItems: StatsItems = StatsItems.ofSpread(
+      const statsItems: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
           name: name1
         }),
@@ -708,15 +712,15 @@ describe('StatsItems', () => {
         new MockStatsItem({
           name: name3
         })
-      );
+      ]);
 
-      expect(statsItems.maxNameLength()).toEqual(name3.length());
+      expect(statsItems.maxNameLength()).toBe(name3.length());
     });
 
     it('should give 0 when items are 0', () => {
-      const statsItems: StatsItems = StatsItems.ofSpread();
+      const statsItems: StatsItems = StatsItems.ofArray([]);
 
-      expect(statsItems.maxNameLength()).toEqual(0);
+      expect(statsItems.maxNameLength()).toBe(0);
     });
   });
 
@@ -774,22 +778,22 @@ describe('StatsItems', () => {
           })
         )
       });
-      const statsItems: StatsItems = StatsItems.ofSpread(
+      const statsItems: StatsItems = StatsItems.ofArray([
         statsItem1,
         statsItem2,
         statsItem3
-      );
+      ]);
 
       const asOfs: AsOfs = statsItems.getAsOfs();
-      expect(asOfs.size()).toEqual(8);
-      expect(asOfs.get(0).get().toString()).toEqual('2000-01-01');
-      expect(asOfs.get(1).get().toString()).toEqual('2000-01-02');
-      expect(asOfs.get(2).get().toString()).toEqual('2000-01-03');
-      expect(asOfs.get(3).get().toString()).toEqual('2000-01-02');
-      expect(asOfs.get(4).get().toString()).toEqual('2000-01-03');
-      expect(asOfs.get(5).get().toString()).toEqual('2000-01-04');
-      expect(asOfs.get(6).get().toString()).toEqual('2000-01-04');
-      expect(asOfs.get(7).get().toString()).toEqual('2000-01-05');
+      expect(asOfs.size()).toBe(8);
+      expect(asOfs.get(0).get().toString()).toBe('2000-01-01');
+      expect(asOfs.get(1).get().toString()).toBe('2000-01-02');
+      expect(asOfs.get(2).get().toString()).toBe('2000-01-03');
+      expect(asOfs.get(3).get().toString()).toBe('2000-01-02');
+      expect(asOfs.get(4).get().toString()).toBe('2000-01-03');
+      expect(asOfs.get(5).get().toString()).toBe('2000-01-04');
+      expect(asOfs.get(6).get().toString()).toBe('2000-01-04');
+      expect(asOfs.get(7).get().toString()).toBe('2000-01-05');
     });
   });
 
@@ -799,7 +803,7 @@ describe('StatsItems', () => {
       const name2: MockStatsItemName = new MockStatsItemName('stats name 11');
       const name3: MockStatsItemName = new MockStatsItemName('stats name 111');
 
-      const statsItems: StatsItems = StatsItems.ofSpread(
+      const statsItems: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
           name: name1
         }),
@@ -809,11 +813,11 @@ describe('StatsItems', () => {
         new MockStatsItem({
           name: name3
         })
-      );
+      ]);
 
       const names: StatsItemNames = statsItems.getNames();
 
-      expect(names.size()).toEqual(3);
+      expect(names.size()).toBe(3);
       expect(names.get(0).get()).toBe(name1);
       expect(names.get(1).get()).toBe(name2);
       expect(names.get(2).get()).toBe(name3);
@@ -822,72 +826,72 @@ describe('StatsItems', () => {
 
   describe('areFilled', () => {
     it('returns true if the all items are filled', () => {
-      const statsItems1: StatsItems = StatsItems.ofSpread(
+      const statsItems1: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
           name: new MockStatsItemName('stats item 1')
         }),
         new MockStatsItem({
           name: new MockStatsItemName('stats item 2')
         })
-      );
-      const statsItems2: StatsItems = StatsItems.ofSpread(
+      ]);
+      const statsItems2: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
           name: new MockStatsItemName('stats item 3')
         }),
         StatsItem.default()
-      );
+      ]);
 
-      expect(statsItems1.areFilled()).toEqual(true);
-      expect(statsItems2.areFilled()).toEqual(false);
+      expect(statsItems1.areFilled()).toBe(true);
+      expect(statsItems2.areFilled()).toBe(false);
     });
   });
 
   describe('areValid', () => {
     it('returns true if the all items are valid', () => {
-      const statsItems1: StatsItems = StatsItems.ofSpread(
+      const statsItems1: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
           name: new MockStatsItemName('stats item 1')
         }),
         new MockStatsItem({
           name: new MockStatsItemName('stats item 2')
         })
-      );
-      const statsItems2: StatsItems = StatsItems.ofSpread(
+      ]);
+      const statsItems2: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
           name: new MockStatsItemName('stats item 3')
         }),
         StatsItem.default()
-      );
+      ]);
 
-      expect(statsItems1.areValid()).toEqual(true);
-      expect(statsItems2.areValid()).toEqual(false);
+      expect(statsItems1.areValid()).toBe(true);
+      expect(statsItems2.areValid()).toBe(false);
     });
   });
 
   describe('haveValues', () => {
     it('no items', () => {
-      const statsItems: StatsItems = StatsItems.ofSpread();
+      const statsItems: StatsItems = StatsItems.ofArray([]);
 
-      expect(statsItems.haveValues()).toEqual(false);
+      expect(statsItems.haveValues()).toBe(false);
     });
 
     it('no values', () => {
-      const statsItems1: StatsItems = StatsItems.ofSpread(
+      const statsItems1: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
           values: new MockStatsValues()
         })
-      );
-      const statsItems2: StatsItems = StatsItems.ofSpread(
-        new MockStatsItem({}),
-        new MockStatsItem({})
-      );
+      ]);
+      const statsItems2: StatsItems = StatsItems.ofArray([
+        new MockStatsItem(),
+        new MockStatsItem()
+      ]);
 
-      expect(statsItems1.haveValues()).toEqual(false);
-      expect(statsItems2.haveValues()).toEqual(false);
+      expect(statsItems1.haveValues()).toBe(false);
+      expect(statsItems2.haveValues()).toBe(false);
     });
 
     it('have values', () => {
-      const statsItems: StatsItems = StatsItems.ofSpread(
+      const statsItems: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
           values: new MockStatsValues(
             new MockStatsValue({
@@ -895,9 +899,9 @@ describe('StatsItems', () => {
             })
           )
         })
-      );
+      ]);
 
-      expect(statsItems.haveValues()).toEqual(true);
+      expect(statsItems.haveValues()).toBe(true);
     });
   });
 
@@ -918,15 +922,15 @@ describe('StatsItems', () => {
       const statsItem4: MockStatsItem = new MockStatsItem({
         statsItemID: statsItemID1
       });
-      const statsItems: StatsItems = StatsItems.ofSpread(
+      const statsItems: StatsItems = StatsItems.ofArray([
         statsItem1,
         statsItem2
-      );
+      ]);
 
-      expect(statsItems.contains(statsItem1)).toEqual(true);
-      expect(statsItems.contains(statsItem2)).toEqual(true);
-      expect(statsItems.contains(statsItem3)).toEqual(false);
-      expect(statsItems.contains(statsItem4)).toEqual(true);
+      expect(statsItems.contains(statsItem1)).toBe(true);
+      expect(statsItems.contains(statsItem2)).toBe(true);
+      expect(statsItems.contains(statsItem3)).toBe(false);
+      expect(statsItems.contains(statsItem4)).toBe(true);
     });
   });
 
@@ -935,11 +939,11 @@ describe('StatsItems', () => {
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
       const statsItem3: MockStatsItem = new MockStatsItem();
-      const statsItems: StatsItems = StatsItems.ofSpread(
+      const statsItems: StatsItems = StatsItems.ofArray([
         statsItem1,
         statsItem2,
         statsItem3
-      );
+      ]);
 
       const duplicated: StatsItems = statsItems.duplicate();
 
@@ -956,14 +960,14 @@ describe('StatsItems', () => {
 
   describe('isEmpty', () => {
     it('returns true if the elements are 0', () => {
-      const statsItems1: StatsItems = StatsItems.ofSpread(
+      const statsItems1: StatsItems = StatsItems.ofArray([
         new MockStatsItem(),
         new MockStatsItem()
-      );
-      const statsItems2: StatsItems = StatsItems.ofSpread();
+      ]);
+      const statsItems2: StatsItems = StatsItems.ofArray([]);
 
-      expect(statsItems1.isEmpty()).toEqual(false);
-      expect(statsItems2.isEmpty()).toEqual(true);
+      expect(statsItems1.isEmpty()).toBe(false);
+      expect(statsItems2.isEmpty()).toBe(true);
     });
   });
 
@@ -971,48 +975,48 @@ describe('StatsItems', () => {
     it('returns false if the length is different', () => {
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
-      const statsItems1: StatsItems = StatsItems.ofSpread(
+      const statsItems1: StatsItems = StatsItems.ofArray([
         statsItem1,
         statsItem2
-      );
-      const statsItems2: StatsItems = StatsItems.ofSpread(
+      ]);
+      const statsItems2: StatsItems = StatsItems.ofArray([
         statsItem2
-      );
+      ]);
 
-      expect(statsItems1.equals(statsItems1)).toEqual(true);
-      expect(statsItems1.equals(statsItems2)).toEqual(false);
+      expect(statsItems1.equals(statsItems1)).toBe(true);
+      expect(statsItems1.equals(statsItems2)).toBe(false);
     });
 
     it('returns false if the sequence is different', () => {
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
-      const statsItems1: StatsItems = StatsItems.ofSpread(
+      const statsItems1: StatsItems = StatsItems.ofArray([
         statsItem1,
         statsItem2
-      );
-      const statsItems2: StatsItems = StatsItems.ofSpread(
+      ]);
+      const statsItems2: StatsItems = StatsItems.ofArray([
         statsItem2,
         statsItem1
-      );
+      ]);
 
-      expect(statsItems1.equals(statsItems1)).toEqual(true);
-      expect(statsItems1.equals(statsItems2)).toEqual(false);
+      expect(statsItems1.equals(statsItems1)).toBe(true);
+      expect(statsItems1.equals(statsItems2)).toBe(false);
     });
 
     it('returns true if the elements and their order are same', () => {
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
-      const statsItems1: StatsItems = StatsItems.ofSpread(
+      const statsItems1: StatsItems = StatsItems.ofArray([
         statsItem1,
         statsItem2
-      );
-      const statsItems2: StatsItems = StatsItems.ofSpread(
+      ]);
+      const statsItems2: StatsItems = StatsItems.ofArray([
         statsItem1,
         statsItem2
-      );
+      ]);
 
-      expect(statsItems1.equals(statsItems1)).toEqual(true);
-      expect(statsItems1.equals(statsItems2)).toEqual(true);
+      expect(statsItems1.equals(statsItems1)).toBe(true);
+      expect(statsItems1.equals(statsItems2)).toBe(true);
     });
   });
 
@@ -1024,7 +1028,7 @@ describe('StatsItems', () => {
       const name2: string = 'stats item 2';
       const name3: string = 'stats item 3';
       const name4: string = 'stats item 4';
-      const statsItems1: StatsItems = StatsItems.ofSpread(
+      const statsItems1: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
           statsItemID: statsItemID1,
           name: new MockStatsItemName(name1)
@@ -1033,20 +1037,20 @@ describe('StatsItems', () => {
           statsItemID: statsItemID2,
           name: new MockStatsItemName(name2)
         })
-      );
-      const statsItems2: StatsItems = StatsItems.ofSpread(
+      ]);
+      const statsItems2: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
           statsItemID: statsItemID1,
           name: new MockStatsItemName(name1)
         })
-      );
-      const statsItems3: StatsItems = StatsItems.ofSpread(
+      ]);
+      const statsItems3: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
           statsItemID: statsItemID2,
           name: new MockStatsItemName(name2)
         })
-      );
-      const statsItems4: StatsItems = StatsItems.ofSpread(
+      ]);
+      const statsItems4: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
           statsItemID: statsItemID2,
           name: new MockStatsItemName(name2)
@@ -1055,8 +1059,8 @@ describe('StatsItems', () => {
           statsItemID: statsItemID1,
           name: new MockStatsItemName(name1)
         })
-      );
-      const statsItems5: StatsItems = StatsItems.ofSpread(
+      ]);
+      const statsItems5: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
           statsItemID: statsItemID1,
           name: new MockStatsItemName(name1)
@@ -1065,8 +1069,8 @@ describe('StatsItems', () => {
           statsItemID: statsItemID2,
           name: new MockStatsItemName(name2)
         })
-      );
-      const statsItems6: StatsItems = StatsItems.ofSpread(
+      ]);
+      const statsItems6: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
           statsItemID: statsItemID1,
           name: new MockStatsItemName(name3)
@@ -1075,8 +1079,8 @@ describe('StatsItems', () => {
           statsItemID: statsItemID2,
           name: new MockStatsItemName(name2)
         })
-      );
-      const statsItems7: StatsItems = StatsItems.ofSpread(
+      ]);
+      const statsItems7: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
           statsItemID: statsItemID1,
           name: new MockStatsItemName(name1)
@@ -1085,8 +1089,8 @@ describe('StatsItems', () => {
           statsItemID: statsItemID2,
           name: new MockStatsItemName(name4)
         })
-      );
-      const statsItems8: StatsItems = StatsItems.ofSpread(
+      ]);
+      const statsItems8: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
           statsItemID: statsItemID1,
           name: new MockStatsItemName(name1),
@@ -1100,8 +1104,8 @@ describe('StatsItems', () => {
           statsItemID: statsItemID2,
           name: new MockStatsItemName(name2)
         })
-      );
-      const statsItems9: StatsItems = StatsItems.ofSpread(
+      ]);
+      const statsItems9: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
           statsItemID: statsItemID1,
           name: new MockStatsItemName(name1)
@@ -1115,8 +1119,8 @@ describe('StatsItems', () => {
             })
           )
         })
-      );
-      const statsItems10: StatsItems = StatsItems.ofSpread(
+      ]);
+      const statsItems10: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
           statsItemID: statsItemID1,
           name: new MockStatsItemName(name1),
@@ -1135,24 +1139,24 @@ describe('StatsItems', () => {
             })
           )
         })
-      );
+      ]);
 
-      expect(statsItems1.areSame(statsItems1)).toEqual(true);
-      expect(statsItems1.areSame(statsItems2)).toEqual(false);
-      expect(statsItems1.areSame(statsItems3)).toEqual(false);
-      expect(statsItems1.areSame(statsItems4)).toEqual(false);
-      expect(statsItems1.areSame(statsItems5)).toEqual(true);
-      expect(statsItems1.areSame(statsItems6)).toEqual(false);
-      expect(statsItems1.areSame(statsItems7)).toEqual(false);
-      expect(statsItems1.areSame(statsItems8)).toEqual(false);
-      expect(statsItems1.areSame(statsItems9)).toEqual(false);
-      expect(statsItems1.areSame(statsItems10)).toEqual(false);
+      expect(statsItems1.areSame(statsItems1)).toBe(true);
+      expect(statsItems1.areSame(statsItems2)).toBe(false);
+      expect(statsItems1.areSame(statsItems3)).toBe(false);
+      expect(statsItems1.areSame(statsItems4)).toBe(false);
+      expect(statsItems1.areSame(statsItems5)).toBe(true);
+      expect(statsItems1.areSame(statsItems6)).toBe(false);
+      expect(statsItems1.areSame(statsItems7)).toBe(false);
+      expect(statsItems1.areSame(statsItems8)).toBe(false);
+      expect(statsItems1.areSame(statsItems9)).toBe(false);
+      expect(statsItems1.areSame(statsItems10)).toBe(false);
     });
   });
 
   describe('toJSON', () => {
     it('normal case', () => {
-      const statsItems: StatsItems = StatsItems.ofSpread(
+      const statsItems: StatsItems = StatsItems.ofArray([
         StatsItem.of(
           StatsItemID.ofString('8f7b1783-b09c-4010-aac1-dca1292ee700').get(),
           StatsItemName.of('stats item 1'),
@@ -1163,7 +1167,7 @@ describe('StatsItems', () => {
           StatsItemName.of('stats item 2'),
           StatsValues.empty()
         )
-      );
+      ]);
 
       expect(statsItems.toJSON()).toEqual([
         {
@@ -1186,7 +1190,7 @@ describe('StatsItems', () => {
       const id2: string = '9e6b3c69-580c-4c19-9f3f-9bd82f582551';
       const name1: string = 'stats item 1';
       const name2: string = 'stats item 2';
-      const statsItems: StatsItems = StatsItems.ofSpread(
+      const statsItems: StatsItems = StatsItems.ofArray([
         StatsItem.of(
           StatsItemID.ofString(id1).get(),
           StatsItemName.of(name1),
@@ -1197,9 +1201,9 @@ describe('StatsItems', () => {
           StatsItemName.of(name2),
           StatsValues.empty()
         )
-      );
+      ]);
 
-      expect(statsItems.toString()).toEqual(`${id1} ${name1} , ${id2} ${name2} `);
+      expect(statsItems.toString()).toBe(`${id1} ${name1} , ${id2} ${name2} `);
     });
   });
 });

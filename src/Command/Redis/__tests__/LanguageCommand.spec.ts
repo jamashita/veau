@@ -13,7 +13,6 @@ import { MockLanguageName } from '../../../VO/Mock/MockLanguageName';
 import { MockLanguages } from '../../../VO/Mock/MockLanguages';
 import { LanguageCommand } from '../LanguageCommand';
 
-// DONE
 describe('LanguageCommand', () => {
   describe('container', () => {
     it('must be a singleton', () => {
@@ -53,9 +52,9 @@ describe('LanguageCommand', () => {
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
       const superposition: Superposition<void, DataSourceError> = await languageCommand.insertAll(languages);
 
-      expect(stub1.withArgs('LANGUAGES', JSON.stringify(languages.toJSON())).called).toEqual(true);
-      expect(stub2.withArgs('LANGUAGES', 3 * 60 * 60).called).toEqual(true);
-      expect(superposition.isSuccess()).toEqual(true);
+      expect(stub1.withArgs('LANGUAGES', JSON.stringify(languages.toJSON())).called).toBe(true);
+      expect(stub2.withArgs('LANGUAGES', 3 * 60 * 60).called).toBe(true);
+      expect(superposition.isSuccess()).toBe(true);
     });
 
     it('returns Failure because the client throws RedisError by MockRedisString.set', async () => {
@@ -77,7 +76,7 @@ describe('LanguageCommand', () => {
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
       const superposition: Superposition<void, DataSourceError> = await languageCommand.insertAll(languages);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
@@ -85,8 +84,8 @@ describe('LanguageCommand', () => {
         expect(err).toBeInstanceOf(RedisError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('returns Failure because the client throws RedisError by MockRedis.expires', async () => {
@@ -108,7 +107,7 @@ describe('LanguageCommand', () => {
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
       const superposition: Superposition<void, DataSourceError> = await languageCommand.insertAll(languages);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
@@ -116,8 +115,8 @@ describe('LanguageCommand', () => {
         expect(err).toBeInstanceOf(RedisError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('throws Error', async () => {
@@ -146,8 +145,8 @@ describe('LanguageCommand', () => {
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
       const superposition: Superposition<void, DataSourceError> = await languageCommand.deleteAll();
 
-      expect(stub.withArgs('LANGUAGES').called).toEqual(true);
-      expect(superposition.isSuccess()).toEqual(true);
+      expect(stub.withArgs('LANGUAGES').called).toBe(true);
+      expect(superposition.isSuccess()).toBe(true);
     });
 
     it('returns Failure with CacheError because Redis.delete fails', async () => {
@@ -161,7 +160,7 @@ describe('LanguageCommand', () => {
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
       const superposition: Superposition<void, DataSourceError> = await languageCommand.deleteAll();
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
@@ -169,8 +168,8 @@ describe('LanguageCommand', () => {
         expect(err).toBeInstanceOf(RedisError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('returns Failure because the client throws RedisError', async () => {
@@ -184,7 +183,7 @@ describe('LanguageCommand', () => {
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
       const superposition: Superposition<void, DataSourceError> = await languageCommand.deleteAll();
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
@@ -192,8 +191,8 @@ describe('LanguageCommand', () => {
         expect(err).toBeInstanceOf(RedisError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('throws Error', async () => {

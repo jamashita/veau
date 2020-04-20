@@ -23,7 +23,6 @@ import { MockStatsUnit } from '../../../VO/Mock/MockStatsUnit';
 import { MockTerm } from '../../../VO/Mock/MockTerm';
 import { StatsCommand } from '../StatsCommand';
 
-// DONE
 describe('StatsCommand', () => {
   describe('container', () => {
     it('must be a singleton', () => {
@@ -87,8 +86,8 @@ describe('StatsCommand', () => {
         unit: 'stats unit',
         updatedAt: '2000-01-02 01:02:03',
         items: []
-      }).called).toEqual(true);
-      expect(superposition.isSuccess()).toEqual(true);
+      }).called).toBe(true);
+      expect(superposition.isSuccess()).toBe(true);
     });
 
     it('throws AJAXError', async () => {
@@ -107,7 +106,7 @@ describe('StatsCommand', () => {
       const statsCommand: StatsCommand = new StatsCommand(ajax);
       const superposition: Superposition<void, DataSourceError> = await statsCommand.create(stats);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
@@ -115,8 +114,8 @@ describe('StatsCommand', () => {
         expect(err).toBeInstanceOf(AJAXError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
   });
 });

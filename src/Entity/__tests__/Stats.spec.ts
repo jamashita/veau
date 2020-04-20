@@ -47,7 +47,6 @@ import { Stats, StatsJSON, StatsRow } from '../Stats';
 import { StatsItem } from '../StatsItem';
 import { StatsItems } from '../StatsItems';
 
-// DONE
 describe('Stats', () => {
   describe('of', () => {
     it('normal case', () => {
@@ -146,28 +145,28 @@ describe('Stats', () => {
 
       const superposition: Superposition<Stats, StatsError> = Stats.ofJSON(json);
 
-      expect(superposition.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toBe(true);
       const stats: Stats = superposition.get();
-      expect(stats.getStatsID().get().get()).toEqual(json.statsID);
-      expect(stats.getLanguage().getLanguageID().get()).toEqual(json.language.languageID);
-      expect(stats.getLanguage().getName().get()).toEqual(json.language.name);
-      expect(stats.getLanguage().getEnglishName().get()).toEqual(json.language.englishName);
-      expect(stats.getLanguage().getISO639().get()).toEqual(json.language.iso639);
-      expect(stats.getRegion().getRegionID().get()).toEqual(json.region.regionID);
-      expect(stats.getRegion().getName().get()).toEqual(json.region.name);
-      expect(stats.getRegion().getISO3166().get()).toEqual(json.region.iso3166);
-      expect(stats.getTerm().getID()).toEqual(json.termID);
-      expect(stats.getName().get()).toEqual(json.name);
-      expect(stats.getUnit().get()).toEqual(json.unit);
-      expect(stats.getUpdatedAt().toString()).toEqual(json.updatedAt);
-      expect(stats.getItems().size()).toEqual(json.items.length);
+      expect(stats.getStatsID().get().get()).toBe(json.statsID);
+      expect(stats.getLanguage().getLanguageID().get()).toBe(json.language.languageID);
+      expect(stats.getLanguage().getName().get()).toBe(json.language.name);
+      expect(stats.getLanguage().getEnglishName().get()).toBe(json.language.englishName);
+      expect(stats.getLanguage().getISO639().get()).toBe(json.language.iso639);
+      expect(stats.getRegion().getRegionID().get()).toBe(json.region.regionID);
+      expect(stats.getRegion().getName().get()).toBe(json.region.name);
+      expect(stats.getRegion().getISO3166().get()).toBe(json.region.iso3166);
+      expect(stats.getTerm().getID()).toBe(json.termID);
+      expect(stats.getName().get()).toBe(json.name);
+      expect(stats.getUnit().get()).toBe(json.unit);
+      expect(stats.getUpdatedAt().toString()).toBe(json.updatedAt);
+      expect(stats.getItems().size()).toBe(json.items.length);
       for (let i: number = 0; i < stats.getItems().size(); i++) {
-        expect(stats.getItems().get(i).get().getStatsItemID().get().get()).toEqual(json.items[i].statsItemID);
-        expect(stats.getItems().get(i).get().getName().get()).toEqual(json.items[i].name);
-        expect(stats.getItems().get(i).get().getValues().size()).toEqual(json.items[i].values.length);
+        expect(stats.getItems().get(i).get().getStatsItemID().get().get()).toBe(json.items[i].statsItemID);
+        expect(stats.getItems().get(i).get().getName().get()).toBe(json.items[i].name);
+        expect(stats.getItems().get(i).get().getValues().size()).toBe(json.items[i].values.length);
         for (let j: number = 0; j < stats.getItems().get(i).get().getValues().size(); j++) {
-          expect(stats.getItems().get(i).get().getValues().get(j).get().getAsOf().toString()).toEqual(json.items[i].values[j].asOf);
-          expect(stats.getItems().get(i).get().getValues().get(j).get().getValue().get()).toEqual(json.items[i].values[j].value);
+          expect(stats.getItems().get(i).get().getValues().get(j).get().getAsOf().toString()).toBe(json.items[i].values[j].asOf);
+          expect(stats.getItems().get(i).get().getValues().get(j).get().getValue().get()).toBe(json.items[i].values[j].value);
         }
       }
     });
@@ -215,25 +214,25 @@ describe('Stats', () => {
 
       const superposition: Superposition<Stats, StatsError> = Stats.ofRow(row, StatsItems.ofArray(items));
 
-      expect(superposition.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toBe(true);
       const stats: Stats = superposition.get();
-      expect(stats.getStatsID().get().get()).toEqual(row.statsID);
-      expect(stats.getLanguage().getLanguageID().get()).toEqual(row.languageID);
-      expect(stats.getLanguage().getName().get()).toEqual(row.languageName);
-      expect(stats.getLanguage().getEnglishName().get()).toEqual(row.languageEnglishName);
-      expect(stats.getLanguage().getISO639().get()).toEqual(row.iso639);
-      expect(stats.getRegion().getRegionID().get()).toEqual(row.regionID);
-      expect(stats.getRegion().getName().get()).toEqual(row.regionName);
-      expect(stats.getRegion().getISO3166().get()).toEqual(row.iso3166);
-      expect(stats.getTerm().getID()).toEqual(row.termID);
-      expect(stats.getName().get()).toEqual(row.name);
-      expect(stats.getUnit().get()).toEqual(row.unit);
-      expect(stats.getUpdatedAt().toString()).toEqual(row.updatedAt);
-      expect(stats.getItems().size()).toEqual(items.length);
+      expect(stats.getStatsID().get().get()).toBe(row.statsID);
+      expect(stats.getLanguage().getLanguageID().get()).toBe(row.languageID);
+      expect(stats.getLanguage().getName().get()).toBe(row.languageName);
+      expect(stats.getLanguage().getEnglishName().get()).toBe(row.languageEnglishName);
+      expect(stats.getLanguage().getISO639().get()).toBe(row.iso639);
+      expect(stats.getRegion().getRegionID().get()).toBe(row.regionID);
+      expect(stats.getRegion().getName().get()).toBe(row.regionName);
+      expect(stats.getRegion().getISO3166().get()).toBe(row.iso3166);
+      expect(stats.getTerm().getID()).toBe(row.termID);
+      expect(stats.getName().get()).toBe(row.name);
+      expect(stats.getUnit().get()).toBe(row.unit);
+      expect(stats.getUpdatedAt().toString()).toBe(row.updatedAt);
+      expect(stats.getItems().size()).toBe(items.length);
       for (let i: number = 0; i < items.length; i++) {
         expect(stats.getItems().get(i).get().getStatsItemID()).toBe(items[i].getStatsItemID());
         expect(stats.getItems().get(i).get().getName()).toBe(items[i].getName());
-        expect(stats.getItems().get(i).get().getValues().size()).toEqual(items[i].getValues().size());
+        expect(stats.getItems().get(i).get().getValues().size()).toBe(items[i].getValues().size());
         for (let j: number = 0; j < stats.getItems().get(i).get().getValues().size(); j++) {
           expect(stats.getItems().get(i).get().getValues().get(j).get().getAsOf()).toBe(items[i].getValues().get(j).get().getAsOf());
           expect(stats.getItems().get(i).get().getValues().get(j).get().getValue()).toBe(items[i].getValues().get(j).get().getValue());
@@ -289,15 +288,15 @@ describe('Stats', () => {
         ]
       };
 
-      expect(Stats.isJSON(n)).toEqual(true);
+      expect(Stats.isJSON(n)).toBe(true);
     });
 
     it('returns false because given parameter is not an object', () => {
-      expect(Stats.isJSON(null)).toEqual(false);
-      expect(Stats.isJSON(undefined)).toEqual(false);
-      expect(Stats.isJSON(56)).toEqual(false);
-      expect(Stats.isJSON('fjafsd')).toEqual(false);
-      expect(Stats.isJSON(false)).toEqual(false);
+      expect(Stats.isJSON(null)).toBe(false);
+      expect(Stats.isJSON(undefined)).toBe(false);
+      expect(Stats.isJSON(56)).toBe(false);
+      expect(Stats.isJSON('fjafsd')).toBe(false);
+      expect(Stats.isJSON(false)).toBe(false);
     });
 
     it('returns false because statsID is missing', () => {
@@ -345,7 +344,7 @@ describe('Stats', () => {
         ]
       };
 
-      expect(Stats.isJSON(n)).toEqual(false);
+      expect(Stats.isJSON(n)).toBe(false);
     });
 
     it('returns false because statsID is not string', () => {
@@ -394,7 +393,7 @@ describe('Stats', () => {
         ]
       };
 
-      expect(Stats.isJSON(n)).toEqual(false);
+      expect(Stats.isJSON(n)).toBe(false);
     });
 
     it('returns false because language is missing', () => {
@@ -437,7 +436,7 @@ describe('Stats', () => {
         ]
       };
 
-      expect(Stats.isJSON(n)).toEqual(false);
+      expect(Stats.isJSON(n)).toBe(false);
     });
 
     it('returns false because language is LanguageJSON', () => {
@@ -481,7 +480,7 @@ describe('Stats', () => {
         ]
       };
 
-      expect(Stats.isJSON(n)).toEqual(false);
+      expect(Stats.isJSON(n)).toBe(false);
     });
 
     it('returns false region statsID is missing', () => {
@@ -525,7 +524,7 @@ describe('Stats', () => {
         ]
       };
 
-      expect(Stats.isJSON(n)).toEqual(false);
+      expect(Stats.isJSON(n)).toBe(false);
     });
 
     it('returns false because region is not RegionJSON', () => {
@@ -570,7 +569,7 @@ describe('Stats', () => {
         ]
       };
 
-      expect(Stats.isJSON(n)).toEqual(false);
+      expect(Stats.isJSON(n)).toBe(false);
     });
 
     it('returns false because termID is missing', () => {
@@ -618,7 +617,7 @@ describe('Stats', () => {
         ]
       };
 
-      expect(Stats.isJSON(n)).toEqual(false);
+      expect(Stats.isJSON(n)).toBe(false);
     });
 
     it('returns false because termID is not number', () => {
@@ -667,7 +666,7 @@ describe('Stats', () => {
         ]
       };
 
-      expect(Stats.isJSON(n)).toEqual(false);
+      expect(Stats.isJSON(n)).toBe(false);
     });
 
     it('returns false because name is missing', () => {
@@ -715,7 +714,7 @@ describe('Stats', () => {
         ]
       };
 
-      expect(Stats.isJSON(n)).toEqual(false);
+      expect(Stats.isJSON(n)).toBe(false);
     });
 
     it('returns false because name is not string', () => {
@@ -764,7 +763,7 @@ describe('Stats', () => {
         ]
       };
 
-      expect(Stats.isJSON(n)).toEqual(false);
+      expect(Stats.isJSON(n)).toBe(false);
     });
 
     it('returns false because unit is missing', () => {
@@ -812,7 +811,7 @@ describe('Stats', () => {
         ]
       };
 
-      expect(Stats.isJSON(n)).toEqual(false);
+      expect(Stats.isJSON(n)).toBe(false);
     });
 
     it('returns false because unit is not string', () => {
@@ -861,7 +860,7 @@ describe('Stats', () => {
         ]
       };
 
-      expect(Stats.isJSON(n)).toEqual(false);
+      expect(Stats.isJSON(n)).toBe(false);
     });
 
     it('returns false because updatedAt is missing', () => {
@@ -909,7 +908,7 @@ describe('Stats', () => {
         ]
       };
 
-      expect(Stats.isJSON(n)).toEqual(false);
+      expect(Stats.isJSON(n)).toBe(false);
     });
 
     it('returns false because updatedAt is not string', () => {
@@ -958,7 +957,7 @@ describe('Stats', () => {
         ]
       };
 
-      expect(Stats.isJSON(n)).toEqual(false);
+      expect(Stats.isJSON(n)).toBe(false);
     });
 
     it('returns false because items is missing', () => {
@@ -981,7 +980,7 @@ describe('Stats', () => {
         updatedAt: '2000-01-01 00:00:00'
       };
 
-      expect(Stats.isJSON(n)).toEqual(false);
+      expect(Stats.isJSON(n)).toBe(false);
     });
 
     it('returns false because items is not array', () => {
@@ -1030,7 +1029,7 @@ describe('Stats', () => {
         }
       };
 
-      expect(Stats.isJSON(n)).toEqual(false);
+      expect(Stats.isJSON(n)).toBe(false);
     });
   });
 
@@ -1038,14 +1037,14 @@ describe('Stats', () => {
     it('id will be generated, data are empty', () => {
       const stats: Stats = Stats.default();
 
-      expect(stats.getStatsID().get().get().length).toEqual(UUID.size());
+      expect(stats.getStatsID().get().get().length).toBe(UUID.size());
       expect(stats.getLanguage().getLanguageID()).toBe(LanguageID.empty());
-      expect(stats.getRegion().getRegionID()).toEqual(RegionID.empty());
+      expect(stats.getRegion().getRegionID()).toBe(RegionID.empty());
       expect(stats.getTerm()).toBe(Term.DAILY);
       expect(stats.getName()).toBe(StatsName.empty());
       expect(stats.getUnit()).toBe(StatsUnit.empty());
       expect(stats.getItems()).toBe(StatsItems.empty());
-      expect(stats.getStartDate().isPresent()).toEqual(false);
+      expect(stats.getStartDate().isPresent()).toBe(false);
     });
   });
 
@@ -1114,9 +1113,9 @@ describe('Stats', () => {
         )
       );
 
-      expect(stats1.equals(stats1)).toEqual(true);
-      expect(stats1.equals(stats2)).toEqual(false);
-      expect(stats1.equals(stats3)).toEqual(true);
+      expect(stats1.equals(stats1)).toBe(true);
+      expect(stats1.equals(stats2)).toBe(false);
+      expect(stats1.equals(stats3)).toBe(true);
     });
   });
 
@@ -1478,23 +1477,23 @@ describe('Stats', () => {
         }))
       );
 
-      expect(stats1.isSame(stats1)).toEqual(true);
-      expect(stats1.isSame(stats2)).toEqual(false);
-      expect(stats1.isSame(stats3)).toEqual(false);
-      expect(stats1.isSame(stats4)).toEqual(false);
-      expect(stats1.isSame(stats5)).toEqual(false);
-      expect(stats1.isSame(stats6)).toEqual(false);
-      expect(stats1.isSame(stats7)).toEqual(false);
-      expect(stats1.isSame(stats8)).toEqual(false);
-      expect(stats1.isSame(stats9)).toEqual(false);
-      expect(stats1.isSame(stats10)).toEqual(false);
-      expect(stats1.isSame(stats11)).toEqual(false);
-      expect(stats1.isSame(stats12)).toEqual(false);
-      expect(stats1.isSame(stats13)).toEqual(true);
-      expect(stats1.isSame(stats14)).toEqual(true);
-      expect(stats1.isSame(stats15)).toEqual(true);
-      expect(stats14.isSame(stats14)).toEqual(true);
-      expect(stats14.isSame(stats15)).toEqual(true);
+      expect(stats1.isSame(stats1)).toBe(true);
+      expect(stats1.isSame(stats2)).toBe(false);
+      expect(stats1.isSame(stats3)).toBe(false);
+      expect(stats1.isSame(stats4)).toBe(false);
+      expect(stats1.isSame(stats5)).toBe(false);
+      expect(stats1.isSame(stats6)).toBe(false);
+      expect(stats1.isSame(stats7)).toBe(false);
+      expect(stats1.isSame(stats8)).toBe(false);
+      expect(stats1.isSame(stats9)).toBe(false);
+      expect(stats1.isSame(stats10)).toBe(false);
+      expect(stats1.isSame(stats11)).toBe(false);
+      expect(stats1.isSame(stats12)).toBe(false);
+      expect(stats1.isSame(stats13)).toBe(true);
+      expect(stats1.isSame(stats14)).toBe(true);
+      expect(stats1.isSame(stats15)).toBe(true);
+      expect(stats14.isSame(stats14)).toBe(true);
+      expect(stats14.isSame(stats15)).toBe(true);
     });
   });
 
@@ -1601,7 +1600,7 @@ describe('Stats', () => {
         ])
       );
 
-      expect(stats.toString()).toEqual(`${id1} ${Language.empty().toString()} ${Region.empty().toString()} ${term.toString()} ${name2} ${unit} ${at2}`);
+      expect(stats.toString()).toBe(`${id1} ${Language.empty().toString()} ${Region.empty().toString()} ${term.toString()} ${name2} ${unit} ${at2}`);
     });
   });
 
@@ -1663,14 +1662,14 @@ describe('Stats', () => {
       );
 
       const columns: AsOfs = stats.getColumns();
-      expect(columns.size()).toEqual(7);
-      expect(columns.get(0).get().toString()).toEqual('1999-12-31');
-      expect(columns.get(1).get().toString()).toEqual('2000-01-01');
-      expect(columns.get(2).get().toString()).toEqual('2000-01-02');
-      expect(columns.get(3).get().toString()).toEqual('2000-01-03');
-      expect(columns.get(4).get().toString()).toEqual('2000-01-04');
-      expect(columns.get(5).get().toString()).toEqual('2000-01-05');
-      expect(columns.get(6).get().toString()).toEqual('2000-01-06');
+      expect(columns.size()).toBe(7);
+      expect(columns.get(0).get().toString()).toBe('1999-12-31');
+      expect(columns.get(1).get().toString()).toBe('2000-01-01');
+      expect(columns.get(2).get().toString()).toBe('2000-01-02');
+      expect(columns.get(3).get().toString()).toBe('2000-01-03');
+      expect(columns.get(4).get().toString()).toBe('2000-01-04');
+      expect(columns.get(5).get().toString()).toBe('2000-01-05');
+      expect(columns.get(6).get().toString()).toBe('2000-01-06');
     });
 
     it('startDate is present', () => {
@@ -1731,17 +1730,17 @@ describe('Stats', () => {
       );
 
       const columns: AsOfs = stats.getColumns();
-      expect(columns.size()).toEqual(10);
-      expect(columns.get(0).get().toString()).toEqual('1999-12-31');
-      expect(columns.get(1).get().toString()).toEqual('2000-01-01');
-      expect(columns.get(2).get().toString()).toEqual('2000-01-02');
-      expect(columns.get(3).get().toString()).toEqual('2000-01-03');
-      expect(columns.get(4).get().toString()).toEqual('2000-01-04');
-      expect(columns.get(5).get().toString()).toEqual('2000-01-05');
-      expect(columns.get(6).get().toString()).toEqual('2000-01-06');
-      expect(columns.get(7).get().toString()).toEqual('2000-01-07');
-      expect(columns.get(8).get().toString()).toEqual('2000-01-08');
-      expect(columns.get(9).get().toString()).toEqual('2000-01-09');
+      expect(columns.size()).toBe(10);
+      expect(columns.get(0).get().toString()).toBe('1999-12-31');
+      expect(columns.get(1).get().toString()).toBe('2000-01-01');
+      expect(columns.get(2).get().toString()).toBe('2000-01-02');
+      expect(columns.get(3).get().toString()).toBe('2000-01-03');
+      expect(columns.get(4).get().toString()).toBe('2000-01-04');
+      expect(columns.get(5).get().toString()).toBe('2000-01-05');
+      expect(columns.get(6).get().toString()).toBe('2000-01-06');
+      expect(columns.get(7).get().toString()).toBe('2000-01-07');
+      expect(columns.get(8).get().toString()).toBe('2000-01-08');
+      expect(columns.get(9).get().toString()).toBe('2000-01-09');
     });
 
     it('no AsOfs', () => {
@@ -1757,7 +1756,7 @@ describe('Stats', () => {
       );
 
       const columns: AsOfs = stats.getColumns();
-      expect(columns.isEmpty()).toEqual(true);
+      expect(columns.isEmpty()).toBe(true);
     });
   });
 
@@ -1818,13 +1817,13 @@ describe('Stats', () => {
         )
       );
 
-      expect(stats.getColumn(Column.of(0).get()).get().toString()).toEqual('1999-12-31');
-      expect(stats.getColumn(Column.of(1).get()).get().toString()).toEqual('2000-01-01');
-      expect(stats.getColumn(Column.of(2).get()).get().toString()).toEqual('2000-01-02');
-      expect(stats.getColumn(Column.of(3).get()).get().toString()).toEqual('2000-01-03');
-      expect(stats.getColumn(Column.of(4).get()).get().toString()).toEqual('2000-01-04');
-      expect(stats.getColumn(Column.of(5).get()).get().toString()).toEqual('2000-01-05');
-      expect(stats.getColumn(Column.of(6).get()).get().toString()).toEqual('2000-01-06');
+      expect(stats.getColumn(Column.of(0).get()).get().toString()).toBe('1999-12-31');
+      expect(stats.getColumn(Column.of(1).get()).get().toString()).toBe('2000-01-01');
+      expect(stats.getColumn(Column.of(2).get()).get().toString()).toBe('2000-01-02');
+      expect(stats.getColumn(Column.of(3).get()).get().toString()).toBe('2000-01-03');
+      expect(stats.getColumn(Column.of(4).get()).get().toString()).toBe('2000-01-04');
+      expect(stats.getColumn(Column.of(5).get()).get().toString()).toBe('2000-01-05');
+      expect(stats.getColumn(Column.of(6).get()).get().toString()).toBe('2000-01-06');
     });
   });
 
@@ -1953,7 +1952,7 @@ describe('Stats', () => {
       );
 
       const rowHeaders: StatsItemNames = stats.getRowHeaders();
-      expect(rowHeaders.size()).toEqual(2);
+      expect(rowHeaders.size()).toBe(2);
       expect(rowHeaders.get(0).get()).toBe(name1);
       expect(rowHeaders.get(1).get()).toBe(name2);
     });
@@ -2020,7 +2019,7 @@ describe('Stats', () => {
         )
       );
 
-      expect(stats.getRowHeaderSize().get()).toEqual(name2.length() * 14);
+      expect(stats.getRowHeaderSize().get()).toBe(name2.length() * 14);
     });
 
     it('gives 1 * 14 when given stats', () => {
@@ -2035,7 +2034,7 @@ describe('Stats', () => {
         new MockStatsItems()
       );
 
-      expect(stats.getRowHeaderSize().get()).toEqual(14);
+      expect(stats.getRowHeaderSize().get()).toBe(14);
     });
   });
 
@@ -2291,20 +2290,20 @@ describe('Stats', () => {
         new MockStatsItems()
       );
 
-      expect(stats1.isFilled()).toEqual(false);
-      expect(stats2.isFilled()).toEqual(false);
-      expect(stats3.isFilled()).toEqual(false);
-      expect(stats4.isFilled()).toEqual(false);
-      expect(stats5.isFilled()).toEqual(false);
-      expect(stats6.isFilled()).toEqual(false);
-      expect(stats7.isFilled()).toEqual(false);
-      expect(stats8.isFilled()).toEqual(false);
-      expect(stats9.isFilled()).toEqual(false);
-      expect(stats10.isFilled()).toEqual(false);
-      expect(stats11.isFilled()).toEqual(false);
-      expect(stats12.isFilled()).toEqual(false);
-      expect(stats13.isFilled()).toEqual(false);
-      expect(stats14.isFilled()).toEqual(true);
+      expect(stats1.isFilled()).toBe(false);
+      expect(stats2.isFilled()).toBe(false);
+      expect(stats3.isFilled()).toBe(false);
+      expect(stats4.isFilled()).toBe(false);
+      expect(stats5.isFilled()).toBe(false);
+      expect(stats6.isFilled()).toBe(false);
+      expect(stats7.isFilled()).toBe(false);
+      expect(stats8.isFilled()).toBe(false);
+      expect(stats9.isFilled()).toBe(false);
+      expect(stats10.isFilled()).toBe(false);
+      expect(stats11.isFilled()).toBe(false);
+      expect(stats12.isFilled()).toBe(false);
+      expect(stats13.isFilled()).toBe(false);
+      expect(stats14.isFilled()).toBe(true);
     });
   });
 
@@ -2405,14 +2404,14 @@ describe('Stats', () => {
         )
       );
 
-      expect(stats1.isValid()).toEqual(false);
-      expect(stats2.isValid()).toEqual(false);
-      expect(stats3.isValid()).toEqual(false);
-      expect(stats4.isValid()).toEqual(false);
-      expect(stats5.isValid()).toEqual(false);
-      expect(stats6.isValid()).toEqual(true);
-      expect(stats7.isValid()).toEqual(false);
-      expect(stats8.isValid()).toEqual(true);
+      expect(stats1.isValid()).toBe(false);
+      expect(stats2.isValid()).toBe(false);
+      expect(stats3.isValid()).toBe(false);
+      expect(stats4.isValid()).toBe(false);
+      expect(stats5.isValid()).toBe(false);
+      expect(stats6.isValid()).toBe(true);
+      expect(stats7.isValid()).toBe(false);
+      expect(stats8.isValid()).toBe(true);
     });
 
     it('stats is filled but statsItems are invalid', () => {
@@ -2444,8 +2443,8 @@ describe('Stats', () => {
         )
       );
 
-      expect(stats1.isValid()).toEqual(false);
-      expect(stats2.isValid()).toEqual(false);
+      expect(stats1.isValid()).toBe(false);
+      expect(stats2.isValid()).toBe(false);
     });
 
     it('stats and their items are filled', () => {
@@ -2503,9 +2502,9 @@ describe('Stats', () => {
         )
       );
 
-      expect(stats1.isValid()).toEqual(true);
-      expect(stats2.isValid()).toEqual(true);
-      expect(stats3.isValid()).toEqual(true);
+      expect(stats1.isValid()).toBe(true);
+      expect(stats2.isValid()).toBe(true);
+      expect(stats3.isValid()).toBe(true);
     });
   });
 
@@ -2548,11 +2547,11 @@ describe('Stats', () => {
         NumericalValue.of(4)
       );
 
-      expect(stats.getItems().get(0).get().getValues().size()).toEqual(2);
-      expect(stats.getItems().get(0).get().getValues().get(0).get().getAsOf().toString()).toEqual('2000-01-01');
-      expect(stats.getItems().get(0).get().getValues().get(0).get().getValue().get()).toEqual(1);
-      expect(stats.getItems().get(0).get().getValues().get(1).get().getAsOf().toString()).toEqual('2000-01-02');
-      expect(stats.getItems().get(0).get().getValues().get(1).get().getValue().get()).toEqual(4);
+      expect(stats.getItems().get(0).get().getValues().size()).toBe(2);
+      expect(stats.getItems().get(0).get().getValues().get(0).get().getAsOf().toString()).toBe('2000-01-01');
+      expect(stats.getItems().get(0).get().getValues().get(0).get().getValue().get()).toBe(1);
+      expect(stats.getItems().get(0).get().getValues().get(1).get().getAsOf().toString()).toBe('2000-01-02');
+      expect(stats.getItems().get(0).get().getValues().get(1).get().getValue().get()).toBe(4);
     });
 
     it('insert pattern', () => {
@@ -2593,13 +2592,13 @@ describe('Stats', () => {
         NumericalValue.of(2)
       );
 
-      expect(stats.getItems().get(0).get().getValues().size()).toEqual(3);
-      expect(stats.getItems().get(0).get().getValues().get(0).get().getAsOf().toString()).toEqual('2000-01-01');
-      expect(stats.getItems().get(0).get().getValues().get(0).get().getValue().get()).toEqual(1);
-      expect(stats.getItems().get(0).get().getValues().get(1).get().getAsOf().toString()).toEqual('2000-01-02');
-      expect(stats.getItems().get(0).get().getValues().get(1).get().getValue().get()).toEqual(2);
-      expect(stats.getItems().get(0).get().getValues().get(2).get().getAsOf().toString()).toEqual('2000-01-03');
-      expect(stats.getItems().get(0).get().getValues().get(2).get().getValue().get()).toEqual(3);
+      expect(stats.getItems().get(0).get().getValues().size()).toBe(3);
+      expect(stats.getItems().get(0).get().getValues().get(0).get().getAsOf().toString()).toBe('2000-01-01');
+      expect(stats.getItems().get(0).get().getValues().get(0).get().getValue().get()).toBe(1);
+      expect(stats.getItems().get(0).get().getValues().get(1).get().getAsOf().toString()).toBe('2000-01-02');
+      expect(stats.getItems().get(0).get().getValues().get(1).get().getValue().get()).toBe(2);
+      expect(stats.getItems().get(0).get().getValues().get(2).get().getAsOf().toString()).toBe('2000-01-03');
+      expect(stats.getItems().get(0).get().getValues().get(2).get().getValue().get()).toBe(3);
     });
   });
 
@@ -2668,13 +2667,13 @@ describe('Stats', () => {
       );
 
       const items: StatsItems = stats.getItems();
-      expect(items.size()).toEqual(2);
-      expect(items.get(0).get().getValues().size()).toEqual(1);
-      expect(items.get(0).get().getValues().get(0).get().getAsOf().toString()).toEqual('2000-01-03');
-      expect(items.get(1).get().getValues().size()).toEqual(3);
-      expect(items.get(1).get().getValues().get(0).get().getAsOf().toString()).toEqual('2000-01-01');
-      expect(items.get(1).get().getValues().get(1).get().getAsOf().toString()).toEqual('2000-01-02');
-      expect(items.get(1).get().getValues().get(2).get().getAsOf().toString()).toEqual('2000-01-05');
+      expect(items.size()).toBe(2);
+      expect(items.get(0).get().getValues().size()).toBe(1);
+      expect(items.get(0).get().getValues().get(0).get().getAsOf().toString()).toBe('2000-01-03');
+      expect(items.get(1).get().getValues().size()).toBe(3);
+      expect(items.get(1).get().getValues().get(0).get().getAsOf().toString()).toBe('2000-01-01');
+      expect(items.get(1).get().getValues().get(1).get().getAsOf().toString()).toBe('2000-01-02');
+      expect(items.get(1).get().getValues().get(2).get().getAsOf().toString()).toBe('2000-01-05');
     });
   });
 
@@ -2682,11 +2681,11 @@ describe('Stats', () => {
     it('every properties are duplicated', () => {
       const statsID: MockStatsID = new MockStatsID();
       const language: MockLanguage = new MockLanguage();
-      const region: MockRegion = new MockRegion()
+      const region: MockRegion = new MockRegion();
       const term: MockTerm = new MockTerm();
       const name: MockStatsName = new MockStatsName();
       const unit: MockStatsUnit = new MockStatsUnit();
-      const updatedAt: MockUpdatedAt = new MockUpdatedAt()
+      const updatedAt: MockUpdatedAt = new MockUpdatedAt();
 
       const stats: Stats = Stats.of(
         statsID,
@@ -2806,7 +2805,7 @@ describe('Stats', () => {
         )
       );
 
-      expect(stats.isDetermined()).toEqual(true);
+      expect(stats.isDetermined()).toBe(true);
     });
 
     it('even if it doesn\'t have values , if startDate is set, returns true', () => {
@@ -2822,7 +2821,7 @@ describe('Stats', () => {
         Present.of<AsOf>(AsOf.ofString('2000-01-01').get())
       );
 
-      expect(stats.isDetermined()).toEqual(true);
+      expect(stats.isDetermined()).toBe(true);
     });
 
     it('returns false if stats doesn\'t have values nor startDate', () => {
@@ -2837,7 +2836,7 @@ describe('Stats', () => {
         new MockStatsItems()
       );
 
-      expect(stats.isDetermined()).toEqual(false);
+      expect(stats.isDetermined()).toBe(false);
     });
   });
 });

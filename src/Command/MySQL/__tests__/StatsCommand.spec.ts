@@ -17,7 +17,6 @@ import { MockTerm } from '../../../VO/Mock/MockTerm';
 import { MockVeauAccountID } from '../../../VO/Mock/MockVeauAccountID';
 import { StatsCommand } from '../StatsCommand';
 
-// DONE
 describe('StatsCommand', () => {
   describe('create', () => {
     it('normal case', async () => {
@@ -69,8 +68,8 @@ describe('StatsCommand', () => {
         name: statsName,
         unit: statsUnit,
         updatedAt: '2000-01-02 01:02:03'
-      }).called).toEqual(true);
-      expect(superposition.isSuccess()).toEqual(true);
+      }).called).toBe(true);
+      expect(superposition.isSuccess()).toBe(true);
     });
 
     it('returns Failure because the client throws MySQLError', async () => {
@@ -87,7 +86,7 @@ describe('StatsCommand', () => {
       const statsCommand: StatsCommand = new StatsCommand(sql);
       const superposition: Superposition<void, DataSourceError> = await statsCommand.create(stats, accountID);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
@@ -95,8 +94,8 @@ describe('StatsCommand', () => {
         expect(err).toBeInstanceOf(MySQLError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('throws Error', async () => {
@@ -129,8 +128,8 @@ describe('StatsCommand', () => {
       FROM stats R1
       WHERE R1.stats_id = :statsID;`, {
         statsID: uuid.get()
-      }).called).toEqual(true);
-      expect(superposition.isSuccess()).toEqual(true);
+      }).called).toBe(true);
+      expect(superposition.isSuccess()).toBe(true);
     });
 
     it('returns Failure because the client throws MySQLError', async () => {
@@ -146,7 +145,7 @@ describe('StatsCommand', () => {
       const statsCommand: StatsCommand = new StatsCommand(sql);
       const superposition: Superposition<void, DataSourceError> = await statsCommand.deleteByStatsID(statsID);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
@@ -154,8 +153,8 @@ describe('StatsCommand', () => {
         expect(err).toBeInstanceOf(MySQLError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('throws Error', async () => {

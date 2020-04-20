@@ -59,15 +59,15 @@ describe('StatsItem', () => {
 
       const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofJSON(json);
 
-      expect(superposition.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toBe(true);
       const statsItem: StatsItem = superposition.get();
-      expect(statsItem.getStatsItemID().get().get()).toEqual(json.statsItemID);
-      expect(statsItem.getName().get()).toEqual(json.name);
-      expect(statsItem.getValues().size()).toEqual(json.values.length);
+      expect(statsItem.getStatsItemID().get().get()).toBe(json.statsItemID);
+      expect(statsItem.getName().get()).toBe(json.name);
+      expect(statsItem.getValues().size()).toBe(json.values.length);
       for (let i: number = 0; i < statsItem.getValues().size(); i++) {
         const statsValue: StatsValue = statsItem.getValues().get(i).get();
-        expect(statsValue.getAsOf().toString()).toEqual(AsOf.ofString(json.values[i].asOf).get().toString());
-        expect(statsValue.getValue().get()).toEqual(json.values[i].value);
+        expect(statsValue.getAsOf().toString()).toBe(AsOf.ofString(json.values[i].asOf).get().toString());
+        expect(statsValue.getValue().get()).toBe(json.values[i].value);
       }
     });
 
@@ -92,7 +92,7 @@ describe('StatsItem', () => {
 
       const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofJSON(json);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsItemError) => {
@@ -100,8 +100,8 @@ describe('StatsItem', () => {
         expect(err).toBeInstanceOf(StatsItemError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('some asOf is malformat', () => {
@@ -125,7 +125,7 @@ describe('StatsItem', () => {
 
       const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofJSON(json);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsItemError) => {
@@ -133,8 +133,8 @@ describe('StatsItem', () => {
         expect(err).toBeInstanceOf(StatsItemError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('all asOf are malformat', () => {
@@ -158,7 +158,7 @@ describe('StatsItem', () => {
 
       const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofJSON(json);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsItemError) => {
@@ -166,8 +166,8 @@ describe('StatsItem', () => {
         expect(err).toBeInstanceOf(StatsItemError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
   });
 
@@ -200,11 +200,11 @@ describe('StatsItem', () => {
 
       const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofRow(row, statsValues);
 
-      expect(superposition.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toBe(true);
       const statsItem: StatsItem = superposition.get();
-      expect(statsItem.getStatsItemID().get().get()).toEqual(row.statsItemID);
-      expect(statsItem.getName().get()).toEqual(row.name);
-      expect(statsItem.getValues().size()).toEqual(statsValues.size());
+      expect(statsItem.getStatsItemID().get().get()).toBe(row.statsItemID);
+      expect(statsItem.getName().get()).toBe(row.name);
+      expect(statsItem.getValues().size()).toBe(statsValues.size());
       for (let i: number = 0; i < statsItem.getValues().size(); i++) {
         const statsValue: StatsValue = statsItem.getValues().get(i).get();
         expect(statsValue.getAsOf()).toBe(statsValues.get(i).get().getAsOf());
@@ -243,17 +243,17 @@ describe('StatsItem', () => {
 
       const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofRow(row, statsValues);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>((item: StatsItem) => {
         spy1();
-        expect(item.getStatsItemID().get().get()).toEqual(row.statsItemID);
+        expect(item.getStatsItemID().get().get()).toBe(row.statsItemID);
       }, (err: StatsItemError) => {
         spy2();
         expect(err).toBeInstanceOf(StatsItemError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
   });
 
@@ -274,15 +274,15 @@ describe('StatsItem', () => {
         ]
       };
 
-      expect(StatsItem.isJSON(n)).toEqual(true);
+      expect(StatsItem.isJSON(n)).toBe(true);
     });
 
     it('returns false because given parameter is not an object', () => {
-      expect(StatsItem.isJSON(null)).toEqual(false);
-      expect(StatsItem.isJSON(undefined)).toEqual(false);
-      expect(StatsItem.isJSON(56)).toEqual(false);
-      expect(StatsItem.isJSON('fjafsd')).toEqual(false);
-      expect(StatsItem.isJSON(false)).toEqual(false);
+      expect(StatsItem.isJSON(null)).toBe(false);
+      expect(StatsItem.isJSON(undefined)).toBe(false);
+      expect(StatsItem.isJSON(56)).toBe(false);
+      expect(StatsItem.isJSON('fjafsd')).toBe(false);
+      expect(StatsItem.isJSON(false)).toBe(false);
     });
 
     it('returns false because statsItemID is missing', () => {
@@ -300,7 +300,7 @@ describe('StatsItem', () => {
         ]
       };
 
-      expect(StatsItem.isJSON(n)).toEqual(false);
+      expect(StatsItem.isJSON(n)).toBe(false);
     });
 
     it('returns false because statsItemID is not string', () => {
@@ -319,7 +319,7 @@ describe('StatsItem', () => {
         ]
       };
 
-      expect(StatsItem.isJSON(n)).toEqual(false);
+      expect(StatsItem.isJSON(n)).toBe(false);
     });
 
     it('returns false because name is missing', () => {
@@ -337,7 +337,7 @@ describe('StatsItem', () => {
         ]
       };
 
-      expect(StatsItem.isJSON(n)).toEqual(false);
+      expect(StatsItem.isJSON(n)).toBe(false);
     });
 
     it('returns false because name is not string', () => {
@@ -356,7 +356,7 @@ describe('StatsItem', () => {
         ]
       };
 
-      expect(StatsItem.isJSON(n)).toEqual(false);
+      expect(StatsItem.isJSON(n)).toBe(false);
     });
 
     it('returns false because values is missing', () => {
@@ -365,7 +365,7 @@ describe('StatsItem', () => {
         name: 'cameleon'
       };
 
-      expect(StatsItem.isJSON(n)).toEqual(false);
+      expect(StatsItem.isJSON(n)).toBe(false);
     });
 
     it('returns false because values is not array', () => {
@@ -375,16 +375,16 @@ describe('StatsItem', () => {
         values: {}
       };
 
-      expect(StatsItem.isJSON(n)).toEqual(false);
+      expect(StatsItem.isJSON(n)).toBe(false);
     });
   });
 
   describe('default', () => {
     it('id will be generated, data are empty', () => {
       const item: StatsItem = StatsItem.default();
-      expect(item.getStatsItemID().get().get().length).toEqual(UUID.size());
+      expect(item.getStatsItemID().get().get().length).toBe(UUID.size());
       expect(item.getName()).toBe(StatsItemName.empty());
-      expect(item.getValues().isEmpty()).toEqual(true);
+      expect(item.getValues().isEmpty()).toBe(true);
     });
   });
 
@@ -410,9 +410,9 @@ describe('StatsItem', () => {
         )
       );
 
-      expect(statsItem1.equals(statsItem1)).toEqual(true);
-      expect(statsItem1.equals(statsItem2)).toEqual(false);
-      expect(statsItem1.equals(statsItem3)).toEqual(true);
+      expect(statsItem1.equals(statsItem1)).toBe(true);
+      expect(statsItem1.equals(statsItem2)).toBe(false);
+      expect(statsItem1.equals(statsItem3)).toBe(true);
     });
   });
 
@@ -462,12 +462,12 @@ describe('StatsItem', () => {
         new MockStatsValues()
       );
 
-      expect(statsItem1.isSame(statsItem1)).toEqual(true);
-      expect(statsItem1.isSame(statsItem2)).toEqual(false);
-      expect(statsItem1.isSame(statsItem3)).toEqual(false);
-      expect(statsItem1.isSame(statsItem4)).toEqual(false);
-      expect(statsItem1.isSame(statsItem5)).toEqual(false);
-      expect(statsItem1.isSame(statsItem6)).toEqual(true);
+      expect(statsItem1.isSame(statsItem1)).toBe(true);
+      expect(statsItem1.isSame(statsItem2)).toBe(false);
+      expect(statsItem1.isSame(statsItem3)).toBe(false);
+      expect(statsItem1.isSame(statsItem4)).toBe(false);
+      expect(statsItem1.isSame(statsItem5)).toBe(false);
+      expect(statsItem1.isSame(statsItem6)).toBe(true);
     });
   });
 
@@ -527,7 +527,7 @@ describe('StatsItem', () => {
         )
       );
 
-      expect(statsItem.getAsOfs().size()).toEqual(2);
+      expect(statsItem.getAsOfs().size()).toBe(2);
       expect(statsItem.getAsOfs().get(0).get()).toBe(asOf1);
       expect(statsItem.getAsOfs().get(1).get()).toBe(asOf2);
     });
@@ -565,10 +565,10 @@ describe('StatsItem', () => {
 
       const values: NumericalValues = statsItem.getValuesByColumn(column);
 
-      expect(values.size()).toEqual(3);
-      expect(values.get(0).get().toString()).toEqual('1');
-      expect(values.get(1).get().toString()).toEqual('');
-      expect(values.get(2).get().toString()).toEqual('3');
+      expect(values.size()).toBe(3);
+      expect(values.get(0).get().toString()).toBe('1');
+      expect(values.get(1).get().toString()).toBe('');
+      expect(values.get(2).get().toString()).toBe('3');
     });
   });
 
@@ -585,8 +585,8 @@ describe('StatsItem', () => {
         new MockStatsValues()
       );
 
-      expect(statsItem1.isFilled()).toEqual(false);
-      expect(statsItem2.isFilled()).toEqual(true);
+      expect(statsItem1.isFilled()).toBe(false);
+      expect(statsItem2.isFilled()).toBe(true);
     });
   });
 
@@ -603,8 +603,8 @@ describe('StatsItem', () => {
         new MockStatsValues()
       );
 
-      expect(statsItem1.isValid()).toEqual(false);
-      expect(statsItem2.isValid()).toEqual(true);
+      expect(statsItem1.isValid()).toBe(false);
+      expect(statsItem2.isValid()).toBe(true);
     });
   });
 
@@ -638,7 +638,7 @@ describe('StatsItem', () => {
 
       const statsItem: StatsItem = StatsItem.of(statsItemID, statsItemName, statsValues);
 
-      expect(statsItem.toString()).toEqual(`${id} ${name} `);
+      expect(statsItem.toString()).toBe(`${id} ${name} `);
     });
   });
 });
