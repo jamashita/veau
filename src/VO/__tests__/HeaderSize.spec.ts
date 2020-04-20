@@ -3,7 +3,6 @@ import { HeaderSizeError } from '../../Error/HeaderSizeError';
 import { Superposition } from '../../General/Superposition/Superposition';
 import { HeaderSize } from '../HeaderSize';
 
-// DONE
 describe('HeaderSize', () => {
   describe('of', () => {
     it('returns Failure when the argument is less than 0', () => {
@@ -13,8 +12,8 @@ describe('HeaderSize', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      expect(superposition1.isSuccess()).toEqual(true);
-      expect(superposition2.isFailure()).toEqual(true);
+      expect(superposition1.isSuccess()).toBe(true);
+      expect(superposition2.isFailure()).toBe(true);
 
       superposition2.match<void>(() => {
         spy1();
@@ -23,8 +22,8 @@ describe('HeaderSize', () => {
         expect(err).toBeInstanceOf(HeaderSizeError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('returns Failure when the argument is not integer', () => {
@@ -36,8 +35,8 @@ describe('HeaderSize', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      expect(superposition1.isFailure()).toEqual(true);
-      expect(superposition2.isFailure()).toEqual(true);
+      expect(superposition1.isFailure()).toBe(true);
+      expect(superposition2.isFailure()).toBe(true);
 
       superposition1.match<void>(() => {
         spy1();
@@ -53,10 +52,10 @@ describe('HeaderSize', () => {
         expect(err).toBeInstanceOf(HeaderSizeError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
-      expect(spy3.called).toEqual(false);
-      expect(spy4.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(true);
     });
   });
 
@@ -66,9 +65,9 @@ describe('HeaderSize', () => {
       const size2: HeaderSize = HeaderSize.of(20).get();
       const size3: HeaderSize = HeaderSize.of(10).get();
 
-      expect(size1.equals(size1)).toEqual(true);
-      expect(size1.equals(size2)).toEqual(false);
-      expect(size1.equals(size3)).toEqual(true);
+      expect(size1.equals(size1)).toBe(true);
+      expect(size1.equals(size2)).toBe(false);
+      expect(size1.equals(size3)).toBe(true);
     });
   });
 
@@ -77,7 +76,7 @@ describe('HeaderSize', () => {
       const size: number = 10;
       const headerSize: HeaderSize = HeaderSize.of(size).get();
 
-      expect(headerSize.toString()).toEqual(headerSize.toString());
+      expect(headerSize.toString()).toBe(headerSize.toString());
     });
   });
 });

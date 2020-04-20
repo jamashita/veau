@@ -4,23 +4,26 @@ import { Superposition } from '../../General/Superposition/Superposition';
 import { UUID } from '../../General/UUID/UUID';
 import { StatsItemID } from '../StatsItemID';
 
-// DONE
 describe('StatsItemID', () => {
   describe('of', () => {
     it('normal case', () => {
-      const uuid: string = '998106de-b2e7-4981-9643-22cd30cd74de';
+      const uuid: UUID = UUID.v4();
 
-      const statsItemID: StatsItemID = StatsItemID.of(UUID.of(uuid));
+      const statsItemID: StatsItemID = StatsItemID.of(uuid);
 
-      expect(statsItemID.get().get()).toEqual(uuid);
+      expect(statsItemID.get().get()).toBe(uuid.get());
     });
   });
 
   describe('ofString', () => {
     it('normal case', () => {
-      const superposition: Superposition<StatsItemID, StatsItemIDError> = StatsItemID.ofString('b5203963-d996-40a7-9adb-f05ea9524af0');
+      const uuid: UUID = UUID.v4();
 
-      expect(superposition.isSuccess()).toEqual(true);
+      const superposition: Superposition<StatsItemID, StatsItemIDError> = StatsItemID.ofString(
+        uuid.get()
+      );
+
+      expect(superposition.isSuccess()).toBe(true);
     });
 
     it('returns Failure when uuid length string is not given', () => {
@@ -29,7 +32,7 @@ describe('StatsItemID', () => {
 
       const superposition: Superposition<StatsItemID, StatsItemIDError> = StatsItemID.ofString('quatre');
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsItemIDError) => {
@@ -37,37 +40,39 @@ describe('StatsItemID', () => {
         expect(err).toBeInstanceOf(StatsItemIDError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
   });
 
   describe('generate', () => {
     it('always gives UUID length string', () => {
       for (let i: number = 0; i < 100; i++) {
-        expect(StatsItemID.generate().get().get().length).toEqual(UUID.size());
+        expect(StatsItemID.generate().get().get().length).toBe(UUID.size());
       }
     });
   });
 
   describe('equals', () => {
     it('returns true if the property is the same', () => {
-      const statsItemID1: StatsItemID = StatsItemID.ofString('b5203963-d996-40a7-9adb-f05ea9524af0').get();
-      const statsItemID2: StatsItemID = StatsItemID.ofString('db9c9de2-1fc6-4072-8348-b8894239b2b0').get();
-      const statsItemID3: StatsItemID = StatsItemID.ofString('b5203963-d996-40a7-9adb-f05ea9524af0').get();
+      const uuid1: UUID = UUID.v4();
+      const uuid2: UUID = UUID.v4();
+      const statsItemID1: StatsItemID = StatsItemID.of(uuid1);
+      const statsItemID2: StatsItemID = StatsItemID.of(uuid2);
+      const statsItemID3: StatsItemID = StatsItemID.of(uuid1);
 
-      expect(statsItemID1.equals(statsItemID1)).toEqual(true);
-      expect(statsItemID1.equals(statsItemID2)).toEqual(false);
-      expect(statsItemID1.equals(statsItemID3)).toEqual(true);
+      expect(statsItemID1.equals(statsItemID1)).toBe(true);
+      expect(statsItemID1.equals(statsItemID2)).toBe(false);
+      expect(statsItemID1.equals(statsItemID3)).toBe(true);
     });
   });
 
   describe('toString', () => {
     it('returns the original string', () => {
-      const uuid: string = 'b5203963-d996-40a7-9adb-f05ea9524af0';
-      const statsItemID: StatsItemID = StatsItemID.ofString(uuid).get();
+      const uuid: UUID = UUID.v4();
+      const statsItemID: StatsItemID = StatsItemID.of(uuid);
 
-      expect(statsItemID.get().toString()).toEqual(uuid);
+      expect(statsItemID.get().toString()).toBe(uuid.get());
     });
   });
 });

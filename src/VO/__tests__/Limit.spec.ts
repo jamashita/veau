@@ -3,11 +3,10 @@ import { LimitError } from '../../Error/LimitError';
 import { Superposition } from '../../General/Superposition/Superposition';
 import { Limit } from '../Limit';
 
-// DONE
 describe('Limit', () => {
   describe('default', () => {
     it('always returns 40', () => {
-      expect(Limit.default().get()).toEqual(40);
+      expect(Limit.default().get()).toBe(40);
     });
 
     it('returns singleton instance', () => {
@@ -26,9 +25,9 @@ describe('Limit', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      expect(superposition1.isSuccess()).toEqual(true);
-      expect(superposition2.isFailure()).toEqual(true);
-      expect(superposition3.isFailure()).toEqual(true);
+      expect(superposition1.isSuccess()).toBe(true);
+      expect(superposition2.isFailure()).toBe(true);
+      expect(superposition3.isFailure()).toBe(true);
 
       superposition2.match<void>(() => {
         spy1();
@@ -44,10 +43,10 @@ describe('Limit', () => {
         expect(err).toBeInstanceOf(LimitError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
-      expect(spy3.called).toEqual(false);
-      expect(spy4.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(true);
     });
 
     it('returns Failure when the argument is not integer', () => {
@@ -59,8 +58,8 @@ describe('Limit', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      expect(superposition1.isFailure()).toEqual(true);
-      expect(superposition2.isFailure()).toEqual(true);
+      expect(superposition1.isFailure()).toBe(true);
+      expect(superposition2.isFailure()).toBe(true);
 
       superposition1.match<void>(() => {
         spy1();
@@ -76,16 +75,16 @@ describe('Limit', () => {
         expect(err).toBeInstanceOf(LimitError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
-      expect(spy3.called).toEqual(false);
-      expect(spy4.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(true);
     });
 
     it('returns Success and its value is Limit.default() when the argument 0', () => {
       const superposition: Superposition<Limit, LimitError> = Limit.of(40);
 
-      expect(superposition.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toBe(true);
       expect(superposition.get()).toBe(Limit.default());
     });
   });
@@ -96,9 +95,9 @@ describe('Limit', () => {
       const limit2: Limit = Limit.of(2).get();
       const limit3: Limit = Limit.of(1).get();
 
-      expect(limit1.equals(limit1)).toEqual(true);
-      expect(limit1.equals(limit2)).toEqual(false);
-      expect(limit1.equals(limit3)).toEqual(true);
+      expect(limit1.equals(limit1)).toBe(true);
+      expect(limit1.equals(limit2)).toBe(false);
+      expect(limit1.equals(limit3)).toBe(true);
     });
   });
 
@@ -107,7 +106,7 @@ describe('Limit', () => {
       const num: number = 1;
       const limit: Limit = Limit.of(num).get();
 
-      expect(limit.toString()).toEqual(num.toString());
+      expect(limit.toString()).toBe(num.toString());
     });
   });
 });

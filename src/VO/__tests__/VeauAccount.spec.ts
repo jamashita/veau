@@ -20,7 +20,6 @@ import { RegionName } from '../RegionName';
 import { VeauAccount, VeauAccountJSON } from '../VeauAccount';
 import { VeauAccountID } from '../VeauAccountID';
 
-// DONE
 describe('VeauAccount', () => {
   describe('of', () => {
     it('normal case', () => {
@@ -63,17 +62,17 @@ describe('VeauAccount', () => {
 
       const superposition: Superposition<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
 
-      expect(superposition.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toBe(true);
       const veauAccount: VeauAccount = superposition.get();
-      expect(veauAccount.getVeauAccountID().get().get()).toEqual(json.veauAccountID);
-      expect(veauAccount.getAccount().get()).toEqual(json.account);
-      expect(veauAccount.getLanguage().getLanguageID().get()).toEqual(json.language.languageID);
-      expect(veauAccount.getLanguage().getName().get()).toEqual(json.language.name);
-      expect(veauAccount.getLanguage().getEnglishName().get()).toEqual(json.language.englishName);
-      expect(veauAccount.getLanguage().getISO639().get()).toEqual(json.language.iso639);
-      expect(veauAccount.getRegion().getRegionID().get()).toEqual(json.region.regionID);
-      expect(veauAccount.getRegion().getName().get()).toEqual(json.region.name);
-      expect(veauAccount.getRegion().getISO3166().get()).toEqual(json.region.iso3166);
+      expect(veauAccount.getVeauAccountID().get().get()).toBe(json.veauAccountID);
+      expect(veauAccount.getAccount().get()).toBe(json.account);
+      expect(veauAccount.getLanguage().getLanguageID().get()).toBe(json.language.languageID);
+      expect(veauAccount.getLanguage().getName().get()).toBe(json.language.name);
+      expect(veauAccount.getLanguage().getEnglishName().get()).toBe(json.language.englishName);
+      expect(veauAccount.getLanguage().getISO639().get()).toBe(json.language.iso639);
+      expect(veauAccount.getRegion().getRegionID().get()).toBe(json.region.regionID);
+      expect(veauAccount.getRegion().getName().get()).toBe(json.region.name);
+      expect(veauAccount.getRegion().getISO3166().get()).toBe(json.region.iso3166);
     });
 
     it('veauAccountID is malformat', () => {
@@ -105,8 +104,8 @@ describe('VeauAccount', () => {
         expect(err).toBeInstanceOf(VeauAccountError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
   });
 
@@ -115,11 +114,11 @@ describe('VeauAccount', () => {
       const account1: VeauAccount = VeauAccount.empty();
       const account2: VeauAccount = VeauAccount.empty();
 
-      expect(account1.getVeauAccountID().get().get().length).toEqual(UUID.size());
-      expect(account1.getVeauAccountID().equals(account2.getVeauAccountID())).toEqual(false);
-      expect(account1.getAccount()).toEqual(AccountName.empty());
-      expect(account1.getRegion()).toEqual(Region.empty());
-      expect(account1.getLanguage()).toEqual(Language.empty());
+      expect(account1.getVeauAccountID().get().get().length).toBe(UUID.size());
+      expect(account1.getVeauAccountID().equals(account2.getVeauAccountID())).toBe(false);
+      expect(account1.getAccount()).toBe(AccountName.empty());
+      expect(account1.getRegion()).toBe(Region.empty());
+      expect(account1.getLanguage()).toBe(Language.empty());
     });
   });
 
@@ -169,12 +168,12 @@ describe('VeauAccount', () => {
         new MockRegion()
       );
 
-      expect(veauAccount1.equals(veauAccount1)).toEqual(true);
-      expect(veauAccount1.equals(veauAccount2)).toEqual(false);
-      expect(veauAccount1.equals(veauAccount3)).toEqual(false);
-      expect(veauAccount1.equals(veauAccount4)).toEqual(false);
-      expect(veauAccount1.equals(veauAccount5)).toEqual(false);
-      expect(veauAccount1.equals(veauAccount6)).toEqual(true);
+      expect(veauAccount1.equals(veauAccount1)).toBe(true);
+      expect(veauAccount1.equals(veauAccount2)).toBe(false);
+      expect(veauAccount1.equals(veauAccount3)).toBe(false);
+      expect(veauAccount1.equals(veauAccount4)).toBe(false);
+      expect(veauAccount1.equals(veauAccount5)).toBe(false);
+      expect(veauAccount1.equals(veauAccount6)).toBe(true);
     });
   });
 
@@ -222,9 +221,14 @@ describe('VeauAccount', () => {
       const name: string = 'veau';
       const language: Language = Language.empty();
       const region: Region = Region.empty();
-      const veauAccount: VeauAccount = VeauAccount.of(VeauAccountID.ofString(id).get(), AccountName.of(name), language, region);
+      const veauAccount: VeauAccount = VeauAccount.of(
+        VeauAccountID.ofString(id).get(),
+        AccountName.of(name),
+        language,
+        region
+      );
 
-      expect(veauAccount.toString()).toEqual(`${id} ${name} ${language.toString()} ${region.toString()}`);
+      expect(veauAccount.toString()).toBe(`${id} ${name} ${language.toString()} ${region.toString()}`);
     });
   });
 });

@@ -1,6 +1,5 @@
 import { Color } from '../Color';
 
-// DONE
 describe('Color', () => {
   describe('equals', () => {
     it('returns true if the property is the same', () => {
@@ -8,9 +7,9 @@ describe('Color', () => {
       const color2: Color = Color.of('#fcfcfc');
       const color3: Color = Color.of('#ffffff');
 
-      expect(color1.equals(color1)).toEqual(true);
-      expect(color1.equals(color2)).toEqual(false);
-      expect(color1.equals(color3)).toEqual(true);
+      expect(color1.equals(color1)).toBe(true);
+      expect(color1.equals(color2)).toBe(false);
+      expect(color1.equals(color3)).toBe(true);
     });
   });
 
@@ -19,7 +18,7 @@ describe('Color', () => {
       const rgb: string = '#ffffff';
       const color: Color = Color.of(rgb);
 
-      expect(color.toString()).toEqual(rgb);
+      expect(color.toString()).toBe(rgb);
     });
   });
 });

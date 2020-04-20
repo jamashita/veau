@@ -4,7 +4,6 @@ import { MockColumn } from '../Mock/MockColumn';
 import { MockRow } from '../Mock/MockRow';
 import { Row } from '../Row';
 
-// DONE
 describe('Coordinate', () => {
   describe('equals', () => {
     it('returns true if the all properties are the same', () => {
@@ -29,11 +28,11 @@ describe('Coordinate', () => {
         new MockColumn(2)
       );
 
-      expect(coordinate1.equals(coordinate1)).toEqual(true);
-      expect(coordinate1.equals(coordinate2)).toEqual(false);
-      expect(coordinate1.equals(coordinate3)).toEqual(false);
-      expect(coordinate1.equals(coordinate4)).toEqual(false);
-      expect(coordinate1.equals(coordinate5)).toEqual(true);
+      expect(coordinate1.equals(coordinate1)).toBe(true);
+      expect(coordinate1.equals(coordinate2)).toBe(false);
+      expect(coordinate1.equals(coordinate3)).toBe(false);
+      expect(coordinate1.equals(coordinate4)).toBe(false);
+      expect(coordinate1.equals(coordinate5)).toBe(true);
     });
   });
 
@@ -46,7 +45,7 @@ describe('Coordinate', () => {
         Column.of(column).get()
       );
 
-      expect(coordinate.toString()).toEqual(`${row} ${column}`);
+      expect(coordinate.toString()).toBe(`${row} ${column}`);
     });
   });
 });

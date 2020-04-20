@@ -20,7 +20,7 @@ describe('AsOfs', () => {
 
       const asOfs: AsOfs = AsOfs.of(sequence);
 
-      expect(asOfs.size()).toEqual(sequence.size());
+      expect(asOfs.size()).toBe(sequence.size());
       for (let i: number = 0; i < asOfs.size(); i++) {
         expect(asOfs.get(i).get()).toBe(sequence.get(i).get());
       }
@@ -41,7 +41,7 @@ describe('AsOfs', () => {
 
       const asOfs: AsOfs = AsOfs.ofArray(as);
 
-      expect(asOfs.size()).toEqual(as.length);
+      expect(asOfs.size()).toBe(as.length);
       for (let i: number = 0; i < asOfs.size(); i++) {
         expect(asOfs.get(i).get()).toBe(as[i]);
       }
@@ -57,11 +57,6 @@ describe('AsOfs', () => {
       const asOf1: MockAsOf = new MockAsOf();
       const asOf2: MockAsOf = new MockAsOf();
       const asOf3: MockAsOf = new MockAsOf();
-      const as: Array<AsOf> = [
-        asOf1,
-        asOf2,
-        asOf3
-      ];
 
       const asOfs: AsOfs = AsOfs.ofSpread(
         asOf1,
@@ -69,10 +64,10 @@ describe('AsOfs', () => {
         asOf3
       );
 
-      expect(asOfs.size()).toEqual(as.length);
-      for (let i: number = 0; i < asOfs.size(); i++) {
-        expect(asOfs.get(i).get()).toBe(as[i]);
-      }
+      expect(asOfs.size()).toBe(3);
+      expect(asOfs.get(0).get()).toBe(asOf1);
+      expect(asOfs.get(1).get()).toBe(asOf2);
+      expect(asOfs.get(2).get()).toBe(asOf3);
     });
   });
 
@@ -82,14 +77,11 @@ describe('AsOfs', () => {
     });
 
     it('returns asOfs itself when argument is 1', () => {
-      const asOf1: MockAsOf = new MockAsOf();
-      const asOf2: MockAsOf = new MockAsOf();
-      const asOf3: MockAsOf = new MockAsOf();
-      const asOfs: AsOfs = AsOfs.ofSpread(
-        asOf1,
-        asOf2,
-        asOf3
-      );
+      const asOfs: AsOfs = AsOfs.ofArray([
+        new MockAsOf(),
+        new MockAsOf(),
+        new MockAsOf()
+      ]);
 
       expect(AsOfs.merge(asOfs)).toBe(asOfs);
     });
@@ -100,23 +92,23 @@ describe('AsOfs', () => {
       const asOf3: MockAsOf = new MockAsOf();
       const asOf4: MockAsOf = new MockAsOf();
       const asOf5: MockAsOf = new MockAsOf();
-      const asOfs1: AsOfs = AsOfs.ofSpread(
+      const asOfs1: AsOfs = AsOfs.ofArray([
         asOf1,
         asOf2,
         asOf3
-      );
-      const asOfs2: AsOfs = AsOfs.ofSpread(
+      ]);
+      const asOfs2: AsOfs = AsOfs.ofArray([
         asOf4,
         asOf5
-      );
+      ]);
 
       const asOfs: AsOfs = AsOfs.merge(asOfs1, asOfs2);
-      expect(asOfs.size()).toEqual(5);
-      expect(asOfs.get(0).get()).toEqual(asOf1);
-      expect(asOfs.get(1).get()).toEqual(asOf2);
-      expect(asOfs.get(2).get()).toEqual(asOf3);
-      expect(asOfs.get(3).get()).toEqual(asOf4);
-      expect(asOfs.get(4).get()).toEqual(asOf5);
+      expect(asOfs.size()).toBe(5);
+      expect(asOfs.get(0).get()).toBe(asOf1);
+      expect(asOfs.get(1).get()).toBe(asOf2);
+      expect(asOfs.get(2).get()).toBe(asOf3);
+      expect(asOfs.get(3).get()).toBe(asOf4);
+      expect(asOfs.get(4).get()).toBe(asOf5);
     });
   });
 
@@ -131,7 +123,7 @@ describe('AsOfs', () => {
 
       const asOfs: AsOfs = AsOfs.duration(min, max, Term.DAILY);
 
-      expect(asOfs.size()).toEqual(3);
+      expect(asOfs.size()).toBe(3);
       expect(asOfs.get(0).get().toString()).toBe('2000-01-01');
       expect(asOfs.get(1).get().toString()).toBe('2000-01-02');
       expect(asOfs.get(2).get().toString()).toBe('2000-01-03');
@@ -147,7 +139,7 @@ describe('AsOfs', () => {
 
       const asOfs: AsOfs = AsOfs.duration(min, max, Term.DAILY);
 
-      expect(asOfs.size()).toEqual(8);
+      expect(asOfs.size()).toBe(8);
       expect(asOfs.get(0).get().toString()).toBe('2000-01-02');
       expect(asOfs.get(1).get().toString()).toBe('2000-01-03');
       expect(asOfs.get(2).get().toString()).toBe('2000-01-04');
@@ -161,7 +153,7 @@ describe('AsOfs', () => {
 
   describe('empty', () => {
     it('always empty, the length is 0', () => {
-      expect(AsOfs.empty().isEmpty()).toEqual(true);
+      expect(AsOfs.empty().isEmpty()).toBe(true);
     });
 
     it('returns singleton instance', () => {
@@ -177,10 +169,10 @@ describe('AsOfs', () => {
       const asOf2: MockAsOf = new MockAsOf({
         day: 2
       });
-      const asOfs: AsOfs = AsOfs.ofSpread(
+      const asOfs: AsOfs = AsOfs.ofArray([
         asOf1,
         asOf2
-      );
+      ]);
 
       expect(asOfs.add()).toBe(asOfs);
     });
@@ -198,22 +190,22 @@ describe('AsOfs', () => {
       const asOf4: MockAsOf = new MockAsOf({
         day: 4
       });
-      const asOfs1: AsOfs = AsOfs.ofSpread(
+      const asOfs1: AsOfs = AsOfs.ofArray([
         asOf1,
         asOf2
-      );
+      ]);
 
       const asOfs2: AsOfs = asOfs1.add(asOf3, asOf4);
 
-      expect(asOfs1.size()).toEqual(2);
-      expect(asOfs1.get(0).get()).toEqual(asOf1);
-      expect(asOfs1.get(1).get()).toEqual(asOf2);
+      expect(asOfs1.size()).toBe(2);
+      expect(asOfs1.get(0).get()).toBe(asOf1);
+      expect(asOfs1.get(1).get()).toBe(asOf2);
 
-      expect(asOfs2.size()).toEqual(4);
-      expect(asOfs2.get(0).get()).toEqual(asOf1);
-      expect(asOfs2.get(1).get()).toEqual(asOf2);
-      expect(asOfs2.get(2).get()).toEqual(asOf3);
-      expect(asOfs2.get(3).get()).toEqual(asOf4);
+      expect(asOfs2.size()).toBe(4);
+      expect(asOfs2.get(0).get()).toBe(asOf1);
+      expect(asOfs2.get(1).get()).toBe(asOf2);
+      expect(asOfs2.get(2).get()).toBe(asOf3);
+      expect(asOfs2.get(3).get()).toBe(asOf4);
     });
   });
 
@@ -228,13 +220,13 @@ describe('AsOfs', () => {
       const asOf3: MockAsOf = new MockAsOf({
         day: 3
       });
-      const asOfs: AsOfs = AsOfs.ofSpread(
+      const asOfs: AsOfs = AsOfs.ofArray([
         asOf1,
         asOf2,
         asOf3
-      );
+      ]);
 
-      expect(asOfs.size()).toEqual(3);
+      expect(asOfs.size()).toBe(3);
       expect(asOfs.get(0).get()).toBe(asOf1);
       expect(asOfs.get(1).get()).toBe(asOf2);
       expect(asOfs.get(2).get()).toBe(asOf3);
@@ -262,15 +254,15 @@ describe('AsOfs', () => {
       const asOf4: MockAsOf = new MockAsOf({
         day: 2
       });
-      const asOfs: AsOfs = AsOfs.ofSpread(
+      const asOfs: AsOfs = AsOfs.ofArray([
         asOf1,
         asOf2
-      );
+      ]);
 
-      expect(asOfs.contains(asOf1)).toEqual(true);
-      expect(asOfs.contains(asOf2)).toEqual(true);
-      expect(asOfs.contains(asOf3)).toEqual(false);
-      expect(asOfs.contains(asOf4)).toEqual(true);
+      expect(asOfs.contains(asOf1)).toBe(true);
+      expect(asOfs.contains(asOf2)).toBe(true);
+      expect(asOfs.contains(asOf3)).toBe(false);
+      expect(asOfs.contains(asOf4)).toBe(true);
     });
   });
 
@@ -288,23 +280,23 @@ describe('AsOfs', () => {
       const asOf4: MockAsOf = new MockAsOf({
         day: 1
       });
-      const asOfs: AsOfs = AsOfs.ofSpread(
+      const asOfs: AsOfs = AsOfs.ofArray([
         asOf1,
         asOf2,
         asOf3,
         asOf4
-      );
+      ]);
 
-      expect(asOfs.min().get().equals(asOf2)).toEqual(true);
+      expect(asOfs.min().get().equals(asOf2)).toBe(true);
     });
 
     it('returns asOf itself when the elements are only one', () => {
       const asOf: MockAsOf = new MockAsOf({
         day: 3
       });
-      const asOfs: AsOfs = AsOfs.ofSpread(
+      const asOfs: AsOfs = AsOfs.ofArray([
         asOf
-      );
+      ]);
 
       expect(asOfs.min().get()).toBe(asOf);
     });
@@ -328,23 +320,23 @@ describe('AsOfs', () => {
       const asOf4: MockAsOf = new MockAsOf({
         day: 3
       });
-      const asOfs: AsOfs = AsOfs.ofSpread(
+      const asOfs: AsOfs = AsOfs.ofArray([
         asOf1,
         asOf2,
         asOf3,
         asOf4
-      );
+      ]);
 
-      expect(asOfs.max().get().equals(asOf4)).toEqual(true);
+      expect(asOfs.max().get().equals(asOf4)).toBe(true);
     });
 
     it('returns asOf itself when the elements are only one', () => {
       const asOf: MockAsOf = new MockAsOf({
         day: 3
       });
-      const asOfs: AsOfs = AsOfs.ofSpread(
+      const asOfs: AsOfs = AsOfs.ofArray([
         asOf
-      );
+      ]);
 
       expect(asOfs.max().get()).toBe(asOf);
     });
@@ -363,13 +355,13 @@ describe('AsOfs', () => {
         day: 2
       });
       const asOfs1: AsOfs = AsOfs.empty();
-      const asOfs2: AsOfs = AsOfs.ofSpread(
+      const asOfs2: AsOfs = AsOfs.ofArray([
         asOf1,
         asOf2
-      );
+      ]);
 
-      expect(asOfs1.isEmpty()).toEqual(true);
-      expect(asOfs2.isEmpty()).toEqual(false);
+      expect(asOfs1.isEmpty()).toBe(true);
+      expect(asOfs2.isEmpty()).toBe(false);
     });
   });
 
@@ -381,16 +373,16 @@ describe('AsOfs', () => {
       const asOf2: MockAsOf = new MockAsOf({
         day: 2
       });
-      const asOfs1: AsOfs = AsOfs.ofSpread(
+      const asOfs1: AsOfs = AsOfs.ofArray([
         asOf1
-      );
-      const asOfs2: AsOfs = AsOfs.ofSpread(
+      ]);
+      const asOfs2: AsOfs = AsOfs.ofArray([
         asOf1,
         asOf2
-      );
+      ]);
 
-      expect(asOfs1.equals(asOfs1)).toEqual(true);
-      expect(asOfs1.equals(asOfs2)).toEqual(false);
+      expect(asOfs1.equals(asOfs1)).toBe(true);
+      expect(asOfs1.equals(asOfs2)).toBe(false);
     });
 
     it('returns false if the sequence is different', () => {
@@ -400,17 +392,17 @@ describe('AsOfs', () => {
       const asOf2: MockAsOf = new MockAsOf({
         day: 2
       });
-      const asOfs1: AsOfs = AsOfs.ofSpread(
+      const asOfs1: AsOfs = AsOfs.ofArray([
         asOf2,
         asOf1
-      );
-      const asOfs2: AsOfs = AsOfs.ofSpread(
+      ]);
+      const asOfs2: AsOfs = AsOfs.ofArray([
         asOf1,
         asOf2
-      );
+      ]);
 
-      expect(asOfs1.equals(asOfs1)).toEqual(true);
-      expect(asOfs1.equals(asOfs2)).toEqual(false);
+      expect(asOfs1.equals(asOfs1)).toBe(true);
+      expect(asOfs1.equals(asOfs2)).toBe(false);
     });
 
     it('returns true if the length is the same and the sequence is the same', () => {
@@ -420,17 +412,17 @@ describe('AsOfs', () => {
       const asOf2: MockAsOf = new MockAsOf({
         day: 2
       });
-      const asOfs1: AsOfs = AsOfs.ofSpread(
+      const asOfs1: AsOfs = AsOfs.ofArray([
         asOf1,
         asOf2
-      );
-      const asOfs2: AsOfs = AsOfs.ofSpread(
+      ]);
+      const asOfs2: AsOfs = AsOfs.ofArray([
         asOf1,
         asOf2
-      );
+      ]);
 
-      expect(asOfs1.equals(asOfs1)).toEqual(true);
-      expect(asOfs1.equals(asOfs2)).toEqual(true);
+      expect(asOfs1.equals(asOfs1)).toBe(true);
+      expect(asOfs1.equals(asOfs2)).toBe(true);
     });
   });
 
@@ -442,20 +434,21 @@ describe('AsOfs', () => {
       const asOf2: MockAsOf = new MockAsOf({
         day: 2
       });
-      const asOfs1: AsOfs = AsOfs.ofSpread(
+      const asOfs1: AsOfs = AsOfs.ofArray([
         asOf1,
         asOf2
-      );
+      ]);
       const asOfs2: AsOfs = asOfs1.duplicate();
 
       expect(asOfs1).not.toBe(asOfs2);
-      expect(asOfs1.size()).toEqual(asOfs2.size());
-      expect(asOfs1.get(0)).toEqual(asOfs2.get(0));
-      expect(asOfs1.get(1)).toEqual(asOfs2.get(1));
+      expect(asOfs1.size()).toBe(asOfs2.size());
+      for (let i: number = 0; i < asOfs1.size(); i++) {
+        expect(asOfs1.get(i).get().equals(asOfs2.get(i).get())).toBe(true);
+      }
     });
 
     it('returns AsOfs.empty() when original AsOfs is empty', () => {
-      const asOfs: AsOfs = AsOfs.ofSpread();
+      const asOfs: AsOfs = AsOfs.ofArray([]);
 
       expect(asOfs.duplicate()).toBe(asOfs);
     });
@@ -463,11 +456,11 @@ describe('AsOfs', () => {
 
   describe('toJSON', () => {
     it('normal case', () => {
-      const asOfs: AsOfs = AsOfs.ofSpread(
+      const asOfs: AsOfs = AsOfs.ofArray([
         AsOf.ofString('2000-01-01').get(),
         AsOf.ofString('2000-01-02').get(),
         AsOf.ofString('2000-01-03').get()
-      );
+      ]);
 
       expect(asOfs.toJSON()).toEqual([
         '2000-01-01',
@@ -479,11 +472,11 @@ describe('AsOfs', () => {
 
   describe('toJSON', () => {
     it('normal case', () => {
-      const asOfs: AsOfs = AsOfs.ofSpread(
+      const asOfs: AsOfs = AsOfs.ofArray([
         AsOf.ofString('2000-01-01').get(),
         AsOf.ofString('2000-01-02').get(),
         AsOf.ofString('2000-01-03').get()
-      );
+      ]);
 
       expect(asOfs.toJSON()).toEqual([
         '2000-01-01',
@@ -495,13 +488,13 @@ describe('AsOfs', () => {
 
   describe('toString', () => {
     it('normal case', () => {
-      const asOfs: AsOfs = AsOfs.ofSpread(
+      const asOfs: AsOfs = AsOfs.ofArray([
         AsOf.ofString('2000-01-01').get(),
         AsOf.ofString('2000-01-02').get(),
         AsOf.ofString('2000-01-03').get()
-      );
+      ]);
 
-      expect(asOfs.toString()).toEqual('2000-01-01, 2000-01-02, 2000-01-03');
+      expect(asOfs.toString()).toBe('2000-01-01, 2000-01-02, 2000-01-03');
     });
   });
 });

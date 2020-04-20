@@ -44,9 +44,13 @@ export class StatsValues extends Objet implements Collection<number, StatsValue>
 
   public static ofSuperposition(superpositions: Array<Superposition<StatsValue, StatsValueError>>): Superposition<StatsValues, StatsValuesError> {
     return manoeuvre<StatsValue, StatsValueError>(superpositions).match<StatsValues, StatsValuesError>((values: Array<StatsValue>) => {
-      return Success.of<StatsValues, StatsValuesError>(StatsValues.ofArray(values));
+      return Success.of<StatsValues, StatsValuesError>(
+        StatsValues.ofArray(values)
+      );
     }, (err: StatsValueError) => {
-      return Failure.of<StatsValues, StatsValuesError>(new StatsValuesError('StatsValues.ofSuperposition()', err));
+      return Failure.of<StatsValues, StatsValuesError>(
+        new StatsValuesError('StatsValues.ofSuperposition()', err)
+      );
     });
   }
 

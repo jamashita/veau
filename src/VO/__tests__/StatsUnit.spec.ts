@@ -1,10 +1,9 @@
 import { StatsUnit } from '../StatsUnit';
 
-// DONE
 describe('StatsUnit', () => {
   describe('empty', () => {
-    it('must be an empty name', () => {
-      expect(StatsUnit.empty().get()).toEqual('');
+    it('must be an empty unit', () => {
+      expect(StatsUnit.empty().get()).toBe('');
     });
 
     it('returns singleton instance', () => {
@@ -13,18 +12,18 @@ describe('StatsUnit', () => {
   });
 
   describe('of', () => {
-    it('if the name is empty, returns StatsUnit.empty()', () => {
+    it('if the unit is empty, returns StatsUnit.empty()', () => {
       expect(StatsUnit.of('')).toBe(StatsUnit.empty());
     });
 
     it('normal case', () => {
-      const name1: string = 'stats item name 1';
-      const name2: string = 'stats item name 2';
-      const name3: string = 'stats item name 3';
+      const unit1: string = 'stats item unit 1';
+      const unit2: string = 'stats item unit 2';
+      const unit3: string = 'stats item unit 3';
 
-      expect(StatsUnit.of(name1).get()).toEqual(name1);
-      expect(StatsUnit.of(name2).get()).toEqual(name2);
-      expect(StatsUnit.of(name3).get()).toEqual(name3);
+      expect(StatsUnit.of(unit1).get()).toBe(unit1);
+      expect(StatsUnit.of(unit2).get()).toBe(unit2);
+      expect(StatsUnit.of(unit3).get()).toBe(unit3);
     });
   });
 
@@ -34,21 +33,21 @@ describe('StatsUnit', () => {
       const unit2: StatsUnit = StatsUnit.of('stats unit 2');
       const unit3: StatsUnit = StatsUnit.of('stats unit 1');
 
-      expect(unit1.equals(unit1)).toEqual(true);
-      expect(unit1.equals(unit2)).toEqual(false);
-      expect(unit1.equals(unit3)).toEqual(true);
+      expect(unit1.equals(unit1)).toBe(true);
+      expect(unit1.equals(unit2)).toBe(false);
+      expect(unit1.equals(unit3)).toBe(true);
     });
   });
 
   describe('isEmpty', () => {
-    it('returns true if the name is empty string', () => {
-      const name1: StatsUnit = StatsUnit.empty();
-      const name2: StatsUnit = StatsUnit.of('');
-      const name3: StatsUnit = StatsUnit.of('p');
+    it('returns true if the unit is empty string', () => {
+      const unit1: StatsUnit = StatsUnit.empty();
+      const unit2: StatsUnit = StatsUnit.of('');
+      const unit3: StatsUnit = StatsUnit.of('p');
 
-      expect(name1.isEmpty()).toEqual(true);
-      expect(name2.isEmpty()).toEqual(true);
-      expect(name3.isEmpty()).toEqual(false);
+      expect(unit1.isEmpty()).toBe(true);
+      expect(unit2.isEmpty()).toBe(true);
+      expect(unit3.isEmpty()).toBe(false);
     });
   });
 
@@ -57,7 +56,7 @@ describe('StatsUnit', () => {
       const unit: string = 'stats unit';
       const statsUnit: StatsUnit = StatsUnit.of(unit);
 
-      expect(statsUnit.toString()).toEqual(unit);
+      expect(statsUnit.toString()).toBe(unit);
     });
   });
 });

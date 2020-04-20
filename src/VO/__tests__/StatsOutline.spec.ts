@@ -25,7 +25,6 @@ import { StatsUnit } from '../StatsUnit';
 import { Term } from '../Term';
 import { UpdatedAt } from '../UpdatedAt';
 
-// DONE
 describe('StatsOutline', () => {
   describe('of', () => {
     it('normal case', () => {
@@ -80,20 +79,20 @@ describe('StatsOutline', () => {
 
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
 
-      expect(superposition.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toBe(true);
       const statsOutline: StatsOutline = superposition.get();
-      expect(statsOutline.getStatsID().get().get()).toEqual(json.statsID);
-      expect(statsOutline.getLanguage().getLanguageID().get()).toEqual(json.language.languageID);
-      expect(statsOutline.getLanguage().getName().get()).toEqual(json.language.name);
-      expect(statsOutline.getLanguage().getEnglishName().get()).toEqual(json.language.englishName);
-      expect(statsOutline.getLanguage().getISO639().get()).toEqual(json.language.iso639);
-      expect(statsOutline.getRegion().getRegionID().get()).toEqual(json.region.regionID);
-      expect(statsOutline.getRegion().getName().get()).toEqual(json.region.name);
-      expect(statsOutline.getRegion().getISO3166().get()).toEqual(json.region.iso3166);
-      expect(statsOutline.getTerm().getID()).toEqual(json.termID);
-      expect(statsOutline.getName().get()).toEqual(json.name);
-      expect(statsOutline.getUnit().get()).toEqual(json.unit);
-      expect(statsOutline.getUpdatedAt().toString()).toEqual(json.updatedAt);
+      expect(statsOutline.getStatsID().get().get()).toBe(json.statsID);
+      expect(statsOutline.getLanguage().getLanguageID().get()).toBe(json.language.languageID);
+      expect(statsOutline.getLanguage().getName().get()).toBe(json.language.name);
+      expect(statsOutline.getLanguage().getEnglishName().get()).toBe(json.language.englishName);
+      expect(statsOutline.getLanguage().getISO639().get()).toBe(json.language.iso639);
+      expect(statsOutline.getRegion().getRegionID().get()).toBe(json.region.regionID);
+      expect(statsOutline.getRegion().getName().get()).toBe(json.region.name);
+      expect(statsOutline.getRegion().getISO3166().get()).toBe(json.region.iso3166);
+      expect(statsOutline.getTerm().getID()).toBe(json.termID);
+      expect(statsOutline.getName().get()).toBe(json.name);
+      expect(statsOutline.getUnit().get()).toBe(json.unit);
+      expect(statsOutline.getUpdatedAt().toString()).toBe(json.updatedAt);
     });
 
     it('contains malformat statsID', () => {
@@ -121,7 +120,7 @@ describe('StatsOutline', () => {
 
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsOutlineError) => {
@@ -129,8 +128,8 @@ describe('StatsOutline', () => {
         expect(err).toBeInstanceOf(StatsOutlineError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('contains malformat termID', () => {
@@ -158,7 +157,7 @@ describe('StatsOutline', () => {
 
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsOutlineError) => {
@@ -166,8 +165,8 @@ describe('StatsOutline', () => {
         expect(err).toBeInstanceOf(StatsOutlineError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('contains malformat updatedAt', () => {
@@ -195,7 +194,7 @@ describe('StatsOutline', () => {
 
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsOutlineError) => {
@@ -203,8 +202,8 @@ describe('StatsOutline', () => {
         expect(err).toBeInstanceOf(StatsOutlineError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
   });
 
@@ -227,20 +226,20 @@ describe('StatsOutline', () => {
 
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
 
-      expect(superposition.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toBe(true);
       const statsOutline: StatsOutline = superposition.get();
-      expect(statsOutline.getStatsID().get().get()).toEqual(row.statsID);
-      expect(statsOutline.getLanguage().getLanguageID().get()).toEqual(row.languageID);
-      expect(statsOutline.getLanguage().getName().get()).toEqual(row.languageName);
-      expect(statsOutline.getLanguage().getEnglishName().get()).toEqual(row.languageEnglishName);
-      expect(statsOutline.getLanguage().getISO639().get()).toEqual(row.iso639);
-      expect(statsOutline.getRegion().getRegionID().get()).toEqual(row.regionID);
-      expect(statsOutline.getRegion().getName().get()).toEqual(row.regionName);
-      expect(statsOutline.getRegion().getISO3166().get()).toEqual(row.iso3166);
-      expect(statsOutline.getTerm().getID()).toEqual(row.termID);
-      expect(statsOutline.getName().get()).toEqual(row.name);
-      expect(statsOutline.getUnit().get()).toEqual(row.unit);
-      expect(statsOutline.getUpdatedAt().toString()).toEqual(row.updatedAt);
+      expect(statsOutline.getStatsID().get().get()).toBe(row.statsID);
+      expect(statsOutline.getLanguage().getLanguageID().get()).toBe(row.languageID);
+      expect(statsOutline.getLanguage().getName().get()).toBe(row.languageName);
+      expect(statsOutline.getLanguage().getEnglishName().get()).toBe(row.languageEnglishName);
+      expect(statsOutline.getLanguage().getISO639().get()).toBe(row.iso639);
+      expect(statsOutline.getRegion().getRegionID().get()).toBe(row.regionID);
+      expect(statsOutline.getRegion().getName().get()).toBe(row.regionName);
+      expect(statsOutline.getRegion().getISO3166().get()).toBe(row.iso3166);
+      expect(statsOutline.getTerm().getID()).toBe(row.termID);
+      expect(statsOutline.getName().get()).toBe(row.name);
+      expect(statsOutline.getUnit().get()).toBe(row.unit);
+      expect(statsOutline.getUpdatedAt().toString()).toBe(row.updatedAt);
     });
 
     it('contains malformat statsID', () => {
@@ -264,7 +263,7 @@ describe('StatsOutline', () => {
 
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsOutlineError) => {
@@ -272,8 +271,8 @@ describe('StatsOutline', () => {
         expect(err).toBeInstanceOf(StatsOutlineError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('contains malformat termID', () => {
@@ -297,7 +296,7 @@ describe('StatsOutline', () => {
 
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsOutlineError) => {
@@ -305,8 +304,8 @@ describe('StatsOutline', () => {
         expect(err).toBeInstanceOf(StatsOutlineError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('contains malformat updatedAt', () => {
@@ -330,7 +329,7 @@ describe('StatsOutline', () => {
 
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsOutlineError) => {
@@ -338,8 +337,8 @@ describe('StatsOutline', () => {
         expect(err).toBeInstanceOf(StatsOutlineError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
   });
 
@@ -437,15 +436,15 @@ describe('StatsOutline', () => {
         new MockUpdatedAt()
       );
 
-      expect(statsOutline1.equals(statsOutline1)).toEqual(true);
-      expect(statsOutline1.equals(statsOutline2)).toEqual(false);
-      expect(statsOutline1.equals(statsOutline3)).toEqual(false);
-      expect(statsOutline1.equals(statsOutline4)).toEqual(false);
-      expect(statsOutline1.equals(statsOutline5)).toEqual(false);
-      expect(statsOutline1.equals(statsOutline6)).toEqual(false);
-      expect(statsOutline1.equals(statsOutline7)).toEqual(false);
-      expect(statsOutline1.equals(statsOutline8)).toEqual(false);
-      expect(statsOutline1.equals(statsOutline9)).toEqual(true);
+      expect(statsOutline1.equals(statsOutline1)).toBe(true);
+      expect(statsOutline1.equals(statsOutline2)).toBe(false);
+      expect(statsOutline1.equals(statsOutline3)).toBe(false);
+      expect(statsOutline1.equals(statsOutline4)).toBe(false);
+      expect(statsOutline1.equals(statsOutline5)).toBe(false);
+      expect(statsOutline1.equals(statsOutline6)).toBe(false);
+      expect(statsOutline1.equals(statsOutline7)).toBe(false);
+      expect(statsOutline1.equals(statsOutline8)).toBe(false);
+      expect(statsOutline1.equals(statsOutline9)).toBe(true);
     });
   });
 
@@ -525,7 +524,7 @@ describe('StatsOutline', () => {
         updatedAt
       );
 
-      expect(statsOutline.toString()).toEqual(`${id1} ${id2} ${name1} ${name2} ${iso639} ${id3} ${name3} ${iso3166} ${term.toString()} ${name4} ${unit} ${at}`);
+      expect(statsOutline.toString()).toBe(`${id1} ${id2} ${name1} ${name2} ${iso639} ${id3} ${name3} ${iso3166} ${term.toString()} ${name4} ${unit} ${at}`);
     });
   });
 
@@ -615,13 +614,13 @@ describe('StatsOutline', () => {
         new MockUpdatedAt()
       );
 
-      expect(statsOutline1.isFilled()).toEqual(false);
-      expect(statsOutline2.isFilled()).toEqual(false);
-      expect(statsOutline3.isFilled()).toEqual(false);
-      expect(statsOutline4.isFilled()).toEqual(false);
-      expect(statsOutline5.isFilled()).toEqual(false);
-      expect(statsOutline6.isFilled()).toEqual(false);
-      expect(statsOutline7.isFilled()).toEqual(true);
+      expect(statsOutline1.isFilled()).toBe(false);
+      expect(statsOutline2.isFilled()).toBe(false);
+      expect(statsOutline3.isFilled()).toBe(false);
+      expect(statsOutline4.isFilled()).toBe(false);
+      expect(statsOutline5.isFilled()).toBe(false);
+      expect(statsOutline6.isFilled()).toBe(false);
+      expect(statsOutline7.isFilled()).toBe(true);
     });
   });
 
@@ -639,7 +638,15 @@ describe('StatsOutline', () => {
       const unit: MockStatsUnit = new MockStatsUnit();
       const updatedAt: MockUpdatedAt = new MockUpdatedAt();
 
-      const statsOutline: StatsOutline = StatsOutline.of(statsID, language, region, term, name, unit, updatedAt);
+      const statsOutline: StatsOutline = StatsOutline.of(
+        statsID,
+        language,
+        region,
+        term,
+        name,
+        unit,
+        updatedAt
+      );
       const duplicated: StatsOutline = statsOutline.duplicate();
 
       expect(statsOutline).not.toBe(duplicated);

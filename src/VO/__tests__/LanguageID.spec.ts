@@ -1,10 +1,9 @@
 import { LanguageID } from '../LanguageID';
 
-// DONE
 describe('LanguageID', () => {
   describe('empty', () => {
     it('always returns 0', () => {
-      expect(LanguageID.empty().get()).toEqual(0);
+      expect(LanguageID.empty().get()).toBe(0);
     });
 
     it('returns singleton instance', () => {
@@ -31,8 +30,8 @@ describe('LanguageID', () => {
       const id1: number = 1;
       const id2: number = 10;
 
-      expect(LanguageID.of(id1).get()).toEqual(id1);
-      expect(LanguageID.of(id2).get()).toEqual(id2);
+      expect(LanguageID.of(id1).get()).toBe(id1);
+      expect(LanguageID.of(id2).get()).toBe(id2);
     });
   });
 
@@ -42,30 +41,30 @@ describe('LanguageID', () => {
       const languageID2: LanguageID = LanguageID.of(2);
       const languageID3: LanguageID = LanguageID.of(1);
 
-      expect(languageID1.equals(languageID1)).toEqual(true);
-      expect(languageID1.equals(languageID2)).toEqual(false);
-      expect(languageID1.equals(languageID3)).toEqual(true);
+      expect(languageID1.equals(languageID1)).toBe(true);
+      expect(languageID1.equals(languageID2)).toBe(false);
+      expect(languageID1.equals(languageID3)).toBe(true);
     });
   });
 
   describe('isEmpty', () => {
     it('when LanguageID.empty() given , returns true', () => {
-      expect(LanguageID.empty().isEmpty()).toEqual(true);
+      expect(LanguageID.empty().isEmpty()).toBe(true);
     });
 
     it('when negative values given , returns true', () => {
-      expect(LanguageID.of(-1).isEmpty()).toEqual(true);
-      expect(LanguageID.of(-11).isEmpty()).toEqual(true);
+      expect(LanguageID.of(-1).isEmpty()).toBe(true);
+      expect(LanguageID.of(-11).isEmpty()).toBe(true);
     });
 
     it('when double value is given, returns true', () => {
-      expect(LanguageID.of(1.1).isEmpty()).toEqual(true);
-      expect(LanguageID.of(2.5).isEmpty()).toEqual(true);
+      expect(LanguageID.of(1.1).isEmpty()).toBe(true);
+      expect(LanguageID.of(2.5).isEmpty()).toBe(true);
     });
 
     it('otherwise returns false', () => {
-      expect(LanguageID.of(1).isEmpty()).toEqual(false);
-      expect(LanguageID.of(105).isEmpty()).toEqual(false);
+      expect(LanguageID.of(1).isEmpty()).toBe(false);
+      expect(LanguageID.of(105).isEmpty()).toBe(false);
     });
   });
 
@@ -74,7 +73,7 @@ describe('LanguageID', () => {
       const id: number = 2;
       const languageID: LanguageID = LanguageID.of(id);
 
-      expect(languageID.toString()).toEqual(id.toString());
+      expect(languageID.toString()).toBe(id.toString());
     });
   });
 });

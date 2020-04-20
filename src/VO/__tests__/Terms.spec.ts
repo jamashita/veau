@@ -4,7 +4,6 @@ import { MockTerm } from '../Mock/MockTerm';
 import { Term } from '../Term';
 import { Terms } from '../Terms';
 
-// DONE
 describe('Terms', () => {
   describe('all', () => {
     it('is singleton instance', () => {
@@ -44,18 +43,18 @@ describe('Terms', () => {
       fakeTerm.equals = stub;
       stub.returns(false);
 
-      expect(terms.contains(Term.ANNUAL)).toEqual(true);
-      expect(terms.contains(Term.QUARTERLY)).toEqual(true);
-      expect(terms.contains(Term.MONTHLY)).toEqual(true);
-      expect(terms.contains(Term.WEEKLY)).toEqual(true);
-      expect(terms.contains(Term.DAILY)).toEqual(true);
-      expect(terms.contains(fakeTerm)).toEqual(false);
+      expect(terms.contains(Term.ANNUAL)).toBe(true);
+      expect(terms.contains(Term.QUARTERLY)).toBe(true);
+      expect(terms.contains(Term.MONTHLY)).toBe(true);
+      expect(terms.contains(Term.WEEKLY)).toBe(true);
+      expect(terms.contains(Term.DAILY)).toBe(true);
+      expect(terms.contains(fakeTerm)).toBe(false);
     });
   });
 
   describe('isEmpty', () => {
     it('always returns false because only 1 terms instance has some elements', () => {
-      expect(Terms.all().isEmpty()).toEqual(false);
+      expect(Terms.all().isEmpty()).toBe(false);
     });
   });
 
@@ -69,7 +68,7 @@ describe('Terms', () => {
     it('normal case', () => {
       const terms: Terms = Terms.all();
 
-      expect(terms.toString()).toEqual(`${Term.DAILY.toString()}, ${Term.WEEKLY.toString()}, ${Term.MONTHLY.toString()}, ${Term.QUARTERLY.toString()}, ${Term.ANNUAL.toString()}`);
+      expect(terms.toString()).toBe(`${Term.DAILY.toString()}, ${Term.WEEKLY.toString()}, ${Term.MONTHLY.toString()}, ${Term.QUARTERLY.toString()}, ${Term.ANNUAL.toString()}`);
     });
   });
 });

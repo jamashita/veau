@@ -3,11 +3,10 @@ import { LoadingCountError } from '../../Error/LoadingCountError';
 import { Superposition } from '../../General/Superposition/Superposition';
 import { LoadingCount } from '../LoadingCount';
 
-// DONE
 describe('LoadingCount', () => {
   describe('default', () => {
     it('always returns 0 value', () => {
-      expect(LoadingCount.default().get()).toEqual(0);
+      expect(LoadingCount.default().get()).toBe(0);
     });
 
     it('returns singleton instance', () => {
@@ -25,8 +24,8 @@ describe('LoadingCount', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      expect(superposition1.isFailure()).toEqual(true);
-      expect(superposition2.isFailure()).toEqual(true);
+      expect(superposition1.isFailure()).toBe(true);
+      expect(superposition2.isFailure()).toBe(true);
 
       superposition1.match<void>(() => {
         spy1();
@@ -42,16 +41,16 @@ describe('LoadingCount', () => {
         expect(err).toBeInstanceOf(LoadingCountError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
-      expect(spy3.called).toEqual(false);
-      expect(spy4.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(true);
     });
 
     it('returns Success and its value is LoadingCount.default() when the argument 0', () => {
       const superposition: Superposition<LoadingCount, LoadingCountError> = LoadingCount.of(0);
 
-      expect(superposition.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toBe(true);
       expect(superposition.get()).toBe(LoadingCount.default());
     });
 
@@ -64,8 +63,8 @@ describe('LoadingCount', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      expect(superposition1.isFailure()).toEqual(true);
-      expect(superposition2.isFailure()).toEqual(true);
+      expect(superposition1.isFailure()).toBe(true);
+      expect(superposition2.isFailure()).toBe(true);
 
       superposition1.match<void>(() => {
         spy1();
@@ -81,10 +80,10 @@ describe('LoadingCount', () => {
         expect(err).toBeInstanceOf(LoadingCountError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
-      expect(spy3.called).toEqual(false);
-      expect(spy4.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(true);
     });
 
     it('returns Success when the argument is positive and integer', () => {
@@ -93,11 +92,11 @@ describe('LoadingCount', () => {
       const superposition1: Superposition<LoadingCount, LoadingCountError> = LoadingCount.of(value1);
       const superposition2: Superposition<LoadingCount, LoadingCountError> = LoadingCount.of(value2);
 
-      expect(superposition1.isSuccess()).toEqual(true);
-      expect(superposition2.isSuccess()).toEqual(true);
+      expect(superposition1.isSuccess()).toBe(true);
+      expect(superposition2.isSuccess()).toBe(true);
 
-      expect(superposition1.get().get()).toEqual(value1);
-      expect(superposition2.get().get()).toEqual(value2);
+      expect(superposition1.get().get()).toBe(value1);
+      expect(superposition2.get().get()).toBe(value2);
     });
   });
 
@@ -107,21 +106,21 @@ describe('LoadingCount', () => {
       const count2: LoadingCount = LoadingCount.of(2).get();
       const count3: LoadingCount = LoadingCount.of(1).get();
 
-      expect(count1.equals(count1)).toEqual(true);
-      expect(count1.equals(count2)).toEqual(false);
-      expect(count1.equals(count3)).toEqual(true);
+      expect(count1.equals(count1)).toBe(true);
+      expect(count1.equals(count2)).toBe(false);
+      expect(count1.equals(count3)).toBe(true);
     });
   });
 
   describe('isLoading', () => {
     it('LoadingCount.default() return false', () => {
-      expect(LoadingCount.default().isLoading()).toEqual(false);
+      expect(LoadingCount.default().isLoading()).toBe(false);
     });
 
     it('normal case', () => {
-      expect(LoadingCount.of(0).get().isLoading()).toEqual(false);
-      expect(LoadingCount.of(1).get().isLoading()).toEqual(true);
-      expect(LoadingCount.of(2).get().isLoading()).toEqual(true);
+      expect(LoadingCount.of(0).get().isLoading()).toBe(false);
+      expect(LoadingCount.of(1).get().isLoading()).toBe(true);
+      expect(LoadingCount.of(2).get().isLoading()).toBe(true);
     });
   });
 
@@ -130,7 +129,7 @@ describe('LoadingCount', () => {
       const count1: LoadingCount = LoadingCount.of(1).get();
       const count2: LoadingCount = count1.increment();
 
-      expect(count2.get()).toEqual(2);
+      expect(count2.get()).toBe(2);
       expect(count1).not.toBe(count2);
     });
   });
@@ -141,8 +140,8 @@ describe('LoadingCount', () => {
       const count2: LoadingCount = count1.decrement();
       const count3: LoadingCount = count2.decrement();
 
-      expect(count2.get()).toEqual(0);
-      expect(count3.get()).toEqual(0);
+      expect(count2.get()).toBe(0);
+      expect(count3.get()).toBe(0);
       expect(count1).not.toBe(count2);
       expect(count2).toBe(LoadingCount.default());
       expect(count3).toBe(LoadingCount.default());
@@ -154,7 +153,7 @@ describe('LoadingCount', () => {
       const num: number = 1;
       const count: LoadingCount = LoadingCount.of(num).get();
 
-      expect(count.toString()).toEqual(num.toString());
+      expect(count.toString()).toBe(num.toString());
     });
   });
 });

@@ -1,10 +1,9 @@
 import { RegionID } from '../RegionID';
 
-// DONE
 describe('RegionID', () => {
   describe('empty', () => {
     it('always returns 0', () => {
-      expect(RegionID.empty().get()).toEqual(0);
+      expect(RegionID.empty().get()).toBe(0);
     });
 
     it('returns singleton instance', () => {
@@ -31,8 +30,8 @@ describe('RegionID', () => {
       const id1: number = 1;
       const id2: number = 10;
 
-      expect(RegionID.of(id1).get()).toEqual(id1);
-      expect(RegionID.of(id2).get()).toEqual(id2);
+      expect(RegionID.of(id1).get()).toBe(id1);
+      expect(RegionID.of(id2).get()).toBe(id2);
     });
   });
 
@@ -42,30 +41,30 @@ describe('RegionID', () => {
       const regionID2: RegionID = RegionID.of(2);
       const regionID3: RegionID = RegionID.of(1);
 
-      expect(regionID1.equals(regionID1)).toEqual(true);
-      expect(regionID1.equals(regionID2)).toEqual(false);
-      expect(regionID1.equals(regionID3)).toEqual(true);
+      expect(regionID1.equals(regionID1)).toBe(true);
+      expect(regionID1.equals(regionID2)).toBe(false);
+      expect(regionID1.equals(regionID3)).toBe(true);
     });
   });
 
   describe('isEmpty', () => {
     it('when RegionID.empty() given , returns true', () => {
-      expect(RegionID.empty().isEmpty()).toEqual(true);
+      expect(RegionID.empty().isEmpty()).toBe(true);
     });
 
     it('when negative values given , returns true', () => {
-      expect(RegionID.of(-1).isEmpty()).toEqual(true);
-      expect(RegionID.of(-11).isEmpty()).toEqual(true);
+      expect(RegionID.of(-1).isEmpty()).toBe(true);
+      expect(RegionID.of(-11).isEmpty()).toBe(true);
     });
 
     it('when double value is given, returns true', () => {
-      expect(RegionID.of(1.1).isEmpty()).toEqual(true);
-      expect(RegionID.of(2.5).isEmpty()).toEqual(true);
+      expect(RegionID.of(1.1).isEmpty()).toBe(true);
+      expect(RegionID.of(2.5).isEmpty()).toBe(true);
     });
 
     it('otherwise returns false', () => {
-      expect(RegionID.of(1).isEmpty()).toEqual(false);
-      expect(RegionID.of(105).isEmpty()).toEqual(false);
+      expect(RegionID.of(1).isEmpty()).toBe(false);
+      expect(RegionID.of(105).isEmpty()).toBe(false);
     });
   });
 
@@ -74,7 +73,7 @@ describe('RegionID', () => {
       const id: number = 1;
       const regionID: RegionID = RegionID.of(id);
 
-      expect(regionID.toString()).toEqual(id.toString());
+      expect(regionID.toString()).toBe(id.toString());
     });
   });
 });

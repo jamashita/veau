@@ -3,11 +3,10 @@ import { RowError } from '../../Error/RowError';
 import { Superposition } from '../../General/Superposition/Superposition';
 import { Row } from '../Row';
 
-// DONE
 describe('Row', () => {
   describe('origin', () => {
     it('always returns 0', () => {
-      expect(Row.origin().get()).toEqual(0);
+      expect(Row.origin().get()).toBe(0);
     });
 
     it('returns singleton instance', () => {
@@ -25,8 +24,8 @@ describe('Row', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      expect(superposition1.isFailure()).toEqual(true);
-      expect(superposition2.isFailure()).toEqual(true);
+      expect(superposition1.isFailure()).toBe(true);
+      expect(superposition2.isFailure()).toBe(true);
 
       superposition1.match<void>(() => {
         spy1();
@@ -42,16 +41,16 @@ describe('Row', () => {
         expect(err).toBeInstanceOf(RowError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
-      expect(spy3.called).toEqual(false);
-      expect(spy4.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(true);
     });
 
     it('returns Success and its value is Row.origin() when the argument 0', () => {
       const superposition: Superposition<Row, RowError> = Row.of(0);
 
-      expect(superposition.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toBe(true);
       expect(superposition.get()).toBe(Row.origin());
     });
 
@@ -64,8 +63,8 @@ describe('Row', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      expect(superposition1.isFailure()).toEqual(true);
-      expect(superposition2.isFailure()).toEqual(true);
+      expect(superposition1.isFailure()).toBe(true);
+      expect(superposition2.isFailure()).toBe(true);
 
       superposition1.match<void>(() => {
         spy1();
@@ -81,10 +80,10 @@ describe('Row', () => {
         expect(err).toBeInstanceOf(RowError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
-      expect(spy3.called).toEqual(false);
-      expect(spy4.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(true);
     });
 
     it('returns Success when the argument is positive and integer', () => {
@@ -93,17 +92,17 @@ describe('Row', () => {
       const superposition1: Superposition<Row, RowError> = Row.of(value1);
       const superposition2: Superposition<Row, RowError> = Row.of(value2);
 
-      expect(superposition1.isSuccess()).toEqual(true);
-      expect(superposition2.isSuccess()).toEqual(true);
+      expect(superposition1.isSuccess()).toBe(true);
+      expect(superposition2.isSuccess()).toBe(true);
 
-      expect(superposition1.get().get()).toEqual(value1);
-      expect(superposition2.get().get()).toEqual(value2);
+      expect(superposition1.get().get()).toBe(value1);
+      expect(superposition2.get().get()).toBe(value2);
     });
   });
 
   describe('isOrigin', () => {
     it('Row.origin() returns true', () => {
-      expect(Row.origin().isOrigin()).toEqual(true);
+      expect(Row.origin().isOrigin()).toBe(true);
     });
 
     it('returns true when the value is 0, otherwise returns false', () => {
@@ -111,9 +110,9 @@ describe('Row', () => {
       const row2: Row = Row.of(1).get();
       const row3: Row = Row.of(2).get();
 
-      expect(row1.isOrigin()).toEqual(true);
-      expect(row2.isOrigin()).toEqual(false);
-      expect(row3.isOrigin()).toEqual(false);
+      expect(row1.isOrigin()).toBe(true);
+      expect(row2.isOrigin()).toBe(false);
+      expect(row3.isOrigin()).toBe(false);
     });
   });
 
@@ -123,9 +122,9 @@ describe('Row', () => {
       const row2: Row = Row.of(2).get();
       const row3: Row = Row.of(1).get();
 
-      expect(row1.equals(row1)).toEqual(true);
-      expect(row1.equals(row2)).toEqual(false);
-      expect(row1.equals(row3)).toEqual(true);
+      expect(row1.equals(row1)).toBe(true);
+      expect(row1.equals(row2)).toBe(false);
+      expect(row1.equals(row3)).toBe(true);
     });
   });
 
@@ -134,7 +133,7 @@ describe('Row', () => {
       const num: number = 2;
       const row: Row = Row.of(num).get();
 
-      expect(row.toString()).toEqual(num.toString());
+      expect(row.toString()).toBe(num.toString());
     });
   });
 });

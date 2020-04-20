@@ -1,10 +1,9 @@
 import { LanguageName } from '../LanguageName';
 
-// DONE
 describe('LanguageName', () => {
   describe('empty', () => {
     it('always returns empty string', () => {
-      expect(LanguageName.empty().get()).toEqual('');
+      expect(LanguageName.empty().get()).toBe('');
     });
 
     it('returns singleton instance', () => {
@@ -21,22 +20,22 @@ describe('LanguageName', () => {
       const name1: string = 'language name 1';
       const name2: string = 'language name 2';
 
-      expect(LanguageName.of(name1).get()).toEqual(name1);
-      expect(LanguageName.of(name2).get()).toEqual(name2);
+      expect(LanguageName.of(name1).get()).toBe(name1);
+      expect(LanguageName.of(name2).get()).toBe(name2);
     });
   });
 
   describe('isEmpty', () => {
     it('returns true if LanguageName.empty() is given', () => {
-      expect(LanguageName.empty().isEmpty()).toEqual(true);
+      expect(LanguageName.empty().isEmpty()).toBe(true);
     });
 
     it('normal case', () => {
       const name1: string = 'language name 1';
       const name2: string = 'language name 2';
 
-      expect(LanguageName.of(name1).isEmpty()).toEqual(false);
-      expect(LanguageName.of(name2).isEmpty()).toEqual(false);
+      expect(LanguageName.of(name1).isEmpty()).toBe(false);
+      expect(LanguageName.of(name2).isEmpty()).toBe(false);
     });
   });
 
@@ -46,9 +45,9 @@ describe('LanguageName', () => {
       const name2: LanguageName = LanguageName.of('language name 2');
       const name3: LanguageName = LanguageName.of('language name 1');
 
-      expect(name1.equals(name1)).toEqual(true);
-      expect(name1.equals(name2)).toEqual(false);
-      expect(name1.equals(name3)).toEqual(true);
+      expect(name1.equals(name1)).toBe(true);
+      expect(name1.equals(name2)).toBe(false);
+      expect(name1.equals(name3)).toBe(true);
     });
   });
 
@@ -57,7 +56,7 @@ describe('LanguageName', () => {
       const name: string = 'language name';
       const languageName: LanguageName = LanguageName.of(name);
 
-      expect(languageName.toString()).toEqual(name);
+      expect(languageName.toString()).toBe(name);
     });
   });
 });

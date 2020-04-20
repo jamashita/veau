@@ -5,11 +5,10 @@ import { Limit } from '../Limit';
 import { Offset } from '../Offset';
 import { Page } from '../Page';
 
-// DONE
 describe('Page', () => {
   describe('min', () => {
     it('always returns 1', () => {
-      expect(Page.min().get()).toEqual(1);
+      expect(Page.min().get()).toBe(1);
     });
 
     it('returns singleton instance', () => {
@@ -27,8 +26,8 @@ describe('Page', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      expect(superposition1.isFailure()).toEqual(true);
-      expect(superposition2.isFailure()).toEqual(true);
+      expect(superposition1.isFailure()).toBe(true);
+      expect(superposition2.isFailure()).toBe(true);
 
       superposition1.match<void>(() => {
         spy1();
@@ -44,16 +43,16 @@ describe('Page', () => {
         expect(err).toBeInstanceOf(PageError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
-      expect(spy3.called).toEqual(false);
-      expect(spy4.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(true);
     });
 
     it('returns Success and its value is Page.min() when the argument 1', () => {
       const superposition: Superposition<Page, PageError> = Page.of(1);
 
-      expect(superposition.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toBe(true);
       expect(superposition.get()).toBe(Page.min());
     });
 
@@ -66,8 +65,8 @@ describe('Page', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      expect(superposition1.isFailure()).toEqual(true);
-      expect(superposition2.isFailure()).toEqual(true);
+      expect(superposition1.isFailure()).toBe(true);
+      expect(superposition2.isFailure()).toBe(true);
 
       superposition1.match<void>(() => {
         spy1();
@@ -83,10 +82,10 @@ describe('Page', () => {
         expect(err).toBeInstanceOf(PageError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
-      expect(spy3.called).toEqual(false);
-      expect(spy4.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(true);
     });
 
     it('normal case', () => {
@@ -95,11 +94,11 @@ describe('Page', () => {
       const superposition1: Superposition<Page, PageError> = Page.of(page1);
       const superposition2: Superposition<Page, PageError> = Page.of(page2);
 
-      expect(superposition1.isSuccess()).toEqual(true);
-      expect(superposition2.isSuccess()).toEqual(true);
+      expect(superposition1.isSuccess()).toBe(true);
+      expect(superposition2.isSuccess()).toBe(true);
 
-      expect(superposition1.get().get()).toEqual(page1);
-      expect(superposition2.get().get()).toEqual(page2);
+      expect(superposition1.get().get()).toBe(page1);
+      expect(superposition2.get().get()).toBe(page2);
     });
   });
 
@@ -109,9 +108,9 @@ describe('Page', () => {
       const page2: Page = Page.of(2).get();
       const page3: Page = Page.of(1).get();
 
-      expect(page1.equals(page1)).toEqual(true);
-      expect(page1.equals(page2)).toEqual(false);
-      expect(page1.equals(page3)).toEqual(true);
+      expect(page1.equals(page1)).toBe(true);
+      expect(page1.equals(page2)).toBe(false);
+      expect(page1.equals(page3)).toBe(true);
     });
   });
 
@@ -121,7 +120,7 @@ describe('Page', () => {
         const page: Page = Page.of(i).get();
         const limit: Limit = page.getLimit();
 
-        expect(limit.get()).toEqual(40);
+        expect(limit.get()).toBe(40);
       }
     });
   });
@@ -133,8 +132,8 @@ describe('Page', () => {
       const page2: Page = Page.of(2).get();
       const offset2: Offset = page2.getOffset();
 
-      expect(offset1.get()).toEqual(0);
-      expect(offset2.get()).toEqual(40);
+      expect(offset1.get()).toBe(0);
+      expect(offset2.get()).toBe(40);
     });
   });
 
@@ -143,7 +142,7 @@ describe('Page', () => {
       const num: number = 2;
       const page: Page = Page.of(num).get();
 
-      expect(page.toString()).toEqual(num.toString());
+      expect(page.toString()).toBe(num.toString());
     });
   });
 });

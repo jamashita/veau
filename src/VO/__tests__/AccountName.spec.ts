@@ -1,10 +1,9 @@
 import { AccountName } from '../AccountName';
 
-// DONE
 describe('AccountName', () => {
   describe('empty', () => {
     it('must be an empty name', () => {
-      expect(AccountName.empty().get()).toEqual('');
+      expect(AccountName.empty().get()).toBe('');
     });
 
     it('returns singleton instance', () => {
@@ -22,9 +21,9 @@ describe('AccountName', () => {
       const name2: string = 'account name 2';
       const name3: string = 'account name 3';
 
-      expect(AccountName.of(name1).get()).toEqual(name1);
-      expect(AccountName.of(name2).get()).toEqual(name2);
-      expect(AccountName.of(name3).get()).toEqual(name3);
+      expect(AccountName.of(name1).get()).toBe(name1);
+      expect(AccountName.of(name2).get()).toBe(name2);
+      expect(AccountName.of(name3).get()).toBe(name3);
     });
   });
 
@@ -34,9 +33,9 @@ describe('AccountName', () => {
       const name2: AccountName = AccountName.of('account name 2');
       const name3: AccountName = AccountName.of('account name 1');
 
-      expect(name1.equals(name1)).toEqual(true);
-      expect(name1.equals(name2)).toEqual(false);
-      expect(name1.equals(name3)).toEqual(true);
+      expect(name1.equals(name1)).toBe(true);
+      expect(name1.equals(name2)).toBe(false);
+      expect(name1.equals(name3)).toBe(true);
     });
   });
 
@@ -46,9 +45,9 @@ describe('AccountName', () => {
       const name2: AccountName = AccountName.of('');
       const name3: AccountName = AccountName.of('p');
 
-      expect(name1.isEmpty()).toEqual(true);
-      expect(name2.isEmpty()).toEqual(true);
-      expect(name3.isEmpty()).toEqual(false);
+      expect(name1.isEmpty()).toBe(true);
+      expect(name2.isEmpty()).toBe(true);
+      expect(name3.isEmpty()).toBe(false);
     });
   });
 
@@ -57,7 +56,7 @@ describe('AccountName', () => {
       const name: string = 'hash';
       const accountName: AccountName = AccountName.of(name);
 
-      expect(accountName.toString()).toEqual(name);
+      expect(accountName.toString()).toBe(name);
     });
   });
 });

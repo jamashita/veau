@@ -2,8 +2,10 @@ import { ISO639 } from '../ISO639';
 import { Language, LanguageJSON, LanguageRow } from '../Language';
 import { LanguageID } from '../LanguageID';
 import { LanguageName } from '../LanguageName';
+import { MockISO639 } from '../Mock/MockISO639';
+import { MockLanguageID } from '../Mock/MockLanguageID';
+import { MockLanguageName } from '../Mock/MockLanguageName';
 
-// DONE
 describe('Language', () => {
   describe('of', () => {
     it('normal case', () => {
@@ -19,10 +21,10 @@ describe('Language', () => {
         iso639
       );
 
-      expect(language.getLanguageID()).toEqual(languageID);
-      expect(language.getName()).toEqual(name);
-      expect(language.getEnglishName()).toEqual(englishName);
-      expect(language.getISO639()).toEqual(iso639);
+      expect(language.getLanguageID()).toBe(languageID);
+      expect(language.getName()).toBe(name);
+      expect(language.getEnglishName()).toBe(englishName);
+      expect(language.getISO639()).toBe(iso639);
     });
 
     it('all are empty, returns Language.empty()', () => {
@@ -48,10 +50,10 @@ describe('Language', () => {
 
       const language: Language = Language.ofJSON(json);
 
-      expect(language.getLanguageID().get()).toEqual(json.languageID);
-      expect(language.getName().get()).toEqual(json.name);
-      expect(language.getEnglishName().get()).toEqual(json.englishName);
-      expect(language.getISO639().get()).toEqual(json.iso639);
+      expect(language.getLanguageID().get()).toBe(json.languageID);
+      expect(language.getName().get()).toBe(json.name);
+      expect(language.getEnglishName().get()).toBe(json.englishName);
+      expect(language.getISO639().get()).toBe(json.iso639);
     });
   });
 
@@ -66,10 +68,10 @@ describe('Language', () => {
 
       const language: Language = Language.ofRow(row);
 
-      expect(language.getLanguageID().get()).toEqual(row.languageID);
-      expect(language.getName().get()).toEqual(row.name);
-      expect(language.getEnglishName().get()).toEqual(row.englishName);
-      expect(language.getISO639().get()).toEqual(row.iso639);
+      expect(language.getLanguageID().get()).toBe(row.languageID);
+      expect(language.getName().get()).toBe(row.name);
+      expect(language.getEnglishName().get()).toBe(row.englishName);
+      expect(language.getISO639().get()).toBe(row.iso639);
     });
   });
 
@@ -82,15 +84,15 @@ describe('Language', () => {
         iso639: 'aa'
       };
 
-      expect(Language.isJSON(n)).toEqual(true);
+      expect(Language.isJSON(n)).toBe(true);
     });
 
     it('returns false because given parameter is not an object', () => {
-      expect(Language.isJSON(null)).toEqual(false);
-      expect(Language.isJSON(undefined)).toEqual(false);
-      expect(Language.isJSON(56)).toEqual(false);
-      expect(Language.isJSON('fjafsd')).toEqual(false);
-      expect(Language.isJSON(false)).toEqual(false);
+      expect(Language.isJSON(null)).toBe(false);
+      expect(Language.isJSON(undefined)).toBe(false);
+      expect(Language.isJSON(56)).toBe(false);
+      expect(Language.isJSON('fjafsd')).toBe(false);
+      expect(Language.isJSON(false)).toBe(false);
     });
 
     it('returns false because languageID is missing', () => {
@@ -100,7 +102,7 @@ describe('Language', () => {
         iso639: 'aa'
       };
 
-      expect(Language.isJSON(n)).toEqual(false);
+      expect(Language.isJSON(n)).toBe(false);
     });
 
     it('returns false because languageID is not number', () => {
@@ -111,7 +113,7 @@ describe('Language', () => {
         iso639: 'aa'
       };
 
-      expect(Language.isJSON(n)).toEqual(false);
+      expect(Language.isJSON(n)).toBe(false);
     });
 
     it('returns false because name is missing', () => {
@@ -121,7 +123,7 @@ describe('Language', () => {
         iso639: 'aa'
       };
 
-      expect(Language.isJSON(n)).toEqual(false);
+      expect(Language.isJSON(n)).toBe(false);
     });
 
     it('returns false because name is not string', () => {
@@ -132,7 +134,7 @@ describe('Language', () => {
         iso639: 'aa'
       };
 
-      expect(Language.isJSON(n)).toEqual(false);
+      expect(Language.isJSON(n)).toBe(false);
     });
 
     it('returns false because englishName is missing', () => {
@@ -142,7 +144,7 @@ describe('Language', () => {
         iso639: 'aa'
       };
 
-      expect(Language.isJSON(n)).toEqual(false);
+      expect(Language.isJSON(n)).toBe(false);
     });
 
     it('returns false because englishName is not string', () => {
@@ -153,7 +155,7 @@ describe('Language', () => {
         iso639: 'aa'
       };
 
-      expect(Language.isJSON(n)).toEqual(false);
+      expect(Language.isJSON(n)).toBe(false);
     });
 
     it('returns false because iso639 is missing', () => {
@@ -163,7 +165,7 @@ describe('Language', () => {
         englishName: 'Afar'
       };
 
-      expect(Language.isJSON(n)).toEqual(false);
+      expect(Language.isJSON(n)).toBe(false);
     });
 
     it('returns false because iso639 is not string', () => {
@@ -174,7 +176,7 @@ describe('Language', () => {
         iso639: 100
       };
 
-      expect(Language.isJSON(n)).toEqual(false);
+      expect(Language.isJSON(n)).toBe(false);
     });
   });
 
@@ -196,48 +198,48 @@ describe('Language', () => {
   describe('equals', () => {
     it('returns true if the all of the properties are the same', () => {
       const language1: Language = Language.of(
-        LanguageID.of(1),
-        LanguageName.of('аҧсуа бызшәа'),
-        LanguageName.of('Abkhazian'),
-        ISO639.of('ab')
+        new MockLanguageID(1),
+        new MockLanguageName('аҧсуа бызшәа'),
+        new MockLanguageName('Abkhazian'),
+        new MockISO639('ab')
       );
       const language2: Language = Language.of(
-        LanguageID.of(2),
-        LanguageName.of('аҧсуа бызшәа'),
-        LanguageName.of('Abkhazian'),
-        ISO639.of('ab')
+        new MockLanguageID(2),
+        new MockLanguageName('аҧсуа бызшәа'),
+        new MockLanguageName('Abkhazian'),
+        new MockISO639('ab')
       );
       const language3: Language = Language.of(
-        LanguageID.of(1),
-        LanguageName.of('Afaraf'),
-        LanguageName.of('Abkhazian'),
-        ISO639.of('ab')
+        new MockLanguageID(1),
+        new MockLanguageName('Afaraf'),
+        new MockLanguageName('Abkhazian'),
+        new MockISO639('ab')
       );
       const language4: Language = Language.of(
-        LanguageID.of(1),
-        LanguageName.of('аҧсуа бызшәа'),
-        LanguageName.of('Afar'),
-        ISO639.of('ab')
+        new MockLanguageID(1),
+        new MockLanguageName('аҧсуа бызшәа'),
+        new MockLanguageName('Afar'),
+        new MockISO639('ab')
       );
       const language5: Language = Language.of(
-        LanguageID.of(1),
-        LanguageName.of('аҧсуа бызшәа'),
-        LanguageName.of('Abkhazian'),
-        ISO639.of('aa')
+        new MockLanguageID(1),
+        new MockLanguageName('аҧсуа бызшәа'),
+        new MockLanguageName('Abkhazian'),
+        new MockISO639('aa')
       );
       const language6: Language = Language.of(
-        LanguageID.of(1),
-        LanguageName.of('аҧсуа бызшәа'),
-        LanguageName.of('Abkhazian'),
-        ISO639.of('ab')
+        new MockLanguageID(1),
+        new MockLanguageName('аҧсуа бызшәа'),
+        new MockLanguageName('Abkhazian'),
+        new MockISO639('ab')
       );
 
-      expect(language1.equals(language1)).toEqual(true);
-      expect(language1.equals(language2)).toEqual(false);
-      expect(language1.equals(language3)).toEqual(false);
-      expect(language1.equals(language4)).toEqual(false);
-      expect(language1.equals(language5)).toEqual(false);
-      expect(language1.equals(language6)).toEqual(true);
+      expect(language1.equals(language1)).toBe(true);
+      expect(language1.equals(language2)).toBe(false);
+      expect(language1.equals(language3)).toBe(false);
+      expect(language1.equals(language4)).toBe(false);
+      expect(language1.equals(language5)).toBe(false);
+      expect(language1.equals(language6)).toBe(true);
     });
   });
 
@@ -273,7 +275,7 @@ describe('Language', () => {
         ISO639.of(iso639)
       );
 
-      expect(language.toString()).toEqual(`${id} ${name1} ${name2} ${iso639}`);
+      expect(language.toString()).toBe(`${id} ${name1} ${name2} ${iso639}`);
     });
   });
 });

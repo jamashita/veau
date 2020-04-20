@@ -1,10 +1,9 @@
 import { ISO639 } from '../ISO639';
 
-// DONE
 describe('ISO639', () => {
   describe('empty', () => {
     it('always returns empty string', () => {
-      expect(ISO639.empty().get()).toEqual('');
+      expect(ISO639.empty().get()).toBe('');
     });
 
     it('returns singleton instance', () => {
@@ -21,22 +20,22 @@ describe('ISO639', () => {
       const iso6391: string = 'ab';
       const iso6392: string = 'aa';
 
-      expect(ISO639.of(iso6391).get()).toEqual(iso6391);
-      expect(ISO639.of(iso6392).get()).toEqual(iso6392);
+      expect(ISO639.of(iso6391).get()).toBe(iso6391);
+      expect(ISO639.of(iso6392).get()).toBe(iso6392);
     });
   });
 
   describe('isEmpty', () => {
     it('returns true when ISO639.empty() is given', () => {
-      expect(ISO639.empty().isEmpty()).toEqual(true);
+      expect(ISO639.empty().isEmpty()).toBe(true);
     });
 
     it('normal case', () => {
       const iso6391: string = 'ab';
       const iso6392: string = 'aa';
 
-      expect(ISO639.of(iso6391).isEmpty()).toEqual(false);
-      expect(ISO639.of(iso6392).isEmpty()).toEqual(false);
+      expect(ISO639.of(iso6391).isEmpty()).toBe(false);
+      expect(ISO639.of(iso6392).isEmpty()).toBe(false);
     });
   });
 
@@ -46,9 +45,9 @@ describe('ISO639', () => {
       const iso6392: ISO639 = ISO639.of('aa');
       const iso6393: ISO639 = ISO639.of('ab');
 
-      expect(iso6391.equals(iso6391)).toEqual(true);
-      expect(iso6391.equals(iso6392)).toEqual(false);
-      expect(iso6391.equals(iso6393)).toEqual(true);
+      expect(iso6391.equals(iso6391)).toBe(true);
+      expect(iso6391.equals(iso6392)).toBe(false);
+      expect(iso6391.equals(iso6393)).toBe(true);
     });
   });
 
@@ -57,7 +56,7 @@ describe('ISO639', () => {
       const code: string = 'ab';
       const iso639: ISO639 = ISO639.of(code);
 
-      expect(iso639.toString()).toEqual(code);
+      expect(iso639.toString()).toBe(code);
     });
   });
 });

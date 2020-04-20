@@ -4,23 +4,24 @@ import { Superposition } from '../../General/Superposition/Superposition';
 import { UUID } from '../../General/UUID/UUID';
 import { VeauAccountID } from '../VeauAccountID';
 
-// DONE
 describe('VeauAccountID', () => {
   describe('of', () => {
     it('normal case', () => {
-      const uuid: string = '998106de-b2e7-4981-9643-22cd30cd74de';
+      const uuid: UUID = UUID.v4();
 
-      const veauAccountID: VeauAccountID = VeauAccountID.of(UUID.of(uuid));
+      const veauAccountID: VeauAccountID = VeauAccountID.of(uuid);
 
-      expect(veauAccountID.get().get()).toEqual(uuid);
+      expect(veauAccountID.get()).toBe(uuid);
     });
   });
 
   describe('ofString', () => {
     it('normal case', () => {
-      const superposition: Superposition<VeauAccountID, VeauAccountIDError> = VeauAccountID.ofString('998106de-b2e7-4981-9643-22cd30cd74de');
+      const uuid: UUID = UUID.v4();
 
-      expect(superposition.isSuccess()).toEqual(true);
+      const superposition: Superposition<VeauAccountID, VeauAccountIDError> = VeauAccountID.ofString(uuid.get());
+
+      expect(superposition.isSuccess()).toBe(true);
     });
 
     it('returns Failure when uuid length string is not given', () => {
@@ -29,7 +30,7 @@ describe('VeauAccountID', () => {
 
       const superposition: Superposition<VeauAccountID, VeauAccountIDError> = VeauAccountID.ofString('cinq');
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: VeauAccountIDError) => {
@@ -37,37 +38,39 @@ describe('VeauAccountID', () => {
         expect(err).toBeInstanceOf(VeauAccountIDError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
   });
 
   describe('generate', () => {
     it('always gives UUID length string', () => {
       for (let i: number = 0; i < 100; i++) {
-        expect(VeauAccountID.generate().get().get().length).toEqual(UUID.size());
+        expect(VeauAccountID.generate().get().get().length).toBe(UUID.size());
       }
     });
   });
 
   describe('equals', () => {
     it('returns true if the property is the same', () => {
-      const veauAccountID1: VeauAccountID = VeauAccountID.ofString('998106de-b2e7-4981-9643-22cd30cd74de').get();
-      const veauAccountID2: VeauAccountID = VeauAccountID.ofString('ee49aef0-b515-4fd8-9c4b-5ad9740ef4f9').get();
-      const veauAccountID3: VeauAccountID = VeauAccountID.ofString('998106de-b2e7-4981-9643-22cd30cd74de').get();
+      const uuid1: UUID = UUID.v4();
+      const uuid2: UUID = UUID.v4();
+      const veauAccountID1: VeauAccountID = VeauAccountID.of(uuid1);
+      const veauAccountID2: VeauAccountID = VeauAccountID.of(uuid2);
+      const veauAccountID3: VeauAccountID = VeauAccountID.of(uuid1);
 
-      expect(veauAccountID1.equals(veauAccountID1)).toEqual(true);
-      expect(veauAccountID1.equals(veauAccountID2)).toEqual(false);
-      expect(veauAccountID1.equals(veauAccountID3)).toEqual(true);
+      expect(veauAccountID1.equals(veauAccountID1)).toBe(true);
+      expect(veauAccountID1.equals(veauAccountID2)).toBe(false);
+      expect(veauAccountID1.equals(veauAccountID3)).toBe(true);
     });
   });
 
   describe('toString', () => {
     it('returns the original string', () => {
-      const id: string = '998106de-b2e7-4981-9643-22cd30cd74de';
-      const veauAccountID: VeauAccountID = VeauAccountID.ofString(id).get();
+      const uuid: UUID = UUID.v4();
+      const veauAccountID: VeauAccountID = VeauAccountID.of(uuid);
 
-      expect(veauAccountID.get().toString()).toEqual(id);
+      expect(veauAccountID.toString()).toBe(uuid.toString());
     });
   });
 });

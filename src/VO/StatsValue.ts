@@ -38,9 +38,17 @@ export class StatsValue extends ValueObject implements JSONable {
 
   public static ofJSON(statsItemID: StatsItemID, json: StatsValueJSON): Superposition<StatsValue, StatsValueError> {
     return AsOf.ofString(json.asOf).match<StatsValue, StatsValueError>((asOf: AsOf) => {
-      return Success.of<StatsValue, StatsValueError>(StatsValue.of(statsItemID, asOf, NumericalValue.of(json.value)));
+      return Success.of<StatsValue, StatsValueError>(
+        StatsValue.of(
+          statsItemID,
+          asOf,
+          NumericalValue.of(json.value)
+        )
+      );
     }, (err: AsOfError) => {
-      return Failure.of<StatsValue, StatsValueError>(new StatsValueError('StatsValue.ofRow()', err));
+      return Failure.of<StatsValue, StatsValueError>(
+        new StatsValueError('StatsValue.ofRow()', err)
+      );
     });
   }
 
@@ -55,10 +63,14 @@ export class StatsValue extends ValueObject implements JSONable {
           )
         );
       }, (err: AsOfError) => {
-        return Failure.of<StatsValue, StatsValueError>(new StatsValueError('StatsValue.ofRow()', err));
+        return Failure.of<StatsValue, StatsValueError>(
+          new StatsValueError('StatsValue.ofRow()', err)
+        );
       });
     }, (err: StatsItemIDError) => {
-      return Failure.of<StatsValue, StatsValueError>(new StatsValueError('StatsValue.ofRow()', err));
+      return Failure.of<StatsValue, StatsValueError>(
+        new StatsValueError('StatsValue.ofRow()', err)
+      );
     });
   }
 

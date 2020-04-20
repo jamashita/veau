@@ -1,9 +1,11 @@
 import { ISO3166 } from '../ISO3166';
+import { MockISO3166 } from '../Mock/MockISO3166';
+import { MockRegionID } from '../Mock/MockRegionID';
+import { MockRegionName } from '../Mock/MockRegionName';
 import { Region, RegionJSON, RegionRow } from '../Region';
 import { RegionID } from '../RegionID';
 import { RegionName } from '../RegionName';
 
-// DONE
 describe('Region', () => {
   describe('of', () => {
     it('normal case', () => {
@@ -17,9 +19,9 @@ describe('Region', () => {
         iso3166
       );
 
-      expect(region.getRegionID()).toEqual(regionID);
-      expect(region.getName()).toEqual(name);
-      expect(region.getISO3166()).toEqual(iso3166);
+      expect(region.getRegionID()).toBe(regionID);
+      expect(region.getName()).toBe(name);
+      expect(region.getISO3166()).toBe(iso3166);
     });
 
     it('all are empty, returns Region.empty()', () => {
@@ -43,9 +45,9 @@ describe('Region', () => {
 
       const region: Region = Region.ofJSON(json);
 
-      expect(region.getRegionID().get()).toEqual(json.regionID);
-      expect(region.getName().get()).toEqual(json.name);
-      expect(region.getISO3166().get()).toEqual(json.iso3166);
+      expect(region.getRegionID().get()).toBe(json.regionID);
+      expect(region.getName().get()).toBe(json.name);
+      expect(region.getISO3166().get()).toBe(json.iso3166);
     });
   });
 
@@ -59,9 +61,9 @@ describe('Region', () => {
 
       const region: Region = Region.ofRow(row);
 
-      expect(region.getRegionID().get()).toEqual(row.regionID);
-      expect(region.getName().get()).toEqual(row.name);
-      expect(region.getISO3166().get()).toEqual(row.iso3166);
+      expect(region.getRegionID().get()).toBe(row.regionID);
+      expect(region.getName().get()).toBe(row.name);
+      expect(region.getISO3166().get()).toBe(row.iso3166);
     });
   });
 
@@ -73,15 +75,15 @@ describe('Region', () => {
         iso3166: 'ALB'
       };
 
-      expect(Region.isJSON(n)).toEqual(true);
+      expect(Region.isJSON(n)).toBe(true);
     });
 
     it('returns false because given parameter is not an object', () => {
-      expect(Region.isJSON(null)).toEqual(false);
-      expect(Region.isJSON(undefined)).toEqual(false);
-      expect(Region.isJSON(56)).toEqual(false);
-      expect(Region.isJSON('fjafsd')).toEqual(false);
-      expect(Region.isJSON(false)).toEqual(false);
+      expect(Region.isJSON(null)).toBe(false);
+      expect(Region.isJSON(undefined)).toBe(false);
+      expect(Region.isJSON(56)).toBe(false);
+      expect(Region.isJSON('fjafsd')).toBe(false);
+      expect(Region.isJSON(false)).toBe(false);
     });
 
     it('returns false because regionID is missing', () => {
@@ -90,7 +92,7 @@ describe('Region', () => {
         iso3166: 'ALB'
       };
 
-      expect(Region.isJSON(n)).toEqual(false);
+      expect(Region.isJSON(n)).toBe(false);
     });
 
     it('returns false because regionID is not number', () => {
@@ -100,7 +102,7 @@ describe('Region', () => {
         iso3166: 'ALB'
       };
 
-      expect(Region.isJSON(n)).toEqual(false);
+      expect(Region.isJSON(n)).toBe(false);
     });
 
     it('returns false because name is missing', () => {
@@ -109,7 +111,7 @@ describe('Region', () => {
         iso3166: 'ALB'
       };
 
-      expect(Region.isJSON(n)).toEqual(false);
+      expect(Region.isJSON(n)).toBe(false);
     });
 
     it('returns false because name is not string', () => {
@@ -119,7 +121,7 @@ describe('Region', () => {
         iso3166: 'ALB'
       };
 
-      expect(Region.isJSON(n)).toEqual(false);
+      expect(Region.isJSON(n)).toBe(false);
     });
 
     it('returns false because iso3166 is missing', () => {
@@ -128,7 +130,7 @@ describe('Region', () => {
         name: 'Albania'
       };
 
-      expect(Region.isJSON(n)).toEqual(false);
+      expect(Region.isJSON(n)).toBe(false);
     });
 
     it('returns false because iso3166 is not string', () => {
@@ -138,7 +140,7 @@ describe('Region', () => {
         iso3166: -5
       };
 
-      expect(Region.isJSON(n)).toEqual(false);
+      expect(Region.isJSON(n)).toBe(false);
     });
   });
 
@@ -159,36 +161,36 @@ describe('Region', () => {
   describe('equals', () => {
     it('returns true if the all properties are the same', () => {
       const region1: Region = Region.of(
-        RegionID.of(1),
-        RegionName.of('Afghanistan'),
-        ISO3166.of('AFG')
+        new MockRegionID(1),
+        new MockRegionName('Afghanistan'),
+        new MockISO3166('AFG')
       );
       const region2: Region = Region.of(
-        RegionID.of(2),
-        RegionName.of('Afghanistan'),
-        ISO3166.of('AFG')
+        new MockRegionID(2),
+        new MockRegionName('Afghanistan'),
+        new MockISO3166('AFG')
       );
       const region3: Region = Region.of(
-        RegionID.of(1),
-        RegionName.of('Albania'),
-        ISO3166.of('AFG')
+        new MockRegionID(1),
+        new MockRegionName('Albania'),
+        new MockISO3166('AFG')
       );
       const region4: Region = Region.of(
-        RegionID.of(1),
-        RegionName.of('Afghanistan'),
-        ISO3166.of('AFB')
+        new MockRegionID(1),
+        new MockRegionName('Afghanistan'),
+        new MockISO3166('AFB')
       );
       const region5: Region = Region.of(
-        RegionID.of(1),
-        RegionName.of('Afghanistan'),
-        ISO3166.of('AFG')
+        new MockRegionID(1),
+        new MockRegionName('Afghanistan'),
+        new MockISO3166('AFG')
       );
 
-      expect(region1.equals(region1)).toEqual(true);
-      expect(region1.equals(region2)).toEqual(false);
-      expect(region1.equals(region3)).toEqual(false);
-      expect(region1.equals(region4)).toEqual(false);
-      expect(region1.equals(region5)).toEqual(true);
+      expect(region1.equals(region1)).toBe(true);
+      expect(region1.equals(region2)).toBe(false);
+      expect(region1.equals(region3)).toBe(false);
+      expect(region1.equals(region4)).toBe(false);
+      expect(region1.equals(region5)).toBe(true);
     });
   });
 
@@ -220,7 +222,7 @@ describe('Region', () => {
         ISO3166.of(iso3166)
       );
 
-      expect(region.toString()).toEqual(`${id} ${name} ${iso3166}`);
+      expect(region.toString()).toBe(`${id} ${name} ${iso3166}`);
     });
   });
 });

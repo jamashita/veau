@@ -1,14 +1,13 @@
 import { Password } from '../Password';
 
-// DONE
 describe('Password', () => {
   describe('empty', () => {
     it('must be an blank password', () => {
-      expect(Password.empty().get()).toEqual('');
+      expect(Password.empty().get()).toBe('');
     });
 
     it('returns singleton instance', () => {
-      expect(Password.empty()).toEqual(Password.empty());
+      expect(Password.empty()).toBe(Password.empty());
     });
   });
 
@@ -21,8 +20,8 @@ describe('Password', () => {
       const pasword1: string = 'password 1';
       const pasword2: string = 'password 2';
 
-      expect(Password.of(pasword1).get()).toEqual(pasword1);
-      expect(Password.of(pasword2).get()).toEqual(pasword2);
+      expect(Password.of(pasword1).get()).toBe(pasword1);
+      expect(Password.of(pasword2).get()).toBe(pasword2);
     });
   });
 
@@ -32,24 +31,24 @@ describe('Password', () => {
       const password2: Password = Password.of('password 2');
       const password3: Password = Password.of('password 1');
 
-      expect(password1.equals(password1)).toEqual(true);
-      expect(password1.equals(password2)).toEqual(false);
-      expect(password1.equals(password3)).toEqual(true);
+      expect(password1.equals(password1)).toBe(true);
+      expect(password1.equals(password2)).toBe(false);
+      expect(password1.equals(password3)).toBe(true);
     });
   });
 
   describe('isEmpty', () => {
     it('when Password.empty() is given, returns true', () => {
-      expect(Password.empty().isEmpty()).toEqual(true);
+      expect(Password.empty().isEmpty()).toBe(true);
     });
 
     it('returns true if the password is empty string', () => {
-      expect(Password.of('').isEmpty()).toEqual(true);
+      expect(Password.of('').isEmpty()).toBe(true);
     });
 
     it('otherwise, returns false', () => {
-      expect(Password.of('s').isEmpty()).toEqual(false);
-      expect(Password.of('public servant').isEmpty()).toEqual(false);
+      expect(Password.of('s').isEmpty()).toBe(false);
+      expect(Password.of('public servant').isEmpty()).toBe(false);
     });
   });
 
@@ -58,7 +57,7 @@ describe('Password', () => {
       const word: string = 'aiutare';
       const password: Password = Password.of(word);
 
-      expect(password.toString()).toEqual(word);
+      expect(password.toString()).toBe(word);
     });
   });
 });

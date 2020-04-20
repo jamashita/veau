@@ -17,7 +17,6 @@ import { Region } from '../Region';
 import { VeauAccount } from '../VeauAccount';
 import { VeauAccountID } from '../VeauAccountID';
 
-// DONE
 describe('Account', () => {
   describe('of', () => {
     it('normal case', () => {
@@ -35,11 +34,11 @@ describe('Account', () => {
         hash
       );
 
-      expect(account.getVeauAccountID()).toEqual(accountID);
-      expect(account.getAccount()).toEqual(name);
-      expect(account.getLanguage()).toEqual(language);
-      expect(account.getRegion()).toEqual(region);
-      expect(account.getHash()).toEqual(hash);
+      expect(account.getVeauAccountID()).toBe(accountID);
+      expect(account.getAccount()).toBe(name);
+      expect(account.getLanguage()).toBe(language);
+      expect(account.getRegion()).toBe(region);
+      expect(account.getHash()).toBe(hash);
     });
   });
 
@@ -60,18 +59,18 @@ describe('Account', () => {
 
       const superposition: Superposition<Account, AccountError> = Account.ofRow(row);
 
-      expect(superposition.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toBe(true);
       const account: Account = superposition.get();
-      expect(account.getVeauAccountID().get().get()).toEqual(row.veauAccountID);
-      expect(account.getAccount().get()).toEqual(row.account);
-      expect(account.getLanguage().getLanguageID().get()).toEqual(row.languageID);
-      expect(account.getLanguage().getName().get()).toEqual(row.languageName);
-      expect(account.getLanguage().getEnglishName().get()).toEqual(row.languageEnglishName);
-      expect(account.getLanguage().getISO639().get()).toEqual(row.iso639);
-      expect(account.getRegion().getRegionID().get()).toEqual(row.regionID);
-      expect(account.getRegion().getName().get()).toEqual(row.regionName);
-      expect(account.getRegion().getISO3166().get()).toEqual(row.iso3166);
-      expect(account.getHash().get()).toEqual(row.hash);
+      expect(account.getVeauAccountID().get().get()).toBe(row.veauAccountID);
+      expect(account.getAccount().get()).toBe(row.account);
+      expect(account.getLanguage().getLanguageID().get()).toBe(row.languageID);
+      expect(account.getLanguage().getName().get()).toBe(row.languageName);
+      expect(account.getLanguage().getEnglishName().get()).toBe(row.languageEnglishName);
+      expect(account.getLanguage().getISO639().get()).toBe(row.iso639);
+      expect(account.getRegion().getRegionID().get()).toBe(row.regionID);
+      expect(account.getRegion().getName().get()).toBe(row.regionName);
+      expect(account.getRegion().getISO3166().get()).toBe(row.iso3166);
+      expect(account.getHash().get()).toBe(row.hash);
     });
 
     it('contains malformat veauAccountID', () => {
@@ -93,7 +92,7 @@ describe('Account', () => {
 
       const superposition: Superposition<Account, AccountError> = Account.ofRow(row);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: AccountError) => {
@@ -101,8 +100,8 @@ describe('Account', () => {
         expect(err).toBeInstanceOf(AccountError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
   });
 
@@ -118,12 +117,20 @@ describe('Account', () => {
         Hash.of('$2b$14$dVujfUAxm6mo8rujdy7jbuoNcMYC4R2Rf.mqzk2/oXhFQgBIWiZUu')
       );
 
-      const correct1: boolean = await account.verify(password1);
-      const correct2: boolean = await account.verify(password2);
+      const [
+        correct1,
+        correct2
+      ]: [
+        boolean,
+        boolean
+      ] = await Promise.all([
+        account.verify(password1),
+        account.verify(password2)
+      ]);
 
-      expect(correct1).toEqual(true);
-      expect(correct2).toEqual(false);
-    });
+      expect(correct1).toBe(true);
+      expect(correct2).toBe(false);
+    }, 30000);
   });
 
   describe('equals', () => {
@@ -184,13 +191,13 @@ describe('Account', () => {
         new MockHash()
       );
 
-      expect(account1.equals(account1)).toEqual(true);
-      expect(account1.equals(account2)).toEqual(false);
-      expect(account1.equals(account3)).toEqual(false);
-      expect(account1.equals(account4)).toEqual(false);
-      expect(account1.equals(account5)).toEqual(false);
-      expect(account1.equals(account6)).toEqual(false);
-      expect(account1.equals(account7)).toEqual(true);
+      expect(account1.equals(account1)).toBe(true);
+      expect(account1.equals(account2)).toBe(false);
+      expect(account1.equals(account3)).toBe(false);
+      expect(account1.equals(account4)).toBe(false);
+      expect(account1.equals(account5)).toBe(false);
+      expect(account1.equals(account6)).toBe(false);
+      expect(account1.equals(account7)).toBe(true);
     });
   });
 
@@ -206,10 +213,10 @@ describe('Account', () => {
 
       const veauAccount: VeauAccount = account.toVeauAccount();
 
-      expect(veauAccount.getVeauAccountID()).toEqual(account.getVeauAccountID());
-      expect(veauAccount.getAccount()).toEqual(account.getAccount());
-      expect(veauAccount.getLanguage()).toEqual(account.getLanguage());
-      expect(veauAccount.getRegion()).toEqual(account.getRegion());
+      expect(veauAccount.getVeauAccountID()).toBe(account.getVeauAccountID());
+      expect(veauAccount.getAccount()).toBe(account.getAccount());
+      expect(veauAccount.getLanguage()).toBe(account.getLanguage());
+      expect(veauAccount.getRegion()).toBe(account.getRegion());
     });
   });
 
@@ -217,13 +224,18 @@ describe('Account', () => {
     it('returns the original string', () => {
       const id: string = '998106de-b2e7-4981-9643-22cd30cd74de';
       const name: string = 'veau';
-      const h: string = 'hash';
       const language: Language = Language.empty();
       const region: Region = Region.empty();
-      const hash: Hash = Hash.of(h);
-      const account: Account = Account.of(VeauAccountID.ofString(id).get(), AccountName.of(name), language, region, hash);
+      const hash: string = 'hash hash hash';
+      const account: Account = Account.of(
+        VeauAccountID.ofString(id).get(),
+        AccountName.of(name),
+        language,
+        region,
+        Hash.of(hash)
+      );
 
-      expect(account.toString()).toEqual(`${id} ${name} ${language.toString()} ${region.toString()} ${h}`);
+      expect(account.toString()).toBe(`${id} ${name} ${language.toString()} ${region.toString()} ${hash}`);
     });
   });
 });

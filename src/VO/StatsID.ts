@@ -22,7 +22,9 @@ export class StatsID extends ValueObject {
     }
     catch (err) {
       if (err instanceof UUIDError) {
-        return Failure.of<StatsID, StatsIDError>(new StatsIDError('StatsID.ofString()', err));
+        return Failure.of<StatsID, StatsIDError>(
+          new StatsIDError('StatsID.ofString()', err)
+        );
       }
 
       throw err;

@@ -1,10 +1,9 @@
 import { StatsItemName } from '../StatsItemName';
 
-// DONE
 describe('StatsItemName', () => {
   describe('empty', () => {
     it('must be an empty name', () => {
-      expect(StatsItemName.empty().get()).toEqual('');
+      expect(StatsItemName.empty().get()).toBe('');
     });
 
     it('returns singleton instance', () => {
@@ -22,9 +21,9 @@ describe('StatsItemName', () => {
       const name2: string = 'stats item name 2';
       const name3: string = 'stats item name 3';
 
-      expect(StatsItemName.of(name1).get()).toEqual(name1);
-      expect(StatsItemName.of(name2).get()).toEqual(name2);
-      expect(StatsItemName.of(name3).get()).toEqual(name3);
+      expect(StatsItemName.of(name1).get()).toBe(name1);
+      expect(StatsItemName.of(name2).get()).toBe(name2);
+      expect(StatsItemName.of(name3).get()).toBe(name3);
     });
   });
 
@@ -34,9 +33,9 @@ describe('StatsItemName', () => {
       const name2: StatsItemName = StatsItemName.of('stats item name 2');
       const name3: StatsItemName = StatsItemName.of('stats item name 1');
 
-      expect(name1.equals(name1)).toEqual(true);
-      expect(name1.equals(name2)).toEqual(false);
-      expect(name1.equals(name3)).toEqual(true);
+      expect(name1.equals(name1)).toBe(true);
+      expect(name1.equals(name2)).toBe(false);
+      expect(name1.equals(name3)).toBe(true);
     });
   });
 
@@ -46,9 +45,9 @@ describe('StatsItemName', () => {
       const name2: StatsItemName = StatsItemName.of('');
       const name3: StatsItemName = StatsItemName.of('p309');
 
-      expect(name1.length()).toEqual(0);
-      expect(name2.length()).toEqual(0);
-      expect(name3.length()).toEqual(4);
+      expect(name1.length()).toBe(0);
+      expect(name2.length()).toBe(0);
+      expect(name3.length()).toBe(4);
     });
   });
 
@@ -58,9 +57,9 @@ describe('StatsItemName', () => {
       const name2: StatsItemName = StatsItemName.of('');
       const name3: StatsItemName = StatsItemName.of('p');
 
-      expect(name1.isEmpty()).toEqual(true);
-      expect(name2.isEmpty()).toEqual(true);
-      expect(name3.isEmpty()).toEqual(false);
+      expect(name1.isEmpty()).toBe(true);
+      expect(name2.isEmpty()).toBe(true);
+      expect(name3.isEmpty()).toBe(false);
     });
   });
 
@@ -69,7 +68,7 @@ describe('StatsItemName', () => {
       const name: string = 'stats item name 1';
       const statsItemName: StatsItemName = StatsItemName.of(name);
 
-      expect(statsItemName.toString()).toEqual(name);
+      expect(statsItemName.toString()).toBe(name);
     });
   });
 });

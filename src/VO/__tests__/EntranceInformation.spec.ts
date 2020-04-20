@@ -4,14 +4,13 @@ import { MockAccountName } from '../Mock/MockAccountName';
 import { MockPassword } from '../Mock/MockPassword';
 import { Password } from '../Password';
 
-// DONE
 describe('EntranceInformation', () => {
   describe('empty', () => {
     it('\'s account and password must also be empty', () => {
       const entranceInformation: EntranceInformation = EntranceInformation.empty();
 
-      expect(entranceInformation.getAccount().isEmpty()).toEqual(true);
-      expect(entranceInformation.getPassword().isEmpty()).toEqual(true);
+      expect(entranceInformation.getAccount().isEmpty()).toBe(true);
+      expect(entranceInformation.getPassword().isEmpty()).toBe(true);
     });
 
     it('returns singleton instance', () => {
@@ -37,8 +36,8 @@ describe('EntranceInformation', () => {
         Password.of(password)
       );
 
-      expect(entranceInformation.getAccount().get()).toEqual(name);
-      expect(entranceInformation.getPassword().get()).toEqual(password);
+      expect(entranceInformation.getAccount().get()).toBe(name);
+      expect(entranceInformation.getPassword().get()).toBe(password);
     });
   });
 
@@ -49,7 +48,7 @@ describe('EntranceInformation', () => {
         Password.empty()
       );
 
-      expect(entranceInformation.isAcceptable()).toEqual(false);
+      expect(entranceInformation.isAcceptable()).toBe(false);
     });
 
     it('account is empty, then user is not able to login', () => {
@@ -58,7 +57,7 @@ describe('EntranceInformation', () => {
         new MockPassword('password')
       );
 
-      expect(entranceInformation.isAcceptable()).toEqual(false);
+      expect(entranceInformation.isAcceptable()).toBe(false);
     });
 
     it('password is empty, then user is not able to login', () => {
@@ -67,7 +66,7 @@ describe('EntranceInformation', () => {
         Password.empty()
       );
 
-      expect(entranceInformation.isAcceptable()).toEqual(false);
+      expect(entranceInformation.isAcceptable()).toBe(false);
     });
 
     it('account and password are filled then user is able to attempt login', () => {
@@ -76,7 +75,7 @@ describe('EntranceInformation', () => {
         new MockPassword('password')
       );
 
-      expect(entranceInformation.isAcceptable()).toEqual(true);
+      expect(entranceInformation.isAcceptable()).toBe(true);
     });
   });
 
@@ -103,11 +102,11 @@ describe('EntranceInformation', () => {
         new MockPassword('password1')
       );
 
-      expect(entranceInformation1.equals(entranceInformation1)).toEqual(true);
-      expect(entranceInformation1.equals(entranceInformation2)).toEqual(false);
-      expect(entranceInformation1.equals(entranceInformation3)).toEqual(false);
-      expect(entranceInformation1.equals(entranceInformation4)).toEqual(false);
-      expect(entranceInformation1.equals(entranceInformation5)).toEqual(true);
+      expect(entranceInformation1.equals(entranceInformation1)).toBe(true);
+      expect(entranceInformation1.equals(entranceInformation2)).toBe(false);
+      expect(entranceInformation1.equals(entranceInformation3)).toBe(false);
+      expect(entranceInformation1.equals(entranceInformation4)).toBe(false);
+      expect(entranceInformation1.equals(entranceInformation5)).toBe(true);
     });
   });
 
@@ -120,7 +119,7 @@ describe('EntranceInformation', () => {
         Password.of(password)
       );
 
-      expect(entranceInformation.toString()).toEqual(`${account} ${password}`);
+      expect(entranceInformation.toString()).toBe(`${account} ${password}`);
     });
   });
 });

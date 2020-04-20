@@ -2,7 +2,6 @@ import { NumericalValueError } from '../../Error/NumericalValueError';
 import { NoValue } from '../NoValue';
 import { NumericalValue } from '../NumericalValue';
 
-// DONE
 describe('NoValue', () => {
   describe('of', () => {
     it('returns singleton instance', () => {
@@ -18,10 +17,10 @@ describe('NoValue', () => {
       const value3: NumericalValue = NumericalValue.of(1);
       const value4: NumericalValue = NoValue.of();
 
-      expect(value1.equals(value1)).toEqual(true);
-      expect(value1.equals(value2)).toEqual(false);
-      expect(value1.equals(value3)).toEqual(false);
-      expect(value1.equals(value4)).toEqual(true);
+      expect(value1.equals(value1)).toBe(true);
+      expect(value1.equals(value2)).toBe(false);
+      expect(value1.equals(value3)).toBe(false);
+      expect(value1.equals(value4)).toBe(true);
     });
   });
 
@@ -37,7 +36,7 @@ describe('NoValue', () => {
     it('returns empty string', () => {
       const value: NoValue = NoValue.of();
 
-      expect(value.toString()).toEqual('');
+      expect(value.toString()).toBe('');
     });
   });
 });

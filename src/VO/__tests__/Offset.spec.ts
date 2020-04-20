@@ -3,7 +3,6 @@ import { OffsetError } from '../../Error/OffsetError';
 import { Superposition } from '../../General/Superposition/Superposition';
 import { Offset } from '../Offset';
 
-// DONE
 describe('Offset', () => {
   describe('of', () => {
     it('returns Failure when the argument is less than 0', () => {
@@ -13,8 +12,8 @@ describe('Offset', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      expect(superposition1.isSuccess()).toEqual(true);
-      expect(superposition2.isFailure()).toEqual(true);
+      expect(superposition1.isSuccess()).toBe(true);
+      expect(superposition2.isFailure()).toBe(true);
 
       superposition2.match<void>(() => {
         spy1();
@@ -23,8 +22,8 @@ describe('Offset', () => {
         expect(err).toBeInstanceOf(OffsetError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('returns Failure when the argument is not integer', () => {
@@ -36,8 +35,8 @@ describe('Offset', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      expect(superposition1.isFailure()).toEqual(true);
-      expect(superposition2.isFailure()).toEqual(true);
+      expect(superposition1.isFailure()).toBe(true);
+      expect(superposition2.isFailure()).toBe(true);
 
       superposition1.match<void>(() => {
         spy1();
@@ -53,10 +52,10 @@ describe('Offset', () => {
         expect(err).toBeInstanceOf(OffsetError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
-      expect(spy3.called).toEqual(false);
-      expect(spy4.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(true);
     });
   });
 
@@ -66,9 +65,9 @@ describe('Offset', () => {
       const offset2: Offset = Offset.of(2).get();
       const offset3: Offset = Offset.of(1).get();
 
-      expect(offset1.equals(offset1)).toEqual(true);
-      expect(offset1.equals(offset2)).toEqual(false);
-      expect(offset1.equals(offset3)).toEqual(true);
+      expect(offset1.equals(offset1)).toBe(true);
+      expect(offset1.equals(offset2)).toBe(false);
+      expect(offset1.equals(offset3)).toBe(true);
     });
   });
 
@@ -77,7 +76,7 @@ describe('Offset', () => {
       const num: number = 2;
       const offset: Offset = Offset.of(num).get();
 
-      expect(offset.toString()).toEqual(num.toString());
+      expect(offset.toString()).toBe(num.toString());
     });
   });
 });

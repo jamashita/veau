@@ -52,7 +52,7 @@ export class Terms extends Objet implements Collection<number, Term> {
   }
 
   public isEmpty(): boolean {
-    return this.terms.isEmpty();
+    return false;
   }
 
   public map<U>(mapper: Mapper<Term, U>): Array<U> {

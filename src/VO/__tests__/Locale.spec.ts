@@ -16,11 +16,11 @@ import { RegionID } from '../RegionID';
 import { RegionName } from '../RegionName';
 import { Regions } from '../Regions';
 
-// DONE
 describe('Locale', () => {
   describe('empty', () => {
     it('generates 0-length Regions, and Languages', () => {
       const locale: Locale = Locale.empty();
+
       expect(locale.getLanguages()).toBe(Languages.empty());
       expect(locale.getRegions()).toBe(Regions.empty());
     });
@@ -53,20 +53,20 @@ describe('Locale', () => {
         regions
       });
 
-      expect(locale.getLanguages().size()).toEqual(languages.length);
+      expect(locale.getLanguages().size()).toBe(languages.length);
       for (let i: number = 0; i < locale.getLanguages().size(); i++) {
         const language: Language = locale.getLanguages().get(i).get();
-        expect(language.getLanguageID().get()).toEqual(languages[i].languageID);
-        expect(language.getName().get()).toEqual(languages[i].name);
-        expect(language.getEnglishName().get()).toEqual(languages[i].englishName);
-        expect(language.getISO639().get()).toEqual(languages[i].iso639);
+        expect(language.getLanguageID().get()).toBe(languages[i].languageID);
+        expect(language.getName().get()).toBe(languages[i].name);
+        expect(language.getEnglishName().get()).toBe(languages[i].englishName);
+        expect(language.getISO639().get()).toBe(languages[i].iso639);
       }
-      expect(locale.getRegions().size()).toEqual(regions.length);
+      expect(locale.getRegions().size()).toBe(regions.length);
       for (let i: number = 0; i < locale.getRegions().size(); i++) {
         const region: Region = locale.getRegions().get(i).get();
-        expect(region.getRegionID().get()).toEqual(regions[i].regionID);
-        expect(region.getName().get()).toEqual(regions[i].name);
-        expect(region.getISO3166().get()).toEqual(regions[i].iso3166);
+        expect(region.getRegionID().get()).toBe(regions[i].regionID);
+        expect(region.getName().get()).toBe(regions[i].name);
+        expect(region.getISO3166().get()).toBe(regions[i].iso3166);
       }
     });
   });
@@ -152,11 +152,11 @@ describe('Locale', () => {
         )
       );
 
-      expect(locale1.equals(locale1)).toEqual(true);
-      expect(locale1.equals(locale2)).toEqual(false);
-      expect(locale1.equals(locale3)).toEqual(false);
-      expect(locale1.equals(locale4)).toEqual(false);
-      expect(locale1.equals(locale5)).toEqual(true);
+      expect(locale1.equals(locale1)).toBe(true);
+      expect(locale1.equals(locale2)).toBe(false);
+      expect(locale1.equals(locale3)).toBe(false);
+      expect(locale1.equals(locale4)).toBe(false);
+      expect(locale1.equals(locale5)).toBe(true);
     });
   });
 
@@ -221,7 +221,7 @@ describe('Locale', () => {
       const iso31662: string = 'abd';
 
       const locale: Locale = Locale.of(
-        Languages.ofSpread(
+        Languages.ofArray([
           Language.of(
             LanguageID.of(id1),
             LanguageName.of(name1),
@@ -234,8 +234,8 @@ describe('Locale', () => {
             LanguageName.of(englishName2),
             ISO639.of(iso6392)
           )
-        ),
-        Regions.ofSpread(
+        ]),
+        Regions.ofArray([
           Region.of(
             RegionID.of(id3),
             RegionName.of(name3),
@@ -246,10 +246,10 @@ describe('Locale', () => {
             RegionName.of(name4),
             ISO3166.of(iso31662)
           )
-        )
+        ])
       );
 
-      expect(locale.toString()).toEqual(`${id1} ${name1} ${englishName1} ${iso6391}, ${id2} ${name2} ${englishName2} ${iso6392} ${id3} ${name3} ${iso31661}, ${id4} ${name4} ${iso31662}`);
+      expect(locale.toString()).toBe(`${id1} ${name1} ${englishName1} ${iso6391}, ${id2} ${name2} ${englishName2} ${iso6392} ${id3} ${name3} ${iso31661}, ${id4} ${name4} ${iso31662}`);
     });
   });
 });

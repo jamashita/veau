@@ -39,7 +39,7 @@ export class Term extends ValueObject {
         return Success.of<Term, TermError>(Term.ANNUAL);
       }
       default: {
-        return Failure.of<Term, TermError>(new TermError(id.toString()));
+        return Failure.of<Term, TermError>(new TermError(`${id}`));
       }
     }
   }

@@ -10,26 +10,25 @@ import { NumericalValue } from '../NumericalValue';
 import { StatsItemID } from '../StatsItemID';
 import { StatsValue, StatsValueJSON, StatsValueRow } from '../StatsValue';
 
-// DONE
 describe('StatsValue', () => {
   describe('ofJSON', () => {
     it('normal case', () => {
-      const id: string = 'f186dad1-6170-4fdc-9020-d73d9bf86fb0';
+      const uuid: UUID = UUID.v4();
       const json: StatsValueJSON = {
         asOf: '2000-01-01',
         value: -1.1
       };
 
       const superposition: Superposition<StatsValue, StatsValueError> = StatsValue.ofJSON(
-        StatsItemID.ofString(id).get(),
+        StatsItemID.of(uuid),
         json
       );
 
-      expect(superposition.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toBe(true);
       const statsValue: StatsValue = superposition.get();
-      expect(statsValue.getStatsItemID().get().get()).toEqual(id);
-      expect(statsValue.getAsOf().toString()).toEqual(json.asOf);
-      expect(statsValue.getValue().get()).toEqual(json.value);
+      expect(statsValue.getStatsItemID().get()).toBe(uuid);
+      expect(statsValue.getAsOf().toString()).toBe(json.asOf);
+      expect(statsValue.getValue().get()).toBe(json.value);
     });
 
     it('asOf is malformat', () => {
@@ -42,11 +41,11 @@ describe('StatsValue', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const superposition: Superposition<StatsValue, StatsValueError> = StatsValue.ofJSON(
-        StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get(),
+        new MockStatsItemID(),
         json
       );
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsValueError) => {
@@ -54,8 +53,8 @@ describe('StatsValue', () => {
         expect(err).toBeInstanceOf(StatsValueError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
   });
 
@@ -69,11 +68,11 @@ describe('StatsValue', () => {
 
       const superposition: Superposition<StatsValue, StatsValueError> = StatsValue.ofRow(row);
 
-      expect(superposition.isSuccess()).toEqual(true);
+      expect(superposition.isSuccess()).toBe(true);
       const statsValue: StatsValue = superposition.get();
-      expect(statsValue.getStatsItemID().get().get()).toEqual(row.statsItemID);
-      expect(statsValue.getAsOf().toString()).toEqual(row.asOf);
-      expect(statsValue.getValue().get()).toEqual(row.value);
+      expect(statsValue.getStatsItemID().get().get()).toBe(row.statsItemID);
+      expect(statsValue.getAsOf().toString()).toBe(row.asOf);
+      expect(statsValue.getValue().get()).toBe(row.value);
     });
 
     it('statsItemID is malformat', () => {
@@ -88,7 +87,7 @@ describe('StatsValue', () => {
 
       const superposition: Superposition<StatsValue, StatsValueError> = StatsValue.ofRow(row);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsValueError) => {
@@ -96,8 +95,8 @@ describe('StatsValue', () => {
         expect(err).toBeInstanceOf(StatsValueError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('asOf is malformat', () => {
@@ -112,7 +111,7 @@ describe('StatsValue', () => {
 
       const superposition: Superposition<StatsValue, StatsValueError> = StatsValue.ofRow(row);
 
-      expect(superposition.isFailure()).toEqual(true);
+      expect(superposition.isFailure()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsValueError) => {
@@ -120,8 +119,8 @@ describe('StatsValue', () => {
         expect(err).toBeInstanceOf(StatsValueError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
   });
 
@@ -132,15 +131,15 @@ describe('StatsValue', () => {
         value: 1
       };
 
-      expect(StatsValue.isJSON(n)).toEqual(true);
+      expect(StatsValue.isJSON(n)).toBe(true);
     });
 
     it('returns false because given parameter is not an object', () => {
-      expect(StatsValue.isJSON(null)).toEqual(false);
-      expect(StatsValue.isJSON(undefined)).toEqual(false);
-      expect(StatsValue.isJSON(56)).toEqual(false);
-      expect(StatsValue.isJSON('fjafsd')).toEqual(false);
-      expect(StatsValue.isJSON(false)).toEqual(false);
+      expect(StatsValue.isJSON(null)).toBe(false);
+      expect(StatsValue.isJSON(undefined)).toBe(false);
+      expect(StatsValue.isJSON(56)).toBe(false);
+      expect(StatsValue.isJSON('fjafsd')).toBe(false);
+      expect(StatsValue.isJSON(false)).toBe(false);
     });
 
     it('returns false because asOf is missing', () => {
@@ -148,7 +147,7 @@ describe('StatsValue', () => {
         value: -0.3
       };
 
-      expect(StatsValue.isJSON(n)).toEqual(false);
+      expect(StatsValue.isJSON(n)).toBe(false);
     });
 
     it('returns false because asOf is not string', () => {
@@ -157,7 +156,7 @@ describe('StatsValue', () => {
         value: -0.3
       };
 
-      expect(StatsValue.isJSON(n)).toEqual(false);
+      expect(StatsValue.isJSON(n)).toBe(false);
     });
 
     it('returns false because value is missing', () => {
@@ -165,7 +164,7 @@ describe('StatsValue', () => {
         asOf: '2000-01-01'
       };
 
-      expect(StatsValue.isJSON(n)).toEqual(false);
+      expect(StatsValue.isJSON(n)).toBe(false);
     });
 
     it('returns false because value is not number', () => {
@@ -174,7 +173,7 @@ describe('StatsValue', () => {
         value: null
       };
 
-      expect(StatsValue.isJSON(n)).toEqual(false);
+      expect(StatsValue.isJSON(n)).toBe(false);
     });
   });
 
@@ -185,50 +184,60 @@ describe('StatsValue', () => {
 
       const statsValue1: StatsValue = StatsValue.of(
         new MockStatsItemID(uuid1),
-        new MockAsOf(),
-        new MockNumericalValue()
+        new MockAsOf({
+          day: 1
+        }),
+        new MockNumericalValue(5)
       );
       const statsValue2: StatsValue = StatsValue.of(
         new MockStatsItemID(uuid2),
-        new MockAsOf(),
-        new MockNumericalValue()
+        new MockAsOf({
+          day: 1
+        }),
+        new MockNumericalValue(5)
       );
       const statsValue3: StatsValue = StatsValue.of(
         new MockStatsItemID(uuid1),
         new MockAsOf({
           day: 2
         }),
-        NumericalValue.of(0)
+        new MockNumericalValue(0)
       );
       const statsValue4: StatsValue = StatsValue.of(
         new MockStatsItemID(uuid1),
-        new MockAsOf(),
+        new MockAsOf({
+          day: 1
+        }),
         new MockNumericalValue(-1)
       );
       const statsValue5: StatsValue = StatsValue.of(
         new MockStatsItemID(uuid1),
-        new MockAsOf(),
+        new MockAsOf({
+          day: 1
+        }),
         new MockNumericalValue(1)
       );
       const statsValue6: StatsValue = StatsValue.of(
         new MockStatsItemID(uuid1),
-        new MockAsOf(),
-        new MockNumericalValue()
+        new MockAsOf({
+          day: 1
+        }),
+        new MockNumericalValue(5)
       );
 
-      expect(statsValue1.equals(statsValue1)).toEqual(true);
-      expect(statsValue1.equals(statsValue2)).toEqual(false);
-      expect(statsValue1.equals(statsValue3)).toEqual(false);
-      expect(statsValue1.equals(statsValue4)).toEqual(false);
-      expect(statsValue1.equals(statsValue5)).toEqual(false);
-      expect(statsValue1.equals(statsValue6)).toEqual(true);
+      expect(statsValue1.equals(statsValue1)).toBe(true);
+      expect(statsValue1.equals(statsValue2)).toBe(false);
+      expect(statsValue1.equals(statsValue3)).toBe(false);
+      expect(statsValue1.equals(statsValue4)).toBe(false);
+      expect(statsValue1.equals(statsValue5)).toBe(false);
+      expect(statsValue1.equals(statsValue6)).toBe(true);
     });
   });
 
   describe('toJSON', () => {
     it('normal case', () => {
       const statsValue: StatsValue = StatsValue.of(
-        StatsItemID.ofString('f186dad1-6170-4fdc-9020-d73d9bf86fb0').get(),
+        new MockStatsItemID(),
         AsOf.ofString('2000-01-01').get(),
         NumericalValue.of(1)
       );
@@ -245,9 +254,13 @@ describe('StatsValue', () => {
       const id: string = 'f186dad1-6170-4fdc-9020-d73d9bf86fb0';
       const asOf: string = '2000-01-01';
       const value: number = 1;
-      const statsValue: StatsValue = StatsValue.of(StatsItemID.ofString(id).get(), AsOf.ofString(asOf).get(), NumericalValue.of(value));
+      const statsValue: StatsValue = StatsValue.of(
+        StatsItemID.ofString(id).get(),
+        AsOf.ofString(asOf).get(),
+        NumericalValue.of(value)
+      );
 
-      expect(statsValue.toString()).toEqual(`${id} ${asOf} ${value}`);
+      expect(statsValue.toString()).toBe(`${id} ${asOf} ${value}`);
     });
   });
 });

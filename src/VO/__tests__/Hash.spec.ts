@@ -1,6 +1,5 @@
 import { Hash } from '../Hash';
 
-// DONE
 describe('Hash', () => {
   describe('equals', () => {
     it('returns true if both properties are the same', () => {
@@ -8,9 +7,9 @@ describe('Hash', () => {
       const hash2: Hash = Hash.of('hash 2');
       const hash3: Hash = Hash.of('hash 1');
 
-      expect(hash1.equals(hash1)).toEqual(true);
-      expect(hash1.equals(hash2)).toEqual(false);
-      expect(hash1.equals(hash3)).toEqual(true);
+      expect(hash1.equals(hash1)).toBe(true);
+      expect(hash1.equals(hash2)).toBe(false);
+      expect(hash1.equals(hash3)).toBe(true);
     });
   });
 
@@ -19,7 +18,7 @@ describe('Hash', () => {
       const hashed: string = 'hash';
       const hash: Hash = Hash.of(hashed);
 
-      expect(hash.toString()).toEqual(hashed);
+      expect(hash.toString()).toBe(hashed);
     });
   });
 });

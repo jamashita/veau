@@ -3,15 +3,14 @@ import { TermError } from '../../Error/TermError';
 import { Superposition } from '../../General/Superposition/Superposition';
 import { Term } from '../Term';
 
-// DONE
 describe('Term', () => {
   describe('of', () => {
     it('normal case', () => {
-      expect(Term.of(1).get()).toEqual(Term.DAILY);
-      expect(Term.of(2).get()).toEqual(Term.WEEKLY);
-      expect(Term.of(3).get()).toEqual(Term.MONTHLY);
-      expect(Term.of(4).get()).toEqual(Term.QUARTERLY);
-      expect(Term.of(5).get()).toEqual(Term.ANNUAL);
+      expect(Term.of(1).get()).toBe(Term.DAILY);
+      expect(Term.of(2).get()).toBe(Term.WEEKLY);
+      expect(Term.of(3).get()).toBe(Term.MONTHLY);
+      expect(Term.of(4).get()).toBe(Term.QUARTERLY);
+      expect(Term.of(5).get()).toBe(Term.ANNUAL);
     });
 
     it('returns Failure when the id is out of range', () => {
@@ -26,9 +25,9 @@ describe('Term', () => {
       const spy5: SinonSpy = sinon.spy();
       const spy6: SinonSpy = sinon.spy();
 
-      expect(superposition1.isFailure()).toEqual(true);
-      expect(superposition2.isFailure()).toEqual(true);
-      expect(superposition2.isFailure()).toEqual(true);
+      expect(superposition1.isFailure()).toBe(true);
+      expect(superposition2.isFailure()).toBe(true);
+      expect(superposition3.isFailure()).toBe(true);
 
       superposition1.match<void>(() => {
         spy1();
@@ -49,12 +48,32 @@ describe('Term', () => {
         expect(err).toBeInstanceOf(TermError);
       });
 
-      expect(spy1.called).toEqual(false);
-      expect(spy2.called).toEqual(true);
-      expect(spy3.called).toEqual(false);
-      expect(spy4.called).toEqual(true);
-      expect(spy5.called).toEqual(false);
-      expect(spy6.called).toEqual(true);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(true);
+      expect(spy5.called).toBe(false);
+      expect(spy6.called).toBe(true);
+    });
+  });
+
+  describe('getID', () => {
+    it('normal case', () => {
+      expect(Term.DAILY.getID()).toBe(1);
+      expect(Term.WEEKLY.getID()).toBe(2);
+      expect(Term.MONTHLY.getID()).toBe(3);
+      expect(Term.QUARTERLY.getID()).toBe(4);
+      expect(Term.ANNUAL.getID()).toBe(5);
+    });
+  });
+
+  describe('getKey', () => {
+    it('normal case', () => {
+      expect(Term.DAILY.toString()).toBe(Term.DAILY.getKey());
+      expect(Term.WEEKLY.toString()).toBe(Term.WEEKLY.getKey());
+      expect(Term.MONTHLY.toString()).toBe(Term.MONTHLY.getKey());
+      expect(Term.QUARTERLY.toString()).toBe(Term.QUARTERLY.getKey());
+      expect(Term.ANNUAL.toString()).toBe(Term.ANNUAL.getKey());
     });
   });
 
@@ -66,11 +85,11 @@ describe('Term', () => {
       const term4: Term = Term.QUARTERLY;
       const term5: Term = Term.ANNUAL;
 
-      expect(term1.equals(term1)).toEqual(true);
-      expect(term1.equals(term2)).toEqual(false);
-      expect(term1.equals(term3)).toEqual(false);
-      expect(term1.equals(term4)).toEqual(false);
-      expect(term1.equals(term5)).toEqual(false);
+      expect(term1.equals(term1)).toBe(true);
+      expect(term1.equals(term2)).toBe(false);
+      expect(term1.equals(term3)).toBe(false);
+      expect(term1.equals(term4)).toBe(false);
+      expect(term1.equals(term5)).toBe(false);
     });
   });
 
@@ -82,11 +101,11 @@ describe('Term', () => {
       const term4: Term = Term.QUARTERLY;
       const term5: Term = Term.ANNUAL;
 
-      expect(term1.toString()).toEqual('DAILY');
-      expect(term2.toString()).toEqual('WEEKLY');
-      expect(term3.toString()).toEqual('MONTHLY');
-      expect(term4.toString()).toEqual('QUARTERLY');
-      expect(term5.toString()).toEqual('ANNUAL');
+      expect(term1.toString()).toBe('DAILY');
+      expect(term2.toString()).toBe('WEEKLY');
+      expect(term3.toString()).toBe('MONTHLY');
+      expect(term4.toString()).toBe('QUARTERLY');
+      expect(term5.toString()).toBe('ANNUAL');
     });
   });
 });
