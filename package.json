@@ -41,7 +41,7 @@
     "history": "4.10.1",
     "http-status": "1.4.2",
     "inversify": "5.0.1",
-    "ioredis": "4.16.2",
+    "ioredis": "4.16.3",
     "js-yaml": "3.13.1",
     "log4js": "6.2.1",
     "make-error-cause": "2.3.0",
@@ -63,8 +63,9 @@
     "reflect-metadata": "0.1.13",
     "rxjs": "6.5.5",
     "serve-favicon": "2.5.0",
-    "source-map-support": "0.5.17",
-    "superagent": "5.2.2"
+    "source-map-support": "0.5.18",
+    "superagent": "5.2.2",
+    "typesafe-actions": "5.1.0"
   },
   "devDependencies": {
     "@types/bcrypt": "3.0.0",
@@ -118,7 +119,7 @@
     "ts-jest": "25.4.0",
     "ts-loader": "7.0.1",
     "typescript": "3.8.3",
-    "webpack": "4.42.1",
+    "webpack": "4.43.0",
     "webpack-cli": "3.3.11",
     "webpack-dev-server": "3.10.3",
     "webpack-stream": "5.2.1"

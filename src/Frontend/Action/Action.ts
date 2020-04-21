@@ -100,7 +100,6 @@ export const STATS_RESET: '@@veau/STATS_RESET' = '@@veau/STATS_RESET';
 export const STATS_ITEM_UPDATE: '@@veau/STATS_ITEM_UPDATE' = '@@veau/STATS_ITEM_UPDATE';
 export const STATS_ITEM_RESET: '@@veau/STATS_ITEM_RESET' = '@@veau/STATS_ITEM_RESET';
 
-
 export interface ChangeAction extends LocationChangeAction, ReduxAction {
   readonly type: typeof LOCATION_CHANGE;
 }
