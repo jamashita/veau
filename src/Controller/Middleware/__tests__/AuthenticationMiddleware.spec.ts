@@ -22,7 +22,6 @@ describe('AuthenticationMiddleware', () => {
       const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        // @ts-ignore
         req.user = {};
         next();
       });
@@ -51,7 +50,6 @@ describe('AuthenticationMiddleware', () => {
       const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        // @ts-ignore
         req.user = {};
         next();
       });
@@ -80,7 +78,6 @@ describe('AuthenticationMiddleware', () => {
       const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        // @ts-ignore
         req.user = {};
         next();
       });
@@ -109,7 +106,6 @@ describe('AuthenticationMiddleware', () => {
       const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        // @ts-ignore
         req.user = {};
         next();
       });

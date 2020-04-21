@@ -58,7 +58,6 @@ app.use(log4js.connectLogger(logger, {
 
 const RedisStore: connectRedis.RedisStore = connectRedis(expressSession);
 const sessionStore: expressSession.Store = new RedisStore({
-  // @ts-ignore
   client: veauRedis.getClient(),
   prefix: 'veau::'
 });
