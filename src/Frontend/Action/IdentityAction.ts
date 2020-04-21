@@ -1,6 +1,8 @@
 import { VeauAccount } from '../../VO/VeauAccount';
 import {
-  ACTION,
+  IDENTITY_AUTHENTICATED,
+  IDENTITY_IDENTIFIED,
+  IDENTITY_INITIALIZE,
   IdentityAuthenticatedAction,
   IdentityIdentifiedAction,
   IdentityInitializeAction
@@ -8,19 +10,19 @@ import {
 
 export const identityAuthenticated = (identity: VeauAccount): IdentityAuthenticatedAction => {
   return {
-    type: ACTION.IDENTITY_AUTHENTICATED,
+    type: IDENTITY_AUTHENTICATED,
     identity
   };
 };
 
 export const initializeIdentity = (): IdentityInitializeAction => {
   return {
-    type: ACTION.IDENTITY_INITIALIZE
+    type: IDENTITY_INITIALIZE
   };
 };
 
 export const identified = (): IdentityIdentifiedAction => {
   return {
-    type: ACTION.IDENTITY_IDENTIFIED
+    type: IDENTITY_IDENTIFIED
   };
 };

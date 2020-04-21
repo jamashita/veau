@@ -1,7 +1,7 @@
-import { ACTION, LogoutAction } from './Action';
+import { LOGOUT, LogoutAction } from './Action';
 
 export const logout = (): LogoutAction => {
   return {
-    type: ACTION.LOGOUT
+    type: LOGOUT
   };
 };

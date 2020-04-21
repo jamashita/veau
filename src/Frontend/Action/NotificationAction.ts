@@ -1,5 +1,6 @@
 import {
-  ACTION,
+  NOTIFICATION_APPEAR,
+  NOTIFICATION_DISAPPEAR,
   NotificationAppearAction,
   NotificationDisappearAction,
   NotificationHPosition,
@@ -16,7 +17,7 @@ export const appearNotification = (
   values?: Record<string, string>
 ): NotificationAppearAction => {
   return {
-    type: ACTION.NOTIFICATION_APPEAR,
+    type: NOTIFICATION_APPEAR,
     kind,
     horizontal,
     vertical,
@@ -28,6 +29,6 @@ export const appearNotification = (
 
 export const disappearNotification = (): NotificationDisappearAction => {
   return {
-    type: ACTION.NOTIFICATION_DISAPPEAR
+    type: NOTIFICATION_DISAPPEAR
   };
 };

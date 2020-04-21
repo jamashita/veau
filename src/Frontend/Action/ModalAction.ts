@@ -1,4 +1,4 @@
-import { ACTION, ModalCloseAction, ModalRaiseAction } from './Action';
+import { MODAL_CLOSE, MODAL_RAISE, ModalCloseAction, ModalRaiseAction } from './Action';
 
 export const raiseModal = (
   title: string,
@@ -6,7 +6,7 @@ export const raiseModal = (
   values?: Record<string, string>
 ): ModalRaiseAction => {
   return {
-    type: ACTION.MODAL_RAISE,
+    type: MODAL_RAISE,
     title,
     description,
     values
@@ -15,6 +15,6 @@ export const raiseModal = (
 
 export const closeModal = (): ModalCloseAction => {
   return {
-    type: ACTION.MODAL_CLOSE
+    type: MODAL_CLOSE
   };
 };

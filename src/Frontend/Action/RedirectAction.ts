@@ -1,6 +1,8 @@
 import { StatsID } from '../../VO/StatsID';
 import {
-  ACTION,
+  PUSH_TO_ENTRANCE,
+  PUSH_TO_STATS_EDIT,
+  PUSH_TO_STATS_LIST,
   PushToEntranceAction,
   PushToStatsEditAction,
   PushToStatsListAction
@@ -8,19 +10,19 @@ import {
 
 export const pushToStatsList = (): PushToStatsListAction => {
   return {
-    type: ACTION.PUSH_TO_STATS_LIST
+    type: PUSH_TO_STATS_LIST
   };
 };
 
 export const pushToStatsEdit = (statsID: StatsID): PushToStatsEditAction => {
   return {
-    type: ACTION.PUSH_TO_STATS_EDIT,
+    type: PUSH_TO_STATS_EDIT,
     statsID
   };
 };
 
 export const pushToEntrance = (): PushToEntranceAction => {
   return {
-    type: ACTION.PUSH_TO_ENTRANCE
+    type: PUSH_TO_ENTRANCE
   };
 };

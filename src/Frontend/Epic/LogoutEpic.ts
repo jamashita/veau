@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { ofType, StateObservable } from 'redux-observable';
+import { ofType } from 'redux-observable';
 import { from, merge, Observable } from 'rxjs';
 import { mapTo, mergeMap } from 'rxjs/operators';
 import { ISessionCommand } from '../../Command/Interface/ISessionCommand';
@@ -19,18 +19,19 @@ export class LogoutEpic {
     this.sessionCommand = sessionCommand;
   }
 
-  public init(action$: Observable<Action>, state$: StateObservable<Action>): Observable<Action> {
+  public init(action$: Observable<Action>): Observable<Action> {
     return merge<Action>(
-      this.logout(action$, state$)
+      this.logout(action$)
     );
   }
 
-  public logout(action$: Observable<Action>, state$: StateObservable<Action>): Observable<Action> {
-
+  public logout(action$: Observable<Action>): Observable<Action> {
     return action$.pipe<LogoutAction, Action>(
       ofType<Action, LogoutAction>(ACTION.LOGOUT),
       mergeMap<Action, Observable<Action>>(() => {
-        return from<Promise<Superposition<void, DataSourceError>>>(this.sessionCommand.delete()).pipe(
+        return from<Promise<Superposition<void, DataSourceError>>>(
+          this.sessionCommand.delete()
+        ).pipe(
           mapTo<Superposition<void, DataSourceError>, Action>(initializeIdentity()),
           mapTo<Action, Action>(closeProvider()),
           mapTo<Action, Action>(pushToEntrance())

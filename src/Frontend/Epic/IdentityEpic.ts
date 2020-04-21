@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { ofType, StateObservable } from 'redux-observable';
 import { EMPTY, from, merge, Observable, of } from 'rxjs';
-import { mapTo, mergeMap } from 'rxjs/operators';
+import { map, mapTo, mergeMap } from 'rxjs/operators';
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { UnauthorizedError } from '../../Error/UnauthorizedError';
@@ -134,9 +134,9 @@ export class IdentityEpic {
       }
     } = state$;
 
-    return action$.pipe(
+    return action$.pipe<Action, Action>(
       ofType<Action, Action>(ACTION.IDENTITY_INITIALIZE),
-      mergeMap<Action, Observable<Action>>(() => {
+      map<Action, Action>(() => {
         const veauAccount: VeauAccount = VeauAccount.of(
           VeauAccountID.generate(),
           AccountName.empty(),
@@ -144,7 +144,7 @@ export class IdentityEpic {
           identity.getRegion()
         );
 
-        return of<Action>(identityAuthenticated(veauAccount));
+        return identityAuthenticated(veauAccount);
       })
     );
   }
