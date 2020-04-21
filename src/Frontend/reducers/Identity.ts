@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 import { VeauAccount } from '../../VO/VeauAccount';
-import { ACTION, Action } from '../actions/Action';
+import { ACTION, Action } from '../Action/Action';
 
 const initialState: VeauAccount = VeauAccount.empty();
 

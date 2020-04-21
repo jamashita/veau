@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 import { EntranceInformation } from '../../VO/EntranceInformation';
-import { ACTION, Action } from '../actions/Action';
+import { ACTION, Action } from '../Action/Action';
 
 const initialState: EntranceInformation = EntranceInformation.empty();
 

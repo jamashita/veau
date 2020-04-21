@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/types';
 import { push } from 'connected-react-router';
 import { injectable } from 'inversify';
 import { fork, put, take } from 'redux-saga/effects';
-import { ACTION, PushToStatsEditAction } from '../actions/Action';
+import { ACTION, PushToStatsEditAction } from '../Action/Action';
 import { Endpoints } from '../Endpoints';
 
 @injectable()

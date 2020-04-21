@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { ACTION, Action } from '../actions/Action';
+import { ACTION, Action } from '../Action/Action';
 
 export type PageProvider = Readonly<{
   open: boolean;

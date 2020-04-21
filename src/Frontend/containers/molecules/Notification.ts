@@ -5,8 +5,8 @@ import {
   NotificationHPosition,
   NotificationKind,
   NotificationVPosition
-} from '../../actions/Action';
-import { disappearNotification } from '../../actions/NotificationAction';
+} from '../../Action/Action';
+import { disappearNotification } from '../../Action/NotificationAction';
 import { Notification as Component } from '../../components/molecules/Notification';
 import { State } from '../../State';
 

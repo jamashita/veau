@@ -1,7 +1,7 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
-import { Action } from '../../actions/Action';
-import { closeModal } from '../../actions/ModalAction';
+import { Action } from '../../Action/Action';
+import { closeModal } from '../../Action/ModalAction';
 import { Modal as Component } from '../../components/molecules/Modal';
 import { State } from '../../State';
 

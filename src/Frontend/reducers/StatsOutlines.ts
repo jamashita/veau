@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 import { StatsOutlines } from '../../VO/StatsOutlines';
-import { ACTION, Action } from '../actions/Action';
+import { ACTION, Action } from '../Action/Action';
 
 const initialState: StatsOutlines = StatsOutlines.empty();
 

@@ -3,8 +3,8 @@ import { Dispatch } from 'redux';
 import { AccountName } from '../../../VO/AccountName';
 import { EntranceInformation } from '../../../VO/EntranceInformation';
 import { Password } from '../../../VO/Password';
-import { Action } from '../../actions/Action';
-import { accountTyped, attemptLogin, passwordTyped } from '../../actions/EntranceAction';
+import { Action } from '../../Action/Action';
+import { accountTyped, attemptLogin, passwordTyped } from '../../Action/EntranceAction';
 import { Entrance as Component } from '../../components/pages/Entrance';
 import { State } from '../../State';
 

@@ -18,7 +18,7 @@ import { StatsID } from '../../../VO/StatsID';
 import { StatsItemName } from '../../../VO/StatsItemName';
 import { StatsName } from '../../../VO/StatsName';
 import { StatsUnit } from '../../../VO/StatsUnit';
-import { Action } from '../../actions/Action';
+import { Action } from '../../Action/Action';
 import {
   initFailed,
   initStatsEdit,
@@ -38,7 +38,7 @@ import {
   statsISO639Selected,
   statsNameTyped,
   statsUnitTyped
-} from '../../actions/StatsEditAction';
+} from '../../Action/StatsEditAction';
 import { StatsEdit as Component } from '../../components/pages/StatsEdit';
 import { Endpoints } from '../../Endpoints';
 import { State } from '../../State';

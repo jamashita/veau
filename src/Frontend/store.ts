@@ -4,7 +4,7 @@ import { createLogger } from 'redux-logger';
 import { createEpicMiddleware, EpicMiddleware } from 'redux-observable';
 import { TYPE } from '../Container/Types';
 import { vault } from '../Container/Vault';
-import { Action } from './actions/Action';
+import { Action } from './Action/Action';
 import { RootEpic } from './epics/RootEpis';
 import { history } from './history';
 import { reducers } from './reducers/Reducer';

@@ -5,10 +5,10 @@ import { ISessionCommand } from '../../Command/Interface/ISessionCommand';
 import { TYPE } from '../../Container/Types';
 import { DataSourceError } from '../../General/DataSourceError';
 import { Superposition } from '../../General/Superposition/Superposition';
-import { ACTION } from '../actions/Action';
-import { initializeIdentity } from '../actions/IdentityAction';
-import { closeProvider } from '../actions/PageProviderAction';
-import { pushToEntrance } from '../actions/RedirectAction';
+import { ACTION } from '../Action/Action';
+import { initializeIdentity } from '../Action/IdentityAction';
+import { closeProvider } from '../Action/PageProviderAction';
+import { pushToEntrance } from '../Action/RedirectAction';
 
 @injectable()
 export class LogoutSaga {

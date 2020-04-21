@@ -1,7 +1,7 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
-import { Action } from '../../actions/Action';
-import { openProvider } from '../../actions/PageProviderAction';
+import { Action } from '../../Action/Action';
+import { openProvider } from '../../Action/PageProviderAction';
 import { Authenticated as Component } from '../../components/templates/Authenticated';
 import { State } from '../../State';
 

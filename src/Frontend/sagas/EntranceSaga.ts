@@ -12,12 +12,12 @@ import {
   ACTION,
   EntranceAccountNameTypedAction,
   EntrancePasswordTypedAction
-} from '../actions/Action';
-import { updateEntranceInformation } from '../actions/EntranceAction';
-import { identified, identityAuthenticated } from '../actions/IdentityAction';
-import { loaded, loading } from '../actions/LoadingAction';
-import { raiseModal } from '../actions/ModalAction';
-import { pushToStatsList } from '../actions/RedirectAction';
+} from '../Action/Action';
+import { updateEntranceInformation } from '../Action/EntranceAction';
+import { identified, identityAuthenticated } from '../Action/IdentityAction';
+import { loaded, loading } from '../Action/LoadingAction';
+import { raiseModal } from '../Action/ModalAction';
+import { pushToStatsList } from '../Action/RedirectAction';
 import { State } from '../State';
 
 @injectable()

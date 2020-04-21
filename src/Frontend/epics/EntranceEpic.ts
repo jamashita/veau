@@ -9,12 +9,12 @@ import { Superposition } from '../../General/Superposition/Superposition';
 import { ISessionQuery } from '../../Query/Interface/ISessionQuery';
 import { EntranceInformation } from '../../VO/EntranceInformation';
 import { VeauAccount } from '../../VO/VeauAccount';
-import { ACTION, Action, EntranceAccountNameTypedAction } from '../actions/Action';
-import { updateEntranceInformation } from '../actions/EntranceAction';
-import { identified, identityAuthenticated } from '../actions/IdentityAction';
-import { loaded, loading } from '../actions/LoadingAction';
-import { raiseModal } from '../actions/ModalAction';
-import { pushToStatsList } from '../actions/RedirectAction';
+import { ACTION, Action, EntranceAccountNameTypedAction } from '../Action/Action';
+import { updateEntranceInformation } from '../Action/EntranceAction';
+import { identified, identityAuthenticated } from '../Action/IdentityAction';
+import { loaded, loading } from '../Action/LoadingAction';
+import { raiseModal } from '../Action/ModalAction';
+import { pushToStatsList } from '../Action/RedirectAction';
 import { State } from '../State';
 
 @injectable()

@@ -18,12 +18,12 @@ import { Locale } from '../../VO/Locale';
 import { SystemSupportLanguage } from '../../VO/SystemSupportLanguage';
 import { VeauAccount } from '../../VO/VeauAccount';
 import { VeauAccountID } from '../../VO/VeauAccountID';
-import { ACTION } from '../actions/Action';
-import { identified, identityAuthenticated } from '../actions/IdentityAction';
-import { loaded, loading } from '../actions/LoadingAction';
-import { defineLocale } from '../actions/LocaleAction';
-import { raiseModal } from '../actions/ModalAction';
-import { pushToEntrance, pushToStatsList } from '../actions/RedirectAction';
+import { ACTION } from '../Action/Action';
+import { identified, identityAuthenticated } from '../Action/IdentityAction';
+import { loaded, loading } from '../Action/LoadingAction';
+import { defineLocale } from '../Action/LocaleAction';
+import { raiseModal } from '../Action/ModalAction';
+import { pushToEntrance, pushToStatsList } from '../Action/RedirectAction';
 import { Endpoints } from '../Endpoints';
 import { State } from '../State';
 

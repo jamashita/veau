@@ -9,8 +9,8 @@ import { StatsName } from '../../../VO/StatsName';
 import { StatsOutlines } from '../../../VO/StatsOutlines';
 import { StatsUnit } from '../../../VO/StatsUnit';
 import { Term } from '../../../VO/Term';
-import { Action } from '../../actions/Action';
-import { pushToStatsEdit } from '../../actions/RedirectAction';
+import { Action } from '../../Action/Action';
+import { pushToStatsEdit } from '../../Action/RedirectAction';
 import {
   closeNewStatsModal,
   initStatsList,
@@ -21,7 +21,7 @@ import {
   newStatsUnitTyped,
   openNewStatsModal,
   saveNewStats
-} from '../../actions/StatsListAction';
+} from '../../Action/StatsListAction';
 import { StatsList as Component } from '../../components/pages/StatsList';
 import { State } from '../../State';
 

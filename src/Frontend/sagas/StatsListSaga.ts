@@ -23,13 +23,13 @@ import {
   StatsListNameTypedAction,
   StatsListTermSelectedAction,
   StatsListUnitTypedAction
-} from '../actions/Action';
-import { loaded, loading } from '../actions/LoadingAction';
-import { raiseModal } from '../actions/ModalAction';
-import { appearNotification } from '../actions/NotificationAction';
-import { pushToStatsEdit } from '../actions/RedirectAction';
-import { resetStatsOutlines, updateStatsOutlines } from '../actions/StatsAction';
-import { closeNewStatsModal, resetNewStats, updateNewStats } from '../actions/StatsListAction';
+} from '../Action/Action';
+import { loaded, loading } from '../Action/LoadingAction';
+import { raiseModal } from '../Action/ModalAction';
+import { appearNotification } from '../Action/NotificationAction';
+import { pushToStatsEdit } from '../Action/RedirectAction';
+import { resetStatsOutlines, updateStatsOutlines } from '../Action/StatsAction';
+import { closeNewStatsModal, resetNewStats, updateNewStats } from '../Action/StatsListAction';
 import { State } from '../State';
 
 @injectable()

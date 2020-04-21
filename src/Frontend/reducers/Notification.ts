@@ -5,7 +5,7 @@ import {
   NotificationHPosition,
   NotificationKind,
   NotificationVPosition
-} from '../actions/Action';
+} from '../Action/Action';
 
 export type Notification = Readonly<{
   kind: NotificationKind;

@@ -1,9 +1,9 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
-import { Action } from '../../actions/Action';
-import { logout } from '../../actions/LogoutAction';
-import { closeProvider } from '../../actions/PageProviderAction';
-import { pushToStatsList } from '../../actions/RedirectAction';
+import { Action } from '../../Action/Action';
+import { logout } from '../../Action/LogoutAction';
+import { closeProvider } from '../../Action/PageProviderAction';
+import { pushToStatsList } from '../../Action/RedirectAction';
 import { PageProvider as Component } from '../../components/molecules/PageProvider';
 import { State } from '../../State';
 
