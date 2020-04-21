@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
-import { StateObservable } from 'redux-observable';
-import { EMPTY, from, merge, Observable, ObservableInput, of } from 'rxjs';
+import { ofType, StateObservable } from 'redux-observable';
+import { EMPTY, from, merge, Observable, of } from 'rxjs';
 import { mapTo, mergeMap } from 'rxjs/operators';
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
@@ -12,12 +12,14 @@ import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { ILocaleQuery } from '../../Query/Interface/ILocaleQuery';
 import { ISessionQuery } from '../../Query/Interface/ISessionQuery';
 import { LanguageIdentificationService } from '../../Service/LanguageIdentificationService';
+import { AccountName } from '../../VO/AccountName';
 import { ISO639 } from '../../VO/ISO639';
 import { Language } from '../../VO/Language';
 import { Locale } from '../../VO/Locale';
 import { SystemSupportLanguage } from '../../VO/SystemSupportLanguage';
 import { VeauAccount } from '../../VO/VeauAccount';
-import { Action } from '../Action/Action';
+import { VeauAccountID } from '../../VO/VeauAccountID';
+import { ACTION, Action } from '../Action/Action';
 import { identified, identityAuthenticated } from '../Action/IdentityAction';
 import { loaded, loading } from '../Action/LoadingAction';
 import { defineLocale } from '../Action/LocaleAction';
@@ -44,7 +46,8 @@ export class IdentityEpic {
 
   public init(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
     return merge(
-      this.initIdentity(action$, state$)
+      this.initIdentity(action$, state$),
+      this.initialize(action$, state$)
     );
   }
 
@@ -58,7 +61,7 @@ export class IdentityEpic {
     // TODO RUN ONLY FOR THE FIRST TIME
     return action$.pipe(
       mapTo<Action, Action>(loading()),
-      mergeMap<Action, ObservableInput<Action>>(() => {
+      mergeMap<Action, Observable<Action>>(() => {
         return from<Promise<Superposition<Locale, DataSourceError>>>(
           this.localeQuery.all()
         ).pipe(
@@ -77,9 +80,9 @@ export class IdentityEpic {
                   this.sessionQuery.find()
                 ).pipe(
                   mergeMap((superposition2: Superposition<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>) => {
-                    return superposition2.match<Observable<Action>>((account: VeauAccount) => {
+                    return superposition2.match<Observable<Action>>((veauAccount: VeauAccount) => {
                       const actions: Array<Action> = [
-                        identityAuthenticated(account),
+                        identityAuthenticated(veauAccount),
                         identified()
                       ];
 
@@ -120,6 +123,28 @@ export class IdentityEpic {
             );
           })
         );
+      })
+    );
+  }
+
+  public initialize(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+    const {
+      value: {
+        identity
+      }
+    } = state$;
+
+    return action$.pipe(
+      ofType<Action, Action>(ACTION.IDENTITY_INITIALIZE),
+      mergeMap<Action, Observable<Action>>(() => {
+        const veauAccount: VeauAccount = VeauAccount.of(
+          VeauAccountID.generate(),
+          AccountName.empty(),
+          identity.getLanguage(),
+          identity.getRegion()
+        );
+
+        return of(identityAuthenticated(veauAccount));
       })
     );
   }

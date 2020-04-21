@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { ofType, StateObservable } from 'redux-observable';
-import { EMPTY, from, merge, Observable, ObservableInput, of } from 'rxjs';
+import { EMPTY, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mapTo, mergeMap } from 'rxjs/operators';
 import { TYPE } from '../../Container/Types';
 import { VeauAccountError } from '../../Error/VeauAccountError';
@@ -61,7 +61,7 @@ export class EntranceEpic {
         return true;
       }),
       mapTo<Action, Action>(loading()),
-      mergeMap<Action, ObservableInput<Action>>(() => {
+      mergeMap<Action, Observable<Action>>(() => {
         return from<Promise<Superposition<VeauAccount, VeauAccountError | DataSourceError>>>(
           this.sessionQuery.findByEntranceInfo(entranceInformation)
         ).pipe(
