@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 import { StatsOutlines } from '../../VO/StatsOutlines';
-import { ACTION, Action } from '../Action/Action';
+import { Action, STATS_OUTLINE_RESET, STATS_OUTLINE_UPDATE } from '../Action/Action';
 
 const initialState: StatsOutlines = StatsOutlines.empty();
 
@@ -9,10 +9,10 @@ export const statsOutlines: Reducer<StatsOutlines, Action> = (
   action: Action
 ) => {
   switch (action.type) {
-    case ACTION.STATS_OUTLINE_UPDATE: {
+    case STATS_OUTLINE_UPDATE: {
       return action.statsOutlines;
     }
-    case ACTION.STATS_OUTLINE_RESET: {
+    case STATS_OUTLINE_RESET: {
       return StatsOutlines.empty();
     }
     default: {

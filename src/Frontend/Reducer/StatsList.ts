@@ -1,6 +1,12 @@
 import { Reducer } from 'redux';
 import { Stats } from '../../Entity/Stats';
-import { ACTION, Action } from '../Action/Action';
+import {
+  Action,
+  STATS_LIST_CLOSE_STATS_MODAL,
+  STATS_LIST_OPEN_STATS_MODAL,
+  STATS_LIST_RESET_NEW_STATS,
+  STATS_LIST_UPDATE_NEW_STATS
+} from '../Action/Action';
 
 export type StatsList = Readonly<{
   open: boolean;
@@ -17,25 +23,25 @@ export const statsList: Reducer<StatsList, Action> = (
   action: Action
 ) => {
   switch (action.type) {
-    case ACTION.STATS_LIST_OPEN_STATS_MODAL: {
+    case STATS_LIST_OPEN_STATS_MODAL: {
       return {
         ...state,
         open: true
       };
     }
-    case ACTION.STATS_LIST_CLOSE_STATS_MODAL: {
+    case STATS_LIST_CLOSE_STATS_MODAL: {
       return {
         ...state,
         open: false
       };
     }
-    case ACTION.STATS_LIST_UPDATE_NEW_STATS: {
+    case STATS_LIST_UPDATE_NEW_STATS: {
       return {
         ...state,
         stats: action.stats
       };
     }
-    case ACTION.STATS_LIST_RESET_NEW_STATS: {
+    case STATS_LIST_RESET_NEW_STATS: {
       return {
         ...state,
         stats: Stats.default()

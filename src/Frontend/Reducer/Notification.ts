@@ -1,7 +1,8 @@
 import { Reducer } from 'redux';
 import {
-  ACTION,
   Action,
+  NOTIFICATION_APPEAR,
+  NOTIFICATION_DISAPPEAR,
   NotificationHPosition,
   NotificationKind,
   NotificationVPosition
@@ -31,7 +32,7 @@ export const notification: Reducer<Notification, Action> = (
   action: Action
 ) => {
   switch (action.type) {
-    case ACTION.NOTIFICATION_APPEAR: {
+    case NOTIFICATION_APPEAR: {
       const {
         kind,
         horizontal,
@@ -52,7 +53,7 @@ export const notification: Reducer<Notification, Action> = (
         values
       };
     }
-    case ACTION.NOTIFICATION_DISAPPEAR: {
+    case NOTIFICATION_DISAPPEAR: {
       return {
         ...state,
         open: false

@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 import { Locale } from '../../VO/Locale';
-import { ACTION, Action } from '../Action/Action';
+import { Action, LOCALE_DEFINED } from '../Action/Action';
 
 const initialState: Locale = Locale.empty();
 
@@ -9,7 +9,7 @@ export const locale: Reducer<Locale, Action> = (
   action: Action
 ) => {
   switch (action.type) {
-    case ACTION.LOCALE_DEFINED: {
+    case LOCALE_DEFINED: {
       return action.locale;
     }
     default: {

@@ -18,7 +18,7 @@ import { Locale } from '../../VO/Locale';
 import { SystemSupportLanguage } from '../../VO/SystemSupportLanguage';
 import { VeauAccount } from '../../VO/VeauAccount';
 import { VeauAccountID } from '../../VO/VeauAccountID';
-import { ACTION } from '../Action/Action';
+import { IDENTITY_INITIALIZE } from '../Action/Action';
 import { identified, identityAuthenticated } from '../Action/IdentityAction';
 import { loaded, loading } from '../Action/LoadingAction';
 import { defineLocale } from '../Action/LocaleAction';
@@ -106,7 +106,7 @@ export class IdentitySaga {
 
   private *initialize(): SagaIterator<unknown> {
     while (true) {
-      yield take(ACTION.IDENTITY_INITIALIZE);
+      yield take(IDENTITY_INITIALIZE);
       const state: State = yield select();
 
       const {

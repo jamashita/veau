@@ -5,7 +5,7 @@ import { ISessionCommand } from '../../Command/Interface/ISessionCommand';
 import { TYPE } from '../../Container/Types';
 import { DataSourceError } from '../../General/DataSourceError';
 import { Superposition } from '../../General/Superposition/Superposition';
-import { ACTION } from '../Action/Action';
+import { LOGOUT } from '../Action/Action';
 import { initializeIdentity } from '../Action/IdentityAction';
 import { closeProvider } from '../Action/PageProviderAction';
 import { pushToEntrance } from '../Action/RedirectAction';
@@ -24,7 +24,7 @@ export class LogoutSaga {
 
   private *logout(): SagaIterator<unknown> {
     while (true) {
-      yield take(ACTION.LOGOUT);
+      yield take(LOGOUT);
 
       yield call((): Promise<Superposition<void, DataSourceError>> => {
         return this.sessionCommand.delete();

@@ -9,9 +9,11 @@ import { ISessionQuery } from '../../Query/Interface/ISessionQuery';
 import { EntranceInformation } from '../../VO/EntranceInformation';
 import { VeauAccount } from '../../VO/VeauAccount';
 import {
-  ACTION,
+  ENTRANCE_ACCOUNT_NAME_TYPED,
+  ENTRANCE_PASSWORD_TYPED,
   EntranceAccountNameTypedAction,
-  EntrancePasswordTypedAction
+  EntrancePasswordTypedAction,
+  IDENTITY_AUTHENTICATE
 } from '../Action/Action';
 import { updateEntranceInformation } from '../Action/EntranceAction';
 import { identified, identityAuthenticated } from '../Action/IdentityAction';
@@ -36,7 +38,7 @@ export class EntranceSaga {
 
   private *login(): SagaIterator<unknown> {
     while (true) {
-      yield take(ACTION.IDENTITY_AUTHENTICATE);
+      yield take(IDENTITY_AUTHENTICATE);
       const state: State = yield select();
 
       const {
@@ -67,7 +69,7 @@ export class EntranceSaga {
           put(pushToStatsList()),
           put(identified())
         ]);
-      }, (err: VeauAccountError | DataSourceError) => {
+      }, () => {
         return put(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
       });
     }
@@ -75,7 +77,7 @@ export class EntranceSaga {
 
   private *accountNameTyped(): SagaIterator<unknown> {
     while (true) {
-      const action: EntranceAccountNameTypedAction = yield take(ACTION.ENTRANCE_ACCOUNT_NAME_TYPED);
+      const action: EntranceAccountNameTypedAction = yield take(ENTRANCE_ACCOUNT_NAME_TYPED);
       const state: State = yield select();
 
       const {
@@ -89,7 +91,7 @@ export class EntranceSaga {
 
   private *passwordTyped(): SagaIterator<unknown> {
     while (true) {
-      const action: EntrancePasswordTypedAction = yield take(ACTION.ENTRANCE_PASSWORD_TYPED);
+      const action: EntrancePasswordTypedAction = yield take(ENTRANCE_PASSWORD_TYPED);
       const state: State = yield select();
 
       const {

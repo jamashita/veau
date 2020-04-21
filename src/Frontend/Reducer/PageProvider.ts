@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { ACTION, Action } from '../Action/Action';
+import { Action, LOCATION_CHANGE, PROVIDER_CLOSE, PROVIDER_OPEN } from '../Action/Action';
 
 export type PageProvider = Readonly<{
   open: boolean;
@@ -14,17 +14,17 @@ export const pageProvider: Reducer<PageProvider, Action> = (
   action: Action
 ) => {
   switch (action.type) {
-    case ACTION.LOCATION_CHANGE: {
+    case LOCATION_CHANGE: {
       return {
         open: false
       };
     }
-    case ACTION.PROVIDER_OPEN: {
+    case PROVIDER_OPEN: {
       return {
         open: true
       };
     }
-    case ACTION.PROVIDER_CLOSE: {
+    case PROVIDER_CLOSE: {
       return {
         open: false
       };

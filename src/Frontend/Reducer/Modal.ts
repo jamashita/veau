@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { ACTION, Action } from '../Action/Action';
+import { Action, MODAL_CLOSE, MODAL_RAISE } from '../Action/Action';
 
 export type Modal = Readonly<{
   open: boolean;
@@ -19,7 +19,7 @@ export const modal: Reducer<Modal, Action> = (
   action: Action
 ) => {
   switch (action.type) {
-    case ACTION.MODAL_RAISE: {
+    case MODAL_RAISE: {
       const {
         title,
         description,
@@ -34,7 +34,7 @@ export const modal: Reducer<Modal, Action> = (
         open: true
       };
     }
-    case ACTION.MODAL_CLOSE: {
+    case MODAL_CLOSE: {
       return {
         ...state,
         open: false

@@ -2,7 +2,12 @@ import { SagaIterator } from '@redux-saga/types';
 import { push } from 'connected-react-router';
 import { injectable } from 'inversify';
 import { fork, put, take } from 'redux-saga/effects';
-import { ACTION, PushToStatsEditAction } from '../Action/Action';
+import {
+  PUSH_TO_ENTRANCE,
+  PUSH_TO_STATS_EDIT,
+  PUSH_TO_STATS_LIST,
+  PushToStatsEditAction
+} from '../Action/Action';
 import { Endpoints } from '../Endpoints';
 
 @injectable()
@@ -16,21 +21,21 @@ export class RedirectSaga {
 
   private *toStatsList(): SagaIterator<unknown> {
     while (true) {
-      yield take(ACTION.PUSH_TO_STATS_LIST);
+      yield take(PUSH_TO_STATS_LIST);
       yield put(push(Endpoints.STATS_LIST));
     }
   }
 
   private *toStatsEdit(): SagaIterator<unknown> {
     while (true) {
-      const action: PushToStatsEditAction = yield take(ACTION.PUSH_TO_STATS_EDIT);
+      const action: PushToStatsEditAction = yield take(PUSH_TO_STATS_EDIT);
       yield put(push(Endpoints.STATS_EDIT.replace(':id', action.statsID.get().get)));
     }
   }
 
   private *toEntrance(): SagaIterator<unknown> {
     while (true) {
-      yield take(ACTION.PUSH_TO_ENTRANCE);
+      yield take(PUSH_TO_ENTRANCE);
       yield put(push(Endpoints.ENTRANCE));
     }
   }

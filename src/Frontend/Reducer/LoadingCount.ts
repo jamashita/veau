@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 import { LoadingCount } from '../../VO/LoadingCount';
-import { ACTION, Action } from '../Action/Action';
+import { Action, LOADING_FINISH, LOADING_START } from '../Action/Action';
 
 const initialState: LoadingCount = LoadingCount.default();
 
@@ -9,10 +9,10 @@ export const loadingCount: Reducer<LoadingCount, Action> = (
   action: Action
 ) => {
   switch (action.type) {
-    case ACTION.LOADING_START: {
+    case LOADING_START: {
       return state.increment();
     }
-    case ACTION.LOADING_FINISH: {
+    case LOADING_FINISH: {
       return state.decrement();
     }
     default: {

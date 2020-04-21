@@ -3,7 +3,12 @@ import { StatsItem } from '../../Entity/StatsItem';
 import { Absent } from '../../General/Quantum/Absent';
 import { Quantum } from '../../General/Quantum/Quantum';
 import { Row } from '../../VO/Row';
-import { ACTION, Action } from '../Action/Action';
+import {
+  Action,
+  STATS_EDIT_CLEAR_SELECTING_ITEM,
+  STATS_EDIT_SELECT_ITEM,
+  STATS_EDIT_UPDATE_SELECTING_ITEM
+} from '../Action/Action';
 
 export type StatsEdit = Readonly<{
   selectingItem: Quantum<StatsItem>;
@@ -20,7 +25,7 @@ export const statsEdit: Reducer<StatsEdit, Action> = (
   action: Action
 ) => {
   switch (action.type) {
-    case ACTION.STATS_EDIT_SELECT_ITEM: {
+    case STATS_EDIT_SELECT_ITEM: {
       const {
         statsItem,
         row
@@ -32,7 +37,7 @@ export const statsEdit: Reducer<StatsEdit, Action> = (
         selectingRow: row
       };
     }
-    case ACTION.STATS_EDIT_UPDATE_SELECTING_ITEM: {
+    case STATS_EDIT_UPDATE_SELECTING_ITEM: {
       const {
         statsItem
       } = action;
@@ -42,7 +47,7 @@ export const statsEdit: Reducer<StatsEdit, Action> = (
         selectingItem: statsItem
       };
     }
-    case ACTION.STATS_EDIT_CLEAR_SELECTING_ITEM: {
+    case STATS_EDIT_CLEAR_SELECTING_ITEM: {
       return {
         ...state,
         selectingItem: Absent.of<StatsItem>()

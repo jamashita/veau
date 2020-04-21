@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 import { StatsItem } from '../../Entity/StatsItem';
-import { ACTION, Action } from '../Action/Action';
+import { Action, STATS_ITEM_RESET, STATS_ITEM_UPDATE } from '../Action/Action';
 
 const initialState: StatsItem = StatsItem.default();
 
@@ -9,10 +9,10 @@ export const statsItem: Reducer<StatsItem, Action> = (
   action: Action
 ) => {
   switch (action.type) {
-    case ACTION.STATS_ITEM_UPDATE: {
+    case STATS_ITEM_UPDATE: {
       return action.statsItem;
     }
-    case ACTION.STATS_ITEM_RESET: {
+    case STATS_ITEM_RESET: {
       return StatsItem.default();
     }
     default: {
