@@ -2,7 +2,7 @@ import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from
 import { Dispatch } from 'redux';
 import { Action } from '../../Action/Action';
 import { closeModal } from '../../Action/ModalAction';
-import { Modal as Component } from '../../components/molecules/Modal';
+import { Modal as Component } from '../../Component/molecules/Modal';
 import { State } from '../../State';
 
 type StateProps = Readonly<{

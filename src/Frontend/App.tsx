@@ -5,8 +5,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Supplier } from '../General/Type/Function';
-import { View } from './components/View';
-import { I18NProvider } from './containers/I18NProvider';
+import { View } from './Component/View';
+import { I18NProvider } from './Container/I18NProvider';
 import { history } from './history';
 import { store } from './store';
 

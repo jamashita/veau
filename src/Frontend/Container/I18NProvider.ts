@@ -1,6 +1,6 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { VeauAccount } from '../../VO/VeauAccount';
-import { I18NProvider as Component } from '../components/I18NProvider';
+import { I18NProvider as Component } from '../Component/I18NProvider';
 import { State } from '../State';
 
 type StateProps = Readonly<{

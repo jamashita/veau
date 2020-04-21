@@ -1,6 +1,6 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { LoadingCount } from '../../../VO/LoadingCount';
-import { LoadingIndicator as Component } from '../../components/molecules/LoadingIndicator';
+import { LoadingIndicator as Component } from '../../Component/molecules/LoadingIndicator';
 import { State } from '../../State';
 
 type StateProps = Readonly<{

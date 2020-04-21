@@ -2,8 +2,8 @@ import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-import { Props } from '../../containers/pages/StatsList';
-import { Authenticated } from '../../containers/templates/Authenticated';
+import { Props } from '../../Container/pages/StatsList';
+import { Authenticated } from '../../Container/templates/Authenticated';
 import { StatsOutlineListTable } from '../molecules/StatsOutlineListTable';
 import { StatsOutlineModal } from '../molecules/StatsOutlineModal';
 

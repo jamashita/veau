@@ -1,7 +1,7 @@
 import React from 'react';
-import { LoadingIndicator } from '../containers/molecules/LoadingIndicator';
-import { Modal } from '../containers/molecules/Modal';
-import { Notification } from '../containers/molecules/Notification';
+import { LoadingIndicator } from '../Container/Molecule/LoadingIndicator';
+import { Modal } from '../Container/Molecule/Modal';
+import { Notification } from '../Container/Molecule/Notification';
 import { Catalogue } from './Catalogue';
 
 type Props = Readonly<{}>;

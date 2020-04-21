@@ -39,7 +39,7 @@ import {
   statsNameTyped,
   statsUnitTyped
 } from '../../Action/StatsEditAction';
-import { StatsEdit as Component } from '../../components/pages/StatsEdit';
+import { StatsEdit as Component } from '../../Component/pages/StatsEdit';
 import { Endpoints } from '../../Endpoints';
 import { State } from '../../State';
 

@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { Entrance } from '../containers/pages/Entrance';
-import { StatsEdit } from '../containers/pages/StatsEdit';
-import { StatsList } from '../containers/pages/StatsList';
+import { Entrance } from '../Container/Page/Entrance';
+import { StatsEdit } from '../Container/Page/StatsEdit';
+import { StatsList } from '../Container/Page/StatsList';
 import { Endpoints } from '../Endpoints';
-import { NotFound } from './pages/NotFound';
+import { NotFound } from './Page/NotFound';
 
 type Props = Readonly<{}>;
 type State = Readonly<{}>;

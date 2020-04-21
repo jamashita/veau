@@ -6,7 +6,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Icon from '@material-ui/core/Icon';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-import { Props } from '../../containers/molecules/Modal';
+import { Props } from '../../Container/molecules/Modal';
 
 type State = Readonly<{}>;
 

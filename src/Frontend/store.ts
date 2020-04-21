@@ -5,7 +5,7 @@ import { createEpicMiddleware, EpicMiddleware } from 'redux-observable';
 import { TYPE } from '../Container/Types';
 import { vault } from '../Container/Vault';
 import { Action } from './Action/Action';
-import { RootEpic } from './epics/RootEpis';
+import { RootEpic } from './Epic/RootEpis';
 import { history } from './history';
 import { reducers } from './Reducer/Reducer';
 import { State } from './State';

@@ -7,7 +7,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-import { Props } from '../../containers/molecules/Notification';
+import { Props } from '../../Container/molecules/Notification';
 
 type State = Readonly<{}>;
 
