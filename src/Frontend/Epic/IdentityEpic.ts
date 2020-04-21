@@ -45,7 +45,7 @@ export class IdentityEpic {
   }
 
   public init(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return merge(
+    return merge<Action, Action>(
       this.initIdentity(action$, state$),
       this.initialize(action$, state$)
     );
@@ -59,14 +59,14 @@ export class IdentityEpic {
     } = state$;
 
     // TODO RUN ONLY FOR THE FIRST TIME
-    return action$.pipe(
+    return action$.pipe<Action, Action>(
       mapTo<Action, Action>(loading()),
       mergeMap<Action, Observable<Action>>(() => {
         return from<Promise<Superposition<Locale, DataSourceError>>>(
           this.localeQuery.all()
-        ).pipe(
-          mergeMap((superposition1: Superposition<Locale, DataSourceError>) => {
-            return EMPTY.pipe(
+        ).pipe<Action>(
+          mergeMap<Superposition<Locale, DataSourceError>, Observable<Action>>((superposition1: Superposition<Locale, DataSourceError>) => {
+            return EMPTY.pipe<Action, Action, Action>(
               mapTo<never, Action>(loaded()),
               mergeMap<Action, Observable<Action>>(() => {
                 return superposition1.match<Observable<Action>>((locale: Locale) => {
@@ -75,11 +75,11 @@ export class IdentityEpic {
                   return of<Action>(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
                 });
               }),
-              mergeMap(() => {
+              mergeMap<Action, Observable<Action>>(() => {
                 return from<Promise<Superposition<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>>>(
                   this.sessionQuery.find()
-                ).pipe(
-                  mergeMap((superposition2: Superposition<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>) => {
+                ).pipe<Action, Action>(
+                  mergeMap<Superposition<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>, Observable<Action>>((superposition2: Superposition<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>) => {
                     return superposition2.match<Observable<Action>>((veauAccount: VeauAccount) => {
                       const actions: Array<Action> = [
                         identityAuthenticated(veauAccount),
@@ -95,16 +95,16 @@ export class IdentityEpic {
                       return EMPTY;
                     });
                   }),
-                  mergeMap(() => {
+                  mergeMap<Action, Observable<Action>>(() => {
                     const supportLanguage: SystemSupportLanguage = LanguageIdentificationService.toSupportLanguage(
                       navigator.language
                     );
                     const iso639: ISO639 = ISO639.of(supportLanguage);
 
-                    return from(
+                    return from<Promise<Superposition<Language, NoSuchElementError | DataSourceError>>>(
                       this.languageQuery.findByISO639(iso639)
-                    ).pipe(
-                      mergeMap((superposition3: Superposition<Language, NoSuchElementError | DataSourceError>) => {
+                    ).pipe<Action>(
+                      mergeMap<Superposition<Language, NoSuchElementError | DataSourceError>, Observable<Action>>((superposition3: Superposition<Language, NoSuchElementError | DataSourceError>) => {
                         return superposition3.match<Observable<Action>>((language: Language) => {
                           const veauAccount: VeauAccount = VeauAccount.of(identity.getVeauAccountID(), identity.getAccount(), language, identity.getRegion());
 
@@ -144,7 +144,7 @@ export class IdentityEpic {
           identity.getRegion()
         );
 
-        return of(identityAuthenticated(veauAccount));
+        return of<Action>(identityAuthenticated(veauAccount));
       })
     );
   }

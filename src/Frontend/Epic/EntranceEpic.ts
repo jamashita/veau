@@ -31,7 +31,7 @@ export class EntranceEpic {
   }
 
   public init(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return merge(
+    return merge<Action, Action>(
       this.login(action$, state$),
       this.accountNameTyped(action$, state$),
       this.passwordTyped(action$, state$)
@@ -48,7 +48,7 @@ export class EntranceEpic {
       }
     } = state$;
 
-    return action$.pipe(
+    return action$.pipe<Action, Action, Action, Action>(
       ofType<Action, Action>(ACTION.IDENTITY_AUTHENTICATE),
       filter<Action>(() => {
         if (open) {
@@ -66,7 +66,7 @@ export class EntranceEpic {
           this.sessionQuery.findByEntranceInfo(entranceInformation)
         ).pipe(
           mergeMap<Superposition<VeauAccount, VeauAccountError | DataSourceError>, Observable<Action>>((superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError>) => {
-            return EMPTY.pipe(
+            return EMPTY.pipe<Action, Action>(
               mapTo<never, Action>(loaded()),
               mergeMap<Action, Observable<Action>>(() => {
                 return superposition.match<Observable<Action>>((veauAccount: VeauAccount) => {
@@ -93,7 +93,7 @@ export class EntranceEpic {
       }
     } = state$;
 
-    return action$.pipe(
+    return action$.pipe<EntranceAccountNameTypedAction, Action>(
       ofType<Action, EntranceAccountNameTypedAction>(ACTION.ENTRANCE_ACCOUNT_NAME_TYPED),
       map<EntranceAccountNameTypedAction, Action>((action: EntranceAccountNameTypedAction) => {
         const newLogin: EntranceInformation = EntranceInformation.of(
@@ -113,7 +113,7 @@ export class EntranceEpic {
       }
     } = state$;
 
-    return action$.pipe(
+    return action$.pipe<EntrancePasswordTypedAction, Action>(
       ofType<Action, EntrancePasswordTypedAction>(ACTION.ENTRANCE_PASSWORD_TYPED),
       map<EntrancePasswordTypedAction, Action>((action: EntrancePasswordTypedAction) => {
         const newLogin: EntranceInformation = EntranceInformation.of(
