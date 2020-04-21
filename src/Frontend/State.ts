@@ -6,11 +6,11 @@ import { LoadingCount } from '../VO/LoadingCount';
 import { Locale } from '../VO/Locale';
 import { StatsOutlines } from '../VO/StatsOutlines';
 import { VeauAccount } from '../VO/VeauAccount';
-import { Modal } from './reducers/Modal';
-import { Notification } from './reducers/Notification';
-import { PageProvider } from './reducers/PageProvider';
-import { StatsEdit } from './reducers/StatsEdit';
-import { StatsList } from './reducers/StatsList';
+import { Modal } from './Reducers/Modal';
+import { Notification } from './Reducers/Notification';
+import { PageProvider } from './Reducers/PageProvider';
+import { StatsEdit } from './Reducers/StatsEdit';
+import { StatsList } from './Reducers/StatsList';
 
 export type State = Readonly<{
   entranceInformation: EntranceInformation;
