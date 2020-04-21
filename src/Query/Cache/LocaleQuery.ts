@@ -17,7 +17,7 @@ export class LocaleQuery implements ILocaleQuery, ICacheQuery {
   public readonly source: 'Cache' = 'Cache';
   private readonly cache: ICache;
 
-  public constructor(@inject(TYPE.Vault) cache: ICache) {
+  public constructor(@inject(TYPE.Cache) cache: ICache) {
     this.cache = cache;
   }
 

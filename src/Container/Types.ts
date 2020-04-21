@@ -13,7 +13,7 @@ type DIType = Readonly<{
   StatsListSaga: symbol;
   AuthenticationMiddleware: symbol;
   AJAX: symbol;
-  Vault: symbol;
+  Cache: symbol;
   MySQL: symbol;
   Redis: symbol;
   AuthenticationInteractor: symbol;
@@ -55,7 +55,7 @@ export const TYPE: DIType = {
   StatsListSaga: Symbol('StatsListSaga'),
   AuthenticationMiddleware: Symbol('AuthenticationMiddleware'),
   AJAX: Symbol('AJAX'),
-  Vault: Symbol('Vault'),
+  Cache: Symbol('Cache'),
   MySQL: Symbol('MySQL'),
   Redis: Symbol('Redis'),
   AuthenticationInteractor: Symbol('AuthenticationInteractor'),

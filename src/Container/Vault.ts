@@ -25,7 +25,7 @@ import { TYPE } from './Types';
 export const vault: Container = new Container();
 
 vault.bind<AJAX>(TYPE.AJAX).toConstantValue(new AJAX());
-vault.bind<Cache>(TYPE.Vault).toConstantValue(veauCache);
+vault.bind<Cache>(TYPE.Cache).toConstantValue(veauCache);
 vault.bind<SessionAJAXCommand>(TYPE.SessionAJAXCommand).to(SessionAJAXCommand).inSingletonScope();
 vault.bind<StatsAJAXCommand>(TYPE.StatsAJAXCommand).to(StatsAJAXCommand).inSingletonScope();
 vault.bind<LocaleCacheCommand>(TYPE.LocaleCacheCommand).to(LocaleCacheCommand).inSingletonScope();
