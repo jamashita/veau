@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { ofType, StateObservable } from 'redux-observable';
-import { EMPTY, from, merge, Observable } from 'rxjs';
+import { EMPTY, from, merge, Observable, ObservableInput, of } from 'rxjs';
 import { filter, map, mapTo, mergeMap } from 'rxjs/operators';
 import { TYPE } from '../../Container/Types';
 import { VeauAccountError } from '../../Error/VeauAccountError';
@@ -9,7 +9,14 @@ import { Superposition } from '../../General/Superposition/Superposition';
 import { ISessionQuery } from '../../Query/Interface/ISessionQuery';
 import { EntranceInformation } from '../../VO/EntranceInformation';
 import { VeauAccount } from '../../VO/VeauAccount';
-import { ACTION, Action, EntranceAccountNameTypedAction } from '../Action/Action';
+import {
+  ACTION,
+  Action,
+  EntranceAccountNameTypedAction,
+  EntrancePasswordTypedAction,
+  LoadingFinishAction,
+  LoadingStartAction
+} from '../Action/Action';
 import { updateEntranceInformation } from '../Action/EntranceAction';
 import { identified, identityAuthenticated } from '../Action/IdentityAction';
 import { loaded, loading } from '../Action/LoadingAction';
@@ -28,7 +35,8 @@ export class EntranceEpic {
   public init(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
     return merge(
       this.login(action$, state$),
-      this.accountNameTyped(action$, state$)
+      this.accountNameTyped(action$, state$),
+      this.passwordTyped(action$, state$)
     );
   }
 
@@ -44,7 +52,7 @@ export class EntranceEpic {
 
     return action$.pipe(
       ofType<Action, Action>(ACTION.IDENTITY_AUTHENTICATE),
-      filter<unknown>(() => {
+      filter<Action>(() => {
         if (open) {
           return false;
         }
@@ -54,25 +62,25 @@ export class EntranceEpic {
 
         return true;
       }),
-      mapTo<unknown, unknown>(loading()),
-      mergeMap(() => {
-        return from(this.sessionQuery.findByEntranceInfo(entranceInformation)).pipe(
-          mergeMap((tri: Superposition<VeauAccount, VeauAccountError | DataSourceError>) => {
+      mapTo<Action, LoadingStartAction>(loading()),
+      mergeMap<LoadingStartAction, ObservableInput<Action>>(() => {
+        return from<Promise<Superposition<VeauAccount, VeauAccountError | DataSourceError>>>(
+          this.sessionQuery.findByEntranceInfo(entranceInformation)
+        ).pipe(
+          mergeMap((superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError>) => {
             return EMPTY.pipe(
-              mapTo(loaded()),
-              map(() => {
-                return tri.match<Action | Array<Action>>((veauAccount: VeauAccount) => {
-                  return [
+              mapTo<never, LoadingFinishAction>(loaded()),
+              mergeMap<LoadingFinishAction, Observable<Action>>(() => {
+                return superposition.match<Observable<Action>>((veauAccount: VeauAccount) => {
+                  return of(
                     identityAuthenticated(veauAccount),
                     pushToStatsList(),
                     identified()
-                  ];
-                }, (err: VeauAccountError | DataSourceError) => {
-                  return raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION');
+                  );
+                }, () => {
+                  return of(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
                 });
               })
-              // }),
-              // mapTo(loaded())
             );
           })
         );
@@ -90,7 +98,30 @@ export class EntranceEpic {
     return action$.pipe(
       ofType<Action, EntranceAccountNameTypedAction>(ACTION.ENTRANCE_ACCOUNT_NAME_TYPED),
       map<EntranceAccountNameTypedAction, Action>((action: EntranceAccountNameTypedAction) => {
-        const newLogin: EntranceInformation = EntranceInformation.of(action.account, entranceInformation.getPassword());
+        const newLogin: EntranceInformation = EntranceInformation.of(
+          action.account,
+          entranceInformation.getPassword()
+        );
+
+        return updateEntranceInformation(newLogin);
+      })
+    );
+  }
+
+  public passwordTyped(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+    const {
+      value: {
+        entranceInformation
+      }
+    } = state$;
+
+    return action$.pipe(
+      ofType<Action, EntrancePasswordTypedAction>(ACTION.ENTRANCE_PASSWORD_TYPED),
+      map<EntrancePasswordTypedAction, Action>((action: EntrancePasswordTypedAction) => {
+        const newLogin: EntranceInformation = EntranceInformation.of(
+          entranceInformation.getAccount(),
+          action.password
+        );
 
         return updateEntranceInformation(newLogin);
       })
