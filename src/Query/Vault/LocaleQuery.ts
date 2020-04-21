@@ -18,7 +18,7 @@ export class LocaleQuery implements ILocaleQuery, IVaultQuery {
   private readonly localeCommand: ILocaleCommand;
 
   public constructor(
-  @inject(TYPE.LocaleAJAXQuery) localeAJAXQuery: ILocaleQuery,
+    @inject(TYPE.LocaleAJAXQuery) localeAJAXQuery: ILocaleQuery,
     @inject(TYPE.LocaleCacheQuery) localeCacheQuery: ILocaleQuery,
     @inject(TYPE.LocaleCacheCommand) localeCommand: ILocaleCommand
   ) {
