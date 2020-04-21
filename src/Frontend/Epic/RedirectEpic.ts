@@ -3,7 +3,13 @@ import { injectable } from 'inversify';
 import { ofType } from 'redux-observable';
 import { merge, Observable } from 'rxjs';
 import { map, mapTo } from 'rxjs/operators';
-import { ACTION, Action, PushToStatsEditAction } from '../Action/Action';
+import {
+  Action,
+  PUSH_TO_ENTRANCE,
+  PUSH_TO_STATS_EDIT,
+  PUSH_TO_STATS_LIST,
+  PushToStatsEditAction
+} from '../Action/Action';
 import { Endpoints } from '../Endpoints';
 
 @injectable()
@@ -19,14 +25,14 @@ export class RedirectEpic {
 
   public toStatsList(action$: Observable<Action>): Observable<Action> {
     return action$.pipe<Action, Action>(
-      ofType<Action, Action>(ACTION.PUSH_TO_STATS_LIST),
+      ofType<Action, Action>(PUSH_TO_STATS_LIST),
       mapTo<Action, Action>(push(Endpoints.STATS_LIST))
     );
   }
 
   public toStatsEdit(action$: Observable<Action>): Observable<Action> {
     return action$.pipe<PushToStatsEditAction, Action>(
-      ofType<Action, PushToStatsEditAction>(ACTION.PUSH_TO_STATS_EDIT),
+      ofType<Action, PushToStatsEditAction>(PUSH_TO_STATS_EDIT),
       map<PushToStatsEditAction, Action>((action: PushToStatsEditAction) => {
 
         return push(
@@ -38,7 +44,7 @@ export class RedirectEpic {
 
   public toEntrance(action$: Observable<Action>): Observable<Action> {
     return action$.pipe<Action, Action>(
-      ofType<Action, Action>(ACTION.PUSH_TO_ENTRANCE),
+      ofType<Action, Action>(PUSH_TO_ENTRANCE),
       mapTo<Action, Action>(push(Endpoints.ENTRANCE))
     );
   }

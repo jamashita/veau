@@ -10,10 +10,12 @@ import { ISessionQuery } from '../../Query/Interface/ISessionQuery';
 import { EntranceInformation } from '../../VO/EntranceInformation';
 import { VeauAccount } from '../../VO/VeauAccount';
 import {
-  ACTION,
   Action,
+  ENTRANCE_ACCOUNT_NAME_TYPED,
+  ENTRANCE_PASSWORD_TYPED,
   EntranceAccountNameTypedAction,
-  EntrancePasswordTypedAction
+  EntrancePasswordTypedAction,
+  IDENTITY_AUTHENTICATE
 } from '../Action/Action';
 import { updateEntranceInformation } from '../Action/EntranceAction';
 import { identified, identityAuthenticated } from '../Action/IdentityAction';
@@ -49,7 +51,7 @@ export class EntranceEpic {
     } = state$;
 
     return action$.pipe<Action, Action, Action, Action>(
-      ofType<Action, Action>(ACTION.IDENTITY_AUTHENTICATE),
+      ofType<Action, Action>(IDENTITY_AUTHENTICATE),
       filter<Action>(() => {
         if (open) {
           return false;
@@ -91,7 +93,7 @@ export class EntranceEpic {
     } = state$;
 
     return action$.pipe<EntranceAccountNameTypedAction, Action>(
-      ofType<Action, EntranceAccountNameTypedAction>(ACTION.ENTRANCE_ACCOUNT_NAME_TYPED),
+      ofType<Action, EntranceAccountNameTypedAction>(ENTRANCE_ACCOUNT_NAME_TYPED),
       map<EntranceAccountNameTypedAction, Action>((action: EntranceAccountNameTypedAction) => {
         const newInfo: EntranceInformation = EntranceInformation.of(
           action.account,
@@ -111,7 +113,7 @@ export class EntranceEpic {
     } = state$;
 
     return action$.pipe<EntrancePasswordTypedAction, Action>(
-      ofType<Action, EntrancePasswordTypedAction>(ACTION.ENTRANCE_PASSWORD_TYPED),
+      ofType<Action, EntrancePasswordTypedAction>(ENTRANCE_PASSWORD_TYPED),
       map<EntrancePasswordTypedAction, Action>((action: EntrancePasswordTypedAction) => {
         const newInfo: EntranceInformation = EntranceInformation.of(
           entranceInformation.getAccount(),

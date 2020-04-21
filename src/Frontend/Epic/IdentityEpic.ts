@@ -19,7 +19,7 @@ import { Locale } from '../../VO/Locale';
 import { SystemSupportLanguage } from '../../VO/SystemSupportLanguage';
 import { VeauAccount } from '../../VO/VeauAccount';
 import { VeauAccountID } from '../../VO/VeauAccountID';
-import { ACTION, Action } from '../Action/Action';
+import { Action, IDENTITY_INITIALIZE } from '../Action/Action';
 import { identified, identityAuthenticated } from '../Action/IdentityAction';
 import { loaded, loading } from '../Action/LoadingAction';
 import { defineLocale } from '../Action/LocaleAction';
@@ -135,7 +135,7 @@ export class IdentityEpic {
     } = state$;
 
     return action$.pipe<Action, Action>(
-      ofType<Action, Action>(ACTION.IDENTITY_INITIALIZE),
+      ofType<Action, Action>(IDENTITY_INITIALIZE),
       map<Action, Action>(() => {
         const veauAccount: VeauAccount = VeauAccount.of(
           VeauAccountID.generate(),
