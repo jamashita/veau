@@ -15,7 +15,7 @@ import { Locale } from '../../../VO/Locale';
 import { Region } from '../../../VO/Region';
 import { StatsName } from '../../../VO/StatsName';
 import { StatsUnit } from '../../../VO/StatsUnit';
-import { TextField } from '../atoms/TextField';
+import { TextField } from '../Atom/TextField';
 
 type Props = Readonly<{
   stats: Stats;

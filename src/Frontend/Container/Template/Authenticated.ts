@@ -2,7 +2,7 @@ import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from
 import { Dispatch } from 'redux';
 import { Action } from '../../Action/Action';
 import { openProvider } from '../../Action/PageProviderAction';
-import { Authenticated as Component } from '../../Component/templates/Authenticated';
+import { Authenticated as Component } from '../../Component/Template/Authenticated';
 import { State } from '../../State';
 
 type StateProps = Readonly<{}>;

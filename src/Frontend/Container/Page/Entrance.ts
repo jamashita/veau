@@ -5,7 +5,7 @@ import { EntranceInformation } from '../../../VO/EntranceInformation';
 import { Password } from '../../../VO/Password';
 import { Action } from '../../Action/Action';
 import { accountTyped, attemptLogin, passwordTyped } from '../../Action/EntranceAction';
-import { Entrance as Component } from '../../Component/pages/Entrance';
+import { Entrance as Component } from '../../Component/Page/Entrance';
 import { State } from '../../State';
 
 type StateProps = Readonly<{

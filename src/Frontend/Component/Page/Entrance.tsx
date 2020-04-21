@@ -8,8 +8,8 @@ import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { AccountName } from '../../../VO/AccountName';
 import { Password } from '../../../VO/Password';
-import { Props } from '../../Container/pages/Entrance';
-import { TextField } from '../atoms/TextField';
+import { Props } from '../../Container/Page/Entrance';
+import { TextField } from '../Atom/TextField';
 
 type State = Readonly<{}>;
 

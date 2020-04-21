@@ -8,7 +8,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-import { Props } from '../../Container/molecules/PageProvider';
+import { Props } from '../../Container/Molecule/PageProvider';
 
 type State = Readonly<{}>;
 

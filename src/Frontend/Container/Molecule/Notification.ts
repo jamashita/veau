@@ -7,7 +7,7 @@ import {
   NotificationVPosition
 } from '../../Action/Action';
 import { disappearNotification } from '../../Action/NotificationAction';
-import { Notification as Component } from '../../Component/molecules/Notification';
+import { Notification as Component } from '../../Component/Molecule/Notification';
 import { State } from '../../State';
 
 type StateProps = Readonly<{

@@ -4,7 +4,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-import { Props } from '../../Container/molecules/LoadingIndicator';
+import { Props } from '../../Container/Molecule/LoadingIndicator';
 
 type State = Readonly<{}>;
 

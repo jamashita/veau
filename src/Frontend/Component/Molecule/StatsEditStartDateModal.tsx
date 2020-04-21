@@ -10,7 +10,7 @@ import { AsOfError } from '../../../Error/AsOfError';
 import { Success } from '../../../General/Superposition/Success';
 import { Superposition } from '../../../General/Superposition/Superposition';
 import { AsOf } from '../../../VO/AsOf';
-import { TextField } from '../atoms/TextField';
+import { TextField } from '../Atom/TextField';
 
 type Props = Readonly<{
   open: boolean;

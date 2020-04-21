@@ -1,7 +1,7 @@
 import React from 'react';
-import { PageProvider } from '../../Container/molecules/PageProvider';
-import { Props } from '../../Container/templates/Authenticated';
-import { Header } from '../molecules/Header';
+import { PageProvider } from '../../Container/Molecule/PageProvider';
+import { Props } from '../../Container/Template/Authenticated';
+import { Header } from '../Molecule/Header';
 
 type State = Readonly<{}>;
 

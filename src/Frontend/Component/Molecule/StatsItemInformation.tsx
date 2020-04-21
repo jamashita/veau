@@ -9,7 +9,7 @@ import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { StatsItem } from '../../../Entity/StatsItem';
 import { Quantum } from '../../../General/Quantum/Quantum';
 import { StatsItemName } from '../../../VO/StatsItemName';
-import { TextField } from '../atoms/TextField';
+import { TextField } from '../Atom/TextField';
 
 type Props = Readonly<{
   selecting: Quantum<StatsItem>;

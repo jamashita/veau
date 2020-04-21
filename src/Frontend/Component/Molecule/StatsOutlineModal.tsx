@@ -20,7 +20,7 @@ import { StatsName } from '../../../VO/StatsName';
 import { StatsUnit } from '../../../VO/StatsUnit';
 import { Term } from '../../../VO/Term';
 import { Terms } from '../../../VO/Terms';
-import { TextField } from '../atoms/TextField';
+import { TextField } from '../Atom/TextField';
 
 type Props = Readonly<{
   open: boolean;

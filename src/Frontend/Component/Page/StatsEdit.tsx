@@ -8,14 +8,14 @@ import { Quantum } from '../../../General/Quantum/Quantum';
 import { Superposition } from '../../../General/Superposition/Superposition';
 import { AsOf } from '../../../VO/AsOf';
 import { StatsID } from '../../../VO/StatsID';
-import { Props } from '../../Container/pages/StatsEdit';
-import { Authenticated } from '../../Container/templates/Authenticated';
-import { Chart } from '../molecules/Chart';
-import { Spreadsheet } from '../molecules/Spreadsheet';
-import { StatsEditStartDateModal } from '../molecules/StatsEditStartDateModal';
-import { StatsInformation } from '../molecules/StatsInformation';
-import { StatsItemInformation } from '../molecules/StatsItemInformation';
-import { StatsItemModal } from '../molecules/StatsItemModal';
+import { Props } from '../../Container/Page/StatsEdit';
+import { Authenticated } from '../../Container/Template/Authenticated';
+import { Chart } from '../Molecule/Chart';
+import { Spreadsheet } from '../Molecule/Spreadsheet';
+import { StatsEditStartDateModal } from '../Molecule/StatsEditStartDateModal';
+import { StatsInformation } from '../Molecule/StatsInformation';
+import { StatsItemInformation } from '../Molecule/StatsItemInformation';
+import { StatsItemModal } from '../Molecule/StatsItemModal';
 
 type State = Readonly<{
   openNewStatsItemModal: boolean;

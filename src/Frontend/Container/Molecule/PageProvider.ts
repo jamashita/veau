@@ -4,7 +4,7 @@ import { Action } from '../../Action/Action';
 import { logout } from '../../Action/LogoutAction';
 import { closeProvider } from '../../Action/PageProviderAction';
 import { pushToStatsList } from '../../Action/RedirectAction';
-import { PageProvider as Component } from '../../Component/molecules/PageProvider';
+import { PageProvider as Component } from '../../Component/Molecule/PageProvider';
 import { State } from '../../State';
 
 type StateProps = Readonly<{

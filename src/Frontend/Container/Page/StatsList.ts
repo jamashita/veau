@@ -22,7 +22,7 @@ import {
   openNewStatsModal,
   saveNewStats
 } from '../../Action/StatsListAction';
-import { StatsList as Component } from '../../Component/pages/StatsList';
+import { StatsList as Component } from '../../Component/Page/StatsList';
 import { State } from '../../State';
 
 type StateProps = Readonly<{
