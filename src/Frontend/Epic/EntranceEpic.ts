@@ -13,9 +13,7 @@ import {
   ACTION,
   Action,
   EntranceAccountNameTypedAction,
-  EntrancePasswordTypedAction,
-  LoadingFinishAction,
-  LoadingStartAction
+  EntrancePasswordTypedAction
 } from '../Action/Action';
 import { updateEntranceInformation } from '../Action/EntranceAction';
 import { identified, identityAuthenticated } from '../Action/IdentityAction';
@@ -62,23 +60,23 @@ export class EntranceEpic {
 
         return true;
       }),
-      mapTo<Action, LoadingStartAction>(loading()),
-      mergeMap<LoadingStartAction, ObservableInput<Action>>(() => {
+      mapTo<Action, Action>(loading()),
+      mergeMap<Action, ObservableInput<Action>>(() => {
         return from<Promise<Superposition<VeauAccount, VeauAccountError | DataSourceError>>>(
           this.sessionQuery.findByEntranceInfo(entranceInformation)
         ).pipe(
-          mergeMap((superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError>) => {
+          mergeMap<Superposition<VeauAccount, VeauAccountError | DataSourceError>, Observable<Action>>((superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError>) => {
             return EMPTY.pipe(
-              mapTo<never, LoadingFinishAction>(loaded()),
-              mergeMap<LoadingFinishAction, Observable<Action>>(() => {
+              mapTo<never, Action>(loaded()),
+              mergeMap<Action, Observable<Action>>(() => {
                 return superposition.match<Observable<Action>>((veauAccount: VeauAccount) => {
-                  return of(
+                  return of<Action>(
                     identityAuthenticated(veauAccount),
                     pushToStatsList(),
                     identified()
                   );
                 }, () => {
-                  return of(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
+                  return of<Action>(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
                 });
               })
             );
