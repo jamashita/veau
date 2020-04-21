@@ -1,14 +1,10 @@
 import { ACTION, ModalCloseAction, ModalRaiseAction } from './Action';
 
-export const raiseModal: (
+export const raiseModal = (
   title: string,
   description: string,
   values?: Record<string, string>
-) => ModalRaiseAction = (
-  title: string,
-  description: string,
-  values?: Record<string, string>
-) => {
+): ModalRaiseAction => {
   return {
     type: ACTION.MODAL_RAISE,
     title,
@@ -17,7 +13,7 @@ export const raiseModal: (
   };
 };
 
-export const closeModal: () => ModalCloseAction = () => {
+export const closeModal = (): ModalCloseAction => {
   return {
     type: ACTION.MODAL_CLOSE
   };

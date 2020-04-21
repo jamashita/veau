@@ -6,7 +6,7 @@ import {
   PushToStatsListAction
 } from './Action';
 
-export const pushToStatsList: () => PushToStatsListAction = () => {
+export const pushToStatsList = (): PushToStatsListAction => {
   return {
     type: ACTION.PUSH_TO_STATS_LIST
   };
@@ -19,7 +19,7 @@ export const pushToStatsEdit = (statsID: StatsID): PushToStatsEditAction => {
   };
 };
 
-export const pushToEntrance: () => PushToEntranceAction = () => {
+export const pushToEntrance = (): PushToEntranceAction => {
   return {
     type: ACTION.PUSH_TO_ENTRANCE
   };

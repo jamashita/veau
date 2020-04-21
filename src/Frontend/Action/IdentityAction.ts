@@ -13,13 +13,13 @@ export const identityAuthenticated = (identity: VeauAccount): IdentityAuthentica
   };
 };
 
-export const initializeIdentity: () => IdentityInitializeAction = () => {
+export const initializeIdentity = (): IdentityInitializeAction => {
   return {
     type: ACTION.IDENTITY_INITIALIZE
   };
 };
 
-export const identified: () => IdentityIdentifiedAction = () => {
+export const identified = (): IdentityIdentifiedAction => {
   return {
     type: ACTION.IDENTITY_IDENTIFIED
   };

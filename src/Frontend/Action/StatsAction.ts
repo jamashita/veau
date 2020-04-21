@@ -18,7 +18,7 @@ export const updateStatsOutlines = (statsOutlines: StatsOutlines): StatsOutlineU
   };
 };
 
-export const resetStatsOutlines: () => StatsOutlineResetAction = () => {
+export const resetStatsOutlines = (): StatsOutlineResetAction => {
   return {
     type: ACTION.STATS_OUTLINE_RESET
   };
@@ -31,7 +31,7 @@ export const updateStats = (stats: Stats): StatsUpdateAction => {
   };
 };
 
-export const resetStats: () => StatsResetAction = () => {
+export const resetStats = (): StatsResetAction => {
   return {
     type: ACTION.STATS_RESET
   };
@@ -44,7 +44,7 @@ export const updateStatsItem = (statsItem: StatsItem): StatsItemUpdateAction => 
   };
 };
 
-export const resetStatsItem: () => StatsItemResetAction = () => {
+export const resetStatsItem = (): StatsItemResetAction => {
   return {
     type: ACTION.STATS_ITEM_RESET
   };

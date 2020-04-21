@@ -30,7 +30,7 @@ export const updateEntranceInformation = (entranceInformation: EntranceInformati
   };
 };
 
-export const attemptLogin: () => IdentityAuthenticateAction = () => {
+export const attemptLogin = (): IdentityAuthenticateAction => {
   return {
     type: ACTION.IDENTITY_AUTHENTICATE
   };

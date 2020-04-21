@@ -19,19 +19,19 @@ import {
   StatsListUpdateNewStatsAction
 } from './Action';
 
-export const initStatsList: () => StatsListInitializeAction = () => {
+export const initStatsList = (): StatsListInitializeAction => {
   return {
     type: ACTION.STATS_LIST_INITIALIZE
   };
 };
 
-export const openNewStatsModal: () => StatsListOpenNewStatsModalAction = () => {
+export const openNewStatsModal = (): StatsListOpenNewStatsModalAction => {
   return {
     type: ACTION.STATS_LIST_OPEN_STATS_MODAL
   };
 };
 
-export const closeNewStatsModal: () => StatsListCloseNewStatsModalAction = () => {
+export const closeNewStatsModal = (): StatsListCloseNewStatsModalAction => {
   return {
     type: ACTION.STATS_LIST_CLOSE_STATS_MODAL
   };
@@ -79,13 +79,13 @@ export const updateNewStats = (stats: Stats): StatsListUpdateNewStatsAction => {
   };
 };
 
-export const saveNewStats: () => StatsListSaveNewStatsAction = () => {
+export const saveNewStats = (): StatsListSaveNewStatsAction => {
   return {
     type: ACTION.STATS_LIST_SAVE_NEW_STATS
   };
 };
 
-export const resetNewStats: () => StatsListResetNewStatsAction = () => {
+export const resetNewStats = (): StatsListResetNewStatsAction => {
   return {
     type: ACTION.STATS_LIST_RESET_NEW_STATS
   };

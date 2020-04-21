@@ -7,21 +7,14 @@ import {
   NotificationVPosition
 } from './Action';
 
-export const appearNotification: (
-  kind: NotificationKind,
-  horizontal: NotificationHPosition,
-  vertical: NotificationVPosition,
-  message: string,
-  duration?: number,
-  values?: Record<string, string>
-) => NotificationAppearAction = (
+export const appearNotification = (
   kind: NotificationKind,
   horizontal: NotificationHPosition,
   vertical: NotificationVPosition,
   message: string,
   duration: number = 3000,
   values?: Record<string, string>
-) => {
+): NotificationAppearAction => {
   return {
     type: ACTION.NOTIFICATION_APPEAR,
     kind,
@@ -33,7 +26,7 @@ export const appearNotification: (
   };
 };
 
-export const disappearNotification: () => NotificationDisappearAction = () => {
+export const disappearNotification = (): NotificationDisappearAction => {
   return {
     type: ACTION.NOTIFICATION_DISAPPEAR
   };
