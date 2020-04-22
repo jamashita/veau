@@ -4,14 +4,14 @@ type DIType = Readonly<{
   LocaleCacheCommand: symbol;
   LanguageRedisCommand: symbol;
   RegionRedisCommand: symbol;
-  EntranceSaga: symbol;
-  IdentitySaga: symbol;
-  LogoutSaga: symbol;
-  RedirectSaga: symbol;
-  RootSaga: symbol;
-  StatsEditSaga: symbol;
-  StatsListSaga: symbol;
   AuthenticationMiddleware: symbol;
+  EntranceEpic: symbol;
+  IdentityEpic: symbol;
+  LogoutEpic: symbol;
+  RedirectEpic: symbol;
+  RootEpic: symbol;
+  StatsEditEpic: symbol;
+  StatsListEpic: symbol;
   AJAX: symbol;
   Cache: symbol;
   MySQL: symbol;
@@ -46,14 +46,14 @@ export const TYPE: DIType = {
   LocaleCacheCommand: Symbol('LocaleCacheCommand'),
   LanguageRedisCommand: Symbol('LanguageRedisCommand'),
   RegionRedisCommand: Symbol('RegionRedisCommand'),
-  EntranceSaga: Symbol('EntranceSaga'),
-  IdentitySaga: Symbol('IdentitySaga'),
-  LogoutSaga: Symbol('LogoutSaga'),
-  RedirectSaga: Symbol('RedirectSaga'),
-  RootSaga: Symbol('RootSaga'),
-  StatsEditSaga: Symbol('StatsEditSaga'),
-  StatsListSaga: Symbol('StatsListSaga'),
   AuthenticationMiddleware: Symbol('AuthenticationMiddleware'),
+  EntranceEpic: Symbol('EntranceEpic'),
+  IdentityEpic: Symbol('IdentityEpic'),
+  LogoutEpic: Symbol('LogoutEpic'),
+  RedirectEpic: Symbol('RedirectEpic'),
+  RootEpic: Symbol('RootEpic'),
+  StatsEditEpic: Symbol('StatsEditEpic'),
+  StatsListEpic: Symbol('StatsListEpic'),
   AJAX: Symbol('AJAX'),
   Cache: Symbol('Cache'),
   MySQL: Symbol('MySQL'),

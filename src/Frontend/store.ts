@@ -5,24 +5,23 @@ import { createEpicMiddleware, EpicMiddleware } from 'redux-observable';
 import { TYPE } from '../Container/Types';
 import { vault } from '../Container/Vault';
 import { Action } from './Action/Action';
-import { RootEpic } from './Epic/RootEpis';
+import { RootEpic } from './Epic/RootEpic';
 import { history } from './history';
 import { reducers } from './Reducer/Reducer';
 import { State } from './State';
 
-const epic: EpicMiddleware<Action, Action, State> = createEpicMiddleware<Action, Action, State>();
 const logger: Middleware = createLogger({
   diff: true,
   collapsed: true
 });
 const router: Middleware = routerMiddleware(history);
+const epic: EpicMiddleware<Action, Action, State> = createEpicMiddleware<Action, Action, State>();
 
 export const store: Store = createStore(
   reducers,
   applyMiddleware(epic, logger, router)
 );
 
-// TODO
-const rootEpic: RootEpic = vault.get<RootEpic>(TYPE.AccountMySQLQuery);
+const rootEpic: RootEpic = vault.get<RootEpic>(TYPE.RootEpic);
 
 epic.run(rootEpic.init());
