@@ -4,6 +4,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import 'reflect-metadata';
 import { Supplier } from '../General/Type/Function';
 import { View } from './Component/View';
 import { I18NProvider } from './Container/I18NProvider';

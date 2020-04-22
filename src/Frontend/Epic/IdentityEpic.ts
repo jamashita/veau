@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { ofType, StateObservable } from 'redux-observable';
+import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { EMPTY, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mapTo, mergeMap } from 'rxjs/operators';
 import { TYPE } from '../../Container/Types';
@@ -44,14 +44,14 @@ export class IdentityEpic {
     this.languageQuery = languageQuery;
   }
 
-  public init(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public init(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     return merge<Action, Action>(
       this.initIdentity(action$, state$),
       this.initialize(action$, state$)
     );
   }
 
-  public initIdentity(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public initIdentity(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     const {
       value: {
         identity
@@ -135,7 +135,7 @@ export class IdentityEpic {
     );
   }
 
-  public initialize(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public initialize(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     const {
       value: {
         identity

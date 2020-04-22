@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { ofType, StateObservable } from 'redux-observable';
+import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { EMPTY, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mapTo, mergeMap } from 'rxjs/operators';
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
@@ -59,7 +59,7 @@ export class StatsListEpic {
     this.statsCommand = statsCommand;
   }
 
-  public init(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public init(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     return merge(
       this.findStatsList(action$),
       this.nameTyped(action$, state$),
@@ -71,7 +71,7 @@ export class StatsListEpic {
     );
   }
 
-  public findStatsList(action$: Observable<Action>): Observable<Action> {
+  public findStatsList(action$: ActionsObservable<Action>): Observable<Action> {
     return action$.pipe<Action, Action>(
       ofType<Action, Action>(STATS_LIST_INITIALIZE),
       mergeMap<Action, Observable<Action>>(() => {
@@ -93,7 +93,7 @@ export class StatsListEpic {
     );
   }
 
-  public nameTyped(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public nameTyped(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     const {
       value: {
         statsList: {
@@ -121,7 +121,7 @@ export class StatsListEpic {
     );
   }
 
-  public unitTyped(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public unitTyped(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     const {
       value: {
         statsList: {
@@ -149,7 +149,7 @@ export class StatsListEpic {
     );
   }
 
-  public iso639Selected(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public iso639Selected(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     const {
       value: {
         statsList: {
@@ -190,7 +190,7 @@ export class StatsListEpic {
     );
   }
 
-  public iso3166Selected(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public iso3166Selected(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     const {
       value: {
         statsList: {
@@ -231,7 +231,7 @@ export class StatsListEpic {
     );
   }
 
-  public termSelected(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public termSelected(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     const {
       value: {
         statsList: {
@@ -259,7 +259,7 @@ export class StatsListEpic {
     );
   }
 
-  public save(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public save(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     const {
       value: {
         statsList: {

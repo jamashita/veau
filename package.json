@@ -10,7 +10,7 @@
     "build": "gulp build",
     "watch": "concurrently \"npm:watch:*\"",
     "watch:gulp": "gulp",
-    "watch:webpack": "webpack-dev-server --hot --config webpack.dev.config.js",
+    "watch:webpack": "webpack-dev-server --hot --config webpack.development.config.js",
     "start": "pm2-runtime start pm2.yml",
     "stop": "pm2-runtime stop pm2.yml",
     "test": "jest test --detectOpenHandles --coverage",

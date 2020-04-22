@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { ofType } from 'redux-observable';
+import { ActionsObservable, ofType } from 'redux-observable';
 import { from, merge, Observable } from 'rxjs';
 import { mapTo, mergeMap } from 'rxjs/operators';
 import { ISessionCommand } from '../../Command/Interface/ISessionCommand';
@@ -19,13 +19,13 @@ export class LogoutEpic {
     this.sessionCommand = sessionCommand;
   }
 
-  public init(action$: Observable<Action>): Observable<Action> {
+  public init(action$: ActionsObservable<Action>): Observable<Action> {
     return merge<Action>(
       this.logout(action$)
     );
   }
 
-  public logout(action$: Observable<Action>): Observable<Action> {
+  public logout(action$: ActionsObservable<Action>): Observable<Action> {
     return action$.pipe<LogoutAction, Action>(
       ofType<Action, LogoutAction>(LOGOUT),
       mergeMap<Action, Observable<Action>>(() => {

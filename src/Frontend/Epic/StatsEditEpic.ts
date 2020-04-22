@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { ofType, StateObservable } from 'redux-observable';
+import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { EMPTY, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mapTo, mergeMap } from 'rxjs/operators';
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
@@ -84,7 +84,7 @@ export class StatsEditEpic {
     this.statsCommand = statsCommand;
   }
 
-  public init(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public init(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     return merge<Action>(
       this.findStats(action$),
       this.initializationFailed(action$),
@@ -107,7 +107,7 @@ export class StatsEditEpic {
     );
   }
 
-  public findStats(action$: Observable<Action>): Observable<Action> {
+  public findStats(action$: ActionsObservable<Action>): Observable<Action> {
     return action$.pipe<StatsEditInitializeAction, Action>(
       ofType<Action, StatsEditInitializeAction>(STATS_EDIT_INITIALIZE),
       mergeMap<StatsEditInitializeAction, Observable<Action>>((action: StatsEditInitializeAction) => {
@@ -136,7 +136,7 @@ export class StatsEditEpic {
     );
   }
 
-  public initializationFailed(action$: Observable<Action>): Observable<Action> {
+  public initializationFailed(action$: ActionsObservable<Action>): Observable<Action> {
     return action$.pipe<Action, Action, Action>(
       ofType<Action, Action>(STATS_EDIT_INITIALIZATION_FAILURE),
       mapTo<Action, Action>(pushToStatsList()),
@@ -144,7 +144,7 @@ export class StatsEditEpic {
     );
   }
 
-  public nameTyped(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public nameTyped(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     const {
       value: {
         stats
@@ -170,7 +170,7 @@ export class StatsEditEpic {
     );
   }
 
-  public unitTyped(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public unitTyped(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     const {
       value: {
         stats
@@ -196,7 +196,7 @@ export class StatsEditEpic {
     );
   }
 
-  public iso639Selected(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public iso639Selected(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     const {
       value: {
         stats
@@ -235,7 +235,7 @@ export class StatsEditEpic {
     );
   }
 
-  public iso3166Selected(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public iso3166Selected(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     const {
       value: {
         stats
@@ -274,7 +274,7 @@ export class StatsEditEpic {
     );
   }
 
-  public dataFilled(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public dataFilled(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     const {
       value: {
         stats
@@ -292,7 +292,7 @@ export class StatsEditEpic {
     );
   }
 
-  public dataDeleted(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public dataDeleted(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     const {
       value: {
         stats
@@ -310,7 +310,7 @@ export class StatsEditEpic {
     );
   }
 
-  public itemNameTyped(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public itemNameTyped(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     const {
       value: {
         statsItem
@@ -332,7 +332,7 @@ export class StatsEditEpic {
     );
   }
 
-  public saveItem(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public saveItem(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     const {
       value: {
         stats,
@@ -363,7 +363,7 @@ export class StatsEditEpic {
     );
   }
 
-  public rowSelected(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public rowSelected(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     const {
       value: {
         stats
@@ -380,7 +380,7 @@ export class StatsEditEpic {
     );
   }
 
-  public selectingItemNameTyped(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public selectingItemNameTyped(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     const {
       value: {
         stats,
@@ -419,7 +419,7 @@ export class StatsEditEpic {
     );
   }
 
-  public startDateDetermined(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public startDateDetermined(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     const {
       value: {
         stats
@@ -446,14 +446,14 @@ export class StatsEditEpic {
     );
   }
 
-  public invalidDateInput(action$: Observable<Action>): Observable<Action> {
+  public invalidDateInput(action$: ActionsObservable<Action>): Observable<Action> {
     return action$.pipe<Action, Action>(
       ofType<Action, Action>(STATS_EDIT_INVALID_DATE_INPUT),
       mapTo<Action, Action>(appearNotification('error', 'center', 'top', 'INVALID_INPUT_DATE'))
     );
   }
 
-  public rowMoved(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public rowMoved(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     const {
       value: {
         stats
@@ -471,14 +471,14 @@ export class StatsEditEpic {
     );
   }
 
-  public invalidValueInput(action$: Observable<Action>): Observable<Action> {
+  public invalidValueInput(action$: ActionsObservable<Action>): Observable<Action> {
     return action$.pipe<Action, Action>(
       ofType<Action, Action>(STATS_EDIT_INVALID_VALUE_INPUT),
       mapTo<Action, Action>(appearNotification('warn', 'center', 'top', 'INVALID_INPUT_VALUE'))
     );
   }
 
-  public removeItem(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public removeItem(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     const {
       value: {
         stats
@@ -497,7 +497,7 @@ export class StatsEditEpic {
     );
   }
 
-  public save(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public save(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     const {
       value: {
         stats

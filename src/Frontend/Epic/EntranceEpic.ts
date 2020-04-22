@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { ofType, StateObservable } from 'redux-observable';
+import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { EMPTY, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mapTo, mergeMap } from 'rxjs/operators';
 import { TYPE } from '../../Container/Types';
@@ -32,7 +32,7 @@ export class EntranceEpic {
     this.sessionQuery = sessionQuery;
   }
 
-  public init(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public init(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     return merge<Action, Action, Action>(
       this.login(action$, state$),
       this.accountNameTyped(action$, state$),
@@ -40,7 +40,7 @@ export class EntranceEpic {
     );
   }
 
-  public login(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public login(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     const {
       value: {
         modal: {
@@ -85,7 +85,7 @@ export class EntranceEpic {
     );
   }
 
-  public accountNameTyped(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public accountNameTyped(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     const {
       value: {
         entranceInformation
@@ -105,7 +105,7 @@ export class EntranceEpic {
     );
   }
 
-  public passwordTyped(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public passwordTyped(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     const {
       value: {
         entranceInformation
