@@ -16,21 +16,29 @@ import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { ILocaleQuery } from '../../Query/Interface/ILocaleQuery';
 import { IRegionQuery } from '../../Query/Interface/IRegionQuery';
 import { IStatsQuery } from '../../Query/Interface/IStatsQuery';
+import { AsOf } from '../../VO/AsOf';
 import { Language } from '../../VO/Language';
 import { Region } from '../../VO/Region';
+import { VeauAccountID } from '../../VO/VeauAccountID';
 import {
   Action,
   STATS_EDIT_DATA_DELETED,
   STATS_EDIT_DATA_FILLED,
   STATS_EDIT_INITIALIZATION_FAILURE,
   STATS_EDIT_INITIALIZE,
+  STATS_EDIT_INVALID_DATE_INPUT,
+  STATS_EDIT_INVALID_VALUE_INPUT,
   STATS_EDIT_ISO3166_SELECTED,
   STATS_EDIT_ISO639_SELECTED,
   STATS_EDIT_ITEM_NAME_TYPED,
   STATS_EDIT_ITEM_SAVE,
   STATS_EDIT_NAME_TYPED,
+  STATS_EDIT_REMOVE_SELECTING_ITEM,
+  STATS_EDIT_ROW_MOVED,
   STATS_EDIT_ROW_SELECTED,
+  STATS_EDIT_SAVE_STATS,
   STATS_EDIT_SELECTING_ITEM_NAME_TYPED,
+  STATS_EDIT_START_DATE_DETERMINED,
   STATS_EDIT_UNIT_TYPED,
   StatsEditDataDeletedAction,
   StatsEditDataFilledAction,
@@ -39,10 +47,15 @@ import {
   StatsEditISO639SelectedAction,
   StatsEditItemNameTypedAction,
   StatsEditNameTypedAction,
+  StatsEditRemoveSelectingItemAction,
+  StatsEditRowMovedAction,
   StatsEditRowSelectedAction,
   StatsEditSelectingItemNameTypedAction,
+  StatsEditStartDateDeterminedAction,
   StatsEditUnitTypedAction
 } from '../Action/Action';
+import { loaded, loading } from '../Action/LoadingAction';
+import { raiseModal } from '../Action/ModalAction';
 import { appearNotification } from '../Action/NotificationAction';
 import { pushToStatsList } from '../Action/RedirectAction';
 import { resetStatsItem, updateStats, updateStatsItem } from '../Action/StatsAction';
@@ -69,14 +82,27 @@ export class StatsEditEpic {
     this.languageQuery = languageQuery;
     this.regionQuery = regionQuery;
     this.statsCommand = statsCommand;
-    A;
   }
 
   public init(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return merge(
+    return merge<Action>(
       this.findStats(action$),
       this.initializationFailed(action$),
-      this.nameTyped(action$, state$)
+      this.nameTyped(action$, state$),
+      this.unitTyped(action$, state$),
+      this.iso639Selected(action$, state$),
+      this.iso3166Selected(action$, state$),
+      this.dataFilled(action$, state$),
+      this.dataDeleted(action$, state$),
+      this.itemNameTyped(action$, state$),
+      this.rowSelected(action$, state$),
+      this.selectingItemNameTyped(action$, state$),
+      this.startDateDetermined(action$, state$),
+      this.invalidDateInput(action$),
+      this.rowMoved(action$, state$),
+      this.invalidValueInput(action$),
+      this.removeItem(action$, state$),
+      this.save(action$, state$)
     );
   }
 
@@ -383,6 +409,115 @@ export class StatsEditEpic {
             return of<Action>(
               updateSelectingItem(Present.of<StatsItem>(newSelectingItem)),
               updateStats(duplicated)
+            );
+          })
+        );
+      })
+    );
+  }
+
+  public startDateDetermined(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+    const {
+      value: {
+        stats
+      }
+    } = state$;
+
+    return action$.pipe<StatsEditStartDateDeterminedAction, Action>(
+      ofType<Action, StatsEditStartDateDeterminedAction>(STATS_EDIT_START_DATE_DETERMINED),
+      map<StatsEditStartDateDeterminedAction, Action>((action: StatsEditStartDateDeterminedAction) => {
+        const newStats: Stats = Stats.of(
+          stats.getStatsID(),
+          stats.getLanguage(),
+          stats.getRegion(),
+          stats.getTerm(),
+          stats.getName(),
+          stats.getUnit(),
+          stats.getUpdatedAt(),
+          stats.getItems(),
+          Present.of<AsOf>(action.startDate)
+        );
+
+        return updateStats(newStats);
+      })
+    );
+  }
+
+  public invalidDateInput(action$: Observable<Action>): Observable<Action> {
+    return action$.pipe<Action, Action>(
+      ofType<Action, Action>(STATS_EDIT_INVALID_DATE_INPUT),
+      mapTo<Action, Action>(appearNotification('error', 'center', 'top', 'INVALID_INPUT_DATE'))
+    );
+  }
+
+  public rowMoved(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+    const {
+      value: {
+        stats
+      }
+    } = state$;
+
+    return action$.pipe<StatsEditRowMovedAction, Action>(
+      ofType<Action, StatsEditRowMovedAction>(STATS_EDIT_ROW_MOVED),
+      map<StatsEditRowMovedAction, Action>((action: StatsEditRowMovedAction) => {
+        const duplicated: Stats = stats.duplicate();
+        duplicated.moveItem(action.column, action.target);
+
+        return updateStats(duplicated);
+      })
+    );
+  }
+
+  public invalidValueInput(action$: Observable<Action>): Observable<Action> {
+    return action$.pipe<Action, Action>(
+      ofType<Action, Action>(STATS_EDIT_INVALID_VALUE_INPUT),
+      mapTo<Action, Action>(appearNotification('warn', 'center', 'top', 'INVALID_INPUT_VALUE'))
+    );
+  }
+
+  public removeItem(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+    const {
+      value: {
+        stats
+      }
+    } = state$;
+
+    return action$.pipe<StatsEditRemoveSelectingItemAction, Action, Action>(
+      ofType<Action, StatsEditRemoveSelectingItemAction>(STATS_EDIT_REMOVE_SELECTING_ITEM),
+      map<StatsEditRemoveSelectingItemAction, Action>((action: StatsEditRemoveSelectingItemAction) => {
+        const duplicated: Stats = stats.duplicate();
+        duplicated.removeItem(action.statsItem);
+
+        return updateStats(duplicated);
+      }),
+      mapTo<Action, Action>(clearSelectingItem())
+    );
+  }
+
+  public save(action$: Observable<Action>, state$: StateObservable<State>): Observable<Action> {
+    const {
+      value: {
+        stats
+      }
+    } = state$;
+
+    return action$.pipe<Action, Action, Action>(
+      ofType<Action, Action>(STATS_EDIT_SAVE_STATS),
+      mapTo<Action, Action>(loading()),
+      mergeMap<Action, Observable<Action>>(() => {
+        return from<Promise<Superposition<void, DataSourceError>>>(
+          this.statsCommand.create(stats, VeauAccountID.generate())
+        ).pipe<Action>(
+          mergeMap<Superposition<void, DataSourceError>, Observable<Action>>((superposition: Superposition<void, DataSourceError>) => {
+            return EMPTY.pipe<Action, Action>(
+              mapTo<Action, Action>(loaded()),
+              map<Action, Action>(() => {
+                return superposition.match<Action>(() => {
+                  return appearNotification('success', 'center', 'top', 'SAVE_SUCCESS');
+                }, () => {
+                  return raiseModal('STATS_SAVE_FAILURE', 'STATS_SAVE_FAILURE_DESCRIPTION');
+                });
+              })
             );
           })
         );

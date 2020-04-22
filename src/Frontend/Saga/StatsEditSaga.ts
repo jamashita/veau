@@ -26,13 +26,16 @@ import {
   STATS_EDIT_INITIALIZATION_FAILURE,
   STATS_EDIT_INITIALIZE,
   STATS_EDIT_INVALID_DATE_INPUT,
+  STATS_EDIT_INVALID_VALUE_INPUT,
   STATS_EDIT_ISO3166_SELECTED,
   STATS_EDIT_ISO639_SELECTED,
   STATS_EDIT_ITEM_NAME_TYPED,
   STATS_EDIT_ITEM_SAVE,
   STATS_EDIT_NAME_TYPED,
+  STATS_EDIT_REMOVE_SELECTING_ITEM,
   STATS_EDIT_ROW_MOVED,
   STATS_EDIT_ROW_SELECTED,
+  STATS_EDIT_SAVE_STATS,
   STATS_EDIT_SELECTING_ITEM_NAME_TYPED,
   STATS_EDIT_START_DATE_DETERMINED,
   STATS_EDIT_UNIT_TYPED,
@@ -448,14 +451,14 @@ export class StatsEditSaga {
 
   private *invalidValueInput(): SagaIterator<unknown> {
     while (true) {
-      yield take(ACTION.STATS_EDIT_INVALID_VALUE_INPUT);
+      yield take(STATS_EDIT_INVALID_VALUE_INPUT);
       yield put(appearNotification('warn', 'center', 'top', 'INVALID_INPUT_VALUE'));
     }
   }
 
   private *removeItem(): SagaIterator<unknown> {
     while (true) {
-      const action: StatsEditRemoveSelectingItemAction = yield take(ACTION.STATS_EDIT_REMOVE_SELECTING_ITEM);
+      const action: StatsEditRemoveSelectingItemAction = yield take(STATS_EDIT_REMOVE_SELECTING_ITEM);
       const state: State = yield select();
 
       const {
@@ -474,7 +477,7 @@ export class StatsEditSaga {
 
   private *save(): SagaIterator<unknown> {
     while (true) {
-      yield take(ACTION.STATS_EDIT_SAVE_STATS);
+      yield take(STATS_EDIT_SAVE_STATS);
       const state: State = yield select();
 
       const {
