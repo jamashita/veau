@@ -95,6 +95,7 @@ export class StatsEditEpic {
       this.dataFilled(action$, state$),
       this.dataDeleted(action$, state$),
       this.itemNameTyped(action$, state$),
+      this.saveItem(action$, state$),
       this.rowSelected(action$, state$),
       this.selectingItemNameTyped(action$, state$),
       this.startDateDetermined(action$, state$),
@@ -394,7 +395,9 @@ export class StatsEditEpic {
       ofType<Action, StatsEditSelectingItemNameTypedAction>(STATS_EDIT_SELECTING_ITEM_NAME_TYPED),
       mergeMap<StatsEditSelectingItemNameTypedAction, Observable<Action>>((action: StatsEditSelectingItemNameTypedAction) => {
         return EMPTY.pipe<unknown, Action>(
-          filter<never>(selectingItem.isPresent),
+          filter<never>(() => {
+            return selectingItem.isPresent();
+          }),
           mergeMap<unknown, Observable<Action>>(() => {
             const statsItem: StatsItem = selectingItem.get();
             const newSelectingItem: StatsItem = StatsItem.of(

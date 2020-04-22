@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { ofType, StateObservable } from 'redux-observable';
 import { EMPTY, from, merge, Observable, of } from 'rxjs';
-import { map, mapTo, mergeMap } from 'rxjs/operators';
+import { filter, map, mapTo, mergeMap } from 'rxjs/operators';
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { UnauthorizedError } from '../../Error/UnauthorizedError';
@@ -80,20 +80,23 @@ export class IdentityEpic {
                   this.sessionQuery.find()
                 ).pipe<Action, Action>(
                   mergeMap<Superposition<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>, Observable<Action>>((superposition2: Superposition<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>) => {
-                    return superposition2.match<Observable<Action>>((veauAccount: VeauAccount) => {
-                      const actions: Array<Action> = [
-                        identityAuthenticated(veauAccount),
-                        identified()
-                      ];
+                    return EMPTY.pipe<never, Action>(
+                      filter<never>(() => {
+                        return superposition2.isSuccess();
+                      }),
+                      mergeMap<never, Observable<Action>>(() => {
+                        const actions: Array<Action> = [
+                          identityAuthenticated(superposition2.get()),
+                          identified()
+                        ];
 
-                      if (location.pathname === Endpoints.ENTRANCE) {
-                        actions.push(pushToStatsList());
-                      }
+                        if (location.pathname === Endpoints.ENTRANCE) {
+                          actions.push(pushToStatsList());
+                        }
 
-                      return of<Action>(...actions);
-                    }, () => {
-                      return EMPTY;
-                    });
+                        return of<Action>(...actions);
+                      })
+                    );
                   }),
                   mergeMap<Action, Observable<Action>>(() => {
                     const supportLanguage: SystemSupportLanguage = LanguageIdentificationService.toSupportLanguage(
@@ -106,7 +109,12 @@ export class IdentityEpic {
                     ).pipe<Action>(
                       mergeMap<Superposition<Language, NoSuchElementError | DataSourceError>, Observable<Action>>((superposition3: Superposition<Language, NoSuchElementError | DataSourceError>) => {
                         return superposition3.match<Observable<Action>>((language: Language) => {
-                          const veauAccount: VeauAccount = VeauAccount.of(identity.getVeauAccountID(), identity.getAccount(), language, identity.getRegion());
+                          const veauAccount: VeauAccount = VeauAccount.of(
+                            identity.getVeauAccountID(),
+                            identity.getAccount(),
+                            language,
+                            identity.getRegion()
+                          );
 
                           return of<Action>(
                             identityAuthenticated(veauAccount),

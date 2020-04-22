@@ -1,8 +1,6 @@
 import { SagaIterator } from '@redux-saga/types';
-import { inject, injectable } from 'inversify';
 import { all, call, fork, put, take } from 'redux-saga/effects';
 import { ISessionCommand } from '../../Command/Interface/ISessionCommand';
-import { TYPE } from '../../Container/Types';
 import { DataSourceError } from '../../General/DataSourceError';
 import { Superposition } from '../../General/Superposition/Superposition';
 import { LOGOUT } from '../Action/Action';
@@ -10,11 +8,10 @@ import { initializeIdentity } from '../Action/IdentityAction';
 import { closeProvider } from '../Action/PageProviderAction';
 import { pushToEntrance } from '../Action/RedirectAction';
 
-@injectable()
 export class LogoutSaga {
   private readonly sessionCommand: ISessionCommand;
 
-  public constructor(@inject(TYPE.SessionAJAXCommand) sessionCommand: ISessionCommand) {
+  public constructor(sessionCommand: ISessionCommand) {
     this.sessionCommand = sessionCommand;
   }
 

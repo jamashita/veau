@@ -57,7 +57,7 @@ export class EntranceEpic {
           return false;
         }
 
-        return !entranceInformation.isAcceptable();
+        return entranceInformation.isAcceptable();
       }),
       mapTo<Action, Action>(loading()),
       mergeMap<Action, Observable<Action>>(() => {

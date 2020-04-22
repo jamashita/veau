@@ -1,7 +1,5 @@
 import { SagaIterator } from '@redux-saga/types';
-import { inject, injectable } from 'inversify';
 import { all, call, Effect, fork, put, select, take } from 'redux-saga/effects';
-import { TYPE } from '../../Container/Types';
 import { VeauAccountError } from '../../Error/VeauAccountError';
 import { DataSourceError } from '../../General/DataSourceError';
 import { Superposition } from '../../General/Superposition/Superposition';
@@ -22,11 +20,10 @@ import { raiseModal } from '../Action/ModalAction';
 import { pushToStatsList } from '../Action/RedirectAction';
 import { State } from '../State';
 
-@injectable()
 export class EntranceSaga {
   private readonly sessionQuery: ISessionQuery;
 
-  public constructor(@inject(TYPE.SessionAJAXQuery) sessionQuery: ISessionQuery) {
+  public constructor(sessionQuery: ISessionQuery) {
     this.sessionQuery = sessionQuery;
   }
 

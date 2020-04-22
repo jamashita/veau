@@ -1,8 +1,6 @@
-import { inject, injectable } from 'inversify';
 import { SagaIterator } from 'redux-saga';
 import { all, call, Effect, fork, put, PutEffect, select, take } from 'redux-saga/effects';
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
-import { TYPE } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats';
 import { StatsItem } from '../../Entity/StatsItem';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
@@ -61,7 +59,6 @@ import { resetStatsItem, updateStats, updateStatsItem } from '../Action/StatsAct
 import { clearSelectingItem, selectItem, updateSelectingItem } from '../Action/StatsEditAction';
 import { State } from '../State';
 
-@injectable()
 export class StatsEditSaga {
   private readonly statsQuery: IStatsQuery;
   private readonly localeQuery: ILocaleQuery;
@@ -70,11 +67,11 @@ export class StatsEditSaga {
   private readonly statsCommand: IStatsCommand;
 
   public constructor(
-    @inject(TYPE.StatsAJAXQuery) statsQuery: IStatsQuery,
-    @inject(TYPE.LocaleVaultQuery) localeQuery: ILocaleQuery,
-    @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery,
-    @inject(TYPE.RegionVaultQuery) regionQuery: IRegionQuery,
-    @inject(TYPE.StatsAJAXCommand) statsCommand: IStatsCommand
+    statsQuery: IStatsQuery,
+    localeQuery: ILocaleQuery,
+    languageQuery: ILanguageQuery,
+    regionQuery: IRegionQuery,
+    statsCommand: IStatsCommand
   ) {
     this.statsQuery = statsQuery;
     this.localeQuery = localeQuery;

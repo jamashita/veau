@@ -1,8 +1,6 @@
 import { SagaIterator } from '@redux-saga/types';
-import { inject, injectable } from 'inversify';
 import { all, call, Effect, fork, put, select, take } from 'redux-saga/effects';
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
-import { TYPE } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { StatsOutlinesError } from '../../Error/StatsOutlinesError';
@@ -38,7 +36,6 @@ import { resetStatsOutlines, updateStatsOutlines } from '../Action/StatsAction';
 import { closeNewStatsModal, resetNewStats, updateNewStats } from '../Action/StatsListAction';
 import { State } from '../State';
 
-@injectable()
 export class StatsListSaga {
   private readonly statsOutlineQuery: IStatsOutlineQuery;
   private readonly languageQuery: ILanguageQuery;
@@ -46,10 +43,10 @@ export class StatsListSaga {
   private readonly statsCommand: IStatsCommand;
 
   public constructor(
-    @inject(TYPE.StatsOutlineAJAXQuery) statsOutlineQuery: IStatsOutlineQuery,
-    @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery,
-    @inject(TYPE.RegionVaultQuery) regionQuery: IRegionQuery,
-    @inject(TYPE.StatsAJAXCommand) statsCommand: IStatsCommand
+    statsOutlineQuery: IStatsOutlineQuery,
+    languageQuery: ILanguageQuery,
+    regionQuery: IRegionQuery,
+    statsCommand: IStatsCommand
   ) {
     this.statsOutlineQuery = statsOutlineQuery;
     this.languageQuery = languageQuery;

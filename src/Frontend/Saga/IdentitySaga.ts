@@ -1,7 +1,5 @@
 import { SagaIterator } from '@redux-saga/types';
-import { inject, injectable } from 'inversify';
 import { all, call, Effect, fork, put, select, take } from 'redux-saga/effects';
-import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { UnauthorizedError } from '../../Error/UnauthorizedError';
 import { VeauAccountError } from '../../Error/VeauAccountError';
@@ -27,20 +25,19 @@ import { pushToEntrance, pushToStatsList } from '../Action/RedirectAction';
 import { Endpoints } from '../Endpoints';
 import { State } from '../State';
 
-@injectable()
 export class IdentitySaga {
   private readonly sessionQuery: ISessionQuery;
   private readonly localeQuery: ILocaleQuery;
   private readonly languageQuery: ILanguageQuery;
 
   public constructor(
-    @inject(TYPE.SessionAJAXQuery) sessionQuery: ISessionQuery,
-    @inject(TYPE.LocaleVaultQuery) localeQuery: ILocaleQuery,
-    @inject(TYPE.LanguageVaultQuery) LanguageQuery: ILanguageQuery
+    sessionQuery: ISessionQuery,
+    localeQuery: ILocaleQuery,
+    languageQuery: ILanguageQuery
   ) {
     this.sessionQuery = sessionQuery;
     this.localeQuery = localeQuery;
-    this.languageQuery = LanguageQuery;
+    this.languageQuery = languageQuery;
   }
 
   public *init(): IterableIterator<unknown> {

@@ -1,6 +1,5 @@
 import { SagaIterator } from '@redux-saga/types';
 import { push } from 'connected-react-router';
-import { injectable } from 'inversify';
 import { fork, put, take } from 'redux-saga/effects';
 import {
   PUSH_TO_ENTRANCE,
@@ -10,7 +9,6 @@ import {
 } from '../Action/Action';
 import { Endpoints } from '../Endpoints';
 
-@injectable()
 export class RedirectSaga {
 
   public *init(): IterableIterator<unknown> {
