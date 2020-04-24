@@ -1,5 +1,5 @@
 import { Container } from 'inversify';
-import { AJAX } from 'publikum';
+import { AJAX, Cache } from 'publikum';
 import { SessionCommand as SessionAJAXCommand } from '../Command/AJAX/SessionCommand';
 import { StatsCommand as StatsAJAXCommand } from '../Command/AJAX/StatsCommand';
 import { LocaleCommand as LocaleCacheCommand } from '../Command/Cache/LocaleCommand';
