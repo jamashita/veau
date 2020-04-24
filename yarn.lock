@@ -7746,7 +7746,7 @@ node-notifier@^6.0.0:
     shellwords "^0.1.1"
     which "^1.3.1"
 
-node-pre-gyp@*, node-pre-gyp@0.14.0:
+node-pre-gyp@0.14.0:
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.14.0.tgz#9a0596533b877289bcad4e143982ca3d904ddc83"
   integrity sha512-+CvDC7ZttU/sSt9rFjix/P05iS43qHCOOGzcr3Ry99bXG7VX953+vFyEuph/tfqoYu8dttBkE86JSKBO2OzcxA==
@@ -8947,6 +8947,20 @@ public-encrypt@^4.0.0:
     parse-asn1 "^5.0.0"
     randombytes "^2.0.1"
     safe-buffer "^5.1.2"
+
+"publikum@git+ssh://git@gitlab.com:jamashita/publikum.git":
+  version "0.1.2"
+  resolved "git+ssh://git@gitlab.com:jamashita/publikum.git#38d2588e53f17fafc9c33ca927d4c2acd457d5e9"
+  dependencies:
+    bcrypt "4.0.1"
+    chance "1.1.4"
+    check-types "11.1.2"
+    dayjs "1.8.25"
+    ioredis "4.16.3"
+    make-error-cause "2.3.0"
+    mysql "2.18.1"
+    object-hash "2.0.3"
+    superagent "5.2.2"
 
 pug-attrs@^2.0.4:
   version "2.0.4"
