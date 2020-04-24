@@ -1,4 +1,4 @@
-import { DataSourceError, Dead, MySQLError, RedisError, Alive, Superposition } from 'publikum';
+import { Alive, DataSourceError, Dead, MySQLError, RedisError, Superposition } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { MockLanguageCommand } from '../../Command/Mock/MockLanguageCommand';

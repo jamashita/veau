@@ -1,4 +1,4 @@
-import { DataSourceError, Dead, MockMySQL, Alive, Superposition } from 'publikum';
+import { Alive, DataSourceError, Dead, MockMySQL, Superposition } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../Container/Kernel';

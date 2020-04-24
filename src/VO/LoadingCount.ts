@@ -1,4 +1,4 @@
-import { Alive, Dead, Superposition, Type, ValueObject } from 'publikum';
+import { Alive, Dead, Kind, Superposition, ValueObject } from 'publikum';
 import { LoadingCountError } from '../Error/LoadingCountError';
 
 const DEFAULT_COUNT: number = 0;
@@ -16,7 +16,7 @@ export class LoadingCount extends ValueObject {
     if (count === DEFAULT_COUNT) {
       return Alive.of<LoadingCount, LoadingCountError>(LoadingCount.default());
     }
-    if (Type.isInteger(count)) {
+    if (Kind.isInteger(count)) {
       return Alive.of<LoadingCount, LoadingCountError>(new LoadingCount(count));
     }
 

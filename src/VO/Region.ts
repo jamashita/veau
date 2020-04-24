@@ -1,4 +1,4 @@
-import { JSONable, Type, ValueObject } from 'publikum';
+import { JSONable, Kind, ValueObject } from 'publikum';
 import { ISO3166 } from './ISO3166';
 import { RegionID } from './RegionID';
 import { RegionName } from './RegionName';
@@ -63,16 +63,16 @@ export class Region extends ValueObject implements JSONable {
   }
 
   public static isJSON(n: unknown): n is RegionJSON {
-    if (!Type.isPlainObject(n)) {
+    if (!Kind.isPlainObject(n)) {
       return false;
     }
-    if (!Type.isInteger(n.regionID)) {
+    if (!Kind.isInteger(n.regionID)) {
       return false;
     }
-    if (!Type.isString(n.name)) {
+    if (!Kind.isString(n.name)) {
       return false;
     }
-    if (!Type.isString(n.iso3166)) {
+    if (!Kind.isString(n.iso3166)) {
       return false;
     }
 

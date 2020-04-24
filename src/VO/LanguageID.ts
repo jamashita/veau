@@ -1,4 +1,4 @@
-import { Type, ValueObject } from 'publikum';
+import { Kind, ValueObject } from 'publikum';
 
 const EMPTY_ID: number = 0;
 
@@ -15,7 +15,7 @@ export class LanguageID extends ValueObject {
     if (id < 0) {
       return LanguageID.empty();
     }
-    if (Type.isInteger(id)) {
+    if (Kind.isInteger(id)) {
       return new LanguageID(id);
     }
 

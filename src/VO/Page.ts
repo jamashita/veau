@@ -1,4 +1,4 @@
-import { Alive, Dead, Superposition, Type, ValueObject } from 'publikum';
+import { Alive, Dead, Kind, Superposition, ValueObject } from 'publikum';
 import { PageError } from '../Error/PageError';
 import { Limit } from './Limit';
 import { Offset } from './Offset';
@@ -18,7 +18,7 @@ export class Page extends ValueObject {
     if (page === MIN_PAGE) {
       return Alive.of<Page, PageError>(Page.MIN);
     }
-    if (Type.isInteger(page)) {
+    if (Kind.isInteger(page)) {
       return Alive.of<Page, PageError>(new Page(page));
     }
 

@@ -1,4 +1,4 @@
-import { Absent, Alive, Ambiguous, Dead, Entity, Quantum, Superposition, Type } from 'publikum';
+import { Absent, Alive, Ambiguous, Dead, Entity, Kind, Quantum, Superposition } from 'publikum';
 import { StatsError } from '../Error/StatsError';
 import { StatsIDError } from '../Error/StatsIDError';
 import { StatsItemsError } from '../Error/StatsItemsError';
@@ -156,10 +156,10 @@ export class Stats extends Entity<StatsID> {
   }
 
   public static isJSON(n: unknown): n is StatsJSON {
-    if (!Type.isPlainObject(n)) {
+    if (!Kind.isPlainObject(n)) {
       return false;
     }
-    if (!Type.isString(n.statsID)) {
+    if (!Kind.isString(n.statsID)) {
       return false;
     }
     if (!Language.isJSON(n.language)) {
@@ -168,16 +168,16 @@ export class Stats extends Entity<StatsID> {
     if (!Region.isJSON(n.region)) {
       return false;
     }
-    if (!Type.isInteger(n.termID)) {
+    if (!Kind.isInteger(n.termID)) {
       return false;
     }
-    if (!Type.isString(n.name)) {
+    if (!Kind.isString(n.name)) {
       return false;
     }
-    if (!Type.isString(n.unit)) {
+    if (!Kind.isString(n.unit)) {
       return false;
     }
-    if (!Type.isString(n.updatedAt)) {
+    if (!Kind.isString(n.updatedAt)) {
       return false;
     }
     if (!StatsItems.isJSON(n.items)) {

@@ -1,4 +1,4 @@
-import { Alive, Dead, Superposition, Type, ValueObject } from 'publikum';
+import { Alive, Dead, Kind, Superposition, ValueObject } from 'publikum';
 import { LimitError } from '../Error/LimitError';
 
 const DEFAULT_VALUE: number = 40;
@@ -16,7 +16,7 @@ export class Limit extends ValueObject {
     if (limit === DEFAULT_VALUE) {
       return Alive.of<Limit, LimitError>(Limit.default());
     }
-    if (Type.isInteger(limit)) {
+    if (Kind.isInteger(limit)) {
       return Alive.of<Limit, LimitError>(new Limit(limit));
     }
 

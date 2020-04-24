@@ -1,4 +1,4 @@
-import { JSONable, Type, ValueObject } from 'publikum';
+import { JSONable, Kind, ValueObject } from 'publikum';
 import { ISO639 } from './ISO639';
 import { LanguageID } from './LanguageID';
 import { LanguageName } from './LanguageName';
@@ -72,19 +72,19 @@ export class Language extends ValueObject implements JSONable {
   }
 
   public static isJSON(n: unknown): n is LanguageJSON {
-    if (!Type.isPlainObject(n)) {
+    if (!Kind.isPlainObject(n)) {
       return false;
     }
-    if (!Type.isInteger(n.languageID)) {
+    if (!Kind.isInteger(n.languageID)) {
       return false;
     }
-    if (!Type.isString(n.name)) {
+    if (!Kind.isString(n.name)) {
       return false;
     }
-    if (!Type.isString(n.englishName)) {
+    if (!Kind.isString(n.englishName)) {
       return false;
     }
-    if (!Type.isString(n.iso639)) {
+    if (!Kind.isString(n.iso639)) {
       return false;
     }
 

@@ -1,4 +1,4 @@
-import { DataSourceError, Dead, MockSQL, MySQLError, Alive, Superposition } from 'publikum';
+import { Alive, DataSourceError, Dead, MockSQL, MySQLError, Superposition } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { MockStatsCommand } from '../../Command/Mock/MockStatsCommand';
 import { MockStatsItemCommand } from '../../Command/Mock/MockStatsItemCommand';

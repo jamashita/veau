@@ -1,4 +1,4 @@
-import { Alive, Dead, Entity, Superposition, Type } from 'publikum';
+import { Alive, Dead, Entity, Kind, Superposition } from 'publikum';
 import { StatsItemError } from '../Error/StatsItemError';
 import { StatsItemIDError } from '../Error/StatsItemIDError';
 import { StatsValuesError } from '../Error/StatsValuesError';
@@ -68,13 +68,13 @@ export class StatsItem extends Entity<StatsItemID> {
   }
 
   public static isJSON(n: unknown): n is StatsItemJSON {
-    if (!Type.isPlainObject(n)) {
+    if (!Kind.isPlainObject(n)) {
       return false;
     }
-    if (!Type.isString(n.statsItemID)) {
+    if (!Kind.isString(n.statsItemID)) {
       return false;
     }
-    if (!Type.isString(n.name)) {
+    if (!Kind.isString(n.name)) {
       return false;
     }
     if (!StatsValues.isJSON(n.values)) {

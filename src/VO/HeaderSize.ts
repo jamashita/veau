@@ -1,4 +1,4 @@
-import { Alive, Dead, Superposition, Type, ValueObject } from 'publikum';
+import { Alive, Dead, Kind, Superposition, ValueObject } from 'publikum';
 import { HeaderSizeError } from '../Error/HeaderSizeError';
 
 export class HeaderSize extends ValueObject {
@@ -9,7 +9,7 @@ export class HeaderSize extends ValueObject {
     if (size < 0) {
       return Dead.of<HeaderSize, HeaderSizeError>(new HeaderSizeError(`ILLEGAL SIZE SPECIFIED ${size}`));
     }
-    if (Type.isInteger(size)) {
+    if (Kind.isInteger(size)) {
       return Alive.of<HeaderSize, HeaderSizeError>(new HeaderSize(size));
     }
 

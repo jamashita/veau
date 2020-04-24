@@ -1,4 +1,4 @@
-import { Dead, Alive } from 'publikum';
+import { Alive, Dead } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../Container/Kernel';

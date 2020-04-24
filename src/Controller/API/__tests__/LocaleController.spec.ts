@@ -1,6 +1,6 @@
 import express from 'express';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
-import { DataSourceError, Dead, RedisError, Alive } from 'publikum';
+import { Alive, DataSourceError, Dead, RedisError } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';

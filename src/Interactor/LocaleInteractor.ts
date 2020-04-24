@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { DataSourceError, Dead, Noun, Alive, Superposition } from 'publikum';
+import { Alive, DataSourceError, Dead, Noun, Superposition } from 'publikum';
 import { ILanguageCommand } from '../Command/Interface/ILanguageCommand';
 import { IRegionCommand } from '../Command/Interface/IRegionCommand';
 import { TYPE } from '../Container/Types';

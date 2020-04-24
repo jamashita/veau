@@ -1,4 +1,4 @@
-import { Alive, Dead, Superposition, Type, ValueObject } from 'publikum';
+import { Alive, Dead, Kind, Superposition, ValueObject } from 'publikum';
 import { ColumnError } from '../Error/ColumnError';
 
 const ORIGIN_VALUE: number = 0;
@@ -16,7 +16,7 @@ export class Column extends ValueObject {
     if (column === ORIGIN_VALUE) {
       return Alive.of<Column, ColumnError>(Column.origin());
     }
-    if (Type.isInteger(column)) {
+    if (Kind.isInteger(column)) {
       return Alive.of<Column, ColumnError>(new Column(column));
     }
 

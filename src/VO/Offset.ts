@@ -1,4 +1,4 @@
-import { Alive, Dead, Superposition, Type, ValueObject } from 'publikum';
+import { Alive, Dead, Kind, Superposition, ValueObject } from 'publikum';
 import { OffsetError } from '../Error/OffsetError';
 
 export class Offset extends ValueObject {
@@ -9,7 +9,7 @@ export class Offset extends ValueObject {
     if (offset < 0) {
       return Dead.of<Offset, OffsetError>(new OffsetError(`ILLEGAL OFFSET SPECIFIED ${offset}`));
     }
-    if (Type.isInteger(offset)) {
+    if (Kind.isInteger(offset)) {
       return Alive.of<Offset, OffsetError>(new Offset(offset));
     }
 

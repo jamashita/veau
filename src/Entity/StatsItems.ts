@@ -6,13 +6,13 @@ import {
   Enumerator,
   ImmutableSequence,
   JSONable,
+  Kind,
   manoeuvre,
   Mapper,
   Objet,
   Quantum,
   Sequence,
-  Superposition,
-  Type
+  Superposition
 } from 'publikum';
 import { StatsItemError } from '../Error/StatsItemError';
 import { StatsItemIDError } from '../Error/StatsItemIDError';
@@ -79,7 +79,7 @@ export class StatsItems extends Objet implements Collection<number, StatsItem>, 
   }
 
   public static isJSON(n: unknown): n is Array<StatsItemJSON> {
-    if (!Type.isArray(n)) {
+    if (!Kind.isArray(n)) {
       return false;
     }
 

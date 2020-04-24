@@ -1,4 +1,4 @@
-import { Alive, Dead, JSONable, Superposition, Type, ValueObject } from 'publikum';
+import { Alive, Dead, JSONable, Kind, Superposition, ValueObject } from 'publikum';
 import { AsOfError } from '../Error/AsOfError';
 import { StatsItemIDError } from '../Error/StatsItemIDError';
 import { StatsValueError } from '../Error/StatsValueError';
@@ -70,13 +70,13 @@ export class StatsValue extends ValueObject implements JSONable {
   }
 
   public static isJSON(n: unknown): n is StatsValueJSON {
-    if (!Type.isPlainObject(n)) {
+    if (!Kind.isPlainObject(n)) {
       return false;
     }
-    if (!Type.isString(n.asOf)) {
+    if (!Kind.isString(n.asOf)) {
       return false;
     }
-    if (!Type.isNumber(n.value)) {
+    if (!Kind.isNumber(n.value)) {
       return false;
     }
 
