@@ -76,15 +76,6 @@ gulp.task('Frontend', () => {
     .pipe(gulp.dest('dist/Server/public/js'));
 });
 
-gulp.task('General', () => {
-  return gulp.src(['src/General/**/*.ts'], {
-    since : gulp.lastRun('General')
-  })
-    .pipe(plumber())
-    .pipe(tsc())
-    .pipe(gulp.dest('dist/General'));
-});
-
 gulp.task('Infrastructure', () => {
   return gulp.src(['src/Infrastructure/**/*.ts'], {
     since : gulp.lastRun('Infrastructure')
@@ -219,7 +210,6 @@ gulp.task(
     'Error',
     'Factory',
     'Frontend',
-    'General',
     'Infrastructure',
     'Interactor',
     'Query',
@@ -241,7 +231,6 @@ gulp.task(
       gulp.watch('src/Entity/**/*.ts', gulp.series('Entity'));
       gulp.watch('src/Error/**/*.ts', gulp.series('Error'));
       gulp.watch('src/Factory/**/*.ts', gulp.series('Factory'));
-      gulp.watch('src/General/**/*.ts', gulp.series('General'));
       gulp.watch('src/Infrastructure/**/*.ts', gulp.series('Infrastructure'));
       gulp.watch('src/Interactor/**/*.ts', gulp.series('Interactor'));
       gulp.watch('src/Query/**/*.ts', gulp.series('Query'));

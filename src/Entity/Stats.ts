@@ -1,16 +1,18 @@
+import {
+  Absent,
+  Ambiguous,
+  Entity,
+  Failure,
+  Quantum,
+  Success,
+  Superposition,
+  Type
+} from 'publikum';
 import { StatsError } from '../Error/StatsError';
 import { StatsIDError } from '../Error/StatsIDError';
 import { StatsItemsError } from '../Error/StatsItemsError';
 import { TermError } from '../Error/TermError';
 import { UpdatedAtError } from '../Error/UpdatedAtError';
-import { Entity } from '../General/Object/Entity';
-import { Absent } from '../General/Quantum/Absent';
-import { Quantum } from '../General/Quantum/Quantum';
-import { Failure } from '../General/Superposition/Failure';
-import { Success } from '../General/Superposition/Success';
-import { Superposition } from '../General/Superposition/Superposition';
-import { Type } from '../General/Type/Type';
-import { Ambiguous } from '../General/Type/Value';
 import { AsOf } from '../VO/AsOf';
 import { AsOfs } from '../VO/AsOfs';
 import { Column } from '../VO/Column';

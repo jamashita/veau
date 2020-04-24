@@ -1,7 +1,5 @@
+import { Present, Superposition, UUID } from 'publikum';
 import { StatsError } from '../../Error/StatsError';
-import { Present } from '../../General/Quantum/Present';
-import { Superposition } from '../../General/Superposition/Superposition';
-import { UUID } from '../../General/UUID/UUID';
 import { AsOf } from '../../VO/AsOf';
 import { AsOfs } from '../../VO/AsOfs';
 import { Column } from '../../VO/Column';

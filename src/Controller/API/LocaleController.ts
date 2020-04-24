@@ -1,12 +1,10 @@
 import express from 'express';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import log4js from 'log4js';
+import { DataSourceError, JSONable, Superposition } from 'publikum';
 import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
-import { DataSourceError } from '../../General/DataSourceError';
-import { JSONable } from '../../General/Interface/JSONable';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { LocaleInteractor } from '../../Interactor/LocaleInteractor';
 import { AuthenticationMiddleware } from '../Middleware/AuthenticationMiddleware';
 

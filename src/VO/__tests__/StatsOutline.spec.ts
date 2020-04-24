@@ -1,6 +1,6 @@
+import { Superposition } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 import { StatsOutlineError } from '../../Error/StatsOutlineError';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { ISO3166 } from '../ISO3166';
 import { ISO639 } from '../ISO639';
 import { Language } from '../Language';

@@ -1,12 +1,9 @@
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
+import { AJAXError, DataSourceError, MockAJAX, Superposition } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { TYPE } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
-import { AJAXError } from '../../../General/AJAX/AJAXError';
-import { MockAJAX } from '../../../General/AJAX/Mock/MockAJAX';
-import { DataSourceError } from '../../../General/DataSourceError';
-import { Superposition } from '../../../General/Superposition/Superposition';
 import { SessionCommand } from '../SessionCommand';
 
 describe('SessionCommand', () => {

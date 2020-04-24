@@ -1,5 +1,4 @@
-import { ValueObject } from '../General/Object/ValueObject';
-import { Type } from '../General/Type/Type';
+import { Type, ValueObject } from 'publikum';
 
 const EMPTY_ID: number = 0;
 

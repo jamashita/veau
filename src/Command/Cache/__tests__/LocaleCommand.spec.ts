@@ -1,12 +1,8 @@
+import { CacheError, DataSourceError, MockCache, MockError, Superposition } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { TYPE } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
-import { CacheError } from '../../../General/Cache/CacheError';
-import { MockCache } from '../../../General/Cache/Mock/MockCache';
-import { DataSourceError } from '../../../General/DataSourceError';
-import { MockError } from '../../../General/Mock/MockError';
-import { Superposition } from '../../../General/Superposition/Superposition';
 import { VAULT_LOCALE_KEY } from '../../../Infrastructure/VeauCache';
 import { Locale } from '../../../VO/Locale';
 import { MockLocale } from '../../../VO/Mock/MockLocale';

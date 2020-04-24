@@ -1,7 +1,7 @@
+import { ISQL } from 'publikum';
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
 import { IStatsItemCommand } from '../../Command/Interface/IStatsItemCommand';
 import { IStatsValueCommand } from '../../Command/Interface/IStatsValueCommand';
-import { ISQL } from '../../General/MySQL/Interface/ISQL';
 import { IStatsUpdateFactory } from '../Interface/IStatsUpdateFactory';
 
 export class MockStatsUpdateFactory implements IStatsUpdateFactory {

@@ -1,6 +1,6 @@
+import { Superposition } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 import { StatsItemIDError } from '../../Error/StatsItemIDError';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { UUID } from '../../General/UUID/UUID';
 import { StatsItemID } from '../StatsItemID';
 

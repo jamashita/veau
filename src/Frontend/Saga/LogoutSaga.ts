@@ -1,8 +1,7 @@
 import { SagaIterator } from '@redux-saga/types';
+import { DataSourceError, Superposition } from 'publikum';
 import { all, call, fork, put, take } from 'redux-saga/effects';
 import { ISessionCommand } from '../../Command/Interface/ISessionCommand';
-import { DataSourceError } from '../../General/DataSourceError';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { LOGOUT } from '../Action/Action';
 import { initializeIdentity } from '../Action/IdentityAction';
 import { closeProvider } from '../Action/PageProviderAction';

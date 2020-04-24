@@ -1,6 +1,6 @@
+import { Superposition } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 import { AsOfError } from '../../Error/AsOfError';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { AsOf } from '../AsOf';
 import { MockTerm } from '../Mock/MockTerm';
 import { Term } from '../Term';

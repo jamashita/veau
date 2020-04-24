@@ -1,10 +1,6 @@
+import { Digest, Failure, Success, Superposition, ValueObject } from 'publikum';
 import { AccountError } from '../Error/AccountError';
 import { VeauAccountIDError } from '../Error/VeauAccountIDError';
-import { Digest } from '../General/Digest';
-import { ValueObject } from '../General/Object/ValueObject';
-import { Failure } from '../General/Superposition/Failure';
-import { Success } from '../General/Superposition/Success';
-import { Superposition } from '../General/Superposition/Superposition';
 import { AccountName } from './AccountName';
 import { Hash } from './Hash';
 import { Language } from './Language';

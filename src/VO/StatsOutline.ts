@@ -1,10 +1,10 @@
+import { ValueObject } from 'publikum';
 import { StatsIDError } from '../Error/StatsIDError';
 import { StatsOutlineError } from '../Error/StatsOutlineError';
 import { TermError } from '../Error/TermError';
 import { UpdatedAtError } from '../Error/UpdatedAtError';
 import { Cloneable } from '../General/Interface/Cloneable';
 import { JSONable } from '../General/Interface/JSONable';
-import { ValueObject } from '../General/Object/ValueObject';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
 import { Superposition } from '../General/Superposition/Superposition';

@@ -1,5 +1,5 @@
+import { Absent } from 'publikum';
 import sinon, { SinonStub } from 'sinon';
-import { Absent } from '../../General/Quantum/Absent';
 import { MockTerm } from '../Mock/MockTerm';
 import { Term } from '../Term';
 import { Terms } from '../Terms';

@@ -1,4 +1,5 @@
 import { inject, injectable } from 'inversify';
+import { DataSourceError, Present, Quantum, Superposition } from 'publikum';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { EMPTY, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mapTo, mergeMap } from 'rxjs/operators';
@@ -8,10 +9,6 @@ import { Stats } from '../../Entity/Stats';
 import { StatsItem } from '../../Entity/StatsItem';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { StatsError } from '../../Error/StatsError';
-import { DataSourceError } from '../../General/DataSourceError';
-import { Present } from '../../General/Quantum/Present';
-import { Quantum } from '../../General/Quantum/Quantum';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { ILocaleQuery } from '../../Query/Interface/ILocaleQuery';
 import { IRegionQuery } from '../../Query/Interface/IRegionQuery';

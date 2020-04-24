@@ -1,11 +1,10 @@
 import { SagaIterator } from '@redux-saga/types';
+import { DataSourceError, Superposition } from 'publikum';
 import { all, call, Effect, fork, put, select, take } from 'redux-saga/effects';
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
 import { Stats } from '../../Entity/Stats';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { StatsOutlinesError } from '../../Error/StatsOutlinesError';
-import { DataSourceError } from '../../General/DataSourceError';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { IRegionQuery } from '../../Query/Interface/IRegionQuery';
 import { IStatsOutlineQuery } from '../../Query/Interface/IStatsOutlineQuery';

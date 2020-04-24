@@ -1,6 +1,6 @@
+import { Superposition } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 import { PageError } from '../../Error/PageError';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { Limit } from '../Limit';
 import { Offset } from '../Offset';
 import { Page } from '../Page';

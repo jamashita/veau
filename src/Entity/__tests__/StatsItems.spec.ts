@@ -1,11 +1,7 @@
+import { Absent, Failure, ImmutableSequence, Success, Superposition } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 import { StatsItemError } from '../../Error/StatsItemError';
 import { StatsItemsError } from '../../Error/StatsItemsError';
-import { ImmutableSequence } from '../../General/Collection/Sequence/ImmutableSequence';
-import { Absent } from '../../General/Quantum/Absent';
-import { Failure } from '../../General/Superposition/Failure';
-import { Success } from '../../General/Superposition/Success';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { AsOfs } from '../../VO/AsOfs';
 import { MockAsOf } from '../../VO/Mock/MockAsOf';
 import { MockColumn } from '../../VO/Mock/MockColumn';

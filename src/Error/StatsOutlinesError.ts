@@ -1,4 +1,4 @@
-import { RuntimeError } from '../General/RuntimeError';
+import { RuntimeError } from 'publikum';
 
 export class StatsOutlinesError extends RuntimeError {
   public readonly name: 'StatsOutlinesError' = 'StatsOutlinesError';

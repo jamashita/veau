@@ -1,10 +1,12 @@
-import { Collection } from '../General/Collection/Interface/Collection';
-import { ImmutableSequence } from '../General/Collection/Sequence/ImmutableSequence';
-import { Sequence } from '../General/Collection/Sequence/Interface/Sequence';
-import { JSONable } from '../General/Interface/JSONable';
-import { Objet } from '../General/Object/Objet';
-import { Quantum } from '../General/Quantum/Quantum';
-import { Mapper } from '../General/Type/Function';
+import {
+  Collection,
+  ImmutableSequence,
+  JSONable,
+  Mapper,
+  Objet,
+  Quantum,
+  Sequence
+} from 'publikum';
 import { StatsItemName } from './StatsItemName';
 
 export class StatsItemNames extends Objet implements Collection<number, StatsItemName>, JSONable {

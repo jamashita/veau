@@ -1,10 +1,5 @@
+import { Failure, Success, Superposition, ValueObject, Zeit, ZeitError } from 'publikum';
 import { AsOfError } from '../Error/AsOfError';
-import { ValueObject } from '../General/Object/ValueObject';
-import { Failure } from '../General/Superposition/Failure';
-import { Success } from '../General/Superposition/Success';
-import { Superposition } from '../General/Superposition/Superposition';
-import { Zeit } from '../General/Zeit/Zeit';
-import { ZeitError } from '../General/Zeit/ZeitError';
 import { Term } from './Term';
 
 const TERM_FORMAT: string = 'YYYY-MM-DD';

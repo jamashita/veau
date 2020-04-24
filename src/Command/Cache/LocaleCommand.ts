@@ -1,11 +1,6 @@
 import { inject, injectable } from 'inversify';
+import { CacheError, DataSourceError, Failure, ICache, Success, Superposition } from 'publikum';
 import { TYPE } from '../../Container/Types';
-import { CacheError } from '../../General/Cache/CacheError';
-import { ICache } from '../../General/Cache/Interface/ICache';
-import { DataSourceError } from '../../General/DataSourceError';
-import { Failure } from '../../General/Superposition/Failure';
-import { Success } from '../../General/Superposition/Success';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { VAULT_LOCALE_KEY } from '../../Infrastructure/VeauCache';
 import { Locale } from '../../VO/Locale';
 import { ICacheCommand } from '../Interface/ICacheCommand';

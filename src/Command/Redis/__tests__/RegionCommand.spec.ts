@@ -1,13 +1,15 @@
+import {
+  DataSourceError,
+  MockError,
+  MockRedis,
+  MockRedisString,
+  RedisError,
+  Superposition
+} from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
-import { DataSourceError } from '../../../General/DataSourceError';
-import { MockError } from '../../../General/Mock/MockError';
-import { MockRedis } from '../../../General/Redis/Mock/MockRedis';
-import { MockRedisString } from '../../../General/Redis/Mock/MockRedisString';
-import { RedisError } from '../../../General/Redis/RedisError';
-import { Superposition } from '../../../General/Superposition/Superposition';
 import { MockRegion } from '../../../VO/Mock/MockRegion';
 import { MockRegionName } from '../../../VO/Mock/MockRegionName';
 import { MockRegions } from '../../../VO/Mock/MockRegions';

@@ -1,9 +1,8 @@
+import { Type, ValueObject } from 'publikum';
 import { LoadingCountError } from '../Error/LoadingCountError';
-import { ValueObject } from '../General/Object/ValueObject';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
 import { Superposition } from '../General/Superposition/Superposition';
-import { Type } from '../General/Type/Type';
 
 const DEFAULT_COUNT: number = 0;
 

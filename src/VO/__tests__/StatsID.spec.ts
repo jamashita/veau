@@ -1,7 +1,6 @@
+import { Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 import { StatsIDError } from '../../Error/StatsIDError';
-import { Superposition } from '../../General/Superposition/Superposition';
-import { UUID } from '../../General/UUID/UUID';
 import { StatsID } from '../StatsID';
 
 describe('StatsID', () => {

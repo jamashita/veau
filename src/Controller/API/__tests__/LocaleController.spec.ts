@@ -1,15 +1,12 @@
 import express from 'express';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
+import { DataSourceError, Failure, RedisError, Success } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
-import { DataSourceError } from '../../../General/DataSourceError';
-import { RedisError } from '../../../General/Redis/RedisError';
-import { Failure } from '../../../General/Superposition/Failure';
-import { Success } from '../../../General/Superposition/Success';
 import { LocaleInteractor } from '../../../Interactor/LocaleInteractor';
 import { Locale } from '../../../VO/Locale';
 import { MockISO3166 } from '../../../VO/Mock/MockISO3166';

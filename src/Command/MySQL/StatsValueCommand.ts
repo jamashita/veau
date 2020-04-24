@@ -1,9 +1,4 @@
-import { DataSourceError } from '../../General/DataSourceError';
-import { ISQL } from '../../General/MySQL/Interface/ISQL';
-import { MySQLError } from '../../General/MySQL/MySQLError';
-import { Failure } from '../../General/Superposition/Failure';
-import { Success } from '../../General/Superposition/Success';
-import { Superposition } from '../../General/Superposition/Superposition';
+import { DataSourceError, Failure, ISQL, MySQLError, Success, Superposition } from 'publikum';
 import { StatsID } from '../../VO/StatsID';
 import { StatsValue } from '../../VO/StatsValue';
 import { IMySQLCommand } from '../Interface/IMySQLCommand';

@@ -1,7 +1,7 @@
+import { MockSQL } from 'publikum';
 import { StatsCommand } from '../../Command/MySQL/StatsCommand';
 import { StatsItemCommand } from '../../Command/MySQL/StatsItemCommand';
 import { StatsValueCommand } from '../../Command/MySQL/StatsValueCommand';
-import { MockSQL } from '../../General/MySQL/Mock/MockSQL';
 import { StatsUpdateFactory } from '../StatsUpdateFactory';
 
 describe('StatsUpdateFactory', () => {

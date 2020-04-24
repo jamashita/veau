@@ -1,3 +1,4 @@
+import { DataSourceError, Present, Quantum, Superposition } from 'publikum';
 import { SagaIterator } from 'redux-saga';
 import { all, call, Effect, fork, put, PutEffect, select, take } from 'redux-saga/effects';
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
@@ -5,10 +6,6 @@ import { Stats } from '../../Entity/Stats';
 import { StatsItem } from '../../Entity/StatsItem';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { StatsError } from '../../Error/StatsError';
-import { DataSourceError } from '../../General/DataSourceError';
-import { Present } from '../../General/Quantum/Present';
-import { Quantum } from '../../General/Quantum/Quantum';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { ILocaleQuery } from '../../Query/Interface/ILocaleQuery';
 import { IRegionQuery } from '../../Query/Interface/IRegionQuery';

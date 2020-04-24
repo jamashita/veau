@@ -1,6 +1,6 @@
+import { Superposition } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 import { AccountError } from '../../Error/AccountError';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { Account, AccountRow } from '../Account';
 import { AccountName } from '../AccountName';
 import { Hash } from '../Hash';

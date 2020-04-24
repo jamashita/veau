@@ -1,6 +1,7 @@
 import bodyParser from 'body-parser';
 import express from 'express';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NO_CONTENT, OK } from 'http-status';
+import { DataSourceError, Failure, Success, UUID } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';
@@ -13,10 +14,6 @@ import { Stats } from '../../../Entity/Stats';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
 import { StatsError } from '../../../Error/StatsError';
 import { StatsOutlinesError } from '../../../Error/StatsOutlinesError';
-import { DataSourceError } from '../../../General/DataSourceError';
-import { Failure } from '../../../General/Superposition/Failure';
-import { Success } from '../../../General/Superposition/Success';
-import { UUID } from '../../../General/UUID/UUID';
 import { StatsInteractor } from '../../../Interactor/StatsInteractor';
 import { MockAsOf } from '../../../VO/Mock/MockAsOf';
 import { MockISO3166 } from '../../../VO/Mock/MockISO3166';

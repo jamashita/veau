@@ -1,5 +1,4 @@
-import { ImmutableSequence } from '../../General/Collection/Sequence/ImmutableSequence';
-import { Absent } from '../../General/Quantum/Absent';
+import { Absent, ImmutableSequence } from 'publikum';
 import { ISO639 } from '../ISO639';
 import { Language, LanguageJSON, LanguageRow } from '../Language';
 import { LanguageID } from '../LanguageID';

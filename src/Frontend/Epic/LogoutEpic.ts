@@ -1,11 +1,10 @@
 import { inject, injectable } from 'inversify';
+import { DataSourceError, Superposition } from 'publikum';
 import { ActionsObservable, ofType } from 'redux-observable';
 import { from, merge, Observable } from 'rxjs';
 import { mapTo, mergeMap } from 'rxjs/operators';
 import { ISessionCommand } from '../../Command/Interface/ISessionCommand';
 import { TYPE } from '../../Container/Types';
-import { DataSourceError } from '../../General/DataSourceError';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { Action, LOGOUT, LogoutAction } from '../Action/Action';
 import { initializeIdentity } from '../Action/IdentityAction';
 import { closeProvider } from '../Action/PageProviderAction';

@@ -1,10 +1,5 @@
+import { DataSourceError, Failure, ISQL, MySQLError, Success, Superposition } from 'publikum';
 import { Stats } from '../../Entity/Stats';
-import { DataSourceError } from '../../General/DataSourceError';
-import { ISQL } from '../../General/MySQL/Interface/ISQL';
-import { MySQLError } from '../../General/MySQL/MySQLError';
-import { Failure } from '../../General/Superposition/Failure';
-import { Success } from '../../General/Superposition/Success';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { StatsID } from '../../VO/StatsID';
 import { VeauAccountID } from '../../VO/VeauAccountID';
 import { IMySQLCommand } from '../Interface/IMySQLCommand';

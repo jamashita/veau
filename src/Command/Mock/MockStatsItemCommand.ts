@@ -1,6 +1,4 @@
-import { DataSourceError } from '../../General/DataSourceError';
-import { Superposition } from '../../General/Superposition/Superposition';
-import { UnimplementedError } from '../../General/UnimplementedError';
+import { DataSourceError, Superposition, UnimplementedError } from 'publikum';
 import { IMockCommand } from '../Interface/IMockCommand';
 import { IStatsItemCommand } from '../Interface/IStatsItemCommand';
 

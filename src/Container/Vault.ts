@@ -1,4 +1,5 @@
 import { Container } from 'inversify';
+import { AJAX } from 'publikum';
 import { SessionCommand as SessionAJAXCommand } from '../Command/AJAX/SessionCommand';
 import { StatsCommand as StatsAJAXCommand } from '../Command/AJAX/StatsCommand';
 import { LocaleCommand as LocaleCacheCommand } from '../Command/Cache/LocaleCommand';
@@ -9,8 +10,6 @@ import { RedirectEpic } from '../Frontend/Epic/RedirectEpic';
 import { RootEpic } from '../Frontend/Epic/RootEpic';
 import { StatsEditEpic } from '../Frontend/Epic/StatsEditEpic';
 import { StatsListEpic } from '../Frontend/Epic/StatsListEpic';
-import { AJAX } from '../General/AJAX/AJAX';
-import { Cache } from '../General/Cache/Cache';
 import { veauCache } from '../Infrastructure/VeauCache';
 import { LocaleQuery as LocaleAJAXQuery } from '../Query/AJAX/LocaleQuery';
 import { SessionQuery as SessionAJAXQuery } from '../Query/AJAX/SessionQuery';

@@ -1,9 +1,8 @@
 import { CallHistoryMethodAction, LocationChangeAction } from 'connected-react-router';
+import { Present, Quantum } from 'publikum';
 import { Action as ReduxAction } from 'redux';
 import { Stats } from '../../Entity/Stats';
 import { StatsItem } from '../../Entity/StatsItem';
-import { Present } from '../../General/Quantum/Present';
-import { Quantum } from '../../General/Quantum/Quantum';
 import { AccountName } from '../../VO/AccountName';
 import { AsOf } from '../../VO/AsOf';
 import { Column } from '../../VO/Column';

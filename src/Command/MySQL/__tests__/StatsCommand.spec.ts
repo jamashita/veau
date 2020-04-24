@@ -1,11 +1,6 @@
+import { DataSourceError, MockError, MockSQL, MySQLError, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { MockStats } from '../../../Entity/Mock/MockStats';
-import { DataSourceError } from '../../../General/DataSourceError';
-import { MockError } from '../../../General/Mock/MockError';
-import { MockSQL } from '../../../General/MySQL/Mock/MockSQL';
-import { MySQLError } from '../../../General/MySQL/MySQLError';
-import { Superposition } from '../../../General/Superposition/Superposition';
-import { UUID } from '../../../General/UUID/UUID';
 import { MockLanguage } from '../../../VO/Mock/MockLanguage';
 import { MockLanguageID } from '../../../VO/Mock/MockLanguageID';
 import { MockRegion } from '../../../VO/Mock/MockRegion';

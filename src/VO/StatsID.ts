@@ -1,5 +1,5 @@
+import { ValueObject } from 'publikum';
 import { StatsIDError } from '../Error/StatsIDError';
-import { ValueObject } from '../General/Object/ValueObject';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
 import { Superposition } from '../General/Superposition/Superposition';

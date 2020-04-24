@@ -1,11 +1,7 @@
 import { inject, injectable } from 'inversify';
+import { DataSourceError, Failure, IMySQL, MySQLError, Superposition } from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { StatsOutlinesError } from '../../Error/StatsOutlinesError';
-import { DataSourceError } from '../../General/DataSourceError';
-import { IMySQL } from '../../General/MySQL/Interface/IMySQL';
-import { MySQLError } from '../../General/MySQL/MySQLError';
-import { Failure } from '../../General/Superposition/Failure';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { Page } from '../../VO/Page';
 import { StatsOutlineRow } from '../../VO/StatsOutline';
 import { StatsOutlines } from '../../VO/StatsOutlines';

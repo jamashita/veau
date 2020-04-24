@@ -1,8 +1,4 @@
-import { Collection } from '../General/Collection/Interface/Collection';
-import { ImmutableSequence } from '../General/Collection/Sequence/ImmutableSequence';
-import { Sequence } from '../General/Collection/Sequence/Interface/Sequence';
-import { Objet } from '../General/Object/Objet';
-import { Quantum } from '../General/Quantum/Quantum';
+import { Collection, ImmutableSequence, Objet, Quantum, Sequence } from 'publikum';
 import { NumericalValue } from './NumericalValue';
 
 export class NumericalValues extends Objet implements Collection<number, NumericalValue> {

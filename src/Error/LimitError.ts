@@ -1,4 +1,4 @@
-import { RuntimeError } from '../General/RuntimeError';
+import { RuntimeError } from 'publikum';
 
 export class LimitError extends RuntimeError {
   public readonly name: 'LimitError' = 'LimitError';

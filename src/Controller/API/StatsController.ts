@@ -1,6 +1,7 @@
 import express from 'express';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NO_CONTENT, OK } from 'http-status';
 import log4js from 'log4js';
+import { DataSourceError, JSONable, Superposition } from 'publikum';
 import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats';
@@ -8,9 +9,6 @@ import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { PageError } from '../../Error/PageError';
 import { StatsError } from '../../Error/StatsError';
 import { StatsOutlinesError } from '../../Error/StatsOutlinesError';
-import { DataSourceError } from '../../General/DataSourceError';
-import { JSONable } from '../../General/Interface/JSONable';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { StatsInteractor } from '../../Interactor/StatsInteractor';
 import { Page } from '../../VO/Page';
 import { StatsID } from '../../VO/StatsID';

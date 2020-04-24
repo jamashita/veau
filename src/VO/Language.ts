@@ -1,6 +1,4 @@
-import { JSONable } from '../General/Interface/JSONable';
-import { ValueObject } from '../General/Object/ValueObject';
-import { Type } from '../General/Type/Type';
+import { JSONable, Type, ValueObject } from 'publikum';
 import { ISO639 } from './ISO639';
 import { LanguageID } from './LanguageID';
 import { LanguageName } from './LanguageName';

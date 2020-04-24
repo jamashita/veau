@@ -1,10 +1,9 @@
+import { Failure, Success } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
-import { Failure } from '../../General/Superposition/Failure';
-import { Success } from '../../General/Superposition/Success';
 import { MockAccountQuery } from '../../Query/Mock/MockAccountQuery';
 import { Account } from '../../VO/Account';
 import { MockAccount } from '../../VO/Mock/MockAccount';

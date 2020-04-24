@@ -1,5 +1,4 @@
-import { Absent } from '../../General/Quantum/Absent';
-import { Quantum } from '../../General/Quantum/Quantum';
+import { Absent, Quantum } from 'publikum';
 import { AsOf } from '../../VO/AsOf';
 import { Language } from '../../VO/Language';
 import { MockLanguage } from '../../VO/Mock/MockLanguage';

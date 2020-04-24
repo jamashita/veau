@@ -1,4 +1,4 @@
-import { ValueObject } from '../General/Object/ValueObject';
+import { ValueObject } from 'publikum';
 
 const EMPTY_PASSWORD: string = '';
 

@@ -1,11 +1,7 @@
+import { Entity, Failure, Success, Superposition, Type } from 'publikum';
 import { StatsItemError } from '../Error/StatsItemError';
 import { StatsItemIDError } from '../Error/StatsItemIDError';
 import { StatsValuesError } from '../Error/StatsValuesError';
-import { Entity } from '../General/Object/Entity';
-import { Failure } from '../General/Superposition/Failure';
-import { Success } from '../General/Superposition/Success';
-import { Superposition } from '../General/Superposition/Superposition';
-import { Type } from '../General/Type/Type';
 import { AsOf } from '../VO/AsOf';
 import { AsOfs } from '../VO/AsOfs';
 import { NoValue } from '../VO/NoValue';

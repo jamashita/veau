@@ -1,5 +1,4 @@
-import { DataSourceError } from '../../General/DataSourceError';
-import { Superposition } from '../../General/Superposition/Superposition';
+import { DataSourceError, Superposition } from 'publikum';
 import { StatsID } from '../../VO/StatsID';
 import { StatsValue } from '../../VO/StatsValue';
 import { ICommand } from './ICommand';

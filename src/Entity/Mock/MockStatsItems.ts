@@ -1,4 +1,4 @@
-import { ImmutableSequence } from '../../General/Collection/Sequence/ImmutableSequence';
+import { ImmutableSequence } from 'publikum';
 import { StatsItem } from '../StatsItem';
 import { StatsItems } from '../StatsItems';
 

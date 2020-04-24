@@ -1,6 +1,6 @@
+import { Superposition } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 import { HeaderSizeError } from '../../Error/HeaderSizeError';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { HeaderSize } from '../HeaderSize';
 
 describe('HeaderSize', () => {

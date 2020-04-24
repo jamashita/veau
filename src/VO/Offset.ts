@@ -1,9 +1,8 @@
+import { Type, ValueObject } from 'publikum';
 import { OffsetError } from '../Error/OffsetError';
-import { ValueObject } from '../General/Object/ValueObject';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
 import { Superposition } from '../General/Superposition/Superposition';
-import { Type } from '../General/Type/Type';
 
 export class Offset extends ValueObject {
   public readonly noun: 'Offset' = 'Offset';

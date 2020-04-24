@@ -1,7 +1,6 @@
+import { Absent, Quantum } from 'publikum';
 import { Reducer } from 'redux';
 import { StatsItem } from '../../Entity/StatsItem';
-import { Absent } from '../../General/Quantum/Absent';
-import { Quantum } from '../../General/Quantum/Quantum';
 import { Row } from '../../VO/Row';
 import {
   Action,

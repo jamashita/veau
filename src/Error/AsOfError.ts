@@ -1,4 +1,4 @@
-import { RuntimeError } from '../General/RuntimeError';
+import { RuntimeError } from 'publikum';
 
 export class AsOfError extends RuntimeError {
   public readonly name: 'AsOfError' = 'AsOfError';

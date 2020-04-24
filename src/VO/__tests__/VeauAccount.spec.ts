@@ -1,7 +1,6 @@
+import { Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 import { VeauAccountError } from '../../Error/VeauAccountError';
-import { Superposition } from '../../General/Superposition/Superposition';
-import { UUID } from '../../General/UUID/UUID';
 import { AccountName } from '../AccountName';
 import { ISO3166 } from '../ISO3166';
 import { ISO639 } from '../ISO639';

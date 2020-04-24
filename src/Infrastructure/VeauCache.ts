@@ -1,4 +1,4 @@
-import { Cache } from '../General/Cache/Cache';
+import { Cache } from 'publikum';
 
 export const veauCache: Cache = new Cache();
 

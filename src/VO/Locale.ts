@@ -1,5 +1,5 @@
+import { ValueObject } from 'publikum';
 import { JSONable } from '../General/Interface/JSONable';
-import { ValueObject } from '../General/Object/ValueObject';
 import { LanguageJSON } from './Language';
 import { Languages } from './Languages';
 import { RegionJSON } from './Region';

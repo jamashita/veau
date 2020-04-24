@@ -1,5 +1,5 @@
+import { ValueObject } from 'publikum';
 import { VeauAccountIDError } from '../Error/VeauAccountIDError';
-import { ValueObject } from '../General/Object/ValueObject';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
 import { Superposition } from '../General/Superposition/Superposition';

@@ -1,11 +1,10 @@
 import { createMatchSelector, matchSelectorFn, RouterRootState } from 'connected-react-router';
+import { Nullable, Quantum } from 'publikum';
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { match } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { Stats } from '../../../Entity/Stats';
 import { StatsItem } from '../../../Entity/StatsItem';
-import { Quantum } from '../../../General/Quantum/Quantum';
-import { Nullable } from '../../../General/Type/Value';
 import { AsOf } from '../../../VO/AsOf';
 import { Column } from '../../../VO/Column';
 import { Coordinate } from '../../../VO/Coordinate';

@@ -1,12 +1,14 @@
 import { inject, injectable } from 'inversify';
+import {
+  DataSourceError,
+  Failure,
+  IRedis,
+  JSONA,
+  RedisError,
+  Success,
+  Superposition
+} from 'publikum';
 import { TYPE } from '../../Container/Types';
-import { DataSourceError } from '../../General/DataSourceError';
-import { IRedis } from '../../General/Redis/Interface/IRedis';
-import { RedisError } from '../../General/Redis/RedisError';
-import { Failure } from '../../General/Superposition/Failure';
-import { Success } from '../../General/Superposition/Success';
-import { Superposition } from '../../General/Superposition/Superposition';
-import { JSONA } from '../../General/Type/JSONA';
 import { REDIS_REGION_KEY } from '../../Infrastructure/VeauRedis';
 import { Regions } from '../../VO/Regions';
 import { IRedisCommand } from '../Interface/IRedisCommand';

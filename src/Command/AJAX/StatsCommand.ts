@@ -1,15 +1,17 @@
 import { CREATED } from 'http-status';
 import { inject, injectable } from 'inversify';
+import {
+  AJAXError,
+  AJAXResponse,
+  DataSourceError,
+  Failure,
+  IAJAX,
+  Success,
+  Superposition,
+  UnimplementedError
+} from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats';
-import { AJAXError } from '../../General/AJAX/AJAXError';
-import { AJAXResponse } from '../../General/AJAX/AJAXResponse';
-import { IAJAX } from '../../General/AJAX/Interface/IAJAX';
-import { DataSourceError } from '../../General/DataSourceError';
-import { Failure } from '../../General/Superposition/Failure';
-import { Success } from '../../General/Superposition/Success';
-import { Superposition } from '../../General/Superposition/Superposition';
-import { UnimplementedError } from '../../General/UnimplementedError';
 import { IAJAXCommand } from '../Interface/IAJAXCommand';
 import { IStatsCommand } from '../Interface/IStatsCommand';
 

@@ -1,7 +1,7 @@
+import { ValueObject } from 'publikum';
 import { VeauAccountError } from '../Error/VeauAccountError';
 import { VeauAccountIDError } from '../Error/VeauAccountIDError';
 import { JSONable } from '../General/Interface/JSONable';
-import { ValueObject } from '../General/Object/ValueObject';
 import { Failure } from '../General/Superposition/Failure';
 import { Success } from '../General/Superposition/Success';
 import { Superposition } from '../General/Superposition/Superposition';

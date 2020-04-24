@@ -1,4 +1,4 @@
-import { ValueObject } from '../General/Object/ValueObject';
+import { ValueObject } from 'publikum';
 
 export class Color extends ValueObject {
   public readonly noun: 'Color' = 'Color';

@@ -1,3 +1,4 @@
+import { Type } from 'publikum';
 import { StatsValueError } from '../Error/StatsValueError';
 import { StatsValuesError } from '../Error/StatsValuesError';
 import { Collection } from '../General/Collection/Interface/Collection';
@@ -12,7 +13,6 @@ import { manoeuvre } from '../General/Superposition/Manoeuvre';
 import { Success } from '../General/Superposition/Success';
 import { Superposition } from '../General/Superposition/Superposition';
 import { Enumerator } from '../General/Type/Function';
-import { Type } from '../General/Type/Type';
 import { AsOf } from './AsOf';
 import { AsOfs } from './AsOfs';
 import { NumericalValue } from './NumericalValue';

@@ -1,19 +1,22 @@
+import {
+  Cloneable,
+  Collection,
+  Enumerator,
+  Failure,
+  ImmutableSequence,
+  JSONable,
+  manoeuvre,
+  Mapper,
+  Objet,
+  Quantum,
+  Sequence,
+  Success,
+  Superposition,
+  Type
+} from 'publikum';
 import { StatsItemError } from '../Error/StatsItemError';
 import { StatsItemIDError } from '../Error/StatsItemIDError';
 import { StatsItemsError } from '../Error/StatsItemsError';
-import { Collection } from '../General/Collection/Interface/Collection';
-import { ImmutableSequence } from '../General/Collection/Sequence/ImmutableSequence';
-import { Sequence } from '../General/Collection/Sequence/Interface/Sequence';
-import { Cloneable } from '../General/Interface/Cloneable';
-import { JSONable } from '../General/Interface/JSONable';
-import { Objet } from '../General/Object/Objet';
-import { Quantum } from '../General/Quantum/Quantum';
-import { Failure } from '../General/Superposition/Failure';
-import { manoeuvre } from '../General/Superposition/Manoeuvre';
-import { Success } from '../General/Superposition/Success';
-import { Superposition } from '../General/Superposition/Superposition';
-import { Enumerator, Mapper } from '../General/Type/Function';
-import { Type } from '../General/Type/Type';
 import { AsOfs } from '../VO/AsOfs';
 import { Column } from '../VO/Column';
 import { Row } from '../VO/Row';

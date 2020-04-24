@@ -1,6 +1,6 @@
+import { Superposition } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 import { TermError } from '../../Error/TermError';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { Term } from '../Term';
 
 describe('Term', () => {
