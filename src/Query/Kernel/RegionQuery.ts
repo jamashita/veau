@@ -1,12 +1,8 @@
 import { inject, injectable } from 'inversify';
+import { Alive, DataSourceError, Dead, Quantum, Superposition } from 'publikum';
 import { IRegionCommand } from '../../Command/Interface/IRegionCommand';
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
-import { DataSourceError } from '../../General/DataSourceError';
-import { Quantum } from '../../General/Quantum/Quantum';
-import { Failure } from '../../General/Superposition/Failure';
-import { Success } from '../../General/Superposition/Success';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { ISO3166 } from '../../VO/ISO3166';
 import { Region } from '../../VO/Region';
 import { Regions } from '../../VO/Regions';
@@ -35,7 +31,7 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
     const superposition1: Superposition<Regions, NoSuchElementError | DataSourceError> = await this.regionRedisQuery.all();
 
     return superposition1.match<Regions, NoSuchElementError | DataSourceError>((regions: Regions) => {
-      return Promise.resolve<Superposition<Regions, NoSuchElementError>>(Success.of<Regions, NoSuchElementError>(regions));
+      return Promise.resolve<Superposition<Regions, NoSuchElementError>>(Alive.of<Regions, NoSuchElementError>(regions));
     }, async () => {
       const superposition2: Superposition<Regions, NoSuchElementError | DataSourceError> = await this.regionMySQLQuery.all();
 
@@ -43,11 +39,11 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
         const superposition3: Superposition<void, DataSourceError> = await this.regionRedisCommand.insertAll(regions);
 
         return superposition3.match<Regions, DataSourceError>(() => {
-          return Success.of<Regions, DataSourceError>(regions);
-        }, (err: DataSourceError, self: Failure<void, DataSourceError>) => {
+          return Alive.of<Regions, DataSourceError>(regions);
+        }, (err: DataSourceError, self: Dead<void, DataSourceError>) => {
           return self.transpose<Regions>();
         });
-      }, (err: NoSuchElementError | DataSourceError, self: Failure<Regions, NoSuchElementError | DataSourceError>) => {
+      }, (err: NoSuchElementError | DataSourceError, self: Dead<Regions, NoSuchElementError | DataSourceError>) => {
         return Promise.resolve<Superposition<Regions, NoSuchElementError | DataSourceError>>(self);
       });
     });
@@ -62,11 +58,11 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
       });
 
       return quantum.toSuperposition().match<Region, NoSuchElementError | DataSourceError>((region: Region) => {
-        return Success.of<Region, DataSourceError>(region);
+        return Alive.of<Region, DataSourceError>(region);
       }, () => {
-        return Failure.of<Region, NoSuchElementError>(new NoSuchElementError(iso3166.toString()));
+        return Dead.of<Region, NoSuchElementError>(new NoSuchElementError(iso3166.toString()));
       });
-    }, (err: NoSuchElementError | DataSourceError, self: Failure<Regions, NoSuchElementError | DataSourceError>) => {
+    }, (err: NoSuchElementError | DataSourceError, self: Dead<Regions, NoSuchElementError | DataSourceError>) => {
       return self.transpose<Region>();
     });
   }

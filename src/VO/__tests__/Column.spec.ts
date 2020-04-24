@@ -1,6 +1,6 @@
+import { Superposition } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 import { ColumnError } from '../../Error/ColumnError';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { Column } from '../Column';
 
 describe('Column', () => {
@@ -15,7 +15,7 @@ describe('Column', () => {
   });
 
   describe('of', () => {
-    it('returns Failure when the argument is less than 0', () => {
+    it('returns Dead when the argument is less than 0', () => {
       const superposition1: Superposition<Column, ColumnError> = Column.of(-1);
       const superposition2: Superposition<Column, ColumnError> = Column.of(-2.1);
 
@@ -24,8 +24,8 @@ describe('Column', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      expect(superposition1.isFailure()).toBe(true);
-      expect(superposition2.isFailure()).toBe(true);
+      expect(superposition1.isDead()).toBe(true);
+      expect(superposition2.isDead()).toBe(true);
 
       superposition2.match<void>(() => {
         spy1();
@@ -47,14 +47,14 @@ describe('Column', () => {
       expect(spy4.called).toBe(true);
     });
 
-    it('returns Success and its value is Column.origin() when the argument 0', () => {
+    it('returns Alive and its value is Column.origin() when the argument 0', () => {
       const superposition: Superposition<Column, ColumnError> = Column.of(0);
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       expect(superposition.get()).toBe(Column.origin());
     });
 
-    it('returns Failure when the argument is not integer', () => {
+    it('returns Dead when the argument is not integer', () => {
       const superposition1: Superposition<Column, ColumnError> = Column.of(0.1);
       const superposition2: Superposition<Column, ColumnError> = Column.of(1.5);
 
@@ -63,8 +63,8 @@ describe('Column', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      expect(superposition1.isFailure()).toBe(true);
-      expect(superposition2.isFailure()).toBe(true);
+      expect(superposition1.isDead()).toBe(true);
+      expect(superposition2.isDead()).toBe(true);
 
       superposition1.match<void>(() => {
         spy1();
@@ -86,14 +86,14 @@ describe('Column', () => {
       expect(spy4.called).toBe(true);
     });
 
-    it('returns Success when the argument is positive and integer', () => {
+    it('returns Alive when the argument is positive and integer', () => {
       const value1: number = 31;
       const value2: number = 101;
       const superposition1: Superposition<Column, ColumnError> = Column.of(value1);
       const superposition2: Superposition<Column, ColumnError> = Column.of(value2);
 
-      expect(superposition1.isSuccess()).toBe(true);
-      expect(superposition2.isSuccess()).toBe(true);
+      expect(superposition1.isAlive()).toBe(true);
+      expect(superposition2.isAlive()).toBe(true);
 
       expect(superposition1.get().get()).toBe(value1);
       expect(superposition2.get().get()).toBe(value2);

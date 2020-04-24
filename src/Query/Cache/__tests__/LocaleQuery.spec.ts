@@ -1,12 +1,8 @@
+import { CacheError, DataSourceError, MockCache, MockError, Superposition } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { TYPE } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
-import { CacheError } from '../../../General/Cache/CacheError';
-import { MockCache } from '../../../General/Cache/Mock/MockCache';
-import { DataSourceError } from '../../../General/DataSourceError';
-import { MockError } from '../../../General/Mock/MockError';
-import { Superposition } from '../../../General/Superposition/Superposition';
 import { VAULT_LOCALE_KEY } from '../../../Infrastructure/VeauCache';
 import { Locale } from '../../../VO/Locale';
 import { MockLocale } from '../../../VO/Mock/MockLocale';
@@ -36,11 +32,11 @@ describe('LocaleQuery', () => {
       const superposition: Superposition<Locale, DataSourceError> = await localeQuery.all();
 
       expect(stub.withArgs(VAULT_LOCALE_KEY).called).toBe(true);
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       expect(superposition.get()).toBe(locale);
     });
 
-    it('returns Failure when Cache throws CacheError', async () => {
+    it('returns Dead when Cache throws CacheError', async () => {
       const cache: MockCache = new MockCache();
       const stub: SinonStub = sinon.stub();
       cache.get = stub;
@@ -51,7 +47,7 @@ describe('LocaleQuery', () => {
       const localeQuery: LocaleQuery = new LocaleQuery(cache);
       const superposition: Superposition<Locale, DataSourceError> = await localeQuery.all();
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {

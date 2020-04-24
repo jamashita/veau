@@ -1,4 +1,4 @@
-import { Digest, Failure, Success, Superposition, ValueObject } from 'publikum';
+import { Alive, Dead, Digest, Superposition, ValueObject } from 'publikum';
 import { AccountError } from '../Error/AccountError';
 import { VeauAccountIDError } from '../Error/VeauAccountIDError';
 import { AccountName } from './AccountName';
@@ -54,7 +54,7 @@ export class Account extends ValueObject {
         iso3166: row.iso3166
       });
 
-      return Success.of<Account, AccountError>(
+      return Alive.of<Account, AccountError>(
         Account.of(
           veauAccountID,
           AccountName.of(row.account),
@@ -64,7 +64,7 @@ export class Account extends ValueObject {
         )
       );
     }, (err: VeauAccountIDError) => {
-      return Failure.of<Account, AccountError>(
+      return Dead.of<Account, AccountError>(
         new AccountError('Account.ofRow()', err)
       );
     });

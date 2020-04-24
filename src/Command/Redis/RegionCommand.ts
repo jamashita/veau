@@ -1,13 +1,5 @@
 import { inject, injectable } from 'inversify';
-import {
-  DataSourceError,
-  Failure,
-  IRedis,
-  JSONA,
-  RedisError,
-  Success,
-  Superposition
-} from 'publikum';
+import { Alive, DataSourceError, Dead, IRedis, JSONA, RedisError, Superposition } from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { REDIS_REGION_KEY } from '../../Infrastructure/VeauRedis';
 import { Regions } from '../../VO/Regions';
@@ -32,11 +24,11 @@ export class RegionCommand implements IRegionCommand, IRedisCommand {
       await this.redis.getString().set(REDIS_REGION_KEY, str);
       await this.redis.expires(REDIS_REGION_KEY, DURATION);
 
-      return Success.of<DataSourceError>();
+      return Alive.of<DataSourceError>();
     }
     catch (err) {
       if (err instanceof RedisError) {
-        return Failure.of<RedisError>(err);
+        return Dead.of<RedisError>(err);
       }
 
       throw err;
@@ -48,14 +40,14 @@ export class RegionCommand implements IRegionCommand, IRedisCommand {
       const ok: boolean = await this.redis.delete(REDIS_REGION_KEY);
 
       if (ok) {
-        return Success.of<DataSourceError>();
+        return Alive.of<DataSourceError>();
       }
 
-      return Failure.of<DataSourceError>(new RedisError('FAIL TO DELETE CACHE'));
+      return Dead.of<DataSourceError>(new RedisError('FAIL TO DELETE CACHE'));
     }
     catch (err) {
       if (err instanceof RedisError) {
-        return Failure.of<RedisError>(err);
+        return Dead.of<RedisError>(err);
       }
 
       throw err;

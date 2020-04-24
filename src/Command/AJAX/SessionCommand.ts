@@ -3,10 +3,10 @@ import { inject, injectable } from 'inversify';
 import {
   AJAXError,
   AJAXResponse,
+  Alive,
   DataSourceError,
-  Failure,
+  Dead,
   IAJAX,
-  Success,
   Superposition
 } from 'publikum';
 import { TYPE } from '../../Container/Types';
@@ -28,10 +28,10 @@ export class SessionCommand implements ISessionCommand, IAJAXCommand {
 
     switch (response.status) {
       case OK: {
-        return Success.of<DataSourceError>();
+        return Alive.of<DataSourceError>();
       }
       default: {
-        return Failure.of<AJAXError>(new AJAXError('UNKNOWN ERROR', response.status));
+        return Dead.of<AJAXError>(new AJAXError('UNKNOWN ERROR', response.status));
       }
     }
   }

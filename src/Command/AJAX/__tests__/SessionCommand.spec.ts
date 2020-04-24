@@ -30,7 +30,7 @@ describe('SessionCommand', () => {
       const sessionCommand: SessionCommand = new SessionCommand(ajax);
       const superposition: Superposition<void, DataSourceError> = await sessionCommand.delete();
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       expect(stub.withArgs('/api/destroy').called).toBe(true);
     });
 
@@ -48,7 +48,7 @@ describe('SessionCommand', () => {
       const sessionCommand: SessionCommand = new SessionCommand(ajax);
       const superposition: Superposition<void, DataSourceError> = await sessionCommand.delete();
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {

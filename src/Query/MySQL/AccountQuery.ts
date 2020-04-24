@@ -1,12 +1,8 @@
 import { inject, injectable } from 'inversify';
+import { DataSourceError, Dead, IMySQL, MySQLError, Superposition } from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { AccountError } from '../../Error/AccountError';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
-import { DataSourceError } from '../../General/DataSourceError';
-import { IMySQL } from '../../General/MySQL/Interface/IMySQL';
-import { MySQLError } from '../../General/MySQL/MySQLError';
-import { Failure } from '../../General/Superposition/Failure';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { Account, AccountRow } from '../../VO/Account';
 import { AccountName } from '../../VO/AccountName';
 import { IAccountQuery } from '../Interface/IAccountQuery';
@@ -53,14 +49,14 @@ export class AccountQuery implements IAccountQuery, IMySQLQuery {
       );
 
       if (accountRows.length === 0) {
-        return Failure.of<Account, NoSuchElementError>(new NoSuchElementError(account.get()));
+        return Dead.of<Account, NoSuchElementError>(new NoSuchElementError(account.get()));
       }
 
       return Account.ofRow(accountRows[0]);
     }
     catch (err) {
       if (err instanceof MySQLError) {
-        return Failure.of<Account, MySQLError>(err);
+        return Dead.of<Account, MySQLError>(err);
       }
 
       throw err;

@@ -1,7 +1,7 @@
 import bodyParser from 'body-parser';
 import express from 'express';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NO_CONTENT, OK } from 'http-status';
-import { DataSourceError, Failure, Success, UUID } from 'publikum';
+import { DataSourceError, Dead, Alive, UUID } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';
@@ -71,7 +71,7 @@ describe('StatsController', () => {
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
       const stub: SinonStub = sinon.stub();
       statsInteractor.findByVeauAccountID = stub;
-      stub.resolves(Success.of<StatsOutlines, StatsOutlinesError>(outlines));
+      stub.resolves(Alive.of<StatsOutlines, StatsOutlinesError>(outlines));
 
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -101,7 +101,7 @@ describe('StatsController', () => {
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
       const stub: SinonStub = sinon.stub();
       statsInteractor.findByVeauAccountID = stub;
-      stub.resolves(Failure.of<StatsOutlines, StatsOutlinesError>(new StatsOutlinesError('test failed')));
+      stub.resolves(Dead.of<StatsOutlines, StatsOutlinesError>(new StatsOutlinesError('test failed')));
 
       const app: express.Express = express();
       app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -158,7 +158,7 @@ describe('StatsController', () => {
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
       const stub: SinonStub = sinon.stub();
       statsInteractor.findByStatsID = stub;
-      stub.resolves(Success.of<Stats, NoSuchElementError>(stats));
+      stub.resolves(Alive.of<Stats, NoSuchElementError>(stats));
 
       const app: express.Express = express();
       app.use('/', StatsController);
@@ -172,7 +172,7 @@ describe('StatsController', () => {
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
       const stub: SinonStub = sinon.stub();
       statsInteractor.findByStatsID = stub;
-      stub.resolves(Failure.of<Stats, NoSuchElementError>(new NoSuchElementError('test failed')));
+      stub.resolves(Dead.of<Stats, NoSuchElementError>(new NoSuchElementError('test failed')));
 
       const app: express.Express = express();
       app.use('/', StatsController);
@@ -185,7 +185,7 @@ describe('StatsController', () => {
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
       const stub: SinonStub = sinon.stub();
       statsInteractor.findByStatsID = stub;
-      stub.resolves(Failure.of<Stats, NoSuchElementError | StatsError>(new StatsError('test failed')));
+      stub.resolves(Dead.of<Stats, NoSuchElementError | StatsError>(new StatsError('test failed')));
 
       const app: express.Express = express();
       app.use('/', StatsController);
@@ -200,7 +200,7 @@ describe('StatsController', () => {
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
       const stub: SinonStub = sinon.stub();
       statsInteractor.save = stub;
-      stub.resolves(Success.of<unknown, DataSourceError>(4));
+      stub.resolves(Alive.of<unknown, DataSourceError>(4));
 
       const app: express.Express = express();
       app.use(bodyParser.urlencoded({

@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { DataSourceError, Failure, IMySQL, MySQLError, Superposition } from 'publikum';
+import { DataSourceError, Dead, IMySQL, MySQLError, Superposition } from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { StatsOutlinesError } from '../../Error/StatsOutlinesError';
 import { Page } from '../../VO/Page';
@@ -56,7 +56,7 @@ export class StatsOutlineQuery implements IStatsOutlineQuery, IMySQLQuery {
     }
     catch (err) {
       if (err instanceof MySQLError) {
-        return Failure.of<StatsOutlines, MySQLError>(err);
+        return Dead.of<StatsOutlines, MySQLError>(err);
       }
 
       throw err;

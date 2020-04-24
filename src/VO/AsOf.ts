@@ -1,4 +1,4 @@
-import { Failure, Success, Superposition, ValueObject, Zeit, ZeitError } from 'publikum';
+import { Alive, Dead, Superposition, ValueObject, Zeit, ZeitError } from 'publikum';
 import { AsOfError } from '../Error/AsOfError';
 import { Term } from './Term';
 
@@ -16,11 +16,11 @@ export class AsOf extends ValueObject {
     try {
       const zeit: Zeit = Zeit.ofString(asOf, TERM_FORMAT);
 
-      return Success.of<AsOf, AsOfError>(AsOf.of(zeit));
+      return Alive.of<AsOf, AsOfError>(AsOf.of(zeit));
     }
     catch (err) {
       if (err instanceof ZeitError) {
-        return Failure.of<AsOf, AsOfError>(new AsOfError('asOf is not suitable for date time', err));
+        return Dead.of<AsOf, AsOfError>(new AsOfError('asOf is not suitable for date time', err));
       }
 
       throw err;

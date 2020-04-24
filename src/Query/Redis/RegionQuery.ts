@@ -1,16 +1,18 @@
 import { inject, injectable } from 'inversify';
+import {
+  Alive,
+  DataSourceError,
+  Dead,
+  IRedis,
+  JSONA,
+  JSONAError,
+  Nullable,
+  Quantum,
+  RedisError,
+  Superposition
+} from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
-import { DataSourceError } from '../../General/DataSourceError';
-import { Quantum } from '../../General/Quantum/Quantum';
-import { IRedis } from '../../General/Redis/Interface/IRedis';
-import { RedisError } from '../../General/Redis/RedisError';
-import { Failure } from '../../General/Superposition/Failure';
-import { Success } from '../../General/Superposition/Success';
-import { Superposition } from '../../General/Superposition/Superposition';
-import { JSONA } from '../../General/Type/JSONA';
-import { JSONAError } from '../../General/Type/JSONAError';
-import { Nullable } from '../../General/Type/Value';
 import { REDIS_REGION_KEY } from '../../Infrastructure/VeauRedis';
 import { ISO3166 } from '../../VO/ISO3166';
 import { Region, RegionJSON } from '../../VO/Region';
@@ -33,21 +35,21 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
       const regionString: Nullable<string> = await this.redis.getString().get(REDIS_REGION_KEY);
 
       if (regionString === null) {
-        return Failure.of<Regions, NoSuchElementError>(
+        return Dead.of<Regions, NoSuchElementError>(
           new NoSuchElementError('NO REGIONS FROM REDIS')
         );
       }
 
       const regionJSONs: Array<RegionJSON> = await JSONA.parse<Array<RegionJSON>>(regionString);
 
-      return Success.of<Regions, DataSourceError>(Regions.ofJSON(regionJSONs));
+      return Alive.of<Regions, DataSourceError>(Regions.ofJSON(regionJSONs));
     }
     catch (err) {
       if (err instanceof RedisError) {
-        return Failure.of<Regions, RedisError>(err);
+        return Dead.of<Regions, RedisError>(err);
       }
       if (err instanceof JSONAError) {
-        return Failure.of<Regions, RedisError>(new RedisError('RegionQuery.all()', err));
+        return Dead.of<Regions, RedisError>(new RedisError('RegionQuery.all()', err));
       }
 
       throw err;
@@ -63,12 +65,12 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
       });
 
       return quantum.toSuperposition().match<Region, NoSuchElementError | DataSourceError>((region: Region) => {
-        return Success.of<Region, DataSourceError>(region);
+        return Alive.of<Region, DataSourceError>(region);
       }, () => {
-        return Failure.of<Region, NoSuchElementError>(new NoSuchElementError(iso3166.get()));
+        return Dead.of<Region, NoSuchElementError>(new NoSuchElementError(iso3166.get()));
       });
     }, (err: NoSuchElementError | DataSourceError) => {
-      return Failure.of<Region, NoSuchElementError | DataSourceError>(err);
+      return Dead.of<Region, NoSuchElementError | DataSourceError>(err);
     });
   }
 }

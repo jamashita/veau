@@ -1,10 +1,5 @@
-import { ValueObject } from 'publikum';
+import { Alive, Dead, Superposition, UUID, UUIDError, ValueObject } from 'publikum';
 import { StatsIDError } from '../Error/StatsIDError';
-import { Failure } from '../General/Superposition/Failure';
-import { Success } from '../General/Superposition/Success';
-import { Superposition } from '../General/Superposition/Superposition';
-import { UUID } from '../General/UUID/UUID';
-import { UUIDError } from '../General/UUID/UUIDError';
 
 export class StatsID extends ValueObject {
   public readonly noun: 'StatsID' = 'StatsID';
@@ -18,11 +13,11 @@ export class StatsID extends ValueObject {
     try {
       const uuid: UUID = UUID.of(id);
 
-      return Success.of<StatsID, StatsIDError>(StatsID.of(uuid));
+      return Alive.of<StatsID, StatsIDError>(StatsID.of(uuid));
     }
     catch (err) {
       if (err instanceof UUIDError) {
-        return Failure.of<StatsID, StatsIDError>(
+        return Dead.of<StatsID, StatsIDError>(
           new StatsIDError('StatsID.ofString()', err)
         );
       }

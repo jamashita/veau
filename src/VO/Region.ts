@@ -1,5 +1,4 @@
-import { Type, ValueObject } from 'publikum';
-import { JSONable } from '../General/Interface/JSONable';
+import { JSONable, Type, ValueObject } from 'publikum';
 import { ISO3166 } from './ISO3166';
 import { RegionID } from './RegionID';
 import { RegionName } from './RegionName';

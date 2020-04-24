@@ -1,13 +1,10 @@
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
+import { AJAXError, DataSourceError, MockAJAX, Superposition } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { TYPE } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { StatsOutlinesError } from '../../../Error/StatsOutlinesError';
-import { AJAXError } from '../../../General/AJAX/AJAXError';
-import { MockAJAX } from '../../../General/AJAX/Mock/MockAJAX';
-import { DataSourceError } from '../../../General/DataSourceError';
-import { Superposition } from '../../../General/Superposition/Superposition';
 import { MockPage } from '../../../VO/Mock/MockPage';
 import { MockVeauAccountID } from '../../../VO/Mock/MockVeauAccountID';
 import { StatsOutlineJSON } from '../../../VO/StatsOutline';
@@ -65,7 +62,7 @@ describe('StatsOutlineQuery', () => {
       );
 
       expect(stub.withArgs('/api/stats/page/3').called).toBe(true);
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const outlines: StatsOutlines = superposition.get();
       expect(outlines.size()).toBe(1);
       for (let i: number = 0; i < outlines.size(); i++) {
@@ -84,7 +81,7 @@ describe('StatsOutlineQuery', () => {
       }
     });
 
-    it('returns Failure when it has wrong format statsID', async () => {
+    it('returns Dead when it has wrong format statsID', async () => {
       const veauAccountID: MockVeauAccountID = new MockVeauAccountID();
       const page: MockPage = new MockPage(3);
       const json: Array<StatsOutlineJSON> = [
@@ -124,7 +121,7 @@ describe('StatsOutlineQuery', () => {
         page
       );
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsOutlinesError | DataSourceError) => {
@@ -156,7 +153,7 @@ describe('StatsOutlineQuery', () => {
         page
       );
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsOutlinesError | DataSourceError) => {

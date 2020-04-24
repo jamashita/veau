@@ -257,7 +257,7 @@ export interface StatsEditInitializeAction extends ReduxAction {
   readonly statsID: StatsID;
 }
 
-export interface StatsEditInitializationFailureAction extends ReduxAction {
+export interface StatsEditInitializationDeadAction extends ReduxAction {
   readonly type: typeof STATS_EDIT_INITIALIZATION_FAILURE;
 }
 
@@ -416,7 +416,7 @@ export type Action =
   StatsListResetNewStatsAction |
   StatsListSaveNewStatsAction |
   StatsEditInitializeAction |
-  StatsEditInitializationFailureAction |
+  StatsEditInitializationDeadAction |
   StatsEditNameTypedAction |
   StatsEditUnitTypedAction |
   StatsEditISO639SelectedAction |

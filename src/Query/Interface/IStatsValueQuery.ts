@@ -1,6 +1,5 @@
+import { DataSourceError, Superposition } from 'publikum';
 import { StatsValuesError } from '../../Error/StatsValuesError';
-import { DataSourceError } from '../../General/DataSourceError';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { StatsID } from '../../VO/StatsID';
 import { StatsValues } from '../../VO/StatsValues';
 import { IQuery } from './IQuery';

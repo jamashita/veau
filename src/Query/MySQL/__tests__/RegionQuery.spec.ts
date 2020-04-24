@@ -1,13 +1,9 @@
+import { DataSourceError, MockError, MockMySQL, MySQLError, Superposition } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
-import { DataSourceError } from '../../../General/DataSourceError';
-import { MockError } from '../../../General/Mock/MockError';
-import { MockMySQL } from '../../../General/MySQL/Mock/MockMySQL';
-import { MySQLError } from '../../../General/MySQL/MySQLError';
-import { Superposition } from '../../../General/Superposition/Superposition';
 import { ISO3166 } from '../../../VO/ISO3166';
 import { Region, RegionRow } from '../../../VO/Region';
 import { Regions } from '../../../VO/Regions';
@@ -54,7 +50,7 @@ describe('RegionQuery', () => {
       FROM regions R1
       FORCE INDEX(iso3166)
       ORDER BY R1.iso3166;`).called).toBe(true);
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const regions: Regions = superposition.get();
       expect(regions.size()).toBe(2);
       for (let i: number = 0; i < regions.size(); i++) {
@@ -64,7 +60,7 @@ describe('RegionQuery', () => {
       }
     });
 
-    it('returns Failure when MySQL.execute returns 0 results', async () => {
+    it('returns Dead when MySQL.execute returns 0 results', async () => {
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
       mysql.execute = stub;
@@ -75,7 +71,7 @@ describe('RegionQuery', () => {
       const regionQuery: RegionQuery = new RegionQuery(mysql);
       const superposition: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -87,7 +83,7 @@ describe('RegionQuery', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it('returns Failure because the client throws MySQLError', async () => {
+    it('returns Dead because the client throws MySQLError', async () => {
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
       mysql.execute = stub;
@@ -98,7 +94,7 @@ describe('RegionQuery', () => {
       const regionQuery: RegionQuery = new RegionQuery(mysql);
       const superposition: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -147,14 +143,14 @@ describe('RegionQuery', () => {
       WHERE R1.iso3166 = :iso3166;`, {
         iso3166: 'ALB'
       }).called).toBe(true);
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const region: Region = superposition.get();
       expect(region.getRegionID().get()).toBe(rows[0].regionID);
       expect(region.getName().get()).toBe(rows[0].name);
       expect(region.getISO3166().get()).toBe(rows[0].iso3166);
     });
 
-    it('returns Failure because MySQL returns 0 results', async () => {
+    it('returns Dead because MySQL returns 0 results', async () => {
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
       mysql.execute = stub;
@@ -165,7 +161,7 @@ describe('RegionQuery', () => {
       const regionQuery: RegionQuery = new RegionQuery(mysql);
       const superposition: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -177,7 +173,7 @@ describe('RegionQuery', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it('returns Failure because the client throws MySQLError', async () => {
+    it('returns Dead because the client throws MySQLError', async () => {
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
       mysql.execute = stub;
@@ -188,7 +184,7 @@ describe('RegionQuery', () => {
       const regionQuery: RegionQuery = new RegionQuery(mysql);
       const superposition: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {

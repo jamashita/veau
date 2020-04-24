@@ -1,9 +1,4 @@
-import { Collection } from '../General/Collection/Interface/Collection';
-import { ImmutableSequence } from '../General/Collection/Sequence/ImmutableSequence';
-import { Sequence } from '../General/Collection/Sequence/Interface/Sequence';
-import { Objet } from '../General/Object/Objet';
-import { Quantum } from '../General/Quantum/Quantum';
-import { Mapper } from '../General/Type/Function';
+import { Collection, ImmutableSequence, Mapper, Objet, Quantum, Sequence } from 'publikum';
 import { Term } from './Term';
 
 export class Terms extends Objet implements Collection<number, Term> {

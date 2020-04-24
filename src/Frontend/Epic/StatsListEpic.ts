@@ -1,4 +1,5 @@
 import { inject, injectable } from 'inversify';
+import { DataSourceError, Superposition } from 'publikum';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { EMPTY, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mapTo, mergeMap } from 'rxjs/operators';
@@ -7,8 +8,6 @@ import { TYPE } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { StatsOutlinesError } from '../../Error/StatsOutlinesError';
-import { DataSourceError } from '../../General/DataSourceError';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { IRegionQuery } from '../../Query/Interface/IRegionQuery';
 import { IStatsOutlineQuery } from '../../Query/Interface/IStatsOutlineQuery';
@@ -167,7 +166,7 @@ export class StatsListEpic {
           mergeMap<Superposition<Language, NoSuchElementError | DataSourceError>, Observable<Action>>((superposition: Superposition<Language, NoSuchElementError | DataSourceError>) => {
             return EMPTY.pipe<never, Action>(
               filter<never>(() => {
-                return superposition.isSuccess();
+                return superposition.isAlive();
               }),
               map<never, Action>(() => {
                 const newStats: Stats = Stats.of(
@@ -208,7 +207,7 @@ export class StatsListEpic {
           mergeMap<Superposition<Region, NoSuchElementError | DataSourceError>, Observable<Action>>((superposition: Superposition<Region, NoSuchElementError | DataSourceError>) => {
             return EMPTY.pipe<never, Action>(
               filter<never>(() => {
-                return superposition.isSuccess();
+                return superposition.isAlive();
               }),
               map<never, Action>(() => {
                 const newStats: Stats = Stats.of(

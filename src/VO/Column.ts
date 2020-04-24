@@ -1,4 +1,4 @@
-import { Failure, Success, Superposition, Type, ValueObject } from 'publikum';
+import { Alive, Dead, Superposition, Type, ValueObject } from 'publikum';
 import { ColumnError } from '../Error/ColumnError';
 
 const ORIGIN_VALUE: number = 0;
@@ -11,16 +11,16 @@ export class Column extends ValueObject {
 
   public static of(column: number): Superposition<Column, ColumnError> {
     if (column < 0) {
-      return Failure.of<Column, ColumnError>(new ColumnError(`ILLEGAL COLUMN SPECIFIED ${column}`));
+      return Dead.of<Column, ColumnError>(new ColumnError(`ILLEGAL COLUMN SPECIFIED ${column}`));
     }
     if (column === ORIGIN_VALUE) {
-      return Success.of<Column, ColumnError>(Column.origin());
+      return Alive.of<Column, ColumnError>(Column.origin());
     }
     if (Type.isInteger(column)) {
-      return Success.of<Column, ColumnError>(new Column(column));
+      return Alive.of<Column, ColumnError>(new Column(column));
     }
 
-    return Failure.of<Column, ColumnError>(new ColumnError('ILLEGAL COLUMN SPECIFIED'));
+    return Dead.of<Column, ColumnError>(new ColumnError('ILLEGAL COLUMN SPECIFIED'));
   }
 
   public static origin(): Column {

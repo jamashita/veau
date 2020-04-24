@@ -1,4 +1,4 @@
-import { UUID } from '../../General/UUID/UUID';
+import { UUID } from 'publikum';
 import { StatsItemID } from '../StatsItemID';
 
 export class MockStatsItemID extends StatsItemID {

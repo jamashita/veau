@@ -1,4 +1,5 @@
 import { INTERNAL_SERVER_ERROR, NO_CONTENT, OK } from 'http-status';
+import { AJAXError, DataSourceError, MockAJAX, Superposition } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { TYPE } from '../../../Container/Types';
@@ -6,10 +7,6 @@ import { vault } from '../../../Container/Vault';
 import { Stats, StatsJSON } from '../../../Entity/Stats';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
 import { StatsError } from '../../../Error/StatsError';
-import { AJAXError } from '../../../General/AJAX/AJAXError';
-import { MockAJAX } from '../../../General/AJAX/Mock/MockAJAX';
-import { DataSourceError } from '../../../General/DataSourceError';
-import { Superposition } from '../../../General/Superposition/Superposition';
 import { MockStatsID } from '../../../VO/Mock/MockStatsID';
 import { StatsQuery } from '../StatsQuery';
 
@@ -59,7 +56,7 @@ describe('StatsQuery', () => {
       const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
 
       expect(stub.withArgs(`/api/stats/${statsID.get().get()}`).called).toBe(true);
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const stats: Stats = superposition.get();
       expect(stats.getStatsID().get().get()).toBe(json.statsID);
       expect(stats.getLanguage().getLanguageID().get()).toBe(json.language.languageID);
@@ -75,7 +72,7 @@ describe('StatsQuery', () => {
       expect(stats.getItems().size()).toBe(0);
     });
 
-    it('returns Failure when it has wrong format statsID', async () => {
+    it('returns Dead when it has wrong format statsID', async () => {
       const statsID: MockStatsID = new MockStatsID();
       const json: StatsJSON = {
         statsID: 'malformat uuid',
@@ -110,7 +107,7 @@ describe('StatsQuery', () => {
       const statsQuery: StatsQuery = new StatsQuery(ajax);
       const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsError | NoSuchElementError | DataSourceError) => {
@@ -138,7 +135,7 @@ describe('StatsQuery', () => {
       const statsQuery: StatsQuery = new StatsQuery(ajax);
       const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsError | NoSuchElementError | DataSourceError) => {
@@ -166,7 +163,7 @@ describe('StatsQuery', () => {
       const statsQuery: StatsQuery = new StatsQuery(ajax);
       const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsError | NoSuchElementError | DataSourceError) => {

@@ -12,11 +12,11 @@ describe('AsOf', () => {
       const superposition1: Superposition<AsOf, AsOfError> = AsOf.ofString('2000-01-01');
       const superposition2: Superposition<AsOf, AsOfError> = AsOf.ofString('2000-01-01');
 
-      expect(superposition1.isSuccess()).toBe(true);
-      expect(superposition2.isSuccess()).toBe(true);
+      expect(superposition1.isAlive()).toBe(true);
+      expect(superposition2.isAlive()).toBe(true);
     });
 
-    it('will return Failure because the string format is not compatible to date time', () => {
+    it('will return Dead because the string format is not compatible to date time', () => {
       const superposition1: Superposition<AsOf, AsOfError> = AsOf.ofString('deux mille');
       const superposition2: Superposition<AsOf, AsOfError> = AsOf.ofString('dos mil');
       const superposition3: Superposition<AsOf, AsOfError> = AsOf.ofString('2000-01-01 01:02:03');
@@ -28,9 +28,9 @@ describe('AsOf', () => {
       const spy5: SinonSpy = sinon.spy();
       const spy6: SinonSpy = sinon.spy();
 
-      expect(superposition1.isFailure()).toBe(true);
-      expect(superposition2.isFailure()).toBe(true);
-      expect(superposition3.isFailure()).toBe(true);
+      expect(superposition1.isDead()).toBe(true);
+      expect(superposition2.isDead()).toBe(true);
+      expect(superposition3.isDead()).toBe(true);
       superposition1.match<void>(() => {
         spy1();
       }, (err: AsOfError) => {

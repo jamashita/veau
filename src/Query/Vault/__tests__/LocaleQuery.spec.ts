@@ -1,14 +1,9 @@
+import { AJAXError, Alive, CacheError, DataSourceError, Dead, Superposition } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { MockLocaleCommand } from '../../../Command/Mock/MockLocaleCommand';
 import { TYPE } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
-import { AJAXError } from '../../../General/AJAX/AJAXError';
-import { CacheError } from '../../../General/Cache/CacheError';
-import { DataSourceError } from '../../../General/DataSourceError';
-import { Failure } from '../../../General/Superposition/Failure';
-import { Success } from '../../../General/Superposition/Success';
-import { Superposition } from '../../../General/Superposition/Superposition';
 import { Locale } from '../../../VO/Locale';
 import { MockLocale } from '../../../VO/Mock/MockLocale';
 import { MockLocaleQuery } from '../../Mock/MockLocaleQuery';
@@ -26,7 +21,7 @@ describe('LocaleQuery', () => {
   });
 
   describe('all', () => {
-    it('returns Success because Cache has', async () => {
+    it('returns Alive because Cache has', async () => {
       const locale: MockLocale = new MockLocale();
 
       const localeCacheQuery: MockLocaleQuery = new MockLocaleQuery();
@@ -34,7 +29,7 @@ describe('LocaleQuery', () => {
       const localeCommand: MockLocaleCommand = new MockLocaleCommand();
       const stub1: SinonStub = sinon.stub();
       localeCacheQuery.all = stub1;
-      stub1.resolves(Success.of<Locale, DataSourceError>(locale));
+      stub1.resolves(Alive.of<Locale, DataSourceError>(locale));
       const stub2: SinonStub = sinon.stub();
       localeAJAXQuery.all = stub2;
       const stub3: SinonStub = sinon.stub();
@@ -50,11 +45,11 @@ describe('LocaleQuery', () => {
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(false);
       expect(stub3.called).toBe(false);
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       expect(superposition.get()).toBe(locale);
     });
 
-    it('returns Success because AJAX has', async () => {
+    it('returns Alive because AJAX has', async () => {
       const locale: MockLocale = new MockLocale();
 
       const localeCacheQuery: MockLocaleQuery = new MockLocaleQuery();
@@ -62,13 +57,13 @@ describe('LocaleQuery', () => {
       const localeCommand: MockLocaleCommand = new MockLocaleCommand();
       const stub1: SinonStub = sinon.stub();
       localeCacheQuery.all = stub1;
-      stub1.resolves(Failure.of<Locale, DataSourceError>(new CacheError('test failed')));
+      stub1.resolves(Dead.of<Locale, DataSourceError>(new CacheError('test failed')));
       const stub2: SinonStub = sinon.stub();
       localeAJAXQuery.all = stub2;
-      stub2.resolves(Success.of<Locale, DataSourceError>(locale));
+      stub2.resolves(Alive.of<Locale, DataSourceError>(locale));
       const stub3: SinonStub = sinon.stub();
       localeCommand.create = stub3;
-      stub3.resolves(Success.of<DataSourceError>());
+      stub3.resolves(Alive.of<DataSourceError>());
 
       const localeQuery: LocaleQuery = new LocaleQuery(
         localeAJAXQuery,
@@ -80,21 +75,21 @@ describe('LocaleQuery', () => {
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
       expect(stub3.called).toBe(true);
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const loc: Locale = superposition.get();
       expect(loc).toBe(locale);
     });
 
-    it('returns Failure Cache nor AJAX returned nothing', async () => {
+    it('returns Dead Cache nor AJAX returned nothing', async () => {
       const localeCacheQuery: MockLocaleQuery = new MockLocaleQuery();
       const localeAJAXQuery: MockLocaleQuery = new MockLocaleQuery();
       const localeCommand: MockLocaleCommand = new MockLocaleCommand();
       const stub1: SinonStub = sinon.stub();
       localeCacheQuery.all = stub1;
-      stub1.resolves(Failure.of<Locale, DataSourceError>(new CacheError('test failed')));
+      stub1.resolves(Dead.of<Locale, DataSourceError>(new CacheError('test failed')));
       const stub2: SinonStub = sinon.stub();
       localeAJAXQuery.all = stub2;
-      stub2.resolves(Failure.of<Locale, DataSourceError>(new AJAXError('test failed', 500)));
+      stub2.resolves(Dead.of<Locale, DataSourceError>(new AJAXError('test failed', 500)));
       const stub3: SinonStub = sinon.stub();
       localeCommand.create = stub3;
       const spy1: SinonSpy = sinon.spy();
@@ -110,7 +105,7 @@ describe('LocaleQuery', () => {
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
       expect(stub3.called).toBe(false);
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
@@ -122,7 +117,7 @@ describe('LocaleQuery', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it('returns Failure Cache nor AJAX returned nothing', async () => {
+    it('returns Dead Cache nor AJAX returned nothing', async () => {
       const locale: MockLocale = new MockLocale();
 
       const localeCacheQuery: MockLocaleQuery = new MockLocaleQuery();
@@ -130,13 +125,13 @@ describe('LocaleQuery', () => {
       const localeCommand: MockLocaleCommand = new MockLocaleCommand();
       const stub1: SinonStub = sinon.stub();
       localeCacheQuery.all = stub1;
-      stub1.resolves(Failure.of<Locale, DataSourceError>(new CacheError('test failed')));
+      stub1.resolves(Dead.of<Locale, DataSourceError>(new CacheError('test failed')));
       const stub2: SinonStub = sinon.stub();
       localeAJAXQuery.all = stub2;
-      stub2.resolves(Success.of<Locale, DataSourceError>(locale));
+      stub2.resolves(Alive.of<Locale, DataSourceError>(locale));
       const stub3: SinonStub = sinon.stub();
       localeCommand.create = stub3;
-      stub3.resolves(Failure.of<Locale, DataSourceError>(new CacheError('test failed')));
+      stub3.resolves(Dead.of<Locale, DataSourceError>(new CacheError('test failed')));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
@@ -150,7 +145,7 @@ describe('LocaleQuery', () => {
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
       expect(stub3.called).toBe(true);
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {

@@ -83,7 +83,7 @@ describe('StatsCommand', () => {
         updatedAt: '2000-01-02 01:02:03',
         items: []
       }).called).toBe(true);
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
     });
 
     it('throws AJAXError', async () => {
@@ -102,7 +102,7 @@ describe('StatsCommand', () => {
       const statsCommand: StatsCommand = new StatsCommand(ajax);
       const superposition: Superposition<void, DataSourceError> = await statsCommand.create(stats);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {

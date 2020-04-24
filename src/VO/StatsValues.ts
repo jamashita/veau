@@ -1,18 +1,20 @@
-import { Type } from 'publikum';
+import {
+  Alive,
+  Cloneable,
+  Collection,
+  Dead,
+  Enumerator,
+  ImmutableSequence,
+  JSONable,
+  manoeuvre,
+  Objet,
+  Quantum,
+  Sequence,
+  Superposition,
+  Type
+} from 'publikum';
 import { StatsValueError } from '../Error/StatsValueError';
 import { StatsValuesError } from '../Error/StatsValuesError';
-import { Collection } from '../General/Collection/Interface/Collection';
-import { ImmutableSequence } from '../General/Collection/Sequence/ImmutableSequence';
-import { Sequence } from '../General/Collection/Sequence/Interface/Sequence';
-import { Cloneable } from '../General/Interface/Cloneable';
-import { JSONable } from '../General/Interface/JSONable';
-import { Objet } from '../General/Object/Objet';
-import { Quantum } from '../General/Quantum/Quantum';
-import { Failure } from '../General/Superposition/Failure';
-import { manoeuvre } from '../General/Superposition/Manoeuvre';
-import { Success } from '../General/Superposition/Success';
-import { Superposition } from '../General/Superposition/Superposition';
-import { Enumerator } from '../General/Type/Function';
 import { AsOf } from './AsOf';
 import { AsOfs } from './AsOfs';
 import { NumericalValue } from './NumericalValue';
@@ -44,11 +46,11 @@ export class StatsValues extends Objet implements Collection<number, StatsValue>
 
   public static ofSuperposition(superpositions: Array<Superposition<StatsValue, StatsValueError>>): Superposition<StatsValues, StatsValuesError> {
     return manoeuvre<StatsValue, StatsValueError>(superpositions).match<StatsValues, StatsValuesError>((values: Array<StatsValue>) => {
-      return Success.of<StatsValues, StatsValuesError>(
+      return Alive.of<StatsValues, StatsValuesError>(
         StatsValues.ofArray(values)
       );
     }, (err: StatsValueError) => {
-      return Failure.of<StatsValues, StatsValuesError>(
+      return Dead.of<StatsValues, StatsValuesError>(
         new StatsValuesError('StatsValues.ofSuperposition()', err)
       );
     });

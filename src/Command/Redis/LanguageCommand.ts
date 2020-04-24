@@ -1,13 +1,5 @@
 import { inject, injectable } from 'inversify';
-import {
-  DataSourceError,
-  Failure,
-  IRedis,
-  JSONA,
-  RedisError,
-  Success,
-  Superposition
-} from 'publikum';
+import { Alive, DataSourceError, Dead, IRedis, JSONA, RedisError, Superposition } from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { REDIS_LANGUAGE_KEY } from '../../Infrastructure/VeauRedis';
 import { Languages } from '../../VO/Languages';
@@ -32,11 +24,11 @@ export class LanguageCommand implements ILanguageCommand, IRedisCommand {
       await this.redis.getString().set(REDIS_LANGUAGE_KEY, str);
       await this.redis.expires(REDIS_LANGUAGE_KEY, DURATION);
 
-      return Success.of<DataSourceError>();
+      return Alive.of<DataSourceError>();
     }
     catch (err) {
       if (err instanceof RedisError) {
-        return Failure.of<RedisError>(err);
+        return Dead.of<RedisError>(err);
       }
 
       throw err;
@@ -48,14 +40,14 @@ export class LanguageCommand implements ILanguageCommand, IRedisCommand {
       const ok: boolean = await this.redis.delete(REDIS_LANGUAGE_KEY);
 
       if (ok) {
-        return Success.of<DataSourceError>();
+        return Alive.of<DataSourceError>();
       }
 
-      return Failure.of<RedisError>(new RedisError('FAIL TO DELETE CACHE'));
+      return Dead.of<RedisError>(new RedisError('FAIL TO DELETE CACHE'));
     }
     catch (err) {
       if (err instanceof RedisError) {
-        return Failure.of<RedisError>(err);
+        return Dead.of<RedisError>(err);
       }
 
       throw err;

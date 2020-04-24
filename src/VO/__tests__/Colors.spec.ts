@@ -1,4 +1,4 @@
-import { ImmutableSequence } from '../../General/Collection/Sequence/ImmutableSequence';
+import { ImmutableSequence } from 'publikum';
 import { Color } from '../Color';
 import { Colors } from '../Colors';
 import { MockColor } from '../Mock/MockColor';

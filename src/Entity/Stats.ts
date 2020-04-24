@@ -1,13 +1,4 @@
-import {
-  Absent,
-  Ambiguous,
-  Entity,
-  Failure,
-  Quantum,
-  Success,
-  Superposition,
-  Type
-} from 'publikum';
+import { Absent, Alive, Ambiguous, Dead, Entity, Quantum, Superposition, Type } from 'publikum';
 import { StatsError } from '../Error/StatsError';
 import { StatsIDError } from '../Error/StatsIDError';
 import { StatsItemsError } from '../Error/StatsItemsError';
@@ -113,18 +104,18 @@ export class Stats extends Entity<StatsID> {
               statsItems
             );
 
-            return Success.of<Stats, StatsError>(stats);
+            return Alive.of<Stats, StatsError>(stats);
           }, (err: StatsItemsError) => {
-            return Failure.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
+            return Dead.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
           });
         }, (err: UpdatedAtError) => {
-          return Failure.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
+          return Dead.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
         });
       }, (err: TermError) => {
-        return Failure.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
+        return Dead.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
       });
     }, (err: StatsIDError) => {
-      return Failure.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
+      return Dead.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
     });
   }
 
@@ -152,15 +143,15 @@ export class Stats extends Entity<StatsID> {
             statsItems
           );
 
-          return Success.of<Stats, StatsError>(stats);
+          return Alive.of<Stats, StatsError>(stats);
         }, (err: UpdatedAtError) => {
-          return Failure.of<Stats, StatsError>(new StatsError('Stats.ofRow()', err));
+          return Dead.of<Stats, StatsError>(new StatsError('Stats.ofRow()', err));
         });
       }, (err: TermError) => {
-        return Failure.of<Stats, StatsError>(new StatsError('Stats.ofRow()', err));
+        return Dead.of<Stats, StatsError>(new StatsError('Stats.ofRow()', err));
       });
     }, (err: StatsIDError) => {
-      return Failure.of<Stats, StatsError>(new StatsError('Stats.ofRow()', err));
+      return Dead.of<Stats, StatsError>(new StatsError('Stats.ofRow()', err));
     });
   }
 

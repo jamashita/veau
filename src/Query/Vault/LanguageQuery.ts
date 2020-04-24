@@ -1,11 +1,7 @@
 import { inject, injectable } from 'inversify';
+import { Alive, DataSourceError, Dead, Quantum, Superposition } from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
-import { DataSourceError } from '../../General/DataSourceError';
-import { Quantum } from '../../General/Quantum/Quantum';
-import { Failure } from '../../General/Superposition/Failure';
-import { Success } from '../../General/Superposition/Success';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { ISO639 } from '../../VO/ISO639';
 import { Language } from '../../VO/Language';
 import { Languages } from '../../VO/Languages';
@@ -28,8 +24,8 @@ export class LanguageQuery implements ILanguageQuery, IVaultQuery {
     const superposition: Superposition<Locale, DataSourceError> = await this.localeVaultQuery.all();
 
     return superposition.match<Languages, DataSourceError>((locale: Locale) => {
-      return Success.of<Languages, DataSourceError>(locale.getLanguages());
-    }, (err: DataSourceError, self: Failure<Locale, DataSourceError>) => {
+      return Alive.of<Languages, DataSourceError>(locale.getLanguages());
+    }, (err: DataSourceError, self: Dead<Locale, DataSourceError>) => {
       return self.transpose<Languages>();
     });
   }
@@ -43,11 +39,11 @@ export class LanguageQuery implements ILanguageQuery, IVaultQuery {
       });
 
       return quantum.toSuperposition().match<Language, NoSuchElementError | DataSourceError>((language: Language) => {
-        return Success.of<Language, DataSourceError>(language);
+        return Alive.of<Language, DataSourceError>(language);
       }, () => {
-        return Failure.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.get()));
+        return Dead.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.get()));
       });
-    }, (err: NoSuchElementError | DataSourceError, self: Failure<Languages, NoSuchElementError | DataSourceError>) => {
+    }, (err: NoSuchElementError | DataSourceError, self: Dead<Languages, NoSuchElementError | DataSourceError>) => {
       return self.transpose<Language>();
     });
   }

@@ -1,10 +1,5 @@
-import { ValueObject } from 'publikum';
+import { Alive, Dead, Superposition, UUID, UUIDError, ValueObject } from 'publikum';
 import { VeauAccountIDError } from '../Error/VeauAccountIDError';
-import { Failure } from '../General/Superposition/Failure';
-import { Success } from '../General/Superposition/Success';
-import { Superposition } from '../General/Superposition/Superposition';
-import { UUID } from '../General/UUID/UUID';
-import { UUIDError } from '../General/UUID/UUIDError';
 
 export class VeauAccountID extends ValueObject {
   public readonly noun: 'VeauAccountID' = 'VeauAccountID';
@@ -18,11 +13,11 @@ export class VeauAccountID extends ValueObject {
     try {
       const uuid: UUID = UUID.of(id);
 
-      return Success.of<VeauAccountID, VeauAccountIDError>(VeauAccountID.of(uuid));
+      return Alive.of<VeauAccountID, VeauAccountIDError>(VeauAccountID.of(uuid));
     }
     catch (err) {
       if (err instanceof UUIDError) {
-        return Failure.of<VeauAccountID, VeauAccountIDError>(
+        return Dead.of<VeauAccountID, VeauAccountIDError>(
           new VeauAccountIDError('VeauAccountID.ofString()', err)
         );
       }

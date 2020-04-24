@@ -1,8 +1,7 @@
 import { SagaIterator } from '@redux-saga/types';
+import { DataSourceError, Superposition } from 'publikum';
 import { all, call, Effect, fork, put, select, take } from 'redux-saga/effects';
 import { VeauAccountError } from '../../Error/VeauAccountError';
-import { DataSourceError } from '../../General/DataSourceError';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { ISessionQuery } from '../../Query/Interface/ISessionQuery';
 import { EntranceInformation } from '../../VO/EntranceInformation';
 import { VeauAccount } from '../../VO/VeauAccount';

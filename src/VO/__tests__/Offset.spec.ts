@@ -5,15 +5,15 @@ import { Offset } from '../Offset';
 
 describe('Offset', () => {
   describe('of', () => {
-    it('returns Failure when the argument is less than 0', () => {
+    it('returns Dead when the argument is less than 0', () => {
       const superposition1: Superposition<Offset, OffsetError> = Offset.of(0);
       const superposition2: Superposition<Offset, OffsetError> = Offset.of(-1);
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      expect(superposition1.isSuccess()).toBe(true);
-      expect(superposition2.isFailure()).toBe(true);
+      expect(superposition1.isAlive()).toBe(true);
+      expect(superposition2.isDead()).toBe(true);
 
       superposition2.match<void>(() => {
         spy1();
@@ -26,7 +26,7 @@ describe('Offset', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it('returns Failure when the argument is not integer', () => {
+    it('returns Dead when the argument is not integer', () => {
       const superposition1: Superposition<Offset, OffsetError> = Offset.of(0.1);
       const superposition2: Superposition<Offset, OffsetError> = Offset.of(1.5);
 
@@ -35,8 +35,8 @@ describe('Offset', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      expect(superposition1.isFailure()).toBe(true);
-      expect(superposition2.isFailure()).toBe(true);
+      expect(superposition1.isDead()).toBe(true);
+      expect(superposition2.isDead()).toBe(true);
 
       superposition1.match<void>(() => {
         spy1();

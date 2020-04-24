@@ -13,7 +13,7 @@ describe('Term', () => {
       expect(Term.of(5).get()).toBe(Term.ANNUAL);
     });
 
-    it('returns Failure when the id is out of range', () => {
+    it('returns Dead when the id is out of range', () => {
       const superposition1: Superposition<Term, TermError> = Term.of(-1);
       const superposition2: Superposition<Term, TermError> = Term.of(0);
       const superposition3: Superposition<Term, TermError> = Term.of(6);
@@ -25,9 +25,9 @@ describe('Term', () => {
       const spy5: SinonSpy = sinon.spy();
       const spy6: SinonSpy = sinon.spy();
 
-      expect(superposition1.isFailure()).toBe(true);
-      expect(superposition2.isFailure()).toBe(true);
-      expect(superposition3.isFailure()).toBe(true);
+      expect(superposition1.isDead()).toBe(true);
+      expect(superposition2.isDead()).toBe(true);
+      expect(superposition3.isDead()).toBe(true);
 
       superposition1.match<void>(() => {
         spy1();

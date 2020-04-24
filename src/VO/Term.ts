@@ -1,8 +1,5 @@
-import { ValueObject } from 'publikum';
+import { Alive, Dead, Superposition, ValueObject } from 'publikum';
 import { TermError } from '../Error/TermError';
-import { Failure } from '../General/Superposition/Failure';
-import { Success } from '../General/Superposition/Success';
-import { Superposition } from '../General/Superposition/Superposition';
 
 const DAILY_ID: number = 1;
 const WEEKLY_ID: number = 2;
@@ -24,22 +21,22 @@ export class Term extends ValueObject {
   public static of(id: number): Superposition<Term, TermError> {
     switch (id) {
       case DAILY_ID: {
-        return Success.of<Term, TermError>(Term.DAILY);
+        return Alive.of<Term, TermError>(Term.DAILY);
       }
       case WEEKLY_ID: {
-        return Success.of<Term, TermError>(Term.WEEKLY);
+        return Alive.of<Term, TermError>(Term.WEEKLY);
       }
       case MONTHLY_ID: {
-        return Success.of<Term, TermError>(Term.MONTHLY);
+        return Alive.of<Term, TermError>(Term.MONTHLY);
       }
       case QUARTERLY_ID: {
-        return Success.of<Term, TermError>(Term.QUARTERLY);
+        return Alive.of<Term, TermError>(Term.QUARTERLY);
       }
       case ANNUAL_ID: {
-        return Success.of<Term, TermError>(Term.ANNUAL);
+        return Alive.of<Term, TermError>(Term.ANNUAL);
       }
       default: {
-        return Failure.of<Term, TermError>(new TermError(`${id}`));
+        return Dead.of<Term, TermError>(new TermError(`${id}`));
       }
     }
   }

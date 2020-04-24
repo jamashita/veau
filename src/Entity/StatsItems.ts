@@ -1,8 +1,9 @@
 import {
+  Alive,
   Cloneable,
   Collection,
+  Dead,
   Enumerator,
-  Failure,
   ImmutableSequence,
   JSONable,
   manoeuvre,
@@ -10,7 +11,6 @@ import {
   Objet,
   Quantum,
   Sequence,
-  Success,
   Superposition,
   Type
 } from 'publikum';
@@ -50,9 +50,9 @@ export class StatsItems extends Objet implements Collection<number, StatsItem>, 
 
   public static ofSuperposition(superpositions: Array<Superposition<StatsItem, StatsItemError>>): Superposition<StatsItems, StatsItemsError> {
     return manoeuvre<StatsItem, StatsItemError>(superpositions).match<StatsItems, StatsItemsError>((statsItems: Array<StatsItem>) => {
-      return Success.of<StatsItems, StatsItemsError>(StatsItems.ofArray(statsItems));
+      return Alive.of<StatsItems, StatsItemsError>(StatsItems.ofArray(statsItems));
     }, (err: StatsItemError) => {
-      return Failure.of<StatsItems, StatsItemsError>(new StatsItemsError('StatsItems.ofSuperposition()', err));
+      return Dead.of<StatsItems, StatsItemsError>(new StatsItemsError('StatsItems.ofSuperposition()', err));
     });
   }
 
@@ -71,7 +71,7 @@ export class StatsItems extends Objet implements Collection<number, StatsItem>, 
 
         return StatsItem.ofRow(statsItemRow, values);
       }, (err: StatsItemIDError) => {
-        return Failure.of<StatsItem, StatsItemError>(new StatsItemError('StatsItems.ofRow()', err));
+        return Dead.of<StatsItem, StatsItemError>(new StatsItemError('StatsItems.ofRow()', err));
       });
     });
 

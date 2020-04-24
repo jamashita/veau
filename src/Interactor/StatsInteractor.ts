@@ -1,14 +1,11 @@
 import { inject, injectable } from 'inversify';
+import { DataSourceError, IMySQL, Noun, Superposition } from 'publikum';
 import { TYPE } from '../Container/Types';
 import { Stats } from '../Entity/Stats';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { StatsError } from '../Error/StatsError';
 import { StatsOutlinesError } from '../Error/StatsOutlinesError';
 import { StatsUpdateFactory } from '../Factory/StatsUpdateFactory';
-import { DataSourceError } from '../General/DataSourceError';
-import { Noun } from '../General/Interface/Noun';
-import { IMySQL } from '../General/MySQL/Interface/IMySQL';
-import { Superposition } from '../General/Superposition/Superposition';
 import { IStatsOutlineQuery } from '../Query/Interface/IStatsOutlineQuery';
 import { IStatsQuery } from '../Query/Interface/IStatsQuery';
 import { StatsUpdateTransaction } from '../Transaction/StatsUpdateTransaction';

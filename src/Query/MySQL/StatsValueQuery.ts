@@ -1,11 +1,7 @@
 import { inject, injectable } from 'inversify';
+import { DataSourceError, Dead, IMySQL, MySQLError, Superposition } from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { StatsValuesError } from '../../Error/StatsValuesError';
-import { DataSourceError } from '../../General/DataSourceError';
-import { IMySQL } from '../../General/MySQL/Interface/IMySQL';
-import { MySQLError } from '../../General/MySQL/MySQLError';
-import { Failure } from '../../General/Superposition/Failure';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { StatsID } from '../../VO/StatsID';
 import { StatsValueRow } from '../../VO/StatsValue';
 import { StatsValues } from '../../VO/StatsValues';
@@ -44,7 +40,7 @@ export class StatsValueQuery implements IStatsValueQuery, IMySQLQuery {
     }
     catch (err) {
       if (err instanceof MySQLError) {
-        return Failure.of<StatsValues, MySQLError>(err);
+        return Dead.of<StatsValues, MySQLError>(err);
       }
 
       throw err;

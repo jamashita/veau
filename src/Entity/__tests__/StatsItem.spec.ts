@@ -1,7 +1,6 @@
+import { Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 import { StatsItemError } from '../../Error/StatsItemError';
-import { Superposition } from '../../General/Superposition/Superposition';
-import { UUID } from '../../General/UUID/UUID';
 import { AsOf } from '../../VO/AsOf';
 import { MockAsOf } from '../../VO/Mock/MockAsOf';
 import { MockAsOfs } from '../../VO/Mock/MockAsOfs';
@@ -59,7 +58,7 @@ describe('StatsItem', () => {
 
       const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofJSON(json);
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const statsItem: StatsItem = superposition.get();
       expect(statsItem.getStatsItemID().get().get()).toBe(json.statsItemID);
       expect(statsItem.getName().get()).toBe(json.name);
@@ -92,7 +91,7 @@ describe('StatsItem', () => {
 
       const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofJSON(json);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsItemError) => {
@@ -125,7 +124,7 @@ describe('StatsItem', () => {
 
       const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofJSON(json);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsItemError) => {
@@ -158,7 +157,7 @@ describe('StatsItem', () => {
 
       const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofJSON(json);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsItemError) => {
@@ -200,7 +199,7 @@ describe('StatsItem', () => {
 
       const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofRow(row, statsValues);
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const statsItem: StatsItem = superposition.get();
       expect(statsItem.getStatsItemID().get().get()).toBe(row.statsItemID);
       expect(statsItem.getName().get()).toBe(row.name);
@@ -243,7 +242,7 @@ describe('StatsItem', () => {
 
       const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofRow(row, statsValues);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>((item: StatsItem) => {
         spy1();
         expect(item.getStatsItemID().get().get()).toBe(row.statsItemID);

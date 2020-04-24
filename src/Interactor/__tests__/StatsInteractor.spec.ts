@@ -1,3 +1,4 @@
+import { DataSourceError, Dead, MockMySQL, Alive, Superposition } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../Container/Kernel';
@@ -7,11 +8,6 @@ import { Stats } from '../../Entity/Stats';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { StatsError } from '../../Error/StatsError';
 import { StatsOutlinesError } from '../../Error/StatsOutlinesError';
-import { DataSourceError } from '../../General/DataSourceError';
-import { MockMySQL } from '../../General/MySQL/Mock/MockMySQL';
-import { Failure } from '../../General/Superposition/Failure';
-import { Success } from '../../General/Superposition/Success';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { MockStatsOutlineQuery } from '../../Query/Mock/MockStatsOutlineQuery';
 import { MockStatsQuery } from '../../Query/Mock/MockStatsQuery';
 import { MockPage } from '../../VO/Mock/MockPage';
@@ -42,7 +38,7 @@ describe('StatsInteractor', () => {
       const statsQuery: MockStatsQuery = new MockStatsQuery();
       const stub: SinonStub = sinon.stub();
       statsQuery.findByStatsID = stub;
-      stub.resolves(Success.of<Stats, NoSuchElementError>(stats));
+      stub.resolves(Alive.of<Stats, NoSuchElementError>(stats));
 
       const statsInteractor: StatsInteractor = new StatsInteractor(
         mysql,
@@ -51,11 +47,11 @@ describe('StatsInteractor', () => {
       );
       const superposition: Superposition<Stats, NoSuchElementError | StatsError | DataSourceError> = await statsInteractor.findByStatsID(statsID);
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       expect(superposition.get().equals(stats)).toBe(true);
     });
 
-    it('returns Failure when StatsQuery.findByStatsID throws NoSuchElementError', async () => {
+    it('returns Dead when StatsQuery.findByStatsID throws NoSuchElementError', async () => {
       const statsID: MockStatsID = new MockStatsID();
 
       const mysql: MockMySQL = new MockMySQL();
@@ -63,7 +59,7 @@ describe('StatsInteractor', () => {
       const statsQuery: MockStatsQuery = new MockStatsQuery();
       const stub: SinonStub = sinon.stub();
       statsQuery.findByStatsID = stub;
-      stub.resolves(Failure.of<Stats, NoSuchElementError>(new NoSuchElementError('test failed')));
+      stub.resolves(Dead.of<Stats, NoSuchElementError>(new NoSuchElementError('test failed')));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
@@ -85,7 +81,7 @@ describe('StatsInteractor', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it('returns Failure when StatsQuery.findByStatsID returns Failure<Stats, StatsError>', async () => {
+    it('returns Dead when StatsQuery.findByStatsID returns Dead<Stats, StatsError>', async () => {
       const statsID: MockStatsID = new MockStatsID();
 
       const mysql: MockMySQL = new MockMySQL();
@@ -93,7 +89,7 @@ describe('StatsInteractor', () => {
       const statsQuery: MockStatsQuery = new MockStatsQuery();
       const stub: SinonStub = sinon.stub();
       statsQuery.findByStatsID = stub;
-      stub.resolves(Failure.of<Stats, StatsError>(new StatsError('test failed')));
+      stub.resolves(Dead.of<Stats, StatsError>(new StatsError('test failed')));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
@@ -127,7 +123,7 @@ describe('StatsInteractor', () => {
       const statsQuery: MockStatsQuery = new MockStatsQuery();
       const stub: SinonStub = sinon.stub();
       statsOutlineQuery.findByVeauAccountID = stub;
-      stub.resolves(Success.of<StatsOutlines, StatsOutlinesError>(outlines));
+      stub.resolves(Alive.of<StatsOutlines, StatsOutlinesError>(outlines));
 
       const statsInteractor: StatsInteractor = new StatsInteractor(
         mysql,

@@ -1,13 +1,10 @@
 import { inject, injectable } from 'inversify';
 import log4js from 'log4js';
 import { VerifyFunction } from 'passport-local';
+import { DataSourceError, Digest, Noun, Superposition } from 'publikum';
 import { TYPE } from '../Container/Types';
 import { AccountError } from '../Error/AccountError';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
-import { DataSourceError } from '../General/DataSourceError';
-import { Digest } from '../General/Digest';
-import { Noun } from '../General/Interface/Noun';
-import { Superposition } from '../General/Superposition/Superposition';
 import { IAccountQuery } from '../Query/Interface/IAccountQuery';
 import { Account } from '../VO/Account';
 import { AccountName } from '../VO/AccountName';

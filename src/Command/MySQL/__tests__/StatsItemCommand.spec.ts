@@ -37,10 +37,10 @@ describe('StatsItemCommand', () => {
         name: itemName,
         seq
       }).called).toBe(true);
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
     });
 
-    it('returns Failure because the client throws MySQLError', async () => {
+    it('returns Dead because the client throws MySQLError', async () => {
       const statsID: MockStatsID = new MockStatsID();
       const statsItem: MockStatsItem = new MockStatsItem();
       const seq: number = 3109;
@@ -55,7 +55,7 @@ describe('StatsItemCommand', () => {
       const statsItemCommand: StatsItemCommand = new StatsItemCommand(sql);
       const superposition: Superposition<void, DataSourceError> = await statsItemCommand.create(statsID, statsItem, seq);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {
@@ -101,10 +101,10 @@ describe('StatsItemCommand', () => {
       WHERE R2.stats_id = :statsID;`, {
         statsID: uuid.get()
       }).called).toBe(true);
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
     });
 
-    it('returns Failure because the client throws MySQLError', async () => {
+    it('returns Dead because the client throws MySQLError', async () => {
       const statsID: MockStatsID = new MockStatsID();
 
       const sql: MockSQL = new MockSQL();
@@ -117,7 +117,7 @@ describe('StatsItemCommand', () => {
       const statsItemCommand: StatsItemCommand = new StatsItemCommand(sql);
       const superposition: Superposition<void, DataSourceError> = await statsItemCommand.deleteByStatsID(statsID);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {

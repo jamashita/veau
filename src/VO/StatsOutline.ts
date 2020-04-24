@@ -1,13 +1,8 @@
-import { ValueObject } from 'publikum';
+import { Alive, Cloneable, Dead, JSONable, Superposition, ValueObject } from 'publikum';
 import { StatsIDError } from '../Error/StatsIDError';
 import { StatsOutlineError } from '../Error/StatsOutlineError';
 import { TermError } from '../Error/TermError';
 import { UpdatedAtError } from '../Error/UpdatedAtError';
-import { Cloneable } from '../General/Interface/Cloneable';
-import { JSONable } from '../General/Interface/JSONable';
-import { Failure } from '../General/Superposition/Failure';
-import { Success } from '../General/Superposition/Success';
-import { Superposition } from '../General/Superposition/Superposition';
 import { Language, LanguageJSON } from './Language';
 import { Region, RegionJSON } from './Region';
 import { StatsID } from './StatsID';
@@ -74,7 +69,7 @@ export class StatsOutline extends ValueObject implements Cloneable<StatsOutline>
     return StatsID.ofString(json.statsID).match<StatsOutline, StatsOutlineError>((statsID: StatsID) => {
       return Term.of(json.termID).match<StatsOutline, StatsOutlineError>((term: Term) => {
         return UpdatedAt.ofString(json.updatedAt).match<StatsOutline, StatsOutlineError>((updatedAt: UpdatedAt) => {
-          return Success.of<StatsOutline, StatsOutlineError>(
+          return Alive.of<StatsOutline, StatsOutlineError>(
             StatsOutline.of(
               statsID,
               Language.ofJSON(json.language),
@@ -86,13 +81,13 @@ export class StatsOutline extends ValueObject implements Cloneable<StatsOutline>
             )
           );
         }, (err: UpdatedAtError) => {
-          return Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofJSON()', err));
+          return Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofJSON()', err));
         });
       }, (err: TermError) => {
-        return Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofJSON()', err));
+        return Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofJSON()', err));
       });
     }, (err: StatsIDError) => {
-      return Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofJSON()', err));
+      return Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofJSON()', err));
     });
   }
 
@@ -112,7 +107,7 @@ export class StatsOutline extends ValueObject implements Cloneable<StatsOutline>
             iso3166: row.iso3166
           });
 
-          return Success.of<StatsOutline, StatsOutlineError>(
+          return Alive.of<StatsOutline, StatsOutlineError>(
             StatsOutline.of(
               statsID,
               language,
@@ -124,13 +119,13 @@ export class StatsOutline extends ValueObject implements Cloneable<StatsOutline>
             )
           );
         }, (err: UpdatedAtError) => {
-          return Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofRow()', err));
+          return Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofRow()', err));
         });
       }, (err: TermError) => {
-        return Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofRow()', err));
+        return Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofRow()', err));
       });
     }, (err: StatsIDError) => {
-      return Failure.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofRow()', err));
+      return Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofRow()', err));
     });
   }
 

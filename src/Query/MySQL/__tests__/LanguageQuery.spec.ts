@@ -1,13 +1,9 @@
+import { DataSourceError, MockError, MockMySQL, MySQLError, Superposition } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
-import { DataSourceError } from '../../../General/DataSourceError';
-import { MockError } from '../../../General/Mock/MockError';
-import { MockMySQL } from '../../../General/MySQL/Mock/MockMySQL';
-import { MySQLError } from '../../../General/MySQL/MySQLError';
-import { Superposition } from '../../../General/Superposition/Superposition';
 import { ISO639 } from '../../../VO/ISO639';
 import { Language, LanguageRow } from '../../../VO/Language';
 import { Languages } from '../../../VO/Languages';
@@ -57,7 +53,7 @@ describe('LanguageQuery', () => {
       FROM languages R1
       FORCE INDEX(iso639)
       ORDER BY R1.iso639;`).called).toBe(true);
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const languages: Languages = superposition.get();
       expect(languages.size()).toBe(2);
       for (let i: number = 0; i < languages.size(); i++) {
@@ -68,7 +64,7 @@ describe('LanguageQuery', () => {
       }
     });
 
-    it('returns Failure when MySQL.execute returns 0 results', async () => {
+    it('returns Dead when MySQL.execute returns 0 results', async () => {
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
       mysql.execute = stub;
@@ -79,7 +75,7 @@ describe('LanguageQuery', () => {
       const languageQuery: LanguageQuery = new LanguageQuery(mysql);
       const superposition: Superposition<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -91,7 +87,7 @@ describe('LanguageQuery', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it('returns Failure because the client throws MySQLError', async () => {
+    it('returns Dead because the client throws MySQLError', async () => {
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
       mysql.execute = stub;
@@ -102,7 +98,7 @@ describe('LanguageQuery', () => {
       const languageQuery: LanguageQuery = new LanguageQuery(mysql);
       const superposition: Superposition<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -153,7 +149,7 @@ describe('LanguageQuery', () => {
       WHERE R1.iso639 = :iso639;`, {
         iso639: 'aa'
       }).called).toBe(true);
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const language: Language = superposition.get();
       expect(language.getLanguageID().get()).toBe(rows[0].languageID);
       expect(language.getName().get()).toBe(rows[0].name);
@@ -161,7 +157,7 @@ describe('LanguageQuery', () => {
       expect(language.getISO639().get()).toBe(rows[0].iso639);
     });
 
-    it('returns Failure because MySQL returns 0 results', async () => {
+    it('returns Dead because MySQL returns 0 results', async () => {
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
       mysql.execute = stub;
@@ -172,7 +168,7 @@ describe('LanguageQuery', () => {
       const languageQuery: LanguageQuery = new LanguageQuery(mysql);
       const superposition: Superposition<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -184,7 +180,7 @@ describe('LanguageQuery', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it('returns Failure because the client throws MySQLError', async () => {
+    it('returns Dead because the client throws MySQLError', async () => {
       const mysql: MockMySQL = new MockMySQL();
       const stub: SinonStub = sinon.stub();
       mysql.execute = stub;
@@ -195,7 +191,7 @@ describe('LanguageQuery', () => {
       const languageQuery: LanguageQuery = new LanguageQuery(mysql);
       const superposition: Superposition<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {

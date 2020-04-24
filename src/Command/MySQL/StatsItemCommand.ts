@@ -1,4 +1,4 @@
-import { DataSourceError, Failure, ISQL, MySQLError, Success, Superposition } from 'publikum';
+import { Alive, DataSourceError, Dead, ISQL, MySQLError, Superposition } from 'publikum';
 import { StatsItem } from '../../Entity/StatsItem';
 import { StatsID } from '../../VO/StatsID';
 import { IMySQLCommand } from '../Interface/IMySQLCommand';
@@ -29,11 +29,11 @@ export class StatsItemCommand implements IStatsItemCommand, IMySQLCommand {
         seq
       });
 
-      return Success.of<DataSourceError>();
+      return Alive.of<DataSourceError>();
     }
     catch (err) {
       if (err instanceof MySQLError) {
-        return Failure.of<MySQLError>(err);
+        return Dead.of<MySQLError>(err);
       }
 
       throw err;
@@ -52,11 +52,11 @@ export class StatsItemCommand implements IStatsItemCommand, IMySQLCommand {
         statsID: statsID.get().get()
       });
 
-      return Success.of<DataSourceError>();
+      return Alive.of<DataSourceError>();
     }
     catch (err) {
       if (err instanceof MySQLError) {
-        return Failure.of<MySQLError>(err);
+        return Dead.of<MySQLError>(err);
       }
 
       throw err;

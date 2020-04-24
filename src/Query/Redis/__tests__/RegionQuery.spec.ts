@@ -1,14 +1,16 @@
+import {
+  DataSourceError,
+  MockError,
+  MockRedis,
+  MockRedisString,
+  RedisError,
+  Superposition
+} from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
-import { DataSourceError } from '../../../General/DataSourceError';
-import { MockError } from '../../../General/Mock/MockError';
-import { MockRedis } from '../../../General/Redis/Mock/MockRedis';
-import { MockRedisString } from '../../../General/Redis/Mock/MockRedisString';
-import { RedisError } from '../../../General/Redis/RedisError';
-import { Superposition } from '../../../General/Superposition/Superposition';
 import { ISO3166 } from '../../../VO/ISO3166';
 import { LanguageJSON } from '../../../VO/Language';
 import { Region, RegionJSON } from '../../../VO/Region';
@@ -53,7 +55,7 @@ describe('RegionQuery', () => {
       const regionQuery: RegionQuery = new RegionQuery(redis);
       const superposition: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const regions: Regions = superposition.get();
       expect(regions.size()).toBe(json.length);
       for (let i: number = 0; i < regions.size(); i++) {
@@ -78,11 +80,11 @@ describe('RegionQuery', () => {
       const regionQuery: RegionQuery = new RegionQuery(redis);
       const superposition: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       expect(superposition.get().size()).toBe(json.length);
     });
 
-    it('returns Failure when Redis returns null', async () => {
+    it('returns Dead when Redis returns null', async () => {
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
       string.get = stub;
@@ -96,7 +98,7 @@ describe('RegionQuery', () => {
       const regionQuery: RegionQuery = new RegionQuery(redis);
       const superposition: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -122,7 +124,7 @@ describe('RegionQuery', () => {
       const regionQuery: RegionQuery = new RegionQuery(redis);
       const superposition: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -148,7 +150,7 @@ describe('RegionQuery', () => {
       const regionQuery: RegionQuery = new RegionQuery(redis);
       const superposition: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -203,7 +205,7 @@ describe('RegionQuery', () => {
         ISO3166.of('ALB')
       );
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const region: Region = superposition.get();
       expect(region.getRegionID().get()).toBe(json[1].regionID);
       expect(region.getName().get()).toBe(json[1].name);
@@ -229,7 +231,7 @@ describe('RegionQuery', () => {
         ISO3166.of('ALB')
       );
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -241,7 +243,7 @@ describe('RegionQuery', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it('returns Failure because Redis returns null', async () => {
+    it('returns Dead because Redis returns null', async () => {
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
       string.get = stub;
@@ -257,7 +259,7 @@ describe('RegionQuery', () => {
         ISO3166.of('ALB')
       );
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -299,7 +301,7 @@ describe('RegionQuery', () => {
         ISO3166.of('OOP')
       );
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -327,7 +329,7 @@ describe('RegionQuery', () => {
         ISO3166.of('ALB')
       );
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -355,7 +357,7 @@ describe('RegionQuery', () => {
         ISO3166.of('ALB')
       );
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {

@@ -1,15 +1,11 @@
 import { inject, injectable } from 'inversify';
+import { DataSourceError, Dead, IMySQL, MySQLError, Superposition } from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { Stats, StatsRow } from '../../Entity/Stats';
 import { StatsItems } from '../../Entity/StatsItems';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { StatsError } from '../../Error/StatsError';
 import { StatsItemsError } from '../../Error/StatsItemsError';
-import { DataSourceError } from '../../General/DataSourceError';
-import { IMySQL } from '../../General/MySQL/Interface/IMySQL';
-import { MySQLError } from '../../General/MySQL/MySQLError';
-import { Failure } from '../../General/Superposition/Failure';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { StatsID } from '../../VO/StatsID';
 import { IMySQLQuery } from '../Interface/IMySQLQuery';
 import { IStatsItemQuery } from '../Interface/IStatsItemQuery';
@@ -60,7 +56,7 @@ export class StatsQuery implements IStatsQuery, IMySQLQuery {
       );
 
       if (statsRows.length === 0) {
-        return Failure.of<Stats, NoSuchElementError>(new NoSuchElementError(statsID.get().get()));
+        return Dead.of<Stats, NoSuchElementError>(new NoSuchElementError(statsID.get().get()));
       }
 
       const superposition: Superposition<StatsItems, StatsItemsError | DataSourceError> = await this.statsItemQuery.findByStatsID(statsID);
@@ -69,15 +65,15 @@ export class StatsQuery implements IStatsQuery, IMySQLQuery {
         return Stats.ofRow(statsRows[0], statsItems);
       }, (err: StatsItemsError | DataSourceError) => {
         if (err instanceof DataSourceError) {
-          return Failure.of<Stats, DataSourceError>(err);
+          return Dead.of<Stats, DataSourceError>(err);
         }
 
-        return Failure.of<Stats, StatsError>(new StatsError('StatsQuery.findByStatsID()', err));
+        return Dead.of<Stats, StatsError>(new StatsError('StatsQuery.findByStatsID()', err));
       });
     }
     catch (err) {
       if (err instanceof MySQLError) {
-        return Failure.of<Stats, MySQLError>(err);
+        return Dead.of<Stats, MySQLError>(err);
       }
 
       throw err;

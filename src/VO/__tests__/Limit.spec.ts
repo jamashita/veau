@@ -1,6 +1,6 @@
+import { Superposition } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 import { LimitError } from '../../Error/LimitError';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { Limit } from '../Limit';
 
 describe('Limit', () => {
@@ -15,7 +15,7 @@ describe('Limit', () => {
   });
 
   describe('of', () => {
-    it('returns Failure when the argument is less than 1', () => {
+    it('returns Dead when the argument is less than 1', () => {
       const superposition1: Superposition<Limit, LimitError> = Limit.of(1);
       const superposition2: Superposition<Limit, LimitError> = Limit.of(0);
       const superposition3: Superposition<Limit, LimitError> = Limit.of(-1);
@@ -25,9 +25,9 @@ describe('Limit', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      expect(superposition1.isSuccess()).toBe(true);
-      expect(superposition2.isFailure()).toBe(true);
-      expect(superposition3.isFailure()).toBe(true);
+      expect(superposition1.isAlive()).toBe(true);
+      expect(superposition2.isDead()).toBe(true);
+      expect(superposition3.isDead()).toBe(true);
 
       superposition2.match<void>(() => {
         spy1();
@@ -49,7 +49,7 @@ describe('Limit', () => {
       expect(spy4.called).toBe(true);
     });
 
-    it('returns Failure when the argument is not integer', () => {
+    it('returns Dead when the argument is not integer', () => {
       const superposition1: Superposition<Limit, LimitError> = Limit.of(1.1);
       const superposition2: Superposition<Limit, LimitError> = Limit.of(0.2);
 
@@ -58,8 +58,8 @@ describe('Limit', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      expect(superposition1.isFailure()).toBe(true);
-      expect(superposition2.isFailure()).toBe(true);
+      expect(superposition1.isDead()).toBe(true);
+      expect(superposition2.isDead()).toBe(true);
 
       superposition1.match<void>(() => {
         spy1();
@@ -81,10 +81,10 @@ describe('Limit', () => {
       expect(spy4.called).toBe(true);
     });
 
-    it('returns Success and its value is Limit.default() when the argument 0', () => {
+    it('returns Alive and its value is Limit.default() when the argument 0', () => {
       const superposition: Superposition<Limit, LimitError> = Limit.of(40);
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       expect(superposition.get()).toBe(Limit.default());
     });
   });

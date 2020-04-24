@@ -1,4 +1,4 @@
-import { Failure, Success, Superposition, Type, ValueObject } from 'publikum';
+import { Alive, Dead, Superposition, Type, ValueObject } from 'publikum';
 import { RowError } from '../Error/RowError';
 
 const ORIGIN_VALUE: number = 0;
@@ -11,16 +11,16 @@ export class Row extends ValueObject {
 
   public static of(row: number): Superposition<Row, RowError> {
     if (row < 0) {
-      return Failure.of<Row, RowError>(new RowError(`ILLEGAL ROW SPECIFIED ${row}`));
+      return Dead.of<Row, RowError>(new RowError(`ILLEGAL ROW SPECIFIED ${row}`));
     }
     if (row === ORIGIN_VALUE) {
-      return Success.of<Row, RowError>(Row.origin());
+      return Alive.of<Row, RowError>(Row.origin());
     }
     if (Type.isInteger(row)) {
-      return Success.of<Row, RowError>(new Row(row));
+      return Alive.of<Row, RowError>(new Row(row));
     }
 
-    return Failure.of<Row, RowError>(new RowError('ILLEGAL ROW SPECIFIED'));
+    return Dead.of<Row, RowError>(new RowError('ILLEGAL ROW SPECIFIED'));
   }
 
   public static origin(): Row {

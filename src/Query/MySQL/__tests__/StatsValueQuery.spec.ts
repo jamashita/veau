@@ -1,13 +1,9 @@
+import { DataSourceError, MockError, MockMySQL, MySQLError, Superposition } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
 import { StatsValuesError } from '../../../Error/StatsValuesError';
-import { DataSourceError } from '../../../General/DataSourceError';
-import { MockError } from '../../../General/Mock/MockError';
-import { MockMySQL } from '../../../General/MySQL/Mock/MockMySQL';
-import { MySQLError } from '../../../General/MySQL/MySQLError';
-import { Superposition } from '../../../General/Superposition/Superposition';
 import { MockStatsID } from '../../../VO/Mock/MockStatsID';
 import { StatsValueRow } from '../../../VO/StatsValue';
 import { StatsValues } from '../../../VO/StatsValues';
@@ -73,7 +69,7 @@ describe('StatsValueQuery', () => {
       WHERE R2.stats_id = :statsID;`, {
         statsID: statsID.get().get()
       }).called).toBe(true);
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const values: StatsValues = superposition.get();
       for (let i: number = 0; i < values.size(); i++) {
         expect(values.get(i).get().getStatsItemID().get().get()).toBe(rows[i].statsItemID);
@@ -82,7 +78,7 @@ describe('StatsValueQuery', () => {
       }
     });
 
-    it('returns Failure when statsItemID is malformat', async () => {
+    it('returns Dead when statsItemID is malformat', async () => {
       const statsID: MockStatsID = new MockStatsID();
       const rows: Array<StatsValueRow> = [
         {
@@ -122,7 +118,7 @@ describe('StatsValueQuery', () => {
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
       const superposition: Superposition<StatsValues, StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(statsID);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsValuesError | DataSourceError) => {
@@ -134,7 +130,7 @@ describe('StatsValueQuery', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it('returns Failure because the client throws MySQLError', async () => {
+    it('returns Dead because the client throws MySQLError', async () => {
       const statsID: MockStatsID = new MockStatsID();
 
       const mysql: MockMySQL = new MockMySQL();
@@ -147,7 +143,7 @@ describe('StatsValueQuery', () => {
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
       const superposition: Superposition<StatsValues, StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(statsID);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsValuesError | DataSourceError) => {

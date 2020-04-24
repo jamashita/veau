@@ -1,13 +1,8 @@
 import { OK } from 'http-status';
 import { inject, injectable } from 'inversify';
+import { AJAXError, AJAXResponse, DataSourceError, Dead, IAJAX, Superposition } from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { StatsOutlinesError } from '../../Error/StatsOutlinesError';
-import { AJAXError } from '../../General/AJAX/AJAXError';
-import { AJAXResponse } from '../../General/AJAX/AJAXResponse';
-import { IAJAX } from '../../General/AJAX/Interface/IAJAX';
-import { DataSourceError } from '../../General/DataSourceError';
-import { Failure } from '../../General/Superposition/Failure';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { Page } from '../../VO/Page';
 import { StatsOutlineJSON } from '../../VO/StatsOutline';
 import { StatsOutlines } from '../../VO/StatsOutlines';
@@ -40,7 +35,7 @@ export class StatsOutlineQuery implements IStatsOutlineQuery, IAJAXQuery {
         return StatsOutlines.ofJSON(body);
       }
       default: {
-        return Failure.of<StatsOutlines, AJAXError>(new AJAXError('UNKNOWN ERROR', status));
+        return Dead.of<StatsOutlines, AJAXError>(new AJAXError('UNKNOWN ERROR', status));
       }
     }
   }

@@ -1,14 +1,16 @@
 import { OK, UNAUTHORIZED } from 'http-status';
 import { inject, injectable } from 'inversify';
+import {
+  AJAXError,
+  AJAXResponse,
+  Alive,
+  DataSourceError,
+  Dead,
+  IAJAX,
+  Superposition
+} from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { VeauAccountError } from '../../Error/VeauAccountError';
-import { AJAXError } from '../../General/AJAX/AJAXError';
-import { AJAXResponse } from '../../General/AJAX/AJAXResponse';
-import { IAJAX } from '../../General/AJAX/Interface/IAJAX';
-import { DataSourceError } from '../../General/DataSourceError';
-import { Failure } from '../../General/Superposition/Failure';
-import { Success } from '../../General/Superposition/Success';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { EntranceInformation } from '../../VO/EntranceInformation';
 import { VeauAccount, VeauAccountJSON } from '../../VO/VeauAccount';
 import { IAJAXQuery } from '../Interface/IAJAXQuery';
@@ -34,13 +36,13 @@ export class SessionQuery implements ISessionQuery, IAJAXQuery {
     switch (status) {
       case OK: {
         return VeauAccount.ofJSON(body).match<VeauAccount, VeauAccountError | DataSourceError>((veauAccount: VeauAccount) => {
-          return Success.of<VeauAccount, DataSourceError>(veauAccount);
-        }, (err: VeauAccountError, self: Failure<VeauAccount, VeauAccountError>) => {
+          return Alive.of<VeauAccount, DataSourceError>(veauAccount);
+        }, (err: VeauAccountError, self: Dead<VeauAccount, VeauAccountError>) => {
           return self;
         });
       }
       default: {
-        return Failure.of<VeauAccount, AJAXError>(new AJAXError('IDENTITY DID NOT RETURN OK', status));
+        return Dead.of<VeauAccount, AJAXError>(new AJAXError('IDENTITY DID NOT RETURN OK', status));
       }
     }
   }
@@ -55,16 +57,16 @@ export class SessionQuery implements ISessionQuery, IAJAXQuery {
     switch (status) {
       case OK: {
         return VeauAccount.ofJSON(body).match<VeauAccount, VeauAccountError | DataSourceError>((veauAccount: VeauAccount) => {
-          return Success.of<VeauAccount, DataSourceError>(veauAccount);
-        }, (err: VeauAccountError, self: Failure<VeauAccount, VeauAccountError>) => {
+          return Alive.of<VeauAccount, DataSourceError>(veauAccount);
+        }, (err: VeauAccountError, self: Dead<VeauAccount, VeauAccountError>) => {
           return self;
         });
       }
       case UNAUTHORIZED: {
-        return Failure.of<VeauAccount, AJAXError>(new AJAXError('UNAUTHORIZED', UNAUTHORIZED));
+        return Dead.of<VeauAccount, AJAXError>(new AJAXError('UNAUTHORIZED', UNAUTHORIZED));
       }
       default: {
-        return Failure.of<VeauAccount, AJAXError>(new AJAXError('UNKNOWN ERROR', status));
+        return Dead.of<VeauAccount, AJAXError>(new AJAXError('UNKNOWN ERROR', status));
       }
     }
   }

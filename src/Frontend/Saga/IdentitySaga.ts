@@ -63,7 +63,7 @@ export class IdentitySaga {
       return this.sessionQuery.find();
     });
 
-    if (superposition2.isSuccess()) {
+    if (superposition2.isAlive()) {
       const effects: Array<Effect> = [
         put(identityAuthenticated(superposition2.get())),
         put(identified())

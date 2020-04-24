@@ -1,4 +1,4 @@
-import { Zeit } from '../../General/Zeit/Zeit';
+import { Zeit } from 'publikum';
 import { UpdatedAt } from '../UpdatedAt';
 
 type UpdatedAtArgs = Partial<Readonly<{

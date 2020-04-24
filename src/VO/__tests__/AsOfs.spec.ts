@@ -1,5 +1,4 @@
-import { ImmutableSequence } from '../../General/Collection/Sequence/ImmutableSequence';
-import { Absent } from '../../General/Quantum/Absent';
+import { Absent, ImmutableSequence } from 'publikum';
 import { AsOf } from '../AsOf';
 import { AsOfs } from '../AsOfs';
 import { MockAsOf } from '../Mock/MockAsOf';

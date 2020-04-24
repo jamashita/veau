@@ -1,14 +1,10 @@
+import { DataSourceError, Dead, ISQL, manoeuvre, Superposition } from 'publikum';
 import { IStatsCommand } from '../Command/Interface/IStatsCommand';
 import { IStatsItemCommand } from '../Command/Interface/IStatsItemCommand';
 import { IStatsValueCommand } from '../Command/Interface/IStatsValueCommand';
 import { Stats } from '../Entity/Stats';
 import { StatsItem } from '../Entity/StatsItem';
 import { IStatsUpdateFactory } from '../Factory/Interface/IStatsUpdateFactory';
-import { DataSourceError } from '../General/DataSourceError';
-import { ISQL } from '../General/MySQL/Interface/ISQL';
-import { Failure } from '../General/Superposition/Failure';
-import { manoeuvre } from '../General/Superposition/Manoeuvre';
-import { Superposition } from '../General/Superposition/Superposition';
 import { StatsID } from '../VO/StatsID';
 import { StatsValue } from '../VO/StatsValue';
 import { VeauAccountID } from '../VO/VeauAccountID';
@@ -66,7 +62,7 @@ export class StatsUpdateTransaction implements IStatsUpdateTransaction {
         ...statsItemInsertTries,
         ...statsValueInsertTries
       ]);
-    }, (err: DataSourceError, self: Failure<unknown, DataSourceError>) => {
+    }, (err: DataSourceError, self: Dead<unknown, DataSourceError>) => {
       return Promise.resolve<Superposition<unknown, DataSourceError>>(self);
     });
   }

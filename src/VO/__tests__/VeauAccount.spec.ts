@@ -61,7 +61,7 @@ describe('VeauAccount', () => {
 
       const superposition: Superposition<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const veauAccount: VeauAccount = superposition.get();
       expect(veauAccount.getVeauAccountID().get().get()).toBe(json.veauAccountID);
       expect(veauAccount.getAccount().get()).toBe(json.account);

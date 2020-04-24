@@ -1,4 +1,4 @@
-import { Failure, Success, Superposition, Type, ValueObject } from 'publikum';
+import { Alive, Dead, Superposition, Type, ValueObject } from 'publikum';
 import { HeaderSizeError } from '../Error/HeaderSizeError';
 
 export class HeaderSize extends ValueObject {
@@ -7,13 +7,13 @@ export class HeaderSize extends ValueObject {
 
   public static of(size: number): Superposition<HeaderSize, HeaderSizeError> {
     if (size < 0) {
-      return Failure.of<HeaderSize, HeaderSizeError>(new HeaderSizeError(`ILLEGAL SIZE SPECIFIED ${size}`));
+      return Dead.of<HeaderSize, HeaderSizeError>(new HeaderSizeError(`ILLEGAL SIZE SPECIFIED ${size}`));
     }
     if (Type.isInteger(size)) {
-      return Success.of<HeaderSize, HeaderSizeError>(new HeaderSize(size));
+      return Alive.of<HeaderSize, HeaderSizeError>(new HeaderSize(size));
     }
 
-    return Failure.of<HeaderSize, HeaderSizeError>(new HeaderSizeError('ILLEGAL SIZE SPECIFIED'));
+    return Dead.of<HeaderSize, HeaderSizeError>(new HeaderSizeError('ILLEGAL SIZE SPECIFIED'));
   }
 
   protected constructor(size: number) {

@@ -17,7 +17,7 @@ describe('Page', () => {
   });
 
   describe('of', () => {
-    it('returns Failure when the argument is less than 1', () => {
+    it('returns Dead when the argument is less than 1', () => {
       const superposition1: Superposition<Page, PageError> = Page.of(0);
       const superposition2: Superposition<Page, PageError> = Page.of(-1);
 
@@ -26,8 +26,8 @@ describe('Page', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      expect(superposition1.isFailure()).toBe(true);
-      expect(superposition2.isFailure()).toBe(true);
+      expect(superposition1.isDead()).toBe(true);
+      expect(superposition2.isDead()).toBe(true);
 
       superposition1.match<void>(() => {
         spy1();
@@ -49,14 +49,14 @@ describe('Page', () => {
       expect(spy4.called).toBe(true);
     });
 
-    it('returns Success and its value is Page.min() when the argument 1', () => {
+    it('returns Alive and its value is Page.min() when the argument 1', () => {
       const superposition: Superposition<Page, PageError> = Page.of(1);
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       expect(superposition.get()).toBe(Page.min());
     });
 
-    it('returns Failure when the argument is not integer', () => {
+    it('returns Dead when the argument is not integer', () => {
       const superposition1: Superposition<Page, PageError> = Page.of(0.1);
       const superposition2: Superposition<Page, PageError> = Page.of(1.5);
 
@@ -65,8 +65,8 @@ describe('Page', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      expect(superposition1.isFailure()).toBe(true);
-      expect(superposition2.isFailure()).toBe(true);
+      expect(superposition1.isDead()).toBe(true);
+      expect(superposition2.isDead()).toBe(true);
 
       superposition1.match<void>(() => {
         spy1();
@@ -94,8 +94,8 @@ describe('Page', () => {
       const superposition1: Superposition<Page, PageError> = Page.of(page1);
       const superposition2: Superposition<Page, PageError> = Page.of(page2);
 
-      expect(superposition1.isSuccess()).toBe(true);
-      expect(superposition2.isSuccess()).toBe(true);
+      expect(superposition1.isAlive()).toBe(true);
+      expect(superposition2.isAlive()).toBe(true);
 
       expect(superposition1.get().get()).toBe(page1);
       expect(superposition2.get().get()).toBe(page2);

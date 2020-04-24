@@ -1,7 +1,5 @@
+import { DataSourceError, Superposition, UnimplementedError } from 'publikum';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
-import { DataSourceError } from '../../General/DataSourceError';
-import { Superposition } from '../../General/Superposition/Superposition';
-import { UnimplementedError } from '../../General/UnimplementedError';
 import { ISO639 } from '../../VO/ISO639';
 import { Language } from '../../VO/Language';
 import { Languages } from '../../VO/Languages';

@@ -1,8 +1,5 @@
-import { Type, ValueObject } from 'publikum';
+import { Alive, Dead, Superposition, Type, ValueObject } from 'publikum';
 import { OffsetError } from '../Error/OffsetError';
-import { Failure } from '../General/Superposition/Failure';
-import { Success } from '../General/Superposition/Success';
-import { Superposition } from '../General/Superposition/Superposition';
 
 export class Offset extends ValueObject {
   public readonly noun: 'Offset' = 'Offset';
@@ -10,13 +7,13 @@ export class Offset extends ValueObject {
 
   public static of(offset: number): Superposition<Offset, OffsetError> {
     if (offset < 0) {
-      return Failure.of<Offset, OffsetError>(new OffsetError(`ILLEGAL OFFSET SPECIFIED ${offset}`));
+      return Dead.of<Offset, OffsetError>(new OffsetError(`ILLEGAL OFFSET SPECIFIED ${offset}`));
     }
     if (Type.isInteger(offset)) {
-      return Success.of<Offset, OffsetError>(new Offset(offset));
+      return Alive.of<Offset, OffsetError>(new Offset(offset));
     }
 
-    return Failure.of<Offset, OffsetError>(new OffsetError('ILLEGAL OFFSET SPECIFIED'));
+    return Dead.of<Offset, OffsetError>(new OffsetError('ILLEGAL OFFSET SPECIFIED'));
   }
 
   protected constructor(offset: number) {

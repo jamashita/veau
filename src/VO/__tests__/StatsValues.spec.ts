@@ -1,12 +1,7 @@
+import { Absent, Alive, Dead, ImmutableSequence, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 import { StatsValueError } from '../../Error/StatsValueError';
 import { StatsValuesError } from '../../Error/StatsValuesError';
-import { ImmutableSequence } from '../../General/Collection/Sequence/ImmutableSequence';
-import { Absent } from '../../General/Quantum/Absent';
-import { Failure } from '../../General/Superposition/Failure';
-import { Success } from '../../General/Superposition/Success';
-import { Superposition } from '../../General/Superposition/Superposition';
-import { UUID } from '../../General/UUID/UUID';
 import { AsOf } from '../AsOf';
 import { MockAsOf } from '../Mock/MockAsOf';
 import { MockAsOfs } from '../Mock/MockAsOfs';
@@ -45,10 +40,10 @@ describe('StatsValues', () => {
   });
 
   describe('ofSuperposition', () => {
-    it('when empty Array given, returns Success, and StatsValues.empty()', () => {
+    it('when empty Array given, returns Alive, and StatsValues.empty()', () => {
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofSuperposition([]);
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       expect(superposition.get()).toBe(StatsValues.empty());
     });
 
@@ -56,14 +51,14 @@ describe('StatsValues', () => {
       const statsValue1: MockStatsValue = new MockStatsValue();
       const statsValue2: MockStatsValue = new MockStatsValue();
 
-      const superposition1: Superposition<StatsValue, StatsValueError> = Success.of<StatsValue, StatsValueError>(statsValue1);
-      const superposition2: Superposition<StatsValue, StatsValueError> = Success.of<StatsValue, StatsValueError>(statsValue2);
+      const superposition1: Superposition<StatsValue, StatsValueError> = Alive.of<StatsValue, StatsValueError>(statsValue1);
+      const superposition2: Superposition<StatsValue, StatsValueError> = Alive.of<StatsValue, StatsValueError>(statsValue2);
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofSuperposition([
         superposition1,
         superposition2
       ]);
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const values: StatsValues = superposition.get();
       expect(values.size()).toBe(2);
       expect(values.get(0).get()).toBe(statsValue1);
@@ -74,10 +69,10 @@ describe('StatsValues', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const superposition1: Superposition<StatsValue, StatsValueError> = Success.of<StatsValue, StatsValueError>(
+      const superposition1: Superposition<StatsValue, StatsValueError> = Alive.of<StatsValue, StatsValueError>(
         new MockStatsValue()
       );
-      const superposition2: Superposition<StatsValue, StatsValueError> = Failure.of<StatsValue, StatsValueError>(
+      const superposition2: Superposition<StatsValue, StatsValueError> = Dead.of<StatsValue, StatsValueError>(
         new StatsValueError('test failed')
       );
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofSuperposition([
@@ -85,7 +80,7 @@ describe('StatsValues', () => {
         superposition2
       ]);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsValuesError) => {
@@ -101,10 +96,10 @@ describe('StatsValues', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const superposition1: Superposition<StatsValue, StatsValueError> = Failure.of<StatsValue, StatsValueError>(
+      const superposition1: Superposition<StatsValue, StatsValueError> = Dead.of<StatsValue, StatsValueError>(
         new StatsValueError('test failed1')
       );
-      const superposition2: Superposition<StatsValue, StatsValueError> = Failure.of<StatsValue, StatsValueError>(
+      const superposition2: Superposition<StatsValue, StatsValueError> = Dead.of<StatsValue, StatsValueError>(
         new StatsValueError('test failed2')
       );
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofSuperposition([
@@ -112,7 +107,7 @@ describe('StatsValues', () => {
         superposition2
       ]);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsValuesError) => {
@@ -132,7 +127,7 @@ describe('StatsValues', () => {
         []
       );
 
-      expect(superpositions.isSuccess()).toBe(true);
+      expect(superpositions.isAlive()).toBe(true);
       expect(superpositions.get()).toBe(StatsValues.empty());
     });
 
@@ -154,7 +149,7 @@ describe('StatsValues', () => {
         json
       );
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const values: StatsValues = superposition.get();
       expect(values.size()).toBe(json.length);
       for (let i: number = 0; i < values.size(); i++) {
@@ -185,7 +180,7 @@ describe('StatsValues', () => {
         json
       );
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsValuesError) => {
@@ -217,7 +212,7 @@ describe('StatsValues', () => {
         json
       );
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsValuesError) => {
@@ -234,7 +229,7 @@ describe('StatsValues', () => {
     it('when empty Array given, returns StatsValues.empty()', () => {
       const superpositions: Superposition<StatsValues, StatsValuesError> = StatsValues.ofRow([]);
 
-      expect(superpositions.isSuccess()).toBe(true);
+      expect(superpositions.isAlive()).toBe(true);
       expect(superpositions.get()).toBe(StatsValues.empty());
     });
 
@@ -254,7 +249,7 @@ describe('StatsValues', () => {
 
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofRow(row);
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const values: StatsValues = superposition.get();
       expect(values.size()).toBe(row.length);
       for (let i: number = 0; i < values.size(); i++) {
@@ -284,7 +279,7 @@ describe('StatsValues', () => {
 
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofRow(row);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsValuesError) => {
@@ -315,7 +310,7 @@ describe('StatsValues', () => {
 
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofRow(row);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsValuesError) => {

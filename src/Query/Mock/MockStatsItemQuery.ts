@@ -1,8 +1,6 @@
+import { DataSourceError, Superposition, UnimplementedError } from 'publikum';
 import { StatsItems } from '../../Entity/StatsItems';
 import { StatsItemsError } from '../../Error/StatsItemsError';
-import { DataSourceError } from '../../General/DataSourceError';
-import { Superposition } from '../../General/Superposition/Superposition';
-import { UnimplementedError } from '../../General/UnimplementedError';
 import { StatsID } from '../../VO/StatsID';
 import { IMockQuery } from '../Interface/IMockQuery';
 import { IStatsItemQuery } from '../Interface/IStatsItemQuery';

@@ -79,7 +79,7 @@ describe('StatsOutline', () => {
 
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const statsOutline: StatsOutline = superposition.get();
       expect(statsOutline.getStatsID().get().get()).toBe(json.statsID);
       expect(statsOutline.getLanguage().getLanguageID().get()).toBe(json.language.languageID);
@@ -120,7 +120,7 @@ describe('StatsOutline', () => {
 
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsOutlineError) => {
@@ -157,7 +157,7 @@ describe('StatsOutline', () => {
 
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsOutlineError) => {
@@ -194,7 +194,7 @@ describe('StatsOutline', () => {
 
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsOutlineError) => {
@@ -226,7 +226,7 @@ describe('StatsOutline', () => {
 
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const statsOutline: StatsOutline = superposition.get();
       expect(statsOutline.getStatsID().get().get()).toBe(row.statsID);
       expect(statsOutline.getLanguage().getLanguageID().get()).toBe(row.languageID);
@@ -263,7 +263,7 @@ describe('StatsOutline', () => {
 
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsOutlineError) => {
@@ -296,7 +296,7 @@ describe('StatsOutline', () => {
 
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsOutlineError) => {
@@ -329,7 +329,7 @@ describe('StatsOutline', () => {
 
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsOutlineError) => {

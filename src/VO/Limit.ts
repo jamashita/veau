@@ -1,8 +1,5 @@
-import { Type, ValueObject } from 'publikum';
+import { Alive, Dead, Superposition, Type, ValueObject } from 'publikum';
 import { LimitError } from '../Error/LimitError';
-import { Failure } from '../General/Superposition/Failure';
-import { Success } from '../General/Superposition/Success';
-import { Superposition } from '../General/Superposition/Superposition';
 
 const DEFAULT_VALUE: number = 40;
 
@@ -14,16 +11,16 @@ export class Limit extends ValueObject {
 
   public static of(limit: number): Superposition<Limit, LimitError> {
     if (limit <= 0) {
-      return Failure.of<Limit, LimitError>(new LimitError(`ILLEGAL LIMIT SPECIFIED ${limit}`));
+      return Dead.of<Limit, LimitError>(new LimitError(`ILLEGAL LIMIT SPECIFIED ${limit}`));
     }
     if (limit === DEFAULT_VALUE) {
-      return Success.of<Limit, LimitError>(Limit.default());
+      return Alive.of<Limit, LimitError>(Limit.default());
     }
     if (Type.isInteger(limit)) {
-      return Success.of<Limit, LimitError>(new Limit(limit));
+      return Alive.of<Limit, LimitError>(new Limit(limit));
     }
 
-    return Failure.of<Limit, LimitError>(new LimitError('ILLEGAL LIMIT SPECIFIED'));
+    return Dead.of<Limit, LimitError>(new LimitError('ILLEGAL LIMIT SPECIFIED'));
   }
 
   public static default(): Limit {

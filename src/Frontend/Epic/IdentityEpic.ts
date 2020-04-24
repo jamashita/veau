@@ -69,7 +69,7 @@ export class IdentityEpic {
       //             mergeMap<Superposition<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>, Observable<Action>>((superposition2: Superposition<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>) => {
       //               return EMPTY.pipe<never, Action>(
       //                 filter<never>(() => {
-      //                   return superposition2.isSuccess();
+      //                   return superposition2.isAlive();
       //                 }),
       //                 mergeMap<never, Observable<Action>>(() => {
       //                   const actions: Array<Action> = [

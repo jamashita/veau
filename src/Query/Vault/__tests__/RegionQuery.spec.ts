@@ -1,13 +1,9 @@
+import { AJAXError, Alive, DataSourceError, Dead, Superposition } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { TYPE } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
-import { AJAXError } from '../../../General/AJAX/AJAXError';
-import { DataSourceError } from '../../../General/DataSourceError';
-import { Failure } from '../../../General/Superposition/Failure';
-import { Success } from '../../../General/Superposition/Success';
-import { Superposition } from '../../../General/Superposition/Superposition';
 import { ISO3166 } from '../../../VO/ISO3166';
 import { Locale } from '../../../VO/Locale';
 import { MockISO3166 } from '../../../VO/Mock/MockISO3166';
@@ -37,27 +33,27 @@ describe('RegionQuery', () => {
       const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
       localeVaultQuery.all = stub;
-      stub.resolves(Success.of<Locale, DataSourceError>(locale));
+      stub.resolves(Alive.of<Locale, DataSourceError>(locale));
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
       const superposition: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       expect(superposition.get()).toBe(locale.getRegions());
     });
 
-    it('LocaleQuery returns Failure', async () => {
+    it('LocaleQuery returns Dead', async () => {
       const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
       localeVaultQuery.all = stub;
-      stub.resolves(Failure.of<Locale, DataSourceError>(new AJAXError('test failed', 500)));
+      stub.resolves(Dead.of<Locale, DataSourceError>(new AJAXError('test failed', 500)));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
       const superposition: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -86,27 +82,27 @@ describe('RegionQuery', () => {
       const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
       localeVaultQuery.all = stub;
-      stub.resolves(Success.of<Locale, DataSourceError>(locale));
+      stub.resolves(Alive.of<Locale, DataSourceError>(locale));
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
       const superposition: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       expect(superposition.get()).toBe(locale.getRegions().get(1).get());
     });
 
-    it('LocaleQuery.all returns Failure', async () => {
+    it('LocaleQuery.all returns Dead', async () => {
       const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
       localeVaultQuery.all = stub;
-      stub.resolves(Failure.of<Locale, DataSourceError>(new AJAXError('test failed', 100)));
+      stub.resolves(Dead.of<Locale, DataSourceError>(new AJAXError('test failed', 100)));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
       const superposition: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -133,14 +129,14 @@ describe('RegionQuery', () => {
       const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
       localeVaultQuery.all = stub;
-      stub.resolves(Success.of<Locale, DataSourceError>(locale));
+      stub.resolves(Alive.of<Locale, DataSourceError>(locale));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
       const superposition: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('OOP'));
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {

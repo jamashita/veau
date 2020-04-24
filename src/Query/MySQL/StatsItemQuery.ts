@@ -1,14 +1,10 @@
 import { inject, injectable } from 'inversify';
+import { DataSourceError, Dead, IMySQL, MySQLError, Superposition } from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { StatsItemRow } from '../../Entity/StatsItem';
 import { StatsItems } from '../../Entity/StatsItems';
 import { StatsItemsError } from '../../Error/StatsItemsError';
 import { StatsValuesError } from '../../Error/StatsValuesError';
-import { DataSourceError } from '../../General/DataSourceError';
-import { IMySQL } from '../../General/MySQL/Interface/IMySQL';
-import { MySQLError } from '../../General/MySQL/MySQLError';
-import { Failure } from '../../General/Superposition/Failure';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { StatsID } from '../../VO/StatsID';
 import { StatsValues } from '../../VO/StatsValues';
 import { IMySQLQuery } from '../Interface/IMySQLQuery';
@@ -52,15 +48,15 @@ export class StatsItemQuery implements IStatsItemQuery, IMySQLQuery {
         return StatsItems.ofRow(statsItemRows, statsValues);
       }, (err: StatsValuesError | DataSourceError) => {
         if (err instanceof DataSourceError) {
-          return Failure.of<StatsItems, DataSourceError>(err);
+          return Dead.of<StatsItems, DataSourceError>(err);
         }
 
-        return Failure.of<StatsItems, StatsItemsError>(new StatsItemsError('STATS VALUES ERROR', err));
+        return Dead.of<StatsItems, StatsItemsError>(new StatsItemsError('STATS VALUES ERROR', err));
       });
     }
     catch (err) {
       if (err instanceof MySQLError) {
-        return Failure.of<StatsItems, MySQLError>(err);
+        return Dead.of<StatsItems, MySQLError>(err);
       }
 
       throw err;

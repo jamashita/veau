@@ -1,13 +1,9 @@
 import { inject, injectable } from 'inversify';
+import { DataSourceError, Dead, Noun, Alive, Superposition } from 'publikum';
 import { ILanguageCommand } from '../Command/Interface/ILanguageCommand';
 import { IRegionCommand } from '../Command/Interface/IRegionCommand';
 import { TYPE } from '../Container/Types';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
-import { DataSourceError } from '../General/DataSourceError';
-import { Noun } from '../General/Interface/Noun';
-import { Failure } from '../General/Superposition/Failure';
-import { Success } from '../General/Superposition/Success';
-import { Superposition } from '../General/Superposition/Superposition';
 import { ILanguageQuery } from '../Query/Interface/ILanguageQuery';
 import { IRegionQuery } from '../Query/Interface/IRegionQuery';
 import { Languages } from '../VO/Languages';
@@ -48,11 +44,11 @@ export class LocaleInteractor implements Noun {
 
     return languagesSuperposition.match<Locale, NoSuchElementError | DataSourceError>((languages: Languages) => {
       return regionsSuperposition.match<Locale, NoSuchElementError | DataSourceError>((regions: Regions) => {
-        return Success.of<Locale, DataSourceError>(Locale.of(languages, regions));
-      }, (err: NoSuchElementError | DataSourceError, self: Failure<Regions, NoSuchElementError | DataSourceError>) => {
+        return Alive.of<Locale, DataSourceError>(Locale.of(languages, regions));
+      }, (err: NoSuchElementError | DataSourceError, self: Dead<Regions, NoSuchElementError | DataSourceError>) => {
         return self.transpose<Locale>();
       });
-    }, (err: NoSuchElementError | DataSourceError, self: Failure<Languages, NoSuchElementError | DataSourceError>) => {
+    }, (err: NoSuchElementError | DataSourceError, self: Dead<Languages, NoSuchElementError | DataSourceError>) => {
       return self.transpose<Locale>();
     });
   }
@@ -71,11 +67,11 @@ export class LocaleInteractor implements Noun {
 
     return languagesSuperposition.match<void, DataSourceError>(() => {
       return regionsSuperposition.match<void, DataSourceError>(() => {
-        return Success.of<DataSourceError>();
-      }, (err: DataSourceError, self: Failure<void, DataSourceError>) => {
+        return Alive.of<DataSourceError>();
+      }, (err: DataSourceError, self: Dead<void, DataSourceError>) => {
         return self;
       });
-    }, (err: DataSourceError, self: Failure<void, DataSourceError>) => {
+    }, (err: DataSourceError, self: Dead<void, DataSourceError>) => {
       return self;
     });
   }

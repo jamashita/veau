@@ -1,14 +1,16 @@
+import {
+  DataSourceError,
+  MockError,
+  MockRedis,
+  MockRedisString,
+  RedisError,
+  Superposition
+} from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
-import { DataSourceError } from '../../../General/DataSourceError';
-import { MockError } from '../../../General/Mock/MockError';
-import { MockRedis } from '../../../General/Redis/Mock/MockRedis';
-import { MockRedisString } from '../../../General/Redis/Mock/MockRedisString';
-import { RedisError } from '../../../General/Redis/RedisError';
-import { Superposition } from '../../../General/Superposition/Superposition';
 import { ISO639 } from '../../../VO/ISO639';
 import { Language, LanguageJSON } from '../../../VO/Language';
 import { Languages } from '../../../VO/Languages';
@@ -54,7 +56,7 @@ describe('LanguageQuery', () => {
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
       const superposition: Superposition<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const languages: Languages = superposition.get();
       expect(languages.size()).toBe(json.length);
       for (let i: number = 0; i < languages.size(); i++) {
@@ -80,11 +82,11 @@ describe('LanguageQuery', () => {
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
       const superposition: Superposition<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       expect(superposition.get().size()).toBe(json.length);
     });
 
-    it('returns Failure when Redis returns null', async () => {
+    it('returns Dead when Redis returns null', async () => {
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
       string.get = stub;
@@ -98,7 +100,7 @@ describe('LanguageQuery', () => {
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
       const superposition: Superposition<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -124,7 +126,7 @@ describe('LanguageQuery', () => {
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
       const superposition: Superposition<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -150,7 +152,7 @@ describe('LanguageQuery', () => {
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
       const superposition: Superposition<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -207,7 +209,7 @@ describe('LanguageQuery', () => {
         ISO639.of('aa')
       );
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const language: Language = superposition.get();
       expect(language.getLanguageID().get()).toBe(json[1].languageID);
       expect(language.getName().get()).toBe(json[1].name);
@@ -234,7 +236,7 @@ describe('LanguageQuery', () => {
         ISO639.of('aa')
       );
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -246,7 +248,7 @@ describe('LanguageQuery', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it('returns Failure because Redis returns null', async () => {
+    it('returns Dead because Redis returns null', async () => {
       const string: MockRedisString = new MockRedisString();
       const stub: SinonStub = sinon.stub();
       string.get = stub;
@@ -262,7 +264,7 @@ describe('LanguageQuery', () => {
         ISO639.of('aa')
       );
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -304,7 +306,7 @@ describe('LanguageQuery', () => {
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
       const superposition: Superposition<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('oop'));
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -330,7 +332,7 @@ describe('LanguageQuery', () => {
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
       const superposition: Superposition<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -356,7 +358,7 @@ describe('LanguageQuery', () => {
       const languageQuery: LanguageQuery = new LanguageQuery(redis);
       const superposition: Superposition<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {

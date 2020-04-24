@@ -1,15 +1,10 @@
+import { Alive, DataSourceError, Dead, MySQLError, RedisError, Superposition } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { MockLanguageCommand } from '../../../Command/Mock/MockLanguageCommand';
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
-import { DataSourceError } from '../../../General/DataSourceError';
-import { MySQLError } from '../../../General/MySQL/MySQLError';
-import { RedisError } from '../../../General/Redis/RedisError';
-import { Failure } from '../../../General/Superposition/Failure';
-import { Success } from '../../../General/Superposition/Success';
-import { Superposition } from '../../../General/Superposition/Superposition';
 import { ISO639 } from '../../../VO/ISO639';
 import { Language } from '../../../VO/Language';
 import { Languages } from '../../../VO/Languages';
@@ -31,13 +26,13 @@ describe('LanguageQuery', () => {
   });
 
   describe('all', () => {
-    it('LanguageRedisQuery returns Success', async () => {
+    it('LanguageRedisQuery returns Alive', async () => {
       const languages: MockLanguages = new MockLanguages();
 
       const languageRedisQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub: SinonStub = sinon.stub();
       languageRedisQuery.all = stub;
-      stub.resolves(Success.of<Languages, NoSuchElementError>(languages));
+      stub.resolves(Alive.of<Languages, NoSuchElementError>(languages));
       const languageMySQLQuery: MockLanguageQuery = new MockLanguageQuery();
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
 
@@ -48,25 +43,25 @@ describe('LanguageQuery', () => {
       );
       const superposition: Superposition<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       expect(superposition.get()).toBe(languages);
     });
 
-    it('LanguageMySQLQuery returns Success', async () => {
+    it('LanguageMySQLQuery returns Alive', async () => {
       const languages: MockLanguages = new MockLanguages();
 
       const languageRedisQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub1: SinonStub = sinon.stub();
       languageRedisQuery.all = stub1;
-      stub1.resolves(Failure.of<Languages, DataSourceError>(new MySQLError('test faied')));
+      stub1.resolves(Dead.of<Languages, DataSourceError>(new MySQLError('test faied')));
       const languageMySQLQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
       languageMySQLQuery.all = stub2;
-      stub2.resolves(Success.of<Languages, DataSourceError>(languages));
+      stub2.resolves(Alive.of<Languages, DataSourceError>(languages));
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const stub3: SinonStub = sinon.stub();
       languageRedisCommand.insertAll = stub3;
-      stub3.resolves(Success.of<DataSourceError>());
+      stub3.resolves(Alive.of<DataSourceError>());
 
       const languageQuery: LanguageQuery = new LanguageQuery(
         languageMySQLQuery,
@@ -75,19 +70,19 @@ describe('LanguageQuery', () => {
       );
       const superposition: Superposition<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       expect(superposition.get()).toBe(languages);
     });
 
-    it('LanguageRedisQuery nor LanguageMySQLQuery returns Failure', async () => {
+    it('LanguageRedisQuery nor LanguageMySQLQuery returns Dead', async () => {
       const languageRedisQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub1: SinonStub = sinon.stub();
       languageRedisQuery.all = stub1;
-      stub1.resolves(Failure.of<Languages, NoSuchElementError>(new NoSuchElementError('test failed')));
+      stub1.resolves(Dead.of<Languages, NoSuchElementError>(new NoSuchElementError('test failed')));
       const languageMySQLQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
       languageMySQLQuery.all = stub2;
-      stub2.resolves(Failure.of<Languages, NoSuchElementError>(new NoSuchElementError('test failed')));
+      stub2.resolves(Dead.of<Languages, NoSuchElementError>(new NoSuchElementError('test failed')));
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -99,7 +94,7 @@ describe('LanguageQuery', () => {
       );
       const superposition: Superposition<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -111,21 +106,21 @@ describe('LanguageQuery', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it('LanguageCommand returns Failure', async () => {
+    it('LanguageCommand returns Dead', async () => {
       const languages: MockLanguages = new MockLanguages();
 
       const languageRedisQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub1: SinonStub = sinon.stub();
       languageRedisQuery.all = stub1;
-      stub1.resolves(Failure.of<Languages, NoSuchElementError>(new NoSuchElementError('test failed')));
+      stub1.resolves(Dead.of<Languages, NoSuchElementError>(new NoSuchElementError('test failed')));
       const languageMySQLQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
       languageMySQLQuery.all = stub2;
-      stub2.resolves(Success.of<Languages, NoSuchElementError>(languages));
+      stub2.resolves(Alive.of<Languages, NoSuchElementError>(languages));
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const stub3: SinonStub = sinon.stub();
       languageRedisCommand.insertAll = stub3;
-      stub3.resolves(Failure.of<DataSourceError>(new RedisError('test faied')));
+      stub3.resolves(Dead.of<DataSourceError>(new RedisError('test faied')));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
@@ -136,7 +131,7 @@ describe('LanguageQuery', () => {
       );
       const superposition: Superposition<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -163,7 +158,7 @@ describe('LanguageQuery', () => {
       const languageRedisQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub: SinonStub = sinon.stub();
       languageRedisQuery.all = stub;
-      stub.resolves(Success.of<Languages, NoSuchElementError>(languages));
+      stub.resolves(Alive.of<Languages, NoSuchElementError>(languages));
       const languageMySQLQuery: MockLanguageQuery = new MockLanguageQuery();
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
 
@@ -174,19 +169,19 @@ describe('LanguageQuery', () => {
       );
       const superposition: Superposition<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       expect(superposition.get()).toBe(languages.get(1).get());
     });
 
-    it('LanguageQuery.all returns Failure', async () => {
+    it('LanguageQuery.all returns Dead', async () => {
       const languageRedisQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub1: SinonStub = sinon.stub();
       languageRedisQuery.all = stub1;
-      stub1.resolves(Failure.of<Languages, NoSuchElementError>(new NoSuchElementError('test failed')));
+      stub1.resolves(Dead.of<Languages, NoSuchElementError>(new NoSuchElementError('test failed')));
       const languageMySQLQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub2: SinonStub = sinon.stub();
       languageMySQLQuery.all = stub2;
-      stub2.resolves(Failure.of<Languages, NoSuchElementError>(new NoSuchElementError('test failed')));
+      stub2.resolves(Dead.of<Languages, NoSuchElementError>(new NoSuchElementError('test failed')));
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -194,7 +189,7 @@ describe('LanguageQuery', () => {
       const languageQuery: LanguageQuery = new LanguageQuery(languageMySQLQuery, languageRedisQuery, languageRedisCommand);
       const superposition: Superposition<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {
@@ -219,7 +214,7 @@ describe('LanguageQuery', () => {
       const languageRedisQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub: SinonStub = sinon.stub();
       languageRedisQuery.all = stub;
-      stub.resolves(Success.of<Languages, NoSuchElementError>(languages));
+      stub.resolves(Alive.of<Languages, NoSuchElementError>(languages));
       const languageMySQLQuery: MockLanguageQuery = new MockLanguageQuery();
       const languageRedisCommand: MockLanguageCommand = new MockLanguageCommand();
       const spy1: SinonSpy = sinon.spy();
@@ -228,7 +223,7 @@ describe('LanguageQuery', () => {
       const languageQuery: LanguageQuery = new LanguageQuery(languageMySQLQuery, languageRedisQuery, languageRedisCommand);
       const superposition: Superposition<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('oop'));
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: NoSuchElementError | DataSourceError) => {

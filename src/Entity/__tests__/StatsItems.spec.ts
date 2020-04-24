@@ -1,4 +1,4 @@
-import { Absent, Failure, ImmutableSequence, Success, Superposition } from 'publikum';
+import { Absent, Alive, Dead, ImmutableSequence, Superposition } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 import { StatsItemError } from '../../Error/StatsItemError';
 import { StatsItemsError } from '../../Error/StatsItemsError';
@@ -37,7 +37,7 @@ describe('StatsItems', () => {
 
       const superposition: Superposition<StatsItems, StatsItemsError> = StatsItems.ofJSON(json);
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const items: StatsItems = superposition.get();
       expect(items.size()).toBe(2);
       for (let i: number = 0; i < items.size(); i++) {
@@ -66,7 +66,7 @@ describe('StatsItems', () => {
 
       const superposition: Superposition<StatsItems, StatsItemsError> = StatsItems.ofJSON(json);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>((items: StatsItems) => {
         spy1();
       }, (err: StatsItemsError) => {
@@ -97,7 +97,7 @@ describe('StatsItems', () => {
 
       const superposition: Superposition<StatsItems, StatsItemsError> = StatsItems.ofJSON(json);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>((items: StatsItems) => {
         spy1();
       }, (err: StatsItemsError) => {
@@ -128,7 +128,7 @@ describe('StatsItems', () => {
         StatsValues.empty()
       );
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const items: StatsItems = superposition.get();
       expect(items.size()).toBe(2);
       for (let i: number = 0; i < items.size(); i++) {
@@ -158,7 +158,7 @@ describe('StatsItems', () => {
         StatsValues.empty()
       );
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>((items: StatsItems) => {
         spy1();
       }, (err: StatsItemsError) => {
@@ -190,7 +190,7 @@ describe('StatsItems', () => {
         StatsValues.empty()
       );
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>((items: StatsItems) => {
         spy1();
       }, (err: StatsItemsError) => {
@@ -375,14 +375,14 @@ describe('StatsItems', () => {
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
 
-      const superposition1: Superposition<StatsItem, StatsItemError> = Success.of<StatsItem, StatsItemError>(statsItem1);
-      const superposition2: Superposition<StatsItem, StatsItemError> = Success.of<StatsItem, StatsItemError>(statsItem2);
+      const superposition1: Superposition<StatsItem, StatsItemError> = Alive.of<StatsItem, StatsItemError>(statsItem1);
+      const superposition2: Superposition<StatsItem, StatsItemError> = Alive.of<StatsItem, StatsItemError>(statsItem2);
       const superposition: Superposition<StatsItems, StatsItemsError> = StatsItems.ofSuperposition([
         superposition1,
         superposition2
       ]);
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const items: StatsItems = superposition.get();
       expect(items.size()).toBe(2);
       expect(items.get(0).get()).toBe(statsItem1);
@@ -395,8 +395,8 @@ describe('StatsItems', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const superposition1: Superposition<StatsItem, StatsItemError> = Success.of<StatsItem, StatsItemError>(statsItem1);
-      const superposition2: Superposition<StatsItem, StatsItemError> = Failure.of<StatsItem, StatsItemError>(
+      const superposition1: Superposition<StatsItem, StatsItemError> = Alive.of<StatsItem, StatsItemError>(statsItem1);
+      const superposition2: Superposition<StatsItem, StatsItemError> = Dead.of<StatsItem, StatsItemError>(
         new StatsItemError('test failed')
       );
       const superposition: Superposition<StatsItems, StatsItemsError> = StatsItems.ofSuperposition([
@@ -404,7 +404,7 @@ describe('StatsItems', () => {
         superposition2
       ]);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsItemsError) => {
@@ -420,10 +420,10 @@ describe('StatsItems', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const superposition1: Superposition<StatsItem, StatsItemError> = Failure.of<StatsItem, StatsItemError>(
+      const superposition1: Superposition<StatsItem, StatsItemError> = Dead.of<StatsItem, StatsItemError>(
         new StatsItemError('test failed1')
       );
-      const superposition2: Superposition<StatsItem, StatsItemError> = Failure.of<StatsItem, StatsItemError>(
+      const superposition2: Superposition<StatsItem, StatsItemError> = Dead.of<StatsItem, StatsItemError>(
         new StatsItemError('test failed2')
       );
       const superposition: Superposition<StatsItems, StatsItemsError> = StatsItems.ofSuperposition([
@@ -431,7 +431,7 @@ describe('StatsItems', () => {
         superposition2
       ]);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsItemsError) => {

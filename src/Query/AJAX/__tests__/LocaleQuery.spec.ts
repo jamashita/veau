@@ -1,12 +1,9 @@
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
+import { AJAXError, DataSourceError, MockAJAX, Superposition } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { TYPE } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
-import { AJAXError } from '../../../General/AJAX/AJAXError';
-import { MockAJAX } from '../../../General/AJAX/Mock/MockAJAX';
-import { DataSourceError } from '../../../General/DataSourceError';
-import { Superposition } from '../../../General/Superposition/Superposition';
 import { Locale, LocaleJSON } from '../../../VO/Locale';
 import { LocaleQuery } from '../LocaleQuery';
 
@@ -53,7 +50,7 @@ describe('LocaleQuery', () => {
       const superposition: Superposition<Locale, DataSourceError> = await localeQuery.all();
 
       expect(stub.withArgs('/api/locale').called).toBe(true);
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const locale: Locale = superposition.get();
       expect(locale.getLanguages().size()).toBe(json.languages.length);
       for (let i: number = 0; i < locale.getLanguages().size(); i++) {
@@ -70,7 +67,7 @@ describe('LocaleQuery', () => {
       }
     });
 
-    it('returns Failure when AJAX call doesn\'t return OK', async () => {
+    it('returns Dead when AJAX call doesn\'t return OK', async () => {
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
       ajax.get = stub;
@@ -84,7 +81,7 @@ describe('LocaleQuery', () => {
       const localeQuery: LocaleQuery = new LocaleQuery(ajax);
       const superposition: Superposition<Locale, DataSourceError> = await localeQuery.all();
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: DataSourceError) => {

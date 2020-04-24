@@ -36,7 +36,7 @@ import {
   StatsEditClearSelectingItemAction,
   StatsEditDataDeletedAction,
   StatsEditDataFilledAction,
-  StatsEditInitializationFailureAction,
+  StatsEditInitializationDeadAction,
   StatsEditInitializeAction,
   StatsEditInvalidDateInputAction,
   StatsEditInvalidValueInputAction,
@@ -63,7 +63,7 @@ export const initStatsEdit = (statsID: StatsID): StatsEditInitializeAction => {
   };
 };
 
-export const initFailed = (): StatsEditInitializationFailureAction => {
+export const initFailed = (): StatsEditInitializationDeadAction => {
   return {
     type: STATS_EDIT_INITIALIZATION_FAILURE
   };

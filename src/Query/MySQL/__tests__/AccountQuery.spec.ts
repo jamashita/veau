@@ -1,14 +1,10 @@
+import { DataSourceError, MockError, MockMySQL, MySQLError, Superposition } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
 import { AccountError } from '../../../Error/AccountError';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
-import { DataSourceError } from '../../../General/DataSourceError';
-import { MockError } from '../../../General/Mock/MockError';
-import { MockMySQL } from '../../../General/MySQL/Mock/MockMySQL';
-import { MySQLError } from '../../../General/MySQL/MySQLError';
-import { Superposition } from '../../../General/Superposition/Superposition';
 import { Account, AccountRow } from '../../../VO/Account';
 import { MockAccountName } from '../../../VO/Mock/MockAccountName';
 import { AccountQuery } from '../AccountQuery';
@@ -72,7 +68,7 @@ describe('AccountQuery', () => {
       AND R1.active = true;`, {
         account: accountName.get()
       }).called).toBe(true);
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const account: Account = superposition.get();
       expect(account.getVeauAccountID().get().get()).toBe(rows[0].veauAccountID);
       expect(account.getAccount().get()).toBe(rows[0].account);
@@ -86,7 +82,7 @@ describe('AccountQuery', () => {
       expect(account.getHash().get()).toBe(rows[0].hash);
     });
 
-    it('returns Failure because MySQL.execute returns 0 results', async () => {
+    it('returns Dead because MySQL.execute returns 0 results', async () => {
       const name: MockAccountName = new MockAccountName();
 
       const mysql: MockMySQL = new MockMySQL();
@@ -99,7 +95,7 @@ describe('AccountQuery', () => {
       const accountQuery: AccountQuery = new AccountQuery(mysql);
       const superposition: Superposition<Account, AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(name);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: AccountError | NoSuchElementError | DataSourceError) => {
@@ -111,7 +107,7 @@ describe('AccountQuery', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it('returns Failure because veauAccountID is malformat', async () => {
+    it('returns Dead because veauAccountID is malformat', async () => {
       const name: MockAccountName = new MockAccountName();
       const rows: Array<AccountRow> = [
         {
@@ -138,7 +134,7 @@ describe('AccountQuery', () => {
       const accountQuery: AccountQuery = new AccountQuery(mysql);
       const superposition: Superposition<Account, AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(name);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: AccountError | NoSuchElementError | DataSourceError) => {
@@ -150,7 +146,7 @@ describe('AccountQuery', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it('returns Failure because the client throws MySQLError', async () => {
+    it('returns Dead because the client throws MySQLError', async () => {
       const name: MockAccountName = new MockAccountName();
 
       const mysql: MockMySQL = new MockMySQL();
@@ -163,7 +159,7 @@ describe('AccountQuery', () => {
       const accountQuery: AccountQuery = new AccountQuery(mysql);
       const superposition: Superposition<Account, AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(name);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: AccountError | NoSuchElementError | DataSourceError) => {

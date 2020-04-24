@@ -1,6 +1,4 @@
-import { DataSourceError } from '../../General/DataSourceError';
-import { Superposition } from '../../General/Superposition/Superposition';
-import { UnimplementedError } from '../../General/UnimplementedError';
+import { DataSourceError, Superposition, UnimplementedError } from 'publikum';
 import { Locale } from '../../VO/Locale';
 import { ILocaleQuery } from '../Interface/ILocaleQuery';
 import { IMockQuery } from '../Interface/IMockQuery';

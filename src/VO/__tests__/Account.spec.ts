@@ -59,7 +59,7 @@ describe('Account', () => {
 
       const superposition: Superposition<Account, AccountError> = Account.ofRow(row);
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const account: Account = superposition.get();
       expect(account.getVeauAccountID().get().get()).toBe(row.veauAccountID);
       expect(account.getAccount().get()).toBe(row.account);
@@ -92,7 +92,7 @@ describe('Account', () => {
 
       const superposition: Superposition<Account, AccountError> = Account.ofRow(row);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: AccountError) => {

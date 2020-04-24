@@ -1,13 +1,12 @@
 import dayjs from 'dayjs';
+import { Superposition, Zeit } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 import { UpdatedAtError } from '../../Error/UpdatedAtError';
-import { Superposition } from '../../General/Superposition/Superposition';
-import { Zeit } from '../../General/Zeit/Zeit';
 import { UpdatedAt } from '../UpdatedAt';
 
 describe('UpdatedAt', () => {
   describe('ofString', () => {
-    it('returns Failure if the parameter is not date format', () => {
+    it('returns Dead if the parameter is not date format', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
@@ -16,14 +15,14 @@ describe('UpdatedAt', () => {
       const superposition1: Superposition<UpdatedAt, UpdatedAtError> = UpdatedAt.ofString('this is not date');
       const superposition2: Superposition<UpdatedAt, UpdatedAtError> = UpdatedAt.ofString('2000-01-01');
 
-      expect(superposition1.isFailure()).toBe(true);
+      expect(superposition1.isDead()).toBe(true);
       superposition1.match<void>(() => {
         spy1();
       }, (err: UpdatedAtError) => {
         spy2();
         expect(err).toBeInstanceOf(UpdatedAtError);
       });
-      expect(superposition2.isFailure()).toBe(true);
+      expect(superposition2.isDead()).toBe(true);
       superposition2.match<void>(() => {
         spy3();
       }, (err: UpdatedAtError) => {
@@ -40,7 +39,7 @@ describe('UpdatedAt', () => {
     it('normal case', () => {
       const superposition: Superposition<UpdatedAt, UpdatedAtError> = UpdatedAt.ofString('2000-01-01 00:00:00');
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
     });
   });
 

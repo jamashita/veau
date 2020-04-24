@@ -1,11 +1,7 @@
 import { inject, injectable } from 'inversify';
+import { Alive, DataSourceError, Dead, Quantum, Superposition } from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
-import { DataSourceError } from '../../General/DataSourceError';
-import { Quantum } from '../../General/Quantum/Quantum';
-import { Failure } from '../../General/Superposition/Failure';
-import { Success } from '../../General/Superposition/Success';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { ISO3166 } from '../../VO/ISO3166';
 import { Locale } from '../../VO/Locale';
 import { Region } from '../../VO/Region';
@@ -28,8 +24,8 @@ export class RegionQuery implements IRegionQuery, IVaultQuery {
     const superposition: Superposition<Locale, DataSourceError> = await this.localeVaultQuery.all();
 
     return superposition.match<Regions, DataSourceError>((locale: Locale) => {
-      return Success.of<Regions, DataSourceError>(locale.getRegions());
-    }, (err: DataSourceError, self: Failure<Locale, DataSourceError>) => {
+      return Alive.of<Regions, DataSourceError>(locale.getRegions());
+    }, (err: DataSourceError, self: Dead<Locale, DataSourceError>) => {
       return self.transpose<Regions>();
     });
   }
@@ -43,11 +39,11 @@ export class RegionQuery implements IRegionQuery, IVaultQuery {
       });
 
       return quantum.toSuperposition().match<Region, NoSuchElementError | DataSourceError>((region: Region) => {
-        return Success.of<Region, DataSourceError>(region);
+        return Alive.of<Region, DataSourceError>(region);
       }, () => {
-        return Failure.of<Region, NoSuchElementError>(new NoSuchElementError(iso3166.get()));
+        return Dead.of<Region, NoSuchElementError>(new NoSuchElementError(iso3166.get()));
       });
-    }, (err: NoSuchElementError | DataSourceError, self: Failure<Regions, NoSuchElementError | DataSourceError>) => {
+    }, (err: NoSuchElementError | DataSourceError, self: Dead<Regions, NoSuchElementError | DataSourceError>) => {
       return self.transpose<Region>();
     });
   }

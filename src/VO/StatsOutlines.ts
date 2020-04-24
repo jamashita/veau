@@ -1,7 +1,8 @@
 import {
+  Alive,
   Cloneable,
   Collection,
-  Failure,
+  Dead,
   ImmutableSequence,
   JSONable,
   manoeuvre,
@@ -9,7 +10,6 @@ import {
   Objet,
   Quantum,
   Sequence,
-  Success,
   Superposition
 } from 'publikum';
 import { StatsOutlineError } from '../Error/StatsOutlineError';
@@ -40,9 +40,9 @@ export class StatsOutlines extends Objet implements Collection<number, StatsOutl
 
   public static ofSuperposition(superpositions: Array<Superposition<StatsOutline, StatsOutlineError>>): Superposition<StatsOutlines, StatsOutlinesError> {
     return manoeuvre<StatsOutline, StatsOutlineError>(superpositions).match<StatsOutlines, StatsOutlinesError>((outlines: Array<StatsOutline>) => {
-      return Success.of<StatsOutlines, StatsOutlinesError>(StatsOutlines.ofArray(outlines));
+      return Alive.of<StatsOutlines, StatsOutlinesError>(StatsOutlines.ofArray(outlines));
     }, (err: StatsOutlineError) => {
-      return Failure.of<StatsOutlines, StatsOutlinesError>(
+      return Dead.of<StatsOutlines, StatsOutlinesError>(
         new StatsOutlinesError('StatsOutlines.ofSuperposition()', err)
       );
     });

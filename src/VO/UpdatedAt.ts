@@ -1,4 +1,4 @@
-import { Failure, Success, Superposition, ValueObject, Zeit, ZeitError } from 'publikum';
+import { Alive, Dead, Superposition, ValueObject, Zeit, ZeitError } from 'publikum';
 import { UpdatedAtError } from '../Error/UpdatedAtError';
 
 const TERM_FORMAT: string = 'YYYY-MM-DD HH:mm:ss';
@@ -15,11 +15,11 @@ export class UpdatedAt extends ValueObject {
     try {
       const zeit: Zeit = Zeit.ofString(at, TERM_FORMAT);
 
-      return Success.of<UpdatedAt, UpdatedAtError>(UpdatedAt.of(zeit));
+      return Alive.of<UpdatedAt, UpdatedAtError>(UpdatedAt.of(zeit));
     }
     catch (err) {
       if (err instanceof ZeitError) {
-        return Failure.of<UpdatedAt, UpdatedAtError>(new UpdatedAtError('AT IS NOT DATE FORMAT', err));
+        return Dead.of<UpdatedAt, UpdatedAtError>(new UpdatedAtError('AT IS NOT DATE FORMAT', err));
       }
 
       throw err;

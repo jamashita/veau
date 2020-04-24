@@ -1,4 +1,4 @@
-import { Failure, Success } from 'publikum';
+import { Dead, Alive } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../Container/Kernel';
@@ -30,7 +30,7 @@ describe('AuthenticationInteractor', () => {
       const accountQuery: MockAccountQuery = new MockAccountQuery();
       const stub1: SinonStub = sinon.stub();
       accountQuery.findByAccount = stub1;
-      stub1.resolves(Success.of<Account, NoSuchElementError>(account));
+      stub1.resolves(Alive.of<Account, NoSuchElementError>(account));
       const stub2: SinonStub = sinon.stub();
       account.verify = stub2;
       stub2.resolves(true);
@@ -53,7 +53,7 @@ describe('AuthenticationInteractor', () => {
       const accountQuery: MockAccountQuery = new MockAccountQuery();
       const stub: SinonStub = sinon.stub();
       accountQuery.findByAccount = stub;
-      stub.resolves(Failure.of<Account, NoSuchElementError>(new NoSuchElementError('test failed')));
+      stub.resolves(Dead.of<Account, NoSuchElementError>(new NoSuchElementError('test failed')));
 
       const authenticationInteractor: AuthenticationInteractor = new AuthenticationInteractor(accountQuery);
       authenticationInteractor.review()(name, password, (err: unknown, ret: unknown) => {
@@ -71,7 +71,7 @@ describe('AuthenticationInteractor', () => {
       const accountQuery: MockAccountQuery = new MockAccountQuery();
       const stub1: SinonStub = sinon.stub();
       accountQuery.findByAccount = stub1;
-      stub1.resolves(Success.of<Account, NoSuchElementError>(account));
+      stub1.resolves(Alive.of<Account, NoSuchElementError>(account));
       const stub2: SinonStub = sinon.stub();
       account.verify = stub2;
       stub2.resolves(false);

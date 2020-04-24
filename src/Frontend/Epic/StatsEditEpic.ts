@@ -209,7 +209,7 @@ export class StatsEditEpic {
           mergeMap<Superposition<Language, NoSuchElementError | DataSourceError>, Observable<Action>>((superposition: Superposition<Language, NoSuchElementError | DataSourceError>) => {
             return EMPTY.pipe<never, Action>(
               filter<never>(() => {
-                return superposition.isSuccess();
+                return superposition.isAlive();
               }),
               map<never, Action>(() => {
                 const newStats: Stats = Stats.of(
@@ -248,7 +248,7 @@ export class StatsEditEpic {
           mergeMap<Superposition<Region, NoSuchElementError | DataSourceError>, Observable<Action>>((superposition: Superposition<Region, NoSuchElementError | DataSourceError>) => {
             return EMPTY.pipe<never, Action>(
               filter<never>(() => {
-                return superposition.isSuccess();
+                return superposition.isAlive();
               }),
               map<never, Action>(() => {
                 const newStats: Stats = Stats.of(

@@ -1,4 +1,4 @@
-import { Entity, Failure, Success, Superposition, Type } from 'publikum';
+import { Alive, Dead, Entity, Superposition, Type } from 'publikum';
 import { StatsItemError } from '../Error/StatsItemError';
 import { StatsItemIDError } from '../Error/StatsItemIDError';
 import { StatsValuesError } from '../Error/StatsValuesError';
@@ -38,7 +38,7 @@ export class StatsItem extends Entity<StatsItemID> {
   public static ofJSON(json: StatsItemJSON): Superposition<StatsItem, StatsItemError> {
     return StatsItemID.ofString(json.statsItemID).match<StatsItem, StatsItemError>((statsItemID: StatsItemID) => {
       return StatsValues.ofJSON(statsItemID, json.values).match<StatsItem, StatsItemError>((statsValues: StatsValues) => {
-        return Success.of<StatsItem, StatsItemError>(
+        return Alive.of<StatsItem, StatsItemError>(
           StatsItem.of(
             statsItemID,
             StatsItemName.of(json.name),
@@ -46,16 +46,16 @@ export class StatsItem extends Entity<StatsItemID> {
           )
         );
       }, (err: StatsValuesError) => {
-        return Failure.of<StatsItem, StatsItemError>(new StatsItemError('StatsItem.ofJSON()', err));
+        return Dead.of<StatsItem, StatsItemError>(new StatsItemError('StatsItem.ofJSON()', err));
       });
     }, (err: StatsItemIDError) => {
-      return Failure.of<StatsItem, StatsItemError>(new StatsItemError('StatsItem.ofJSON()', err));
+      return Dead.of<StatsItem, StatsItemError>(new StatsItemError('StatsItem.ofJSON()', err));
     });
   }
 
   public static ofRow(row: StatsItemRow, statsValues: StatsValues): Superposition<StatsItem, StatsItemError> {
     return StatsItemID.ofString(row.statsItemID).match<StatsItem, StatsItemError>((statsItemID: StatsItemID) => {
-      return Success.of<StatsItem, StatsItemError>(
+      return Alive.of<StatsItem, StatsItemError>(
         StatsItem.of(
           statsItemID,
           StatsItemName.of(row.name),
@@ -63,7 +63,7 @@ export class StatsItem extends Entity<StatsItemID> {
         )
       );
     }, (err: StatsItemIDError) => {
-      return Failure.of<StatsItem, StatsItemError>(new StatsItemError('StatsItem.ofRow()', err));
+      return Dead.of<StatsItem, StatsItemError>(new StatsItemError('StatsItem.ofRow()', err));
     });
   }
 

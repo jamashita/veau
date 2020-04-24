@@ -1,13 +1,10 @@
 import { INTERNAL_SERVER_ERROR, OK, UNAUTHORIZED } from 'http-status';
+import { AJAXError, DataSourceError, MockAJAX, Superposition } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { TYPE } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { VeauAccountError } from '../../../Error/VeauAccountError';
-import { AJAXError } from '../../../General/AJAX/AJAXError';
-import { MockAJAX } from '../../../General/AJAX/Mock/MockAJAX';
-import { DataSourceError } from '../../../General/DataSourceError';
-import { Superposition } from '../../../General/Superposition/Superposition';
 import { MockAccountName } from '../../../VO/Mock/MockAccountName';
 import { MockEntranceInformation } from '../../../VO/Mock/MockEntranceInformation';
 import { MockPassword } from '../../../VO/Mock/MockPassword';
@@ -55,7 +52,7 @@ describe('SessionQuery', () => {
       const superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.find();
 
       expect(stub.withArgs('/api/identity').called).toBe(true);
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const veauAccount: VeauAccount = superposition.get();
       expect(veauAccount.getVeauAccountID().get().get()).toBe(json.veauAccountID);
       expect(veauAccount.getAccount().get()).toBe(json.account);
@@ -68,7 +65,7 @@ describe('SessionQuery', () => {
       expect(veauAccount.getRegion().getISO3166().get()).toBe(json.region.iso3166);
     });
 
-    it('returns Failure when it has wrong format veauAccountID', async () => {
+    it('returns Dead when it has wrong format veauAccountID', async () => {
       const json: VeauAccountJSON = {
         veauAccountID: 'malformat uuid',
         account: 'account',
@@ -98,7 +95,7 @@ describe('SessionQuery', () => {
       const sessionQuery: SessionQuery = new SessionQuery(ajax);
       const superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.find();
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: VeauAccountError | DataSourceError) => {
@@ -124,7 +121,7 @@ describe('SessionQuery', () => {
       const sessionQuery: SessionQuery = new SessionQuery(ajax);
       const superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.find();
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: VeauAccountError | DataSourceError) => {
@@ -174,7 +171,7 @@ describe('SessionQuery', () => {
         account: 'account',
         password: 'password'
       }).called).toBe(true);
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const veauAccount: VeauAccount = superposition.get();
       expect(veauAccount.getVeauAccountID().get().get()).toBe(json.veauAccountID);
       expect(veauAccount.getAccount().get()).toBe(json.account);
@@ -187,7 +184,7 @@ describe('SessionQuery', () => {
       expect(veauAccount.getRegion().getISO3166().get()).toBe(json.region.iso3166);
     });
 
-    it('returns Failure when it has wrong format veauAccountID', async () => {
+    it('returns Dead when it has wrong format veauAccountID', async () => {
       const json: VeauAccountJSON = {
         veauAccountID: 'malformat uuid',
         account: 'account',
@@ -218,7 +215,7 @@ describe('SessionQuery', () => {
       const sessionQuery: SessionQuery = new SessionQuery(ajax);
       const superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.findByEntranceInfo(info);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: VeauAccountError | DataSourceError) => {
@@ -245,7 +242,7 @@ describe('SessionQuery', () => {
       const sessionQuery: SessionQuery = new SessionQuery(ajax);
       const superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.findByEntranceInfo(info);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: VeauAccountError | DataSourceError) => {
@@ -272,7 +269,7 @@ describe('SessionQuery', () => {
       const sessionQuery: SessionQuery = new SessionQuery(ajax);
       const superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.findByEntranceInfo(info);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: VeauAccountError | DataSourceError) => {

@@ -1,8 +1,5 @@
-import { Type, ValueObject } from 'publikum';
+import { Alive, Dead, Superposition, Type, ValueObject } from 'publikum';
 import { PageError } from '../Error/PageError';
-import { Failure } from '../General/Superposition/Failure';
-import { Success } from '../General/Superposition/Success';
-import { Superposition } from '../General/Superposition/Superposition';
 import { Limit } from './Limit';
 import { Offset } from './Offset';
 
@@ -16,16 +13,16 @@ export class Page extends ValueObject {
 
   public static of(page: number): Superposition<Page, PageError> {
     if (page <= 0) {
-      return Failure.of<Page, PageError>(new PageError(`ILLEGAL PAGE SPECIFIED ${page}`));
+      return Dead.of<Page, PageError>(new PageError(`ILLEGAL PAGE SPECIFIED ${page}`));
     }
     if (page === MIN_PAGE) {
-      return Success.of<Page, PageError>(Page.MIN);
+      return Alive.of<Page, PageError>(Page.MIN);
     }
     if (Type.isInteger(page)) {
-      return Success.of<Page, PageError>(new Page(page));
+      return Alive.of<Page, PageError>(new Page(page));
     }
 
-    return Failure.of<Page, PageError>(new PageError('ILLEGAL PAGE SPECIFIED'));
+    return Dead.of<Page, PageError>(new PageError('ILLEGAL PAGE SPECIFIED'));
   }
 
   public static min(): Page {

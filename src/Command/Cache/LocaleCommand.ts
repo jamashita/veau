@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { CacheError, DataSourceError, Failure, ICache, Success, Superposition } from 'publikum';
+import { Alive, CacheError, DataSourceError, Dead, ICache, Superposition } from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { VAULT_LOCALE_KEY } from '../../Infrastructure/VeauCache';
 import { Locale } from '../../VO/Locale';
@@ -21,12 +21,12 @@ export class LocaleCommand implements ILocaleCommand, ICacheCommand {
       this.cache.set(VAULT_LOCALE_KEY, locale);
 
       // eslint-disable-next-line @typescript-eslint/return-await
-      return Promise.resolve<Superposition<void, DataSourceError>>(Success.of<DataSourceError>());
+      return Promise.resolve<Superposition<void, DataSourceError>>(Alive.of<DataSourceError>());
     }
     catch (err) {
       if (err instanceof CacheError) {
         // eslint-disable-next-line @typescript-eslint/return-await
-        return Promise.resolve<Superposition<void, CacheError>>(Failure.of<CacheError>(err));
+        return Promise.resolve<Superposition<void, CacheError>>(Dead.of<CacheError>(err));
       }
 
       // eslint-disable-next-line @typescript-eslint/return-await

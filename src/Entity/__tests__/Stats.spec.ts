@@ -143,7 +143,7 @@ describe('Stats', () => {
 
       const superposition: Superposition<Stats, StatsError> = Stats.ofJSON(json);
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const stats: Stats = superposition.get();
       expect(stats.getStatsID().get().get()).toBe(json.statsID);
       expect(stats.getLanguage().getLanguageID().get()).toBe(json.language.languageID);
@@ -212,7 +212,7 @@ describe('Stats', () => {
 
       const superposition: Superposition<Stats, StatsError> = Stats.ofRow(row, StatsItems.ofArray(items));
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const stats: Stats = superposition.get();
       expect(stats.getStatsID().get().get()).toBe(row.statsID);
       expect(stats.getLanguage().getLanguageID().get()).toBe(row.languageID);

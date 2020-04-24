@@ -1,13 +1,9 @@
+import { DataSourceError, MockError, MockMySQL, MySQLError, Superposition } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
 import { StatsOutlinesError } from '../../../Error/StatsOutlinesError';
-import { DataSourceError } from '../../../General/DataSourceError';
-import { MockError } from '../../../General/Mock/MockError';
-import { MockMySQL } from '../../../General/MySQL/Mock/MockMySQL';
-import { MySQLError } from '../../../General/MySQL/MySQLError';
-import { Superposition } from '../../../General/Superposition/Superposition';
 import { MockPage } from '../../../VO/Mock/MockPage';
 import { MockVeauAccountID } from '../../../VO/Mock/MockVeauAccountID';
 import { StatsOutline, StatsOutlineRow } from '../../../VO/StatsOutline';
@@ -96,7 +92,7 @@ describe('StatsOutlineQuery', () => {
         limit: page.getLimit().get(),
         offset: page.getOffset().get()
       }).called).toBe(true);
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const statsOutlines: StatsOutlines = superposition.get();
       expect(statsOutlines.size()).toBe(2);
       for (let i: number = 0; i < statsOutlines.size(); i++) {
@@ -116,7 +112,7 @@ describe('StatsOutlineQuery', () => {
       }
     });
 
-    it('returns Failure when statsID is malformat', async () => {
+    it('returns Dead when statsID is malformat', async () => {
       const accountID: MockVeauAccountID = new MockVeauAccountID();
       const page: MockPage = new MockPage();
       const rows: Array<StatsOutlineRow> = [
@@ -163,7 +159,7 @@ describe('StatsOutlineQuery', () => {
         page
       );
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsOutlinesError | DataSourceError) => {
@@ -175,7 +171,7 @@ describe('StatsOutlineQuery', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it('returns Failure because the client throws MySQLError', async () => {
+    it('returns Dead because the client throws MySQLError', async () => {
       const accountID: MockVeauAccountID = new MockVeauAccountID();
       const page: MockPage = new MockPage();
 
@@ -192,7 +188,7 @@ describe('StatsOutlineQuery', () => {
         page
       );
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsOutlinesError | DataSourceError) => {

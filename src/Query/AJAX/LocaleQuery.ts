@@ -1,13 +1,15 @@
 import { OK } from 'http-status';
 import { inject, injectable } from 'inversify';
+import {
+  AJAXError,
+  AJAXResponse,
+  Alive,
+  DataSourceError,
+  Dead,
+  IAJAX,
+  Superposition
+} from 'publikum';
 import { TYPE } from '../../Container/Types';
-import { AJAXError } from '../../General/AJAX/AJAXError';
-import { AJAXResponse } from '../../General/AJAX/AJAXResponse';
-import { IAJAX } from '../../General/AJAX/Interface/IAJAX';
-import { DataSourceError } from '../../General/DataSourceError';
-import { Failure } from '../../General/Superposition/Failure';
-import { Success } from '../../General/Superposition/Success';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { Locale, LocaleJSON } from '../../VO/Locale';
 import { IAJAXQuery } from '../Interface/IAJAXQuery';
 import { ILocaleQuery } from '../Interface/ILocaleQuery';
@@ -31,10 +33,10 @@ export class LocaleQuery implements ILocaleQuery, IAJAXQuery {
 
     switch (status) {
       case OK: {
-        return Success.of<Locale, DataSourceError>(Locale.ofJSON(body));
+        return Alive.of<Locale, DataSourceError>(Locale.ofJSON(body));
       }
       default: {
-        return Failure.of<Locale, AJAXError>(new AJAXError('GET LOCALE FAILED', status));
+        return Dead.of<Locale, AJAXError>(new AJAXError('GET LOCALE FAILED', status));
       }
     }
   }

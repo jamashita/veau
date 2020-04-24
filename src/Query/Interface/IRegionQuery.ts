@@ -1,6 +1,5 @@
+import { DataSourceError, Superposition } from 'publikum';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
-import { DataSourceError } from '../../General/DataSourceError';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { ISO3166 } from '../../VO/ISO3166';
 import { Region } from '../../VO/Region';
 import { Regions } from '../../VO/Regions';

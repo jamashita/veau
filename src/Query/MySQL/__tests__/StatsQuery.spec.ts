@@ -1,3 +1,12 @@
+import {
+  Alive,
+  DataSourceError,
+  Dead,
+  MockError,
+  MockMySQL,
+  MySQLError,
+  Superposition
+} from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
@@ -8,13 +17,6 @@ import { StatsItems } from '../../../Entity/StatsItems';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
 import { StatsError } from '../../../Error/StatsError';
 import { StatsItemsError } from '../../../Error/StatsItemsError';
-import { DataSourceError } from '../../../General/DataSourceError';
-import { MockError } from '../../../General/Mock/MockError';
-import { MockMySQL } from '../../../General/MySQL/Mock/MockMySQL';
-import { MySQLError } from '../../../General/MySQL/MySQLError';
-import { Failure } from '../../../General/Superposition/Failure';
-import { Success } from '../../../General/Superposition/Success';
-import { Superposition } from '../../../General/Superposition/Superposition';
 import { MockStatsID } from '../../../VO/Mock/MockStatsID';
 import { MockStatsItemQuery } from '../../Mock/MockStatsItemQuery';
 import { StatsQuery } from '../StatsQuery';
@@ -58,7 +60,7 @@ describe('StatsQuery', () => {
       const statsItemQuery: MockStatsItemQuery = new MockStatsItemQuery();
       const stub2: SinonStub = sinon.stub();
       statsItemQuery.findByStatsID = stub2;
-      stub2.resolves(Success.of<StatsItems, StatsItemsError | DataSourceError>(items));
+      stub2.resolves(Alive.of<StatsItems, StatsItemsError | DataSourceError>(items));
 
       const statsQuery: StatsQuery = new StatsQuery(mysql, statsItemQuery);
       const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
@@ -84,7 +86,7 @@ describe('StatsQuery', () => {
       WHERE R1.stats_id = :statsID;`, {
         statsID: statsID.get().get()
       }).called).toBe(true);
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const stats: Stats = superposition.get();
       expect(stats.getStatsID().get().get()).toBe(rows[0].statsID);
       expect(stats.getLanguage().getLanguageID().get()).toBe(rows[0].languageID);
@@ -101,7 +103,7 @@ describe('StatsQuery', () => {
       expect(items).toBe(stats.getItems());
     });
 
-    it('returns Failure because of the statsID is malformat', async () => {
+    it('returns Dead because of the statsID is malformat', async () => {
       const statsID: MockStatsID = new MockStatsID();
       const rows: Array<StatsRow> = [
         {
@@ -128,14 +130,14 @@ describe('StatsQuery', () => {
       const statsItemQuery: MockStatsItemQuery = new MockStatsItemQuery();
       const stub2: SinonStub = sinon.stub();
       statsItemQuery.findByStatsID = stub2;
-      stub2.resolves(Success.of<StatsItems, StatsItemsError | DataSourceError>(items));
+      stub2.resolves(Alive.of<StatsItems, StatsItemsError | DataSourceError>(items));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
       const statsQuery: StatsQuery = new StatsQuery(mysql, statsItemQuery);
       const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsError | NoSuchElementError | DataSourceError
@@ -148,7 +150,7 @@ describe('StatsQuery', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it('returns Failure because there is no results', async () => {
+    it('returns Dead because there is no results', async () => {
       const statsID: MockStatsID = new MockStatsID();
 
       const mysql: MockMySQL = new MockMySQL();
@@ -162,7 +164,7 @@ describe('StatsQuery', () => {
       const statsQuery: StatsQuery = new StatsQuery(mysql, statsItemQuery);
       const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsError | NoSuchElementError | DataSourceError) => {
@@ -174,7 +176,7 @@ describe('StatsQuery', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it('returns Failure when StatsItemQuery throws StatsValuesError', async () => {
+    it('returns Dead when StatsItemQuery throws StatsValuesError', async () => {
       const statsID: MockStatsID = new MockStatsID();
       const rows: Array<StatsRow> = [
         {
@@ -200,14 +202,14 @@ describe('StatsQuery', () => {
       const statsItemQuery: MockStatsItemQuery = new MockStatsItemQuery();
       const stub2: SinonStub = sinon.stub();
       statsItemQuery.findByStatsID = stub2;
-      stub2.resolves(Failure.of<StatsItems, StatsItemsError | DataSourceError>(new StatsItemsError('test failed')));
+      stub2.resolves(Dead.of<StatsItems, StatsItemsError | DataSourceError>(new StatsItemsError('test failed')));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
       const statsQuery: StatsQuery = new StatsQuery(mysql, statsItemQuery);
       const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsError | NoSuchElementError | DataSourceError) => {
@@ -219,7 +221,7 @@ describe('StatsQuery', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it('returns Failure when StatsItemQuery throws DataSourceError', async () => {
+    it('returns Dead when StatsItemQuery throws DataSourceError', async () => {
       const statsID: MockStatsID = new MockStatsID();
       const rows: Array<StatsRow> = [
         {
@@ -245,14 +247,14 @@ describe('StatsQuery', () => {
       const statsItemQuery: MockStatsItemQuery = new MockStatsItemQuery();
       const stub2: SinonStub = sinon.stub();
       statsItemQuery.findByStatsID = stub2;
-      stub2.resolves(Failure.of<StatsItems, StatsItemsError | DataSourceError>(new MySQLError('test faied')));
+      stub2.resolves(Dead.of<StatsItems, StatsItemsError | DataSourceError>(new MySQLError('test faied')));
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
       const statsQuery: StatsQuery = new StatsQuery(mysql, statsItemQuery);
       const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsError | NoSuchElementError | DataSourceError) => {

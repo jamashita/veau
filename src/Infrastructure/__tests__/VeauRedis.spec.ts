@@ -1,7 +1,7 @@
+import { Redis } from 'publikum';
 import 'reflect-metadata';
 import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
-import { Redis } from '../../General/Redis/Redis';
 
 describe('VeauRedis', () => {
   describe('container', () => {

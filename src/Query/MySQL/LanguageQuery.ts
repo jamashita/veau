@@ -1,12 +1,7 @@
 import { inject, injectable } from 'inversify';
+import { Alive, DataSourceError, Dead, IMySQL, MySQLError, Superposition } from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
-import { DataSourceError } from '../../General/DataSourceError';
-import { IMySQL } from '../../General/MySQL/Interface/IMySQL';
-import { MySQLError } from '../../General/MySQL/MySQLError';
-import { Failure } from '../../General/Superposition/Failure';
-import { Success } from '../../General/Superposition/Success';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { ISO639 } from '../../VO/ISO639';
 import { Language, LanguageRow } from '../../VO/Language';
 import { Languages } from '../../VO/Languages';
@@ -37,14 +32,14 @@ export class LanguageQuery implements ILanguageQuery, IMySQLQuery {
       const languageRows: Array<LanguageRow> = await this.mysql.execute<Array<LanguageRow>>(query);
 
       if (languageRows.length === 0) {
-        return Failure.of<Languages, NoSuchElementError>(new NoSuchElementError('NO LANGUAGES FROM MYSQL'));
+        return Dead.of<Languages, NoSuchElementError>(new NoSuchElementError('NO LANGUAGES FROM MYSQL'));
       }
 
-      return Success.of<Languages, DataSourceError>(Languages.ofRow(languageRows));
+      return Alive.of<Languages, DataSourceError>(Languages.ofRow(languageRows));
     }
     catch (err) {
       if (err instanceof MySQLError) {
-        return Failure.of<Languages, MySQLError>(err);
+        return Dead.of<Languages, MySQLError>(err);
       }
 
       throw err;
@@ -69,14 +64,14 @@ export class LanguageQuery implements ILanguageQuery, IMySQLQuery {
       );
 
       if (languageRows.length === 0) {
-        return Failure.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.get()));
+        return Dead.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.get()));
       }
 
-      return Success.of<Language, DataSourceError>(Language.ofRow(languageRows[0]));
+      return Alive.of<Language, DataSourceError>(Language.ofRow(languageRows[0]));
     }
     catch (err) {
       if (err instanceof MySQLError) {
-        return Failure.of<Language, MySQLError>(err);
+        return Dead.of<Language, MySQLError>(err);
       }
 
       throw err;

@@ -23,7 +23,7 @@ describe('StatsValue', () => {
         json
       );
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const statsValue: StatsValue = superposition.get();
       expect(statsValue.getStatsItemID().get()).toBe(uuid);
       expect(statsValue.getAsOf().toString()).toBe(json.asOf);
@@ -44,7 +44,7 @@ describe('StatsValue', () => {
         json
       );
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsValueError) => {
@@ -67,7 +67,7 @@ describe('StatsValue', () => {
 
       const superposition: Superposition<StatsValue, StatsValueError> = StatsValue.ofRow(row);
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
       const statsValue: StatsValue = superposition.get();
       expect(statsValue.getStatsItemID().get().get()).toBe(row.statsItemID);
       expect(statsValue.getAsOf().toString()).toBe(row.asOf);
@@ -86,7 +86,7 @@ describe('StatsValue', () => {
 
       const superposition: Superposition<StatsValue, StatsValueError> = StatsValue.ofRow(row);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsValueError) => {
@@ -110,7 +110,7 @@ describe('StatsValue', () => {
 
       const superposition: Superposition<StatsValue, StatsValueError> = StatsValue.ofRow(row);
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsValueError) => {

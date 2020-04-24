@@ -1,15 +1,17 @@
-import { Collection } from '../General/Collection/Interface/Collection';
-import { ImmutableSequence } from '../General/Collection/Sequence/ImmutableSequence';
-import { Sequence } from '../General/Collection/Sequence/Interface/Sequence';
-import { Cloneable } from '../General/Interface/Cloneable';
-import { JSONable } from '../General/Interface/JSONable';
-import { Objet } from '../General/Object/Objet';
-import { Absent } from '../General/Quantum/Absent';
-import { Present } from '../General/Quantum/Present';
-import { Quantum } from '../General/Quantum/Quantum';
-import { Enumerator } from '../General/Type/Function';
-import { Zeit } from '../General/Zeit/Zeit';
-import { ZeitError } from '../General/Zeit/ZeitError';
+import {
+  Absent,
+  Cloneable,
+  Collection,
+  Enumerator,
+  ImmutableSequence,
+  JSONable,
+  Objet,
+  Present,
+  Quantum,
+  Sequence,
+  Zeit,
+  ZeitError
+} from 'publikum';
 import { AsOf } from './AsOf';
 import { Term } from './Term';
 

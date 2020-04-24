@@ -1,15 +1,10 @@
 import { NO_CONTENT, OK } from 'http-status';
 import { inject, injectable } from 'inversify';
+import { AJAXError, AJAXResponse, DataSourceError, Dead, IAJAX, Superposition } from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { Stats, StatsJSON } from '../../Entity/Stats';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { StatsError } from '../../Error/StatsError';
-import { AJAXError } from '../../General/AJAX/AJAXError';
-import { AJAXResponse } from '../../General/AJAX/AJAXResponse';
-import { IAJAX } from '../../General/AJAX/Interface/IAJAX';
-import { DataSourceError } from '../../General/DataSourceError';
-import { Failure } from '../../General/Superposition/Failure';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { StatsID } from '../../VO/StatsID';
 import { IAJAXQuery } from '../Interface/IAJAXQuery';
 import { IStatsQuery } from '../Interface/IStatsQuery';
@@ -36,10 +31,10 @@ export class StatsQuery implements IStatsQuery, IAJAXQuery {
         return Stats.ofJSON(body);
       }
       case NO_CONTENT: {
-        return Failure.of<Stats, NoSuchElementError>(new NoSuchElementError('NOT FOUND'));
+        return Dead.of<Stats, NoSuchElementError>(new NoSuchElementError('NOT FOUND'));
       }
       default: {
-        return Failure.of<Stats, AJAXError>(new AJAXError('UNKNOWN ERROR', status));
+        return Dead.of<Stats, AJAXError>(new AJAXError('UNKNOWN ERROR', status));
       }
     }
   }

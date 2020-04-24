@@ -1,7 +1,7 @@
+import { MySQL } from 'publikum';
 import 'reflect-metadata';
 import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
-import { MySQL } from '../../General/MySQL/MySQL';
 
 describe('VeauMySQL', () => {
   describe('container', () => {

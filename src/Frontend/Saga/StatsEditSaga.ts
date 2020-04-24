@@ -200,7 +200,7 @@ export class StatsEditSaga {
         return this.languageQuery.findByISO639(action.iso639);
       });
 
-      if (superposition.isSuccess()) {
+      if (superposition.isAlive()) {
         const newStats: Stats = Stats.of(
           stats.getStatsID(),
           superposition.get(),
@@ -230,7 +230,7 @@ export class StatsEditSaga {
         return this.regionQuery.findByISO3166(action.iso3166);
       });
 
-      if (superposition.isSuccess()) {
+      if (superposition.isAlive()) {
         const newStats: Stats = Stats.of(
           stats.getStatsID(),
           stats.getLanguage(),

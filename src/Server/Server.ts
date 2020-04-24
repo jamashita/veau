@@ -7,11 +7,11 @@ import helmet from 'helmet';
 import log4js from 'log4js';
 import passport from 'passport';
 import path from 'path';
+import { Ambiguous } from 'publikum';
 import 'reflect-metadata';
 import favicon from 'serve-favicon';
 import 'source-map-support/register';
 import { BaseController } from '../Controller/BaseController';
-import { Ambiguous } from '../General/Type/Value';
 import { veauRedis } from '../Infrastructure/VeauRedis';
 import '../Service/AuthenticationService';
 

@@ -1,11 +1,7 @@
-import { Type, ValueObject } from 'publikum';
+import { Alive, Dead, JSONable, Superposition, Type, ValueObject } from 'publikum';
 import { AsOfError } from '../Error/AsOfError';
 import { StatsItemIDError } from '../Error/StatsItemIDError';
 import { StatsValueError } from '../Error/StatsValueError';
-import { JSONable } from '../General/Interface/JSONable';
-import { Failure } from '../General/Superposition/Failure';
-import { Success } from '../General/Superposition/Success';
-import { Superposition } from '../General/Superposition/Superposition';
 import { AsOf } from './AsOf';
 import { NumericalValue } from './NumericalValue';
 import { StatsItemID } from './StatsItemID';
@@ -37,7 +33,7 @@ export class StatsValue extends ValueObject implements JSONable {
 
   public static ofJSON(statsItemID: StatsItemID, json: StatsValueJSON): Superposition<StatsValue, StatsValueError> {
     return AsOf.ofString(json.asOf).match<StatsValue, StatsValueError>((asOf: AsOf) => {
-      return Success.of<StatsValue, StatsValueError>(
+      return Alive.of<StatsValue, StatsValueError>(
         StatsValue.of(
           statsItemID,
           asOf,
@@ -45,7 +41,7 @@ export class StatsValue extends ValueObject implements JSONable {
         )
       );
     }, (err: AsOfError) => {
-      return Failure.of<StatsValue, StatsValueError>(
+      return Dead.of<StatsValue, StatsValueError>(
         new StatsValueError('StatsValue.ofRow()', err)
       );
     });
@@ -54,7 +50,7 @@ export class StatsValue extends ValueObject implements JSONable {
   public static ofRow(row: StatsValueRow): Superposition<StatsValue, StatsValueError> {
     return StatsItemID.ofString(row.statsItemID).match<StatsValue, StatsValueError>((statsItemID: StatsItemID) => {
       return AsOf.ofString(row.asOf).match<StatsValue, StatsValueError>((asOf: AsOf) => {
-        return Success.of<StatsValue, StatsValueError>(
+        return Alive.of<StatsValue, StatsValueError>(
           StatsValue.of(
             statsItemID,
             asOf,
@@ -62,12 +58,12 @@ export class StatsValue extends ValueObject implements JSONable {
           )
         );
       }, (err: AsOfError) => {
-        return Failure.of<StatsValue, StatsValueError>(
+        return Dead.of<StatsValue, StatsValueError>(
           new StatsValueError('StatsValue.ofRow()', err)
         );
       });
     }, (err: StatsItemIDError) => {
-      return Failure.of<StatsValue, StatsValueError>(
+      return Dead.of<StatsValue, StatsValueError>(
         new StatsValueError('StatsValue.ofRow()', err)
       );
     });

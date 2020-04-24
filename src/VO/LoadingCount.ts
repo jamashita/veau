@@ -1,8 +1,5 @@
-import { Type, ValueObject } from 'publikum';
+import { Alive, Dead, Superposition, Type, ValueObject } from 'publikum';
 import { LoadingCountError } from '../Error/LoadingCountError';
-import { Failure } from '../General/Superposition/Failure';
-import { Success } from '../General/Superposition/Success';
-import { Superposition } from '../General/Superposition/Superposition';
 
 const DEFAULT_COUNT: number = 0;
 
@@ -14,16 +11,16 @@ export class LoadingCount extends ValueObject {
 
   public static of(count: number): Superposition<LoadingCount, LoadingCountError> {
     if (count < 0) {
-      return Failure.of<LoadingCount, LoadingCountError>(new LoadingCountError(`ILLEGAL COUNT SPECIFIED ${count}`));
+      return Dead.of<LoadingCount, LoadingCountError>(new LoadingCountError(`ILLEGAL COUNT SPECIFIED ${count}`));
     }
     if (count === DEFAULT_COUNT) {
-      return Success.of<LoadingCount, LoadingCountError>(LoadingCount.default());
+      return Alive.of<LoadingCount, LoadingCountError>(LoadingCount.default());
     }
     if (Type.isInteger(count)) {
-      return Success.of<LoadingCount, LoadingCountError>(new LoadingCount(count));
+      return Alive.of<LoadingCount, LoadingCountError>(new LoadingCount(count));
     }
 
-    return Failure.of<LoadingCount, LoadingCountError>(new LoadingCountError('ILLEGAL COUNT SPECIFIED'));
+    return Dead.of<LoadingCount, LoadingCountError>(new LoadingCountError('ILLEGAL COUNT SPECIFIED'));
   }
 
   public static default(): LoadingCount {

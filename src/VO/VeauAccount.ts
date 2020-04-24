@@ -1,10 +1,6 @@
-import { ValueObject } from 'publikum';
+import { Alive, Dead, JSONable, Superposition, ValueObject } from 'publikum';
 import { VeauAccountError } from '../Error/VeauAccountError';
 import { VeauAccountIDError } from '../Error/VeauAccountIDError';
-import { JSONable } from '../General/Interface/JSONable';
-import { Failure } from '../General/Superposition/Failure';
-import { Success } from '../General/Superposition/Success';
-import { Superposition } from '../General/Superposition/Superposition';
 import { AccountName } from './AccountName';
 import { Language, LanguageJSON } from './Language';
 import { Region, RegionJSON } from './Region';
@@ -35,7 +31,7 @@ export class VeauAccount extends ValueObject implements JSONable {
 
   public static ofJSON(json: VeauAccountJSON): Superposition<VeauAccount, VeauAccountError> {
     return VeauAccountID.ofString(json.veauAccountID).match<VeauAccount, VeauAccountError>((veauAccountID: VeauAccountID) => {
-      return Success.of<VeauAccount, VeauAccountError>(
+      return Alive.of<VeauAccount, VeauAccountError>(
         VeauAccount.of(
           veauAccountID,
           AccountName.of(json.account),
@@ -44,7 +40,7 @@ export class VeauAccount extends ValueObject implements JSONable {
         )
       );
     }, (err: VeauAccountIDError) => {
-      return Failure.of<VeauAccount, VeauAccountError>(
+      return Dead.of<VeauAccount, VeauAccountError>(
         new VeauAccountError('VeauAccount.ofJSON()', err)
       );
     });

@@ -1,7 +1,6 @@
-import { Superposition } from 'publikum';
+import { Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 import { StatsItemIDError } from '../../Error/StatsItemIDError';
-import { UUID } from '../../General/UUID/UUID';
 import { StatsItemID } from '../StatsItemID';
 
 describe('StatsItemID', () => {
@@ -23,16 +22,16 @@ describe('StatsItemID', () => {
         uuid.get()
       );
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
     });
 
-    it('returns Failure when uuid length string is not given', () => {
+    it('returns Dead when uuid length string is not given', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
       const superposition: Superposition<StatsItemID, StatsItemIDError> = StatsItemID.ofString('quatre');
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsItemIDError) => {

@@ -1,12 +1,8 @@
 import { inject, injectable } from 'inversify';
+import { Alive, DataSourceError, Dead, Quantum, Superposition } from 'publikum';
 import { ILanguageCommand } from '../../Command/Interface/ILanguageCommand';
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
-import { DataSourceError } from '../../General/DataSourceError';
-import { Quantum } from '../../General/Quantum/Quantum';
-import { Failure } from '../../General/Superposition/Failure';
-import { Success } from '../../General/Superposition/Success';
-import { Superposition } from '../../General/Superposition/Superposition';
 import { ISO639 } from '../../VO/ISO639';
 import { Language } from '../../VO/Language';
 import { Languages } from '../../VO/Languages';
@@ -35,7 +31,7 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
     const superposition1: Superposition<Languages, NoSuchElementError | DataSourceError> = await this.languageRedisQuery.all();
 
     return superposition1.match<Languages, NoSuchElementError | DataSourceError>((languages: Languages) => {
-      return Promise.resolve<Superposition<Languages, DataSourceError>>(Success.of<Languages, DataSourceError>(languages));
+      return Promise.resolve<Superposition<Languages, DataSourceError>>(Alive.of<Languages, DataSourceError>(languages));
     }, async () => {
       const superposition2: Superposition<Languages, NoSuchElementError | DataSourceError> = await this.languageMySQLQuery.all();
 
@@ -43,11 +39,11 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
         const superposition3: Superposition<void, DataSourceError> = await this.languageRedisCommand.insertAll(languages);
 
         return superposition3.match<Languages, DataSourceError>(() => {
-          return Success.of<Languages, DataSourceError>(languages);
-        }, (err: DataSourceError, self: Failure<void, DataSourceError>) => {
+          return Alive.of<Languages, DataSourceError>(languages);
+        }, (err: DataSourceError, self: Dead<void, DataSourceError>) => {
           return self.transpose<Languages>();
         });
-      }, (err: NoSuchElementError | DataSourceError, self: Failure<Languages, NoSuchElementError | DataSourceError>) => {
+      }, (err: NoSuchElementError | DataSourceError, self: Dead<Languages, NoSuchElementError | DataSourceError>) => {
         return Promise.resolve<Superposition<Languages, NoSuchElementError | DataSourceError>>(self);
       });
     });
@@ -62,11 +58,11 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
       });
 
       return quantum.toSuperposition().match<Language, NoSuchElementError | DataSourceError>((language: Language) => {
-        return Success.of<Language, DataSourceError>(language);
+        return Alive.of<Language, DataSourceError>(language);
       }, () => {
-        return Failure.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.toString()));
+        return Dead.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.toString()));
       });
-    }, (err: NoSuchElementError | DataSourceError, self: Failure<Languages, NoSuchElementError | DataSourceError>) => {
+    }, (err: NoSuchElementError | DataSourceError, self: Dead<Languages, NoSuchElementError | DataSourceError>) => {
       return self.transpose<Language>();
     });
   }

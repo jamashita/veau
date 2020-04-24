@@ -22,16 +22,16 @@ describe('StatsID', () => {
         uuid.get()
       );
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
     });
 
-    it('returns Failure when uuid length string is not given', () => {
+    it('returns Dead when uuid length string is not given', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
       const superposition: Superposition<StatsID, StatsIDError> = StatsID.ofString('trois');
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: StatsIDError) => {
