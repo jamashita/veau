@@ -4,10 +4,10 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Icon from '@material-ui/core/Icon';
+import { Quantum } from 'publikum';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { StatsItem } from '../../../Entity/StatsItem';
-import { Quantum } from '../../../General/Quantum/Quantum';
 import { StatsItemName } from '../../../VO/StatsItemName';
 import { TextField } from '../Atom/TextField';
 

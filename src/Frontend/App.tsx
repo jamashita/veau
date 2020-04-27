@@ -1,11 +1,11 @@
 import { createMuiTheme, MuiThemeProvider, Theme } from '@material-ui/core';
 import { grey, lightGreen, pink } from '@material-ui/core/colors';
 import { ConnectedRouter } from 'connected-react-router';
+import { Supplier } from 'publikum';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import 'reflect-metadata';
-import { Supplier } from '../General/Type/Function';
 import { View } from './Component/View';
 import { I18NProvider } from './Container/I18NProvider';
 import { history } from './history';

@@ -4,11 +4,10 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Icon from '@material-ui/core/Icon';
+import { Alive, Superposition } from 'publikum';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { AsOfError } from '../../../Error/AsOfError';
-import { Success } from '../../../General/Superposition/Success';
-import { Superposition } from '../../../General/Superposition/Superposition';
 import { AsOf } from '../../../VO/AsOf';
 import { TextField } from '../Atom/TextField';
 
@@ -26,7 +25,7 @@ class StatsEditStartDateModalImpl extends React.Component<Props & WrappedCompone
   public constructor(props: Props & WrappedComponentProps) {
     super(props);
     this.state = {
-      startDate: Success.of<AsOf, AsOfError>(AsOf.now())
+      startDate: Alive.of<AsOf, AsOfError>(AsOf.now())
     };
   }
 

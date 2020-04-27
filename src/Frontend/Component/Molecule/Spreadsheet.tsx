@@ -1,7 +1,7 @@
 import { HotTable } from '@handsontable/react';
+import { Nullable } from 'publikum';
 import React from 'react';
 import { Stats } from '../../../Entity/Stats';
-import { Nullable } from '../../../General/Type/Value';
 import { AsOfs } from '../../../VO/AsOfs';
 import { Column } from '../../../VO/Column';
 import { Coordinate } from '../../../VO/Coordinate';

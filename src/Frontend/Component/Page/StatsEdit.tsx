@@ -1,11 +1,9 @@
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
+import { Absent, Quantum, Superposition } from 'publikum';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { AsOfError } from '../../../Error/AsOfError';
-import { Absent } from '../../../General/Quantum/Absent';
-import { Quantum } from '../../../General/Quantum/Quantum';
-import { Superposition } from '../../../General/Superposition/Superposition';
 import { AsOf } from '../../../VO/AsOf';
 import { StatsID } from '../../../VO/StatsID';
 import { Props } from '../../Container/Page/StatsEdit';
