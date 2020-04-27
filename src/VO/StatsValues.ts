@@ -1,35 +1,31 @@
 import {
+  Address,
   Alive,
   Cloneable,
   Collection,
   Dead,
   Enumerator,
-  ImmutableSequence,
+  ImmutableAddress,
   JSONable,
   Kind,
   manoeuvre,
   Objet,
   Quantum,
-  Sequence,
   Superposition
 } from 'publikum';
 import { StatsValueError } from '../Error/StatsValueError';
 import { StatsValuesError } from '../Error/StatsValuesError';
 import { AsOf } from './AsOf';
 import { AsOfs } from './AsOfs';
-import { NumericalValue } from './NumericalValue';
-import { NumericalValues } from './NumericalValues';
-import { StatsItemID } from './StatsItemID';
 import { StatsValue, StatsValueJSON, StatsValueRow } from './StatsValue';
 
-// TODO USE MAP
-export class StatsValues extends Objet implements Collection<number, StatsValue>, Cloneable<StatsValues>, JSONable {
+export class StatsValues extends Objet implements Collection<void, StatsValue>, Cloneable<StatsValues>, JSONable {
   public readonly noun: 'StatsValues' = 'StatsValues';
-  private readonly values: Sequence<StatsValue>;
+  private readonly values: Address<StatsValue>;
 
-  private static readonly EMPTY: StatsValues = new StatsValues(ImmutableSequence.empty<StatsValue>());
+  private static readonly EMPTY: StatsValues = new StatsValues(ImmutableAddress.empty<StatsValue>());
 
-  public static of(values: Sequence<StatsValue>): StatsValues {
+  public static of(values: Address<StatsValue>): StatsValues {
     if (values.isEmpty()) {
       return StatsValues.empty();
     }
@@ -37,8 +33,12 @@ export class StatsValues extends Objet implements Collection<number, StatsValue>
     return new StatsValues(values);
   }
 
+  public static ofSet(values: Set<StatsValue>): StatsValues {
+    return StatsValues.of(ImmutableAddress.of<StatsValue>(values));
+  }
+
   public static ofArray(values: Array<StatsValue>): StatsValues {
-    return StatsValues.of(ImmutableSequence.of<StatsValue>(values));
+    return StatsValues.ofSet(new Set(values));
   }
 
   public static ofSpread(...values: Array<StatsValue>): StatsValues {
@@ -57,9 +57,9 @@ export class StatsValues extends Objet implements Collection<number, StatsValue>
     });
   }
 
-  public static ofJSON(statsItemID: StatsItemID, statsValues: Array<StatsValueJSON>): Superposition<StatsValues, StatsValuesError> {
-    const superpositions: Array<Superposition<StatsValue, StatsValueError>> = statsValues.map<Superposition<StatsValue, StatsValueError>>((statsValue: StatsValueJSON) => {
-      return StatsValue.ofJSON(statsItemID, statsValue);
+  public static ofJSON(json: Array<StatsValueJSON>): Superposition<StatsValues, StatsValuesError> {
+    const superpositions: Array<Superposition<StatsValue, StatsValueError>> = json.map<Superposition<StatsValue, StatsValueError>>((statsValue: StatsValueJSON) => {
+      return StatsValue.ofJSON(statsValue);
     });
 
     return StatsValues.ofSuperposition(superpositions);
@@ -87,12 +87,12 @@ export class StatsValues extends Objet implements Collection<number, StatsValue>
     return StatsValues.EMPTY;
   }
 
-  protected constructor(values: Sequence<StatsValue>) {
+  protected constructor(values: Address<StatsValue>) {
     super();
     this.values = values;
   }
 
-  public get(index: number): Quantum<StatsValue> {
+  public get(index: void): Quantum<StatsValue> {
     return this.values.get(index);
   }
 
@@ -116,24 +116,21 @@ export class StatsValues extends Objet implements Collection<number, StatsValue>
 
     if (!isSet) {
       newValues.push(statsValue);
-      newValues.sort((statsValue1: StatsValue, statsValue2: StatsValue) => {
-        if (statsValue1.getAsOf().isBefore(statsValue2.getAsOf())) {
-          return -1;
-        }
-
-        return 1;
-      });
     }
 
     return StatsValues.ofArray(newValues);
   }
 
   public delete(asOf: AsOf): StatsValues {
-    const newValues: Sequence<StatsValue> = this.values.filter((value: StatsValue) => {
-      return !asOf.equals(value.getAsOf());
+    const set: Set<StatsValue> = new Set<StatsValue>();
+
+    this.values.forEach((statsValue: StatsValue) => {
+      if (!statsValue.getAsOf().equals(asOf)) {
+        set.add(statsValue);
+      }
     });
 
-    return StatsValues.of(newValues);
+    return StatsValues.ofSet(set);
   }
 
   public contains(value: StatsValue): boolean {
@@ -144,32 +141,18 @@ export class StatsValues extends Objet implements Collection<number, StatsValue>
     return this.values.size();
   }
 
-  public forEach(iteration: Enumerator<number, StatsValue>): void {
+  public forEach(iteration: Enumerator<void, StatsValue>): void {
     this.values.forEach(iteration);
   }
 
-  public filter(statsItemID: StatsItemID): StatsValues {
-    const values: Sequence<StatsValue> = this.values.filter((value: StatsValue) => {
-      return statsItemID.equals(value.getStatsItemID());
-    });
-
-    return StatsValues.of(values);
-  }
-
-  public getValues(): NumericalValues {
-    const values: Sequence<NumericalValue> = this.values.map<NumericalValue>((value: StatsValue) => {
-      return value.getValue();
-    });
-
-    return NumericalValues.of(values);
-  }
-
   public getAsOfs(): AsOfs {
-    const asOfs: Sequence<AsOf> = this.values.map<AsOf>((value: StatsValue) => {
-      return value.getAsOf();
+    const asOfs: Array<AsOf> = [];
+
+    this.values.forEach((value: StatsValue) => {
+      asOfs.push(value.getAsOf());
     });
 
-    return AsOfs.of(asOfs);
+    return AsOfs.ofArray(asOfs);
   }
 
   public isEmpty(): boolean {
@@ -193,9 +176,13 @@ export class StatsValues extends Objet implements Collection<number, StatsValue>
   }
 
   public toJSON(): Array<StatsValueJSON> {
-    return this.values.toArray().map<StatsValueJSON>((value: StatsValue) => {
-      return value.toJSON();
+    const json: Array<StatsValueJSON> = [];
+
+    this.values.forEach((value: StatsValue) => {
+      json.push(value.toJSON());
     });
+
+    return json;
   }
 
   public serialize(): string {
