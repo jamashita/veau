@@ -1,4 +1,4 @@
-import { Alive, Dead, ImmutableAddress, Superposition } from 'publikum';
+import { Alive, Dead, ImmutableProject, Superposition } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 import { StatsValueError } from '../../Error/StatsValueError';
 import { StatsValuesError } from '../../Error/StatsValuesError';
@@ -13,27 +13,31 @@ import { StatsValues } from '../StatsValues';
 
 describe('StatsValues', () => {
   describe('of', () => {
-    it('when the ImmutableAddress is zero size, returns StatsValues.empty()', () => {
-      const values: StatsValues = StatsValues.of(ImmutableAddress.empty<StatsValue>());
+    it('when the ImmutableSequence is zero size, returns StatsValues.empty()', () => {
+      const values: StatsValues = StatsValues.of(ImmutableProject.empty<AsOf, StatsValue>());
 
       expect(values).toBe(StatsValues.empty());
     });
 
     it('normal case', () => {
       const value1: MockStatsValue = new MockStatsValue({
-        value: new MockNumericalValue(1)
+        asOf: new MockAsOf({
+          day: 2
+        })
       });
       const value2: MockStatsValue = new MockStatsValue({
-        value: new MockNumericalValue(2)
+        asOf: new MockAsOf({
+          day: 3
+        })
       });
-      const sequence: ImmutableAddress<MockStatsValue> = ImmutableAddress.of<StatsValue>(new Set([
-        value1,
-        value2
+      const project: ImmutableProject<MockAsOf, MockStatsValue> = ImmutableProject.of<MockAsOf, StatsValue>(new Map<MockAsOf, StatsValue>([
+        [value1.getAsOf(), value1],
+        [value2.getAsOf(), value2]
       ]));
 
-      const values: StatsValues = StatsValues.of(sequence);
+      const values: StatsValues = StatsValues.of(project);
 
-      expect(values.size()).toBe(sequence.size());
+      expect(values.size()).toBe(project.size());
       expect(values.contains(value1)).toBe(true);
       expect(values.contains(value2)).toBe(true);
     });
@@ -49,13 +53,20 @@ describe('StatsValues', () => {
 
     it('normal case', () => {
       const statsValue1: MockStatsValue = new MockStatsValue({
-        value: new MockNumericalValue(1)
+        asOf: new MockAsOf({
+          day: 2
+        })
       });
       const statsValue2: MockStatsValue = new MockStatsValue({
-        value: new MockNumericalValue(2)
+        asOf: new MockAsOf({
+          day: 3
+        })
+
       });
       const statsValue3: MockStatsValue = new MockStatsValue({
-        value: new MockNumericalValue(3)
+        asOf: new MockAsOf({
+          day: 4
+        })
       });
 
       const superposition1: Superposition<StatsValue, StatsValueError> = Alive.of<StatsValue, StatsValueError>(statsValue1);
@@ -314,33 +325,6 @@ describe('StatsValues', () => {
     });
   });
 
-  describe('ofSet', () => {
-    it('when empty Set given, returns StatsValues.empty()', () => {
-      const statsValues: StatsValues = StatsValues.ofSet(new Set<StatsValue>());
-
-      expect(statsValues).toBe(StatsValues.empty());
-    });
-
-    it('normal case', () => {
-      const statsValue1: MockStatsValue = new MockStatsValue({
-        value: new MockNumericalValue(-1)
-      });
-      const statsValue2: MockStatsValue = new MockStatsValue({
-        value: new MockNumericalValue(1)
-      });
-      const values: Array<MockStatsValue> = [
-        statsValue1,
-        statsValue2
-      ];
-
-      const statsValues: StatsValues = StatsValues.ofSet(new Set(values));
-
-      expect(statsValues.size()).toBe(values.length);
-      expect(statsValues.contains(statsValue1)).toBe(true);
-      expect(statsValues.contains(statsValue2)).toBe(true);
-    });
-  });
-
   describe('ofArray', () => {
     it('when empty Array given, returns StatsValues.empty()', () => {
       const statsValues: StatsValues = StatsValues.ofArray([]);
@@ -350,10 +334,14 @@ describe('StatsValues', () => {
 
     it('normal case', () => {
       const statsValue1: MockStatsValue = new MockStatsValue({
-        value: new MockNumericalValue(2)
+        asOf: new MockAsOf({
+          day: 2
+        })
       });
       const statsValue2: MockStatsValue = new MockStatsValue({
-        value: new MockNumericalValue(3)
+        asOf: new MockAsOf({
+          day: 3
+        })
       });
       const values: Array<MockStatsValue> = [
         statsValue1,
@@ -377,10 +365,14 @@ describe('StatsValues', () => {
 
     it('normal case', () => {
       const statsValue1: MockStatsValue = new MockStatsValue({
-        value: new MockNumericalValue(2)
+        asOf: new MockAsOf({
+          day: 2
+        })
       });
       const statsValue2: MockStatsValue = new MockStatsValue({
-        value: new MockNumericalValue(3)
+        asOf: new MockAsOf({
+          day: 3
+        })
       });
 
       const statsValues: StatsValues = StatsValues.ofSpread(
@@ -497,13 +489,19 @@ describe('StatsValues', () => {
   describe('get', () => {
     it('always returns Absent', () => {
       const statsValue1: MockStatsValue = new MockStatsValue({
-        value: new MockNumericalValue(1)
+        asOf: new MockAsOf({
+          day: 1
+        })
       });
       const statsValue2: MockStatsValue = new MockStatsValue({
-        value: new MockNumericalValue(2)
+        asOf: new MockAsOf({
+          day: 2
+        })
       });
       const statsValue3: MockStatsValue = new MockStatsValue({
-        value: new MockNumericalValue(3)
+        asOf: new MockAsOf({
+          day: 3
+        })
       });
 
       const values: Array<MockStatsValue> = [
@@ -741,8 +739,16 @@ describe('StatsValues', () => {
     it('returns true if the elements are 0', () => {
       const statsValues1: StatsValues = StatsValues.empty();
       const statsValues2: StatsValues = StatsValues.ofArray([
-        new MockStatsValue(),
-        new MockStatsValue()
+        new MockStatsValue({
+          asOf: new MockAsOf({
+            day: 2
+          })
+        }),
+        new MockStatsValue({
+          asOf: new MockAsOf({
+            day: 3
+          })
+        })
       ]);
 
       expect(statsValues1.isEmpty()).toBe(true);
@@ -753,16 +759,24 @@ describe('StatsValues', () => {
   describe('duplicate', () => {
     it('just create a new array but the objects are the same', () => {
       const statsValue1: MockStatsValue = new MockStatsValue({
-        value: new MockNumericalValue(1)
+        asOf: new MockAsOf({
+          day: 2
+        })
       });
       const statsValue2: MockStatsValue = new MockStatsValue({
-        value: new MockNumericalValue(2)
+        asOf: new MockAsOf({
+          day: 3
+        })
       });
       const statsValue3: MockStatsValue = new MockStatsValue({
-        value: new MockNumericalValue(3)
+        asOf: new MockAsOf({
+          day: 4
+        })
       });
       const statsValue4: MockStatsValue = new MockStatsValue({
-        value: new MockNumericalValue(4)
+        asOf: new MockAsOf({
+          day: 5
+        })
       });
 
       const statsValues: StatsValues = StatsValues.ofArray([
@@ -775,10 +789,10 @@ describe('StatsValues', () => {
 
       expect(statsValues).not.toBe(duplicated);
       expect(statsValues.size()).toBe(duplicated.size());
-      expect(statsValues.contains(statsValue1)).toBe(true);
-      expect(statsValues.contains(statsValue2)).toBe(true);
-      expect(statsValues.contains(statsValue3)).toBe(true);
-      expect(statsValues.contains(statsValue4)).toBe(true);
+      expect(duplicated.contains(statsValue1)).toBe(true);
+      expect(duplicated.contains(statsValue2)).toBe(true);
+      expect(duplicated.contains(statsValue3)).toBe(true);
+      expect(duplicated.contains(statsValue4)).toBe(true);
     });
 
     it('returns StatsValues.empty() if the original is empty', () => {
@@ -789,9 +803,15 @@ describe('StatsValues', () => {
   describe('equals', () => {
     it('returns false if the length is different', () => {
       const statsValue1: StatsValue = new MockStatsValue({
+        asOf: new MockAsOf({
+          day: 2
+        }),
         value: new MockNumericalValue(1)
       });
       const statsValue2: StatsValue = new MockStatsValue({
+        asOf: new MockAsOf({
+          day: 3
+        }),
         value: new MockNumericalValue(2)
       });
 
@@ -807,9 +827,19 @@ describe('StatsValues', () => {
       expect(statsValues1.equals(statsValues2)).toBe(false);
     });
 
-    it('returns true if the sequence is different', () => {
-      const statsValue1: StatsValue = new MockStatsValue();
-      const statsValue2: StatsValue = new MockStatsValue();
+    it('returns true even if the sequence is different', () => {
+      const statsValue1: StatsValue = new MockStatsValue({
+        asOf: new MockAsOf({
+          day: 2
+        }),
+        value: new MockNumericalValue(1)
+      });
+      const statsValue2: StatsValue = new MockStatsValue({
+        asOf: new MockAsOf({
+          day: 3
+        }),
+        value: new MockNumericalValue(2)
+      });
 
       const statsValues1: StatsValues = StatsValues.ofArray([
         statsValue1,
@@ -825,8 +855,18 @@ describe('StatsValues', () => {
     });
 
     it('returns true if the elements and their order are the same', () => {
-      const statsValue1: StatsValue = new MockStatsValue();
-      const statsValue2: StatsValue = new MockStatsValue();
+      const statsValue1: StatsValue = new MockStatsValue({
+        asOf: new MockAsOf({
+          day: 2
+        }),
+        value: new MockNumericalValue(1)
+      });
+      const statsValue2: StatsValue = new MockStatsValue({
+        asOf: new MockAsOf({
+          day: 3
+        }),
+        value: new MockNumericalValue(2)
+      });
 
       const statsValues1: StatsValues = StatsValues.ofArray([
         statsValue1,

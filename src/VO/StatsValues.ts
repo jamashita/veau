@@ -1,15 +1,15 @@
 import {
-  Address,
   Alive,
   Cloneable,
   Collection,
   Dead,
   Enumerator,
-  ImmutableAddress,
+  ImmutableProject,
   JSONable,
   Kind,
   manoeuvre,
   Objet,
+  Project,
   Quantum,
   Superposition
 } from 'publikum';
@@ -19,13 +19,13 @@ import { AsOf } from './AsOf';
 import { AsOfs } from './AsOfs';
 import { StatsValue, StatsValueJSON, StatsValueRow } from './StatsValue';
 
-export class StatsValues extends Objet implements Collection<void, StatsValue>, Cloneable<StatsValues>, JSONable {
+export class StatsValues extends Objet implements Collection<AsOf, StatsValue>, Cloneable<StatsValues>, JSONable {
   public readonly noun: 'StatsValues' = 'StatsValues';
-  private readonly values: Address<StatsValue>;
+  private readonly values: Project<AsOf, StatsValue>;
 
-  private static readonly EMPTY: StatsValues = new StatsValues(ImmutableAddress.empty<StatsValue>());
+  private static readonly EMPTY: StatsValues = new StatsValues(ImmutableProject.empty<AsOf, StatsValue>());
 
-  public static of(values: Address<StatsValue>): StatsValues {
+  public static of(values: Project<AsOf, StatsValue>): StatsValues {
     if (values.isEmpty()) {
       return StatsValues.empty();
     }
@@ -33,12 +33,18 @@ export class StatsValues extends Objet implements Collection<void, StatsValue>, 
     return new StatsValues(values);
   }
 
-  public static ofSet(values: Set<StatsValue>): StatsValues {
-    return StatsValues.of(ImmutableAddress.of<StatsValue>(values));
+  protected static ofMap(values: Map<AsOf, StatsValue>): StatsValues {
+    return StatsValues.of(ImmutableProject.of<AsOf, StatsValue>(values));
   }
 
   public static ofArray(values: Array<StatsValue>): StatsValues {
-    return StatsValues.ofSet(new Set(values));
+    const map: Map<AsOf, StatsValue> = new Map<AsOf, StatsValue>();
+
+    values.forEach((value: StatsValue) => {
+      map.set(value.getAsOf(), value);
+    });
+
+    return StatsValues.ofMap(map);
   }
 
   public static ofSpread(...values: Array<StatsValue>): StatsValues {
@@ -87,50 +93,21 @@ export class StatsValues extends Objet implements Collection<void, StatsValue>, 
     return StatsValues.EMPTY;
   }
 
-  protected constructor(values: Address<StatsValue>) {
+  protected constructor(values: Project<AsOf, StatsValue>) {
     super();
     this.values = values;
   }
 
-  public get(index: void): Quantum<StatsValue> {
-    return this.values.get(index);
+  public get(key: AsOf): Quantum<StatsValue> {
+    return this.values.get(key);
   }
 
   public set(statsValue: StatsValue): StatsValues {
-    const newValues: Array<StatsValue> = [];
-    let isSet: boolean = false;
-
-    this.values.forEach((value: StatsValue) => {
-      if (isSet) {
-        newValues.push(value);
-        return;
-      }
-      if (statsValue.getAsOf().equals(value.getAsOf())) {
-        newValues.push(statsValue);
-        isSet = true;
-        return;
-      }
-
-      newValues.push(value);
-    });
-
-    if (!isSet) {
-      newValues.push(statsValue);
-    }
-
-    return StatsValues.ofArray(newValues);
+    return StatsValues.of(this.values.set(statsValue.getAsOf(), statsValue));
   }
 
   public delete(asOf: AsOf): StatsValues {
-    const set: Set<StatsValue> = new Set<StatsValue>();
-
-    this.values.forEach((statsValue: StatsValue) => {
-      if (!statsValue.getAsOf().equals(asOf)) {
-        set.add(statsValue);
-      }
-    });
-
-    return StatsValues.ofSet(set);
+    return StatsValues.of(this.values.remove(asOf));
   }
 
   public contains(value: StatsValue): boolean {
@@ -142,17 +119,13 @@ export class StatsValues extends Objet implements Collection<void, StatsValue>, 
   }
 
   public forEach(iteration: Enumerator<void, StatsValue>): void {
-    this.values.forEach(iteration);
+    this.values.forEach((value: StatsValue) => {
+      iteration(value);
+    });
   }
 
   public getAsOfs(): AsOfs {
-    const asOfs: Array<AsOf> = [];
-
-    this.values.forEach((value: StatsValue) => {
-      asOfs.push(value.getAsOf());
-    });
-
-    return AsOfs.ofArray(asOfs);
+    return AsOfs.ofArray([...this.values.toMap().keys()]);
   }
 
   public isEmpty(): boolean {
@@ -186,6 +159,12 @@ export class StatsValues extends Objet implements Collection<void, StatsValue>, 
   }
 
   public serialize(): string {
-    return this.values.toString();
+    const strs: Array<string> = [];
+
+    this.values.forEach((value: StatsValue) => {
+      strs.push(value.toString());
+    });
+
+    return strs.join(', ');
   }
 }

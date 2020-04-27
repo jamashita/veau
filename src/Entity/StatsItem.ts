@@ -37,7 +37,7 @@ export class StatsItem extends Entity<StatsItemID> {
 
   public static ofJSON(json: StatsItemJSON): Superposition<StatsItem, StatsItemError> {
     return StatsItemID.ofString(json.statsItemID).match<StatsItem, StatsItemError>((statsItemID: StatsItemID) => {
-      return StatsValues.ofJSON(statsItemID, json.values).match<StatsItem, StatsItemError>((statsValues: StatsValues) => {
+      return StatsValues.ofJSON(json.values).match<StatsItem, StatsItemError>((statsValues: StatsValues) => {
         return Alive.of<StatsItem, StatsItemError>(
           StatsItem.of(
             statsItemID,
