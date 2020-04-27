@@ -8870,9 +8870,9 @@ public-encrypt@^4.0.0:
     randombytes "^2.0.1"
     safe-buffer "^5.1.2"
 
-"publikum@git+ssh://git@gitlab.com:jamashita/publikum.git":
-  version "0.3.2"
-  resolved "git+ssh://git@gitlab.com:jamashita/publikum.git#288156af4486c825aac95024918c3d33da177f7b"
+"publikum@git+ssh://git@gitlab.com:jamashita/publikum.git#0.3.4":
+  version "0.3.4"
+  resolved "git+ssh://git@gitlab.com:jamashita/publikum.git#5944480b903c111a34682995b4854766e236fd0d"
   dependencies:
     bcrypt "4.0.1"
     chance "1.1.4"
