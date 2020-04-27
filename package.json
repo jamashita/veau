@@ -18,8 +18,8 @@
     "update": "ncu -u && yarn install"
   },
   "engines": {
-    "node": ">= 13.13.0",
-    "npm": ">= 6.14.4"
+    "node": ">= 14.0.0",
+    "npm": ">= 6.14"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "5.13.0",
