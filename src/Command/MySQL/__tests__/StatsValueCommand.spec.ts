@@ -14,7 +14,6 @@ describe('StatsValueCommand', () => {
       const uuid: UUID = UUID.v4();
       const value: number = 9;
       const statsValue: StatsValue = new MockStatsValue({
-        statsItemID: new MockStatsItemID(uuid),
         asOf: new MockAsOf(),
         value: new MockNumericalValue(value)
       });
@@ -24,7 +23,7 @@ describe('StatsValueCommand', () => {
       sql.execute = stub;
 
       const statsValueCommand: StatsValueCommand = new StatsValueCommand(sql);
-      const superposition: Superposition<void, DataSourceError> = await statsValueCommand.create(statsValue);
+      const superposition: Superposition<void, DataSourceError> = await statsValueCommand.create(new MockStatsItemID(uuid), statsValue);
 
       expect(stub.withArgs(`INSERT INTO stats_values VALUES (
       :statsItemID,
@@ -49,7 +48,7 @@ describe('StatsValueCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsValueCommand: StatsValueCommand = new StatsValueCommand(sql);
-      const superposition: Superposition<void, DataSourceError> = await statsValueCommand.create(statsValue);
+      const superposition: Superposition<void, DataSourceError> = await statsValueCommand.create(new MockStatsItemID(), statsValue);
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
@@ -72,7 +71,7 @@ describe('StatsValueCommand', () => {
       stub.rejects(new MockError());
 
       const statsValueCommand: StatsValueCommand = new StatsValueCommand(sql);
-      await expect(statsValueCommand.create(statsValue)).rejects.toThrow(MockError);
+      await expect(statsValueCommand.create(new MockStatsItemID(), statsValue)).rejects.toThrow(MockError);
     });
   });
 

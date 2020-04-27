@@ -1,5 +1,6 @@
 import { Alive, DataSourceError, Dead, ISQL, MySQLError, Superposition } from 'publikum';
 import { StatsID } from '../../VO/StatsID';
+import { StatsItemID } from '../../VO/StatsItemID';
 import { StatsValue } from '../../VO/StatsValue';
 import { IMySQLCommand } from '../Interface/IMySQLCommand';
 import { IStatsValueCommand } from '../Interface/IStatsValueCommand';
@@ -13,7 +14,7 @@ export class StatsValueCommand implements IStatsValueCommand, IMySQLCommand {
     this.sql = sql;
   }
 
-  public async create(statsValue: StatsValue): Promise<Superposition<void, DataSourceError>> {
+  public async create(statsItemID: StatsItemID, statsValue: StatsValue): Promise<Superposition<void, DataSourceError>> {
     const query: string = `INSERT INTO stats_values VALUES (
       :statsItemID,
       :asOf,
@@ -22,7 +23,7 @@ export class StatsValueCommand implements IStatsValueCommand, IMySQLCommand {
 
     try {
       await this.sql.execute<unknown>(query, {
-        statsItemID: statsValue.getStatsItemID().get().get(),
+        statsItemID: statsItemID.get().get(),
         asOf: statsValue.getAsOf().toString(),
         value: statsValue.getValue().get()
       });
