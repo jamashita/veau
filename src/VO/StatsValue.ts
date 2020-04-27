@@ -1,10 +1,8 @@
 import { Alive, Dead, JSONable, Kind, Superposition, ValueObject } from 'publikum';
 import { AsOfError } from '../Error/AsOfError';
-import { StatsItemIDError } from '../Error/StatsItemIDError';
 import { StatsValueError } from '../Error/StatsValueError';
 import { AsOf } from './AsOf';
 import { NumericalValue } from './NumericalValue';
-import { StatsItemID } from './StatsItemID';
 
 export type StatsValueJSON = Readonly<{
   asOf: string;
@@ -18,24 +16,20 @@ export type StatsValueRow = Readonly<{
 
 export class StatsValue extends ValueObject implements JSONable {
   public readonly noun: 'StatsValue' = 'StatsValue';
-  // TODO REMOVE
-  private readonly statsItemID: StatsItemID;
   private readonly asOf: AsOf;
   private readonly value: NumericalValue;
 
   public static of(
-    statsItemID: StatsItemID,
     asOf: AsOf,
     value: NumericalValue
   ): StatsValue {
-    return new StatsValue(statsItemID, asOf, value);
+    return new StatsValue(asOf, value);
   }
 
-  public static ofJSON(statsItemID: StatsItemID, json: StatsValueJSON): Superposition<StatsValue, StatsValueError> {
+  public static ofJSON(json: StatsValueJSON): Superposition<StatsValue, StatsValueError> {
     return AsOf.ofString(json.asOf).match<StatsValue, StatsValueError>((asOf: AsOf) => {
       return Alive.of<StatsValue, StatsValueError>(
         StatsValue.of(
-          statsItemID,
           asOf,
           NumericalValue.of(json.value)
         )
@@ -48,21 +42,14 @@ export class StatsValue extends ValueObject implements JSONable {
   }
 
   public static ofRow(row: StatsValueRow): Superposition<StatsValue, StatsValueError> {
-    return StatsItemID.ofString(row.statsItemID).match<StatsValue, StatsValueError>((statsItemID: StatsItemID) => {
-      return AsOf.ofString(row.asOf).match<StatsValue, StatsValueError>((asOf: AsOf) => {
-        return Alive.of<StatsValue, StatsValueError>(
-          StatsValue.of(
-            statsItemID,
-            asOf,
-            NumericalValue.of(row.value)
-          )
-        );
-      }, (err: AsOfError) => {
-        return Dead.of<StatsValue, StatsValueError>(
-          new StatsValueError('StatsValue.ofRow()', err)
-        );
-      });
-    }, (err: StatsItemIDError) => {
+    return AsOf.ofString(row.asOf).match<StatsValue, StatsValueError>((asOf: AsOf) => {
+      return Alive.of<StatsValue, StatsValueError>(
+        StatsValue.of(
+          asOf,
+          NumericalValue.of(row.value)
+        )
+      );
+    }, (err: AsOfError) => {
       return Dead.of<StatsValue, StatsValueError>(
         new StatsValueError('StatsValue.ofRow()', err)
       );
@@ -84,18 +71,12 @@ export class StatsValue extends ValueObject implements JSONable {
   }
 
   protected constructor(
-    statsItemID: StatsItemID,
     asOf: AsOf,
     value: NumericalValue
   ) {
     super();
-    this.statsItemID = statsItemID;
     this.asOf = asOf;
     this.value = value;
-  }
-
-  public getStatsItemID(): StatsItemID {
-    return this.statsItemID;
   }
 
   public getAsOf(): AsOf {
@@ -109,9 +90,6 @@ export class StatsValue extends ValueObject implements JSONable {
   public equals(other: StatsValue): boolean {
     if (this === other) {
       return true;
-    }
-    if (!this.statsItemID.equals(other.statsItemID)) {
-      return false;
     }
     if (!this.asOf.equals(other.asOf)) {
       return false;
@@ -133,7 +111,6 @@ export class StatsValue extends ValueObject implements JSONable {
   public serialize(): string {
     const properties: Array<string> = [];
 
-    properties.push(this.statsItemID.toString());
     properties.push(this.asOf.toString());
     properties.push(this.value.toString());
 

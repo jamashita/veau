@@ -22,6 +22,7 @@ import { NumericalValues } from './NumericalValues';
 import { StatsItemID } from './StatsItemID';
 import { StatsValue, StatsValueJSON, StatsValueRow } from './StatsValue';
 
+// TODO USE MAP
 export class StatsValues extends Objet implements Collection<number, StatsValue>, Cloneable<StatsValues>, JSONable {
   public readonly noun: 'StatsValues' = 'StatsValues';
   private readonly values: Sequence<StatsValue>;
