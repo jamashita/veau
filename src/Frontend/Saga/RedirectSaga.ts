@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { SagaIterator } from '@redux-saga/types';
 import { push } from 'connected-react-router';
 import { fork, put, take } from 'redux-saga/effects';

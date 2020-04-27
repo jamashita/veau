@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { SagaIterator } from '@redux-saga/types';
 import { DataSourceError, Superposition } from 'publikum';
 import { all, call, Effect, fork, put, select, take } from 'redux-saga/effects';
