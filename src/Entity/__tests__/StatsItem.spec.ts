@@ -35,22 +35,24 @@ describe('StatsItem', () => {
 
       expect(statsItem.getStatsItemID()).toBe(statsItemID);
       expect(statsItem.getName()).toBe(name);
-      expect(statsItem.getValues().get(0).get()).toBe(statsValue);
+      expect(statsItem.getValues().contains(statsValue)).toBe(true);
     });
   });
 
   describe('ofJSON', () => {
     it('normal case', () => {
+      const asOf1: string = '2000-01-01';
+      const asOf2: string = '2000-01-02';
       const json: StatsItemJSON = {
         statsItemID: '4d0cf4e5-4f48-4db3-9c04-085374d857d1',
         name: 'name',
         values: [
           {
-            asOf: '2000-01-01',
+            asOf: asOf1,
             value: 10
           },
           {
-            asOf: '2000-01-02',
+            asOf: asOf2,
             value: 100
           }
         ]
@@ -63,11 +65,12 @@ describe('StatsItem', () => {
       expect(statsItem.getStatsItemID().get().get()).toBe(json.statsItemID);
       expect(statsItem.getName().get()).toBe(json.name);
       expect(statsItem.getValues().size()).toBe(json.values.length);
-      for (let i: number = 0; i < statsItem.getValues().size(); i++) {
-        const statsValue: StatsValue = statsItem.getValues().get(i).get();
-        expect(statsValue.getAsOf().toString()).toBe(AsOf.ofString(json.values[i].asOf).get().toString());
-        expect(statsValue.getValue().get()).toBe(json.values[i].value);
-      }
+      const statsValue1: StatsValue = statsItem.getValues().get(AsOf.ofString(asOf1).get()).get();
+      expect(statsValue1.getAsOf().toString()).toBe(AsOf.ofString(json.values[0].asOf).get().toString());
+      expect(statsValue1.getValue().get()).toBe(json.values[0].value);
+      const statsValue2: StatsValue = statsItem.getValues().get(AsOf.ofString(asOf2).get()).get();
+      expect(statsValue2.getAsOf().toString()).toBe(AsOf.ofString(json.values[1].asOf).get().toString());
+      expect(statsValue2.getValue().get()).toBe(json.values[1].value);
     });
 
     it('statsItemID is malformat', () => {
@@ -176,23 +179,26 @@ describe('StatsItem', () => {
         statsItemID: '4d0cf4e5-4f48-4db3-9c04-085374d857d1',
         name: 'name'
       };
+      const asOf1: MockAsOf = new MockAsOf({
+        day: 1
+      });
+      const asOf2: MockAsOf = new MockAsOf({
+        day: 2
+      });
+      const asOf3: MockAsOf = new MockAsOf({
+        day: 3
+      });
       const statsValues: StatsValues = StatsValues.ofArray([
         new MockStatsValue({
-          asOf: new MockAsOf({
-            day: 1
-          }),
+          asOf: asOf1,
           value: new MockNumericalValue(10)
         }),
         new MockStatsValue({
-          asOf: new MockAsOf({
-            day: 2
-          }),
+          asOf: asOf2,
           value: new MockNumericalValue(100)
         }),
         new MockStatsValue({
-          asOf: new MockAsOf({
-            day: 3
-          }),
+          asOf: asOf3,
           value: new MockNumericalValue(1000)
         })
       ]);
@@ -204,11 +210,15 @@ describe('StatsItem', () => {
       expect(statsItem.getStatsItemID().get().get()).toBe(row.statsItemID);
       expect(statsItem.getName().get()).toBe(row.name);
       expect(statsItem.getValues().size()).toBe(statsValues.size());
-      for (let i: number = 0; i < statsItem.getValues().size(); i++) {
-        const statsValue: StatsValue = statsItem.getValues().get(i).get();
-        expect(statsValue.getAsOf()).toBe(statsValues.get(i).get().getAsOf());
-        expect(statsValue.getValue()).toBe(statsValues.get(i).get().getValue());
-      }
+      const statsValue1: StatsValue = statsItem.getValues().get(asOf1).get();
+      expect(statsValue1.getAsOf()).toBe(statsValues.get(asOf1).get().getAsOf());
+      expect(statsValue1.getValue()).toBe(statsValues.get(asOf1).get().getValue());
+      const statsValue2: StatsValue = statsItem.getValues().get(asOf2).get();
+      expect(statsValue2.getAsOf()).toBe(statsValues.get(asOf2).get().getAsOf());
+      expect(statsValue2.getValue()).toBe(statsValues.get(asOf2).get().getValue());
+      const statsValue3: StatsValue = statsItem.getValues().get(asOf3).get();
+      expect(statsValue3.getAsOf()).toBe(statsValues.get(asOf3).get().getAsOf());
+      expect(statsValue3.getValue()).toBe(statsValues.get(asOf3).get().getValue());
     });
 
     it('statsItemID is malformat', () => {
@@ -477,11 +487,11 @@ describe('StatsItem', () => {
         statsItemID,
         StatsItemName.of('name 1'),
         StatsValues.ofSpread(
-          StatsValue.of(statsItemID,
+          StatsValue.of(
             AsOf.ofString('2000-01-01').get(),
             NumericalValue.of(10)
           ),
-          StatsValue.of(statsItemID,
+          StatsValue.of(
             AsOf.ofString('2000-01-02').get(),
             NumericalValue.of(100)
           )
