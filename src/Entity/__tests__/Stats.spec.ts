@@ -163,8 +163,9 @@ describe('Stats', () => {
         expect(stats.getItems().get(i).get().getName().get()).toBe(json.items[i].name);
         expect(stats.getItems().get(i).get().getValues().size()).toBe(json.items[i].values.length);
         for (let j: number = 0; j < stats.getItems().get(i).get().getValues().size(); j++) {
-          expect(stats.getItems().get(i).get().getValues().get(j).get().getAsOf().toString()).toBe(json.items[i].values[j].asOf);
-          expect(stats.getItems().get(i).get().getValues().get(j).get().getValue().get()).toBe(json.items[i].values[j].value);
+          const asOf: AsOf = AsOf.ofString(json.items[i].values[j].asOf).get();
+          expect(stats.getItems().get(i).get().getValues().get(asOf).get().getAsOf().toString()).toBe(json.items[i].values[j].asOf);
+          expect(stats.getItems().get(i).get().getValues().get(asOf).get().getValue().get()).toBe(json.items[i].values[j].value);
         }
       }
     });
@@ -192,12 +193,10 @@ describe('Stats', () => {
           StatsItemName.of('stats item1'),
           StatsValues.ofArray([
             StatsValue.of(
-              StatsItemID.ofString('610b532b-5711-461a-b44a-7387e8d08596').get(),
               AsOf.ofString('2000-01-01').get(),
               NumericalValue.of(1)
             ),
             StatsValue.of(
-              StatsItemID.ofString('610b532b-5711-461a-b44a-7387e8d08596').get(),
               AsOf.ofString('2000-01-02').get(),
               NumericalValue.of(2)
             )
@@ -232,8 +231,8 @@ describe('Stats', () => {
         expect(stats.getItems().get(i).get().getName()).toBe(items[i].getName());
         expect(stats.getItems().get(i).get().getValues().size()).toBe(items[i].getValues().size());
         for (let j: number = 0; j < stats.getItems().get(i).get().getValues().size(); j++) {
-          expect(stats.getItems().get(i).get().getValues().get(j).get().getAsOf()).toBe(items[i].getValues().get(j).get().getAsOf());
-          expect(stats.getItems().get(i).get().getValues().get(j).get().getValue()).toBe(items[i].getValues().get(j).get().getValue());
+          const asOf: AsOf = items[i].getValues().getAsOfs().get(j).get();
+          expect(stats.getItems().get(i).get().getValues().get(asOf).get().getValue()).toBe(items[i].getValues().get(asOf).get().getValue());
         }
       }
     });
@@ -1521,7 +1520,7 @@ describe('Stats', () => {
             statsItemID,
             StatsItemName.of('stats1'),
             StatsValues.ofArray([
-              StatsValue.of(statsItemID,
+              StatsValue.of(
                 AsOf.ofString('2000-01-01').get(),
                 NumericalValue.of(10))
             ])
@@ -1589,7 +1588,6 @@ describe('Stats', () => {
             StatsItemName.of(name1),
             StatsValues.ofArray([
               StatsValue.of(
-                statsItemID,
                 AsOf.ofString(at1).get(),
                 NumericalValue.of(value1)
               )
@@ -2546,10 +2544,10 @@ describe('Stats', () => {
       );
 
       expect(stats.getItems().get(0).get().getValues().size()).toBe(2);
-      expect(stats.getItems().get(0).get().getValues().get(0).get().getAsOf().toString()).toBe('2000-01-01');
-      expect(stats.getItems().get(0).get().getValues().get(0).get().getValue().get()).toBe(1);
-      expect(stats.getItems().get(0).get().getValues().get(1).get().getAsOf().toString()).toBe('2000-01-02');
-      expect(stats.getItems().get(0).get().getValues().get(1).get().getValue().get()).toBe(4);
+      const asOf1: AsOf = AsOf.ofString('2000-01-01').get();
+      expect(stats.getItems().get(0).get().getValues().get(asOf1).get().getValue().get()).toBe(1);
+      const asOf2: AsOf = AsOf.ofString('2000-01-02').get();
+      expect(stats.getItems().get(0).get().getValues().get(asOf2).get().getValue().get()).toBe(4);
     });
 
     it('insert pattern', () => {
@@ -2591,12 +2589,12 @@ describe('Stats', () => {
       );
 
       expect(stats.getItems().get(0).get().getValues().size()).toBe(3);
-      expect(stats.getItems().get(0).get().getValues().get(0).get().getAsOf().toString()).toBe('2000-01-01');
-      expect(stats.getItems().get(0).get().getValues().get(0).get().getValue().get()).toBe(1);
-      expect(stats.getItems().get(0).get().getValues().get(1).get().getAsOf().toString()).toBe('2000-01-02');
-      expect(stats.getItems().get(0).get().getValues().get(1).get().getValue().get()).toBe(2);
-      expect(stats.getItems().get(0).get().getValues().get(2).get().getAsOf().toString()).toBe('2000-01-03');
-      expect(stats.getItems().get(0).get().getValues().get(2).get().getValue().get()).toBe(3);
+      const asOf1: AsOf = AsOf.ofString('2000-01-01').get();
+      expect(stats.getItems().get(0).get().getValues().get(asOf1).get().getValue().get()).toBe(1);
+      const asOf2: AsOf = AsOf.ofString('2000-01-02').get();
+      expect(stats.getItems().get(0).get().getValues().get(asOf2).get().getValue().get()).toBe(2);
+      const asOf3: AsOf = AsOf.ofString('2000-01-03').get();
+      expect(stats.getItems().get(0).get().getValues().get(asOf3).get().getValue().get()).toBe(3);
     });
   });
 
@@ -2667,11 +2665,15 @@ describe('Stats', () => {
       const items: StatsItems = stats.getItems();
       expect(items.size()).toBe(2);
       expect(items.get(0).get().getValues().size()).toBe(1);
-      expect(items.get(0).get().getValues().get(0).get().getAsOf().toString()).toBe('2000-01-03');
+      const asOf1: AsOf = AsOf.ofString('2000-01-03').get();
+      expect(items.get(0).get().getValues().get(asOf1).get().getValue().get()).toBe(2);
       expect(items.get(1).get().getValues().size()).toBe(3);
-      expect(items.get(1).get().getValues().get(0).get().getAsOf().toString()).toBe('2000-01-01');
-      expect(items.get(1).get().getValues().get(1).get().getAsOf().toString()).toBe('2000-01-02');
-      expect(items.get(1).get().getValues().get(2).get().getAsOf().toString()).toBe('2000-01-05');
+      const asOf2: AsOf = AsOf.ofString('2000-01-01').get();
+      expect(items.get(1).get().getValues().get(asOf2).get().getValue().get()).toBe(2);
+      const asOf3: AsOf = AsOf.ofString('2000-01-02').get();
+      expect(items.get(1).get().getValues().get(asOf3).get().getValue().get()).toBe(4);
+      const asOf4: AsOf = AsOf.ofString('2000-01-05').get();
+      expect(items.get(1).get().getValues().get(asOf4).get().getValue().get()).toBe(5);
     });
   });
 
