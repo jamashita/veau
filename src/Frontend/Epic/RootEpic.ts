@@ -21,7 +21,7 @@ export class RootEpic {
   private readonly statsListEpic: StatsListEpic;
 
   public constructor(
-    @inject(TYPE.EntranceEpic) entranceEpic: EntranceEpic,
+  @inject(TYPE.EntranceEpic) entranceEpic: EntranceEpic,
     @inject(TYPE.IdentityEpic) identityEpic: IdentityEpic,
     @inject(TYPE.LogoutEpic) logoutEpic: LogoutEpic,
     @inject(TYPE.RedirectEpic) redirectEpic: RedirectEpic,

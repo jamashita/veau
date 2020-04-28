@@ -2539,7 +2539,8 @@ describe('Stats', () => {
       stats.setData(
         Coordinate.of(
           Row.of(0).get(),
-          Column.of(2).get()),
+          Column.of(2).get()
+        ),
         NumericalValue.of(4)
       );
 
@@ -2588,13 +2589,14 @@ describe('Stats', () => {
         NumericalValue.of(2)
       );
 
-      expect(stats.getItems().get(0).get().getValues().size()).toBe(3);
+      const item: StatsItem = stats.getItems().get(0).get();
+      expect(item.getValues().size()).toBe(3);
       const asOf1: AsOf = AsOf.ofString('2000-01-01').get();
-      expect(stats.getItems().get(0).get().getValues().get(asOf1).get().getValue().get()).toBe(1);
+      expect(item.getValues().get(asOf1).get().getValue().get()).toBe(1);
       const asOf2: AsOf = AsOf.ofString('2000-01-02').get();
-      expect(stats.getItems().get(0).get().getValues().get(asOf2).get().getValue().get()).toBe(2);
+      expect(item.getValues().get(asOf2).get().getValue().get()).toBe(2);
       const asOf3: AsOf = AsOf.ofString('2000-01-03').get();
-      expect(stats.getItems().get(0).get().getValues().get(asOf3).get().getValue().get()).toBe(3);
+      expect(item.getValues().get(asOf3).get().getValue().get()).toBe(3);
     });
   });
 

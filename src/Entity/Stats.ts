@@ -326,7 +326,7 @@ export class Stats extends Entity<StatsID> {
       this.getColumns().get(coordinate.getColumn().get()).ifPresent((asOf: AsOf) => {
         const statsValue: StatsValue = StatsValue.of(asOf, value);
 
-        item.setValue(statsValue);
+        item.set(statsValue);
         this.recalculate();
       });
     });

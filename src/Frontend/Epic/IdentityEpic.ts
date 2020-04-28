@@ -21,7 +21,7 @@ export class IdentityEpic {
   private readonly languageQuery: ILanguageQuery;
 
   public constructor(
-    @inject(TYPE.SessionAJAXQuery) sessionQuery: ISessionQuery,
+  @inject(TYPE.SessionAJAXQuery) sessionQuery: ISessionQuery,
     @inject(TYPE.LocaleVaultQuery) localeQuery: ILocaleQuery,
     @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery
   ) {
