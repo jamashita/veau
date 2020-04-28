@@ -1092,18 +1092,18 @@ describe('StatsItems', () => {
           name: new MockStatsItemName(name1),
           values: new MockStatsValues(
             new MockStatsValue({
-              statsItemID: statsItemID1
+              asOf: new MockAsOf({
+                day: 2
+              })
             })
           )
         }),
         new MockStatsItem({
-          statsItemID: statsItemID2,
           name: new MockStatsItemName(name2)
         })
       ]);
       const statsItems9: StatsItems = StatsItems.ofArray([
         new MockStatsItem({
-          statsItemID: statsItemID1,
           name: new MockStatsItemName(name1)
         }),
         new MockStatsItem({
@@ -1111,7 +1111,9 @@ describe('StatsItems', () => {
           name: new MockStatsItemName(name2),
           values: new MockStatsValues(
             new MockStatsValue({
-              statsItemID: statsItemID2
+              asOf: new MockAsOf({
+                day: 2
+              })
             })
           )
         })
@@ -1122,7 +1124,9 @@ describe('StatsItems', () => {
           name: new MockStatsItemName(name1),
           values: new MockStatsValues(
             new MockStatsValue({
-              statsItemID: statsItemID1
+              asOf: new MockAsOf({
+                day: 2
+              })
             })
           )
         }),
@@ -1131,7 +1135,9 @@ describe('StatsItems', () => {
           name: new MockStatsItemName(name2),
           values: new MockStatsValues(
             new MockStatsValue({
-              statsItemID: statsItemID2
+              asOf: new MockAsOf({
+                day: 2
+              })
             })
           )
         })

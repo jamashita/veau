@@ -15,12 +15,10 @@ import {
   Superposition
 } from 'publikum';
 import { StatsItemError } from '../Error/StatsItemError';
-import { StatsItemIDError } from '../Error/StatsItemIDError';
 import { StatsItemsError } from '../Error/StatsItemsError';
 import { AsOfs } from '../VO/AsOfs';
 import { Column } from '../VO/Column';
 import { Row } from '../VO/Row';
-import { StatsItemID } from '../VO/StatsItemID';
 import { StatsItemName } from '../VO/StatsItemName';
 import { StatsItemNames } from '../VO/StatsItemNames';
 import { StatsValues } from '../VO/StatsValues';
@@ -66,13 +64,7 @@ export class StatsItems extends Objet implements Collection<number, StatsItem>, 
 
   public static ofRow(rows: Array<StatsItemRow>, statsValues: StatsValues): Superposition<StatsItems, StatsItemsError> {
     const superpositions: Array<Superposition<StatsItem, StatsItemError>> = rows.map<Superposition<StatsItem, StatsItemError>>((statsItemRow: StatsItemRow) => {
-      return StatsItemID.ofString(statsItemRow.statsItemID).match<StatsItem, StatsItemError>((statsItemID: StatsItemID) => {
-        const values: StatsValues = statsValues.filter(statsItemID);
-
-        return StatsItem.ofRow(statsItemRow, values);
-      }, (err: StatsItemIDError) => {
-        return Dead.of<StatsItem, StatsItemError>(new StatsItemError('StatsItems.ofRow()', err));
-      });
+      return StatsItem.ofRow(statsItemRow, statsValues);
     });
 
     return StatsItems.ofSuperposition(superpositions);
