@@ -1,4 +1,4 @@
-import { Superposition, UUID } from 'publikum';
+import { Present, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 import { StatsItemError } from '../../Error/StatsItemError';
 import { AsOf } from '../../VO/AsOf';
@@ -578,6 +578,35 @@ describe('StatsItem', () => {
       expect(values.get(0).get().toString()).toBe('1');
       expect(values.get(1).get().toString()).toBe('');
       expect(values.get(2).get().toString()).toBe('3');
+    });
+  });
+
+  describe('delete', () => {
+    it('normal case', () => {
+      const asOf1: MockAsOf = new MockAsOf({
+        day: 4
+      });
+      const asOf2: MockAsOf = new MockAsOf({
+        day: 5
+      });
+      const statsItem: StatsItem = StatsItem.of(
+        new MockStatsItemID(),
+        StatsItemName.empty(),
+        new MockStatsValues(
+          new MockStatsValue({
+            asOf: asOf1
+          }),
+          new MockStatsValue({
+            asOf: asOf2
+          })
+        )
+      );
+
+      statsItem.delete(asOf1);
+      const values: StatsValues = statsItem.getValues();
+
+      expect(values.size()).toBe(1);
+      expect(values.get(asOf2)).toBeInstanceOf(Present);
     });
   });
 

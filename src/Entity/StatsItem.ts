@@ -147,7 +147,7 @@ export class StatsItem extends Entity<StatsItemID> {
     return valuesByColumn;
   }
 
-  public setValue(statsValue: StatsValue): void {
+  public set(statsValue: StatsValue): void {
     this.values = this.values.set(statsValue);
   }
 
