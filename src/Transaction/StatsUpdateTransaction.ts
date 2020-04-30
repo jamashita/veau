@@ -49,7 +49,7 @@ export class StatsUpdateTransaction implements IStatsUpdateTransaction {
         itemPromises.push(statsItemCommand.create(statsID, statsItem, index + 1));
 
         statsItem.getValues().forEach((statsValue: StatsValue) => {
-          valuePromises.push(statsValueCommand.create(statsValue));
+          valuePromises.push(statsValueCommand.create(statsItem.getStatsItemID(), statsValue));
         });
       });
 

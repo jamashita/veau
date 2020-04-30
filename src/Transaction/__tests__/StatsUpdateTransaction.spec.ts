@@ -7,6 +7,8 @@ import { MockStats } from '../../Entity/Mock/MockStats';
 import { MockStatsItem } from '../../Entity/Mock/MockStatsItem';
 import { MockStatsItems } from '../../Entity/Mock/MockStatsItems';
 import { MockStatsUpdateFactory } from '../../Factory/Mock/MockStatsUpdateFactory';
+import { MockAsOf } from '../../VO/Mock/MockAsOf';
+import { MockStatsItemID } from '../../VO/Mock/MockStatsItemID';
 import { MockStatsValue } from '../../VO/Mock/MockStatsValue';
 import { MockStatsValues } from '../../VO/Mock/MockStatsValues';
 import { MockVeauAccountID } from '../../VO/Mock/MockVeauAccountID';
@@ -16,19 +18,43 @@ import { StatsUpdateTransaction } from '../StatsUpdateTransaction';
 describe('StatsUpdateTransaction', () => {
   describe('with', () => {
     it('normal case', async () => {
+      const statsItemID1: MockStatsItemID = new MockStatsItemID();
+      const statsItemID2: MockStatsItemID = new MockStatsItemID();
       const stats: MockStats = new MockStats({
         items: new MockStatsItems(
           new MockStatsItem({
+            statsItemID: statsItemID1,
             values: new MockStatsValues(
-              new MockStatsValue(),
-              new MockStatsValue()
+              new MockStatsValue({
+                asOf: new MockAsOf({
+                  day: 2
+                })
+              }),
+              new MockStatsValue({
+                asOf: new MockAsOf({
+                  day: 3
+                })
+              })
             )
           }),
           new MockStatsItem({
+            statsItemID: statsItemID2,
             values: new MockStatsValues(
-              new MockStatsValue(),
-              new MockStatsValue(),
-              new MockStatsValue()
+              new MockStatsValue({
+                asOf: new MockAsOf({
+                  day: 4
+                })
+              }),
+              new MockStatsValue({
+                asOf: new MockAsOf({
+                  day: 2
+                })
+              }),
+              new MockStatsValue({
+                asOf: new MockAsOf({
+                  day: 3
+                })
+              })
             )
           })
         )
