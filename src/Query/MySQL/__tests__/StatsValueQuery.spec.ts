@@ -1,10 +1,20 @@
-import { DataSourceError, MockError, MockMySQL, MySQLError, Superposition } from 'publikum';
+import {
+  Absent,
+  DataSourceError,
+  MockError,
+  MockMySQL,
+  MySQLError,
+  Project,
+  Superposition
+} from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
 import { StatsValuesError } from '../../../Error/StatsValuesError';
+import { AsOf } from '../../../VO/AsOf';
 import { MockStatsID } from '../../../VO/Mock/MockStatsID';
+import { StatsItemID } from '../../../VO/StatsItemID';
 import { StatsValueRow } from '../../../VO/StatsValue';
 import { StatsValues } from '../../../VO/StatsValues';
 import { StatsValueQuery } from '../StatsValueQuery';
@@ -23,30 +33,35 @@ describe('StatsValueQuery', () => {
   describe('findByStatsID', () => {
     it('normal case', async () => {
       const statsID: MockStatsID = new MockStatsID();
+      const statsItemID1: string = '98d1e9b5-6b18-44de-b615-d8016f49977d';
+      const statsItemID2: string = '5318ad74-f15f-4835-9fd7-890be4cce933';
+      const asOf1: string = '2000-01-01';
+      const asOf2: string = '2000-01-02';
+      const asOf3: string = '2000-01-03';
       const rows: Array<StatsValueRow> = [
         {
-          statsItemID: '98d1e9b5-6b18-44de-b615-d8016f49977d',
-          asOf: '2000-01-01',
+          statsItemID: statsItemID1,
+          asOf: asOf1,
           value: 1
         },
         {
-          statsItemID: '5318ad74-f15f-4835-9fd7-890be4cce933',
-          asOf: '2001-01-01',
+          statsItemID: statsItemID2,
+          asOf: asOf1,
           value: 11
         },
         {
-          statsItemID: '98d1e9b5-6b18-44de-b615-d8016f49977d',
-          asOf: '2000-01-02',
+          statsItemID: statsItemID1,
+          asOf: asOf2,
           value: 2
         },
         {
-          statsItemID: '5318ad74-f15f-4835-9fd7-890be4cce933',
-          asOf: '2001-01-02',
+          statsItemID: statsItemID2,
+          asOf: asOf2,
           value: 12
         },
         {
-          statsItemID: '98d1e9b5-6b18-44de-b615-d8016f49977d',
-          asOf: '2000-01-03',
+          statsItemID: statsItemID1,
+          asOf: asOf3,
           value: 3
         }
       ];
@@ -57,7 +72,7 @@ describe('StatsValueQuery', () => {
       stub.resolves(rows);
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
-      const superposition: Superposition<StatsValues, StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(statsID);
+      const superposition: Superposition<Project<StatsItemID, StatsValues>, StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(statsID);
 
       expect(stub.withArgs(`SELECT
       R1.stats_item_id AS statsItemID,
@@ -70,12 +85,16 @@ describe('StatsValueQuery', () => {
         statsID: statsID.get().get()
       }).called).toBe(true);
       expect(superposition.isAlive()).toBe(true);
-      const values: StatsValues = superposition.get();
-      for (let i: number = 0; i < values.size(); i++) {
-        expect(values.get(i).get().getStatsItemID().get().get()).toBe(rows[i].statsItemID);
-        expect(values.get(i).get().getAsOf().toString()).toBe(rows[i].asOf);
-        expect(values.get(i).get().getValue().get()).toBe(rows[i].value);
-      }
+      const project: Project<StatsItemID, StatsValues> = superposition.get();
+      const statsValues1: StatsValues = project.get(StatsItemID.ofString(statsItemID1).get()).get();
+      const statsValues2: StatsValues = project.get(StatsItemID.ofString(statsItemID2).get()).get();
+
+      expect(statsValues1.get(AsOf.ofString(asOf1).get()).get().getValue().get()).toBe(1);
+      expect(statsValues1.get(AsOf.ofString(asOf2).get()).get().getValue().get()).toBe(2);
+      expect(statsValues1.get(AsOf.ofString(asOf3).get()).get().getValue().get()).toBe(3);
+      expect(statsValues2.get(AsOf.ofString(asOf1).get()).get().getValue().get()).toBe(11);
+      expect(statsValues2.get(AsOf.ofString(asOf2).get()).get().getValue().get()).toBe(12);
+      expect(statsValues2.get(AsOf.ofString(asOf3).get())).toBeInstanceOf(Absent);
     });
 
     it('returns Dead when statsItemID is malformat', async () => {
@@ -116,7 +135,7 @@ describe('StatsValueQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
-      const superposition: Superposition<StatsValues, StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(statsID);
+      const superposition: Superposition<Project<StatsItemID, StatsValues>, StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
@@ -141,7 +160,7 @@ describe('StatsValueQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
-      const superposition: Superposition<StatsValues, StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(statsID);
+      const superposition: Superposition<Project<StatsItemID, StatsValues>, StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
