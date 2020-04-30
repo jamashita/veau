@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { Superposition, Zeit } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 import { UpdatedAtError } from '../../Error/UpdatedAtError';
@@ -51,9 +50,9 @@ describe('UpdatedAt', () => {
 
   describe('equals', () => {
     it('returns true if both properties are the same', () => {
-      const at1: UpdatedAt = UpdatedAt.of(Zeit.of(dayjs('2000-01-01 00:00:00'), 'YYYY-MM-DD HH:mm:ss'));
-      const at2: UpdatedAt = UpdatedAt.of(Zeit.of(dayjs('2000-01-02 00:00:00'), 'YYYY-MM-DD HH:mm:ss'));
-      const at3: UpdatedAt = UpdatedAt.of(Zeit.of(dayjs('2000-01-01 00:00:00'), 'YYYY-MM-DD HH:mm:ss'));
+      const at1: UpdatedAt = UpdatedAt.of(Zeit.ofString('2000-01-01 00:00:00', 'YYYY-MM-DD HH:mm:ss'));
+      const at2: UpdatedAt = UpdatedAt.of(Zeit.ofString('2000-01-02 00:00:00', 'YYYY-MM-DD HH:mm:ss'));
+      const at3: UpdatedAt = UpdatedAt.of(Zeit.ofString('2000-01-01 00:00:00', 'YYYY-MM-DD HH:mm:ss'));
 
       expect(at1.equals(at1)).toBe(true);
       expect(at1.equals(at2)).toBe(false);
