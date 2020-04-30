@@ -1,11 +1,12 @@
 import { inject, injectable } from 'inversify';
-import { DataSourceError, Dead, IMySQL, MySQLError, Superposition } from 'publikum';
+import { DataSourceError, Dead, IMySQL, MySQLError, Project, Superposition } from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { StatsItemRow } from '../../Entity/StatsItem';
 import { StatsItems } from '../../Entity/StatsItems';
 import { StatsItemsError } from '../../Error/StatsItemsError';
 import { StatsValuesError } from '../../Error/StatsValuesError';
 import { StatsID } from '../../VO/StatsID';
+import { StatsItemID } from '../../VO/StatsItemID';
 import { StatsValues } from '../../VO/StatsValues';
 import { IMySQLQuery } from '../Interface/IMySQLQuery';
 import { IStatsItemQuery } from '../Interface/IStatsItemQuery';
@@ -19,7 +20,7 @@ export class StatsItemQuery implements IStatsItemQuery, IMySQLQuery {
   private readonly statsValueQuery: IStatsValueQuery;
 
   public constructor(
-  @inject(TYPE.MySQL) mysql: IMySQL,
+    @inject(TYPE.MySQL) mysql: IMySQL,
     @inject(TYPE.StatsValueMySQLQuery) statsValueQuery: IStatsValueQuery
   ) {
     this.mysql = mysql;
@@ -42,10 +43,10 @@ export class StatsItemQuery implements IStatsItemQuery, IMySQLQuery {
         }
       );
 
-      const superposition: Superposition<StatsValues, StatsValuesError | DataSourceError> = await this.statsValueQuery.findByStatsID(statsID);
+      const superposition: Superposition<Project<StatsItemID, StatsValues>, StatsValuesError | DataSourceError> = await this.statsValueQuery.findByStatsID(statsID);
 
-      return superposition.match<StatsItems, StatsItemsError | DataSourceError>((statsValues: StatsValues) => {
-        return StatsItems.ofRow(statsItemRows, statsValues);
+      return superposition.match<StatsItems, StatsItemsError | DataSourceError>((project: Project<StatsItemID, StatsValues>) => {
+        return StatsItems.ofRow(statsItemRows, project);
       }, (err: StatsValuesError | DataSourceError) => {
         if (err instanceof DataSourceError) {
           return Dead.of<StatsItems, DataSourceError>(err);

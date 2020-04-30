@@ -1,10 +1,13 @@
 import {
+  Absent,
   Alive,
   DataSourceError,
   Dead,
+  ImmutableProject,
   MockError,
   MockMySQL,
   MySQLError,
+  Project,
   Superposition,
   UUID
 } from 'publikum';
@@ -19,9 +22,9 @@ import { StatsValuesError } from '../../../Error/StatsValuesError';
 import { MockAsOf } from '../../../VO/Mock/MockAsOf';
 import { MockNumericalValue } from '../../../VO/Mock/MockNumericalValue';
 import { MockStatsID } from '../../../VO/Mock/MockStatsID';
-import { MockStatsItemID } from '../../../VO/Mock/MockStatsItemID';
 import { MockStatsValue } from '../../../VO/Mock/MockStatsValue';
 import { MockStatsValues } from '../../../VO/Mock/MockStatsValues';
+import { StatsItemID } from '../../../VO/StatsItemID';
 import { StatsValues } from '../../../VO/StatsValues';
 import { MockStatsValueQuery } from '../../Mock/MockStatsValueQuery';
 import { StatsItemQuery } from '../StatsItemQuery';
@@ -46,6 +49,15 @@ describe('StatsItemQuery', () => {
       const itemName1: string = 'item name 1';
       const itemName2: string = 'item name 2';
       const itemName3: string = 'item name 3';
+      const asOf1: MockAsOf = new MockAsOf({
+        day: 1
+      });
+      const asOf2: MockAsOf = new MockAsOf({
+        day: 2
+      });
+      const asOf3: MockAsOf = new MockAsOf({
+        day: 3
+      });
       const statsID: MockStatsID = new MockStatsID(uuid1);
       const rows: Array<StatsItemRow> = [
         {
@@ -61,42 +73,39 @@ describe('StatsItemQuery', () => {
           name: itemName3
         }
       ];
-      const values: MockStatsValues = new MockStatsValues(
-        new MockStatsValue({
-          statsItemID: new MockStatsItemID(uuid2),
-          asOf: new MockAsOf({
-            day: 1
-          }),
-          value: new MockNumericalValue(1)
-        }),
-        new MockStatsValue({
-          statsItemID: new MockStatsItemID(uuid3),
-          asOf: new MockAsOf({
-            day: 1
-          }),
-          value: new MockNumericalValue(11)
-        }),
-        new MockStatsValue({
-          statsItemID: new MockStatsItemID(uuid2),
-          asOf: new MockAsOf({
-            day: 2
-          }),
-          value: new MockNumericalValue(2)
-        }),
-        new MockStatsValue({
-          statsItemID: new MockStatsItemID(uuid3),
-          asOf: new MockAsOf({
-            day: 2
-          }),
-          value: new MockNumericalValue(12)
-        }),
-        new MockStatsValue({
-          statsItemID: new MockStatsItemID(uuid2),
-          asOf: new MockAsOf({
-            day: 3
-          }),
-          value: new MockNumericalValue(4)
-        })
+      const project: Project<StatsItemID, StatsValues> = ImmutableProject.of<StatsItemID, StatsValues>(
+        new Map<StatsItemID, StatsValues>([
+          [
+            StatsItemID.of(uuid2),
+            new MockStatsValues(
+              new MockStatsValue({
+                asOf: asOf1,
+                value: new MockNumericalValue(1)
+              }),
+              new MockStatsValue({
+                asOf: asOf2,
+                value: new MockNumericalValue(2)
+              }),
+              new MockStatsValue({
+                asOf: asOf3,
+                value: new MockNumericalValue(4)
+              })
+            )
+          ],
+          [
+            StatsItemID.of(uuid3),
+            new MockStatsValues(
+              new MockStatsValue({
+                asOf: asOf1,
+                value: new MockNumericalValue(11)
+              }),
+              new MockStatsValue({
+                asOf: asOf2,
+                value: new MockNumericalValue(12)
+              })
+            )
+          ]
+        ])
       );
 
       const mysql: MockMySQL = new MockMySQL();
@@ -106,7 +115,7 @@ describe('StatsItemQuery', () => {
       const statsValueQuery: MockStatsValueQuery = new MockStatsValueQuery();
       const stub2: SinonStub = sinon.stub();
       statsValueQuery.findByStatsID = stub2;
-      stub2.resolves(Alive.of<StatsValues, StatsValuesError | DataSourceError>(values));
+      stub2.resolves(Alive.of<Project<StatsItemID, StatsValues>, StatsValuesError | DataSourceError>(project));
 
       const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
       const superposition: Superposition<StatsItems, StatsItemsError | DataSourceError> = await statsItemQuery.findByStatsID(statsID);
@@ -125,16 +134,20 @@ describe('StatsItemQuery', () => {
       for (let i: number = 0; i < statsItems.size(); i++) {
         expect(statsItems.get(i).get().getStatsItemID().get().get()).toBe(rows[i].statsItemID);
         expect(statsItems.get(i).get().getName().get()).toBe(rows[i].name);
-
-        const vs: StatsValues = values.filter(statsItems.get(i).get().getStatsItemID());
-        expect(statsItems.get(i).get().getValues().size()).toBe(vs.size());
-
-        for (let j: number = 0; j < vs.size(); j++) {
-          expect(statsItems.get(i).get().getValues().get(j).get().getStatsItemID().get()).toBe(vs.get(j).get().getStatsItemID().get());
-          expect(statsItems.get(i).get().getValues().get(j).get().getAsOf().toString()).toBe(vs.get(j).get().getAsOf().toString());
-          expect(statsItems.get(i).get().getValues().get(j).get().getValue().get()).toBe(vs.get(j).get().getValue().get());
-        }
       }
+
+      const values2: StatsValues = statsItems.get(0).get().getValues();
+      const values3: StatsValues = statsItems.get(1).get().getValues();
+
+      expect(values2.size()).toBe(3);
+      expect(values3.size()).toBe(2);
+
+      expect(values2.get(asOf1).get().getValue().get()).toBe(1);
+      expect(values2.get(asOf2).get().getValue().get()).toBe(2);
+      expect(values2.get(asOf3).get().getValue().get()).toBe(4);
+      expect(values3.get(asOf1).get().getValue().get()).toBe(11);
+      expect(values3.get(asOf2).get().getValue().get()).toBe(12);
+      expect(values3.get(asOf3)).toBeInstanceOf(Absent);
     });
 
     it('returns Dead when statsItems\' statsItemID is malformat', async () => {
