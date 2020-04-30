@@ -2506,6 +2506,8 @@ describe('Stats', () => {
 
   describe('setData', () => {
     it('update pattern', () => {
+      const asOf1: AsOf = AsOf.ofString('2000-01-01').get();
+      const asOf2: AsOf = AsOf.ofString('2000-01-02').get();
       const stats: Stats = Stats.of(
         new MockStatsID(),
         new MockLanguage(),
@@ -2518,17 +2520,11 @@ describe('Stats', () => {
           new MockStatsItem({
             values: new MockStatsValues(
               new MockStatsValue({
-                asOf: new MockAsOf({
-                  month: 1,
-                  day: 1
-                }),
+                asOf: asOf1,
                 value: new MockNumericalValue(1)
               }),
               new MockStatsValue({
-                asOf: new MockAsOf({
-                  month: 1,
-                  day: 2
-                }),
+                asOf: asOf2,
                 value: new MockNumericalValue(2)
               })
             )
@@ -2544,14 +2540,16 @@ describe('Stats', () => {
         NumericalValue.of(4)
       );
 
-      expect(stats.getItems().get(0).get().getValues().size()).toBe(2);
-      const asOf1: AsOf = AsOf.ofString('2000-01-01').get();
-      expect(stats.getItems().get(0).get().getValues().get(asOf1).get().getValue().get()).toBe(1);
-      const asOf2: AsOf = AsOf.ofString('2000-01-02').get();
-      expect(stats.getItems().get(0).get().getValues().get(asOf2).get().getValue().get()).toBe(4);
+      const values: StatsValues = stats.getItems().get(0).get().getValues();
+      expect(values.size()).toBe(2);
+      expect(values.get(asOf1).get().getValue().get()).toBe(1);
+      expect(values.get(asOf2).get().getValue().get()).toBe(4);
     });
 
     it('insert pattern', () => {
+      const asOf1: AsOf = AsOf.ofString('2000-01-01').get();
+      const asOf2: AsOf = AsOf.ofString('2000-01-02').get();
+      const asOf3: AsOf = AsOf.ofString('2000-01-03').get();
       const stats: Stats = Stats.of(
         new MockStatsID(),
         new MockLanguage(),
@@ -2564,17 +2562,11 @@ describe('Stats', () => {
           new MockStatsItem({
             values: new MockStatsValues(
               new MockStatsValue({
-                asOf: new MockAsOf({
-                  month: 1,
-                  day: 1
-                }),
+                asOf: asOf1,
                 value: new MockNumericalValue(1)
               }),
               new MockStatsValue({
-                asOf: new MockAsOf({
-                  month: 1,
-                  day: 3
-                }),
+                asOf: asOf3,
                 value: new MockNumericalValue(3)
               })
             )
@@ -2591,17 +2583,18 @@ describe('Stats', () => {
 
       const item: StatsItem = stats.getItems().get(0).get();
       expect(item.getValues().size()).toBe(3);
-      const asOf1: AsOf = AsOf.ofString('2000-01-01').get();
       expect(item.getValues().get(asOf1).get().getValue().get()).toBe(1);
-      const asOf2: AsOf = AsOf.ofString('2000-01-02').get();
       expect(item.getValues().get(asOf2).get().getValue().get()).toBe(2);
-      const asOf3: AsOf = AsOf.ofString('2000-01-03').get();
       expect(item.getValues().get(asOf3).get().getValue().get()).toBe(3);
     });
   });
 
   describe('deleteData', () => {
     it('correctly deletes the specified StatsValue', () => {
+      const asOf1: AsOf = AsOf.ofString('2000-01-01').get();
+      const asOf2: AsOf = AsOf.ofString('2000-01-02').get();
+      const asOf3: AsOf = AsOf.ofString('2000-01-03').get();
+      const asOf4: AsOf = AsOf.ofString('2000-01-05').get();
       const stats: Stats = Stats.of(
         new MockStatsID(),
         new MockLanguage(),
@@ -2614,17 +2607,11 @@ describe('Stats', () => {
           new MockStatsItem({
             values: new MockStatsValues(
               new MockStatsValue({
-                asOf: new MockAsOf({
-                  month: 1,
-                  day: 1
-                }),
+                asOf: asOf1,
                 value: new MockNumericalValue(1)
               }),
               new MockStatsValue({
-                asOf: new MockAsOf({
-                  month: 1,
-                  day: 3
-                }),
+                asOf: asOf3,
                 value: new MockNumericalValue(2)
               })
             )
@@ -2632,24 +2619,15 @@ describe('Stats', () => {
           new MockStatsItem({
             values: new MockStatsValues(
               new MockStatsValue({
-                asOf: new MockAsOf({
-                  month: 1,
-                  day: 1
-                }),
+                asOf: asOf1,
                 value: new MockNumericalValue(2)
               }),
               new MockStatsValue({
-                asOf: new MockAsOf({
-                  month: 1,
-                  day: 2
-                }),
+                asOf: asOf2,
                 value: new MockNumericalValue(4)
               }),
               new MockStatsValue({
-                asOf: new MockAsOf({
-                  month: 1,
-                  day: 5
-                }),
+                asOf: asOf4,
                 value: new MockNumericalValue(6)
               })
             )
@@ -2667,15 +2645,11 @@ describe('Stats', () => {
       const items: StatsItems = stats.getItems();
       expect(items.size()).toBe(2);
       expect(items.get(0).get().getValues().size()).toBe(1);
-      const asOf1: AsOf = AsOf.ofString('2000-01-03').get();
-      expect(items.get(0).get().getValues().get(asOf1).get().getValue().get()).toBe(2);
+      expect(items.get(0).get().getValues().get(asOf3).get().getValue().get()).toBe(2);
       expect(items.get(1).get().getValues().size()).toBe(3);
-      const asOf2: AsOf = AsOf.ofString('2000-01-01').get();
-      expect(items.get(1).get().getValues().get(asOf2).get().getValue().get()).toBe(2);
-      const asOf3: AsOf = AsOf.ofString('2000-01-02').get();
-      expect(items.get(1).get().getValues().get(asOf3).get().getValue().get()).toBe(4);
-      const asOf4: AsOf = AsOf.ofString('2000-01-05').get();
-      expect(items.get(1).get().getValues().get(asOf4).get().getValue().get()).toBe(5);
+      expect(items.get(1).get().getValues().get(asOf1).get().getValue().get()).toBe(2);
+      expect(items.get(1).get().getValues().get(asOf2).get().getValue().get()).toBe(4);
+      expect(items.get(1).get().getValues().get(asOf4).get().getValue().get()).toBe(6);
     });
   });
 
