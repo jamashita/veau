@@ -1,4 +1,4 @@
-import { Present, Superposition, UUID } from 'publikum';
+import { ImmutableProject, Present, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 import { StatsItemError } from '../../Error/StatsItemError';
 import { AsOf } from '../../VO/AsOf';
@@ -175,6 +175,61 @@ describe('StatsItem', () => {
 
   describe('ofRow', () => {
     it('normal case', () => {
+      const statsItemID: string = '4d0cf4e5-4f48-4db3-9c04-085374d857d1';
+      const row: StatsItemRow = {
+        statsItemID,
+        name: 'name'
+      };
+      const asOf1: MockAsOf = new MockAsOf({
+        day: 1
+      });
+      const asOf2: MockAsOf = new MockAsOf({
+        day: 2
+      });
+      const asOf3: MockAsOf = new MockAsOf({
+        day: 3
+      });
+      const statsValues: StatsValues = StatsValues.ofArray([
+        new MockStatsValue({
+          asOf: asOf1,
+          value: new MockNumericalValue(10)
+        }),
+        new MockStatsValue({
+          asOf: asOf2,
+          value: new MockNumericalValue(100)
+        }),
+        new MockStatsValue({
+          asOf: asOf3,
+          value: new MockNumericalValue(1000)
+        })
+      ]);
+
+      const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofRow(
+        row,
+        ImmutableProject.of(
+          new Map<StatsItemID, StatsValues>(
+            [[StatsItemID.ofString(statsItemID).get(), statsValues]]
+          )
+        )
+      );
+
+      expect(superposition.isAlive()).toBe(true);
+      const statsItem: StatsItem = superposition.get();
+      expect(statsItem.getStatsItemID().get().get()).toBe(row.statsItemID);
+      expect(statsItem.getName().get()).toBe(row.name);
+      expect(statsItem.getValues().size()).toBe(statsValues.size());
+      const statsValue1: StatsValue = statsItem.getValues().get(asOf1).get();
+      expect(statsValue1.getAsOf()).toBe(statsValues.get(asOf1).get().getAsOf());
+      expect(statsValue1.getValue()).toBe(statsValues.get(asOf1).get().getValue());
+      const statsValue2: StatsValue = statsItem.getValues().get(asOf2).get();
+      expect(statsValue2.getAsOf()).toBe(statsValues.get(asOf2).get().getAsOf());
+      expect(statsValue2.getValue()).toBe(statsValues.get(asOf2).get().getValue());
+      const statsValue3: StatsValue = statsItem.getValues().get(asOf3).get();
+      expect(statsValue3.getAsOf()).toBe(statsValues.get(asOf3).get().getAsOf());
+      expect(statsValue3.getValue()).toBe(statsValues.get(asOf3).get().getValue());
+    });
+
+    it('does not have values of that StatsItemID', () => {
       const row: StatsItemRow = {
         statsItemID: '4d0cf4e5-4f48-4db3-9c04-085374d857d1',
         name: 'name'
@@ -203,22 +258,29 @@ describe('StatsItem', () => {
         })
       ]);
 
-      const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofRow(row, statsValues);
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
-      expect(superposition.isAlive()).toBe(true);
-      const statsItem: StatsItem = superposition.get();
-      expect(statsItem.getStatsItemID().get().get()).toBe(row.statsItemID);
-      expect(statsItem.getName().get()).toBe(row.name);
-      expect(statsItem.getValues().size()).toBe(statsValues.size());
-      const statsValue1: StatsValue = statsItem.getValues().get(asOf1).get();
-      expect(statsValue1.getAsOf()).toBe(statsValues.get(asOf1).get().getAsOf());
-      expect(statsValue1.getValue()).toBe(statsValues.get(asOf1).get().getValue());
-      const statsValue2: StatsValue = statsItem.getValues().get(asOf2).get();
-      expect(statsValue2.getAsOf()).toBe(statsValues.get(asOf2).get().getAsOf());
-      expect(statsValue2.getValue()).toBe(statsValues.get(asOf2).get().getValue());
-      const statsValue3: StatsValue = statsItem.getValues().get(asOf3).get();
-      expect(statsValue3.getAsOf()).toBe(statsValues.get(asOf3).get().getAsOf());
-      expect(statsValue3.getValue()).toBe(statsValues.get(asOf3).get().getValue());
+      const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofRow(
+        row,
+        ImmutableProject.of(
+          new Map<StatsItemID, StatsValues>(
+            [[StatsItemID.ofString('4d0cf4e5-4f48-4db3-9c04-085374d857d2').get(), statsValues]]
+          )
+        )
+      );
+
+      expect(superposition.isDead()).toBe(true);
+      superposition.match<void>((item: StatsItem) => {
+        spy1();
+        expect(item.getStatsItemID().get().get()).toBe(row.statsItemID);
+      }, (err: StatsItemError) => {
+        spy2();
+        expect(err).toBeInstanceOf(StatsItemError);
+      });
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
     it('statsItemID is malformat', () => {
@@ -250,7 +312,14 @@ describe('StatsItem', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofRow(row, statsValues);
+      const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofRow(
+        row,
+        ImmutableProject.of(
+          new Map<StatsItemID, StatsValues>(
+            [[StatsItemID.ofString('4d0cf4e5-4f48-4db3-9c04-085374d857d1').get(), statsValues]]
+          )
+        )
+      );
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>((item: StatsItem) => {
