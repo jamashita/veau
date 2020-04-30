@@ -1,4 +1,4 @@
-import { Alive, Dead, Entity, Kind, Project, QuantumError, Superposition } from 'publikum';
+import { Alive, Dead, Entity, Kind, Project, Superposition } from 'publikum';
 import { StatsItemError } from '../Error/StatsItemError';
 import { StatsItemIDError } from '../Error/StatsItemIDError';
 import { StatsValuesError } from '../Error/StatsValuesError';
@@ -55,17 +55,15 @@ export class StatsItem extends Entity<StatsItemID> {
 
   public static ofRow(row: StatsItemRow, project: Project<StatsItemID, StatsValues>): Superposition<StatsItem, StatsItemError> {
     return StatsItemID.ofString(row.statsItemID).match<StatsItem, StatsItemError>((statsItemID: StatsItemID) => {
-      return project.get(statsItemID).toSuperposition().match<StatsItem, StatsItemError>((values: StatsValues) => {
-        return Alive.of<StatsItem, StatsItemError>(
-          StatsItem.of(
-            statsItemID,
-            StatsItemName.of(row.name),
-            values
-          )
-        );
-      }, (err: QuantumError) => {
-        return Dead.of<StatsItem, StatsItemError>(new StatsItemError('StatsItem.ofRow()', err));
-      });
+      const values: StatsValues = project.get(statsItemID).orElse(StatsValues.empty());
+
+      return Alive.of<StatsItem, StatsItemError>(
+        StatsItem.of(
+          statsItemID,
+          StatsItemName.of(row.name),
+          values
+        )
+      );
     }, (err: StatsItemIDError) => {
       return Dead.of<StatsItem, StatsItemError>(new StatsItemError('StatsItem.ofRow()', err));
     });

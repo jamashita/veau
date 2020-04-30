@@ -10,6 +10,7 @@ import {
   manoeuvre,
   Mapper,
   Objet,
+  Project,
   Quantum,
   Sequence,
   Superposition
@@ -19,6 +20,7 @@ import { StatsItemsError } from '../Error/StatsItemsError';
 import { AsOfs } from '../VO/AsOfs';
 import { Column } from '../VO/Column';
 import { Row } from '../VO/Row';
+import { StatsItemID } from '../VO/StatsItemID';
 import { StatsItemName } from '../VO/StatsItemName';
 import { StatsItemNames } from '../VO/StatsItemNames';
 import { StatsValues } from '../VO/StatsValues';
@@ -62,9 +64,9 @@ export class StatsItems extends Objet implements Collection<number, StatsItem>, 
     return StatsItems.ofSuperposition(superpositions);
   }
 
-  public static ofRow(rows: Array<StatsItemRow>, statsValues: StatsValues): Superposition<StatsItems, StatsItemsError> {
+  public static ofRow(rows: Array<StatsItemRow>, project: Project<StatsItemID, StatsValues>): Superposition<StatsItems, StatsItemsError> {
     const superpositions: Array<Superposition<StatsItem, StatsItemError>> = rows.map<Superposition<StatsItem, StatsItemError>>((statsItemRow: StatsItemRow) => {
-      return StatsItem.ofRow(statsItemRow, statsValues);
+      return StatsItem.ofRow(statsItemRow, project);
     });
 
     return StatsItems.ofSuperposition(superpositions);

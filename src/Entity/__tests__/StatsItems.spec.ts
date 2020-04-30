@@ -1,4 +1,4 @@
-import { Absent, Alive, Dead, ImmutableSequence, Superposition } from 'publikum';
+import { Absent, Alive, Dead, ImmutableProject, ImmutableSequence, Superposition } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 import { StatsItemError } from '../../Error/StatsItemError';
 import { StatsItemsError } from '../../Error/StatsItemsError';
@@ -125,7 +125,7 @@ describe('StatsItems', () => {
 
       const superposition: Superposition<StatsItems, StatsItemsError> = StatsItems.ofRow(
         row,
-        StatsValues.empty()
+        ImmutableProject.empty<StatsItemID, StatsValues>()
       );
 
       expect(superposition.isAlive()).toBe(true);
@@ -155,7 +155,7 @@ describe('StatsItems', () => {
 
       const superposition: Superposition<StatsItems, StatsItemsError> = StatsItems.ofRow(
         row,
-        StatsValues.empty()
+        ImmutableProject.empty<StatsItemID, StatsValues>()
       );
 
       expect(superposition.isDead()).toBe(true);
@@ -187,7 +187,7 @@ describe('StatsItems', () => {
 
       const superposition: Superposition<StatsItems, StatsItemsError> = StatsItems.ofRow(
         row,
-        StatsValues.empty()
+        ImmutableProject.empty<StatsItemID, StatsValues>()
       );
 
       expect(superposition.isDead()).toBe(true);

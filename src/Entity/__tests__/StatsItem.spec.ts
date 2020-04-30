@@ -258,9 +258,6 @@ describe('StatsItem', () => {
         })
       ]);
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofRow(
         row,
         ImmutableProject.of(
@@ -270,17 +267,11 @@ describe('StatsItem', () => {
         )
       );
 
-      expect(superposition.isDead()).toBe(true);
-      superposition.match<void>((item: StatsItem) => {
-        spy1();
-        expect(item.getStatsItemID().get().get()).toBe(row.statsItemID);
-      }, (err: StatsItemError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsItemError);
-      });
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
+      const statsItem: StatsItem = superposition.get();
+      expect(statsItem.getStatsItemID().get().get()).toBe(row.statsItemID);
+      expect(statsItem.getName().get()).toBe(row.name);
+      expect(statsItem.getValues().size()).toBe(0);
     });
 
     it('statsItemID is malformat', () => {
