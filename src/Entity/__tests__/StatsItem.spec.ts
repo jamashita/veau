@@ -175,9 +175,10 @@ describe('StatsItem', () => {
 
   describe('ofRow', () => {
     it('normal case', () => {
-      const statsItemID: string = '4d0cf4e5-4f48-4db3-9c04-085374d857d1';
+      const statsItemID1: string = '4d0cf4e5-4f48-4db3-9c04-085374d857d1';
+      const statsItemID2: string = '4d0cf4e5-4f48-4db3-9c04-085374d857d2';
       const row: StatsItemRow = {
-        statsItemID,
+        statsItemID: statsItemID1,
         name: 'name'
       };
       const asOf1: MockAsOf = new MockAsOf({
@@ -189,44 +190,66 @@ describe('StatsItem', () => {
       const asOf3: MockAsOf = new MockAsOf({
         day: 3
       });
-      const statsValues: StatsValues = StatsValues.ofArray([
-        new MockStatsValue({
-          asOf: asOf1,
-          value: new MockNumericalValue(10)
-        }),
-        new MockStatsValue({
-          asOf: asOf2,
-          value: new MockNumericalValue(100)
-        }),
-        new MockStatsValue({
-          asOf: asOf3,
-          value: new MockNumericalValue(1000)
-        })
-      ]);
+      const project: ImmutableProject<StatsItemID, StatsValues> = ImmutableProject.of<StatsItemID, StatsValues>(
+        new Map<StatsItemID, StatsValues>(
+          [
+            [
+              StatsItemID.ofString(statsItemID1).get(),
+              StatsValues.ofSpread(
+                new MockStatsValue({
+                  asOf: asOf1,
+                  value: new MockNumericalValue(10)
+                }),
+                new MockStatsValue({
+                  asOf: asOf2,
+                  value: new MockNumericalValue(100)
+                }),
+                new MockStatsValue({
+                  asOf: asOf3,
+                  value: new MockNumericalValue(1000)
+                })
+              )
+            ],
+            [
+              StatsItemID.ofString(statsItemID2).get(),
+              StatsValues.ofSpread(
+                new MockStatsValue({
+                  asOf: asOf1,
+                  value: new MockNumericalValue(11)
+                }),
+                new MockStatsValue({
+                  asOf: asOf2,
+                  value: new MockNumericalValue(101)
+                }),
+                new MockStatsValue({
+                  asOf: asOf3,
+                  value: new MockNumericalValue(1001)
+                })
+              )
+            ]
+          ]
+        )
+      );
 
       const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofRow(
         row,
-        ImmutableProject.of(
-          new Map<StatsItemID, StatsValues>(
-            [[StatsItemID.ofString(statsItemID).get(), statsValues]]
-          )
-        )
+        project
       );
 
       expect(superposition.isAlive()).toBe(true);
       const statsItem: StatsItem = superposition.get();
       expect(statsItem.getStatsItemID().get().get()).toBe(row.statsItemID);
       expect(statsItem.getName().get()).toBe(row.name);
-      expect(statsItem.getValues().size()).toBe(statsValues.size());
+      expect(statsItem.getValues().size()).toBe(statsItem.getValues().size());
       const statsValue1: StatsValue = statsItem.getValues().get(asOf1).get();
-      expect(statsValue1.getAsOf()).toBe(statsValues.get(asOf1).get().getAsOf());
-      expect(statsValue1.getValue()).toBe(statsValues.get(asOf1).get().getValue());
+      expect(statsValue1.getAsOf()).toBe(statsItem.getValues().get(asOf1).get().getAsOf());
+      expect(statsValue1.getValue()).toBe(statsItem.getValues().get(asOf1).get().getValue());
       const statsValue2: StatsValue = statsItem.getValues().get(asOf2).get();
-      expect(statsValue2.getAsOf()).toBe(statsValues.get(asOf2).get().getAsOf());
-      expect(statsValue2.getValue()).toBe(statsValues.get(asOf2).get().getValue());
+      expect(statsValue2.getAsOf()).toBe(statsItem.getValues().get(asOf2).get().getAsOf());
+      expect(statsValue2.getValue()).toBe(statsItem.getValues().get(asOf2).get().getValue());
       const statsValue3: StatsValue = statsItem.getValues().get(asOf3).get();
-      expect(statsValue3.getAsOf()).toBe(statsValues.get(asOf3).get().getAsOf());
-      expect(statsValue3.getValue()).toBe(statsValues.get(asOf3).get().getValue());
+      expect(statsValue3.getAsOf()).toBe(statsItem.getValues().get(asOf3).get().getAsOf());
+      expect(statsValue3.getValue()).toBe(statsItem.getValues().get(asOf3).get().getValue());
     });
 
     it('does not have values of that StatsItemID', () => {

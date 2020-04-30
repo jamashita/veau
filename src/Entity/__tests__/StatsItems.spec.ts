@@ -1,4 +1,12 @@
-import { Absent, Alive, Dead, ImmutableProject, ImmutableSequence, Superposition } from 'publikum';
+import {
+  Absent,
+  Alive,
+  Dead,
+  ImmutableProject,
+  ImmutableSequence,
+  Superposition,
+  UUID
+} from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 import { StatsItemError } from '../../Error/StatsItemError';
 import { StatsItemsError } from '../../Error/StatsItemsError';
@@ -112,20 +120,61 @@ describe('StatsItems', () => {
 
   describe('ofRow', () => {
     it('normal case', () => {
+      const statsItemID1: string = 'b1524ae3-8e91-4938-9997-579ef7b84602';
+      const statsItemID2: string = '1f0719d6-6512-43b3-93f9-2a92bcb51e32';
       const row: Array<StatsItemRow> = [
         {
-          statsItemID: 'b1524ae3-8e91-4938-9997-579ef7b84602',
+          statsItemID: statsItemID1,
           name: 'stats name 1'
         },
         {
-          statsItemID: '1f0719d6-6512-43b3-93f9-2a92bcb51e32',
+          statsItemID: statsItemID2,
           name: 'stats name 2'
         }
       ];
+      const asOf1: MockAsOf = new MockAsOf({
+        day: 1
+      });
+      const asOf2: MockAsOf = new MockAsOf({
+        day: 2
+      });
+      const asOf3: MockAsOf = new MockAsOf({
+        day: 3
+      });
+      const project: ImmutableProject<StatsItemID, StatsValues> = ImmutableProject.of<StatsItemID, StatsValues>(
+        new Map<StatsItemID, StatsValues>([
+          [
+            StatsItemID.of(UUID.of(statsItemID1)),
+            new MockStatsValues(
+              new MockStatsValue({
+                asOf: asOf2,
+                value: new MockNumericalValue(1)
+              }),
+              new MockStatsValue({
+                asOf: asOf3,
+                value: new MockNumericalValue(3)
+              })
+            )
+          ],
+          [
+            StatsItemID.of(UUID.of(statsItemID2)),
+            new MockStatsValues(
+              new MockStatsValue({
+                asOf: asOf1,
+                value: new MockNumericalValue(0)
+              }),
+              new MockStatsValue({
+                asOf: asOf3,
+                value: new MockNumericalValue(3)
+              })
+            )
+          ]
+        ])
+      );
 
       const superposition: Superposition<StatsItems, StatsItemsError> = StatsItems.ofRow(
         row,
-        ImmutableProject.empty<StatsItemID, StatsValues>()
+        project
       );
 
       expect(superposition.isAlive()).toBe(true);
@@ -136,6 +185,14 @@ describe('StatsItems', () => {
         expect(item.getStatsItemID().get().get()).toBe(row[i].statsItemID);
         expect(item.getName().get()).toBe(row[i].name);
       }
+      expect(items.get(0).get().getValues().size()).toBe(2);
+      expect(items.get(0).get().getValues().get(asOf1)).toBeInstanceOf(Absent);
+      expect(items.get(0).get().getValues().get(asOf2).get().getValue().get()).toBe(1);
+      expect(items.get(0).get().getValues().get(asOf3).get().getValue().get()).toBe(3);
+      expect(items.get(1).get().getValues().size()).toBe(2);
+      expect(items.get(1).get().getValues().get(asOf1).get().getValue().get()).toBe(0);
+      expect(items.get(1).get().getValues().get(asOf2)).toBeInstanceOf(Absent);
+      expect(items.get(1).get().getValues().get(asOf3).get().getValue().get()).toBe(3);
     });
 
     it('contains malformat statsItemID', () => {
