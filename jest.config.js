@@ -1,28 +1,28 @@
-module.exports = {
+export default {
   verbose: true,
   bail: true,
   roots: [
-    "src"
+    'src'
   ],
-  testRegex: "/__tests__/.+\\.spec\\.tsx?$",
+  testRegex: '/__tests__/.+\\.spec\\.tsx?$',
   testPathIgnorePatterns: [
-    "/node_modules/"
+    '/node_modules/'
   ],
   collectCoverage: true,
   coveragePathIgnorePatterns: [
-    "/node_modules/",
-    "/Mock/"
+    '/node_modules/',
+    '/Mock/'
   ],
   transform: {
-    "^.+\\.tsx?$": "ts-jest"
+    '^.+\\.tsx?$': 'ts-jest'
   },
   moduleFileExtensions: [
-    "js",
-    "jsx",
-    "ts",
-    "tsx",
-    "json",
-    "node"
+    'js',
+    'jsx',
+    'ts',
+    'tsx',
+    'json',
+    'node'
   ],
-  testURL: "http://localhost"
-}
+  testURL: 'http://localhost'
+};
