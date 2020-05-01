@@ -144,7 +144,6 @@ describe('StatsController', () => {
             name: new MockStatsItemName('stats item'),
             values: new MockStatsValues(
               new MockStatsValue({
-                statsItemID: new MockStatsItemID(),
                 asOf: new MockAsOf({
                   day: 5
                 }),
