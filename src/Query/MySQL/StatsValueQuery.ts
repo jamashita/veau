@@ -12,6 +12,7 @@ import {
   Superposition
 } from 'publikum';
 import { TYPE } from '../../Container/Types';
+import { StatsItemIDError } from '../../Error/StatsItemIDError';
 import { StatsValuesError } from '../../Error/StatsValuesError';
 import { StatsID } from '../../VO/StatsID';
 import { StatsItemID } from '../../VO/StatsItemID';
@@ -61,24 +62,29 @@ export class StatsValueQuery implements IStatsValueQuery, IMySQLQuery {
         rows.push(row);
       });
 
-      const map2: Map<string, Superposition<StatsValues, StatsValuesError>> = new Map<string, Superposition<StatsValues, StatsValuesError>>();
+      const map2: Map<Superposition<StatsItemID, StatsItemIDError>, Superposition<StatsValues, StatsValuesError>> = new Map<Superposition<StatsItemID, StatsItemIDError>, Superposition<StatsValues, StatsValuesError>>();
 
       map1.forEach((values: Array<StatsValueRow>, id: string) => {
-        map2.set(id, StatsValues.ofRow(values));
+        map2.set(
+          StatsItemID.ofString(id),
+          StatsValues.ofRow(values)
+        );
       });
 
-      const superpositions: Superposition<Array<StatsValues>, StatsValuesError> = manoeuvre([...map2.values()]);
+      const superpositions1: Superposition<Array<StatsItemID>, StatsItemIDError> = manoeuvre<StatsItemID, StatsItemIDError>([...map2.keys()]);
+      const superpositions2: Superposition<Array<StatsValues>, StatsValuesError> = manoeuvre<StatsValues, StatsValuesError>([...map2.values()]);
 
-      if (superpositions.isDead()) {
-        return superpositions.transpose<Project<StatsItemID, StatsValues>>();
+      if (superpositions1.isDead()) {
+        return Dead.of<Project<StatsItemID, StatsValues>, StatsValuesError>(new StatsValuesError('StatsValueQuery.findByStatsID()', superpositions1.getError()));
+      }
+      if (superpositions2.isDead()) {
+        return superpositions2.transpose<Project<StatsItemID, StatsValues>>();
       }
 
       let project: ImmutableProject<StatsItemID, StatsValues> = ImmutableProject.empty<StatsItemID, StatsValues>();
 
-      map2.forEach((superposition: Superposition<StatsValues, StatsValuesError>, id: string) => {
-        const statsItemID: StatsItemID = StatsItemID.ofString(id).get();
-
-        project = project.set(statsItemID, superposition.get());
+      map2.forEach((superposition1: Superposition<StatsValues, StatsValuesError>, superposition2: Superposition<StatsItemID, StatsItemIDError>) => {
+        project = project.set(superposition2.get(), superposition1.get());
       });
 
       return Alive.of<Project<StatsItemID, StatsValues>, DataSourceError>(project);
