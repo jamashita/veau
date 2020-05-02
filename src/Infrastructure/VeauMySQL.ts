@@ -1,4 +1,4 @@
 import config from 'config';
-import { MySQL, PoolConfig } from 'publikum';
+import { MySQL, MySQLConfig } from 'publikum';
 
-export const veauMySQL: MySQL = new MySQL(config.get<PoolConfig>('mysql'));
+export const veauMySQL: MySQL = new MySQL(config.get<MySQLConfig>('mysql'));
