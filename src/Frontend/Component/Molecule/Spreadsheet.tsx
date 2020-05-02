@@ -82,7 +82,7 @@ export class Spreadsheet extends React.Component<Props, State> {
           for (let i: number = 0; i < length; i++) {
             const str: string | null = changes[i][3];
             if (str !== null) {
-              if (isNaN(Number(str))) {
+              if (Number.isNaN(Number(str))) {
                 invalidValueInput();
                 return false;
               }
