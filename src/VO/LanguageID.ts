@@ -1,38 +1,44 @@
-import { Kind, ValueObject } from 'publikum';
-
-const EMPTY_ID: number = 0;
+import { Alive, Dead, Superposition, UUID, UUIDError, ValueObject } from 'publikum';
+import { LanguageIDError } from '../Error/LanguageIDError';
 
 export class LanguageID extends ValueObject {
   public readonly noun: 'LanguageID' = 'LanguageID';
-  private readonly id: number;
+  private readonly uuid: UUID;
 
-  private static readonly EMPTY: LanguageID = new LanguageID(EMPTY_ID);
+  private static readonly EMPTY: LanguageID = new LanguageID(UUID.v5());
 
-  public static of(id: number): LanguageID {
-    if (id === EMPTY_ID) {
-      return LanguageID.empty();
-    }
-    if (id < 0) {
-      return LanguageID.empty();
-    }
-    if (Kind.isInteger(id)) {
-      return new LanguageID(id);
-    }
+  public static of(uuid: UUID): LanguageID {
+    return new LanguageID(uuid);
+  }
 
-    return LanguageID.empty();
+  public static ofString(id: string): Superposition<LanguageID, LanguageIDError> {
+    try {
+      const uuid: UUID = UUID.of(id);
+
+      return Alive.of<LanguageID, LanguageIDError>(LanguageID.of(uuid));
+    }
+    catch (err) {
+      if (err instanceof UUIDError) {
+        return Dead.of<LanguageID, LanguageIDError>(
+          new LanguageIDError('LanguageID.ofString()', err)
+        );
+      }
+
+      throw err;
+    }
   }
 
   public static empty(): LanguageID {
     return LanguageID.EMPTY;
   }
 
-  protected constructor(id: number) {
+  protected constructor(uuid: UUID) {
     super();
-    this.id = id;
+    this.uuid = uuid;
   }
 
-  public get(): number {
-    return this.id;
+  public get(): UUID {
+    return this.uuid;
   }
 
   public isEmpty(): boolean {
@@ -47,14 +53,11 @@ export class LanguageID extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.id === other.id) {
-      return true;
-    }
 
-    return false;
+    return this.uuid.equals(other.uuid);
   }
 
   public serialize(): string {
-    return `${this.id}`;
+    return this.uuid.toString();
   }
 }

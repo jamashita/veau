@@ -1,9 +1,12 @@
+import { Superposition, UUID } from 'publikum';
+import sinon, { SinonSpy } from 'sinon';
+import { LanguageIDError } from '../../Error/LanguageIDError';
 import { LanguageID } from '../LanguageID';
 
 describe('LanguageID', () => {
   describe('empty', () => {
-    it('always returns 0', () => {
-      expect(LanguageID.empty().get()).toBe(0);
+    it('always returns 36 length string', () => {
+      expect(LanguageID.empty().get().get().length).toBe(36);
     });
 
     it('returns singleton instance', () => {
@@ -12,34 +15,53 @@ describe('LanguageID', () => {
   });
 
   describe('of', () => {
-    it('returns LanguageID.empty() when 0 is given', () => {
-      expect(LanguageID.of(0)).toBe(LanguageID.empty());
-    });
-
-    it('returns LanguageID.empty() when negative values are given', () => {
-      expect(LanguageID.of(-9)).toBe(LanguageID.empty());
-      expect(LanguageID.of(-53)).toBe(LanguageID.empty());
-    });
-
-    it('returns LanguageID.empty() when doble values are given', () => {
-      expect(LanguageID.of(0.8)).toBe(LanguageID.empty());
-      expect(LanguageID.of(12.45)).toBe(LanguageID.empty());
-    });
-
     it('normal case', () => {
-      const id1: number = 1;
-      const id2: number = 10;
+      const uuid1: UUID = UUID.v4();
+      const uuid2: UUID = UUID.v4();
 
-      expect(LanguageID.of(id1).get()).toBe(id1);
-      expect(LanguageID.of(id2).get()).toBe(id2);
+      expect(LanguageID.of(uuid1).get()).toBe(uuid1);
+      expect(LanguageID.of(uuid2).get()).toBe(uuid2);
     });
+  });
+
+  describe('ofString', () => {
+    it('normal case', () => {
+      const uuid: UUID = UUID.v4();
+
+      const superposition: Superposition<LanguageID, LanguageIDError> = LanguageID.ofString(
+        uuid.get()
+      );
+
+      expect(superposition.isAlive()).toBe(true);
+    });
+
+    it('returns Dead when uuid length string is not given', () => {
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const superposition: Superposition<LanguageID, LanguageIDError> = LanguageID.ofString('quasi');
+
+      expect(superposition.isDead()).toBe(true);
+      superposition.match<void>(() => {
+        spy1();
+      }, (err: LanguageIDError) => {
+        spy2();
+        expect(err).toBeInstanceOf(LanguageIDError);
+      });
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+    });
+
   });
 
   describe('equals', () => {
     it('returns true if the property is the same', () => {
-      const languageID1: LanguageID = LanguageID.of(1);
-      const languageID2: LanguageID = LanguageID.of(2);
-      const languageID3: LanguageID = LanguageID.of(1);
+      const uuid1: UUID = UUID.v4();
+      const uuid2: UUID = UUID.v4();
+      const languageID1: LanguageID = LanguageID.of(uuid1);
+      const languageID2: LanguageID = LanguageID.of(uuid2);
+      const languageID3: LanguageID = LanguageID.of(uuid1);
 
       expect(languageID1.equals(languageID1)).toBe(true);
       expect(languageID1.equals(languageID2)).toBe(false);
@@ -52,28 +74,18 @@ describe('LanguageID', () => {
       expect(LanguageID.empty().isEmpty()).toBe(true);
     });
 
-    it('when negative values given , returns true', () => {
-      expect(LanguageID.of(-1).isEmpty()).toBe(true);
-      expect(LanguageID.of(-11).isEmpty()).toBe(true);
-    });
-
-    it('when double value is given, returns true', () => {
-      expect(LanguageID.of(1.1).isEmpty()).toBe(true);
-      expect(LanguageID.of(2.5).isEmpty()).toBe(true);
-    });
-
-    it('otherwise returns false', () => {
-      expect(LanguageID.of(1).isEmpty()).toBe(false);
-      expect(LanguageID.of(105).isEmpty()).toBe(false);
+    it('normal case', () => {
+      expect(LanguageID.of(UUID.v4()).isEmpty()).toBe(false);
+      expect(LanguageID.of(UUID.v4()).isEmpty()).toBe(false);
     });
   });
 
   describe('toString', () => {
     it('normal case', () => {
-      const id: number = 2;
-      const languageID: LanguageID = LanguageID.of(id);
+      const uuid: UUID = UUID.v4();
+      const languageID: LanguageID = LanguageID.of(uuid);
 
-      expect(languageID.toString()).toBe(id.toString());
+      expect(languageID.toString()).toBe(uuid.toString());
     });
   });
 });

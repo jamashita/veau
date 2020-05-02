@@ -1,8 +1,9 @@
+import { UUID } from 'publikum';
 import { RegionID } from '../RegionID';
 
 export class MockRegionID extends RegionID {
 
-  public constructor(id: number = 0) {
-    super(id);
+  public constructor(uuid: UUID = UUID.v4()) {
+    super(uuid);
   }
 }
