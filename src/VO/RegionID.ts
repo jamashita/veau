@@ -1,38 +1,44 @@
-import { Kind, ValueObject } from 'publikum';
-
-const EMPTY_ID: number = 0;
+import { Alive, Dead, Superposition, UUID, UUIDError, ValueObject } from 'publikum';
+import { RegionIDError } from '../Error/RegionIDError';
 
 export class RegionID extends ValueObject {
   public readonly noun: 'RegionID' = 'RegionID';
-  private readonly id: number;
+  private readonly uuid: UUID;
 
-  private static readonly EMPTY: RegionID = new RegionID(EMPTY_ID);
+  private static readonly EMPTY: RegionID = new RegionID(UUID.v5());
 
-  public static of(id: number): RegionID {
-    if (id === EMPTY_ID) {
-      return RegionID.empty();
-    }
-    if (id < 0) {
-      return RegionID.empty();
-    }
-    if (Kind.isInteger(id)) {
-      return new RegionID(id);
-    }
+  public static of(uuid: UUID): RegionID {
+    return new RegionID(uuid);
+  }
 
-    return RegionID.empty();
+  public static ofString(id: string): Superposition<RegionID, RegionIDError> {
+    try {
+      const uuid: UUID = UUID.of(id);
+
+      return Alive.of<RegionID, RegionIDError>(RegionID.of(uuid));
+    }
+    catch (err) {
+      if (err instanceof UUIDError) {
+        return Dead.of<RegionID, RegionIDError>(
+          new RegionIDError('RegionID.ofString()', err)
+        );
+      }
+
+      throw err;
+    }
   }
 
   public static empty(): RegionID {
     return RegionID.EMPTY;
   }
 
-  protected constructor(id: number) {
+  protected constructor(uuid: UUID) {
     super();
-    this.id = id;
+    this.uuid = uuid;
   }
 
-  public get(): number {
-    return this.id;
+  public get(): UUID {
+    return this.uuid;
   }
 
   public isEmpty(): boolean {
@@ -47,14 +53,11 @@ export class RegionID extends ValueObject {
     if (this === other) {
       return true;
     }
-    if (this.id === other.id) {
-      return true;
-    }
 
-    return false;
+    return this.uuid.equals(other.uuid);
   }
 
   public serialize(): string {
-    return `${this.id}`;
+    return this.uuid.toString();
   }
 }

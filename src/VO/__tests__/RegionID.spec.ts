@@ -1,9 +1,12 @@
+import { Superposition, UUID } from 'publikum';
+import sinon, { SinonSpy } from 'sinon';
+import { RegionIDError } from '../../Error/RegionIDError';
 import { RegionID } from '../RegionID';
 
 describe('RegionID', () => {
   describe('empty', () => {
-    it('always returns 0', () => {
-      expect(RegionID.empty().get()).toBe(0);
+    it('always returns 36 length string', () => {
+      expect(RegionID.empty().get().get().length).toBe(36);
     });
 
     it('returns singleton instance', () => {
@@ -12,34 +15,52 @@ describe('RegionID', () => {
   });
 
   describe('of', () => {
-    it('returns RegionID.empty() when 0 is given', () => {
-      expect(RegionID.of(0)).toBe(RegionID.empty());
-    });
-
-    it('returns RegionID.empty() when negative values are given', () => {
-      expect(RegionID.of(-9)).toBe(RegionID.empty());
-      expect(RegionID.of(-53)).toBe(RegionID.empty());
-    });
-
-    it('returns RegionID.empty() when doble values are given', () => {
-      expect(RegionID.of(0.8)).toBe(RegionID.empty());
-      expect(RegionID.of(12.45)).toBe(RegionID.empty());
-    });
-
     it('normal case', () => {
-      const id1: number = 1;
-      const id2: number = 10;
+      const uuid1: UUID = UUID.v4();
+      const uuid2: UUID = UUID.v4();
 
-      expect(RegionID.of(id1).get()).toBe(id1);
-      expect(RegionID.of(id2).get()).toBe(id2);
+      expect(RegionID.of(uuid1).get()).toBe(uuid1);
+      expect(RegionID.of(uuid2).get()).toBe(uuid2);
+    });
+  });
+
+  describe('ofString', () => {
+    it('normal case', () => {
+      const uuid: UUID = UUID.v4();
+
+      const superposition: Superposition<RegionID, RegionIDError> = RegionID.ofString(
+        uuid.get()
+      );
+
+      expect(superposition.isAlive()).toBe(true);
+    });
+
+    it('returns Dead when uuid length string is not given', () => {
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const superposition: Superposition<RegionID, RegionIDError> = RegionID.ofString('quasi');
+
+      expect(superposition.isDead()).toBe(true);
+      superposition.match<void>(() => {
+        spy1();
+      }, (err: RegionIDError) => {
+        spy2();
+        expect(err).toBeInstanceOf(RegionIDError);
+      });
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
   });
 
   describe('equals', () => {
     it('returns true if the property is the same', () => {
-      const regionID1: RegionID = RegionID.of(1);
-      const regionID2: RegionID = RegionID.of(2);
-      const regionID3: RegionID = RegionID.of(1);
+      const uuid1: UUID = UUID.v4();
+      const uuid2: UUID = UUID.v4();
+      const regionID1: RegionID = RegionID.of(uuid1);
+      const regionID2: RegionID = RegionID.of(uuid2);
+      const regionID3: RegionID = RegionID.of(uuid1);
 
       expect(regionID1.equals(regionID1)).toBe(true);
       expect(regionID1.equals(regionID2)).toBe(false);
@@ -52,28 +73,18 @@ describe('RegionID', () => {
       expect(RegionID.empty().isEmpty()).toBe(true);
     });
 
-    it('when negative values given , returns true', () => {
-      expect(RegionID.of(-1).isEmpty()).toBe(true);
-      expect(RegionID.of(-11).isEmpty()).toBe(true);
-    });
-
-    it('when double value is given, returns true', () => {
-      expect(RegionID.of(1.1).isEmpty()).toBe(true);
-      expect(RegionID.of(2.5).isEmpty()).toBe(true);
-    });
-
-    it('otherwise returns false', () => {
-      expect(RegionID.of(1).isEmpty()).toBe(false);
-      expect(RegionID.of(105).isEmpty()).toBe(false);
+    it('normal case', () => {
+      expect(RegionID.of(UUID.v4()).isEmpty()).toBe(false);
+      expect(RegionID.of(UUID.v4()).isEmpty()).toBe(false);
     });
   });
 
   describe('toString', () => {
     it('returns the original string', () => {
-      const id: number = 1;
-      const regionID: RegionID = RegionID.of(id);
+      const uuid: UUID = UUID.v4();
+      const regionID: RegionID = RegionID.of(uuid);
 
-      expect(regionID.toString()).toBe(id.toString());
+      expect(regionID.toString()).toBe(uuid.toString());
     });
   });
 });
