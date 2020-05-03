@@ -1,4 +1,4 @@
-import { DataSourceError, MockError, MockMySQL, MySQLError, Superposition } from 'publikum';
+import { DataSourceError, MockError, MockMySQL, MySQLError, Superposition, UUID } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
@@ -25,15 +25,10 @@ describe('AccountQuery', () => {
       const accountName: MockAccountName = new MockAccountName('moloque');
       const rows: Array<AccountRow> = [
         {
-          veauAccountID: '998106de-b2e7-4981-9643-22cd30cd74de',
+          veauAccountID: UUID.v4().get(),
+          languageID: UUID.v4().get(),
+          regionID: UUID.v4().get(),
           account: 'account',
-          languageID: 1,
-          languageName: 'аҧсуа бызшәа',
-          languageEnglishName: 'Abkhazian',
-          iso639: 'ab',
-          regionID: 1,
-          regionName: 'Afghanistan',
-          iso3166: 'AFG',
           hash: 'hash'
         }
       ];
@@ -48,14 +43,9 @@ describe('AccountQuery', () => {
 
       expect(stub.withArgs(`SELECT
       R1.veau_account_id AS veauAccountID,
-      R1.account,
       R3.language_id AS languageID,
-      R3.name AS languageName,
-      R3.english_name AS languageEnglishName,
-      R3.iso639,
       R4.region_id AS regionID,
-      R4.name AS regionName,
-      R4.iso3166,
+      R1.account,
       R2.hash
       FROM veau_accounts R1
       INNER JOIN veau_account_hashes R2
@@ -71,14 +61,9 @@ describe('AccountQuery', () => {
       expect(superposition.isAlive()).toBe(true);
       const account: Account = superposition.get();
       expect(account.getVeauAccountID().get().get()).toBe(rows[0].veauAccountID);
+      expect(account.getLanguageID().get().get()).toBe(rows[0].languageID);
+      expect(account.getRegionID().get().get()).toBe(rows[0].regionID);
       expect(account.getAccount().get()).toBe(rows[0].account);
-      expect(account.getLanguage().getLanguageID().get()).toBe(rows[0].languageID);
-      expect(account.getLanguage().getName().get()).toBe(rows[0].languageName);
-      expect(account.getLanguage().getEnglishName().get()).toBe(rows[0].languageEnglishName);
-      expect(account.getLanguage().getISO639().get()).toBe(rows[0].iso639);
-      expect(account.getRegion().getRegionID().get()).toBe(rows[0].regionID);
-      expect(account.getRegion().getName().get()).toBe(rows[0].regionName);
-      expect(account.getRegion().getISO3166().get()).toBe(rows[0].iso3166);
       expect(account.getHash().get()).toBe(rows[0].hash);
     });
 
@@ -112,14 +97,9 @@ describe('AccountQuery', () => {
       const rows: Array<AccountRow> = [
         {
           veauAccountID: 'malformat uuid',
+          languageID: UUID.v4().get(),
+          regionID: UUID.v4().get(),
           account: 'account',
-          languageID: 1,
-          languageName: 'аҧсуа бызшәа',
-          languageEnglishName: 'Abkhazian',
-          iso639: 'ab',
-          regionID: 1,
-          regionName: 'Afghanistan',
-          iso3166: 'AFG',
           hash: 'hash'
         }
       ];

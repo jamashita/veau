@@ -21,14 +21,9 @@ export class AccountQuery implements IAccountQuery, IMySQLQuery {
   public async findByAccount(account: AccountName): Promise<Superposition<Account, AccountError | NoSuchElementError | DataSourceError>> {
     const query: string = `SELECT
       R1.veau_account_id AS veauAccountID,
-      R1.account,
       R3.language_id AS languageID,
-      R3.name AS languageName,
-      R3.english_name AS languageEnglishName,
-      R3.iso639,
       R4.region_id AS regionID,
-      R4.name AS regionName,
-      R4.iso3166,
+      R1.account,
       R2.hash
       FROM veau_accounts R1
       INNER JOIN veau_account_hashes R2
