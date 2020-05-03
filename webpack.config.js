@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
+const TsConfigWebpackPlugin = require('ts-config-webpack-plugin');
 
 /**
  * @type import('webpack').Configuration
@@ -28,7 +29,8 @@ module.exports = {
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       }
-    })
+    }),
+    new TsConfigWebpackPlugin({configFile: '/foo/bar/tsconfig.json'})
   ],
   module: {
     rules: [
@@ -46,9 +48,9 @@ module.exports = {
       }
     ]
   },
-  optimization : {
+  optimization: {
     minimize: true,
-    minimizer : [
+    minimizer: [
       new TerserPlugin({
         cache: true,
         parallel: true

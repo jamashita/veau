@@ -1,4 +1,5 @@
 const path = require('path');
+const TsConfigWebpackPlugin = require('ts-config-webpack-plugin');
 
 /**
  * @type import('webpack').Configuration
@@ -23,6 +24,7 @@ module.exports = {
   mode: 'development',
   devtool: 'inline-source-map',
   plugins: [
+    new TsConfigWebpackPlugin({configFile: './src/Frontend/tsconfig.json'})
   ],
   module: {
     rules: [
