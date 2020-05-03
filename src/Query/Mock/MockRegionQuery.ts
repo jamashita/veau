@@ -1,5 +1,7 @@
 import { DataSourceError, Superposition, UnimplementedError } from 'publikum';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
+import { RegionError } from '../../Error/RegionError';
+import { RegionsError } from '../../Error/RegionsError';
 import { ISO3166 } from '../../VO/ISO3166';
 import { Region } from '../../VO/Region';
 import { Regions } from '../../VO/Regions';
@@ -11,12 +13,12 @@ export class MockRegionQuery implements IRegionQuery, IMockQuery {
   public readonly source: 'Mock' = 'Mock';
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public all(): Promise<Superposition<Regions, NoSuchElementError | DataSourceError>> {
-    return Promise.reject<Superposition<Regions, NoSuchElementError | DataSourceError>>(new UnimplementedError());
+  public all(): Promise<Superposition<Regions, RegionsError | DataSourceError>> {
+    return Promise.reject<Superposition<Regions, RegionsError | DataSourceError>>(new UnimplementedError());
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public findByISO3166(iso3166: ISO3166): Promise<Superposition<Region, NoSuchElementError | DataSourceError>> {
-    return Promise.reject<Superposition<Region, NoSuchElementError | DataSourceError>>(new UnimplementedError());
+  public findByISO3166(iso3166: ISO3166): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {
+    return Promise.reject<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>>(new UnimplementedError());
   }
 }
