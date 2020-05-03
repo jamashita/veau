@@ -1,23 +1,15 @@
-import { Superposition } from 'publikum';
+import { Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 import { StatsOutlineError } from '../../Error/StatsOutlineError';
-import { ISO3166 } from '../ISO3166';
-import { ISO639 } from '../ISO639';
-import { Language } from '../Language';
 import { LanguageID } from '../LanguageID';
-import { LanguageName } from '../LanguageName';
-import { MockLanguage } from '../Mock/MockLanguage';
 import { MockLanguageID } from '../Mock/MockLanguageID';
-import { MockRegion } from '../Mock/MockRegion';
 import { MockRegionID } from '../Mock/MockRegionID';
 import { MockStatsID } from '../Mock/MockStatsID';
 import { MockStatsName } from '../Mock/MockStatsName';
 import { MockStatsUnit } from '../Mock/MockStatsUnit';
 import { MockTerm } from '../Mock/MockTerm';
 import { MockUpdatedAt } from '../Mock/MockUpdatedAt';
-import { Region } from '../Region';
 import { RegionID } from '../RegionID';
-import { RegionName } from '../RegionName';
 import { StatsID } from '../StatsID';
 import { StatsName } from '../StatsName';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from '../StatsOutline';
@@ -29,8 +21,8 @@ describe('StatsOutline', () => {
   describe('of', () => {
     it('normal case', () => {
       const statsID: MockStatsID = new MockStatsID();
-      const language: MockLanguage = new MockLanguage();
-      const region: MockRegion = new MockRegion();
+      const languageID: MockLanguageID = new MockLanguageID();
+      const regionID: MockRegionID = new MockRegionID();
       const term: MockTerm = new MockTerm();
       const name: MockStatsName = new MockStatsName();
       const unit: MockStatsUnit = new MockStatsUnit();
@@ -38,8 +30,8 @@ describe('StatsOutline', () => {
 
       const statsOutline: StatsOutline = StatsOutline.of(
         statsID,
-        language,
-        region,
+        languageID,
+        regionID,
         term,
         name,
         unit,
@@ -47,8 +39,8 @@ describe('StatsOutline', () => {
       );
 
       expect(statsOutline.getStatsID()).toBe(statsID);
-      expect(statsOutline.getLanguage()).toBe(language);
-      expect(statsOutline.getRegion()).toBe(region);
+      expect(statsOutline.getLanguageID()).toBe(languageID);
+      expect(statsOutline.getRegionID()).toBe(regionID);
       expect(statsOutline.getTerm()).toBe(term);
       expect(statsOutline.getName()).toBe(name);
       expect(statsOutline.getUnit()).toBe(unit);
@@ -59,18 +51,9 @@ describe('StatsOutline', () => {
   describe('ofJSON', () => {
     it('normal case', () => {
       const json: StatsOutlineJSON = {
-        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
-        language: {
-          languageID: 1,
-          name: 'language1',
-          englishName: 'english name 1',
-          iso639: 'lang1'
-        },
-        region: {
-          regionID: 1,
-          name: 'region1',
-          iso3166: 'regn1'
-        },
+        statsID: UUID.v4().get(),
+        languageID: UUID.v4().get(),
+        regionID: UUID.v4().get(),
         termID: 1,
         name: 'stats1',
         unit: 'unit1',
@@ -82,13 +65,8 @@ describe('StatsOutline', () => {
       expect(superposition.isAlive()).toBe(true);
       const statsOutline: StatsOutline = superposition.get();
       expect(statsOutline.getStatsID().get().get()).toBe(json.statsID);
-      expect(statsOutline.getLanguage().getLanguageID().get()).toBe(json.language.languageID);
-      expect(statsOutline.getLanguage().getName().get()).toBe(json.language.name);
-      expect(statsOutline.getLanguage().getEnglishName().get()).toBe(json.language.englishName);
-      expect(statsOutline.getLanguage().getISO639().get()).toBe(json.language.iso639);
-      expect(statsOutline.getRegion().getRegionID().get()).toBe(json.region.regionID);
-      expect(statsOutline.getRegion().getName().get()).toBe(json.region.name);
-      expect(statsOutline.getRegion().getISO3166().get()).toBe(json.region.iso3166);
+      expect(statsOutline.getLanguageID().get().get()).toBe(json.languageID);
+      expect(statsOutline.getRegionID().get().get()).toBe(json.regionID);
       expect(statsOutline.getTerm().getID()).toBe(json.termID);
       expect(statsOutline.getName().get()).toBe(json.name);
       expect(statsOutline.getUnit().get()).toBe(json.unit);
@@ -98,17 +76,64 @@ describe('StatsOutline', () => {
     it('contains malformat statsID', () => {
       const json: StatsOutlineJSON = {
         statsID: 'illegal uuid',
-        language: {
-          languageID: 1,
-          name: 'language1',
-          englishName: 'english name 1',
-          iso639: 'lang1'
-        },
-        region: {
-          regionID: 1,
-          name: 'region1',
-          iso3166: 'regn1'
-        },
+        languageID: UUID.v4().get(),
+        regionID: UUID.v4().get(),
+        termID: 1,
+        name: 'stats1',
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00'
+      };
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
+
+      expect(superposition.isDead()).toBe(true);
+      superposition.match<void>(() => {
+        spy1();
+      }, (err: StatsOutlineError) => {
+        spy2();
+        expect(err).toBeInstanceOf(StatsOutlineError);
+      });
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+    });
+
+    it('contains malformat languageID', () => {
+      const json: StatsOutlineJSON = {
+        statsID: UUID.v4().get(),
+        languageID: 'illegal uuid',
+        regionID: UUID.v4().get(),
+        termID: 1,
+        name: 'stats1',
+        unit: 'unit1',
+        updatedAt: '2000-01-01 00:00:00'
+      };
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
+
+      expect(superposition.isDead()).toBe(true);
+      superposition.match<void>(() => {
+        spy1();
+      }, (err: StatsOutlineError) => {
+        spy2();
+        expect(err).toBeInstanceOf(StatsOutlineError);
+      });
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+    });
+
+    it('contains malformat regionID', () => {
+      const json: StatsOutlineJSON = {
+        statsID: UUID.v4().get(),
+        languageID: UUID.v4().get(),
+        regionID: 'illegal uuid',
         termID: 1,
         name: 'stats1',
         unit: 'unit1',
@@ -134,18 +159,9 @@ describe('StatsOutline', () => {
 
     it('contains malformat termID', () => {
       const json: StatsOutlineJSON = {
-        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
-        language: {
-          languageID: 1,
-          name: 'language1',
-          englishName: 'english name 1',
-          iso639: 'lang1'
-        },
-        region: {
-          regionID: 1,
-          name: 'region1',
-          iso3166: 'regn1'
-        },
+        statsID: UUID.v4().get(),
+        languageID: UUID.v4().get(),
+        regionID: UUID.v4().get(),
         termID: -1,
         name: 'stats1',
         unit: 'unit1',
@@ -171,18 +187,9 @@ describe('StatsOutline', () => {
 
     it('contains malformat updatedAt', () => {
       const json: StatsOutlineJSON = {
-        statsID: '5be730f5-ec94-4685-bc84-9ae969c49406',
-        language: {
-          languageID: 1,
-          name: 'language1',
-          englishName: 'english name 1',
-          iso639: 'lang1'
-        },
-        region: {
-          regionID: 1,
-          name: 'region1',
-          iso3166: 'regn1'
-        },
+        statsID: UUID.v4().get(),
+        languageID: UUID.v4().get(),
+        regionID: UUID.v4().get(),
         termID: 1,
         name: 'stats1',
         unit: 'unit1',
@@ -210,14 +217,9 @@ describe('StatsOutline', () => {
   describe('ofRow', () => {
     it('normal case', () => {
       const row: StatsOutlineRow = {
-        statsID: '0ec47089-24d3-4035-a27d-b636bd7a5170',
-        languageID: 1,
-        languageName: 'language1',
-        languageEnglishName: 'englishLanguage1',
-        iso639: 'lang1',
-        regionID: 2,
-        regionName: 'region1',
-        iso3166: 'regn1',
+        statsID: UUID.v4().get(),
+        languageID: UUID.v4().get(),
+        regionID: UUID.v4().get(),
         termID: 3,
         name: 'name',
         unit: 'unit',
@@ -229,13 +231,8 @@ describe('StatsOutline', () => {
       expect(superposition.isAlive()).toBe(true);
       const statsOutline: StatsOutline = superposition.get();
       expect(statsOutline.getStatsID().get().get()).toBe(row.statsID);
-      expect(statsOutline.getLanguage().getLanguageID().get()).toBe(row.languageID);
-      expect(statsOutline.getLanguage().getName().get()).toBe(row.languageName);
-      expect(statsOutline.getLanguage().getEnglishName().get()).toBe(row.languageEnglishName);
-      expect(statsOutline.getLanguage().getISO639().get()).toBe(row.iso639);
-      expect(statsOutline.getRegion().getRegionID().get()).toBe(row.regionID);
-      expect(statsOutline.getRegion().getName().get()).toBe(row.regionName);
-      expect(statsOutline.getRegion().getISO3166().get()).toBe(row.iso3166);
+      expect(statsOutline.getLanguageID().get().get()).toBe(row.languageID);
+      expect(statsOutline.getRegionID().get().get()).toBe(row.regionID);
       expect(statsOutline.getTerm().getID()).toBe(row.termID);
       expect(statsOutline.getName().get()).toBe(row.name);
       expect(statsOutline.getUnit().get()).toBe(row.unit);
@@ -245,13 +242,64 @@ describe('StatsOutline', () => {
     it('contains malformat statsID', () => {
       const row: StatsOutlineRow = {
         statsID: 'illegal uuid',
-        languageID: 1,
-        languageName: 'language1',
-        languageEnglishName: 'englishLanguage1',
-        iso639: 'lang1',
-        regionID: 2,
-        regionName: 'region1',
-        iso3166: 'regn1',
+        languageID: UUID.v4().get(),
+        regionID: UUID.v4().get(),
+        termID: 3,
+        name: 'name',
+        unit: 'unit',
+        updatedAt: '2000-01-01 00:00:00'
+      };
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
+
+      expect(superposition.isDead()).toBe(true);
+      superposition.match<void>(() => {
+        spy1();
+      }, (err: StatsOutlineError) => {
+        spy2();
+        expect(err).toBeInstanceOf(StatsOutlineError);
+      });
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+    });
+
+    it('contains malformat languageID', () => {
+      const row: StatsOutlineRow = {
+        statsID: UUID.v4().get(),
+        languageID: 'illegal uuid',
+        regionID: UUID.v4().get(),
+        termID: 3,
+        name: 'name',
+        unit: 'unit',
+        updatedAt: '2000-01-01 00:00:00'
+      };
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
+
+      expect(superposition.isDead()).toBe(true);
+      superposition.match<void>(() => {
+        spy1();
+      }, (err: StatsOutlineError) => {
+        spy2();
+        expect(err).toBeInstanceOf(StatsOutlineError);
+      });
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+    });
+
+    it('contains malformat regionID', () => {
+      const row: StatsOutlineRow = {
+        statsID: UUID.v4().get(),
+        languageID: UUID.v4().get(),
+        regionID: 'illegal uuid',
         termID: 3,
         name: 'name',
         unit: 'unit',
@@ -277,14 +325,9 @@ describe('StatsOutline', () => {
 
     it('contains malformat termID', () => {
       const row: StatsOutlineRow = {
-        statsID: '0ec47089-24d3-4035-a27d-b636bd7a5170',
-        languageID: 1,
-        languageName: 'language1',
-        languageEnglishName: 'englishLanguage1',
-        iso639: 'lang1',
-        regionID: 2,
-        regionName: 'region1',
-        iso3166: 'regn1',
+        statsID: UUID.v4().get(),
+        languageID: UUID.v4().get(),
+        regionID: UUID.v4().get(),
         termID: -1,
         name: 'name',
         unit: 'unit',
@@ -310,14 +353,9 @@ describe('StatsOutline', () => {
 
     it('contains malformat updatedAt', () => {
       const row: StatsOutlineRow = {
-        statsID: '0ec47089-24d3-4035-a27d-b636bd7a5170',
-        languageID: 1,
-        languageName: 'language1',
-        languageEnglishName: 'englishLanguage1',
-        iso639: 'lang1',
-        regionID: 2,
-        regionName: 'region1',
-        iso3166: 'regn1',
+        statsID: UUID.v4().get(),
+        languageID: UUID.v4().get(),
+        regionID: UUID.v4().get(),
         termID: 3,
         name: 'name',
         unit: 'unit',
@@ -344,52 +382,52 @@ describe('StatsOutline', () => {
 
   describe('equals', () => {
     it('returns true if all the properties are the same', () => {
-      const statsID1: MockStatsID = new MockStatsID();
-      const statsID2: MockStatsID = new MockStatsID();
+      const uuid1: UUID = UUID.v4();
+      const uuid2: UUID = UUID.v4();
+      const uuid3: UUID = UUID.v4();
+      const uuid4: UUID = UUID.v4();
+      const uuid5: UUID = UUID.v4();
+      const uuid6: UUID = UUID.v4();
       const statsOutline1: StatsOutline = StatsOutline.of(
-        statsID1,
-        new MockLanguage(),
-        new MockRegion(),
+        new MockStatsID(uuid1),
+        new MockLanguageID(uuid3),
+        new MockRegionID(uuid5),
         new MockTerm(),
         new MockStatsName(),
         new MockStatsUnit(),
         new MockUpdatedAt()
       );
       const statsOutline2: StatsOutline = StatsOutline.of(
-        statsID2,
-        new MockLanguage(),
-        new MockRegion(),
+        new MockStatsID(uuid2),
+        new MockLanguageID(uuid3),
+        new MockRegionID(uuid5),
         new MockTerm(),
         new MockStatsName(),
         new MockStatsUnit(),
         new MockUpdatedAt()
       );
       const statsOutline3: StatsOutline = StatsOutline.of(
-        statsID1,
-        new MockLanguage({
-          languageID: new MockLanguageID(2)
-        }),
-        new MockRegion(),
+        new MockStatsID(uuid1),
+        new MockLanguageID(uuid4),
+        new MockRegionID(uuid5),
         new MockTerm(),
         new MockStatsName(),
         new MockStatsUnit(),
         new MockUpdatedAt()
       );
       const statsOutline4: StatsOutline = StatsOutline.of(
-        statsID1,
-        new MockLanguage(),
-        new MockRegion({
-          regionID: new MockRegionID(2)
-        }),
+        new MockStatsID(uuid1),
+        new MockLanguageID(uuid3),
+        new MockRegionID(uuid6),
         new MockTerm(),
         new MockStatsName(),
         new MockStatsUnit(),
         new MockUpdatedAt()
       );
       const statsOutline5: StatsOutline = StatsOutline.of(
-        statsID1,
-        new MockLanguage(),
-        new MockRegion(),
+        new MockStatsID(uuid1),
+        new MockLanguageID(uuid3),
+        new MockRegionID(uuid5),
         new MockTerm({
           id: 8
         }),
@@ -398,27 +436,27 @@ describe('StatsOutline', () => {
         new MockUpdatedAt()
       );
       const statsOutline6: StatsOutline = StatsOutline.of(
-        statsID1,
-        new MockLanguage(),
-        new MockRegion(),
+        new MockStatsID(uuid1),
+        new MockLanguageID(uuid3),
+        new MockRegionID(uuid5),
         new MockTerm(),
         new MockStatsName('NO TOFU'),
         new MockStatsUnit(),
         new MockUpdatedAt()
       );
       const statsOutline7: StatsOutline = StatsOutline.of(
-        statsID1,
-        new MockLanguage(),
-        new MockRegion(),
+        new MockStatsID(uuid1),
+        new MockLanguageID(uuid3),
+        new MockRegionID(uuid5),
         new MockTerm(),
         new MockStatsName(),
         new MockStatsUnit('NO TOFU'),
         new MockUpdatedAt()
       );
       const statsOutline8: StatsOutline = StatsOutline.of(
-        statsID1,
-        new MockLanguage(),
-        new MockRegion(),
+        new MockStatsID(uuid1),
+        new MockLanguageID(uuid3),
+        new MockRegionID(uuid5),
         new MockTerm(),
         new MockStatsName(),
         new MockStatsUnit(),
@@ -427,9 +465,9 @@ describe('StatsOutline', () => {
         })
       );
       const statsOutline9: StatsOutline = StatsOutline.of(
-        statsID1,
-        new MockLanguage(),
-        new MockRegion(),
+        new MockStatsID(uuid1),
+        new MockLanguageID(uuid3),
+        new MockRegionID(uuid5),
         new MockTerm(),
         new MockStatsName(),
         new MockStatsUnit(),
@@ -450,81 +488,52 @@ describe('StatsOutline', () => {
 
   describe('toJSON', () => {
     it('normal case', () => {
+      const uuid1: UUID = UUID.v4();
+      const uuid2: UUID = UUID.v4();
+      const uuid3: UUID = UUID.v4();
+      const asOf: string = '2000-01-01 00:00:00';
       const statsOutline: StatsOutline = StatsOutline.of(
-        StatsID.ofString('bfb0ebff-fc8c-450e-9265-82fa4938ae94').get(),
-        Language.of(
-          LanguageID.of(1),
-          LanguageName.of('language1'),
-          LanguageName.of('englishname1'),
-          ISO639.of('lang1')
-        ),
-        Region.of(
-          RegionID.of(1),
-          RegionName.of('region1'),
-          ISO3166.of('regn1')
-        ),
+        StatsID.of(uuid1),
+        LanguageID.of(uuid2),
+        RegionID.of(uuid3),
         Term.DAILY,
         StatsName.of('name1'),
         StatsUnit.of('unit1'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get()
+        UpdatedAt.ofString(asOf).get()
       );
 
       expect(statsOutline.toJSON()).toEqual({
-        statsID: 'bfb0ebff-fc8c-450e-9265-82fa4938ae94',
-        language: {
-          languageID: 1,
-          name: 'language1',
-          englishName: 'englishname1',
-          iso639: 'lang1'
-        },
-        region: {
-          regionID: 1,
-          name: 'region1',
-          iso3166: 'regn1'
-        },
+        statsID: uuid1.get(),
+        languageID: uuid2.get(),
+        regionID: uuid3.get(),
         termID: 1,
         name: 'name1',
         unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00'
+        updatedAt: asOf
       });
     });
   });
 
   describe('toString', () => {
     it('normal case', () => {
-      const id1: string = 'bfb0ebff-fc8c-450e-9265-82fa4938ae94';
-      const id2: number = 1;
-      const id3: number = 3;
-      const name1: string = 'language1';
-      const name2: string = 'englishname1';
-      const name3: string = 'region1';
-      const name4: string = 'name1';
-      const iso639: string = 'lang1';
-      const iso3166: string = 'regn1';
+      const uuid1: UUID = UUID.v4();
+      const uuid2: UUID = UUID.v4();
+      const uuid3: UUID = UUID.v4();
       const term: Term = Term.DAILY;
+      const name: string = 'name4';
       const unit: string = 'unit1';
-      const at: string = '2000-01-01 00:00:00';
-      const updatedAt: UpdatedAt = UpdatedAt.ofString(at).get();
+      const asOf: string = '2000-01-01 00:00:00';
       const statsOutline: StatsOutline = StatsOutline.of(
-        StatsID.ofString(id1).get(),
-        Language.of(
-          LanguageID.of(id2),
-          LanguageName.of(name1),
-          LanguageName.of(name2),
-          ISO639.of(iso639)
-        ),
-        Region.of(
-          RegionID.of(id3),
-          RegionName.of(name3),
-          ISO3166.of(iso3166)
-        ),
+        StatsID.of(uuid1),
+        LanguageID.of(uuid2),
+        RegionID.of(uuid3),
         term,
-        StatsName.of(name4),
+        StatsName.of(name),
         StatsUnit.of(unit),
-        updatedAt
+        UpdatedAt.ofString(asOf).get()
       );
 
-      expect(statsOutline.toString()).toBe(`${id1} ${id2} ${name1} ${name2} ${iso639} ${id3} ${name3} ${iso3166} ${term.toString()} ${name4} ${unit} ${at}`);
+      expect(statsOutline.toString()).toBe(`${uuid1.get()} ${uuid2.get()} ${uuid3.get()} ${term.toString()} ${name} ${unit} ${asOf}`);
     });
   });
 
@@ -532,8 +541,8 @@ describe('StatsOutline', () => {
     it('returns true is language, region, name and unit are filled', () => {
       const statsOutline1: StatsOutline = StatsOutline.of(
         new MockStatsID(),
-        new MockLanguage(),
-        new MockRegion(),
+        LanguageID.empty(),
+        RegionID.empty(),
         new MockTerm(),
         new MockStatsName(),
         new MockStatsUnit(),
@@ -541,10 +550,8 @@ describe('StatsOutline', () => {
       );
       const statsOutline2: StatsOutline = StatsOutline.of(
         new MockStatsID(),
-        new MockLanguage({
-          languageID: new MockLanguageID(2)
-        }),
-        new MockRegion(),
+        new MockLanguageID(),
+        RegionID.empty(),
         new MockTerm(),
         new MockStatsName(),
         new MockStatsUnit(),
@@ -552,10 +559,8 @@ describe('StatsOutline', () => {
       );
       const statsOutline3: StatsOutline = StatsOutline.of(
         new MockStatsID(),
-        new MockLanguage(),
-        new MockRegion({
-          regionID: new MockRegionID(3)
-        }),
+        LanguageID.empty(),
+        new MockRegionID(),
         new MockTerm(),
         new MockStatsName(),
         new MockStatsUnit(),
@@ -563,12 +568,8 @@ describe('StatsOutline', () => {
       );
       const statsOutline4: StatsOutline = StatsOutline.of(
         new MockStatsID(),
-        new MockLanguage({
-          languageID: new MockLanguageID(4)
-        }),
-        new MockRegion({
-          regionID: new MockRegionID(3)
-        }),
+        new MockLanguageID(),
+        new MockRegionID(),
         new MockTerm(),
         new MockStatsName(),
         new MockStatsUnit(),
@@ -576,12 +577,8 @@ describe('StatsOutline', () => {
       );
       const statsOutline5: StatsOutline = StatsOutline.of(
         new MockStatsID(),
-        new MockLanguage({
-          languageID: new MockLanguageID(4)
-        }),
-        new MockRegion({
-          regionID: new MockRegionID(3)
-        }),
+        new MockLanguageID(),
+        new MockRegionID(),
         new MockTerm(),
         new MockStatsName('stats name'),
         new MockStatsUnit(),
@@ -589,12 +586,8 @@ describe('StatsOutline', () => {
       );
       const statsOutline6: StatsOutline = StatsOutline.of(
         new MockStatsID(),
-        new MockLanguage({
-          languageID: new MockLanguageID(4)
-        }),
-        new MockRegion({
-          regionID: new MockRegionID(3)
-        }),
+        new MockLanguageID(),
+        new MockRegionID(),
         new MockTerm(),
         new MockStatsName(),
         new MockStatsUnit('stats unit'),
@@ -602,12 +595,8 @@ describe('StatsOutline', () => {
       );
       const statsOutline7: StatsOutline = StatsOutline.of(
         new MockStatsID(),
-        new MockLanguage({
-          languageID: new MockLanguageID(4)
-        }),
-        new MockRegion({
-          regionID: new MockRegionID(3)
-        }),
+        new MockLanguageID(),
+        new MockRegionID(),
         new MockTerm(),
         new MockStatsName('stats name'),
         new MockStatsUnit('stats unit'),
@@ -627,12 +616,8 @@ describe('StatsOutline', () => {
   describe('duplicate', () => {
     it('every properties are duplicated', () => {
       const statsID: MockStatsID = new MockStatsID();
-      const language: MockLanguage = new MockLanguage({
-        languageID: new MockLanguageID(10)
-      });
-      const region: MockRegion = new MockRegion({
-        regionID: new MockRegionID(30)
-      });
+      const languageID: MockLanguageID = new MockLanguageID();
+      const regionID: MockRegionID = new MockRegionID();
       const term: MockTerm = new MockTerm();
       const name: MockStatsName = new MockStatsName();
       const unit: MockStatsUnit = new MockStatsUnit();
@@ -640,8 +625,8 @@ describe('StatsOutline', () => {
 
       const statsOutline: StatsOutline = StatsOutline.of(
         statsID,
-        language,
-        region,
+        languageID,
+        regionID,
         term,
         name,
         unit,
@@ -651,8 +636,8 @@ describe('StatsOutline', () => {
 
       expect(statsOutline).not.toBe(duplicated);
       expect(statsOutline.getStatsID()).toBe(statsID);
-      expect(statsOutline.getLanguage()).toBe(language);
-      expect(statsOutline.getRegion()).toBe(region);
+      expect(statsOutline.getLanguageID()).toBe(languageID);
+      expect(statsOutline.getRegionID()).toBe(regionID);
       expect(statsOutline.getTerm()).toBe(term);
       expect(statsOutline.getName()).toBe(name);
       expect(statsOutline.getUnit()).toBe(unit);

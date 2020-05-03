@@ -1,10 +1,12 @@
 import { Alive, Cloneable, Dead, JSONable, Superposition, ValueObject } from 'publikum';
+import { LanguageIDError } from '../Error/LanguageIDError';
+import { RegionIDError } from '../Error/RegionIDError';
 import { StatsIDError } from '../Error/StatsIDError';
 import { StatsOutlineError } from '../Error/StatsOutlineError';
 import { TermError } from '../Error/TermError';
 import { UpdatedAtError } from '../Error/UpdatedAtError';
-import { Language, LanguageJSON } from './Language';
-import { Region, RegionJSON } from './Region';
+import { LanguageID } from './LanguageID';
+import { RegionID } from './RegionID';
 import { StatsID } from './StatsID';
 import { StatsName } from './StatsName';
 import { StatsUnit } from './StatsUnit';
@@ -13,8 +15,8 @@ import { UpdatedAt } from './UpdatedAt';
 
 export type StatsOutlineJSON = Readonly<{
   statsID: string;
-  language: LanguageJSON;
-  region: RegionJSON;
+  languageID: string;
+  regionID: string;
   termID: number;
   name: string;
   unit: string;
@@ -22,13 +24,8 @@ export type StatsOutlineJSON = Readonly<{
 }>;
 export type StatsOutlineRow = Readonly<{
   statsID: string;
-  languageID: number;
-  languageName: string;
-  languageEnglishName: string;
-  iso639: string;
-  regionID: number;
-  regionName: string;
-  iso3166: string;
+  languageID: string;
+  regionID: string;
   termID: number;
   name: string;
   unit: string;
@@ -38,8 +35,8 @@ export type StatsOutlineRow = Readonly<{
 export class StatsOutline extends ValueObject implements Cloneable<StatsOutline>, JSONable {
   public readonly noun: 'StatsOutline' = 'StatsOutline';
   private readonly statsID: StatsID;
-  private readonly language: Language;
-  private readonly region: Region;
+  private readonly languageID: LanguageID;
+  private readonly regionID: RegionID;
   private readonly term: Term;
   private readonly name: StatsName;
   private readonly unit: StatsUnit;
@@ -47,8 +44,8 @@ export class StatsOutline extends ValueObject implements Cloneable<StatsOutline>
 
   public static of(
     statsID: StatsID,
-    language: Language,
-    region: Region,
+    languageID: LanguageID,
+    regionID: RegionID,
     term: Term,
     name: StatsName,
     unit: StatsUnit,
@@ -56,8 +53,8 @@ export class StatsOutline extends ValueObject implements Cloneable<StatsOutline>
   ): StatsOutline {
     return new StatsOutline(
       statsID,
-      language,
-      region,
+      languageID,
+      regionID,
       term,
       name,
       unit,
@@ -67,23 +64,31 @@ export class StatsOutline extends ValueObject implements Cloneable<StatsOutline>
 
   public static ofJSON(json: StatsOutlineJSON): Superposition<StatsOutline, StatsOutlineError> {
     return StatsID.ofString(json.statsID).match<StatsOutline, StatsOutlineError>((statsID: StatsID) => {
-      return Term.of(json.termID).match<StatsOutline, StatsOutlineError>((term: Term) => {
-        return UpdatedAt.ofString(json.updatedAt).match<StatsOutline, StatsOutlineError>((updatedAt: UpdatedAt) => {
-          return Alive.of<StatsOutline, StatsOutlineError>(
-            StatsOutline.of(
-              statsID,
-              Language.ofJSON(json.language),
-              Region.ofJSON(json.region),
-              term,
-              StatsName.of(json.name),
-              StatsUnit.of(json.unit),
-              updatedAt
-            )
-          );
-        }, (err: UpdatedAtError) => {
+      return LanguageID.ofString(json.languageID).match<StatsOutline, StatsOutlineError>((languageID: LanguageID) => {
+        return RegionID.ofString(json.regionID).match<StatsOutline, StatsOutlineError>((regionID: RegionID) => {
+          return Term.of(json.termID).match<StatsOutline, StatsOutlineError>((term: Term) => {
+            return UpdatedAt.ofString(json.updatedAt).match<StatsOutline, StatsOutlineError>((updatedAt: UpdatedAt) => {
+              return Alive.of<StatsOutline, StatsOutlineError>(
+                StatsOutline.of(
+                  statsID,
+                  languageID,
+                  regionID,
+                  term,
+                  StatsName.of(json.name),
+                  StatsUnit.of(json.unit),
+                  updatedAt
+                )
+              );
+            }, (err: UpdatedAtError) => {
+              return Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofJSON()', err));
+            });
+          }, (err: TermError) => {
+            return Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofJSON()', err));
+          });
+        }, (err: RegionIDError) => {
           return Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofJSON()', err));
         });
-      }, (err: TermError) => {
+      }, (err: LanguageIDError) => {
         return Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofJSON()', err));
       });
     }, (err: StatsIDError) => {
@@ -93,35 +98,31 @@ export class StatsOutline extends ValueObject implements Cloneable<StatsOutline>
 
   public static ofRow(row: StatsOutlineRow): Superposition<StatsOutline, StatsOutlineError> {
     return StatsID.ofString(row.statsID).match<StatsOutline, StatsOutlineError>((statsID: StatsID) => {
-      return Term.of(row.termID).match<StatsOutline, StatsOutlineError>((term: Term) => {
-        return UpdatedAt.ofString(row.updatedAt).match<StatsOutline, StatsOutlineError>((updatedAt: UpdatedAt) => {
-          const language: Language = Language.ofRow({
-            languageID: row.languageID,
-            name: row.languageName,
-            englishName: row.languageEnglishName,
-            iso639: row.iso639
+      return LanguageID.ofString(row.languageID).match<StatsOutline, StatsOutlineError>((languageID: LanguageID) => {
+        return RegionID.ofString(row.regionID).match<StatsOutline, StatsOutlineError>((regionID: RegionID) => {
+          return Term.of(row.termID).match<StatsOutline, StatsOutlineError>((term: Term) => {
+            return UpdatedAt.ofString(row.updatedAt).match<StatsOutline, StatsOutlineError>((updatedAt: UpdatedAt) => {
+              return Alive.of<StatsOutline, StatsOutlineError>(
+                StatsOutline.of(
+                  statsID,
+                  languageID,
+                  regionID,
+                  term,
+                  StatsName.of(row.name),
+                  StatsUnit.of(row.unit),
+                  updatedAt
+                )
+              );
+            }, (err: UpdatedAtError) => {
+              return Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofRow()', err));
+            });
+          }, (err: TermError) => {
+            return Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofRow()', err));
           });
-          const region: Region = Region.ofRow({
-            regionID: row.regionID,
-            name: row.regionName,
-            iso3166: row.iso3166
-          });
-
-          return Alive.of<StatsOutline, StatsOutlineError>(
-            StatsOutline.of(
-              statsID,
-              language,
-              region,
-              term,
-              StatsName.of(row.name),
-              StatsUnit.of(row.unit),
-              updatedAt
-            )
-          );
-        }, (err: UpdatedAtError) => {
+        }, (err: RegionIDError) => {
           return Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofRow()', err));
         });
-      }, (err: TermError) => {
+      }, (err: LanguageIDError) => {
         return Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofRow()', err));
       });
     }, (err: StatsIDError) => {
@@ -131,8 +132,8 @@ export class StatsOutline extends ValueObject implements Cloneable<StatsOutline>
 
   protected constructor(
     statsID: StatsID,
-    language: Language,
-    region: Region,
+    languageID: LanguageID,
+    regionID: RegionID,
     term: Term,
     name: StatsName,
     unit: StatsUnit,
@@ -140,8 +141,8 @@ export class StatsOutline extends ValueObject implements Cloneable<StatsOutline>
   ) {
     super();
     this.statsID = statsID;
-    this.language = language;
-    this.region = region;
+    this.languageID = languageID;
+    this.regionID = regionID;
     this.term = term;
     this.name = name;
     this.unit = unit;
@@ -152,12 +153,12 @@ export class StatsOutline extends ValueObject implements Cloneable<StatsOutline>
     return this.statsID;
   }
 
-  public getLanguage(): Language {
-    return this.language;
+  public getLanguageID(): LanguageID {
+    return this.languageID;
   }
 
-  public getRegion(): Region {
-    return this.region;
+  public getRegionID(): RegionID {
+    return this.regionID;
   }
 
   public getTerm(): Term {
@@ -177,10 +178,10 @@ export class StatsOutline extends ValueObject implements Cloneable<StatsOutline>
   }
 
   public isFilled(): boolean {
-    if (this.language.equals(Language.empty())) {
+    if (this.languageID.equals(LanguageID.empty())) {
       return false;
     }
-    if (this.region.equals(Region.empty())) {
+    if (this.regionID.equals(RegionID.empty())) {
       return false;
     }
     if (this.name.equals(StatsName.empty())) {
@@ -200,10 +201,10 @@ export class StatsOutline extends ValueObject implements Cloneable<StatsOutline>
     if (!this.statsID.equals(other.statsID)) {
       return false;
     }
-    if (!this.language.equals(other.language)) {
+    if (!this.languageID.equals(other.languageID)) {
       return false;
     }
-    if (!this.region.equals(other.region)) {
+    if (!this.regionID.equals(other.regionID)) {
       return false;
     }
     if (!this.term.equals(other.term)) {
@@ -225,8 +226,8 @@ export class StatsOutline extends ValueObject implements Cloneable<StatsOutline>
   public duplicate(): StatsOutline {
     return new StatsOutline(
       this.statsID,
-      this.language,
-      this.region,
+      this.languageID,
+      this.regionID,
       this.term,
       this.name,
       this.unit,
@@ -237,8 +238,8 @@ export class StatsOutline extends ValueObject implements Cloneable<StatsOutline>
   public toJSON(): StatsOutlineJSON {
     return {
       statsID: this.statsID.get().get(),
-      language: this.language.toJSON(),
-      region: this.region.toJSON(),
+      languageID: this.languageID.get().get(),
+      regionID: this.regionID.get().get(),
       termID: this.term.getID(),
       name: this.name.get(),
       unit: this.unit.get(),
@@ -250,8 +251,8 @@ export class StatsOutline extends ValueObject implements Cloneable<StatsOutline>
     const properties: Array<string> = [];
 
     properties.push(this.statsID.toString());
-    properties.push(this.language.toString());
-    properties.push(this.region.toString());
+    properties.push(this.languageID.toString());
+    properties.push(this.regionID.toString());
     properties.push(this.term.toString());
     properties.push(this.name.toString());
     properties.push(this.unit.toString());
