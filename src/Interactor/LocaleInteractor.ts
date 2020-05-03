@@ -3,7 +3,9 @@ import { Alive, DataSourceError, Dead, Noun, Superposition } from 'publikum';
 import { ILanguageCommand } from '../Command/Interface/ILanguageCommand';
 import { IRegionCommand } from '../Command/Interface/IRegionCommand';
 import { TYPE } from '../Container/Types';
-import { NoSuchElementError } from '../Error/NoSuchElementError';
+import { LanguagesError } from '../Error/LanguagesError';
+import { LocaleError } from '../Error/LocaleError';
+import { RegionsError } from '../Error/RegionsError';
 import { ILanguageQuery } from '../Query/Interface/ILanguageQuery';
 import { IRegionQuery } from '../Query/Interface/IRegionQuery';
 import { Languages } from '../VO/Languages';
@@ -19,7 +21,7 @@ export class LocaleInteractor implements Noun {
   private readonly regionCommand: IRegionCommand;
 
   public constructor(
-  @inject(TYPE.LanguageKernelQuery) languageQuery: ILanguageQuery,
+    @inject(TYPE.LanguageKernelQuery) languageQuery: ILanguageQuery,
     @inject(TYPE.RegionKernelQuery) regionQuery: IRegionQuery,
     @inject(TYPE.LanguageRedisCommand) languageCommand: ILanguageCommand,
     @inject(TYPE.RegionRedisCommand) regionCommand: IRegionCommand
@@ -30,26 +32,34 @@ export class LocaleInteractor implements Noun {
     this.regionCommand = regionCommand;
   }
 
-  public async all(): Promise<Superposition<Locale, NoSuchElementError | DataSourceError>> {
+  public async all(): Promise<Superposition<Locale, LocaleError | DataSourceError>> {
     const [
       languagesSuperposition,
       regionsSuperposition
     ]: [
-      Superposition<Languages, NoSuchElementError | DataSourceError>,
-      Superposition<Regions, NoSuchElementError | DataSourceError>
-    ] = await Promise.all<Superposition<Languages, NoSuchElementError | DataSourceError>, Superposition<Regions, NoSuchElementError | DataSourceError>>([
+      Superposition<Languages, LanguagesError | DataSourceError>,
+      Superposition<Regions, RegionsError | DataSourceError>
+    ] = await Promise.all<Superposition<Languages, LanguagesError | DataSourceError>, Superposition<Regions, RegionsError | DataSourceError>>([
       this.languageQuery.all(),
       this.regionQuery.all()
     ]);
 
-    return languagesSuperposition.match<Locale, NoSuchElementError | DataSourceError>((languages: Languages) => {
-      return regionsSuperposition.match<Locale, NoSuchElementError | DataSourceError>((regions: Regions) => {
+    return languagesSuperposition.match<Locale, LocaleError | DataSourceError>((languages: Languages) => {
+      return regionsSuperposition.match<Locale, LocaleError | DataSourceError>((regions: Regions) => {
         return Alive.of<Locale, DataSourceError>(Locale.of(languages, regions));
-      }, (err: NoSuchElementError | DataSourceError, self: Dead<Regions, NoSuchElementError | DataSourceError>) => {
-        return self.transpose<Locale>();
+      }, (err: RegionsError | DataSourceError) => {
+        if (err instanceof RegionsError) {
+          return Dead.of<Locale, LocaleError>(new LocaleError('LocaleInteradtor.all()', err));
+        }
+
+        return Dead.of<Locale, DataSourceError>(err);
       });
-    }, (err: NoSuchElementError | DataSourceError, self: Dead<Languages, NoSuchElementError | DataSourceError>) => {
-      return self.transpose<Locale>();
+    }, (err: LanguagesError | DataSourceError) => {
+      if (err instanceof LanguagesError) {
+        return Dead.of<Locale, LocaleError>(new LocaleError('LocaleInteradtor.all()', err));
+      }
+
+      return Dead.of<Locale, DataSourceError>(err);
     });
   }
 
