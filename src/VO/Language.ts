@@ -55,7 +55,7 @@ export class Language extends ValueObject implements JSONable {
   }
 
   public static ofJSON(json: LanguageJSON): Superposition<Language, LanguageError> {
-    return LanguageID.ofString(json.languageID).match<Superposition<Language, LanguageError>>((languageID: LanguageID) => {
+    return LanguageID.ofString(json.languageID).match<Language, LanguageError>((languageID: LanguageID) => {
       return Alive.of<Language, LanguageError>(
         Language.of(
           languageID,
@@ -70,7 +70,7 @@ export class Language extends ValueObject implements JSONable {
   }
 
   public static ofRow(row: LanguageRow): Superposition<Language, LanguageError> {
-    return LanguageID.ofString(row.languageID).match<Superposition<Language, LanguageError>>((languageID: LanguageID) => {
+    return LanguageID.ofString(row.languageID).match<Language, LanguageError>((languageID: LanguageID) => {
       return Alive.of<Language, LanguageError>(
         Language.of(
           languageID,
