@@ -1,3 +1,6 @@
+import { Superposition, UUID } from 'publikum';
+import sinon, { SinonSpy } from 'sinon';
+import { LocaleError } from '../../Error/LocaleError';
 import { ISO3166 } from '../ISO3166';
 import { ISO639 } from '../ISO639';
 import { Language, LanguageJSON } from '../Language';
@@ -34,7 +37,7 @@ describe('Locale', () => {
     it('normal case', () => {
       const languages: Array<LanguageJSON> = [
         {
-          languageID: 1,
+          languageID: UUID.v4().get(),
           name: 'language name',
           englishName: 'english language name',
           iso639: 'ab'
@@ -42,21 +45,23 @@ describe('Locale', () => {
       ];
       const regions: Array<RegionJSON> = [
         {
-          regionID: 2,
+          regionID: UUID.v4().get(),
           name: 'region name',
           iso3166: 'abc'
         }
       ];
 
-      const locale: Locale = Locale.ofJSON({
+      const superposition: Superposition<Locale, LocaleError> = Locale.ofJSON({
         languages,
         regions
       });
 
+      expect(superposition.isAlive()).toBe(true);
+      const locale: Locale = superposition.get();
       expect(locale.getLanguages().size()).toBe(languages.length);
       for (let i: number = 0; i < locale.getLanguages().size(); i++) {
         const language: Language = locale.getLanguages().get(i).get();
-        expect(language.getLanguageID().get()).toBe(languages[i].languageID);
+        expect(language.getLanguageID().get().get()).toBe(languages[i].languageID);
         expect(language.getName().get()).toBe(languages[i].name);
         expect(language.getEnglishName().get()).toBe(languages[i].englishName);
         expect(language.getISO639().get()).toBe(languages[i].iso639);
@@ -64,90 +69,166 @@ describe('Locale', () => {
       expect(locale.getRegions().size()).toBe(regions.length);
       for (let i: number = 0; i < locale.getRegions().size(); i++) {
         const region: Region = locale.getRegions().get(i).get();
-        expect(region.getRegionID().get()).toBe(regions[i].regionID);
+        expect(region.getRegionID().get().get()).toBe(regions[i].regionID);
         expect(region.getName().get()).toBe(regions[i].name);
         expect(region.getISO3166().get()).toBe(regions[i].iso3166);
       }
+    });
+
+    it('has malformat languageID ', () => {
+      const languages: Array<LanguageJSON> = [
+        {
+          languageID: 'cinque',
+          name: 'language name',
+          englishName: 'english language name',
+          iso639: 'ab'
+        }
+      ];
+      const regions: Array<RegionJSON> = [
+        {
+          regionID: UUID.v4().get(),
+          name: 'region name',
+          iso3166: 'abc'
+        }
+      ];
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const superposition: Superposition<Locale, LocaleError> = Locale.ofJSON({
+        languages,
+        regions
+      });
+
+      expect(superposition.isDead()).toBe(true);
+      superposition.match<void>(() => {
+        spy1();
+      }, (err: LocaleError) => {
+        spy2();
+        expect(err).toBeInstanceOf(LocaleError);
+      });
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+    });
+
+    it('has malformat regionID ', () => {
+      const languages: Array<LanguageJSON> = [
+        {
+          languageID: UUID.v4().get(),
+          name: 'language name',
+          englishName: 'english language name',
+          iso639: 'ab'
+        }
+      ];
+      const regions: Array<RegionJSON> = [
+        {
+          regionID: 'cinque',
+          name: 'region name',
+          iso3166: 'abc'
+        }
+      ];
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const superposition: Superposition<Locale, LocaleError> = Locale.ofJSON({
+        languages,
+        regions
+      });
+
+      expect(superposition.isDead()).toBe(true);
+      superposition.match<void>(() => {
+        spy1();
+      }, (err: LocaleError) => {
+        spy2();
+        expect(err).toBeInstanceOf(LocaleError);
+      });
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
   });
 
   describe('equals', () => {
     it('returns true if languages and regions are the same', () => {
+      const uuid1: UUID = UUID.v4();
+      const uuid2: UUID = UUID.v4();
       const locale1: Locale = Locale.of(
         new MockLanguages(
           new MockLanguage({
-            languageID: new MockLanguageID(1)
+            languageID: new MockLanguageID(uuid1)
           }),
           new MockLanguage({
-            languageID: new MockLanguageID(2)
+            languageID: new MockLanguageID(uuid2)
           })
         ),
         new MockRegions(
           new MockRegion({
-            regionID: new MockRegionID(1)
+            regionID: new MockRegionID(uuid1)
           }),
           new MockRegion({
-            regionID: new MockRegionID(2)
+            regionID: new MockRegionID(uuid2)
           })
         )
       );
       const locale2: Locale = Locale.of(
         new MockLanguages(
           new MockLanguage({
-            languageID: new MockLanguageID(1)
+            languageID: new MockLanguageID(uuid1)
           })
         ),
         new MockRegions(
           new MockRegion({
-            regionID: new MockRegionID(1)
+            regionID: new MockRegionID(uuid1)
           }),
           new MockRegion({
-            regionID: new MockRegionID(2)
+            regionID: new MockRegionID(uuid2)
           })
         )
       );
       const locale3: Locale = Locale.of(
         new MockLanguages(
           new MockLanguage({
-            languageID: new MockLanguageID(1)
+            languageID: new MockLanguageID(uuid1)
           }),
           new MockLanguage({
-            languageID: new MockLanguageID(2)
+            languageID: new MockLanguageID(uuid2)
           })
         ),
         new MockRegions(
           new MockRegion({
-            regionID: new MockRegionID(2)
+            regionID: new MockRegionID(uuid2)
           })
         )
       );
       const locale4: Locale = Locale.of(
         new MockLanguages(
           new MockLanguage({
-            languageID: new MockLanguageID(1)
+            languageID: new MockLanguageID(uuid1)
           })
         ),
         new MockRegions(
           new MockRegion({
-            regionID: new MockRegionID(1)
+            regionID: new MockRegionID(uuid1)
           })
         )
       );
       const locale5: Locale = Locale.of(
         new MockLanguages(
           new MockLanguage({
-            languageID: new MockLanguageID(1)
+            languageID: new MockLanguageID(uuid1)
           }),
           new MockLanguage({
-            languageID: new MockLanguageID(2)
+            languageID: new MockLanguageID(uuid2)
           })
         ),
         new MockRegions(
           new MockRegion({
-            regionID: new MockRegionID(1)
+            regionID: new MockRegionID(uuid1)
           }),
           new MockRegion({
-            regionID: new MockRegionID(2)
+            regionID: new MockRegionID(uuid2)
           })
         )
       );
@@ -162,9 +243,11 @@ describe('Locale', () => {
 
   describe('toJSON', () => {
     it('normal case', () => {
+      const uuid1: UUID = UUID.v4();
+      const uuid2: UUID = UUID.v4();
       const languages: Array<LanguageJSON> = [
         {
-          languageID: 1,
+          languageID: uuid1.get(),
           name: 'language name',
           englishName: 'english language name',
           iso639: 'ab'
@@ -172,21 +255,23 @@ describe('Locale', () => {
       ];
       const regions: Array<RegionJSON> = [
         {
-          regionID: 2,
+          regionID: uuid2.get(),
           name: 'region name',
           iso3166: 'abc'
         }
       ];
 
-      const locale: Locale = Locale.ofJSON({
+      const superposition: Superposition<Locale, LocaleError> = Locale.ofJSON({
         languages,
         regions
       });
 
+      expect(superposition.isAlive()).toBe(true);
+      const locale: Locale = superposition.get();
       expect(locale.toJSON()).toEqual({
         languages: [
           {
-            languageID: 1,
+            languageID: uuid1.get(),
             name: 'language name',
             englishName: 'english language name',
             iso639: 'ab'
@@ -194,7 +279,7 @@ describe('Locale', () => {
         ],
         regions: [
           {
-            regionID: 2,
+            regionID: uuid2.get(),
             name: 'region name',
             iso3166: 'abc'
           }
@@ -205,10 +290,10 @@ describe('Locale', () => {
 
   describe('toString', () => {
     it('normal case', () => {
-      const id1: number = 1;
-      const id2: number = 2;
-      const id3: number = 3;
-      const id4: number = 4;
+      const uuid1: UUID = UUID.v4();
+      const uuid2: UUID = UUID.v4();
+      const uuid3: UUID = UUID.v4();
+      const uuid4: UUID = UUID.v4();
       const name1: string = 'language 1';
       const name2: string = 'language 2';
       const name3: string = 'region 3';
@@ -223,13 +308,13 @@ describe('Locale', () => {
       const locale: Locale = Locale.of(
         Languages.ofArray([
           Language.of(
-            LanguageID.of(id1),
+            LanguageID.of(uuid1),
             LanguageName.of(name1),
             LanguageName.of(englishName1),
             ISO639.of(iso6391)
           ),
           Language.of(
-            LanguageID.of(id2),
+            LanguageID.of(uuid2),
             LanguageName.of(name2),
             LanguageName.of(englishName2),
             ISO639.of(iso6392)
@@ -237,19 +322,19 @@ describe('Locale', () => {
         ]),
         Regions.ofArray([
           Region.of(
-            RegionID.of(id3),
+            RegionID.of(uuid3),
             RegionName.of(name3),
             ISO3166.of(iso31661)
           ),
           Region.of(
-            RegionID.of(id4),
+            RegionID.of(uuid4),
             RegionName.of(name4),
             ISO3166.of(iso31662)
           )
         ])
       );
 
-      expect(locale.toString()).toBe(`${id1} ${name1} ${englishName1} ${iso6391}, ${id2} ${name2} ${englishName2} ${iso6392} ${id3} ${name3} ${iso31661}, ${id4} ${name4} ${iso31662}`);
+      expect(locale.toString()).toBe(`${uuid1} ${name1} ${englishName1} ${iso6391}, ${uuid2} ${name2} ${englishName2} ${iso6392} ${uuid3} ${name3} ${iso31661}, ${uuid4} ${name4} ${iso31662}`);
     });
   });
 });

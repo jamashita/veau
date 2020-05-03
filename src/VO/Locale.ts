@@ -1,4 +1,7 @@
-import { JSONable, ValueObject } from 'publikum';
+import { Alive, Dead, JSONable, Superposition, ValueObject } from 'publikum';
+import { LanguagesError } from '../Error/LanguagesError';
+import { LocaleError } from '../Error/LocaleError';
+import { RegionsError } from '../Error/RegionsError';
 import { LanguageJSON } from './Language';
 import { Languages } from './Languages';
 import { RegionJSON } from './Region';
@@ -23,11 +26,21 @@ export class Locale extends ValueObject implements JSONable {
     return new Locale(languages, regions);
   }
 
-  public static ofJSON(json: LocaleJSON): Locale {
-    return Locale.of(
-      Languages.ofJSON(json.languages),
-      Regions.ofJSON(json.regions)
-    );
+  public static ofJSON(json: LocaleJSON): Superposition<Locale, LocaleError> {
+    return Languages.ofJSON(json.languages).match<Locale, LocaleError>((languages: Languages) => {
+      return Regions.ofJSON(json.regions).match<Locale, LocaleError>((regions: Regions) => {
+        return Alive.of<Locale, LocaleError>(
+          Locale.of(
+            languages,
+            regions
+          )
+        );
+      }, (err: RegionsError) => {
+        return Dead.of<Locale, LocaleError>(new LocaleError('Locale.ofJSON()', err));
+      });
+    }, (err: LanguagesError) => {
+      return Dead.of<Locale, LocaleError>(new LocaleError('Locale.ofJSON()', err));
+    });
   }
 
   public static empty(): Locale {
