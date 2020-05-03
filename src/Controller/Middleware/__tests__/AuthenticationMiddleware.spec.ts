@@ -31,7 +31,7 @@ describe('AuthenticationMiddleware', () => {
       });
 
       const response: supertest.Response = await supertest(app).get('/');
-      expect(response.status).toEqual(OK);
+      expect(response.status).toBe(OK);
     });
 
     it('GET: blocked', async () => {
@@ -43,7 +43,7 @@ describe('AuthenticationMiddleware', () => {
       });
 
       const response: supertest.Response = await supertest(app).get('/');
-      expect(response.status).toEqual(UNAUTHORIZED);
+      expect(response.status).toBe(UNAUTHORIZED);
     });
 
     it('POST: pass', async () => {
@@ -59,7 +59,7 @@ describe('AuthenticationMiddleware', () => {
       });
 
       const response: supertest.Response = await supertest(app).post('/');
-      expect(response.status).toEqual(OK);
+      expect(response.status).toBe(OK);
     });
 
     it('POST: blocked', async () => {
@@ -71,7 +71,7 @@ describe('AuthenticationMiddleware', () => {
       });
 
       const response: supertest.Response = await supertest(app).post('/');
-      expect(response.status).toEqual(UNAUTHORIZED);
+      expect(response.status).toBe(UNAUTHORIZED);
     });
 
     it('PUT: pass', async () => {
@@ -87,7 +87,7 @@ describe('AuthenticationMiddleware', () => {
       });
 
       const response: supertest.Response = await supertest(app).put('/');
-      expect(response.status).toEqual(OK);
+      expect(response.status).toBe(OK);
     });
 
     it('PUT: blocked', async () => {
@@ -99,7 +99,7 @@ describe('AuthenticationMiddleware', () => {
       });
 
       const response: supertest.Response = await supertest(app).put('/');
-      expect(response.status).toEqual(UNAUTHORIZED);
+      expect(response.status).toBe(UNAUTHORIZED);
     });
 
     it('DELETE: pass', async () => {
@@ -115,7 +115,7 @@ describe('AuthenticationMiddleware', () => {
       });
 
       const response: supertest.Response = await supertest(app).delete('/');
-      expect(response.status).toEqual(OK);
+      expect(response.status).toBe(OK);
     });
 
     it('DELETE: blocked', async () => {
@@ -127,7 +127,7 @@ describe('AuthenticationMiddleware', () => {
       });
 
       const response: supertest.Response = await supertest(app).delete('/');
-      expect(response.status).toEqual(UNAUTHORIZED);
+      expect(response.status).toBe(UNAUTHORIZED);
     });
   });
 });
