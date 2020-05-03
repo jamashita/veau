@@ -5,7 +5,7 @@ const rimraf = require('rimraf');
 const plumber = require('gulp-plumber');
 
 const ts = require('gulp-typescript');
-const tsc = ts.createProject('./tsconfig.fe.json');
+const tsc = ts.createProject('./tsconfig.json');
 
 const sass = require('gulp-dart-sass');
 const cleanCSS = require('gulp-clean-css');
@@ -17,7 +17,7 @@ const webpackConfig = require('./webpack.config');
 
 gulp.task('Command', () => {
   return gulp.src(['src/Command/**/*.ts'], {
-    since : gulp.lastRun('Command')
+    since: gulp.lastRun('Command')
   })
     .pipe(plumber())
     .pipe(tsc())
@@ -26,7 +26,7 @@ gulp.task('Command', () => {
 
 gulp.task('Container', () => {
   return gulp.src(['src/Container/**/*.ts'], {
-    since : gulp.lastRun('Container')
+    since: gulp.lastRun('Container')
   })
     .pipe(plumber())
     .pipe(tsc())
@@ -35,7 +35,7 @@ gulp.task('Container', () => {
 
 gulp.task('Controller', () => {
   return gulp.src(['src/Controller/**/*.ts'], {
-    since : gulp.lastRun('Controller')
+    since: gulp.lastRun('Controller')
   })
     .pipe(plumber())
     .pipe(tsc())
@@ -44,7 +44,7 @@ gulp.task('Controller', () => {
 
 gulp.task('Entity', () => {
   return gulp.src(['src/Entity/**/*.ts'], {
-    since : gulp.lastRun('Entity')
+    since: gulp.lastRun('Entity')
   })
     .pipe(plumber())
     .pipe(tsc())
@@ -53,7 +53,7 @@ gulp.task('Entity', () => {
 
 gulp.task('Error', () => {
   return gulp.src(['src/Error/**/*.ts'], {
-    since : gulp.lastRun('Error')
+    since: gulp.lastRun('Error')
   })
     .pipe(plumber())
     .pipe(tsc())
@@ -62,7 +62,7 @@ gulp.task('Error', () => {
 
 gulp.task('Factory', () => {
   return gulp.src(['src/Factory/**/*.ts'], {
-    since : gulp.lastRun('Factory')
+    since: gulp.lastRun('Factory')
   })
     .pipe(plumber())
     .pipe(tsc())
@@ -78,7 +78,7 @@ gulp.task('Frontend', () => {
 
 gulp.task('Infrastructure', () => {
   return gulp.src(['src/Infrastructure/**/*.ts'], {
-    since : gulp.lastRun('Infrastructure')
+    since: gulp.lastRun('Infrastructure')
   })
     .pipe(plumber())
     .pipe(tsc())
@@ -87,7 +87,7 @@ gulp.task('Infrastructure', () => {
 
 gulp.task('Interactor', () => {
   return gulp.src(['src/Interactor/**/*.ts'], {
-    since : gulp.lastRun('Interactor')
+    since: gulp.lastRun('Interactor')
   })
     .pipe(plumber())
     .pipe(tsc())
@@ -96,7 +96,7 @@ gulp.task('Interactor', () => {
 
 gulp.task('Query', () => {
   return gulp.src(['src/Query/**/*.ts'], {
-    since : gulp.lastRun('Query')
+    since: gulp.lastRun('Query')
   })
     .pipe(plumber())
     .pipe(tsc())
@@ -105,7 +105,7 @@ gulp.task('Query', () => {
 
 gulp.task('Server', () => {
   return gulp.src(['src/Server/**/*.ts'], {
-    since : gulp.lastRun('Server')
+    since: gulp.lastRun('Server')
   })
     .pipe(plumber())
     .pipe(tsc())
@@ -114,7 +114,7 @@ gulp.task('Server', () => {
 
 gulp.task('Service', () => {
   return gulp.src(['src/Service/**/*.ts'], {
-    since : gulp.lastRun('Service')
+    since: gulp.lastRun('Service')
   })
     .pipe(plumber())
     .pipe(tsc())
@@ -123,7 +123,7 @@ gulp.task('Service', () => {
 
 gulp.task('Transaction', () => {
   return gulp.src(['src/Transaction/**/*.ts'], {
-    since : gulp.lastRun('Transaction')
+    since: gulp.lastRun('Transaction')
   })
     .pipe(plumber())
     .pipe(tsc())
@@ -132,7 +132,7 @@ gulp.task('Transaction', () => {
 
 gulp.task('VO', () => {
   return gulp.src(['src/VO/**/*.ts'], {
-    since : gulp.lastRun('VO')
+    since: gulp.lastRun('VO')
   })
     .pipe(plumber())
     .pipe(tsc())
@@ -149,7 +149,7 @@ gulp.task('sass', () => {
     .pipe(plumber())
     .pipe(sass())
     .pipe(autoprefixer({
-      'overrideBrowserslist' : [
+      'overrideBrowserslist': [
         'last 2 major versions'
       ]
     }))
@@ -170,14 +170,16 @@ gulp.task('font', () => {
 gulp.task('nodemon', (callback) => {
   let started = false;
   return nodemon({
-    script : 'dist/Server/Server.js',
-    watch : ['dist/**/*.js'],
-    ext : 'js',
-    exec : 'node',
-    stdout : true,
-    delay : 500,
-    env : {
-      'NODE_ENV' : 'development'
+    script: 'dist/Server/Server.js',
+    watch: [
+      'dist/**/*.js'
+    ],
+    ext: 'js',
+    exec: 'node',
+    stdout: true,
+    delay: 500,
+    env: {
+      'NODE_ENV': 'development'
     }
   }).on('start', () => {
     if(!started) {
