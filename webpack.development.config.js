@@ -24,7 +24,14 @@ module.exports = {
   mode: 'development',
   devtool: 'inline-source-map',
   plugins: [
-    new TsConfigWebpackPlugin({configFile: './src/Frontend/tsconfig.json'})
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('development')
+      }
+    }),
+    new TsConfigWebpackPlugin({
+      configFile: './src/Frontend/tsconfig.json'
+    })
   ],
   module: {
     rules: [
