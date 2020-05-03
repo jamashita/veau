@@ -12,6 +12,8 @@ import {
   Superposition
 } from 'publikum';
 import { TYPE } from '../../Container/Types';
+import { LanguageError } from '../../Error/LanguageError';
+import { LanguagesError } from '../../Error/LanguagesError';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { REDIS_LANGUAGE_KEY } from '../../Infrastructure/VeauRedis';
 import { ISO639 } from '../../VO/ISO639';
@@ -30,19 +32,19 @@ export class LanguageQuery implements ILanguageQuery, IRedisQuery {
     this.redis = redis;
   }
 
-  public async all(): Promise<Superposition<Languages, NoSuchElementError | DataSourceError>> {
+  public async all(): Promise<Superposition<Languages, LanguagesError | DataSourceError>> {
     try {
       const languagesString: Nullable<string> = await this.redis.getString().get(REDIS_LANGUAGE_KEY);
 
       if (languagesString === null) {
-        return Dead.of<Languages, NoSuchElementError>(
-          new NoSuchElementError('NO LANGUAGES FROM REDIS')
+        return Dead.of<Languages, RedisError>(
+          new RedisError('NO LANGUAGES FROM REDIS')
         );
       }
 
       const languageJSONs: Array<LanguageJSON> = await JSONA.parse<Array<LanguageJSON>>(languagesString);
 
-      return Alive.of<Languages, DataSourceError>(Languages.ofJSON(languageJSONs));
+      return Languages.ofJSON(languageJSONs);
     }
     catch (err) {
       if (err instanceof RedisError) {
@@ -58,10 +60,10 @@ export class LanguageQuery implements ILanguageQuery, IRedisQuery {
     }
   }
 
-  public async findByISO639(iso639: ISO639): Promise<Superposition<Language, NoSuchElementError | DataSourceError>> {
-    const superposition: Superposition<Languages, NoSuchElementError | DataSourceError> = await this.all();
+  public async findByISO639(iso639: ISO639): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>> {
+    const superposition: Superposition<Languages, LanguagesError | DataSourceError> = await this.all();
 
-    return superposition.match<Language, NoSuchElementError | DataSourceError>((languages: Languages) => {
+    return superposition.match<Language, LanguageError | NoSuchElementError | DataSourceError>((languages: Languages) => {
       const quantum: Quantum<Language> = languages.find((language: Language) => {
         return language.getISO639().equals(iso639);
       });
@@ -71,8 +73,12 @@ export class LanguageQuery implements ILanguageQuery, IRedisQuery {
       }, () => {
         return Dead.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.get()));
       });
-    }, (err: NoSuchElementError | DataSourceError) => {
-      return Dead.of<Language, NoSuchElementError | DataSourceError>(err);
+    }, (err: LanguagesError | DataSourceError) => {
+      if (err instanceof LanguagesError) {
+        return Dead.of<Language, LanguageError>(new LanguageError('LanguageQuery.findByISO639()', err));
+      }
+
+      return Dead.of<Language, DataSourceError>(err);
     });
   }
 }
