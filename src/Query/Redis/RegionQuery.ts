@@ -13,6 +13,8 @@ import {
 } from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
+import { RegionError } from '../../Error/RegionError';
+import { RegionsError } from '../../Error/RegionsError';
 import { REDIS_REGION_KEY } from '../../Infrastructure/VeauRedis';
 import { ISO3166 } from '../../VO/ISO3166';
 import { Region, RegionJSON } from '../../VO/Region';
@@ -30,36 +32,38 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
     this.redis = redis;
   }
 
-  public async all(): Promise<Superposition<Regions, NoSuchElementError | DataSourceError>> {
+  public async all(): Promise<Superposition<Regions, RegionsError | DataSourceError>> {
     try {
       const regionString: Nullable<string> = await this.redis.getString().get(REDIS_REGION_KEY);
 
       if (regionString === null) {
-        return Dead.of<Regions, NoSuchElementError>(
-          new NoSuchElementError('NO REGIONS FROM REDIS')
+        return Dead.of<Regions, RedisError>(
+          new RedisError('NO REGIONS FROM REDIS')
         );
       }
 
       const regionJSONs: Array<RegionJSON> = await JSONA.parse<Array<RegionJSON>>(regionString);
 
-      return Alive.of<Regions, DataSourceError>(Regions.ofJSON(regionJSONs));
+      return Regions.ofJSON(regionJSONs);
     }
     catch (err) {
       if (err instanceof RedisError) {
         return Dead.of<Regions, RedisError>(err);
       }
       if (err instanceof JSONAError) {
-        return Dead.of<Regions, RedisError>(new RedisError('RegionQuery.all()', err));
+        return Dead.of<Regions, RedisError>(
+          new RedisError('RegionQuery.all()', err)
+        );
       }
 
       throw err;
     }
   }
 
-  public async findByISO3166(iso3166: ISO3166): Promise<Superposition<Region, NoSuchElementError | DataSourceError>> {
-    const superposition: Superposition<Regions, NoSuchElementError | DataSourceError> = await this.all();
+  public async findByISO3166(iso3166: ISO3166): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {
+    const superposition: Superposition<Regions, RegionsError | DataSourceError> = await this.all();
 
-    return superposition.match<Region, NoSuchElementError | DataSourceError>((regions: Regions) => {
+    return superposition.match<Region, RegionError | NoSuchElementError | DataSourceError>((regions: Regions) => {
       const quantum: Quantum<Region> = regions.find((region: Region) => {
         return region.getISO3166().equals(iso3166);
       });
@@ -69,8 +73,12 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
       }, () => {
         return Dead.of<Region, NoSuchElementError>(new NoSuchElementError(iso3166.get()));
       });
-    }, (err: NoSuchElementError | DataSourceError) => {
-      return Dead.of<Region, NoSuchElementError | DataSourceError>(err);
+    }, (err: RegionsError | DataSourceError) => {
+      if (err instanceof RegionsError) {
+        return Dead.of<Region, RegionError>(new RegionError('RegionQuery.findByISO3166()', err));
+      }
+
+      return Dead.of<Region, DataSourceError>(err);
     });
   }
 }
