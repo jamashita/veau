@@ -5,7 +5,7 @@ const rimraf = require('rimraf');
 const plumber = require('gulp-plumber');
 
 const ts = require('gulp-typescript');
-const tsc = ts.createProject('./tsconfig.json');
+const tsc = ts.createProject('./tsconfig.fe.json');
 
 const sass = require('gulp-dart-sass');
 const cleanCSS = require('gulp-clean-css');
@@ -171,12 +171,12 @@ gulp.task('nodemon', (callback) => {
   let started = false;
   return nodemon({
     script : 'dist/Server/Server.js',
-    watch  : ['dist/**/*.js'],
-    ext    : 'js',
-    exec   : 'node',
+    watch : ['dist/**/*.js'],
+    ext : 'js',
+    exec : 'node',
     stdout : true,
-    delay  : 500,
-    env    : {
+    delay : 500,
+    env : {
       'NODE_ENV' : 'development'
     }
   }).on('start', () => {
