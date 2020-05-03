@@ -1,68 +1,71 @@
 import { Alive, Dead, Digest, Superposition, ValueObject } from 'publikum';
 import { AccountError } from '../Error/AccountError';
+import { LanguageIDError } from '../Error/LanguageIDError';
+import { RegionIDError } from '../Error/RegionIDError';
 import { VeauAccountIDError } from '../Error/VeauAccountIDError';
 import { AccountName } from './AccountName';
 import { Hash } from './Hash';
-import { Language } from './Language';
+import { LanguageID } from './LanguageID';
 import { Password } from './Password';
-import { Region } from './Region';
+import { RegionID } from './RegionID';
 import { VeauAccount } from './VeauAccount';
 import { VeauAccountID } from './VeauAccountID';
 
 export type AccountRow = Readonly<{
   veauAccountID: string;
+  languageID: string;
+  regionID: string;
   account: string;
-  languageID: number;
-  languageName: string;
-  languageEnglishName: string;
-  iso639: string;
-  regionID: number;
-  regionName: string;
-  iso3166: string;
   hash: string;
 }>;
 
 export class Account extends ValueObject {
   public readonly noun: 'Account' = 'Account';
   private readonly veauAccountID: VeauAccountID;
+  private readonly languageID: LanguageID;
+  private readonly regionID: RegionID;
   private readonly account: AccountName;
-  private readonly language: Language;
-  private readonly region: Region;
   private readonly hash: Hash;
 
   public static of(
     veauAccountID: VeauAccountID,
+    languageID: LanguageID,
+    regionID: RegionID,
     account: AccountName,
-    language: Language,
-    region: Region,
     hash: Hash
   ): Account {
-    return new Account(veauAccountID, account, language, region, hash);
+    return new Account(
+      veauAccountID,
+      languageID,
+      regionID,
+      account,
+      hash
+    );
   }
 
   public static ofRow(row: AccountRow): Superposition<Account, AccountError> {
     return VeauAccountID.ofString(row.veauAccountID).match<Account, AccountError>((veauAccountID: VeauAccountID) => {
-      const language: Language = Language.ofRow({
-        languageID: row.languageID,
-        name: row.languageName,
-        englishName: row.languageEnglishName,
-        iso639: row.iso639
+      return LanguageID.ofString(row.languageID).match<Account, AccountError>((languageID: LanguageID) => {
+        return RegionID.ofString(row.regionID).match<Account, AccountError>((regionID: RegionID) => {
+          return Alive.of<Account, AccountError>(
+            Account.of(
+              veauAccountID,
+              languageID,
+              regionID,
+              AccountName.of(row.account),
+              Hash.of(row.hash)
+            )
+          );
+        }, (err: RegionIDError) => {
+          return Dead.of<Account, AccountError>(
+            new AccountError('Account.ofRow()', err)
+          );
+        });
+      }, (err: LanguageIDError) => {
+        return Dead.of<Account, AccountError>(
+          new AccountError('Account.ofRow()', err)
+        );
       });
-      const region: Region = Region.ofRow({
-        regionID: row.regionID,
-        name: row.regionName,
-        iso3166: row.iso3166
-      });
-
-      return Alive.of<Account, AccountError>(
-        Account.of(
-          veauAccountID,
-          AccountName.of(row.account),
-          language,
-          region,
-          Hash.of(row.hash)
-        )
-      );
     }, (err: VeauAccountIDError) => {
       return Dead.of<Account, AccountError>(
         new AccountError('Account.ofRow()', err)
@@ -72,16 +75,16 @@ export class Account extends ValueObject {
 
   protected constructor(
     veauAccountID: VeauAccountID,
+    languageID: LanguageID,
+    regionID: RegionID,
     account: AccountName,
-    language: Language,
-    region: Region,
     hash: Hash
   ) {
     super();
     this.veauAccountID = veauAccountID;
     this.account = account;
-    this.language = language;
-    this.region = region;
+    this.languageID = languageID;
+    this.regionID = regionID;
     this.hash = hash;
   }
 
@@ -89,16 +92,16 @@ export class Account extends ValueObject {
     return this.veauAccountID;
   }
 
+  public getLanguageID(): LanguageID {
+    return this.languageID;
+  }
+
+  public getRegionID(): RegionID {
+    return this.regionID;
+  }
+
   public getAccount(): AccountName {
     return this.account;
-  }
-
-  public getLanguage(): Language {
-    return this.language;
-  }
-
-  public getRegion(): Region {
-    return this.region;
   }
 
   public getHash(): Hash {
@@ -112,9 +115,9 @@ export class Account extends ValueObject {
   public toVeauAccount(): VeauAccount {
     return VeauAccount.of(
       this.veauAccountID,
-      this.account,
-      this.language,
-      this.region
+      this.languageID,
+      this.regionID,
+      this.account
     );
   }
 
@@ -125,13 +128,13 @@ export class Account extends ValueObject {
     if (!this.veauAccountID.equals(other.veauAccountID)) {
       return false;
     }
+    if (!this.languageID.equals(other.languageID)) {
+      return false;
+    }
+    if (!this.regionID.equals(other.regionID)) {
+      return false;
+    }
     if (!this.account.equals(other.account)) {
-      return false;
-    }
-    if (!this.language.equals(other.language)) {
-      return false;
-    }
-    if (!this.region.equals(other.region)) {
       return false;
     }
     if (!this.hash.equals(other.hash)) {
@@ -145,9 +148,9 @@ export class Account extends ValueObject {
     const properties: Array<string> = [];
 
     properties.push(this.veauAccountID.toString());
+    properties.push(this.languageID.toString());
+    properties.push(this.regionID.toString());
     properties.push(this.account.toString());
-    properties.push(this.language.toString());
-    properties.push(this.region.toString());
     properties.push(this.hash.toString());
 
     return properties.join(' ');

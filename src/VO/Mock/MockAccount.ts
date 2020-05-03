@@ -1,20 +1,20 @@
 import { Account } from '../Account';
 import { AccountName } from '../AccountName';
 import { Hash } from '../Hash';
-import { Language } from '../Language';
-import { Region } from '../Region';
+import { LanguageID } from '../LanguageID';
+import { RegionID } from '../RegionID';
 import { VeauAccountID } from '../VeauAccountID';
 import { MockAccountName } from './MockAccountName';
 import { MockHash } from './MockHash';
-import { MockLanguage } from './MockLanguage';
-import { MockRegion } from './MockRegion';
+import { MockLanguageID } from './MockLanguageID';
+import { MockRegionID } from './MockRegionID';
 import { MockVeauAccountID } from './MockVeauAccountID';
 
 type AccountArgs = Partial<Readonly<{
   veauAccountID: VeauAccountID;
+  languageID: LanguageID;
+  regionID: RegionID;
   account: AccountName;
-  language: Language;
-  region: Region;
   hash: Hash;
 }>>;
 
@@ -22,16 +22,16 @@ export class MockAccount extends Account {
 
   public constructor({
     veauAccountID = new MockVeauAccountID(),
+    languageID = new MockLanguageID(),
+    regionID = new MockRegionID(),
     account = new MockAccountName(),
-    language = new MockLanguage(),
-    region = new MockRegion(),
     hash = new MockHash()
   }: AccountArgs = {}) {
     super(
       veauAccountID,
+      languageID,
+      regionID,
       account,
-      language,
-      region,
       hash
     );
   }
