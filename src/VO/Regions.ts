@@ -1,13 +1,19 @@
 import {
+  Alive,
   Collection,
+  Dead,
   ImmutableSequence,
   JSONable,
+  manoeuvre,
   Mapper,
   Objet,
   Predicate,
   Quantum,
-  Sequence
+  Sequence,
+  Superposition
 } from 'publikum';
+import { RegionError } from '../Error/RegionError';
+import { RegionsError } from '../Error/RegionsError';
 import { Region, RegionJSON, RegionRow } from './Region';
 
 export class Regions extends Objet implements Collection<number, Region>, JSONable {
@@ -32,20 +38,30 @@ export class Regions extends Objet implements Collection<number, Region>, JSONab
     return Regions.ofArray(regions);
   }
 
-  public static ofJSON(json: Array<RegionJSON>): Regions {
-    const regions: Array<Region> = json.map<Region>((region: RegionJSON) => {
+  public static ofSuperposition(superpositions: Array<Superposition<Region, RegionError>>): Superposition<Regions, RegionsError> {
+    return manoeuvre<Region, RegionError>(superpositions).match<Regions, RegionsError>((regions: Array<Region>) => {
+      return Alive.of<Regions, RegionsError>(Regions.ofArray(regions));
+    }, (err: RegionError) => {
+      return Dead.of<Regions, RegionsError>(
+        new RegionsError('Regions.ofSuperposition()', err)
+      );
+    });
+  }
+
+  public static ofJSON(json: Array<RegionJSON>): Superposition<Regions, RegionsError> {
+    const superpositions: Array<Superposition<Region, RegionError>> = json.map<Superposition<Region, RegionError>>((region: RegionJSON) => {
       return Region.ofJSON(region);
     });
 
-    return Regions.ofArray(regions);
+    return Regions.ofSuperposition(superpositions);
   }
 
-  public static ofRow(rows: Array<RegionRow>): Regions {
-    const regions: Array<Region> = rows.map<Region>((region: RegionRow) => {
+  public static ofRow(rows: Array<RegionRow>): Superposition<Regions, RegionsError> {
+    const superpositions: Array<Superposition<Region, RegionError>> = rows.map<Superposition<Region, RegionError>>((region: RegionRow) => {
       return Region.ofRow(region);
     });
 
-    return Regions.ofArray(regions);
+    return Regions.ofSuperposition(superpositions);
   }
 
   public static empty(): Regions {
