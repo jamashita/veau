@@ -1,9 +1,11 @@
-import { DataSourceError, MockError, MockMySQL, MySQLError, Superposition } from 'publikum';
+import { DataSourceError, MockError, MockMySQL, MySQLError, Superposition, UUID } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
+import { RegionError } from '../../../Error/RegionError';
+import { RegionsError } from '../../../Error/RegionsError';
 import { ISO3166 } from '../../../VO/ISO3166';
 import { Region, RegionRow } from '../../../VO/Region';
 import { Regions } from '../../../VO/Regions';
@@ -24,12 +26,12 @@ describe('RegionQuery', () => {
     it('normal case', async () => {
       const rows: Array<RegionRow> = [
         {
-          regionID: 1,
+          regionID: UUID.v4().get(),
           name: 'Afghanistan',
           iso3166: 'AFG'
         },
         {
-          regionID: 2,
+          regionID: UUID.v4().get(),
           name: 'Albania',
           iso3166: 'ALB'
         }
@@ -41,7 +43,7 @@ describe('RegionQuery', () => {
       stub.resolves(rows);
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const superposition: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
+      const superposition: Superposition<Regions, RegionsError | DataSourceError> = await regionQuery.all();
 
       expect(stub.withArgs(`SELECT
       R1.region_id AS regionID,
@@ -54,7 +56,7 @@ describe('RegionQuery', () => {
       const regions: Regions = superposition.get();
       expect(regions.size()).toBe(2);
       for (let i: number = 0; i < regions.size(); i++) {
-        expect(regions.get(i).get().getRegionID().get()).toBe(rows[i].regionID);
+        expect(regions.get(i).get().getRegionID().get().get()).toBe(rows[i].regionID);
         expect(regions.get(i).get().getName().get()).toBe(rows[i].name);
         expect(regions.get(i).get().getISO3166().get()).toBe(rows[i].iso3166);
       }
@@ -69,14 +71,14 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const superposition: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
+      const superposition: Superposition<Regions, RegionsError | DataSourceError> = await regionQuery.all();
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
-      }, (err: NoSuchElementError | DataSourceError) => {
+      }, (err: RegionsError | DataSourceError) => {
         spy2();
-        expect(err).toBeInstanceOf(NoSuchElementError);
+        expect(err).toBeInstanceOf(MySQLError);
       });
 
       expect(spy1.called).toBe(false);
@@ -92,12 +94,12 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const superposition: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
+      const superposition: Superposition<Regions, RegionsError | DataSourceError> = await regionQuery.all();
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
-      }, (err: NoSuchElementError | DataSourceError) => {
+      }, (err: RegionsError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(MySQLError);
       });
@@ -121,7 +123,7 @@ describe('RegionQuery', () => {
     it('normal case', async () => {
       const rows: Array<RegionRow> = [
         {
-          regionID: 2,
+          regionID: UUID.v4().get(),
           name: 'Albania',
           iso3166: 'ALB'
         }
@@ -133,7 +135,7 @@ describe('RegionQuery', () => {
       stub.resolves(rows);
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const superposition: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      const superposition: Superposition<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(stub.withArgs(`SELECT
       R1.region_id AS regionID,
@@ -145,7 +147,7 @@ describe('RegionQuery', () => {
       }).called).toBe(true);
       expect(superposition.isAlive()).toBe(true);
       const region: Region = superposition.get();
-      expect(region.getRegionID().get()).toBe(rows[0].regionID);
+      expect(region.getRegionID().get().get()).toBe(rows[0].regionID);
       expect(region.getName().get()).toBe(rows[0].name);
       expect(region.getISO3166().get()).toBe(rows[0].iso3166);
     });
@@ -159,12 +161,12 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const superposition: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      const superposition: Superposition<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
-      }, (err: NoSuchElementError | DataSourceError) => {
+      }, (err: RegionError | NoSuchElementError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(NoSuchElementError);
       });
@@ -182,12 +184,12 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
-      const superposition: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      const superposition: Superposition<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
-      }, (err: NoSuchElementError | DataSourceError) => {
+      }, (err: RegionError | NoSuchElementError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(MySQLError);
       });

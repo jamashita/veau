@@ -1,7 +1,9 @@
 import { inject, injectable } from 'inversify';
-import { Alive, DataSourceError, Dead, IMySQL, MySQLError, Superposition } from 'publikum';
+import { DataSourceError, Dead, IMySQL, MySQLError, Superposition } from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
+import { RegionError } from '../../Error/RegionError';
+import { RegionsError } from '../../Error/RegionsError';
 import { ISO3166 } from '../../VO/ISO3166';
 import { Region, RegionRow } from '../../VO/Region';
 import { Regions } from '../../VO/Regions';
@@ -18,7 +20,7 @@ export class RegionQuery implements IRegionQuery, IMySQLQuery {
     this.mysql = mysql;
   }
 
-  public async all(): Promise<Superposition<Regions, NoSuchElementError | DataSourceError>> {
+  public async all(): Promise<Superposition<Regions, RegionsError | DataSourceError>> {
     const query: string = `SELECT
       R1.region_id AS regionID,
       R1.name,
@@ -31,10 +33,10 @@ export class RegionQuery implements IRegionQuery, IMySQLQuery {
       const regionRows: Array<RegionRow> = await this.mysql.execute<Array<RegionRow>>(query);
 
       if (regionRows.length === 0) {
-        return Dead.of<Regions, NoSuchElementError>(new NoSuchElementError('NO REGIONS FROM MYSQL'));
+        return Dead.of<Regions, MySQLError>(new MySQLError('NO REGIONS FROM MYSQL'));
       }
 
-      return Alive.of<Regions, DataSourceError>(Regions.ofRow(regionRows));
+      return Regions.ofRow(regionRows);
     }
     catch (err) {
       if (err instanceof MySQLError) {
@@ -45,7 +47,7 @@ export class RegionQuery implements IRegionQuery, IMySQLQuery {
     }
   }
 
-  public async findByISO3166(iso3166: ISO3166): Promise<Superposition<Region, NoSuchElementError | DataSourceError>> {
+  public async findByISO3166(iso3166: ISO3166): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {
     const query: string = `SELECT
       R1.region_id AS regionID,
       R1.name,
@@ -65,7 +67,7 @@ export class RegionQuery implements IRegionQuery, IMySQLQuery {
         return Dead.of<Region, NoSuchElementError>(new NoSuchElementError('NO REGIONS FROM MYSQL'));
       }
 
-      return Alive.of<Region, DataSourceError>(Region.ofRow(regionRows[0]));
+      return Region.ofRow(regionRows[0]);
     }
     catch (err) {
       if (err instanceof MySQLError) {
