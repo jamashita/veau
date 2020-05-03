@@ -1,3 +1,6 @@
+import { Superposition, UUID } from 'publikum';
+import sinon, { SinonSpy } from 'sinon';
+import { LanguageError } from '../../Error/LanguageError';
 import { ISO639 } from '../ISO639';
 import { Language, LanguageJSON, LanguageRow } from '../Language';
 import { LanguageID } from '../LanguageID';
@@ -9,10 +12,10 @@ import { MockLanguageName } from '../Mock/MockLanguageName';
 describe('Language', () => {
   describe('of', () => {
     it('normal case', () => {
-      const languageID: LanguageID = LanguageID.of(1);
-      const name: LanguageName = LanguageName.of('Afaraf');
-      const englishName: LanguageName = LanguageName.of('Afar');
-      const iso639: ISO639 = ISO639.of('aa');
+      const languageID: MockLanguageID = new MockLanguageID();
+      const name: MockLanguageName = new MockLanguageName();
+      const englishName: MockLanguageName = new MockLanguageName();
+      const iso639: MockISO639 = new MockISO639();
 
       const language: Language = Language.of(
         languageID,
@@ -27,11 +30,54 @@ describe('Language', () => {
       expect(language.getISO639()).toBe(iso639);
     });
 
-    it('all are empty, returns Language.empty()', () => {
+    it('returns Language.empty() if LanguageID is empty', () => {
       const language: Language = Language.of(
         LanguageID.empty(),
         LanguageName.empty(),
         LanguageName.empty(),
+        ISO639.empty()
+      );
+
+      expect(language).toBe(Language.empty());
+    });
+    it('returns Language.empty() if LanguageID is empty', () => {
+      const language: Language = Language.of(
+        LanguageID.empty(),
+        new MockLanguageName(),
+        new MockLanguageName(),
+        new MockISO639()
+      );
+
+      expect(language).toBe(Language.empty());
+    });
+
+    it('returns Language.empty() if LanguageName is empty 1', () => {
+      const language: Language = Language.of(
+        new MockLanguageID(),
+        LanguageName.empty(),
+        new MockLanguageName(),
+        ISO639.empty()
+      );
+
+      expect(language).toBe(Language.empty());
+    });
+
+    it('returns Language.empty() if LanguageName is empty 2', () => {
+      const language: Language = Language.of(
+        new MockLanguageID(),
+        new MockLanguageName(),
+        LanguageName.empty(),
+        ISO639.empty()
+      );
+
+      expect(language).toBe(Language.empty());
+    });
+
+    it('returns Language.empty() if ISO639 is empty', () => {
+      const language: Language = Language.of(
+        new MockLanguageID(),
+        new MockLanguageName(),
+        new MockLanguageName(),
         ISO639.empty()
       );
 
@@ -42,36 +88,92 @@ describe('Language', () => {
   describe('ofJSON', () => {
     it('normal case', () => {
       const json: LanguageJSON = {
-        languageID: 2,
+        languageID: UUID.v4().get(),
         name: 'Afaraf',
         englishName: 'Afar',
         iso639: 'aa'
       };
 
-      const language: Language = Language.ofJSON(json);
+      const superposition: Superposition<Language, LanguageError> = Language.ofJSON(json);
 
-      expect(language.getLanguageID().get()).toBe(json.languageID);
+      expect(superposition.isAlive()).toBe(true);
+      const language: Language = superposition.get();
+      expect(language.getLanguageID().get().get()).toBe(json.languageID);
       expect(language.getName().get()).toBe(json.name);
       expect(language.getEnglishName().get()).toBe(json.englishName);
       expect(language.getISO639().get()).toBe(json.iso639);
+    });
+
+    it('returns Dead if languageID is malformat', () => {
+      const json: LanguageJSON = {
+        languageID: 'puente',
+        name: 'Afaraf',
+        englishName: 'Afar',
+        iso639: 'aa'
+      };
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const superposition: Superposition<Language, LanguageError> = Language.ofJSON(json);
+
+      expect(superposition.isDead()).toBe(true);
+      superposition.match<void>(() => {
+        spy1();
+      }, (err: LanguageError) => {
+        spy2();
+        expect(err).toBeInstanceOf(LanguageError);
+      });
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
   });
 
   describe('ofRow', () => {
     it('normal case', () => {
       const row: LanguageRow = {
-        languageID: 2,
+        languageID: UUID.v4().get(),
         name: 'Afaraf',
         englishName: 'Afar',
         iso639: 'aa'
       };
 
-      const language: Language = Language.ofRow(row);
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
-      expect(language.getLanguageID().get()).toBe(row.languageID);
+      const superposition: Superposition<Language, LanguageError> = Language.ofRow(row);
+      expect(superposition.isAlive()).toBe(true);
+      const language: Language = superposition.get();
+      expect(language.getLanguageID().get().get()).toBe(row.languageID);
       expect(language.getName().get()).toBe(row.name);
       expect(language.getEnglishName().get()).toBe(row.englishName);
       expect(language.getISO639().get()).toBe(row.iso639);
+    });
+
+    it('returns Dead if languageID is malformat', () => {
+      const row: LanguageRow = {
+        languageID: 'puente',
+        name: 'Afaraf',
+        englishName: 'Afar',
+        iso639: 'aa'
+      };
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const superposition: Superposition<Language, LanguageError> = Language.ofRow(row);
+
+      expect(superposition.isDead()).toBe(true);
+      superposition.match<void>(() => {
+        spy1();
+      }, (err: LanguageError) => {
+        spy2();
+        expect(err).toBeInstanceOf(LanguageError);
+      });
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
   });
 
@@ -197,38 +299,40 @@ describe('Language', () => {
 
   describe('equals', () => {
     it('returns true if the all of the properties are the same', () => {
+      const uuid1: UUID = UUID.v4();
+      const uuid2: UUID = UUID.v4();
       const language1: Language = Language.of(
-        new MockLanguageID(1),
+        new MockLanguageID(uuid1),
         new MockLanguageName('аҧсуа бызшәа'),
         new MockLanguageName('Abkhazian'),
         new MockISO639('ab')
       );
       const language2: Language = Language.of(
-        new MockLanguageID(2),
+        new MockLanguageID(uuid2),
         new MockLanguageName('аҧсуа бызшәа'),
         new MockLanguageName('Abkhazian'),
         new MockISO639('ab')
       );
       const language3: Language = Language.of(
-        new MockLanguageID(1),
+        new MockLanguageID(uuid1),
         new MockLanguageName('Afaraf'),
         new MockLanguageName('Abkhazian'),
         new MockISO639('ab')
       );
       const language4: Language = Language.of(
-        new MockLanguageID(1),
+        new MockLanguageID(uuid1),
         new MockLanguageName('аҧсуа бызшәа'),
         new MockLanguageName('Afar'),
         new MockISO639('ab')
       );
       const language5: Language = Language.of(
-        new MockLanguageID(1),
+        new MockLanguageID(uuid1),
         new MockLanguageName('аҧсуа бызшәа'),
         new MockLanguageName('Abkhazian'),
         new MockISO639('aa')
       );
       const language6: Language = Language.of(
-        new MockLanguageID(1),
+        new MockLanguageID(uuid1),
         new MockLanguageName('аҧсуа бызшәа'),
         new MockLanguageName('Abkhazian'),
         new MockISO639('ab')
@@ -245,15 +349,16 @@ describe('Language', () => {
 
   describe('toJSON', () => {
     it('normal case', () => {
+      const uuid: UUID = UUID.v4();
       const language: Language = Language.of(
-        LanguageID.of(1),
+        LanguageID.of(uuid),
         LanguageName.of('аҧсуа бызшәа'),
         LanguageName.of('Abkhazian'),
         ISO639.of('ab')
       );
 
       expect(language.toJSON()).toEqual({
-        languageID: 1,
+        languageID: uuid.get(),
         name: 'аҧсуа бызшәа',
         englishName: 'Abkhazian',
         iso639: 'ab'
@@ -263,19 +368,19 @@ describe('Language', () => {
 
   describe('toString', () => {
     it('returns the original string', () => {
-      const id: number = 1;
+      const uuid: UUID = UUID.v4();
       const name1: string = 'аҧсуа бызшәа';
       const name2: string = 'Abkhazian';
       const iso639: string = 'ab';
 
       const language: Language = Language.of(
-        LanguageID.of(id),
+        LanguageID.of(uuid),
         LanguageName.of(name1),
         LanguageName.of(name2),
         ISO639.of(iso639)
       );
 
-      expect(language.toString()).toBe(`${id} ${name1} ${name2} ${iso639}`);
+      expect(language.toString()).toBe(`${uuid.get()} ${name1} ${name2} ${iso639}`);
     });
   });
 });
