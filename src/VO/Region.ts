@@ -47,7 +47,7 @@ export class Region extends ValueObject implements JSONable {
   }
 
   public static ofJSON(json: RegionJSON): Superposition<Region, RegionError> {
-    return RegionID.ofString(json.regionID).match((regionID: RegionID) => {
+    return RegionID.ofString(json.regionID).match<Superposition<Region, RegionError>>((regionID: RegionID) => {
       return Alive.of<Region, RegionError>(
         Region.of(
           regionID,
@@ -61,7 +61,7 @@ export class Region extends ValueObject implements JSONable {
   }
 
   public static ofRow(row: RegionRow): Superposition<Region, RegionError> {
-    return RegionID.ofString(row.regionID).match((regionID: RegionID) => {
+    return RegionID.ofString(row.regionID).match<Superposition<Region, RegionError>>((regionID: RegionID) => {
       return Alive.of<Region, RegionError>(
         Region.of(
           regionID,
@@ -70,7 +70,7 @@ export class Region extends ValueObject implements JSONable {
         )
       );
     }, (err: RegionIDError) => {
-      return Dead.of<Region, RegionError>(new RegionError('Region.ofJSON()', err));
+      return Dead.of<Region, RegionError>(new RegionError('Region.ofRow()', err));
     });
   }
 

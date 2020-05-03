@@ -27,7 +27,7 @@ describe('Region', () => {
       expect(region.getISO3166()).toBe(iso3166);
     });
 
-    it('returns Region.empty() is RegionID is empty', () => {
+    it('returns Region.empty() if RegionID is empty', () => {
       const region: Region = Region.of(
         RegionID.empty(),
         new MockRegionName(),
@@ -37,7 +37,7 @@ describe('Region', () => {
       expect(region).toBe(Region.empty());
     });
 
-    it('returns Region.empty() is RegionName is empty', () => {
+    it('returns Region.empty() if RegionName is empty', () => {
       const region: Region = Region.of(
         new MockRegionID(),
         RegionName.empty(),
@@ -47,7 +47,7 @@ describe('Region', () => {
       expect(region).toBe(Region.empty());
     });
 
-    it('returns Region.empty() is ISO3166 is empty', () => {
+    it('returns Region.empty() if ISO3166 is empty', () => {
       const region: Region = Region.of(
         new MockRegionID(),
         new MockRegionName(),
@@ -68,7 +68,7 @@ describe('Region', () => {
 
       const superposition: Superposition<Region, RegionError> = Region.ofJSON(json);
 
-      expect(superposition.isAlive()).toEqual(true);
+      expect(superposition.isAlive()).toBe(true);
       const region: Region = superposition.get();
       expect(region.getRegionID().get().get()).toBe(json.regionID);
       expect(region.getName().get()).toBe(json.name);
@@ -87,7 +87,7 @@ describe('Region', () => {
 
       const superposition: Superposition<Region, RegionError> = Region.ofJSON(json);
 
-      expect(superposition.isDead()).toEqual(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: RegionError) => {
@@ -110,7 +110,7 @@ describe('Region', () => {
 
       const superposition: Superposition<Region, RegionError> = Region.ofRow(row);
 
-      expect(superposition.isAlive()).toEqual(true);
+      expect(superposition.isAlive()).toBe(true);
       const region: Region = superposition.get();
       expect(region.getRegionID().get().get()).toBe(row.regionID);
       expect(region.getName().get()).toBe(row.name);
@@ -129,7 +129,7 @@ describe('Region', () => {
 
       const superposition: Superposition<Region, RegionError> = Region.ofRow(row);
 
-      expect(superposition.isDead()).toEqual(true);
+      expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
       }, (err: RegionError) => {
