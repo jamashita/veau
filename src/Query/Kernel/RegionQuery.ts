@@ -3,6 +3,8 @@ import { Alive, DataSourceError, Dead, Quantum, Superposition } from 'publikum';
 import { IRegionCommand } from '../../Command/Interface/IRegionCommand';
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
+import { RegionError } from '../../Error/RegionError';
+import { RegionsError } from '../../Error/RegionsError';
 import { ISO3166 } from '../../VO/ISO3166';
 import { Region } from '../../VO/Region';
 import { Regions } from '../../VO/Regions';
@@ -18,7 +20,7 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
   private readonly regionRedisCommand: IRegionCommand;
 
   public constructor(
-  @inject(TYPE.RegionMySQLQuery) regionMySQLQuery: IRegionQuery,
+    @inject(TYPE.RegionMySQLQuery) regionMySQLQuery: IRegionQuery,
     @inject(TYPE.RegionRedisQuery) regionRedisQuery: IRegionQuery,
     @inject(TYPE.RegionRedisCommand) regionRedisCommand: IRegionCommand
   ) {
@@ -27,15 +29,15 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
     this.regionRedisCommand = regionRedisCommand;
   }
 
-  public async all(): Promise<Superposition<Regions, NoSuchElementError | DataSourceError>> {
-    const superposition1: Superposition<Regions, NoSuchElementError | DataSourceError> = await this.regionRedisQuery.all();
+  public async all(): Promise<Superposition<Regions, RegionsError | DataSourceError>> {
+    const superposition1: Superposition<Regions, RegionsError | DataSourceError> = await this.regionRedisQuery.all();
 
-    return superposition1.match<Regions, NoSuchElementError | DataSourceError>((regions: Regions) => {
-      return Promise.resolve<Superposition<Regions, NoSuchElementError>>(Alive.of<Regions, NoSuchElementError>(regions));
+    return superposition1.match<Regions, RegionsError | DataSourceError>((regions: Regions, self: Alive<Regions, RegionsError | DataSourceError>) => {
+      return Promise.resolve<Superposition<Regions, RegionsError | DataSourceError>>(self);
     }, async () => {
-      const superposition2: Superposition<Regions, NoSuchElementError | DataSourceError> = await this.regionMySQLQuery.all();
+      const superposition2: Superposition<Regions, RegionsError | DataSourceError> = await this.regionMySQLQuery.all();
 
-      return superposition2.match<Regions, NoSuchElementError | DataSourceError>(async (regions: Regions) => {
+      return superposition2.match<Regions, RegionsError | DataSourceError>(async (regions: Regions) => {
         const superposition3: Superposition<void, DataSourceError> = await this.regionRedisCommand.insertAll(regions);
 
         return superposition3.match<Regions, DataSourceError>(() => {
@@ -43,16 +45,16 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
         }, (err: DataSourceError, self: Dead<void, DataSourceError>) => {
           return self.transpose<Regions>();
         });
-      }, (err: NoSuchElementError | DataSourceError, self: Dead<Regions, NoSuchElementError | DataSourceError>) => {
-        return Promise.resolve<Superposition<Regions, NoSuchElementError | DataSourceError>>(self);
+      }, (err: RegionsError | DataSourceError, self: Dead<Regions, RegionsError | DataSourceError>) => {
+        return Promise.resolve<Superposition<Regions, RegionsError | DataSourceError>>(self);
       });
     });
   }
 
-  public async findByISO3166(iso3166: ISO3166): Promise<Superposition<Region, NoSuchElementError | DataSourceError>> {
-    const superposition: Superposition<Regions, NoSuchElementError | DataSourceError> = await this.all();
+  public async findByISO3166(iso3166: ISO3166): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {
+    const superposition: Superposition<Regions, RegionsError | DataSourceError> = await this.all();
 
-    return superposition.match<Region, NoSuchElementError | DataSourceError>((regions: Regions) => {
+    return superposition.match<Region, RegionError | NoSuchElementError | DataSourceError>((regions: Regions) => {
       const quantum: Quantum<Region> = regions.find((region: Region) => {
         return region.getISO3166().equals(iso3166);
       });
@@ -62,8 +64,12 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
       }, () => {
         return Dead.of<Region, NoSuchElementError>(new NoSuchElementError(iso3166.toString()));
       });
-    }, (err: NoSuchElementError | DataSourceError, self: Dead<Regions, NoSuchElementError | DataSourceError>) => {
-      return self.transpose<Region>();
+    }, (err: RegionsError | DataSourceError) => {
+      if (err instanceof RegionsError) {
+        return Dead.of<Region, RegionError>(new RegionError('RegionQuery.findByISO3166()', err));
+      }
+
+      return Dead.of<Region, DataSourceError>(err);
     });
   }
 }

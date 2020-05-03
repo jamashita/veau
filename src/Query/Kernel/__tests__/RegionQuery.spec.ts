@@ -5,6 +5,8 @@ import { MockRegionCommand } from '../../../Command/Mock/MockRegionCommand';
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
+import { RegionError } from '../../../Error/RegionError';
+import { RegionsError } from '../../../Error/RegionsError';
 import { ISO3166 } from '../../../VO/ISO3166';
 import { MockISO3166 } from '../../../VO/Mock/MockISO3166';
 import { MockRegion } from '../../../VO/Mock/MockRegion';
@@ -36,8 +38,12 @@ describe('RegionQuery', () => {
       const regionMySQLQuery: MockRegionQuery = new MockRegionQuery();
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
 
-      const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const superposition: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
+      const regionQuery: RegionQuery = new RegionQuery(
+        regionMySQLQuery,
+        regionRedisQuery,
+        regionRedisCommand
+      );
+      const superposition: Superposition<Regions, RegionsError | DataSourceError> = await regionQuery.all();
 
       expect(superposition.isAlive()).toBe(true);
       expect(superposition.get()).toBe(regions);
@@ -59,8 +65,12 @@ describe('RegionQuery', () => {
       regionRedisCommand.insertAll = stub3;
       stub3.resolves(Alive.of<DataSourceError>());
 
-      const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const superposition: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
+      const regionQuery: RegionQuery = new RegionQuery(
+        regionMySQLQuery,
+        regionRedisQuery,
+        regionRedisCommand
+      );
+      const superposition: Superposition<Regions, RegionsError | DataSourceError> = await regionQuery.all();
 
       expect(superposition.isAlive()).toBe(true);
       expect(superposition.get()).toBe(regions);
@@ -70,11 +80,11 @@ describe('RegionQuery', () => {
       const regionRedisQuery: MockRegionQuery = new MockRegionQuery();
       const stub1: SinonStub = sinon.stub();
       regionRedisQuery.all = stub1;
-      stub1.resolves(Dead.of<Regions, NoSuchElementError>(new NoSuchElementError('test failed')));
+      stub1.resolves(Dead.of<Regions, RedisError>(new RedisError('test failed')));
       const regionMySQLQuery: MockRegionQuery = new MockRegionQuery();
       const stub2: SinonStub = sinon.stub();
       regionMySQLQuery.all = stub2;
-      stub2.resolves(Dead.of<Regions, NoSuchElementError>(new NoSuchElementError('test failed')));
+      stub2.resolves(Dead.of<Regions, MySQLError>(new MySQLError('test failed')));
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const stub3: SinonStub = sinon.stub();
       regionRedisCommand.insertAll = stub3;
@@ -82,15 +92,19 @@ describe('RegionQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const superposition: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
+      const regionQuery: RegionQuery = new RegionQuery(
+        regionMySQLQuery,
+        regionRedisQuery,
+        regionRedisCommand
+      );
+      const superposition: Superposition<Regions, RegionsError | DataSourceError> = await regionQuery.all();
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
-      }, (err: NoSuchElementError | DataSourceError) => {
+      }, (err: RegionsError | DataSourceError) => {
         spy2();
-        expect(err).toBeInstanceOf(NoSuchElementError);
+        expect(err).toBeInstanceOf(MySQLError);
       });
 
       expect(spy1.called).toBe(false);
@@ -103,7 +117,7 @@ describe('RegionQuery', () => {
       const regionRedisQuery: MockRegionQuery = new MockRegionQuery();
       const stub1: SinonStub = sinon.stub();
       regionRedisQuery.all = stub1;
-      stub1.resolves(Dead.of<Regions, NoSuchElementError>(new NoSuchElementError('test failed')));
+      stub1.resolves(Dead.of<Regions, RedisError>(new RedisError('test failed')));
       const regionMySQLQuery: MockRegionQuery = new MockRegionQuery();
       const stub2: SinonStub = sinon.stub();
       regionMySQLQuery.all = stub2;
@@ -115,13 +129,17 @@ describe('RegionQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const superposition: Superposition<Regions, NoSuchElementError | DataSourceError> = await regionQuery.all();
+      const regionQuery: RegionQuery = new RegionQuery(
+        regionMySQLQuery,
+        regionRedisQuery,
+        regionRedisCommand
+      );
+      const superposition: Superposition<Regions, RegionsError | DataSourceError> = await regionQuery.all();
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
-      }, (err: NoSuchElementError | DataSourceError) => {
+      }, (err: RegionsError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(RedisError);
       });
@@ -149,35 +167,67 @@ describe('RegionQuery', () => {
       const regionMySQLQuery: MockRegionQuery = new MockRegionQuery();
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
 
-      const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const superposition: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      const regionQuery: RegionQuery = new RegionQuery(
+        regionMySQLQuery,
+        regionRedisQuery,
+        regionRedisCommand
+      );
+      const superposition: Superposition<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(superposition.isAlive()).toBe(true);
       expect(superposition.get()).toBe(regions.get(1).get());
     });
 
-    it('RegionQuery.all returns Dead', async () => {
+    it('RegionQuery.all returns Dead, MySQLError', async () => {
       const regionRedisQuery: MockRegionQuery = new MockRegionQuery();
       const stub1: SinonStub = sinon.stub();
       regionRedisQuery.all = stub1;
-      stub1.resolves(Dead.of<Regions, NoSuchElementError>(new NoSuchElementError('test failed')));
+      stub1.resolves(Dead.of<Regions, RegionError>(new RegionError('test failed')));
       const regionMySQLQuery: MockRegionQuery = new MockRegionQuery();
       const stub2: SinonStub = sinon.stub();
       regionMySQLQuery.all = stub2;
-      stub2.resolves(Dead.of<Regions, NoSuchElementError>(new NoSuchElementError('test failed')));
+      stub2.resolves(Dead.of<Regions, MySQLError>(new MySQLError('test failed')));
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const superposition: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      const superposition: Superposition<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
-      }, (err: NoSuchElementError | DataSourceError) => {
+      }, (err: RegionError | NoSuchElementError | DataSourceError) => {
         spy2();
-        expect(err).toBeInstanceOf(NoSuchElementError);
+        expect(err).toBeInstanceOf(MySQLError);
+      });
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+    });
+
+    it('RegionQuery.all returns Dead, RegionsError', async () => {
+      const regionRedisQuery: MockRegionQuery = new MockRegionQuery();
+      const stub1: SinonStub = sinon.stub();
+      regionRedisQuery.all = stub1;
+      stub1.resolves(Dead.of<Regions, RegionError>(new RegionError('test failed')));
+      const regionMySQLQuery: MockRegionQuery = new MockRegionQuery();
+      const stub2: SinonStub = sinon.stub();
+      regionMySQLQuery.all = stub2;
+      stub2.resolves(Dead.of<Regions, RegionsError>(new RegionsError('test failed')));
+      const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
+      const superposition: Superposition<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+
+      expect(superposition.isDead()).toBe(true);
+      superposition.match<void>(() => {
+        spy1();
+      }, (err: RegionError | NoSuchElementError | DataSourceError) => {
+        spy2();
+        expect(err).toBeInstanceOf(RegionError);
       });
 
       expect(spy1.called).toBe(false);
@@ -204,12 +254,12 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const superposition: Superposition<Region, NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('AIO'));
+      const superposition: Superposition<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('AIO'));
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
-      }, (err: NoSuchElementError | DataSourceError) => {
+      }, (err: RegionError | NoSuchElementError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(NoSuchElementError);
       });
