@@ -3,6 +3,8 @@ import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { TYPE } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
+import { LanguageError } from '../../../Error/LanguageError';
+import { LanguagesError } from '../../../Error/LanguagesError';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
 import { ISO639 } from '../../../VO/ISO639';
 import { Language } from '../../../VO/Language';
@@ -36,7 +38,7 @@ describe('LanguageQuery', () => {
       stub.resolves(Alive.of<Locale, DataSourceError>(locale));
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const superposition: Superposition<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
+      const superposition: Superposition<Languages, LanguagesError | DataSourceError> = await languageQuery.all();
 
       expect(superposition.isAlive()).toBe(true);
       expect(superposition.get()).toBe(locale.getLanguages());
@@ -51,12 +53,12 @@ describe('LanguageQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const superposition: Superposition<Languages, NoSuchElementError | DataSourceError> = await languageQuery.all();
+      const superposition: Superposition<Languages, LanguagesError | DataSourceError> = await languageQuery.all();
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
-      }, (err: NoSuchElementError | DataSourceError) => {
+      }, (err: LanguagesError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(AJAXError);
       });
@@ -86,13 +88,13 @@ describe('LanguageQuery', () => {
       stub.resolves(Alive.of<Locale, DataSourceError>(locale));
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const superposition: Superposition<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
+      const superposition: Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(superposition.isAlive()).toBe(true);
       expect(superposition.get()).toBe(locale.getLanguages().get(1).get());
     });
 
-    it('LocaleQuery.all returns Dead', async () => {
+    it('LocaleQuery.all returns Dead, AJAXError', async () => {
       const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
       const stub: SinonStub = sinon.stub();
       localeVaultQuery.all = stub;
@@ -101,14 +103,37 @@ describe('LanguageQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const superposition: Superposition<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
+      const superposition: Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
-      }, (err: NoSuchElementError | DataSourceError) => {
+      }, (err: LanguageError | NoSuchElementError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(AJAXError);
+      });
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+    });
+
+    it('LocaleQuery.all returns Dead, LanguageError', async () => {
+      const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
+      const stub: SinonStub = sinon.stub();
+      localeVaultQuery.all = stub;
+      stub.resolves(Dead.of<Locale, LanguagesError>(new LanguagesError('test failed')));
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
+      const superposition: Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
+
+      expect(superposition.isDead()).toBe(true);
+      superposition.match<void>(() => {
+        spy1();
+      }, (err: LanguageError | NoSuchElementError | DataSourceError) => {
+        spy2();
+        expect(err).toBeInstanceOf(LanguageError);
       });
 
       expect(spy1.called).toBe(false);
@@ -135,12 +160,12 @@ describe('LanguageQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(localeVaultQuery);
-      const superposition: Superposition<Language, NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('oop'));
+      const superposition: Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('oop'));
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
-      }, (err: NoSuchElementError | DataSourceError) => {
+      }, (err: LanguageError | NoSuchElementError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(NoSuchElementError);
       });
