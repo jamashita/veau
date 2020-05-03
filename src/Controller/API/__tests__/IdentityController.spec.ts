@@ -22,12 +22,12 @@ describe('IdentityController', () => {
       const account: VeauAccount = new MockVeauAccount({
         veauAccountID: new MockVeauAccountID(),
         account: new MockAccountName('account'),
-        language: new MockLanguage({
+        languageID: new MockLanguage({
           languageID: new MockLanguageID(1),
           name: new MockLanguageName('Abkhazian'),
           iso639: new MockISO639('ab')
         }),
-        region: new MockRegion({
+        regionID: new MockRegion({
           regionID: new MockRegionID(1),
           name: new MockRegionName('Afghanistan'),
           iso3166: new MockISO3166('AFG')
