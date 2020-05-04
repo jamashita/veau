@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { TYPE } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
+import { LocaleError } from '../../../Error/LocaleError';
 import { VAULT_LOCALE_KEY } from '../../../Infrastructure/VeauCache';
 import { Locale } from '../../../VO/Locale';
 import { MockLocale } from '../../../VO/Mock/MockLocale';
@@ -29,7 +30,7 @@ describe('LocaleQuery', () => {
       stub.returns(locale);
 
       const localeQuery: LocaleQuery = new LocaleQuery(cache);
-      const superposition: Superposition<Locale, DataSourceError> = await localeQuery.all();
+      const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeQuery.all();
 
       expect(stub.withArgs(VAULT_LOCALE_KEY).called).toBe(true);
       expect(superposition.isAlive()).toBe(true);
@@ -45,12 +46,12 @@ describe('LocaleQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeQuery: LocaleQuery = new LocaleQuery(cache);
-      const superposition: Superposition<Locale, DataSourceError> = await localeQuery.all();
+      const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeQuery.all();
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
-      }, (err: DataSourceError) => {
+      }, (err: LocaleError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(CacheError);
       });
