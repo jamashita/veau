@@ -23,13 +23,8 @@ export class StatsOutlineQuery implements IStatsOutlineQuery, IMySQLQuery {
     const query: string = `SELECT
       R1.stats_id AS statsID,
       R1.language_id AS languageID,
-      R1.term_id AS termID,
-      R2.name AS languageName,
-      R2.english_name AS languageEnglishName,
-      R2.iso639,
       R1.region_id AS regionID,
-      R3.name AS regionName,
-      R3.iso3166,
+      R1.term_id AS termID,
       R1.name,
       R1.unit,
       R1.updated_at AS updatedAt

@@ -1,4 +1,4 @@
-import { DataSourceError, MockError, MockMySQL, MySQLError, Superposition } from 'publikum';
+import { DataSourceError, MockError, MockMySQL, MySQLError, Superposition, UUID } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
@@ -27,28 +27,18 @@ describe('StatsOutlineQuery', () => {
       const page: MockPage = new MockPage();
       const rows: Array<StatsOutlineRow> = [
         {
-          statsID: 'c0e18d31-d026-4a84-af4f-d5d26c520600',
-          languageID: 1,
-          languageName: 'lang1',
-          languageEnglishName: 'lang1',
-          iso639: 'l1',
-          regionID: 2,
-          regionName: 'regn2',
-          iso3166: 'r2',
+          statsID: UUID.v4().get(),
+          languageID: UUID.v4().get(),
+          regionID: UUID.v4().get(),
           termID: 1,
           name: 'stats1',
           unit: 'unit1',
           updatedAt: '2000-01-01 00:00:00'
         },
         {
-          statsID: 'a25a8b7f-c810-4dc0-b94e-e97e74329307',
-          languageID: 2,
-          languageName: 'lang2',
-          languageEnglishName: 'lang2',
-          iso639: 'l2',
-          regionID: 3,
-          regionName: 'regn3',
-          iso3166: 'r3',
+          statsID: UUID.v4().get(),
+          languageID: UUID.v4().get(),
+          regionID: UUID.v4().get(),
           termID: 2,
           name: 'stats2',
           unit: 'unit2',
@@ -70,13 +60,8 @@ describe('StatsOutlineQuery', () => {
       expect(stub.withArgs(`SELECT
       R1.stats_id AS statsID,
       R1.language_id AS languageID,
-      R1.term_id AS termID,
-      R2.name AS languageName,
-      R2.english_name AS languageEnglishName,
-      R2.iso639,
       R1.region_id AS regionID,
-      R3.name AS regionName,
-      R3.iso3166,
+      R1.term_id AS termID,
       R1.name,
       R1.unit,
       R1.updated_at AS updatedAt
@@ -98,13 +83,8 @@ describe('StatsOutlineQuery', () => {
       for (let i: number = 0; i < statsOutlines.size(); i++) {
         const statsOutline: StatsOutline = statsOutlines.get(i).get();
         expect(statsOutline.getStatsID().get().get()).toBe(rows[i].statsID);
-        expect(statsOutline.getLanguage().getLanguageID().get()).toBe(rows[i].languageID);
-        expect(statsOutline.getLanguage().getName().get()).toBe(rows[i].languageName);
-        expect(statsOutline.getLanguage().getEnglishName().get()).toBe(rows[i].languageEnglishName);
-        expect(statsOutline.getLanguage().getISO639().get()).toBe(rows[i].iso639);
-        expect(statsOutline.getRegion().getRegionID().get()).toBe(rows[i].regionID);
-        expect(statsOutline.getRegion().getName().get()).toBe(rows[i].regionName);
-        expect(statsOutline.getRegion().getISO3166().get()).toBe(rows[i].iso3166);
+        expect(statsOutline.getLanguageID().get().get()).toBe(rows[i].languageID);
+        expect(statsOutline.getRegionID().get().get()).toBe(rows[i].regionID);
         expect(statsOutline.getTerm().getID()).toBe(rows[i].termID);
         expect(statsOutline.getName().get()).toBe(rows[i].name);
         expect(statsOutline.getUnit().get()).toBe(rows[i].unit);
@@ -118,27 +98,17 @@ describe('StatsOutlineQuery', () => {
       const rows: Array<StatsOutlineRow> = [
         {
           statsID: 'malformat uuid',
-          languageID: 1,
-          languageName: 'lang1',
-          languageEnglishName: 'lang1',
-          iso639: 'l1',
-          regionID: 2,
-          regionName: 'regn2',
-          iso3166: 'r2',
+          languageID: UUID.v4().get(),
+          regionID: UUID.v4().get(),
           termID: 1,
           name: 'stats1',
           unit: 'unit1',
           updatedAt: '2000-01-01 00:00:00'
         },
         {
-          statsID: 'a25a8b7f-c810-4dc0-b94e-e97e74329307',
-          languageID: 2,
-          languageName: 'lang2',
-          languageEnglishName: 'lang2',
-          iso639: 'l2',
-          regionID: 3,
-          regionName: 'regn3',
-          iso3166: 'r3',
+          statsID: UUID.v4().get(),
+          languageID: UUID.v4().get(),
+          regionID: UUID.v4().get(),
           termID: 2,
           name: 'stats2',
           unit: 'unit2',
