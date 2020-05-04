@@ -1,5 +1,5 @@
 import { INTERNAL_SERVER_ERROR, NO_CONTENT, OK } from 'http-status';
-import { AJAXError, DataSourceError, MockAJAX, Superposition } from 'publikum';
+import { AJAXError, DataSourceError, MockAJAX, Superposition, UUID } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { TYPE } from '../../../Container/Types';
@@ -25,18 +25,9 @@ describe('StatsQuery', () => {
     it('normal case', async () => {
       const statsID: MockStatsID = new MockStatsID();
       const json: StatsJSON = {
-        statsID: 'f6fb9662-cbe8-4a91-8aa4-47a92f05b007',
-        language: {
-          languageID: 1,
-          name: 'language',
-          englishName: 'english language',
-          iso639: 'aa'
-        },
-        region: {
-          regionID: 2,
-          name: 'region',
-          iso3166: 'bb'
-        },
+        statsID: UUID.v4().get(),
+        languageID: UUID.v4().get(),
+        regionID: UUID.v4().get(),
         termID: 3,
         name: 'stats name',
         unit: 'stats unit',
@@ -59,13 +50,8 @@ describe('StatsQuery', () => {
       expect(superposition.isAlive()).toBe(true);
       const stats: Stats = superposition.get();
       expect(stats.getStatsID().get().get()).toBe(json.statsID);
-      expect(stats.getLanguage().getLanguageID().get()).toBe(json.language.languageID);
-      expect(stats.getLanguage().getName().get()).toBe(json.language.name);
-      expect(stats.getLanguage().getEnglishName().get()).toBe(json.language.englishName);
-      expect(stats.getLanguage().getISO639().get()).toBe(json.language.iso639);
-      expect(stats.getRegion().getRegionID().get()).toBe(json.region.regionID);
-      expect(stats.getRegion().getName().get()).toBe(json.region.name);
-      expect(stats.getRegion().getISO3166().get()).toBe(json.region.iso3166);
+      expect(stats.getLanguageID().get().get()).toBe(json.languageID);
+      expect(stats.getRegionID().get().get()).toBe(json.regionID);
       expect(stats.getTerm().getID()).toBe(json.termID);
       expect(stats.getName().get()).toBe(json.name);
       expect(stats.getUnit().get()).toBe(json.unit);
@@ -76,17 +62,8 @@ describe('StatsQuery', () => {
       const statsID: MockStatsID = new MockStatsID();
       const json: StatsJSON = {
         statsID: 'malformat uuid',
-        language: {
-          languageID: 1,
-          name: 'language',
-          englishName: 'english language',
-          iso639: 'aa'
-        },
-        region: {
-          regionID: 2,
-          name: 'region',
-          iso3166: 'bb'
-        },
+        languageID: UUID.v4().get(),
+        regionID: UUID.v4().get(),
         termID: 3,
         name: 'stats name',
         unit: 'stats unit',
