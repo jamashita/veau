@@ -1,6 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { Alive, DataSourceError, Dead, Quantum, QuantumError, Superposition } from 'publikum';
 import { TYPE } from '../../Container/Types';
+import { LocaleError } from '../../Error/LocaleError';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { RegionError } from '../../Error/RegionError';
 import { RegionsError } from '../../Error/RegionsError';
@@ -23,12 +24,16 @@ export class RegionQuery implements IRegionQuery, IVaultQuery {
   }
 
   public async all(): Promise<Superposition<Regions, RegionsError | DataSourceError>> {
-    const superposition: Superposition<Locale, DataSourceError> = await this.localeVaultQuery.all();
+    const superposition: Superposition<Locale, LocaleError | DataSourceError> = await this.localeVaultQuery.all();
 
-    return superposition.match<Regions, DataSourceError>((locale: Locale) => {
+    return superposition.match<Regions, RegionsError | DataSourceError>((locale: Locale) => {
       return Alive.of<Regions, DataSourceError>(locale.getRegions());
-    }, (err: DataSourceError, self: Dead<Locale, DataSourceError>) => {
-      return self.transpose<Regions>();
+    }, (err: LocaleError | DataSourceError) => {
+      if (err instanceof LocaleError) {
+        return Dead.of<Regions, RegionsError>(new RegionsError('RegionQuery.all()', err));
+      }
+
+      return Dead.of<Regions, DataSourceError>(err);
     });
   }
 

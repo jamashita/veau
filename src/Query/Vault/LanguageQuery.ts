@@ -3,6 +3,7 @@ import { Alive, DataSourceError, Dead, Quantum, QuantumError, Superposition } fr
 import { TYPE } from '../../Container/Types';
 import { LanguageError } from '../../Error/LanguageError';
 import { LanguagesError } from '../../Error/LanguagesError';
+import { LocaleError } from '../../Error/LocaleError';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { ISO639 } from '../../VO/ISO639';
 import { Language } from '../../VO/Language';
@@ -23,12 +24,16 @@ export class LanguageQuery implements ILanguageQuery, IVaultQuery {
   }
 
   public async all(): Promise<Superposition<Languages, LanguagesError | DataSourceError>> {
-    const superposition: Superposition<Locale, DataSourceError> = await this.localeVaultQuery.all();
+    const superposition: Superposition<Locale, LocaleError | DataSourceError> = await this.localeVaultQuery.all();
 
-    return superposition.match<Languages, DataSourceError>((locale: Locale) => {
+    return superposition.match<Languages, LanguagesError | DataSourceError>((locale: Locale) => {
       return Alive.of<Languages, DataSourceError>(locale.getLanguages());
-    }, (err: DataSourceError, self: Dead<Locale, DataSourceError>) => {
-      return self.transpose<Languages>();
+    }, (err: LocaleError | DataSourceError) => {
+      if (err instanceof LocaleError) {
+        return Dead.of<Languages, LanguagesError>(new LanguagesError('LanguageQuery.all()', err));
+      }
+
+      return Dead.of<Languages, DataSourceError>(err);
     });
   }
 
