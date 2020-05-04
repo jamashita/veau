@@ -21,7 +21,7 @@ export class IdentityEpic {
   private readonly languageQuery: ILanguageQuery;
 
   public constructor(
-  @inject(TYPE.SessionAJAXQuery) sessionQuery: ISessionQuery,
+    @inject(TYPE.SessionAJAXQuery) sessionQuery: ISessionQuery,
     @inject(TYPE.LocaleVaultQuery) localeQuery: ILocaleQuery,
     @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery
   ) {
@@ -134,9 +134,9 @@ export class IdentityEpic {
       map<Action, Action>(() => {
         const veauAccount: VeauAccount = VeauAccount.of(
           VeauAccountID.generate(),
-          AccountName.empty(),
-          identity.getLanguage(),
-          identity.getRegion()
+          identity.getLanguageID(),
+          identity.getRegionID(),
+          AccountName.empty()
         );
 
         return identityAuthenticated(veauAccount);

@@ -68,7 +68,7 @@ export class StatsEditEpic {
   private readonly statsCommand: IStatsCommand;
 
   public constructor(
-  @inject(TYPE.StatsAJAXQuery) statsQuery: IStatsQuery,
+    @inject(TYPE.StatsAJAXQuery) statsQuery: IStatsQuery,
     @inject(TYPE.LocaleVaultQuery) localeQuery: ILocaleQuery,
     @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery,
     @inject(TYPE.RegionVaultQuery) regionQuery: IRegionQuery,
@@ -153,8 +153,8 @@ export class StatsEditEpic {
       map<StatsEditNameTypedAction, Action>((action: StatsEditNameTypedAction) => {
         const newStats: Stats = Stats.of(
           stats.getStatsID(),
-          stats.getLanguage(),
-          stats.getRegion(),
+          stats.getLanguageID(),
+          stats.getRegionID(),
           stats.getTerm(),
           action.name,
           stats.getUnit(),
@@ -179,8 +179,8 @@ export class StatsEditEpic {
       map<StatsEditUnitTypedAction, Action>((action: StatsEditUnitTypedAction) => {
         const newStats: Stats = Stats.of(
           stats.getStatsID(),
-          stats.getLanguage(),
-          stats.getRegion(),
+          stats.getLanguageID(),
+          stats.getRegionID(),
           stats.getTerm(),
           stats.getName(),
           action.unit,
@@ -215,7 +215,7 @@ export class StatsEditEpic {
                 const newStats: Stats = Stats.of(
                   stats.getStatsID(),
                   superposition.get(),
-                  stats.getRegion(),
+                  stats.getRegionID(),
                   stats.getTerm(),
                   stats.getName(),
                   stats.getUnit(),
@@ -253,7 +253,7 @@ export class StatsEditEpic {
               map<never, Action>(() => {
                 const newStats: Stats = Stats.of(
                   stats.getStatsID(),
-                  stats.getLanguage(),
+                  stats.getLanguageID(),
                   superposition.get(),
                   stats.getTerm(),
                   stats.getName(),
@@ -342,8 +342,8 @@ export class StatsEditEpic {
       mergeMap<Action, Observable<Action>>(() => {
         const newStats: Stats = Stats.of(
           stats.getStatsID(),
-          stats.getLanguage(),
-          stats.getRegion(),
+          stats.getLanguageID(),
+          stats.getRegionID(),
           stats.getTerm(),
           stats.getName(),
           stats.getUnit(),
@@ -428,8 +428,8 @@ export class StatsEditEpic {
       map<StatsEditStartDateDeterminedAction, Action>((action: StatsEditStartDateDeterminedAction) => {
         const newStats: Stats = Stats.of(
           stats.getStatsID(),
-          stats.getLanguage(),
-          stats.getRegion(),
+          stats.getLanguageID(),
+          stats.getRegionID(),
           stats.getTerm(),
           stats.getName(),
           stats.getUnit(),

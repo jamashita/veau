@@ -1,9 +1,10 @@
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
-import { AJAXError, DataSourceError, MockAJAX, Superposition } from 'publikum';
+import { AJAXError, DataSourceError, MockAJAX, Superposition, UUID } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { TYPE } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
+import { LocaleError } from '../../../Error/LocaleError';
 import { Locale, LocaleJSON } from '../../../VO/Locale';
 import { LocaleQuery } from '../LocaleQuery';
 
@@ -23,7 +24,7 @@ describe('LocaleQuery', () => {
       const json: LocaleJSON = {
         languages: [
           {
-            languageID: 1,
+            languageID: UUID.v4().get(),
             name: 'language',
             englishName: 'english language',
             iso639: 'aa'
@@ -31,7 +32,7 @@ describe('LocaleQuery', () => {
         ],
         regions: [
           {
-            regionID: 2,
+            regionID: UUID.v4().get(),
             name: 'region',
             iso3166: 'bb'
           }
@@ -47,7 +48,7 @@ describe('LocaleQuery', () => {
       });
 
       const localeQuery: LocaleQuery = new LocaleQuery(ajax);
-      const superposition: Superposition<Locale, DataSourceError> = await localeQuery.all();
+      const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeQuery.all();
 
       expect(stub.withArgs('/api/locale').called).toBe(true);
       expect(superposition.isAlive()).toBe(true);
@@ -79,12 +80,12 @@ describe('LocaleQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeQuery: LocaleQuery = new LocaleQuery(ajax);
-      const superposition: Superposition<Locale, DataSourceError> = await localeQuery.all();
+      const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeQuery.all();
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
-      }, (err: DataSourceError) => {
+      }, (err: LocaleError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(AJAXError);
       });

@@ -1,5 +1,5 @@
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
-import { AJAXError, DataSourceError, MockAJAX, Superposition } from 'publikum';
+import { AJAXError, DataSourceError, MockAJAX, Superposition, UUID } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { TYPE } from '../../../Container/Types';
@@ -28,18 +28,9 @@ describe('StatsOutlineQuery', () => {
       const page: MockPage = new MockPage(3);
       const json: Array<StatsOutlineJSON> = [
         {
-          statsID: 'f6fb9662-cbe8-4a91-8aa4-47a92f05b007',
-          language: {
-            languageID: 1,
-            name: 'language',
-            englishName: 'english language',
-            iso639: 'aa'
-          },
-          region: {
-            regionID: 2,
-            name: 'region',
-            iso3166: 'bb'
-          },
+          statsID: UUID.v4().get(),
+          languageID: UUID.v4().get(),
+          regionID: UUID.v4().get(),
           termID: 3,
           name: 'stats name',
           unit: 'stats unit',
@@ -67,13 +58,8 @@ describe('StatsOutlineQuery', () => {
       expect(outlines.size()).toBe(1);
       for (let i: number = 0; i < outlines.size(); i++) {
         expect(outlines.get(i).get().getStatsID().get().get()).toBe(json[i].statsID);
-        expect(outlines.get(i).get().getLanguage().getLanguageID().get()).toBe(json[i].language.languageID);
-        expect(outlines.get(i).get().getLanguage().getName().get()).toBe(json[i].language.name);
-        expect(outlines.get(i).get().getLanguage().getEnglishName().get()).toBe(json[i].language.englishName);
-        expect(outlines.get(i).get().getLanguage().getISO639().get()).toBe(json[i].language.iso639);
-        expect(outlines.get(i).get().getRegion().getRegionID().get()).toBe(json[i].region.regionID);
-        expect(outlines.get(i).get().getRegion().getName().get()).toBe(json[i].region.name);
-        expect(outlines.get(i).get().getRegion().getISO3166().get()).toBe(json[i].region.iso3166);
+        expect(outlines.get(i).get().getLanguageID().get().get()).toBe(json[i].languageID);
+        expect(outlines.get(i).get().getRegionID().get().get()).toBe(json[i].regionID);
         expect(outlines.get(i).get().getTerm().getID()).toBe(json[i].termID);
         expect(outlines.get(i).get().getName().get()).toBe(json[i].name);
         expect(outlines.get(i).get().getUnit().get()).toBe(json[i].unit);
@@ -87,17 +73,8 @@ describe('StatsOutlineQuery', () => {
       const json: Array<StatsOutlineJSON> = [
         {
           statsID: 'malformat uuid',
-          language: {
-            languageID: 1,
-            name: 'language',
-            englishName: 'english language',
-            iso639: 'aa'
-          },
-          region: {
-            regionID: 2,
-            name: 'region',
-            iso3166: 'bb'
-          },
+          languageID: UUID.v4().get(),
+          regionID: UUID.v4().get(),
           termID: 3,
           name: 'stats name',
           unit: 'stats unit',

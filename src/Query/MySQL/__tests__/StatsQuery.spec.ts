@@ -1,12 +1,4 @@
-import {
-  Alive,
-  DataSourceError,
-  Dead,
-  MockError,
-  MockMySQL,
-  MySQLError,
-  Superposition
-} from 'publikum';
+import { Alive, DataSourceError, Dead, MockError, MockMySQL, MySQLError, Superposition, UUID } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
@@ -38,13 +30,8 @@ describe('StatsQuery', () => {
       const rows: Array<StatsRow> = [
         {
           statsID: statsID.get().get(),
-          languageID: 1,
-          languageName: 'language1',
-          languageEnglishName: 'englishLanguage1',
-          iso639: 'lang1',
-          regionID: 2,
-          regionName: 'region1',
-          iso3166: 'regn1',
+          languageID: UUID.v4().get(),
+          regionID: UUID.v4().get(),
           termID: 3,
           name: 'name',
           unit: 'unit',
@@ -68,13 +55,8 @@ describe('StatsQuery', () => {
       expect(stub1.withArgs(`SELECT
       R1.stats_id AS statsID,
       R1.language_id AS languageID,
-      R1.term_id AS termID,
-      R2.name AS languageName,
-      R2.english_name AS languageEnglishName,
-      R2.iso639,
       R1.region_id AS regionID,
-      R3.name AS regionName,
-      R3.iso3166,
+      R1.term_id AS termID,
       R1.name,
       R1.unit,
       R1.updated_at AS updatedAt
@@ -89,13 +71,8 @@ describe('StatsQuery', () => {
       expect(superposition.isAlive()).toBe(true);
       const stats: Stats = superposition.get();
       expect(stats.getStatsID().get().get()).toBe(rows[0].statsID);
-      expect(stats.getLanguage().getLanguageID().get()).toBe(rows[0].languageID);
-      expect(stats.getLanguage().getName().get()).toBe(rows[0].languageName);
-      expect(stats.getLanguage().getEnglishName().get()).toBe(rows[0].languageEnglishName);
-      expect(stats.getLanguage().getISO639().get()).toBe(rows[0].iso639);
-      expect(stats.getRegion().getRegionID().get()).toBe(rows[0].regionID);
-      expect(stats.getRegion().getName().get()).toBe(rows[0].regionName);
-      expect(stats.getRegion().getISO3166().get()).toBe(rows[0].iso3166);
+      expect(stats.getLanguageID().get().get()).toBe(rows[0].languageID);
+      expect(stats.getRegionID().get().get()).toBe(rows[0].regionID);
       expect(stats.getTerm().getID()).toBe(rows[0].termID);
       expect(stats.getName().get()).toBe(rows[0].name);
       expect(stats.getUnit().get()).toBe(rows[0].unit);
@@ -108,13 +85,8 @@ describe('StatsQuery', () => {
       const rows: Array<StatsRow> = [
         {
           statsID: 'malformat uuid',
-          languageID: 1,
-          languageName: 'language1',
-          languageEnglishName: 'englishLanguage1',
-          iso639: 'lang1',
-          regionID: 2,
-          regionName: 'region1',
-          iso3166: 'regn1',
+          languageID: UUID.v4().get(),
+          regionID: UUID.v4().get(),
           termID: 3,
           name: 'name',
           unit: 'unit',
@@ -180,14 +152,9 @@ describe('StatsQuery', () => {
       const statsID: MockStatsID = new MockStatsID();
       const rows: Array<StatsRow> = [
         {
-          statsID: 'a25a8b7f-c810-4dc0-b94e-e97e74329307',
-          languageID: 1,
-          languageName: 'language1',
-          languageEnglishName: 'englishLanguage1',
-          iso639: 'lang1',
-          regionID: 2,
-          regionName: 'region1',
-          iso3166: 'regn1',
+          statsID: UUID.v4().get(),
+          languageID: UUID.v4().get(),
+          regionID: UUID.v4().get(),
           termID: 3,
           name: 'name',
           unit: 'unit',
@@ -225,14 +192,9 @@ describe('StatsQuery', () => {
       const statsID: MockStatsID = new MockStatsID();
       const rows: Array<StatsRow> = [
         {
-          statsID: 'a25a8b7f-c810-4dc0-b94e-e97e74329307',
-          languageID: 1,
-          languageName: 'language1',
-          languageEnglishName: 'englishLanguage1',
-          iso639: 'lang1',
-          regionID: 2,
-          regionName: 'region1',
-          iso3166: 'regn1',
+          statsID: UUID.v4().get(),
+          languageID: UUID.v4().get(),
+          regionID: UUID.v4().get(),
           termID: 3,
           name: 'name',
           unit: 'unit',
