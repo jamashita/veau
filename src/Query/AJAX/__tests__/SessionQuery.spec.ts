@@ -1,5 +1,5 @@
 import { INTERNAL_SERVER_ERROR, OK, UNAUTHORIZED } from 'http-status';
-import { AJAXError, DataSourceError, MockAJAX, Superposition } from 'publikum';
+import { AJAXError, DataSourceError, MockAJAX, Superposition, UUID } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { TYPE } from '../../../Container/Types';
@@ -25,19 +25,10 @@ describe('SessionQuery', () => {
   describe('find', () => {
     it('normal case', async () => {
       const json: VeauAccountJSON = {
-        veauAccountID: 'f6fb9662-cbe8-4a91-8aa4-47a92f05b007',
-        account: 'account',
-        language: {
-          languageID: 1,
-          name: 'language',
-          englishName: 'english language',
-          iso639: 'aa'
-        },
-        region: {
-          regionID: 2,
-          name: 'region',
-          iso3166: 'bb'
-        }
+        veauAccountID: UUID.v4().get(),
+        languageID: UUID.v4().get(),
+        regionID: UUID.v4().get(),
+        account: 'account'
       };
 
       const ajax: MockAJAX = new MockAJAX();
@@ -56,30 +47,16 @@ describe('SessionQuery', () => {
       const veauAccount: VeauAccount = superposition.get();
       expect(veauAccount.getVeauAccountID().get().get()).toBe(json.veauAccountID);
       expect(veauAccount.getAccount().get()).toBe(json.account);
-      expect(veauAccount.getLanguage().getLanguageID().get()).toBe(json.language.languageID);
-      expect(veauAccount.getLanguage().getName().get()).toBe(json.language.name);
-      expect(veauAccount.getLanguage().getEnglishName().get()).toBe(json.language.englishName);
-      expect(veauAccount.getLanguage().getISO639().get()).toBe(json.language.iso639);
-      expect(veauAccount.getRegion().getRegionID().get()).toBe(json.region.regionID);
-      expect(veauAccount.getRegion().getName().get()).toBe(json.region.name);
-      expect(veauAccount.getRegion().getISO3166().get()).toBe(json.region.iso3166);
+      expect(veauAccount.getLanguageID().get().get()).toBe(json.languageID);
+      expect(veauAccount.getRegionID().get().get()).toBe(json.regionID);
     });
 
     it('returns Dead when it has wrong format veauAccountID', async () => {
       const json: VeauAccountJSON = {
         veauAccountID: 'malformat uuid',
-        account: 'account',
-        language: {
-          languageID: 1,
-          name: 'language',
-          englishName: 'english language',
-          iso639: 'aa'
-        },
-        region: {
-          regionID: 2,
-          name: 'region',
-          iso3166: 'bb'
-        }
+        languageID: UUID.v4().get(),
+        regionID: UUID.v4().get(),
+        account: 'account'
       };
 
       const ajax: MockAJAX = new MockAJAX();
@@ -137,19 +114,10 @@ describe('SessionQuery', () => {
   describe('findByEntranceInfo', () => {
     it('normal case', async () => {
       const json: VeauAccountJSON = {
-        veauAccountID: 'f6fb9662-cbe8-4a91-8aa4-47a92f05b007',
-        account: 'account',
-        language: {
-          languageID: 1,
-          name: 'language',
-          englishName: 'english language',
-          iso639: 'aa'
-        },
-        region: {
-          regionID: 2,
-          name: 'region',
-          iso3166: 'bb'
-        }
+        veauAccountID: UUID.v4().get(),
+        languageID: UUID.v4().get(),
+        regionID: UUID.v4().get(),
+        account: 'account'
       };
 
       const ajax: MockAJAX = new MockAJAX();
@@ -175,30 +143,16 @@ describe('SessionQuery', () => {
       const veauAccount: VeauAccount = superposition.get();
       expect(veauAccount.getVeauAccountID().get().get()).toBe(json.veauAccountID);
       expect(veauAccount.getAccount().get()).toBe(json.account);
-      expect(veauAccount.getLanguage().getLanguageID().get()).toBe(json.language.languageID);
-      expect(veauAccount.getLanguage().getName().get()).toBe(json.language.name);
-      expect(veauAccount.getLanguage().getEnglishName().get()).toBe(json.language.englishName);
-      expect(veauAccount.getLanguage().getISO639().get()).toBe(json.language.iso639);
-      expect(veauAccount.getRegion().getRegionID().get()).toBe(json.region.regionID);
-      expect(veauAccount.getRegion().getName().get()).toBe(json.region.name);
-      expect(veauAccount.getRegion().getISO3166().get()).toBe(json.region.iso3166);
+      expect(veauAccount.getLanguageID().get().get()).toBe(json.languageID);
+      expect(veauAccount.getRegionID().get().get()).toBe(json.regionID);
     });
 
     it('returns Dead when it has wrong format veauAccountID', async () => {
       const json: VeauAccountJSON = {
         veauAccountID: 'malformat uuid',
-        account: 'account',
-        language: {
-          languageID: 1,
-          name: 'language',
-          englishName: 'english language',
-          iso639: 'aa'
-        },
-        region: {
-          regionID: 2,
-          name: 'region',
-          iso3166: 'bb'
-        }
+        languageID: UUID.v4().get(),
+        regionID: UUID.v4().get(),
+        account: 'account'
       };
 
       const ajax: MockAJAX = new MockAJAX();
