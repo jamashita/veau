@@ -4,6 +4,7 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { MockLocaleCommand } from '../../../Command/Mock/MockLocaleCommand';
 import { TYPE } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
+import { LocaleError } from '../../../Error/LocaleError';
 import { Locale } from '../../../VO/Locale';
 import { MockLocale } from '../../../VO/Mock/MockLocale';
 import { MockLocaleQuery } from '../../Mock/MockLocaleQuery';
@@ -40,7 +41,7 @@ describe('LocaleQuery', () => {
         localeCacheQuery,
         localeCommand
       );
-      const superposition: Superposition<Locale, DataSourceError> = await localeQuery.all();
+      const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeQuery.all();
 
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(false);
@@ -70,7 +71,7 @@ describe('LocaleQuery', () => {
         localeCacheQuery,
         localeCommand
       );
-      const superposition: Superposition<Locale, DataSourceError> = await localeQuery.all();
+      const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeQuery.all();
 
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
@@ -100,7 +101,7 @@ describe('LocaleQuery', () => {
         localeCacheQuery,
         localeCommand
       );
-      const superposition: Superposition<Locale, DataSourceError> = await localeQuery.all();
+      const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeQuery.all();
 
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
@@ -108,7 +109,7 @@ describe('LocaleQuery', () => {
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
-      }, (err: DataSourceError) => {
+      }, (err: LocaleError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(AJAXError);
       });
@@ -140,7 +141,7 @@ describe('LocaleQuery', () => {
         localeCacheQuery,
         localeCommand
       );
-      const superposition: Superposition<Locale, DataSourceError> = await localeQuery.all();
+      const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeQuery.all();
 
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
@@ -148,7 +149,7 @@ describe('LocaleQuery', () => {
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(() => {
         spy1();
-      }, (err: DataSourceError) => {
+      }, (err: LocaleError | DataSourceError) => {
         spy2();
         expect(err).toBeInstanceOf(CacheError);
       });

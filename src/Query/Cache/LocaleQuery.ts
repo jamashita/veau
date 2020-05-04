@@ -1,6 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { Alive, CacheError, DataSourceError, Dead, ICache, Superposition } from 'publikum';
 import { TYPE } from '../../Container/Types';
+import { LocaleError } from '../../Error/LocaleError';
 import { VAULT_LOCALE_KEY } from '../../Infrastructure/VeauCache';
 import { Locale } from '../../VO/Locale';
 import { ICacheQuery } from '../Interface/ICacheQuery';
@@ -16,7 +17,7 @@ export class LocaleQuery implements ILocaleQuery, ICacheQuery {
     this.cache = cache;
   }
 
-  public all(): Promise<Superposition<Locale, DataSourceError>> {
+  public all(): Promise<Superposition<Locale, LocaleError | DataSourceError>> {
     try {
       const locale: Locale = this.cache.get<Locale>(VAULT_LOCALE_KEY);
 

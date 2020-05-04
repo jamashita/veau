@@ -2,6 +2,7 @@ import { inject, injectable } from 'inversify';
 import { Alive, DataSourceError, Dead, Superposition } from 'publikum';
 import { ILocaleCommand } from '../../Command/Interface/ILocaleCommand';
 import { TYPE } from '../../Container/Types';
+import { LocaleError } from '../../Error/LocaleError';
 import { Locale } from '../../VO/Locale';
 import { ILocaleQuery } from '../Interface/ILocaleQuery';
 import { IVaultQuery } from '../Interface/IVaultQuery';
@@ -15,7 +16,7 @@ export class LocaleQuery implements ILocaleQuery, IVaultQuery {
   private readonly localeCommand: ILocaleCommand;
 
   public constructor(
-  @inject(TYPE.LocaleAJAXQuery) localeAJAXQuery: ILocaleQuery,
+    @inject(TYPE.LocaleAJAXQuery) localeAJAXQuery: ILocaleQuery,
     @inject(TYPE.LocaleCacheQuery) localeCacheQuery: ILocaleQuery,
     @inject(TYPE.LocaleCacheCommand) localeCommand: ILocaleCommand
   ) {
@@ -24,15 +25,15 @@ export class LocaleQuery implements ILocaleQuery, IVaultQuery {
     this.localeCommand = localeCommand;
   }
 
-  public async all(): Promise<Superposition<Locale, DataSourceError>> {
-    const superposition1: Superposition<Locale, DataSourceError> = await this.localeCacheQuery.all();
+  public async all(): Promise<Superposition<Locale, LocaleError | DataSourceError>> {
+    const superposition1: Superposition<Locale, LocaleError | DataSourceError> = await this.localeCacheQuery.all();
 
-    return superposition1.match<Locale, DataSourceError>((locale: Locale) => {
-      return Promise.resolve<Superposition<Locale, DataSourceError>>(Alive.of<Locale, DataSourceError>(locale));
+    return superposition1.match<Locale, LocaleError | DataSourceError>((locale: Locale) => {
+      return Promise.resolve<Superposition<Locale, LocaleError | DataSourceError>>(Alive.of<Locale, DataSourceError>(locale));
     }, async () => {
-      const superposition2: Superposition<Locale, DataSourceError> = await this.localeAJAXQuery.all();
+      const superposition2: Superposition<Locale, LocaleError | DataSourceError> = await this.localeAJAXQuery.all();
 
-      return superposition2.match<Locale, DataSourceError>(async (locale: Locale) => {
+      return superposition2.match<Locale, LocaleError | DataSourceError>(async (locale: Locale) => {
         const superposition3: Superposition<void, DataSourceError> = await this.localeCommand.create(locale);
 
         return superposition3.match<Locale, DataSourceError>(() => {
@@ -40,8 +41,8 @@ export class LocaleQuery implements ILocaleQuery, IVaultQuery {
         }, (err: DataSourceError, self: Dead<void, DataSourceError>) => {
           return self.transpose<Locale>();
         });
-      }, (err: DataSourceError, self: Dead<Locale, DataSourceError>) => {
-        return Promise.resolve<Superposition<Locale, DataSourceError>>(self);
+      }, (err: LocaleError | DataSourceError, self: Dead<Locale, LocaleError | DataSourceError>) => {
+        return Promise.resolve<Superposition<Locale, LocaleError | DataSourceError>>(self);
       });
     });
   }
