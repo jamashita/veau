@@ -28,7 +28,7 @@ describe('SessionQuery', () => {
         veauAccountID: UUID.v4().get(),
         languageID: UUID.v4().get(),
         regionID: UUID.v4().get(),
-        account: 'account'
+        name: 'name'
       };
 
       const ajax: MockAJAX = new MockAJAX();
@@ -46,9 +46,9 @@ describe('SessionQuery', () => {
       expect(superposition.isAlive()).toBe(true);
       const veauAccount: VeauAccount = superposition.get();
       expect(veauAccount.getVeauAccountID().get().get()).toBe(json.veauAccountID);
-      expect(veauAccount.getAccount().get()).toBe(json.account);
       expect(veauAccount.getLanguageID().get().get()).toBe(json.languageID);
       expect(veauAccount.getRegionID().get().get()).toBe(json.regionID);
+      expect(veauAccount.getAccount().get()).toBe(json.name);
     });
 
     it('returns Dead when it has wrong format veauAccountID', async () => {
@@ -56,7 +56,7 @@ describe('SessionQuery', () => {
         veauAccountID: 'malformat uuid',
         languageID: UUID.v4().get(),
         regionID: UUID.v4().get(),
-        account: 'account'
+        name: 'name'
       };
 
       const ajax: MockAJAX = new MockAJAX();
@@ -117,7 +117,7 @@ describe('SessionQuery', () => {
         veauAccountID: UUID.v4().get(),
         languageID: UUID.v4().get(),
         regionID: UUID.v4().get(),
-        account: 'account'
+        name: 'name'
       };
 
       const ajax: MockAJAX = new MockAJAX();
@@ -129,22 +129,22 @@ describe('SessionQuery', () => {
       });
 
       const info: MockEntranceInformation = new MockEntranceInformation({
-        account: new MockAccountName('account'),
+        account: new MockAccountName('name'),
         password: new MockPassword('password')
       });
       const sessionQuery: SessionQuery = new SessionQuery(ajax);
       const superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await sessionQuery.findByEntranceInfo(info);
 
       expect(stub.withArgs('/api/auth', {
-        account: 'account',
+        account: 'name',
         password: 'password'
       }).called).toBe(true);
       expect(superposition.isAlive()).toBe(true);
       const veauAccount: VeauAccount = superposition.get();
       expect(veauAccount.getVeauAccountID().get().get()).toBe(json.veauAccountID);
-      expect(veauAccount.getAccount().get()).toBe(json.account);
       expect(veauAccount.getLanguageID().get().get()).toBe(json.languageID);
       expect(veauAccount.getRegionID().get().get()).toBe(json.regionID);
+      expect(veauAccount.getAccount().get()).toBe(json.name);
     });
 
     it('returns Dead when it has wrong format veauAccountID', async () => {
@@ -152,7 +152,7 @@ describe('SessionQuery', () => {
         veauAccountID: 'malformat uuid',
         languageID: UUID.v4().get(),
         regionID: UUID.v4().get(),
-        account: 'account'
+        name: 'name'
       };
 
       const ajax: MockAJAX = new MockAJAX();
