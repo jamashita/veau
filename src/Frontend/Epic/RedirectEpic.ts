@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { push } from 'connected-react-router';
 import { injectable } from 'inversify';
 import { ActionsObservable, ofType } from 'redux-observable';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { inject, injectable } from 'inversify';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { concat, EMPTY, merge, Observable, of } from 'rxjs';

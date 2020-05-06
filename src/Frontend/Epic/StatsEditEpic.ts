@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { inject, injectable } from 'inversify';
 import { DataSourceError, Present, Quantum, Superposition } from 'publikum';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';

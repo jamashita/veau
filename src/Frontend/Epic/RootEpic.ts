@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { inject, injectable } from 'inversify';
 import { ActionsObservable, Epic, StateObservable } from 'redux-observable';
 import { merge, Observable } from 'rxjs';
@@ -21,7 +22,7 @@ export class RootEpic {
   private readonly statsListEpic: StatsListEpic;
 
   public constructor(
-  @inject(TYPE.EntranceEpic) entranceEpic: EntranceEpic,
+    @inject(TYPE.EntranceEpic) entranceEpic: EntranceEpic,
     @inject(TYPE.IdentityEpic) identityEpic: IdentityEpic,
     @inject(TYPE.LogoutEpic) logoutEpic: LogoutEpic,
     @inject(TYPE.RedirectEpic) redirectEpic: RedirectEpic,
