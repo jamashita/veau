@@ -11,7 +11,7 @@ services:
       - './mysql/initdata:/docker-entrypoint-initdb.d:ro'
   veau_redis:
     container_name: 'veau_redis'
-    image: 'redis:5.0.4-alpine'
+    image: 'redis:6.0-alpine'
   veau_nginx:
     container_name: 'veau_nginx'
     image: 'nginx:1.15.11-alpine'

@@ -30,4 +30,4 @@ spec:
             requests:
               cpu: '40m'
         - name: 'veau-redis'
-          image: 'redis:5.0.4-alpine'
+          image: 'redis:6.0-alpine'
