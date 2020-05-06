@@ -8,6 +8,7 @@ import { AsOf } from '../../VO/AsOf';
 import { Column } from '../../VO/Column';
 import { Coordinate } from '../../VO/Coordinate';
 import { EntranceInformation } from '../../VO/EntranceInformation';
+import { Identity } from '../../VO/Identity';
 import { ISO3166 } from '../../VO/ISO3166';
 import { ISO639 } from '../../VO/ISO639';
 import { Locale } from '../../VO/Locale';
@@ -20,7 +21,6 @@ import { StatsName } from '../../VO/StatsName';
 import { StatsOutlines } from '../../VO/StatsOutlines';
 import { StatsUnit } from '../../VO/StatsUnit';
 import { Term } from '../../VO/Term';
-import { VeauAccount } from '../../VO/VeauAccount';
 
 export type NotificationKind = 'info' | 'success' | 'warn' | 'error';
 export type NotificationHPosition = 'left' | 'center' | 'right';
@@ -146,7 +146,7 @@ export interface IdentityAuthenticateAction extends ReduxAction {
 
 export interface IdentityAuthenticatedAction extends ReduxAction {
   readonly type: typeof IDENTITY_AUTHENTICATED;
-  readonly identity: VeauAccount;
+  readonly identity: Identity;
 }
 
 export interface IdentityInitializeAction extends ReduxAction {

@@ -2,10 +2,10 @@ import { RouterState } from 'connected-react-router';
 import { Stats } from '../Entity/Stats';
 import { StatsItem } from '../Entity/StatsItem';
 import { EntranceInformation } from '../VO/EntranceInformation';
+import { Identity } from '../VO/Identity';
 import { LoadingCount } from '../VO/LoadingCount';
 import { Locale } from '../VO/Locale';
 import { StatsOutlines } from '../VO/StatsOutlines';
-import { VeauAccount } from '../VO/VeauAccount';
 import { Modal } from './Reducer/Modal';
 import { Notification } from './Reducer/Notification';
 import { PageProvider } from './Reducer/PageProvider';
@@ -14,7 +14,7 @@ import { StatsList } from './Reducer/StatsList';
 
 export type State = Readonly<{
   entranceInformation: EntranceInformation;
-  identity: VeauAccount;
+  identity: Identity;
   loadingCount: LoadingCount;
   locale: Locale;
   modal: Modal;
