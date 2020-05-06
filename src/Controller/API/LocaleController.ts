@@ -4,7 +4,7 @@ import log4js from 'log4js';
 import { DataSourceError, JSONable, Superposition } from 'publikum';
 import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
+import { LocaleError } from '../../Error/LocaleError';
 import { LocaleInteractor } from '../../Interactor/LocaleInteractor';
 import { AuthenticationMiddleware } from '../Middleware/AuthenticationMiddleware';
 
@@ -15,11 +15,11 @@ const authenticationMiddleware: AuthenticationMiddleware = kernel.get<Authentica
 const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
 
 router.get('/', async (req: express.Request, res: express.Response) => {
-  const superposition: Superposition<JSONable, NoSuchElementError | DataSourceError> = await localeInteractor.all();
+  const superposition: Superposition<JSONable, LocaleError | DataSourceError> = await localeInteractor.all();
 
   superposition.match<void>((locale: JSONable) => {
     res.status(OK).send(locale.toJSON());
-  }, (err: NoSuchElementError | DataSourceError) => {
+  }, (err: LocaleError | DataSourceError) => {
     logger.error(err);
 
     res.sendStatus(INTERNAL_SERVER_ERROR);

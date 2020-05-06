@@ -29,7 +29,7 @@ describe('LocaleController', () => {
       const locale: MockLocale = new MockLocale({
         languages: new MockLanguages(
           new MockLanguage({
-            languageID: new MockLanguageID(1),
+            languageID: new MockLanguageID(),
             name: new MockLanguageName('language'),
             englishName: new MockLanguageName('english name'),
             iso639: new MockISO639('la')
@@ -37,7 +37,7 @@ describe('LocaleController', () => {
         ),
         regions: new MockRegions(
           new MockRegion({
-            regionID: new MockRegionID(1),
+            regionID: new MockRegionID(),
             name: new MockRegionName('region'),
             iso3166: new MockISO3166('RGN')
           })
