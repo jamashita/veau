@@ -11,10 +11,8 @@ import { AsOfs } from '../VO/AsOfs';
 import { Column } from '../VO/Column';
 import { Coordinate } from '../VO/Coordinate';
 import { HeaderSize } from '../VO/HeaderSize';
-import { Language } from '../VO/Language';
 import { LanguageID } from '../VO/LanguageID';
 import { NumericalValue } from '../VO/NumericalValue';
-import { Region } from '../VO/Region';
 import { RegionID } from '../VO/RegionID';
 import { Row } from '../VO/Row';
 import { StatsID } from '../VO/StatsID';
@@ -168,10 +166,10 @@ export class Stats extends Entity<StatsID> {
     if (!Kind.isString(n.statsID)) {
       return false;
     }
-    if (!Language.isJSON(n.language)) {
+    if (!Kind.isString(n.languageID)) {
       return false;
     }
-    if (!Region.isJSON(n.region)) {
+    if (!Kind.isString(n.regionID)) {
       return false;
     }
     if (!Kind.isInteger(n.termID)) {

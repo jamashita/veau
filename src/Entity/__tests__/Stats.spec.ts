@@ -115,8 +115,8 @@ describe('Stats', () => {
       expect(superposition.isAlive()).toBe(true);
       const stats: Stats = superposition.get();
       expect(stats.getStatsID().get().get()).toBe(json.statsID);
-      expect(stats.getLanguageID().get()).toBe(json.languageID);
-      expect(stats.getRegionID().get()).toBe(json.regionID);
+      expect(stats.getLanguageID().get().get()).toBe(json.languageID);
+      expect(stats.getRegionID().get().get()).toBe(json.regionID);
       expect(stats.getTerm().getID()).toBe(json.termID);
       expect(stats.getName().get()).toBe(json.name);
       expect(stats.getUnit().get()).toBe(json.unit);
@@ -158,8 +158,8 @@ describe('Stats', () => {
       expect(superposition.isAlive()).toBe(true);
       const stats: Stats = superposition.get();
       expect(stats.getStatsID().get().get()).toBe(row.statsID);
-      expect(stats.getLanguageID().get()).toBe(row.languageID);
-      expect(stats.getRegionID().get()).toBe(row.regionID);
+      expect(stats.getLanguageID().get().get()).toBe(row.languageID);
+      expect(stats.getRegionID().get().get()).toBe(row.regionID);
       expect(stats.getTerm().getID()).toBe(row.termID);
       expect(stats.getName().get()).toBe(row.name);
       expect(stats.getUnit().get()).toBe(row.unit);
