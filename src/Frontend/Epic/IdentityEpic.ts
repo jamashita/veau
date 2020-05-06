@@ -2,13 +2,13 @@
 import { inject, injectable } from 'inversify';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { merge, NEVER, Observable } from 'rxjs';
-import { map, mapTo, tap } from 'rxjs/operators';
+import { map, mapTo } from 'rxjs/operators';
 import { TYPE } from '../../Container/Types';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { ILocaleQuery } from '../../Query/Interface/ILocaleQuery';
 import { ISessionQuery } from '../../Query/Interface/ISessionQuery';
 import { AccountName } from '../../VO/AccountName';
-import { VeauAccount } from '../../VO/VeauAccount';
+import { Identity } from '../../VO/Identity';
 import { VeauAccountID } from '../../VO/VeauAccountID';
 import { Action, IDENTITY_INITIALIZE } from '../Action/Action';
 import { identityAuthenticated } from '../Action/IdentityAction';
@@ -45,9 +45,7 @@ export class IdentityEpic {
       }
     } = state$;
 
-    console.log('hello mac');
     return NEVER.pipe(
-      tap(console.log),
       mapTo<Action, Action>(loading())
       // mergeMap<Action, Observable<Action>>(() => {
       //   return from<Promise<Superposition<Locale, DataSourceError>>>(
@@ -133,14 +131,14 @@ export class IdentityEpic {
     return action$.pipe<Action, Action>(
       ofType<Action, Action>(IDENTITY_INITIALIZE),
       map<Action, Action>(() => {
-        const veauAccount: VeauAccount = VeauAccount.of(
+        const newIdentity: Identity = Identity.of(
           VeauAccountID.generate(),
-          identity.getLanguageID(),
-          identity.getRegionID(),
+          identity.getLanguage(),
+          identity.getLanguage(),
           AccountName.empty()
         );
 
-        return identityAuthenticated(veauAccount);
+        return identityAuthenticated(newIdentity);
       })
     );
   }
