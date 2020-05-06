@@ -29,8 +29,8 @@ export class StatsCommand implements IStatsCommand, IMySQLCommand {
     try {
       await this.sql.execute<unknown>(query, {
         statsID: stats.getStatsID().get().get(),
-        languageID: stats.getLanguage().getLanguageID().get().get(),
-        regionID: stats.getRegion().getRegionID().get().get(),
+        languageID: stats.getLanguageID().get().get(),
+        regionID: stats.getRegionID().get().get(),
         termID: stats.getTerm().getID(),
         veauAccountID: veauAccountID.get().get(),
         name: stats.getName().get(),

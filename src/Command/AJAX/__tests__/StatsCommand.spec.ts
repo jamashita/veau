@@ -5,14 +5,8 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { TYPE } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { MockStats } from '../../../Entity/Mock/MockStats';
-import { MockISO3166 } from '../../../VO/Mock/MockISO3166';
-import { MockISO639 } from '../../../VO/Mock/MockISO639';
-import { MockLanguage } from '../../../VO/Mock/MockLanguage';
 import { MockLanguageID } from '../../../VO/Mock/MockLanguageID';
-import { MockLanguageName } from '../../../VO/Mock/MockLanguageName';
-import { MockRegion } from '../../../VO/Mock/MockRegion';
 import { MockRegionID } from '../../../VO/Mock/MockRegionID';
-import { MockRegionName } from '../../../VO/Mock/MockRegionName';
 import { MockStatsID } from '../../../VO/Mock/MockStatsID';
 import { MockStatsName } from '../../../VO/Mock/MockStatsName';
 import { MockStatsUnit } from '../../../VO/Mock/MockStatsUnit';
@@ -32,20 +26,13 @@ describe('StatsCommand', () => {
 
   describe('create', () => {
     it('normal case', async () => {
-      const uuid: UUID = UUID.v4();
+      const uuid1: UUID = UUID.v4();
+      const uuid2: UUID = UUID.v4();
+      const uuid3: UUID = UUID.v4();
       const stats: MockStats = new MockStats({
-        statsID: new MockStatsID(uuid),
-        language: new MockLanguage({
-          languageID: new MockLanguageID(3),
-          name: new MockLanguageName('language name 1'),
-          englishName: new MockLanguageName('language name 2'),
-          iso639: new MockISO639('aa')
-        }),
-        region: new MockRegion({
-          regionID: new MockRegionID(4),
-          name: new MockRegionName('region name 5'),
-          iso3166: new MockISO3166('bb')
-        }),
+        statsID: new MockStatsID(uuid1),
+        languageID: new MockLanguageID(uuid2),
+        regionID: new MockRegionID(uuid3),
         term: new MockTerm({
           id: 8
         }),
@@ -65,18 +52,9 @@ describe('StatsCommand', () => {
       const superposition: Superposition<void, DataSourceError> = await statsCommand.create(stats);
 
       expect(stub.withArgs('/api/stats', {
-        statsID: uuid.get(),
-        language: {
-          languageID: 3,
-          name: 'language name 1',
-          englishName: 'language name 2',
-          iso639: 'aa'
-        },
-        region: {
-          regionID: 4,
-          name: 'region name 5',
-          iso3166: 'bb'
-        },
+        statsID: uuid1.get(),
+        languageID: uuid2.get(),
+        regionID: uuid3.get(),
         termID: 8,
         name: 'stats name',
         unit: 'stats unit',
