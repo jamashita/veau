@@ -1,9 +1,7 @@
 import { DataSourceError, MockError, MockSQL, MySQLError, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { MockStats } from '../../../Entity/Mock/MockStats';
-import { MockLanguage } from '../../../VO/Mock/MockLanguage';
 import { MockLanguageID } from '../../../VO/Mock/MockLanguageID';
-import { MockRegion } from '../../../VO/Mock/MockRegion';
 import { MockRegionID } from '../../../VO/Mock/MockRegionID';
 import { MockStatsID } from '../../../VO/Mock/MockStatsID';
 import { MockStatsName } from '../../../VO/Mock/MockStatsName';
@@ -17,26 +15,22 @@ describe('StatsCommand', () => {
     it('normal case', async () => {
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
-      const languageID: number = 24;
-      const regionID: number = 33;
+      const uuid3: UUID = UUID.v4();
+      const uuid4: UUID = UUID.v4();
       const termID: number = 935;
       const statsName: string = 'stats name';
       const statsUnit: string = 'stats unit';
       const stats: MockStats = new MockStats({
         statsID: new MockStatsID(uuid1),
-        language: new MockLanguage({
-          languageID: new MockLanguageID(languageID)
-        }),
-        region: new MockRegion({
-          regionID: new MockRegionID(regionID)
-        }),
+        languageID: new MockLanguageID(uuid2),
+        regionID: new MockRegionID(uuid3),
         term: new MockTerm({
           id: termID
         }),
         name: new MockStatsName(statsName),
         unit: new MockStatsUnit(statsUnit)
       });
-      const accountID: MockVeauAccountID = new MockVeauAccountID(uuid2);
+      const accountID: MockVeauAccountID = new MockVeauAccountID(uuid4);
 
       const sql: MockSQL = new MockSQL();
       const stub: SinonStub = sinon.stub();
@@ -56,10 +50,10 @@ describe('StatsCommand', () => {
       :updatedAt
       );`, {
         statsID: uuid1.get(),
-        languageID,
-        regionID,
+        languageID: uuid2.get(),
+        regionID: uuid3.get(),
         termID,
-        veauAccountID: uuid2.get(),
+        veauAccountID: uuid4.get(),
         name: statsName,
         unit: statsUnit,
         updatedAt: '2000-01-02 01:02:03'
