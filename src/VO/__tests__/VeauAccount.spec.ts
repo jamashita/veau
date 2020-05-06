@@ -17,19 +17,19 @@ describe('VeauAccount', () => {
       const veauAccountID: VeauAccountID = new MockVeauAccountID();
       const languageID: LanguageID = new MockLanguageID();
       const regionID: RegionID = new MockRegionID();
-      const account: AccountName = new MockAccountName();
+      const name: AccountName = new MockAccountName();
 
       const veauAccount: VeauAccount = VeauAccount.of(
         veauAccountID,
         languageID,
         regionID,
-        account
+        name
       );
 
       expect(veauAccount.getVeauAccountID()).toBe(veauAccountID);
       expect(veauAccount.getLanguageID()).toBe(languageID);
       expect(veauAccount.getRegionID()).toBe(regionID);
-      expect(veauAccount.getAccount()).toBe(account);
+      expect(veauAccount.getAccount()).toBe(name);
     });
   });
 
@@ -39,7 +39,7 @@ describe('VeauAccount', () => {
         veauAccountID: UUID.v4().get(),
         languageID: UUID.v4().get(),
         regionID: UUID.v4().get(),
-        account: 'account'
+        name: 'name'
       };
 
       const superposition: Superposition<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
@@ -49,7 +49,7 @@ describe('VeauAccount', () => {
       expect(veauAccount.getVeauAccountID().get().get()).toBe(json.veauAccountID);
       expect(veauAccount.getLanguageID().get().get()).toBe(json.languageID);
       expect(veauAccount.getRegionID().get().get()).toBe(json.regionID);
-      expect(veauAccount.getAccount().get()).toBe(json.account);
+      expect(veauAccount.getAccount().get()).toBe(json.name);
     });
 
     it('veauAccountID is malformat', () => {
@@ -57,7 +57,7 @@ describe('VeauAccount', () => {
         veauAccountID: 'illegal one',
         languageID: UUID.v4().get(),
         regionID: UUID.v4().get(),
-        account: 'account'
+        name: 'name'
       };
 
       const spy1: SinonSpy = sinon.spy();
@@ -81,7 +81,7 @@ describe('VeauAccount', () => {
         veauAccountID: UUID.v4().get(),
         languageID: 'illegal one',
         regionID: UUID.v4().get(),
-        account: 'account'
+        name: 'name'
       };
 
       const spy1: SinonSpy = sinon.spy();
@@ -105,7 +105,7 @@ describe('VeauAccount', () => {
         veauAccountID: UUID.v4().get(),
         languageID: UUID.v4().get(),
         regionID: 'illegal one',
-        account: 'account'
+        name: 'name'
       };
 
       const spy1: SinonSpy = sinon.spy();
@@ -212,7 +212,7 @@ describe('VeauAccount', () => {
         veauAccountID: uuid1.get(),
         languageID: uuid2.get(),
         regionID: uuid3.get(),
-        account: name
+        name: name
       });
     });
   });

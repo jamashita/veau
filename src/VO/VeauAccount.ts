@@ -12,7 +12,7 @@ export type VeauAccountJSON = Readonly<{
   veauAccountID: string;
   languageID: string;
   regionID: string;
-  account: string;
+  name: string;
 }>;
 
 export class VeauAccount extends ValueObject implements JSONable {
@@ -20,7 +20,7 @@ export class VeauAccount extends ValueObject implements JSONable {
   private readonly veauAccountID: VeauAccountID;
   private readonly languageID: LanguageID;
   private readonly regionID: RegionID;
-  private readonly account: AccountName;
+  private readonly name: AccountName;
 
   public static of(
     veauAccountID: VeauAccountID,
@@ -40,7 +40,7 @@ export class VeauAccount extends ValueObject implements JSONable {
               veauAccountID,
               languageID,
               regionID,
-              AccountName.of(json.account)
+              AccountName.of(json.name)
             )
           );
         }, (err: RegionIDError) => {
@@ -79,7 +79,7 @@ export class VeauAccount extends ValueObject implements JSONable {
     this.veauAccountID = veauAccountID;
     this.languageID = languageID;
     this.regionID = regionID;
-    this.account = account;
+    this.name = account;
   }
 
   public getVeauAccountID(): VeauAccountID {
@@ -95,7 +95,7 @@ export class VeauAccount extends ValueObject implements JSONable {
   }
 
   public getAccount(): AccountName {
-    return this.account;
+    return this.name;
   }
 
   public equals(other: VeauAccount): boolean {
@@ -111,7 +111,7 @@ export class VeauAccount extends ValueObject implements JSONable {
     if (!this.regionID.equals(other.regionID)) {
       return false;
     }
-    if (!this.account.equals(other.account)) {
+    if (!this.name.equals(other.name)) {
       return false;
     }
 
@@ -123,7 +123,7 @@ export class VeauAccount extends ValueObject implements JSONable {
       veauAccountID: this.veauAccountID.get().get(),
       languageID: this.languageID.get().get(),
       regionID: this.regionID.get().get(),
-      account: this.account.get()
+      name: this.name.get()
     };
   }
 
@@ -133,7 +133,7 @@ export class VeauAccount extends ValueObject implements JSONable {
     properties.push(this.veauAccountID.toString());
     properties.push(this.languageID.toString());
     properties.push(this.regionID.toString());
-    properties.push(this.account.toString());
+    properties.push(this.name.toString());
 
     return properties.join(' ');
   }
