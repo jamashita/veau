@@ -40,8 +40,8 @@ describe('AuthenticationInteractor', () => {
         expect(err).toBe(null);
         expect(ret.getVeauAccountID()).toBe(account.getVeauAccountID());
         expect(ret.getAccount()).toBe(account.getAccount());
-        expect(ret.getLanguage()).toBe(account.getLanguage());
-        expect(ret.getRegion()).toBe(account.getRegion());
+        expect(ret.getLanguageID()).toBe(account.getLanguageID());
+        expect(ret.getRegionID()).toBe(account.getRegionID());
         done();
       });
     });
