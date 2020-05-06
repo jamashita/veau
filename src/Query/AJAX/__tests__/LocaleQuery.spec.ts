@@ -55,14 +55,14 @@ describe('LocaleQuery', () => {
       const locale: Locale = superposition.get();
       expect(locale.getLanguages().size()).toBe(json.languages.length);
       for (let i: number = 0; i < locale.getLanguages().size(); i++) {
-        expect(locale.getLanguages().get(i).get().getLanguageID().get()).toBe(json.languages[i].languageID);
+        expect(locale.getLanguages().get(i).get().getLanguageID().get().get()).toBe(json.languages[i].languageID);
         expect(locale.getLanguages().get(i).get().getName().get()).toBe(json.languages[i].name);
         expect(locale.getLanguages().get(i).get().getEnglishName().get()).toBe(json.languages[i].englishName);
         expect(locale.getLanguages().get(i).get().getISO639().get()).toBe(json.languages[i].iso639);
       }
       expect(locale.getRegions().size()).toBe(1);
       for (let i: number = 0; i < locale.getRegions().size(); i++) {
-        expect(locale.getRegions().get(i).get().getRegionID().get()).toBe(json.regions[i].regionID);
+        expect(locale.getRegions().get(i).get().getRegionID().get().get()).toBe(json.regions[i].regionID);
         expect(locale.getRegions().get(i).get().getName().get()).toBe(json.regions[i].name);
         expect(locale.getRegions().get(i).get().getISO3166().get()).toBe(json.regions[i].iso3166);
       }

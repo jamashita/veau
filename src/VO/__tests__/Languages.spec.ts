@@ -136,7 +136,7 @@ describe('Languages', () => {
         }
       ];
 
-      const superposition: Superposition<Languages, LanguagesError> = Languages.ofJSON([]);
+      const superposition: Superposition<Languages, LanguagesError> = Languages.ofJSON(json);
 
       expect(superposition.isAlive()).toBe(true);
       const languages: Languages = superposition.get();
@@ -170,7 +170,7 @@ describe('Languages', () => {
         }
       ];
 
-      const superposition: Superposition<Languages, LanguagesError> = Languages.ofJSON([]);
+      const superposition: Superposition<Languages, LanguagesError> = Languages.ofJSON(rows);
 
       expect(superposition.isAlive()).toBe(true);
       const languages: Languages = superposition.get();
