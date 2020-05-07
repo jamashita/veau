@@ -393,6 +393,221 @@ describe('StatsOutline', () => {
     });
   });
 
+  describe('isJSON', () => {
+    it('normal case', () => {
+      const n: unknown = {
+        statsID: 'oink',
+        languageID: 'miaow',
+        regionID: 'moin',
+        termID: 'doodle',
+        name: 'off',
+        unit: 'on',
+        updatedAt: 'today'
+      };
+
+      expect(StatsOutline.isJSON(n)).toBe(true);
+    });
+
+    it('returns false because given parameter is not an object', () => {
+      expect(StatsOutline.isJSON(null)).toBe(false);
+      expect(StatsOutline.isJSON(undefined)).toBe(false);
+      expect(StatsOutline.isJSON(56)).toBe(false);
+      expect(StatsOutline.isJSON('fjafsd')).toBe(false);
+      expect(StatsOutline.isJSON(false)).toBe(false);
+    });
+
+    it('returns false because statsID is missing', () => {
+      const n: unknown = {
+        languageID: 'miaow',
+        regionID: 'moin',
+        termID: 'doodle',
+        name: 'off',
+        unit: 'on',
+        updatedAt: 'today'
+      };
+
+      expect(StatsOutline.isJSON(n)).toBe(false);
+    });
+
+    it('returns false because statsID is not string', () => {
+      const n: unknown = {
+        statsID: 1,
+        languageID: 'miaow',
+        regionID: 'moin',
+        termID: 'doodle',
+        name: 'off',
+        unit: 'on',
+        updatedAt: 'today'
+      };
+
+      expect(StatsOutline.isJSON(n)).toBe(false);
+    });
+
+    it('returns false because languageID is missing', () => {
+      const n: unknown = {
+        statsID: 'oink',
+        regionID: 'moin',
+        termID: 'doodle',
+        name: 'off',
+        unit: 'on',
+        updatedAt: 'today'
+      };
+
+      expect(StatsOutline.isJSON(n)).toBe(false);
+    });
+
+    it('returns false because languageID is not string', () => {
+      const n: unknown = {
+        statsID: 'oink',
+        languageID: 1,
+        regionID: 'moin',
+        termID: 'doodle',
+        name: 'off',
+        unit: 'on',
+        updatedAt: 'today'
+      };
+
+      expect(StatsOutline.isJSON(n)).toBe(false);
+    });
+
+    it('returns false because regionID is missing', () => {
+      const n: unknown = {
+        statsID: 'oink',
+        languageID: 'miaow',
+        termID: 'doodle',
+        name: 'off',
+        unit: 'on',
+        updatedAt: 'today'
+      };
+
+
+      expect(StatsOutline.isJSON(n)).toBe(false);
+    });
+
+    it('returns false because regionID is not string', () => {
+      const n: unknown = {
+        statsID: 'oink',
+        languageID: 'miaow',
+        regionID: 1,
+        termID: 'doodle',
+        name: 'off',
+        unit: 'on',
+        updatedAt: 'today'
+      };
+
+      expect(StatsOutline.isJSON(n)).toBe(false);
+    });
+
+    it('returns false because termID is missing', () => {
+      const n: unknown = {
+        statsID: 'oink',
+        languageID: 'miaow',
+        regionID: 'moin',
+        name: 'off',
+        unit: 'on',
+        updatedAt: 'today'
+      };
+
+
+      expect(StatsOutline.isJSON(n)).toBe(false);
+    });
+
+    it('returns false because regionID is not string', () => {
+      const n: unknown = {
+        statsID: 'oink',
+        languageID: 'miaow',
+        regionID: 'moin',
+        termID: 1,
+        name: 'off',
+        unit: 'on',
+        updatedAt: 'today'
+      };
+
+      expect(StatsOutline.isJSON(n)).toBe(false);
+    });
+
+    it('returns false because name is missing', () => {
+      const n: unknown = {
+        statsID: 'oink',
+        languageID: 'miaow',
+        regionID: 'moin',
+        termID: 'doodle',
+        unit: 'on',
+        updatedAt: 'today'
+      };
+
+      expect(StatsOutline.isJSON(n)).toBe(false);
+    });
+
+    it('returns false because name is not string', () => {
+      const n: unknown = {
+        statsID: 'oink',
+        languageID: 'miaow',
+        regionID: 'moin',
+        termID: 'doodle',
+        name: 1,
+        unit: 'on',
+        updatedAt: 'today'
+      };
+
+      expect(StatsOutline.isJSON(n)).toBe(false);
+    });
+
+    it('returns false because unit is missing', () => {
+      const n: unknown = {
+        statsID: 'oink',
+        languageID: 'miaow',
+        regionID: 'moin',
+        termID: 'doodle',
+        name: 'off',
+        updatedAt: 'today'
+      };
+
+      expect(StatsOutline.isJSON(n)).toBe(false);
+    });
+
+    it('returns false because unit is not string', () => {
+      const n: unknown = {
+        statsID: 'oink',
+        languageID: 'miaow',
+        regionID: 'moin',
+        termID: 'doodle',
+        name: 'off',
+        unit: 1,
+        updatedAt: 'today'
+      };
+
+      expect(StatsOutline.isJSON(n)).toBe(false);
+    });
+
+    it('returns false because updatedAt is missing', () => {
+      const n: unknown = {
+        statsID: 'oink',
+        languageID: 'miaow',
+        regionID: 'moin',
+        termID: 'doodle',
+        name: 'off',
+        unit: 'on'
+      };
+
+      expect(StatsOutline.isJSON(n)).toBe(false);
+    });
+
+    it('returns false because updatedAt is not string', () => {
+      const n: unknown = {
+        statsID: 'oink',
+        languageID: 'miaow',
+        regionID: 'moin',
+        termID: 'doodle',
+        name: 'off',
+        unit: 'on',
+        updatedAt: 1
+      };
+
+      expect(StatsOutline.isJSON(n)).toBe(false);
+    });
+  });
+
   describe('equals', () => {
     it('returns true if all the properties are the same', () => {
       const uuid1: UUID = UUID.v4();

@@ -1,4 +1,4 @@
-import { Alive, Cloneable, Dead, JSONable, Superposition, ValueObject } from 'publikum';
+import { Alive, Cloneable, Dead, JSONable, Kind, Superposition, ValueObject } from 'publikum';
 import { LanguageIDError } from '../Error/LanguageIDError';
 import { RegionIDError } from '../Error/RegionIDError';
 import { StatsIDError } from '../Error/StatsIDError';
@@ -141,6 +141,35 @@ export class StatsOutline extends ValueObject implements Cloneable<StatsOutline>
       StatsUnit.empty(),
       UpdatedAt.now()
     );
+  }
+
+  public static isJSON(n: unknown): n is StatsOutlineJSON {
+    if (!Kind.isPlainObject(n)) {
+      return false;
+    }
+    if (!Kind.isString(n.statsID)) {
+      return false;
+    }
+    if (!Kind.isString(n.languageID)) {
+      return false;
+    }
+    if (!Kind.isString(n.regionID)) {
+      return false;
+    }
+    if (!Kind.isString(n.termID)) {
+      return false;
+    }
+    if (!Kind.isString(n.name)) {
+      return false;
+    }
+    if (!Kind.isString(n.unit)) {
+      return false;
+    }
+    if (!Kind.isString(n.updatedAt)) {
+      return false;
+    }
+
+    return true;
   }
 
   protected constructor(
