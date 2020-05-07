@@ -28,7 +28,7 @@ describe('AccountQuery', () => {
           veauAccountID: UUID.v4().get(),
           languageID: UUID.v4().get(),
           regionID: UUID.v4().get(),
-          account: 'account',
+          name: 'account',
           hash: 'hash'
         }
       ];
@@ -63,7 +63,7 @@ describe('AccountQuery', () => {
       expect(account.getVeauAccountID().get().get()).toBe(rows[0].veauAccountID);
       expect(account.getLanguageID().get().get()).toBe(rows[0].languageID);
       expect(account.getRegionID().get().get()).toBe(rows[0].regionID);
-      expect(account.getAccount().get()).toBe(rows[0].account);
+      expect(account.getAccountName().get()).toBe(rows[0].name);
       expect(account.getHash().get()).toBe(rows[0].hash);
     });
 
@@ -99,7 +99,7 @@ describe('AccountQuery', () => {
           veauAccountID: 'malformat uuid',
           languageID: UUID.v4().get(),
           regionID: UUID.v4().get(),
-          account: 'account',
+          name: 'account',
           hash: 'hash'
         }
       ];

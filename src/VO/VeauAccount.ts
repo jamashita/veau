@@ -94,7 +94,7 @@ export class VeauAccount extends ValueObject implements JSONable {
     return this.regionID;
   }
 
-  public getAccount(): AccountName {
+  public getAccountName(): AccountName {
     return this.name;
   }
 

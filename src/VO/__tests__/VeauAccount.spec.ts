@@ -29,7 +29,7 @@ describe('VeauAccount', () => {
       expect(veauAccount.getVeauAccountID()).toBe(veauAccountID);
       expect(veauAccount.getLanguageID()).toBe(languageID);
       expect(veauAccount.getRegionID()).toBe(regionID);
-      expect(veauAccount.getAccount()).toBe(name);
+      expect(veauAccount.getAccountName()).toBe(name);
     });
   });
 
@@ -49,7 +49,7 @@ describe('VeauAccount', () => {
       expect(veauAccount.getVeauAccountID().get().get()).toBe(json.veauAccountID);
       expect(veauAccount.getLanguageID().get().get()).toBe(json.languageID);
       expect(veauAccount.getRegionID().get().get()).toBe(json.regionID);
-      expect(veauAccount.getAccount().get()).toBe(json.name);
+      expect(veauAccount.getAccountName().get()).toBe(json.name);
     });
 
     it('veauAccountID is malformat', () => {
@@ -135,7 +135,7 @@ describe('VeauAccount', () => {
       expect(account1.getVeauAccountID().equals(account2.getVeauAccountID())).toBe(false);
       expect(account1.getRegionID()).toBe(RegionID.empty());
       expect(account1.getLanguageID()).toBe(LanguageID.empty());
-      expect(account1.getAccount()).toBe(AccountName.empty());
+      expect(account1.getAccountName()).toBe(AccountName.empty());
     });
   });
 

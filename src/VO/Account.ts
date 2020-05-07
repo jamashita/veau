@@ -15,29 +15,20 @@ export type AccountRow = Readonly<{
   veauAccountID: string;
   languageID: string;
   regionID: string;
-  account: string;
+  name: string;
   hash: string;
 }>;
 
 export class Account extends ValueObject {
   public readonly noun: 'Account' = 'Account';
-  private readonly veauAccountID: VeauAccountID;
-  private readonly languageID: LanguageID;
-  private readonly regionID: RegionID;
-  private readonly account: AccountName;
+  private readonly account: VeauAccount;
   private readonly hash: Hash;
 
   public static of(
-    veauAccountID: VeauAccountID,
-    languageID: LanguageID,
-    regionID: RegionID,
-    account: AccountName,
+    account: VeauAccount,
     hash: Hash
   ): Account {
     return new Account(
-      veauAccountID,
-      languageID,
-      regionID,
       account,
       hash
     );
@@ -49,10 +40,12 @@ export class Account extends ValueObject {
         return RegionID.ofString(row.regionID).match<Account, AccountError>((regionID: RegionID) => {
           return Alive.of<Account, AccountError>(
             Account.of(
-              veauAccountID,
-              languageID,
-              regionID,
-              AccountName.of(row.account),
+              VeauAccount.of(
+                veauAccountID,
+                languageID,
+                regionID,
+                AccountName.of(row.name)
+              ),
               Hash.of(row.hash)
             )
           );
@@ -74,33 +67,31 @@ export class Account extends ValueObject {
   }
 
   protected constructor(
-    veauAccountID: VeauAccountID,
-    languageID: LanguageID,
-    regionID: RegionID,
-    account: AccountName,
+    account: VeauAccount,
     hash: Hash
   ) {
     super();
-    this.veauAccountID = veauAccountID;
     this.account = account;
-    this.languageID = languageID;
-    this.regionID = regionID;
     this.hash = hash;
   }
 
   public getVeauAccountID(): VeauAccountID {
-    return this.veauAccountID;
+    return this.account.getVeauAccountID();
   }
 
   public getLanguageID(): LanguageID {
-    return this.languageID;
+    return this.account.getLanguageID();
   }
 
   public getRegionID(): RegionID {
-    return this.regionID;
+    return this.account.getRegionID();
   }
 
-  public getAccount(): AccountName {
+  public getAccountName(): AccountName {
+    return this.account.getAccountName();
+  }
+
+  public getVeauAccount(): VeauAccount {
     return this.account;
   }
 
@@ -112,27 +103,9 @@ export class Account extends ValueObject {
     return Digest.compare(password.get(), this.hash.get());
   }
 
-  public toVeauAccount(): VeauAccount {
-    return VeauAccount.of(
-      this.veauAccountID,
-      this.languageID,
-      this.regionID,
-      this.account
-    );
-  }
-
   public equals(other: Account): boolean {
     if (this === other) {
       return true;
-    }
-    if (!this.veauAccountID.equals(other.veauAccountID)) {
-      return false;
-    }
-    if (!this.languageID.equals(other.languageID)) {
-      return false;
-    }
-    if (!this.regionID.equals(other.regionID)) {
-      return false;
     }
     if (!this.account.equals(other.account)) {
       return false;
@@ -147,9 +120,6 @@ export class Account extends ValueObject {
   public serialize(): string {
     const properties: Array<string> = [];
 
-    properties.push(this.veauAccountID.toString());
-    properties.push(this.languageID.toString());
-    properties.push(this.regionID.toString());
     properties.push(this.account.toString());
     properties.push(this.hash.toString());
 

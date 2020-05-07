@@ -48,7 +48,7 @@ describe('SessionQuery', () => {
       expect(veauAccount.getVeauAccountID().get().get()).toBe(json.veauAccountID);
       expect(veauAccount.getLanguageID().get().get()).toBe(json.languageID);
       expect(veauAccount.getRegionID().get().get()).toBe(json.regionID);
-      expect(veauAccount.getAccount().get()).toBe(json.name);
+      expect(veauAccount.getAccountName().get()).toBe(json.name);
     });
 
     it('returns Dead when it has wrong format veauAccountID', async () => {
@@ -144,7 +144,7 @@ describe('SessionQuery', () => {
       expect(veauAccount.getVeauAccountID().get().get()).toBe(json.veauAccountID);
       expect(veauAccount.getLanguageID().get().get()).toBe(json.languageID);
       expect(veauAccount.getRegionID().get().get()).toBe(json.regionID);
-      expect(veauAccount.getAccount().get()).toBe(json.name);
+      expect(veauAccount.getAccountName().get()).toBe(json.name);
     });
 
     it('returns Dead when it has wrong format veauAccountID', async () => {

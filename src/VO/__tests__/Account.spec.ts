@@ -5,10 +5,10 @@ import { Account, AccountRow } from '../Account';
 import { AccountName } from '../AccountName';
 import { Hash } from '../Hash';
 import { LanguageID } from '../LanguageID';
-import { MockAccountName } from '../Mock/MockAccountName';
 import { MockHash } from '../Mock/MockHash';
 import { MockLanguageID } from '../Mock/MockLanguageID';
 import { MockRegionID } from '../Mock/MockRegionID';
+import { MockVeauAccount } from '../Mock/MockVeauAccount';
 import { MockVeauAccountID } from '../Mock/MockVeauAccountID';
 import { Password } from '../Password';
 import { RegionID } from '../RegionID';
@@ -18,24 +18,15 @@ import { VeauAccountID } from '../VeauAccountID';
 describe('Account', () => {
   describe('of', () => {
     it('normal case', () => {
-      const accountID: MockVeauAccountID = new MockVeauAccountID();
-      const languageID: MockLanguageID = new MockLanguageID();
-      const regionID: MockRegionID = new MockRegionID();
-      const name: MockAccountName = new MockAccountName();
+      const acccunt: MockVeauAccount = new MockVeauAccount();
       const hash: MockHash = new MockHash();
 
       const account: Account = Account.of(
-        accountID,
-        languageID,
-        regionID,
-        name,
+        acccunt,
         hash
       );
 
-      expect(account.getVeauAccountID()).toBe(accountID);
-      expect(account.getLanguageID()).toBe(languageID);
-      expect(account.getRegionID()).toBe(regionID);
-      expect(account.getAccount()).toBe(name);
+      expect(account.getVeauAccount()).toBe(acccunt);
       expect(account.getHash()).toBe(hash);
     });
   });
@@ -46,7 +37,7 @@ describe('Account', () => {
         veauAccountID: UUID.v4().get(),
         languageID: UUID.v4().get(),
         regionID: UUID.v4().get(),
-        account: 'account',
+        name: 'account',
         hash: 'hash'
       };
 
@@ -57,7 +48,7 @@ describe('Account', () => {
       expect(account.getVeauAccountID().get().get()).toBe(row.veauAccountID);
       expect(account.getLanguageID().get().get()).toBe(row.languageID);
       expect(account.getRegionID().get().get()).toBe(row.regionID);
-      expect(account.getAccount().get()).toBe(row.account);
+      expect(account.getAccountName().get()).toBe(row.name);
       expect(account.getHash().get()).toBe(row.hash);
     });
 
@@ -66,7 +57,7 @@ describe('Account', () => {
         veauAccountID: 'malformat',
         languageID: UUID.v4().get(),
         regionID: UUID.v4().get(),
-        account: 'account',
+        name: 'account',
         hash: 'hash'
       };
 
@@ -92,7 +83,7 @@ describe('Account', () => {
         veauAccountID: UUID.v4().get(),
         languageID: 'malformat',
         regionID: UUID.v4().get(),
-        account: 'account',
+        name: 'account',
         hash: 'hash'
       };
 
@@ -118,7 +109,7 @@ describe('Account', () => {
         veauAccountID: UUID.v4().get(),
         languageID: UUID.v4().get(),
         regionID: 'malformat',
-        account: 'account',
+        name: 'account',
         hash: 'hash'
       };
 
@@ -145,10 +136,7 @@ describe('Account', () => {
       const password1: Password = Password.of('password');
       const password2: Password = Password.of('wrong one');
       const account: Account = Account.of(
-        new MockVeauAccountID(),
-        new MockLanguageID(),
-        new MockRegionID(),
-        new MockAccountName(),
+        new MockVeauAccount(),
         Hash.of('$2b$14$dVujfUAxm6mo8rujdy7jbuoNcMYC4R2Rf.mqzk2/oXhFQgBIWiZUu')
       );
 
@@ -170,88 +158,38 @@ describe('Account', () => {
 
   describe('equals', () => {
     it('returns true if the all properties are the same', () => {
-      const accountID1: MockVeauAccountID = new MockVeauAccountID();
-      const accountID2: MockVeauAccountID = new MockVeauAccountID();
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
       const uuid4: UUID = UUID.v4();
       const account1: Account = Account.of(
-        accountID1,
-        new MockLanguageID(uuid1),
-        new MockRegionID(uuid3),
-        new MockAccountName(),
+        new MockVeauAccount({
+          veauAccountID: new MockVeauAccountID(uuid1),
+          languageID: new MockLanguageID(uuid3),
+          regionID: new MockRegionID(uuid4)
+        }),
         new MockHash()
       );
       const account2: Account = Account.of(
-        accountID2,
-        new MockLanguageID(uuid1),
-        new MockRegionID(uuid3),
-        new MockAccountName(),
+        new MockVeauAccount({
+          veauAccountID: new MockVeauAccountID(uuid2),
+          languageID: new MockLanguageID(uuid3),
+          regionID: new MockRegionID(uuid4)
+        }),
         new MockHash()
       );
       const account3: Account = Account.of(
-        accountID1,
-        new MockLanguageID(uuid2),
-        new MockRegionID(uuid3),
-        new MockAccountName(),
-        new MockHash()
-      );
-      const account4: Account = Account.of(
-        accountID1,
-        new MockLanguageID(uuid1),
-        new MockRegionID(uuid4),
-        new MockAccountName(),
-        new MockHash()
-      );
-      const account5: Account = Account.of(
-        accountID1,
-        new MockLanguageID(uuid1),
-        new MockRegionID(uuid3),
-        new MockAccountName('rectangle'),
-        new MockHash()
-      );
-      const account6: Account = Account.of(
-        accountID1,
-        new MockLanguageID(uuid1),
-        new MockRegionID(uuid3),
-        new MockAccountName(),
-        new MockHash('hash hash hash')
-      );
-      const account7: Account = Account.of(
-        accountID1,
-        new MockLanguageID(uuid1),
-        new MockRegionID(uuid3),
-        new MockAccountName(),
+        new MockVeauAccount({
+          veauAccountID: new MockVeauAccountID(uuid1),
+          languageID: new MockLanguageID(uuid3),
+          regionID: new MockRegionID(uuid4)
+        }),
         new MockHash()
       );
 
       expect(account1.equals(account1)).toBe(true);
       expect(account1.equals(account2)).toBe(false);
-      expect(account1.equals(account3)).toBe(false);
-      expect(account1.equals(account4)).toBe(false);
-      expect(account1.equals(account5)).toBe(false);
-      expect(account1.equals(account6)).toBe(false);
-      expect(account1.equals(account7)).toBe(true);
-    });
-  });
-
-  describe('toVeauAccount', () => {
-    it('normal case', () => {
-      const account: Account = Account.of(
-        new MockVeauAccountID(),
-        new MockLanguageID(),
-        new MockRegionID(),
-        new MockAccountName(),
-        new MockHash()
-      );
-
-      const veauAccount: VeauAccount = account.toVeauAccount();
-
-      expect(veauAccount.getVeauAccountID()).toBe(account.getVeauAccountID());
-      expect(veauAccount.getLanguageID()).toBe(account.getLanguageID());
-      expect(veauAccount.getRegionID()).toBe(account.getRegionID());
-      expect(veauAccount.getAccount()).toBe(account.getAccount());
+      expect(account1.equals(account3)).toBe(true);
     });
   });
 
@@ -263,10 +201,12 @@ describe('Account', () => {
       const name: string = 'veau';
       const hash: string = 'hash hash hash';
       const account: Account = Account.of(
-        VeauAccountID.of(uuid1),
-        LanguageID.of(uuid2),
-        RegionID.of(uuid3),
-        AccountName.of(name),
+        VeauAccount.of(
+          VeauAccountID.of(uuid1),
+          LanguageID.of(uuid2),
+          RegionID.of(uuid3),
+          AccountName.of(name)
+        ),
         Hash.of(hash)
       );
 

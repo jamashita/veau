@@ -39,7 +39,7 @@ describe('AuthenticationInteractor', () => {
       authenticationInteractor.review()(name, password, (err: unknown, ret: VeauAccount) => {
         expect(err).toBe(null);
         expect(ret.getVeauAccountID()).toBe(account.getVeauAccountID());
-        expect(ret.getAccount()).toBe(account.getAccount());
+        expect(ret.getAccountName()).toBe(account.getAccountName());
         expect(ret.getLanguageID()).toBe(account.getLanguageID());
         expect(ret.getRegionID()).toBe(account.getRegionID());
         done();
