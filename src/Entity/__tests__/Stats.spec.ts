@@ -4,84 +4,89 @@ import { AsOf } from '../../VO/AsOf';
 import { AsOfs } from '../../VO/AsOfs';
 import { Column } from '../../VO/Column';
 import { Coordinate } from '../../VO/Coordinate';
-import { LanguageID } from '../../VO/LanguageID';
+import { Language } from '../../VO/Language';
 import { MockAsOf } from '../../VO/Mock/MockAsOf';
+import { MockISO3166 } from '../../VO/Mock/MockISO3166';
+import { MockISO639 } from '../../VO/Mock/MockISO639';
+import { MockLanguage } from '../../VO/Mock/MockLanguage';
 import { MockLanguageID } from '../../VO/Mock/MockLanguageID';
+import { MockLanguageName } from '../../VO/Mock/MockLanguageName';
 import { MockNumericalValue } from '../../VO/Mock/MockNumericalValue';
+import { MockRegion } from '../../VO/Mock/MockRegion';
 import { MockRegionID } from '../../VO/Mock/MockRegionID';
+import { MockRegionName } from '../../VO/Mock/MockRegionName';
 import { MockStatsID } from '../../VO/Mock/MockStatsID';
-import { MockStatsItemID } from '../../VO/Mock/MockStatsItemID';
 import { MockStatsItemName } from '../../VO/Mock/MockStatsItemName';
 import { MockStatsName } from '../../VO/Mock/MockStatsName';
+import { MockStatsOutline } from '../../VO/Mock/MockStatsOutline';
 import { MockStatsUnit } from '../../VO/Mock/MockStatsUnit';
 import { MockStatsValue } from '../../VO/Mock/MockStatsValue';
 import { MockStatsValues } from '../../VO/Mock/MockStatsValues';
 import { MockTerm } from '../../VO/Mock/MockTerm';
+import { MockTermID } from '../../VO/Mock/MockTermID';
+import { MockTermKey } from '../../VO/Mock/MockTermKey';
 import { MockUpdatedAt } from '../../VO/Mock/MockUpdatedAt';
 import { NumericalValue } from '../../VO/NumericalValue';
-import { RegionID } from '../../VO/RegionID';
+import { Region } from '../../VO/Region';
 import { Row } from '../../VO/Row';
-import { StatsID } from '../../VO/StatsID';
-import { StatsItemID } from '../../VO/StatsItemID';
-import { StatsItemName } from '../../VO/StatsItemName';
 import { StatsItemNames } from '../../VO/StatsItemNames';
 import { StatsName } from '../../VO/StatsName';
 import { StatsUnit } from '../../VO/StatsUnit';
-import { StatsValue } from '../../VO/StatsValue';
 import { StatsValues } from '../../VO/StatsValues';
 import { Term } from '../../VO/Term';
-import { UpdatedAt } from '../../VO/UpdatedAt';
 import { MockStatsItem } from '../Mock/MockStatsItem';
 import { MockStatsItems } from '../Mock/MockStatsItems';
-import { Stats, StatsJSON, StatsRow } from '../Stats';
+import { Stats, StatsJSON } from '../Stats';
 import { StatsItem } from '../StatsItem';
 import { StatsItems } from '../StatsItems';
 
 describe('Stats', () => {
   describe('of', () => {
     it('normal case', () => {
-      const statsID: MockStatsID = new MockStatsID();
-      const languageID: MockLanguageID = new MockLanguageID();
-      const regionID: MockRegionID = new MockRegionID();
+      const outline: MockStatsOutline = new MockStatsOutline();
+      const language: MockLanguage = new MockLanguage();
+      const region: MockRegion = new MockRegion();
       const term: MockTerm = new MockTerm();
-      const name: MockStatsName = new MockStatsName();
-      const unit: MockStatsUnit = new MockStatsUnit();
-      const updatedAt: MockUpdatedAt = new MockUpdatedAt();
       const items: MockStatsItems = new MockStatsItems();
 
       const stats: Stats = Stats.of(
-        statsID,
-        languageID,
-        regionID,
+        outline,
+        language,
+        region,
         term,
-        name,
-        unit,
-        updatedAt,
         items
       );
 
-      expect(stats.getStatsID()).toBe(statsID);
-      expect(stats.getLanguageID()).toBe(languageID);
-      expect(stats.getRegionID()).toBe(regionID);
-      expect(stats.getTermID()).toBe(term);
-      expect(stats.getName()).toBe(name);
-      expect(stats.getUnit()).toBe(unit);
-      expect(stats.getUpdatedAt()).toBe(updatedAt);
+      expect(stats.getLanguage()).toBe(language);
+      expect(stats.getRegion()).toBe(region);
+      expect(stats.getTerm()).toBe(term);
       expect(stats.getItems()).toBe(items);
     });
   });
 
   describe('ofJSON', () => {
-    // TODO other failure cases
     it('normal case', () => {
       const json: StatsJSON = {
-        statsID: UUID.v4().get(),
-        languageID: UUID.v4().get(),
-        regionID: UUID.v4().get(),
-        termID: 1,
-        name: 'stats1',
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00',
+        outline: {
+          statsID: UUID.v4().get(),
+          languageID: UUID.v4().get(),
+          regionID: UUID.v4().get(),
+          termID: Term.DAILY.getTermID().get().get(),
+          name: 'stats1',
+          unit: 'unit1',
+          updatedAt: '2000-01-01 00:00:00'
+        },
+        language: {
+          languageID: UUID.v4().get(),
+          name: 'language1',
+          englishName: 'english language1',
+          iso639: 'LG'
+        },
+        region: {
+          regionID: UUID.v4().get(),
+          name: 'region1',
+          iso3166: 'RGN'
+        },
         items: [
           {
             statsItemID: UUID.v4().get(),
@@ -114,13 +119,18 @@ describe('Stats', () => {
 
       expect(superposition.isAlive()).toBe(true);
       const stats: Stats = superposition.get();
-      expect(stats.getStatsID().get().get()).toBe(json.statsID);
-      expect(stats.getLanguageID().get().get()).toBe(json.languageID);
-      expect(stats.getRegionID().get().get()).toBe(json.regionID);
-      expect(stats.getTermID().getTermID()).toBe(json.termID);
-      expect(stats.getName().get()).toBe(json.name);
-      expect(stats.getUnit().get()).toBe(json.unit);
-      expect(stats.getUpdatedAt().toString()).toBe(json.updatedAt);
+      expect(stats.getStatsID().get().get()).toBe(json.outline.statsID);
+      expect(stats.getName().get()).toBe(json.outline.name);
+      expect(stats.getUnit().get()).toBe(json.outline.unit);
+      expect(stats.getUpdatedAt().toString()).toBe(json.outline.updatedAt);
+      expect(stats.getLanguage().getLanguageID().get().get()).toBe(json.language.languageID);
+      expect(stats.getLanguage().getName().get()).toBe(json.language.name);
+      expect(stats.getLanguage().getEnglishName().get()).toBe(json.language.englishName);
+      expect(stats.getLanguage().getISO639().get()).toBe(json.language.iso639);
+      expect(stats.getRegion().getRegionID().get().get()).toBe(json.region.regionID);
+      expect(stats.getRegion().getName().get()).toBe(json.region.name);
+      expect(stats.getRegion().getISO3166().get()).toBe(json.region.iso3166);
+      expect(stats.getTerm().getTermID().get().get()).toBe(json.outline.termID);
       expect(stats.getItems().size()).toBe(json.items.length);
       for (let i: number = 0; i < stats.getItems().size(); i++) {
         expect(stats.getItems().get(i).get().getStatsItemID().get().get()).toBe(json.items[i].statsItemID);
@@ -135,58 +145,29 @@ describe('Stats', () => {
     });
   });
 
-  describe('ofRow', () => {
-    // TODO other failure cases
-    it('normal case', () => {
-      const row: StatsRow = {
-        statsID: UUID.v4().get(),
-        languageID: UUID.v4().get(),
-        regionID: UUID.v4().get(),
-        termID: 3,
-        name: 'name',
-        unit: 'unit',
-        updatedAt: '2000-01-01 00:00:00'
-      };
-      const items: MockStatsItems = new MockStatsItems(
-        new MockStatsItem(),
-        new MockStatsItem(),
-        new MockStatsItem()
-      );
-
-      const superposition: Superposition<Stats, StatsError> = Stats.ofRow(row, items);
-
-      expect(superposition.isAlive()).toBe(true);
-      const stats: Stats = superposition.get();
-      expect(stats.getStatsID().get().get()).toBe(row.statsID);
-      expect(stats.getLanguageID().get().get()).toBe(row.languageID);
-      expect(stats.getRegionID().get().get()).toBe(row.regionID);
-      expect(stats.getTermID().getTermID()).toBe(row.termID);
-      expect(stats.getName().get()).toBe(row.name);
-      expect(stats.getUnit().get()).toBe(row.unit);
-      expect(stats.getUpdatedAt().toString()).toBe(row.updatedAt);
-      expect(stats.getItems().size()).toBe(items.size());
-      for (let i: number = 0; i < items.size(); i++) {
-        expect(stats.getItems().get(i).get().getStatsItemID()).toBe(items.get(i).get().getStatsItemID());
-        expect(stats.getItems().get(i).get().getName()).toBe(items.get(i).get().getName());
-        expect(stats.getItems().get(i).get().getValues().size()).toBe(items.get(i).get().getValues().size());
-        for (let j: number = 0; j < stats.getItems().get(i).get().getValues().size(); j++) {
-          const asOf: AsOf = items.get(i).get().getValues().getAsOfs().get(j).get();
-          expect(stats.getItems().get(i).get().getValues().get(asOf).get().getValue()).toBe(items.get(i).get().getValues().get(asOf).get().getValue());
-        }
-      }
-    });
-  });
-
   describe('isJSON', () => {
     it('normal case', () => {
       const n: unknown = {
-        statsID: UUID.v4().get(),
-        languageID: UUID.v4().get(),
-        regionID: UUID.v4().get(),
-        termID: 1,
-        name: 'stats1',
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00',
+        outline: {
+          statsID: UUID.v4().get(),
+          languageID: UUID.v4().get(),
+          regionID: UUID.v4().get(),
+          termID: Term.DAILY.getTermID().get().get(),
+          name: 'stats1',
+          unit: 'unit1',
+          updatedAt: '2000-01-01 00:00:00'
+        },
+        language: {
+          languageID: UUID.v4().get(),
+          name: 'language1',
+          englishName: 'english language1',
+          iso639: 'LG'
+        },
+        region: {
+          regionID: UUID.v4().get(),
+          name: 'region1',
+          iso3166: 'RGN'
+        },
         items: [
           {
             statsItemID: UUID.v4().get(),
@@ -226,14 +207,19 @@ describe('Stats', () => {
       expect(Stats.isJSON(false)).toBe(false);
     });
 
-    it('returns false because statsID is missing', () => {
+    it('returns false because outline is missing', () => {
       const n: unknown = {
-        languageID: UUID.v4().get(),
-        regionID: UUID.v4().get(),
-        termID: 1,
-        name: 'stats1',
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00',
+        language: {
+          languageID: UUID.v4().get(),
+          name: 'language1',
+          englishName: 'english language1',
+          iso639: 'LG'
+        },
+        region: {
+          regionID: UUID.v4().get(),
+          name: 'region1',
+          iso3166: 'RGN'
+        },
         items: [
           {
             statsItemID: UUID.v4().get(),
@@ -265,15 +251,20 @@ describe('Stats', () => {
       expect(Stats.isJSON(n)).toBe(false);
     });
 
-    it('returns false because statsID is not string', () => {
+    it('returns false because outline is not object', () => {
       const n: unknown = {
-        statsID: false,
-        languageID: UUID.v4().get(),
-        regionID: UUID.v4().get(),
-        termID: 1,
-        name: 'stats1',
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00',
+        outline: 'fale outline',
+        language: {
+          languageID: UUID.v4().get(),
+          name: 'language1',
+          englishName: 'english language1',
+          iso639: 'LG'
+        },
+        region: {
+          regionID: UUID.v4().get(),
+          name: 'region1',
+          iso3166: 'RGN'
+        },
         items: [
           {
             statsItemID: UUID.v4().get(),
@@ -305,14 +296,22 @@ describe('Stats', () => {
       expect(Stats.isJSON(n)).toBe(false);
     });
 
-    it('returns false because languageID is missing', () => {
+    it('returns false because language is missing', () => {
       const n: unknown = {
-        statsID: UUID.v4().get(),
-        regionID: UUID.v4().get(),
-        termID: 1,
-        name: 'stats1',
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00',
+        outline: {
+          statsID: UUID.v4().get(),
+          languageID: UUID.v4().get(),
+          regionID: UUID.v4().get(),
+          termID: Term.DAILY.getTermID().get().get(),
+          name: 'stats1',
+          unit: 'unit1',
+          updatedAt: '2000-01-01 00:00:00'
+        },
+        region: {
+          regionID: UUID.v4().get(),
+          name: 'region1',
+          iso3166: 'RGN'
+        },
         items: [
           {
             statsItemID: UUID.v4().get(),
@@ -344,15 +343,23 @@ describe('Stats', () => {
       expect(Stats.isJSON(n)).toBe(false);
     });
 
-    it('returns false because languageID is not string', () => {
+    it('returns false because language is not object', () => {
       const n: unknown = {
-        statsID: UUID.v4().get(),
-        languageID: true,
-        regionID: UUID.v4().get(),
-        termID: 1,
-        name: 'stats1',
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00',
+        outline: {
+          statsID: UUID.v4().get(),
+          languageID: UUID.v4().get(),
+          regionID: UUID.v4().get(),
+          termID: Term.DAILY.getTermID().get().get(),
+          name: 'stats1',
+          unit: 'unit1',
+          updatedAt: '2000-01-01 00:00:00'
+        },
+        language: 'fake language',
+        region: {
+          regionID: UUID.v4().get(),
+          name: 'region1',
+          iso3166: 'RGN'
+        },
         items: [
           {
             statsItemID: UUID.v4().get(),
@@ -384,14 +391,23 @@ describe('Stats', () => {
       expect(Stats.isJSON(n)).toBe(false);
     });
 
-    it('returns false region regionID is missing', () => {
+    it('returns false region region is missing', () => {
       const n: unknown = {
-        statsID: UUID.v4().get(),
-        languageID: UUID.v4().get(),
-        termID: 1,
-        name: 'stats1',
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00',
+        outline: {
+          statsID: UUID.v4().get(),
+          languageID: UUID.v4().get(),
+          regionID: UUID.v4().get(),
+          termID: Term.DAILY.getTermID().get().get(),
+          name: 'stats1',
+          unit: 'unit1',
+          updatedAt: '2000-01-01 00:00:00'
+        },
+        language: {
+          languageID: UUID.v4().get(),
+          name: 'language1',
+          englishName: 'english language1',
+          iso639: 'LG'
+        },
         items: [
           {
             statsItemID: UUID.v4().get(),
@@ -423,331 +439,24 @@ describe('Stats', () => {
       expect(Stats.isJSON(n)).toBe(false);
     });
 
-    it('returns false because regionID is not string', () => {
+    it('returns false because region is not object', () => {
       const n: unknown = {
-        statsID: UUID.v4().get(),
-        languageID: UUID.v4().get(),
-        region: 8,
-        termID: 1,
-        name: 'stats1',
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00',
-        items: [
-          {
-            statsItemID: UUID.v4().get(),
-            name: 'stats item1',
-            values: [
-              {
-                asOf: '2001-01-01',
-                value: 1
-              }
-            ]
-          },
-          {
-            statsItemID: UUID.v4().get(),
-            name: 'stats item2',
-            values: [
-              {
-                asOf: '2002-01-01',
-                value: 10
-              },
-              {
-                asOf: '2002-01-02',
-                value: 100
-              }
-            ]
-          }
-        ]
-      };
-
-      expect(Stats.isJSON(n)).toBe(false);
-    });
-
-    it('returns false because termID is missing', () => {
-      const n: unknown = {
-        statsID: UUID.v4().get(),
-        languageID: UUID.v4().get(),
-        regionID: UUID.v4().get(),
-        name: 'stats1',
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00',
-        items: [
-          {
-            statsItemID: UUID.v4().get(),
-            name: 'stats item1',
-            values: [
-              {
-                asOf: '2001-01-01',
-                value: 1
-              }
-            ]
-          },
-          {
-            statsItemID: UUID.v4().get(),
-            name: 'stats item2',
-            values: [
-              {
-                asOf: '2002-01-01',
-                value: 10
-              },
-              {
-                asOf: '2002-01-02',
-                value: 100
-              }
-            ]
-          }
-        ]
-      };
-
-      expect(Stats.isJSON(n)).toBe(false);
-    });
-
-    it('returns false because termID is not number', () => {
-      const n: unknown = {
-        statsID: UUID.v4().get(),
-        languageID: UUID.v4().get(),
-        regionID: UUID.v4().get(),
-        termID: 'soixante',
-        name: 'stats1',
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00',
-        items: [
-          {
-            statsItemID: UUID.v4().get(),
-            name: 'stats item1',
-            values: [
-              {
-                asOf: '2001-01-01',
-                value: 1
-              }
-            ]
-          },
-          {
-            statsItemID: UUID.v4().get(),
-            name: 'stats item2',
-            values: [
-              {
-                asOf: '2002-01-01',
-                value: 10
-              },
-              {
-                asOf: '2002-01-02',
-                value: 100
-              }
-            ]
-          }
-        ]
-      };
-
-      expect(Stats.isJSON(n)).toBe(false);
-    });
-
-    it('returns false because name is missing', () => {
-      const n: unknown = {
-        statsID: UUID.v4().get(),
-        languageID: UUID.v4().get(),
-        regionID: UUID.v4().get(),
-        termID: 1,
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00',
-        items: [
-          {
-            statsItemID: UUID.v4().get(),
-            name: 'stats item1',
-            values: [
-              {
-                asOf: '2001-01-01',
-                value: 1
-              }
-            ]
-          },
-          {
-            statsItemID: UUID.v4().get(),
-            name: 'stats item2',
-            values: [
-              {
-                asOf: '2002-01-01',
-                value: 10
-              },
-              {
-                asOf: '2002-01-02',
-                value: 100
-              }
-            ]
-          }
-        ]
-      };
-
-      expect(Stats.isJSON(n)).toBe(false);
-    });
-
-    it('returns false because name is not string', () => {
-      const n: unknown = {
-        statsID: UUID.v4().get(),
-        languageID: UUID.v4().get(),
-        regionID: UUID.v4().get(),
-        termID: 1,
-        name: null,
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00',
-        items: [
-          {
-            statsItemID: UUID.v4().get(),
-            name: 'stats item1',
-            values: [
-              {
-                asOf: '2001-01-01',
-                value: 1
-              }
-            ]
-          },
-          {
-            statsItemID: UUID.v4().get(),
-            name: 'stats item2',
-            values: [
-              {
-                asOf: '2002-01-01',
-                value: 10
-              },
-              {
-                asOf: '2002-01-02',
-                value: 100
-              }
-            ]
-          }
-        ]
-      };
-
-      expect(Stats.isJSON(n)).toBe(false);
-    });
-
-    it('returns false because unit is missing', () => {
-      const n: unknown = {
-        statsID: UUID.v4().get(),
-        languageID: UUID.v4().get(),
-        regionID: UUID.v4().get(),
-        termID: 1,
-        name: 'stats1',
-        updatedAt: '2000-01-01 00:00:00',
-        items: [
-          {
-            statsItemID: UUID.v4().get(),
-            name: 'stats item1',
-            values: [
-              {
-                asOf: '2001-01-01',
-                value: 1
-              }
-            ]
-          },
-          {
-            statsItemID: UUID.v4().get(),
-            name: 'stats item2',
-            values: [
-              {
-                asOf: '2002-01-01',
-                value: 10
-              },
-              {
-                asOf: '2002-01-02',
-                value: 100
-              }
-            ]
-          }
-        ]
-      };
-
-      expect(Stats.isJSON(n)).toBe(false);
-    });
-
-    it('returns false because unit is not string', () => {
-      const n: unknown = {
-        statsID: UUID.v4().get(),
-        languageID: UUID.v4().get(),
-        regionID: UUID.v4().get(),
-        termID: 1,
-        name: 'stats1',
-        unit: null,
-        updatedAt: '2000-01-01 00:00:00',
-        items: [
-          {
-            statsItemID: UUID.v4().get(),
-            name: 'stats item1',
-            values: [
-              {
-                asOf: '2001-01-01',
-                value: 1
-              }
-            ]
-          },
-          {
-            statsItemID: UUID.v4().get(),
-            name: 'stats item2',
-            values: [
-              {
-                asOf: '2002-01-01',
-                value: 10
-              },
-              {
-                asOf: '2002-01-02',
-                value: 100
-              }
-            ]
-          }
-        ]
-      };
-
-      expect(Stats.isJSON(n)).toBe(false);
-    });
-
-    it('returns false because updatedAt is missing', () => {
-      const n: unknown = {
-        statsID: UUID.v4().get(),
-        languageID: UUID.v4().get(),
-        regionID: UUID.v4().get(),
-        termID: 1,
-        name: 'stats1',
-        unit: 'unit1',
-        items: [
-          {
-            statsItemID: UUID.v4().get(),
-            name: 'stats item1',
-            values: [
-              {
-                asOf: '2001-01-01',
-                value: 1
-              }
-            ]
-          },
-          {
-            statsItemID: UUID.v4().get(),
-            name: 'stats item2',
-            values: [
-              {
-                asOf: '2002-01-01',
-                value: 10
-              },
-              {
-                asOf: '2002-01-02',
-                value: 100
-              }
-            ]
-          }
-        ]
-      };
-
-      expect(Stats.isJSON(n)).toBe(false);
-    });
-
-    it('returns false because updatedAt is not string', () => {
-      const n: unknown = {
-        statsID: UUID.v4().get(),
-        languageID: UUID.v4().get(),
-        regionID: UUID.v4().get(),
-        termID: 1,
-        name: 'stats1',
-        unit: 'unit1',
-        updatedAt: 2000,
+        outline: {
+          statsID: UUID.v4().get(),
+          languageID: UUID.v4().get(),
+          regionID: UUID.v4().get(),
+          termID: Term.DAILY.getTermID().get().get(),
+          name: 'stats1',
+          unit: 'unit1',
+          updatedAt: '2000-01-01 00:00:00'
+        },
+        language: {
+          languageID: UUID.v4().get(),
+          name: 'language1',
+          englishName: 'english language1',
+          iso639: 'LG'
+        },
+        region: 'fake object',
         items: [
           {
             statsItemID: UUID.v4().get(),
@@ -781,13 +490,26 @@ describe('Stats', () => {
 
     it('returns false because items is missing', () => {
       const n: unknown = {
-        statsID: UUID.v4().get(),
-        languageID: UUID.v4().get(),
-        regionID: UUID.v4().get(),
-        termID: 1,
-        name: 'stats1',
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00'
+        outline: {
+          statsID: UUID.v4().get(),
+          languageID: UUID.v4().get(),
+          regionID: UUID.v4().get(),
+          termID: Term.DAILY.getTermID().get().get(),
+          name: 'stats1',
+          unit: 'unit1',
+          updatedAt: '2000-01-01 00:00:00'
+        },
+        language: {
+          languageID: UUID.v4().get(),
+          name: 'language1',
+          englishName: 'english language1',
+          iso639: 'LG'
+        },
+        region: {
+          regionID: UUID.v4().get(),
+          name: 'region1',
+          iso3166: 'RGN'
+        }
       };
 
       expect(Stats.isJSON(n)).toBe(false);
@@ -795,15 +517,28 @@ describe('Stats', () => {
 
     it('returns false because items is not array', () => {
       const n: unknown = {
-        statsID: UUID.v4().get(),
-        languageID: UUID.v4().get(),
-        regionID: UUID.v4().get(),
-        termID: 1,
-        name: 'stats1',
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00',
+        outline: {
+          statsID: UUID.v4().get(),
+          languageID: UUID.v4().get(),
+          regionID: UUID.v4().get(),
+          termID: Term.DAILY.getTermID().get().get(),
+          name: 'stats1',
+          unit: 'unit1',
+          updatedAt: '2000-01-01 00:00:00'
+        },
+        language: {
+          languageID: UUID.v4().get(),
+          name: 'language1',
+          englishName: 'english language1',
+          iso639: 'LG'
+        },
+        region: {
+          regionID: UUID.v4().get(),
+          name: 'region1',
+          iso3166: 'RGN'
+        },
         items: {
-          c: {
+          first: {
             statsItemID: UUID.v4().get(),
             name: 'stats item1',
             values: [
@@ -813,7 +548,7 @@ describe('Stats', () => {
               }
             ]
           },
-          d: {
+          second: {
             statsItemID: UUID.v4().get(),
             name: 'stats item2',
             values: [
@@ -839,12 +574,12 @@ describe('Stats', () => {
       const stats: Stats = Stats.default();
 
       expect(stats.getStatsID().get().get().length).toBe(UUID.size());
-      expect(stats.getLanguageID()).toBe(LanguageID.empty());
-      expect(stats.getRegionID()).toBe(RegionID.empty());
-      expect(stats.getTermID()).toBe(Term.DAILY);
       expect(stats.getName()).toBe(StatsName.empty());
       expect(stats.getUnit()).toBe(StatsUnit.empty());
       expect(stats.getItems()).toBe(StatsItems.empty());
+      expect(stats.getLanguage()).toBe(Language.empty());
+      expect(stats.getRegion()).toBe(Region.empty());
+      expect(stats.getTerm()).toBe(Term.DAILY);
       expect(stats.getStartDate().isPresent()).toBe(false);
     });
   });
@@ -855,56 +590,165 @@ describe('Stats', () => {
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
       const uuid4: UUID = UUID.v4();
+      const uuid5: UUID = UUID.v4();
+      const uuid6: UUID = UUID.v4();
+      const uuid7: UUID = UUID.v4();
+      const uuid8: UUID = UUID.v4();
       const stats1: Stats = Stats.of(
-        new MockStatsID(uuid1),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid4),
-        new MockTerm({
-          id: 1
+        new MockStatsOutline({
+          statsID: new MockStatsID(uuid1),
+          updatedAt: new MockUpdatedAt({
+            day: 1
+          })
         }),
-        new MockStatsName(),
-        new MockStatsUnit(),
-        new MockUpdatedAt({
-          day: 1
+        new MockLanguage({
+          languageID: new MockLanguageID(uuid3)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(uuid5)
+        }),
+        new MockTerm({
+          termID: new MockTermID(uuid7)
         }),
         new MockStatsItems()
       );
       const stats2: Stats = Stats.of(
-        new MockStatsID(uuid2),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid4),
-        new MockTerm({
-          id: 5
+        new MockStatsOutline({
+          statsID: new MockStatsID(uuid2),
+          updatedAt: new MockUpdatedAt({
+            day: 1
+          })
         }),
-        new MockStatsName('not default'),
-        new MockStatsUnit('anpersand'),
-        new MockUpdatedAt({
-          day: 1
+        new MockLanguage({
+          languageID: new MockLanguageID(uuid3)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(uuid5)
+        }),
+        new MockTerm({
+          termID: new MockTermID(uuid7)
+        }),
+        new MockStatsItems()
+      );
+      const stats3: Stats = Stats.of(
+        new MockStatsOutline({
+          statsID: new MockStatsID(uuid1),
+          updatedAt: new MockUpdatedAt({
+            day: 2
+          })
+        }),
+        new MockLanguage({
+          languageID: new MockLanguageID(uuid3)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(uuid5)
+        }),
+        new MockTerm({
+          termID: new MockTermID(uuid7)
+        }),
+        new MockStatsItems()
+      );
+      const stats4: Stats = Stats.of(
+        new MockStatsOutline({
+          statsID: new MockStatsID(uuid1),
+          updatedAt: new MockUpdatedAt({
+            day: 1
+          })
+        }),
+        new MockLanguage({
+          languageID: new MockLanguageID(uuid4)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(uuid5)
+        }),
+        new MockTerm({
+          termID: new MockTermID(uuid7)
+        }),
+        new MockStatsItems()
+      );
+      const stats5: Stats = Stats.of(
+        new MockStatsOutline({
+          statsID: new MockStatsID(uuid1),
+          updatedAt: new MockUpdatedAt({
+            day: 1
+          })
+        }),
+        new MockLanguage({
+          languageID: new MockLanguageID(uuid3)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(uuid6)
+        }),
+        new MockTerm({
+          termID: new MockTermID(uuid7)
+        }),
+        new MockStatsItems()
+      );
+      const stats6: Stats = Stats.of(
+        new MockStatsOutline({
+          statsID: new MockStatsID(uuid1),
+          updatedAt: new MockUpdatedAt({
+            day: 1
+          })
+        }),
+        new MockLanguage({
+          languageID: new MockLanguageID(uuid3)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(uuid5)
+        }),
+        new MockTerm({
+          termID: new MockTermID(uuid8)
+        }),
+        new MockStatsItems()
+      );
+      const stats7: Stats = Stats.of(
+        new MockStatsOutline({
+          statsID: new MockStatsID(uuid1),
+          updatedAt: new MockUpdatedAt({
+            day: 1
+          })
+        }),
+        new MockLanguage({
+          languageID: new MockLanguageID(uuid3)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(uuid5)
+        }),
+        new MockTerm({
+          termID: new MockTermID(uuid7)
         }),
         new MockStatsItems(
           new MockStatsItem()
         )
       );
-      const stats3: Stats = Stats.of(
-        new MockStatsID(uuid1),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid4),
+      const stats8: Stats = Stats.of(
+        new MockStatsOutline({
+          statsID: new MockStatsID(uuid1),
+          updatedAt: new MockUpdatedAt({
+            day: 1
+          })
+        }),
+        new MockLanguage({
+          languageID: new MockLanguageID(uuid3)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(uuid5)
+        }),
         new MockTerm({
-          id: 5
+          termID: new MockTermID(uuid7)
         }),
-        new MockStatsName('not default'),
-        new MockStatsUnit('anpersand'),
-        new MockUpdatedAt({
-          day: 1
-        }),
-        new MockStatsItems(
-          new MockStatsItem()
-        )
+        new MockStatsItems()
       );
 
       expect(stats1.equals(stats1)).toBe(true);
       expect(stats1.equals(stats2)).toBe(false);
       expect(stats1.equals(stats3)).toBe(true);
+      expect(stats1.equals(stats4)).toBe(true);
+      expect(stats1.equals(stats5)).toBe(true);
+      expect(stats1.equals(stats6)).toBe(true);
+      expect(stats1.equals(stats7)).toBe(true);
+      expect(stats1.equals(stats8)).toBe(true);
     });
   });
 
@@ -916,294 +760,153 @@ describe('Stats', () => {
       const uuid4: UUID = UUID.v4();
       const uuid5: UUID = UUID.v4();
       const uuid6: UUID = UUID.v4();
+      const uuid7: UUID = UUID.v4();
+      const uuid8: UUID = UUID.v4();
       const stats1: Stats = Stats.of(
-        new MockStatsID(uuid1),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid5),
-        new MockTerm({
-          id: 1
-        }),
-        new MockStatsName('stats name 1'),
-        new MockStatsUnit('unit'),
-        new MockUpdatedAt({
-          day: 1
-        }),
-        new MockStatsItems(
-          new MockStatsItem({
-            statsItemID: new MockStatsItemID(uuid3),
-            name: new MockStatsItemName('item name 1')
+        new MockStatsOutline({
+          statsID: new MockStatsID(uuid1),
+          updatedAt: new MockUpdatedAt({
+            day: 1
           })
-        )
-      );
-      const stats2: Stats = Stats.of(
-        new MockStatsID(uuid2),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid5),
+        }),
+        new MockLanguage({
+          languageID: new MockLanguageID(uuid3)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(uuid5)
+        }),
         new MockTerm({
-          id: 1
-        }),
-        new MockStatsName('stats name 1'),
-        new MockStatsUnit('unit'),
-        new MockUpdatedAt({
-          day: 1
-        }),
-        new MockStatsItems(
-          new MockStatsItem({
-            statsItemID: new MockStatsItemID(uuid3),
-            name: new MockStatsItemName('item name 1')
-          })
-        )
-      );
-      const stats3: Stats = Stats.of(
-        new MockStatsID(uuid1),
-        new MockLanguageID(uuid4),
-        new MockRegionID(uuid5),
-        new MockTerm({
-          id: 1
-        }),
-        new MockStatsName('stats name 1'),
-        new MockStatsUnit('unit'),
-        new MockUpdatedAt({
-          day: 1
-        }),
-        new MockStatsItems(
-          new MockStatsItem({
-            statsItemID: new MockStatsItemID(uuid3),
-            name: new MockStatsItemName('item name 1')
-          })
-        )
-      );
-      const stats4: Stats = Stats.of(
-        new MockStatsID(uuid1),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid6),
-        new MockTerm({
-          id: 1
-        }),
-        new MockStatsName('stats name 1'),
-        new MockStatsUnit('unit'),
-        new MockUpdatedAt({
-          day: 1
-        }),
-        new MockStatsItems(
-          new MockStatsItem({
-            statsItemID: new MockStatsItemID(uuid3),
-            name: new MockStatsItemName('item name 1')
-          })
-        )
-      );
-      const stats5: Stats = Stats.of(
-        new MockStatsID(uuid1),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid5),
-        new MockTerm({
-          id: 50
-        }),
-        new MockStatsName('stats name 1'),
-        new MockStatsUnit('unit'),
-        new MockUpdatedAt({
-          day: 1
-        }),
-        new MockStatsItems(
-          new MockStatsItem({
-            statsItemID: new MockStatsItemID(uuid3),
-            name: new MockStatsItemName('item name 1')
-          })
-        )
-      );
-      const stats6: Stats = Stats.of(
-        new MockStatsID(uuid1),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid5),
-        new MockTerm({
-          id: 1
-        }),
-        new MockStatsName('stats name 2'),
-        new MockStatsUnit('unit'),
-        new MockUpdatedAt({
-          day: 1
-        }),
-        new MockStatsItems(
-          new MockStatsItem({
-            statsItemID: new MockStatsItemID(uuid3),
-            name: new MockStatsItemName('item name 1')
-          })
-        )
-      );
-      const stats7: Stats = Stats.of(
-        new MockStatsID(uuid1),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid5),
-        new MockTerm({
-          id: 1
-        }),
-        new MockStatsName('stats name 1'),
-        new MockStatsUnit('unirse'),
-        new MockUpdatedAt({
-          day: 1
-        }),
-        new MockStatsItems(
-          new MockStatsItem({
-            statsItemID: new MockStatsItemID(uuid3),
-            name: new MockStatsItemName('item name 1')
-          })
-        )
-      );
-      const stats8: Stats = Stats.of(
-        new MockStatsID(uuid1),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid5),
-        new MockTerm({
-          id: 1
-        }),
-        new MockStatsName('stats name 1'),
-        new MockStatsUnit('unit'),
-        new MockUpdatedAt({
-          day: 2
-        }),
-        new MockStatsItems(
-          new MockStatsItem({
-            statsItemID: new MockStatsItemID(uuid3),
-            name: new MockStatsItemName('item name 1')
-          })
-        )
-      );
-      const stats9: Stats = Stats.of(
-        new MockStatsID(uuid1),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid5),
-        new MockTerm({
-          id: 1
-        }),
-        new MockStatsName('stats name 1'),
-        new MockStatsUnit('unit'),
-        new MockUpdatedAt({
-          day: 1
+          termID: new MockTermID(uuid7)
         }),
         new MockStatsItems()
       );
-      const stats10: Stats = Stats.of(
-        new MockStatsID(uuid1),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid5),
-        new MockTerm({
-          id: 1
+      const stats2: Stats = Stats.of(
+        new MockStatsOutline({
+          statsID: new MockStatsID(uuid2),
+          updatedAt: new MockUpdatedAt({
+            day: 1
+          })
         }),
-        new MockStatsName('stats name 1'),
-        new MockStatsUnit('unit'),
-        new MockUpdatedAt({
-          day: 1
+        new MockLanguage({
+          languageID: new MockLanguageID(uuid3)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(uuid5)
+        }),
+        new MockTerm({
+          termID: new MockTermID(uuid7)
+        }),
+        new MockStatsItems()
+      );
+      const stats3: Stats = Stats.of(
+        new MockStatsOutline({
+          statsID: new MockStatsID(uuid1),
+          updatedAt: new MockUpdatedAt({
+            day: 2
+          })
+        }),
+        new MockLanguage({
+          languageID: new MockLanguageID(uuid3)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(uuid5)
+        }),
+        new MockTerm({
+          termID: new MockTermID(uuid7)
+        }),
+        new MockStatsItems()
+      );
+      const stats4: Stats = Stats.of(
+        new MockStatsOutline({
+          statsID: new MockStatsID(uuid1),
+          updatedAt: new MockUpdatedAt({
+            day: 1
+          })
+        }),
+        new MockLanguage({
+          languageID: new MockLanguageID(uuid4)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(uuid5)
+        }),
+        new MockTerm({
+          termID: new MockTermID(uuid7)
+        }),
+        new MockStatsItems()
+      );
+      const stats5: Stats = Stats.of(
+        new MockStatsOutline({
+          statsID: new MockStatsID(uuid1),
+          updatedAt: new MockUpdatedAt({
+            day: 1
+          })
+        }),
+        new MockLanguage({
+          languageID: new MockLanguageID(uuid3)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(uuid6)
+        }),
+        new MockTerm({
+          termID: new MockTermID(uuid7)
+        }),
+        new MockStatsItems()
+      );
+      const stats6: Stats = Stats.of(
+        new MockStatsOutline({
+          statsID: new MockStatsID(uuid1),
+          updatedAt: new MockUpdatedAt({
+            day: 1
+          })
+        }),
+        new MockLanguage({
+          languageID: new MockLanguageID(uuid3)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(uuid5)
+        }),
+        new MockTerm({
+          termID: new MockTermID(uuid8)
+        }),
+        new MockStatsItems()
+      );
+      const stats7: Stats = Stats.of(
+        new MockStatsOutline({
+          statsID: new MockStatsID(uuid1),
+          updatedAt: new MockUpdatedAt({
+            day: 1
+          })
+        }),
+        new MockLanguage({
+          languageID: new MockLanguageID(uuid3)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(uuid5)
+        }),
+        new MockTerm({
+          termID: new MockTermID(uuid7)
         }),
         new MockStatsItems(
-          new MockStatsItem({
-            statsItemID: new MockStatsItemID(uuid4),
-            name: new MockStatsItemName('item name 1')
-          })
+          new MockStatsItem()
         )
       );
-      const stats11: Stats = Stats.of(
-        new MockStatsID(uuid1),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid5),
-        new MockTerm({
-          id: 1
-        }),
-        new MockStatsName('stats name 1'),
-        new MockStatsUnit('unit'),
-        new MockUpdatedAt({
-          day: 1
-        }),
-        new MockStatsItems(
-          new MockStatsItem({
-            statsItemID: new MockStatsItemID(uuid3),
-            name: new MockStatsItemName('item name 2')
+      const stats8: Stats = Stats.of(
+        new MockStatsOutline({
+          statsID: new MockStatsID(uuid1),
+          updatedAt: new MockUpdatedAt({
+            day: 1
           })
-        )
-      );
-      const stats12: Stats = Stats.of(
-        new MockStatsID(uuid1),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid5),
+        }),
+        new MockLanguage({
+          languageID: new MockLanguageID(uuid3)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(uuid5)
+        }),
         new MockTerm({
-          id: 1
+          termID: new MockTermID(uuid7)
         }),
-        new MockStatsName('stats name 1'),
-        new MockStatsUnit('unit'),
-        new MockUpdatedAt({
-          day: 1
-        }),
-        new MockStatsItems(
-          new MockStatsItem({
-            statsItemID: new MockStatsItemID(uuid3),
-            name: new MockStatsItemName('item name 1'),
-            values: new MockStatsValues(
-              new MockStatsValue()
-            )
-          })
-        )
-      );
-      const stats13: Stats = Stats.of(
-        new MockStatsID(uuid1),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid5),
-        new MockTerm({
-          id: 1
-        }),
-        new MockStatsName('stats name 1'),
-        new MockStatsUnit('unit'),
-        new MockUpdatedAt({
-          day: 1
-        }),
-        new MockStatsItems(
-          new MockStatsItem({
-            statsItemID: new MockStatsItemID(uuid3),
-            name: new MockStatsItemName('item name 1')
-          })
-        )
-      );
-      const stats14: Stats = Stats.of(
-        new MockStatsID(uuid1),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid5),
-        new MockTerm({
-          id: 1
-        }),
-        new MockStatsName('stats name 1'),
-        new MockStatsUnit('unit'),
-        new MockUpdatedAt({
-          day: 1
-        }),
-        new MockStatsItems(
-          new MockStatsItem({
-            statsItemID: new MockStatsItemID(uuid3),
-            name: new MockStatsItemName('item name 1')
-          })
-        ),
-        Present.of<AsOf>(new MockAsOf({
-          day: 3
-        }))
-      );
-      const stats15: Stats = Stats.of(
-        new MockStatsID(uuid1),
-        new MockLanguageID(uuid3),
-        new MockRegionID(uuid5),
-        new MockTerm({
-          id: 1
-        }),
-        new MockStatsName('stats name 1'),
-        new MockStatsUnit('unit'),
-        new MockUpdatedAt({
-          day: 1
-        }),
-        new MockStatsItems(
-          new MockStatsItem({
-            statsItemID: new MockStatsItemID(uuid3),
-            name: new MockStatsItemName('item name 1')
-          })
-        ),
-        Present.of<AsOf>(new MockAsOf({
-          day: 4
-        }))
+        new MockStatsItems()
       );
 
       expect(stats1.isSame(stats1)).toBe(true);
@@ -1213,16 +916,7 @@ describe('Stats', () => {
       expect(stats1.isSame(stats5)).toBe(false);
       expect(stats1.isSame(stats6)).toBe(false);
       expect(stats1.isSame(stats7)).toBe(false);
-      expect(stats1.isSame(stats8)).toBe(false);
-      expect(stats1.isSame(stats9)).toBe(false);
-      expect(stats1.isSame(stats10)).toBe(false);
-      expect(stats1.isSame(stats11)).toBe(false);
-      expect(stats1.isSame(stats12)).toBe(false);
-      expect(stats1.isSame(stats13)).toBe(true);
-      expect(stats1.isSame(stats14)).toBe(true);
-      expect(stats1.isSame(stats15)).toBe(true);
-      expect(stats14.isSame(stats14)).toBe(true);
-      expect(stats14.isSame(stats15)).toBe(true);
+      expect(stats1.isSame(stats8)).toBe(true);
     });
   });
 
@@ -1232,47 +926,66 @@ describe('Stats', () => {
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
       const uuid4: UUID = UUID.v4();
+      const name: string = 'name';
+      const unit: string = 'unit';
+      const languageName: string = 'language';
+      const englishLanguage: string = 'english language';
+      const iso639: string = 'IO';
+      const regionName: string = 'region';
+      const iso3166: string = 'IDE';
+      const key: string = 'term key';
       const stats: Stats = Stats.of(
-        StatsID.of(uuid1),
-        LanguageID.of(uuid2),
-        RegionID.of(uuid3),
-        Term.DAILY,
-        StatsName.of('name1'),
-        StatsUnit.of('unit1'),
-        UpdatedAt.ofString('2000-01-01 00:00:00').get(),
-        StatsItems.ofArray([
-          StatsItem.of(
-            StatsItemID.of(uuid4),
-            StatsItemName.of('stats1'),
-            StatsValues.ofArray([
-              StatsValue.of(
-                AsOf.ofString('2000-01-01').get(),
-                NumericalValue.of(10))
-            ])
-          )
-        ])
+        new MockStatsOutline({
+          statsID: new MockStatsID(uuid1),
+          languageID: new MockLanguageID(uuid2),
+          regionID: new MockRegionID(uuid3),
+          termID: new MockTermID(uuid4),
+          name: new MockStatsName(name),
+          unit: new MockStatsUnit(unit),
+          updatedAt: new MockUpdatedAt({
+            day: 1
+          })
+        }),
+        new MockLanguage({
+          languageID: new MockLanguageID(uuid2),
+          name: new MockLanguageName(languageName),
+          englishName: new MockLanguageName(englishLanguage),
+          iso639: new MockISO639(iso639)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(uuid3),
+          name: new MockRegionName(regionName),
+          iso3166: new MockISO3166(iso3166)
+        }),
+        new MockTerm({
+          termID: new MockTermID(uuid4),
+          key: new MockTermKey(key)
+        }),
+        new MockStatsItems()
       );
 
       expect(stats.toJSON()).toEqual({
-        statsID: uuid1.get(),
-        languageID: uuid2.get(),
-        regionID: uuid3.get(),
-        termID: 1,
-        name: 'name1',
-        unit: 'unit1',
-        updatedAt: '2000-01-01 00:00:00',
-        items: [
-          {
-            statsItemID: uuid4.get(),
-            name: 'stats1',
-            values: [
-              {
-                asOf: '2000-01-01',
-                value: 10
-              }
-            ]
-          }
-        ]
+        outline: {
+          statsID: uuid1.get(),
+          languageID: uuid2.get(),
+          regionID: uuid3.get(),
+          termID: uuid4.get(),
+          name,
+          unit,
+          updatedAt: '2000-01-01 01:02:03'
+        },
+        language: {
+          languageID: uuid2.get(),
+          name: languageName,
+          englishName: englishLanguage,
+          iso639
+        },
+        region: {
+          regionID: uuid2.get(),
+          name: regionName,
+          iso3166
+        },
+        items: []
       });
     });
   });
@@ -1283,49 +996,55 @@ describe('Stats', () => {
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
       const uuid4: UUID = UUID.v4();
-      const name1: string = 'stats1';
-      const name2: string = 'name1';
-      const at1: string = '2000-01-02';
-      const at2: string = '2000-01-01 02:03:04';
-      const value1: number = 10;
-      const term: Term = Term.DAILY;
-      const unit: string = 'unit1';
+      const name: string = 'name';
+      const unit: string = 'unit';
+      const languageName: string = 'language';
+      const englishLanguage: string = 'english language';
+      const iso639: string = 'IO';
+      const regionName: string = 'region';
+      const iso3166: string = 'IDE';
+      const key: string = 'term key';
       const stats: Stats = Stats.of(
-        StatsID.of(uuid1),
-        LanguageID.of(uuid2),
-        RegionID.of(uuid3),
-        term,
-        StatsName.of(name2),
-        StatsUnit.of(unit),
-        UpdatedAt.ofString(at2).get(),
-        StatsItems.ofArray([
-          StatsItem.of(
-            StatsItemID.of(uuid4),
-            StatsItemName.of(name1),
-            StatsValues.ofArray([
-              StatsValue.of(
-                AsOf.ofString(at1).get(),
-                NumericalValue.of(value1)
-              )
-            ])
-          )
-        ])
+        new MockStatsOutline({
+          statsID: new MockStatsID(uuid1),
+          languageID: new MockLanguageID(uuid2),
+          regionID: new MockRegionID(uuid3),
+          termID: new MockTermID(uuid4),
+          name: new MockStatsName(name),
+          unit: new MockStatsUnit(unit),
+          updatedAt: new MockUpdatedAt({
+            day: 1
+          })
+        }),
+        new MockLanguage({
+          languageID: new MockLanguageID(uuid2),
+          name: new MockLanguageName(languageName),
+          englishName: new MockLanguageName(englishLanguage),
+          iso639: new MockISO639(iso639)
+        }),
+        new MockRegion({
+          regionID: new MockRegionID(uuid3),
+          name: new MockRegionName(regionName),
+          iso3166: new MockISO3166(iso3166)
+        }),
+        new MockTerm({
+          termID: new MockTermID(uuid4),
+          key: new MockTermKey(key)
+        }),
+        new MockStatsItems()
       );
 
-      expect(stats.toString()).toBe(`${uuid1.get()} ${uuid2.get()} ${uuid3.get()} ${term.getKey()} ${name2} ${unit} ${at2}`);
+      expect(stats.toString()).toBe(`${uuid1.get()} ${uuid2.get()} ${uuid3.get()} ${uuid4.get()} ${name} ${unit} 2000-01-01 01:02:03 ${uuid2.get()} ${languageName} ${englishLanguage} ${iso639} ${uuid3.get()} ${regionName} ${iso3166} ${uuid4.get()} ${key} `);
     });
   });
 
   describe('getColumns', () => {
     it('asOfs are taken and their duplicated values are eliminated', () => {
       const stats: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
+        new MockStatsOutline(),
+        new MockLanguage(),
+        new MockRegion(),
         Term.DAILY,
-        new MockStatsName(),
-        new MockStatsUnit(),
-        new MockUpdatedAt(),
         new MockStatsItems(
           new MockStatsItem({
             values: new MockStatsValues(
@@ -1386,13 +1105,10 @@ describe('Stats', () => {
 
     it('startDate is present', () => {
       const stats: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
+        new MockStatsOutline(),
+        new MockLanguage(),
+        new MockRegion(),
         Term.DAILY,
-        new MockStatsName(),
-        new MockStatsUnit(),
-        new MockUpdatedAt(),
         new MockStatsItems(
           new MockStatsItem({
             values: new MockStatsValues(
@@ -1457,13 +1173,10 @@ describe('Stats', () => {
 
     it('no AsOfs', () => {
       const stats: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
+        new MockStatsOutline(),
+        new MockLanguage(),
+        new MockRegion(),
         Term.DAILY,
-        new MockStatsName(),
-        new MockStatsUnit(),
-        new MockUpdatedAt(),
         new MockStatsItems()
       );
 
@@ -1475,13 +1188,10 @@ describe('Stats', () => {
   describe('getColumn', () => {
     it('properly bring the very correct AsOf', () => {
       const stats: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
+        new MockStatsOutline(),
+        new MockLanguage(),
+        new MockRegion(),
         Term.DAILY,
-        new MockStatsName(),
-        new MockStatsUnit(),
-        new MockUpdatedAt(),
         new MockStatsItems(
           new MockStatsItem({
             values: new MockStatsValues(
@@ -1585,13 +1295,10 @@ describe('Stats', () => {
     });
 
     const stats: Stats = Stats.of(
-      new MockStatsID(),
-      new MockLanguageID(),
-      new MockRegionID(),
-      Term.DAILY,
-      new MockStatsName(),
-      new MockStatsUnit(),
-      new MockUpdatedAt(),
+      new MockStatsOutline(),
+      new MockLanguage(),
+      new MockRegion(),
+      new MockTerm(),
       new MockStatsItems(
         statsItem1,
         statsItem2
@@ -1607,13 +1314,10 @@ describe('Stats', () => {
       const name1: MockStatsItemName = new MockStatsItemName('stats1');
       const name2: MockStatsItemName = new MockStatsItemName('stats2');
       const stats: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
-        Term.DAILY,
-        new MockStatsName(),
-        new MockStatsUnit(),
-        new MockUpdatedAt(),
+        new MockStatsOutline(),
+        new MockLanguage(),
+        new MockRegion(),
+        new MockTerm(),
         new MockStatsItems(
           new MockStatsItem({
             name: name1,
@@ -1675,13 +1379,10 @@ describe('Stats', () => {
       const name1: MockStatsItemName = new MockStatsItemName('stats1');
       const name2: MockStatsItemName = new MockStatsItemName('stats1111');
       const stats: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
-        Term.DAILY,
-        new MockStatsName(),
-        new MockStatsUnit(),
-        new MockUpdatedAt(),
+        new MockStatsOutline(),
+        new MockLanguage(),
+        new MockRegion(),
+        new MockTerm(),
         new MockStatsItems(
           new MockStatsItem({
             name: name1,
@@ -1736,13 +1437,10 @@ describe('Stats', () => {
 
     it('gives 1 * 14 when given stats', () => {
       const stats: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
-        Term.DAILY,
-        new MockStatsName(),
-        new MockStatsUnit(),
-        new MockUpdatedAt(),
+        new MockStatsOutline(),
+        new MockLanguage(),
+        new MockRegion(),
+        new MockTerm(),
         new MockStatsItems()
       );
 
@@ -1753,13 +1451,10 @@ describe('Stats', () => {
   describe('getData', () => {
     it('the matrix is made even if the value is not input', () => {
       const stats: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
+        new MockStatsOutline(),
+        new MockLanguage(),
+        new MockRegion(),
         Term.DAILY,
-        new MockStatsName(),
-        new MockStatsUnit(),
-        new MockUpdatedAt(),
         new MockStatsItems(
           new MockStatsItem({
             values: new MockStatsValues(
@@ -1817,160 +1512,93 @@ describe('Stats', () => {
   describe('isFilled', () => {
     it('returns true if the language, region, name, and unit are filled', () => {
       const stats1: Stats = Stats.of(
-        new MockStatsID(),
-        LanguageID.empty(),
-        RegionID.empty(),
+        new MockStatsOutline({
+          name: StatsName.empty(),
+          unit: StatsUnit.empty()
+        }),
+        Language.empty(),
+        Region.empty(),
         Term.DAILY,
-        StatsName.empty(),
-        StatsUnit.empty(),
-        new MockUpdatedAt(),
         new MockStatsItems()
       );
       const stats2: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        RegionID.empty(),
+        new MockStatsOutline({
+          name: StatsName.empty(),
+          unit: StatsUnit.empty()
+        }),
+        new MockLanguage(),
+        Region.empty(),
         Term.DAILY,
-        StatsName.empty(),
-        StatsUnit.empty(),
-        new MockUpdatedAt(),
         new MockStatsItems()
       );
       const stats3: Stats = Stats.of(
-        new MockStatsID(),
-        LanguageID.empty(),
-        new MockRegionID(),
+        new MockStatsOutline({
+          name: StatsName.empty(),
+          unit: StatsUnit.empty()
+        }),
+        Language.empty(),
+        new MockRegion(),
         Term.DAILY,
-        StatsName.empty(),
-        StatsUnit.empty(),
-        new MockUpdatedAt(),
         new MockStatsItems()
       );
       const stats4: Stats = Stats.of(
-        new MockStatsID(),
-        LanguageID.empty(),
-        RegionID.empty(),
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: StatsUnit.empty()
+        }),
+        Language.empty(),
+        Region.empty(),
         Term.DAILY,
-        new MockStatsName('stats name'),
-        StatsUnit.empty(),
-        new MockUpdatedAt(),
-        new MockStatsItems(
-          new MockStatsItem()
-        )
+        new MockStatsItems()
       );
       const stats5: Stats = Stats.of(
-        new MockStatsID(),
-        LanguageID.empty(),
-        RegionID.empty(),
+        new MockStatsOutline({
+          name: StatsName.empty(),
+          unit: new MockStatsUnit('unit')
+        }),
+        Language.empty(),
+        Region.empty(),
         Term.DAILY,
-        StatsName.empty(),
-        new MockStatsUnit('stats unit'),
-        new MockUpdatedAt(),
         new MockStatsItems()
       );
       const stats6: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
+        new MockStatsOutline({
+          name: StatsName.empty(),
+          unit: StatsUnit.empty()
+        }),
+        new MockLanguage(),
+        new MockRegion(),
         Term.DAILY,
-        StatsName.empty(),
-        StatsUnit.empty(),
-        new MockUpdatedAt(),
-        new MockStatsItems(
-          new MockStatsItem()
-        )
+        new MockStatsItems()
       );
       const stats7: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: StatsUnit.empty()
+        }),
+        new MockLanguage(),
+        new MockRegion,
         Term.DAILY,
-        new MockStatsName('stats name'),
-        StatsUnit.empty(),
-        new MockUpdatedAt(),
-        new MockStatsItems(
-          new MockStatsItem(),
-          new MockStatsItem()
-        )
+        new MockStatsItems()
       );
       const stats8: Stats = Stats.of(
-        new MockStatsID(),
-        LanguageID.empty(),
-        RegionID.empty(),
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        new MockLanguage(),
+        new MockRegion,
         Term.DAILY,
-        new MockStatsName('stats name'),
-        new MockStatsUnit('stats unit'),
-        new MockUpdatedAt(),
         new MockStatsItems()
       );
       const stats9: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        Language.empty(),
+        Region.empty(),
         Term.DAILY,
-        StatsName.empty(),
-        new MockStatsUnit('stats unit'),
-        new MockUpdatedAt(),
-        new MockStatsItems(
-          new MockStatsItem()
-        )
-      );
-      const stats10: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
-        Term.DAILY,
-        new MockStatsName('stats name'),
-        StatsUnit.empty(),
-        new MockUpdatedAt(),
-        new MockStatsItems(
-          new MockStatsItem(),
-          new MockStatsItem()
-        )
-      );
-      const stats11: Stats = Stats.of(
-        new MockStatsID(),
-        LanguageID.empty(),
-        new MockRegionID(),
-        Term.DAILY,
-        new MockStatsName('stats name'),
-        new MockStatsUnit('stats unit'),
-        new MockUpdatedAt(),
-        new MockStatsItems()
-      );
-      const stats12: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        RegionID.empty(),
-        Term.DAILY,
-        new MockStatsName('stats name'),
-        new MockStatsUnit('stats unit'),
-        new MockUpdatedAt(),
-        new MockStatsItems(
-          new MockStatsItem(),
-          new MockStatsItem()
-        )
-      );
-      const stats13: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
-        Term.DAILY,
-        StatsName.empty(),
-        new MockStatsUnit('stats unit'),
-        new MockUpdatedAt(),
-        new MockStatsItems(
-          new MockStatsItem()
-        )
-      );
-      const stats14: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
-        Term.DAILY,
-        new MockStatsName('stats name'),
-        new MockStatsUnit('stats unit'),
-        new MockUpdatedAt(),
         new MockStatsItems()
       );
 
@@ -1981,88 +1609,81 @@ describe('Stats', () => {
       expect(stats5.isFilled()).toBe(false);
       expect(stats6.isFilled()).toBe(false);
       expect(stats7.isFilled()).toBe(false);
-      expect(stats8.isFilled()).toBe(false);
+      expect(stats8.isFilled()).toBe(true);
       expect(stats9.isFilled()).toBe(false);
-      expect(stats10.isFilled()).toBe(false);
-      expect(stats11.isFilled()).toBe(false);
-      expect(stats12.isFilled()).toBe(false);
-      expect(stats13.isFilled()).toBe(false);
-      expect(stats14.isFilled()).toBe(true);
     });
   });
 
   describe('isValid', () => {
     it('returns true if the stats is filled', () => {
       const stats1: Stats = Stats.of(
-        new MockStatsID(),
-        LanguageID.empty(),
-        RegionID.empty(),
+        new MockStatsOutline({
+          name: StatsName.empty(),
+          unit: StatsUnit.empty()
+        }),
+        Language.empty(),
+        Region.empty(),
         Term.DAILY,
-        StatsName.empty(),
-        StatsUnit.empty(),
-        new MockUpdatedAt(),
         new MockStatsItems()
       );
       const stats2: Stats = Stats.of(
-        new MockStatsID(),
-        LanguageID.empty(),
-        new MockRegionID(),
+        new MockStatsOutline({
+          name: StatsName.empty(),
+          unit: StatsUnit.empty()
+        }),
+        Language.empty(),
+        new MockRegion(),
         Term.DAILY,
-        StatsName.empty(),
-        StatsUnit.empty(),
-        new MockUpdatedAt(),
         new MockStatsItems()
       );
       const stats3: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
+        new MockStatsOutline({
+          name: StatsName.empty(),
+          unit: StatsUnit.empty()
+        }),
+        new MockLanguage(),
+        new MockRegion,
         Term.DAILY,
-        StatsName.empty(),
-        StatsUnit.empty(),
-        new MockUpdatedAt(),
         new MockStatsItems()
       );
       const stats4: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: StatsUnit.empty()
+        }),
+        new MockLanguage(),
+        new MockRegion,
         Term.DAILY,
-        new MockStatsName('stats name'),
-        StatsUnit.empty(),
-        new MockUpdatedAt(),
-        new MockStatsItems(
-          new MockStatsItem()
-        )
+        new MockStatsItems()
       );
       const stats5: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
+        new MockStatsOutline({
+          name: StatsName.empty(),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        new MockLanguage(),
+        new MockRegion,
         Term.DAILY,
-        StatsName.empty(),
-        new MockStatsUnit('stats unit'),
-        new MockUpdatedAt(),
         new MockStatsItems()
       );
       const stats6: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        new MockLanguage(),
+        new MockRegion,
         Term.DAILY,
-        new MockStatsName('stats name'),
-        new MockStatsUnit('stats unit'),
-        new MockUpdatedAt(),
         new MockStatsItems()
       );
       const stats7: Stats = Stats.of(
-        new MockStatsID(),
-        LanguageID.empty(),
-        RegionID.empty(),
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        Language.empty(),
+        Region.empty(),
         Term.DAILY,
-        new MockStatsName('stats name'),
-        new MockStatsUnit('stats unit'),
-        new MockUpdatedAt(),
         new MockStatsItems(
           new MockStatsItem(),
           new MockStatsItem({
@@ -2071,13 +1692,13 @@ describe('Stats', () => {
         )
       );
       const stats8: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        new MockLanguage(),
+        new MockRegion,
         Term.DAILY,
-        new MockStatsName('stats name'),
-        new MockStatsUnit('stats unit'),
-        new MockUpdatedAt(),
         new MockStatsItems(
           new MockStatsItem({
             name: new MockStatsItemName('ogonek')
@@ -2100,25 +1721,25 @@ describe('Stats', () => {
 
     it('stats is filled but statsItems are invalid', () => {
       const stats1: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        new MockLanguage(),
+        new MockRegion,
         Term.DAILY,
-        new MockStatsName('stats name'),
-        new MockStatsUnit('stats unit'),
-        new MockUpdatedAt(),
         new MockStatsItems(
           StatsItem.default()
         )
       );
       const stats2: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        new MockLanguage(),
+        new MockRegion,
         Term.DAILY,
-        new MockStatsName('stats name'),
-        new MockStatsUnit('stats unit'),
-        new MockUpdatedAt(),
         new MockStatsItems(
           new MockStatsItem({
             name: new MockStatsItemName('pok')
@@ -2133,23 +1754,23 @@ describe('Stats', () => {
 
     it('stats and their items are filled', () => {
       const stats1: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        new MockLanguage(),
+        new MockRegion,
         Term.DAILY,
-        new MockStatsName('stats name'),
-        new MockStatsUnit('stats unit'),
-        new MockUpdatedAt(),
         new MockStatsItems()
       );
       const stats2: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        new MockLanguage(),
+        new MockRegion,
         Term.DAILY,
-        new MockStatsName('stats name'),
-        new MockStatsUnit('stats unit'),
-        new MockUpdatedAt(),
         new MockStatsItems(
           new MockStatsItem({
             name: new MockStatsItemName('fidanzato')
@@ -2157,13 +1778,13 @@ describe('Stats', () => {
         )
       );
       const stats3: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        new MockLanguage(),
+        new MockRegion,
         Term.DAILY,
-        new MockStatsName('stats name'),
-        new MockStatsUnit('stats unit'),
-        new MockUpdatedAt(),
         new MockStatsItems(
           new MockStatsItem({
             name: new MockStatsItemName('nonna')
@@ -2185,13 +1806,13 @@ describe('Stats', () => {
       const asOf1: AsOf = AsOf.ofString('2000-01-01').get();
       const asOf2: AsOf = AsOf.ofString('2000-01-02').get();
       const stats: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        new MockLanguage(),
+        new MockRegion,
         Term.DAILY,
-        new MockStatsName(),
-        new MockStatsUnit(),
-        new MockUpdatedAt(),
         new MockStatsItems(
           new MockStatsItem({
             values: new MockStatsValues(
@@ -2227,13 +1848,13 @@ describe('Stats', () => {
       const asOf2: AsOf = AsOf.ofString('2000-01-02').get();
       const asOf3: AsOf = AsOf.ofString('2000-01-03').get();
       const stats: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        new MockLanguage(),
+        new MockRegion,
         Term.DAILY,
-        new MockStatsName(),
-        new MockStatsUnit(),
-        new MockUpdatedAt(),
         new MockStatsItems(
           new MockStatsItem({
             values: new MockStatsValues(
@@ -2272,13 +1893,13 @@ describe('Stats', () => {
       const asOf3: AsOf = AsOf.ofString('2000-01-03').get();
       const asOf4: AsOf = AsOf.ofString('2000-01-05').get();
       const stats: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        new MockLanguage(),
+        new MockRegion,
         Term.DAILY,
-        new MockStatsName(),
-        new MockStatsUnit(),
-        new MockUpdatedAt(),
         new MockStatsItems(
           new MockStatsItem({
             values: new MockStatsValues(
@@ -2331,47 +1952,38 @@ describe('Stats', () => {
 
   describe('duplicate', () => {
     it('every properties are duplicated', () => {
-      const statsID: MockStatsID = new MockStatsID();
-      const languageID: MockLanguageID = new MockLanguageID();
-      const regionID: MockRegionID = new MockRegionID();
+      const outline: MockStatsOutline = new MockStatsOutline();
+      const language: MockLanguage = new MockLanguage();
+      const region: MockRegion = new MockRegion();
       const term: MockTerm = new MockTerm();
-      const name: MockStatsName = new MockStatsName();
-      const unit: MockStatsUnit = new MockStatsUnit();
-      const updatedAt: MockUpdatedAt = new MockUpdatedAt();
 
       const stats: Stats = Stats.of(
-        statsID,
-        languageID,
-        regionID,
+        outline,
+        language,
+        region,
         term,
-        name,
-        unit,
-        updatedAt,
         StatsItems.empty()
       );
       const duplicated: Stats = stats.duplicate();
 
       expect(stats).not.toBe(duplicated);
-      expect(stats.getStatsID()).toBe(statsID);
-      expect(stats.getLanguageID()).toBe(languageID);
-      expect(stats.getRegionID()).toBe(regionID);
-      expect(stats.getTermID()).toBe(term);
-      expect(stats.getName()).toBe(name);
-      expect(stats.getUnit()).toBe(unit);
-      expect(stats.getUpdatedAt()).toBe(updatedAt);
+      expect(stats.getStatsID()).toBe(outline);
+      expect(stats.getLanguage()).toBe(language);
+      expect(stats.getRegion()).toBe(region);
+      expect(stats.getTerm()).toBe(term);
     });
   });
 
   describe('getChart', () => {
     it('chart is output for recharts', () => {
       const stats: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        new MockLanguage(),
+        new MockRegion,
         Term.DAILY,
-        new MockStatsName(),
-        new MockStatsUnit(),
-        new MockUpdatedAt(),
         new MockStatsItems(
           new MockStatsItem({
             name: new MockStatsItemName('stats1'),
@@ -2435,13 +2047,13 @@ describe('Stats', () => {
   describe('isDetermined', () => {
     it('has values , that means it already has some AsOfs', () => {
       const stats: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        new MockLanguage(),
+        new MockRegion,
         Term.DAILY,
-        new MockStatsName(),
-        new MockStatsUnit(),
-        new MockUpdatedAt(),
         new MockStatsItems(
           new MockStatsItem({
             values: new MockStatsValues(
@@ -2462,13 +2074,13 @@ describe('Stats', () => {
 
     it('even if it doesn\'t have values , if startDate is set, returns true', () => {
       const stats: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        new MockLanguage(),
+        new MockRegion,
         Term.DAILY,
-        new MockStatsName(),
-        new MockStatsUnit(),
-        new MockUpdatedAt(),
         new MockStatsItems(),
         Present.of<AsOf>(AsOf.ofString('2000-01-01').get())
       );
@@ -2478,13 +2090,13 @@ describe('Stats', () => {
 
     it('returns false if stats doesn\'t have values nor startDate', () => {
       const stats: Stats = Stats.of(
-        new MockStatsID(),
-        new MockLanguageID(),
-        new MockRegionID(),
+        new MockStatsOutline({
+          name: new MockStatsName('stats name'),
+          unit: new MockStatsUnit('stats unit')
+        }),
+        new MockLanguage(),
+        new MockRegion,
         Term.DAILY,
-        new MockStatsName(),
-        new MockStatsUnit(),
-        new MockUpdatedAt(),
         new MockStatsItems()
       );
 

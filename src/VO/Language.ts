@@ -92,7 +92,7 @@ export class Language extends ValueObject implements JSONable {
     if (!Kind.isPlainObject(n)) {
       return false;
     }
-    if (!Kind.isInteger(n.languageID)) {
+    if (!Kind.isString(n.languageID)) {
       return false;
     }
     if (!Kind.isString(n.name)) {

@@ -2,10 +2,9 @@ import { Absent, Alive, Ambiguous, Dead, Entity, Kind, Quantum, Superposition } 
 import { LanguageError } from '../Error/LanguageError';
 import { RegionError } from '../Error/RegionError';
 import { StatsError } from '../Error/StatsError';
-import { StatsIDError } from '../Error/StatsIDError';
 import { StatsItemsError } from '../Error/StatsItemsError';
+import { StatsOutlineError } from '../Error/StatsOutlineError';
 import { TermError } from '../Error/TermError';
-import { UpdatedAtError } from '../Error/UpdatedAtError';
 import { AsOf } from '../VO/AsOf';
 import { AsOfs } from '../VO/AsOfs';
 import { Column } from '../VO/Column';
@@ -65,30 +64,21 @@ export class Stats extends Entity<StatsID> {
   }
 
   public static ofJSON(json: StatsJSON): Superposition<Stats, StatsError> {
-    // TODO
-    StatsOutline.ofJSON(json);
-    return StatsID.ofString(json.statsID).match<Stats, StatsError>((statsID: StatsID) => {
+    return StatsOutline.ofJSON(json.outline).match<Stats, StatsError>((outline: StatsOutline) => {
       return Language.ofJSON(json.language).match((language: Language) => {
         return Region.ofJSON(json.region).match((region: Region) => {
-          return Term.ofString(json.termID).match<Stats, StatsError>((term: Term) => {
-            return UpdatedAt.ofString(json.updatedAt).match<Stats, StatsError>((updatedAt: UpdatedAt) => {
-              return StatsItems.ofJSON(json.items).match<Stats, StatsError>((statsItems: StatsItems) => {
-                return Alive.of<Stats, StatsError>(
-                  Stats.of(
-                    statsID,
-                    language,
-                    region,
-                    term,
-                    StatsName.of(json.name),
-                    StatsUnit.of(json.unit),
-                    updatedAt,
-                    statsItems
-                  )
-                );
-              }, (err: StatsItemsError) => {
-                return Dead.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
-              });
-            }, (err: UpdatedAtError) => {
+          return Term.ofString(json.outline.termID).match<Stats, StatsError>((term: Term) => {
+            return StatsItems.ofJSON(json.items).match<Stats, StatsError>((statsItems: StatsItems) => {
+              return Alive.of<Stats, StatsError>(
+                Stats.of(
+                  outline,
+                  language,
+                  region,
+                  term,
+                  statsItems
+                )
+              );
+            }, (err: StatsItemsError) => {
               return Dead.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
             });
           }, (err: TermError) => {
@@ -100,7 +90,7 @@ export class Stats extends Entity<StatsID> {
       }, (err: LanguageError) => {
         return Dead.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
       });
-    }, (err: StatsIDError) => {
+    }, (err: StatsOutlineError) => {
       return Dead.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
     });
   }
@@ -109,25 +99,13 @@ export class Stats extends Entity<StatsID> {
     if (!Kind.isPlainObject(n)) {
       return false;
     }
-    if (!Kind.isString(n.statsID)) {
-      return false;
-    }
-    if (!Kind.isString(n.termID)) {
+    if (!StatsOutline.isJSON(n.outline)) {
       return false;
     }
     if (!Language.isJSON(n.language)) {
       return false;
     }
     if (!Region.isJSON(n.region)) {
-      return false;
-    }
-    if (!Kind.isString(n.name)) {
-      return false;
-    }
-    if (!Kind.isString(n.unit)) {
-      return false;
-    }
-    if (!Kind.isString(n.updatedAt)) {
       return false;
     }
     if (!StatsItems.isJSON(n.items)) {
@@ -139,13 +117,10 @@ export class Stats extends Entity<StatsID> {
 
   public static default(): Stats {
     return Stats.of(
-      StatsID.generate(),
+      StatsOutline.default(),
       Language.empty(),
       Region.empty(),
       Term.DAILY,
-      StatsName.empty(),
-      StatsUnit.empty(),
-      UpdatedAt.now(),
       StatsItems.empty()
     );
   }

@@ -82,7 +82,7 @@ export class Region extends ValueObject implements JSONable {
     if (!Kind.isPlainObject(n)) {
       return false;
     }
-    if (!Kind.isInteger(n.regionID)) {
+    if (!Kind.isString(n.regionID)) {
       return false;
     }
     if (!Kind.isString(n.name)) {
