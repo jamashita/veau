@@ -2,6 +2,7 @@ type DIType = Readonly<{
   SessionAJAXCommand: symbol;
   StatsAJAXCommand: symbol;
   LocaleCacheCommand: symbol;
+  StatsKernelCommand: symbol;
   LanguageRedisCommand: symbol;
   RegionRedisCommand: symbol;
   AuthenticationMiddleware: symbol;
@@ -44,6 +45,7 @@ export const TYPE: DIType = {
   SessionAJAXCommand: Symbol('SessionAJAXCommand'),
   StatsAJAXCommand: Symbol('StatsAJAXCommand'),
   LocaleCacheCommand: Symbol('LocaleCacheCommand'),
+  StatsKernelCommand: Symbol('StatsKernelCommand'),
   LanguageRedisCommand: Symbol('LanguageRedisCommand'),
   RegionRedisCommand: Symbol('RegionRedisCommand'),
   AuthenticationMiddleware: Symbol('AuthenticationMiddleware'),

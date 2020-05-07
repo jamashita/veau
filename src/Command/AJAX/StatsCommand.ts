@@ -12,6 +12,7 @@ import {
 } from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats';
+import { StatsID } from '../../VO/StatsID';
 import { IAJAXCommand } from '../Interface/IAJAXCommand';
 import { IStatsCommand } from '../Interface/IStatsCommand';
 
@@ -38,7 +39,8 @@ export class StatsCommand implements IStatsCommand, IAJAXCommand {
     }
   }
 
-  public deleteByStatsID(): Promise<Superposition<void, DataSourceError>> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public deleteByStatsID(statsID: StatsID): Promise<Superposition<void, DataSourceError>> {
     return Promise.reject<Superposition<void, DataSourceError>>(new UnimplementedError());
   }
 }

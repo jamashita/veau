@@ -1,5 +1,6 @@
 import { Container } from 'inversify';
 import { MySQL, Redis } from 'publikum';
+import { StatsCommand as StatsKernelCommand } from '../Command/Kernel/StatsCommand';
 import { LanguageCommand as LanguageRedisCommand } from '../Command/Redis/LanguageCommand';
 import { RegionCommand as RegionRedisCommand } from '../Command/Redis/RegionCommand';
 import { AuthenticationMiddleware } from '../Controller/Middleware/AuthenticationMiddleware';
@@ -23,6 +24,7 @@ import { TYPE } from './Types';
 
 export const kernel: Container = new Container();
 
+kernel.bind<StatsKernelCommand>(TYPE.StatsKernelCommand).to(StatsKernelCommand).inSingletonScope();
 kernel.bind<LanguageRedisCommand>(TYPE.LanguageRedisCommand).to(LanguageRedisCommand).inSingletonScope();
 kernel.bind<RegionRedisCommand>(TYPE.RegionRedisCommand).to(RegionRedisCommand).inSingletonScope();
 kernel.bind<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware).to(AuthenticationMiddleware).inSingletonScope();
