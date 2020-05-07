@@ -18,6 +18,7 @@ import { RegionsError } from '../../Error/RegionsError';
 import { REDIS_REGION_KEY } from '../../Infrastructure/VeauRedis';
 import { ISO3166 } from '../../VO/ISO3166';
 import { Region, RegionJSON } from '../../VO/Region';
+import { RegionID } from '../../VO/RegionID';
 import { Regions } from '../../VO/Regions';
 import { IRedisQuery } from '../Interface/IRedisQuery';
 import { IRegionQuery } from '../Interface/IRegionQuery';
@@ -58,6 +59,11 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
 
       throw err;
     }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public find(regionID: RegionID): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {
+    return Promise.reject<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>>(new UnimplementedError());
   }
 
   public async findByISO3166(iso3166: ISO3166): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {

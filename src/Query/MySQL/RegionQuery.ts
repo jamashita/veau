@@ -6,6 +6,7 @@ import { RegionError } from '../../Error/RegionError';
 import { RegionsError } from '../../Error/RegionsError';
 import { ISO3166 } from '../../VO/ISO3166';
 import { Region, RegionRow } from '../../VO/Region';
+import { RegionID } from '../../VO/RegionID';
 import { Regions } from '../../VO/Regions';
 import { IMySQLQuery } from '../Interface/IMySQLQuery';
 import { IRegionQuery } from '../Interface/IRegionQuery';
@@ -41,6 +42,37 @@ export class RegionQuery implements IRegionQuery, IMySQLQuery {
     catch (err) {
       if (err instanceof MySQLError) {
         return Dead.of<Regions, MySQLError>(err);
+      }
+
+      throw err;
+    }
+  }
+
+  public async find(regionID: RegionID): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {
+    const query: string = `SELECT
+      R1.region_id AS regionID,
+      R1.name,
+      R1.iso3166
+      FROM regions R1
+      WHERE R1.region_id = :regionID;`;
+
+    try {
+      const regionRows: Array<RegionRow> = await this.mysql.execute<Array<RegionRow>>(
+        query,
+        {
+          regionID: regionID.get().get()
+        }
+      );
+
+      if (regionRows.length === 0) {
+        return Dead.of<Region, NoSuchElementError>(new NoSuchElementError('NO REGIONS FROM MYSQL'));
+      }
+
+      return Region.ofRow(regionRows[0]);
+    }
+    catch (err) {
+      if (err instanceof MySQLError) {
+        return Dead.of<Region, MySQLError>(err);
       }
 
       throw err;

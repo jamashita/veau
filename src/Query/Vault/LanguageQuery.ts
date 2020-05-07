@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { Alive, DataSourceError, Dead, Quantum, QuantumError, Superposition } from 'publikum';
+import { Alive, DataSourceError, Dead, Quantum, QuantumError, Superposition, UnimplementedError } from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { LanguageError } from '../../Error/LanguageError';
 import { LanguagesError } from '../../Error/LanguagesError';
@@ -7,6 +7,7 @@ import { LocaleError } from '../../Error/LocaleError';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { ISO639 } from '../../VO/ISO639';
 import { Language } from '../../VO/Language';
+import { LanguageID } from '../../VO/LanguageID';
 import { Languages } from '../../VO/Languages';
 import { Locale } from '../../VO/Locale';
 import { ILanguageQuery } from '../Interface/ILanguageQuery';
@@ -35,6 +36,11 @@ export class LanguageQuery implements ILanguageQuery, IVaultQuery {
 
       return Dead.of<Languages, DataSourceError>(err);
     });
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public find(languageID: LanguageID): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>> {
+    return Promise.reject <Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>>(new UnimplementedError());
   }
 
   public async findByISO639(iso639: ISO639): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>> {

@@ -9,7 +9,8 @@ import {
   Nullable,
   Quantum,
   RedisError,
-  Superposition
+  Superposition,
+  UnimplementedError
 } from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { LanguageError } from '../../Error/LanguageError';
@@ -18,6 +19,7 @@ import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { REDIS_LANGUAGE_KEY } from '../../Infrastructure/VeauRedis';
 import { ISO639 } from '../../VO/ISO639';
 import { Language, LanguageJSON } from '../../VO/Language';
+import { LanguageID } from '../../VO/LanguageID';
 import { Languages } from '../../VO/Languages';
 import { ILanguageQuery } from '../Interface/ILanguageQuery';
 import { IRedisQuery } from '../Interface/IRedisQuery';
@@ -58,6 +60,11 @@ export class LanguageQuery implements ILanguageQuery, IRedisQuery {
 
       throw err;
     }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public find(languageID: LanguageID): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>> {
+    return Promise.reject <Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>>(new UnimplementedError());
   }
 
   public async findByISO639(iso639: ISO639): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>> {

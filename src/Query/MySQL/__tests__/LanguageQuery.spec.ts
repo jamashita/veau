@@ -8,7 +8,9 @@ import { LanguagesError } from '../../../Error/LanguagesError';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
 import { ISO639 } from '../../../VO/ISO639';
 import { Language, LanguageRow } from '../../../VO/Language';
+import { LanguageID } from '../../../VO/LanguageID';
 import { Languages } from '../../../VO/Languages';
+import { MockLanguageID } from '../../../VO/Mock/MockLanguageID';
 import { LanguageQuery } from '../LanguageQuery';
 
 describe('LanguageQuery', () => {
@@ -120,6 +122,106 @@ describe('LanguageQuery', () => {
 
       const languageQuery: LanguageQuery = new LanguageQuery(mysql);
       await expect(languageQuery.all()).rejects.toThrow(MockError);
+    });
+  });
+
+  describe('find', () => {
+    it('normal case', async () => {
+      const uuid: UUID = UUID.v4();
+      const rows: Array<LanguageRow> = [
+        {
+          languageID: uuid.get(),
+          name: 'Afaraf',
+          englishName: 'Afar',
+          iso639: 'aa'
+        }
+      ];
+
+      const mysql: MockMySQL = new MockMySQL();
+      const stub: SinonStub = sinon.stub();
+      mysql.execute = stub;
+      stub.resolves(rows);
+
+      const languageQuery: LanguageQuery = new LanguageQuery(mysql);
+      const superposition: Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.find(
+        LanguageID.of(uuid)
+      );
+
+      expect(stub.withArgs(`SELECT
+      R1.language_id AS languageID,
+      R1.name,
+      R1.english_name AS englishName,
+      R1.iso639
+      FROM languages R1
+      WHERE R1.language_id = :languageID;`, {
+        iso639: 'aa'
+      }).called).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
+      const language: Language = superposition.get();
+      expect(language.getLanguageID().get().get()).toBe(rows[0].languageID);
+      expect(language.getName().get()).toBe(rows[0].name);
+      expect(language.getEnglishName().get()).toBe(rows[0].englishName);
+      expect(language.getISO639().get()).toBe(rows[0].iso639);
+    });
+
+    it('returns Dead because MySQL returns 0 results', async () => {
+      const mysql: MockMySQL = new MockMySQL();
+      const stub: SinonStub = sinon.stub();
+      mysql.execute = stub;
+      stub.resolves([]);
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const languageQuery: LanguageQuery = new LanguageQuery(mysql);
+      const superposition: Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.find(
+        new MockLanguageID()
+      );
+
+      expect(superposition.isDead()).toBe(true);
+      superposition.match<void>(() => {
+        spy1();
+      }, (err: LanguageError | NoSuchElementError | DataSourceError) => {
+        spy2();
+        expect(err).toBeInstanceOf(NoSuchElementError);
+      });
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+    });
+
+    it('returns Dead because the client throws MySQLError', async () => {
+      const mysql: MockMySQL = new MockMySQL();
+      const stub: SinonStub = sinon.stub();
+      mysql.execute = stub;
+      stub.rejects(new MySQLError('test faied'));
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const languageQuery: LanguageQuery = new LanguageQuery(mysql);
+      const superposition: Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.find(
+        new MockLanguageID()
+      );
+
+      expect(superposition.isDead()).toBe(true);
+      superposition.match<void>(() => {
+        spy1();
+      }, (err: LanguageError | NoSuchElementError | DataSourceError) => {
+        spy2();
+        expect(err).toBeInstanceOf(MySQLError);
+      });
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+    });
+
+    it('throws Error', async () => {
+      const mysql: MockMySQL = new MockMySQL();
+      const stub: SinonStub = sinon.stub();
+      mysql.execute = stub;
+      stub.rejects(new MockError());
+
+      const languageQuery: LanguageQuery = new LanguageQuery(mysql);
+      await expect(languageQuery.findByISO639(ISO639.of('aa'))).rejects.toThrow(MockError);
     });
   });
 

@@ -8,6 +8,7 @@ import { RegionsError } from '../../Error/RegionsError';
 import { ISO3166 } from '../../VO/ISO3166';
 import { Locale } from '../../VO/Locale';
 import { Region } from '../../VO/Region';
+import { RegionID } from '../../VO/RegionID';
 import { Regions } from '../../VO/Regions';
 import { ILocaleQuery } from '../Interface/ILocaleQuery';
 import { IRegionQuery } from '../Interface/IRegionQuery';
@@ -35,6 +36,11 @@ export class RegionQuery implements IRegionQuery, IVaultQuery {
 
       return Dead.of<Regions, DataSourceError>(err);
     });
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public find(regionID: RegionID): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {
+    return Promise.reject<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>>(new UnimplementedError());
   }
 
   public async findByISO3166(iso3166: ISO3166): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {

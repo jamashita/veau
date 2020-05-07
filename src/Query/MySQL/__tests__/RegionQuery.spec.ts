@@ -7,7 +7,9 @@ import { NoSuchElementError } from '../../../Error/NoSuchElementError';
 import { RegionError } from '../../../Error/RegionError';
 import { RegionsError } from '../../../Error/RegionsError';
 import { ISO3166 } from '../../../VO/ISO3166';
+import { MockRegionID } from '../../../VO/Mock/MockRegionID';
 import { Region, RegionRow } from '../../../VO/Region';
+import { RegionID } from '../../../VO/RegionID';
 import { Regions } from '../../../VO/Regions';
 import { RegionQuery } from '../RegionQuery';
 
@@ -116,6 +118,103 @@ describe('RegionQuery', () => {
 
       const regionQuery: RegionQuery = new RegionQuery(mysql);
       await expect(regionQuery.all()).rejects.toThrow(MockError);
+    });
+  });
+
+  describe('find', () => {
+    it('normal case', async () => {
+      const uuid: UUID = UUID.v4();
+      const rows: Array<RegionRow> = [
+        {
+          regionID: uuid.get(),
+          name: 'Albania',
+          iso3166: 'ALB'
+        }
+      ];
+
+      const mysql: MockMySQL = new MockMySQL();
+      const stub: SinonStub = sinon.stub();
+      mysql.execute = stub;
+      stub.resolves(rows);
+
+      const regionQuery: RegionQuery = new RegionQuery(mysql);
+      const superposition: Superposition<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.find(
+        RegionID.of(uuid)
+      );
+
+      expect(stub.withArgs(`SELECT
+      R1.region_id AS regionID,
+      R1.name,
+      R1.iso3166
+      FROM regions R1
+      WHERE R1.region_id = :regionID;`, {
+        regionID: uuid.get()
+      }).called).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
+      const region: Region = superposition.get();
+      expect(region.getRegionID().get().get()).toBe(rows[0].regionID);
+      expect(region.getName().get()).toBe(rows[0].name);
+      expect(region.getISO3166().get()).toBe(rows[0].iso3166);
+    });
+
+    it('returns Dead because MySQL returns 0 results', async () => {
+      const mysql: MockMySQL = new MockMySQL();
+      const stub: SinonStub = sinon.stub();
+      mysql.execute = stub;
+      stub.resolves([]);
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const regionQuery: RegionQuery = new RegionQuery(mysql);
+      const superposition: Superposition<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.find(
+        new MockRegionID()
+      );
+
+      expect(superposition.isDead()).toBe(true);
+      superposition.match<void>(() => {
+        spy1();
+      }, (err: RegionError | NoSuchElementError | DataSourceError) => {
+        spy2();
+        expect(err).toBeInstanceOf(NoSuchElementError);
+      });
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+    });
+
+    it('returns Dead because the client throws MySQLError', async () => {
+      const mysql: MockMySQL = new MockMySQL();
+      const stub: SinonStub = sinon.stub();
+      mysql.execute = stub;
+      stub.rejects(new MySQLError('test faied'));
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const regionQuery: RegionQuery = new RegionQuery(mysql);
+      const superposition: Superposition<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.find(
+        new MockRegionID()
+      );
+
+      expect(superposition.isDead()).toBe(true);
+      superposition.match<void>(() => {
+        spy1();
+      }, (err: RegionError | NoSuchElementError | DataSourceError) => {
+        spy2();
+        expect(err).toBeInstanceOf(MySQLError);
+      });
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+    });
+
+    it('throws Error', async () => {
+      const mysql: MockMySQL = new MockMySQL();
+      const stub: SinonStub = sinon.stub();
+      mysql.execute = stub;
+      stub.rejects(new MockError());
+
+      const regionQuery: RegionQuery = new RegionQuery(mysql);
+      await expect(regionQuery.find(new MockRegionID())).rejects.toThrow(MockError);
     });
   });
 

@@ -6,6 +6,7 @@ import { LanguagesError } from '../../Error/LanguagesError';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { ISO639 } from '../../VO/ISO639';
 import { Language, LanguageRow } from '../../VO/Language';
+import { LanguageID } from '../../VO/LanguageID';
 import { Languages } from '../../VO/Languages';
 import { ILanguageQuery } from '../Interface/ILanguageQuery';
 import { IMySQLQuery } from '../Interface/IMySQLQuery';
@@ -48,6 +49,38 @@ export class LanguageQuery implements ILanguageQuery, IMySQLQuery {
     }
   }
 
+  public async find(languageID: LanguageID): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>> {
+    const query: string = `SELECT
+      R1.language_id AS languageID,
+      R1.name,
+      R1.english_name AS englishName,
+      R1.iso639
+      FROM languages R1
+      WHERE R1.language_id = :languageID;`;
+
+    try {
+      const languageRows: Array<LanguageRow> = await this.mysql.execute<Array<LanguageRow>>(
+        query,
+        {
+          languageID: languageID.get().get()
+        }
+      );
+
+      if (languageRows.length === 0) {
+        return Dead.of<Language, NoSuchElementError>(new NoSuchElementError('NO LANGUAGES FROM MYSQL'));
+      }
+
+      return Language.ofRow(languageRows[0]);
+    }
+    catch (err) {
+      if (err instanceof MySQLError) {
+        return Dead.of<Language, MySQLError>(err);
+      }
+
+      throw err;
+    }
+  }
+
   public async findByISO639(iso639: ISO639): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>> {
     const query: string = `SELECT
       R1.language_id AS languageID,
@@ -66,7 +99,7 @@ export class LanguageQuery implements ILanguageQuery, IMySQLQuery {
       );
 
       if (languageRows.length === 0) {
-        return Dead.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.get()));
+        return Dead.of<Language, NoSuchElementError>(new NoSuchElementError('NO LANGUAGES FROM MYSQL'));
       }
 
       return Language.ofRow(languageRows[0]);
