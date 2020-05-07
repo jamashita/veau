@@ -145,7 +145,7 @@ describe('Region', () => {
   describe('isJSON', () => {
     it('normal case', () => {
       const n: unknown = {
-        regionID: 3,
+        regionID: 'to to',
         name: 'Albania',
         iso3166: 'ALB'
       };
@@ -170,9 +170,9 @@ describe('Region', () => {
       expect(Region.isJSON(n)).toBe(false);
     });
 
-    it('returns false because regionID is not number', () => {
+    it('returns false because regionID is not string', () => {
       const n: unknown = {
-        regionID: 'to to',
+        regionID: 2,
         name: 'Albania',
         iso3166: 'ALB'
       };
@@ -182,7 +182,7 @@ describe('Region', () => {
 
     it('returns false because name is missing', () => {
       const n: unknown = {
-        regionID: 3,
+        regionID: 'to to',
         iso3166: 'ALB'
       };
 
@@ -191,7 +191,7 @@ describe('Region', () => {
 
     it('returns false because name is not string', () => {
       const n: unknown = {
-        regionID: 3,
+        regionID: 'to to',
         name: true,
         iso3166: 'ALB'
       };
@@ -201,7 +201,7 @@ describe('Region', () => {
 
     it('returns false because iso3166 is missing', () => {
       const n: unknown = {
-        regionID: 3,
+        regionID: 'to to',
         name: 'Albania'
       };
 
@@ -210,7 +210,7 @@ describe('Region', () => {
 
     it('returns false because iso3166 is not string', () => {
       const n: unknown = {
-        regionID: 3,
+        regionID: 'to to',
         name: 'Albania',
         iso3166: -5
       };
