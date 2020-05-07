@@ -10,6 +10,7 @@ import { RegionID } from './RegionID';
 import { StatsID } from './StatsID';
 import { StatsName } from './StatsName';
 import { StatsUnit } from './StatsUnit';
+import { Term } from './Term';
 import { TermID } from './TermID';
 import { UpdatedAt } from './UpdatedAt';
 
@@ -128,6 +129,18 @@ export class StatsOutline extends ValueObject implements Cloneable<StatsOutline>
     }, (err: StatsIDError) => {
       return Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofRow()', err));
     });
+  }
+
+  public static default(): StatsOutline {
+    return StatsOutline.of(
+      StatsID.generate(),
+      LanguageID.empty(),
+      RegionID.empty(),
+      Term.DAILY.getTermID(),
+      StatsName.empty(),
+      StatsUnit.empty(),
+      UpdatedAt.now()
+    );
   }
 
   protected constructor(

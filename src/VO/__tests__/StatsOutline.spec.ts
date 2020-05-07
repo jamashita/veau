@@ -14,6 +14,7 @@ import { StatsID } from '../StatsID';
 import { StatsName } from '../StatsName';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from '../StatsOutline';
 import { StatsUnit } from '../StatsUnit';
+import { Term } from '../Term';
 import { TermID } from '../TermID';
 import { UpdatedAt } from '../UpdatedAt';
 
@@ -377,6 +378,18 @@ describe('StatsOutline', () => {
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
+    });
+  });
+
+  describe('default', () => {
+    it('id will be generated, data are empty', () => {
+      const outline: StatsOutline = StatsOutline.default();
+      expect(outline.getStatsID().get().get().length).toBe(UUID.size());
+      expect(outline.getLanguageID()).toBe(LanguageID.empty());
+      expect(outline.getRegionID()).toBe(RegionID.empty());
+      expect(outline.getTermID()).toBe(Term.DAILY.getTermID());
+      expect(outline.getName()).toBe(StatsName.empty());
+      expect(outline.getUnit()).toBe(StatsUnit.empty());
     });
   });
 
