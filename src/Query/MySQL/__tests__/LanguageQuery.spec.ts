@@ -154,7 +154,7 @@ describe('LanguageQuery', () => {
       R1.iso639
       FROM languages R1
       WHERE R1.language_id = :languageID;`, {
-        iso639: 'aa'
+        languageID: uuid.get()
       }).called).toBe(true);
       expect(superposition.isAlive()).toBe(true);
       const language: Language = superposition.get();

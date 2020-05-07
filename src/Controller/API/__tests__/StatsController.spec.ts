@@ -17,6 +17,7 @@ import { MockStatsOutline } from '../../../VO/Mock/MockStatsOutline';
 import { MockStatsOutlines } from '../../../VO/Mock/MockStatsOutlines';
 import { MockVeauAccount } from '../../../VO/Mock/MockVeauAccount';
 import { StatsOutlines } from '../../../VO/StatsOutlines';
+import { Term } from '../../../VO/Term';
 import { StatsController } from '../StatsController';
 
 describe('StatsController', () => {
@@ -123,7 +124,11 @@ describe('StatsController', () => {
 
   describe('POST /', () => {
     it('normal case', async () => {
-      const stats: MockStats = new MockStats();
+      const stats: MockStats = new MockStats({
+        outline: new MockStatsOutline({
+          termID: Term.ANNUAL.getTermID()
+        })
+      });
 
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
       const stub: SinonStub = sinon.stub();
@@ -215,7 +220,11 @@ describe('StatsController', () => {
     });
 
     it('replies INTERNAL_SERVER_ERROR', async () => {
-      const stats: MockStats = new MockStats();
+      const stats: MockStats = new MockStats({
+        outline: new MockStatsOutline({
+          termID: Term.ANNUAL.getTermID()
+        })
+      });
 
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
       const stub: SinonStub = sinon.stub();

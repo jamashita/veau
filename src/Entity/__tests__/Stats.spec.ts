@@ -765,6 +765,9 @@ describe('Stats', () => {
       const stats1: Stats = Stats.of(
         new MockStatsOutline({
           statsID: new MockStatsID(uuid1),
+          languageID: new MockLanguageID(uuid3),
+          regionID: new MockRegionID(uuid5),
+          termID: new MockTermID(uuid7),
           updatedAt: new MockUpdatedAt({
             day: 1
           })
@@ -783,6 +786,9 @@ describe('Stats', () => {
       const stats2: Stats = Stats.of(
         new MockStatsOutline({
           statsID: new MockStatsID(uuid2),
+          languageID: new MockLanguageID(uuid3),
+          regionID: new MockRegionID(uuid5),
+          termID: new MockTermID(uuid7),
           updatedAt: new MockUpdatedAt({
             day: 1
           })
@@ -801,6 +807,9 @@ describe('Stats', () => {
       const stats3: Stats = Stats.of(
         new MockStatsOutline({
           statsID: new MockStatsID(uuid1),
+          languageID: new MockLanguageID(uuid3),
+          regionID: new MockRegionID(uuid5),
+          termID: new MockTermID(uuid7),
           updatedAt: new MockUpdatedAt({
             day: 2
           })
@@ -819,6 +828,9 @@ describe('Stats', () => {
       const stats4: Stats = Stats.of(
         new MockStatsOutline({
           statsID: new MockStatsID(uuid1),
+          languageID: new MockLanguageID(uuid4),
+          regionID: new MockRegionID(uuid5),
+          termID: new MockTermID(uuid7),
           updatedAt: new MockUpdatedAt({
             day: 1
           })
@@ -837,6 +849,9 @@ describe('Stats', () => {
       const stats5: Stats = Stats.of(
         new MockStatsOutline({
           statsID: new MockStatsID(uuid1),
+          languageID: new MockLanguageID(uuid3),
+          regionID: new MockRegionID(uuid6),
+          termID: new MockTermID(uuid7),
           updatedAt: new MockUpdatedAt({
             day: 1
           })
@@ -855,6 +870,9 @@ describe('Stats', () => {
       const stats6: Stats = Stats.of(
         new MockStatsOutline({
           statsID: new MockStatsID(uuid1),
+          languageID: new MockLanguageID(uuid3),
+          regionID: new MockRegionID(uuid5),
+          termID: new MockTermID(uuid8),
           updatedAt: new MockUpdatedAt({
             day: 1
           })
@@ -873,6 +891,9 @@ describe('Stats', () => {
       const stats7: Stats = Stats.of(
         new MockStatsOutline({
           statsID: new MockStatsID(uuid1),
+          languageID: new MockLanguageID(uuid3),
+          regionID: new MockRegionID(uuid5),
+          termID: new MockTermID(uuid7),
           updatedAt: new MockUpdatedAt({
             day: 1
           })
@@ -893,6 +914,9 @@ describe('Stats', () => {
       const stats8: Stats = Stats.of(
         new MockStatsOutline({
           statsID: new MockStatsID(uuid1),
+          languageID: new MockLanguageID(uuid3),
+          regionID: new MockRegionID(uuid5),
+          termID: new MockTermID(uuid7),
           updatedAt: new MockUpdatedAt({
             day: 1
           })
@@ -981,7 +1005,7 @@ describe('Stats', () => {
           iso639
         },
         region: {
-          regionID: uuid2.get(),
+          regionID: uuid3.get(),
           name: regionName,
           iso3166
         },
@@ -1034,7 +1058,7 @@ describe('Stats', () => {
         new MockStatsItems()
       );
 
-      expect(stats.toString()).toBe(`${uuid1.get()} ${uuid2.get()} ${uuid3.get()} ${uuid4.get()} ${name} ${unit} 2000-01-01 01:02:03 ${uuid2.get()} ${languageName} ${englishLanguage} ${iso639} ${uuid3.get()} ${regionName} ${iso3166} ${uuid4.get()} ${key} `);
+      expect(stats.toString()).toBe(`${uuid1.get()} ${uuid2.get()} ${uuid3.get()} ${uuid4.get()} ${name} ${unit} 2000-01-01 01:02:03 ${uuid2.get()} ${languageName} ${englishLanguage} ${iso639} ${uuid3.get()} ${regionName} ${iso3166} ${uuid4.get()} ${key}`);
     });
   });
 
@@ -1967,7 +1991,10 @@ describe('Stats', () => {
       const duplicated: Stats = stats.duplicate();
 
       expect(stats).not.toBe(duplicated);
-      expect(stats.getStatsID()).toBe(outline);
+      expect(stats.getStatsID()).toBe(outline.getStatsID());
+      expect(stats.getName()).toBe(outline.getName());
+      expect(stats.getUnit()).toBe(outline.getUnit());
+      expect(stats.getUpdatedAt()).toBe(outline.getUpdatedAt());
       expect(stats.getLanguage()).toBe(language);
       expect(stats.getRegion()).toBe(region);
       expect(stats.getTerm()).toBe(term);
