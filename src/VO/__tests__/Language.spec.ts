@@ -180,7 +180,7 @@ describe('Language', () => {
   describe('isJSON', () => {
     it('normal case', () => {
       const n: unknown = {
-        languageID: 2,
+        languageID: 'tis tis',
         name: 'Afaraf',
         englishName: 'Afar',
         iso639: 'aa'
@@ -207,9 +207,9 @@ describe('Language', () => {
       expect(Language.isJSON(n)).toBe(false);
     });
 
-    it('returns false because languageID is not number', () => {
+    it('returns false because languageID is not string', () => {
       const n: unknown = {
-        languageID: 'tis tis',
+        languageID: 1,
         name: 'Afaraf',
         englishName: 'Afar',
         iso639: 'aa'
@@ -220,7 +220,7 @@ describe('Language', () => {
 
     it('returns false because name is missing', () => {
       const n: unknown = {
-        languageID: 2,
+        languageID: 'tis tis',
         englishName: 'Afar',
         iso639: 'aa'
       };
@@ -230,7 +230,7 @@ describe('Language', () => {
 
     it('returns false because name is not string', () => {
       const n: unknown = {
-        languageID: 2,
+        languageID: 'tis tis',
         name: false,
         englishName: 'Afar',
         iso639: 'aa'
@@ -241,7 +241,7 @@ describe('Language', () => {
 
     it('returns false because englishName is missing', () => {
       const n: unknown = {
-        languageID: 2,
+        languageID: 'tis tis',
         name: 'Afaraf',
         iso639: 'aa'
       };
@@ -251,7 +251,7 @@ describe('Language', () => {
 
     it('returns false because englishName is not string', () => {
       const n: unknown = {
-        languageID: 2,
+        languageID: 'tis tis',
         name: 'Afaraf',
         englishName: true,
         iso639: 'aa'
@@ -262,7 +262,7 @@ describe('Language', () => {
 
     it('returns false because iso639 is missing', () => {
       const n: unknown = {
-        languageID: 2,
+        languageID: 'tis tis',
         name: 'Afaraf',
         englishName: 'Afar'
       };
@@ -272,7 +272,7 @@ describe('Language', () => {
 
     it('returns false because iso639 is not string', () => {
       const n: unknown = {
-        languageID: 2,
+        languageID: 'tis tis',
         name: 'Afaraf',
         englishName: 'Afar',
         iso639: 100
