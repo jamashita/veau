@@ -72,21 +72,43 @@ export class StatsQuery implements IStatsQuery, IKernelQuery {
               return Dead.of<Stats, StatsError | NoSuchElementError | DataSourceError>(new StatsError('StatsQuery.findByStatsID()', err));
             });
           }, (err: RegionError | NoSuchElementError | DataSourceError) => {
-            return Dead.of<Stats, StatsError | NoSuchElementError | DataSourceError>(new StatsError('StatsQuery.findByStatsID()', err));
+            if (err instanceof RegionError) {
+              return Dead.of<Stats, StatsError>(new StatsError('StatsQuery.findByStatsID()', err));
+            }
+
+            return Dead.of<Stats, NoSuchElementError | DataSourceError>(err);
           });
         }, (err: LanguageError | NoSuchElementError | DataSourceError) => {
-          return Promise.resolve<Superposition<Stats, StatsError | NoSuchElementError | DataSourceError>>(
-            Dead.of<Stats, StatsError | NoSuchElementError | DataSourceError>(new StatsError('StatsQuery.findByStatsID()', err))
+          if (err instanceof LanguageError) {
+            return Promise.resolve<Superposition<Stats, StatsError>>(
+              Dead.of<Stats, StatsError>(new StatsError('StatsQuery.findByStatsID()', err))
+            );
+          }
+
+          return Promise.resolve<Superposition<Stats, NoSuchElementError | DataSourceError>>(
+            Dead.of<Stats, NoSuchElementError | DataSourceError>(err)
           );
         });
       }, (err: StatsItemsError | DataSourceError) => {
-        return Promise.resolve<Superposition<Stats, StatsError | NoSuchElementError | DataSourceError>>(
-          Dead.of<Stats, StatsError | NoSuchElementError | DataSourceError>(new StatsError('StatsQuery.findByStatsID()', err))
+        if (err instanceof StatsItemsError) {
+          return Promise.resolve<Superposition<Stats, StatsError>>(
+            Dead.of<Stats, StatsError>(new StatsError('StatsQuery.findByStatsID()', err))
+          );
+        }
+
+        return Promise.resolve<Superposition<Stats, NoSuchElementError | DataSourceError>>(
+          Dead.of<Stats, NoSuchElementError | DataSourceError>(err)
         );
       });
     }, (err: StatsOutlineError | NoSuchElementError | DataSourceError) => {
-      return Promise.resolve<Superposition<Stats, StatsError | NoSuchElementError | DataSourceError>>(
-        Dead.of<Stats, StatsError | NoSuchElementError | DataSourceError>(new StatsError('StatsQuery.findByStatsID()', err))
+      if (err instanceof StatsOutlineError) {
+        return Promise.resolve<Superposition<Stats, StatsError>>(
+          Dead.of<Stats, StatsError>(new StatsError('StatsQuery.findByStatsID()', err))
+        );
+      }
+
+      return Promise.resolve<Superposition<Stats, NoSuchElementError | DataSourceError>>(
+        Dead.of<Stats, NoSuchElementError | DataSourceError>(err)
       );
     });
   }
