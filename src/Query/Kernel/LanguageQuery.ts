@@ -54,7 +54,7 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public find(languageID: LanguageID): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>> {
-    return Promise.reject <Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>>(new UnimplementedError());
+    return Promise.reject<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>>(new UnimplementedError());
   }
 
   public async findByISO639(iso639: ISO639): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>> {
