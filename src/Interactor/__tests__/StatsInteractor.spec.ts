@@ -1,6 +1,6 @@
-import { Alive, DataSourceError, Dead, MockMySQL, Superposition } from 'publikum';
+import { Alive, DataSourceError, Superposition } from 'publikum';
 import 'reflect-metadata';
-import sinon, { SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 import { MockStatsCommand } from '../../Command/Mock/MockStatsCommand';
 import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
@@ -34,9 +34,8 @@ describe('StatsInteractor', () => {
       const statsID: MockStatsID = new MockStatsID();
       const stats: MockStats = new MockStats();
 
-      const mysql: MockMySQL = new MockMySQL();
-      const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const statsQuery: MockStatsQuery = new MockStatsQuery();
+      const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const statsCommand: MockStatsCommand = new MockStatsCommand();
       const stub: SinonStub = sinon.stub();
       statsQuery.findByStatsID = stub;
@@ -52,68 +51,6 @@ describe('StatsInteractor', () => {
       expect(superposition.isAlive()).toBe(true);
       expect(superposition.get().equals(stats)).toBe(true);
     });
-
-    it('returns Dead when StatsQuery.findByStatsID throws NoSuchElementError', async () => {
-      const statsID: MockStatsID = new MockStatsID();
-
-      const mysql: MockMySQL = new MockMySQL();
-      const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
-      const statsQuery: MockStatsQuery = new MockStatsQuery();
-      const statsCommand: MockStatsCommand = new MockStatsCommand();
-      const stub: SinonStub = sinon.stub();
-      statsQuery.findByStatsID = stub;
-      stub.resolves(Dead.of<Stats, NoSuchElementError>(new NoSuchElementError('test failed')));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
-      const statsInteractor: StatsInteractor = new StatsInteractor(
-        statsQuery,
-        statsOutlineQuery,
-        statsCommand
-      );
-      const superposition: Superposition<Stats, NoSuchElementError | StatsError | DataSourceError> = await statsInteractor.findByStatsID(statsID);
-
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: NoSuchElementError | StatsError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(NoSuchElementError);
-      });
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
-    });
-
-    it('returns Dead when StatsQuery.findByStatsID returns Dead<Stats, StatsError>', async () => {
-      const statsID: MockStatsID = new MockStatsID();
-
-      const mysql: MockMySQL = new MockMySQL();
-      const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
-      const statsQuery: MockStatsQuery = new MockStatsQuery();
-      const statsCommand: MockStatsCommand = new MockStatsCommand();
-      const stub: SinonStub = sinon.stub();
-      statsQuery.findByStatsID = stub;
-      stub.resolves(Dead.of<Stats, StatsError>(new StatsError('test failed')));
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
-      const statsInteractor: StatsInteractor = new StatsInteractor(
-        statsQuery,
-        statsOutlineQuery,
-        statsCommand
-      );
-      const superposition: Superposition<Stats, NoSuchElementError | StatsError | DataSourceError> = await statsInteractor.findByStatsID(statsID);
-
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: NoSuchElementError | StatsError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsError);
-      });
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
-    });
   });
 
   describe('findByVeauAccountID', () => {
@@ -122,9 +59,8 @@ describe('StatsInteractor', () => {
       const page: MockPage = new MockPage();
       const outlines: MockStatsOutlines = new MockStatsOutlines();
 
-      const mysql: MockMySQL = new MockMySQL();
-      const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const statsQuery: MockStatsQuery = new MockStatsQuery();
+      const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const statsCommand: MockStatsCommand = new MockStatsCommand();
       const stub: SinonStub = sinon.stub();
       statsOutlineQuery.findByVeauAccountID = stub;
@@ -149,9 +85,8 @@ describe('StatsInteractor', () => {
       const accountID: MockVeauAccountID = new MockVeauAccountID();
       const stats: MockStats = new MockStats();
 
-      const mysql: MockMySQL = new MockMySQL();
-      const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const statsQuery: MockStatsQuery = new MockStatsQuery();
+      const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const statsCommand: MockStatsCommand = new MockStatsCommand();
       const stub: SinonStub = sinon.stub();
       statsCommand.create = stub;
