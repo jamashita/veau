@@ -38,7 +38,7 @@ export class StatsInteractor implements Noun {
     return this.statsOutlineQuery.findByVeauAccountID(veauAccountID, page);
   }
 
-  public save(stats: Stats, veauAccountID: VeauAccountID): Promise<Superposition<unknown, DataSourceError>> {
+  public save(stats: Stats, veauAccountID: VeauAccountID): Promise<Superposition<void, DataSourceError>> {
     return this.statsCommand.create(stats, veauAccountID);
   }
 }

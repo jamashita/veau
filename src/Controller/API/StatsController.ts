@@ -46,7 +46,7 @@ router.get('/page/:page(\\d+)', authenticationMiddleware.requires(), (req: expre
 router.get('/:statsID([0-9a-f\-]{36})', async (req: express.Request, res: express.Response) => {
   const statsID: StatsID = StatsID.ofString(req.params.statsID).get();
 
-  const superposition: Superposition<JSONable, NoSuchElementError | StatsError | DataSourceError> = await statsInteractor.findByStatsID(statsID);
+  const superposition: Superposition<JSONable, StatsError | NoSuchElementError | DataSourceError> = await statsInteractor.findByStatsID(statsID);
 
   superposition.match<void>((stats: JSONable) => {
     res.status(OK).send(stats.toJSON());
@@ -71,7 +71,7 @@ router.post('/', authenticationMiddleware.requires(), (req: express.Request, res
   }
 
   return Stats.ofJSON(req.body).match<void>(async (stats: Stats) => {
-    const superposition: Superposition<unknown, DataSourceError> = await statsInteractor.save(
+    const superposition: Superposition<void, DataSourceError> = await statsInteractor.save(
       stats,
       res.locals.account.getVeauAccountID()
     );
@@ -81,7 +81,7 @@ router.post('/', authenticationMiddleware.requires(), (req: express.Request, res
     }, (err: DataSourceError) => {
       logger.warn(err);
 
-      res.sendStatus(BAD_REQUEST);
+      res.sendStatus(INTERNAL_SERVER_ERROR);
     });
   }, (err: StatsError) => {
     logger.warn(err);
