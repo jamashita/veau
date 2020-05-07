@@ -1,4 +1,4 @@
-import { Alive, DataSourceError, Dead, MySQLError, Superposition, UUID } from 'publikum';
+import { Alive, DataSourceError, Dead, Superposition, UUID } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
@@ -252,7 +252,7 @@ describe('StatsQuery', () => {
         spy1();
       }, (err: StatsError | NoSuchElementError | DataSourceError) => {
         spy2();
-        expect(err).toBeInstanceOf(MySQLError);
+        expect(err).toBeInstanceOf(StatsError);
       });
 
       expect(spy1.called).toBe(false);
@@ -301,7 +301,7 @@ describe('StatsQuery', () => {
         spy1();
       }, (err: StatsError | NoSuchElementError | DataSourceError) => {
         spy2();
-        expect(err).toBeInstanceOf(MySQLError);
+        expect(err).toBeInstanceOf(StatsError);
       });
 
       expect(spy1.called).toBe(false);
