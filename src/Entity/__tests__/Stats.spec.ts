@@ -63,7 +63,7 @@ describe('Stats', () => {
       expect(stats.getStatsID()).toBe(statsID);
       expect(stats.getLanguageID()).toBe(languageID);
       expect(stats.getRegionID()).toBe(regionID);
-      expect(stats.getTerm()).toBe(term);
+      expect(stats.getTermID()).toBe(term);
       expect(stats.getName()).toBe(name);
       expect(stats.getUnit()).toBe(unit);
       expect(stats.getUpdatedAt()).toBe(updatedAt);
@@ -117,7 +117,7 @@ describe('Stats', () => {
       expect(stats.getStatsID().get().get()).toBe(json.statsID);
       expect(stats.getLanguageID().get().get()).toBe(json.languageID);
       expect(stats.getRegionID().get().get()).toBe(json.regionID);
-      expect(stats.getTerm().getID()).toBe(json.termID);
+      expect(stats.getTermID().getTermID()).toBe(json.termID);
       expect(stats.getName().get()).toBe(json.name);
       expect(stats.getUnit().get()).toBe(json.unit);
       expect(stats.getUpdatedAt().toString()).toBe(json.updatedAt);
@@ -160,7 +160,7 @@ describe('Stats', () => {
       expect(stats.getStatsID().get().get()).toBe(row.statsID);
       expect(stats.getLanguageID().get().get()).toBe(row.languageID);
       expect(stats.getRegionID().get().get()).toBe(row.regionID);
-      expect(stats.getTerm().getID()).toBe(row.termID);
+      expect(stats.getTermID().getTermID()).toBe(row.termID);
       expect(stats.getName().get()).toBe(row.name);
       expect(stats.getUnit().get()).toBe(row.unit);
       expect(stats.getUpdatedAt().toString()).toBe(row.updatedAt);
@@ -841,7 +841,7 @@ describe('Stats', () => {
       expect(stats.getStatsID().get().get().length).toBe(UUID.size());
       expect(stats.getLanguageID()).toBe(LanguageID.empty());
       expect(stats.getRegionID()).toBe(RegionID.empty());
-      expect(stats.getTerm()).toBe(Term.DAILY);
+      expect(stats.getTermID()).toBe(Term.DAILY);
       expect(stats.getName()).toBe(StatsName.empty());
       expect(stats.getUnit()).toBe(StatsUnit.empty());
       expect(stats.getItems()).toBe(StatsItems.empty());
@@ -2355,7 +2355,7 @@ describe('Stats', () => {
       expect(stats.getStatsID()).toBe(statsID);
       expect(stats.getLanguageID()).toBe(languageID);
       expect(stats.getRegionID()).toBe(regionID);
-      expect(stats.getTerm()).toBe(term);
+      expect(stats.getTermID()).toBe(term);
       expect(stats.getName()).toBe(name);
       expect(stats.getUnit()).toBe(unit);
       expect(stats.getUpdatedAt()).toBe(updatedAt);

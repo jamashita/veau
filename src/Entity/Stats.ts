@@ -4,15 +4,17 @@ import { RegionIDError } from '../Error/RegionIDError';
 import { StatsError } from '../Error/StatsError';
 import { StatsIDError } from '../Error/StatsIDError';
 import { StatsItemsError } from '../Error/StatsItemsError';
-import { TermError } from '../Error/TermError';
+import { TermIDError } from '../Error/TermIDError';
 import { UpdatedAtError } from '../Error/UpdatedAtError';
 import { AsOf } from '../VO/AsOf';
 import { AsOfs } from '../VO/AsOfs';
 import { Column } from '../VO/Column';
 import { Coordinate } from '../VO/Coordinate';
 import { HeaderSize } from '../VO/HeaderSize';
+import { Language, LanguageJSON } from '../VO/Language';
 import { LanguageID } from '../VO/LanguageID';
 import { NumericalValue } from '../VO/NumericalValue';
+import { Region, RegionJSON } from '../VO/Region';
 import { RegionID } from '../VO/RegionID';
 import { Row } from '../VO/Row';
 import { StatsID } from '../VO/StatsID';
@@ -21,15 +23,16 @@ import { StatsName } from '../VO/StatsName';
 import { StatsUnit } from '../VO/StatsUnit';
 import { StatsValue } from '../VO/StatsValue';
 import { Term } from '../VO/Term';
+import { TermID } from '../VO/TermID';
 import { UpdatedAt } from '../VO/UpdatedAt';
 import { StatsItem, StatsItemJSON } from './StatsItem';
 import { StatsItems } from './StatsItems';
 
 export type StatsJSON = Readonly<{
   statsID: string;
-  languageID: string;
-  regionID: string;
-  termID: number;
+  termID: string;
+  language: LanguageJSON;
+  region: RegionJSON;
   name: string;
   unit: string;
   updatedAt: string;
@@ -39,7 +42,7 @@ export type StatsRow = Readonly<{
   statsID: string;
   languageID: string;
   regionID: string;
-  termID: number;
+  termID: string;
   name: string;
   unit: string;
   updatedAt: string;
@@ -51,8 +54,8 @@ const REVISED_VALUE: number = 14;
 export class Stats extends Entity<StatsID> {
   public readonly noun: 'Stats' = 'Stats';
   private readonly statsID: StatsID;
-  private readonly languageID: LanguageID;
-  private readonly regionID: RegionID;
+  private readonly language: Language;
+  private readonly region: Region;
   private readonly term: Term;
   private readonly name: StatsName;
   private readonly unit: StatsUnit;
@@ -63,8 +66,8 @@ export class Stats extends Entity<StatsID> {
 
   public static of(
     statsID: StatsID,
-    languageID: LanguageID,
-    regionID: RegionID,
+    language: Language,
+    region: Region,
     term: Term,
     name: StatsName,
     unit: StatsUnit,
@@ -74,8 +77,8 @@ export class Stats extends Entity<StatsID> {
   ): Stats {
     return new Stats(
       statsID,
-      languageID,
-      regionID,
+      language,
+      region,
       term,
       name,
       unit,
@@ -87,9 +90,9 @@ export class Stats extends Entity<StatsID> {
 
   public static ofJSON(json: StatsJSON): Superposition<Stats, StatsError> {
     return StatsID.ofString(json.statsID).match<Stats, StatsError>((statsID: StatsID) => {
-      return LanguageID.ofString(json.languageID).match((languageID: LanguageID) => {
-        return RegionID.ofString(json.regionID).match((regionID: RegionID) => {
-          return Term.of(json.termID).match<Stats, StatsError>((term: Term) => {
+      return LanguageID.ofString(json.language).match((languageID: LanguageID) => {
+        return RegionID.ofString(json.region).match((regionID: RegionID) => {
+          return TermID.ofString(json.termID).match<Stats, StatsError>((termID: TermID) => {
             return UpdatedAt.ofString(json.updatedAt).match<Stats, StatsError>((updatedAt: UpdatedAt) => {
               return StatsItems.ofJSON(json.items).match<Stats, StatsError>((statsItems: StatsItems) => {
                 return Alive.of<Stats, StatsError>(
@@ -97,7 +100,7 @@ export class Stats extends Entity<StatsID> {
                     statsID,
                     languageID,
                     regionID,
-                    term,
+                    termID,
                     StatsName.of(json.name),
                     StatsUnit.of(json.unit),
                     updatedAt,
@@ -110,7 +113,7 @@ export class Stats extends Entity<StatsID> {
             }, (err: UpdatedAtError) => {
               return Dead.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
             });
-          }, (err: TermError) => {
+          }, (err: TermIDError) => {
             return Dead.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
           });
         }, (err: RegionIDError) => {
@@ -128,14 +131,14 @@ export class Stats extends Entity<StatsID> {
     return StatsID.ofString(row.statsID).match<Stats, StatsError>((statsID: StatsID) => {
       return LanguageID.ofString(row.languageID).match((languageID: LanguageID) => {
         return RegionID.ofString(row.regionID).match((regionID: RegionID) => {
-          return Term.of(row.termID).match<Stats, StatsError>((term: Term) => {
+          return TermID.ofString(row.termID).match<Stats, StatsError>((termID: TermID) => {
             return UpdatedAt.ofString(row.updatedAt).match<Stats, StatsError>((updatedAt: UpdatedAt) => {
               return Alive.of<Stats, StatsError>(
                 Stats.of(
                   statsID,
                   languageID,
                   regionID,
-                  term,
+                  termID,
                   StatsName.of(row.name),
                   StatsUnit.of(row.unit),
                   updatedAt,
@@ -145,7 +148,7 @@ export class Stats extends Entity<StatsID> {
             }, (err: UpdatedAtError) => {
               return Dead.of<Stats, StatsError>(new StatsError('Stats.ofRow()', err));
             });
-          }, (err: TermError) => {
+          }, (err: TermIDError) => {
             return Dead.of<Stats, StatsError>(new StatsError('Stats.ofRow()', err));
           });
         }, (err: RegionIDError) => {
@@ -172,7 +175,7 @@ export class Stats extends Entity<StatsID> {
     if (!Kind.isString(n.regionID)) {
       return false;
     }
-    if (!Kind.isInteger(n.termID)) {
+    if (!Kind.isString(n.termID)) {
       return false;
     }
     if (!Kind.isString(n.name)) {
@@ -196,7 +199,7 @@ export class Stats extends Entity<StatsID> {
       StatsID.generate(),
       LanguageID.empty(),
       RegionID.empty(),
-      Term.DAILY,
+      Term.DAILY.getTermID(),
       StatsName.empty(),
       StatsUnit.empty(),
       UpdatedAt.now(),
@@ -206,8 +209,8 @@ export class Stats extends Entity<StatsID> {
 
   protected constructor(
     statsID: StatsID,
-    languageID: LanguageID,
-    regionID: RegionID,
+    language: Language,
+    region: Region,
     term: Term,
     name: StatsName,
     unit: StatsUnit,
@@ -217,8 +220,8 @@ export class Stats extends Entity<StatsID> {
   ) {
     super();
     this.statsID = statsID;
-    this.languageID = languageID;
-    this.regionID = regionID;
+    this.language = language;
+    this.region = region;
     this.term = term;
     this.name = name;
     this.unit = unit;
@@ -231,12 +234,12 @@ export class Stats extends Entity<StatsID> {
     return this.statsID;
   }
 
-  public getLanguageID(): LanguageID {
-    return this.languageID;
+  public getLanguage(): Language {
+    return this.language;
   }
 
-  public getRegionID(): RegionID {
-    return this.regionID;
+  public getRegion(): Region {
+    return this.region;
   }
 
   public getTerm(): Term {
@@ -393,10 +396,10 @@ export class Stats extends Entity<StatsID> {
   }
 
   public isFilled(): boolean {
-    if (this.languageID.isEmpty()) {
+    if (this.language.isEmpty()) {
       return false;
     }
-    if (this.regionID.isEmpty()) {
+    if (this.region.isEmpty()) {
       return false;
     }
     if (this.name.isEmpty()) {
@@ -439,10 +442,10 @@ export class Stats extends Entity<StatsID> {
     if (!this.statsID.equals(other.statsID)) {
       return false;
     }
-    if (!this.languageID.equals(other.languageID)) {
+    if (!this.language.equals(other.language)) {
       return false;
     }
-    if (!this.regionID.equals(other.regionID)) {
+    if (!this.region.equals(other.region)) {
       return false;
     }
     if (!this.term.equals(other.term)) {
@@ -467,8 +470,8 @@ export class Stats extends Entity<StatsID> {
   public duplicate(): Stats {
     return new Stats(
       this.statsID,
-      this.languageID,
-      this.regionID,
+      this.language,
+      this.region,
       this.term,
       this.name,
       this.unit,
@@ -481,9 +484,9 @@ export class Stats extends Entity<StatsID> {
   public toJSON(): StatsJSON {
     return {
       statsID: this.statsID.get().get(),
-      languageID: this.languageID.get().get(),
-      regionID: this.regionID.get().get(),
-      termID: this.term.getID(),
+      language: this.language.get().get(),
+      region: this.region.get().get(),
+      termID: this.term.get().get(),
       name: this.name.get(),
       unit: this.unit.get(),
       updatedAt: this.updatedAt.toString(),
@@ -495,8 +498,8 @@ export class Stats extends Entity<StatsID> {
     const properties: Array<string> = [];
 
     properties.push(this.statsID.toString());
-    properties.push(this.languageID.toString());
-    properties.push(this.regionID.toString());
+    properties.push(this.language.toString());
+    properties.push(this.region.toString());
     properties.push(this.term.toString());
     properties.push(this.name.toString());
     properties.push(this.unit.toString());
