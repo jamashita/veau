@@ -1,38 +1,44 @@
-import { Alive, Dead, Superposition, ValueObject } from 'publikum';
+import { Alive, Dead, Superposition, UUID, ValueObject } from 'publikum';
 import { TermError } from '../Error/TermError';
+import { TermID } from './TermID';
+import { TermKey } from './TermKey';
 
-const DAILY_ID: number = 1;
-const WEEKLY_ID: number = 2;
-const MONTHLY_ID: number = 3;
-const QUARTERLY_ID: number = 4;
-const ANNUAL_ID: number = 5;
+const DAILY_UUID: string = '34b53215-a990-44d7-926e-30d6a53611d9';
+const WEEKLY_UUID: string = 'e194c8ed-f53b-4ac5-b506-a06900e7053c';
+const MONTHLY_UUID: string = '5a60eb2e-64f4-4d18-b8c1-34d3fa6a6262';
+const QUARTERLY_UUID: string = 'fbfe34f4-9757-4133-8353-c9a4bf3479d3';
+const ANNUAL_UUID: string = '96f0d8a0-a136-4fb1-bc07-22dad6b8a21c';
 
 export class Term extends ValueObject {
   public readonly noun: 'Term' = 'Term';
-  private readonly id: number;
-  private readonly key: string;
+  private readonly termID: TermID;
+  private readonly key: TermKey;
 
-  public static readonly DAILY: Term = new Term(DAILY_ID, 'DAILY');
-  public static readonly WEEKLY: Term = new Term(WEEKLY_ID, 'WEEKLY');
-  public static readonly MONTHLY: Term = new Term(MONTHLY_ID, 'MONTHLY');
-  public static readonly QUARTERLY: Term = new Term(QUARTERLY_ID, 'QUARTERLY');
-  public static readonly ANNUAL: Term = new Term(ANNUAL_ID, 'ANNUAL');
+  public static readonly DAILY: Term = new Term(TermID.ofString(DAILY_UUID).get(), TermKey.of('DAILY'));
+  public static readonly WEEKLY: Term = new Term(TermID.ofString(WEEKLY_UUID).get(), TermKey.of('WEEKLY'));
+  public static readonly MONTHLY: Term = new Term(TermID.ofString(MONTHLY_UUID).get(), TermKey.of('MONTHLY'));
+  public static readonly QUARTERLY: Term = new Term(TermID.ofString(QUARTERLY_UUID).get(), TermKey.of('QUARTERLY'));
+  public static readonly ANNUAL: Term = new Term(TermID.ofString(ANNUAL_UUID).get(), TermKey.of('ANNUAL'));
 
-  public static of(id: number): Superposition<Term, TermError> {
+  public static of(uuid: UUID): Superposition<Term, TermError> {
+    return Term.ofString(uuid.get());
+  }
+
+  public static ofString(id: string): Superposition<Term, TermError> {
     switch (id) {
-      case DAILY_ID: {
+      case DAILY_UUID: {
         return Alive.of<Term, TermError>(Term.DAILY);
       }
-      case WEEKLY_ID: {
+      case WEEKLY_UUID: {
         return Alive.of<Term, TermError>(Term.WEEKLY);
       }
-      case MONTHLY_ID: {
+      case MONTHLY_UUID: {
         return Alive.of<Term, TermError>(Term.MONTHLY);
       }
-      case QUARTERLY_ID: {
+      case QUARTERLY_UUID: {
         return Alive.of<Term, TermError>(Term.QUARTERLY);
       }
-      case ANNUAL_ID: {
+      case ANNUAL_UUID: {
         return Alive.of<Term, TermError>(Term.ANNUAL);
       }
       default: {
@@ -41,17 +47,17 @@ export class Term extends ValueObject {
     }
   }
 
-  protected constructor(id: number, key: string) {
+  protected constructor(termID: TermID, key: TermKey) {
     super();
-    this.id = id;
+    this.termID = termID;
     this.key = key;
   }
 
-  public getID(): number {
-    return this.id;
+  public getTermID(): TermID {
+    return this.termID;
   }
 
-  public getKey(): string {
+  public getKey(): TermKey {
     return this.key;
   }
 
@@ -59,11 +65,22 @@ export class Term extends ValueObject {
     if (this === other) {
       return true;
     }
+    if (!this.termID.equals(other.termID)) {
+      return false;
+    }
+    if (!this.key.equals(other.key)) {
+      return false;
+    }
 
-    return false;
+    return true;
   }
 
   public serialize(): string {
-    return this.key;
+    const properties: Array<string> = [];
+
+    properties.push(this.termID.toString());
+    properties.push(this.key.toString());
+
+    return properties.join(' ');
   }
 }

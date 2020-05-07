@@ -1,79 +1,23 @@
-import { Superposition } from 'publikum';
-import sinon, { SinonSpy } from 'sinon';
+import { Superposition, UUID } from 'publikum';
 import { TermError } from '../../Error/TermError';
 import { Term } from '../Term';
 
 describe('Term', () => {
   describe('of', () => {
     it('normal case', () => {
-      expect(Term.of(1).get()).toBe(Term.DAILY);
-      expect(Term.of(2).get()).toBe(Term.WEEKLY);
-      expect(Term.of(3).get()).toBe(Term.MONTHLY);
-      expect(Term.of(4).get()).toBe(Term.QUARTERLY);
-      expect(Term.of(5).get()).toBe(Term.ANNUAL);
+      expect(Term.ofString('34b53215-a990-44d7-926e-30d6a53611d9').get()).toBe(Term.DAILY);
+      expect(Term.ofString('e194c8ed-f53b-4ac5-b506-a06900e7053c').get()).toBe(Term.WEEKLY);
+      expect(Term.ofString('5a60eb2e-64f4-4d18-b8c1-34d3fa6a6262').get()).toBe(Term.MONTHLY);
+      expect(Term.ofString('fbfe34f4-9757-4133-8353-c9a4bf3479d3').get()).toBe(Term.QUARTERLY);
+      expect(Term.ofString('96f0d8a0-a136-4fb1-bc07-22dad6b8a21c').get()).toBe(Term.ANNUAL);
     });
 
     it('returns Dead when the id is out of range', () => {
-      const superposition1: Superposition<Term, TermError> = Term.of(-1);
-      const superposition2: Superposition<Term, TermError> = Term.of(0);
-      const superposition3: Superposition<Term, TermError> = Term.of(6);
+      for (let i: number = 0; i < 100; i++) {
+        const superposition: Superposition<Term, TermError> = Term.of(UUID.v4());
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-      const spy3: SinonSpy = sinon.spy();
-      const spy4: SinonSpy = sinon.spy();
-      const spy5: SinonSpy = sinon.spy();
-      const spy6: SinonSpy = sinon.spy();
-
-      expect(superposition1.isDead()).toBe(true);
-      expect(superposition2.isDead()).toBe(true);
-      expect(superposition3.isDead()).toBe(true);
-
-      superposition1.match<void>(() => {
-        spy1();
-      }, (err: TermError) => {
-        spy2();
-        expect(err).toBeInstanceOf(TermError);
-      });
-      superposition2.match<void>(() => {
-        spy3();
-      }, (err: TermError) => {
-        spy4();
-        expect(err).toBeInstanceOf(TermError);
-      });
-      superposition3.match<void>(() => {
-        spy5();
-      }, (err: TermError) => {
-        spy6();
-        expect(err).toBeInstanceOf(TermError);
-      });
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
-      expect(spy3.called).toBe(false);
-      expect(spy4.called).toBe(true);
-      expect(spy5.called).toBe(false);
-      expect(spy6.called).toBe(true);
-    });
-  });
-
-  describe('getID', () => {
-    it('normal case', () => {
-      expect(Term.DAILY.getID()).toBe(1);
-      expect(Term.WEEKLY.getID()).toBe(2);
-      expect(Term.MONTHLY.getID()).toBe(3);
-      expect(Term.QUARTERLY.getID()).toBe(4);
-      expect(Term.ANNUAL.getID()).toBe(5);
-    });
-  });
-
-  describe('getKey', () => {
-    it('normal case', () => {
-      expect(Term.DAILY.toString()).toBe(Term.DAILY.getKey());
-      expect(Term.WEEKLY.toString()).toBe(Term.WEEKLY.getKey());
-      expect(Term.MONTHLY.toString()).toBe(Term.MONTHLY.getKey());
-      expect(Term.QUARTERLY.toString()).toBe(Term.QUARTERLY.getKey());
-      expect(Term.ANNUAL.toString()).toBe(Term.ANNUAL.getKey());
+        expect(superposition.isDead()).toBe(true);
+      }
     });
   });
 
@@ -101,11 +45,11 @@ describe('Term', () => {
       const term4: Term = Term.QUARTERLY;
       const term5: Term = Term.ANNUAL;
 
-      expect(term1.toString()).toBe('DAILY');
-      expect(term2.toString()).toBe('WEEKLY');
-      expect(term3.toString()).toBe('MONTHLY');
-      expect(term4.toString()).toBe('QUARTERLY');
-      expect(term5.toString()).toBe('ANNUAL');
+      expect(term1.toString()).toBe('34b53215-a990-44d7-926e-30d6a53611d9 DAILY');
+      expect(term2.toString()).toBe('e194c8ed-f53b-4ac5-b506-a06900e7053c WEEKLY');
+      expect(term3.toString()).toBe('5a60eb2e-64f4-4d18-b8c1-34d3fa6a6262 MONTHLY');
+      expect(term4.toString()).toBe('fbfe34f4-9757-4133-8353-c9a4bf3479d3 QUARTERLY');
+      expect(term5.toString()).toBe('96f0d8a0-a136-4fb1-bc07-22dad6b8a21c ANNUAL');
     });
   });
 });

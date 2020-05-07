@@ -1,30 +1,20 @@
 import { Term } from '../Term';
+import { TermID } from '../TermID';
+import { TermKey } from '../TermKey';
+import { MockTermID } from './MockTermID';
+import { MockTermKey } from './MockTermKey';
 
 type TermArgs = Partial<Readonly<{
-  id: number;
-  key: string;
+  termID: TermID;
+  key: TermKey;
 }>>;
 
 export class MockTerm extends Term {
 
   public constructor({
-    id = 0,
-    key = 'NEVER'
+    termID = new MockTermID(),
+    key = new MockTermKey()
   }: TermArgs = {}) {
-    super(id, key);
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public equals(other: Term): boolean {
-    if (other instanceof MockTerm) {
-      if (this.getID() === other.getID()) {
-        if (this.getKey() === other.getKey()) {
-          return true;
-        }
-      }
-      return false;
-    }
-
-    return false;
+    super(termID, key);
   }
 }
