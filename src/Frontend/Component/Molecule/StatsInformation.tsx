@@ -156,7 +156,7 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
             })}
             type='text'
             value={intl.formatMessage({
-              id: stats.getTerm().getKey()
+              id: stats.getTerm().getKey().get()
             })}
             disabled={true}
           />

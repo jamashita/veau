@@ -179,14 +179,14 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
               })}
             </InputLabel>
             <Select
-              value={stats.getTerm().getID()}
+              value={stats.getTerm().getTermID()}
               onChange={(event: React.ChangeEvent<{
                 name?: string;
                 value: unknown;
               }>) => {
-                const termID: number = Number(event.target.value as string);
+                const termID: string = event.target.value as string;
 
-                Term.of(termID).match<void>((term: Term) => {
+                Term.ofString(termID).match<void>((term: Term) => {
                   termSelected(term);
                 }, () => {
                   // NOOP
@@ -194,7 +194,7 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
               }}
             >
               {Terms.all().map<React.ReactNode>((term: Term): React.ReactNode => {
-                const termID: number = term.getID();
+                const termID: string = term.getTermID().get().get();
 
                 return (
                   <MenuItem
@@ -202,7 +202,7 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
                     value={termID}
                   >
                     {intl.formatMessage({
-                      id: term.getKey()
+                      id: term.getKey().get()
                     })}
                   </MenuItem>
                 );
