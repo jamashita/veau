@@ -46,7 +46,7 @@ export class Identity extends ValueObject {
     return this.veauAccountID;
   }
 
-  public getAccount(): AccountName {
+  public getAccountName(): AccountName {
     return this.name;
   }
 

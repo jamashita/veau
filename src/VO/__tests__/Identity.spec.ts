@@ -33,7 +33,7 @@ describe('Identity', () => {
       );
 
       expect(identity.getVeauAccountID()).toBe(veauAccountID);
-      expect(identity.getAccount()).toBe(name);
+      expect(identity.getAccountName()).toBe(name);
       expect(identity.getLanguage()).toBe(language);
       expect(identity.getRegion()).toBe(region);
     });
@@ -48,7 +48,7 @@ describe('Identity', () => {
       expect(identity1.getVeauAccountID().equals(identity2.getVeauAccountID())).toBe(false);
       expect(identity1.getRegion()).toBe(Region.empty());
       expect(identity1.getLanguage()).toBe(Language.empty());
-      expect(identity1.getAccount()).toBe(AccountName.empty());
+      expect(identity1.getAccountName()).toBe(AccountName.empty());
     });
   });
 
