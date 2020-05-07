@@ -38,7 +38,7 @@ export class AuthenticationInteractor implements Noun {
           const correct: boolean = await account.verify(password);
 
           if (correct) {
-            callback(null, account.toVeauAccount());
+            callback(null, account.getVeauAccount());
             return;
           }
 

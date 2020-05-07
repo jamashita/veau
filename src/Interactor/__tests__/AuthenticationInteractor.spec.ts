@@ -38,10 +38,7 @@ describe('AuthenticationInteractor', () => {
       const authenticationInteractor: AuthenticationInteractor = new AuthenticationInteractor(accountQuery);
       authenticationInteractor.review()(name, password, (err: unknown, ret: VeauAccount) => {
         expect(err).toBe(null);
-        expect(ret.getVeauAccountID()).toBe(account.getVeauAccountID());
-        expect(ret.getAccountName()).toBe(account.getAccountName());
-        expect(ret.getLanguageID()).toBe(account.getLanguageID());
-        expect(ret.getRegionID()).toBe(account.getRegionID());
+        expect(ret).toBe(account.getVeauAccount());
         done();
       });
     });
