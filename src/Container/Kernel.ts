@@ -11,6 +11,7 @@ import { LocaleInteractor } from '../Interactor/LocaleInteractor';
 import { StatsInteractor } from '../Interactor/StatsInteractor';
 import { LanguageQuery as LanguageKernelQuery } from '../Query/Kernel/LanguageQuery';
 import { RegionQuery as RegionKernelQuery } from '../Query/Kernel/RegionQuery';
+import { StatsQuery as StatsKernelQuery } from '../Query/Kernel/StatsQuery';
 import { AccountQuery as AccountMySQLQuery } from '../Query/MySQL/AccountQuery';
 import { LanguageQuery as LanguageMySQLQuery } from '../Query/MySQL/LanguageQuery';
 import { RegionQuery as RegionMySQLQuery } from '../Query/MySQL/RegionQuery';
@@ -34,6 +35,7 @@ kernel.bind<LocaleInteractor>(TYPE.LocaleInteractor).to(LocaleInteractor).inSing
 kernel.bind<StatsInteractor>(TYPE.StatsInteractor).to(StatsInteractor).inSingletonScope();
 kernel.bind<LanguageKernelQuery>(TYPE.LanguageKernelQuery).to(LanguageKernelQuery).inSingletonScope();
 kernel.bind<RegionKernelQuery>(TYPE.RegionKernelQuery).to(RegionKernelQuery).inSingletonScope();
+kernel.bind<StatsKernelQuery>(TYPE.StatsKernelQuery).to(StatsKernelQuery).inSingletonScope();
 kernel.bind<AccountMySQLQuery>(TYPE.AccountMySQLQuery).to(AccountMySQLQuery).inSingletonScope();
 kernel.bind<LanguageMySQLQuery>(TYPE.LanguageMySQLQuery).to(LanguageMySQLQuery).inSingletonScope();
 kernel.bind<RegionMySQLQuery>(TYPE.RegionMySQLQuery).to(RegionMySQLQuery).inSingletonScope();

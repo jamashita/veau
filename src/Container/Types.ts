@@ -27,6 +27,7 @@ type DIType = Readonly<{
   LocaleCacheQuery: symbol;
   LanguageKernelQuery: symbol;
   RegionKernelQuery: symbol;
+  StatsKernelQuery: symbol;
   AccountMySQLQuery: symbol;
   LanguageMySQLQuery: symbol;
   RegionMySQLQuery: symbol;
@@ -69,6 +70,7 @@ export const TYPE: DIType = {
   LocaleCacheQuery: Symbol('LocaleCacheQuery'),
   LanguageKernelQuery: Symbol('LanguageKernelQuery'),
   RegionKernelQuery: Symbol('RegionKernelQuery'),
+  StatsKernelQuery: Symbol('StatsKernelQuery'),
   AccountMySQLQuery: Symbol('AccountMySQLQuery'),
   LanguageMySQLQuery: Symbol('LanguageMySQLQuery'),
   RegionMySQLQuery: Symbol('RegionMySQLQuery'),
