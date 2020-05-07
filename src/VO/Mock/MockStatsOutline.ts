@@ -4,21 +4,21 @@ import { StatsID } from '../StatsID';
 import { StatsName } from '../StatsName';
 import { StatsOutline } from '../StatsOutline';
 import { StatsUnit } from '../StatsUnit';
-import { Term } from '../Term';
+import { TermID } from '../TermID';
 import { UpdatedAt } from '../UpdatedAt';
 import { MockLanguageID } from './MockLanguageID';
 import { MockRegionID } from './MockRegionID';
 import { MockStatsID } from './MockStatsID';
 import { MockStatsName } from './MockStatsName';
 import { MockStatsUnit } from './MockStatsUnit';
-import { MockTerm } from './MockTerm';
+import { MockTermID } from './MockTermID';
 import { MockUpdatedAt } from './MockUpdatedAt';
 
 type StatsOutlineArgs = Partial<Readonly<{
   statsID: StatsID;
   languageID: LanguageID;
   regionID: RegionID;
-  term: Term;
+  termID: TermID;
   name: StatsName;
   unit: StatsUnit;
   updatedAt: UpdatedAt;
@@ -30,7 +30,7 @@ export class MockStatsOutline extends StatsOutline {
     statsID = new MockStatsID(),
     languageID = new MockLanguageID(),
     regionID = new MockRegionID(),
-    term = new MockTerm(),
+    termID = new MockTermID(),
     name = new MockStatsName(),
     unit = new MockStatsUnit(),
     updatedAt = new MockUpdatedAt()
@@ -39,7 +39,7 @@ export class MockStatsOutline extends StatsOutline {
       statsID,
       languageID,
       regionID,
-      term,
+      termID,
       name,
       unit,
       updatedAt
