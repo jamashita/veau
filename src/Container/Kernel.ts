@@ -16,7 +16,6 @@ import { LanguageQuery as LanguageMySQLQuery } from '../Query/MySQL/LanguageQuer
 import { RegionQuery as RegionMySQLQuery } from '../Query/MySQL/RegionQuery';
 import { StatsItemQuery as StatsItemMySQLQuery } from '../Query/MySQL/StatsItemQuery';
 import { StatsOutlineQuery as StatsOutlineMySQLQuery } from '../Query/MySQL/StatsOutlineQuery';
-import { StatsQuery as StatsMySQLQuery } from '../Query/MySQL/StatsQuery';
 import { StatsValueQuery as StatsValueMySQLQuery } from '../Query/MySQL/StatsValueQuery';
 import { LanguageQuery as LanguageRedisQuery } from '../Query/Redis/LanguageQuery';
 import { RegionQuery as RegionRedisQuery } from '../Query/Redis/RegionQuery';
@@ -40,7 +39,6 @@ kernel.bind<LanguageMySQLQuery>(TYPE.LanguageMySQLQuery).to(LanguageMySQLQuery).
 kernel.bind<RegionMySQLQuery>(TYPE.RegionMySQLQuery).to(RegionMySQLQuery).inSingletonScope();
 kernel.bind<StatsItemMySQLQuery>(TYPE.StatsItemMySQLQuery).to(StatsItemMySQLQuery).inSingletonScope();
 kernel.bind<StatsOutlineMySQLQuery>(TYPE.StatsOutlineMySQLQuery).to(StatsOutlineMySQLQuery).inSingletonScope();
-kernel.bind<StatsMySQLQuery>(TYPE.StatsMySQLQuery).to(StatsMySQLQuery).inSingletonScope();
 kernel.bind<StatsValueMySQLQuery>(TYPE.StatsValueMySQLQuery).to(StatsValueMySQLQuery).inSingletonScope();
 kernel.bind<LanguageRedisQuery>(TYPE.LanguageRedisQuery).to(LanguageRedisQuery).inSingletonScope();
 kernel.bind<RegionRedisQuery>(TYPE.RegionRedisQuery).to(RegionRedisQuery).inSingletonScope();

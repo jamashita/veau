@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { Alive, DataSourceError, Dead, Quantum, QuantumError, Superposition } from 'publikum';
+import { Alive, DataSourceError, Dead, Quantum, QuantumError, Superposition, UnimplementedError } from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { LocaleError } from '../../Error/LocaleError';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';

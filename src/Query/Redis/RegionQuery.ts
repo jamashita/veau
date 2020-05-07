@@ -9,7 +9,8 @@ import {
   Nullable,
   Quantum,
   RedisError,
-  Superposition
+  Superposition,
+  UnimplementedError
 } from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
