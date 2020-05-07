@@ -23,7 +23,7 @@ export class AccountQuery implements IAccountQuery, IMySQLQuery {
       R1.veau_account_id AS veauAccountID,
       R3.language_id AS languageID,
       R4.region_id AS regionID,
-      R1.account,
+      R1.account AS name,
       R2.hash
       FROM veau_accounts R1
       INNER JOIN veau_account_hashes R2
