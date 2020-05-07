@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { DataSourceError, IMySQL, Noun, Superposition } from 'publikum';
+import { DataSourceError, Noun, Superposition } from 'publikum';
 import { IStatsCommand } from '../Command/Interface/IStatsCommand';
 import { TYPE } from '../Container/Types';
 import { Stats } from '../Entity/Stats';
@@ -17,18 +17,17 @@ import { VeauAccountID } from '../VO/VeauAccountID';
 export class StatsInteractor implements Noun {
   public readonly noun: 'StatsInteractor' = 'StatsInteractor';
   private readonly statsQuery: IStatsQuery;
-  private readonly statsCommand: IStatsCommand;
   private readonly statsOutlineQuery: IStatsOutlineQuery;
+  private readonly statsCommand: IStatsCommand;
 
   public constructor(
-    @inject(TYPE.MySQL) mysql: IMySQL,
     @inject(TYPE.StatsMySQLQuery) statsQuery: IStatsQuery,
     @inject(TYPE.StatsOutlineMySQLQuery) statsOutlineQuery: IStatsOutlineQuery,
     @inject(TYPE.StatsKernelCommand) statsCommand: IStatsCommand
   ) {
     this.statsQuery = statsQuery;
-    this.statsCommand = statsCommand;
     this.statsOutlineQuery = statsOutlineQuery;
+    this.statsCommand = statsCommand;
   }
 
   public findByStatsID(statsID: StatsID): Promise<Superposition<Stats, NoSuchElementError | StatsError | DataSourceError>> {

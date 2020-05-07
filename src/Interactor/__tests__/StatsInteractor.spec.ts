@@ -1,6 +1,7 @@
 import { Alive, DataSourceError, Dead, MockMySQL, Superposition } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+import { MockStatsCommand } from '../../Command/Mock/MockStatsCommand';
 import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
 import { MockStats } from '../../Entity/Mock/MockStats';
@@ -36,14 +37,15 @@ describe('StatsInteractor', () => {
       const mysql: MockMySQL = new MockMySQL();
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const statsQuery: MockStatsQuery = new MockStatsQuery();
+      const statsCommand: MockStatsCommand = new MockStatsCommand();
       const stub: SinonStub = sinon.stub();
       statsQuery.findByStatsID = stub;
       stub.resolves(Alive.of<Stats, NoSuchElementError>(stats));
 
       const statsInteractor: StatsInteractor = new StatsInteractor(
-        mysql,
         statsQuery,
-        statsOutlineQuery
+        statsOutlineQuery,
+        statsCommand
       );
       const superposition: Superposition<Stats, NoSuchElementError | StatsError | DataSourceError> = await statsInteractor.findByStatsID(statsID);
 
@@ -57,6 +59,7 @@ describe('StatsInteractor', () => {
       const mysql: MockMySQL = new MockMySQL();
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const statsQuery: MockStatsQuery = new MockStatsQuery();
+      const statsCommand: MockStatsCommand = new MockStatsCommand();
       const stub: SinonStub = sinon.stub();
       statsQuery.findByStatsID = stub;
       stub.resolves(Dead.of<Stats, NoSuchElementError>(new NoSuchElementError('test failed')));
@@ -64,9 +67,9 @@ describe('StatsInteractor', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsInteractor: StatsInteractor = new StatsInteractor(
-        mysql,
         statsQuery,
-        statsOutlineQuery
+        statsOutlineQuery,
+        statsCommand
       );
       const superposition: Superposition<Stats, NoSuchElementError | StatsError | DataSourceError> = await statsInteractor.findByStatsID(statsID);
 
@@ -87,6 +90,7 @@ describe('StatsInteractor', () => {
       const mysql: MockMySQL = new MockMySQL();
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const statsQuery: MockStatsQuery = new MockStatsQuery();
+      const statsCommand: MockStatsCommand = new MockStatsCommand();
       const stub: SinonStub = sinon.stub();
       statsQuery.findByStatsID = stub;
       stub.resolves(Dead.of<Stats, StatsError>(new StatsError('test failed')));
@@ -94,9 +98,9 @@ describe('StatsInteractor', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsInteractor: StatsInteractor = new StatsInteractor(
-        mysql,
         statsQuery,
-        statsOutlineQuery
+        statsOutlineQuery,
+        statsCommand
       );
       const superposition: Superposition<Stats, NoSuchElementError | StatsError | DataSourceError> = await statsInteractor.findByStatsID(statsID);
 
@@ -121,14 +125,15 @@ describe('StatsInteractor', () => {
       const mysql: MockMySQL = new MockMySQL();
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const statsQuery: MockStatsQuery = new MockStatsQuery();
+      const statsCommand: MockStatsCommand = new MockStatsCommand();
       const stub: SinonStub = sinon.stub();
       statsOutlineQuery.findByVeauAccountID = stub;
       stub.resolves(Alive.of<StatsOutlines, StatsOutlinesError>(outlines));
 
       const statsInteractor: StatsInteractor = new StatsInteractor(
-        mysql,
         statsQuery,
-        statsOutlineQuery
+        statsOutlineQuery,
+        statsCommand
       );
       const superposition: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsInteractor.findByVeauAccountID(
         accountID,
@@ -147,20 +152,22 @@ describe('StatsInteractor', () => {
       const mysql: MockMySQL = new MockMySQL();
       const statsOutlineQuery: MockStatsOutlineQuery = new MockStatsOutlineQuery();
       const statsQuery: MockStatsQuery = new MockStatsQuery();
-      const spy: SinonSpy = sinon.spy();
-      mysql.transact = spy;
+      const statsCommand: MockStatsCommand = new MockStatsCommand();
+      const stub: SinonStub = sinon.stub();
+      statsCommand.create = stub;
+      stub.resolves(Alive.of<unknown, DataSourceError>('something'));
 
       const statsInteractor: StatsInteractor = new StatsInteractor(
-        mysql,
         statsQuery,
-        statsOutlineQuery
+        statsOutlineQuery,
+        statsCommand
       );
       await statsInteractor.save(
         stats,
         accountID
       );
 
-      expect(spy.called).toBe(true);
+      expect(stub.called).toBe(true);
     });
   });
 });
