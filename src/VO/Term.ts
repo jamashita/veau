@@ -37,6 +37,10 @@ export class Term extends ValueObject {
     return Term.ofString(uuid.get());
   }
 
+  public static ofTermID(termID: TermID): Superposition<Term, TermError> {
+    return Term.of(termID.get());
+  }
+
   public static ofString(id: string): Superposition<Term, TermError> {
     const term: Ambiguous<Term> = Term.all.get(id);
 
