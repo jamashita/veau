@@ -5,10 +5,10 @@ import { EntranceInformation } from '../VO/EntranceInformation';
 import { Identity } from '../VO/Identity';
 import { LoadingCount } from '../VO/LoadingCount';
 import { Locale } from '../VO/Locale';
+import { PageProvider } from '../VO/PageProvider';
 import { StatsOutlines } from '../VO/StatsOutlines';
 import { Modal } from './Reducer/Modal';
 import { Notification } from './Reducer/Notification';
-import { PageProvider } from './Reducer/PageProvider';
 import { StatsEdit } from './Reducer/StatsEdit';
 import { StatsList } from './Reducer/StatsList';
 

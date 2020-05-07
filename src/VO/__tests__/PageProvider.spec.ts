@@ -7,17 +7,30 @@ describe('PageProvider', () => {
 
       expect(provider.get()).toBe(true);
     });
+
+    it('return open close singleton instance', () => {
+      expect(PageProvider.of(true)).toBe(PageProvider.open());
+      expect(PageProvider.of(false)).toBe(PageProvider.close());
+    });
   });
 
   describe('open', () => {
     it('normal case', () => {
       expect(PageProvider.open().get()).toBe(true);
     });
+
+    it('must be singleton', () => {
+      expect(PageProvider.open()).toBe(PageProvider.open());
+    });
   });
 
   describe('close', () => {
     it('normal case', () => {
       expect(PageProvider.close().get()).toBe(false);
+    });
+
+    it('must be singleton', () => {
+      expect(PageProvider.close()).toBe(PageProvider.close());
     });
   });
 

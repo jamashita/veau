@@ -16,10 +16,10 @@ class PageProviderImpl extends React.Component<Props & WrappedComponentProps, St
 
   public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
     const {
-      open
+      provider
     } = this.props;
 
-    if (open !== nextProps.open) {
+    if (provider.equals(nextProps.provider)) {
       return true;
     }
 
@@ -28,7 +28,7 @@ class PageProviderImpl extends React.Component<Props & WrappedComponentProps, St
 
   public render(): React.ReactNode {
     const {
-      open,
+      provider,
       intl,
       close,
       toStatsList,
@@ -38,7 +38,7 @@ class PageProviderImpl extends React.Component<Props & WrappedComponentProps, St
     return (
       <Drawer
         anchor='left'
-        open={open}
+        open={provider.get()}
         variant='temporary'
         onClose={close}
       >

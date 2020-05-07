@@ -1,13 +1,8 @@
 import { Reducer } from 'redux';
+import { PageProvider } from '../../VO/PageProvider';
 import { Action, LOCATION_CHANGE, PROVIDER_CLOSE, PROVIDER_OPEN } from '../Action/Action';
 
-export type PageProvider = Readonly<{
-  open: boolean;
-}>;
-
-const initialState: PageProvider = {
-  open: false
-};
+const initialState: PageProvider = PageProvider.close();
 
 export const pageProvider: Reducer<PageProvider, Action> = (
   state: PageProvider = initialState,
@@ -15,19 +10,13 @@ export const pageProvider: Reducer<PageProvider, Action> = (
 ) => {
   switch (action.type) {
     case LOCATION_CHANGE: {
-      return {
-        open: false
-      };
+      return PageProvider.close();
     }
     case PROVIDER_OPEN: {
-      return {
-        open: true
-      };
+      return PageProvider.open();
     }
     case PROVIDER_CLOSE: {
-      return {
-        open: false
-      };
+      return PageProvider.close();
     }
     default: {
       return state;

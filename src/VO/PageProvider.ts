@@ -4,16 +4,23 @@ export class PageProvider extends ValueObject {
   public readonly noun: 'PageProvider' = 'PageProvider';
   private readonly open: boolean;
 
+  private static readonly OPEN: PageProvider = new PageProvider(true);
+  private static readonly CLOSE: PageProvider = new PageProvider(false);
+
   public static of(open: boolean): PageProvider {
-    return new PageProvider(open);
+    if (open) {
+      return PageProvider.open();
+    }
+
+    return PageProvider.close();
   }
 
   public static open(): PageProvider {
-    return new PageProvider(true);
+    return PageProvider.OPEN;
   }
 
   public static close(): PageProvider {
-    return new PageProvider(false);
+    return PageProvider.CLOSE;
   }
 
   protected constructor(open: boolean) {

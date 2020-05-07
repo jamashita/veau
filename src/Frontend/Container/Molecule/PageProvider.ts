@@ -1,5 +1,6 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
+import { PageProvider as Provider } from '../../../VO/PageProvider';
 import { Action } from '../../Action/Action';
 import { logout } from '../../Action/LogoutAction';
 import { closeProvider } from '../../Action/PageProviderAction';
@@ -8,7 +9,7 @@ import { PageProvider as Component } from '../../Component/Molecule/PageProvider
 import { State } from '../../State';
 
 type StateProps = Readonly<{
-  open: boolean;
+  provider: Provider;
 }>;
 
 type DispatchProps = Readonly<{
@@ -21,13 +22,11 @@ export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
   const {
-    pageProvider: {
-      open
-    }
+    pageProvider
   } = state;
 
   return {
-    open
+    provider: pageProvider
   };
 };
 
