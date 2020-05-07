@@ -1,12 +1,16 @@
 import { DataSourceError, MockError, MockSQL, MySQLError, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { MockStats } from '../../../Entity/Mock/MockStats';
+import { MockLanguage } from '../../../VO/Mock/MockLanguage';
 import { MockLanguageID } from '../../../VO/Mock/MockLanguageID';
+import { MockRegion } from '../../../VO/Mock/MockRegion';
 import { MockRegionID } from '../../../VO/Mock/MockRegionID';
 import { MockStatsID } from '../../../VO/Mock/MockStatsID';
 import { MockStatsName } from '../../../VO/Mock/MockStatsName';
+import { MockStatsOutline } from '../../../VO/Mock/MockStatsOutline';
 import { MockStatsUnit } from '../../../VO/Mock/MockStatsUnit';
 import { MockTerm } from '../../../VO/Mock/MockTerm';
+import { MockTermID } from '../../../VO/Mock/MockTermID';
 import { MockVeauAccountID } from '../../../VO/Mock/MockVeauAccountID';
 import { StatsCommand } from '../StatsCommand';
 
@@ -17,27 +21,36 @@ describe('StatsCommand', () => {
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
       const uuid4: UUID = UUID.v4();
-      const termID: number = 935;
+      const uuid5: UUID = UUID.v4();
       const statsName: string = 'stats name';
       const statsUnit: string = 'stats unit';
       const stats: MockStats = new MockStats({
-        statsID: new MockStatsID(uuid1),
-        languageID: new MockLanguageID(uuid2),
-        regionID: new MockRegionID(uuid3),
-        term: new MockTerm({
-          id: termID
+        outline: new MockStatsOutline({
+          statsID: new MockStatsID(uuid1),
+          name: new MockStatsName(statsName),
+          unit: new MockStatsUnit(statsUnit)
         }),
-        name: new MockStatsName(statsName),
-        unit: new MockStatsUnit(statsUnit)
+        language: new MockLanguage({
+          languageID: new MockLanguageID(uuid2)
+        }),
+        region: new MockRegion({
+          regionID: new MockRegionID(uuid3)
+        }),
+        term: new MockTerm({
+          termID: new MockTermID(uuid4)
+        })
       });
-      const accountID: MockVeauAccountID = new MockVeauAccountID(uuid4);
+      const accountID: MockVeauAccountID = new MockVeauAccountID(uuid5);
 
       const sql: MockSQL = new MockSQL();
       const stub: SinonStub = sinon.stub();
       sql.execute = stub;
 
       const statsCommand: StatsCommand = new StatsCommand(sql);
-      const superposition: Superposition<void, DataSourceError> = await statsCommand.create(stats, accountID);
+      const superposition: Superposition<void, DataSourceError> = await statsCommand.create(
+        stats,
+        accountID
+      );
 
       expect(stub.withArgs(`INSERT INTO stats VALUES (
       :statsID,
@@ -52,8 +65,8 @@ describe('StatsCommand', () => {
         statsID: uuid1.get(),
         languageID: uuid2.get(),
         regionID: uuid3.get(),
-        termID,
-        veauAccountID: uuid4.get(),
+        termID: uuid4.get(),
+        veauAccountID: uuid5.get(),
         name: statsName,
         unit: statsUnit,
         updatedAt: '2000-01-02 01:02:03'

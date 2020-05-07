@@ -8,6 +8,7 @@ import { Stats, StatsJSON } from '../../../Entity/Stats';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
 import { StatsError } from '../../../Error/StatsError';
 import { MockStatsID } from '../../../VO/Mock/MockStatsID';
+import { Term } from '../../../VO/Term';
 import { StatsQuery } from '../StatsQuery';
 
 describe('StatsQuery', () => {
@@ -23,15 +24,31 @@ describe('StatsQuery', () => {
 
   describe('findByStatsID', () => {
     it('normal case', async () => {
+      const uuid1: UUID = UUID.v4();
+      const uuid2: UUID = UUID.v4();
+      const uuid3: UUID = UUID.v4();
       const statsID: MockStatsID = new MockStatsID();
       const json: StatsJSON = {
-        statsID: UUID.v4().get(),
-        languageID: UUID.v4().get(),
-        regionID: UUID.v4().get(),
-        termID: 3,
-        name: 'stats name',
-        unit: 'stats unit',
-        updatedAt: '2000-01-01 00:00:00',
+        outline: {
+          statsID: uuid1.get(),
+          languageID: uuid2.get(),
+          regionID: uuid3.get(),
+          termID: Term.DAILY.getTermID().get().get(),
+          name: 'stats name',
+          unit: 'stats unit',
+          updatedAt: '2000-01-01 00:00:00'
+        },
+        language: {
+          languageID: uuid2.get(),
+          name: 'language',
+          englishName: 'english language',
+          iso639: 'DU'
+        },
+        region: {
+          regionID: uuid3.get(),
+          name: 'region',
+          iso3166: 'IDE'
+        },
         items: []
       };
 
@@ -49,51 +66,18 @@ describe('StatsQuery', () => {
       expect(stub.withArgs(`/api/stats/${statsID.get().get()}`).called).toBe(true);
       expect(superposition.isAlive()).toBe(true);
       const stats: Stats = superposition.get();
-      expect(stats.getStatsID().get().get()).toBe(json.statsID);
-      expect(stats.getLanguageID().get().get()).toBe(json.languageID);
-      expect(stats.getRegionID().get().get()).toBe(json.regionID);
-      expect(stats.getTerm().getID()).toBe(json.termID);
-      expect(stats.getName().get()).toBe(json.name);
-      expect(stats.getUnit().get()).toBe(json.unit);
+      expect(stats.getStatsID().get().get()).toBe(json.outline.statsID);
+      expect(stats.getName().get()).toBe(json.outline.name);
+      expect(stats.getUnit().get()).toBe(json.outline.unit);
+      expect(stats.getUpdatedAt().toString()).toBe(json.outline.updatedAt);
+      expect(stats.getLanguage().getLanguageID().get().get()).toBe(json.language.languageID);
+      expect(stats.getLanguage().getName().get()).toBe(json.language.name);
+      expect(stats.getLanguage().getEnglishName().get()).toBe(json.language.englishName);
+      expect(stats.getLanguage().getISO639().get()).toBe(json.language.iso639);
+      expect(stats.getRegion().getRegionID().get().get()).toBe(json.region.regionID);
+      expect(stats.getRegion().getName().get()).toBe(json.region.name);
+      expect(stats.getRegion().getISO3166().get()).toBe(json.region.iso3166);
       expect(stats.getItems().size()).toBe(0);
-    });
-
-    it('returns Dead when it has wrong format statsID', async () => {
-      const statsID: MockStatsID = new MockStatsID();
-      const json: StatsJSON = {
-        statsID: 'malformat uuid',
-        languageID: UUID.v4().get(),
-        regionID: UUID.v4().get(),
-        termID: 3,
-        name: 'stats name',
-        unit: 'stats unit',
-        updatedAt: '2000-01-01 00:00:00',
-        items: []
-      };
-
-      const ajax: MockAJAX = new MockAJAX();
-      const stub: SinonStub = sinon.stub();
-      ajax.get = stub;
-      stub.resolves({
-        status: OK,
-        body: json
-      });
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
-      const statsQuery: StatsQuery = new StatsQuery(ajax);
-      const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
-
-      expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsError | NoSuchElementError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsError);
-      });
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
     });
 
     it('returns NO_CONTENT', async () => {

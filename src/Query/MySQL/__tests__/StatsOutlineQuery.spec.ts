@@ -30,7 +30,7 @@ describe('StatsOutlineQuery', () => {
           statsID: UUID.v4().get(),
           languageID: UUID.v4().get(),
           regionID: UUID.v4().get(),
-          termID: 1,
+          termID: UUID.v4().get(),
           name: 'stats1',
           unit: 'unit1',
           updatedAt: '2000-01-01 00:00:00'
@@ -39,7 +39,7 @@ describe('StatsOutlineQuery', () => {
           statsID: UUID.v4().get(),
           languageID: UUID.v4().get(),
           regionID: UUID.v4().get(),
-          termID: 2,
+          termID: UUID.v4().get(),
           name: 'stats2',
           unit: 'unit2',
           updatedAt: '2001-01-01 00:00:00'
@@ -85,7 +85,7 @@ describe('StatsOutlineQuery', () => {
         expect(statsOutline.getStatsID().get().get()).toBe(rows[i].statsID);
         expect(statsOutline.getLanguageID().get().get()).toBe(rows[i].languageID);
         expect(statsOutline.getRegionID().get().get()).toBe(rows[i].regionID);
-        expect(statsOutline.getTerm().getID()).toBe(rows[i].termID);
+        expect(statsOutline.getTermID().get().get()).toBe(rows[i].termID);
         expect(statsOutline.getName().get()).toBe(rows[i].name);
         expect(statsOutline.getUnit().get()).toBe(rows[i].unit);
         expect(statsOutline.getUpdatedAt().toString()).toBe(rows[i].updatedAt);
@@ -100,7 +100,7 @@ describe('StatsOutlineQuery', () => {
           statsID: 'malformat uuid',
           languageID: UUID.v4().get(),
           regionID: UUID.v4().get(),
-          termID: 1,
+          termID: UUID.v4().get(),
           name: 'stats1',
           unit: 'unit1',
           updatedAt: '2000-01-01 00:00:00'
@@ -109,7 +109,7 @@ describe('StatsOutlineQuery', () => {
           statsID: UUID.v4().get(),
           languageID: UUID.v4().get(),
           regionID: UUID.v4().get(),
-          termID: 2,
+          termID: UUID.v4().get(),
           name: 'stats2',
           unit: 'unit2',
           updatedAt: '2001-01-01 00:00:00'

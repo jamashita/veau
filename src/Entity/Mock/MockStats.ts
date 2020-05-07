@@ -1,31 +1,22 @@
 import { Absent, Quantum } from 'publikum';
 import { AsOf } from '../../VO/AsOf';
-import { LanguageID } from '../../VO/LanguageID';
-import { MockLanguageID } from '../../VO/Mock/MockLanguageID';
-import { MockRegionID } from '../../VO/Mock/MockRegionID';
-import { MockStatsID } from '../../VO/Mock/MockStatsID';
-import { MockStatsName } from '../../VO/Mock/MockStatsName';
-import { MockStatsUnit } from '../../VO/Mock/MockStatsUnit';
+import { Language } from '../../VO/Language';
+import { MockLanguage } from '../../VO/Mock/MockLanguage';
+import { MockRegion } from '../../VO/Mock/MockRegion';
+import { MockStatsOutline } from '../../VO/Mock/MockStatsOutline';
 import { MockTerm } from '../../VO/Mock/MockTerm';
-import { MockUpdatedAt } from '../../VO/Mock/MockUpdatedAt';
-import { RegionID } from '../../VO/RegionID';
-import { StatsID } from '../../VO/StatsID';
-import { StatsName } from '../../VO/StatsName';
-import { StatsUnit } from '../../VO/StatsUnit';
+import { Region } from '../../VO/Region';
+import { StatsOutline } from '../../VO/StatsOutline';
 import { Term } from '../../VO/Term';
-import { UpdatedAt } from '../../VO/UpdatedAt';
 import { Stats } from '../Stats';
 import { StatsItems } from '../StatsItems';
 import { MockStatsItems } from './MockStatsItems';
 
 type StatsArgs = Partial<Readonly<{
-  statsID: StatsID;
-  languageID: LanguageID;
-  regionID: RegionID;
+  outline: StatsOutline;
+  language: Language;
+  region: Region;
   term: Term;
-  name: StatsName;
-  unit: StatsUnit;
-  updatedAt: UpdatedAt;
   items: StatsItems;
   startDate: Quantum<AsOf>;
 }>>;
@@ -33,24 +24,18 @@ type StatsArgs = Partial<Readonly<{
 export class MockStats extends Stats {
 
   public constructor({
-    statsID = new MockStatsID(),
-    languageID = new MockLanguageID(),
-    regionID = new MockRegionID(),
+    outline = new MockStatsOutline(),
+    language = new MockLanguage(),
+    region = new MockRegion(),
     term = new MockTerm(),
-    name = new MockStatsName(),
-    unit = new MockStatsUnit(),
-    updatedAt = new MockUpdatedAt(),
     items = new MockStatsItems(),
     startDate = Absent.of<AsOf>()
   }: StatsArgs = {}) {
     super(
-      statsID,
-      languageID,
-      regionID,
+      outline,
+      language,
+      region,
       term,
-      name,
-      unit,
-      updatedAt,
       items,
       startDate
     );
