@@ -7,14 +7,14 @@ import { MockRegionID } from '../Mock/MockRegionID';
 import { MockStatsID } from '../Mock/MockStatsID';
 import { MockStatsName } from '../Mock/MockStatsName';
 import { MockStatsUnit } from '../Mock/MockStatsUnit';
-import { MockTerm } from '../Mock/MockTerm';
+import { MockTermID } from '../Mock/MockTermID';
 import { MockUpdatedAt } from '../Mock/MockUpdatedAt';
 import { RegionID } from '../RegionID';
 import { StatsID } from '../StatsID';
 import { StatsName } from '../StatsName';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from '../StatsOutline';
 import { StatsUnit } from '../StatsUnit';
-import { Term } from '../Term';
+import { TermID } from '../TermID';
 import { UpdatedAt } from '../UpdatedAt';
 
 describe('StatsOutline', () => {
@@ -23,7 +23,7 @@ describe('StatsOutline', () => {
       const statsID: MockStatsID = new MockStatsID();
       const languageID: MockLanguageID = new MockLanguageID();
       const regionID: MockRegionID = new MockRegionID();
-      const term: MockTerm = new MockTerm();
+      const termID: MockTermID = new MockTermID();
       const name: MockStatsName = new MockStatsName();
       const unit: MockStatsUnit = new MockStatsUnit();
       const updatedAt: MockUpdatedAt = new MockUpdatedAt();
@@ -32,7 +32,7 @@ describe('StatsOutline', () => {
         statsID,
         languageID,
         regionID,
-        term,
+        termID,
         name,
         unit,
         updatedAt
@@ -41,7 +41,7 @@ describe('StatsOutline', () => {
       expect(statsOutline.getStatsID()).toBe(statsID);
       expect(statsOutline.getLanguageID()).toBe(languageID);
       expect(statsOutline.getRegionID()).toBe(regionID);
-      expect(statsOutline.getTerm()).toBe(term);
+      expect(statsOutline.getTermID()).toBe(termID);
       expect(statsOutline.getName()).toBe(name);
       expect(statsOutline.getUnit()).toBe(unit);
       expect(statsOutline.getUpdatedAt()).toBe(updatedAt);
@@ -54,7 +54,7 @@ describe('StatsOutline', () => {
         statsID: UUID.v4().get(),
         languageID: UUID.v4().get(),
         regionID: UUID.v4().get(),
-        termID: 1,
+        termID: UUID.v4().get(),
         name: 'stats1',
         unit: 'unit1',
         updatedAt: '2000-01-01 00:00:00'
@@ -67,7 +67,7 @@ describe('StatsOutline', () => {
       expect(statsOutline.getStatsID().get().get()).toBe(json.statsID);
       expect(statsOutline.getLanguageID().get().get()).toBe(json.languageID);
       expect(statsOutline.getRegionID().get().get()).toBe(json.regionID);
-      expect(statsOutline.getTerm().getID()).toBe(json.termID);
+      expect(statsOutline.getTermID().get().get()).toBe(json.termID);
       expect(statsOutline.getName().get()).toBe(json.name);
       expect(statsOutline.getUnit().get()).toBe(json.unit);
       expect(statsOutline.getUpdatedAt().toString()).toBe(json.updatedAt);
@@ -78,7 +78,7 @@ describe('StatsOutline', () => {
         statsID: 'illegal uuid',
         languageID: UUID.v4().get(),
         regionID: UUID.v4().get(),
-        termID: 1,
+        termID: UUID.v4().get(),
         name: 'stats1',
         unit: 'unit1',
         updatedAt: '2000-01-01 00:00:00'
@@ -106,7 +106,7 @@ describe('StatsOutline', () => {
         statsID: UUID.v4().get(),
         languageID: 'illegal uuid',
         regionID: UUID.v4().get(),
-        termID: 1,
+        termID: UUID.v4().get(),
         name: 'stats1',
         unit: 'unit1',
         updatedAt: '2000-01-01 00:00:00'
@@ -134,7 +134,7 @@ describe('StatsOutline', () => {
         statsID: UUID.v4().get(),
         languageID: UUID.v4().get(),
         regionID: 'illegal uuid',
-        termID: 1,
+        termID: UUID.v4().get(),
         name: 'stats1',
         unit: 'unit1',
         updatedAt: '2000-01-01 00:00:00'
@@ -162,7 +162,7 @@ describe('StatsOutline', () => {
         statsID: UUID.v4().get(),
         languageID: UUID.v4().get(),
         regionID: UUID.v4().get(),
-        termID: -1,
+        termID: 'illegal uuid',
         name: 'stats1',
         unit: 'unit1',
         updatedAt: '2000-01-01 00:00:00'
@@ -190,7 +190,7 @@ describe('StatsOutline', () => {
         statsID: UUID.v4().get(),
         languageID: UUID.v4().get(),
         regionID: UUID.v4().get(),
-        termID: 1,
+        termID: UUID.v4().get(),
         name: 'stats1',
         unit: 'unit1',
         updatedAt: '2000-01-01'
@@ -220,7 +220,7 @@ describe('StatsOutline', () => {
         statsID: UUID.v4().get(),
         languageID: UUID.v4().get(),
         regionID: UUID.v4().get(),
-        termID: 3,
+        termID: UUID.v4().get(),
         name: 'name',
         unit: 'unit',
         updatedAt: '2000-01-01 00:00:00'
@@ -233,7 +233,7 @@ describe('StatsOutline', () => {
       expect(statsOutline.getStatsID().get().get()).toBe(row.statsID);
       expect(statsOutline.getLanguageID().get().get()).toBe(row.languageID);
       expect(statsOutline.getRegionID().get().get()).toBe(row.regionID);
-      expect(statsOutline.getTerm().getID()).toBe(row.termID);
+      expect(statsOutline.getTermID().get().get()).toBe(row.termID);
       expect(statsOutline.getName().get()).toBe(row.name);
       expect(statsOutline.getUnit().get()).toBe(row.unit);
       expect(statsOutline.getUpdatedAt().toString()).toBe(row.updatedAt);
@@ -244,7 +244,7 @@ describe('StatsOutline', () => {
         statsID: 'illegal uuid',
         languageID: UUID.v4().get(),
         regionID: UUID.v4().get(),
-        termID: 3,
+        termID: UUID.v4().get(),
         name: 'name',
         unit: 'unit',
         updatedAt: '2000-01-01 00:00:00'
@@ -272,7 +272,7 @@ describe('StatsOutline', () => {
         statsID: UUID.v4().get(),
         languageID: 'illegal uuid',
         regionID: UUID.v4().get(),
-        termID: 3,
+        termID: UUID.v4().get(),
         name: 'name',
         unit: 'unit',
         updatedAt: '2000-01-01 00:00:00'
@@ -300,7 +300,7 @@ describe('StatsOutline', () => {
         statsID: UUID.v4().get(),
         languageID: UUID.v4().get(),
         regionID: 'illegal uuid',
-        termID: 3,
+        termID: UUID.v4().get(),
         name: 'name',
         unit: 'unit',
         updatedAt: '2000-01-01 00:00:00'
@@ -328,7 +328,7 @@ describe('StatsOutline', () => {
         statsID: UUID.v4().get(),
         languageID: UUID.v4().get(),
         regionID: UUID.v4().get(),
-        termID: -1,
+        termID: 'illegal uuid',
         name: 'name',
         unit: 'unit',
         updatedAt: '2000-01-01 00:00:00'
@@ -356,7 +356,7 @@ describe('StatsOutline', () => {
         statsID: UUID.v4().get(),
         languageID: UUID.v4().get(),
         regionID: UUID.v4().get(),
-        termID: 3,
+        termID: UUID.v4().get(),
         name: 'name',
         unit: 'unit',
         updatedAt: '2000-01-01'
@@ -388,11 +388,13 @@ describe('StatsOutline', () => {
       const uuid4: UUID = UUID.v4();
       const uuid5: UUID = UUID.v4();
       const uuid6: UUID = UUID.v4();
+      const uuid7: UUID = UUID.v4();
+      const uuid8: UUID = UUID.v4();
       const statsOutline1: StatsOutline = StatsOutline.of(
         new MockStatsID(uuid1),
         new MockLanguageID(uuid3),
         new MockRegionID(uuid5),
-        new MockTerm(),
+        new MockTermID(uuid7),
         new MockStatsName(),
         new MockStatsUnit(),
         new MockUpdatedAt()
@@ -401,7 +403,7 @@ describe('StatsOutline', () => {
         new MockStatsID(uuid2),
         new MockLanguageID(uuid3),
         new MockRegionID(uuid5),
-        new MockTerm(),
+        new MockTermID(uuid7),
         new MockStatsName(),
         new MockStatsUnit(),
         new MockUpdatedAt()
@@ -410,7 +412,7 @@ describe('StatsOutline', () => {
         new MockStatsID(uuid1),
         new MockLanguageID(uuid4),
         new MockRegionID(uuid5),
-        new MockTerm(),
+        new MockTermID(uuid7),
         new MockStatsName(),
         new MockStatsUnit(),
         new MockUpdatedAt()
@@ -419,7 +421,7 @@ describe('StatsOutline', () => {
         new MockStatsID(uuid1),
         new MockLanguageID(uuid3),
         new MockRegionID(uuid6),
-        new MockTerm(),
+        new MockTermID(uuid7),
         new MockStatsName(),
         new MockStatsUnit(),
         new MockUpdatedAt()
@@ -428,9 +430,7 @@ describe('StatsOutline', () => {
         new MockStatsID(uuid1),
         new MockLanguageID(uuid3),
         new MockRegionID(uuid5),
-        new MockTerm({
-          id: 8
-        }),
+        new MockTermID(uuid8),
         new MockStatsName(),
         new MockStatsUnit(),
         new MockUpdatedAt()
@@ -439,7 +439,7 @@ describe('StatsOutline', () => {
         new MockStatsID(uuid1),
         new MockLanguageID(uuid3),
         new MockRegionID(uuid5),
-        new MockTerm(),
+        new MockTermID(uuid7),
         new MockStatsName('NO TOFU'),
         new MockStatsUnit(),
         new MockUpdatedAt()
@@ -448,7 +448,7 @@ describe('StatsOutline', () => {
         new MockStatsID(uuid1),
         new MockLanguageID(uuid3),
         new MockRegionID(uuid5),
-        new MockTerm(),
+        new MockTermID(uuid7),
         new MockStatsName(),
         new MockStatsUnit('NO TOFU'),
         new MockUpdatedAt()
@@ -457,7 +457,7 @@ describe('StatsOutline', () => {
         new MockStatsID(uuid1),
         new MockLanguageID(uuid3),
         new MockRegionID(uuid5),
-        new MockTerm(),
+        new MockTermID(uuid7),
         new MockStatsName(),
         new MockStatsUnit(),
         new MockUpdatedAt({
@@ -468,7 +468,7 @@ describe('StatsOutline', () => {
         new MockStatsID(uuid1),
         new MockLanguageID(uuid3),
         new MockRegionID(uuid5),
-        new MockTerm(),
+        new MockTermID(uuid7),
         new MockStatsName(),
         new MockStatsUnit(),
         new MockUpdatedAt()
@@ -491,12 +491,13 @@ describe('StatsOutline', () => {
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
+      const uuid4: UUID = UUID.v4();
       const asOf: string = '2000-01-01 00:00:00';
       const statsOutline: StatsOutline = StatsOutline.of(
         StatsID.of(uuid1),
         LanguageID.of(uuid2),
         RegionID.of(uuid3),
-        Term.DAILY,
+        TermID.of(uuid4),
         StatsName.of('name1'),
         StatsUnit.of('unit1'),
         UpdatedAt.ofString(asOf).get()
@@ -506,7 +507,7 @@ describe('StatsOutline', () => {
         statsID: uuid1.get(),
         languageID: uuid2.get(),
         regionID: uuid3.get(),
-        termID: 1,
+        termID: uuid4.get(),
         name: 'name1',
         unit: 'unit1',
         updatedAt: asOf
@@ -519,7 +520,7 @@ describe('StatsOutline', () => {
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
       const uuid3: UUID = UUID.v4();
-      const term: Term = Term.DAILY;
+      const uuid4: UUID = UUID.v4();
       const name: string = 'name4';
       const unit: string = 'unit1';
       const asOf: string = '2000-01-01 00:00:00';
@@ -527,13 +528,13 @@ describe('StatsOutline', () => {
         StatsID.of(uuid1),
         LanguageID.of(uuid2),
         RegionID.of(uuid3),
-        term,
+        TermID.of(uuid4),
         StatsName.of(name),
         StatsUnit.of(unit),
         UpdatedAt.ofString(asOf).get()
       );
 
-      expect(statsOutline.toString()).toBe(`${uuid1.get()} ${uuid2.get()} ${uuid3.get()} ${term.toString()} ${name} ${unit} ${asOf}`);
+      expect(statsOutline.toString()).toBe(`${uuid1.get()} ${uuid2.get()} ${uuid3.get()} ${uuid4.get()} ${name} ${unit} ${asOf}`);
     });
   });
 
@@ -543,7 +544,7 @@ describe('StatsOutline', () => {
         new MockStatsID(),
         LanguageID.empty(),
         RegionID.empty(),
-        new MockTerm(),
+        new MockTermID(),
         new MockStatsName(),
         new MockStatsUnit(),
         new MockUpdatedAt()
@@ -552,7 +553,7 @@ describe('StatsOutline', () => {
         new MockStatsID(),
         new MockLanguageID(),
         RegionID.empty(),
-        new MockTerm(),
+        new MockTermID(),
         new MockStatsName(),
         new MockStatsUnit(),
         new MockUpdatedAt()
@@ -561,7 +562,7 @@ describe('StatsOutline', () => {
         new MockStatsID(),
         LanguageID.empty(),
         new MockRegionID(),
-        new MockTerm(),
+        new MockTermID(),
         new MockStatsName(),
         new MockStatsUnit(),
         new MockUpdatedAt()
@@ -570,7 +571,7 @@ describe('StatsOutline', () => {
         new MockStatsID(),
         new MockLanguageID(),
         new MockRegionID(),
-        new MockTerm(),
+        new MockTermID(),
         new MockStatsName(),
         new MockStatsUnit(),
         new MockUpdatedAt()
@@ -579,7 +580,7 @@ describe('StatsOutline', () => {
         new MockStatsID(),
         new MockLanguageID(),
         new MockRegionID(),
-        new MockTerm(),
+        new MockTermID(),
         new MockStatsName('stats name'),
         new MockStatsUnit(),
         new MockUpdatedAt()
@@ -588,7 +589,7 @@ describe('StatsOutline', () => {
         new MockStatsID(),
         new MockLanguageID(),
         new MockRegionID(),
-        new MockTerm(),
+        new MockTermID(),
         new MockStatsName(),
         new MockStatsUnit('stats unit'),
         new MockUpdatedAt()
@@ -597,7 +598,7 @@ describe('StatsOutline', () => {
         new MockStatsID(),
         new MockLanguageID(),
         new MockRegionID(),
-        new MockTerm(),
+        new MockTermID(),
         new MockStatsName('stats name'),
         new MockStatsUnit('stats unit'),
         new MockUpdatedAt()
@@ -618,7 +619,7 @@ describe('StatsOutline', () => {
       const statsID: MockStatsID = new MockStatsID();
       const languageID: MockLanguageID = new MockLanguageID();
       const regionID: MockRegionID = new MockRegionID();
-      const term: MockTerm = new MockTerm();
+      const termID: MockTermID = new MockTermID();
       const name: MockStatsName = new MockStatsName();
       const unit: MockStatsUnit = new MockStatsUnit();
       const updatedAt: MockUpdatedAt = new MockUpdatedAt();
@@ -627,7 +628,7 @@ describe('StatsOutline', () => {
         statsID,
         languageID,
         regionID,
-        term,
+        termID,
         name,
         unit,
         updatedAt
@@ -638,7 +639,7 @@ describe('StatsOutline', () => {
       expect(statsOutline.getStatsID()).toBe(statsID);
       expect(statsOutline.getLanguageID()).toBe(languageID);
       expect(statsOutline.getRegionID()).toBe(regionID);
-      expect(statsOutline.getTerm()).toBe(term);
+      expect(statsOutline.getTermID()).toBe(termID);
       expect(statsOutline.getName()).toBe(name);
       expect(statsOutline.getUnit()).toBe(unit);
       expect(statsOutline.getUpdatedAt()).toBe(updatedAt);
