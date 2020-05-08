@@ -92,8 +92,8 @@ export const STATS_EDIT_ROW_MOVED: '@@veau/STATS_EDIT_ROW_MOVED' = '@@veau/STATS
 export const STATS_EDIT_INVALID_VALUE_INPUT: '@@veau/STATS_EDIT_INVALID_VALUE_INPUT' = '@@veau/STATS_EDIT_INVALID_VALUE_INPUT';
 export const STATS_EDIT_SAVE_STATS: '@@veau/STATS_EDIT_SAVE_STATS' = '@@veau/STATS_EDIT_SAVE_STATS';
 
-export const STATS_OUTLINE_UPDATE: '@@veau/STATS_OUTLINE_UPDATE' = '@@veau/STATS_OUTLINE_UPDATE';
-export const STATS_OUTLINE_RESET: '@@veau/STATS_OUTLINE_RESET' = '@@veau/STATS_OUTLINE_RESET';
+export const STATS_LIST_ITEM_UPDATE: '@@veau/STATS_LIST_ITEM_UPDATE' = '@@veau/STATS_LIST_ITEM_UPDATE';
+export const STATS_LIST_ITEM_RESET: '@@veau/STATS_LIST_ITEM_RESET' = '@@veau/STATS_LIST_ITEM_RESET';
 export const STATS_UPDATE: '@@veau/STATS_UPDATE' = '@@veau/STATS_UPDATE';
 export const STATS_RESET: '@@veau/STATS_RESET' = '@@veau/STATS_RESET';
 export const STATS_ITEM_UPDATE: '@@veau/STATS_ITEM_UPDATE' = '@@veau/STATS_ITEM_UPDATE';
@@ -354,13 +354,13 @@ export interface StatsEditSaveStatsAction extends ReduxAction {
   readonly type: typeof STATS_EDIT_SAVE_STATS;
 }
 
-export interface StatsOutlineUpdateAction extends ReduxAction {
-  readonly type: typeof STATS_OUTLINE_UPDATE;
+export interface StatsListItemUpdateAction extends ReduxAction {
+  readonly type: typeof STATS_LIST_ITEM_UPDATE;
   readonly statsListItems: StatsListItems;
 }
 
-export interface StatsOutlineResetAction extends ReduxAction {
-  readonly type: typeof STATS_OUTLINE_RESET;
+export interface StatsListItemResetAction extends ReduxAction {
+  readonly type: typeof STATS_LIST_ITEM_RESET;
 }
 
 export interface StatsUpdateAction extends ReduxAction {
@@ -436,8 +436,8 @@ export type Action =
   StatsEditRowMovedAction |
   StatsEditInvalidValueInputAction |
   StatsEditSaveStatsAction |
-  StatsOutlineUpdateAction |
-  StatsOutlineResetAction |
+  StatsListItemUpdateAction |
+  StatsListItemResetAction |
   StatsUpdateAction |
   StatsResetAction |
   StatsItemUpdateAction |

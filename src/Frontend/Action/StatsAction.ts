@@ -1,31 +1,31 @@
 import { Stats } from '../../Entity/Stats';
 import { StatsItem } from '../../Entity/StatsItem';
-import { StatsOutlines } from '../../VO/StatsOutlines';
+import { StatsListItems } from '../../VO/StatsListItems';
 import {
   STATS_ITEM_RESET,
   STATS_ITEM_UPDATE,
-  STATS_OUTLINE_RESET,
-  STATS_OUTLINE_UPDATE,
+  STATS_LIST_ITEM_RESET,
+  STATS_LIST_ITEM_UPDATE,
   STATS_RESET,
   STATS_UPDATE,
   StatsItemResetAction,
   StatsItemUpdateAction,
-  StatsOutlineResetAction,
-  StatsOutlineUpdateAction,
+  StatsListItemResetAction,
+  StatsListItemUpdateAction,
   StatsResetAction,
   StatsUpdateAction
 } from './Action';
 
-export const updateStatsOutlines = (statsOutlines: StatsOutlines): StatsOutlineUpdateAction => {
+export const updateStatsListItems = (statsListItems: StatsListItems): StatsListItemUpdateAction => {
   return {
-    type: STATS_OUTLINE_UPDATE,
-    statsListItems: statsOutlines
+    type: STATS_LIST_ITEM_UPDATE,
+    statsListItems
   };
 };
 
-export const resetStatsOutlines = (): StatsOutlineResetAction => {
+export const resetStatsListItems = (): StatsListItemResetAction => {
   return {
-    type: STATS_OUTLINE_RESET
+    type: STATS_LIST_ITEM_RESET
   };
 };
 
