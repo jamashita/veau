@@ -21,13 +21,13 @@ class StatsListImpl extends React.Component<Props & WrappedComponentProps, State
 
   public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
     const {
-      statsOutlines,
+      statsListItems,
       open,
       stats,
       locale
     } = this.props;
 
-    if (!statsOutlines.equals(nextProps.statsOutlines)) {
+    if (!statsListItems.equals(nextProps.statsListItems)) {
       return true;
     }
     if (open !== nextProps.open) {
@@ -45,7 +45,7 @@ class StatsListImpl extends React.Component<Props & WrappedComponentProps, State
 
   public render(): React.ReactNode {
     const {
-      statsOutlines,
+      statsListItems,
       open,
       stats,
       locale,
@@ -76,7 +76,7 @@ class StatsListImpl extends React.Component<Props & WrappedComponentProps, State
           })}
         </Button>
         <StatsOutlineListTable
-          statsOutlines={statsOutlines}
+          statsListItems={statsListItems}
           toStatsEdit={toStatsEdit}
         />
         <StatsOutlineModal

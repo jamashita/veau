@@ -6,11 +6,11 @@ import TableRow from '@material-ui/core/TableRow';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
 import { StatsID } from '../../../VO/StatsID';
-import { StatsOutline } from '../../../VO/StatsOutline';
-import { StatsOutlines } from '../../../VO/StatsOutlines';
+import { StatsListItem } from '../../../VO/StatsListItem';
+import { StatsListItems } from '../../../VO/StatsListItems';
 
 type Props = Readonly<{
-  statsOutlines: StatsOutlines;
+  statsListItems: StatsListItems;
   toStatsEdit: (statsID: StatsID) => void;
 }>;
 type State = Readonly<{}>;
@@ -19,10 +19,10 @@ class StatsOutlineListTableImpl extends React.Component<Props & WrappedComponent
 
   public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
     const {
-      statsOutlines
+      statsListItems
     } = this.props;
 
-    if (statsOutlines.equals(nextProps.statsOutlines)) {
+    if (statsListItems.equals(nextProps.statsListItems)) {
       return false;
     }
 
@@ -31,7 +31,7 @@ class StatsOutlineListTableImpl extends React.Component<Props & WrappedComponent
 
   public render(): React.ReactNode {
     const {
-      statsOutlines,
+      statsListItems,
       intl,
       toStatsEdit
     } = this.props;
@@ -73,25 +73,25 @@ class StatsOutlineListTableImpl extends React.Component<Props & WrappedComponent
           </TableRow>
         </TableHead>
         <TableBody>
-          {statsOutlines.map<React.ReactNode>((statsOutline: StatsOutline) => {
+          {statsListItems.map<React.ReactNode>((items: StatsListItem) => {
             return (
               <TableRow
-                key={statsOutline.getStatsID().get().get()}
+                key={items.getOutline().getStatsID().get().get()}
                 hover={true}
                 onClick={() => {
-                  toStatsEdit(statsOutline.getStatsID());
+                  toStatsEdit(items.getOutline().getStatsID());
                 }}
               >
-                <TableCell>{statsOutline.getName().get()}</TableCell>
-                <TableCell>{statsOutline.getUnit().get()}</TableCell>
-                <TableCell>{statsOutline.getLanguage().getName().get()}</TableCell>
-                <TableCell>{statsOutline.getRegion().getName().get()}</TableCell>
+                <TableCell>{items.getOutline().getName().get()}</TableCell>
+                <TableCell>{items.getOutline().getUnit().get()}</TableCell>
+                <TableCell>{items.getLanguage().getName().get()}</TableCell>
+                <TableCell>{items.getRegion().getName().get()}</TableCell>
                 <TableCell>
                   {intl.formatMessage({
-                    id: statsOutline.getTerm().getKey()
+                    id: items.getTerm().getTermID().get().get()
                   })}
                 </TableCell>
-                <TableCell>{statsOutline.getUpdatedAt().toString()}</TableCell>
+                <TableCell>{items.getOutline().getUpdatedAt().toString()}</TableCell>
               </TableRow>
             );
           })}

@@ -5,8 +5,8 @@ import { ISO3166 } from '../../../VO/ISO3166';
 import { ISO639 } from '../../../VO/ISO639';
 import { Locale } from '../../../VO/Locale';
 import { StatsID } from '../../../VO/StatsID';
+import { StatsListItems } from '../../../VO/StatsListItems';
 import { StatsName } from '../../../VO/StatsName';
-import { StatsOutlines } from '../../../VO/StatsOutlines';
 import { StatsUnit } from '../../../VO/StatsUnit';
 import { Term } from '../../../VO/Term';
 import { Action } from '../../Action/Action';
@@ -26,7 +26,7 @@ import { StatsList as Component } from '../../Component/Page/StatsList';
 import { State } from '../../State';
 
 type StateProps = Readonly<{
-  statsOutlines: StatsOutlines;
+  statsListItems: StatsListItems;
   open: boolean;
   stats: Stats;
   locale: Locale;
@@ -48,7 +48,7 @@ export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
   const {
-    statsOutlines,
+    statsListItems,
     statsList: {
       open,
       stats
@@ -57,7 +57,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
   } = state;
 
   return {
-    statsOutlines,
+    statsListItems,
     open,
     stats,
     locale
