@@ -185,34 +185,6 @@ describe('StatsOutlines', () => {
 
       expect(superposition.isDead()).toBe(true);
     });
-
-    it('has malformat UpdatedAt', () => {
-      const json: Array<StatsOutlineJSON> = [
-        {
-          statsID: UUID.v4().get(),
-          languageID: UUID.v4().get(),
-          regionID: UUID.v4().get(),
-          termID: UUID.v4().get(),
-          name: 'stats name',
-          unit: 'stats unit',
-          updatedAt: '2000-01-01'
-        },
-        {
-          statsID: UUID.v4().get(),
-          languageID: UUID.v4().get(),
-          regionID: UUID.v4().get(),
-          termID: UUID.v4().get(),
-          name: 'stats name',
-          unit: 'stats unit',
-          updatedAt: '2000-01-01 00:00:00'
-        }
-      ];
-
-      const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofJSON(json);
-
-      expect(superposition.isDead()).toBe(true);
-    });
-
   });
 
   describe('ofRow', () => {
@@ -273,87 +245,6 @@ describe('StatsOutlines', () => {
           name: 'stats name',
           unit: 'stats unit',
           updatedAt: '2000-01-01 00:00:00'
-        }
-      ];
-
-      const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofRow(rows);
-
-      expect(superposition.isDead()).toBe(true);
-    });
-
-    it('has malformat languageID', () => {
-      const rows: Array<StatsOutlineRow> = [
-        {
-          statsID: UUID.v4().get(),
-          languageID: 'malformat',
-          regionID: UUID.v4().get(),
-          termID: UUID.v4().get(),
-          name: 'stats name',
-          unit: 'stats unit',
-          updatedAt: '2000-01-01 00:00:00'
-        },
-        {
-          statsID: UUID.v4().get(),
-          languageID: UUID.v4().get(),
-          regionID: UUID.v4().get(),
-          termID: UUID.v4().get(),
-          name: 'stats name',
-          unit: 'stats unit',
-          updatedAt: '2000-01-01'
-        }
-      ];
-
-      const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofRow(rows);
-
-      expect(superposition.isDead()).toBe(true);
-    });
-
-    it('has malformat regionID', () => {
-      const rows: Array<StatsOutlineRow> = [
-        {
-          statsID: UUID.v4().get(),
-          languageID: UUID.v4().get(),
-          regionID: 'malformat',
-          termID: UUID.v4().get(),
-          name: 'stats name',
-          unit: 'stats unit',
-          updatedAt: '2000-01-01 00:00:00'
-        },
-        {
-          statsID: UUID.v4().get(),
-          languageID: UUID.v4().get(),
-          regionID: UUID.v4().get(),
-          termID: UUID.v4().get(),
-          name: 'stats name',
-          unit: 'stats unit',
-          updatedAt: '2000-01-01'
-        }
-      ];
-
-      const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofRow(rows);
-
-      expect(superposition.isDead()).toBe(true);
-    });
-
-    it('has malformat UpdatedAt', () => {
-      const rows: Array<StatsOutlineRow> = [
-        {
-          statsID: UUID.v4().get(),
-          languageID: UUID.v4().get(),
-          regionID: UUID.v4().get(),
-          termID: UUID.v4().get(),
-          name: 'stats name',
-          unit: 'stats unit',
-          updatedAt: '2000-01-01 00:00:00'
-        },
-        {
-          statsID: UUID.v4().get(),
-          languageID: UUID.v4().get(),
-          regionID: UUID.v4().get(),
-          termID: UUID.v4().get(),
-          name: 'stats name',
-          unit: 'stats unit',
-          updatedAt: '2000-01-01'
         }
       ];
 

@@ -5,7 +5,13 @@ export class StatsListItems extends Objet implements Collection<number, StatsLis
   public readonly noun: 'StatsListItems' = 'StatsListItems';
   private readonly items: Sequence<StatsListItem>;
 
+  private static readonly EMPTY: StatsListItems = new StatsListItems(ImmutableSequence.empty<StatsListItem>());
+
   public static of(items: Sequence<StatsListItem>): StatsListItems {
+    if (items.isEmpty()) {
+      return StatsListItems.empty();
+    }
+
     return new StatsListItems(items);
   }
 
@@ -15,6 +21,10 @@ export class StatsListItems extends Objet implements Collection<number, StatsLis
 
   public static ofSpread(...items: Array<StatsListItem>): StatsListItems {
     return StatsListItems.ofArray(items);
+  }
+
+  public static empty(): StatsListItems {
+    return StatsListItems.EMPTY;
   }
 
   protected constructor(items: Sequence<StatsListItem>) {
