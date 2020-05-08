@@ -24,4 +24,7 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = () => {
   return {};
 };
 
-export const LoadingIndicator: ConnectedComponent<typeof Component, Pick<StateProps, never>> = connect<StateProps, DispatchProps, OwnProps, State>(mapStateToProps, mapDispatchToProps)(Component);
+export const LoadingIndicator: ConnectedComponent<typeof Component, Pick<StateProps, never>> = connect<StateProps, DispatchProps, OwnProps, State>(
+  mapStateToProps,
+  mapDispatchToProps
+)(Component);
