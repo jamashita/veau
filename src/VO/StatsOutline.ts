@@ -1,4 +1,4 @@
-import { Alive, Cloneable, Dead, JSONable, Kind, Superposition, ValueObject } from 'publikum';
+import { Alive, Dead, JSONable, Kind, Superposition, ValueObject } from 'publikum';
 import { LanguageIDError } from '../Error/LanguageIDError';
 import { RegionIDError } from '../Error/RegionIDError';
 import { StatsIDError } from '../Error/StatsIDError';
@@ -33,7 +33,7 @@ export type StatsOutlineRow = Readonly<{
   updatedAt: string;
 }>;
 
-export class StatsOutline extends ValueObject implements Cloneable<StatsOutline>, JSONable {
+export class StatsOutline extends ValueObject implements JSONable {
   public readonly noun: 'StatsOutline' = 'StatsOutline';
   private readonly statsID: StatsID;
   private readonly languageID: LanguageID;
@@ -263,18 +263,6 @@ export class StatsOutline extends ValueObject implements Cloneable<StatsOutline>
     }
 
     return true;
-  }
-
-  public duplicate(): StatsOutline {
-    return new StatsOutline(
-      this.statsID,
-      this.languageID,
-      this.regionID,
-      this.termID,
-      this.name,
-      this.unit,
-      this.updatedAt
-    );
   }
 
   public toJSON(): StatsOutlineJSON {

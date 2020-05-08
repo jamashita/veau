@@ -841,36 +841,4 @@ describe('StatsOutline', () => {
       expect(statsOutline7.isFilled()).toBe(true);
     });
   });
-
-  describe('duplicate', () => {
-    it('every properties are duplicated', () => {
-      const statsID: MockStatsID = new MockStatsID();
-      const languageID: MockLanguageID = new MockLanguageID();
-      const regionID: MockRegionID = new MockRegionID();
-      const termID: MockTermID = new MockTermID();
-      const name: MockStatsName = new MockStatsName();
-      const unit: MockStatsUnit = new MockStatsUnit();
-      const updatedAt: MockUpdatedAt = new MockUpdatedAt();
-
-      const statsOutline: StatsOutline = StatsOutline.of(
-        statsID,
-        languageID,
-        regionID,
-        termID,
-        name,
-        unit,
-        updatedAt
-      );
-      const duplicated: StatsOutline = statsOutline.duplicate();
-
-      expect(statsOutline).not.toBe(duplicated);
-      expect(statsOutline.getStatsID()).toBe(statsID);
-      expect(statsOutline.getLanguageID()).toBe(languageID);
-      expect(statsOutline.getRegionID()).toBe(regionID);
-      expect(statsOutline.getTermID()).toBe(termID);
-      expect(statsOutline.getName()).toBe(name);
-      expect(statsOutline.getUnit()).toBe(unit);
-      expect(statsOutline.getUpdatedAt()).toBe(updatedAt);
-    });
-  });
 });
