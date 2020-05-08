@@ -17,8 +17,8 @@ import { Password } from '../../VO/Password';
 import { Row } from '../../VO/Row';
 import { StatsID } from '../../VO/StatsID';
 import { StatsItemName } from '../../VO/StatsItemName';
+import { StatsListItems } from '../../VO/StatsListItems';
 import { StatsName } from '../../VO/StatsName';
-import { StatsOutlines } from '../../VO/StatsOutlines';
 import { StatsUnit } from '../../VO/StatsUnit';
 import { Term } from '../../VO/Term';
 
@@ -356,7 +356,7 @@ export interface StatsEditSaveStatsAction extends ReduxAction {
 
 export interface StatsOutlineUpdateAction extends ReduxAction {
   readonly type: typeof STATS_OUTLINE_UPDATE;
-  readonly statsOutlines: StatsOutlines;
+  readonly statsListItems: StatsListItems;
 }
 
 export interface StatsOutlineResetAction extends ReduxAction {

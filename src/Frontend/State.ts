@@ -6,7 +6,7 @@ import { Identity } from '../VO/Identity';
 import { LoadingCount } from '../VO/LoadingCount';
 import { Locale } from '../VO/Locale';
 import { PageProvider } from '../VO/PageProvider';
-import { StatsOutlines } from '../VO/StatsOutlines';
+import { StatsListItems } from '../VO/StatsListItems';
 import { Modal } from './Reducer/Modal';
 import { Notification } from './Reducer/Notification';
 import { StatsEdit } from './Reducer/StatsEdit';
@@ -24,6 +24,6 @@ export type State = Readonly<{
   statsEdit: StatsEdit;
   statsItem: StatsItem;
   statsList: StatsList;
-  statsOutlines: StatsOutlines;
+  statsListItems: StatsListItems;
   router: RouterState;
 }>;

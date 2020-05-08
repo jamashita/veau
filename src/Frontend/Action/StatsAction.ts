@@ -19,7 +19,7 @@ import {
 export const updateStatsOutlines = (statsOutlines: StatsOutlines): StatsOutlineUpdateAction => {
   return {
     type: STATS_OUTLINE_UPDATE,
-    statsOutlines
+    statsListItems: statsOutlines
   };
 };
 
