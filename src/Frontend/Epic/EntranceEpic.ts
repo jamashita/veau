@@ -5,6 +5,8 @@ import { concat, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import { TYPE } from '../../Container/Types';
 import { VeauAccountError } from '../../Error/VeauAccountError';
+import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
+import { IRegionQuery } from '../../Query/Interface/IRegionQuery';
 import { ISessionQuery } from '../../Query/Interface/ISessionQuery';
 import { EntranceInformation } from '../../VO/EntranceInformation';
 import { VeauAccount } from '../../VO/VeauAccount';
@@ -26,9 +28,17 @@ import { State } from '../State';
 @injectable()
 export class EntranceEpic {
   private readonly sessionQuery: ISessionQuery;
+  private readonly languageQuery: ILanguageQuery;
+  private readonly regionQuery: IRegionQuery;
 
-  public constructor(@inject(TYPE.SessionAJAXQuery) sessionQuery: ISessionQuery) {
+  public constructor(
+  @inject(TYPE.SessionAJAXQuery) sessionQuery: ISessionQuery,
+    @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery,
+    @inject(TYPE.RegionVaultQuery) regionQuery: IRegionQuery
+  ) {
     this.sessionQuery = sessionQuery;
+    this.languageQuery = languageQuery;
+    this.regionQuery = regionQuery;
   }
 
   public init(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
