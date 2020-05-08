@@ -1,11 +1,13 @@
-// @ts-nocheck
 import { inject, injectable } from 'inversify';
+import { DataSourceError, Superposition } from 'publikum';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
-import { concat, EMPTY, merge, Observable, of } from 'rxjs';
+import { concat, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import { TYPE } from '../../Container/Types';
+import { VeauAccountError } from '../../Error/VeauAccountError';
 import { ISessionQuery } from '../../Query/Interface/ISessionQuery';
 import { EntranceInformation } from '../../VO/EntranceInformation';
+import { VeauAccount } from '../../VO/VeauAccount';
 import {
   Action,
   ENTRANCE_ACCOUNT_NAME_TYPED,
@@ -15,7 +17,10 @@ import {
   IDENTITY_AUTHENTICATE
 } from '../Action/Action';
 import { updateEntranceInformation } from '../Action/EntranceAction';
+import { identified, identityAuthenticated } from '../Action/IdentityAction';
 import { loaded, loading } from '../Action/LoadingAction';
+import { raiseModal } from '../Action/ModalAction';
+import { pushToStatsList } from '../Action/RedirectAction';
 import { State } from '../State';
 
 @injectable()
@@ -55,46 +60,39 @@ export class EntranceEpic {
       }),
       mergeMap(() => {
         return concat<Action>(
-          of(loading()),
-          EMPTY.pipe(
-            mergeMap(() => {
-              return of(loaded());
-            })
-          )
+          of<Action>(loading()),
+          mergeMap(() => {
+            const {
+              value: {
+                entranceInformation
+              }
+            } = state$;
+
+            return from<Promise<Superposition<VeauAccount, VeauAccountError | DataSourceError>>>(
+              this.sessionQuery.findByEntranceInfo(entranceInformation)
+            ).pipe<Action>(
+              mergeMap((superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError>) => {
+                return concat<Action>(
+                  of<Action>(loaded()),
+                  mergeMap(() => {
+                    return superposition.match((veauAccount: VeauAccount) => {
+                      return of(
+                        identityAuthenticated(veauAccount),
+                        pushToStatsList(),
+                        identified()
+                      );
+                    }, () => {
+                      return of(
+                        raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION')
+                      );
+                    });
+                  })
+                );
+              })
+            );
+          })
         );
       })
-      // mergeMap<Action, Observable<Action>>(() => {
-      //   return of<Action>(loading()).pipe(
-      //     tap(console.log),
-      //     mergeMap<unknown, Observable<Action>>(() => {
-      //       const {
-      //         value: {
-      //           entranceInformation
-      //         }
-      //       } = state$;
-      //
-      //       return from<Promise<Superposition<VeauAccount, VeauAccountError | DataSourceError>>>(
-      //         this.sessionQuery.findByEntranceInfo(entranceInformation)
-      //       ).pipe<Action>(
-      //         mergeMap<Superposition<VeauAccount, VeauAccountError | DataSourceError>, Observable<Action>>((superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError>) => {
-      //           return of<Action>(loaded()).pipe(
-      //             mergeMap<never, Observable<Action>>(() => {
-      //               return superposition.match<Observable<Action>>((veauAccount: VeauAccount) => {
-      //                 return of<Action>(
-      //                   identityAuthenticated(veauAccount),
-      //                   pushToStatsList(),
-      //                   identified()
-      //                 );
-      //               }, () => {
-      //                 return of<Action>(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
-      //               });
-      //             })
-      //           );
-      //         })
-      //       );
-      //     })
-      //   );
-      // })
     );
   }
 
