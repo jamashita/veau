@@ -64,60 +64,60 @@ describe('StatsOutlines', () => {
         expect(outlines.get(i).get()).toBe(outlineArray[i]);
       }
     });
-  });
 
-  it('contains failure', () => {
-    const statsOutline1: MockStatsOutline = new MockStatsOutline();
+    it('contains failure', () => {
+      const statsOutline1: MockStatsOutline = new MockStatsOutline();
 
-    const spy1: SinonSpy = sinon.spy();
-    const spy2: SinonSpy = sinon.spy();
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
-    const superposition1: Superposition<StatsOutline, StatsOutlineError> = Alive.of<StatsOutline, StatsOutlineError>(statsOutline1);
-    const superposition2: Superposition<StatsOutline, StatsOutlineError> = Dead.of<StatsOutline, StatsOutlineError>(
-      new StatsOutlineError('test failed')
-    );
-    const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofSuperposition([
-      superposition1,
-      superposition2
-    ]);
+      const superposition1: Superposition<StatsOutline, StatsOutlineError> = Alive.of<StatsOutline, StatsOutlineError>(statsOutline1);
+      const superposition2: Superposition<StatsOutline, StatsOutlineError> = Dead.of<StatsOutline, StatsOutlineError>(
+        new StatsOutlineError('test failed')
+      );
+      const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofSuperposition([
+        superposition1,
+        superposition2
+      ]);
 
-    expect(superposition.isDead()).toBe(true);
-    superposition.match<void>(() => {
-      spy1();
-    }, (err: StatsOutlinesError) => {
-      spy2();
-      expect(err).toBeInstanceOf(StatsOutlinesError);
+      expect(superposition.isDead()).toBe(true);
+      superposition.match<void>(() => {
+        spy1();
+      }, (err: StatsOutlinesError) => {
+        spy2();
+        expect(err).toBeInstanceOf(StatsOutlinesError);
+      });
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
 
-    expect(spy1.called).toBe(false);
-    expect(spy2.called).toBe(true);
-  });
+    it('contains failure', () => {
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
 
-  it('contains failure', () => {
-    const spy1: SinonSpy = sinon.spy();
-    const spy2: SinonSpy = sinon.spy();
+      const superposition1: Superposition<StatsOutline, StatsOutlineError> = Dead.of<StatsOutline, StatsOutlineError>(
+        new StatsOutlineError('test failed 1')
+      );
+      const superposition2: Superposition<StatsOutline, StatsOutlineError> = Dead.of<StatsOutline, StatsOutlineError>(
+        new StatsOutlineError('test failed 2')
+      );
+      const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofSuperposition([
+        superposition1,
+        superposition2
+      ]);
 
-    const superposition1: Superposition<StatsOutline, StatsOutlineError> = Dead.of<StatsOutline, StatsOutlineError>(
-      new StatsOutlineError('test failed 1')
-    );
-    const superposition2: Superposition<StatsOutline, StatsOutlineError> = Dead.of<StatsOutline, StatsOutlineError>(
-      new StatsOutlineError('test failed 2')
-    );
-    const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofSuperposition([
-      superposition1,
-      superposition2
-    ]);
+      expect(superposition.isDead()).toBe(true);
+      superposition.match<void>(() => {
+        spy1();
+      }, (err: StatsOutlinesError) => {
+        spy2();
+        expect(err).toBeInstanceOf(StatsOutlinesError);
+      });
 
-    expect(superposition.isDead()).toBe(true);
-    superposition.match<void>(() => {
-      spy1();
-    }, (err: StatsOutlinesError) => {
-      spy2();
-      expect(err).toBeInstanceOf(StatsOutlinesError);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
-
-    expect(spy1.called).toBe(false);
-    expect(spy2.called).toBe(true);
   });
 
   describe('ofJSON', () => {
