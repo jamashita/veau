@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify';
 import { DataSourceError, Superposition } from 'publikum';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { concat, EMPTY, from, merge, Observable, of } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { map, mergeMap, filter } from 'rxjs/operators';
 import { TYPE } from '../../Container/Types';
 import { LanguageError } from '../../Error/LanguageError';
 import { LocaleError } from '../../Error/LocaleError';
@@ -28,6 +28,7 @@ import { defineLocale } from '../Action/LocaleAction';
 import { raiseModal } from '../Action/ModalAction';
 import { pushToEntrance, pushToStatsList } from '../Action/RedirectAction';
 import { State } from '../State';
+import { Endpoints } from '../Endpoints';
 @injectable()
 export class IdentityEpic {
   private readonly sessionQuery: ISessionQuery;
@@ -35,7 +36,7 @@ export class IdentityEpic {
   private readonly languageQuery: ILanguageQuery;
 
   public constructor(
-    @inject(TYPE.SessionAJAXQuery) sessionQuery: ISessionQuery,
+  @inject(TYPE.SessionAJAXQuery) sessionQuery: ISessionQuery,
     @inject(TYPE.LocaleVaultQuery) localeQuery: ILocaleQuery,
     @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery
   ) {
@@ -52,12 +53,6 @@ export class IdentityEpic {
   }
 
   public initIdentity(state$: StateObservable<State>): Observable<Action> {
-    const {
-      value: {
-        identity
-      }
-    } = state$;
-
     return EMPTY.pipe(
       mergeMap<Action, Observable<Action>>(() => {
         return concat(
@@ -111,6 +106,12 @@ export class IdentityEpic {
                       ).pipe<Action>(
                         mergeMap<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>, Observable<Action>>((superposition3: Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>) => {
                           return superposition3.match<Observable<Action>>((language: Language) => {
+                            const {
+                              value: {
+                                identity
+                              }
+                            } = state$;
+
                             return of<Action>(
                               identityAuthenticated(
                                 Identity.of(
@@ -135,7 +136,8 @@ export class IdentityEpic {
               );
             })
           )
-      });
+        );
+      })
     );
   }
 
