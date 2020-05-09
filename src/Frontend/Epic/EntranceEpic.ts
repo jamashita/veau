@@ -56,7 +56,7 @@ export class EntranceEpic {
   }
 
   public login(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    return action$.pipe(
+    return action$.pipe<Action, Action, Action>(
       ofType<Action, Action>(IDENTITY_AUTHENTICATE),
       filter<Action>(() => {
         const {
@@ -74,10 +74,10 @@ export class EntranceEpic {
 
         return entranceInformation.isAcceptable();
       }),
-      mergeMap(() => {
+      mergeMap<Action, Observable<Action>>(() => {
         return concat<Action>(
           of<Action>(loading()),
-          mergeMap(() => {
+          mergeMap<unknown, Observable<Action>>(() => {
             const {
               value: {
                 entranceInformation
@@ -87,18 +87,18 @@ export class EntranceEpic {
             return from<Promise<Superposition<VeauAccount, VeauAccountError | DataSourceError>>>(
               this.sessionQuery.findByEntranceInfo(entranceInformation)
             ).pipe<Action>(
-              mergeMap((superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError>) => {
+              mergeMap<Superposition<VeauAccount, VeauAccountError | DataSourceError>, Observable<Action>>((superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError>) => {
                 return concat<Action>(
                   of<Action>(loaded()),
-                  mergeMap(() => {
-                    return superposition.match((veauAccount: VeauAccount) => {
+                  mergeMap<Superposition<VeauAccount, VeauAccountError | DataSourceError>, Observable<Action>>(() => {
+                    return superposition.match<Observable<Action>>((veauAccount: VeauAccount) => {
                       return from<Promise<[Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>, Superposition<Region, RegionError | NoSuchElementError | DataSourceError>]>>(
                         Promise.all<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>, Superposition<Region, RegionError | NoSuchElementError | DataSourceError>>([
                           this.languageQuery.find(veauAccount.getLanguageID()),
                           this.regionQuery.find(veauAccount.getRegionID())
                         ])
-                      ).pipe(
-                        mergeMap(([
+                      ).pipe<Action>(
+                        mergeMap<[Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>, Superposition<Region, RegionError | NoSuchElementError | DataSourceError>], Observable<Action>>(([
                           superposition1,
                           superposition2
                         ]: [Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>, Superposition<Region, RegionError | NoSuchElementError | DataSourceError>]) => {
@@ -139,8 +139,7 @@ export class EntranceEpic {
             );
           })
         );
-      }
-      )
+      })
     );
   }
 
