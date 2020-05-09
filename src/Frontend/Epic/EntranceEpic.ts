@@ -4,11 +4,17 @@ import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { concat, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import { TYPE } from '../../Container/Types';
+import { LanguageError } from '../../Error/LanguageError';
+import { NoSuchElementError } from '../../Error/NoSuchElementError';
+import { RegionError } from '../../Error/RegionError';
 import { VeauAccountError } from '../../Error/VeauAccountError';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { IRegionQuery } from '../../Query/Interface/IRegionQuery';
 import { ISessionQuery } from '../../Query/Interface/ISessionQuery';
 import { EntranceInformation } from '../../VO/EntranceInformation';
+import { Identity } from '../../VO/Identity';
+import { Language } from '../../VO/Language';
+import { Region } from '../../VO/Region';
 import { VeauAccount } from '../../VO/VeauAccount';
 import {
   Action,
@@ -32,7 +38,7 @@ export class EntranceEpic {
   private readonly regionQuery: IRegionQuery;
 
   public constructor(
-  @inject(TYPE.SessionAJAXQuery) sessionQuery: ISessionQuery,
+    @inject(TYPE.SessionAJAXQuery) sessionQuery: ISessionQuery,
     @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery,
     @inject(TYPE.RegionVaultQuery) regionQuery: IRegionQuery
   ) {
@@ -69,44 +75,88 @@ export class EntranceEpic {
         return entranceInformation.isAcceptable();
       }),
       mergeMap(() => {
-        return concat<Action>(
-          of<Action>(loading()),
-          mergeMap(() => {
-            const {
-              value: {
-                entranceInformation
-              }
-            } = state$;
+          return concat<Action>(
+            of<Action>(loading()),
+            mergeMap(() => {
+              const {
+                value: {
+                  entranceInformation
+                }
+              } = state$;
 
-            return from<Promise<Superposition<VeauAccount, VeauAccountError | DataSourceError>>>(
-              this.sessionQuery.findByEntranceInfo(entranceInformation)
-            ).pipe<Action>(
-              mergeMap((superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError>) => {
-                return concat<Action>(
-                  of<Action>(loaded()),
-                  mergeMap(() => {
-                    return superposition.match((veauAccount: VeauAccount) => {
-                      return of(
-                        identityAuthenticated(veauAccount),
-                        pushToStatsList(),
-                        identified()
-                      );
-                    }, () => {
-                      return of(
-                        raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION')
-                      );
-                    });
-                  })
-                );
-              })
-            );
-          })
-        );
-      })
+              return from<Promise<Superposition<VeauAccount, VeauAccountError | DataSourceError>>>(
+                this.sessionQuery.findByEntranceInfo(entranceInformation)
+              ).pipe<Action>(
+                mergeMap((superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError>) => {
+                  return concat<Action>(
+                    of<Action>(loaded()),
+                    mergeMap(() => {
+                      return superposition.match((veauAccount: VeauAccount) => {
+                        return from<Promise<[Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>, Superposition<Region, RegionError | NoSuchElementError | DataSourceError>]>>(
+                          Promise.all<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>, Superposition<Region, RegionError | NoSuchElementError | DataSourceError>>([
+                            this.languageQuery.find(veauAccount.getLanguageID()),
+                            this.regionQuery.find(veauAccount.getRegionID())
+                          ])
+                        ).pipe(
+                          mergeMap(([
+                            superposition1,
+                            superposition2
+                          ]: [Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>, Superposition<Region, RegionError | NoSuchElementError | DataSourceError>]) => {
+                            return superposition1.match<Observable<Action>>((language: Language) => {
+                              return superposition2.match<Observable<Action>>((region: Region) => {
+                                return of<Action>(
+                                  identityAuthenticated(
+                                    Identity.of(
+                                      veauAccount.getVeauAccountID(),
+                                      veauAccount.getAccountName(),
+                                      language,
+                                      region
+                                    )
+                                  ),
+                                  pushToStatsList(),
+                                  identified()
+                                );
+                              }, () => {
+                                return of<Action>(
+                                  raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION')
+                                );
+                              });
+                            }, () => {
+                              return of<Action>(
+                                raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION')
+                              );
+                            });
+                          })
+                        );
+                      }, () => {
+                        return of<Action>(
+                          raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION')
+                        );
+                      });
+                    })
+                  );
+                })
+              );
+            })
+          );
+        }
+      )
     );
   }
 
-  public accountNameTyped(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public;
+
+  accountNameTyped(action$
+    :
+    ActionsObservable<Action>, state$;
+
+:
+
+  StateObservable<State>;
+
+):
+
+  Observable<Action> {
     return action$.pipe<EntranceAccountNameTypedAction, Action>(
       ofType<Action, EntranceAccountNameTypedAction>(ENTRANCE_ACCOUNT_NAME_TYPED),
       map<EntranceAccountNameTypedAction, Action>((action: EntranceAccountNameTypedAction) => {
@@ -124,9 +174,21 @@ export class EntranceEpic {
         return updateEntranceInformation(newInfo);
       })
     );
-  }
+  };
 
-  public passwordTyped(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
+  public;
+
+  passwordTyped(action$
+    :
+    ActionsObservable<Action>, state$;
+
+:
+
+  StateObservable<State>;
+
+):
+
+  Observable<Action> {
     return action$.pipe<EntrancePasswordTypedAction, Action>(
       ofType<Action, EntrancePasswordTypedAction>(ENTRANCE_PASSWORD_TYPED),
       map<EntrancePasswordTypedAction, Action>((action: EntrancePasswordTypedAction) => {
@@ -144,5 +206,5 @@ export class EntranceEpic {
         return updateEntranceInformation(newInfo);
       })
     );
-  }
+  };
 }
