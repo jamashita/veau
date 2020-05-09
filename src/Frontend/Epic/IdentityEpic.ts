@@ -1,9 +1,10 @@
 import { inject, injectable } from 'inversify';
 import { DataSourceError, Superposition } from 'publikum';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
-import { EMPTY, from, merge, Observable, of } from 'rxjs';
-import { map, mapTo, mergeMap } from 'rxjs/operators';
+import { concat, EMPTY, from, merge, Observable, of } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
 import { TYPE } from '../../Container/Types';
+import { LanguageError } from '../../Error/LanguageError';
 import { LocaleError } from '../../Error/LocaleError';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { UnauthorizedError } from '../../Error/UnauthorizedError';
@@ -35,7 +36,7 @@ export class IdentityEpic {
   private readonly languageQuery: ILanguageQuery;
 
   public constructor(
-  @inject(TYPE.SessionAJAXQuery) sessionQuery: ISessionQuery,
+    @inject(TYPE.SessionAJAXQuery) sessionQuery: ISessionQuery,
     @inject(TYPE.LocaleVaultQuery) localeQuery: ILocaleQuery,
     @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery
   ) {
@@ -59,77 +60,82 @@ export class IdentityEpic {
     } = state$;
 
     return EMPTY.pipe(
-      mapTo<Action, Action>(loading()),
       mergeMap<Action, Observable<Action>>(() => {
-        return from<Promise<Superposition<Locale, LocaleError | DataSourceError>>>(
-          this.localeQuery.all()
-        ).pipe<Action>(
-          mergeMap<Superposition<Locale, LocaleError | DataSourceError>, Observable<Action>>((superposition1: Superposition<Locale, DataSourceError>) => {
-            return EMPTY.pipe<Action, Action, Action>(
-              mapTo<never, Action>(loaded()),
-              mergeMap<Action, Observable<Action>>(() => {
-                return superposition1.match<Observable<Action>>((locale: Locale) => {
-                  return of<Action>(defineLocale(locale));
-                }, () => {
-                  return of<Action>(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
-                });
-              }),
-              mergeMap<Action, Observable<Action>>(() => {
-                return from<Promise<Superposition<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>>>(
-                  this.sessionQuery.find()
-                ).pipe<Action, Action>(
-                  mergeMap<Superposition<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>, Observable<Action>>((superposition2: Superposition<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>) => {
-                    return EMPTY.pipe<never, Action>(
-                      filter<never>(() => {
-                        return superposition2.isAlive();
-                      }),
-                      mergeMap<never, Observable<Action>>(() => {
-                        const actions: Array<Action> = [
-                          identityAuthenticated(superposition2.get()),
-                          identified()
-                        ];
-
-                        if (location.pathname === Endpoints.ENTRANCE) {
-                          actions.push(pushToStatsList());
-                        }
-
-                        return of<Action>(...actions);
-                      })
+        return concat(
+          of(loading()),
+          from<Promise<Superposition<Locale, LocaleError | DataSourceError>>>(
+            this.localeQuery.all()
+          ).pipe<Action>(
+            mergeMap<Superposition<Locale, LocaleError | DataSourceError>, Observable<Action>>((superposition1: Superposition<Locale, LocaleError | DataSourceError>) => {
+              return concat(
+                of(loaded()),
+                mergeMap<Action, Observable<Action>>(() => {
+                  return superposition1.match<Observable<Action>>((locale: Locale) => {
+                    return of<Action>(defineLocale(locale));
+                  }, () => {
+                    return of<Action>(
+                      raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION')
                     );
-                  }),
-                  mergeMap<Action, Observable<Action>>(() => {
-                    const supportLanguage: SystemSupportLanguage = LanguageIdentificationService.toSupportLanguage(
-                      navigator.language
-                    );
-                    const iso639: ISO639 = ISO639.of(supportLanguage);
+                  });
+                }),
+                mergeMap<Action, Observable<Action>>(() => {
+                  return from<Promise<Superposition<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>>>(
+                    this.sessionQuery.find()
+                  ).pipe<Action, Action>(
+                    mergeMap<Superposition<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>, Observable<Action>>((superposition2: Superposition<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>) => {
+                      return EMPTY.pipe<never, Action>(
+                        filter<never>(() => {
+                          return superposition2.isAlive();
+                        }),
+                        mergeMap<never, Observable<Action>>(() => {
+                          const actions: Array<Action> = [
+                            identityAuthenticated(superposition2.get()),
+                            identified()
+                          ];
 
-                    return from<Promise<Superposition<Language, NoSuchElementError | DataSourceError>>>(
-                      this.languageQuery.findByISO639(iso639)
-                    ).pipe<Action>(
-                      mergeMap<Superposition<Language, NoSuchElementError | DataSourceError>, Observable<Action>>((superposition3: Superposition<Language, NoSuchElementError | DataSourceError>) => {
-                        return superposition3.match<Observable<Action>>((language: Language) => {
-                          const veauAccount: VeauAccount = VeauAccount.of(
-                            identity.getVeauAccountID(),
-                            identity.getAccount(),
-                            language,
-                            identity.getRegion()
-                          );
+                          if (location.pathname === Endpoints.ENTRANCE) {
+                            actions.push(pushToStatsList());
+                          }
 
-                          return of<Action>(
-                            identityAuthenticated(veauAccount),
-                            pushToEntrance()
-                          );
-                        }, () => {
-                          return of<Action>(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
-                        });
-                      })
-                    );
-                  })
-                );
-              })
-            );
-          })
-        );
+                          return of<Action>(...actions);
+                        })
+                      );
+                    }),
+                    mergeMap<Action, Observable<Action>>(() => {
+                      const supportLanguage: SystemSupportLanguage = LanguageIdentificationService.toSupportLanguage(
+                        navigator.language
+                      );
+                      const iso639: ISO639 = ISO639.of(supportLanguage);
+
+                      return from<Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>>>(
+                        this.languageQuery.findByISO639(iso639)
+                      ).pipe<Action>(
+                        mergeMap<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>, Observable<Action>>((superposition3: Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>) => {
+                          return superposition3.match<Observable<Action>>((language: Language) => {
+                            return of<Action>(
+                              identityAuthenticated(
+                                Identity.of(
+                                  identity.getVeauAccountID(),
+                                  identity.getAccountName(),
+                                  language,
+                                  identity.getRegion()
+                                )
+                              ),
+                              pushToEntrance()
+                            );
+                          }, () => {
+                            return of<Action>(
+                              raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION')
+                            );
+                          });
+                        })
+                      );
+                    })
+                  );
+                })
+              );
+            })
+          );
       })
     );
   }
