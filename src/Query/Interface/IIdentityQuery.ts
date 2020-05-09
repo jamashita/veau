@@ -1,12 +1,12 @@
-import { Superposition, DataSourceError, Noun } from 'publikum';
-import { VeauAccount } from 'src/VO/VeauAccount';
-import { VeauAccountError } from 'src/Error/VeauAccountError';
+import { Superposition, DataSourceError } from 'publikum';
 import { EntranceInformation } from 'src/VO/EntranceInformation';
 import { IQuery } from './IQuery';
+import { Identity } from '../../VO/Identity';
+import { IdentityError } from '../../Error/IdentityError';
 export interface IIdentityQuery extends IQuery {
   readonly noun: 'IdentityQuery';
 
-  find(): Promise<Superposition<VeauAccount, VeauAccountError | DataSourceError>>;
+  find(): Promise<Superposition<Identity, IdentityError | DataSourceError>>;
 
-  findByEntranceInfo(entranceInformation: EntranceInformation): Promise<Superposition<VeauAccount, VeauAccountError | DataSourceError>>;
+  findByEntranceInfo(entranceInformation: EntranceInformation): Promise<Superposition<Identity, IdentityError | DataSourceError>>;
 }
