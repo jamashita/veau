@@ -28,7 +28,6 @@ import { defineLocale } from '../Action/LocaleAction';
 import { raiseModal } from '../Action/ModalAction';
 import { pushToEntrance, pushToStatsList } from '../Action/RedirectAction';
 import { State } from '../State';
-
 @injectable()
 export class IdentityEpic {
   private readonly sessionQuery: ISessionQuery;
@@ -135,8 +134,8 @@ export class IdentityEpic {
                 })
               );
             })
-          );
-      })
+          )
+      });
     );
   }
 
