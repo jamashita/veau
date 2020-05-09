@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { inject, injectable } from 'inversify';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { merge, NEVER, Observable } from 'rxjs';
@@ -22,7 +21,7 @@ export class IdentityEpic {
   private readonly languageQuery: ILanguageQuery;
 
   public constructor(
-    @inject(TYPE.SessionAJAXQuery) sessionQuery: ISessionQuery,
+  @inject(TYPE.SessionAJAXQuery) sessionQuery: ISessionQuery,
     @inject(TYPE.LocaleVaultQuery) localeQuery: ILocaleQuery,
     @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery
   ) {
@@ -122,23 +121,23 @@ export class IdentityEpic {
   }
 
   public initialize(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    const {
-      value: {
-        identity
-      }
-    } = state$;
-
     return action$.pipe<Action, Action>(
       ofType<Action, Action>(IDENTITY_INITIALIZE),
       map<Action, Action>(() => {
-        const newIdentity: Identity = Identity.of(
-          VeauAccountID.generate(),
-          identity.getLanguage(),
-          identity.getLanguage(),
-          AccountName.empty()
-        );
+        const {
+          value: {
+            identity
+          }
+        } = state$;
 
-        return identityAuthenticated(newIdentity);
+        return identityAuthenticated(
+          Identity.of(
+            VeauAccountID.generate(),
+            AccountName.empty(),
+            identity.getLanguage(),
+            identity.getRegion()
+          )
+        );
       })
     );
   }
