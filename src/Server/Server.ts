@@ -9,11 +9,9 @@ import passport from 'passport';
 import path from 'path';
 import { Ambiguous } from 'publikum';
 import 'reflect-metadata';
-import { useExpressServer } from 'routing-controllers';
 import favicon from 'serve-favicon';
 import 'source-map-support/register';
-import { APIController } from '../Controller/API/APIController';
-import { FEController } from '../Controller/FE/FEController';
+import { BaseController } from '../Controller/BaseController';
 import { veauRedis } from '../Infrastructure/VeauRedis';
 import '../Service/AuthenticationService';
 
@@ -80,14 +78,7 @@ app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
 
-useExpressServer<Express>(app, {
-  routePrefix: '/',
-  controllers: [
-    FEController
-  ]
-});
-
-APIController(api);
+BaseController(app);
 
 app.listen(port, () => {
   logger.info(`Server running on port ${port} in ${mode} mode`);
