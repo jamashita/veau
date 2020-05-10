@@ -1,24 +1,21 @@
-import { IIdentityQuery } from '../Interface/IIdentityQuery';
-import { injectable, inject } from 'inversify';
-import { IVaultQuery } from '../Interface/IVaultQuery';
-import { VeauAccountQuery } from '../AJAX/VeauAccountQuery';
-import { TYPE } from '../../Container/Types';
-import { LanguageQuery } from './LanguageQuery';
-import { IVeauAccountQuery } from '../Interface/IVeauAccountQuery';
-import { ILanguageQuery } from '../Interface/ILanguageQuery';
-import { RegionQuery } from './RegionQuery';
-import { IRegionQuery } from '../Interface/IRegionQuery';
-import { EntranceInformation } from 'src/VO/EntranceInformation';
-import { Superposition, DataSourceError, Dead, Alive } from 'publikum';
-import { Identity } from 'src/VO/Identity';
+import { inject, injectable } from 'inversify';
+import { Alive, DataSourceError, Dead, Superposition } from 'publikum';
 import { IdentityError } from 'src/Error/IdentityError';
-import { VeauAccount } from '../../VO/VeauAccount';
 import { VeauAccountError } from 'src/Error/VeauAccountError';
-import { Language } from '../../VO/Language';
+import { EntranceInformation } from 'src/VO/EntranceInformation';
+import { Identity } from 'src/VO/Identity';
+import { TYPE } from '../../Container/Types';
 import { LanguageError } from '../../Error/LanguageError';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
-import { Region } from '../../VO/Region';
 import { RegionError } from '../../Error/RegionError';
+import { Language } from '../../VO/Language';
+import { Region } from '../../VO/Region';
+import { VeauAccount } from '../../VO/VeauAccount';
+import { IIdentityQuery } from '../Interface/IIdentityQuery';
+import { ILanguageQuery } from '../Interface/ILanguageQuery';
+import { IRegionQuery } from '../Interface/IRegionQuery';
+import { IVaultQuery } from '../Interface/IVaultQuery';
+import { IVeauAccountQuery } from '../Interface/IVeauAccountQuery';
 
 @injectable()
 export class IdentityQuery implements IIdentityQuery, IVaultQuery {
@@ -26,11 +23,11 @@ export class IdentityQuery implements IIdentityQuery, IVaultQuery {
   public readonly source: 'Vault' = 'Vault';
   private readonly veauAccountQuery: IVeauAccountQuery;
   private readonly languageQuery: ILanguageQuery;
-  private readonly regionQuery: IRegionQuery
+  private readonly regionQuery: IRegionQuery;
 
   public constructor(
     @inject(TYPE.VeauAccountAJAXQuery) veauAccountQuery: IVeauAccountQuery,
-    @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery
+    @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery,
     @inject(TYPE.RegionVaultQuery) regionQuery: IRegionQuery
   ) {
     this.veauAccountQuery = veauAccountQuery;
@@ -51,7 +48,7 @@ export class IdentityQuery implements IIdentityQuery, IVaultQuery {
       ] = await Promise.all([
         this.languageQuery.find(veauAccount.getLanguageID()),
         this.regionQuery.find(veauAccount.getRegionID())
-      ])
+      ]);
 
       return superposition2.match<Superposition<Identity, IdentityError | DataSourceError>>((language: Language) => {
         return superposition3.match<Superposition<Identity, IdentityError | DataSourceError>>((region: Region) => {
@@ -94,12 +91,12 @@ export class IdentityQuery implements IIdentityQuery, IVaultQuery {
         superposition2,
         superposition3
       ]: [
-          Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>,
-          Superposition<Region, RegionError | NoSuchElementError | DataSourceError>
-        ] = await Promise.all([
-          this.languageQuery.find(veauAccount.getLanguageID()),
-          this.regionQuery.find(veauAccount.getRegionID())
-        ])
+        Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>,
+        Superposition<Region, RegionError | NoSuchElementError | DataSourceError>
+      ] = await Promise.all([
+        this.languageQuery.find(veauAccount.getLanguageID()),
+        this.regionQuery.find(veauAccount.getRegionID())
+      ]);
 
       return superposition2.match<Superposition<Identity, IdentityError | DataSourceError>>((language: Language) => {
         return superposition3.match<Superposition<Identity, IdentityError | DataSourceError>>((region: Region) => {

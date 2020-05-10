@@ -1,103 +1,103 @@
-import { INTERNAL_SERVER_ERROR, OK, UNAUTHORIZED } from "http-status";
-import {
-  AJAXError,
-  DataSourceError,
-  MockAJAX,
-  Superposition,
-  UUID,
-} from "publikum";
-import "reflect-metadata";
-import sinon, { SinonSpy, SinonStub } from "sinon";
-import { TYPE } from "../../../Container/Types";
-import { vault } from "../../../Container/Vault";
-import { VeauAccountError } from "../../../Error/VeauAccountError";
-import { MockAccountName } from "../../../VO/Mock/MockAccountName";
-import { MockEntranceInformation } from "../../../VO/Mock/MockEntranceInformation";
-import { MockPassword } from "../../../VO/Mock/MockPassword";
-import { VeauAccount, VeauAccountJSON } from "../../../VO/VeauAccount";
-import { VeauAccountQuery } from "../VeauAccountQuery";
+import { AJAXError, Alive, DataSourceError, Dead, Superposition } from 'publikum';
+import 'reflect-metadata';
+import sinon, { SinonSpy, SinonStub } from 'sinon';
+import { TYPE } from '../../../Container/Types';
+import { vault } from '../../../Container/Vault';
+import { IdentityError } from '../../../Error/IdentityError';
+import { LanguageError } from '../../../Error/LanguageError';
+import { RegionError } from '../../../Error/RegionError';
+import { VeauAccountError } from '../../../Error/VeauAccountError';
+import { Identity } from '../../../VO/Identity';
+import { Language } from '../../../VO/Language';
+import { MockAccountName } from '../../../VO/Mock/MockAccountName';
+import { MockEntranceInformation } from '../../../VO/Mock/MockEntranceInformation';
+import { MockLanguage } from '../../../VO/Mock/MockLanguage';
+import { MockRegion } from '../../../VO/Mock/MockRegion';
+import { MockVeauAccount } from '../../../VO/Mock/MockVeauAccount';
+import { MockVeauAccountID } from '../../../VO/Mock/MockVeauAccountID';
+import { Region } from '../../../VO/Region';
+import { VeauAccount } from '../../../VO/VeauAccount';
+import { MockLanguageQuery } from '../../Mock/MockLanguageQuery';
+import { MockRegionQuery } from '../../Mock/MockRegionQuery';
+import { MockVeauAccountQuery } from '../../Mock/MockVeauAccountQuery';
+import { IdentityQuery } from '../IdentityQuery';
 
-describe("VeauAccountQuery", () => {
-  describe("container", () => {
-    it("must be a singleton", () => {
-      const veauAccountQuery1: VeauAccountQuery = vault.get<VeauAccountQuery>(
-        TYPE.VeauAccountAJAXQuery
-      );
-      const veauAccountQuery2: VeauAccountQuery = vault.get<VeauAccountQuery>(
-        TYPE.VeauAccountAJAXQuery
-      );
+describe('IdentityQuery', () => {
+  describe('container', () => {
+    it('must be a singleton', () => {
+      const identityQuery1: IdentityQuery = vault.get<IdentityQuery>(TYPE.IdentityVaultQuery);
+      const identityQuery2: IdentityQuery = vault.get<IdentityQuery>(TYPE.IdentityEpic);
 
-      expect(veauAccountQuery1).toBeInstanceOf(VeauAccountQuery);
-      expect(veauAccountQuery1).toBe(veauAccountQuery2);
+      expect(identityQuery1).toBeInstanceOf(IdentityQuery);
+      expect(identityQuery1).toBe(identityQuery2);
     });
   });
 
-  describe("find", () => {
-    it("normal case", async () => {
-      const json: VeauAccountJSON = {
-        veauAccountID: UUID.v4().get(),
-        languageID: UUID.v4().get(),
-        regionID: UUID.v4().get(),
-        name: "name",
-      };
-
-      const ajax: MockAJAX = new MockVeauAccountq();
-      const stub: SinonStub = sinon.stub();
-      ajax.get = stub;
-      stub.resolves({
-        status: OK,
-        body: json,
+  describe('find', () => {
+    it('normal case', async () => {
+      const veauAccountID: MockVeauAccountID = new MockVeauAccountID();
+      const account: MockAccountName = new MockAccountName();
+      const veauAccount: MockVeauAccount = new MockVeauAccount({
+        veauAccountID,
+        account
       });
+      const language: MockLanguage = new MockLanguage();
+      const region: MockRegion = new MockRegion();
 
-      const VeauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const superposition: Superposition<
-        VeauAccount,
-        VeauAccountError | DataSourceError
-      > = await VeauAccountQuery.find();
+      const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
+      const stub1: SinonStub = sinon.stub();
+      veauAccountQuery.find = stub1;
+      stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
+      const languageQuery: MockLanguageQuery = new MockLanguageQuery();
+      const stub2: SinonStub = sinon.stub();
+      languageQuery.find = stub2;
+      stub2.resolves(Alive.of<Language, DataSourceError>(language));
+      const regionQuery: MockRegionQuery = new MockRegionQuery();
+      const stub3: SinonStub = sinon.stub();
+      regionQuery.find = stub3;
+      stub3.resolves(Alive.of<Region, DataSourceError>(region));
 
-      expect(stub.withArgs("/api/identity").called).toBe(true);
-      expect(superposition.isAlive()).toBe(true);
-      const veauAccount: VeauAccount = superposition.get();
-      expect(veauAccount.getVeauAccountID().get().get()).toBe(
-        json.veauAccountID
+      const identityQuery: IdentityQuery = new IdentityQuery(
+        veauAccountQuery,
+        languageQuery,
+        regionQuery
       );
-      expect(veauAccount.getLanguageID().get().get()).toBe(json.languageID);
-      expect(veauAccount.getRegionID().get().get()).toBe(json.regionID);
-      expect(veauAccount.getAccountName().get()).toBe(json.name);
+      const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.find();
+
+      expect(superposition.isAlive()).toBe(true);
+      const identity: Identity = superposition.get();
+      expect(identity.getVeauAccountID()).toBe(veauAccountID);
+      expect(identity.getAccountName()).toBe(account);
+      expect(identity.getLanguage()).toBe(language);
+      expect(identity.getRegion()).toBe(region);
     });
 
-    it("returns Dead when it has wrong format veauAccountID", async () => {
-      const json: VeauAccountJSON = {
-        veauAccountID: "malformat uuid",
-        languageID: UUID.v4().get(),
-        regionID: UUID.v4().get(),
-        name: "name",
-      };
+    it('returns Dead when VeauAccountQuery returns Dead VeauAccountError', async () => {
+      const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
+      const stub1: SinonStub = sinon.stub();
+      veauAccountQuery.find = stub1;
+      stub1.resolves(Dead.of<VeauAccount, VeauAccountError>(new VeauAccountError('test failed')));
+      const languageQuery: MockLanguageQuery = new MockLanguageQuery();
+      const regionQuery: MockRegionQuery = new MockRegionQuery();
 
-      const ajax: MockAJAX = new MockAJAX();
-      const stub: SinonStub = sinon.stub();
-      ajax.get = stub;
-      stub.resolves({
-        status: OK,
-        body: json,
-      });
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const VeauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const superposition: Superposition<
-        VeauAccount,
-        VeauAccountError | DataSourceError
-      > = await VeauAccountQuery.find();
+      const identityQuery: IdentityQuery = new IdentityQuery(
+        veauAccountQuery,
+        languageQuery,
+        regionQuery
+      );
+      const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.find();
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(
         () => {
           spy1();
         },
-        (err: VeauAccountError | DataSourceError) => {
+        (err: IdentityError | DataSourceError) => {
           spy2();
-          expect(err).toBeInstanceOf(VeauAccountError);
+          expect(err).toBeInstanceOf(IdentityError);
         }
       );
 
@@ -105,31 +105,200 @@ describe("VeauAccountQuery", () => {
       expect(spy2.called).toBe(true);
     });
 
-    it("doesn't return OK", async () => {
-      const ajax: MockAJAX = new MockAJAX();
-      const stub: SinonStub = sinon.stub();
-      ajax.get = stub;
-      stub.resolves({
-        status: INTERNAL_SERVER_ERROR,
-        body: {},
-      });
+    it('returns Dead when VeauAccountQuery returns Dead AJAXError', async () => {
+      const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
+      const stub1: SinonStub = sinon.stub();
+      veauAccountQuery.find = stub1;
+      stub1.resolves(Dead.of<VeauAccount, AJAXError>(new AJAXError('test failed', 500)));
+      const languageQuery: MockLanguageQuery = new MockLanguageQuery();
+      const regionQuery: MockRegionQuery = new MockRegionQuery();
+
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const VeauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const superposition: Superposition<
-        VeauAccount,
-        VeauAccountError | DataSourceError
-      > = await VeauAccountQuery.find();
+      const identityQuery: IdentityQuery = new IdentityQuery(
+        veauAccountQuery,
+        languageQuery,
+        regionQuery
+      );
+      const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.find();
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(
         () => {
           spy1();
         },
-        (err: VeauAccountError | DataSourceError) => {
+        (err: IdentityError | DataSourceError) => {
           spy2();
-          expect(err).toBeInstanceOf(DataSourceError);
+          expect(err).toBeInstanceOf(AJAXError);
+        }
+      );
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+    });
+
+    it('returns Dead when LanguageQuery returns Dead LanguageError', async () => {
+      const veauAccount: MockVeauAccount = new MockVeauAccount();
+      const region: MockRegion = new MockRegion();
+
+      const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
+      const stub1: SinonStub = sinon.stub();
+      veauAccountQuery.find = stub1;
+      stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
+      const languageQuery: MockLanguageQuery = new MockLanguageQuery();
+      const stub2: SinonStub = sinon.stub();
+      languageQuery.find = stub2;
+      stub2.resolves(Dead.of<Language, LanguageError>(new LanguageError('test faield')));
+      const regionQuery: MockRegionQuery = new MockRegionQuery();
+      const stub3: SinonStub = sinon.stub();
+      regionQuery.find = stub3;
+      stub3.resolves(Alive.of<Region, DataSourceError>(region));
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const identityQuery: IdentityQuery = new IdentityQuery(
+        veauAccountQuery,
+        languageQuery,
+        regionQuery
+      );
+      const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.find();
+
+      expect(superposition.isDead()).toBe(true);
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: IdentityError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(IdentityError);
+        }
+      );
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+    });
+
+    it('returns Dead when LanguageQuery returns Dead AJAXError', async () => {
+      const veauAccount: MockVeauAccount = new MockVeauAccount();
+      const region: MockRegion = new MockRegion();
+
+      const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
+      const stub1: SinonStub = sinon.stub();
+      veauAccountQuery.find = stub1;
+      stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
+      const languageQuery: MockLanguageQuery = new MockLanguageQuery();
+      const stub2: SinonStub = sinon.stub();
+      languageQuery.find = stub2;
+      stub2.resolves(Dead.of<Language, AJAXError>(new AJAXError('test faield', 500)));
+      const regionQuery: MockRegionQuery = new MockRegionQuery();
+      const stub3: SinonStub = sinon.stub();
+      regionQuery.find = stub3;
+      stub3.resolves(Alive.of<Region, DataSourceError>(region));
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const identityQuery: IdentityQuery = new IdentityQuery(
+        veauAccountQuery,
+        languageQuery,
+        regionQuery
+      );
+      const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.find();
+
+      expect(superposition.isDead()).toBe(true);
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: IdentityError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(AJAXError);
+        }
+      );
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+    });
+
+    it('returns Dead when RegionQuery returns Dead RegionError', async () => {
+      const veauAccount: MockVeauAccount = new MockVeauAccount();
+      const language: MockLanguage = new MockLanguage();
+
+      const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
+      const stub1: SinonStub = sinon.stub();
+      veauAccountQuery.find = stub1;
+      stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
+      const languageQuery: MockLanguageQuery = new MockLanguageQuery();
+      const stub2: SinonStub = sinon.stub();
+      languageQuery.find = stub2;
+      stub2.resolves(Alive.of<Language, DataSourceError>(language));
+      const regionQuery: MockRegionQuery = new MockRegionQuery();
+      const stub3: SinonStub = sinon.stub();
+      regionQuery.find = stub3;
+      stub3.resolves(Dead.of<Region, RegionError>(new RegionError('test failed')));
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const identityQuery: IdentityQuery = new IdentityQuery(
+        veauAccountQuery,
+        languageQuery,
+        regionQuery
+      );
+      const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.find();
+
+      expect(superposition.isDead()).toBe(true);
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: IdentityError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(IdentityError);
+        }
+      );
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+    });
+
+    it('returns Dead when RegionQuery returns Dead AJAXError', async () => {
+      const veauAccount: MockVeauAccount = new MockVeauAccount();
+      const language: MockLanguage = new MockLanguage();
+
+      const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
+      const stub1: SinonStub = sinon.stub();
+      veauAccountQuery.find = stub1;
+      stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
+      const languageQuery: MockLanguageQuery = new MockLanguageQuery();
+      const stub2: SinonStub = sinon.stub();
+      languageQuery.find = stub2;
+      stub2.resolves(Alive.of<Language, DataSourceError>(language));
+      const regionQuery: MockRegionQuery = new MockRegionQuery();
+      const stub3: SinonStub = sinon.stub();
+      regionQuery.find = stub3;
+      stub3.resolves(Dead.of<Region, AJAXError>(new AJAXError('test failed', 500)));
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const identityQuery: IdentityQuery = new IdentityQuery(
+        veauAccountQuery,
+        languageQuery,
+        regionQuery
+      );
+      const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.find();
+
+      expect(superposition.isDead()).toBe(true);
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: IdentityError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(AJAXError);
         }
       );
 
@@ -138,82 +307,75 @@ describe("VeauAccountQuery", () => {
     });
   });
 
-  describe("findByEntranceInfo", () => {
-    it("normal case", async () => {
-      const json: VeauAccountJSON = {
-        veauAccountID: UUID.v4().get(),
-        languageID: UUID.v4().get(),
-        regionID: UUID.v4().get(),
-        name: "name",
-      };
-
-      const ajax: MockAJAX = new MockAJAX();
-      const stub: SinonStub = sinon.stub();
-      ajax.post = stub;
-      stub.resolves({
-        status: OK,
-        body: json,
+  describe('findByEntranceInfo', () => {
+    it('normal case', async () => {
+      const veauAccountID: MockVeauAccountID = new MockVeauAccountID();
+      const account: MockAccountName = new MockAccountName();
+      const veauAccount: MockVeauAccount = new MockVeauAccount({
+        veauAccountID,
+        account
       });
+      const language: MockLanguage = new MockLanguage();
+      const region: MockRegion = new MockRegion();
 
-      const info: MockEntranceInformation = new MockEntranceInformation({
-        account: new MockAccountName("name"),
-        password: new MockPassword("password"),
-      });
-      const VeauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const superposition: Superposition<
-        VeauAccount,
-        VeauAccountError | DataSourceError
-      > = await VeauAccountQuery.findByEntranceInfo(info);
+      const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
+      const stub1: SinonStub = sinon.stub();
+      veauAccountQuery.findByEntranceInfo = stub1;
+      stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
+      const languageQuery: MockLanguageQuery = new MockLanguageQuery();
+      const stub2: SinonStub = sinon.stub();
+      languageQuery.find = stub2;
+      stub2.resolves(Alive.of<Language, DataSourceError>(language));
+      const regionQuery: MockRegionQuery = new MockRegionQuery();
+      const stub3: SinonStub = sinon.stub();
+      regionQuery.find = stub3;
+      stub3.resolves(Alive.of<Region, DataSourceError>(region));
 
-      expect(
-        stub.withArgs("/api/auth", {
-          account: "name",
-          password: "password",
-        }).called
-      ).toBe(true);
+      const identityQuery: IdentityQuery = new IdentityQuery(
+        veauAccountQuery,
+        languageQuery,
+        regionQuery
+      );
+      const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.findByEntranceInfo(
+        new MockEntranceInformation()
+      );
+
       expect(superposition.isAlive()).toBe(true);
-      const veauAccount: VeauAccount = superposition.get();
-      expect(veauAccount.getVeauAccountID().get().get()).toBe(
-        json.veauAccountID
-      );
-      expect(veauAccount.getLanguageID().get().get()).toBe(json.languageID);
-      expect(veauAccount.getRegionID().get().get()).toBe(json.regionID);
-      expect(veauAccount.getAccountName().get()).toBe(json.name);
+      const identity: Identity = superposition.get();
+      expect(identity.getVeauAccountID()).toBe(veauAccountID);
+      expect(identity.getAccountName()).toBe(account);
+      expect(identity.getLanguage()).toBe(language);
+      expect(identity.getRegion()).toBe(region);
     });
 
-    it("returns Dead when it has wrong format veauAccountID", async () => {
-      const json: VeauAccountJSON = {
-        veauAccountID: "malformat uuid",
-        languageID: UUID.v4().get(),
-        regionID: UUID.v4().get(),
-        name: "name",
-      };
+    it('returns Dead when VeauAccountQuery returns Dead VeauAccountError', async () => {
+      const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
+      const stub1: SinonStub = sinon.stub();
+      veauAccountQuery.findByEntranceInfo = stub1;
+      stub1.resolves(Dead.of<VeauAccount, VeauAccountError>(new VeauAccountError('test failed')));
+      const languageQuery: MockLanguageQuery = new MockLanguageQuery();
+      const regionQuery: MockRegionQuery = new MockRegionQuery();
 
-      const ajax: MockAJAX = new MockAJAX();
-      const stub: SinonStub = sinon.stub();
-      ajax.post = stub;
-      stub.resolves({
-        status: OK,
-        body: json,
-      });
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const info: MockEntranceInformation = new MockEntranceInformation();
-      const VeauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const superposition: Superposition<
-        VeauAccount,
-        VeauAccountError | DataSourceError
-      > = await VeauAccountQuery.findByEntranceInfo(info);
+      const identityQuery: IdentityQuery = new IdentityQuery(
+        veauAccountQuery,
+        languageQuery,
+        regionQuery
+      );
+      const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.findByEntranceInfo(
+        new MockEntranceInformation()
+      );
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(
         () => {
           spy1();
         },
-        (err: VeauAccountError | DataSourceError) => {
+        (err: IdentityError | DataSourceError) => {
           spy2();
-          expect(err).toBeInstanceOf(VeauAccountError);
+          expect(err).toBeInstanceOf(IdentityError);
         }
       );
 
@@ -221,32 +383,34 @@ describe("VeauAccountQuery", () => {
       expect(spy2.called).toBe(true);
     });
 
-    it("returns UNAUTHORIZED", async () => {
-      const ajax: MockAJAX = new MockAJAX();
-      const stub: SinonStub = sinon.stub();
-      ajax.post = stub;
-      stub.resolves({
-        status: UNAUTHORIZED,
-        body: {},
-      });
+    it('returns Dead when VeauAccountQuery returns Dead AJAXError', async () => {
+      const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
+      const stub1: SinonStub = sinon.stub();
+      veauAccountQuery.findByEntranceInfo = stub1;
+      stub1.resolves(Dead.of<VeauAccount, AJAXError>(new AJAXError('test failed', 500)));
+      const languageQuery: MockLanguageQuery = new MockLanguageQuery();
+      const regionQuery: MockRegionQuery = new MockRegionQuery();
+
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const info: MockEntranceInformation = new MockEntranceInformation();
-      const VeauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const superposition: Superposition<
-        VeauAccount,
-        VeauAccountError | DataSourceError
-      > = await VeauAccountQuery.findByEntranceInfo(info);
+      const identityQuery: IdentityQuery = new IdentityQuery(
+        veauAccountQuery,
+        languageQuery,
+        regionQuery
+      );
+      const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.findByEntranceInfo(
+        new MockEntranceInformation()
+      );
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(
         () => {
           spy1();
         },
-        (err: VeauAccountError | DataSourceError) => {
+        (err: IdentityError | DataSourceError) => {
           spy2();
-          expect(err).toBeInstanceOf(DataSourceError);
+          expect(err).toBeInstanceOf(AJAXError);
         }
       );
 
@@ -254,30 +418,173 @@ describe("VeauAccountQuery", () => {
       expect(spy2.called).toBe(true);
     });
 
-    it("doesn't return OK nor UNAUTHORIZED", async () => {
-      const ajax: MockAJAX = new MockAJAX();
-      const stub: SinonStub = sinon.stub();
-      ajax.post = stub;
-      stub.resolves({
-        status: INTERNAL_SERVER_ERROR,
-        body: {},
-      });
+    it('returns Dead when LanguageQuery returns Dead LanguageError', async () => {
+      const veauAccount: MockVeauAccount = new MockVeauAccount();
+      const region: MockRegion = new MockRegion();
+
+      const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
+      const stub1: SinonStub = sinon.stub();
+      veauAccountQuery.findByEntranceInfo = stub1;
+      stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
+      const languageQuery: MockLanguageQuery = new MockLanguageQuery();
+      const stub2: SinonStub = sinon.stub();
+      languageQuery.find = stub2;
+      stub2.resolves(Dead.of<Language, LanguageError>(new LanguageError('test faield')));
+      const regionQuery: MockRegionQuery = new MockRegionQuery();
+      const stub3: SinonStub = sinon.stub();
+      regionQuery.find = stub3;
+      stub3.resolves(Alive.of<Region, DataSourceError>(region));
+
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const info: MockEntranceInformation = new MockEntranceInformation();
-      const VeauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const superposition: Superposition<
-        VeauAccount,
-        VeauAccountError | DataSourceError
-      > = await VeauAccountQuery.findByEntranceInfo(info);
+      const identityQuery: IdentityQuery = new IdentityQuery(
+        veauAccountQuery,
+        languageQuery,
+        regionQuery
+      );
+      const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.findByEntranceInfo(
+        new MockEntranceInformation()
+      );
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(
         () => {
           spy1();
         },
-        (err: VeauAccountError | DataSourceError) => {
+        (err: IdentityError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(IdentityError);
+        }
+      );
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+    });
+
+    it('returns Dead when LanguageQuery returns Dead AJAXError', async () => {
+      const veauAccount: MockVeauAccount = new MockVeauAccount();
+      const region: MockRegion = new MockRegion();
+
+      const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
+      const stub1: SinonStub = sinon.stub();
+      veauAccountQuery.findByEntranceInfo = stub1;
+      stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
+      const languageQuery: MockLanguageQuery = new MockLanguageQuery();
+      const stub2: SinonStub = sinon.stub();
+      languageQuery.find = stub2;
+      stub2.resolves(Dead.of<Language, AJAXError>(new AJAXError('test faield', 500)));
+      const regionQuery: MockRegionQuery = new MockRegionQuery();
+      const stub3: SinonStub = sinon.stub();
+      regionQuery.find = stub3;
+      stub3.resolves(Alive.of<Region, DataSourceError>(region));
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const identityQuery: IdentityQuery = new IdentityQuery(
+        veauAccountQuery,
+        languageQuery,
+        regionQuery
+      );
+      const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.findByEntranceInfo(
+        new MockEntranceInformation()
+      );
+
+      expect(superposition.isDead()).toBe(true);
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: IdentityError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(AJAXError);
+        }
+      );
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+    });
+
+    it('returns Dead when RegionQuery returns Dead RegionError', async () => {
+      const veauAccount: MockVeauAccount = new MockVeauAccount();
+      const language: MockLanguage = new MockLanguage();
+
+      const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
+      const stub1: SinonStub = sinon.stub();
+      veauAccountQuery.findByEntranceInfo = stub1;
+      stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
+      const languageQuery: MockLanguageQuery = new MockLanguageQuery();
+      const stub2: SinonStub = sinon.stub();
+      languageQuery.find = stub2;
+      stub2.resolves(Alive.of<Language, DataSourceError>(language));
+      const regionQuery: MockRegionQuery = new MockRegionQuery();
+      const stub3: SinonStub = sinon.stub();
+      regionQuery.find = stub3;
+      stub3.resolves(Dead.of<Region, RegionError>(new RegionError('test failed')));
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const identityQuery: IdentityQuery = new IdentityQuery(
+        veauAccountQuery,
+        languageQuery,
+        regionQuery
+      );
+      const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.findByEntranceInfo(
+        new MockEntranceInformation()
+      );
+
+      expect(superposition.isDead()).toBe(true);
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: IdentityError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(IdentityError);
+        }
+      );
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+    });
+
+    it('returns Dead when RegionQuery returns Dead AJAXError', async () => {
+      const veauAccount: MockVeauAccount = new MockVeauAccount();
+      const language: MockLanguage = new MockLanguage();
+
+      const veauAccountQuery: MockVeauAccountQuery = new MockVeauAccountQuery();
+      const stub1: SinonStub = sinon.stub();
+      veauAccountQuery.findByEntranceInfo = stub1;
+      stub1.resolves(Alive.of<VeauAccount, DataSourceError>(veauAccount));
+      const languageQuery: MockLanguageQuery = new MockLanguageQuery();
+      const stub2: SinonStub = sinon.stub();
+      languageQuery.find = stub2;
+      stub2.resolves(Alive.of<Language, DataSourceError>(language));
+      const regionQuery: MockRegionQuery = new MockRegionQuery();
+      const stub3: SinonStub = sinon.stub();
+      regionQuery.find = stub3;
+      stub3.resolves(Dead.of<Region, AJAXError>(new AJAXError('test failed', 500)));
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const identityQuery: IdentityQuery = new IdentityQuery(
+        veauAccountQuery,
+        languageQuery,
+        regionQuery
+      );
+      const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.findByEntranceInfo(
+        new MockEntranceInformation()
+      );
+
+      expect(superposition.isDead()).toBe(true);
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: IdentityError | DataSourceError) => {
           spy2();
           expect(err).toBeInstanceOf(AJAXError);
         }
