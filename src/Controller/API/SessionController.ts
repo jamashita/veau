@@ -6,8 +6,8 @@ import { Controller, Delete, Req, Res } from 'routing-controllers';
 export class SessionController {
 
   @Delete('/')
-  public destroy(@Req()req: Request, @Res() res: Response): void {
+  public destroy(@Req() req: Request, @Res() res: Response): Response<unknown> {
     req.logout();
-    res.sendStatus(OK);
+    return res.sendStatus(OK);
   }
 }

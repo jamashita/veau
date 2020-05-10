@@ -11,7 +11,7 @@ export class FEController {
   }
 
   @Get('*')
-  public index(@Res() res: Response): void {
+  public render(@Res() res: Response): void {
     res.render('index');
   }
 }
