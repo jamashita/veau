@@ -1,16 +1,20 @@
-import express from 'express';
+import { Request, Response } from 'express';
 import { OK } from 'http-status';
 import passport from 'passport';
+import { Controller, Post, Req, UseBefore } from 'routing-controllers';
 import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
 import { AuthenticationMiddleware } from '../Middleware/AuthenticationMiddleware';
 
-const router: express.Router = express.Router();
-
 const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
 
-router.post('/', passport.authenticate('local'), authenticationMiddleware.requires(), (req: express.Request, res: express.Response) => {
-  res.status(OK).send(res.locals.account.toJSON());
-});
+@Controller('/auth')
+export class AuthController {
 
-export const AuthController: express.Router = router;
+  @Post('/')
+  @UseBefore(passport.authenticate('local'))
+  @UseBefore(authenticationMiddleware.requires())
+  public auth(@Req() req: Request, @Res() res: Response): Response<unknown> {
+    return res.status(OK).send(res.locals.account.toJSON());
+  }
+}
