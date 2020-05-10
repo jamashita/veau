@@ -1,14 +1,17 @@
-import express from 'express';
+import { Response } from 'express';
+import { Controller, Get, Res } from 'routing-controllers';
 
-const router: express.Router = express.Router();
+@Controller()
+export class FEController {
 
-router.get('/robots.txt', (req: express.Request, res: express.Response) => {
-  res.set('Content-Type', 'text/plain');
-  res.send('User-Agent: *\nDisallow:');
-});
+  @Get('/robots.txt')
+  public robot(@Res() res: Response): void {
+    res.set('Content-Type', 'text/plain');
+    res.send('User-Agent: *\nDisallow:');
+  }
 
-router.get('*', (req: express.Request, res: express.Response) => {
-  res.render('index');
-});
-
-export const FEController: express.Router = router;
+  @Get('*')
+  public index(@Res() res: Response): void {
+    res.render('index');
+  }
+}
