@@ -32,7 +32,7 @@ export class StatsQuery implements IStatsQuery, IKernelQuery {
   private readonly regionQuery: IRegionQuery;
 
   public constructor(
-    @inject(TYPE.StatsOutlineMySQLQuery) statsOutlineQuery: IStatsOutlineQuery,
+  @inject(TYPE.StatsOutlineMySQLQuery) statsOutlineQuery: IStatsOutlineQuery,
     @inject(TYPE.StatsItemMySQLQuery) statsItemQuery: IStatsItemQuery,
     @inject(TYPE.LanguageKernelQuery) languageQuery: ILanguageQuery,
     @inject(TYPE.RegionKernelQuery) regionQuery: IRegionQuery

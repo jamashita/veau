@@ -26,7 +26,7 @@ export class IdentityQuery implements IIdentityQuery, IVaultQuery {
   private readonly regionQuery: IRegionQuery;
 
   public constructor(
-    @inject(TYPE.VeauAccountAJAXQuery) veauAccountQuery: IVeauAccountQuery,
+  @inject(TYPE.VeauAccountAJAXQuery) veauAccountQuery: IVeauAccountQuery,
     @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery,
     @inject(TYPE.RegionVaultQuery) regionQuery: IRegionQuery
   ) {

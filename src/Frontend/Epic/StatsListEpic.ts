@@ -48,7 +48,7 @@ export class StatsListEpic {
   private readonly statsCommand: IStatsCommand;
 
   public constructor(
-    @inject(TYPE.StatsOutlineAJAXQuery) statsOutlineQuery: IStatsOutlineQuery,
+  @inject(TYPE.StatsOutlineAJAXQuery) statsOutlineQuery: IStatsOutlineQuery,
     @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery,
     @inject(TYPE.RegionVaultQuery) regionQuery: IRegionQuery,
     @inject(TYPE.StatsAJAXCommand) statsCommand: IStatsCommand
