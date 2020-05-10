@@ -1,8 +1,9 @@
 import bodyParser from 'body-parser';
-import express from 'express';
-import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NO_CONTENT, OK } from 'http-status';
+import express, { NextFunction, Request, Response } from 'express';
+import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import { Alive, DataSourceError, Dead, MySQLError, UUID } from 'publikum';
 import 'reflect-metadata';
+import { useExpressServer } from 'routing-controllers';
 import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';
 import { kernel } from '../../../Container/Kernel';
@@ -19,6 +20,11 @@ import { MockVeauAccount } from '../../../VO/Mock/MockVeauAccount';
 import { StatsOutlines } from '../../../VO/StatsOutlines';
 import { Term } from '../../../VO/Term';
 import { StatsController } from '../StatsController';
+
+const fakeAccount = (req: Request, res: Response, next: NextFunction) => {
+  req.user = new MockVeauAccount();
+  next();
+};
 
 describe('StatsController', () => {
   describe('GET /page/:page(\\d+)', () => {
@@ -37,26 +43,28 @@ describe('StatsController', () => {
       stub.resolves(Alive.of<StatsOutlines, StatsOutlinesError>(outlines));
 
       const app: express.Express = express();
-      app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new MockVeauAccount();
-        next();
+      app.use(fakeAccount);
+      useExpressServer(app, {
+        controllers: [
+          StatsController
+        ]
       });
-      app.use('/', StatsController);
 
-      const response: supertest.Response = await supertest(app).get('/page/1');
+      const response: supertest.Response = await supertest(app).get('/stats/page/1');
       expect(response.status).toBe(OK);
       expect(response.body).toEqual(outlines.toJSON());
     });
 
     it('page is 0', async () => {
       const app: express.Express = express();
-      app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new MockVeauAccount();
-        next();
+      app.use(fakeAccount);
+      useExpressServer(app, {
+        controllers: [
+          StatsController
+        ]
       });
-      app.use('/', StatsController);
 
-      const response: supertest.Response = await supertest(app).get('/page/0');
+      const response: supertest.Response = await supertest(app).get('/stats/page/0');
       expect(response.status).toBe(BAD_REQUEST);
     });
 
@@ -67,13 +75,14 @@ describe('StatsController', () => {
       stub.resolves(Dead.of<StatsOutlines, StatsOutlinesError>(new StatsOutlinesError('test failed')));
 
       const app: express.Express = express();
-      app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new MockVeauAccount();
-        next();
+      app.use(fakeAccount);
+      useExpressServer(app, {
+        controllers: [
+          StatsController
+        ]
       });
-      app.use('/', StatsController);
 
-      const response: supertest.Response = await supertest(app).get('/page/1');
+      const response: supertest.Response = await supertest(app).get('/stats/page/1');
       expect(response.status).toBe(INTERNAL_SERVER_ERROR);
     });
   });
@@ -88,36 +97,51 @@ describe('StatsController', () => {
       stub.resolves(Alive.of<Stats, NoSuchElementError>(stats));
 
       const app: express.Express = express();
-      app.use('/', StatsController);
+      app.use(fakeAccount);
+      useExpressServer(app, {
+        controllers: [
+          StatsController
+        ]
+      });
 
-      const response: supertest.Response = await supertest(app).get(`/${UUID.v4()}`);
+      const response: supertest.Response = await supertest(app).get(`/stats/${UUID.v4().get()}`);
       expect(response.status).toBe(OK);
       expect(response.body).toEqual(stats.toJSON());
     });
 
-    it('replies NO_CONTENT', async () => {
+    it('replies INTERNAL_SERVER_ERROR because uuid is malformat', async () => {
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
       const stub: SinonStub = sinon.stub();
       statsInteractor.findByStatsID = stub;
       stub.resolves(Dead.of<Stats, NoSuchElementError>(new NoSuchElementError('test failed')));
 
       const app: express.Express = express();
-      app.use('/', StatsController);
+      app.use(fakeAccount);
+      useExpressServer(app, {
+        controllers: [
+          StatsController
+        ]
+      });
 
-      const response: supertest.Response = await supertest(app).get(`/${UUID.v4()}`);
-      expect(response.status).toBe(NO_CONTENT);
+      const response: supertest.Response = await supertest(app).get('/stats/ffffffffffffffffffffffffffffffffffff');
+      expect(response.status).toBe(INTERNAL_SERVER_ERROR);
     });
 
-    it('replies INTERNAL_SERVER_ERROR', async () => {
+    it('replies INTERNAL_SERVER_ERROR becuase StatsIteractor.findByStatsID() returns Dead', async () => {
       const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
       const stub: SinonStub = sinon.stub();
       statsInteractor.findByStatsID = stub;
       stub.resolves(Dead.of<Stats, NoSuchElementError | StatsError>(new StatsError('test failed')));
 
       const app: express.Express = express();
-      app.use('/', StatsController);
+      app.use(fakeAccount);
+      useExpressServer(app, {
+        controllers: [
+          StatsController
+        ]
+      });
 
-      const response: supertest.Response = await supertest(app).get(`/${UUID.v4()}`);
+      const response: supertest.Response = await supertest(app).get(`/stats/${UUID.v4().get()}`);
       expect(response.status).toBe(INTERNAL_SERVER_ERROR);
     });
   });
@@ -140,13 +164,14 @@ describe('StatsController', () => {
         extended: false
       }));
       app.use(bodyParser.json());
-      app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new MockVeauAccount();
-        next();
+      app.use(fakeAccount);
+      useExpressServer(app, {
+        controllers: [
+          StatsController
+        ]
       });
-      app.use('/', StatsController);
 
-      const response: supertest.Response = await supertest(app).post('/').send(stats.toJSON());
+      const response: supertest.Response = await supertest(app).post('/stats').send(stats.toJSON());
       expect(response.status).toBe(CREATED);
     });
 
@@ -156,13 +181,14 @@ describe('StatsController', () => {
         extended: false
       }));
       app.use(bodyParser.json());
-      app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new MockVeauAccount();
-        next();
+      app.use(fakeAccount);
+      useExpressServer(app, {
+        controllers: [
+          StatsController
+        ]
       });
-      app.use('/', StatsController);
 
-      const response: supertest.Response = await supertest(app).post('/').send({
+      const response: supertest.Response = await supertest(app).post('/stats').send({
         outline: {
           statsID: UUID.v4().get(),
           languageID: UUID.v4().get(),
@@ -187,13 +213,14 @@ describe('StatsController', () => {
         extended: false
       }));
       app.use(bodyParser.json());
-      app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new MockVeauAccount();
-        next();
+      app.use(fakeAccount);
+      useExpressServer(app, {
+        controllers: [
+          StatsController
+        ]
       });
-      app.use('/', StatsController);
 
-      const response: supertest.Response = await supertest(app).post('/').send({
+      const response: supertest.Response = await supertest(app).post('/stats').send({
         outline: {
           statsID: 'illgal',
           languageID: 'illgal',
@@ -219,7 +246,7 @@ describe('StatsController', () => {
       expect(response.status).toBe(BAD_REQUEST);
     });
 
-    it('replies INTERNAL_SERVER_ERROR', async () => {
+    it('replies INTERNAL_SERVER_ERROR because StatsIteractor.save() returns Dead', async () => {
       const stats: MockStats = new MockStats({
         outline: new MockStatsOutline({
           termID: Term.ANNUAL.getTermID()
@@ -236,13 +263,14 @@ describe('StatsController', () => {
         extended: false
       }));
       app.use(bodyParser.json());
-      app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new MockVeauAccount();
-        next();
+      app.use(fakeAccount);
+      useExpressServer(app, {
+        controllers: [
+          StatsController
+        ]
       });
-      app.use('/', StatsController);
 
-      const response: supertest.Response = await supertest(app).post('/').send(stats.toJSON());
+      const response: supertest.Response = await supertest(app).post('/stats').send(stats.toJSON());
       expect(response.status).toBe(INTERNAL_SERVER_ERROR);
     });
   });
