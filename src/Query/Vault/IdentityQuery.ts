@@ -1,13 +1,13 @@
 import { inject, injectable } from 'inversify';
 import { Alive, DataSourceError, Dead, Superposition } from 'publikum';
-import { IdentityError } from 'src/Error/IdentityError';
-import { VeauAccountError } from 'src/Error/VeauAccountError';
-import { EntranceInformation } from 'src/VO/EntranceInformation';
-import { Identity } from 'src/VO/Identity';
 import { TYPE } from '../../Container/Types';
+import { IdentityError } from '../../Error/IdentityError';
 import { LanguageError } from '../../Error/LanguageError';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { RegionError } from '../../Error/RegionError';
+import { VeauAccountError } from '../../Error/VeauAccountError';
+import { EntranceInformation } from '../../VO/EntranceInformation';
+import { Identity } from '../../VO/Identity';
 import { Language } from '../../VO/Language';
 import { Region } from '../../VO/Region';
 import { VeauAccount } from '../../VO/VeauAccount';

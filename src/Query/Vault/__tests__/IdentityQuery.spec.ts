@@ -26,7 +26,7 @@ describe('IdentityQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
       const identityQuery1: IdentityQuery = vault.get<IdentityQuery>(TYPE.IdentityVaultQuery);
-      const identityQuery2: IdentityQuery = vault.get<IdentityQuery>(TYPE.IdentityEpic);
+      const identityQuery2: IdentityQuery = vault.get<IdentityQuery>(TYPE.IdentityVaultQuery);
 
       expect(identityQuery1).toBeInstanceOf(IdentityQuery);
       expect(identityQuery1).toBe(identityQuery2);

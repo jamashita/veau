@@ -2,16 +2,15 @@ import { inject, injectable } from 'inversify';
 import { DataSourceError, Superposition } from 'publikum';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { concat, EMPTY, from, merge, Observable, of } from 'rxjs';
-import { map, mergeMap, filter } from 'rxjs/operators';
+import { filter, map, mergeMap } from 'rxjs/operators';
 import { TYPE } from '../../Container/Types';
+import { IdentityError } from '../../Error/IdentityError';
 import { LanguageError } from '../../Error/LanguageError';
 import { LocaleError } from '../../Error/LocaleError';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
-import { UnauthorizedError } from '../../Error/UnauthorizedError';
-import { VeauAccountError } from '../../Error/VeauAccountError';
+import { IIdentityQuery } from '../../Query/Interface/IIdentityQuery';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { ILocaleQuery } from '../../Query/Interface/ILocaleQuery';
-import { ISessionQuery } from '../../Query/Interface/ISessionQuery';
 import { LanguageIdentificationService } from '../../Service/LanguageIdentificationService';
 import { AccountName } from '../../VO/AccountName';
 import { Identity } from '../../VO/Identity';
@@ -19,7 +18,6 @@ import { ISO639 } from '../../VO/ISO639';
 import { Language } from '../../VO/Language';
 import { Locale } from '../../VO/Locale';
 import { SystemSupportLanguage } from '../../VO/SystemSupportLanguage';
-import { VeauAccount } from '../../VO/VeauAccount';
 import { VeauAccountID } from '../../VO/VeauAccountID';
 import { Action, IDENTITY_INITIALIZE } from '../Action/Action';
 import { identified, identityAuthenticated } from '../Action/IdentityAction';
@@ -27,20 +25,21 @@ import { loaded, loading } from '../Action/LoadingAction';
 import { defineLocale } from '../Action/LocaleAction';
 import { raiseModal } from '../Action/ModalAction';
 import { pushToEntrance, pushToStatsList } from '../Action/RedirectAction';
-import { State } from '../State';
 import { Endpoints } from '../Endpoints';
+import { State } from '../State';
+
 @injectable()
 export class IdentityEpic {
-  private readonly sessionQuery: ISessionQuery;
+  private readonly identityQuery: IIdentityQuery;
   private readonly localeQuery: ILocaleQuery;
   private readonly languageQuery: ILanguageQuery;
 
   public constructor(
-  @inject(TYPE.SessionAJAXQuery) sessionQuery: ISessionQuery,
+    @inject(TYPE.IdentityVaultQuery) identityQuery: IIdentityQuery,
     @inject(TYPE.LocaleVaultQuery) localeQuery: ILocaleQuery,
     @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery
   ) {
-    this.sessionQuery = sessionQuery;
+    this.identityQuery = identityQuery;
     this.localeQuery = localeQuery;
     this.languageQuery = languageQuery;
   }
@@ -73,10 +72,10 @@ export class IdentityEpic {
                   });
                 }),
                 mergeMap<Action, Observable<Action>>(() => {
-                  return from<Promise<Superposition<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>>>(
-                    this.sessionQuery.find()
+                  return from<Promise<Superposition<Identity, IdentityError | DataSourceError>>>(
+                    this.identityQuery.find()
                   ).pipe<Action, Action>(
-                    mergeMap<Superposition<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>, Observable<Action>>((superposition2: Superposition<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>) => {
+                    mergeMap<Superposition<Identity, IdentityError | DataSourceError>, Observable<Action>>((superposition2: Superposition<Identity, IdentityError | DataSourceError>) => {
                       return EMPTY.pipe<never, Action>(
                         filter<never>(() => {
                           return superposition2.isAlive();
