@@ -1,17 +1,18 @@
 import { Response } from 'express';
-import { Controller, Get, Res } from 'routing-controllers';
+import { Controller, Get, Render, Res } from 'routing-controllers';
 
 @Controller()
 export class FEController {
 
   @Get('/robots.txt')
-  public robot(@Res() res: Response): void {
+  public robot(@Res() res: Response): Response<unknown> {
     res.set('Content-Type', 'text/plain');
-    res.send('User-Agent: *\nDisallow:');
+    return res.send('User-Agent: *\nDisallow:');
   }
 
   @Get('*')
-  public render(@Res() res: Response): void {
-    res.render('index');
+  @Render('index')
+  public render(): void {
+    // NOOP
   }
 }
