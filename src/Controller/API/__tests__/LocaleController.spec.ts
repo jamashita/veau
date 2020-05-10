@@ -1,7 +1,8 @@
-import express from 'express';
+import express, { Express, NextFunction, Request, Response } from 'express';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import { Alive, DataSourceError, Dead, RedisError } from 'publikum';
 import 'reflect-metadata';
+import { useExpressServer } from 'routing-controllers';
 import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';
 import { kernel } from '../../../Container/Kernel';
@@ -22,6 +23,11 @@ import { MockRegionName } from '../../../VO/Mock/MockRegionName';
 import { MockRegions } from '../../../VO/Mock/MockRegions';
 import { MockVeauAccount } from '../../../VO/Mock/MockVeauAccount';
 import { LocaleController } from '../LocaleController';
+
+const fakeAccount = (req: Request, res: Response, next: NextFunction) => {
+  req.user = new MockVeauAccount();
+  next();
+};
 
 describe('LocaleController', () => {
   describe('GET /', () => {
@@ -49,10 +55,14 @@ describe('LocaleController', () => {
       localeInteractor.all = stub;
       stub.resolves(Alive.of<Locale, NoSuchElementError | DataSourceError>(locale));
 
-      const app: express.Express = express();
-      app.use('/', LocaleController);
+      const app: Express = express();
+      useExpressServer(app, {
+        controllers: [
+          LocaleController
+        ]
+      });
 
-      const response: supertest.Response = await supertest(app).get('/');
+      const response: supertest.Response = await supertest(app).get('/locale');
       expect(response.status).toBe(OK);
       expect(response.body).toEqual(locale.toJSON());
     });
@@ -67,10 +77,14 @@ describe('LocaleController', () => {
         )
       );
 
-      const app: express.Express = express();
-      app.use('/', LocaleController);
+      const app: Express = express();
+      useExpressServer(app, {
+        controllers: [
+          LocaleController
+        ]
+      });
 
-      const response: supertest.Response = await supertest(app).get('/');
+      const response: supertest.Response = await supertest(app).get('/locale');
       expect(response.status).toBe(INTERNAL_SERVER_ERROR);
     });
 
@@ -84,10 +98,14 @@ describe('LocaleController', () => {
         )
       );
 
-      const app: express.Express = express();
-      app.use('/', LocaleController);
+      const app: Express = express();
+      useExpressServer(app, {
+        controllers: [
+          LocaleController
+        ]
+      });
 
-      const response: supertest.Response = await supertest(app).get('/');
+      const response: supertest.Response = await supertest(app).get('/locale');
       expect(response.status).toBe(INTERNAL_SERVER_ERROR);
     });
   });
@@ -99,14 +117,15 @@ describe('LocaleController', () => {
       localeInteractor.delete = stub;
       stub.resolves(Alive.of<DataSourceError>());
 
-      const app: express.Express = express();
-      app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new MockVeauAccount();
-        next();
+      const app: Express = express();
+      app.use(fakeAccount);
+      useExpressServer(app, {
+        controllers: [
+          LocaleController
+        ]
       });
-      app.use('/', LocaleController);
 
-      const response: supertest.Response = await supertest(app).delete('/');
+      const response: supertest.Response = await supertest(app).delete('/locale');
       expect(response.status).toBe(OK);
     });
 
@@ -116,14 +135,15 @@ describe('LocaleController', () => {
       localeInteractor.delete = stub;
       stub.resolves(Dead.of<DataSourceError>(new RedisError('test failed')));
 
-      const app: express.Express = express();
-      app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.user = new MockVeauAccount();
-        next();
+      const app: Express = express();
+      app.use(fakeAccount);
+      useExpressServer(app, {
+        controllers: [
+          LocaleController
+        ]
       });
-      app.use('/', LocaleController);
 
-      const response: supertest.Response = await supertest(app).delete('/');
+      const response: supertest.Response = await supertest(app).delete('/locale');
       expect(response.status).toBe(INTERNAL_SERVER_ERROR);
     });
   });

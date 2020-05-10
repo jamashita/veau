@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Express, NextFunction, Request, Response } from 'express';
 import { OK } from 'http-status';
 import 'reflect-metadata';
 import { useExpressServer } from 'routing-controllers';
@@ -12,7 +12,7 @@ import { VeauAccount } from '../../../VO/VeauAccount';
 import { AccountController } from '../AccountController';
 
 const setAccount = (account: VeauAccount) => {
-  return (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  return (req: Request, res: Response, next: NextFunction) => {
     req.user = account;
     next();
   };
@@ -28,7 +28,7 @@ describe('AccountController', () => {
         regionID: new MockRegionID()
       });
 
-      const app: express.Express = express();
+      const app: Express = express();
       app.use(setAccount(account));
       useExpressServer(app, {
         controllers: [
