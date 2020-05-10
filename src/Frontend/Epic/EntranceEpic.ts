@@ -4,17 +4,11 @@ import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { concat, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import { TYPE } from '../../Container/Types';
-import { LanguageError } from '../../Error/LanguageError';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
-import { RegionError } from '../../Error/RegionError';
+import { IdentityError } from '../../Error/IdentityError';
 import { VeauAccountError } from '../../Error/VeauAccountError';
-import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
-import { IRegionQuery } from '../../Query/Interface/IRegionQuery';
-import { ISessionQuery } from '../../Query/Interface/ISessionQuery';
+import { IIdentityQuery } from '../../Query/Interface/IIdentityQuery';
 import { EntranceInformation } from '../../VO/EntranceInformation';
 import { Identity } from '../../VO/Identity';
-import { Language } from '../../VO/Language';
-import { Region } from '../../VO/Region';
 import { VeauAccount } from '../../VO/VeauAccount';
 import {
   Action,
@@ -33,18 +27,10 @@ import { State } from '../State';
 
 @injectable()
 export class EntranceEpic {
-  private readonly sessionQuery: ISessionQuery;
-  private readonly languageQuery: ILanguageQuery;
-  private readonly regionQuery: IRegionQuery;
+  private readonly identityQuery: IIdentityQuery;
 
-  public constructor(
-  @inject(TYPE.SessionAJAXQuery) sessionQuery: ISessionQuery,
-    @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery,
-    @inject(TYPE.RegionVaultQuery) regionQuery: IRegionQuery
-  ) {
-    this.sessionQuery = sessionQuery;
-    this.languageQuery = languageQuery;
-    this.regionQuery = regionQuery;
+  public constructor(@inject(TYPE.IdentityVaultQuery) identityQuery: IIdentityQuery) {
+    this.identityQuery = identityQuery;
   }
 
   public init(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
@@ -84,49 +70,18 @@ export class EntranceEpic {
               }
             } = state$;
 
-            return from<Promise<Superposition<VeauAccount, VeauAccountError | DataSourceError>>>(
-              this.sessionQuery.findByEntranceInfo(entranceInformation)
+            return from<Promise<Superposition<Identity, IdentityError | DataSourceError>>>(
+              this.identityQuery.findByEntranceInfo(entranceInformation)
             ).pipe<Action>(
-              mergeMap<Superposition<VeauAccount, VeauAccountError | DataSourceError>, Observable<Action>>((superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError>) => {
+              mergeMap<Superposition<Identity, IdentityError | DataSourceError>, Observable<Action>>((superposition: Superposition<Identity, IdentityError | DataSourceError>) => {
                 return concat<Action>(
                   of<Action>(loaded()),
                   mergeMap<Superposition<VeauAccount, VeauAccountError | DataSourceError>, Observable<Action>>(() => {
-                    return superposition.match<Observable<Action>>((veauAccount: VeauAccount) => {
-                      return from<Promise<[Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>, Superposition<Region, RegionError | NoSuchElementError | DataSourceError>]>>(
-                        Promise.all<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>, Superposition<Region, RegionError | NoSuchElementError | DataSourceError>>([
-                          this.languageQuery.find(veauAccount.getLanguageID()),
-                          this.regionQuery.find(veauAccount.getRegionID())
-                        ])
-                      ).pipe<Action>(
-                        mergeMap<[Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>, Superposition<Region, RegionError | NoSuchElementError | DataSourceError>], Observable<Action>>(([
-                          superposition1,
-                          superposition2
-                        ]: [Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>, Superposition<Region, RegionError | NoSuchElementError | DataSourceError>]) => {
-                          return superposition1.match<Observable<Action>>((language: Language) => {
-                            return superposition2.match<Observable<Action>>((region: Region) => {
-                              return of<Action>(
-                                identityAuthenticated(
-                                  Identity.of(
-                                    veauAccount.getVeauAccountID(),
-                                    veauAccount.getAccountName(),
-                                    language,
-                                    region
-                                  )
-                                ),
-                                pushToStatsList(),
-                                identified()
-                              );
-                            }, () => {
-                              return of<Action>(
-                                raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION')
-                              );
-                            });
-                          }, () => {
-                            return of<Action>(
-                              raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION')
-                            );
-                          });
-                        })
+                    return superposition.match<Observable<Action>>((identity: Identity) => {
+                      return of<Action>(
+                        identityAuthenticated(identity),
+                        pushToStatsList(),
+                        identified()
                       );
                     }, () => {
                       return of<Action>(
