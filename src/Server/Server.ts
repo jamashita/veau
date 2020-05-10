@@ -1,7 +1,7 @@
 import compression from 'compression';
 import config from 'config';
 import connectRedis from 'connect-redis';
-import express from 'express';
+import express, { Express, RequestHandler } from 'express';
 import expressSession from 'express-session';
 import helmet from 'helmet';
 import log4js from 'log4js';
@@ -9,9 +9,11 @@ import passport from 'passport';
 import path from 'path';
 import { Ambiguous } from 'publikum';
 import 'reflect-metadata';
+import { useExpressServer } from 'routing-controllers';
 import favicon from 'serve-favicon';
 import 'source-map-support/register';
 import { BaseController } from '../Controller/BaseController';
+import { FEController } from '../Controller/FE/FEController';
 import { veauRedis } from '../Infrastructure/VeauRedis';
 import '../Service/AuthenticationService';
 
@@ -31,7 +33,7 @@ process.on('unhandledRejection', (reason: unknown) => {
   logger.fatal(reason);
 });
 
-const app: express.Express = express();
+const app: Express = express();
 
 app.set('views', path.resolve(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -61,7 +63,7 @@ const sessionStore: expressSession.Store = new RedisStore({
   client: veauRedis.getClient(),
   prefix: 'veau::'
 });
-const sessionMiddleware: express.RequestHandler = expressSession({
+const sessionMiddleware: RequestHandler = expressSession({
   secret: 'Ziuye5J4VmwxacL7dvV98dqUqT7HbfTn',
   store: sessionStore,
   resave: false,
@@ -78,6 +80,17 @@ app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', BaseController);
+
+useExpressServer<Express>(app, {
+  routePrefix: '/',
+  controllers: [
+    FEController
+  ]
+});
+useExpressServer<Express>(app, {
+  routePrefix: '/api',
+  controllers: []
+});
 
 app.listen(port, () => {
   logger.info(`Server running on port ${port} in ${mode} mode`);
