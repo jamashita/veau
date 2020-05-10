@@ -3136,6 +3136,11 @@ cookie@0.4.0:
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.4.0.tgz#beb437e7022b3b6d49019d088665303ebe9c14ba"
   integrity sha512-+Hp8fLp57wnUSt0tY0tHEXh4voZRDnoIrZPqlo3DPiI4y9lwg/jqx+1Om94/W6ZaPDOUbnjOt/99w66zk+l1Xg==
 
+cookie@^0.4.0:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.4.1.tgz#afd713fe26ebd21ba95ceb61f9a8116e50a537d1"
+  integrity sha512-ZwrFkGJxUR3EIoXtO+yVE69Eb7KlixbaeAWfBQB9vVsNn/o+Yw69gBWSSDK825hQNdN+wF8zELf3dFNl/kxkUA==
+
 cookiejar@^2.1.0, cookiejar@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/cookiejar/-/cookiejar-2.1.2.tgz#dd8a235530752f988f9a0844f3fc589e3111125c"
@@ -9624,7 +9629,7 @@ referrer-policy@1.2.0:
   resolved "https://registry.yarnpkg.com/referrer-policy/-/referrer-policy-1.2.0.tgz#b99cfb8b57090dc454895ef897a4cc35ef67a98e"
   integrity sha512-LgQJIuS6nAy1Jd88DCQRemyE3mS+ispwlqMk3b0yjZ257fI1v9c+/p6SD5gP5FGyXUIgrNOAfmyioHwZtYv2VA==
 
-reflect-metadata@0.1.13:
+reflect-metadata@0.1.13, reflect-metadata@^0.1.13:
   version "0.1.13"
   resolved "https://registry.yarnpkg.com/reflect-metadata/-/reflect-metadata-0.1.13.tgz#67ae3ca57c972a2aa1642b10fe363fe32d49dc08"
   integrity sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==
@@ -9948,6 +9953,16 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
   dependencies:
     hash-base "^3.0.0"
     inherits "^2.0.1"
+
+routing-controllers@0.8.1:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/routing-controllers/-/routing-controllers-0.8.1.tgz#d53c35e05d0f0863ee25bd77c3fe41fc09fa39f5"
+  integrity sha512-dOgt0kiriKMH1swenPX73tU3Mxvlb+1N/sFLSgEpwbK314POrQF+dJGOZVoKv2ya5do1k4aUzSV5xi0K3ykdyw==
+  dependencies:
+    cookie "^0.4.0"
+    glob "^7.1.4"
+    reflect-metadata "^0.1.13"
+    template-url "^1.0.0"
 
 rsvp@^4.8.4:
   version "4.8.5"
@@ -10936,6 +10951,11 @@ tar@^6.0.1, tar@^6.0.2:
     minizlib "^2.1.0"
     mkdirp "^1.0.3"
     yallist "^4.0.0"
+
+template-url@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/template-url/-/template-url-1.0.0.tgz#d9456bee70cac6617b462a7b08db29fb813a0b09"
+  integrity sha1-2UVr7nDKxmF7Rip7CNsp+4E6Cwk=
 
 term-size@^2.1.0:
   version "2.2.0"

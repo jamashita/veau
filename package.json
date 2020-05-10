@@ -54,6 +54,7 @@
     "redux-logger": "3.0.6",
     "redux-observable": "1.2.0",
     "reflect-metadata": "0.1.13",
+    "routing-controllers": "0.8.1",
     "rxjs": "6.5.5",
     "serve-favicon": "2.5.0",
     "source-map-support": "0.5.19",
