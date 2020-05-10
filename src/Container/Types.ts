@@ -21,9 +21,9 @@ type DIType = Readonly<{
   LocaleInteractor: symbol;
   StatsInteractor: symbol;
   LocaleAJAXQuery: symbol;
-  SessionAJAXQuery: symbol;
   StatsOutlineAJAXQuery: symbol;
   StatsAJAXQuery: symbol;
+  VeauAccountAJAXQuery: symbol;
   LocaleCacheQuery: symbol;
   LanguageKernelQuery: symbol;
   RegionKernelQuery: symbol;
@@ -64,9 +64,9 @@ export const TYPE: DIType = {
   LocaleInteractor: Symbol('LocaleInteractor'),
   StatsInteractor: Symbol('StatsInteractor'),
   LocaleAJAXQuery: Symbol('LocaleAJAXQuery'),
-  SessionAJAXQuery: Symbol('SessionAJAXQuery'),
   StatsOutlineAJAXQuery: Symbol('StatsOutlineAJAXQuery'),
   StatsAJAXQuery: Symbol('StatsAJAXQuery'),
+  VeauAccountAJAXQuery: Symbol('VeauAccountAJAXQuery'),
   LocaleCacheQuery: Symbol('LocaleCacheQuery'),
   LanguageKernelQuery: Symbol('LanguageKernelQuery'),
   RegionKernelQuery: Symbol('RegionKernelQuery'),
