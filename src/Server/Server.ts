@@ -12,7 +12,6 @@ import 'reflect-metadata';
 import { useExpressServer } from 'routing-controllers';
 import favicon from 'serve-favicon';
 import 'source-map-support/register';
-import { BaseController } from '../Controller/BaseController';
 import { FEController } from '../Controller/FE/FEController';
 import { veauRedis } from '../Infrastructure/VeauRedis';
 import '../Service/AuthenticationService';
@@ -79,7 +78,6 @@ const sessionMiddleware: RequestHandler = expressSession({
 app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
-app.use('/', BaseController);
 
 useExpressServer<Express>(app, {
   routePrefix: '/',

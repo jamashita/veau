@@ -1,11 +1,13 @@
-import express from 'express';
+import { Request, Response } from 'express';
 import { OK } from 'http-status';
+import { Controller, Delete, Req, Res } from 'routing-controllers';
 
-const router: express.Router = express.Router();
+@Controller('/destroy')
+export class DestroyController {
 
-router.delete('/', (req: express.Request, res: express.Response) => {
-  req.logout();
-  res.sendStatus(OK);
-});
-
-export const DestroyController: express.Router = router;
+  @Delete('/')
+  public delete(@Req()req: Request, @Res() res: Response): void {
+    req.logout();
+    res.sendStatus(OK);
+  }
+}
