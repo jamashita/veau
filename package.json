@@ -2,7 +2,10 @@
   "name": "veau",
   "version": "1.6.3",
   "main": "dist/Server/Server.js",
-  "repository": "git@gitlab.com:jamashita/veau.git",
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:jamashita/veau.git"
+  },
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
   "private": true,
@@ -15,12 +18,13 @@
     "stop": "pm2-runtime stop pm2.yml",
     "test": "jest test --detectOpenHandles --coverage",
     "lint": "eslint 'src/**/*.ts{,x}' --fix",
-    "update": "ncu -u && yarn install"
+    "update": "ncu -u && yarn install && yarn upgrade"
   },
   "engines": {
     "node": ">= 14.0.0",
     "npm": ">= 6.14"
   },
+  "engineStrict": true,
   "dependencies": {
     "@fortawesome/fontawesome-free": "5.13.0",
     "@handsontable/react": "3.1.3",
@@ -44,7 +48,7 @@
     "passport": "0.4.1",
     "passport-local": "1.0.0",
     "pm2": "4.4.0",
-    "publikum": "git+ssh://git@gitlab.com:jamashita/publikum.git#0.6.1",
+    "publikum": "git+ssh://git@gitlab.com:jamashita/publikum.git#0.6.3",
     "pug": "2.0.4",
     "react": "16.13.1",
     "react-dom": "16.13.1",
@@ -106,7 +110,7 @@
     "supertest": "4.0.2",
     "ts-config-webpack-plugin": "2.0.0",
     "ts-jest": "25.5.1",
-    "ts-loader": "7.0.3",
+    "ts-loader": "7.0.4",
     "typescript": "3.8.3",
     "webpack": "4.43.0",
     "webpack-cli": "3.3.11",
