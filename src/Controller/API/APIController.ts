@@ -1,16 +1,20 @@
-import express from 'express';
+import { Express } from 'express';
+import { useExpressServer } from 'routing-controllers';
+import { AccountController } from './AccountController';
 import { AuthController } from './AuthController';
-import { DestroyController } from './DestroyController';
-import { IdentityController } from './IdentityController';
 import { LocaleController } from './LocaleController';
+import { SessionController } from './SessionController';
 import { StatsController } from './StatsController';
 
-const router: express.Router = express.Router();
-
-router.use('/auth', AuthController);
-router.use('/locale', LocaleController);
-router.use('/destroy', DestroyController);
-router.use('/identity', IdentityController);
-router.use('/stats', StatsController);
-
-export const APIController: express.Router = router;
+export const APIController = (app: Express): Express => {
+  return useExpressServer<Express>(app, {
+    routePrefix: '/api',
+    controllers: [
+      AccountController,
+      AuthController,
+      LocaleController,
+      SessionController,
+      StatsController
+    ]
+  });
+};

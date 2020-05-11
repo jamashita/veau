@@ -1,4 +1,4 @@
-import express from 'express';
+import { NextFunction, Request, RequestHandler, Response } from 'express';
 import { UNAUTHORIZED } from 'http-status';
 import { injectable } from 'inversify';
 import { VeauAccount } from '../../VO/VeauAccount';
@@ -6,9 +6,9 @@ import { VeauAccount } from '../../VO/VeauAccount';
 @injectable()
 export class AuthenticationMiddleware {
 
-  public requires(): express.RequestHandler {
+  public requires(): RequestHandler {
 
-    return (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    return (req: Request, res: Response, next: NextFunction): void => {
       if (req.user === undefined) {
         res.sendStatus(UNAUTHORIZED);
         return;

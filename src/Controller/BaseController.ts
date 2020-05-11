@@ -1,10 +1,16 @@
-import express from 'express';
+import { Express } from 'express';
+import { useExpressServer } from 'routing-controllers';
 import { APIController } from './API/APIController';
 import { FEController } from './FE/FEController';
 
-const router: express.Router = express.Router();
+export const BaseController = (app: Express): Express => {
+  useExpressServer<Express>(app, {
+    routePrefix: '/',
+    controllers: [
+      FEController
+    ]
+  });
+  APIController(app);
 
-router.use('/api', APIController);
-router.use('/', FEController);
-
-export const BaseController: express.Router = router;
+  return app;
+};

@@ -36,6 +36,7 @@ type DIType = Readonly<{
   StatsValueMySQLQuery: symbol;
   LanguageRedisQuery: symbol;
   RegionRedisQuery: symbol;
+  IdentityVaultQuery: symbol;
   LanguageVaultQuery: symbol;
   LocaleVaultQuery: symbol;
   RegionVaultQuery: symbol;
@@ -79,6 +80,7 @@ export const TYPE: DIType = {
   StatsValueMySQLQuery: Symbol('StatsValueMySQLQuery'),
   LanguageRedisQuery: Symbol('LanguageRedisQuery'),
   RegionRedisQuery: Symbol('RegionRedisQuery'),
+  IdentityVaultQuery: Symbol('IdentityVaultQuery'),
   LanguageVaultQuery: Symbol('LanguageVaultQuery'),
   LocaleVaultQuery: Symbol('LocaleVaultQuery'),
   RegionVaultQuery: Symbol('RegionVaultQuery')

@@ -16,6 +16,7 @@ import { StatsOutlineQuery as StatsOutlineAJAXQuery } from '../Query/AJAX/StatsO
 import { StatsQuery as StatsAJAXQuery } from '../Query/AJAX/StatsQuery';
 import { VeauAccountQuery as VeauAccountAJAXQuery } from '../Query/AJAX/VeauAccountQuery';
 import { LocaleQuery as LocaleCacheQuery } from '../Query/Cache/LocaleQuery';
+import { IdentityQuery as IdentityVaultQuery } from '../Query/Vault/IdentityQuery';
 import { LanguageQuery as LanguageVaultQuery } from '../Query/Vault/LanguageQuery';
 import { LocaleQuery as LocaleVaultQuery } from '../Query/Vault/LocaleQuery';
 import { RegionQuery as RegionVaultQuery } from '../Query/Vault/RegionQuery';
@@ -40,6 +41,7 @@ vault.bind<StatsOutlineAJAXQuery>(TYPE.StatsOutlineAJAXQuery).to(StatsOutlineAJA
 vault.bind<StatsAJAXQuery>(TYPE.StatsAJAXQuery).to(StatsAJAXQuery).inSingletonScope();
 vault.bind<VeauAccountAJAXQuery>(TYPE.VeauAccountAJAXQuery).to(VeauAccountAJAXQuery).inSingletonScope();
 vault.bind<LocaleCacheQuery>(TYPE.LocaleCacheQuery).to(LocaleCacheQuery).inSingletonScope();
+vault.bind<IdentityVaultQuery>(TYPE.IdentityVaultQuery).to(IdentityVaultQuery).inSingletonScope();
 vault.bind<LanguageVaultQuery>(TYPE.LanguageVaultQuery).to(LanguageVaultQuery).inSingletonScope();
 vault.bind<LocaleVaultQuery>(TYPE.LocaleVaultQuery).to(LocaleVaultQuery).inSingletonScope();
 vault.bind<RegionVaultQuery>(TYPE.RegionVaultQuery).to(RegionVaultQuery).inSingletonScope();
