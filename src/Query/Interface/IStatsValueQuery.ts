@@ -8,5 +8,7 @@ import { IQuery } from './IQuery';
 export interface IStatsValueQuery extends IQuery {
   readonly noun: 'StatsValueQuery';
 
-  findByStatsID(statsID: StatsID): Promise<Superposition<Project<StatsItemID, StatsValues>, StatsValuesError | DataSourceError>>;
+  findByStatsID(
+    statsID: StatsID
+  ): Promise<Superposition<Project<StatsItemID, StatsValues>, StatsValuesError | DataSourceError>>;
 }

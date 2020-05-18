@@ -30,11 +30,7 @@ export class IdentitySaga {
   private readonly localeQuery: ILocaleQuery;
   private readonly languageQuery: ILanguageQuery;
 
-  public constructor(
-    sessionQuery: ISessionQuery,
-    localeQuery: ILocaleQuery,
-    languageQuery: ILanguageQuery
-  ) {
+  public constructor(sessionQuery: ISessionQuery, localeQuery: ILocaleQuery, languageQuery: ILanguageQuery) {
     this.sessionQuery = sessionQuery;
     this.localeQuery = localeQuery;
     this.languageQuery = languageQuery;
@@ -48,27 +44,34 @@ export class IdentitySaga {
   private *initIdentity(): SagaIterator<void> {
     yield put(loading());
 
-    const superposition1: Superposition<Locale, DataSourceError> = yield call((): Promise<Superposition<Locale, DataSourceError>> => {
-      return this.localeQuery.all();
-    });
+    const superposition1: Superposition<Locale, DataSourceError> = yield call(
+      (): Promise<Superposition<Locale, DataSourceError>> => {
+        return this.localeQuery.all();
+      }
+    );
 
     yield put(loaded());
 
-    yield superposition1.match<Effect>((locale: Locale) => {
-      return put(defineLocale(locale));
-    }, () => {
-      return put(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
-    });
+    yield superposition1.match<Effect>(
+      (locale: Locale) => {
+        return put(defineLocale(locale));
+      },
+      () => {
+        return put(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
+      }
+    );
 
-    const superposition2: Superposition<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError> = yield call((): Promise<Superposition<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>> => {
-      return this.sessionQuery.find();
-    });
+    const superposition2: Superposition<
+      VeauAccount,
+      VeauAccountError | UnauthorizedError | DataSourceError
+    > = yield call(
+      (): Promise<Superposition<VeauAccount, VeauAccountError | UnauthorizedError | DataSourceError>> => {
+        return this.sessionQuery.find();
+      }
+    );
 
     if (superposition2.isAlive()) {
-      const effects: Array<Effect> = [
-        put(identityAuthenticated(superposition2.get())),
-        put(identified())
-      ];
+      const effects: Array<Effect> = [put(identityAuthenticated(superposition2.get())), put(identified())];
 
       if (location.pathname === Endpoints.ENTRANCE) {
         effects.push(put(pushToStatsList()));
@@ -81,24 +84,29 @@ export class IdentitySaga {
     const iso639: ISO639 = ISO639.of(supportLanguage);
     const state: State = yield select();
 
-    const {
-      identity
-    } = state;
+    const { identity } = state;
 
-    const superposition3: Superposition<Language, NoSuchElementError | DataSourceError> = yield call((): Promise<Superposition<Language, NoSuchElementError | DataSourceError>> => {
-      return this.languageQuery.findByISO639(iso639);
-    });
+    const superposition3: Superposition<Language, NoSuchElementError | DataSourceError> = yield call(
+      (): Promise<Superposition<Language, NoSuchElementError | DataSourceError>> => {
+        return this.languageQuery.findByISO639(iso639);
+      }
+    );
 
-    yield superposition3.match<Effect>((language: Language) => {
-      const veauAccount: VeauAccount = VeauAccount.of(identity.getVeauAccountID(), identity.getAccount(), language, identity.getRegion());
+    yield superposition3.match<Effect>(
+      (language: Language) => {
+        const veauAccount: VeauAccount = VeauAccount.of(
+          identity.getVeauAccountID(),
+          identity.getAccount(),
+          language,
+          identity.getRegion()
+        );
 
-      return all([
-        put(identityAuthenticated(veauAccount)),
-        put(pushToEntrance())
-      ]);
-    }, () => {
-      return put(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
-    });
+        return all([put(identityAuthenticated(veauAccount)), put(pushToEntrance())]);
+      },
+      () => {
+        return put(raiseModal('CONNECTION_ERROR', 'CONNECTION_ERROR_DESCRIPTION'));
+      }
+    );
   }
 
   private *initialize(): SagaIterator<unknown> {
@@ -106,11 +114,14 @@ export class IdentitySaga {
       yield take(IDENTITY_INITIALIZE);
       const state: State = yield select();
 
-      const {
-        identity
-      } = state;
+      const { identity } = state;
 
-      const veauAccount: VeauAccount = VeauAccount.of(VeauAccountID.generate(), AccountName.empty(), identity.getLanguage(), identity.getRegion());
+      const veauAccount: VeauAccount = VeauAccount.of(
+        VeauAccountID.generate(),
+        AccountName.empty(),
+        identity.getLanguage(),
+        identity.getRegion()
+      );
 
       yield put(identityAuthenticated(veauAccount));
     }

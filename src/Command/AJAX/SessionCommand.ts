@@ -1,14 +1,7 @@
 import { OK } from 'http-status';
 import { inject, injectable } from 'inversify';
-import {
-  AJAXError,
-  AJAXResponse,
-  Alive,
-  DataSourceError,
-  Dead,
-  IAJAX,
-  Superposition
-} from 'publikum';
+import { AJAXResponse, Alive, DataSourceError, Dead, IAJAX, Superposition } from 'publikum';
+import { AJAXError } from 'publikum/AJAX';
 import { TYPE } from '../../Container/Types';
 import { IAJAXCommand } from '../Interface/IAJAXCommand';
 import { ISessionCommand } from '../Interface/ISessionCommand';

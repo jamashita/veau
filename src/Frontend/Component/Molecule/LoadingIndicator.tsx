@@ -11,8 +11,8 @@ type State = Readonly<{}>;
 const SIZE: number = 100;
 
 class LoadingIndicatorImpl extends React.Component<Props & WrappedComponentProps, State> {
-
   public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
+    // prettier-ignore
     const {
       loadingCount
     } = this.props;
@@ -25,15 +25,14 @@ class LoadingIndicatorImpl extends React.Component<Props & WrappedComponentProps
   }
 
   public render(): React.ReactNode {
+    // prettier-ignore
     const {
       loadingCount,
       intl
     } = this.props;
 
     return (
-      <Dialog
-        open={loadingCount.isLoading()}
-      >
+      <Dialog open={loadingCount.isLoading()}>
         <DialogTitle
           style={{
             textAlign: 'center'
@@ -44,13 +43,13 @@ class LoadingIndicatorImpl extends React.Component<Props & WrappedComponentProps
           })}
         </DialogTitle>
         <DialogContent>
-          <CircularProgress
-            size={SIZE}
-          />
+          <CircularProgress size={SIZE} />
         </DialogContent>
       </Dialog>
     );
   }
 }
 
-export const LoadingIndicator: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(LoadingIndicatorImpl);
+export const LoadingIndicator: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(
+  LoadingIndicatorImpl
+);

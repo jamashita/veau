@@ -27,19 +27,25 @@ describe('LoadingCount', () => {
       expect(superposition1.isDead()).toBe(true);
       expect(superposition2.isDead()).toBe(true);
 
-      superposition1.match<void>(() => {
-        spy1();
-      }, (err: LoadingCountError) => {
-        spy2();
-        expect(err).toBeInstanceOf(LoadingCountError);
-      });
+      superposition1.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LoadingCountError) => {
+          spy2();
+          expect(err).toBeInstanceOf(LoadingCountError);
+        }
+      );
 
-      superposition2.match<void>(() => {
-        spy3();
-      }, (err: LoadingCountError) => {
-        spy4();
-        expect(err).toBeInstanceOf(LoadingCountError);
-      });
+      superposition2.match<void>(
+        () => {
+          spy3();
+        },
+        (err: LoadingCountError) => {
+          spy4();
+          expect(err).toBeInstanceOf(LoadingCountError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -66,19 +72,25 @@ describe('LoadingCount', () => {
       expect(superposition1.isDead()).toBe(true);
       expect(superposition2.isDead()).toBe(true);
 
-      superposition1.match<void>(() => {
-        spy1();
-      }, (err: LoadingCountError) => {
-        spy2();
-        expect(err).toBeInstanceOf(LoadingCountError);
-      });
+      superposition1.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LoadingCountError) => {
+          spy2();
+          expect(err).toBeInstanceOf(LoadingCountError);
+        }
+      );
 
-      superposition2.match<void>(() => {
-        spy3();
-      }, (err: LoadingCountError) => {
-        spy4();
-        expect(err).toBeInstanceOf(LoadingCountError);
-      });
+      superposition2.match<void>(
+        () => {
+          spy3();
+        },
+        (err: LoadingCountError) => {
+          spy4();
+          expect(err).toBeInstanceOf(LoadingCountError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

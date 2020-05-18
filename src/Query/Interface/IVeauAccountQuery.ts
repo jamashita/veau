@@ -9,5 +9,7 @@ export interface IVeauAccountQuery extends IQuery {
 
   find(): Promise<Superposition<VeauAccount, VeauAccountError | DataSourceError>>;
 
-  findByEntranceInfo(entranceInformation: EntranceInformation): Promise<Superposition<VeauAccount, VeauAccountError | DataSourceError>>;
+  findByEntranceInfo(
+    entranceInformation: EntranceInformation
+  ): Promise<Superposition<VeauAccount, VeauAccountError | DataSourceError>>;
 }

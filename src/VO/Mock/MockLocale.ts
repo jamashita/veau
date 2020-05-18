@@ -4,17 +4,15 @@ import { Regions } from '../Regions';
 import { MockLanguages } from './MockLanguages';
 import { MockRegions } from './MockRegions';
 
-type LocaleArgs = Partial<Readonly<{
-  languages: Languages;
-  regions: Regions;
-}>>;
+type LocaleArgs = Partial<
+  Readonly<{
+    languages: Languages;
+    regions: Regions;
+  }>
+>;
 
 export class MockLocale extends Locale {
-
-  public constructor({
-    languages = new MockLanguages(),
-    regions = new MockRegions()
-  }: LocaleArgs = {}) {
+  public constructor({ languages = new MockLanguages(), regions = new MockRegions() }: LocaleArgs = {}) {
     super(languages, regions);
   }
 }

@@ -8,15 +8,16 @@ import { MockLanguageID } from './MockLanguageID';
 import { MockRegionID } from './MockRegionID';
 import { MockVeauAccountID } from './MockVeauAccountID';
 
-type VeauAccountArgs = Partial<Readonly<{
-  veauAccountID: VeauAccountID;
-  languageID: LanguageID;
-  regionID: RegionID;
-  account: AccountName;
-}>>;
+type VeauAccountArgs = Partial<
+  Readonly<{
+    veauAccountID: VeauAccountID;
+    languageID: LanguageID;
+    regionID: RegionID;
+    account: AccountName;
+  }>
+>;
 
 export class MockVeauAccount extends VeauAccount {
-
   public constructor({
     veauAccountID = new MockVeauAccountID(),
     languageID = new MockLanguageID(),

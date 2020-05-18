@@ -48,24 +48,36 @@ export class StatsItems extends Objet implements Collection<number, StatsItem>, 
     return StatsItems.ofArray(items);
   }
 
-  public static ofSuperposition(superpositions: Array<Superposition<StatsItem, StatsItemError>>): Superposition<StatsItems, StatsItemsError> {
-    return manoeuvre<StatsItem, StatsItemError>(superpositions).match<StatsItems, StatsItemsError>((statsItems: Array<StatsItem>) => {
-      return Alive.of<StatsItems, StatsItemsError>(StatsItems.ofArray(statsItems));
-    }, (err: StatsItemError) => {
-      return Dead.of<StatsItems, StatsItemsError>(new StatsItemsError('StatsItems.ofSuperposition()', err));
-    });
+  public static ofSuperposition(
+    superpositions: Array<Superposition<StatsItem, StatsItemError>>
+  ): Superposition<StatsItems, StatsItemsError> {
+    return manoeuvre<StatsItem, StatsItemError>(superpositions).match<StatsItems, StatsItemsError>(
+      (statsItems: Array<StatsItem>) => {
+        return Alive.of<StatsItems, StatsItemsError>(StatsItems.ofArray(statsItems));
+      },
+      (err: StatsItemError) => {
+        return Dead.of<StatsItems, StatsItemsError>(new StatsItemsError('StatsItems.ofSuperposition()', err));
+      }
+    );
   }
 
   public static ofJSON(json: Array<StatsItemJSON>): Superposition<StatsItems, StatsItemsError> {
-    const superpositions: Array<Superposition<StatsItem, StatsItemError>> = json.map<Superposition<StatsItem, StatsItemError>>((statsItemJSON: StatsItemJSON) => {
+    const superpositions: Array<Superposition<StatsItem, StatsItemError>> = json.map<
+      Superposition<StatsItem, StatsItemError>
+    >((statsItemJSON: StatsItemJSON) => {
       return StatsItem.ofJSON(statsItemJSON);
     });
 
     return StatsItems.ofSuperposition(superpositions);
   }
 
-  public static ofRow(rows: Array<StatsItemRow>, project: Project<StatsItemID, StatsValues>): Superposition<StatsItems, StatsItemsError> {
-    const superpositions: Array<Superposition<StatsItem, StatsItemError>> = rows.map<Superposition<StatsItem, StatsItemError>>((statsItemRow: StatsItemRow) => {
+  public static ofRow(
+    rows: Array<StatsItemRow>,
+    project: Project<StatsItemID, StatsValues>
+  ): Superposition<StatsItems, StatsItemsError> {
+    const superpositions: Array<Superposition<StatsItem, StatsItemError>> = rows.map<
+      Superposition<StatsItem, StatsItemError>
+    >((statsItemRow: StatsItemRow) => {
       return StatsItem.ofRow(statsItemRow, project);
     });
 
@@ -104,9 +116,11 @@ export class StatsItems extends Objet implements Collection<number, StatsItem>, 
   }
 
   public getNames(): StatsItemNames {
-    return StatsItemNames.of(this.items.map<StatsItemName>((item: StatsItem) => {
-      return item.getName();
-    }));
+    return StatsItemNames.of(
+      this.items.map<StatsItemName>((item: StatsItem) => {
+        return item.getName();
+      })
+    );
   }
 
   public getAsOfs(): AsOfs {
@@ -153,11 +167,7 @@ export class StatsItems extends Objet implements Collection<number, StatsItem>, 
 
     const toValue: number = to.get();
 
-    const newItems: Array<StatsItem> = [
-      ...items.slice(0, toValue),
-      statsItem,
-      ...items.slice(toValue + 1)
-    ];
+    const newItems: Array<StatsItem> = [...items.slice(0, toValue), statsItem, ...items.slice(toValue + 1)];
 
     return StatsItems.ofArray(newItems);
   }

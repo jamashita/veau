@@ -31,9 +31,7 @@ describe('AccountController', () => {
       const app: Express = express();
       app.use(setAccount(account));
       useExpressServer(app, {
-        controllers: [
-          AccountController
-        ]
+        controllers: [AccountController]
       });
 
       const response: supertest.Response = await supertest(app).get('/accounts');

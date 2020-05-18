@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { DataSourceError, Dead, IMySQL, MySQLError, Superposition } from 'publikum';
+import { DataSourceError, Dead, IMySQL, MySQLError, Schrodinger, Superposition } from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { RegionError } from '../../Error/RegionError';
@@ -30,25 +30,30 @@ export class RegionQuery implements IRegionQuery, IMySQLQuery {
       FORCE INDEX(iso3166)
       ORDER BY R1.iso3166;`;
 
-    try {
-      const regionRows: Array<RegionRow> = await this.mysql.execute<Array<RegionRow>>(query);
+    const superposition: Superposition<Array<RegionRow>, MySQLError> = await Schrodinger.playground<
+      Array<RegionRow>,
+      MySQLError
+    >(() => {
+      return this.mysql.execute<Array<RegionRow>>(query);
+    });
 
-      if (regionRows.length === 0) {
-        return Dead.of<Regions, MySQLError>(new MySQLError('NO REGIONS FROM MYSQL'));
-      }
+    return superposition.match<Regions, RegionsError | DataSourceError>(
+      (rows: Array<RegionRow>) => {
+        if (rows.length === 0) {
+          return Dead.of<Regions, MySQLError>(new MySQLError('NO REGIONS FROM MYSQL'));
+        }
 
-      return Regions.ofRow(regionRows);
-    }
-    catch (err) {
-      if (err instanceof MySQLError) {
+        return Regions.ofRow(rows);
+      },
+      (err: MySQLError) => {
         return Dead.of<Regions, MySQLError>(err);
       }
-
-      throw err;
-    }
+    );
   }
 
-  public async find(regionID: RegionID): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {
+  public async find(
+    regionID: RegionID
+  ): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {
     const query: string = `SELECT
       R1.region_id AS regionID,
       R1.name,
@@ -56,30 +61,32 @@ export class RegionQuery implements IRegionQuery, IMySQLQuery {
       FROM regions R1
       WHERE R1.region_id = :regionID;`;
 
-    try {
-      const regionRows: Array<RegionRow> = await this.mysql.execute<Array<RegionRow>>(
-        query,
-        {
-          regionID: regionID.get().get()
+    const superposition: Superposition<Array<RegionRow>, MySQLError> = await Schrodinger.playground<
+      Array<RegionRow>,
+      MySQLError
+    >(() => {
+      return this.mysql.execute<Array<RegionRow>>(query, {
+        regionID: regionID.get().get()
+      });
+    });
+
+    return superposition.match<Region, RegionError | NoSuchElementError | DataSourceError>(
+      (rows: Array<RegionRow>) => {
+        if (rows.length === 0) {
+          return Dead.of<Region, NoSuchElementError>(new NoSuchElementError('NO REGIONS FROM MYSQL'));
         }
-      );
 
-      if (regionRows.length === 0) {
-        return Dead.of<Region, NoSuchElementError>(new NoSuchElementError('NO REGIONS FROM MYSQL'));
-      }
-
-      return Region.ofRow(regionRows[0]);
-    }
-    catch (err) {
-      if (err instanceof MySQLError) {
+        return Region.ofRow(rows[0]);
+      },
+      (err: MySQLError) => {
         return Dead.of<Region, MySQLError>(err);
       }
-
-      throw err;
-    }
+    );
   }
 
-  public async findByISO3166(iso3166: ISO3166): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {
+  public async findByISO3166(
+    iso3166: ISO3166
+  ): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {
     const query: string = `SELECT
       R1.region_id AS regionID,
       R1.name,
@@ -87,26 +94,26 @@ export class RegionQuery implements IRegionQuery, IMySQLQuery {
       FROM regions R1
       WHERE R1.iso3166 = :iso3166;`;
 
-    try {
-      const regionRows: Array<RegionRow> = await this.mysql.execute<Array<RegionRow>>(
-        query,
-        {
-          iso3166: iso3166.get()
+    const superposition: Superposition<Array<RegionRow>, MySQLError> = await Schrodinger.playground<
+      Array<RegionRow>,
+      MySQLError
+    >(() => {
+      return this.mysql.execute<Array<RegionRow>>(query, {
+        iso3166: iso3166.get()
+      });
+    });
+
+    return superposition.match<Region, RegionError | NoSuchElementError | DataSourceError>(
+      (rows: Array<RegionRow>) => {
+        if (rows.length === 0) {
+          return Dead.of<Region, NoSuchElementError>(new NoSuchElementError('NO REGIONS FROM MYSQL'));
         }
-      );
 
-      if (regionRows.length === 0) {
-        return Dead.of<Region, NoSuchElementError>(new NoSuchElementError('NO REGIONS FROM MYSQL'));
-      }
-
-      return Region.ofRow(regionRows[0]);
-    }
-    catch (err) {
-      if (err instanceof MySQLError) {
+        return Region.ofRow(rows[0]);
+      },
+      (err: MySQLError) => {
         return Dead.of<Region, MySQLError>(err);
       }
-
-      throw err;
-    }
+    );
   }
 }

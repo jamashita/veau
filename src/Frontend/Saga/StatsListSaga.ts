@@ -54,7 +54,7 @@ export class StatsListSaga {
     this.statsCommand = statsCommand;
   }
 
-  public* init(): IterableIterator<unknown> {
+  public *init(): IterableIterator<unknown> {
     yield fork(this.findStatsList);
     yield fork(this.nameTyped);
     yield fork(this.unitTyped);
@@ -64,38 +64,39 @@ export class StatsListSaga {
     yield fork(this.save);
   }
 
-  private* findStatsList(): SagaIterator<unknown> {
+  private *findStatsList(): SagaIterator<unknown> {
     while (true) {
       yield take(STATS_LIST_INITIALIZE);
 
-      const superposition: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = yield call((): Promise<Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>> => {
-        return this.statsOutlineQuery.findByVeauAccountID(VeauAccountID.generate(), Page.of(1).get());
-      });
+      const superposition: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = yield call(
+        (): Promise<Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>> => {
+          return this.statsOutlineQuery.findByVeauAccountID(VeauAccountID.generate(), Page.of(1).get());
+        }
+      );
 
-      yield superposition.match<Effect>((statsOutlines: StatsOutlines) => {
-        return put(updateStatsListItems(statsOutlines));
-      }, () => {
-        return all([
-          put(resetStatsListItems()),
-          put(appearNotification('error', 'center', 'top', 'STATS_OVERVIEW_NOT_FOUND'))
-        ]);
-      });
+      yield superposition.match<Effect>(
+        (statsOutlines: StatsOutlines) => {
+          return put(updateStatsListItems(statsOutlines));
+        },
+        () => {
+          return all([
+            put(resetStatsListItems()),
+            put(appearNotification('error', 'center', 'top', 'STATS_OVERVIEW_NOT_FOUND'))
+          ]);
+        }
+      );
     }
   }
 
-  private* nameTyped(): SagaIterator<unknown> {
+  private *nameTyped(): SagaIterator<unknown> {
     while (true) {
       const action: StatsListNameTypedAction = yield take(STATS_LIST_NAME_TYPED);
       const state: State = yield select();
 
       const {
-        statsList: {
-          stats
-        }
+        statsList: { stats }
       } = state;
-      const {
-        name
-      } = action;
+      const { name } = action;
 
       const newStats: Stats = Stats.of(
         stats.getStatsID(),
@@ -112,19 +113,15 @@ export class StatsListSaga {
     }
   }
 
-  private* unitTyped(): SagaIterator<unknown> {
+  private *unitTyped(): SagaIterator<unknown> {
     while (true) {
       const action: StatsListUnitTypedAction = yield take(STATS_LIST_UNIT_TYPED);
       const state: State = yield select();
 
       const {
-        statsList: {
-          stats
-        }
+        statsList: { stats }
       } = state;
-      const {
-        unit
-      } = action;
+      const { unit } = action;
 
       const newStats: Stats = Stats.of(
         stats.getStatsID(),
@@ -141,20 +138,20 @@ export class StatsListSaga {
     }
   }
 
-  private* iso639Selected(): SagaIterator<unknown> {
+  private *iso639Selected(): SagaIterator<unknown> {
     while (true) {
       const action: StatsListISO639SelectedAction = yield take(STATS_LIST_ISO639_SELECTED);
       const state: State = yield select();
 
       const {
-        statsList: {
-          stats
-        }
+        statsList: { stats }
       } = state;
 
-      const superposition: Superposition<Language, NoSuchElementError | DataSourceError> = yield call((): Promise<Superposition<Language, NoSuchElementError | DataSourceError>> => {
-        return this.languageQuery.findByISO639(action.iso639);
-      });
+      const superposition: Superposition<Language, NoSuchElementError | DataSourceError> = yield call(
+        (): Promise<Superposition<Language, NoSuchElementError | DataSourceError>> => {
+          return this.languageQuery.findByISO639(action.iso639);
+        }
+      );
 
       if (superposition.isAlive()) {
         const newStats: Stats = Stats.of(
@@ -173,20 +170,20 @@ export class StatsListSaga {
     }
   }
 
-  private* iso3166Selected(): SagaIterator<unknown> {
+  private *iso3166Selected(): SagaIterator<unknown> {
     while (true) {
       const action: StatsListISO3166SelectedAction = yield take(STATS_LIST_ISO3166_SELECTED);
       const state: State = yield select();
 
       const {
-        statsList: {
-          stats
-        }
+        statsList: { stats }
       } = state;
 
-      const superposition: Superposition<Region, NoSuchElementError | DataSourceError> = yield call((): Promise<Superposition<Region, NoSuchElementError | DataSourceError>> => {
-        return this.regionQuery.findByISO3166(action.iso3166);
-      });
+      const superposition: Superposition<Region, NoSuchElementError | DataSourceError> = yield call(
+        (): Promise<Superposition<Region, NoSuchElementError | DataSourceError>> => {
+          return this.regionQuery.findByISO3166(action.iso3166);
+        }
+      );
 
       if (superposition.isAlive()) {
         const newStats: Stats = Stats.of(
@@ -205,15 +202,13 @@ export class StatsListSaga {
     }
   }
 
-  private* termSelected(): SagaIterator<unknown> {
+  private *termSelected(): SagaIterator<unknown> {
     while (true) {
       const action: StatsListTermSelectedAction = yield take(STATS_LIST_TERM_SELECTED);
       const state: State = yield select();
 
       const {
-        statsList: {
-          stats
-        }
+        statsList: { stats }
       } = state;
 
       const newStats: Stats = Stats.of(
@@ -231,43 +226,39 @@ export class StatsListSaga {
     }
   }
 
-  private* save(): SagaIterator<unknown> {
+  private *save(): SagaIterator<unknown> {
     while (true) {
       yield take(STATS_LIST_SAVE_NEW_STATS);
 
       const state: State = yield select();
 
       const {
-        statsList: {
-          stats
-        }
+        statsList: { stats }
       } = state;
 
       if (!stats.isFilled()) {
         continue;
       }
 
-      yield all([
-        put(closeNewStatsModal()),
-        put(loading())
-      ]);
+      yield all([put(closeNewStatsModal()), put(loading())]);
 
-      const superposition: Superposition<void, DataSourceError> = yield call((): Promise<Superposition<void, DataSourceError>> => {
-        return this.statsCommand.create(stats, VeauAccountID.generate());
-      });
+      const superposition: Superposition<void, DataSourceError> = yield call(
+        (): Promise<Superposition<void, DataSourceError>> => {
+          return this.statsCommand.create(stats, VeauAccountID.generate());
+        }
+      );
 
-      yield superposition.match<Effect>(() => {
-        return all([
-          put(loaded()),
-          put(pushToStatsEdit(stats.getStatsID())),
-          put(resetNewStats())
-        ]);
-      }, () => {
-        return all([
-          put(loaded()),
-          put(raiseModal('FAILED_TO_SAVE_NEW_STATS', 'FAILED_TO_SAVE_NEW_STATS_DESCRIPTION'))
-        ]);
-      });
+      yield superposition.match<Effect>(
+        () => {
+          return all([put(loaded()), put(pushToStatsEdit(stats.getStatsID())), put(resetNewStats())]);
+        },
+        () => {
+          return all([
+            put(loaded()),
+            put(raiseModal('FAILED_TO_SAVE_NEW_STATS', 'FAILED_TO_SAVE_NEW_STATS_DESCRIPTION'))
+          ]);
+        }
+      );
     }
   }
 }

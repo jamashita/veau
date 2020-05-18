@@ -49,12 +49,15 @@ describe('LocaleQuery', () => {
       const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeQuery.all();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: LocaleError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(CacheError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LocaleError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(CacheError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

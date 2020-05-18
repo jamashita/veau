@@ -68,7 +68,7 @@ describe('LocaleQuery', () => {
       }
     });
 
-    it('returns Dead when AJAX call doesn\'t return OK', async () => {
+    it('returns Dead when AJAX call doesn not return OK', async () => {
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
       ajax.get = stub;
@@ -83,12 +83,15 @@ describe('LocaleQuery', () => {
       const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeQuery.all();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: LocaleError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(AJAXError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LocaleError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(AJAXError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

@@ -8,6 +8,7 @@ import {
   Objet,
   Present,
   Quantum,
+  Schrodinger,
   Sequence,
   Zeit,
   ZeitError
@@ -107,18 +108,16 @@ export class AsOfs extends Objet implements Collection<number, AsOf>, Cloneable<
       return asOf.get();
     });
 
-    try {
-      const min: Zeit = Zeit.min(zeiten, AsOf.format());
-
-      return Present.of<AsOf>(AsOf.of(min));
-    }
-    catch (err) {
-      if (err instanceof ZeitError) {
+    return Schrodinger.playground<Zeit, ZeitError>(() => {
+      return Zeit.min(zeiten, AsOf.format());
+    }).match<Quantum<AsOf>>(
+      (zeit: Zeit) => {
+        return Present.of<AsOf>(AsOf.of(zeit));
+      },
+      () => {
         return Absent.of<AsOf>();
       }
-
-      throw err;
-    }
+    );
   }
 
   public max(): Quantum<AsOf> {
@@ -133,18 +132,16 @@ export class AsOfs extends Objet implements Collection<number, AsOf>, Cloneable<
       return asOf.get();
     });
 
-    try {
-      const max: Zeit = Zeit.max(zeiten, AsOf.format());
-
-      return Present.of<AsOf>(AsOf.of(max));
-    }
-    catch (err) {
-      if (err instanceof ZeitError) {
+    return Schrodinger.playground<Zeit, ZeitError>(() => {
+      return Zeit.max(zeiten, AsOf.format());
+    }).match<Quantum<AsOf>>(
+      (zeit: Zeit) => {
+        return Present.of<AsOf>(AsOf.of(zeit));
+      },
+      () => {
         return Absent.of<AsOf>();
       }
-
-      throw err;
-    }
+    );
   }
 
   public size(): number {

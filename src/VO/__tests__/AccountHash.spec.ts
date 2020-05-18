@@ -31,10 +31,7 @@ describe('AccountHash', () => {
       const id: string = '998106de-b2e7-4981-9643-22cd30cd74de';
       const hash: string = 'hash';
 
-      const accountHash: AccountHash = AccountHash.of(
-        VeauAccountID.ofString(id).get(),
-        Hash.of(hash)
-      );
+      const accountHash: AccountHash = AccountHash.of(VeauAccountID.ofString(id).get(), Hash.of(hash));
 
       expect(accountHash.toString()).toBe(`${id} ${hash}`);
     });

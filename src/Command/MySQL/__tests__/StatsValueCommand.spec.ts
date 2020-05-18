@@ -23,17 +23,25 @@ describe('StatsValueCommand', () => {
       sql.execute = stub;
 
       const statsValueCommand: StatsValueCommand = new StatsValueCommand(sql);
-      const superposition: Superposition<void, DataSourceError> = await statsValueCommand.create(new MockStatsItemID(uuid), statsValue);
+      const superposition: Superposition<void, DataSourceError> = await statsValueCommand.create(
+        new MockStatsItemID(uuid),
+        statsValue
+      );
 
-      expect(stub.withArgs(`INSERT INTO stats_values VALUES (
+      expect(
+        stub.withArgs(
+          `INSERT INTO stats_values VALUES (
       :statsItemID,
       :asOf,
       :value
-      );`, {
-        statsItemID: uuid.get(),
-        asOf: '2000-01-01',
-        value
-      }).called).toBe(true);
+      );`,
+          {
+            statsItemID: uuid.get(),
+            asOf: '2000-01-01',
+            value
+          }
+        ).called
+      ).toBe(true);
       expect(superposition.isAlive()).toBe(true);
     });
 
@@ -48,15 +56,21 @@ describe('StatsValueCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsValueCommand: StatsValueCommand = new StatsValueCommand(sql);
-      const superposition: Superposition<void, DataSourceError> = await statsValueCommand.create(new MockStatsItemID(), statsValue);
+      const superposition: Superposition<void, DataSourceError> = await statsValueCommand.create(
+        new MockStatsItemID(),
+        statsValue
+      );
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(MySQLError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(MySQLError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -87,15 +101,20 @@ describe('StatsValueCommand', () => {
       const statsValueCommand: StatsValueCommand = new StatsValueCommand(sql);
       const superposition: Superposition<void, DataSourceError> = await statsValueCommand.deleteByStatsID(statsID);
 
-      expect(stub.withArgs(`DELETE R1
+      expect(
+        stub.withArgs(
+          `DELETE R1
       FROM stats_values R1
       INNER JOIN stats_items R2
       USING(stats_item_id)
       INNER JOIN stats R3
       USING(stats_id)
-      WHERE R3.stats_id = :statsID;`, {
-        statsID: uuid.get()
-      }).called).toBe(true);
+      WHERE R3.stats_id = :statsID;`,
+          {
+            statsID: uuid.get()
+          }
+        ).called
+      ).toBe(true);
       expect(superposition.isAlive()).toBe(true);
     });
 
@@ -113,12 +132,15 @@ describe('StatsValueCommand', () => {
       const superposition: Superposition<void, DataSourceError> = await statsValueCommand.deleteByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(MySQLError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(MySQLError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

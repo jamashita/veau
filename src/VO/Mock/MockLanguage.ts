@@ -6,15 +6,16 @@ import { MockISO639 } from './MockISO639';
 import { MockLanguageID } from './MockLanguageID';
 import { MockLanguageName } from './MockLanguageName';
 
-type LanguageArgs = Partial<Readonly<{
-  languageID: LanguageID;
-  name: LanguageName;
-  englishName: LanguageName;
-  iso639: ISO639;
-}>>;
+type LanguageArgs = Partial<
+  Readonly<{
+    languageID: LanguageID;
+    name: LanguageName;
+    englishName: LanguageName;
+    iso639: ISO639;
+  }>
+>;
 
 export class MockLanguage extends Language {
-
   public constructor({
     languageID = new MockLanguageID(),
     name = new MockLanguageName(),

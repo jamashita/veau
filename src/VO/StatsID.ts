@@ -1,4 +1,4 @@
-import { Alive, Dead, Superposition, UUID, UUIDError, ValueObject } from 'publikum';
+import { Alive, Dead, Schrodinger, Superposition, UUID, UUIDError, ValueObject } from 'publikum';
 import { StatsIDError } from '../Error/StatsIDError';
 
 export class StatsID extends ValueObject {
@@ -10,20 +10,16 @@ export class StatsID extends ValueObject {
   }
 
   public static ofString(id: string): Superposition<StatsID, StatsIDError> {
-    try {
-      const uuid: UUID = UUID.of(id);
-
-      return Alive.of<StatsID, StatsIDError>(StatsID.of(uuid));
-    }
-    catch (err) {
-      if (err instanceof UUIDError) {
-        return Dead.of<StatsID, StatsIDError>(
-          new StatsIDError('StatsID.ofString()', err)
-        );
+    return Schrodinger.playground<UUID, UUIDError>(() => {
+      return UUID.of(id);
+    }).match<StatsID, StatsIDError>(
+      (uuid: UUID) => {
+        return Alive.of<StatsID, StatsIDError>(StatsID.of(uuid));
+      },
+      (err: UUIDError) => {
+        return Dead.of<StatsID, StatsIDError>(new StatsIDError('StatsID.ofString()', err));
       }
-
-      throw err;
-    }
+    );
   }
 
   public static generate(): StatsID {

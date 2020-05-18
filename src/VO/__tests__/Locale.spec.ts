@@ -101,12 +101,15 @@ describe('Locale', () => {
       });
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: LocaleError) => {
-        spy2();
-        expect(err).toBeInstanceOf(LocaleError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LocaleError) => {
+          spy2();
+          expect(err).toBeInstanceOf(LocaleError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -138,12 +141,15 @@ describe('Locale', () => {
       });
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: LocaleError) => {
-        spy2();
-        expect(err).toBeInstanceOf(LocaleError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LocaleError) => {
+          spy2();
+          expect(err).toBeInstanceOf(LocaleError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -307,34 +313,18 @@ describe('Locale', () => {
 
       const locale: Locale = Locale.of(
         Languages.ofArray([
-          Language.of(
-            LanguageID.of(uuid1),
-            LanguageName.of(name1),
-            LanguageName.of(englishName1),
-            ISO639.of(iso6391)
-          ),
-          Language.of(
-            LanguageID.of(uuid2),
-            LanguageName.of(name2),
-            LanguageName.of(englishName2),
-            ISO639.of(iso6392)
-          )
+          Language.of(LanguageID.of(uuid1), LanguageName.of(name1), LanguageName.of(englishName1), ISO639.of(iso6391)),
+          Language.of(LanguageID.of(uuid2), LanguageName.of(name2), LanguageName.of(englishName2), ISO639.of(iso6392))
         ]),
         Regions.ofArray([
-          Region.of(
-            RegionID.of(uuid3),
-            RegionName.of(name3),
-            ISO3166.of(iso31661)
-          ),
-          Region.of(
-            RegionID.of(uuid4),
-            RegionName.of(name4),
-            ISO3166.of(iso31662)
-          )
+          Region.of(RegionID.of(uuid3), RegionName.of(name3), ISO3166.of(iso31661)),
+          Region.of(RegionID.of(uuid4), RegionName.of(name4), ISO3166.of(iso31662))
         ])
       );
 
-      expect(locale.toString()).toBe(`${uuid1} ${name1} ${englishName1} ${iso6391}, ${uuid2} ${name2} ${englishName2} ${iso6392} ${uuid3} ${name3} ${iso31661}, ${uuid4} ${name4} ${iso31662}`);
+      expect(locale.toString()).toBe(
+        `${uuid1} ${name1} ${englishName1} ${iso6391}, ${uuid2} ${name2} ${englishName2} ${iso6392} ${uuid3} ${name3} ${iso31661}, ${uuid4} ${name4} ${iso31662}`
+      );
     });
   });
 });

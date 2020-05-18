@@ -1,7 +1,6 @@
 import { SystemSupportLanguage } from '../VO/SystemSupportLanguage';
 
 export class LanguageIdentificationService {
-
   private static split(language: string): string {
     return language.split('-')[0];
   }
@@ -28,5 +27,6 @@ export class LanguageIdentificationService {
   }
 
   private constructor() {
+    // NOOP
   }
 }

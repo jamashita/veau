@@ -1,4 +1,4 @@
-import { Alive, Dead, Superposition, UUID, UUIDError, ValueObject } from 'publikum';
+import { Alive, Dead, Schrodinger, Superposition, UUID, UUIDError, ValueObject } from 'publikum';
 import { RegionIDError } from '../Error/RegionIDError';
 
 export class RegionID extends ValueObject {
@@ -12,20 +12,16 @@ export class RegionID extends ValueObject {
   }
 
   public static ofString(id: string): Superposition<RegionID, RegionIDError> {
-    try {
-      const uuid: UUID = UUID.of(id);
-
-      return Alive.of<RegionID, RegionIDError>(RegionID.of(uuid));
-    }
-    catch (err) {
-      if (err instanceof UUIDError) {
-        return Dead.of<RegionID, RegionIDError>(
-          new RegionIDError('RegionID.ofString()', err)
-        );
+    return Schrodinger.playground<UUID, UUIDError>(() => {
+      return UUID.of(id);
+    }).match<RegionID, RegionIDError>(
+      (uuid: UUID) => {
+        return Alive.of<RegionID, RegionIDError>(RegionID.of(uuid));
+      },
+      (err: UUIDError) => {
+        return Dead.of<RegionID, RegionIDError>(new RegionIDError('RegionID.ofString()', err));
       }
-
-      throw err;
-    }
+    );
   }
 
   public static empty(): RegionID {

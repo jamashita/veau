@@ -17,30 +17,28 @@ export class Locale extends ValueObject implements JSONable {
   private readonly languages: Languages;
   private readonly regions: Regions;
 
-  private static readonly EMPTY: Locale = Locale.of(
-    Languages.empty(),
-    Regions.empty()
-  );
+  private static readonly EMPTY: Locale = Locale.of(Languages.empty(), Regions.empty());
 
   public static of(languages: Languages, regions: Regions): Locale {
     return new Locale(languages, regions);
   }
 
   public static ofJSON(json: LocaleJSON): Superposition<Locale, LocaleError> {
-    return Languages.ofJSON(json.languages).match<Locale, LocaleError>((languages: Languages) => {
-      return Regions.ofJSON(json.regions).match<Locale, LocaleError>((regions: Regions) => {
-        return Alive.of<Locale, LocaleError>(
-          Locale.of(
-            languages,
-            regions
-          )
+    return Languages.ofJSON(json.languages).match<Locale, LocaleError>(
+      (languages: Languages) => {
+        return Regions.ofJSON(json.regions).match<Locale, LocaleError>(
+          (regions: Regions) => {
+            return Alive.of<Locale, LocaleError>(Locale.of(languages, regions));
+          },
+          (err: RegionsError) => {
+            return Dead.of<Locale, LocaleError>(new LocaleError('Locale.ofJSON()', err));
+          }
         );
-      }, (err: RegionsError) => {
+      },
+      (err: LanguagesError) => {
         return Dead.of<Locale, LocaleError>(new LocaleError('Locale.ofJSON()', err));
-      });
-    }, (err: LanguagesError) => {
-      return Dead.of<Locale, LocaleError>(new LocaleError('Locale.ofJSON()', err));
-    });
+      }
+    );
   }
 
   public static empty(): Locale {

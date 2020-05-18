@@ -49,13 +49,7 @@ describe('Stats', () => {
       const term: MockTerm = new MockTerm();
       const items: MockStatsItems = new MockStatsItems();
 
-      const stats: Stats = Stats.of(
-        outline,
-        language,
-        region,
-        term,
-        items
-      );
+      const stats: Stats = Stats.of(outline, language, region, term, items);
 
       expect(stats.getLanguage()).toBe(language);
       expect(stats.getRegion()).toBe(region);
@@ -138,8 +132,12 @@ describe('Stats', () => {
         expect(stats.getItems().get(i).get().getValues().size()).toBe(json.items[i].values.length);
         for (let j: number = 0; j < stats.getItems().get(i).get().getValues().size(); j++) {
           const asOf: AsOf = AsOf.ofString(json.items[i].values[j].asOf).get();
-          expect(stats.getItems().get(i).get().getValues().get(asOf).get().getAsOf().toString()).toBe(json.items[i].values[j].asOf);
-          expect(stats.getItems().get(i).get().getValues().get(asOf).get().getValue().get()).toBe(json.items[i].values[j].value);
+          expect(stats.getItems().get(i).get().getValues().get(asOf).get().getAsOf().toString()).toBe(
+            json.items[i].values[j].asOf
+          );
+          expect(stats.getItems().get(i).get().getValues().get(asOf).get().getValue().get()).toBe(
+            json.items[i].values[j].value
+          );
         }
       }
     });
@@ -718,9 +716,7 @@ describe('Stats', () => {
         new MockTerm({
           termID: new MockTermID(uuid7)
         }),
-        new MockStatsItems(
-          new MockStatsItem()
-        )
+        new MockStatsItems(new MockStatsItem())
       );
       const stats8: Stats = Stats.of(
         new MockStatsOutline({
@@ -907,9 +903,7 @@ describe('Stats', () => {
         new MockTerm({
           termID: new MockTermID(uuid7)
         }),
-        new MockStatsItems(
-          new MockStatsItem()
-        )
+        new MockStatsItems(new MockStatsItem())
       );
       const stats8: Stats = Stats.of(
         new MockStatsOutline({
@@ -1058,7 +1052,9 @@ describe('Stats', () => {
         new MockStatsItems()
       );
 
-      expect(stats.toString()).toBe(`${uuid1.get()} ${uuid2.get()} ${uuid3.get()} ${uuid4.get()} ${name} ${unit} 2000-01-01 01:02:03 ${uuid2.get()} ${languageName} ${englishLanguage} ${iso639} ${uuid3.get()} ${regionName} ${iso3166} ${uuid4.get()} ${key}`);
+      expect(stats.toString()).toBe(
+        `${uuid1.get()} ${uuid2.get()} ${uuid3.get()} ${uuid4.get()} ${name} ${unit} 2000-01-01 01:02:03 ${uuid2.get()} ${languageName} ${englishLanguage} ${iso639} ${uuid3.get()} ${regionName} ${iso3166} ${uuid4.get()} ${key}`
+      );
     });
   });
 
@@ -1323,10 +1319,7 @@ describe('Stats', () => {
       new MockLanguage(),
       new MockRegion(),
       new MockTerm(),
-      new MockStatsItems(
-        statsItem1,
-        statsItem2
-      )
+      new MockStatsItems(statsItem1, statsItem2)
     );
 
     expect(stats.getRow(Row.of(0).get()).get()).toBe(statsItem1);
@@ -1601,7 +1594,7 @@ describe('Stats', () => {
           unit: StatsUnit.empty()
         }),
         new MockLanguage(),
-        new MockRegion,
+        new MockRegion(),
         Term.DAILY,
         new MockStatsItems()
       );
@@ -1611,7 +1604,7 @@ describe('Stats', () => {
           unit: new MockStatsUnit('stats unit')
         }),
         new MockLanguage(),
-        new MockRegion,
+        new MockRegion(),
         Term.DAILY,
         new MockStatsItems()
       );
@@ -1666,7 +1659,7 @@ describe('Stats', () => {
           unit: StatsUnit.empty()
         }),
         new MockLanguage(),
-        new MockRegion,
+        new MockRegion(),
         Term.DAILY,
         new MockStatsItems()
       );
@@ -1676,7 +1669,7 @@ describe('Stats', () => {
           unit: StatsUnit.empty()
         }),
         new MockLanguage(),
-        new MockRegion,
+        new MockRegion(),
         Term.DAILY,
         new MockStatsItems()
       );
@@ -1686,7 +1679,7 @@ describe('Stats', () => {
           unit: new MockStatsUnit('stats unit')
         }),
         new MockLanguage(),
-        new MockRegion,
+        new MockRegion(),
         Term.DAILY,
         new MockStatsItems()
       );
@@ -1696,7 +1689,7 @@ describe('Stats', () => {
           unit: new MockStatsUnit('stats unit')
         }),
         new MockLanguage(),
-        new MockRegion,
+        new MockRegion(),
         Term.DAILY,
         new MockStatsItems()
       );
@@ -1721,7 +1714,7 @@ describe('Stats', () => {
           unit: new MockStatsUnit('stats unit')
         }),
         new MockLanguage(),
-        new MockRegion,
+        new MockRegion(),
         Term.DAILY,
         new MockStatsItems(
           new MockStatsItem({
@@ -1750,11 +1743,9 @@ describe('Stats', () => {
           unit: new MockStatsUnit('stats unit')
         }),
         new MockLanguage(),
-        new MockRegion,
+        new MockRegion(),
         Term.DAILY,
-        new MockStatsItems(
-          StatsItem.default()
-        )
+        new MockStatsItems(StatsItem.default())
       );
       const stats2: Stats = Stats.of(
         new MockStatsOutline({
@@ -1762,7 +1753,7 @@ describe('Stats', () => {
           unit: new MockStatsUnit('stats unit')
         }),
         new MockLanguage(),
-        new MockRegion,
+        new MockRegion(),
         Term.DAILY,
         new MockStatsItems(
           new MockStatsItem({
@@ -1783,7 +1774,7 @@ describe('Stats', () => {
           unit: new MockStatsUnit('stats unit')
         }),
         new MockLanguage(),
-        new MockRegion,
+        new MockRegion(),
         Term.DAILY,
         new MockStatsItems()
       );
@@ -1793,7 +1784,7 @@ describe('Stats', () => {
           unit: new MockStatsUnit('stats unit')
         }),
         new MockLanguage(),
-        new MockRegion,
+        new MockRegion(),
         Term.DAILY,
         new MockStatsItems(
           new MockStatsItem({
@@ -1807,7 +1798,7 @@ describe('Stats', () => {
           unit: new MockStatsUnit('stats unit')
         }),
         new MockLanguage(),
-        new MockRegion,
+        new MockRegion(),
         Term.DAILY,
         new MockStatsItems(
           new MockStatsItem({
@@ -1835,7 +1826,7 @@ describe('Stats', () => {
           unit: new MockStatsUnit('stats unit')
         }),
         new MockLanguage(),
-        new MockRegion,
+        new MockRegion(),
         Term.DAILY,
         new MockStatsItems(
           new MockStatsItem({
@@ -1853,13 +1844,7 @@ describe('Stats', () => {
         )
       );
 
-      stats.setData(
-        Coordinate.of(
-          Row.of(0).get(),
-          Column.of(2).get()
-        ),
-        NumericalValue.of(4)
-      );
+      stats.setData(Coordinate.of(Row.of(0).get(), Column.of(2).get()), NumericalValue.of(4));
 
       const values: StatsValues = stats.getItems().get(0).get().getValues();
       expect(values.size()).toBe(2);
@@ -1877,7 +1862,7 @@ describe('Stats', () => {
           unit: new MockStatsUnit('stats unit')
         }),
         new MockLanguage(),
-        new MockRegion,
+        new MockRegion(),
         Term.DAILY,
         new MockStatsItems(
           new MockStatsItem({
@@ -1895,12 +1880,7 @@ describe('Stats', () => {
         )
       );
 
-      stats.setData(
-        Coordinate.of(
-          Row.of(0).get(),
-          Column.of(2).get()),
-        NumericalValue.of(2)
-      );
+      stats.setData(Coordinate.of(Row.of(0).get(), Column.of(2).get()), NumericalValue.of(2));
 
       const item: StatsItem = stats.getItems().get(0).get();
       expect(item.getValues().size()).toBe(3);
@@ -1922,7 +1902,7 @@ describe('Stats', () => {
           unit: new MockStatsUnit('stats unit')
         }),
         new MockLanguage(),
-        new MockRegion,
+        new MockRegion(),
         Term.DAILY,
         new MockStatsItems(
           new MockStatsItem({
@@ -1956,12 +1936,7 @@ describe('Stats', () => {
         )
       );
 
-      stats.deleteData(
-        Coordinate.of(
-          Row.of(0).get(),
-          Column.of(1).get()
-        )
-      );
+      stats.deleteData(Coordinate.of(Row.of(0).get(), Column.of(1).get()));
 
       const items: StatsItems = stats.getItems();
       expect(items.size()).toBe(2);
@@ -1981,13 +1956,7 @@ describe('Stats', () => {
       const region: MockRegion = new MockRegion();
       const term: MockTerm = new MockTerm();
 
-      const stats: Stats = Stats.of(
-        outline,
-        language,
-        region,
-        term,
-        StatsItems.empty()
-      );
+      const stats: Stats = Stats.of(outline, language, region, term, StatsItems.empty());
       const duplicated: Stats = stats.duplicate();
 
       expect(stats).not.toBe(duplicated);
@@ -2009,7 +1978,7 @@ describe('Stats', () => {
           unit: new MockStatsUnit('stats unit')
         }),
         new MockLanguage(),
-        new MockRegion,
+        new MockRegion(),
         Term.DAILY,
         new MockStatsItems(
           new MockStatsItem({
@@ -2061,12 +2030,12 @@ describe('Stats', () => {
       );
 
       expect(stats.getChart()).toEqual([
-        {name: '1999-12-31'},
-        {name: '2000-01-01', stats1: 1},
-        {name: '2000-01-02', stats2: 12},
-        {name: '2000-01-03', stats1: 2, stats2: 13},
-        {name: '2000-01-04', stats2: 14},
-        {name: '2000-01-05'}
+        { name: '1999-12-31' },
+        { name: '2000-01-01', stats1: 1 },
+        { name: '2000-01-02', stats2: 12 },
+        { name: '2000-01-03', stats1: 2, stats2: 13 },
+        { name: '2000-01-04', stats2: 14 },
+        { name: '2000-01-05' }
       ]);
     });
   });
@@ -2079,7 +2048,7 @@ describe('Stats', () => {
           unit: new MockStatsUnit('stats unit')
         }),
         new MockLanguage(),
-        new MockRegion,
+        new MockRegion(),
         Term.DAILY,
         new MockStatsItems(
           new MockStatsItem({
@@ -2099,14 +2068,14 @@ describe('Stats', () => {
       expect(stats.isDetermined()).toBe(true);
     });
 
-    it('even if it doesn\'t have values , if startDate is set, returns true', () => {
+    it("even if it doesn't have values , if startDate is set, returns true", () => {
       const stats: Stats = Stats.of(
         new MockStatsOutline({
           name: new MockStatsName('stats name'),
           unit: new MockStatsUnit('stats unit')
         }),
         new MockLanguage(),
-        new MockRegion,
+        new MockRegion(),
         Term.DAILY,
         new MockStatsItems(),
         Present.of<AsOf>(AsOf.ofString('2000-01-01').get())
@@ -2115,14 +2084,14 @@ describe('Stats', () => {
       expect(stats.isDetermined()).toBe(true);
     });
 
-    it('returns false if stats doesn\'t have values nor startDate', () => {
+    it("returns false if stats doesn't have values nor startDate", () => {
       const stats: Stats = Stats.of(
         new MockStatsOutline({
           name: new MockStatsName('stats name'),
           unit: new MockStatsUnit('stats unit')
         }),
         new MockLanguage(),
-        new MockRegion,
+        new MockRegion(),
         Term.DAILY,
         new MockStatsItems()
       );

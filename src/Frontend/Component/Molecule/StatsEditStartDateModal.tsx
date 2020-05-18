@@ -21,7 +21,6 @@ type State = Readonly<{
 }>;
 
 class StatsEditStartDateModalImpl extends React.Component<Props & WrappedComponentProps, State> {
-
   public constructor(props: Props & WrappedComponentProps) {
     super(props);
     this.state = {
@@ -29,10 +28,15 @@ class StatsEditStartDateModalImpl extends React.Component<Props & WrappedCompone
     };
   }
 
-  public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>, nextState: Readonly<State>): boolean {
+  public shouldComponentUpdate(
+    nextProps: Readonly<Props & WrappedComponentProps>,
+    nextState: Readonly<State>
+  ): boolean {
+    // prettier-ignore
     const {
       open
     } = this.props;
+    // prettier-ignore
     const {
       startDate
     } = this.state;
@@ -48,23 +52,20 @@ class StatsEditStartDateModalImpl extends React.Component<Props & WrappedCompone
   }
 
   public render(): React.ReactNode {
+    // prettier-ignore
     const {
       open,
       intl,
       close,
       determineStartDate
     } = this.props;
+    // prettier-ignore
     const {
       startDate
     } = this.state;
 
     return (
-      <Dialog
-        open={open}
-        onClose={close}
-        fullWidth={true}
-        maxWidth='md'
-      >
+      <Dialog open={open} onClose={close} fullWidth={true} maxWidth='md'>
         <DialogTitle>
           {intl.formatMessage({
             id: 'DETERMINE_START_DATE'
@@ -91,20 +92,13 @@ class StatsEditStartDateModalImpl extends React.Component<Props & WrappedCompone
               determineStartDate(startDate);
             }}
           >
-            <Icon
-              className='fas fa-check'
-            />
+            <Icon className='fas fa-check' />
             {intl.formatMessage({
               id: 'SUBMIT'
             })}
           </Button>
-          <Button
-            color='secondary'
-            onClick={close}
-          >
-            <Icon
-              className='fas fa-times'
-            />
+          <Button color='secondary' onClick={close}>
+            <Icon className='fas fa-times' />
             {intl.formatMessage({
               id: 'CANCEL'
             })}
@@ -115,4 +109,6 @@ class StatsEditStartDateModalImpl extends React.Component<Props & WrappedCompone
   }
 }
 
-export const StatsEditStartDateModal: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(StatsEditStartDateModalImpl);
+export const StatsEditStartDateModal: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(
+  StatsEditStartDateModalImpl
+);

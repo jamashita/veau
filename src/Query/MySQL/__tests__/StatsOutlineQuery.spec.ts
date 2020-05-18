@@ -45,11 +45,14 @@ describe('StatsOutlineQuery', () => {
       stub.resolves(rows);
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
-      const superposition: Superposition<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError> = await statsOutlineQuery.find(
-        statsID
-      );
+      const superposition: Superposition<
+        StatsOutline,
+        StatsOutlineError | NoSuchElementError | DataSourceError
+      > = await statsOutlineQuery.find(statsID);
 
-      expect(stub.withArgs(`SELECT
+      expect(
+        stub.withArgs(
+          `SELECT
       R1.stats_id AS statsID,
       R1.language_id AS languageID,
       R1.region_id AS regionID,
@@ -62,9 +65,12 @@ describe('StatsOutlineQuery', () => {
       USING(language_id)
       INNER JOIN regions R3
       USING(region_id)
-      WHERE R1.stats_id = :statsID;`, {
-        statsID: statsID.get().get()
-      }).called).toBe(true);
+      WHERE R1.stats_id = :statsID;`,
+          {
+            statsID: statsID.get().get()
+          }
+        ).called
+      ).toBe(true);
       expect(superposition.isAlive()).toBe(true);
       const statsOutline: StatsOutline = superposition.get();
       expect(statsOutline.getStatsID().get().get()).toBe(rows[0].statsID);
@@ -88,17 +94,21 @@ describe('StatsOutlineQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
-      const superposition: Superposition<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError> = await statsOutlineQuery.find(
-        statsID
-      );
+      const superposition: Superposition<
+        StatsOutline,
+        StatsOutlineError | NoSuchElementError | DataSourceError
+      > = await statsOutlineQuery.find(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsOutlineError | NoSuchElementError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(NoSuchElementError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsOutlineError | NoSuchElementError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(NoSuchElementError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -115,17 +125,21 @@ describe('StatsOutlineQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
-      const superposition: Superposition<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError> = await statsOutlineQuery.find(
-        statsID
-      );
+      const superposition: Superposition<
+        StatsOutline,
+        StatsOutlineError | NoSuchElementError | DataSourceError
+      > = await statsOutlineQuery.find(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsOutlineError | NoSuchElementError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(MySQLError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsOutlineError | NoSuchElementError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(MySQLError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -140,9 +154,7 @@ describe('StatsOutlineQuery', () => {
       stub.rejects(new MockError());
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
-      await expect(statsOutlineQuery.find(
-        statsID
-      )).rejects.toThrow(MockError);
+      await expect(statsOutlineQuery.find(statsID)).rejects.toThrow(MockError);
     });
   });
 
@@ -177,12 +189,14 @@ describe('StatsOutlineQuery', () => {
       stub.resolves(rows);
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
-      const superposition: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(
-        accountID,
-        page
-      );
+      const superposition: Superposition<
+        StatsOutlines,
+        StatsOutlinesError | DataSourceError
+      > = await statsOutlineQuery.findByVeauAccountID(accountID, page);
 
-      expect(stub.withArgs(`SELECT
+      expect(
+        stub.withArgs(
+          `SELECT
       R1.stats_id AS statsID,
       R1.language_id AS languageID,
       R1.region_id AS regionID,
@@ -197,11 +211,14 @@ describe('StatsOutlineQuery', () => {
       USING(region_id)
       WHERE R1.veau_account_id = :veauAccountID
       LIMIT :limit
-      OFFSET :offset;`, {
-        veauAccountID: accountID.get().get(),
-        limit: page.getLimit().get(),
-        offset: page.getOffset().get()
-      }).called).toBe(true);
+      OFFSET :offset;`,
+          {
+            veauAccountID: accountID.get().get(),
+            limit: page.getLimit().get(),
+            offset: page.getOffset().get()
+          }
+        ).called
+      ).toBe(true);
       expect(superposition.isAlive()).toBe(true);
       const statsOutlines: StatsOutlines = superposition.get();
       expect(statsOutlines.size()).toBe(2);
@@ -229,18 +246,21 @@ describe('StatsOutlineQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
-      const superposition: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(
-        accountID,
-        page
-      );
+      const superposition: Superposition<
+        StatsOutlines,
+        StatsOutlinesError | DataSourceError
+      > = await statsOutlineQuery.findByVeauAccountID(accountID, page);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsOutlinesError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(MySQLError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsOutlinesError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(MySQLError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -256,10 +276,7 @@ describe('StatsOutlineQuery', () => {
       stub.rejects(new MockError());
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
-      await expect(statsOutlineQuery.findByVeauAccountID(
-        accountID,
-        page
-      )).rejects.toThrow(MockError);
+      await expect(statsOutlineQuery.findByVeauAccountID(accountID, page)).rejects.toThrow(MockError);
     });
   });
 });

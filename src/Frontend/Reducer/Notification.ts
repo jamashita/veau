@@ -27,20 +27,10 @@ const initialState: Notification = {
   message: 'GREETING'
 };
 
-export const notification: Reducer<Notification, Action> = (
-  state: Notification = initialState,
-  action: Action
-) => {
+export const notification: Reducer<Notification, Action> = (state: Notification = initialState, action: Action) => {
   switch (action.type) {
     case NOTIFICATION_APPEAR: {
-      const {
-        kind,
-        horizontal,
-        vertical,
-        message,
-        duration,
-        values
-      } = action;
+      const { kind, horizontal, vertical, message, duration, values } = action;
 
       return {
         ...state,

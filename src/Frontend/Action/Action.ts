@@ -60,7 +60,8 @@ export const ENTRANCE_UPDATE: '@@veau/ENTRANCE_UPDATE' = '@@veau/ENTRANCE_UPDATE
 
 export const STATS_LIST_INITIALIZE: '@@veau/STATS_LIST_INITIALIZE' = '@@veau/STATS_LIST_INITIALIZE';
 export const STATS_LIST_OPEN_STATS_MODAL: '@@veau/STATS_LIST_OPEN_STATS_MODAL' = '@@veau/STATS_LIST_OPEN_STATS_MODAL';
-export const STATS_LIST_CLOSE_STATS_MODAL: '@@veau/STATS_LIST_CLOSE_STATS_MODAL' = '@@veau/STATS_LIST_CLOSE_STATS_MODAL';
+export const STATS_LIST_CLOSE_STATS_MODAL: '@@veau/STATS_LIST_CLOSE_STATS_MODAL' =
+  '@@veau/STATS_LIST_CLOSE_STATS_MODAL';
 export const STATS_LIST_NAME_TYPED: '@@veau/STATS_LIST_NAME_TYPED' = '@@veau/STATS_LIST_NAME_TYPED';
 export const STATS_LIST_UNIT_TYPED: '@@veau/STATS_LIST_UNIT_TYPED' = '@@veau/STATS_LIST_UNIT_TYPED';
 export const STATS_LIST_ISO639_SELECTED: '@@veau/STATS_LIST_ISO639_SELECTED' = '@@veau/STATS_LIST_ISO639_SELECTED';
@@ -71,7 +72,8 @@ export const STATS_LIST_RESET_NEW_STATS: '@@veau/STATS_LIST_RESET_NEW_STATS' = '
 export const STATS_LIST_SAVE_NEW_STATS: '@@veau/STATS_LIST_SAVE_NEW_STATS' = '@@veau/STATS_LIST_SAVE_NEW_STATS';
 
 export const STATS_EDIT_INITIALIZE: '@@veau/STATS_EDIT_INITIALIZE' = '@@veau/STATS_EDIT_INITIALIZE';
-export const STATS_EDIT_INITIALIZATION_FAILURE: '@@veau/STATS_EDIT_INITIALIZATION_FAILURE' = '@@veau/STATS_EDIT_INITIALIZATION_FAILURE';
+export const STATS_EDIT_INITIALIZATION_FAILURE: '@@veau/STATS_EDIT_INITIALIZATION_FAILURE' =
+  '@@veau/STATS_EDIT_INITIALIZATION_FAILURE';
 export const STATS_EDIT_NAME_TYPED: '@@veau/STATS_EDIT_NAME_TYPED' = '@@veau/STATS_EDIT_NAME_TYPED';
 export const STATS_EDIT_UNIT_TYPED: '@@veau/STATS_EDIT_UNIT_TYPED' = '@@veau/STATS_EDIT_UNIT_TYPED';
 export const STATS_EDIT_ISO639_SELECTED: '@@veau/STATS_EDIT_ISO639_SELECTED' = '@@veau/STATS_EDIT_ISO639_SELECTED';
@@ -79,17 +81,24 @@ export const STATS_EDIT_ISO3166_SELECTED: '@@veau/STATS_EDIT_ISO3166_SELECTED' =
 export const STATS_EDIT_ITEM_NAME_TYPED: '@@veau/STATS_EDIT_ITEM_NAME_TYPED' = '@@veau/STATS_EDIT_ITEM_NAME_TYPED';
 export const STATS_EDIT_ITEM_SAVE: '@@veau/STATS_EDIT_ITEM_SAVE' = '@@veau/STATS_EDIT_ITEM_SAVE';
 export const STATS_EDIT_SELECT_ITEM: '@@veau/STATS_EDIT_SELECT_ITEM' = '@@veau/STATS_EDIT_SELECT_ITEM';
-export const STATS_EDIT_SELECTING_ITEM_NAME_TYPED: '@@veau/STATS_EDIT_SELECTING_ITEM_NAME_TYPED' = '@@veau/STATS_EDIT_SELECTING_ITEM_NAME_TYPED';
-export const STATS_EDIT_UPDATE_SELECTING_ITEM: '@@veau/STATS_EDIT_UPDATE_SELECTING_ITEM' = '@@veau/STATS_EDIT_UPDATE_SELECTING_ITEM';
-export const STATS_EDIT_REMOVE_SELECTING_ITEM: '@@veau/STATS_EDIT_REMOVE_SELECTING_ITEM' = '@@veau/STATS_EDIT_REMOVE_SELECTING_ITEM';
-export const STATS_EDIT_CLEAR_SELECTING_ITEM: '@@veau/STATS_EDIT_CLEAR_SELECTING_ITEM' = '@@veau/STATS_EDIT_CLEAR_SELECTING_ITEM';
-export const STATS_EDIT_START_DATE_DETERMINED: '@@veau/STATS_EDIT_START_DATE_DETERMINED' = '@@veau/STATS_EDIT_START_DATE_DETERMINED';
-export const STATS_EDIT_INVALID_DATE_INPUT: '@@veau/STATS_EDIT_INVALID_DATE_INPUT' = '@@veau/STATS_EDIT_INVALID_DATE_INPUT';
+export const STATS_EDIT_SELECTING_ITEM_NAME_TYPED: '@@veau/STATS_EDIT_SELECTING_ITEM_NAME_TYPED' =
+  '@@veau/STATS_EDIT_SELECTING_ITEM_NAME_TYPED';
+export const STATS_EDIT_UPDATE_SELECTING_ITEM: '@@veau/STATS_EDIT_UPDATE_SELECTING_ITEM' =
+  '@@veau/STATS_EDIT_UPDATE_SELECTING_ITEM';
+export const STATS_EDIT_REMOVE_SELECTING_ITEM: '@@veau/STATS_EDIT_REMOVE_SELECTING_ITEM' =
+  '@@veau/STATS_EDIT_REMOVE_SELECTING_ITEM';
+export const STATS_EDIT_CLEAR_SELECTING_ITEM: '@@veau/STATS_EDIT_CLEAR_SELECTING_ITEM' =
+  '@@veau/STATS_EDIT_CLEAR_SELECTING_ITEM';
+export const STATS_EDIT_START_DATE_DETERMINED: '@@veau/STATS_EDIT_START_DATE_DETERMINED' =
+  '@@veau/STATS_EDIT_START_DATE_DETERMINED';
+export const STATS_EDIT_INVALID_DATE_INPUT: '@@veau/STATS_EDIT_INVALID_DATE_INPUT' =
+  '@@veau/STATS_EDIT_INVALID_DATE_INPUT';
 export const STATS_EDIT_DATA_FILLED: '@@veau/STATS_EDIT_DATA_FILLED' = '@@veau/STATS_EDIT_DATA_FILLED';
 export const STATS_EDIT_DATA_DELETED: '@@veau/STATS_EDIT_DATA_DELETED' = '@@veau/STATS_EDIT_DATA_DELETED';
 export const STATS_EDIT_ROW_SELECTED: '@@veau/STATS_EDIT_ROW_SELECTED' = '@@veau/STATS_EDIT_ROW_SELECTED';
 export const STATS_EDIT_ROW_MOVED: '@@veau/STATS_EDIT_ROW_MOVED' = '@@veau/STATS_EDIT_ROW_MOVED';
-export const STATS_EDIT_INVALID_VALUE_INPUT: '@@veau/STATS_EDIT_INVALID_VALUE_INPUT' = '@@veau/STATS_EDIT_INVALID_VALUE_INPUT';
+export const STATS_EDIT_INVALID_VALUE_INPUT: '@@veau/STATS_EDIT_INVALID_VALUE_INPUT' =
+  '@@veau/STATS_EDIT_INVALID_VALUE_INPUT';
 export const STATS_EDIT_SAVE_STATS: '@@veau/STATS_EDIT_SAVE_STATS' = '@@veau/STATS_EDIT_SAVE_STATS';
 
 export const STATS_LIST_ITEM_UPDATE: '@@veau/STATS_LIST_ITEM_UPDATE' = '@@veau/STATS_LIST_ITEM_UPDATE';
@@ -382,63 +391,63 @@ export interface StatsItemResetAction extends ReduxAction {
 }
 
 export type Action =
-  ChangeAction |
-  CallHistoryAction |
-  ModalRaiseAction |
-  ModalCloseAction |
-  NotificationAppearAction |
-  NotificationDisappearAction |
-  LoadingStartAction |
-  LoadingFinishAction |
-  IdentityAuthenticateAction |
-  IdentityAuthenticatedAction |
-  IdentityInitializeAction |
-  IdentityIdentifiedAction |
-  LogoutAction |
-  PushToStatsListAction |
-  PushToStatsEditAction |
-  PushToEntranceAction |
-  ProviderOpenAction |
-  ProviderCloseAction |
-  LocaleDefinedAction |
-  EntranceAccountNameTypedAction |
-  EntrancePasswordTypedAction |
-  EntranceUpdateAction |
-  StatsListInitializeAction |
-  StatsListOpenNewStatsModalAction |
-  StatsListCloseNewStatsModalAction |
-  StatsListNameTypedAction |
-  StatsListUnitTypedAction |
-  StatsListISO639SelectedAction |
-  StatsListISO3166SelectedAction |
-  StatsListTermSelectedAction |
-  StatsListUpdateNewStatsAction |
-  StatsListResetNewStatsAction |
-  StatsListSaveNewStatsAction |
-  StatsEditInitializeAction |
-  StatsEditInitializationDeadAction |
-  StatsEditNameTypedAction |
-  StatsEditUnitTypedAction |
-  StatsEditISO639SelectedAction |
-  StatsEditISO3166SelectedAction |
-  StatsEditItemNameTypedAction |
-  StatsEditItemSaveAction |
-  StatsEditSelectItemAction |
-  StatsEditSelectingItemNameTypedAction |
-  StatsEditUpdateSelectingItemAction |
-  StatsEditRemoveSelectingItemAction |
-  StatsEditClearSelectingItemAction |
-  StatsEditStartDateDeterminedAction |
-  StatsEditInvalidDateInputAction |
-  StatsEditDataFilledAction |
-  StatsEditDataDeletedAction |
-  StatsEditRowSelectedAction |
-  StatsEditRowMovedAction |
-  StatsEditInvalidValueInputAction |
-  StatsEditSaveStatsAction |
-  StatsListItemUpdateAction |
-  StatsListItemResetAction |
-  StatsUpdateAction |
-  StatsResetAction |
-  StatsItemUpdateAction |
-  StatsItemResetAction;
+  | ChangeAction
+  | CallHistoryAction
+  | ModalRaiseAction
+  | ModalCloseAction
+  | NotificationAppearAction
+  | NotificationDisappearAction
+  | LoadingStartAction
+  | LoadingFinishAction
+  | IdentityAuthenticateAction
+  | IdentityAuthenticatedAction
+  | IdentityInitializeAction
+  | IdentityIdentifiedAction
+  | LogoutAction
+  | PushToStatsListAction
+  | PushToStatsEditAction
+  | PushToEntranceAction
+  | ProviderOpenAction
+  | ProviderCloseAction
+  | LocaleDefinedAction
+  | EntranceAccountNameTypedAction
+  | EntrancePasswordTypedAction
+  | EntranceUpdateAction
+  | StatsListInitializeAction
+  | StatsListOpenNewStatsModalAction
+  | StatsListCloseNewStatsModalAction
+  | StatsListNameTypedAction
+  | StatsListUnitTypedAction
+  | StatsListISO639SelectedAction
+  | StatsListISO3166SelectedAction
+  | StatsListTermSelectedAction
+  | StatsListUpdateNewStatsAction
+  | StatsListResetNewStatsAction
+  | StatsListSaveNewStatsAction
+  | StatsEditInitializeAction
+  | StatsEditInitializationDeadAction
+  | StatsEditNameTypedAction
+  | StatsEditUnitTypedAction
+  | StatsEditISO639SelectedAction
+  | StatsEditISO3166SelectedAction
+  | StatsEditItemNameTypedAction
+  | StatsEditItemSaveAction
+  | StatsEditSelectItemAction
+  | StatsEditSelectingItemNameTypedAction
+  | StatsEditUpdateSelectingItemAction
+  | StatsEditRemoveSelectingItemAction
+  | StatsEditClearSelectingItemAction
+  | StatsEditStartDateDeterminedAction
+  | StatsEditInvalidDateInputAction
+  | StatsEditDataFilledAction
+  | StatsEditDataDeletedAction
+  | StatsEditRowSelectedAction
+  | StatsEditRowMovedAction
+  | StatsEditInvalidValueInputAction
+  | StatsEditSaveStatsAction
+  | StatsListItemUpdateAction
+  | StatsListItemResetAction
+  | StatsUpdateAction
+  | StatsResetAction
+  | StatsItemUpdateAction
+  | StatsItemResetAction;

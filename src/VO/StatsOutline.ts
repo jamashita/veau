@@ -52,83 +52,111 @@ export class StatsOutline extends ValueObject implements JSONable {
     unit: StatsUnit,
     updatedAt: UpdatedAt
   ): StatsOutline {
-    return new StatsOutline(
-      statsID,
-      languageID,
-      regionID,
-      termID,
-      name,
-      unit,
-      updatedAt
-    );
+    return new StatsOutline(statsID, languageID, regionID, termID, name, unit, updatedAt);
   }
 
   public static ofJSON(json: StatsOutlineJSON): Superposition<StatsOutline, StatsOutlineError> {
-    return StatsID.ofString(json.statsID).match<StatsOutline, StatsOutlineError>((statsID: StatsID) => {
-      return LanguageID.ofString(json.languageID).match<StatsOutline, StatsOutlineError>((languageID: LanguageID) => {
-        return RegionID.ofString(json.regionID).match<StatsOutline, StatsOutlineError>((regionID: RegionID) => {
-          return TermID.ofString(json.termID).match<StatsOutline, StatsOutlineError>((termID: TermID) => {
-            return UpdatedAt.ofString(json.updatedAt).match<StatsOutline, StatsOutlineError>((updatedAt: UpdatedAt) => {
-              return Alive.of<StatsOutline, StatsOutlineError>(
-                StatsOutline.of(
-                  statsID,
-                  languageID,
-                  regionID,
-                  termID,
-                  StatsName.of(json.name),
-                  StatsUnit.of(json.unit),
-                  updatedAt
-                )
-              );
-            }, (err: UpdatedAtError) => {
-              return Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofJSON()', err));
-            });
-          }, (err: TermIDError) => {
+    return StatsID.ofString(json.statsID).match<StatsOutline, StatsOutlineError>(
+      (statsID: StatsID) => {
+        return LanguageID.ofString(json.languageID).match<StatsOutline, StatsOutlineError>(
+          (languageID: LanguageID) => {
+            return RegionID.ofString(json.regionID).match<StatsOutline, StatsOutlineError>(
+              (regionID: RegionID) => {
+                return TermID.ofString(json.termID).match<StatsOutline, StatsOutlineError>(
+                  (termID: TermID) => {
+                    return UpdatedAt.ofString(json.updatedAt).match<StatsOutline, StatsOutlineError>(
+                      (updatedAt: UpdatedAt) => {
+                        return Alive.of<StatsOutline, StatsOutlineError>(
+                          StatsOutline.of(
+                            statsID,
+                            languageID,
+                            regionID,
+                            termID,
+                            StatsName.of(json.name),
+                            StatsUnit.of(json.unit),
+                            updatedAt
+                          )
+                        );
+                      },
+                      (err: UpdatedAtError) => {
+                        return Dead.of<StatsOutline, StatsOutlineError>(
+                          new StatsOutlineError('StatsOutline.ofJSON()', err)
+                        );
+                      }
+                    );
+                  },
+                  (err: TermIDError) => {
+                    return Dead.of<StatsOutline, StatsOutlineError>(
+                      new StatsOutlineError('StatsOutline.ofJSON()', err)
+                    );
+                  }
+                );
+              },
+              (err: RegionIDError) => {
+                return Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofJSON()', err));
+              }
+            );
+          },
+          (err: LanguageIDError) => {
             return Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofJSON()', err));
-          });
-        }, (err: RegionIDError) => {
-          return Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofJSON()', err));
-        });
-      }, (err: LanguageIDError) => {
+          }
+        );
+      },
+      (err: StatsIDError) => {
         return Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofJSON()', err));
-      });
-    }, (err: StatsIDError) => {
-      return Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofJSON()', err));
-    });
+      }
+    );
   }
 
   public static ofRow(row: StatsOutlineRow): Superposition<StatsOutline, StatsOutlineError> {
-    return StatsID.ofString(row.statsID).match<StatsOutline, StatsOutlineError>((statsID: StatsID) => {
-      return LanguageID.ofString(row.languageID).match<StatsOutline, StatsOutlineError>((languageID: LanguageID) => {
-        return RegionID.ofString(row.regionID).match<StatsOutline, StatsOutlineError>((regionID: RegionID) => {
-          return TermID.ofString(row.termID).match<StatsOutline, StatsOutlineError>((termID: TermID) => {
-            return UpdatedAt.ofString(row.updatedAt).match<StatsOutline, StatsOutlineError>((updatedAt: UpdatedAt) => {
-              return Alive.of<StatsOutline, StatsOutlineError>(
-                StatsOutline.of(
-                  statsID,
-                  languageID,
-                  regionID,
-                  termID,
-                  StatsName.of(row.name),
-                  StatsUnit.of(row.unit),
-                  updatedAt
-                )
-              );
-            }, (err: UpdatedAtError) => {
-              return Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofRow()', err));
-            });
-          }, (err: TermIDError) => {
+    return StatsID.ofString(row.statsID).match<StatsOutline, StatsOutlineError>(
+      (statsID: StatsID) => {
+        return LanguageID.ofString(row.languageID).match<StatsOutline, StatsOutlineError>(
+          (languageID: LanguageID) => {
+            return RegionID.ofString(row.regionID).match<StatsOutline, StatsOutlineError>(
+              (regionID: RegionID) => {
+                return TermID.ofString(row.termID).match<StatsOutline, StatsOutlineError>(
+                  (termID: TermID) => {
+                    return UpdatedAt.ofString(row.updatedAt).match<StatsOutline, StatsOutlineError>(
+                      (updatedAt: UpdatedAt) => {
+                        return Alive.of<StatsOutline, StatsOutlineError>(
+                          StatsOutline.of(
+                            statsID,
+                            languageID,
+                            regionID,
+                            termID,
+                            StatsName.of(row.name),
+                            StatsUnit.of(row.unit),
+                            updatedAt
+                          )
+                        );
+                      },
+                      (err: UpdatedAtError) => {
+                        return Dead.of<StatsOutline, StatsOutlineError>(
+                          new StatsOutlineError('StatsOutline.ofRow()', err)
+                        );
+                      }
+                    );
+                  },
+                  (err: TermIDError) => {
+                    return Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofRow()', err));
+                  }
+                );
+              },
+              (err: RegionIDError) => {
+                return Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofRow()', err));
+              }
+            );
+          },
+          (err: LanguageIDError) => {
             return Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofRow()', err));
-          });
-        }, (err: RegionIDError) => {
-          return Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofRow()', err));
-        });
-      }, (err: LanguageIDError) => {
+          }
+        );
+      },
+      (err: StatsIDError) => {
         return Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofRow()', err));
-      });
-    }, (err: StatsIDError) => {
-      return Dead.of<StatsOutline, StatsOutlineError>(new StatsOutlineError('StatsOutline.ofRow()', err));
-    });
+      }
+    );
   }
 
   public static default(): StatsOutline {

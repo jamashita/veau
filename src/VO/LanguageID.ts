@@ -1,4 +1,4 @@
-import { Alive, Dead, Superposition, UUID, UUIDError, ValueObject } from 'publikum';
+import { Alive, Dead, Schrodinger, Superposition, UUID, UUIDError, ValueObject } from 'publikum';
 import { LanguageIDError } from '../Error/LanguageIDError';
 
 export class LanguageID extends ValueObject {
@@ -12,20 +12,16 @@ export class LanguageID extends ValueObject {
   }
 
   public static ofString(id: string): Superposition<LanguageID, LanguageIDError> {
-    try {
-      const uuid: UUID = UUID.of(id);
-
-      return Alive.of<LanguageID, LanguageIDError>(LanguageID.of(uuid));
-    }
-    catch (err) {
-      if (err instanceof UUIDError) {
-        return Dead.of<LanguageID, LanguageIDError>(
-          new LanguageIDError('LanguageID.ofString()', err)
-        );
+    return Schrodinger.playground<UUID, UUIDError>(() => {
+      return UUID.of(id);
+    }).match<LanguageID, LanguageIDError>(
+      (uuid: UUID) => {
+        return Alive.of<LanguageID, LanguageIDError>(LanguageID.of(uuid));
+      },
+      (err: UUIDError) => {
+        return Dead.of<LanguageID, LanguageIDError>(new LanguageIDError('LanguageID.ofString()', err));
       }
-
-      throw err;
-    }
+    );
   }
 
   public static empty(): LanguageID {

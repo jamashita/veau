@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { DataSourceError, Dead, IMySQL, MySQLError, Project, Superposition } from 'publikum';
+import { DataSourceError, Dead, IMySQL, MySQLError, Project, Schrodinger, Superposition } from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { StatsItemRow } from '../../Entity/StatsItem';
 import { StatsItems } from '../../Entity/StatsItems';
@@ -20,7 +20,7 @@ export class StatsItemQuery implements IStatsItemQuery, IMySQLQuery {
   private readonly statsValueQuery: IStatsValueQuery;
 
   public constructor(
-  @inject(TYPE.MySQL) mysql: IMySQL,
+    @inject(TYPE.MySQL) mysql: IMySQL,
     @inject(TYPE.StatsValueMySQLQuery) statsValueQuery: IStatsValueQuery
   ) {
     this.mysql = mysql;
@@ -35,32 +35,40 @@ export class StatsItemQuery implements IStatsItemQuery, IMySQLQuery {
       WHERE R1.stats_id = :statsID
       ORDER BY R1.seq;`;
 
-    try {
-      const statsItemRows: Array<StatsItemRow> = await this.mysql.execute<Array<StatsItemRow>>(
-        query,
-        {
-          statsID: statsID.get().get()
-        }
-      );
-
-      const superposition: Superposition<Project<StatsItemID, StatsValues>, StatsValuesError | DataSourceError> = await this.statsValueQuery.findByStatsID(statsID);
-
-      return superposition.match<StatsItems, StatsItemsError | DataSourceError>((project: Project<StatsItemID, StatsValues>) => {
-        return StatsItems.ofRow(statsItemRows, project);
-      }, (err: StatsValuesError | DataSourceError) => {
-        if (err instanceof DataSourceError) {
-          return Dead.of<StatsItems, DataSourceError>(err);
-        }
-
-        return Dead.of<StatsItems, StatsItemsError>(new StatsItemsError('STATS VALUES ERROR', err));
+    const superposition1: Superposition<Array<StatsItemRow>, MySQLError> = await Schrodinger.playground<
+      Array<StatsItemRow>,
+      MySQLError
+    >(() => {
+      return this.mysql.execute<Array<StatsItemRow>>(query, {
+        statsID: statsID.get().get()
       });
-    }
-    catch (err) {
-      if (err instanceof MySQLError) {
-        return Dead.of<StatsItems, MySQLError>(err);
-      }
+    });
 
-      throw err;
-    }
+    return superposition1.match<StatsItems, StatsItemsError | DataSourceError>(
+      async (rows: Array<StatsItemRow>) => {
+        const superposition2: Superposition<
+          Project<StatsItemID, StatsValues>,
+          StatsValuesError | DataSourceError
+        > = await Schrodinger.playground<Project<StatsItemID, StatsValues>, StatsValuesError | DataSourceError>(() => {
+          return this.statsValueQuery.findByStatsID(statsID);
+        });
+
+        return superposition2.match<StatsItems, StatsItemsError | DataSourceError>(
+          (project: Project<StatsItemID, StatsValues>) => {
+            return StatsItems.ofRow(rows, project);
+          },
+          (err: StatsValuesError | DataSourceError) => {
+            if (err instanceof DataSourceError) {
+              return Dead.of<StatsItems, DataSourceError>(err);
+            }
+
+            return Dead.of<StatsItems, StatsItemsError>(new StatsItemsError('STATS VALUES ERROR', err));
+          }
+        );
+      },
+      (err: MySQLError) => {
+        return Promise.resolve<Superposition<StatsItems, MySQLError>>(Dead.of<StatsItems, MySQLError>(err));
+      }
+    );
   }
 }

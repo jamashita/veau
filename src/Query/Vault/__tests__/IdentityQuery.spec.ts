@@ -57,11 +57,7 @@ describe('IdentityQuery', () => {
       regionQuery.find = stub3;
       stub3.resolves(Alive.of<Region, DataSourceError>(region));
 
-      const identityQuery: IdentityQuery = new IdentityQuery(
-        veauAccountQuery,
-        languageQuery,
-        regionQuery
-      );
+      const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
       const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.find();
 
       expect(superposition.isAlive()).toBe(true);
@@ -83,11 +79,7 @@ describe('IdentityQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const identityQuery: IdentityQuery = new IdentityQuery(
-        veauAccountQuery,
-        languageQuery,
-        regionQuery
-      );
+      const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
       const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.find();
 
       expect(superposition.isDead()).toBe(true);
@@ -116,11 +108,7 @@ describe('IdentityQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const identityQuery: IdentityQuery = new IdentityQuery(
-        veauAccountQuery,
-        languageQuery,
-        regionQuery
-      );
+      const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
       const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.find();
 
       expect(superposition.isDead()).toBe(true);
@@ -158,11 +146,7 @@ describe('IdentityQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const identityQuery: IdentityQuery = new IdentityQuery(
-        veauAccountQuery,
-        languageQuery,
-        regionQuery
-      );
+      const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
       const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.find();
 
       expect(superposition.isDead()).toBe(true);
@@ -200,11 +184,7 @@ describe('IdentityQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const identityQuery: IdentityQuery = new IdentityQuery(
-        veauAccountQuery,
-        languageQuery,
-        regionQuery
-      );
+      const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
       const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.find();
 
       expect(superposition.isDead()).toBe(true);
@@ -242,11 +222,7 @@ describe('IdentityQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const identityQuery: IdentityQuery = new IdentityQuery(
-        veauAccountQuery,
-        languageQuery,
-        regionQuery
-      );
+      const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
       const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.find();
 
       expect(superposition.isDead()).toBe(true);
@@ -284,11 +260,7 @@ describe('IdentityQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const identityQuery: IdentityQuery = new IdentityQuery(
-        veauAccountQuery,
-        languageQuery,
-        regionQuery
-      );
+      const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
       const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.find();
 
       expect(superposition.isDead()).toBe(true);
@@ -331,14 +303,11 @@ describe('IdentityQuery', () => {
       regionQuery.find = stub3;
       stub3.resolves(Alive.of<Region, DataSourceError>(region));
 
-      const identityQuery: IdentityQuery = new IdentityQuery(
-        veauAccountQuery,
-        languageQuery,
-        regionQuery
-      );
-      const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.findByEntranceInfo(
-        new MockEntranceInformation()
-      );
+      const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
+      const superposition: Superposition<
+        Identity,
+        IdentityError | DataSourceError
+      > = await identityQuery.findByEntranceInfo(new MockEntranceInformation());
 
       expect(superposition.isAlive()).toBe(true);
       const identity: Identity = superposition.get();
@@ -359,14 +328,11 @@ describe('IdentityQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const identityQuery: IdentityQuery = new IdentityQuery(
-        veauAccountQuery,
-        languageQuery,
-        regionQuery
-      );
-      const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.findByEntranceInfo(
-        new MockEntranceInformation()
-      );
+      const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
+      const superposition: Superposition<
+        Identity,
+        IdentityError | DataSourceError
+      > = await identityQuery.findByEntranceInfo(new MockEntranceInformation());
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(
@@ -394,14 +360,11 @@ describe('IdentityQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const identityQuery: IdentityQuery = new IdentityQuery(
-        veauAccountQuery,
-        languageQuery,
-        regionQuery
-      );
-      const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.findByEntranceInfo(
-        new MockEntranceInformation()
-      );
+      const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
+      const superposition: Superposition<
+        Identity,
+        IdentityError | DataSourceError
+      > = await identityQuery.findByEntranceInfo(new MockEntranceInformation());
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(
@@ -438,14 +401,11 @@ describe('IdentityQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const identityQuery: IdentityQuery = new IdentityQuery(
-        veauAccountQuery,
-        languageQuery,
-        regionQuery
-      );
-      const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.findByEntranceInfo(
-        new MockEntranceInformation()
-      );
+      const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
+      const superposition: Superposition<
+        Identity,
+        IdentityError | DataSourceError
+      > = await identityQuery.findByEntranceInfo(new MockEntranceInformation());
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(
@@ -482,14 +442,11 @@ describe('IdentityQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const identityQuery: IdentityQuery = new IdentityQuery(
-        veauAccountQuery,
-        languageQuery,
-        regionQuery
-      );
-      const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.findByEntranceInfo(
-        new MockEntranceInformation()
-      );
+      const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
+      const superposition: Superposition<
+        Identity,
+        IdentityError | DataSourceError
+      > = await identityQuery.findByEntranceInfo(new MockEntranceInformation());
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(
@@ -526,14 +483,11 @@ describe('IdentityQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const identityQuery: IdentityQuery = new IdentityQuery(
-        veauAccountQuery,
-        languageQuery,
-        regionQuery
-      );
-      const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.findByEntranceInfo(
-        new MockEntranceInformation()
-      );
+      const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
+      const superposition: Superposition<
+        Identity,
+        IdentityError | DataSourceError
+      > = await identityQuery.findByEntranceInfo(new MockEntranceInformation());
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(
@@ -570,14 +524,11 @@ describe('IdentityQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const identityQuery: IdentityQuery = new IdentityQuery(
-        veauAccountQuery,
-        languageQuery,
-        regionQuery
-      );
-      const superposition: Superposition<Identity, IdentityError | DataSourceError> = await identityQuery.findByEntranceInfo(
-        new MockEntranceInformation()
-      );
+      const identityQuery: IdentityQuery = new IdentityQuery(veauAccountQuery, languageQuery, regionQuery);
+      const superposition: Superposition<
+        Identity,
+        IdentityError | DataSourceError
+      > = await identityQuery.findByEntranceInfo(new MockEntranceInformation());
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(

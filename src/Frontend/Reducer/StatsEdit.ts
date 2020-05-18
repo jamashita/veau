@@ -19,16 +19,10 @@ const initialState: StatsEdit = {
   selectingRow: Row.origin()
 };
 
-export const statsEdit: Reducer<StatsEdit, Action> = (
-  state: StatsEdit = initialState,
-  action: Action
-) => {
+export const statsEdit: Reducer<StatsEdit, Action> = (state: StatsEdit = initialState, action: Action) => {
   switch (action.type) {
     case STATS_EDIT_SELECT_ITEM: {
-      const {
-        statsItem,
-        row
-      } = action;
+      const { statsItem, row } = action;
 
       return {
         ...state,
@@ -37,9 +31,7 @@ export const statsEdit: Reducer<StatsEdit, Action> = (
       };
     }
     case STATS_EDIT_UPDATE_SELECTING_ITEM: {
-      const {
-        statsItem
-      } = action;
+      const { statsItem } = action;
 
       return {
         ...state,

@@ -35,26 +35,23 @@ const app: Express = express();
 
 app.set('views', path.resolve(__dirname, 'views'));
 app.set('view engine', 'pug');
-app.use(express.urlencoded({
-  extended: false
-}));
+app.use(
+  express.urlencoded({
+    extended: false
+  })
+);
 app.use(express.json());
 app.use(compression());
 app.use(helmet());
 app.use(express.static(path.resolve(__dirname, 'public')));
 app.use(favicon(path.resolve(__dirname, 'favicon.ico')));
-app.use(log4js.connectLogger(logger, {
-  level: 'info',
-  nolog: [
-    '\\.css',
-    '\\.js',
-    '\\.jpeg',
-    '\\.png',
-    '\\.ttf',
-    '\\.ico'
-  ],
-  format: ':method :url :status'
-}));
+app.use(
+  log4js.connectLogger(logger, {
+    level: 'info',
+    nolog: ['\\.css', '\\.js', '\\.jpeg', '\\.png', '\\.ttf', '\\.ico'],
+    format: ':method :url :status'
+  })
+);
 
 const RedisStore: connectRedis.RedisStore = connectRedis(expressSession);
 const sessionStore: expressSession.Store = new RedisStore({

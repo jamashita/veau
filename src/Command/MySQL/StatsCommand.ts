@@ -26,6 +26,7 @@ export class StatsCommand implements IStatsCommand, IMySQLCommand {
       :updatedAt
       );`;
 
+    // prettier-ignore
     try {
       await this.sql.execute<unknown>(query, {
         statsID: stats.getStatsID().get().get(),
@@ -54,6 +55,7 @@ export class StatsCommand implements IStatsCommand, IMySQLCommand {
       FROM stats R1
       WHERE R1.stats_id = :statsID;`;
 
+    // prettier-ignore
     try {
       await this.sql.execute<unknown>(query, {
         statsID: statsID.get().get()

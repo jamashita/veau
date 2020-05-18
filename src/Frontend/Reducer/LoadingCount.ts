@@ -4,10 +4,7 @@ import { Action, LOADING_FINISH, LOADING_START } from '../Action/Action';
 
 const initialState: LoadingCount = LoadingCount.default();
 
-export const loadingCount: Reducer<LoadingCount, Action> = (
-  state: LoadingCount = initialState,
-  action: Action
-) => {
+export const loadingCount: Reducer<LoadingCount, Action> = (state: LoadingCount = initialState, action: Action) => {
   switch (action.type) {
     case LOADING_START: {
       return state.increment();

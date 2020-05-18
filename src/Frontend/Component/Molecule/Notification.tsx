@@ -12,8 +12,8 @@ import { Props } from '../../Container/Molecule/Notification';
 type State = Readonly<{}>;
 
 class NotificationImpl extends React.Component<Props & WrappedComponentProps, State> {
-
   public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
+    // prettier-ignore
     const {
       kind,
       open,
@@ -50,44 +50,30 @@ class NotificationImpl extends React.Component<Props & WrappedComponentProps, St
   }
 
   private icon(): React.ReactNode {
+    // prettier-ignore
     const {
       kind
     } = this.props;
 
     switch (kind) {
       case 'success': {
-        return (
-          <Icon
-            className='fas fa-check-circle icon-spacing'
-          />
-        );
+        return <Icon className='fas fa-check-circle icon-spacing' />;
       }
       case 'info':
       default: {
-        return (
-          <Icon
-            className='fas fa-info-circle icon-spacing'
-          />
-        );
+        return <Icon className='fas fa-info-circle icon-spacing' />;
       }
       case 'warn': {
-        return (
-          <Icon
-            className='fas fa-exclamation-circle icon-spacing'
-          />
-        );
+        return <Icon className='fas fa-exclamation-circle icon-spacing' />;
       }
       case 'error': {
-        return (
-          <Icon
-            className='fas fa-exclamation-triangle icon-spacing'
-          />
-        );
+        return <Icon className='fas fa-exclamation-triangle icon-spacing' />;
       }
     }
   }
 
   private backgroundColor(): string {
+    // prettier-ignore
     const {
       kind
     } = this.props;
@@ -110,6 +96,7 @@ class NotificationImpl extends React.Component<Props & WrappedComponentProps, St
   }
 
   public render(): React.ReactNode {
+    // prettier-ignore
     const {
       open,
       horizontal,
@@ -135,12 +122,16 @@ class NotificationImpl extends React.Component<Props & WrappedComponentProps, St
           style={{
             backgroundColor: this.backgroundColor()
           }}
+          // prettier-ignore
           message={(
             <span>
               {this.icon()}
-              {intl.formatMessage({
-                id: message
-              }, values)}
+              {intl.formatMessage(
+                {
+                  id: message
+                },
+                values
+              )}
             </span>
           )}
         />
@@ -149,4 +140,6 @@ class NotificationImpl extends React.Component<Props & WrappedComponentProps, St
   }
 }
 
-export const Notification: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(NotificationImpl);
+export const Notification: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(
+  NotificationImpl
+);

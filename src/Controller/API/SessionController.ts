@@ -4,7 +4,6 @@ import { Controller, Delete, Req, Res } from 'routing-controllers';
 
 @Controller('/session')
 export class SessionController {
-
   @Delete('/')
   public destroy(@Req() req: Request, @Res() res: Response): Response<unknown> {
     req.logout();

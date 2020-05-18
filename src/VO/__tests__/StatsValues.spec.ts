@@ -30,10 +30,12 @@ describe('StatsValues', () => {
           day: 3
         })
       });
-      const project: ImmutableProject<MockAsOf, MockStatsValue> = ImmutableProject.of<MockAsOf, StatsValue>(new Map<MockAsOf, StatsValue>([
-        [value1.getAsOf(), value1],
-        [value2.getAsOf(), value2]
-      ]));
+      const project: ImmutableProject<MockAsOf, MockStatsValue> = ImmutableProject.of<MockAsOf, StatsValue>(
+        new Map<MockAsOf, StatsValue>([
+          [value1.getAsOf(), value1],
+          [value2.getAsOf(), value2]
+        ])
+      );
 
       const values: StatsValues = StatsValues.of(project);
 
@@ -61,7 +63,6 @@ describe('StatsValues', () => {
         asOf: new MockAsOf({
           day: 3
         })
-
       });
       const statsValue3: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
@@ -69,8 +70,12 @@ describe('StatsValues', () => {
         })
       });
 
-      const superposition1: Superposition<StatsValue, StatsValueError> = Alive.of<StatsValue, StatsValueError>(statsValue1);
-      const superposition2: Superposition<StatsValue, StatsValueError> = Alive.of<StatsValue, StatsValueError>(statsValue2);
+      const superposition1: Superposition<StatsValue, StatsValueError> = Alive.of<StatsValue, StatsValueError>(
+        statsValue1
+      );
+      const superposition2: Superposition<StatsValue, StatsValueError> = Alive.of<StatsValue, StatsValueError>(
+        statsValue2
+      );
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofSuperposition([
         superposition1,
         superposition2
@@ -100,12 +105,15 @@ describe('StatsValues', () => {
       ]);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsValuesError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsValuesError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsValuesError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsValuesError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -127,12 +135,15 @@ describe('StatsValues', () => {
       ]);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsValuesError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsValuesError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsValuesError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsValuesError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -188,12 +199,15 @@ describe('StatsValues', () => {
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofJSON(json);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsValuesError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsValuesError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsValuesError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsValuesError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -217,12 +231,15 @@ describe('StatsValues', () => {
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofJSON(json);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsValuesError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsValuesError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsValuesError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsValuesError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -282,12 +299,15 @@ describe('StatsValues', () => {
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofRow(row);
 
       expect(superposition.isAlive()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsValuesError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsValuesError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsValuesError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsValuesError);
+        }
+      );
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -313,12 +333,15 @@ describe('StatsValues', () => {
       const superposition: Superposition<StatsValues, StatsValuesError> = StatsValues.ofRow(row);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsValuesError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsValuesError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsValuesError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsValuesError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -343,10 +366,7 @@ describe('StatsValues', () => {
           day: 3
         })
       });
-      const values: Array<MockStatsValue> = [
-        statsValue1,
-        statsValue2
-      ];
+      const values: Array<MockStatsValue> = [statsValue1, statsValue2];
 
       const statsValues: StatsValues = StatsValues.ofArray(values);
 
@@ -375,10 +395,7 @@ describe('StatsValues', () => {
         })
       });
 
-      const statsValues: StatsValues = StatsValues.ofSpread(
-        statsValue1,
-        statsValue2
-      );
+      const statsValues: StatsValues = StatsValues.ofSpread(statsValue1, statsValue2);
 
       expect(statsValues.size()).toBe(2);
       expect(statsValues.contains(statsValue1)).toBe(true);
@@ -504,11 +521,7 @@ describe('StatsValues', () => {
         })
       });
 
-      const values: Array<MockStatsValue> = [
-        statsValue1,
-        statsValue2,
-        statsValue3
-      ];
+      const values: Array<MockStatsValue> = [statsValue1, statsValue2, statsValue3];
 
       const statsValues: StatsValues = StatsValues.ofArray(values);
 
@@ -525,9 +538,7 @@ describe('StatsValues', () => {
         value: new MockNumericalValue(1)
       });
 
-      const statsValues: StatsValues = StatsValues.ofArray([
-        statsValue1
-      ]);
+      const statsValues: StatsValues = StatsValues.ofArray([statsValue1]);
       const statsValue: MockStatsValue = new MockStatsValue({
         value: new MockNumericalValue(1)
       });
@@ -559,11 +570,7 @@ describe('StatsValues', () => {
         value: new MockNumericalValue(3)
       });
 
-      const statsValues: StatsValues = StatsValues.ofArray([
-        statsValue1,
-        statsValue2,
-        statsValue3
-      ]);
+      const statsValues: StatsValues = StatsValues.ofArray([statsValue1, statsValue2, statsValue3]);
       const statsValue: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 2
@@ -594,10 +601,7 @@ describe('StatsValues', () => {
         value: new MockNumericalValue(3)
       });
 
-      const statsValues: StatsValues = StatsValues.ofArray([
-        statsValue1,
-        statsValue2
-      ]);
+      const statsValues: StatsValues = StatsValues.ofArray([statsValue1, statsValue2]);
       const statsValue: MockStatsValue = new MockStatsValue({
         asOf: new MockAsOf({
           day: 2
@@ -635,11 +639,7 @@ describe('StatsValues', () => {
         value: new MockNumericalValue(3)
       });
 
-      const statsValues: StatsValues = StatsValues.ofArray([
-        statsValue1,
-        statsValue2,
-        statsValue3
-      ]);
+      const statsValues: StatsValues = StatsValues.ofArray([statsValue1, statsValue2, statsValue3]);
       const asOf: MockAsOf = new MockAsOf({
         day: 2
       });
@@ -677,10 +677,7 @@ describe('StatsValues', () => {
       const asOf2: MockAsOf = new MockAsOf({
         day: 5
       });
-      const asOfs: MockAsOfs = new MockAsOfs(
-        asOf1,
-        asOf2
-      );
+      const asOfs: MockAsOfs = new MockAsOfs(asOf1, asOf2);
 
       const statsValues: StatsValues = StatsValues.ofArray([
         new MockStatsValue({
@@ -723,10 +720,7 @@ describe('StatsValues', () => {
         value: new MockNumericalValue(1)
       });
 
-      const statsValues: StatsValues = StatsValues.ofArray([
-        statsValue1,
-        statsValue2
-      ]);
+      const statsValues: StatsValues = StatsValues.ofArray([statsValue1, statsValue2]);
 
       expect(statsValues.contains(statsValue1)).toBe(true);
       expect(statsValues.contains(statsValue2)).toBe(true);
@@ -779,12 +773,7 @@ describe('StatsValues', () => {
         })
       });
 
-      const statsValues: StatsValues = StatsValues.ofArray([
-        statsValue1,
-        statsValue2,
-        statsValue3,
-        statsValue4
-      ]);
+      const statsValues: StatsValues = StatsValues.ofArray([statsValue1, statsValue2, statsValue3, statsValue4]);
       const duplicated: StatsValues = statsValues.duplicate();
 
       expect(statsValues).not.toBe(duplicated);
@@ -815,13 +804,8 @@ describe('StatsValues', () => {
         value: new MockNumericalValue(2)
       });
 
-      const statsValues1: StatsValues = StatsValues.ofArray([
-        statsValue1,
-        statsValue2
-      ]);
-      const statsValues2: StatsValues = StatsValues.ofArray([
-        statsValue1
-      ]);
+      const statsValues1: StatsValues = StatsValues.ofArray([statsValue1, statsValue2]);
+      const statsValues2: StatsValues = StatsValues.ofArray([statsValue1]);
 
       expect(statsValues1.equals(statsValues1)).toBe(true);
       expect(statsValues1.equals(statsValues2)).toBe(false);
@@ -841,14 +825,8 @@ describe('StatsValues', () => {
         value: new MockNumericalValue(2)
       });
 
-      const statsValues1: StatsValues = StatsValues.ofArray([
-        statsValue1,
-        statsValue2
-      ]);
-      const statsValues2: StatsValues = StatsValues.ofArray([
-        statsValue2,
-        statsValue1
-      ]);
+      const statsValues1: StatsValues = StatsValues.ofArray([statsValue1, statsValue2]);
+      const statsValues2: StatsValues = StatsValues.ofArray([statsValue2, statsValue1]);
 
       expect(statsValues1.equals(statsValues1)).toBe(true);
       expect(statsValues1.equals(statsValues2)).toBe(true);
@@ -868,14 +846,8 @@ describe('StatsValues', () => {
         value: new MockNumericalValue(2)
       });
 
-      const statsValues1: StatsValues = StatsValues.ofArray([
-        statsValue1,
-        statsValue2
-      ]);
-      const statsValues2: StatsValues = StatsValues.ofArray([
-        statsValue1,
-        statsValue2
-      ]);
+      const statsValues1: StatsValues = StatsValues.ofArray([statsValue1, statsValue2]);
+      const statsValues2: StatsValues = StatsValues.ofArray([statsValue1, statsValue2]);
 
       expect(statsValues1.equals(statsValues1)).toBe(true);
       expect(statsValues1.equals(statsValues2)).toBe(true);
@@ -890,14 +862,8 @@ describe('StatsValues', () => {
       const value2: number = 2;
 
       const statsValues: StatsValues = StatsValues.ofArray([
-        StatsValue.of(
-          AsOf.ofString(asOf1).get(),
-          NumericalValue.of(value1)
-        ),
-        StatsValue.of(
-          AsOf.ofString(asOf2).get(),
-          NumericalValue.of(value2)
-        )
+        StatsValue.of(AsOf.ofString(asOf1).get(), NumericalValue.of(value1)),
+        StatsValue.of(AsOf.ofString(asOf2).get(), NumericalValue.of(value2))
       ]);
 
       expect(statsValues.toString()).toBe(`${asOf1} ${value1}, ${asOf2} ${value2}`);

@@ -10,8 +10,12 @@ export class MockAccountQuery implements IAccountQuery, IMockQuery {
   public readonly noun: 'AccountQuery' = 'AccountQuery';
   public readonly source: 'Mock' = 'Mock';
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public findByAccount(account: AccountName): Promise<Superposition<Account, AccountError | NoSuchElementError | DataSourceError>> {
-    return Promise.reject<Superposition<Account, AccountError | NoSuchElementError | DataSourceError>>(new UnimplementedError());
+  public findByAccount(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    account: AccountName
+  ): Promise<Superposition<Account, AccountError | NoSuchElementError | DataSourceError>> {
+    return Promise.reject<Superposition<Account, AccountError | NoSuchElementError | DataSourceError>>(
+      new UnimplementedError()
+    );
   }
 }

@@ -16,7 +16,8 @@ import { StatsOutlineError } from '../Error/StatsOutlineError';
 import { StatsOutlinesError } from '../Error/StatsOutlinesError';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from './StatsOutline';
 
-export class StatsOutlines extends Objet implements Collection<number, StatsOutline>, Cloneable<StatsOutlines>, JSONable {
+export class StatsOutlines extends Objet
+  implements Collection<number, StatsOutline>, Cloneable<StatsOutlines>, JSONable {
   public readonly noun: 'StatsOutlines' = 'StatsOutlines';
   private readonly outlines: Sequence<StatsOutline>;
 
@@ -38,18 +39,25 @@ export class StatsOutlines extends Objet implements Collection<number, StatsOutl
     return StatsOutlines.ofArray(outlines);
   }
 
-  public static ofSuperposition(superpositions: Array<Superposition<StatsOutline, StatsOutlineError>>): Superposition<StatsOutlines, StatsOutlinesError> {
-    return manoeuvre<StatsOutline, StatsOutlineError>(superpositions).match<StatsOutlines, StatsOutlinesError>((outlines: Array<StatsOutline>) => {
-      return Alive.of<StatsOutlines, StatsOutlinesError>(StatsOutlines.ofArray(outlines));
-    }, (err: StatsOutlineError) => {
-      return Dead.of<StatsOutlines, StatsOutlinesError>(
-        new StatsOutlinesError('StatsOutlines.ofSuperposition()', err)
-      );
-    });
+  public static ofSuperposition(
+    superpositions: Array<Superposition<StatsOutline, StatsOutlineError>>
+  ): Superposition<StatsOutlines, StatsOutlinesError> {
+    return manoeuvre<StatsOutline, StatsOutlineError>(superpositions).match<StatsOutlines, StatsOutlinesError>(
+      (outlines: Array<StatsOutline>) => {
+        return Alive.of<StatsOutlines, StatsOutlinesError>(StatsOutlines.ofArray(outlines));
+      },
+      (err: StatsOutlineError) => {
+        return Dead.of<StatsOutlines, StatsOutlinesError>(
+          new StatsOutlinesError('StatsOutlines.ofSuperposition()', err)
+        );
+      }
+    );
   }
 
   public static ofJSON(json: Array<StatsOutlineJSON>): Superposition<StatsOutlines, StatsOutlinesError> {
-    const superpositions: Array<Superposition<StatsOutline, StatsOutlineError>> = json.map<Superposition<StatsOutline, StatsOutlineError>>((outline: StatsOutlineJSON) => {
+    const superpositions: Array<Superposition<StatsOutline, StatsOutlineError>> = json.map<
+      Superposition<StatsOutline, StatsOutlineError>
+    >((outline: StatsOutlineJSON) => {
       return StatsOutline.ofJSON(outline);
     });
 
@@ -57,7 +65,9 @@ export class StatsOutlines extends Objet implements Collection<number, StatsOutl
   }
 
   public static ofRow(rows: Array<StatsOutlineRow>): Superposition<StatsOutlines, StatsOutlinesError> {
-    const superpositions: Array<Superposition<StatsOutline, StatsOutlineError>> = rows.map<Superposition<StatsOutline, StatsOutlineError>>((outline: StatsOutlineRow) => {
+    const superpositions: Array<Superposition<StatsOutline, StatsOutlineError>> = rows.map<
+      Superposition<StatsOutline, StatsOutlineError>
+    >((outline: StatsOutlineRow) => {
       return StatsOutline.ofRow(outline);
     });
 

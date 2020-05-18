@@ -48,7 +48,7 @@ export class StatsListEpic {
   private readonly statsCommand: IStatsCommand;
 
   public constructor(
-  @inject(TYPE.StatsOutlineAJAXQuery) statsOutlineQuery: IStatsOutlineQuery,
+    @inject(TYPE.StatsOutlineAJAXQuery) statsOutlineQuery: IStatsOutlineQuery,
     @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery,
     @inject(TYPE.RegionVaultQuery) regionQuery: IRegionQuery,
     @inject(TYPE.StatsAJAXCommand) statsCommand: IStatsCommand
@@ -78,22 +78,28 @@ export class StatsListEpic {
         return from<Promise<Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>>>(
           this.statsOutlineQuery.findByVeauAccountID(VeauAccountID.generate(), Page.of(1).get())
         ).pipe<Action>(
-          mergeMap<Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>, Observable<Action>>((superposition: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>) => {
-            return superposition.match<Observable<Action>>((statsOutlines: StatsOutlines) => {
-              return of<Action>(updateStatsOutlines(statsOutlines));
-            }, () => {
-              return of<Action>(
-                resetStatsOutlines(),
-                appearNotification('error', 'center', 'top', 'STATS_OVERVIEW_NOT_FOUND')
+          mergeMap<Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>, Observable<Action>>(
+            (superposition: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>) => {
+              return superposition.match<Observable<Action>>(
+                (statsOutlines: StatsOutlines) => {
+                  return of<Action>(updateStatsOutlines(statsOutlines));
+                },
+                () => {
+                  return of<Action>(
+                    resetStatsOutlines(),
+                    appearNotification('error', 'center', 'top', 'STATS_OVERVIEW_NOT_FOUND')
+                  );
+                }
               );
-            });
-          })
+            }
+          )
         );
       })
     );
   }
 
   public nameTyped(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
+    // prettier-ignore
     const {
       value: {
         statsList: {
@@ -122,6 +128,7 @@ export class StatsListEpic {
   }
 
   public unitTyped(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
+    // prettier-ignore
     const {
       value: {
         statsList: {
@@ -150,6 +157,7 @@ export class StatsListEpic {
   }
 
   public iso639Selected(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
+    // prettier-ignore
     const {
       value: {
         statsList: {
@@ -164,33 +172,36 @@ export class StatsListEpic {
         return from<Promise<Superposition<Language, NoSuchElementError | DataSourceError>>>(
           this.languageQuery.findByISO639(action.iso639)
         ).pipe<Action>(
-          mergeMap<Superposition<Language, NoSuchElementError | DataSourceError>, Observable<Action>>((superposition: Superposition<Language, NoSuchElementError | DataSourceError>) => {
-            return EMPTY.pipe<never, Action>(
-              filter<never>(() => {
-                return superposition.isAlive();
-              }),
-              map<never, Action>(() => {
-                const newStats: Stats = Stats.of(
-                  stats.getStatsID(),
-                  superposition.get(),
-                  stats.getRegion(),
-                  stats.getTerm(),
-                  stats.getName(),
-                  stats.getUnit(),
-                  stats.getUpdatedAt(),
-                  stats.getItems()
-                );
+          mergeMap<Superposition<Language, NoSuchElementError | DataSourceError>, Observable<Action>>(
+            (superposition: Superposition<Language, NoSuchElementError | DataSourceError>) => {
+              return EMPTY.pipe<never, Action>(
+                filter<never>(() => {
+                  return superposition.isAlive();
+                }),
+                map<never, Action>(() => {
+                  const newStats: Stats = Stats.of(
+                    stats.getStatsID(),
+                    superposition.get(),
+                    stats.getRegion(),
+                    stats.getTerm(),
+                    stats.getName(),
+                    stats.getUnit(),
+                    stats.getUpdatedAt(),
+                    stats.getItems()
+                  );
 
-                return updateNewStats(newStats);
-              })
-            );
-          })
+                  return updateNewStats(newStats);
+                })
+              );
+            }
+          )
         );
       })
     );
   }
 
   public iso3166Selected(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
+    // prettier-ignore
     const {
       value: {
         statsList: {
@@ -205,33 +216,36 @@ export class StatsListEpic {
         return from<Promise<Superposition<Region, NoSuchElementError | DataSourceError>>>(
           this.regionQuery.findByISO3166(action.iso3166)
         ).pipe<Action>(
-          mergeMap<Superposition<Region, NoSuchElementError | DataSourceError>, Observable<Action>>((superposition: Superposition<Region, NoSuchElementError | DataSourceError>) => {
-            return EMPTY.pipe<never, Action>(
-              filter<never>(() => {
-                return superposition.isAlive();
-              }),
-              map<never, Action>(() => {
-                const newStats: Stats = Stats.of(
-                  stats.getStatsID(),
-                  stats.getLanguage(),
-                  superposition.get(),
-                  stats.getTerm(),
-                  stats.getName(),
-                  stats.getUnit(),
-                  stats.getUpdatedAt(),
-                  stats.getItems()
-                );
+          mergeMap<Superposition<Region, NoSuchElementError | DataSourceError>, Observable<Action>>(
+            (superposition: Superposition<Region, NoSuchElementError | DataSourceError>) => {
+              return EMPTY.pipe<never, Action>(
+                filter<never>(() => {
+                  return superposition.isAlive();
+                }),
+                map<never, Action>(() => {
+                  const newStats: Stats = Stats.of(
+                    stats.getStatsID(),
+                    stats.getLanguage(),
+                    superposition.get(),
+                    stats.getTerm(),
+                    stats.getName(),
+                    stats.getUnit(),
+                    stats.getUpdatedAt(),
+                    stats.getItems()
+                  );
 
-                return updateNewStats(newStats);
-              })
-            );
-          })
+                  return updateNewStats(newStats);
+                })
+              );
+            }
+          )
         );
       })
     );
   }
 
   public termSelected(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
+    // prettier-ignore
     const {
       value: {
         statsList: {
@@ -260,6 +274,7 @@ export class StatsListEpic {
   }
 
   public save(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
+    // prettier-ignore
     const {
       value: {
         statsList: {
@@ -279,24 +294,26 @@ export class StatsListEpic {
         return from<Promise<Superposition<void, DataSourceError>>>(
           this.statsCommand.create(stats, VeauAccountID.generate())
         ).pipe<Action>(
-          mergeMap<Superposition<void, DataSourceError>, Observable<Action>>((superposition: Superposition<void, DataSourceError>) => {
-            return EMPTY.pipe<Action, Action>(
-              mapTo<never, Action>(loaded()),
-              mergeMap<Action, Observable<Action>>(() => {
-                return superposition.match<Observable<Action>>(() => {
-                  return of<Action>(
-                    pushToStatsEdit(stats.getStatsID()),
-                    resetNewStats()
+          mergeMap<Superposition<void, DataSourceError>, Observable<Action>>(
+            (superposition: Superposition<void, DataSourceError>) => {
+              return EMPTY.pipe<Action, Action>(
+                mapTo<never, Action>(loaded()),
+                mergeMap<Action, Observable<Action>>(() => {
+                  return superposition.match<Observable<Action>>(
+                    () => {
+                      return of<Action>(pushToStatsEdit(stats.getStatsID()), resetNewStats());
+                    },
+                    () => {
+                      return of<Action>(
+                        loaded(),
+                        raiseModal('FAILED_TO_SAVE_NEW_STATS', 'FAILED_TO_SAVE_NEW_STATS_DESCRIPTION')
+                      );
+                    }
                   );
-                }, () => {
-                  return of<Action>(
-                    loaded(),
-                    raiseModal('FAILED_TO_SAVE_NEW_STATS', 'FAILED_TO_SAVE_NEW_STATS_DESCRIPTION')
-                  );
-                });
-              })
-            );
-          })
+                })
+              );
+            }
+          )
         );
       })
     );

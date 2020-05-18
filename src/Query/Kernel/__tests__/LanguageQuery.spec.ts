@@ -97,12 +97,15 @@ describe('LanguageQuery', () => {
       const superposition: Superposition<Languages, LanguagesError | DataSourceError> = await languageQuery.all();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: LanguagesError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(MySQLError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LanguagesError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(MySQLError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -134,12 +137,15 @@ describe('LanguageQuery', () => {
       const superposition: Superposition<Languages, LanguagesError | DataSourceError> = await languageQuery.all();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: LanguagesError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(RedisError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LanguagesError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(RedisError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -169,7 +175,10 @@ describe('LanguageQuery', () => {
         languageRedisQuery,
         languageRedisCommand
       );
-      const superposition: Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
+      const superposition: Superposition<
+        Language,
+        LanguageError | NoSuchElementError | DataSourceError
+      > = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(superposition.isAlive()).toBe(true);
       expect(superposition.get()).toBe(languages.get(1).get());
@@ -188,16 +197,26 @@ describe('LanguageQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const languageQuery: LanguageQuery = new LanguageQuery(languageMySQLQuery, languageRedisQuery, languageRedisCommand);
-      const superposition: Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
+      const languageQuery: LanguageQuery = new LanguageQuery(
+        languageMySQLQuery,
+        languageRedisQuery,
+        languageRedisCommand
+      );
+      const superposition: Superposition<
+        Language,
+        LanguageError | NoSuchElementError | DataSourceError
+      > = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: LanguageError | NoSuchElementError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(MySQLError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LanguageError | NoSuchElementError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(MySQLError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -216,16 +235,26 @@ describe('LanguageQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const languageQuery: LanguageQuery = new LanguageQuery(languageMySQLQuery, languageRedisQuery, languageRedisCommand);
-      const superposition: Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
+      const languageQuery: LanguageQuery = new LanguageQuery(
+        languageMySQLQuery,
+        languageRedisQuery,
+        languageRedisCommand
+      );
+      const superposition: Superposition<
+        Language,
+        LanguageError | NoSuchElementError | DataSourceError
+      > = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: LanguageError | NoSuchElementError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(LanguageError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LanguageError | NoSuchElementError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(LanguageError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -250,16 +279,26 @@ describe('LanguageQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const languageQuery: LanguageQuery = new LanguageQuery(languageMySQLQuery, languageRedisQuery, languageRedisCommand);
-      const superposition: Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('oop'));
+      const languageQuery: LanguageQuery = new LanguageQuery(
+        languageMySQLQuery,
+        languageRedisQuery,
+        languageRedisCommand
+      );
+      const superposition: Superposition<
+        Language,
+        LanguageError | NoSuchElementError | DataSourceError
+      > = await languageQuery.findByISO639(ISO639.of('oop'));
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: LanguageError | NoSuchElementError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(NoSuchElementError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LanguageError | NoSuchElementError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(NoSuchElementError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

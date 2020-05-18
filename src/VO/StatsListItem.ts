@@ -11,21 +11,11 @@ export class StatsListItem extends ValueObject {
   private readonly region: Region;
   private readonly term: Term;
 
-  public static of(
-    outline: StatsOutline,
-    language: Language,
-    region: Region,
-    term: Term
-  ): StatsListItem {
+  public static of(outline: StatsOutline, language: Language, region: Region, term: Term): StatsListItem {
     return new StatsListItem(outline, language, region, term);
   }
 
-  protected constructor(
-    outline: StatsOutline,
-    language: Language,
-    region: Region,
-    term: Term
-  ) {
+  protected constructor(outline: StatsOutline, language: Language, region: Region, term: Term) {
     super();
     this.outline = outline;
     this.language = language;

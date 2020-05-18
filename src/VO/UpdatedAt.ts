@@ -12,6 +12,7 @@ export class UpdatedAt extends ValueObject {
   }
 
   public static ofString(at: string): Superposition<UpdatedAt, UpdatedAtError> {
+    // prettier-ignore
     try {
       const zeit: Zeit = Zeit.ofString(at, TERM_FORMAT);
 

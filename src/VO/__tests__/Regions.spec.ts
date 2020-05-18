@@ -44,10 +44,7 @@ describe('Regions', () => {
     });
 
     it('normal case', () => {
-      const regionArray: Array<MockRegion> = [
-        new MockRegion(),
-        new MockRegion()
-      ];
+      const regionArray: Array<MockRegion> = [new MockRegion(), new MockRegion()];
 
       const superposition: Superposition<Regions, RegionsError> = Regions.ofSuperposition([
         Alive.of<Region, RegionError>(regionArray[0]),
@@ -78,12 +75,15 @@ describe('Regions', () => {
       ]);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: RegionsError) => {
-        spy2();
-        expect(err).toBeInstanceOf(RegionsError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: RegionsError) => {
+          spy2();
+          expect(err).toBeInstanceOf(RegionsError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -105,12 +105,15 @@ describe('Regions', () => {
       ]);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: RegionsError) => {
-        spy2();
-        expect(err).toBeInstanceOf(RegionsError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: RegionsError) => {
+          spy2();
+          expect(err).toBeInstanceOf(RegionsError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -189,10 +192,7 @@ describe('Regions', () => {
     });
 
     it('normal case', () => {
-      const regs: Array<MockRegion> = [
-        new MockRegion(),
-        new MockRegion()
-      ];
+      const regs: Array<MockRegion> = [new MockRegion(), new MockRegion()];
 
       const regions: Regions = Regions.ofArray(regs);
 
@@ -213,15 +213,9 @@ describe('Regions', () => {
     it('normal case', () => {
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion();
-      const regs: Array<MockRegion> = [
-        region1,
-        region2
-      ];
+      const regs: Array<MockRegion> = [region1, region2];
 
-      const regions: Regions = Regions.ofSpread(
-        region1,
-        region2
-      );
+      const regions: Regions = Regions.ofSpread(region1, region2);
 
       expect(regions.size()).toBe(regs.length);
       for (let i: number = 0; i < regions.size(); i++) {
@@ -242,11 +236,7 @@ describe('Regions', () => {
 
   describe('get', () => {
     it('returns Region instance at the correct index', () => {
-      const regs: Array<MockRegion> = [
-        new MockRegion(),
-        new MockRegion(),
-        new MockRegion()
-      ];
+      const regs: Array<MockRegion> = [new MockRegion(), new MockRegion(), new MockRegion()];
 
       const regions: Regions = Regions.ofArray(regs);
 
@@ -282,10 +272,7 @@ describe('Regions', () => {
         regionID: new MockRegionID(uuid3)
       });
 
-      const regions: Regions = Regions.ofArray([
-        region1,
-        region2
-      ]);
+      const regions: Regions = Regions.ofArray([region1, region2]);
 
       expect(regions.contains(region1)).toBe(true);
       expect(regions.contains(region2)).toBe(true);
@@ -312,23 +299,36 @@ describe('Regions', () => {
         regionID: new MockRegionID(uuid3)
       });
 
-      const regions: Regions = Regions.ofArray([
-        region1,
-        region2
-      ]);
+      const regions: Regions = Regions.ofArray([region1, region2]);
 
-      expect(regions.find((region: Region) => {
-        return region1.equals(region);
-      }).isPresent()).toBe(true);
-      expect(regions.find((region: Region) => {
-        return region2.equals(region);
-      }).isPresent()).toBe(true);
-      expect(regions.find((region: Region) => {
-        return region3.equals(region);
-      }).isPresent()).toBe(true);
-      expect(regions.find((region: Region) => {
-        return region4.equals(region);
-      }).isPresent()).toBe(false);
+      expect(
+        regions
+          .find((region: Region) => {
+            return region1.equals(region);
+          })
+          .isPresent()
+      ).toBe(true);
+      expect(
+        regions
+          .find((region: Region) => {
+            return region2.equals(region);
+          })
+          .isPresent()
+      ).toBe(true);
+      expect(
+        regions
+          .find((region: Region) => {
+            return region3.equals(region);
+          })
+          .isPresent()
+      ).toBe(true);
+      expect(
+        regions
+          .find((region: Region) => {
+            return region4.equals(region);
+          })
+          .isPresent()
+      ).toBe(false);
     });
   });
 
@@ -356,13 +356,8 @@ describe('Regions', () => {
         iso3166: new MockISO3166('abd')
       });
 
-      const regions1: Regions = Regions.ofArray([
-        region1,
-        region2
-      ]);
-      const regions2: Regions = Regions.ofArray([
-        region1
-      ]);
+      const regions1: Regions = Regions.ofArray([region1, region2]);
+      const regions2: Regions = Regions.ofArray([region1]);
 
       expect(regions1.equals(regions1)).toBe(true);
       expect(regions1.equals(regions2)).toBe(false);
@@ -375,14 +370,8 @@ describe('Regions', () => {
         iso3166: new MockISO3166('abd')
       });
 
-      const regions1: Regions = Regions.ofArray([
-        region1,
-        region2
-      ]);
-      const regions2: Regions = Regions.ofArray([
-        region2,
-        region1
-      ]);
+      const regions1: Regions = Regions.ofArray([region1, region2]);
+      const regions2: Regions = Regions.ofArray([region2, region1]);
 
       expect(regions1.equals(regions1)).toBe(true);
       expect(regions1.equals(regions2)).toBe(false);
@@ -395,14 +384,8 @@ describe('Regions', () => {
         iso3166: new MockISO3166('abd')
       });
 
-      const regions1: Regions = Regions.ofArray([
-        region1,
-        region2
-      ]);
-      const regions2: Regions = Regions.ofArray([
-        region1,
-        region2
-      ]);
+      const regions1: Regions = Regions.ofArray([region1, region2]);
+      const regions2: Regions = Regions.ofArray([region1, region2]);
 
       expect(regions1.equals(regions1)).toBe(true);
       expect(regions1.equals(regions2)).toBe(true);
@@ -413,11 +396,7 @@ describe('Regions', () => {
     it('normal case', () => {
       const uuid: UUID = UUID.v4();
       const regions: Regions = Regions.ofArray([
-        Region.of(
-          RegionID.of(uuid),
-          RegionName.of('region 1'),
-          ISO3166.of('abc')
-        )
+        Region.of(RegionID.of(uuid), RegionName.of('region 1'), ISO3166.of('abc'))
       ]);
 
       expect(regions.toJSON()).toEqual([
@@ -440,16 +419,8 @@ describe('Regions', () => {
       const iso31662: string = 'abd';
 
       const regions: Regions = Regions.ofArray([
-        Region.of(
-          RegionID.of(uuid1),
-          RegionName.of(name1),
-          ISO3166.of(iso31661)
-        ),
-        Region.of(
-          RegionID.of(uuid2),
-          RegionName.of(name2),
-          ISO3166.of(iso31662)
-        )
+        Region.of(RegionID.of(uuid1), RegionName.of(name1), ISO3166.of(iso31661)),
+        Region.of(RegionID.of(uuid2), RegionName.of(name2), ISO3166.of(iso31662))
       ]);
 
       expect(regions.toString()).toBe(`${uuid1.get()} ${name1} ${iso31661}, ${uuid2.get()} ${name2} ${iso31662}`);

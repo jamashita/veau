@@ -76,6 +76,7 @@ type OwnProps = Readonly<{}>;
 export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
+  // prettier-ignore
   const {
     stats,
     statsItem,
@@ -85,7 +86,9 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: St
     locale
   } = state;
 
-  const selector: matchSelectorFn<RouterRootState, MatchParam> = createMatchSelector<RouterRootState, MatchParam>(Endpoints.STATS_EDIT);
+  const selector: matchSelectorFn<RouterRootState, MatchParam> = createMatchSelector<RouterRootState, MatchParam>(
+    Endpoints.STATS_EDIT
+  );
   const matchParam: Nullable<match<MatchParam>> = selector(state);
 
   if (matchParam === null) {
@@ -166,7 +169,12 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
   };
 };
 
-export const StatsEdit: ConnectedComponent<typeof Component, Pick<StateProps, never>> = connect<StateProps, DispatchProps, OwnProps, State>(
+export const StatsEdit: ConnectedComponent<typeof Component, Pick<StateProps, never>> = connect<
+  StateProps,
+  DispatchProps,
+  OwnProps,
+  State
+>(
   mapStateToProps,
   mapDispatchToProps
 )(Component);

@@ -15,7 +15,6 @@ import { Endpoints } from '../Endpoints';
 
 @injectable()
 export class RedirectEpic {
-
   public init(action$: ActionsObservable<Action>): Observable<Action> {
     return merge<Action, Action, Action>(
       this.toStatsList(action$),
@@ -35,10 +34,7 @@ export class RedirectEpic {
     return action$.pipe<PushToStatsEditAction, Action>(
       ofType<Action, PushToStatsEditAction>(PUSH_TO_STATS_EDIT),
       map<PushToStatsEditAction, Action>((action: PushToStatsEditAction) => {
-
-        return push(
-          Endpoints.STATS_EDIT.replace(':id', action.statsID.get().get())
-        );
+        return push(Endpoints.STATS_EDIT.replace(':id', action.statsID.get().get()));
       })
     );
   }

@@ -26,15 +26,18 @@ export class StatsCommand implements IStatsCommand, IKernelCommand {
       new StatsUpdateFactory()
     );
 
-    const superposition: Superposition<unknown, DataSourceError> = await this.mysql.transact<Superposition<unknown, DataSourceError>>(
-      statsUpdateTransaction
-    );
+    const superposition: Superposition<unknown, DataSourceError> = await this.mysql.transact<
+      Superposition<unknown, DataSourceError>
+    >(statsUpdateTransaction);
 
-    return superposition.match<void, DataSourceError>(() => {
-      return Alive.of<DataSourceError>();
-    }, (err: DataSourceError, self: Dead<unknown, DataSourceError>) => {
-      return self.transpose<void>();
-    });
+    return superposition.match<void, DataSourceError>(
+      () => {
+        return Alive.of<DataSourceError>();
+      },
+      (err: DataSourceError, self: Dead<unknown, DataSourceError>) => {
+        return self.transpose<void>();
+      }
+    );
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

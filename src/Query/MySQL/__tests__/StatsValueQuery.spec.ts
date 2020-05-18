@@ -1,12 +1,4 @@
-import {
-  Absent,
-  DataSourceError,
-  MockError,
-  MockMySQL,
-  MySQLError,
-  Project,
-  Superposition
-} from 'publikum';
+import { Absent, DataSourceError, MockError, MockMySQL, MySQLError, Project, Superposition } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
@@ -72,18 +64,26 @@ describe('StatsValueQuery', () => {
       stub.resolves(rows);
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
-      const superposition: Superposition<Project<StatsItemID, StatsValues>, StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(statsID);
+      const superposition: Superposition<
+        Project<StatsItemID, StatsValues>,
+        StatsValuesError | DataSourceError
+      > = await statsValueQuery.findByStatsID(statsID);
 
-      expect(stub.withArgs(`SELECT
+      expect(
+        stub.withArgs(
+          `SELECT
       R1.stats_item_id AS statsItemID,
       R1.as_of AS asOf,
       R1.value
       FROM stats_values R1
       INNER JOIN stats_items R2
       USING(stats_item_id)
-      WHERE R2.stats_id = :statsID;`, {
-        statsID: statsID.get().get()
-      }).called).toBe(true);
+      WHERE R2.stats_id = :statsID;`,
+          {
+            statsID: statsID.get().get()
+          }
+        ).called
+      ).toBe(true);
       expect(superposition.isAlive()).toBe(true);
       const project: Project<StatsItemID, StatsValues> = superposition.get();
       const statsValues1: StatsValues = project.get(StatsItemID.ofString(statsItemID1).get()).get();
@@ -135,15 +135,21 @@ describe('StatsValueQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
-      const superposition: Superposition<Project<StatsItemID, StatsValues>, StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(statsID);
+      const superposition: Superposition<
+        Project<StatsItemID, StatsValues>,
+        StatsValuesError | DataSourceError
+      > = await statsValueQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsValuesError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsValuesError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsValuesError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsValuesError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -160,15 +166,21 @@ describe('StatsValueQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsValueQuery: StatsValueQuery = new StatsValueQuery(mysql);
-      const superposition: Superposition<Project<StatsItemID, StatsValues>, StatsValuesError | DataSourceError> = await statsValueQuery.findByStatsID(statsID);
+      const superposition: Superposition<
+        Project<StatsItemID, StatsValues>,
+        StatsValuesError | DataSourceError
+      > = await statsValueQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsValuesError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(MySQLError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsValuesError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(MySQLError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

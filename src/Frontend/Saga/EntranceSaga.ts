@@ -39,9 +39,7 @@ export class EntranceSaga {
       const state: State = yield select();
 
       const {
-        modal: {
-          open
-        },
+        modal: { open },
         entranceInformation
       } = state;
 
@@ -54,21 +52,22 @@ export class EntranceSaga {
 
       yield put(loading());
 
-      const superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError> = yield call((): Promise<Superposition<VeauAccount, VeauAccountError | DataSourceError>> => {
-        return this.sessionQuery.findByEntranceInfo(entranceInformation);
-      });
+      const superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError> = yield call(
+        (): Promise<Superposition<VeauAccount, VeauAccountError | DataSourceError>> => {
+          return this.sessionQuery.findByEntranceInfo(entranceInformation);
+        }
+      );
 
       yield put(loaded());
 
-      yield superposition.match<Effect>((veauAccount: VeauAccount) => {
-        return all([
-          put(identityAuthenticated(veauAccount)),
-          put(pushToStatsList()),
-          put(identified())
-        ]);
-      }, () => {
-        return put(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
-      });
+      yield superposition.match<Effect>(
+        (veauAccount: VeauAccount) => {
+          return all([put(identityAuthenticated(veauAccount)), put(pushToStatsList()), put(identified())]);
+        },
+        () => {
+          return put(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
+        }
+      );
     }
   }
 
@@ -77,9 +76,7 @@ export class EntranceSaga {
       const action: EntranceAccountNameTypedAction = yield take(ENTRANCE_ACCOUNT_NAME_TYPED);
       const state: State = yield select();
 
-      const {
-        entranceInformation
-      } = state;
+      const { entranceInformation } = state;
 
       const newLogin: EntranceInformation = EntranceInformation.of(action.account, entranceInformation.getPassword());
       yield put(updateEntranceInformation(newLogin));
@@ -91,9 +88,7 @@ export class EntranceSaga {
       const action: EntrancePasswordTypedAction = yield take(ENTRANCE_PASSWORD_TYPED);
       const state: State = yield select();
 
-      const {
-        entranceInformation
-      } = state;
+      const { entranceInformation } = state;
 
       const newLogin: EntranceInformation = EntranceInformation.of(entranceInformation.getAccount(), action.password);
       yield put(updateEntranceInformation(newLogin));

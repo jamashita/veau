@@ -118,16 +118,24 @@ describe('StatsItemQuery', () => {
       stub2.resolves(Alive.of<Project<StatsItemID, StatsValues>, StatsValuesError | DataSourceError>(project));
 
       const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
-      const superposition: Superposition<StatsItems, StatsItemsError | DataSourceError> = await statsItemQuery.findByStatsID(statsID);
+      const superposition: Superposition<
+        StatsItems,
+        StatsItemsError | DataSourceError
+      > = await statsItemQuery.findByStatsID(statsID);
 
-      expect(stub1.withArgs(`SELECT
+      expect(
+        stub1.withArgs(
+          `SELECT
       R1.stats_item_id AS statsItemID,
       R1.name
       FROM stats_items R1
       WHERE R1.stats_id = :statsID
-      ORDER BY R1.seq;`, {
-        statsID: uuid1.get()
-      }).called).toBe(true);
+      ORDER BY R1.seq;`,
+          {
+            statsID: uuid1.get()
+          }
+        ).called
+      ).toBe(true);
       expect(superposition.isAlive()).toBe(true);
       const statsItems: StatsItems = superposition.get();
       expect(statsItems.size()).toBe(3);
@@ -150,7 +158,7 @@ describe('StatsItemQuery', () => {
       expect(values3.get(asOf3)).toBeInstanceOf(Absent);
     });
 
-    it('returns Dead when statsItems\' statsItemID is malformat', async () => {
+    it("returns Dead when statsItems' statsItemID is malformat", async () => {
       const statsID: MockStatsID = new MockStatsID();
       const rows: Array<StatsItemRow> = [
         {
@@ -180,15 +188,21 @@ describe('StatsItemQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
-      const superposition: Superposition<StatsItems, StatsItemsError | DataSourceError> = await statsItemQuery.findByStatsID(statsID);
+      const superposition: Superposition<
+        StatsItems,
+        StatsItemsError | DataSourceError
+      > = await statsItemQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsItemsError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsItemsError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsItemsError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsItemsError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -223,15 +237,21 @@ describe('StatsItemQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
-      const superposition: Superposition<StatsItems, StatsItemsError | DataSourceError> = await statsItemQuery.findByStatsID(statsID);
+      const superposition: Superposition<
+        StatsItems,
+        StatsItemsError | DataSourceError
+      > = await statsItemQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsItemsError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsItemsError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsItemsError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsItemsError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -266,15 +286,21 @@ describe('StatsItemQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
-      const superposition: Superposition<StatsItems, StatsItemsError | DataSourceError> = await statsItemQuery.findByStatsID(statsID);
+      const superposition: Superposition<
+        StatsItems,
+        StatsItemsError | DataSourceError
+      > = await statsItemQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsItemsError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(MySQLError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsItemsError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(MySQLError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

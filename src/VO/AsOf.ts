@@ -1,4 +1,4 @@
-import { Alive, Dead, Superposition, ValueObject, Zeit, ZeitError } from 'publikum';
+import { Alive, Dead, Schrodinger, Superposition, ValueObject, Zeit, ZeitError } from 'publikum';
 import { AsOfError } from '../Error/AsOfError';
 import { Term } from './Term';
 
@@ -13,18 +13,16 @@ export class AsOf extends ValueObject {
   }
 
   public static ofString(asOf: string): Superposition<AsOf, AsOfError> {
-    try {
-      const zeit: Zeit = Zeit.ofString(asOf, TERM_FORMAT);
-
-      return Alive.of<AsOf, AsOfError>(AsOf.of(zeit));
-    }
-    catch (err) {
-      if (err instanceof ZeitError) {
+    return Schrodinger.playground<Zeit, ZeitError>(() => {
+      return Zeit.ofString(asOf, TERM_FORMAT);
+    }).match<AsOf, AsOfError>(
+      (zeit: Zeit) => {
+        return Alive.of<AsOf, AsOfError>(AsOf.of(zeit));
+      },
+      (err: ZeitError) => {
         return Dead.of<AsOf, AsOfError>(new AsOfError('asOf is not suitable for date time', err));
       }
-
-      throw err;
-    }
+    );
   }
 
   public static now(): AsOf {

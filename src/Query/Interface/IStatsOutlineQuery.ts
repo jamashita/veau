@@ -12,7 +12,9 @@ import { IQuery } from './IQuery';
 export interface IStatsOutlineQuery extends IQuery {
   readonly noun: 'StatsOutlineQuery';
 
-  find(statsID: StatsID): Promise<Superposition<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>>;
+  find(
+    statsID: StatsID
+  ): Promise<Superposition<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>>;
 
   findByVeauAccountID(
     veauAccountID: VeauAccountID,

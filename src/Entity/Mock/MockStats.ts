@@ -12,17 +12,18 @@ import { Stats } from '../Stats';
 import { StatsItems } from '../StatsItems';
 import { MockStatsItems } from './MockStatsItems';
 
-type StatsArgs = Partial<Readonly<{
-  outline: StatsOutline;
-  language: Language;
-  region: Region;
-  term: Term;
-  items: StatsItems;
-  startDate: Quantum<AsOf>;
-}>>;
+type StatsArgs = Partial<
+  Readonly<{
+    outline: StatsOutline;
+    language: Language;
+    region: Region;
+    term: Term;
+    items: StatsItems;
+    startDate: Quantum<AsOf>;
+  }>
+>;
 
 export class MockStats extends Stats {
-
   public constructor({
     outline = new MockStatsOutline(),
     language = new MockLanguage(),
@@ -31,13 +32,6 @@ export class MockStats extends Stats {
     items = new MockStatsItems(),
     startDate = Absent.of<AsOf>()
   }: StatsArgs = {}) {
-    super(
-      outline,
-      language,
-      region,
-      term,
-      items,
-      startDate
-    );
+    super(outline, language, region, term, items, startDate);
   }
 }

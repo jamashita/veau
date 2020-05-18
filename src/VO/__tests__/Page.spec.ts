@@ -29,19 +29,25 @@ describe('Page', () => {
       expect(superposition1.isDead()).toBe(true);
       expect(superposition2.isDead()).toBe(true);
 
-      superposition1.match<void>(() => {
-        spy1();
-      }, (err: PageError) => {
-        spy2();
-        expect(err).toBeInstanceOf(PageError);
-      });
+      superposition1.match<void>(
+        () => {
+          spy1();
+        },
+        (err: PageError) => {
+          spy2();
+          expect(err).toBeInstanceOf(PageError);
+        }
+      );
 
-      superposition2.match<void>(() => {
-        spy3();
-      }, (err: PageError) => {
-        spy4();
-        expect(err).toBeInstanceOf(PageError);
-      });
+      superposition2.match<void>(
+        () => {
+          spy3();
+        },
+        (err: PageError) => {
+          spy4();
+          expect(err).toBeInstanceOf(PageError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -68,19 +74,25 @@ describe('Page', () => {
       expect(superposition1.isDead()).toBe(true);
       expect(superposition2.isDead()).toBe(true);
 
-      superposition1.match<void>(() => {
-        spy1();
-      }, (err: PageError) => {
-        spy2();
-        expect(err).toBeInstanceOf(PageError);
-      });
+      superposition1.match<void>(
+        () => {
+          spy1();
+        },
+        (err: PageError) => {
+          spy2();
+          expect(err).toBeInstanceOf(PageError);
+        }
+      );
 
-      superposition2.match<void>(() => {
-        spy3();
-      }, (err: PageError) => {
-        spy4();
-        expect(err).toBeInstanceOf(PageError);
-      });
+      superposition2.match<void>(
+        () => {
+          spy3();
+        },
+        (err: PageError) => {
+          spy4();
+          expect(err).toBeInstanceOf(PageError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

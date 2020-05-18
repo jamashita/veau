@@ -21,10 +21,7 @@ describe('Account', () => {
       const acccunt: MockVeauAccount = new MockVeauAccount();
       const hash: MockHash = new MockHash();
 
-      const account: Account = Account.of(
-        acccunt,
-        hash
-      );
+      const account: Account = Account.of(acccunt, hash);
 
       expect(account.getVeauAccount()).toBe(acccunt);
       expect(account.getHash()).toBe(hash);
@@ -67,12 +64,15 @@ describe('Account', () => {
       const superposition: Superposition<Account, AccountError> = Account.ofRow(row);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: AccountError) => {
-        spy2();
-        expect(err).toBeInstanceOf(AccountError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: AccountError) => {
+          spy2();
+          expect(err).toBeInstanceOf(AccountError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -93,12 +93,15 @@ describe('Account', () => {
       const superposition: Superposition<Account, AccountError> = Account.ofRow(row);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: AccountError) => {
-        spy2();
-        expect(err).toBeInstanceOf(AccountError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: AccountError) => {
+          spy2();
+          expect(err).toBeInstanceOf(AccountError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -119,12 +122,15 @@ describe('Account', () => {
       const superposition: Superposition<Account, AccountError> = Account.ofRow(row);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: AccountError) => {
-        spy2();
-        expect(err).toBeInstanceOf(AccountError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: AccountError) => {
+          spy2();
+          expect(err).toBeInstanceOf(AccountError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -140,13 +146,7 @@ describe('Account', () => {
         Hash.of('$2b$14$dVujfUAxm6mo8rujdy7jbuoNcMYC4R2Rf.mqzk2/oXhFQgBIWiZUu')
       );
 
-      const [
-        correct1,
-        correct2
-      ]: [
-        boolean,
-        boolean
-      ] = await Promise.all([
+      const [correct1, correct2]: [boolean, boolean] = await Promise.all([
         account.verify(password1),
         account.verify(password2)
       ]);
@@ -201,12 +201,7 @@ describe('Account', () => {
       const name: string = 'veau';
       const hash: string = 'hash hash hash';
       const account: Account = Account.of(
-        VeauAccount.of(
-          VeauAccountID.of(uuid1),
-          LanguageID.of(uuid2),
-          RegionID.of(uuid3),
-          AccountName.of(name)
-        ),
+        VeauAccount.of(VeauAccountID.of(uuid1), LanguageID.of(uuid2), RegionID.of(uuid3), AccountName.of(name)),
         Hash.of(hash)
       );
 

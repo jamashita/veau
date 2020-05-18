@@ -22,7 +22,6 @@ type State = Readonly<{
 }>;
 
 export class StatsEditImpl extends React.Component<Props & WrappedComponentProps, State> {
-
   public constructor(props: Props & WrappedComponentProps) {
     super(props);
 
@@ -34,6 +33,7 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
   }
 
   public componentDidMount(): void {
+    // prettier-ignore
     const {
       id,
       initialize,
@@ -45,20 +45,28 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
       return;
     }
 
-    StatsID.ofString(id).match<void>((statsID: StatsID) => {
-      initialize(statsID);
-    }, () => {
-      invalidIDInput();
-    });
+    StatsID.ofString(id).match<void>(
+      (statsID: StatsID) => {
+        initialize(statsID);
+      },
+      () => {
+        invalidIDInput();
+      }
+    );
   }
 
-  public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>, nextState: Readonly<State>): boolean {
+  public shouldComponentUpdate(
+    nextProps: Readonly<Props & WrappedComponentProps>,
+    nextState: Readonly<State>
+  ): boolean {
+    // prettier-ignore
     const {
       stats,
       statsItem,
       selectingItem,
       locale
     } = this.props;
+    // prettier-ignore
     const {
       openNewStatsItemModal,
       openStartDateModal,
@@ -114,19 +122,12 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
       startDateDetermined,
       invalidDateInput
     } = this.props;
-    const {
-      openNewStatsItemModal,
-      openStartDateModal
-    } = this.state;
+    const { openNewStatsItemModal, openStartDateModal } = this.state;
 
     return (
       <Authenticated>
-        <div
-          className='stats-items-edit'
-        >
-          <Chart
-            stats={stats}
-          />
+        <div className='stats-items-edit'>
+          <Chart stats={stats} />
           <Spreadsheet
             stats={stats}
             invalidValueInput={invalidValueInput}
@@ -136,9 +137,7 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
             rowMoved={rowMoved}
           />
         </div>
-        <div
-          className='stats-edit'
-        >
+        <div className='stats-edit'>
           <Button
             color='primary'
             fullWidth={true}
@@ -148,9 +147,7 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
               });
             }}
           >
-            <Icon
-              className='fas fa-plus-square'
-            />
+            <Icon className='fas fa-plus-square' />
             {intl.formatMessage({
               id: 'ADD_ITEM'
             })}
@@ -165,22 +162,13 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
               });
             }}
           >
-            <Icon
-              className='fas fa-hourglass'
-            />
+            <Icon className='fas fa-hourglass' />
             {intl.formatMessage({
               id: 'DETERMINE_START_DATE'
             })}
           </Button>
-          <Button
-            color='primary'
-            fullWidth={true}
-            disabled={!stats.isValid()}
-            onClick={save}
-          >
-            <Icon
-              className='fas fa-save'
-            />
+          <Button color='primary' fullWidth={true} disabled={!stats.isValid()} onClick={save}>
+            <Icon className='fas fa-save' />
             {intl.formatMessage({
               id: 'SAVE'
             })}
@@ -193,11 +181,7 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
             iso639Selected={iso639Selected}
             iso3166Selected={iso3166Selected}
           />
-          <StatsItemInformation
-            selecting={selectingItem}
-            nameTyped={selectingItemNameTyped}
-            removeItem={removeItem}
-          />
+          <StatsItemInformation selecting={selectingItem} nameTyped={selectingItemNameTyped} removeItem={removeItem} />
         </div>
         <StatsItemModal
           open={openNewStatsItemModal}
@@ -223,11 +207,14 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
             });
           }}
           determineStartDate={(superposition: Superposition<AsOf, AsOfError>) => {
-            superposition.match<void>((asOf: AsOf) => {
-              startDateDetermined(asOf);
-            }, () => {
-              invalidDateInput();
-            });
+            superposition.match<void>(
+              (asOf: AsOf) => {
+                startDateDetermined(asOf);
+              },
+              () => {
+                invalidDateInput();
+              }
+            );
 
             this.setState({
               openStartDateModal: false

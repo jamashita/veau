@@ -6,7 +6,7 @@ import { Password } from '../Password';
 
 describe('EntranceInformation', () => {
   describe('empty', () => {
-    it('\'s account and password must also be empty', () => {
+    it("'s account and password must also be empty", () => {
       const entranceInformation: EntranceInformation = EntranceInformation.empty();
 
       expect(entranceInformation.getAccount().isEmpty()).toBe(true);
@@ -20,10 +20,7 @@ describe('EntranceInformation', () => {
 
   describe('of', () => {
     it('returns EntranceInformation.empty() when AccountName and Password is blank', () => {
-      const entranceInformation: EntranceInformation = EntranceInformation.of(
-        AccountName.empty(),
-        Password.empty()
-      );
+      const entranceInformation: EntranceInformation = EntranceInformation.of(AccountName.empty(), Password.empty());
 
       expect(entranceInformation).toBe(EntranceInformation.empty());
     });
@@ -43,10 +40,7 @@ describe('EntranceInformation', () => {
 
   describe('isAcceptable', () => {
     it('returns false if the both are not filled', () => {
-      const entranceInformation: EntranceInformation = EntranceInformation.of(
-        AccountName.empty(),
-        Password.empty()
-      );
+      const entranceInformation: EntranceInformation = EntranceInformation.of(AccountName.empty(), Password.empty());
 
       expect(entranceInformation.isAcceptable()).toBe(false);
     });

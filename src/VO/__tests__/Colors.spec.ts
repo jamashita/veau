@@ -9,11 +9,7 @@ describe('Colors', () => {
       const color1: MockColor = new MockColor();
       const color2: MockColor = new MockColor();
       const color3: MockColor = new MockColor();
-      const sequence: ImmutableSequence<Color> = ImmutableSequence.of<Color>([
-        color1,
-        color2,
-        color3
-      ]);
+      const sequence: ImmutableSequence<Color> = ImmutableSequence.of<Color>([color1, color2, color3]);
 
       const colors: Colors = Colors.of(sequence);
 
@@ -26,11 +22,7 @@ describe('Colors', () => {
 
   describe('ofArray', () => {
     it('normal case', () => {
-      const colors: Array<MockColor> = [
-        new MockColor(),
-        new MockColor(),
-        new MockColor()
-      ];
+      const colors: Array<MockColor> = [new MockColor(), new MockColor(), new MockColor()];
 
       const colours: Colors = Colors.ofArray(colors);
 
@@ -47,11 +39,7 @@ describe('Colors', () => {
       const color2: MockColor = new MockColor();
       const color3: MockColor = new MockColor();
 
-      const colours: Colors = Colors.ofSpread(
-        color1,
-        color2,
-        color3
-      );
+      const colours: Colors = Colors.ofSpread(color1, color2, color3);
 
       expect(colours.size()).toBe(3);
       expect(colours.get(0).get()).toBe(color1);
@@ -69,10 +57,7 @@ describe('Colors', () => {
 
   describe('get', () => {
     it('when index is over the length of Colors, loops and returns the element of first', () => {
-      const colors: Colors = Colors.ofArray([
-        new MockColor('#ffffff'),
-        new MockColor('#000000')
-      ]);
+      const colors: Colors = Colors.ofArray([new MockColor('#ffffff'), new MockColor('#000000')]);
 
       expect(colors.get(0).get().toString()).toBe('#ffffff');
       expect(colors.get(1).get().toString()).toBe('#000000');
@@ -87,10 +72,7 @@ describe('Colors', () => {
       const color2: MockColor = new MockColor('#000000');
       const color3: MockColor = new MockColor('#ffffff');
       const color4: MockColor = new MockColor('#ffff00');
-      const colors: Colors = Colors.ofSpread(
-        color1,
-        color2
-      );
+      const colors: Colors = Colors.ofSpread(color1, color2);
 
       expect(colors.contains(color1)).toBe(true);
       expect(colors.contains(color2)).toBe(true);
@@ -102,10 +84,7 @@ describe('Colors', () => {
   describe('isEmpty', () => {
     it('returns true if the elements are 0', () => {
       const colors1: Colors = Colors.ofArray([]);
-      const colors2: Colors = Colors.ofArray([
-        new MockColor('#ffffff'),
-        new MockColor('#000000')
-      ]);
+      const colors2: Colors = Colors.ofArray([new MockColor('#ffffff'), new MockColor('#000000')]);
 
       expect(colors1.isEmpty()).toBe(true);
       expect(colors2.isEmpty()).toBe(false);
@@ -116,13 +95,8 @@ describe('Colors', () => {
     it('returns false if the length is different', () => {
       const color1: MockColor = new MockColor('#ffffff');
       const color2: MockColor = new MockColor('#000000');
-      const colors1: Colors = Colors.ofArray([
-        color1,
-        color2
-      ]);
-      const colors2: Colors = Colors.ofArray([
-        color1
-      ]);
+      const colors1: Colors = Colors.ofArray([color1, color2]);
+      const colors2: Colors = Colors.ofArray([color1]);
 
       expect(colors1.equals(colors1)).toBe(true);
       expect(colors1.equals(colors2)).toBe(false);
@@ -131,14 +105,8 @@ describe('Colors', () => {
     it('returns false if the sequence is different', () => {
       const color1: MockColor = new MockColor('#ffffff');
       const color2: MockColor = new MockColor('#000000');
-      const colors1: Colors = Colors.ofArray([
-        color1,
-        color2
-      ]);
-      const colors2: Colors = Colors.ofArray([
-        color2,
-        color1
-      ]);
+      const colors1: Colors = Colors.ofArray([color1, color2]);
+      const colors2: Colors = Colors.ofArray([color2, color1]);
 
       expect(colors1.equals(colors1)).toBe(true);
       expect(colors1.equals(colors2)).toBe(false);
@@ -147,14 +115,8 @@ describe('Colors', () => {
     it('returns true if the length is the same and the sequence is the same', () => {
       const color1: MockColor = new MockColor('#ffffff');
       const color2: MockColor = new MockColor('#000000');
-      const colors1: Colors = Colors.ofArray([
-        color1,
-        color2
-      ]);
-      const colors2: Colors = Colors.ofArray([
-        color1,
-        color2
-      ]);
+      const colors1: Colors = Colors.ofArray([color1, color2]);
+      const colors2: Colors = Colors.ofArray([color1, color2]);
 
       expect(colors1.equals(colors1)).toBe(true);
       expect(colors1.equals(colors2)).toBe(true);
@@ -165,10 +127,7 @@ describe('Colors', () => {
     it('normal case', () => {
       const rgb1: string = '#ffffff';
       const rgb2: string = '#000000';
-      const colors: Colors = Colors.ofArray([
-        Color.of(rgb1),
-        Color.of(rgb2)
-      ]);
+      const colors: Colors = Colors.ofArray([Color.of(rgb1), Color.of(rgb2)]);
 
       expect(colors.toString()).toBe(`${rgb1}, ${rgb2}`);
     });

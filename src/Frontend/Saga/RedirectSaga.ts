@@ -2,16 +2,10 @@
 import { SagaIterator } from '@redux-saga/types';
 import { push } from 'connected-react-router';
 import { fork, put, take } from 'redux-saga/effects';
-import {
-  PUSH_TO_ENTRANCE,
-  PUSH_TO_STATS_EDIT,
-  PUSH_TO_STATS_LIST,
-  PushToStatsEditAction
-} from '../Action/Action';
+import { PUSH_TO_ENTRANCE, PUSH_TO_STATS_EDIT, PUSH_TO_STATS_LIST, PushToStatsEditAction } from '../Action/Action';
 import { Endpoints } from '../Endpoints';
 
 export class RedirectSaga {
-
   public *init(): IterableIterator<unknown> {
     yield fork(this.toStatsList);
     yield fork(this.toStatsEdit);

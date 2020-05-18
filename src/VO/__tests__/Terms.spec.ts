@@ -10,7 +10,7 @@ describe('Terms', () => {
       expect(Terms.all()).toBe(Terms.all());
     });
 
-    it('\'s length is 5', () => {
+    it('the length is 5', () => {
       expect(Terms.all().size()).toBe(5);
     });
   });
@@ -68,7 +68,9 @@ describe('Terms', () => {
     it('normal case', () => {
       const terms: Terms = Terms.all();
 
-      expect(terms.toString()).toBe(`${Term.DAILY.toString()}, ${Term.WEEKLY.toString()}, ${Term.MONTHLY.toString()}, ${Term.QUARTERLY.toString()}, ${Term.ANNUAL.toString()}`);
+      expect(terms.toString()).toBe(
+        `${Term.DAILY.toString()}, ${Term.WEEKLY.toString()}, ${Term.MONTHLY.toString()}, ${Term.QUARTERLY.toString()}, ${Term.ANNUAL.toString()}`
+      );
     });
   });
 });

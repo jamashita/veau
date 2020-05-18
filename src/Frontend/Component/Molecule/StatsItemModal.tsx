@@ -20,8 +20,8 @@ type Props = Readonly<{
 type State = Readonly<{}>;
 
 class StatsItemModalImpl extends React.Component<Props & WrappedComponentProps, State> {
-
   public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
+    // prettier-ignore
     const {
       open,
       statsItem
@@ -38,6 +38,7 @@ class StatsItemModalImpl extends React.Component<Props & WrappedComponentProps, 
   }
 
   public render(): React.ReactNode {
+    // prettier-ignore
     const {
       open,
       statsItem,
@@ -48,12 +49,7 @@ class StatsItemModalImpl extends React.Component<Props & WrappedComponentProps, 
     } = this.props;
 
     return (
-      <Dialog
-        open={open}
-        onClose={close}
-        fullWidth={true}
-        maxWidth='md'
-      >
+      <Dialog open={open} onClose={close} fullWidth={true} maxWidth='md'>
         <DialogTitle>
           {intl.formatMessage({
             id: 'CREATE_NEW_ITEM'
@@ -72,20 +68,13 @@ class StatsItemModalImpl extends React.Component<Props & WrappedComponentProps, 
           />
         </DialogContent>
         <DialogActions>
-          <Button
-            color='secondary'
-            onClick={saveNewItem}
-            disabled={!statsItem.isFilled()}
-          >
+          <Button color='secondary' onClick={saveNewItem} disabled={!statsItem.isFilled()}>
             <Icon className='fas fa-check' />
             {intl.formatMessage({
               id: 'SUBMIT'
             })}
           </Button>
-          <Button
-            color='secondary'
-            onClick={close}
-          >
+          <Button color='secondary' onClick={close}>
             <Icon className='fas fa-times' />
             {intl.formatMessage({
               id: 'CANCEL'
@@ -97,4 +86,6 @@ class StatsItemModalImpl extends React.Component<Props & WrappedComponentProps, 
   }
 }
 
-export const StatsItemModal: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(StatsItemModalImpl);
+export const StatsItemModal: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(
+  StatsItemModalImpl
+);

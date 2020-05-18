@@ -14,17 +14,10 @@ const initialState: Modal = {
   description: 'GREETING'
 };
 
-export const modal: Reducer<Modal, Action> = (
-  state: Modal = initialState,
-  action: Action
-) => {
+export const modal: Reducer<Modal, Action> = (state: Modal = initialState, action: Action) => {
   switch (action.type) {
     case MODAL_RAISE: {
-      const {
-        title,
-        description,
-        values
-      } = action;
+      const { title, description, values } = action;
 
       return {
         ...state,

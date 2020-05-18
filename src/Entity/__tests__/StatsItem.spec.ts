@@ -25,13 +25,7 @@ describe('StatsItem', () => {
       const name: MockStatsItemName = new MockStatsItemName();
       const statsValue: MockStatsValue = new MockStatsValue();
 
-      const statsItem: StatsItem = StatsItem.of(
-        statsItemID,
-        name,
-        new MockStatsValues(
-          statsValue
-        )
-      );
+      const statsItem: StatsItem = StatsItem.of(statsItemID, name, new MockStatsValues(statsValue));
 
       expect(statsItem.getStatsItemID()).toBe(statsItemID);
       expect(statsItem.getName()).toBe(name);
@@ -95,12 +89,15 @@ describe('StatsItem', () => {
       const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofJSON(json);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsItemError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsItemError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsItemError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsItemError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -128,12 +125,15 @@ describe('StatsItem', () => {
       const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofJSON(json);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsItemError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsItemError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsItemError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsItemError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -161,12 +161,15 @@ describe('StatsItem', () => {
       const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofJSON(json);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsItemError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsItemError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsItemError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsItemError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -191,50 +194,45 @@ describe('StatsItem', () => {
         day: 3
       });
       const project: ImmutableProject<StatsItemID, StatsValues> = ImmutableProject.of<StatsItemID, StatsValues>(
-        new Map<StatsItemID, StatsValues>(
+        new Map<StatsItemID, StatsValues>([
           [
-            [
-              StatsItemID.ofString(statsItemID1).get(),
-              StatsValues.ofSpread(
-                new MockStatsValue({
-                  asOf: asOf1,
-                  value: new MockNumericalValue(10)
-                }),
-                new MockStatsValue({
-                  asOf: asOf2,
-                  value: new MockNumericalValue(100)
-                }),
-                new MockStatsValue({
-                  asOf: asOf3,
-                  value: new MockNumericalValue(1000)
-                })
-              )
-            ],
-            [
-              StatsItemID.ofString(statsItemID2).get(),
-              StatsValues.ofSpread(
-                new MockStatsValue({
-                  asOf: asOf1,
-                  value: new MockNumericalValue(11)
-                }),
-                new MockStatsValue({
-                  asOf: asOf2,
-                  value: new MockNumericalValue(101)
-                }),
-                new MockStatsValue({
-                  asOf: asOf3,
-                  value: new MockNumericalValue(1001)
-                })
-              )
-            ]
+            StatsItemID.ofString(statsItemID1).get(),
+            StatsValues.ofSpread(
+              new MockStatsValue({
+                asOf: asOf1,
+                value: new MockNumericalValue(10)
+              }),
+              new MockStatsValue({
+                asOf: asOf2,
+                value: new MockNumericalValue(100)
+              }),
+              new MockStatsValue({
+                asOf: asOf3,
+                value: new MockNumericalValue(1000)
+              })
+            )
+          ],
+          [
+            StatsItemID.ofString(statsItemID2).get(),
+            StatsValues.ofSpread(
+              new MockStatsValue({
+                asOf: asOf1,
+                value: new MockNumericalValue(11)
+              }),
+              new MockStatsValue({
+                asOf: asOf2,
+                value: new MockNumericalValue(101)
+              }),
+              new MockStatsValue({
+                asOf: asOf3,
+                value: new MockNumericalValue(1001)
+              })
+            )
           ]
-        )
+        ])
       );
 
-      const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofRow(
-        row,
-        project
-      );
+      const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofRow(row, project);
 
       expect(superposition.isAlive()).toBe(true);
       const statsItem: StatsItem = superposition.get();
@@ -284,9 +282,9 @@ describe('StatsItem', () => {
       const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofRow(
         row,
         ImmutableProject.of(
-          new Map<StatsItemID, StatsValues>(
-            [[StatsItemID.ofString('4d0cf4e5-4f48-4db3-9c04-085374d857d2').get(), statsValues]]
-          )
+          new Map<StatsItemID, StatsValues>([
+            [StatsItemID.ofString('4d0cf4e5-4f48-4db3-9c04-085374d857d2').get(), statsValues]
+          ])
         )
       );
 
@@ -329,20 +327,23 @@ describe('StatsItem', () => {
       const superposition: Superposition<StatsItem, StatsItemError> = StatsItem.ofRow(
         row,
         ImmutableProject.of(
-          new Map<StatsItemID, StatsValues>(
-            [[StatsItemID.ofString('4d0cf4e5-4f48-4db3-9c04-085374d857d1').get(), statsValues]]
-          )
+          new Map<StatsItemID, StatsValues>([
+            [StatsItemID.ofString('4d0cf4e5-4f48-4db3-9c04-085374d857d1').get(), statsValues]
+          ])
         )
       );
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>((item: StatsItem) => {
-        spy1();
-        expect(item.getStatsItemID().get().get()).toBe(row.statsItemID);
-      }, (err: StatsItemError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsItemError);
-      });
+      superposition.match<void>(
+        (item: StatsItem) => {
+          spy1();
+          expect(item.getStatsItemID().get().get()).toBe(row.statsItemID);
+        },
+        (err: StatsItemError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsItemError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -484,22 +485,12 @@ describe('StatsItem', () => {
     it('returns true when the ids equal', () => {
       const statsItemID1: MockStatsItemID = new MockStatsItemID();
       const statsItemID2: MockStatsItemID = new MockStatsItemID();
-      const statsItem1: StatsItem = StatsItem.of(
-        statsItemID1,
-        new MockStatsItemName(),
-        new MockStatsValues()
-      );
-      const statsItem2: StatsItem = StatsItem.of(
-        statsItemID2,
-        new MockStatsItemName(),
-        new MockStatsValues()
-      );
+      const statsItem1: StatsItem = StatsItem.of(statsItemID1, new MockStatsItemName(), new MockStatsValues());
+      const statsItem2: StatsItem = StatsItem.of(statsItemID2, new MockStatsItemName(), new MockStatsValues());
       const statsItem3: StatsItem = StatsItem.of(
         statsItemID1,
         StatsItemName.of('name 3'),
-        new MockStatsValues(
-          new MockStatsValue()
-        )
+        new MockStatsValues(new MockStatsValue())
       );
 
       expect(statsItem1.equals(statsItem1)).toBe(true);
@@ -512,30 +503,17 @@ describe('StatsItem', () => {
     it('returns true if all the properties are the same', () => {
       const statsItemID1: MockStatsItemID = new MockStatsItemID();
       const statsItemID2: MockStatsItemID = new MockStatsItemID();
-      const statsItem1: StatsItem = StatsItem.of(
-        statsItemID1,
-        new MockStatsItemName(),
-        new MockStatsValues()
-      );
-      const statsItem2: StatsItem = StatsItem.of(
-        statsItemID2,
-        new MockStatsItemName(),
-        new MockStatsValues()
-      );
+      const statsItem1: StatsItem = StatsItem.of(statsItemID1, new MockStatsItemName(), new MockStatsValues());
+      const statsItem2: StatsItem = StatsItem.of(statsItemID2, new MockStatsItemName(), new MockStatsValues());
       const statsItem3: StatsItem = StatsItem.of(
         statsItemID1,
         new MockStatsItemName('name 3'),
-        new MockStatsValues(
-          new MockStatsValue()
-        )
+        new MockStatsValues(new MockStatsValue())
       );
       const statsItem4: StatsItem = StatsItem.of(
         statsItemID1,
         new MockStatsItemName(),
-        new MockStatsValues(
-          new MockStatsValue(),
-          new MockStatsValue()
-        )
+        new MockStatsValues(new MockStatsValue(), new MockStatsValue())
       );
       const statsItem5: StatsItem = StatsItem.of(
         statsItemID2,
@@ -548,11 +526,7 @@ describe('StatsItem', () => {
           })
         )
       );
-      const statsItem6: StatsItem = StatsItem.of(
-        statsItemID1,
-        new MockStatsItemName(),
-        new MockStatsValues()
-      );
+      const statsItem6: StatsItem = StatsItem.of(statsItemID1, new MockStatsItemName(), new MockStatsValues());
 
       expect(statsItem1.isSame(statsItem1)).toBe(true);
       expect(statsItem1.isSame(statsItem2)).toBe(false);
@@ -570,14 +544,8 @@ describe('StatsItem', () => {
         statsItemID,
         StatsItemName.of('name 1'),
         StatsValues.ofSpread(
-          StatsValue.of(
-            AsOf.ofString('2000-01-01').get(),
-            NumericalValue.of(10)
-          ),
-          StatsValue.of(
-            AsOf.ofString('2000-01-02').get(),
-            NumericalValue.of(100)
-          )
+          StatsValue.of(AsOf.ofString('2000-01-01').get(), NumericalValue.of(10)),
+          StatsValue.of(AsOf.ofString('2000-01-02').get(), NumericalValue.of(100))
         )
       );
 
@@ -695,11 +663,7 @@ describe('StatsItem', () => {
 
   describe('isFilled', () => {
     it('returns true if the name is filled', () => {
-      const statsItem1: StatsItem = StatsItem.of(
-        new MockStatsItemID(),
-        StatsItemName.empty(),
-        new MockStatsValues()
-      );
+      const statsItem1: StatsItem = StatsItem.of(new MockStatsItemID(), StatsItemName.empty(), new MockStatsValues());
       const statsItem2: StatsItem = StatsItem.of(
         new MockStatsItemID(),
         StatsItemName.of('name'),
@@ -713,11 +677,7 @@ describe('StatsItem', () => {
 
   describe('isValid', () => {
     it('returns true if the name is filled', () => {
-      const statsItem1: StatsItem = StatsItem.of(
-        new MockStatsItemID(),
-        StatsItemName.empty(),
-        new MockStatsValues()
-      );
+      const statsItem1: StatsItem = StatsItem.of(new MockStatsItemID(), StatsItemName.empty(), new MockStatsValues());
       const statsItem2: StatsItem = StatsItem.of(
         new MockStatsItemID(),
         StatsItemName.of('name'),
@@ -735,11 +695,7 @@ describe('StatsItem', () => {
       const name: MockStatsItemName = new MockStatsItemName();
       const statsValues: MockStatsValues = new MockStatsValues();
 
-      const statsItem: StatsItem = StatsItem.of(
-        statsItemID,
-        name,
-        statsValues
-      );
+      const statsItem: StatsItem = StatsItem.of(statsItemID, name, statsValues);
       const duplicated: StatsItem = statsItem.duplicate();
 
       expect(statsItem).not.toBe(duplicated);

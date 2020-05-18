@@ -32,41 +32,34 @@ export class VeauAccount extends ValueObject implements JSONable {
   }
 
   public static ofJSON(json: VeauAccountJSON): Superposition<VeauAccount, VeauAccountError> {
-    return VeauAccountID.ofString(json.veauAccountID).match<VeauAccount, VeauAccountError>((veauAccountID: VeauAccountID) => {
-      return LanguageID.ofString(json.languageID).match<VeauAccount, VeauAccountError>((languageID: LanguageID) => {
-        return RegionID.ofString(json.regionID).match<VeauAccount, VeauAccountError>((regionID: RegionID) => {
-          return Alive.of<VeauAccount, VeauAccountError>(
-            VeauAccount.of(
-              veauAccountID,
-              languageID,
-              regionID,
-              AccountName.of(json.name)
-            )
-          );
-        }, (err: RegionIDError) => {
-          return Dead.of<VeauAccount, VeauAccountError>(
-            new VeauAccountError('VeauAccount.ofJSON()', err)
-          );
-        });
-      }, (err: LanguageIDError) => {
-        return Dead.of<VeauAccount, VeauAccountError>(
-          new VeauAccountError('VeauAccount.ofJSON()', err)
+    return VeauAccountID.ofString(json.veauAccountID).match<VeauAccount, VeauAccountError>(
+      (veauAccountID: VeauAccountID) => {
+        return LanguageID.ofString(json.languageID).match<VeauAccount, VeauAccountError>(
+          (languageID: LanguageID) => {
+            return RegionID.ofString(json.regionID).match<VeauAccount, VeauAccountError>(
+              (regionID: RegionID) => {
+                return Alive.of<VeauAccount, VeauAccountError>(
+                  VeauAccount.of(veauAccountID, languageID, regionID, AccountName.of(json.name))
+                );
+              },
+              (err: RegionIDError) => {
+                return Dead.of<VeauAccount, VeauAccountError>(new VeauAccountError('VeauAccount.ofJSON()', err));
+              }
+            );
+          },
+          (err: LanguageIDError) => {
+            return Dead.of<VeauAccount, VeauAccountError>(new VeauAccountError('VeauAccount.ofJSON()', err));
+          }
         );
-      });
-    }, (err: VeauAccountIDError) => {
-      return Dead.of<VeauAccount, VeauAccountError>(
-        new VeauAccountError('VeauAccount.ofJSON()', err)
-      );
-    });
+      },
+      (err: VeauAccountIDError) => {
+        return Dead.of<VeauAccount, VeauAccountError>(new VeauAccountError('VeauAccount.ofJSON()', err));
+      }
+    );
   }
 
   public static empty(): VeauAccount {
-    return VeauAccount.of(
-      VeauAccountID.generate(),
-      LanguageID.empty(),
-      RegionID.empty(),
-      AccountName.empty()
-    );
+    return VeauAccount.of(VeauAccountID.generate(), LanguageID.empty(), RegionID.empty(), AccountName.empty());
   }
 
   protected constructor(

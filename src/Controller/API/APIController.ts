@@ -9,12 +9,6 @@ import { StatsController } from './StatsController';
 export const APIController = (app: Express): Express => {
   return useExpressServer<Express>(app, {
     routePrefix: '/api',
-    controllers: [
-      AccountController,
-      AuthController,
-      LocaleController,
-      SessionController,
-      StatsController
-    ]
+    controllers: [AccountController, AuthController, LocaleController, SessionController, StatsController]
   });
 };

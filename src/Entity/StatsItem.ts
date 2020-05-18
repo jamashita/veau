@@ -27,46 +27,44 @@ export class StatsItem extends Entity<StatsItemID> {
   private readonly name: StatsItemName;
   private values: StatsValues;
 
-  public static of(
-    statsItemID: StatsItemID,
-    name: StatsItemName,
-    values: StatsValues
-  ): StatsItem {
+  public static of(statsItemID: StatsItemID, name: StatsItemName, values: StatsValues): StatsItem {
     return new StatsItem(statsItemID, name, values);
   }
 
   public static ofJSON(json: StatsItemJSON): Superposition<StatsItem, StatsItemError> {
-    return StatsItemID.ofString(json.statsItemID).match<StatsItem, StatsItemError>((statsItemID: StatsItemID) => {
-      return StatsValues.ofJSON(json.values).match<StatsItem, StatsItemError>((statsValues: StatsValues) => {
-        return Alive.of<StatsItem, StatsItemError>(
-          StatsItem.of(
-            statsItemID,
-            StatsItemName.of(json.name),
-            statsValues
-          )
+    return StatsItemID.ofString(json.statsItemID).match<StatsItem, StatsItemError>(
+      (statsItemID: StatsItemID) => {
+        return StatsValues.ofJSON(json.values).match<StatsItem, StatsItemError>(
+          (statsValues: StatsValues) => {
+            return Alive.of<StatsItem, StatsItemError>(
+              StatsItem.of(statsItemID, StatsItemName.of(json.name), statsValues)
+            );
+          },
+          (err: StatsValuesError) => {
+            return Dead.of<StatsItem, StatsItemError>(new StatsItemError('StatsItem.ofJSON()', err));
+          }
         );
-      }, (err: StatsValuesError) => {
+      },
+      (err: StatsItemIDError) => {
         return Dead.of<StatsItem, StatsItemError>(new StatsItemError('StatsItem.ofJSON()', err));
-      });
-    }, (err: StatsItemIDError) => {
-      return Dead.of<StatsItem, StatsItemError>(new StatsItemError('StatsItem.ofJSON()', err));
-    });
+      }
+    );
   }
 
-  public static ofRow(row: StatsItemRow, project: Project<StatsItemID, StatsValues>): Superposition<StatsItem, StatsItemError> {
-    return StatsItemID.ofString(row.statsItemID).match<StatsItem, StatsItemError>((statsItemID: StatsItemID) => {
-      const values: StatsValues = project.get(statsItemID).orElse(StatsValues.empty());
+  public static ofRow(
+    row: StatsItemRow,
+    project: Project<StatsItemID, StatsValues>
+  ): Superposition<StatsItem, StatsItemError> {
+    return StatsItemID.ofString(row.statsItemID).match<StatsItem, StatsItemError>(
+      (statsItemID: StatsItemID) => {
+        const values: StatsValues = project.get(statsItemID).orElse(StatsValues.empty());
 
-      return Alive.of<StatsItem, StatsItemError>(
-        StatsItem.of(
-          statsItemID,
-          StatsItemName.of(row.name),
-          values
-        )
-      );
-    }, (err: StatsItemIDError) => {
-      return Dead.of<StatsItem, StatsItemError>(new StatsItemError('StatsItem.ofRow()', err));
-    });
+        return Alive.of<StatsItem, StatsItemError>(StatsItem.of(statsItemID, StatsItemName.of(row.name), values));
+      },
+      (err: StatsItemIDError) => {
+        return Dead.of<StatsItem, StatsItemError>(new StatsItemError('StatsItem.ofRow()', err));
+      }
+    );
   }
 
   public static isJSON(n: unknown): n is StatsItemJSON {
@@ -87,18 +85,10 @@ export class StatsItem extends Entity<StatsItemID> {
   }
 
   public static default(): StatsItem {
-    return StatsItem.of(
-      StatsItemID.generate(),
-      StatsItemName.empty(),
-      StatsValues.empty()
-    );
+    return StatsItem.of(StatsItemID.generate(), StatsItemName.empty(), StatsValues.empty());
   }
 
-  protected constructor(
-    statsItemID: StatsItemID,
-    name: StatsItemName,
-    values: StatsValues
-  ) {
+  protected constructor(statsItemID: StatsItemID, name: StatsItemName, values: StatsValues) {
     super();
     this.statsItemID = statsItemID;
     this.name = name;
@@ -183,11 +173,7 @@ export class StatsItem extends Entity<StatsItemID> {
   }
 
   public duplicate(): StatsItem {
-    return new StatsItem(
-      this.statsItemID,
-      this.name,
-      this.values.duplicate()
-    );
+    return new StatsItem(this.statsItemID, this.name, this.values.duplicate());
   }
 
   public toJSON(): StatsItemJSON {

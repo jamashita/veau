@@ -15,12 +15,15 @@ describe('HeaderSize', () => {
       expect(superposition1.isAlive()).toBe(true);
       expect(superposition2.isDead()).toBe(true);
 
-      superposition2.match<void>(() => {
-        spy1();
-      }, (err: HeaderSizeError) => {
-        spy2();
-        expect(err).toBeInstanceOf(HeaderSizeError);
-      });
+      superposition2.match<void>(
+        () => {
+          spy1();
+        },
+        (err: HeaderSizeError) => {
+          spy2();
+          expect(err).toBeInstanceOf(HeaderSizeError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -38,19 +41,25 @@ describe('HeaderSize', () => {
       expect(superposition1.isDead()).toBe(true);
       expect(superposition2.isDead()).toBe(true);
 
-      superposition1.match<void>(() => {
-        spy1();
-      }, (err: HeaderSizeError) => {
-        spy2();
-        expect(err).toBeInstanceOf(HeaderSizeError);
-      });
+      superposition1.match<void>(
+        () => {
+          spy1();
+        },
+        (err: HeaderSizeError) => {
+          spy2();
+          expect(err).toBeInstanceOf(HeaderSizeError);
+        }
+      );
 
-      superposition2.match<void>(() => {
-        spy3();
-      }, (err: HeaderSizeError) => {
-        spy4();
-        expect(err).toBeInstanceOf(HeaderSizeError);
-      });
+      superposition2.match<void>(
+        () => {
+          spy3();
+        },
+        (err: HeaderSizeError) => {
+          spy4();
+          expect(err).toBeInstanceOf(HeaderSizeError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

@@ -8,26 +8,22 @@ import { MockRegion } from './MockRegion';
 import { MockStatsOutline } from './MockStatsOutline';
 import { MockTerm } from './MockTerm';
 
-type StatsListItemArgs = Partial<Readonly<{
-  outline: StatsOutline;
-  language: Language;
-  region: Region;
-  term: Term;
-}>>;
+type StatsListItemArgs = Partial<
+  Readonly<{
+    outline: StatsOutline;
+    language: Language;
+    region: Region;
+    term: Term;
+  }>
+>;
 
 export class MockStatsListItem extends StatsListItem {
-
   public constructor({
     outline = new MockStatsOutline(),
     language = new MockLanguage(),
     region = new MockRegion(),
     term = new MockTerm()
   }: StatsListItemArgs = {}) {
-    super(
-      outline,
-      language,
-      region,
-      term
-    );
+    super(outline, language, region, term);
   }
 }

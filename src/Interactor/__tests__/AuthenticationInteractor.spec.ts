@@ -13,8 +13,12 @@ import { AuthenticationInteractor } from '../AuthenticationInteractor';
 describe('AuthenticationInteractor', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const authenticationInteractor1: AuthenticationInteractor = kernel.get<AuthenticationInteractor>(TYPE.AuthenticationInteractor);
-      const authenticationInteractor2: AuthenticationInteractor = kernel.get<AuthenticationInteractor>(TYPE.AuthenticationInteractor);
+      const authenticationInteractor1: AuthenticationInteractor = kernel.get<AuthenticationInteractor>(
+        TYPE.AuthenticationInteractor
+      );
+      const authenticationInteractor2: AuthenticationInteractor = kernel.get<AuthenticationInteractor>(
+        TYPE.AuthenticationInteractor
+      );
 
       expect(authenticationInteractor1).toBeInstanceOf(AuthenticationInteractor);
       expect(authenticationInteractor1).toBe(authenticationInteractor2);

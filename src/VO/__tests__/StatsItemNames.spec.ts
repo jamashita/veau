@@ -38,10 +38,7 @@ describe('StatsItemNames', () => {
     it('normal case', () => {
       const name1: MockStatsItemName = new MockStatsItemName();
       const name2: MockStatsItemName = new MockStatsItemName();
-      const names: Array<StatsItemName> = [
-        name1,
-        name2
-      ];
+      const names: Array<StatsItemName> = [name1, name2];
 
       const statsItemNames: StatsItemNames = StatsItemNames.ofArray(names);
 
@@ -63,10 +60,7 @@ describe('StatsItemNames', () => {
       const name1: MockStatsItemName = new MockStatsItemName();
       const name2: MockStatsItemName = new MockStatsItemName();
 
-      const statsItemNames: StatsItemNames = StatsItemNames.ofSpread(
-        name1,
-        name2
-      );
+      const statsItemNames: StatsItemNames = StatsItemNames.ofSpread(name1, name2);
 
       expect(statsItemNames.size()).toBe(2);
       expect(statsItemNames.get(0).get()).toBe(name1);
@@ -86,11 +80,7 @@ describe('StatsItemNames', () => {
 
   describe('get', () => {
     it('returns StatsItemName of index-th item', () => {
-      const names: Array<StatsItemName> = [
-        new MockStatsItemName(),
-        new MockStatsItemName(),
-        new MockStatsItemName()
-      ];
+      const names: Array<StatsItemName> = [new MockStatsItemName(), new MockStatsItemName(), new MockStatsItemName()];
 
       const statsItemNames: StatsItemNames = StatsItemNames.ofArray(names);
 
@@ -119,10 +109,7 @@ describe('StatsItemNames', () => {
       const name3: MockStatsItemName = new MockStatsItemName('item 3');
       const name4: MockStatsItemName = new MockStatsItemName('item 1');
 
-      const names: StatsItemNames = StatsItemNames.ofArray([
-        name1,
-        name2
-      ]);
+      const names: StatsItemNames = StatsItemNames.ofArray([name1, name2]);
 
       expect(names.contains(name1)).toBe(true);
       expect(names.contains(name2)).toBe(true);
@@ -134,10 +121,7 @@ describe('StatsItemNames', () => {
   describe('isEmpty', () => {
     it('returns true if hte elements are 0', () => {
       const names1: StatsItemNames = StatsItemNames.ofArray([]);
-      const names2: StatsItemNames = StatsItemNames.ofArray([
-        new MockStatsItemName(),
-        new MockStatsItemName()
-      ]);
+      const names2: StatsItemNames = StatsItemNames.ofArray([new MockStatsItemName(), new MockStatsItemName()]);
 
       expect(names1.isEmpty()).toBe(true);
       expect(names2.isEmpty()).toBe(false);
@@ -150,14 +134,8 @@ describe('StatsItemNames', () => {
       const name2: MockStatsItemName = new MockStatsItemName('item 2');
       const name3: MockStatsItemName = new MockStatsItemName('item 3');
 
-      const names1: StatsItemNames = StatsItemNames.ofArray([
-        name1,
-        name2,
-        name3
-      ]);
-      const names2: StatsItemNames = StatsItemNames.ofArray([
-        name1
-      ]);
+      const names1: StatsItemNames = StatsItemNames.ofArray([name1, name2, name3]);
+      const names2: StatsItemNames = StatsItemNames.ofArray([name1]);
 
       expect(names1.equals(names1)).toBe(true);
       expect(names1.equals(names2)).toBe(false);
@@ -167,14 +145,8 @@ describe('StatsItemNames', () => {
       const name1: MockStatsItemName = new MockStatsItemName('item 1');
       const name2: MockStatsItemName = new MockStatsItemName('item 2');
 
-      const names1: StatsItemNames = StatsItemNames.ofArray([
-        name1,
-        name2
-      ]);
-      const names2: StatsItemNames = StatsItemNames.ofArray([
-        name2,
-        name1
-      ]);
+      const names1: StatsItemNames = StatsItemNames.ofArray([name1, name2]);
+      const names2: StatsItemNames = StatsItemNames.ofArray([name2, name1]);
 
       expect(names1.equals(names1)).toBe(true);
       expect(names1.equals(names2)).toBe(false);
@@ -184,14 +156,8 @@ describe('StatsItemNames', () => {
       const name1: MockStatsItemName = new MockStatsItemName('item 1');
       const name2: MockStatsItemName = new MockStatsItemName('item 2');
 
-      const names1: StatsItemNames = StatsItemNames.ofArray([
-        name1,
-        name2
-      ]);
-      const names2: StatsItemNames = StatsItemNames.ofArray([
-        name1,
-        name2
-      ]);
+      const names1: StatsItemNames = StatsItemNames.ofArray([name1, name2]);
+      const names2: StatsItemNames = StatsItemNames.ofArray([name1, name2]);
 
       expect(names1.equals(names1)).toBe(true);
       expect(names1.equals(names2)).toBe(true);
@@ -200,15 +166,9 @@ describe('StatsItemNames', () => {
 
   describe('toJSON', () => {
     it('normal case', () => {
-      const names: StatsItemNames = StatsItemNames.ofArray([
-        StatsItemName.of('item 1'),
-        StatsItemName.of('item 2')
-      ]);
+      const names: StatsItemNames = StatsItemNames.ofArray([StatsItemName.of('item 1'), StatsItemName.of('item 2')]);
 
-      expect(names.toJSON()).toEqual([
-        'item 1',
-        'item 2'
-      ]);
+      expect(names.toJSON()).toEqual(['item 1', 'item 2']);
     });
   });
 
@@ -217,10 +177,7 @@ describe('StatsItemNames', () => {
       const name1: string = 'item 1';
       const name2: string = 'item 2';
 
-      const statsItemNames: StatsItemNames = StatsItemNames.ofArray([
-        StatsItemName.of(name1),
-        StatsItemName.of(name2)
-      ]);
+      const statsItemNames: StatsItemNames = StatsItemNames.ofArray([StatsItemName.of(name1), StatsItemName.of(name2)]);
 
       expect(statsItemNames.toString()).toBe(`${name1}, ${name2}`);
     });

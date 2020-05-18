@@ -29,15 +29,7 @@ describe('StatsOutline', () => {
       const unit: MockStatsUnit = new MockStatsUnit();
       const updatedAt: MockUpdatedAt = new MockUpdatedAt();
 
-      const statsOutline: StatsOutline = StatsOutline.of(
-        statsID,
-        languageID,
-        regionID,
-        termID,
-        name,
-        unit,
-        updatedAt
-      );
+      const statsOutline: StatsOutline = StatsOutline.of(statsID, languageID, regionID, termID, name, unit, updatedAt);
 
       expect(statsOutline.getStatsID()).toBe(statsID);
       expect(statsOutline.getLanguageID()).toBe(languageID);
@@ -91,12 +83,15 @@ describe('StatsOutline', () => {
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsOutlineError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsOutlineError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsOutlineError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsOutlineError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -119,12 +114,15 @@ describe('StatsOutline', () => {
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsOutlineError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsOutlineError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsOutlineError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsOutlineError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -147,12 +145,15 @@ describe('StatsOutline', () => {
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsOutlineError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsOutlineError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsOutlineError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsOutlineError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -175,12 +176,15 @@ describe('StatsOutline', () => {
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsOutlineError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsOutlineError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsOutlineError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsOutlineError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -203,12 +207,15 @@ describe('StatsOutline', () => {
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofJSON(json);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsOutlineError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsOutlineError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsOutlineError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsOutlineError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -257,12 +264,15 @@ describe('StatsOutline', () => {
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsOutlineError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsOutlineError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsOutlineError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsOutlineError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -285,12 +295,15 @@ describe('StatsOutline', () => {
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsOutlineError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsOutlineError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsOutlineError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsOutlineError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -313,12 +326,15 @@ describe('StatsOutline', () => {
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsOutlineError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsOutlineError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsOutlineError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsOutlineError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -341,12 +357,15 @@ describe('StatsOutline', () => {
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsOutlineError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsOutlineError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsOutlineError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsOutlineError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -369,12 +388,15 @@ describe('StatsOutline', () => {
       const superposition: Superposition<StatsOutline, StatsOutlineError> = StatsOutline.ofRow(row);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsOutlineError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsOutlineError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsOutlineError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsOutlineError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -480,7 +502,6 @@ describe('StatsOutline', () => {
         updatedAt: 'today'
       };
 
-
       expect(StatsOutline.isJSON(n)).toBe(false);
     });
 
@@ -507,7 +528,6 @@ describe('StatsOutline', () => {
         unit: 'on',
         updatedAt: 'today'
       };
-
 
       expect(StatsOutline.isJSON(n)).toBe(false);
     });
@@ -762,7 +782,9 @@ describe('StatsOutline', () => {
         UpdatedAt.ofString(asOf).get()
       );
 
-      expect(statsOutline.toString()).toBe(`${uuid1.get()} ${uuid2.get()} ${uuid3.get()} ${uuid4.get()} ${name} ${unit} ${asOf}`);
+      expect(statsOutline.toString()).toBe(
+        `${uuid1.get()} ${uuid2.get()} ${uuid3.get()} ${uuid4.get()} ${name} ${unit} ${asOf}`
+      );
     });
   });
 

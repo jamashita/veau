@@ -44,10 +44,7 @@ describe('Languages', () => {
     });
 
     it('normal case', () => {
-      const languageArray: Array<MockLanguage> = [
-        new MockLanguage(),
-        new MockLanguage()
-      ];
+      const languageArray: Array<MockLanguage> = [new MockLanguage(), new MockLanguage()];
 
       const superposition: Superposition<Languages, LanguagesError> = Languages.ofSuperposition([
         Alive.of<Language, LanguageError>(languageArray[0]),
@@ -78,12 +75,15 @@ describe('Languages', () => {
       ]);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: LanguagesError) => {
-        spy2();
-        expect(err).toBeInstanceOf(LanguagesError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LanguagesError) => {
+          spy2();
+          expect(err).toBeInstanceOf(LanguagesError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -105,12 +105,15 @@ describe('Languages', () => {
       ]);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: LanguagesError) => {
-        spy2();
-        expect(err).toBeInstanceOf(LanguagesError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LanguagesError) => {
+          spy2();
+          expect(err).toBeInstanceOf(LanguagesError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -193,10 +196,7 @@ describe('Languages', () => {
     });
 
     it('normal case', () => {
-      const langs: Array<MockLanguage> = [
-        new MockLanguage(),
-        new MockLanguage()
-      ];
+      const langs: Array<MockLanguage> = [new MockLanguage(), new MockLanguage()];
 
       const languages: Languages = Languages.ofArray(langs);
 
@@ -217,15 +217,9 @@ describe('Languages', () => {
     it('normal case', () => {
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage();
-      const langs: Array<MockLanguage> = [
-        language1,
-        language2
-      ];
+      const langs: Array<MockLanguage> = [language1, language2];
 
-      const languages: Languages = Languages.ofSpread(
-        language1,
-        language2
-      );
+      const languages: Languages = Languages.ofSpread(language1, language2);
 
       expect(languages.size()).toBe(langs.length);
       for (let i: number = 0; i < languages.size(); i++) {
@@ -246,11 +240,7 @@ describe('Languages', () => {
 
   describe('get', () => {
     it('returns Language instance at the correct index', () => {
-      const langs: Array<MockLanguage> = [
-        new MockLanguage(),
-        new MockLanguage(),
-        new MockLanguage()
-      ];
+      const langs: Array<MockLanguage> = [new MockLanguage(), new MockLanguage(), new MockLanguage()];
 
       const languages: Languages = Languages.ofArray(langs);
 
@@ -286,10 +276,7 @@ describe('Languages', () => {
         languageID: new MockLanguageID(uuid3)
       });
 
-      const languages: Languages = Languages.ofArray([
-        language1,
-        language2
-      ]);
+      const languages: Languages = Languages.ofArray([language1, language2]);
 
       expect(languages.contains(language1)).toBe(true);
       expect(languages.contains(language2)).toBe(true);
@@ -316,23 +303,36 @@ describe('Languages', () => {
         languageID: new MockLanguageID(uuid3)
       });
 
-      const languages: Languages = Languages.ofArray([
-        language1,
-        language2
-      ]);
+      const languages: Languages = Languages.ofArray([language1, language2]);
 
-      expect(languages.find((language: Language) => {
-        return language1.equals(language);
-      }).isPresent()).toBe(true);
-      expect(languages.find((language: Language) => {
-        return language2.equals(language);
-      }).isPresent()).toBe(true);
-      expect(languages.find((language: Language) => {
-        return language3.equals(language);
-      }).isPresent()).toBe(true);
-      expect(languages.find((language: Language) => {
-        return language4.equals(language);
-      }).isPresent()).toBe(false);
+      expect(
+        languages
+          .find((language: Language) => {
+            return language1.equals(language);
+          })
+          .isPresent()
+      ).toBe(true);
+      expect(
+        languages
+          .find((language: Language) => {
+            return language2.equals(language);
+          })
+          .isPresent()
+      ).toBe(true);
+      expect(
+        languages
+          .find((language: Language) => {
+            return language3.equals(language);
+          })
+          .isPresent()
+      ).toBe(true);
+      expect(
+        languages
+          .find((language: Language) => {
+            return language4.equals(language);
+          })
+          .isPresent()
+      ).toBe(false);
     });
   });
 
@@ -360,13 +360,8 @@ describe('Languages', () => {
         iso639: new MockISO639('ab')
       });
 
-      const languages1: Languages = Languages.ofArray([
-        language1,
-        language2
-      ]);
-      const languages2: Languages = Languages.ofArray([
-        language1
-      ]);
+      const languages1: Languages = Languages.ofArray([language1, language2]);
+      const languages2: Languages = Languages.ofArray([language1]);
 
       expect(languages1.equals(languages1)).toBe(true);
       expect(languages1.equals(languages2)).toBe(false);
@@ -379,14 +374,8 @@ describe('Languages', () => {
         iso639: new MockISO639('ab')
       });
 
-      const languages1: Languages = Languages.ofArray([
-        language1,
-        language2
-      ]);
-      const languages2: Languages = Languages.ofArray([
-        language2,
-        language1
-      ]);
+      const languages1: Languages = Languages.ofArray([language1, language2]);
+      const languages2: Languages = Languages.ofArray([language2, language1]);
 
       expect(languages1.equals(languages1)).toBe(true);
       expect(languages1.equals(languages2)).toBe(false);
@@ -399,14 +388,8 @@ describe('Languages', () => {
         iso639: new MockISO639('ab')
       });
 
-      const languages1: Languages = Languages.ofArray([
-        language1,
-        language2
-      ]);
-      const languages2: Languages = Languages.ofArray([
-        language1,
-        language2
-      ]);
+      const languages1: Languages = Languages.ofArray([language1, language2]);
+      const languages2: Languages = Languages.ofArray([language1, language2]);
 
       expect(languages1.equals(languages1)).toBe(true);
       expect(languages1.equals(languages2)).toBe(true);
@@ -448,21 +431,13 @@ describe('Languages', () => {
       const iso6392: string = 'ab';
 
       const languages: Languages = Languages.ofArray([
-        Language.of(
-          LanguageID.of(uuid1),
-          LanguageName.of(name1),
-          LanguageName.of(englishName1),
-          ISO639.of(iso6391)
-        ),
-        Language.of(
-          LanguageID.of(uuid2),
-          LanguageName.of(name2),
-          LanguageName.of(englishName2),
-          ISO639.of(iso6392)
-        )
+        Language.of(LanguageID.of(uuid1), LanguageName.of(name1), LanguageName.of(englishName1), ISO639.of(iso6391)),
+        Language.of(LanguageID.of(uuid2), LanguageName.of(name2), LanguageName.of(englishName2), ISO639.of(iso6392))
       ]);
 
-      expect(languages.toString()).toBe(`${uuid1.get()} ${name1} ${englishName1} ${iso6391}, ${uuid2.get()} ${name2} ${englishName2} ${iso6392}`);
+      expect(languages.toString()).toBe(
+        `${uuid1.get()} ${name1} ${englishName1} ${iso6391}, ${uuid2.get()} ${name2} ${englishName2} ${iso6392}`
+      );
     });
   });
 });

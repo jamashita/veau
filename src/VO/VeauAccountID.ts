@@ -1,4 +1,4 @@
-import { Alive, Dead, Superposition, UUID, UUIDError, ValueObject } from 'publikum';
+import { Alive, Dead, Schrodinger, Superposition, UUID, UUIDError, ValueObject } from 'publikum';
 import { VeauAccountIDError } from '../Error/VeauAccountIDError';
 
 export class VeauAccountID extends ValueObject {
@@ -10,20 +10,16 @@ export class VeauAccountID extends ValueObject {
   }
 
   public static ofString(id: string): Superposition<VeauAccountID, VeauAccountIDError> {
-    try {
-      const uuid: UUID = UUID.of(id);
-
-      return Alive.of<VeauAccountID, VeauAccountIDError>(VeauAccountID.of(uuid));
-    }
-    catch (err) {
-      if (err instanceof UUIDError) {
-        return Dead.of<VeauAccountID, VeauAccountIDError>(
-          new VeauAccountIDError('VeauAccountID.ofString()', err)
-        );
+    return Schrodinger.playground<UUID, UUIDError>(() => {
+      return UUID.of(id);
+    }).match<VeauAccountID, VeauAccountIDError>(
+      (uuid: UUID) => {
+        return Alive.of<VeauAccountID, VeauAccountIDError>(VeauAccountID.of(uuid));
+      },
+      (err: UUIDError) => {
+        return Dead.of<VeauAccountID, VeauAccountIDError>(new VeauAccountIDError('VeauAccountID.ofString()', err));
       }
-
-      throw err;
-    }
+    );
   }
 
   public static generate(): VeauAccountID {

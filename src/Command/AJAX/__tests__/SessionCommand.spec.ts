@@ -49,12 +49,15 @@ describe('SessionCommand', () => {
       const superposition: Superposition<void, DataSourceError> = await sessionCommand.delete();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(AJAXError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(AJAXError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

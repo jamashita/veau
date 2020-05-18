@@ -47,10 +47,10 @@ describe('StatsOutlineQuery', () => {
       });
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(ajax);
-      const superposition: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(
-        veauAccountID,
-        page
-      );
+      const superposition: Superposition<
+        StatsOutlines,
+        StatsOutlinesError | DataSourceError
+      > = await statsOutlineQuery.findByVeauAccountID(veauAccountID, page);
 
       expect(stub.withArgs('/api/stats/page/3').called).toBe(true);
       expect(superposition.isAlive()).toBe(true);
@@ -93,24 +93,27 @@ describe('StatsOutlineQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(ajax);
-      const superposition: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(
-        veauAccountID,
-        page
-      );
+      const superposition: Superposition<
+        StatsOutlines,
+        StatsOutlinesError | DataSourceError
+      > = await statsOutlineQuery.findByVeauAccountID(veauAccountID, page);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsOutlinesError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsOutlinesError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsOutlinesError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsOutlinesError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
     });
 
-    it('doesn\'t return OK', async () => {
+    it('doesn not return OK', async () => {
       const veauAccountID: MockVeauAccountID = new MockVeauAccountID();
       const page: MockPage = new MockPage(3);
 
@@ -125,18 +128,21 @@ describe('StatsOutlineQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(ajax);
-      const superposition: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsOutlineQuery.findByVeauAccountID(
-        veauAccountID,
-        page
-      );
+      const superposition: Superposition<
+        StatsOutlines,
+        StatsOutlinesError | DataSourceError
+      > = await statsOutlineQuery.findByVeauAccountID(veauAccountID, page);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsOutlinesError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(AJAXError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsOutlinesError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(AJAXError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

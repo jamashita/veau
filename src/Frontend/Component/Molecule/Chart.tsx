@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  CartesianGrid,
-  Legend,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis
-} from 'recharts';
+import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Stats } from '../../../Entity/Stats';
 import { Colors } from '../../../VO/Colors';
 import { StatsItemName } from '../../../VO/StatsItemName';
@@ -22,8 +13,8 @@ const CHART_HEIGHT: number = 500;
 const MARGIN: number = 8;
 
 export class Chart extends React.Component<Props, State> {
-
   public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
+    // prettier-ignore
     const {
       stats
     } = this.props;
@@ -36,15 +27,13 @@ export class Chart extends React.Component<Props, State> {
   }
 
   public render(): React.ReactNode {
+    // prettier-ignore
     const {
       stats
     } = this.props;
 
     return (
-      <ResponsiveContainer
-        width='100%'
-        minHeight={CHART_HEIGHT}
-      >
+      <ResponsiveContainer width='100%' minHeight={CHART_HEIGHT}>
         <LineChart
           margin={{
             top: MARGIN,
@@ -54,15 +43,8 @@ export class Chart extends React.Component<Props, State> {
           }}
           data={stats.getChart()}
         >
-          <XAxis
-            dataKey='name'
-          />
-          <YAxis
-            domain={[
-              'dataMin',
-              'dataMax'
-            ]}
-          />
+          <XAxis dataKey='name' />
+          <YAxis domain={['dataMin', 'dataMax']} />
           <CartesianGrid />
           <Legend />
           <Tooltip />

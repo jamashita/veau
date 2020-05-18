@@ -31,26 +31,35 @@ describe('AsOf', () => {
       expect(superposition1.isDead()).toBe(true);
       expect(superposition2.isDead()).toBe(true);
       expect(superposition3.isDead()).toBe(true);
-      superposition1.match<void>(() => {
-        spy1();
-      }, (err: AsOfError) => {
-        spy2();
-        expect(err).toBeInstanceOf(AsOfError);
-      });
+      superposition1.match<void>(
+        () => {
+          spy1();
+        },
+        (err: AsOfError) => {
+          spy2();
+          expect(err).toBeInstanceOf(AsOfError);
+        }
+      );
 
-      superposition2.match<void>(() => {
-        spy3();
-      }, (err: AsOfError) => {
-        spy4();
-        expect(err).toBeInstanceOf(AsOfError);
-      });
+      superposition2.match<void>(
+        () => {
+          spy3();
+        },
+        (err: AsOfError) => {
+          spy4();
+          expect(err).toBeInstanceOf(AsOfError);
+        }
+      );
 
-      superposition2.match<void>(() => {
-        spy5();
-      }, (err: AsOfError) => {
-        spy6();
-        expect(err).toBeInstanceOf(AsOfError);
-      });
+      superposition2.match<void>(
+        () => {
+          spy5();
+        },
+        (err: AsOfError) => {
+          spy6();
+          expect(err).toBeInstanceOf(AsOfError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

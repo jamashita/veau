@@ -1,12 +1,4 @@
-import {
-  Absent,
-  Alive,
-  Dead,
-  ImmutableProject,
-  ImmutableSequence,
-  Superposition,
-  UUID
-} from 'publikum';
+import { Absent, Alive, Dead, ImmutableProject, ImmutableSequence, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 import { StatsItemError } from '../../Error/StatsItemError';
 import { StatsItemsError } from '../../Error/StatsItemsError';
@@ -75,12 +67,15 @@ describe('StatsItems', () => {
       const superposition: Superposition<StatsItems, StatsItemsError> = StatsItems.ofJSON(json);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>((items: StatsItems) => {
-        spy1();
-      }, (err: StatsItemsError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsItemsError);
-      });
+      superposition.match<void>(
+        (items: StatsItems) => {
+          spy1();
+        },
+        (err: StatsItemsError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsItemsError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -106,12 +101,15 @@ describe('StatsItems', () => {
       const superposition: Superposition<StatsItems, StatsItemsError> = StatsItems.ofJSON(json);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>((items: StatsItems) => {
-        spy1();
-      }, (err: StatsItemsError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsItemsError);
-      });
+      superposition.match<void>(
+        (items: StatsItems) => {
+          spy1();
+        },
+        (err: StatsItemsError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsItemsError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -172,10 +170,7 @@ describe('StatsItems', () => {
         ])
       );
 
-      const superposition: Superposition<StatsItems, StatsItemsError> = StatsItems.ofRow(
-        row,
-        project
-      );
+      const superposition: Superposition<StatsItems, StatsItemsError> = StatsItems.ofRow(row, project);
 
       expect(superposition.isAlive()).toBe(true);
       const items: StatsItems = superposition.get();
@@ -216,12 +211,15 @@ describe('StatsItems', () => {
       );
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>((items: StatsItems) => {
-        spy1();
-      }, (err: StatsItemsError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsItemsError);
-      });
+      superposition.match<void>(
+        (items: StatsItems) => {
+          spy1();
+        },
+        (err: StatsItemsError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsItemsError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -248,12 +246,15 @@ describe('StatsItems', () => {
       );
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>((items: StatsItems) => {
-        spy1();
-      }, (err: StatsItemsError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsItemsError);
-      });
+      superposition.match<void>(
+        (items: StatsItems) => {
+          spy1();
+        },
+        (err: StatsItemsError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsItemsError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -393,11 +394,7 @@ describe('StatsItems', () => {
 
   describe('ofArray', () => {
     it('normal case', () => {
-      const items: Array<MockStatsItem> = [
-        new MockStatsItem(),
-        new MockStatsItem(),
-        new MockStatsItem()
-      ];
+      const items: Array<MockStatsItem> = [new MockStatsItem(), new MockStatsItem(), new MockStatsItem()];
 
       const statsItems: StatsItems = StatsItems.ofArray(items);
 
@@ -414,11 +411,7 @@ describe('StatsItems', () => {
       const item2: MockStatsItem = new MockStatsItem();
       const item3: MockStatsItem = new MockStatsItem();
 
-      const statsItems: StatsItems = StatsItems.ofSpread(
-        item1,
-        item2,
-        item3
-      );
+      const statsItems: StatsItems = StatsItems.ofSpread(item1, item2, item3);
 
       expect(statsItems.size()).toBe(3);
       expect(statsItems.get(0).get()).toBe(item1);
@@ -462,12 +455,15 @@ describe('StatsItems', () => {
       ]);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsItemsError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsItemsError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsItemsError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsItemsError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -489,12 +485,15 @@ describe('StatsItems', () => {
       ]);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsItemsError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsItemsError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsItemsError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsItemsError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -508,10 +507,7 @@ describe('StatsItems', () => {
 
     it('normal case', () => {
       const statsItems: StatsItems = StatsItems.of(
-        ImmutableSequence.of<StatsItem>([
-          new MockStatsItem(),
-          new MockStatsItem()
-        ])
+        ImmutableSequence.of<StatsItem>([new MockStatsItem(), new MockStatsItem()])
       );
 
       expect(statsItems).not.toBe(StatsItems.empty());
@@ -531,15 +527,9 @@ describe('StatsItems', () => {
       const statsItem3: MockStatsItem = new MockStatsItem();
       const statsItem4: MockStatsItem = new MockStatsItem();
 
-      const statsItems1: StatsItems = StatsItems.ofArray([
-        statsItem1,
-        statsItem2
-      ]);
+      const statsItems1: StatsItems = StatsItems.ofArray([statsItem1, statsItem2]);
 
-      const statsItems2: StatsItems = statsItems1.add(
-        statsItem3,
-        statsItem4
-      );
+      const statsItems2: StatsItems = statsItems1.add(statsItem3, statsItem4);
 
       expect(statsItems1.size()).toBe(2);
       expect(statsItems1.get(0).get()).toBe(statsItem1);
@@ -553,10 +543,7 @@ describe('StatsItems', () => {
     });
 
     it('returns itself when the items are 0', () => {
-      const statsItems: StatsItems = StatsItems.ofArray([
-        new MockStatsItem(),
-        new MockStatsItem()
-      ]);
+      const statsItems: StatsItems = StatsItems.ofArray([new MockStatsItem(), new MockStatsItem()]);
 
       expect(statsItems.add()).toBe(statsItems);
     });
@@ -564,10 +551,7 @@ describe('StatsItems', () => {
 
   describe('get', () => {
     it('returns Language instance at the correct index', () => {
-      const items: Array<MockStatsItem> = [
-        new MockStatsItem(),
-        new MockStatsItem()
-      ];
+      const items: Array<MockStatsItem> = [new MockStatsItem(), new MockStatsItem()];
 
       const statsItems: StatsItems = StatsItems.ofArray(items);
 
@@ -590,16 +574,9 @@ describe('StatsItems', () => {
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
       const statsItem3: MockStatsItem = new MockStatsItem();
-      const statsItems: StatsItems = StatsItems.ofArray([
-        statsItem1,
-        statsItem2,
-        statsItem3
-      ]);
+      const statsItems: StatsItems = StatsItems.ofArray([statsItem1, statsItem2, statsItem3]);
 
-      const moved: StatsItems = statsItems.move(
-        new MockColumn(0),
-        new MockColumn(1)
-      );
+      const moved: StatsItems = statsItems.move(new MockColumn(0), new MockColumn(1));
 
       expect(moved.size()).toBe(3);
       expect(moved.get(0).get()).toBe(statsItem2);
@@ -611,16 +588,9 @@ describe('StatsItems', () => {
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
       const statsItem3: MockStatsItem = new MockStatsItem();
-      const statsItems: StatsItems = StatsItems.ofArray([
-        statsItem1,
-        statsItem2,
-        statsItem3
-      ]);
+      const statsItems: StatsItems = StatsItems.ofArray([statsItem1, statsItem2, statsItem3]);
 
-      const moved: StatsItems = statsItems.move(
-        new MockColumn(1),
-        new MockColumn(2)
-      );
+      const moved: StatsItems = statsItems.move(new MockColumn(1), new MockColumn(2));
 
       expect(moved.size()).toBe(3);
       expect(moved.get(0).get()).toBe(statsItem1);
@@ -632,16 +602,9 @@ describe('StatsItems', () => {
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
       const statsItem3: MockStatsItem = new MockStatsItem();
-      const statsItems: StatsItems = StatsItems.ofArray([
-        statsItem1,
-        statsItem2,
-        statsItem3
-      ]);
+      const statsItems: StatsItems = StatsItems.ofArray([statsItem1, statsItem2, statsItem3]);
 
-      const moved: StatsItems = statsItems.move(
-        new MockColumn(2),
-        new MockColumn(0)
-      );
+      const moved: StatsItems = statsItems.move(new MockColumn(2), new MockColumn(0));
 
       expect(moved.size()).toBe(3);
       expect(moved.get(0).get()).toBe(statsItem3);
@@ -656,16 +619,9 @@ describe('StatsItems', () => {
       const statsItem2: MockStatsItem = new MockStatsItem();
       const statsItem3: MockStatsItem = new MockStatsItem();
       const statsItem4: MockStatsItem = new MockStatsItem();
-      const statsItems: StatsItems = StatsItems.ofArray([
-        statsItem1,
-        statsItem2,
-        statsItem3
-      ]);
+      const statsItems: StatsItems = StatsItems.ofArray([statsItem1, statsItem2, statsItem3]);
 
-      const replaced: StatsItems = statsItems.replace(
-        statsItem4,
-        new MockRow(0)
-      );
+      const replaced: StatsItems = statsItems.replace(statsItem4, new MockRow(0));
 
       expect(replaced.size()).toBe(3);
       expect(replaced.get(0).get()).toBe(statsItem4);
@@ -678,16 +634,9 @@ describe('StatsItems', () => {
       const statsItem2: MockStatsItem = new MockStatsItem();
       const statsItem3: MockStatsItem = new MockStatsItem();
       const statsItem4: MockStatsItem = new MockStatsItem();
-      const statsItems: StatsItems = StatsItems.ofArray([
-        statsItem1,
-        statsItem2,
-        statsItem3
-      ]);
+      const statsItems: StatsItems = StatsItems.ofArray([statsItem1, statsItem2, statsItem3]);
 
-      const replaced: StatsItems = statsItems.replace(
-        statsItem4,
-        new MockRow(1)
-      );
+      const replaced: StatsItems = statsItems.replace(statsItem4, new MockRow(1));
 
       expect(replaced.size()).toBe(3);
       expect(replaced.get(0).get()).not.toBe(statsItem4);
@@ -700,16 +649,9 @@ describe('StatsItems', () => {
       const statsItem2: MockStatsItem = new MockStatsItem();
       const statsItem3: MockStatsItem = new MockStatsItem();
       const statsItem4: MockStatsItem = new MockStatsItem();
-      const statsItems: StatsItems = StatsItems.ofArray([
-        statsItem1,
-        statsItem2,
-        statsItem3
-      ]);
+      const statsItems: StatsItems = StatsItems.ofArray([statsItem1, statsItem2, statsItem3]);
 
-      const replaced: StatsItems = statsItems.replace(
-        statsItem4,
-        new MockRow(2)
-      );
+      const replaced: StatsItems = statsItems.replace(statsItem4, new MockRow(2));
 
       expect(replaced.size()).toBe(3);
       expect(replaced.get(0).get()).not.toBe(statsItem4);
@@ -723,11 +665,7 @@ describe('StatsItems', () => {
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
       const statsItem3: MockStatsItem = new MockStatsItem();
-      const statsItems: StatsItems = StatsItems.ofArray([
-        statsItem1,
-        statsItem2,
-        statsItem3
-      ]);
+      const statsItems: StatsItems = StatsItems.ofArray([statsItem1, statsItem2, statsItem3]);
 
       const removed: StatsItems = statsItems.remove(statsItem1);
 
@@ -738,9 +676,7 @@ describe('StatsItems', () => {
 
     it('returns StatsItems.empty() when all the items are removed', () => {
       const statsItem: MockStatsItem = new MockStatsItem();
-      const statsItems: StatsItems = StatsItems.ofArray([
-        statsItem
-      ]);
+      const statsItems: StatsItems = StatsItems.ofArray([statsItem]);
 
       const removed: StatsItems = statsItems.remove(statsItem);
 
@@ -831,11 +767,7 @@ describe('StatsItems', () => {
           })
         )
       });
-      const statsItems: StatsItems = StatsItems.ofArray([
-        statsItem1,
-        statsItem2,
-        statsItem3
-      ]);
+      const statsItems: StatsItems = StatsItems.ofArray([statsItem1, statsItem2, statsItem3]);
 
       const asOfs: AsOfs = statsItems.getAsOfs();
       expect(asOfs.size()).toBe(8);
@@ -934,10 +866,7 @@ describe('StatsItems', () => {
           values: new MockStatsValues()
         })
       ]);
-      const statsItems2: StatsItems = StatsItems.ofArray([
-        new MockStatsItem(),
-        new MockStatsItem()
-      ]);
+      const statsItems2: StatsItems = StatsItems.ofArray([new MockStatsItem(), new MockStatsItem()]);
 
       expect(statsItems1.haveValues()).toBe(false);
       expect(statsItems2.haveValues()).toBe(false);
@@ -975,10 +904,7 @@ describe('StatsItems', () => {
       const statsItem4: MockStatsItem = new MockStatsItem({
         statsItemID: statsItemID1
       });
-      const statsItems: StatsItems = StatsItems.ofArray([
-        statsItem1,
-        statsItem2
-      ]);
+      const statsItems: StatsItems = StatsItems.ofArray([statsItem1, statsItem2]);
 
       expect(statsItems.contains(statsItem1)).toBe(true);
       expect(statsItems.contains(statsItem2)).toBe(true);
@@ -992,11 +918,7 @@ describe('StatsItems', () => {
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
       const statsItem3: MockStatsItem = new MockStatsItem();
-      const statsItems: StatsItems = StatsItems.ofArray([
-        statsItem1,
-        statsItem2,
-        statsItem3
-      ]);
+      const statsItems: StatsItems = StatsItems.ofArray([statsItem1, statsItem2, statsItem3]);
 
       const duplicated: StatsItems = statsItems.duplicate();
 
@@ -1013,10 +935,7 @@ describe('StatsItems', () => {
 
   describe('isEmpty', () => {
     it('returns true if the elements are 0', () => {
-      const statsItems1: StatsItems = StatsItems.ofArray([
-        new MockStatsItem(),
-        new MockStatsItem()
-      ]);
+      const statsItems1: StatsItems = StatsItems.ofArray([new MockStatsItem(), new MockStatsItem()]);
       const statsItems2: StatsItems = StatsItems.ofArray([]);
 
       expect(statsItems1.isEmpty()).toBe(false);
@@ -1028,13 +947,8 @@ describe('StatsItems', () => {
     it('returns false if the length is different', () => {
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
-      const statsItems1: StatsItems = StatsItems.ofArray([
-        statsItem1,
-        statsItem2
-      ]);
-      const statsItems2: StatsItems = StatsItems.ofArray([
-        statsItem2
-      ]);
+      const statsItems1: StatsItems = StatsItems.ofArray([statsItem1, statsItem2]);
+      const statsItems2: StatsItems = StatsItems.ofArray([statsItem2]);
 
       expect(statsItems1.equals(statsItems1)).toBe(true);
       expect(statsItems1.equals(statsItems2)).toBe(false);
@@ -1043,14 +957,8 @@ describe('StatsItems', () => {
     it('returns false if the sequence is different', () => {
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
-      const statsItems1: StatsItems = StatsItems.ofArray([
-        statsItem1,
-        statsItem2
-      ]);
-      const statsItems2: StatsItems = StatsItems.ofArray([
-        statsItem2,
-        statsItem1
-      ]);
+      const statsItems1: StatsItems = StatsItems.ofArray([statsItem1, statsItem2]);
+      const statsItems2: StatsItems = StatsItems.ofArray([statsItem2, statsItem1]);
 
       expect(statsItems1.equals(statsItems1)).toBe(true);
       expect(statsItems1.equals(statsItems2)).toBe(false);
@@ -1059,14 +967,8 @@ describe('StatsItems', () => {
     it('returns true if the elements and their order are same', () => {
       const statsItem1: MockStatsItem = new MockStatsItem();
       const statsItem2: MockStatsItem = new MockStatsItem();
-      const statsItems1: StatsItems = StatsItems.ofArray([
-        statsItem1,
-        statsItem2
-      ]);
-      const statsItems2: StatsItems = StatsItems.ofArray([
-        statsItem1,
-        statsItem2
-      ]);
+      const statsItems1: StatsItems = StatsItems.ofArray([statsItem1, statsItem2]);
+      const statsItems2: StatsItems = StatsItems.ofArray([statsItem1, statsItem2]);
 
       expect(statsItems1.equals(statsItems1)).toBe(true);
       expect(statsItems1.equals(statsItems2)).toBe(true);
@@ -1250,16 +1152,8 @@ describe('StatsItems', () => {
       const name1: string = 'stats item 1';
       const name2: string = 'stats item 2';
       const statsItems: StatsItems = StatsItems.ofArray([
-        StatsItem.of(
-          StatsItemID.ofString(id1).get(),
-          StatsItemName.of(name1),
-          StatsValues.empty()
-        ),
-        StatsItem.of(
-          StatsItemID.ofString(id2).get(),
-          StatsItemName.of(name2),
-          StatsValues.empty()
-        )
+        StatsItem.of(StatsItemID.ofString(id1).get(), StatsItemName.of(name1), StatsValues.empty()),
+        StatsItem.of(StatsItemID.ofString(id2).get(), StatsItemName.of(name2), StatsValues.empty())
       ]);
 
       expect(statsItems.toString()).toBe(`${id1} ${name1} , ${id2} ${name2} `);

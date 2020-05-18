@@ -10,6 +10,7 @@ export class TermID extends ValueObject {
   }
 
   public static ofString(id: string): Superposition<TermID, TermIDError> {
+    // prettier-ignore
     try {
       const uuid: UUID = UUID.of(id);
 
@@ -17,9 +18,7 @@ export class TermID extends ValueObject {
     }
     catch (err) {
       if (err instanceof UUIDError) {
-        return Dead.of<TermID, TermIDError>(
-          new TermIDError('TermID.ofString()', err)
-        );
+        return Dead.of<TermID, TermIDError>(new TermIDError('TermID.ofString()', err));
       }
 
       throw err;

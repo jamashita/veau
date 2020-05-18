@@ -1,11 +1,4 @@
-import {
-  DataSourceError,
-  MockError,
-  MockRedis,
-  MockRedisString,
-  RedisError,
-  Superposition
-} from 'publikum';
+import { DataSourceError, MockError, MockRedis, MockRedisString, RedisError, Superposition } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
@@ -79,12 +72,15 @@ describe('RegionCommand', () => {
       const superposition: Superposition<void, DataSourceError> = await regionCommand.insertAll(regions);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(RedisError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(RedisError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -110,12 +106,15 @@ describe('RegionCommand', () => {
       const superposition: Superposition<void, DataSourceError> = await regionCommand.insertAll(regions);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(RedisError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(RedisError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -164,12 +163,15 @@ describe('RegionCommand', () => {
       const superposition: Superposition<void, DataSourceError> = await regionCommand.deleteAll();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(RedisError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(RedisError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -187,12 +189,15 @@ describe('RegionCommand', () => {
       const superposition: Superposition<void, DataSourceError> = await regionCommand.deleteAll();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(RedisError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(RedisError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

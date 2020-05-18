@@ -19,8 +19,11 @@ export class StatsQuery implements IStatsQuery, IAJAXQuery {
     this.ajax = ajax;
   }
 
-  public async findByStatsID(statsID: StatsID): Promise<Superposition<Stats, StatsError | NoSuchElementError | DataSourceError>> {
+  public async findByStatsID(
+    statsID: StatsID
+  ): Promise<Superposition<Stats, StatsError | NoSuchElementError | DataSourceError>> {
     const response: AJAXResponse<StatsJSON> = await this.ajax.get<StatsJSON>(`/api/stats/${statsID.get().get()}`);
+    // prettier-ignore
     const {
       status,
       body

@@ -14,18 +14,19 @@ import { MockStatsUnit } from './MockStatsUnit';
 import { MockTermID } from './MockTermID';
 import { MockUpdatedAt } from './MockUpdatedAt';
 
-type StatsOutlineArgs = Partial<Readonly<{
-  statsID: StatsID;
-  languageID: LanguageID;
-  regionID: RegionID;
-  termID: TermID;
-  name: StatsName;
-  unit: StatsUnit;
-  updatedAt: UpdatedAt;
-}>>;
+type StatsOutlineArgs = Partial<
+  Readonly<{
+    statsID: StatsID;
+    languageID: LanguageID;
+    regionID: RegionID;
+    termID: TermID;
+    name: StatsName;
+    unit: StatsUnit;
+    updatedAt: UpdatedAt;
+  }>
+>;
 
 export class MockStatsOutline extends StatsOutline {
-
   public constructor({
     statsID = new MockStatsID(),
     languageID = new MockLanguageID(),
@@ -35,14 +36,6 @@ export class MockStatsOutline extends StatsOutline {
     unit = new MockStatsUnit(),
     updatedAt = new MockUpdatedAt()
   }: StatsOutlineArgs = {}) {
-    super(
-      statsID,
-      languageID,
-      regionID,
-      termID,
-      name,
-      unit,
-      updatedAt
-    );
+    super(statsID, languageID, regionID, termID, name, unit, updatedAt);
   }
 }

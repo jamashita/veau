@@ -21,7 +21,7 @@ export class StatsInteractor implements Noun {
   private readonly statsCommand: IStatsCommand;
 
   public constructor(
-  @inject(TYPE.StatsKernelQuery) statsQuery: IStatsQuery,
+    @inject(TYPE.StatsKernelQuery) statsQuery: IStatsQuery,
     @inject(TYPE.StatsOutlineMySQLQuery) statsOutlineQuery: IStatsOutlineQuery,
     @inject(TYPE.StatsKernelCommand) statsCommand: IStatsCommand
   ) {
@@ -30,11 +30,16 @@ export class StatsInteractor implements Noun {
     this.statsCommand = statsCommand;
   }
 
-  public findByStatsID(statsID: StatsID): Promise<Superposition<Stats, NoSuchElementError | StatsError | DataSourceError>> {
+  public findByStatsID(
+    statsID: StatsID
+  ): Promise<Superposition<Stats, NoSuchElementError | StatsError | DataSourceError>> {
     return this.statsQuery.findByStatsID(statsID);
   }
 
-  public findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Promise<Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>> {
+  public findByVeauAccountID(
+    veauAccountID: VeauAccountID,
+    page: Page
+  ): Promise<Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>> {
     return this.statsOutlineQuery.findByVeauAccountID(veauAccountID, page);
   }
 

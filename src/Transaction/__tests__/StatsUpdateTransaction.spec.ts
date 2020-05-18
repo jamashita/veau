@@ -110,17 +110,10 @@ describe('StatsUpdateTransaction', () => {
       const stats: MockStats = new MockStats({
         items: new MockStatsItems(
           new MockStatsItem({
-            values: new MockStatsValues(
-              new MockStatsValue(),
-              new MockStatsValue()
-            )
+            values: new MockStatsValues(new MockStatsValue(), new MockStatsValue())
           }),
           new MockStatsItem({
-            values: new MockStatsValues(
-              new MockStatsValue(),
-              new MockStatsValue(),
-              new MockStatsValue()
-            )
+            values: new MockStatsValues(new MockStatsValue(), new MockStatsValue(), new MockStatsValue())
           })
         )
       });
@@ -156,12 +149,15 @@ describe('StatsUpdateTransaction', () => {
       const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(MySQLError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(MySQLError);
+        }
+      );
 
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
@@ -174,17 +170,10 @@ describe('StatsUpdateTransaction', () => {
       const stats: MockStats = new MockStats({
         items: new MockStatsItems(
           new MockStatsItem({
-            values: new MockStatsValues(
-              new MockStatsValue(),
-              new MockStatsValue()
-            )
+            values: new MockStatsValues(new MockStatsValue(), new MockStatsValue())
           }),
           new MockStatsItem({
-            values: new MockStatsValues(
-              new MockStatsValue(),
-              new MockStatsValue(),
-              new MockStatsValue()
-            )
+            values: new MockStatsValues(new MockStatsValue(), new MockStatsValue(), new MockStatsValue())
           })
         )
       });
@@ -220,12 +209,15 @@ describe('StatsUpdateTransaction', () => {
       const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(MySQLError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(MySQLError);
+        }
+      );
 
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
@@ -238,17 +230,10 @@ describe('StatsUpdateTransaction', () => {
       const stats: MockStats = new MockStats({
         items: new MockStatsItems(
           new MockStatsItem({
-            values: new MockStatsValues(
-              new MockStatsValue(),
-              new MockStatsValue()
-            )
+            values: new MockStatsValues(new MockStatsValue(), new MockStatsValue())
           }),
           new MockStatsItem({
-            values: new MockStatsValues(
-              new MockStatsValue(),
-              new MockStatsValue(),
-              new MockStatsValue()
-            )
+            values: new MockStatsValues(new MockStatsValue(), new MockStatsValue(), new MockStatsValue())
           })
         )
       });
@@ -284,12 +269,15 @@ describe('StatsUpdateTransaction', () => {
       const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(MySQLError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(MySQLError);
+        }
+      );
 
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
@@ -302,17 +290,10 @@ describe('StatsUpdateTransaction', () => {
       const stats: MockStats = new MockStats({
         items: new MockStatsItems(
           new MockStatsItem({
-            values: new MockStatsValues(
-              new MockStatsValue(),
-              new MockStatsValue()
-            )
+            values: new MockStatsValues(new MockStatsValue(), new MockStatsValue())
           }),
           new MockStatsItem({
-            values: new MockStatsValues(
-              new MockStatsValue(),
-              new MockStatsValue(),
-              new MockStatsValue()
-            )
+            values: new MockStatsValues(new MockStatsValue(), new MockStatsValue(), new MockStatsValue())
           })
         )
       });
@@ -357,12 +338,15 @@ describe('StatsUpdateTransaction', () => {
       const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(MySQLError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(MySQLError);
+        }
+      );
 
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
@@ -378,17 +362,10 @@ describe('StatsUpdateTransaction', () => {
       const stats: MockStats = new MockStats({
         items: new MockStatsItems(
           new MockStatsItem({
-            values: new MockStatsValues(
-              new MockStatsValue(),
-              new MockStatsValue()
-            )
+            values: new MockStatsValues(new MockStatsValue(), new MockStatsValue())
           }),
           new MockStatsItem({
-            values: new MockStatsValues(
-              new MockStatsValue(),
-              new MockStatsValue(),
-              new MockStatsValue()
-            )
+            values: new MockStatsValues(new MockStatsValue(), new MockStatsValue(), new MockStatsValue())
           })
         )
       });
@@ -433,12 +410,15 @@ describe('StatsUpdateTransaction', () => {
       const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(MySQLError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(MySQLError);
+        }
+      );
 
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
@@ -454,17 +434,10 @@ describe('StatsUpdateTransaction', () => {
       const stats: MockStats = new MockStats({
         items: new MockStatsItems(
           new MockStatsItem({
-            values: new MockStatsValues(
-              new MockStatsValue(),
-              new MockStatsValue()
-            )
+            values: new MockStatsValues(new MockStatsValue(), new MockStatsValue())
           }),
           new MockStatsItem({
-            values: new MockStatsValues(
-              new MockStatsValue(),
-              new MockStatsValue(),
-              new MockStatsValue()
-            )
+            values: new MockStatsValues(new MockStatsValue(), new MockStatsValue(), new MockStatsValue())
           })
         )
       });
@@ -509,12 +482,15 @@ describe('StatsUpdateTransaction', () => {
       const superposition: Superposition<unknown, DataSourceError> = await statsUpdateTransaction.with(sql);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(MySQLError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(MySQLError);
+        }
+      );
 
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);

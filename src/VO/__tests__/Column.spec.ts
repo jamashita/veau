@@ -27,19 +27,25 @@ describe('Column', () => {
       expect(superposition1.isDead()).toBe(true);
       expect(superposition2.isDead()).toBe(true);
 
-      superposition2.match<void>(() => {
-        spy1();
-      }, (err: ColumnError) => {
-        spy2();
-        expect(err).toBeInstanceOf(ColumnError);
-      });
+      superposition2.match<void>(
+        () => {
+          spy1();
+        },
+        (err: ColumnError) => {
+          spy2();
+          expect(err).toBeInstanceOf(ColumnError);
+        }
+      );
 
-      superposition2.match<void>(() => {
-        spy3();
-      }, (err: ColumnError) => {
-        spy4();
-        expect(err).toBeInstanceOf(ColumnError);
-      });
+      superposition2.match<void>(
+        () => {
+          spy3();
+        },
+        (err: ColumnError) => {
+          spy4();
+          expect(err).toBeInstanceOf(ColumnError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -66,19 +72,25 @@ describe('Column', () => {
       expect(superposition1.isDead()).toBe(true);
       expect(superposition2.isDead()).toBe(true);
 
-      superposition1.match<void>(() => {
-        spy1();
-      }, (err: ColumnError) => {
-        spy2();
-        expect(err).toBeInstanceOf(ColumnError);
-      });
+      superposition1.match<void>(
+        () => {
+          spy1();
+        },
+        (err: ColumnError) => {
+          spy2();
+          expect(err).toBeInstanceOf(ColumnError);
+        }
+      );
 
-      superposition2.match<void>(() => {
-        spy3();
-      }, (err: ColumnError) => {
-        spy4();
-        expect(err).toBeInstanceOf(ColumnError);
-      });
+      superposition2.match<void>(
+        () => {
+          spy3();
+        },
+        (err: ColumnError) => {
+          spy4();
+          expect(err).toBeInstanceOf(ColumnError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

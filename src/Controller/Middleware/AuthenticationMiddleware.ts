@@ -5,9 +5,7 @@ import { VeauAccount } from '../../VO/VeauAccount';
 
 @injectable()
 export class AuthenticationMiddleware {
-
   public requires(): RequestHandler {
-
     return (req: Request, res: Response, next: NextFunction): void => {
       if (req.user === undefined) {
         res.sendStatus(UNAUTHORIZED);

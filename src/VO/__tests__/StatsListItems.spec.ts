@@ -53,10 +53,7 @@ describe('StatsListItems', () => {
     });
 
     it('normal case', () => {
-      const is: Array<StatsListItem> = [
-        new MockStatsListItem(),
-        new MockStatsListItem()
-      ];
+      const is: Array<StatsListItem> = [new MockStatsListItem(), new MockStatsListItem()];
 
       const items: StatsListItems = StatsListItems.ofArray(is);
 
@@ -76,10 +73,7 @@ describe('StatsListItems', () => {
       const statsListItem1: MockStatsListItem = new MockStatsListItem();
       const statsListItem2: MockStatsListItem = new MockStatsListItem();
 
-      const statsListItems: StatsListItems = StatsListItems.ofSpread(
-        statsListItem1,
-        statsListItem2
-      );
+      const statsListItems: StatsListItems = StatsListItems.ofSpread(statsListItem1, statsListItem2);
 
       expect(statsListItems.size()).toBe(2);
       expect(statsListItems.get(0).get()).toBe(statsListItem1);
@@ -99,11 +93,7 @@ describe('StatsListItems', () => {
 
   describe('get', () => {
     it('returns StatsListItem of index-th item', () => {
-      const is: Array<StatsListItem> = [
-        new MockStatsListItem(),
-        new MockStatsListItem(),
-        new MockStatsListItem()
-      ];
+      const is: Array<StatsListItem> = [new MockStatsListItem(), new MockStatsListItem(), new MockStatsListItem()];
 
       const items: StatsListItems = StatsListItems.ofArray(is);
 
@@ -198,10 +188,7 @@ describe('StatsListItems', () => {
         })
       });
 
-      const items: StatsListItems = StatsListItems.ofArray([
-        item1,
-        item2
-      ]);
+      const items: StatsListItems = StatsListItems.ofArray([item1, item2]);
 
       expect(items.contains(item1)).toBe(true);
       expect(items.contains(item2)).toBe(true);
@@ -213,10 +200,7 @@ describe('StatsListItems', () => {
   describe('isEmpty', () => {
     it('returns true if the elements are 0', () => {
       const items1: StatsListItems = StatsListItems.ofArray([]);
-      const items2: StatsListItems = StatsListItems.ofArray([
-        new MockStatsListItem(),
-        new MockStatsListItem()
-      ]);
+      const items2: StatsListItems = StatsListItems.ofArray([new MockStatsListItem(), new MockStatsListItem()]);
 
       expect(items1.isEmpty()).toBe(true);
       expect(items2.isEmpty()).toBe(false);
@@ -229,15 +213,8 @@ describe('StatsListItems', () => {
       const item2: MockStatsListItem = new MockStatsListItem();
       const item3: MockStatsListItem = new MockStatsListItem();
 
-      const items1: StatsListItems = StatsListItems.ofArray([
-        item1,
-        item2,
-        item3
-      ]);
-      const items2: StatsListItems = StatsListItems.ofArray([
-        item1,
-        item2
-      ]);
+      const items1: StatsListItems = StatsListItems.ofArray([item1, item2, item3]);
+      const items2: StatsListItems = StatsListItems.ofArray([item1, item2]);
 
       expect(items1.equals(items1)).toBe(true);
       expect(items1.equals(items2)).toBe(false);
@@ -247,14 +224,8 @@ describe('StatsListItems', () => {
       const item1: MockStatsListItem = new MockStatsListItem();
       const item2: MockStatsListItem = new MockStatsListItem();
 
-      const items1: StatsListItems = StatsListItems.ofArray([
-        item1,
-        item2
-      ]);
-      const items2: StatsListItems = StatsListItems.ofArray([
-        item2,
-        item1
-      ]);
+      const items1: StatsListItems = StatsListItems.ofArray([item1, item2]);
+      const items2: StatsListItems = StatsListItems.ofArray([item2, item1]);
 
       expect(items1.equals(items1)).toBe(true);
       expect(items1.equals(items2)).toBe(false);
@@ -264,14 +235,8 @@ describe('StatsListItems', () => {
       const item1: MockStatsListItem = new MockStatsListItem();
       const item2: MockStatsListItem = new MockStatsListItem();
 
-      const items1: StatsListItems = StatsListItems.ofArray([
-        item1,
-        item2
-      ]);
-      const items2: StatsListItems = StatsListItems.ofArray([
-        item1,
-        item2
-      ]);
+      const items1: StatsListItems = StatsListItems.ofArray([item1, item2]);
+      const items2: StatsListItems = StatsListItems.ofArray([item1, item2]);
 
       expect(items1.equals(items1)).toBe(true);
       expect(items1.equals(items2)).toBe(true);
@@ -322,11 +287,7 @@ describe('StatsListItems', () => {
             LanguageName.of(languageName2),
             ISO639.of(iso6391)
           ),
-          Region.of(
-            RegionID.of(uuid3),
-            RegionName.of(regionName1),
-            ISO3166.of(iso31661)
-          ),
+          Region.of(RegionID.of(uuid3), RegionName.of(regionName1), ISO3166.of(iso31661)),
           Term.DAILY
         ),
         StatsListItem.of(
@@ -345,16 +306,14 @@ describe('StatsListItems', () => {
             LanguageName.of(languageName4),
             ISO639.of(iso6392)
           ),
-          Region.of(
-            RegionID.of(uuid7),
-            RegionName.of(regionName2),
-            ISO3166.of(iso31662)
-          ),
+          Region.of(RegionID.of(uuid7), RegionName.of(regionName2), ISO3166.of(iso31662)),
           Term.DAILY
         )
       ]);
 
-      expect(items.toString()).toBe(`${uuid1.get()} ${uuid2.get()} ${uuid3.get()} ${uuid4.get()} ${name1} ${unit1} ${updatedAt.toString()} ${uuid2.get()} ${languageName1} ${languageName2} ${iso6391} ${uuid3.get()} ${regionName1} ${iso31661} ${Term.DAILY.toString()}, ${uuid5.get()} ${uuid6.get()} ${uuid7.get()} ${uuid8.get()} ${name2} ${unit2} ${updatedAt.toString()} ${uuid6.get()} ${languageName3} ${languageName4} ${iso6392} ${uuid7.get()} ${regionName2} ${iso31662} ${Term.DAILY.toString()}`);
+      expect(items.toString()).toBe(
+        `${uuid1.get()} ${uuid2.get()} ${uuid3.get()} ${uuid4.get()} ${name1} ${unit1} ${updatedAt.toString()} ${uuid2.get()} ${languageName1} ${languageName2} ${iso6391} ${uuid3.get()} ${regionName1} ${iso31661} ${Term.DAILY.toString()}, ${uuid5.get()} ${uuid6.get()} ${uuid7.get()} ${uuid8.get()} ${name2} ${unit2} ${updatedAt.toString()} ${uuid6.get()} ${languageName3} ${languageName4} ${iso6392} ${uuid7.get()} ${regionName2} ${iso31662} ${Term.DAILY.toString()}`
+      );
     });
   });
 });

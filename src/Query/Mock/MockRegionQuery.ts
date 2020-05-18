@@ -20,11 +20,17 @@ export class MockRegionQuery implements IRegionQuery, IMockQuery {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public find(regionID: RegionID): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {
-    return Promise.reject<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>>(new UnimplementedError());
+    return Promise.reject<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>>(
+      new UnimplementedError()
+    );
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public findByISO3166(iso3166: ISO3166): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {
-    return Promise.reject<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>>(new UnimplementedError());
+  public findByISO3166(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    iso3166: ISO3166
+  ): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {
+    return Promise.reject<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>>(
+      new UnimplementedError()
+    );
   }
 }

@@ -19,6 +19,7 @@ export class LocaleQuery implements ILocaleQuery, IAJAXQuery {
 
   public async all(): Promise<Superposition<Locale, LocaleError | DataSourceError>> {
     const response: AJAXResponse<LocaleJSON> = await this.ajax.get<LocaleJSON>('/api/locale');
+    // prettier-ignore
     const {
       status,
       body

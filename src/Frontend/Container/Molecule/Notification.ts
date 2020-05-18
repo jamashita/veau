@@ -21,6 +21,7 @@ type OwnProps = Readonly<{}>;
 export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
+  // prettier-ignore
   const {
     notification: {
       kind,
@@ -52,7 +53,12 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
   };
 };
 
-export const Notification: ConnectedComponent<typeof Component, Pick<StateProps, never>> = connect<StateProps, DispatchProps, OwnProps, State>(
+export const Notification: ConnectedComponent<typeof Component, Pick<StateProps, never>> = connect<
+  StateProps,
+  DispatchProps,
+  OwnProps,
+  State
+>(
   mapStateToProps,
   mapDispatchToProps
 )(Component);

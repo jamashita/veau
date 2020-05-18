@@ -5,7 +5,6 @@ import { NumericalValue } from '../NumericalValue';
 describe('NoValue', () => {
   describe('of', () => {
     it('returns singleton instance', () => {
-
       expect(NoValue.of()).toBe(NoValue.of());
     });
   });

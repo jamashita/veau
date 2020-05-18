@@ -48,12 +48,15 @@ describe('StatsCommand', () => {
       const statsCommand: StatsCommand = new StatsCommand(mysql);
       const superposition: Superposition<void, DataSourceError> = await statsCommand.create(stats, accountID);
 
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(MySQLError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(MySQLError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

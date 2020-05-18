@@ -17,6 +17,7 @@ export class LocaleCommand implements ILocaleCommand, ICacheCommand {
   }
 
   public create(locale: Locale): Promise<Superposition<void, DataSourceError>> {
+    // prettier-ignore
     try {
       this.cache.set(VAULT_LOCALE_KEY, locale);
 

@@ -53,46 +53,46 @@ export class Stats extends Entity<StatsID> {
     items: StatsItems,
     startDate: Quantum<AsOf> = Absent.of<AsOf>()
   ): Stats {
-    return new Stats(
-      outline,
-      language,
-      region,
-      term,
-      items,
-      startDate
-    );
+    return new Stats(outline, language, region, term, items, startDate);
   }
 
   public static ofJSON(json: StatsJSON): Superposition<Stats, StatsError> {
-    return StatsOutline.ofJSON(json.outline).match<Stats, StatsError>((outline: StatsOutline) => {
-      return Language.ofJSON(json.language).match((language: Language) => {
-        return Region.ofJSON(json.region).match((region: Region) => {
-          return Term.ofString(json.outline.termID).match<Stats, StatsError>((term: Term) => {
-            return StatsItems.ofJSON(json.items).match<Stats, StatsError>((statsItems: StatsItems) => {
-              return Alive.of<Stats, StatsError>(
-                Stats.of(
-                  outline,
-                  language,
-                  region,
-                  term,
-                  statsItems
-                )
-              );
-            }, (err: StatsItemsError) => {
-              return Dead.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
-            });
-          }, (err: TermError) => {
+    return StatsOutline.ofJSON(json.outline).match<Stats, StatsError>(
+      (outline: StatsOutline) => {
+        return Language.ofJSON(json.language).match(
+          (language: Language) => {
+            return Region.ofJSON(json.region).match(
+              (region: Region) => {
+                return Term.ofString(json.outline.termID).match<Stats, StatsError>(
+                  (term: Term) => {
+                    return StatsItems.ofJSON(json.items).match<Stats, StatsError>(
+                      (statsItems: StatsItems) => {
+                        return Alive.of<Stats, StatsError>(Stats.of(outline, language, region, term, statsItems));
+                      },
+                      (err: StatsItemsError) => {
+                        return Dead.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
+                      }
+                    );
+                  },
+                  (err: TermError) => {
+                    return Dead.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
+                  }
+                );
+              },
+              (err: RegionError) => {
+                return Dead.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
+              }
+            );
+          },
+          (err: LanguageError) => {
             return Dead.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
-          });
-        }, (err: RegionError) => {
-          return Dead.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
-        });
-      }, (err: LanguageError) => {
+          }
+        );
+      },
+      (err: StatsOutlineError) => {
         return Dead.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
-      });
-    }, (err: StatsOutlineError) => {
-      return Dead.of<Stats, StatsError>(new StatsError('Stats.ofJSON()', err));
-    });
+      }
+    );
   }
 
   public static isJSON(n: unknown): n is StatsJSON {
@@ -116,13 +116,7 @@ export class Stats extends Entity<StatsID> {
   }
 
   public static default(): Stats {
-    return Stats.of(
-      StatsOutline.default(),
-      Language.empty(),
-      Region.empty(),
-      Term.DAILY,
-      StatsItems.empty()
-    );
+    return Stats.of(StatsOutline.default(), Language.empty(), Region.empty(), Term.DAILY, StatsItems.empty());
   }
 
   protected constructor(
@@ -242,12 +236,14 @@ export class Stats extends Entity<StatsID> {
 
   public setData(coordinate: Coordinate, value: NumericalValue): void {
     this.items.get(coordinate.getRow().get()).ifPresent((item: StatsItem) => {
-      this.getColumns().get(coordinate.getColumn().get()).ifPresent((asOf: AsOf) => {
-        const statsValue: StatsValue = StatsValue.of(asOf, value);
+      this.getColumns()
+        .get(coordinate.getColumn().get())
+        .ifPresent((asOf: AsOf) => {
+          const statsValue: StatsValue = StatsValue.of(asOf, value);
 
-        item.set(statsValue);
-        this.recalculate();
-      });
+          item.set(statsValue);
+          this.recalculate();
+        });
     });
   }
 
@@ -371,14 +367,7 @@ export class Stats extends Entity<StatsID> {
   }
 
   public duplicate(): Stats {
-    return new Stats(
-      this.outline,
-      this.language,
-      this.region,
-      this.term,
-      this.items.duplicate(),
-      this.startDate
-    );
+    return new Stats(this.outline, this.language, this.region, this.term, this.items.duplicate(), this.startDate);
   }
 
   public toJSON(): StatsJSON {

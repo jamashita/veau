@@ -27,41 +27,56 @@ export class LanguageQuery implements ILanguageQuery, IVaultQuery {
   public async all(): Promise<Superposition<Languages, LanguagesError | DataSourceError>> {
     const superposition: Superposition<Locale, LocaleError | DataSourceError> = await this.localeVaultQuery.all();
 
-    return superposition.match<Languages, LanguagesError | DataSourceError>((locale: Locale) => {
-      return Alive.of<Languages, DataSourceError>(locale.getLanguages());
-    }, (err: LocaleError | DataSourceError) => {
-      if (err instanceof LocaleError) {
-        return Dead.of<Languages, LanguagesError>(new LanguagesError('LanguageQuery.all()', err));
+    return superposition.match<Languages, LanguagesError | DataSourceError>(
+      (locale: Locale) => {
+        return Alive.of<Languages, DataSourceError>(locale.getLanguages());
+      },
+      (err: LocaleError | DataSourceError) => {
+        if (err instanceof LocaleError) {
+          return Dead.of<Languages, LanguagesError>(new LanguagesError('LanguageQuery.all()', err));
+        }
+
+        return Dead.of<Languages, DataSourceError>(err);
       }
-
-      return Dead.of<Languages, DataSourceError>(err);
-    });
+    );
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public find(languageID: LanguageID): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>> {
-    return Promise.reject <Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>>(new UnimplementedError());
+  public find(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    languageID: LanguageID
+  ): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>> {
+    return Promise.reject<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>>(
+      new UnimplementedError()
+    );
   }
 
-  public async findByISO639(iso639: ISO639): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>> {
+  public async findByISO639(
+    iso639: ISO639
+  ): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>> {
     const superposition: Superposition<Languages, LanguagesError | DataSourceError> = await this.all();
 
-    return superposition.match<Language, LanguageError | NoSuchElementError | DataSourceError>((languages: Languages) => {
-      const quantum: Quantum<Language> = languages.find((language: Language) => {
-        return language.getISO639().equals(iso639);
-      });
+    return superposition.match<Language, LanguageError | NoSuchElementError | DataSourceError>(
+      (languages: Languages) => {
+        const quantum: Quantum<Language> = languages.find((language: Language) => {
+          return language.getISO639().equals(iso639);
+        });
 
-      return quantum.toSuperposition().match<Language, NoSuchElementError | DataSourceError>((language: Language, self: Alive<Language, QuantumError>) => {
-        return self.transpose<DataSourceError>();
-      }, () => {
-        return Dead.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.get()));
-      });
-    }, (err: LanguagesError | DataSourceError) => {
-      if (err instanceof LanguagesError) {
-        return Dead.of<Language, LanguageError>(new LanguageError('LanguageQuery.findByISO639()', err));
+        return quantum.toSuperposition().match<Language, NoSuchElementError | DataSourceError>(
+          (language: Language, self: Alive<Language, QuantumError>) => {
+            return self.transpose<DataSourceError>();
+          },
+          () => {
+            return Dead.of<Language, NoSuchElementError>(new NoSuchElementError(iso639.get()));
+          }
+        );
+      },
+      (err: LanguagesError | DataSourceError) => {
+        if (err instanceof LanguagesError) {
+          return Dead.of<Language, LanguageError>(new LanguageError('LanguageQuery.findByISO639()', err));
+        }
+
+        return Dead.of<Language, DataSourceError>(err);
       }
-
-      return Dead.of<Language, DataSourceError>(err);
-    });
+    );
   }
 }

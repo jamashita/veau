@@ -40,14 +40,15 @@ describe('VeauAccountQuery', () => {
       });
 
       const veauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await veauAccountQuery.find();
+      const superposition: Superposition<
+        VeauAccount,
+        VeauAccountError | DataSourceError
+      > = await veauAccountQuery.find();
 
-      expect(stub.withArgs('/api/identity').called).toBe(true);
+      expect(stub.withArgs('/api/accounts').called).toBe(true);
       expect(superposition.isAlive()).toBe(true);
       const veauAccount: VeauAccount = superposition.get();
-      expect(veauAccount.getVeauAccountID().get().get()).toBe(
-        json.veauAccountID
-      );
+      expect(veauAccount.getVeauAccountID().get().get()).toBe(json.veauAccountID);
       expect(veauAccount.getLanguageID().get().get()).toBe(json.languageID);
       expect(veauAccount.getRegionID().get().get()).toBe(json.regionID);
       expect(veauAccount.getAccountName().get()).toBe(json.name);
@@ -72,10 +73,14 @@ describe('VeauAccountQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const veauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await veauAccountQuery.find();
+      const superposition: Superposition<
+        VeauAccount,
+        VeauAccountError | DataSourceError
+      > = await veauAccountQuery.find();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
+      superposition.match<void>(
+        () => {
           spy1();
         },
         (err: VeauAccountError | DataSourceError) => {
@@ -88,7 +93,7 @@ describe('VeauAccountQuery', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it('doesn\'t return OK', async () => {
+    it('does not return OK', async () => {
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
       ajax.get = stub;
@@ -100,10 +105,14 @@ describe('VeauAccountQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const veauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await veauAccountQuery.find();
+      const superposition: Superposition<
+        VeauAccount,
+        VeauAccountError | DataSourceError
+      > = await veauAccountQuery.find();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
+      superposition.match<void>(
+        () => {
           spy1();
         },
         (err: VeauAccountError | DataSourceError) => {
@@ -139,18 +148,20 @@ describe('VeauAccountQuery', () => {
         password: new MockPassword('password')
       });
       const veauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await veauAccountQuery.findByEntranceInfo(info);
+      const superposition: Superposition<
+        VeauAccount,
+        VeauAccountError | DataSourceError
+      > = await veauAccountQuery.findByEntranceInfo(info);
 
-      expect(stub.withArgs('/api/auth', {
+      expect(
+        stub.withArgs('/api/auth', {
           account: 'name',
           password: 'password'
         }).called
       ).toBe(true);
       expect(superposition.isAlive()).toBe(true);
       const veauAccount: VeauAccount = superposition.get();
-      expect(veauAccount.getVeauAccountID().get().get()).toBe(
-        json.veauAccountID
-      );
+      expect(veauAccount.getVeauAccountID().get().get()).toBe(json.veauAccountID);
       expect(veauAccount.getLanguageID().get().get()).toBe(json.languageID);
       expect(veauAccount.getRegionID().get().get()).toBe(json.regionID);
       expect(veauAccount.getAccountName().get()).toBe(json.name);
@@ -176,10 +187,14 @@ describe('VeauAccountQuery', () => {
 
       const info: MockEntranceInformation = new MockEntranceInformation();
       const veauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await veauAccountQuery.findByEntranceInfo(info);
+      const superposition: Superposition<
+        VeauAccount,
+        VeauAccountError | DataSourceError
+      > = await veauAccountQuery.findByEntranceInfo(info);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
+      superposition.match<void>(
+        () => {
           spy1();
         },
         (err: VeauAccountError | DataSourceError) => {
@@ -205,10 +220,14 @@ describe('VeauAccountQuery', () => {
 
       const info: MockEntranceInformation = new MockEntranceInformation();
       const veauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await veauAccountQuery.findByEntranceInfo(info);
+      const superposition: Superposition<
+        VeauAccount,
+        VeauAccountError | DataSourceError
+      > = await veauAccountQuery.findByEntranceInfo(info);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
+      superposition.match<void>(
+        () => {
           spy1();
         },
         (err: VeauAccountError | DataSourceError) => {
@@ -221,7 +240,7 @@ describe('VeauAccountQuery', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it('doesn\'t return OK nor UNAUTHORIZED', async () => {
+    it("doesn't return OK nor UNAUTHORIZED", async () => {
       const ajax: MockAJAX = new MockAJAX();
       const stub: SinonStub = sinon.stub();
       ajax.post = stub;
@@ -234,10 +253,14 @@ describe('VeauAccountQuery', () => {
 
       const info: MockEntranceInformation = new MockEntranceInformation();
       const veauAccountQuery: VeauAccountQuery = new VeauAccountQuery(ajax);
-      const superposition: Superposition<VeauAccount, VeauAccountError | DataSourceError> = await veauAccountQuery.findByEntranceInfo(info);
+      const superposition: Superposition<
+        VeauAccount,
+        VeauAccountError | DataSourceError
+      > = await veauAccountQuery.findByEntranceInfo(info);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
+      superposition.match<void>(
+        () => {
           spy1();
         },
         (err: VeauAccountError | DataSourceError) => {

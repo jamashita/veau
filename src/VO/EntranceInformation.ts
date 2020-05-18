@@ -12,15 +12,9 @@ export class EntranceInformation extends ValueObject implements JSONable {
   private readonly account: AccountName;
   private readonly password: Password;
 
-  private static readonly EMPTY: EntranceInformation = new EntranceInformation(
-    AccountName.empty(),
-    Password.empty()
-  );
+  private static readonly EMPTY: EntranceInformation = new EntranceInformation(AccountName.empty(), Password.empty());
 
-  public static of(
-    account: AccountName,
-    password: Password
-  ): EntranceInformation {
+  public static of(account: AccountName, password: Password): EntranceInformation {
     if (account.isEmpty()) {
       if (password.isEmpty()) {
         return EntranceInformation.empty();
@@ -34,10 +28,7 @@ export class EntranceInformation extends ValueObject implements JSONable {
     return EntranceInformation.EMPTY;
   }
 
-  protected constructor(
-    account: AccountName,
-    password: Password
-  ) {
+  protected constructor(account: AccountName, password: Password) {
     super();
     this.account = account;
     this.password = password;

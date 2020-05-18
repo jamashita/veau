@@ -19,6 +19,7 @@ export class RegionCommand implements IRegionCommand, IRedisCommand {
   }
 
   public async insertAll(regions: Regions): Promise<Superposition<void, DataSourceError>> {
+    // prettier-ignore
     try {
       const str: string = await JSONA.stringify(regions.toJSON());
       await this.redis.getString().set(REDIS_REGION_KEY, str);
@@ -36,6 +37,7 @@ export class RegionCommand implements IRegionCommand, IRedisCommand {
   }
 
   public async deleteAll(): Promise<Superposition<void, DataSourceError>> {
+    // prettier-ignore
     try {
       const ok: boolean = await this.redis.delete(REDIS_REGION_KEY);
 

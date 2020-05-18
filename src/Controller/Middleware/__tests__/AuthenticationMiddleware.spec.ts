@@ -18,8 +18,12 @@ const ok = (req: Request, res: Response) => {
 describe('AuthenticationMiddleware', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const authenticationMiddleware1: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
-      const authenticationMiddleware2: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
+      const authenticationMiddleware1: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(
+        TYPE.AuthenticationMiddleware
+      );
+      const authenticationMiddleware2: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(
+        TYPE.AuthenticationMiddleware
+      );
 
       expect(authenticationMiddleware1).toBeInstanceOf(AuthenticationMiddleware);
       expect(authenticationMiddleware1).toBe(authenticationMiddleware2);
@@ -28,7 +32,9 @@ describe('AuthenticationMiddleware', () => {
 
   describe('requires', () => {
     it('GET: pass', async () => {
-      const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
+      const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(
+        TYPE.AuthenticationMiddleware
+      );
       const app: Express = express();
       app.use(setUser);
       app.use(authenticationMiddleware.requires());
@@ -39,7 +45,9 @@ describe('AuthenticationMiddleware', () => {
     });
 
     it('GET: blocked', async () => {
-      const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
+      const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(
+        TYPE.AuthenticationMiddleware
+      );
       const app: Express = express();
       app.use(authenticationMiddleware.requires());
       app.use(ok);
@@ -49,7 +57,9 @@ describe('AuthenticationMiddleware', () => {
     });
 
     it('POST: pass', async () => {
-      const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
+      const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(
+        TYPE.AuthenticationMiddleware
+      );
       const app: Express = express();
       app.use(setUser);
       app.use(authenticationMiddleware.requires());
@@ -60,7 +70,9 @@ describe('AuthenticationMiddleware', () => {
     });
 
     it('POST: blocked', async () => {
-      const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
+      const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(
+        TYPE.AuthenticationMiddleware
+      );
       const app: Express = express();
       app.use(authenticationMiddleware.requires());
       app.use(ok);
@@ -70,7 +82,9 @@ describe('AuthenticationMiddleware', () => {
     });
 
     it('PUT: pass', async () => {
-      const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
+      const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(
+        TYPE.AuthenticationMiddleware
+      );
       const app: Express = express();
       app.use(setUser);
       app.use(authenticationMiddleware.requires());
@@ -81,7 +95,9 @@ describe('AuthenticationMiddleware', () => {
     });
 
     it('PUT: blocked', async () => {
-      const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
+      const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(
+        TYPE.AuthenticationMiddleware
+      );
       const app: Express = express();
       app.use(authenticationMiddleware.requires());
       app.use(ok);
@@ -91,7 +107,9 @@ describe('AuthenticationMiddleware', () => {
     });
 
     it('DELETE: pass', async () => {
-      const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
+      const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(
+        TYPE.AuthenticationMiddleware
+      );
       const app: Express = express();
       app.use(setUser);
       app.use(authenticationMiddleware.requires());
@@ -102,7 +120,9 @@ describe('AuthenticationMiddleware', () => {
     });
 
     it('DELETE: blocked', async () => {
-      const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
+      const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(
+        TYPE.AuthenticationMiddleware
+      );
       const app: Express = express();
       app.use(authenticationMiddleware.requires());
       app.use(ok);

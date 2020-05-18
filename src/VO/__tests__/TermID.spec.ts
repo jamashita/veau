@@ -30,12 +30,15 @@ describe('TermID', () => {
       const superposition: Superposition<TermID, TermIDError> = TermID.ofString('cinq');
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: TermIDError) => {
-        spy2();
-        expect(err).toBeInstanceOf(TermIDError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: TermIDError) => {
+          spy2();
+          expect(err).toBeInstanceOf(TermIDError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

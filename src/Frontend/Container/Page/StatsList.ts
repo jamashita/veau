@@ -47,6 +47,7 @@ type OwnProps = Readonly<{}>;
 export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
+  // prettier-ignore
   const {
     statsListItems,
     statsList: {
@@ -99,7 +100,12 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
   };
 };
 
-export const StatsList: ConnectedComponent<typeof Component, Pick<StateProps, never>> = connect<StateProps, DispatchProps, OwnProps, State>(
+export const StatsList: ConnectedComponent<typeof Component, Pick<StateProps, never>> = connect<
+  StateProps,
+  DispatchProps,
+  OwnProps,
+  State
+>(
   mapStateToProps,
   mapDispatchToProps
 )(Component);

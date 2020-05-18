@@ -32,12 +32,7 @@ export class Language extends ValueObject implements JSONable {
     ISO639.empty()
   );
 
-  public static of(
-    languageID: LanguageID,
-    name: LanguageName,
-    englishName: LanguageName,
-    iso639: ISO639
-  ): Language {
+  public static of(languageID: LanguageID, name: LanguageName, englishName: LanguageName, iso639: ISO639): Language {
     if (languageID.isEmpty()) {
       return Language.empty();
     }
@@ -55,33 +50,29 @@ export class Language extends ValueObject implements JSONable {
   }
 
   public static ofJSON(json: LanguageJSON): Superposition<Language, LanguageError> {
-    return LanguageID.ofString(json.languageID).match<Language, LanguageError>((languageID: LanguageID) => {
-      return Alive.of<Language, LanguageError>(
-        Language.of(
-          languageID,
-          LanguageName.of(json.name),
-          LanguageName.of(json.englishName),
-          ISO639.of(json.iso639)
-        )
-      );
-    }, (err: LanguageIDError) => {
-      return Dead.of<Language, LanguageError>(new LanguageError('Language.ofJSON()', err));
-    });
+    return LanguageID.ofString(json.languageID).match<Language, LanguageError>(
+      (languageID: LanguageID) => {
+        return Alive.of<Language, LanguageError>(
+          Language.of(languageID, LanguageName.of(json.name), LanguageName.of(json.englishName), ISO639.of(json.iso639))
+        );
+      },
+      (err: LanguageIDError) => {
+        return Dead.of<Language, LanguageError>(new LanguageError('Language.ofJSON()', err));
+      }
+    );
   }
 
   public static ofRow(row: LanguageRow): Superposition<Language, LanguageError> {
-    return LanguageID.ofString(row.languageID).match<Language, LanguageError>((languageID: LanguageID) => {
-      return Alive.of<Language, LanguageError>(
-        Language.of(
-          languageID,
-          LanguageName.of(row.name),
-          LanguageName.of(row.englishName),
-          ISO639.of(row.iso639)
-        )
-      );
-    }, (err: LanguageIDError) => {
-      return Dead.of<Language, LanguageError>(new LanguageError('Language.ofRow()', err));
-    });
+    return LanguageID.ofString(row.languageID).match<Language, LanguageError>(
+      (languageID: LanguageID) => {
+        return Alive.of<Language, LanguageError>(
+          Language.of(languageID, LanguageName.of(row.name), LanguageName.of(row.englishName), ISO639.of(row.iso639))
+        );
+      },
+      (err: LanguageIDError) => {
+        return Dead.of<Language, LanguageError>(new LanguageError('Language.ofRow()', err));
+      }
+    );
   }
 
   public static empty(): Language {
@@ -108,12 +99,7 @@ export class Language extends ValueObject implements JSONable {
     return true;
   }
 
-  protected constructor(
-    languageID: LanguageID,
-    name: LanguageName,
-    englishName: LanguageName,
-    iso639: ISO639
-  ) {
+  protected constructor(languageID: LanguageID, name: LanguageName, englishName: LanguageName, iso639: ISO639) {
     super();
     this.languageID = languageID;
     this.name = name;

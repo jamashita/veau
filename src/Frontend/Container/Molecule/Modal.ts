@@ -18,6 +18,7 @@ type OwnProps = Readonly<{}>;
 export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = (state: State) => {
+  // prettier-ignore
   const {
     modal: {
       open,
@@ -43,7 +44,12 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (dispatc
   };
 };
 
-export const Modal: ConnectedComponent<typeof Component, Pick<StateProps, never>> = connect<StateProps, DispatchProps, OwnProps, State>(
+export const Modal: ConnectedComponent<typeof Component, Pick<StateProps, never>> = connect<
+  StateProps,
+  DispatchProps,
+  OwnProps,
+  State
+>(
   mapStateToProps,
   mapDispatchToProps
 )(Component);

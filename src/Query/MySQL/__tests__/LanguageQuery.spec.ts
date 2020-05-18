@@ -49,14 +49,16 @@ describe('LanguageQuery', () => {
       const languageQuery: LanguageQuery = new LanguageQuery(mysql);
       const superposition: Superposition<Languages, LanguagesError | DataSourceError> = await languageQuery.all();
 
-      expect(stub.withArgs(`SELECT
+      expect(
+        stub.withArgs(`SELECT
       R1.language_id AS languageID,
       R1.name,
       R1.english_name AS englishName,
       R1.iso639
       FROM languages R1
       FORCE INDEX(iso639)
-      ORDER BY R1.iso639;`).called).toBe(true);
+      ORDER BY R1.iso639;`).called
+      ).toBe(true);
       expect(superposition.isAlive()).toBe(true);
       const languages: Languages = superposition.get();
       expect(languages.size()).toBe(2);
@@ -80,12 +82,15 @@ describe('LanguageQuery', () => {
       const superposition: Superposition<Languages, LanguagesError | DataSourceError> = await languageQuery.all();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: LanguagesError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(MySQLError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LanguagesError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(MySQLError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -103,12 +108,15 @@ describe('LanguageQuery', () => {
       const superposition: Superposition<Languages, LanguagesError | DataSourceError> = await languageQuery.all();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: LanguagesError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(MySQLError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LanguagesError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(MySQLError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -143,19 +151,25 @@ describe('LanguageQuery', () => {
       stub.resolves(rows);
 
       const languageQuery: LanguageQuery = new LanguageQuery(mysql);
-      const superposition: Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.find(
-        LanguageID.of(uuid)
-      );
+      const superposition: Superposition<
+        Language,
+        LanguageError | NoSuchElementError | DataSourceError
+      > = await languageQuery.find(LanguageID.of(uuid));
 
-      expect(stub.withArgs(`SELECT
+      expect(
+        stub.withArgs(
+          `SELECT
       R1.language_id AS languageID,
       R1.name,
       R1.english_name AS englishName,
       R1.iso639
       FROM languages R1
-      WHERE R1.language_id = :languageID;`, {
-        languageID: uuid.get()
-      }).called).toBe(true);
+      WHERE R1.language_id = :languageID;`,
+          {
+            languageID: uuid.get()
+          }
+        ).called
+      ).toBe(true);
       expect(superposition.isAlive()).toBe(true);
       const language: Language = superposition.get();
       expect(language.getLanguageID().get().get()).toBe(rows[0].languageID);
@@ -173,17 +187,21 @@ describe('LanguageQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(mysql);
-      const superposition: Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.find(
-        new MockLanguageID()
-      );
+      const superposition: Superposition<
+        Language,
+        LanguageError | NoSuchElementError | DataSourceError
+      > = await languageQuery.find(new MockLanguageID());
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: LanguageError | NoSuchElementError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(NoSuchElementError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LanguageError | NoSuchElementError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(NoSuchElementError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -198,17 +216,21 @@ describe('LanguageQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(mysql);
-      const superposition: Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.find(
-        new MockLanguageID()
-      );
+      const superposition: Superposition<
+        Language,
+        LanguageError | NoSuchElementError | DataSourceError
+      > = await languageQuery.find(new MockLanguageID());
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: LanguageError | NoSuchElementError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(MySQLError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LanguageError | NoSuchElementError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(MySQLError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -242,17 +264,25 @@ describe('LanguageQuery', () => {
       stub.resolves(rows);
 
       const languageQuery: LanguageQuery = new LanguageQuery(mysql);
-      const superposition: Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
+      const superposition: Superposition<
+        Language,
+        LanguageError | NoSuchElementError | DataSourceError
+      > = await languageQuery.findByISO639(ISO639.of('aa'));
 
-      expect(stub.withArgs(`SELECT
+      expect(
+        stub.withArgs(
+          `SELECT
       R1.language_id AS languageID,
       R1.name,
       R1.english_name AS englishName,
       R1.iso639
       FROM languages R1
-      WHERE R1.iso639 = :iso639;`, {
-        iso639: 'aa'
-      }).called).toBe(true);
+      WHERE R1.iso639 = :iso639;`,
+          {
+            iso639: 'aa'
+          }
+        ).called
+      ).toBe(true);
       expect(superposition.isAlive()).toBe(true);
       const language: Language = superposition.get();
       expect(language.getLanguageID().get().get()).toBe(rows[0].languageID);
@@ -270,15 +300,21 @@ describe('LanguageQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(mysql);
-      const superposition: Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
+      const superposition: Superposition<
+        Language,
+        LanguageError | NoSuchElementError | DataSourceError
+      > = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: LanguageError | NoSuchElementError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(NoSuchElementError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LanguageError | NoSuchElementError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(NoSuchElementError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -293,15 +329,21 @@ describe('LanguageQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageQuery: LanguageQuery = new LanguageQuery(mysql);
-      const superposition: Superposition<Language, LanguageError | NoSuchElementError | DataSourceError> = await languageQuery.findByISO639(ISO639.of('aa'));
+      const superposition: Superposition<
+        Language,
+        LanguageError | NoSuchElementError | DataSourceError
+      > = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: LanguageError | NoSuchElementError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(MySQLError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LanguageError | NoSuchElementError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(MySQLError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

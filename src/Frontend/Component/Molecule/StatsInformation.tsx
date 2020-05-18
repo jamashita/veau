@@ -28,8 +28,8 @@ type Props = Readonly<{
 type State = Readonly<{}>;
 
 class StatsInformationImpl extends React.Component<Props & WrappedComponentProps, State> {
-
   public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
+    // prettier-ignore
     const {
       stats,
       locale
@@ -46,6 +46,7 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
   }
 
   public render(): React.ReactNode {
+    // prettier-ignore
     const {
       stats,
       locale,
@@ -57,9 +58,7 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
     } = this.props;
 
     return (
-      <Card
-        className='stats-info'
-      >
+      <Card className='stats-info'>
         <CardHeader
           title={intl.formatMessage({
             id: 'STATS_INFO'
@@ -86,9 +85,7 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
               unitTyped(StatsUnit.of(value));
             }}
           />
-          <FormControl
-            fullWidth={true}
-          >
+          <FormControl fullWidth={true}>
             <InputLabel>
               {intl.formatMessage({
                 id: 'LANGUAGE'
@@ -96,10 +93,12 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
             </InputLabel>
             <Select
               value={stats.getLanguage().getISO639().get()}
-              onChange={(event: React.ChangeEvent<{
-                name?: string;
-                value: unknown;
-              }>) => {
+              onChange={(
+                event: React.ChangeEvent<{
+                  name?: string;
+                  value: unknown;
+                }>
+              ) => {
                 const iso639: string = event.target.value as string;
                 iso639Selected(ISO639.of(iso639));
               }}
@@ -108,19 +107,14 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
                 const iso639: string = language.getISO639().get();
 
                 return (
-                  <MenuItem
-                    key={iso639}
-                    value={iso639}
-                  >
+                  <MenuItem key={iso639} value={iso639}>
                     {language.getName().get()}
                   </MenuItem>
                 );
               })}
             </Select>
           </FormControl>
-          <FormControl
-            fullWidth={true}
-          >
+          <FormControl fullWidth={true}>
             <InputLabel>
               {intl.formatMessage({
                 id: 'REGION'
@@ -128,10 +122,12 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
             </InputLabel>
             <Select
               value={stats.getRegion().getISO3166().get()}
-              onChange={(event: React.ChangeEvent<{
-                name?: string;
-                value: unknown;
-              }>) => {
+              onChange={(
+                event: React.ChangeEvent<{
+                  name?: string;
+                  value: unknown;
+                }>
+              ) => {
                 const iso3166: string = event.target.value as string;
                 iso3166Selected(ISO3166.of(iso3166));
               }}
@@ -140,10 +136,7 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
                 const iso3166: string = region.getISO3166().get();
 
                 return (
-                  <MenuItem
-                    key={iso3166}
-                    value={iso3166}
-                  >
+                  <MenuItem key={iso3166} value={iso3166}>
                     {region.getName().get()}
                   </MenuItem>
                 );
@@ -166,4 +159,6 @@ class StatsInformationImpl extends React.Component<Props & WrappedComponentProps
   }
 }
 
-export const StatsInformation: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(StatsInformationImpl);
+export const StatsInformation: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(
+  StatsInformationImpl
+);

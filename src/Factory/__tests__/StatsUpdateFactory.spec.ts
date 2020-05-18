@@ -29,9 +29,7 @@ describe('StatsUpdateFactory', () => {
     it('returns StatsValueCommand instance', () => {
       const sql: MockSQL = new MockSQL();
 
-      const statsUpdateFactory: StatsUpdateFactory = new StatsUpdateFactory(
-
-      );
+      const statsUpdateFactory: StatsUpdateFactory = new StatsUpdateFactory();
 
       expect(statsUpdateFactory.forgeStatsValueCommand(sql)).toBeInstanceOf(StatsValueCommand);
     });

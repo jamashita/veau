@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { DataSourceError, Dead, IMySQL, MySQLError, Superposition } from 'publikum';
+import { DataSourceError, Dead, IMySQL, MySQLError, Schrodinger, Superposition } from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { AccountError } from '../../Error/AccountError';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
@@ -18,7 +18,9 @@ export class AccountQuery implements IAccountQuery, IMySQLQuery {
     this.mysql = mysql;
   }
 
-  public async findByAccount(account: AccountName): Promise<Superposition<Account, AccountError | NoSuchElementError | DataSourceError>> {
+  public async findByAccount(
+    account: AccountName
+  ): Promise<Superposition<Account, AccountError | NoSuchElementError | DataSourceError>> {
     const query: string = `SELECT
       R1.veau_account_id AS veauAccountID,
       R3.language_id AS languageID,
@@ -35,26 +37,26 @@ export class AccountQuery implements IAccountQuery, IMySQLQuery {
       WHERE R1.account = :account
       AND R1.active = true;`;
 
-    try {
-      const accountRows: Array<AccountRow> = await this.mysql.execute<Array<AccountRow>>(
-        query,
-        {
-          account: account.get()
+    const superposition: Superposition<Array<AccountRow>, MySQLError> = await Schrodinger.playground<
+      Array<AccountRow>,
+      MySQLError
+    >(() => {
+      return this.mysql.execute<Array<AccountRow>>(query, {
+        account: account.get()
+      });
+    });
+
+    return superposition.match<Account, AccountError | NoSuchElementError | DataSourceError>(
+      (rows: Array<AccountRow>) => {
+        if (rows.length === 0) {
+          return Dead.of<Account, NoSuchElementError>(new NoSuchElementError(account.get()));
         }
-      );
 
-      if (accountRows.length === 0) {
-        return Dead.of<Account, NoSuchElementError>(new NoSuchElementError(account.get()));
-      }
-
-      return Account.ofRow(accountRows[0]);
-    }
-    catch (err) {
-      if (err instanceof MySQLError) {
+        return Account.ofRow(rows[0]);
+      },
+      (err: MySQLError) => {
         return Dead.of<Account, MySQLError>(err);
       }
-
-      throw err;
-    }
+    );
   }
 }

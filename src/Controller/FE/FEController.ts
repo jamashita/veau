@@ -3,7 +3,6 @@ import { Controller, Get, Render, Res } from 'routing-controllers';
 
 @Controller()
 export class FEController {
-
   @Get('/robots.txt')
   public robot(@Res() res: Response): Response<unknown> {
     res.set('Content-Type', 'text/plain');

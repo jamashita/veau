@@ -28,9 +28,7 @@ describe('LanguageID', () => {
     it('normal case', () => {
       const uuid: UUID = UUID.v4();
 
-      const superposition: Superposition<LanguageID, LanguageIDError> = LanguageID.ofString(
-        uuid.get()
-      );
+      const superposition: Superposition<LanguageID, LanguageIDError> = LanguageID.ofString(uuid.get());
 
       expect(superposition.isAlive()).toBe(true);
     });
@@ -42,17 +40,19 @@ describe('LanguageID', () => {
       const superposition: Superposition<LanguageID, LanguageIDError> = LanguageID.ofString('quasi');
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: LanguageIDError) => {
-        spy2();
-        expect(err).toBeInstanceOf(LanguageIDError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LanguageIDError) => {
+          spy2();
+          expect(err).toBeInstanceOf(LanguageIDError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
     });
-
   });
 
   describe('equals', () => {

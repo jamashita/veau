@@ -6,8 +6,7 @@ import supertest from 'supertest';
 import { SessionController } from '../SessionController';
 
 const dummy = (req: Request, res: Response, next: NextFunction) => {
-  req.logout = () => {
-  };
+  req.logout = () => {};
   next();
 };
 
@@ -17,9 +16,7 @@ describe('SessionController', () => {
       const app: Express = express();
       app.use(dummy);
       useExpressServer(app, {
-        controllers: [
-          SessionController
-        ]
+        controllers: [SessionController]
       });
 
       const response: supertest.Response = await supertest(app).delete('/session');

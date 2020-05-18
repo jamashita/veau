@@ -23,15 +23,13 @@ export class LogoutSaga {
     while (true) {
       yield take(LOGOUT);
 
-      yield call((): Promise<Superposition<void, DataSourceError>> => {
-        return this.sessionCommand.delete();
-      });
+      yield call(
+        (): Promise<Superposition<void, DataSourceError>> => {
+          return this.sessionCommand.delete();
+        }
+      );
 
-      yield all([
-        put(initializeIdentity()),
-        put(closeProvider()),
-        put(pushToEntrance())
-      ]);
+      yield all([put(initializeIdentity()), put(closeProvider()), put(pushToEntrance())]);
     }
   }
 }

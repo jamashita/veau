@@ -45,9 +45,7 @@ describe('StatsController', () => {
       const app: express.Express = express();
       app.use(fakeAccount);
       useExpressServer(app, {
-        controllers: [
-          StatsController
-        ]
+        controllers: [StatsController]
       });
 
       const response: supertest.Response = await supertest(app).get('/stats/page/1');
@@ -59,9 +57,7 @@ describe('StatsController', () => {
       const app: express.Express = express();
       app.use(fakeAccount);
       useExpressServer(app, {
-        controllers: [
-          StatsController
-        ]
+        controllers: [StatsController]
       });
 
       const response: supertest.Response = await supertest(app).get('/stats/page/0');
@@ -77,9 +73,7 @@ describe('StatsController', () => {
       const app: express.Express = express();
       app.use(fakeAccount);
       useExpressServer(app, {
-        controllers: [
-          StatsController
-        ]
+        controllers: [StatsController]
       });
 
       const response: supertest.Response = await supertest(app).get('/stats/page/1');
@@ -87,7 +81,7 @@ describe('StatsController', () => {
     });
   });
 
-  describe('GET /:statsID([0-9a-f\-]{36})', () => {
+  describe('GET /:statsID([0-9a-f-]{36})', () => {
     it('normal case', async () => {
       const stats: MockStats = new MockStats();
 
@@ -99,9 +93,7 @@ describe('StatsController', () => {
       const app: express.Express = express();
       app.use(fakeAccount);
       useExpressServer(app, {
-        controllers: [
-          StatsController
-        ]
+        controllers: [StatsController]
       });
 
       const response: supertest.Response = await supertest(app).get(`/stats/${UUID.v4().get()}`);
@@ -118,9 +110,7 @@ describe('StatsController', () => {
       const app: express.Express = express();
       app.use(fakeAccount);
       useExpressServer(app, {
-        controllers: [
-          StatsController
-        ]
+        controllers: [StatsController]
       });
 
       const response: supertest.Response = await supertest(app).get('/stats/ffffffffffffffffffffffffffffffffffff');
@@ -136,9 +126,7 @@ describe('StatsController', () => {
       const app: express.Express = express();
       app.use(fakeAccount);
       useExpressServer(app, {
-        controllers: [
-          StatsController
-        ]
+        controllers: [StatsController]
       });
 
       const response: supertest.Response = await supertest(app).get(`/stats/${UUID.v4().get()}`);
@@ -160,15 +148,15 @@ describe('StatsController', () => {
       stub.resolves(Alive.of<DataSourceError>());
 
       const app: express.Express = express();
-      app.use(bodyParser.urlencoded({
-        extended: false
-      }));
+      app.use(
+        bodyParser.urlencoded({
+          extended: false
+        })
+      );
       app.use(bodyParser.json());
       app.use(fakeAccount);
       useExpressServer(app, {
-        controllers: [
-          StatsController
-        ]
+        controllers: [StatsController]
       });
 
       const response: supertest.Response = await supertest(app).post('/stats').send(stats.toJSON());
@@ -177,28 +165,30 @@ describe('StatsController', () => {
 
     it('replies BAD_REQUEST because request body is malformat', async () => {
       const app: express.Express = express();
-      app.use(bodyParser.urlencoded({
-        extended: false
-      }));
+      app.use(
+        bodyParser.urlencoded({
+          extended: false
+        })
+      );
       app.use(bodyParser.json());
       app.use(fakeAccount);
       useExpressServer(app, {
-        controllers: [
-          StatsController
-        ]
+        controllers: [StatsController]
       });
 
-      const response: supertest.Response = await supertest(app).post('/stats').send({
-        outline: {
-          statsID: UUID.v4().get(),
-          languageID: UUID.v4().get(),
-          regionID: UUID.v4().get(),
-          termID: UUID.v4().get(),
-          name: 'name',
-          unit: 'unit',
-          updatedAt: '2000-01-01 00:00:00'
-        }
-      });
+      const response: supertest.Response = await supertest(app)
+        .post('/stats')
+        .send({
+          outline: {
+            statsID: UUID.v4().get(),
+            languageID: UUID.v4().get(),
+            regionID: UUID.v4().get(),
+            termID: UUID.v4().get(),
+            name: 'name',
+            unit: 'unit',
+            updatedAt: '2000-01-01 00:00:00'
+          }
+        });
       expect(response.status).toBe(BAD_REQUEST);
     });
 
@@ -209,40 +199,42 @@ describe('StatsController', () => {
       stub.resolves(Alive.of<unknown, DataSourceError>(4));
 
       const app: express.Express = express();
-      app.use(bodyParser.urlencoded({
-        extended: false
-      }));
+      app.use(
+        bodyParser.urlencoded({
+          extended: false
+        })
+      );
       app.use(bodyParser.json());
       app.use(fakeAccount);
       useExpressServer(app, {
-        controllers: [
-          StatsController
-        ]
+        controllers: [StatsController]
       });
 
-      const response: supertest.Response = await supertest(app).post('/stats').send({
-        outline: {
-          statsID: 'illgal',
-          languageID: 'illgal',
-          regionID: 'illgal',
-          termID: 'illgal',
-          name: 'name',
-          unit: 'unit',
-          updatedAt: '2000-01-01 00:00:00'
-        },
-        language: {
-          languageID: 'illgal',
-          name: 'language',
-          englishName: 'english language',
-          iso639: 'DU'
-        },
-        region: {
-          regionID: 'illgal',
-          name: 'region',
-          iso3166: 'IDE'
-        },
-        items: []
-      });
+      const response: supertest.Response = await supertest(app)
+        .post('/stats')
+        .send({
+          outline: {
+            statsID: 'illgal',
+            languageID: 'illgal',
+            regionID: 'illgal',
+            termID: 'illgal',
+            name: 'name',
+            unit: 'unit',
+            updatedAt: '2000-01-01 00:00:00'
+          },
+          language: {
+            languageID: 'illgal',
+            name: 'language',
+            englishName: 'english language',
+            iso639: 'DU'
+          },
+          region: {
+            regionID: 'illgal',
+            name: 'region',
+            iso3166: 'IDE'
+          },
+          items: []
+        });
       expect(response.status).toBe(BAD_REQUEST);
     });
 
@@ -259,15 +251,15 @@ describe('StatsController', () => {
       stub.resolves(Dead.of<DataSourceError>(new MySQLError('test failed')));
 
       const app: express.Express = express();
-      app.use(bodyParser.urlencoded({
-        extended: false
-      }));
+      app.use(
+        bodyParser.urlencoded({
+          extended: false
+        })
+      );
       app.use(bodyParser.json());
       app.use(fakeAccount);
       useExpressServer(app, {
-        controllers: [
-          StatsController
-        ]
+        controllers: [StatsController]
       });
 
       const response: supertest.Response = await supertest(app).post('/stats').send(stats.toJSON());

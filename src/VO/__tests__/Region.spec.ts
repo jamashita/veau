@@ -16,11 +16,7 @@ describe('Region', () => {
       const name: MockRegionName = new MockRegionName();
       const iso3166: MockISO3166 = new MockISO3166();
 
-      const region: Region = Region.of(
-        regionID,
-        name,
-        iso3166
-      );
+      const region: Region = Region.of(regionID, name, iso3166);
 
       expect(region.getRegionID()).toBe(regionID);
       expect(region.getName()).toBe(name);
@@ -28,31 +24,19 @@ describe('Region', () => {
     });
 
     it('returns Region.empty() if RegionID is empty', () => {
-      const region: Region = Region.of(
-        RegionID.empty(),
-        new MockRegionName(),
-        new MockISO3166()
-      );
+      const region: Region = Region.of(RegionID.empty(), new MockRegionName(), new MockISO3166());
 
       expect(region).toBe(Region.empty());
     });
 
     it('returns Region.empty() if RegionName is empty', () => {
-      const region: Region = Region.of(
-        new MockRegionID(),
-        RegionName.empty(),
-        new MockISO3166()
-      );
+      const region: Region = Region.of(new MockRegionID(), RegionName.empty(), new MockISO3166());
 
       expect(region).toBe(Region.empty());
     });
 
     it('returns Region.empty() if ISO3166 is empty', () => {
-      const region: Region = Region.of(
-        new MockRegionID(),
-        new MockRegionName(),
-        ISO3166.empty()
-      );
+      const region: Region = Region.of(new MockRegionID(), new MockRegionName(), ISO3166.empty());
 
       expect(region).toBe(Region.empty());
     });
@@ -88,12 +72,15 @@ describe('Region', () => {
       const superposition: Superposition<Region, RegionError> = Region.ofJSON(json);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: RegionError) => {
-        spy2();
-        expect(err).toBeInstanceOf(RegionError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: RegionError) => {
+          spy2();
+          expect(err).toBeInstanceOf(RegionError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -130,12 +117,15 @@ describe('Region', () => {
       const superposition: Superposition<Region, RegionError> = Region.ofRow(row);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: RegionError) => {
-        spy2();
-        expect(err).toBeInstanceOf(RegionError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: RegionError) => {
+          spy2();
+          expect(err).toBeInstanceOf(RegionError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -247,11 +237,7 @@ describe('Region', () => {
         new MockRegionName('Afghanistan'),
         new MockISO3166('AFG')
       );
-      const region3: Region = Region.of(
-        new MockRegionID(uuid1),
-        new MockRegionName('Albania'),
-        new MockISO3166('AFG')
-      );
+      const region3: Region = Region.of(new MockRegionID(uuid1), new MockRegionName('Albania'), new MockISO3166('AFG'));
       const region4: Region = Region.of(
         new MockRegionID(uuid1),
         new MockRegionName('Afghanistan'),
@@ -274,11 +260,7 @@ describe('Region', () => {
   describe('toJSON', () => {
     it('normal case', () => {
       const uuid: UUID = UUID.v4();
-      const region: Region = Region.of(
-        RegionID.of(uuid),
-        RegionName.of('Afghanistan'),
-        ISO3166.of('AFG')
-      );
+      const region: Region = Region.of(RegionID.of(uuid), RegionName.of('Afghanistan'), ISO3166.of('AFG'));
 
       expect(region.toJSON()).toEqual({
         regionID: uuid.get(),
@@ -294,11 +276,7 @@ describe('Region', () => {
       const name: string = 'region 1';
       const iso3166: string = 'abc';
 
-      const region: Region = Region.of(
-        RegionID.of(uuid),
-        RegionName.of(name),
-        ISO3166.of(iso3166)
-      );
+      const region: Region = Region.of(RegionID.of(uuid), RegionName.of(name), ISO3166.of(iso3166));
 
       expect(region.toString()).toBe(`${uuid.get()} ${name} ${iso3166}`);
     });

@@ -24,19 +24,28 @@ describe('StatsItemCommand', () => {
       sql.execute = stub;
 
       const statsItemCommand: StatsItemCommand = new StatsItemCommand(sql);
-      const superposition: Superposition<void, DataSourceError> = await statsItemCommand.create(statsID, statsItem, seq);
+      const superposition: Superposition<void, DataSourceError> = await statsItemCommand.create(
+        statsID,
+        statsItem,
+        seq
+      );
 
-      expect(stub.withArgs(`INSERT INTO stats_items VALUES (
+      expect(
+        stub.withArgs(
+          `INSERT INTO stats_items VALUES (
       :statsItemID,
       :statsID,
       :name,
       :seq
-      );`, {
-        statsItemID: uuid2.get(),
-        statsID: uuid1.get(),
-        name: itemName,
-        seq
-      }).called).toBe(true);
+      );`,
+          {
+            statsItemID: uuid2.get(),
+            statsID: uuid1.get(),
+            name: itemName,
+            seq
+          }
+        ).called
+      ).toBe(true);
       expect(superposition.isAlive()).toBe(true);
     });
 
@@ -53,15 +62,22 @@ describe('StatsItemCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsItemCommand: StatsItemCommand = new StatsItemCommand(sql);
-      const superposition: Superposition<void, DataSourceError> = await statsItemCommand.create(statsID, statsItem, seq);
+      const superposition: Superposition<void, DataSourceError> = await statsItemCommand.create(
+        statsID,
+        statsItem,
+        seq
+      );
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(MySQLError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(MySQLError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -94,13 +110,18 @@ describe('StatsItemCommand', () => {
       const statsItemCommand: StatsItemCommand = new StatsItemCommand(sql);
       const superposition: Superposition<void, DataSourceError> = await statsItemCommand.deleteByStatsID(statsID);
 
-      expect(stub.withArgs(`DELETE R1
+      expect(
+        stub.withArgs(
+          `DELETE R1
       FROM stats_items R1
       INNER JOIN stats R2
       USING(stats_id)
-      WHERE R2.stats_id = :statsID;`, {
-        statsID: uuid.get()
-      }).called).toBe(true);
+      WHERE R2.stats_id = :statsID;`,
+          {
+            statsID: uuid.get()
+          }
+        ).called
+      ).toBe(true);
       expect(superposition.isAlive()).toBe(true);
     });
 
@@ -118,12 +139,15 @@ describe('StatsItemCommand', () => {
       const superposition: Superposition<void, DataSourceError> = await statsItemCommand.deleteByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(MySQLError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(MySQLError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

@@ -27,41 +27,54 @@ export class RegionQuery implements IRegionQuery, IVaultQuery {
   public async all(): Promise<Superposition<Regions, RegionsError | DataSourceError>> {
     const superposition: Superposition<Locale, LocaleError | DataSourceError> = await this.localeVaultQuery.all();
 
-    return superposition.match<Regions, RegionsError | DataSourceError>((locale: Locale) => {
-      return Alive.of<Regions, DataSourceError>(locale.getRegions());
-    }, (err: LocaleError | DataSourceError) => {
-      if (err instanceof LocaleError) {
-        return Dead.of<Regions, RegionsError>(new RegionsError('RegionQuery.all()', err));
-      }
+    return superposition.match<Regions, RegionsError | DataSourceError>(
+      (locale: Locale) => {
+        return Alive.of<Regions, DataSourceError>(locale.getRegions());
+      },
+      (err: LocaleError | DataSourceError) => {
+        if (err instanceof LocaleError) {
+          return Dead.of<Regions, RegionsError>(new RegionsError('RegionQuery.all()', err));
+        }
 
-      return Dead.of<Regions, DataSourceError>(err);
-    });
+        return Dead.of<Regions, DataSourceError>(err);
+      }
+    );
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public find(regionID: RegionID): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {
-    return Promise.reject<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>>(new UnimplementedError());
+    return Promise.reject<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>>(
+      new UnimplementedError()
+    );
   }
 
-  public async findByISO3166(iso3166: ISO3166): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {
+  public async findByISO3166(
+    iso3166: ISO3166
+  ): Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>> {
     const superposition: Superposition<Regions, RegionsError | DataSourceError> = await this.all();
 
-    return superposition.match<Region, RegionError | NoSuchElementError | DataSourceError>((regions: Regions) => {
-      const quantum: Quantum<Region> = regions.find((region: Region) => {
-        return region.getISO3166().equals(iso3166);
-      });
+    return superposition.match<Region, RegionError | NoSuchElementError | DataSourceError>(
+      (regions: Regions) => {
+        const quantum: Quantum<Region> = regions.find((region: Region) => {
+          return region.getISO3166().equals(iso3166);
+        });
 
-      return quantum.toSuperposition().match<Region, NoSuchElementError | DataSourceError>((region: Region, self: Alive<Region, QuantumError>) => {
-        return self.transpose<DataSourceError>();
-      }, () => {
-        return Dead.of<Region, NoSuchElementError>(new NoSuchElementError(iso3166.get()));
-      });
-    }, (err: RegionsError | DataSourceError) => {
-      if (err instanceof RegionsError) {
-        return Dead.of<Region, RegionError>(new RegionError('RegionQuery.findByISO3166()', err));
+        return quantum.toSuperposition().match<Region, NoSuchElementError | DataSourceError>(
+          (region: Region, self: Alive<Region, QuantumError>) => {
+            return self.transpose<DataSourceError>();
+          },
+          () => {
+            return Dead.of<Region, NoSuchElementError>(new NoSuchElementError(iso3166.get()));
+          }
+        );
+      },
+      (err: RegionsError | DataSourceError) => {
+        if (err instanceof RegionsError) {
+          return Dead.of<Region, RegionError>(new RegionError('RegionQuery.findByISO3166()', err));
+        }
+
+        return Dead.of<Region, DataSourceError>(err);
       }
-
-      return Dead.of<Region, DataSourceError>(err);
-    });
+    );
   }
 }

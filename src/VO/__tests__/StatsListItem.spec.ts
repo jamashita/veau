@@ -17,12 +17,7 @@ describe('StatsListItem', () => {
       const region: MockRegion = new MockRegion();
       const term: MockTerm = new MockTerm();
 
-      const statsOutline: StatsListItem = StatsListItem.of(
-        outline,
-        language,
-        region,
-        term
-      );
+      const statsOutline: StatsListItem = StatsListItem.of(outline, language, region, term);
 
       expect(statsOutline.getOutline()).toBe(outline);
       expect(statsOutline.getLanguage()).toBe(language);
@@ -177,7 +172,9 @@ describe('StatsListItem', () => {
         })
       );
 
-      expect(statsOutline.toString()).toBe(`${uuid1.get()} ${uuid2.get()} ${uuid3.get()} ${uuid4.get()}   2000-01-02 01:02:03 ${uuid2.get()}    ${uuid3.get()}   ${uuid4.get()} `);
+      expect(statsOutline.toString()).toBe(
+        `${uuid1.get()} ${uuid2.get()} ${uuid3.get()} ${uuid4.get()}   2000-01-02 01:02:03 ${uuid2.get()}    ${uuid3.get()}   ${uuid4.get()} `
+      );
     });
   });
 });

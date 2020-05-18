@@ -56,12 +56,15 @@ describe('RegionQuery', () => {
       const superposition: Superposition<Regions, RegionsError | DataSourceError> = await regionQuery.all();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: RegionsError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(AJAXError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: RegionsError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(AJAXError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -87,7 +90,10 @@ describe('RegionQuery', () => {
       stub.resolves(Alive.of<Locale, DataSourceError>(locale));
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const superposition: Superposition<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      const superposition: Superposition<
+        Region,
+        RegionError | NoSuchElementError | DataSourceError
+      > = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(superposition.isAlive()).toBe(true);
       expect(superposition.get()).toBe(locale.getRegions().get(1).get());
@@ -102,15 +108,21 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const superposition: Superposition<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      const superposition: Superposition<
+        Region,
+        RegionError | NoSuchElementError | DataSourceError
+      > = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: RegionError | NoSuchElementError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(AJAXError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: RegionError | NoSuchElementError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(AJAXError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -125,15 +137,21 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const superposition: Superposition<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      const superposition: Superposition<
+        Region,
+        RegionError | NoSuchElementError | DataSourceError
+      > = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: RegionError | NoSuchElementError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(RegionError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: RegionError | NoSuchElementError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(RegionError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -159,15 +177,21 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(localeVaultQuery);
-      const superposition: Superposition<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('OOP'));
+      const superposition: Superposition<
+        Region,
+        RegionError | NoSuchElementError | DataSourceError
+      > = await regionQuery.findByISO3166(ISO3166.of('OOP'));
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: RegionError | NoSuchElementError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(NoSuchElementError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: RegionError | NoSuchElementError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(NoSuchElementError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

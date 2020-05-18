@@ -29,19 +29,25 @@ describe('Limit', () => {
       expect(superposition2.isDead()).toBe(true);
       expect(superposition3.isDead()).toBe(true);
 
-      superposition2.match<void>(() => {
-        spy1();
-      }, (err: LimitError) => {
-        spy2();
-        expect(err).toBeInstanceOf(LimitError);
-      });
+      superposition2.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LimitError) => {
+          spy2();
+          expect(err).toBeInstanceOf(LimitError);
+        }
+      );
 
-      superposition3.match<void>(() => {
-        spy3();
-      }, (err: LimitError) => {
-        spy4();
-        expect(err).toBeInstanceOf(LimitError);
-      });
+      superposition3.match<void>(
+        () => {
+          spy3();
+        },
+        (err: LimitError) => {
+          spy4();
+          expect(err).toBeInstanceOf(LimitError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -61,19 +67,25 @@ describe('Limit', () => {
       expect(superposition1.isDead()).toBe(true);
       expect(superposition2.isDead()).toBe(true);
 
-      superposition1.match<void>(() => {
-        spy1();
-      }, (err: LimitError) => {
-        spy2();
-        expect(err).toBeInstanceOf(LimitError);
-      });
+      superposition1.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LimitError) => {
+          spy2();
+          expect(err).toBeInstanceOf(LimitError);
+        }
+      );
 
-      superposition2.match<void>(() => {
-        spy3();
-      }, (err: LimitError) => {
-        spy4();
-        expect(err).toBeInstanceOf(LimitError);
-      });
+      superposition2.match<void>(
+        () => {
+          spy3();
+        },
+        (err: LimitError) => {
+          spy4();
+          expect(err).toBeInstanceOf(LimitError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

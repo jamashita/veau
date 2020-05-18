@@ -37,8 +37,8 @@ type Props = Readonly<{
 type State = Readonly<{}>;
 
 class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProps, State> {
-
   public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
+    // prettier-ignore
     const {
       open,
       stats,
@@ -74,12 +74,7 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
     } = this.props;
 
     return (
-      <Dialog
-        open={open}
-        onClose={closeNewStatsModal}
-        fullWidth={true}
-        maxWidth='md'
-      >
+      <Dialog open={open} onClose={closeNewStatsModal} fullWidth={true} maxWidth='md'>
         <DialogTitle>
           {intl.formatMessage({
             id: 'CREATE_NEW_STATS'
@@ -106,9 +101,7 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
               unitTyped(StatsUnit.of(value));
             }}
           />
-          <FormControl
-            fullWidth={true}
-          >
+          <FormControl fullWidth={true}>
             <InputLabel>
               {intl.formatMessage({
                 id: 'LANGUAGE'
@@ -116,10 +109,12 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
             </InputLabel>
             <Select
               value={stats.getLanguage().getISO639().get()}
-              onChange={(event: React.ChangeEvent<{
-                name?: string;
-                value: unknown;
-              }>) => {
+              onChange={(
+                event: React.ChangeEvent<{
+                  name?: string;
+                  value: unknown;
+                }>
+              ) => {
                 const iso639: string = event.target.value as string;
                 iso639Selected(ISO639.of(iso639));
               }}
@@ -128,19 +123,14 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
                 const iso639: string = language.getISO639().get();
 
                 return (
-                  <MenuItem
-                    key={iso639}
-                    value={iso639}
-                  >
+                  <MenuItem key={iso639} value={iso639}>
                     {language.getName().get()}
                   </MenuItem>
                 );
               })}
             </Select>
           </FormControl>
-          <FormControl
-            fullWidth={true}
-          >
+          <FormControl fullWidth={true}>
             <InputLabel>
               {intl.formatMessage({
                 id: 'REGION'
@@ -148,10 +138,12 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
             </InputLabel>
             <Select
               value={stats.getRegion().getISO3166().get()}
-              onChange={(event: React.ChangeEvent<{
-                name?: string;
-                value: unknown;
-              }>) => {
+              onChange={(
+                event: React.ChangeEvent<{
+                  name?: string;
+                  value: unknown;
+                }>
+              ) => {
                 const iso3166: string = event.target.value as string;
                 iso3166Selected(ISO3166.of(iso3166));
               }}
@@ -160,19 +152,14 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
                 const iso3166: string = region.getISO3166().get();
 
                 return (
-                  <MenuItem
-                    key={iso3166}
-                    value={iso3166}
-                  >
+                  <MenuItem key={iso3166} value={iso3166}>
                     {region.getName().get()}
                   </MenuItem>
                 );
               })}
             </Select>
           </FormControl>
-          <FormControl
-            fullWidth={true}
-          >
+          <FormControl fullWidth={true}>
             <InputLabel>
               {intl.formatMessage({
                 id: 'TERM'
@@ -180,56 +167,49 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
             </InputLabel>
             <Select
               value={stats.getTerm().getTermID()}
-              onChange={(event: React.ChangeEvent<{
-                name?: string;
-                value: unknown;
-              }>) => {
+              onChange={(
+                event: React.ChangeEvent<{
+                  name?: string;
+                  value: unknown;
+                }>
+              ) => {
                 const termID: string = event.target.value as string;
 
-                Term.ofString(termID).match<void>((term: Term) => {
-                  termSelected(term);
-                }, () => {
-                  // NOOP
-                });
+                Term.ofString(termID).match<void>(
+                  (term: Term) => {
+                    termSelected(term);
+                  },
+                  () => {
+                    // NOOP
+                  }
+                );
               }}
             >
-              {Terms.all().map<React.ReactNode>((term: Term): React.ReactNode => {
-                const termID: string = term.getTermID().get().get();
+              {Terms.all().map<React.ReactNode>(
+                (term: Term): React.ReactNode => {
+                  const termID: string = term.getTermID().get().get();
 
-                return (
-                  <MenuItem
-                    key={termID}
-                    value={termID}
-                  >
-                    {intl.formatMessage({
-                      id: term.getKey().get()
-                    })}
-                  </MenuItem>
-                );
-              })}
+                  return (
+                    <MenuItem key={termID} value={termID}>
+                      {intl.formatMessage({
+                        id: term.getKey().get()
+                      })}
+                    </MenuItem>
+                  );
+                }
+              )}
             </Select>
           </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button
-            color='secondary'
-            onClick={saveNewStats}
-            disabled={!stats.isFilled()}
-          >
-            <Icon
-              className='fas fa-check'
-            />
+          <Button color='secondary' onClick={saveNewStats} disabled={!stats.isFilled()}>
+            <Icon className='fas fa-check' />
             {intl.formatMessage({
               id: 'SUBMIT'
             })}
           </Button>
-          <Button
-            color='secondary'
-            onClick={closeNewStatsModal}
-          >
-            <Icon
-              className='fas fa-times'
-            />
+          <Button color='secondary' onClick={closeNewStatsModal}>
+            <Icon className='fas fa-times' />
             {intl.formatMessage({
               id: 'CANCEL'
             })}
@@ -240,4 +220,6 @@ class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProp
   }
 }
 
-export const StatsOutlineModal: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(StatsOutlineModalImpl);
+export const StatsOutlineModal: React.ComponentType<WithIntlProps<Props & WrappedComponentProps>> = injectIntl(
+  StatsOutlineModalImpl
+);

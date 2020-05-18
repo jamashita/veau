@@ -61,7 +61,10 @@ describe('StatsQuery', () => {
       });
 
       const statsQuery: StatsQuery = new StatsQuery(ajax);
-      const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
+      const superposition: Superposition<
+        Stats,
+        StatsError | NoSuchElementError | DataSourceError
+      > = await statsQuery.findByStatsID(statsID);
 
       expect(stub.withArgs(`/api/stats/${statsID.get().get()}`).called).toBe(true);
       expect(superposition.isAlive()).toBe(true);
@@ -94,21 +97,27 @@ describe('StatsQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsQuery: StatsQuery = new StatsQuery(ajax);
-      const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
+      const superposition: Superposition<
+        Stats,
+        StatsError | NoSuchElementError | DataSourceError
+      > = await statsQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsError | NoSuchElementError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(NoSuchElementError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsError | NoSuchElementError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(NoSuchElementError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
     });
 
-    it('doesn\'t return OK', async () => {
+    it('doesn not return OK', async () => {
       const statsID: MockStatsID = new MockStatsID();
 
       const ajax: MockAJAX = new MockAJAX();
@@ -122,15 +131,21 @@ describe('StatsQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsQuery: StatsQuery = new StatsQuery(ajax);
-      const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
+      const superposition: Superposition<
+        Stats,
+        StatsError | NoSuchElementError | DataSourceError
+      > = await statsQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsError | NoSuchElementError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(AJAXError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsError | NoSuchElementError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(AJAXError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

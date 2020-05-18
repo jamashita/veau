@@ -41,12 +41,11 @@ describe('StatsInteractor', () => {
       statsQuery.findByStatsID = stub;
       stub.resolves(Alive.of<Stats, NoSuchElementError>(stats));
 
-      const statsInteractor: StatsInteractor = new StatsInteractor(
-        statsQuery,
-        statsOutlineQuery,
-        statsCommand
-      );
-      const superposition: Superposition<Stats, NoSuchElementError | StatsError | DataSourceError> = await statsInteractor.findByStatsID(statsID);
+      const statsInteractor: StatsInteractor = new StatsInteractor(statsQuery, statsOutlineQuery, statsCommand);
+      const superposition: Superposition<
+        Stats,
+        NoSuchElementError | StatsError | DataSourceError
+      > = await statsInteractor.findByStatsID(statsID);
 
       expect(superposition.isAlive()).toBe(true);
       expect(superposition.get().equals(stats)).toBe(true);
@@ -66,15 +65,11 @@ describe('StatsInteractor', () => {
       statsOutlineQuery.findByVeauAccountID = stub;
       stub.resolves(Alive.of<StatsOutlines, StatsOutlinesError>(outlines));
 
-      const statsInteractor: StatsInteractor = new StatsInteractor(
-        statsQuery,
-        statsOutlineQuery,
-        statsCommand
-      );
-      const superposition: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError> = await statsInteractor.findByVeauAccountID(
-        accountID,
-        page
-      );
+      const statsInteractor: StatsInteractor = new StatsInteractor(statsQuery, statsOutlineQuery, statsCommand);
+      const superposition: Superposition<
+        StatsOutlines,
+        StatsOutlinesError | DataSourceError
+      > = await statsInteractor.findByVeauAccountID(accountID, page);
 
       expect(superposition.get()).toBe(outlines);
     });
@@ -92,15 +87,8 @@ describe('StatsInteractor', () => {
       statsCommand.create = stub;
       stub.resolves(Alive.of<unknown, DataSourceError>('something'));
 
-      const statsInteractor: StatsInteractor = new StatsInteractor(
-        statsQuery,
-        statsOutlineQuery,
-        statsCommand
-      );
-      await statsInteractor.save(
-        stats,
-        accountID
-      );
+      const statsInteractor: StatsInteractor = new StatsInteractor(statsQuery, statsOutlineQuery, statsCommand);
+      await statsInteractor.save(stats, accountID);
 
       expect(stub.called).toBe(true);
     });

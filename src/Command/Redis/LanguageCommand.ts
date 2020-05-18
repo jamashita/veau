@@ -19,6 +19,7 @@ export class LanguageCommand implements ILanguageCommand, IRedisCommand {
   }
 
   public async insertAll(languages: Languages): Promise<Superposition<void, DataSourceError>> {
+    // prettier-ignore
     try {
       const str: string = await JSONA.stringify(languages.toJSON());
       await this.redis.getString().set(REDIS_LANGUAGE_KEY, str);
@@ -36,6 +37,7 @@ export class LanguageCommand implements ILanguageCommand, IRedisCommand {
   }
 
   public async deleteAll(): Promise<Superposition<void, DataSourceError>> {
+    // prettier-ignore
     try {
       const ok: boolean = await this.redis.delete(REDIS_LANGUAGE_KEY);
 

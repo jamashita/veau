@@ -13,7 +13,11 @@ export class StatsItemCommand implements IStatsItemCommand, IMySQLCommand {
     this.sql = sql;
   }
 
-  public async create(statsID: StatsID, statsItem: StatsItem, seq: number): Promise<Superposition<void, DataSourceError>> {
+  public async create(
+    statsID: StatsID,
+    statsItem: StatsItem,
+    seq: number
+  ): Promise<Superposition<void, DataSourceError>> {
     const query: string = `INSERT INTO stats_items VALUES (
       :statsItemID,
       :statsID,
@@ -21,6 +25,7 @@ export class StatsItemCommand implements IStatsItemCommand, IMySQLCommand {
       :seq
       );`;
 
+    // prettier-ignore
     try {
       await this.sql.execute<unknown>(query, {
         statsItemID: statsItem.getStatsItemID().get().get(),
@@ -47,6 +52,7 @@ export class StatsItemCommand implements IStatsItemCommand, IMySQLCommand {
       USING(stats_id)
       WHERE R2.stats_id = :statsID;`;
 
+    // prettier-ignore
     try {
       await this.sql.execute<unknown>(query, {
         statsID: statsID.get().get()

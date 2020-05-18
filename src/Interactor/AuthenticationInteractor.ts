@@ -25,32 +25,38 @@ export class AuthenticationInteractor implements Noun {
   }
 
   public review(): VerifyFunction {
-
     return async (name: string, pass: string, callback: (error: unknown, account?: unknown) => void) => {
+      // prettier-ignore
       try {
         const accountName: AccountName = AccountName.of(name);
         const password: Password = Password.of(pass);
 
-        const superposition: Superposition<Account, AccountError | NoSuchElementError | DataSourceError> = await this.accountQuery.findByAccount(accountName);
+        const superposition: Superposition<
+          Account,
+          AccountError | NoSuchElementError | DataSourceError
+        > = await this.accountQuery.findByAccount(accountName);
 
         // eslint-disable-next-line @typescript-eslint/return-await
-        return superposition.match<void>(async (account: Account) => {
-          const correct: boolean = await account.verify(password);
+        return superposition.match<void>(
+          async (account: Account) => {
+            const correct: boolean = await account.verify(password);
 
-          if (correct) {
-            callback(null, account.getVeauAccount());
-            return;
+            if (correct) {
+              callback(null, account.getVeauAccount());
+              return;
+            }
+
+            callback(null, false);
+          },
+          async (err: AccountError | NoSuchElementError | DataSourceError) => {
+            // time adjustment
+            await Digest.compare(DUMMY_PASSWORD, DUMMY_HASH);
+
+            logger.warn(err);
+            logger.info(`invalid account: ${name} and password: ${pass}`);
+            callback(null, false);
           }
-
-          callback(null, false);
-        }, async (err: AccountError | NoSuchElementError | DataSourceError) => {
-          // time adjustment
-          await Digest.compare(DUMMY_PASSWORD, DUMMY_HASH);
-
-          logger.warn(err);
-          logger.info(`invalid account: ${name} and password: ${pass}`);
-          callback(null, false);
-        });
+        );
       }
       catch (err) {
         logger.fatal(err);

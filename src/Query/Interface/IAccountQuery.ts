@@ -8,5 +8,7 @@ import { IQuery } from './IQuery';
 export interface IAccountQuery extends IQuery {
   readonly noun: 'AccountQuery';
 
-  findByAccount(account: AccountName): Promise<Superposition<Account, AccountError | NoSuchElementError | DataSourceError>>;
+  findByAccount(
+    account: AccountName
+  ): Promise<Superposition<Account, AccountError | NoSuchElementError | DataSourceError>>;
 }

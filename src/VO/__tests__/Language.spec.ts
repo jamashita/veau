@@ -1,5 +1,6 @@
 import { Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
+
 import { LanguageError } from '../../Error/LanguageError';
 import { ISO639 } from '../ISO639';
 import { Language, LanguageJSON, LanguageRow } from '../Language';
@@ -17,12 +18,7 @@ describe('Language', () => {
       const englishName: MockLanguageName = new MockLanguageName();
       const iso639: MockISO639 = new MockISO639();
 
-      const language: Language = Language.of(
-        languageID,
-        name,
-        englishName,
-        iso639
-      );
+      const language: Language = Language.of(languageID, name, englishName, iso639);
 
       expect(language.getLanguageID()).toBe(languageID);
       expect(language.getName()).toBe(name);
@@ -40,6 +36,7 @@ describe('Language', () => {
 
       expect(language).toBe(Language.empty());
     });
+
     it('returns Language.empty() if LanguageID is empty', () => {
       const language: Language = Language.of(
         LanguageID.empty(),
@@ -118,12 +115,15 @@ describe('Language', () => {
       const superposition: Superposition<Language, LanguageError> = Language.ofJSON(json);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: LanguageError) => {
-        spy2();
-        expect(err).toBeInstanceOf(LanguageError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LanguageError) => {
+          spy2();
+          expect(err).toBeInstanceOf(LanguageError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -165,12 +165,15 @@ describe('Language', () => {
       const superposition: Superposition<Language, LanguageError> = Language.ofRow(row);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: LanguageError) => {
-        spy2();
-        expect(err).toBeInstanceOf(LanguageError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LanguageError) => {
+          spy2();
+          expect(err).toBeInstanceOf(LanguageError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

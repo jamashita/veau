@@ -17,10 +17,7 @@ const logger: Middleware = createLogger({
 const router: Middleware = routerMiddleware(history);
 const epic: EpicMiddleware<Action, Action, State> = createEpicMiddleware<Action, Action, State>();
 
-export const store: Store = createStore(
-  reducers,
-  applyMiddleware(epic, logger, router)
-);
+export const store: Store = createStore(reducers, applyMiddleware(epic, logger, router));
 
 const rootEpic: RootEpic = vault.get<RootEpic>(TYPE.RootEpic);
 

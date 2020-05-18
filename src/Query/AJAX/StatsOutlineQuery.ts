@@ -23,16 +23,23 @@ export class StatsOutlineQuery implements IStatsOutlineQuery, IAJAXQuery {
     this.ajax = ajax;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public find(statsID: StatsID): Promise<Superposition<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>> {
-    return Promise.reject<Superposition<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>>(new UnimplementedError());
+  public find(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    statsID: StatsID
+  ): Promise<Superposition<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>> {
+    return Promise.reject<Superposition<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>>(
+      new UnimplementedError()
+    );
   }
 
   public async findByVeauAccountID(
     veauAccountID: VeauAccountID,
     page: Page
   ): Promise<Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>> {
-    const response: AJAXResponse<Array<StatsOutlineJSON>> = await this.ajax.get<Array<StatsOutlineJSON>>(`/api/stats/page/${page.get()}`);
+    const response: AJAXResponse<Array<StatsOutlineJSON>> = await this.ajax.get<Array<StatsOutlineJSON>>(
+      `/api/stats/page/${page.get()}`
+    );
+    // prettier-ignore
     const {
       status,
       body

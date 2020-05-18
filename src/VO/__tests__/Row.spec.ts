@@ -27,19 +27,25 @@ describe('Row', () => {
       expect(superposition1.isDead()).toBe(true);
       expect(superposition2.isDead()).toBe(true);
 
-      superposition1.match<void>(() => {
-        spy1();
-      }, (err: RowError) => {
-        spy2();
-        expect(err).toBeInstanceOf(RowError);
-      });
+      superposition1.match<void>(
+        () => {
+          spy1();
+        },
+        (err: RowError) => {
+          spy2();
+          expect(err).toBeInstanceOf(RowError);
+        }
+      );
 
-      superposition2.match<void>(() => {
-        spy3();
-      }, (err: RowError) => {
-        spy4();
-        expect(err).toBeInstanceOf(RowError);
-      });
+      superposition2.match<void>(
+        () => {
+          spy3();
+        },
+        (err: RowError) => {
+          spy4();
+          expect(err).toBeInstanceOf(RowError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -66,19 +72,25 @@ describe('Row', () => {
       expect(superposition1.isDead()).toBe(true);
       expect(superposition2.isDead()).toBe(true);
 
-      superposition1.match<void>(() => {
-        spy1();
-      }, (err: RowError) => {
-        spy2();
-        expect(err).toBeInstanceOf(RowError);
-      });
+      superposition1.match<void>(
+        () => {
+          spy1();
+        },
+        (err: RowError) => {
+          spy2();
+          expect(err).toBeInstanceOf(RowError);
+        }
+      );
 
-      superposition2.match<void>(() => {
-        spy3();
-      }, (err: RowError) => {
-        spy4();
-        expect(err).toBeInstanceOf(RowError);
-      });
+      superposition2.match<void>(
+        () => {
+          spy3();
+        },
+        (err: RowError) => {
+          spy4();
+          expect(err).toBeInstanceOf(RowError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

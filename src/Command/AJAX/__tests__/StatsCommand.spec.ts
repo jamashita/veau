@@ -67,29 +67,31 @@ describe('StatsCommand', () => {
       const statsCommand: StatsCommand = new StatsCommand(ajax);
       const superposition: Superposition<void, DataSourceError> = await statsCommand.create(stats);
 
-      expect(stub.withArgs('/api/stats', {
-        outline: {
-          statsID: uuid1.get(),
-          languageID: uuid2.get(),
-          regionID: uuid3.get(),
-          termID: uuid4.get(),
-          name: statsName,
-          unit: statsUnit,
-          updatedAt: '2000-01-02 01:02:03'
-        },
-        language: {
-          languageID: uuid2.get(),
-          name: '',
-          englishName: '',
-          iso639: ''
-        },
-        region: {
-          regionID: uuid3.get(),
-          name: '',
-          iso3166: ''
-        },
-        items: []
-      }).called).toBe(true);
+      expect(
+        stub.withArgs('/api/stats', {
+          outline: {
+            statsID: uuid1.get(),
+            languageID: uuid2.get(),
+            regionID: uuid3.get(),
+            termID: uuid4.get(),
+            name: statsName,
+            unit: statsUnit,
+            updatedAt: '2000-01-02 01:02:03'
+          },
+          language: {
+            languageID: uuid2.get(),
+            name: '',
+            englishName: '',
+            iso639: ''
+          },
+          region: {
+            regionID: uuid3.get(),
+            name: '',
+            iso3166: ''
+          },
+          items: []
+        }).called
+      ).toBe(true);
       expect(superposition.isAlive()).toBe(true);
     });
 
@@ -110,12 +112,15 @@ describe('StatsCommand', () => {
       const superposition: Superposition<void, DataSourceError> = await statsCommand.create(stats);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(AJAXError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(AJAXError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

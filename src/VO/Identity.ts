@@ -11,30 +11,15 @@ export class Identity extends ValueObject {
   private readonly language: Language;
   private readonly region: Region;
 
-  public static of(
-    veauAccountID: VeauAccountID,
-    name: AccountName,
-    language: Language,
-    region: Region
-  ): Identity {
+  public static of(veauAccountID: VeauAccountID, name: AccountName, language: Language, region: Region): Identity {
     return new Identity(veauAccountID, name, language, region);
   }
 
   public static empty(): Identity {
-    return Identity.of(
-      VeauAccountID.generate(),
-      AccountName.empty(),
-      Language.empty(),
-      Region.empty()
-    );
+    return Identity.of(VeauAccountID.generate(), AccountName.empty(), Language.empty(), Region.empty());
   }
 
-  protected constructor(
-    veauAccountID: VeauAccountID,
-    name: AccountName,
-    language: Language,
-    region: Region
-  ) {
+  protected constructor(veauAccountID: VeauAccountID, name: AccountName, language: Language, region: Region) {
     super();
     this.veauAccountID = veauAccountID;
     this.name = name;

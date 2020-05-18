@@ -16,11 +16,7 @@ export class StatsUpdateTransaction implements IStatsUpdateTransaction {
   private readonly veauAccountID: VeauAccountID;
   private readonly statsUpdateFactory: IStatsUpdateFactory;
 
-  public constructor(
-    stats: Stats,
-    veauAccountID: VeauAccountID,
-    statsUpdateFactory: IStatsUpdateFactory
-  ) {
+  public constructor(stats: Stats, veauAccountID: VeauAccountID, statsUpdateFactory: IStatsUpdateFactory) {
     this.stats = stats;
     this.veauAccountID = veauAccountID;
     this.statsUpdateFactory = statsUpdateFactory;
@@ -41,29 +37,39 @@ export class StatsUpdateTransaction implements IStatsUpdateTransaction {
 
     const deleteCompletion: Superposition<unknown, DataSourceError> = manoeuvre<void, DataSourceError>(superpositions);
 
-    return deleteCompletion.match<unknown, DataSourceError>(async () => {
-      const itemPromises: Array<Promise<Superposition<void, DataSourceError>>> = [];
-      const valuePromises: Array<Promise<Superposition<void, DataSourceError>>> = [];
+    return deleteCompletion.match<unknown, DataSourceError>(
+      async () => {
+        const itemPromises: Array<Promise<Superposition<void, DataSourceError>>> = [];
+        const valuePromises: Array<Promise<Superposition<void, DataSourceError>>> = [];
 
-      this.stats.getItems().forEach((statsItem: StatsItem, index: number) => {
-        itemPromises.push(statsItemCommand.create(statsID, statsItem, index + 1));
+        this.stats.getItems().forEach((statsItem: StatsItem, index: number) => {
+          itemPromises.push(statsItemCommand.create(statsID, statsItem, index + 1));
 
-        statsItem.getValues().forEach((statsValue: StatsValue) => {
-          valuePromises.push(statsValueCommand.create(statsItem.getStatsItemID(), statsValue));
+          statsItem.getValues().forEach((statsValue: StatsValue) => {
+            valuePromises.push(statsValueCommand.create(statsItem.getStatsItemID(), statsValue));
+          });
         });
-      });
 
-      const statsInsertSuperposition: Superposition<void, DataSourceError> = await statsCommand.create(this.stats, this.veauAccountID);
-      const statsItemInsertTries: Array<Superposition<void, DataSourceError>> = await Promise.all<Superposition<void, DataSourceError>>(itemPromises);
-      const statsValueInsertTries: Array<Superposition<void, DataSourceError>> = await Promise.all<Superposition<void, DataSourceError>>(valuePromises);
+        const statsInsertSuperposition: Superposition<void, DataSourceError> = await statsCommand.create(
+          this.stats,
+          this.veauAccountID
+        );
+        const statsItemInsertTries: Array<Superposition<void, DataSourceError>> = await Promise.all<
+          Superposition<void, DataSourceError>
+        >(itemPromises);
+        const statsValueInsertTries: Array<Superposition<void, DataSourceError>> = await Promise.all<
+          Superposition<void, DataSourceError>
+        >(valuePromises);
 
-      return manoeuvre<unknown, DataSourceError>([
-        statsInsertSuperposition,
-        ...statsItemInsertTries,
-        ...statsValueInsertTries
-      ]);
-    }, (err: DataSourceError, self: Dead<unknown, DataSourceError>) => {
-      return Promise.resolve<Superposition<unknown, DataSourceError>>(self);
-    });
+        return manoeuvre<unknown, DataSourceError>([
+          statsInsertSuperposition,
+          ...statsItemInsertTries,
+          ...statsValueInsertTries
+        ]);
+      },
+      (err: DataSourceError, self: Dead<unknown, DataSourceError>) => {
+        return Promise.resolve<Superposition<unknown, DataSourceError>>(self);
+      }
+    );
   }
 }

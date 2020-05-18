@@ -39,9 +39,14 @@ describe('AccountQuery', () => {
       stub.resolves(rows);
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const superposition: Superposition<Account, AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(accountName);
+      const superposition: Superposition<
+        Account,
+        AccountError | NoSuchElementError | DataSourceError
+      > = await accountQuery.findByAccount(accountName);
 
-      expect(stub.withArgs(`SELECT
+      expect(
+        stub.withArgs(
+          `SELECT
       R1.veau_account_id AS veauAccountID,
       R3.language_id AS languageID,
       R4.region_id AS regionID,
@@ -55,9 +60,12 @@ describe('AccountQuery', () => {
       INNER JOIN regions R4
       USING(region_id)
       WHERE R1.account = :account
-      AND R1.active = true;`, {
-        account: accountName.get()
-      }).called).toBe(true);
+      AND R1.active = true;`,
+          {
+            account: accountName.get()
+          }
+        ).called
+      ).toBe(true);
       expect(superposition.isAlive()).toBe(true);
       const account: Account = superposition.get();
       expect(account.getVeauAccountID().get().get()).toBe(rows[0].veauAccountID);
@@ -78,15 +86,21 @@ describe('AccountQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const superposition: Superposition<Account, AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(name);
+      const superposition: Superposition<
+        Account,
+        AccountError | NoSuchElementError | DataSourceError
+      > = await accountQuery.findByAccount(name);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: AccountError | NoSuchElementError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(NoSuchElementError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: AccountError | NoSuchElementError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(NoSuchElementError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -112,15 +126,21 @@ describe('AccountQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const superposition: Superposition<Account, AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(name);
+      const superposition: Superposition<
+        Account,
+        AccountError | NoSuchElementError | DataSourceError
+      > = await accountQuery.findByAccount(name);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: AccountError | NoSuchElementError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(AccountError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: AccountError | NoSuchElementError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(AccountError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -137,15 +157,21 @@ describe('AccountQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const accountQuery: AccountQuery = new AccountQuery(mysql);
-      const superposition: Superposition<Account, AccountError | NoSuchElementError | DataSourceError> = await accountQuery.findByAccount(name);
+      const superposition: Superposition<
+        Account,
+        AccountError | NoSuchElementError | DataSourceError
+      > = await accountQuery.findByAccount(name);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: AccountError | NoSuchElementError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(MySQLError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: AccountError | NoSuchElementError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(MySQLError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

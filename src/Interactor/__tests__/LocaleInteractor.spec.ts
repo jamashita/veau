@@ -83,12 +83,15 @@ describe('LocaleInteractor', () => {
       const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeInteractor.all();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: LocaleError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(LocaleError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LocaleError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(LocaleError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -119,12 +122,15 @@ describe('LocaleInteractor', () => {
       const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeInteractor.all();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: LocaleError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(MySQLError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LocaleError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(MySQLError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -155,12 +161,15 @@ describe('LocaleInteractor', () => {
       const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeInteractor.all();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: LocaleError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(LocaleError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LocaleError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(LocaleError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -191,12 +200,15 @@ describe('LocaleInteractor', () => {
       const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeInteractor.all();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: LocaleError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(MySQLError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LocaleError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(MySQLError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -254,12 +266,15 @@ describe('LocaleInteractor', () => {
       expect(superposition.isDead()).toBe(true);
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(RedisError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(RedisError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -290,12 +305,15 @@ describe('LocaleInteractor', () => {
       expect(superposition.isDead()).toBe(true);
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(RedisError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(RedisError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -326,12 +344,15 @@ describe('LocaleInteractor', () => {
       expect(superposition.isDead()).toBe(true);
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(RedisError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(RedisError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -362,12 +383,15 @@ describe('LocaleInteractor', () => {
       expect(superposition.isDead()).toBe(true);
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(RedisError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(RedisError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

@@ -57,9 +57,7 @@ describe('LocaleController', () => {
 
       const app: Express = express();
       useExpressServer(app, {
-        controllers: [
-          LocaleController
-        ]
+        controllers: [LocaleController]
       });
 
       const response: supertest.Response = await supertest(app).get('/locale');
@@ -71,17 +69,11 @@ describe('LocaleController', () => {
       const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
       const stub: SinonStub = sinon.stub();
       localeInteractor.all = stub;
-      stub.resolves(
-        Dead.of<Locale, NoSuchElementError | DataSourceError>(
-          new NoSuchElementError('test failed')
-        )
-      );
+      stub.resolves(Dead.of<Locale, NoSuchElementError | DataSourceError>(new NoSuchElementError('test failed')));
 
       const app: Express = express();
       useExpressServer(app, {
-        controllers: [
-          LocaleController
-        ]
+        controllers: [LocaleController]
       });
 
       const response: supertest.Response = await supertest(app).get('/locale');
@@ -92,17 +84,11 @@ describe('LocaleController', () => {
       const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
       const stub: SinonStub = sinon.stub();
       localeInteractor.all = stub;
-      stub.resolves(
-        Dead.of<Locale, NoSuchElementError | DataSourceError>(
-          new RedisError('test failed')
-        )
-      );
+      stub.resolves(Dead.of<Locale, NoSuchElementError | DataSourceError>(new RedisError('test failed')));
 
       const app: Express = express();
       useExpressServer(app, {
-        controllers: [
-          LocaleController
-        ]
+        controllers: [LocaleController]
       });
 
       const response: supertest.Response = await supertest(app).get('/locale');
@@ -120,9 +106,7 @@ describe('LocaleController', () => {
       const app: Express = express();
       app.use(fakeAccount);
       useExpressServer(app, {
-        controllers: [
-          LocaleController
-        ]
+        controllers: [LocaleController]
       });
 
       const response: supertest.Response = await supertest(app).delete('/locale');
@@ -138,9 +122,7 @@ describe('LocaleController', () => {
       const app: Express = express();
       app.use(fakeAccount);
       useExpressServer(app, {
-        controllers: [
-          LocaleController
-        ]
+        controllers: [LocaleController]
       });
 
       const response: supertest.Response = await supertest(app).delete('/locale');

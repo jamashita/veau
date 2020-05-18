@@ -25,12 +25,7 @@ describe('Identity', () => {
       const region: Region = new MockRegion();
       const name: AccountName = new MockAccountName();
 
-      const identity: Identity = Identity.of(
-        veauAccountID,
-        name,
-        language,
-        region
-      );
+      const identity: Identity = Identity.of(veauAccountID, name, language, region);
 
       expect(identity.getVeauAccountID()).toBe(veauAccountID);
       expect(identity.getAccountName()).toBe(name);
@@ -141,17 +136,8 @@ describe('Identity', () => {
       const identity: Identity = Identity.of(
         VeauAccountID.of(uuid1),
         AccountName.of(name),
-        Language.of(
-          LanguageID.of(uuid2),
-          LanguageName.of('e'),
-          LanguageName.of('l'),
-          ISO639.of('DU')
-        ),
-        Region.of(
-          RegionID.of(uuid3),
-          RegionName.of('r'),
-          ISO3166.of('IU2')
-        )
+        Language.of(LanguageID.of(uuid2), LanguageName.of('e'), LanguageName.of('l'), ISO639.of('DU')),
+        Region.of(RegionID.of(uuid3), RegionName.of('r'), ISO3166.of('IU2'))
       );
 
       expect(identity.toString()).toBe(`${uuid1.get()} ${name} ${uuid2.get()} e l DU ${uuid3.get()} r IU2`);

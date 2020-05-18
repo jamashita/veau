@@ -18,13 +18,21 @@ export class MockLanguageQuery implements ILanguageQuery, IMockQuery {
     return Promise.reject<Superposition<Languages, LanguagesError | DataSourceError>>(new UnimplementedError());
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public find(languageID: LanguageID): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>> {
-    return Promise.reject <Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>>(new UnimplementedError());
+  public find(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    languageID: LanguageID
+  ): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>> {
+    return Promise.reject<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>>(
+      new UnimplementedError()
+    );
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public findByISO639(iso639: ISO639): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>> {
-    return Promise.reject<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>>(new UnimplementedError());
+  public findByISO639(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    iso639: ISO639
+  ): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>> {
+    return Promise.reject<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>>(
+      new UnimplementedError()
+    );
   }
 }

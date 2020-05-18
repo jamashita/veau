@@ -8,5 +8,7 @@ export interface IIdentityQuery extends IQuery {
 
   find(): Promise<Superposition<Identity, IdentityError | DataSourceError>>;
 
-  findByEntranceInfo(entranceInformation: EntranceInformation): Promise<Superposition<Identity, IdentityError | DataSourceError>>;
+  findByEntranceInfo(
+    entranceInformation: EntranceInformation
+  ): Promise<Superposition<Identity, IdentityError | DataSourceError>>;
 }

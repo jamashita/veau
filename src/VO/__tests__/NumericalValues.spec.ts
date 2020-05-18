@@ -61,11 +61,7 @@ describe('NumericalValues', () => {
       const value2: MockNumericalValue = new MockNumericalValue(2);
       const value3: MockNumericalValue = new MockNumericalValue(3);
 
-      const numericalValues: NumericalValues = NumericalValues.ofSpread(
-        value1,
-        value2,
-        value3
-      );
+      const numericalValues: NumericalValues = NumericalValues.ofSpread(value1, value2, value3);
 
       expect(numericalValues.size()).toBe(3);
       expect(numericalValues.get(0).get()).toBe(value1);
@@ -90,10 +86,7 @@ describe('NumericalValues', () => {
       const value2: MockNumericalValue = new MockNumericalValue();
       const value3: MockNumericalValue = new MockNumericalValue();
 
-      const values1: NumericalValues = NumericalValues.ofArray([
-        value1,
-        value2
-      ]);
+      const values1: NumericalValues = NumericalValues.ofArray([value1, value2]);
       const values2: NumericalValues = values1.add(value3);
 
       expect(values1.size()).toBe(2);
@@ -112,11 +105,7 @@ describe('NumericalValues', () => {
       const value3: MockNumericalValue = new MockNumericalValue();
 
       const values1: NumericalValues = NumericalValues.empty();
-      const values2: NumericalValues = values1.add(
-        value1,
-        value2,
-        value3
-      );
+      const values2: NumericalValues = values1.add(value1, value2, value3);
 
       expect(values1.size()).toBe(0);
       expect(values2.size()).toBe(3);
@@ -135,11 +124,7 @@ describe('NumericalValues', () => {
 
   describe('get', () => {
     it('returns NumericalValue instance at the correct index', () => {
-      const vs: Array<NumericalValue> = [
-        new MockNumericalValue(),
-        new MockNumericalValue(),
-        new MockNumericalValue()
-      ];
+      const vs: Array<NumericalValue> = [new MockNumericalValue(), new MockNumericalValue(), new MockNumericalValue()];
 
       const values: NumericalValues = NumericalValues.ofArray(vs);
 
@@ -168,10 +153,7 @@ describe('NumericalValues', () => {
       const value3: MockNumericalValue = new MockNumericalValue(3);
       const value4: MockNumericalValue = new MockNumericalValue(1);
 
-      const values: NumericalValues = NumericalValues.ofArray([
-        value1,
-        value2
-      ]);
+      const values: NumericalValues = NumericalValues.ofArray([value1, value2]);
 
       expect(values.contains(value1)).toBe(true);
       expect(values.contains(value2)).toBe(true);
@@ -186,10 +168,7 @@ describe('NumericalValues', () => {
       const value2: MockNumericalValue = new MockNumericalValue();
 
       const values1: NumericalValues = NumericalValues.empty();
-      const values2: NumericalValues = NumericalValues.ofArray([
-        value1,
-        value2
-      ]);
+      const values2: NumericalValues = NumericalValues.ofArray([value1, value2]);
 
       expect(values1.isEmpty()).toBe(true);
       expect(values2.isEmpty()).toBe(false);
@@ -201,13 +180,8 @@ describe('NumericalValues', () => {
       const value1: MockNumericalValue = new MockNumericalValue(1);
       const value2: MockNumericalValue = new MockNumericalValue(2);
 
-      const values1: NumericalValues = NumericalValues.ofArray([
-        value1
-      ]);
-      const values2: NumericalValues = NumericalValues.ofArray([
-        value1,
-        value2
-      ]);
+      const values1: NumericalValues = NumericalValues.ofArray([value1]);
+      const values2: NumericalValues = NumericalValues.ofArray([value1, value2]);
 
       expect(values1.equals(values1)).toBe(true);
       expect(values1.equals(values2)).toBe(false);
@@ -217,14 +191,8 @@ describe('NumericalValues', () => {
       const value1: MockNumericalValue = new MockNumericalValue(1);
       const value2: MockNumericalValue = new MockNumericalValue(2);
 
-      const values1: NumericalValues = NumericalValues.ofArray([
-        value2,
-        value1
-      ]);
-      const values2: NumericalValues = NumericalValues.ofArray([
-        value1,
-        value2
-      ]);
+      const values1: NumericalValues = NumericalValues.ofArray([value2, value1]);
+      const values2: NumericalValues = NumericalValues.ofArray([value1, value2]);
 
       expect(values1.equals(values1)).toBe(true);
       expect(values1.equals(values2)).toBe(false);
@@ -234,14 +202,8 @@ describe('NumericalValues', () => {
       const value1: MockNumericalValue = new MockNumericalValue(1);
       const value2: MockNumericalValue = new MockNumericalValue(2);
 
-      const values1: NumericalValues = NumericalValues.ofArray([
-        value1,
-        value2
-      ]);
-      const values2: NumericalValues = NumericalValues.ofArray([
-        value1,
-        value2
-      ]);
+      const values1: NumericalValues = NumericalValues.ofArray([value1, value2]);
+      const values2: NumericalValues = NumericalValues.ofArray([value1, value2]);
 
       expect(values1.equals(values1)).toBe(true);
       expect(values1.equals(values2)).toBe(true);
@@ -252,10 +214,7 @@ describe('NumericalValues', () => {
     it('returns as a string Array', () => {
       const num1: number = 1;
       const num2: number = 2;
-      const nums: Array<number> = [
-        num1,
-        num2
-      ];
+      const nums: Array<number> = [num1, num2];
 
       const values: NumericalValues = NumericalValues.ofArray([
         new MockNumericalValue(num1),

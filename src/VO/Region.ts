@@ -22,17 +22,9 @@ export class Region extends ValueObject implements JSONable {
   private readonly name: RegionName;
   private readonly iso3166: ISO3166;
 
-  private static readonly EMPTY: Region = new Region(
-    RegionID.empty(),
-    RegionName.empty(),
-    ISO3166.empty()
-  );
+  private static readonly EMPTY: Region = new Region(RegionID.empty(), RegionName.empty(), ISO3166.empty());
 
-  public static of(
-    regionID: RegionID,
-    name: RegionName,
-    iso3166: ISO3166
-  ): Region {
+  public static of(regionID: RegionID, name: RegionName, iso3166: ISO3166): Region {
     if (regionID.isEmpty()) {
       return Region.empty();
     }
@@ -47,31 +39,25 @@ export class Region extends ValueObject implements JSONable {
   }
 
   public static ofJSON(json: RegionJSON): Superposition<Region, RegionError> {
-    return RegionID.ofString(json.regionID).match<Region, RegionError>((regionID: RegionID) => {
-      return Alive.of<Region, RegionError>(
-        Region.of(
-          regionID,
-          RegionName.of(json.name),
-          ISO3166.of(json.iso3166)
-        )
-      );
-    }, (err: RegionIDError) => {
-      return Dead.of<Region, RegionError>(new RegionError('Region.ofJSON()', err));
-    });
+    return RegionID.ofString(json.regionID).match<Region, RegionError>(
+      (regionID: RegionID) => {
+        return Alive.of<Region, RegionError>(Region.of(regionID, RegionName.of(json.name), ISO3166.of(json.iso3166)));
+      },
+      (err: RegionIDError) => {
+        return Dead.of<Region, RegionError>(new RegionError('Region.ofJSON()', err));
+      }
+    );
   }
 
   public static ofRow(row: RegionRow): Superposition<Region, RegionError> {
-    return RegionID.ofString(row.regionID).match<Region, RegionError>((regionID: RegionID) => {
-      return Alive.of<Region, RegionError>(
-        Region.of(
-          regionID,
-          RegionName.of(row.name),
-          ISO3166.of(row.iso3166)
-        )
-      );
-    }, (err: RegionIDError) => {
-      return Dead.of<Region, RegionError>(new RegionError('Region.ofRow()', err));
-    });
+    return RegionID.ofString(row.regionID).match<Region, RegionError>(
+      (regionID: RegionID) => {
+        return Alive.of<Region, RegionError>(Region.of(regionID, RegionName.of(row.name), ISO3166.of(row.iso3166)));
+      },
+      (err: RegionIDError) => {
+        return Dead.of<Region, RegionError>(new RegionError('Region.ofRow()', err));
+      }
+    );
   }
 
   public static empty(): Region {
@@ -95,11 +81,7 @@ export class Region extends ValueObject implements JSONable {
     return true;
   }
 
-  protected constructor(
-    regionID: RegionID,
-    name: RegionName,
-    iso3166: ISO3166
-  ) {
+  protected constructor(regionID: RegionID, name: RegionName, iso3166: ISO3166) {
     super();
     this.regionID = regionID;
     this.name = name;

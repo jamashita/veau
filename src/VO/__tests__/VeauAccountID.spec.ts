@@ -30,12 +30,15 @@ describe('VeauAccountID', () => {
       const superposition: Superposition<VeauAccountID, VeauAccountIDError> = VeauAccountID.ofString('cinq');
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: VeauAccountIDError) => {
-        spy2();
-        expect(err).toBeInstanceOf(VeauAccountIDError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: VeauAccountIDError) => {
+          spy2();
+          expect(err).toBeInstanceOf(VeauAccountIDError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

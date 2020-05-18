@@ -15,19 +15,25 @@ describe('UpdatedAt', () => {
       const superposition2: Superposition<UpdatedAt, UpdatedAtError> = UpdatedAt.ofString('2000-01-01');
 
       expect(superposition1.isDead()).toBe(true);
-      superposition1.match<void>(() => {
-        spy1();
-      }, (err: UpdatedAtError) => {
-        spy2();
-        expect(err).toBeInstanceOf(UpdatedAtError);
-      });
+      superposition1.match<void>(
+        () => {
+          spy1();
+        },
+        (err: UpdatedAtError) => {
+          spy2();
+          expect(err).toBeInstanceOf(UpdatedAtError);
+        }
+      );
       expect(superposition2.isDead()).toBe(true);
-      superposition2.match<void>(() => {
-        spy3();
-      }, (err: UpdatedAtError) => {
-        spy4();
-        expect(err).toBeInstanceOf(UpdatedAtError);
-      });
+      superposition2.match<void>(
+        () => {
+          spy3();
+        },
+        (err: UpdatedAtError) => {
+          spy4();
+          expect(err).toBeInstanceOf(UpdatedAtError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

@@ -11,8 +11,8 @@ import { Props } from '../../Container/Molecule/Modal';
 type State = Readonly<{}>;
 
 class ModalImpl extends React.Component<Props & WrappedComponentProps, State> {
-
   public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
+    // prettier-ignore
     const {
       open,
       title,
@@ -37,6 +37,7 @@ class ModalImpl extends React.Component<Props & WrappedComponentProps, State> {
   }
 
   public render(): React.ReactNode {
+    // prettier-ignore
     const {
       open,
       title,
@@ -47,11 +48,7 @@ class ModalImpl extends React.Component<Props & WrappedComponentProps, State> {
     } = this.props;
 
     return (
-      <Dialog
-        open={open}
-        disableEscapeKeyDown={true}
-        onClose={closeClicked}
-      >
+      <Dialog open={open} disableEscapeKeyDown={true} onClose={closeClicked}>
         <DialogTitle>
           {intl.formatMessage(
             {
@@ -69,13 +66,8 @@ class ModalImpl extends React.Component<Props & WrappedComponentProps, State> {
           )}
         </DialogContent>
         <DialogActions>
-          <Button
-            color='primary'
-            onClick={closeClicked}
-          >
-            <Icon
-              className='fas fa-times'
-            />
+          <Button color='primary' onClick={closeClicked}>
+            <Icon className='fas fa-times' />
           </Button>
         </DialogActions>
       </Dialog>

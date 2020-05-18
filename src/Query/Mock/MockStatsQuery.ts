@@ -10,8 +10,12 @@ export class MockStatsQuery implements IStatsQuery, IMockQuery {
   public readonly noun: 'StatsQuery' = 'StatsQuery';
   public readonly source: 'Mock' = 'Mock';
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public findByStatsID(statsID: StatsID): Promise<Superposition<Stats, StatsError | NoSuchElementError | DataSourceError>> {
-    return Promise.reject<Superposition<Stats, StatsError | NoSuchElementError | DataSourceError>>(new UnimplementedError());
+  public findByStatsID(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    statsID: StatsID
+  ): Promise<Superposition<Stats, StatsError | NoSuchElementError | DataSourceError>> {
+    return Promise.reject<Superposition<Stats, StatsError | NoSuchElementError | DataSourceError>>(
+      new UnimplementedError()
+    );
   }
 }

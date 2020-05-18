@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { DataSourceError, Dead, IMySQL, MySQLError, Superposition } from 'publikum';
+import { DataSourceError, Dead, IMySQL, MySQLError, Schrodinger, Superposition } from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { LanguageError } from '../../Error/LanguageError';
 import { LanguagesError } from '../../Error/LanguagesError';
@@ -31,25 +31,30 @@ export class LanguageQuery implements ILanguageQuery, IMySQLQuery {
       FORCE INDEX(iso639)
       ORDER BY R1.iso639;`;
 
-    try {
-      const languageRows: Array<LanguageRow> = await this.mysql.execute<Array<LanguageRow>>(query);
+    const superposition: Superposition<Array<LanguageRow>, MySQLError> = await Schrodinger.playground<
+      Array<LanguageRow>,
+      MySQLError
+    >(() => {
+      return this.mysql.execute<Array<LanguageRow>>(query);
+    });
 
-      if (languageRows.length === 0) {
-        return Dead.of<Languages, MySQLError>(new MySQLError('NO LANGUAGES FROM MYSQL'));
-      }
+    return superposition.match<Languages, LanguagesError | DataSourceError>(
+      (rows: Array<LanguageRow>) => {
+        if (rows.length === 0) {
+          return Dead.of<Languages, MySQLError>(new MySQLError('NO LANGUAGES FROM MYSQL'));
+        }
 
-      return Languages.ofRow(languageRows);
-    }
-    catch (err) {
-      if (err instanceof MySQLError) {
+        return Languages.ofRow(rows);
+      },
+      (err: MySQLError) => {
         return Dead.of<Languages, MySQLError>(err);
       }
-
-      throw err;
-    }
+    );
   }
 
-  public async find(languageID: LanguageID): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>> {
+  public async find(
+    languageID: LanguageID
+  ): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>> {
     const query: string = `SELECT
       R1.language_id AS languageID,
       R1.name,
@@ -58,30 +63,32 @@ export class LanguageQuery implements ILanguageQuery, IMySQLQuery {
       FROM languages R1
       WHERE R1.language_id = :languageID;`;
 
-    try {
-      const languageRows: Array<LanguageRow> = await this.mysql.execute<Array<LanguageRow>>(
-        query,
-        {
-          languageID: languageID.get().get()
+    const superposition: Superposition<Array<LanguageRow>, MySQLError> = await Schrodinger.playground<
+      Array<LanguageRow>,
+      MySQLError
+    >(() => {
+      return this.mysql.execute<Array<LanguageRow>>(query, {
+        languageID: languageID.get().get()
+      });
+    });
+
+    return superposition.match<Language, LanguageError | NoSuchElementError | DataSourceError>(
+      (rows: Array<LanguageRow>) => {
+        if (rows.length === 0) {
+          return Dead.of<Language, NoSuchElementError>(new NoSuchElementError('NO LANGUAGES FROM MYSQL'));
         }
-      );
 
-      if (languageRows.length === 0) {
-        return Dead.of<Language, NoSuchElementError>(new NoSuchElementError('NO LANGUAGES FROM MYSQL'));
-      }
-
-      return Language.ofRow(languageRows[0]);
-    }
-    catch (err) {
-      if (err instanceof MySQLError) {
+        return Language.ofRow(rows[0]);
+      },
+      (err: MySQLError) => {
         return Dead.of<Language, MySQLError>(err);
       }
-
-      throw err;
-    }
+    );
   }
 
-  public async findByISO639(iso639: ISO639): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>> {
+  public async findByISO639(
+    iso639: ISO639
+  ): Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>> {
     const query: string = `SELECT
       R1.language_id AS languageID,
       R1.name,
@@ -90,26 +97,26 @@ export class LanguageQuery implements ILanguageQuery, IMySQLQuery {
       FROM languages R1
       WHERE R1.iso639 = :iso639;`;
 
-    try {
-      const languageRows: Array<LanguageRow> = await this.mysql.execute<Array<LanguageRow>>(
-        query,
-        {
-          iso639: iso639.get()
+    const superposition: Superposition<Array<LanguageRow>, MySQLError> = await Schrodinger.playground<
+      Array<LanguageRow>,
+      MySQLError
+    >(() => {
+      return this.mysql.execute<Array<LanguageRow>>(query, {
+        iso639: iso639.get()
+      });
+    });
+
+    return superposition.match<Language, LanguageError | NoSuchElementError | MySQLError>(
+      (rows: Array<LanguageRow>) => {
+        if (rows.length === 0) {
+          return Dead.of<Language, NoSuchElementError>(new NoSuchElementError('NO LANGUAGES FROM MYSQL'));
         }
-      );
 
-      if (languageRows.length === 0) {
-        return Dead.of<Language, NoSuchElementError>(new NoSuchElementError('NO LANGUAGES FROM MYSQL'));
-      }
-
-      return Language.ofRow(languageRows[0]);
-    }
-    catch (err) {
-      if (err instanceof MySQLError) {
+        return Language.ofRow(rows[0]);
+      },
+      (err: MySQLError) => {
         return Dead.of<Language, MySQLError>(err);
       }
-
-      throw err;
-    }
+    );
   }
 }

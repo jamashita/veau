@@ -24,52 +24,41 @@ export class Account extends ValueObject {
   private readonly account: VeauAccount;
   private readonly hash: Hash;
 
-  public static of(
-    account: VeauAccount,
-    hash: Hash
-  ): Account {
-    return new Account(
-      account,
-      hash
-    );
+  public static of(account: VeauAccount, hash: Hash): Account {
+    return new Account(account, hash);
   }
 
   public static ofRow(row: AccountRow): Superposition<Account, AccountError> {
-    return VeauAccountID.ofString(row.veauAccountID).match<Account, AccountError>((veauAccountID: VeauAccountID) => {
-      return LanguageID.ofString(row.languageID).match<Account, AccountError>((languageID: LanguageID) => {
-        return RegionID.ofString(row.regionID).match<Account, AccountError>((regionID: RegionID) => {
-          return Alive.of<Account, AccountError>(
-            Account.of(
-              VeauAccount.of(
-                veauAccountID,
-                languageID,
-                regionID,
-                AccountName.of(row.name)
-              ),
-              Hash.of(row.hash)
-            )
-          );
-        }, (err: RegionIDError) => {
-          return Dead.of<Account, AccountError>(
-            new AccountError('Account.ofRow()', err)
-          );
-        });
-      }, (err: LanguageIDError) => {
-        return Dead.of<Account, AccountError>(
-          new AccountError('Account.ofRow()', err)
+    return VeauAccountID.ofString(row.veauAccountID).match<Account, AccountError>(
+      (veauAccountID: VeauAccountID) => {
+        return LanguageID.ofString(row.languageID).match<Account, AccountError>(
+          (languageID: LanguageID) => {
+            return RegionID.ofString(row.regionID).match<Account, AccountError>(
+              (regionID: RegionID) => {
+                return Alive.of<Account, AccountError>(
+                  Account.of(
+                    VeauAccount.of(veauAccountID, languageID, regionID, AccountName.of(row.name)),
+                    Hash.of(row.hash)
+                  )
+                );
+              },
+              (err: RegionIDError) => {
+                return Dead.of<Account, AccountError>(new AccountError('Account.ofRow()', err));
+              }
+            );
+          },
+          (err: LanguageIDError) => {
+            return Dead.of<Account, AccountError>(new AccountError('Account.ofRow()', err));
+          }
         );
-      });
-    }, (err: VeauAccountIDError) => {
-      return Dead.of<Account, AccountError>(
-        new AccountError('Account.ofRow()', err)
-      );
-    });
+      },
+      (err: VeauAccountIDError) => {
+        return Dead.of<Account, AccountError>(new AccountError('Account.ofRow()', err));
+      }
+    );
   }
 
-  protected constructor(
-    account: VeauAccount,
-    hash: Hash
-  ) {
+  protected constructor(account: VeauAccount, hash: Hash) {
     super();
     this.account = account;
     this.hash = hash;

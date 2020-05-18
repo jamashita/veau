@@ -47,10 +47,7 @@ describe('StatsOutlines', () => {
     });
 
     it('normal case', () => {
-      const outlineArray: Array<MockStatsOutline> = [
-        new MockStatsOutline(),
-        new MockStatsOutline()
-      ];
+      const outlineArray: Array<MockStatsOutline> = [new MockStatsOutline(), new MockStatsOutline()];
 
       const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofSuperposition([
         Alive.of<StatsOutline, StatsOutlineError>(outlineArray[0]),
@@ -71,7 +68,9 @@ describe('StatsOutlines', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const superposition1: Superposition<StatsOutline, StatsOutlineError> = Alive.of<StatsOutline, StatsOutlineError>(statsOutline1);
+      const superposition1: Superposition<StatsOutline, StatsOutlineError> = Alive.of<StatsOutline, StatsOutlineError>(
+        statsOutline1
+      );
       const superposition2: Superposition<StatsOutline, StatsOutlineError> = Dead.of<StatsOutline, StatsOutlineError>(
         new StatsOutlineError('test failed')
       );
@@ -81,12 +80,15 @@ describe('StatsOutlines', () => {
       ]);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsOutlinesError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsOutlinesError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsOutlinesError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsOutlinesError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -108,12 +110,15 @@ describe('StatsOutlines', () => {
       ]);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsOutlinesError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsOutlinesError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsOutlinesError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsOutlinesError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -260,10 +265,7 @@ describe('StatsOutlines', () => {
     });
 
     it('normal case', () => {
-      const outlines: Array<StatsOutline> = [
-        new MockStatsOutline(),
-        new MockStatsOutline()
-      ];
+      const outlines: Array<StatsOutline> = [new MockStatsOutline(), new MockStatsOutline()];
 
       const statsOutlines: StatsOutlines = StatsOutlines.ofArray(outlines);
 
@@ -283,10 +285,7 @@ describe('StatsOutlines', () => {
       const statsOutline1: MockStatsOutline = new MockStatsOutline();
       const statsOutline2: MockStatsOutline = new MockStatsOutline();
 
-      const statsOutlines: StatsOutlines = StatsOutlines.ofSpread(
-        statsOutline1,
-        statsOutline2
-      );
+      const statsOutlines: StatsOutlines = StatsOutlines.ofSpread(statsOutline1, statsOutline2);
 
       expect(statsOutlines.size()).toBe(2);
       expect(statsOutlines.get(0).get()).toBe(statsOutline1);
@@ -306,11 +305,7 @@ describe('StatsOutlines', () => {
 
   describe('get', () => {
     it('returns StatsOutline of index-th item', () => {
-      const os: Array<StatsOutline> = [
-        new MockStatsOutline(),
-        new MockStatsOutline(),
-        new MockStatsOutline()
-      ];
+      const os: Array<StatsOutline> = [new MockStatsOutline(), new MockStatsOutline(), new MockStatsOutline()];
 
       const outlines: StatsOutlines = StatsOutlines.ofArray(os);
 
@@ -361,10 +356,7 @@ describe('StatsOutlines', () => {
         termID: new MockTermID(uuid6)
       });
 
-      const outlines: StatsOutlines = StatsOutlines.ofArray([
-        outline1,
-        outline2
-      ]);
+      const outlines: StatsOutlines = StatsOutlines.ofArray([outline1, outline2]);
 
       expect(outlines.contains(outline1)).toBe(true);
       expect(outlines.contains(outline2)).toBe(true);
@@ -376,10 +368,7 @@ describe('StatsOutlines', () => {
   describe('isEmpty', () => {
     it('returns true if the elements are 0', () => {
       const outlines1: StatsOutlines = StatsOutlines.ofArray([]);
-      const outlines2: StatsOutlines = StatsOutlines.ofArray([
-        new MockStatsOutline(),
-        new MockStatsOutline()
-      ]);
+      const outlines2: StatsOutlines = StatsOutlines.ofArray([new MockStatsOutline(), new MockStatsOutline()]);
 
       expect(outlines1.isEmpty()).toBe(true);
       expect(outlines2.isEmpty()).toBe(false);
@@ -392,15 +381,8 @@ describe('StatsOutlines', () => {
       const outline2: MockStatsOutline = new MockStatsOutline();
       const outline3: MockStatsOutline = new MockStatsOutline();
 
-      const outlines1: StatsOutlines = StatsOutlines.ofArray([
-        outline1,
-        outline2,
-        outline3
-      ]);
-      const outlines2: StatsOutlines = StatsOutlines.ofArray([
-        outline1,
-        outline2
-      ]);
+      const outlines1: StatsOutlines = StatsOutlines.ofArray([outline1, outline2, outline3]);
+      const outlines2: StatsOutlines = StatsOutlines.ofArray([outline1, outline2]);
 
       expect(outlines1.equals(outlines1)).toBe(true);
       expect(outlines1.equals(outlines2)).toBe(false);
@@ -410,14 +392,8 @@ describe('StatsOutlines', () => {
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
 
-      const outlines1: StatsOutlines = StatsOutlines.ofArray([
-        outline1,
-        outline2
-      ]);
-      const outlines2: StatsOutlines = StatsOutlines.ofArray([
-        outline2,
-        outline1
-      ]);
+      const outlines1: StatsOutlines = StatsOutlines.ofArray([outline1, outline2]);
+      const outlines2: StatsOutlines = StatsOutlines.ofArray([outline2, outline1]);
 
       expect(outlines1.equals(outlines1)).toBe(true);
       expect(outlines1.equals(outlines2)).toBe(false);
@@ -427,14 +403,8 @@ describe('StatsOutlines', () => {
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
 
-      const outlines1: StatsOutlines = StatsOutlines.ofArray([
-        outline1,
-        outline2
-      ]);
-      const outlines2: StatsOutlines = StatsOutlines.ofArray([
-        outline1,
-        outline2
-      ]);
+      const outlines1: StatsOutlines = StatsOutlines.ofArray([outline1, outline2]);
+      const outlines2: StatsOutlines = StatsOutlines.ofArray([outline1, outline2]);
 
       expect(outlines1.equals(outlines1)).toBe(true);
       expect(outlines1.equals(outlines2)).toBe(true);
@@ -494,10 +464,7 @@ describe('StatsOutlines', () => {
         UpdatedAt.ofString('2000-01-01 00:00:00').get()
       );
 
-      const outlines: StatsOutlines = StatsOutlines.ofArray([
-        outline1,
-        outline2
-      ]);
+      const outlines: StatsOutlines = StatsOutlines.ofArray([outline1, outline2]);
 
       expect(outlines.toJSON()).toEqual([
         {
@@ -560,7 +527,9 @@ describe('StatsOutlines', () => {
         )
       ]);
 
-      expect(outlines.toString()).toBe(`${uuid1.get()} ${uuid2.get()} ${uuid3.get()} ${uuid4.get()} ${name1} ${unit1} ${updatedAt.toString()}, ${uuid5.get()} ${uuid6.get()} ${uuid7.get()} ${uuid8.get()} ${name2} ${unit2} ${at}`);
+      expect(outlines.toString()).toBe(
+        `${uuid1.get()} ${uuid2.get()} ${uuid3.get()} ${uuid4.get()} ${name1} ${unit1} ${updatedAt.toString()}, ${uuid5.get()} ${uuid6.get()} ${uuid7.get()} ${uuid8.get()} ${name2} ${unit2} ${at}`
+      );
     });
   });
 });

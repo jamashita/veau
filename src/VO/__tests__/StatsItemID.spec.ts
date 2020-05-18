@@ -18,9 +18,7 @@ describe('StatsItemID', () => {
     it('normal case', () => {
       const uuid: UUID = UUID.v4();
 
-      const superposition: Superposition<StatsItemID, StatsItemIDError> = StatsItemID.ofString(
-        uuid.get()
-      );
+      const superposition: Superposition<StatsItemID, StatsItemIDError> = StatsItemID.ofString(uuid.get());
 
       expect(superposition.isAlive()).toBe(true);
     });
@@ -32,12 +30,15 @@ describe('StatsItemID', () => {
       const superposition: Superposition<StatsItemID, StatsItemIDError> = StatsItemID.ofString('quatre');
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsItemIDError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsItemIDError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsItemIDError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsItemIDError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

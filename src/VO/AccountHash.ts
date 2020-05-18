@@ -7,17 +7,11 @@ export class AccountHash extends ValueObject {
   private readonly veauAccountID: VeauAccountID;
   private readonly hash: Hash;
 
-  public static of(
-    veauAccountID: VeauAccountID,
-    hash: Hash
-  ): AccountHash {
+  public static of(veauAccountID: VeauAccountID, hash: Hash): AccountHash {
     return new AccountHash(veauAccountID, hash);
   }
 
-  protected constructor(
-    veauAccountID: VeauAccountID,
-    hash: Hash
-  ) {
+  protected constructor(veauAccountID: VeauAccountID, hash: Hash) {
     super();
     this.veauAccountID = veauAccountID;
     this.hash = hash;

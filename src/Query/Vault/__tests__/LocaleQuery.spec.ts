@@ -36,11 +36,7 @@ describe('LocaleQuery', () => {
       const stub3: SinonStub = sinon.stub();
       localeCommand.create = stub3;
 
-      const localeQuery: LocaleQuery = new LocaleQuery(
-        localeAJAXQuery,
-        localeCacheQuery,
-        localeCommand
-      );
+      const localeQuery: LocaleQuery = new LocaleQuery(localeAJAXQuery, localeCacheQuery, localeCommand);
       const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeQuery.all();
 
       expect(stub1.called).toBe(true);
@@ -66,11 +62,7 @@ describe('LocaleQuery', () => {
       localeCommand.create = stub3;
       stub3.resolves(Alive.of<DataSourceError>());
 
-      const localeQuery: LocaleQuery = new LocaleQuery(
-        localeAJAXQuery,
-        localeCacheQuery,
-        localeCommand
-      );
+      const localeQuery: LocaleQuery = new LocaleQuery(localeAJAXQuery, localeCacheQuery, localeCommand);
       const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeQuery.all();
 
       expect(stub1.called).toBe(true);
@@ -96,23 +88,22 @@ describe('LocaleQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeQuery: LocaleQuery = new LocaleQuery(
-        localeAJAXQuery,
-        localeCacheQuery,
-        localeCommand
-      );
+      const localeQuery: LocaleQuery = new LocaleQuery(localeAJAXQuery, localeCacheQuery, localeCommand);
       const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeQuery.all();
 
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
       expect(stub3.called).toBe(false);
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: LocaleError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(AJAXError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LocaleError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(AJAXError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -136,23 +127,22 @@ describe('LocaleQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const localeQuery: LocaleQuery = new LocaleQuery(
-        localeAJAXQuery,
-        localeCacheQuery,
-        localeCommand
-      );
+      const localeQuery: LocaleQuery = new LocaleQuery(localeAJAXQuery, localeCacheQuery, localeCommand);
       const superposition: Superposition<Locale, LocaleError | DataSourceError> = await localeQuery.all();
 
       expect(stub1.called).toBe(true);
       expect(stub2.called).toBe(true);
       expect(stub3.called).toBe(true);
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: LocaleError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(CacheError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: LocaleError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(CacheError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

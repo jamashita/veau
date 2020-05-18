@@ -103,29 +103,26 @@ export class StatsEditSaga {
     while (true) {
       const action: StatsEditInitializeAction = yield take(STATS_EDIT_INITIALIZE);
 
-      const {
-        statsID
-      } = action;
+      const { statsID } = action;
 
-      const superposition: Superposition<Stats, NoSuchElementError | StatsError | DataSourceError> = yield call((): Promise<Superposition<Stats, NoSuchElementError | StatsError | DataSourceError>> => {
-        return this.statsQuery.findByStatsID(statsID);
-      });
-
-      yield superposition.match<Effect>((stats: Stats) => {
-        return all([
-          put(updateStats(stats)),
-          put(clearSelectingItem())
-        ]);
-      }, (err: NoSuchElementError | StatsError | DataSourceError) => {
-        if (err instanceof NoSuchElementError) {
-          return all([
-            put(pushToStatsList()),
-            put(appearNotification('error', 'center', 'top', 'STATS_NOT_FOUND'))
-          ]);
+      const superposition: Superposition<Stats, NoSuchElementError | StatsError | DataSourceError> = yield call(
+        (): Promise<Superposition<Stats, NoSuchElementError | StatsError | DataSourceError>> => {
+          return this.statsQuery.findByStatsID(statsID);
         }
+      );
 
-        return put(pushToStatsList());
-      });
+      yield superposition.match<Effect>(
+        (stats: Stats) => {
+          return all([put(updateStats(stats)), put(clearSelectingItem())]);
+        },
+        (err: NoSuchElementError | StatsError | DataSourceError) => {
+          if (err instanceof NoSuchElementError) {
+            return all([put(pushToStatsList()), put(appearNotification('error', 'center', 'top', 'STATS_NOT_FOUND'))]);
+          }
+
+          return put(pushToStatsList());
+        }
+      );
     }
   }
 
@@ -133,10 +130,7 @@ export class StatsEditSaga {
     while (true) {
       yield take(STATS_EDIT_INITIALIZATION_FAILURE);
 
-      yield all([
-        put(pushToStatsList()),
-        put(appearNotification('error', 'center', 'top', 'MALFORMAT_STATS_ID'))
-      ]);
+      yield all([put(pushToStatsList()), put(appearNotification('error', 'center', 'top', 'MALFORMAT_STATS_ID'))]);
     }
   }
 
@@ -145,9 +139,7 @@ export class StatsEditSaga {
       const action: StatsEditNameTypedAction = yield take(STATS_EDIT_NAME_TYPED);
       const state: State = yield select();
 
-      const {
-        stats
-      } = state;
+      const { stats } = state;
 
       const newStats: Stats = Stats.of(
         stats.getStatsID(),
@@ -169,9 +161,7 @@ export class StatsEditSaga {
       const action: StatsEditUnitTypedAction = yield take(STATS_EDIT_UNIT_TYPED);
       const state: State = yield select();
 
-      const {
-        stats
-      } = state;
+      const { stats } = state;
 
       const newStats: Stats = Stats.of(
         stats.getStatsID(),
@@ -193,13 +183,13 @@ export class StatsEditSaga {
       const action: StatsEditISO639SelectedAction = yield take(STATS_EDIT_ISO639_SELECTED);
       const state: State = yield select();
 
-      const {
-        stats
-      } = state;
+      const { stats } = state;
 
-      const superposition: Superposition<Language, NoSuchElementError | DataSourceError> = yield call((): Promise<Superposition<Language, NoSuchElementError | DataSourceError>> => {
-        return this.languageQuery.findByISO639(action.iso639);
-      });
+      const superposition: Superposition<Language, NoSuchElementError | DataSourceError> = yield call(
+        (): Promise<Superposition<Language, NoSuchElementError | DataSourceError>> => {
+          return this.languageQuery.findByISO639(action.iso639);
+        }
+      );
 
       if (superposition.isAlive()) {
         const newStats: Stats = Stats.of(
@@ -223,13 +213,13 @@ export class StatsEditSaga {
       const action: StatsEditISO3166SelectedAction = yield take(STATS_EDIT_ISO3166_SELECTED);
       const state: State = yield select();
 
-      const {
-        stats
-      } = state;
+      const { stats } = state;
 
-      const superposition: Superposition<Region, NoSuchElementError | DataSourceError> = yield call((): Promise<Superposition<Region, NoSuchElementError | DataSourceError>> => {
-        return this.regionQuery.findByISO3166(action.iso3166);
-      });
+      const superposition: Superposition<Region, NoSuchElementError | DataSourceError> = yield call(
+        (): Promise<Superposition<Region, NoSuchElementError | DataSourceError>> => {
+          return this.regionQuery.findByISO3166(action.iso3166);
+        }
+      );
 
       if (superposition.isAlive()) {
         const newStats: Stats = Stats.of(
@@ -253,13 +243,8 @@ export class StatsEditSaga {
       const action: StatsEditDataFilledAction = yield take(STATS_EDIT_DATA_FILLED);
       const state: State = yield select();
 
-      const {
-        stats
-      } = state;
-      const {
-        coordinate,
-        value
-      } = action;
+      const { stats } = state;
+      const { coordinate, value } = action;
 
       const duplicated: Stats = stats.duplicate();
       duplicated.setData(coordinate, value);
@@ -273,12 +258,8 @@ export class StatsEditSaga {
       const action: StatsEditDataDeletedAction = yield take(STATS_EDIT_DATA_DELETED);
       const state: State = yield select();
 
-      const {
-        stats
-      } = state;
-      const {
-        coordinate
-      } = action;
+      const { stats } = state;
+      const { coordinate } = action;
 
       const duplicated: Stats = stats.duplicate();
       duplicated.deleteData(coordinate);
@@ -292,12 +273,8 @@ export class StatsEditSaga {
       const action: StatsEditItemNameTypedAction = yield take(STATS_EDIT_ITEM_NAME_TYPED);
       const state: State = yield select();
 
-      const {
-        statsItem
-      } = state;
-      const {
-        name
-      } = action;
+      const { statsItem } = state;
+      const { name } = action;
 
       const newStatsItem: StatsItem = StatsItem.of(statsItem.getStatsItemID(), name, statsItem.getValues());
 
@@ -310,10 +287,7 @@ export class StatsEditSaga {
       yield take(STATS_EDIT_ITEM_SAVE);
       const state: State = yield select();
 
-      const {
-        stats,
-        statsItem
-      } = state;
+      const { stats, statsItem } = state;
 
       const newStats: Stats = Stats.of(
         stats.getStatsID(),
@@ -327,10 +301,7 @@ export class StatsEditSaga {
         stats.getStartDate()
       );
 
-      yield all([
-        put(updateStats(newStats)),
-        put(resetStatsItem())
-      ]);
+      yield all([put(updateStats(newStats)), put(resetStatsItem())]);
     }
   }
 
@@ -339,12 +310,8 @@ export class StatsEditSaga {
       const action: StatsEditRowSelectedAction = yield take(STATS_EDIT_ROW_SELECTED);
       const state: State = yield select();
 
-      const {
-        stats
-      } = state;
-      const {
-        row
-      } = action;
+      const { stats } = state;
+      const { row } = action;
 
       const statsItem: Quantum<StatsItem> = stats.getRow(row);
 
@@ -359,32 +326,20 @@ export class StatsEditSaga {
 
       const {
         stats,
-        statsEdit: {
-          selectingItem,
-          selectingRow
-        }
+        statsEdit: { selectingItem, selectingRow }
       } = state;
-      const {
-        name
-      } = action;
+      const { name } = action;
 
       if (selectingItem.isAbsent()) {
         continue;
       }
 
       const statsItem: StatsItem = selectingItem.get();
-      const newSelectingItem: StatsItem = StatsItem.of(
-        statsItem.getStatsItemID(),
-        name,
-        statsItem.getValues()
-      );
+      const newSelectingItem: StatsItem = StatsItem.of(statsItem.getStatsItemID(), name, statsItem.getValues());
       const duplicated: Stats = stats.duplicate();
       duplicated.replaceItem(newSelectingItem, selectingRow);
 
-      yield all([
-        put(updateSelectingItem(Present.of<StatsItem>(newSelectingItem))),
-        put(updateStats(duplicated))
-      ]);
+      yield all([put(updateSelectingItem(Present.of<StatsItem>(newSelectingItem))), put(updateStats(duplicated))]);
     }
   }
 
@@ -393,12 +348,8 @@ export class StatsEditSaga {
       const action: StatsEditStartDateDeterminedAction = yield take(STATS_EDIT_START_DATE_DETERMINED);
       const state: State = yield select();
 
-      const {
-        stats
-      } = state;
-      const {
-        startDate
-      } = action;
+      const { stats } = state;
+      const { startDate } = action;
 
       const newStats: Stats = Stats.of(
         stats.getStatsID(),
@@ -429,13 +380,8 @@ export class StatsEditSaga {
       const action: StatsEditRowMovedAction = yield take(STATS_EDIT_ROW_MOVED);
       const state: State = yield select();
 
-      const {
-        stats
-      } = state;
-      const {
-        column,
-        target
-      } = action;
+      const { stats } = state;
+      const { column, target } = action;
 
       const duplicated: Stats = stats.duplicate();
       duplicated.moveItem(column, target);
@@ -456,17 +402,12 @@ export class StatsEditSaga {
       const action: StatsEditRemoveSelectingItemAction = yield take(STATS_EDIT_REMOVE_SELECTING_ITEM);
       const state: State = yield select();
 
-      const {
-        stats
-      } = state;
+      const { stats } = state;
 
       const duplicated: Stats = stats.duplicate();
       duplicated.removeItem(action.statsItem);
 
-      yield all([
-        put(updateStats(duplicated)),
-        put(clearSelectingItem())
-      ]);
+      yield all([put(updateStats(duplicated)), put(clearSelectingItem())]);
     }
   }
 
@@ -475,23 +416,26 @@ export class StatsEditSaga {
       yield take(STATS_EDIT_SAVE_STATS);
       const state: State = yield select();
 
-      const {
-        stats
-      } = state;
+      const { stats } = state;
 
       yield put(loading());
 
-      const superposition: Superposition<void, DataSourceError> = yield call((): Promise<Superposition<void, DataSourceError>> => {
-        return this.statsCommand.create(stats, VeauAccountID.generate());
-      });
+      const superposition: Superposition<void, DataSourceError> = yield call(
+        (): Promise<Superposition<void, DataSourceError>> => {
+          return this.statsCommand.create(stats, VeauAccountID.generate());
+        }
+      );
 
       yield put(loaded());
 
-      yield superposition.match<PutEffect<Action>>(() => {
-        return put(appearNotification('success', 'center', 'top', 'SAVE_SUCCESS'));
-      }, () => {
-        return put(raiseModal('STATS_SAVE_FAILURE', 'STATS_SAVE_FAILURE_DESCRIPTION'));
-      });
+      yield superposition.match<PutEffect<Action>>(
+        () => {
+          return put(appearNotification('success', 'center', 'top', 'SAVE_SUCCESS'));
+        },
+        () => {
+          return put(raiseModal('STATS_SAVE_FAILURE', 'STATS_SAVE_FAILURE_DESCRIPTION'));
+        }
+      );
     }
   }
 }

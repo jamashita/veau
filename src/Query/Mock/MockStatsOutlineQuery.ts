@@ -14,13 +14,21 @@ export class MockStatsOutlineQuery implements IStatsOutlineQuery, IMockQuery {
   public readonly noun: 'StatsOutlineQuery' = 'StatsOutlineQuery';
   public readonly source: 'Mock' = 'Mock';
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public find(statsID: StatsID): Promise<Superposition<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>> {
-    return Promise.reject<Superposition<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>>(new UnimplementedError());
+  public find(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    statsID: StatsID
+  ): Promise<Superposition<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>> {
+    return Promise.reject<Superposition<StatsOutline, StatsOutlineError | NoSuchElementError | DataSourceError>>(
+      new UnimplementedError()
+    );
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public findByVeauAccountID(veauAccountID: VeauAccountID, page: Page): Promise<Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>> {
+  public findByVeauAccountID(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    veauAccountID: VeauAccountID,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    page: Page
+  ): Promise<Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>> {
     return Promise.reject<Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>>(new UnimplementedError());
   }
 }

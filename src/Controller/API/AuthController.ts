@@ -6,11 +6,12 @@ import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
 import { AuthenticationMiddleware } from '../Middleware/AuthenticationMiddleware';
 
-const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(TYPE.AuthenticationMiddleware);
+const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(
+  TYPE.AuthenticationMiddleware
+);
 
 @Controller('/auth')
 export class AuthController {
-
   @Post('/')
   @UseBefore(passport.authenticate('local'))
   @UseBefore(authenticationMiddleware.requires())

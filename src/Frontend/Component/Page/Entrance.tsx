@@ -14,8 +14,8 @@ import { TextField } from '../Atom/TextField';
 type State = Readonly<{}>;
 
 class EntranceImpl extends React.Component<Props & WrappedComponentProps, State> {
-
   public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
+    // prettier-ignore
     const {
       entranceInformation,
       intl
@@ -32,6 +32,7 @@ class EntranceImpl extends React.Component<Props & WrappedComponentProps, State>
   }
 
   public render(): React.ReactNode {
+    // prettier-ignore
     const {
       entranceInformation,
       intl,
@@ -41,10 +42,7 @@ class EntranceImpl extends React.Component<Props & WrappedComponentProps, State>
     } = this.props;
 
     return (
-      <Card
-        className='login-form'
-        raised={true}
-      >
+      <Card className='login-form' raised={true}>
         <CardHeader
           title={intl.formatMessage({
             id: 'VEAU'
@@ -85,9 +83,7 @@ class EntranceImpl extends React.Component<Props & WrappedComponentProps, State>
             disabled={!entranceInformation.isAcceptable()}
             onClick={loginClicked}
           >
-            <Icon
-              className='fas fa-sign-in-alt icon-spacing'
-            />
+            <Icon className='fas fa-sign-in-alt icon-spacing' />
             {intl.formatMessage({
               id: 'LOGIN'
             })}

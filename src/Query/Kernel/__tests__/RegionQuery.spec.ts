@@ -38,11 +38,7 @@ describe('RegionQuery', () => {
       const regionMySQLQuery: MockRegionQuery = new MockRegionQuery();
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
 
-      const regionQuery: RegionQuery = new RegionQuery(
-        regionMySQLQuery,
-        regionRedisQuery,
-        regionRedisCommand
-      );
+      const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
       const superposition: Superposition<Regions, RegionsError | DataSourceError> = await regionQuery.all();
 
       expect(superposition.isAlive()).toBe(true);
@@ -65,11 +61,7 @@ describe('RegionQuery', () => {
       regionRedisCommand.insertAll = stub3;
       stub3.resolves(Alive.of<DataSourceError>());
 
-      const regionQuery: RegionQuery = new RegionQuery(
-        regionMySQLQuery,
-        regionRedisQuery,
-        regionRedisCommand
-      );
+      const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
       const superposition: Superposition<Regions, RegionsError | DataSourceError> = await regionQuery.all();
 
       expect(superposition.isAlive()).toBe(true);
@@ -92,20 +84,19 @@ describe('RegionQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const regionQuery: RegionQuery = new RegionQuery(
-        regionMySQLQuery,
-        regionRedisQuery,
-        regionRedisCommand
-      );
+      const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
       const superposition: Superposition<Regions, RegionsError | DataSourceError> = await regionQuery.all();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: RegionsError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(MySQLError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: RegionsError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(MySQLError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -129,20 +120,19 @@ describe('RegionQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const regionQuery: RegionQuery = new RegionQuery(
-        regionMySQLQuery,
-        regionRedisQuery,
-        regionRedisCommand
-      );
+      const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
       const superposition: Superposition<Regions, RegionsError | DataSourceError> = await regionQuery.all();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: RegionsError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(RedisError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: RegionsError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(RedisError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -167,12 +157,11 @@ describe('RegionQuery', () => {
       const regionMySQLQuery: MockRegionQuery = new MockRegionQuery();
       const regionRedisCommand: MockRegionCommand = new MockRegionCommand();
 
-      const regionQuery: RegionQuery = new RegionQuery(
-        regionMySQLQuery,
-        regionRedisQuery,
-        regionRedisCommand
-      );
-      const superposition: Superposition<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
+      const superposition: Superposition<
+        Region,
+        RegionError | NoSuchElementError | DataSourceError
+      > = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(superposition.isAlive()).toBe(true);
       expect(superposition.get()).toBe(regions.get(1).get());
@@ -192,15 +181,21 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const superposition: Superposition<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      const superposition: Superposition<
+        Region,
+        RegionError | NoSuchElementError | DataSourceError
+      > = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: RegionError | NoSuchElementError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(MySQLError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: RegionError | NoSuchElementError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(MySQLError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -220,15 +215,21 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const superposition: Superposition<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('ALB'));
+      const superposition: Superposition<
+        Region,
+        RegionError | NoSuchElementError | DataSourceError
+      > = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: RegionError | NoSuchElementError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(RegionError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: RegionError | NoSuchElementError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(RegionError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -254,15 +255,21 @@ describe('RegionQuery', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionQuery: RegionQuery = new RegionQuery(regionMySQLQuery, regionRedisQuery, regionRedisCommand);
-      const superposition: Superposition<Region, RegionError | NoSuchElementError | DataSourceError> = await regionQuery.findByISO3166(ISO3166.of('AIO'));
+      const superposition: Superposition<
+        Region,
+        RegionError | NoSuchElementError | DataSourceError
+      > = await regionQuery.findByISO3166(ISO3166.of('AIO'));
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: RegionError | NoSuchElementError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(NoSuchElementError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: RegionError | NoSuchElementError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(NoSuchElementError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

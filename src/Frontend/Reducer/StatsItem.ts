@@ -4,10 +4,7 @@ import { Action, STATS_ITEM_RESET, STATS_ITEM_UPDATE } from '../Action/Action';
 
 const initialState: StatsItem = StatsItem.default();
 
-export const statsItem: Reducer<StatsItem, Action> = (
-  state: StatsItem = initialState,
-  action: Action
-) => {
+export const statsItem: Reducer<StatsItem, Action> = (state: StatsItem = initialState, action: Action) => {
   switch (action.type) {
     case STATS_ITEM_UPDATE: {
       return action.statsItem;

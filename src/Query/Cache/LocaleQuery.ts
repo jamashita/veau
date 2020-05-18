@@ -18,6 +18,7 @@ export class LocaleQuery implements ILocaleQuery, ICacheQuery {
   }
 
   public all(): Promise<Superposition<Locale, LocaleError | DataSourceError>> {
+    // prettier-ignore
     try {
       const locale: Locale = this.cache.get<Locale>(VAULT_LOCALE_KEY);
 

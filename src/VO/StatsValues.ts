@@ -51,20 +51,23 @@ export class StatsValues extends Objet implements Collection<AsOf, StatsValue>, 
     return StatsValues.ofArray(values);
   }
 
-  public static ofSuperposition(superpositions: Array<Superposition<StatsValue, StatsValueError>>): Superposition<StatsValues, StatsValuesError> {
-    return manoeuvre<StatsValue, StatsValueError>(superpositions).match<StatsValues, StatsValuesError>((values: Array<StatsValue>) => {
-      return Alive.of<StatsValues, StatsValuesError>(
-        StatsValues.ofArray(values)
-      );
-    }, (err: StatsValueError) => {
-      return Dead.of<StatsValues, StatsValuesError>(
-        new StatsValuesError('StatsValues.ofSuperposition()', err)
-      );
-    });
+  public static ofSuperposition(
+    superpositions: Array<Superposition<StatsValue, StatsValueError>>
+  ): Superposition<StatsValues, StatsValuesError> {
+    return manoeuvre<StatsValue, StatsValueError>(superpositions).match<StatsValues, StatsValuesError>(
+      (values: Array<StatsValue>) => {
+        return Alive.of<StatsValues, StatsValuesError>(StatsValues.ofArray(values));
+      },
+      (err: StatsValueError) => {
+        return Dead.of<StatsValues, StatsValuesError>(new StatsValuesError('StatsValues.ofSuperposition()', err));
+      }
+    );
   }
 
   public static ofJSON(json: Array<StatsValueJSON>): Superposition<StatsValues, StatsValuesError> {
-    const superpositions: Array<Superposition<StatsValue, StatsValueError>> = json.map<Superposition<StatsValue, StatsValueError>>((statsValue: StatsValueJSON) => {
+    const superpositions: Array<Superposition<StatsValue, StatsValueError>> = json.map<
+      Superposition<StatsValue, StatsValueError>
+    >((statsValue: StatsValueJSON) => {
       return StatsValue.ofJSON(statsValue);
     });
 
@@ -72,7 +75,9 @@ export class StatsValues extends Objet implements Collection<AsOf, StatsValue>, 
   }
 
   public static ofRow(rows: Array<StatsValueRow>): Superposition<StatsValues, StatsValuesError> {
-    const superpositions: Array<Superposition<StatsValue, StatsValueError>> = rows.map<Superposition<StatsValue, StatsValueError>>((statsValue: StatsValueRow) => {
+    const superpositions: Array<Superposition<StatsValue, StatsValueError>> = rows.map<
+      Superposition<StatsValue, StatsValueError>
+    >((statsValue: StatsValueRow) => {
       return StatsValue.ofRow(statsValue);
     });
 

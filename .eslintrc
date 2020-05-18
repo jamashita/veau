@@ -15,9 +15,11 @@
   ],
   "extends": [
     "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended",
+    "prettier/@typescript-eslint",
     "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended"
+    "plugin:@typescript-eslint/recommended"
   ],
   "env": {
     "browser": true,
@@ -170,18 +172,7 @@
       "never"
     ],
     "@typescript-eslint/generic-type-naming": "off",
-    "@typescript-eslint/indent": [
-      "error",
-      2,
-      {
-        "SwitchCase": 1,
-        "VariableDeclarator": {
-          "var": 2,
-          "let": 2,
-          "const": 3
-        }
-      }
-    ],
+    "@typescript-eslint/indent": "off",
     "@typescript-eslint/interface-name-prefix": "off",
     "@typescript-eslint/member-delimiter-style": [
       "error",
@@ -522,6 +513,7 @@
         "logical": "parens-new-line",
         "prop": "parens-new-line"
       }
-    ]
+    ],
+    "prettier/prettier": "error"
   }
 }

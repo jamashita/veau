@@ -19,7 +19,8 @@ export class VeauAccountQuery implements IVeauAccountQuery, IAJAXQuery {
   }
 
   public async find(): Promise<Superposition<VeauAccount, VeauAccountError | DataSourceError>> {
-    const response: AJAXResponse<VeauAccountJSON> = await this.ajax.get<VeauAccountJSON>('/api/identity');
+    const response: AJAXResponse<VeauAccountJSON> = await this.ajax.get<VeauAccountJSON>('/api/accounts');
+    // prettier-ignore
     const {
       status,
       body
@@ -27,11 +28,14 @@ export class VeauAccountQuery implements IVeauAccountQuery, IAJAXQuery {
 
     switch (status) {
       case OK: {
-        return VeauAccount.ofJSON(body).match<VeauAccount, VeauAccountError | DataSourceError>((veauAccount: VeauAccount) => {
-          return Alive.of<VeauAccount, DataSourceError>(veauAccount);
-        }, (err: VeauAccountError, self: Dead<VeauAccount, VeauAccountError>) => {
-          return self;
-        });
+        return VeauAccount.ofJSON(body).match<VeauAccount, VeauAccountError | DataSourceError>(
+          (veauAccount: VeauAccount) => {
+            return Alive.of<VeauAccount, DataSourceError>(veauAccount);
+          },
+          (err: VeauAccountError, self: Dead<VeauAccount, VeauAccountError>) => {
+            return self;
+          }
+        );
       }
       default: {
         return Dead.of<VeauAccount, AJAXError>(new AJAXError('IDENTITY DID NOT RETURN OK', status));
@@ -39,8 +43,14 @@ export class VeauAccountQuery implements IVeauAccountQuery, IAJAXQuery {
     }
   }
 
-  public async findByEntranceInfo(entranceInformation: EntranceInformation): Promise<Superposition<VeauAccount, VeauAccountError | DataSourceError>> {
-    const response: AJAXResponse<VeauAccountJSON> = await this.ajax.post<VeauAccountJSON>('/api/auth', entranceInformation.toJSON());
+  public async findByEntranceInfo(
+    entranceInformation: EntranceInformation
+  ): Promise<Superposition<VeauAccount, VeauAccountError | DataSourceError>> {
+    const response: AJAXResponse<VeauAccountJSON> = await this.ajax.post<VeauAccountJSON>(
+      '/api/auth',
+      entranceInformation.toJSON()
+    );
+    // prettier-ignore
     const {
       status,
       body
@@ -48,11 +58,14 @@ export class VeauAccountQuery implements IVeauAccountQuery, IAJAXQuery {
 
     switch (status) {
       case OK: {
-        return VeauAccount.ofJSON(body).match<VeauAccount, VeauAccountError | DataSourceError>((veauAccount: VeauAccount) => {
-          return Alive.of<VeauAccount, DataSourceError>(veauAccount);
-        }, (err: VeauAccountError, self: Dead<VeauAccount, VeauAccountError>) => {
-          return self;
-        });
+        return VeauAccount.ofJSON(body).match<VeauAccount, VeauAccountError | DataSourceError>(
+          (veauAccount: VeauAccount) => {
+            return Alive.of<VeauAccount, DataSourceError>(veauAccount);
+          },
+          (err: VeauAccountError, self: Dead<VeauAccount, VeauAccountError>) => {
+            return self;
+          }
+        );
       }
       case UNAUTHORIZED: {
         return Dead.of<VeauAccount, AJAXError>(new AJAXError('UNAUTHORIZED', UNAUTHORIZED));

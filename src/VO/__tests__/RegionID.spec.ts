@@ -28,9 +28,7 @@ describe('RegionID', () => {
     it('normal case', () => {
       const uuid: UUID = UUID.v4();
 
-      const superposition: Superposition<RegionID, RegionIDError> = RegionID.ofString(
-        uuid.get()
-      );
+      const superposition: Superposition<RegionID, RegionIDError> = RegionID.ofString(uuid.get());
 
       expect(superposition.isAlive()).toBe(true);
     });
@@ -42,12 +40,15 @@ describe('RegionID', () => {
       const superposition: Superposition<RegionID, RegionIDError> = RegionID.ofString('quasi');
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: RegionIDError) => {
-        spy2();
-        expect(err).toBeInstanceOf(RegionIDError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: RegionIDError) => {
+          spy2();
+          expect(err).toBeInstanceOf(RegionIDError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

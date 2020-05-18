@@ -19,12 +19,7 @@ describe('VeauAccount', () => {
       const regionID: RegionID = new MockRegionID();
       const name: AccountName = new MockAccountName();
 
-      const veauAccount: VeauAccount = VeauAccount.of(
-        veauAccountID,
-        languageID,
-        regionID,
-        name
-      );
+      const veauAccount: VeauAccount = VeauAccount.of(veauAccountID, languageID, regionID, name);
 
       expect(veauAccount.getVeauAccountID()).toBe(veauAccountID);
       expect(veauAccount.getLanguageID()).toBe(languageID);
@@ -65,12 +60,15 @@ describe('VeauAccount', () => {
 
       const superposition: Superposition<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
 
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: VeauAccountError) => {
-        spy2();
-        expect(err).toBeInstanceOf(VeauAccountError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: VeauAccountError) => {
+          spy2();
+          expect(err).toBeInstanceOf(VeauAccountError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -89,12 +87,15 @@ describe('VeauAccount', () => {
 
       const superposition: Superposition<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
 
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: VeauAccountError) => {
-        spy2();
-        expect(err).toBeInstanceOf(VeauAccountError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: VeauAccountError) => {
+          spy2();
+          expect(err).toBeInstanceOf(VeauAccountError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -113,18 +114,20 @@ describe('VeauAccount', () => {
 
       const superposition: Superposition<VeauAccount, VeauAccountError> = VeauAccount.ofJSON(json);
 
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: VeauAccountError) => {
-        spy2();
-        expect(err).toBeInstanceOf(VeauAccountError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: VeauAccountError) => {
+          spy2();
+          expect(err).toBeInstanceOf(VeauAccountError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
     });
   });
-
 
   describe('empty', () => {
     it('has randomly generated id and empty name, language, and region', () => {

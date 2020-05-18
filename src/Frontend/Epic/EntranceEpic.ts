@@ -45,6 +45,7 @@ export class EntranceEpic {
     return action$.pipe<Action, Action, Action>(
       ofType<Action, Action>(IDENTITY_AUTHENTICATE),
       filter<Action>(() => {
+        // prettier-ignore
         const {
           value: {
             modal: {
@@ -64,6 +65,7 @@ export class EntranceEpic {
         return concat<Action>(
           of<Action>(loading()),
           mergeMap<unknown, Observable<Action>>(() => {
+            // prettier-ignore
             const {
               value: {
                 entranceInformation
@@ -73,24 +75,23 @@ export class EntranceEpic {
             return from<Promise<Superposition<Identity, IdentityError | DataSourceError>>>(
               this.identityQuery.findByEntranceInfo(entranceInformation)
             ).pipe<Action>(
-              mergeMap<Superposition<Identity, IdentityError | DataSourceError>, Observable<Action>>((superposition: Superposition<Identity, IdentityError | DataSourceError>) => {
-                return concat<Action>(
-                  of<Action>(loaded()),
-                  mergeMap<Superposition<VeauAccount, VeauAccountError | DataSourceError>, Observable<Action>>(() => {
-                    return superposition.match<Observable<Action>>((identity: Identity) => {
-                      return of<Action>(
-                        identityAuthenticated(identity),
-                        pushToStatsList(),
-                        identified()
+              mergeMap<Superposition<Identity, IdentityError | DataSourceError>, Observable<Action>>(
+                (superposition: Superposition<Identity, IdentityError | DataSourceError>) => {
+                  return concat<Action>(
+                    of<Action>(loaded()),
+                    mergeMap<Superposition<VeauAccount, VeauAccountError | DataSourceError>, Observable<Action>>(() => {
+                      return superposition.match<Observable<Action>>(
+                        (identity: Identity) => {
+                          return of<Action>(identityAuthenticated(identity), pushToStatsList(), identified());
+                        },
+                        () => {
+                          return of<Action>(raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION'));
+                        }
                       );
-                    }, () => {
-                      return of<Action>(
-                        raiseModal('AUTHENTICATION_FAILED', 'AUTHENTICATION_FAILED_DESCRIPTION')
-                      );
-                    });
-                  })
-                );
-              })
+                    })
+                  );
+                }
+              )
             );
           })
         );
@@ -102,16 +103,14 @@ export class EntranceEpic {
     return action$.pipe<EntranceAccountNameTypedAction, Action>(
       ofType<Action, EntranceAccountNameTypedAction>(ENTRANCE_ACCOUNT_NAME_TYPED),
       map<EntranceAccountNameTypedAction, Action>((action: EntranceAccountNameTypedAction) => {
+        // prettier-ignore
         const {
           value: {
             entranceInformation
           }
         } = state$;
 
-        const newInfo: EntranceInformation = EntranceInformation.of(
-          action.account,
-          entranceInformation.getPassword()
-        );
+        const newInfo: EntranceInformation = EntranceInformation.of(action.account, entranceInformation.getPassword());
 
         return updateEntranceInformation(newInfo);
       })
@@ -122,16 +121,14 @@ export class EntranceEpic {
     return action$.pipe<EntrancePasswordTypedAction, Action>(
       ofType<Action, EntrancePasswordTypedAction>(ENTRANCE_PASSWORD_TYPED),
       map<EntrancePasswordTypedAction, Action>((action: EntrancePasswordTypedAction) => {
+        // prettier-ignore
         const {
           value: {
             entranceInformation
           }
         } = state$;
 
-        const newInfo: EntranceInformation = EntranceInformation.of(
-          entranceInformation.getAccount(),
-          action.password
-        );
+        const newInfo: EntranceInformation = EntranceInformation.of(entranceInformation.getAccount(), action.password);
 
         return updateEntranceInformation(newInfo);
       })

@@ -19,41 +19,30 @@ export class StatsValue extends ValueObject implements JSONable {
   private readonly asOf: AsOf;
   private readonly value: NumericalValue;
 
-  public static of(
-    asOf: AsOf,
-    value: NumericalValue
-  ): StatsValue {
+  public static of(asOf: AsOf, value: NumericalValue): StatsValue {
     return new StatsValue(asOf, value);
   }
 
   public static ofJSON(json: StatsValueJSON): Superposition<StatsValue, StatsValueError> {
-    return AsOf.ofString(json.asOf).match<StatsValue, StatsValueError>((asOf: AsOf) => {
-      return Alive.of<StatsValue, StatsValueError>(
-        StatsValue.of(
-          asOf,
-          NumericalValue.of(json.value)
-        )
-      );
-    }, (err: AsOfError) => {
-      return Dead.of<StatsValue, StatsValueError>(
-        new StatsValueError('StatsValue.ofRow()', err)
-      );
-    });
+    return AsOf.ofString(json.asOf).match<StatsValue, StatsValueError>(
+      (asOf: AsOf) => {
+        return Alive.of<StatsValue, StatsValueError>(StatsValue.of(asOf, NumericalValue.of(json.value)));
+      },
+      (err: AsOfError) => {
+        return Dead.of<StatsValue, StatsValueError>(new StatsValueError('StatsValue.ofRow()', err));
+      }
+    );
   }
 
   public static ofRow(row: StatsValueRow): Superposition<StatsValue, StatsValueError> {
-    return AsOf.ofString(row.asOf).match<StatsValue, StatsValueError>((asOf: AsOf) => {
-      return Alive.of<StatsValue, StatsValueError>(
-        StatsValue.of(
-          asOf,
-          NumericalValue.of(row.value)
-        )
-      );
-    }, (err: AsOfError) => {
-      return Dead.of<StatsValue, StatsValueError>(
-        new StatsValueError('StatsValue.ofRow()', err)
-      );
-    });
+    return AsOf.ofString(row.asOf).match<StatsValue, StatsValueError>(
+      (asOf: AsOf) => {
+        return Alive.of<StatsValue, StatsValueError>(StatsValue.of(asOf, NumericalValue.of(row.value)));
+      },
+      (err: AsOfError) => {
+        return Dead.of<StatsValue, StatsValueError>(new StatsValueError('StatsValue.ofRow()', err));
+      }
+    );
   }
 
   public static isJSON(n: unknown): n is StatsValueJSON {
@@ -70,10 +59,7 @@ export class StatsValue extends ValueObject implements JSONable {
     return true;
   }
 
-  protected constructor(
-    asOf: AsOf,
-    value: NumericalValue
-  ) {
+  protected constructor(asOf: AsOf, value: NumericalValue) {
     super();
     this.asOf = asOf;
     this.value = value;

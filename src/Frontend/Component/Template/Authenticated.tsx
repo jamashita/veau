@@ -6,12 +6,12 @@ import { Header } from '../Molecule/Header';
 type State = Readonly<{}>;
 
 export class Authenticated extends React.Component<Props, State> {
-
   public shouldComponentUpdate(): boolean {
     return true;
   }
 
   public render(): React.ReactNode {
+    // prettier-ignore
     const {
       children,
       menuClicked
@@ -19,9 +19,7 @@ export class Authenticated extends React.Component<Props, State> {
 
     return (
       <div>
-        <Header
-          menuClicked={menuClicked}
-        />
+        <Header menuClicked={menuClicked} />
         <PageProvider />
         {children}
       </div>

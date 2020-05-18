@@ -13,8 +13,8 @@ type Props = Readonly<{
 type State = Readonly<{}>;
 
 export class TextField extends React.Component<Props, State> {
-
   public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
+    // prettier-ignore
     const {
       label,
       type,
@@ -43,6 +43,7 @@ export class TextField extends React.Component<Props, State> {
   }
 
   public render(): React.ReactNode {
+    // prettier-ignore
     const {
       label,
       disabled,

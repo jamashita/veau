@@ -35,12 +35,15 @@ describe('StatsValue', () => {
       const superposition: Superposition<StatsValue, StatsValueError> = StatsValue.ofJSON(json);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsValueError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsValueError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsValueError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsValueError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -76,11 +79,14 @@ describe('StatsValue', () => {
       const superposition: Superposition<StatsValue, StatsValueError> = StatsValue.ofRow(row);
 
       expect(superposition.isAlive()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsValueError) => {
-        spy2();
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsValueError) => {
+          spy2();
+        }
+      );
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -99,12 +105,15 @@ describe('StatsValue', () => {
       const superposition: Superposition<StatsValue, StatsValueError> = StatsValue.ofRow(row);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsValueError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsValueError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsValueError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsValueError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -207,10 +216,7 @@ describe('StatsValue', () => {
 
   describe('toJSON', () => {
     it('normal case', () => {
-      const statsValue: StatsValue = StatsValue.of(
-        AsOf.ofString('2000-01-01').get(),
-        NumericalValue.of(1)
-      );
+      const statsValue: StatsValue = StatsValue.of(AsOf.ofString('2000-01-01').get(), NumericalValue.of(1));
 
       expect(statsValue.toJSON()).toEqual({
         asOf: '2000-01-01',
@@ -223,10 +229,7 @@ describe('StatsValue', () => {
     it('normal case', () => {
       const asOf: string = '2000-01-01';
       const value: number = 1;
-      const statsValue: StatsValue = StatsValue.of(
-        AsOf.ofString(asOf).get(),
-        NumericalValue.of(value)
-      );
+      const statsValue: StatsValue = StatsValue.of(AsOf.ofString(asOf).get(), NumericalValue.of(value));
 
       expect(statsValue.toString()).toBe(`${asOf} ${value}`);
     });

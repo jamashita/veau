@@ -75,13 +75,11 @@ describe('StatsQuery', () => {
       regionQuery.find = stub4;
       stub4.resolves(Alive.of<Region, RegionError | NoSuchElementError | DataSourceError>(region));
 
-      const statsQuery: StatsQuery = new StatsQuery(
-        statsOutlineQuery,
-        statsItemQuery,
-        languageQuery,
-        regionQuery
-      );
-      const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
+      const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
+      const superposition: Superposition<
+        Stats,
+        StatsError | NoSuchElementError | DataSourceError
+      > = await statsQuery.findByStatsID(statsID);
 
       expect(superposition.isAlive()).toBe(true);
       const stats: Stats = superposition.get();
@@ -109,22 +107,22 @@ describe('StatsQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsQuery: StatsQuery = new StatsQuery(
-        statsOutlineQuery,
-        statsItemQuery,
-        languageQuery,
-        regionQuery
-      );
-      const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
+      const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
+      const superposition: Superposition<
+        Stats,
+        StatsError | NoSuchElementError | DataSourceError
+      > = await statsQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsError | NoSuchElementError | DataSourceError
-      ) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsError | NoSuchElementError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -144,22 +142,22 @@ describe('StatsQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsQuery: StatsQuery = new StatsQuery(
-        statsOutlineQuery,
-        statsItemQuery,
-        languageQuery,
-        regionQuery
-      );
-      const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
+      const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
+      const superposition: Superposition<
+        Stats,
+        StatsError | NoSuchElementError | DataSourceError
+      > = await statsQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsError | NoSuchElementError | DataSourceError
-      ) => {
-        spy2();
-        expect(err).toBeInstanceOf(NoSuchElementError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsError | NoSuchElementError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(NoSuchElementError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -183,21 +181,22 @@ describe('StatsQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsQuery: StatsQuery = new StatsQuery(
-        statsOutlineQuery,
-        statsItemQuery,
-        languageQuery,
-        regionQuery
-      );
-      const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
+      const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
+      const superposition: Superposition<
+        Stats,
+        StatsError | NoSuchElementError | DataSourceError
+      > = await statsQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsError | NoSuchElementError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsError | NoSuchElementError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -221,21 +220,22 @@ describe('StatsQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsQuery: StatsQuery = new StatsQuery(
-        statsOutlineQuery,
-        statsItemQuery,
-        languageQuery,
-        regionQuery
-      );
-      const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
+      const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
+      const superposition: Superposition<
+        Stats,
+        StatsError | NoSuchElementError | DataSourceError
+      > = await statsQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsError | NoSuchElementError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(MySQLError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsError | NoSuchElementError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(MySQLError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -257,27 +257,30 @@ describe('StatsQuery', () => {
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub3: SinonStub = sinon.stub();
       languageQuery.find = stub3;
-      stub3.resolves(Dead.of<Language, LanguageError | NoSuchElementError | DataSourceError>(new LanguageError('test failed')));
+      stub3.resolves(
+        Dead.of<Language, LanguageError | NoSuchElementError | DataSourceError>(new LanguageError('test failed'))
+      );
       const regionQuery: MockRegionQuery = new MockRegionQuery();
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsQuery: StatsQuery = new StatsQuery(
-        statsOutlineQuery,
-        statsItemQuery,
-        languageQuery,
-        regionQuery
-      );
-      const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
+      const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
+      const superposition: Superposition<
+        Stats,
+        StatsError | NoSuchElementError | DataSourceError
+      > = await statsQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsError | NoSuchElementError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsError | NoSuchElementError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -299,27 +302,30 @@ describe('StatsQuery', () => {
       const languageQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub3: SinonStub = sinon.stub();
       languageQuery.find = stub3;
-      stub3.resolves(Dead.of<Language, LanguageError | NoSuchElementError | DataSourceError>(new NoSuchElementError('test failed')));
+      stub3.resolves(
+        Dead.of<Language, LanguageError | NoSuchElementError | DataSourceError>(new NoSuchElementError('test failed'))
+      );
       const regionQuery: MockRegionQuery = new MockRegionQuery();
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsQuery: StatsQuery = new StatsQuery(
-        statsOutlineQuery,
-        statsItemQuery,
-        languageQuery,
-        regionQuery
-      );
-      const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
+      const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
+      const superposition: Superposition<
+        Stats,
+        StatsError | NoSuchElementError | DataSourceError
+      > = await statsQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsError | NoSuchElementError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(NoSuchElementError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsError | NoSuchElementError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(NoSuchElementError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -346,26 +352,29 @@ describe('StatsQuery', () => {
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub4: SinonStub = sinon.stub();
       regionQuery.find = stub4;
-      stub4.resolves(Dead.of<Region, RegionError | NoSuchElementError | DataSourceError>(new RegionError('test failed')));
+      stub4.resolves(
+        Dead.of<Region, RegionError | NoSuchElementError | DataSourceError>(new RegionError('test failed'))
+      );
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsQuery: StatsQuery = new StatsQuery(
-        statsOutlineQuery,
-        statsItemQuery,
-        languageQuery,
-        regionQuery
-      );
-      const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
+      const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
+      const superposition: Superposition<
+        Stats,
+        StatsError | NoSuchElementError | DataSourceError
+      > = await statsQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsError | NoSuchElementError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsError | NoSuchElementError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -392,26 +401,29 @@ describe('StatsQuery', () => {
       const regionQuery: MockRegionQuery = new MockRegionQuery();
       const stub4: SinonStub = sinon.stub();
       regionQuery.find = stub4;
-      stub4.resolves(Dead.of<Region, RegionError | NoSuchElementError | DataSourceError>(new NoSuchElementError('test failed')));
+      stub4.resolves(
+        Dead.of<Region, RegionError | NoSuchElementError | DataSourceError>(new NoSuchElementError('test failed'))
+      );
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsQuery: StatsQuery = new StatsQuery(
-        statsOutlineQuery,
-        statsItemQuery,
-        languageQuery,
-        regionQuery
-      );
-      const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
+      const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
+      const superposition: Superposition<
+        Stats,
+        StatsError | NoSuchElementError | DataSourceError
+      > = await statsQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsError | NoSuchElementError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(NoSuchElementError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsError | NoSuchElementError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(NoSuchElementError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -446,21 +458,22 @@ describe('StatsQuery', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const statsQuery: StatsQuery = new StatsQuery(
-        statsOutlineQuery,
-        statsItemQuery,
-        languageQuery,
-        regionQuery
-      );
-      const superposition: Superposition<Stats, StatsError | NoSuchElementError | DataSourceError> = await statsQuery.findByStatsID(statsID);
+      const statsQuery: StatsQuery = new StatsQuery(statsOutlineQuery, statsItemQuery, languageQuery, regionQuery);
+      const superposition: Superposition<
+        Stats,
+        StatsError | NoSuchElementError | DataSourceError
+      > = await statsQuery.findByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(() => {
-        spy1();
-      }, (err: StatsError | NoSuchElementError | DataSourceError) => {
-        spy2();
-        expect(err).toBeInstanceOf(StatsError);
-      });
+      superposition.match<void>(
+        () => {
+          spy1();
+        },
+        (err: StatsError | NoSuchElementError | DataSourceError) => {
+          spy2();
+          expect(err).toBeInstanceOf(StatsError);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

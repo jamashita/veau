@@ -8,7 +8,6 @@ type Props = Readonly<{}>;
 type State = Readonly<{}>;
 
 export class View extends React.Component<Props, State> {
-
   public shouldComponentUpdate(): boolean {
     return true;
   }
