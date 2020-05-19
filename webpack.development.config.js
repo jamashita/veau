@@ -30,7 +30,7 @@ module.exports = {
       }
     }),
     new TsConfigWebpackPlugin({
-      configFile: './src/Frontend/tsconfig.json'
+      configFile: './tsconfig-fe.json'
     })
   ],
   module: {
