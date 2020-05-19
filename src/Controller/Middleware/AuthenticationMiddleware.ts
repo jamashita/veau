@@ -1,7 +1,8 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express';
 import { UNAUTHORIZED } from 'http-status';
 import { injectable } from 'inversify';
-import { VeauAccount } from '../../VO/VeauAccount';
+
+import { VeauAccount } from '../../VO/VeauAccount/VeauAccount';
 
 @injectable()
 export class AuthenticationMiddleware {

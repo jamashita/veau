@@ -1,5 +1,6 @@
 import { Express } from 'express';
 import { useExpressServer } from 'routing-controllers';
+
 import { AccountController } from './AccountController';
 import { AuthController } from './AuthController';
 import { LocaleController } from './LocaleController';

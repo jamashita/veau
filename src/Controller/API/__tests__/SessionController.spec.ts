@@ -1,8 +1,10 @@
+import 'reflect-metadata';
+
 import express, { Express, NextFunction, Request, Response } from 'express';
 import { OK } from 'http-status';
-import 'reflect-metadata';
 import { useExpressServer } from 'routing-controllers';
 import supertest from 'supertest';
+
 import { SessionController } from '../SessionController';
 
 const dummy = (req: Request, res: Response, next: NextFunction) => {

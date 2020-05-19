@@ -1,24 +1,26 @@
+import 'reflect-metadata';
+
 import bodyParser from 'body-parser';
 import express, { NextFunction, Request, Response } from 'express';
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import { Alive, DataSourceError, Dead, MySQLError, UUID } from 'publikum';
-import 'reflect-metadata';
 import { useExpressServer } from 'routing-controllers';
 import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';
+
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
 import { MockStats } from '../../../Entity/Mock/MockStats';
 import { Stats } from '../../../Entity/Stats';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
 import { StatsError } from '../../../Error/StatsError';
-import { StatsOutlinesError } from '../../../Error/StatsOutlinesError';
 import { StatsInteractor } from '../../../Interactor/StatsInteractor';
-import { MockStatsOutline } from '../../../VO/Mock/MockStatsOutline';
-import { MockStatsOutlines } from '../../../VO/Mock/MockStatsOutlines';
-import { MockVeauAccount } from '../../../VO/Mock/MockVeauAccount';
-import { StatsOutlines } from '../../../VO/StatsOutlines';
-import { Term } from '../../../VO/Term';
+import { StatsOutlinesError } from '../../../VO/StatsOutline/Error/StatsOutlinesError';
+import { MockStatsOutline } from '../../../VO/StatsOutline/Mock/MockStatsOutline';
+import { MockStatsOutlines } from '../../../VO/StatsOutline/Mock/MockStatsOutlines';
+import { StatsOutlines } from '../../../VO/StatsOutline/StatsOutlines';
+import { Term } from '../../../VO/Term/Term';
+import { MockVeauAccount } from '../../../VO/VeauAccount/Mock/MockVeauAccount';
 import { StatsController } from '../StatsController';
 
 const fakeAccount = (req: Request, res: Response, next: NextFunction) => {

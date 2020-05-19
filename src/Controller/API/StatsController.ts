@@ -7,13 +7,13 @@ import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
-import { PageError } from '../../Error/PageError';
+import { PageError } from '../../VO/Page/Error/PageError';
 import { StatsError } from '../../Error/StatsError';
-import { StatsIDError } from '../../Error/StatsIDError';
-import { StatsOutlinesError } from '../../Error/StatsOutlinesError';
+import { StatsIDError } from '../../VO/StatsOutline/Error/StatsIDError';
+import { StatsOutlinesError } from '../../VO/StatsOutline/Error/StatsOutlinesError';
 import { StatsInteractor } from '../../Interactor/StatsInteractor';
-import { Page } from '../../VO/Page';
-import { StatsID } from '../../VO/StatsID';
+import { Page } from '../../VO/Page/Page';
+import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { AuthenticationMiddleware } from '../Middleware/AuthenticationMiddleware';
 
 const logger: log4js.Logger = log4js.getLogger();

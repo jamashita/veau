@@ -1,7 +1,9 @@
+import 'reflect-metadata';
+
 import express, { Express, NextFunction, Request, Response } from 'express';
 import { OK, UNAUTHORIZED } from 'http-status';
-import 'reflect-metadata';
 import supertest from 'supertest';
+
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
 import { AuthenticationMiddleware } from '../AuthenticationMiddleware';

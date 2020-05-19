@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { OK } from 'http-status';
 import passport from 'passport';
 import { Controller, Post, Req, Res, UseBefore } from 'routing-controllers';
+
 import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
 import { AuthenticationMiddleware } from '../Middleware/AuthenticationMiddleware';

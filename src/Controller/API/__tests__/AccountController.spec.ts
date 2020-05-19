@@ -1,14 +1,16 @@
+import 'reflect-metadata';
+
 import express, { Express, NextFunction, Request, Response } from 'express';
 import { OK } from 'http-status';
-import 'reflect-metadata';
 import { useExpressServer } from 'routing-controllers';
 import supertest from 'supertest';
-import { MockAccountName } from '../../../VO/Mock/MockAccountName';
-import { MockLanguageID } from '../../../VO/Mock/MockLanguageID';
-import { MockRegionID } from '../../../VO/Mock/MockRegionID';
-import { MockVeauAccount } from '../../../VO/Mock/MockVeauAccount';
-import { MockVeauAccountID } from '../../../VO/Mock/MockVeauAccountID';
-import { VeauAccount } from '../../../VO/VeauAccount';
+
+import { MockAccountName } from '../../../VO/Account/Mock/MockAccountName';
+import { MockLanguageID } from '../../../VO/Language/Mock/MockLanguageID';
+import { MockRegionID } from '../../../VO/Region/Mock/MockRegionID';
+import { MockVeauAccount } from '../../../VO/VeauAccount/Mock/MockVeauAccount';
+import { MockVeauAccountID } from '../../../VO/VeauAccount/Mock/MockVeauAccountID';
+import { VeauAccount } from '../../../VO/VeauAccount/VeauAccount';
 import { AccountController } from '../AccountController';
 
 const setAccount = (account: VeauAccount) => {

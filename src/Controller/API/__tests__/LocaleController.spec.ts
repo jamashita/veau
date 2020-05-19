@@ -1,27 +1,29 @@
+import 'reflect-metadata';
+
 import express, { Express, NextFunction, Request, Response } from 'express';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import { Alive, DataSourceError, Dead, RedisError } from 'publikum';
-import 'reflect-metadata';
 import { useExpressServer } from 'routing-controllers';
 import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';
+
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
 import { LocaleInteractor } from '../../../Interactor/LocaleInteractor';
-import { Locale } from '../../../VO/Locale';
-import { MockISO3166 } from '../../../VO/Mock/MockISO3166';
-import { MockISO639 } from '../../../VO/Mock/MockISO639';
-import { MockLanguage } from '../../../VO/Mock/MockLanguage';
-import { MockLanguageID } from '../../../VO/Mock/MockLanguageID';
-import { MockLanguageName } from '../../../VO/Mock/MockLanguageName';
-import { MockLanguages } from '../../../VO/Mock/MockLanguages';
-import { MockLocale } from '../../../VO/Mock/MockLocale';
-import { MockRegion } from '../../../VO/Mock/MockRegion';
-import { MockRegionID } from '../../../VO/Mock/MockRegionID';
-import { MockRegionName } from '../../../VO/Mock/MockRegionName';
-import { MockRegions } from '../../../VO/Mock/MockRegions';
-import { MockVeauAccount } from '../../../VO/Mock/MockVeauAccount';
+import { MockISO639 } from '../../../VO/Language/Mock/MockISO639';
+import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';
+import { MockLanguageID } from '../../../VO/Language/Mock/MockLanguageID';
+import { MockLanguageName } from '../../../VO/Language/Mock/MockLanguageName';
+import { MockLanguages } from '../../../VO/Language/Mock/MockLanguages';
+import { Locale } from '../../../VO/Locale/Locale';
+import { MockLocale } from '../../../VO/Locale/Mock/MockLocale';
+import { MockISO3166 } from '../../../VO/Region/Mock/MockISO3166';
+import { MockRegion } from '../../../VO/Region/Mock/MockRegion';
+import { MockRegionID } from '../../../VO/Region/Mock/MockRegionID';
+import { MockRegionName } from '../../../VO/Region/Mock/MockRegionName';
+import { MockRegions } from '../../../VO/Region/Mock/MockRegions';
+import { MockVeauAccount } from '../../../VO/VeauAccount/Mock/MockVeauAccount';
 import { LocaleController } from '../LocaleController';
 
 const fakeAccount = (req: Request, res: Response, next: NextFunction) => {
