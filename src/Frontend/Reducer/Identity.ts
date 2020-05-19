@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { Identity } from '../../VO/Identity';
+import { Identity } from '../../VO/Identity/Identity';
 import { Action, IDENTITY_AUTHENTICATED } from '../Action/Action';
 
 const initialState: Identity = Identity.empty();

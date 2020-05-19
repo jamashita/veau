@@ -1,7 +1,7 @@
-// @ts-nocheck
 import { inject, injectable } from 'inversify';
 import { ActionsObservable, Epic, StateObservable } from 'redux-observable';
 import { merge, Observable } from 'rxjs';
+
 import { TYPE } from '../../Container/Types';
 import { Action } from '../Action/Action';
 import { State } from '../State';

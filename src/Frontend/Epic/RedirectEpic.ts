@@ -1,9 +1,9 @@
-// @ts-nocheck
 import { push } from 'connected-react-router';
 import { injectable } from 'inversify';
 import { ActionsObservable, ofType } from 'redux-observable';
 import { merge, Observable } from 'rxjs';
 import { map, mapTo } from 'rxjs/operators';
+
 import {
   Action,
   PUSH_TO_ENTRANCE,

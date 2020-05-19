@@ -1,7 +1,7 @@
 import { Absent, Quantum } from 'publikum';
 import { Reducer } from 'redux';
 import { StatsItem } from '../../Entity/StatsItem';
-import { Row } from '../../VO/Row';
+import { Row } from '../../VO/Coordinate/Row';
 import {
   Action,
   STATS_EDIT_CLEAR_SELECTING_ITEM,

@@ -1,5 +1,5 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
-import { Identity } from '../../VO/Identity';
+import { Identity } from '../../VO/Identity/Identity';
 import { I18NProvider as Component } from '../Component/I18NProvider';
 import { State } from '../State';
 

@@ -4,12 +4,12 @@ import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { concat, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import { TYPE } from '../../Container/Types';
-import { IdentityError } from '../../Error/IdentityError';
-import { VeauAccountError } from '../../Error/VeauAccountError';
+import { IdentityError } from '../../VO/Identity/Error/IdentityError';
+import { VeauAccountError } from '../../VO/VeauAccount/Error/VeauAccountError';
 import { IIdentityQuery } from '../../Query/Interface/IIdentityQuery';
-import { EntranceInformation } from '../../VO/EntranceInformation';
-import { Identity } from '../../VO/Identity';
-import { VeauAccount } from '../../VO/VeauAccount';
+import { EntranceInformation } from '../../VO/EntranceInformation/EntranceInformation';
+import { Identity } from '../../VO/Identity/Identity';
+import { VeauAccount } from '../../VO/VeauAccount/VeauAccount';
 import {
   Action,
   ENTRANCE_ACCOUNT_NAME_TYPED,

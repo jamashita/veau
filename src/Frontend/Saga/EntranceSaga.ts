@@ -1,11 +1,12 @@
 // @ts-nocheck
-import { SagaIterator } from '@redux-saga/types';
 import { DataSourceError, Superposition } from 'publikum';
+import { SagaIterator } from 'redux-saga';
 import { all, call, Effect, fork, put, select, take } from 'redux-saga/effects';
-import { VeauAccountError } from '../../Error/VeauAccountError';
+
 import { ISessionQuery } from '../../Query/Interface/ISessionQuery';
-import { EntranceInformation } from '../../VO/EntranceInformation';
-import { VeauAccount } from '../../VO/VeauAccount';
+import { EntranceInformation } from '../../VO/EntranceInformation/EntranceInformation';
+import { VeauAccountError } from '../../VO/VeauAccount/Error/VeauAccountError';
+import { VeauAccount } from '../../VO/VeauAccount/VeauAccount';
 import {
   ENTRANCE_ACCOUNT_NAME_TYPED,
   ENTRANCE_PASSWORD_TYPED,

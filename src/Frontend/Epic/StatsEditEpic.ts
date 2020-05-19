@@ -1,9 +1,9 @@
-// @ts-nocheck
 import { inject, injectable } from 'inversify';
 import { DataSourceError, Present, Quantum, Superposition } from 'publikum';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { EMPTY, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mapTo, mergeMap } from 'rxjs/operators';
+
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
 import { TYPE } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats';
@@ -14,10 +14,10 @@ import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { ILocaleQuery } from '../../Query/Interface/ILocaleQuery';
 import { IRegionQuery } from '../../Query/Interface/IRegionQuery';
 import { IStatsQuery } from '../../Query/Interface/IStatsQuery';
-import { AsOf } from '../../VO/AsOf';
-import { Language } from '../../VO/Language';
-import { Region } from '../../VO/Region';
-import { VeauAccountID } from '../../VO/VeauAccountID';
+import { AsOf } from '../../VO/AsOf/AsOf';
+import { Language } from '../../VO/Language/Language';
+import { Region } from '../../VO/Region/Region';
+import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
 import {
   Action,
   STATS_EDIT_DATA_DELETED,

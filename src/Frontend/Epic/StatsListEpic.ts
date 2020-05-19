@@ -1,22 +1,22 @@
-// @ts-nocheck
 import { inject, injectable } from 'inversify';
 import { DataSourceError, Superposition } from 'publikum';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { EMPTY, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mapTo, mergeMap } from 'rxjs/operators';
+
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
 import { TYPE } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
-import { StatsOutlinesError } from '../../Error/StatsOutlinesError';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { IRegionQuery } from '../../Query/Interface/IRegionQuery';
 import { IStatsOutlineQuery } from '../../Query/Interface/IStatsOutlineQuery';
-import { Language } from '../../VO/Language';
-import { Page } from '../../VO/Page';
-import { Region } from '../../VO/Region';
-import { StatsOutlines } from '../../VO/StatsOutlines';
-import { VeauAccountID } from '../../VO/VeauAccountID';
+import { Language } from '../../VO/Language/Language';
+import { Page } from '../../VO/Page/Page';
+import { Region } from '../../VO/Region/Region';
+import { StatsOutlinesError } from '../../VO/StatsOutline/Error/StatsOutlinesError';
+import { StatsOutlines } from '../../VO/StatsOutline/StatsOutlines';
+import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
 import {
   Action,
   STATS_LIST_INITIALIZE,

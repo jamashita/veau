@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { LoadingCount } from '../../VO/LoadingCount';
+import { LoadingCount } from '../../VO/LoadingCount/LoadingCount';
 import { Action, LOADING_FINISH, LOADING_START } from '../Action/Action';
 
 const initialState: LoadingCount = LoadingCount.default();

@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { Locale } from '../../VO/Locale';
+import { Locale } from '../../VO/Locale/Locale';
 import { Action, LOCALE_DEFINED } from '../Action/Action';
 
 const initialState: Locale = Locale.empty();

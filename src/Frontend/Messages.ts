@@ -1,4 +1,4 @@
-import { SystemSupportLanguage } from '../VO/SystemSupportLanguage';
+import { SystemSupportLanguage } from '../VO/System/SystemSupportLanguage';
 
 export type Messages = Readonly<{
   GREETING: string;

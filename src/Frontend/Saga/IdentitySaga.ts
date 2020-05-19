@@ -1,21 +1,22 @@
 // @ts-nocheck
-import { SagaIterator } from '@redux-saga/types';
 import { DataSourceError, Superposition } from 'publikum';
+import { SagaIterator } from 'redux-saga';
 import { all, call, Effect, fork, put, select, take } from 'redux-saga/effects';
+
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { UnauthorizedError } from '../../Error/UnauthorizedError';
-import { VeauAccountError } from '../../Error/VeauAccountError';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { ILocaleQuery } from '../../Query/Interface/ILocaleQuery';
 import { ISessionQuery } from '../../Query/Interface/ISessionQuery';
 import { LanguageIdentificationService } from '../../Service/LanguageIdentificationService';
-import { AccountName } from '../../VO/AccountName';
+import { AccountName } from '../../VO/Account/AccountName';
 import { ISO639 } from '../../VO/ISO639';
-import { Language } from '../../VO/Language';
-import { Locale } from '../../VO/Locale';
-import { SystemSupportLanguage } from '../../VO/SystemSupportLanguage';
-import { VeauAccount } from '../../VO/VeauAccount';
-import { VeauAccountID } from '../../VO/VeauAccountID';
+import { Language } from '../../VO/Language/Language';
+import { Locale } from '../../VO/Locale/Locale';
+import { SystemSupportLanguage } from '../../VO/System/SystemSupportLanguage';
+import { VeauAccountError } from '../../VO/VeauAccount/Error/VeauAccountError';
+import { VeauAccount } from '../../VO/VeauAccount/VeauAccount';
+import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
 import { IDENTITY_INITIALIZE } from '../Action/Action';
 import { identified, identityAuthenticated } from '../Action/IdentityAction';
 import { loaded, loading } from '../Action/LoadingAction';

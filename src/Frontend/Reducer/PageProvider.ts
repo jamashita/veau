@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { PageProvider } from '../../VO/PageProvider';
+import { PageProvider } from '../../VO/PageProvider/PageProvider';
 import { Action, LOCATION_CHANGE, PROVIDER_CLOSE, PROVIDER_OPEN } from '../Action/Action';
 
 const initialState: PageProvider = PageProvider.close();
