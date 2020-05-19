@@ -1,4 +1,4 @@
-import { Identity } from '../../VO/Identity';
+import { Identity } from '../../VO/Identity/Identity';
 import {
   IDENTITY_AUTHENTICATED,
   IDENTITY_IDENTIFIED,

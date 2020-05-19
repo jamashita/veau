@@ -1,4 +1,4 @@
-import { StatsID } from '../../VO/StatsID';
+import { StatsID } from '../../VO/StatsOutline/StatsID';
 import {
   PUSH_TO_ENTRANCE,
   PUSH_TO_STATS_EDIT,

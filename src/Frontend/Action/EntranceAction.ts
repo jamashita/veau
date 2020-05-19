@@ -1,6 +1,6 @@
-import { AccountName } from '../../VO/AccountName';
-import { EntranceInformation } from '../../VO/EntranceInformation';
-import { Password } from '../../VO/Password';
+import { AccountName } from '../../VO/Account/AccountName';
+import { EntranceInformation } from '../../VO/EntranceInformation/EntranceInformation';
+import { Password } from '../../VO/EntranceInformation/Password';
 import {
   ENTRANCE_ACCOUNT_NAME_TYPED,
   ENTRANCE_PASSWORD_TYPED,
