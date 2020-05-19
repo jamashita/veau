@@ -6,10 +6,10 @@ import { Body, Controller, Get, Param, Post, Res, UseBefore } from 'routing-cont
 
 import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
-import { Stats } from '../../Entity/Stats/Stats';
-import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
 import { StatsError } from '../../Entity/Stats/Error/StatsError';
+import { Stats } from '../../Entity/Stats/Stats';
 import { StatsInteractor } from '../../Interactor/StatsInteractor';
+import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
 import { PageError } from '../../VO/Page/Error/PageError';
 import { Page } from '../../VO/Page/Page';
 import { StatsIDError } from '../../VO/StatsOutline/Error/StatsIDError';
@@ -99,7 +99,7 @@ export class StatsController {
 
     return Stats.ofJSON(body).match<Promise<Response<unknown>>>(
       async (stats: Stats) => {
-        const superposition: Superposition<void, DataSourceError> = await statsInteractor.save(
+        const superposition: Superposition<unknown, DataSourceError> = await statsInteractor.save(
           stats,
           res.locals.account.getVeauAccountID()
         );

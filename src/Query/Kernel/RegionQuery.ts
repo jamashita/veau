@@ -3,13 +3,13 @@ import { Alive, DataSourceError, Dead, Quantum, Superposition, UnimplementedErro
 
 import { IRegionCommand } from '../../Command/Interface/IRegionCommand';
 import { TYPE } from '../../Container/Types';
-import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { RegionError } from '../../VO/Region/Error/RegionError';
 import { RegionsError } from '../../VO/Region/Error/RegionsError';
 import { ISO3166 } from '../../VO/Region/ISO3166';
 import { Region } from '../../VO/Region/Region';
 import { RegionID } from '../../VO/Region/RegionID';
 import { Regions } from '../../VO/Region/Regions';
+import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { IKernelQuery } from '../Interface/IKernelQuery';
 import { IRegionQuery } from '../Interface/IRegionQuery';
 
@@ -46,7 +46,7 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
 
         return superposition2.match<Regions, RegionsError | DataSourceError>(
           async (regions: Regions) => {
-            const superposition3: Superposition<void, DataSourceError> = await this.regionRedisCommand.insertAll(
+            const superposition3: Superposition<unknown, DataSourceError> = await this.regionRedisCommand.insertAll(
               regions
             );
 
@@ -54,7 +54,7 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
               () => {
                 return Alive.of<Regions, DataSourceError>(regions);
               },
-              (err: DataSourceError, self: Dead<void, DataSourceError>) => {
+              (err: DataSourceError, self: Dead<unknown, DataSourceError>) => {
                 return self.transpose<Regions>();
               }
             );

@@ -165,6 +165,10 @@ export class Stats extends Entity<StatsID> {
     return this.outline.getUpdatedAt();
   }
 
+  public getOutline(): StatsOutline {
+    return this.outline;
+  }
+
   public getItems(): StatsItems {
     return this.items;
   }

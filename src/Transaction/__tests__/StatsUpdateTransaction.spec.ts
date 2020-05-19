@@ -4,7 +4,7 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { MockStatsCommand } from '../../Command/Mock/MockStatsCommand';
 import { MockStatsItemCommand } from '../../Command/Mock/MockStatsItemCommand';
 import { MockStatsValueCommand } from '../../Command/Mock/MockStatsValueCommand';
-import { MockStats } from '../../Entity/Mock/MockStats';
+import { MockStats } from '../../Entity/Stats/Mock/MockStats';
 import { MockStatsItem } from '../../Entity/StatsItem/Mock/MockStatsItem';
 import { MockStatsItems } from '../../Entity/StatsItem/Mock/MockStatsItems';
 import { MockStatsUpdateFactory } from '../../Factory/Mock/MockStatsUpdateFactory';

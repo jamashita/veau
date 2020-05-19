@@ -1,16 +1,16 @@
 import { inject, injectable } from 'inversify';
-import { Alive, DataSourceError, Dead, Noun, Superposition } from 'publikum';
+import { Alive, DataSourceError, Dead, Noun, Schrodinger, Superposition } from 'publikum';
 
 import { ILanguageCommand } from '../Command/Interface/ILanguageCommand';
 import { IRegionCommand } from '../Command/Interface/IRegionCommand';
 import { TYPE } from '../Container/Types';
-import { LocaleError } from '../VO/Locale/Error/LocaleError';
-import { RegionsError } from '../VO/Region/Error/RegionsError';
 import { ILanguageQuery } from '../Query/Interface/ILanguageQuery';
 import { IRegionQuery } from '../Query/Interface/IRegionQuery';
 import { LanguagesError } from '../VO/Language/Error/LanguagesError';
 import { Languages } from '../VO/Language/Languages';
+import { LocaleError } from '../VO/Locale/Error/LocaleError';
 import { Locale } from '../VO/Locale/Locale';
+import { RegionsError } from '../VO/Region/Error/RegionsError';
 import { Regions } from '../VO/Region/Regions';
 
 @injectable()
@@ -67,29 +67,11 @@ export class LocaleInteractor implements Noun {
     );
   }
 
-  public async delete(): Promise<Superposition<void, DataSourceError>> {
-    const [languagesSuperposition, regionsSuperposition]: [
-      Superposition<void, DataSourceError>,
-      Superposition<void, DataSourceError>
-    ] = await Promise.all<Superposition<void, DataSourceError>, Superposition<void, DataSourceError>>([
-      this.languageCommand.deleteAll(),
-      this.regionCommand.deleteAll()
-    ]);
+  public async delete(): Promise<Superposition<unknown, DataSourceError>> {
+    const superpositions: Array<Superposition<unknown, DataSourceError>> = await Promise.all<
+      Superposition<unknown, DataSourceError>
+    >([this.languageCommand.deleteAll(), this.regionCommand.deleteAll()]);
 
-    return languagesSuperposition.match<void, DataSourceError>(
-      () => {
-        return regionsSuperposition.match<void, DataSourceError>(
-          () => {
-            return Alive.of<DataSourceError>();
-          },
-          (err: DataSourceError, self: Dead<void, DataSourceError>) => {
-            return self;
-          }
-        );
-      },
-      (err: DataSourceError, self: Dead<void, DataSourceError>) => {
-        return self;
-      }
-    );
+    return Schrodinger.all<unknown, DataSourceError>(superpositions);
   }
 }

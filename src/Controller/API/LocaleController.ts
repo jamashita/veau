@@ -38,7 +38,7 @@ export class LocaleController {
   @Delete('/')
   @UseBefore(authenticationMiddleware.requires())
   public async delete(@Req() req: Request, @Res() res: Response): Promise<Response<unknown>> {
-    const superposition: Superposition<void, DataSourceError> = await localeInteractor.delete();
+    const superposition: Superposition<unknown, DataSourceError> = await localeInteractor.delete();
 
     return superposition.match<Response<unknown>>(
       () => {

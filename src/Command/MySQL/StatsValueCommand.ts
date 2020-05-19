@@ -22,17 +22,14 @@ export class StatsValueCommand implements IStatsValueCommand, IMySQLCommand {
       :value
       );`;
 
-    return (
-      Promise.resolve <
-      Superposition<unknown, MySQLError>(
-        Schrodinger.playground<unknown, MySQLError>(() => {
-          return this.sql.execute<unknown>(query, {
-            statsItemID: statsItemID.get().get(),
-            asOf: statsValue.getAsOf().toString(),
-            value: statsValue.getValue().get()
-          });
-        })
-      )
+    return Promise.resolve<Superposition<unknown, MySQLError>>(
+      Schrodinger.playground<unknown, MySQLError>(() => {
+        return this.sql.execute<unknown>(query, {
+          statsItemID: statsItemID.get().get(),
+          asOf: statsValue.getAsOf().toString(),
+          value: statsValue.getValue().get()
+        });
+      })
     );
   }
 
@@ -45,15 +42,12 @@ export class StatsValueCommand implements IStatsValueCommand, IMySQLCommand {
       USING(stats_id)
       WHERE R3.stats_id = :statsID;`;
 
-    return (
-      Promise.resolve <
-      Superposition<unknown, MySQLError>(
-        Schrodinger.playground<unknown, MySQLError>(() => {
-          return this.sql.execute<unknown>(query, {
-            statsID: statsID.get().get()
-          });
-        })
-      )
+    return Promise.resolve<Superposition<unknown, MySQLError>>(
+      Schrodinger.playground<unknown, MySQLError>(() => {
+        return this.sql.execute<unknown>(query, {
+          statsID: statsID.get().get()
+        });
+      })
     );
   }
 }

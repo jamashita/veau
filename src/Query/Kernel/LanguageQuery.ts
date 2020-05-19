@@ -3,13 +3,13 @@ import { Alive, DataSourceError, Dead, Quantum, Superposition, UnimplementedErro
 
 import { ILanguageCommand } from '../../Command/Interface/ILanguageCommand';
 import { TYPE } from '../../Container/Types';
-import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { LanguageError } from '../../VO/Language/Error/LanguageError';
 import { LanguagesError } from '../../VO/Language/Error/LanguagesError';
 import { ISO639 } from '../../VO/Language/ISO639';
 import { Language } from '../../VO/Language/Language';
 import { LanguageID } from '../../VO/Language/LanguageID';
 import { Languages } from '../../VO/Language/Languages';
+import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { IKernelQuery } from '../Interface/IKernelQuery';
 import { ILanguageQuery } from '../Interface/ILanguageQuery';
 
@@ -57,7 +57,7 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
               () => {
                 return Alive.of<Languages, DataSourceError>(languages);
               },
-              (err: DataSourceError, self: Dead<void, DataSourceError>) => {
+              (err: DataSourceError, self: Dead<unknown, DataSourceError>) => {
                 return self.transpose<Languages>();
               }
             );

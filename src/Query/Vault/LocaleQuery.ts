@@ -1,5 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { Alive, DataSourceError, Dead, Superposition } from 'publikum';
+
 import { ILocaleCommand } from '../../Command/Interface/ILocaleCommand';
 import { TYPE } from '../../Container/Types';
 import { LocaleError } from '../../VO/Locale/Error/LocaleError';
@@ -39,13 +40,13 @@ export class LocaleQuery implements ILocaleQuery, IVaultQuery {
 
         return superposition2.match<Locale, LocaleError | DataSourceError>(
           async (locale: Locale) => {
-            const superposition3: Superposition<void, DataSourceError> = await this.localeCommand.create(locale);
+            const superposition3: Superposition<unknown, DataSourceError> = await this.localeCommand.create(locale);
 
             return superposition3.match<Locale, DataSourceError>(
               () => {
                 return Alive.of<Locale, DataSourceError>(locale);
               },
-              (err: DataSourceError, self: Dead<void, DataSourceError>) => {
+              (err: DataSourceError, self: Dead<unknown, DataSourceError>) => {
                 return self.transpose<Locale>();
               }
             );

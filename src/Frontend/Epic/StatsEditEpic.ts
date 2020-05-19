@@ -3,19 +3,22 @@ import { DataSourceError, Present, Quantum, Superposition } from 'publikum';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { EMPTY, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mapTo, mergeMap } from 'rxjs/operators';
+import { StatsOutline } from 'src/VO/StatsOutline/StatsOutline';
 
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
 import { TYPE } from '../../Container/Types';
+import { StatsError } from '../../Entity/Stats/Error/StatsError';
 import { Stats } from '../../Entity/Stats/Stats';
 import { StatsItem } from '../../Entity/StatsItem/StatsItem';
 import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
-import { StatsError } from '../../Entity/Stats/Error/StatsError';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { ILocaleQuery } from '../../Query/Interface/ILocaleQuery';
 import { IRegionQuery } from '../../Query/Interface/IRegionQuery';
 import { IStatsQuery } from '../../Query/Interface/IStatsQuery';
 import { AsOf } from '../../VO/AsOf/AsOf';
+import { LanguageError } from '../../VO/Language/Error/LanguageError';
 import { Language } from '../../VO/Language/Language';
+import { RegionError } from '../../VO/Region/Error/RegionError';
 import { Region } from '../../VO/Region/Region';
 import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
 import {
@@ -156,13 +159,18 @@ export class StatsEditEpic {
       ofType<Action, StatsEditNameTypedAction>(STATS_EDIT_NAME_TYPED),
       map<StatsEditNameTypedAction, Action>((action: StatsEditNameTypedAction) => {
         const newStats: Stats = Stats.of(
-          stats.getStatsID(),
-          stats.getLanguageID(),
-          stats.getRegionID(),
+          StatsOutline.of(
+            stats.getStatsID(),
+            stats.getLanguage().getLanguageID(),
+            stats.getRegion().getRegionID(),
+            stats.getTerm().getTermID(),
+            action.name,
+            stats.getUnit(),
+            stats.getUpdatedAt()
+          ),
+          stats.getLanguage(),
+          stats.getRegion(),
           stats.getTerm(),
-          action.name,
-          stats.getUnit(),
-          stats.getUpdatedAt(),
           stats.getItems()
         );
 
@@ -183,13 +191,18 @@ export class StatsEditEpic {
       ofType<Action, StatsEditUnitTypedAction>(STATS_EDIT_UNIT_TYPED),
       map<StatsEditUnitTypedAction, Action>((action: StatsEditUnitTypedAction) => {
         const newStats: Stats = Stats.of(
-          stats.getStatsID(),
-          stats.getLanguageID(),
-          stats.getRegionID(),
+          StatsOutline.of(
+            stats.getStatsID(),
+            stats.getLanguage().getLanguageID(),
+            stats.getRegion().getRegionID(),
+            stats.getTerm().getTermID(),
+            stats.getName(),
+            action.unit,
+            stats.getUpdatedAt()
+          ),
+          stats.getLanguage(),
+          stats.getRegion(),
           stats.getTerm(),
-          stats.getName(),
-          action.unit,
-          stats.getUpdatedAt(),
           stats.getItems()
         );
 
@@ -209,24 +222,21 @@ export class StatsEditEpic {
     return action$.pipe<StatsEditISO639SelectedAction, Action>(
       ofType<Action, StatsEditISO639SelectedAction>(STATS_EDIT_ISO639_SELECTED),
       mergeMap<StatsEditISO639SelectedAction, Observable<Action>>((action: StatsEditISO639SelectedAction) => {
-        return from<Promise<Superposition<Language, NoSuchElementError | DataSourceError>>>(
+        return from<Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>>>(
           this.languageQuery.findByISO639(action.iso639)
         ).pipe<Action>(
-          mergeMap<Superposition<Language, NoSuchElementError | DataSourceError>, Observable<Action>>(
-            (superposition: Superposition<Language, NoSuchElementError | DataSourceError>) => {
+          mergeMap<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>, Observable<Action>>(
+            (superposition: Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>) => {
               return EMPTY.pipe<never, Action>(
                 filter<never>(() => {
                   return superposition.isAlive();
                 }),
                 map<never, Action>(() => {
                   const newStats: Stats = Stats.of(
-                    stats.getStatsID(),
+                    stats.getOutline(),
                     superposition.get(),
-                    stats.getRegionID(),
+                    stats.getRegion(),
                     stats.getTerm(),
-                    stats.getName(),
-                    stats.getUnit(),
-                    stats.getUpdatedAt(),
                     stats.getItems()
                   );
 
@@ -251,24 +261,21 @@ export class StatsEditEpic {
     return action$.pipe<StatsEditISO3166SelectedAction, Action>(
       ofType<Action, StatsEditISO3166SelectedAction>(STATS_EDIT_ISO3166_SELECTED),
       mergeMap<StatsEditISO3166SelectedAction, Observable<Action>>((action: StatsEditISO3166SelectedAction) => {
-        return from<Promise<Superposition<Region, NoSuchElementError | DataSourceError>>>(
+        return from<Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>>>(
           this.regionQuery.findByISO3166(action.iso3166)
         ).pipe<Action>(
-          mergeMap<Superposition<Region, NoSuchElementError | DataSourceError>, Observable<Action>>(
-            (superposition: Superposition<Region, NoSuchElementError | DataSourceError>) => {
+          mergeMap<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>, Observable<Action>>(
+            (superposition: Superposition<Region, RegionError | NoSuchElementError | DataSourceError>) => {
               return EMPTY.pipe<never, Action>(
                 filter<never>(() => {
                   return superposition.isAlive();
                 }),
                 map<never, Action>(() => {
                   const newStats: Stats = Stats.of(
-                    stats.getStatsID(),
-                    stats.getLanguageID(),
+                    stats.getOutline(),
+                    stats.getLanguage(),
                     superposition.get(),
                     stats.getTerm(),
-                    stats.getName(),
-                    stats.getUnit(),
-                    stats.getUpdatedAt(),
                     stats.getItems()
                   );
 
@@ -351,13 +358,10 @@ export class StatsEditEpic {
       ofType<Action, Action>(STATS_EDIT_ITEM_SAVE),
       mergeMap<Action, Observable<Action>>(() => {
         const newStats: Stats = Stats.of(
-          stats.getStatsID(),
-          stats.getLanguageID(),
-          stats.getRegionID(),
+          stats.getOutline(),
+          stats.getLanguage(),
+          stats.getRegion(),
           stats.getTerm(),
-          stats.getName(),
-          stats.getUnit(),
-          stats.getUpdatedAt(),
           stats.getItems().add(statsItem),
           stats.getStartDate()
         );
@@ -439,13 +443,10 @@ export class StatsEditEpic {
       ofType<Action, StatsEditStartDateDeterminedAction>(STATS_EDIT_START_DATE_DETERMINED),
       map<StatsEditStartDateDeterminedAction, Action>((action: StatsEditStartDateDeterminedAction) => {
         const newStats: Stats = Stats.of(
-          stats.getStatsID(),
-          stats.getLanguageID(),
-          stats.getRegionID(),
+          stats.getOutline(),
+          stats.getLanguage(),
+          stats.getRegion(),
           stats.getTerm(),
-          stats.getName(),
-          stats.getUnit(),
-          stats.getUpdatedAt(),
           stats.getItems(),
           Present.of<AsOf>(action.startDate)
         );
@@ -520,11 +521,11 @@ export class StatsEditEpic {
       ofType<Action, Action>(STATS_EDIT_SAVE_STATS),
       mapTo<Action, Action>(loading()),
       mergeMap<Action, Observable<Action>>(() => {
-        return from<Promise<Superposition<void, DataSourceError>>>(
+        return from<Promise<Superposition<unknown, DataSourceError>>>(
           this.statsCommand.create(stats, VeauAccountID.generate())
         ).pipe<Action>(
-          mergeMap<Superposition<void, DataSourceError>, Observable<Action>>(
-            (superposition: Superposition<void, DataSourceError>) => {
+          mergeMap<Superposition<unknown, DataSourceError>, Observable<Action>>(
+            (superposition: Superposition<unknown, DataSourceError>) => {
               return EMPTY.pipe<Action, Action>(
                 mapTo<Action, Action>(loaded()),
                 map<Action, Action>(() => {

@@ -11,10 +11,13 @@ import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { IRegionQuery } from '../../Query/Interface/IRegionQuery';
 import { IStatsOutlineQuery } from '../../Query/Interface/IStatsOutlineQuery';
+import { LanguageError } from '../../VO/Language/Error/LanguageError';
 import { Language } from '../../VO/Language/Language';
 import { Page } from '../../VO/Page/Page';
+import { RegionError } from '../../VO/Region/Error/RegionError';
 import { Region } from '../../VO/Region/Region';
 import { StatsOutlinesError } from '../../VO/StatsOutline/Error/StatsOutlinesError';
+import { StatsOutline } from '../../VO/StatsOutline/StatsOutline';
 import { StatsOutlines } from '../../VO/StatsOutline/StatsOutlines';
 import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
 import {
@@ -43,6 +46,8 @@ import { State } from '../State';
 @injectable()
 export class StatsListEpic {
   private readonly statsOutlineQuery: IStatsOutlineQuery;
+  // TODO StatsLIstItemQuery
+  // private readonly statsListItemQuery: IStatsLi
   private readonly languageQuery: ILanguageQuery;
   private readonly regionQuery: IRegionQuery;
   private readonly statsCommand: IStatsCommand;
@@ -112,13 +117,18 @@ export class StatsListEpic {
       ofType<Action, StatsListNameTypedAction>(STATS_LIST_NAME_TYPED),
       map<StatsListNameTypedAction, Action>((action: StatsListNameTypedAction) => {
         const newStats: Stats = Stats.of(
-          stats.getStatsID(),
+          StatsOutline.of(
+            stats.getStatsID(),
+            stats.getLanguage().getLanguageID(),
+            stats.getRegion().getRegionID(),
+            stats.getTerm().getTermID(),
+            action.name,
+            stats.getUnit(),
+            stats.getUpdatedAt()
+          ),
           stats.getLanguage(),
           stats.getRegion(),
           stats.getTerm(),
-          action.name,
-          stats.getUnit(),
-          stats.getUpdatedAt(),
           stats.getItems()
         );
 
@@ -141,13 +151,18 @@ export class StatsListEpic {
       ofType<Action, StatsListUnitTypedAction>(STATS_LIST_UNIT_TYPED),
       map<StatsListUnitTypedAction, Action>((action: StatsListUnitTypedAction) => {
         const newStats: Stats = Stats.of(
-          stats.getStatsID(),
+          StatsOutline.of(
+            stats.getStatsID(),
+            stats.getLanguage().getLanguageID(),
+            stats.getRegion().getRegionID(),
+            stats.getTerm().getTermID(),
+            stats.getName(),
+            action.unit,
+            stats.getUpdatedAt()
+          ),
           stats.getLanguage(),
           stats.getRegion(),
           stats.getTerm(),
-          stats.getName(),
-          action.unit,
-          stats.getUpdatedAt(),
           stats.getItems()
         );
 
@@ -169,24 +184,21 @@ export class StatsListEpic {
     return action$.pipe<StatsListISO639SelectedAction, Action>(
       ofType<Action, StatsListISO639SelectedAction>(STATS_LIST_ISO639_SELECTED),
       mergeMap<StatsListISO639SelectedAction, Observable<Action>>((action: StatsListISO639SelectedAction) => {
-        return from<Promise<Superposition<Language, NoSuchElementError | DataSourceError>>>(
+        return from<Promise<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>>>(
           this.languageQuery.findByISO639(action.iso639)
         ).pipe<Action>(
-          mergeMap<Superposition<Language, NoSuchElementError | DataSourceError>, Observable<Action>>(
-            (superposition: Superposition<Language, NoSuchElementError | DataSourceError>) => {
+          mergeMap<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>, Observable<Action>>(
+            (superposition: Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>) => {
               return EMPTY.pipe<never, Action>(
                 filter<never>(() => {
                   return superposition.isAlive();
                 }),
                 map<never, Action>(() => {
                   const newStats: Stats = Stats.of(
-                    stats.getStatsID(),
+                    stats.getOutline(),
                     superposition.get(),
                     stats.getRegion(),
                     stats.getTerm(),
-                    stats.getName(),
-                    stats.getUnit(),
-                    stats.getUpdatedAt(),
                     stats.getItems()
                   );
 
@@ -213,24 +225,21 @@ export class StatsListEpic {
     return action$.pipe<StatsListISO3166SelectedAction, Action>(
       ofType<Action, StatsListISO3166SelectedAction>(STATS_LIST_ISO3166_SELECTED),
       mergeMap<StatsListISO3166SelectedAction, Observable<Action>>((action: StatsListISO3166SelectedAction) => {
-        return from<Promise<Superposition<Region, NoSuchElementError | DataSourceError>>>(
+        return from<Promise<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>>>(
           this.regionQuery.findByISO3166(action.iso3166)
         ).pipe<Action>(
-          mergeMap<Superposition<Region, NoSuchElementError | DataSourceError>, Observable<Action>>(
-            (superposition: Superposition<Region, NoSuchElementError | DataSourceError>) => {
+          mergeMap<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>, Observable<Action>>(
+            (superposition: Superposition<Region, RegionError | NoSuchElementError | DataSourceError>) => {
               return EMPTY.pipe<never, Action>(
                 filter<never>(() => {
                   return superposition.isAlive();
                 }),
                 map<never, Action>(() => {
                   const newStats: Stats = Stats.of(
-                    stats.getStatsID(),
+                    stats.getOutline(),
                     stats.getLanguage(),
                     superposition.get(),
                     stats.getTerm(),
-                    stats.getName(),
-                    stats.getUnit(),
-                    stats.getUpdatedAt(),
                     stats.getItems()
                   );
 
@@ -258,13 +267,10 @@ export class StatsListEpic {
       ofType<Action, StatsListTermSelectedAction>(STATS_LIST_TERM_SELECTED),
       map<StatsListTermSelectedAction, Action>((action: StatsListTermSelectedAction) => {
         const newStats: Stats = Stats.of(
-          stats.getStatsID(),
+          stats.getOutline(),
           stats.getLanguage(),
           stats.getRegion(),
           action.term,
-          stats.getName(),
-          stats.getUnit(),
-          stats.getUpdatedAt(),
           stats.getItems()
         );
 
@@ -291,11 +297,11 @@ export class StatsListEpic {
       mapTo<Action, Action>(closeNewStatsModal()),
       mapTo<Action, Action>(loading()),
       mergeMap(() => {
-        return from<Promise<Superposition<void, DataSourceError>>>(
+        return from<Promise<Superposition<unknown, DataSourceError>>>(
           this.statsCommand.create(stats, VeauAccountID.generate())
         ).pipe<Action>(
-          mergeMap<Superposition<void, DataSourceError>, Observable<Action>>(
-            (superposition: Superposition<void, DataSourceError>) => {
+          mergeMap<Superposition<unknown, DataSourceError>, Observable<Action>>(
+            (superposition: Superposition<unknown, DataSourceError>) => {
               return EMPTY.pipe<Action, Action>(
                 mapTo<never, Action>(loaded()),
                 mergeMap<Action, Observable<Action>>(() => {

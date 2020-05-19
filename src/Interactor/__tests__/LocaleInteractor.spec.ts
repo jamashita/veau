@@ -7,15 +7,15 @@ import { MockLanguageCommand } from '../../Command/Mock/MockLanguageCommand';
 import { MockRegionCommand } from '../../Command/Mock/MockRegionCommand';
 import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
-import { LocaleError } from '../../VO/Locale/Error/LocaleError';
 import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
-import { RegionsError } from '../../VO/Region/Error/RegionsError';
 import { MockLanguageQuery } from '../../Query/Mock/MockLanguageQuery';
 import { MockRegionQuery } from '../../Query/Mock/MockRegionQuery';
 import { LanguagesError } from '../../VO/Language/Error/LanguagesError';
 import { Languages } from '../../VO/Language/Languages';
 import { MockLanguages } from '../../VO/Language/Mock/MockLanguages';
+import { LocaleError } from '../../VO/Locale/Error/LocaleError';
 import { Locale } from '../../VO/Locale/Locale';
+import { RegionsError } from '../../VO/Region/Error/RegionsError';
 import { MockRegions } from '../../VO/Region/Mock/MockRegions';
 import { Regions } from '../../VO/Region/Regions';
 import { LocaleInteractor } from '../LocaleInteractor';
@@ -236,7 +236,7 @@ describe('LocaleInteractor', () => {
         languageRedisCommand,
         regionRedisCommand
       );
-      const superposition: Superposition<void, DataSourceError> = await localeInteractor.delete();
+      const superposition: Superposition<unknown, DataSourceError> = await localeInteractor.delete();
 
       expect(superposition.isAlive()).toBe(true);
       expect(stub1.called).toBe(true);
@@ -263,7 +263,7 @@ describe('LocaleInteractor', () => {
         languageRedisCommand,
         regionRedisCommand
       );
-      const superposition: Superposition<void, DataSourceError> = await localeInteractor.delete();
+      const superposition: Superposition<unknown, DataSourceError> = await localeInteractor.delete();
 
       expect(superposition.isDead()).toBe(true);
       expect(stub1.called).toBe(true);
@@ -302,7 +302,7 @@ describe('LocaleInteractor', () => {
         languageRedisCommand,
         regionRedisCommand
       );
-      const superposition: Superposition<void, DataSourceError> = await localeInteractor.delete();
+      const superposition: Superposition<unknown, DataSourceError> = await localeInteractor.delete();
 
       expect(superposition.isDead()).toBe(true);
       expect(stub1.called).toBe(true);
@@ -341,7 +341,7 @@ describe('LocaleInteractor', () => {
         languageRedisCommand,
         regionRedisCommand
       );
-      const superposition: Superposition<void, DataSourceError> = await localeInteractor.delete();
+      const superposition: Superposition<unknown, DataSourceError> = await localeInteractor.delete();
 
       expect(superposition.isDead()).toBe(true);
       expect(stub1.called).toBe(true);
@@ -380,7 +380,7 @@ describe('LocaleInteractor', () => {
         languageRedisCommand,
         regionRedisCommand
       );
-      const superposition: Superposition<void, DataSourceError> = await localeInteractor.delete();
+      const superposition: Superposition<unknown, DataSourceError> = await localeInteractor.delete();
 
       expect(superposition.isDead()).toBe(true);
       expect(stub1.called).toBe(true);

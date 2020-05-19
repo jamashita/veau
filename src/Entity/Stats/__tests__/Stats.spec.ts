@@ -52,6 +52,7 @@ describe('Stats', () => {
 
       const stats: Stats = Stats.of(outline, language, region, term, items);
 
+      expect(stats.getOutline()).toBe(outline);
       expect(stats.getLanguage()).toBe(language);
       expect(stats.getRegion()).toBe(region);
       expect(stats.getTerm()).toBe(term);

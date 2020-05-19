@@ -29,18 +29,20 @@ export class StatsUpdateTransaction implements ITransaction<Superposition<unknow
 
     const statsID: StatsID = this.stats.getStatsID();
 
-    const superpositions: Array<Superposition<void, DataSourceError>> = [
+    const superpositions: Array<Superposition<unknown, DataSourceError>> = [
       await statsValueCommand.deleteByStatsID(statsID),
       await statsItemCommand.deleteByStatsID(statsID),
       await statsCommand.deleteByStatsID(statsID)
     ];
 
-    const deleteCompletion: Superposition<unknown, DataSourceError> = manoeuvre<void, DataSourceError>(superpositions);
+    const deleteCompletion: Superposition<unknown, DataSourceError> = Schrodinger.all<unknown, DataSourceError>(
+      superpositions
+    );
 
     return deleteCompletion.match<unknown, DataSourceError>(
       async () => {
-        const itemPromises: Array<Promise<Superposition<void, DataSourceError>>> = [];
-        const valuePromises: Array<Promise<Superposition<void, DataSourceError>>> = [];
+        const itemPromises: Array<Promise<Superposition<unknown, DataSourceError>>> = [];
+        const valuePromises: Array<Promise<Superposition<unknown, DataSourceError>>> = [];
 
         this.stats.getItems().forEach((statsItem: StatsItem, index: number) => {
           itemPromises.push(statsItemCommand.create(statsID, statsItem, index + 1));
@@ -50,21 +52,21 @@ export class StatsUpdateTransaction implements ITransaction<Superposition<unknow
           });
         });
 
-        const statsInsertSuperposition: Superposition<void, DataSourceError> = await statsCommand.create(
+        const statsInsertSuperposition: Superposition<unknown, DataSourceError> = await statsCommand.create(
           this.stats,
           this.veauAccountID
         );
-        const statsItemInsertTries: Array<Superposition<void, DataSourceError>> = await Promise.all<
-          Superposition<void, DataSourceError>
+        const statsItemInsertSuperposition: Array<Superposition<unknown, DataSourceError>> = await Promise.all<
+          Superposition<unknown, DataSourceError>
         >(itemPromises);
-        const statsValueInsertTries: Array<Superposition<void, DataSourceError>> = await Promise.all<
-          Superposition<void, DataSourceError>
+        const statsValueInsertSuperposition: Array<Superposition<unknown, DataSourceError>> = await Promise.all<
+          Superposition<unknown, DataSourceError>
         >(valuePromises);
 
         return Schrodinger.all<unknown, DataSourceError>([
           statsInsertSuperposition,
-          ...statsItemInsertTries,
-          ...statsValueInsertTries
+          ...statsItemInsertSuperposition,
+          ...statsValueInsertSuperposition
         ]);
       },
       (err: DataSourceError, self: Dead<unknown, DataSourceError>) => {
