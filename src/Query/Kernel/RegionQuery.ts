@@ -1,14 +1,15 @@
 import { inject, injectable } from 'inversify';
 import { Alive, DataSourceError, Dead, Quantum, Superposition, UnimplementedError } from 'publikum';
+
 import { IRegionCommand } from '../../Command/Interface/IRegionCommand';
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
-import { RegionError } from '../../Error/RegionError';
-import { RegionsError } from '../../Error/RegionsError';
-import { ISO3166 } from '../../VO/ISO3166';
-import { Region } from '../../VO/Region';
-import { RegionID } from '../../VO/RegionID';
-import { Regions } from '../../VO/Regions';
+import { RegionError } from '../../VO/Region/Error/RegionError';
+import { RegionsError } from '../../VO/Region/Error/RegionsError';
+import { ISO3166 } from '../../VO/Region/ISO3166';
+import { Region } from '../../VO/Region/Region';
+import { RegionID } from '../../VO/Region/RegionID';
+import { Regions } from '../../VO/Region/Regions';
 import { IKernelQuery } from '../Interface/IKernelQuery';
 import { IRegionQuery } from '../Interface/IRegionQuery';
 

@@ -1,9 +1,9 @@
 import { inject, injectable } from 'inversify';
 import { Alive, CacheError, DataSourceError, Dead, ICache, Superposition } from 'publikum';
 import { TYPE } from '../../Container/Types';
-import { LocaleError } from '../../Error/LocaleError';
+import { LocaleError } from '../../VO/Locale/Error/LocaleError';
 import { VAULT_LOCALE_KEY } from '../../Infrastructure/VeauCache';
-import { Locale } from '../../VO/Locale';
+import { Locale } from '../../VO/Locale/Locale';
 import { ICacheQuery } from '../Interface/ICacheQuery';
 import { ILocaleQuery } from '../Interface/ILocaleQuery';
 

@@ -3,10 +3,10 @@ import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
-import { AccountError } from '../../../Error/AccountError';
+import { AccountError } from '../../../VO/Account/Error/AccountError';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
-import { Account, AccountRow } from '../../../VO/Account';
-import { MockAccountName } from '../../../VO/Mock/MockAccountName';
+import { Account, AccountRow } from '../../../VO/Account/Account';
+import { MockAccountName } from '../../../VO/Account/Mock/MockAccountName';
 import { AccountQuery } from '../AccountQuery';
 
 describe('AccountQuery', () => {

@@ -4,11 +4,11 @@ import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { TYPE } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
-import { StatsOutlinesError } from '../../../Error/StatsOutlinesError';
-import { MockPage } from '../../../VO/Mock/MockPage';
-import { MockVeauAccountID } from '../../../VO/Mock/MockVeauAccountID';
-import { StatsOutlineJSON } from '../../../VO/StatsOutline';
-import { StatsOutlines } from '../../../VO/StatsOutlines';
+import { StatsOutlinesError } from '../../../VO/StatsOutline/Error/StatsOutlinesError';
+import { MockPage } from '../../../VO/Page/Mock/MockPage';
+import { MockVeauAccountID } from '../../../VO/VeauAccount/Mock/MockVeauAccountID';
+import { StatsOutlineJSON } from '../../../VO/StatsOutline/StatsOutline';
+import { StatsOutlines } from '../../../VO/StatsOutline/StatsOutlines';
 import { StatsOutlineQuery } from '../StatsOutlineQuery';
 
 describe('StatsOutlineQuery', () => {

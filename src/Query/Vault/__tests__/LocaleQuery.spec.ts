@@ -4,9 +4,9 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { MockLocaleCommand } from '../../../Command/Mock/MockLocaleCommand';
 import { TYPE } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
-import { LocaleError } from '../../../Error/LocaleError';
-import { Locale } from '../../../VO/Locale';
-import { MockLocale } from '../../../VO/Mock/MockLocale';
+import { LocaleError } from '../../../VO/Locale/Error/LocaleError';
+import { Locale } from '../../../VO/Locale/Locale';
+import { MockLocale } from '../../../VO/Locale/Mock/MockLocale';
 import { MockLocaleQuery } from '../../Mock/MockLocaleQuery';
 import { LocaleQuery } from '../LocaleQuery';
 

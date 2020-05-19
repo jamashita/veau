@@ -4,11 +4,11 @@ import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { TYPE } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
-import { VeauAccountError } from '../../../Error/VeauAccountError';
-import { MockAccountName } from '../../../VO/Mock/MockAccountName';
-import { MockEntranceInformation } from '../../../VO/Mock/MockEntranceInformation';
-import { MockPassword } from '../../../VO/Mock/MockPassword';
-import { VeauAccount, VeauAccountJSON } from '../../../VO/VeauAccount';
+import { VeauAccountError } from '../../../VO/VeauAccount/Error/VeauAccountError';
+import { MockAccountName } from '../../../VO/Account/Mock/MockAccountName';
+import { MockEntranceInformation } from '../../../VO/EntranceInformation/Mock/MockEntranceInformation';
+import { MockPassword } from '../../../VO/EntranceInformation/Mock/MockPassword';
+import { VeauAccount, VeauAccountJSON } from '../../../VO/VeauAccount/VeauAccount';
 import { VeauAccountQuery } from '../VeauAccountQuery';
 
 describe('VeauAccountQuery', () => {

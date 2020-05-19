@@ -1,11 +1,12 @@
 import { DataSourceError, Superposition } from 'publikum';
-import { LanguageError } from '../../Error/LanguageError';
-import { LanguagesError } from '../../Error/LanguagesError';
+
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
-import { ISO639 } from '../../VO/ISO639';
-import { Language } from '../../VO/Language';
-import { LanguageID } from '../../VO/LanguageID';
-import { Languages } from '../../VO/Languages';
+import { LanguageError } from '../../VO/Language/Error/LanguageError';
+import { LanguagesError } from '../../VO/Language/Error/LanguagesError';
+import { ISO639 } from '../../VO/Language/ISO639';
+import { Language } from '../../VO/Language/Language';
+import { LanguageID } from '../../VO/Language/LanguageID';
+import { Languages } from '../../VO/Language/Languages';
 import { IQuery } from './IQuery';
 
 export interface ILanguageQuery extends IQuery {

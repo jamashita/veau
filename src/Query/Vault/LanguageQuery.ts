@@ -1,15 +1,16 @@
 import { inject, injectable } from 'inversify';
 import { Alive, DataSourceError, Dead, Quantum, QuantumError, Superposition, UnimplementedError } from 'publikum';
+
 import { TYPE } from '../../Container/Types';
-import { LanguageError } from '../../Error/LanguageError';
-import { LanguagesError } from '../../Error/LanguagesError';
-import { LocaleError } from '../../Error/LocaleError';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
-import { ISO639 } from '../../VO/ISO639';
-import { Language } from '../../VO/Language';
-import { LanguageID } from '../../VO/LanguageID';
-import { Languages } from '../../VO/Languages';
-import { Locale } from '../../VO/Locale';
+import { LanguageError } from '../../VO/Language/Error/LanguageError';
+import { LanguagesError } from '../../VO/Language/Error/LanguagesError';
+import { ISO639 } from '../../VO/Language/ISO639';
+import { Language } from '../../VO/Language/Language';
+import { LanguageID } from '../../VO/Language/LanguageID';
+import { Languages } from '../../VO/Language/Languages';
+import { LocaleError } from '../../VO/Locale/Error/LocaleError';
+import { Locale } from '../../VO/Locale/Locale';
 import { ILanguageQuery } from '../Interface/ILanguageQuery';
 import { ILocaleQuery } from '../Interface/ILocaleQuery';
 import { IVaultQuery } from '../Interface/IVaultQuery';

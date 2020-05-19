@@ -1,8 +1,9 @@
 import { DataSourceError, Project, Superposition } from 'publikum';
-import { StatsValuesError } from '../../Error/StatsValuesError';
-import { StatsID } from '../../VO/StatsID';
-import { StatsItemID } from '../../VO/StatsItemID';
-import { StatsValues } from '../../VO/StatsValues';
+
+import { StatsID } from '../../VO/StatsOutline/StatsID';
+import { StatsItemID } from '../../VO/StatsItem/StatsItemID';
+import { StatsValuesError } from '../../VO/StatsValue/Error/StatsValuesError';
+import { StatsValues } from '../../VO/StatsValue/StatsValues';
 import { IQuery } from './IQuery';
 
 export interface IStatsValueQuery extends IQuery {

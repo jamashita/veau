@@ -1,8 +1,10 @@
-import { Superposition, DataSourceError } from 'publikum';
-import { EntranceInformation } from 'src/VO/EntranceInformation';
+import { DataSourceError, Superposition } from 'publikum';
+
+import { EntranceInformation } from '../../VO/EntranceInformation/EntranceInformation';
+import { IdentityError } from '../../VO/Identity/Error/IdentityError';
+import { Identity } from '../../VO/Identity/Identity';
 import { IQuery } from './IQuery';
-import { Identity } from '../../VO/Identity';
-import { IdentityError } from '../../Error/IdentityError';
+
 export interface IIdentityQuery extends IQuery {
   readonly noun: 'IdentityQuery';
 

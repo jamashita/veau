@@ -1,12 +1,12 @@
 import { DataSourceError, Superposition } from 'publikum';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
-import { StatsOutlineError } from '../../Error/StatsOutlineError';
-import { StatsOutlinesError } from '../../Error/StatsOutlinesError';
-import { Page } from '../../VO/Page';
-import { StatsID } from '../../VO/StatsID';
-import { StatsOutline } from '../../VO/StatsOutline';
-import { StatsOutlines } from '../../VO/StatsOutlines';
-import { VeauAccountID } from '../../VO/VeauAccountID';
+import { StatsOutlineError } from '../../VO/StatsOutline/Error/StatsOutlineError';
+import { StatsOutlinesError } from '../../VO/StatsOutline/Error/StatsOutlinesError';
+import { Page } from '../../VO/Page/Page';
+import { StatsID } from '../../VO/StatsOutline/StatsID';
+import { StatsOutline } from '../../VO/StatsOutline/StatsOutline';
+import { StatsOutlines } from '../../VO/StatsOutline/StatsOutlines';
+import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
 import { IQuery } from './IQuery';
 
 export interface IStatsOutlineQuery extends IQuery {

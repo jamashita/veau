@@ -4,8 +4,8 @@ import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { TYPE } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
-import { LocaleError } from '../../../Error/LocaleError';
-import { Locale, LocaleJSON } from '../../../VO/Locale';
+import { LocaleError } from '../../../VO/Locale/Error/LocaleError';
+import { Locale, LocaleJSON } from '../../../VO/Locale/Locale';
 import { LocaleQuery } from '../LocaleQuery';
 
 describe('LocaleQuery', () => {

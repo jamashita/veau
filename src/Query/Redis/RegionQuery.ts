@@ -13,15 +13,16 @@ import {
   Superposition,
   UnimplementedError
 } from 'publikum';
+
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
-import { RegionError } from '../../Error/RegionError';
-import { RegionsError } from '../../Error/RegionsError';
+import { RegionError } from '../../VO/Region/Error/RegionError';
+import { RegionsError } from '../../VO/Region/Error/RegionsError';
 import { REDIS_REGION_KEY } from '../../Infrastructure/VeauRedis';
-import { ISO3166 } from '../../VO/ISO3166';
-import { Region, RegionJSON } from '../../VO/Region';
-import { RegionID } from '../../VO/RegionID';
-import { Regions } from '../../VO/Regions';
+import { ISO3166 } from '../../VO/Region/ISO3166';
+import { Region, RegionJSON } from '../../VO/Region/Region';
+import { RegionID } from '../../VO/Region/RegionID';
+import { Regions } from '../../VO/Region/Regions';
 import { IRedisQuery } from '../Interface/IRedisQuery';
 import { IRegionQuery } from '../Interface/IRegionQuery';
 

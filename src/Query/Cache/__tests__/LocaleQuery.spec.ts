@@ -3,10 +3,10 @@ import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { TYPE } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
-import { LocaleError } from '../../../Error/LocaleError';
+import { LocaleError } from '../../../VO/Locale/Error/LocaleError';
 import { VAULT_LOCALE_KEY } from '../../../Infrastructure/VeauCache';
-import { Locale } from '../../../VO/Locale';
-import { MockLocale } from '../../../VO/Mock/MockLocale';
+import { Locale } from '../../../VO/Locale/Locale';
+import { MockLocale } from '../../../VO/Locale/Mock/MockLocale';
 import { LocaleQuery } from '../LocaleQuery';
 
 describe('LocaleQuery', () => {

@@ -7,8 +7,8 @@ import { vault } from '../../../Container/Vault';
 import { Stats, StatsJSON } from '../../../Entity/Stats';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
 import { StatsError } from '../../../Error/StatsError';
-import { MockStatsID } from '../../../VO/Mock/MockStatsID';
-import { Term } from '../../../VO/Term';
+import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
+import { Term } from '../../../VO/Term/Term';
 import { StatsQuery } from '../StatsQuery';
 
 describe('StatsQuery', () => {

@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import {
   Absent,
   Alive,
@@ -11,21 +13,21 @@ import {
   Superposition,
   UUID
 } from 'publikum';
-import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
 import { StatsItemRow } from '../../../Entity/StatsItem';
 import { StatsItems } from '../../../Entity/StatsItems';
-import { StatsItemsError } from '../../../Error/StatsItemsError';
-import { StatsValuesError } from '../../../Error/StatsValuesError';
-import { MockAsOf } from '../../../VO/Mock/MockAsOf';
-import { MockNumericalValue } from '../../../VO/Mock/MockNumericalValue';
-import { MockStatsID } from '../../../VO/Mock/MockStatsID';
-import { MockStatsValue } from '../../../VO/Mock/MockStatsValue';
-import { MockStatsValues } from '../../../VO/Mock/MockStatsValues';
-import { StatsItemID } from '../../../VO/StatsItemID';
-import { StatsValues } from '../../../VO/StatsValues';
+import { StatsItemsError } from '../../../VO/StatsItem/Error/StatsItemsError';
+import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
+import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
+import { MockNumericalValue } from '../../../VO/NumericalValue/Mock/MockNumericalValue';
+import { StatsItemID } from '../../../VO/StatsItem/StatsItemID';
+import { StatsValuesError } from '../../../VO/StatsValue/Error/StatsValuesError';
+import { MockStatsValue } from '../../../VO/StatsValue/Mock/MockStatsValue';
+import { MockStatsValues } from '../../../VO/StatsValue/Mock/MockStatsValues';
+import { StatsValues } from '../../../VO/StatsValue/StatsValues';
 import { MockStatsValueQuery } from '../../Mock/MockStatsValueQuery';
 import { StatsItemQuery } from '../StatsItemQuery';
 

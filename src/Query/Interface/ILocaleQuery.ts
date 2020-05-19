@@ -1,6 +1,6 @@
 import { DataSourceError, Superposition } from 'publikum';
-import { LocaleError } from '../../Error/LocaleError';
-import { Locale } from '../../VO/Locale';
+import { LocaleError } from '../../VO/Locale/Error/LocaleError';
+import { Locale } from '../../VO/Locale/Locale';
 import { IQuery } from './IQuery';
 
 export interface ILocaleQuery extends IQuery {

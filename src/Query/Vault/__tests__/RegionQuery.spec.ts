@@ -1,19 +1,21 @@
-import { AJAXError, Alive, DataSourceError, Dead, Superposition } from 'publikum';
 import 'reflect-metadata';
+
+import { AJAXError, Alive, DataSourceError, Dead, Superposition } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
 import { TYPE } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
-import { RegionError } from '../../../Error/RegionError';
-import { RegionsError } from '../../../Error/RegionsError';
-import { ISO3166 } from '../../../VO/ISO3166';
-import { Locale } from '../../../VO/Locale';
-import { MockISO3166 } from '../../../VO/Mock/MockISO3166';
-import { MockLocale } from '../../../VO/Mock/MockLocale';
-import { MockRegion } from '../../../VO/Mock/MockRegion';
-import { MockRegions } from '../../../VO/Mock/MockRegions';
-import { Region } from '../../../VO/Region';
-import { Regions } from '../../../VO/Regions';
+import { Locale } from '../../../VO/Locale/Locale';
+import { MockLocale } from '../../../VO/Locale/Mock/MockLocale';
+import { RegionError } from '../../../VO/Region/Error/RegionError';
+import { RegionsError } from '../../../VO/Region/Error/RegionsError';
+import { ISO3166 } from '../../../VO/Region/ISO3166';
+import { MockISO3166 } from '../../../VO/Region/Mock/MockISO3166';
+import { MockRegion } from '../../../VO/Region/Mock/MockRegion';
+import { MockRegions } from '../../../VO/Region/Mock/MockRegions';
+import { Region } from '../../../VO/Region/Region';
+import { Regions } from '../../../VO/Region/Regions';
 import { MockLocaleQuery } from '../../Mock/MockLocaleQuery';
 import { RegionQuery } from '../RegionQuery';
 

@@ -4,13 +4,13 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
-import { StatsOutlineError } from '../../../Error/StatsOutlineError';
-import { StatsOutlinesError } from '../../../Error/StatsOutlinesError';
-import { MockPage } from '../../../VO/Mock/MockPage';
-import { MockStatsID } from '../../../VO/Mock/MockStatsID';
-import { MockVeauAccountID } from '../../../VO/Mock/MockVeauAccountID';
-import { StatsOutline, StatsOutlineRow } from '../../../VO/StatsOutline';
-import { StatsOutlines } from '../../../VO/StatsOutlines';
+import { StatsOutlineError } from '../../../VO/StatsOutline/Error/StatsOutlineError';
+import { StatsOutlinesError } from '../../../VO/StatsOutline/Error/StatsOutlinesError';
+import { MockPage } from '../../../VO/Page/Mock/MockPage';
+import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
+import { MockVeauAccountID } from '../../../VO/VeauAccount/Mock/MockVeauAccountID';
+import { StatsOutline, StatsOutlineRow } from '../../../VO/StatsOutline/StatsOutline';
+import { StatsOutlines } from '../../../VO/StatsOutline/StatsOutlines';
 import { StatsOutlineQuery } from '../StatsOutlineQuery';
 
 describe('StatsOutlineQuery', () => {

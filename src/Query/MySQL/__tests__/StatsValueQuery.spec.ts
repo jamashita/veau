@@ -1,14 +1,16 @@
-import { Absent, DataSourceError, MockError, MockMySQL, MySQLError, Project, Superposition } from 'publikum';
 import 'reflect-metadata';
+
+import { Absent, DataSourceError, MockError, MockMySQL, MySQLError, Project, Superposition } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
-import { StatsValuesError } from '../../../Error/StatsValuesError';
-import { AsOf } from '../../../VO/AsOf';
-import { MockStatsID } from '../../../VO/Mock/MockStatsID';
-import { StatsItemID } from '../../../VO/StatsItemID';
-import { StatsValueRow } from '../../../VO/StatsValue';
-import { StatsValues } from '../../../VO/StatsValues';
+import { AsOf } from '../../../VO/AsOf/AsOf';
+import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
+import { StatsItemID } from '../../../VO/StatsItem/StatsItemID';
+import { StatsValuesError } from '../../../VO/StatsValue/Error/StatsValuesError';
+import { StatsValueRow } from '../../../VO/StatsValue/StatsValue';
+import { StatsValues } from '../../../VO/StatsValue/StatsValues';
 import { StatsValueQuery } from '../StatsValueQuery';
 
 describe('StatsValueQuery', () => {

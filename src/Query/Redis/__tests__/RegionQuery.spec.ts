@@ -1,15 +1,17 @@
-import { DataSourceError, MockError, MockRedis, MockRedisString, RedisError, Superposition, UUID } from 'publikum';
 import 'reflect-metadata';
+
+import { DataSourceError, MockError, MockRedis, MockRedisString, RedisError, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
-import { RegionError } from '../../../Error/RegionError';
-import { RegionsError } from '../../../Error/RegionsError';
-import { ISO3166 } from '../../../VO/ISO3166';
-import { LanguageJSON } from '../../../VO/Language';
-import { Region, RegionJSON } from '../../../VO/Region';
-import { Regions } from '../../../VO/Regions';
+import { RegionError } from '../../../VO/Region/Error/RegionError';
+import { RegionsError } from '../../../VO/Region/Error/RegionsError';
+import { LanguageJSON } from '../../../VO/Language/Language';
+import { ISO3166 } from '../../../VO/Region/ISO3166';
+import { Region, RegionJSON } from '../../../VO/Region/Region';
+import { Regions } from '../../../VO/Region/Regions';
 import { RegionQuery } from '../RegionQuery';
 
 describe('RegionQuery', () => {

@@ -7,12 +7,12 @@ import { MockStats } from '../../Entity/Mock/MockStats';
 import { MockStatsItem } from '../../Entity/Mock/MockStatsItem';
 import { MockStatsItems } from '../../Entity/Mock/MockStatsItems';
 import { MockStatsUpdateFactory } from '../../Factory/Mock/MockStatsUpdateFactory';
-import { MockAsOf } from '../../VO/Mock/MockAsOf';
-import { MockStatsItemID } from '../../VO/Mock/MockStatsItemID';
-import { MockStatsValue } from '../../VO/Mock/MockStatsValue';
-import { MockStatsValues } from '../../VO/Mock/MockStatsValues';
-import { MockVeauAccountID } from '../../VO/Mock/MockVeauAccountID';
-import { VeauAccountID } from '../../VO/VeauAccountID';
+import { MockAsOf } from '../../VO/AsOf/Mock/MockAsOf';
+import { MockStatsItemID } from '../../VO/StatsItem/Mock/MockStatsItemID';
+import { MockStatsValue } from '../../VO/StatsValue/Mock/MockStatsValue';
+import { MockStatsValues } from '../../VO/StatsValue/Mock/MockStatsValues';
+import { MockVeauAccountID } from '../../VO/VeauAccount/Mock/MockVeauAccountID';
+import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
 import { StatsUpdateTransaction } from '../StatsUpdateTransaction';
 
 describe('StatsUpdateTransaction', () => {

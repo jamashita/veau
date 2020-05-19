@@ -1,16 +1,18 @@
-import { DataSourceError, MockError, MockMySQL, MySQLError, Superposition, UUID } from 'publikum';
 import 'reflect-metadata';
+
+import { DataSourceError, MockError, MockMySQL, MySQLError, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
-import { RegionError } from '../../../Error/RegionError';
-import { RegionsError } from '../../../Error/RegionsError';
-import { ISO3166 } from '../../../VO/ISO3166';
-import { MockRegionID } from '../../../VO/Mock/MockRegionID';
-import { Region, RegionRow } from '../../../VO/Region';
-import { RegionID } from '../../../VO/RegionID';
-import { Regions } from '../../../VO/Regions';
+import { RegionError } from '../../../VO/Region/Error/RegionError';
+import { RegionsError } from '../../../VO/Region/Error/RegionsError';
+import { ISO3166 } from '../../../VO/Region/ISO3166';
+import { MockRegionID } from '../../../VO/Region/Mock/MockRegionID';
+import { Region, RegionRow } from '../../../VO/Region/Region';
+import { RegionID } from '../../../VO/Region/RegionID';
+import { Regions } from '../../../VO/Region/Regions';
 import { RegionQuery } from '../RegionQuery';
 
 describe('RegionQuery', () => {

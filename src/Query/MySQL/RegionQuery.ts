@@ -1,13 +1,14 @@
 import { inject, injectable } from 'inversify';
 import { DataSourceError, Dead, IMySQL, MySQLError, Schrodinger, Superposition } from 'publikum';
+
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
-import { RegionError } from '../../Error/RegionError';
-import { RegionsError } from '../../Error/RegionsError';
-import { ISO3166 } from '../../VO/ISO3166';
-import { Region, RegionRow } from '../../VO/Region';
-import { RegionID } from '../../VO/RegionID';
-import { Regions } from '../../VO/Regions';
+import { RegionError } from '../../VO/Region/Error/RegionError';
+import { RegionsError } from '../../VO/Region/Error/RegionsError';
+import { ISO3166 } from '../../VO/Region/ISO3166';
+import { Region, RegionRow } from '../../VO/Region/Region';
+import { RegionID } from '../../VO/Region/RegionID';
+import { Regions } from '../../VO/Region/Regions';
 import { IMySQLQuery } from '../Interface/IMySQLQuery';
 import { IRegionQuery } from '../Interface/IRegionQuery';
 

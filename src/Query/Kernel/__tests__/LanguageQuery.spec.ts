@@ -1,18 +1,20 @@
-import { Alive, DataSourceError, Dead, MySQLError, RedisError, Superposition } from 'publikum';
 import 'reflect-metadata';
+
+import { Alive, DataSourceError, Dead, MySQLError, RedisError, Superposition } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
 import { MockLanguageCommand } from '../../../Command/Mock/MockLanguageCommand';
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
-import { LanguageError } from '../../../Error/LanguageError';
-import { LanguagesError } from '../../../Error/LanguagesError';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
-import { ISO639 } from '../../../VO/ISO639';
-import { Language } from '../../../VO/Language';
-import { Languages } from '../../../VO/Languages';
-import { MockISO639 } from '../../../VO/Mock/MockISO639';
-import { MockLanguage } from '../../../VO/Mock/MockLanguage';
-import { MockLanguages } from '../../../VO/Mock/MockLanguages';
+import { LanguageError } from '../../../VO/Language/Error/LanguageError';
+import { LanguagesError } from '../../../VO/Language/Error/LanguagesError';
+import { ISO639 } from '../../../VO/Language/ISO639';
+import { Language } from '../../../VO/Language/Language';
+import { Languages } from '../../../VO/Language/Languages';
+import { MockISO639 } from '../../../VO/Language/Mock/MockISO639';
+import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';
+import { MockLanguages } from '../../../VO/Language/Mock/MockLanguages';
 import { MockLanguageQuery } from '../../Mock/MockLanguageQuery';
 import { LanguageQuery } from '../LanguageQuery';
 

@@ -11,13 +11,14 @@ import {
   Schrodinger,
   Superposition
 } from 'publikum';
+
 import { TYPE } from '../../Container/Types';
-import { StatsItemIDError } from '../../Error/StatsItemIDError';
-import { StatsValuesError } from '../../Error/StatsValuesError';
-import { StatsID } from '../../VO/StatsID';
-import { StatsItemID } from '../../VO/StatsItemID';
-import { StatsValueRow } from '../../VO/StatsValue';
-import { StatsValues } from '../../VO/StatsValues';
+import { StatsItemIDError } from '../../VO/StatsItem/Error/StatsItemIDError';
+import { StatsID } from '../../VO/StatsOutline/StatsID';
+import { StatsItemID } from '../../VO/StatsItem/StatsItemID';
+import { StatsValuesError } from '../../VO/StatsValue/Error/StatsValuesError';
+import { StatsValueRow } from '../../VO/StatsValue/StatsValue';
+import { StatsValues } from '../../VO/StatsValue/StatsValues';
 import { IMySQLQuery } from '../Interface/IMySQLQuery';
 import { IStatsValueQuery } from '../Interface/IStatsValueQuery';
 

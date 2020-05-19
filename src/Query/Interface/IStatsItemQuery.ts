@@ -1,7 +1,7 @@
 import { DataSourceError, Superposition } from 'publikum';
 import { StatsItems } from '../../Entity/StatsItems';
-import { StatsItemsError } from '../../Error/StatsItemsError';
-import { StatsID } from '../../VO/StatsID';
+import { StatsItemsError } from '../../VO/StatsItem/Error/StatsItemsError';
+import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { IQuery } from './IQuery';
 
 export interface IStatsItemQuery extends IQuery {

@@ -1,14 +1,16 @@
-import { DataSourceError, MockError, MockRedis, MockRedisString, RedisError, Superposition, UUID } from 'publikum';
 import 'reflect-metadata';
+
+import { DataSourceError, MockError, MockRedis, MockRedisString, RedisError, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
-import { LanguageError } from '../../../Error/LanguageError';
-import { LanguagesError } from '../../../Error/LanguagesError';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
-import { ISO639 } from '../../../VO/ISO639';
-import { Language, LanguageJSON } from '../../../VO/Language';
-import { Languages } from '../../../VO/Languages';
+import { LanguageError } from '../../../VO/Language/Error/LanguageError';
+import { LanguagesError } from '../../../VO/Language/Error/LanguagesError';
+import { ISO639 } from '../../../VO/Language/ISO639';
+import { Language, LanguageJSON } from '../../../VO/Language/Language';
+import { Languages } from '../../../VO/Language/Languages';
 import { LanguageQuery } from '../LanguageQuery';
 
 describe('LanguageQuery', () => {

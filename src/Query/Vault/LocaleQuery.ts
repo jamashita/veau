@@ -2,8 +2,8 @@ import { inject, injectable } from 'inversify';
 import { Alive, DataSourceError, Dead, Superposition } from 'publikum';
 import { ILocaleCommand } from '../../Command/Interface/ILocaleCommand';
 import { TYPE } from '../../Container/Types';
-import { LocaleError } from '../../Error/LocaleError';
-import { Locale } from '../../VO/Locale';
+import { LocaleError } from '../../VO/Locale/Error/LocaleError';
+import { Locale } from '../../VO/Locale/Locale';
 import { ILocaleQuery } from '../Interface/ILocaleQuery';
 import { IVaultQuery } from '../Interface/IVaultQuery';
 

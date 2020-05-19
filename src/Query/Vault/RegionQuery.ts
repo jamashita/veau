@@ -1,15 +1,16 @@
 import { inject, injectable } from 'inversify';
 import { Alive, DataSourceError, Dead, Quantum, QuantumError, Superposition, UnimplementedError } from 'publikum';
+
 import { TYPE } from '../../Container/Types';
-import { LocaleError } from '../../Error/LocaleError';
+import { LocaleError } from '../../VO/Locale/Error/LocaleError';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
-import { RegionError } from '../../Error/RegionError';
-import { RegionsError } from '../../Error/RegionsError';
-import { ISO3166 } from '../../VO/ISO3166';
-import { Locale } from '../../VO/Locale';
-import { Region } from '../../VO/Region';
-import { RegionID } from '../../VO/RegionID';
-import { Regions } from '../../VO/Regions';
+import { RegionError } from '../../VO/Region/Error/RegionError';
+import { RegionsError } from '../../VO/Region/Error/RegionsError';
+import { Locale } from '../../VO/Locale/Locale';
+import { ISO3166 } from '../../VO/Region/ISO3166';
+import { Region } from '../../VO/Region/Region';
+import { RegionID } from '../../VO/Region/RegionID';
+import { Regions } from '../../VO/Region/Regions';
 import { ILocaleQuery } from '../Interface/ILocaleQuery';
 import { IRegionQuery } from '../Interface/IRegionQuery';
 import { IVaultQuery } from '../Interface/IVaultQuery';

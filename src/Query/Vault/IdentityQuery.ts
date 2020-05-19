@@ -1,16 +1,17 @@
 import { inject, injectable } from 'inversify';
 import { Alive, DataSourceError, Dead, Superposition } from 'publikum';
+
 import { TYPE } from '../../Container/Types';
-import { IdentityError } from '../../Error/IdentityError';
-import { LanguageError } from '../../Error/LanguageError';
+import { IdentityError } from '../../VO/Identity/Error/IdentityError';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
-import { RegionError } from '../../Error/RegionError';
-import { VeauAccountError } from '../../Error/VeauAccountError';
-import { EntranceInformation } from '../../VO/EntranceInformation';
-import { Identity } from '../../VO/Identity';
-import { Language } from '../../VO/Language';
-import { Region } from '../../VO/Region';
-import { VeauAccount } from '../../VO/VeauAccount';
+import { RegionError } from '../../VO/Region/Error/RegionError';
+import { VeauAccountError } from '../../VO/VeauAccount/Error/VeauAccountError';
+import { EntranceInformation } from '../../VO/EntranceInformation/EntranceInformation';
+import { Identity } from '../../VO/Identity/Identity';
+import { LanguageError } from '../../VO/Language/Error/LanguageError';
+import { Language } from '../../VO/Language/Language';
+import { Region } from '../../VO/Region/Region';
+import { VeauAccount } from '../../VO/VeauAccount/VeauAccount';
 import { IIdentityQuery } from '../Interface/IIdentityQuery';
 import { ILanguageQuery } from '../Interface/ILanguageQuery';
 import { IRegionQuery } from '../Interface/IRegionQuery';

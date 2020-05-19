@@ -1,13 +1,14 @@
 import { inject, injectable } from 'inversify';
 import { DataSourceError, Dead, IMySQL, MySQLError, Project, Schrodinger, Superposition } from 'publikum';
+
 import { TYPE } from '../../Container/Types';
 import { StatsItemRow } from '../../Entity/StatsItem';
 import { StatsItems } from '../../Entity/StatsItems';
-import { StatsItemsError } from '../../Error/StatsItemsError';
-import { StatsValuesError } from '../../Error/StatsValuesError';
-import { StatsID } from '../../VO/StatsID';
-import { StatsItemID } from '../../VO/StatsItemID';
-import { StatsValues } from '../../VO/StatsValues';
+import { StatsItemsError } from '../../VO/StatsItem/Error/StatsItemsError';
+import { StatsID } from '../../VO/StatsOutline/StatsID';
+import { StatsItemID } from '../../VO/StatsItem/StatsItemID';
+import { StatsValuesError } from '../../VO/StatsValue/Error/StatsValuesError';
+import { StatsValues } from '../../VO/StatsValue/StatsValues';
 import { IMySQLQuery } from '../Interface/IMySQLQuery';
 import { IStatsItemQuery } from '../Interface/IStatsItemQuery';
 import { IStatsValueQuery } from '../Interface/IStatsValueQuery';

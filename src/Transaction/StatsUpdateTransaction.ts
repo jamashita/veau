@@ -1,13 +1,14 @@
-import { DataSourceError, Dead, ISQL, manoeuvre, Superposition } from 'publikum';
+import { DataSourceError, Dead, ISQL, Schrodinger, Superposition } from 'publikum';
+
 import { IStatsCommand } from '../Command/Interface/IStatsCommand';
 import { IStatsItemCommand } from '../Command/Interface/IStatsItemCommand';
 import { IStatsValueCommand } from '../Command/Interface/IStatsValueCommand';
 import { Stats } from '../Entity/Stats';
 import { StatsItem } from '../Entity/StatsItem';
 import { IStatsUpdateFactory } from '../Factory/Interface/IStatsUpdateFactory';
-import { StatsID } from '../VO/StatsID';
-import { StatsValue } from '../VO/StatsValue';
-import { VeauAccountID } from '../VO/VeauAccountID';
+import { StatsID } from '../VO/StatsOutline/StatsID';
+import { StatsValue } from '../VO/StatsValue/StatsValue';
+import { VeauAccountID } from '../VO/VeauAccount/VeauAccountID';
 import { IStatsUpdateTransaction } from './Interface/IStatsUpdateTransaction';
 
 export class StatsUpdateTransaction implements IStatsUpdateTransaction {
@@ -61,7 +62,7 @@ export class StatsUpdateTransaction implements IStatsUpdateTransaction {
           Superposition<void, DataSourceError>
         >(valuePromises);
 
-        return manoeuvre<unknown, DataSourceError>([
+        return Schrodinger.all<unknown, DataSourceError>([
           statsInsertSuperposition,
           ...statsItemInsertTries,
           ...statsValueInsertTries

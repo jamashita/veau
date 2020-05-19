@@ -2,9 +2,9 @@ import { OK, UNAUTHORIZED } from 'http-status';
 import { inject, injectable } from 'inversify';
 import { AJAXError, AJAXResponse, Alive, DataSourceError, Dead, IAJAX, Superposition } from 'publikum';
 import { TYPE } from '../../Container/Types';
-import { VeauAccountError } from '../../Error/VeauAccountError';
-import { EntranceInformation } from '../../VO/EntranceInformation';
-import { VeauAccount, VeauAccountJSON } from '../../VO/VeauAccount';
+import { VeauAccountError } from '../../VO/VeauAccount/Error/VeauAccountError';
+import { EntranceInformation } from '../../VO/EntranceInformation/EntranceInformation';
+import { VeauAccount, VeauAccountJSON } from '../../VO/VeauAccount/VeauAccount';
 import { IAJAXQuery } from '../Interface/IAJAXQuery';
 import { IVeauAccountQuery } from '../Interface/IVeauAccountQuery';
 
