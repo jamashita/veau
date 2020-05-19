@@ -36,7 +36,7 @@ import { loaded, loading } from '../Action/LoadingAction';
 import { raiseModal } from '../Action/ModalAction';
 import { appearNotification } from '../Action/NotificationAction';
 import { pushToStatsEdit } from '../Action/RedirectAction';
-import { resetStatsOutlines, updateStatsOutlines } from '../Action/StatsAction';
+import { resetStatsListItems, updateStatsListItems } from '../Action/StatsAction';
 import { closeNewStatsModal, resetNewStats, updateNewStats } from '../Action/StatsListAction';
 import { State } from '../State';
 
@@ -82,11 +82,11 @@ export class StatsListEpic {
             (superposition: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>) => {
               return superposition.match<Observable<Action>>(
                 (statsOutlines: StatsOutlines) => {
-                  return of<Action>(updateStatsOutlines(statsOutlines));
+                  return of<Action>(updateStatsListItems(statsOutlines));
                 },
                 () => {
                   return of<Action>(
-                    resetStatsOutlines(),
+                    resetStatsListItems(),
                     appearNotification('error', 'center', 'top', 'STATS_OVERVIEW_NOT_FOUND')
                   );
                 }

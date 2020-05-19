@@ -6,7 +6,7 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { TYPE } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
-import { MockStats } from '../../../Entity/Mock/MockStats';
+import { MockStats } from '../../../Entity/Stats/Mock/MockStats';
 import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';
 import { MockLanguageID } from '../../../VO/Language/Mock/MockLanguageID';
 import { MockRegion } from '../../../VO/Region/Mock/MockRegion';

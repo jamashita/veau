@@ -31,7 +31,7 @@ describe('LocaleCommand', () => {
       stub.returns(locale);
 
       const localeCommand: LocaleCommand = new LocaleCommand(cache);
-      const superposition: Superposition<void, DataSourceError> = await localeCommand.create(locale);
+      const superposition: Superposition<unknown, DataSourceError> = await localeCommand.create(locale);
 
       expect(stub.withArgs(VAULT_LOCALE_KEY, locale).called).toBe(true);
       expect(superposition.isAlive()).toBe(true);
@@ -48,7 +48,7 @@ describe('LocaleCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const localeCommand: LocaleCommand = new LocaleCommand(cache);
-      const superposition: Superposition<void, DataSourceError> = await localeCommand.create(locale);
+      const superposition: Superposition<unknown, DataSourceError> = await localeCommand.create(locale);
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(

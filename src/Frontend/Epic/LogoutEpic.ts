@@ -27,12 +27,13 @@ export class LogoutEpic {
     return action$.pipe<LogoutAction, Action>(
       ofType<Action, LogoutAction>(LOGOUT),
       mergeMap<Action, Observable<Action>>(() => {
-        return from<Promise<Superposition<void, DataSourceError>>>(this.sessionCommand.delete()).pipe<
+        // TODO of ?
+        return from<Promise<Superposition<unknown, DataSourceError>>>(this.sessionCommand.delete()).pipe<
           Action,
           Action,
           Action
         >(
-          mapTo<Superposition<void, DataSourceError>, Action>(initializeIdentity()),
+          mapTo<Superposition<unknown, DataSourceError>, Action>(initializeIdentity()),
           mapTo<Action, Action>(closeProvider()),
           mapTo<Action, Action>(pushToEntrance())
         );

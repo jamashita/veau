@@ -7,7 +7,7 @@ import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
 import { Stats } from '../../Entity/Stats/Stats';
 import { StatsItem } from '../../Entity/StatsItem/StatsItem';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
-import { StatsError } from '../../Error/StatsError';
+import { StatsError } from '../../Entity/Stats/Error/StatsError';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { ILocaleQuery } from '../../Query/Interface/ILocaleQuery';
 import { IRegionQuery } from '../../Query/Interface/IRegionQuery';

@@ -9,7 +9,7 @@ import { Stats } from '../../../Entity/Stats/Stats';
 import { MockStatsItems } from '../../../Entity/StatsItem/Mock/MockStatsItems';
 import { StatsItems } from '../../../Entity/StatsItem/StatsItems';
 import { NoSuchElementError } from '../../../Error/NoSuchElementError';
-import { StatsError } from '../../../Error/StatsError';
+import { StatsError } from '../../../Entity/Stats/Error/StatsError';
 import { LanguageError } from '../../../VO/Language/Error/LanguageError';
 import { Language } from '../../../VO/Language/Language';
 import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';

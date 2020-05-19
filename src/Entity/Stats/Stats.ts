@@ -1,6 +1,6 @@
 import { Absent, Alive, Ambiguous, Dead, Entity, Kind, Quantum, Superposition } from 'publikum';
 
-import { StatsError } from '../../Error/StatsError';
+import { StatsError } from './Error/StatsError';
 import { AsOf } from '../../VO/AsOf/AsOf';
 import { AsOfs } from '../../VO/AsOf/AsOfs';
 import { Column } from '../../VO/Coordinate/Column';

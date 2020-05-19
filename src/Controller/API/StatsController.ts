@@ -8,7 +8,7 @@ import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats/Stats';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
-import { StatsError } from '../../Error/StatsError';
+import { StatsError } from '../../Entity/Stats/Error/StatsError';
 import { StatsInteractor } from '../../Interactor/StatsInteractor';
 import { PageError } from '../../VO/Page/Error/PageError';
 import { Page } from '../../VO/Page/Page';

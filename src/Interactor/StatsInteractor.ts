@@ -3,9 +3,9 @@ import { DataSourceError, Noun, Superposition } from 'publikum';
 
 import { IStatsCommand } from '../Command/Interface/IStatsCommand';
 import { TYPE } from '../Container/Types';
+import { StatsError } from '../Entity/Stats/Error/StatsError';
 import { Stats } from '../Entity/Stats/Stats';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
-import { StatsError } from '../Error/StatsError';
 import { IStatsOutlineQuery } from '../Query/Interface/IStatsOutlineQuery';
 import { IStatsQuery } from '../Query/Interface/IStatsQuery';
 import { Page } from '../VO/Page/Page';
@@ -44,7 +44,7 @@ export class StatsInteractor implements Noun {
     return this.statsOutlineQuery.findByVeauAccountID(veauAccountID, page);
   }
 
-  public save(stats: Stats, veauAccountID: VeauAccountID): Promise<Superposition<void, DataSourceError>> {
+  public save(stats: Stats, veauAccountID: VeauAccountID): Promise<Superposition<unknown, DataSourceError>> {
     return this.statsCommand.create(stats, veauAccountID);
   }
 }

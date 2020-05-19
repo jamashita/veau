@@ -1,17 +1,17 @@
 import { Absent, Quantum } from 'publikum';
 
-import { AsOf } from '../../VO/AsOf/AsOf';
-import { Language } from '../../VO/Language/Language';
-import { MockLanguage } from '../../VO/Language/Mock/MockLanguage';
-import { MockRegion } from '../../VO/Region/Mock/MockRegion';
-import { Region } from '../../VO/Region/Region';
-import { MockStatsOutline } from '../../VO/StatsOutline/Mock/MockStatsOutline';
-import { StatsOutline } from '../../VO/StatsOutline/StatsOutline';
-import { MockTerm } from '../../VO/Term/Mock/MockTerm';
-import { Term } from '../../VO/Term/Term';
+import { AsOf } from '../../../VO/AsOf/AsOf';
+import { Language } from '../../../VO/Language/Language';
+import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';
+import { MockRegion } from '../../../VO/Region/Mock/MockRegion';
+import { Region } from '../../../VO/Region/Region';
+import { MockStatsOutline } from '../../../VO/StatsOutline/Mock/MockStatsOutline';
+import { StatsOutline } from '../../../VO/StatsOutline/StatsOutline';
+import { MockTerm } from '../../../VO/Term/Mock/MockTerm';
+import { Term } from '../../../VO/Term/Term';
+import { MockStatsItems } from '../../StatsItem/Mock/MockStatsItems';
+import { StatsItems } from '../../StatsItem/StatsItems';
 import { Stats } from '../Stats';
-import { MockStatsItems } from '../StatsItem/Mock/MockStatsItems';
-import { StatsItems } from '../StatsItem/StatsItems';
 
 type StatsArgs = Partial<
   Readonly<{

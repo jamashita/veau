@@ -1,6 +1,5 @@
 import { Present, Superposition, UUID } from 'publikum';
 
-import { StatsError } from '../../../Error/StatsError';
 import { AsOf } from '../../../VO/AsOf/AsOf';
 import { AsOfs } from '../../../VO/AsOf/AsOfs';
 import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
@@ -8,9 +7,13 @@ import { Column } from '../../../VO/Coordinate/Column';
 import { Coordinate } from '../../../VO/Coordinate/Coordinate';
 import { Row } from '../../../VO/Coordinate/Row';
 import { Language } from '../../../VO/Language/Language';
+import { MockISO639 } from '../../../VO/Language/Mock/MockISO639';
 import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';
+import { MockLanguageID } from '../../../VO/Language/Mock/MockLanguageID';
+import { MockLanguageName } from '../../../VO/Language/Mock/MockLanguageName';
 import { MockNumericalValue } from '../../../VO/NumericalValue/Mock/MockNumericalValue';
 import { NumericalValue } from '../../../VO/NumericalValue/NumericalValue';
+import { MockISO3166 } from '../../../VO/Region/Mock/MockISO3166';
 import { MockRegion } from '../../../VO/Region/Mock/MockRegion';
 import { MockRegionID } from '../../../VO/Region/Mock/MockRegionID';
 import { MockRegionName } from '../../../VO/Region/Mock/MockRegionName';
@@ -35,10 +38,7 @@ import { MockStatsItem } from '../../StatsItem/Mock/MockStatsItem';
 import { MockStatsItems } from '../../StatsItem/Mock/MockStatsItems';
 import { StatsItem } from '../../StatsItem/StatsItem';
 import { StatsItems } from '../../StatsItem/StatsItems';
-import { MockISO3166 } from '../../VO/Mock/MockISO3166';
-import { MockISO639 } from '../../VO/Mock/MockISO639';
-import { MockLanguageID } from '../../VO/Mock/MockLanguageID';
-import { MockLanguageName } from '../../VO/Mock/MockLanguageName';
+import { StatsError } from '../Error/StatsError';
 import { Stats, StatsJSON } from '../Stats';
 
 describe('Stats', () => {

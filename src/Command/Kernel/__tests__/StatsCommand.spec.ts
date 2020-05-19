@@ -5,7 +5,7 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
-import { MockStats } from '../../../Entity/Mock/MockStats';
+import { MockStats } from '../../../Entity/Stats/Mock/MockStats';
 import { MockVeauAccountID } from '../../../VO/VeauAccount/Mock/MockVeauAccountID';
 import { StatsCommand } from '../StatsCommand';
 

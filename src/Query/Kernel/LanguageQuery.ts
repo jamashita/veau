@@ -49,7 +49,7 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
 
         return superposition2.match<Languages, LanguagesError | DataSourceError>(
           async (languages: Languages) => {
-            const superposition3: Superposition<void, DataSourceError> = await this.languageRedisCommand.insertAll(
+            const superposition3: Superposition<unknown, DataSourceError> = await this.languageRedisCommand.insertAll(
               languages
             );
 

@@ -7,11 +7,11 @@ import {
   ImmutableSequence,
   JSONable,
   Kind,
-  manoeuvre,
   Mapper,
   Objet,
   Project,
   Quantum,
+  Schrodinger,
   Sequence,
   Superposition
 } from 'publikum';
@@ -52,7 +52,7 @@ export class StatsItems extends Objet implements Collection<number, StatsItem>, 
   public static ofSuperposition(
     superpositions: Array<Superposition<StatsItem, StatsItemError>>
   ): Superposition<StatsItems, StatsItemsError> {
-    return manoeuvre<StatsItem, StatsItemError>(superpositions).match<StatsItems, StatsItemsError>(
+    return Schrodinger.all<StatsItem, StatsItemError>(superpositions).match<StatsItems, StatsItemsError>(
       (statsItems: Array<StatsItem>) => {
         return Alive.of<StatsItems, StatsItemsError>(StatsItems.ofArray(statsItems));
       },
