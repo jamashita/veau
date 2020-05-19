@@ -1,11 +1,13 @@
-import { CacheError, DataSourceError, MockCache, MockError, Superposition } from 'publikum';
 import 'reflect-metadata';
+
+import { CacheError, DataSourceError, MockCache, MockError, Superposition } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
 import { TYPE } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { VAULT_LOCALE_KEY } from '../../../Infrastructure/VeauCache';
-import { Locale } from '../../../VO/Locale';
-import { MockLocale } from '../../../VO/Mock/MockLocale';
+import { Locale } from '../../../VO/Locale/Locale';
+import { MockLocale } from '../../../VO/Locale/Mock/MockLocale';
 import { LocaleCommand } from '../LocaleCommand';
 
 describe('LocaleCommand', () => {

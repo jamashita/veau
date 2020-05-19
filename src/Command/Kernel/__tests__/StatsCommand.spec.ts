@@ -1,10 +1,12 @@
-import { Alive, DataSourceError, Dead, MockMySQL, MySQLError, Superposition } from 'publikum';
 import 'reflect-metadata';
+
+import { Alive, DataSourceError, Dead, MockMySQL, MySQLError, Superposition } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
 import { MockStats } from '../../../Entity/Mock/MockStats';
-import { MockVeauAccountID } from '../../../VO/Mock/MockVeauAccountID';
+import { MockVeauAccountID } from '../../../VO/VeauAccount/Mock/MockVeauAccountID';
 import { StatsCommand } from '../StatsCommand';
 
 describe('StatsCommand', () => {
@@ -29,7 +31,7 @@ describe('StatsCommand', () => {
       stub.resolves(Alive.of<DataSourceError>());
 
       const statsCommand: StatsCommand = new StatsCommand(mysql);
-      const superposition: Superposition<void, DataSourceError> = await statsCommand.create(stats, accountID);
+      const superposition: Superposition<unknown, DataSourceError> = await statsCommand.create(stats, accountID);
 
       expect(superposition.isAlive()).toBe(true);
     });
@@ -46,7 +48,7 @@ describe('StatsCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsCommand: StatsCommand = new StatsCommand(mysql);
-      const superposition: Superposition<void, DataSourceError> = await statsCommand.create(stats, accountID);
+      const superposition: Superposition<unknown, DataSourceError> = await statsCommand.create(stats, accountID);
 
       superposition.match<void>(
         () => {

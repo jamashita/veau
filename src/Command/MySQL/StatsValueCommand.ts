@@ -1,7 +1,8 @@
-import { Alive, DataSourceError, Dead, ISQL, MySQLError, Superposition } from 'publikum';
-import { StatsID } from '../../VO/StatsID';
-import { StatsItemID } from '../../VO/StatsItemID';
-import { StatsValue } from '../../VO/StatsValue';
+import { DataSourceError, ISQL, MySQLError, Schrodinger, Superposition } from 'publikum';
+
+import { StatsItemID } from '../../VO/StatsItem/StatsItemID';
+import { StatsID } from '../../VO/StatsOutline/StatsID';
+import { StatsValue } from '../../VO/StatsValue/StatsValue';
 import { IMySQLCommand } from '../Interface/IMySQLCommand';
 import { IStatsValueCommand } from '../Interface/IStatsValueCommand';
 
@@ -14,33 +15,28 @@ export class StatsValueCommand implements IStatsValueCommand, IMySQLCommand {
     this.sql = sql;
   }
 
-  public async create(statsItemID: StatsItemID, statsValue: StatsValue): Promise<Superposition<void, DataSourceError>> {
+  public create(statsItemID: StatsItemID, statsValue: StatsValue): Promise<Superposition<unknown, DataSourceError>> {
     const query: string = `INSERT INTO stats_values VALUES (
       :statsItemID,
       :asOf,
       :value
       );`;
 
-    // prettier-ignore
-    try {
-      await this.sql.execute<unknown>(query, {
-        statsItemID: statsItemID.get().get(),
-        asOf: statsValue.getAsOf().toString(),
-        value: statsValue.getValue().get()
-      });
-
-      return Alive.of<DataSourceError>();
-    }
-    catch (err) {
-      if (err instanceof MySQLError) {
-        return Dead.of<MySQLError>(err);
-      }
-
-      throw err;
-    }
+    return (
+      Promise.resolve <
+      Superposition<unknown, MySQLError>(
+        Schrodinger.playground<unknown, MySQLError>(() => {
+          return this.sql.execute<unknown>(query, {
+            statsItemID: statsItemID.get().get(),
+            asOf: statsValue.getAsOf().toString(),
+            value: statsValue.getValue().get()
+          });
+        })
+      )
+    );
   }
 
-  public async deleteByStatsID(statsID: StatsID): Promise<Superposition<void, DataSourceError>> {
+  public deleteByStatsID(statsID: StatsID): Promise<Superposition<unknown, DataSourceError>> {
     const query: string = `DELETE R1
       FROM stats_values R1
       INNER JOIN stats_items R2
@@ -49,20 +45,15 @@ export class StatsValueCommand implements IStatsValueCommand, IMySQLCommand {
       USING(stats_id)
       WHERE R3.stats_id = :statsID;`;
 
-    // prettier-ignore
-    try {
-      await this.sql.execute<unknown>(query, {
-        statsID: statsID.get().get()
-      });
-
-      return Alive.of<DataSourceError>();
-    }
-    catch (err) {
-      if (err instanceof MySQLError) {
-        return Dead.of<MySQLError>(err);
-      }
-
-      throw err;
-    }
+    return (
+      Promise.resolve <
+      Superposition<unknown, MySQLError>(
+        Schrodinger.playground<unknown, MySQLError>(() => {
+          return this.sql.execute<unknown>(query, {
+            statsID: statsID.get().get()
+          });
+        })
+      )
+    );
   }
 }

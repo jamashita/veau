@@ -1,11 +1,12 @@
 import { inject, injectable } from 'inversify';
 import { Alive, DataSourceError, Dead, IMySQL, Superposition, UnimplementedError } from 'publikum';
+
 import { TYPE } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats';
 import { StatsUpdateFactory } from '../../Factory/StatsUpdateFactory';
 import { StatsUpdateTransaction } from '../../Transaction/StatsUpdateTransaction';
-import { StatsID } from '../../VO/StatsID';
-import { VeauAccountID } from '../../VO/VeauAccountID';
+import { StatsID } from '../../VO/StatsOutline/StatsID';
+import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
 import { IKernelCommand } from '../Interface/IKernelCommand';
 import { IStatsCommand } from '../Interface/IStatsCommand';
 
@@ -19,7 +20,7 @@ export class StatsCommand implements IStatsCommand, IKernelCommand {
     this.mysql = mysql;
   }
 
-  public async create(stats: Stats, veauAccountID: VeauAccountID): Promise<Superposition<void, DataSourceError>> {
+  public async create(stats: Stats, veauAccountID: VeauAccountID): Promise<Superposition<unknown, DataSourceError>> {
     const statsUpdateTransaction: StatsUpdateTransaction = new StatsUpdateTransaction(
       stats,
       veauAccountID,
@@ -41,7 +42,7 @@ export class StatsCommand implements IStatsCommand, IKernelCommand {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public deleteByStatsID(statsID: StatsID): Promise<Superposition<void, DataSourceError>> {
-    return Promise.reject<Superposition<void, DataSourceError>>(new UnimplementedError());
+  public deleteByStatsID(statsID: StatsID): Promise<Superposition<unknown, DataSourceError>> {
+    return Promise.reject<Superposition<unknown, DataSourceError>>(new UnimplementedError());
   }
 }

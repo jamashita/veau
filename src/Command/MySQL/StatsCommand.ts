@@ -1,7 +1,8 @@
-import { Alive, DataSourceError, Dead, ISQL, MySQLError, Superposition } from 'publikum';
+import { DataSourceError, ISQL, MySQLError, Schrodinger, Superposition } from 'publikum';
+
 import { Stats } from '../../Entity/Stats';
-import { StatsID } from '../../VO/StatsID';
-import { VeauAccountID } from '../../VO/VeauAccountID';
+import { StatsID } from '../../VO/StatsOutline/StatsID';
+import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
 import { IMySQLCommand } from '../Interface/IMySQLCommand';
 import { IStatsCommand } from '../Interface/IStatsCommand';
 
@@ -14,7 +15,7 @@ export class StatsCommand implements IStatsCommand, IMySQLCommand {
     this.sql = sql;
   }
 
-  public async create(stats: Stats, veauAccountID: VeauAccountID): Promise<Superposition<void, DataSourceError>> {
+  public create(stats: Stats, veauAccountID: VeauAccountID): Promise<Superposition<unknown, DataSourceError>> {
     const query: string = `INSERT INTO stats VALUES (
       :statsID,
       :languageID,
@@ -26,49 +27,33 @@ export class StatsCommand implements IStatsCommand, IMySQLCommand {
       :updatedAt
       );`;
 
-    // prettier-ignore
-    try {
-      await this.sql.execute<unknown>(query, {
-        statsID: stats.getStatsID().get().get(),
-        languageID: stats.getLanguage().getLanguageID().get().get(),
-        regionID: stats.getRegion().getRegionID().get().get(),
-        termID: stats.getTerm().getTermID().get().get(),
-        veauAccountID: veauAccountID.get().get(),
-        name: stats.getName().get(),
-        unit: stats.getUnit().get(),
-        updatedAt: stats.getUpdatedAt().toString()
-      });
-
-      return Alive.of<DataSourceError>();
-    }
-    catch (err) {
-      if (err instanceof MySQLError) {
-        return Dead.of<MySQLError>(err);
-      }
-
-      throw err;
-    }
+    return Promise.resolve<Superposition<unknown, MySQLError>>(
+      Schrodinger.playground<unknown, MySQLError>(() => {
+        return this.sql.execute<unknown>(query, {
+          statsID: stats.getStatsID().get().get(),
+          languageID: stats.getLanguage().getLanguageID().get().get(),
+          regionID: stats.getRegion().getRegionID().get().get(),
+          termID: stats.getTerm().getTermID().get().get(),
+          veauAccountID: veauAccountID.get().get(),
+          name: stats.getName().get(),
+          unit: stats.getUnit().get(),
+          updatedAt: stats.getUpdatedAt().toString()
+        });
+      })
+    );
   }
 
-  public async deleteByStatsID(statsID: StatsID): Promise<Superposition<void, DataSourceError>> {
+  public deleteByStatsID(statsID: StatsID): Promise<Superposition<unknown, DataSourceError>> {
     const query: string = `DELETE R1
       FROM stats R1
       WHERE R1.stats_id = :statsID;`;
 
-    // prettier-ignore
-    try {
-      await this.sql.execute<unknown>(query, {
-        statsID: statsID.get().get()
-      });
-
-      return Alive.of<DataSourceError>();
-    }
-    catch (err) {
-      if (err instanceof MySQLError) {
-        return Dead.of<MySQLError>(err);
-      }
-
-      throw err;
-    }
+    return Promise.resolve<Superposition<unknown, MySQLError>>(
+      Schrodinger.playground<unknown, MySQLError>(() => {
+        return this.sql.execute<unknown>(query, {
+          statsID: statsID.get().get()
+        });
+      })
+    );
   }
 }

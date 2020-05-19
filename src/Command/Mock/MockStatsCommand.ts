@@ -1,4 +1,5 @@
 import { DataSourceError, Superposition, UnimplementedError } from 'publikum';
+
 import { IMockCommand } from '../Interface/IMockCommand';
 import { IStatsCommand } from '../Interface/IStatsCommand';
 
@@ -10,7 +11,7 @@ export class MockStatsCommand implements IStatsCommand, IMockCommand {
     return Promise.reject<Superposition<void, DataSourceError>>(new UnimplementedError());
   }
 
-  public async deleteByStatsID(): Promise<Superposition<void, DataSourceError>> {
+  public deleteByStatsID(): Promise<Superposition<void, DataSourceError>> {
     return Promise.reject<Superposition<void, DataSourceError>>(new UnimplementedError());
   }
 }

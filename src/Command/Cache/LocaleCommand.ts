@@ -1,8 +1,9 @@
 import { inject, injectable } from 'inversify';
-import { Alive, CacheError, DataSourceError, Dead, ICache, Superposition } from 'publikum';
+import { CacheError, DataSourceError, ICache, Schrodinger, Superposition } from 'publikum';
+
 import { TYPE } from '../../Container/Types';
 import { VAULT_LOCALE_KEY } from '../../Infrastructure/VeauCache';
-import { Locale } from '../../VO/Locale';
+import { Locale } from '../../VO/Locale/Locale';
 import { ICacheCommand } from '../Interface/ICacheCommand';
 import { ILocaleCommand } from '../Interface/ILocaleCommand';
 
@@ -16,22 +17,11 @@ export class LocaleCommand implements ILocaleCommand, ICacheCommand {
     this.cache = cache;
   }
 
-  public create(locale: Locale): Promise<Superposition<void, DataSourceError>> {
-    // prettier-ignore
-    try {
-      this.cache.set(VAULT_LOCALE_KEY, locale);
-
-      // eslint-disable-next-line @typescript-eslint/return-await
-      return Promise.resolve<Superposition<void, DataSourceError>>(Alive.of<DataSourceError>());
-    }
-    catch (err) {
-      if (err instanceof CacheError) {
-        // eslint-disable-next-line @typescript-eslint/return-await
-        return Promise.resolve<Superposition<void, CacheError>>(Dead.of<CacheError>(err));
-      }
-
-      // eslint-disable-next-line @typescript-eslint/return-await
-      return Promise.reject<Superposition<void, DataSourceError>>(err);
-    }
+  public create(locale: Locale): Promise<Superposition<unknown, DataSourceError>> {
+    return Promise.resolve<Superposition<unknown, CacheError>>(
+      Schrodinger.playground<unknown, CacheError>(() => {
+        return this.cache.set(VAULT_LOCALE_KEY, locale);
+      })
+    );
   }
 }

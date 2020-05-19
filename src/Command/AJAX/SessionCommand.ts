@@ -1,7 +1,7 @@
 import { OK } from 'http-status';
 import { inject, injectable } from 'inversify';
-import { AJAXResponse, Alive, DataSourceError, Dead, IAJAX, Superposition } from 'publikum';
-import { AJAXError } from 'publikum/AJAX';
+import { AJAXError, AJAXResponse, Alive, DataSourceError, Dead, IAJAX, Superposition } from 'publikum';
+
 import { TYPE } from '../../Container/Types';
 import { IAJAXCommand } from '../Interface/IAJAXCommand';
 import { ISessionCommand } from '../Interface/ISessionCommand';
@@ -16,7 +16,7 @@ export class SessionCommand implements ISessionCommand, IAJAXCommand {
     this.ajax = ajax;
   }
 
-  public async delete(): Promise<Superposition<void, DataSourceError>> {
+  public async delete(): Promise<Superposition<unknown, DataSourceError>> {
     const response: AJAXResponse<unknown> = await this.ajax.delete<unknown>('/api/destroy');
 
     switch (response.status) {

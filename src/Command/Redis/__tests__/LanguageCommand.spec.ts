@@ -1,11 +1,13 @@
-import { DataSourceError, MockError, MockRedis, MockRedisString, RedisError, Superposition } from 'publikum';
 import 'reflect-metadata';
+
+import { DataSourceError, MockError, MockRedis, MockRedisString, RedisError, Superposition } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
-import { MockLanguage } from '../../../VO/Mock/MockLanguage';
-import { MockLanguageName } from '../../../VO/Mock/MockLanguageName';
-import { MockLanguages } from '../../../VO/Mock/MockLanguages';
+import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';
+import { MockLanguageName } from '../../../VO/Language/Mock/MockLanguageName';
+import { MockLanguages } from '../../../VO/Language/Mock/MockLanguages';
 import { LanguageCommand } from '../LanguageCommand';
 
 describe('LanguageCommand', () => {
@@ -45,7 +47,7 @@ describe('LanguageCommand', () => {
       stub2.resolves();
 
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const superposition: Superposition<void, DataSourceError> = await languageCommand.insertAll(languages);
+      const superposition: Superposition<unknown, DataSourceError> = await languageCommand.insertAll(languages);
 
       expect(stub1.withArgs('LANGUAGES', JSON.stringify(languages.toJSON())).called).toBe(true);
       expect(stub2.withArgs('LANGUAGES', 3 * 60 * 60).called).toBe(true);
@@ -69,7 +71,7 @@ describe('LanguageCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const superposition: Superposition<void, DataSourceError> = await languageCommand.insertAll(languages);
+      const superposition: Superposition<unknown, DataSourceError> = await languageCommand.insertAll(languages);
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(
@@ -103,7 +105,7 @@ describe('LanguageCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const superposition: Superposition<void, DataSourceError> = await languageCommand.insertAll(languages);
+      const superposition: Superposition<unknown, DataSourceError> = await languageCommand.insertAll(languages);
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(
@@ -144,7 +146,7 @@ describe('LanguageCommand', () => {
       stub.resolves(true);
 
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const superposition: Superposition<void, DataSourceError> = await languageCommand.deleteAll();
+      const superposition: Superposition<unknown, DataSourceError> = await languageCommand.deleteAll();
 
       expect(stub.withArgs('LANGUAGES').called).toBe(true);
       expect(superposition.isAlive()).toBe(true);
@@ -159,7 +161,7 @@ describe('LanguageCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const superposition: Superposition<void, DataSourceError> = await languageCommand.deleteAll();
+      const superposition: Superposition<unknown, DataSourceError> = await languageCommand.deleteAll();
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(
@@ -185,7 +187,7 @@ describe('LanguageCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      const superposition: Superposition<void, DataSourceError> = await languageCommand.deleteAll();
+      const superposition: Superposition<unknown, DataSourceError> = await languageCommand.deleteAll();
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(

@@ -10,9 +10,10 @@ import {
   Superposition,
   UnimplementedError
 } from 'publikum';
+
 import { TYPE } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats';
-import { StatsID } from '../../VO/StatsID';
+import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { IAJAXCommand } from '../Interface/IAJAXCommand';
 import { IStatsCommand } from '../Interface/IStatsCommand';
 
@@ -26,7 +27,7 @@ export class StatsCommand implements IStatsCommand, IAJAXCommand {
     this.ajax = ajax;
   }
 
-  public async create(stats: Stats): Promise<Superposition<void, DataSourceError>> {
+  public async create(stats: Stats): Promise<Superposition<unknown, DataSourceError>> {
     const response: AJAXResponse<unknown> = await this.ajax.post<unknown>('/api/stats', stats.toJSON());
 
     switch (response.status) {
@@ -40,7 +41,7 @@ export class StatsCommand implements IStatsCommand, IAJAXCommand {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public deleteByStatsID(statsID: StatsID): Promise<Superposition<void, DataSourceError>> {
-    return Promise.reject<Superposition<void, DataSourceError>>(new UnimplementedError());
+  public deleteByStatsID(statsID: StatsID): Promise<Superposition<unknown, DataSourceError>> {
+    return Promise.reject<Superposition<unknown, DataSourceError>>(new UnimplementedError());
   }
 }

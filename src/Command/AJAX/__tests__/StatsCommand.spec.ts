@@ -1,20 +1,22 @@
+import 'reflect-metadata';
+
 import { BAD_REQUEST, CREATED } from 'http-status';
 import { AJAXError, DataSourceError, MockAJAX, Superposition, UUID } from 'publikum';
-import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
 import { TYPE } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { MockStats } from '../../../Entity/Mock/MockStats';
-import { MockLanguage } from '../../../VO/Mock/MockLanguage';
-import { MockLanguageID } from '../../../VO/Mock/MockLanguageID';
-import { MockRegion } from '../../../VO/Mock/MockRegion';
-import { MockRegionID } from '../../../VO/Mock/MockRegionID';
-import { MockStatsID } from '../../../VO/Mock/MockStatsID';
-import { MockStatsName } from '../../../VO/Mock/MockStatsName';
-import { MockStatsOutline } from '../../../VO/Mock/MockStatsOutline';
-import { MockStatsUnit } from '../../../VO/Mock/MockStatsUnit';
-import { MockTerm } from '../../../VO/Mock/MockTerm';
-import { MockTermID } from '../../../VO/Mock/MockTermID';
+import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';
+import { MockLanguageID } from '../../../VO/Language/Mock/MockLanguageID';
+import { MockRegion } from '../../../VO/Region/Mock/MockRegion';
+import { MockRegionID } from '../../../VO/Region/Mock/MockRegionID';
+import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
+import { MockStatsName } from '../../../VO/StatsOutline/Mock/MockStatsName';
+import { MockStatsOutline } from '../../../VO/StatsOutline/Mock/MockStatsOutline';
+import { MockStatsUnit } from '../../../VO/StatsOutline/Mock/MockStatsUnit';
+import { MockTerm } from '../../../VO/Term/Mock/MockTerm';
+import { MockTermID } from '../../../VO/Term/Mock/MockTermID';
 import { StatsCommand } from '../StatsCommand';
 
 describe('StatsCommand', () => {
@@ -65,7 +67,7 @@ describe('StatsCommand', () => {
       });
 
       const statsCommand: StatsCommand = new StatsCommand(ajax);
-      const superposition: Superposition<void, DataSourceError> = await statsCommand.create(stats);
+      const superposition: Superposition<unknown, DataSourceError> = await statsCommand.create(stats);
 
       expect(
         stub.withArgs('/api/stats', {
@@ -109,7 +111,7 @@ describe('StatsCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsCommand: StatsCommand = new StatsCommand(ajax);
-      const superposition: Superposition<void, DataSourceError> = await statsCommand.create(stats);
+      const superposition: Superposition<unknown, DataSourceError> = await statsCommand.create(stats);
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(

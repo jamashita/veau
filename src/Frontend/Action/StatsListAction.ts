@@ -5,14 +5,28 @@ import { StatsName } from '../../VO/StatsOutline/StatsName';
 import { StatsUnit } from '../../VO/StatsOutline/StatsUnit';
 import { Term } from '../../VO/Term/Term';
 import {
-    STATS_LIST_CLOSE_STATS_MODAL, STATS_LIST_INITIALIZE, STATS_LIST_ISO3166_SELECTED,
-    STATS_LIST_ISO639_SELECTED, STATS_LIST_NAME_TYPED, STATS_LIST_OPEN_STATS_MODAL,
-    STATS_LIST_RESET_NEW_STATS, STATS_LIST_SAVE_NEW_STATS, STATS_LIST_TERM_SELECTED,
-    STATS_LIST_UNIT_TYPED, STATS_LIST_UPDATE_NEW_STATS, StatsListCloseNewStatsModalAction,
-    StatsListInitializeAction, StatsListISO3166SelectedAction, StatsListISO639SelectedAction,
-    StatsListNameTypedAction, StatsListOpenNewStatsModalAction, StatsListResetNewStatsAction,
-    StatsListSaveNewStatsAction, StatsListTermSelectedAction, StatsListUnitTypedAction,
-    StatsListUpdateNewStatsAction
+  STATS_LIST_CLOSE_STATS_MODAL,
+  STATS_LIST_INITIALIZE,
+  STATS_LIST_ISO3166_SELECTED,
+  STATS_LIST_ISO639_SELECTED,
+  STATS_LIST_NAME_TYPED,
+  STATS_LIST_OPEN_STATS_MODAL,
+  STATS_LIST_RESET_NEW_STATS,
+  STATS_LIST_SAVE_NEW_STATS,
+  STATS_LIST_TERM_SELECTED,
+  STATS_LIST_UNIT_TYPED,
+  STATS_LIST_UPDATE_NEW_STATS,
+  StatsListCloseNewStatsModalAction,
+  StatsListInitializeAction,
+  StatsListISO3166SelectedAction,
+  StatsListISO639SelectedAction,
+  StatsListNameTypedAction,
+  StatsListOpenNewStatsModalAction,
+  StatsListResetNewStatsAction,
+  StatsListSaveNewStatsAction,
+  StatsListTermSelectedAction,
+  StatsListUnitTypedAction,
+  StatsListUpdateNewStatsAction
 } from './Action';
 
 export const initStatsList = (): StatsListInitializeAction => {

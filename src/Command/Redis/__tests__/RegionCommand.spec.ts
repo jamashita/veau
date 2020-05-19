@@ -1,11 +1,13 @@
-import { DataSourceError, MockError, MockRedis, MockRedisString, RedisError, Superposition } from 'publikum';
 import 'reflect-metadata';
+
+import { DataSourceError, MockError, MockRedis, MockRedisString, RedisError, Superposition } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
-import { MockRegion } from '../../../VO/Mock/MockRegion';
-import { MockRegionName } from '../../../VO/Mock/MockRegionName';
-import { MockRegions } from '../../../VO/Mock/MockRegions';
+import { MockRegion } from '../../../VO/Region/Mock/MockRegion';
+import { MockRegionName } from '../../../VO/Region/Mock/MockRegionName';
+import { MockRegions } from '../../../VO/Region/Mock/MockRegions';
 import { RegionCommand } from '../RegionCommand';
 
 describe('RegionCommand', () => {
@@ -45,7 +47,7 @@ describe('RegionCommand', () => {
       stub2.resolves();
 
       const regionCommand: RegionCommand = new RegionCommand(redis);
-      const superposition: Superposition<void, DataSourceError> = await regionCommand.insertAll(regions);
+      const superposition: Superposition<unknown, DataSourceError> = await regionCommand.insertAll(regions);
 
       expect(stub1.withArgs('REGIONS', JSON.stringify(regions.toJSON())).called).toBe(true);
       expect(stub2.withArgs('REGIONS', 3 * 60 * 60).called).toBe(true);
@@ -69,7 +71,7 @@ describe('RegionCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionCommand: RegionCommand = new RegionCommand(redis);
-      const superposition: Superposition<void, DataSourceError> = await regionCommand.insertAll(regions);
+      const superposition: Superposition<unknown, DataSourceError> = await regionCommand.insertAll(regions);
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(
@@ -103,7 +105,7 @@ describe('RegionCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionCommand: RegionCommand = new RegionCommand(redis);
-      const superposition: Superposition<void, DataSourceError> = await regionCommand.insertAll(regions);
+      const superposition: Superposition<unknown, DataSourceError> = await regionCommand.insertAll(regions);
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(
@@ -145,7 +147,7 @@ describe('RegionCommand', () => {
       stub.resolves(true);
 
       const regionCommand: RegionCommand = new RegionCommand(redis);
-      const superposition: Superposition<void, DataSourceError> = await regionCommand.deleteAll();
+      const superposition: Superposition<unknown, DataSourceError> = await regionCommand.deleteAll();
 
       expect(stub.withArgs('REGIONS').called).toBe(true);
       expect(superposition.isAlive()).toBe(true);
@@ -160,7 +162,7 @@ describe('RegionCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionCommand: RegionCommand = new RegionCommand(redis);
-      const superposition: Superposition<void, DataSourceError> = await regionCommand.deleteAll();
+      const superposition: Superposition<unknown, DataSourceError> = await regionCommand.deleteAll();
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(
@@ -186,7 +188,7 @@ describe('RegionCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const regionCommand: RegionCommand = new RegionCommand(redis);
-      const superposition: Superposition<void, DataSourceError> = await regionCommand.deleteAll();
+      const superposition: Superposition<unknown, DataSourceError> = await regionCommand.deleteAll();
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(

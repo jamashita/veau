@@ -1,11 +1,12 @@
 import { DataSourceError, MockError, MockSQL, MySQLError, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { MockAsOf } from '../../../VO/Mock/MockAsOf';
-import { MockNumericalValue } from '../../../VO/Mock/MockNumericalValue';
-import { MockStatsID } from '../../../VO/Mock/MockStatsID';
-import { MockStatsItemID } from '../../../VO/Mock/MockStatsItemID';
-import { MockStatsValue } from '../../../VO/Mock/MockStatsValue';
-import { StatsValue } from '../../../VO/StatsValue';
+
+import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
+import { MockNumericalValue } from '../../../VO/NumericalValue/Mock/MockNumericalValue';
+import { MockStatsItemID } from '../../../VO/StatsItem/Mock/MockStatsItemID';
+import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
+import { MockStatsValue } from '../../../VO/StatsValue/Mock/MockStatsValue';
+import { StatsValue } from '../../../VO/StatsValue/StatsValue';
 import { StatsValueCommand } from '../StatsValueCommand';
 
 describe('StatsValueCommand', () => {
@@ -23,7 +24,7 @@ describe('StatsValueCommand', () => {
       sql.execute = stub;
 
       const statsValueCommand: StatsValueCommand = new StatsValueCommand(sql);
-      const superposition: Superposition<void, DataSourceError> = await statsValueCommand.create(
+      const superposition: Superposition<unknown, DataSourceError> = await statsValueCommand.create(
         new MockStatsItemID(uuid),
         statsValue
       );
@@ -56,7 +57,7 @@ describe('StatsValueCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsValueCommand: StatsValueCommand = new StatsValueCommand(sql);
-      const superposition: Superposition<void, DataSourceError> = await statsValueCommand.create(
+      const superposition: Superposition<unknown, DataSourceError> = await statsValueCommand.create(
         new MockStatsItemID(),
         statsValue
       );
@@ -99,7 +100,7 @@ describe('StatsValueCommand', () => {
       sql.execute = stub;
 
       const statsValueCommand: StatsValueCommand = new StatsValueCommand(sql);
-      const superposition: Superposition<void, DataSourceError> = await statsValueCommand.deleteByStatsID(statsID);
+      const superposition: Superposition<unknown, DataSourceError> = await statsValueCommand.deleteByStatsID(statsID);
 
       expect(
         stub.withArgs(
@@ -129,7 +130,7 @@ describe('StatsValueCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const statsValueCommand: StatsValueCommand = new StatsValueCommand(sql);
-      const superposition: Superposition<void, DataSourceError> = await statsValueCommand.deleteByStatsID(statsID);
+      const superposition: Superposition<unknown, DataSourceError> = await statsValueCommand.deleteByStatsID(statsID);
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(

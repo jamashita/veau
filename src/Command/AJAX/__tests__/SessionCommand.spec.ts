@@ -1,7 +1,9 @@
+import 'reflect-metadata';
+
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import { AJAXError, DataSourceError, MockAJAX, Superposition } from 'publikum';
-import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
 import { TYPE } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { SessionCommand } from '../SessionCommand';
@@ -28,7 +30,7 @@ describe('SessionCommand', () => {
       });
 
       const sessionCommand: SessionCommand = new SessionCommand(ajax);
-      const superposition: Superposition<void, DataSourceError> = await sessionCommand.delete();
+      const superposition: Superposition<unknown, DataSourceError> = await sessionCommand.delete();
 
       expect(superposition.isAlive()).toBe(true);
       expect(stub.withArgs('/api/destroy').called).toBe(true);
@@ -46,7 +48,7 @@ describe('SessionCommand', () => {
       const spy2: SinonSpy = sinon.spy();
 
       const sessionCommand: SessionCommand = new SessionCommand(ajax);
-      const superposition: Superposition<void, DataSourceError> = await sessionCommand.delete();
+      const superposition: Superposition<unknown, DataSourceError> = await sessionCommand.delete();
 
       expect(superposition.isDead()).toBe(true);
       superposition.match<void>(
