@@ -5,7 +5,7 @@ import { TYPE } from '../../Container/Types';
 import { VeauAccountError } from '../../VO/VeauAccount/Error/VeauAccountError';
 import { EntranceInformation } from '../../VO/EntranceInformation/EntranceInformation';
 import { VeauAccount, VeauAccountJSON } from '../../VO/VeauAccount/VeauAccount';
-import { IAJAXQuery } from '../Interface/IAJAXQuery';
+import { IAJAXQuery } from './Interface/IAJAXQuery';
 import { IVeauAccountQuery } from '../Interface/IVeauAccountQuery';
 
 @injectable()

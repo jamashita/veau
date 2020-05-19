@@ -24,7 +24,7 @@ import { Language, LanguageJSON } from '../../VO/Language/Language';
 import { LanguageID } from '../../VO/Language/LanguageID';
 import { Languages } from '../../VO/Language/Languages';
 import { ILanguageQuery } from '../Interface/ILanguageQuery';
-import { IRedisQuery } from '../Interface/IRedisQuery';
+import { IRedisQuery } from './Interface/IRedisQuery';
 
 @injectable()
 export class LanguageQuery implements ILanguageQuery, IRedisQuery {

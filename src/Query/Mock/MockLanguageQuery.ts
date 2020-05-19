@@ -6,7 +6,7 @@ import { LanguagesError } from '../../VO/Language/Error/LanguagesError';
 import { Language } from '../../VO/Language/Language';
 import { Languages } from '../../VO/Language/Languages';
 import { ILanguageQuery } from '../Interface/ILanguageQuery';
-import { IMockQuery } from '../Interface/IMockQuery';
+import { IMockQuery } from './Interface/IMockQuery';
 
 export class MockLanguageQuery implements ILanguageQuery, IMockQuery {
   public readonly noun: 'LanguageQuery' = 'LanguageQuery';

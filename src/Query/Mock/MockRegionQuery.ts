@@ -5,7 +5,7 @@ import { RegionError } from '../../VO/Region/Error/RegionError';
 import { RegionsError } from '../../VO/Region/Error/RegionsError';
 import { Region } from '../../VO/Region/Region';
 import { Regions } from '../../VO/Region/Regions';
-import { IMockQuery } from '../Interface/IMockQuery';
+import { IMockQuery } from './Interface/IMockQuery';
 import { IRegionQuery } from '../Interface/IRegionQuery';
 
 export class MockRegionQuery implements IRegionQuery, IMockQuery {

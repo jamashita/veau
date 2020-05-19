@@ -19,7 +19,7 @@ import { StatsItemID } from '../../VO/StatsItem/StatsItemID';
 import { StatsValuesError } from '../../VO/StatsValue/Error/StatsValuesError';
 import { StatsValueRow } from '../../VO/StatsValue/StatsValue';
 import { StatsValues } from '../../VO/StatsValue/StatsValues';
-import { IMySQLQuery } from '../Interface/IMySQLQuery';
+import { IMySQLQuery } from './Interface/IMySQLQuery';
 import { IStatsValueQuery } from '../Interface/IStatsValueQuery';
 
 @injectable()

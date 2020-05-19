@@ -23,7 +23,7 @@ import { ISO3166 } from '../../VO/Region/ISO3166';
 import { Region, RegionJSON } from '../../VO/Region/Region';
 import { RegionID } from '../../VO/Region/RegionID';
 import { Regions } from '../../VO/Region/Regions';
-import { IRedisQuery } from '../Interface/IRedisQuery';
+import { IRedisQuery } from './Interface/IRedisQuery';
 import { IRegionQuery } from '../Interface/IRegionQuery';
 
 @injectable()

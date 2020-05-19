@@ -7,7 +7,7 @@ import { Stats, StatsJSON } from '../../Entity/Stats/Stats';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { StatsError } from '../../Entity/Stats/Error/StatsError';
 import { StatsID } from '../../VO/StatsOutline/StatsID';
-import { IAJAXQuery } from '../Interface/IAJAXQuery';
+import { IAJAXQuery } from './Interface/IAJAXQuery';
 import { IStatsQuery } from '../Interface/IStatsQuery';
 
 @injectable()

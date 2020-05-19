@@ -4,7 +4,7 @@ import { AJAXError, AJAXResponse, DataSourceError, Dead, IAJAX, Superposition } 
 import { TYPE } from '../../Container/Types';
 import { LocaleError } from '../../VO/Locale/Error/LocaleError';
 import { Locale, LocaleJSON } from '../../VO/Locale/Locale';
-import { IAJAXQuery } from '../Interface/IAJAXQuery';
+import { IAJAXQuery } from './Interface/IAJAXQuery';
 import { ILocaleQuery } from '../Interface/ILocaleQuery';
 
 @injectable()

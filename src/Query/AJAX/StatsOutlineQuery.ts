@@ -10,7 +10,7 @@ import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { StatsOutline, StatsOutlineJSON } from '../../VO/StatsOutline/StatsOutline';
 import { StatsOutlines } from '../../VO/StatsOutline/StatsOutlines';
 import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
-import { IAJAXQuery } from '../Interface/IAJAXQuery';
+import { IAJAXQuery } from './Interface/IAJAXQuery';
 import { IStatsOutlineQuery } from '../Interface/IStatsOutlineQuery';
 
 @injectable()

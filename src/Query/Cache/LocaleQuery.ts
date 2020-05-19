@@ -4,7 +4,7 @@ import { TYPE } from '../../Container/Types';
 import { LocaleError } from '../../VO/Locale/Error/LocaleError';
 import { VAULT_LOCALE_KEY } from '../../Infrastructure/VeauCache';
 import { Locale } from '../../VO/Locale/Locale';
-import { ICacheQuery } from '../Interface/ICacheQuery';
+import { ICacheQuery } from './Interface/ICacheQuery';
 import { ILocaleQuery } from '../Interface/ILocaleQuery';
 
 @injectable()

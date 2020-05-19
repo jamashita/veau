@@ -1,4 +1,4 @@
-import { ICommand } from './ICommand';
+import { ICommand } from '../../Interface/ICommand';
 
 export interface IMockCommand extends ICommand {
   readonly source: 'Mock';

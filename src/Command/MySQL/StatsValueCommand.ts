@@ -3,7 +3,7 @@ import { DataSourceError, ISQL, MySQLError, Schrodinger, Superposition } from 'p
 import { StatsItemID } from '../../VO/StatsItem/StatsItemID';
 import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { StatsValue } from '../../VO/StatsValue/StatsValue';
-import { IMySQLCommand } from '../Interface/IMySQLCommand';
+import { IMySQLCommand } from './Interface/IMySQLCommand';
 import { IStatsValueCommand } from '../Interface/IStatsValueCommand';
 
 export class StatsValueCommand implements IStatsValueCommand, IMySQLCommand {

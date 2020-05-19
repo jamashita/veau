@@ -10,7 +10,7 @@ import { Region } from '../../VO/Region/Region';
 import { RegionID } from '../../VO/Region/RegionID';
 import { Regions } from '../../VO/Region/Regions';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
-import { IKernelQuery } from '../Interface/IKernelQuery';
+import { IKernelQuery } from './Interface/IKernelQuery';
 import { IRegionQuery } from '../Interface/IRegionQuery';
 
 @injectable()

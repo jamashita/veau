@@ -15,7 +15,7 @@ import { VeauAccount } from '../../VO/VeauAccount/VeauAccount';
 import { IIdentityQuery } from '../Interface/IIdentityQuery';
 import { ILanguageQuery } from '../Interface/ILanguageQuery';
 import { IRegionQuery } from '../Interface/IRegionQuery';
-import { IVaultQuery } from '../Interface/IVaultQuery';
+import { IVaultQuery } from './Interface/IVaultQuery';
 import { IVeauAccountQuery } from '../Interface/IVeauAccountQuery';
 
 @injectable()

@@ -16,7 +16,7 @@ import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { StatsOutline } from '../../VO/StatsOutline/StatsOutline';
 import { TermError } from '../../VO/Term/Error/TermError';
 import { Term } from '../../VO/Term/Term';
-import { IKernelQuery } from '../Interface/IKernelQuery';
+import { IKernelQuery } from './Interface/IKernelQuery';
 import { ILanguageQuery } from '../Interface/ILanguageQuery';
 import { IRegionQuery } from '../Interface/IRegionQuery';
 import { IStatsItemQuery } from '../Interface/IStatsItemQuery';

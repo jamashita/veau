@@ -13,7 +13,7 @@ import { RegionID } from '../../VO/Region/RegionID';
 import { Regions } from '../../VO/Region/Regions';
 import { ILocaleQuery } from '../Interface/ILocaleQuery';
 import { IRegionQuery } from '../Interface/IRegionQuery';
-import { IVaultQuery } from '../Interface/IVaultQuery';
+import { IVaultQuery } from './Interface/IVaultQuery';
 
 @injectable()
 export class RegionQuery implements IRegionQuery, IVaultQuery {

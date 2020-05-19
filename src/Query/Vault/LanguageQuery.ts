@@ -13,7 +13,7 @@ import { LocaleError } from '../../VO/Locale/Error/LocaleError';
 import { Locale } from '../../VO/Locale/Locale';
 import { ILanguageQuery } from '../Interface/ILanguageQuery';
 import { ILocaleQuery } from '../Interface/ILocaleQuery';
-import { IVaultQuery } from '../Interface/IVaultQuery';
+import { IVaultQuery } from './Interface/IVaultQuery';
 
 @injectable()
 export class LanguageQuery implements ILanguageQuery, IVaultQuery {

@@ -9,7 +9,7 @@ import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { StatsOutline, StatsOutlineRow } from '../../VO/StatsOutline/StatsOutline';
 import { StatsOutlines } from '../../VO/StatsOutline/StatsOutlines';
 import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
-import { IMySQLQuery } from '../Interface/IMySQLQuery';
+import { IMySQLQuery } from './Interface/IMySQLQuery';
 import { IStatsOutlineQuery } from '../Interface/IStatsOutlineQuery';
 
 @injectable()

@@ -3,7 +3,7 @@ import { inject, injectable } from 'inversify';
 import { AJAXError, AJAXResponse, Alive, DataSourceError, Dead, IAJAX, Superposition } from 'publikum';
 
 import { TYPE } from '../../Container/Types';
-import { IAJAXCommand } from '../Interface/IAJAXCommand';
+import { IAJAXCommand } from './Interface/IAJAXCommand';
 import { ISessionCommand } from '../Interface/ISessionCommand';
 
 @injectable()

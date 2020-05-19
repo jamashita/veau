@@ -10,7 +10,7 @@ import { Language } from '../../VO/Language/Language';
 import { LanguageID } from '../../VO/Language/LanguageID';
 import { Languages } from '../../VO/Language/Languages';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
-import { IKernelQuery } from '../Interface/IKernelQuery';
+import { IKernelQuery } from './Interface/IKernelQuery';
 import { ILanguageQuery } from '../Interface/ILanguageQuery';
 
 @injectable()

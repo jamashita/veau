@@ -2,7 +2,7 @@ import { injectable } from 'inversify';
 import { DataSourceError, Superposition, UnimplementedError } from 'publikum';
 
 import { ILocaleCommand } from '../Interface/ILocaleCommand';
-import { IMockCommand } from '../Interface/IMockCommand';
+import { IMockCommand } from './Interface/IMockCommand';
 
 @injectable()
 export class MockLocaleCommand implements ILocaleCommand, IMockCommand {

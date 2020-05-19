@@ -14,7 +14,7 @@ import {
 import { TYPE } from '../../Container/Types';
 import { REDIS_REGION_KEY } from '../../Infrastructure/VeauRedis';
 import { Regions } from '../../VO/Region/Regions';
-import { IRedisCommand } from '../Interface/IRedisCommand';
+import { IRedisCommand } from './Interface/IRedisCommand';
 import { IRegionCommand } from '../Interface/IRegionCommand';
 
 const DURATION: number = 3 * 60 * 60;

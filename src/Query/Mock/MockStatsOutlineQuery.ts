@@ -5,7 +5,7 @@ import { StatsOutlineError } from '../../VO/StatsOutline/Error/StatsOutlineError
 import { StatsOutlinesError } from '../../VO/StatsOutline/Error/StatsOutlinesError';
 import { StatsOutline } from '../../VO/StatsOutline/StatsOutline';
 import { StatsOutlines } from '../../VO/StatsOutline/StatsOutlines';
-import { IMockQuery } from '../Interface/IMockQuery';
+import { IMockQuery } from './Interface/IMockQuery';
 import { IStatsOutlineQuery } from '../Interface/IStatsOutlineQuery';
 
 export class MockStatsOutlineQuery implements IStatsOutlineQuery, IMockQuery {

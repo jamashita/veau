@@ -9,7 +9,7 @@ import { StatsItemID } from '../../VO/StatsItem/StatsItemID';
 import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { StatsValuesError } from '../../VO/StatsValue/Error/StatsValuesError';
 import { StatsValues } from '../../VO/StatsValue/StatsValues';
-import { IMySQLQuery } from '../Interface/IMySQLQuery';
+import { IMySQLQuery } from './Interface/IMySQLQuery';
 import { IStatsItemQuery } from '../Interface/IStatsItemQuery';
 import { IStatsValueQuery } from '../Interface/IStatsValueQuery';
 

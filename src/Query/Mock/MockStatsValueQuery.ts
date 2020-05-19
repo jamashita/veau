@@ -3,7 +3,7 @@ import { DataSourceError, Project, Superposition, UnimplementedError } from 'pub
 import { StatsItemID } from '../../VO/StatsItem/StatsItemID';
 import { StatsValuesError } from '../../VO/StatsValue/Error/StatsValuesError';
 import { StatsValues } from '../../VO/StatsValue/StatsValues';
-import { IMockQuery } from '../Interface/IMockQuery';
+import { IMockQuery } from './Interface/IMockQuery';
 import { IStatsValueQuery } from '../Interface/IStatsValueQuery';
 
 export class MockStatsValueQuery implements IStatsValueQuery, IMockQuery {

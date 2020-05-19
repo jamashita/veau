@@ -9,7 +9,7 @@ import { ISO3166 } from '../../VO/Region/ISO3166';
 import { Region, RegionRow } from '../../VO/Region/Region';
 import { RegionID } from '../../VO/Region/RegionID';
 import { Regions } from '../../VO/Region/Regions';
-import { IMySQLQuery } from '../Interface/IMySQLQuery';
+import { IMySQLQuery } from './Interface/IMySQLQuery';
 import { IRegionQuery } from '../Interface/IRegionQuery';
 
 @injectable()

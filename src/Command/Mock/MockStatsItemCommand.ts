@@ -1,6 +1,6 @@
 import { DataSourceError, Superposition, UnimplementedError } from 'publikum';
 
-import { IMockCommand } from '../Interface/IMockCommand';
+import { IMockCommand } from './Interface/IMockCommand';
 import { IStatsItemCommand } from '../Interface/IStatsItemCommand';
 
 export class MockStatsItemCommand implements IStatsItemCommand, IMockCommand {

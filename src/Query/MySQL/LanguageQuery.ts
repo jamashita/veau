@@ -10,7 +10,7 @@ import { Language, LanguageRow } from '../../VO/Language/Language';
 import { LanguageID } from '../../VO/Language/LanguageID';
 import { Languages } from '../../VO/Language/Languages';
 import { ILanguageQuery } from '../Interface/ILanguageQuery';
-import { IMySQLQuery } from '../Interface/IMySQLQuery';
+import { IMySQLQuery } from './Interface/IMySQLQuery';
 
 @injectable()
 export class LanguageQuery implements ILanguageQuery, IMySQLQuery {

@@ -6,7 +6,7 @@ import { TYPE } from '../../Container/Types';
 import { LocaleError } from '../../VO/Locale/Error/LocaleError';
 import { Locale } from '../../VO/Locale/Locale';
 import { ILocaleQuery } from '../Interface/ILocaleQuery';
-import { IVaultQuery } from '../Interface/IVaultQuery';
+import { IVaultQuery } from './Interface/IVaultQuery';
 
 @injectable()
 export class LocaleQuery implements ILocaleQuery, IVaultQuery {
