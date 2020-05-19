@@ -1,5 +1,6 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
-import { LoadingCount } from '../../../VO/LoadingCount';
+
+import { LoadingCount } from '../../../VO/LoadingCount/LoadingCount';
 import { LoadingIndicator as Component } from '../../Component/Molecule/LoadingIndicator';
 import { State } from '../../State';
 

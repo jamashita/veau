@@ -1,8 +1,9 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
-import { AccountName } from '../../../VO/AccountName';
-import { EntranceInformation } from '../../../VO/EntranceInformation';
-import { Password } from '../../../VO/Password';
+
+import { AccountName } from '../../../VO/Account/AccountName';
+import { EntranceInformation } from '../../../VO/EntranceInformation/EntranceInformation';
+import { Password } from '../../../VO/EntranceInformation/Password';
 import { Action } from '../../Action/Action';
 import { accountTyped, attemptLogin, passwordTyped } from '../../Action/EntranceAction';
 import { Entrance as Component } from '../../Component/Page/Entrance';

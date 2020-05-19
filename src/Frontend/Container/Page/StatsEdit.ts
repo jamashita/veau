@@ -3,20 +3,21 @@ import { Nullable, Quantum } from 'publikum';
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { match } from 'react-router-dom';
 import { Dispatch } from 'redux';
+
 import { Stats } from '../../../Entity/Stats';
 import { StatsItem } from '../../../Entity/StatsItem';
-import { AsOf } from '../../../VO/AsOf';
-import { Column } from '../../../VO/Column';
-import { Coordinate } from '../../../VO/Coordinate';
-import { ISO3166 } from '../../../VO/ISO3166';
-import { ISO639 } from '../../../VO/ISO639';
-import { Locale } from '../../../VO/Locale';
-import { NumericalValue } from '../../../VO/NumericalValue';
-import { Row } from '../../../VO/Row';
-import { StatsID } from '../../../VO/StatsID';
-import { StatsItemName } from '../../../VO/StatsItemName';
-import { StatsName } from '../../../VO/StatsName';
-import { StatsUnit } from '../../../VO/StatsUnit';
+import { AsOf } from '../../../VO/AsOf/AsOf';
+import { Column } from '../../../VO/Coordinate/Column';
+import { Coordinate } from '../../../VO/Coordinate/Coordinate';
+import { Row } from '../../../VO/Coordinate/Row';
+import { ISO639 } from '../../../VO/Language/ISO639';
+import { Locale } from '../../../VO/Locale/Locale';
+import { NumericalValue } from '../../../VO/NumericalValue/NumericalValue';
+import { ISO3166 } from '../../../VO/Region/ISO3166';
+import { StatsItemName } from '../../../VO/StatsItem/StatsItemName';
+import { StatsID } from '../../../VO/StatsOutline/StatsID';
+import { StatsName } from '../../../VO/StatsOutline/StatsName';
+import { StatsUnit } from '../../../VO/StatsOutline/StatsUnit';
 import { Action } from '../../Action/Action';
 import {
   initFailed,

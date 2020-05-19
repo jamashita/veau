@@ -1,14 +1,15 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
+
 import { Stats } from '../../../Entity/Stats';
-import { ISO3166 } from '../../../VO/ISO3166';
-import { ISO639 } from '../../../VO/ISO639';
-import { Locale } from '../../../VO/Locale';
-import { StatsID } from '../../../VO/StatsID';
-import { StatsListItems } from '../../../VO/StatsListItems';
-import { StatsName } from '../../../VO/StatsName';
-import { StatsUnit } from '../../../VO/StatsUnit';
-import { Term } from '../../../VO/Term';
+import { ISO639 } from '../../../VO/Language/ISO639';
+import { Locale } from '../../../VO/Locale/Locale';
+import { ISO3166 } from '../../../VO/Region/ISO3166';
+import { StatsListItems } from '../../../VO/StatsListItem/StatsListItems';
+import { StatsID } from '../../../VO/StatsOutline/StatsID';
+import { StatsName } from '../../../VO/StatsOutline/StatsName';
+import { StatsUnit } from '../../../VO/StatsOutline/StatsUnit';
+import { Term } from '../../../VO/Term/Term';
 import { Action } from '../../Action/Action';
 import { pushToStatsEdit } from '../../Action/RedirectAction';
 import {

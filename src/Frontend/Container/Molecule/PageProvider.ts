@@ -1,6 +1,7 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
-import { PageProvider as Provider } from '../../../VO/PageProvider';
+
+import { PageProvider as Provider } from '../../../VO/PageProvider/PageProvider';
 import { Action } from '../../Action/Action';
 import { logout } from '../../Action/LogoutAction';
 import { closeProvider } from '../../Action/PageProviderAction';
