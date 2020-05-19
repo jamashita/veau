@@ -3,7 +3,6 @@ import { DataSourceError, Present, Quantum, Superposition } from 'publikum';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { EMPTY, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mapTo, mergeMap } from 'rxjs/operators';
-import { StatsOutline } from 'src/VO/StatsOutline/StatsOutline';
 
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
 import { TYPE } from '../../Container/Types';
@@ -20,6 +19,7 @@ import { LanguageError } from '../../VO/Language/Error/LanguageError';
 import { Language } from '../../VO/Language/Language';
 import { RegionError } from '../../VO/Region/Error/RegionError';
 import { Region } from '../../VO/Region/Region';
+import { StatsOutline } from '../../VO/StatsOutline/StatsOutline';
 import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
 import {
   Action,

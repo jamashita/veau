@@ -5,7 +5,6 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { RegionError } from '../../../VO/Region/Error/RegionError';
 import { RegionsError } from '../../../VO/Region/Error/RegionsError';
 import { ISO3166 } from '../../../VO/Region/ISO3166';
@@ -13,6 +12,7 @@ import { MockRegionID } from '../../../VO/Region/Mock/MockRegionID';
 import { Region, RegionRow } from '../../../VO/Region/Region';
 import { RegionID } from '../../../VO/Region/RegionID';
 import { Regions } from '../../../VO/Region/Regions';
+import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { RegionQuery } from '../RegionQuery';
 
 describe('RegionQuery', () => {
