@@ -6,7 +6,7 @@ import { filter, map, mapTo, mergeMap } from 'rxjs/operators';
 
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
 import { TYPE } from '../../Container/Types';
-import { Stats } from '../../Entity/Stats';
+import { Stats } from '../../Entity/Stats/Stats';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { IRegionQuery } from '../../Query/Interface/IRegionQuery';

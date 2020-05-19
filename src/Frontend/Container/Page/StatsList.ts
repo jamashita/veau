@@ -1,7 +1,7 @@
 import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { Stats } from '../../../Entity/Stats';
+import { Stats } from '../../../Entity/Stats/Stats';
 import { ISO639 } from '../../../VO/Language/ISO639';
 import { Locale } from '../../../VO/Locale/Locale';
 import { ISO3166 } from '../../../VO/Region/ISO3166';

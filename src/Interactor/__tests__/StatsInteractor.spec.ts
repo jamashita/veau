@@ -5,7 +5,7 @@ import { MockStatsCommand } from '../../Command/Mock/MockStatsCommand';
 import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
 import { MockStats } from '../../Entity/Mock/MockStats';
-import { Stats } from '../../Entity/Stats';
+import { Stats } from '../../Entity/Stats/Stats';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { StatsError } from '../../Error/StatsError';
 import { StatsOutlinesError } from '../../VO/StatsOutline/Error/StatsOutlinesError';

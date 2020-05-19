@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify';
 import { DataSourceError, Noun, Superposition } from 'publikum';
 import { IStatsCommand } from '../Command/Interface/IStatsCommand';
 import { TYPE } from '../Container/Types';
-import { Stats } from '../Entity/Stats';
+import { Stats } from '../Entity/Stats/Stats';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { StatsError } from '../Error/StatsError';
 import { StatsOutlinesError } from '../VO/StatsOutline/Error/StatsOutlinesError';

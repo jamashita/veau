@@ -9,7 +9,7 @@ import { MockStatsOutline } from '../../VO/StatsOutline/Mock/MockStatsOutline';
 import { StatsOutline } from '../../VO/StatsOutline/StatsOutline';
 import { MockTerm } from '../../VO/Term/Mock/MockTerm';
 import { Term } from '../../VO/Term/Term';
-import { Stats } from '../Stats/Stats';
+import { Stats } from '../Stats';
 import { MockStatsItems } from '../StatsItem/Mock/MockStatsItems';
 import { StatsItems } from '../StatsItem/StatsItems';
 

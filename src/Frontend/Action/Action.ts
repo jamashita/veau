@@ -2,8 +2,8 @@ import { CallHistoryMethodAction, LocationChangeAction } from 'connected-react-r
 import { Present, Quantum } from 'publikum';
 import { Action as ReduxAction } from 'redux';
 
-import { Stats } from '../../Entity/Stats';
-import { StatsItem } from '../../Entity/StatsItem';
+import { Stats } from '../../Entity/Stats/Stats';
+import { StatsItem } from '../../Entity/StatsItem/StatsItem';
 import { AccountName } from '../../VO/Account/AccountName';
 import { AsOf } from '../../VO/AsOf/AsOf';
 import { Column } from '../../VO/Coordinate/Column';

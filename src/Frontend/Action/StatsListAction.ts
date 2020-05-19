@@ -1,4 +1,4 @@
-import { Stats } from '../../Entity/Stats';
+import { Stats } from '../../Entity/Stats/Stats';
 import { ISO639 } from '../../VO/Language/ISO639';
 import { ISO3166 } from '../../VO/Region/ISO3166';
 import { StatsName } from '../../VO/StatsOutline/StatsName';

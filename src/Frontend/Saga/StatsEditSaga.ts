@@ -4,8 +4,8 @@ import { SagaIterator } from 'redux-saga';
 import { all, call, Effect, fork, put, PutEffect, select, take } from 'redux-saga/effects';
 
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
-import { Stats } from '../../Entity/Stats';
-import { StatsItem } from '../../Entity/StatsItem';
+import { Stats } from '../../Entity/Stats/Stats';
+import { StatsItem } from '../../Entity/StatsItem/StatsItem';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { StatsError } from '../../Error/StatsError';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';

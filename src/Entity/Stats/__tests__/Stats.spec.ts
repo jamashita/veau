@@ -35,7 +35,7 @@ import { MockTerm } from '../../VO/Term/Mock/MockTerm';
 import { MockTermID } from '../../VO/Term/Mock/MockTermID';
 import { MockTermKey } from '../../VO/Term/Mock/MockTermKey';
 import { Term } from '../../VO/Term/Term';
-import { Stats, StatsJSON } from '../Stats/Stats';
+import { Stats, StatsJSON } from '../Stats';
 import { MockStatsItem } from '../StatsItem/Mock/MockStatsItem';
 import { MockStatsItems } from '../StatsItem/Mock/MockStatsItems';
 import { StatsItem } from '../StatsItem/StatsItem';

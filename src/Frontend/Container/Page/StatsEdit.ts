@@ -4,8 +4,8 @@ import { connect, ConnectedComponent, MapDispatchToProps, MapStateToProps } from
 import { match } from 'react-router-dom';
 import { Dispatch } from 'redux';
 
-import { Stats } from '../../../Entity/Stats';
-import { StatsItem } from '../../../Entity/StatsItem';
+import { Stats } from '../../../Entity/Stats/Stats';
+import { StatsItem } from '../../../Entity/StatsItem/StatsItem';
 import { AsOf } from '../../../VO/AsOf/AsOf';
 import { Column } from '../../../VO/Coordinate/Column';
 import { Coordinate } from '../../../VO/Coordinate/Coordinate';

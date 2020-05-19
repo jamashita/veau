@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify';
 import { Alive, DataSourceError, Dead, IMySQL, Superposition, UnimplementedError } from 'publikum';
 
 import { TYPE } from '../../Container/Types';
-import { Stats } from '../../Entity/Stats';
+import { Stats } from '../../Entity/Stats/Stats';
 import { StatsUpdateFactory } from '../../Factory/StatsUpdateFactory';
 import { StatsUpdateTransaction } from '../../Transaction/StatsUpdateTransaction';
 import { StatsID } from '../../VO/StatsOutline/StatsID';

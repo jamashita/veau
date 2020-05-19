@@ -1,6 +1,7 @@
 import { Absent, Quantum } from 'publikum';
 import { Reducer } from 'redux';
-import { StatsItem } from '../../Entity/StatsItem';
+
+import { StatsItem } from '../../Entity/StatsItem/StatsItem';
 import { Row } from '../../VO/Coordinate/Row';
 import {
   Action,

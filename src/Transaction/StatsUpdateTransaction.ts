@@ -3,8 +3,8 @@ import { DataSourceError, Dead, ISQL, Schrodinger, Superposition } from 'publiku
 import { IStatsCommand } from '../Command/Interface/IStatsCommand';
 import { IStatsItemCommand } from '../Command/Interface/IStatsItemCommand';
 import { IStatsValueCommand } from '../Command/Interface/IStatsValueCommand';
-import { Stats } from '../Entity/Stats';
-import { StatsItem } from '../Entity/StatsItem';
+import { Stats } from '../Entity/Stats/Stats';
+import { StatsItem } from '../Entity/StatsItem/StatsItem';
 import { IStatsUpdateFactory } from '../Factory/Interface/IStatsUpdateFactory';
 import { StatsID } from '../VO/StatsOutline/StatsID';
 import { StatsValue } from '../VO/StatsValue/StatsValue';

@@ -3,7 +3,7 @@ import React from 'react';
 
 import { HotTable } from '@handsontable/react';
 
-import { Stats } from '../../../Entity/Stats';
+import { Stats } from '../../../Entity/Stats/Stats';
 import { AsOfs } from '../../../VO/AsOf/AsOfs';
 import { Column } from '../../../VO/Coordinate/Column';
 import { Coordinate } from '../../../VO/Coordinate/Coordinate';

@@ -1,5 +1,5 @@
-import { Stats } from '../../Entity/Stats';
-import { StatsItem } from '../../Entity/StatsItem';
+import { Stats } from '../../Entity/Stats/Stats';
+import { StatsItem } from '../../Entity/StatsItem/StatsItem';
 import { StatsListItems } from '../../VO/StatsListItem/StatsListItems';
 import {
   STATS_ITEM_RESET,

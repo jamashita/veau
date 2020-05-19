@@ -1,7 +1,7 @@
 import React from 'react';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
-import { Stats } from '../../../Entity/Stats';
+import { Stats } from '../../../Entity/Stats/Stats';
 import { Colors } from '../../../VO/Color/Colors';
 import { StatsItemName } from '../../../VO/StatsItem/StatsItemName';
 

@@ -12,7 +12,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 
-import { Stats } from '../../../Entity/Stats';
+import { Stats } from '../../../Entity/Stats/Stats';
 import { ISO639 } from '../../../VO/Language/ISO639';
 import { Language } from '../../../VO/Language/Language';
 import { Locale } from '../../../VO/Locale/Locale';

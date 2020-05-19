@@ -8,7 +8,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Icon from '@material-ui/core/Icon';
 
-import { StatsItem } from '../../../Entity/StatsItem';
+import { StatsItem } from '../../../Entity/StatsItem/StatsItem';
 import { StatsItemName } from '../../../VO/StatsItem/StatsItemName';
 import { TextField } from '../Atom/TextField';
 

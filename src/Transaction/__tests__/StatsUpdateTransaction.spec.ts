@@ -1,11 +1,12 @@
 import { Alive, DataSourceError, Dead, MockSQL, MySQLError, Superposition } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
 import { MockStatsCommand } from '../../Command/Mock/MockStatsCommand';
 import { MockStatsItemCommand } from '../../Command/Mock/MockStatsItemCommand';
 import { MockStatsValueCommand } from '../../Command/Mock/MockStatsValueCommand';
 import { MockStats } from '../../Entity/Mock/MockStats';
-import { MockStatsItem } from '../../Entity/Mock/MockStatsItem';
-import { MockStatsItems } from '../../Entity/Mock/MockStatsItems';
+import { MockStatsItem } from '../../Entity/StatsItem/Mock/MockStatsItem';
+import { MockStatsItems } from '../../Entity/StatsItem/Mock/MockStatsItems';
 import { MockStatsUpdateFactory } from '../../Factory/Mock/MockStatsUpdateFactory';
 import { MockAsOf } from '../../VO/AsOf/Mock/MockAsOf';
 import { MockStatsItemID } from '../../VO/StatsItem/Mock/MockStatsItemID';

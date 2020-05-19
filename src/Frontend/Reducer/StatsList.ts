@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { Stats } from '../../Entity/Stats';
+import { Stats } from '../../Entity/Stats/Stats';
 import {
   Action,
   STATS_LIST_CLOSE_STATS_MODAL,

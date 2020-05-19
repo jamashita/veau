@@ -1,6 +1,7 @@
 import { RouterState } from 'connected-react-router';
-import { Stats } from '../Entity/Stats';
-import { StatsItem } from '../Entity/StatsItem';
+
+import { Stats } from '../Entity/Stats/Stats';
+import { StatsItem } from '../Entity/StatsItem/StatsItem';
 import { EntranceInformation } from '../VO/EntranceInformation/EntranceInformation';
 import { Identity } from '../VO/Identity/Identity';
 import { LoadingCount } from '../VO/LoadingCount/LoadingCount';

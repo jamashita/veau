@@ -6,8 +6,8 @@ import { filter, map, mapTo, mergeMap } from 'rxjs/operators';
 
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
 import { TYPE } from '../../Container/Types';
-import { Stats } from '../../Entity/Stats';
-import { StatsItem } from '../../Entity/StatsItem';
+import { Stats } from '../../Entity/Stats/Stats';
+import { StatsItem } from '../../Entity/StatsItem/StatsItem';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { StatsError } from '../../Error/StatsError';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';

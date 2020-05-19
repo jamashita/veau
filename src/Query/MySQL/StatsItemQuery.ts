@@ -2,11 +2,11 @@ import { inject, injectable } from 'inversify';
 import { DataSourceError, Dead, IMySQL, MySQLError, Project, Schrodinger, Superposition } from 'publikum';
 
 import { TYPE } from '../../Container/Types';
-import { StatsItemRow } from '../../Entity/StatsItem';
-import { StatsItems } from '../../Entity/StatsItems';
+import { StatsItemRow } from '../../Entity/StatsItem/StatsItem';
+import { StatsItems } from '../../Entity/StatsItem/StatsItems';
 import { StatsItemsError } from '../../VO/StatsItem/Error/StatsItemsError';
-import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { StatsItemID } from '../../VO/StatsItem/StatsItemID';
+import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { StatsValuesError } from '../../VO/StatsValue/Error/StatsValuesError';
 import { StatsValues } from '../../VO/StatsValue/StatsValues';
 import { IMySQLQuery } from '../Interface/IMySQLQuery';

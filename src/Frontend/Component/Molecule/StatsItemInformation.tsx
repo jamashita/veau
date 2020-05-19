@@ -9,7 +9,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Icon from '@material-ui/core/Icon';
 
-import { StatsItem } from '../../../Entity/StatsItem';
+import { StatsItem } from '../../../Entity/StatsItem/StatsItem';
 import { StatsItemName } from '../../../VO/StatsItem/StatsItemName';
 import { TextField } from '../Atom/TextField';
 

@@ -1,5 +1,6 @@
 import { Reducer } from 'redux';
-import { StatsItem } from '../../Entity/StatsItem';
+
+import { StatsItem } from '../../Entity/StatsItem/StatsItem';
 import { Action, STATS_ITEM_RESET, STATS_ITEM_UPDATE } from '../Action/Action';
 
 const initialState: StatsItem = StatsItem.default();

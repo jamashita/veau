@@ -17,13 +17,13 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
-import { StatsItemRow } from '../../../Entity/StatsItem';
-import { StatsItems } from '../../../Entity/StatsItems';
-import { StatsItemsError } from '../../../VO/StatsItem/Error/StatsItemsError';
+import { StatsItemRow } from '../../../Entity/StatsItem/StatsItem';
+import { StatsItems } from '../../../Entity/StatsItem/StatsItems';
 import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
-import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
 import { MockNumericalValue } from '../../../VO/NumericalValue/Mock/MockNumericalValue';
+import { StatsItemsError } from '../../../VO/StatsItem/Error/StatsItemsError';
 import { StatsItemID } from '../../../VO/StatsItem/StatsItemID';
+import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
 import { StatsValuesError } from '../../../VO/StatsValue/Error/StatsValuesError';
 import { MockStatsValue } from '../../../VO/StatsValue/Mock/MockStatsValue';
 import { MockStatsValues } from '../../../VO/StatsValue/Mock/MockStatsValues';

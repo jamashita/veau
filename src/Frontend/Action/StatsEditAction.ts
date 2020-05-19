@@ -1,6 +1,6 @@
 import { Present, Quantum } from 'publikum';
 
-import { StatsItem } from '../../Entity/StatsItem';
+import { StatsItem } from '../../Entity/StatsItem/StatsItem';
 import { AsOf } from '../../VO/AsOf/AsOf';
 import { Column } from '../../VO/Coordinate/Column';
 import { Coordinate } from '../../VO/Coordinate/Coordinate';
