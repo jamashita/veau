@@ -307,18 +307,5 @@ describe('StatsItemQuery', () => {
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
     });
-
-    it('throws Error', async () => {
-      const statsID: MockStatsID = new MockStatsID();
-
-      const mysql: MockMySQL = new MockMySQL();
-      const stub1: SinonStub = sinon.stub();
-      mysql.execute = stub1;
-      stub1.rejects(new MockError());
-      const statsValueQuery: MockStatsValueQuery = new MockStatsValueQuery();
-
-      const statsItemQuery: StatsItemQuery = new StatsItemQuery(mysql, statsValueQuery);
-      await expect(statsItemQuery.findByStatsID(statsID)).rejects.toThrow(MockError);
-    });
   });
 });

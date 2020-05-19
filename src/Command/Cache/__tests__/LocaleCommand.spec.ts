@@ -64,17 +64,5 @@ describe('LocaleCommand', () => {
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
     });
-
-    it('returns Dead when Cache throws CacheError', async () => {
-      const locale: Locale = new MockLocale();
-
-      const cache: MockCache = new MockCache();
-      const stub: SinonStub = sinon.stub();
-      cache.set = stub;
-      stub.throws(new MockError());
-
-      const localeCommand: LocaleCommand = new LocaleCommand(cache);
-      await expect(localeCommand.create(locale)).rejects.toThrow(MockError);
-    });
   });
 });

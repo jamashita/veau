@@ -144,18 +144,6 @@ describe('StatsOutlineQuery', () => {
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
     });
-
-    it('throws Error', async () => {
-      const statsID: MockStatsID = new MockStatsID();
-
-      const mysql: MockMySQL = new MockMySQL();
-      const stub: SinonStub = sinon.stub();
-      mysql.execute = stub;
-      stub.rejects(new MockError());
-
-      const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
-      await expect(statsOutlineQuery.find(statsID)).rejects.toThrow(MockError);
-    });
   });
 
   describe('findByVeauAccountID', () => {
@@ -264,19 +252,6 @@ describe('StatsOutlineQuery', () => {
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
-    });
-
-    it('throws Error', async () => {
-      const accountID: MockVeauAccountID = new MockVeauAccountID();
-      const page: MockPage = new MockPage();
-
-      const mysql: MockMySQL = new MockMySQL();
-      const stub: SinonStub = sinon.stub();
-      mysql.execute = stub;
-      stub.rejects(new MockError());
-
-      const statsOutlineQuery: StatsOutlineQuery = new StatsOutlineQuery(mysql);
-      await expect(statsOutlineQuery.findByVeauAccountID(accountID, page)).rejects.toThrow(MockError);
     });
   });
 });

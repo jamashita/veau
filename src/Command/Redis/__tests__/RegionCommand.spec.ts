@@ -121,22 +121,6 @@ describe('RegionCommand', () => {
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
     });
-
-    it('throws Error', async () => {
-      const regions: MockRegions = new MockRegions();
-
-      const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
-      string.set = stub;
-      stub.rejects(new MockError());
-
-      const redis: MockRedis = new MockRedis({
-        string
-      });
-
-      const regionCommand: RegionCommand = new RegionCommand(redis);
-      await expect(regionCommand.insertAll(regions)).rejects.toThrow(MockError);
-    });
   });
 
   describe('deleteAll', () => {
@@ -203,16 +187,6 @@ describe('RegionCommand', () => {
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
-    });
-
-    it('throws Error', async () => {
-      const redis: MockRedis = new MockRedis({});
-      const stub: SinonStub = sinon.stub();
-      redis.delete = stub;
-      stub.rejects(new MockError());
-
-      const regionCommand: RegionCommand = new RegionCommand(redis);
-      await expect(regionCommand.deleteAll()).rejects.toThrow(MockError);
     });
   });
 });

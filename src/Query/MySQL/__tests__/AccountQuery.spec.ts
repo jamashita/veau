@@ -176,17 +176,5 @@ describe('AccountQuery', () => {
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
     });
-
-    it('throws Error', async () => {
-      const name: MockAccountName = new MockAccountName();
-
-      const mysql: MockMySQL = new MockMySQL();
-      const stub: SinonStub = sinon.stub();
-      mysql.execute = stub;
-      stub.rejects(new MockError());
-
-      const accountQuery: AccountQuery = new AccountQuery(mysql);
-      await expect(accountQuery.findByAccount(name)).rejects.toThrow(MockError);
-    });
   });
 });

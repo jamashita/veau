@@ -62,15 +62,5 @@ describe('LocaleQuery', () => {
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
     });
-
-    it('throws Error', async () => {
-      const cache: MockCache = new MockCache();
-      const stub: SinonStub = sinon.stub();
-      cache.get = stub;
-      stub.throws(new MockError());
-
-      const localeQuery: LocaleQuery = new LocaleQuery(cache);
-      await expect(localeQuery.all()).rejects.toThrow(MockError);
-    });
   });
 });

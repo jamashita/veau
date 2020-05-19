@@ -16,7 +16,7 @@
     "watch": "concurrently \"npm:watch:*\"",
     "watch:gulp": "gulp",
     "watch:webpack": "webpack-dev-server --hot --config webpack.development.config.js",
-    "test": "jest test --detectOpenHandles --coverage --config jest.cjs",
+    "test": "jest test --detectOpenHandles --coverage",
     "lint": "eslint --fix 'src/**/*.{ts,tsx}'",
     "format": "prettier --write 'src/**/*.{ts,tsx}'",
     "update": "ncu -u && yarn install && yarn upgrade"

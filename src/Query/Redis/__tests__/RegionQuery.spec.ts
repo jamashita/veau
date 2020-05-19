@@ -5,13 +5,13 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
+import { LanguageJSON } from '../../../VO/Language/Language';
 import { RegionError } from '../../../VO/Region/Error/RegionError';
 import { RegionsError } from '../../../VO/Region/Error/RegionsError';
-import { LanguageJSON } from '../../../VO/Language/Language';
 import { ISO3166 } from '../../../VO/Region/ISO3166';
 import { Region, RegionJSON } from '../../../VO/Region/Region';
 import { Regions } from '../../../VO/Region/Regions';
+import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { RegionQuery } from '../RegionQuery';
 
 describe('RegionQuery', () => {
@@ -166,19 +166,6 @@ describe('RegionQuery', () => {
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
-    });
-
-    it('throws Error', async () => {
-      const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
-      string.get = stub;
-      stub.rejects(new MockError());
-      const redis: MockRedis = new MockRedis({
-        string
-      });
-
-      const regionQuery: RegionQuery = new RegionQuery(redis);
-      await expect(regionQuery.all()).rejects.toThrow(MockError);
     });
   });
 
@@ -440,19 +427,6 @@ describe('RegionQuery', () => {
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
-    });
-
-    it('throws Error', async () => {
-      const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
-      string.get = stub;
-      stub.rejects(new MockError());
-      const redis: MockRedis = new MockRedis({
-        string
-      });
-
-      const regionQuery: RegionQuery = new RegionQuery(redis);
-      await expect(regionQuery.findByISO3166(ISO3166.of('ALB'))).rejects.toThrow(MockError);
     });
   });
 });

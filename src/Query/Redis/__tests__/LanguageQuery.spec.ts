@@ -5,12 +5,12 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { LanguageError } from '../../../VO/Language/Error/LanguageError';
 import { LanguagesError } from '../../../VO/Language/Error/LanguagesError';
 import { ISO639 } from '../../../VO/Language/ISO639';
 import { Language, LanguageJSON } from '../../../VO/Language/Language';
 import { Languages } from '../../../VO/Language/Languages';
+import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { LanguageQuery } from '../LanguageQuery';
 
 describe('LanguageQuery', () => {
@@ -168,19 +168,6 @@ describe('LanguageQuery', () => {
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
-    });
-
-    it('throws Error', async () => {
-      const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
-      string.get = stub;
-      stub.rejects(new MockError());
-      const redis: MockRedis = new MockRedis({
-        string
-      });
-
-      const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      await expect(languageQuery.all()).rejects.toThrow(MockError);
     });
   });
 
@@ -449,19 +436,6 @@ describe('LanguageQuery', () => {
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
-    });
-
-    it('throws Error', async () => {
-      const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
-      string.get = stub;
-      stub.rejects(new MockError());
-      const redis: MockRedis = new MockRedis({
-        string
-      });
-
-      const languageQuery: LanguageQuery = new LanguageQuery(redis);
-      await expect(languageQuery.findByISO639(ISO639.of('aa'))).rejects.toThrow(MockError);
     });
   });
 });

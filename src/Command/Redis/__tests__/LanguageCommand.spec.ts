@@ -121,21 +121,6 @@ describe('LanguageCommand', () => {
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
     });
-
-    it('throws Error', async () => {
-      const languages: MockLanguages = new MockLanguages();
-
-      const string: MockRedisString = new MockRedisString();
-      const stub: SinonStub = sinon.stub();
-      string.set = stub;
-      stub.rejects(new MockError());
-      const redis: MockRedis = new MockRedis({
-        string
-      });
-
-      const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      await expect(languageCommand.insertAll(languages)).rejects.toThrow(MockError);
-    });
   });
 
   describe('deleteAll', () => {
@@ -202,16 +187,6 @@ describe('LanguageCommand', () => {
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
-    });
-
-    it('throws Error', async () => {
-      const redis: MockRedis = new MockRedis({});
-      const stub: SinonStub = sinon.stub();
-      redis.delete = stub;
-      stub.rejects(new MockError());
-
-      const languageCommand: LanguageCommand = new LanguageCommand(redis);
-      await expect(languageCommand.deleteAll()).rejects.toThrow(MockError);
     });
   });
 });

@@ -123,16 +123,6 @@ describe('LanguageQuery', () => {
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
     });
-
-    it('throws Error', async () => {
-      const mysql: MockMySQL = new MockMySQL();
-      const stub: SinonStub = sinon.stub();
-      mysql.execute = stub;
-      stub.rejects(new MockError());
-
-      const languageQuery: LanguageQuery = new LanguageQuery(mysql);
-      await expect(languageQuery.all()).rejects.toThrow(MockError);
-    });
   });
 
   describe('find', () => {
@@ -237,16 +227,6 @@ describe('LanguageQuery', () => {
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
     });
-
-    it('throws Error', async () => {
-      const mysql: MockMySQL = new MockMySQL();
-      const stub: SinonStub = sinon.stub();
-      mysql.execute = stub;
-      stub.rejects(new MockError());
-
-      const languageQuery: LanguageQuery = new LanguageQuery(mysql);
-      await expect(languageQuery.findByISO639(ISO639.of('aa'))).rejects.toThrow(MockError);
-    });
   });
 
   describe('findByISO639', () => {
@@ -349,16 +329,6 @@ describe('LanguageQuery', () => {
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
-    });
-
-    it('throws Error', async () => {
-      const mysql: MockMySQL = new MockMySQL();
-      const stub: SinonStub = sinon.stub();
-      mysql.execute = stub;
-      stub.rejects(new MockError());
-
-      const languageQuery: LanguageQuery = new LanguageQuery(mysql);
-      await expect(languageQuery.findByISO639(ISO639.of('aa'))).rejects.toThrow(MockError);
     });
   });
 });

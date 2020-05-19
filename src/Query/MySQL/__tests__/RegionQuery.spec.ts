@@ -119,16 +119,6 @@ describe('RegionQuery', () => {
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
     });
-
-    it('throws Error', async () => {
-      const mysql: MockMySQL = new MockMySQL();
-      const stub: SinonStub = sinon.stub();
-      mysql.execute = stub;
-      stub.rejects(new MockError());
-
-      const regionQuery: RegionQuery = new RegionQuery(mysql);
-      await expect(regionQuery.all()).rejects.toThrow(MockError);
-    });
   });
 
   describe('find', () => {
@@ -230,16 +220,6 @@ describe('RegionQuery', () => {
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
     });
-
-    it('throws Error', async () => {
-      const mysql: MockMySQL = new MockMySQL();
-      const stub: SinonStub = sinon.stub();
-      mysql.execute = stub;
-      stub.rejects(new MockError());
-
-      const regionQuery: RegionQuery = new RegionQuery(mysql);
-      await expect(regionQuery.find(new MockRegionID())).rejects.toThrow(MockError);
-    });
   });
 
   describe('findByISO3166', () => {
@@ -339,16 +319,6 @@ describe('RegionQuery', () => {
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
-    });
-
-    it('throws Error', async () => {
-      const mysql: MockMySQL = new MockMySQL();
-      const stub: SinonStub = sinon.stub();
-      mysql.execute = stub;
-      stub.rejects(new MockError());
-
-      const regionQuery: RegionQuery = new RegionQuery(mysql);
-      await expect(regionQuery.findByISO3166(ISO3166.of('ALB'))).rejects.toThrow(MockError);
     });
   });
 });

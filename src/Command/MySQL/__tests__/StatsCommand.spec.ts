@@ -105,19 +105,6 @@ describe('StatsCommand', () => {
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
     });
-
-    it('throws Error', async () => {
-      const stats: MockStats = new MockStats();
-      const accountID: MockVeauAccountID = new MockVeauAccountID();
-
-      const sql: MockSQL = new MockSQL();
-      const stub: SinonStub = sinon.stub();
-      sql.execute = stub;
-      stub.rejects(new MockError());
-
-      const statsCommand: StatsCommand = new StatsCommand(sql);
-      await expect(statsCommand.create(stats, accountID)).rejects.toThrow(MockError);
-    });
   });
 
   describe('deleteByStatsID', () => {
@@ -171,18 +158,6 @@ describe('StatsCommand', () => {
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
-    });
-
-    it('throws Error', async () => {
-      const statsID: MockStatsID = new MockStatsID();
-
-      const sql: MockSQL = new MockSQL();
-      const stub: SinonStub = sinon.stub();
-      sql.execute = stub;
-      stub.rejects(new MockError());
-
-      const statsCommand: StatsCommand = new StatsCommand(sql);
-      await expect(statsCommand.deleteByStatsID(statsID)).rejects.toThrow(MockError);
     });
   });
 });
