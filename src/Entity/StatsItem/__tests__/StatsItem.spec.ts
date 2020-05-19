@@ -1,20 +1,21 @@
 import { ImmutableProject, Present, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
-import { StatsItemError } from '../../Error/StatsItemError';
-import { AsOf } from '../../VO/AsOf';
-import { MockAsOf } from '../../VO/Mock/MockAsOf';
-import { MockAsOfs } from '../../VO/Mock/MockAsOfs';
-import { MockNumericalValue } from '../../VO/Mock/MockNumericalValue';
-import { MockStatsItemID } from '../../VO/Mock/MockStatsItemID';
-import { MockStatsItemName } from '../../VO/Mock/MockStatsItemName';
-import { MockStatsValue } from '../../VO/Mock/MockStatsValue';
-import { MockStatsValues } from '../../VO/Mock/MockStatsValues';
-import { NumericalValue } from '../../VO/NumericalValue';
-import { NumericalValues } from '../../VO/NumericalValues';
-import { StatsItemID } from '../../VO/StatsItemID';
-import { StatsItemName } from '../../VO/StatsItemName';
-import { StatsValue } from '../../VO/StatsValue';
-import { StatsValues } from '../../VO/StatsValues';
+
+import { AsOf } from '../../../VO/AsOf/AsOf';
+import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
+import { MockAsOfs } from '../../../VO/AsOf/Mock/MockAsOfs';
+import { MockNumericalValue } from '../../../VO/NumericalValue/Mock/MockNumericalValue';
+import { NumericalValue } from '../../../VO/NumericalValue/NumericalValue';
+import { NumericalValues } from '../../../VO/NumericalValue/NumericalValues';
+import { StatsItemError } from '../../../VO/StatsItem/Error/StatsItemError';
+import { MockStatsItemID } from '../../../VO/StatsItem/Mock/MockStatsItemID';
+import { MockStatsItemName } from '../../../VO/StatsItem/Mock/MockStatsItemName';
+import { StatsItemID } from '../../../VO/StatsItem/StatsItemID';
+import { StatsItemName } from '../../../VO/StatsItem/StatsItemName';
+import { MockStatsValue } from '../../../VO/StatsValue/Mock/MockStatsValue';
+import { MockStatsValues } from '../../../VO/StatsValue/Mock/MockStatsValues';
+import { StatsValue } from '../../../VO/StatsValue/StatsValue';
+import { StatsValues } from '../../../VO/StatsValue/StatsValues';
 import { MockStatsItem } from '../Mock/MockStatsItem';
 import { StatsItem, StatsItemJSON, StatsItemRow } from '../StatsItem';
 

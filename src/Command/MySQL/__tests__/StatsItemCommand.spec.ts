@@ -1,7 +1,7 @@
 import { DataSourceError, MockError, MockSQL, MySQLError, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 
-import { MockStatsItem } from '../../../Entity/Mock/MockStatsItem';
+import { MockStatsItem } from '../../../Entity/StatsItem/Mock/MockStatsItem';
 import { MockStatsItemID } from '../../../VO/StatsItem/Mock/MockStatsItemID';
 import { MockStatsItemName } from '../../../VO/StatsItem/Mock/MockStatsItemName';
 import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';

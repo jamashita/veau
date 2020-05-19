@@ -1,15 +1,16 @@
 import { Alive, Dead, Entity, Kind, Project, Superposition } from 'publikum';
-import { StatsItemError } from '../Error/StatsItemError';
-import { StatsItemIDError } from '../Error/StatsItemIDError';
-import { StatsValuesError } from '../Error/StatsValuesError';
-import { AsOf } from '../VO/AsOf';
-import { AsOfs } from '../VO/AsOfs';
-import { NoValue } from '../VO/NoValue';
-import { NumericalValues } from '../VO/NumericalValues';
-import { StatsItemID } from '../VO/StatsItemID';
-import { StatsItemName } from '../VO/StatsItemName';
-import { StatsValue, StatsValueJSON } from '../VO/StatsValue';
-import { StatsValues } from '../VO/StatsValues';
+
+import { AsOf } from '../../VO/AsOf/AsOf';
+import { AsOfs } from '../../VO/AsOf/AsOfs';
+import { NoValue } from '../../VO/NumericalValue/NoValue';
+import { NumericalValues } from '../../VO/NumericalValue/NumericalValues';
+import { StatsItemError } from '../../VO/StatsItem/Error/StatsItemError';
+import { StatsItemIDError } from '../../VO/StatsItem/Error/StatsItemIDError';
+import { StatsItemID } from '../../VO/StatsItem/StatsItemID';
+import { StatsItemName } from '../../VO/StatsItem/StatsItemName';
+import { StatsValuesError } from '../../VO/StatsValue/Error/StatsValuesError';
+import { StatsValue, StatsValueJSON } from '../../VO/StatsValue/StatsValue';
+import { StatsValues } from '../../VO/StatsValue/StatsValues';
 
 export type StatsItemJSON = Readonly<{
   statsItemID: string;

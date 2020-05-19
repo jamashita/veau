@@ -1,6 +1,6 @@
 import { DataSourceError, ISQL, MySQLError, Schrodinger, Superposition } from 'publikum';
 
-import { StatsItem } from '../../Entity/StatsItem';
+import { StatsItem } from '../../Entity/StatsItem/StatsItem';
 import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { IMySQLCommand } from '../Interface/IMySQLCommand';
 import { IStatsItemCommand } from '../Interface/IStatsItemCommand';

@@ -15,15 +15,16 @@ import {
   Sequence,
   Superposition
 } from 'publikum';
-import { StatsItemError } from '../Error/StatsItemError';
-import { StatsItemsError } from '../Error/StatsItemsError';
-import { AsOfs } from '../VO/AsOfs';
-import { Column } from '../VO/Column';
-import { Row } from '../VO/Row';
-import { StatsItemID } from '../VO/StatsItemID';
-import { StatsItemName } from '../VO/StatsItemName';
-import { StatsItemNames } from '../VO/StatsItemNames';
-import { StatsValues } from '../VO/StatsValues';
+
+import { AsOfs } from '../../VO/AsOf/AsOfs';
+import { Column } from '../../VO/Coordinate/Column';
+import { Row } from '../../VO/Coordinate/Row';
+import { StatsItemError } from '../../VO/StatsItem/Error/StatsItemError';
+import { StatsItemsError } from '../../VO/StatsItem/Error/StatsItemsError';
+import { StatsItemID } from '../../VO/StatsItem/StatsItemID';
+import { StatsItemName } from '../../VO/StatsItem/StatsItemName';
+import { StatsItemNames } from '../../VO/StatsItem/StatsItemNames';
+import { StatsValues } from '../../VO/StatsValue/StatsValues';
 import { StatsItem, StatsItemJSON, StatsItemRow } from './StatsItem';
 
 export class StatsItems extends Objet implements Collection<number, StatsItem>, Cloneable<StatsItems>, JSONable {
