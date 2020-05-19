@@ -2,13 +2,14 @@ import { inject, injectable } from 'inversify';
 import log4js from 'log4js';
 import { VerifyFunction } from 'passport-local';
 import { DataSourceError, Digest, Noun, Superposition } from 'publikum';
+
 import { TYPE } from '../Container/Types';
-import { AccountError } from '../Error/AccountError';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { IAccountQuery } from '../Query/Interface/IAccountQuery';
-import { Account } from '../VO/Account';
-import { AccountName } from '../VO/AccountName';
-import { Password } from '../VO/Password';
+import { Account } from '../VO/Account/Account';
+import { AccountName } from '../VO/Account/AccountName';
+import { AccountError } from '../VO/Account/Error/AccountError';
+import { Password } from '../VO/EntranceInformation/Password';
 
 const logger: log4js.Logger = log4js.getLogger();
 
@@ -36,7 +37,6 @@ export class AuthenticationInteractor implements Noun {
           AccountError | NoSuchElementError | DataSourceError
         > = await this.accountQuery.findByAccount(accountName);
 
-        // eslint-disable-next-line @typescript-eslint/return-await
         return superposition.match<void>(
           async (account: Account) => {
             const correct: boolean = await account.verify(password);

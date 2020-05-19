@@ -5,9 +5,9 @@ import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { MockAccountQuery } from '../../Query/Mock/MockAccountQuery';
-import { Account } from '../../VO/Account';
-import { MockAccount } from '../../VO/Mock/MockAccount';
-import { VeauAccount } from '../../VO/VeauAccount';
+import { Account } from '../../VO/Account/Account';
+import { MockAccount } from '../../VO/Account/Mock/MockAccount';
+import { VeauAccount } from '../../VO/VeauAccount/VeauAccount';
 import { AuthenticationInteractor } from '../AuthenticationInteractor';
 
 describe('AuthenticationInteractor', () => {

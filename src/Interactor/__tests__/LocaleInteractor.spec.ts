@@ -1,21 +1,23 @@
-import { Alive, DataSourceError, Dead, MySQLError, RedisError, Superposition } from 'publikum';
 import 'reflect-metadata';
+
+import { Alive, DataSourceError, Dead, MySQLError, RedisError, Superposition } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
 import { MockLanguageCommand } from '../../Command/Mock/MockLanguageCommand';
 import { MockRegionCommand } from '../../Command/Mock/MockRegionCommand';
 import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
-import { LanguagesError } from '../../Error/LanguagesError';
-import { LocaleError } from '../../Error/LocaleError';
+import { LocaleError } from '../../VO/Locale/Error/LocaleError';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
-import { RegionsError } from '../../Error/RegionsError';
+import { RegionsError } from '../../VO/Region/Error/RegionsError';
 import { MockLanguageQuery } from '../../Query/Mock/MockLanguageQuery';
 import { MockRegionQuery } from '../../Query/Mock/MockRegionQuery';
-import { Languages } from '../../VO/Languages';
-import { Locale } from '../../VO/Locale';
-import { MockLanguages } from '../../VO/Mock/MockLanguages';
-import { MockRegions } from '../../VO/Mock/MockRegions';
-import { Regions } from '../../VO/Regions';
+import { LanguagesError } from '../../VO/Language/Error/LanguagesError';
+import { Languages } from '../../VO/Language/Languages';
+import { MockLanguages } from '../../VO/Language/Mock/MockLanguages';
+import { Locale } from '../../VO/Locale/Locale';
+import { MockRegions } from '../../VO/Region/Mock/MockRegions';
+import { Regions } from '../../VO/Region/Regions';
 import { LocaleInteractor } from '../LocaleInteractor';
 
 describe('LocaleInteractor', () => {

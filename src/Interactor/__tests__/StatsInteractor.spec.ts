@@ -8,14 +8,14 @@ import { MockStats } from '../../Entity/Mock/MockStats';
 import { Stats } from '../../Entity/Stats';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { StatsError } from '../../Error/StatsError';
-import { StatsOutlinesError } from '../../Error/StatsOutlinesError';
+import { StatsOutlinesError } from '../../VO/StatsOutline/Error/StatsOutlinesError';
 import { MockStatsOutlineQuery } from '../../Query/Mock/MockStatsOutlineQuery';
 import { MockStatsQuery } from '../../Query/Mock/MockStatsQuery';
-import { MockPage } from '../../VO/Mock/MockPage';
-import { MockStatsID } from '../../VO/Mock/MockStatsID';
-import { MockStatsOutlines } from '../../VO/Mock/MockStatsOutlines';
-import { MockVeauAccountID } from '../../VO/Mock/MockVeauAccountID';
-import { StatsOutlines } from '../../VO/StatsOutlines';
+import { MockPage } from '../../VO/Page/Mock/MockPage';
+import { MockStatsID } from '../../VO/StatsOutline/Mock/MockStatsID';
+import { MockStatsOutlines } from '../../VO/StatsOutline/Mock/MockStatsOutlines';
+import { MockVeauAccountID } from '../../VO/VeauAccount/Mock/MockVeauAccountID';
+import { StatsOutlines } from '../../VO/StatsOutline/StatsOutlines';
 import { StatsInteractor } from '../StatsInteractor';
 
 describe('StatsInteractor', () => {

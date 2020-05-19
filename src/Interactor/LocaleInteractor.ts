@@ -1,16 +1,17 @@
 import { inject, injectable } from 'inversify';
 import { Alive, DataSourceError, Dead, Noun, Superposition } from 'publikum';
+
 import { ILanguageCommand } from '../Command/Interface/ILanguageCommand';
 import { IRegionCommand } from '../Command/Interface/IRegionCommand';
 import { TYPE } from '../Container/Types';
-import { LanguagesError } from '../Error/LanguagesError';
-import { LocaleError } from '../Error/LocaleError';
-import { RegionsError } from '../Error/RegionsError';
+import { LocaleError } from '../VO/Locale/Error/LocaleError';
+import { RegionsError } from '../VO/Region/Error/RegionsError';
 import { ILanguageQuery } from '../Query/Interface/ILanguageQuery';
 import { IRegionQuery } from '../Query/Interface/IRegionQuery';
-import { Languages } from '../VO/Languages';
-import { Locale } from '../VO/Locale';
-import { Regions } from '../VO/Regions';
+import { LanguagesError } from '../VO/Language/Error/LanguagesError';
+import { Languages } from '../VO/Language/Languages';
+import { Locale } from '../VO/Locale/Locale';
+import { Regions } from '../VO/Region/Regions';
 
 @injectable()
 export class LocaleInteractor implements Noun {

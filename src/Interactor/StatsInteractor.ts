@@ -5,13 +5,13 @@ import { TYPE } from '../Container/Types';
 import { Stats } from '../Entity/Stats';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { StatsError } from '../Error/StatsError';
-import { StatsOutlinesError } from '../Error/StatsOutlinesError';
+import { StatsOutlinesError } from '../VO/StatsOutline/Error/StatsOutlinesError';
 import { IStatsOutlineQuery } from '../Query/Interface/IStatsOutlineQuery';
 import { IStatsQuery } from '../Query/Interface/IStatsQuery';
-import { Page } from '../VO/Page';
-import { StatsID } from '../VO/StatsID';
-import { StatsOutlines } from '../VO/StatsOutlines';
-import { VeauAccountID } from '../VO/VeauAccountID';
+import { Page } from '../VO/Page/Page';
+import { StatsID } from '../VO/StatsOutline/StatsID';
+import { StatsOutlines } from '../VO/StatsOutline/StatsOutlines';
+import { VeauAccountID } from '../VO/VeauAccount/VeauAccountID';
 
 @injectable()
 export class StatsInteractor implements Noun {
