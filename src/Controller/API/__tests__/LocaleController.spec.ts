@@ -9,7 +9,7 @@ import supertest from 'supertest';
 
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
-import { NoSuchElementError } from '../../../Error/NoSuchElementError';
+import { NoSuchElementError } from '../../../Query/Error/NoSuchElementError';
 import { LocaleInteractor } from '../../../Interactor/LocaleInteractor';
 import { MockISO639 } from '../../../VO/Language/Mock/MockISO639';
 import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';

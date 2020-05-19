@@ -3,7 +3,7 @@ import { DataSourceError, Superposition } from 'publikum';
 import { SagaIterator } from 'redux-saga';
 import { all, call, Effect, fork, put, select, take } from 'redux-saga/effects';
 
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
+import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
 import { UnauthorizedError } from '../../Error/UnauthorizedError';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { ILocaleQuery } from '../../Query/Interface/ILocaleQuery';

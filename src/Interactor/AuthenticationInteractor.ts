@@ -4,7 +4,7 @@ import { VerifyFunction } from 'passport-local';
 import { DataSourceError, Digest, Noun, Superposition } from 'publikum';
 
 import { TYPE } from '../Container/Types';
-import { NoSuchElementError } from '../Error/NoSuchElementError';
+import { NoSuchElementError } from '../Query/Error/NoSuchElementError';
 import { IAccountQuery } from '../Query/Interface/IAccountQuery';
 import { Account } from '../VO/Account/Account';
 import { AccountName } from '../VO/Account/AccountName';

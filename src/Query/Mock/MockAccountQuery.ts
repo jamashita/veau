@@ -1,6 +1,6 @@
 import { DataSourceError, Superposition, UnimplementedError } from 'publikum';
 
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
+import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { Account } from '../../VO/Account/Account';
 import { AccountError } from '../../VO/Account/Error/AccountError';
 import { IAccountQuery } from '../Interface/IAccountQuery';

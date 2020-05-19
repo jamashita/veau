@@ -7,7 +7,7 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { TYPE } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { Stats, StatsJSON } from '../../../Entity/Stats/Stats';
-import { NoSuchElementError } from '../../../Error/NoSuchElementError';
+import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { StatsError } from '../../../Entity/Stats/Error/StatsError';
 import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
 import { Term } from '../../../VO/Term/Term';

@@ -7,7 +7,7 @@ import { Body, Controller, Get, Param, Post, Res, UseBefore } from 'routing-cont
 import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats/Stats';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
+import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
 import { StatsError } from '../../Entity/Stats/Error/StatsError';
 import { StatsInteractor } from '../../Interactor/StatsInteractor';
 import { PageError } from '../../VO/Page/Error/PageError';

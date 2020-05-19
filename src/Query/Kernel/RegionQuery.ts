@@ -3,7 +3,7 @@ import { Alive, DataSourceError, Dead, Quantum, Superposition, UnimplementedErro
 
 import { IRegionCommand } from '../../Command/Interface/IRegionCommand';
 import { TYPE } from '../../Container/Types';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
+import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { RegionError } from '../../VO/Region/Error/RegionError';
 import { RegionsError } from '../../VO/Region/Error/RegionsError';
 import { ISO3166 } from '../../VO/Region/ISO3166';

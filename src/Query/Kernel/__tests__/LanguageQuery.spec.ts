@@ -6,7 +6,7 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { MockLanguageCommand } from '../../../Command/Mock/MockLanguageCommand';
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
-import { NoSuchElementError } from '../../../Error/NoSuchElementError';
+import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { LanguageError } from '../../../VO/Language/Error/LanguageError';
 import { LanguagesError } from '../../../VO/Language/Error/LanguagesError';
 import { ISO639 } from '../../../VO/Language/ISO639';

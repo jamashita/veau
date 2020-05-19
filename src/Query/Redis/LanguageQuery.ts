@@ -15,7 +15,7 @@ import {
 } from 'publikum';
 
 import { TYPE } from '../../Container/Types';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
+import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { REDIS_LANGUAGE_KEY } from '../../Infrastructure/VeauRedis';
 import { LanguageError } from '../../VO/Language/Error/LanguageError';
 import { LanguagesError } from '../../VO/Language/Error/LanguagesError';

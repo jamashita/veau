@@ -1,4 +1,3 @@
-import { ISQL } from 'publikum';
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
 import { IStatsItemCommand } from '../../Command/Interface/IStatsItemCommand';
 import { IStatsValueCommand } from '../../Command/Interface/IStatsValueCommand';
@@ -20,18 +19,15 @@ export class MockStatsUpdateFactory implements IStatsUpdateFactory {
     this.statsValueCommand = statsValueCommand;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public forgeStatsCommand(sql: ISQL): IStatsCommand {
+  public forgeStatsCommand(): IStatsCommand {
     return this.statsCommand;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public forgeStatsItemCommand(sql: ISQL): IStatsItemCommand {
+  public forgeStatsItemCommand(): IStatsItemCommand {
     return this.statsItemCommand;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public forgeStatsValueCommand(sql: ISQL): IStatsValueCommand {
+  public forgeStatsValueCommand(): IStatsValueCommand {
     return this.statsValueCommand;
   }
 }

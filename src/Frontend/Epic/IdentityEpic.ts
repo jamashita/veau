@@ -5,7 +5,7 @@ import { concat, EMPTY, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
 
 import { TYPE } from '../../Container/Types';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
+import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
 import { IIdentityQuery } from '../../Query/Interface/IIdentityQuery';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { ILocaleQuery } from '../../Query/Interface/ILocaleQuery';

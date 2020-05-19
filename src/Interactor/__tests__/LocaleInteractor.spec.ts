@@ -8,7 +8,7 @@ import { MockRegionCommand } from '../../Command/Mock/MockRegionCommand';
 import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
 import { LocaleError } from '../../VO/Locale/Error/LocaleError';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
+import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
 import { RegionsError } from '../../VO/Region/Error/RegionsError';
 import { MockLanguageQuery } from '../../Query/Mock/MockLanguageQuery';
 import { MockRegionQuery } from '../../Query/Mock/MockRegionQuery';

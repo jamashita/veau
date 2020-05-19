@@ -1,6 +1,6 @@
 import { DataSourceError, Superposition, UnimplementedError } from 'publikum';
 
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
+import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { RegionError } from '../../VO/Region/Error/RegionError';
 import { RegionsError } from '../../VO/Region/Error/RegionsError';
 import { Region } from '../../VO/Region/Region';

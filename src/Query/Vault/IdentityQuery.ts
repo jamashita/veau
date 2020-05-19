@@ -3,7 +3,7 @@ import { Alive, DataSourceError, Dead, Superposition } from 'publikum';
 
 import { TYPE } from '../../Container/Types';
 import { IdentityError } from '../../VO/Identity/Error/IdentityError';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
+import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { RegionError } from '../../VO/Region/Error/RegionError';
 import { VeauAccountError } from '../../VO/VeauAccount/Error/VeauAccountError';
 import { EntranceInformation } from '../../VO/EntranceInformation/EntranceInformation';

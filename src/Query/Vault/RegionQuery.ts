@@ -3,7 +3,7 @@ import { Alive, DataSourceError, Dead, Quantum, QuantumError, Superposition, Uni
 
 import { TYPE } from '../../Container/Types';
 import { LocaleError } from '../../VO/Locale/Error/LocaleError';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
+import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { RegionError } from '../../VO/Region/Error/RegionError';
 import { RegionsError } from '../../VO/Region/Error/RegionsError';
 import { Locale } from '../../VO/Locale/Locale';

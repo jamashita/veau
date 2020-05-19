@@ -4,7 +4,7 @@ import { AJAXError, AJAXResponse, DataSourceError, Dead, IAJAX, Superposition } 
 
 import { TYPE } from '../../Container/Types';
 import { Stats, StatsJSON } from '../../Entity/Stats/Stats';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
+import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { StatsError } from '../../Entity/Stats/Error/StatsError';
 import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { IAJAXQuery } from '../Interface/IAJAXQuery';

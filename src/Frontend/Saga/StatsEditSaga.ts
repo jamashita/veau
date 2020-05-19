@@ -6,7 +6,7 @@ import { all, call, Effect, fork, put, PutEffect, select, take } from 'redux-sag
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
 import { Stats } from '../../Entity/Stats/Stats';
 import { StatsItem } from '../../Entity/StatsItem/StatsItem';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
+import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
 import { StatsError } from '../../Entity/Stats/Error/StatsError';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { ILocaleQuery } from '../../Query/Interface/ILocaleQuery';

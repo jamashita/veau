@@ -1,7 +1,7 @@
 import { DataSourceError, Superposition, UnimplementedError } from 'publikum';
 
 import { Stats } from '../../Entity/Stats/Stats';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
+import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { StatsError } from '../../Entity/Stats/Error/StatsError';
 import { IMockQuery } from '../Interface/IMockQuery';
 import { IStatsQuery } from '../Interface/IStatsQuery';

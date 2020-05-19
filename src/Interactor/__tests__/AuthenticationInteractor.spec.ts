@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
+import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
 import { MockAccountQuery } from '../../Query/Mock/MockAccountQuery';
 import { Account } from '../../VO/Account/Account';
 import { MockAccount } from '../../VO/Account/Mock/MockAccount';

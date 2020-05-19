@@ -1,6 +1,6 @@
 import { DataSourceError, Superposition } from 'publikum';
 import { AccountError } from '../../VO/Account/Error/AccountError';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
+import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { Account } from '../../VO/Account/Account';
 import { AccountName } from '../../VO/Account/AccountName';
 import { IQuery } from './IQuery';

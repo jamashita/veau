@@ -5,7 +5,7 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { TYPE } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
-import { NoSuchElementError } from '../../../Error/NoSuchElementError';
+import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { Locale } from '../../../VO/Locale/Locale';
 import { MockLocale } from '../../../VO/Locale/Mock/MockLocale';
 import { RegionError } from '../../../VO/Region/Error/RegionError';

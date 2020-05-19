@@ -4,7 +4,7 @@ import { Alive, DataSourceError, Dead, Superposition } from 'publikum';
 import { TYPE } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats/Stats';
 import { StatsItems } from '../../Entity/StatsItem/StatsItems';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
+import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { StatsError } from '../../Entity/Stats/Error/StatsError';
 import { LanguageError } from '../../VO/Language/Error/LanguageError';
 import { Language } from '../../VO/Language/Language';

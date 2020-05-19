@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { DataSourceError, Dead, IMySQL, MySQLError, Schrodinger, Superposition } from 'publikum';
 import { TYPE } from '../../Container/Types';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
+import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { StatsOutlineError } from '../../VO/StatsOutline/Error/StatsOutlineError';
 import { StatsOutlinesError } from '../../VO/StatsOutline/Error/StatsOutlinesError';
 import { Page } from '../../VO/Page/Page';

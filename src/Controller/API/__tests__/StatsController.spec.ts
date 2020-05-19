@@ -12,7 +12,7 @@ import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
 import { MockStats } from '../../../Entity/Stats/Mock/MockStats';
 import { Stats } from '../../../Entity/Stats/Stats';
-import { NoSuchElementError } from '../../../Error/NoSuchElementError';
+import { NoSuchElementError } from '../../../Query/Error/NoSuchElementError';
 import { StatsError } from '../../../Entity/Stats/Error/StatsError';
 import { StatsInteractor } from '../../../Interactor/StatsInteractor';
 import { StatsOutlinesError } from '../../../VO/StatsOutline/Error/StatsOutlinesError';

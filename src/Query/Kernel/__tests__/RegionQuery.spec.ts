@@ -6,7 +6,7 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { MockRegionCommand } from '../../../Command/Mock/MockRegionCommand';
 import { kernel } from '../../../Container/Kernel';
 import { TYPE } from '../../../Container/Types';
-import { NoSuchElementError } from '../../../Error/NoSuchElementError';
+import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { RegionError } from '../../../VO/Region/Error/RegionError';
 import { RegionsError } from '../../../VO/Region/Error/RegionsError';
 import { ISO3166 } from '../../../VO/Region/ISO3166';

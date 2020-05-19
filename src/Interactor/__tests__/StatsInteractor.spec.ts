@@ -9,7 +9,7 @@ import { TYPE } from '../../Container/Types';
 import { StatsError } from '../../Entity/Stats/Error/StatsError';
 import { MockStats } from '../../Entity/Stats/Mock/MockStats';
 import { Stats } from '../../Entity/Stats/Stats';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
+import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
 import { MockStatsOutlineQuery } from '../../Query/Mock/MockStatsOutlineQuery';
 import { MockStatsQuery } from '../../Query/Mock/MockStatsQuery';
 import { MockPage } from '../../VO/Page/Mock/MockPage';

@@ -3,7 +3,7 @@ import { Alive, DataSourceError, Dead, Quantum, Superposition, UnimplementedErro
 
 import { ILanguageCommand } from '../../Command/Interface/ILanguageCommand';
 import { TYPE } from '../../Container/Types';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
+import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { LanguageError } from '../../VO/Language/Error/LanguageError';
 import { LanguagesError } from '../../VO/Language/Error/LanguagesError';
 import { ISO639 } from '../../VO/Language/ISO639';

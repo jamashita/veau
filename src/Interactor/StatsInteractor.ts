@@ -5,7 +5,7 @@ import { IStatsCommand } from '../Command/Interface/IStatsCommand';
 import { TYPE } from '../Container/Types';
 import { StatsError } from '../Entity/Stats/Error/StatsError';
 import { Stats } from '../Entity/Stats/Stats';
-import { NoSuchElementError } from '../Error/NoSuchElementError';
+import { NoSuchElementError } from '../Query/Error/NoSuchElementError';
 import { IStatsOutlineQuery } from '../Query/Interface/IStatsOutlineQuery';
 import { IStatsQuery } from '../Query/Interface/IStatsQuery';
 import { Page } from '../VO/Page/Page';
