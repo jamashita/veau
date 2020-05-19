@@ -3,16 +3,17 @@ import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NO_CONTENT, OK } from 'htt
 import log4js from 'log4js';
 import { DataSourceError, JSONable, PlainObject, Superposition } from 'publikum';
 import { Body, Controller, Get, Param, Post, Res, UseBefore } from 'routing-controllers';
+
 import { kernel } from '../../Container/Kernel';
 import { TYPE } from '../../Container/Types';
-import { Stats } from '../../Entity/Stats';
+import { Stats } from '../../Entity/Stats/Stats';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
-import { PageError } from '../../VO/Page/Error/PageError';
 import { StatsError } from '../../Error/StatsError';
+import { StatsInteractor } from '../../Interactor/StatsInteractor';
+import { PageError } from '../../VO/Page/Error/PageError';
+import { Page } from '../../VO/Page/Page';
 import { StatsIDError } from '../../VO/StatsOutline/Error/StatsIDError';
 import { StatsOutlinesError } from '../../VO/StatsOutline/Error/StatsOutlinesError';
-import { StatsInteractor } from '../../Interactor/StatsInteractor';
-import { Page } from '../../VO/Page/Page';
 import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { AuthenticationMiddleware } from '../Middleware/AuthenticationMiddleware';
 

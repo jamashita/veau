@@ -1,6 +1,7 @@
 import { NO_CONTENT, OK } from 'http-status';
 import { inject, injectable } from 'inversify';
 import { AJAXError, AJAXResponse, DataSourceError, Dead, IAJAX, Superposition } from 'publikum';
+
 import { TYPE } from '../../Container/Types';
 import { Stats, StatsJSON } from '../../Entity/Stats/Stats';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';

@@ -1,4 +1,5 @@
 import { Reducer } from 'redux';
+
 import { Stats } from '../../Entity/Stats/Stats';
 import {
   Action,

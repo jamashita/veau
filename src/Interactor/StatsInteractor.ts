@@ -1,14 +1,15 @@
 import { inject, injectable } from 'inversify';
 import { DataSourceError, Noun, Superposition } from 'publikum';
+
 import { IStatsCommand } from '../Command/Interface/IStatsCommand';
 import { TYPE } from '../Container/Types';
 import { Stats } from '../Entity/Stats/Stats';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { StatsError } from '../Error/StatsError';
-import { StatsOutlinesError } from '../VO/StatsOutline/Error/StatsOutlinesError';
 import { IStatsOutlineQuery } from '../Query/Interface/IStatsOutlineQuery';
 import { IStatsQuery } from '../Query/Interface/IStatsQuery';
 import { Page } from '../VO/Page/Page';
+import { StatsOutlinesError } from '../VO/StatsOutline/Error/StatsOutlinesError';
 import { StatsID } from '../VO/StatsOutline/StatsID';
 import { StatsOutlines } from '../VO/StatsOutline/StatsOutlines';
 import { VeauAccountID } from '../VO/VeauAccount/VeauAccountID';

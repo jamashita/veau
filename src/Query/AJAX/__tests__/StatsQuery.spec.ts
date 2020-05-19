@@ -1,7 +1,9 @@
+import 'reflect-metadata';
+
 import { INTERNAL_SERVER_ERROR, NO_CONTENT, OK } from 'http-status';
 import { AJAXError, DataSourceError, MockAJAX, Superposition, UUID } from 'publikum';
-import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
 import { TYPE } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { Stats, StatsJSON } from '../../../Entity/Stats/Stats';
