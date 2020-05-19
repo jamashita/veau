@@ -1,20 +1,22 @@
+import React from 'react';
+import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
+
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Icon from '@material-ui/core/Icon';
-import React from 'react';
-import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-import { AccountName } from '../../../VO/AccountName';
-import { Password } from '../../../VO/Password';
+
+import { AccountName } from '../../../VO/Account/AccountName';
+import { Password } from '../../../VO/EntranceInformation/Password';
 import { Props } from '../../Container/Page/Entrance';
 import { TextField } from '../Atom/TextField';
 
 type State = Readonly<{}>;
 
 class EntranceImpl extends React.Component<Props & WrappedComponentProps, State> {
-  public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
+  public shouldComponentUpdate(nextProps: Props & WrappedComponentProps): boolean {
     // prettier-ignore
     const {
       entranceInformation,

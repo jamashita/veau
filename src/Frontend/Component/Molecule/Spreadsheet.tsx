@@ -1,14 +1,16 @@
-import { HotTable } from '@handsontable/react';
 import { Nullable } from 'publikum';
 import React from 'react';
+
+import { HotTable } from '@handsontable/react';
+
 import { Stats } from '../../../Entity/Stats';
-import { AsOfs } from '../../../VO/AsOfs';
-import { Column } from '../../../VO/Column';
-import { Coordinate } from '../../../VO/Coordinate';
-import { HeaderSize } from '../../../VO/HeaderSize';
-import { NumericalValue } from '../../../VO/NumericalValue';
-import { Row } from '../../../VO/Row';
-import { StatsItemNames } from '../../../VO/StatsItemNames';
+import { AsOfs } from '../../../VO/AsOf/AsOfs';
+import { Column } from '../../../VO/Coordinate/Column';
+import { Coordinate } from '../../../VO/Coordinate/Coordinate';
+import { Row } from '../../../VO/Coordinate/Row';
+import { HeaderSize } from '../../../VO/HeaderSize/HeaderSize';
+import { NumericalValue } from '../../../VO/NumericalValue/NumericalValue';
+import { StatsItemNames } from '../../../VO/StatsItem/StatsItemNames';
 
 type CellValue = Nullable<string>;
 type CellChange = [number, string | number, CellValue, CellValue];
@@ -25,7 +27,7 @@ type State = Readonly<{}>;
 const SPREADSHEET_HEIGHT: number = 500;
 
 export class Spreadsheet extends React.Component<Props, State> {
-  public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
+  public shouldComponentUpdate(nextProps: Props): boolean {
     // prettier-ignore
     const {
       stats

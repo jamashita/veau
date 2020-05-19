@@ -1,8 +1,9 @@
 import React from 'react';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+
 import { Stats } from '../../../Entity/Stats';
-import { Colors } from '../../../VO/Colors';
-import { StatsItemName } from '../../../VO/StatsItemName';
+import { Colors } from '../../../VO/Color/Colors';
+import { StatsItemName } from '../../../VO/StatsItem/StatsItemName';
 
 type Props = Readonly<{
   stats: Stats;
@@ -13,7 +14,7 @@ const CHART_HEIGHT: number = 500;
 const MARGIN: number = 8;
 
 export class Chart extends React.Component<Props, State> {
-  public shouldComponentUpdate(nextProps: Readonly<Props>): boolean {
+  public shouldComponentUpdate(nextProps: Props): boolean {
     // prettier-ignore
     const {
       stats

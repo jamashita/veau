@@ -1,13 +1,15 @@
+import React from 'react';
+import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
+
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import React from 'react';
-import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-import { StatsID } from '../../../VO/StatsID';
-import { StatsListItem } from '../../../VO/StatsListItem';
-import { StatsListItems } from '../../../VO/StatsListItems';
+
+import { StatsListItem } from '../../../VO/StatsListItem/StatsListItem';
+import { StatsListItems } from '../../../VO/StatsListItem/StatsListItems';
+import { StatsID } from '../../../VO/StatsOutline/StatsID';
 
 type Props = Readonly<{
   statsListItems: StatsListItems;
@@ -16,7 +18,7 @@ type Props = Readonly<{
 type State = Readonly<{}>;
 
 class StatsOutlineListTableImpl extends React.Component<Props & WrappedComponentProps, State> {
-  public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
+  public shouldComponentUpdate(nextProps: Props & WrappedComponentProps): boolean {
     // prettier-ignore
     const {
       statsListItems

@@ -1,11 +1,13 @@
-import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
 import { Absent, Quantum, Superposition } from 'publikum';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-import { AsOfError } from '../../../Error/AsOfError';
-import { AsOf } from '../../../VO/AsOf';
-import { StatsID } from '../../../VO/StatsID';
+
+import Button from '@material-ui/core/Button';
+import Icon from '@material-ui/core/Icon';
+
+import { AsOf } from '../../../VO/AsOf/AsOf';
+import { AsOfError } from '../../../VO/AsOf/Error/AsOfError';
+import { StatsID } from '../../../VO/StatsOutline/StatsID';
 import { Props } from '../../Container/Page/StatsEdit';
 import { Authenticated } from '../../Container/Template/Authenticated';
 import { Chart } from '../Molecule/Chart';
@@ -55,10 +57,7 @@ export class StatsEditImpl extends React.Component<Props & WrappedComponentProps
     );
   }
 
-  public shouldComponentUpdate(
-    nextProps: Readonly<Props & WrappedComponentProps>,
-    nextState: Readonly<State>
-  ): boolean {
+  public shouldComponentUpdate(nextProps: Props & WrappedComponentProps, nextState: State): boolean {
     // prettier-ignore
     const {
       stats,

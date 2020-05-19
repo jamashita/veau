@@ -1,3 +1,6 @@
+import React from 'react';
+import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
+
 import amber from '@material-ui/core/colors/amber';
 import blue from '@material-ui/core/colors/blue';
 import green from '@material-ui/core/colors/green';
@@ -5,14 +8,13 @@ import red from '@material-ui/core/colors/red';
 import Icon from '@material-ui/core/Icon';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
-import React from 'react';
-import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
+
 import { Props } from '../../Container/Molecule/Notification';
 
 type State = Readonly<{}>;
 
 class NotificationImpl extends React.Component<Props & WrappedComponentProps, State> {
-  public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
+  public shouldComponentUpdate(nextProps: Props & WrappedComponentProps): boolean {
     // prettier-ignore
     const {
       kind,

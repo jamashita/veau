@@ -1,7 +1,9 @@
-import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
 import React from 'react';
 import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
+
+import Button from '@material-ui/core/Button';
+import Icon from '@material-ui/core/Icon';
+
 import { Props } from '../../Container/Page/StatsList';
 import { Authenticated } from '../../Container/Template/Authenticated';
 import { StatsOutlineListTable } from '../Molecule/StatsOutlineListTable';
@@ -19,7 +21,7 @@ class StatsListImpl extends React.Component<Props & WrappedComponentProps, State
     initialize();
   }
 
-  public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
+  public shouldComponentUpdate(nextProps: Props & WrappedComponentProps): boolean {
     // prettier-ignore
     const {
       statsListItems,

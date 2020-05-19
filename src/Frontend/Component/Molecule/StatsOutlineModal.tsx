@@ -1,3 +1,6 @@
+import React from 'react';
+import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
+
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -8,18 +11,17 @@ import Icon from '@material-ui/core/Icon';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import React from 'react';
-import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
+
 import { Stats } from '../../../Entity/Stats';
-import { ISO3166 } from '../../../VO/ISO3166';
-import { ISO639 } from '../../../VO/ISO639';
-import { Language } from '../../../VO/Language';
-import { Locale } from '../../../VO/Locale';
-import { Region } from '../../../VO/Region';
-import { StatsName } from '../../../VO/StatsName';
-import { StatsUnit } from '../../../VO/StatsUnit';
-import { Term } from '../../../VO/Term';
-import { Terms } from '../../../VO/Terms';
+import { ISO639 } from '../../../VO/Language/ISO639';
+import { Language } from '../../../VO/Language/Language';
+import { Locale } from '../../../VO/Locale/Locale';
+import { ISO3166 } from '../../../VO/Region/ISO3166';
+import { Region } from '../../../VO/Region/Region';
+import { StatsName } from '../../../VO/StatsOutline/StatsName';
+import { StatsUnit } from '../../../VO/StatsOutline/StatsUnit';
+import { Term } from '../../../VO/Term/Term';
+import { Terms } from '../../../VO/Term/Terms';
 import { TextField } from '../Atom/TextField';
 
 type Props = Readonly<{
@@ -37,7 +39,7 @@ type Props = Readonly<{
 type State = Readonly<{}>;
 
 class StatsOutlineModalImpl extends React.Component<Props & WrappedComponentProps, State> {
-  public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
+  public shouldComponentUpdate(nextProps: Props & WrappedComponentProps): boolean {
     // prettier-ignore
     const {
       open,

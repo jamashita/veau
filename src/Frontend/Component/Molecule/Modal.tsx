@@ -1,17 +1,19 @@
+import React from 'react';
+import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
+
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Icon from '@material-ui/core/Icon';
-import React from 'react';
-import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
+
 import { Props } from '../../Container/Molecule/Modal';
 
 type State = Readonly<{}>;
 
 class ModalImpl extends React.Component<Props & WrappedComponentProps, State> {
-  public shouldComponentUpdate(nextProps: Readonly<Props & WrappedComponentProps>): boolean {
+  public shouldComponentUpdate(nextProps: Props & WrappedComponentProps): boolean {
     // prettier-ignore
     const {
       open,

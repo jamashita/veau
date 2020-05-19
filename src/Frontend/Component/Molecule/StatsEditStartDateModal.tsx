@@ -1,14 +1,16 @@
+import { Alive, Superposition } from 'publikum';
+import React from 'react';
+import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
+
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Icon from '@material-ui/core/Icon';
-import { Alive, Superposition } from 'publikum';
-import React from 'react';
-import { injectIntl, WithIntlProps, WrappedComponentProps } from 'react-intl';
-import { AsOfError } from '../../../Error/AsOfError';
-import { AsOf } from '../../../VO/AsOf';
+
+import { AsOf } from '../../../VO/AsOf/AsOf';
+import { AsOfError } from '../../../VO/AsOf/Error/AsOfError';
 import { TextField } from '../Atom/TextField';
 
 type Props = Readonly<{
