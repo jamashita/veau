@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { DataSourceError, Dead, IMySQL, MySQLError, Schrodinger, Superposition } from 'publikum';
 
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { RegionError } from '../../VO/Region/Error/RegionError';
 import { RegionsError } from '../../VO/Region/Error/RegionsError';
@@ -18,7 +18,7 @@ export class RegionQuery implements IRegionQuery, IMySQLQuery {
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: IMySQL;
 
-  public constructor(@inject(TYPE.MySQL) mysql: IMySQL) {
+  public constructor(@inject(Type.MySQL) mysql: IMySQL) {
     this.mysql = mysql;
   }
 

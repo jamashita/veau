@@ -4,7 +4,7 @@ import { INTERNAL_SERVER_ERROR, NO_CONTENT, OK } from 'http-status';
 import { AJAXError, DataSourceError, MockAJAX, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 
-import { TYPE } from '../../../Container/Types';
+import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { Stats, StatsJSON } from '../../../Entity/Stats/Stats';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
@@ -16,8 +16,8 @@ import { StatsQuery } from '../StatsQuery';
 describe('StatsQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const statsQuery1: StatsQuery = vault.get<StatsQuery>(TYPE.StatsAJAXQuery);
-      const statsQuery2: StatsQuery = vault.get<StatsQuery>(TYPE.StatsAJAXQuery);
+      const statsQuery1: StatsQuery = vault.get<StatsQuery>(Type.StatsAJAXQuery);
+      const statsQuery2: StatsQuery = vault.get<StatsQuery>(Type.StatsAJAXQuery);
 
       expect(statsQuery1).toBeInstanceOf(StatsQuery);
       expect(statsQuery1).toBe(statsQuery2);

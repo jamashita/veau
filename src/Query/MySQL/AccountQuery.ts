@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { DataSourceError, Dead, IMySQL, MySQLError, Schrodinger, Superposition } from 'publikum';
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { AccountError } from '../../VO/Account/Error/AccountError';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { Account, AccountRow } from '../../VO/Account/Account';
@@ -14,7 +14,7 @@ export class AccountQuery implements IAccountQuery, IMySQLQuery {
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: IMySQL;
 
-  public constructor(@inject(TYPE.MySQL) mysql: IMySQL) {
+  public constructor(@inject(Type.MySQL) mysql: IMySQL) {
     this.mysql = mysql;
   }
 

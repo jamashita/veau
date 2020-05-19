@@ -5,7 +5,7 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { MockRegionCommand } from '../../../Command/Mock/MockRegionCommand';
 import { kernel } from '../../../Container/Kernel';
-import { TYPE } from '../../../Container/Types';
+import { Type } from '../../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { RegionError } from '../../../VO/Region/Error/RegionError';
 import { RegionsError } from '../../../VO/Region/Error/RegionsError';
@@ -21,8 +21,8 @@ import { RegionQuery } from '../RegionQuery';
 describe('RegionQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const regionQuery1: RegionQuery = kernel.get<RegionQuery>(TYPE.RegionKernelQuery);
-      const regionQuery2: RegionQuery = kernel.get<RegionQuery>(TYPE.RegionKernelQuery);
+      const regionQuery1: RegionQuery = kernel.get<RegionQuery>(Type.RegionKernelQuery);
+      const regionQuery2: RegionQuery = kernel.get<RegionQuery>(Type.RegionKernelQuery);
 
       expect(regionQuery1).toBeInstanceOf(RegionQuery);
       expect(regionQuery1).toBe(regionQuery2);

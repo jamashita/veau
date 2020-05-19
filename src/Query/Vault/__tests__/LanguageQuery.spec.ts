@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import { AJAXError, Alive, DataSourceError, Dead, Superposition } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 
-import { TYPE } from '../../../Container/Types';
+import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { LanguageError } from '../../../VO/Language/Error/LanguageError';
@@ -22,8 +22,8 @@ import { LanguageQuery } from '../LanguageQuery';
 describe('LanguageQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const languageQuery1: LanguageQuery = vault.get<LanguageQuery>(TYPE.LanguageVaultQuery);
-      const languageQuery2: LanguageQuery = vault.get<LanguageQuery>(TYPE.LanguageVaultQuery);
+      const languageQuery1: LanguageQuery = vault.get<LanguageQuery>(Type.LanguageVaultQuery);
+      const languageQuery2: LanguageQuery = vault.get<LanguageQuery>(Type.LanguageVaultQuery);
 
       expect(languageQuery1).toBeInstanceOf(LanguageQuery);
       expect(languageQuery1).toBe(languageQuery2);

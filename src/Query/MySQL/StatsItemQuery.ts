@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { DataSourceError, Dead, IMySQL, MySQLError, Project, Schrodinger, Superposition } from 'publikum';
 
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { StatsItemRow } from '../../Entity/StatsItem/StatsItem';
 import { StatsItems } from '../../Entity/StatsItem/StatsItems';
 import { StatsItemsError } from '../../VO/StatsItem/Error/StatsItemsError';
@@ -21,8 +21,8 @@ export class StatsItemQuery implements IStatsItemQuery, IMySQLQuery {
   private readonly statsValueQuery: IStatsValueQuery;
 
   public constructor(
-    @inject(TYPE.MySQL) mysql: IMySQL,
-    @inject(TYPE.StatsValueMySQLQuery) statsValueQuery: IStatsValueQuery
+    @inject(Type.MySQL) mysql: IMySQL,
+    @inject(Type.StatsValueMySQLQuery) statsValueQuery: IStatsValueQuery
   ) {
     this.mysql = mysql;
     this.statsValueQuery = statsValueQuery;

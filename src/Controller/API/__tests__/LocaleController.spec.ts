@@ -8,7 +8,7 @@ import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';
 
 import { kernel } from '../../../Container/Kernel';
-import { TYPE } from '../../../Container/Types';
+import { Type } from '../../../Container/Types';
 import { NoSuchElementError } from '../../../Query/Error/NoSuchElementError';
 import { LocaleInteractor } from '../../../Interactor/LocaleInteractor';
 import { MockISO639 } from '../../../VO/Language/Mock/MockISO639';
@@ -52,7 +52,7 @@ describe('LocaleController', () => {
         )
       });
 
-      const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
+      const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(Type.LocaleInteractor);
       const stub: SinonStub = sinon.stub();
       localeInteractor.all = stub;
       stub.resolves(Alive.of<Locale, NoSuchElementError | DataSourceError>(locale));
@@ -68,7 +68,7 @@ describe('LocaleController', () => {
     });
 
     it('returns INTERNAL_SERVER_ERROR when Dead contains NoSuchElementError', async () => {
-      const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
+      const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(Type.LocaleInteractor);
       const stub: SinonStub = sinon.stub();
       localeInteractor.all = stub;
       stub.resolves(Dead.of<Locale, NoSuchElementError | DataSourceError>(new NoSuchElementError('test failed')));
@@ -83,7 +83,7 @@ describe('LocaleController', () => {
     });
 
     it('returns INTERNAL_SERVER_ERROR when Dead contains DataSourceError', async () => {
-      const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
+      const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(Type.LocaleInteractor);
       const stub: SinonStub = sinon.stub();
       localeInteractor.all = stub;
       stub.resolves(Dead.of<Locale, NoSuchElementError | DataSourceError>(new RedisError('test failed')));
@@ -100,7 +100,7 @@ describe('LocaleController', () => {
 
   describe('DELETE /', () => {
     it('delete all locales of the cache', async () => {
-      const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
+      const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(Type.LocaleInteractor);
       const stub: SinonStub = sinon.stub();
       localeInteractor.delete = stub;
       stub.resolves(Alive.of<DataSourceError>());
@@ -116,7 +116,7 @@ describe('LocaleController', () => {
     });
 
     it('replies INTERNAL_SERVER_ERROR', async () => {
-      const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
+      const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(Type.LocaleInteractor);
       const stub: SinonStub = sinon.stub();
       localeInteractor.delete = stub;
       stub.resolves(Dead.of<DataSourceError>(new RedisError('test failed')));

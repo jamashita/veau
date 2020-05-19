@@ -3,7 +3,7 @@ import log4js from 'log4js';
 import { VerifyFunction } from 'passport-local';
 import { DataSourceError, Digest, Noun, Superposition } from 'publikum';
 
-import { TYPE } from '../Container/Types';
+import { Type } from '../Container/Types';
 import { NoSuchElementError } from '../Query/Error/NoSuchElementError';
 import { IAccountQuery } from '../Query/Interface/IAccountQuery';
 import { Account } from '../VO/Account/Account';
@@ -21,7 +21,7 @@ export class AuthenticationInteractor implements Noun {
   public readonly noun: 'AuthenticationInteractor' = 'AuthenticationInteractor';
   public readonly accountQuery: IAccountQuery;
 
-  public constructor(@inject(TYPE.AccountMySQLQuery) accountQuery: IAccountQuery) {
+  public constructor(@inject(Type.AccountMySQLQuery) accountQuery: IAccountQuery) {
     this.accountQuery = accountQuery;
   }
 

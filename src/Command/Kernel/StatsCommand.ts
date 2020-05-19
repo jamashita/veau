@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { Alive, DataSourceError, Dead, IMySQL, Superposition, UnimplementedError } from 'publikum';
 
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats/Stats';
 import { StatsUpdateFactory } from '../../Factory/StatsUpdateFactory';
 import { StatsUpdateTransaction } from '../../Transaction/StatsUpdateTransaction';
@@ -16,7 +16,7 @@ export class StatsCommand implements IStatsCommand, IKernelCommand {
   public readonly source: 'Kernel' = 'Kernel';
   private readonly mysql: IMySQL;
 
-  public constructor(@inject(TYPE.MySQL) mysql: IMySQL) {
+  public constructor(@inject(Type.MySQL) mysql: IMySQL) {
     this.mysql = mysql;
   }
 

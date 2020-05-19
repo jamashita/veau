@@ -5,7 +5,7 @@ import { DataSourceError, JSONable, Superposition } from 'publikum';
 import { Controller, Delete, Get, Req, Res, UseBefore } from 'routing-controllers';
 
 import { kernel } from '../../Container/Kernel';
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { LocaleInteractor } from '../../Interactor/LocaleInteractor';
 import { LocaleError } from '../../VO/Locale/Error/LocaleError';
 import { AuthenticationMiddleware } from '../Middleware/AuthenticationMiddleware';
@@ -13,9 +13,9 @@ import { AuthenticationMiddleware } from '../Middleware/AuthenticationMiddleware
 const logger: log4js.Logger = log4js.getLogger();
 
 const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(
-  TYPE.AuthenticationMiddleware
+  Type.AuthenticationMiddleware
 );
-const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
+const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(Type.LocaleInteractor);
 
 @Controller('/locale')
 export class LocaleController {

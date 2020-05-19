@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { DataSourceError, Dead, IMySQL, MySQLError, Schrodinger, Superposition } from 'publikum';
 
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { LanguageError } from '../../VO/Language/Error/LanguageError';
 import { LanguagesError } from '../../VO/Language/Error/LanguagesError';
@@ -18,7 +18,7 @@ export class LanguageQuery implements ILanguageQuery, IMySQLQuery {
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: IMySQL;
 
-  public constructor(@inject(TYPE.MySQL) mysql: IMySQL) {
+  public constructor(@inject(Type.MySQL) mysql: IMySQL) {
     this.mysql = mysql;
   }
 

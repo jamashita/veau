@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import { CacheError, DataSourceError, MockCache, MockError, Superposition } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 
-import { TYPE } from '../../../Container/Types';
+import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { VAULT_LOCALE_KEY } from '../../../Infrastructure/VeauCache';
 import { Locale } from '../../../VO/Locale/Locale';
@@ -13,8 +13,8 @@ import { LocaleCommand } from '../LocaleCommand';
 describe('LocaleCommand', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const localeCommand1: LocaleCommand = vault.get<LocaleCommand>(TYPE.LocaleCacheCommand);
-      const localeCommand2: LocaleCommand = vault.get<LocaleCommand>(TYPE.LocaleCacheCommand);
+      const localeCommand1: LocaleCommand = vault.get<LocaleCommand>(Type.LocaleCacheCommand);
+      const localeCommand2: LocaleCommand = vault.get<LocaleCommand>(Type.LocaleCacheCommand);
 
       expect(localeCommand1).toBeInstanceOf(LocaleCommand);
       expect(localeCommand1).toBe(localeCommand2);

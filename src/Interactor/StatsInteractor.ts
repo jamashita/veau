@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify';
 import { DataSourceError, Noun, Superposition } from 'publikum';
 
 import { IStatsCommand } from '../Command/Interface/IStatsCommand';
-import { TYPE } from '../Container/Types';
+import { Type } from '../Container/Types';
 import { StatsError } from '../Entity/Stats/Error/StatsError';
 import { Stats } from '../Entity/Stats/Stats';
 import { NoSuchElementError } from '../Query/Error/NoSuchElementError';
@@ -22,9 +22,9 @@ export class StatsInteractor implements Noun {
   private readonly statsCommand: IStatsCommand;
 
   public constructor(
-    @inject(TYPE.StatsKernelQuery) statsQuery: IStatsQuery,
-    @inject(TYPE.StatsOutlineMySQLQuery) statsOutlineQuery: IStatsOutlineQuery,
-    @inject(TYPE.StatsKernelCommand) statsCommand: IStatsCommand
+    @inject(Type.StatsKernelQuery) statsQuery: IStatsQuery,
+    @inject(Type.StatsOutlineMySQLQuery) statsOutlineQuery: IStatsOutlineQuery,
+    @inject(Type.StatsKernelCommand) statsCommand: IStatsCommand
   ) {
     this.statsQuery = statsQuery;
     this.statsOutlineQuery = statsOutlineQuery;

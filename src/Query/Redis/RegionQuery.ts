@@ -14,7 +14,7 @@ import {
   UnimplementedError
 } from 'publikum';
 
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { RegionError } from '../../VO/Region/Error/RegionError';
 import { RegionsError } from '../../VO/Region/Error/RegionsError';
@@ -32,7 +32,7 @@ export class RegionQuery implements IRegionQuery, IRedisQuery {
   public readonly source: 'Redis' = 'Redis';
   private readonly redis: IRedis;
 
-  public constructor(@inject(TYPE.Redis) redis: IRedis) {
+  public constructor(@inject(Type.Redis) redis: IRedis) {
     this.redis = redis;
   }
 

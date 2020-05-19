@@ -5,7 +5,7 @@ import { DataSourceError, JSONable, PlainObject, Superposition } from 'publikum'
 import { Body, Controller, Get, Param, Post, Res, UseBefore } from 'routing-controllers';
 
 import { kernel } from '../../Container/Kernel';
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { StatsError } from '../../Entity/Stats/Error/StatsError';
 import { Stats } from '../../Entity/Stats/Stats';
 import { StatsInteractor } from '../../Interactor/StatsInteractor';
@@ -20,9 +20,9 @@ import { AuthenticationMiddleware } from '../Middleware/AuthenticationMiddleware
 const logger: log4js.Logger = log4js.getLogger();
 
 const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(
-  TYPE.AuthenticationMiddleware
+  Type.AuthenticationMiddleware
 );
-const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
+const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
 
 @Controller('/stats')
 export class StatsController {

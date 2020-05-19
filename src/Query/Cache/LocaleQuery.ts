@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { Alive, CacheError, DataSourceError, Dead, ICache, Superposition } from 'publikum';
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { LocaleError } from '../../VO/Locale/Error/LocaleError';
 import { VAULT_LOCALE_KEY } from '../../Infrastructure/VeauCache';
 import { Locale } from '../../VO/Locale/Locale';
@@ -13,7 +13,7 @@ export class LocaleQuery implements ILocaleQuery, ICacheQuery {
   public readonly source: 'Cache' = 'Cache';
   private readonly cache: ICache;
 
-  public constructor(@inject(TYPE.Cache) cache: ICache) {
+  public constructor(@inject(Type.Cache) cache: ICache) {
     this.cache = cache;
   }
 

@@ -5,7 +5,7 @@ import { from, merge, Observable } from 'rxjs';
 import { mapTo, mergeMap } from 'rxjs/operators';
 
 import { ISessionCommand } from '../../Command/Interface/ISessionCommand';
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { Action, LOGOUT, LogoutAction } from '../Action/Action';
 import { initializeIdentity } from '../Action/IdentityAction';
 import { closeProvider } from '../Action/PageProviderAction';
@@ -15,7 +15,7 @@ import { pushToEntrance } from '../Action/RedirectAction';
 export class LogoutEpic {
   private readonly sessionCommand: ISessionCommand;
 
-  public constructor(@inject(TYPE.SessionAJAXCommand) sessionCommand: ISessionCommand) {
+  public constructor(@inject(Type.SessionAJAXCommand) sessionCommand: ISessionCommand) {
     this.sessionCommand = sessionCommand;
   }
 

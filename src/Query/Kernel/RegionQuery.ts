@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify';
 import { Alive, DataSourceError, Dead, Quantum, Superposition, UnimplementedError } from 'publikum';
 
 import { IRegionCommand } from '../../Command/Interface/IRegionCommand';
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { RegionError } from '../../VO/Region/Error/RegionError';
 import { RegionsError } from '../../VO/Region/Error/RegionsError';
 import { ISO3166 } from '../../VO/Region/ISO3166';
@@ -22,9 +22,9 @@ export class RegionQuery implements IRegionQuery, IKernelQuery {
   private readonly regionRedisCommand: IRegionCommand;
 
   public constructor(
-    @inject(TYPE.RegionMySQLQuery) regionMySQLQuery: IRegionQuery,
-    @inject(TYPE.RegionRedisQuery) regionRedisQuery: IRegionQuery,
-    @inject(TYPE.RegionRedisCommand) regionRedisCommand: IRegionCommand
+    @inject(Type.RegionMySQLQuery) regionMySQLQuery: IRegionQuery,
+    @inject(Type.RegionRedisQuery) regionRedisQuery: IRegionQuery,
+    @inject(Type.RegionRedisCommand) regionRedisCommand: IRegionCommand
   ) {
     this.regionMySQLQuery = regionMySQLQuery;
     this.regionRedisQuery = regionRedisQuery;

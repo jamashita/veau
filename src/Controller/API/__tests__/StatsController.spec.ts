@@ -9,7 +9,7 @@ import sinon, { SinonStub } from 'sinon';
 import supertest from 'supertest';
 
 import { kernel } from '../../../Container/Kernel';
-import { TYPE } from '../../../Container/Types';
+import { Type } from '../../../Container/Types';
 import { MockStats } from '../../../Entity/Stats/Mock/MockStats';
 import { Stats } from '../../../Entity/Stats/Stats';
 import { NoSuchElementError } from '../../../Query/Error/NoSuchElementError';
@@ -39,7 +39,7 @@ describe('StatsController', () => {
         new MockStatsOutline()
       );
 
-      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
+      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
       const stub: SinonStub = sinon.stub();
       statsInteractor.findByVeauAccountID = stub;
       stub.resolves(Alive.of<StatsOutlines, StatsOutlinesError>(outlines));
@@ -67,7 +67,7 @@ describe('StatsController', () => {
     });
 
     it('replies INTERNAL_SERVER_ERROR', async () => {
-      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
+      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
       const stub: SinonStub = sinon.stub();
       statsInteractor.findByVeauAccountID = stub;
       stub.resolves(Dead.of<StatsOutlines, StatsOutlinesError>(new StatsOutlinesError('test failed')));
@@ -87,7 +87,7 @@ describe('StatsController', () => {
     it('normal case', async () => {
       const stats: MockStats = new MockStats();
 
-      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
+      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
       const stub: SinonStub = sinon.stub();
       statsInteractor.findByStatsID = stub;
       stub.resolves(Alive.of<Stats, NoSuchElementError>(stats));
@@ -104,7 +104,7 @@ describe('StatsController', () => {
     });
 
     it('replies INTERNAL_SERVER_ERROR because uuid is malformat', async () => {
-      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
+      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
       const stub: SinonStub = sinon.stub();
       statsInteractor.findByStatsID = stub;
       stub.resolves(Dead.of<Stats, NoSuchElementError>(new NoSuchElementError('test failed')));
@@ -120,7 +120,7 @@ describe('StatsController', () => {
     });
 
     it('replies INTERNAL_SERVER_ERROR becuase StatsIteractor.findByStatsID() returns Dead', async () => {
-      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
+      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
       const stub: SinonStub = sinon.stub();
       statsInteractor.findByStatsID = stub;
       stub.resolves(Dead.of<Stats, NoSuchElementError | StatsError>(new StatsError('test failed')));
@@ -144,7 +144,7 @@ describe('StatsController', () => {
         })
       });
 
-      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
+      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
       const stub: SinonStub = sinon.stub();
       statsInteractor.save = stub;
       stub.resolves(Alive.of<DataSourceError>());
@@ -195,7 +195,7 @@ describe('StatsController', () => {
     });
 
     it('replies BAD_REQUEST because UUIDs are malformat', async () => {
-      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
+      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
       const stub: SinonStub = sinon.stub();
       statsInteractor.save = stub;
       stub.resolves(Alive.of<unknown, DataSourceError>(4));
@@ -247,7 +247,7 @@ describe('StatsController', () => {
         })
       });
 
-      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
+      const statsInteractor: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
       const stub: SinonStub = sinon.stub();
       statsInteractor.save = stub;
       stub.resolves(Dead.of<DataSourceError>(new MySQLError('test failed')));

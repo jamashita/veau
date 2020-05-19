@@ -12,7 +12,7 @@ import {
   Superposition
 } from 'publikum';
 
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { StatsItemIDError } from '../../VO/StatsItem/Error/StatsItemIDError';
 import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { StatsItemID } from '../../VO/StatsItem/StatsItemID';
@@ -28,7 +28,7 @@ export class StatsValueQuery implements IStatsValueQuery, IMySQLQuery {
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: IMySQL;
 
-  public constructor(@inject(TYPE.MySQL) mysql: IMySQL) {
+  public constructor(@inject(Type.MySQL) mysql: IMySQL) {
     this.mysql = mysql;
   }
 

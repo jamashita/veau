@@ -3,7 +3,7 @@ import { Alive, DataSourceError, Dead, Noun, Schrodinger, Superposition } from '
 
 import { ILanguageCommand } from '../Command/Interface/ILanguageCommand';
 import { IRegionCommand } from '../Command/Interface/IRegionCommand';
-import { TYPE } from '../Container/Types';
+import { Type } from '../Container/Types';
 import { ILanguageQuery } from '../Query/Interface/ILanguageQuery';
 import { IRegionQuery } from '../Query/Interface/IRegionQuery';
 import { LanguagesError } from '../VO/Language/Error/LanguagesError';
@@ -22,10 +22,10 @@ export class LocaleInteractor implements Noun {
   private readonly regionCommand: IRegionCommand;
 
   public constructor(
-    @inject(TYPE.LanguageKernelQuery) languageQuery: ILanguageQuery,
-    @inject(TYPE.RegionKernelQuery) regionQuery: IRegionQuery,
-    @inject(TYPE.LanguageRedisCommand) languageCommand: ILanguageCommand,
-    @inject(TYPE.RegionRedisCommand) regionCommand: IRegionCommand
+    @inject(Type.LanguageKernelQuery) languageQuery: ILanguageQuery,
+    @inject(Type.RegionKernelQuery) regionQuery: IRegionQuery,
+    @inject(Type.LanguageRedisCommand) languageCommand: ILanguageCommand,
+    @inject(Type.RegionRedisCommand) regionCommand: IRegionCommand
   ) {
     this.languageQuery = languageQuery;
     this.regionQuery = regionQuery;

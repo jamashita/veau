@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { Alive, DataSourceError, Dead, Quantum, QuantumError, Superposition, UnimplementedError } from 'publikum';
 
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { LanguageError } from '../../VO/Language/Error/LanguageError';
 import { LanguagesError } from '../../VO/Language/Error/LanguagesError';
@@ -21,7 +21,7 @@ export class LanguageQuery implements ILanguageQuery, IVaultQuery {
   public readonly source: 'Vault' = 'Vault';
   private readonly localeVaultQuery: ILocaleQuery;
 
-  public constructor(@inject(TYPE.LocaleVaultQuery) localeVaultQuery: ILocaleQuery) {
+  public constructor(@inject(Type.LocaleVaultQuery) localeVaultQuery: ILocaleQuery) {
     this.localeVaultQuery = localeVaultQuery;
   }
 

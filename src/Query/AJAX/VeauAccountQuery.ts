@@ -1,7 +1,7 @@
 import { OK, UNAUTHORIZED } from 'http-status';
 import { inject, injectable } from 'inversify';
 import { AJAXError, AJAXResponse, Alive, DataSourceError, Dead, IAJAX, Superposition } from 'publikum';
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { VeauAccountError } from '../../VO/VeauAccount/Error/VeauAccountError';
 import { EntranceInformation } from '../../VO/EntranceInformation/EntranceInformation';
 import { VeauAccount, VeauAccountJSON } from '../../VO/VeauAccount/VeauAccount';
@@ -14,7 +14,7 @@ export class VeauAccountQuery implements IVeauAccountQuery, IAJAXQuery {
   public readonly source: 'AJAX' = 'AJAX';
   private readonly ajax: IAJAX;
 
-  public constructor(@inject(TYPE.AJAX) ajax: IAJAX) {
+  public constructor(@inject(Type.AJAX) ajax: IAJAX) {
     this.ajax = ajax;
   }
 

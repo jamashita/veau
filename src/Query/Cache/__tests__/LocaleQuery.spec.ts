@@ -1,7 +1,7 @@
 import { CacheError, DataSourceError, MockCache, MockError, Superposition } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { TYPE } from '../../../Container/Types';
+import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { LocaleError } from '../../../VO/Locale/Error/LocaleError';
 import { VAULT_LOCALE_KEY } from '../../../Infrastructure/VeauCache';
@@ -12,8 +12,8 @@ import { LocaleQuery } from '../LocaleQuery';
 describe('LocaleQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const localeQuery1: LocaleQuery = vault.get<LocaleQuery>(TYPE.LocaleCacheQuery);
-      const localeQuery2: LocaleQuery = vault.get<LocaleQuery>(TYPE.LocaleCacheQuery);
+      const localeQuery1: LocaleQuery = vault.get<LocaleQuery>(Type.LocaleCacheQuery);
+      const localeQuery2: LocaleQuery = vault.get<LocaleQuery>(Type.LocaleCacheQuery);
 
       expect(localeQuery1).toBeInstanceOf(LocaleQuery);
       expect(localeQuery1).toBe(localeQuery2);

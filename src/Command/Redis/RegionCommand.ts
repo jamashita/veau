@@ -11,7 +11,7 @@ import {
   Superposition
 } from 'publikum';
 
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { REDIS_REGION_KEY } from '../../Infrastructure/VeauRedis';
 import { Regions } from '../../VO/Region/Regions';
 import { IRedisCommand } from './Interface/IRedisCommand';
@@ -25,7 +25,7 @@ export class RegionCommand implements IRegionCommand, IRedisCommand {
   public readonly source: 'Redis' = 'Redis';
   private readonly redis: IRedis;
 
-  public constructor(@inject(TYPE.Redis) redis: IRedis) {
+  public constructor(@inject(Type.Redis) redis: IRedis) {
     this.redis = redis;
   }
 

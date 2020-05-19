@@ -4,15 +4,15 @@ import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import { AJAXError, DataSourceError, MockAJAX, Superposition } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 
-import { TYPE } from '../../../Container/Types';
+import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { SessionCommand } from '../SessionCommand';
 
 describe('SessionCommand', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const sessionCommand1: SessionCommand = vault.get<SessionCommand>(TYPE.SessionAJAXCommand);
-      const sessionCommand2: SessionCommand = vault.get<SessionCommand>(TYPE.SessionAJAXCommand);
+      const sessionCommand1: SessionCommand = vault.get<SessionCommand>(Type.SessionAJAXCommand);
+      const sessionCommand2: SessionCommand = vault.get<SessionCommand>(Type.SessionAJAXCommand);
 
       expect(sessionCommand1).toBeInstanceOf(SessionCommand);
       expect(sessionCommand1).toBe(sessionCommand2);

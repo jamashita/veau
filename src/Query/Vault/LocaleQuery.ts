@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify';
 import { Alive, DataSourceError, Dead, Superposition } from 'publikum';
 
 import { ILocaleCommand } from '../../Command/Interface/ILocaleCommand';
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { LocaleError } from '../../VO/Locale/Error/LocaleError';
 import { Locale } from '../../VO/Locale/Locale';
 import { ILocaleQuery } from '../Interface/ILocaleQuery';
@@ -17,9 +17,9 @@ export class LocaleQuery implements ILocaleQuery, IVaultQuery {
   private readonly localeCommand: ILocaleCommand;
 
   public constructor(
-    @inject(TYPE.LocaleAJAXQuery) localeAJAXQuery: ILocaleQuery,
-    @inject(TYPE.LocaleCacheQuery) localeCacheQuery: ILocaleQuery,
-    @inject(TYPE.LocaleCacheCommand) localeCommand: ILocaleCommand
+    @inject(Type.LocaleAJAXQuery) localeAJAXQuery: ILocaleQuery,
+    @inject(Type.LocaleCacheQuery) localeCacheQuery: ILocaleQuery,
+    @inject(Type.LocaleCacheCommand) localeCommand: ILocaleCommand
   ) {
     this.localeAJAXQuery = localeAJAXQuery;
     this.localeCacheQuery = localeCacheQuery;

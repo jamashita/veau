@@ -2,7 +2,7 @@ import { DataSourceError, MockError, MockMySQL, MySQLError, Superposition, UUID 
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
-import { TYPE } from '../../../Container/Types';
+import { Type } from '../../../Container/Types';
 import { AccountError } from '../../../VO/Account/Error/AccountError';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { Account, AccountRow } from '../../../VO/Account/Account';
@@ -12,8 +12,8 @@ import { AccountQuery } from '../AccountQuery';
 describe('AccountQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const accountQuery1: AccountQuery = kernel.get<AccountQuery>(TYPE.AccountMySQLQuery);
-      const accountQuery2: AccountQuery = kernel.get<AccountQuery>(TYPE.AccountMySQLQuery);
+      const accountQuery1: AccountQuery = kernel.get<AccountQuery>(Type.AccountMySQLQuery);
+      const accountQuery2: AccountQuery = kernel.get<AccountQuery>(Type.AccountMySQLQuery);
 
       expect(accountQuery1).toBeInstanceOf(AccountQuery);
       expect(accountQuery1).toBe(accountQuery2);

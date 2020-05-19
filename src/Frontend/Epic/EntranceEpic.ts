@@ -3,7 +3,7 @@ import { DataSourceError, Superposition } from 'publikum';
 import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { concat, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { IdentityError } from '../../VO/Identity/Error/IdentityError';
 import { VeauAccountError } from '../../VO/VeauAccount/Error/VeauAccountError';
 import { IIdentityQuery } from '../../Query/Interface/IIdentityQuery';
@@ -29,7 +29,7 @@ import { State } from '../State';
 export class EntranceEpic {
   private readonly identityQuery: IIdentityQuery;
 
-  public constructor(@inject(TYPE.IdentityVaultQuery) identityQuery: IIdentityQuery) {
+  public constructor(@inject(Type.IdentityVaultQuery) identityQuery: IIdentityQuery) {
     this.identityQuery = identityQuery;
   }
 

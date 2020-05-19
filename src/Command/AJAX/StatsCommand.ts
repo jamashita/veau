@@ -11,7 +11,7 @@ import {
   UnimplementedError
 } from 'publikum';
 
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats/Stats';
 import { StatsID } from '../../VO/StatsOutline/StatsID';
 import { IAJAXCommand } from './Interface/IAJAXCommand';
@@ -23,7 +23,7 @@ export class StatsCommand implements IStatsCommand, IAJAXCommand {
   public readonly source: 'AJAX' = 'AJAX';
   private readonly ajax: IAJAX;
 
-  public constructor(@inject(TYPE.AJAX) ajax: IAJAX) {
+  public constructor(@inject(Type.AJAX) ajax: IAJAX) {
     this.ajax = ajax;
   }
 

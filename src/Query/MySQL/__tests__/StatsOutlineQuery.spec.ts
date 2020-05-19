@@ -2,7 +2,7 @@ import { DataSourceError, MockError, MockMySQL, MySQLError, Superposition, UUID 
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { kernel } from '../../../Container/Kernel';
-import { TYPE } from '../../../Container/Types';
+import { Type } from '../../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { StatsOutlineError } from '../../../VO/StatsOutline/Error/StatsOutlineError';
 import { StatsOutlinesError } from '../../../VO/StatsOutline/Error/StatsOutlinesError';
@@ -16,8 +16,8 @@ import { StatsOutlineQuery } from '../StatsOutlineQuery';
 describe('StatsOutlineQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const statsOutlineQuery1: StatsOutlineQuery = kernel.get<StatsOutlineQuery>(TYPE.StatsOutlineMySQLQuery);
-      const statsOutlineQuery2: StatsOutlineQuery = kernel.get<StatsOutlineQuery>(TYPE.StatsOutlineMySQLQuery);
+      const statsOutlineQuery1: StatsOutlineQuery = kernel.get<StatsOutlineQuery>(Type.StatsOutlineMySQLQuery);
+      const statsOutlineQuery2: StatsOutlineQuery = kernel.get<StatsOutlineQuery>(Type.StatsOutlineMySQLQuery);
 
       expect(statsOutlineQuery1).toBeInstanceOf(StatsOutlineQuery);
       expect(statsOutlineQuery1).toBe(statsOutlineQuery2);

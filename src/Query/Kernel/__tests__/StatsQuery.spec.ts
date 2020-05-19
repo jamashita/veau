@@ -4,7 +4,7 @@ import { Alive, DataSourceError, Dead, MySQLError, Superposition, UUID } from 'p
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { kernel } from '../../../Container/Kernel';
-import { TYPE } from '../../../Container/Types';
+import { Type } from '../../../Container/Types';
 import { Stats } from '../../../Entity/Stats/Stats';
 import { MockStatsItems } from '../../../Entity/StatsItem/Mock/MockStatsItems';
 import { StatsItems } from '../../../Entity/StatsItem/StatsItems';
@@ -35,8 +35,8 @@ import { StatsQuery } from '../StatsQuery';
 describe('StatsQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const statsQuery1: StatsQuery = kernel.get<StatsQuery>(TYPE.StatsKernelQuery);
-      const statsQuery2: StatsQuery = kernel.get<StatsQuery>(TYPE.StatsKernelQuery);
+      const statsQuery1: StatsQuery = kernel.get<StatsQuery>(Type.StatsKernelQuery);
+      const statsQuery2: StatsQuery = kernel.get<StatsQuery>(Type.StatsKernelQuery);
 
       expect(statsQuery1).toBeInstanceOf(StatsQuery);
       expect(statsQuery1).toBe(statsQuery2);

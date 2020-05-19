@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { DataSourceError, Dead, IMySQL, MySQLError, Schrodinger, Superposition } from 'publikum';
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { StatsOutlineError } from '../../VO/StatsOutline/Error/StatsOutlineError';
 import { StatsOutlinesError } from '../../VO/StatsOutline/Error/StatsOutlinesError';
@@ -18,7 +18,7 @@ export class StatsOutlineQuery implements IStatsOutlineQuery, IMySQLQuery {
   public readonly source: 'MySQL' = 'MySQL';
   private readonly mysql: IMySQL;
 
-  public constructor(@inject(TYPE.MySQL) mysql: IMySQL) {
+  public constructor(@inject(Type.MySQL) mysql: IMySQL) {
     this.mysql = mysql;
   }
 

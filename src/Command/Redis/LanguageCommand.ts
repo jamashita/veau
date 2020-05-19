@@ -11,7 +11,7 @@ import {
   Superposition
 } from 'publikum';
 
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { REDIS_LANGUAGE_KEY } from '../../Infrastructure/VeauRedis';
 import { Languages } from '../../VO/Language/Languages';
 import { ILanguageCommand } from '../Interface/ILanguageCommand';
@@ -25,7 +25,7 @@ export class LanguageCommand implements ILanguageCommand, IRedisCommand {
   public readonly source: 'Redis' = 'Redis';
   private readonly redis: IRedis;
 
-  public constructor(@inject(TYPE.Redis) redis: IRedis) {
+  public constructor(@inject(Type.Redis) redis: IRedis) {
     this.redis = redis;
   }
 

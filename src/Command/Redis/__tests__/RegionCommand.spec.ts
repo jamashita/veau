@@ -4,7 +4,7 @@ import { DataSourceError, MockError, MockRedis, MockRedisString, RedisError, Sup
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { kernel } from '../../../Container/Kernel';
-import { TYPE } from '../../../Container/Types';
+import { Type } from '../../../Container/Types';
 import { MockRegion } from '../../../VO/Region/Mock/MockRegion';
 import { MockRegionName } from '../../../VO/Region/Mock/MockRegionName';
 import { MockRegions } from '../../../VO/Region/Mock/MockRegions';
@@ -13,8 +13,8 @@ import { RegionCommand } from '../RegionCommand';
 describe('RegionCommand', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const regionCommand1: RegionCommand = kernel.get<RegionCommand>(TYPE.RegionRedisCommand);
-      const regionCommand2: RegionCommand = kernel.get<RegionCommand>(TYPE.RegionRedisCommand);
+      const regionCommand1: RegionCommand = kernel.get<RegionCommand>(Type.RegionRedisCommand);
+      const regionCommand2: RegionCommand = kernel.get<RegionCommand>(Type.RegionRedisCommand);
 
       expect(regionCommand1).toBeInstanceOf(RegionCommand);
       expect(regionCommand1).toBe(regionCommand2);

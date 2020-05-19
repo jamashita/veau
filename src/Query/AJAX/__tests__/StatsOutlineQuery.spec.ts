@@ -2,7 +2,7 @@ import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import { AJAXError, DataSourceError, MockAJAX, Superposition, UUID } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { TYPE } from '../../../Container/Types';
+import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { StatsOutlinesError } from '../../../VO/StatsOutline/Error/StatsOutlinesError';
 import { MockPage } from '../../../VO/Page/Mock/MockPage';
@@ -14,8 +14,8 @@ import { StatsOutlineQuery } from '../StatsOutlineQuery';
 describe('StatsOutlineQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const statsOutlineQuery1: StatsOutlineQuery = vault.get<StatsOutlineQuery>(TYPE.StatsOutlineAJAXQuery);
-      const statsOutlineQuery2: StatsOutlineQuery = vault.get<StatsOutlineQuery>(TYPE.StatsOutlineAJAXQuery);
+      const statsOutlineQuery1: StatsOutlineQuery = vault.get<StatsOutlineQuery>(Type.StatsOutlineAJAXQuery);
+      const statsOutlineQuery2: StatsOutlineQuery = vault.get<StatsOutlineQuery>(Type.StatsOutlineAJAXQuery);
 
       expect(statsOutlineQuery1).toBeInstanceOf(StatsOutlineQuery);
       expect(statsOutlineQuery1).toBe(statsOutlineQuery2);

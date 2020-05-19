@@ -4,11 +4,11 @@ import passport from 'passport';
 import { Controller, Post, Req, Res, UseBefore } from 'routing-controllers';
 
 import { kernel } from '../../Container/Kernel';
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { AuthenticationMiddleware } from '../Middleware/AuthenticationMiddleware';
 
 const authenticationMiddleware: AuthenticationMiddleware = kernel.get<AuthenticationMiddleware>(
-  TYPE.AuthenticationMiddleware
+  Type.AuthenticationMiddleware
 );
 
 @Controller('/auth')

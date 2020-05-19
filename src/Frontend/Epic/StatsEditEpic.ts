@@ -5,7 +5,7 @@ import { EMPTY, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mapTo, mergeMap } from 'rxjs/operators';
 
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { StatsError } from '../../Entity/Stats/Error/StatsError';
 import { Stats } from '../../Entity/Stats/Stats';
 import { StatsItem } from '../../Entity/StatsItem/StatsItem';
@@ -72,11 +72,11 @@ export class StatsEditEpic {
   private readonly statsCommand: IStatsCommand;
 
   public constructor(
-    @inject(TYPE.StatsAJAXQuery) statsQuery: IStatsQuery,
-    @inject(TYPE.LocaleVaultQuery) localeQuery: ILocaleQuery,
-    @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery,
-    @inject(TYPE.RegionVaultQuery) regionQuery: IRegionQuery,
-    @inject(TYPE.StatsAJAXCommand) statsCommand: IStatsCommand
+    @inject(Type.StatsAJAXQuery) statsQuery: IStatsQuery,
+    @inject(Type.LocaleVaultQuery) localeQuery: ILocaleQuery,
+    @inject(Type.LanguageVaultQuery) languageQuery: ILanguageQuery,
+    @inject(Type.RegionVaultQuery) regionQuery: IRegionQuery,
+    @inject(Type.StatsAJAXCommand) statsCommand: IStatsCommand
   ) {
     this.statsQuery = statsQuery;
     this.localeQuery = localeQuery;

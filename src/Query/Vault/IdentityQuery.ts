@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { Alive, DataSourceError, Dead, Superposition } from 'publikum';
 
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { IdentityError } from '../../VO/Identity/Error/IdentityError';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { RegionError } from '../../VO/Region/Error/RegionError';
@@ -27,9 +27,9 @@ export class IdentityQuery implements IIdentityQuery, IVaultQuery {
   private readonly regionQuery: IRegionQuery;
 
   public constructor(
-    @inject(TYPE.VeauAccountAJAXQuery) veauAccountQuery: IVeauAccountQuery,
-    @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery,
-    @inject(TYPE.RegionVaultQuery) regionQuery: IRegionQuery
+    @inject(Type.VeauAccountAJAXQuery) veauAccountQuery: IVeauAccountQuery,
+    @inject(Type.LanguageVaultQuery) languageQuery: ILanguageQuery,
+    @inject(Type.RegionVaultQuery) regionQuery: IRegionQuery
   ) {
     this.veauAccountQuery = veauAccountQuery;
     this.languageQuery = languageQuery;

@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import { AJAXError, Alive, DataSourceError, Dead, Superposition } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 
-import { TYPE } from '../../../Container/Types';
+import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { IdentityError } from '../../../VO/Identity/Error/IdentityError';
 import { RegionError } from '../../../VO/Region/Error/RegionError';
@@ -27,8 +27,8 @@ import { IdentityQuery } from '../IdentityQuery';
 describe('IdentityQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const identityQuery1: IdentityQuery = vault.get<IdentityQuery>(TYPE.IdentityVaultQuery);
-      const identityQuery2: IdentityQuery = vault.get<IdentityQuery>(TYPE.IdentityVaultQuery);
+      const identityQuery1: IdentityQuery = vault.get<IdentityQuery>(Type.IdentityVaultQuery);
+      const identityQuery2: IdentityQuery = vault.get<IdentityQuery>(Type.IdentityVaultQuery);
 
       expect(identityQuery1).toBeInstanceOf(IdentityQuery);
       expect(identityQuery1).toBe(identityQuery2);

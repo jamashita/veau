@@ -6,7 +6,7 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { MockLanguageCommand } from '../../Command/Mock/MockLanguageCommand';
 import { MockRegionCommand } from '../../Command/Mock/MockRegionCommand';
 import { kernel } from '../../Container/Kernel';
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
 import { MockLanguageQuery } from '../../Query/Mock/MockLanguageQuery';
 import { MockRegionQuery } from '../../Query/Mock/MockRegionQuery';
@@ -23,8 +23,8 @@ import { LocaleInteractor } from '../LocaleInteractor';
 describe('LocaleInteractor', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const localeInteractor1: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
-      const localeInteractor2: LocaleInteractor = kernel.get<LocaleInteractor>(TYPE.LocaleInteractor);
+      const localeInteractor1: LocaleInteractor = kernel.get<LocaleInteractor>(Type.LocaleInteractor);
+      const localeInteractor2: LocaleInteractor = kernel.get<LocaleInteractor>(Type.LocaleInteractor);
 
       expect(localeInteractor1).toBeInstanceOf(LocaleInteractor);
       expect(localeInteractor1).toBe(localeInteractor2);

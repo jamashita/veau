@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify';
 import { Alive, DataSourceError, Dead, Quantum, Superposition, UnimplementedError } from 'publikum';
 
 import { ILanguageCommand } from '../../Command/Interface/ILanguageCommand';
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { LanguageError } from '../../VO/Language/Error/LanguageError';
 import { LanguagesError } from '../../VO/Language/Error/LanguagesError';
 import { ISO639 } from '../../VO/Language/ISO639';
@@ -22,9 +22,9 @@ export class LanguageQuery implements ILanguageQuery, IKernelQuery {
   private readonly languageRedisCommand: ILanguageCommand;
 
   public constructor(
-    @inject(TYPE.LanguageMySQLQuery) languageMySQLQuery: ILanguageQuery,
-    @inject(TYPE.LanguageRedisQuery) languageRedisQuery: ILanguageQuery,
-    @inject(TYPE.LanguageRedisCommand) languageRedisCommand: ILanguageCommand
+    @inject(Type.LanguageMySQLQuery) languageMySQLQuery: ILanguageQuery,
+    @inject(Type.LanguageRedisQuery) languageRedisQuery: ILanguageQuery,
+    @inject(Type.LanguageRedisCommand) languageRedisCommand: ILanguageCommand
   ) {
     this.languageMySQLQuery = languageMySQLQuery;
     this.languageRedisQuery = languageRedisQuery;

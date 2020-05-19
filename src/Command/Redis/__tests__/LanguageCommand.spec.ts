@@ -4,7 +4,7 @@ import { DataSourceError, MockError, MockRedis, MockRedisString, RedisError, Sup
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { kernel } from '../../../Container/Kernel';
-import { TYPE } from '../../../Container/Types';
+import { Type } from '../../../Container/Types';
 import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';
 import { MockLanguageName } from '../../../VO/Language/Mock/MockLanguageName';
 import { MockLanguages } from '../../../VO/Language/Mock/MockLanguages';
@@ -13,8 +13,8 @@ import { LanguageCommand } from '../LanguageCommand';
 describe('LanguageCommand', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const languageCommand1: LanguageCommand = kernel.get<LanguageCommand>(TYPE.LanguageRedisCommand);
-      const languageCommand2: LanguageCommand = kernel.get<LanguageCommand>(TYPE.LanguageRedisCommand);
+      const languageCommand1: LanguageCommand = kernel.get<LanguageCommand>(Type.LanguageRedisCommand);
+      const languageCommand2: LanguageCommand = kernel.get<LanguageCommand>(Type.LanguageRedisCommand);
 
       expect(languageCommand1).toBeInstanceOf(LanguageCommand);
       expect(languageCommand1).toBe(languageCommand2);

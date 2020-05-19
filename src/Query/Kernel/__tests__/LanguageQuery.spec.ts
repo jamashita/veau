@@ -5,7 +5,7 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { MockLanguageCommand } from '../../../Command/Mock/MockLanguageCommand';
 import { kernel } from '../../../Container/Kernel';
-import { TYPE } from '../../../Container/Types';
+import { Type } from '../../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { LanguageError } from '../../../VO/Language/Error/LanguageError';
 import { LanguagesError } from '../../../VO/Language/Error/LanguagesError';
@@ -21,8 +21,8 @@ import { LanguageQuery } from '../LanguageQuery';
 describe('LanguageQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const languageQuery1: LanguageQuery = kernel.get<LanguageQuery>(TYPE.LanguageKernelQuery);
-      const languageQuery2: LanguageQuery = kernel.get<LanguageQuery>(TYPE.LanguageKernelQuery);
+      const languageQuery1: LanguageQuery = kernel.get<LanguageQuery>(Type.LanguageKernelQuery);
+      const languageQuery2: LanguageQuery = kernel.get<LanguageQuery>(Type.LanguageKernelQuery);
 
       expect(languageQuery1).toBeInstanceOf(LanguageQuery);
       expect(languageQuery1).toBe(languageQuery2);

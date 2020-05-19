@@ -16,7 +16,7 @@ import {
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { kernel } from '../../../Container/Kernel';
-import { TYPE } from '../../../Container/Types';
+import { Type } from '../../../Container/Types';
 import { StatsItemRow } from '../../../Entity/StatsItem/StatsItem';
 import { StatsItems } from '../../../Entity/StatsItem/StatsItems';
 import { MockAsOf } from '../../../VO/AsOf/Mock/MockAsOf';
@@ -34,8 +34,8 @@ import { StatsItemQuery } from '../StatsItemQuery';
 describe('StatsItemQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const statsItemQuery1: StatsItemQuery = kernel.get<StatsItemQuery>(TYPE.StatsItemMySQLQuery);
-      const statsItemQuery2: StatsItemQuery = kernel.get<StatsItemQuery>(TYPE.StatsItemMySQLQuery);
+      const statsItemQuery1: StatsItemQuery = kernel.get<StatsItemQuery>(Type.StatsItemMySQLQuery);
+      const statsItemQuery2: StatsItemQuery = kernel.get<StatsItemQuery>(Type.StatsItemMySQLQuery);
 
       expect(statsItemQuery1).toBeInstanceOf(StatsItemQuery);
       expect(statsItemQuery1).toBe(statsItemQuery2);

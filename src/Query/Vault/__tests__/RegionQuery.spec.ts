@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import { AJAXError, Alive, DataSourceError, Dead, Superposition } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 
-import { TYPE } from '../../../Container/Types';
+import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { Locale } from '../../../VO/Locale/Locale';
@@ -22,8 +22,8 @@ import { RegionQuery } from '../RegionQuery';
 describe('RegionQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const regionQuery1: RegionQuery = vault.get<RegionQuery>(TYPE.RegionVaultQuery);
-      const regionQuery2: RegionQuery = vault.get<RegionQuery>(TYPE.RegionVaultQuery);
+      const regionQuery1: RegionQuery = vault.get<RegionQuery>(Type.RegionVaultQuery);
+      const regionQuery2: RegionQuery = vault.get<RegionQuery>(Type.RegionVaultQuery);
 
       expect(regionQuery1).toBeInstanceOf(RegionQuery);
       expect(regionQuery1).toBe(regionQuery2);

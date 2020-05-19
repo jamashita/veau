@@ -4,7 +4,7 @@ import { ActionsObservable, ofType, StateObservable } from 'redux-observable';
 import { concat, EMPTY, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
 
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
 import { IIdentityQuery } from '../../Query/Interface/IIdentityQuery';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
@@ -36,9 +36,9 @@ export class IdentityEpic {
   private readonly languageQuery: ILanguageQuery;
 
   public constructor(
-    @inject(TYPE.IdentityVaultQuery) identityQuery: IIdentityQuery,
-    @inject(TYPE.LocaleVaultQuery) localeQuery: ILocaleQuery,
-    @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery
+    @inject(Type.IdentityVaultQuery) identityQuery: IIdentityQuery,
+    @inject(Type.LocaleVaultQuery) localeQuery: ILocaleQuery,
+    @inject(Type.LanguageVaultQuery) languageQuery: ILanguageQuery
   ) {
     this.identityQuery = identityQuery;
     this.localeQuery = localeQuery;

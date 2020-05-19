@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify';
 import { ActionsObservable, Epic, StateObservable } from 'redux-observable';
 import { merge, Observable } from 'rxjs';
 
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { Action } from '../Action/Action';
 import { State } from '../State';
 import { EntranceEpic } from './EntranceEpic';
@@ -22,12 +22,12 @@ export class RootEpic {
   private readonly statsListEpic: StatsListEpic;
 
   public constructor(
-    @inject(TYPE.EntranceEpic) entranceEpic: EntranceEpic,
-    @inject(TYPE.IdentityEpic) identityEpic: IdentityEpic,
-    @inject(TYPE.LogoutEpic) logoutEpic: LogoutEpic,
-    @inject(TYPE.RedirectEpic) redirectEpic: RedirectEpic,
-    @inject(TYPE.StatsEditEpic) statsEditEpic: StatsEditEpic,
-    @inject(TYPE.StatsListEpic) statsListEpic: StatsListEpic
+    @inject(Type.EntranceEpic) entranceEpic: EntranceEpic,
+    @inject(Type.IdentityEpic) identityEpic: IdentityEpic,
+    @inject(Type.LogoutEpic) logoutEpic: LogoutEpic,
+    @inject(Type.RedirectEpic) redirectEpic: RedirectEpic,
+    @inject(Type.StatsEditEpic) statsEditEpic: StatsEditEpic,
+    @inject(Type.StatsListEpic) statsListEpic: StatsListEpic
   ) {
     this.entranceEpic = entranceEpic;
     this.identityEpic = identityEpic;

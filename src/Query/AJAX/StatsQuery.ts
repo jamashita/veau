@@ -2,7 +2,7 @@ import { NO_CONTENT, OK } from 'http-status';
 import { inject, injectable } from 'inversify';
 import { AJAXError, AJAXResponse, DataSourceError, Dead, IAJAX, Superposition } from 'publikum';
 
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { Stats, StatsJSON } from '../../Entity/Stats/Stats';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { StatsError } from '../../Entity/Stats/Error/StatsError';
@@ -16,7 +16,7 @@ export class StatsQuery implements IStatsQuery, IAJAXQuery {
   public readonly source: 'AJAX' = 'AJAX';
   private readonly ajax: IAJAX;
 
-  public constructor(@inject(TYPE.AJAX) ajax: IAJAX) {
+  public constructor(@inject(Type.AJAX) ajax: IAJAX) {
     this.ajax = ajax;
   }
 

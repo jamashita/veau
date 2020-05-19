@@ -4,7 +4,7 @@ import { Absent, DataSourceError, MockError, MockMySQL, MySQLError, Project, Sup
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { kernel } from '../../../Container/Kernel';
-import { TYPE } from '../../../Container/Types';
+import { Type } from '../../../Container/Types';
 import { AsOf } from '../../../VO/AsOf/AsOf';
 import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
 import { StatsItemID } from '../../../VO/StatsItem/StatsItemID';
@@ -16,8 +16,8 @@ import { StatsValueQuery } from '../StatsValueQuery';
 describe('StatsValueQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const statsValueQuery1: StatsValueQuery = kernel.get<StatsValueQuery>(TYPE.StatsValueMySQLQuery);
-      const statsValueQuery2: StatsValueQuery = kernel.get<StatsValueQuery>(TYPE.StatsValueMySQLQuery);
+      const statsValueQuery1: StatsValueQuery = kernel.get<StatsValueQuery>(Type.StatsValueMySQLQuery);
+      const statsValueQuery2: StatsValueQuery = kernel.get<StatsValueQuery>(Type.StatsValueMySQLQuery);
 
       expect(statsValueQuery1).toBeInstanceOf(StatsValueQuery);
       expect(statsValueQuery1).toBe(statsValueQuery2);

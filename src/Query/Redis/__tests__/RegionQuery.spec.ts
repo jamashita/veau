@@ -4,7 +4,7 @@ import { DataSourceError, MockError, MockRedis, MockRedisString, RedisError, Sup
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { kernel } from '../../../Container/Kernel';
-import { TYPE } from '../../../Container/Types';
+import { Type } from '../../../Container/Types';
 import { LanguageJSON } from '../../../VO/Language/Language';
 import { RegionError } from '../../../VO/Region/Error/RegionError';
 import { RegionsError } from '../../../VO/Region/Error/RegionsError';
@@ -17,8 +17,8 @@ import { RegionQuery } from '../RegionQuery';
 describe('RegionQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const regionQuery1: RegionQuery = kernel.get<RegionQuery>(TYPE.RegionRedisQuery);
-      const regionQuery2: RegionQuery = kernel.get<RegionQuery>(TYPE.RegionRedisQuery);
+      const regionQuery1: RegionQuery = kernel.get<RegionQuery>(Type.RegionRedisQuery);
+      const regionQuery2: RegionQuery = kernel.get<RegionQuery>(Type.RegionRedisQuery);
 
       expect(regionQuery1).toBeInstanceOf(RegionQuery);
       expect(regionQuery1).toBe(regionQuery2);

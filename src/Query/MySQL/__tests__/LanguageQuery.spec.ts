@@ -4,7 +4,7 @@ import { DataSourceError, MockError, MockMySQL, MySQLError, Superposition, UUID 
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { kernel } from '../../../Container/Kernel';
-import { TYPE } from '../../../Container/Types';
+import { Type } from '../../../Container/Types';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { LanguageError } from '../../../VO/Language/Error/LanguageError';
 import { LanguagesError } from '../../../VO/Language/Error/LanguagesError';
@@ -18,8 +18,8 @@ import { LanguageQuery } from '../LanguageQuery';
 describe('LanguageQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const languageQuery1: LanguageQuery = kernel.get<LanguageQuery>(TYPE.LanguageMySQLQuery);
-      const languageQuery2: LanguageQuery = kernel.get<LanguageQuery>(TYPE.LanguageMySQLQuery);
+      const languageQuery1: LanguageQuery = kernel.get<LanguageQuery>(Type.LanguageMySQLQuery);
+      const languageQuery2: LanguageQuery = kernel.get<LanguageQuery>(Type.LanguageMySQLQuery);
 
       expect(languageQuery1).toBeInstanceOf(LanguageQuery);
       expect(languageQuery1).toBe(languageQuery2);

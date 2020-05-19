@@ -5,7 +5,7 @@ import { EMPTY, from, merge, Observable, of } from 'rxjs';
 import { filter, map, mapTo, mergeMap } from 'rxjs/operators';
 
 import { IStatsCommand } from '../../Command/Interface/IStatsCommand';
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats/Stats';
 import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
@@ -53,10 +53,10 @@ export class StatsListEpic {
   private readonly statsCommand: IStatsCommand;
 
   public constructor(
-    @inject(TYPE.StatsOutlineAJAXQuery) statsOutlineQuery: IStatsOutlineQuery,
-    @inject(TYPE.LanguageVaultQuery) languageQuery: ILanguageQuery,
-    @inject(TYPE.RegionVaultQuery) regionQuery: IRegionQuery,
-    @inject(TYPE.StatsAJAXCommand) statsCommand: IStatsCommand
+    @inject(Type.StatsOutlineAJAXQuery) statsOutlineQuery: IStatsOutlineQuery,
+    @inject(Type.LanguageVaultQuery) languageQuery: ILanguageQuery,
+    @inject(Type.RegionVaultQuery) regionQuery: IRegionQuery,
+    @inject(Type.StatsAJAXCommand) statsCommand: IStatsCommand
   ) {
     this.statsOutlineQuery = statsOutlineQuery;
     this.languageQuery = languageQuery;

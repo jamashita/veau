@@ -2,7 +2,7 @@ import { AJAXError, Alive, CacheError, DataSourceError, Dead, Superposition } fr
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { MockLocaleCommand } from '../../../Command/Mock/MockLocaleCommand';
-import { TYPE } from '../../../Container/Types';
+import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { LocaleError } from '../../../VO/Locale/Error/LocaleError';
 import { Locale } from '../../../VO/Locale/Locale';
@@ -13,8 +13,8 @@ import { LocaleQuery } from '../LocaleQuery';
 describe('LocaleQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const localeQuery1: LocaleQuery = vault.get<LocaleQuery>(TYPE.LocaleVaultQuery);
-      const localeQuery2: LocaleQuery = vault.get<LocaleQuery>(TYPE.LocaleVaultQuery);
+      const localeQuery1: LocaleQuery = vault.get<LocaleQuery>(Type.LocaleVaultQuery);
+      const localeQuery2: LocaleQuery = vault.get<LocaleQuery>(Type.LocaleVaultQuery);
 
       expect(localeQuery1).toBeInstanceOf(LocaleQuery);
       expect(localeQuery1).toBe(localeQuery2);

@@ -2,7 +2,7 @@ import { OK } from 'http-status';
 import { inject, injectable } from 'inversify';
 import { AJAXError, AJAXResponse, Alive, DataSourceError, Dead, IAJAX, Superposition } from 'publikum';
 
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { IAJAXCommand } from './Interface/IAJAXCommand';
 import { ISessionCommand } from '../Interface/ISessionCommand';
 
@@ -12,7 +12,7 @@ export class SessionCommand implements ISessionCommand, IAJAXCommand {
   public readonly source: 'AJAX' = 'AJAX';
   private readonly ajax: IAJAX;
 
-  public constructor(@inject(TYPE.AJAX) ajax: IAJAX) {
+  public constructor(@inject(Type.AJAX) ajax: IAJAX) {
     this.ajax = ajax;
   }
 

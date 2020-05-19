@@ -14,7 +14,7 @@ import {
   UnimplementedError
 } from 'publikum';
 
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
 import { REDIS_LANGUAGE_KEY } from '../../Infrastructure/VeauRedis';
 import { LanguageError } from '../../VO/Language/Error/LanguageError';
@@ -32,7 +32,7 @@ export class LanguageQuery implements ILanguageQuery, IRedisQuery {
   public readonly source: 'Redis' = 'Redis';
   private readonly redis: IRedis;
 
-  public constructor(@inject(TYPE.Redis) redis: IRedis) {
+  public constructor(@inject(Type.Redis) redis: IRedis) {
     this.redis = redis;
   }
 

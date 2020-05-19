@@ -4,7 +4,7 @@ import { BAD_REQUEST, CREATED } from 'http-status';
 import { AJAXError, DataSourceError, MockAJAX, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 
-import { TYPE } from '../../../Container/Types';
+import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { MockStats } from '../../../Entity/Stats/Mock/MockStats';
 import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';
@@ -22,8 +22,8 @@ import { StatsCommand } from '../StatsCommand';
 describe('StatsCommand', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const statsCommand1: StatsCommand = vault.get<StatsCommand>(TYPE.StatsAJAXCommand);
-      const statsCommand2: StatsCommand = vault.get<StatsCommand>(TYPE.StatsAJAXCommand);
+      const statsCommand1: StatsCommand = vault.get<StatsCommand>(Type.StatsAJAXCommand);
+      const statsCommand2: StatsCommand = vault.get<StatsCommand>(Type.StatsAJAXCommand);
 
       expect(statsCommand1).toBeInstanceOf(StatsCommand);
       expect(statsCommand1).toBe(statsCommand2);

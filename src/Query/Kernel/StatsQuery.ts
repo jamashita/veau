@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { Alive, DataSourceError, Dead, Superposition } from 'publikum';
 
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats/Stats';
 import { StatsItems } from '../../Entity/StatsItem/StatsItems';
 import { NoSuchElementError } from '../Error/NoSuchElementError';
@@ -33,10 +33,10 @@ export class StatsQuery implements IStatsQuery, IKernelQuery {
   private readonly regionQuery: IRegionQuery;
 
   public constructor(
-    @inject(TYPE.StatsOutlineMySQLQuery) statsOutlineQuery: IStatsOutlineQuery,
-    @inject(TYPE.StatsItemMySQLQuery) statsItemQuery: IStatsItemQuery,
-    @inject(TYPE.LanguageKernelQuery) languageQuery: ILanguageQuery,
-    @inject(TYPE.RegionKernelQuery) regionQuery: IRegionQuery
+    @inject(Type.StatsOutlineMySQLQuery) statsOutlineQuery: IStatsOutlineQuery,
+    @inject(Type.StatsItemMySQLQuery) statsItemQuery: IStatsItemQuery,
+    @inject(Type.LanguageKernelQuery) languageQuery: ILanguageQuery,
+    @inject(Type.RegionKernelQuery) regionQuery: IRegionQuery
   ) {
     this.statsOutlineQuery = statsOutlineQuery;
     this.statsItemQuery = statsItemQuery;

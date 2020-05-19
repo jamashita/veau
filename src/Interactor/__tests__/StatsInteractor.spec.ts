@@ -5,7 +5,7 @@ import sinon, { SinonStub } from 'sinon';
 
 import { MockStatsCommand } from '../../Command/Mock/MockStatsCommand';
 import { kernel } from '../../Container/Kernel';
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { StatsError } from '../../Entity/Stats/Error/StatsError';
 import { MockStats } from '../../Entity/Stats/Mock/MockStats';
 import { Stats } from '../../Entity/Stats/Stats';
@@ -23,8 +23,8 @@ import { StatsInteractor } from '../StatsInteractor';
 describe('StatsInteractor', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const statsInteractor1: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
-      const statsInteractor2: StatsInteractor = kernel.get<StatsInteractor>(TYPE.StatsInteractor);
+      const statsInteractor1: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
+      const statsInteractor2: StatsInteractor = kernel.get<StatsInteractor>(Type.StatsInteractor);
 
       expect(statsInteractor1).toBeInstanceOf(StatsInteractor);
       expect(statsInteractor1).toBe(statsInteractor2);

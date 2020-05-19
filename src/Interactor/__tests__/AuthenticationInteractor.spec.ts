@@ -2,7 +2,7 @@ import { Alive, Dead } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonStub } from 'sinon';
 import { kernel } from '../../Container/Kernel';
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
 import { MockAccountQuery } from '../../Query/Mock/MockAccountQuery';
 import { Account } from '../../VO/Account/Account';
@@ -14,10 +14,10 @@ describe('AuthenticationInteractor', () => {
   describe('container', () => {
     it('must be a singleton', () => {
       const authenticationInteractor1: AuthenticationInteractor = kernel.get<AuthenticationInteractor>(
-        TYPE.AuthenticationInteractor
+        Type.AuthenticationInteractor
       );
       const authenticationInteractor2: AuthenticationInteractor = kernel.get<AuthenticationInteractor>(
-        TYPE.AuthenticationInteractor
+        Type.AuthenticationInteractor
       );
 
       expect(authenticationInteractor1).toBeInstanceOf(AuthenticationInteractor);

@@ -2,7 +2,7 @@ import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import { AJAXError, DataSourceError, MockAJAX, Superposition, UUID } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { TYPE } from '../../../Container/Types';
+import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { LocaleError } from '../../../VO/Locale/Error/LocaleError';
 import { Locale, LocaleJSON } from '../../../VO/Locale/Locale';
@@ -11,8 +11,8 @@ import { LocaleQuery } from '../LocaleQuery';
 describe('LocaleQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const localeQuery1: LocaleQuery = vault.get<LocaleQuery>(TYPE.LocaleAJAXQuery);
-      const localeQuery2: LocaleQuery = vault.get<LocaleQuery>(TYPE.LocaleAJAXQuery);
+      const localeQuery1: LocaleQuery = vault.get<LocaleQuery>(Type.LocaleAJAXQuery);
+      const localeQuery2: LocaleQuery = vault.get<LocaleQuery>(Type.LocaleAJAXQuery);
 
       expect(localeQuery1).toBeInstanceOf(LocaleQuery);
       expect(localeQuery1).toBe(localeQuery2);

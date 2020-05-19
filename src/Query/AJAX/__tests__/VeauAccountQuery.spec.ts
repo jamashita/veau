@@ -2,7 +2,7 @@ import { INTERNAL_SERVER_ERROR, OK, UNAUTHORIZED } from 'http-status';
 import { AJAXError, DataSourceError, MockAJAX, Superposition, UUID } from 'publikum';
 import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { TYPE } from '../../../Container/Types';
+import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
 import { VeauAccountError } from '../../../VO/VeauAccount/Error/VeauAccountError';
 import { MockAccountName } from '../../../VO/Account/Mock/MockAccountName';
@@ -14,8 +14,8 @@ import { VeauAccountQuery } from '../VeauAccountQuery';
 describe('VeauAccountQuery', () => {
   describe('container', () => {
     it('must be a singleton', () => {
-      const veauAccountQuery1: VeauAccountQuery = vault.get<VeauAccountQuery>(TYPE.VeauAccountAJAXQuery);
-      const veauAccountQuery2: VeauAccountQuery = vault.get<VeauAccountQuery>(TYPE.VeauAccountAJAXQuery);
+      const veauAccountQuery1: VeauAccountQuery = vault.get<VeauAccountQuery>(Type.VeauAccountAJAXQuery);
+      const veauAccountQuery2: VeauAccountQuery = vault.get<VeauAccountQuery>(Type.VeauAccountAJAXQuery);
 
       expect(veauAccountQuery1).toBeInstanceOf(VeauAccountQuery);
       expect(veauAccountQuery1).toBe(veauAccountQuery2);

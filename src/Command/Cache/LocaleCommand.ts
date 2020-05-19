@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { CacheError, DataSourceError, ICache, Schrodinger, Superposition } from 'publikum';
 
-import { TYPE } from '../../Container/Types';
+import { Type } from '../../Container/Types';
 import { VAULT_LOCALE_KEY } from '../../Infrastructure/VeauCache';
 import { Locale } from '../../VO/Locale/Locale';
 import { ICacheCommand } from './Interface/ICacheCommand';
@@ -13,7 +13,7 @@ export class LocaleCommand implements ILocaleCommand, ICacheCommand {
   public readonly source: 'Cache' = 'Cache';
   private readonly cache: ICache;
 
-  public constructor(@inject(TYPE.Cache) cache: ICache) {
+  public constructor(@inject(Type.Cache) cache: ICache) {
     this.cache = cache;
   }
 
