@@ -1,11 +1,15 @@
+import 'reflect-metadata';
+
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import { AJAXError, DataSourceError, MockAJAX, Superposition, UUID } from 'publikum';
-import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
+import { LanguageID } from '../../../VO/Language/LanguageID';
 import { LocaleError } from '../../../VO/Locale/Error/LocaleError';
 import { Locale, LocaleJSON } from '../../../VO/Locale/Locale';
+import { RegionID } from '../../../VO/Region/RegionID';
 import { LocaleQuery } from '../LocaleQuery';
 
 describe('LocaleQuery', () => {
@@ -55,16 +59,20 @@ describe('LocaleQuery', () => {
       const locale: Locale = superposition.get();
       expect(locale.getLanguages().size()).toBe(json.languages.length);
       for (let i: number = 0; i < locale.getLanguages().size(); i++) {
-        expect(locale.getLanguages().get(i).get().getLanguageID().get().get()).toBe(json.languages[i].languageID);
-        expect(locale.getLanguages().get(i).get().getName().get()).toBe(json.languages[i].name);
-        expect(locale.getLanguages().get(i).get().getEnglishName().get()).toBe(json.languages[i].englishName);
-        expect(locale.getLanguages().get(i).get().getISO639().get()).toBe(json.languages[i].iso639);
+        const languageID: LanguageID = LanguageID.ofString(json.languages[i].languageID).get();
+        expect(locale.getLanguages().get(languageID).get().getLanguageID().get().get()).toBe(
+          json.languages[i].languageID
+        );
+        expect(locale.getLanguages().get(languageID).get().getName().get()).toBe(json.languages[i].name);
+        expect(locale.getLanguages().get(languageID).get().getEnglishName().get()).toBe(json.languages[i].englishName);
+        expect(locale.getLanguages().get(languageID).get().getISO639().get()).toBe(json.languages[i].iso639);
       }
       expect(locale.getRegions().size()).toBe(1);
       for (let i: number = 0; i < locale.getRegions().size(); i++) {
-        expect(locale.getRegions().get(i).get().getRegionID().get().get()).toBe(json.regions[i].regionID);
-        expect(locale.getRegions().get(i).get().getName().get()).toBe(json.regions[i].name);
-        expect(locale.getRegions().get(i).get().getISO3166().get()).toBe(json.regions[i].iso3166);
+        const regionID: RegionID = RegionID.ofString(json.regions[i].regionID).get();
+        expect(locale.getRegions().get(regionID).get().getRegionID().get().get()).toBe(json.regions[i].regionID);
+        expect(locale.getRegions().get(regionID).get().getName().get()).toBe(json.regions[i].name);
+        expect(locale.getRegions().get(regionID).get().getISO3166().get()).toBe(json.regions[i].iso3166);
       }
     });
 

@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 
 import { DataSourceError, MockError, MockRedis, MockRedisString, RedisError, Superposition, UUID } from 'publikum';
+import { of } from 'rxjs';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { kernel } from '../../../Container/Kernel';
@@ -10,6 +11,7 @@ import { RegionError } from '../../../VO/Region/Error/RegionError';
 import { RegionsError } from '../../../VO/Region/Error/RegionsError';
 import { ISO3166 } from '../../../VO/Region/ISO3166';
 import { Region, RegionJSON } from '../../../VO/Region/Region';
+import { RegionID } from '../../../VO/Region/RegionID';
 import { Regions } from '../../../VO/Region/Regions';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { RegionQuery } from '../RegionQuery';
@@ -56,9 +58,10 @@ describe('RegionQuery', () => {
       const regions: Regions = superposition.get();
       expect(regions.size()).toBe(json.length);
       for (let i: number = 0; i < regions.size(); i++) {
-        expect(regions.get(i).get().getRegionID().get().get()).toBe(json[i].regionID);
-        expect(regions.get(i).get().getName().get()).toBe(json[i].name);
-        expect(regions.get(i).get().getISO3166().get()).toBe(json[i].iso3166);
+        const regionID: RegionID = RegionID.ofString(json[i].regionID).get();
+        expect(regions.get(regionID).get().getRegionID().get().get()).toBe(json[i].regionID);
+        expect(regions.get(regionID).get().getName().get()).toBe(json[i].name);
+        expect(regions.get(regionID).get().getISO3166().get()).toBe(json[i].iso3166);
       }
     });
 

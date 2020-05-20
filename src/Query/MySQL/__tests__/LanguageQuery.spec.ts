@@ -5,7 +5,6 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { LanguageError } from '../../../VO/Language/Error/LanguageError';
 import { LanguagesError } from '../../../VO/Language/Error/LanguagesError';
 import { ISO639 } from '../../../VO/Language/ISO639';
@@ -13,6 +12,7 @@ import { Language, LanguageRow } from '../../../VO/Language/Language';
 import { LanguageID } from '../../../VO/Language/LanguageID';
 import { Languages } from '../../../VO/Language/Languages';
 import { MockLanguageID } from '../../../VO/Language/Mock/MockLanguageID';
+import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { LanguageQuery } from '../LanguageQuery';
 
 describe('LanguageQuery', () => {
@@ -65,10 +65,11 @@ describe('LanguageQuery', () => {
       const languages: Languages = superposition.get();
       expect(languages.size()).toBe(2);
       for (let i: number = 0; i < languages.size(); i++) {
-        expect(languages.get(i).get().getLanguageID().get().get()).toBe(rows[i].languageID);
-        expect(languages.get(i).get().getName().get()).toBe(rows[i].name);
-        expect(languages.get(i).get().getEnglishName().get()).toBe(rows[i].englishName);
-        expect(languages.get(i).get().getISO639().get()).toBe(rows[i].iso639);
+        const languageID: LanguageID = LanguageID.ofString(rows[i].languageID).get();
+        expect(languages.get(languageID).get().getLanguageID().get().get()).toBe(rows[i].languageID);
+        expect(languages.get(languageID).get().getName().get()).toBe(rows[i].name);
+        expect(languages.get(languageID).get().getEnglishName().get()).toBe(rows[i].englishName);
+        expect(languages.get(languageID).get().getISO639().get()).toBe(rows[i].iso639);
       }
     });
 

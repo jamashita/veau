@@ -1,4 +1,4 @@
-import { Absent, Alive, Dead, ImmutableSequence, Superposition, UUID } from 'publikum';
+import { Absent, Alive, Dead, ImmutableProject, ImmutableSequence, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 
 import { LanguageError } from '../Error/LanguageError';
@@ -15,23 +15,20 @@ import { MockLanguageName } from '../Mock/MockLanguageName';
 
 describe('Languages', () => {
   describe('of', () => {
-    it('when the ImmutableSequence is zero size, returns Languages.empty()', () => {
-      const languages: Languages = Languages.of(ImmutableSequence.empty<Language>());
+    it('when the ImmutableProject is zero size, returns Languages.empty()', () => {
+      const languages: Languages = Languages.of(ImmutableProject.empty<LanguageID, Language>());
 
       expect(languages).toBe(Languages.empty());
     });
 
     it('normal case', () => {
-      const sequence: ImmutableSequence<MockLanguage> = ImmutableSequence.of<Language>([
-        new MockLanguage(),
-        new MockLanguage()
-      ]);
+      const array: Array<MockLanguage> = [new MockLanguage(), new MockLanguage()];
 
-      const languages: Languages = Languages.of(sequence);
+      const languages: Languages = Languages.ofArray(array);
 
-      expect(languages.size()).toBe(sequence.size());
+      expect(languages.size()).toBe(array.length);
       for (let i: number = 0; i < languages.size(); i++) {
-        expect(languages.get(i).get()).toBe(sequence.get(i).get());
+        expect(languages.get(array[i].getLanguageID()).get()).toBe(array[i]);
       }
     });
   });
@@ -45,18 +42,18 @@ describe('Languages', () => {
     });
 
     it('normal case', () => {
-      const languageArray: Array<MockLanguage> = [new MockLanguage(), new MockLanguage()];
+      const array: Array<MockLanguage> = [new MockLanguage(), new MockLanguage()];
 
       const superposition: Superposition<Languages, LanguagesError> = Languages.ofSuperposition([
-        Alive.of<Language, LanguageError>(languageArray[0]),
-        Alive.of<Language, LanguageError>(languageArray[1])
+        Alive.of<Language, LanguageError>(array[0]),
+        Alive.of<Language, LanguageError>(array[1])
       ]);
 
       expect(superposition.isAlive()).toBe(true);
       const languages: Languages = superposition.get();
-      expect(languages.size()).toBe(languageArray.length);
+      expect(languages.size()).toBe(array.length);
       for (let i: number = 0; i < languages.size(); i++) {
-        expect(languages.get(i).get()).toBe(languageArray[i]);
+        expect(languages.get(array[i].getLanguageID()).get()).toBe(array[i]);
       }
     });
 
@@ -146,7 +143,7 @@ describe('Languages', () => {
       const languages: Languages = superposition.get();
       expect(languages.size()).toBe(json.length);
       for (let i: number = 0; i < languages.size(); i++) {
-        const language: Language = languages.get(i).get();
+        const language: Language = languages.get(LanguageID.ofString(json[i].languageID).get()).get();
         expect(language.getLanguageID().get().get()).toBe(json[i].languageID);
         expect(language.getName().get()).toBe(json[i].name);
         expect(language.getEnglishName().get()).toBe(json[i].englishName);
@@ -180,7 +177,7 @@ describe('Languages', () => {
       const languages: Languages = superposition.get();
       expect(languages.size()).toBe(rows.length);
       for (let i: number = 0; i < languages.size(); i++) {
-        const language: Language = languages.get(i).get();
+        const language: Language = languages.get(LanguageID.ofString(rows[i].languageID).get()).get();
         expect(language.getLanguageID().get().get()).toBe(rows[i].languageID);
         expect(language.getName().get()).toBe(rows[i].name);
         expect(language.getEnglishName().get()).toBe(rows[i].englishName);
@@ -203,7 +200,7 @@ describe('Languages', () => {
 
       expect(languages.size()).toBe(langs.length);
       for (let i: number = 0; i < languages.size(); i++) {
-        expect(languages.get(i).get()).toBe(langs[i]);
+        expect(languages.get(langs[i].getLanguageID()).get()).toBe(langs[i]);
       }
     });
   });
@@ -224,7 +221,7 @@ describe('Languages', () => {
 
       expect(languages.size()).toBe(langs.length);
       for (let i: number = 0; i < languages.size(); i++) {
-        expect(languages.get(i).get()).toBe(langs[i]);
+        expect(languages.get(langs[i].getLanguageID()).get()).toBe(langs[i]);
       }
     });
   });
@@ -247,15 +244,15 @@ describe('Languages', () => {
 
       expect(languages.size()).toBe(3);
       for (let i: number = 0; i < languages.size(); i++) {
-        expect(languages.get(i).get()).toBe(langs[i]);
+        expect(languages.get(langs[i].getLanguageID()).get()).toBe(langs[i]);
       }
     });
 
     it('returns Absent when the index is out of range', () => {
       const languages: Languages = Languages.empty();
 
-      expect(languages.get(-1)).toBeInstanceOf(Absent);
-      expect(languages.get(0)).toBeInstanceOf(Absent);
+      expect(languages.get(new MockLanguageID())).toBeInstanceOf(Absent);
+      expect(languages.get(new MockLanguageID())).toBeInstanceOf(Absent);
     });
   });
 
@@ -368,7 +365,7 @@ describe('Languages', () => {
       expect(languages1.equals(languages2)).toBe(false);
     });
 
-    it('returns false if the sequence is different', () => {
+    it('returns true even if the sequence is different', () => {
       const language1: MockLanguage = new MockLanguage();
       const language2: MockLanguage = new MockLanguage({
         name: new MockLanguageName('language'),
@@ -379,7 +376,7 @@ describe('Languages', () => {
       const languages2: Languages = Languages.ofArray([language2, language1]);
 
       expect(languages1.equals(languages1)).toBe(true);
-      expect(languages1.equals(languages2)).toBe(false);
+      expect(languages1.equals(languages2)).toBe(true);
     });
 
     it('returns true if the length is the same and the sequence is the same', () => {
@@ -437,7 +434,7 @@ describe('Languages', () => {
       ]);
 
       expect(languages.toString()).toBe(
-        `${uuid1.get()} ${name1} ${englishName1} ${iso6391}, ${uuid2.get()} ${name2} ${englishName2} ${iso6392}`
+        `{${uuid1.get()}: ${uuid1.get()} ${name1} ${englishName1} ${iso6391}}, {${uuid2.get()}: ${uuid2.get()} ${name2} ${englishName2} ${iso6392}}`
       );
     });
   });

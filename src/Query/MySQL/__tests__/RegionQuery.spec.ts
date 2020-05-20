@@ -12,6 +12,7 @@ import { MockRegionID } from '../../../VO/Region/Mock/MockRegionID';
 import { Region, RegionRow } from '../../../VO/Region/Region';
 import { RegionID } from '../../../VO/Region/RegionID';
 import { Regions } from '../../../VO/Region/Regions';
+import { StatsID } from '../../../VO/StatsOutline/StatsID';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { RegionQuery } from '../RegionQuery';
 
@@ -62,9 +63,10 @@ describe('RegionQuery', () => {
       const regions: Regions = superposition.get();
       expect(regions.size()).toBe(2);
       for (let i: number = 0; i < regions.size(); i++) {
-        expect(regions.get(i).get().getRegionID().get().get()).toBe(rows[i].regionID);
-        expect(regions.get(i).get().getName().get()).toBe(rows[i].name);
-        expect(regions.get(i).get().getISO3166().get()).toBe(rows[i].iso3166);
+        const regionID: RegionID = RegionID.ofString(rows[i].regionID).get();
+        expect(regions.get(regionID).get().getRegionID().get().get()).toBe(rows[i].regionID);
+        expect(regions.get(regionID).get().getName().get()).toBe(rows[i].name);
+        expect(regions.get(regionID).get().getISO3166().get()).toBe(rows[i].iso3166);
       }
     });
 

@@ -1,16 +1,19 @@
-import { DataSourceError, MockError, MockMySQL, MySQLError, Superposition, UUID } from 'publikum';
 import 'reflect-metadata';
+
+import { DataSourceError, MockError, MockMySQL, MySQLError, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
+import { MockPage } from '../../../VO/Page/Mock/MockPage';
 import { StatsOutlineError } from '../../../VO/StatsOutline/Error/StatsOutlineError';
 import { StatsOutlinesError } from '../../../VO/StatsOutline/Error/StatsOutlinesError';
-import { MockPage } from '../../../VO/Page/Mock/MockPage';
 import { MockStatsID } from '../../../VO/StatsOutline/Mock/MockStatsID';
-import { MockVeauAccountID } from '../../../VO/VeauAccount/Mock/MockVeauAccountID';
+import { StatsID } from '../../../VO/StatsOutline/StatsID';
 import { StatsOutline, StatsOutlineRow } from '../../../VO/StatsOutline/StatsOutline';
 import { StatsOutlines } from '../../../VO/StatsOutline/StatsOutlines';
+import { MockVeauAccountID } from '../../../VO/VeauAccount/Mock/MockVeauAccountID';
+import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { StatsOutlineQuery } from '../StatsOutlineQuery';
 
 describe('StatsOutlineQuery', () => {
@@ -211,7 +214,7 @@ describe('StatsOutlineQuery', () => {
       const statsOutlines: StatsOutlines = superposition.get();
       expect(statsOutlines.size()).toBe(2);
       for (let i: number = 0; i < statsOutlines.size(); i++) {
-        const statsOutline: StatsOutline = statsOutlines.get(i).get();
+        const statsOutline: StatsOutline = statsOutlines.get(StatsID.ofString(rows[i].statsID).get()).get();
         expect(statsOutline.getStatsID().get().get()).toBe(rows[i].statsID);
         expect(statsOutline.getLanguageID().get().get()).toBe(rows[i].languageID);
         expect(statsOutline.getRegionID().get().get()).toBe(rows[i].regionID);

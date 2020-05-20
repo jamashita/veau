@@ -5,7 +5,6 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { LanguageError } from '../../../VO/Language/Error/LanguageError';
 import { LanguagesError } from '../../../VO/Language/Error/LanguagesError';
 import { ISO639 } from '../../../VO/Language/ISO639';
@@ -16,6 +15,7 @@ import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';
 import { MockLanguages } from '../../../VO/Language/Mock/MockLanguages';
 import { Locale } from '../../../VO/Locale/Locale';
 import { MockLocale } from '../../../VO/Locale/Mock/MockLocale';
+import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { MockLocaleQuery } from '../../Mock/MockLocaleQuery';
 import { LanguageQuery } from '../LanguageQuery';
 
@@ -75,15 +75,14 @@ describe('LanguageQuery', () => {
 
   describe('findByISO639', () => {
     it('normal case', async () => {
+      const language1: MockLanguage = new MockLanguage({
+        iso639: new MockISO639('ab')
+      });
+      const language2: MockLanguage = new MockLanguage({
+        iso639: new MockISO639('aa')
+      });
       const locale: MockLocale = new MockLocale({
-        languages: new MockLanguages(
-          new MockLanguage({
-            iso639: new MockISO639('ab')
-          }),
-          new MockLanguage({
-            iso639: new MockISO639('aa')
-          })
-        )
+        languages: new MockLanguages(language1, language2)
       });
 
       const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
@@ -98,7 +97,7 @@ describe('LanguageQuery', () => {
       > = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(superposition.isAlive()).toBe(true);
-      expect(superposition.get()).toBe(locale.getLanguages().get(1).get());
+      expect(superposition.get()).toBe(locale.getLanguages().get(language2.getLanguageID()).get());
     });
 
     it('LocaleQuery.all returns Dead, AJAXError', async () => {

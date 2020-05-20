@@ -1,40 +1,37 @@
-import { Absent, Alive, Dead, ImmutableSequence, Superposition, UUID } from 'publikum';
+import { Absent, Alive, Dead, ImmutableProject, ImmutableSequence, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 
 import { LanguageID } from '../../Language/LanguageID';
 import { MockLanguageID } from '../../Language/Mock/MockLanguageID';
-import { MockStatsID } from '../Mock/MockStatsID';
 import { MockRegionID } from '../../Region/Mock/MockRegionID';
 import { RegionID } from '../../Region/RegionID';
-import { StatsID } from '../StatsID';
-import { StatsName } from '../StatsName';
-import { StatsUnit } from '../StatsUnit';
 import { MockTermID } from '../../Term/Mock/MockTermID';
 import { TermID } from '../../Term/TermID';
-import { UpdatedAt } from '../UpdatedAt';
 import { StatsOutlineError } from '../Error/StatsOutlineError';
 import { StatsOutlinesError } from '../Error/StatsOutlinesError';
+import { MockStatsID } from '../Mock/MockStatsID';
 import { MockStatsOutline } from '../Mock/MockStatsOutline';
+import { StatsID } from '../StatsID';
+import { StatsName } from '../StatsName';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from '../StatsOutline';
 import { StatsOutlines } from '../StatsOutlines';
+import { StatsUnit } from '../StatsUnit';
+import { UpdatedAt } from '../UpdatedAt';
 
 describe('StatsOutlines', () => {
   describe('of', () => {
-    it('when the ImmutableSequence is zero size, returns empty', () => {
-      expect(StatsOutlines.of(ImmutableSequence.empty<MockStatsOutline>())).toBe(StatsOutlines.empty());
+    it('when the ImmutableProject is zero size, returns empty', () => {
+      expect(StatsOutlines.of(ImmutableProject.empty<MockStatsID, MockStatsOutline>())).toBe(StatsOutlines.empty());
     });
 
     it('normal case', () => {
-      const sequence: ImmutableSequence<MockStatsOutline> = ImmutableSequence.of<StatsOutline>([
-        new MockStatsOutline(),
-        new MockStatsOutline()
-      ]);
+      const array: Array<MockStatsOutline> = [new MockStatsOutline(), new MockStatsOutline()];
 
-      const outlines: StatsOutlines = StatsOutlines.of(sequence);
+      const outlines: StatsOutlines = StatsOutlines.ofArray(array);
 
-      expect(outlines.size()).toBe(sequence.size());
+      expect(outlines.size()).toBe(array.length);
       for (let i: number = 0; i < outlines.size(); i++) {
-        expect(outlines.get(i).get()).toBe(sequence.get(i).get());
+        expect(outlines.get(array[i].getStatsID()).get()).toBe(array[i]);
       }
     });
   });
@@ -48,18 +45,18 @@ describe('StatsOutlines', () => {
     });
 
     it('normal case', () => {
-      const outlineArray: Array<MockStatsOutline> = [new MockStatsOutline(), new MockStatsOutline()];
+      const array: Array<MockStatsOutline> = [new MockStatsOutline(), new MockStatsOutline()];
 
       const superposition: Superposition<StatsOutlines, StatsOutlinesError> = StatsOutlines.ofSuperposition([
-        Alive.of<StatsOutline, StatsOutlineError>(outlineArray[0]),
-        Alive.of<StatsOutline, StatsOutlineError>(outlineArray[1])
+        Alive.of<StatsOutline, StatsOutlineError>(array[0]),
+        Alive.of<StatsOutline, StatsOutlineError>(array[1])
       ]);
 
       expect(superposition.isAlive()).toBe(true);
       const outlines: StatsOutlines = superposition.get();
       expect(outlines.size()).toBe(2);
       for (let i: number = 0; i < outlines.size(); i++) {
-        expect(outlines.get(i).get()).toBe(outlineArray[i]);
+        expect(outlines.get(array[i].getStatsID()).get()).toBe(array[i]);
       }
     });
 
@@ -154,7 +151,7 @@ describe('StatsOutlines', () => {
       expect(superposition.isAlive()).toBe(true);
       const outlines: StatsOutlines = superposition.get();
       for (let i: number = 0; i < 2; i++) {
-        const outline: StatsOutline = outlines.get(i).get();
+        const outline: StatsOutline = outlines.get(StatsID.ofString(json[i].statsID).get()).get();
         expect(outline.getStatsID().get().get()).toBe(json[i].statsID);
         expect(outline.getLanguageID().get().get()).toBe(json[i].languageID);
         expect(outline.getRegionID().get().get()).toBe(json[i].regionID);
@@ -221,7 +218,7 @@ describe('StatsOutlines', () => {
       expect(superposition.isAlive()).toBe(true);
       const outlines: StatsOutlines = superposition.get();
       for (let i: number = 0; i < 2; i++) {
-        const outline: StatsOutline = outlines.get(i).get();
+        const outline: StatsOutline = outlines.get(StatsID.ofString(rows[i].statsID).get()).get();
         expect(outline.getStatsID().get().get()).toBe(rows[i].statsID);
         expect(outline.getLanguageID().get().get()).toBe(rows[i].languageID);
         expect(outline.getRegionID().get().get()).toBe(rows[i].regionID);
@@ -272,7 +269,7 @@ describe('StatsOutlines', () => {
 
       expect(statsOutlines.size()).toBe(outlines.length);
       for (let i: number = 0; i < statsOutlines.size(); i++) {
-        expect(statsOutlines.get(i).get()).toBe(outlines[i]);
+        expect(statsOutlines.get(outlines[i].getStatsID()).get()).toBe(outlines[i]);
       }
     });
   });
@@ -289,8 +286,8 @@ describe('StatsOutlines', () => {
       const statsOutlines: StatsOutlines = StatsOutlines.ofSpread(statsOutline1, statsOutline2);
 
       expect(statsOutlines.size()).toBe(2);
-      expect(statsOutlines.get(0).get()).toBe(statsOutline1);
-      expect(statsOutlines.get(1).get()).toBe(statsOutline2);
+      expect(statsOutlines.get(statsOutline1.getStatsID()).get()).toBe(statsOutline1);
+      expect(statsOutlines.get(statsOutline2.getStatsID()).get()).toBe(statsOutline2);
     });
   });
 
@@ -306,21 +303,21 @@ describe('StatsOutlines', () => {
 
   describe('get', () => {
     it('returns StatsOutline of index-th item', () => {
-      const os: Array<StatsOutline> = [new MockStatsOutline(), new MockStatsOutline(), new MockStatsOutline()];
+      const array: Array<StatsOutline> = [new MockStatsOutline(), new MockStatsOutline(), new MockStatsOutline()];
 
-      const outlines: StatsOutlines = StatsOutlines.ofArray(os);
+      const outlines: StatsOutlines = StatsOutlines.ofArray(array);
 
       expect(outlines.size()).toBe(3);
       for (let i: number = 0; i < outlines.size(); i++) {
-        expect(outlines.get(i).get()).toBe(os[i]);
+        expect(outlines.get(array[i].getStatsID()).get()).toBe(array[i]);
       }
     });
 
     it('returns Absent if the index is out of range', () => {
       const outlines: StatsOutlines = StatsOutlines.empty();
 
-      expect(outlines.get(-1)).toBeInstanceOf(Absent);
-      expect(outlines.get(0)).toBeInstanceOf(Absent);
+      expect(outlines.get(new MockStatsID())).toBeInstanceOf(Absent);
+      expect(outlines.get(new MockStatsID())).toBeInstanceOf(Absent);
     });
   });
 
@@ -389,7 +386,7 @@ describe('StatsOutlines', () => {
       expect(outlines1.equals(outlines2)).toBe(false);
     });
 
-    it('returns false if the sequences are different', () => {
+    it('returns true even if the sequences are different', () => {
       const outline1: MockStatsOutline = new MockStatsOutline();
       const outline2: MockStatsOutline = new MockStatsOutline();
 
@@ -397,7 +394,7 @@ describe('StatsOutlines', () => {
       const outlines2: StatsOutlines = StatsOutlines.ofArray([outline2, outline1]);
 
       expect(outlines1.equals(outlines1)).toBe(true);
-      expect(outlines1.equals(outlines2)).toBe(false);
+      expect(outlines1.equals(outlines2)).toBe(true);
     });
 
     it('returns true if the size and the sequence are the same', () => {
@@ -414,18 +411,16 @@ describe('StatsOutlines', () => {
 
   describe('duplicate', () => {
     it('shallow copies the instance and its own elements', () => {
-      const outlines: StatsOutlines = StatsOutlines.ofArray([
-        new MockStatsOutline(),
-        new MockStatsOutline(),
-        new MockStatsOutline()
-      ]);
+      const array: Array<MockStatsOutline> = [new MockStatsOutline(), new MockStatsOutline(), new MockStatsOutline()];
+      const outlines: StatsOutlines = StatsOutlines.ofArray(array);
       const duplicated: StatsOutlines = outlines.duplicate();
 
       expect(outlines).not.toBe(duplicated);
       expect(outlines.equals(duplicated)).toBe(true);
       expect(outlines.size()).toBe(duplicated.size());
       for (let i: number = 0; i < outlines.size(); i++) {
-        expect(outlines.get(i).get()).toBe(duplicated.get(i).get());
+        const statsID: StatsID = array[i].getStatsID();
+        expect(outlines.get(statsID).get()).toBe(duplicated.get(statsID).get());
       }
     });
 
@@ -529,7 +524,7 @@ describe('StatsOutlines', () => {
       ]);
 
       expect(outlines.toString()).toBe(
-        `${uuid1.get()} ${uuid2.get()} ${uuid3.get()} ${uuid4.get()} ${name1} ${unit1} ${updatedAt.toString()}, ${uuid5.get()} ${uuid6.get()} ${uuid7.get()} ${uuid8.get()} ${name2} ${unit2} ${at}`
+        `{${uuid1.get()}: ${uuid1.get()} ${uuid2.get()} ${uuid3.get()} ${uuid4.get()} ${name1} ${unit1} ${at}}, {${uuid5.get()}: ${uuid5.get()} ${uuid6.get()} ${uuid7.get()} ${uuid8.get()} ${name2} ${unit2} ${at}}`
       );
     });
   });

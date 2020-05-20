@@ -6,7 +6,6 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { MockLanguageCommand } from '../../../Command/Mock/MockLanguageCommand';
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { LanguageError } from '../../../VO/Language/Error/LanguageError';
 import { LanguagesError } from '../../../VO/Language/Error/LanguagesError';
 import { ISO639 } from '../../../VO/Language/ISO639';
@@ -15,6 +14,7 @@ import { Languages } from '../../../VO/Language/Languages';
 import { MockISO639 } from '../../../VO/Language/Mock/MockISO639';
 import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';
 import { MockLanguages } from '../../../VO/Language/Mock/MockLanguages';
+import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { MockLanguageQuery } from '../../Mock/MockLanguageQuery';
 import { LanguageQuery } from '../LanguageQuery';
 
@@ -156,14 +156,14 @@ describe('LanguageQuery', () => {
 
   describe('findByISO639', () => {
     it('normal case', async () => {
-      const languages: MockLanguages = new MockLanguages(
-        new MockLanguage({
-          iso639: new MockISO639('ab')
-        }),
-        new MockLanguage({
-          iso639: new MockISO639('aa')
-        })
-      );
+      const language1: MockLanguage = new MockLanguage({
+        iso639: new MockISO639('ab')
+      });
+      const language2: MockLanguage = new MockLanguage({
+        iso639: new MockISO639('aa')
+      });
+
+      const languages: MockLanguages = new MockLanguages(language1, language2);
 
       const languageRedisQuery: MockLanguageQuery = new MockLanguageQuery();
       const stub: SinonStub = sinon.stub();
@@ -183,7 +183,7 @@ describe('LanguageQuery', () => {
       > = await languageQuery.findByISO639(ISO639.of('aa'));
 
       expect(superposition.isAlive()).toBe(true);
-      expect(superposition.get()).toBe(languages.get(1).get());
+      expect(superposition.get()).toBe(languages.get(language2.getLanguageID()).get());
     });
 
     it('LanguageQuery.all returns Dead, MySQLError', async () => {

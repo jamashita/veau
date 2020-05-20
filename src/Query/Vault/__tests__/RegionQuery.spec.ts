@@ -5,7 +5,6 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { Locale } from '../../../VO/Locale/Locale';
 import { MockLocale } from '../../../VO/Locale/Mock/MockLocale';
 import { RegionError } from '../../../VO/Region/Error/RegionError';
@@ -16,6 +15,7 @@ import { MockRegion } from '../../../VO/Region/Mock/MockRegion';
 import { MockRegions } from '../../../VO/Region/Mock/MockRegions';
 import { Region } from '../../../VO/Region/Region';
 import { Regions } from '../../../VO/Region/Regions';
+import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { MockLocaleQuery } from '../../Mock/MockLocaleQuery';
 import { RegionQuery } from '../RegionQuery';
 
@@ -75,15 +75,14 @@ describe('RegionQuery', () => {
 
   describe('findByISO3166', () => {
     it('normal case', async () => {
+      const region1: MockRegion = new MockRegion({
+        iso3166: new MockISO3166('AFG')
+      });
+      const region2: MockRegion = new MockRegion({
+        iso3166: new MockISO3166('ALB')
+      });
       const locale: MockLocale = new MockLocale({
-        regions: new MockRegions(
-          new MockRegion({
-            iso3166: new MockISO3166('AFG')
-          }),
-          new MockRegion({
-            iso3166: new MockISO3166('ALB')
-          })
-        )
+        regions: new MockRegions(region1, region2)
       });
 
       const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
@@ -98,7 +97,7 @@ describe('RegionQuery', () => {
       > = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(superposition.isAlive()).toBe(true);
-      expect(superposition.get()).toBe(locale.getRegions().get(1).get());
+      expect(superposition.get()).toBe(locale.getRegions().get(region2.getRegionID()).get());
     });
 
     it('LocaleQuery.all returns Dead, AJAXError', async () => {

@@ -9,6 +9,7 @@ import { LanguageError } from '../../../VO/Language/Error/LanguageError';
 import { LanguagesError } from '../../../VO/Language/Error/LanguagesError';
 import { ISO639 } from '../../../VO/Language/ISO639';
 import { Language, LanguageJSON } from '../../../VO/Language/Language';
+import { LanguageID } from '../../../VO/Language/LanguageID';
 import { Languages } from '../../../VO/Language/Languages';
 import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { LanguageQuery } from '../LanguageQuery';
@@ -57,10 +58,11 @@ describe('LanguageQuery', () => {
       const languages: Languages = superposition.get();
       expect(languages.size()).toBe(json.length);
       for (let i: number = 0; i < languages.size(); i++) {
-        expect(languages.get(i).get().getLanguageID().get().get()).toBe(json[i].languageID);
-        expect(languages.get(i).get().getName().get()).toBe(json[i].name);
-        expect(languages.get(i).get().getEnglishName().get()).toBe(json[i].englishName);
-        expect(languages.get(i).get().getISO639().get()).toBe(json[i].iso639);
+        const languageID: LanguageID = LanguageID.ofString(json[i].languageID).get();
+        expect(languages.get(languageID).get().getLanguageID().get().get()).toBe(json[i].languageID);
+        expect(languages.get(languageID).get().getName().get()).toBe(json[i].name);
+        expect(languages.get(languageID).get().getEnglishName().get()).toBe(json[i].englishName);
+        expect(languages.get(languageID).get().getISO639().get()).toBe(json[i].iso639);
       }
     });
 

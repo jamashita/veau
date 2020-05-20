@@ -1,4 +1,4 @@
-import { Absent, Alive, Dead, ImmutableSequence, Superposition, UUID } from 'publikum';
+import { Absent, Alive, Dead, ImmutableProject, ImmutableSequence, Superposition, UUID } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
 
 import { RegionError } from '../Error/RegionError';
@@ -15,23 +15,21 @@ import { Regions } from '../Regions';
 
 describe('Regions', () => {
   describe('of', () => {
-    it('when the ImmutableSequence is zero size, returns Regions.empty()', () => {
-      const regions: Regions = Regions.of(ImmutableSequence.empty<Region>());
+    it('when the ImmutableProject is zero size, returns Regions.empty()', () => {
+      const regions: Regions = Regions.of(ImmutableProject.empty<RegionID, Region>());
 
       expect(regions).toBe(Regions.empty());
     });
 
     it('normal case', () => {
-      const sequence: ImmutableSequence<MockRegion> = ImmutableSequence.of<Region>([
-        new MockRegion(),
-        new MockRegion()
-      ]);
+      const array: Array<MockRegion> = [new MockRegion(), new MockRegion()];
 
-      const regions: Regions = Regions.of(sequence);
+      const regions: Regions = Regions.ofArray(array);
 
-      expect(regions.size()).toBe(sequence.size());
+      expect(regions.size()).toBe(array.length);
       for (let i: number = 0; i < regions.size(); i++) {
-        expect(regions.get(i).get()).toBe(sequence.get(i).get());
+        const mock: MockRegion = array[i];
+        expect(regions.get(mock.getRegionID()).get()).toBe(mock);
       }
     });
   });
@@ -56,7 +54,7 @@ describe('Regions', () => {
       const regions: Regions = superposition.get();
       expect(regions.size()).toBe(regionArray.length);
       for (let i: number = 0; i < regions.size(); i++) {
-        expect(regions.get(i).get()).toBe(regionArray[i]);
+        expect(regions.get(regionArray[i].getRegionID()).get()).toBe(regionArray[i]);
       }
     });
 
@@ -145,7 +143,8 @@ describe('Regions', () => {
       const regions: Regions = superposition.get();
       expect(regions.size()).toBe(json.length);
       for (let i: number = 0; i < regions.size(); i++) {
-        const region: Region = regions.get(i).get();
+        const regionID: RegionID = RegionID.ofString(json[i].regionID).get();
+        const region: Region = regions.get(regionID).get();
         expect(region.getRegionID().get().get()).toBe(json[i].regionID);
         expect(region.getName().get()).toBe(json[i].name);
         expect(region.getISO3166().get()).toBe(json[i].iso3166);
@@ -177,7 +176,8 @@ describe('Regions', () => {
       const regions: Regions = superposition.get();
       expect(regions.size()).toBe(rows.length);
       for (let i: number = 0; i < regions.size(); i++) {
-        const region: Region = regions.get(i).get();
+        const regionID: RegionID = RegionID.ofString(rows[i].regionID).get();
+        const region: Region = regions.get(regionID).get();
         expect(region.getRegionID().get().get()).toBe(rows[i].regionID);
         expect(region.getName().get()).toBe(rows[i].name);
         expect(region.getISO3166().get()).toBe(rows[i].iso3166);
@@ -199,7 +199,7 @@ describe('Regions', () => {
 
       expect(regions.size()).toBe(regs.length);
       for (let i: number = 0; i < regions.size(); i++) {
-        expect(regions.get(i).get()).toBe(regs[i]);
+        expect(regions.get(regs[i].getRegionID()).get()).toBe(regs[i]);
       }
     });
   });
@@ -220,7 +220,7 @@ describe('Regions', () => {
 
       expect(regions.size()).toBe(regs.length);
       for (let i: number = 0; i < regions.size(); i++) {
-        expect(regions.get(i).get()).toBe(regs[i]);
+        expect(regions.get(regs[i].getRegionID()).get()).toBe(regs[i]);
       }
     });
   });
@@ -243,15 +243,15 @@ describe('Regions', () => {
 
       expect(regions.size()).toBe(regs.length);
       for (let i: number = 0; i < regions.size(); i++) {
-        expect(regions.get(i).get()).toBe(regs[i]);
+        expect(regions.get(regs[i].getRegionID()).get()).toBe(regs[i]);
       }
     });
 
     it('returns Absent when the index is out of range', () => {
       const regions: Regions = Regions.empty();
 
-      expect(regions.get(-1)).toBeInstanceOf(Absent);
-      expect(regions.get(0)).toBeInstanceOf(Absent);
+      expect(regions.get(new MockRegionID())).toBeInstanceOf(Absent);
+      expect(regions.get(new MockRegionID())).toBeInstanceOf(Absent);
     });
   });
 
@@ -364,7 +364,7 @@ describe('Regions', () => {
       expect(regions1.equals(regions2)).toBe(false);
     });
 
-    it('returns false if the sequence is different', () => {
+    it('returns true even if the sequence is different', () => {
       const region1: MockRegion = new MockRegion();
       const region2: MockRegion = new MockRegion({
         name: new MockRegionName('region'),
@@ -375,7 +375,7 @@ describe('Regions', () => {
       const regions2: Regions = Regions.ofArray([region2, region1]);
 
       expect(regions1.equals(regions1)).toBe(true);
-      expect(regions1.equals(regions2)).toBe(false);
+      expect(regions1.equals(regions2)).toBe(true);
     });
 
     it('returns true if the length is the same and the sequence is the same', () => {
@@ -424,7 +424,9 @@ describe('Regions', () => {
         Region.of(RegionID.of(uuid2), RegionName.of(name2), ISO3166.of(iso31662))
       ]);
 
-      expect(regions.toString()).toBe(`${uuid1.get()} ${name1} ${iso31661}, ${uuid2.get()} ${name2} ${iso31662}`);
+      expect(regions.toString()).toBe(
+        `{${uuid1.get()}: ${uuid1.get()} ${name1} ${iso31661}}, {${uuid2.get()}: ${uuid2.get()} ${name2} ${iso31662}}`
+      );
     });
   });
 });

@@ -6,7 +6,6 @@ import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { MockRegionCommand } from '../../../Command/Mock/MockRegionCommand';
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
-import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { RegionError } from '../../../VO/Region/Error/RegionError';
 import { RegionsError } from '../../../VO/Region/Error/RegionsError';
 import { ISO3166 } from '../../../VO/Region/ISO3166';
@@ -15,6 +14,7 @@ import { MockRegion } from '../../../VO/Region/Mock/MockRegion';
 import { MockRegions } from '../../../VO/Region/Mock/MockRegions';
 import { Region } from '../../../VO/Region/Region';
 import { Regions } from '../../../VO/Region/Regions';
+import { NoSuchElementError } from '../../Error/NoSuchElementError';
 import { MockRegionQuery } from '../../Mock/MockRegionQuery';
 import { RegionQuery } from '../RegionQuery';
 
@@ -143,14 +143,13 @@ describe('RegionQuery', () => {
 
   describe('findByISO3166', () => {
     it('normal case', async () => {
-      const regions: MockRegions = new MockRegions(
-        new MockRegion({
-          iso3166: new MockISO3166('AFG')
-        }),
-        new MockRegion({
-          iso3166: new MockISO3166('ALB')
-        })
-      );
+      const region1: MockRegion = new MockRegion({
+        iso3166: new MockISO3166('AFG')
+      });
+      const region2: MockRegion = new MockRegion({
+        iso3166: new MockISO3166('ALB')
+      });
+      const regions: MockRegions = new MockRegions(region1, region2);
 
       const regionRedisQuery: MockRegionQuery = new MockRegionQuery();
       const stub: SinonStub = sinon.stub();
@@ -166,7 +165,7 @@ describe('RegionQuery', () => {
       > = await regionQuery.findByISO3166(ISO3166.of('ALB'));
 
       expect(superposition.isAlive()).toBe(true);
-      expect(superposition.get()).toBe(regions.get(1).get());
+      expect(superposition.get()).toBe(regions.get(region2.getRegionID()).get());
     });
 
     it('RegionQuery.all returns Dead, MySQLError', async () => {

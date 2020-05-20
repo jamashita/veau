@@ -1,14 +1,17 @@
+import 'reflect-metadata';
+
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import { AJAXError, DataSourceError, MockAJAX, Superposition, UUID } from 'publikum';
-import 'reflect-metadata';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';
-import { StatsOutlinesError } from '../../../VO/StatsOutline/Error/StatsOutlinesError';
 import { MockPage } from '../../../VO/Page/Mock/MockPage';
-import { MockVeauAccountID } from '../../../VO/VeauAccount/Mock/MockVeauAccountID';
+import { StatsOutlinesError } from '../../../VO/StatsOutline/Error/StatsOutlinesError';
+import { StatsID } from '../../../VO/StatsOutline/StatsID';
 import { StatsOutlineJSON } from '../../../VO/StatsOutline/StatsOutline';
 import { StatsOutlines } from '../../../VO/StatsOutline/StatsOutlines';
+import { MockVeauAccountID } from '../../../VO/VeauAccount/Mock/MockVeauAccountID';
 import { StatsOutlineQuery } from '../StatsOutlineQuery';
 
 describe('StatsOutlineQuery', () => {
@@ -57,13 +60,14 @@ describe('StatsOutlineQuery', () => {
       const outlines: StatsOutlines = superposition.get();
       expect(outlines.size()).toBe(1);
       for (let i: number = 0; i < outlines.size(); i++) {
-        expect(outlines.get(i).get().getStatsID().get().get()).toBe(json[i].statsID);
-        expect(outlines.get(i).get().getLanguageID().get().get()).toBe(json[i].languageID);
-        expect(outlines.get(i).get().getRegionID().get().get()).toBe(json[i].regionID);
-        expect(outlines.get(i).get().getTermID().get().get()).toBe(json[i].termID);
-        expect(outlines.get(i).get().getName().get()).toBe(json[i].name);
-        expect(outlines.get(i).get().getUnit().get()).toBe(json[i].unit);
-        expect(outlines.get(i).get().getUpdatedAt().toString()).toBe(json[i].updatedAt);
+        const statsID: StatsID = StatsID.ofString(json[i].statsID).get();
+        expect(outlines.get(statsID).get().getStatsID().get().get()).toBe(json[i].statsID);
+        expect(outlines.get(statsID).get().getLanguageID().get().get()).toBe(json[i].languageID);
+        expect(outlines.get(statsID).get().getRegionID().get().get()).toBe(json[i].regionID);
+        expect(outlines.get(statsID).get().getTermID().get().get()).toBe(json[i].termID);
+        expect(outlines.get(statsID).get().getName().get()).toBe(json[i].name);
+        expect(outlines.get(statsID).get().getUnit().get()).toBe(json[i].unit);
+        expect(outlines.get(statsID).get().getUpdatedAt().toString()).toBe(json[i].updatedAt);
       }
     });
 
