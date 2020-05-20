@@ -14,8 +14,8 @@ import {
 import { Type } from '../../Container/Types';
 import { Stats } from '../../Entity/Stats/Stats';
 import { StatsID } from '../../VO/StatsOutline/StatsID';
-import { IAJAXCommand } from './Interface/IAJAXCommand';
 import { IStatsCommand } from '../Interface/IStatsCommand';
+import { IAJAXCommand } from './Interface/IAJAXCommand';
 
 @injectable()
 export class StatsCommand implements IStatsCommand, IAJAXCommand {
