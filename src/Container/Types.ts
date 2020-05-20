@@ -41,6 +41,7 @@ type DIType = Readonly<{
   LanguageVaultQuery: symbol;
   LocaleVaultQuery: symbol;
   RegionVaultQuery: symbol;
+  StatsListItemVaultQuery: symbol;
 }>;
 
 export const Type: DIType = {
@@ -85,5 +86,6 @@ export const Type: DIType = {
   IdentityVaultQuery: Symbol(),
   LanguageVaultQuery: Symbol(),
   LocaleVaultQuery: Symbol(),
-  RegionVaultQuery: Symbol()
+  RegionVaultQuery: Symbol(),
+  StatsListItemVaultQuery: Symbol()
 };

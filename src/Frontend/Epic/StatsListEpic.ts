@@ -10,16 +10,15 @@ import { Stats } from '../../Entity/Stats/Stats';
 import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
 import { ILanguageQuery } from '../../Query/Interface/ILanguageQuery';
 import { IRegionQuery } from '../../Query/Interface/IRegionQuery';
-import { IStatsOutlineQuery } from '../../Query/Interface/IStatsOutlineQuery';
+import { IStatsListItemQuery } from '../../Query/Interface/IStatsListItemQuery';
 import { LanguageError } from '../../VO/Language/Error/LanguageError';
 import { Language } from '../../VO/Language/Language';
 import { Page } from '../../VO/Page/Page';
 import { RegionError } from '../../VO/Region/Error/RegionError';
 import { Region } from '../../VO/Region/Region';
-import { StatsOutlinesError } from '../../VO/StatsOutline/Error/StatsOutlinesError';
+import { StatsListItemsError } from '../../VO/StatsListItem/Error/StatsListItemsError';
+import { StatsListItems } from '../../VO/StatsListItem/StatsListItems';
 import { StatsOutline } from '../../VO/StatsOutline/StatsOutline';
-import { StatsOutlines } from '../../VO/StatsOutline/StatsOutlines';
-import { VeauAccountID } from '../../VO/VeauAccount/VeauAccountID';
 import {
   Action,
   STATS_LIST_INITIALIZE,
@@ -45,20 +44,18 @@ import { State } from '../State';
 
 @injectable()
 export class StatsListEpic {
-  private readonly statsOutlineQuery: IStatsOutlineQuery;
-  // TODO StatsLIstItemQuery
-  // private readonly statsListItemQuery: IStatsLi
+  private readonly statsListItemQuery: IStatsListItemQuery;
   private readonly languageQuery: ILanguageQuery;
   private readonly regionQuery: IRegionQuery;
   private readonly statsCommand: IStatsCommand;
 
   public constructor(
-    @inject(Type.StatsOutlineAJAXQuery) statsOutlineQuery: IStatsOutlineQuery,
+    @inject(Type.StatsListItemVaultQuery) statsListItemQuery: IStatsListItemQuery,
     @inject(Type.LanguageVaultQuery) languageQuery: ILanguageQuery,
     @inject(Type.RegionVaultQuery) regionQuery: IRegionQuery,
     @inject(Type.StatsAJAXCommand) statsCommand: IStatsCommand
   ) {
-    this.statsOutlineQuery = statsOutlineQuery;
+    this.statsListItemQuery = statsListItemQuery;
     this.languageQuery = languageQuery;
     this.regionQuery = regionQuery;
     this.statsCommand = statsCommand;
@@ -66,7 +63,7 @@ export class StatsListEpic {
 
   public init(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     return merge(
-      this.findStatsList(action$),
+      this.findStatsList(action$, state$),
       this.nameTyped(action$, state$),
       this.unitTyped(action$, state$),
       this.iso639Selected(action$, state$),
@@ -76,18 +73,25 @@ export class StatsListEpic {
     );
   }
 
-  public findStatsList(action$: ActionsObservable<Action>): Observable<Action> {
+  public findStatsList(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
     return action$.pipe<Action, Action>(
       ofType<Action, Action>(STATS_LIST_INITIALIZE),
       mergeMap<Action, Observable<Action>>(() => {
-        return from<Promise<Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>>>(
-          this.statsOutlineQuery.findByVeauAccountID(VeauAccountID.generate(), Page.of(1).get())
+        // prettier-ignore
+        const {
+          value: {
+            identity
+          }
+        } = state$;
+
+        return from<Promise<Superposition<StatsListItems, StatsListItemsError | DataSourceError>>>(
+          this.statsListItemQuery.findByVeauAccountID(identity.getVeauAccountID(), Page.of(1).get())
         ).pipe<Action>(
-          mergeMap<Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>, Observable<Action>>(
-            (superposition: Superposition<StatsOutlines, StatsOutlinesError | DataSourceError>) => {
+          mergeMap<Superposition<StatsListItems, StatsListItemsError | DataSourceError>, Observable<Action>>(
+            (superposition: Superposition<StatsListItems, StatsListItemsError | DataSourceError>) => {
               return superposition.match<Observable<Action>>(
-                (statsOutlines: StatsOutlines) => {
-                  return of<Action>(updateStatsListItems(statsOutlines));
+                (listItems: StatsListItems) => {
+                  return of<Action>(updateStatsListItems(listItems));
                 },
                 () => {
                   return of<Action>(
@@ -104,18 +108,18 @@ export class StatsListEpic {
   }
 
   public nameTyped(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    // prettier-ignore
-    const {
-      value: {
-        statsList: {
-          stats
-        }
-      }
-    } = state$;
-
     return action$.pipe<StatsListNameTypedAction, Action>(
       ofType<Action, StatsListNameTypedAction>(STATS_LIST_NAME_TYPED),
       map<StatsListNameTypedAction, Action>((action: StatsListNameTypedAction) => {
+        // prettier-ignore
+        const {
+          value: {
+            statsList: {
+              stats
+            }
+          }
+        } = state$;
+
         const newStats: Stats = Stats.of(
           StatsOutline.of(
             stats.getStatsID(),
@@ -138,18 +142,18 @@ export class StatsListEpic {
   }
 
   public unitTyped(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    // prettier-ignore
-    const {
-      value: {
-        statsList: {
-          stats
-        }
-      }
-    } = state$;
-
     return action$.pipe<StatsListUnitTypedAction, Action>(
       ofType<Action, StatsListUnitTypedAction>(STATS_LIST_UNIT_TYPED),
       map<StatsListUnitTypedAction, Action>((action: StatsListUnitTypedAction) => {
+        // prettier-ignore
+        const {
+          value: {
+            statsList: {
+              stats
+            }
+          }
+        } = state$;
+
         const newStats: Stats = Stats.of(
           StatsOutline.of(
             stats.getStatsID(),
@@ -172,15 +176,6 @@ export class StatsListEpic {
   }
 
   public iso639Selected(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    // prettier-ignore
-    const {
-      value: {
-        statsList: {
-          stats
-        }
-      }
-    } = state$;
-
     return action$.pipe<StatsListISO639SelectedAction, Action>(
       ofType<Action, StatsListISO639SelectedAction>(STATS_LIST_ISO639_SELECTED),
       mergeMap<StatsListISO639SelectedAction, Observable<Action>>((action: StatsListISO639SelectedAction) => {
@@ -189,6 +184,15 @@ export class StatsListEpic {
         ).pipe<Action>(
           mergeMap<Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>, Observable<Action>>(
             (superposition: Superposition<Language, LanguageError | NoSuchElementError | DataSourceError>) => {
+              // prettier-ignore
+              const {
+                value: {
+                  statsList: {
+                    stats
+                  }
+                }
+              } = state$;
+
               return EMPTY.pipe<never, Action>(
                 filter<never>(() => {
                   return superposition.isAlive();
@@ -213,15 +217,6 @@ export class StatsListEpic {
   }
 
   public iso3166Selected(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    // prettier-ignore
-    const {
-      value: {
-        statsList: {
-          stats
-        }
-      }
-    } = state$;
-
     return action$.pipe<StatsListISO3166SelectedAction, Action>(
       ofType<Action, StatsListISO3166SelectedAction>(STATS_LIST_ISO3166_SELECTED),
       mergeMap<StatsListISO3166SelectedAction, Observable<Action>>((action: StatsListISO3166SelectedAction) => {
@@ -230,6 +225,15 @@ export class StatsListEpic {
         ).pipe<Action>(
           mergeMap<Superposition<Region, RegionError | NoSuchElementError | DataSourceError>, Observable<Action>>(
             (superposition: Superposition<Region, RegionError | NoSuchElementError | DataSourceError>) => {
+              // prettier-ignore
+              const {
+                value: {
+                  statsList: {
+                    stats
+                  }
+                }
+              } = state$;
+
               return EMPTY.pipe<never, Action>(
                 filter<never>(() => {
                   return superposition.isAlive();
@@ -254,18 +258,18 @@ export class StatsListEpic {
   }
 
   public termSelected(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    // prettier-ignore
-    const {
-      value: {
-        statsList: {
-          stats
-        }
-      }
-    } = state$;
-
     return action$.pipe<StatsListTermSelectedAction, Action>(
       ofType<Action, StatsListTermSelectedAction>(STATS_LIST_TERM_SELECTED),
       map<StatsListTermSelectedAction, Action>((action: StatsListTermSelectedAction) => {
+        // prettier-ignore
+        const {
+          value: {
+            statsList: {
+              stats
+            }
+          }
+        } = state$;
+
         const newStats: Stats = Stats.of(
           stats.getOutline(),
           stats.getLanguage(),
@@ -280,25 +284,35 @@ export class StatsListEpic {
   }
 
   public save(action$: ActionsObservable<Action>, state$: StateObservable<State>): Observable<Action> {
-    // prettier-ignore
-    const {
-      value: {
-        statsList: {
-          stats
-        }
-      }
-    } = state$;
-
     return action$.pipe<Action, Action, Action, Action, Action>(
       ofType<Action, Action>(STATS_LIST_SAVE_NEW_STATS),
       filter<Action>(() => {
+        // prettier-ignore
+        const {
+          value: {
+            statsList: {
+              stats
+            }
+          }
+        } = state$;
+
         return !stats.isFilled();
       }),
       mapTo<Action, Action>(closeNewStatsModal()),
       mapTo<Action, Action>(loading()),
       mergeMap(() => {
+        // prettier-ignore
+        const {
+          value: {
+            identity,
+            statsList: {
+              stats
+            }
+          }
+        } = state$;
+
         return from<Promise<Superposition<unknown, DataSourceError>>>(
-          this.statsCommand.create(stats, VeauAccountID.generate())
+          this.statsCommand.create(stats, identity.getVeauAccountID())
         ).pipe<Action>(
           mergeMap<Superposition<unknown, DataSourceError>, Observable<Action>>(
             (superposition: Superposition<unknown, DataSourceError>) => {
