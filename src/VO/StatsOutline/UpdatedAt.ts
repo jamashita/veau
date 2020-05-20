@@ -1,4 +1,5 @@
-import { Alive, Dead, Superposition, ValueObject, Zeit, ZeitError } from 'publikum';
+import { Alive, Dead, Schrodinger, Superposition, ValueObject, Zeit, ZeitError } from 'publikum';
+
 import { UpdatedAtError } from './Error/UpdatedAtError';
 
 const TERM_FORMAT: string = 'YYYY-MM-DD HH:mm:ss';
@@ -12,19 +13,16 @@ export class UpdatedAt extends ValueObject {
   }
 
   public static ofString(at: string): Superposition<UpdatedAt, UpdatedAtError> {
-    // prettier-ignore
-    try {
-      const zeit: Zeit = Zeit.ofString(at, TERM_FORMAT);
-
-      return Alive.of<UpdatedAt, UpdatedAtError>(UpdatedAt.of(zeit));
-    }
-    catch (err) {
-      if (err instanceof ZeitError) {
+    return Schrodinger.playground<Zeit, ZeitError>(() => {
+      return Zeit.ofString(at, TERM_FORMAT);
+    }).match<UpdatedAt, UpdatedAtError>(
+      (zeit: Zeit) => {
+        return Alive.of<UpdatedAt, UpdatedAtError>(UpdatedAt.of(zeit));
+      },
+      (err: ZeitError) => {
         return Dead.of<UpdatedAt, UpdatedAtError>(new UpdatedAtError('AT IS NOT DATE FORMAT', err));
       }
-
-      throw err;
-    }
+    );
   }
 
   public static now(): UpdatedAt {

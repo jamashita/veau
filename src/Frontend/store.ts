@@ -2,6 +2,7 @@ import { routerMiddleware } from 'connected-react-router';
 import { applyMiddleware, createStore, Middleware, Store } from 'redux';
 import { createLogger } from 'redux-logger';
 import { createEpicMiddleware, EpicMiddleware } from 'redux-observable';
+
 import { Type } from '../Container/Types';
 import { vault } from '../Container/Vault';
 import { Action } from './Action/Action';

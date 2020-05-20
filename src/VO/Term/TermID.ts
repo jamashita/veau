@@ -1,4 +1,5 @@
-import { Alive, Dead, Superposition, UUID, UUIDError, ValueObject } from 'publikum';
+import { Alive, Dead, Schrodinger, Superposition, UUID, UUIDError, ValueObject } from 'publikum';
+
 import { TermIDError } from './Error/TermIDError';
 
 export class TermID extends ValueObject {
@@ -10,19 +11,16 @@ export class TermID extends ValueObject {
   }
 
   public static ofString(id: string): Superposition<TermID, TermIDError> {
-    // prettier-ignore
-    try {
-      const uuid: UUID = UUID.of(id);
-
-      return Alive.of<TermID, TermIDError>(TermID.of(uuid));
-    }
-    catch (err) {
-      if (err instanceof UUIDError) {
+    return Schrodinger.playground<UUID, UUIDError>(() => {
+      return UUID.of(id);
+    }).match<TermID, TermIDError>(
+      (uuid: UUID) => {
+        return Alive.of<TermID, TermIDError>(TermID.of(uuid));
+      },
+      (err: UUIDError) => {
         return Dead.of<TermID, TermIDError>(new TermIDError('TermID.ofString()', err));
       }
-
-      throw err;
-    }
+    );
   }
 
   protected constructor(uuid: UUID) {

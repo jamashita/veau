@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import log4js from 'log4js';
 import { VerifyFunction } from 'passport-local';
-import { DataSourceError, Digest, Noun, Superposition } from 'publikum';
+import { DataSourceError, Digest, Noun, Schrodinger, Superposition } from 'publikum';
 
 import { Type } from '../Container/Types';
 import { NoSuchElementError } from '../Query/Error/NoSuchElementError';
@@ -27,41 +27,33 @@ export class AuthenticationInteractor implements Noun {
 
   public review(): VerifyFunction {
     return async (name: string, pass: string, callback: (error: unknown, account?: unknown) => void) => {
-      // prettier-ignore
-      try {
-        const accountName: AccountName = AccountName.of(name);
-        const password: Password = Password.of(pass);
+      const superposition: Superposition<
+        Account,
+        AccountError | NoSuchElementError | DataSourceError
+      > = await Schrodinger.playground<Account, AccountError | NoSuchElementError | DataSourceError>(() => {
+        return this.accountQuery.findByAccount(AccountName.of(name));
+      });
 
-        const superposition: Superposition<
-          Account,
-          AccountError | NoSuchElementError | DataSourceError
-        > = await this.accountQuery.findByAccount(accountName);
+      superposition.match<void>(
+        async (account: Account) => {
+          const correct: boolean = await account.verify(Password.of(pass));
 
-        return superposition.match<void>(
-          async (account: Account) => {
-            const correct: boolean = await account.verify(password);
-
-            if (correct) {
-              callback(null, account.getVeauAccount());
-              return;
-            }
-
-            callback(null, false);
-          },
-          async (err: AccountError | NoSuchElementError | DataSourceError) => {
-            // time adjustment
-            await Digest.compare(DUMMY_PASSWORD, DUMMY_HASH);
-
-            logger.warn(err);
-            logger.info(`invalid account: ${name} and password: ${pass}`);
-            callback(null, false);
+          if (correct) {
+            callback(null, account.getVeauAccount());
+            return;
           }
-        );
-      }
-      catch (err) {
-        logger.fatal(err);
-        callback(err);
-      }
+
+          callback(null, false);
+        },
+        async (err: AccountError | NoSuchElementError | DataSourceError) => {
+          // time adjustment
+          await Digest.compare(DUMMY_PASSWORD, DUMMY_HASH);
+
+          logger.warn(err);
+          logger.info(`invalid account: ${name} and password: ${pass}`);
+          callback(null, false);
+        }
+      );
     };
   }
 }
