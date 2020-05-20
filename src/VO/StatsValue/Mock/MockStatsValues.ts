@@ -1,17 +1,18 @@
 import { ImmutableProject, Project } from 'publikum';
+
 import { AsOf } from '../../AsOf/AsOf';
 import { StatsValue } from '../StatsValue';
 import { StatsValues } from '../StatsValues';
 
 export class MockStatsValues extends StatsValues {
   private static toProject(values: Array<StatsValue>): Project<AsOf, StatsValue> {
-    let project: ImmutableProject<AsOf, StatsValue> = ImmutableProject.empty<AsOf, StatsValue>();
+    const map: Map<AsOf, StatsValue> = new Map<AsOf, StatsValue>();
 
     values.forEach((value: StatsValue) => {
-      project = project.set(value.getAsOf(), value);
+      map.set(value.getAsOf(), value);
     });
 
-    return project;
+    return ImmutableProject.of<AsOf, StatsValue>(map);
   }
 
   public constructor(...values: Array<StatsValue>) {

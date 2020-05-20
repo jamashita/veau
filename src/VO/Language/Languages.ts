@@ -1,29 +1,32 @@
 import {
+  Absent,
   Alive,
   Collection,
   Dead,
-  ImmutableSequence,
+  ImmutableProject,
   JSONable,
   Mapper,
   Objet,
   Predicate,
+  Present,
+  Project,
   Quantum,
   Schrodinger,
-  Sequence,
   Superposition
 } from 'publikum';
 
 import { LanguageError } from './Error/LanguageError';
 import { LanguagesError } from './Error/LanguagesError';
 import { Language, LanguageJSON, LanguageRow } from './Language';
+import { LanguageID } from './LanguageID';
 
-export class Languages extends Objet implements Collection<number, Language>, JSONable {
+export class Languages extends Objet implements Collection<LanguageID, Language>, JSONable {
   public readonly noun: 'Languages' = 'Languages';
-  private readonly languages: Sequence<Language>;
+  private readonly languages: Project<LanguageID, Language>;
 
-  private static readonly EMPTY: Languages = new Languages(ImmutableSequence.empty<Language>());
+  private static readonly EMPTY: Languages = new Languages(ImmutableProject.empty<LanguageID, Language>());
 
-  public static of(languages: Sequence<Language>): Languages {
+  public static of(languages: Project<LanguageID, Language>): Languages {
     if (languages.isEmpty()) {
       return Languages.empty();
     }
@@ -31,8 +34,18 @@ export class Languages extends Objet implements Collection<number, Language>, JS
     return new Languages(languages);
   }
 
+  private static ofMap(languages: Map<LanguageID, Language>): Languages {
+    return Languages.of(ImmutableProject.of<LanguageID, Language>(languages));
+  }
+
   public static ofArray(languages: Array<Language>): Languages {
-    return Languages.of(ImmutableSequence.of<Language>(languages));
+    const map: Map<LanguageID, Language> = new Map<LanguageID, Language>();
+
+    languages.forEach((language: Language) => {
+      map.set(language.getLanguageID(), language);
+    });
+
+    return Languages.ofMap(map);
   }
 
   public static ofSpread(...languages: Array<Language>): Languages {
@@ -76,13 +89,13 @@ export class Languages extends Objet implements Collection<number, Language>, JS
     return Languages.EMPTY;
   }
 
-  protected constructor(languages: Sequence<Language>) {
+  protected constructor(languages: Project<LanguageID, Language>) {
     super();
     this.languages = languages;
   }
 
-  public get(index: number): Quantum<Language> {
-    return this.languages.get(index);
+  public get(key: LanguageID): Quantum<Language> {
+    return this.languages.get(key);
   }
 
   public contains(value: Language): boolean {
@@ -94,11 +107,25 @@ export class Languages extends Objet implements Collection<number, Language>, JS
   }
 
   public map<U>(mapper: Mapper<Language, U>): Array<U> {
-    return this.languages.toArray().map<U>(mapper);
+    const array: Array<U> = [];
+    let i: number = 0;
+
+    this.languages.forEach((language: Language) => {
+      array.push(mapper(language, i));
+      i++;
+    });
+
+    return array;
   }
 
   public find(predicate: Predicate<Language>): Quantum<Language> {
-    return this.languages.find(predicate);
+    for (const language of this.languages.toMap().values()) {
+      if (predicate(language)) {
+        return Present.of<Language>(language);
+      }
+    }
+
+    return Absent.of<Language>();
   }
 
   public isEmpty(): boolean {
@@ -114,9 +141,13 @@ export class Languages extends Objet implements Collection<number, Language>, JS
   }
 
   public toJSON(): Array<LanguageJSON> {
-    return this.languages.toArray().map<LanguageJSON>((language: Language) => {
-      return language.toJSON();
+    const json: Array<LanguageJSON> = [];
+
+    this.languages.forEach((language: Language) => {
+      json.push(language.toJSON());
     });
+
+    return json;
   }
 
   public serialize(): string {

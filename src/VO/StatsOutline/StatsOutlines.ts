@@ -3,28 +3,29 @@ import {
   Cloneable,
   Collection,
   Dead,
-  ImmutableSequence,
+  ImmutableProject,
   JSONable,
   Mapper,
   Objet,
+  Project,
   Quantum,
   Schrodinger,
-  Sequence,
   Superposition
 } from 'publikum';
 
 import { StatsOutlineError } from './Error/StatsOutlineError';
 import { StatsOutlinesError } from './Error/StatsOutlinesError';
+import { StatsID } from './StatsID';
 import { StatsOutline, StatsOutlineJSON, StatsOutlineRow } from './StatsOutline';
 
 export class StatsOutlines extends Objet
-  implements Collection<number, StatsOutline>, Cloneable<StatsOutlines>, JSONable {
+  implements Collection<StatsID, StatsOutline>, Cloneable<StatsOutlines>, JSONable {
   public readonly noun: 'StatsOutlines' = 'StatsOutlines';
-  private readonly outlines: Sequence<StatsOutline>;
+  private readonly outlines: Project<StatsID, StatsOutline>;
 
-  private static readonly EMPTY: StatsOutlines = new StatsOutlines(ImmutableSequence.empty<StatsOutline>());
+  private static readonly EMPTY: StatsOutlines = new StatsOutlines(ImmutableProject.empty<StatsID, StatsOutline>());
 
-  public static of(outlines: Sequence<StatsOutline>): StatsOutlines {
+  public static of(outlines: Project<StatsID, StatsOutline>): StatsOutlines {
     if (outlines.isEmpty()) {
       return StatsOutlines.empty();
     }
@@ -32,8 +33,18 @@ export class StatsOutlines extends Objet
     return new StatsOutlines(outlines);
   }
 
+  private static ofMap(outlines: Map<StatsID, StatsOutline>): StatsOutlines {
+    return StatsOutlines.of(ImmutableProject.of<StatsID, StatsOutline>(outlines));
+  }
+
   public static ofArray(outlines: Array<StatsOutline>): StatsOutlines {
-    return StatsOutlines.of(ImmutableSequence.of<StatsOutline>(outlines));
+    const map: Map<StatsID, StatsOutline> = new Map<StatsID, StatsOutline>();
+
+    outlines.forEach((outline: StatsOutline) => {
+      map.set(outline.getStatsID(), outline);
+    });
+
+    return StatsOutlines.ofMap(map);
   }
 
   public static ofSpread(...outlines: Array<StatsOutline>): StatsOutlines {
@@ -79,13 +90,13 @@ export class StatsOutlines extends Objet
     return StatsOutlines.EMPTY;
   }
 
-  protected constructor(outlines: Sequence<StatsOutline>) {
+  protected constructor(outlines: Project<StatsID, StatsOutline>) {
     super();
     this.outlines = outlines;
   }
 
-  public get(index: number): Quantum<StatsOutline> {
-    return this.outlines.get(index);
+  public get(key: StatsID): Quantum<StatsOutline> {
+    return this.outlines.get(key);
   }
 
   public contains(value: StatsOutline): boolean {
@@ -97,7 +108,15 @@ export class StatsOutlines extends Objet
   }
 
   public map<U>(mapper: Mapper<StatsOutline, U>): Array<U> {
-    return this.outlines.toArray().map<U>(mapper);
+    const array: Array<U> = [];
+    let i: number = 0;
+
+    this.outlines.forEach((outline: StatsOutline) => {
+      array.push(mapper(outline, i));
+      i++;
+    });
+
+    return array;
   }
 
   public duplicate(): StatsOutlines {
@@ -121,9 +140,13 @@ export class StatsOutlines extends Objet
   }
 
   public toJSON(): Array<StatsOutlineJSON> {
-    return this.outlines.toArray().map<StatsOutlineJSON>((outline: StatsOutline) => {
-      return outline.toJSON();
+    const json: Array<StatsOutlineJSON> = [];
+
+    this.outlines.forEach((outline: StatsOutline) => {
+      json.push(outline.toJSON());
     });
+
+    return json;
   }
 
   public serialize(): string {

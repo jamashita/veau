@@ -1,9 +1,21 @@
-import { ImmutableSequence } from 'publikum';
+import { ImmutableProject, Project } from 'publikum';
+
+import { StatsID } from '../StatsID';
 import { StatsOutline } from '../StatsOutline';
 import { StatsOutlines } from '../StatsOutlines';
 
 export class MockStatsOutlines extends StatsOutlines {
+  private static toProject(outlines: Array<StatsOutline>): Project<StatsID, StatsOutline> {
+    const map: Map<StatsID, StatsOutline> = new Map<StatsID, StatsOutline>();
+
+    outlines.forEach((outline: StatsOutline) => {
+      map.set(outline.getStatsID(), outline);
+    });
+
+    return ImmutableProject.of<StatsID, StatsOutline>(map);
+  }
+
   public constructor(...outlines: Array<StatsOutline>) {
-    super(ImmutableSequence.of<StatsOutline>(outlines));
+    super(MockStatsOutlines.toProject(outlines));
   }
 }

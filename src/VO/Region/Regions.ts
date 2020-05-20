@@ -1,29 +1,32 @@
 import {
+  Absent,
   Alive,
   Collection,
   Dead,
-  ImmutableSequence,
+  ImmutableProject,
   JSONable,
   Mapper,
   Objet,
   Predicate,
+  Present,
+  Project,
   Quantum,
   Schrodinger,
-  Sequence,
   Superposition
 } from 'publikum';
 
 import { RegionError } from './Error/RegionError';
 import { RegionsError } from './Error/RegionsError';
 import { Region, RegionJSON, RegionRow } from './Region';
+import { RegionID } from './RegionID';
 
-export class Regions extends Objet implements Collection<number, Region>, JSONable {
+export class Regions extends Objet implements Collection<RegionID, Region>, JSONable {
   public readonly noun: 'Regions' = 'Regions';
-  private readonly regions: Sequence<Region>;
+  private readonly regions: Project<RegionID, Region>;
 
-  private static readonly EMPTY: Regions = new Regions(ImmutableSequence.empty<Region>());
+  private static readonly EMPTY: Regions = new Regions(ImmutableProject.empty<RegionID, Region>());
 
-  public static of(regions: Sequence<Region>): Regions {
+  public static of(regions: Project<RegionID, Region>): Regions {
     if (regions.isEmpty()) {
       return Regions.empty();
     }
@@ -31,8 +34,18 @@ export class Regions extends Objet implements Collection<number, Region>, JSONab
     return new Regions(regions);
   }
 
+  private static ofMap(regions: Map<RegionID, Region>): Regions {
+    return Regions.of(ImmutableProject.of<RegionID, Region>(regions));
+  }
+
   public static ofArray(regions: Array<Region>): Regions {
-    return Regions.of(ImmutableSequence.of<Region>(regions));
+    const map: Map<RegionID, Region> = new Map<RegionID, Region>();
+
+    regions.forEach((region: Region) => {
+      map.set(region.getRegionID(), region);
+    });
+
+    return Regions.ofMap(map);
   }
 
   public static ofSpread(...regions: Array<Region>): Regions {
@@ -76,13 +89,13 @@ export class Regions extends Objet implements Collection<number, Region>, JSONab
     return Regions.EMPTY;
   }
 
-  protected constructor(regions: Sequence<Region>) {
+  protected constructor(regions: Project<RegionID, Region>) {
     super();
     this.regions = regions;
   }
 
-  public get(index: number): Quantum<Region> {
-    return this.regions.get(index);
+  public get(key: RegionID): Quantum<Region> {
+    return this.regions.get(key);
   }
 
   public contains(value: Region): boolean {
@@ -94,11 +107,25 @@ export class Regions extends Objet implements Collection<number, Region>, JSONab
   }
 
   public map<U>(mapper: Mapper<Region, U>): Array<U> {
-    return this.regions.toArray().map<U>(mapper);
+    const array: Array<U> = [];
+    let i: number = 0;
+
+    this.regions.forEach((region: Region) => {
+      array.push(mapper(region, i));
+      i++;
+    });
+
+    return array;
   }
 
   public find(predicate: Predicate<Region>): Quantum<Region> {
-    return this.regions.find(predicate);
+    for (const region of this.regions.toMap().values()) {
+      if (predicate(region)) {
+        return Present.of<Region>(region);
+      }
+    }
+
+    return Absent.of<Region>();
   }
 
   public isEmpty(): boolean {
@@ -114,9 +141,13 @@ export class Regions extends Objet implements Collection<number, Region>, JSONab
   }
 
   public toJSON(): Array<RegionJSON> {
-    return this.regions.toArray().map<RegionJSON>((region: Region) => {
-      return region.toJSON();
+    const json: Array<RegionJSON> = [];
+
+    this.regions.forEach((region: Region) => {
+      json.push(region.toJSON());
     });
+
+    return json;
   }
 
   public serialize(): string {
