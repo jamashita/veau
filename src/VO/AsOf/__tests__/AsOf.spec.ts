@@ -1,10 +1,11 @@
 import { Superposition } from 'publikum';
 import sinon, { SinonSpy } from 'sinon';
-import { AsOfError } from '../Error/AsOfError';
-import { AsOf } from '../AsOf';
+
 import { MockTerm } from '../../Term/Mock/MockTerm';
 import { Term } from '../../Term/Term';
 import { Terms } from '../../Term/Terms';
+import { AsOf } from '../AsOf';
+import { AsOfError } from '../Error/AsOfError';
 
 describe('AsOf', () => {
   describe('ofString', () => {
@@ -157,11 +158,11 @@ describe('AsOf', () => {
       const asOf: AsOf = AsOf.ofString('2000-01-01').get();
       const allTerm: Terms = Terms.all();
 
-      for (let i: number = 0; i < allTerm.size(); i++) {
+      allTerm.map((term: Term) => {
         expect(() => {
-          asOf.previous(allTerm.get(i).get());
+          asOf.previous(allTerm.get(term.getTermID()).get());
         }).not.toThrow(AsOfError);
-      }
+      });
     });
 
     it('throws AsOfError because this situation is not considered', () => {
@@ -219,11 +220,11 @@ describe('AsOf', () => {
       const asOf: AsOf = AsOf.ofString('2000-01-01').get();
       const allTerm: Terms = Terms.all();
 
-      for (let i: number = 0; i < allTerm.size(); i++) {
+      allTerm.map((term: Term) => {
         expect(() => {
-          asOf.next(allTerm.get(i).get());
+          asOf.next(allTerm.get(term.getTermID()).get());
         }).not.toThrow(AsOfError);
-      }
+      });
     });
 
     it('throws AsOfError because this situation is not considered', () => {

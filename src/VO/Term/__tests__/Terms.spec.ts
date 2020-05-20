@@ -71,7 +71,7 @@ describe('Terms', () => {
       const terms: Terms = Terms.all();
 
       expect(terms.toString()).toBe(
-        `${Term.DAILY.toString()}, ${Term.WEEKLY.toString()}, ${Term.MONTHLY.toString()}, ${Term.QUARTERLY.toString()}, ${Term.ANNUAL.toString()}`
+        `{${Term.DAILY.getTermID().toString()}: ${Term.DAILY.toString()}}, {${Term.WEEKLY.getTermID().toString()}: ${Term.WEEKLY.toString()}}, {${Term.MONTHLY.getTermID().toString()}: ${Term.MONTHLY.toString()}}, {${Term.QUARTERLY.getTermID().toString()}: ${Term.QUARTERLY.toString()}}, {${Term.ANNUAL.getTermID().toString()}: ${Term.ANNUAL.toString()}}`
       );
     });
   });
