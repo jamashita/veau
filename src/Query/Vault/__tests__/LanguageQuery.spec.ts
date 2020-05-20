@@ -82,7 +82,7 @@ describe('LanguageQuery', () => {
         iso639: new MockISO639('aa')
       });
       const locale: MockLocale = new MockLocale({
-        languages: new MockLanguages(language1, language2)
+        languages: [language1, language2]
       });
 
       const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
@@ -160,14 +160,14 @@ describe('LanguageQuery', () => {
 
     it('no match results', async () => {
       const locale: MockLocale = new MockLocale({
-        languages: new MockLanguages(
+        languages: [
           new MockLanguage({
             iso639: new MockISO639('ab')
           }),
           new MockLanguage({
             iso639: new MockISO639('aa')
           })
-        )
+        ]
       });
 
       const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();

@@ -9,20 +9,18 @@ import supertest from 'supertest';
 
 import { kernel } from '../../../Container/Kernel';
 import { Type } from '../../../Container/Types';
-import { NoSuchElementError } from '../../../Query/Error/NoSuchElementError';
 import { LocaleInteractor } from '../../../Interactor/LocaleInteractor';
+import { NoSuchElementError } from '../../../Query/Error/NoSuchElementError';
 import { MockISO639 } from '../../../VO/Language/Mock/MockISO639';
 import { MockLanguage } from '../../../VO/Language/Mock/MockLanguage';
 import { MockLanguageID } from '../../../VO/Language/Mock/MockLanguageID';
 import { MockLanguageName } from '../../../VO/Language/Mock/MockLanguageName';
-import { MockLanguages } from '../../../VO/Language/Mock/MockLanguages';
 import { Locale } from '../../../VO/Locale/Locale';
 import { MockLocale } from '../../../VO/Locale/Mock/MockLocale';
 import { MockISO3166 } from '../../../VO/Region/Mock/MockISO3166';
 import { MockRegion } from '../../../VO/Region/Mock/MockRegion';
 import { MockRegionID } from '../../../VO/Region/Mock/MockRegionID';
 import { MockRegionName } from '../../../VO/Region/Mock/MockRegionName';
-import { MockRegions } from '../../../VO/Region/Mock/MockRegions';
 import { MockVeauAccount } from '../../../VO/VeauAccount/Mock/MockVeauAccount';
 import { LocaleController } from '../LocaleController';
 
@@ -35,21 +33,21 @@ describe('LocaleController', () => {
   describe('GET /', () => {
     it('returns JSON as LocaleInteractor returns', async () => {
       const locale: MockLocale = new MockLocale({
-        languages: new MockLanguages(
+        languages: [
           new MockLanguage({
             languageID: new MockLanguageID(),
             name: new MockLanguageName('language'),
             englishName: new MockLanguageName('english name'),
             iso639: new MockISO639('la')
           })
-        ),
-        regions: new MockRegions(
+        ],
+        regions: [
           new MockRegion({
             regionID: new MockRegionID(),
             name: new MockRegionName('region'),
             iso3166: new MockISO3166('RGN')
           })
-        )
+        ]
       });
 
       const localeInteractor: LocaleInteractor = kernel.get<LocaleInteractor>(Type.LocaleInteractor);

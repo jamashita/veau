@@ -22,6 +22,7 @@ import { IdentityQuery as IdentityVaultQuery } from '../Query/Vault/IdentityQuer
 import { LanguageQuery as LanguageVaultQuery } from '../Query/Vault/LanguageQuery';
 import { LocaleQuery as LocaleVaultQuery } from '../Query/Vault/LocaleQuery';
 import { RegionQuery as RegionVaultQuery } from '../Query/Vault/RegionQuery';
+import { StatsListItemQuery as StatsListItemVaultQuery } from '../Query/Vault/StatsListItemQuery';
 import { Type } from './Types';
 
 export const vault: Container = new Container();
@@ -48,3 +49,4 @@ vault.bind<IdentityVaultQuery>(Type.IdentityVaultQuery).to(IdentityVaultQuery).i
 vault.bind<LanguageVaultQuery>(Type.LanguageVaultQuery).to(LanguageVaultQuery).inSingletonScope();
 vault.bind<LocaleVaultQuery>(Type.LocaleVaultQuery).to(LocaleVaultQuery).inSingletonScope();
 vault.bind<RegionVaultQuery>(Type.RegionVaultQuery).to(RegionVaultQuery).inSingletonScope();
+vault.bind<StatsListItemVaultQuery>(Type.StatsListItemVaultQuery).to(StatsListItemVaultQuery).inSingletonScope();

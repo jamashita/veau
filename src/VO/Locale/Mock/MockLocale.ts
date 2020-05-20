@@ -1,18 +1,26 @@
-import { Languages } from '../../Language/Languages';
+import { Language } from '../../Language/Language';
 import { MockLanguages } from '../../Language/Mock/MockLanguages';
-import { Locale } from '../Locale';
 import { MockRegions } from '../../Region/Mock/MockRegions';
-import { Regions } from '../../Region/Regions';
+import { Region } from '../../Region/Region';
+import { Locale } from '../Locale';
 
 type LocaleArgs = Partial<
   Readonly<{
-    languages: Languages;
-    regions: Regions;
+    languages: Array<Language>;
+    regions: Array<Region>;
   }>
 >;
 
 export class MockLocale extends Locale {
-  public constructor({ languages = new MockLanguages(), regions = new MockRegions() }: LocaleArgs = {}) {
-    super(languages, regions);
+  private static toLanguages(languages: Array<Language>): MockLanguages {
+    return new MockLanguages(...languages);
+  }
+
+  private static toRegions(regions: Array<Region>): MockRegions {
+    return new MockRegions(...regions);
+  }
+
+  public constructor({ languages = [], regions = [] }: LocaleArgs = {}) {
+    super(MockLocale.toLanguages(languages), MockLocale.toRegions(regions));
   }
 }

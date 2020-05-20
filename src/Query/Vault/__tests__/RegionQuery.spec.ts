@@ -82,7 +82,7 @@ describe('RegionQuery', () => {
         iso3166: new MockISO3166('ALB')
       });
       const locale: MockLocale = new MockLocale({
-        regions: new MockRegions(region1, region2)
+        regions: [region1, region2]
       });
 
       const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();
@@ -160,14 +160,14 @@ describe('RegionQuery', () => {
 
     it('no match results', async () => {
       const locale: MockLocale = new MockLocale({
-        regions: new MockRegions(
+        regions: [
           new MockRegion({
             iso3166: new MockISO3166('AFG')
           }),
           new MockRegion({
             iso3166: new MockISO3166('ALB')
           })
-        )
+        ]
       });
 
       const localeVaultQuery: MockLocaleQuery = new MockLocaleQuery();

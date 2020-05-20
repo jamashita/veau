@@ -64,7 +64,7 @@ export class StatsListItemQuery implements IStatsListItemQuery, IVaultQuery {
                 const superpositions: Array<Superposition<StatsListItem, StatsListItemsError>> = outlines.map<
                   Superposition<StatsListItem, StatsListItemsError>
                 >((outline: StatsOutline) => {
-                  return this.ff(outline, locale, terms);
+                  return this.extract(outline, locale, terms);
                 });
 
                 return Schrodinger.all<StatsListItem, StatsListItemsError>(superpositions).match<
@@ -113,7 +113,11 @@ export class StatsListItemQuery implements IStatsListItemQuery, IVaultQuery {
     );
   }
 
-  private ff(outline: StatsOutline, locale: Locale, terms: Terms): Superposition<StatsListItem, StatsListItemsError> {
+  private extract(
+    outline: StatsOutline,
+    locale: Locale,
+    terms: Terms
+  ): Superposition<StatsListItem, StatsListItemsError> {
     return locale
       .getLanguages()
       .get(outline.getLanguageID())
