@@ -1,9 +1,11 @@
-import { Collection, ImmutableSequence, Mapper, Objet, Quantum, Sequence } from 'publikum';
-import { Term } from './Term';
+import { Collection, ImmutableProject, Mapper, Objet, Project, Quantum } from 'publikum';
 
-export class Terms extends Objet implements Collection<number, Term> {
+import { Term } from './Term';
+import { TermID } from './TermID';
+
+export class Terms extends Objet implements Collection<TermID, Term> {
   public readonly noun: 'Terms' = 'Terms';
-  private readonly terms: Sequence<Term>;
+  private readonly terms: Project<TermID, Term>;
 
   private static readonly ALL: Terms = Terms.ofSpread(
     Term.DAILY,
@@ -17,25 +19,35 @@ export class Terms extends Objet implements Collection<number, Term> {
     return Terms.ALL;
   }
 
-  protected static of(terms: Sequence<Term>): Terms {
+  private static of(terms: Project<TermID, Term>): Terms {
     return new Terms(terms);
   }
 
-  protected static ofArray(terms: Array<Term>): Terms {
-    return Terms.of(ImmutableSequence.of<Term>(terms));
+  private static ofMap(terms: Map<TermID, Term>): Terms {
+    return Terms.of(ImmutableProject.of<TermID, Term>(terms));
   }
 
-  protected static ofSpread(...terms: Array<Term>): Terms {
+  private static ofArray(terms: Array<Term>): Terms {
+    const map: Map<TermID, Term> = new Map<TermID, Term>();
+
+    terms.forEach((term: Term) => {
+      map.set(term.getTermID(), term);
+    });
+
+    return Terms.ofMap(map);
+  }
+
+  private static ofSpread(...terms: Array<Term>): Terms {
     return Terms.ofArray(terms);
   }
 
-  protected constructor(terms: Sequence<Term>) {
+  protected constructor(terms: Project<TermID, Term>) {
     super();
     this.terms = terms;
   }
 
-  public get(index: number): Quantum<Term> {
-    return this.terms.get(index);
+  public get(key: TermID): Quantum<Term> {
+    return this.terms.get(key);
   }
 
   public contains(value: Term): boolean {
@@ -51,7 +63,15 @@ export class Terms extends Objet implements Collection<number, Term> {
   }
 
   public map<U>(mapper: Mapper<Term, U>): Array<U> {
-    return this.terms.toArray().map<U>(mapper);
+    const array: Array<U> = [];
+    let i: number = 0;
+
+    this.terms.forEach((term: Term) => {
+      array.push(mapper(term, i));
+      i++;
+    });
+
+    return array;
   }
 
   public equals(other: Terms): boolean {

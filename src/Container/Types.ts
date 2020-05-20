@@ -25,6 +25,7 @@ type DIType = Readonly<{
   StatsAJAXQuery: symbol;
   VeauAccountAJAXQuery: symbol;
   LocaleCacheQuery: symbol;
+  TermCacheQuery: symbol;
   LanguageKernelQuery: symbol;
   RegionKernelQuery: symbol;
   StatsKernelQuery: symbol;
@@ -69,6 +70,7 @@ export const Type: DIType = {
   StatsAJAXQuery: Symbol(),
   VeauAccountAJAXQuery: Symbol(),
   LocaleCacheQuery: Symbol(),
+  TermCacheQuery: Symbol(),
   LanguageKernelQuery: Symbol(),
   RegionKernelQuery: Symbol(),
   StatsKernelQuery: Symbol(),

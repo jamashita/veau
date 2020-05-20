@@ -1,6 +1,8 @@
 import { Absent } from 'publikum';
 import sinon, { SinonStub } from 'sinon';
+
 import { MockTerm } from '../Mock/MockTerm';
+import { MockTermID } from '../Mock/MockTermID';
 import { Term } from '../Term';
 import { Terms } from '../Terms';
 
@@ -19,18 +21,18 @@ describe('Terms', () => {
     it('returns Term instance at the correct index', () => {
       const terms: Terms = Terms.all();
 
-      expect(terms.get(0).get()).toBe(Term.DAILY);
-      expect(terms.get(1).get()).toBe(Term.WEEKLY);
-      expect(terms.get(2).get()).toBe(Term.MONTHLY);
-      expect(terms.get(3).get()).toBe(Term.QUARTERLY);
-      expect(terms.get(4).get()).toBe(Term.ANNUAL);
+      expect(terms.get(Term.DAILY.getTermID()).get()).toBe(Term.DAILY);
+      expect(terms.get(Term.WEEKLY.getTermID()).get()).toBe(Term.WEEKLY);
+      expect(terms.get(Term.MONTHLY.getTermID()).get()).toBe(Term.MONTHLY);
+      expect(terms.get(Term.QUARTERLY.getTermID()).get()).toBe(Term.QUARTERLY);
+      expect(terms.get(Term.ANNUAL.getTermID()).get()).toBe(Term.ANNUAL);
     });
 
     it('returns Absent when the index is out of range', () => {
       const terms: Terms = Terms.all();
 
-      expect(terms.get(-1)).toBeInstanceOf(Absent);
-      expect(terms.get(5)).toBeInstanceOf(Absent);
+      expect(terms.get(new MockTermID())).toBeInstanceOf(Absent);
+      expect(terms.get(new MockTermID())).toBeInstanceOf(Absent);
     });
   });
 

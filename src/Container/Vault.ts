@@ -1,5 +1,6 @@
 import { Container } from 'inversify';
 import { AJAX, Cache } from 'publikum';
+
 import { SessionCommand as SessionAJAXCommand } from '../Command/AJAX/SessionCommand';
 import { StatsCommand as StatsAJAXCommand } from '../Command/AJAX/StatsCommand';
 import { LocaleCommand as LocaleCacheCommand } from '../Command/Cache/LocaleCommand';
@@ -16,6 +17,7 @@ import { StatsOutlineQuery as StatsOutlineAJAXQuery } from '../Query/AJAX/StatsO
 import { StatsQuery as StatsAJAXQuery } from '../Query/AJAX/StatsQuery';
 import { VeauAccountQuery as VeauAccountAJAXQuery } from '../Query/AJAX/VeauAccountQuery';
 import { LocaleQuery as LocaleCacheQuery } from '../Query/Cache/LocaleQuery';
+import { TermQuery as TermCacheQuery } from '../Query/Cache/TermQuery';
 import { IdentityQuery as IdentityVaultQuery } from '../Query/Vault/IdentityQuery';
 import { LanguageQuery as LanguageVaultQuery } from '../Query/Vault/LanguageQuery';
 import { LocaleQuery as LocaleVaultQuery } from '../Query/Vault/LocaleQuery';
@@ -41,6 +43,7 @@ vault.bind<StatsOutlineAJAXQuery>(Type.StatsOutlineAJAXQuery).to(StatsOutlineAJA
 vault.bind<StatsAJAXQuery>(Type.StatsAJAXQuery).to(StatsAJAXQuery).inSingletonScope();
 vault.bind<VeauAccountAJAXQuery>(Type.VeauAccountAJAXQuery).to(VeauAccountAJAXQuery).inSingletonScope();
 vault.bind<LocaleCacheQuery>(Type.LocaleCacheQuery).to(LocaleCacheQuery).inSingletonScope();
+vault.bind<TermCacheQuery>(Type.TermCacheQuery).to(TermCacheQuery).inSingletonScope();
 vault.bind<IdentityVaultQuery>(Type.IdentityVaultQuery).to(IdentityVaultQuery).inSingletonScope();
 vault.bind<LanguageVaultQuery>(Type.LanguageVaultQuery).to(LanguageVaultQuery).inSingletonScope();
 vault.bind<LocaleVaultQuery>(Type.LocaleVaultQuery).to(LocaleVaultQuery).inSingletonScope();
