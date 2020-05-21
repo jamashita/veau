@@ -30,24 +30,7 @@ module.exports = {
       }
     }),
     new TsConfigWebpackPlugin({
-      configFile: './tsconfig-fe.json'
+      configFile: 'tsconfig-fe.json'
     })
-  ],
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        type: 'javascript/esm',
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: 'ts-loader',
-            options: {
-              transpileOnly: true
-            }
-          }
-        ]
-      }
-    ]
-  }
+  ]
 };

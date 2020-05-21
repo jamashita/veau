@@ -34,26 +34,9 @@ module.exports = {
       }
     }),
     new TsConfigWebpackPlugin({
-      configFile: './tsconfig-fe.json'
+      configFile: 'tsconfig-fe.json'
     })
   ],
-  module: {
-    rules: [
-      {      
-        test: /\.tsx?$/,
-        type: 'javascript/esm',
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: 'ts-loader',
-            options: {
-              transpileOnly: true
-            }
-          }
-        ]
-      }
-    ]
-  },
   devServer: {
     host: '0.0.0.0',
     port: 4000,
