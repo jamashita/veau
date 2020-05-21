@@ -12,7 +12,8 @@ module.exports = {
     ]
   },
   output: {
-    filename: '[name].js'
+    filename: '[name].js',
+    libraryTarget: 'umd'
   },
   resolve: {
     extensions: [
@@ -23,10 +24,9 @@ module.exports = {
   },
   mode: 'production',
   plugins: [
-    new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify('production')
+        NODE_ENV: 'production'
       }
     }),
     new TsConfigWebpackPlugin({

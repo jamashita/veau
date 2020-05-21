@@ -13,7 +13,8 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    publicPath: '/js/'
+    publicPath: '/js/',
+    libraryTarget: 'umd'
   },
   resolve: {
     extensions: [
@@ -24,13 +25,15 @@ module.exports = {
   },
   mode: 'development',
   optimization: {
+    minimize: true,
     usedExports: true,
+    sideEffects: true
   },
   devtool: 'inline-source-map',
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify('development')
+        NODE_ENV: 'development'
       }
     }),
     new TsConfigWebpackPlugin({
