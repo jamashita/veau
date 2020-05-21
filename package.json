@@ -50,7 +50,7 @@
     "passport": "0.4.1",
     "passport-local": "1.0.0",
     "pm2": "4.4.0",
-    "publikum": "git+ssh://git@gitlab.com:jamashita/publikum.git#0.8.8",
+    "publikum": "git+ssh://git@gitlab.com:jamashita/publikum.git#0.8.10",
     "pug": "2.0.4",
     "react": "16.13.1",
     "react-dom": "16.13.1",
