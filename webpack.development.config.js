@@ -23,6 +23,9 @@ module.exports = {
     ]
   },
   mode: 'development',
+  optimization: {
+    usedExports: true,
+  },
   devtool: 'inline-source-map',
   plugins: [
     new webpack.DefinePlugin({
@@ -36,9 +39,9 @@ module.exports = {
   ],
   module: {
     rules: [
-      {
-        type: 'javascript/esm',
+      {      
         test: /\.tsx?$/,
+        type: 'javascript/esm',
         exclude: /node_modules/,
         use: [
           {

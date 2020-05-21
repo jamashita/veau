@@ -36,8 +36,8 @@ module.exports = {
   module: {
     rules: [
       {
-        type: 'javascript/esm',
         test: /\.tsx?$/,
+        type: 'javascript/esm',
         exclude: /node_modules/,
         use: [
           {
