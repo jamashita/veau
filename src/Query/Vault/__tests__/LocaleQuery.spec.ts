@@ -1,6 +1,8 @@
-import { AJAXError, Alive, CacheError, DataSourceError, Dead, Superposition } from 'publikum';
 import 'reflect-metadata';
+
+import { AJAXError, Alive, CacheError, DataSourceError, Dead, Superposition } from 'publikum';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+
 import { MockLocaleCommand } from '../../../Command/Mock/MockLocaleCommand';
 import { Type } from '../../../Container/Types';
 import { vault } from '../../../Container/Vault';

@@ -1,6 +1,8 @@
-import { Alive, Dead } from 'publikum';
 import 'reflect-metadata';
+
+import { Alive, Dead } from 'publikum';
 import sinon, { SinonStub } from 'sinon';
+
 import { kernel } from '../../Container/Kernel';
 import { Type } from '../../Container/Types';
 import { NoSuchElementError } from '../../Query/Error/NoSuchElementError';
